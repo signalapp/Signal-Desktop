@@ -5898,16 +5898,6 @@ async function applyGroupState({
     result.name = undefined;
   }
 
-  // avatar
-  result = {
-    ...result,
-    ...(await applyNewAvatar({
-      newAvatarUrl: dropNull(groupState.avatar),
-      attributes: result,
-      logId,
-    })),
-  };
-
   // disappearingMessagesTimer
   // Note: during decryption, disappearingMessageTimer becomes a GroupAttributeBlob
   const { disappearingMessagesTimer } = groupState;
@@ -6130,6 +6120,16 @@ async function applyGroupState({
 
     return member;
   });
+
+  // avatar
+  result = {
+    ...result,
+    ...(await applyNewAvatar({
+      newAvatarUrl: dropNull(groupState.avatar),
+      attributes: result,
+      logId,
+    })),
+  };
 
   if (result.left) {
     result.addedBy = undefined;
