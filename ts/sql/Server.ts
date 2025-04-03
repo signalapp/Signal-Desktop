@@ -751,6 +751,8 @@ function openAndSetUpSQLCipher(filePath: string, { key }: { key: string }) {
     );
   }
 
+  db.initTokenizer();
+
   return db;
 }
 

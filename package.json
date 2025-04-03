@@ -121,7 +121,7 @@
     "@signalapp/libsignal-client": "0.68.0",
     "@signalapp/quill-cjs": "2.1.2",
     "@signalapp/ringrtc": "2.50.4",
-    "@signalapp/sqlcipher": "1.0.0",
+    "@signalapp/sqlcipher": "2.0.0",
     "@tanstack/react-virtual": "3.11.2",
     "@types/fabric": "4.5.3",
     "backbone": "1.6.0",

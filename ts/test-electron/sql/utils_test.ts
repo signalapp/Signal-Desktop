@@ -11,6 +11,7 @@ describe('sql/utils/sql', () => {
 
   beforeEach(() => {
     db = new SQL(':memory:');
+    db.initTokenizer();
   });
 
   afterEach(() => {

@@ -10,7 +10,9 @@ import { SCHEMA_VERSIONS } from '../../sql/migrations';
 import { consoleLogger } from '../../util/consoleLogger';
 
 export function createDB(): WritableDB {
-  return new SQL(':memory:') as WritableDB;
+  const db = new SQL(':memory:') as WritableDB;
+  db.initTokenizer();
+  return db;
 }
 
 export function updateToVersion(db: WritableDB, version: number): void {
