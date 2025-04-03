@@ -281,6 +281,7 @@ declare global {
     SignalContext: SignalContextType;
 
     // Used only in preload to calculate load time
+    preloadCompileStartTime: number;
     preloadStartTime: number;
     preloadEndTime: number;
 
