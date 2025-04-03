@@ -39,7 +39,6 @@ import {
   Sessions,
   SignedPreKeys,
 } from '../LibSignalStores';
-import { verifySignature } from '../Curve';
 import { createName } from '../util/attachmentPath';
 import { assertDev, strictAssert } from '../util/assert';
 import type { BatcherType } from '../util/batcher';
@@ -1623,60 +1622,35 @@ export default class MessageReceiver
   }
 
   #validateUnsealedEnvelope(envelope: UnsealedEnvelope): void {
-    const { unsealedContent: messageContent, certificate } = envelope;
+    const {
+      unsealedContent: messageContent,
+      certificate,
+      serverTimestamp,
+    } = envelope;
+
+    const envelopeId = getEnvelopeId(envelope);
+    const logId = `MessageReceiver.validateUnsealedEnvelope(${envelopeId})`;
+
     strictAssert(
       messageContent !== undefined,
-      'Missing message content for sealed sender message'
+      `${logId}: Missing message content for sealed sender message`
     );
     strictAssert(
       certificate !== undefined,
-      'Missing sender certificate for sealed sender message'
+      `${logId}: Missing sender certificate for sealed sender message`
+    );
+    strictAssert(
+      serverTimestamp > 0,
+      `${logId}: Sealed sender message was missing serverTimestamp`
     );
 
-    if (!envelope.serverTimestamp) {
-      throw new Error(
-        'MessageReceiver.decryptSealedSender: ' +
-          'Sealed sender message was missing serverTimestamp'
-      );
-    }
-
-    const serverCertificate = certificate.serverCertificate();
-
     if (
-      !verifySignature(
-        this.#serverTrustRoot,
-        serverCertificate.certificateData(),
-        serverCertificate.signature()
+      !certificate.validate(
+        PublicKey.deserialize(Buffer.from(this.#serverTrustRoot)),
+        serverTimestamp
       )
     ) {
-      throw new Error(
-        'MessageReceiver.validateUnsealedEnvelope: ' +
-          'Server certificate trust root validation failed'
-      );
-    }
-
-    if (
-      !verifySignature(
-        serverCertificate.key().serialize(),
-        certificate.certificate(),
-        certificate.signature()
-      )
-    ) {
-      throw new Error(
-        'MessageReceiver.validateUnsealedEnvelope: ' +
-          'Server certificate server signature validation failed'
-      );
-    }
-
-    const logId = getEnvelopeId(envelope);
-
-    if (envelope.serverTimestamp > certificate.expiration()) {
-      throw new Error(
-        'MessageReceiver.validateUnsealedEnvelope: ' +
-          `Sender certificate is expired for envelope ${logId}, ` +
-          `serverTimestamp: ${envelope.serverTimestamp}, ` +
-          `expiration: ${certificate.expiration()}`
-      );
+      throw new Error(`${logId}: Sealed sender certificate validation failed`);
     }
 
     return undefined;
