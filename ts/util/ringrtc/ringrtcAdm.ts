@@ -12,7 +12,7 @@ export function getUseRingrtcAdm(): boolean {
 
   if (!RemoteConfig.isEnabled('desktop.internalUser')) {
     if (isProduction(window.getVersion())) {
-      return RemoteConfig.isEnabled('desktop.calling.ringrtcAdmFull.2');
+      return RemoteConfig.isEnabled('desktop.calling.ringrtcAdmFull.3');
     }
     return RemoteConfig.isEnabled('desktop.calling.ringrtcAdmPreStable');
   }
