@@ -98,12 +98,9 @@ export async function downloadAttachment({
       // may just need to wait for this attachment to end up on the backup tier
       throw error;
     }
-    // Attachments on the transit tier expire after 30 days, then start returning 404 or
-    // 403
-    if (
-      error instanceof HTTPError &&
-      (error.code === 404 || error.code === 403)
-    ) {
+    // Attachments on the transit tier expire after (message queue length + buffer) days,
+    // then start returning 404
+    if (error instanceof HTTPError && error.code === 404) {
       throw new AttachmentPermanentlyUndownloadableError(`HTTP ${error.code}`);
     } else {
       throw error;
