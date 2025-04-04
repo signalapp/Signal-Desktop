@@ -58,6 +58,7 @@ installSetting('autoConvertEmoji');
 installSetting('autoDownloadUpdate');
 installSetting('autoDownloadAttachment');
 installSetting('autoLaunch');
+installSetting('shouldRepliesNotify');
 installSetting('callRingtoneNotification');
 installSetting('callSystemNotification');
 installSetting('countMutedConversations');

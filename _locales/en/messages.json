@@ -2383,6 +2383,10 @@
     "messageformat": "Play calling sounds",
     "description": "Description for call ringtone notification setting"
   },
+  "icu:showNotificationsForReplies": {
+    "messageformat": "Show notifications for replies",
+    "description": "Description for replies notificattion setting"
+  },
   "icu:callSystemNotificationDescription": {
     "messageformat": "Show notifications for calls",
     "description": "Description for call notification setting"
