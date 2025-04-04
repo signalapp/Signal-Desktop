@@ -19,6 +19,7 @@ import type { SocketStatuses } from '../textsecure/SocketManager';
 export type AppLoadedInfoType = Readonly<{
   loadTime: number;
   preloadTime: number;
+  preloadCompileTime: number;
   connectTime: number;
   messagesPerSec: number;
 }>;

@@ -113,8 +113,9 @@ Bootstrap.regressionBenchmark(
 
       const [, info] = await Promise.all([queue(), run()]);
 
-      const { loadTime, preloadTime, connectTime } = info;
-      const messagesDuration = loadTime - preloadTime - connectTime;
+      const { loadTime, preloadTime, preloadCompileTime, connectTime } = info;
+      const messagesDuration =
+        loadTime - preloadTime - preloadCompileTime - connectTime;
 
       return {
         messagesDuration,

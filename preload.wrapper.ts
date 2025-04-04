@@ -130,7 +130,16 @@ if (cachedData || process.env.GENERATE_PRELOAD_CACHE) {
 }
 
 // eslint-disable-next-line import/no-dynamic-require
+window.preloadCompileStartTime = Date.now();
 require(srcPath);
+
+if (script) {
+  if (script.cachedDataRejected) {
+    console.log('preload cache rejected');
+  } else {
+    console.log('preload cache hit');
+  }
+}
 
 // See `ts/scripts/generate-preload-cache.ts`
 if (script && process.env.GENERATE_PRELOAD_CACHE) {
