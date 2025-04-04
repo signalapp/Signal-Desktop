@@ -646,6 +646,50 @@ describe('backup/bubble messages', () => {
       },
     ]);
   });
+
+  it('drops messages that have not started to expire but have an expireTimer of <= DAY', async () => {
+    await asymmetricRoundtripHarness(
+      [
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          timestamp: 3,
+          sourceServiceId: CONTACT_A,
+          body: 'd',
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+          expireTimer: DurationInSeconds.fromDays(1),
+        },
+      ],
+      []
+    );
+  });
+
+  it('does not drop messages that have not started to expire but have an expireTimer of > DAY', async () => {
+    await symmetricRoundtripHarness([
+      {
+        conversationId: contactA.id,
+        id: generateGuid(),
+        type: 'incoming',
+        received_at: 3,
+        received_at_ms: 3,
+        sent_at: 3,
+        timestamp: 3,
+        sourceServiceId: CONTACT_A,
+        body: 'd',
+        readStatus: ReadStatus.Unread,
+        seenStatus: SeenStatus.Unseen,
+        unidentifiedDeliveryReceived: true,
+        expireTimer: DurationInSeconds.fromDays(1.01),
+      },
+    ]);
+  });
+
   describe('link previews', async () => {
     it('roundtrips link preview', async () => {
       await symmetricRoundtripHarness([

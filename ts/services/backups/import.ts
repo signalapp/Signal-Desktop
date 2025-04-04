@@ -62,7 +62,7 @@ import {
   getTimestampOrUndefinedFromLong,
 } from '../../util/timestampLongUtils';
 import { MAX_SAFE_DATE } from '../../util/timestamp';
-import { DurationInSeconds, SECOND } from '../../util/durations';
+import { DAY, DurationInSeconds, SECOND } from '../../util/durations';
 import { calculateExpirationTimestamp } from '../../util/expirationTimer';
 import { dropNull } from '../../util/dropNull';
 import {
@@ -1442,6 +1442,13 @@ export class BackupImportStream extends Writable {
     if (expirationTimestamp != null && expirationTimestamp < this.#now) {
       // Drop expired messages
       return;
+    }
+
+    if (expireTimer) {
+      if (DurationInSeconds.toMillis(expireTimer) <= DAY) {
+        // Message has an expire timer that's too short for import
+        return;
+      }
     }
 
     let attributes: MessageAttributesType = {
