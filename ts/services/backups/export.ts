@@ -1025,6 +1025,13 @@ export class BackupExportStream extends Readable {
       return undefined;
     }
 
+    if (message.expireTimer) {
+      if (DurationInSeconds.toMillis(message.expireTimer) <= DAY) {
+        // Message has an expire timer that's too short for export
+        return undefined;
+      }
+    }
+
     let authorId: Long | undefined;
 
     const isOutgoing = message.type === 'outgoing';
@@ -1073,16 +1080,17 @@ export class BackupExportStream extends Readable {
 
     let expireStartDate: Long | undefined;
     let expiresInMs: Long | undefined;
-    if (
-      message.expireTimer != null &&
-      message.expirationStartTimestamp != null
-    ) {
-      expireStartDate = getSafeLongFromTimestamp(
-        message.expirationStartTimestamp
-      );
+
+    if (message.expireTimer != null) {
       expiresInMs = Long.fromNumber(
         DurationInSeconds.toMillis(message.expireTimer)
       );
+
+      if (message.expirationStartTimestamp != null) {
+        expireStartDate = getSafeLongFromTimestamp(
+          message.expirationStartTimestamp
+        );
+      }
     }
 
     const result: Backups.IChatItem = {
