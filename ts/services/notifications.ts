@@ -392,14 +392,7 @@ class NotificationService extends EventEmitter {
         ) {
           notificationMessage = i18n('icu:newMessage');
         } else if (userSetting === NotificationSetting.NameOnly) {
-          if (reaction) {
-            notificationMessage = i18n('icu:notificationReaction', {
-              sender: senderTitle,
-              emoji: reaction.emoji,
-            });
-          } else {
-            notificationMessage = i18n('icu:newMessage');
-          }
+          notificationMessage = i18n('icu:newMessage');
         } else if (storyId) {
           notificationMessage = message;
         } else if (reaction) {
