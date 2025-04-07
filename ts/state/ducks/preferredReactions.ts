@@ -14,7 +14,7 @@ import { DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES } from '../../reactions/co
 import { getPreferredReactionEmoji } from '../../reactions/preferredReactionEmoji';
 import { getEmojiSkinToneDefault } from '../selectors/items';
 import { convertShortName } from '../../components/emoji/lib';
-import type { EmojiSkinTone } from '../../components/fun/data/emojis';
+import { EmojiSkinTone } from '../../components/fun/data/emojis';
 
 // State
 
@@ -124,7 +124,7 @@ function openCustomizePreferredReactionsModal(): ThunkAction<
     const state = getState();
     const originalPreferredReactions = getPreferredReactionEmoji(
       getState().items.preferredReactionEmoji,
-      getEmojiSkinToneDefault(state)
+      getEmojiSkinToneDefault(state) ?? EmojiSkinTone.None
     );
     dispatch({
       type: OPEN_CUSTOMIZE_PREFERRED_REACTIONS_MODAL,
@@ -149,7 +149,8 @@ function resetDraftEmoji(): ThunkAction<
   ResetDraftEmojiActionType
 > {
   return (dispatch, getState) => {
-    const emojiSkinTone = getEmojiSkinToneDefault(getState());
+    const emojiSkinTone =
+      getEmojiSkinToneDefault(getState()) ?? EmojiSkinTone.None;
     dispatch({ type: RESET_DRAFT_EMOJI, payload: { emojiSkinTone } });
   };
 }

@@ -11,7 +11,28 @@
   max-height: 100%;
   contain: size layout;
   grid-template:
-    'FunSearch__Container' auto
-    'FunScroller__Container' 1fr
-    'FunSubNav__Container' auto;
+    'FunPanel__Header' auto
+    'FunPanel__Body' 1fr
+    'FunPanel__Footer' auto;
+}
+
+.FunPanel__Header {
+  grid-area: FunPanel__Header;
+  display: flex;
+  gap: 6px;
+  padding-block: 12px;
+  padding-inline: 12px;
+
+  .FunTabs__TabPanelInner & {
+    padding-top: 0;
+  }
+}
+
+.FunPanel__Body {
+  grid-area: FunPanel__Body;
+}
+
+.FunPanel__Footer {
+  grid-area: FunPanel__Footer;
+  min-width: 0;
 }

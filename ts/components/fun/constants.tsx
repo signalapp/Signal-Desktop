@@ -28,7 +28,15 @@ export enum FunSectionCommon {
 
 export enum FunStickersSectionBase {
   StickersSetup = 'StickersSetup',
+  Featured = 'Featured',
 }
+
+export type FunTimeStickerStyle = 'analog' | 'digital';
+
+export const FunTimeStickerStylesOrder: ReadonlyArray<FunTimeStickerStyle> = [
+  'analog',
+  'digital',
+];
 
 export type FunStickersPackSection = `StickerPack:${string}` & {
   FunStickersPackSection: never;

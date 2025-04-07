@@ -45,7 +45,7 @@ export type EmojiPickDataType = {
 export type OwnProps = {
   readonly i18n: LocalizerType;
   readonly recentEmojis?: ReadonlyArray<string>;
-  readonly emojiSkinToneDefault: EmojiSkinTone;
+  readonly emojiSkinToneDefault: EmojiSkinTone | null;
   readonly onClickSettings?: () => unknown;
   readonly onClose?: () => unknown;
   readonly onPickEmoji: (o: EmojiPickDataType) => unknown;
@@ -96,7 +96,7 @@ export const EmojiPicker = React.memo(
       {
         i18n,
         onPickEmoji,
-        emojiSkinToneDefault = EmojiSkinTone.None,
+        emojiSkinToneDefault,
         onEmojiSkinToneDefaultChange,
         recentEmojis = [],
         style,
@@ -169,7 +169,10 @@ export const EmojiPicker = React.memo(
           if ('key' in e) {
             if (e.key === 'Enter') {
               if (shortName && isUsingKeyboard) {
-                onPickEmoji({ skinTone: selectedTone, shortName });
+                onPickEmoji({
+                  skinTone: selectedTone ?? EmojiSkinTone.None,
+                  shortName,
+                });
                 e.stopPropagation();
                 e.preventDefault();
               } else if (onClose) {
@@ -184,7 +187,10 @@ export const EmojiPicker = React.memo(
             }
             e.stopPropagation();
             e.preventDefault();
-            onPickEmoji({ skinTone: selectedTone, shortName });
+            onPickEmoji({
+              skinTone: selectedTone ?? EmojiSkinTone.None,
+              shortName,
+            });
           }
         },
         [

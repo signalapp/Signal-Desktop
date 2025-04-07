@@ -13,14 +13,8 @@ $clear-icon-size: 16px;
 $input-padding-inline: 12px;
 
 .FunSearch__Container {
-  grid-area: FunSearch__Container;
   position: relative;
-  margin-block: 12px;
-  margin-inline: 12px;
-
-  .FunTabs__TabPanelInner & {
-    margin-top: 0;
-  }
+  width: 100%;
 }
 
 .FunSearch__Icon {

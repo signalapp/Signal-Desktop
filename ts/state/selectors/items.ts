@@ -158,10 +158,8 @@ export const getCustomColors = createSelector(
 
 export const getEmojiSkinToneDefault = createSelector(
   getItems,
-  ({ emojiSkinToneDefault }: Readonly<ItemsStateType>): EmojiSkinTone =>
-    isValidEmojiSkinTone(emojiSkinToneDefault)
-      ? emojiSkinToneDefault
-      : EmojiSkinTone.None
+  ({ emojiSkinToneDefault }: Readonly<ItemsStateType>): EmojiSkinTone | null =>
+    isValidEmojiSkinTone(emojiSkinToneDefault) ? emojiSkinToneDefault : null
 );
 
 export const getPreferredLeftPaneWidth = createSelector(
@@ -178,11 +176,11 @@ export const getPreferredReactionEmoji = createSelector(
   getEmojiSkinToneDefault,
   (
     state: Readonly<ItemsStateType>,
-    emojiSkinToneDefault: EmojiSkinTone
+    emojiSkinToneDefault: EmojiSkinTone | null
   ): Array<string> =>
     getPreferredReactionEmojiFromStoredValue(
       state.preferredReactionEmoji,
-      emojiSkinToneDefault
+      emojiSkinToneDefault ?? EmojiSkinTone.None
     )
 );
 

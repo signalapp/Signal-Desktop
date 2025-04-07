@@ -120,7 +120,7 @@ export type PropsType = {
   renderEmojiPicker: (props: RenderEmojiPickerProps) => JSX.Element;
   replies: ReadonlyArray<ReplyType>;
   showContactModal: (contactId: string, conversationId?: string) => void;
-  emojiSkinToneDefault: EmojiSkinTone;
+  emojiSkinToneDefault: EmojiSkinTone | null;
   sortedGroupMembers?: ReadonlyArray<ConversationType>;
   views: ReadonlyArray<StorySendStateType>;
   viewTarget: StoryViewTargetType;

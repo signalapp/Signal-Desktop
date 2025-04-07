@@ -35,8 +35,9 @@ export type FunContextSmartProps = Readonly<{
   recentGifs: ReadonlyArray<GifType>;
 
   // Emojis
-  emojiSkinToneDefault: EmojiSkinTone;
+  emojiSkinToneDefault: EmojiSkinTone | null;
   onEmojiSkinToneDefaultChange: (emojiSkinTone: EmojiSkinTone) => void;
+  onOpenCustomizePreferredReactionsModal: () => void;
 
   // Stickers
   installedStickerPacks: ReadonlyArray<StickerPackType>;
@@ -61,6 +62,8 @@ export type FunContextProps = FunContextSmartProps &
     // Search
     searchInput: string;
     onSearchInputChange: (nextSearchInput: string) => void;
+    shouldAutoFocus: boolean;
+    onChangeShouldAutoFocus: (shouldAutoFocus: boolean) => void;
 
     // Current Section
     selectedEmojisSection: FunEmojisSection;
@@ -110,6 +113,14 @@ export const FunProvider = memo(function FunProvider(
   const handleSearchInputChange = useCallback((newSearchInput: string) => {
     setSearchInput(newSearchInput);
   }, []);
+
+  const [shouldAutoFocus, setShouldAutoFocus] = useState(true);
+  const handleChangeShouldAutofocus = useCallback(
+    (nextShouldAutoFocus: boolean) => {
+      setShouldAutoFocus(nextShouldAutoFocus);
+    },
+    []
+  );
 
   const defaultEmojiSection = useMemo((): FunEmojisSection => {
     if (props.recentEmojis.length) {
@@ -189,6 +200,7 @@ export const FunProvider = memo(function FunProvider(
       setSelectedEmojisSection(defaultEmojiSection);
       setSelectedStickersSection(defaultStickerSection);
       setSelectedGifsSection(defaultGifsSection);
+      setShouldAutoFocus(true);
     },
     [defaultEmojiSection, defaultStickerSection, defaultGifsSection]
   );
@@ -204,6 +216,8 @@ export const FunProvider = memo(function FunProvider(
       // Search Input
       searchInput={searchInput}
       onSearchInputChange={handleSearchInputChange}
+      shouldAutoFocus={shouldAutoFocus}
+      onChangeShouldAutoFocus={handleChangeShouldAutofocus}
       // Current Sections
       selectedEmojisSection={selectedEmojisSection}
       selectedStickersSection={selectedStickersSection}
@@ -218,6 +232,9 @@ export const FunProvider = memo(function FunProvider(
       // Emojis
       emojiSkinToneDefault={props.emojiSkinToneDefault}
       onEmojiSkinToneDefaultChange={props.onEmojiSkinToneDefaultChange}
+      onOpenCustomizePreferredReactionsModal={
+        props.onOpenCustomizePreferredReactionsModal
+      }
       // Stickers
       installedStickerPacks={props.installedStickerPacks}
       showStickerPickerHint={props.showStickerPickerHint}

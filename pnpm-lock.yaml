@@ -121,6 +121,9 @@ importers:
       '@react-aria/focus':
         specifier: 3.19.1
         version: 3.19.1(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
+      '@react-aria/interactions':
+        specifier: 3.23.0
+        version: 3.23.0(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       '@react-aria/utils':
         specifier: 3.25.3
         version: 3.25.3(react@17.0.2)

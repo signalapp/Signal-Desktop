@@ -96,6 +96,7 @@ export function MockFunProvider(props: { children: ReactNode }): JSX.Element {
       installedStickerPacks={[]}
       showStickerPickerHint={false}
       onClearStickerPickerHint={noop}
+      onOpenCustomizePreferredReactionsModal={noop}
       fetchGifsSearch={() => Promise.resolve(MOCK_GIFS_PAGINATED_ONE_PAGE)}
       fetchGifsFeatured={() => Promise.resolve(MOCK_GIFS_PAGINATED_ONE_PAGE)}
       fetchGif={() => Promise.resolve(new Blob([new Uint8Array(1)]))}

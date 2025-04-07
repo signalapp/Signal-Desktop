@@ -9,10 +9,14 @@ import type { FunStickerSelection } from './panels/FunPanelStickers';
 import { FunPanelStickers } from './panels/FunPanelStickers';
 import { useFunContext } from './FunProvider';
 import type { ThemeType } from '../../types/Util';
+import { FunErrorBoundary } from './base/FunErrorBoundary';
+import type { FunTimeStickerStyle } from './constants';
 
 export type FunStickerPickerProps = Readonly<{
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  showTimeStickers: boolean;
+  onSelectTimeSticker?: (style: FunTimeStickerStyle) => void;
   onSelectSticker: (stickerSelection: FunStickerSelection) => void;
   placement?: Placement;
   theme?: ThemeType;
@@ -42,11 +46,15 @@ export const FunStickerPicker = memo(function FunStickerPicker(
     <DialogTrigger isOpen={props.open} onOpenChange={handleOpenChange}>
       {props.children}
       <FunPopover placement={props.placement} theme={props.theme}>
-        <FunPanelStickers
-          onSelectSticker={props.onSelectSticker}
-          onClose={handleClose}
-          onAddStickerPack={null}
-        />
+        <FunErrorBoundary>
+          <FunPanelStickers
+            showTimeStickers={props.showTimeStickers}
+            onSelectTimeSticker={props.onSelectTimeSticker}
+            onSelectSticker={props.onSelectSticker}
+            onClose={handleClose}
+            onAddStickerPack={null}
+          />
+        </FunErrorBoundary>
       </FunPopover>
     </DialogTrigger>
   );

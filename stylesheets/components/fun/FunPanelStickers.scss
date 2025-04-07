@@ -1,0 +1,62 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../../mixins';
+@use '../../variables';
+
+.FunPanelStickers__TimeStickerWrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.FunPanelStickers__DigitalTimeSticker {
+  @include mixins.time-fonts();
+  & {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: variables.$color-white;
+    font-size: 256px;
+    margin-top: -16px;
+    font-display: block;
+  }
+}
+
+.FunPanelStickers__AnalogTimeSticker {
+  display: block;
+  position: relative;
+  width: 512px;
+  height: 512px;
+  background: url('../images/analog-time/Arabic.svg') center no-repeat;
+  background-size: contain;
+}
+
+.FunPanelStickers__AnalogTimeSticker__HourHand {
+  display: block;
+  position: absolute;
+  top: 50%;
+  inset-inline-start: 50%;
+  width: 16px;
+  height: 112px;
+  margin-top: -112px;
+  margin-inline-start: -8px;
+  background: url('../images/analog-time/Arabic-hour.svg') center no-repeat;
+  transform-origin: 50% 100%;
+  transform: rotate(var(--fun-analog-time-sticker-hour));
+}
+
+.FunPanelStickers__AnalogTimeSticker__MinuteHand {
+  display: block;
+  position: absolute;
+  top: 50%;
+  inset-inline-start: 50%;
+  width: 16px;
+  height: 176px;
+  margin-top: -176px;
+  margin-inline-start: -8px;
+  background: url('../images/analog-time/Arabic-minute.svg') center no-repeat;
+  transform-origin: 50% 100%;
+  transform: rotate(var(--fun-analog-time-sticker-minute));
+}

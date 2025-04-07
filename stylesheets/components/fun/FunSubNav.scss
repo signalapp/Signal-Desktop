@@ -14,7 +14,6 @@ $image-margin: calc(($button-size - $image-size) / 2);
 $image-radius: $button-radius - $image-margin;
 
 .FunSubNav__Container {
-  grid-area: FunSubNav__Container;
   min-width: 0;
   display: flex;
   align-items: center;

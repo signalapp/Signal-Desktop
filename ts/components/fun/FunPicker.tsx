@@ -15,6 +15,7 @@ import type { FunStickerSelection } from './panels/FunPanelStickers';
 import { FunPanelStickers } from './panels/FunPanelStickers';
 import { useFunContext } from './FunProvider';
 import type { ThemeType } from '../../types/Util';
+import { FunErrorBoundary } from './base/FunErrorBoundary';
 
 /**
  * FunPicker
@@ -68,23 +69,31 @@ export const FunPicker = memo(function FunPicker(
             </FunPickerTab>
           </FunTabList>
           <FunTabPanel id={FunPickerTabKey.Emoji}>
-            <FunPanelEmojis
-              onEmojiSelect={props.onSelectEmoji}
-              onClose={handleClose}
-            />
+            <FunErrorBoundary>
+              <FunPanelEmojis
+                onEmojiSelect={props.onSelectEmoji}
+                onClose={handleClose}
+                showCustomizePreferredReactionsButton={false}
+              />
+            </FunErrorBoundary>
           </FunTabPanel>
           <FunTabPanel id={FunPickerTabKey.Stickers}>
-            <FunPanelStickers
-              onSelectSticker={props.onSelectSticker}
-              onAddStickerPack={props.onAddStickerPack}
-              onClose={handleClose}
-            />
+            <FunErrorBoundary>
+              <FunPanelStickers
+                showTimeStickers={false}
+                onSelectSticker={props.onSelectSticker}
+                onAddStickerPack={props.onAddStickerPack}
+                onClose={handleClose}
+              />
+            </FunErrorBoundary>
           </FunTabPanel>
           <FunTabPanel id={FunPickerTabKey.Gifs}>
-            <FunPanelGifs
-              onSelectGif={props.onSelectGif}
-              onClose={handleClose}
-            />
+            <FunErrorBoundary>
+              <FunPanelGifs
+                onSelectGif={props.onSelectGif}
+                onClose={handleClose}
+              />
+            </FunErrorBoundary>
           </FunTabPanel>
         </FunTabs>
       </FunPopover>
