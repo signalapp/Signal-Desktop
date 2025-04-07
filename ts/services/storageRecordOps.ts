@@ -230,7 +230,7 @@ export async function toContactRecord(
   }
   const e164 = conversation.get('e164');
   if (e164) {
-    contactRecord.serviceE164 = e164;
+    contactRecord.e164 = e164;
   }
   const username = conversation.get('username');
   const ourID = window.ConversationController.getOurConversationId();
@@ -334,7 +334,7 @@ export function toAccountRecord(
   }
   const avatarUrl = window.storage.get('avatarUrl');
   if (avatarUrl !== undefined) {
-    accountRecord.avatarUrl = avatarUrl;
+    accountRecord.avatarUrlPath = avatarUrl;
   }
   const username = conversation.get('username');
   if (username !== undefined) {
@@ -394,10 +394,10 @@ export function toAccountRecord(
   );
   switch (phoneNumberDiscoverability) {
     case PhoneNumberDiscoverability.Discoverable:
-      accountRecord.notDiscoverableByPhoneNumber = false;
+      accountRecord.unlistedPhoneNumber = false;
       break;
     case PhoneNumberDiscoverability.NotDiscoverable:
-      accountRecord.notDiscoverableByPhoneNumber = true;
+      accountRecord.unlistedPhoneNumber = true;
       break;
     default:
       throw missingCaseError(phoneNumberDiscoverability);
@@ -454,11 +454,11 @@ export function toAccountRecord(
 
   const subscriberId = window.storage.get('subscriberId');
   if (Bytes.isNotEmpty(subscriberId)) {
-    accountRecord.subscriberId = subscriberId;
+    accountRecord.donorSubscriberId = subscriberId;
   }
   const subscriberCurrencyCode = window.storage.get('subscriberCurrencyCode');
   if (typeof subscriberCurrencyCode === 'string') {
-    accountRecord.subscriberCurrencyCode = subscriberCurrencyCode;
+    accountRecord.donorSubscriberCurrencyCode = subscriberCurrencyCode;
   }
   const donorSubscriptionManuallyCancelled = window.storage.get(
     'donorSubscriptionManuallyCancelled'
@@ -555,14 +555,6 @@ export function toGroupV1Record(
   const groupV1Record = new Proto.GroupV1Record();
 
   groupV1Record.id = Bytes.fromBinary(String(conversation.get('groupId')));
-  groupV1Record.blocked = conversation.isBlocked();
-  groupV1Record.whitelisted = Boolean(conversation.get('profileSharing'));
-  groupV1Record.archived = Boolean(conversation.get('isArchived'));
-  groupV1Record.markedUnread = Boolean(conversation.get('markedUnread'));
-  groupV1Record.mutedUntilTimestamp = getSafeLongFromTimestamp(
-    conversation.get('muteExpiresAt'),
-    Long.MAX_VALUE
-  );
 
   applyUnknownFields(groupV1Record, conversation);
 
@@ -720,7 +712,7 @@ export function toDefunctOrPendingCallLinkRecord(
   return callLinkRecord;
 }
 
-type MessageRequestCapableRecord = Proto.IContactRecord | Proto.IGroupV1Record;
+type MessageRequestCapableRecord = Proto.IContactRecord | Proto.IGroupV2Record;
 
 function applyMessageRequestState(
   record: MessageRequestCapableRecord,
@@ -940,23 +932,9 @@ export async function mergeGroupV1Record(
   }
 
   conversation.set({
-    isArchived: Boolean(groupV1Record.archived),
-    markedUnread: Boolean(groupV1Record.markedUnread),
     storageID,
     storageVersion,
   });
-
-  conversation.setMuteExpiration(
-    getTimestampFromLong(
-      groupV1Record.mutedUntilTimestamp,
-      Number.MAX_SAFE_INTEGER
-    ),
-    {
-      viaStorageServiceSync: true,
-    }
-  );
-
-  applyMessageRequestState(groupV1Record, conversation);
 
   let hasPendingChanges: boolean;
 
@@ -1171,7 +1149,7 @@ export async function mergeContactRecord(
         : undefined,
   };
 
-  const e164 = dropNull(contactRecord.serviceE164);
+  const e164 = dropNull(contactRecord.e164);
   const { aci } = contactRecord;
   const pni = dropNull(contactRecord.pni);
   const pniSignatureVerified = contactRecord.pniSignatureVerified || false;
@@ -1386,7 +1364,7 @@ export async function mergeAccountRecord(
   let details = new Array<string>();
   const {
     linkPreviews,
-    notDiscoverableByPhoneNumber,
+    unlistedPhoneNumber,
     noteToSelfArchived,
     noteToSelfMarkedUnread,
     phoneNumberSharingMode,
@@ -1398,8 +1376,8 @@ export async function mergeAccountRecord(
     preferContactAvatars,
     universalExpireTimer,
     preferredReactionEmoji: rawPreferredReactionEmoji,
-    subscriberId,
-    subscriberCurrencyCode,
+    donorSubscriberId,
+    donorSubscriberCurrencyCode,
     donorSubscriptionManuallyCancelled,
     backupSubscriberData,
     backupTier,
@@ -1486,7 +1464,7 @@ export async function mergeAccountRecord(
     phoneNumberSharingModeToStore
   );
 
-  const discoverability = notDiscoverableByPhoneNumber
+  const discoverability = unlistedPhoneNumber
     ? PhoneNumberDiscoverability.NotDiscoverable
     : PhoneNumberDiscoverability.Discoverable;
   await window.storage.put('phoneNumberDiscoverability', discoverability);
@@ -1605,11 +1583,14 @@ export async function mergeAccountRecord(
     );
   }
 
-  if (Bytes.isNotEmpty(subscriberId)) {
-    await window.storage.put('subscriberId', subscriberId);
+  if (Bytes.isNotEmpty(donorSubscriberId)) {
+    await window.storage.put('subscriberId', donorSubscriberId);
   }
-  if (typeof subscriberCurrencyCode === 'string') {
-    await window.storage.put('subscriberCurrencyCode', subscriberCurrencyCode);
+  if (typeof donorSubscriberCurrencyCode === 'string') {
+    await window.storage.put(
+      'subscriberCurrencyCode',
+      donorSubscriberCurrencyCode
+    );
   }
   if (donorSubscriptionManuallyCancelled != null) {
     await window.storage.put(
@@ -1748,7 +1729,7 @@ export async function mergeAccountRecord(
       { viaStorageServiceSync: true, reason: 'mergeAccountRecord' }
     );
 
-    const avatarUrl = dropNull(accountRecord.avatarUrl);
+    const avatarUrl = dropNull(accountRecord.avatarUrlPath);
     await conversation.setAndMaybeFetchProfileAvatar({
       avatarUrl,
       decryptionKey: profileKey,

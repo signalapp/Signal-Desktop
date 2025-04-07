@@ -741,7 +741,7 @@ async function generateManifest(
     const pendingDeletes: Set<string> = new Set();
 
     const remoteKeys: Set<string> = new Set();
-    (previousManifest.keys ?? []).forEach(
+    (previousManifest.identifiers ?? []).forEach(
       (identifier: IManifestRecordIdentifier) => {
         strictAssert(identifier.raw, 'Identifier without raw field');
         const storageID = Bytes.toBase64(identifier.raw);
@@ -874,7 +874,7 @@ async function encryptManifest(
   const manifestRecord = new Proto.ManifestRecord();
   manifestRecord.version = Long.fromNumber(version);
   manifestRecord.sourceDevice = window.storage.user.getDeviceId() ?? 0;
-  manifestRecord.keys = Array.from(manifestRecordKeys);
+  manifestRecord.identifiers = Array.from(manifestRecordKeys);
   if (recordIkm != null) {
     manifestRecord.recordIkm = recordIkm;
   }
@@ -1292,10 +1292,12 @@ async function processManifest(
   }
 
   const remoteKeysTypeMap = new Map();
-  (manifest.keys || []).forEach(({ raw, type }: IManifestRecordIdentifier) => {
-    strictAssert(raw, 'Identifier without raw field');
-    remoteKeysTypeMap.set(Bytes.toBase64(raw), type);
-  });
+  (manifest.identifiers || []).forEach(
+    ({ raw, type }: IManifestRecordIdentifier) => {
+      strictAssert(raw, 'Identifier without raw field');
+      remoteKeysTypeMap.set(Bytes.toBase64(raw), type);
+    }
+  );
 
   const remoteKeys = new Set(remoteKeysTypeMap.keys());
   const localVersions = new Map<string, number | undefined>();
@@ -1822,7 +1824,7 @@ async function processRemoteRecords(
   });
 
   // Find remote contact records that:
-  // - Have `remote.pni` and have `remote.serviceE164`
+  // - Have `remote.pni` and have `remote.e164`
   // - Match local contact that has `aci`.
   const splitPNIContacts = new Array<MergeableItemType>();
   prunedStorageItems = prunedStorageItems.filter(item => {
@@ -1832,7 +1834,7 @@ async function processRemoteRecords(
       return true;
     }
 
-    if (!contact.serviceE164 || !contact.pni) {
+    if (!contact.e164 || !contact.pni) {
       return true;
     }
 
