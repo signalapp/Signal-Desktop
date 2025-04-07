@@ -4495,8 +4495,8 @@ button.module-image__border-overlay:focus {
     }
   }
 
-  &__local-preview-video-container {
-    display: contents;
+  &__local-preview-container {
+    width: 100%;
   }
 
   &__local-preview-fullsize {
