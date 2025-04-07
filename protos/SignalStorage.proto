@@ -1,10 +1,15 @@
-// Copyright 2020 Signal Messenger, LLC
-// SPDX-License-Identifier: AGPL-3.0-only
+/*
+ * Copyright 2020-2021 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+syntax = "proto3";
 
 package signalservice;
 
-option java_package         = "org.whispersystems.signalservice.internal.storage";
-option java_outer_classname = "SignalStorageProtos";
+option java_package = "org.signal.storageservice.storage.protos.contacts";
+option java_outer_classname = "StorageProtos";
+option java_multiple_files = true;
 
 enum OptionalBool {
   UNSET = 0;
@@ -12,29 +17,29 @@ enum OptionalBool {
   DISABLED = 2;
 }
 
-message StorageManifest  {
-  optional uint64 version = 1;
-  optional bytes  value   = 2;
+message StorageManifest {
+  uint64 version = 1;
+  bytes value = 2;
 }
 
 message StorageItem {
-  optional bytes key   = 1;
-  optional bytes value = 2;
+  bytes key = 1;
+  bytes value = 2;
 }
 
 message StorageItems {
   repeated StorageItem items = 1;
 }
 
-message ReadOperation {
-  repeated bytes readKey = 1;
+message WriteOperation {
+  StorageManifest manifest = 1;
+  repeated StorageItem insertItem = 2;
+  repeated bytes deleteKey = 3;
+  bool clearAll = 4;
 }
 
-message WriteOperation {
-  optional StorageManifest manifest   = 1;
-  repeated StorageItem     insertItem = 2;
-  repeated bytes           deleteKey  = 3;
-  optional bool            clearAll   = 4;
+message ReadOperation {
+  repeated bytes readKey = 1;
 }
 
 message ManifestRecord {
@@ -48,16 +53,17 @@ message ManifestRecord {
       STORY_DISTRIBUTION_LIST = 5;
       STICKER_PACK = 6;
       CALL_LINK = 7;
+      CHAT_FOLDER = 8;
     }
 
-    optional bytes raw  = 1;
-    optional Type  type = 2;
+    bytes raw = 1;
+    Type type = 2;
   }
 
-  optional uint64      version = 1;
-  optional uint32 sourceDevice = 3;
-  repeated Identifier     keys = 2;
-  optional bytes recordIkm = 4;
+  uint64 version = 1;
+  uint32 sourceDevice = 3;
+  repeated Identifier identifiers = 2;
+  bytes recordIkm = 4;
   // Next ID: 5
 }
 
@@ -70,6 +76,7 @@ message StorageRecord {
     StoryDistributionListRecord storyDistributionList = 5;
     StickerPackRecord stickerPack = 6;
     CallLinkRecord callLink = 7;
+    ChatFolderRecord chatFolder = 8;
   }
 }
 
@@ -105,43 +112,44 @@ message ContactRecord {
   }
 
   message Name {
-    optional string given = 1;
-    optional string family = 2;
+    string given = 1;
+    string family = 2;
   }
 
-  optional string aci = 1;
-  optional string serviceE164 = 2;
-  optional string pni = 15;
-  optional bytes profileKey = 3;
-  optional bytes identityKey = 4;
-  optional IdentityState identityState = 5;
-  optional string givenName = 6;
-  optional string familyName = 7;
-  optional string username = 8;
-  optional bool blocked = 9;
-  optional bool whitelisted = 10;
-  optional bool archived = 11;
-  optional bool markedUnread = 12;
-  optional uint64 mutedUntilTimestamp = 13;
-  optional bool hideStory = 14;
-  optional uint64 unregisteredAtTimestamp = 16;
-  optional string systemGivenName = 17;
-  optional string systemFamilyName = 18;
-  optional string systemNickname = 19;
-  optional bool hidden = 20;
-  optional bool pniSignatureVerified = 21;
-  optional Name nickname = 22;
-  optional string note = 23;
+  string aci = 1;
+  string e164 = 2;
+  string pni = 15;
+  bytes profileKey = 3;
+  bytes identityKey = 4;
+  IdentityState identityState = 5;
+  string givenName = 6;
+  string familyName = 7;
+  string username = 8;
+  bool blocked = 9;
+  bool whitelisted = 10;
+  bool archived = 11;
+  bool markedUnread = 12;
+  uint64 mutedUntilTimestamp = 13;
+  bool hideStory = 14;
+  uint64 unregisteredAtTimestamp = 16;
+  string systemGivenName = 17;
+  string systemFamilyName = 18;
+  string systemNickname = 19;
+  bool hidden = 20;
+  bool pniSignatureVerified = 21;
+  Name nickname = 22;
+  string note = 23;
   optional AvatarColor avatarColor = 24;
+  // Next ID: 25
 }
 
 message GroupV1Record {
-  optional bytes  id                  = 1;
-  optional bool   blocked             = 2;
-  optional bool   whitelisted         = 3;
-  optional bool   archived            = 4;
-  optional bool   markedUnread        = 5;
-  optional uint64 mutedUntilTimestamp = 6;
+  bytes id = 1;
+  reserved /*blocked*/ 2;
+  reserved /*whitelisted*/ 3;
+  reserved /*archived*/ 4;
+  reserved /*markedUnread*/ 5;
+  reserved /*mutedUntilTimestamp*/ 6;
 }
 
 message GroupV2Record {
@@ -151,36 +159,37 @@ message GroupV2Record {
     ENABLED = 2;
   }
 
-  optional bytes masterKey = 1;
-  optional bool blocked = 2;
-  optional bool whitelisted = 3;
-  optional bool archived = 4;
-  optional bool markedUnread = 5;
-  optional uint64 mutedUntilTimestamp = 6;
-  optional bool dontNotifyForMentionsIfMuted = 7;
-  optional bool hideStory = 8;
-  reserved /* storySendEnabled */ 9; // removed
-  optional StorySendMode storySendMode = 10;
+  bytes masterKey = 1;
+  bool blocked = 2;
+  bool whitelisted = 3;
+  bool archived = 4;
+  bool markedUnread = 5;
+  uint64 mutedUntilTimestamp = 6;
+  bool dontNotifyForMentionsIfMuted = 7;
+  bool hideStory = 8;
+  reserved 9;
+  StorySendMode storySendMode = 10;
   optional AvatarColor avatarColor = 11;
 }
 
 message AccountRecord {
+
   enum PhoneNumberSharingMode {
-    UNKNOWN     = 0;
+    UNKNOWN = 0;
     EVERYBODY = 1;
-    NOBODY        = 2;
+    NOBODY = 2;
   }
 
   message PinnedConversation {
     message Contact {
-      optional string serviceId = 1;
-      optional string e164 = 2;
+      string serviceId = 1;
+      string e164 = 2;
     }
 
     oneof identifier {
-      Contact contact        = 1;
-      bytes   legacyGroupId  = 3;
-      bytes   groupMasterKey = 4;
+      Contact contact = 1;
+      bytes legacyGroupId = 3;
+      bytes groupMasterKey = 4;
     }
   }
 
@@ -197,13 +206,13 @@ message AccountRecord {
       PURPLE = 8;
     }
 
-    optional bytes entropy = 1; // 32 bytes of entropy used for encryption
-    optional bytes serverId = 2; // 16 bytes of encoded UUID provided by the server
-    optional Color color = 3; // color of the QR code itself
+    bytes entropy = 1; // 32 bytes of entropy used for encryption
+    bytes serverId = 2; // 16 bytes of encoded UUID provided by the server
+    Color color = 3; // color of the QR code itself
   }
 
   message IAPSubscriberData {
-    optional bytes subscriberId = 1;
+    bytes subscriberId = 1;
 
     oneof iapSubscriptionId {
       // Identifies an Android Play Store IAP subscription.
@@ -213,84 +222,128 @@ message AccountRecord {
     }
   }
 
-  optional bytes profileKey = 1;
-  optional string givenName = 2;
-  optional string familyName = 3;
-  optional string avatarUrl = 4;
-  optional bool noteToSelfArchived = 5;
-  optional bool readReceipts = 6;
-  optional bool sealedSenderIndicators = 7;
-  optional bool typingIndicators = 8;
+  message BackupTierHistory {
+    // See zkgroup for integer particular values. Unset if backups are not enabled.
+    optional uint64 backupTier = 1;
+    optional uint64 endedAtTimestamp = 2;
+  }
+
+  bytes profileKey = 1;
+  string givenName = 2;
+  string familyName = 3;
+  string avatarUrlPath = 4;
+  bool noteToSelfArchived = 5;
+  bool readReceipts = 6;
+  bool sealedSenderIndicators = 7;
+  bool typingIndicators = 8;
   reserved 9; // proxiedLinkPreviews
-  optional bool noteToSelfMarkedUnread = 10;
-  optional bool linkPreviews = 11;
-  optional PhoneNumberSharingMode phoneNumberSharingMode = 12;
-  optional bool notDiscoverableByPhoneNumber = 13;
+  bool noteToSelfMarkedUnread = 10;
+  bool linkPreviews = 11;
+  PhoneNumberSharingMode phoneNumberSharingMode = 12;
+  bool unlistedPhoneNumber = 13;
   repeated PinnedConversation pinnedConversations = 14;
-  optional bool preferContactAvatars = 15;
-  optional uint32 universalExpireTimer = 17;
+  bool preferContactAvatars = 15;
+  uint32 universalExpireTimer = 17;
   reserved 18; // primarySendsSms
   reserved 19; // deprecatedE164
   repeated string preferredReactionEmoji = 20;
-  optional bytes subscriberId = 21;
-  optional string subscriberCurrencyCode = 22;
-  optional bool displayBadgesOnProfile = 23;
-  optional bool donorSubscriptionManuallyCancelled = 24;
-  optional bool keepMutedChatsArchived = 25;
-  optional bool hasSetMyStoriesPrivacy = 26;
-  optional bool hasViewedOnboardingStory = 27;
+  bytes donorSubscriberId = 21;
+  string donorSubscriberCurrencyCode = 22;
+  bool displayBadgesOnProfile = 23;
+  bool donorSubscriptionManuallyCancelled = 24;
+  bool keepMutedChatsArchived = 25;
+  bool hasSetMyStoriesPrivacy = 26;
+  bool hasViewedOnboardingStory = 27; // Whether the user has opened and played back the
+                                      // onboarding story in the story viewer.
   reserved 28; // deprecatedStoriesDisabled
-  optional bool storiesDisabled = 29;
-  optional OptionalBool storyViewReceiptsEnabled = 30;
+  bool storiesDisabled = 29;
+  OptionalBool storyViewReceiptsEnabled = 30;
   reserved 31; // hasReadOnboardingStory
-  optional bool hasSeenGroupStoryEducationSheet = 32;
-  optional string username = 33;
-  optional bool hasCompletedUsernameOnboarding = 34;
-  optional UsernameLink usernameLink = 35;
+  bool hasSeenGroupStoryEducationSheet = 32; // Whether the user has seen the group story education
+                                             // sheet. This is a sticky value.
+  string username = 33; // Format: `nickname.discriminator`, e.g. `signalapp.123`
+                        // Updated only when username is confirmed or deleted on server.
+  bool hasCompletedUsernameOnboarding = 34; // Whether the user has completed username
+                                            // onboarding.
+  UsernameLink usernameLink = 35;
   reserved /*backupsSubscriberId*/ 36;
   reserved /*backupsSubscriberCurrencyCode*/ 37;
   reserved /*backupsSubscriptionManuallyCancelled*/ 38;
   // Set to true after backups are enabled and one is uploaded.
   optional bool hasBackup = 39;
-  // See zkgroup for integer particular values
+  // See zkgroup for integer particular values. Unset if backups are not enabled.
   optional uint64 backupTier = 40;
-  optional IAPSubscriberData backupSubscriberData = 41;
+  IAPSubscriberData backupSubscriberData = 41;
   optional AvatarColor avatarColor = 42;
 }
 
 message StoryDistributionListRecord {
-  optional bytes identifier = 1;
-  optional string name = 2;
+  bytes identifier = 1;
+  string name = 2;
   repeated string recipientServiceIds = 3;
-  optional uint64 deletedAtTimestamp = 4;
-  optional bool allowsReplies = 5;
-  optional bool isBlockList = 6;
+  uint64 deletedAtTimestamp = 4;
+  bool allowsReplies = 5;
+  bool isBlockList = 6;
 }
 
 message StickerPackRecord {
-  optional bytes packId = 1; // 16 bytes
-  optional bytes packKey = 2; // 32 bytes, used to derive the AES-256 key
-                              // aesKey = HKDF(
-                              //   input = packKey,
-                              //   salt = 32 zero bytes,
-                              //   info = "Sticker Pack"
-                              // )
-  optional uint32 position = 3; // When displayed sticker packs should be first sorted
-                                // in descending order by zero-based `position` and
-                                // then by ascending `packId` (lexicographically,
-                                // packId can be treated as a hex string).
-                                // When installing a sticker pack the client should find
-                                // the maximum `position` among currently known stickers
-                                // and use `max_position + 1` as the value for the new
-                                // `position`.
-  optional uint64 deletedAtTimestamp = 4; // Timestamp in milliseconds. When present and
-                                          // non-zero - `packKey` and `position` should
-                                          // be unset
+  bytes packId = 1; // 16 bytes
+  bytes packKey = 2; // 32 bytes, used to derive the AES-256 key
+                     // aesKey = HKDF(
+                     //   input = packKey,
+                     //   salt = 32 zero bytes,
+                     //   info = "Sticker Pack"
+                     // )
+  uint32 position = 3; // When displayed sticker packs should be first sorted
+                       // in descending order by zero-based `position` and
+                       // then by ascending `packId` (lexicographically,
+                       // packId can be treated as a hex string).
+                       // When installing a sticker pack the client should find
+                       // the maximum `position` among currently known stickers
+                       // and use `max_position + 1` as the value for the new
+                       // `position`.
+  uint64 deletedAtTimestamp = 4; // Timestamp in milliseconds. When present and
+                                 // non-zero - `packKey` and `position` should
+                                 // be unset
 }
 
 message CallLinkRecord {
-  optional bytes rootKey = 1; // 16 bytes
-  optional bytes adminPasskey = 2; // Non-empty when the current user is an admin
-  optional uint64 deletedAtTimestampMs = 3; // When present and non-zero, `adminPasskey`
-                                            // should be cleared
+  bytes rootKey = 1; // 16 bytes
+  bytes adminPasskey = 2; // Non-empty when the current user is an admin
+  uint64 deletedAtTimestampMs = 3; // When present and non-zero, `adminPasskey`
+                                   // should be cleared
+}
+
+message ChatFolderRecord {
+  message Recipient {
+    message Contact {
+      string serviceId = 1;
+      string e164 = 2;
+    }
+
+    oneof identifier {
+      Contact contact = 1;
+      bytes legacyGroupId = 2;
+      bytes groupMasterKey = 3;
+    }
+  }
+
+  // Represents the default "All chats" folder record vs all other custom folders
+  enum FolderType {
+    UNKNOWN = 0;
+    ALL = 1;
+    CUSTOM = 2;
+  }
+
+  bytes id = 1;
+  string name = 2;
+  uint32 position = 3;                // Position order of folder, low-to-high from start-to-end
+  bool showOnlyUnread = 4;
+  bool showMutedChats = 5;
+  bool includeAllIndividualChats = 6; // Folder includes all 1:1 chats, unless excluded
+  bool includeAllGroupChats = 7;      // Folder includes all group chats, unless excluded
+  FolderType folderType = 8;
+  repeated Recipient includedRecipients = 9;
+  repeated Recipient excludedRecipients = 10;
+  uint64 deletedAtTimestampMs = 11;   // When non-zero, `position` should be set to -1 and `includedRecipients` should be empty
 }
