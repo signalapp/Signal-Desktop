@@ -15,9 +15,7 @@ import { v4 as getGuid } from 'uuid';
 import { z } from 'zod';
 import type { Readable } from 'stream';
 
-import { Net } from '@signalapp/libsignal-client';
 import { assertDev, strictAssert } from '../util/assert';
-import { drop } from '../util/drop';
 import * as durations from '../util/durations';
 import type { ExplodePromiseResultType } from '../util/explodePromise';
 import { explodePromise } from '../util/explodePromise';
@@ -69,8 +67,8 @@ import * as log from '../logging/log';
 import { maybeParseUrl, urlPathFromComponents } from '../util/url';
 import { HOUR, MINUTE, SECOND } from '../util/durations';
 import { safeParseNumber } from '../util/numbers';
-import { isStagingServer } from '../util/isStagingServer';
 import type { IWebSocketResource } from './WebsocketResources';
+import { getLibsignalNet } from './preconnect';
 import type { GroupSendToken } from '../types/GroupSendEndorsements';
 import { parseUnknown, safeParseUnknown } from '../util/schemas';
 import type {
@@ -78,8 +76,6 @@ import type {
   ProfileFetchUnauthRequestOptions,
 } from '../services/profiles';
 import { isMockServer } from '../util/isMockServer';
-import { getMockServerPort } from '../util/getMockServerPort';
-import { pemToDer } from '../util/pemToDer';
 import { ToastType } from '../types/Toast';
 import { isProduction } from '../util/version';
 import type { ServerAlert } from '../util/handleServerAlerts';
@@ -90,43 +86,6 @@ import { isAbortError } from '../util/isAbortError';
 //   debugging failed requests.
 const DEBUG = false;
 const DEFAULT_TIMEOUT = 30 * SECOND;
-
-// Libsignal has internally configured values for domain names
-// (and other connectivity params) of the services.
-function resolveLibsignalNet(
-  url: string,
-  version: string,
-  certificateAuthority?: string
-): Net.Net {
-  const userAgent = getUserAgent(version);
-  log.info(`libsignal net url: ${url}`);
-  if (isStagingServer(url)) {
-    log.info('libsignal net environment resolved to staging');
-    return new Net.Net({
-      env: Net.Environment.Staging,
-      userAgent,
-    });
-  }
-
-  if (isMockServer(url) && certificateAuthority !== undefined) {
-    const DISCARD_PORT = 9; // Reserved by RFC 863.
-    log.info('libsignal net environment resolved to mock');
-    return new Net.Net({
-      localTestServer: true,
-      userAgent,
-      TESTING_localServer_chatPort: parseInt(getMockServerPort(url), 10),
-      TESTING_localServer_cdsiPort: DISCARD_PORT,
-      TESTING_localServer_svr2Port: DISCARD_PORT,
-      TESTING_localServer_rootCertificateDer: pemToDer(certificateAuthority),
-    });
-  }
-
-  log.info('libsignal net environment resolved to prod');
-  return new Net.Net({
-    env: Net.Environment.Production,
-    userAgent,
-  });
-}
 
 function _createRedactor(
   ...toReplace: ReadonlyArray<string | undefined | null>
@@ -1760,45 +1719,7 @@ export type TopLevelType = {
 
 type InflightCallback = (error: Error) => unknown;
 
-// `libsignalNet` is an instance of a class from libsignal that is responsible
-// for providing network layer API and related functionality.
-// It's important to have a single instance of this class as it holds
-// resources that are shared across all other use cases.
-let libsignalNet: Net.Net;
-
-// Not definied in tests
-if (window.SignalContext.config?.serverUrl) {
-  const { config } = window.SignalContext;
-
-  libsignalNet = resolveLibsignalNet(
-    config.serverUrl,
-    config.version,
-    config.certificateAuthority
-  );
-
-  libsignalNet.setIpv6Enabled(!config.disableIPv6);
-  if (config.proxyUrl) {
-    log.info('WebAPI: Setting libsignal proxy');
-    try {
-      libsignalNet.setProxyFromUrl(config.proxyUrl);
-    } catch (error) {
-      log.error(`WebAPI: Failed to set proxy: ${error}`);
-      libsignalNet.clearProxy();
-    }
-  }
-
-  drop(
-    (async () => {
-      try {
-        log.info('WebAPI: preconnect start');
-        await libsignalNet.preconnectChat();
-        log.info('WebAPI: preconnect done');
-      } catch (error) {
-        log.error(`WebAPI: Failed to preconnect: ${toLogFormat(error)}`);
-      }
-    })()
-  );
-}
+const libsignalNet = getLibsignalNet();
 
 // We first set up the data that won't change during this session of the app
 export function initialize({
