@@ -54,8 +54,9 @@ import { Tooltip, TooltipPlacement } from './Tooltip';
 import { offsetDistanceModifier } from '../util/popperUtil';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { FunStaticEmoji } from './fun/FunEmoji';
-import type { EmojiSkinTone, EmojiVariantKey } from './fun/data/emojis';
+import type { EmojiVariantKey } from './fun/data/emojis';
 import {
+  EmojiSkinTone,
   getEmojiParentByKey,
   getEmojiParentKeyByEnglishShortName,
   getEmojiParentKeyByVariantKey,
@@ -276,7 +277,10 @@ export function ProfileEditor({
   // To make EmojiButton re-render less often
   const setAboutEmoji = useCallback(
     (ev: EmojiPickDataType) => {
-      const emojiData = getEmojiData(ev.shortName, emojiSkinToneDefault);
+      const emojiData = getEmojiData(
+        ev.shortName,
+        emojiSkinToneDefault ?? EmojiSkinTone.None
+      );
       setStagedProfile(profileData => ({
         ...profileData,
         aboutEmoji: unifiedToEmoji(emojiData.unified),
@@ -549,7 +553,7 @@ export function ProfileEditor({
               onClick={() => {
                 const emojiData = getEmojiData(
                   defaultBio.shortName,
-                  emojiSkinToneDefault
+                  emojiSkinToneDefault ?? EmojiSkinTone.None
                 );
 
                 setStagedProfile(profileData => ({

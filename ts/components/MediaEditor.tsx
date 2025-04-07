@@ -68,6 +68,7 @@ import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis';
 import { FunStickerPicker } from './fun/FunStickerPicker';
 import type { FunStickerSelection } from './fun/panels/FunPanelStickers';
 import { drop } from '../util/drop';
+import type { FunTimeStickerStyle } from './fun/constants';
 
 export type MediaEditorResultType = Readonly<{
   data: Uint8Array;
@@ -264,6 +265,49 @@ export function MediaEditor({
       }
 
       drop(run());
+    },
+    [fabricCanvas, imageState.height, imageState.width]
+  );
+
+  const handlePickTimeSticker = useCallback(
+    (style: FunTimeStickerStyle) => {
+      if (!fabricCanvas) {
+        return;
+      }
+
+      if (style === 'digital') {
+        const sticker = new MediaEditorFabricDigitalTimeSticker(Date.now());
+        sticker.setPositionByOrigin(
+          new fabric.Point(imageState.width / 2, imageState.height / 2),
+          'center',
+          'center'
+        );
+        sticker.setCoords();
+
+        fabricCanvas.add(sticker);
+        fabricCanvas.setActiveObject(sticker);
+      }
+
+      if (style === 'analog') {
+        const sticker = new MediaEditorFabricAnalogTimeSticker();
+        const STICKER_SIZE_RELATIVE_TO_CANVAS = 4;
+        const size =
+          Math.min(imageState.width, imageState.height) /
+          STICKER_SIZE_RELATIVE_TO_CANVAS;
+
+        sticker.scaleToHeight(size);
+        sticker.setPositionByOrigin(
+          new fabric.Point(imageState.width / 2, imageState.height / 2),
+          'center',
+          'center'
+        );
+        sticker.setCoords();
+
+        fabricCanvas.add(sticker);
+        fabricCanvas.setActiveObject(sticker);
+      }
+
+      setEditMode(undefined);
     },
     [fabricCanvas, imageState.height, imageState.width]
   );
@@ -1284,81 +1328,8 @@ export function MediaEditor({
                   i18n={i18n}
                   installedPacks={installedPacks}
                   knownPacks={[]}
-                  onPickSticker={async (_packId, _stickerId, src: string) => {
-                    if (!fabricCanvas) {
-                      return;
-                    }
-
-                    const img = await loadImage(src);
-
-                    const STICKER_SIZE_RELATIVE_TO_CANVAS = 4;
-                    const size =
-                      Math.min(imageState.width, imageState.height) /
-                      STICKER_SIZE_RELATIVE_TO_CANVAS;
-
-                    const sticker = new MediaEditorFabricSticker(img);
-                    sticker.scaleToHeight(size);
-                    sticker.setPositionByOrigin(
-                      new fabric.Point(
-                        imageState.width / 2,
-                        imageState.height / 2
-                      ),
-                      'center',
-                      'center'
-                    );
-                    sticker.setCoords();
-
-                    fabricCanvas.add(sticker);
-                    fabricCanvas.setActiveObject(sticker);
-                    setEditMode(undefined);
-                  }}
-                  onPickTimeSticker={(style: 'analog' | 'digital') => {
-                    if (!fabricCanvas) {
-                      return;
-                    }
-
-                    if (style === 'digital') {
-                      const sticker = new MediaEditorFabricDigitalTimeSticker(
-                        Date.now()
-                      );
-                      sticker.setPositionByOrigin(
-                        new fabric.Point(
-                          imageState.width / 2,
-                          imageState.height / 2
-                        ),
-                        'center',
-                        'center'
-                      );
-                      sticker.setCoords();
-
-                      fabricCanvas.add(sticker);
-                      fabricCanvas.setActiveObject(sticker);
-                    }
-
-                    if (style === 'analog') {
-                      const sticker = new MediaEditorFabricAnalogTimeSticker();
-                      const STICKER_SIZE_RELATIVE_TO_CANVAS = 4;
-                      const size =
-                        Math.min(imageState.width, imageState.height) /
-                        STICKER_SIZE_RELATIVE_TO_CANVAS;
-
-                      sticker.scaleToHeight(size);
-                      sticker.setPositionByOrigin(
-                        new fabric.Point(
-                          imageState.width / 2,
-                          imageState.height / 2
-                        ),
-                        'center',
-                        'center'
-                      );
-                      sticker.setCoords();
-
-                      fabricCanvas.add(sticker);
-                      fabricCanvas.setActiveObject(sticker);
-                    }
-
-                    setEditMode(undefined);
-                  }}
+                  onPickSticker={handlePickSticker}
+                  onPickTimeSticker={handlePickTimeSticker}
                   receivedPacks={[]}
                   recentStickers={recentStickers}
                   showPickerHint={false}
@@ -1370,6 +1341,8 @@ export function MediaEditor({
                   open={stickerPickerOpen}
                   onOpenChange={handleStickerPickerOpenChange}
                   onSelectSticker={handleSelectSticker}
+                  showTimeStickers
+                  onSelectTimeSticker={handlePickTimeSticker}
                   placement="top"
                   theme={ThemeType.dark}
                 >

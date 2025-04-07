@@ -9,6 +9,7 @@ import type { FunEmojiSelection } from './panels/FunPanelEmojis';
 import { FunPanelEmojis } from './panels/FunPanelEmojis';
 import { useFunContext } from './FunProvider';
 import type { ThemeType } from '../../types/Util';
+import { FunErrorBoundary } from './base/FunErrorBoundary';
 
 export type FunEmojiPickerProps = Readonly<{
   open: boolean;
@@ -16,6 +17,7 @@ export type FunEmojiPickerProps = Readonly<{
   placement?: Placement;
   onSelectEmoji: (emojiSelection: FunEmojiSelection) => void;
   theme?: ThemeType;
+  showCustomizePreferredReactionsButton?: boolean;
   children: ReactNode;
 }>;
 
@@ -42,10 +44,15 @@ export const FunEmojiPicker = memo(function FunEmojiPicker(
     <DialogTrigger isOpen={props.open} onOpenChange={handleOpenChange}>
       {props.children}
       <FunPopover placement={props.placement} theme={props.theme}>
-        <FunPanelEmojis
-          onEmojiSelect={props.onSelectEmoji}
-          onClose={handleClose}
-        />
+        <FunErrorBoundary>
+          <FunPanelEmojis
+            onEmojiSelect={props.onSelectEmoji}
+            onClose={handleClose}
+            showCustomizePreferredReactionsButton={
+              props.showCustomizePreferredReactionsButton ?? false
+            }
+          />
+        </FunErrorBoundary>
       </FunPopover>
     </DialogTrigger>
   );

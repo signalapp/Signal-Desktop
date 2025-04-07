@@ -371,7 +371,13 @@ export function CallScreen({
       return noop;
     }
     return handleOutsideClick(
-      () => {
+      target => {
+        if (
+          target instanceof Element &&
+          target.closest('.FunPopover') != null
+        ) {
+          return true;
+        }
         setShowReactionPicker(false);
         return true;
       },

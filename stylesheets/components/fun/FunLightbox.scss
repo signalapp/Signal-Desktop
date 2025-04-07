@@ -16,6 +16,8 @@
 }
 
 .FunLightbox__Dialog {
+  max-height: 80vh;
+  max-width: 80vh;
   pointer-events: none;
   filter: drop-shadow(0 4px 6px variables.$color-black-alpha-20);
   transition: all ease-out 400ms;

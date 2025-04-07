@@ -15,7 +15,7 @@ import type { LocalizerType } from '../../types/I18N';
 export type FunSkinTonesListProps = Readonly<{
   i18n: LocalizerType;
   emoji: EmojiParentKey;
-  skinTone: EmojiSkinTone;
+  skinTone: EmojiSkinTone | null;
   onSelectSkinTone: (skinTone: EmojiSkinTone) => void;
 }>;
 
@@ -37,7 +37,7 @@ export function FunSkinTonesList(props: FunSkinTonesListProps): JSX.Element {
       aria-label={i18n('icu:FunSkinTones__List')}
       className="FunSkinTones__ListBox"
       orientation="horizontal"
-      selectedKeys={[props.skinTone]}
+      selectedKeys={props.skinTone != null ? [props.skinTone] : []}
       selectionMode="single"
       disallowEmptySelection
       onSelectionChange={handleSelectionChange}

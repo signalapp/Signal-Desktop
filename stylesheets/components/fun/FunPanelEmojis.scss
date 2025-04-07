@@ -1,0 +1,41 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../../mixins';
+@use '../../variables';
+
+.FunPanelEmojis__CustomizePreferredReactionsButton {
+  @include mixins.button-reset();
+  & {
+    flex-shrink: 0;
+    display: flex;
+    width: 32px;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+  }
+
+  &:hover,
+  &:focus {
+    background: light-dark(variables.$color-gray-02, variables.$color-gray-78);
+  }
+
+  &:focus {
+    outline: none;
+    @include mixins.keyboard-mode {
+      outline: 2px solid variables.$color-ultramarine;
+      outline-offset: -2px;
+    }
+  }
+}
+
+.FunPanelEmojis__CustomizePreferredReactionsButton__Icon {
+  width: 20px;
+  height: 20px;
+
+  @include mixins.color-svg(
+    '../images/icons/v3/settings/settings-compact.svg',
+    light-dark(variables.$color-gray-75, variables.$color-gray-15)
+  );
+}

@@ -1430,6 +1430,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/CustomizingPreferredReactionsModal.tsx",
+    "line": "  const pickerRef = useRef<HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-04-07T19:15:28.908Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/DirectCallRemoteParticipant.tsx",
     "line": "  const remoteVideoRef = useRef<HTMLCanvasElement | null>(null);",
     "reasonCategory": "usageTrusted",

@@ -11,10 +11,10 @@ import {
   convertShortName,
   convertShortNameToData,
 } from '../../components/emoji/lib';
-import type { EmojiSkinTone } from '../../components/fun/data/emojis';
+import { EmojiSkinTone } from '../../components/fun/data/emojis';
 
 export type AutoSubstituteAsciiEmojisOptions = {
-  emojiSkinToneDefault: EmojiSkinTone;
+  emojiSkinToneDefault: EmojiSkinTone | null;
 };
 
 const emojiMap: Record<string, string> = {
@@ -103,7 +103,7 @@ export class AutoSubstituteAsciiEmojis {
 
     const emojiData = convertShortNameToData(
       emojiName,
-      this.options.emojiSkinToneDefault
+      this.options.emojiSkinToneDefault ?? EmojiSkinTone.None
     );
     if (emojiData) {
       this.insertEmoji(
@@ -123,7 +123,7 @@ export class AutoSubstituteAsciiEmojis {
   ): void {
     const emoji = convertShortName(
       emojiData.short_name,
-      this.options.emojiSkinToneDefault
+      this.options.emojiSkinToneDefault ?? EmojiSkinTone.None
     );
     const delta = new Delta()
       .retain(index)

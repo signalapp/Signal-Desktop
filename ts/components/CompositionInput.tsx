@@ -120,7 +120,7 @@ export type Props = Readonly<{
   isFormattingEnabled: boolean;
   isActive: boolean;
   sendCounter: number;
-  emojiSkinToneDefault: EmojiSkinTone;
+  emojiSkinToneDefault: EmojiSkinTone | null;
   draftText: string | null;
   draftBodyRanges: HydratedBodyRangesType | null;
   moduleClassName?: string;
