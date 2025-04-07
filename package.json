@@ -161,7 +161,6 @@
     "lodash": "4.17.21",
     "long": "5.2.3",
     "lru-cache": "11.0.2",
-    "mac-screen-capture-permissions": "2.0.0",
     "memoizee": "0.4.17",
     "moment": "2.30.1",
     "mp4box": "0.5.3",
@@ -363,7 +362,6 @@
       "dmg-builder@26.0.10": "patches/dmg-builder@26.0.10.patch",
       "protobufjs-cli@1.1.1": "patches/protobufjs-cli+1.1.1.patch",
       "@types/fabric@4.5.3": "patches/@types+fabric+4.5.3.patch",
-      "electron-util@0.13.1": "patches/electron-util+0.13.1.patch",
       "qrcode-generator@1.4.4": "patches/qrcode-generator+1.4.4.patch",
       "@types/node-fetch@2.6.12": "patches/@types+node-fetch+2.6.12.patch",
       "fabric@4.6.0": "patches/fabric+4.6.0.patch",
@@ -377,8 +375,7 @@
       "@types/websocket@1.0.0": "patches/@types+websocket+1.0.0.patch",
       "backbone@1.6.0": "patches/backbone+1.6.0.patch",
       "node-fetch@2.6.7": "patches/node-fetch+2.6.7.patch",
-      "zod@3.23.8": "patches/zod+3.23.8.patch",
-      "mac-screen-capture-permissions": "patches/mac-screen-capture-permissions.patch"
+      "zod@3.23.8": "patches/zod+3.23.8.patch"
     },
     "onlyBuiltDependencies": [
       "@indutny/mac-screen-share",
@@ -392,7 +389,6 @@
       "electron",
       "esbuild",
       "fs-xattr",
-      "mac-screen-capture-permissions",
       "utf-8-validate"
     ],
     "ignoredBuiltDependencies": [
@@ -615,7 +611,6 @@
       "node_modules/@signalapp/libsignal-client/prebuilds/${platform}-${arch}/*.node",
       "!node_modules/@signalapp/ringrtc/scripts/*",
       "node_modules/@signalapp/ringrtc/build/${platform}/*${arch}*.node",
-      "node_modules/mac-screen-capture-permissions/build/Release/*.node",
       "node_modules/@indutny/simple-windows-notifications/prebuilds/${platform}-${arch}/*.node",
       "node_modules/@indutny/mac-screen-share/build/Release/*.node",
       "node_modules/fs-xattr/build/Release/*.node",
