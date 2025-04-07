@@ -98,8 +98,13 @@ export function useInfiniteQuery<Query, Page>(
           });
         }
       } catch (error) {
-        log.error('Error fetching first page', Errors.toLogFormat(error));
-        if (!signal.aborted) {
+        if (signal.aborted) {
+          update({
+            ...stateRef.current,
+            pending: false,
+          });
+        } else {
+          log.error('Error fetching first page', Errors.toLogFormat(error));
           update({
             query: options.query,
             pending: false,
@@ -155,8 +160,13 @@ export function useInfiniteQuery<Query, Page>(
           });
         }
       } catch (error) {
-        log.error('Error fetching next page', Errors.toLogFormat(error));
-        if (!signal.aborted) {
+        if (signal.aborted) {
+          update({
+            ...stateRef.current,
+            pending: false,
+          });
+        } else {
+          log.error('Error fetching next page', Errors.toLogFormat(error));
           update({
             query,
             pending: false,

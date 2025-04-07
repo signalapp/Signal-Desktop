@@ -5,6 +5,7 @@ import type { CSSProperties, ReactNode } from 'react';
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
+import { Button } from 'react-aria-components';
 import type { LocalizerType } from '../types/Util';
 import { FunStaticEmoji } from './fun/FunEmoji';
 import { strictAssert } from '../util/assert';
@@ -39,26 +40,14 @@ export const ReactionPickerPickerEmojiButton = React.forwardRef<
   const emojiVariant = getEmojiVariantByKey(emojiVariantKey);
 
   return (
-    <button
-      type="button"
+    <Button
       ref={ref}
-      tabIndex={0}
       className={classNames(
         'module-ReactionPickerPicker__button',
         'module-ReactionPickerPicker__button--emoji',
         isSelected && 'module-ReactionPickerPicker__button--selected'
       )}
-      onClick={event => {
-        event.stopPropagation();
-        onClick();
-      }}
-      onKeyDown={event => {
-        if (event.key === 'Enter' || event.key === 'Space') {
-          event.stopPropagation();
-          event.preventDefault();
-          onClick();
-        }
-      }}
+      onPress={onClick}
     >
       <FunStaticEmoji
         role="img"
@@ -66,7 +55,7 @@ export const ReactionPickerPickerEmojiButton = React.forwardRef<
         size={48}
         emoji={emojiVariant}
       />
-    </button>
+    </Button>
   );
 });
 

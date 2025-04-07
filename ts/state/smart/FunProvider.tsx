@@ -28,6 +28,7 @@ import {
   fetchGifsSearch,
 } from '../../components/fun/data/gifs';
 import { tenorDownload } from '../../components/fun/data/tenor';
+import { usePreferredReactionsActions } from '../ducks/preferredReactions';
 
 export type SmartFunProviderProps = Readonly<{
   children: ReactNode;
@@ -46,6 +47,8 @@ export const SmartFunProvider = memo(function SmartFunProvider(
   const emojiSkinToneDefault = useSelector(getEmojiSkinToneDefault);
   const showStickerPickerHint = useSelector(getShowStickerPickerHint);
   const { removeItem, setEmojiSkinToneDefault } = useItemsActions();
+  const { openCustomizePreferredReactionsModal } =
+    usePreferredReactionsActions();
 
   // Translate recent emojis to keys
   const recentEmojisKeys = useMemo(() => {
@@ -65,6 +68,11 @@ export const SmartFunProvider = memo(function SmartFunProvider(
     [setEmojiSkinToneDefault]
   );
 
+  // Emojis
+  const handleOpenCustomizePreferredReactionsModal = useCallback(() => {
+    openCustomizePreferredReactionsModal();
+  }, [openCustomizePreferredReactionsModal]);
+
   // Stickers
   const handleClearStickerPickerHint = useCallback(() => {
     removeItem('showStickerPickerHint');
@@ -80,6 +88,9 @@ export const SmartFunProvider = memo(function SmartFunProvider(
       // Emojis
       emojiSkinToneDefault={emojiSkinToneDefault}
       onEmojiSkinToneDefaultChange={handleEmojiSkinToneDefaultChange}
+      onOpenCustomizePreferredReactionsModal={
+        handleOpenCustomizePreferredReactionsModal
+      }
       // Stickers
       installedStickerPacks={installedStickerPacks}
       showStickerPickerHint={showStickerPickerHint}

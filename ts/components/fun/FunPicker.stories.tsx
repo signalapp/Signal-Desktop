@@ -33,6 +33,7 @@ function Template(props: TemplateProps) {
         // Emojis
         emojiSkinToneDefault={EmojiSkinTone.None}
         onEmojiSkinToneDefaultChange={() => null}
+        onOpenCustomizePreferredReactionsModal={() => null}
         // Stickers
         installedStickerPacks={packs}
         showStickerPickerHint={false}

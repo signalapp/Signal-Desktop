@@ -209,7 +209,7 @@ export type OwnProps = Readonly<{
   ) => void;
 
   onPickEmoji: (e: EmojiPickDataType) => void;
-  emojiSkinToneDefault: EmojiSkinTone;
+  emojiSkinToneDefault: EmojiSkinTone | null;
   // StickerButton
   installedPacks: ReadonlyArray<StickerPackType>;
   recentStickers: ReadonlyArray<StickerType>;

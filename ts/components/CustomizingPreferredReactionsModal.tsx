@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { usePopper } from 'react-popper';
 import { isEqual, noop } from 'lodash';
 
@@ -18,7 +18,10 @@ import { DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES } from '../reactions/const
 import { convertShortName } from './emoji/lib';
 import { offsetDistanceModifier } from '../util/popperUtil';
 import { handleOutsideClick } from '../util/handleOutsideClick';
-import type { EmojiSkinTone } from './fun/data/emojis';
+import { EmojiSkinTone, getEmojiVariantByKey } from './fun/data/emojis';
+import { FunEmojiPicker } from './fun/FunEmojiPicker';
+import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis';
+import { isFunPickerEnabled } from './fun/isFunPickerEnabled';
 
 export type PropsType = {
   draftPreferredReactions: ReadonlyArray<string>;
@@ -28,7 +31,7 @@ export type PropsType = {
   originalPreferredReactions: ReadonlyArray<string>;
   recentEmojis: ReadonlyArray<string>;
   selectedDraftEmojiIndex: undefined | number;
-  emojiSkinToneDefault: EmojiSkinTone;
+  emojiSkinToneDefault: EmojiSkinTone | null;
 
   cancelCustomizePreferredReactionsModal(): unknown;
   deselectDraftEmoji(): unknown;
@@ -58,6 +61,7 @@ export function CustomizingPreferredReactionsModal({
 }: Readonly<PropsType>): JSX.Element {
   const [referenceElement, setReferenceElement] =
     useState<null | HTMLDivElement>(null);
+  const pickerRef = useRef<HTMLDivElement>(null);
   const [popperElement, setPopperElement] = useState<null | HTMLDivElement>(
     null
   );
@@ -80,12 +84,18 @@ export function CustomizingPreferredReactionsModal({
     }
 
     return handleOutsideClick(
-      () => {
+      target => {
+        if (
+          target instanceof Element &&
+          target.closest('.FunPopover') != null
+        ) {
+          return true;
+        }
         deselectDraftEmoji();
         return true;
       },
       {
-        containerElements: [popperElement],
+        containerElements: [popperElement, pickerRef],
         name: 'CustomizingPreferredReactionsModal.draftEmoji',
       }
     );
@@ -99,7 +109,7 @@ export function CustomizingPreferredReactionsModal({
     !isSaving &&
     !isEqual(
       DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES.map(shortName =>
-        convertShortName(shortName, emojiSkinToneDefault)
+        convertShortName(shortName, emojiSkinToneDefault ?? EmojiSkinTone.None)
       ),
       draftPreferredReactions
     );
@@ -149,31 +159,45 @@ export function CustomizingPreferredReactionsModal({
       title={i18n('icu:CustomizingPreferredReactions__title')}
       modalFooter={footer}
     >
-      <div className="module-CustomizingPreferredReactionsModal__small-emoji-picker-wrapper">
+      <div
+        ref={pickerRef}
+        className="module-CustomizingPreferredReactionsModal__small-emoji-picker-wrapper"
+      >
         <ReactionPickerPicker
           isSomethingSelected={isSomethingSelected}
           pickerStyle={ReactionPickerPickerStyle.Menu}
           ref={setReferenceElement}
         >
-          {draftPreferredReactions.map((emoji, index) => (
-            <ReactionPickerPickerEmojiButton
-              emoji={emoji}
-              // The index is the only thing that uniquely identifies the emoji, because
-              //   there can be duplicates in the list.
-              // eslint-disable-next-line react/no-array-index-key
-              key={index}
-              onClick={() => {
-                selectDraftEmojiToBeReplaced(index);
-              }}
-              isSelected={index === selectedDraftEmojiIndex}
-            />
-          ))}
+          {draftPreferredReactions.map((emoji, index) => {
+            return (
+              <CustomizingPreferredReactionsModalItem
+                // The index is the only thing that uniquely identifies the emoji, because
+                //   there can be duplicates in the list.
+                // eslint-disable-next-line react/no-array-index-key
+                key={index}
+                emoji={emoji}
+                isSelected={index === selectedDraftEmojiIndex}
+                onSelect={() => {
+                  selectDraftEmojiToBeReplaced(index);
+                }}
+                onDeselect={() => {
+                  deselectDraftEmoji();
+                }}
+                onSelectEmoji={emojiSelection => {
+                  const emojiVariant = getEmojiVariantByKey(
+                    emojiSelection.variantKey
+                  );
+                  replaceSelectedDraftEmoji(emojiVariant.value);
+                }}
+              />
+            );
+          })}
         </ReactionPickerPicker>
         {hadSaveError
           ? i18n('icu:CustomizingPreferredReactions__had-save-error')
           : i18n('icu:CustomizingPreferredReactions__subtitle')}
       </div>
-      {isSomethingSelected && (
+      {!isFunPickerEnabled() && isSomethingSelected && (
         <div
           ref={setPopperElement}
           style={emojiPickerPopper.styles.popper}
@@ -200,4 +224,48 @@ export function CustomizingPreferredReactionsModal({
       )}
     </Modal>
   );
+}
+
+function CustomizingPreferredReactionsModalItem(props: {
+  emoji: string;
+  isSelected: boolean;
+  onSelect: () => void;
+  onDeselect: () => void;
+  onSelectEmoji: (emojiSelection: FunEmojiSelection) => void;
+}) {
+  const { onDeselect } = props;
+
+  const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
+
+  const handleEmojiPickerOpenChange = useCallback(
+    (open: boolean) => {
+      setEmojiPickerOpen(open);
+      if (!open) {
+        onDeselect();
+      }
+    },
+    [onDeselect]
+  );
+
+  const button = (
+    <ReactionPickerPickerEmojiButton
+      emoji={props.emoji}
+      onClick={props.onSelect}
+      isSelected={props.isSelected}
+    />
+  );
+
+  if (isFunPickerEnabled()) {
+    return (
+      <FunEmojiPicker
+        open={emojiPickerOpen}
+        onOpenChange={handleEmojiPickerOpenChange}
+        placement="bottom"
+        onSelectEmoji={props.onSelectEmoji}
+      >
+        {button}
+      </FunEmojiPicker>
+    );
+  }
+  return button;
 }

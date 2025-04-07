@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { useCallback } from 'react';
 import { VisuallyHidden } from 'react-aria';
+import { getInteractionModality } from '@react-aria/interactions';
 import type { LocalizerType } from '../../../types/I18N';
+import { useFunContext } from '../FunProvider';
 
 export type FunSearchProps = Readonly<{
   i18n: LocalizerType;
@@ -14,6 +16,7 @@ export type FunSearchProps = Readonly<{
 
 export function FunSearch(props: FunSearchProps): JSX.Element {
   const { i18n, onSearchInputChange } = props;
+  const { shouldAutoFocus, onChangeShouldAutoFocus } = useFunContext();
 
   const handleChange = useCallback(
     event => {
@@ -21,6 +24,16 @@ export function FunSearch(props: FunSearchProps): JSX.Element {
     },
     [onSearchInputChange]
   );
+
+  const handleFocus = useCallback(() => {
+    onChangeShouldAutoFocus(true);
+  }, [onChangeShouldAutoFocus]);
+
+  const handleBlur = useCallback(() => {
+    if (getInteractionModality() !== 'pointer') {
+      onChangeShouldAutoFocus(false);
+    }
+  }, [onChangeShouldAutoFocus]);
 
   const handleClear = useCallback(() => {
     onSearchInputChange('');
@@ -35,7 +48,11 @@ export function FunSearch(props: FunSearchProps): JSX.Element {
         type="text"
         value={props.searchInput}
         onChange={handleChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         placeholder={props.placeholder}
+        // eslint-disable-next-line jsx-a11y/no-autofocus
+        autoFocus={shouldAutoFocus}
       />
       {props.searchInput !== '' && (
         <button

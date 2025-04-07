@@ -42,7 +42,7 @@ describe('both/state/selectors/items', () => {
   });
 
   describe('#getEmojiSkinTone', () => {
-    it('returns "None" if passed anything invalid', () => {
+    it('returns null if passed anything invalid', () => {
       [
         // Invalid types
         undefined,
@@ -60,7 +60,7 @@ describe('both/state/selectors/items', () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- for testing
       ].forEach((emojiSkinToneDefault: any) => {
         const state = getRootState({ emojiSkinToneDefault });
-        assert.strictEqual(getEmojiSkinToneDefault(state), EmojiSkinTone.None);
+        assert.strictEqual(getEmojiSkinToneDefault(state), null);
       });
     });
 

@@ -3131,6 +3131,10 @@
     "messageformat": "Flags",
     "description": "FunPicker > Emojis Panel > Section Title > Flags"
   },
+  "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
+    "messageformat": "Customize reactions",
+    "description": "FunPicker (when rendered in ReactionPicker) > Emojis Panel > Customize Reactions Button > Accessibility Label"
+  },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "Search stickers",
     "description": "FunPicker > Stickers Panel > Search Input > Label"
@@ -3154,6 +3158,10 @@
   "icu:FunPanelStickers__SectionTitle--Recents": {
     "messageformat": "Recently Used",
     "description": "FunPicker > Stickers Panel > Section Title > Recents"
+  },
+  "icu:FunPanelStickers__SectionTitle--Featured": {
+    "messageformat": "Featured",
+    "description": "FunPicker > Stickers Panel > Section Title > Featured"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "No stickers found",

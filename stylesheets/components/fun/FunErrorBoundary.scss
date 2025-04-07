@@ -1,0 +1,11 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../../mixins';
+@use '../../variables';
+@use './FunConstants.scss';
+
+.FunErrorBoundary {
+  width: FunConstants.$Fun__PanelWidth;
+  height: FunConstants.$Fun__PanelHeight;
+}

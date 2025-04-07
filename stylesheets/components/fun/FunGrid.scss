@@ -88,8 +88,8 @@
   );
 }
 
-.FunGrid__HeaderIcon--Settings {
-  @include icon('../images/icons/v3/settings/settings.svg');
+.FunGrid__HeaderIcon--More {
+  @include icon('../images/icons/v3/more/more-circle-bold.svg');
 }
 
 $popover-margin: 12px;

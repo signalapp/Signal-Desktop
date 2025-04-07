@@ -16,7 +16,7 @@ export function FunSticker(props: FunStickerProps): JSX.Element {
   return (
     <FunImage
       {...ariaProps}
-      className="FunItem__Sticker"
+      className="FunSticker"
       src={src}
       width={size}
       height={size}

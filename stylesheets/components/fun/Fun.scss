@@ -4,12 +4,15 @@
 @use './FunButton.scss';
 @use './FunConstants.scss';
 @use './FunEmoji.scss';
+@use './FunErrorBoundary.scss';
 @use './FunGif.scss';
 @use './FunGrid.scss';
 @use './FunImage.scss';
 @use './FunItem.scss';
 @use './FunLightbox.scss';
 @use './FunPanel.scss';
+@use './FunPanelEmojis.scss';
+@use './FunPanelStickers.scss';
 @use './FunResults.scss';
 @use './FunPopover.scss';
 @use './FunScroller.scss';

@@ -38,6 +38,7 @@ function Template(props: TemplateProps): JSX.Element {
         // Emojis
         emojiSkinToneDefault={EmojiSkinTone.None}
         onEmojiSkinToneDefaultChange={() => null}
+        onOpenCustomizePreferredReactionsModal={() => null}
         // Stickers
         installedStickerPacks={packs}
         showStickerPickerHint={false}
@@ -66,6 +67,8 @@ export default {
     placement: 'bottom',
     theme: undefined,
     onSelectSticker: action('onSelectSticker'),
+    showTimeStickers: false,
+    onSelectTimeSticker: undefined,
   },
 } satisfies ComponentMeta<TemplateProps>;
 
