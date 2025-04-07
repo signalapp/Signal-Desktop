@@ -16,7 +16,12 @@ export enum DisabledReason {
 
 export type GroupListItemConversationType = Pick<
   ConversationType,
-  'avatarPlaceholderGradient' | 'id' | 'title' | 'avatarUrl' | 'hasAvatar'
+  | 'avatarPlaceholderGradient'
+  | 'id'
+  | 'title'
+  | 'avatarUrl'
+  | 'hasAvatar'
+  | 'color'
 > & {
   disabledReason: DisabledReason | undefined;
   membersCount: number;
@@ -57,6 +62,7 @@ export function GroupListItem({
         <Avatar
           avatarPlaceholderGradient={group.avatarPlaceholderGradient}
           avatarUrl={group.avatarUrl}
+          color={group.color}
           conversationType="group"
           hasAvatar={group.hasAvatar}
           i18n={i18n}

@@ -129,7 +129,7 @@ export function AddUserToAnotherGroupModal({
       }
 
       return {
-        ...pick(convo, 'id', 'avatarUrl', 'title', 'hasAvatar'),
+        ...pick(convo, 'id', 'avatarUrl', 'title', 'hasAvatar', 'color'),
         memberships,
         membersCount,
         disabledReason,

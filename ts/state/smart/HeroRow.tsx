@@ -72,6 +72,7 @@ export const SmartHeroRow = memo(function SmartHeroRow({
     about,
     acceptedMessageRequest,
     avatarUrl,
+    color,
     groupDescription,
     hasAvatar,
     isMe,
@@ -95,6 +96,7 @@ export const SmartHeroRow = memo(function SmartHeroRow({
       acceptedMessageRequest={acceptedMessageRequest}
       avatarUrl={avatarUrl}
       badge={badge}
+      color={color}
       conversationType={type}
       fromOrAddedByTrustedContact={fromOrAddedByTrustedContact}
       groupDescription={groupDescription}
