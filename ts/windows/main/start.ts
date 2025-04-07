@@ -6,6 +6,11 @@ import { contextBridge } from 'electron';
 
 import * as log from '../../logging/log';
 
+import '../context';
+
+// Connect websocket early
+import '../../textsecure/preconnect';
+
 import './phase0-devtools';
 import './phase1-ipc';
 import '../preload';
