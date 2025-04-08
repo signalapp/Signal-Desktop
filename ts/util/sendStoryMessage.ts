@@ -173,6 +173,7 @@ export async function sendStoryMessage(
         // Note: we use the same sent_at for these messages because we want de-duplication
         //   on the receiver side.
         return window.Signal.Migrations.upgradeMessageSchema({
+          authorId: "",
           attachments,
           bodyRanges,
           conversationId: ourConversation.id,
@@ -191,7 +192,7 @@ export async function sendStoryMessage(
           sourceDevice: window.textsecure.storage.user.getDeviceId(),
           storyDistributionListId: distributionList.id,
           timestamp,
-          type: 'story',
+          type: 'story'
         });
       })
     );
