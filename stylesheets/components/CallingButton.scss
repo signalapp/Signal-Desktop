@@ -101,6 +101,14 @@
       }
     }
 
+    &--full-screen-call {
+      @include calling-button-icon(
+        '../images/icons/v3/pip/pip-maximize-light.svg',
+        variables.$color-gray-80,
+        variables.$color-gray-15
+      );
+    }
+
     &--hangup {
       @include calling-button-icon(
         '../images/icons/v3/phone/phone-down-fill-light.svg',
@@ -262,5 +270,11 @@
   div {
     height: 16px;
     width: 16px;
+  }
+}
+
+.module-calling-pip {
+  .CallingButton__button-container {
+    margin: 0;
   }
 }

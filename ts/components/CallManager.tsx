@@ -122,8 +122,8 @@ export type PropsType = {
   sendGroupCallReaction: (payload: SendGroupCallReactionType) => void;
   setGroupCallVideoRequest: (_: SetGroupCallVideoRequestType) => void;
   setIsCallActive: (_: boolean) => void;
-  setLocalAudio: (_: SetLocalAudioType) => void;
-  setLocalVideo: (_: SetLocalVideoType) => void;
+  setLocalAudio: SetLocalAudioType;
+  setLocalVideo: SetLocalVideoType;
   setLocalPreviewContainer: (container: HTMLDivElement | null) => void;
   setOutgoingRing: (_: boolean) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
@@ -345,14 +345,19 @@ function ActiveCallManager({
         getGroupCallVideoFrameSource={getGroupCallVideoFrameSourceForActiveCall}
         imageDataCache={imageDataCache}
         hangUpActiveCall={hangUpActiveCall}
-        hasLocalVideo={hasLocalVideo}
         i18n={i18n}
+        me={me}
         setGroupCallVideoRequest={setGroupCallVideoRequestForConversation}
         setLocalPreviewContainer={setLocalPreviewContainer}
         setRendererCanvas={setRendererCanvas}
         switchToPresentationView={switchToPresentationView}
         switchFromPresentationView={switchFromPresentationView}
+        toggleAudio={setLocalAudio}
         togglePip={togglePip}
+        toggleVideo={() => {
+          const enabled = !activeCall.hasLocalVideo;
+          setLocalVideo({ enabled });
+        }}
       />
     );
   }

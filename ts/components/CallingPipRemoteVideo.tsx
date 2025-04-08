@@ -1,25 +1,25 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useMemo, useEffect } from 'react';
-import { clamp, maxBy } from 'lodash';
+import React, { useEffect } from 'react';
+import { clamp, isNumber, maxBy } from 'lodash';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 import { Avatar, AvatarSize } from './Avatar';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
 import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
 import type { LocalizerType } from '../types/Util';
-import type {
-  ActiveCallType,
-  GroupCallRemoteParticipantType,
-  GroupCallVideoRequest,
+import {
+  GroupCallJoinState,
+  type ActiveCallType,
+  type GroupCallRemoteParticipantType,
+  type GroupCallVideoRequest,
 } from '../types/Calling';
-import { GroupCallJoinState } from '../types/Calling';
 import { CallMode } from '../types/CallDisposition';
 import { AvatarColors } from '../types/Colors';
 import type { SetRendererCanvasType } from '../state/ducks/calling';
 import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer';
-import { MAX_FRAME_WIDTH } from '../calling/constants';
+import { MAX_FRAME_HEIGHT } from '../calling/constants';
 import { usePageVisibility } from '../hooks/usePageVisibility';
 import { missingCaseError } from '../util/missingCaseError';
 import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant';
@@ -27,21 +27,19 @@ import { isReconnecting } from '../util/callingIsReconnecting';
 import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall';
 import { assertDev } from '../util/assert';
 import type { CallingImageDataCache } from './CallManager';
+import { PIP_MAXIMUM_HEIGHT, PIP_MINIMUM_HEIGHT } from './CallingPip';
 
-// This value should be kept in sync with the hard-coded CSS height. It should also be
-//   less than `MAX_FRAME_HEIGHT`.
-const PIP_VIDEO_HEIGHT_PX = 120;
-
-function NoVideo({
+function BlurredBackground({
   activeCall,
+  activeGroupCallSpeaker,
   i18n,
 }: {
   activeCall: ActiveCallType;
+  activeGroupCallSpeaker?: undefined | GroupCallRemoteParticipantType;
   i18n: LocalizerType;
 }): JSX.Element {
   const {
     avatarPlaceholderGradient,
-    avatarUrl,
     color,
     type: conversationType,
     phoneNumber,
@@ -49,28 +47,28 @@ function NoVideo({
     sharedGroupNames,
     title,
   } = activeCall.conversation;
+  const avatarUrl =
+    activeGroupCallSpeaker?.avatarUrl ?? activeCall.conversation.avatarUrl;
 
   return (
-    <div className="module-calling-pip__video--remote">
-      <CallBackgroundBlur avatarUrl={avatarUrl}>
-        <div className="module-calling-pip__video--avatar">
-          <Avatar
-            avatarPlaceholderGradient={avatarPlaceholderGradient}
-            avatarUrl={avatarUrl}
-            badge={undefined}
-            color={color || AvatarColors[0]}
-            noteToSelf={false}
-            conversationType={conversationType}
-            i18n={i18n}
-            phoneNumber={phoneNumber}
-            profileName={profileName}
-            title={title}
-            size={AvatarSize.FORTY_EIGHT}
-            sharedGroupNames={sharedGroupNames}
-          />
-        </div>
-      </CallBackgroundBlur>
-    </div>
+    <CallBackgroundBlur avatarUrl={avatarUrl}>
+      <div className="module-calling-pip__video--avatar">
+        <Avatar
+          avatarPlaceholderGradient={avatarPlaceholderGradient}
+          avatarUrl={avatarUrl}
+          badge={undefined}
+          color={color || AvatarColors[0]}
+          noteToSelf={false}
+          conversationType={conversationType}
+          i18n={i18n}
+          phoneNumber={phoneNumber}
+          profileName={profileName}
+          title={title}
+          size={AvatarSize.FORTY_EIGHT}
+          sharedGroupNames={sharedGroupNames}
+        />
+      </div>
+    </CallBackgroundBlur>
   );
 }
 
@@ -84,6 +82,9 @@ export type PropsType = {
     speakerHeight: number
   ) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
+  height: number;
+  width: number;
+  updateHeight: (newHeight: number) => void;
 };
 
 export function CallingPipRemoteVideo({
@@ -93,6 +94,9 @@ export function CallingPipRemoteVideo({
   i18n,
   setGroupCallVideoRequest,
   setRendererCanvas,
+  height,
+  width,
+  updateHeight,
 }: PropsType): JSX.Element {
   const { conversation } = activeCall;
 
@@ -101,7 +105,7 @@ export function CallingPipRemoteVideo({
   const isPageVisible = usePageVisibility();
 
   const activeGroupCallSpeaker: undefined | GroupCallRemoteParticipantType =
-    useMemo(() => {
+    React.useMemo(() => {
       if (!isGroupOrAdhocActiveCall(activeCall)) {
         return undefined;
       }
@@ -116,53 +120,83 @@ export function CallingPipRemoteVideo({
     }, [activeCall]);
 
   useEffect(() => {
-    if (!isGroupOrAdhocActiveCall(activeCall)) {
-      return;
-    }
+    if (isGroupOrAdhocActiveCall(activeCall)) {
+      if (!activeGroupCallSpeaker || !activeGroupCallSpeaker.hasRemoteVideo) {
+        return;
+      }
+      const { videoAspectRatio } = activeGroupCallSpeaker;
+      if (!isNumber(videoAspectRatio)) {
+        return;
+      }
 
-    if (isPageVisible) {
-      setGroupCallVideoRequest(
-        activeCall.remoteParticipants.map(participant => {
+      const newHeight = clamp(
+        Math.floor(width * (1 / videoAspectRatio)),
+        1,
+        MAX_FRAME_HEIGHT
+      );
+      // Update only for portrait video that fits, otherwise leave things as they are
+      if (
+        newHeight !== height &&
+        newHeight >= PIP_MINIMUM_HEIGHT &&
+        newHeight <= PIP_MAXIMUM_HEIGHT
+      ) {
+        updateHeight(newHeight);
+      }
+
+      if (isPageVisible) {
+        const participants = activeCall.remoteParticipants.map(participant => {
           if (participant === activeGroupCallSpeaker) {
             return {
               demuxId: participant.demuxId,
-              width: clamp(
-                Math.floor(PIP_VIDEO_HEIGHT_PX * participant.videoAspectRatio),
-                1,
-                MAX_FRAME_WIDTH
-              ),
-              height: PIP_VIDEO_HEIGHT_PX,
+              width,
+              height: newHeight,
             };
           }
           return nonRenderedRemoteParticipant(participant);
-        }),
-        PIP_VIDEO_HEIGHT_PX
-      );
+        });
+        setGroupCallVideoRequest(participants, newHeight);
+      } else {
+        setGroupCallVideoRequest(
+          activeCall.remoteParticipants.map(nonRenderedRemoteParticipant),
+          0
+        );
+      }
     } else {
-      setGroupCallVideoRequest(
-        activeCall.remoteParticipants.map(nonRenderedRemoteParticipant),
-        0
-      );
+      // eslint-disable-next-line no-lonely-if
+      if (!activeCall.hasRemoteVideo) {
+        // eslint-disable-next-line no-useless-return
+        return;
+      }
+      // TODO: DESKTOP-8537 - with direct call video stats, call updateHeight as needed
     }
   }, [
     activeCall,
     activeGroupCallSpeaker,
+    height,
     isPageVisible,
     setGroupCallVideoRequest,
+    updateHeight,
+    width,
   ]);
 
   switch (activeCall.callMode) {
     case CallMode.Direct: {
       const { hasRemoteVideo } = activeCall.remoteParticipants[0];
       if (!hasRemoteVideo) {
-        return <NoVideo activeCall={activeCall} i18n={i18n} />;
+        return (
+          <div className="module-calling-pip__video--remote">
+            <BlurredBackground activeCall={activeCall} i18n={i18n} />
+          </div>
+        );
       }
       assertDev(
         conversation.type === 'direct',
         'CallingPipRemoteVideo for direct call must be associated with direct conversation'
       );
+      // TODO: DESKTOP-8537 - when black bars go away, we need to make some CSS changes
       return (
         <div className="module-calling-pip__video--remote">
+          <BlurredBackground activeCall={activeCall} i18n={i18n} />
           <DirectCallRemoteParticipant
             conversation={conversation}
             hasRemoteVideo={hasRemoteVideo}
@@ -176,10 +210,19 @@ export function CallingPipRemoteVideo({
     case CallMode.Group:
     case CallMode.Adhoc:
       if (!activeGroupCallSpeaker) {
-        return <NoVideo activeCall={activeCall} i18n={i18n} />;
+        return (
+          <div className="module-calling-pip__video--remote">
+            <BlurredBackground activeCall={activeCall} i18n={i18n} />
+          </div>
+        );
       }
       return (
         <div className="module-calling-pip__video--remote">
+          <BlurredBackground
+            activeCall={activeCall}
+            activeGroupCallSpeaker={activeGroupCallSpeaker}
+            i18n={i18n}
+          />
           <GroupCallRemoteParticipant
             getFrameBuffer={getGroupCallFrameBuffer}
             getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}

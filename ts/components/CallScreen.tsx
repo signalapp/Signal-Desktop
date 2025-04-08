@@ -122,8 +122,8 @@ export type PropsType = {
     _: Array<GroupCallVideoRequest>,
     speakerHeight: number
   ) => void;
-  setLocalAudio: (_: SetLocalAudioType) => void;
-  setLocalVideo: (_: SetLocalVideoType) => void;
+  setLocalAudio: SetLocalAudioType;
+  setLocalVideo: SetLocalVideoType;
   setLocalPreviewContainer: (container: HTMLDivElement | null) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
   stickyControls: boolean;
@@ -489,10 +489,7 @@ export function CallScreen({
         )}
       >
         {isSendingVideo ? (
-          <div
-            className="module-ongoing-call__local-preview-container"
-            ref={setLocalPreviewContainer}
-          />
+          <div ref={setLocalPreviewContainer} />
         ) : (
           <CallBackgroundBlur avatarUrl={me.avatarUrl}>
             <div className="module-calling__spacer module-calling__camera-is-off-spacer" />

@@ -2,15 +2,27 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
+import classNames from 'classnames';
 import { minBy, debounce, noop } from 'lodash';
+
 import type { VideoFrameSource } from '@signalapp/ringrtc';
+
+import { missingCaseError } from '../util/missingCaseError';
+import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall';
+import { useActivateSpeakerViewOnPresenting } from '../hooks/useActivateSpeakerViewOnPresenting';
+import { CallMode } from '../types/CallDisposition';
+import { TooltipPlacement } from './Tooltip';
+import { CallingButton, CallingButtonType } from './CallingButton';
 import { CallingPipRemoteVideo } from './CallingPipRemoteVideo';
+import { CallBackgroundBlur } from './CallBackgroundBlur';
+
 import type { LocalizerType } from '../types/Util';
 import type { ActiveCallType, GroupCallVideoRequest } from '../types/Calling';
 import type { SetRendererCanvasType } from '../state/ducks/calling';
-import { missingCaseError } from '../util/missingCaseError';
-import { useActivateSpeakerViewOnPresenting } from '../hooks/useActivateSpeakerViewOnPresenting';
 import type { CallingImageDataCache } from './CallManager';
+import type { ConversationType } from '../state/ducks/conversations';
+import { Avatar, AvatarSize } from './Avatar';
+import { AvatarColors } from '../types/Colors';
 
 enum PositionMode {
   BeingDragged,
@@ -50,9 +62,21 @@ export type PropsType = {
   activeCall: ActiveCallType;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   hangUpActiveCall: (reason: string) => void;
-  hasLocalVideo: boolean;
   i18n: LocalizerType;
   imageDataCache: React.RefObject<CallingImageDataCache>;
+  me: Readonly<
+    Pick<
+      ConversationType,
+      | 'avatarUrl'
+      | 'avatarPlaceholderGradient'
+      | 'color'
+      | 'type'
+      | 'phoneNumber'
+      | 'profileName'
+      | 'title'
+      | 'sharedGroupNames'
+    >
+  >;
   setGroupCallVideoRequest: (
     _: Array<GroupCallVideoRequest>,
     speakerHeight: number
@@ -61,32 +85,42 @@ export type PropsType = {
   setRendererCanvas: (_: SetRendererCanvasType) => void;
   switchToPresentationView: () => void;
   switchFromPresentationView: () => void;
+  toggleAudio: () => void;
   togglePip: () => void;
+  toggleVideo: () => void;
 };
 
-const PIP_HEIGHT = 156;
-const PIP_WIDTH = 120;
-const PIP_TOP_MARGIN = 56;
+const PIP_STARTING_HEIGHT = 286;
+const PIP_WIDTH = 160;
+const PIP_TOP_MARGIN = 78;
 const PIP_PADDING = 8;
+
+// Receiving portrait video will cause the PIP to update to match that video size, but
+// we need limits
+export const PIP_MINIMUM_HEIGHT = 180;
+export const PIP_MAXIMUM_HEIGHT = 360;
 
 export function CallingPip({
   activeCall,
   getGroupCallVideoFrameSource,
   hangUpActiveCall,
-  hasLocalVideo,
   imageDataCache,
   i18n,
+  me,
   setGroupCallVideoRequest,
   setLocalPreviewContainer,
   setRendererCanvas,
   switchToPresentationView,
   switchFromPresentationView,
+  toggleAudio,
   togglePip,
+  toggleVideo,
 }: PropsType): JSX.Element {
   const isRTL = i18n.getLocaleDirection() === 'rtl';
 
   const videoContainerRef = React.useRef<null | HTMLDivElement>(null);
 
+  const [height, setHeight] = React.useState(PIP_STARTING_HEIGHT);
   const [windowWidth, setWindowWidth] = React.useState(window.innerWidth);
   const [windowHeight, setWindowHeight] = React.useState(window.innerHeight);
   const [positionState, setPositionState] = React.useState<PositionState>({
@@ -112,6 +146,8 @@ export function CallingPip({
           mouseX: ev.clientX,
           mouseY: ev.clientY,
         }));
+        ev.preventDefault();
+        ev.stopPropagation();
       }
     },
     [positionState]
@@ -150,7 +186,7 @@ export function CallingPip({
         },
         {
           mode: PositionMode.SnapToBottom,
-          distanceToEdge: innerHeight - (offsetY + PIP_HEIGHT),
+          distanceToEdge: innerHeight - (offsetY + height),
         },
       ];
 
@@ -179,7 +215,7 @@ export function CallingPip({
           throw missingCaseError(snapTo.mode);
       }
     }
-  }, [isRTL, positionState, setPositionState]);
+  }, [height, isRTL, positionState, setPositionState]);
 
   React.useEffect(() => {
     if (positionState.mode === PositionMode.BeingDragged) {
@@ -213,6 +249,15 @@ export function CallingPip({
   }, []);
 
   const [translateX, translateY] = React.useMemo<[number, number]>(() => {
+    const topMin = PIP_TOP_MARGIN;
+    const bottomMax = windowHeight - PIP_PADDING - height;
+
+    const leftScrollPadding = isRTL ? 1 : 0;
+    const leftMin = PIP_PADDING + leftScrollPadding;
+
+    const rightScrollPadding = isRTL ? 0 : 1;
+    const rightMax = windowWidth - PIP_PADDING - PIP_WIDTH - rightScrollPadding;
+
     switch (positionState.mode) {
       case PositionMode.BeingDragged:
         return [
@@ -225,53 +270,167 @@ export function CallingPip({
         ];
       case PositionMode.SnapToLeft:
         return [
-          PIP_PADDING,
-          Math.min(
-            positionState.offsetY,
-            windowHeight - PIP_PADDING - PIP_HEIGHT
-          ),
+          leftMin,
+          Math.max(topMin, Math.min(positionState.offsetY, bottomMax)),
         ];
       case PositionMode.SnapToRight:
         return [
-          windowWidth - PIP_PADDING - PIP_WIDTH,
-          Math.min(
-            positionState.offsetY,
-            windowHeight - PIP_PADDING - PIP_HEIGHT
-          ),
+          rightMax,
+          Math.max(topMin, Math.min(positionState.offsetY, bottomMax)),
         ];
       case PositionMode.SnapToTop:
         return [
-          Math.min(
-            positionState.offsetX,
-            windowWidth - PIP_PADDING - PIP_WIDTH
-          ),
-          PIP_TOP_MARGIN + PIP_PADDING,
+          Math.max(leftMin, Math.min(positionState.offsetX, rightMax)),
+          topMin,
         ];
       case PositionMode.SnapToBottom:
         return [
-          Math.min(
-            positionState.offsetX,
-            windowWidth - PIP_PADDING - PIP_WIDTH
-          ),
-          windowHeight - PIP_PADDING - PIP_HEIGHT,
+          Math.max(leftMin, Math.min(positionState.offsetX, rightMax)),
+          bottomMax,
         ];
       default:
         throw missingCaseError(positionState);
     }
-  }, [isRTL, windowWidth, windowHeight, positionState]);
+  }, [height, isRTL, windowWidth, windowHeight, positionState]);
   const localizedTranslateX = isRTL ? -translateX : translateX;
+
+  const [showControls, setShowControls] = React.useState(false);
+  const onMouseEnter = React.useCallback(() => {
+    setShowControls(true);
+  }, [setShowControls]);
+  const onMouseMove = React.useCallback(() => {
+    setShowControls(true);
+  }, [setShowControls]);
+
+  const [controlsHover, setControlsHover] = React.useState(false);
+  const onControlsMouseEnter = React.useCallback(() => {
+    setControlsHover(true);
+  }, [setControlsHover]);
+
+  const onControlsMouseLeave = React.useCallback(() => {
+    setControlsHover(false);
+  }, [setControlsHover]);
+
+  React.useEffect(() => {
+    if (!showControls) {
+      return;
+    }
+    if (controlsHover) {
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setShowControls(false);
+    }, 2000);
+    return clearTimeout.bind(null, timer);
+  }, [showControls, controlsHover, setShowControls]);
 
   const localVideoClassName = activeCall.presentingSource
     ? 'module-calling-pip__video--local-presenting'
     : 'module-calling-pip__video--local';
 
+  let raisedHandsCount = 0;
+  let callJoinRequests = 0;
+  if (isGroupOrAdhocActiveCall(activeCall)) {
+    raisedHandsCount = activeCall.raisedHands.size;
+    callJoinRequests = activeCall.pendingParticipants.length;
+  }
+
+  let videoButtonType: CallingButtonType;
+  if (activeCall.presentingSource) {
+    videoButtonType = CallingButtonType.VIDEO_DISABLED;
+  } else if (activeCall.hasLocalVideo) {
+    videoButtonType = CallingButtonType.VIDEO_ON;
+  } else {
+    videoButtonType = CallingButtonType.VIDEO_OFF;
+  }
+  const audioButtonType = activeCall.hasLocalAudio
+    ? CallingButtonType.AUDIO_ON
+    : CallingButtonType.AUDIO_OFF;
+  const hangupButtonType =
+    activeCall.callMode === CallMode.Direct
+      ? CallingButtonType.HANGUP_DIRECT
+      : CallingButtonType.HANGUP_GROUP;
+
+  let remoteVideoNode: JSX.Element;
+  const isLonelyInCall = !activeCall.remoteParticipants.length;
+  const isSendingVideo =
+    activeCall.hasLocalVideo || activeCall.presentingSource;
+  if (isLonelyInCall) {
+    remoteVideoNode = (
+      <div className="module-calling-pip__video--remote">
+        {isSendingVideo ? (
+          // TODO: DESKTOP-8537 - when black bars go away, need to make some CSS changes
+          <>
+            <CallBackgroundBlur avatarUrl={me.avatarUrl} />
+            <div
+              className={classNames(
+                'module-calling-pip__full-size-local-preview',
+                activeCall.presentingSource
+                  ? 'module-calling-pip__full-size-local-preview--presenting'
+                  : undefined
+              )}
+              ref={setLocalPreviewContainer}
+            />
+          </>
+        ) : (
+          <CallBackgroundBlur avatarUrl={me.avatarUrl}>
+            <div className="module-calling-pip__video--avatar">
+              <Avatar
+                avatarPlaceholderGradient={me.avatarPlaceholderGradient}
+                avatarUrl={me.avatarUrl}
+                badge={undefined}
+                color={me.color || AvatarColors[0]}
+                noteToSelf={false}
+                conversationType={me.type}
+                i18n={i18n}
+                phoneNumber={me.phoneNumber}
+                profileName={me.profileName}
+                title={me.title}
+                size={AvatarSize.FORTY_EIGHT}
+                sharedGroupNames={[]}
+              />
+            </div>
+          </CallBackgroundBlur>
+        )}
+      </div>
+    );
+  } else {
+    remoteVideoNode = (
+      <CallingPipRemoteVideo
+        activeCall={activeCall}
+        getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
+        imageDataCache={imageDataCache}
+        i18n={i18n}
+        setRendererCanvas={setRendererCanvas}
+        setGroupCallVideoRequest={setGroupCallVideoRequest}
+        height={height}
+        width={PIP_WIDTH}
+        updateHeight={(newHeight: number) => {
+          setHeight(newHeight);
+        }}
+      />
+    );
+  }
+
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
       className="module-calling-pip"
+      onMouseEnter={onMouseEnter}
+      onMouseMove={onMouseMove}
       onMouseDown={ev => {
         const node = videoContainerRef.current;
         if (!node) {
+          return;
+        }
+
+        const targetNode = ev.target as Element;
+        if (targetNode?.tagName === 'BUTTON') {
+          return;
+        }
+        const parentNode = targetNode.parentNode as Element;
+        if (parentNode?.tagName === 'BUTTON') {
           return;
         }
 
@@ -289,6 +448,7 @@ export function CallingPip({
       }}
       ref={videoContainerRef}
       style={{
+        height: `${height}px`,
         cursor:
           positionState.mode === PositionMode.BeingDragged
             ? '-webkit-grabbing'
@@ -300,32 +460,96 @@ export function CallingPip({
             : 'transform ease-out 300ms',
       }}
     >
-      <CallingPipRemoteVideo
-        activeCall={activeCall}
-        getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
-        imageDataCache={imageDataCache}
-        i18n={i18n}
-        setRendererCanvas={setRendererCanvas}
-        setGroupCallVideoRequest={setGroupCallVideoRequest}
-      />
-      {hasLocalVideo ? (
+      {remoteVideoNode}
+
+      {!isLonelyInCall && activeCall.hasLocalVideo ? (
         <div className={localVideoClassName} ref={setLocalPreviewContainer} />
       ) : null}
-      <div className="module-calling-pip__actions">
-        <button
-          aria-label={i18n('icu:calling__hangup')}
-          className="module-calling-pip__button--hangup"
-          onClick={hangUp}
-          type="button"
-        />
-        <button
-          aria-label={i18n('icu:calling__pip--off')}
-          className="module-calling-pip__button--pip"
+
+      <div
+        className={classNames(
+          'module-calling-pip__un-pip-container',
+          showControls
+            ? 'module-calling-pip__un-pip-container--visible'
+            : undefined
+        )}
+      >
+        <CallingButton
+          buttonType={CallingButtonType.FULL_SCREEN_CALL}
+          i18n={i18n}
+          onMouseEnter={onControlsMouseEnter}
+          onMouseLeave={onControlsMouseLeave}
           onClick={togglePip}
-          type="button"
+          tooltipDirection={TooltipPlacement.Top}
+        />
+      </div>
+      {raisedHandsCount || callJoinRequests ? (
+        <div
+          className={classNames(
+            'module-calling-pip__pills',
+            !showControls ? 'module-calling-pip__pills--no-controls' : undefined
+          )}
         >
-          <div />
-        </button>
+          {raisedHandsCount ? (
+            <div className="module-calling-pip__pill">
+              <div
+                className={classNames(
+                  'module-calling-pip__pill-icon',
+                  'module-calling-pip__pill-icon__raised-hands'
+                )}
+              />
+              {raisedHandsCount}
+            </div>
+          ) : undefined}
+          {callJoinRequests ? (
+            <div className="module-calling-pip__pill">
+              <div
+                className={classNames(
+                  'module-calling-pip__pill-icon',
+                  'module-calling-pip__pill-icon__group-join'
+                )}
+              />
+              {callJoinRequests}
+            </div>
+          ) : undefined}
+        </div>
+      ) : undefined}
+      <div
+        className={classNames(
+          'module-calling-pip__actions',
+          showControls ? 'module-calling-pip__actions--visible' : undefined
+        )}
+      >
+        <div className="module-calling-pip__actions__button">
+          <CallingButton
+            buttonType={videoButtonType}
+            i18n={i18n}
+            onMouseEnter={onControlsMouseEnter}
+            onMouseLeave={onControlsMouseLeave}
+            onClick={toggleVideo}
+            tooltipDirection={TooltipPlacement.Top}
+          />
+        </div>
+        <div className="module-calling-pip__actions__button module-calling-pip__actions__middle-button">
+          <CallingButton
+            buttonType={audioButtonType}
+            i18n={i18n}
+            onMouseEnter={onControlsMouseEnter}
+            onMouseLeave={onControlsMouseLeave}
+            onClick={toggleAudio}
+            tooltipDirection={TooltipPlacement.Top}
+          />
+        </div>
+        <div className="module-calling-pip__actions__button">
+          <CallingButton
+            buttonType={hangupButtonType}
+            i18n={i18n}
+            onMouseEnter={onControlsMouseEnter}
+            onMouseLeave={onControlsMouseLeave}
+            onClick={hangUp}
+            tooltipDirection={TooltipPlacement.Top}
+          />
+        </div>
       </div>
     </div>
   );
