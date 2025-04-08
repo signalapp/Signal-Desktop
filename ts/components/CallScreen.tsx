@@ -489,7 +489,10 @@ export function CallScreen({
         )}
       >
         {isSendingVideo ? (
-          <div ref={setLocalPreviewContainer} />
+          <div
+            className="module-ongoing-call__local-preview-container"
+            ref={setLocalPreviewContainer}
+          />
         ) : (
           <CallBackgroundBlur avatarUrl={me.avatarUrl}>
             <div className="module-calling__spacer module-calling__camera-is-off-spacer" />

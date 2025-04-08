@@ -4502,7 +4502,7 @@ button.module-image__border-overlay:focus {
   }
 
   &__local-preview-container {
-    width: 100%;
+    display: contents;
   }
 
   &__local-preview-fullsize {
