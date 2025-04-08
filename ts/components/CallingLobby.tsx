@@ -72,8 +72,8 @@ export type PropsType = {
   onJoinCall: () => void;
   outgoingRing: boolean;
   peekedParticipants: Array<ConversationType>;
-  setLocalAudio: (_: SetLocalAudioType) => void;
-  setLocalVideo: (_: SetLocalVideoType) => void;
+  setLocalAudio: SetLocalAudioType;
+  setLocalVideo: SetLocalVideoType;
   setLocalPreviewContainer: (container: HTMLDivElement | null) => void;
   setOutgoingRing: (_: boolean) => void;
   showParticipantsList: boolean;

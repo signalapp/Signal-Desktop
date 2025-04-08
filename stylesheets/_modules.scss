@@ -3882,14 +3882,17 @@ button.module-image__border-overlay:focus {
   }
 
   &__background {
-    align-items: center;
+    position: absolute;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
+    top: 0;
+    bottom: 0;
+
     display: flex;
+    align-items: center;
     flex-direction: column;
-    height: 100%;
     justify-content: center;
     overflow: hidden;
-    position: relative;
-    width: 100%;
 
     &--blur {
       background-repeat: no-repeat;
@@ -3989,9 +3992,10 @@ button.module-image__border-overlay:focus {
 }
 .module-ongoing-call {
   &__remote-video-enabled {
-    background-color: variables.$color-gray-95;
+    // TODO: DESKTOP-8537 remove this; we want blurred avatar not all-black letterboxing
     height: 100%;
     width: 100%;
+    position: relative;
     &--reconnecting {
       filter: blur(15px);
     }
@@ -4002,6 +4006,7 @@ button.module-image__border-overlay:focus {
     height: 100vh;
     width: 100%;
     display: flex;
+    position: relative;
     align-items: center;
     justify-content: center;
   }
@@ -4104,6 +4109,7 @@ button.module-image__border-overlay:focus {
         // Only apply container-type: size to grid column to prevent size collapse
         // for implicitly sized participants (PiP)
         container-type: size;
+        position: relative;
 
         @container (min-width: 180px) or (min-height: 180px) {
           .module-ongoing-call__group-call-remote-participant__footer {
@@ -4625,14 +4631,17 @@ button.module-image__border-overlay:focus {
 .module-calling-pip {
   backface-visibility: hidden;
   background-color: variables.$color-gray-95;
-  border-radius: 4px;
+  border-radius: 18px;
   box-shadow:
     0px 0px 8px rgba(0, 0, 0, 0.05),
     0px 8px 20px rgba(0, 0, 0, 0.3);
   cursor: grab;
-  height: 158px;
+  // This is just a starting height; the component will figure out what height it should
+  // be, given the aspect ratio of the provided video, pinning the width.
+  // These both should be kept in sync with the height/width in CallingPip.tsx
+  height: 286px;
+  width: 160px;
   position: fixed;
-  width: 120px;
   z-index: variables.$z-index-calling-pip;
 
   & .module-ongoing-call__group-call-remote-participant {
@@ -4643,13 +4652,13 @@ button.module-image__border-overlay:focus {
     &--remote {
       align-items: center;
       background-color: variables.$color-gray-95;
-      border-radius: 4px 4px 0 0;
+      border-radius: 18px;
+      height: 100%;
+      width: 100%;
       display: flex;
-      height: 120px; // This height should be kept in sync with <CallingPipRemoteVideo>'s hard-coded height.
       justify-content: center;
       overflow: hidden;
       position: relative;
-      width: 100%;
 
       // The avatar image can be dragged on Windows.
       .module-Avatar img {
@@ -4664,15 +4673,20 @@ button.module-image__border-overlay:focus {
 
     &--local,
     &--local-presenting {
-      bottom: 38px;
-      height: 32px;
       position: absolute;
-      inset-inline-end: 4px;
-      width: 32px;
+      top: 8px;
+      inset-inline-start: 8px;
+      height: 54px;
+      width: 80px;
+
+      border-radius: 12px;
+      overflow: hidden;
+      background-color: variables.$color-gray-80;
 
       video {
         width: 100%;
         height: 100%;
+        object-fit: cover;
       }
     }
 
@@ -4681,17 +4695,116 @@ button.module-image__border-overlay:focus {
     }
   }
 
-  &__actions {
-    align-items: center;
-    background-color: variables.$color-gray-02;
-    border-radius: 0 0 4px 4px;
+  &__full-size-local-preview {
+    width: 100%;
+    position: relative;
+
+    video {
+      width: 100%;
+      transform: rotateY(180deg);
+    }
+
+    &--presenting {
+      transform: none;
+    }
+  }
+
+  &__pills {
     display: flex;
     flex-direction: row;
-    height: 38px;
-    justify-content: space-around;
+    align-items: center;
 
-    @include mixins.dark-theme {
-      background-color: variables.$color-gray-65;
+    position: absolute;
+    bottom: 66px;
+    inset-inline-start: 8px;
+    transition: bottom 0.3s variables.$ease-out-local-preview 0.3s;
+
+    &--no-controls {
+      bottom: 8px;
+    }
+  }
+
+  &__pill {
+    height: 28px;
+    border-radius: 14px;
+    padding: 6px;
+    padding-inline-start: 12px;
+    padding-inline-end: 12px;
+    background-color: variables.$color-gray-80;
+    color: variables.$color-gray-05;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    @include mixins.font-body-small;
+  }
+
+  &__pill-icon {
+    height: 16px;
+    width: 16px;
+    margin-inline-end: 4px;
+
+    &__raised-hands {
+      @include mixins.color-svg(
+        '../images/icons/v3/raise_hand/raise_hand.svg',
+        variables.$color-gray-05
+      );
+    }
+    &__group-join {
+      @include mixins.color-svg(
+        '../images/icons/v3/person/person-plus-compact.svg',
+        variables.$color-gray-05
+      );
+    }
+  }
+
+  &__actions {
+    position: absolute;
+    bottom: 4px;
+    inset-inline-start: 4px;
+    inset-inline-end: 4px;
+    padding: 12px;
+    height: 56px;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+
+    &--visible {
+      opacity: 1;
+    }
+
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+
+    border-radius: 18px;
+    justify-content: space-around;
+    background-color: variables.$color-gray-78;
+
+    &__button {
+      flex-shrink: 0;
+      flex-grow: 0;
+    }
+    &__middle-button {
+      flex-grow: 1;
+      text-align: center;
+    }
+
+    .CallingButton__icon {
+      height: 32px;
+      width: 32px;
+    }
+  }
+
+  &__un-pip-container {
+    position: absolute;
+    top: 16px;
+    inset-inline-end: 16px;
+
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+
+    &--visible {
+      opacity: 1;
     }
   }
 

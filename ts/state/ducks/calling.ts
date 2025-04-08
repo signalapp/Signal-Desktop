@@ -360,13 +360,19 @@ export type RemoveClientType = ReadonlyDeep<{
   demuxId: number;
 }>;
 
-export type SetLocalAudioType = ReadonlyDeep<{
-  enabled: boolean;
-}>;
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
+export type SetLocalAudioType = (
+  payload?: ReadonlyDeep<{
+    enabled: boolean;
+  }>
+) => void;
 
-export type SetLocalVideoType = ReadonlyDeep<{
-  enabled: boolean;
-}>;
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
+export type SetLocalVideoType = (
+  payload: ReadonlyDeep<{
+    enabled: boolean;
+  }>
+) => void;
 
 export type SetGroupCallVideoRequestType = ReadonlyDeep<{
   conversationId: string;
@@ -905,12 +911,12 @@ type SelectPresentingSourceActionType = ReadonlyDeep<{
 
 type SetLocalAudioActionType = ReadonlyDeep<{
   type: 'calling/SET_LOCAL_AUDIO_FULFILLED';
-  payload: SetLocalAudioType;
+  payload: Parameters<SetLocalAudioType>[0];
 }>;
 
 type SetLocalVideoFulfilledActionType = ReadonlyDeep<{
   type: 'calling/SET_LOCAL_VIDEO_FULFILLED';
-  payload: SetLocalVideoType;
+  payload: Parameters<SetLocalVideoType>[0];
 }>;
 
 type SetPresentingFulfilledActionType = ReadonlyDeep<{
@@ -1907,26 +1913,28 @@ function setRendererCanvas(
 }
 
 function setLocalAudio(
-  payload: SetLocalAudioType
+  payload?: Parameters<SetLocalAudioType>[0]
 ): ThunkAction<void, RootStateType, unknown, SetLocalAudioActionType> {
   return (dispatch, getState) => {
-    const activeCall = getActiveCall(getState().calling);
-    if (!activeCall) {
+    const { activeCallState } = getState().calling;
+    if (!activeCallState || activeCallState.state !== 'Active') {
       log.warn('Trying to set local audio when no call is active');
       return;
     }
 
-    calling.setOutgoingAudio(activeCall.conversationId, payload.enabled);
-
+    const enabled = payload?.enabled ?? !activeCallState.hasLocalAudio;
+    calling.setOutgoingAudio(activeCallState.conversationId, enabled);
     dispatch({
       type: SET_LOCAL_AUDIO_FULFILLED,
-      payload,
+      payload: {
+        enabled,
+      },
     });
   };
 }
 
 function setLocalVideo(
-  payload: SetLocalVideoType
+  payload: Parameters<SetLocalVideoType>[0]
 ): ThunkAction<void, RootStateType, unknown, SetLocalVideoFulfilledActionType> {
   return async (dispatch, getState) => {
     const activeCall = getActiveCall(getState().calling);
@@ -1935,7 +1943,7 @@ function setLocalVideo(
       return;
     }
 
-    let enabled: boolean;
+    let enabled = payload?.enabled;
     if (await requestCameraPermissions()) {
       if (
         isGroupOrAdhocCallState(activeCall) ||
@@ -1943,14 +1951,13 @@ function setLocalVideo(
       ) {
         await calling.setOutgoingVideo(
           activeCall.conversationId,
-          payload.enabled
+          Boolean(payload?.enabled)
         );
-      } else if (payload.enabled) {
+      } else if (payload?.enabled) {
         await calling.enableLocalCamera(activeCall.callMode);
       } else {
         calling.disableLocalVideo();
       }
-      ({ enabled } = payload);
     } else {
       enabled = false;
     }
@@ -1958,8 +1965,7 @@ function setLocalVideo(
     dispatch({
       type: SET_LOCAL_VIDEO_FULFILLED,
       payload: {
-        ...payload,
-        enabled,
+        enabled: Boolean(enabled),
       },
     });
   };
@@ -3998,7 +4004,7 @@ export function reducer(
       ...state,
       activeCallState: {
         ...state.activeCallState,
-        hasLocalAudio: action.payload.enabled,
+        hasLocalAudio: Boolean(action.payload?.enabled),
       },
     };
   }
@@ -4013,7 +4019,7 @@ export function reducer(
       ...state,
       activeCallState: {
         ...state.activeCallState,
-        hasLocalVideo: action.payload.enabled,
+        hasLocalVideo: Boolean(action.payload?.enabled),
       },
     };
   }

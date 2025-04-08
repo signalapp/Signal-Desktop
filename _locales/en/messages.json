@@ -4123,6 +4123,14 @@
     "messageformat": "Leave",
     "description": "Title for the hangup button for a group call."
   },
+  "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
+    "messageformat": "End call",
+    "description": "The tooltip for the hangup button in the PIP for 1:1 calls"
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
+    "messageformat": "Leave call",
+    "description": "The tooltip for the hangup button in the PIP for group calls"
+  },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "Mic off",
     "description": "Shown in a call when the user mutes their audio input using the Mute toggle button."

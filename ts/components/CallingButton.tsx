@@ -13,6 +13,9 @@ export enum CallingButtonType {
   AUDIO_DISABLED = 'AUDIO_DISABLED',
   AUDIO_OFF = 'AUDIO_OFF',
   AUDIO_ON = 'AUDIO_ON',
+  FULL_SCREEN_CALL = 'FULL_SCREEN_CALL',
+  HANGUP_GROUP = 'HANGUP_GROUP',
+  HANGUP_DIRECT = 'HANGUP_DIRECT',
   MAXIMIZE = 'MAXIMIZE',
   MINIMIZE = 'MINIMIZE',
   MORE_OPTIONS = 'MORE_OPTIONS',
@@ -117,6 +120,19 @@ export function CallingButton({
   } else if (buttonType === CallingButtonType.MINIMIZE) {
     classNameSuffix = 'minimize';
     tooltipContent = i18n('icu:calling__preview--minimize');
+  } else if (buttonType === CallingButtonType.FULL_SCREEN_CALL) {
+    classNameSuffix = 'full-screen-call';
+    tooltipContent = i18n('icu:calling__pip--off');
+  } else if (buttonType === CallingButtonType.HANGUP_DIRECT) {
+    classNameSuffix = 'hangup';
+    tooltipContent = i18n(
+      'icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip'
+    );
+  } else if (buttonType === CallingButtonType.HANGUP_GROUP) {
+    classNameSuffix = 'hangup';
+    tooltipContent = i18n(
+      'icu:CallControls__JoinLeaveButton--hangup-group-tooltip'
+    );
   }
 
   const handleClick = React.useCallback(
