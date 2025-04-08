@@ -12,6 +12,7 @@ overrides:
   canvas: '-'
   jsdom: '-'
   thenify-all>thenify: 3.3.1
+  '@electron/rebuild@3.7.0>@electron/node-gyp': 10.2.0-electron.2
 
 patchedDependencies:
   '@types/backbone@1.4.22':
@@ -1150,9 +1151,8 @@ packages:
     resolution: {integrity: sha512-Qkzpg2s9GnVV2I2BjRksUi43U5e6+zaQMcjoJy0C+C5oxaKl+fmckGDQFtRpZpZV0NQekuZZ+tGz7EA9TVnQtQ==}
     engines: {node: '>=12'}
 
-  '@electron/node-gyp@https://codeload.github.com/electron/node-gyp/tar.gz/06b29aafb7708acef8b3669835c8a7857ebc92d2':
-    resolution: {tarball: https://codeload.github.com/electron/node-gyp/tar.gz/06b29aafb7708acef8b3669835c8a7857ebc92d2}
-    version: 10.2.0-electron.1
+  '@electron/node-gyp@10.2.0-electron.2':
+    resolution: {integrity: sha512-OhO6fwqpetMO1vWI3+J8mb3a4s4A405tgKoUCJsgd4nyQDdFh0VvZm+gj/Cc70iRLQoIYUfSaAgYSVwmLsQHig==}
     engines: {node: '>=12.13.0'}
     hasBin: true
 
@@ -10222,7 +10222,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@electron/node-gyp@https://codeload.github.com/electron/node-gyp/tar.gz/06b29aafb7708acef8b3669835c8a7857ebc92d2':
+  '@electron/node-gyp@10.2.0-electron.2':
     dependencies:
       env-paths: 2.2.1
       exponential-backoff: 3.1.2
@@ -10267,7 +10267,7 @@ snapshots:
 
   '@electron/rebuild@3.7.0':
     dependencies:
-      '@electron/node-gyp': https://codeload.github.com/electron/node-gyp/tar.gz/06b29aafb7708acef8b3669835c8a7857ebc92d2
+      '@electron/node-gyp': 10.2.0-electron.2
       '@malept/cross-spawn-promise': 2.0.0
       chalk: 4.1.2
       debug: 4.3.7(supports-color@8.1.1)
