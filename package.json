@@ -351,7 +351,8 @@
       "eslint-config-airbnb-typescript-prettier>eslint-plugin-prettier": "5.2.1",
       "canvas": "-",
       "jsdom": "-",
-      "thenify-all>thenify": "3.3.1"
+      "thenify-all>thenify": "3.3.1",
+      "@electron/rebuild@3.7.0>@electron/node-gyp": "10.2.0-electron.2"
     },
     "patchedDependencies": {
       "@types/backbone@1.4.22": "patches/@types+backbone+1.4.22.patch",
