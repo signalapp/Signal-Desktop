@@ -220,6 +220,7 @@ export type MessageAttributesType = {
   verified?: boolean;
   verifiedChanged?: string;
 
+  authorId?: string;
   id: string;
   type: MessageType;
   body?: string;
