@@ -192,7 +192,7 @@ export async function sendEditedMessage(
     sendStateByConversationId,
     sent_at: timestamp,
     timestamp,
-    type: 'outgoing'
+    type: 'outgoing',
   };
 
   // Takes care of putting the message in the edit history, replacing the
