@@ -2184,7 +2184,8 @@ app.on('ready', async () => {
     logger.info(
       'media access status',
       getMediaAccessStatus('microphone'),
-      getMediaAccessStatus('camera')
+      getMediaAccessStatus('camera'),
+      getMediaAccessStatus('screen')
     );
   }
 
@@ -3023,7 +3024,7 @@ ipc.handle('get-media-access-status', async (_event, value) => {
 
 ipc.handle(
   'open-system-media-permissions',
-  async (_event, mediaType: 'camera' | 'microphone') => {
+  async (_event, mediaType: 'camera' | 'microphone' | 'screenCapture') => {
     if (!OS.isMacOS()) {
       return;
     }
@@ -3034,6 +3035,10 @@ ipc.handle(
     } else if (mediaType === 'microphone') {
       await shell.openExternal(
         'x-apple.systempreferences:com.apple.preference.security?Privacy_Microphone'
+      );
+    } else if (mediaType === 'screenCapture') {
+      await shell.openExternal(
+        'x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture'
       );
     } else {
       throw missingCaseError(mediaType);

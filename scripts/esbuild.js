@@ -46,7 +46,6 @@ const bundleDefaults = {
 
     // Things that don't bundle well
     'got',
-    'jquery',
     'node-fetch',
     'pino',
     'proxy-agent',

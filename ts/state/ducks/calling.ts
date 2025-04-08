@@ -2,11 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import {
-  hasScreenCapturePermission,
-  openSystemPreferences,
-} from 'mac-screen-capture-permissions';
-import { isSupported as isNativeMacScreenShareSupported } from '@indutny/mac-screen-share';
 import { omit } from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 import {
@@ -22,6 +17,7 @@ import { missingCaseError } from '../../util/missingCaseError';
 import { drop } from '../../util/drop';
 import {
   DesktopCapturer,
+  isNativeMacScreenShareSupported,
   type DesktopCapturerBaton,
 } from '../../util/desktopCapturer';
 import { calling } from '../../services/calling';
@@ -1377,7 +1373,7 @@ function getPresentingSources(): ThunkAction<
     const needsPermission =
       platform === 'darwin' &&
       !isNativeMacScreenShareSupported &&
-      !hasScreenCapturePermission();
+      (await window.IPC.getMediaAccessStatus('screen')) === 'denied';
 
     const capturer = new DesktopCapturer({
       i18n,
@@ -1763,7 +1759,7 @@ function openSystemPreferencesAction(): ThunkAction<
   never
 > {
   return () => {
-    void openSystemPreferences();
+    drop(window.IPC.openSystemMediaPermissions('screenCapture'));
   };
 }
 

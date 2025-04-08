@@ -72,7 +72,7 @@ export type IPCType = {
   ) => Promise<ReturnType<SystemPreferences['getMediaAccessStatus']>>;
   getMediaCameraPermissions: () => Promise<boolean | undefined>;
   openSystemMediaPermissions: (
-    mediaType: 'microphone' | 'camera'
+    mediaType: 'microphone' | 'camera' | 'screenCapture'
   ) => Promise<void>;
   getMediaPermissions: () => Promise<boolean>;
   logAppLoadedEvent?: (options: { processedCount?: number }) => void;
