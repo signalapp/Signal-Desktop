@@ -38,7 +38,10 @@ export const FunEmojiLocalizationContext =
 
 export function useFunEmojiLocalization(): FunEmojiLocalizationContextType {
   const fun = useContext(FunEmojiLocalizationContext);
-  strictAssert(fun != null, 'Must be wrapped with <FunProvider>');
+  strictAssert(
+    fun != null,
+    'Must be wrapped with <FunEmojiLocalizationProvider>'
+  );
   return fun;
 }
 
