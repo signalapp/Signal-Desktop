@@ -2360,6 +2360,9 @@
   "icu:FunPanelEmojis__SectionTitle--Flags": {
     "messageformat": "ទង់"
   },
+  "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
+    "messageformat": "Customize reactions"
+  },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "ស្វែងរកស្ទីកគ័រ"
   },
@@ -2377,6 +2380,9 @@
   },
   "icu:FunPanelStickers__SectionTitle--Recents": {
     "messageformat": "បានប្រើប្រាស់ថ្មីៗ"
+  },
+  "icu:FunPanelStickers__SectionTitle--Featured": {
+    "messageformat": "Featured"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "ពុំមានស្ទីកគ័រ"
@@ -2460,13 +2466,13 @@
     "messageformat": "ពណ៌ស្បែកងងឹត"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "ដាក់រូបអារម្មណ៍ ស្ទីកគ័រ ឬរូបចលនា"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "ដាក់រូបអារម្មណ៍មួយ"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "ដាក់ស្ទីកគ័រមួយ"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "បោះបង់"
@@ -2504,14 +2510,8 @@
   "icu:Message--update-signal": {
     "messageformat": "ដំឡើង Signal"
   },
-  "icu:Message--tap-to-view-expired": {
-    "messageformat": "បានបើកមើល"
-  },
   "icu:Message--tap-to-view--viewed": {
     "messageformat": "បានបើកមើល"
-  },
-  "icu:Message--tap-to-view--outgoing": {
-    "messageformat": "ឯកសារមេឌា"
   },
   "icu:Message--tap-to-view--media": {
     "messageformat": "មេឌៀមើលបានតែម្តង"
@@ -2521,12 +2521,6 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "សារដែលមើលបានតែម្តងមិនត្រូវបានរក្សាទុកក្នុងប្រវត្តិជជែករបស់អ្នកទេ។"
-  },
-  "icu:Message--tap-to-view--incoming": {
-    "messageformat": "បើកមើលរូបភាព"
-  },
-  "icu:Message--tap-to-view--incoming-video": {
-    "messageformat": "បង្ហាញវីដេអូ"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "វីដេអូមើលបានតែម្តង"
@@ -3100,6 +3094,12 @@
   },
   "icu:CallControls__JoinLeaveButton--hangup-group": {
     "messageformat": "ចាកចេញ"
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
+    "messageformat": "End call"
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
+    "messageformat": "Leave call"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "បានបិទមីក្រូហ្វូន"
@@ -4007,6 +4007,12 @@
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
     "messageformat": "បោះបង់ការផ្ទេរ"
   },
+  "icu:CriticalIdlePrimaryDeviceModal__title": {
+    "messageformat": "Account action required"
+  },
+  "icu:CriticalIdlePrimaryDeviceModal__description": {
+    "messageformat": "You must open Signal on your phone to continue using this account. If you do not open Signal on your phone, your account will be deleted soon. <learnMoreLink>Learn more</learnMoreLink>"
+  },
   "icu:CompositionArea--expand": {
     "messageformat": "ពង្រីក"
   },
@@ -4257,7 +4263,7 @@
     "messageformat": "តម្រូវឲ្យអ្នកគ្រប់គ្រងឯកភាពលើសមាជិកថ្មីៗដែលចូល​រួម​តាម​រយៈ​តំណ​ក្រុម"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "Copy signal.group link to clipboard"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "សំណើ ({count,number})"
@@ -4943,6 +4949,9 @@
   "icu:Preferences__media-auto-download__description": {
     "messageformat": "សារជាសំឡេង និងស្ទីកគ័រត្រូវបានទាញយកដោយស្វ័យប្រវត្តិជានិច្ច។"
   },
+  "icu:Preferences__button--backups": {
+    "messageformat": "Backups"
+  },
   "icu:Preferences--lastSynced": {
     "messageformat": "ការនាំចូលចុងក្រោយនៅ {date} {time}"
   },
@@ -4972,6 +4981,51 @@
   },
   "icu:Preferences--blocked": {
     "messageformat": "បានទប់ស្កាត់"
+  },
+  "icu:Preferences--backup-details__header": {
+    "messageformat": "Backup details"
+  },
+  "icu:Preferences--backup-media-plan__description": {
+    "messageformat": "Text + all media backup"
+  },
+  "icu:Preferences--backup-plan-not-found__description": {
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+  },
+  "icu:Preferences--backup-messages-plan__description": {
+    "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
+  },
+  "icu:Preferences--backup-messages-plan__cost-description": {
+    "messageformat": "Your backup plan is free"
+  },
+  "icu:Preferences--backup-plan__renewal-date": {
+    "messageformat": "Renews {date}"
+  },
+  "icu:Preferences--backup-plan__expiry-date": {
+    "messageformat": "Expires {date}"
+  },
+  "icu:Preferences--backup-plan__canceled": {
+    "messageformat": "Subscription canceled"
+  },
+  "icu:Preferences--backup-media-plan__note": {
+    "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
+  },
+  "icu:Preferences--backup-messages-plan__note": {
+    "messageformat": "You can manage or upgrade Signal Backups on your phone."
+  },
+  "icu:Preferences--backup-plan__not-found": {
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+  },
+  "icu:Preferences--backup-plan__not-found__note": {
+    "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
+  },
+  "icu:Preferences--backup-created-at__label": {
+    "messageformat": "Last backup"
+  },
+  "icu:Preferences--backup-created-by-phone": {
+    "messageformat": "Your phone"
+  },
+  "icu:Preferences--backup-size__label": {
+    "messageformat": "Backup size"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, other {{num,number} ឈ្មោះទំនាក់ទំនង}}"
@@ -6227,6 +6281,12 @@
     "messageformat": "ប្រសិនបើអ្នកភ្ជាប់ Desktop ថ្មីនៅលើ Signal Android ហើយជ្រើសរើសផ្ទេរប្រវត្តិសាររបស់អ្នក ឥឡូវនេះអ្នកក៏អាចជ្រើសរើសផ្ទេរឯកសារភ្ជាប់ចាស់ៗពីឧបករណ៍ចម្បងរបស់អ្នកបានដែរ។ នាំយកអតីតកាលមកកាន់បច្ចុប្បន្នកាល ដោយអូសមើលសារពីមុនៗ ហើយចុចលើរូបទាញយក។ ដំណើរការផ្ទេរត្រូវបានអ៊ីនគ្រីបពីដើមដល់ចប់ និងមានសុវត្ថិភាពជានិច្ច។"
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "ប្រសិនបើអ្នកភ្ជាប់ Desktop ថ្មីនៅលើ Signal Android ហើយជ្រើសរើសផ្ទេរប្រវត្តិសាររបស់អ្នក ឥឡូវនេះអ្នកក៏អាចជ្រើសរើសផ្ទេរឯកសារភ្ជាប់ចាស់ៗពីឧបករណ៍ចម្បងរបស់អ្នកបានដែរ។ នាំយកអតីតកាលមកកាន់បច្ចុប្បន្នកាល ដោយអូសមើលសារពីមុនៗ ហើយចុចលើរូបទាញយក។ ដំណើរការផ្ទេរត្រូវបានអ៊ីនគ្រីបពីដើមដល់ចប់ និងមានសុវត្ថិភាពជានិច្ច។"
+  },
+  "icu:WhatsNew__v7.51--0": {
+    "messageformat": "Fire, the wheel, and electricity were all great developments, but they were merely necessary steps along the path that created the conditions for animated GIF search to exist. Now you can experience the pinnacle of human technological advancement in Signal Desktop with a brand-new selection interface that makes it easy to quickly find an emoji, sticker, or animated GIF that's perfect for the moment."
+  },
+  "icu:WhatsNew__v7.51--1": {
+    "messageformat": "We also resized the picture-in-picture window and added convenient new shortcuts to mute/unmute your microphone or turn the camera on/off while a call is minimized."
   }
 }

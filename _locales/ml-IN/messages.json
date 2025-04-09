@@ -2360,6 +2360,9 @@
   "icu:FunPanelEmojis__SectionTitle--Flags": {
     "messageformat": "പതാകകൾ"
   },
+  "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
+    "messageformat": "Customize reactions"
+  },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "സ്റ്റിക്കറുകൾ തിരയുക"
   },
@@ -2377,6 +2380,9 @@
   },
   "icu:FunPanelStickers__SectionTitle--Recents": {
     "messageformat": "അടുത്തിടെ ഉപയോഗിച്ചവ"
+  },
+  "icu:FunPanelStickers__SectionTitle--Featured": {
+    "messageformat": "Featured"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "സ്റ്റിക്കറുകൾ ഒന്നും കണ്ടെത്തിയില്ല"
@@ -2460,13 +2466,13 @@
     "messageformat": "ഡാർക്ക് സ്കിൻ ടോൺ"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "ഒരു ഇമോജി, സ്റ്റിക്കർ അല്ലെങ്കിൽ GIF ചേർക്കുക"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "ഒരു ഇമോജി ചേർക്കുക"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "സ്റ്റിക്കർ ചേർക്കുക"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "റദ്ദാക്കുക"
@@ -2504,14 +2510,8 @@
   "icu:Message--update-signal": {
     "messageformat": "Signal അപ്ഡേറ്റ് ചെയ്യുക"
   },
-  "icu:Message--tap-to-view-expired": {
-    "messageformat": "കണ്ടു"
-  },
   "icu:Message--tap-to-view--viewed": {
     "messageformat": "കണ്ടു"
-  },
-  "icu:Message--tap-to-view--outgoing": {
-    "messageformat": "മീഡിയ"
   },
   "icu:Message--tap-to-view--media": {
     "messageformat": "ഒരു തവണ-ദൃശ്യമാകുന്ന മീഡിയ"
@@ -2521,12 +2521,6 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "ഒരിക്കൽ മാത്രം കാണുന്നതിനുള്ള സന്ദേശങ്ങൾ നിങ്ങളുടെ ചാറ്റ് ചരിത്രത്തിൽ സംഭരിക്കില്ല."
-  },
-  "icu:Message--tap-to-view--incoming": {
-    "messageformat": "ഫോട്ടോ കാണുക"
-  },
-  "icu:Message--tap-to-view--incoming-video": {
-    "messageformat": "വീഡിയോ കാണുക"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "ഒരു തവണ-ദൃശ്യമാകുന്ന വീഡിയോ"
@@ -3100,6 +3094,12 @@
   },
   "icu:CallControls__JoinLeaveButton--hangup-group": {
     "messageformat": "വിട്ട് പോകുക"
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
+    "messageformat": "End call"
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
+    "messageformat": "Leave call"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "മൈക്ക് ഓഫാണ്"
@@ -4007,6 +4007,12 @@
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
     "messageformat": "കൈമാറ്റം റദ്ദാക്കുക"
   },
+  "icu:CriticalIdlePrimaryDeviceModal__title": {
+    "messageformat": "Account action required"
+  },
+  "icu:CriticalIdlePrimaryDeviceModal__description": {
+    "messageformat": "You must open Signal on your phone to continue using this account. If you do not open Signal on your phone, your account will be deleted soon. <learnMoreLink>Learn more</learnMoreLink>"
+  },
   "icu:CompositionArea--expand": {
     "messageformat": "വികസിപ്പിക്കുക"
   },
@@ -4257,7 +4263,7 @@
     "messageformat": "ഗ്രൂപ്പ് ലിങ്ക് വഴി പുതിയ അംഗങ്ങൾ ചേരുന്നത് അംഗീകരിക്കാൻ ഒരു അഡ്മിൻ ആവശ്യമാണ്"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "Copy signal.group link to clipboard"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "അഭ്യർത്ഥനകൾ ({count,number})"
@@ -4943,6 +4949,9 @@
   "icu:Preferences__media-auto-download__description": {
     "messageformat": "ശബ്ദ സന്ദേശങ്ങളും സ്റ്റിക്കറുകളും എപ്പോഴും ഓട്ടോ-ഡൗൺലോഡ് ചെയ്യപ്പെടും."
   },
+  "icu:Preferences__button--backups": {
+    "messageformat": "Backups"
+  },
   "icu:Preferences--lastSynced": {
     "messageformat": "അവസാനം ഇമ്പോർട്ട് ചെയ്‌തത് {date} {time}"
   },
@@ -4972,6 +4981,51 @@
   },
   "icu:Preferences--blocked": {
     "messageformat": "ബ്ലോക്ക് ചെയ്തു"
+  },
+  "icu:Preferences--backup-details__header": {
+    "messageformat": "Backup details"
+  },
+  "icu:Preferences--backup-media-plan__description": {
+    "messageformat": "Text + all media backup"
+  },
+  "icu:Preferences--backup-plan-not-found__description": {
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+  },
+  "icu:Preferences--backup-messages-plan__description": {
+    "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
+  },
+  "icu:Preferences--backup-messages-plan__cost-description": {
+    "messageformat": "Your backup plan is free"
+  },
+  "icu:Preferences--backup-plan__renewal-date": {
+    "messageformat": "Renews {date}"
+  },
+  "icu:Preferences--backup-plan__expiry-date": {
+    "messageformat": "Expires {date}"
+  },
+  "icu:Preferences--backup-plan__canceled": {
+    "messageformat": "Subscription canceled"
+  },
+  "icu:Preferences--backup-media-plan__note": {
+    "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
+  },
+  "icu:Preferences--backup-messages-plan__note": {
+    "messageformat": "You can manage or upgrade Signal Backups on your phone."
+  },
+  "icu:Preferences--backup-plan__not-found": {
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+  },
+  "icu:Preferences--backup-plan__not-found__note": {
+    "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
+  },
+  "icu:Preferences--backup-created-at__label": {
+    "messageformat": "Last backup"
+  },
+  "icu:Preferences--backup-created-by-phone": {
+    "messageformat": "Your phone"
+  },
+  "icu:Preferences--backup-size__label": {
+    "messageformat": "Backup size"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {ഒരു കോൺടാക്റ്റ്} other {{num,number} കോൺടാക്റ്റുകൾ}}"
@@ -6227,6 +6281,12 @@
     "messageformat": "Signal Android-ൽ ഒരു പുതിയ ഡെസ്‌ക്‌ടോപ്പ് ലിങ്ക് ചെയ്‌ത് നിങ്ങളുടെ സന്ദേശ ചരിത്രം കൈമാറാൻ തിരഞ്ഞെടുക്കുകയാണെങ്കിൽ, ഇപ്പോൾ നിങ്ങളുടെ പ്രാഥമിക ഉപകരണത്തിൽ നിന്ന് പഴയ അറ്റാച്ചുമെന്റുകൾ തിരഞ്ഞെടുത്ത് കൈമാറാനും കഴിയും. ഭൂതകാലത്തിലേക്ക് സ്ക്രോൾ ചെയ്ത് ഡൗൺലോഡ് ഐക്കണിൽ ക്ലിക്ക് ചെയ്തുകൊണ്ട് ഭൂതകാലത്തെ വർത്തമാനകാലത്തിലേക്ക് കൊണ്ടുവരിക. എല്ലായ്‌പ്പോഴും എന്നപോലെ, കൈമാറ്റ പ്രക്രിയ പൂർണ്ണമായും എൻക്രിപ്റ്റ് ചെയ്‌തതും സുരക്ഷിതവുമാണ്."
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Signal Android-ൽ ഒരു പുതിയ ഡെസ്‌ക്‌ടോപ്പ് ലിങ്ക് ചെയ്‌ത് നിങ്ങളുടെ സന്ദേശ ചരിത്രം കൈമാറാൻ തിരഞ്ഞെടുക്കുകയാണെങ്കിൽ, ഇപ്പോൾ നിങ്ങളുടെ പ്രാഥമിക ഉപകരണത്തിൽ നിന്ന് പഴയ അറ്റാച്ചുമെന്റുകൾ തിരഞ്ഞെടുത്ത് കൈമാറാനും കഴിയും. ഭൂതകാലത്തിലേക്ക് സ്ക്രോൾ ചെയ്ത് ഡൗൺലോഡ് ഐക്കണിൽ ക്ലിക്ക് ചെയ്തുകൊണ്ട് ഭൂതകാലത്തെ വർത്തമാനകാലത്തിലേക്ക് കൊണ്ടുവരിക. എല്ലായ്‌പ്പോഴും എന്നപോലെ, കൈമാറ്റ പ്രക്രിയ പൂർണ്ണമായും എൻക്രിപ്റ്റ് ചെയ്‌തതും സുരക്ഷിതവുമാണ്."
+  },
+  "icu:WhatsNew__v7.51--0": {
+    "messageformat": "Fire, the wheel, and electricity were all great developments, but they were merely necessary steps along the path that created the conditions for animated GIF search to exist. Now you can experience the pinnacle of human technological advancement in Signal Desktop with a brand-new selection interface that makes it easy to quickly find an emoji, sticker, or animated GIF that's perfect for the moment."
+  },
+  "icu:WhatsNew__v7.51--1": {
+    "messageformat": "We also resized the picture-in-picture window and added convenient new shortcuts to mute/unmute your microphone or turn the camera on/off while a call is minimized."
   }
 }

@@ -2222,7 +2222,8 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "icu:notificationReaction": {
-    "messageformat": "{sender} reacted {emoji} to your message"
+    "messageformat": "{sender} reacted {emoji} to your message",
+    "description": "(Deleted 2025/04/09)"
   },
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} reacted {emoji} to: {message}"
@@ -3327,17 +3328,9 @@
     "messageformat": "Update Signal",
     "description": "Text for a button which will take user to Signal download page"
   },
-  "icu:Message--tap-to-view-expired": {
-    "messageformat": "Viewed",
-    "description": "(Deleted 2025/03/06) Text shown on messages with individual timers, after user has viewed it"
-  },
   "icu:Message--tap-to-view--viewed": {
     "messageformat": "Viewed",
     "description": "Text shown on messages with individual timers, after user has viewed it"
-  },
-  "icu:Message--tap-to-view--outgoing": {
-    "messageformat": "Media",
-    "description": "(Deleted 2025/03/06) Text shown on outgoing messages with individual timers (inaccessible)"
   },
   "icu:Message--tap-to-view--media": {
     "messageformat": "View Once Media",
@@ -3350,14 +3343,6 @@
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "View-once messages are not stored in your chat history.",
     "description": "Shown when user clicks on an expired outgoing view-once bubble"
-  },
-  "icu:Message--tap-to-view--incoming": {
-    "messageformat": "View Photo",
-    "description": "(Deleted 2025/03/06) Text shown on photo messages with individual timers, before user has viewed it"
-  },
-  "icu:Message--tap-to-view--incoming-video": {
-    "messageformat": "View Video",
-    "description": "(Deleted 2025/03/06) Text shown on video messages with individual timers, before user has viewed it"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "View Once Video",
@@ -4265,7 +4250,7 @@
   },
   "icu:calling__hangup": {
     "messageformat": "Leave call",
-    "description": "Title for hang up button"
+    "description": "(Deleted 2025/04/09) Title for hang up button"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Share your screen",
@@ -6681,7 +6666,7 @@
   },
   "icu:Preferences--backup-plan__not-found": {
     "messageformat": "Your subscription was not found. Renew to continue using Signal Backups.",
-    "description": "Shown if if we could not find the user's subscription"
+    "description": "(Deleted 2025/04/09) Shown if if we could not find the user's subscription"
   },
   "icu:Preferences--backup-plan__not-found__note": {
     "messageformat": "You can manage or renew your Signal Backups subscription on your phone.",
@@ -8366,7 +8351,7 @@
   },
   "icu:WhatsNew__v7.50--0": {
     "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure.",
-    "description": "Release notes for version 7.49"
+    "description": "(Deleted 2025/04/09) Release notes for version 7.49"
   },
   "icu:WhatsNew__v7.51--0": {
     "messageformat": "Fire, the wheel, and electricity were all great developments, but they were merely necessary steps along the path that created the conditions for animated GIF search to exist. Now you can experience the pinnacle of human technological advancement in Signal Desktop with a brand-new selection interface that makes it easy to quickly find an emoji, sticker, or animated GIF that's perfect for the moment.",

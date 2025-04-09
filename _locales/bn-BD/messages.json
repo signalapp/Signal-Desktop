@@ -2360,6 +2360,9 @@
   "icu:FunPanelEmojis__SectionTitle--Flags": {
     "messageformat": "পতাকা"
   },
+  "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
+    "messageformat": "Customize reactions"
+  },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "স্টিকারগুলি খুঁজুন"
   },
@@ -2377,6 +2380,9 @@
   },
   "icu:FunPanelStickers__SectionTitle--Recents": {
     "messageformat": "সম্প্রতি ব্যাবহৃত হয়েছে"
+  },
+  "icu:FunPanelStickers__SectionTitle--Featured": {
+    "messageformat": "Featured"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "কোনও স্টিকার পাওয়া যায় নি"
@@ -2460,13 +2466,13 @@
     "messageformat": "গাঢ় ত্বকের রঙ"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "একটি ইমোজি, স্টিকার, অথবা GIF যোগ করুন"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "একটি ইমোজি যোগ করুন"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "একটি স্টিকার যোগ করুন"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "বাতিল করুন"
@@ -2504,14 +2510,8 @@
   "icu:Message--update-signal": {
     "messageformat": "Signal আপডেট করুন"
   },
-  "icu:Message--tap-to-view-expired": {
-    "messageformat": "দেখা হয়েছে"
-  },
   "icu:Message--tap-to-view--viewed": {
     "messageformat": "দেখা হয়েছে"
-  },
-  "icu:Message--tap-to-view--outgoing": {
-    "messageformat": "মিডিয়া"
   },
   "icu:Message--tap-to-view--media": {
     "messageformat": "একবার-দেখার উপযোগী মিডিয়া"
@@ -2521,12 +2521,6 @@
   },
   "icu:Message--tap-to-view--outgoing--expired-toast": {
     "messageformat": "একবার দেখার উপযোগী ম্যাসেজ আপনার চ্যাট-এর ইতিহাসে সংরক্ষিত হয় না।"
-  },
-  "icu:Message--tap-to-view--incoming": {
-    "messageformat": "ফটো দেখুন"
-  },
-  "icu:Message--tap-to-view--incoming-video": {
-    "messageformat": "ভিডিও দেখুন"
   },
   "icu:Message--tap-to-view--video": {
     "messageformat": "একবার দেখা যাবে এমন ভিডিও"
@@ -3100,6 +3094,12 @@
   },
   "icu:CallControls__JoinLeaveButton--hangup-group": {
     "messageformat": "ত্যাগ করুন"
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
+    "messageformat": "End call"
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
+    "messageformat": "Leave call"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "মাইক বন্ধ করুন"
@@ -4007,6 +4007,12 @@
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
     "messageformat": "স্থানান্তর বাতিল করুন"
   },
+  "icu:CriticalIdlePrimaryDeviceModal__title": {
+    "messageformat": "Account action required"
+  },
+  "icu:CriticalIdlePrimaryDeviceModal__description": {
+    "messageformat": "You must open Signal on your phone to continue using this account. If you do not open Signal on your phone, your account will be deleted soon. <learnMoreLink>Learn more</learnMoreLink>"
+  },
   "icu:CompositionArea--expand": {
     "messageformat": "প্রসারিত করুন"
   },
@@ -4257,7 +4263,7 @@
     "messageformat": "গ্রুপ লিংক ব্যবহার করে যোগদান করার জন্য অনুমোদন পেতে নতুন সদস্যদের একজন অ্যাডমিনের প্রয়োজন হয়"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "Copy signal.group link to clipboard"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "অনুরোধসমূহ ({count,number}টি)"
@@ -4943,6 +4949,9 @@
   "icu:Preferences__media-auto-download__description": {
     "messageformat": "ভয়েস মেসেজ ও স্টিকার সবসময় স্বয়ংক্রিয়ভাবে ডাউনলোড হয়।"
   },
+  "icu:Preferences__button--backups": {
+    "messageformat": "Backups"
+  },
   "icu:Preferences--lastSynced": {
     "messageformat": "শেষ ইমপোর্ট {date} {time} এ"
   },
@@ -4972,6 +4981,51 @@
   },
   "icu:Preferences--blocked": {
     "messageformat": "ব্লক করা আছে"
+  },
+  "icu:Preferences--backup-details__header": {
+    "messageformat": "Backup details"
+  },
+  "icu:Preferences--backup-media-plan__description": {
+    "messageformat": "Text + all media backup"
+  },
+  "icu:Preferences--backup-plan-not-found__description": {
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+  },
+  "icu:Preferences--backup-messages-plan__description": {
+    "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
+  },
+  "icu:Preferences--backup-messages-plan__cost-description": {
+    "messageformat": "Your backup plan is free"
+  },
+  "icu:Preferences--backup-plan__renewal-date": {
+    "messageformat": "Renews {date}"
+  },
+  "icu:Preferences--backup-plan__expiry-date": {
+    "messageformat": "Expires {date}"
+  },
+  "icu:Preferences--backup-plan__canceled": {
+    "messageformat": "Subscription canceled"
+  },
+  "icu:Preferences--backup-media-plan__note": {
+    "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
+  },
+  "icu:Preferences--backup-messages-plan__note": {
+    "messageformat": "You can manage or upgrade Signal Backups on your phone."
+  },
+  "icu:Preferences--backup-plan__not-found": {
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+  },
+  "icu:Preferences--backup-plan__not-found__note": {
+    "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
+  },
+  "icu:Preferences--backup-created-at__label": {
+    "messageformat": "Last backup"
+  },
+  "icu:Preferences--backup-created-by-phone": {
+    "messageformat": "Your phone"
+  },
+  "icu:Preferences--backup-size__label": {
+    "messageformat": "Backup size"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} জন কন্টাক্ট} other {{num,number} জন কন্টাক্ট}}"
@@ -6227,6 +6281,12 @@
     "messageformat": "যদি আপনি Signal অ্যান্ড্রয়েডে একটি নতুন ডেস্কটপ লিঙ্ক করেন এবং আপনার মেসেজের ইতিহাস ট্রান্সফার করতে চান, তাহলে এখন আপনি আপনার প্রাথমিক ডিভাইস থেকেও বাছাই করা পুরানো সংযুক্তিগুলি ট্রান্সফার করতে পারবেন। ট্রান্সফার প্রক্রিয়াটি এন্ড-টু-এন্ড এনক্রিপ্টেড এবং সুরক্ষিত।"
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "যদি আপনি Signal অ্যান্ড্রয়েডে একটি নতুন ডেস্কটপ লিঙ্ক করেন এবং আপনার মেসেজের ইতিহাস ট্রান্সফার করতে চান, তাহলে এখন আপনি আপনার প্রাথমিক ডিভাইস থেকেও বাছাই করা পুরানো সংযুক্তিগুলি ট্রান্সফার করতে পারবেন। ট্রান্সফার প্রক্রিয়াটি এন্ড-টু-এন্ড এনক্রিপ্টেড এবং সুরক্ষিত।"
+  },
+  "icu:WhatsNew__v7.51--0": {
+    "messageformat": "Fire, the wheel, and electricity were all great developments, but they were merely necessary steps along the path that created the conditions for animated GIF search to exist. Now you can experience the pinnacle of human technological advancement in Signal Desktop with a brand-new selection interface that makes it easy to quickly find an emoji, sticker, or animated GIF that's perfect for the moment."
+  },
+  "icu:WhatsNew__v7.51--1": {
+    "messageformat": "We also resized the picture-in-picture window and added convenient new shortcuts to mute/unmute your microphone or turn the camera on/off while a call is minimized."
   }
 }
