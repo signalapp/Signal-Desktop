@@ -26,7 +26,7 @@ import { getNotificationTextForMessage } from '../util/getNotificationTextForMes
 import { getNotificationDataForMessage } from '../util/getNotificationDataForMessage';
 import type { ProfileNameChangeType } from '../util/getStringForProfileChange';
 import type { AttachmentType, ThumbnailType } from '../types/Attachment';
-import { MAX_SAFE_TIMEOUT_DELAY, toDayMillis } from '../util/timestamp';
+import { toDayMillis } from '../util/timestamp';
 import { areWeAdmin } from '../util/areWeAdmin';
 import { isBlocked } from '../util/isBlocked';
 import { getAboutText } from '../util/getAboutText';
@@ -192,6 +192,7 @@ import { queueAttachmentDownloadsForMessage } from '../util/queueAttachmentDownl
 import { cleanupMessages } from '../util/cleanup';
 import { MessageModel } from './messages';
 import { applyNewAvatar } from '../groups';
+import { safeSetTimeout } from '../util/timeout';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -5417,14 +5418,8 @@ export class ConversationModel extends window.Backbone
         return;
       }
 
-      if (delay > MAX_SAFE_TIMEOUT_DELAY) {
-        log.warn(
-          'startMuteTimer: timeout is larger than maximum setTimeout delay'
-        );
-        return;
-      }
-
-      this.#muteTimer = setTimeout(() => this.setMuteExpiration(0), delay);
+      this.#muteTimer =
+        safeSetTimeout(() => this.setMuteExpiration(0), delay) ?? undefined;
     }
   }
 

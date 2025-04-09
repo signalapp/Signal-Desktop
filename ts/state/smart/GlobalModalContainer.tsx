@@ -132,6 +132,7 @@ export const SmartGlobalModalContainer = memo(
       callLinkPendingParticipantContactId,
       confirmLeaveCallModalState,
       contactModalState,
+      criticalIdlePrimaryDeviceModal,
       deleteMessagesProps,
       draftGifMessageSendModalProps,
       editHistoryMessages,
@@ -159,6 +160,7 @@ export const SmartGlobalModalContainer = memo(
     const {
       closeErrorModal,
       closeMediaPermissionsModal,
+      hideCriticalIdlePrimaryDeviceModal,
       hideTapToViewNotAvailableModal,
       hideUserNotFoundModal,
       hideWhatsNewModal,
@@ -226,12 +228,14 @@ export const SmartGlobalModalContainer = memo(
         }
         confirmLeaveCallModalState={confirmLeaveCallModalState}
         contactModalState={contactModalState}
+        criticalIdlePrimaryDeviceModal={criticalIdlePrimaryDeviceModal}
         editHistoryMessages={editHistoryMessages}
         editNicknameAndNoteModalProps={editNicknameAndNoteModalProps}
         errorModalProps={errorModalProps}
         deleteMessagesProps={deleteMessagesProps}
         draftGifMessageSendModalProps={draftGifMessageSendModalProps}
         forwardMessagesProps={forwardMessagesProps}
+        hideCriticalIdlePrimaryDeviceModal={hideCriticalIdlePrimaryDeviceModal}
         messageRequestActionsConfirmationProps={
           messageRequestActionsConfirmationProps
         }

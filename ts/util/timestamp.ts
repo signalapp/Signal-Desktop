@@ -210,8 +210,6 @@ export function formatDate(
 export const MAX_SAFE_DATE = 8640000000000000;
 export const MIN_SAFE_DATE = -8640000000000000;
 
-export const MAX_SAFE_TIMEOUT_DELAY = 2147483647; // max 32-bit signed integer
-
 export function toBoundedDate(timestamp: number): Date {
   return new Date(Math.max(MIN_SAFE_DATE, Math.min(timestamp, MAX_SAFE_DATE)));
 }

@@ -5339,6 +5339,14 @@
     "messageformat": "Cancel transfer",
     "description": "Text for button to confirm cancellation of media (attachment) download"
   },
+  "icu:CriticalIdlePrimaryDeviceModal__title": {
+    "messageformat": "Account action required",
+    "description": "Title for modal shown when a user must use their idle primary device to retain their account"
+  },
+  "icu:CriticalIdlePrimaryDeviceModal__description": {
+    "messageformat": "You must open Signal on your phone to continue using this account. If you do not open Signal on your phone, your account will be deleted soon. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Description for modal shown when a user must use their idle primary device to retain their account. Learn more link will link to a support page"
+  },
   "icu:CompositionArea--expand": {
     "messageformat": "Expand",
     "description": "Aria label for expanding composition area"

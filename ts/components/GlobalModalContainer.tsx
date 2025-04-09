@@ -32,6 +32,7 @@ import {
   type DataPropsType as BackfillFailureModalPropsType,
 } from './BackfillFailureModal';
 import type { SmartDraftGifMessageSendModalProps } from '../state/smart/DraftGifMessageSendModal';
+import { CriticalIdlePrimaryDeviceModal } from './CriticalIdlePrimaryDeviceModal';
 
 // NOTE: All types should be required for this component so that the smart
 // component gives you type errors when adding/removing props.
@@ -147,6 +148,9 @@ export type PropsType = {
   isProfileNameWarningModalVisible: boolean;
   profileNameWarningModalConversationType?: string;
   renderProfileNameWarningModal: () => JSX.Element;
+  // CriticalIdlePrimaryDeviceModal,
+  criticalIdlePrimaryDeviceModal: boolean;
+  hideCriticalIdlePrimaryDeviceModal: () => void;
 };
 
 export function GlobalModalContainer({
@@ -243,6 +247,9 @@ export function GlobalModalContainer({
   // ProfileNameWarningModal
   isProfileNameWarningModalVisible,
   renderProfileNameWarningModal,
+  // CriticalIdlePrimaryDeviceModal
+  criticalIdlePrimaryDeviceModal,
+  hideCriticalIdlePrimaryDeviceModal,
 }: PropsType): JSX.Element | null {
   // We want the following dialogs to show in this order:
   // 1. Errors
@@ -421,6 +428,15 @@ export function GlobalModalContainer({
         i18n={i18n}
         onClose={hideBackfillFailureModal}
         {...backfillFailureModalProps}
+      />
+    );
+  }
+
+  if (criticalIdlePrimaryDeviceModal) {
+    return (
+      <CriticalIdlePrimaryDeviceModal
+        i18n={i18n}
+        onClose={hideCriticalIdlePrimaryDeviceModal}
       />
     );
   }

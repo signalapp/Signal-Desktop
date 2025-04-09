@@ -13,7 +13,7 @@ export type PropsType = {
   i18n: LocalizerType;
 };
 
-const SUPPORT_PAGE =
+export const CRITICAL_IDLE_PRIMARY_DEVICE_SUPPORT_PAGE =
   'https://support.signal.org/hc/articles/8997185514138-Re-connect-your-primary-device-to-continue-using-Signal-Desktop';
 
 export function CriticalIdlePrimaryDeviceDialog({
@@ -21,7 +21,11 @@ export function CriticalIdlePrimaryDeviceDialog({
   i18n,
 }: PropsType): JSX.Element {
   const learnMoreLink = (parts: Array<string | JSX.Element>) => (
-    <a href={SUPPORT_PAGE} rel="noreferrer" target="_blank">
+    <a
+      href={CRITICAL_IDLE_PRIMARY_DEVICE_SUPPORT_PAGE}
+      rel="noreferrer"
+      target="_blank"
+    >
       {parts}
     </a>
   );

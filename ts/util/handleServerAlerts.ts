@@ -3,8 +3,10 @@
 
 import * as log from '../logging/log';
 import { isMoreRecentThan } from './timestamp';
-import { WEEK } from './durations';
+import { DAY, WEEK } from './durations';
 import { isNotNil } from './isNotNil';
+import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary';
+import { safeSetTimeout } from './timeout';
 
 export enum ServerAlert {
   CRITICAL_IDLE_PRIMARY_DEVICE = 'critical_idle_primary_device',
@@ -18,6 +20,7 @@ export type ServerAlertsType = {
   };
   [ServerAlert.CRITICAL_IDLE_PRIMARY_DEVICE]?: {
     firstReceivedAt: number;
+    modalLastDismissedAt?: number;
   };
 };
 
@@ -64,6 +67,10 @@ export async function handleServerAlerts(
       };
       log.info(`handleServerAlerts: got new alert: ${alert}`);
     }
+
+    if (alert === ServerAlert.CRITICAL_IDLE_PRIMARY_DEVICE) {
+      maybeShowCriticalIdlePrimaryDeviceModal(newAlerts[alert]);
+    }
   }
 
   if (existingAlertNames.size > 0) {
@@ -103,4 +110,63 @@ function shouldShowIdlePrimaryDeviceAlert(
   }
 
   return true;
+}
+
+let criticalAlertModalTimeout: NodeJS.Timeout | null = null;
+const DELAY_BEFORE_SHOWING_MODAL_FIRST_TIME = 3 * DAY;
+const DELAY_BEFORE_SHOWING_MODAL_SUBSEQUENTLY = DAY;
+function maybeShowCriticalIdlePrimaryDeviceModal(
+  alertInfo: ServerAlertsType[ServerAlert.CRITICAL_IDLE_PRIMARY_DEVICE]
+) {
+  clearTimeoutIfNecessary(criticalAlertModalTimeout);
+  criticalAlertModalTimeout = null;
+
+  if (!alertInfo) {
+    return;
+  }
+
+  const { firstReceivedAt, modalLastDismissedAt } = alertInfo;
+
+  let nextModalShowsAt: number | undefined;
+
+  if (
+    isMoreRecentThan(firstReceivedAt, DELAY_BEFORE_SHOWING_MODAL_FIRST_TIME)
+  ) {
+    nextModalShowsAt = firstReceivedAt + DELAY_BEFORE_SHOWING_MODAL_FIRST_TIME;
+  } else if (modalLastDismissedAt == null) {
+    nextModalShowsAt = Date.now();
+  } else {
+    nextModalShowsAt =
+      modalLastDismissedAt + DELAY_BEFORE_SHOWING_MODAL_SUBSEQUENTLY;
+  }
+
+  criticalAlertModalTimeout = safeSetTimeout(
+    () => window.reduxActions.globalModals.showCriticalIdlePrimaryDeviceModal(),
+    nextModalShowsAt - Date.now()
+  );
+}
+
+export async function onCriticalIdlePrimaryDeviceModalDismissed(): Promise<void> {
+  const existingAlerts = window.storage.get('serverAlerts') ?? {};
+  const existingAlert =
+    existingAlerts[ServerAlert.CRITICAL_IDLE_PRIMARY_DEVICE];
+
+  if (!existingAlert) {
+    log.warn(
+      'Critical idle primary device modal shown but the alert is not present'
+    );
+    return;
+  }
+
+  const newAlert = {
+    ...existingAlert,
+    modalLastDismissedAt: Date.now(),
+  };
+
+  await window.storage.put('serverAlerts', {
+    ...existingAlerts,
+    [ServerAlert.CRITICAL_IDLE_PRIMARY_DEVICE]: newAlert,
+  });
+
+  maybeShowCriticalIdlePrimaryDeviceModal(newAlert);
 }
