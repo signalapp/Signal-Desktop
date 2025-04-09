@@ -61,6 +61,7 @@ import type { AttachmentNotAvailableModalType } from '../../components/Attachmen
 import type { DataPropsType as TapToViewNotAvailablePropsType } from '../../components/TapToViewNotAvailableModal';
 import type { DataPropsType as BackfillFailureModalPropsType } from '../../components/BackfillFailureModal';
 import type { SmartDraftGifMessageSendModalProps } from '../smart/DraftGifMessageSendModal';
+import { onCriticalIdlePrimaryDeviceModalDismissed } from '../../util/handleServerAlerts';
 
 // State
 
@@ -111,6 +112,7 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   callLinkPendingParticipantContactId: string | undefined;
   confirmLeaveCallModalState: StartCallData | null;
   contactModalState?: ContactModalStateType;
+  criticalIdlePrimaryDeviceModal: boolean;
   deleteMessagesProps?: DeleteMessagesPropsType;
   draftGifMessageSendModalProps: SmartDraftGifMessageSendModalProps | null;
   editHistoryMessages?: EditHistoryMessagesType;
@@ -216,6 +218,10 @@ const CLOSE_MEDIA_PERMISSIONS_MODAL =
   'globalModals/CLOSE_MEDIA_PERMISSIONS_MODAL';
 const SHOW_MEDIA_PERMISSIONS_MODAL =
   'globalModals/SHOW_MEDIA_PERMISSIONS_MODAL';
+const SHOW_CRITICAL_IDLE_PRIMARY_DEVICE_MODAL =
+  'globalModals/SHOW_CRITICAL_IDLE_PRIMARY_DEVICE_MODAL';
+const HIDE_CRITICAL_IDLE_PRIMARY_DEVICE_MODAL =
+  'globalModals/HIDE_CRITICAL_IDLE_PRIMARY_DEVICE_MODAL';
 
 export type ContactModalStateType = ReadonlyDeep<{
   contactId: string;
@@ -435,6 +441,14 @@ type ShowMediaPermissionsModalActionType = ReadonlyDeep<{
   };
 }>;
 
+type ShowCriticalIdlePrimaryDeviceModalActionType = ReadonlyDeep<{
+  type: typeof SHOW_CRITICAL_IDLE_PRIMARY_DEVICE_MODAL;
+}>;
+
+type HideCriticalIdlePrimaryDeviceModalActionType = ReadonlyDeep<{
+  type: typeof HIDE_CRITICAL_IDLE_PRIMARY_DEVICE_MODAL;
+}>;
+
 type ToggleEditNicknameAndNoteModalActionType = ReadonlyDeep<{
   type: typeof TOGGLE_EDIT_NICKNAME_AND_NOTE_MODAL;
   payload: EditNicknameAndNoteModalPropsType | null;
@@ -474,6 +488,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | HideAttachmentNotAvailableModalActionType
   | HideBackfillFailureModalActionType
   | HideContactModalActionType
+  | HideCriticalIdlePrimaryDeviceModalActionType
   | HideSendAnywayDialogActiontype
   | HideStoriesSettingsActionType
   | HideTapToViewNotAvailableModalActionType
@@ -484,6 +499,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | MessageExpiredActionType
   | ShowAttachmentNotAvailableModalActionType
   | ShowBackfillFailureModalActionType
+  | ShowCriticalIdlePrimaryDeviceModalActionType
   | ShowContactModalActionType
   | ShowEditHistoryModalActionType
   | ShowErrorModalActionType
@@ -531,6 +547,7 @@ export const actions = {
   hideBackfillFailureModal,
   hideBlockingSafetyNumberChangeDialog,
   hideContactModal,
+  hideCriticalIdlePrimaryDeviceModal,
   hideStoriesSettings,
   hideTapToViewNotAvailableModal,
   hideUserNotFoundModal,
@@ -539,6 +556,7 @@ export const actions = {
   showBackfillFailureModal,
   showBlockingSafetyNumberChangeDialog,
   showContactModal,
+  showCriticalIdlePrimaryDeviceModal,
   showEditHistoryModal,
   showErrorModal,
   showGV2MigrationDialog,
@@ -1141,6 +1159,26 @@ export function ensureSystemMediaPermissions(
   };
 }
 
+function showCriticalIdlePrimaryDeviceModal(): ShowCriticalIdlePrimaryDeviceModalActionType {
+  return {
+    type: SHOW_CRITICAL_IDLE_PRIMARY_DEVICE_MODAL,
+  };
+}
+
+function hideCriticalIdlePrimaryDeviceModal(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  HideCriticalIdlePrimaryDeviceModalActionType
+> {
+  return async dispatch => {
+    await onCriticalIdlePrimaryDeviceModalDismissed();
+    dispatch({
+      type: HIDE_CRITICAL_IDLE_PRIMARY_DEVICE_MODAL,
+    });
+  };
+}
+
 function toggleEditNicknameAndNoteModal(
   payload: EditNicknameAndNoteModalPropsType | null
 ): ToggleEditNicknameAndNoteModalActionType {
@@ -1255,6 +1293,7 @@ export function getEmptyState(): GlobalModalsStateType {
     callLinkEditModalRoomId: null,
     callLinkPendingParticipantContactId: undefined,
     confirmLeaveCallModalState: null,
+    criticalIdlePrimaryDeviceModal: false,
     draftGifMessageSendModalProps: null,
     editNicknameAndNoteModalProps: null,
     isProfileEditorVisible: false,
@@ -1684,6 +1723,20 @@ export function reducer(
     return {
       ...state,
       mediaPermissionsModalProps: action.payload,
+    };
+  }
+
+  if (action.type === SHOW_CRITICAL_IDLE_PRIMARY_DEVICE_MODAL) {
+    return {
+      ...state,
+      criticalIdlePrimaryDeviceModal: true,
+    };
+  }
+
+  if (action.type === HIDE_CRITICAL_IDLE_PRIMARY_DEVICE_MODAL) {
+    return {
+      ...state,
+      criticalIdlePrimaryDeviceModal: false,
     };
   }
 
