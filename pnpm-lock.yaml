@@ -15,6 +15,9 @@ overrides:
   '@electron/rebuild@3.7.0>@electron/node-gyp': 10.2.0-electron.2
 
 patchedDependencies:
+  '@electron/rebuild':
+    hash: 31649378d7bedcb532b7f379773ffc7df45968de1ac73c6d1b9f06cc521071fa
+    path: patches/@electron__rebuild.patch
   '@types/backbone@1.4.22':
     hash: 9dace206a9f53e0e3b0203051b26aec1e92ad49744b156ad8076946356c6c8e7
     path: patches/@types+backbone+1.4.22.patch
@@ -10124,7 +10127,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@electron/rebuild@3.7.0':
+  '@electron/rebuild@3.7.0(patch_hash=31649378d7bedcb532b7f379773ffc7df45968de1ac73c6d1b9f06cc521071fa)':
     dependencies:
       '@electron/node-gyp': 10.2.0-electron.2
       '@malept/cross-spawn-promise': 2.0.0
@@ -13420,7 +13423,7 @@ snapshots:
       '@electron/fuses': 1.8.0
       '@electron/notarize': 2.5.0
       '@electron/osx-sign': 1.3.1
-      '@electron/rebuild': 3.7.0
+      '@electron/rebuild': 3.7.0(patch_hash=31649378d7bedcb532b7f379773ffc7df45968de1ac73c6d1b9f06cc521071fa)
       '@electron/universal': 2.0.1
       '@malept/flatpak-bundler': 0.4.0
       '@types/fs-extra': 9.0.13

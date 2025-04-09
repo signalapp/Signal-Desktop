@@ -1,0 +1,30 @@
+diff --git a/lib/module-walker.js b/lib/module-walker.js
+index b36e35c968c85b625f2080466f6518b1d355e4ef..427e81b7ada4f01e8712c4c6c8353fe0ff4f7cab 100644
+--- a/lib/module-walker.js
++++ b/lib/module-walker.js
+@@ -89,11 +89,22 @@ class ModuleWalker {
+             // Ignore the magical .bin directory
+             if (modulePath === '.bin')
+                 continue;
++            const subPath = path_1.default.resolve(nodeModulesPath, modulePath);
+             // Ensure that we don't mark modules as needing to be rebuilt more than once
+             // by ignoring / resolving symlinks
+-            const realPath = await fs_extra_1.default.realpath(path_1.default.resolve(nodeModulesPath, modulePath));
+-            if (this.realModulePaths.has(realPath)) {
+-                continue;
++            let realPath;
++            try {
++                realPath = await fs_extra_1.default.realpath(subPath);
++            }
++            catch (error) {
++                // pnpm leaves dangling symlinks when modules are removed
++                if (error.code === 'ENOENT') {
++                    const stat = await fs_extra_1.default.lstat(subPath);
++                    if (stat.isSymbolicLink()) {
++                        continue;
++                    }
++                }
++                throw error;
+             }
+             this.realModulePaths.add(realPath);
+             if (this.prodDeps[`${prefix}${modulePath}`] && (!this.onlyModules || this.onlyModules.includes(modulePath))) {
