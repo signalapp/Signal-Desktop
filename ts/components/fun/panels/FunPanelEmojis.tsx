@@ -46,8 +46,8 @@ import {
   getEmojiPickerCategoryParentKeys,
   getEmojiVariantByParentKeyAndSkinTone,
   isEmojiParentKey,
-  useEmojiSearch,
 } from '../data/emojis';
+import { useFunEmojiSearch } from '../useFunEmojiSearch';
 import { FunKeyboard } from '../keyboard/FunKeyboard';
 import type { GridKeyboardState } from '../keyboard/GridKeyboardDelegate';
 import { GridKeyboardDelegate } from '../keyboard/GridKeyboardDelegate';
@@ -61,6 +61,7 @@ import { FunSkinTonesList } from '../FunSkinTones';
 import { FunStaticEmoji } from '../FunEmoji';
 import { useFunContext } from '../FunProvider';
 import { FunResults, FunResultsHeader } from '../base/FunResults';
+import { useFunEmojiLocalizer } from '../useFunEmojiLocalizer';
 
 function getTitleForSection(
   i18n: LocalizerType,
@@ -134,13 +135,13 @@ export type FunEmojiSelection = Readonly<{
 }>;
 
 export type FunPanelEmojisProps = Readonly<{
-  onEmojiSelect: (emojiSelection: FunEmojiSelection) => void;
+  onSelectEmoji: (emojiSelection: FunEmojiSelection) => void;
   onClose: () => void;
   showCustomizePreferredReactionsButton: boolean;
 }>;
 
 export function FunPanelEmojis({
-  onEmojiSelect,
+  onSelectEmoji,
   onClose,
   showCustomizePreferredReactionsButton,
 }: FunPanelEmojisProps): JSX.Element {
@@ -153,23 +154,20 @@ export function FunPanelEmojis({
     onChangeSelectedEmojisSection,
     onOpenCustomizePreferredReactionsModal,
     recentEmojis,
-    emojiSkinToneDefault,
+    onSelectEmoji: onFunSelectEmoji,
   } = fun;
 
   const scrollerRef = useRef<HTMLDivElement>(null);
 
   const [focusedCellKey, setFocusedCellKey] = useState<CellKey | null>(null);
 
-  const [skinTonePopoverOpen, setSkinTonePopoverOpen] = useState(() => {
-    // Open first time
-    return emojiSkinToneDefault == null;
-  });
+  const [skinTonePopoverOpen, setSkinTonePopoverOpen] = useState(false);
 
   const handleSkinTonePopoverOpenChange = useCallback((open: boolean) => {
     setSkinTonePopoverOpen(open);
   }, []);
 
-  const searchEmojis = useEmojiSearch(i18n);
+  const searchEmojis = useFunEmojiSearch();
   const searchQuery = useMemo(() => fun.searchInput.trim(), [fun.searchInput]);
 
   const sections = useMemo(() => {
@@ -252,13 +250,15 @@ export function FunPanelEmojis({
   const handlePressEmoji = useCallback(
     (event: MouseEvent, emojiSelection: FunEmojiSelection) => {
       event.stopPropagation();
-      onEmojiSelect(emojiSelection);
+      onFunSelectEmoji(emojiSelection);
+      onSelectEmoji(emojiSelection);
       // TODO(jamie): Quill is stealing focus updating the selection
       if (!(event.ctrlKey || event.metaKey)) {
         onClose();
+        setFocusedCellKey(null);
       }
     },
-    [onEmojiSelect, onClose]
+    [onFunSelectEmoji, onSelectEmoji, onClose]
   );
 
   const handleOpenCustomizePreferredReactionsModal = useCallback(() => {
@@ -511,6 +511,7 @@ type CellProps = Readonly<{
 
 const Cell = memo(function Cell(props: CellProps): JSX.Element {
   const { onPressEmoji } = props;
+  const emojiLocalizer = useFunEmojiLocalizer();
 
   const emojiParent = useMemo(() => {
     strictAssert(
@@ -549,8 +550,7 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
     >
       <FunItemButton
         tabIndex={props.isTabbable ? 0 : -1}
-        // TODO(jamie): Translate short name
-        aria-label={emojiParent.englishShortNameDefault}
+        aria-label={emojiLocalizer(emojiVariant.key)}
         onClick={handleClick}
       >
         <FunStaticEmoji role="presentation" size={32} emoji={emojiVariant} />

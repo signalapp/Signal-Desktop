@@ -15,14 +15,13 @@ import { emojiToData } from '../emoji/lib';
 import { useEscapeHandling } from '../../hooks/useEscapeHandling';
 import type { ThemeType } from '../../types/Util';
 import {
-  getEmojiParentByKey,
-  getEmojiParentKeyByVariantKey,
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
 } from '../fun/data/emojis';
 import { strictAssert } from '../../util/assert';
 import { FunStaticEmoji } from '../fun/FunEmoji';
+import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer';
 
 export type Reaction = {
   emoji: string;
@@ -76,6 +75,7 @@ type ReactionWithEmojiData = Reaction & EmojiData;
 function ReactionViewerEmoji(props: {
   emojiVariantValue: string | undefined;
 }): JSX.Element {
+  const emojiLocalizer = useFunEmojiLocalizer();
   strictAssert(props.emojiVariantValue != null, 'Expected an emoji');
   strictAssert(
     isEmojiVariantValue(props.emojiVariantValue),
@@ -83,14 +83,10 @@ function ReactionViewerEmoji(props: {
   );
   const emojiVariantKey = getEmojiVariantKeyByValue(props.emojiVariantValue);
   const emojiVariant = getEmojiVariantByKey(emojiVariantKey);
-
-  const emojiParentKey = getEmojiParentKeyByVariantKey(emojiVariantKey);
-  const emojiParent = getEmojiParentByKey(emojiParentKey);
-
   return (
     <FunStaticEmoji
       role="img"
-      aria-label={emojiParent.englishShortNameDefault}
+      aria-label={emojiLocalizer(emojiVariantKey)}
       size={18}
       emoji={emojiVariant}
     />

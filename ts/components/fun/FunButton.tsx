@@ -4,13 +4,9 @@ import React, { useMemo } from 'react';
 import { VisuallyHidden } from 'react-aria';
 import { Button } from 'react-aria-components';
 import type { LocalizerType } from '../../types/I18N';
-import {
-  type EmojiVariantKey,
-  getEmojiParentByKey,
-  getEmojiParentKeyByVariantKey,
-  getEmojiVariantByKey,
-} from './data/emojis';
+import { type EmojiVariantKey, getEmojiVariantByKey } from './data/emojis';
 import { FunStaticEmoji } from './FunEmoji';
+import { useFunEmojiLocalizer } from './useFunEmojiLocalizer';
 
 /**
  * Fun Picker Button
@@ -43,27 +39,26 @@ export function FunEmojiPickerButton(
   props: FunEmojiPickerButtonProps
 ): JSX.Element {
   const { i18n } = props;
+  const emojiLocalizer = useFunEmojiLocalizer();
 
-  const selectedEmojiData = useMemo(() => {
+  const emojiVarant = useMemo(() => {
     if (props.selectedEmoji == null) {
       return null;
     }
 
     const variantKey = props.selectedEmoji;
     const variant = getEmojiVariantByKey(variantKey);
-    const parentKey = getEmojiParentKeyByVariantKey(variantKey);
-    const parent = getEmojiParentByKey(parentKey);
-    return { variant, parent };
+    return variant;
   }, [props.selectedEmoji]);
 
   return (
     <Button className="FunButton">
-      {selectedEmojiData ? (
+      {emojiVarant ? (
         <FunStaticEmoji
           role="img"
           size={20}
-          aria-label={selectedEmojiData.parent.englishShortNameDefault}
-          emoji={selectedEmojiData.variant}
+          aria-label={emojiLocalizer(emojiVarant.key)}
+          emoji={emojiVarant}
         />
       ) : (
         <span className="FunButton__Icon FunButton__Icon--EmojiPicker" />

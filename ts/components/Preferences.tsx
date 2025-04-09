@@ -75,6 +75,7 @@ import {
   SettingsRow,
 } from './PreferencesUtil';
 import { PreferencesBackups } from './PreferencesBackups';
+import { FunEmojiLocalizationProvider } from './fun/FunEmojiLocalizationProvider';
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
@@ -1730,7 +1731,7 @@ export function Preferences({
   }
 
   return (
-    <>
+    <FunEmojiLocalizationProvider i18n={i18n}>
       <div className="module-title-bar-drag-area" />
       <div className="Preferences">
         <div className="Preferences__page-selector">
@@ -1845,7 +1846,7 @@ export function Preferences({
         containerWidthBreakpoint={WidthBreakpoint.Narrow}
         isInFullScreenCall={false}
       />
-    </>
+    </FunEmojiLocalizationProvider>
   );
 }
 

@@ -46,7 +46,7 @@ export const FunEmojiPicker = memo(function FunEmojiPicker(
       <FunPopover placement={props.placement} theme={props.theme}>
         <FunErrorBoundary>
           <FunPanelEmojis
-            onEmojiSelect={props.onSelectEmoji}
+            onSelectEmoji={props.onSelectEmoji}
             onClose={handleClose}
             showCustomizePreferredReactionsButton={
               props.showCustomizePreferredReactionsButton ?? false

@@ -9,7 +9,6 @@ import { ReactionPicker } from './ReactionPicker';
 import { EmojiPicker } from '../emoji/EmojiPicker';
 import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../../reactions/constants';
 import { EmojiSkinTone } from '../fun/data/emojis';
-import { MockFunProvider } from '../fun/mocks';
 
 const { i18n } = window.SignalContext;
 
@@ -32,7 +31,6 @@ const renderEmojiPicker: ReactionPickerProps['renderEmojiPicker'] = ({
 
 export default {
   title: 'Components/Conversation/ReactionPicker',
-  decorators: [storyFn => <MockFunProvider>{storyFn()}</MockFunProvider>],
 } satisfies Meta<ReactionPickerProps>;
 
 export function Base(): JSX.Element {

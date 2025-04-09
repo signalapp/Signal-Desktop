@@ -13,7 +13,7 @@ import type { LocalizerType } from '../../types/I18N';
 import type { StickerPackType, StickerType } from '../../state/ducks/stickers';
 import type { EmojiSkinTone } from './data/emojis';
 import { EmojiPickerCategory, type EmojiParentKey } from './data/emojis';
-import type { GifType } from './panels/FunPanelGifs';
+import type { FunGifSelection, GifType } from './panels/FunPanelGifs';
 import type { FunGifsSection, FunStickersSection } from './constants';
 import {
   type FunEmojisSection,
@@ -25,6 +25,9 @@ import {
 } from './constants';
 import type { fetchGifsFeatured, fetchGifsSearch } from './data/gifs';
 import type { tenorDownload } from './data/tenor';
+import type { FunEmojiSelection } from './panels/FunPanelEmojis';
+import type { FunStickerSelection } from './panels/FunPanelStickers';
+import { FunEmojiLocalizationProvider } from './FunEmojiLocalizationProvider';
 
 export type FunContextSmartProps = Readonly<{
   i18n: LocalizerType;
@@ -38,16 +41,19 @@ export type FunContextSmartProps = Readonly<{
   emojiSkinToneDefault: EmojiSkinTone | null;
   onEmojiSkinToneDefaultChange: (emojiSkinTone: EmojiSkinTone) => void;
   onOpenCustomizePreferredReactionsModal: () => void;
+  onSelectEmoji: (emojiSelection: FunEmojiSelection) => void;
 
   // Stickers
   installedStickerPacks: ReadonlyArray<StickerPackType>;
   showStickerPickerHint: boolean;
   onClearStickerPickerHint: () => unknown;
+  onSelectSticker: (stickerSelection: FunStickerSelection) => void;
 
   // GIFs
   fetchGifsFeatured: typeof fetchGifsFeatured;
   fetchGifsSearch: typeof fetchGifsSearch;
   fetchGif: typeof tenorDownload;
+  onSelectGif: (gifSelection: FunGifSelection) => void;
 }>;
 
 export type FunContextProps = FunContextSmartProps &
@@ -206,45 +212,50 @@ export const FunProvider = memo(function FunProvider(
   );
 
   return (
-    <FunProviderInner
-      i18n={props.i18n}
-      // Open state
-      onOpenChange={handleOpenChange}
-      // Current Tab
-      tab={tab}
-      onChangeTab={handleChangeTab}
-      // Search Input
-      searchInput={searchInput}
-      onSearchInputChange={handleSearchInputChange}
-      shouldAutoFocus={shouldAutoFocus}
-      onChangeShouldAutoFocus={handleChangeShouldAutofocus}
-      // Current Sections
-      selectedEmojisSection={selectedEmojisSection}
-      selectedStickersSection={selectedStickersSection}
-      selectedGifsSection={selectedGifsSection}
-      onChangeSelectedEmojisSection={handleChangeSelectedEmojisSection}
-      onChangeSelectedStickersSection={handleChangeSelectedStickersSection}
-      onChangeSelectedSelectGifsSection={handleChangeSelectedGifsSection}
-      // Recents
-      recentEmojis={props.recentEmojis}
-      recentStickers={props.recentStickers}
-      recentGifs={props.recentGifs}
-      // Emojis
-      emojiSkinToneDefault={props.emojiSkinToneDefault}
-      onEmojiSkinToneDefaultChange={props.onEmojiSkinToneDefaultChange}
-      onOpenCustomizePreferredReactionsModal={
-        props.onOpenCustomizePreferredReactionsModal
-      }
-      // Stickers
-      installedStickerPacks={props.installedStickerPacks}
-      showStickerPickerHint={props.showStickerPickerHint}
-      onClearStickerPickerHint={props.onClearStickerPickerHint}
-      // GIFs
-      fetchGifsFeatured={props.fetchGifsFeatured}
-      fetchGifsSearch={props.fetchGifsSearch}
-      fetchGif={props.fetchGif}
-    >
-      {props.children}
-    </FunProviderInner>
+    <FunEmojiLocalizationProvider i18n={props.i18n}>
+      <FunProviderInner
+        i18n={props.i18n}
+        // Open state
+        onOpenChange={handleOpenChange}
+        // Current Tab
+        tab={tab}
+        onChangeTab={handleChangeTab}
+        // Search Input
+        searchInput={searchInput}
+        onSearchInputChange={handleSearchInputChange}
+        shouldAutoFocus={shouldAutoFocus}
+        onChangeShouldAutoFocus={handleChangeShouldAutofocus}
+        // Current Sections
+        selectedEmojisSection={selectedEmojisSection}
+        selectedStickersSection={selectedStickersSection}
+        selectedGifsSection={selectedGifsSection}
+        onChangeSelectedEmojisSection={handleChangeSelectedEmojisSection}
+        onChangeSelectedStickersSection={handleChangeSelectedStickersSection}
+        onChangeSelectedSelectGifsSection={handleChangeSelectedGifsSection}
+        // Recents
+        recentEmojis={props.recentEmojis}
+        recentStickers={props.recentStickers}
+        recentGifs={props.recentGifs}
+        // Emojis
+        emojiSkinToneDefault={props.emojiSkinToneDefault}
+        onEmojiSkinToneDefaultChange={props.onEmojiSkinToneDefaultChange}
+        onOpenCustomizePreferredReactionsModal={
+          props.onOpenCustomizePreferredReactionsModal
+        }
+        onSelectEmoji={props.onSelectEmoji}
+        // Stickers
+        installedStickerPacks={props.installedStickerPacks}
+        showStickerPickerHint={props.showStickerPickerHint}
+        onClearStickerPickerHint={props.onClearStickerPickerHint}
+        onSelectSticker={props.onSelectSticker}
+        // GIFs
+        fetchGifsFeatured={props.fetchGifsFeatured}
+        fetchGifsSearch={props.fetchGifsSearch}
+        fetchGif={props.fetchGif}
+        onSelectGif={props.onSelectGif}
+      >
+        {props.children}
+      </FunProviderInner>
+    </FunEmojiLocalizationProvider>
   );
 });

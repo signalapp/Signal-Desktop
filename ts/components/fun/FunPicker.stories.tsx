@@ -34,14 +34,17 @@ function Template(props: TemplateProps) {
         emojiSkinToneDefault={EmojiSkinTone.None}
         onEmojiSkinToneDefaultChange={() => null}
         onOpenCustomizePreferredReactionsModal={() => null}
+        onSelectEmoji={() => null}
         // Stickers
         installedStickerPacks={packs}
         showStickerPickerHint={false}
         onClearStickerPickerHint={() => null}
+        onSelectSticker={() => null}
         // Gifs
         fetchGifsSearch={() => Promise.resolve(MOCK_GIFS_PAGINATED_ONE_PAGE)}
         fetchGifsFeatured={() => Promise.resolve(MOCK_GIFS_PAGINATED_ONE_PAGE)}
         fetchGif={() => Promise.resolve(new Blob([new Uint8Array(1)]))}
+        onSelectGif={() => null}
       >
         <FunPicker {...props} open={open} onOpenChange={handleOpenChange}>
           <Button>Open FunPicker</Button>
