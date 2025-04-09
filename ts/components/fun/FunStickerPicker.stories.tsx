@@ -39,14 +39,17 @@ function Template(props: TemplateProps): JSX.Element {
         emojiSkinToneDefault={EmojiSkinTone.None}
         onEmojiSkinToneDefaultChange={() => null}
         onOpenCustomizePreferredReactionsModal={() => null}
+        onSelectEmoji={() => null}
         // Stickers
         installedStickerPacks={packs}
         showStickerPickerHint={false}
         onClearStickerPickerHint={() => null}
+        onSelectSticker={() => null}
         // Gifs
         fetchGifsSearch={() => Promise.reject()}
         fetchGifsFeatured={() => Promise.reject()}
         fetchGif={() => Promise.reject()}
+        onSelectGif={() => null}
       >
         <FunStickerPicker
           {...props}

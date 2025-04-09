@@ -58,7 +58,6 @@ import {
   emojiVariantConstant,
   getEmojiParentKeyByValue,
   isEmojiParentValue,
-  useEmojiSearch,
 } from '../data/emojis';
 import { FunKeyboard } from '../keyboard/FunKeyboard';
 import type { GridKeyboardState } from '../keyboard/GridKeyboardDelegate';
@@ -82,6 +81,7 @@ import {
 import { FunSticker } from '../FunSticker';
 import { getAnalogTime } from '../../../util/getAnalogTime';
 import { getDateTimeFormatter } from '../../../util/formatTimestamp';
+import { useFunEmojiSearch } from '../useFunEmojiSearch';
 
 const STICKER_GRID_COLUMNS = 4;
 const STICKER_GRID_CELL_WIDTH = 80;
@@ -191,6 +191,7 @@ export function FunPanelStickers({
     onChangeSelectedStickersSection,
     recentStickers,
     installedStickerPacks,
+    onSelectSticker: onFunSelectSticker,
   } = fun;
 
   const scrollerRef = useRef<HTMLDivElement>(null);
@@ -221,7 +222,7 @@ export function FunPanelStickers({
 
   const [focusedCellKey, setFocusedCellKey] = useState<CellKey | null>(null);
 
-  const searchEmojis = useEmojiSearch(i18n);
+  const searchEmojis = useFunEmojiSearch();
   const searchQuery = useMemo(() => searchInput.trim(), [searchInput]);
 
   const sections = useMemo(() => {
@@ -339,12 +340,14 @@ export function FunPanelStickers({
 
   const handlePressSticker = useCallback(
     (event: MouseEvent, stickerSelection: FunStickerSelection) => {
+      onFunSelectSticker(stickerSelection);
       onSelectSticker(stickerSelection);
       if (!(event.ctrlKey || event.metaKey)) {
         onClose();
+        setFocusedCellKey(null);
       }
     },
-    [onSelectSticker, onClose]
+    [onFunSelectSticker, onSelectSticker, onClose]
   );
 
   const handlePressTimeSticker = useCallback(

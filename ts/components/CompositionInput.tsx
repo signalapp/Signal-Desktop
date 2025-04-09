@@ -694,7 +694,7 @@ export function CompositionInput(props: Props): React.ReactElement {
   React.useEffect(() => {
     const emojiCompletion = emojiCompletionRef.current;
 
-    if (emojiCompletion == null || emojiSkinToneDefault == null) {
+    if (emojiCompletion == null) {
       return;
     }
 

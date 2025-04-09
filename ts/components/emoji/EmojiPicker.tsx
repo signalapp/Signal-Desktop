@@ -335,7 +335,7 @@ export const EmojiPicker = React.memo(
           const parentKey = getEmojiParentKeyByEnglishShortName(shortName);
           const variantKey = getEmojiVariantByParentKeyAndSkinTone(
             parentKey,
-            selectedTone
+            selectedTone ?? EmojiSkinTone.None
           );
 
           return (

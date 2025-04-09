@@ -15,7 +15,7 @@ const API_KEY = 'AIzaSyBt6SUfSsCQic2P2VkNkLjsGI7HGWZI95g';
  */
 
 export type TenorNextCursor = string & { TenorHasNextCursor: never };
-export type TenorTailCursor = '0' & { TenorHasEndCursor: never };
+export type TenorTailCursor = ('0' | '') & { TenorHasEndCursor: never };
 export type TenorCursor = TenorNextCursor | TenorTailCursor;
 
 const TenorCursorSchema = z.custom<TenorCursor>(
@@ -35,7 +35,7 @@ export type TenorSearchFilter = 'sticker' | 'static' | '-static';
 export function isTenorTailCursor(
   cursor: TenorCursor
 ): cursor is TenorTailCursor {
-  return cursor === '0';
+  return cursor === '0' || cursor === '';
 }
 
 /**

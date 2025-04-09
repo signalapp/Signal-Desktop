@@ -139,6 +139,7 @@ export function FunPanelGifs({
     fetchGifsFeatured,
     fetchGifsSearch,
     fetchGif,
+    onSelectGif: onFunSelectGif,
   } = fun;
 
   const scrollerRef = useRef<HTMLDivElement>(null);
@@ -361,11 +362,13 @@ export function FunPanelGifs({
 
   const handlePressGif = useCallback(
     (_event: MouseEvent, gifSelection: FunGifSelection) => {
+      onFunSelectGif(gifSelection);
       onSelectGif(gifSelection);
       // Should always close, cannot select multiple
       onClose();
+      setSelectedItemKey(null);
     },
-    [onSelectGif, onClose]
+    [onFunSelectGif, onSelectGif, onClose]
   );
 
   const handleRetry = useCallback(() => {

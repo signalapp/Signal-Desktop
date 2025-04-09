@@ -71,7 +71,7 @@ export const FunPicker = memo(function FunPicker(
           <FunTabPanel id={FunPickerTabKey.Emoji}>
             <FunErrorBoundary>
               <FunPanelEmojis
-                onEmojiSelect={props.onSelectEmoji}
+                onSelectEmoji={props.onSelectEmoji}
                 onClose={handleClose}
                 showCustomizePreferredReactionsButton={false}
               />

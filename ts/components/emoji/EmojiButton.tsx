@@ -13,7 +13,6 @@ import { useRefMerger } from '../../hooks/useRefMerger';
 import { handleOutsideClick } from '../../util/handleOutsideClick';
 import * as KeyboardLayout from '../../services/keyboardLayout';
 import { FunStaticEmoji } from '../fun/FunEmoji';
-import { strictAssert } from '../../util/assert';
 import type { EmojiVariantData } from '../fun/data/emojis';
 import {
   getEmojiVariantByKey,
@@ -161,8 +160,7 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
   }, [open, setOpen]);
 
   let emojiVariant: EmojiVariantData;
-  if (emoji != null) {
-    strictAssert(isEmojiVariantValue(emoji), 'Must be emoji variant value');
+  if (emoji != null && isEmojiVariantValue(emoji)) {
     const emojiVariantKey = getEmojiVariantKeyByValue(emoji);
     emojiVariant = getEmojiVariantByKey(emojiVariantKey);
   }

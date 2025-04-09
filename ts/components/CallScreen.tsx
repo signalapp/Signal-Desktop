@@ -91,12 +91,11 @@ import { CallingPendingParticipants } from './CallingPendingParticipants';
 import type { CallingImageDataCache } from './CallManager';
 import { FunStaticEmoji } from './fun/FunEmoji';
 import {
-  getEmojiParentByKey,
-  getEmojiParentKeyByVariantKey,
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
 } from './fun/data/emojis';
+import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer';
 
 export type PropsType = {
   activeCall: ActiveCallType;
@@ -1243,6 +1242,7 @@ function useReactionsToast(props: UseReactionsToastType): void {
   >(new Map());
   const burstsShown = useRef<Map<string, number>>(new Map());
   const { showToast } = useCallingToasts();
+  const emojiLocalizer = useFunEmojiLocalizer();
 
   useEffect(() => {
     setPreviousReactions(reactions);
@@ -1262,8 +1262,6 @@ function useReactionsToast(props: UseReactionsToastType): void {
       strictAssert(isEmojiVariantValue(value), 'Expected a valid emoji value');
       const emojiVariantKey = getEmojiVariantKeyByValue(value);
       const emojiVariant = getEmojiVariantByKey(emojiVariantKey);
-      const emojiParentKey = getEmojiParentKeyByVariantKey(emojiVariantKey);
-      const emojiParent = getEmojiParentByKey(emojiParentKey);
 
       showToast({
         key,
@@ -1273,7 +1271,7 @@ function useReactionsToast(props: UseReactionsToastType): void {
           <span className="CallingReactionsToasts__reaction">
             <FunStaticEmoji
               role="img"
-              aria-label={emojiParent.englishShortNameDefault}
+              aria-label={emojiLocalizer(emojiVariantKey)}
               size={28}
               emoji={emojiVariant}
             />
@@ -1390,6 +1388,7 @@ function useReactionsToast(props: UseReactionsToastType): void {
     localDemuxId,
     i18n,
     ourServiceId,
+    emojiLocalizer,
   ]);
 }
 

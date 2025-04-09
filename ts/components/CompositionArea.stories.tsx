@@ -16,7 +16,6 @@ import { ConversationColors } from '../types/Colors';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { PaymentEventKind } from '../types/Payment';
 import { EmojiSkinTone } from './fun/data/emojis';
-import { MockFunProvider } from './fun/mocks';
 
 const { i18n } = window.SignalContext;
 
@@ -25,7 +24,6 @@ export default {
   decorators: [
     // necessary for the add attachment button to render properly
     storyFn => <div className="file-input">{storyFn()}</div>,
-    storyFn => <MockFunProvider>{storyFn()}</MockFunProvider>,
   ],
   argTypes: {
     recordingState: {

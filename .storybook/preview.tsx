@@ -23,6 +23,11 @@ import {
   createScrollerLock,
 } from '../ts/hooks/useScrollLock';
 import { Environment, setEnvironment } from '../ts/environment.ts';
+import { parseUnknown } from '../ts/util/schemas.ts';
+import { LocaleEmojiListSchema } from '../ts/types/emoji.ts';
+import { FunProvider } from '../ts/components/fun/FunProvider.tsx';
+import { EmojiSkinTone } from '../ts/components/fun/data/emojis.ts';
+import { MOCK_GIFS_PAGINATED_ONE_PAGE } from '../ts/components/fun/mocks.tsx';
 
 setEnvironment(Environment.Development, true);
 
@@ -206,10 +211,33 @@ function withScrollLockProvider(Story, context) {
   );
 }
 
+function withFunProvider(Story, context) {
+  return (
+    <FunProvider
+      i18n={window.SignalContext.i18n}
+      recentEmojis={[]}
+      recentStickers={[]}
+      recentGifs={[]}
+      emojiSkinToneDefault={EmojiSkinTone.None}
+      onEmojiSkinToneDefaultChange={noop}
+      installedStickerPacks={[]}
+      showStickerPickerHint={false}
+      onClearStickerPickerHint={noop}
+      onOpenCustomizePreferredReactionsModal={noop}
+      fetchGifsSearch={() => Promise.resolve(MOCK_GIFS_PAGINATED_ONE_PAGE)}
+      fetchGifsFeatured={() => Promise.resolve(MOCK_GIFS_PAGINATED_ONE_PAGE)}
+      fetchGif={() => Promise.resolve(new Blob([new Uint8Array(1)]))}
+    >
+      <Story {...context} />
+    </FunProvider>
+  );
+}
+
 export const decorators = [
   withGlobalTypesProvider,
   withMockStoreProvider,
   withScrollLockProvider,
+  withFunProvider,
 ];
 
 export const parameters = {

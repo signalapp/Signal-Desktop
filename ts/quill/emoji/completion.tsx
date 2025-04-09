@@ -19,8 +19,8 @@ import { handleOutsideClick } from '../../util/handleOutsideClick';
 import * as log from '../../logging/log';
 import { FunStaticEmoji } from '../../components/fun/FunEmoji';
 import { strictAssert } from '../../util/assert';
-import type { EmojiSkinTone } from '../../components/fun/data/emojis';
 import {
+  EmojiSkinTone,
   getEmojiParentKeyByEnglishShortName,
   getEmojiVariantByParentKeyAndSkinTone,
   isEmojiEnglishShortName,
@@ -29,7 +29,7 @@ import {
 export type EmojiCompletionOptions = {
   onPickEmoji: (emoji: EmojiPickDataType) => void;
   setEmojiPickerElement: (element: JSX.Element | null) => void;
-  emojiSkinToneDefault: EmojiSkinTone;
+  emojiSkinToneDefault: EmojiSkinTone | null;
   search: SearchFnType;
 };
 
@@ -257,7 +257,7 @@ export class EmojiCompletion {
   }: InsertEmojiOptionsType): void {
     const emoji = convertShortName(
       shortName,
-      this.options.emojiSkinToneDefault
+      this.options.emojiSkinToneDefault ?? EmojiSkinTone.None
     );
 
     let source = this.quill.getText(index, range);
@@ -284,7 +284,7 @@ export class EmojiCompletion {
 
     this.options.onPickEmoji({
       shortName,
-      skinTone: this.options.emojiSkinToneDefault,
+      skinTone: this.options.emojiSkinToneDefault ?? EmojiSkinTone.None,
     });
 
     this.reset();
@@ -374,7 +374,7 @@ export class EmojiCompletion {
               const emojiParentKey = getEmojiParentKeyByEnglishShortName(emoji);
               const emojiVariant = getEmojiVariantByParentKeyAndSkinTone(
                 emojiParentKey,
-                this.options.emojiSkinToneDefault
+                this.options.emojiSkinToneDefault ?? EmojiSkinTone.None
               );
 
               return (

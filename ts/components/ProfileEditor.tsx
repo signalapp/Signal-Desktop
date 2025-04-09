@@ -57,9 +57,7 @@ import { FunStaticEmoji } from './fun/FunEmoji';
 import type { EmojiVariantKey } from './fun/data/emojis';
 import {
   EmojiSkinTone,
-  getEmojiParentByKey,
   getEmojiParentKeyByEnglishShortName,
-  getEmojiParentKeyByVariantKey,
   getEmojiVariantByKey,
   getEmojiVariantByParentKeyAndSkinTone,
   getEmojiVariantKeyByValue,
@@ -70,6 +68,7 @@ import { FunEmojiPicker } from './fun/FunEmojiPicker';
 import { FunEmojiPickerButton } from './fun/FunButton';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis';
 import { isFunPickerEnabled } from './fun/isFunPickerEnabled';
+import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer';
 
 export enum EditState {
   None = 'None',
@@ -162,13 +161,12 @@ function getDefaultBios(i18n: LocalizerType): Array<DefaultBio> {
 }
 
 function BioEmoji(props: { emoji: EmojiVariantKey }) {
+  const emojiLocalizer = useFunEmojiLocalizer();
   const emojiVariant = getEmojiVariantByKey(props.emoji);
-  const emojiParentKey = getEmojiParentKeyByVariantKey(props.emoji);
-  const emojiParent = getEmojiParentByKey(emojiParentKey);
   return (
     <FunStaticEmoji
       role="img"
-      aria-label={emojiParent.englishShortNameDefault}
+      aria-label={emojiLocalizer(props.emoji)}
       emoji={emojiVariant}
       size={24}
     />
@@ -537,7 +535,7 @@ export function ProfileEditor({
           );
           const emojiVariant = getEmojiVariantByParentKeyAndSkinTone(
             emojiParentKey,
-            emojiSkinToneDefault
+            emojiSkinToneDefault ?? EmojiSkinTone.None
           );
 
           return (
