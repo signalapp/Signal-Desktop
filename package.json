@@ -375,7 +375,8 @@
       "@types/websocket@1.0.0": "patches/@types+websocket+1.0.0.patch",
       "backbone@1.6.0": "patches/backbone+1.6.0.patch",
       "node-fetch@2.6.7": "patches/node-fetch+2.6.7.patch",
-      "zod@3.23.8": "patches/zod+3.23.8.patch"
+      "zod@3.23.8": "patches/zod+3.23.8.patch",
+      "@electron/rebuild": "patches/@electron__rebuild.patch"
     },
     "onlyBuiltDependencies": [
       "@indutny/mac-screen-share",
