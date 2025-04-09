@@ -55,11 +55,11 @@ import { BackupAPI } from './api';
 import { validateBackup } from './validator';
 import { BackupType } from './types';
 import {
+  BackupInstallerError,
   BackupDownloadFailedError,
   BackupImportCanceledError,
   BackupProcessingError,
   RelinkRequestedError,
-  UnsupportedBackupVersion,
 } from './errors';
 import { ToastType } from '../../types/Toast';
 import { isAdhoc, isNightly } from '../../util/version';
@@ -164,43 +164,22 @@ export class BackupsService {
           onProgress: options.onProgress,
           ephemeralKey,
         });
+
+        if (!hasBackup) {
+          // If the primary cancels sync on their end, then we can link without sync
+          log.info('backups.downloadAndImport: missing backup');
+          window.reduxActions.installer.handleMissingBackup();
+        }
       } catch (error) {
         this.#downloadRetryPromise = explodePromise<RetryBackupImportValue>();
 
         let installerError: InstallScreenBackupError;
-        let shouldUnlinkAndDeleteData = false;
-        if (error instanceof RelinkRequestedError) {
-          installerError = InstallScreenBackupError.Fatal;
+        if (error instanceof BackupInstallerError) {
           log.error(
-            'backups.downloadAndImport: primary requested relink; unlinking & deleting data',
+            'backups.downloadAndImport: got installer error',
             Errors.toLogFormat(error)
           );
-          shouldUnlinkAndDeleteData = true;
-        } else if (error instanceof UnsupportedBackupVersion) {
-          installerError = InstallScreenBackupError.UnsupportedVersion;
-          log.error(
-            'backups.downloadAndImport: unsupported version',
-            Errors.toLogFormat(error)
-          );
-        } else if (error instanceof BackupDownloadFailedError) {
-          installerError = InstallScreenBackupError.Retriable;
-          log.warn(
-            'backups.downloadAndImport: download error, prompting user to retry',
-            Errors.toLogFormat(error)
-          );
-        } else if (error instanceof BackupProcessingError) {
-          installerError = InstallScreenBackupError.Fatal;
-          log.error(
-            'backups.downloadAndImport: fatal error during processing; unlinking & deleting data',
-            Errors.toLogFormat(error)
-          );
-          shouldUnlinkAndDeleteData = true;
-        } else if (error instanceof BackupImportCanceledError) {
-          installerError = InstallScreenBackupError.Canceled;
-          log.info(
-            'backups.downloadAndImport: Processing canceled by user; unlinking & deleting data'
-          );
-          shouldUnlinkAndDeleteData = true;
+          ({ installerError } = error);
         } else {
           log.error(
             'backups.downloadAndImport: unknown error, prompting user to retry'
@@ -212,21 +191,27 @@ export class BackupsService {
           error: installerError,
         });
 
-        // Deleting data takes some time
-        if (shouldUnlinkAndDeleteData) {
-          // eslint-disable-next-line no-await-in-loop
-          await this.#unlinkAndDeleteAllData();
+        // For download errors, wait for user confirmation to retry or unlink
+        const nextStep =
+          error instanceof BackupImportCanceledError
+            ? 'cancel'
+            : // eslint-disable-next-line no-await-in-loop
+              await this.#downloadRetryPromise.promise;
+        if (nextStep === 'retry') {
+          log.warn('backups.downloadAndImport: retrying');
+          continue;
         }
 
-        // For download errors, wait for user confirmation to retry or unlink
-        // eslint-disable-next-line no-await-in-loop
-        const nextStep = await this.#downloadRetryPromise.promise;
-        if (nextStep === 'retry') {
-          continue;
-        } else if (nextStep === 'cancel') {
-          // eslint-disable-next-line no-await-in-loop
-          await this.#unlinkAndDeleteAllData();
+        if (nextStep !== 'cancel') {
+          throw missingCaseError(nextStep);
         }
+
+        // If we are here: the user has either canceled manually, or after
+        // getting an error (potentially fatal).
+        log.warn('backups.downloadAndImport: unlinking');
+
+        // eslint-disable-next-line no-await-in-loop
+        await this.#unlinkAndDeleteAllData();
 
         try {
           // eslint-disable-next-line no-await-in-loop
@@ -234,6 +219,10 @@ export class BackupsService {
         } catch {
           // Best-effort
         }
+
+        // Make sure to fail the backup import process so that background.ts
+        // will not wait for the syncs.
+        throw error;
       }
       break;
     }
@@ -243,12 +232,8 @@ export class BackupsService {
     await window.storage.remove('backupTransitArchive');
     await window.storage.put('isRestoredFromBackup', hasBackup);
 
-    // If the primary cancels sync on their end, then we can link without sync
-    if (!hasBackup) {
-      window.reduxActions.installer.handleMissingBackup();
-    }
+    log.info('backups.downloadAndImport: done');
 
-    log.info(`backups.downloadAndImport: done, had backup=${hasBackup}`);
     return { wasBackupImported: hasBackup };
   }
 
@@ -609,7 +594,6 @@ export class BackupsService {
         let archive = window.storage.get('backupTransitArchive');
         if (archive == null) {
           const response = await this.api.getTransferArchive(controller.signal);
-
           if ('error' in response) {
             switch (response.error) {
               case 'RELINK_REQUESTED':
@@ -648,6 +632,10 @@ export class BackupsService {
       // No backup on the server
       if (error instanceof HTTPError && error.code === 404) {
         return false;
+      }
+
+      if (error instanceof BackupInstallerError) {
+        throw error;
       }
 
       log.error(
@@ -699,10 +687,10 @@ export class BackupsService {
         await window.storage.put('password', password);
       } catch (e) {
         // Error or manual cancel during import; this is non-retriable
-        if (e instanceof BackupImportCanceledError) {
+        if (e instanceof BackupInstallerError) {
           throw e;
         } else {
-          throw new BackupProcessingError();
+          throw new BackupProcessingError(e);
         }
       } finally {
         await unlink(downloadPath);
@@ -797,6 +785,10 @@ export class BackupsService {
   }
 
   async #unlinkAndDeleteAllData() {
+    window.reduxActions.installer.updateBackupImportProgress({
+      error: InstallScreenBackupError.Canceled,
+    });
+
     try {
       await window.textsecure.server?.unlink();
     } catch (e) {

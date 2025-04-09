@@ -362,4 +362,43 @@ describe('backups', function (this: Mocha.Suite) {
     await contact2Elem.click();
     await window.locator('.module-message >> "Message 33"').waitFor();
   });
+
+  it('handles remote ephemeral backup cancelation', async function () {
+    const ephemeralBackupKey = randomBytes(32);
+
+    const { phone, server } = bootstrap;
+
+    phone.ephemeralBackupKey = ephemeralBackupKey;
+
+    app = await bootstrap.link({
+      ephemeralBackup: {
+        error: 'RELINK_REQUESTED',
+      },
+    });
+
+    const window = await app.getWindow();
+    const modal = window.getByTestId(
+      'ConfirmationDialog.InstallScreenBackupImportStep.error'
+    );
+
+    await modal.waitFor();
+
+    await modal.getByRole('button', { name: 'Retry' }).click();
+
+    await window
+      .locator('.module-InstallScreenQrCodeNotScannedStep__qr-code--loaded')
+      .waitFor();
+
+    debug('waiting for provision');
+    const provision = await server.waitForProvision();
+
+    debug('waiting for provision URL');
+    const provisionURL = await app.waitForProvisionURL();
+
+    debug('completing provision');
+    await provision.complete({
+      provisionURL,
+      primaryDevice: phone,
+    });
+  });
 });

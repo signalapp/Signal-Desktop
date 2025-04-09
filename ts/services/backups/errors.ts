@@ -4,16 +4,48 @@
 
 import type Long from 'long';
 
-export class UnsupportedBackupVersion extends Error {
-  constructor(version: Long) {
-    super(`Unsupported backup version: ${version}`);
+import { InstallScreenBackupError } from '../../types/InstallScreen';
+
+export class BackupInstallerError extends Error {
+  constructor(
+    name: string,
+    public readonly installerError: InstallScreenBackupError
+  ) {
+    super(name);
   }
 }
 
-export class BackupDownloadFailedError extends Error {}
+export class UnsupportedBackupVersion extends BackupInstallerError {
+  constructor(version: Long) {
+    super(
+      `Unsupported backup version: ${version}`,
+      InstallScreenBackupError.UnsupportedVersion
+    );
+  }
+}
 
-export class BackupProcessingError extends Error {}
+export class BackupDownloadFailedError extends BackupInstallerError {
+  constructor() {
+    super('BackupDownloadFailedError', InstallScreenBackupError.Retriable);
+  }
+}
 
-export class BackupImportCanceledError extends Error {}
+export class BackupProcessingError extends BackupInstallerError {
+  constructor(cause: Error) {
+    super('BackupProcessingError', InstallScreenBackupError.Fatal);
 
-export class RelinkRequestedError extends Error {}
+    this.cause = cause;
+  }
+}
+
+export class BackupImportCanceledError extends BackupInstallerError {
+  constructor() {
+    super('BackupImportCanceledError', InstallScreenBackupError.Canceled);
+  }
+}
+
+export class RelinkRequestedError extends BackupInstallerError {
+  constructor() {
+    super('RelinkRequestedError', InstallScreenBackupError.Fatal);
+  }
+}

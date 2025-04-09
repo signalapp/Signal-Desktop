@@ -384,7 +384,6 @@ export class Provisioner {
                   isLinkAndSyncEnabled() &&
                   Bytes.isNotEmpty(envelope.ephemeralBackupKey),
               });
-              request.respond(200, 'OK');
             } else {
               log.warn(
                 'Provisioner.connect: unsupported request type',

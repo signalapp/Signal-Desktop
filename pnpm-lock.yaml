@@ -430,8 +430,8 @@ importers:
         specifier: 0.1.61
         version: 0.1.61
       '@signalapp/mock-server':
-        specifier: 11.2.0
-        version: 11.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+        specifier: 11.3.0
+        version: 11.3.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       '@storybook/addon-a11y':
         specifier: 8.4.4
         version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
@@ -2531,8 +2531,8 @@ packages:
   '@signalapp/libsignal-client@0.68.0':
     resolution: {integrity: sha512-k7kUqN36wYMnx1ARVVpNmWJfVlD0AIrNEq0Mpb7X8yMc6E8QY5ankwtPX3ZlO/Yl7en2NT7ZrP4dM5xpQlGsNA==}
 
-  '@signalapp/mock-server@11.2.0':
-    resolution: {integrity: sha512-y8bueRcXVulyXRRVm2M/qT7YmxGpUbiwQsRSi7a+DDI4aUeZIDW9z7KgjElv1CN1/n9O6M1bYO+TLy4ys+7U6w==}
+  '@signalapp/mock-server@11.3.0':
+    resolution: {integrity: sha512-X/yqrDySJ51bRngjMJrIGDhOU/LQ7OI9vJFNrs0835bgdBPGQO1pyufndzKLJpPehMECzGIP0UCE9YZU1X6NIg==}
 
   '@signalapp/parchment-cjs@3.0.1':
     resolution: {integrity: sha512-hSBMQ1M7wE4GcC8ZeNtvpJF+DAJg3eIRRf1SiHS3I3Algav/sgJJNm6HIYm6muHuK7IJmuEjkL3ILSXgmu0RfQ==}
@@ -5916,8 +5916,8 @@ packages:
   intl-tel-input@24.7.0:
     resolution: {integrity: sha512-OjkhKen4SJUI2kN9OHpb8ReNN619sB9gECPq51dn3zKEWvif3mnSjmrtWhm8ABIb7Ijs+AAYSS5sI33Sb4YqvQ==}
 
-  ioredis@5.5.0:
-    resolution: {integrity: sha512-7CutT89g23FfSa8MDoIFs2GYYa0PaNiW/OrT+nRyjRXHDZd17HmIgy+reOQ/yhh72NznNjGuS8kbCAcA4Ro4mw==}
+  ioredis@5.6.0:
+    resolution: {integrity: sha512-tBZlIIWbndeWBWCXWZiqtOF/yxf6yZX3tAlTJ7nfo5jhd6dctNxF7QnYlZLZ1a0o0pDoen7CgZqO+zjNaFbJAg==}
     engines: {node: '>=12.22.0'}
 
   ip-address@9.0.5:
@@ -12110,7 +12110,7 @@ snapshots:
       type-fest: 4.26.1
       uuid: 8.3.2
 
-  '@signalapp/mock-server@11.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
+  '@signalapp/mock-server@11.3.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
     dependencies:
       '@indutny/parallel-prettier': 3.0.0(prettier@3.3.3)
       '@signalapp/libsignal-client': 0.60.2
@@ -12615,7 +12615,7 @@ snapshots:
       lodash.throttle: 4.1.1
     optionalDependencies:
       '@redis/client': 1.6.0
-      ioredis: 5.5.0
+      ioredis: 5.6.0
     transitivePeerDependencies:
       - supports-color
 
@@ -16316,7 +16316,7 @@ snapshots:
 
   intl-tel-input@24.7.0: {}
 
-  ioredis@5.5.0:
+  ioredis@5.6.0:
     dependencies:
       '@ioredis/commands': 1.2.0
       cluster-key-slot: 1.1.2

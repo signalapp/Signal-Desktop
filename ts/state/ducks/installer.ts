@@ -143,7 +143,6 @@ export const actions = {
   retryBackupImport,
   showBackupImport,
   handleMissingBackup,
-  showLinkInProgress,
 };
 
 export const useInstallerActions = (): BoundActionCreatorsMapObject<
@@ -382,10 +381,6 @@ function finishInstall({
 
 function showBackupImport(): ShowBackupImportActionType {
   return { type: SHOW_BACKUP_IMPORT };
-}
-
-function showLinkInProgress(): ShowLinkInProgressActionType {
-  return { type: SHOW_LINK_IN_PROGRESS };
 }
 
 function handleMissingBackup(): ShowLinkInProgressActionType {

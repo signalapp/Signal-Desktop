@@ -105,7 +105,6 @@ export function FullFlow(): JSX.Element {
       currentBytes={currentBytes}
       totalBytes={totalBytes}
       backupStep={backupStep}
-      onRestartLink={action('onRestartLink')}
     />
   );
 }
