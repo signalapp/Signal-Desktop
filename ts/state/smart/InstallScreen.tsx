@@ -73,7 +73,6 @@ export const SmartInstallScreen = memo(function SmartInstallScreen() {
           ...installerState,
           onCancel: onCancelBackupImport,
           onRetry: retryBackupImport,
-          onRestartLink: startInstaller,
           updates,
           currentVersion: window.getVersion(),
           forceUpdate,

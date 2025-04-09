@@ -31,7 +31,6 @@ export type PropsType = Readonly<
     error?: InstallScreenBackupError;
     onCancel: () => void;
     onRetry: () => void;
-    onRestartLink: () => void;
 
     // Updater UI
     updates: UpdatesStateType;
@@ -60,7 +59,6 @@ export function InstallScreenBackupImportStep(props: PropsType): JSX.Element {
     error,
     onCancel,
     onRetry,
-    onRestartLink,
     updates,
     currentVersion,
     OS,
@@ -140,7 +138,7 @@ export function InstallScreenBackupImportStep(props: PropsType): JSX.Element {
         title={i18n('icu:BackupImportScreen__error__title')}
         actions={[
           {
-            action: onRestartLink,
+            action: onCancel,
             style: 'affirmative',
             text: i18n('icu:BackupImportScreen__error__confirm'),
           },
@@ -254,6 +252,21 @@ type ProgressBarPropsType = Readonly<
 
 function ProgressBarAndDescription(props: ProgressBarPropsType): JSX.Element {
   const { backupStep, i18n, isCanceled } = props;
+
+  if (isCanceled) {
+    return (
+      <>
+        <ProgressBar
+          fractionComplete={null}
+          isRTL={i18n.getLocaleDirection() === 'rtl'}
+        />
+        <div className="InstallScreenBackupImportStep__progressbar-hint">
+          {i18n('icu:BackupImportScreen__progressbar-hint--canceling')}
+        </div>
+      </>
+    );
+  }
+
   if (backupStep === InstallScreenBackupStep.WaitForBackup) {
     return (
       <>
@@ -273,20 +286,6 @@ function ProgressBarAndDescription(props: ProgressBarPropsType): JSX.Element {
   const fractionComplete = roundFractionForProgressBar(
     currentBytes / totalBytes
   );
-
-  if (isCanceled) {
-    return (
-      <>
-        <ProgressBar
-          fractionComplete={fractionComplete}
-          isRTL={i18n.getLocaleDirection() === 'rtl'}
-        />
-        <div className="InstallScreenBackupImportStep__progressbar-hint">
-          {i18n('icu:BackupImportScreen__progressbar-hint--canceling')}
-        </div>
-      </>
-    );
-  }
 
   if (backupStep === InstallScreenBackupStep.Download) {
     return (

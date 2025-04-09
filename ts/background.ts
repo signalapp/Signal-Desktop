@@ -1773,6 +1773,7 @@ export async function startApp(): Promise<void> {
         }
 
         try {
+          log.info(`${logId}: waiting for postRegistrationSyncs`);
           await Promise.all(syncsToAwaitBeforeShowingInbox);
           await window.storage.put('postRegistrationSyncsStatus', 'complete');
           log.info(`${logId}: postRegistrationSyncs complete`);

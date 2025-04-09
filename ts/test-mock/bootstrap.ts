@@ -119,10 +119,15 @@ export type BootstrapOptions = Readonly<{
   useLegacyStorageEncryption?: boolean;
 }>;
 
-export type EphemeralBackupType = Readonly<{
-  cdn: 3;
-  key: string;
-}>;
+export type EphemeralBackupType = Readonly<
+  | {
+      cdn: 3;
+      key: string;
+    }
+  | {
+      error: 'RELINK_REQUESTED';
+    }
+>;
 
 export type LinkOptionsType = Readonly<{
   extraConfig?: Partial<RendererConfigType>;
@@ -404,6 +409,11 @@ export class Bootstrap {
 
     if (ephemeralBackup != null) {
       await this.server.provideTransferArchive(this.desktop, ephemeralBackup);
+
+      // Desktop won't get linked
+      if ('error' in ephemeralBackup) {
+        return app;
+      }
     }
 
     debug('new desktop device %j', this.desktop.debugId);

@@ -1123,8 +1123,10 @@ export default class AccountManager extends EventTarget {
     // until the backup is downloaded and imported.
     if (shouldDownloadBackup && cleanStart) {
       if (options.type === AccountType.Linked && options.ephemeralBackupKey) {
+        log.info('createAccount: setting ephemeral key');
         await storage.put('backupEphemeralKey', options.ephemeralBackupKey);
       }
+      log.info('createAccount: setting backup download path');
       await storage.put('backupDownloadPath', getRelativePath(createName()));
     }
 
