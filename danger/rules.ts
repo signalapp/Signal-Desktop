@@ -5,6 +5,7 @@ import { run } from 'endanger';
 
 import migrateBackboneToRedux from './rules/migrateBackboneToRedux';
 import packageJsonVersionsShouldBePinned from './rules/packageJsonVersionsShouldBePinned';
+import pnpmLockDepsShouldHaveIntegrity from './rules/pnpmLockDepsShouldHaveIntegrity';
 
 function isGitDeletedError(error: unknown) {
   return (
@@ -17,7 +18,11 @@ function isGitDeletedError(error: unknown) {
 
 async function main() {
   try {
-    await run(migrateBackboneToRedux(), packageJsonVersionsShouldBePinned());
+    await run(
+      migrateBackboneToRedux(),
+      packageJsonVersionsShouldBePinned(),
+      pnpmLockDepsShouldHaveIntegrity()
+    );
   } catch (error: unknown) {
     if (!isGitDeletedError(error)) {
       throw error;

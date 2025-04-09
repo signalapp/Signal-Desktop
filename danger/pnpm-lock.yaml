@@ -9,14 +9,14 @@ importers:
   .:
     dependencies:
       danger:
-        specifier: 12.3.3
-        version: 12.3.3
+        specifier: 12.3.4
+        version: 12.3.4
       endanger:
         specifier: 7.0.4
-        version: 7.0.4(danger@12.3.3)
+        version: 7.0.4(danger@12.3.4)
       typescript:
-        specifier: 4.6.2
-        version: 4.6.2
+        specifier: 5.6.3
+        version: 5.6.3
 
 packages:
 
@@ -171,8 +171,8 @@ packages:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
 
-  danger@12.3.3:
-    resolution: {integrity: sha512-nZKzpgXN21rr4dwa6bFhM7G2JEa79dZRJiT3RVRSyi4yk1/hgZ2f8HDGoa7tMladTmu8WjJFyE3LpBIihh+aDw==}
+  danger@12.3.4:
+    resolution: {integrity: sha512-esr6iowAryWjWkMzOKyOmMRkamPkDRhC6OAj2tO48i0oobObdP0d8I/YE+qSj9m+/RRcrhaKnysvPL51eW1m3w==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -665,9 +665,9 @@ packages:
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
-  typescript@4.6.2:
-    resolution: {integrity: sha512-HM/hFigTBHZhLXshn9sN37H085+hQGeJHJ/X7LpBWLID/fbc2acUMfU+lGD98X81sKP+pFa9f0DZmCwB9GnbAg==}
-    engines: {node: '>=4.2.0'}
+  typescript@5.6.3:
+    resolution: {integrity: sha512-hjcS1mhfuyi4WW8IWtjP7brDrG2cuDZukyrYrSauoXGNgx0S7zceP07adYkJycEr56BOUTNPzbInooiN3fn1qw==}
+    engines: {node: '>=14.17'}
     hasBin: true
 
   unified@9.2.2:
@@ -917,7 +917,7 @@ snapshots:
       shebang-command: 2.0.0
       which: 2.0.2
 
-  danger@12.3.3:
+  danger@12.3.4:
     dependencies:
       '@gitbeaker/rest': 38.12.1
       '@octokit/rest': 18.12.0
@@ -976,10 +976,10 @@ snapshots:
     dependencies:
       safe-buffer: 5.2.1
 
-  endanger@7.0.4(danger@12.3.3):
+  endanger@7.0.4(danger@12.3.4):
     dependencies:
       callsites: 3.1.0
-      danger: 12.3.3
+      danger: 12.3.4
       execa: 5.1.1
       intl-messageformat: 9.13.0
       memoize-one: 5.2.1
@@ -1480,7 +1480,7 @@ snapshots:
 
   tslib@2.8.1: {}
 
-  typescript@4.6.2: {}
+  typescript@5.6.3: {}
 
   unified@9.2.2:
     dependencies:
