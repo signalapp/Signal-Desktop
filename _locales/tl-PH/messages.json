@@ -2460,13 +2460,13 @@
     "messageformat": "Dark skin tone"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "Maglagay ng Emoji, Sticker, o GIF"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "Mag-add ng emoji"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "Mag-add ng sticker"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Kanselahin"
@@ -4257,7 +4257,7 @@
     "messageformat": "I-require ang admin na mag-approve ng bagong members na nag-join gamit ang group link."
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "Kopyahin ang signal.group link sa keyboard"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Requests ({count,number})"
@@ -6227,6 +6227,6 @@
     "messageformat": "Kapag nag-link ka ng bagong Desktop sa Signal Android at pinili mong ilipat ang message history mo, maaari mo na ring piliin ang mga gusto mong ilipat na lumang attachments mula sa primary device mo. Ang proseso ng paglipat ay end-to-end encrypted at secure."
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Kapag nag-link ka ng bagong Desktop sa Signal Android at pinili mong ilipat ang message history mo, maaari mo na ring piliin ang mga gusto mong ilipat na lumang attachments mula sa primary device mo. Ang proseso ng paglipat ay end-to-end encrypted at secure."
   }
 }

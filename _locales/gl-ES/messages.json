@@ -2460,13 +2460,13 @@
     "messageformat": "Ton de pel escuro"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "Engadir unha emoticona, sticker ou GIF"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "Engadir unha emoticona"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "Engadir unha emoticona"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Cancelar"
@@ -4257,7 +4257,7 @@
     "messageformat": "É necesario que un administrador acepte os novos membros que se unan a través da ligazón do grupo"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "Copia a ligazón de signal.group no teclado"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Solicitudes ({count,number})"
@@ -6227,6 +6227,6 @@
     "messageformat": "Se vinculas un novo ordenador en Signal Android e decides transferir o historial de mensaxes, agora tamén podes seleccionar que anexos antigos copiar desde o teu dispositivo principal. O proceso de transferencia está protexido cun cifrado de extremo a extremo."
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Se vinculas un novo ordenador en Signal Android e decides transferir o historial de mensaxes, agora tamén podes seleccionar que anexos antigos copiar desde o teu dispositivo principal. O proceso de transferencia está protexido cun cifrado de extremo a extremo."
   }
 }

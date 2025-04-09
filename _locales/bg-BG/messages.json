@@ -2460,13 +2460,13 @@
     "messageformat": "Тъмнокафява кожа"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "Добавяне на емоджи, стикер или GIF"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "Добавете емоджи"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "Добавяне на стикер"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Отказ"
@@ -4257,7 +4257,7 @@
     "messageformat": "Изискване администратор да одобрява нови членове, които се присъединяват чрез линка на групата"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "Копирайте линка със signal.group на клавиатурата"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Заявки ({count,number})"
@@ -6227,6 +6227,6 @@
     "messageformat": "Ако свържете нов Desktop на Signal Android и изберете да прехвърлите историята на съобщенията си, сега можете избирателно да прехвърлите и стари прикачени файлове от главното си устройство. Както винаги, трансферът е криптиран и защитен от край до край."
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Ако свържете нов Desktop на Signal Android и изберете да прехвърлите историята на съобщенията си, сега можете избирателно да прехвърлите и стари прикачени файлове от главното си устройство. Както винаги, трансферът е криптиран и защитен от край до край."
   }
 }

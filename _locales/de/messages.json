@@ -2460,13 +2460,13 @@
     "messageformat": "Dunkler Hautton"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "Emoji, Sticker oder GIF hinzufügen"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "Ein Emoji hinzufügen"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "Sticker hinzufügen"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Abbrechen"
@@ -4257,7 +4257,7 @@
     "messageformat": "Ein Admin muss Beitrittsanfragen von neuen Mitgliedern über den Gruppen-Link bestätigen."
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "Den signal.group-Link in die Zwischenablage kopieren"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Anfragen ({count,number})"
@@ -6227,6 +6227,6 @@
     "messageformat": "Wenn du einen neuen Computer mit Signal Android koppelst und den Nachrichtenverlauf überträgst, kannst du jetzt auch gezielt alte Anhänge von deinem Hauptgerät übertragen. Bring deine Vergangenheit in die Gegenwart, indem du in der Zeit zurückblätterst und auf das Download-Symbol klickst. Die Übertragung ist wie immer Ende-zu-Ende verschlüsselt und sicher."
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Wenn du einen neuen Computer mit Signal Android koppelst und den Nachrichtenverlauf überträgst, kannst du jetzt auch gezielt alte Anhänge von deinem Hauptgerät übertragen. Bring deine Vergangenheit in die Gegenwart, indem du in der Zeit zurückblätterst und auf das Download-Symbol klickst. Die Übertragung ist wie immer Ende-zu-Ende verschlüsselt und sicher."
   }
 }

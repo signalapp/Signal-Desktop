@@ -2460,13 +2460,13 @@
     "messageformat": "ಡಾರ್ಕ್ ಸ್ಕಿನ್ ಟೋನ್"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "ಎಮೋಜಿ, ಸ್ಟಿಕ್ಕರ್ ಅಥವಾ GIF ಅನ್ನು ಸೇರಿಸಿ"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "ಎಮೋಜಿ ಸೇರಿಸಿ"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "ಸ್ಟಿಕ್ಕರ್ ಸೇರಿಸಿ"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "ರದ್ದುಮಾಡಿ"
@@ -4257,7 +4257,7 @@
     "messageformat": "ಗುಂಪಿನ ಲಿಂಕ್ ಮೂಲಕ ಹೊಸ ಸದಸ್ಯರು ಸೇರುವುದನ್ನು ಅನುಮೋದಿಸಲು ಅಡ್ಮಿನ್ ಅಗತ್ಯವಿರುತ್ತದೆ"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "Signal.group ಲಿಂಕ್ ಅನ್ನು ಕೀಬೋರ್ಡ್‌ಗೆ ಕಾಪಿ ಮಾಡಿ"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "ವಿನಂತಿಗಳು ({count,number})"
@@ -6227,6 +6227,6 @@
     "messageformat": "ನೀವು Signal Android ನಲ್ಲಿ ಹೊಸ ಡೆಸ್ಕ್‌ಟಾಪ್ ಅನ್ನು ಲಿಂಕ್ ಮಾಡಿ ನಿಮ್ಮ ಸಂದೇಶ ಇತಿಹಾಸವನ್ನು ವರ್ಗಾಯಿಸುವುದನ್ನು ಆಯ್ಕೆಮಾಡಿದರೆ, ಈಗ ನೀವು ನಿಮ್ಮ ಪ್ರಾಥಮಿಕ ಸಾಧನದಿಂದ ಹಳೆಯ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್‌ಗಳನ್ನು ಸಹ ಆಯ್ದವುಗಳಾಗಿ ವರ್ಗಾಯಿಸಬಹುದು. ಆ ಸಮಯದಲ್ಲಿ ಹಿಂದಕ್ಕೆ ಸ್ಕ್ರಾಲ್ ಮಾಡುವ ಮೂಲಕ ಮತ್ತು ಡೌನ್‌ಲೋಡ್ ಐಕಾನ್ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡುವ ಮೂಲಕ ಭೂತಕಾಲವನ್ನು ವರ್ತಮಾನಕ್ಕೆ ತನ್ನಿ. ಯಾವಾಗಲೂ ಇದ್ದಂತೆಯೇ, ವರ್ಗಾಯಿಸುವ ಪ್ರಕ್ರಿಯೆಯು ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್ಕ್ರಿಪ್ಟ್ ಆಗಿರುತ್ತದೆ ಮತ್ತು ಸುರಕ್ಷಿತವಾಗಿದೆ."
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "ನೀವು Signal Android ನಲ್ಲಿ ಹೊಸ ಡೆಸ್ಕ್‌ಟಾಪ್ ಅನ್ನು ಲಿಂಕ್ ಮಾಡಿ ನಿಮ್ಮ ಸಂದೇಶ ಇತಿಹಾಸವನ್ನು ವರ್ಗಾಯಿಸುವುದನ್ನು ಆಯ್ಕೆಮಾಡಿದರೆ, ಈಗ ನೀವು ನಿಮ್ಮ ಪ್ರಾಥಮಿಕ ಸಾಧನದಿಂದ ಹಳೆಯ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್‌ಗಳನ್ನು ಸಹ ಆಯ್ದವುಗಳಾಗಿ ವರ್ಗಾಯಿಸಬಹುದು. ಆ ಸಮಯದಲ್ಲಿ ಹಿಂದಕ್ಕೆ ಸ್ಕ್ರಾಲ್ ಮಾಡುವ ಮೂಲಕ ಮತ್ತು ಡೌನ್‌ಲೋಡ್ ಐಕಾನ್ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡುವ ಮೂಲಕ ಭೂತಕಾಲವನ್ನು ವರ್ತಮಾನಕ್ಕೆ ತನ್ನಿ. ಯಾವಾಗಲೂ ಇದ್ದಂತೆಯೇ, ವರ್ಗಾಯಿಸುವ ಪ್ರಕ್ರಿಯೆಯು ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್ಕ್ರಿಪ್ಟ್ ಆಗಿರುತ್ತದೆ ಮತ್ತು ಸುರಕ್ಷಿತವಾಗಿದೆ."
   }
 }

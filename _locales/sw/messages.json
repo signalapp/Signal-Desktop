@@ -2460,13 +2460,13 @@
     "messageformat": "Rangi ya ngozi nyeusi"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "Ongeza Emoji, Kibandiko au GIF"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "Ongeza Emoji"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "Ongeza kibandiko"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Ghairi"
@@ -4257,7 +4257,7 @@
     "messageformat": "Itisha ruhusa ya msimamizi kuidhinisha wanachama wapya wanaojiunga kupitia kiungo cha kikundi"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "Nakili kiungo cha kikundi cha.Signal kwenye kibodi"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Maombi ({count,number})"
@@ -6227,6 +6227,6 @@
     "messageformat": "Ikiwa unaunganisha Desktop mpya kwenye Signal Android na uchague kuhamisha historia ya ujumbe yako, sasa unaweza pia kuhamisha viambatisho vya zamani kutoka kwenye kifaa chako cha msingi pia. Rejesha mambo ya zamani kwa kurudi nyuma na kubonyeza kwenye aikoni ya kupakua. Kama kawaida, mchakato wa uhamishaji umesimbwa fiche na ni salama."
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Ikiwa unaunganisha Desktop mpya kwenye Signal Android na uchague kuhamisha historia ya ujumbe yako, sasa unaweza pia kuhamisha viambatisho vya zamani kutoka kwenye kifaa chako cha msingi pia. Rejesha mambo ya zamani kwa kurudi nyuma na kubonyeza kwenye aikoni ya kupakua. Kama kawaida, mchakato wa uhamishaji umesimbwa fiche na ni salama."
   }
 }

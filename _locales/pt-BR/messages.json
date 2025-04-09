@@ -2460,13 +2460,13 @@
     "messageformat": "Tom de pele escuro"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "Adicione um emoji, figurinha ou GIF"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "Adicionar um emoji"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "Adicionar uma figurinha"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Cancelar"
@@ -4257,7 +4257,7 @@
     "messageformat": "Exigir que uma pessoa admin aprove pedidos de novos membros via link do grupo"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "Copiar link do grupo do Signal para a área de transferência"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Pedidos ({count,number})"
@@ -6227,6 +6227,6 @@
     "messageformat": "Se você vincular um novo desktop no Signal Android e optar por transferir seu histórico de mensagens, também poderá transferir seletivamente anexos antigos do seu dispositivo principal. Para trazer o passado para o presente, é só rolar a tela e clicar no ícone de download. Como sempre, o processo de transferência é criptografado e seguro de ponta a ponta."
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Se você vincular um novo desktop no Signal Android e optar por transferir seu histórico de mensagens, também poderá selecionar e transferir anexos antigos do seu dispositivo principal.  Para trazer o passado para o presente, basta rolar a tela e tocar no ícone de download. Como sempre, todo o processo é criptografado de ponta a ponta e totalmente seguro. "
   }
 }

@@ -2460,13 +2460,13 @@
     "messageformat": "رنگ پوست تیره"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "افزودن ایموجی، استیکر یا گیف"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "افزودن ایموجی"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "افزودن یک استیکر"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "لغو"
@@ -4257,7 +4257,7 @@
     "messageformat": "نیاز به یک مدیر برای تأیید اعضای جدیدی که از طریق پیوند گروه می‌پیوندند"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "لینک signal.group را در صفحه‌کلید کپی کنید"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "درخواست‌ها ({count,number})"
@@ -6227,6 +6227,6 @@
     "messageformat": "اگر یک دسک‌تاپ جدید را در سیگنال اندروید پیوند دهید و انتقال تاریخچه پیام‌های خود را انتخاب کنید، می‌توانید پیوست‌های قدیمی را نیز به‌صورت گزینشی از دستگاه اصلی خود منتقل کنید. مثل همیشه، فرایند انتقال سرتاسر رمزگذاری‌شده و امن است."
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "اگر یک دسک‌تاپ جدید را در سیگنال اندروید پیوند دهید و انتقال تاریخچه پیام‌های خود را انتخاب کنید، می‌توانید پیوست‌های قدیمی را نیز به‌صورت گزینشی از دستگاه اصلی خود منتقل کنید. مثل همیشه، فرایند انتقال سرتاسر رمزگذاری‌شده و امن است."
   }
 }

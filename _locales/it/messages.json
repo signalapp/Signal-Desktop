@@ -903,7 +903,7 @@
     "messageformat": "On"
   },
   "icu:off": {
-    "messageformat": "Off"
+    "messageformat": "No"
   },
   "icu:deleteWarning": {
     "messageformat": "Questo messaggio verrà eliminato da questo dispositivo."
@@ -2460,13 +2460,13 @@
     "messageformat": "Tonalità pelle nera scura"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "Aggiungi emoji, sticker o GIF"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "Aggiungi un'emoji"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "Aggiungi uno sticker"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Annulla"
@@ -2706,7 +2706,7 @@
     "messageformat": "Barrato"
   },
   "icu:FormatMenu--guide--monospace": {
-    "messageformat": "Monospace"
+    "messageformat": "Monospaziato"
   },
   "icu:FormatMenu--guide--spoiler": {
     "messageformat": "Spoiler"
@@ -4257,7 +4257,7 @@
     "messageformat": "Richiedi a un amministratore di approvare i nuovi membri che si uniscono tramite il link del gruppo"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "Copia il link del gruppo di Signal per incollarlo"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Richieste ({count,number})"
@@ -5472,7 +5472,7 @@
     "messageformat": "Chi può vedere questa Storia"
   },
   "icu:StoriesSettings__add-viewer": {
-    "messageformat": "Aggiungi visualizzatore"
+    "messageformat": "Aggiungi persona"
   },
   "icu:StoriesSettings__remove--action": {
     "messageformat": "Rimuovi"
@@ -6139,7 +6139,7 @@
     "messageformat": "Rifiuta richiesta"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off"
+    "messageformat": "No"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
     "messageformat": "On"
@@ -6227,6 +6227,6 @@
     "messageformat": "Se colleghi un nuovo Desktop a Signal Android e scegli di trasferire la tua cronologia messaggi, da ora puoi anche scegliere esattamente quali vecchi allegati trasferire dal tuo dispositivo primario. Se lo vuoi, una parte del tuo passato potrà seguirti (se solo funzionasse così anche nella realtà…). E come sempre, il processo di trasferimento è sicuro e crittografato end-to-end."
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Se colleghi un nuovo Desktop a Signal Android e scegli di trasferire la tua cronologia messaggi, da ora puoi anche scegliere esattamente quali vecchi allegati trasferire dal tuo dispositivo primario. Se lo vuoi, una parte del tuo passato potrà seguirti (se solo funzionasse così anche nella realtà…). E come sempre, il processo di trasferimento è sicuro e crittografato end-to-end."
   }
 }

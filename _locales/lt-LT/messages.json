@@ -2460,13 +2460,13 @@
     "messageformat": "Tamsus odos atspalvis"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "Pridėti jaustuką, lipduką arba GIF"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "Pridėkite jaustuką"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "Pridėti lipduką"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Atšaukti"
@@ -4257,7 +4257,7 @@
     "messageformat": "Reikalauti, kad administratorius patvirtintų naujus, per grupės nuorodą prisijungiančius, narius"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "Nukopijuokite signal.group nuorodą į klaviatūrą"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Prašymai ({count,number})"
@@ -6227,6 +6227,6 @@
     "messageformat": "Jei susiejate naują darbalaukį su „Signal Android“ ir pasirenkate perkelti žinučių istoriją, dabar galite pasirinktinai perkelti ir senus priedus iš pagrindinio įrenginio. Perkėlimo procesas yra visiškai užšifruotas ir saugus."
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Jei susiejate naują darbalaukį su „Signal Android“ ir pasirenkate perkelti žinučių istoriją, dabar galite pasirinktinai perkelti ir senus priedus iš pagrindinio įrenginio. Perkėlimo procesas yra visiškai užšifruotas ir saugus."
   }
 }

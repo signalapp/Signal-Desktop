@@ -2460,13 +2460,13 @@
     "messageformat": "To de pell fosc"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "Afegeix un emoji, un sticker o un GIF"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "Afegir un Emoji"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "Afegiu-hi un adhesiu"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Cancel·la"
@@ -4257,7 +4257,7 @@
     "messageformat": "Requereix que un administrador aprovi els membres nous que s’afegeixin per l’enllaç del grup."
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "Copiar l'enllaç signal.group al porta-retalls"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Sol·licituds ({count,number})"
@@ -6227,6 +6227,6 @@
     "messageformat": "Ara, si enllaces un nou Escriptori a Signal Android i decideixes transferir-hi el teu historial de missatges, tindràs també l'opció de transferir selectivament arxius adjunts antics des del dispositiu principal. El procés de transferència és segur i xifrat d'extrem a extrem."
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Ara, si enllaces un nou Escriptori a Signal Android i decideixes transferir-hi el teu historial de missatges, tindràs també l'opció de transferir selectivament arxius adjunts antics des del dispositiu principal. El procés de transferència és segur i xifrat d'extrem a extrem."
   }
 }

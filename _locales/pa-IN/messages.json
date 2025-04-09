@@ -2460,13 +2460,13 @@
     "messageformat": "ਡਾਰਕ ਸਕਿੱਨ ਟੋਨ"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "ਇਮੋਜੀ, ਸਟਿੱਕਰ, ਜਾਂ GIF ਸ਼ਾਮਲ ਕਰੋ"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "ਇੱਕ ਇਮੋਜੀ ਸ਼ਾਮਲ ਕਰੋ"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "ਸਟਿੱਕਰ ਸ਼ਾਮਲ ਕਰੋ"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "ਰੱਦ ਕਰੋ"
@@ -4257,7 +4257,7 @@
     "messageformat": "ਗਰੁੱਪ ਲਿੰਕ ਦੇ ਰਾਹੀਂ ਸ਼ਾਮਲ ਹੋ ਰਹੇ ਨਵੇ ਮੈਂਬਰਾਂ ਨੂੰ ਮਨਜ਼ੂਰ ਕਰਨ ਲਈ ਇੱਕ ਐਡਮਿਨ ਦੀ ਲੋੜ ਹੈ"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "signal.group ਲਿੰਕ ਨੂੰ ਕੀਬੋਰਡ 'ਤੇ ਕਾਪੀ ਕਰੋ"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "ਬੇਨਤੀਆਂ ({count,number})"
@@ -6227,6 +6227,6 @@
     "messageformat": "ਜੇਕਰ ਤੁਸੀਂ Signal Android 'ਤੇ ਇੱਕ ਨਵਾਂ ਡੈਸਕਟੌਪ ਲਿੰਕ ਕਰਦੇ ਹੋ ਅਤੇ ਆਪਣੇ ਪੁਰਾਣੇ ਸੁਨੇਹੇ ਟ੍ਰਾਂਸਫਰ ਕਰਦੇ ਹੋ, ਤਾਂ ਹੁਣ ਤੁਸੀਂ ਆਪਣੇ ਪ੍ਰਾਇਮਰੀ ਡਿਵਾਈਸ ਤੋਂ ਚੋਣਵੀਆਂ ਪੁਰਾਣੀਆਂ ਅਟੈਚਮੈਂਟਾਂ ਨੂੰ ਵੀ ਟ੍ਰਾਂਸਫਰ ਕਰ ਸਕਦੇ ਹੋ। ਟ੍ਰਾਂਸਫਰ ਦੀ ਪ੍ਰਕਿਰਿਆ ਸਿਰੇ-ਤੋਂ-ਸਿਰੇ ਤੱਕ ਇਨਕ੍ਰਿਪਟਡ ਅਤੇ ਸੁਰੱਖਿਅਤ ਹੁੰਦੀ ਹੈ।"
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "ਜੇਕਰ ਤੁਸੀਂ Signal Android 'ਤੇ ਇੱਕ ਨਵਾਂ ਡੈਸਕਟੌਪ ਲਿੰਕ ਕਰਦੇ ਹੋ ਅਤੇ ਆਪਣੇ ਪੁਰਾਣੇ ਸੁਨੇਹੇ ਟ੍ਰਾਂਸਫਰ ਕਰਦੇ ਹੋ, ਤਾਂ ਹੁਣ ਤੁਸੀਂ ਆਪਣੇ ਪ੍ਰਾਇਮਰੀ ਡਿਵਾਈਸ ਤੋਂ ਚੋਣਵੀਆਂ ਪੁਰਾਣੀਆਂ ਅਟੈਚਮੈਂਟਾਂ ਨੂੰ ਵੀ ਟ੍ਰਾਂਸਫਰ ਕਰ ਸਕਦੇ ਹੋ। ਟ੍ਰਾਂਸਫਰ ਦੀ ਪ੍ਰਕਿਰਿਆ ਸਿਰੇ-ਤੋਂ-ਸਿਰੇ ਤੱਕ ਇਨਕ੍ਰਿਪਟਡ ਅਤੇ ਸੁਰੱਖਿਅਤ ਹੁੰਦੀ ਹੈ।"
   }
 }

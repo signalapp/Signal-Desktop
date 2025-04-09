@@ -2460,13 +2460,13 @@
     "messageformat": "அடர் ஸ்கின் டோன்"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "எமோஜி, ஸ்டிக்கர், அல்லது GIFஐச் சேர்க்கவும்"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "ஈமோஜியைச் சேர்"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "ஒரு ஸ்டிக்கரைச் சேர்க்கவும்"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "ரத்துசெய்"
@@ -4257,7 +4257,7 @@
     "messageformat": "வழியாக புதிய உறுப்பினர்களை அனுமதிக்க நிர்வாகி தேவை குழு இணைப்பு"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "சிக்னல்.குழு இணைப்பை விசைப்பலகைக்கு நகலெடு"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "கோரிக்கைகளை ({count,number})"
@@ -6227,6 +6227,6 @@
     "messageformat": "நீங்கள் சிக்னல் ஆண்ட்ராய்டில் ஒரு புதிய டெஸ்க்டாப்பை இணைத்து, உங்கள் செய்தி வரலாற்றை மாற்றத் தேர்வுசெய்தால், இப்போது உங்கள் முதன்மை சாதனத்திலிருந்தும் பழைய இணைப்புகளைத் தேர்ந்தெடுத்து மாற்றலாம். காலத்தில் பின்னோக்கிச் சென்று பதிவிறக்க ஐகானைக் கிளிக் செய்வதன் மூலம் கடந்த காலத்தை நிகழ்காலத்திற்குக் கொண்டு வாருங்கள். உங்கள் முதன்மை சாதனத்திலிருந்தும் பழைய இணைப்புகளையும் இடமாற்றத் தேர்ந்தெடுக்கலாம்."
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "நீங்கள் சிக்னல் ஆண்ட்ராய்டில் ஒரு புதிய டெஸ்க்டாப்பை இணைத்து, உங்கள் செய்தி வரலாற்றை மாற்றத் தேர்வுசெய்தால், இப்போது உங்கள் முதன்மை சாதனத்திலிருந்தும் பழைய இணைப்புகளைத் தேர்ந்தெடுத்து மாற்றலாம். காலத்தில் பின்னோக்கிச் சென்று பதிவிறக்க ஐகானைக் கிளிக் செய்வதன் மூலம் கடந்த காலத்தை நிகழ்காலத்திற்குக் கொண்டு வாருங்கள். உங்கள் முதன்மை சாதனத்திலிருந்தும் பழைய இணைப்புகளையும் இடமாற்றத் தேர்ந்தெடுக்கலாம்."
   }
 }

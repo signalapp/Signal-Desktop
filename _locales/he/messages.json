@@ -2460,13 +2460,13 @@
     "messageformat": "גוון עור כהה"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "הוספת אימוג׳י, סטיקר או GIF"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "הוספת אימוג׳י"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "הוסף מדבקה"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "ביטול"
@@ -4257,7 +4257,7 @@
     "messageformat": "דרוש מנהלן כדי לאשר הצטרפות של חברי קבוצה חדשים באמצעות קישור הקבוצה"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "העתקת קישור של קבוצת Signal למקלדת"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "בקשות ({count,number})"
@@ -6227,6 +6227,6 @@
     "messageformat": "בעת קישור שולחן עבודה חדש אל Signal Android ובחירה להעביר את היסטוריית ההודעות שלך, עכשיו אפשר גם להעביר באופן סלקטיבי קבצים מצורפים ישנים מהמכשיר הראשי שלך. תהליך ההעברה מאובטח ומוצפן מקצה לקצה."
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "בעת קישור שולחן עבודה חדש אל Signal Android ובחירה להעביר את היסטוריית ההודעות שלך, עכשיו אפשר גם להעביר באופן סלקטיבי קבצים מצורפים ישנים מהמכשיר הראשי שלך. תהליך ההעברה מאובטח ומוצפן מקצה לקצה."
   }
 }

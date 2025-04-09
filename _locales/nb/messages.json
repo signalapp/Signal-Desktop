@@ -2460,13 +2460,13 @@
     "messageformat": "Mørk hudtone"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "Legg til emoji, klistremerke eller GIF"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "Legg til en emoji"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "Legg til et klistremerke"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Avbryt"
@@ -4257,7 +4257,7 @@
     "messageformat": "Krev administratorgodkjenning for nye medlemmer som blir med via gruppelenken."
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "Kopier signal.group-lenken til utklippstavlen"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Forespørsler ({count,number})"
@@ -6227,6 +6227,6 @@
     "messageformat": "Hvis du kobler til en ny Desktop-enhet på Signal for Android og ønsker å overføre meldingsloggen din, kan du velge om du også vil overføre gamle vedlegg. Overføringen er som alltid ende-til-ende-kryptert og sikker."
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Hvis du kobler til en ny Desktop-enhet på Signal for Android og ønsker å overføre meldingsloggen din, kan du velge om du også vil overføre gamle vedlegg. Overføringen er som alltid ende-til-ende-kryptert og sikker."
   }
 }

@@ -2460,13 +2460,13 @@
     "messageformat": "Tamna boja kože"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "Dodaj emotikon, naljepnicu ili GIF"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "Dodaj emoji"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "Dodaj naljepnicu"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Odustani"
@@ -4257,7 +4257,7 @@
     "messageformat": "Zahtjeva da administrator odobri pridruživanje novih članova putem poveznice grupe"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "Kopiraj poveznicu Signal grupe u međuspremnik"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Zahtjevi ({count,number})"
@@ -6227,6 +6227,6 @@
     "messageformat": "Ako povežete novo računalo i Signal Android te odlučite prenijeti svoju povijest poruka, sada možete i selektivno prenijeti stare privitke sa svog glavnog uređaja. Proces prijenosa je sveobuhvatno šifriran i siguran."
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Ako povežete novo računalo i Signal Android te odlučite prenijeti svoju povijest poruka, sada možete i selektivno prenijeti stare privitke sa svog glavnog uređaja. Proces prijenosa je sveobuhvatno šifriran i siguran."
   }
 }

@@ -2460,13 +2460,13 @@
     "messageformat": "गहरा स्किन टोन"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "इमोजी, स्टिकर या GIF जोड़ें"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "एक इमोजी जोड़ें"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "एक स्टिकर लगाएं"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "रद्द करें"
@@ -4257,7 +4257,7 @@
     "messageformat": "समूह लिंक के माध्यम से शामिल होने वाले नए सदस्यों को स्वीकृति देने के लिए एक व्यवस्थापक की आवश्यकता है"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "signal.group लिंक को कीबोर्ड पर कॉपी करें"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "अनुरोध ({count,number})"
@@ -6227,6 +6227,6 @@
     "messageformat": "अगर आप Signal Android पर नया डेस्कटॉप लिंक करते हैं और अपना संदेश इतिहास ट्रांसफ़र करना चुनते हैं, तो अब आप अपने प्राथमिक डिवाइस से भी चुनिंदा पुराने अटैचमेंट ट्रांसफ़र भी कर सकते हैं। समय में पीछे जाकर और डाउनलोड आइकन पर क्लिक करके अतीत को वर्तमान में लाएँ। हमेशा की तरह, ट्रांसफ़र की प्रोसेस एंड-टू-एंड एनक्रिप्टेड और सुरक्षित है।"
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "अगर आप Signal Android पर नया डेस्कटॉप लिंक करते हैं और अपना संदेश इतिहास ट्रांसफ़र करना चुनते हैं, तो अब आप अपने प्राथमिक डिवाइस से भी चुनिंदा पुराने अटैचमेंट ट्रांसफ़र भी कर सकते हैं। समय में पीछे जाकर और डाउनलोड आइकन पर क्लिक करके अतीत को वर्तमान में लाएँ। हमेशा की तरह, ट्रांसफ़र की प्रोसेस एंड-टू-एंड एनक्रिप्टेड और सुरक्षित है।"
   }
 }

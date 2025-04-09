@@ -2460,13 +2460,13 @@
     "messageformat": "Koyu ten rengi"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "Emoji, Çıkartma veya GIF Ekle"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "Emoji ekle"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "Sticker ekleme"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "İptal"
@@ -4257,7 +4257,7 @@
     "messageformat": "Grup bağlantısı üzerinden katılan yeni üyelerin yönetici tarafından onaylanması gereksin"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "signal.group bağlantısını klavyeye kopyala"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "İstekler ({count,number})"
@@ -6227,6 +6227,6 @@
     "messageformat": "Signal Android'de yeni bir Masaüstü bağlarsan ve mesaj geçmişini aktarmayı seçersen, bundan sonra birincil cihazındaki eski eklentileri de seçerek aktarabilirsin. Zamanda geriye gidip indirme simgesine tıklayarak geçmişi bugüne taşı. Aktarım süreci, her zaman olduğu gibi uçtan uca şifreli ve güvenlidir."
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Signal Android'de yeni bir Masaüstü bağlarsan ve mesaj geçmişini aktarmayı seçersen, bundan sonra birincil cihazındaki eski eklentileri de seçerek aktarabilirsin. Zamanda geriye gidip indirme simgesine tıklayarak geçmişi bugüne taşı. Aktarım süreci, her zaman olduğu gibi uçtan uca şifreli ve güvenlidir."
   }
 }

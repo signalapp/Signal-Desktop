@@ -2460,13 +2460,13 @@
     "messageformat": "Donker velkleur"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "Voeg 'n Emoji, Plakker of GIF by"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "Voeg 'n emoji by"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "Voeg ’n plakker toe"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Kanselleer"
@@ -4257,7 +4257,7 @@
     "messageformat": "’n Admin moet nuwe lede goedkeur wat d.m.v. die groepskakel aansluit"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "Kopieer signal.group-skakel na knipbord"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Versoeke ({count,number})"
@@ -6227,6 +6227,6 @@
     "messageformat": "As jy 'n nuwe rekenaar op Signal Android koppel en kies om jou boodskapgeskiedenis oor te dra, kan jy nou ook ou aanhegsels selektief van jou primêre toestel af oordra."
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "As jy 'n nuwe rekenaar op Signal Android koppel en kies om jou boodskapgeskiedenis oor te dra, kan jy nou ook ou aanhegsels selektief van jou primêre toestel af oordra."
   }
 }

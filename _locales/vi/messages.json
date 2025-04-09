@@ -2460,13 +2460,13 @@
     "messageformat": "Màu da tối"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "Thêm Emoji, Nhãn dán hoặc GIF"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "Thêm một Emoji"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "Thêm một Sticker"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Hủy"
@@ -4257,7 +4257,7 @@
     "messageformat": "Yêu cầu người quản lý chấp duyệt thành viên mới tham gia qua đường dẫn nhóm"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "Sao chép đường dẫn signal.group vào bàn phím"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Yêu cầu ({count,number})"
@@ -6227,6 +6227,6 @@
     "messageformat": "Nếu bạn liên kết một Máy tính mới trên Signal Android và chọn chuyển lịch sử tin nhắn, giờ đây bạn cũng có thể chuyển các tập tin đính kèm cũ một cách có chọn lọc từ thiết bị chính của mình. Như thường lệ, quá trình chuyển dữ liệu được mã hóa đầu cuối và bảo mật."
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Nếu bạn liên kết một Máy tính mới trên Signal Android và chọn chuyển lịch sử tin nhắn, giờ đây bạn cũng có thể chuyển các tập tin đính kèm cũ một cách có chọn lọc từ thiết bị chính của mình. Như thường lệ, quá trình chuyển dữ liệu được mã hóa đầu cuối và bảo mật."
   }
 }

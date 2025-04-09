@@ -2460,13 +2460,13 @@
     "messageformat": "Tume nahatoon"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "Lisa emoji, kleebis või GIF"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "Lisa emoji"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "Lisa kleebis"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Loobu"
@@ -4257,7 +4257,7 @@
     "messageformat": "Nõua grupilingi kaudu liituvate uute liikmete kinnitamist administraatori poolt"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "Kopeeri signal.group link lõikelauale"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Taotlused ({count,number})"
@@ -6227,6 +6227,6 @@
     "messageformat": "Kui seod Signal Androidiga uue arvuti ja soovid oma sõnumiajalugu üle kopeerida, saad nüüd ka valikuliselt vanu lisatud faile oma põhiseadmest üle kopeerida. Edastusprotsess on otspunktkrüptitud ja turvaline."
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Kui seod Signal Androidiga uue arvuti ja soovid oma sõnumiajalugu üle kopeerida, saad nüüd ka valikuliselt vanu lisatud faile oma põhiseadmest üle kopeerida. Edastusprotsess on otspunktkrüptitud ja turvaline."
   }
 }

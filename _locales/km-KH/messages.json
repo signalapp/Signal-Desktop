@@ -2460,13 +2460,13 @@
     "messageformat": "ពណ៌ស្បែកងងឹត"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "ដាក់រូបអារម្មណ៍ ស្ទីកគ័រ ឬរូបចលនា"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "ដាក់រូបអារម្មណ៍មួយ"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "ដាក់ស្ទីកគ័រមួយ"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "បោះបង់"
@@ -4257,7 +4257,7 @@
     "messageformat": "តម្រូវឲ្យអ្នកគ្រប់គ្រងឯកភាពលើសមាជិកថ្មីៗដែលចូល​រួម​តាម​រយៈ​តំណ​ក្រុម"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "ចម្លងតំណ signal.group ទៅក្តារចុច"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "សំណើ ({count,number})"
@@ -6227,6 +6227,6 @@
     "messageformat": "ប្រសិនបើអ្នកភ្ជាប់ Desktop ថ្មីនៅលើ Signal Android ហើយជ្រើសរើសផ្ទេរប្រវត្តិសាររបស់អ្នក ឥឡូវនេះអ្នកក៏អាចជ្រើសរើសផ្ទេរឯកសារភ្ជាប់ចាស់ៗពីឧបករណ៍ចម្បងរបស់អ្នកបានដែរ។ នាំយកអតីតកាលមកកាន់បច្ចុប្បន្នកាល ដោយអូសមើលសារពីមុនៗ ហើយចុចលើរូបទាញយក។ ដំណើរការផ្ទេរត្រូវបានអ៊ីនគ្រីបពីដើមដល់ចប់ និងមានសុវត្ថិភាពជានិច្ច។"
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "ប្រសិនបើអ្នកភ្ជាប់ Desktop ថ្មីនៅលើ Signal Android ហើយជ្រើសរើសផ្ទេរប្រវត្តិសាររបស់អ្នក ឥឡូវនេះអ្នកក៏អាចជ្រើសរើសផ្ទេរឯកសារភ្ជាប់ចាស់ៗពីឧបករណ៍ចម្បងរបស់អ្នកបានដែរ។ នាំយកអតីតកាលមកកាន់បច្ចុប្បន្នកាល ដោយអូសមើលសារពីមុនៗ ហើយចុចលើរូបទាញយក។ ដំណើរការផ្ទេរត្រូវបានអ៊ីនគ្រីបពីដើមដល់ចប់ និងមានសុវត្ថិភាពជានិច្ច។"
   }
 }

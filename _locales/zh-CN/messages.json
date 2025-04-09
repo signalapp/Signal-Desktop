@@ -2460,13 +2460,13 @@
     "messageformat": "深肤色"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "添加表情符号、表情贴图或 GIF"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "添加表情符号"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "添加贴纸"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "取消"
@@ -4257,7 +4257,7 @@
     "messageformat": "新成员通过群组链接加入时，需管理员批准。"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "将 Signal 群组链接复制到键盘"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "请求 ({count,number})"
@@ -6227,6 +6227,6 @@
     "messageformat": "如果您在 Android 版 Signal 上链接一个新的桌面设备，并选择转移您的消息记录，现在您也可以有选择地从主设备中转移旧附件。转移过程受端对端加密保护，安全可靠。"
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "如果您在 Android 版 Signal 上链接一个新的桌面设备，并选择转移您的消息记录，现在您也可以有选择地从主设备中转移旧附件。转移过程受端对端加密保护，安全可靠。"
   }
 }

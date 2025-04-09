@@ -75,7 +75,7 @@
     "messageformat": "No se puede abrir Signal"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "Para solucionar el problema, sigue la guía de recuperación en la página de asistencia o ponte en contacto con el equipo de asistencia de Signal.\n\nSi necesitas usar Signal de inmediato, puedes eliminar tus datos y volver a vincular este dispositivo de escritorio. Tendrás la opción de transferir tu historial de mensajes desde tu teléfono."
+    "messageformat": "Para solucionar el problema, consulta la guía de recuperación en la página de asistencia o ponte en contacto con el equipo de asistencia de Signal.\n\nSi necesitas usar Signal de inmediato, puedes eliminar tus datos y volver a vincular este dispositivo de escritorio. Tendrás la opción de transferir tu historial de mensajes desde tu teléfono."
   },
   "icu:databaseError": {
     "messageformat": "Error en la base de datos"
@@ -87,10 +87,10 @@
     "messageformat": "Borrar datos y reiniciar"
   },
   "icu:databaseError__deleteDataConfirmation": {
-    "messageformat": "Eliminar todos los datos de forma permanente"
+    "messageformat": "¿Eliminar todos los datos de forma permanente?"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "Todo tu historial de mensajes y tus archivos multimedia se eliminarán de forma permanente de este dispositivo. Esta acción no eliminará ningún dato de tu teléfono.\n\nPodrás usar Signal en este dispositivo después de volver a vincularlo. Tendrás la opción de transferir tu historial de mensajes desde tu teléfono."
+    "messageformat": "Todos tus mensajes y archivos multimedia se eliminarán de forma permanente de este dispositivo. Esta acción no eliminará ningún dato de tu teléfono.\n\nPodrás usar Signal en este dispositivo después de volver a vincularlo. Tendrás la opción de transferir tu historial de mensajes desde tu teléfono."
   },
   "icu:databaseError__startOldVersion": {
     "messageformat": "La versión de tu base de datos no coincide con esta versión de Signal. Asegúrate de abrir la versión más reciente de Signal en tu equipo de escritorio."
@@ -513,7 +513,7 @@
     "messageformat": "Retirar marca de verificación"
   },
   "icu:SafetyNumberViewer__hint": {
-    "messageformat": "Para confirmar que tu comunicación con {name} está cifrada, compara los números que aparecen arriba con los de su dispositivo. También puedes escanear el código que se muestra en su dispositivo."
+    "messageformat": "Para confirmar que tu comunicación con {name} está cifrada, compara los números que aparecen arriba con los de su dispositivo o escanea el código que se muestra en su dispositivo."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Más información"
@@ -1206,7 +1206,7 @@
     "messageformat": "No se puede descargar el archivo"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Verifica la conexión a Internet de tu equipo de escritorio y de tu teléfono. Abre Signal en tu teléfono e intenta descargarlo de nuevo."
+    "messageformat": "Comprueba la conexión a Internet de tu equipo de escritorio y de tu teléfono. Abre Signal en tu teléfono e intenta descargar el archivo de nuevo."
   },
   "icu:BackfillFailureModal__body--not-found": {
     "messageformat": "Este archivo multimedia ya no está disponible en tu teléfono y no se puede descargar."
@@ -2322,7 +2322,7 @@
     "messageformat": "Banderas"
   },
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
-    "messageformat": "No se ha encontrado ningún emoji"
+    "messageformat": "Emoji no encontrado"
   },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "Cambiar la preferencia de tono de piel"
@@ -2442,7 +2442,7 @@
     "messageformat": "Tono de piel"
   },
   "icu:FunSkinTones__ListItem--None": {
-    "messageformat": "Ninguno"
+    "messageformat": "Ninguna"
   },
   "icu:FunSkinTones__ListItem--Light": {
     "messageformat": "Tono de piel claro"
@@ -2460,13 +2460,13 @@
     "messageformat": "Tono de piel oscuro"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "Añadir un emoji, sticker o GIF"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "Añadir un emoji"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "Añadir un sticker"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Cancelar"
@@ -2514,7 +2514,7 @@
     "messageformat": "Archivo multimedia"
   },
   "icu:Message--tap-to-view--media": {
-    "messageformat": "Visualización única"
+    "messageformat": "Archivo de visualización única"
   },
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "Ya has visto este mensaje."
@@ -4035,7 +4035,7 @@
     "messageformat": "¿Reemplazar archivo?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Si añades este GIF, se reemplazará el elemento actual en el borrador de tu mensaje."
+    "messageformat": "Si añades este GIF, se reemplazará el elemento que hay en el borrador de tu mensaje."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Reemplazar"
@@ -4257,7 +4257,7 @@
     "messageformat": "Alguien que sea admin debe aprobar a nuevos participantes que se unan mediante enlace"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "Copiar el enlace signal.group al portapapeles"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Solicitudes ({count,number})"
@@ -6224,9 +6224,9 @@
     "messageformat": "Hemos añadido un atajo de lo más práctico para que, en una llamada grupal de Signal, puedas bajar rápidamente la mano una vez que empieces a hablar. Es, con la mano en el corazón, nuestra función favorita de esta versión."
   },
   "icu:WhatsNew__v7.49--0": {
-    "messageformat": "Si vinculas un nuevo ordenador desde tu cuenta de Signal Android y eliges transferir tu historial de mensajes, ahora también podrás seleccionar qué archivos adjuntos quieres transferir desde tu dispositivo principal. ¡Revive tus recuerdos en todos tus dispositivos con Signal! Desliza la pantalla para viajar en el tiempo y haz clic en el icono de descarga. Y, como todo en Signal, el proceso de transferencia es seguro y está cifrado de extremo a extremo."
+    "messageformat": "Si vinculas un nuevo ordenador desde tu cuenta de Signal Android y eliges transferir tu historial de mensajes, ahora también podrás seleccionar qué archivos adjuntos quieres transferir desde tu dispositivo principal. ¡Revive tus recuerdos en todos tus dispositivos con Signal! Desliza la pantalla para viajar en el tiempo y haz clic en el icono de descarga. Y, como todo en Signal, el proceso de transferencia es seguro y está cifrado de extremo a extremo."
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Si vinculas un nuevo ordenador desde tu cuenta de Signal Android y eliges transferir tu historial de mensajes, ahora también podrás seleccionar qué archivos adjuntos quieres transferir desde tu dispositivo principal. ¡Revive tus recuerdos en todos tus dispositivos con Signal! Desliza la pantalla para viajar en el tiempo y haz clic en el icono de descarga. Y, como todo en Signal, el proceso de transferencia es seguro y está cifrado de extremo a extremo."
   }
 }

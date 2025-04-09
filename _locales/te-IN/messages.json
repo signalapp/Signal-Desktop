@@ -2460,13 +2460,13 @@
     "messageformat": "డార్క్ స్కిన్ టోన్"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "ఎమోజీ, స్టిక్కర్ లేదా GIF ను జోడించండి"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "ఎమోజీని జోడించండి"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "స్టిక్కర్ జోడించండి"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "రద్దు"
@@ -4257,7 +4257,7 @@
     "messageformat": "సమూహ లింక్ ద్వారా చేరిన కొత్త సభ్యులను ఆమోదించడానికి నిర్వాహకుడు అవసరం"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "signal.group లింక్‌ను కీబోర్డ్‌కు కాపీ చేయండి"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "అభ్యర్థనలు ({count,number})"
@@ -6227,6 +6227,6 @@
     "messageformat": "ఒకవేళ మీరు Signal Android లో కొత్త డెస్క్‌టాప్‌ను లింక్ చేసినట్లయితే మరియు మీ సందేశ చరిత్రను బదిలీ చేయాలని ఎంచుకుంటే, ఇప్పుడు మీరు మీ ప్రాథమిక పరికరం నుండి పాత అటాచ్‌మెంట్‌లను కూడా ఎంపిక చేసుకుని బదిలీ చేయవచ్చు. బదిలీ ప్రక్రియ ఎండ్-టు-ఎండ్ గుప్తీకరించబడింది మరియు సురక్షితమైనది."
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "ఒకవేళ మీరు Signal Android లో కొత్త డెస్క్‌టాప్‌ను లింక్ చేసినట్లయితే మరియు మీ సందేశ చరిత్రను బదిలీ చేయాలని ఎంచుకుంటే, ఇప్పుడు మీరు మీ ప్రాథమిక పరికరం నుండి పాత అటాచ్‌మెంట్‌లను కూడా ఎంపిక చేసుకుని బదిలీ చేయవచ్చు. బదిలీ ప్రక్రియ ఎండ్-టు-ఎండ్ గుప్తీకరించబడింది మరియు సురక్షితమైనది."
   }
 }

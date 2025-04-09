@@ -2460,13 +2460,13 @@
     "messageformat": "สีผิวโทนเข้ม"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "เพิ่มอีโมจิ สติกเกอร์ หรือไฟล์ GIF"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "เพิ่มอีโมจิ"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "เพิ่มสติกเกอร์"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "ยกเลิก"
@@ -4257,7 +4257,7 @@
     "messageformat": "กําหนดให้ผู้ดูแลอนุมัติให้สมาชิกใหม่เข้าร่วมกลุ่มผ่านลิงก์กลุ่ม"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "คัดลอกลิงก์กลุ่มของ Signal ไปยังแป้นพิมพ์"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "คำขอ ({count,number})"
@@ -6227,6 +6227,6 @@
     "messageformat": "ผู้ใช้ที่เชื่อมโยง Signal Android กับเดสก์ท็อปแล้วเลือกถ่ายโอนประวัติการส่งข้อความ จะมีตัวเลือกเพิ่มในการถ่ายโอนไฟล์แนบแต่ละไฟล์มาจากอุปกรณ์หลักด้วย ทั้งยังอุ่นใจได้เหมือนเคยเพราะขั้นตอนการถ่ายโอนทั้งหมดถูกเข้ารหัสตั้งแต่ต้นทางถึงปลายทางและปลอดภัยเสมอ"
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "ผู้ใช้ที่เชื่อมโยง Signal Android กับเดสก์ท็อปแล้วเลือกถ่ายโอนประวัติการส่งข้อความ จะมีตัวเลือกเพิ่มในการถ่ายโอนไฟล์แนบแต่ละไฟล์มาจากอุปกรณ์หลักด้วย ทั้งยังอุ่นใจได้เหมือนเคยเพราะขั้นตอนการถ่ายโอนทั้งหมดถูกเข้ารหัสตั้งแต่ต้นทางถึงปลายทางและปลอดภัยเสมอ"
   }
 }

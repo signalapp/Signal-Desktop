@@ -2460,13 +2460,13 @@
     "messageformat": "Warna kulit gelap"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Add an Emoji, Sticker, or GIF"
+    "messageformat": "Tambahkan Emoji, Stiker, atau GIF"
   },
   "icu:FunButton__Label--EmojiPicker": {
-    "messageformat": "Add an Emoji"
+    "messageformat": "Tambahkan emoji"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Add a Sticker"
+    "messageformat": "Tambahkan stiker"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Batal"
@@ -4257,7 +4257,7 @@
     "messageformat": "Membutuhkan persetujuan admin untuk menerima anggota baru melalui tautan grup"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to keyboard"
+    "messageformat": "Salin tautan signal.group ke papan klip"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Permintaan ({count,number})"
@@ -6227,6 +6227,6 @@
     "messageformat": "Saat menghubungkan Desktop baru ke Signal Android dan memilih \"Transfer riwayat pesan\", bukan hanya pesan yang bisa ditransfer, tetapi Anda juga bisa memilih lampiran lama mana saja yang akan ditransfer dari perangkat utama. Anda bisa mentransfer lampiran lama ke perangkat baru dengan mengeklik ikon unduh. Dan seperti biasa, proses transfer dienkripsi secara menyeluruh dan dipastikan keamanannya."
   },
   "icu:WhatsNew__v7.50--0": {
-    "messageformat": "If you link a new Desktop on Signal Android and choose to transfer your message history, now you can also selectively transfer old attachments from your primary device too. Bring the past into the present by scrolling back in time and clicking on the download icon. As always, the transfer process is end-to-end encrypted and secure."
+    "messageformat": "Tatkala sesi Desktop baru ditautkan ke Signal Android, riwayat pesan dapat ditransfer bila memang diinginkan. Sekarang Anda juga bisa mengikutsertakan lampiran-lampiran lama yang ingin ditransfer dari perangkat utama. Lampiran lama dapat ditransfer ke perangkat baru dengan mengklik ikon unduh. Seperti biasa, proses transfer dienkripsi secara menyeluruh dan dipastikan keamanannya."
   }
 }
