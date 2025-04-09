@@ -8,6 +8,7 @@ import { render } from 'react-dom';
 import { Emojify } from '../../components/conversation/Emojify';
 import { normalizeAci } from '../../util/normalizeAci';
 import type { MentionBlotValue } from '../util';
+import { FunEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider';
 
 export class MentionBlot extends EmbedBlot {
   static override blotName = 'mention';
@@ -46,12 +47,14 @@ export class MentionBlot extends EmbedBlot {
     const mentionSpan = document.createElement('span');
 
     render(
-      <span className="module-composition-input__at-mention">
-        <bdi>
-          @
-          <Emojify text={mention.title} />
-        </bdi>
-      </span>,
+      <FunEmojiLocalizationProvider i18n={window.i18n}>
+        <span className="module-composition-input__at-mention">
+          <bdi>
+            @
+            <Emojify text={mention.title} />
+          </bdi>
+        </span>
+      </FunEmojiLocalizationProvider>,
       mentionSpan
     );
 
