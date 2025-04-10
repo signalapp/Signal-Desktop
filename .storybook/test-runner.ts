@@ -1,8 +1,9 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, writeFile, symlink } from 'node:fs/promises';
 import { join } from 'node:path';
+import { createHash } from 'node:crypto';
 import {
   type TestRunnerConfig,
   waitForPageReady,
@@ -40,9 +41,13 @@ const config: TestRunnerConfig = {
       return;
     }
 
-    const dir = join(ARTIFACTS_DIR, context.id);
-    await mkdir(dir, { recursive: true });
+    const storeDir = join(ARTIFACTS_DIR, 'images');
+    await mkdir(storeDir, { recursive: true });
 
+    const componentDir = join(ARTIFACTS_DIR, 'components', context.id);
+    await mkdir(componentDir, { recursive: true });
+
+    const saves = new Array<Promise<void>>();
     for (const [key, value] of result) {
       const locator = page
         .getByText(value)
@@ -76,8 +81,28 @@ const config: TestRunnerConfig = {
         quality: 95,
       });
 
-      await writeFile(join(dir, `${key.replace(/^icu:/, '')}.jpg`), image);
+      const digest = createHash('sha256').update(image).digest('hex');
+      const storeFile = join(storeDir, `${digest}.jpg`);
+      const targetFile = join(componentDir, `${key.replace(/^icu:/, '')}.jpg`);
+
+      saves.push(
+        (async () => {
+          try {
+            await writeFile(storeFile, image, {
+              // Fail if exists
+              flags: 'wx',
+            });
+          } catch (error) {
+            if (error.code !== 'EEXIST') {
+              throw error;
+            }
+          }
+          await symlink(storeFile, targetFile);
+        })()
+      );
     }
+
+    await Promise.all(saves);
   },
 };
 export default config;

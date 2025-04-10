@@ -47,7 +47,7 @@
           summary.textContent = `${key}: "${message}"`;
           details.appendChild(summary);
 
-          for (const storyId of stories) {
+          for (const [storyId, image] of stories) {
             const story = document.createElement('details');
             details.appendChild(story);
 
@@ -56,8 +56,7 @@
             story.appendChild(title);
 
             const img = document.createElement('img');
-            img.src = `data/${encodeURIComponent(storyId)}/` +
-              `${encodeURIComponent(key.replace(/^icu:/, ''))}.jpg`;
+            img.src = `images/${image}`;
             img.loading = 'lazy';
             story.appendChild(img);
           }
