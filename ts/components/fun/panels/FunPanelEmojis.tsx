@@ -432,7 +432,6 @@ export function FunPanelEmojis({
                             i18n={i18n}
                             open={skinTonePopoverOpen}
                             onOpenChange={handleSkinTonePopoverOpenChange}
-                            skinTone={fun.emojiSkinToneDefault}
                             onSelectSkinTone={fun.onEmojiSkinToneDefaultChange}
                           />
                         )}
@@ -597,9 +596,13 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
 
   const handleSelectSkinTone = useCallback(
     (skinToneSelection: EmojiSkinTone) => {
+      const variant = getEmojiVariantByParentKeyAndSkinTone(
+        emojiParent.key,
+        skinToneSelection
+      );
       onEmojiSkinToneDefaultChange(skinToneSelection);
       onSelectEmoji({
-        variantKey: emojiVariant.key,
+        variantKey: variant.key,
         parentKey: emojiParent.key,
         englishShortName: emojiParent.englishShortNameDefault,
         skinTone: skinToneSelection,
@@ -607,7 +610,6 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
     },
     [
       onEmojiSkinToneDefaultChange,
-      emojiVariant.key,
       emojiParent.key,
       emojiParent.englishShortNameDefault,
       onSelectEmoji,
@@ -637,6 +639,7 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
       </FunItemButton>
       {emojiHasSkinToneVariants && (
         <Popover
+          data-fun-overlay
           isOpen={popoverOpen}
           onOpenChange={handlePopoverOpenChange}
           triggerRef={popoverTriggerRef}
@@ -661,7 +664,7 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
             <FunSkinTonesList
               i18n={i18n}
               emoji={emojiParent.key}
-              skinTone={skinTone}
+              skinTone={null}
               onSelectSkinTone={handleSelectSkinTone}
             />
           </Dialog>
@@ -675,7 +678,6 @@ type SectionSkinToneHeaderPopoverProps = Readonly<{
   i18n: LocalizerType;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  skinTone: EmojiSkinTone | null;
   onSelectSkinTone: (emojiSkinTone: EmojiSkinTone) => void;
 }>;
 
@@ -706,7 +708,7 @@ function SectionSkinToneHeaderPopover(
         <FunSkinTonesList
           i18n={i18n}
           emoji={emojiParentKeyConstant('\u{270B}')}
-          skinTone={props.skinTone}
+          skinTone={null}
           onSelectSkinTone={handleSelectSkinTone}
         />
       </FunGridHeaderPopover>

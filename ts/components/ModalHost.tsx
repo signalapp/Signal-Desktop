@@ -71,7 +71,7 @@ export const ModalHost = React.memo(function ModalHostInner({
         if (
           modalContainer === document.body &&
           node instanceof Element &&
-          node.closest('.module-calling__modal-container, .FunPopover')
+          node.closest('.module-calling__modal-container, [data-fun-overlay]')
         ) {
           return false;
         }

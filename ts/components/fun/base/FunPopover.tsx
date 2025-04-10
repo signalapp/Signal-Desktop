@@ -16,6 +16,7 @@ export type FunPopoverProps = Readonly<{
 export function FunPopover(props: FunPopoverProps): JSX.Element {
   return (
     <Popover
+      data-fun-overlay
       className={classNames('FunPopover', {
         'light-theme': props.theme === ThemeType.light,
         'dark-theme': props.theme === ThemeType.dark,
