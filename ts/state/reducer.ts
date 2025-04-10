@@ -15,6 +15,7 @@ import { reducer as conversations } from './ducks/conversations';
 import { reducer as crashReports } from './ducks/crashReports';
 import { reducer as emojis } from './ducks/emojis';
 import { reducer as expiration } from './ducks/expiration';
+import { reducer as gifs } from './ducks/gifs';
 import { reducer as globalModals } from './ducks/globalModals';
 import { reducer as inbox } from './ducks/inbox';
 import { reducer as installer } from './ducks/installer';
@@ -48,6 +49,7 @@ export const reducer = combineReducers({
   crashReports,
   emojis,
   expiration,
+  gifs,
   globalModals,
   inbox,
   installer,

@@ -117,6 +117,7 @@
     "@react-aria/focus": "3.19.1",
     "@react-aria/interactions": "3.23.0",
     "@react-aria/utils": "3.25.3",
+    "@react-types/shared": "3.27.0",
     "@react-spring/web": "9.7.5",
     "@signalapp/libsignal-client": "0.68.0",
     "@signalapp/quill-cjs": "2.1.2",

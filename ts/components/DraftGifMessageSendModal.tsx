@@ -81,14 +81,14 @@ export function DraftGifMessageSendModal(
         <FunGifPreview
           src={url}
           state={props.gifDownloadState.loadingState}
-          width={props.gifSelection.width}
-          height={props.gifSelection.height}
+          width={props.gifSelection.gif.attachmentMedia.width}
+          height={props.gifSelection.gif.attachmentMedia.height}
           maxHeight={256}
-          aria-label={props.gifSelection.title}
+          aria-label={props.gifSelection.gif.title}
           aria-describedby={descriptionId}
         />
         <VisuallyHidden id={descriptionId}>
-          {props.gifSelection.description}
+          {props.gifSelection.gif.description}
         </VisuallyHidden>
       </div>
       <RenderCompositionTextArea

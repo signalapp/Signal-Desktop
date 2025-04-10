@@ -28,6 +28,7 @@ import {
 
 import { type ReduxInitData } from '../state/initializeRedux';
 import { reinitializeRedux } from '../state/reinitializeRedux';
+import { getGifsStateForRedux, loadGifsState } from './gifsLoader';
 
 export async function loadAll(): Promise<void> {
   await Promise.all([
@@ -35,6 +36,7 @@ export async function loadAll(): Promise<void> {
     loadCallHistory(),
     loadCallLinks(),
     loadDistributionLists(),
+    loadGifsState(),
     loadRecentEmojis(),
     loadStickers(),
     loadStories(),
@@ -55,6 +57,7 @@ export function getParametersForRedux(): ReduxInitData {
     callHistory: getCallsHistoryForRedux(),
     callHistoryUnreadCount: getCallsHistoryUnreadCountForRedux(),
     callLinks: getCallLinksForRedux(),
+    gifs: getGifsStateForRedux(),
     mainWindowStats,
     menuOptions,
     recentEmoji: getEmojiReducerState(),

@@ -147,11 +147,8 @@ export const FunProvider = memo(function FunProvider(
   }, [props.recentStickers, props.installedStickerPacks]);
 
   const defaultGifsSection = useMemo((): FunGifsSection => {
-    if (props.recentGifs.length > 0) {
-      return FunSectionCommon.Recents;
-    }
     return FunGifsCategory.Trending;
-  }, [props.recentGifs]);
+  }, []);
 
   // Selected Sections
   const [selectedEmojisSection, setSelectedEmojisSection] = useState(

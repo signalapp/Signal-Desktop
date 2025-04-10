@@ -211,6 +211,7 @@ import {
   getGroupSendMemberEndorsement,
   replaceAllEndorsementsForGroup,
 } from './server/groupSendEndorsements';
+import type { GifType } from '../components/fun/panels/FunPanelGifs';
 
 type ConversationRow = Readonly<{
   json: string;
@@ -385,6 +386,7 @@ export const DataReader: ServerReadableInterface = {
   getAllStickers,
   getRecentStickers,
   getRecentEmojis,
+  getRecentGifs,
 
   getAllBadges,
   getAllBadgeImageFileLocalPaths,
@@ -564,6 +566,10 @@ export const DataWriter: ServerWritableInterface = {
   clearAllErrorStickerPackAttempts,
 
   updateEmojiUsage,
+
+  addRecentGif,
+  removeRecentGif,
+
   updateOrCreateBadges,
   badgeImageFileDownloaded,
 
@@ -6202,6 +6208,103 @@ function getRecentEmojis(db: ReadableDB, limit = 32): Array<EmojiType> {
     .all<EmojiType>({ limit });
 
   return rows || [];
+}
+
+const RecentGifsRow = z.object({
+  id: z.string(),
+  title: z.string(),
+  description: z.string(),
+  previewMedia_url: z.string(),
+  previewMedia_width: z.number().int(),
+  previewMedia_height: z.number().int(),
+  attachmentMedia_url: z.string(),
+  attachmentMedia_width: z.number().int(),
+  attachmentMedia_height: z.number().int(),
+  lastUsedAt: z.number().int(),
+});
+
+function getRecentGifs(db: ReadableDB, limit: number): ReadonlyArray<GifType> {
+  const [query, params] = sql`
+    SELECT * FROM recentGifs
+    ORDER BY lastUsedAt DESC
+    LIMIT ${limit}
+  `;
+  return db
+    .prepare(query)
+    .all(params)
+    .map((raw: unknown) => {
+      const row = parseUnknown(RecentGifsRow, raw);
+      return {
+        id: row.id,
+        title: row.title,
+        description: row.description,
+        previewMedia: {
+          url: row.previewMedia_url,
+          width: row.previewMedia_width,
+          height: row.previewMedia_height,
+        },
+        attachmentMedia: {
+          url: row.attachmentMedia_url,
+          width: row.attachmentMedia_width,
+          height: row.attachmentMedia_height,
+        },
+      };
+    });
+}
+
+function addRecentGif(
+  db: WritableDB,
+  gif: GifType,
+  lastUsedAt: number,
+  maxRecents: number
+): void {
+  const [insertQuery, insertParams] = sql`
+    INSERT OR REPLACE INTO recentGifs (
+      id,
+      title,
+      description,
+      previewMedia_url,
+      previewMedia_width,
+      previewMedia_height,
+      attachmentMedia_url,
+      attachmentMedia_width,
+      attachmentMedia_height,
+      lastUsedAt
+    ) VALUES (
+      ${gif.id},
+      ${gif.title},
+      ${gif.description},
+      ${gif.previewMedia.url},
+      ${gif.previewMedia.width},
+      ${gif.previewMedia.height},
+      ${gif.attachmentMedia.url},
+      ${gif.attachmentMedia.width},
+      ${gif.attachmentMedia.height},
+      ${lastUsedAt}
+    );
+  `;
+
+  const [deleteQuery, deleteParams] = sql`
+    DELETE FROM recentGifs
+    WHERE id NOT IN (
+      SELECT id FROM recentGifs
+      ORDER BY lastUsedAt DESC
+      LIMIT ${maxRecents}
+    );
+  `;
+
+  db.transaction(() => {
+    db.prepare(insertQuery).run(insertParams);
+    db.prepare(deleteQuery).run(deleteParams);
+  })();
+}
+
+function removeRecentGif(db: WritableDB, gif: Pick<GifType, 'id'>): void {
+  const [query, params] = sql`
+    DELETE FROM recentGifs
+    WHERE id = ${gif.id}
+  `;
+  db.prepare(query).run(params);
 }
 
 function getAllBadges(db: ReadableDB): Array<BadgeType> {
