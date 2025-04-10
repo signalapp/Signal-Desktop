@@ -5284,6 +5284,14 @@
     "messageformat": "Media will continue to download in the background",
     "description": "Description text when attachment download is idle, and will continue in the background"
   },
+  "icu:BackupMediaDownloadProgress__title-offline": {
+    "messageformat": "Restoring media paused",
+    "description": "Label indicating media (attachment) download progress when the computer is offline"
+  },
+  "icu:BackupMediaDownloadProgress__description-offline": {
+    "messageformat": "Waiting for Internet connection...",
+    "description": "Description text when attachment download in progress but offline"
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Pause transfer",
     "description": "Text for button to pause media (attachment) download after backup impor"

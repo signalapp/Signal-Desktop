@@ -76,6 +76,7 @@ export type PropsType = {
   hasRelinkDialog: boolean;
   hasUpdateDialog: boolean;
   isUpdateDownloaded: boolean;
+  isOnline: boolean;
   unsupportedOSDialogType: 'error' | 'warning' | undefined;
   usernameCorrupted: boolean;
   usernameLinkCorrupted: boolean;
@@ -216,6 +217,7 @@ export function LeftPane({
   i18n,
   lookupConversationWithoutServiceId,
   isMacOS,
+  isOnline,
   isUpdateDownloaded,
   modeSpecificProps,
   navTabsCollapsed,
@@ -802,6 +804,7 @@ export function LeftPane({
           <BackupMediaDownloadProgress
             i18n={i18n}
             widthBreakpoint={widthBreakpoint}
+            isOnline={isOnline}
             {...backupMediaDownloadProgress}
             handleClose={dismissBackupMediaDownloadBanner}
             handlePause={pauseBackupMediaDownload}

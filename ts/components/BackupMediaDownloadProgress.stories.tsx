@@ -45,6 +45,7 @@ export default {
   title: 'Components/BackupMediaDownloadProgress',
   args: {
     isPaused: false,
+    isOnline: true,
     downloadedBytes: 600 * KIBIBYTE,
     totalBytes: 1000 * KIBIBYTE,
     handleClose: action('handleClose'),
@@ -58,6 +59,9 @@ export default {
 export function InProgress(args: PropsType): JSX.Element {
   return <Template {...args} />;
 }
+export function InProgressAndOffline(args: PropsType): JSX.Element {
+  return <Template {...args} isOnline={false} />;
+}
 
 export function Increasing(args: PropsType): JSX.Element {
   return <Template {...args} {...useIncreasingFractionComplete()} />;
@@ -66,17 +70,33 @@ export function Increasing(args: PropsType): JSX.Element {
 export function Paused(args: PropsType): JSX.Element {
   return <Template {...args} isPaused />;
 }
+export function PausedAndOffline(args: PropsType): JSX.Element {
+  return <Template {...args} isPaused isOnline={false} />;
+}
 
 export function Idle(args: PropsType): JSX.Element {
   return <Template {...args} isIdle />;
+}
+
+export function IdleAndOffline(args: PropsType): JSX.Element {
+  return <Template {...args} isIdle isOnline={false} />;
 }
 
 export function PausedAndIdle(args: PropsType): JSX.Element {
   return <Template {...args} isPaused isIdle />;
 }
 
+export function PausedAndIdleAndOffline(args: PropsType): JSX.Element {
+  return <Template {...args} isPaused isIdle isOnline={false} />;
+}
+
 export function Complete(args: PropsType): JSX.Element {
   return <Template {...args} downloadedBytes={args.totalBytes} />;
+}
+export function CompleteAndOffline(args: PropsType): JSX.Element {
+  return (
+    <Template {...args} downloadedBytes={args.totalBytes} isOnline={false} />
+  );
 }
 
 function useIncreasingFractionComplete() {
