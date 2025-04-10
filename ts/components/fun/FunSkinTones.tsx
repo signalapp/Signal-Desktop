@@ -44,7 +44,7 @@ export function FunSkinTonesList(props: FunSkinTonesListProps): JSX.Element {
     >
       <FunSkinTonesListItem
         emoji={props.emoji}
-        aria-label={i18n('icu:FunSkinTones__ListItem--Light')}
+        aria-label={i18n('icu:FunSkinTones__ListItem--None')}
         skinTone={EmojiSkinTone.None}
       />
       <FunSkinTonesListItem

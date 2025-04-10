@@ -7,10 +7,7 @@ import { useSelector } from 'react-redux';
 import { FunProvider } from '../../components/fun/FunProvider';
 import { getIntl } from '../selectors/user';
 import { selectRecentEmojis } from '../selectors/emojis';
-import type {
-  FunGifSelection,
-  GifType,
-} from '../../components/fun/panels/FunPanelGifs';
+import type { FunGifSelection } from '../../components/fun/panels/FunPanelGifs';
 import {
   getInstalledStickerPacks,
   getRecentStickers,
@@ -26,6 +23,7 @@ import {
   getShowStickerPickerHint,
 } from '../selectors/items';
 import { useItemsActions } from '../ducks/items';
+import { useGifsActions } from '../ducks/gifs';
 import {
   fetchGifsFeatured,
   fetchGifsSearch,
@@ -36,6 +34,7 @@ import { useEmojisActions } from '../ducks/emojis';
 import { useStickersActions } from '../ducks/stickers';
 import type { FunStickerSelection } from '../../components/fun/panels/FunPanelStickers';
 import type { FunEmojiSelection } from '../../components/fun/panels/FunPanelEmojis';
+import { getRecentGifs } from '../selectors/gifs';
 
 export type SmartFunProviderProps = Readonly<{
   children: ReactNode;
@@ -48,7 +47,7 @@ export const SmartFunProvider = memo(function SmartFunProvider(
   const installedStickerPacks = useSelector(getInstalledStickerPacks);
   const recentEmojis = useSelector(selectRecentEmojis);
   const recentStickers = useSelector(getRecentStickers);
-  const recentGifs: Array<GifType> = useMemo(() => [], []);
+  const recentGifs = useSelector(getRecentGifs);
   const emojiSkinToneDefault = useSelector(getEmojiSkinToneDefault);
   const showStickerPickerHint = useSelector(getShowStickerPickerHint);
 
@@ -57,6 +56,7 @@ export const SmartFunProvider = memo(function SmartFunProvider(
     usePreferredReactionsActions();
   const { onUseEmoji } = useEmojisActions();
   const { useSticker: onUseSticker } = useStickersActions();
+  const { onAddRecentGif } = useGifsActions();
 
   // Translate recent emojis to keys
   const recentEmojisKeys = useMemo(() => {
@@ -104,9 +104,12 @@ export const SmartFunProvider = memo(function SmartFunProvider(
   );
 
   // GIFs
-  const handleSelectGif = useCallback((_gifSelection: FunGifSelection) => {
-    // TODO(jamie): Save recently used GIFs
-  }, []);
+  const handleSelectGif = useCallback(
+    (gifSelection: FunGifSelection) => {
+      onAddRecentGif(gifSelection.gif);
+    },
+    [onAddRecentGif]
+  );
 
   return (
     <FunProvider

@@ -92,7 +92,7 @@ export const SmartDraftGifMessageSendModal = memo(
       toggleDraftGifMessageSendModal(null);
     }, [toggleDraftGifMessageSendModal]);
 
-    const gifUrl = gifSelection.url;
+    const gifUrl = gifSelection.gif.attachmentMedia.url;
 
     useEffect(() => {
       const controller = new AbortController();

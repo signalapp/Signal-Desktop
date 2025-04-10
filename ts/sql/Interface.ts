@@ -44,6 +44,7 @@ import type {
 } from '../types/GroupSendEndorsements';
 import type { SyncTaskType } from '../util/syncTasks';
 import type { AttachmentBackupJobType } from '../types/AttachmentBackup';
+import type { GifType } from '../components/fun/panels/FunPanelGifs';
 
 export type ReadableDB = Database & { __readable_db: never };
 export type WritableDB = ReadableDB & { __writable_db: never };
@@ -706,6 +707,7 @@ type ReadableInterface = {
   getRecentStickers: (options?: { limit?: number }) => Array<StickerType>;
 
   getRecentEmojis: (limit?: number) => Array<EmojiType>;
+  getRecentGifs: (limit: number) => ReadonlyArray<GifType>;
 
   getAllBadges(): Array<BadgeType>;
 
@@ -987,6 +989,9 @@ type WritableInterface = {
   clearAllErrorStickerPackAttempts: () => void;
 
   updateEmojiUsage: (shortName: string, timeUsed?: number) => void;
+
+  addRecentGif: (gif: GifType, lastUsedAt: number, maxRecents: number) => void;
+  removeRecentGif: (gif: Pick<GifType, 'id'>) => void;
 
   updateOrCreateBadges(badges: ReadonlyArray<BadgeType>): void;
   badgeImageFileDownloaded(url: string, localPath: string): void;

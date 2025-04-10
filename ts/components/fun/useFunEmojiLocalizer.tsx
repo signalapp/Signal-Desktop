@@ -3,6 +3,7 @@
 import { useCallback } from 'react';
 import type { EmojiParentKey, EmojiVariantKey } from './data/emojis';
 import {
+  getEmojiParentByKey,
   getEmojiParentKeyByVariantKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
@@ -39,11 +40,12 @@ export function useFunEmojiLocalizer(): FunEmojiLocalizer {
     variantKey => {
       const parentKey = getEmojiParentKeyByVariantKey(variantKey);
       const localeShortName = emojiLocalizerIndex.get(parentKey);
-      strictAssert(
-        localeShortName,
-        `useFunEmojiLocalizer: Missing translation for ${variantKey}`
-      );
-      return localeShortName;
+      if (localeShortName != null) {
+        return localeShortName;
+      }
+      // Fallback to english short name
+      const parent = getEmojiParentByKey(parentKey);
+      return parent.englishShortNameDefault;
     },
     [emojiLocalizerIndex]
   );

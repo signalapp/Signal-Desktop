@@ -16,12 +16,14 @@ import type { ThemeType } from '../types/Util';
 import type { CallLinkType } from '../types/CallLink';
 import type { RecentEmojiObjectType } from '../util/loadRecentEmojis';
 import type { StickersStateType } from './ducks/stickers';
+import type { GifsStateType } from './ducks/gifs';
 
 export type ReduxInitData = {
   badgesState: BadgesStateType;
   callHistory: ReadonlyArray<CallHistoryDetails>;
   callHistoryUnreadCount: number;
   callLinks: ReadonlyArray<CallLinkType>;
+  gifs: GifsStateType;
   mainWindowStats: MainWindowStatsType;
   menuOptions: MenuOptionsType;
   recentEmoji: RecentEmojiObjectType;
@@ -63,6 +65,7 @@ export function initializeRedux(data: ReduxInitData): void {
     inbox: bindActionCreators(actionCreators.inbox, store.dispatch),
     emojis: bindActionCreators(actionCreators.emojis, store.dispatch),
     expiration: bindActionCreators(actionCreators.expiration, store.dispatch),
+    gifs: bindActionCreators(actionCreators.gifs, store.dispatch),
     globalModals: bindActionCreators(
       actionCreators.globalModals,
       store.dispatch

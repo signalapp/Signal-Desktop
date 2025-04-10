@@ -2108,6 +2108,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/fun/panels/FunPanelEmojis.tsx",
+    "line": "  const popoverTriggerRef = useRef<HTMLButtonElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-04-10T18:24:54.606Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/fun/panels/FunPanelGifs.tsx",
     "line": "  const scrollerRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
