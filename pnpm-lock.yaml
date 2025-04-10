@@ -125,6 +125,9 @@ importers:
       '@react-spring/web':
         specifier: 9.7.5
         version: 9.7.5(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
+      '@react-types/shared':
+        specifier: 3.27.0
+        version: 3.27.0(react@17.0.2)
       '@signalapp/libsignal-client':
         specifier: 0.68.0
         version: 0.68.0

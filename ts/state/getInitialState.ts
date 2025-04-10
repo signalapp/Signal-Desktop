@@ -13,6 +13,7 @@ import { getEmptyState as conversationsEmptyState } from './ducks/conversations'
 import { getEmptyState as crashReportsEmptyState } from './ducks/crashReports';
 import { getEmptyState as emojiEmptyState } from './ducks/emojis';
 import { getEmptyState as expirationEmptyState } from './ducks/expiration';
+import { getEmptyState as gifsEmptyState } from './ducks/gifs';
 import { getEmptyState as globalModalsEmptyState } from './ducks/globalModals';
 import { getEmptyState as inboxEmptyState } from './ducks/inbox';
 import { getEmptyState as installerEmptyState } from './ducks/installer';
@@ -55,6 +56,7 @@ export function getInitialState(
     callLinks,
     callHistory: calls,
     callHistoryUnreadCount,
+    gifs,
     mainWindowStats,
     menuOptions,
     recentEmoji,
@@ -82,6 +84,7 @@ export function getInitialState(
       callLinks: makeLookup(callLinks, 'roomId'),
     },
     emojis: recentEmoji,
+    gifs,
     items,
     stickers,
     stories: {
@@ -131,6 +134,7 @@ function getEmptyState(): StateType {
     conversations: generateConversationsState(),
     crashReports: crashReportsEmptyState(),
     emojis: emojiEmptyState(),
+    gifs: gifsEmptyState(),
     expiration: expirationEmptyState(),
     globalModals: globalModalsEmptyState(),
     inbox: inboxEmptyState(),

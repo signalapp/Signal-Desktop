@@ -80,12 +80,21 @@ export function Default(): JSX.Element {
       draftText=""
       draftBodyRanges={[]}
       gifSelection={{
-        id: '',
-        title: '',
-        description: '',
-        url: '',
-        width: 640,
-        height: 640,
+        gif: {
+          id: '',
+          title: '',
+          description: '',
+          previewMedia: {
+            url: '',
+            width: 640,
+            height: 640,
+          },
+          attachmentMedia: {
+            url: '',
+            width: 640,
+            height: 640,
+          },
+        },
       }}
       gifDownloadState={
         file == null

@@ -3084,9 +3084,17 @@
     "messageformat": "No emoji found",
     "description": "FunPicker > Emojis Panel > Search Results > No Results Found (emoji plural)"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Select skin tone for {emojiName}",
+    "description": "FunPicker > Emojis Panel > Skin Tone Picker > Select skin tone for the selected emoji"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "Change Skin Tone Preference",
     "description": "FunPicker > Emojis Panel > Change Skin Tone Button Label"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Long press to select skin tone",
+    "description": "FunPicker > Emojis Panel > Skin Tone Picker > Long press accessibility description"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "Choose your default skintone",
@@ -3250,7 +3258,7 @@
   },
   "icu:FunSkinTones__ListItem--None": {
     "messageformat": "None",
-    "description": "(Deleted 2025/03/27) FunPicker > Emojis Panel > Skin Tone Picker > Skin Tone Option: None > Accessibility label"
+    "description": "FunPicker > Emojis Panel > Skin Tone Picker > Skin Tone Option: None > Accessibility label"
   },
   "icu:FunSkinTones__ListItem--Light": {
     "messageformat": "Light skin tone",

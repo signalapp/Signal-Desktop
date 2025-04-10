@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { Range } from '@tanstack/react-virtual';
 import { defaultRangeExtractor, useVirtualizer } from '@tanstack/react-virtual';
-import type { MouseEvent } from 'react';
 import React, {
   memo,
   useCallback,
@@ -11,6 +10,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import type { PressEvent } from 'react-aria';
 import { useId, VisuallyHidden } from 'react-aria';
 import { LRUCache } from 'lru-cache';
 import { FunItemButton } from '../base/FunItem';
@@ -111,12 +111,7 @@ type GifsQuery = Readonly<{
 }>;
 
 export type FunGifSelection = Readonly<{
-  id: string;
-  title: string;
-  description: string;
-  url: string;
-  width: number;
-  height: number;
+  gif: GifType;
 }>;
 
 export type FunPanelGifsProps = Readonly<{
@@ -361,7 +356,7 @@ export function FunPanelGifs({
   );
 
   const handlePressGif = useCallback(
-    (_event: MouseEvent, gifSelection: FunGifSelection) => {
+    (_event: PressEvent, gifSelection: FunGifSelection) => {
       onFunSelectGif(gifSelection);
       onSelectGif(gifSelection);
       // Should always close, cannot select multiple
@@ -546,21 +541,14 @@ const Item = memo(function Item(props: {
   itemOffset: number;
   itemLane: number;
   isTabbable: boolean;
-  onPressGif: (event: MouseEvent, gifSelection: FunGifSelection) => void;
+  onPressGif: (event: PressEvent, gifSelection: FunGifSelection) => void;
   fetchGif: typeof tenorDownload;
 }) {
   const { onPressGif, fetchGif } = props;
 
-  const handleClick = useCallback(
-    async (event: MouseEvent) => {
-      onPressGif(event, {
-        id: props.gif.id,
-        title: props.gif.title,
-        description: props.gif.description,
-        url: props.gif.attachmentMedia.url,
-        width: props.gif.attachmentMedia.width,
-        height: props.gif.attachmentMedia.height,
-      });
+  const handlePress = useCallback(
+    async (event: PressEvent) => {
+      onPressGif(event, { gif: props.gif });
     },
     [props.gif, onPressGif]
   );
@@ -617,7 +605,7 @@ const Item = memo(function Item(props: {
     >
       <FunItemButton
         aria-label={props.gif.title}
-        onClick={handleClick}
+        onPress={handlePress}
         tabIndex={props.isTabbable ? 0 : -1}
       >
         {src != null && (
