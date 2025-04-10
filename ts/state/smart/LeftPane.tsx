@@ -67,6 +67,7 @@ import {
 import {
   getChallengeStatus,
   hasNetworkDialog as getHasNetworkDialog,
+  getNetworkIsOnline,
 } from '../selectors/network';
 import {
   getFilterByUnread,
@@ -297,6 +298,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
   const backupMediaDownloadProgress = useSelector(
     getBackupMediaDownloadProgress
   );
+  const isOnline = useSelector(getNetworkIsOnline);
 
   const serverAlerts = useSelector(getServerAlerts);
 
@@ -397,6 +399,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       hasUpdateDialog={hasUpdateDialog}
       i18n={i18n}
       isMacOS={isMacOS}
+      isOnline={isOnline}
       isUpdateDownloaded={isUpdateDownloaded}
       lookupConversationWithoutServiceId={lookupConversationWithoutServiceId}
       modeSpecificProps={modeSpecificProps}
