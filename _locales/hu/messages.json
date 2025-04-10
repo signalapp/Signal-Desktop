@@ -2324,8 +2324,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "Nem található emoji"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Select skin tone for {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "Bőrtónus-beállítás módosítása"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Long press to select skin tone"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "Válaszd ki az alapértelmezett bőrtónust"
@@ -2361,7 +2367,7 @@
     "messageformat": "Zászlók"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "Egyedi reakciók"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "Matricák keresése"
@@ -2382,7 +2388,7 @@
     "messageformat": "Nemrég használt"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "Kiemelt"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "Nem található matrica"
@@ -3096,10 +3102,10 @@
     "messageformat": "Kilépés"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "Hívás befejezése"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "Kilépés a hívásból"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "Mikrofon ki"
@@ -4950,7 +4956,7 @@
     "messageformat": "A hangüzenetek és a matricák mindig automatikusan letöltődnek."
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "Biztonsági mentések"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Utolsó importálás időpontja: {date} {time}"
@@ -4983,7 +4989,7 @@
     "messageformat": "Letiltva"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "Biztonsági mentés részletei"
   },
   "icu:Preferences--backup-media-plan__description": {
     "messageformat": "Text + all media backup"
@@ -4995,16 +5001,16 @@
     "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "A biztonsági terv ingyenes"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "Megújul ekkor: {date}"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "{date} dátummal lejár"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "Előfizetés törölve"
   },
   "icu:Preferences--backup-media-plan__note": {
     "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
@@ -5019,13 +5025,13 @@
     "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "Utolsó biztonsági mentés"
   },
   "icu:Preferences--backup-created-by-phone": {
     "messageformat": "Your phone"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "Biztonsági mentés mérete"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} névjegy} other {{num,number} névjegy}}"

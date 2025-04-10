@@ -2324,8 +2324,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "Ingen emoji funnet"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Select skin tone for {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "Bytt hudtone"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Long press to select skin tone"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "Velg standard hudtone"
@@ -2361,7 +2367,7 @@
     "messageformat": "Flagg"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "Tilpass reaksjonene"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "Søk i klistremerkene"
@@ -2382,7 +2388,7 @@
     "messageformat": "Nylig brukt"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "Utvalgte"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "Ingen klistremerker funnet"
@@ -3096,10 +3102,10 @@
     "messageformat": "Legg på"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "Avslutt samtale"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "Legg på"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "Mikrofon av"
@@ -4950,7 +4956,7 @@
     "messageformat": "Talemeldinger og klistremerker lastes ned automatisk."
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "Sikkerhetskopiering"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Siste import {date} {time}"
@@ -4983,7 +4989,7 @@
     "messageformat": "Blokkert"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "Info om sikkerhetskopiering"
   },
   "icu:Preferences--backup-media-plan__description": {
     "messageformat": "Text + all media backup"
@@ -4995,16 +5001,16 @@
     "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "Abonnementet er gratis"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "Fornyes {date}"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "Utløper {date}"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "Abonnementet er sagt opp"
   },
   "icu:Preferences--backup-media-plan__note": {
     "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
@@ -5019,13 +5025,13 @@
     "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "Siste sikkerhetskopi"
   },
   "icu:Preferences--backup-created-by-phone": {
     "messageformat": "Your phone"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "Størrelse på sikkerhetskopi"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} kontakt} other {{num,number} kontakter}}"

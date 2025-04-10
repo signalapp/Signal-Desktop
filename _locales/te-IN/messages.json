@@ -2324,8 +2324,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "ఎమోజీలు కనుగొనబడలేదు"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Select skin tone for {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "స్కిన్ టోన్ ప్రాధాన్యతను మార్చండి"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Long press to select skin tone"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "మీ డిఫాల్ట్ స్కిన్ టోన్‌ను ఎంచుకోండి"
@@ -2361,7 +2367,7 @@
     "messageformat": "జెండాలు"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "ప్రతిస్పందనలను అనుకూలపరచండి"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "స్టిక్కర్‌లను వెతకడం"
@@ -2382,7 +2388,7 @@
     "messageformat": "ఇటీవల ఉపయోగించబడింది"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "ఫీచర్ చేయబడింది"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "స్టిక్కర్లు కనుగొనబడలేదు"
@@ -3096,10 +3102,10 @@
     "messageformat": "వదిలేయండి"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "కాల్ ముగించండి"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "కాల్ ని వదిలి"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "మైక్ ఆఫ్‌లో ఉంది"
@@ -4950,7 +4956,7 @@
     "messageformat": "స్వర సందేశాలు మరియు స్టిక్కర్‌లు ఎల్లప్పుడూ ఆటో-డౌన్‌లోడ్ చేయబడతాయి."
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "ప్రత్యామ్నాయములు"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "{date} {time} వద్ద చివరిగా దిగుమతి చేయబడింది"
@@ -4983,7 +4989,7 @@
     "messageformat": "బ్లాక్ చేయబడింది"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "బ్యాకప్ వివరాలు"
   },
   "icu:Preferences--backup-media-plan__description": {
     "messageformat": "Text + all media backup"
@@ -4995,16 +5001,16 @@
     "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "మీ బ్యాకప్ ప్రణాళిక ఉచితం"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "{date} ను పునరుద్ధరిస్తుంది"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "{date} న గడువు ముగుస్తుంది"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "సబ్స్క్రిప్షన్ రద్దు చేయబడింది"
   },
   "icu:Preferences--backup-media-plan__note": {
     "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
@@ -5019,13 +5025,13 @@
     "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "చివరి బ్యాకప్"
   },
   "icu:Preferences--backup-created-by-phone": {
     "messageformat": "Your phone"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "బ్యాకప్ పరిమాణం"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} పరిచయం} other {{num,number} పరిచయాలు}}"

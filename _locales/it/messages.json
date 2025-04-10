@@ -2324,8 +2324,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "Nessuna emoji trovata"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Select skin tone for {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "Cambia la preferenza sul colore della pelle"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Long press to select skin tone"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "Scegli il tuo colore della pelle predefinito"
@@ -2361,7 +2367,7 @@
     "messageformat": "Bandiere"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "Personalizza le reazioni"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "Cerca sticker"
@@ -2382,7 +2388,7 @@
     "messageformat": "Usati di recente"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "In evidenza"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "Nessuno sticker trovato"
@@ -3096,10 +3102,10 @@
     "messageformat": "Abbandona"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "Termina chiamata"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "Esci"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "Microfono disattivato"
@@ -4950,7 +4956,7 @@
     "messageformat": "I messaggi vocali e gli sticker vengono sempre scaricati automaticamente."
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "Backup"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Ultima importazione il {date} {time}"
@@ -4983,7 +4989,7 @@
     "messageformat": "Bloccati"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "Dettagli sul backup"
   },
   "icu:Preferences--backup-media-plan__description": {
     "messageformat": "Text + all media backup"
@@ -4995,16 +5001,16 @@
     "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "Piano gratuito per i backup"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "Rinnovo {date}"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "Scade in data: {date}"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "Abbonamento annullato"
   },
   "icu:Preferences--backup-media-plan__note": {
     "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
@@ -5019,13 +5025,13 @@
     "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "Ultimo backup"
   },
   "icu:Preferences--backup-created-by-phone": {
-    "messageformat": "Your phone"
+    "messageformat": "Il tuo telefono"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "Dimensioni del backup"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} contatto} other {{num,number} contatti}}"

@@ -2324,8 +2324,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "搵唔到表情符號"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Select skin tone for {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "更改膚色偏好"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Long press to select skin tone"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "選擇你嘅預設膚色"
@@ -2361,7 +2367,7 @@
     "messageformat": "旗幟"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "自訂心情回應"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "搜尋貼圖"
@@ -2382,7 +2388,7 @@
     "messageformat": "最近用過"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "精選"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "搵唔到貼圖"
@@ -3096,10 +3102,10 @@
     "messageformat": "離開"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "結束通話"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "退出通話"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "閂咗咪"
@@ -4950,7 +4956,7 @@
     "messageformat": "語音訊息同貼圖長期都會自動下載。"
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "備份"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "上次匯入嘅時間係 {date} {time}"
@@ -4983,7 +4989,7 @@
     "messageformat": "封鎖咗"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "備份詳情"
   },
   "icu:Preferences--backup-media-plan__description": {
     "messageformat": "Text + all media backup"
@@ -4995,16 +5001,16 @@
     "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "你嘅備份計劃係免費嘅"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "{date} 續期"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "{date} 到期"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "取消咗課金計劃"
   },
   "icu:Preferences--backup-media-plan__note": {
     "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
@@ -5019,13 +5025,13 @@
     "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "上一次備份"
   },
   "icu:Preferences--backup-created-by-phone": {
     "messageformat": "Your phone"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "備份大小"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, other {{num,number} 個聯絡人}}"

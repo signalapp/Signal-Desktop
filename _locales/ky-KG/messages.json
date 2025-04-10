@@ -2324,8 +2324,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "Быйтыкчалар табылган жок"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Select skin tone for {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "Теринин түсүн өзгөртүү"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Long press to select skin tone"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "Демейки тери түсүн тандаңыз"
@@ -2361,7 +2367,7 @@
     "messageformat": "Желектер"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "Сезимдер топтомун ыңгайлаштыруу"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "Стикерлерди издөө"
@@ -2382,7 +2388,7 @@
     "messageformat": "Жакында колдонулгандар"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "Өзгөчөлөнгөндөр"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "Стикерлер табылган жок"
@@ -3096,10 +3102,10 @@
     "messageformat": "Чыгам"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "Чалууну бүтүрүү"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "Чалуудан чыгуу"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "Микрофон өчүк"
@@ -4950,7 +4956,7 @@
     "messageformat": "Үн билдирүүлөрү менен стикерлер автоматтык түрдө жүктөлүп алынат."
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "Камдык көчүрмөлөр"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Акыркы импортоо {date} {time}"
@@ -4983,7 +4989,7 @@
     "messageformat": "Бөгөттөлдү"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "Камдык көчүрмөнүн чоо-жайы"
   },
   "icu:Preferences--backup-media-plan__description": {
     "messageformat": "Text + all media backup"
@@ -4995,16 +5001,16 @@
     "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "Камдык көчүрүү планыңыз акысыз"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "{date} жаңырат"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "Качан бүтөт: {date}"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "Жазылуу токтотулду"
   },
   "icu:Preferences--backup-media-plan__note": {
     "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
@@ -5019,13 +5025,13 @@
     "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "Акыркы жолу качан сакталган"
   },
   "icu:Preferences--backup-created-by-phone": {
     "messageformat": "Your phone"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "Камдык көчүрмөнүн өлчөмү"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, other {{num,number} байланыш}}"

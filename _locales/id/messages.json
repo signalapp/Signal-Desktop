@@ -2324,8 +2324,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "Tidak ditemukan emoji"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Select skin tone for {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "Ubah Preferensi Warna Kulit"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Long press to select skin tone"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "Pilih warna kulit default"
@@ -2361,7 +2367,7 @@
     "messageformat": "Bendera"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "Kustomisasi tanggapan"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "Cari stiker"
@@ -2382,7 +2388,7 @@
     "messageformat": "Terakhir Digunakan"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "Unggulan"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "Tidak ditemukan stiker"
@@ -3096,10 +3102,10 @@
     "messageformat": "Keluar"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "Akhiri panggilan"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "Tinggalkan panggilan"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "Mik mati"
@@ -4950,7 +4956,7 @@
     "messageformat": "Pesan suara dan stiker selalu diunduh otomatis."
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "Cadangan"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Impor terakhir pada  {date} {time}"
@@ -4983,7 +4989,7 @@
     "messageformat": "Diblokir"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "Detail pencadangan"
   },
   "icu:Preferences--backup-media-plan__description": {
     "messageformat": "Text + all media backup"
@@ -4995,16 +5001,16 @@
     "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "Paket pencadangan Anda gratis"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "Diperpanjang {date}"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "Kedaluwarsa {date}"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "Langganan dibatalkan"
   },
   "icu:Preferences--backup-media-plan__note": {
     "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
@@ -5019,13 +5025,13 @@
     "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "Pencadangan terakhir"
   },
   "icu:Preferences--backup-created-by-phone": {
-    "messageformat": "Your phone"
+    "messageformat": "Ponsel Anda"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "Ukuran pencadangan"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, other {{num,number} kontak}}"

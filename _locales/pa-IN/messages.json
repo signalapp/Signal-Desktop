@@ -2324,8 +2324,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "ਕੋਈ ਇਮੋਜੀ ਨਹੀਂ ਲੱਭਿਆ"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Select skin tone for {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "ਸਕਿੱਨ ਟੋਨ ਦੀ ਤਰਜੀਹ ਬਦਲੋ"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Long press to select skin tone"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "ਆਪਣੀ ਡਿਫੌਲਟ ਸਕਿਨਟੋਨ ਚੁਣੋ"
@@ -2361,7 +2367,7 @@
     "messageformat": "ਝੰਡੇ"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "ਰਿਐਕਸ਼ਨ ਕਸਟਮਾਈਜ਼ ਕਰੋ"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "ਸਟਿੱਕਰ ਖੋਜੋ"
@@ -2382,7 +2388,7 @@
     "messageformat": "ਤਾਜ਼ਾ ਵਰਤੇ"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "ਖਾਸ"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "ਕੋਈ ਸਟਿੱਕਰ ਨਹੀਂ ਲੱਭੇ"
@@ -3096,10 +3102,10 @@
     "messageformat": "ਕਾਲ ਨੂੰ ਛੱਡੋ"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "ਕਾਲ ਖਤਮ ਕਰੋ"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "ਕਾਲ ਨੂੰ ਛੱਡੋ"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "ਮਾਈਕ ਬੰਦ ਹੈ"
@@ -4950,7 +4956,7 @@
     "messageformat": "ਵੌਇਸ ਸੁਨੇਹੇ ਅਤੇ ਸਟਿੱਕਰ ਹਮੇਸ਼ਾ ਆਪਣੇ-ਆਪ ਡਾਊਨਲੋਡ ਹੁੰਦੇ ਹਨ।"
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "ਬੈਕਅੱਪ"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "ਆਖਰੀ ਵਾਰ {date} {time} ਇੰਮਪੋਰਟ ਕੀਤਾ ਗਿਆ"
@@ -4983,7 +4989,7 @@
     "messageformat": "ਪਾਬੰਦੀ ਲਗਾਈ ਗਈ"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "ਬੈਕਅੱਪ ਦੇ ਵੇਰਵੇ"
   },
   "icu:Preferences--backup-media-plan__description": {
     "messageformat": "Text + all media backup"
@@ -4995,16 +5001,16 @@
     "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "ਤੁਹਾਡਾ ਬੈਕਅੱਪ ਪਲਾਨ ਮੁਫ਼ਤ ਹੈ"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "ਰੀਨਿਊ ਹੋਣ ਦੀ ਮਿਤੀ: {date}"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "ਮਿਆਦ ਪੁੱਗਣ ਦੀ ਮਿਤੀ: {date}"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "ਸਬਸਕ੍ਰਿਪਸ਼ਨ ਰੱਦ ਕੀਤੀ ਗਈ"
   },
   "icu:Preferences--backup-media-plan__note": {
     "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
@@ -5019,13 +5025,13 @@
     "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "ਆਖਰੀ ਬੈਕਅੱਪ"
   },
   "icu:Preferences--backup-created-by-phone": {
     "messageformat": "Your phone"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "ਬੈਕਅਪ ਦਾ ਆਕਾਰ"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {1 ਸੰਪਰਕ} other {{num,number} ਸੰਪਰਕ}}"

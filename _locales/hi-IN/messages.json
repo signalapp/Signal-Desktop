@@ -2324,8 +2324,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "इमोजी नहीं मिला"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Select skin tone for {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "स्किन टोन की पसंदगी बदलें"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Long press to select skin tone"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "अपनी डिफ़ॉल्ट स्किनटोन चुनें"
@@ -2361,7 +2367,7 @@
     "messageformat": "झंडे"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "प्रतिक्रियाएँ कस्टमाइज़ करें"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "स्टिकर खोजें"
@@ -2382,7 +2388,7 @@
     "messageformat": "हाल ही में इस्तेमाल किया"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "फीचर्ड"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "स्टिकर नहीं मिले"
@@ -3096,10 +3102,10 @@
     "messageformat": "छोङें"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "कॉल बंद"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "कॉल छोड़ें"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "माइक बंद"
@@ -4950,7 +4956,7 @@
     "messageformat": "वॉइस संदेश और स्टिकर्स हमेशा अपने-आप डाउनलोड किए जाते हैं।"
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "बैकअप"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "{date} {time} पर आख़िरी एक्सपोर्ट"
@@ -4983,7 +4989,7 @@
     "messageformat": "ब्लॉक किया गया"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "बैकअप की जानकारी"
   },
   "icu:Preferences--backup-media-plan__description": {
     "messageformat": "Text + all media backup"
@@ -4995,16 +5001,16 @@
     "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "आपका बैकअप प्लान मुफ़्त है"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "{date} को नवीकृत होता है"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "{date} को समाप्त हो जाएगा"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "सब्सक्रिप्शन रद्द किया गया"
   },
   "icu:Preferences--backup-media-plan__note": {
     "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
@@ -5019,13 +5025,13 @@
     "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "पिछला बैकअप"
   },
   "icu:Preferences--backup-created-by-phone": {
-    "messageformat": "Your phone"
+    "messageformat": "आपका फ़ोन"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "बैकअप आकार"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} कॉन्टैक्ट} other {{num,number} कॉन्टैक्ट}}"

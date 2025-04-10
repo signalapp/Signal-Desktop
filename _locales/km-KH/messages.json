@@ -2324,8 +2324,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "ពុំមានរូបអារម្មណ៍"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Select skin tone for {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "ផ្លាស់ប្តូរចំណូលចិត្តពណ៌ស្បែក"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Long press to select skin tone"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "ជ្រើសរើសពណ៌ស្បែកលំនាំដើមរបស់អ្នក"
@@ -2361,7 +2367,7 @@
     "messageformat": "ទង់"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "ដាក់រូបប្រតិកម្មតាមបំណង"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "ស្វែងរកស្ទីកគ័រ"
@@ -2382,7 +2388,7 @@
     "messageformat": "បានប្រើប្រាស់ថ្មីៗ"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "ពិសេស"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "ពុំមានស្ទីកគ័រ"
@@ -3096,10 +3102,10 @@
     "messageformat": "ចាកចេញ"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "បិទការហៅ"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "បិទការហៅ"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "បានបិទមីក្រូហ្វូន"
@@ -4950,7 +4956,7 @@
     "messageformat": "សារជាសំឡេង និងស្ទីកគ័រត្រូវបានទាញយកដោយស្វ័យប្រវត្តិជានិច្ច។"
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "បម្រុងទុក"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "ការនាំចូលចុងក្រោយនៅ {date} {time}"
@@ -4983,7 +4989,7 @@
     "messageformat": "បានទប់ស្កាត់"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "ព័ត៌មានលម្អិតអំពីការបម្រុងទុក"
   },
   "icu:Preferences--backup-media-plan__description": {
     "messageformat": "Text + all media backup"
@@ -4995,16 +5001,16 @@
     "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "គម្រោងបម្រុងទុករបស់អ្នកគឺឥតគិតថ្លៃ"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "បន្ត {date}"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "ផុតកំណត់នៅ {date}"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "ការជាវត្រូវបានបោះបង់"
   },
   "icu:Preferences--backup-media-plan__note": {
     "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
@@ -5019,13 +5025,13 @@
     "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "ការបម្រុងទុកចុងក្រោយ"
   },
   "icu:Preferences--backup-created-by-phone": {
     "messageformat": "Your phone"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "ទំហំបម្រុងទុក"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, other {{num,number} ឈ្មោះទំនាក់ទំនង}}"

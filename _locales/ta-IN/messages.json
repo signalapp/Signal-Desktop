@@ -2324,8 +2324,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "ஈமோஜிகள் எதுவும் கிடைக்கவில்லை"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Select skin tone for {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "ஸ்கின் டோன் விருப்பத்தை மாற்றுக"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Long press to select skin tone"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "உங்களின் இயல்புநிலை ஸ்கின்டோனை தேர்வுசெய்க"
@@ -2361,7 +2367,7 @@
     "messageformat": "கொடிகள்"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "எதிர்வினைகளை தனிப்பயனாக்கவும்"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "தேடல் ஒட்டிகள்"
@@ -2382,7 +2388,7 @@
     "messageformat": "சமீபத்தில் பயன்படுத்தப்பட்டது"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "இடம்பெற்றது"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "ஸ்டிக்கர்கள் எதுவும் கிடைக்கவில்லை"
@@ -3096,10 +3102,10 @@
     "messageformat": "விலகு"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "அழைப்பை முடி"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "அழைப்பிலிருந்து வெளியேறு"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "மைக் ஆஃப்"
@@ -4950,7 +4956,7 @@
     "messageformat": "வாய்ஸ் மெசேஜ்கள் மற்றும் ஸ்டிக்கர்கள் எப்போதும் தானாகவே பதிவிறக்கப்படுகின்றன."
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "காப்புப் பிரதிகள்"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "கடைசியாக இறக்குமதி {date} {time} இல்"
@@ -4983,7 +4989,7 @@
     "messageformat": "தடைசெய்யப்பட்டது"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "காப்புப்பிரதி விவரங்கள்"
   },
   "icu:Preferences--backup-media-plan__description": {
     "messageformat": "Text + all media backup"
@@ -4995,16 +5001,16 @@
     "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "உங்கக் காப்புப்பிரதி திட்டம் இலவசமாக உள்ளது"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "{date} அன்று புதுப்பிக்கப்படும்"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "{date} ஆம் தேதி காலாவதியாகிறது"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "சந்தா ரத்துசெய்யப்பட்டது"
   },
   "icu:Preferences--backup-media-plan__note": {
     "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
@@ -5019,13 +5025,13 @@
     "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "கடைசி காப்புப்பிரதி"
   },
   "icu:Preferences--backup-created-by-phone": {
     "messageformat": "Your phone"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "காப்புப்பிரதி அளவு"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} தொடர்பு} other {{num,number} தொடர்புகள்}}"

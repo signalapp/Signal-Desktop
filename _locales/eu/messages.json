@@ -2324,8 +2324,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "Ez da emojirik topatu"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Select skin tone for {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "Aldatu azal-tonuaren hobespena"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Long press to select skin tone"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "Aukeratu zure azal-tonu lehenetsia"
@@ -2361,7 +2367,7 @@
     "messageformat": "Banderak"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "Pertsonalizatu erreakzioak"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "Bilatu eranskailuak"
@@ -2382,7 +2388,7 @@
     "messageformat": "Arestian erabilia"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "Nabarmenak"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "Ez da eranskailurik aurkitu"
@@ -3096,10 +3102,10 @@
     "messageformat": "Irten"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "Amaitu deia"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "Deia utzi"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "Mikrofonoa desaktibatuta"
@@ -4950,7 +4956,7 @@
     "messageformat": "Ahots-mezuak eta eranskailuak automatikoki deskargatzen dira beti."
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "Babeskopiak"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Azken inportazioa {date} {time}"
@@ -4983,7 +4989,7 @@
     "messageformat": "Blokeatua"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "Babeskopiaren xehetasunak"
   },
   "icu:Preferences--backup-media-plan__description": {
     "messageformat": "Text + all media backup"
@@ -4995,16 +5001,16 @@
     "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "Zure babeskopia-plana doakoa da"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "Berritze-data: {date}"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "Iraungitze-data: {date}"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "Harpidetza bertan behera utzi da"
   },
   "icu:Preferences--backup-media-plan__note": {
     "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
@@ -5019,13 +5025,13 @@
     "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "Azken babeskopia"
   },
   "icu:Preferences--backup-created-by-phone": {
     "messageformat": "Your phone"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "Babeskopiaren tamaina"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {Kontaktu 1} other {{num,number} kontaktu}}"

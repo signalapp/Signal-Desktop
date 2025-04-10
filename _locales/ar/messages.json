@@ -2324,8 +2324,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "لم يُعثَر على وجوه تعبيرية"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Select skin tone for {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "تغيير تفضيل لون البشرة"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Long press to select skin tone"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "اختر لون بشرتك الافتراضية"
@@ -2361,7 +2367,7 @@
     "messageformat": "الأعلام"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "تخصيص التفاعلات"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "البحث في المُلصَقات"
@@ -2382,7 +2388,7 @@
     "messageformat": "تمَّ الاستخدام مُؤخَّرًا"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "المُميَّزة"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "لم يُعثَر على أي ملصقات"
@@ -3096,10 +3102,10 @@
     "messageformat": "مغادرة"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "إنهاء المُكالمة"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "مغادرة المكالمة"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "الميكروفون غير مُفعَّل"
@@ -4950,7 +4956,7 @@
     "messageformat": "يتم دائمًا تنزيل الرسائل النصية والمُلصَقات بشكل تلقائي."
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "النسخ الاحتياطية"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "‫‫آخر استيراد، منذ {date}‏ على الساعة {time}"
@@ -4983,7 +4989,7 @@
     "messageformat": "المحظورة"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "تفاصيل النسخ الاحتياطي"
   },
   "icu:Preferences--backup-media-plan__description": {
     "messageformat": "Text + all media backup"
@@ -4995,16 +5001,16 @@
     "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "خطة النسخ الاحتياطي الخاصة بك مجانية"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "التجديد في {date}"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "ستنتهي الصلاحية في {date}"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "تمَّ إلغاء الاشتراك"
   },
   "icu:Preferences--backup-media-plan__note": {
     "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
@@ -5019,13 +5025,13 @@
     "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "آخِر نسخة احتياطية"
   },
   "icu:Preferences--backup-created-by-phone": {
-    "messageformat": "Your phone"
+    "messageformat": "هاتفك"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "حجم النسخة الاحتياطية"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, zero {{num,number} جهات اتصال} one {{num,number} جهة اتصال} two {{num,number} جهتيْ اتصال} few {{num,number} جهات اتصال} many {{num,number} جهة اتصال} other {{num,number} جهة اتصال}}"

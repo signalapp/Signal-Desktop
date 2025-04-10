@@ -2324,8 +2324,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "ഒരു ഇമോജിയും കണ്ടെത്തിയില്ല"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Select skin tone for {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "സ്കിൻ ടോൺ മുൻഗണനകൾ മാറ്റുക"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Long press to select skin tone"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "നിങ്ങളുടെ ഡിഫോൾട്ട് സ്കിൻടോൺ തിരഞ്ഞെടുക്കുക"
@@ -2361,7 +2367,7 @@
     "messageformat": "പതാകകൾ"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "പ്രതികരണങ്ങൾ ഇഷ്ടാനുസൃതമാക്കുക"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "സ്റ്റിക്കറുകൾ തിരയുക"
@@ -2382,7 +2388,7 @@
     "messageformat": "അടുത്തിടെ ഉപയോഗിച്ചവ"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "ഫീച്ചർ ചെയ്തവ"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "സ്റ്റിക്കറുകൾ ഒന്നും കണ്ടെത്തിയില്ല"
@@ -3096,10 +3102,10 @@
     "messageformat": "വിട്ട് പോകുക"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "കോൾ അവസാനിപ്പിക്കൂ"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "കോൾ ഉപേക്ഷിക്കുക"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "മൈക്ക് ഓഫാണ്"
@@ -4950,7 +4956,7 @@
     "messageformat": "ശബ്ദ സന്ദേശങ്ങളും സ്റ്റിക്കറുകളും എപ്പോഴും ഓട്ടോ-ഡൗൺലോഡ് ചെയ്യപ്പെടും."
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "ബാക്കപ്പുകൾ"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "അവസാനം ഇമ്പോർട്ട് ചെയ്‌തത് {date} {time}"
@@ -4983,7 +4989,7 @@
     "messageformat": "ബ്ലോക്ക് ചെയ്തു"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "ബാക്കപ്പ് വിശദാംശങ്ങൾ"
   },
   "icu:Preferences--backup-media-plan__description": {
     "messageformat": "Text + all media backup"
@@ -4995,16 +5001,16 @@
     "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "നിങ്ങളുടെ ബാക്കപ്പ് പ്ലാൻ സൗജന്യമാണ്"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "{date} പുതുക്കുന്നു"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "കാലഹരണപ്പെടുന്നത് {date}"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "സബ്സ്ക്രിപ്ഷൻ റദ്ദാക്കി"
   },
   "icu:Preferences--backup-media-plan__note": {
     "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
@@ -5019,13 +5025,13 @@
     "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "അവസാന ബാക്കപ്പ്"
   },
   "icu:Preferences--backup-created-by-phone": {
     "messageformat": "Your phone"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "ബാക്കപ്പ് വലുപ്പം"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {ഒരു കോൺടാക്റ്റ്} other {{num,number} കോൺടാക്റ്റുകൾ}}"

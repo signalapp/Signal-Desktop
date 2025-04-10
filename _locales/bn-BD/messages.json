@@ -2324,8 +2324,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "কোনও ইমোজি পাওয়া যায়নি"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Select skin tone for {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "স্কিনের রং-এর পছন্দ পরিবর্তন করুন"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Long press to select skin tone"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "আপনার ডিফল্ট স্কিনের রং বেছে নিন"
@@ -2361,7 +2367,7 @@
     "messageformat": "পতাকা"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "প্রতিক্রিয়া কাস্টমাইজ করুন"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "স্টিকারগুলি খুঁজুন"
@@ -2382,7 +2388,7 @@
     "messageformat": "সম্প্রতি ব্যাবহৃত হয়েছে"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "ফিচারকৃত"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "কোনও স্টিকার পাওয়া যায় নি"
@@ -3096,10 +3102,10 @@
     "messageformat": "ত্যাগ করুন"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "কল শেষ করুন"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "কল ছেড়ে যান"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "মাইক বন্ধ করুন"
@@ -4950,7 +4956,7 @@
     "messageformat": "ভয়েস মেসেজ ও স্টিকার সবসময় স্বয়ংক্রিয়ভাবে ডাউনলোড হয়।"
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "ব্যাকআপ সমূহ"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "শেষ ইমপোর্ট {date} {time} এ"
@@ -4983,7 +4989,7 @@
     "messageformat": "ব্লক করা আছে"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "ব্যাকআপের বিস্তারিত"
   },
   "icu:Preferences--backup-media-plan__description": {
     "messageformat": "Text + all media backup"
@@ -4995,16 +5001,16 @@
     "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "আপনার ব্যাকআপ প্ল্যান ফ্রি"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "{date} নবায়ন করছে"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "মেয়াদ {date} পর্যন্ত"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "সাবস্ক্রিপশন বাতিল করা হয়েছে"
   },
   "icu:Preferences--backup-media-plan__note": {
     "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
@@ -5019,13 +5025,13 @@
     "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "সর্বশেষ ব্যাকআপ"
   },
   "icu:Preferences--backup-created-by-phone": {
     "messageformat": "Your phone"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "ব্যাকআপের আকার"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} জন কন্টাক্ট} other {{num,number} জন কন্টাক্ট}}"

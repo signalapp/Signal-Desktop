@@ -2324,8 +2324,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "အီမိုဂျီ ရှာမတွေ့ပါ"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Select skin tone for {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "စိတ်ကြိုက်ဦးစားပေး အသားအရောင်သို့ ပြောင်းပါ"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Long press to select skin tone"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "သင် အမြဲထားမည့် အသားအရောင်ကို ရွေးပါ"
@@ -2361,7 +2367,7 @@
     "messageformat": "အလံများ"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "တုံ့ပြန်မှုများကို စိတ်ကြိုက်လုပ်ရန်"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "စတစ်ကာများ ရှာရန်"
@@ -2382,7 +2388,7 @@
     "messageformat": "နောက်ဆုံးသုံးခဲ့သော"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "အသားပေးထားသည်များ"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "စတစ်ကာများ ရှာမတွေ့ပါ"
@@ -3096,10 +3102,10 @@
     "messageformat": "ထွက်မည်"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "ဖုန်းချမည်"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "ခေါ်ဆိုမှုကို ရပ်နားမယ်"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "မိုက် ပိတ်ထားသည်"
@@ -4950,7 +4956,7 @@
     "messageformat": "အသံမက်ဆေ့ချ်များနှင့် စတစ်ကာများကို အမြဲတမ်း အလိုအလျောက်ဒေါင်းလုဒ်လုပ်ထားသည်။"
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "အရန်သိမ်းဆည်းမှုများ"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "{date} {time} တွင် နောက်ဆုံးထည့်သွင်းခဲ့သည်"
@@ -4983,7 +4989,7 @@
     "messageformat": "ဘလော့ခ်ထားပြီး"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "ဘက်ခ်အပ် အသေးစိတ်"
   },
   "icu:Preferences--backup-media-plan__description": {
     "messageformat": "Text + all media backup"
@@ -4995,16 +5001,16 @@
     "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "သင်၏ ဘက်ခ်အပ်အစီအစဉ်သည် အခမဲ့ဖြစ်သည်"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "{date} တွင် သက်တမ်းတိုးသည်"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "· {date} သက်တမ်းကုန်ပါမည်"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "ပုံမှန်လှူဒါန်းငွေကို ပယ်ဖျက်လိုက်ပါပြီ"
   },
   "icu:Preferences--backup-media-plan__note": {
     "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
@@ -5019,13 +5025,13 @@
     "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "နောက်ဆုံး ဘက်ခ်အပ်"
   },
   "icu:Preferences--backup-created-by-phone": {
-    "messageformat": "Your phone"
+    "messageformat": "သင့်ဖုန်း"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "ဘက်ခ်အပ် အရွယ်အစား"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, other {အဆက်အသွယ် {num,number} ခု}}"

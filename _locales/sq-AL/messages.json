@@ -2324,8 +2324,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "S’u gjetën emoji"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Select skin tone for {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "Ndrysho preferencën e tonit të lëkurës"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Long press to select skin tone"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "Zgjidh ngjyrën tënde të paracaktuar të lëkurës"
@@ -2361,7 +2367,7 @@
     "messageformat": "Flamuj"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "Personalizo reagimet"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "Kërkoni ngjitës"
@@ -2382,7 +2388,7 @@
     "messageformat": "Përdorur Së Fundi"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "Sugjeruar"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "S’u gjetën ngjitës"
@@ -3096,10 +3102,10 @@
     "messageformat": "Largohu"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "Përfundoje thirrjen"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "Dilni nga thirrja"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "Mikrofoni i fikur"
@@ -4950,7 +4956,7 @@
     "messageformat": "Mesazhet zanore dhe ngjitëset shkarkohen gjithmonë automatikisht."
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "Kopjeruajtje"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Importimi i fundit më {date} {time}"
@@ -4983,7 +4989,7 @@
     "messageformat": "Bllokuar"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "Të dhënat e kopjeruajtjes"
   },
   "icu:Preferences--backup-media-plan__description": {
     "messageformat": "Text + all media backup"
@@ -4995,16 +5001,16 @@
     "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "Plani i kopjeruajtjes është falas"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "Rinovohet më {date}"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "Skadon më {date}"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "Abonimi u anulua"
   },
   "icu:Preferences--backup-media-plan__note": {
     "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
@@ -5019,13 +5025,13 @@
     "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "Kopjeruajtja e fundit"
   },
   "icu:Preferences--backup-created-by-phone": {
     "messageformat": "Your phone"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "Madhësia kopjeruajtjes"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} kontakt} other {{num,number} kontakte}}"

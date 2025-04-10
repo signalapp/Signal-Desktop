@@ -2324,8 +2324,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "ایموجی پیدا نشد"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Select skin tone for {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "تغییر رنگ پوست دلخواه"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Long press to select skin tone"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "رنگ پوست پیش‌فرض خود را انتخاب کنید"
@@ -2361,7 +2367,7 @@
     "messageformat": "پرچم‌ها"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "سفارشی‌سازی واکنش‌ها"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "استیکرها را جستجو کنید"
@@ -2382,7 +2388,7 @@
     "messageformat": "به‌تازگی استفاده شده"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "ویژه"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "هیچ استیکری یافت نشد"
@@ -3096,10 +3102,10 @@
     "messageformat": "ترک"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "پایان دادن به تماس"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "ترک کردن تماس"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "میکروفون خاموش"
@@ -4950,7 +4956,7 @@
     "messageformat": "پیام‌های صوتی و استیکرها همیشه به‌صورت خودکار دانلود می‌شوند."
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "نسخه‌های پشتیبان"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "آخرین واردسازی در {time} {date}"
@@ -4983,7 +4989,7 @@
     "messageformat": "مسدودشده"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "جزئیات پشتیبان"
   },
   "icu:Preferences--backup-media-plan__description": {
     "messageformat": "Text + all media backup"
@@ -4995,16 +5001,16 @@
     "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "طرح پشتیبان شما خالی است"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "در {date} تمدید می‌شود"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "در {date} منقضی می‌شود"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "اشتراک لغو شد"
   },
   "icu:Preferences--backup-media-plan__note": {
     "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
@@ -5019,13 +5025,13 @@
     "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "آخرین پشتیبان‌گیری"
   },
   "icu:Preferences--backup-created-by-phone": {
-    "messageformat": "Your phone"
+    "messageformat": "گوشی شما"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "اندازه پشتیبان"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} مخاطب} other {{num,number} مخاطب}}"

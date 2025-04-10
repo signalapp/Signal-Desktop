@@ -1272,7 +1272,7 @@
     "messageformat": "Para cambiar el nombre de este dispositivo, abre Signal en tu teléfono y ve a Ajustes > Dispositivos vinculados"
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
-    "messageformat": "Tono de piel del emoji"
+    "messageformat": "Tono de piel de los emojis"
   },
   "icu:initialSync": {
     "messageformat": "Sincronizando contactos y grupos"
@@ -2244,7 +2244,7 @@
     "messageformat": "Cerrar búsqueda de emojis"
   },
   "icu:EmojiPicker--search-placeholder": {
-    "messageformat": "Buscar emoji"
+    "messageformat": "Buscar emojis"
   },
   "icu:EmojiPicker--skin-tone": {
     "messageformat": "Tono de piel {tone}"
@@ -2286,10 +2286,10 @@
     "messageformat": "GIF"
   },
   "icu:FunPanelEmojis__SearchLabel": {
-    "messageformat": "Buscar emoji"
+    "messageformat": "Buscar emojis"
   },
   "icu:FunPanelEmojis__SearchPlaceholder": {
-    "messageformat": "Buscar emoji"
+    "messageformat": "Buscar emojis"
   },
   "icu:FunPanelEmojis__SubNavLabel": {
     "messageformat": "Categorías de emojis"
@@ -2324,8 +2324,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "Emoji no encontrado"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Select skin tone for {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "Cambiar la preferencia de tono de piel"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Long press to select skin tone"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "Elige un tono de piel predeterminado"
@@ -2361,7 +2367,7 @@
     "messageformat": "Banderas"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "Personalizar reacciones"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "Buscar stickers"
@@ -2382,7 +2388,7 @@
     "messageformat": "Usados recientemente"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "Destacados"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "No se han encontrado stickers"
@@ -3096,10 +3102,10 @@
     "messageformat": "Abandonar"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "Finalizar llamada"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "Abandonar llamada"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "Micrófono desactivado"
@@ -4950,7 +4956,7 @@
     "messageformat": "Los mensajes de voz y los stickers siempre se descargan automáticamente."
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "Copias de seguridad"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Última importación: {time} del {date}"
@@ -4983,7 +4989,7 @@
     "messageformat": "Bloqueados"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "Detalles de la copia de seguridad"
   },
   "icu:Preferences--backup-media-plan__description": {
     "messageformat": "Text + all media backup"
@@ -4995,16 +5001,16 @@
     "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "Tu plan de copias de seguridad es gratis"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "Se renueva el {date}"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "Caduca el {date}"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "Suscripción cancelada"
   },
   "icu:Preferences--backup-media-plan__note": {
     "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
@@ -5019,13 +5025,13 @@
     "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "Última copia de seguridad"
   },
   "icu:Preferences--backup-created-by-phone": {
-    "messageformat": "Your phone"
+    "messageformat": "Tu teléfono"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "Tamaño de la copia de seguridad"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} contacto} other {{num,number} contactos}}"

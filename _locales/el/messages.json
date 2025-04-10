@@ -2324,8 +2324,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "Δεν βρέθηκε emoji"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Select skin tone for {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "Αλλαγή προτίμησης τόνου δέρματος"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Long press to select skin tone"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "Διάλεξε τον προεπιλεγμένο τόνο επιδερμίδας"
@@ -2361,7 +2367,7 @@
     "messageformat": "Σημαίες"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "Προσαρμογή αντιδράσεων"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "Αναζήτηση αυτοκόλλητων"
@@ -2382,7 +2388,7 @@
     "messageformat": "Πρόσφατα χρησιμοποιημένα"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "Προτεινόμενα"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "Δε βρέθηκαν αυτοκόλλητα"
@@ -3096,10 +3102,10 @@
     "messageformat": "Αποχώρηση"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "Τερματισμός κλήσης"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "Αποχώρηση από την κλήση"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "Μικρόφωνο ανενεργό"
@@ -4950,7 +4956,7 @@
     "messageformat": "Τα ηχητικά μηνύματα και τα αυτοκόλλητα κατεβαίνουν πάντα αυτόματα."
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "Αντίγραφα ασφαλείας"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Τελευταία εισαγωγή στις {date} {time}"
@@ -4983,7 +4989,7 @@
     "messageformat": "Λίστα αποκλεισμού"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "Λεπτομέρειες αντιγράφου ασφαλείας"
   },
   "icu:Preferences--backup-media-plan__description": {
     "messageformat": "Text + all media backup"
@@ -4995,16 +5001,16 @@
     "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "Το πρόγραμμα αντιγράφων σαφαλείας σου είναι δωρεάν"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "Ανανεώνεται {date}"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "Λήγει στις {date}"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "Η συνδρομή ακυρώθηκε"
   },
   "icu:Preferences--backup-media-plan__note": {
     "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
@@ -5019,13 +5025,13 @@
     "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "Τελευταίο αντίγραφο ασφαλείας"
   },
   "icu:Preferences--backup-created-by-phone": {
     "messageformat": "Your phone"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "Μέγεθος αντίγραφου ασφαλείας"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} επαφή} other {{num,number} επαφές}}"

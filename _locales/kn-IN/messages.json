@@ -2324,8 +2324,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "ಯಾವುದೇ ಎಮೋಜಿ ಕಂಡುಬಂದಿಲ್ಲ"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Select skin tone for {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "ಸ್ಕಿನ್ ಟೋನ್ ಆದ್ಯತೆಯನ್ನು ಬದಲಾಯಿಸಿ"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Long press to select skin tone"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "ನಿಮ್ಮ ಡೀಫಾಲ್ಟ್ ಸ್ಕಿನ್‌ಟೋನ್ ಆಯ್ಕೆಮಾಡಿ"
@@ -2361,7 +2367,7 @@
     "messageformat": "ಫ್ಲ್ಯಾಗ್‌ಗಳು"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "ಪ್ರತಿಕ್ರಿಯೆಗಳನ್ನು ಕಸ್ಟಮೈಸ್ ಮಾಡಿ"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "ಸ್ಟಿಕ್ಕರ್‌ಗಳ ಹುಡುಕಾಟ"
@@ -2382,7 +2388,7 @@
     "messageformat": "ಇತ್ತೀಚೆಗೆ ಬಳಸಲಾಗಿದೆ"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "ವೈಶಿಷ್ಟ್ಯಗೊಳಿಸಲಾಗಿದೆ"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "ಯಾವುದೇ ಸ್ಟಿಕ್ಕರ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ"
@@ -3096,10 +3102,10 @@
     "messageformat": "ತೊರೆಯಿರಿ"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "ಕರೆ ಅಂತ್ಯಗೊಳಿಸಿ"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "ಕರೆ ಬಿಡಿ"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "ಮೈಕ್ ಆಫ್ ಆಗಿದೆ"
@@ -4950,7 +4956,7 @@
     "messageformat": "ಧ್ವನಿ ಸಂದೇಶಗಳು ಮತ್ತು ಸ್ಟಿಕ್ಕರ್‌ಗಳು ಯಾವಾಗಲೂ ಸ್ವಯಂ-ಡೌನ್‌ಲೋಡ್ ಆಗುತ್ತವೆ."
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "ಬ್ಯಾಕಪ್‌ಗಳು"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "ಈ ಹಿಂದೆ ಇಂಪೋರ್ಟ್ ಮಾಡಿದ್ದು: {date} {time}"
@@ -4983,7 +4989,7 @@
     "messageformat": "ನಿರ್ಬಂಧಿಸಲಾಗಿದೆ"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "ಬ್ಯಾಕಪ್ ವಿವರಗಳು"
   },
   "icu:Preferences--backup-media-plan__description": {
     "messageformat": "Text + all media backup"
@@ -4995,16 +5001,16 @@
     "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "ನಿಮ್ಮ ಬ್ಯಾಕಪ್ ಪ್ಲಾನ್ ಉಚಿತ"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "ನವೀಕರಿಸುತ್ತದೆ {date}"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "ಅವಧಿ ಮುಗಿಯುವ ದಿನಾಂಕ {date}"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "ಸಬ್‍ಸ್ಕ್ರಿಪ್ಷನ್ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ"
   },
   "icu:Preferences--backup-media-plan__note": {
     "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
@@ -5019,13 +5025,13 @@
     "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "ಕೊನೆಯ ಬ್ಯಾಕಪ್"
   },
   "icu:Preferences--backup-created-by-phone": {
     "messageformat": "Your phone"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "ಬ್ಯಾಕಪ್ ಗಾತ್ರ"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} ಸಂಪರ್ಕ} other {{num,number} ಸಂಪರ್ಕಗಳು}}"
