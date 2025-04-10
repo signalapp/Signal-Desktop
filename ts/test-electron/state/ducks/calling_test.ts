@@ -237,6 +237,8 @@ describe('calling duck', () => {
 
     oldEvents = window.Events;
     window.Events = {
+      ...(oldEvents || {}),
+
       getCallRingtoneNotification: sinon.spy(),
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any;
