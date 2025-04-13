@@ -30,6 +30,11 @@ describe('Username', () => {
     it('matches valid username searches', () => {
       assert.strictEqual(getUsernameFromSearch('username.12'), 'username.12');
       assert.strictEqual(getUsernameFromSearch('xyz.568'), 'xyz.568');
+      assert.strictEqual(getUsernameFromSearch('numbered9.34'), 'numbered9.34');
+      assert.strictEqual(
+        getUsernameFromSearch('with_underscore.56'),
+        'with_underscore.56'
+      );
     });
 
     it('does not match something that looks like a phone number', () => {

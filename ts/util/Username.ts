@@ -14,7 +14,7 @@ export function getMinNickname(): number {
   return parseIntWithFallback(RemoteConfig.getValue('global.nicknames.min'), 3);
 }
 
-const USERNAME_CHARS = /^@?[a-zA-Z0-9]+(.\d+)?$/;
+const USERNAME_CHARS = /^@?[a-zA-Z0-9_]+(.\d+)?$/;
 const ALL_DIGITS = /^\d+$/;
 
 export function getUsernameFromSearch(searchTerm: string): string | undefined {
