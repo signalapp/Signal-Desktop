@@ -98,7 +98,8 @@ describe('editing', function (this: Mocha.Suite) {
   async function sendEditedMessage(
     page: Page,
     timestamp: number,
-    additionalText: string
+    additionalText: string,
+    previousText: string
   ) {
     await page
       .getByTestId(`${timestamp}`)
@@ -106,7 +107,7 @@ describe('editing', function (this: Mocha.Suite) {
       .click();
     await page.getByRole('menuitem', { name: 'Edit' }).click();
     const input = await waitForEnabledComposer(page);
-    await typeIntoInput(input, additionalText);
+    await typeIntoInput(input, additionalText, previousText);
     await input.press('Enter');
   }
 
@@ -324,7 +325,7 @@ describe('editing', function (this: Mocha.Suite) {
         const input = await waitForEnabledComposer(window);
 
         debug('entering original message text');
-        await typeIntoInput(input, 'edit message 1');
+        await typeIntoInput(input, 'edit message 1', '');
         await input.press('Enter');
       }
 
@@ -335,7 +336,8 @@ describe('editing', function (this: Mocha.Suite) {
       await sendEditedMessage(
         window,
         originalMessage.timestamp?.toNumber() ?? 0,
-        '.2'
+        '.2',
+        'edit message 1'
       );
 
       debug("waiting for friend's edit message");
@@ -349,7 +351,8 @@ describe('editing', function (this: Mocha.Suite) {
       await sendEditedMessage(
         window,
         originalMessage.timestamp?.toNumber() ?? 0,
-        '.3'
+        '.3',
+        'edit message 1.2'
       );
 
       const { editMessage: secondEdit } = await friend.waitForEditMessage();
@@ -545,7 +548,7 @@ describe('editing', function (this: Mocha.Suite) {
         const input = await waitForEnabledComposer(page);
 
         debug('sending message desktop -> friend');
-        await typeIntoInput(input, originalText);
+        await typeIntoInput(input, originalText, '');
         await input.press('Enter');
       }
 
@@ -615,7 +618,7 @@ describe('editing', function (this: Mocha.Suite) {
       debug('finding composition input and clicking it v2');
 
       debug('sending edit message v2 desktop -> friend');
-      await sendEditedMessage(page, originalMessageTimestamp, '2');
+      await sendEditedMessage(page, originalMessageTimestamp, '2', '1');
 
       {
         const readReceiptTimestamp = bootstrap.getTimestamp();
@@ -670,7 +673,8 @@ describe('editing', function (this: Mocha.Suite) {
       await sendEditedMessage(
         page,
         originalMessage?.timestamp?.toNumber() ?? 0,
-        '3'
+        '3',
+        '12'
       );
 
       debug("waiting for message on friend's device (v3)");
@@ -691,7 +695,8 @@ describe('editing', function (this: Mocha.Suite) {
       await sendEditedMessage(
         page,
         originalMessage?.timestamp?.toNumber() ?? 0,
-        '4'
+        '4',
+        '123'
       );
 
       debug("waiting for message on friend's device (v4)");

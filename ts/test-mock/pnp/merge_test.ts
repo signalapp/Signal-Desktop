@@ -133,7 +133,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       {
         const compositionInput = await waitForEnabledComposer(window);
 
-        await typeIntoInput(compositionInput, 'Hello ACI');
+        await typeIntoInput(compositionInput, 'Hello ACI', '');
         await compositionInput.press('Enter');
       }
 
@@ -160,7 +160,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
         debug('Send message to PNI');
         const compositionInput = await waitForEnabledComposer(window);
 
-        await typeIntoInput(compositionInput, 'Hello PNI');
+        await typeIntoInput(compositionInput, 'Hello PNI', '');
         await compositionInput.press('Enter');
       }
 
@@ -273,7 +273,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       {
         const compositionInput = await waitForEnabledComposer(window);
 
-        await typeIntoInput(compositionInput, 'Hello merged');
+        await typeIntoInput(compositionInput, 'Hello merged', '');
         await compositionInput.press('Enter');
       }
 
@@ -383,7 +383,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
     {
       const compositionInput = await waitForEnabledComposer(window);
 
-      await typeIntoInput(compositionInput, 'Hello merged');
+      await typeIntoInput(compositionInput, 'Hello merged', '');
       await compositionInput.press('Enter');
     }
 
@@ -530,7 +530,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
     {
       const compositionInput = await waitForEnabledComposer(window);
 
-      await typeIntoInput(compositionInput, 'Hello merged');
+      await typeIntoInput(compositionInput, 'Hello merged', '');
       await compositionInput.press('Enter');
     }
 

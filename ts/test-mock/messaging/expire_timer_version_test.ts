@@ -251,7 +251,7 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
       {
         const compositionInput = await waitForEnabledComposer(window);
 
-        await typeIntoInput(compositionInput, 'Hello');
+        await typeIntoInput(compositionInput, 'Hello', '');
         await compositionInput.press('Enter');
       }
 
