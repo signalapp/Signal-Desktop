@@ -65,6 +65,7 @@ export default {
     theme: undefined,
     onSelectEmoji: action('onSelectEmoji'),
     showCustomizePreferredReactionsButton: false,
+    closeOnSelect: true,
   },
 } satisfies ComponentMeta<TemplateProps>;
 

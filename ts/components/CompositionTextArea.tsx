@@ -210,6 +210,7 @@ export function CompositionTextArea({
             open={emojiPickerOpen}
             onOpenChange={handleEmojiPickerOpenChange}
             onSelectEmoji={handleSelectEmoji}
+            closeOnSelect={false}
           >
             <FunEmojiPickerButton i18n={i18n} />
           </FunEmojiPicker>

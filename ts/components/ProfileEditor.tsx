@@ -492,6 +492,7 @@ export function ProfileEditor({
                   onOpenChange={handleEmojiPickerOpenChange}
                   placement="bottom"
                   onSelectEmoji={handleSelectEmoji}
+                  closeOnSelect
                 >
                   <FunEmojiPickerButton
                     i18n={i18n}

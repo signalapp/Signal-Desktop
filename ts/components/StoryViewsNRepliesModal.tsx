@@ -323,6 +323,7 @@ export function StoryViewsNRepliesModal({
                   onSelectEmoji={handleSelectEmoji}
                   placement="top"
                   theme={ThemeType.dark}
+                  closeOnSelect={false}
                 >
                   <FunEmojiPickerButton i18n={i18n} />
                 </FunEmojiPicker>

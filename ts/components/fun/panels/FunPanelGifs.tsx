@@ -359,9 +359,9 @@ export function FunPanelGifs({
     (_event: PressEvent, gifSelection: FunGifSelection) => {
       onFunSelectGif(gifSelection);
       onSelectGif(gifSelection);
+      setSelectedItemKey(null);
       // Should always close, cannot select multiple
       onClose();
-      setSelectedItemKey(null);
     },
     [onFunSelectGif, onSelectGif, onClose]
   );

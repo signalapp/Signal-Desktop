@@ -262,6 +262,7 @@ function CustomizingPreferredReactionsModalItem(props: {
         onOpenChange={handleEmojiPickerOpenChange}
         placement="bottom"
         onSelectEmoji={props.onSelectEmoji}
+        closeOnSelect
       >
         {button}
       </FunEmojiPicker>
