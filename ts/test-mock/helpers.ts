@@ -33,29 +33,34 @@ export function bufferToUuid(buffer: Buffer): string {
 
 export async function typeIntoInput(
   input: Locator,
-  text: string
+  additionalText: string,
+  previousText: string
 ): Promise<void> {
-  let currentValue = '';
-  let isInputElement = true;
+  const updatedText = `${previousText}${additionalText}`;
 
+  // Check if the element is an `input` or `[contenteditable]`
+  let isInputElement = true;
   try {
-    currentValue = await input.inputValue();
+    // Discard value, we're using a matcher later to assert the previous value
+    await input.inputValue();
   } catch (e) {
     isInputElement = false;
-    // if input is actually not an input (e.g. contenteditable)
-    currentValue = (await input.textContent()) ?? '';
   }
 
-  const newValue = `${currentValue}${text}`;
+  if (isInputElement) {
+    await expect(input).toHaveValue(previousText);
+  } else {
+    await expect(input).toHaveText(previousText);
+  }
 
-  await input.fill(newValue);
+  await input.fill(updatedText);
 
   // Wait to ensure that the input (and react state controlling it) has actually
   // updated with the right value
   if (isInputElement) {
-    await expect(input).toHaveValue(newValue);
+    await expect(input).toHaveValue(updatedText);
   } else {
-    await input.locator(`:text("${newValue}")`).waitFor();
+    await expect(input).toHaveText(updatedText);
   }
 }
 
@@ -361,7 +366,7 @@ export async function sendMessageWithAttachments(
 
   debug('sending message');
   const input = await waitForEnabledComposer(page);
-  await typeIntoInput(input, text);
+  await typeIntoInput(input, text, '');
   await input.press('Enter');
 
   const Message = getTimelineMessageWithText(page, text);

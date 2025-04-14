@@ -102,7 +102,7 @@ describe('pnp/phone discovery', function (this: Mocha.Suite) {
     {
       const compositionInput = await waitForEnabledComposer(window);
 
-      await typeIntoInput(compositionInput, 'Hello PNI');
+      await typeIntoInput(compositionInput, 'Hello PNI', '');
       await compositionInput.press('Enter');
     }
 

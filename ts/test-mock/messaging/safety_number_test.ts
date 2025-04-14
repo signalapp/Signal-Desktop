@@ -109,7 +109,7 @@ describe('safety number', function (this: Mocha.Suite) {
     await clickOnConversation(window, alice);
 
     const input = await waitForEnabledComposer(window);
-    await typeIntoInput(input, 'Hello Alice!');
+    await typeIntoInput(input, 'Hello Alice!', '');
 
     await changeIdentityKey();
 
