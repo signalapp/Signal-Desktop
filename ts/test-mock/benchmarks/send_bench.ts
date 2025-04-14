@@ -89,7 +89,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     const input = await waitForEnabledComposer(window);
 
     debug('entering message text');
-    await typeIntoInput(input, `my message ${runId}`);
+    await typeIntoInput(input, `my message ${runId}`, '');
     await input.press('Enter');
 
     debug('waiting for message on server side');

@@ -119,7 +119,7 @@ describe('storage service', function (this: Mocha.Suite) {
 
     debug('Enter message text');
     const input = await waitForEnabledComposer(window);
-    await typeIntoInput(input, 'hello stranger!');
+    await typeIntoInput(input, 'hello stranger!', '');
     await input.press('Enter');
 
     {

@@ -122,7 +122,7 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
     debug('Sending a message back to user - will trigger captcha!');
     {
       const input = await waitForEnabledComposer(window);
-      await typeIntoInput(input, 'Hi, good to hear from you!');
+      await typeIntoInput(input, 'Hi, good to hear from you!', '');
       await input.press('Enter');
     }
 
@@ -197,7 +197,7 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
     debug('Sending a message back to ContactB - will trigger captcha!');
     {
       const input = await waitForEnabledComposer(window);
-      await typeIntoInput(input, 'Hi, good to hear from you!');
+      await typeIntoInput(input, 'Hi, good to hear from you!', '');
       await input.press('Enter');
     }
 
@@ -284,7 +284,7 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
     debug('Sending a message back to user - will trigger captcha!');
     {
       const input = await waitForEnabledComposer(window);
-      await typeIntoInput(input, 'Hi, good to hear from you!');
+      await typeIntoInput(input, 'Hi, good to hear from you!', '');
       await input.press('Enter');
     }
 
@@ -333,7 +333,7 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
     debug('Sending another message - this time it should not trigger captcha!');
     {
       const input = await waitForEnabledComposer(window);
-      await typeIntoInput(input, 'How have you been lately?');
+      await typeIntoInput(input, 'How have you been lately?', '');
       await input.press('Enter');
     }
 
@@ -355,7 +355,7 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
     );
     {
       const input = await waitForEnabledComposer(window);
-      await typeIntoInput(input, 'You the cow guy from craigslist?');
+      await typeIntoInput(input, 'You the cow guy from craigslist?', '');
       await input.press('Enter');
     }
 

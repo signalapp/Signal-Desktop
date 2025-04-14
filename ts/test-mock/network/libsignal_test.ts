@@ -71,7 +71,7 @@ describe('Libsignal-net', function (this: Mocha.Suite) {
 
     debug('sending outgoing message');
     const input = await waitForEnabledComposer(window);
-    await typeIntoInput(input, 'outgoing message');
+    await typeIntoInput(input, 'outgoing message', '');
     await input.press('Enter');
 
     debug('waiting for message on server side');

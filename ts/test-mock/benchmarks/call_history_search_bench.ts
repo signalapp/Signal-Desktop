@@ -168,7 +168,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     const start = Date.now();
 
     // test
-    await typeIntoInput(SearchBar, searchContact.profileName);
+    await typeIntoInput(SearchBar, searchContact.profileName, '');
     await CreateCallLink.waitFor({ state: 'hidden' }); // hides when searching
     await expect(OtherCallListItems).not.toBeAttached();
     await sendCallEventSync(
