@@ -493,6 +493,7 @@ export function TextStoryCreator({
                   placement="top"
                   onSelectEmoji={handleSelectEmoji}
                   theme={ThemeType.dark}
+                  closeOnSelect
                 >
                   <FunEmojiPickerButton i18n={i18n} />
                 </FunEmojiPicker>
