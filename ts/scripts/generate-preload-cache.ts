@@ -6,36 +6,45 @@ import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { mkdir, mkdtemp, rm, rename } from 'node:fs/promises';
 import pTimeout from 'p-timeout';
+import ELECTRON_BIN from 'electron';
 
 import { MINUTE } from '../util/durations';
 import { explodePromise } from '../util/explodePromise';
 
 const ROOT_DIR = join(__dirname, '..', '..');
 
-const ELECTRON = join(
-  ROOT_DIR,
-  'node_modules',
-  '.bin',
-  process.platform === 'win32' ? 'electron.cmd' : 'electron'
-);
+const V8_ARGS = ['--predictable'];
 
 async function main(): Promise<void> {
   const storagePath = await mkdtemp(join(tmpdir(), 'signal-preload-cache-'));
 
+  const argv = [`--js-flags=${V8_ARGS.join(' ')}`];
+  if (process.platform === 'linux') {
+    argv.push('--no-sandbox');
+  }
+  argv.push('ci.js');
+
   const proc = spawn(
-    ELECTRON,
-    ['--js-args="--predictable --random-seed 1"', 'ci.js'],
+    // When imported from Node.js - the default export of 'electron' is a path
+    // to the Electron binary.
+    ELECTRON_BIN as unknown as string,
+    argv,
     {
+      stdio: [null, 'inherit', 'inherit'],
       cwd: ROOT_DIR,
       env: {
-        ...process.env,
+        // Linux X11 support
+        DISPLAY: process.env.DISPLAY,
+        XDG_RUNTIME_DIR: process.env.XDG_RUNTIME_DIR,
+        WAYLAND_DISPLAY: process.env.WAYLAND_DISPLAY,
+        XAUTHORITY: process.env.XAUTHORITY,
+
         GENERATE_PRELOAD_CACHE: 'on',
         SIGNAL_CI_CONFIG: JSON.stringify({
           storagePath,
+          openDevTools: false,
         }),
       },
-      // Since we run `.cmd` file on Windows - use shell
-      shell: process.platform === 'win32',
     }
   );
 

@@ -32,6 +32,7 @@ export type CIType = {
   getSocketStatus: () => SocketStatuses;
   handleEvent: (event: string, data: unknown) => unknown;
   setProvisioningURL: (url: string) => unknown;
+  setPreloadCacheHit: (value: boolean) => unknown;
   solveChallenge: (response: ChallengeResponseType) => unknown;
   waitForEvent: (
     event: string,
@@ -116,6 +117,10 @@ export function getCI({
 
   function setProvisioningURL(url: string): void {
     handleEvent('provisioning-url', url);
+  }
+
+  function setPreloadCacheHit(value: boolean): void {
+    handleEvent('preload-cache-hit', value);
   }
 
   function handleEvent(event: string, data: unknown): void {
@@ -227,6 +232,7 @@ export function getCI({
     getSocketStatus,
     handleEvent,
     setProvisioningURL,
+    setPreloadCacheHit,
     solveChallenge,
     waitForEvent,
     openSignalRoute,

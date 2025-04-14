@@ -101,6 +101,10 @@ export class App extends EventEmitter {
     return this.#waitForEvent('provisioning-url');
   }
 
+  public async waitForPreloadCacheHit(): Promise<boolean> {
+    return this.#waitForEvent('preload-cache-hit');
+  }
+
   public async waitForDbInitialized(): Promise<void> {
     return this.#waitForEvent('db-initialized');
   }

@@ -106,6 +106,10 @@ Bootstrap.regressionBenchmark(
         const app = await bootstrap.startApp();
         const appLoadedInfo = await app.waitUntilLoaded();
 
+        if (!(await app.waitForPreloadCacheHit())) {
+          throw new Error('Preload cache miss');
+        }
+
         await app.close();
 
         return appLoadedInfo;
