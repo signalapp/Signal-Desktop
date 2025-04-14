@@ -49,7 +49,7 @@ jobs:
       - run: ./node_modules/.bin/playwright install chromium
       - run: ./node_modules/.bin/run-p --race test:storybook:serve test:storybook:test
         env:
-          ARTIFACTS_DIR: stories/data
+          ARTIFACTS_DIR: stories
       - run: pnpm run build:esbuild
       - run: node ts/scripts/compile-stories-icu-lookup.js stories
 
@@ -59,6 +59,7 @@ jobs:
         with:
           name: desktop-test-icu
           path: stories
+          compression-level: 9
 
       - name: Upload release artifacts
         if: github.event_name != 'workflow_dispatch'
@@ -66,3 +67,4 @@ jobs:
         with:
           name: desktop-${{ github.ref_name }}-icu
           path: stories
+          compression-level: 9

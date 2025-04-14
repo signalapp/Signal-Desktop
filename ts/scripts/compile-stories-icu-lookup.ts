@@ -1,10 +1,9 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { readFile, writeFile } from 'node:fs/promises';
+import { readFile, writeFile, readdir, readlink } from 'node:fs/promises';
 import { join, basename } from 'node:path';
 import pMap from 'p-map';
-import fastGlob from 'fast-glob';
 
 import { drop } from '../util/drop';
 
@@ -14,9 +13,9 @@ async function main(): Promise<void> {
     throw new Error('Missing required source directory argument');
   }
 
-  const dirEntries = await fastGlob('*/*.jpg', {
-    cwd: join(source, 'data'),
-    onlyFiles: true,
+  const dirEntries = await readdir(join(source, 'components'), {
+    withFileTypes: true,
+    recursive: true,
   });
 
   const enMessages = JSON.parse(
@@ -26,21 +25,31 @@ async function main(): Promise<void> {
     )
   );
 
-  const icuToStory: Record<string, Array<string>> = Object.create(null);
+  const icuToStory: Record<string, Array<[string, string]>> = Object.create(
+    null
+  );
 
   await pMap(
     dirEntries,
     async entry => {
-      const [storyId, imageFile] = entry.split('/', 2);
+      if (!entry.isSymbolicLink()) {
+        return;
+      }
 
-      const icuId = `icu:${basename(imageFile, '.jpg')}`;
+      const fullPath = join(entry.parentPath, entry.name);
+      const image = basename(await readlink(fullPath));
+
+      const storyId = basename(entry.parentPath);
+      const linkFile = entry.name;
+
+      const icuId = `icu:${basename(linkFile, '.jpg')}`;
 
       let list = icuToStory[icuId];
       if (list == null) {
         list = [];
         icuToStory[icuId] = list;
       }
-      list.push(storyId);
+      list.push([storyId, image]);
     },
     { concurrency: 20 }
   );
