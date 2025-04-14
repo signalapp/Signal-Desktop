@@ -33,6 +33,8 @@
       height: 100%;
       max-height: calc(100% - 140px);
       aspect-ratio: 4 / 3;
+      margin-inline-start: auto;
+      margin-inline-end: auto;
 
       .module-calling__background--blur::before {
         content: '';
