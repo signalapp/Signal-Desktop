@@ -1409,6 +1409,7 @@ export function MediaEditor({
                       onSelectEmoji={handleSelectEmoji}
                       placement="top"
                       theme={ThemeType.dark}
+                      closeOnSelect={false}
                     >
                       <FunEmojiPickerButton i18n={i18n} />
                     </FunEmojiPicker>

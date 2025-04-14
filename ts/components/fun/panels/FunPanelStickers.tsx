@@ -344,8 +344,8 @@ export function FunPanelStickers({
       onFunSelectSticker(stickerSelection);
       onSelectSticker(stickerSelection);
       if (!(event.ctrlKey || event.metaKey)) {
-        onClose();
         setFocusedCellKey(null);
+        onClose();
       }
     },
     [onFunSelectSticker, onSelectSticker, onClose]

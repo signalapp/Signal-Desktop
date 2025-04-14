@@ -735,7 +735,6 @@ export const CompositionArea = memo(function CompositionArea({
             recentEmojis={recentEmojis}
             emojiSkinToneDefault={emojiSkinToneDefault}
             onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
-            closeOnPick
           />
         </div>
       )}

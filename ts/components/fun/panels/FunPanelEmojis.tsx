@@ -9,6 +9,7 @@ import {
   OverlayArrow,
   Popover,
 } from 'react-aria-components';
+import type { PressEvent } from 'react-aria';
 import { VisuallyHidden } from 'react-aria';
 import type { LocalizerType } from '../../../types/I18N';
 import { strictAssert } from '../../../util/assert';
@@ -145,12 +146,14 @@ export type FunPanelEmojisProps = Readonly<{
   onSelectEmoji: (emojiSelection: FunEmojiSelection) => void;
   onClose: () => void;
   showCustomizePreferredReactionsButton: boolean;
+  closeOnSelect: boolean;
 }>;
 
 export function FunPanelEmojis({
   onSelectEmoji,
   onClose,
   showCustomizePreferredReactionsButton,
+  closeOnSelect,
 }: FunPanelEmojisProps): JSX.Element {
   const fun = useFunContext();
   const {
@@ -160,14 +163,15 @@ export function FunPanelEmojis({
     selectedEmojisSection,
     onChangeSelectedEmojisSection,
     onOpenCustomizePreferredReactionsModal,
-    recentEmojis,
+    recentEmojis: unstableRecentEmojis,
     onSelectEmoji: onFunSelectEmoji,
   } = fun;
 
   const scrollerRef = useRef<HTMLDivElement>(null);
 
+  // Don't update recent emojis while the emoji panel is open
+  const [recentEmojis] = useState(unstableRecentEmojis);
   const [focusedCellKey, setFocusedCellKey] = useState<CellKey | null>(null);
-
   const [skinTonePopoverOpen, setSkinTonePopoverOpen] = useState(false);
 
   const handleSkinTonePopoverOpenChange = useCallback((open: boolean) => {
@@ -255,13 +259,15 @@ export function FunPanelEmojis({
   );
 
   const handleSelectEmoji = useCallback(
-    (emojiSelection: FunEmojiSelection) => {
+    (emojiSelection: FunEmojiSelection, shouldClose: boolean) => {
       onFunSelectEmoji(emojiSelection);
       onSelectEmoji(emojiSelection);
-      onClose();
-      setFocusedCellKey(null);
+      if (closeOnSelect || shouldClose) {
+        setFocusedCellKey(null);
+        onClose();
+      }
     },
-    [onFunSelectEmoji, onSelectEmoji, onClose]
+    [onFunSelectEmoji, onSelectEmoji, onClose, closeOnSelect]
   );
 
   const handleOpenCustomizePreferredReactionsModal = useCallback(() => {
@@ -478,7 +484,10 @@ type RowProps = Readonly<{
   cells: ReadonlyArray<CellLayoutNode>;
   focusedCellKey: CellKey | null;
   emojiSkinToneDefault: EmojiSkinTone | null;
-  onSelectEmoji: (emojiSelection: FunEmojiSelection) => void;
+  onSelectEmoji: (
+    emojiSelection: FunEmojiSelection,
+    shouldClose: boolean
+  ) => void;
   onEmojiSkinToneDefaultChange: (emojiSkinTone: EmojiSkinTone) => void;
 }>;
 
@@ -517,7 +526,10 @@ type CellProps = Readonly<{
   rowIndex: number;
   isTabbable: boolean;
   emojiSkinToneDefault: EmojiSkinTone | null;
-  onSelectEmoji: (emojiSelection: FunEmojiSelection) => void;
+  onSelectEmoji: (
+    emojiSelection: FunEmojiSelection,
+    shouldClose: boolean
+  ) => void;
   onEmojiSkinToneDefaultChange: (emojiSkinTone: EmojiSkinTone) => void;
 }>;
 
@@ -556,26 +568,32 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
     return getEmojiVariantByParentKeyAndSkinTone(emojiParent.key, skinTone);
   }, [emojiParent, skinTone]);
 
-  const handlePress = useCallback(() => {
-    if (emojiHasSkinToneVariants && emojiSkinToneDefault == null) {
-      setPopoverOpen(true);
-      return;
-    }
-
-    onSelectEmoji({
-      variantKey: emojiVariant.key,
-      parentKey: emojiParent.key,
-      englishShortName: emojiParent.englishShortNameDefault,
+  const handlePress = useCallback(
+    (event: PressEvent) => {
+      if (emojiHasSkinToneVariants && emojiSkinToneDefault == null) {
+        setPopoverOpen(true);
+        return;
+      }
+      const emojiSelection: FunEmojiSelection = {
+        variantKey: emojiVariant.key,
+        parentKey: emojiParent.key,
+        englishShortName: emojiParent.englishShortNameDefault,
+        skinTone,
+      };
+      const shouldClose =
+        (event.pointerType === 'keyboard' || event.pointerType === 'virtual') &&
+        !(event.ctrlKey || event.metaKey);
+      onSelectEmoji(emojiSelection, shouldClose);
+    },
+    [
+      emojiHasSkinToneVariants,
+      emojiSkinToneDefault,
+      emojiVariant,
+      emojiParent,
+      onSelectEmoji,
       skinTone,
-    });
-  }, [
-    emojiHasSkinToneVariants,
-    emojiSkinToneDefault,
-    emojiVariant,
-    emojiParent,
-    onSelectEmoji,
-    skinTone,
-  ]);
+    ]
+  );
 
   const handleLongPress = useCallback(() => {
     if (emojiHasSkinToneVariants) {
@@ -601,12 +619,14 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
         skinToneSelection
       );
       onEmojiSkinToneDefaultChange(skinToneSelection);
-      onSelectEmoji({
+      const emojiSelection: FunEmojiSelection = {
         variantKey: variant.key,
         parentKey: emojiParent.key,
         englishShortName: emojiParent.englishShortNameDefault,
         skinTone: skinToneSelection,
-      });
+      };
+      const shouldClose = true;
+      onSelectEmoji(emojiSelection, shouldClose);
     },
     [
       onEmojiSkinToneDefaultChange,

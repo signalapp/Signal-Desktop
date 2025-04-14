@@ -18,6 +18,7 @@ export type FunEmojiPickerProps = Readonly<{
   onSelectEmoji: (emojiSelection: FunEmojiSelection) => void;
   theme?: ThemeType;
   showCustomizePreferredReactionsButton?: boolean;
+  closeOnSelect: boolean;
   children: ReactNode;
 }>;
 
@@ -51,6 +52,7 @@ export const FunEmojiPicker = memo(function FunEmojiPicker(
             showCustomizePreferredReactionsButton={
               props.showCustomizePreferredReactionsButton ?? false
             }
+            closeOnSelect={props.closeOnSelect}
           />
         </FunErrorBoundary>
       </FunPopover>

@@ -155,6 +155,7 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
                 onSelectEmoji={onSelectEmoji}
                 theme={theme}
                 showCustomizePreferredReactionsButton
+                closeOnSelect
               >
                 <Button
                   aria-label={i18n('icu:Reactions--more')}
