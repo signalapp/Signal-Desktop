@@ -90,15 +90,19 @@ export type PropsType = {
   toggleVideo: () => void;
 };
 
-const PIP_STARTING_HEIGHT = 286;
-const PIP_WIDTH = 160;
+const PIP_STARTING_HEIGHT_NORMAL = 286;
+const PIP_STARTING_HEIGHT_LARGE = 400;
+const LARGE_THRESHOLD = 1200;
+
+export const PIP_WIDTH_NORMAL = 160;
+const PIP_WIDTH_LARGE = 224;
 const PIP_TOP_MARGIN = 78;
 const PIP_PADDING = 8;
 
 // Receiving portrait video will cause the PIP to update to match that video size, but
 // we need limits
-export const PIP_MINIMUM_HEIGHT = 180;
-export const PIP_MAXIMUM_HEIGHT = 360;
+export const PIP_MINIMUM_HEIGHT_MULTIPLIER = 1.2;
+export const PIP_MAXIMUM_HEIGHT_MULTIPLIER = 2;
 
 export function CallingPip({
   activeCall,
@@ -120,13 +124,20 @@ export function CallingPip({
 
   const videoContainerRef = React.useRef<null | HTMLDivElement>(null);
 
-  const [height, setHeight] = React.useState(PIP_STARTING_HEIGHT);
   const [windowWidth, setWindowWidth] = React.useState(window.innerWidth);
   const [windowHeight, setWindowHeight] = React.useState(window.innerHeight);
   const [positionState, setPositionState] = React.useState<PositionState>({
     mode: PositionMode.SnapToRight,
     offsetY: PIP_TOP_MARGIN,
   });
+
+  const isWindowLarge = windowWidth >= LARGE_THRESHOLD;
+  const [height, setHeight] = React.useState(
+    isWindowLarge ? PIP_STARTING_HEIGHT_LARGE : PIP_STARTING_HEIGHT_NORMAL
+  );
+  const [width, setWidth] = React.useState(
+    isWindowLarge ? PIP_WIDTH_LARGE : PIP_WIDTH_NORMAL
+  );
 
   useActivateSpeakerViewOnPresenting({
     remoteParticipants: activeCall.remoteParticipants,
@@ -164,11 +175,11 @@ export function CallingPip({
       let distanceToLeftEdge: number;
       let distanceToRightEdge: number;
       if (isRTL) {
-        distanceToLeftEdge = innerWidth - (offsetX + PIP_WIDTH);
+        distanceToLeftEdge = innerWidth - (offsetX + width);
         distanceToRightEdge = offsetX;
       } else {
         distanceToLeftEdge = offsetX;
-        distanceToRightEdge = innerWidth - (offsetX + PIP_WIDTH);
+        distanceToRightEdge = innerWidth - (offsetX + width);
       }
 
       const snapCandidates: Array<SnapCandidate> = [
@@ -208,14 +219,14 @@ export function CallingPip({
         case PositionMode.SnapToBottom:
           setPositionState({
             mode: snapTo.mode,
-            offsetX: isRTL ? innerWidth - (offsetX + PIP_WIDTH) : offsetX,
+            offsetX: isRTL ? innerWidth - (offsetX + width) : offsetX,
           });
           break;
         default:
           throw missingCaseError(snapTo.mode);
       }
     }
-  }, [height, isRTL, positionState, setPositionState]);
+  }, [height, isRTL, positionState, setPositionState, width]);
 
   React.useEffect(() => {
     if (positionState.mode === PositionMode.BeingDragged) {
@@ -248,6 +259,17 @@ export function CallingPip({
     };
   }, []);
 
+  // This only runs when isWindowLarge changes, so we aggressively change height + width
+  React.useEffect(() => {
+    if (isWindowLarge) {
+      setHeight(PIP_STARTING_HEIGHT_LARGE);
+      setWidth(PIP_WIDTH_LARGE);
+    } else {
+      setHeight(PIP_STARTING_HEIGHT_NORMAL);
+      setWidth(PIP_WIDTH_NORMAL);
+    }
+  }, [isWindowLarge, setHeight, setWidth]);
+
   const [translateX, translateY] = React.useMemo<[number, number]>(() => {
     const topMin = PIP_TOP_MARGIN;
     const bottomMax = windowHeight - PIP_PADDING - height;
@@ -256,7 +278,7 @@ export function CallingPip({
     const leftMin = PIP_PADDING + leftScrollPadding;
 
     const rightScrollPadding = isRTL ? 0 : 1;
-    const rightMax = windowWidth - PIP_PADDING - PIP_WIDTH - rightScrollPadding;
+    const rightMax = windowWidth - PIP_PADDING - width - rightScrollPadding;
 
     switch (positionState.mode) {
       case PositionMode.BeingDragged:
@@ -264,7 +286,7 @@ export function CallingPip({
           isRTL
             ? windowWidth -
               positionState.mouseX -
-              (PIP_WIDTH - positionState.dragOffsetX)
+              (width - positionState.dragOffsetX)
             : positionState.mouseX - positionState.dragOffsetX,
           positionState.mouseY - positionState.dragOffsetY,
         ];
@@ -291,7 +313,7 @@ export function CallingPip({
       default:
         throw missingCaseError(positionState);
     }
-  }, [height, isRTL, windowWidth, windowHeight, positionState]);
+  }, [height, isRTL, width, windowWidth, windowHeight, positionState]);
   const localizedTranslateX = isRTL ? -translateX : translateX;
 
   const [showControls, setShowControls] = React.useState(false);
@@ -356,13 +378,17 @@ export function CallingPip({
   const isLonelyInCall = !activeCall.remoteParticipants.length;
   const isSendingVideo =
     activeCall.hasLocalVideo || activeCall.presentingSource;
+  const avatarSize = isWindowLarge
+    ? AvatarSize.NINETY_SIX
+    : AvatarSize.SIXTY_FOUR;
+
   if (isLonelyInCall) {
     remoteVideoNode = (
       <div className="module-calling-pip__video--remote">
         {isSendingVideo ? (
           // TODO: DESKTOP-8537 - when black bars go away, need to make some CSS changes
           <>
-            <CallBackgroundBlur avatarUrl={me.avatarUrl} />
+            <CallBackgroundBlur avatarUrl={me.avatarUrl} darken />
             <div
               className={classNames(
                 'module-calling-pip__full-size-local-preview',
@@ -387,7 +413,7 @@ export function CallingPip({
                 phoneNumber={me.phoneNumber}
                 profileName={me.profileName}
                 title={me.title}
-                size={AvatarSize.FORTY_EIGHT}
+                size={avatarSize}
                 sharedGroupNames={[]}
               />
             </div>
@@ -405,13 +431,15 @@ export function CallingPip({
         setRendererCanvas={setRendererCanvas}
         setGroupCallVideoRequest={setGroupCallVideoRequest}
         height={height}
-        width={PIP_WIDTH}
+        width={width}
         updateHeight={(newHeight: number) => {
           setHeight(newHeight);
         }}
       />
     );
   }
+  const localVideoWidth = isWindowLarge ? 120 : 80;
+  const localVideoHeight = isWindowLarge ? 80 : 54;
 
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
@@ -449,6 +477,7 @@ export function CallingPip({
       ref={videoContainerRef}
       style={{
         height: `${height}px`,
+        width: `${width}px`,
         cursor:
           positionState.mode === PositionMode.BeingDragged
             ? '-webkit-grabbing'
@@ -463,7 +492,14 @@ export function CallingPip({
       {remoteVideoNode}
 
       {!isLonelyInCall && activeCall.hasLocalVideo ? (
-        <div className={localVideoClassName} ref={setLocalPreviewContainer} />
+        <div
+          style={{
+            height: `${localVideoHeight}px`,
+            width: `${localVideoWidth}px`,
+          }}
+          className={localVideoClassName}
+          ref={setLocalPreviewContainer}
+        />
       ) : null}
 
       <div
@@ -520,6 +556,7 @@ export function CallingPip({
           showControls ? 'module-calling-pip__actions--visible' : undefined
         )}
       >
+        <div className="module-calling-pip__actions__spacer" />
         <div className="module-calling-pip__actions__button">
           <CallingButton
             buttonType={videoButtonType}
@@ -550,6 +587,7 @@ export function CallingPip({
             tooltipDirection={TooltipPlacement.Top}
           />
         </div>
+        <div className="module-calling-pip__actions__spacer" />
       </div>
     </div>
   );
