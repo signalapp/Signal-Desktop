@@ -98,7 +98,9 @@ const ipcGetAvailableIODevices = createCallback('getAvailableIODevices');
 const ipcGetCustomColors = createCallback('getCustomColors');
 const ipcGetEmojiSkinToneDefault = createCallback('getEmojiSkinToneDefault');
 const ipcIsSyncNotSupported = createCallback('isPrimary');
+const ipcIsInternalUser = createCallback('isInternalUser');
 const ipcMakeSyncRequest = createCallback('syncRequest');
+const ipcValidateBackup = createCallback('validateBackup');
 const ipcDeleteAllMyStories = createCallback('deleteAllMyStories');
 const ipcRefreshCloudBackupStatus = createCallback('refreshCloudBackupStatus');
 const ipcRefreshBackupSubscriptionStatus = createCallback(
@@ -205,6 +207,7 @@ async function renderPreferences() {
     customColors,
     defaultConversationColor,
     isSyncNotSupported,
+    isInternalUser,
   } = await awaitObject({
     autoDownloadAttachment: settingAutoDownloadAttachment.getValue(),
     backupFeatureEnabled: settingBackupFeatureEnabled.getValue(),
@@ -253,6 +256,7 @@ async function renderPreferences() {
     defaultConversationColor: ipcGetDefaultConversationColor(),
     emojiSkinToneDefault: ipcGetEmojiSkinToneDefault(),
     isSyncNotSupported: ipcIsSyncNotSupported(),
+    isInternalUser: ipcIsInternalUser(),
   });
 
   const { availableCameras, availableMicrophones, availableSpeakers } =
@@ -365,6 +369,7 @@ async function renderPreferences() {
     resetAllChatColors: ipcResetAllChatColors,
     resetDefaultChatColor: ipcResetDefaultChatColor,
     setGlobalDefaultConversationColor: ipcSetGlobalDefaultConversationColor,
+    validateBackup: ipcValidateBackup,
     // Limited support features
     isAutoDownloadUpdatesSupported: Settings.isAutoDownloadUpdatesSupported(
       OS,
@@ -374,6 +379,7 @@ async function renderPreferences() {
     isHideMenuBarSupported: Settings.isHideMenuBarSupported(OS),
     isNotificationAttentionSupported: Settings.isDrawAttentionSupported(OS),
     isSyncSupported: !isSyncNotSupported,
+    isInternalUser,
     isSystemTraySupported: Settings.isSystemTraySupported(OS),
     isMinimizeToAndStartInSystemTraySupported:
       Settings.isMinimizeToAndStartInSystemTraySupported(OS),

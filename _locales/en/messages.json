@@ -6600,6 +6600,18 @@
     "messageformat": "Backups",
     "description": "Button to switch the settings view to control message & media backups"
   },
+  "icu:Preferences__button--internal": {
+    "messageformat": "Internal",
+    "description": "Button to switch the settings view to control internal configuration"
+  },
+  "icu:Preferences__internal__validate-backup--description": {
+    "messageformat": "Export encrypted backup to memory and run validation suite on it",
+    "description": "Description of the internal backup validation tool"
+  },
+  "icu:Preferences__internal__validate-backup": {
+    "messageformat": "Validate",
+    "description": "Button to run internal backup validation tool"
+  },
   "icu:Preferences--lastSynced": {
     "messageformat": "Last import at {date} {time}",
     "description": "Label for date and time of last sync operation"

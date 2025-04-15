@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as libsignal from '@signalapp/libsignal-client/dist/MessageBackup';
+import type { InputStream } from '@signalapp/libsignal-client/dist/io';
 
 import { strictAssert } from '../../util/assert';
 import { toAciObject } from '../../util/ServiceId';
 import { isTestOrMockEnvironment } from '../../environment';
-import { FileStream } from './util/FileStream';
 
 export async function validateBackup(
-  filePath: string,
+  inputFactory: () => InputStream,
   fileSize: number
 ): Promise<void> {
   const accountEntropy = window.storage.get('accountEntropyPool');
@@ -24,7 +24,7 @@ export async function validateBackup(
   const outcome = await libsignal.validate(
     backupKey,
     libsignal.Purpose.RemoteBackup,
-    () => new FileStream(filePath),
+    inputFactory,
     BigInt(fileSize)
   );
 

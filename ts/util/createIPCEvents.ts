@@ -23,6 +23,10 @@ import type { ConversationType } from '../state/ducks/conversations';
 import { calling } from '../services/calling';
 import { resolveUsernameByLinkBase64 } from '../services/username';
 import { writeProfile } from '../services/writeProfile';
+import {
+  backupsService,
+  type ExportResultType as BackupExportResultType,
+} from '../services/backups';
 import { isInCall } from '../state/selectors/calling';
 import { getConversationsWithCustomColorSelector } from '../state/selectors/conversations';
 import { getCustomColors } from '../state/selectors/items';
@@ -65,6 +69,7 @@ import type {
   BackupStatusType,
 } from '../types/backups';
 import { isBackupFeatureEnabled } from './isBackupEnabled';
+import * as RemoteConfig from '../RemoteConfig';
 
 type SentMediaQualityType = 'standard' | 'high';
 type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
@@ -135,6 +140,7 @@ export type IPCEventsCallbacksType = {
   ) => Promise<ReturnType<SystemPreferences['getMediaAccessStatus']>>;
   installStickerPack: (packId: string, key: string) => Promise<void>;
   isPrimary: () => boolean;
+  isInternalUser: () => boolean;
   removeCustomColor: (x: string) => void;
   removeCustomColorOnConversations: (x: string) => void;
   removeDarkOverlay: () => void;
@@ -158,6 +164,7 @@ export type IPCEventsCallbacksType = {
   unknownSignalLink: () => void;
   getCustomColors: () => Record<string, CustomColorType>;
   syncRequest: () => Promise<void>;
+  validateBackup: () => Promise<BackupExportResultType>;
   setGlobalDefaultConversationColor: (
     color: ConversationColorType,
     customColor?: { id: string; value: CustomColorType }
@@ -535,6 +542,7 @@ export function createIPCEvents(
     },
 
     isPrimary: () => window.textsecure.storage.user.getDeviceId() === 1,
+    isInternalUser: () => RemoteConfig.isEnabled('desktop.internalUser'),
     syncRequest: async () => {
       const contactSyncComplete = waitForEvent(
         'contactSync:complete',
@@ -543,6 +551,7 @@ export function createIPCEvents(
       await sendSyncRequests();
       return contactSyncComplete;
     },
+    validateBackup: () => backupsService.validate(),
     getLastSyncTime: () => window.storage.get('synced_at'),
     setLastSyncTime: value => window.storage.put('synced_at', value),
     getUniversalExpireTimer: () => universalExpireTimer.get(),

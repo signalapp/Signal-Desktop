@@ -204,6 +204,18 @@ type NonBubbleResultType = Readonly<
     }
 >;
 
+export type StatsType = {
+  adHocCalls: number;
+  callLinks: number;
+  conversations: number;
+  chats: number;
+  distributionLists: number;
+  messages: number;
+  skippedMessages: number;
+  stickerPacks: number;
+  fixedDirectMessages: number;
+};
+
 export class BackupExportStream extends Readable {
   // Shared between all methods for consistency.
   #now = Date.now();
@@ -213,7 +225,7 @@ export class BackupExportStream extends Readable {
   readonly #serviceIdToRecipientId = new Map<string, number>();
   readonly #e164ToRecipientId = new Map<string, number>();
   readonly #roomIdToRecipientId = new Map<string, number>();
-  readonly #stats = {
+  readonly #stats: StatsType = {
     adHocCalls: 0,
     callLinks: 0,
     conversations: 0,
@@ -268,6 +280,10 @@ export class BackupExportStream extends Readable {
         }
       })()
     );
+  }
+
+  public getStats(): Readonly<StatsType> {
+    return this.#stats;
   }
 
   async #unsafeRun(backupLevel: BackupLevel): Promise<void> {

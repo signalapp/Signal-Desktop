@@ -47,9 +47,11 @@ installCallback('refreshCloudBackupStatus');
 installCallback('refreshBackupSubscriptionStatus');
 installCallback('deleteAllMyStories');
 installCallback('isPrimary');
+installCallback('isInternalUser');
 installCallback('syncRequest');
 installCallback('getEmojiSkinToneDefault');
 installCallback('setEmojiSkinToneDefault');
+installCallback('validateBackup');
 
 installSetting('alwaysRelayCalls');
 installSetting('audioMessage');

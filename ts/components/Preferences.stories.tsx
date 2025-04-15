@@ -113,6 +113,7 @@ export default {
     isNotificationAttentionSupported: true,
     isSyncSupported: true,
     isSystemTraySupported: true,
+    isInternalUser: false,
     isMinimizeToAndStartInSystemTraySupported: true,
     lastSyncTime: Date.now(),
     localeOverride: null,
@@ -189,6 +190,22 @@ export default {
     setGlobalDefaultConversationColor: action(
       'setGlobalDefaultConversationColor'
     ),
+    validateBackup: async () => {
+      return {
+        totalBytes: 100,
+        stats: {
+          adHocCalls: 1,
+          callLinks: 2,
+          conversations: 3,
+          chats: 4,
+          distributionLists: 5,
+          messages: 6,
+          skippedMessages: 7,
+          stickerPacks: 8,
+          fixedDirectMessages: 9,
+        },
+      };
+    },
   } satisfies PropsType,
 } satisfies Meta<PropsType>;
 
@@ -299,4 +316,10 @@ BackupsSubscriptionExpired.args = {
   backupSubscriptionStatus: {
     status: 'expired',
   },
+};
+
+export const Internal = Template.bind({});
+Internal.args = {
+  initialPage: Page.Internal,
+  isInternalUser: true,
 };
