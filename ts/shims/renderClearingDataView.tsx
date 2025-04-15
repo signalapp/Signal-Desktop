@@ -6,10 +6,13 @@ import { render } from 'react-dom';
 
 import { ClearingData } from '../components/ClearingData';
 import { deleteAllData } from './deleteAllData';
+import { FunDefaultEnglishEmojiLocalizationProvider } from '../components/fun/FunEmojiLocalizationProvider';
 
 export function renderClearingDataView(): void {
   render(
-    <ClearingData deleteAllData={deleteAllData} i18n={window.i18n} />,
+    <FunDefaultEnglishEmojiLocalizationProvider>
+      <ClearingData deleteAllData={deleteAllData} i18n={window.i18n} />
+    </FunDefaultEnglishEmojiLocalizationProvider>,
     document.getElementById('app-container')
   );
 }

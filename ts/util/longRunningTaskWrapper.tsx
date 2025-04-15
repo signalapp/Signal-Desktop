@@ -9,6 +9,7 @@ import * as log from '../logging/log';
 import { ProgressModal } from '../components/ProgressModal';
 import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary';
 import { sleep } from './sleep';
+import { FunDefaultEnglishEmojiLocalizationProvider } from '../components/fun/FunEmojiLocalizationProvider';
 
 export async function longRunningTaskWrapper<T>({
   name,
@@ -31,7 +32,12 @@ export async function longRunningTaskWrapper<T>({
     progressNode = document.createElement('div');
 
     log.info(`longRunningTaskWrapper/${idLog}: Creating spinner`);
-    render(<ProgressModal i18n={window.i18n} />, progressNode);
+    render(
+      <FunDefaultEnglishEmojiLocalizationProvider>
+        <ProgressModal i18n={window.i18n} />
+      </FunDefaultEnglishEmojiLocalizationProvider>,
+      progressNode
+    );
     spinnerStart = Date.now();
   }, TWO_SECONDS);
 

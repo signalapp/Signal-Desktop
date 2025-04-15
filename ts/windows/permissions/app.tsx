@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom';
 import { PermissionsPopup } from '../../components/PermissionsPopup';
 import { i18n } from '../sandboxedInit';
 import { strictAssert } from '../../util/assert';
+import { FunDefaultEnglishEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider';
 
 const { PermissionsWindowProps } = window.Signal;
 
@@ -26,11 +27,13 @@ if (forCalling) {
 }
 
 ReactDOM.render(
-  <PermissionsPopup
-    i18n={i18n}
-    message={message}
-    onAccept={PermissionsWindowProps.onAccept}
-    onClose={PermissionsWindowProps.onClose}
-  />,
+  <FunDefaultEnglishEmojiLocalizationProvider>
+    <PermissionsPopup
+      i18n={i18n}
+      message={message}
+      onAccept={PermissionsWindowProps.onAccept}
+      onClose={PermissionsWindowProps.onClose}
+    />
+  </FunDefaultEnglishEmojiLocalizationProvider>,
   document.getElementById('app')
 );
