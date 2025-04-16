@@ -355,6 +355,39 @@ describe('backup/attachments', () => {
         { backupLevel: BackupLevel.Paid }
       );
     });
+    it('drops voice message flag when body is present', async () => {
+      const attachment = composeAttachment(1);
+      attachment.contentType = AUDIO_MP3;
+      attachment.flags = SignalService.AttachmentPointer.Flags.VOICE_MESSAGE;
+
+      strictAssert(isVoiceMessage(attachment), 'it is a voice attachment');
+      strictAssert(attachment.digest, 'digest exists');
+
+      await asymmetricRoundtripHarness(
+        [
+          composeMessage(1, {
+            body: 'hello',
+            attachments: [attachment],
+          }),
+        ],
+        [
+          composeMessage(1, {
+            body: 'hello',
+            hasAttachments: true,
+            attachments: [
+              {
+                ...omit(attachment, NON_ROUNDTRIPPED_BACKUP_LOCATOR_FIELDS),
+                flags: undefined,
+                backupLocator: {
+                  mediaName: digestToMediaName(attachment.digest),
+                },
+              },
+            ],
+          }),
+        ],
+        { backupLevel: BackupLevel.Paid }
+      );
+    });
   });
 
   describe('Preview attachments', () => {
