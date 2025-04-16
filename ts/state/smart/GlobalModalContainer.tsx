@@ -139,6 +139,7 @@ export const SmartGlobalModalContainer = memo(
       editNicknameAndNoteModalProps,
       errorModalProps,
       forwardMessagesProps,
+      lowDiskSpaceBackupImportModal,
       mediaPermissionsModalProps,
       messageRequestActionsConfirmationProps,
       notePreviewModalProps,
@@ -161,6 +162,7 @@ export const SmartGlobalModalContainer = memo(
       closeErrorModal,
       closeMediaPermissionsModal,
       hideCriticalIdlePrimaryDeviceModal,
+      hideLowDiskSpaceBackupImportModal,
       hideTapToViewNotAvailableModal,
       hideUserNotFoundModal,
       hideWhatsNewModal,
@@ -236,6 +238,8 @@ export const SmartGlobalModalContainer = memo(
         draftGifMessageSendModalProps={draftGifMessageSendModalProps}
         forwardMessagesProps={forwardMessagesProps}
         hideCriticalIdlePrimaryDeviceModal={hideCriticalIdlePrimaryDeviceModal}
+        hideLowDiskSpaceBackupImportModal={hideLowDiskSpaceBackupImportModal}
+        lowDiskSpaceBackupImportModal={lowDiskSpaceBackupImportModal}
         messageRequestActionsConfirmationProps={
           messageRequestActionsConfirmationProps
         }

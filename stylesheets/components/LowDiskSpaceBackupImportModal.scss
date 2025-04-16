@@ -1,0 +1,52 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../mixins';
+@use '../variables';
+
+.LowDiskSpaceBackupImportModal__content {
+  max-width: 440px;
+  padding-block: 12px;
+  padding-inline: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.LowDiskSpaceBackupImportModal__icon {
+  background-color: variables.$color-accent-yellow;
+  padding-block: 12px;
+  padding-inline: 12px;
+  border-radius: 50%;
+  &::after {
+    content: '';
+    display: block;
+    @include mixins.color-svg(
+      '../images/icons/v3/backup/backup-warning.svg',
+      variables.$color-black
+    );
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.LowDiskSpaceBackupImportModal__header {
+  @include mixins.font-title-medium;
+  margin-block: 12px;
+}
+
+.LowDiskSpaceBackupImportModal__description {
+  margin-block: 12px;
+  margin-inline: 8px;
+  color: light-dark(variables.$color-gray-60, variables.$color-gray-25);
+}
+
+.LowDiskSpaceBackupImportModal__button {
+  display: flex;
+  justify-content: center;
+  margin-block-start: 18px;
+
+  button {
+    padding-inline: 26px;
+  }
+}

@@ -5348,6 +5348,14 @@
     "messageformat": "You must open Signal on your phone to continue using this account. If you do not open Signal on your phone, your account will be deleted soon. <learnMoreLink>Learn more</learnMoreLink>",
     "description": "Description for modal shown when a user must use their idle primary device to retain their account. Learn more link will link to a support page"
   },
+  "icu:LowDiskSpaceBackupImportModal__title": {
+    "messageformat": "Can't restore media",
+    "description": "Title for modal shown when there is insufficient disk space to download media from backup"
+  },
+  "icu:LowDiskSpaceBackupImportModal__description": {
+    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media.",
+    "description": "Description for modal shown when there is insufficient disk space to download media from backup. Example {diskSpaceAmount}: '1.23 GB', '512 MB'"
+  },
   "icu:CompositionArea--expand": {
     "messageformat": "Expand",
     "description": "Aria label for expanding composition area"

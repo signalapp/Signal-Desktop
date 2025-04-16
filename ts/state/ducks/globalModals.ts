@@ -132,6 +132,9 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   isSignalConnectionsVisible: boolean;
   isStoriesSettingsVisible: boolean;
   isWhatsNewVisible: boolean;
+  lowDiskSpaceBackupImportModal: {
+    bytesNeeded: number;
+  } | null;
   messageRequestActionsConfirmationProps: MessageRequestActionsConfirmationPropsType | null;
   notePreviewModalProps: NotePreviewModalPropsType | null;
   usernameOnboardingState: UsernameOnboardingState;
@@ -222,6 +225,10 @@ const SHOW_CRITICAL_IDLE_PRIMARY_DEVICE_MODAL =
   'globalModals/SHOW_CRITICAL_IDLE_PRIMARY_DEVICE_MODAL';
 const HIDE_CRITICAL_IDLE_PRIMARY_DEVICE_MODAL =
   'globalModals/HIDE_CRITICAL_IDLE_PRIMARY_DEVICE_MODAL';
+const SHOW_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL =
+  'globalModals/SHOW_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL';
+const HIDE_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL =
+  'globalModals/HIDE_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL';
 
 export type ContactModalStateType = ReadonlyDeep<{
   contactId: string;
@@ -449,6 +456,17 @@ type HideCriticalIdlePrimaryDeviceModalActionType = ReadonlyDeep<{
   type: typeof HIDE_CRITICAL_IDLE_PRIMARY_DEVICE_MODAL;
 }>;
 
+type ShowLowDiskSpaceBackupImportModalActionType = ReadonlyDeep<{
+  type: typeof SHOW_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL;
+  payload: {
+    bytesNeeded: number;
+  };
+}>;
+
+type HideLowDiskSpaceBackupImportModalActionType = ReadonlyDeep<{
+  type: typeof HIDE_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL;
+}>;
+
 type ToggleEditNicknameAndNoteModalActionType = ReadonlyDeep<{
   type: typeof TOGGLE_EDIT_NICKNAME_AND_NOTE_MODAL;
   payload: EditNicknameAndNoteModalPropsType | null;
@@ -489,6 +507,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | HideBackfillFailureModalActionType
   | HideContactModalActionType
   | HideCriticalIdlePrimaryDeviceModalActionType
+  | HideLowDiskSpaceBackupImportModalActionType
   | HideSendAnywayDialogActiontype
   | HideStoriesSettingsActionType
   | HideTapToViewNotAvailableModalActionType
@@ -503,6 +522,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ShowContactModalActionType
   | ShowEditHistoryModalActionType
   | ShowErrorModalActionType
+  | ShowLowDiskSpaceBackupImportModalActionType
   | ShowMediaPermissionsModalActionType
   | ShowSendAnywayDialogActionType
   | ShowShortcutGuideModalActionType
@@ -548,6 +568,7 @@ export const actions = {
   hideBlockingSafetyNumberChangeDialog,
   hideContactModal,
   hideCriticalIdlePrimaryDeviceModal,
+  hideLowDiskSpaceBackupImportModal,
   hideStoriesSettings,
   hideTapToViewNotAvailableModal,
   hideUserNotFoundModal,
@@ -560,6 +581,7 @@ export const actions = {
   showEditHistoryModal,
   showErrorModal,
   showGV2MigrationDialog,
+  showLowDiskSpaceBackupImportModal,
   showShareCallLinkViaSignal,
   showShortcutGuideModal,
   showStickerPackPreview,
@@ -1179,6 +1201,23 @@ function hideCriticalIdlePrimaryDeviceModal(): ThunkAction<
   };
 }
 
+function showLowDiskSpaceBackupImportModal(
+  bytesNeeded: number
+): ShowLowDiskSpaceBackupImportModalActionType {
+  return {
+    type: SHOW_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL,
+    payload: {
+      bytesNeeded,
+    },
+  };
+}
+
+function hideLowDiskSpaceBackupImportModal(): HideLowDiskSpaceBackupImportModalActionType {
+  return {
+    type: HIDE_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL,
+  };
+}
+
 function toggleEditNicknameAndNoteModal(
   payload: EditNicknameAndNoteModalPropsType | null
 ): ToggleEditNicknameAndNoteModalActionType {
@@ -1303,6 +1342,7 @@ export function getEmptyState(): GlobalModalsStateType {
     isSignalConnectionsVisible: false,
     isStoriesSettingsVisible: false,
     isWhatsNewVisible: false,
+    lowDiskSpaceBackupImportModal: null,
     usernameOnboardingState: UsernameOnboardingState.NeverShown,
     profileEditorHasError: false,
     profileEditorInitialEditState: undefined,
@@ -1737,6 +1777,20 @@ export function reducer(
     return {
       ...state,
       criticalIdlePrimaryDeviceModal: false,
+    };
+  }
+
+  if (action.type === SHOW_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL) {
+    return {
+      ...state,
+      lowDiskSpaceBackupImportModal: action.payload,
+    };
+  }
+
+  if (action.type === HIDE_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL) {
+    return {
+      ...state,
+      lowDiskSpaceBackupImportModal: null,
     };
   }
 

@@ -6,6 +6,7 @@
 import * as sinon from 'sinon';
 import { assert } from 'chai';
 import { omit } from 'lodash';
+import type { StatsFs } from 'fs';
 
 import * as MIME from '../../types/MIME';
 import {
@@ -23,6 +24,8 @@ import { type AttachmentType, AttachmentVariant } from '../../types/Attachment';
 import { strictAssert } from '../../util/assert';
 import { AttachmentDownloadSource } from '../../sql/Interface';
 import { getAttachmentCiphertextLength } from '../../AttachmentCrypto';
+import { MEBIBYTE } from '../../types/AttachmentSize';
+import { generateAci } from '../../types/ServiceId';
 
 function composeJob({
   messageId,
@@ -66,14 +69,22 @@ describe('AttachmentDownloadManager/JobManager', () => {
   let sandbox: sinon.SinonSandbox;
   let clock: sinon.SinonFakeTimers;
   let isInCall: sinon.SinonStub;
+  let onLowDiskSpaceBackupImport: sinon.SinonStub;
+  let statfs: sinon.SinonStub;
 
   beforeEach(async () => {
     await DataWriter.removeAll();
+    await window.storage.user.setAciAndDeviceId(generateAci(), 1);
 
     sandbox = sinon.createSandbox();
     clock = sandbox.useFakeTimers();
 
     isInCall = sandbox.stub().returns(false);
+    onLowDiskSpaceBackupImport = sandbox
+      .stub()
+      .callsFake(async () =>
+        window.storage.put('backupMediaDownloadPaused', true)
+      );
     runJob = sandbox.stub().callsFake(async () => {
       return new Promise<{ status: 'finished' | 'retry' }>(resolve => {
         Promise.resolve().then(() => {
@@ -81,6 +92,12 @@ describe('AttachmentDownloadManager/JobManager', () => {
         });
       });
     });
+    statfs = sandbox.stub().callsFake(() =>
+      Promise.resolve({
+        bavail: 100_000_000_000,
+        bsize: 100,
+      } as StatsFs)
+    );
 
     downloadManager = new AttachmentDownloadManager({
       ...AttachmentDownloadManager.defaultParams,
@@ -95,6 +112,8 @@ describe('AttachmentDownloadManager/JobManager', () => {
           maxBackoffTime: 10 * MINUTE,
         },
       }),
+      onLowDiskSpaceBackupImport,
+      statfs,
     });
   });
 
@@ -294,6 +313,39 @@ describe('AttachmentDownloadManager/JobManager', () => {
     assert.strictEqual(runJob.callCount, 5);
   });
 
+  it('triggers onLowDiskSpace for backup import jobs', async () => {
+    const jobs = await addJobs(1, idx => ({
+      source: AttachmentDownloadSource.BACKUP_IMPORT,
+      digest: `digestFor${idx}`,
+      attachment: {
+        contentType: MIME.IMAGE_JPEG,
+        size: 128,
+        digest: `digestFor${idx}`,
+        backupLocator: {
+          mediaName: 'medianame',
+        },
+      },
+    }));
+
+    statfs.callsFake(() => Promise.resolve({ bavail: 0, bsize: 8 }));
+
+    await downloadManager?.start();
+    await advanceTime(2 * MINUTE);
+    assert.strictEqual(runJob.callCount, 0);
+    assert.strictEqual(onLowDiskSpaceBackupImport.callCount, 1);
+    assert.isTrue(window.storage.get('backupMediaDownloadPaused'));
+
+    statfs.callsFake(() =>
+      Promise.resolve({ bavail: 100_000_000_000, bsize: 8 })
+    );
+
+    const job0Attempts = getPromisesForAttempts(jobs[0], 1)[0];
+    await window.storage.put('backupMediaDownloadPaused', false);
+    await advanceTime(2 * MINUTE);
+    assert.strictEqual(runJob.callCount, 1);
+    await job0Attempts.started;
+  });
+
   it('handles retries for failed', async () => {
     const jobs = await addJobs(2);
     const job0Attempts = getPromisesForAttempts(jobs[0], 1);
@@ -478,6 +530,8 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
         job,
         isForCurrentlyVisibleMessage: true,
         abortSignal: abortController.signal,
+        maxAttachmentSizeInKib: 100 * MEBIBYTE,
+        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
         dependencies: {
           deleteDownloadData,
           downloadAttachment,
@@ -510,6 +564,8 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
         job,
         isForCurrentlyVisibleMessage: true,
         abortSignal: abortController.signal,
+        maxAttachmentSizeInKib: 100 * MEBIBYTE,
+        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
         dependencies: {
           deleteDownloadData,
           downloadAttachment,
@@ -561,6 +617,8 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
         job,
         isForCurrentlyVisibleMessage: true,
         abortSignal: abortController.signal,
+        maxAttachmentSizeInKib: 100 * MEBIBYTE,
+        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
         dependencies: {
           deleteDownloadData,
           downloadAttachment,
@@ -598,6 +656,8 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
           job,
           isForCurrentlyVisibleMessage: true,
           abortSignal: abortController.signal,
+          maxAttachmentSizeInKib: 100 * MEBIBYTE,
+          maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
           dependencies: {
             deleteDownloadData,
             downloadAttachment,
@@ -639,6 +699,8 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
         job,
         isForCurrentlyVisibleMessage: false,
         abortSignal: abortController.signal,
+        maxAttachmentSizeInKib: 100 * MEBIBYTE,
+        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
         dependencies: {
           deleteDownloadData,
           downloadAttachment,
@@ -681,6 +743,8 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
         job,
         isForCurrentlyVisibleMessage: false,
         abortSignal: abortController.signal,
+        maxAttachmentSizeInKib: 100 * MEBIBYTE,
+        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
         dependencies: {
           deleteDownloadData,
           downloadAttachment,
@@ -730,6 +794,8 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
           job,
           isForCurrentlyVisibleMessage: false,
           abortSignal: abortController.signal,
+          maxAttachmentSizeInKib: 100 * MEBIBYTE,
+          maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
           dependencies: {
             deleteDownloadData,
             downloadAttachment,

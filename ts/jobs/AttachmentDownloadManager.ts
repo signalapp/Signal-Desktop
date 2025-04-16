@@ -1,6 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { noop, omit, throttle } from 'lodash';
+import { statfs } from 'node:fs/promises';
 
 import * as durations from '../util/durations';
 import * as log from '../logging/log';
@@ -61,6 +62,7 @@ import {
   isPermanentlyUndownloadable,
   isPermanentlyUndownloadableWithoutBackfill,
 } from './helpers/attachmentBackfill';
+import { formatCountForLogging } from '../logging/formatCountForLogging';
 
 export { isPermanentlyUndownloadable };
 
@@ -91,6 +93,14 @@ const BACKUP_RETRY_CONFIG = {
   ...DEFAULT_RETRY_CONFIG,
   maxAttempts: Infinity,
 };
+
+type RunDownloadAttachmentJobOptions = {
+  abortSignal: AbortSignal;
+  isForCurrentlyVisibleMessage: boolean;
+  maxAttachmentSizeInKib: number;
+  maxTextAttachmentSizeInKib: number;
+};
+
 type AttachmentDownloadManagerParamsType = Omit<
   JobManagerParamsType<CoreAttachmentDownloadJobType>,
   'getNextJobs' | 'runJob'
@@ -104,12 +114,11 @@ type AttachmentDownloadManagerParamsType = Omit<
   runDownloadAttachmentJob: (args: {
     job: AttachmentDownloadJobType;
     isLastAttempt: boolean;
-    options: {
-      abortSignal: AbortSignal;
-      isForCurrentlyVisibleMessage: boolean;
-    };
+    options: RunDownloadAttachmentJobOptions;
     dependencies?: DependenciesType;
   }) => Promise<JobManagerJobResultType<CoreAttachmentDownloadJobType>>;
+  onLowDiskSpaceBackupImport: (bytesNeeded: number) => Promise<void>;
+  statfs: typeof statfs;
 };
 
 function getJobId(job: CoreAttachmentDownloadJobType): string {
@@ -135,6 +144,13 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
       drop(this.maybeStartJobs());
     },
   });
+  #onLowDiskSpaceBackupImport: (bytesNeeded: number) => Promise<void>;
+  #statfs: typeof statfs;
+  #maxAttachmentSizeInKib = getMaximumIncomingAttachmentSizeInKb(getValue);
+  #maxTextAttachmentSizeInKib =
+    getMaximumIncomingTextAttachmentSizeInKb(getValue);
+
+  #minimumFreeDiskSpace = this.#maxAttachmentSizeInKib * 5;
 
   #attachmentBackfill = new AttachmentBackfill();
 
@@ -169,6 +185,19 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
         ? BACKUP_RETRY_CONFIG
         : DEFAULT_RETRY_CONFIG,
     maxConcurrentJobs: MAX_CONCURRENT_JOBS,
+    onLowDiskSpaceBackupImport: async bytesNeeded => {
+      if (!window.storage.get('backupMediaDownloadPaused')) {
+        await Promise.all([
+          window.storage.put('backupMediaDownloadPaused', true),
+          // Show the banner to allow users to resume from the left pane
+          window.storage.put('backupMediaDownloadBannerDismissed', false),
+        ]);
+      }
+      window.reduxActions.globalModals.showLowDiskSpaceBackupImportModal(
+        bytesNeeded
+      );
+    },
+    statfs,
   };
 
   constructor(params: AttachmentDownloadManagerParamsType) {
@@ -184,7 +213,7 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
           timestamp: Date.now(),
         });
       },
-      runJob: (
+      runJob: async (
         job: AttachmentDownloadJobType,
         {
           abortSignal,
@@ -194,16 +223,29 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
         const isForCurrentlyVisibleMessage = this.#visibleTimelineMessages.has(
           job.messageId
         );
+
+        if (job.source === AttachmentDownloadSource.BACKUP_IMPORT) {
+          const { outOfSpace } =
+            await this.#checkFreeDiskSpaceForBackupImport();
+          if (outOfSpace) {
+            return { status: 'retry' };
+          }
+        }
+
         return params.runDownloadAttachmentJob({
           job,
           isLastAttempt,
           options: {
             abortSignal,
             isForCurrentlyVisibleMessage,
+            maxAttachmentSizeInKib: this.#maxAttachmentSizeInKib,
+            maxTextAttachmentSizeInKib: this.#maxTextAttachmentSizeInKib,
           },
         });
       },
     });
+    this.#onLowDiskSpaceBackupImport = params.onLowDiskSpaceBackupImport;
+    this.#statfs = params.statfs;
   }
 
   // @ts-expect-error we are overriding the return type of JobManager's addJob
@@ -264,6 +306,48 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
 
   updateVisibleTimelineMessages(messageIds: Array<string>): void {
     this.#visibleTimelineMessages = new Set(messageIds);
+  }
+
+  async #getFreeDiskSpace(): Promise<number> {
+    const { bsize, bavail } = await this.#statfs(
+      window.SignalContext.getPath('userData')
+    );
+    return bsize * bavail;
+  }
+
+  async #checkFreeDiskSpaceForBackupImport(): Promise<{
+    outOfSpace: boolean;
+  }> {
+    let freeDiskSpace: number;
+
+    try {
+      freeDiskSpace = await this.#getFreeDiskSpace();
+    } catch (e) {
+      log.error(
+        'checkFreeDiskSpaceForBackupImport: error checking disk space',
+        Errors.toLogFormat(e)
+      );
+      // Still attempt the download
+      return { outOfSpace: false };
+    }
+
+    if (freeDiskSpace <= this.#minimumFreeDiskSpace) {
+      const remainingBackupBytesToDownload =
+        window.storage.get('backupMediaDownloadTotalBytes', 0) -
+        window.storage.get('backupMediaDownloadCompletedBytes', 0);
+
+      log.info(
+        'AttachmentDownloadManager.checkFreeDiskSpaceForBackupImport: insufficient disk space. ' +
+          `Available: ${formatCountForLogging(freeDiskSpace)}, ` +
+          `Needed: ${formatCountForLogging(remainingBackupBytesToDownload)} ` +
+          `Minimum threshold: ${this.#minimumFreeDiskSpace}`
+      );
+
+      await this.#onLowDiskSpaceBackupImport(remainingBackupBytesToDownload);
+      return { outOfSpace: true };
+    }
+
+    return { outOfSpace: false };
   }
 
   static get instance(): AttachmentDownloadManager {
@@ -345,10 +429,7 @@ async function runDownloadAttachmentJob({
 }: {
   job: AttachmentDownloadJobType;
   isLastAttempt: boolean;
-  options: {
-    abortSignal: AbortSignal;
-    isForCurrentlyVisibleMessage: boolean;
-  };
+  options: RunDownloadAttachmentJobOptions;
   dependencies?: DependenciesType;
 }): Promise<JobManagerJobResultType<CoreAttachmentDownloadJobType>> {
   const jobIdForLogging = getJobIdForLogging(job);
@@ -369,6 +450,8 @@ async function runDownloadAttachmentJob({
       abortSignal: options.abortSignal,
       isForCurrentlyVisibleMessage:
         options?.isForCurrentlyVisibleMessage ?? false,
+      maxAttachmentSizeInKib: options.maxAttachmentSizeInKib,
+      maxTextAttachmentSizeInKib: options.maxTextAttachmentSizeInKib,
       dependencies,
     });
 
@@ -491,13 +574,13 @@ export async function runDownloadAttachmentJobInner({
   job,
   abortSignal,
   isForCurrentlyVisibleMessage,
+  maxAttachmentSizeInKib,
+  maxTextAttachmentSizeInKib,
   dependencies,
 }: {
   job: AttachmentDownloadJobType;
-  abortSignal: AbortSignal;
-  isForCurrentlyVisibleMessage: boolean;
   dependencies: DependenciesType;
-}): Promise<DownloadAttachmentResultType> {
+} & RunDownloadAttachmentJobOptions): Promise<DownloadAttachmentResultType> {
   const { messageId, attachment, attachmentType } = job;
 
   const jobIdForLogging = getJobIdForLogging(job);
@@ -507,16 +590,16 @@ export async function runDownloadAttachmentJobInner({
     throw new Error(`${logId}: Key information required for job was missing.`);
   }
 
-  const maxInKib = getMaximumIncomingAttachmentSizeInKb(getValue);
-  const maxTextAttachmentSizeInKib =
-    getMaximumIncomingTextAttachmentSizeInKb(getValue);
-
   const { size } = attachment;
   const sizeInKib = size / KIBIBYTE;
 
-  if (!Number.isFinite(size) || size < 0 || sizeInKib > maxInKib) {
+  if (
+    !Number.isFinite(size) ||
+    size < 0 ||
+    sizeInKib > maxAttachmentSizeInKib
+  ) {
     throw new AttachmentSizeError(
-      `${logId}: Attachment was ${sizeInKib}kib, max is ${maxInKib}kib`
+      `${logId}: Attachment was ${sizeInKib}kib, max is ${maxAttachmentSizeInKib}kib`
     );
   }
   if (
