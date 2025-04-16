@@ -107,6 +107,10 @@
     "messageformat": "Unknown contact",
     "description": "Shown as the name of a contact if we don't have any displayable information about them"
   },
+  "icu:unknownContactShort": {
+    "messageformat": "Unknown",
+    "description": "Shown as the shortened name of a contact if we don't have any displayable information about them"
+  },
   "icu:unknownGroup": {
     "messageformat": "Unknown group",
     "description": "Shown as the name of a group if we don't have any information about it"
@@ -3915,6 +3919,46 @@
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {# member} other {# members}}",
     "description": "Specifies the number of members in a group conversation"
+  },
+  "icu:ConversationHero--member-list-and-invited": {
+    "messageformat": "{memberList} (+{invitesCount, plural, one {# invited} other {# invited}})",
+    "description": "Text for a group with members and additional invited members"
+  },
+  "icu:ConversationHero--group-members-zero": {
+    "messageformat": "No group members",
+    "description": "Text for an empty group"
+  },
+  "icu:ConversationHero--group-members-only-you": {
+    "messageformat": "No other group members yet",
+    "description": "Text for group when you are the only member"
+  },
+  "icu:ConversationHero--group-members-one": {
+    "messageformat": "{member}",
+    "description": "Text for a group with one member (not you)"
+  },
+  "icu:ConversationHero--group-members-one-and-you": {
+    "messageformat": "{member} and you",
+    "description": "Text for a 2 member group where you are one of the members"
+  },
+  "icu:ConversationHero--group-members-two": {
+    "messageformat": "{member1} and {member2}",
+    "description": "Text for a 2 member group you are not in"
+  },
+  "icu:ConversationHero--group-members-two-and-you": {
+    "messageformat": "{member1}, {member2}, and you",
+    "description": "Text for a 3 member group where you are one of the members"
+  },
+  "icu:ConversationHero--group-members-three": {
+    "messageformat": "{member1}, {member2}, and {member3}",
+    "description": "Text for a 3 member group you are not in"
+  },
+  "icu:ConversationHero--group-members-other": {
+    "messageformat": "{member1}, {member2}, {member3}, and <clickable>{remainingCount, plural, one {# other} other {# others}}</clickable>",
+    "description": "Text for a group with more than 3 members that you are not in"
+  },
+  "icu:ConversationHero--group-members-other-and-you": {
+    "messageformat": "{member1}, {member2}, {member3}, and <clickable>{remainingCount, plural, one {# other} other {# others}}</clickable>",
+    "description": "Text for a group with more than 4 members where you are one of the members"
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "Review carefully",

@@ -155,7 +155,11 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
     await window
       .locator('.ConversationDetails-panel-section__title >> "4 members"')
       .waitFor();
-    await window.getByText(unknownContact.profileName).waitFor();
+
+    await window
+      .locator('.conversation-details-panel')
+      .getByText(unknownContact.profileName)
+      .waitFor();
 
     debug('Leave the group through settings');
 

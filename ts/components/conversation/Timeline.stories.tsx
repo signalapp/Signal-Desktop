@@ -414,6 +414,7 @@ const renderHeroRow = () => {
         phoneNumber={getPhoneNumber()}
         profileName={getProfileName()}
         sharedGroupNames={['NYC Rock Climbers', 'Dinner Party']}
+        memberships={[]}
         theme={theme}
         title={getTitle()}
         startAvatarDownload={action('startAvatarDownload')}

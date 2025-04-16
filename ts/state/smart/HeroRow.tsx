@@ -9,6 +9,7 @@ import { getIntl, getTheme } from '../selectors/user';
 import { getHasStoriesSelector } from '../selectors/stories2';
 import { isSignalConversation } from '../../util/isSignalConversation';
 import {
+  getConversationByServiceIdSelector,
   getConversationSelector,
   getPendingAvatarDownloadSelector,
 } from '../selectors/conversations';
@@ -19,6 +20,7 @@ import {
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { useStoriesActions } from '../ducks/stories';
 import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation';
+import { getGroupMemberships } from '../../util/getGroupMemberships';
 
 type SmartHeroRowProps = Readonly<{
   id: string;
@@ -49,11 +51,20 @@ export const SmartHeroRow = memo(function SmartHeroRow({
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const hasStoriesSelector = useSelector(getHasStoriesSelector);
   const conversationSelector = useSelector(getConversationSelector);
+  const conversationByServiceIdSelector = useSelector(
+    getConversationByServiceIdSelector
+  );
   const isPendingAvatarDownload = useSelector(getPendingAvatarDownloadSelector);
   const conversation = conversationSelector(id);
   if (conversation == null) {
     throw new Error(`Did not find conversation ${id} in state!`);
   }
+  const groupMemberships = getGroupMemberships(
+    conversation,
+    conversationByServiceIdSelector
+  );
+  const { memberships, pendingMemberships, pendingApprovalMemberships } =
+    groupMemberships;
   const badge = getPreferredBadge(conversation.badges);
   const hasStories = hasStoriesSelector(id);
   const isSignalConversationValue = isSignalConversation(conversation);
@@ -89,6 +100,9 @@ export const SmartHeroRow = memo(function SmartHeroRow({
   const isDirectConvoAndHasNickname =
     type === 'direct' && Boolean(nicknameGivenName || nicknameFamilyName);
 
+  const invitesCount =
+    pendingMemberships.length + pendingApprovalMemberships.length;
+
   return (
     <ConversationHero
       avatarPlaceholderGradient={avatarPlaceholderGradient}
@@ -106,8 +120,10 @@ export const SmartHeroRow = memo(function SmartHeroRow({
       id={id}
       isDirectConvoAndHasNickname={isDirectConvoAndHasNickname}
       isMe={isMe}
+      invitesCount={invitesCount}
       isSignalConversation={isSignalConversationValue}
       membersCount={membersCount}
+      memberships={memberships}
       openConversationDetails={openConversationDetails}
       pendingAvatarDownload={isPendingAvatarDownload(id)}
       phoneNumber={phoneNumber}

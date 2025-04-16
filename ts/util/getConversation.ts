@@ -242,6 +242,7 @@ export function getConversation(model: ConversationModel): ConversationType {
     title: getTitle(attributes),
     titleNoDefault: getTitleNoDefault(attributes),
     titleNoNickname: getTitle(attributes, { ignoreNickname: true }),
+    titleShortNoDefault: getTitle(attributes, { isShort: true }),
     typingContactIdTimestamps,
     searchableTitle: isMe(attributes)
       ? window.i18n('icu:noteToSelf')

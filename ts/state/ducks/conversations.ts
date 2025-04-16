@@ -366,6 +366,7 @@ export type ConversationType = ReadonlyDeep<
     title: string;
     titleNoDefault?: string;
     titleNoNickname?: string;
+    titleShortNoDefault?: string;
     searchableTitle?: string;
     unreadCount?: number;
     unreadMentionsCount?: number;
