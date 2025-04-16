@@ -27,6 +27,7 @@ import { type CustomColorType } from '../../types/Colors';
 import { StorySendMode, MY_STORY_ID } from '../../types/Stories';
 import { getStickerPacksForBackup } from '../../types/Stickers';
 import {
+  isServiceIdString,
   isPniString,
   type AciString,
   type ServiceIdString,
@@ -864,10 +865,10 @@ export class BackupExportStream extends Readable {
 
       res.contact = {
         aci:
-          convo.serviceId && convo.serviceId !== convo.pni
+          isServiceIdString(convo.serviceId) && convo.serviceId !== convo.pni
             ? Aci.parseFromServiceIdString(convo.serviceId).getRawUuidBytes()
             : null,
-        pni: convo.pni
+        pni: isServiceIdString(convo.pni)
           ? Pni.parseFromServiceIdString(convo.pni).getRawUuidBytes()
           : null,
         username: convo.username,
