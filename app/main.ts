@@ -1918,7 +1918,7 @@ const onDatabaseError = async (error: Error) => {
   } else if (buttonIndex === goToSupportPageButtonIndex) {
     drop(
       shell.openExternal(
-        'https://support.signal.org/hc/articles/9045714156314-Can-t-Open-Signal-Desktop'
+        'https://support.signal.org/hc/articles/9045714156314#desktop'
       )
     );
   }
