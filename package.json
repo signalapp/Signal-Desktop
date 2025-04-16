@@ -117,8 +117,8 @@
     "@react-aria/focus": "3.19.1",
     "@react-aria/interactions": "3.23.0",
     "@react-aria/utils": "3.25.3",
-    "@react-types/shared": "3.27.0",
     "@react-spring/web": "9.7.5",
+    "@react-types/shared": "3.27.0",
     "@signalapp/libsignal-client": "0.68.0",
     "@signalapp/quill-cjs": "2.1.2",
     "@signalapp/ringrtc": "2.50.5",
@@ -370,14 +370,14 @@
       "@vitest/expect@2.0.5": "patches/@vitest+expect+2.0.5.patch",
       "got@11.8.5": "patches/got+11.8.5.patch",
       "react-textarea-autosize@8.5.5": "patches/react-textarea-autosize+8.5.5.patch",
-      "app-builder-lib@26.0.10": "patches/app-builder-lib@26.0.10.patch",
       "growing-file@0.1.3": "patches/growing-file+0.1.3.patch",
       "websocket@1.0.34": "patches/websocket+1.0.34.patch",
       "@types/websocket@1.0.0": "patches/@types+websocket+1.0.0.patch",
       "backbone@1.6.0": "patches/backbone+1.6.0.patch",
       "node-fetch@2.6.7": "patches/node-fetch+2.6.7.patch",
       "zod@3.23.8": "patches/zod+3.23.8.patch",
-      "@electron/rebuild": "patches/@electron__rebuild.patch"
+      "@electron/rebuild": "patches/@electron__rebuild.patch",
+      "app-builder-lib": "patches/app-builder-lib.patch"
     },
     "onlyBuiltDependencies": [
       "@indutny/mac-screen-share",
@@ -481,7 +481,17 @@
     },
     "nsis": {
       "deleteAppDataOnUninstall": true,
-      "differentialPackage": true
+      "differentialPackage": true,
+      "customNsisBinary": {
+        "url": "https://updates.signal.org/desktop/nsis/nsis-3.0.4.1.7z",
+        "version": "3.0.4.1-signal",
+        "checksum": "uCkLCNjivpXuNbo8W73U0s64hEsiXnjVJeaYs3Iu7Ky87liDc2zKgJUomauM9YTg4DxashuwE6HEH4vSnXKBOw=="
+      },
+      "customNsisResources": {
+        "url": "https://updates.signal.org/desktop/nsis/nsis-resources-3.4.1.7z",
+        "version": "3.4.1-signal",
+        "checksum": "KmySC53iz92XNYVgEy5gc0/cpXiyWsxxOX5UETBAt889TIvsNlUx7uKBxkQVf3D2Ycex0D2IPGjRdGYr1bftrw=="
+      }
     },
     "linux": {
       "category": "Network;InstantMessaging;Chat",
