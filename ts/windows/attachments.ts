@@ -3,7 +3,8 @@
 
 import { ipcRenderer } from 'electron';
 import { isString, isTypedArray } from 'lodash';
-import { join, normalize, basename } from 'path';
+import { join, normalize, basename, parse as pathParse } from 'path';
+import { existsSync } from 'fs';
 import fse from 'fs-extra';
 import { v4 as getGuid } from 'uuid';
 
@@ -11,6 +12,8 @@ import { isPathInside } from '../util/isPathInside';
 import { writeWindowsZoneIdentifier } from '../util/windowsZoneIdentifier';
 import OS from '../util/os/osMain';
 import { getRelativePath, createName } from '../util/attachmentPath';
+import { toHex } from '../Bytes';
+import { getRandomBytes } from '../Crypto';
 
 export * from '../util/ensureAttachmentIsReencryptable';
 export * from '../../app/attachments';
@@ -18,6 +21,8 @@ export * from '../../app/attachments';
 type FSAttrType = {
   set: (path: string, attribute: string, value: string) => Promise<void>;
 };
+
+const GET_UNUSED_FILENAME_MAX_ATTEMPTS = 100;
 
 let xattr: FSAttrType | undefined;
 
@@ -266,4 +271,34 @@ export const saveAttachmentToDisk = async ({
     fullPath: filePath,
     name: fileBasename,
   };
+};
+
+export const getUnusedFilename = ({
+  filename,
+  baseDir,
+}: {
+  filename: string;
+  baseDir?: string;
+}): string => {
+  if (baseDir == null || !existsSync(join(baseDir, filename))) {
+    return filename;
+  }
+
+  const { ext, name: mainFilename } = pathParse(filename);
+  for (let n = 1; n < GET_UNUSED_FILENAME_MAX_ATTEMPTS; n += 1) {
+    const nextFilename = `${mainFilename}-${n}${ext}`;
+    if (!existsSync(join(baseDir, nextFilename))) {
+      return nextFilename;
+    }
+  }
+
+  const randomSuffix = toHex(getRandomBytes(4));
+  const randomNextFilename = `${mainFilename}-${randomSuffix}${ext}`;
+  if (!existsSync(join(baseDir, randomNextFilename))) {
+    return randomNextFilename;
+  }
+
+  throw new Error(
+    'getUnusedFilename() failed to get next unused filename after max attempts'
+  );
 };

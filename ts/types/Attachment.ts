@@ -1034,6 +1034,7 @@ export const isVoiceMessage = (
 export const save = async ({
   attachment,
   index,
+  getUnusedFilename,
   readAttachmentData,
   saveAttachmentToDisk,
   timestamp,
@@ -1041,6 +1042,10 @@ export const save = async ({
 }: {
   attachment: AttachmentType;
   index?: number;
+  getUnusedFilename: (options: {
+    filename: string;
+    baseDir?: string;
+  }) => string;
   readAttachmentData: (
     attachment: Partial<AddressableAttachmentType>
   ) => Promise<Uint8Array>;
@@ -1065,7 +1070,17 @@ export const save = async ({
     throw new Error('Attachment had neither path nor data');
   }
 
-  const name = getSuggestedFilename({ attachment, timestamp, index });
+  const suggestedFilename = getSuggestedFilename({
+    attachment,
+    timestamp,
+    index,
+  });
+
+  /**
+   * When baseDir is provided, saveAttachmentToDisk() will save without prompting
+   * and may overwrite existing files, so we need to append a suffix
+   */
+  const name = getUnusedFilename({ filename: suggestedFilename, baseDir });
 
   const result = await saveAttachmentToDisk({
     data,
@@ -1090,7 +1105,7 @@ export const getSuggestedFilename = ({
   index?: number;
 }): string => {
   const { fileName } = attachment;
-  if (fileName && (!isNumber(index) || index === 1)) {
+  if (fileName) {
     return fileName;
   }
 

@@ -89,6 +89,10 @@ type MigrationsModuleType = {
   getAbsoluteDraftPath: (path: string) => string;
   getAbsoluteStickerPath: (path: string) => string;
   getAbsoluteTempPath: (path: string) => string;
+  getUnusedFilename: (options: {
+    filename: string;
+    baseDir?: string;
+  }) => string;
   loadAttachmentData: (
     attachment: Partial<AttachmentType>
   ) => Promise<AttachmentWithHydratedData>;
@@ -173,6 +177,7 @@ export function initializeMigrations({
     getStickersPath,
     getBadgesPath,
     getTempPath,
+    getUnusedFilename,
     readAndDecryptDataFromDisk,
     saveAttachmentToDisk,
   } = Attachments;
@@ -304,6 +309,7 @@ export function initializeMigrations({
     getAbsoluteDraftPath,
     getAbsoluteStickerPath,
     getAbsoluteTempPath,
+    getUnusedFilename,
     loadAttachmentData,
     loadContactData,
     loadMessage: MessageType.createAttachmentLoader(loadAttachmentData),
@@ -404,6 +410,10 @@ type AttachmentsModuleType = {
   ) => (relativePath: string) => string;
 
   createDoesExist: (root: string) => (relativePath: string) => Promise<boolean>;
+  getUnusedFilename: (options: {
+    filename: string;
+    baseDir?: string;
+  }) => string;
   saveAttachmentToDisk: ({
     data,
     name,

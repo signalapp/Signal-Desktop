@@ -4054,12 +4054,13 @@ function saveAttachment(
       return;
     }
 
-    const { readAttachmentData, saveAttachmentToDisk } =
+    const { getUnusedFilename, readAttachmentData, saveAttachmentToDisk } =
       window.Signal.Migrations;
 
     const fullPath = await Attachment.save({
       attachment,
       index: index + 1,
+      getUnusedFilename,
       readAttachmentData,
       saveAttachmentToDisk,
       timestamp,
@@ -4120,43 +4121,56 @@ function saveAttachments(
       return;
     }
 
-    const { readAttachmentData, saveAttachmentToDisk } =
+    const { getUnusedFilename, readAttachmentData, saveAttachmentToDisk } =
       window.Signal.Migrations;
 
     let fullPath;
     let index = 0;
-    for (const attachment of attachments) {
-      index += 1;
+    try {
+      for (const attachment of attachments) {
+        index += 1;
 
-      // eslint-disable-next-line no-await-in-loop
-      const result = await Attachment.save({
-        attachment,
-        index,
-        readAttachmentData,
-        saveAttachmentToDisk,
-        timestamp,
-        baseDir: dirPath,
-      });
+        // eslint-disable-next-line no-await-in-loop
+        const result = await Attachment.save({
+          attachment,
+          index,
+          getUnusedFilename,
+          readAttachmentData,
+          saveAttachmentToDisk,
+          timestamp,
+          baseDir: dirPath,
+        });
 
-      if (fullPath === undefined) {
-        fullPath = result;
+        if (fullPath === undefined) {
+          fullPath = result;
+        }
       }
-    }
 
-    if (fullPath == null) {
-      throw new Error('saveAttachments: Returned path to attachment is null!');
-    }
+      if (fullPath == null) {
+        throw new Error(
+          'saveAttachments: Returned path to attachment is null!'
+        );
+      }
 
-    dispatch({
-      type: SHOW_TOAST,
-      payload: {
-        toastType: ToastType.FileSaved,
-        parameters: {
-          countOfFiles: attachments.length,
-          fullPath,
+      dispatch({
+        type: SHOW_TOAST,
+        payload: {
+          toastType: ToastType.FileSaved,
+          parameters: {
+            countOfFiles: attachments.length,
+            fullPath,
+          },
         },
-      },
-    });
+      });
+    } catch (e) {
+      log.error('Error in saveAttachments():', Errors.toLogFormat(e));
+      dispatch({
+        type: SHOW_TOAST,
+        payload: {
+          toastType: ToastType.Error,
+        },
+      });
+    }
   };
 }
 

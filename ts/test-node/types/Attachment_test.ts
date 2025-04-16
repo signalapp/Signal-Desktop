@@ -120,7 +120,7 @@ describe('Attachment', () => {
           timestamp,
           index: 2,
         });
-        const expected = 'signal-1970-01-02-000000_002.mov';
+        const expected = 'funny-cat.mov';
         assert.strictEqual(actual, expected);
       });
 
