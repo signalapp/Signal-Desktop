@@ -485,7 +485,7 @@
       "customNsisBinary": {
         "url": "https://updates.signal.org/desktop/nsis/nsis-3.0.4.1.7z",
         "version": "3.0.4.1-signal",
-        "checksum": "uCkLCNjivpXuNbo8W73U0s64hEsiXnjVJeaYs3Iu7Ky87liDc2zKgJUomauM9YTg4DxashuwE6HEH4vSnXKBOw=="
+        "checksum": "D6XH03F8A4Vzfjpq6zS9eZYXGXktdoaeQh5QgxAZ01pdts3KaDfMilem0x+HUzn9FpzfpgZrD8MVTcFlcPfcWg=="
       },
       "customNsisResources": {
         "url": "https://updates.signal.org/desktop/nsis/nsis-resources-3.4.1.7z",
