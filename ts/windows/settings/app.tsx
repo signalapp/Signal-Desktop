@@ -75,6 +75,7 @@ SettingsWindowProps.onRender(
     isNotificationAttentionSupported,
     isSyncSupported,
     isSystemTraySupported,
+    isInternalUser,
     lastSyncTime,
     makeSyncRequest,
     notificationContent,
@@ -128,6 +129,7 @@ SettingsWindowProps.onRender(
     localeOverride,
     themeSetting,
     universalExpireTimer,
+    validateBackup,
     whoCanFindMe,
     whoCanSeeMe,
     zoomFactor,
@@ -188,6 +190,7 @@ SettingsWindowProps.onRender(
         isNotificationAttentionSupported={isNotificationAttentionSupported}
         isSyncSupported={isSyncSupported}
         isSystemTraySupported={isSystemTraySupported}
+        isInternalUser={isInternalUser}
         lastSyncTime={lastSyncTime}
         localeOverride={localeOverride}
         makeSyncRequest={makeSyncRequest}
@@ -243,6 +246,7 @@ SettingsWindowProps.onRender(
         setGlobalDefaultConversationColor={setGlobalDefaultConversationColor}
         themeSetting={themeSetting}
         universalExpireTimer={universalExpireTimer}
+        validateBackup={validateBackup}
         whoCanFindMe={whoCanFindMe}
         whoCanSeeMe={whoCanSeeMe}
         zoomFactor={zoomFactor}

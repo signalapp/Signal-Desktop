@@ -47,7 +47,7 @@ import { constantTimeEqual } from '../../Crypto';
 import { measureSize } from '../../AttachmentCrypto';
 import { isTestOrMockEnvironment } from '../../environment';
 import { runStorageServiceSyncJob } from '../storage';
-import { BackupExportStream } from './export';
+import { BackupExportStream, type StatsType } from './export';
 import { BackupImportStream } from './import';
 import { getKeyMaterial } from './crypto';
 import { BackupCredentials } from './credentials';
@@ -61,6 +61,8 @@ import {
   BackupProcessingError,
   RelinkRequestedError,
 } from './errors';
+import { FileStream } from './util/FileStream';
+import { MemoryStream } from './util/MemoryStream';
 import { ToastType } from '../../types/Toast';
 import { isAdhoc, isNightly } from '../../util/version';
 import { getMessageQueueTime } from '../../util/getMessageQueueTime';
@@ -94,6 +96,11 @@ export type ImportOptionsType = Readonly<{
   backupType?: BackupType;
   ephemeralKey?: Uint8Array;
   onProgress?: (currentBytes: number, totalBytes: number) => void;
+}>;
+
+export type ExportResultType = Readonly<{
+  totalBytes: number;
+  stats: Readonly<StatsType>;
 }>;
 
 export class BackupsService {
@@ -289,14 +296,17 @@ export class BackupsService {
   public async exportBackupData(
     backupLevel: BackupLevel = BackupLevel.Free,
     backupType = BackupType.Ciphertext
-  ): Promise<Uint8Array> {
+  ): Promise<{ data: Uint8Array } & ExportResultType> {
     const sink = new PassThrough();
 
     const chunks = new Array<Uint8Array>();
     sink.on('data', chunk => chunks.push(chunk));
-    await this.#exportBackup(sink, backupLevel, backupType);
+    const result = await this.#exportBackup(sink, backupLevel, backupType);
 
-    return Bytes.concatenate(chunks);
+    return {
+      ...result,
+      data: Bytes.concatenate(chunks),
+    };
   }
 
   // Test harness
@@ -305,22 +315,38 @@ export class BackupsService {
     backupLevel: BackupLevel = BackupLevel.Free,
     backupType = BackupType.Ciphertext
   ): Promise<number> {
-    const size = await this.#exportBackup(
+    const { totalBytes } = await this.#exportBackup(
       createWriteStream(path),
       backupLevel,
       backupType
     );
 
     if (backupType === BackupType.Ciphertext) {
-      await validateBackup(path, size);
+      await validateBackup(() => new FileStream(path), totalBytes);
     }
 
-    return size;
+    return totalBytes;
+  }
+
+  // Test harness
+  public async validate(
+    backupLevel: BackupLevel = BackupLevel.Free,
+    backupType = BackupType.Ciphertext
+  ): Promise<ExportResultType> {
+    const { data, ...result } = await this.exportBackupData(
+      backupLevel,
+      backupType
+    );
+    const buffer = Buffer.from(data);
+
+    await validateBackup(() => new MemoryStream(buffer), buffer.byteLength);
+
+    return result;
   }
 
   // Test harness
   public async exportWithDialog(): Promise<void> {
-    const data = await this.exportBackupData();
+    const { data } = await this.exportBackupData();
 
     const { saveAttachmentToDisk } = window.Signal.Migrations;
 
@@ -712,7 +738,7 @@ export class BackupsService {
     sink: Writable,
     backupLevel: BackupLevel = BackupLevel.Free,
     backupType = BackupType.Ciphertext
-  ): Promise<number> {
+  ): Promise<ExportResultType> {
     strictAssert(!this.#isRunning, 'BackupService is already running');
 
     log.info('exportBackup: starting...');
@@ -766,7 +792,7 @@ export class BackupsService {
         throw missingCaseError(backupType);
       }
 
-      return totalBytes;
+      return { totalBytes, stats: recordStream.getStats() };
     } finally {
       log.info('exportBackup: finished...');
       this.#isRunning = false;

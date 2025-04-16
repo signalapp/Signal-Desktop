@@ -64,9 +64,11 @@ export class SettingsChannel extends EventEmitter {
     this.#installCallback('deleteAllMyStories');
     this.#installCallback('getAvailableIODevices');
     this.#installCallback('isPrimary');
+    this.#installCallback('isInternalUser');
     this.#installCallback('syncRequest');
     this.#installCallback('setEmojiSkinToneDefault');
     this.#installCallback('getEmojiSkinToneDefault');
+    this.#installCallback('validateBackup');
 
     // Backups
     this.#installSetting('backupFeatureEnabled', { setter: false });

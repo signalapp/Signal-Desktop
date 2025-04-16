@@ -14,6 +14,7 @@ import classNames from 'classnames';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
 
 import type { MediaDeviceSettings } from '../types/Calling';
+import type { ExportResultType as BackupExportResultType } from '../services/backups';
 import type {
   AutoDownloadAttachmentType,
   NotificationSettingType,
@@ -75,6 +76,7 @@ import {
   SettingsRow,
 } from './PreferencesUtil';
 import { PreferencesBackups } from './PreferencesBackups';
+import { PreferencesInternal } from './PreferencesInternal';
 import { FunEmojiLocalizationProvider } from './fun/FunEmojiLocalizationProvider';
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
@@ -145,6 +147,7 @@ export type PropsDataType = {
   isSyncSupported: boolean;
   isSystemTraySupported: boolean;
   isMinimizeToAndStartInSystemTraySupported: boolean;
+  isInternalUser: boolean;
 
   availableCameras: Array<
     Pick<MediaDeviceInfo, 'deviceId' | 'groupId' | 'kind' | 'label'>
@@ -175,6 +178,7 @@ type PropsFunctionType = {
       value: CustomColorType;
     }
   ) => unknown;
+  validateBackup: () => Promise<BackupExportResultType>;
 
   // Change handlers
   onAudioNotificationsChange: CheckboxChangeHandlerType;
@@ -232,6 +236,7 @@ export enum Page {
   Privacy = 'Privacy',
   DataUsage = 'DataUsage',
   Backups = 'Backups',
+  Internal = 'Internal',
 
   // Sub pages
   ChatColor = 'ChatColor',
@@ -319,6 +324,7 @@ export function Preferences({
   isSyncSupported,
   isSystemTraySupported,
   isMinimizeToAndStartInSystemTraySupported,
+  isInternalUser,
   lastSyncTime,
   makeSyncRequest,
   notificationContent,
@@ -373,6 +379,7 @@ export function Preferences({
   localeOverride,
   themeSetting,
   universalExpireTimer = DurationInSeconds.ZERO,
+  validateBackup,
   whoCanFindMe,
   whoCanSeeMe,
   zoomFactor,
@@ -408,6 +415,9 @@ export function Preferences({
     backupFeatureEnabled && backupSubscriptionStatus != null;
 
   if (page === Page.Backups && !shouldShowBackupsPage) {
+    setPage(Page.General);
+  }
+  if (page === Page.Internal && !isInternalUser) {
     setPage(Page.General);
   }
 
@@ -1728,6 +1738,10 @@ export function Preferences({
         locale={resolvedLocale}
       />
     );
+  } else if (page === Page.Internal) {
+    settings = (
+      <PreferencesInternal i18n={i18n} validateBackup={validateBackup} />
+    );
   }
 
   return (
@@ -1827,6 +1841,19 @@ export function Preferences({
               onClick={() => setPage(Page.Backups)}
             >
               {i18n('icu:Preferences__button--backups')}
+            </button>
+          ) : null}
+          {isInternalUser ? (
+            <button
+              type="button"
+              className={classNames({
+                Preferences__button: true,
+                'Preferences__button--internal': true,
+                'Preferences__button--selected': page === Page.Internal,
+              })}
+              onClick={() => setPage(Page.Internal)}
+            >
+              {i18n('icu:Preferences__button--internal')}
             </button>
           ) : null}
         </div>

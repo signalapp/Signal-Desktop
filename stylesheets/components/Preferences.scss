@@ -120,6 +120,10 @@ $secondary-text-color: light-dark(
     &--backups {
       @include preferences-icon('../images/icons/v3/backup/backup-bold.svg');
     }
+
+    &--internal {
+      @include preferences-icon('../images/icons/v3/internal/internal.svg');
+    }
   }
 
   &__settings-pane {
@@ -538,4 +542,21 @@ $secondary-text-color: light-dark(
       margin-inline: 4px;
     }
   }
+}
+
+.Preferences--internal--validate-backup--result {
+  padding-inline: 48px 24px;
+}
+
+.Preferences--internal--validate-backup--error {
+  padding-inline: 48px 24px;
+  color: variables.$color-accent-red;
+}
+
+.Preferences--internal--validate-backup--result pre,
+.Preferences--internal--validate-backup--error pre {
+  max-height: 128px;
+  max-width: 100%;
+  white-space: pre-wrap;
+  user-select: text;
 }
