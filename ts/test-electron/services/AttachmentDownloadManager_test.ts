@@ -327,10 +327,13 @@ describe('AttachmentDownloadManager/JobManager', () => {
       },
     }));
 
+    const jobAttempts = getPromisesForAttempts(jobs[0], 2);
+
     statfs.callsFake(() => Promise.resolve({ bavail: 0, bsize: 8 }));
 
     await downloadManager?.start();
-    await advanceTime(2 * MINUTE);
+    await jobAttempts[0].completed;
+
     assert.strictEqual(runJob.callCount, 0);
     assert.strictEqual(onLowDiskSpaceBackupImport.callCount, 1);
     assert.isTrue(window.storage.get('backupMediaDownloadPaused'));
@@ -338,12 +341,11 @@ describe('AttachmentDownloadManager/JobManager', () => {
     statfs.callsFake(() =>
       Promise.resolve({ bavail: 100_000_000_000, bsize: 8 })
     );
-
-    const job0Attempts = getPromisesForAttempts(jobs[0], 1)[0];
     await window.storage.put('backupMediaDownloadPaused', false);
+
     await advanceTime(2 * MINUTE);
     assert.strictEqual(runJob.callCount, 1);
-    await job0Attempts.started;
+    await jobAttempts[1].completed;
   });
 
   it('handles retries for failed', async () => {
