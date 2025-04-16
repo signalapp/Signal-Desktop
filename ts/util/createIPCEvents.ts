@@ -25,7 +25,7 @@ import { resolveUsernameByLinkBase64 } from '../services/username';
 import { writeProfile } from '../services/writeProfile';
 import {
   backupsService,
-  type ExportResultType as BackupExportResultType,
+  type ValidationResultType as BackupValidationResultType,
 } from '../services/backups';
 import { isInCall } from '../state/selectors/calling';
 import { getConversationsWithCustomColorSelector } from '../state/selectors/conversations';
@@ -164,7 +164,7 @@ export type IPCEventsCallbacksType = {
   unknownSignalLink: () => void;
   getCustomColors: () => Record<string, CustomColorType>;
   syncRequest: () => Promise<void>;
-  validateBackup: () => Promise<BackupExportResultType>;
+  validateBackup: () => Promise<BackupValidationResultType>;
   setGlobalDefaultConversationColor: (
     color: ConversationColorType,
     customColor?: { id: string; value: CustomColorType }
@@ -551,7 +551,8 @@ export function createIPCEvents(
       await sendSyncRequests();
       return contactSyncComplete;
     },
-    validateBackup: () => backupsService.validate(),
+    // Only for internal use
+    validateBackup: () => backupsService._internalValidate(),
     getLastSyncTime: () => window.storage.get('synced_at'),
     setLastSyncTime: value => window.storage.put('synced_at', value),
     getUniversalExpireTimer: () => universalExpireTimer.get(),

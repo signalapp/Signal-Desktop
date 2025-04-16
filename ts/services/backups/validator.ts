@@ -6,11 +6,17 @@ import type { InputStream } from '@signalapp/libsignal-client/dist/io';
 
 import { strictAssert } from '../../util/assert';
 import { toAciObject } from '../../util/ServiceId';
-import { isTestOrMockEnvironment } from '../../environment';
+import { missingCaseError } from '../../util/missingCaseError';
+
+export enum ValidationType {
+  Export = 'Export',
+  Internal = 'Internal',
+}
 
 export async function validateBackup(
   inputFactory: () => InputStream,
-  fileSize: number
+  fileSize: number,
+  type: ValidationType
 ): Promise<void> {
   const accountEntropy = window.storage.get('accountEntropyPool');
   strictAssert(accountEntropy, 'Account Entropy Pool not available');
@@ -28,12 +34,14 @@ export async function validateBackup(
     BigInt(fileSize)
   );
 
-  if (isTestOrMockEnvironment()) {
+  if (type === ValidationType.Internal) {
     strictAssert(
       outcome.ok,
       `Backup validation failed: ${outcome.errorMessage}`
     );
-  } else {
+  } else if (type === ValidationType.Export) {
     strictAssert(outcome.ok, 'Backup validation failed');
+  } else {
+    throw missingCaseError(type);
   }
 }
