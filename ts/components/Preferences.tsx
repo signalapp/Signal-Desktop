@@ -14,7 +14,7 @@ import classNames from 'classnames';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
 
 import type { MediaDeviceSettings } from '../types/Calling';
-import type { ExportResultType as BackupExportResultType } from '../services/backups';
+import type { ValidationResultType as BackupValidationResultType } from '../services/backups';
 import type {
   AutoDownloadAttachmentType,
   NotificationSettingType,
@@ -178,7 +178,7 @@ type PropsFunctionType = {
       value: CustomColorType;
     }
   ) => unknown;
-  validateBackup: () => Promise<BackupExportResultType>;
+  validateBackup: () => Promise<BackupValidationResultType>;
 
   // Change handlers
   onAudioNotificationsChange: CheckboxChangeHandlerType;

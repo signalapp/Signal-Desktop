@@ -5,7 +5,7 @@ import React, { useState, useCallback } from 'react';
 import type { LocalizerType } from '../types/I18N';
 import { toLogFormat } from '../types/errors';
 import { formatFileSize } from '../util/formatFileSize';
-import type { ExportResultType as BackupExportResultType } from '../services/backups';
+import type { ValidationResultType as BackupValidationResultType } from '../services/backups';
 import { SettingsRow, SettingsControl } from './PreferencesUtil';
 import { Button, ButtonVariant } from './Button';
 import { Spinner } from './Spinner';
@@ -15,26 +15,20 @@ export function PreferencesInternal({
   validateBackup: doValidateBackup,
 }: {
   i18n: LocalizerType;
-  validateBackup: () => Promise<BackupExportResultType>;
+  validateBackup: () => Promise<BackupValidationResultType>;
 }): JSX.Element {
   const [isValidationPending, setIsValidationPending] = useState(false);
   const [validationResult, setValidationResult] = useState<
-    | {
-        result: BackupExportResultType;
-      }
-    | {
-        error: Error;
-      }
-    | undefined
+    BackupValidationResultType | undefined
   >();
 
   const validateBackup = useCallback(async () => {
     setIsValidationPending(true);
     setValidationResult(undefined);
     try {
-      setValidationResult({ result: await doValidateBackup() });
+      setValidationResult(await doValidateBackup());
     } catch (error) {
-      setValidationResult({ error });
+      setValidationResult({ error: toLogFormat(error) });
     } finally {
       setIsValidationPending(false);
     }
@@ -61,7 +55,7 @@ export function PreferencesInternal({
       validationElem = (
         <div className="Preferences--internal--validate-backup--error">
           <pre>
-            <code>{toLogFormat(error)}</code>
+            <code>{error}</code>
           </pre>
         </div>
       );

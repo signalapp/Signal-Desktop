@@ -52,7 +52,7 @@ import { BackupImportStream } from './import';
 import { getKeyMaterial } from './crypto';
 import { BackupCredentials } from './credentials';
 import { BackupAPI } from './api';
-import { validateBackup } from './validator';
+import { validateBackup, ValidationType } from './validator';
 import { BackupType } from './types';
 import {
   BackupInstallerError,
@@ -102,6 +102,15 @@ export type ExportResultType = Readonly<{
   totalBytes: number;
   stats: Readonly<StatsType>;
 }>;
+
+export type ValidationResultType = Readonly<
+  | {
+      result: ExportResultType;
+    }
+  | {
+      error: string;
+    }
+>;
 
 export class BackupsService {
   #isStarted = false;
@@ -322,26 +331,40 @@ export class BackupsService {
     );
 
     if (backupType === BackupType.Ciphertext) {
-      await validateBackup(() => new FileStream(path), totalBytes);
+      await validateBackup(
+        () => new FileStream(path),
+        totalBytes,
+        isTestOrMockEnvironment()
+          ? ValidationType.Internal
+          : ValidationType.Export
+      );
     }
 
     return totalBytes;
   }
 
   // Test harness
-  public async validate(
+  public async _internalValidate(
     backupLevel: BackupLevel = BackupLevel.Free,
     backupType = BackupType.Ciphertext
-  ): Promise<ExportResultType> {
+  ): Promise<ValidationResultType> {
     const { data, ...result } = await this.exportBackupData(
       backupLevel,
       backupType
     );
     const buffer = Buffer.from(data);
 
-    await validateBackup(() => new MemoryStream(buffer), buffer.byteLength);
+    try {
+      await validateBackup(
+        () => new MemoryStream(buffer),
+        buffer.byteLength,
+        ValidationType.Internal
+      );
 
-    return result;
+      return { result };
+    } catch (error) {
+      return { error: Errors.toLogFormat(error) };
+    }
   }
 
   // Test harness

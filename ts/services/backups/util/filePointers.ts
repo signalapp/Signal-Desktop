@@ -180,9 +180,11 @@ export async function getFilePointerForAttachment({
 }> {
   const filePointerRootProps = new Backups.FilePointer({
     contentType: attachment.contentType,
-    incrementalMac: attachment.incrementalMac
-      ? Bytes.fromBase64(attachment.incrementalMac)
-      : undefined,
+    // Resilience to invalid data in the database from internal testing
+    incrementalMac:
+      typeof attachment.incrementalMac === 'string'
+        ? Bytes.fromBase64(attachment.incrementalMac)
+        : undefined,
     incrementalMacChunkSize: dropZero(attachment.chunkSize),
     fileName: attachment.fileName,
     width: attachment.width,

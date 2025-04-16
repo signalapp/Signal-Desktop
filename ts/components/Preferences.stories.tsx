@@ -192,17 +192,19 @@ export default {
     ),
     validateBackup: async () => {
       return {
-        totalBytes: 100,
-        stats: {
-          adHocCalls: 1,
-          callLinks: 2,
-          conversations: 3,
-          chats: 4,
-          distributionLists: 5,
-          messages: 6,
-          skippedMessages: 7,
-          stickerPacks: 8,
-          fixedDirectMessages: 9,
+        result: {
+          totalBytes: 100,
+          stats: {
+            adHocCalls: 1,
+            callLinks: 2,
+            conversations: 3,
+            chats: 4,
+            distributionLists: 5,
+            messages: 6,
+            skippedMessages: 7,
+            stickerPacks: 8,
+            fixedDirectMessages: 9,
+          },
         },
       };
     },
