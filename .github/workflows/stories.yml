@@ -28,21 +28,21 @@ jobs:
           path: ~/.electron-gyp
           key: electron-gyp-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
-      - name: Setup sccache
-        uses: mozilla-actions/sccache-action@054db53350805f83040bf3e6e9b8cf5a139aa7c9 # v0.0.7
-      - name: Restore sccache
-        uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
-        id: cache-sccache
-        with:
-          path: ${{ env.SCCACHE_PATH }}
-          key: sccache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**') }}
+      # - name: Setup sccache
+      #   uses: mozilla-actions/sccache-action@054db53350805f83040bf3e6e9b8cf5a139aa7c9 # v0.0.7
+      # - name: Restore sccache
+      #   uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
+      #   id: cache-sccache
+      #   with:
+      #     path: ${{ env.SCCACHE_PATH }}
+      #     key: sccache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**') }}
 
       - name: Install Desktop node_modules
         run: pnpm install
         env:
-          CC: sccache gcc
-          CXX: sccache g++
-          SCCACHE_GHA_ENABLED: "true"
+          # CC: sccache gcc
+          # CXX: sccache g++
+          # SCCACHE_GHA_ENABLED: "true"
           NPM_CONFIG_LOGLEVEL: verbose
 
       - run: pnpm run build:storybook

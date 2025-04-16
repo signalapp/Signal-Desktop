@@ -33,13 +33,13 @@ jobs:
         path: ~/.electron-gyp
         key: electron-gyp-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
-    - name: Setup sccache
-      uses: mozilla-actions/sccache-action@054db53350805f83040bf3e6e9b8cf5a139aa7c9 # v0.0.7
-    - name: Restore sccache
-      uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
-      with:
-        path: ${{ env.SCCACHE_PATH }}
-        key: sccache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**') }}
+    # - name: Setup sccache
+    #   uses: mozilla-actions/sccache-action@054db53350805f83040bf3e6e9b8cf5a139aa7c9 # v0.0.7
+    # - name: Restore sccache
+    #   uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
+    #   with:
+    #     path: ${{ env.SCCACHE_PATH }}
+    #     key: sccache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**') }}
 
     - name: Restore cached .eslintcache and tsconfig.tsbuildinfo
       uses: actions/cache/restore@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
@@ -53,9 +53,9 @@ jobs:
     - name: Install Desktop node_modules
       run: pnpm install
       env:
-        CC: sccache gcc
-        CXX: sccache g++
-        SCCACHE_GHA_ENABLED: "true"
+        # CC: sccache gcc
+        # CXX: sccache g++
+        # SCCACHE_GHA_ENABLED: "true"
         NPM_CONFIG_LOGLEVEL: verbose
 
     - run: pnpm run generate
@@ -102,20 +102,20 @@ jobs:
         path: ~/.electron-gyp
         key: electron-gyp-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
-    - name: Setup sccache
-      uses: mozilla-actions/sccache-action@054db53350805f83040bf3e6e9b8cf5a139aa7c9 # v0.0.7
-    - name: Restore sccache
-      uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
-      with:
-        path: ${{ env.SCCACHE_PATH }}
-        key: sccache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**') }}
+    # - name: Setup sccache
+    #   uses: mozilla-actions/sccache-action@054db53350805f83040bf3e6e9b8cf5a139aa7c9 # v0.0.7
+    # - name: Restore sccache
+    #   uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
+    #   with:
+    #     path: ${{ env.SCCACHE_PATH }}
+    #     key: sccache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**') }}
 
     - name: Install Desktop node_modules
       run: pnpm install
       env:
-        CC: sccache clang
-        CXX: sccache clang++
-        SCCACHE_GHA_ENABLED: "true"
+        # CC: sccache clang
+        # CXX: sccache clang++
+        # SCCACHE_GHA_ENABLED: "true"
         NPM_CONFIG_LOGLEVEL: verbose
 
     - run: pnpm run generate
@@ -129,9 +129,9 @@ jobs:
     - run: touch noop.sh && chmod +x noop.sh
     - run: pnpm run build
       env:
-        CC: sccache clang
-        CXX: sccache clang++
-        SCCACHE_GHA_ENABLED: "true"
+        # CC: sccache clang
+        # CXX: sccache clang++
+        # SCCACHE_GHA_ENABLED: "true"
         DISABLE_INSPECT_FUSE: on
         SIGN_MACOS_SCRIPT: noop.sh
         ARTIFACTS_DIR: artifacts/macos
@@ -175,24 +175,24 @@ jobs:
       with:
         path: ~/.electron-gyp
         key: electron-gyp-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
-    
+
     - name: Install xvfb and libpulse0
       run: sudo apt-get install xvfb libpulse0 || (sudo apt-get update && sudo apt-get install xvfb libpulse0)
 
-    - name: Setup sccache
-      uses: mozilla-actions/sccache-action@054db53350805f83040bf3e6e9b8cf5a139aa7c9 # v0.0.7
-    - name: Restore sccache
-      uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
-      with:
-        path: ${{ env.SCCACHE_PATH }}
-        key: sccache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**') }}
+    # - name: Setup sccache
+    #   uses: mozilla-actions/sccache-action@054db53350805f83040bf3e6e9b8cf5a139aa7c9 # v0.0.7
+    # - name: Restore sccache
+    #   uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
+    #   with:
+    #     path: ${{ env.SCCACHE_PATH }}
+    #     key: sccache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**') }}
 
     - name: Install Desktop node_modules
       run: pnpm install
       env:
-        CC: sccache gcc
-        CXX: sccache g++
-        SCCACHE_GHA_ENABLED: "true"
+        # CC: sccache gcc
+        # CXX: sccache g++
+        # SCCACHE_GHA_ENABLED: "true"
         NPM_CONFIG_LOGLEVEL: verbose
 
     - run: pnpm run generate
@@ -209,17 +209,17 @@ jobs:
       run: pnpm run build:release --publish=never
       if: github.ref == 'refs/heads/main'
       env:
-        CC: sccache gcc
-        CXX: sccache g++
-        SCCACHE_GHA_ENABLED: "true"
+        # CC: sccache gcc
+        # CXX: sccache g++
+        # SCCACHE_GHA_ENABLED: "true"
         DISABLE_INSPECT_FUSE: on
     - name: Build without packaging .deb file
       run: pnpm run build:release --linux dir
       if: github.ref != 'refs/heads/main'
       env:
-        CC: sccache gcc
-        CXX: sccache g++
-        SCCACHE_GHA_ENABLED: "true"
+        # CC: sccache gcc
+        # CXX: sccache g++
+        # SCCACHE_GHA_ENABLED: "true"
         DISABLE_INSPECT_FUSE: on
 
     - name: Upload installer size
@@ -400,20 +400,20 @@ jobs:
     - name: Install xvfb and libpulse0
       run: sudo apt-get install xvfb libpulse0 || (sudo apt-get update && sudo apt-get install xvfb libpulse0)
 
-    - name: Setup sccache
-      uses: mozilla-actions/sccache-action@054db53350805f83040bf3e6e9b8cf5a139aa7c9 # v0.0.7
-    - name: Restore sccache
-      uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
-      with:
-        path: ${{ env.SCCACHE_PATH }}
-        key: sccache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**') }}
+    # - name: Setup sccache
+    #   uses: mozilla-actions/sccache-action@054db53350805f83040bf3e6e9b8cf5a139aa7c9 # v0.0.7
+    # - name: Restore sccache
+    #   uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
+    #   with:
+    #     path: ${{ env.SCCACHE_PATH }}
+    #     key: sccache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**') }}
 
     - name: Install Desktop node_modules
       run: pnpm install
       env:
-        CC: sccache gcc
-        CXX: sccache g++
-        SCCACHE_GHA_ENABLED: "true"
+        # CC: sccache gcc
+        # CXX: sccache g++
+        # SCCACHE_GHA_ENABLED: "true"
         NPM_CONFIG_LOGLEVEL: verbose
 
     - name: Build typescript
