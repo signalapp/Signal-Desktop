@@ -27,15 +27,23 @@ import { isReconnecting } from '../util/callingIsReconnecting';
 import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall';
 import { assertDev } from '../util/assert';
 import type { CallingImageDataCache } from './CallManager';
-import { PIP_MAXIMUM_HEIGHT, PIP_MINIMUM_HEIGHT } from './CallingPip';
+import {
+  PIP_MAXIMUM_HEIGHT_MULTIPLIER,
+  PIP_MINIMUM_HEIGHT_MULTIPLIER,
+  PIP_WIDTH_NORMAL,
+} from './CallingPip';
 
 function BlurredBackground({
   activeCall,
   activeGroupCallSpeaker,
+  avatarSize,
+  darken,
   i18n,
 }: {
   activeCall: ActiveCallType;
   activeGroupCallSpeaker?: undefined | GroupCallRemoteParticipantType;
+  avatarSize: AvatarSize;
+  darken?: boolean;
   i18n: LocalizerType;
 }): JSX.Element {
   const {
@@ -51,7 +59,7 @@ function BlurredBackground({
     activeGroupCallSpeaker?.avatarUrl ?? activeCall.conversation.avatarUrl;
 
   return (
-    <CallBackgroundBlur avatarUrl={avatarUrl}>
+    <CallBackgroundBlur avatarUrl={avatarUrl} darken={darken}>
       <div className="module-calling-pip__video--avatar">
         <Avatar
           avatarPlaceholderGradient={avatarPlaceholderGradient}
@@ -64,7 +72,7 @@ function BlurredBackground({
           phoneNumber={phoneNumber}
           profileName={profileName}
           title={title}
-          size={AvatarSize.FORTY_EIGHT}
+          size={avatarSize}
           sharedGroupNames={sharedGroupNames}
         />
       </div>
@@ -129,16 +137,14 @@ export function CallingPipRemoteVideo({
         return;
       }
 
-      const newHeight = clamp(
-        Math.floor(width * (1 / videoAspectRatio)),
-        1,
-        MAX_FRAME_HEIGHT
-      );
+      const ratio = 1 / videoAspectRatio;
+      const newHeight = clamp(Math.floor(width * ratio), 1, MAX_FRAME_HEIGHT);
+
       // Update only for portrait video that fits, otherwise leave things as they are
       if (
         newHeight !== height &&
-        newHeight >= PIP_MINIMUM_HEIGHT &&
-        newHeight <= PIP_MAXIMUM_HEIGHT
+        ratio >= PIP_MINIMUM_HEIGHT_MULTIPLIER &&
+        ratio <= PIP_MAXIMUM_HEIGHT_MULTIPLIER
       ) {
         updateHeight(newHeight);
       }
@@ -179,13 +185,20 @@ export function CallingPipRemoteVideo({
     width,
   ]);
 
+  const avatarSize =
+    width > PIP_WIDTH_NORMAL ? AvatarSize.NINETY_SIX : AvatarSize.SIXTY_FOUR;
+
   switch (activeCall.callMode) {
     case CallMode.Direct: {
       const { hasRemoteVideo } = activeCall.remoteParticipants[0];
       if (!hasRemoteVideo) {
         return (
           <div className="module-calling-pip__video--remote">
-            <BlurredBackground activeCall={activeCall} i18n={i18n} />
+            <BlurredBackground
+              activeCall={activeCall}
+              avatarSize={avatarSize}
+              i18n={i18n}
+            />
           </div>
         );
       }
@@ -196,7 +209,12 @@ export function CallingPipRemoteVideo({
       // TODO: DESKTOP-8537 - when black bars go away, we need to make some CSS changes
       return (
         <div className="module-calling-pip__video--remote">
-          <BlurredBackground activeCall={activeCall} i18n={i18n} />
+          <BlurredBackground
+            activeCall={activeCall}
+            avatarSize={avatarSize}
+            darken
+            i18n={i18n}
+          />
           <DirectCallRemoteParticipant
             conversation={conversation}
             hasRemoteVideo={hasRemoteVideo}
@@ -212,7 +230,11 @@ export function CallingPipRemoteVideo({
       if (!activeGroupCallSpeaker) {
         return (
           <div className="module-calling-pip__video--remote">
-            <BlurredBackground activeCall={activeCall} i18n={i18n} />
+            <BlurredBackground
+              activeCall={activeCall}
+              avatarSize={avatarSize}
+              i18n={i18n}
+            />
           </div>
         );
       }
@@ -221,6 +243,8 @@ export function CallingPipRemoteVideo({
           <BlurredBackground
             activeCall={activeCall}
             activeGroupCallSpeaker={activeGroupCallSpeaker}
+            avatarSize={avatarSize}
+            darken={activeGroupCallSpeaker.hasRemoteVideo}
             i18n={i18n}
           />
           <GroupCallRemoteParticipant

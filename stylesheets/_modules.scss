@@ -3894,6 +3894,13 @@ button.module-image__border-overlay:focus {
     justify-content: center;
     overflow: hidden;
 
+    &--darken {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(variables.$color-gray-60, 0.6);
+    }
+
     &--blur {
       background-repeat: no-repeat;
       background-size: cover;
@@ -4636,13 +4643,16 @@ button.module-image__border-overlay:focus {
     0px 0px 8px rgba(0, 0, 0, 0.05),
     0px 8px 20px rgba(0, 0, 0, 0.3);
   cursor: grab;
-  // This is just a starting height; the component will figure out what height it should
-  // be, given the aspect ratio of the provided video, pinning the width.
-  // These both should be kept in sync with the height/width in CallingPip.tsx
+  // This size is just a starting place; the component will figure out what it should
+  // be. When resizing for incoming portrait video, the width will be kept constant. The
+  // width only changes with window size.
+  // These both should be kept in sync with the _normal_ height/width in CallingPip.tsx
   height: 286px;
   width: 160px;
+
   position: fixed;
   z-index: variables.$z-index-calling-pip;
+  overflow: hidden;
 
   & .module-ongoing-call__group-call-remote-participant {
     border-radius: 0;
@@ -4676,6 +4686,8 @@ button.module-image__border-overlay:focus {
       position: absolute;
       top: 8px;
       inset-inline-start: 8px;
+      // These are the normal widths; the size will change based on whether the window
+      // is large, like the overall pip.
       height: 54px;
       width: 80px;
 
@@ -4717,7 +4729,7 @@ button.module-image__border-overlay:focus {
     position: absolute;
     bottom: 66px;
     inset-inline-start: 8px;
-    transition: bottom 0.3s variables.$ease-out-local-preview 0.3s;
+    transition: bottom 0.5s variables.$ease-out-local-preview;
 
     &--no-controls {
       bottom: 8px;
@@ -4760,16 +4772,18 @@ button.module-image__border-overlay:focus {
 
   &__actions {
     position: absolute;
-    bottom: 4px;
+    // It starts offscreen then animates in/out as it fades in/outs
+    bottom: -60px;
     inset-inline-start: 4px;
     inset-inline-end: 4px;
     padding: 12px;
     height: 56px;
     opacity: 0;
-    transition: opacity 1s ease-in-out;
+    transition: all 0.5s variables.$ease-out-local-preview;
 
     &--visible {
       opacity: 1;
+      bottom: 4px;
     }
 
     display: flex;
@@ -4780,13 +4794,20 @@ button.module-image__border-overlay:focus {
     justify-content: space-around;
     background-color: variables.$color-gray-78;
 
+    &__spacer {
+      flex-grow: 1;
+      flex-shrink: 1;
+    }
     &__button {
       flex-shrink: 0;
       flex-grow: 0;
     }
     &__middle-button {
-      flex-grow: 1;
+      // icon width, and 15px of border on each side
+      width: 62px;
       text-align: center;
+      flex-shrink: 0;
+      flex-grow: 0;
     }
 
     .CallingButton__icon {
@@ -4801,7 +4822,7 @@ button.module-image__border-overlay:focus {
     inset-inline-end: 16px;
 
     opacity: 0;
-    transition: opacity 1s ease-in-out;
+    transition: opacity 0.5s variables.$ease-out-local-preview;
 
     &--visible {
       opacity: 1;
