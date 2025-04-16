@@ -25,10 +25,24 @@ const source = readFileSync(srcPath);
 
 window.preloadCompileStartTime = Date.now();
 
+// `filename` is used for:
+//
+// - Annotating stack traces
+// - Resolving dynamic `import()` calls
+//
+// When it is not an absolute path `import()` is resolved relative to the `cwd`.
+//
+// Since filename gets written into the `preload.bundle.cache` we need to use a
+// path-independent value for reproducibility, and otherwise use full absolute
+// path in the packaged app.
+const filename = process.env.GENERATE_PRELOAD_CACHE
+  ? 'preload.bundle.js'
+  : srcPath;
+
 const script = new Script(
   `(function(require, __dirname){${source.toString()}})`,
   {
-    filename: 'preload.bundle.js',
+    filename,
     lineOffset: 0,
     cachedData,
     importModuleDynamically: constants.USE_MAIN_CONTEXT_DEFAULT_LOADER,
@@ -37,14 +51,8 @@ const script = new Script(
 
 const { cachedDataRejected } = script;
 
-if (cachedDataRejected) {
-  console.log('preload cache rejected');
-} else {
-  console.log('preload cache hit');
-}
-
 const fn = script.runInThisContext({
-  filename: 'preload.bundle.js',
+  filename,
   lineOffset: 0,
   columnOffset: 0,
   displayErrors: true,
@@ -60,4 +68,10 @@ if (process.env.GENERATE_PRELOAD_CACHE) {
   window.SignalCI?.setPreloadCacheHit(
     cachedData != null && !cachedDataRejected
   );
+}
+
+if (cachedDataRejected) {
+  console.log('preload cache rejected');
+} else {
+  console.log('preload cache hit');
 }
