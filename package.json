@@ -293,7 +293,7 @@
     "danger": "12.3.3",
     "debug": "4.3.7",
     "electron": "35.1.4",
-    "electron-builder": "26.0.10",
+    "electron-builder": "26.0.12",
     "electron-mocha": "13.0.1",
     "endanger": "7.0.4",
     "enquirer": "2.4.1",
@@ -360,7 +360,6 @@
       "casual@1.6.2": "patches/casual+1.6.2.patch",
       "protobufjs@7.3.2": "patches/protobufjs+7.3.2.patch",
       "@types/express@4.17.21": "patches/@types+express+4.17.21.patch",
-      "dmg-builder@26.0.10": "patches/dmg-builder@26.0.10.patch",
       "protobufjs-cli@1.1.1": "patches/protobufjs-cli+1.1.1.patch",
       "@types/fabric@4.5.3": "patches/@types+fabric+4.5.3.patch",
       "qrcode-generator@1.4.4": "patches/qrcode-generator+1.4.4.patch",
@@ -377,7 +376,8 @@
       "node-fetch@2.6.7": "patches/node-fetch+2.6.7.patch",
       "zod@3.23.8": "patches/zod+3.23.8.patch",
       "@electron/rebuild": "patches/@electron__rebuild.patch",
-      "app-builder-lib": "patches/app-builder-lib.patch"
+      "app-builder-lib": "patches/app-builder-lib.patch",
+      "dmg-builder": "patches/dmg-builder.patch"
     },
     "onlyBuiltDependencies": [
       "@indutny/mac-screen-share",
