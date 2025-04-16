@@ -1760,8 +1760,8 @@ export async function startApp(): Promise<void> {
 
       // 6. Start processing messages from websocket
       log.info(`${logId}: enabling message processing`);
-      server.registerRequestHandler(messageReceiver);
       messageReceiver.startProcessingQueue();
+      server.registerRequestHandler(messageReceiver);
 
       // 7. Wait for critical post-registration syncs before showing inbox
       if (!postRegistrationSyncsComplete) {
