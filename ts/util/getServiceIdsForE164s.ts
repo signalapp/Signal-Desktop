@@ -107,9 +107,6 @@ export async function getServiceIdsForE164s(
     e164s: expandedE164sArray,
     acisAndAccessKeys,
     returnAcisWithoutUaks: false,
-    useLibsignal: window.Signal.RemoteConfig.isEnabled(
-      'desktop.cdsiViaLibsignal'
-    ),
   });
 
   const e164sWithVariantsInCdsi = new Map(

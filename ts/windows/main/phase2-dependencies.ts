@@ -28,7 +28,6 @@ window.WebAPI = window.textsecure.WebAPI.initialize({
   storageUrl: config.storageUrl,
   updatesUrl: config.updatesUrl,
   resourcesUrl: config.resourcesUrl,
-  directoryConfig: config.directoryConfig,
   cdnUrlObject: {
     0: config.cdnUrl0,
     2: config.cdnUrl2,

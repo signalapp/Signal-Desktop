@@ -42,7 +42,6 @@ import {
   aciSchema,
   untaggedPniSchema,
 } from '../types/ServiceId';
-import type { DirectoryConfigType } from '../types/RendererConfig';
 import type { BackupPresentationHeadersType } from '../types/backups';
 import * as Bytes from '../Bytes';
 import { randomInt } from '../Crypto';
@@ -718,7 +717,6 @@ type InitializeOptionsType = {
   contentProxyUrl: string;
   proxyUrl: string | undefined;
   version: string;
-  directoryConfig: DirectoryConfigType;
   disableIPv6: boolean;
 };
 
@@ -933,7 +931,6 @@ export type CdsLookupOptionsType = Readonly<{
   e164s: ReadonlyArray<string>;
   acisAndAccessKeys?: ReadonlyArray<{ aci: AciString; accessKey: string }>;
   returnAcisWithoutUaks?: boolean;
-  useLibsignal?: boolean;
 }>;
 
 export type GetGroupCredentialsOptionsType = Readonly<{
@@ -1727,7 +1724,6 @@ export function initialize({
   storageUrl,
   updatesUrl,
   resourcesUrl,
-  directoryConfig,
   cdnUrlObject,
   certificateAuthority,
   contentProxyUrl,
@@ -1835,16 +1831,9 @@ export function initialize({
       void socketManager.authenticate({ username, password });
     }
 
-    const { directoryUrl, directoryMRENCLAVE } = directoryConfig;
-
     const cds = new CDSI(libsignalNet, {
       logger: log,
       proxyUrl,
-
-      url: directoryUrl,
-      mrenclave: directoryMRENCLAVE,
-      certificateAuthority,
-      version,
 
       async getAuth() {
         return (await _ajax({
@@ -4727,13 +4716,11 @@ export function initialize({
       e164s,
       acisAndAccessKeys = [],
       returnAcisWithoutUaks,
-      useLibsignal,
     }: CdsLookupOptionsType): Promise<CDSResponseType> {
       return cds.request({
         e164s,
         acisAndAccessKeys,
         returnAcisWithoutUaks,
-        useLibsignal,
       });
     }
   }
