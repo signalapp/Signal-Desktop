@@ -9,9 +9,11 @@ import { ContactName } from './ContactName';
 import { About } from './About';
 import { GroupDescription } from './GroupDescription';
 import { SharedGroupNames } from '../SharedGroupNames';
+import { GroupMembersNames } from '../GroupMembersNames';
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { HasStories } from '../../types/Stories';
 import type { ViewUserStoriesActionCreatorType } from '../../state/ducks/stories';
+import type { GroupV2Membership } from './conversation-details/ConversationDetailsMembershipList';
 import { StoryViewModeType } from '../../types/Stories';
 import { Button, ButtonVariant } from '../Button';
 import { SafetyTipsModal } from '../SafetyTipsModal';
@@ -28,8 +30,10 @@ export type Props = {
   i18n: LocalizerType;
   isDirectConvoAndHasNickname?: boolean;
   isMe: boolean;
+  invitesCount?: number;
   isSignalConversation?: boolean;
   membersCount?: number;
+  memberships: ReadonlyArray<GroupV2Membership>;
   openConversationDetails?: () => unknown;
   pendingAvatarDownload?: boolean;
   phoneNumber?: string;
@@ -49,7 +53,8 @@ const renderExtraInformation = ({
   i18n,
   isDirectConvoAndHasNickname,
   isMe,
-  membersCount,
+  invitesCount,
+  memberships,
   onClickProfileNameWarning,
   onToggleSafetyTips,
   openConversationDetails,
@@ -64,7 +69,9 @@ const renderExtraInformation = ({
   | 'i18n'
   | 'isDirectConvoAndHasNickname'
   | 'isMe'
+  | 'invitesCount'
   | 'membersCount'
+  | 'memberships'
   | 'openConversationDetails'
   | 'phoneNumber'
 > &
@@ -158,21 +165,16 @@ const renderExtraInformation = ({
     ) : null;
 
   const membersCountLabel =
-    conversationType === 'group' && membersCount != null ? (
+    conversationType === 'group' ? (
       <div className="module-conversation-hero__membership__members-count">
         <i className="module-conversation-hero__members-count-icon" />
-        <button
-          className="module-conversation-hero__members-count__button"
-          type="button"
-          onClick={ev => {
-            ev.preventDefault();
-            if (openConversationDetails) {
-              openConversationDetails();
-            }
-          }}
-        >
-          {i18n('icu:ConversationHero--members', { count: membersCount })}
-        </button>
+        <GroupMembersNames
+          i18n={i18n}
+          nameClassName="module-conversation-hero__membership__name"
+          memberships={memberships}
+          invitesCount={invitesCount}
+          onOtherMembersClick={openConversationDetails}
+        />
       </div>
     ) : null;
 
@@ -243,9 +245,11 @@ export function ConversationHero({
   id,
   isDirectConvoAndHasNickname,
   isMe,
+  invitesCount,
   openConversationDetails,
   isSignalConversation,
   membersCount,
+  memberships,
   pendingAvatarDownload,
   sharedGroupNames = [],
   phoneNumber,
@@ -358,7 +362,9 @@ export function ConversationHero({
             i18n,
             isDirectConvoAndHasNickname,
             isMe,
+            invitesCount,
             membersCount,
+            memberships,
             onClickProfileNameWarning() {
               toggleProfileNameWarningModal(conversationType);
             },

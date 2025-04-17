@@ -43,6 +43,7 @@ export function getDefaultConversation(
     sharedGroupNames: [],
     title: `${firstName} ${lastName}`,
     titleNoDefault: `${firstName} ${lastName}`,
+    titleShortNoDefault: firstName,
     serviceId: generateAci(),
     ...overrideProps,
     type: 'direct' as const,
