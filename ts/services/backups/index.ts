@@ -348,13 +348,13 @@ export class BackupsService {
     backupLevel: BackupLevel = BackupLevel.Free,
     backupType = BackupType.Ciphertext
   ): Promise<ValidationResultType> {
-    const { data, ...result } = await this.exportBackupData(
-      backupLevel,
-      backupType
-    );
-    const buffer = Buffer.from(data);
-
     try {
+      const { data, ...result } = await this.exportBackupData(
+        backupLevel,
+        backupType
+      );
+      const buffer = Buffer.from(data);
+
       await validateBackup(
         () => new MemoryStream(buffer),
         buffer.byteLength,
