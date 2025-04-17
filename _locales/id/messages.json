@@ -68,6 +68,9 @@
   "icu:unknownContact": {
     "messageformat": "Kontak tidak dikenal"
   },
+  "icu:unknownContactShort": {
+    "messageformat": "Unknown"
+  },
   "icu:unknownGroup": {
     "messageformat": "Grup tidak dikenal"
   },
@@ -2324,8 +2327,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "Tidak ditemukan emoji"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Pilih warna kulit untuk {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "Ubah Preferensi Warna Kulit"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Tekan lama untuk memilih warna kulit"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "Pilih warna kulit default"
@@ -2361,7 +2370,7 @@
     "messageformat": "Bendera"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "Kustomisasi tanggapan"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "Cari stiker"
@@ -2382,7 +2391,7 @@
     "messageformat": "Terakhir Digunakan"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "Unggulan"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "Tidak ditemukan stiker"
@@ -2945,6 +2954,36 @@
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, other {{count,number} anggota}}"
   },
+  "icu:ConversationHero--member-list-and-invited": {
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+  },
+  "icu:ConversationHero--group-members-zero": {
+    "messageformat": "No group members"
+  },
+  "icu:ConversationHero--group-members-only-you": {
+    "messageformat": "No other group members yet"
+  },
+  "icu:ConversationHero--group-members-one": {
+    "messageformat": "{member}"
+  },
+  "icu:ConversationHero--group-members-one-and-you": {
+    "messageformat": "{member} and you"
+  },
+  "icu:ConversationHero--group-members-two": {
+    "messageformat": "{member1} and {member2}"
+  },
+  "icu:ConversationHero--group-members-two-and-you": {
+    "messageformat": "{member1}, {member2}, and you"
+  },
+  "icu:ConversationHero--group-members-three": {
+    "messageformat": "{member1}, {member2}, and {member3}"
+  },
+  "icu:ConversationHero--group-members-other": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
+  "icu:ConversationHero--group-members-other-and-you": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "Tinjau dengan cermat"
   },
@@ -3096,10 +3135,10 @@
     "messageformat": "Keluar"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "Akhiri panggilan"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "Tinggalkan panggilan"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "Mik mati"
@@ -3977,6 +4016,12 @@
   "icu:BackupMediaDownloadProgress__description-idle": {
     "messageformat": "Pengunduhan media akan terus berlangsung di latar belakang"
   },
+  "icu:BackupMediaDownloadProgress__title-offline": {
+    "messageformat": "Restoring media paused"
+  },
+  "icu:BackupMediaDownloadProgress__description-offline": {
+    "messageformat": "Waiting for Internet connection..."
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Jeda transfer"
   },
@@ -4008,10 +4053,10 @@
     "messageformat": "Batalkan transfer"
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
-    "messageformat": "Account action required"
+    "messageformat": "Wajib ambil tindakan untuk akun"
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
-    "messageformat": "You must open Signal on your phone to continue using this account. If you do not open Signal on your phone, your account will be deleted soon. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Anda harus membuka Signal di ponsel agar dapat terus menggunakan akun ini. Jika Anda tidak membuka Signal di ponsel, akun Anda akan segera dihapus. <learnMoreLink>Pelajari selengkapnya</learnMoreLink>"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Lebarkan"
@@ -4263,7 +4308,7 @@
     "messageformat": "Membutuhkan persetujuan admin untuk menerima anggota baru melalui tautan grup"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to clipboard"
+    "messageformat": "Salin tautan signal.group ke papan klip"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Permintaan ({count,number})"
@@ -4950,7 +4995,16 @@
     "messageformat": "Pesan suara dan stiker selalu diunduh otomatis."
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "Cadangan"
+  },
+  "icu:Preferences__button--internal": {
+    "messageformat": "Internal"
+  },
+  "icu:Preferences__internal__validate-backup--description": {
+    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+  },
+  "icu:Preferences__internal__validate-backup": {
+    "messageformat": "Validate"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Impor terakhir pada  {date} {time}"
@@ -4983,49 +5037,49 @@
     "messageformat": "Diblokir"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "Detail pencadangan"
   },
   "icu:Preferences--backup-media-plan__description": {
-    "messageformat": "Text + all media backup"
+    "messageformat": "Pencadangan pesan + semua media"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "Langganan Anda tidak ditemukan. Perbarui agar dapat terus memakai Signal Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
-    "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
+    "messageformat": "{mediaDayCount, plural, other {Pencadangan pesan + media selama {mediaDayCount,number} hari}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "Paket pencadangan Anda gratis"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "Diperpanjang {date}"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "Kedaluwarsa {date}"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "Langganan dibatalkan"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
+    "messageformat": "Anda dapat mengelola atau membatalkan langganan Signal Backups di ponsel."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Backups on your phone."
+    "messageformat": "Anda dapat mengelola atau meng-upgrade Signal Backups di ponsel."
   },
   "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "Langganan Anda tidak ditemukan. Perbarui agar dapat terus memakai Signal Backups."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
+    "messageformat": "Anda dapat mengelola atau memperbarui langganan Signal Backups di ponsel."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "Pencadangan terakhir"
   },
   "icu:Preferences--backup-created-by-phone": {
-    "messageformat": "Your phone"
+    "messageformat": "Ponsel Anda"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "Ukuran cadangan"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, other {{num,number} kontak}}"
@@ -6271,22 +6325,10 @@
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Sekarang Anda bisa memperluas pratinjau video di perangkat selama panggilan berlangsung agar dapat melihat tampilan diri secara lebih jelas."
-  },
-  "icu:WhatsNew__v7.48--0": {
-    "messageformat": "Kami menambahkan tombol pintasan praktis untuk menurunkan tangan setelah Anda mulai berbicara dalam panggilan grup Signal. Inilah fitur favorit pada rilisan kali ini."
-  },
-  "icu:WhatsNew__v7.49--0": {
-    "messageformat": "Saat menghubungkan Desktop baru ke Signal Android dan memilih \"Transfer riwayat pesan\", bukan hanya pesan yang bisa ditransfer, tetapi Anda juga bisa memilih lampiran lama mana saja yang akan ditransfer dari perangkat utama. Anda bisa mentransfer lampiran lama ke perangkat baru dengan mengeklik ikon unduh. Dan seperti biasa, proses transfer dienkripsi secara menyeluruh dan dipastikan keamanannya."
-  },
-  "icu:WhatsNew__v7.50--0": {
-    "messageformat": "Tatkala sesi Desktop baru ditautkan ke Signal Android, riwayat pesan dapat ditransfer bila memang diinginkan. Sekarang Anda juga bisa mengikutsertakan lampiran-lampiran lama yang ingin ditransfer dari perangkat utama. Lampiran lama dapat ditransfer ke perangkat baru dengan mengklik ikon unduh. Seperti biasa, proses transfer dienkripsi secara menyeluruh dan dipastikan keamanannya."
-  },
   "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Fire, the wheel, and electricity were all great developments, but they were merely necessary steps along the path that created the conditions for animated GIF search to exist. Now you can experience the pinnacle of human technological advancement in Signal Desktop with a brand-new selection interface that makes it easy to quickly find an emoji, sticker, or animated GIF that's perfect for the moment."
+    "messageformat": "Kabar gembira! Sekarang Anda juga bisa mencari dan memakai GIF animasi di Signal Desktop. Antarmuka yang baru memudahkan pencarian emoji, stiker, atau GIF animasi yang cocok untuk segala situasi."
   },
   "icu:WhatsNew__v7.51--1": {
-    "messageformat": "We also resized the picture-in-picture window and added convenient new shortcuts to mute/unmute your microphone or turn the camera on/off while a call is minimized."
+    "messageformat": "Kami juga mengubah ukuran jendela gambar dalam gambar dan menambahkan pintasan baru yang praktis untuk menyalakan/membisukan mikrofon atau mengaktifkan/menonaktifkan kamera saat jendela panggilan diperkecil."
   }
 }

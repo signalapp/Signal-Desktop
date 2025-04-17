@@ -3,22 +3,22 @@
     "messageformat": "Dodaj do grupy"
   },
   "icu:AddUserToAnotherGroupModal__confirm-title": {
-    "messageformat": "Dodać nowego członka?"
+    "messageformat": "Dodać nową osobę?"
   },
   "icu:AddUserToAnotherGroupModal__confirm-add": {
     "messageformat": "Dodaj"
   },
   "icu:AddUserToAnotherGroupModal__confirm-message": {
-    "messageformat": "Dodaj „{contact}” do grupy „{group}”"
+    "messageformat": "{contact} będzie należeć do grupy {group}"
   },
   "icu:AddUserToAnotherGroupModal__search-placeholder": {
     "messageformat": "Szukaj"
   },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
-    "messageformat": "{contact} został(a) dodany(a) do grupy {group}"
+    "messageformat": "{contact} należy teraz do grupy {group}"
   },
   "icu:AddUserToAnotherGroupModal__toast--adding-user-to-group": {
-    "messageformat": "Dodawanie {contact}…"
+    "messageformat": "Dodawanie tej osoby: {contact}…"
   },
   "icu:RecordingComposer__cancel": {
     "messageformat": "Anuluj"
@@ -27,13 +27,13 @@
     "messageformat": "Wyślij"
   },
   "icu:GroupListItem__message-default": {
-    "messageformat": "{count, plural, one {{count,number} członek} few {{count,number} członków} many {{count,number} członków} other {{count,number} członków}}"
+    "messageformat": "{count, plural, one {{count,number} osoba} few {{count,number} osoby} many {{count,number} osób} other {{count,number} osoby}}"
   },
   "icu:GroupListItem__message-already-member": {
-    "messageformat": "Należy już do grupy"
+    "messageformat": "Już należy do tej grupy"
   },
   "icu:GroupListItem__message-pending": {
-    "messageformat": "Oczekuje na członkostwo"
+    "messageformat": "Oczekuje na przyjęcie"
   },
   "icu:Preferences__sent-media-quality": {
     "messageformat": "Jakość wysyłanych multimediów"
@@ -48,10 +48,10 @@
     "messageformat": "Wysoka"
   },
   "icu:softwareAcknowledgments": {
-    "messageformat": "Podziękowania"
+    "messageformat": "Oświadczenie dot. użycia projektów open source"
   },
   "icu:privacyPolicy": {
-    "messageformat": "Regulamin i Polityka prywatności"
+    "messageformat": "Regulamin i polityka prywatności"
   },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
@@ -67,6 +67,9 @@
   },
   "icu:unknownContact": {
     "messageformat": "Nieznany kontakt"
+  },
+  "icu:unknownContactShort": {
+    "messageformat": "Unknown"
   },
   "icu:unknownGroup": {
     "messageformat": "Nieznana grupa"
@@ -105,7 +108,7 @@
     "messageformat": "&Plik"
   },
   "icu:mainMenuCreateStickers": {
-    "messageformat": "Stwórz/wyślij pakiet naklejek"
+    "messageformat": "Stwórz/prześlij pakiet naklejek"
   },
   "icu:mainMenuEdit": {
     "messageformat": "&Edycja"
@@ -135,13 +138,13 @@
     "messageformat": "Pokaż wszystko"
   },
   "icu:appMenuQuit": {
-    "messageformat": "Zamknij"
+    "messageformat": "Zamknij Signal"
   },
   "icu:editMenuUndo": {
     "messageformat": "Cofnij"
   },
   "icu:editMenuRedo": {
-    "messageformat": "Powtórz"
+    "messageformat": "Ponów"
   },
   "icu:editMenuCut": {
     "messageformat": "Wytnij"
@@ -177,16 +180,16 @@
     "messageformat": "Powiększ"
   },
   "icu:windowMenuBringAllToFront": {
-    "messageformat": "Przenieś wszystko na wierzch"
+    "messageformat": "Przenieś wszystko na przód"
   },
   "icu:viewMenuResetZoom": {
-    "messageformat": "Domyślny rozmiar"
+    "messageformat": "Rozmiar domyślny"
   },
   "icu:viewMenuZoomIn": {
-    "messageformat": "Powiększ"
+    "messageformat": "Przybliż"
   },
   "icu:viewMenuZoomOut": {
-    "messageformat": "Pomniejsz"
+    "messageformat": "Oddal"
   },
   "icu:viewMenuToggleFullScreen": {
     "messageformat": "Pełny ekran"
@@ -204,19 +207,19 @@
     "messageformat": "Skonfiguruj jako samodzielne urządzenie"
   },
   "icu:messageContextMenuButton": {
-    "messageformat": "Więcej poleceń"
+    "messageformat": "Więcej działań"
   },
   "icu:contextMenuCopyLink": {
-    "messageformat": "Kopiuj link"
+    "messageformat": "Skopiuj link"
   },
   "icu:contextMenuCopyImage": {
-    "messageformat": "Kopiuj obraz"
+    "messageformat": "Skopiuj obraz"
   },
   "icu:contextMenuNoSuggestions": {
     "messageformat": "Brak sugestii"
   },
   "icu:avatarMenuViewArchive": {
-    "messageformat": "Zobacz archiwum"
+    "messageformat": "Wyśweitl archiwum"
   },
   "icu:loading": {
     "messageformat": "Wczytywanie…"
@@ -315,10 +318,10 @@
     "messageformat": "Brak zarchiwizowanych czatów."
   },
   "icu:archiveConversation": {
-    "messageformat": "Archiwizuj"
+    "messageformat": "Zarchiwizuj"
   },
   "icu:markUnread": {
-    "messageformat": "Oznacz jako nieprzeczytane"
+    "messageformat": "Oznacz jako nieodczytane"
   },
   "icu:ConversationHeader__menu__selectMessages": {
     "messageformat": "Wybierz wiadomości"
@@ -393,10 +396,10 @@
     "messageformat": "Wczytywanie dzisiejszych wiadomości…"
   },
   "icu:view": {
-    "messageformat": "Wyświetlona"
+    "messageformat": "Wyświetl"
   },
   "icu:youLeftTheGroup": {
-    "messageformat": "Nie jesteś już członkiem tej grupy."
+    "messageformat": "Nie należysz już do tej grupy."
   },
   "icu:invalidConversation": {
     "messageformat": "Nieprawidłowa grupa. Utwórz nową grupę."
@@ -411,25 +414,25 @@
     "messageformat": "Nowe wzmianki poniżej"
   },
   "icu:unreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} nieprzeczytana wiadomość} few {{count,number} nieprzeczytane wiadomości} many {{count,number} nieprzeczytanych wiadomości} other {{count,number} nieprzeczytanych wiadomości}}"
+    "messageformat": "{count, plural, one {{count,number} nieodczytana wiadomość} few {{count,number} nieodczytane wiadomości} many {{count,number} nieodczytanych wiadomości} other {{count,number} nieodczytanej wiadomości}}"
   },
   "icu:youMarkedAsVerified": {
-    "messageformat": "Oznaczyłeś(aś) Twój numer bezpieczeństwa z {name} jako zweryfikowany"
+    "messageformat": "Oznaczasz numer bezpieczeństwa, który ma z Tobą {name}, jako zweryfikowany"
   },
   "icu:youMarkedAsNotVerified": {
-    "messageformat": "Oznaczyłeś(aś) Twój numer bezpieczeństwa z {name} jako niezweryfikowany"
+    "messageformat": "Oznaczasz numer bezpieczeństwa, który ma z Tobą {name}, jako niezweryfikowany"
   },
   "icu:youMarkedAsVerifiedOtherDevice": {
-    "messageformat": "Oznaczyłeś(aś) Twój numer bezpieczeństwa z {name} jako zweryfikowany z innego urządzenia"
+    "messageformat": "Oznaczasz numer bezpieczeństwa, który ma z Tobą {name}, jako zweryfikowany na innym urządzeniu"
   },
   "icu:youMarkedAsNotVerifiedOtherDevice": {
-    "messageformat": "Oznaczyłeś(aś) Twój numer bezpieczeństwa z {name} jako niezweryfikowany z innego urządzenia"
+    "messageformat": "Oznaczasz numer bezpieczeństwa, który ma z Tobą {name}, jako niezweryfikowany na innym urządzeniu"
   },
   "icu:changedRightAfterVerify": {
-    "messageformat": "Weryfikowany przez Ciebie numer bezpieczeństwa uległ zmianie. Potwierdź go z {name1}. Pamiętaj, że ta zmiana może oznaczać, że ktoś próbuje przechwycić Twoją komunikację albo że {name2} po prostu przeinstalował(a) Signal."
+    "messageformat": "Próbujesz zweryfikować nieaktualny number bezpieczeństwa. Sprawdź nowy numer bezpieczeństwa, który macie Ty i {name1}. Zmiana numeru może oznaczać, że ktoś próbuje zdobyć dostęp do Waszych wiadomości albo po prostu że aplikacja Signal na urządzieniu, którego używa {name2}, została zainstalowana ponownie."
   },
   "icu:safetyNumberChangeDialog__message": {
-    "messageformat": "Następujące osoby mogły ponownie zainstalować aplikację Signal albo zmienić urządzenie. Kliknij odbiorcę, aby potwierdzić nowy numer bezpieczeństwa. Ta czynność jest opcjonalna."
+    "messageformat": "Te osoby mogły ponownie zainstalować aplikację Signal albo zmienić urządzenie na inne. Kliknij daną osobę, aby potwierdzić jej nowy nowy numer bezpieczeństwa. To działanie jest opcjonalne."
   },
   "icu:safetyNumberChangeDialog__pending-messages": {
     "messageformat": "Wyślij oczekujące wiadomości"
@@ -2324,8 +2327,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "Nie znaleziono emoji"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Wybierz odcień skóry tego emoji: {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "Zmień preferencje dotyczące odcienia skóry"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Naciśnij i przytrzymaj, aby wybrać odcień skóry"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "Wybierz domyślny odcień skóry"
@@ -2361,7 +2370,7 @@
     "messageformat": "Flagi"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "Dostosuj reakcje"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "Szukaj naklejek"
@@ -2382,7 +2391,7 @@
     "messageformat": "Ostatnio używane"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "Polecane"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "Nie znaleziono naklejek"
@@ -2945,6 +2954,36 @@
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {{count,number} członek} few {{count,number} członków} many {{count,number} członków} other {{count,number} członków}}"
   },
+  "icu:ConversationHero--member-list-and-invited": {
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+  },
+  "icu:ConversationHero--group-members-zero": {
+    "messageformat": "No group members"
+  },
+  "icu:ConversationHero--group-members-only-you": {
+    "messageformat": "No other group members yet"
+  },
+  "icu:ConversationHero--group-members-one": {
+    "messageformat": "{member}"
+  },
+  "icu:ConversationHero--group-members-one-and-you": {
+    "messageformat": "{member} and you"
+  },
+  "icu:ConversationHero--group-members-two": {
+    "messageformat": "{member1} and {member2}"
+  },
+  "icu:ConversationHero--group-members-two-and-you": {
+    "messageformat": "{member1}, {member2}, and you"
+  },
+  "icu:ConversationHero--group-members-three": {
+    "messageformat": "{member1}, {member2}, and {member3}"
+  },
+  "icu:ConversationHero--group-members-other": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
+  "icu:ConversationHero--group-members-other-and-you": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "Zachowaj ostrożność"
   },
@@ -3096,10 +3135,10 @@
     "messageformat": "Opuść"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "Zakończ rozmowę"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "Opuść rozmowę"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "Mikrofon wył."
@@ -3977,6 +4016,12 @@
   "icu:BackupMediaDownloadProgress__description-idle": {
     "messageformat": "Pobieranie multimediów będzie kontynuowane w tle"
   },
+  "icu:BackupMediaDownloadProgress__title-offline": {
+    "messageformat": "Restoring media paused"
+  },
+  "icu:BackupMediaDownloadProgress__description-offline": {
+    "messageformat": "Waiting for Internet connection..."
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Wstrzymaj przywracanie"
   },
@@ -4008,10 +4053,10 @@
     "messageformat": "Anuluj przenoszenie"
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
-    "messageformat": "Account action required"
+    "messageformat": "Wymagana czynność na koncie"
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
-    "messageformat": "You must open Signal on your phone to continue using this account. If you do not open Signal on your phone, your account will be deleted soon. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Jeśli chcesz nadal korzystać z tego konta, otwórz aplikację Signal na swoim telefonie. Inaczej Twoje konto zostanie wkrótce usunięte. <learnMoreLink>Dowiedz się więcej</learnMoreLink>"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Powiększ"
@@ -4263,7 +4308,7 @@
     "messageformat": "Wymagaj akceptacji nowych członków, dołączających do grupy przez link, przez administratora"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to clipboard"
+    "messageformat": "Skopiuj link signal.group do schowka"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Prośby ({count,number})"
@@ -4950,7 +4995,16 @@
     "messageformat": "Wiadomości głosowe i naklejki zawsze pobierają się automatycznie."
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "Kopie zapasowe"
+  },
+  "icu:Preferences__button--internal": {
+    "messageformat": "Internal"
+  },
+  "icu:Preferences__internal__validate-backup--description": {
+    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+  },
+  "icu:Preferences__internal__validate-backup": {
+    "messageformat": "Validate"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Ostatnio importowano {date} {time}"
@@ -4983,49 +5037,49 @@
     "messageformat": "Zablokowani"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "Szczegóły kopii zapasowej"
   },
   "icu:Preferences--backup-media-plan__description": {
-    "messageformat": "Text + all media backup"
+    "messageformat": "Wiadomości tekstowe i wszystkie multimedia"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "Nie znaleziono subskrypcji. Odnów subskrypcję i korzystaj dalej z usługi kopii zapasowych Signal."
   },
   "icu:Preferences--backup-messages-plan__description": {
-    "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
+    "messageformat": "{mediaDayCount, plural, one {Wiadomości tekstowe, w tym multimedia z ostatniego dnia} few {Wiadomości tekstowe, w tym multimedia z ostatnich {mediaDayCount,number} dni} many {Wiadomości tekstowe, w tym multimedia z ostatnich {mediaDayCount,number} dni} other {Wiadomości tekstowe, w tym multimedia z ostatnich {mediaDayCount,number} dni}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "Korzystasz z bezpłatnego trybu tworzenia kopii zapasowej"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "Odnowi się {date}"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "Wygasa {date}"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "Subskrypcja anulowana"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
+    "messageformat": "Subskrypcję kopii zapasowych Signal możesz konfigurować lub anulować na swoim telefonie."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Backups on your phone."
+    "messageformat": "Na telefonie możesz zarządzać kopiami zapasowymi Signal lub zasubskrybować ich rozszerzony tryb."
   },
   "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "Nie znaleziono subskrypcji. Odnów subskrypcję i korzystaj dalej z usługi kopii zapasowych Signal."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
+    "messageformat": "Subskrypcję kopii zapasowych Signal możesz odnowić lub skonfigurować na swoim telefonie."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "Ostatnia kopia zapasowa"
   },
   "icu:Preferences--backup-created-by-phone": {
-    "messageformat": "Your phone"
+    "messageformat": "Twój telefon"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "Rozmiar kopii zapasowej"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} kontakt} few {{num,number} kontakty} many {{num,number} kontaktów} other {{num,number} kontaktu}}"
@@ -6271,22 +6325,10 @@
     "messageformat": "Małe ulepszenia, poprawki błędów i zwiększona funkcjonalność. Dzięki za korzystanie z Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Od teraz w trakcie rozmowy wideo możesz powiększyć podgląd obrazu z kamerki – świetna opcja dla tych, którzy nie mogą się na siebie napatrzeć."
-  },
-  "icu:WhatsNew__v7.48--0": {
-    "messageformat": "Dodaliśmy wygodny skrót, dzięki któremu w trakcie rozmowy grupowej możesz szybko opuścić rękę po tym, jak zabierzesz głos. Już nikt Ci nie zarzuci, że monopolizujesz dyskusję."
-  },
-  "icu:WhatsNew__v7.49--0": {
-    "messageformat": "Teraz, gdy połączysz aplikację Signal Android z nowym komputerem, oprócz historii wiadomości możesz na niego przenieść również wybrane stare załączniki z głównego urządzenia. Odpal wehikuł czasu i zabierz ze sobą kilka pamiątek z przeszłości – kto wie, kiedy okażą się przydatne. Proces transferu danych jest jak zwykle szyfrowany metodą end-to-end i bezpieczny."
-  },
-  "icu:WhatsNew__v7.50--0": {
-    "messageformat": "Teraz, gdy połączysz aplikację Signal Android z nowym komputerem, oprócz historii wiadomości możesz na niego przenieść również wybrane stare załączniki z głównego urządzenia. Odpal wehikuł czasu i zabierz ze sobą kilka pamiątek z przeszłości – kto wie, kiedy okażą się przydatne. Proces transferu danych jest jak zwykle szyfrowany metodą end-to-end i bezpieczny."
-  },
   "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Fire, the wheel, and electricity were all great developments, but they were merely necessary steps along the path that created the conditions for animated GIF search to exist. Now you can experience the pinnacle of human technological advancement in Signal Desktop with a brand-new selection interface that makes it easy to quickly find an emoji, sticker, or animated GIF that's perfect for the moment."
+    "messageformat": "Koło, prąd, internet… Ludzkość ma na koncie wiele wspaniałych wynalazków, ale wszystkie one bledną w obliczu naszego najnowszego dokonania: wyszukiwarki animowanych GIF-ów. O tym, jak genialne jest to osiągnięcie, przekonasz się w aplikacji Signal Desktop. Za pomocą nowiutkiego, intuicyjnego interfejsu już w kilka sekund wyszukasz emoji, naklejkę czy animowany GIF na każdą okazję."
   },
   "icu:WhatsNew__v7.51--1": {
-    "messageformat": "We also resized the picture-in-picture window and added convenient new shortcuts to mute/unmute your microphone or turn the camera on/off while a call is minimized."
+    "messageformat": "Zmieniliśmy również rozmiar okna obrazu w obrazie i dodaliśmy nowe skróty, dzięki którym wygodnie wyciszysz lub włączysz mikrofon oraz włączysz lub wyłączysz kamerę przy zminimalizowanym oknie połączenia."
   }
 }

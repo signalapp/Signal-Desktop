@@ -68,6 +68,9 @@
   "icu:unknownContact": {
     "messageformat": "မသိသော အဆက်အသွယ်"
   },
+  "icu:unknownContactShort": {
+    "messageformat": "Unknown"
+  },
   "icu:unknownGroup": {
     "messageformat": "မသိသော အဖွဲ့"
   },
@@ -2324,8 +2327,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "အီမိုဂျီ ရှာမတွေ့ပါ"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "{emojiName}အတွက် အသားအရောင် ရွေးပါ"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "စိတ်ကြိုက်ဦးစားပေး အသားအရောင်သို့ ပြောင်းပါ"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "အသားအရောင်ရွေးချယ်ရန် ကြာကြာနှိပ်ပါ"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "သင် အမြဲထားမည့် အသားအရောင်ကို ရွေးပါ"
@@ -2361,7 +2370,7 @@
     "messageformat": "အလံများ"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "တုံ့ပြန်မှုများကို စိတ်ကြိုက်လုပ်ရန်"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "စတစ်ကာများ ရှာရန်"
@@ -2382,7 +2391,7 @@
     "messageformat": "နောက်ဆုံးသုံးခဲ့သော"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "အသားပေးထားသည်များ"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "စတစ်ကာများ ရှာမတွေ့ပါ"
@@ -2945,6 +2954,36 @@
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, other {မန်ဘာ {count,number} ဦး}}"
   },
+  "icu:ConversationHero--member-list-and-invited": {
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+  },
+  "icu:ConversationHero--group-members-zero": {
+    "messageformat": "No group members"
+  },
+  "icu:ConversationHero--group-members-only-you": {
+    "messageformat": "No other group members yet"
+  },
+  "icu:ConversationHero--group-members-one": {
+    "messageformat": "{member}"
+  },
+  "icu:ConversationHero--group-members-one-and-you": {
+    "messageformat": "{member} and you"
+  },
+  "icu:ConversationHero--group-members-two": {
+    "messageformat": "{member1} and {member2}"
+  },
+  "icu:ConversationHero--group-members-two-and-you": {
+    "messageformat": "{member1}, {member2}, and you"
+  },
+  "icu:ConversationHero--group-members-three": {
+    "messageformat": "{member1}, {member2}, and {member3}"
+  },
+  "icu:ConversationHero--group-members-other": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
+  "icu:ConversationHero--group-members-other-and-you": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "သေချာပြန်လည်စစ်ဆေးပါ"
   },
@@ -3096,10 +3135,10 @@
     "messageformat": "ထွက်မည်"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "ဖုန်းချမည်"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "ခေါ်ဆိုမှုကို ရပ်နားမည်"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "မိုက် ပိတ်ထားသည်"
@@ -3977,6 +4016,12 @@
   "icu:BackupMediaDownloadProgress__description-idle": {
     "messageformat": "မီဒီယာသည် နောက်ခံတွင် ဆက်လက်ဒေါင်းလုဒ်လုပ်ပါမည်"
   },
+  "icu:BackupMediaDownloadProgress__title-offline": {
+    "messageformat": "Restoring media paused"
+  },
+  "icu:BackupMediaDownloadProgress__description-offline": {
+    "messageformat": "Waiting for Internet connection..."
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "လွှဲပြောင်းမှုကို ခေတ္တရပ်ပါ"
   },
@@ -4008,10 +4053,10 @@
     "messageformat": "လွှဲပြောင်းမှုကို ပယ်ဖျက်မည်"
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
-    "messageformat": "Account action required"
+    "messageformat": "အကောင့်လုပ်ဆောင်ချက် လိုအပ်ပါသည်"
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
-    "messageformat": "You must open Signal on your phone to continue using this account. If you do not open Signal on your phone, your account will be deleted soon. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "ဤအကောင့်ကို ဆက်လက်အသုံးပြုရန် သင့်ဖုန်းတွင် Signal ကိုဖွင့်ရပါမည်။ သင့်ဖုန်းတွင် Signal မဖွင့်ပါက သင့်အကောင့်ကို မကြာမီ ဖျက်သွားပါမည်။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "ဖြန့်ရန်"
@@ -4263,7 +4308,7 @@
     "messageformat": "အဖွဲ့လင့်ခ်မှတစ်ဆင့် ပါဝင်သည့် မန်ဘာအသစ်များအား အတည်ပြုရန် အက်ဒ်မင် လိုအပ်ပါသည်"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to clipboard"
+    "messageformat": "Signal.group လင့်ခ်ကို ကီးဘုတ်သို့ ကူးယူပါ"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "တောင်းဆိုမှုများ ({count,number})"
@@ -4950,7 +4995,16 @@
     "messageformat": "အသံမက်ဆေ့ချ်များနှင့် စတစ်ကာများကို အမြဲတမ်း အလိုအလျောက်ဒေါင်းလုဒ်လုပ်ထားသည်။"
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "အရန်သိမ်းဆည်းမှုများ"
+  },
+  "icu:Preferences__button--internal": {
+    "messageformat": "Internal"
+  },
+  "icu:Preferences__internal__validate-backup--description": {
+    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+  },
+  "icu:Preferences__internal__validate-backup": {
+    "messageformat": "Validate"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "{date} {time} တွင် နောက်ဆုံးထည့်သွင်းခဲ့သည်"
@@ -4983,49 +5037,49 @@
     "messageformat": "ဘလော့ခ်ထားပြီး"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "ဘက်ခ်အပ် အသေးစိတ်"
   },
   "icu:Preferences--backup-media-plan__description": {
-    "messageformat": "Text + all media backup"
+    "messageformat": "စာတို + မီဒီယာအားလုံးဘက်ခ်အပ်"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "သင်၏ ပုံမှန်လှူဒါန်းမှုကို ရှာမတွေ့ပါ။ Signal ဘက်ခ်အပ်ကို ဆက်လက်အသုံးပြုရန် သက်တမ်းတိုးပါ။"
   },
   "icu:Preferences--backup-messages-plan__description": {
-    "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
+    "messageformat": "{mediaDayCount, plural, other {စာတို + {mediaDayCount,number} ရက် မီဒီယာဘက်ခ်အပ်}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "သင်၏ ဘက်ခ်အပ်အစီအစဉ်သည် အခမဲ့ဖြစ်သည်"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "{date} တွင် သက်တမ်းတိုးသည်"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "· {date} သက်တမ်းကုန်ပါမည်"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "ပုံမှန်လှူဒါန်းငွေကို ပယ်ဖျက်လိုက်ပါပြီ"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
+    "messageformat": "သင့်ဖုန်းတွင် သင်၏ Signal ဘက်ခ်အပ် ပုံမှန်လှူဒါန်းငွေကို စီမံခန့်ခွဲနိုင် သို့မဟုတ် ပယ်ဖျက်နိုင်ပါသည်။"
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Backups on your phone."
+    "messageformat": "သင့်ဖုန်းတွင် သင်၏ Signal ဘက်ခ်အပ် ပုံမှန်လှူဒါန်းငွေကို စီမံခန့်ခွဲနိုင် သို့မဟုတ် အဆင့်မြှင့်နိုင်ပါသည်။"
   },
   "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "သင်၏ ပုံမှန်လှူဒါန်းမှုကို ရှာမတွေ့ပါ။ Signal ဘက်ခ်အပ်ကို ဆက်လက်အသုံးပြုရန် သက်တမ်းတိုးပါ။"
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
+    "messageformat": "သင့်ဖုန်းတွင် သင်၏ Signal ဘက်ခ်အပ် ပုံမှန်လှူဒါန်းငွေကို စီမံခန့်ခွဲနိုင် သို့မဟုတ် သက်တမ်းတိုးနိုင်ပါသည်။"
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "နောက်ဆုံး ဘက်ခ်အပ်"
   },
   "icu:Preferences--backup-created-by-phone": {
-    "messageformat": "Your phone"
+    "messageformat": "သင့်ဖုန်း"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "ဘက်ခ်အပ် အရွယ်အစား"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, other {အဆက်အသွယ် {num,number} ခု}}"
@@ -6271,22 +6325,10 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.47--0": {
-    "messageformat": "ယခု သင်သည်ခေါ်ဆိုမှုတစ်ခုအတွင်း သင့်ကိုယ်သင် ပိုမိုကောင်းမွန်စွာမြင်နိုင်ရန် ဗီဒီယိုချဲ့၍ ကြည့်ရှုနိုင်ပါပြီ။"
-  },
-  "icu:WhatsNew__v7.48--0": {
-    "messageformat": "Signal အဖွဲ့ခေါ်ဆိုမှုအတွင်း သင်စကားစပြောပြီးနောက် သင့်လက်ကို လျင်မြန်စွာပြန်ချပေးရန် အဆင်ပြေစေမည့် ဖြတ်လမ်းတစ်ခုကို ထည့်ထားပါသည်။"
-  },
-  "icu:WhatsNew__v7.49--0": {
-    "messageformat": "Signal Android တွင် Desktop အသစ်တစ်ခုကို လင့်ခ်ချိတ်ပြီး သင့်မက်ဆေ့ချ်မှတ်တမ်းကို လွှဲပြောင်းရန် ရွေးချယ်ပါက ယခု သင်သည် သင်၏ပင်မစက်မှ ပူးတွဲဖိုင်ဟောင်းများကို ရွေးချယ်၍လည်း လွှဲပြောင်းနိုင်ပါသည်။ လွှဲပြောင်းခြင်းလုပ်ငန်းစဉ်သည် ဟိုဘက်သည်ဘက် ကုဒ်ပြောင်းဝှက်ထား၍ လုံခြုံပါသည်။"
-  },
-  "icu:WhatsNew__v7.50--0": {
-    "messageformat": "Signal Android တွင် Desktop အသစ်တစ်ခုကို လင့်ခ်ချိတ်ပြီး သင့်မက်ဆေ့ချ်မှတ်တမ်းကို လွှဲပြောင်းရန် ရွေးချယ်ပါက ယခု သင်သည် သင်၏ပင်မစက်မှ ပူးတွဲဖိုင်ဟောင်းများကို ရွေးချယ်၍လည်း လွှဲပြောင်းနိုင်ပါသည်။ လွှဲပြောင်းခြင်းလုပ်ငန်းစဉ်သည် ဟိုဘက်သည်ဘက် ကုဒ်ပြောင်းဝှက်ထား၍ လုံခြုံပါသည်။"
-  },
   "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Fire, the wheel, and electricity were all great developments, but they were merely necessary steps along the path that created the conditions for animated GIF search to exist. Now you can experience the pinnacle of human technological advancement in Signal Desktop with a brand-new selection interface that makes it easy to quickly find an emoji, sticker, or animated GIF that's perfect for the moment."
+    "messageformat": "ယခုအခါ သက်ဝင်လှုပ်ရှားနေသော GIF ကို Signal Desktop တွင်လည်း ရှာနိုင်ပါပြီ။"
   },
   "icu:WhatsNew__v7.51--1": {
-    "messageformat": "We also resized the picture-in-picture window and added convenient new shortcuts to mute/unmute your microphone or turn the camera on/off while a call is minimized."
+    "messageformat": "ကျွန်ုပ်တို့သည် Picture-in-Picture Window ကိုလည်း အရွယ်အစားပြောင်းပြီး ဖုန်းခေါ်ဆိုမှုအတွင်း စခရင်အရွယ်လျှော့ချရာတွင် အဆင်ပြေစေမည့် ရှော့တ်ကတ်အသစ်များကိုထည့်ထားသည်။"
   }
 }

@@ -68,6 +68,9 @@
   "icu:unknownContact": {
     "messageformat": "Невідомий контакт"
   },
+  "icu:unknownContactShort": {
+    "messageformat": "Unknown"
+  },
   "icu:unknownGroup": {
     "messageformat": "Невідома група"
   },
@@ -2324,8 +2327,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "Емоджі не знайдено"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Виберіть колір шкіри для емоджі {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "Обрати інший колір шкіри"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Натисніть і утримуйте, щоб вибрати колір шкіри"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "Установіть стандартний колір шкіри"
@@ -2361,7 +2370,7 @@
     "messageformat": "Прапори"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "Налаштування реакцій"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "Пошук стікерів"
@@ -2382,7 +2391,7 @@
     "messageformat": "Недавні"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "Обрані"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "Cтікерів не знайдено"
@@ -2457,7 +2466,7 @@
     "messageformat": "Світлуватий колір шкіри"
   },
   "icu:FunSkinTones__ListItem--Medium": {
-    "messageformat": "Звичайний колір шкіри"
+    "messageformat": "Помірно світлий колір шкіри"
   },
   "icu:FunSkinTones__ListItem--MediumDark": {
     "messageformat": "Темнуватий колір шкіри"
@@ -2945,6 +2954,36 @@
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {{count,number} учасник} few {{count,number} учасники} many {{count,number} учасників} other {{count,number} учасника}}"
   },
+  "icu:ConversationHero--member-list-and-invited": {
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+  },
+  "icu:ConversationHero--group-members-zero": {
+    "messageformat": "No group members"
+  },
+  "icu:ConversationHero--group-members-only-you": {
+    "messageformat": "No other group members yet"
+  },
+  "icu:ConversationHero--group-members-one": {
+    "messageformat": "{member}"
+  },
+  "icu:ConversationHero--group-members-one-and-you": {
+    "messageformat": "{member} and you"
+  },
+  "icu:ConversationHero--group-members-two": {
+    "messageformat": "{member1} and {member2}"
+  },
+  "icu:ConversationHero--group-members-two-and-you": {
+    "messageformat": "{member1}, {member2}, and you"
+  },
+  "icu:ConversationHero--group-members-three": {
+    "messageformat": "{member1}, {member2}, and {member3}"
+  },
+  "icu:ConversationHero--group-members-other": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
+  "icu:ConversationHero--group-members-other-and-you": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "Уважно перевірте цей запит"
   },
@@ -3096,10 +3135,10 @@
     "messageformat": "Покинути"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "Завершити виклик"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "Покинути виклик"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "Мікрофон вимкнено"
@@ -3977,6 +4016,12 @@
   "icu:BackupMediaDownloadProgress__description-idle": {
     "messageformat": "Завантаження медіафайлів продовжиться у фоновому режимі"
   },
+  "icu:BackupMediaDownloadProgress__title-offline": {
+    "messageformat": "Restoring media paused"
+  },
+  "icu:BackupMediaDownloadProgress__description-offline": {
+    "messageformat": "Waiting for Internet connection..."
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Припинити передачу даних"
   },
@@ -4008,10 +4053,10 @@
     "messageformat": "Скасувати передачу"
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
-    "messageformat": "Account action required"
+    "messageformat": "Необхідно ввійти в акаунт"
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
-    "messageformat": "You must open Signal on your phone to continue using this account. If you do not open Signal on your phone, your account will be deleted soon. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Щоб і надалі користуватися цим акаунтом, вам потрібно відкрити Signal на телефоні. Якщо цього не зробити, невдовзі ваш акаунт буде видалено. <learnMoreLink>Докладніше</learnMoreLink>"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Розкрити"
@@ -4263,7 +4308,7 @@
     "messageformat": "Нових учасників, які приєднуються до групи за посиланням, повинен затверджувати адміністратор."
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to clipboard"
+    "messageformat": "Копіювати посилання signal.group"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Запити ({count,number})"
@@ -4950,7 +4995,16 @@
     "messageformat": "Голосові повідомлення і стікери завжди завантажуються автоматично."
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "Резервні копії"
+  },
+  "icu:Preferences__button--internal": {
+    "messageformat": "Internal"
+  },
+  "icu:Preferences__internal__validate-backup--description": {
+    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+  },
+  "icu:Preferences__internal__validate-backup": {
+    "messageformat": "Validate"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Востаннє імпортовано: {date} {time}"
@@ -4983,49 +5037,49 @@
     "messageformat": "Заблоковані"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "Докладніше про резервну копію"
   },
   "icu:Preferences--backup-media-plan__description": {
-    "messageformat": "Text + all media backup"
+    "messageformat": "Текстові повідомлення + всі медіафайли"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "Передплату не знайдено. Поновіть її, щоб знову користуватися резервним копіюванням від Signal."
   },
   "icu:Preferences--backup-messages-plan__description": {
-    "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
+    "messageformat": "{mediaDayCount, plural, one {Текст + медіафайли за {mediaDayCount,number} минулий день} few {Текст + медіафайли за {mediaDayCount,number} минулі дні} many {Текст + медіафайли за {mediaDayCount,number} минулих днів} other {Текст + медіафайли за {mediaDayCount,number} минулого дня}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "Ваш поточний план безплатний"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "Наступний платіж {date}"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "Дійсний до {date}"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "Передплату скасовано"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
+    "messageformat": "Щоб змінити або скасувати передплату від Signal, зайдіть у налаштування з телефона."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Backups on your phone."
+    "messageformat": "Щоб налаштувати або змінити передплату від Signal, зайдіть у налаштування з телефона."
   },
   "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "Передплату не знайдено. Поновіть її, щоб знову користуватися резервним копіюванням від Signal."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
+    "messageformat": "Щоб змінити або поновити передплату від Signal, зайдіть у налаштування з телефона."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "Найновіша резервна копія"
   },
   "icu:Preferences--backup-created-by-phone": {
-    "messageformat": "Your phone"
+    "messageformat": "Ваш телефон"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "Розмір резервної копії"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} контакт} few {{num,number} контакти} many {{num,number} контактів} other {{num,number} контакту}}"
@@ -6271,22 +6325,10 @@
     "messageformat": "Дрібні поліпшення, виправлення помилок і покращення роботи застосунку. Дякуємо, що ви з Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Тепер ви можете збільшити попередній вигляд свого відео під час виклику, щоб краще себе роздивитися чи поміркувати над запитанням «хто я?»."
-  },
-  "icu:WhatsNew__v7.48--0": {
-    "messageformat": "Ми додали зручне сполучення клавіш, щоб ви могли швидко опустити руку під час групового виклику в Signal, коли вже почали говорити. Надіємося, ця функція зіграє вам на руку."
-  },
-  "icu:WhatsNew__v7.49--0": {
-    "messageformat": "Якщо ви зв'язуєте новий комп'ютер із Signal для Android і переносите історію повідомлень, тепер з основного пристрою також можна вибірково перенести старі вкладення. Щоб перенести минуле в теперішнє, натисніть на значок завантаження. Як і завжди, перенесення даних надійно захищено наскрізним шифруванням."
-  },
-  "icu:WhatsNew__v7.50--0": {
-    "messageformat": "Якщо ви зв'язуєте новий комп'ютер із Signal для Android і переносите історію повідомлень, тепер з основного пристрою також можна вибірково перенести старі вкладення. Щоб перенести минуле в теперішнє, натисніть на значок завантаження. Як і завжди, перенесення даних надійно захищено наскрізним шифруванням."
-  },
   "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Fire, the wheel, and electricity were all great developments, but they were merely necessary steps along the path that created the conditions for animated GIF search to exist. Now you can experience the pinnacle of human technological advancement in Signal Desktop with a brand-new selection interface that makes it easy to quickly find an emoji, sticker, or animated GIF that's perfect for the moment."
+    "messageformat": "Вогонь, колесо й електрика беззаперечно змінили людство, але це були всього лиш необхідні кроки на шляху до справді великого винаходу: пошуку анімованих GIF-зображень. Насолоджуйтеся вершиною технологічних можливостей у Signal Desktop завдяки новому інтерфейсу вибору, що значно спрощує пошук потрібних емоджі, стікерів і GIF."
   },
   "icu:WhatsNew__v7.51--1": {
-    "messageformat": "We also resized the picture-in-picture window and added convenient new shortcuts to mute/unmute your microphone or turn the camera on/off while a call is minimized."
+    "messageformat": "Крім того, ми змінили розмір вікна в режимі «картинка в картинці» й додали нові зручні сполучення клавіш для вимкнення / увімкнення мікрофона і камери під час згорнутого виклику."
   }
 }

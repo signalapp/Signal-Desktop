@@ -68,6 +68,9 @@
   "icu:unknownContact": {
     "messageformat": "ತಿಳಿದಿಲ್ಲದ ಸಂಪರ್ಕ"
   },
+  "icu:unknownContactShort": {
+    "messageformat": "Unknown"
+  },
   "icu:unknownGroup": {
     "messageformat": "ತಿಳಿದಿಲ್ಲದ ಗುಂಪು"
   },
@@ -2324,8 +2327,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "ಯಾವುದೇ ಎಮೋಜಿ ಕಂಡುಬಂದಿಲ್ಲ"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "{emojiName}ಗಾಗಿ ಸ್ಕಿನ್ ಟೋನ್ ಆಯ್ಕೆಮಾಡಿ"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "ಸ್ಕಿನ್ ಟೋನ್ ಆದ್ಯತೆಯನ್ನು ಬದಲಾಯಿಸಿ"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "ಸ್ಕಿನ್ ಟೋನ್ ಆಯ್ಕೆಮಾಡಲು ದೀರ್ಘವಾಗಿ ಒತ್ತಿರಿ"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "ನಿಮ್ಮ ಡೀಫಾಲ್ಟ್ ಸ್ಕಿನ್‌ಟೋನ್ ಆಯ್ಕೆಮಾಡಿ"
@@ -2361,7 +2370,7 @@
     "messageformat": "ಫ್ಲ್ಯಾಗ್‌ಗಳು"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "ಪ್ರತಿಕ್ರಿಯೆಗಳನ್ನು ಕಸ್ಟಮೈಸ್ ಮಾಡಿ"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "ಸ್ಟಿಕ್ಕರ್‌ಗಳ ಹುಡುಕಾಟ"
@@ -2382,7 +2391,7 @@
     "messageformat": "ಇತ್ತೀಚೆಗೆ ಬಳಸಲಾಗಿದೆ"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "ವೈಶಿಷ್ಟ್ಯಗೊಳಿಸಲಾಗಿದೆ"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "ಯಾವುದೇ ಸ್ಟಿಕ್ಕರ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ"
@@ -2945,6 +2954,36 @@
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {1 ಸದಸ್ಯ} other {{count,number} ಸದಸ್ಯರು}}"
   },
+  "icu:ConversationHero--member-list-and-invited": {
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+  },
+  "icu:ConversationHero--group-members-zero": {
+    "messageformat": "No group members"
+  },
+  "icu:ConversationHero--group-members-only-you": {
+    "messageformat": "No other group members yet"
+  },
+  "icu:ConversationHero--group-members-one": {
+    "messageformat": "{member}"
+  },
+  "icu:ConversationHero--group-members-one-and-you": {
+    "messageformat": "{member} and you"
+  },
+  "icu:ConversationHero--group-members-two": {
+    "messageformat": "{member1} and {member2}"
+  },
+  "icu:ConversationHero--group-members-two-and-you": {
+    "messageformat": "{member1}, {member2}, and you"
+  },
+  "icu:ConversationHero--group-members-three": {
+    "messageformat": "{member1}, {member2}, and {member3}"
+  },
+  "icu:ConversationHero--group-members-other": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
+  "icu:ConversationHero--group-members-other-and-you": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "ಎಚ್ಚರಿಕೆಯಿಂದ ಪರಿಶೀಲಿಸಿ"
   },
@@ -3096,10 +3135,10 @@
     "messageformat": "ತೊರೆಯಿರಿ"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "ಕರೆ ಅಂತ್ಯಗೊಳಿಸಿ"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "ಕರೆ ಬಿಡಿ"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "ಮೈಕ್ ಆಫ್ ಆಗಿದೆ"
@@ -3977,6 +4016,12 @@
   "icu:BackupMediaDownloadProgress__description-idle": {
     "messageformat": "ಬ್ಯಾಕ್ ಗ್ರೌಂಡ್ ನಲ್ಲಿ ಮೀಡಿಯಾ ಡೌನ್ ಲೋಡ್ ಮುಂದುವರೆಯುತ್ತದೆ"
   },
+  "icu:BackupMediaDownloadProgress__title-offline": {
+    "messageformat": "Restoring media paused"
+  },
+  "icu:BackupMediaDownloadProgress__description-offline": {
+    "messageformat": "Waiting for Internet connection..."
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "ವರ್ಗಾವಣೆಯನ್ನು ವಿರಾಮಗೊಳಿಸಿ"
   },
@@ -4008,10 +4053,10 @@
     "messageformat": "ವರ್ಗಾವಣೆಯನ್ನು ರದ್ದುಗೊಳಿಸಿ"
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
-    "messageformat": "Account action required"
+    "messageformat": "ಖಾತೆಯ ಕ್ರಮದ ಅಗತ್ಯವಿದೆ"
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
-    "messageformat": "You must open Signal on your phone to continue using this account. If you do not open Signal on your phone, your account will be deleted soon. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "ಈ ಖಾತೆ ಬಳಸುವುದನ್ನು ಮುಂದುವರಿಸಲು ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ ನೀವು Signal ಅನ್ನು ತೆರೆಯಬೇಕು. ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ ನೀವು Signal ಅನ್ನು ತೆರೆಯದಿದ್ದರೆ, ನಿಮ್ಮ ಖಾತೆಯನ್ನು ಶೀಘ್ರದಲ್ಲೇ ಅಳಿಸಲಾಗುವುದು. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ</learnMoreLink>"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "ವಿಸ್ತರಿಸಿ"
@@ -4263,7 +4308,7 @@
     "messageformat": "ಗುಂಪಿನ ಲಿಂಕ್ ಮೂಲಕ ಹೊಸ ಸದಸ್ಯರು ಸೇರುವುದನ್ನು ಅನುಮೋದಿಸಲು ಅಡ್ಮಿನ್ ಅಗತ್ಯವಿರುತ್ತದೆ"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to clipboard"
+    "messageformat": "signal.group ಲಿಂಕ್ ಅನ್ನು ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ ಕಾಪಿ ಮಾಡಿ"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "ವಿನಂತಿಗಳು ({count,number})"
@@ -4950,7 +4995,16 @@
     "messageformat": "ಧ್ವನಿ ಸಂದೇಶಗಳು ಮತ್ತು ಸ್ಟಿಕ್ಕರ್‌ಗಳು ಯಾವಾಗಲೂ ಸ್ವಯಂ-ಡೌನ್‌ಲೋಡ್ ಆಗುತ್ತವೆ."
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "ಬ್ಯಾಕಪ್‌ಗಳು"
+  },
+  "icu:Preferences__button--internal": {
+    "messageformat": "Internal"
+  },
+  "icu:Preferences__internal__validate-backup--description": {
+    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+  },
+  "icu:Preferences__internal__validate-backup": {
+    "messageformat": "Validate"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "ಈ ಹಿಂದೆ ಇಂಪೋರ್ಟ್ ಮಾಡಿದ್ದು: {date} {time}"
@@ -4983,49 +5037,49 @@
     "messageformat": "ನಿರ್ಬಂಧಿಸಲಾಗಿದೆ"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "ಬ್ಯಾಕಪ್ ವಿವರಗಳು"
   },
   "icu:Preferences--backup-media-plan__description": {
-    "messageformat": "Text + all media backup"
+    "messageformat": "ಪಠ್ಯ + ಎಲ್ಲಾ ಮೀಡಿಯಾ ಬ್ಯಾಕಪ್"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "ನಿಮ್ಮ ಚಂದಾದಾರಿಕೆ ಕಂಡುಬಂದಿಲ್ಲ. Signal ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ಬಳಸುವುದನ್ನು ಮುಂದುವರಿಸಲು ನವೀಕರಿಸಿ."
   },
   "icu:Preferences--backup-messages-plan__description": {
-    "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
+    "messageformat": "{mediaDayCount, plural, one {ಪಠ್ಯ + {mediaDayCount,number} ದಿನದ ಮೀಡಿಯಾ ಬ್ಯಾಕಪ್} other {ಪಠ್ಯ + {mediaDayCount,number} ದಿನಗಳ ಮೀಡಿಯಾ ಬ್ಯಾಕಪ್}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "ನಿಮ್ಮ ಬ್ಯಾಕಪ್ ಪ್ಲಾನ್ ಉಚಿತ"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "ನವೀಕರಿಸುತ್ತದೆ {date}"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "ಅವಧಿ ಮುಗಿಯುವ ದಿನಾಂಕ {date}"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "ಸಬ್‍ಸ್ಕ್ರಿಪ್ಷನ್ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
+    "messageformat": "ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ ನಿಮ್ಮ Signal ಬ್ಯಾಕಪ್‌ಗಳ ಚಂದಾದಾರಿಕೆಯನ್ನು ನೀವು ನಿರ್ವಹಿಸಬಹುದು ಅಥವಾ ರದ್ದುಗೊಳಿಸಬಹುದು."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Backups on your phone."
+    "messageformat": "ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ ನೀವು Signal ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ನಿರ್ವಹಿಸಬಹುದು ಅಥವಾ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಬಹುದು."
   },
   "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "ನಿಮ್ಮ ಚಂದಾದಾರಿಕೆ ಕಂಡುಬಂದಿಲ್ಲ. Signal ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ಬಳಸುವುದನ್ನು ಮುಂದುವರಿಸಲು ನವೀಕರಿಸಿ."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
+    "messageformat": "ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ ನಿಮ್ಮ Signal ಬ್ಯಾಕಪ್‌ಗಳ ಚಂದಾದಾರಿಕೆಯನ್ನು ನೀವು ನಿರ್ವಹಿಸಬಹುದು ಅಥವಾ ನವೀಕರಿಸಬಹುದು."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "ಕೊನೆಯ ಬ್ಯಾಕಪ್"
   },
   "icu:Preferences--backup-created-by-phone": {
-    "messageformat": "Your phone"
+    "messageformat": "ನಿಮ್ಮ ಫೋನ್"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "ಬ್ಯಾಕಪ್ ಗಾತ್ರ"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} ಸಂಪರ್ಕ} other {{num,number} ಸಂಪರ್ಕಗಳು}}"
@@ -6271,22 +6325,10 @@
     "messageformat": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.47--0": {
-    "messageformat": "ನಿಮ್ಮನ್ನು ಉತ್ತಮವಾಗಿ ನೋಡಲು ಅಥವಾ ನೀವು ಯಾರೆಂದು ಪ್ರತಿಬಿಂಬಿಸಲು ಈಗ ನೀವು ಕರೆಯ ಸಮಯದಲ್ಲಿ ನಿಮ್ಮ ಸ್ಥಳೀಯ ವೀಡಿಯೊ ಪ್ರಿವ್ಯೂವನ್ನು ವಿಸ್ತರಿಸಬಹುದು."
-  },
-  "icu:WhatsNew__v7.48--0": {
-    "messageformat": "Signal ಗುಂಪು ಕರೆಯ ಸಮಯದಲ್ಲಿ ನೀವು ಮಾತನಾಡಲು ಪ್ರಾರಂಭಿಸಿದ ನಂತರ ನಿಮ್ಮ ಕೈಯನ್ನು ತ್ವರಿತವಾಗಿ ಕೆಳಕ್ಕೆ ಇಳಿಸಲು ನಾವು ಅನುಕೂಲಕರ ಶಾರ್ಟ್‌ಕಟ್ ಅನ್ನು ಸೇರಿಸಿದ್ದೇವೆ. ಇದರ ಕೈಕೆಳಗಿಳಿಸುವ ಫೀಚರ್ ಈ ಆವೃತ್ತಿಯಲ್ಲಿ ನಮ್ಮ ನೆಚ್ಚಿನದ್ದಾಗಿದೆ."
-  },
-  "icu:WhatsNew__v7.49--0": {
-    "messageformat": "ನೀವು Signal Android ನಲ್ಲಿ ಹೊಸ ಡೆಸ್ಕ್‌ಟಾಪ್ ಅನ್ನು ಲಿಂಕ್ ಮಾಡಿ ನಿಮ್ಮ ಸಂದೇಶ ಇತಿಹಾಸವನ್ನು ವರ್ಗಾಯಿಸುವುದನ್ನು ಆಯ್ಕೆಮಾಡಿದರೆ, ಈಗ ನೀವು ನಿಮ್ಮ ಪ್ರಾಥಮಿಕ ಸಾಧನದಿಂದ ಹಳೆಯ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್‌ಗಳನ್ನು ಸಹ ಆಯ್ದವುಗಳಾಗಿ ವರ್ಗಾಯಿಸಬಹುದು. ಆ ಸಮಯದಲ್ಲಿ ಹಿಂದಕ್ಕೆ ಸ್ಕ್ರಾಲ್ ಮಾಡುವ ಮೂಲಕ ಮತ್ತು ಡೌನ್‌ಲೋಡ್ ಐಕಾನ್ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡುವ ಮೂಲಕ ಭೂತಕಾಲವನ್ನು ವರ್ತಮಾನಕ್ಕೆ ತನ್ನಿ. ಯಾವಾಗಲೂ ಇದ್ದಂತೆಯೇ, ವರ್ಗಾಯಿಸುವ ಪ್ರಕ್ರಿಯೆಯು ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್ಕ್ರಿಪ್ಟ್ ಆಗಿರುತ್ತದೆ ಮತ್ತು ಸುರಕ್ಷಿತವಾಗಿದೆ."
-  },
-  "icu:WhatsNew__v7.50--0": {
-    "messageformat": "ನೀವು Signal Android ನಲ್ಲಿ ಹೊಸ ಡೆಸ್ಕ್‌ಟಾಪ್ ಅನ್ನು ಲಿಂಕ್ ಮಾಡಿ ನಿಮ್ಮ ಸಂದೇಶ ಇತಿಹಾಸವನ್ನು ವರ್ಗಾಯಿಸುವುದನ್ನು ಆಯ್ಕೆಮಾಡಿದರೆ, ಈಗ ನೀವು ನಿಮ್ಮ ಪ್ರಾಥಮಿಕ ಸಾಧನದಿಂದ ಹಳೆಯ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್‌ಗಳನ್ನು ಸಹ ಆಯ್ದವುಗಳಾಗಿ ವರ್ಗಾಯಿಸಬಹುದು. ಆ ಸಮಯದಲ್ಲಿ ಹಿಂದಕ್ಕೆ ಸ್ಕ್ರಾಲ್ ಮಾಡುವ ಮೂಲಕ ಮತ್ತು ಡೌನ್‌ಲೋಡ್ ಐಕಾನ್ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡುವ ಮೂಲಕ ಭೂತಕಾಲವನ್ನು ವರ್ತಮಾನಕ್ಕೆ ತನ್ನಿ. ಯಾವಾಗಲೂ ಇದ್ದಂತೆಯೇ, ವರ್ಗಾಯಿಸುವ ಪ್ರಕ್ರಿಯೆಯು ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್ಕ್ರಿಪ್ಟ್ ಆಗಿರುತ್ತದೆ ಮತ್ತು ಸುರಕ್ಷಿತವಾಗಿದೆ."
-  },
   "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Fire, the wheel, and electricity were all great developments, but they were merely necessary steps along the path that created the conditions for animated GIF search to exist. Now you can experience the pinnacle of human technological advancement in Signal Desktop with a brand-new selection interface that makes it easy to quickly find an emoji, sticker, or animated GIF that's perfect for the moment."
+    "messageformat": "ಬೆಂಕಿ, ಚಕ್ರ ಮತ್ತು ವಿದ್ಯುತ್ ಎಲ್ಲವೂ ಉತ್ತಮ ಬೆಳವಣಿಗೆಗಳಾಗಿದ್ದವು, ಆದರೆ ಅವು ಅನಿಮೇಟೆಡ್ GIF ಹುಡುಕಾಟವು ಅಸ್ತಿತ್ವದಲ್ಲಿರಲು ಪರಿಸ್ಥಿತಿಗಳನ್ನು ಸೃಷ್ಟಿಸುವ ಹಾದಿಯಲ್ಲಿ ಕೇವಲ ಅಗತ್ಯವಾದ ಹೆಜ್ಜೆಗಳಾಗಿದ್ದವು. ಈಗ ನೀವು Signal ಡೆಸ್ಕ್‌ಟಾಪ್‌ನಲ್ಲಿ ಮಾನವನ ತಾಂತ್ರಿಕ ಪ್ರಗತಿಯ ಪರಾಕಾಷ್ಠೆಯನ್ನು ಹೊಚ್ಚಹೊಸ ಆಯ್ಕೆ ಇಂಟರ್ಫೇಸ್‌ನೊಂದಿಗೆ ಅನುಭವಿಸಬಹುದು, ಅದು ಆ ಕ್ಷಣಕ್ಕೆ ಸೂಕ್ತವಾದ ಎಮೋಜಿ, ಸ್ಟಿಕ್ಕರ್ ಅಥವಾ ಅನಿಮೇಟೆಡ್ GIF ಅನ್ನು ತ್ವರಿತವಾಗಿ ಹುಡುಕುವುದನ್ನು ಸುಲಭಗೊಳಿಸುತ್ತದೆ."
   },
   "icu:WhatsNew__v7.51--1": {
-    "messageformat": "We also resized the picture-in-picture window and added convenient new shortcuts to mute/unmute your microphone or turn the camera on/off while a call is minimized."
+    "messageformat": "ನಾವು ಪಿಕ್ಚರ್-ಇನ್-ಪಿಕ್ಚರ್ ವಿಂಡೋವನ್ನು ಮರುಗಾತ್ರಗೊಳಿಸಿದ್ದೇವೆ ಮತ್ತು ಕರೆಯನ್ನು ಮಿನಿಮೈಸ್ ಮಾಡುವಾಗ ನಿಮ್ಮ ಮೈಕ್ರೊಫೋನ್ ಅನ್ನು ಮ್ಯೂಟ್/ಅನ್‌ಮ್ಯೂಟ್ ಮಾಡಲು ಅಥವಾ ಕ್ಯಾಮೆರಾವನ್ನು ಆನ್/ಆಫ್ ಮಾಡಲು ಅನುಕೂಲಕರವಾದ ಹೊಸ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳನ್ನು ಸೇರಿಸಿದ್ದೇವೆ."
   }
 }

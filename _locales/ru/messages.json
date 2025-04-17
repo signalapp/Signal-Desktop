@@ -68,6 +68,9 @@
   "icu:unknownContact": {
     "messageformat": "Неизвестный контакт"
   },
+  "icu:unknownContactShort": {
+    "messageformat": "Unknown"
+  },
   "icu:unknownGroup": {
     "messageformat": "Неизвестная группа"
   },
@@ -2324,8 +2327,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "Эмодзи не найдено"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Выберите оттенок кожи для {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "Настройки оттенка кожи"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Нажмите и удерживайте для выбора оттенка кожи"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "Выберите стандартный оттенок кожи"
@@ -2361,7 +2370,7 @@
     "messageformat": "Флаги"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "Настроить реакции"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "Искать стикеры"
@@ -2382,7 +2391,7 @@
     "messageformat": "Недавно использованные"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "Избранные"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "Стикеры не найдены"
@@ -2945,6 +2954,36 @@
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {{count,number} участник} few {{count,number} участника} many {{count,number} участников} other {{count,number} участника}}"
   },
+  "icu:ConversationHero--member-list-and-invited": {
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+  },
+  "icu:ConversationHero--group-members-zero": {
+    "messageformat": "No group members"
+  },
+  "icu:ConversationHero--group-members-only-you": {
+    "messageformat": "No other group members yet"
+  },
+  "icu:ConversationHero--group-members-one": {
+    "messageformat": "{member}"
+  },
+  "icu:ConversationHero--group-members-one-and-you": {
+    "messageformat": "{member} and you"
+  },
+  "icu:ConversationHero--group-members-two": {
+    "messageformat": "{member1} and {member2}"
+  },
+  "icu:ConversationHero--group-members-two-and-you": {
+    "messageformat": "{member1}, {member2}, and you"
+  },
+  "icu:ConversationHero--group-members-three": {
+    "messageformat": "{member1}, {member2}, and {member3}"
+  },
+  "icu:ConversationHero--group-members-other": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
+  "icu:ConversationHero--group-members-other-and-you": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "Внимательно проверьте"
   },
@@ -3096,10 +3135,10 @@
     "messageformat": "Покинуть"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "Завершить"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "Покинуть звонок"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "Микрофон выключен"
@@ -3977,6 +4016,12 @@
   "icu:BackupMediaDownloadProgress__description-idle": {
     "messageformat": "Медиафайлы будут по-прежнему загружаться в фоновом режиме"
   },
+  "icu:BackupMediaDownloadProgress__title-offline": {
+    "messageformat": "Restoring media paused"
+  },
+  "icu:BackupMediaDownloadProgress__description-offline": {
+    "messageformat": "Waiting for Internet connection..."
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Приостановить трансфер"
   },
@@ -4008,10 +4053,10 @@
     "messageformat": "Отменить трансфер"
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
-    "messageformat": "Account action required"
+    "messageformat": "Требуются действия с учётной записью"
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
-    "messageformat": "You must open Signal on your phone to continue using this account. If you do not open Signal on your phone, your account will be deleted soon. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Чтобы продолжить использование этой учётной записи, необходимо открыть Signal на телефоне. Если вы не откроете Signal на телефоне, ваша учётная запись будет вскоре удалена. <learnMoreLink>Узнать больше</learnMoreLink>"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Развернуть"
@@ -4263,7 +4308,7 @@
     "messageformat": "Требовать принятия администратором новых участников, присоединяющихся по ссылке на группу"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to clipboard"
+    "messageformat": "Скопируйте ссылку на signal.group в буфер обмена"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Запросы ({count,number})"
@@ -4950,7 +4995,16 @@
     "messageformat": "Голосовые сообщения и стикеры всегда загружаются автоматически."
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "Резервные копии"
+  },
+  "icu:Preferences__button--internal": {
+    "messageformat": "Internal"
+  },
+  "icu:Preferences__internal__validate-backup--description": {
+    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+  },
+  "icu:Preferences__internal__validate-backup": {
+    "messageformat": "Validate"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Последний импорт: {date} {time}"
@@ -4983,49 +5037,49 @@
     "messageformat": "Заблокировано"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "Сведения о резервном копировании"
   },
   "icu:Preferences--backup-media-plan__description": {
-    "messageformat": "Text + all media backup"
+    "messageformat": "Резервное копирование сообщений и всех медиафайлов"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "Ваша подписка не найдена. Продлите подписку, чтобы и дальше использовать резервное копирование Signal."
   },
   "icu:Preferences--backup-messages-plan__description": {
-    "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
+    "messageformat": "{mediaDayCount, plural, one {Резервное копирование сообщений и медиафайлов за {mediaDayCount,number} день} few {Резервное копирование сообщений и медиафайлов за {mediaDayCount,number} дня} many {Резервное копирование сообщений и медиафайлов за {mediaDayCount,number} дней} other {Резервное копирование сообщений и медиафайлов за {mediaDayCount,number} дня}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "У вас бесплатный план резервного копирования"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "Продлится {date}"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "Истекает {date}"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "Подписка отменена"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
+    "messageformat": "Вы можете управлять резервным копированием Signal или отменять подписку на своём телефоне."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Backups on your phone."
+    "messageformat": "Вы можете управлять резервным копированием Signal или продлевать подписку на своём телефоне."
   },
   "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "Ваша подписка не найдена. Продлите подписку, чтобы и дальше использовать резервное копирование Signal."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
+    "messageformat": "Вы можете управлять подпиской на резервное копирование Signal или продлевать её на своём телефоне."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "Последняя резервная копия"
   },
   "icu:Preferences--backup-created-by-phone": {
-    "messageformat": "Your phone"
+    "messageformat": "Ваш телефон"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "Размер резервной копии"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} контакт} few {{num,number} контакта} many {{num,number} контактов} other {{num,number} контакта}}"
@@ -6271,22 +6325,10 @@
     "messageformat": "Небольшие изменения, исправления ошибок и улучшения производительности. Спасибо за то, что пользуетесь Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Теперь вы можете развернуть предпросмотр своего видео во время звонка, чтобы полюбоваться собой или задуматься о том, кто вы есть. "
-  },
-  "icu:WhatsNew__v7.48--0": {
-    "messageformat": "Мы добавили удобное сочетание клавиш, позволяющее быстро опустить руку после того, как вы начнете говорить во время группового звонка в Signal. Опустить руки — это, конечно, наша любимая функция в этом релизе."
-  },
-  "icu:WhatsNew__v7.49--0": {
-    "messageformat": "Если вы привяжете новый ПК на Signal Android и решите перенести историю сообщений, то вы также сможете выборочно перенести старые вложения со своего основного устройства. Перенесите прошлое в настоящее, всего лишь прокрутив назад во времени и нажав на значок загрузки. Как всегда, перенос защищён сквозным шифрованием и безопасен."
-  },
-  "icu:WhatsNew__v7.50--0": {
-    "messageformat": "Если вы привяжете новый ПК на Signal Android и решите перенести историю сообщений, то вы также сможете выборочно перенести старые вложения со своего основного устройства. Перенесите прошлое в настоящее, всего лишь прокрутив назад во времени и нажав на значок загрузки. Как всегда, перенос защищён сквозным шифрованием и безопасен."
-  },
   "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Fire, the wheel, and electricity were all great developments, but they were merely necessary steps along the path that created the conditions for animated GIF search to exist. Now you can experience the pinnacle of human technological advancement in Signal Desktop with a brand-new selection interface that makes it easy to quickly find an emoji, sticker, or animated GIF that's perfect for the moment."
+    "messageformat": "Огонь, колесо и электричество — это грандиозные открытия были лишь этапами великого пути к анимированному поиску GIF. Теперь вы можете почувствовать себя на вершине технологического прогресса человечества в Signal Desktop с совершенно новым интерфейсом выбора, который позволяет легко найти эмодзи, стикер или анимированный GIF-файл, нужный именно в данный момент."
   },
   "icu:WhatsNew__v7.51--1": {
-    "messageformat": "We also resized the picture-in-picture window and added convenient new shortcuts to mute/unmute your microphone or turn the camera on/off while a call is minimized."
+    "messageformat": "Мы также изменили размеры окна «картинка в картинке» и добавили новые удобные сочетания клавиш для отключения/включения микрофона и камеры, когда звонок свёрнут."
   }
 }

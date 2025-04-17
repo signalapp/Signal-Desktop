@@ -68,6 +68,9 @@
   "icu:unknownContact": {
     "messageformat": "తెలియని పరిచయం"
   },
+  "icu:unknownContactShort": {
+    "messageformat": "Unknown"
+  },
   "icu:unknownGroup": {
     "messageformat": "తెలియని సమూహం"
   },
@@ -2324,8 +2327,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "ఎమోజీలు కనుగొనబడలేదు"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "{emojiName} కోసం స్కిన్ టోన్‌ను ఎంచుకోండి"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "స్కిన్ టోన్ ప్రాధాన్యతను మార్చండి"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "స్కిన్ టోన్‌ను ఎంచుకోవడానికి ఎక్కువసేపు నొక్కి ఉంచండి"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "మీ డిఫాల్ట్ స్కిన్ టోన్‌ను ఎంచుకోండి"
@@ -2361,7 +2370,7 @@
     "messageformat": "జెండాలు"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "ప్రతిస్పందనలను అనుకూలపరచండి"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "స్టిక్కర్‌లను వెతకడం"
@@ -2382,7 +2391,7 @@
     "messageformat": "ఇటీవల ఉపయోగించబడింది"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "ఫీచర్ చేయబడింది"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "స్టిక్కర్లు కనుగొనబడలేదు"
@@ -2945,6 +2954,36 @@
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {1 సభ్యుడు} other {{count,number} సభ్యులు}}"
   },
+  "icu:ConversationHero--member-list-and-invited": {
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+  },
+  "icu:ConversationHero--group-members-zero": {
+    "messageformat": "No group members"
+  },
+  "icu:ConversationHero--group-members-only-you": {
+    "messageformat": "No other group members yet"
+  },
+  "icu:ConversationHero--group-members-one": {
+    "messageformat": "{member}"
+  },
+  "icu:ConversationHero--group-members-one-and-you": {
+    "messageformat": "{member} and you"
+  },
+  "icu:ConversationHero--group-members-two": {
+    "messageformat": "{member1} and {member2}"
+  },
+  "icu:ConversationHero--group-members-two-and-you": {
+    "messageformat": "{member1}, {member2}, and you"
+  },
+  "icu:ConversationHero--group-members-three": {
+    "messageformat": "{member1}, {member2}, and {member3}"
+  },
+  "icu:ConversationHero--group-members-other": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
+  "icu:ConversationHero--group-members-other-and-you": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "జాగ్రత్తగా సమీక్షించండి"
   },
@@ -3096,10 +3135,10 @@
     "messageformat": "వదిలేయండి"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "కాల్ ముగించండి"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "కాల్ ని వదిలి"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "మైక్ ఆఫ్‌లో ఉంది"
@@ -3977,6 +4016,12 @@
   "icu:BackupMediaDownloadProgress__description-idle": {
     "messageformat": "నేపథ్యంలో మీడియా డౌన్ లోడ్ చేయడం కొనసాగిస్తుంది"
   },
+  "icu:BackupMediaDownloadProgress__title-offline": {
+    "messageformat": "Restoring media paused"
+  },
+  "icu:BackupMediaDownloadProgress__description-offline": {
+    "messageformat": "Waiting for Internet connection..."
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "బదిలీని పాజ్ చేయండి"
   },
@@ -4008,10 +4053,10 @@
     "messageformat": "బదిలీని రద్దు చేయండి"
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
-    "messageformat": "Account action required"
+    "messageformat": "ఖాతా చర్య అవసరం"
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
-    "messageformat": "You must open Signal on your phone to continue using this account. If you do not open Signal on your phone, your account will be deleted soon. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "ఈ ఖాతాను ఉపయోగించడం కొనసాగించడానికి మీరు మీ ఫోన్‌లో Signal ను తప్పకుండా తెరవాలి. ఒకవేళ మీరు మీ ఫోన్‌లో Signal ను తెరవకపోతే, మీ ఖాతా త్వరలో తొలగించబడుతుంది. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "విస్తరించండి"
@@ -4263,7 +4308,7 @@
     "messageformat": "సమూహ లింక్ ద్వారా చేరిన కొత్త సభ్యులను ఆమోదించడానికి నిర్వాహకుడు అవసరం"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to clipboard"
+    "messageformat": "signal.group లింక్‌ను క్లిప్‌బోర్డ్‌కు కాపీ చేయండి"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "అభ్యర్థనలు ({count,number})"
@@ -4950,7 +4995,16 @@
     "messageformat": "స్వర సందేశాలు మరియు స్టిక్కర్‌లు ఎల్లప్పుడూ ఆటో-డౌన్‌లోడ్ చేయబడతాయి."
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "ప్రత్యామ్నాయములు"
+  },
+  "icu:Preferences__button--internal": {
+    "messageformat": "Internal"
+  },
+  "icu:Preferences__internal__validate-backup--description": {
+    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+  },
+  "icu:Preferences__internal__validate-backup": {
+    "messageformat": "Validate"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "{date} {time} వద్ద చివరిగా దిగుమతి చేయబడింది"
@@ -4983,49 +5037,49 @@
     "messageformat": "బ్లాక్ చేయబడింది"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "బ్యాకప్ వివరాలు"
   },
   "icu:Preferences--backup-media-plan__description": {
-    "messageformat": "Text + all media backup"
+    "messageformat": "టెక్స్ట్ + మొత్తం మీడియా బ్యాకప్"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "మీ సబ్‌స్క్రిప్షన్ కనుగొనబడలేదు. Signal బ్యాకప్‌లను ఉపయోగించడం కొనసాగించడానికి పునరుద్ధరించండి."
   },
   "icu:Preferences--backup-messages-plan__description": {
-    "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
+    "messageformat": "{mediaDayCount, plural, one {టెక్స్ట్ + {mediaDayCount,number} రోజు మీడియా బ్యాకప్} other {టెక్స్ట్ + {mediaDayCount,number} రోజులు మీడియా బ్యాకప్}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "మీ బ్యాకప్ ప్రణాళిక ఉచితం"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "{date} ను పునరుద్ధరిస్తుంది"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "{date} న గడువు ముగుస్తుంది"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "సబ్స్క్రిప్షన్ రద్దు చేయబడింది"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
+    "messageformat": "మీరు మీ ఫోన్‌లో మీ Signal బ్యాకప్‌ల సబ్‌స్క్రిప్షన్‌ను నిర్వహించవచ్చు లేదా రద్దు చేయవచ్చు."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Backups on your phone."
+    "messageformat": "మీరు మీ ఫోన్‌లో Signal బ్యాకప్‌లను నిర్వహించవచ్చు లేదా అప్‌గ్రేడ్ చేయవచ్చు."
   },
   "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "మీ సబ్‌స్క్రిప్షన్ కనుగొనబడలేదు. Signal బ్యాకప్‌లను ఉపయోగించడం కొనసాగించడానికి పునరుద్ధరించండి."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
+    "messageformat": "మీరు మీ ఫోన్‌లో మీ Signal బ్యాకప్‌ల సబ్‌స్క్రిప్షన్‌ను నిర్వహించవచ్చు లేదా పునరుద్ధరించవచ్చు."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "చివరి బ్యాకప్"
   },
   "icu:Preferences--backup-created-by-phone": {
-    "messageformat": "Your phone"
+    "messageformat": "మీ ఫోన్"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "బ్యాకప్ పరిమాణం"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} పరిచయం} other {{num,number} పరిచయాలు}}"
@@ -6271,22 +6325,10 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.47--0": {
-    "messageformat": "ఇప్పుడు మిమ్మల్ని మీరు బాగా చూసుకోవడానికి కాల్ సమయంలో మీ స్థానిక వీడియో ప్రివ్యూను విస్తరించవచ్చు."
-  },
-  "icu:WhatsNew__v7.48--0": {
-    "messageformat": "Signal గ్రూప్ కాల్ సమయంలో మీరు మాట్లాడటం ప్రారంభించిన తర్వాత మీ చేయిని త్వరగా కిందికి దించడానికి మేము అనుకూలమైన షార్ట్‌కట్‌ను జోడించాము."
-  },
-  "icu:WhatsNew__v7.49--0": {
-    "messageformat": "ఒకవేళ మీరు Signal Android లో కొత్త డెస్క్‌టాప్‌ను లింక్ చేసినట్లయితే మరియు మీ సందేశ చరిత్రను బదిలీ చేయాలని ఎంచుకుంటే, ఇప్పుడు మీరు మీ ప్రాథమిక పరికరం నుండి పాత అటాచ్‌మెంట్‌లను కూడా ఎంపిక చేసుకుని బదిలీ చేయవచ్చు. బదిలీ ప్రక్రియ ఎండ్-టు-ఎండ్ గుప్తీకరించబడింది మరియు సురక్షితమైనది."
-  },
-  "icu:WhatsNew__v7.50--0": {
-    "messageformat": "ఒకవేళ మీరు Signal Android లో కొత్త డెస్క్‌టాప్‌ను లింక్ చేసినట్లయితే మరియు మీ సందేశ చరిత్రను బదిలీ చేయాలని ఎంచుకుంటే, ఇప్పుడు మీరు మీ ప్రాథమిక పరికరం నుండి పాత అటాచ్‌మెంట్‌లను కూడా ఎంపిక చేసుకుని బదిలీ చేయవచ్చు. బదిలీ ప్రక్రియ ఎండ్-టు-ఎండ్ గుప్తీకరించబడింది మరియు సురక్షితమైనది."
-  },
   "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Fire, the wheel, and electricity were all great developments, but they were merely necessary steps along the path that created the conditions for animated GIF search to exist. Now you can experience the pinnacle of human technological advancement in Signal Desktop with a brand-new selection interface that makes it easy to quickly find an emoji, sticker, or animated GIF that's perfect for the moment."
+    "messageformat": "ఇప్పుడు మీరు Signal డెస్క్‌టాప్‌లో కూడా యానిమేటెడ్ GIFల కోసం శోధించవచ్చు."
   },
   "icu:WhatsNew__v7.51--1": {
-    "messageformat": "We also resized the picture-in-picture window and added convenient new shortcuts to mute/unmute your microphone or turn the camera on/off while a call is minimized."
+    "messageformat": "మేము పిక్చర్-ఇన్-పిక్చర్ విండో పరిమాణాన్ని కూడా మార్చాము మరియు కాల్ కనిష్ఠీకరించబడినప్పుడు అనుకూలమైన కొత్త షార్ట్‌కట్‌లను జోడించాము."
   }
 }
