@@ -68,6 +68,9 @@
   "icu:unknownContact": {
     "messageformat": "Contact necunoscut"
   },
+  "icu:unknownContactShort": {
+    "messageformat": "Unknown"
+  },
   "icu:unknownGroup": {
     "messageformat": "Grup necunoscut"
   },
@@ -2324,8 +2327,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "Nu a fost găsit nici un emoji."
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Selectează culoarea pielii pentru {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "Schimbă preferința privind nuanța tenului"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Apasă lung pentru a selecta culoarea pielii"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "Alege nuanța implicită de ten"
@@ -2361,7 +2370,7 @@
     "messageformat": "Steaguri"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "Personalizare reacții"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "Căutare autocolante"
@@ -2382,7 +2391,7 @@
     "messageformat": "Utilizate Recent"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "Promovate"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "Nici un autocolant găsit"
@@ -2945,6 +2954,36 @@
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {1 membru} few {{count,number} membri} other {{count,number} de membri}}"
   },
+  "icu:ConversationHero--member-list-and-invited": {
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+  },
+  "icu:ConversationHero--group-members-zero": {
+    "messageformat": "No group members"
+  },
+  "icu:ConversationHero--group-members-only-you": {
+    "messageformat": "No other group members yet"
+  },
+  "icu:ConversationHero--group-members-one": {
+    "messageformat": "{member}"
+  },
+  "icu:ConversationHero--group-members-one-and-you": {
+    "messageformat": "{member} and you"
+  },
+  "icu:ConversationHero--group-members-two": {
+    "messageformat": "{member1} and {member2}"
+  },
+  "icu:ConversationHero--group-members-two-and-you": {
+    "messageformat": "{member1}, {member2}, and you"
+  },
+  "icu:ConversationHero--group-members-three": {
+    "messageformat": "{member1}, {member2}, and {member3}"
+  },
+  "icu:ConversationHero--group-members-other": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
+  "icu:ConversationHero--group-members-other-and-you": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "Examinează cu atenție"
   },
@@ -3096,10 +3135,10 @@
     "messageformat": "Părăsește"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "Închide apelul"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "Părăsește apelul"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "Microfon dezactivat"
@@ -3977,6 +4016,12 @@
   "icu:BackupMediaDownloadProgress__description-idle": {
     "messageformat": "Fișierele vor continua să se descarce în fundal"
   },
+  "icu:BackupMediaDownloadProgress__title-offline": {
+    "messageformat": "Restoring media paused"
+  },
+  "icu:BackupMediaDownloadProgress__description-offline": {
+    "messageformat": "Waiting for Internet connection..."
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Întrerupe transferul"
   },
@@ -4008,10 +4053,10 @@
     "messageformat": "Anulează transferul"
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
-    "messageformat": "Account action required"
+    "messageformat": "Este necesară acțiunea în cont"
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
-    "messageformat": "You must open Signal on your phone to continue using this account. If you do not open Signal on your phone, your account will be deleted soon. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Trebuie să deschizi Signal pe telefon pentru a continua să utilizezi acest cont. Dacă nu deschizi Signal pe telefon, contul tău va fi șters în curând. <learnMoreLink>Află mai multe</learnMoreLink>"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Extinde"
@@ -4263,7 +4308,7 @@
     "messageformat": "Solicită unui administrator să aprobe membrii noi care se alătură prin linkul grupului"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to clipboard"
+    "messageformat": "Copiază linkul grup.signal în clipboard"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Solicitări ({count,number})"
@@ -4950,7 +4995,16 @@
     "messageformat": "Mesajele vocale și autocolantele sunt întotdeauna descărcate automat."
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "Backup-uri"
+  },
+  "icu:Preferences__button--internal": {
+    "messageformat": "Internal"
+  },
+  "icu:Preferences__internal__validate-backup--description": {
+    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+  },
+  "icu:Preferences__internal__validate-backup": {
+    "messageformat": "Validate"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Ultimul import: {date} la {time}"
@@ -4983,49 +5037,49 @@
     "messageformat": "Blocat"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "Detaliile backup-ului"
   },
   "icu:Preferences--backup-media-plan__description": {
-    "messageformat": "Text + all media backup"
+    "messageformat": "Text și backup la toate fișierele media"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "Abonamentul tău nu a fost găsit. Reînnoiește pentru a continua să folosești Backup-uri Signal."
   },
   "icu:Preferences--backup-messages-plan__description": {
-    "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
+    "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} zi de backup al fișierelor media} few {Text + {mediaDayCount,number} zile de backup al fișierelor media} other {Text + {mediaDayCount,number} de zile de backup al fișierelor media}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "Planul tău de back-up este gratuit"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "Se reînnoiește {date}"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "Expiră la data de {date}"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "Abonament anulat"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
+    "messageformat": "Poți gestiona sau anula abonamentul Backup-uri Signal de pe telefon."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Backups on your phone."
+    "messageformat": "Poți să gestionezi sau să faci upgrade la Backup-uri Signal pe telefon."
   },
   "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "Abonamentul tău nu a fost găsit. Reînnoiește pentru a continua să folosești Backup-uri Signal."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
+    "messageformat": "Poți să gestionezi sau să reînnoiești abonamentul Backup-uri Signal pe telefon."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "Ultimul backup"
   },
   "icu:Preferences--backup-created-by-phone": {
-    "messageformat": "Your phone"
+    "messageformat": "Telefonul tău"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "Dimensiunea backup-ului"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} contact} few {{num,number} contacte} other {{num,number} de contacte}}"
@@ -6271,22 +6325,10 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Acum îți poți extinde previzualizarea videoclipului local în timpul unui apel, pentru a te vedea mai bine sau pentru a reflecta despre cine ești."
-  },
-  "icu:WhatsNew__v7.48--0": {
-    "messageformat": "Am adăugat o comandă rapidă convenabilă ca să cobori rapid mâna după ce începi să vorbești în timpul unui apel de grup Signal. Este, fără îndoială, funcția noastră preferată din această lansare."
-  },
-  "icu:WhatsNew__v7.49--0": {
-    "messageformat": "Dacă conectezi un desktop nou pe Signal Android și alegi să-ți transferi istoricul mesajelor, acum poți transfera selectiv și atașamentele vechi de pe dispozitivul tău principal. Adu trecutul în prezent, derulând înapoi în timp și dând clic pe pictograma de descărcare. Ca întotdeauna, procesul de transfer este criptat și securizat end-to-end."
-  },
-  "icu:WhatsNew__v7.50--0": {
-    "messageformat": "Dacă conectezi un desktop nou pe Signal Android și alegi să-ți transferi istoricul mesajelor, acum poți transfera selectiv și atașamentele vechi de pe dispozitivul tău principal. Adu trecutul în prezent, derulând înapoi în timp și dând clic pe pictograma de descărcare. Ca întotdeauna, procesul de transfer este criptat și securizat end-to-end."
-  },
   "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Fire, the wheel, and electricity were all great developments, but they were merely necessary steps along the path that created the conditions for animated GIF search to exist. Now you can experience the pinnacle of human technological advancement in Signal Desktop with a brand-new selection interface that makes it easy to quickly find an emoji, sticker, or animated GIF that's perfect for the moment."
+    "messageformat": "Focul, roata și electricitatea au fost toate evoluții grozave, dar au fost doar pași necesari pe calea care a creat condițiile pentru existența căutării de GIF-uri animate. Acum puteți experimenta apogeul progresului tehnologic uman în Signal Desktop cu o interfață de selecție nou-nouță, care face ușor să găsiți rapid un emoji, un autocolant sau un GIF animat care este perfect pentru moment."
   },
   "icu:WhatsNew__v7.51--1": {
-    "messageformat": "We also resized the picture-in-picture window and added convenient new shortcuts to mute/unmute your microphone or turn the camera on/off while a call is minimized."
+    "messageformat": "De asemenea, am redimensionat fereastra de imagine în imagine și am adăugat noi comenzi rapide convenabile pentru a dezactiva/reactiva microfonul sau a porni/opri camera în timp ce un apel este minimizat."
   }
 }

@@ -68,6 +68,9 @@
   "icu:unknownContact": {
     "messageformat": "Ismeretlen kontakt"
   },
+  "icu:unknownContactShort": {
+    "messageformat": "Unknown"
+  },
   "icu:unknownGroup": {
     "messageformat": "Ismeretlen csoport"
   },
@@ -2324,8 +2327,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "Nem található emoji"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Válassz bőrtónust {emojiName} számára"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "Bőrtónus-beállítás módosítása"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "A bőrtónus kiválasztásához nyomd hosszan"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "Válaszd ki az alapértelmezett bőrtónust"
@@ -2361,7 +2370,7 @@
     "messageformat": "Zászlók"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "Egyedi reakciók"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "Matricák keresése"
@@ -2382,7 +2391,7 @@
     "messageformat": "Nemrég használt"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "Kiemelt"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "Nem található matrica"
@@ -2945,6 +2954,36 @@
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {1 tag} other {{count,number} tag}}"
   },
+  "icu:ConversationHero--member-list-and-invited": {
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+  },
+  "icu:ConversationHero--group-members-zero": {
+    "messageformat": "No group members"
+  },
+  "icu:ConversationHero--group-members-only-you": {
+    "messageformat": "No other group members yet"
+  },
+  "icu:ConversationHero--group-members-one": {
+    "messageformat": "{member}"
+  },
+  "icu:ConversationHero--group-members-one-and-you": {
+    "messageformat": "{member} and you"
+  },
+  "icu:ConversationHero--group-members-two": {
+    "messageformat": "{member1} and {member2}"
+  },
+  "icu:ConversationHero--group-members-two-and-you": {
+    "messageformat": "{member1}, {member2}, and you"
+  },
+  "icu:ConversationHero--group-members-three": {
+    "messageformat": "{member1}, {member2}, and {member3}"
+  },
+  "icu:ConversationHero--group-members-other": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
+  "icu:ConversationHero--group-members-other-and-you": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "Tekintsd át figyelmesen"
   },
@@ -3096,10 +3135,10 @@
     "messageformat": "Kilépés"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "Hívás befejezése"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "Kilépés a hívásból"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "Mikrofon ki"
@@ -3977,6 +4016,12 @@
   "icu:BackupMediaDownloadProgress__description-idle": {
     "messageformat": "A médiafájl letöltése a háttérben folytatódik"
   },
+  "icu:BackupMediaDownloadProgress__title-offline": {
+    "messageformat": "Restoring media paused"
+  },
+  "icu:BackupMediaDownloadProgress__description-offline": {
+    "messageformat": "Waiting for Internet connection..."
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Átvitel szüneteltetése"
   },
@@ -4008,10 +4053,10 @@
     "messageformat": "Átvitel törlése"
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
-    "messageformat": "Account action required"
+    "messageformat": "Fiókművelet szükséges"
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
-    "messageformat": "You must open Signal on your phone to continue using this account. If you do not open Signal on your phone, your account will be deleted soon. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "A fiók használatának folytatásához meg kell nyitnod a Signalt a telefonodon. Ha nem nyitod meg a Signalt a telefonodon, a fiókod hamarosan törlődik. <learnMoreLink>Tudj meg többet!</learnMoreLink>"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Bővítés"
@@ -4263,7 +4308,7 @@
     "messageformat": "Admin általi jóváhagyás szükséges csoporthivatkozással csatlakozó tagok felvételéhez."
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to clipboard"
+    "messageformat": "Másold a signal.group hivatkozást a vágólapra"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Kérelmek ({count,number})"
@@ -4950,7 +4995,16 @@
     "messageformat": "A hangüzenetek és a matricák mindig automatikusan letöltődnek."
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "Biztonsági mentések"
+  },
+  "icu:Preferences__button--internal": {
+    "messageformat": "Internal"
+  },
+  "icu:Preferences__internal__validate-backup--description": {
+    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+  },
+  "icu:Preferences__internal__validate-backup": {
+    "messageformat": "Validate"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Utolsó importálás időpontja: {date} {time}"
@@ -4983,49 +5037,49 @@
     "messageformat": "Letiltva"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "Biztonsági mentés részletei"
   },
   "icu:Preferences--backup-media-plan__description": {
-    "messageformat": "Text + all media backup"
+    "messageformat": "Szöveg és minden médiafájl biztonsági mentése"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "Az előfizetés nem található Annak érdekében, hogy tovább használhasd a Signal biztonsági mentéseit, újítsd meg."
   },
   "icu:Preferences--backup-messages-plan__description": {
-    "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
+    "messageformat": "{mediaDayCount, plural, one {Szöveg és minden médiafájl biztonsági mentése {mediaDayCount,number} napra} other {Szöveg és minden médiafájl biztonsági mentése {mediaDayCount,number} napra}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "A biztonsági terv ingyenes"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "Megújul ekkor: {date}"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "{date} dátummal lejár"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "Előfizetés törölve"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
+    "messageformat": "A Signal biztonsági mentéseire vonatkozó előfizetésed kezelheted és lemondhatod a telefonodon."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Backups on your phone."
+    "messageformat": "A Signal biztonsági mentéseire vonatkozó előfizetésed kezelheted és frissítheted a telefonodon."
   },
   "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "Az előfizetés nem található Annak érdekében, hogy tovább használhasd a Signal biztonsági mentéseit, újítsd meg."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
+    "messageformat": "A Signal biztonsági mentéseire vonatkozó előfizetésed kezelheted és megújíthatod a telefonodon."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "Utolsó biztonsági mentés"
   },
   "icu:Preferences--backup-created-by-phone": {
-    "messageformat": "Your phone"
+    "messageformat": "A telefonod"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "Biztonsági mentés mérete"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} névjegy} other {{num,number} névjegy}}"
@@ -6271,22 +6325,10 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Mostantól kibővítheted a helyi videó előnézetét hívás közben, hogy jobban lásd magad."
-  },
-  "icu:WhatsNew__v7.48--0": {
-    "messageformat": "Hozzáadtunk egy kényelmes parancsikont, amellyel gyorsan leteheted a kezed, miután elkezdtél beszélni egy csoportos hívás során a Signalon."
-  },
-  "icu:WhatsNew__v7.49--0": {
-    "messageformat": "Ha összekapcsolsz egy új asztali számítógépet a Signal Android rendszeren, és az üzenetelőzmények átvitelét választod, most szelektíven átviheted a régi mellékleteket is az elsődleges eszközödről. Az átviteli folyamat végponttól végpontig titkosított és biztonságos."
-  },
-  "icu:WhatsNew__v7.50--0": {
-    "messageformat": "Ha összekapcsolsz egy új asztali számítógépet a Signal Android rendszeren, és az üzenetelőzmények átvitelét választod, most szelektíven átviheted a régi mellékleteket is az elsődleges eszközödről. Az átviteli folyamat végponttól végpontig titkosított és biztonságos."
-  },
   "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Fire, the wheel, and electricity were all great developments, but they were merely necessary steps along the path that created the conditions for animated GIF search to exist. Now you can experience the pinnacle of human technological advancement in Signal Desktop with a brand-new selection interface that makes it easy to quickly find an emoji, sticker, or animated GIF that's perfect for the moment."
+    "messageformat": "Mostantól a Signal Desktopban is kereshetsz animált GIF-eket."
   },
   "icu:WhatsNew__v7.51--1": {
-    "messageformat": "We also resized the picture-in-picture window and added convenient new shortcuts to mute/unmute your microphone or turn the camera on/off while a call is minimized."
+    "messageformat": "A kép a képben ablakot is átméreteztük, és kényelmes, új parancsikonokat adtunk hozzá, miközben a hívásablak minimálisra csökkent."
   }
 }

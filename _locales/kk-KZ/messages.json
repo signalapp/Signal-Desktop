@@ -68,6 +68,9 @@
   "icu:unknownContact": {
     "messageformat": "Белгісіз контакт"
   },
+  "icu:unknownContactShort": {
+    "messageformat": "Unknown"
+  },
   "icu:unknownGroup": {
     "messageformat": "Белгісіз топ"
   },
@@ -2324,8 +2327,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "Эмодзи табылмады"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "{emojiName} үшін тері реңкін таңдаңыз"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "Тері реңін өзгерту"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Тері реңкін таңдау үшін басып тұрыңыз"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "Әдепкі тері реңін таңдаңыз"
@@ -2361,7 +2370,7 @@
     "messageformat": "Тулар"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "Реакцияларды реттеу"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "Стикерлер іздеу"
@@ -2382,7 +2391,7 @@
     "messageformat": "Жақында қолданылғандар"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "Таңдаулы"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "Бірде-бір стикер табылмады"
@@ -2945,6 +2954,36 @@
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {1 мүше} other {{count,number} мүше}}"
   },
+  "icu:ConversationHero--member-list-and-invited": {
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+  },
+  "icu:ConversationHero--group-members-zero": {
+    "messageformat": "No group members"
+  },
+  "icu:ConversationHero--group-members-only-you": {
+    "messageformat": "No other group members yet"
+  },
+  "icu:ConversationHero--group-members-one": {
+    "messageformat": "{member}"
+  },
+  "icu:ConversationHero--group-members-one-and-you": {
+    "messageformat": "{member} and you"
+  },
+  "icu:ConversationHero--group-members-two": {
+    "messageformat": "{member1} and {member2}"
+  },
+  "icu:ConversationHero--group-members-two-and-you": {
+    "messageformat": "{member1}, {member2}, and you"
+  },
+  "icu:ConversationHero--group-members-three": {
+    "messageformat": "{member1}, {member2}, and {member3}"
+  },
+  "icu:ConversationHero--group-members-other": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
+  "icu:ConversationHero--group-members-other-and-you": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "Мұқият тексеріңіз"
   },
@@ -3096,10 +3135,10 @@
     "messageformat": "Шығып кету"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "Қоңырауды аяқтау"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "Қоңыраудан шығу"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "Микрофон өшірулі"
@@ -3977,6 +4016,12 @@
   "icu:BackupMediaDownloadProgress__description-idle": {
     "messageformat": "Мультимедиа фондық режимде жүктеп алына береді."
   },
+  "icu:BackupMediaDownloadProgress__title-offline": {
+    "messageformat": "Restoring media paused"
+  },
+  "icu:BackupMediaDownloadProgress__description-offline": {
+    "messageformat": "Waiting for Internet connection..."
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Тасымалдауды кідірту"
   },
@@ -4008,10 +4053,10 @@
     "messageformat": "Тасымалдаудан бас тарту"
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
-    "messageformat": "Account action required"
+    "messageformat": "Аккаунтқа қатысты әрекет қажет"
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
-    "messageformat": "You must open Signal on your phone to continue using this account. If you do not open Signal on your phone, your account will be deleted soon. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Осы аккаунтты әрі қарай пайдалана беру үшін телефоныңызда Signal қолданбасын ашыңыз. Телефоныңызда Signal қолданбасын ашпасаңыз, аккаунтыңыз көп ұзамай жойылады. <learnMoreLink>Толық ақпарат</learnMoreLink>"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Кеңейту"
@@ -4263,7 +4308,7 @@
     "messageformat": "Әкімші топ сілтемесі арқылы жаңа мүшелердің қосылуын мақұлдауын сұраңыз"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to clipboard"
+    "messageformat": "Буферге signal.group сілтемесін көшіріңіз"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Өтініштер ({count,number})"
@@ -4950,7 +4995,16 @@
     "messageformat": "Дауыстық хабарлар мен стикерлер үнемі автоматты түрде жүктеп алынады."
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "Резервтік көшірмелер"
+  },
+  "icu:Preferences__button--internal": {
+    "messageformat": "Internal"
+  },
+  "icu:Preferences__internal__validate-backup--description": {
+    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+  },
+  "icu:Preferences__internal__validate-backup": {
+    "messageformat": "Validate"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Соңғы импорттау уақыты: {date} {time}"
@@ -4983,49 +5037,49 @@
     "messageformat": "Блокталған"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "Резервтік көшірме туралы мәліметтер"
   },
   "icu:Preferences--backup-media-plan__description": {
-    "messageformat": "Text + all media backup"
+    "messageformat": "Мәтін + барлық мультимедианың сақтық көшірмесі"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "Жазылымыңыз табылмады. Signal-дың сақтық көшірмелерін пайдалана беру үшін оны жаңартыңыз."
   },
   "icu:Preferences--backup-messages-plan__description": {
-    "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
+    "messageformat": "{mediaDayCount, plural, one {Мәтін + {mediaDayCount,number} күндік мультимедианың сақтық көшірмесі} other {Мәтін + {mediaDayCount,number} күндік мультимедианың сақтық көшірмесі}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "Сақтық көшірме жоспарыңыз тегін"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "{date} жаңарады"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "Мерзімі {date} күні өтеді"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "Жазылым тоқтатылды."
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
+    "messageformat": "Телефоныңызда Signal-дың сақтық көшірмелері жазылымын басқаруыңызға немесе тоқтатуыңызға болады."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Backups on your phone."
+    "messageformat": "Телефоныңызда Signal-дың сақтық көшірмелерін басқаруыңызға немесе жаңартуыңызға болады."
   },
   "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "Жазылымыңыз табылмады. Signal-дың сақтық көшірмелерін пайдалана беру үшін оны жаңартыңыз."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
+    "messageformat": "Телефоныңызда Signal-дың сақтық көшірмелері жазылымын басқаруыңызға немесе жаңартуыңызға болады."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "Соңғы резервтік көшірме"
   },
   "icu:Preferences--backup-created-by-phone": {
-    "messageformat": "Your phone"
+    "messageformat": "Телефоныңыз"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "Резервтік көшірме өлшемі"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {1 контакт} other {{num,number} контакт}}"
@@ -6271,22 +6325,10 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Қоңырау барысында бейненің жергілікті алғы көрінісін ұлғайтып, өзіңізге жаңа көзқараспен қарап, болмысыңызға тамсана аласыз."
-  },
-  "icu:WhatsNew__v7.48--0": {
-    "messageformat": "Signal-да топтық қоңырау кезінде сөйлей бастағаннан кейін қолыңызды тез түсіру үшін ыңғайлы пәрмен қостық. Мұны осы шығарылымдағы ең пайдалы функция деуге болады."
-  },
-  "icu:WhatsNew__v7.49--0": {
-    "messageformat": "Android құрылғысындағы Signal қолданбасында жаңа жұмыс үстелін байланыстырып, хабарлар тарихын тасымалдасаңыз, бұрынғы тіркемелерді енді негізгі құрылғыңыздан да таңдап, тасымалдай аласыз. Уақытты артқа айналдырып, жүктеп алу түймесін басыңыз да, бұрынғы кездерге оралыңыз. Әдеттегідей тасымалдау процесі өтпелі шифрланған және қауіпсіз болып есептеледі."
-  },
-  "icu:WhatsNew__v7.50--0": {
-    "messageformat": "Android құрылғысындағы Signal қолданбасында жаңа жұмыс үстелін байланыстырып, хабарлар тарихын тасымалдасаңыз, бұрынғы тіркемелерді енді негізгі құрылғыңыздан да таңдап, тасымалдай аласыз. Уақытты артқа айналдырып, жүктеп алу түймесін басыңыз да, бұрынғы кездерге оралыңыз. Әдеттегідей тасымалдау процесі өтпелі шифрланған және қауіпсіз болып есептеледі."
-  },
   "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Fire, the wheel, and electricity were all great developments, but they were merely necessary steps along the path that created the conditions for animated GIF search to exist. Now you can experience the pinnacle of human technological advancement in Signal Desktop with a brand-new selection interface that makes it easy to quickly find an emoji, sticker, or animated GIF that's perfect for the moment."
+    "messageformat": "От, дөңгелек және электр тогы – барлығы керемет. Бірақ бұл жетістіктер анимациялық GIF файлдарын іздеу мүмкіндігін жасау жолындағы алғашқы қадамдар ғана болатын. Ал енді технологиялық жетістіктердің шыңын Signal Desktop-тың түбегейлі жаңа интерфейсінен көре аласыз. Онда эмоджилерді, стикерді немесе анимациялық GIF файлдарын табу бұрынғыдан да оңай."
   },
   "icu:WhatsNew__v7.51--1": {
-    "messageformat": "We also resized the picture-in-picture window and added convenient new shortcuts to mute/unmute your microphone or turn the camera on/off while a call is minimized."
+    "messageformat": "Сонымен қатар енді қоңырау кезінде барлығын бақылауда ұстай аласыз. Біріншіден, сурет ішіндегі сурет терезесінің өлшемін өзгерттік. Екіншіден, қоңырау шағын терезеде жүргізілгенде, микрофон мен камераны тез қосуға не өшіруге қолайлы жылдам пәрмендер қостық."
   }
 }

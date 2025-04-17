@@ -68,6 +68,9 @@
   "icu:unknownContact": {
     "messageformat": "Unbekannter Kontakt"
   },
+  "icu:unknownContactShort": {
+    "messageformat": "Unknown"
+  },
   "icu:unknownGroup": {
     "messageformat": "Unbekannte Gruppe"
   },
@@ -2247,7 +2250,7 @@
     "messageformat": "Emojis suchen"
   },
   "icu:EmojiPicker--skin-tone": {
-    "messageformat": "Hautfarbe {tone}"
+    "messageformat": "Hautton {tone}"
   },
   "icu:EmojiPicker__button--recents": {
     "messageformat": "Zuletzt verwendet"
@@ -2324,8 +2327,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "Keine Emojis gefunden"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Wähle den Hautton für {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
-    "messageformat": "Hautfarbe-Einstellung ändern"
+    "messageformat": "Hautton-Einstellung ändern"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Lange gedrückt halten, um den Hautton auszuwählen"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "Wähle deine Standard-Hautfarbe"
@@ -2361,7 +2370,7 @@
     "messageformat": "Flaggen"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "Reaktionen anpassen"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "Sticker suchen"
@@ -2382,7 +2391,7 @@
     "messageformat": "Zuletzt verwendet"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "Ausgewählt"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "Keine Sticker gefunden"
@@ -2945,6 +2954,36 @@
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {{count,number} Mitglied} other {{count,number} Mitglieder}}"
   },
+  "icu:ConversationHero--member-list-and-invited": {
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+  },
+  "icu:ConversationHero--group-members-zero": {
+    "messageformat": "No group members"
+  },
+  "icu:ConversationHero--group-members-only-you": {
+    "messageformat": "No other group members yet"
+  },
+  "icu:ConversationHero--group-members-one": {
+    "messageformat": "{member}"
+  },
+  "icu:ConversationHero--group-members-one-and-you": {
+    "messageformat": "{member} and you"
+  },
+  "icu:ConversationHero--group-members-two": {
+    "messageformat": "{member1} and {member2}"
+  },
+  "icu:ConversationHero--group-members-two-and-you": {
+    "messageformat": "{member1}, {member2}, and you"
+  },
+  "icu:ConversationHero--group-members-three": {
+    "messageformat": "{member1}, {member2}, and {member3}"
+  },
+  "icu:ConversationHero--group-members-other": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
+  "icu:ConversationHero--group-members-other-and-you": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "Prüfe sorgfältig"
   },
@@ -3096,10 +3135,10 @@
     "messageformat": "Verlassen"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "Anruf beenden"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "Anruf verlassen"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "Mikrofon aus"
@@ -3977,6 +4016,12 @@
   "icu:BackupMediaDownloadProgress__description-idle": {
     "messageformat": "Der Medien-Download wird im Hintergrund fortgesetzt"
   },
+  "icu:BackupMediaDownloadProgress__title-offline": {
+    "messageformat": "Restoring media paused"
+  },
+  "icu:BackupMediaDownloadProgress__description-offline": {
+    "messageformat": "Waiting for Internet connection..."
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Übertragung anhalten"
   },
@@ -4008,10 +4053,10 @@
     "messageformat": "Übertragung abbrechen"
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
-    "messageformat": "Account action required"
+    "messageformat": "Konto-Maßnahmen erforderlich"
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
-    "messageformat": "You must open Signal on your phone to continue using this account. If you do not open Signal on your phone, your account will be deleted soon. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Um dieses Konto weiterhin nutzen zu können, musst du Signal auf deinem Telefon öffnen. Wenn du Signal nicht auf deinem Telefon öffnest, wird dein Konto bald gelöscht. <learnMoreLink>Mehr erfahren</learnMoreLink>"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Erweitern"
@@ -4263,7 +4308,7 @@
     "messageformat": "Ein Admin muss Beitrittsanfragen von neuen Mitgliedern über den Gruppen-Link bestätigen."
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to clipboard"
+    "messageformat": "Kopiere den signal.group-Link in die Zwischenablage"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Anfragen ({count,number})"
@@ -4952,6 +4997,15 @@
   "icu:Preferences__button--backups": {
     "messageformat": "Backups"
   },
+  "icu:Preferences__button--internal": {
+    "messageformat": "Internal"
+  },
+  "icu:Preferences__internal__validate-backup--description": {
+    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+  },
+  "icu:Preferences__internal__validate-backup": {
+    "messageformat": "Validate"
+  },
   "icu:Preferences--lastSynced": {
     "messageformat": "Letzter Import: {date} {time} Uhr"
   },
@@ -4983,49 +5037,49 @@
     "messageformat": "Blockiert"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "Details zu Backups"
   },
   "icu:Preferences--backup-media-plan__description": {
-    "messageformat": "Text + all media backup"
+    "messageformat": "Backups von Text + allen Medien"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "Dein Abo wurde nicht gefunden. Jetzt erneuern, um Signal Backups weiterhin verwenden zu können."
   },
   "icu:Preferences--backup-messages-plan__description": {
-    "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
+    "messageformat": "{mediaDayCount, plural, one {Text- und Medien-Backup von {mediaDayCount,number} Tag} other {Text- und Medien-Backup der letzten {mediaDayCount,number} Tage}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "Dein Backup-Abo ist kostenlos"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "Verlängert sich am {date}"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "Ablaufdatum: {date}"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "Abo gekündigt"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
+    "messageformat": "Du kannst dein Signal Backups-Abo direkt auf deinem Telefon verwalten oder stornieren."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Backups on your phone."
+    "messageformat": "Du kannst dein Signal Backups-Upgrade direkt auf deinem Telefon verwalten oder erneuern."
   },
   "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "Dein Abo wurde nicht gefunden. Jetzt erneuern, um Signal Backups weiterhin verwenden zu können."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
+    "messageformat": "Du kannst dein Signal Backups-Abo direkt auf deinem Telefon verwalten und erneuern."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "Letztes Backup"
   },
   "icu:Preferences--backup-created-by-phone": {
-    "messageformat": "Your phone"
+    "messageformat": "Dein Telefon"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "Größe des Backups"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} Kontakt} other {{num,number} Kontakte}}"
@@ -6271,22 +6325,10 @@
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Jetzt kannst du während eines Anrufs deine persönliche Videovorschau vergrößern, um dich selbst besser zu sehen oder darüber nachzudenken, wer du wirklich bist."
-  },
-  "icu:WhatsNew__v7.48--0": {
-    "messageformat": "Wir haben einen praktischen Shortcut hinzugefügt, mit dem du deine Hand nach dem Sprechen während eines Signal-Gruppenanrufs schnell wieder senken kannst. Hand aufs Herz: Das ist ganz klar unsere Lieblingsfunktion in dieser Version."
-  },
-  "icu:WhatsNew__v7.49--0": {
-    "messageformat": "Wenn du einen neuen Computer mit Signal Android koppelst und den Nachrichtenverlauf überträgst, kannst du jetzt auch gezielt alte Anhänge von deinem Hauptgerät übertragen. Bring deine Vergangenheit in die Gegenwart, indem du in der Zeit zurückblätterst und auf das Download-Symbol klickst. Die Übertragung ist wie immer Ende-zu-Ende verschlüsselt und sicher."
-  },
-  "icu:WhatsNew__v7.50--0": {
-    "messageformat": "Wenn du einen neuen Computer mit Signal Android koppelst und den Nachrichtenverlauf überträgst, kannst du jetzt auch gezielt alte Anhänge von deinem Hauptgerät übertragen. Bring deine Vergangenheit in die Gegenwart, indem du in der Zeit zurückblätterst und auf das Download-Symbol klickst. Die Übertragung ist wie immer Ende-zu-Ende verschlüsselt und sicher."
-  },
   "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Fire, the wheel, and electricity were all great developments, but they were merely necessary steps along the path that created the conditions for animated GIF search to exist. Now you can experience the pinnacle of human technological advancement in Signal Desktop with a brand-new selection interface that makes it easy to quickly find an emoji, sticker, or animated GIF that's perfect for the moment."
+    "messageformat": "Das Feuer, das Rad und die Elektrizität waren alles geniale Erfindungen, aber letztendlich nur notwendige Schritte, um die Voraussetzungen für animierte GIF-Suche zu schaffen. Jetzt kannst du den Höhepunkt des technologischen Fortschritts der Menschheit mit Signal Desktop erleben: eine völlig neue Benutzeroberfläche, mit der es kinderleicht ist, im Handumdrehen ein Emoji, einen Sticker oder ein animiertes GIF zu finden, das perfekt zum jeweiligen Moment passt."
   },
   "icu:WhatsNew__v7.51--1": {
-    "messageformat": "We also resized the picture-in-picture window and added convenient new shortcuts to mute/unmute your microphone or turn the camera on/off while a call is minimized."
+    "messageformat": "Wir haben auch die Größe des Bild-in-Bild-Fensters geändert und praktische neue Tastenkombinationen hinzugefügt, mit denen du dein Mikrofon stummschalten/die Stummschaltung aufheben oder die Kamera ein-/ausschalten kannst, während ein Anruf minimiert ist."
   }
 }

@@ -68,6 +68,9 @@
   "icu:unknownContact": {
     "messageformat": "未知聯絡人"
   },
+  "icu:unknownContactShort": {
+    "messageformat": "Unknown"
+  },
   "icu:unknownGroup": {
     "messageformat": "未知的群組"
   },
@@ -2324,8 +2327,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "找不到 Emoji"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "為 {emojiName} 選擇膚色"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "更改膚色偏好"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "長按以選擇膚色"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "選擇你的預設膚色"
@@ -2361,7 +2370,7 @@
     "messageformat": "旗幟"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "自訂心情回應"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "搜尋貼圖"
@@ -2382,7 +2391,7 @@
     "messageformat": "最近使用"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "精選"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "找不到貼圖"
@@ -2945,6 +2954,36 @@
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, other {{count,number} 位成員}}"
   },
+  "icu:ConversationHero--member-list-and-invited": {
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+  },
+  "icu:ConversationHero--group-members-zero": {
+    "messageformat": "No group members"
+  },
+  "icu:ConversationHero--group-members-only-you": {
+    "messageformat": "No other group members yet"
+  },
+  "icu:ConversationHero--group-members-one": {
+    "messageformat": "{member}"
+  },
+  "icu:ConversationHero--group-members-one-and-you": {
+    "messageformat": "{member} and you"
+  },
+  "icu:ConversationHero--group-members-two": {
+    "messageformat": "{member1} and {member2}"
+  },
+  "icu:ConversationHero--group-members-two-and-you": {
+    "messageformat": "{member1}, {member2}, and you"
+  },
+  "icu:ConversationHero--group-members-three": {
+    "messageformat": "{member1}, {member2}, and {member3}"
+  },
+  "icu:ConversationHero--group-members-other": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
+  "icu:ConversationHero--group-members-other-and-you": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "仔細檢查"
   },
@@ -3096,10 +3135,10 @@
     "messageformat": "離開"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "掛斷"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "離開通話"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "關閉麥克風"
@@ -3977,6 +4016,12 @@
   "icu:BackupMediaDownloadProgress__description-idle": {
     "messageformat": "媒體將繼續在背景下載"
   },
+  "icu:BackupMediaDownloadProgress__title-offline": {
+    "messageformat": "Restoring media paused"
+  },
+  "icu:BackupMediaDownloadProgress__description-offline": {
+    "messageformat": "Waiting for Internet connection..."
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "暫停轉移"
   },
@@ -4008,10 +4053,10 @@
     "messageformat": "取消轉移"
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
-    "messageformat": "Account action required"
+    "messageformat": "需為帳戶採取行動"
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
-    "messageformat": "You must open Signal on your phone to continue using this account. If you do not open Signal on your phone, your account will be deleted soon. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "你必須在手機上開啟 Signal 才能繼續使用此帳戶。如果你沒有在手機上開啟 Signal，你的帳戶將很快被刪除。<learnMoreLink>了解更多</learnMoreLink>"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "擴充"
@@ -4263,7 +4308,7 @@
     "messageformat": "需要管理員批准透過群組連結加入的新成員"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to clipboard"
+    "messageformat": "將 signal.group 連結複製到剪貼簿"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "要求 ({count,number})"
@@ -4950,7 +4995,16 @@
     "messageformat": "語音訊息及貼圖每次都會自動下載。"
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "備份"
+  },
+  "icu:Preferences__button--internal": {
+    "messageformat": "Internal"
+  },
+  "icu:Preferences__internal__validate-backup--description": {
+    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+  },
+  "icu:Preferences__internal__validate-backup": {
+    "messageformat": "Validate"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "最後匯入時間在{date} {time}"
@@ -4983,49 +5037,49 @@
     "messageformat": "已封鎖"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "備份詳細資料"
   },
   "icu:Preferences--backup-media-plan__description": {
-    "messageformat": "Text + all media backup"
+    "messageformat": "文字 + 所有媒體備份"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "找不到你的定期贊助。請立即續期以繼續使用「Signal 備份」。"
   },
   "icu:Preferences--backup-messages-plan__description": {
-    "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
+    "messageformat": "{mediaDayCount, plural, other {文字 + {mediaDayCount,number} 天的媒體備份}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "你的備份計畫是免費的"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "{date} 續期"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "到期日為 {date}"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "備份定期贊助已取消"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
+    "messageformat": "你可以在手機上管理或取消「Signal 備份」定期贊助。"
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Backups on your phone."
+    "messageformat": "你可以在手機上管理或升級「Signal 備份」。"
   },
   "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "找不到你的定期贊助。請立即續期以繼續使用「Signal 備份」。"
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
+    "messageformat": "你可以在手機上管理「Signal 備份」定期贊助或為其續期。"
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "上次備份"
   },
   "icu:Preferences--backup-created-by-phone": {
-    "messageformat": "Your phone"
+    "messageformat": "你的手機"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "備份大小"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, other {{num,number} 位聯絡人}}"
@@ -6271,22 +6325,10 @@
     "messageformat": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.47--0": {
-    "messageformat": "現在你可以在通話期間放大自己的視訊預覽，讓你更清楚看到自己。"
-  },
-  "icu:WhatsNew__v7.48--0": {
-    "messageformat": "我們新增了一個方便的捷徑，讓你在 Signal 群組通話中開始發言後，可以快速放下你的手。這是此發行版本中我們最喜歡的功能。"
-  },
-  "icu:WhatsNew__v7.49--0": {
-    "messageformat": "如果你在 Signal Android 上連結新的桌面電腦並選擇轉移訊息紀錄，現在你也可以選擇性地從主裝置轉移舊附件。回顧過去並點擊下載圖示，將過去帶入現在。與往常一樣，轉移過程是端對端加密且安全的。"
-  },
-  "icu:WhatsNew__v7.50--0": {
-    "messageformat": "如果你在 Signal Android 上連結新的桌面電腦並選擇轉移訊息紀錄，現在你也可以選擇性地從主裝置轉移舊附件。回顧過去並點擊下載圖示，將過去帶入現在。與往常一樣，轉移過程是端對端加密且安全的。"
-  },
   "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Fire, the wheel, and electricity were all great developments, but they were merely necessary steps along the path that created the conditions for animated GIF search to exist. Now you can experience the pinnacle of human technological advancement in Signal Desktop with a brand-new selection interface that makes it easy to quickly find an emoji, sticker, or animated GIF that's perfect for the moment."
+    "messageformat": "各種發明或新發展可以造福人群，為了大家福祉，我們亦在為 GIF 動畫的搜尋創造存在條件。現在，你可以在 Signal 桌面版中體驗全新的選擇界面，讓你輕鬆快速找到適合當前的表情符號、貼圖或動畫 GIF。"
   },
   "icu:WhatsNew__v7.51--1": {
-    "messageformat": "We also resized the picture-in-picture window and added convenient new shortcuts to mute/unmute your microphone or turn the camera on/off while a call is minimized."
+    "messageformat": "我們還調整了畫中畫視窗的大小，並新增了方便的新捷徑以將麥克風靜音/取消靜音，或在通話最小化時開啟/關閉相機。"
   }
 }

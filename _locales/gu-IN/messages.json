@@ -68,6 +68,9 @@
   "icu:unknownContact": {
     "messageformat": "અજાણ્યો સંપર્ક"
   },
+  "icu:unknownContactShort": {
+    "messageformat": "Unknown"
+  },
   "icu:unknownGroup": {
     "messageformat": "અજાણ્યું ગ્રુપ"
   },
@@ -2324,8 +2327,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "કોઈ ઇમોજી મળ્યું નથી"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "{emojiName} માટે સ્કીન ટોન પસંદ કરો"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "સ્કીન ટોનની પસંદગી બદલો"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "સ્કીન ટોન પસંદ કરવા દબાવી રાખો"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "તમારો ડિફોલ્ટ સ્કીન ટોન પસંદ કરો"
@@ -2361,7 +2370,7 @@
     "messageformat": "ધ્વજ"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "પ્રતિક્રિયાઓ કસ્ટમાઇઝ કરો"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "સ્ટીકર શોધો"
@@ -2382,7 +2391,7 @@
     "messageformat": "તાજેતરમાં વપરાયેલ"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "ફીચર્ડ"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "કોઈ સ્ટીકર મળ્યા નથી"
@@ -2945,6 +2954,36 @@
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {1 સભ્ય} other {{count,number} સભ્યો}}"
   },
+  "icu:ConversationHero--member-list-and-invited": {
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+  },
+  "icu:ConversationHero--group-members-zero": {
+    "messageformat": "No group members"
+  },
+  "icu:ConversationHero--group-members-only-you": {
+    "messageformat": "No other group members yet"
+  },
+  "icu:ConversationHero--group-members-one": {
+    "messageformat": "{member}"
+  },
+  "icu:ConversationHero--group-members-one-and-you": {
+    "messageformat": "{member} and you"
+  },
+  "icu:ConversationHero--group-members-two": {
+    "messageformat": "{member1} and {member2}"
+  },
+  "icu:ConversationHero--group-members-two-and-you": {
+    "messageformat": "{member1}, {member2}, and you"
+  },
+  "icu:ConversationHero--group-members-three": {
+    "messageformat": "{member1}, {member2}, and {member3}"
+  },
+  "icu:ConversationHero--group-members-other": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
+  "icu:ConversationHero--group-members-other-and-you": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "કાળજીપૂર્વક રિવ્યૂ કરો"
   },
@@ -3096,10 +3135,10 @@
     "messageformat": "છોડો"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "કૉલ પૂરો કરો"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "કૉલ છોડો"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "માઇક બંધ"
@@ -3977,6 +4016,12 @@
   "icu:BackupMediaDownloadProgress__description-idle": {
     "messageformat": "મીડિયા બેકગ્રાઉન્ડમાં ડાઉનલોડ કરવાનું ચાલુ રહેશે"
   },
+  "icu:BackupMediaDownloadProgress__title-offline": {
+    "messageformat": "Restoring media paused"
+  },
+  "icu:BackupMediaDownloadProgress__description-offline": {
+    "messageformat": "Waiting for Internet connection..."
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "ટ્રાન્સફર થોભાવો"
   },
@@ -4008,10 +4053,10 @@
     "messageformat": "ટ્રાન્સફર રદ કરો"
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
-    "messageformat": "Account action required"
+    "messageformat": "એકાઉન્ટ પર આ પગલું લેવું જરૂરી"
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
-    "messageformat": "You must open Signal on your phone to continue using this account. If you do not open Signal on your phone, your account will be deleted soon. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "આ એકાઉન્ટનો ઉપયોગ ચાલુ રાખવા માટે તમારે તમારા ફોન પર Signal ખોલવું આવશ્યક છે. જો તમે તમારા ફોન પર Signal નહીં ખોલો, તો તમારું એકાઉન્ટ ટૂંક સમયમાં ડિલીટ થઈ જશે. <learnMoreLink>વધુ જાણો</learnMoreLink>"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "વિસ્તૃત કરો"
@@ -4263,7 +4308,7 @@
     "messageformat": "ગ્રુપ લિંક દ્વારા જોડાયેલા નવા મેમ્બર્સને મંજૂરી આપવા માટે એડમિનની જરૂર છે"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to clipboard"
+    "messageformat": "signal.group લિંકને ક્લિપબોર્ડ પર કૉપિ કરો"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "વિનંતીઓ ({count,number})"
@@ -4950,7 +4995,16 @@
     "messageformat": "વોઇસ મેસેજ અને સ્ટીકર હંમેશા આપમેળે ડાઉનલોડ થાય છે."
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "બેકઅપ"
+  },
+  "icu:Preferences__button--internal": {
+    "messageformat": "Internal"
+  },
+  "icu:Preferences__internal__validate-backup--description": {
+    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+  },
+  "icu:Preferences__internal__validate-backup": {
+    "messageformat": "Validate"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "છેલ્લું ઇમ્પોર્ટ {date} {time} વાગ્યે હતું"
@@ -4983,49 +5037,49 @@
     "messageformat": "બ્લૉક કર્યા"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "બેકઅપની વિગતો"
   },
   "icu:Preferences--backup-media-plan__description": {
-    "messageformat": "Text + all media backup"
+    "messageformat": "ટેક્સ્ટ + બધા મીડિયાનું બેકઅપ"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "તમારું સબ્સ્ક્રિપ્શન મળ્યું ન હતું. Signal બેકઅપનો ઉપયોગ ચાલુ રાખવા માટે રિન્યૂ કરો."
   },
   "icu:Preferences--backup-messages-plan__description": {
-    "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
+    "messageformat": "{mediaDayCount, plural, one {ટેક્સ્ટ + {mediaDayCount,number} દિવસના મીડિયાનું બેકઅપ} other {ટેક્સ્ટ + {mediaDayCount,number} દિવસના મીડિયાનું બેકઅપ}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "તમારો બેકઅપ પ્લાન મફત છે"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "{date}ના રોજ રિન્યૂ થશે"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "{date}ના રોજ સમાપ્ત થશે"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "સબ્સ્ક્રિપ્શન રદ કર્યું"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
+    "messageformat": "તમે તમારા ફોન પર તમારા Signal બેકઅપ સબ્સ્ક્રિપ્શનને મેનેજ અથવા કેન્સલ કરી શકો છો."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Backups on your phone."
+    "messageformat": "તમે તમારા ફોન પર Signal બેકઅપને મેનેજ અથવા અપગ્રેડ કરી શકો છો."
   },
   "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "તમારું સબ્સ્ક્રિપ્શન મળ્યું ન હતું. Signal બેકઅપનો ઉપયોગ ચાલુ રાખવા માટે રિન્યૂ કરો."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
+    "messageformat": "તમે તમારા ફોન પર તમારા Signal બેકઅપ સબ્સ્ક્રિપ્શનને મેનેજ અથવા રિન્યૂ કરી શકો છો."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "છેલ્લું બેકઅપ"
   },
   "icu:Preferences--backup-created-by-phone": {
-    "messageformat": "Your phone"
+    "messageformat": "તમારો ફોન"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "બેકઅપની સાઇઝ"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} સંપર્ક} other {{num,number} સંપર્કો}}"
@@ -6271,22 +6325,10 @@
     "messageformat": "નાના ફેરફારો, ભૂલ સુધારા અને પ્રદર્શનમાં વધારો. Signalનો ઉપયોગ કરવા બદલ આભાર!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.47--0": {
-    "messageformat": "હવે તમે કૉલ દરમિયાન તમારા લોકલ વીડિયો પ્રિવ્યૂને વિસ્તૃત કરી શકો છો જેથી તમે પોતાને વધુ સારી રીતે જોઈ શકો."
-  },
-  "icu:WhatsNew__v7.48--0": {
-    "messageformat": "Signal ગ્રૂપ કૉલ દરમિયાન તમે બોલવાનું શરૂ કરો પછી તમારા હાથને ઝડપથી નીચે કરવા માટે અમે એક અનુકૂળ શોર્ટકટ ઉમેર્યો છે."
-  },
-  "icu:WhatsNew__v7.49--0": {
-    "messageformat": "જો તમે Signal Android પર એક નવું ડેસ્કટોપ લિંક કરો છો અને તમારી મેસેજ હિસ્ટ્રીને ટ્રાન્સફર કરવાનું પસંદ કરો છો, તો હવે તમે તમારા પ્રાઇમરી ડિવાઇસમાંથી જૂના અટેચમેન્ટને પણ પસંદગીપૂર્વક ટ્રાન્સફર કરી શકો છો. ટ્રાન્સફર પ્રક્રિયા એન્ડ-ટુ-એન્ડ એન્ક્રિપ્ટેડ અને સુરક્ષિત છે."
-  },
-  "icu:WhatsNew__v7.50--0": {
-    "messageformat": "જો તમે Signal Android પર એક નવું ડેસ્કટોપ લિંક કરો છો અને તમારી મેસેજ હિસ્ટ્રીને ટ્રાન્સફર કરવાનું પસંદ કરો છો, તો હવે તમે તમારા પ્રાઇમરી ડિવાઇસમાંથી જૂના અટેચમેન્ટને પણ પસંદગીપૂર્વક ટ્રાન્સફર કરી શકો છો. ટ્રાન્સફર પ્રક્રિયા એન્ડ-ટુ-એન્ડ એન્ક્રિપ્ટેડ અને સુરક્ષિત છે."
-  },
   "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Fire, the wheel, and electricity were all great developments, but they were merely necessary steps along the path that created the conditions for animated GIF search to exist. Now you can experience the pinnacle of human technological advancement in Signal Desktop with a brand-new selection interface that makes it easy to quickly find an emoji, sticker, or animated GIF that's perfect for the moment."
+    "messageformat": "હવે તમે Signal ડેસ્કટોપ પર પણ એનિમેટેડ GIF શોધી શકો છો."
   },
   "icu:WhatsNew__v7.51--1": {
-    "messageformat": "We also resized the picture-in-picture window and added convenient new shortcuts to mute/unmute your microphone or turn the camera on/off while a call is minimized."
+    "messageformat": "અમે પિક્ચર-ઇન-પિક્ચર વિન્ડોનું કદ પણ બદલ્યું છે અને કૉલ મિનિમાઇઝ કરેલ હોય ત્યારે અનુકૂળ નવા શોર્ટકટ ઉમેર્યા છે."
   }
 }

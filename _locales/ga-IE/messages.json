@@ -68,6 +68,9 @@
   "icu:unknownContact": {
     "messageformat": "Teagmhálaí Anaithnid"
   },
+  "icu:unknownContactShort": {
+    "messageformat": "Unknown"
+  },
   "icu:unknownGroup": {
     "messageformat": "Grúpa anaithnid"
   },
@@ -2324,8 +2327,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "Ní bhfuarthas aon emoji"
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Roghnaigh ton craicinn le haghaidh: {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "Athraigh Sainrogha Thon an Chraicinn"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Fadbhrúigh le ton craicinn a roghnú"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "Roghnaigh do thon craicinn réamhshocraithe"
@@ -2361,7 +2370,7 @@
     "messageformat": "Bratacha"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "Saincheap freagairtí"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "Cuardaigh greamáin"
@@ -2382,7 +2391,7 @@
     "messageformat": "Úsáidte le Déanaí"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "Faoi thrácht"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "Níor aimsíodh aon ghreamán"
@@ -2945,6 +2954,36 @@
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {1 bhall} two {{count,number} bhall} few {{count,number} bhall} many {{count,number} mball} other {{count,number} ball}}"
   },
+  "icu:ConversationHero--member-list-and-invited": {
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+  },
+  "icu:ConversationHero--group-members-zero": {
+    "messageformat": "No group members"
+  },
+  "icu:ConversationHero--group-members-only-you": {
+    "messageformat": "No other group members yet"
+  },
+  "icu:ConversationHero--group-members-one": {
+    "messageformat": "{member}"
+  },
+  "icu:ConversationHero--group-members-one-and-you": {
+    "messageformat": "{member} and you"
+  },
+  "icu:ConversationHero--group-members-two": {
+    "messageformat": "{member1} and {member2}"
+  },
+  "icu:ConversationHero--group-members-two-and-you": {
+    "messageformat": "{member1}, {member2}, and you"
+  },
+  "icu:ConversationHero--group-members-three": {
+    "messageformat": "{member1}, {member2}, and {member3}"
+  },
+  "icu:ConversationHero--group-members-other": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
+  "icu:ConversationHero--group-members-other-and-you": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "Déan athbhreithniú go cúramach"
   },
@@ -3096,10 +3135,10 @@
     "messageformat": "Imigh as"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "Cuir deireadh leis an nglao"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "Imigh as an nglao"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "Micreafón as"
@@ -3977,6 +4016,12 @@
   "icu:BackupMediaDownloadProgress__description-idle": {
     "messageformat": "Leanfaidh íoslódáil meán sa chúlra"
   },
+  "icu:BackupMediaDownloadProgress__title-offline": {
+    "messageformat": "Restoring media paused"
+  },
+  "icu:BackupMediaDownloadProgress__description-offline": {
+    "messageformat": "Waiting for Internet connection..."
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Cuir an t-aistriú ar sos"
   },
@@ -4008,10 +4053,10 @@
     "messageformat": "Cuir an t-aistriú ar ceal"
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
-    "messageformat": "Account action required"
+    "messageformat": "Gníomh de dhíth maidir le do chuntas"
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
-    "messageformat": "You must open Signal on your phone to continue using this account. If you do not open Signal on your phone, your account will be deleted soon. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Ní mór duit Signal a oscailt ar do ghuthán le leanúint le húsáid an chuntais seo. Mura n-osclaíonn tú Signal ar do ghuthán, scriosfar do chuntas ar ball. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Fairsingigh"
@@ -4263,7 +4308,7 @@
     "messageformat": "Éiligh faomhadh riarthóra i gcás ball nua a théann isteach tríd an nasc grúpa"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to clipboard"
+    "messageformat": "Cóipeáil nasc signal.group chuig an ngearrthaisce"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Iarratais ({count,number})"
@@ -4950,7 +4995,16 @@
     "messageformat": "Íoslódáiltear glórphoist agus greamáin go huathoibríoch i gcónaí."
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "Cúltacaí"
+  },
+  "icu:Preferences__button--internal": {
+    "messageformat": "Internal"
+  },
+  "icu:Preferences__internal__validate-backup--description": {
+    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+  },
+  "icu:Preferences__internal__validate-backup": {
+    "messageformat": "Validate"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Iompórtáil deiridh {date} {time}"
@@ -4983,49 +5037,49 @@
     "messageformat": "Bac curtha"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "Sonraí an chúltaca"
   },
   "icu:Preferences--backup-media-plan__description": {
-    "messageformat": "Text + all media backup"
+    "messageformat": "Cúltaca téacs + gach meáin"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "Ní bhfuarthas do shíntiús. Athnuaigh le leanúint le húsáid Chúltacaí Signal."
   },
   "icu:Preferences--backup-messages-plan__description": {
-    "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
+    "messageformat": "{mediaDayCount, plural, one {Téacs + {mediaDayCount,number} lá de chúltaca meán} two {Téacs + {mediaDayCount,number} lá de chúltaca meán} few {Téacs + {mediaDayCount,number} lá de chúltaca meán} many {Téacs + {mediaDayCount,number} lá de chúltaca meán} other {Téacs + {mediaDayCount,number} lá de chúltaca meán}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "Tá do phlean cúltaca saor in aisce"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "Athnuachan: {date}"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "Dáta éaga: {date}"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "Síntiús curtha ar ceal"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
+    "messageformat": "Is féidir leat do shíntiús le Cúltacaí Signal a bhainistiú nó a chur ar ceal ar do ghuthán."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Backups on your phone."
+    "messageformat": "Is féidir leat Cúltacaí Signal a bhainistiú nó a uasghrádú ar do ghuthán."
   },
   "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "Ní bhfuarthas do shíntiús. Athnuaigh le leanúint le húsáid Chúltacaí Signal."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
+    "messageformat": "Is féidir leat do shíntiús le Cúltacaí Signal a bhainistiú nó a athnuachan ar do ghuthán."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "Cúltaca deiridh"
   },
   "icu:Preferences--backup-created-by-phone": {
-    "messageformat": "Your phone"
+    "messageformat": "Do ghuthán"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "Méid an chúltaca"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {1 teagmhálaí} two {{num,number} theagmhálaí} few {{num,number} theagmhálaí} many {{num,number} dteagmhálaí} other {{num,number} teagmhálaí}}"
@@ -6271,22 +6325,10 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Anois is féidir leat réamhamharc ar d'fhíseán logánta a uasmhéadú ionas go mbeidh amharc níos fearr agat ort féin."
-  },
-  "icu:WhatsNew__v7.48--0": {
-    "messageformat": "Chuireamar aicearra áisiúil leis chun do lámh a ísliú go tapa tar éis duit tosú ag labhairt le linn ghrúpghlao Signal."
-  },
-  "icu:WhatsNew__v7.49--0": {
-    "messageformat": "Má nascann tú Deasc nua ar Signal Android agus má roghnaíonn tú stair do theachtaireachtaí a aistriú, anois is féidir leat seancheangaltáin a aistriú go roghnach ó do phríomhghléas freisin. Tá an próiseas aistrithe criptithe ó cheann ceann agus slán."
-  },
-  "icu:WhatsNew__v7.50--0": {
-    "messageformat": "Má nascann tú Deasc nua ar Signal Android agus má roghnaíonn tú stair do theachtaireachtaí a aistriú, anois is féidir leat seancheangaltáin a aistriú go roghnach ó do phríomhghléas freisin. Tá an próiseas aistrithe criptithe ó cheann ceann agus slán."
-  },
   "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Fire, the wheel, and electricity were all great developments, but they were merely necessary steps along the path that created the conditions for animated GIF search to exist. Now you can experience the pinnacle of human technological advancement in Signal Desktop with a brand-new selection interface that makes it easy to quickly find an emoji, sticker, or animated GIF that's perfect for the moment."
+    "messageformat": "Anois is féidir leat cuardach le haghaidh GIFanna beochana in Signal Desktop freisin."
   },
   "icu:WhatsNew__v7.51--1": {
-    "messageformat": "We also resized the picture-in-picture window and added convenient new shortcuts to mute/unmute your microphone or turn the camera on/off while a call is minimized."
+    "messageformat": "Rinneamar méid na fuinneoga pictiúir-i-bpictiúr a athrú freisin agus chuireamar aicearraí áisiúla nua leis le húsáid i nglaonna íoslaghdaithe."
   }
 }

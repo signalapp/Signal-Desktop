@@ -68,6 +68,9 @@
   "icu:unknownContact": {
     "messageformat": "Anwani isiyojulikana"
   },
+  "icu:unknownContactShort": {
+    "messageformat": "Unknown"
+  },
   "icu:unknownGroup": {
     "messageformat": "Kikundi hakijulikani"
   },
@@ -2324,8 +2327,14 @@
   "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
     "messageformat": "Hakuna kicheshi kilichopatikana."
   },
+  "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
+    "messageformat": "Chagua rangi ya ngozi kwa ajili ya {emojiName}"
+  },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "Badilisha Mapendeleo ya Rangi ya Ngozi"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
+    "messageformat": "Bonyeza kwa muda mrefu ili uchague rangi ya ngozi"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "Chagua rangi yako ya ngozi chaguomsingi"
@@ -2361,7 +2370,7 @@
     "messageformat": "Bendera"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "Customize reactions"
+    "messageformat": "Badilisha reactions"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "Tafuta vibandiko"
@@ -2382,7 +2391,7 @@
     "messageformat": "Iliyotumiwa hivi majuzi"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
-    "messageformat": "Featured"
+    "messageformat": "Iliyoangaziwa"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "Hamna vibandiko vilivyopatikana"
@@ -2945,6 +2954,36 @@
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {Mwanachama 1} other {Wanachama {count,number}}}"
   },
+  "icu:ConversationHero--member-list-and-invited": {
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+  },
+  "icu:ConversationHero--group-members-zero": {
+    "messageformat": "No group members"
+  },
+  "icu:ConversationHero--group-members-only-you": {
+    "messageformat": "No other group members yet"
+  },
+  "icu:ConversationHero--group-members-one": {
+    "messageformat": "{member}"
+  },
+  "icu:ConversationHero--group-members-one-and-you": {
+    "messageformat": "{member} and you"
+  },
+  "icu:ConversationHero--group-members-two": {
+    "messageformat": "{member1} and {member2}"
+  },
+  "icu:ConversationHero--group-members-two-and-you": {
+    "messageformat": "{member1}, {member2}, and you"
+  },
+  "icu:ConversationHero--group-members-three": {
+    "messageformat": "{member1}, {member2}, and {member3}"
+  },
+  "icu:ConversationHero--group-members-other": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
+  "icu:ConversationHero--group-members-other-and-you": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "Kagua kwa uangalifu"
   },
@@ -3096,10 +3135,10 @@
     "messageformat": "Ondoka"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip": {
-    "messageformat": "End call"
+    "messageformat": "Tamatisha simu"
   },
   "icu:CallControls__JoinLeaveButton--hangup-group-tooltip": {
-    "messageformat": "Leave call"
+    "messageformat": "Ondoka kwenye mazungumzo ya simu"
   },
   "icu:CallControls__MutedToast--muted": {
     "messageformat": "Zima mic"
@@ -3977,6 +4016,12 @@
   "icu:BackupMediaDownloadProgress__description-idle": {
     "messageformat": "Video na picha zitaendelea kupakuliwa kwenye usuli"
   },
+  "icu:BackupMediaDownloadProgress__title-offline": {
+    "messageformat": "Restoring media paused"
+  },
+  "icu:BackupMediaDownloadProgress__description-offline": {
+    "messageformat": "Waiting for Internet connection..."
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Sitisha kuhamisha"
   },
@@ -4008,10 +4053,10 @@
     "messageformat": "Ghairi uhamishaji"
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
-    "messageformat": "Account action required"
+    "messageformat": "Hatua inahitajika kwa akaunti"
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
-    "messageformat": "You must open Signal on your phone to continue using this account. If you do not open Signal on your phone, your account will be deleted soon. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Lazima ufungue Signal kwenye simu yako ili uendelee kutumia akaunti hii. Ikiwa hautafungua Signal kwenye simu yako, akaunti yako itafutwa hivi karibuni. <learnMoreLink>Pata maelezo zaidi</learnMoreLink>"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Panua"
@@ -4263,7 +4308,7 @@
     "messageformat": "Itisha ruhusa ya msimamizi kuidhinisha wanachama wapya wanaojiunga kupitia kiungo cha kikundi"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to clipboard"
+    "messageformat": "Nakili kiungo cha kikundi cha Signal. kwenye ubao wa kunakili"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Maombi ({count,number})"
@@ -4950,7 +4995,16 @@
     "messageformat": "Ujumbe wa sauti na vibandiko hupakuliwa kiotomatiki."
   },
   "icu:Preferences__button--backups": {
-    "messageformat": "Backups"
+    "messageformat": "Nakalahifadhi"
+  },
+  "icu:Preferences__button--internal": {
+    "messageformat": "Internal"
+  },
+  "icu:Preferences__internal__validate-backup--description": {
+    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+  },
+  "icu:Preferences__internal__validate-backup": {
+    "messageformat": "Validate"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Import ya mwisho {date} {time}"
@@ -4983,49 +5037,49 @@
     "messageformat": "Zuiliwa"
   },
   "icu:Preferences--backup-details__header": {
-    "messageformat": "Backup details"
+    "messageformat": "Taarifa za nakala"
   },
   "icu:Preferences--backup-media-plan__description": {
-    "messageformat": "Text + all media backup"
+    "messageformat": "Ujumbe + nakala ya picha na video zote"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "Usajili wako haujapatikana. Weka upya ili uendelee kutumia Hifadhi Nakala ya Signal."
   },
   "icu:Preferences--backup-messages-plan__description": {
-    "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
+    "messageformat": "{mediaDayCount, plural, one {Ujumbe + uhifadhi nakala wa siku {mediaDayCount,number}} other {Ujumbe + uhifadhi nakala wa siku {mediaDayCount,number}}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Your backup plan is free"
+    "messageformat": "Mpango wako wa uhifadhi nakala ni bure"
   },
   "icu:Preferences--backup-plan__renewal-date": {
-    "messageformat": "Renews {date}"
+    "messageformat": "Kuhuishwa {date}"
   },
   "icu:Preferences--backup-plan__expiry-date": {
-    "messageformat": "Expires {date}"
+    "messageformat": "Inakwisha muda {date}"
   },
   "icu:Preferences--backup-plan__canceled": {
-    "messageformat": "Subscription canceled"
+    "messageformat": "Usajili umeghairishwa"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
+    "messageformat": "Unaweza kusimamia au kusasisha usajili wako wa Hifadhi Nakala ya Signal kwenye simu yako."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Backups on your phone."
+    "messageformat": "Unaweza kusimamia au kusasisha Hifadhi Nakala ya Signal kwenye simu yako."
   },
   "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "Usajili wako haujapatikana. Weka upya ili uendelee kutumia Hifadhi Nakala ya Signal."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
+    "messageformat": "Unaweza kusimamia au kuweka upya usajili wako wa Hifadhi Nakala ya Signal kwenye simu yako."
   },
   "icu:Preferences--backup-created-at__label": {
-    "messageformat": "Last backup"
+    "messageformat": "Nakala ya mwisho"
   },
   "icu:Preferences--backup-created-by-phone": {
-    "messageformat": "Your phone"
+    "messageformat": "Simu yako"
   },
   "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size"
+    "messageformat": "Ukubwa wa nakala"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {Muwasiliani {num,number}} other {Wawasiliani {num,number}}}"
@@ -6271,22 +6325,10 @@
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Sasa unaweza kupanua onyesho lako la video wakati wa simu ili ujitazame vizuri au utafakari kuhusu maisha yako."
-  },
-  "icu:WhatsNew__v7.48--0": {
-    "messageformat": "Tumeweka njia ya mkato rahisi ili kushusha mkono wako haraka baada ya kuanza kuongea katika simu ya kikundi ya Signal. Ni kipengele kinachopendwa zaidi katika toleo hili."
-  },
-  "icu:WhatsNew__v7.49--0": {
-    "messageformat": "Ikiwa unaunganisha Desktop mpya kwenye Signal Android na uchague kuhamisha historia ya ujumbe yako, sasa unaweza pia kuhamisha viambatisho vya zamani kutoka kwenye kifaa chako cha msingi pia. Rejesha mambo ya zamani kwa kurudi nyuma na kubonyeza kwenye aikoni ya kupakua. Kama kawaida, mchakato wa uhamishaji umesimbwa fiche na ni salama."
-  },
-  "icu:WhatsNew__v7.50--0": {
-    "messageformat": "Ikiwa unaunganisha Desktop mpya kwenye Signal Android na uchague kuhamisha historia ya ujumbe yako, sasa unaweza pia kuhamisha viambatisho vya zamani kutoka kwenye kifaa chako cha msingi pia. Rejesha mambo ya zamani kwa kurudi nyuma na kubonyeza kwenye aikoni ya kupakua. Kama kawaida, mchakato wa uhamishaji umesimbwa fiche na ni salama."
-  },
   "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Fire, the wheel, and electricity were all great developments, but they were merely necessary steps along the path that created the conditions for animated GIF search to exist. Now you can experience the pinnacle of human technological advancement in Signal Desktop with a brand-new selection interface that makes it easy to quickly find an emoji, sticker, or animated GIF that's perfect for the moment."
+    "messageformat": "Uvumbuzi wa moto, gurudumu, na umeme yote yalikuwa maendeleo makubwa, lakini zilikuwa hatua muhimu tu njiani ambayo iliunda hali ya utafutaji wa GIF iliyohuishwa kuwepo. Sasa unaweza kupata uzoefu wa maendeleo ya kiteknolojia ya binadamu katika Signal Desktop ukitumia muundo mpya wa kiolesura ambao hufanya iwe rahisi kupata haraka emoji, kibandiko, au GIF zilizohuishwa zinazofaa kwa sasa."
   },
   "icu:WhatsNew__v7.51--1": {
-    "messageformat": "We also resized the picture-in-picture window and added convenient new shortcuts to mute/unmute your microphone or turn the camera on/off while a call is minimized."
+    "messageformat": "Tumebadili ukubwa wa dirisha la kupachika picha ndani ya picha nyingine na tukaongeza njia za mkato mpya ili kutoa sauti/kuweka sauti kwa kipaza sauti chako au kuwasha/kuzima kamera simu inapopunguzwa."
   }
 }
