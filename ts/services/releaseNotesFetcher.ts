@@ -381,33 +381,32 @@ export class ReleaseNotesFetcher {
       const previousHash = window.textsecure.storage.get(
         PREVIOUS_MANIFEST_HASH_STORAGE_KEY
       );
+
       if (hash !== previousHash) {
         log.info('ReleaseNotesFetcher: Manifest hash changed, fetching');
-        const manifest =
-          await window.textsecure.server.getReleaseNotesManifest();
-        const validNotes = manifest.announcements.filter(
-          (note): note is ManifestReleaseNoteType =>
-            note.desktopMinVersion != null &&
-            semver.gt(note.desktopMinVersion, versionWatermark)
-        );
-        if (validNotes.length) {
-          log.info(
-            `ReleaseNotesFetcher: Processing ${validNotes.length} new release notes`
-          );
-          await this.#processReleaseNotes(validNotes);
-        } else {
-          log.info('ReleaseNotesFetcher: No new release notes');
-        }
-
-        drop(
-          window.textsecure.storage.put(
-            PREVIOUS_MANIFEST_HASH_STORAGE_KEY,
-            hash
-          )
-        );
       } else {
-        log.info('ReleaseNotesFetcher: Manifest hash unchanged');
+        log.info(
+          'ReleaseNotesFetcher: Manifest hash unchanged, still fetching'
+        );
       }
+      const manifest = await window.textsecure.server.getReleaseNotesManifest();
+      const validNotes = manifest.announcements.filter(
+        (note): note is ManifestReleaseNoteType =>
+          note.desktopMinVersion != null &&
+          semver.gt(note.desktopMinVersion, versionWatermark)
+      );
+      if (validNotes.length) {
+        log.info(
+          `ReleaseNotesFetcher: Processing ${validNotes.length} new release notes`
+        );
+        await this.#processReleaseNotes(validNotes);
+      } else {
+        log.info('ReleaseNotesFetcher: No new release notes');
+      }
+
+      drop(
+        window.textsecure.storage.put(PREVIOUS_MANIFEST_HASH_STORAGE_KEY, hash)
+      );
 
       await this.#scheduleForNextRun();
       this.setTimeoutForNextRun();
