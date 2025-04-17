@@ -70,8 +70,8 @@ LangString signalMinAppVersionErr 1051 "Už je nainštalovaná novšia verzia Si
 LangString signalMinWinVersionErr 1038 "A Signal asztali számítógépről elérhető változata már nem működik ezen a számítógépen. A Signal asztali számítógépről elérhető változatának ismételt használatához frissítsd a számítógépeden a(z) Windows verzióját."
 LangString signalMinAppVersionErr 1038 "A Signal újabb verziója már telepítve van. Biztosan folytatni szeretnéd?"
 # ar_SA
-LangString signalMinWinVersionErr 1025 "لم يعُد تطبيق سيجنال يَعمل على هذا الحاسوب. لاستخدام تطبيق سيجنال الخاص بالحاسوب مرة أخرى، يُرجى تحديث إصدار Windows لحاسوبك."
-LangString signalMinAppVersionErr 1025 "هناك إصدار أحدث من سيجنال مُثبت بالفعل. هل أنت متأكد من أنك تريد المواصلة؟"
+LangString signalMinWinVersionErr 1025 "لم يعُد تطبيق سيجنال يَعمل على هذا الحاسوب. لاستخدام تطبيق سيجنال الخاص بالحاسوب مرّة أخرى، يُرجى تحديث إصدار Windows لحاسوبك."
+LangString signalMinAppVersionErr 1025 "هناك إصدار أحدث من سيجنال مُثبَّت بالفعل. هل أنت متأكِّد من أنك تريد المواصلة؟"
 # tr_TR
 LangString signalMinWinVersionErr 1055 "Signal masaüstü artık bu bilgisayarda çalışmıyor. Signal masaüstünü tekrar kullanmak için bilgisayarının Windows sürümünü güncelle."
 LangString signalMinAppVersionErr 1055 "Signal'in daha yeni bir sürümü zaten kurulu. Devam etmek istediğine emin misin?"

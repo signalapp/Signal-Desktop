@@ -68,6 +68,9 @@
   "icu:unknownContact": {
     "messageformat": "איש קשר בלתי ידוע"
   },
+  "icu:unknownContactShort": {
+    "messageformat": "Unknown"
+  },
   "icu:unknownGroup": {
     "messageformat": "קבוצה לא ידועה"
   },
@@ -2325,13 +2328,13 @@
     "messageformat": "אמוג'י לא נמצא"
   },
   "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
-    "messageformat": "Select skin tone for {emojiName}"
+    "messageformat": "בחירת גוון עור עבור {emojiName}"
   },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "שינוי העדפות גוון עור"
   },
   "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
-    "messageformat": "Long press to select skin tone"
+    "messageformat": "יש ללחוץ לחיצה ארוכה כדי לבחור גוון עור"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "בחירת ברירת מחדל לגוון עור"
@@ -2950,6 +2953,36 @@
   },
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {חבר/ה 1} two {{count,number} חברים} many {{count,number} חברים} other {{count,number} חברים}}"
+  },
+  "icu:ConversationHero--member-list-and-invited": {
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+  },
+  "icu:ConversationHero--group-members-zero": {
+    "messageformat": "No group members"
+  },
+  "icu:ConversationHero--group-members-only-you": {
+    "messageformat": "No other group members yet"
+  },
+  "icu:ConversationHero--group-members-one": {
+    "messageformat": "{member}"
+  },
+  "icu:ConversationHero--group-members-one-and-you": {
+    "messageformat": "{member} and you"
+  },
+  "icu:ConversationHero--group-members-two": {
+    "messageformat": "{member1} and {member2}"
+  },
+  "icu:ConversationHero--group-members-two-and-you": {
+    "messageformat": "{member1}, {member2}, and you"
+  },
+  "icu:ConversationHero--group-members-three": {
+    "messageformat": "{member1}, {member2}, and {member3}"
+  },
+  "icu:ConversationHero--group-members-other": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
+  "icu:ConversationHero--group-members-other-and-you": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "יש לסקור בזהירות"
@@ -3983,6 +4016,12 @@
   "icu:BackupMediaDownloadProgress__description-idle": {
     "messageformat": "הורדת המדיה תמשיך ברקע"
   },
+  "icu:BackupMediaDownloadProgress__title-offline": {
+    "messageformat": "Restoring media paused"
+  },
+  "icu:BackupMediaDownloadProgress__description-offline": {
+    "messageformat": "Waiting for Internet connection..."
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "השהיית העברה"
   },
@@ -4014,10 +4053,10 @@
     "messageformat": "ביטול העברה"
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
-    "messageformat": "Account action required"
+    "messageformat": "נדרשת פעולה בחשבון"
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
-    "messageformat": "You must open Signal on your phone to continue using this account. If you do not open Signal on your phone, your account will be deleted soon. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "יש לפתוח את Signal בטלפון שלך כדי להמשיך להשתמש בחשבון הזה. אם לא תפתח/י את Signal בטלפון שלך, החשבון שלך יימחק בקרוב. <learnMoreLink>למידע נוסף</learnMoreLink>"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "הרחב"
@@ -4269,7 +4308,7 @@
     "messageformat": "דרוש מנהלן כדי לאשר הצטרפות של חברי קבוצה חדשים באמצעות קישור הקבוצה"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to clipboard"
+    "messageformat": "העתקה של קישור קבוצת Signal ללוח"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "בקשות ({count,number})"
@@ -4958,6 +4997,15 @@
   "icu:Preferences__button--backups": {
     "messageformat": "גיבויים"
   },
+  "icu:Preferences__button--internal": {
+    "messageformat": "Internal"
+  },
+  "icu:Preferences__internal__validate-backup--description": {
+    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+  },
+  "icu:Preferences__internal__validate-backup": {
+    "messageformat": "Validate"
+  },
   "icu:Preferences--lastSynced": {
     "messageformat": "יבוא אחרון במועד {date} {time}"
   },
@@ -4992,13 +5040,13 @@
     "messageformat": "פרטי גיבוי"
   },
   "icu:Preferences--backup-media-plan__description": {
-    "messageformat": "Text + all media backup"
+    "messageformat": "גיבוי טקסט + כל המדיה"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "המנוי שלך לא נמצא. יש לחדש כדי להמשיך להשתמש בגיבויי Signal."
   },
   "icu:Preferences--backup-messages-plan__description": {
-    "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
+    "messageformat": "{mediaDayCount, plural, one {גיבוי טקסט + יום {mediaDayCount,number} של מדיה} two {גיבוי טקסט + יומיים של מדיה} many {גיבוי טקסט + {mediaDayCount,number} ימים של מדיה} other {גיבוי טקסט + {mediaDayCount,number} ימים של מדיה}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
     "messageformat": "תכנית הגיבוי שלך היא חינמית"
@@ -5013,22 +5061,22 @@
     "messageformat": "מנוי בוטל"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
+    "messageformat": "באפשרותך לנהל או לבטל את מנוי גיבויי Signal שלך בטלפון שלך."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Backups on your phone."
+    "messageformat": "באפשרותך לנהל או לשדרג את גיבויי Signal בטלפון שלך."
   },
   "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "המנוי שלך לא נמצא. יש לחדש כדי להמשיך להשתמש בגיבויי Signal."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
+    "messageformat": "באפשרותך לנהל או לחדש את מנוי גיבויי Signal שלך בטלפון שלך."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "גיבוי אחרון"
   },
   "icu:Preferences--backup-created-by-phone": {
-    "messageformat": "Your phone"
+    "messageformat": "הטלפון שלך"
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "נפח גיבוי"
@@ -6277,22 +6325,10 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.47--0": {
-    "messageformat": "עכשיו יש לך אפשרות להרחיב את תצוגה מקדימה מקומית של וידאו במהלך שיחה כדי לראות את עצמך טוב יותר."
-  },
-  "icu:WhatsNew__v7.48--0": {
-    "messageformat": "הוספנו קיצור דרך נוח כדי להורדת היד במהירות אחרי שהתחלת לדבר במהלך שיחת Signal קבוצתית."
-  },
-  "icu:WhatsNew__v7.49--0": {
-    "messageformat": "בעת קישור שולחן עבודה חדש אל Signal Android ובחירה להעביר את היסטוריית ההודעות שלך, עכשיו אפשר גם להעביר באופן סלקטיבי קבצים מצורפים ישנים מהמכשיר הראשי שלך. תהליך ההעברה מאובטח ומוצפן מקצה לקצה."
-  },
-  "icu:WhatsNew__v7.50--0": {
-    "messageformat": "בעת קישור שולחן עבודה חדש אל Signal Android ובחירה להעביר את היסטוריית ההודעות שלך, עכשיו אפשר גם להעביר באופן סלקטיבי קבצים מצורפים ישנים מהמכשיר הראשי שלך. תהליך ההעברה מאובטח ומוצפן מקצה לקצה."
-  },
   "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Fire, the wheel, and electricity were all great developments, but they were merely necessary steps along the path that created the conditions for animated GIF search to exist. Now you can experience the pinnacle of human technological advancement in Signal Desktop with a brand-new selection interface that makes it easy to quickly find an emoji, sticker, or animated GIF that's perfect for the moment."
+    "messageformat": "עכשיו אפשר לחפש קובצי GIF מונפשים גם ב–Signal לשולחן העבודה."
   },
   "icu:WhatsNew__v7.51--1": {
-    "messageformat": "We also resized the picture-in-picture window and added convenient new shortcuts to mute/unmute your microphone or turn the camera on/off while a call is minimized."
+    "messageformat": "שינינו גם את גודל החלון של תמונה–בתוך–תמונה והוספנו קיצורי דרך חדשים ונוחים לשימוש בזמן שהשיחה ממוזערת."
   }
 }

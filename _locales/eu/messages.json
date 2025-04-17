@@ -68,6 +68,9 @@
   "icu:unknownContact": {
     "messageformat": "Kontaktu ezezaguna"
   },
+  "icu:unknownContactShort": {
+    "messageformat": "Unknown"
+  },
   "icu:unknownGroup": {
     "messageformat": "Talde ezezaguna"
   },
@@ -2325,13 +2328,13 @@
     "messageformat": "Ez da emojirik topatu"
   },
   "icu:FunPanelEmojis__SkinTonePicker__SelectSkinToneForSelectedEmoji": {
-    "messageformat": "Select skin tone for {emojiName}"
+    "messageformat": "Hautatu {emojiName} emojiaren azal-tonua"
   },
   "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
     "messageformat": "Aldatu azal-tonuaren hobespena"
   },
   "icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription": {
-    "messageformat": "Long press to select skin tone"
+    "messageformat": "Azal-tonua hautatzeko, sakatu luze"
   },
   "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
     "messageformat": "Aukeratu zure azal-tonu lehenetsia"
@@ -2950,6 +2953,36 @@
   },
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {{count,number} kide} other {{count,number} kide}}"
+  },
+  "icu:ConversationHero--member-list-and-invited": {
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+  },
+  "icu:ConversationHero--group-members-zero": {
+    "messageformat": "No group members"
+  },
+  "icu:ConversationHero--group-members-only-you": {
+    "messageformat": "No other group members yet"
+  },
+  "icu:ConversationHero--group-members-one": {
+    "messageformat": "{member}"
+  },
+  "icu:ConversationHero--group-members-one-and-you": {
+    "messageformat": "{member} and you"
+  },
+  "icu:ConversationHero--group-members-two": {
+    "messageformat": "{member1} and {member2}"
+  },
+  "icu:ConversationHero--group-members-two-and-you": {
+    "messageformat": "{member1}, {member2}, and you"
+  },
+  "icu:ConversationHero--group-members-three": {
+    "messageformat": "{member1}, {member2}, and {member3}"
+  },
+  "icu:ConversationHero--group-members-other": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+  },
+  "icu:ConversationHero--group-members-other-and-you": {
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "Berrikusi kontu handiz"
@@ -3983,6 +4016,12 @@
   "icu:BackupMediaDownloadProgress__description-idle": {
     "messageformat": "Multimedia-edukia atzeko planoan deskargatzen jarraituko da"
   },
+  "icu:BackupMediaDownloadProgress__title-offline": {
+    "messageformat": "Restoring media paused"
+  },
+  "icu:BackupMediaDownloadProgress__description-offline": {
+    "messageformat": "Waiting for Internet connection..."
+  },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Pausatu transferentzia"
   },
@@ -4014,10 +4053,10 @@
     "messageformat": "Utzi transferentzia bertan behera"
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
-    "messageformat": "Account action required"
+    "messageformat": "Zerbait egin behar duzu kontuan"
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
-    "messageformat": "You must open Signal on your phone to continue using this account. If you do not open Signal on your phone, your account will be deleted soon. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Kontu hau erabiltzen jarraitzeko, Signal telefonoan ireki behar duzu. Signal telefonoan ireki ezean, kontua laster ezabatuko da. <learnMoreLink>Informazio gehiago</learnMoreLink>"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Zabaldu"
@@ -4269,7 +4308,7 @@
     "messageformat": "Kideak talde esteka bidez sartzen badira taldean, derrigorrezkotzat jo administratzaile batek onartzea."
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
-    "messageformat": "Copy signal.group link to clipboard"
+    "messageformat": "Kopiatu signal.group esteka arbelean"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Eskaerak ({count,number})"
@@ -4958,6 +4997,15 @@
   "icu:Preferences__button--backups": {
     "messageformat": "Babeskopiak"
   },
+  "icu:Preferences__button--internal": {
+    "messageformat": "Internal"
+  },
+  "icu:Preferences__internal__validate-backup--description": {
+    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+  },
+  "icu:Preferences__internal__validate-backup": {
+    "messageformat": "Validate"
+  },
   "icu:Preferences--lastSynced": {
     "messageformat": "Azken inportazioa {date} {time}"
   },
@@ -4992,13 +5040,13 @@
     "messageformat": "Babeskopiaren xehetasunak"
   },
   "icu:Preferences--backup-media-plan__description": {
-    "messageformat": "Text + all media backup"
+    "messageformat": "Testuaren eta multimedia-eduki guztien babeskopia"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "Ez da aurkitu zure harpidetza. Berri ezazu Signal-en babeskopiak erabiltzen jarraitzeko."
   },
   "icu:Preferences--backup-messages-plan__description": {
-    "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} day media backup} other {Text + {mediaDayCount,number} days media backup}}"
+    "messageformat": "{mediaDayCount, plural, one {Testuaren eta {mediaDayCount,number} eguneko multimedia-edukiaren babeskopia} other {Testuaren eta {mediaDayCount,number} eguneko multimedia-edukiaren babeskopia}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
     "messageformat": "Zure babeskopia-plana doakoa da"
@@ -5013,22 +5061,22 @@
     "messageformat": "Harpidetza bertan behera utzi da"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Backups subscription on your phone."
+    "messageformat": "Signal-en babeskopien harpidetza kudeatu edo bertan behera uzteko, erabili telefonoa."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Backups on your phone."
+    "messageformat": "Signal-en babeskopiak kudeatzeko edo mailaz igotzeko, erabili telefonoa."
   },
   "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups."
+    "messageformat": "Ez da aurkitu zure harpidetza. Berri ezazu Signal-en babeskopiak erabiltzen jarraitzeko."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Backups subscription on your phone."
+    "messageformat": "Signal-en babeskopien harpidetza kudeatu edo berritzeko, erabili telefonoa."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Azken babeskopia"
   },
   "icu:Preferences--backup-created-by-phone": {
-    "messageformat": "Your phone"
+    "messageformat": "Zure telefonoa"
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "Babeskopiaren tamaina"
@@ -6277,22 +6325,10 @@
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.47--0": {
-    "messageformat": "Orain, deietan zure bideo-aurrebista lokala zabal dezakezu, zeure burua hobeto ikusteko."
-  },
-  "icu:WhatsNew__v7.48--0": {
-    "messageformat": "Lasterbide eroso bat gehitu dugu, Signal-eko taldeko deietan hitz egiten hasten zarenean eskua bizkor jaisteko."
-  },
-  "icu:WhatsNew__v7.49--0": {
-    "messageformat": "Orain, Android-erako Signal-en beste ordenagailu bat lotzen baduzu eta mezu-historia transferitzea aukeratzen baduzu, gailu nagusiko eranskin zahar jakinak ere transferi ditzakezu. Transferentzia-prozesua muturretik muturrera enkriptatuta dago eta segurua da."
-  },
-  "icu:WhatsNew__v7.50--0": {
-    "messageformat": "Orain, Android-erako Signal-en beste ordenagailu bat lotzen baduzu eta mezu-historia transferitzea aukeratzen baduzu, gailu nagusiko eranskin zahar jakinak ere transferi ditzakezu. Transferentzia-prozesua muturretik muturrera enkriptatuta dago eta segurua da."
-  },
   "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Fire, the wheel, and electricity were all great developments, but they were merely necessary steps along the path that created the conditions for animated GIF search to exist. Now you can experience the pinnacle of human technological advancement in Signal Desktop with a brand-new selection interface that makes it easy to quickly find an emoji, sticker, or animated GIF that's perfect for the moment."
+    "messageformat": "Orain, GIF bizidunak Signal Desktop-en ere bila ditzakezu."
   },
   "icu:WhatsNew__v7.51--1": {
-    "messageformat": "We also resized the picture-in-picture window and added convenient new shortcuts to mute/unmute your microphone or turn the camera on/off while a call is minimized."
+    "messageformat": "Halaber, leiho gainjarriaren tamaina aldatu dugu, eta deiak minimizatuta dauden bitartean agertuko diren lasterbide erabilgarriak gehitu ditugu."
   }
 }
