@@ -42,23 +42,18 @@ export class CDSI extends CDSBase<CDSIOptionsType> {
       await sleep(delay);
     }
 
-    const { acisAndAccessKeys, e164s, returnAcisWithoutUaks = false } = options;
+    const { acisAndAccessKeys, e164s } = options;
     const auth = await this.getAuth();
 
     log.info('CDSSocketManager: making request via libsignal');
     try {
       log.info('CDSSocketManager: starting lookup request');
 
-      const useNewConnectLogic = !window.Signal.RemoteConfig.isEnabled(
-        'desktop.cdsiViaLibsignal.disableNewConnectionLogic'
-      );
       const { timeout = REQUEST_TIMEOUT } = options;
       const response = await pTimeout(
         this.libsignalNet.cdsiLookup(auth, {
           acisAndAccessKeys,
           e164s,
-          returnAcisWithoutUaks,
-          useNewConnectLogic,
         }),
         timeout
       );
