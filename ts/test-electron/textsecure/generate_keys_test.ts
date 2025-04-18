@@ -5,9 +5,8 @@ import { assert } from 'chai';
 
 import { constantTimeEqual } from '../../Crypto';
 import { generateKeyPair } from '../../Curve';
-import type { UploadKeysType } from '../../textsecure/WebAPI';
+import type { UploadKeysType, UploadPreKeyType } from '../../textsecure/WebAPI';
 import AccountManager from '../../textsecure/AccountManager';
-import type { PreKeyType } from '../../textsecure/Types.d';
 import { ServiceIdKind } from '../../types/ServiceId';
 import { normalizeAci } from '../../util/normalizeAci';
 
@@ -46,7 +45,7 @@ describe('Key generation', function (this: Mocha.Suite) {
   }
 
   async function validateResultPreKey(
-    resultKey: Pick<PreKeyType, 'keyId' | 'publicKey'>
+    resultKey: UploadPreKeyType
   ): Promise<void> {
     const keyPair = await textsecure.storage.protocol.loadPreKey(
       ourServiceId,
@@ -55,7 +54,10 @@ describe('Key generation', function (this: Mocha.Suite) {
     if (!keyPair) {
       throw new Error(`PreKey ${resultKey.keyId} not found`);
     }
-    assertEqualBuffers(resultKey.publicKey, keyPair.publicKey().serialize());
+    assertEqualBuffers(
+      resultKey.publicKey.serialize(),
+      keyPair.publicKey().serialize()
+    );
   }
 
   before(async () => {
@@ -65,7 +67,10 @@ describe('Key generation', function (this: Mocha.Suite) {
 
     const keyPair = generateKeyPair();
     await textsecure.storage.put('identityKeyMap', {
-      [ourServiceId]: keyPair,
+      [ourServiceId]: {
+        pubKey: keyPair.publicKey.serialize(),
+        privKey: keyPair.privateKey.serialize(),
+      },
     });
     await textsecure.storage.user.setAciAndDeviceId(ourServiceId, 1);
 

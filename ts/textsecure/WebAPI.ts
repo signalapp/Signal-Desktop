@@ -14,6 +14,7 @@ import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
 import { z } from 'zod';
 import type { Readable } from 'stream';
+import type { KEMPublicKey, PublicKey } from '@signalapp/libsignal-client';
 
 import { assertDev, strictAssert } from '../util/assert';
 import * as durations from '../util/durations';
@@ -1018,12 +1019,12 @@ export type CreateAccountOptionsType = Readonly<{
   registrationId: number;
   pniRegistrationId: number;
   accessKey: Uint8Array;
-  aciPublicKey: Uint8Array;
-  pniPublicKey: Uint8Array;
+  aciPublicKey: PublicKey;
+  pniPublicKey: PublicKey;
   aciSignedPreKey: UploadSignedPreKeyType;
   pniSignedPreKey: UploadSignedPreKeyType;
-  aciPqLastResortPreKey: UploadSignedPreKeyType;
-  pniPqLastResortPreKey: UploadSignedPreKeyType;
+  aciPqLastResortPreKey: UploadKyberPreKeyType;
+  pniPqLastResortPreKey: UploadKyberPreKeyType;
 }>;
 
 const linkDeviceResultZod = z.object({
@@ -1064,8 +1065,8 @@ export type LinkDeviceOptionsType = Readonly<{
   pniRegistrationId: number;
   aciSignedPreKey: UploadSignedPreKeyType;
   pniSignedPreKey: UploadSignedPreKeyType;
-  aciPqLastResortPreKey: UploadSignedPreKeyType;
-  pniPqLastResortPreKey: UploadSignedPreKeyType;
+  aciPqLastResortPreKey: UploadKyberPreKeyType;
+  pniPqLastResortPreKey: UploadKyberPreKeyType;
 }>;
 
 const createAccountResultZod = z.object({
@@ -1646,14 +1647,18 @@ export type WebAPIType = {
 
 export type UploadSignedPreKeyType = {
   keyId: number;
-  publicKey: Uint8Array;
+  publicKey: PublicKey;
   signature: Uint8Array;
 };
 export type UploadPreKeyType = {
   keyId: number;
-  publicKey: Uint8Array;
+  publicKey: PublicKey;
 };
-export type UploadKyberPreKeyType = UploadSignedPreKeyType;
+export type UploadKyberPreKeyType = {
+  keyId: number;
+  publicKey: KEMPublicKey;
+  signature: Uint8Array;
+};
 
 type SerializedSignedPreKeyType = Readonly<{
   keyId: number;
@@ -1662,12 +1667,12 @@ type SerializedSignedPreKeyType = Readonly<{
 }>;
 
 export type UploadKeysType = {
-  identityKey: Uint8Array;
+  identityKey: PublicKey;
 
   // If a field is not provided, the server won't update its data.
   preKeys?: Array<UploadPreKeyType>;
-  pqPreKeys?: Array<UploadSignedPreKeyType>;
-  pqLastResortPreKey?: UploadSignedPreKeyType;
+  pqPreKeys?: Array<UploadKyberPreKeyType>;
+  pqLastResortPreKey?: UploadKyberPreKeyType;
   signedPreKey?: UploadSignedPreKeyType;
 };
 
@@ -2080,7 +2085,7 @@ export function initialize({
     }
 
     function serializeSignedPreKey(
-      preKey?: UploadSignedPreKeyType
+      preKey?: UploadSignedPreKeyType | UploadKyberPreKeyType
     ): SerializedSignedPreKeyType | undefined {
       if (preKey == null) {
         return undefined;
@@ -2090,7 +2095,7 @@ export function initialize({
 
       return {
         keyId,
-        publicKey: Bytes.toBase64(publicKey),
+        publicKey: Bytes.toBase64(publicKey.serialize()),
         signature: Bytes.toBase64(signature),
       };
     }
@@ -2988,8 +2993,8 @@ export function initialize({
         },
         requireAtomic: true,
         skipDeviceTransfer: true,
-        aciIdentityKey: Bytes.toBase64(aciPublicKey),
-        pniIdentityKey: Bytes.toBase64(pniPublicKey),
+        aciIdentityKey: Bytes.toBase64(aciPublicKey.serialize()),
+        pniIdentityKey: Bytes.toBase64(pniPublicKey.serialize()),
         aciSignedPreKey: serializeSignedPreKey(aciSignedPreKey),
         pniSignedPreKey: serializeSignedPreKey(pniSignedPreKey),
         aciPqLastResortPreKey: serializeSignedPreKey(aciPqLastResortPreKey),
@@ -3135,11 +3140,11 @@ export function initialize({
     ) {
       const preKeys = genKeys.preKeys?.map(key => ({
         keyId: key.keyId,
-        publicKey: Bytes.toBase64(key.publicKey),
+        publicKey: Bytes.toBase64(key.publicKey.serialize()),
       }));
       const pqPreKeys = genKeys.pqPreKeys?.map(key => ({
         keyId: key.keyId,
-        publicKey: Bytes.toBase64(key.publicKey),
+        publicKey: Bytes.toBase64(key.publicKey.serialize()),
         signature: Bytes.toBase64(key.signature),
       }));
 

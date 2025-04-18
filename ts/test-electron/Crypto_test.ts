@@ -357,8 +357,8 @@ describe('Crypto', () => {
       const deviceName = 'v1.19.0 on Windows 10';
       const identityKey = Curve.generateKeyPair();
 
-      const encrypted = encryptDeviceName(deviceName, identityKey.pubKey);
-      const decrypted = decryptDeviceName(encrypted, identityKey.privKey);
+      const encrypted = encryptDeviceName(deviceName, identityKey.publicKey);
+      const decrypted = decryptDeviceName(encrypted, identityKey.privateKey);
 
       assert.strictEqual(decrypted, deviceName);
     });
@@ -367,10 +367,10 @@ describe('Crypto', () => {
       const deviceName = 'v1.19.0 on Windows 10';
       const identityKey = Curve.generateKeyPair();
 
-      const encrypted = encryptDeviceName(deviceName, identityKey.pubKey);
+      const encrypted = encryptDeviceName(deviceName, identityKey.publicKey);
       encrypted.syntheticIv = getRandomBytes(16);
       try {
-        decryptDeviceName(encrypted, identityKey.privKey);
+        decryptDeviceName(encrypted, identityKey.privateKey);
       } catch (error) {
         assert.strictEqual(
           error.message,

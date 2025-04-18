@@ -428,7 +428,7 @@ export class Provisioner {
     const url = linkDeviceRoute
       .toAppUrl({
         uuid,
-        pubKey: Bytes.toBase64(cipher.getPublicKey()),
+        pubKey: Bytes.toBase64(cipher.getPublicKey().serialize()),
         capabilities: isLinkAndSyncEnabled() ? ['backup3'] : [],
       })
       .toString();

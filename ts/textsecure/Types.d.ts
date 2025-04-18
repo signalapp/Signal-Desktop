@@ -1,6 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type * as client from '@signalapp/libsignal-client';
+
 import type { SignalService as Proto } from '../protobuf';
 import type { IncomingWebSocketRequest } from './WebsocketResources';
 import type { ServiceIdString, AciString, PniString } from '../types/ServiceId';
@@ -62,10 +64,7 @@ export type CompatPreKeyType = {
 
 // How we work with these types thereafter
 
-export type KeyPairType = {
-  privKey: Uint8Array;
-  pubKey: Uint8Array;
-};
+export type KeyPairType = client.IdentityKeyPair;
 
 export type OuterSignedPrekeyType = {
   confirmed: boolean;

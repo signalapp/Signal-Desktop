@@ -3,7 +3,7 @@
 
 import PQueue from 'p-queue';
 import { isNumber, omit, orderBy } from 'lodash';
-import type { KyberPreKeyRecord } from '@signalapp/libsignal-client';
+import { PublicKey, type KyberPreKeyRecord } from '@signalapp/libsignal-client';
 import {
   AccountEntropyPool,
   BackupKey,
@@ -192,10 +192,10 @@ function getNextKeyId(
 
 function kyberPreKeyToUploadSignedPreKey(
   record: KyberPreKeyRecord
-): UploadSignedPreKeyType {
+): UploadKyberPreKeyType {
   return {
     keyId: record.id(),
-    publicKey: record.publicKey().serialize(),
+    publicKey: record.publicKey(),
     signature: record.signature(),
   };
 }
@@ -221,7 +221,7 @@ function signedPreKeyToUploadSignedPreKey({
 }: CompatSignedPreKeyType): UploadSignedPreKeyType {
   return {
     keyId,
-    publicKey: keyPair.pubKey,
+    publicKey: keyPair.publicKey,
     signature,
   };
 }
@@ -256,10 +256,10 @@ export default class AccountManager extends EventTarget {
     if (!name) {
       return undefined;
     }
-    const encrypted = encryptDeviceName(name, identityKey.pubKey);
+    const encrypted = encryptDeviceName(name, identityKey.publicKey);
 
     const proto = new Proto.DeviceName();
-    proto.ephemeralPublic = encrypted.ephemeralPublic;
+    proto.ephemeralPublic = encrypted.ephemeralPublic.serialize();
     proto.syntheticIv = encrypted.syntheticIv;
     proto.ciphertext = encrypted.ciphertext;
 
@@ -286,11 +286,13 @@ export default class AccountManager extends EventTarget {
 
     const name = decryptDeviceName(
       {
-        ephemeralPublic: proto.ephemeralPublic,
+        ephemeralPublic: PublicKey.deserialize(
+          Buffer.from(proto.ephemeralPublic)
+        ),
         syntheticIv: proto.syntheticIv,
         ciphertext: proto.ciphertext,
       },
-      identityKey.privKey
+      identityKey.privateKey
     );
 
     return name;
@@ -414,7 +416,7 @@ export default class AccountManager extends EventTarget {
 
     return toSave.map(key => ({
       keyId: key.keyId,
-      publicKey: key.keyPair.pubKey,
+      publicKey: key.keyPair.publicKey,
     }));
   }
 
@@ -453,7 +455,7 @@ export default class AccountManager extends EventTarget {
       });
       toUpload.push({
         keyId,
-        publicKey: record.publicKey().serialize(),
+        publicKey: record.publicKey(),
         signature: record.signature(),
       });
     }
@@ -556,7 +558,7 @@ export default class AccountManager extends EventTarget {
       log.info(`${logId}: Uploading with ${keySummary.join(', ')}`);
 
       const toUpload = {
-        identityKey: identityKey.pubKey,
+        identityKey: identityKey.publicKey,
         preKeys,
         pqPreKeys,
         pqLastResortPreKey,
@@ -698,7 +700,7 @@ export default class AccountManager extends EventTarget {
   async #maybeUpdateLastResortKyberKey(
     serviceIdKind: ServiceIdKind,
     forceUpdate = false
-  ): Promise<UploadSignedPreKeyType | undefined> {
+  ): Promise<UploadKyberPreKeyType | undefined> {
     const ourServiceId =
       window.textsecure.storage.user.getCheckedServiceId(serviceIdKind);
     const identityKey = this.#getIdentityKeyOrThrow(ourServiceId);
@@ -1065,8 +1067,8 @@ export default class AccountManager extends EventTarget {
         pniRegistrationId,
         accessKey: options.accessKey,
         sessionId: options.sessionId,
-        aciPublicKey: aciKeyPair.pubKey,
-        pniPublicKey: pniKeyPair.pubKey,
+        aciPublicKey: aciKeyPair.publicKey,
+        pniPublicKey: pniKeyPair.publicKey,
         ...keysToUpload,
       });
 
@@ -1169,24 +1171,28 @@ export default class AccountManager extends EventTarget {
     await Promise.all([
       storage.protocol.saveIdentityWithAttributes(ourAci, {
         ...identityAttrs,
-        publicKey: aciKeyPair.pubKey,
+        publicKey: aciKeyPair.publicKey.serialize(),
       }),
       storage.protocol.saveIdentityWithAttributes(ourPni, {
         ...identityAttrs,
-        publicKey: pniKeyPair.pubKey,
+        publicKey: pniKeyPair.publicKey.serialize(),
       }),
     ]);
 
-    const identityKeyMap = {
-      ...(storage.get('identityKeyMap') || {}),
-      [ourAci]: aciKeyPair,
-      [ourPni]: pniKeyPair,
+    const identityKeyMap = storage.get('identityKeyMap') || {};
+
+    identityKeyMap[ourAci] = {
+      pubKey: aciKeyPair.publicKey.serialize(),
+      privKey: aciKeyPair.privateKey.serialize(),
     };
-    const registrationIdMap = {
-      ...(storage.get('registrationIdMap') || {}),
-      [ourAci]: registrationId,
-      [ourPni]: pniRegistrationId,
+    identityKeyMap[ourPni] = {
+      pubKey: pniKeyPair.publicKey.serialize(),
+      privKey: pniKeyPair.privateKey.serialize(),
     };
+
+    const registrationIdMap = storage.get('registrationIdMap') || {};
+    registrationIdMap[ourAci] = registrationId;
+    registrationIdMap[ourPni] = pniRegistrationId;
 
     await storage.put('identityKeyMap', identityKeyMap);
     await storage.put('registrationIdMap', registrationIdMap);
@@ -1292,7 +1298,7 @@ export default class AccountManager extends EventTarget {
       pqLastResortPreKey,
     }: Readonly<{
       signedPreKey?: UploadSignedPreKeyType;
-      pqLastResortPreKey?: UploadSignedPreKeyType;
+      pqLastResortPreKey?: UploadKyberPreKeyType;
     }>,
     serviceIdKind: ServiceIdKind
   ): Promise<void> {
@@ -1352,7 +1358,7 @@ export default class AccountManager extends EventTarget {
     await this._cleanKyberPreKeys(serviceIdKind);
 
     return {
-      identityKey: this.#getIdentityKeyOrThrow(ourServiceId).pubKey,
+      identityKey: this.#getIdentityKeyOrThrow(ourServiceId).publicKey,
       preKeys,
       pqPreKeys,
     };

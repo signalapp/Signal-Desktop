@@ -4,6 +4,7 @@
 import { Buffer } from 'buffer';
 import Long from 'long';
 import { sample } from 'lodash';
+import type { PublicKey, PrivateKey } from '@signalapp/libsignal-client';
 import { Aci, Pni, HKDF } from '@signalapp/libsignal-client';
 import { AccountEntropyPool } from '@signalapp/libsignal-client/dist/AccountKeys';
 
@@ -103,20 +104,20 @@ export function computeHash(data: Uint8Array): string {
 // High-level Operations
 
 export type EncryptedDeviceName = {
-  ephemeralPublic: Uint8Array;
+  ephemeralPublic: PublicKey;
   syntheticIv: Uint8Array;
   ciphertext: Uint8Array;
 };
 
 export function encryptDeviceName(
   deviceName: string,
-  identityPublic: Uint8Array
+  identityPublic: PublicKey
 ): EncryptedDeviceName {
   const plaintext = Bytes.fromString(deviceName);
   const ephemeralKeyPair = generateKeyPair();
   const masterSecret = calculateAgreement(
     identityPublic,
-    ephemeralKeyPair.privKey
+    ephemeralKeyPair.privateKey
   );
 
   const key1 = hmacSha256(masterSecret, Bytes.fromString('auth'));
@@ -129,7 +130,7 @@ export function encryptDeviceName(
   const ciphertext = encryptAesCtr(cipherKey, plaintext, counter);
 
   return {
-    ephemeralPublic: ephemeralKeyPair.pubKey,
+    ephemeralPublic: ephemeralKeyPair.publicKey,
     syntheticIv,
     ciphertext,
   };
@@ -137,7 +138,7 @@ export function encryptDeviceName(
 
 export function decryptDeviceName(
   { ephemeralPublic, syntheticIv, ciphertext }: EncryptedDeviceName,
-  identityPrivate: Uint8Array
+  identityPrivate: PrivateKey
 ): string {
   const masterSecret = calculateAgreement(ephemeralPublic, identityPrivate);
 

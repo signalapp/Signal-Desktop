@@ -21,7 +21,7 @@ export async function checkOurPniIdentityKey(): Promise<void> {
 
   const { identityKey: remoteKey } = await server.getKeysForServiceId(ourPni);
 
-  if (!constantTimeEqual(localKeyPair.pubKey, remoteKey)) {
+  if (!constantTimeEqual(localKeyPair.publicKey.serialize(), remoteKey)) {
     log.warn(
       `checkOurPniIdentityKey: local/remote key mismatch for ${ourPni}, unlinking`
     );

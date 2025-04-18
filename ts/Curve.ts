@@ -27,19 +27,11 @@ export function generateSignedPreKey(
     );
   }
 
-  if (
-    !(identityKeyPair.privKey instanceof Uint8Array) ||
-    identityKeyPair.privKey.byteLength !== 32 ||
-    !(identityKeyPair.pubKey instanceof Uint8Array) ||
-    identityKeyPair.pubKey.byteLength !== 33
-  ) {
-    throw new TypeError(
-      'generateSignedPreKey: Invalid argument for identityKeyPair'
-    );
-  }
-
   const keyPair = generateKeyPair();
-  const signature = calculateSignature(identityKeyPair.privKey, keyPair.pubKey);
+  const signature = calculateSignature(
+    identityKeyPair.privateKey,
+    keyPair.publicKey.serialize()
+  );
 
   return {
     keyId,
@@ -70,20 +62,9 @@ export function generateKyberPreKey(
     );
   }
 
-  if (
-    !(identityKeyPair.privKey instanceof Uint8Array) ||
-    identityKeyPair.privKey.byteLength !== 32 ||
-    !(identityKeyPair.pubKey instanceof Uint8Array) ||
-    identityKeyPair.pubKey.byteLength !== 33
-  ) {
-    throw new TypeError(
-      'generateKyberPreKey: Invalid argument for identityKeyPair'
-    );
-  }
-
   const keyPair = client.KEMKeyPair.generate();
   const signature = calculateSignature(
-    identityKeyPair.privKey,
+    identityKeyPair.privateKey,
     keyPair.getPublicKey().serialize()
   );
   return client.KyberPreKeyRecord.new(
@@ -98,10 +79,7 @@ export function generateKeyPair(): KeyPairType {
   const privKey = client.PrivateKey.generate();
   const pubKey = privKey.getPublicKey();
 
-  return {
-    privKey: privKey.serialize(),
-    pubKey: pubKey.serialize(),
-  };
+  return new client.IdentityKeyPair(pubKey, privKey);
 }
 
 export function createKeyPair(incomingKey: Uint8Array): KeyPairType {
@@ -120,10 +98,7 @@ export function createKeyPair(incomingKey: Uint8Array): KeyPairType {
   const privKey = client.PrivateKey.deserialize(incomingKeyBuffer);
   const pubKey = privKey.getPublicKey();
 
-  return {
-    privKey: privKey.serialize(),
-    pubKey: pubKey.serialize(),
-  };
+  return new client.IdentityKeyPair(pubKey, privKey);
 }
 
 export function prefixPublicKey(pubKey: Uint8Array): Uint8Array {
@@ -134,44 +109,30 @@ export function prefixPublicKey(pubKey: Uint8Array): Uint8Array {
 }
 
 export function calculateAgreement(
-  pubKey: Uint8Array,
-  privKey: Uint8Array
+  pubKey: client.PublicKey,
+  privKey: client.PrivateKey
 ): Uint8Array {
-  const privKeyBuffer = Buffer.from(privKey);
-
-  const pubKeyObj = client.PublicKey.deserialize(
-    Buffer.from(prefixPublicKey(pubKey))
-  );
-  const privKeyObj = client.PrivateKey.deserialize(privKeyBuffer);
-  const sharedSecret = privKeyObj.agree(pubKeyObj);
-  return sharedSecret;
+  return privKey.agree(pubKey);
 }
 
 export function verifySignature(
-  pubKey: Uint8Array,
+  pubKey: client.PublicKey,
   message: Uint8Array,
   signature: Uint8Array
 ): boolean {
-  const pubKeyBuffer = Buffer.from(pubKey);
   const messageBuffer = Buffer.from(message);
   const signatureBuffer = Buffer.from(signature);
 
-  const pubKeyObj = client.PublicKey.deserialize(pubKeyBuffer);
-  const result = pubKeyObj.verify(messageBuffer, signatureBuffer);
-
-  return result;
+  return pubKey.verify(messageBuffer, signatureBuffer);
 }
 
 export function calculateSignature(
-  privKey: Uint8Array,
+  privKey: client.PrivateKey,
   plaintext: Uint8Array
 ): Uint8Array {
-  const privKeyBuffer = Buffer.from(privKey);
   const plaintextBuffer = Buffer.from(plaintext);
 
-  const privKeyObj = client.PrivateKey.deserialize(privKeyBuffer);
-  const signature = privKeyObj.sign(plaintextBuffer);
-  return signature;
+  return privKey.sign(plaintextBuffer);
 }
 
 function validatePubKeyFormat(pubKey: Uint8Array): Uint8Array {

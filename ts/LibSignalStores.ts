@@ -14,12 +14,12 @@ import type {
   SessionRecord,
   SignedPreKeyRecord,
   Uuid,
+  PrivateKey,
 } from '@signalapp/libsignal-client';
 import {
   IdentityKeyStore,
   KyberPreKeyStore,
   PreKeyStore,
-  PrivateKey,
   PublicKey,
   SenderKeyStore,
   SessionStore,
@@ -117,7 +117,7 @@ export class IdentityKeys extends IdentityKeyStore {
     if (!keyPair) {
       throw new Error('IdentityKeyStore/getIdentityKey: No identity key!');
     }
-    return PrivateKey.deserialize(Buffer.from(keyPair.privKey));
+    return keyPair.privateKey;
   }
 
   async getLocalRegistrationId(): Promise<number> {
