@@ -14,7 +14,8 @@ export function getMinNickname(): number {
   return parseIntWithFallback(RemoteConfig.getValue('global.nicknames.min'), 3);
 }
 
-const USERNAME_CHARS = /^@?[a-zA-Z0-9]+(.\d+)?$/;
+// Usernames have a minimum length of 3 and maximum of 32
+const USERNAME_CHARS = /^@?[a-zA-Z_][a-zA-Z0-9_]{2,31}(.\d+)?$/;
 const ALL_DIGITS = /^\d+$/;
 
 export function getUsernameFromSearch(searchTerm: string): string | undefined {
