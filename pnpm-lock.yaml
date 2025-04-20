@@ -138,17 +138,14 @@ importers:
         specifier: 2.1.2
         version: 2.1.2
       '@signalapp/ringrtc':
-        specifier: 2.51.0
-        version: 2.51.0
+        specifier: 2.50.5
+        version: 2.50.5
       '@signalapp/sqlcipher':
         specifier: 2.0.0
         version: 2.0.0
       '@tanstack/react-virtual':
         specifier: 3.11.2
         version: 3.11.2(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
-      '@types/dom-mediacapture-transform':
-        specifier: 0.1.11
-        version: 0.1.11
       '@types/fabric':
         specifier: 4.5.3
         version: 4.5.3(patch_hash=e5f339ecf72fbab1c91505e7713e127a7184bfe8164aa3a9afe9bf45a0ad6b89)
@@ -2550,8 +2547,8 @@ packages:
     resolution: {integrity: sha512-y2sgqdivlrG41J4Zvt/82xtH/PZjDlgItqlD2g/Cv3ZbjlR6cGhTNXbfNygCJB8nXj+C7I28pjt1Zm3k0pv2mg==}
     engines: {npm: '>=8.2.3'}
 
-  '@signalapp/ringrtc@2.51.0':
-    resolution: {integrity: sha512-p0S7JLReO9NjfxB3Er3V6eydNB4IUfrIIimtlD7E9CerUWtejxvPNqEPxfKTCL/vVde/pqsIn0Qw9LjysA84xA==}
+  '@signalapp/ringrtc@2.50.5':
+    resolution: {integrity: sha512-4+2IfQv/wx9RMztM/tnZsvk6LjElZq7OgHITlszwJib2Gzh2Q31kyZ7vgLnsfFxfbzVQrWI9cTEc0u/hqJiDmg==}
 
   '@signalapp/sqlcipher@2.0.0':
     resolution: {integrity: sha512-1VglhOpAsAHvTFoqB1gkwbnWwU0h37flLhRHcKKYyfEbRVc+3TDRBJ54Fm8WEELnmZPju1HVGM4tnyKgq7eI+A==}
@@ -2958,12 +2955,6 @@ packages:
 
   '@types/doctrine@0.0.9':
     resolution: {integrity: sha512-eOIHzCUSH7SMfonMG1LsC2f8vxBFtho6NGBznK41R84YzPuvSBzrhEps33IsQiOW9+VL6NQ9DbjQJznk/S4uRA==}
-
-  '@types/dom-mediacapture-transform@0.1.11':
-    resolution: {integrity: sha512-Y2p+nGf1bF2XMttBnsVPHUWzRRZzqUoJAKmiP10b5umnO6DDrWI0BrGDJy1pOHoOULVmGSfFNkQrAlC5dcj6nQ==}
-
-  '@types/dom-webcodecs@0.1.14':
-    resolution: {integrity: sha512-ba9aF0qARLLQpLihONIRbj8VvAdUxO+5jIxlscVcDAQTcJmq5qVr781+ino5qbQUJUmO21cLP2eLeXYWzao5Vg==}
 
   '@types/eslint-scope@3.7.7':
     resolution: {integrity: sha512-MzMFlSLBqNF2gcHWO0G1vP/YQyfvrxZ0bF+u7mzUdZ1/xK4A4sru+nraZz5i3iEIk1l1uyicaDVTB4QbbEkAYg==}
@@ -12157,7 +12148,7 @@ snapshots:
       lodash: 4.17.21
       quill-delta: 5.1.0
 
-  '@signalapp/ringrtc@2.51.0':
+  '@signalapp/ringrtc@2.50.5':
     dependencies:
       https-proxy-agent: 7.0.6
       tar: 6.2.1
@@ -12708,12 +12699,6 @@ snapshots:
   '@types/direction@1.0.0': {}
 
   '@types/doctrine@0.0.9': {}
-
-  '@types/dom-mediacapture-transform@0.1.11':
-    dependencies:
-      '@types/dom-webcodecs': 0.1.14
-
-  '@types/dom-webcodecs@0.1.14': {}
 
   '@types/eslint-scope@3.7.7':
     dependencies:
