@@ -21,14 +21,12 @@ import {
   CallLinkRootKey,
   CallLogLevel,
   CallState,
-  CanvasVideoRenderer,
   ConnectionState,
   DataMode,
   JoinState,
   HttpMethod,
   GroupCall,
   GroupMemberInfo,
-  GumVideoCapturer,
   HangupMessage,
   HangupType,
   IceCandidateMessage,
@@ -41,7 +39,6 @@ import {
   SpeechEvent,
 } from '@signalapp/ringrtc';
 import { uniqBy, noop, compact } from 'lodash';
-
 import Long from 'long';
 import type { CallLinkAuthCredentialPresentation } from '@signalapp/libsignal-client/zkgroup';
 import {
@@ -51,7 +48,8 @@ import {
   GenericServerPublicParams,
 } from '@signalapp/libsignal-client/zkgroup';
 import { Aci } from '@signalapp/libsignal-client';
-import type { GumVideoCaptureOptions } from '@signalapp/ringrtc/dist/ringrtc/VideoSupport';
+import { CanvasVideoRenderer, GumVideoCapturer } from '../calling/VideoSupport';
+import type { GumVideoCaptureOptions } from '../calling/VideoSupport';
 import type {
   ActionsType as CallingReduxActionsType,
   GroupCallParticipantInfoType,
@@ -229,7 +227,6 @@ type CallingReduxInterface = Pick<
 
 export type SetPresentingOptionsType = Readonly<{
   conversationId: string;
-  hasLocalVideo: boolean;
   mediaStream?: MediaStream;
   source?: PresentedSource;
   callLinkRootKey?: string;
@@ -424,7 +421,6 @@ const GROUP_CALL_OPTIONS: GumVideoCaptureOptions = {
 
 export class CallingClass {
   readonly #videoCapturer: GumVideoCapturer;
-
   readonly videoRenderer: CanvasVideoRenderer;
 
   #localPreviewContainer: HTMLDivElement | null = null;
@@ -441,9 +437,10 @@ export class CallingClass {
   #lastMediaDeviceSettings?: MediaDeviceSettings;
   #deviceReselectionTimer?: NodeJS.Timeout;
   #callsLookup: { [key: string]: Call | GroupCall };
-  #hadLocalVideoBeforePresenting?: boolean;
   #currentRtcStatsInterval: number | null = null;
   #callDebugNumber: number = 0;
+
+  #cameraEnabled: boolean = false;
 
   // Send our profile key to other participants in call link calls to ensure they
   // can see our profile info. Only send once per aci until the next app start.
@@ -1062,9 +1059,13 @@ export class CallingClass {
       type: 'ProfileKeyForCall',
     });
 
-    RingRTC.setOutgoingAudio(call.callId, hasLocalAudio);
-    RingRTC.setVideoCapturer(call.callId, this.#videoCapturer);
-    RingRTC.setVideoRenderer(call.callId, this.videoRenderer);
+    // Set the camera disposition as we transition from the lobby to the outgoing call.
+    this.#cameraEnabled = hasLocalVideo;
+
+    // Set the initial state for outgoing media for the outgoing call.
+    call.setOutgoingAudioMuted(!hasLocalAudio);
+    call.setOutgoingVideoMuted(!hasLocalVideo);
+
     this.#attachToCall(conversation, call);
 
     this.#reduxInterface.outgoingCall({
@@ -2080,6 +2081,12 @@ export class CallingClass {
     });
     log.info(logId);
 
+    const call = getOwn(this.#callsLookup, conversationId);
+    if (!call || !(call instanceof Call)) {
+      log.warn(`${logId}: Trying to accept a non-existent call`);
+      return;
+    }
+
     const callId = this.#getCallIdForConversation(conversationId);
     if (!callId) {
       log.warn(`${logId}: Trying to accept a non-existent call`);
@@ -2093,9 +2100,20 @@ export class CallingClass {
         hasLocalVideo: asVideoCall,
       });
       await this.#startDeviceReselectionTimer();
-      RingRTC.setVideoCapturer(callId, this.#videoCapturer);
-      RingRTC.setVideoRenderer(callId, this.videoRenderer);
-      RingRTC.accept(callId, asVideoCall);
+
+      if (asVideoCall) {
+        // Warm up the camera as soon as possible.
+        drop(this.enableLocalCamera(CallMode.Direct));
+      }
+
+      // Set the starting camera disposition based on the type of call.
+      this.#cameraEnabled = asVideoCall;
+
+      // Set the initial state for outgoing media for the incoming call.
+      call.setOutgoingAudioMuted(false);
+      call.setOutgoingVideoMuted(!asVideoCall);
+
+      RingRTC.accept(callId);
     } else {
       log.info(
         `${logId}: Permissions were denied, call not allowed, hanging up.`
@@ -2168,6 +2186,11 @@ export class CallingClass {
     entries.forEach(([callConversationId, call]) => {
       log.info(`${logId}: Hanging up conversation ${callConversationId}`);
       if (call instanceof Call) {
+        // Stop media immediately upon hangup.
+        this.disableLocalVideo();
+        this.videoRenderer.disable();
+        call.setOutgoingAudioMuted(true);
+        call.setOutgoingVideoMuted(true);
         RingRTC.hangup(call.callId);
       } else if (call instanceof GroupCall) {
         // This ensures that we turn off our devices.
@@ -2197,7 +2220,7 @@ export class CallingClass {
     }
 
     if (call instanceof Call) {
-      RingRTC.setOutgoingAudio(call.callId, enabled);
+      call.setOutgoingAudioMuted(!enabled);
     } else if (call instanceof GroupCall) {
       call.setOutgoingAudioMuted(!enabled);
     } else {
@@ -2223,8 +2246,17 @@ export class CallingClass {
       );
     }
 
+    this.#cameraEnabled = enabled;
+
     if (call instanceof Call) {
-      RingRTC.setOutgoingVideo(call.callId, enabled);
+      if (enabled) {
+        // Start sending video from the camera.
+        await this.enableCaptureAndSend(call);
+      } else {
+        // Stop the camera.
+        this.disableLocalVideo();
+      }
+      call.setOutgoingVideoMuted(!enabled);
     } else if (call instanceof GroupCall) {
       call.setOutgoingVideoMuted(!enabled);
     } else {
@@ -2237,7 +2269,7 @@ export class CallingClass {
     mediaStream: MediaStream
   ): Promise<void> {
     if (call instanceof Call) {
-      RingRTC.setOutgoingVideoIsScreenShare(call.callId, true);
+      call.setOutgoingVideoIsScreenShare(true);
     } else if (call instanceof GroupCall) {
       call.setOutgoingVideoIsScreenShare(true);
       call.setPresenting(true);
@@ -2258,7 +2290,7 @@ export class CallingClass {
 
     // Enable the video transmission once the stream is running
     if (call instanceof Call) {
-      RingRTC.setOutgoingVideo(call.callId, true);
+      call.setOutgoingVideoMuted(false);
     } else if (call instanceof GroupCall) {
       call.setOutgoingVideoMuted(false);
     } else {
@@ -2266,19 +2298,22 @@ export class CallingClass {
     }
   }
 
-  async #stopPresenting(
-    call: Call | GroupCall,
-    hasLocalVideo: boolean
-  ): Promise<void> {
+  async #stopPresenting(call: Call | GroupCall): Promise<void> {
     if (call instanceof Call) {
       // Disable video transmission first
-      RingRTC.setOutgoingVideo(call.callId, hasLocalVideo);
+      call.setOutgoingVideoMuted(!this.#cameraEnabled);
 
       // Stop screenshare
-      RingRTC.setOutgoingVideoIsScreenShare(call.callId, false);
+      call.setOutgoingVideoIsScreenShare(false);
+
+      if (this.#cameraEnabled) {
+        // Start sending video from the camera since it was enabled
+        // prior to screensharing
+        await this.enableCaptureAndSend(call);
+      }
     } else if (call instanceof GroupCall) {
       // Ditto
-      call.setOutgoingVideoMuted(!hasLocalVideo);
+      call.setOutgoingVideoMuted(!this.#cameraEnabled);
 
       call.setOutgoingVideoIsScreenShare(false);
       call.setPresenting(false);
@@ -2289,7 +2324,6 @@ export class CallingClass {
 
   async setPresenting({
     conversationId,
-    hasLocalVideo,
     mediaStream,
     source,
     callLinkRootKey,
@@ -2300,16 +2334,13 @@ export class CallingClass {
       return;
     }
 
-    this.#videoCapturer.disable();
+    this.disableLocalVideo();
+
     const isPresenting = mediaStream != null;
     if (isPresenting) {
-      this.#hadLocalVideoBeforePresenting = hasLocalVideo;
       await this.#startPresenting(call, mediaStream);
     } else {
-      const prevHasLocalVideo =
-        this.#hadLocalVideoBeforePresenting ?? hasLocalVideo;
-      this.#hadLocalVideoBeforePresenting = undefined;
-      await this.#stopPresenting(call, prevHasLocalVideo);
+      await this.#stopPresenting(call);
     }
 
     if (isPresenting) {
@@ -3243,9 +3274,19 @@ export class CallingClass {
     call.handleStateChanged = async () => {
       if (call.state === CallState.Accepted) {
         acceptedTime = acceptedTime ?? Date.now();
-      }
 
+        // Start rendering received video frames.
+        this.videoRenderer.enable(call);
+        if (this.#cameraEnabled) {
+          // Start sending video from the camera (if not already).
+          await this.enableCaptureAndSend(call);
+        }
+      }
       if (call.state === CallState.Ended) {
+        // Stop media since the call has ended.
+        this.disableLocalVideo();
+        this.videoRenderer.disable();
+
         this.#stopDeviceReselectionTimer();
         this.#lastMediaDeviceSettings = undefined;
         delete this.#callsLookup[conversationId];
