@@ -306,7 +306,6 @@ describe('calling duck', () => {
         sinon.assert.calledOnce(this.callingServiceSetPresenting);
         sinon.assert.calledWith(this.callingServiceSetPresenting, {
           conversationId: 'fake-group-call-conversation-id',
-          hasLocalVideo: false,
           mediaStream: undefined,
           source: presentedSource,
           callLinkRootKey: undefined,

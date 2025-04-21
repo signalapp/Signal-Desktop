@@ -2014,7 +2014,6 @@ function _setPresenting(
 
     await calling.setPresenting({
       conversationId: activeCall.conversationId,
-      hasLocalVideo: activeCallState.hasLocalVideo,
       mediaStream,
       source: sourceToPresent,
       callLinkRootKey: rootKey,
