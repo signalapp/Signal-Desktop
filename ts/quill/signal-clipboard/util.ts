@@ -81,7 +81,11 @@ function getStringFromNode(
     element.classList.contains(FUN_STATIC_EMOJI_CLASS) ||
     element.classList.contains(FUN_INLINE_EMOJI_CLASS)
   ) {
-    return element.ariaLabel || '';
+    return (
+      element.ariaLabel ||
+      element.attributes.getNamedItem('data-emoji-value')?.value ||
+      ''
+    );
   }
 
   // Sometimes we need to add multiple newlines to represent nested divs, and other times
