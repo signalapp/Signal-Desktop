@@ -45,11 +45,16 @@
     align-items: center;
     justify-content: center;
 
-    @include mixins.font-title-2;
+    @include mixins.font-title-1;
     margin-bottom: 2px;
     margin-top: 0;
 
     color: light-dark(variables.$color-gray-90, variables.$color-gray-05);
+
+    .module-contact-name {
+      display: flex;
+      align-items: center;
+    }
   }
 
   &__with {
@@ -137,16 +142,16 @@
 
     max-width: 255px;
     margin-inline: auto;
+    margin-block-start: 10px;
     padding-block: 16px;
     padding-inline: 20px;
 
     border-radius: 18px;
-    background-color: #e0e8fc;
-    margin-inline: auto;
+    background-color: light-dark(#eeefff, #3b3d50);
     display: flex;
     flex-direction: column;
     gap: 8px;
-    color: variables.$color-gray-75;
+    color: light-dark(variables.$color-gray-75, variables.$color-gray-02);
   }
 
   &__release-notes-notice-content {
@@ -162,8 +167,8 @@
     top: 3px;
 
     @include mixins.color-svg(
-      '../images/icons/v3/check/check-circle-fill.svg',
-      variables.$color-borage-blue
+      '../images/icons/v3/official/official-compact.svg',
+      light-dark(variables.$color-gray-75, variables.$color-gray-05)
     );
   }
 
@@ -178,7 +183,7 @@
 
     @include mixins.color-svg(
       '../images/icons/v3/bell/bell-compact.svg',
-      variables.$color-gray-75
+      light-dark(variables.$color-gray-75, variables.$color-gray-05)
     );
   }
 

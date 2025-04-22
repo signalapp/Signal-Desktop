@@ -288,7 +288,7 @@
       width: 100%;
       height: 100%;
       @include mixins.color-svg(
-        '../images/icons/v3/official/official-compact.svg',
+        '../images/icons/v3/official/official-fill-compact.svg',
         variables.$color-ultramarine
       );
     }
@@ -313,7 +313,7 @@
       width: 100%;
       height: 100%;
       @include mixins.color-svg(
-        '../images/icons/v3/official/official.svg',
+        '../images/icons/v3/official/official-fill.svg',
         variables.$color-ultramarine
       );
     }
