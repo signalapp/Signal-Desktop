@@ -269,8 +269,6 @@ export class SignalProtocolStore extends EventEmitter {
 
   sessionQueues = new Map<SessionIdType, PQueue>();
 
-  sessionQueueJobCounter = 0;
-
   readonly #identityQueues = new Map<ServiceIdString, PQueue>();
   #currentZone?: Zone;
   #currentZoneDepth = 0;
@@ -1009,29 +1007,13 @@ export class SignalProtocolStore extends EventEmitter {
 
   async enqueueSessionJob<T>(
     qualifiedAddress: QualifiedAddress,
-    name: string,
     task: () => Promise<T>,
     zone: Zone = GLOBAL_ZONE
   ): Promise<T> {
-    this.sessionQueueJobCounter += 1;
-    const id = this.sessionQueueJobCounter;
-
-    const waitStart = Date.now();
-
     return this.withZone(zone, 'enqueueSessionJob', async () => {
       const queue = this.#_getSessionQueue(qualifiedAddress);
 
-      const waitTime = Date.now() - waitStart;
-      log.info(
-        `enqueueSessionJob(${id}): queuing task ${name}, waited ${waitTime}ms`
-      );
-      const queueStart = Date.now();
-
       return queue.add<T>(() => {
-        const queueTime = Date.now() - queueStart;
-        log.info(
-          `enqueueSessionJob(${id}): running task ${name}, waited ${queueTime}ms`
-        );
         return task();
       });
     });
@@ -1611,7 +1593,6 @@ export class SignalProtocolStore extends EventEmitter {
 
     await this.enqueueSessionJob(
       addr,
-      `_archiveSession(${addr.toString()})`,
       async () => {
         const item = entry.hydrated ? entry.item : hydrateSession(entry.fromDB);
 
