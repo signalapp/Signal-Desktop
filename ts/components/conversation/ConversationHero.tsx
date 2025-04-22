@@ -291,10 +291,20 @@ export function ConversationHero({
   let titleElem: JSX.Element | undefined;
 
   if (isMe) {
-    titleElem = <>{i18n('icu:noteToSelf')}</>;
+    titleElem = (
+      <ContactName
+        isMe={isMe}
+        title={i18n('icu:noteToSelf')}
+        largeVerifiedBadge={isMe}
+      />
+    );
   } else if (isSignalConversation || conversationType !== 'direct') {
     titleElem = (
-      <ContactName isSignalConversation={isSignalConversation} title={title} />
+      <ContactName
+        isSignalConversation={isSignalConversation}
+        title={title}
+        largeVerifiedBadge={isSignalConversation}
+      />
     );
   } else if (title) {
     titleElem = (
@@ -336,10 +346,7 @@ export function ConversationHero({
           theme={theme}
           title={title}
         />
-        <h1 className="module-conversation-hero__profile-name">
-          {titleElem}
-          {isMe && <span className="ContactModal__official-badge__large" />}
-        </h1>
+        <h1 className="module-conversation-hero__profile-name">{titleElem}</h1>
         {about && !isMe && (
           <div className="module-about__container">
             <About text={about} />

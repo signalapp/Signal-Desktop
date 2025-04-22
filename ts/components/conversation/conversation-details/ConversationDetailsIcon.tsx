@@ -26,6 +26,7 @@ export enum IconType {
   'mention' = 'mention',
   'mute' = 'mute',
   'notifications' = 'notifications',
+  'official' = 'official',
   'reset' = 'reset',
   'share' = 'share',
   'spinner' = 'spinner',

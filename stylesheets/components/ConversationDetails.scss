@@ -266,6 +266,14 @@
         }
       }
 
+      &--official {
+        &::after {
+          @include details-icon(
+            '../images/icons/v3/official/official-compact.svg'
+          );
+        }
+      }
+
       &--heart {
         &::after {
           @include details-icon('../images/icons/v3/heart/heart.svg');
