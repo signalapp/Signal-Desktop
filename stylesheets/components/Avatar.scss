@@ -177,14 +177,14 @@
   &--signal-official {
     .module-Avatar__contents {
       align-items: center;
-      background-color: variables.$color-ultramarine;
+      background-color: #3640fd;
       display: flex;
       justify-content: center;
     }
 
     .module-Avatar__image {
-      height: 66%;
-      width: 66%;
+      height: 62%;
+      width: 62%;
     }
   }
 }

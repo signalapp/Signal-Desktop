@@ -120,6 +120,8 @@ DirectNoGroupsJustProfile.args = {
 
 export const SignalConversation = Template.bind({});
 SignalConversation.args = {
+  avatarUrl: 'images/profile-avatar.svg',
+  title: 'Signal',
   isSignalConversation: true,
   phoneNumber: casual.phone,
 };

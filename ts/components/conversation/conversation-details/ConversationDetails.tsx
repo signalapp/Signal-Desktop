@@ -495,7 +495,7 @@ export function ConversationDetails({
               icon={
                 <ConversationDetailsIcon
                   ariaLabel={i18n('icu:ConversationHero--signal-official-chat')}
-                  icon={IconType.timer}
+                  icon={IconType.official}
                 />
               }
               label={i18n('icu:ConversationHero--signal-official-chat')}
