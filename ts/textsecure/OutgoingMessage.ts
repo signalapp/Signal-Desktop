@@ -445,7 +445,6 @@ export default class OutgoingMessage {
 
         return window.textsecure.storage.protocol.enqueueSessionJob<MessageType>(
           address,
-          `doSendMessage(${address.toString()}, ${this.timestamp})`,
           async () => {
             const protocolAddress = ProtocolAddress.new(
               serviceId,
@@ -641,7 +640,7 @@ export default class OutgoingMessage {
         ) {
           newError = new OutgoingIdentityKeyError(serviceId, error);
           log.error(
-            'Got "key changed" error from encrypt - no identityKey for application layer',
+            'UntrustedIdentityKeyError from decrypt!',
             serviceId,
             deviceIds
           );

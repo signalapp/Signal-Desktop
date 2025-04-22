@@ -183,7 +183,6 @@ async function handleServerKeys(
       try {
         await window.textsecure.storage.protocol.enqueueSessionJob(
           address,
-          `handleServerKeys(${serviceId})`,
           () =>
             processPreKeyBundle(
               preKeyBundle,
