@@ -69,7 +69,7 @@
     "messageformat": "Nežinomas adresatas"
   },
   "icu:unknownContactShort": {
-    "messageformat": "Unknown"
+    "messageformat": "Nežinoma"
   },
   "icu:unknownGroup": {
     "messageformat": "Nežinoma grupė"
@@ -2955,34 +2955,34 @@
     "messageformat": "{count, plural, one {1 narys} few {{count,number} nariai} many {{count,number} nario} other {{count,number} narių}}"
   },
   "icu:ConversationHero--member-list-and-invited": {
-    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} pakviestas žmogus)} few {{memberList} (+{invitesCount,number} pakviesti žmonės)} many {{memberList} (+{invitesCount,number} pakviestų žmonių)} other {{memberList} (+{invitesCount,number} pakviestų žmonių)}}"
   },
   "icu:ConversationHero--group-members-zero": {
-    "messageformat": "No group members"
+    "messageformat": "Grupėje narių nėra"
   },
   "icu:ConversationHero--group-members-only-you": {
-    "messageformat": "No other group members yet"
+    "messageformat": "Kitų grupės narių dar nėra"
   },
   "icu:ConversationHero--group-members-one": {
     "messageformat": "{member}"
   },
   "icu:ConversationHero--group-members-one-and-you": {
-    "messageformat": "{member} and you"
+    "messageformat": "{member} ir jūs"
   },
   "icu:ConversationHero--group-members-two": {
-    "messageformat": "{member1} and {member2}"
+    "messageformat": "{member1} ir {member2}"
   },
   "icu:ConversationHero--group-members-two-and-you": {
-    "messageformat": "{member1}, {member2}, and you"
+    "messageformat": "{member1}, {member2} ir jūs"
   },
   "icu:ConversationHero--group-members-three": {
-    "messageformat": "{member1}, {member2}, and {member3}"
+    "messageformat": "{member1}, {member2} ir {member3}"
   },
   "icu:ConversationHero--group-members-other": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} ir dar <clickable>{remainingCount,number} žmogus</clickable>} few {{member1}, {member2}, {member3} ir dar <clickable>{remainingCount,number} žmonės</clickable>} many {{member1}, {member2}, {member3} ir dar <clickable>{remainingCount,number} žmonių</clickable>} other {{member1}, {member2}, {member3} ir dar <clickable>{remainingCount,number} žmonių</clickable>}}"
   },
   "icu:ConversationHero--group-members-other-and-you": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} ir dar <clickable>{remainingCount,number} žmogus</clickable>} few {{member1}, {member2}, {member3} ir dar <clickable>{remainingCount,number} žmonės</clickable>} many {{member1}, {member2}, {member3} ir dar <clickable>{remainingCount,number} žmonių</clickable>} other {{member1}, {member2}, {member3} ir dar <clickable>{remainingCount,number} žmonių</clickable>}}"
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "Atidžiai peržiūrėkite"
@@ -4017,10 +4017,10 @@
     "messageformat": "Įrašai ir toliau bus atsisiunčiami fone"
   },
   "icu:BackupMediaDownloadProgress__title-offline": {
-    "messageformat": "Restoring media paused"
+    "messageformat": "Įrašų atkūrimas pristabdytas"
   },
   "icu:BackupMediaDownloadProgress__description-offline": {
-    "messageformat": "Waiting for Internet connection..."
+    "messageformat": "Laukiama interneto ryšio…"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Pristabdyti perkėlimą"
@@ -4057,6 +4057,12 @@
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
     "messageformat": "Jei norite toliau naudoti šią paskyrą, telefone turite atidaryti „Signal“. Jei neatidarysite „Signal“ savo telefone, jūsų paskyra netrukus bus pašalinta. <learnMoreLink>Sužinoti daugiau</learnMoreLink>"
+  },
+  "icu:LowDiskSpaceBackupImportModal__title": {
+    "messageformat": "Can't restore media"
+  },
+  "icu:LowDiskSpaceBackupImportModal__description": {
+    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Išskleisti"
@@ -4998,13 +5004,13 @@
     "messageformat": "Atsarginės kopijos"
   },
   "icu:Preferences__button--internal": {
-    "messageformat": "Internal"
+    "messageformat": "Vidiniai"
   },
   "icu:Preferences__internal__validate-backup--description": {
-    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+    "messageformat": "Eksportuokite užšifruotą atsarginę kopiją į atmintį ir paleiskite joje patvirtinimo rinkinį"
   },
   "icu:Preferences__internal__validate-backup": {
-    "messageformat": "Validate"
+    "messageformat": "Patvirtinti"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Paskutinis importavimas {date} {time}"

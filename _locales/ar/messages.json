@@ -30,7 +30,7 @@
     "messageformat": "{count, plural, zero {{count,number} عضو} one {{count,number} عضو} two {{count,number} عضوان} few {{count,number} أعضاء} many {{count,number} عضوًا} other {{count,number} عضوٍ}}"
   },
   "icu:GroupListItem__message-already-member": {
-    "messageformat": "بِالفِعل عُضو"
+    "messageformat": "بالفعل عضو"
   },
   "icu:GroupListItem__message-pending": {
     "messageformat": "العضوية مُعلَّقة"
@@ -69,7 +69,7 @@
     "messageformat": "جهة الاتصال غير معروفة"
   },
   "icu:unknownContactShort": {
-    "messageformat": "Unknown"
+    "messageformat": "غير معروف"
   },
   "icu:unknownGroup": {
     "messageformat": "مجموعة غير معروفة"
@@ -2955,34 +2955,34 @@
     "messageformat": "{count, plural, zero {{count,number} عضو} one {1 عضو} two {{count,number} عضوان} few {{count,number} أعضاء} many {{count,number} عضوًا} other {{count,number} عضوٍ}}"
   },
   "icu:ConversationHero--member-list-and-invited": {
-    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+    "messageformat": "{invitesCount, plural, zero {{memberList} (+{invitesCount,number} مدعوون)} one {{memberList} (+{invitesCount,number} مدعو)} two {{memberList} (+{invitesCount,number} مدعوان)} few {{memberList} (+{invitesCount,number} مدعوون)} many {{memberList} (+{invitesCount,number} مدعوًا)} other {{memberList} (+{invitesCount,number} مدعوٍ)}}"
   },
   "icu:ConversationHero--group-members-zero": {
-    "messageformat": "No group members"
+    "messageformat": "المجموعة لا تضُم أعضاء"
   },
   "icu:ConversationHero--group-members-only-you": {
-    "messageformat": "No other group members yet"
+    "messageformat": "لا يوجد أعضاء آخرون في المجموعة حتى الآن"
   },
   "icu:ConversationHero--group-members-one": {
     "messageformat": "{member}"
   },
   "icu:ConversationHero--group-members-one-and-you": {
-    "messageformat": "{member} and you"
+    "messageformat": "{member} وأنت"
   },
   "icu:ConversationHero--group-members-two": {
-    "messageformat": "{member1} and {member2}"
+    "messageformat": "{member1} و{member2}"
   },
   "icu:ConversationHero--group-members-two-and-you": {
-    "messageformat": "{member1}, {member2}, and you"
+    "messageformat": "{member1}، و{member2} وأنت"
   },
   "icu:ConversationHero--group-members-three": {
-    "messageformat": "{member1}, {member2}, and {member3}"
+    "messageformat": "{member1}، و{member2} و{member3}"
   },
   "icu:ConversationHero--group-members-other": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, zero {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخرين</clickable>} one {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخر</clickable>} two {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخريْن</clickable>} few {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخرين</clickable>} many {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخرين</clickable>} other {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخرين</clickable>}}"
   },
   "icu:ConversationHero--group-members-other-and-you": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, zero {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخرين</clickable>} one {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخر</clickable>} two {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخريْن</clickable>} few {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخرين</clickable>} many {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخرين</clickable>} other {{member1} و{member2} و{member3} و<clickable>{remainingCount,number} آخرين</clickable>}}"
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "مراجعة بحذر"
@@ -3360,7 +3360,7 @@
     "messageformat": "‫عُذرًا، لكن رابط sgnl://‎ كهذا لا معنى له!"
   },
   "icu:GroupV2--cannot-send": {
-    "messageformat": "لا يمكنك إرسال الرسائل إلى هذه المجموعة."
+    "messageformat": "لا يمكنك إرسال الرسائل إلى تلك المجموعة."
   },
   "icu:GroupV2--cannot-start-group-call": {
     "messageformat": "يمكن للمُشرِفين على المجموعة فقط بدء المكالمات."
@@ -3369,10 +3369,10 @@
     "messageformat": "رابط غير صالح"
   },
   "icu:GroupV2--join--invalid-link": {
-    "messageformat": "هذا ليس رابط مجموعة صالح. عليك التأكُّد من سلامة وصحة الرابط بأكمله قبل محاولة الانضمام."
+    "messageformat": "هذا ليس رابط مجموعة صالح. تأكَّد من سلامة وصحة الرابط بأكمله قبل محاولة الانضمام."
   },
   "icu:GroupV2--join--prompt": {
-    "messageformat": "هل لديك الرغبة بالانضمام إلى هذه المجموعة ومشاركة اسمك وصورتك مع أعضائها ؟"
+    "messageformat": "هل لديك الرغبة بالانضمام إلى هذه المجموعة ومشاركة اسمك وصورتك مع أعضائها؟"
   },
   "icu:GroupV2--join--already-in-group": {
     "messageformat": "أنت بالفعل عضو في هذه المجموعة."
@@ -3396,7 +3396,7 @@
     "messageformat": "لم يتمكن من الانضمام إلى المجموعة."
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "لا يمكنك الانضمام لهذه المجموعة من خلال رابط المجموعة لأن أحد المشرفين أزالك."
+    "messageformat": "لا يُمكنك الانضمام لهذه المجموعة من خلال الرابط لأن أحد المُشرفِين قام بإزالتك."
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "لتستطيع الانضمام إلى هذه المجموعة، يجب أن يوافق مُشرِف من هذه المجموعة على طلب انضمامك. عندما ترسل طلب انضمام، سيتمُّ مشاركة اسمك وصورتك مع أعضاء المجموعة."
@@ -3444,7 +3444,7 @@
     "messageformat": "جارٍ التحديث…"
   },
   "icu:GroupV2--create--you": {
-    "messageformat": "قمتَ بإنشاء المجموعة."
+    "messageformat": "قُمتَ بإنشاء المجموعة."
   },
   "icu:GroupV2--create--other": {
     "messageformat": "قام {memberName} بإنشاء المجموعة."
@@ -3453,7 +3453,7 @@
     "messageformat": "تمَّ إنشاء المجموعة."
   },
   "icu:GroupV2--title--change--other": {
-    "messageformat": "قام  {memberName} بتغيير اسم المجموعة إلى \"{newTitle}\"."
+    "messageformat": "قامَ {memberName} بتغيير اسم المجموعة إلى \"{newTitle}\"."
   },
   "icu:GroupV2--title--change--you": {
     "messageformat": "غيَّرتَ اسم المجموعة إلى \"{newTitle}\"."
@@ -3492,7 +3492,7 @@
     "messageformat": "قام {adminName} بتغيير من يمكنه تحرير معلومات المجموعة إلى \"المُشرِفون فقط\"."
   },
   "icu:GroupV2--access-attributes--admins--you": {
-    "messageformat": "لقد غيرت من يمكنه تحرير معلومات المجموعة إلى \"المشرفون فقط\"."
+    "messageformat": "غيَّرتَ من يمكنه تحرير معلومات المجموعة إلى \"المُشرِفون فقط\"."
   },
   "icu:GroupV2--access-attributes--admins--unknown": {
     "messageformat": "قام أحد المُشرِفين بتغيير من بإمكانه تحرير معلومات المجموعة إلى \"المُشرِفون فقط\"."
@@ -3567,22 +3567,22 @@
     "messageformat": "قبل العضو {inviteeName} دعوتك إلى المجموعة."
   },
   "icu:GroupV2--member-add--other--other": {
-    "messageformat": "قام {adderName} بإضافة {addeeName}."
+    "messageformat": "قامَ {adderName} بإضافة {addeeName}."
   },
   "icu:GroupV2--member-add--other--you": {
     "messageformat": "قُمتَ بإضافة {memberName}."
   },
   "icu:GroupV2--member-add--other--unknown": {
-    "messageformat": "أضاف عضو {memberName}."
+    "messageformat": "أضاف أحد الأعضاء {memberName}."
   },
   "icu:GroupV2--member-add--you--other": {
-    "messageformat": "تمت إضافتك إلى المجموعة من طرف {memberName}."
+    "messageformat": "قامَ {memberName} بإضافتك إلى المجموعة."
   },
   "icu:GroupV2--member-add--you--you": {
-    "messageformat": "لقد انضممت إلى المجموعة."
+    "messageformat": "انضمَمتَ إلى المجموعة."
   },
   "icu:GroupV2--member-add--you--unknown": {
-    "messageformat": "لقد أُضفت إلى المجموعة."
+    "messageformat": "تمَّت إضافتك إلى المجموعة."
   },
   "icu:GroupV2--member-add-from-link--you--you": {
     "messageformat": "انضمَمتَ للمجموعة بواسطة رابط المجموعة."
@@ -3591,85 +3591,85 @@
     "messageformat": "انضم العضو {memberName} للمجموعة عبر رابط المجموعة."
   },
   "icu:GroupV2--member-add-from-admin-approval--you--other": {
-    "messageformat": "لقد وافق المشرف {adminName} على طلب انضمامك للمجموعة."
+    "messageformat": "وافق المُشرِف {adminName} على طلب انضمامك للمجموعة."
   },
   "icu:GroupV2--member-add-from-admin-approval--you--unknown": {
-    "messageformat": "تمت الموافقة على طلبك للانضمام للمجموعة."
+    "messageformat": "تمَّت الموافقة على طلبك للانضمام للمجموعة."
   },
   "icu:GroupV2--member-add-from-admin-approval--other--you": {
-    "messageformat": "لقد وافقت على طلب انضمام {joinerName} للمجموعة."
+    "messageformat": "وافقتَ على طلب انضمام {joinerName} للمجموعة."
   },
   "icu:GroupV2--member-add-from-admin-approval--other--other": {
-    "messageformat": "لقد وافق المشرف {adminName} على طلب انضمام {joinerName} للمجموعة."
+    "messageformat": "وافق المُشرِف {adminName} على طلب انضمام {joinerName} للمجموعة."
   },
   "icu:GroupV2--member-add-from-admin-approval--other--unknown": {
-    "messageformat": "لقد تمت الموافقة على طلب انضمام {joinerName} للمجموعة."
+    "messageformat": "تمَّت الموافقة على طلب انضمام {joinerName} للمجموعة."
   },
   "icu:GroupV2--member-remove--other--other": {
-    "messageformat": "أزيل العضو {memberName} من طرف {adminName}."
+    "messageformat": "قام {adminName} بإزالة {memberName}."
   },
   "icu:GroupV2--member-remove--other--self": {
-    "messageformat": "غادر العضو {memberName} المجموعة."
+    "messageformat": "غادر {memberName} المجموعة."
   },
   "icu:GroupV2--member-remove--other--you": {
-    "messageformat": "لقد أزلت {memberName}."
+    "messageformat": "قُمتَ بإزالة {memberName}."
   },
   "icu:GroupV2--member-remove--other--unknown": {
-    "messageformat": "أزال عضو {memberName}."
+    "messageformat": "قام أحد الأعضاء بإزالة {memberName}."
   },
   "icu:GroupV2--member-remove--you--other": {
-    "messageformat": "أزالك {adminName}."
+    "messageformat": "قام {adminName} بإزالتك."
   },
   "icu:GroupV2--member-remove--you--you": {
-    "messageformat": "لقد غادرت المجموعة."
+    "messageformat": "غادرتَ المجموعة."
   },
   "icu:GroupV2--member-remove--you--unknown": {
-    "messageformat": "تمت إزالتك من المجموعة."
+    "messageformat": "تمَّت إزالتك من المجموعة."
   },
   "icu:GroupV2--member-privilege--promote--other--other": {
-    "messageformat": "أصبح العضو {memberName} مشرفا بفضل {adminName}."
+    "messageformat": "قام {adminName} بتعيين {memberName} كمُشرِف."
   },
   "icu:GroupV2--member-privilege--promote--other--you": {
-    "messageformat": "لقد جعلت العضو {memberName} مشرفا."
+    "messageformat": "قُمتَ بتعيين {memberName} كمُشرِف."
   },
   "icu:GroupV2--member-privilege--promote--other--unknown": {
-    "messageformat": "قام مشرف بجعل العضو {memberName} مشرفا."
+    "messageformat": "قام أحد المُشرِفين بتعيين {memberName} كمُشرِف."
   },
   "icu:GroupV2--member-privilege--promote--you--other": {
-    "messageformat": "أصبحت عضوا مشرفا بفضل {adminName}."
+    "messageformat": "قامَ {adminName} بتعيينك مُشرِفًا."
   },
   "icu:GroupV2--member-privilege--promote--you--unknown": {
-    "messageformat": "جعلك مشرف ما عضوا مشرفا."
+    "messageformat": "قام أحد المُشرِفين بتعيينك مُشرِفًا."
   },
   "icu:GroupV2--member-privilege--demote--other--other": {
-    "messageformat": "أُبطلَت امتيازات إشراف {memberName} بسبب {adminName}."
+    "messageformat": "أُبطلَ {adminName} امتيازات الإشراف من {memberName}."
   },
   "icu:GroupV2--member-privilege--demote--other--you": {
-    "messageformat": "لقد أبطلت امتيازات إشراف {memberName}."
+    "messageformat": "أبطلتَ امتيازات المُشرِف من {memberName}."
   },
   "icu:GroupV2--member-privilege--demote--other--unknown": {
-    "messageformat": "أبطل مشرف امتيازات إشراف {memberName}."
+    "messageformat": "أبطل أحد المُشرِفين امتيازات الإشراف من {memberName}."
   },
   "icu:GroupV2--member-privilege--demote--you--other": {
-    "messageformat": "أُبطلَت امتيازات اﻹشراف لديك من طرف {adminName}."
+    "messageformat": "قام {adminName} بإبطال امتيازات اﻹشراف لديك."
   },
   "icu:GroupV2--member-privilege--demote--you--unknown": {
-    "messageformat": "أبطل مشرف امتيازات إشرافك."
+    "messageformat": "قامَ أحد المُشرِفين بإبطال امتيازاتك كمُشرِف."
   },
   "icu:GroupV2--pending-add--one--other--other": {
-    "messageformat": "دُعي شخص واحد للمجموعة من طرف {memberName}."
+    "messageformat": "قام {memberName} بدعوة شخص واحد إلى المجموعة."
   },
   "icu:GroupV2--pending-add--one--other--you": {
-    "messageformat": "لقد دعوت {inviteeName} إلى المجموعة."
+    "messageformat": "دعوتَ {inviteeName} إلى المجموعة."
   },
   "icu:GroupV2--pending-add--one--other--unknown": {
-    "messageformat": "دُعي شخص واحد إلى المجموعة."
+    "messageformat": "دُعِيَ شخص واحد إلى المجموعة."
   },
   "icu:GroupV2--pending-add--one--you--other": {
     "messageformat": "دعاك {memberName} إلى المجموعة."
   },
   "icu:GroupV2--pending-add--one--you--unknown": {
-    "messageformat": "لقد دُعيت إلى المجموعة."
+    "messageformat": "دُعيتَ إلى المجموعة."
   },
   "icu:GroupV2--pending-add--many--other": {
     "messageformat": "{count, plural, zero {دعا {memberName} {count,number} شخص إلى المجموعة.} one {دعا {memberName} {count,number} شخص إلى المجموعة.} two {دعا {memberName} شخصين {count,number} إلى المجموعة.} few {دعا {memberName} {count,number} أشخاص إلى المجموعة.} many {دعا {memberName} {count,number} شخصًا إلى المجموعة.} other {دعا {memberName} {count,number} شخصٍ إلى المجموعة.}}"
@@ -3681,31 +3681,31 @@
     "messageformat": "{count, plural, zero {دُعي {count,number} شخص إلى المجموعة.} one {دُعي {count,number} شخص إلى المجموعة.} two {دُعي شخصين {count,number} إلى المجموعة.} few {دُعي {count,number} أشخاص إلى المجموعة.} many {دُعي {count,number} شخصًا إلى المجموعة.} other {دُعي {count,number} شخصٍ إلى المجموعة.}}"
   },
   "icu:GroupV2--pending-remove--decline--other": {
-    "messageformat": "دعا العضو {memberName} شخصا واحد رفض الانضمام إلى المجموعة."
+    "messageformat": "أحد الأشخاص الذين دعاهم {memberName} رفض الدعوة إلى المجموعة."
   },
   "icu:GroupV2--pending-remove--decline--you": {
-    "messageformat": "رُفضَت دعوتك {inviteeName} إلى المجموعة."
+    "messageformat": "رفضَ {inviteeName} دعوتك  إلى المجموعة."
   },
   "icu:GroupV2--pending-remove--decline--from-you": {
-    "messageformat": "لقد رفضت الدعوة إلى المجموعة."
+    "messageformat": "رفضتَ الدعوة إلى المجموعة."
   },
   "icu:GroupV2--pending-remove--decline--unknown": {
     "messageformat": "رفض شخص واحد الدعوة للانضمام إلى المجموعة."
   },
   "icu:GroupV2--pending-remove--revoke--one--other": {
-    "messageformat": "أبطل العضو {memberName} دعوة انضمام شخص واحد إلى المجموعة."
+    "messageformat": "أبطلَ العضو {memberName} دعوة انضمام شخص واحد إلى المجموعة."
   },
   "icu:GroupV2--pending-remove--revoke--one--you": {
-    "messageformat": "لقد أبطلت دعوة انضمام شخص واحد إلى المجموعة."
+    "messageformat": "أبطلتَ دعوة انضمام شخص واحد إلى المجموعة."
   },
   "icu:GroupV2--pending-remove--revoke-own--to-you": {
-    "messageformat": "أبطل العضو {inviterName} دعوتك."
+    "messageformat": "أبطلَ العضو {inviterName} دعوته لك."
   },
   "icu:GroupV2--pending-remove--revoke-own--unknown": {
-    "messageformat": "أبطل العضو {inviterName} دعوة شخص واحد."
+    "messageformat": "أبطلَ العضو {inviterName} دعوته لشخص واحد."
   },
   "icu:GroupV2--pending-remove--revoke--one--unknown": {
-    "messageformat": "أبطل مشرف دعوة شخص واحد إلى المجموعة."
+    "messageformat": "أبطل أحد المُشرِفين دعوة شخص واحد إلى المجموعة."
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
     "messageformat": "{count, plural, zero {ألغى {memberName} دعوة إلى المجموعة لـ {count,number} شخص.} one {ألغى {memberName} دعوة إلى المجموعة لشخصٍ واحد.} two {ألغى {memberName} دعوة إلى المجموعة لـ {count,number} شخصين.} few {ألغى {memberName} دعوة إلى المجموعة لـ {count,number} أشخاص.} many {ألغى {memberName} دعوة إلى المجموعة لـ {count,number} شخصًا.} other {ألغى {memberName} دعوة إلى المجموعة لـ {count,number} شخصٍ.}}"
@@ -3717,22 +3717,22 @@
     "messageformat": "{count, plural, zero {أبطلَ المُشرِف دعوات {count,number} شخص إلى المجموعة.} one {أبطلَ المُشرِف دعوة شخص واحد إلى المجموعة.} two {أبطلَ المُشرِف دعوات {count,number} شخصين إلى المجموعة.} few {أبطلَ المُشرِف دعوات {count,number} أشخاص إلى المجموعة.} many {أبطلَ المُشرِف دعوات {count,number} شخصًا إلى المجموعة.} other {أبطلَ المُشرِف دعوات {count,number} شخص إلى المجموعة.}}"
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--other": {
-    "messageformat": "أبطل المشرف {adminName} دعوة انضمام  شخص واحد إلى المجموعة تمت دعوته من طرف {memberName}."
+    "messageformat": "أبطلَ {adminName} دعوة انضمام  شخص واحد إلى المجموعة تمَّت دعوته من طرف {memberName}."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--you": {
-    "messageformat": "لفذ أبطلت دعوة انضمام شخص واحد إلى المجموعة تمت دعوته من طرف {memberName}."
+    "messageformat": "أبطلتَ دعوة انضمام شخص واحد إلى المجموعة تمَّت دعوته من طرف {memberName}."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--unknown": {
     "messageformat": "أبطلَ مشرف دعوة انضمام  شخص واحد إلى المجموعة تمَّت دعوته من طرف {memberName}."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--one--other": {
-    "messageformat": "أبطل المشرف {adminName} دعوتك {inviteeName} للانضمام إلى المجموعة."
+    "messageformat": "أبطلَ {adminName} دعوة الانضمام إلى المجموعة التي أرسلتَها إلى {inviteeName}."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--one--you": {
-    "messageformat": "لقد ألغيت دعوة {inviteeName}."
+    "messageformat": "ألغيتَ دعوتك إلى {inviteeName}."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--one--unknown": {
-    "messageformat": "أبطل مشرف دعوتك {inviteeName} للانضمام إلى المجموعة."
+    "messageformat": "أبطلَ أحد المُشرِفين دعوة  للانضمام إلى المجموعة التي أرسلتَها إلى {inviteeName}."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--other": {
     "messageformat": "{count, plural, zero {أبطل المُشرِف {adminName} دعوة انضمام {count,number} شخص إلى المجموعة تمَّت دعوته من طرف {memberName}.} one {أبطل المُشرِف {adminName} دعوة انضمام {count,number} شخص إلى المجموعة تمَّت دعوته من طرف {memberName}.} two {أبطل المُشرِف {adminName} دعوة انضمام {count,number} شخصين إلى المجموعة تمَّت دعوتهما من طرف {memberName}.} few {أبطل المُشرِف {adminName} دعوة انضمام {count,number} أشخاص إلى المجموعة تمَّت دعوتهم من طرف {memberName}.} many {أبطل المُشرِف {adminName} دعوة انضمام {count,number} شخصا إلى المجموعة تمَّت دعوتهم من طرف {memberName}.} other {أبطل المُشرِف {adminName} دعوة انضمام {count,number} شخص إلى المجموعة تمَّت دعوتهم من طرف {memberName}.}}"
@@ -3753,25 +3753,25 @@
     "messageformat": "{count, plural, zero {أبطل المُشرِف دعواتك لـ {count,number} شخص إلى المجموعة.} one {أبطل المُشرِف دعوتك لـ {count,number} شخص للانضمام إلى المجموعة.} two {أبطل المُشرِف دعواتك لـ {count,number} شخصين للانضمام إلى المجموعة.} few {أبطل المُشرِف دعواتك لـ {count,number} أشخاصٍ للانضمام إلى المجموعة.} many {أبطل المُشرِف دعواتك لـ {count,number} شخصًا للانضمام إلى المجموعة.} other {أبطل المُشرِف دعواتك لـ {count,number} شخصٍ للانضمام إلى المجموعة.}}"
   },
   "icu:GroupV2--admin-approval-add-one--you": {
-    "messageformat": "لقد أرسلت طلب الانضمام للمجموعة."
+    "messageformat": "أرسلتَ طلبًا للانضمام إلى المجموعة."
   },
   "icu:GroupV2--admin-approval-add-one--other": {
-    "messageformat": "طلبَ {joinerName} الانضمام للمجموعة بواسطة رابط المجموعة."
+    "messageformat": "قامَ {joinerName} بطلب الانضمام بواسطة رابط المجموعة."
   },
   "icu:GroupV2--admin-approval-remove-one--you--you": {
-    "messageformat": "لقد ألغيت طلب انضمامك للمجموعة."
+    "messageformat": "ألغيتَ طلب انضمامك للمجموعة."
   },
   "icu:GroupV2--admin-approval-remove-one--you--unknown": {
-    "messageformat": "رُفض طلبك للانضمام للمجموعة من قبل مشرف عليها."
+    "messageformat": "رُفِضَ طلبك للانضمام للمجموعة من قبل أحد المُشرِفين."
   },
   "icu:GroupV2--admin-approval-remove-one--other--you": {
-    "messageformat": "لقد رفضت طلب انضمام {joinerName} للمجموعة."
+    "messageformat": "رفضتَ طلب انضمام {joinerName} للمجموعة."
   },
   "icu:GroupV2--admin-approval-remove-one--other--own": {
-    "messageformat": "لقد ألغى {joinerName} طلب الانضمام إلى المجموعة."
+    "messageformat": "ألغى {joinerName} طلبه للانضمام إلى المجموعة."
   },
   "icu:GroupV2--admin-approval-remove-one--other--other": {
-    "messageformat": "لقد رفض المشرف {adminName} طلب انضمام {joinerName} للمجموعة."
+    "messageformat": "رفضَ {adminName} طلب انضمام {joinerName} للمجموعة."
   },
   "icu:GroupV2--admin-approval-remove-one--other--unknown": {
     "messageformat": "رُفِضَ طلب اِنضمام {joinerName} إلى المجموعة."
@@ -3816,112 +3816,112 @@
     "messageformat": "تمَّت إعادة تعيين رابط المجموعة."
   },
   "icu:GroupV2--description--remove--you": {
-    "messageformat": "لقد أزلت وصف المجموعة."
+    "messageformat": "أزلتَ وصف المجموعة."
   },
   "icu:GroupV2--description--remove--other": {
-    "messageformat": "أُزيلَ وصف المجموعة من طرف {memberName}."
+    "messageformat": "قامَ {memberName} بإزالة وصف المجموعة."
   },
   "icu:GroupV2--description--remove--unknown": {
-    "messageformat": "لقد أزيل وصف المجموعة."
+    "messageformat": "تمَّت إزالة وصف المجموعة."
   },
   "icu:GroupV2--description--change--you": {
-    "messageformat": "أنتَ قد غيَّرتَ وصفَ المَجمُوعَة."
+    "messageformat": "قُمتَ بتغيير وصفَ المَجمُوعَة."
   },
   "icu:GroupV2--description--change--other": {
-    "messageformat": "غيَّر العضو {memberName} وصف المجموعة."
+    "messageformat": "قامَ بتغيير {memberName} وصف المجموعة."
   },
   "icu:GroupV2--description--change--unknown": {
-    "messageformat": "لقد تغير وصف المجموعة."
+    "messageformat": "تمَّ تغيير وصف المجموعة."
   },
   "icu:GroupV2--announcements--admin--you": {
-    "messageformat": "لقد قمت بتغيير إعدادات المجموعة للسماح للمشرفين فقط بإرسال الرسائل."
+    "messageformat": "قُمتَ بتغيير إعدادات المجموعة للسماح للمُشرِفين فقط بإرسال الرسائل."
   },
   "icu:GroupV2--announcements--admin--other": {
-    "messageformat": "لقد غيَّر العضو {memberName} إعدادات المجموعة للسماح للمشرفين فقط بإرسال الرسائل."
+    "messageformat": "غيَّرَ العضو {memberName} إعدادات المجموعة للسماح للمُشرِفين فقط بإرسال الرسائل."
   },
   "icu:GroupV2--announcements--admin--unknown": {
-    "messageformat": "لقد تغيرت إعدادات المجموعة للسماح للمشرفين فقط بإرسال الرسائل."
+    "messageformat": "قُمتَ بتغيير إعدادات المجموعة للسماح للمُشرِفين فقط بإرسال الرسائل."
   },
   "icu:GroupV2--announcements--member--you": {
-    "messageformat": "لقد قمت بتغيير إعدادات المجموعة للسماح للمشرفين فقط بإرسال الرسائل."
+    "messageformat": "قُمتَ بتغيير إعدادات المجموعة للسماح لجميع الأعضاء بإرسال الرسائل."
   },
   "icu:GroupV2--announcements--member--other": {
-    "messageformat": "لقد غيَّر العضو {memberName} إعدادات المجموعة للسماح لجميع الأعضاء بإرسال الرسائل."
+    "messageformat": "غيَّرَ {memberName} إعدادات المجموعة للسماح لجميع الأعضاء بإرسال الرسائل."
   },
   "icu:GroupV2--announcements--member--unknown": {
-    "messageformat": "لقد تغيرت إعدادات المجموعة للسماح لجميع الأعضاء بإرسال الرسائل."
+    "messageformat": "تغيَّرتَ إعدادات المجموعة للسماح لجميع الأعضاء بإرسال الرسائل."
   },
   "icu:GroupV2--summary": {
     "messageformat": "تمَّ تغيير أعضاء هذه المجموعة أو إعداداتِها."
   },
   "icu:GroupV1--Migration--disabled--link": {
-    "messageformat": "قم بتحديث هذه المجموعة لتفعيل مزايا جديدة مثل @إشارات والمشرفين. سَتتم دعوة الأعضاء الذين لم يشاركوا اسمهم أو صورتهم في هذه المجموعة للانضمام. <learnMoreLink>لمعرفة المزيد.</learnMoreLink>"
+    "messageformat": "قُم بتحديث هذه المجموعة لتفعيل مزايا جديدة مثل الإشارة بتاغ mentions@ والمُشرِفين. سَتتمُّ دعوة الأعضاء الذين لم يشاركوا اسمهم أو صورتهم في هذه المجموعة للانضمام. <learnMoreLink>اعرف المزيد.</learnMoreLink>"
   },
   "icu:GroupV1--Migration--was-upgraded": {
-    "messageformat": "تمت ترقية هذه المجموعة إلى مجموعة جديدة."
+    "messageformat": "تمَّت ترقية هذه المجموعة إلى مجموعة جديدة."
   },
   "icu:GroupV1--Migration--learn-more": {
-    "messageformat": "معرفة المزيد"
+    "messageformat": "اعرف المزيد"
   },
   "icu:GroupV1--Migration--migrate": {
     "messageformat": "الترقية"
   },
   "icu:GroupV1--Migration--info--title": {
-    "messageformat": "ما هي المجموعات الجديدة ؟"
+    "messageformat": "ما هي المجموعات الجديدة؟"
   },
   "icu:GroupV1--Migration--migrate--title": {
     "messageformat": "الترقية إلى مجموعة جديدة"
   },
   "icu:GroupV1--Migration--info--summary": {
-    "messageformat": "تحوي المجموعات الجديدة ميزات كـ ‎@mentions‎ والمشرفين على المجموعة، كما ستدعم مستقبلا المزيد من الميزات."
+    "messageformat": "تحوي المجموعات الجديدة ميزات مثل الإشارة بتاغ ‎@mentions‎ والمُشرِفين على المجموعة، كما ستدعم مستقبلًا المزيد من الميزات."
   },
   "icu:GroupV1--Migration--info--keep-history": {
-    "messageformat": "تم الاحتفاظ بكل محفوظات الرسائل والوسائط قبل الترقية."
+    "messageformat": "تمَّ الاحتفاظ بكل سجلات الرسائل والوسائط قبل الترقية."
   },
   "icu:GroupV1--Migration--migrate--keep-history": {
-    "messageformat": "ستُحتفَظ كل محفوظات الرسائل والوسائط قبل الترقية."
+    "messageformat": "سيتمُّ حفظ كل سجلات الرسائل والوسائط قبل الترقية."
   },
   "icu:GroupV1--Migration--info--invited--you": {
-    "messageformat": "قبول دعوة الانضمام إلى هذه المجموعة مرة أخرى ضروري، ولن تصلك أي رسائل من المجموعة إلى حين موافقتك علي الانضمام إليها."
+    "messageformat": "ستحتاج إلى قبول دعوة الانضمام إلى هذه المجموعة مرّة أخرى، ولن تصلك أي رسائل من المجموعة إلى حين موافقتك على الانضمام إليها."
   },
   "icu:GroupV1--Migration--info--invited--many": {
-    "messageformat": "يحتاج هؤﻻء اﻷعضاء قبول دعوة الانضمام إلى هذه المجموعة مرة أخرى، ولن تصلهم أي رسائل من المجموعة إلى حين موافقتهم على الانضمام إليها :"
+    "messageformat": "يحتاج هؤﻻء اﻷعضاء قبول دعوة الانضمام إلى هذه المجموعة مرّة أخرى، ولن تصلهم أي رسائل من المجموعة إلى حين موافقتهم على الانضمام إليها:"
   },
   "icu:GroupV1--Migration--info--invited--one": {
-    "messageformat": "يحتاج هذا العضو قبول دعوة الانضمام إلى هذه المجموعة مرة أخرى، ولن تصله أي رسائل من المجموعة إلى حين موافقته على الانضمام إليها :"
+    "messageformat": "يحتاج هذا العضو قبول دعوة الانضمام إلى هذه المجموعة مرّة أخرى، ولن تصله أي رسائل من المجموعة إلى حين موافقته على الانضمام إليها:"
   },
   "icu:GroupV1--Migration--info--invited--count": {
     "messageformat": "{count, plural, zero {يحتاج {count,number} عضو قبول دعوة الانضمام إلى هذه المجموعة مرّة أخرى، ولن تصلهم أي رسائل من المجموعة إلى حين موافقتهم على الانضمام إليها.} one {يحتاج {count,number} عضو قبول دعوة الانضمام إلى هذه المجموعة مرّة أخرى، ولن تصله أي رسائل من المجموعة إلى حين موافقته على الانضمام إليها.} two {يحتاج {count,number} عضوان قبول دعوة الانضمام إلى هذه المجموعة مرّة أخرى، ولن تصلهما أي رسائل من المجموعة إلى حين موافقتهما على الانضمام إليها.} few {يحتاج {count,number} أعضاء قبول دعوة الانضمام إلى هذه المجموعة مرّة أخرى، ولن تصلهم أي رسائل من المجموعة إلى حين موافقتهم على الانضمام إليها.} many {يحتاج {count,number} عضوًا قبول دعوة الانضمام إلى هذه المجموعة مرّة أخرى، ولن تصلهم أي رسائل من المجموعة إلى حين موافقتهم على الانضمام إليها.} other {يحتاج {count,number} عضو قبول دعوة الانضمام إلى هذه المجموعة مرّة أخرى، ولن تصلهم أي رسائل من المجموعة إلى حين موافقتهم على الانضمام إليها.}}"
   },
   "icu:GroupV1--Migration--info--removed--before--many": {
-    "messageformat": "لم يتمكن هؤﻻء اﻷعضاء من الانضمام إلى المجموعات الجديدة، لذا سَتتم إزالتهم من المجموعة:"
+    "messageformat": "لم يتمكن هؤﻻء اﻷعضاء من الانضمام إلى المجموعات الجديدة، لذا سَتتمُّ إزالتهم من المجموعة:"
   },
   "icu:GroupV1--Migration--info--removed--before--one": {
-    "messageformat": "لم يتمكن هذا العضو من الانضمام إلى المجموعات الجديدة، لذا سَتتم إزالته من المجموعة:"
+    "messageformat": "لم يتمكن هذا العضو من الانضمام إلى المجموعات الجديدة، لذا سَتتمُّ إزالته من المجموعة:"
   },
   "icu:GroupV1--Migration--info--removed--before--count": {
     "messageformat": "{count, plural, zero {{count,number} عضو غير قادر على الانضمام إلى المجموعات الجديدة، وستتم إزالتهم من المجموعة.} one {{count,number} عضو غير قادر على الانضمام إلى المجموعات الجديدة، لذا سَتتم إزالته من المجموعة.} two {{count,number} عضوان غير قادران على الانضمام إلى المجموعات الجديدة، لذا سَتتم إزالتها من المجموعة.} few {{count,number} أعضاء غير قادرين على الانضمام إلى المجموعات الجديدة، لذا سَتتم إزالتهم من المجموعة.} many {{count,number} عضو غير قادرين على الانضمام إلى المجموعات الجديدة، لذا سَتتم إزالتهم من المجموعة.} other {{count,number} عضو غير قادر على الانضمام إلى المجموعات الجديدة، لذا سَتتم إزالتهم من المجموعة.}}"
   },
   "icu:GroupV1--Migration--info--removed--after--many": {
-    "messageformat": "لم يتمكن هؤﻻء اﻷعضاء من الانضمام إلى المجموعات الجديدة، لذلك تمت إزالتهم من المجموعة:"
+    "messageformat": "لم يتمكن هؤﻻء اﻷعضاء من الانضمام إلى المجموعات الجديدة، لذلك تمَّت إزالتهم من المجموعة:"
   },
   "icu:GroupV1--Migration--info--removed--after--one": {
-    "messageformat": "لم يتمكن هذا العضو من الانضمام إلى المجموعات الجديدة، لذلك تمت إزالته من المجموعة :"
+    "messageformat": "لم يتمكن هذا العضو من الانضمام إلى المجموعات الجديدة، لذلك تمَّت إزالته من المجموعة:"
   },
   "icu:GroupV1--Migration--info--removed--after--count": {
     "messageformat": "{count, plural, zero {لم يتمكن {count,number} عضو من الانضمام إلى المجموعات الجديدة، لذلك تمَّت إزالتهم من المجموعة.} one {لم يتمكن {count,number} عضو من الانضمام إلى المجموعات الجديدة، لذلك تمَّت إزالته من المجموعة.} two {لم يتمكن {count,number} عضوان من الانضمام إلى المجموعات الجديدة، لذلك تمَّت إزالتهما من المجموعة.} few {لم يتمكن {count,number} أعضاء من الانضمام إلى المجموعات الجديدة، لذلك تمَّت إزالتهم من المجموعة.} many {لم يتمكن {count,number} عضوًا من الانضمام إلى المجموعات الجديدة، لذلك تمَّت إزالتهم من المجموعة.} other {لم يتمكن {count,number} عضو من الانضمام إلى المجموعات الجديدة، لذلك تمَّت إزالتهم من المجموعة.}}"
   },
   "icu:GroupV1--Migration--invited--you": {
-    "messageformat": "تعذرت إضافتك إلى المجموعات الجديدة والآن تمت دعوتك إليها."
+    "messageformat": "تعذَّرت إضافتك إلى المجموعة الجديدة والآن تمَّت دعوتك إليها."
   },
   "icu:GroupV1--Migration--invited--one": {
-    "messageformat": "تعذرت إضافة {contact} إلى المجموعات الجديدة والآن تمت دعوتها للانضمام."
+    "messageformat": "تعذَّرت إضافة {contact} إلى المجموعة الجديدة والآن تمَّت دعوته للانضمام."
   },
   "icu:GroupV1--Migration--invited--many": {
     "messageformat": "{count, plural, zero {تعذَّرَ إضافة {count,number} عضو إلى المجموعة الجديدة وقد تمَّت دعوته للانضمام.} one {تعذَّرَ إضافة {count,number} عضو إلى المجموعة الجديدة وقد تمَّت دعوته للانضمام.} two {تعذَّرَ إضافة {count,number} عضوين إلى المجموعة الجديدة وقد تمَّت دعوتهما للانضمام.} few {تعذَّرَ إضافة {count,number} أعضاء إلى المجموعة الجديدة وقد تمَّت دعوتهم للانضمام.} many {تعذّر إضافة {count,number} عضوا إلى المجموعة الجديدة وقد تمَّت دعوتهم للانضمام.} other {تعذّر إضافة {count,number} عضو إلى المجموعة الجديدة وقد تمت دعوتهم للانضمام.}}"
   },
   "icu:GroupV1--Migration--removed--one": {
-    "messageformat": "أُزيلَت {contact} من المجموعة."
+    "messageformat": "تمَّت إزالة {contact} من المجموعة."
   },
   "icu:GroupV1--Migration--removed--many": {
     "messageformat": "{count, plural, zero {أُزيلَ {count,number} عضو من المجموعة.} one {أُزيلَ {count,number} عضو من المجموعة.} two {أُزيلَ {count,number} عضوان من المجموعة.} few {أُزيلَ {count,number} أعضاء من المجموعة.} many {أُزيلَ {count,number} عضوًا من المجموعة.} other {أُزيلَ {count,number} عضوٍ من المجموعة.}}"
@@ -3945,13 +3945,13 @@
     "messageformat": "تبرَّع لسيجنال"
   },
   "icu:BadgeSustainerInstructions__subheader": {
-    "messageformat": "سيجنال يدعمه أشخاص مثلك. ساهم واحصل على شارة."
+    "messageformat": "سيجنال يدعمه أشخاص مثلك. ساهِم واحصَل على شارة."
   },
   "icu:BadgeSustainerInstructions__instructions__1": {
     "messageformat": "افتح تطبيق سيجنال على هاتفك"
   },
   "icu:BadgeSustainerInstructions__instructions__2": {
-    "messageformat": "يجب لمس صورة حسابك في الأعلى على اليسار لفتح الإعدادات"
+    "messageformat": "انقر على صورة حسابك في الأعلى على اليسار لفتح \"الإعدادات\""
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "انقر على \"تبرَّع لسيجنال\" واشترِك"
@@ -4017,10 +4017,10 @@
     "messageformat": "سَيستمر تنزيل الوسائط في الخلفية."
   },
   "icu:BackupMediaDownloadProgress__title-offline": {
-    "messageformat": "Restoring media paused"
+    "messageformat": "تمَّ إيقاف استرجاع الوسائط مؤقَّتًا"
   },
   "icu:BackupMediaDownloadProgress__description-offline": {
-    "messageformat": "Waiting for Internet connection..."
+    "messageformat": "في انتظار الاتصال بالإنترنت…"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "إيقاف النقل مؤقَّتًا"
@@ -4058,8 +4058,14 @@
   "icu:CriticalIdlePrimaryDeviceModal__description": {
     "messageformat": "يَجب فتح سيجنال على هاتفك لتواصل استخدام هذا الحساب. إذا لم تفتح سيجنال على هاتفك، سيتمُّ حذف حسابك قريبًا. <learnMoreLink>اعرف المزيد</learnMoreLink>"
   },
+  "icu:LowDiskSpaceBackupImportModal__title": {
+    "messageformat": "Can't restore media"
+  },
+  "icu:LowDiskSpaceBackupImportModal__description": {
+    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+  },
   "icu:CompositionArea--expand": {
-    "messageformat": "عرض المزيد"
+    "messageformat": "توسيع"
   },
   "icu:CompositionArea--attach-file": {
     "messageformat": "إرفاق ملف"
@@ -4068,16 +4074,16 @@
     "messageformat": "‫لا يستخدم هذا الشخص سيجنال"
   },
   "icu:CompositionArea--sms-only__body": {
-    "messageformat": "‫لا يدعم سيجنال Desktop جهات اتصال غير مسجلة في سيجنال. يجب الطلب من هذا الشخص أن يقوم بتثبيت سيجنال للتراسُل بشكل آمن."
+    "messageformat": "‫لا يدعم سيجنال Desktop جهات اتصال غير مُسجَّلة في سيجنال. يجب الطلب من هذا الشخص أن يقوم بتثبيت سيجنال للتراسُل بشكلٍ آمن."
   },
   "icu:CompositionArea--sms-only__spinner-label": {
-    "messageformat": "يجري التحقق من حالة تسجيل جهة الاتصال"
+    "messageformat": "جارٍ التحقُّق من حالة تسجيل جهة الاتصال"
   },
   "icu:CompositionArea__edit-action--discard": {
     "messageformat": "تجاهل الرسالة"
   },
   "icu:CompositionArea__edit-action--send": {
-    "messageformat": "إرسال الرسالة المُعدلة"
+    "messageformat": "إرسال رسالة مُعدَّلة"
   },
   "icu:CompositionArea__FunButtonLabel": {
     "messageformat": "أضِف رمز تعبيري (إيموجي) أو مُلصَق أو صورة متحركة (GIF)."
@@ -4095,7 +4101,7 @@
     "messageformat": "تعديل الرسالة"
   },
   "icu:countMutedConversationsDescription": {
-    "messageformat": "إدخال الدردشات المكتومة في شارة التعداد"
+    "messageformat": "إدخال الدردشات المكتومة في تعداد الشارات"
   },
   "icu:ContactModal--nickname": {
     "messageformat": "اسم مستعار"
@@ -4104,19 +4110,19 @@
     "messageformat": "إزالة ميزة الإشراف"
   },
   "icu:ContactModal--make-admin": {
-    "messageformat": "اجعله مشرفا"
+    "messageformat": "اجعله مُشرِفًا"
   },
   "icu:ContactModal--make-admin-info": {
-    "messageformat": "سيتمكن {contact} من تحرير هذه المجموعة وكذا أعضاءها."
+    "messageformat": "سيتمكن {contact} من تحرير هذه المجموعة وكذلك أعضاءها."
   },
   "icu:ContactModal--rm-admin-info": {
-    "messageformat": "إزالة {contact} من لائحة المشرفين على المجموعة ؟"
+    "messageformat": "هل ترغبُ بإزالة {contact} من لائحة المُشرِفين على المجموعة؟"
   },
   "icu:ContactModal--add-to-group": {
     "messageformat": "إضافة إلى مجموعة أخرى"
   },
   "icu:ContactModal--remove-from-group": {
-    "messageformat": "الإزالة من المجموعة"
+    "messageformat": "إزالة من المجموعة"
   },
   "icu:ContactModal--voice": {
     "messageformat": "الصوت"
@@ -4167,22 +4173,22 @@
     "messageformat": "من يستطيع تعديل معلومات المجموعة"
   },
   "icu:ConversationDetails--group-info-info": {
-    "messageformat": "عليك باختيار الأعضاء الذين يمكنهم تحرير اسم وصورة المجموعة وكذلك مؤقِّت اختفاء الرسائل."
+    "messageformat": "اختر الأعضاء الذين يمكنهم تحرير اسم وصورة ووصف المجموعة وكذلك مؤقِّت اختفاء الرسائل."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "اﻷشخاص الذين يمكنهم إضافة الأعضاء"
   },
   "icu:ConversationDetails--add-members-info": {
-    "messageformat": "عليك باختيار الأفراد الذين يمكنهم إضافة الأعضاء إلى هذه المجموعة."
+    "messageformat": "اختر الأفراد الذين يمكنهم إضافة الأعضاء إلى هذه المجموعة."
   },
   "icu:ConversationDetails--announcement-label": {
     "messageformat": "الأشخاص الذين يمكنهم إرسال الرسائل"
   },
   "icu:ConversationDetails--announcement-info": {
-    "messageformat": "عليك باختيار الأشخاص الذين يمكنهم إرسال الرسائل إلى المجموعة."
+    "messageformat": "اختر الأشخاص الذين يمكنهم إرسال الرسائل إلى المجموعة."
   },
   "icu:ConversationDetails--requests-and-invites": {
-    "messageformat": "الطلبات و الدعوات"
+    "messageformat": "الطلبات والدعوات"
   },
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "مغادرة المجموعة"
@@ -4194,22 +4200,22 @@
     "messageformat": "رفع حَظر المجموعة"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
-    "messageformat": "قبل أن تغادر، يجب عليك أن تختار على الأقل مشرفا واحدا لهذه المجموعة."
+    "messageformat": "قبل أن تغادر، يجب عليك أن تختار على الأقل مُشرِفًا واحدًا لهذه المجموعة."
   },
   "icu:ConversationDetailsActions--leave-group-modal-title": {
-    "messageformat": "أأنت على يقين من رغبتك في المغادرة ؟"
+    "messageformat": "هل أنت متأكَّد من رغبتك في المغادرة؟"
   },
   "icu:ConversationDetailsActions--leave-group-modal-content": {
-    "messageformat": "سيتعذر عليك بعد الآن إرسال أو استلام رسائل لهذه المجموعة."
+    "messageformat": "سيتعذَّر عليك بعد الآن إرسال أو استلام رسائل لهذه المجموعة."
   },
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
-    "messageformat": "غادِر"
+    "messageformat": "مغادرة"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "هل تريد إلغاء الحظر على مجموعة \"{groupName}\"؟"
   },
   "icu:ConversationDetailsActions--block-group-modal-title": {
-    "messageformat": "حظر المجموعة \"{groupName}\" ثم مغادرتها ؟"
+    "messageformat": "هل ترغبُ بحظر المجموعة \"{groupName}\" ثم مغادرتها؟"
   },
   "icu:ConversationDetailsActions--block-group-modal-content": {
     "messageformat": "لن تصلك الرسائل أو التحديثات من هذه المجموعة بعد الآن."
@@ -4224,16 +4230,16 @@
     "messageformat": "رفع الحظر"
   },
   "icu:ConversationDetailsHeader--members": {
-    "messageformat": "{number, plural, zero {{number,number} عضو} one {{number,number} عضو} two {{number,number} عضوان} few {{number,number} أعضاء} many {{number,number} عضوًا} other {{number,number} عضو}}"
+    "messageformat": "{number, plural, zero {{number,number} عضو} one {{number,number} عضو} two {{number,number} عضوان} few {{number,number} أعضاء} many {{number,number} عضوًا} other {{number,number} عضوٍ}}"
   },
   "icu:ConversationDetailsMediaList--shared-media": {
-    "messageformat": "الوسائط المتعددة التي تمت مشاركتها"
+    "messageformat": "الوسائط المُشاركَة"
   },
   "icu:ConversationDetailsMediaList--show-all": {
     "messageformat": "مشاهدة الكل"
   },
   "icu:ConversationDetailsMembershipList--title": {
-    "messageformat": "{number, plural, zero {{number,number} عضو} one {{number,number} عضو} two {{number,number} عضوان} few {{number,number} أعضاء} many {{number,number} عضوًا} other {{number,number} عضو}}"
+    "messageformat": "{number, plural, zero {{number,number} عضو} one {{number,number} عضو} two {{number,number} عضوان} few {{number,number} أعضاء} many {{number,number} عضوًا} other {{number,number} عضوٍ}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "إضافة أعضاء"
@@ -4278,10 +4284,10 @@
     "messageformat": "مُلاحظة"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
-    "messageformat": "إشارات إلى اﻷفراد"
+    "messageformat": "الإشارات"
   },
   "icu:ConversationNotificationsSettings__mentions__info": {
-    "messageformat": "استلام الإشعارات إذا ذُكر اسمك في الدردشات المكتومة"
+    "messageformat": "استلام الإشعارات عند ذُكر اسمك في الدردشات المكتومة"
   },
   "icu:ConversationNotificationsSettings__mentions__select__always-notify": {
     "messageformat": "نبِّه دومًا"
@@ -4302,10 +4308,10 @@
     "messageformat": "إعادة تعيين الرابط"
   },
   "icu:GroupLinkManagement--approve-label": {
-    "messageformat": "يُشترَط موافقة المُشرِف"
+    "messageformat": "يتطلَّب موافقة المُشرِف."
   },
   "icu:GroupLinkManagement--approve-info": {
-    "messageformat": "إلزام المُشرِف الموافقة على الأعضاء الطالبين للانضمام عبر رابط المجموعة."
+    "messageformat": "تتطلب موافقة المُشرِف لقبول انضمام أعضاء جُدُد عبر رابط المجموعة."
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
     "messageformat": "انسخ رابط مجموعة سيجنال إلى لوحة المفاتيح"
@@ -4317,13 +4323,13 @@
     "messageformat": "الدعوات ({count,number})"
   },
   "icu:PendingRequests--approve-for": {
-    "messageformat": "الموافقة على الطلب من « {name} » ؟"
+    "messageformat": "هل ترغبُ بالموافقة على الطلب من \"{name}\"؟"
   },
   "icu:PendingRequests--deny-for": {
-    "messageformat": "رفض طلب « {name} » ؟"
+    "messageformat": "هل ترغبُ برفض طلب من \"{name}\"؟"
   },
   "icu:PendingRequests--deny-for--with-link": {
-    "messageformat": "‫رفض الطلب من \"{name}\"؟ لن يتمكن هذا المُستخدِم من إرسال طلب الانضمام بواسطة رابط المجموعة مرّة أخرى."
+    "messageformat": "‫هل ترغبُ برفض الطلب من \"{name}\"؟ لن يتمكن هذا المُستخدِم من إرسال طلب الانضمام بواسطة رابط المجموعة مرّة أخرى."
   },
   "icu:PendingInvites--invited-by-you": {
     "messageformat": "الذين دعوتهم"
@@ -4332,16 +4338,16 @@
     "messageformat": "الذين دعاهم الآخرون"
   },
   "icu:PendingInvites--invited-count": {
-    "messageformat": "لقد دُعيَ {number,number}"
+    "messageformat": "دُعِيَ {number,number}"
   },
   "icu:PendingInvites--revoke-for-label": {
-    "messageformat": "إبطال الدعوات إلى المجموعة"
+    "messageformat": "إلغاء الدعوات إلى المجموعة"
   },
   "icu:PendingInvites--revoke-for": {
-    "messageformat": "إبطال دعوة « {name} » إلى المجموعة ؟"
+    "messageformat": "هل ترغبُ بإلغاء دعوة المجموعة إلى \"{name}\"؟"
   },
   "icu:PendingInvites--revoke-from": {
-    "messageformat": "{number, plural, zero {هل تريد إلغاء {number,number} دعوة أُرسلت من طرف \"{name}\"؟} one {هل تريد إلغاء {number,number} دعوة أُرسلت من طرف \"{name}\"؟} two {هل تريد إلغاء {number,number} دعوتين أُرسلتا من طرف \"{name}\"؟} few {هل تريد إلغاء {number,number} دعوات أُرسلت من طرف \"{name}\"؟} many {هل تريد إلغاء {number,number} دعوة أُرسلت من طرف \"{name}\"؟} other {هل تريد إلغاء {number,number} دعوة أُرسلت من طرف \"{name}\"؟}}"
+    "messageformat": "{number, plural, zero {هل ترغبُ بإلغاء {number,number} دعوة أُرسِلت من طرف \"{name}\"؟} one {هل ترغبُ بإلغاء {number,number} دعوة أُرسِلت من طرف \"{name}\"؟} two {هل ترغبُ بإلغاء {number,number} دعوتين أُرسِلتا من طرف \"{name}\"؟} few {هل ترغبُ بإلغاء {number,number} دعوات أُرسلت من طرف \"{name}\"؟} many {هل ترغبُ بإلغاء {number,number} دعوة أُرسِلت من طرف \"{name}\"؟} other {هل ترغبُ بإلغاء {number,number} دعوة أُرسِلت من طرف \"{name}\"؟}}"
   },
   "icu:PendingInvites--revoke": {
     "messageformat": "رفض"
@@ -4362,7 +4368,7 @@
     "messageformat": "حظر الطلب"
   },
   "icu:PendingRequests--block--title": {
-    "messageformat": "حظر الطلب؟"
+    "messageformat": "هل ترغبُ بحظر الطلب؟"
   },
   "icu:PendingRequests--block--contents": {
     "messageformat": "‫لن يتمكن المُستخدِم {name} من إرسال طلب الانضمام بواسطة رابط المجموعة. لكن يمكن إضافته يدويًا للمجموعة."
@@ -4383,13 +4389,13 @@
     "messageformat": "إعادة توجيه الرسائل المُحدَّدة"
   },
   "icu:DeleteMessagesModal--title": {
-    "messageformat": "{count, plural, zero {حذف {count,number} رسائل؟} one {حذف {count,number} رسالة واحدة؟} two {حذف {count,number} رسالتين؟} few {حذف {count,number} رسائل؟} many {حذف {count,number} رسالة؟} other {حذف {count,number} رسالة؟}}"
+    "messageformat": "{count, plural, zero {هل ترغبُ بحذف {count,number} رسائل؟} one {هل ترغبُ بحذف {count,number} رسالة واحدة؟} two {هل ترغبُ بحذف {count,number} رسالتين؟} few {هل ترغبُ بحذف {count,number} رسائل؟} many {هل ترغبُ بحذف {count,number} رسالة؟} other {هل ترغبُ بحذف {count,number} رسالة؟}}"
   },
   "icu:DeleteMessagesModal--description": {
-    "messageformat": "{count, plural, zero {من هم الأشخاص الذين تريد حذف هذه الرسائل لديهم؟} one {من هم الأشخاص الذين تريد حذف هذه الرسالة لديهم؟} two {من هم الأشخاص الذين تريد حذف هاتين الرسالتين لديهم؟} few {من هم الأشخاص الذين تريد حذف هذه الرسائل لديهم؟} many {من هم الأشخاص الذين تريد حذف هذه الرسالة لديهم؟} other {من هم الأشخاص الذين تريد حذف هذه الرسالة لديهم؟}}"
+    "messageformat": "{count, plural, zero {من هم الأشخاص الذين تريد حذف هذه الرسائل لديهم؟} one {من هم الأشخاص الذين تريد حذف هذه الرسالة لديهم؟} two {من هم الأشخاص الذين تريد حذف هاتين الرسالتين لديهم؟} few {من هم الأشخاص الذين تريد حذف هذه الرسائل لديهم؟} many {من هم الأشخاص الذين تريد حذف هذه الرسائل لديهم؟} other {من هم الأشخاص الذين تريد حذف هذه الرسائل لديهم؟}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf": {
-    "messageformat": "{count, plural, zero {ما هي الأجهزة التي تريد حذف هذه الرسائل منها؟} one {ما هي الأجهزة التي تريد حذف هذه الرسالة منها؟} two {ما هي الأجهزة التي تريد حذف هاتين الرسالتين منها؟} few {ما هي الأجهزة التي تريد حذف هذه الرسائل منها؟} many {ما هي الأجهزة التي تريد حذف هذه الرسالة منها؟} other {ما هي الأجهزة التي تريد حذف هذه الرسالة منها؟}}"
+    "messageformat": "{count, plural, zero {ما هي الأجهزة التي تريد حذف هذه الرسائل منها؟} one {ما هي الأجهزة التي تريد حذف هذه الرسالة منها؟} two {ما هي الأجهزة التي تريد حذف هاتين الرسالتين منها؟} few {ما هي الأجهزة التي تريد حذف هذه الرسائل منها؟} many {ما هي الأجهزة التي تريد حذف هذه الرسائل منها؟} other {ما هي الأجهزة التي تريد حذف هذه الرسائل منها؟}}"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
     "messageformat": "{count, plural, zero {سيتمُّ حذف هذه الرسائل من كل أجهزتك.} one {سيتمُّ حذف هذه الرسائل من جهازك.} two {سيتمُّ حذف هذه الرسائل من كلا جهازيك.} few {سيتمُّ حذف هذه الرسائل من كل أجهزتك.} many {سيتمُّ حذف هذه الرسائل من كل أجهزتك.} other {سيتمُّ حذف هذه الرسائل من كل أجهزتك.}}"
@@ -4419,19 +4425,19 @@
     "messageformat": "إزالة جهة الاتصال"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--title": {
-    "messageformat": "{count, plural, zero {تم إرسال {count,number} دعوة} one {تم إرسال دعوة واحدة} two {تم إرسال {count,number} دعوتين} few {تم إرسال {count,number} دعوات} many {تم إرسال {count,number} دعوة} other {تم إرسال {count,number} دعوة}}"
+    "messageformat": "{count, plural, zero {تمَّ إرسال {count,number} دعوة} one {تمَّ إرسال دعوة واحدة} two {تمَّ إرسال {count,number} دعوتين} few {تمَّ إرسال {count,number} دعوات} many {تمَّ إرسال {count,number} دعوةً} other {تمَّ إرسال {count,number} دعوةٍ}}"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
-    "messageformat": "تعذرت إضافتك {name} تلقائيا لهذه المجموعة."
+    "messageformat": "لا يمكنك إضافة {name} تلقائيًا لهذه المجموعة."
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
-    "messageformat": "لم تتم إضافتك هؤلاء المستخدمين تلقائيا إلى هذه المجموعة."
+    "messageformat": "لا يمكنك إضافة هؤلاء المُستخدِمين تلقائيًا إلى هذه المجموعة."
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
     "messageformat": "دُعِيَ المُستخدِمون للانضمام، لكن لن تظهر لهم أي رسائل في المجموعة حتى يقبلوا الدعوة."
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
-    "messageformat": "لمعرفة المزيد"
+    "messageformat": "اعرف المزيد"
   },
   "icu:AddGroupMembersModal--title": {
     "messageformat": "إضافة أعضاء"
@@ -4440,10 +4446,10 @@
     "messageformat": "تحديث التطبيق"
   },
   "icu:AddGroupMembersModal--confirm-title--one": {
-    "messageformat": "إضافة {person} إلى \"{group}\" ؟"
+    "messageformat": "هل ترغبُ بإضافة {person} إلى \"{group}\"؟"
   },
   "icu:AddGroupMembersModal--confirm-title--many": {
-    "messageformat": "إضافة {count,number} عضوا إلى \"{group}\" ؟"
+    "messageformat": "هل ترغبُ بإضافة {count,number} عضوًا إلى \"{group}\"؟"
   },
   "icu:AddGroupMembersModal--confirm-button--one": {
     "messageformat": "إضافة عضو"
@@ -4458,28 +4464,28 @@
     "messageformat": "‫اختيار جهة الاتصال {name}"
   },
   "icu:deselectContact": {
-    "messageformat": "‫إلغاء اختيار جهة الاتصال {name}"
+    "messageformat": "‫إلغاء تحديد جهة الاتصال {name}"
   },
   "icu:cannotSelectContact": {
-    "messageformat": "لقد ‫تعذر اختيار جهة الاتصال {name}"
+    "messageformat": "تعذَّر تحديد جهة الاتصال {name}"
   },
   "icu:alreadyAMember": {
-    "messageformat": "إنَّهُ بِالفِعل عُضو"
+    "messageformat": "بالفعل عضو"
   },
   "icu:MessageAudio--play": {
-    "messageformat": "تشغيل المرفق الصوتي"
+    "messageformat": "تشغيل الملف المُرفَق الصوتي"
   },
   "icu:MessageAudio--pause": {
-    "messageformat": "توقيف المرفق الصوتي مؤقتا"
+    "messageformat": "إيقاف الملف المُرفَق الصوتي مؤقتًا"
   },
   "icu:MessageAudio--download": {
-    "messageformat": "تنزيل المرفق الصوتي"
+    "messageformat": "تنزيل الملف المُرفَق الصوتي"
   },
   "icu:MessageAudio--pending": {
-    "messageformat": "جارٍ تنزيل المرفق الصوتي…"
+    "messageformat": "جارٍ تنزيل الملف المُرفَق الصوتي…"
   },
   "icu:MessageAudio--slider": {
-    "messageformat": "مدة تشغيل المرفق الصوتي"
+    "messageformat": "مدة تشغيل الملف المُرفَق الصوتي"
   },
   "icu:MessageAudio--playbackRate1": {
     "messageformat": "1"
@@ -4506,7 +4512,7 @@
     "messageformat": "مشاركة رابط المكالمة"
   },
   "icu:ForwardMessageModal--continue": {
-    "messageformat": "الاستمرار"
+    "messageformat": "متابعة"
   },
   "icu:ForwardMessagesModal__toast--CannotForwardEmptyMessage": {
     "messageformat": "لا يمكن إعادة توجيه الرسائل الفارغة أو المحذوفة"
@@ -4527,16 +4533,16 @@
     "messageformat": "مراجعة الطلبات بعناية. وجد سيجنال جهة اتصال أخرى بنفس الاسم. <reviewRequestLink>مُراجعة الطلب</reviewRequestLink>"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, zero {{count,number} عضو بالمجموعة لهم نفس الاسم. <reviewRequestLink>راجع الأعضاء</reviewRequestLink>} one {{count,number} عضو بالمجموعة له نفس الاسم. <reviewRequestLink>راجع الأعضاء</reviewRequestLink>} two {{count,number} عضوان بالمجموعة لهما نفس الاسم. <reviewRequestLink>راجع الأعضاء</reviewRequestLink>} few {{count,number} أعضاء بالمجموعة لهم نفس الاسم. <reviewRequestLink>راجع الأعضاء</reviewRequestLink>} many {{count,number} عضو بالمجموعة لهم نفس الاسم. <reviewRequestLink>راجع الأعضاء</reviewRequestLink>} other {{count,number} عضو بالمجموعة لهم نفس الاسم. <reviewRequestLink>راجع الأعضاء</reviewRequestLink>}}"
+    "messageformat": "{count, plural, zero {{count,number} عضو بالمجموعة لهم نفس الاسم. <reviewRequestLink>راجِع الأعضاء</reviewRequestLink>} one {{count,number} عضو بالمجموعة له نفس الاسم. <reviewRequestLink>راجِع الأعضاء</reviewRequestLink>} two {{count,number} عضوان بالمجموعة لهما نفس الاسم. <reviewRequestLink>راجِع الأعضاء</reviewRequestLink>} few {{count,number} أعضاء بالمجموعة لهم نفس الاسم. <reviewRequestLink>راجِع الأعضاء</reviewRequestLink>} many {{count,number} عضوًا بالمجموعة لهم نفس الاسم. <reviewRequestLink>راجِع الأعضاء</reviewRequestLink>} other {{count,number} عضوٍ بالمجموعة لهم نفس الاسم. <reviewRequestLink>راجِع الأعضاء</reviewRequestLink>}}"
   },
   "icu:ContactSpoofing__same-names-in-group--link": {
-    "messageformat": "{count, plural, zero {تم العثور على {count,number} تضاربات أسماء في هذه المجموعة. <reviewRequestLink>راجع الأعضاء</reviewRequestLink>} one {تم العثور على {count,number} تضارب اسم في هذه المجموعة. <reviewRequestLink>راجع الأعضاء</reviewRequestLink>} two {تم العثور على {count,number} تضاربيْ أسماء في هذه المجموعة. <reviewRequestLink>راجع الأعضاء</reviewRequestLink>} few {تم العثور على {count,number} تضاربات أسماء في هذه المجموعة. <reviewRequestLink>مراجعة الأعضاء</reviewRequestLink>} many {تم العثور على {count,number} تضارب أسماء في هذه المجموعة. <reviewRequestLink>راجع الأعضاء</reviewRequestLink>} other {تم العثور على {count,number} تضارب أسماء في هذه المجموعة. <reviewRequestLink>راجع الأعضاء</reviewRequestLink>}}"
+    "messageformat": "{count, plural, zero {تمَّ العثور على {count,number} تضاربات أسماء في هذه المجموعة. <reviewRequestLink>راجِع الأعضاء</reviewRequestLink>} one {تمَّ العثور على {count,number} تضارب اسم في هذه المجموعة. <reviewRequestLink>راجِع الأعضاء</reviewRequestLink>} two {تمَّ العثور على {count,number} تضاربيْ أسماء في هذه المجموعة. <reviewRequestLink>راجِع الأعضاء</reviewRequestLink>} few {تمَّ العثور على {count,number} تضاربات أسماء في هذه المجموعة. <reviewRequestLink>راجِع الأعضاء</reviewRequestLink>} many {تمَّ العثور على {count,number} تضارب أسماء في هذه المجموعة. <reviewRequestLink>راجِع الأعضاء</reviewRequestLink>} other {تمَّ العثور على {count,number} تضارب أسماء في هذه المجموعة. <reviewRequestLink>راجِع الأعضاء</reviewRequestLink>}}"
   },
   "icu:ContactSpoofingReviewDialog__title": {
     "messageformat": "مُراجعة الطلب"
   },
   "icu:ContactSpoofingReviewDialog__description": {
-    "messageformat": "إذا التبس عليك مصدر الطلب، يُرجى مراجعة جهات الاتصال أدناه والقيام بالإجراء المناسب."
+    "messageformat": "إذا كُنتَ غير متأكِّد من مصدر الطلب، راجِع جهات الاتصال أدناه وقُم بالإجراء المناسب."
   },
   "icu:ContactSpoofingReviewDialog__possibly-unsafe-title": {
     "messageformat": "الطلب"
@@ -4551,7 +4557,7 @@
     "messageformat": "{count, plural, zero {{count,number} عضو بالمجموعة له اسم متشابه. يُرجى مراجعة الأعضاء في الأسفل أو اتخاذ إجراء.} one {{count,number} عضو بالمجموعة له نفس الاسم. يُرجى مراجعة الأعضاء في الأسفل أو اتخاذ إجراء.} two {{count,number} عضوان بالمجموعة لهما نفس الاسم. يُرجى مراجعة الأعضاء في الأسفل أو اتخاذ إجراء.} few {{count,number} أعضاء بالمجموعة لهم نفس الاسم. يُرجى مراجعة الأعضاء في الأسفل أو اتخاذ إجراء.} many {{count,number} عضوًا بالمجموعة لهم نفس الاسم. يُرجى مراجعة الأعضاء في الأسفل أو اتخاذ إجراء.} other {{count,number} عضوٍ بالمجموعة لهم نفس الاسم. يُرجى مراجعة الأعضاء في الأسفل أو اتخاذ إجراء.}}"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
-    "messageformat": "{count, plural, zero {تم العثور على {count,number} تضاربات أسماء في هذه المجموعة. راجع الأعضاء أسفله أو اختر اتخاذ إجراء.} one {تم العثور على {count,number} تضارب اسم في هذه المجموعة. راجع الأعضاء أسفله أو اختر اتخاذ إجراء.} two {تم العثور على {count,number} تضاربي أسماء في هذه المجموعة. راجع الأعضاء أسفله أو اختر اتخاذ إجراء.} few {تم العثور على {count,number} تضاربات أسماء في هذه المجموعة. راجع الأعضاء أسفله أو اختر اتخاذ إجراء.} many {تم العثور على {count,number} تضارب أسماء في هذه المجموعة. راجع الأعضاء أسفله أو اختر اتخاذ إجراء.} other {تم العثور على {count,number} تضارب أسماء في هذه المجموعة. راجع الأعضاء أسفله أو اختر اتخاذ إجراء.}}"
+    "messageformat": "{count, plural, zero {تمَّ العثور على {count,number} تضاربات أسماء في هذه المجموعة. راجِع الأعضاء أسفله أو اختر اتخاذ إجراء.} one {تمَّ العثور على {count,number} تضارب اسم في هذه المجموعة. راجِع الأعضاء أسفله أو اختر اتخاذ إجراء.} two {تمَّ العثور على {count,number} تضاربي أسماء في هذه المجموعة. راجِع الأعضاء أسفله أو اختر اتخاذ إجراء.} few {تمَّ العثور على {count,number} تضاربات أسماء في هذه المجموعة. راجِع الأعضاء أسفله أو اختر اتخاذ إجراء.} many {تمَّ العثور على {count,number} تضارب أسماء في هذه المجموعة. راجِع الأعضاء أسفله أو اختر اتخاذ إجراء.} other {تمَّ العثور على {count,number} تضارب أسماء في هذه المجموعة. راجِع الأعضاء أسفله أو اختر اتخاذ إجراء.}}"
   },
   "icu:ContactSpoofingReviewDialog__group__members__no-shared-groups": {
     "messageformat": "لا وجود لمجموعات أخرى مشتركة"
@@ -4560,37 +4566,37 @@
     "messageformat": "جهة اتصال سيجنال"
   },
   "icu:ContactSpoofingReviewDialog__group__name-change-info": {
-    "messageformat": "لقد غير عضو اسم حسابه الشخصي من {oldName} إلى {newName}"
+    "messageformat": "غيَّرَ مؤخَّرًا عضو اسم حسابه الشخصي من {oldName} إلى {newName}"
   },
   "icu:RemoveGroupMemberConfirmation__remove-button": {
-    "messageformat": "الإزالة من المجموعة"
+    "messageformat": "إزالة من المجموعة"
   },
   "icu:RemoveGroupMemberConfirmation__description": {
-    "messageformat": "إزالة \"{name}\" من المجموعة؟"
+    "messageformat": "هل ترغبُ بإزالة \"{name}\" من المجموعة؟"
   },
   "icu:RemoveGroupMemberConfirmation__description__with-link": {
     "messageformat": "‫هل ترغبُ بإزالة \"{name}\" من المجموعة؟ لن يتمكن هذا المُستخدِم من إعادة الانضمام بواسطة رابط المجموعة."
   },
   "icu:CaptchaDialog__title": {
-    "messageformat": "تأكد لمواصلة التراسل"
+    "messageformat": "تأكَّد لمواصلة التراسُل"
   },
   "icu:CaptchaDialog__first-paragraph": {
-    "messageformat": "للتمكن من الوقاية من الإزعاج في سيجنال، يُرجى إتمام التحقق."
+    "messageformat": "لمنع وصول الرسائل غير المرغوب فيها في سيجنال، يُرجى إتمام التحقُّق."
   },
   "icu:CaptchaDialog__second-paragraph": {
-    "messageformat": "بعد التحقُّق، يمكنك مواصلة التراسل. كل الرسائل المتوقفة مؤقتًا سوف تُرسَل تلقائيًا."
+    "messageformat": "بعد التحقُّق، يمكنك مواصلة التراسُل. كل الرسائل المتوقفة مؤقتًا سوف تُرسَل تلقائيًا."
   },
   "icu:CaptchaDialog--can-close__title": {
     "messageformat": "هل ترغبُ بالمتابعة دون تَحقُّق؟"
   },
   "icu:CaptchaDialog--can-close__body": {
-    "messageformat": "إذا اخترت تخطي التحقق، فقد تفوتك رسائل من أشخاص آخرين وقد يفشل إرسال رسائلك."
+    "messageformat": "إذا اخترتَ تخطي التحقُّق، فقد تفوتك رسائل من أشخاص آخرين وقد يفشل إرسال رسائلك."
   },
   "icu:CaptchaDialog--can_close__skip-verification": {
-    "messageformat": "تخطي التحقق"
+    "messageformat": "تخطِّي التحقُّق"
   },
   "icu:verificationComplete": {
-    "messageformat": "لَقَد اِكتَمَلَ التَّحَقُّق."
+    "messageformat": "اكتَمَلَ التَّحَقُّق."
   },
   "icu:verificationFailed": {
     "messageformat": "فشل التحقُّق. يُرجى المحاولة مرّة أخرى لاحقًا."
@@ -4602,16 +4608,16 @@
     "messageformat": "حذف اللون"
   },
   "icu:ChatColorPicker__delete--message": {
-    "messageformat": "{num, plural, zero {يُستخدَم هذا اللون المُخصَّص في {num,number} دردشات. هل تريد حذفه لجميع الدردشات؟} one {يُستخدَم هذا اللون المُخصَّص في {num,number} دردشة. هل تريد حذفه؟} two {يُستخدَم هذا اللون المُخصَّص في {num,number} دردشتيْن. هل تريد حذفه لجميع الدردشات؟} few {يُستخدَم هذا اللون المُخصَّص في {num,number} دردشات. هل تريد حذفه لجميع الدردشات؟} many {يُستخدَم هذا اللون المُخصَّص في {num,number} دردشة. هل تريد حذفه لجميع الدردشات؟} other {يُستخدَم هذا اللون المُخصَّص في {num,number} دردشة. هل تريد حذفه لجميع الدردشات؟}}"
+    "messageformat": "{num, plural, zero {يُستخدَم هذا اللون المُخصَّص في {num,number} دردشات. هل تريد حذفه لجميع الدردشات؟} one {يُستخدَم هذا اللون المُخصَّص في {num,number} دردشة. هل تريد حذفه لجميع الدردشات؟} two {يُستخدَم هذا اللون المُخصَّص في {num,number} دردشتيْن. هل تريد حذفه لجميع الدردشات؟} few {يُستخدَم هذا اللون المُخصَّص في {num,number} دردشات. هل تريد حذفه لجميع الدردشات؟} many {يُستخدَم هذا اللون المُخصَّص في {num,number} دردشةً. هل تريد حذفه لجميع الدردشات؟} other {يُستخدَم هذا اللون المُخصَّص في {num,number} دردشةٍ. هل تريد حذفه لجميع الدردشات؟}}"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "لون الدردشة"
   },
   "icu:ChatColorPicker__reset": {
-    "messageformat": "إعادة تعيين الألوان"
+    "messageformat": "إعادة تعيين لون الدردشة"
   },
   "icu:ChatColorPicker__resetDefault": {
-    "messageformat": "إعادة تعيين الألوان"
+    "messageformat": "إعادة تعيين ألوان الدردشة"
   },
   "icu:ChatColorPicker__resetAll": {
     "messageformat": "إعادة تعيين جميع ألوان الدردشات"
@@ -4623,19 +4629,19 @@
     "messageformat": "إعادة التعيين"
   },
   "icu:ChatColorPicker__confirm-reset-message": {
-    "messageformat": "ألديك الرغبة في إلغاء جميع ألوان الدردشات؟"
+    "messageformat": "هل ترغبُ في إلغاء جميع ألوان الدردشات؟"
   },
   "icu:ChatColorPicker__custom-color--label": {
-    "messageformat": "إظهار محرر الألوان المخصصة"
+    "messageformat": "إظهار مُحرِّر الألوان المُخصَّصة"
   },
   "icu:ChatColorPicker__sampleBubble1": {
     "messageformat": "إليك معاينة للون الدردشة."
   },
   "icu:ChatColorPicker__sampleBubble2": {
-    "messageformat": "فقاعة أخرى للرسالة."
+    "messageformat": "فقاعة أخرى."
   },
   "icu:ChatColorPicker__sampleBubble3": {
-    "messageformat": "إن اللون يظهر عندك فقط."
+    "messageformat": "اللون يظهر عندك فقط."
   },
   "icu:ChatColorPicker__context--edit": {
     "messageformat": "تحرير الألوان"
@@ -4656,16 +4662,16 @@
     "messageformat": "اللون"
   },
   "icu:CustomColorEditor__saturation": {
-    "messageformat": "صفاء اللون"
+    "messageformat": "التشبُّع اللوني"
   },
   "icu:CustomColorEditor__title": {
-    "messageformat": "لون مخصص"
+    "messageformat": "لون مُخصَّص"
   },
   "icu:GradientDial__knob-start": {
-    "messageformat": "بداية المتدرج"
+    "messageformat": "بداية التدرُّج"
   },
   "icu:GradientDial__knob-end": {
-    "messageformat": "نهاية المتدرج"
+    "messageformat": "نهاية التدرُّج"
   },
   "icu:GIF--download": {
     "messageformat": "نزِّل ملف GIF مُرفَق"
@@ -4692,40 +4698,40 @@
     "messageformat": "تعيين"
   },
   "icu:DisappearingTimeDialog__seconds": {
-    "messageformat": "ثانية"
+    "messageformat": "ثوانٍ"
   },
   "icu:DisappearingTimeDialog__minutes": {
-    "messageformat": "دقيقة"
+    "messageformat": "دقائق"
   },
   "icu:DisappearingTimeDialog__hours": {
     "messageformat": "ساعات"
   },
   "icu:DisappearingTimeDialog__days": {
-    "messageformat": "يوم"
+    "messageformat": "أيام"
   },
   "icu:DisappearingTimeDialog__weeks": {
-    "messageformat": "أسبوع"
+    "messageformat": "أسابيع"
   },
   "icu:settings__DisappearingMessages__footer": {
     "messageformat": "تعيين مؤقِّت افتراضي لاختفاء الرسائل لجميع الدردشات الجديدة التي قُمتَ ببدئها."
   },
   "icu:settings__DisappearingMessages__timer__label": {
-    "messageformat": "المهلة الافتراضية للدردشات الجديدة"
+    "messageformat": "مؤقِّت افتراضي لاختفاء الرسائل"
   },
   "icu:UniversalTimerNotification__text": {
-    "messageformat": "بعض ضبط المهلة، سوف تختفي رسائلك التي سوف يجري إرسالها بعد انقضاء {timeValue}."
+    "messageformat": "سيتمُّ تعيين وقت اختفاء الرسائل إلى {timeValue} عندما تقوم بمراسلتهم."
   },
   "icu:ContactRemovedNotification__text": {
-    "messageformat": "لقد حذفت هذا الشخص، وبمراسلتك لهم سَتتم إضافتهم إلى قائمتك."
+    "messageformat": "حذفتَ هذا الشخص، وبمراسلتك له سَتتمُّ إضافته إلى قائمتك."
   },
   "icu:ErrorBoundaryNotification__text": {
     "messageformat": "تعذَّر عرض هذه الرسالة. انقر لإرسال سجل الاخطاء."
   },
   "icu:GroupDescription__read-more": {
-    "messageformat": "قراءة المزيد"
+    "messageformat": "اقرأ المزيد"
   },
   "icu:EditConversationAttributesModal__description-warning": {
-    "messageformat": "سوف تظهر أوصاف المجموعات لأعضائها وكذا الأفراد الذين تمت دعوتهم إليها."
+    "messageformat": "سوف تظهر أوصاف المجموعات لأعضائها وكذلك الأفراد الذين تمَّت دعوتهم إليها."
   },
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "إضافة وصف للمجموعة…"
@@ -4737,13 +4743,13 @@
     "messageformat": "جودة الوسائط"
   },
   "icu:MediaQualitySelector--standard-quality-title": {
-    "messageformat": "قياسي"
+    "messageformat": "قياسية"
   },
   "icu:MediaQualitySelector--standard-quality-description": {
     "messageformat": "أسرع، بيانات أقل"
   },
   "icu:MediaQualitySelector--high-quality-title": {
-    "messageformat": "بالغ الأهميّة"
+    "messageformat": "عالية الجودة"
   },
   "icu:MediaQualitySelector--high-quality-description": {
     "messageformat": "أبطأ، بيانات أكثر"
@@ -4761,10 +4767,10 @@
     "messageformat": "سُلِّمَت إلى"
   },
   "icu:MessageDetailsHeader--Read": {
-    "messageformat": "قُرِأت مِن قِبَل"
+    "messageformat": "قُرِأتْ مِن قِبَل"
   },
   "icu:MessageDetailsHeader--Viewed": {
-    "messageformat": "اطلع عليها"
+    "messageformat": "شاهَدها"
   },
   "icu:MessageDetail--disappears-in": {
     "messageformat": "سَتختفي في"
@@ -4800,7 +4806,7 @@
     "messageformat": "اسمح للآخرين ببدء دردشة معك عبر مشاركة رابط أو كود الـ QR الفريد الخاص بك."
   },
   "icu:ProfileEditor--username--title": {
-    "messageformat": "يُرجى اختيار اسم المُستخدم"
+    "messageformat": "اختر اسم مُستخدِم خاص بك"
   },
   "icu:ProfileEditor--username--check-characters": {
     "messageformat": "يُمكن لاسم المُستخدم أن يحتوي على a-z، و0-9، و_ فقط"
@@ -4827,25 +4833,25 @@
     "messageformat": "قُمتَ بمحاولاتٍ كثيرة. يُرجى المحاولة لاحقًا."
   },
   "icu:ProfileEditor--username--unavailable": {
-    "messageformat": "اسم المُستخدم هذا غير متاح"
+    "messageformat": "اسم المُستخدِم هذا غير متاح"
   },
   "icu:ProfileEditor--username--general-error": {
-    "messageformat": "تعذّر حفظ اسم المُستخدم الخاص بك. تفقّد اتصال شبكتك وحاول مرة أخرى."
+    "messageformat": "تعذَّر حفظ اسم المُستخدِم الخاص بك. تفقّد اتصال شبكتك وحاوِل مرّة أخرى."
   },
   "icu:ProfileEditor--username--reservation-gone": {
     "messageformat": "{username} لم تعُد متاحة. سَيتم إقران مجموعة جديدة من الأرقام باسم المُستخدِم الخاص بك. يُرجى محاولة حفظها مرّة أخرى."
   },
   "icu:ProfileEditor--username--delete-general-error": {
-    "messageformat": "تعذّر حذف اسم المُستخدم الخاص بك. تفقّد اتصال شبكتك وحاول مرة أخرى."
+    "messageformat": "تعذَّر حذف اسم المُستخدِم الخاص بك. تفقَّد اتصال شبكتك وحاوِل مرّة أخرى."
   },
   "icu:ProfileEditor--username--copied-username": {
-    "messageformat": "تمّ نسخ اِسمُ المُستخدِم"
+    "messageformat": "تمَّ نسخ اِسمُ المُستخدِم"
   },
   "icu:ProfileEditor--username--copied-username-link": {
     "messageformat": "تمّ نسخ الرابط"
   },
   "icu:ProfileEditor--username--deleting-username": {
-    "messageformat": "جارٍ حذف اِسمُ المُستخدِم"
+    "messageformat": "جارٍ حذف اسمُ المُستخدِم"
   },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "سيُؤدي هذا إلى إزالة اسم المُستخدِم الخاص بك وتعطيل رابط وكود الـ QR الخاصين بك. \"{username}\" سيُصبح متاحًا للآخرين ليستفيدوا منه. هل أنت متأكِّد؟"
@@ -4854,10 +4860,10 @@
     "messageformat": "حذف"
   },
   "icu:ProfileEditor--username--context-menu": {
-    "messageformat": "نسخ أو حذف اِسمُ المُستخدِم"
+    "messageformat": "نسخ أو حذف اسم المُستخدِم"
   },
   "icu:ProfileEditor--username--copy": {
-    "messageformat": "نسخ اِسمُ المُستخدِم"
+    "messageformat": "نسخ اسم المُستخدِم"
   },
   "icu:ProfileEditor--username--delete": {
     "messageformat": "حذف"
@@ -4866,10 +4872,10 @@
     "messageformat": "أكتب شيئًا عن نفسك…"
   },
   "icu:ProfileEditor--first-name": {
-    "messageformat": "الاسم الأول (مُتَطلَّب)"
+    "messageformat": "الاسم (مطلوب)"
   },
   "icu:ProfileEditor--last-name": {
-    "messageformat": "الاسم الأخير (اختياري)"
+    "messageformat": "اسم العائلة (اختياري)"
   },
   "icu:ConfirmDiscardDialog--discard": {
     "messageformat": "هل تريد تجاهل هذه التغييرات؟"
@@ -4899,19 +4905,19 @@
     "messageformat": "مُشفَّر"
   },
   "icu:Bio--free-to-chat": {
-    "messageformat": "مُتفرِّغٌ لِلدردشة"
+    "messageformat": "مُتفرِّغ لِلدردشة"
   },
   "icu:Bio--coffee-lover": {
     "messageformat": "مُحِبٌ لِلقهوَة"
   },
   "icu:Bio--taking-break": {
-    "messageformat": "آخُذُ اِستِراحة"
+    "messageformat": "أنا في استراحة"
   },
   "icu:ProfileEditorModal--profile": {
     "messageformat": "الحساب الشخصي"
   },
   "icu:ProfileEditorModal--name": {
-    "messageformat": "اِسمُك"
+    "messageformat": "اسمك"
   },
   "icu:ProfileEditorModal--about": {
     "messageformat": "حول"
@@ -4920,25 +4926,25 @@
     "messageformat": "صورتك الرمزية"
   },
   "icu:ProfileEditorModal--username": {
-    "messageformat": "اِسمُ المُستخدِم"
+    "messageformat": "اسمُ المُستخدِم"
   },
   "icu:ProfileEditorModal--error": {
-    "messageformat": "لقد تعذر تحديث حسابك الشخصي. يُرجى المحاولة مرة أخرى."
+    "messageformat": "تعذَّر تحديث حسابك الشخصي. يُرجى المحاولة مرّة أخرى."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
-    "messageformat": "مراسلة مشرف على المجموعة"
+    "messageformat": "مراسلة أحد المشرفين"
   },
   "icu:AnnouncementsOnlyGroupBanner--announcements-only": {
-    "messageformat": "يمكن فقط لـ {admins} إرسال الرسائل"
+    "messageformat": "فقط {admins} يمكنهم إرسال رسائل"
   },
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "المُشرِفون"
   },
   "icu:AvatarEditor--choose": {
-    "messageformat": "تحديد صورة الحساب"
+    "messageformat": "اختر صورة رمزية"
   },
   "icu:AvatarColorPicker--choose": {
-    "messageformat": "اختيار لون ما"
+    "messageformat": "اختر لونًا"
   },
   "icu:AttachmentDetailPill__retryDownload": {
     "messageformat": "إعادة مُحاولة التنزيل"
@@ -4998,19 +5004,19 @@
     "messageformat": "النسخ الاحتياطية"
   },
   "icu:Preferences__button--internal": {
-    "messageformat": "Internal"
+    "messageformat": "داخلي"
   },
   "icu:Preferences__internal__validate-backup--description": {
-    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+    "messageformat": "تصدير نسخة احتياطية مُشفَّرة إلى الذاكرة وتشغيل مجموعة اختبارات التحقُّق عليها"
   },
   "icu:Preferences__internal__validate-backup": {
-    "messageformat": "Validate"
+    "messageformat": "تحقّق"
   },
   "icu:Preferences--lastSynced": {
-    "messageformat": "‫‫آخر استيراد، منذ {date}‏ على الساعة {time}"
+    "messageformat": "‫‫آخر استيراد، منذ {date}‏ عند الساعة {time}"
   },
   "icu:Preferences--system": {
-    "messageformat": "تبعا للنظام"
+    "messageformat": "تبعًا للنظام"
   },
   "icu:Preferences--zoom": {
     "messageformat": "مستوى التقريب"
@@ -5019,7 +5025,7 @@
     "messageformat": "توليد معاينات للروابط"
   },
   "icu:Preferences__link-previews--description": {
-    "messageformat": "‫لتعديل هذا الإعداد، يُرجى فتح تطبيق سيجنال في جهازك المحمول ثم الذهاب إلى الإعدادات ثم الدردشات"
+    "messageformat": "‫لتعديل هذا الإعداد، يُرجى فتح تطبيق سيجنال في جهازك المحمول ثم الذهاب إلى \"الإعدادات\" ثم \"الدردشات\""
   },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "تحويل الأيقونات التعبيرية المكتوبة إلى رموز تعبيرية (إيموجي)"
@@ -5370,7 +5376,7 @@
     "messageformat": "للانضمام أو لبدء مكالمة:"
   },
   "icu:MediaPermissionsModal__subtitle--call--camera": {
-    "messageformat": "لتفعيل الفيديو:"
+    "messageformat": "لتفعيل الفيديو لديك:"
   },
   "icu:MediaPermissionsModal__subtitle--voice-note": {
     "messageformat": "لإرسال رسائل صوتية:"
@@ -6010,7 +6016,7 @@
     "messageformat": "روابط وكودات الـ QR"
   },
   "icu:UsernameOnboardingModalBody__row__qr__body": {
-    "messageformat": "أسماء المُستخدمين لها رابط وكود QR فريدين يُمكنك مُشاركتُهما مع أصدقائك لكي يبدؤوا الدردشة معك الآن."
+    "messageformat": "أسماء المُستخدِمين لها رابط وكود QR فريدين يُمكنك مُشاركتُهما مع أصدقائك لكي يبدؤوا الدردشة معك الآن."
   },
   "icu:UsernameOnboardingModalBody__continue": {
     "messageformat": "إعداد اسم المُستخدِم"
@@ -6046,7 +6052,7 @@
     "messageformat": "إضافة نص"
   },
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
-    "messageformat": "أرسِلْ"
+    "messageformat": "إرسال"
   },
   "icu:DraftGifMessageSendModal__CancelButtonLabel": {
     "messageformat": "إلغاء"
@@ -6076,10 +6082,10 @@
     "messageformat": "إجراءات أخرى"
   },
   "icu:CallsTab__ClearCallHistoryLabel": {
-    "messageformat": "إزالة سجِل الاتصالات"
+    "messageformat": "مسح سجِل المكالمات"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Title": {
-    "messageformat": "هل ترغبُ بإزالة سجِل الاتصالات؟"
+    "messageformat": "هل ترغبُ بمسح سجِل المكالمات؟"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
     "messageformat": "سَيؤدِّي هذا إلى حذف جميع سِجِلَّات المكالمات."
@@ -6088,10 +6094,10 @@
     "messageformat": "سَيؤدي هذا إلى حذف جميع سِجِلَّات المكالمات. روابط المكالمات التي أنشأتها لن تعمل بعد الآن عند الأشخاص الذين أُرسِلَت إليهم من قبل. "
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
-    "messageformat": "إزالة"
+    "messageformat": "مسح"
   },
   "icu:CallsTab__ToastCallHistoryCleared": {
-    "messageformat": "تمَّ مسح سِجل الاتصالات"
+    "messageformat": "تمَّ مسح سِجل المكالمات"
   },
   "icu:CallsTab__ClearCallHistoryError--call-links": {
     "messageformat": "لا يمكن حذف جميع روابط المكالمات. تحقّق من اتصالك بالشبكة ثم حاوِل مُجدَّدًا."
@@ -6196,7 +6202,7 @@
     "messageformat": "تعديل اسم المكالمة"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "يشترط موافقة المُشرِف"
+    "messageformat": "يتطلَّب موافقة المُشرِف"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
     "messageformat": "لا يمكن تغيير هذا الإعداد أثناء إجراء المكالمة."
@@ -6211,10 +6217,10 @@
     "messageformat": "حذف الرابط"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Title": {
-    "messageformat": "حذف رابط المكالمة؟"
+    "messageformat": "هل ترغبُ بحذف رابط المكالمة؟"
   },
   "icu:CallLinkDetails__DeleteLinkModal__Body": {
-    "messageformat": "لن يشتغل هذا الرابط لأي أحد يتحصّل عليه بعد الآن."
+    "messageformat": "لن يعمل هذا الرابط بعد الآن لأي شخص أرسلته إليه من قبل."
   },
   "icu:CallLinkDetails__DeleteLinkModal__Cancel": {
     "messageformat": "إلغاء"
@@ -6238,7 +6244,7 @@
     "messageformat": "تعديل اسم المكالمة"
   },
   "icu:CallLinkEditModal__InputLabel--ApproveAllMembers": {
-    "messageformat": "يشترط موافقة المُشرِف"
+    "messageformat": "يتطلَّب موافقة المُشرِف"
   },
   "icu:CallLinkPendingParticipantModal__ApproveButtonLabel": {
     "messageformat": "الموافقة على الإدخال"
@@ -6247,10 +6253,10 @@
     "messageformat": "رفض الإدخال"
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "مُعطَّل"
+    "messageformat": "في حالة إيقاف"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "مُفعَّل"
+    "messageformat": "في حالة تشغيل"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "إضافة اسم المكالمة"

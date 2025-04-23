@@ -69,7 +69,7 @@
     "messageformat": "未知联系人"
   },
   "icu:unknownContactShort": {
-    "messageformat": "Unknown"
+    "messageformat": "未知"
   },
   "icu:unknownGroup": {
     "messageformat": "未知群组"
@@ -2955,34 +2955,34 @@
     "messageformat": "{count, plural, other {{count,number} 名成员}}"
   },
   "icu:ConversationHero--member-list-and-invited": {
-    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+    "messageformat": "{invitesCount, plural, other {{memberList}（+{invitesCount,number} 名受邀者）}}"
   },
   "icu:ConversationHero--group-members-zero": {
-    "messageformat": "No group members"
+    "messageformat": "无群组成员"
   },
   "icu:ConversationHero--group-members-only-you": {
-    "messageformat": "No other group members yet"
+    "messageformat": "暂无其他群组成员"
   },
   "icu:ConversationHero--group-members-one": {
     "messageformat": "{member}"
   },
   "icu:ConversationHero--group-members-one-and-you": {
-    "messageformat": "{member} and you"
+    "messageformat": "{member}和您"
   },
   "icu:ConversationHero--group-members-two": {
-    "messageformat": "{member1} and {member2}"
+    "messageformat": "{member1} {member2}"
   },
   "icu:ConversationHero--group-members-two-and-you": {
-    "messageformat": "{member1}, {member2}, and you"
+    "messageformat": "{member1}、{member2}和您"
   },
   "icu:ConversationHero--group-members-three": {
-    "messageformat": "{member1}, {member2}, and {member3}"
+    "messageformat": "{member1}、{member2}和{member3}"
   },
   "icu:ConversationHero--group-members-other": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, other {{member1}、{member2}、{member3}和<clickable>其他 {remainingCount,number} 人</clickable>}}"
   },
   "icu:ConversationHero--group-members-other-and-you": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, other {{member1}、{member2}、{member3}和<clickable>其他 {remainingCount,number} 人</clickable>}}"
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "请仔细审查"
@@ -4017,10 +4017,10 @@
     "messageformat": "媒体将会在后台继续下载"
   },
   "icu:BackupMediaDownloadProgress__title-offline": {
-    "messageformat": "Restoring media paused"
+    "messageformat": "恢复媒体已暂停"
   },
   "icu:BackupMediaDownloadProgress__description-offline": {
-    "messageformat": "Waiting for Internet connection..."
+    "messageformat": "正在等待互联网连接…"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "暂停转移"
@@ -4057,6 +4057,12 @@
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
     "messageformat": "您必须在手机上打开 Signal 才能继续使用此账户。如果不在手机上打开 Signal，您的账户将会很快被删除。<learnMoreLink>了解更多</learnMoreLink>"
+  },
+  "icu:LowDiskSpaceBackupImportModal__title": {
+    "messageformat": "Can't restore media"
+  },
+  "icu:LowDiskSpaceBackupImportModal__description": {
+    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "扩展"
@@ -4998,13 +5004,13 @@
     "messageformat": "备份"
   },
   "icu:Preferences__button--internal": {
-    "messageformat": "Internal"
+    "messageformat": "内部"
   },
   "icu:Preferences__internal__validate-backup--description": {
-    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+    "messageformat": "将加密备份导出到内存并对其运行验证套件"
   },
   "icu:Preferences__internal__validate-backup": {
-    "messageformat": "Validate"
+    "messageformat": "验证"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "上次导入时间为 {date} {time}"

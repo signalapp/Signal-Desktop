@@ -69,7 +69,7 @@
     "messageformat": "မသိသော အဆက်အသွယ်"
   },
   "icu:unknownContactShort": {
-    "messageformat": "Unknown"
+    "messageformat": "မသိရှိ"
   },
   "icu:unknownGroup": {
     "messageformat": "မသိသော အဖွဲ့"
@@ -2955,34 +2955,34 @@
     "messageformat": "{count, plural, other {မန်ဘာ {count,number} ဦး}}"
   },
   "icu:ConversationHero--member-list-and-invited": {
-    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+    "messageformat": "{invitesCount, plural, other {{memberList} (+{invitesCount,number} အား ဖိတ်ကြားထားသည်)}}"
   },
   "icu:ConversationHero--group-members-zero": {
-    "messageformat": "No group members"
+    "messageformat": "အဖွဲ့၀င်များမရှိပါ"
   },
   "icu:ConversationHero--group-members-only-you": {
-    "messageformat": "No other group members yet"
+    "messageformat": "အခြားအဖွဲ့၀င်များ မရှိသေးပါ"
   },
   "icu:ConversationHero--group-members-one": {
     "messageformat": "{member}"
   },
   "icu:ConversationHero--group-members-one-and-you": {
-    "messageformat": "{member} and you"
+    "messageformat": "{member} နှင့် သင်"
   },
   "icu:ConversationHero--group-members-two": {
-    "messageformat": "{member1} and {member2}"
+    "messageformat": "{member1} နှင့် {member2}"
   },
   "icu:ConversationHero--group-members-two-and-you": {
-    "messageformat": "{member1}, {member2}, and you"
+    "messageformat": "{member1} ၊ {member2} နှင့် သင်"
   },
   "icu:ConversationHero--group-members-three": {
-    "messageformat": "{member1}, {member2}, and {member3}"
+    "messageformat": "{member1} ၊ {member2} နှင့် {member3}"
   },
   "icu:ConversationHero--group-members-other": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, other {{member1} ၊ {member2} ၊ {member3} နှင့် <clickable>အခြား{remainingCount,number} ယောက်</clickable>}}"
   },
   "icu:ConversationHero--group-members-other-and-you": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, other {{member1} ၊ {member2} ၊ {member3} နှင့် <clickable>အခြား{remainingCount,number} ယောက်</clickable>}}"
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "သေချာပြန်လည်စစ်ဆေးပါ"
@@ -4017,10 +4017,10 @@
     "messageformat": "မီဒီယာသည် နောက်ခံတွင် ဆက်လက်ဒေါင်းလုဒ်လုပ်ပါမည်"
   },
   "icu:BackupMediaDownloadProgress__title-offline": {
-    "messageformat": "Restoring media paused"
+    "messageformat": "မီဒီယာ ပြန်လည်ရယူခြင်းကို ခေတ္တရပ်ထားသည်"
   },
   "icu:BackupMediaDownloadProgress__description-offline": {
-    "messageformat": "Waiting for Internet connection..."
+    "messageformat": "အင်တာနက်ချိတ်ဆက်မှုကို စောင့်ဆိုင်းနေသည်..."
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "လွှဲပြောင်းမှုကို ခေတ္တရပ်ပါ"
@@ -4057,6 +4057,12 @@
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
     "messageformat": "ဤအကောင့်ကို ဆက်လက်အသုံးပြုရန် သင့်ဖုန်းတွင် Signal ကိုဖွင့်ရပါမည်။ သင့်ဖုန်းတွင် Signal မဖွင့်ပါက သင့်အကောင့်ကို မကြာမီ ဖျက်သွားပါမည်။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
+  },
+  "icu:LowDiskSpaceBackupImportModal__title": {
+    "messageformat": "Can't restore media"
+  },
+  "icu:LowDiskSpaceBackupImportModal__description": {
+    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "ဖြန့်ရန်"
@@ -4998,13 +5004,13 @@
     "messageformat": "အရန်သိမ်းဆည်းမှုများ"
   },
   "icu:Preferences__button--internal": {
-    "messageformat": "Internal"
+    "messageformat": "အတွင်းပိုင်း"
   },
   "icu:Preferences__internal__validate-backup--description": {
-    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+    "messageformat": "ကုဒ်ပြောင်းဝှက်ထားသော ဘက်ခ်အပ်ကို မန်မိုရီသို့ပို့ပြီး ၎င်းတွင် မှန်ကန်ကြောင်းအတည်ပြုပါ"
   },
   "icu:Preferences__internal__validate-backup": {
-    "messageformat": "Validate"
+    "messageformat": "အတည်ပြုရန်"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "{date} {time} တွင် နောက်ဆုံးထည့်သွင်းခဲ့သည်"

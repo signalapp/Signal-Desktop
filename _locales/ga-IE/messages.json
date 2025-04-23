@@ -69,7 +69,7 @@
     "messageformat": "Teagmhálaí Anaithnid"
   },
   "icu:unknownContactShort": {
-    "messageformat": "Unknown"
+    "messageformat": "Anaithnid"
   },
   "icu:unknownGroup": {
     "messageformat": "Grúpa anaithnid"
@@ -2955,34 +2955,34 @@
     "messageformat": "{count, plural, one {1 bhall} two {{count,number} bhall} few {{count,number} bhall} many {{count,number} mball} other {{count,number} ball}}"
   },
   "icu:ConversationHero--member-list-and-invited": {
-    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+    "messageformat": "{invitesCount, plural, one {{memberList} (+ {invitesCount,number} chuireadh seolta amháin)} two {{memberList} (+ {invitesCount,number} chuireadh seolta)} few {{memberList} (+ {invitesCount,number} chuireadh seolta)} many {{memberList} (+ {invitesCount,number} gcuireadh seolta)} other {{memberList} (+ {invitesCount,number} cuireadh seolta)}}"
   },
   "icu:ConversationHero--group-members-zero": {
-    "messageformat": "No group members"
+    "messageformat": "Níl aon bhall sa ghrúpa"
   },
   "icu:ConversationHero--group-members-only-you": {
-    "messageformat": "No other group members yet"
+    "messageformat": "Níl aon bhall eile sa ghrúpa fós"
   },
   "icu:ConversationHero--group-members-one": {
     "messageformat": "{member}"
   },
   "icu:ConversationHero--group-members-one-and-you": {
-    "messageformat": "{member} and you"
+    "messageformat": "{member} agus tusa"
   },
   "icu:ConversationHero--group-members-two": {
-    "messageformat": "{member1} and {member2}"
+    "messageformat": "{member1} agus {member2}"
   },
   "icu:ConversationHero--group-members-two-and-you": {
-    "messageformat": "{member1}, {member2}, and you"
+    "messageformat": "{member1}, {member2} agus tusa"
   },
   "icu:ConversationHero--group-members-three": {
-    "messageformat": "{member1}, {member2}, and {member3}"
+    "messageformat": "{member1}, {member2} agus {member3}"
   },
   "icu:ConversationHero--group-members-other": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} agus <clickable>{remainingCount,number} duine amháin eile</clickable>} two {{member1}, {member2}, {member3} agus <clickable>{remainingCount,number} dhuine eile</clickable>} few {{member1}, {member2}, {member3} agus <clickable>{remainingCount,number} dhuine eile</clickable>} many {{member1}, {member2}, {member3} agus <clickable>{remainingCount,number} nduine eile</clickable>} other {{member1}, {member2}, {member3} agus <clickable>{remainingCount,number} duine eile</clickable>}}"
   },
   "icu:ConversationHero--group-members-other-and-you": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} agus <clickable>{remainingCount,number} duine amháin eile</clickable>} two {{member1}, {member2}, {member3} agus <clickable>{remainingCount,number} dhuine eile</clickable>} few {{member1}, {member2}, {member3} agus <clickable>{remainingCount,number} dhuine eile</clickable>} many {{member1}, {member2}, {member3} agus <clickable>{remainingCount,number} nduine eile</clickable>} other {{member1}, {member2}, {member3} agus <clickable>{remainingCount,number} duine eile</clickable>}}"
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "Déan athbhreithniú go cúramach"
@@ -4017,10 +4017,10 @@
     "messageformat": "Leanfaidh íoslódáil meán sa chúlra"
   },
   "icu:BackupMediaDownloadProgress__title-offline": {
-    "messageformat": "Restoring media paused"
+    "messageformat": "Aischur meán curtha ar sos"
   },
   "icu:BackupMediaDownloadProgress__description-offline": {
-    "messageformat": "Waiting for Internet connection..."
+    "messageformat": "Ag feitheamh le nasc Idirlín..."
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Cuir an t-aistriú ar sos"
@@ -4057,6 +4057,12 @@
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
     "messageformat": "Ní mór duit Signal a oscailt ar do ghuthán le leanúint le húsáid an chuntais seo. Mura n-osclaíonn tú Signal ar do ghuthán, scriosfar do chuntas ar ball. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>"
+  },
+  "icu:LowDiskSpaceBackupImportModal__title": {
+    "messageformat": "Can't restore media"
+  },
+  "icu:LowDiskSpaceBackupImportModal__description": {
+    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Fairsingigh"
@@ -4998,13 +5004,13 @@
     "messageformat": "Cúltacaí"
   },
   "icu:Preferences__button--internal": {
-    "messageformat": "Internal"
+    "messageformat": "Inmheánach"
   },
   "icu:Preferences__internal__validate-backup--description": {
-    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+    "messageformat": "Easpórtáil cúltaca criptithe chuig cuimhne agus rith sraith bhailíochtaithe air"
   },
   "icu:Preferences__internal__validate-backup": {
-    "messageformat": "Validate"
+    "messageformat": "Bailíochtaigh"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Iompórtáil deiridh {date} {time}"
