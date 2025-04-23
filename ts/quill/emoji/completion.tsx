@@ -12,25 +12,27 @@ import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 import type { VirtualElement } from '@popperjs/core';
 import { convertShortName, isShortName } from '../../components/emoji/lib';
-import type { SearchFnType } from '../../components/emoji/lib';
 import type { EmojiPickDataType } from '../../components/emoji/EmojiPicker';
 import { getBlotTextPartitions, matchBlotTextPartitions } from '../util';
 import { handleOutsideClick } from '../../util/handleOutsideClick';
 import * as log from '../../logging/log';
 import { FunStaticEmoji } from '../../components/fun/FunEmoji';
-import { strictAssert } from '../../util/assert';
 import {
   EmojiSkinTone,
-  getEmojiParentKeyByEnglishShortName,
+  getEmojiParentByKey,
   getEmojiVariantByParentKeyAndSkinTone,
-  isEmojiEnglishShortName,
+  normalizeShortNameCompletionDisplay,
 } from '../../components/fun/data/emojis';
+import type { FunEmojiSearchResult } from '../../components/fun/useFunEmojiSearch';
+import { type FunEmojiSearch } from '../../components/fun/useFunEmojiSearch';
+import { type FunEmojiLocalizer } from '../../components/fun/useFunEmojiLocalizer';
 
 export type EmojiCompletionOptions = {
   onPickEmoji: (emoji: EmojiPickDataType) => void;
   setEmojiPickerElement: (element: JSX.Element | null) => void;
   emojiSkinToneDefault: EmojiSkinTone | null;
-  search: SearchFnType;
+  emojiSearch: FunEmojiSearch;
+  emojiLocalizer: FunEmojiLocalizer;
 };
 
 export type InsertEmojiOptionsType = Readonly<{
@@ -42,7 +44,7 @@ export type InsertEmojiOptionsType = Readonly<{
 }>;
 
 export class EmojiCompletion {
-  results: Array<string>;
+  results: ReadonlyArray<FunEmojiSearchResult>;
 
   index: number;
 
@@ -197,7 +199,7 @@ export class EmojiCompletion {
         return PASS_THROUGH;
       }
 
-      const showEmojiResults = this.options.search(leftTokenText, 10);
+      const showEmojiResults = this.options.emojiSearch(leftTokenText, 10);
 
       if (showEmojiResults.length > 0) {
         this.results = showEmojiResults;
@@ -229,7 +231,7 @@ export class EmojiCompletion {
       return;
     }
 
-    const emoji = this.results[this.index];
+    const result = this.results[this.index];
     const [leafText] = this.getCurrentLeafTextPartitions();
 
     const tokenTextMatch = /:([-+0-9\p{Alpha}_]*)(:?)$/iu.exec(leafText);
@@ -239,9 +241,10 @@ export class EmojiCompletion {
     }
 
     const [, tokenText] = tokenTextMatch;
+    const parent = getEmojiParentByKey(result.parentKey);
 
     this.insertEmoji({
-      shortName: emoji,
+      shortName: parent.englishShortNameDefault,
       index: range.index - tokenText.length - 1,
       range: tokenText.length + 1,
       withTrailingSpace: true,
@@ -362,26 +365,30 @@ export class EmojiCompletion {
             role="listbox"
             aria-expanded
             aria-activedescendant={`emoji-result--${
-              emojiResults.length ? emojiResults[emojiResultsIndex] : ''
+              emojiResults.length
+                ? emojiResults[emojiResultsIndex].parentKey
+                : ''
             }`}
             tabIndex={0}
           >
-            {emojiResults.map((emoji, index) => {
-              strictAssert(
-                isEmojiEnglishShortName(emoji),
-                'Must be valid english short name'
-              );
-              const emojiParentKey = getEmojiParentKeyByEnglishShortName(emoji);
+            {emojiResults.map((result, index) => {
               const emojiVariant = getEmojiVariantByParentKeyAndSkinTone(
-                emojiParentKey,
+                result.parentKey,
                 this.options.emojiSkinToneDefault ?? EmojiSkinTone.None
               );
+
+              const localeShortName = this.options.emojiLocalizer(
+                emojiVariant.key
+              );
+
+              const normalized =
+                normalizeShortNameCompletionDisplay(localeShortName);
 
               return (
                 <button
                   type="button"
-                  key={emoji}
-                  id={`emoji-result--${emoji}`}
+                  key={result.parentKey}
+                  id={`emoji-result--${result.parentKey}`}
                   role="option button"
                   aria-selected={emojiResultsIndex === index}
                   onClick={() => {
@@ -401,7 +408,7 @@ export class EmojiCompletion {
                     size={16}
                   />
                   <div className="module-composition-input__suggestions__row__short-name">
-                    :{emoji}:
+                    :{normalized}:
                   </div>
                 </button>
               );

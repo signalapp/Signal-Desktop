@@ -9,6 +9,7 @@ import type {
   FunEmojiSearchIndexEntry,
 } from '../useFunEmojiSearch';
 import type { FunEmojiLocalizerIndex } from '../useFunEmojiLocalizer';
+import { removeDiacritics } from '../../../util/removeDiacritics';
 
 // Import emoji-datasource dynamically to avoid costly typechecking.
 // eslint-disable-next-line import/no-dynamic-require, @typescript-eslint/no-var-requires
@@ -549,6 +550,26 @@ export function emojiVariantConstant(input: string): EmojiVariantData {
   );
   const key = getEmojiVariantKeyByValue(input);
   return getEmojiVariantByKey(key);
+}
+
+/**
+ * Completions
+ */
+
+/** For displaying in the ui */
+export function normalizeShortNameCompletionDisplay(shortName: string): string {
+  return removeDiacritics(shortName)
+    .normalize('NFD')
+    .replaceAll(' ', '_')
+    .toLowerCase();
+}
+
+/** For matching in search utils */
+export function normalizeShortNameCompletionQuery(query: string): string {
+  return removeDiacritics(query)
+    .normalize('NFD')
+    .replaceAll(/[\s_-]+/gi, ' ')
+    .toLowerCase();
 }
 
 /**

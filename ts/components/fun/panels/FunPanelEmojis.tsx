@@ -186,7 +186,9 @@ export function FunPanelEmojis({
       return [
         toGridSectionNode(
           FunSectionCommon.SearchResults,
-          searchEmojis(searchQuery)
+          searchEmojis(searchQuery).map(result => {
+            return result.parentKey;
+          })
         ),
       ];
     }

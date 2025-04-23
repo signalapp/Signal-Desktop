@@ -9,8 +9,53 @@ import type {
   EmojiCompletionOptions,
   InsertEmojiOptionsType,
 } from '../../../quill/emoji/completion';
-import { createSearch } from '../../../components/emoji/lib';
-import { EmojiSkinTone } from '../../../components/fun/data/emojis';
+import {
+  EmojiSkinTone,
+  emojiVariantConstant,
+  getEmojiParentKeyByVariantKey,
+} from '../../../components/fun/data/emojis';
+import {
+  _createFunEmojiSearch,
+  createFunEmojiSearchIndex,
+} from '../../../components/fun/useFunEmojiSearch';
+import {
+  _createFunEmojiLocalizer,
+  createFunEmojiLocalizerIndex,
+} from '../../../components/fun/useFunEmojiLocalizer';
+import type { LocaleEmojiListType } from '../../../types/emoji';
+
+const EMOJI_VARIANTS = {
+  SMILE: emojiVariantConstant('\u{1F604}'),
+  SMILE_CAT: emojiVariantConstant('\u{1F638}'),
+  FRIEND_SHRIMP: emojiVariantConstant('\u{1F364}'),
+} as const;
+
+const PARENT_KEYS = {
+  SMILE: getEmojiParentKeyByVariantKey(EMOJI_VARIANTS.SMILE.key),
+  SMILE_CAT: getEmojiParentKeyByVariantKey(EMOJI_VARIANTS.SMILE_CAT.key),
+  FRIED_SHRIMP: getEmojiParentKeyByVariantKey(EMOJI_VARIANTS.FRIEND_SHRIMP.key),
+} as const;
+
+const EMOJI_LIST: LocaleEmojiListType = [
+  {
+    emoji: EMOJI_VARIANTS.SMILE.value,
+    shortName: 'smile',
+    tags: [],
+    rank: 0,
+  },
+  {
+    emoji: EMOJI_VARIANTS.SMILE_CAT.value,
+    shortName: 'smile_cat',
+    tags: [],
+    rank: 0,
+  },
+  {
+    emoji: EMOJI_VARIANTS.FRIEND_SHRIMP.value,
+    shortName: 'fried_shrimp',
+    tags: [],
+    rank: 0,
+  },
+];
 
 describe('emojiCompletion', () => {
   let emojiCompletion: EmojiCompletion;
@@ -29,14 +74,19 @@ describe('emojiCompletion', () => {
       setSelection: sinon.stub(),
       updateContents: sinon.stub(),
     };
+
+    const searchIndex = createFunEmojiSearchIndex(EMOJI_LIST);
+    const localizerIndex = createFunEmojiLocalizerIndex(EMOJI_LIST);
+
+    const emojiSearch = _createFunEmojiSearch(searchIndex);
+    const emojiLocalizer = _createFunEmojiLocalizer(localizerIndex);
+
     const options: EmojiCompletionOptions = {
       onPickEmoji: sinon.stub(),
       setEmojiPickerElement: sinon.stub(),
       emojiSkinToneDefault: EmojiSkinTone.None,
-      search: createSearch([
-        { shortName: 'smile', tags: [], rank: 0 },
-        { shortName: 'smile_cat', tags: [], rank: 0 },
-      ]),
+      emojiSearch,
+      emojiLocalizer,
     };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -64,7 +114,7 @@ describe('emojiCompletion', () => {
     let insertEmojiStub: sinon.SinonStub<[InsertEmojiOptionsType], void>;
 
     beforeEach(() => {
-      emojiCompletion.results = ['joy'];
+      emojiCompletion.results = [{ parentKey: PARENT_KEYS.SMILE }];
       emojiCompletion.index = 5;
       insertEmojiStub = sinon
         .stub(emojiCompletion, 'insertEmoji')
@@ -171,7 +221,7 @@ describe('emojiCompletion', () => {
       });
 
       it('stores the results and renders', () => {
-        assert.equal(emojiCompletion.results.length, 10);
+        assert.equal(emojiCompletion.results.length, 2);
         assert.equal((emojiCompletion.render as sinon.SinonStub).called, true);
       });
     });
@@ -353,7 +403,10 @@ describe('emojiCompletion', () => {
     let insertEmojiStub: sinon.SinonStub<[InsertEmojiOptionsType], void>;
 
     beforeEach(() => {
-      emojiCompletion.results = ['smile', 'smile_cat'];
+      emojiCompletion.results = [
+        { parentKey: PARENT_KEYS.SMILE },
+        { parentKey: PARENT_KEYS.SMILE_CAT },
+      ];
       emojiCompletion.index = 1;
       insertEmojiStub = sinon.stub(emojiCompletion, 'insertEmoji');
     });
