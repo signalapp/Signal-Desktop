@@ -69,7 +69,7 @@
     "messageformat": "알 수 없는 연락처"
   },
   "icu:unknownContactShort": {
-    "messageformat": "Unknown"
+    "messageformat": "알 수 없음"
   },
   "icu:unknownGroup": {
     "messageformat": "알 수 없는 그룹"
@@ -2955,34 +2955,34 @@
     "messageformat": "{count, plural, other {멤버 {count,number}명}}"
   },
   "icu:ConversationHero--member-list-and-invited": {
-    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+    "messageformat": "{invitesCount, plural, other {{memberList}(+{invitesCount,number}명 초대됨)}}"
   },
   "icu:ConversationHero--group-members-zero": {
-    "messageformat": "No group members"
+    "messageformat": "그룹 멤버 없음"
   },
   "icu:ConversationHero--group-members-only-you": {
-    "messageformat": "No other group members yet"
+    "messageformat": "아직 다른 그룹 멤버가 없습니다"
   },
   "icu:ConversationHero--group-members-one": {
     "messageformat": "{member}"
   },
   "icu:ConversationHero--group-members-one-and-you": {
-    "messageformat": "{member} and you"
+    "messageformat": "나와 {member}"
   },
   "icu:ConversationHero--group-members-two": {
-    "messageformat": "{member1} and {member2}"
+    "messageformat": "{member1}, {member2}"
   },
   "icu:ConversationHero--group-members-two-and-you": {
-    "messageformat": "{member1}, {member2}, and you"
+    "messageformat": "나와 {member1}, {member2}"
   },
   "icu:ConversationHero--group-members-three": {
-    "messageformat": "{member1}, {member2}, and {member3}"
+    "messageformat": "{member1}, {member2}, {member3}"
   },
   "icu:ConversationHero--group-members-other": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, other {{member1}, {member2}, {member3}, 외 <clickable>{remainingCount,number} 명</clickable>}}"
   },
   "icu:ConversationHero--group-members-other-and-you": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, other {{member1}, {member2}, {member3}, 외 <clickable>{remainingCount,number} 명</clickable>}}"
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "신중하게 검토하세요"
@@ -4017,10 +4017,10 @@
     "messageformat": "미디어가 백그라운드에서 계속 다운로드됩니다."
   },
   "icu:BackupMediaDownloadProgress__title-offline": {
-    "messageformat": "Restoring media paused"
+    "messageformat": "미디어 복원 일시 중지됨"
   },
   "icu:BackupMediaDownloadProgress__description-offline": {
-    "messageformat": "Waiting for Internet connection..."
+    "messageformat": "인터넷 연결을 기다리는 중…"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "전송 일시 중지"
@@ -4057,6 +4057,12 @@
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
     "messageformat": "이 계정을 계속 사용하려면 휴대폰에서 Signal을 열어야 합니다. 휴대폰에서 Signal을 열지 않으면 계정이 곧 삭제됩니다. <learnMoreLink>자세히 알아보기</learnMoreLink>"
+  },
+  "icu:LowDiskSpaceBackupImportModal__title": {
+    "messageformat": "Can't restore media"
+  },
+  "icu:LowDiskSpaceBackupImportModal__description": {
+    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "확장"
@@ -4998,13 +5004,13 @@
     "messageformat": "백업"
   },
   "icu:Preferences__button--internal": {
-    "messageformat": "Internal"
+    "messageformat": "내부"
   },
   "icu:Preferences__internal__validate-backup--description": {
-    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+    "messageformat": "암호화된 백업을 메모리로 내보내고, 해당 백업에 유효성 검사 제품군을 실행합니다"
   },
   "icu:Preferences__internal__validate-backup": {
-    "messageformat": "Validate"
+    "messageformat": "유효성 검사"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "마지막으로 가져온 시간: {date} {time}"

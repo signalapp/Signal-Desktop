@@ -69,7 +69,7 @@
     "messageformat": "Tundmatu kontakt"
   },
   "icu:unknownContactShort": {
-    "messageformat": "Unknown"
+    "messageformat": "Tundmatu"
   },
   "icu:unknownGroup": {
     "messageformat": "Tundmatu grupp"
@@ -2955,34 +2955,34 @@
     "messageformat": "{count, plural, one {1 liige} other {{count,number} liiget}}"
   },
   "icu:ConversationHero--member-list-and-invited": {
-    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} kutsutut)} other {{memberList} (+{invitesCount,number} kutsutut)}}"
   },
   "icu:ConversationHero--group-members-zero": {
-    "messageformat": "No group members"
+    "messageformat": "Grupis ei ole liikmeid"
   },
   "icu:ConversationHero--group-members-only-you": {
-    "messageformat": "No other group members yet"
+    "messageformat": "Grupis ei ole veel teisi liikmeid"
   },
   "icu:ConversationHero--group-members-one": {
     "messageformat": "{member}"
   },
   "icu:ConversationHero--group-members-one-and-you": {
-    "messageformat": "{member} and you"
+    "messageformat": "{member} ja sina"
   },
   "icu:ConversationHero--group-members-two": {
-    "messageformat": "{member1} and {member2}"
+    "messageformat": "{member1} ja {member2}"
   },
   "icu:ConversationHero--group-members-two-and-you": {
-    "messageformat": "{member1}, {member2}, and you"
+    "messageformat": "{member1}, {member2} ja sina"
   },
   "icu:ConversationHero--group-members-three": {
-    "messageformat": "{member1}, {member2}, and {member3}"
+    "messageformat": "{member1}, {member2} ja {member3}"
   },
   "icu:ConversationHero--group-members-other": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} ja veel <clickable>{remainingCount,number}</clickable>} other {{member1}, {member2}, {member3} ja veel <clickable>{remainingCount,number}</clickable>}}"
   },
   "icu:ConversationHero--group-members-other-and-you": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} ja veel <clickable>{remainingCount,number}</clickable>} other {{member1}, {member2}, {member3} ja veel <clickable>{remainingCount,number}</clickable>}}"
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "Vaata hoolega üle"
@@ -4017,10 +4017,10 @@
     "messageformat": "Meedia allalaadimine jätkub taustal"
   },
   "icu:BackupMediaDownloadProgress__title-offline": {
-    "messageformat": "Restoring media paused"
+    "messageformat": "Meedia taastamine on pausil"
   },
   "icu:BackupMediaDownloadProgress__description-offline": {
-    "messageformat": "Waiting for Internet connection..."
+    "messageformat": "Internetiühenduse ootel …"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Peata edastus"
@@ -4057,6 +4057,12 @@
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
     "messageformat": "Selle konto edasi kasutamiseks pead Signali telefonis avama. Kui sa Signalit oma telefonis ei ava, kustutame varsti su konto. <learnMoreLink>Rohkem teavet</learnMoreLink>"
+  },
+  "icu:LowDiskSpaceBackupImportModal__title": {
+    "messageformat": "Can't restore media"
+  },
+  "icu:LowDiskSpaceBackupImportModal__description": {
+    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Laienda"
@@ -4998,13 +5004,13 @@
     "messageformat": "Varukoopiad"
   },
   "icu:Preferences__button--internal": {
-    "messageformat": "Internal"
+    "messageformat": "Sisemine"
   },
   "icu:Preferences__internal__validate-backup--description": {
-    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+    "messageformat": "Ekspordi krüptitud varukoopia mälusse ja käivita sellel valideerimisprotsess"
   },
   "icu:Preferences__internal__validate-backup": {
-    "messageformat": "Validate"
+    "messageformat": "Valideeri"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Viimane importimine: {date} {time}"

@@ -69,7 +69,7 @@
     "messageformat": "Непознат контакт"
   },
   "icu:unknownContactShort": {
-    "messageformat": "Unknown"
+    "messageformat": "Непознато"
   },
   "icu:unknownGroup": {
     "messageformat": "Непозната група"
@@ -2955,34 +2955,34 @@
     "messageformat": "{count, plural, one {{count,number} член} other {{count,number} членови}}"
   },
   "icu:ConversationHero--member-list-and-invited": {
-    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} поканет)} other {{memberList} (+{invitesCount,number} поканети)}}"
   },
   "icu:ConversationHero--group-members-zero": {
-    "messageformat": "No group members"
+    "messageformat": "Нема членови на групата"
   },
   "icu:ConversationHero--group-members-only-you": {
-    "messageformat": "No other group members yet"
+    "messageformat": "Сè уште нема други членови во групата"
   },
   "icu:ConversationHero--group-members-one": {
     "messageformat": "{member}"
   },
   "icu:ConversationHero--group-members-one-and-you": {
-    "messageformat": "{member} and you"
+    "messageformat": "{member} и вие"
   },
   "icu:ConversationHero--group-members-two": {
-    "messageformat": "{member1} and {member2}"
+    "messageformat": "{member1} и {member2}"
   },
   "icu:ConversationHero--group-members-two-and-you": {
-    "messageformat": "{member1}, {member2}, and you"
+    "messageformat": "{member1}, {member2} и вие"
   },
   "icu:ConversationHero--group-members-three": {
-    "messageformat": "{member1}, {member2}, and {member3}"
+    "messageformat": "{member1}, {member2} и {member3}"
   },
   "icu:ConversationHero--group-members-other": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} и <clickable>{remainingCount,number} друг</clickable>} other {{member1}, {member2}, {member3} и <clickable>{remainingCount,number} други</clickable>}}"
   },
   "icu:ConversationHero--group-members-other-and-you": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} и <clickable>{remainingCount,number} друг</clickable>} other {{member1}, {member2}, {member3} и <clickable>{remainingCount,number} други</clickable>}}"
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "Внимателно прегледајте"
@@ -4017,10 +4017,10 @@
     "messageformat": "Медиумските датотеки ќе продолжат да се преземаат во заднина"
   },
   "icu:BackupMediaDownloadProgress__title-offline": {
-    "messageformat": "Restoring media paused"
+    "messageformat": "Враќањето на медиумски датотеки е паузирано"
   },
   "icu:BackupMediaDownloadProgress__description-offline": {
-    "messageformat": "Waiting for Internet connection..."
+    "messageformat": "Се чека поврзување на интернет…"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Паузирајте го преносот"
@@ -4057,6 +4057,12 @@
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
     "messageformat": "Треба да го отворите Signal на вашиот телефон за да продолжите да ја користите оваа корисничка сметка. Ако не го отворите Signal на вашиот телефон, вашата корисничка сметка ќе биде избришана наскоро. <learnMoreLink>Дознајте повеќе</learnMoreLink>"
+  },
+  "icu:LowDiskSpaceBackupImportModal__title": {
+    "messageformat": "Can't restore media"
+  },
+  "icu:LowDiskSpaceBackupImportModal__description": {
+    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Прошири"
@@ -4998,13 +5004,13 @@
     "messageformat": "Резервни копии"
   },
   "icu:Preferences__button--internal": {
-    "messageformat": "Internal"
+    "messageformat": "Внатрешнo"
   },
   "icu:Preferences__internal__validate-backup--description": {
-    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+    "messageformat": "Извези ја целосна шифрираната резервна копија во меморијата и спроведи пакет за валидација"
   },
   "icu:Preferences__internal__validate-backup": {
-    "messageformat": "Validate"
+    "messageformat": "Валидирај"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Последен внес на {date} {time}"

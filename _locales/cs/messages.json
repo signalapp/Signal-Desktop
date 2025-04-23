@@ -69,7 +69,7 @@
     "messageformat": "Neznámý kontakt"
   },
   "icu:unknownContactShort": {
-    "messageformat": "Unknown"
+    "messageformat": "Neznámý"
   },
   "icu:unknownGroup": {
     "messageformat": "Neznámá skupina"
@@ -2955,34 +2955,34 @@
     "messageformat": "{count, plural, one {1 člen} few {{count,number} členové} many {{count,number} členů} other {{count,number} členů}}"
   },
   "icu:ConversationHero--member-list-and-invited": {
-    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+    "messageformat": "{invitesCount, plural, one {{memberList} (+ {invitesCount,number} pozvaný/á)} few {{memberList} (+ {invitesCount,number} pozvaní)} many {{memberList} (+ {invitesCount,number} pozvaných)} other {{memberList} (+ {invitesCount,number} pozvaných)}}"
   },
   "icu:ConversationHero--group-members-zero": {
-    "messageformat": "No group members"
+    "messageformat": "Ve skupině nejsou žádní členové"
   },
   "icu:ConversationHero--group-members-only-you": {
-    "messageformat": "No other group members yet"
+    "messageformat": "Zatím žádní další členové skupiny"
   },
   "icu:ConversationHero--group-members-one": {
     "messageformat": "{member}"
   },
   "icu:ConversationHero--group-members-one-and-you": {
-    "messageformat": "{member} and you"
+    "messageformat": "{member} a vy"
   },
   "icu:ConversationHero--group-members-two": {
-    "messageformat": "{member1} and {member2}"
+    "messageformat": "{member1} a {member2}"
   },
   "icu:ConversationHero--group-members-two-and-you": {
-    "messageformat": "{member1}, {member2}, and you"
+    "messageformat": "{member1}, {member2} a vy"
   },
   "icu:ConversationHero--group-members-three": {
-    "messageformat": "{member1}, {member2}, and {member3}"
+    "messageformat": "{member1}, {member2} a {member3}"
   },
   "icu:ConversationHero--group-members-other": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} a <clickable>{remainingCount,number} další</clickable>} few {{member1}, {member2}, {member3} a <clickable>{remainingCount,number} další</clickable>} many {{member1}, {member2}, {member3} a <clickable>{remainingCount,number} dalších</clickable>} other {{member1}, {member2}, {member3} a <clickable>{remainingCount,number} dalších</clickable>}}"
   },
   "icu:ConversationHero--group-members-other-and-you": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} a <clickable>{remainingCount,number} další </clickable>} few {{member1}, {member2}, {member3} a <clickable>{remainingCount,number} další</clickable>} many {{member1}, {member2}, {member3} a <clickable>{remainingCount,number} dalších</clickable>} other {{member1}, {member2}, {member3} a <clickable>{remainingCount,number} dalších</clickable>}}"
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "Pečlivě kontrolujte"
@@ -4017,10 +4017,10 @@
     "messageformat": "Média se budou nadále stahovat na pozadí"
   },
   "icu:BackupMediaDownloadProgress__title-offline": {
-    "messageformat": "Restoring media paused"
+    "messageformat": "Obnovování médií pozastaveno"
   },
   "icu:BackupMediaDownloadProgress__description-offline": {
-    "messageformat": "Waiting for Internet connection..."
+    "messageformat": "Čeká se na připojení k internetu…"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Pozastavit přenos"
@@ -4057,6 +4057,12 @@
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
     "messageformat": "Pro další používání tohoto účtu musíte otevřít aplikaci Signal ve svém telefonu. Pokud účet Signal v telefonu neotevřete, bude brzy smazán. <learnMoreLink>Zjistit více</learnMoreLink>"
+  },
+  "icu:LowDiskSpaceBackupImportModal__title": {
+    "messageformat": "Can't restore media"
+  },
+  "icu:LowDiskSpaceBackupImportModal__description": {
+    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Rozbalit"
@@ -4998,13 +5004,13 @@
     "messageformat": "Zálohování"
   },
   "icu:Preferences__button--internal": {
-    "messageformat": "Internal"
+    "messageformat": "Vnitřní"
   },
   "icu:Preferences__internal__validate-backup--description": {
-    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+    "messageformat": "Exportuje šifrovanou zálohu do paměti a spustí ověřovací sadu"
   },
   "icu:Preferences__internal__validate-backup": {
-    "messageformat": "Validate"
+    "messageformat": "Ověřit"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Poslední import {date} v {time}"

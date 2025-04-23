@@ -69,7 +69,7 @@
     "messageformat": "不明な連絡先"
   },
   "icu:unknownContactShort": {
-    "messageformat": "Unknown"
+    "messageformat": "不明"
   },
   "icu:unknownGroup": {
     "messageformat": "不明なグループ"
@@ -2955,34 +2955,34 @@
     "messageformat": "{count, plural, other {メンバー{count,number}人}}"
   },
   "icu:ConversationHero--member-list-and-invited": {
-    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+    "messageformat": "{invitesCount, plural, other {{memberList} (+{invitesCount,number}人招待中)}}"
   },
   "icu:ConversationHero--group-members-zero": {
-    "messageformat": "No group members"
+    "messageformat": "グループメンバーはいません"
   },
   "icu:ConversationHero--group-members-only-you": {
-    "messageformat": "No other group members yet"
+    "messageformat": "まだ他のグループメンバーがいません"
   },
   "icu:ConversationHero--group-members-one": {
     "messageformat": "{member}"
   },
   "icu:ConversationHero--group-members-one-and-you": {
-    "messageformat": "{member} and you"
+    "messageformat": "{member}とあなた"
   },
   "icu:ConversationHero--group-members-two": {
-    "messageformat": "{member1} and {member2}"
+    "messageformat": "{member1} {member2}"
   },
   "icu:ConversationHero--group-members-two-and-you": {
-    "messageformat": "{member1}, {member2}, and you"
+    "messageformat": "{member1}、{member2}とあなた"
   },
   "icu:ConversationHero--group-members-three": {
-    "messageformat": "{member1}, {member2}, and {member3}"
+    "messageformat": "{member1}、{member2}と{member3}"
   },
   "icu:ConversationHero--group-members-other": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, other {{member1}、{member2}、{member3}、<clickable>他{remainingCount,number}人</clickable>}}"
   },
   "icu:ConversationHero--group-members-other-and-you": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, other {{member1}、{member2}、{member3}、<clickable>他{remainingCount,number}人</clickable>}}"
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "慎重に確認してください"
@@ -4017,10 +4017,10 @@
     "messageformat": "メディアはバックグラウンドで引き続きダウンロードされます"
   },
   "icu:BackupMediaDownloadProgress__title-offline": {
-    "messageformat": "Restoring media paused"
+    "messageformat": "メディアの復元が中断されました"
   },
   "icu:BackupMediaDownloadProgress__description-offline": {
-    "messageformat": "Waiting for Internet connection..."
+    "messageformat": "インターネット接続を待っています..."
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "転送を一時停止する"
@@ -4057,6 +4057,12 @@
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
     "messageformat": "このアカウントの使用を継続するには、お使いのスマートフォンでSignalを開く必要があります。この操作を行わないと、アカウントは間もなく消去されます。<learnMoreLink>さらに詳しく</learnMoreLink>"
+  },
+  "icu:LowDiskSpaceBackupImportModal__title": {
+    "messageformat": "Can't restore media"
+  },
+  "icu:LowDiskSpaceBackupImportModal__description": {
+    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "大きく"
@@ -4998,13 +5004,13 @@
     "messageformat": "バックアップ"
   },
   "icu:Preferences__button--internal": {
-    "messageformat": "Internal"
+    "messageformat": "内部設定"
   },
   "icu:Preferences__internal__validate-backup--description": {
-    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+    "messageformat": "暗号化されたバックアップをメモリにエクスポートし、検証処理を実行します"
   },
   "icu:Preferences__internal__validate-backup": {
-    "messageformat": "Validate"
+    "messageformat": "検証する"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "最終インポート: {date} {time}"

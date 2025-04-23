@@ -69,7 +69,7 @@
     "messageformat": "Неизвестный контакт"
   },
   "icu:unknownContactShort": {
-    "messageformat": "Unknown"
+    "messageformat": "Неизвестно"
   },
   "icu:unknownGroup": {
     "messageformat": "Неизвестная группа"
@@ -2955,34 +2955,34 @@
     "messageformat": "{count, plural, one {{count,number} участник} few {{count,number} участника} many {{count,number} участников} other {{count,number} участника}}"
   },
   "icu:ConversationHero--member-list-and-invited": {
-    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} приглашён)} few {{memberList} (+{invitesCount,number} приглашены)} many {{memberList} (+{invitesCount,number} приглашены)} other {{memberList} (+{invitesCount,number} приглашены)}}"
   },
   "icu:ConversationHero--group-members-zero": {
-    "messageformat": "No group members"
+    "messageformat": "Нет участников группы"
   },
   "icu:ConversationHero--group-members-only-you": {
-    "messageformat": "No other group members yet"
+    "messageformat": "Других участников группы пока нет"
   },
   "icu:ConversationHero--group-members-one": {
     "messageformat": "{member}"
   },
   "icu:ConversationHero--group-members-one-and-you": {
-    "messageformat": "{member} and you"
+    "messageformat": "{member} и вы"
   },
   "icu:ConversationHero--group-members-two": {
-    "messageformat": "{member1} and {member2}"
+    "messageformat": "{member1} и {member2}"
   },
   "icu:ConversationHero--group-members-two-and-you": {
-    "messageformat": "{member1}, {member2}, and you"
+    "messageformat": "{member1}, {member2} и вы"
   },
   "icu:ConversationHero--group-members-three": {
-    "messageformat": "{member1}, {member2}, and {member3}"
+    "messageformat": "{member1}, {member2} и {member3}"
   },
   "icu:ConversationHero--group-members-other": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} и ещё <clickable>{remainingCount,number}</clickable>} few {{member1}, {member2}, {member3} и ещё <clickable>{remainingCount,number}</clickable>} many {{member1}, {member2}, {member3} и ещё <clickable>{remainingCount,number}</clickable>} other {{member1}, {member2}, {member3} и ещё <clickable>{remainingCount,number}</clickable>}}"
   },
   "icu:ConversationHero--group-members-other-and-you": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} и ещё <clickable>{remainingCount,number}</clickable>} few {{member1}, {member2}, {member3} и ещё <clickable>{remainingCount,number}</clickable>} many {{member1}, {member2}, {member3} и ещё <clickable>{remainingCount,number}</clickable>} other {{member1}, {member2}, {member3} и ещё <clickable>{remainingCount,number}</clickable>}}"
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "Внимательно проверьте"
@@ -4017,10 +4017,10 @@
     "messageformat": "Медиафайлы будут по-прежнему загружаться в фоновом режиме"
   },
   "icu:BackupMediaDownloadProgress__title-offline": {
-    "messageformat": "Restoring media paused"
+    "messageformat": "Восстановление медиафайлов приостановлено"
   },
   "icu:BackupMediaDownloadProgress__description-offline": {
-    "messageformat": "Waiting for Internet connection..."
+    "messageformat": "Ожидаем подключение к интернету..."
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Приостановить трансфер"
@@ -4057,6 +4057,12 @@
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
     "messageformat": "Чтобы продолжить использование этой учётной записи, необходимо открыть Signal на телефоне. Если вы не откроете Signal на телефоне, ваша учётная запись будет вскоре удалена. <learnMoreLink>Узнать больше</learnMoreLink>"
+  },
+  "icu:LowDiskSpaceBackupImportModal__title": {
+    "messageformat": "Can't restore media"
+  },
+  "icu:LowDiskSpaceBackupImportModal__description": {
+    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Развернуть"
@@ -4998,13 +5004,13 @@
     "messageformat": "Резервные копии"
   },
   "icu:Preferences__button--internal": {
-    "messageformat": "Internal"
+    "messageformat": "Внутренние"
   },
   "icu:Preferences__internal__validate-backup--description": {
-    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+    "messageformat": "Экспортируйте зашифрованную резервную копию в память и запустите для нее набор проверок"
   },
   "icu:Preferences__internal__validate-backup": {
-    "messageformat": "Validate"
+    "messageformat": "Проверить"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Последний импорт: {date} {time}"

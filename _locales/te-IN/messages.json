@@ -69,7 +69,7 @@
     "messageformat": "తెలియని పరిచయం"
   },
   "icu:unknownContactShort": {
-    "messageformat": "Unknown"
+    "messageformat": "తెలియని"
   },
   "icu:unknownGroup": {
     "messageformat": "తెలియని సమూహం"
@@ -2955,34 +2955,34 @@
     "messageformat": "{count, plural, one {1 సభ్యుడు} other {{count,number} సభ్యులు}}"
   },
   "icu:ConversationHero--member-list-and-invited": {
-    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} ఆహ్వానించబడ్డారు)} other {{memberList} (+{invitesCount,number} ఆహ్వానించబడ్డారు)}}"
   },
   "icu:ConversationHero--group-members-zero": {
-    "messageformat": "No group members"
+    "messageformat": "గ్రూప్ సభ్యులు ఎవరూ లేరు"
   },
   "icu:ConversationHero--group-members-only-you": {
-    "messageformat": "No other group members yet"
+    "messageformat": "ఇంకా ఇతర గ్రూప్ సభ్యులు ఎవరూ లేరు"
   },
   "icu:ConversationHero--group-members-one": {
     "messageformat": "{member}"
   },
   "icu:ConversationHero--group-members-one-and-you": {
-    "messageformat": "{member} and you"
+    "messageformat": "{member} మరియు మీరు"
   },
   "icu:ConversationHero--group-members-two": {
-    "messageformat": "{member1} and {member2}"
+    "messageformat": "{member1} మరియు {member2}"
   },
   "icu:ConversationHero--group-members-two-and-you": {
-    "messageformat": "{member1}, {member2}, and you"
+    "messageformat": "{member1}, {member2} మరియు మీరు"
   },
   "icu:ConversationHero--group-members-three": {
-    "messageformat": "{member1}, {member2}, and {member3}"
+    "messageformat": "{member1}, {member2} మరియు {member3}"
   },
   "icu:ConversationHero--group-members-other": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} మరియు <clickable>ఇతర {remainingCount,number}</clickable>} other {{member1}, {member2}, {member3} మరియు <clickable>{remainingCount,number} ఇతరులు</clickable>}}"
   },
   "icu:ConversationHero--group-members-other-and-you": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} మరియు <clickable>ఇతర {remainingCount,number}</clickable>} other {{member1}, {member2}, {member3} మరియు <clickable>{remainingCount,number} ఇతరులు</clickable>}}"
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "జాగ్రత్తగా సమీక్షించండి"
@@ -4017,10 +4017,10 @@
     "messageformat": "నేపథ్యంలో మీడియా డౌన్ లోడ్ చేయడం కొనసాగిస్తుంది"
   },
   "icu:BackupMediaDownloadProgress__title-offline": {
-    "messageformat": "Restoring media paused"
+    "messageformat": "మీడియా పునరుద్ధరణ పాజ్ చేయబడింది"
   },
   "icu:BackupMediaDownloadProgress__description-offline": {
-    "messageformat": "Waiting for Internet connection..."
+    "messageformat": "ఇంటర్నెట్ కనెక్షన్ కోసం వేచి ఉంది..."
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "బదిలీని పాజ్ చేయండి"
@@ -4057,6 +4057,12 @@
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
     "messageformat": "ఈ ఖాతాను ఉపయోగించడం కొనసాగించడానికి మీరు మీ ఫోన్‌లో Signal ను తప్పకుండా తెరవాలి. ఒకవేళ మీరు మీ ఫోన్‌లో Signal ను తెరవకపోతే, మీ ఖాతా త్వరలో తొలగించబడుతుంది. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>"
+  },
+  "icu:LowDiskSpaceBackupImportModal__title": {
+    "messageformat": "Can't restore media"
+  },
+  "icu:LowDiskSpaceBackupImportModal__description": {
+    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "విస్తరించండి"
@@ -4998,13 +5004,13 @@
     "messageformat": "ప్రత్యామ్నాయములు"
   },
   "icu:Preferences__button--internal": {
-    "messageformat": "Internal"
+    "messageformat": "అంతర్గత"
   },
   "icu:Preferences__internal__validate-backup--description": {
-    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+    "messageformat": "ఎన్‌క్రిప్ట్ చేయబడిన బ్యాకప్‌ను మెమరీకి ఎగుమతి చేయండి మరియు దానిపై వ్యాలిడేషన్ సూట్‌ను రన్ చేయండి"
   },
   "icu:Preferences__internal__validate-backup": {
-    "messageformat": "Validate"
+    "messageformat": "ప్రామాణీకరించండి"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "{date} {time} వద్ద చివరిగా దిగుమతి చేయబడింది"

@@ -69,7 +69,7 @@
     "messageformat": "مخاطب ناشناس"
   },
   "icu:unknownContactShort": {
-    "messageformat": "Unknown"
+    "messageformat": "ناشناخته"
   },
   "icu:unknownGroup": {
     "messageformat": "گروه ناشناخته"
@@ -2955,34 +2955,34 @@
     "messageformat": "{count, plural, one {۱ عضو} other {{count,number} عضو}}"
   },
   "icu:ConversationHero--member-list-and-invited": {
-    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+    "messageformat": "{invitesCount, plural, one {‎{memberList}‏ (‏{invitesCount,number}+ عضو دعوت‌شده)} other {‎{memberList}‏ (‏{invitesCount,number}+ عضو دعوت‌شده)}}"
   },
   "icu:ConversationHero--group-members-zero": {
-    "messageformat": "No group members"
+    "messageformat": "عضوی در گروه وجود ندارد"
   },
   "icu:ConversationHero--group-members-only-you": {
-    "messageformat": "No other group members yet"
+    "messageformat": "هنوز هیچ عضو دیگری در گروه حضور ندارد"
   },
   "icu:ConversationHero--group-members-one": {
     "messageformat": "{member}"
   },
   "icu:ConversationHero--group-members-one-and-you": {
-    "messageformat": "{member} and you"
+    "messageformat": "{member} و شما"
   },
   "icu:ConversationHero--group-members-two": {
-    "messageformat": "{member1} and {member2}"
+    "messageformat": "{member1} و {member2}"
   },
   "icu:ConversationHero--group-members-two-and-you": {
-    "messageformat": "{member1}, {member2}, and you"
+    "messageformat": "{member1} ، {member2} و شما"
   },
   "icu:ConversationHero--group-members-three": {
-    "messageformat": "{member1}, {member2}, and {member3}"
+    "messageformat": "{member1} ، {member2} و {member3}"
   },
   "icu:ConversationHero--group-members-other": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {‎{member1}‏، ‎{member2}‏، ‎{member3}‏، و <clickable>{remainingCount,number} نفر دیگر</clickable>} other {‏{member1} ، {member2} ، {member3} ، و <clickable>{remainingCount,number} نفر دیگر</clickable>}}"
   },
   "icu:ConversationHero--group-members-other-and-you": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {‎{member1}‏، ‎{member2}‏، ‎{member3}‏، و <clickable>{remainingCount,number} نفر دیگر</clickable>} other {‏{member1} ، {member2} ، {member3} ، و <clickable>{remainingCount,number} نفر دیگر</clickable>}}"
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "با دقت بازنگری کنید"
@@ -4017,10 +4017,10 @@
     "messageformat": "دانلود رسانه در پس‌زمینه ادامه خواهد یافت"
   },
   "icu:BackupMediaDownloadProgress__title-offline": {
-    "messageformat": "Restoring media paused"
+    "messageformat": "بازیابی رسانه متوقف شد"
   },
   "icu:BackupMediaDownloadProgress__description-offline": {
-    "messageformat": "Waiting for Internet connection..."
+    "messageformat": "در انتظار اتصال به اینترنت..."
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "توقف موقت انتقال"
@@ -4057,6 +4057,12 @@
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
     "messageformat": "برای ادامه استفاده از این حساب، باید سیگنال را در تلفن خود باز کنید. اگر سیگنال را در تلفن خود باز نکنید، حساب شما به زودی حذف خواهد شد. <learnMoreLink>اطلاعات بیشتر</learnMoreLink>"
+  },
+  "icu:LowDiskSpaceBackupImportModal__title": {
+    "messageformat": "Can't restore media"
+  },
+  "icu:LowDiskSpaceBackupImportModal__description": {
+    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "گسترش"
@@ -4998,13 +5004,13 @@
     "messageformat": "نسخه‌های پشتیبان"
   },
   "icu:Preferences__button--internal": {
-    "messageformat": "Internal"
+    "messageformat": "داخلی"
   },
   "icu:Preferences__internal__validate-backup--description": {
-    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+    "messageformat": "نسخه پشتیبان رمزگذاری‌شده را به حافظه صادر کنید و مجموعه اعتبارسنجی را روی آن اجرا کنید"
   },
   "icu:Preferences__internal__validate-backup": {
-    "messageformat": "Validate"
+    "messageformat": "اعتبارسنجی"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "آخرین واردسازی در {time} {date}"

@@ -69,7 +69,7 @@
     "messageformat": "Άγνωστη επαφή"
   },
   "icu:unknownContactShort": {
-    "messageformat": "Unknown"
+    "messageformat": "Άγνωστο"
   },
   "icu:unknownGroup": {
     "messageformat": "Άγνωστη ομάδα"
@@ -2955,34 +2955,34 @@
     "messageformat": "{count, plural, one {1 μέλος} other {{count,number} μέλη}}"
   },
   "icu:ConversationHero--member-list-and-invited": {
-    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} προσκεκλημένος)} other {{memberList} (+{invitesCount,number} προσκεκλημένοι)}}"
   },
   "icu:ConversationHero--group-members-zero": {
-    "messageformat": "No group members"
+    "messageformat": "Δεν υπάρχουν μέλη της ομάδας"
   },
   "icu:ConversationHero--group-members-only-you": {
-    "messageformat": "No other group members yet"
+    "messageformat": "Δεν υπάρχουν άλλα μέλη ομάδας ακόμα"
   },
   "icu:ConversationHero--group-members-one": {
     "messageformat": "{member}"
   },
   "icu:ConversationHero--group-members-one-and-you": {
-    "messageformat": "{member} and you"
+    "messageformat": "{member} και εσύ"
   },
   "icu:ConversationHero--group-members-two": {
-    "messageformat": "{member1} and {member2}"
+    "messageformat": "{member1} και {member2}"
   },
   "icu:ConversationHero--group-members-two-and-you": {
-    "messageformat": "{member1}, {member2}, and you"
+    "messageformat": "{member1}, {member2} και εσύ"
   },
   "icu:ConversationHero--group-members-three": {
-    "messageformat": "{member1}, {member2}, and {member3}"
+    "messageformat": "{member1}, {member2} και {member3}"
   },
   "icu:ConversationHero--group-members-other": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} και <clickable>{remainingCount,number} ακόμα</clickable>} other {{member1}, {member2}, {member3} και <clickable>{remainingCount,number} ακόμα</clickable>}}"
   },
   "icu:ConversationHero--group-members-other-and-you": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} και <clickable>{remainingCount,number} ακόμα</clickable>} other {{member1}, {member2}, {member3} και <clickable>{remainingCount,number} ακόμα</clickable>}}"
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "Προσεκτικός έλεγχος"
@@ -4017,10 +4017,10 @@
     "messageformat": "Η λήψη πολυμέσων θα συνεχιστεί στο παρασκήνιο"
   },
   "icu:BackupMediaDownloadProgress__title-offline": {
-    "messageformat": "Restoring media paused"
+    "messageformat": "Επαναφορά πολυμέσων σε παύση"
   },
   "icu:BackupMediaDownloadProgress__description-offline": {
-    "messageformat": "Waiting for Internet connection..."
+    "messageformat": "Αναμονή για σύνδεση στο διαδίκτυο…"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Παύση μεταφοράς"
@@ -4057,6 +4057,12 @@
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
     "messageformat": "Πρέπει να ανοίξεις το Signal στο τηλέφωνό σου για να συνεχίσεις να χρησιμοποιείς αυτόν τον λογαριασμό. Εάν δεν ανοίξεις το Signal στο τηλέφωνό σου, ο λογαριασμός σου θα διαγραφεί σύντομα. <learnMoreLink>Μάθε περισσότερα</learnMoreLink>"
+  },
+  "icu:LowDiskSpaceBackupImportModal__title": {
+    "messageformat": "Can't restore media"
+  },
+  "icu:LowDiskSpaceBackupImportModal__description": {
+    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Ανάπτυξη"
@@ -4998,13 +5004,13 @@
     "messageformat": "Αντίγραφα ασφαλείας"
   },
   "icu:Preferences__button--internal": {
-    "messageformat": "Internal"
+    "messageformat": "Εσωτερική"
   },
   "icu:Preferences__internal__validate-backup--description": {
-    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+    "messageformat": "Εξαγωγή αποκρυπτογραφημένου αντιγράφου ασφαλείας και εκτέλεση σουίτας επικύρωσης σε αυτό"
   },
   "icu:Preferences__internal__validate-backup": {
-    "messageformat": "Validate"
+    "messageformat": "Eπικύρωση"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Τελευταία εισαγωγή στις {date} {time}"

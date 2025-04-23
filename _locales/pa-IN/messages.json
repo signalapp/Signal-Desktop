@@ -69,7 +69,7 @@
     "messageformat": "ਅਣਜਾਣ ਸੰਪਰਕ"
   },
   "icu:unknownContactShort": {
-    "messageformat": "Unknown"
+    "messageformat": "ਅਣਜਾਣ"
   },
   "icu:unknownGroup": {
     "messageformat": "ਅਣਜਾਣ ਗਰੁੱਪ"
@@ -2955,34 +2955,34 @@
     "messageformat": "{count, plural, one {1 ਮੈਂਬਰ} other {{count,number} ਮੈਂਬਰ}}"
   },
   "icu:ConversationHero--member-list-and-invited": {
-    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} ਨੂੰ ਸੱਦਿਆ ਗਿਆ)} other {{memberList} (+{invitesCount,number} ਨੂੰ ਸੱਦਿਆ ਗਿਆ)}}"
   },
   "icu:ConversationHero--group-members-zero": {
-    "messageformat": "No group members"
+    "messageformat": "ਕੋਈ ਗਰੁੱਪ ਮੈਂਬਰ ਨਹੀਂ ਹੈ"
   },
   "icu:ConversationHero--group-members-only-you": {
-    "messageformat": "No other group members yet"
+    "messageformat": "ਹਾਲੇ ਤੱਕ ਕੋਈ ਹੋਰ ਗਰੁੱਪ ਮੈਂਬਰ ਨਹੀਂ ਹੈ"
   },
   "icu:ConversationHero--group-members-one": {
     "messageformat": "{member}"
   },
   "icu:ConversationHero--group-members-one-and-you": {
-    "messageformat": "{member} and you"
+    "messageformat": "{member} ਅਤੇ ਤੁਸੀਂ"
   },
   "icu:ConversationHero--group-members-two": {
-    "messageformat": "{member1} and {member2}"
+    "messageformat": "{member1} ਅਤੇ {member2}"
   },
   "icu:ConversationHero--group-members-two-and-you": {
-    "messageformat": "{member1}, {member2}, and you"
+    "messageformat": "{member1}, {member2}, ਅਤੇ ਤੁਸੀਂ"
   },
   "icu:ConversationHero--group-members-three": {
-    "messageformat": "{member1}, {member2}, and {member3}"
+    "messageformat": "{member1}, {member2}, ਅਤੇ {member3}"
   },
   "icu:ConversationHero--group-members-other": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, ਅਤੇ <clickable>{remainingCount,number} ਹੋਰ</clickable>} other {{member1}, {member2}, {member3}, ਅਤੇ <clickable>{remainingCount,number} ਹੋਰ</clickable>}}"
   },
   "icu:ConversationHero--group-members-other-and-you": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, ਅਤੇ <clickable>{remainingCount,number} ਹੋਰ</clickable>} other {{member1}, {member2}, {member3}, ਅਤੇ <clickable>{remainingCount,number} ਹੋਰ</clickable>}}"
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "ਧਿਆਨ ਨਾਲ ਸਮੀਖਿਆ ਕਰੋ"
@@ -4017,10 +4017,10 @@
     "messageformat": "ਮੀਡੀਆ ਬੈਕਗ੍ਰਾਊਂਡ ਵਿੱਚ ਡਾਊਨਲੋਡ ਹੁੰਦਾ ਰਹੇਗਾ"
   },
   "icu:BackupMediaDownloadProgress__title-offline": {
-    "messageformat": "Restoring media paused"
+    "messageformat": "ਮੀਡੀਆ ਰੀਸਟੋਰ ਕਰਨਾ ਰੋਕਿਆ ਗਿਆ"
   },
   "icu:BackupMediaDownloadProgress__description-offline": {
-    "messageformat": "Waiting for Internet connection..."
+    "messageformat": "ਇੰਟਰਨੈੱਟ ਕਨੈਕਸ਼ਨ ਦੀ ਉਡੀਕ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ…"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "ਟ੍ਰਾਂਸਫਰ ਨੂੰ ਰੋਕੋ"
@@ -4057,6 +4057,12 @@
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
     "messageformat": "ਇਸ ਖਾਤੇ ਦੀ ਵਰਤੋਂ ਜਾਰੀ ਰੱਖਣ ਲਈ ਤੁਹਾਨੂੰ ਆਪਣੇ ਫ਼ੋਨ 'ਤੇ Signal ਖੋਲ੍ਹਣਾ ਪਵੇਗਾ। ਜੇਕਰ ਤੁਸੀਂ ਆਪਣੇ ਫ਼ੋਨ 'ਤੇ Signal ਨਹੀਂ ਖੋਲ੍ਹਦੇ, ਤਾਂ ਤੁਹਾਡਾ ਖਾਤਾ ਜਲਦੀ ਹੀ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ। <learnMoreLink>ਹੋਰ ਜਾਣੋ</learnMoreLink>"
+  },
+  "icu:LowDiskSpaceBackupImportModal__title": {
+    "messageformat": "Can't restore media"
+  },
+  "icu:LowDiskSpaceBackupImportModal__description": {
+    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "ਫੈਲਾਓ"
@@ -4998,13 +5004,13 @@
     "messageformat": "ਬੈਕਅੱਪ"
   },
   "icu:Preferences__button--internal": {
-    "messageformat": "Internal"
+    "messageformat": "ਅੰਦਰੂਨੀ"
   },
   "icu:Preferences__internal__validate-backup--description": {
-    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+    "messageformat": "ਇਨਕ੍ਰਿਪਟਡ ਬੈਕਅੱਪ ਨੂੰ ਮੈਮੋਰੀ ਵਿੱਚ ਐਕਸਪੋਰਟ ਕਰੋ ਅਤੇ ਇਸ 'ਤੇ ਵੈਲੀਡੇਸ਼ਨ ਸੂਟ ਚਲਾਓ"
   },
   "icu:Preferences__internal__validate-backup": {
-    "messageformat": "Validate"
+    "messageformat": "ਪ੍ਰਮਾਣਿਤ ਕਰੋ"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "ਆਖਰੀ ਵਾਰ {date} {time} ਇੰਮਪੋਰਟ ਕੀਤਾ ਗਿਆ"

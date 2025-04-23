@@ -69,7 +69,7 @@
     "messageformat": "Bilinməyən əlaqə"
   },
   "icu:unknownContactShort": {
-    "messageformat": "Unknown"
+    "messageformat": "Bilinmir"
   },
   "icu:unknownGroup": {
     "messageformat": "Bilinməyən qrup"
@@ -2955,34 +2955,34 @@
     "messageformat": "{count, plural, one {1 üzv} other {{count,number} üzv}}"
   },
   "icu:ConversationHero--member-list-and-invited": {
-    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} dəvət edildi)} other {{memberList} (+{invitesCount,number} dəvət edildi)}}"
   },
   "icu:ConversationHero--group-members-zero": {
-    "messageformat": "No group members"
+    "messageformat": "Qrup üzvü yoxdur"
   },
   "icu:ConversationHero--group-members-only-you": {
-    "messageformat": "No other group members yet"
+    "messageformat": "Hələlik başqa qrup üzvü yoxdur"
   },
   "icu:ConversationHero--group-members-one": {
     "messageformat": "{member}"
   },
   "icu:ConversationHero--group-members-one-and-you": {
-    "messageformat": "{member} and you"
+    "messageformat": "{member} və siz"
   },
   "icu:ConversationHero--group-members-two": {
-    "messageformat": "{member1} and {member2}"
+    "messageformat": "{member1} və {member2}"
   },
   "icu:ConversationHero--group-members-two-and-you": {
-    "messageformat": "{member1}, {member2}, and you"
+    "messageformat": "{member1}, {member2} və siz"
   },
   "icu:ConversationHero--group-members-three": {
-    "messageformat": "{member1}, {member2}, and {member3}"
+    "messageformat": "{member1}, {member2} və {member3}"
   },
   "icu:ConversationHero--group-members-other": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} və daha <clickable>{remainingCount,number} nəfər</clickable>} other {{member1}, {member2}, {member3} və daha <clickable>{remainingCount,number} nəfər</clickable>}}"
   },
   "icu:ConversationHero--group-members-other-and-you": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} və daha <clickable>{remainingCount,number} nəfər</clickable>} other {{member1}, {member2}, {member3} və daha <clickable>{remainingCount,number} nəfər</clickable>}}"
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "Diqqətlə nəzərdən keçir"
@@ -4017,10 +4017,10 @@
     "messageformat": "Media faylı ehtiyat nüsxədə endirilməyə davam edəcək"
   },
   "icu:BackupMediaDownloadProgress__title-offline": {
-    "messageformat": "Restoring media paused"
+    "messageformat": "Media faylının bərpası dayandırıldı"
   },
   "icu:BackupMediaDownloadProgress__description-offline": {
-    "messageformat": "Waiting for Internet connection..."
+    "messageformat": "İnternet bağlantısı gözlənilir..."
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Köçürməyə fasilə ver"
@@ -4057,6 +4057,12 @@
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
     "messageformat": "Bu hesabdan istifadəyə davam etmək üçün telefonunuzda Signal-ı açmalısınız. Telefonunuzda Signal-ı açmasanız, hesabınız tezliklə silinəcək. <learnMoreLink>Daha ətraflı</learnMoreLink>"
+  },
+  "icu:LowDiskSpaceBackupImportModal__title": {
+    "messageformat": "Can't restore media"
+  },
+  "icu:LowDiskSpaceBackupImportModal__description": {
+    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Genişləndir"
@@ -4998,13 +5004,13 @@
     "messageformat": "Nüsxələr"
   },
   "icu:Preferences__button--internal": {
-    "messageformat": "Internal"
+    "messageformat": "Daxili"
   },
   "icu:Preferences__internal__validate-backup--description": {
-    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+    "messageformat": "Şifrələnmiş ehtiyat nüsxəni yaddaşa ixrac edin və üstündəki yoxlama paketini aktivləşdirin"
   },
   "icu:Preferences__internal__validate-backup": {
-    "messageformat": "Validate"
+    "messageformat": "Yoxla"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Son idxal {date} {time}"

@@ -69,7 +69,7 @@
     "messageformat": "Kontak tidak dikenal"
   },
   "icu:unknownContactShort": {
-    "messageformat": "Unknown"
+    "messageformat": "Tidak diketahui"
   },
   "icu:unknownGroup": {
     "messageformat": "Grup tidak dikenal"
@@ -2955,34 +2955,34 @@
     "messageformat": "{count, plural, other {{count,number} anggota}}"
   },
   "icu:ConversationHero--member-list-and-invited": {
-    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+    "messageformat": "{invitesCount, plural, other {{memberList} (+{invitesCount,number} diundang)}}"
   },
   "icu:ConversationHero--group-members-zero": {
-    "messageformat": "No group members"
+    "messageformat": "Tidak ada anggota grup"
   },
   "icu:ConversationHero--group-members-only-you": {
-    "messageformat": "No other group members yet"
+    "messageformat": "Belum ada anggota grup lain"
   },
   "icu:ConversationHero--group-members-one": {
     "messageformat": "{member}"
   },
   "icu:ConversationHero--group-members-one-and-you": {
-    "messageformat": "{member} and you"
+    "messageformat": "{member} dan Anda"
   },
   "icu:ConversationHero--group-members-two": {
-    "messageformat": "{member1} and {member2}"
+    "messageformat": "{member1} dan {member2}"
   },
   "icu:ConversationHero--group-members-two-and-you": {
-    "messageformat": "{member1}, {member2}, and you"
+    "messageformat": "{member1}, {member2}, dan Anda"
   },
   "icu:ConversationHero--group-members-three": {
-    "messageformat": "{member1}, {member2}, and {member3}"
+    "messageformat": "{member1}, {member2}, dan {member3}"
   },
   "icu:ConversationHero--group-members-other": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, other {{member1}, {member2}, {member3}, dan <clickable>{remainingCount,number} lainnya</clickable>}}"
   },
   "icu:ConversationHero--group-members-other-and-you": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, other {{member1}, {member2}, {member3}, dan <clickable>{remainingCount,number} lainnya</clickable>}}"
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "Tinjau dengan cermat"
@@ -4017,10 +4017,10 @@
     "messageformat": "Pengunduhan media akan terus berlangsung di latar belakang"
   },
   "icu:BackupMediaDownloadProgress__title-offline": {
-    "messageformat": "Restoring media paused"
+    "messageformat": "Pemulihan media dijeda"
   },
   "icu:BackupMediaDownloadProgress__description-offline": {
-    "messageformat": "Waiting for Internet connection..."
+    "messageformat": "Menunggu koneksi internet …"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Jeda transfer"
@@ -4057,6 +4057,12 @@
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
     "messageformat": "Anda harus membuka Signal di ponsel agar dapat terus menggunakan akun ini. Jika Anda tidak membuka Signal di ponsel, akun Anda akan segera dihapus. <learnMoreLink>Pelajari selengkapnya</learnMoreLink>"
+  },
+  "icu:LowDiskSpaceBackupImportModal__title": {
+    "messageformat": "Can't restore media"
+  },
+  "icu:LowDiskSpaceBackupImportModal__description": {
+    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Lebarkan"
@@ -5001,10 +5007,10 @@
     "messageformat": "Internal"
   },
   "icu:Preferences__internal__validate-backup--description": {
-    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+    "messageformat": "Ekspor cadangan terenkripsi ke memori perangkat dan jalankan rangkaian validasi pada cadangan tersebut"
   },
   "icu:Preferences__internal__validate-backup": {
-    "messageformat": "Validate"
+    "messageformat": "Validasi"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Impor terakhir pada  {date} {time}"

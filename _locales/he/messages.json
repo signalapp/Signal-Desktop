@@ -69,7 +69,7 @@
     "messageformat": "איש קשר בלתי ידוע"
   },
   "icu:unknownContactShort": {
-    "messageformat": "Unknown"
+    "messageformat": "בלתי ידוע"
   },
   "icu:unknownGroup": {
     "messageformat": "קבוצה לא ידועה"
@@ -2955,34 +2955,34 @@
     "messageformat": "{count, plural, one {חבר/ה 1} two {{count,number} חברים} many {{count,number} חברים} other {{count,number} חברים}}"
   },
   "icu:ConversationHero--member-list-and-invited": {
-    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} מוזמנ/ת)} two {{memberList} (+{invitesCount,number} מוזמנים)} many {{memberList} (+{invitesCount,number} מוזמנים)} other {{memberList} (+{invitesCount,number} מוזמנים)}}"
   },
   "icu:ConversationHero--group-members-zero": {
-    "messageformat": "No group members"
+    "messageformat": "אין חברים בקבוצה"
   },
   "icu:ConversationHero--group-members-only-you": {
-    "messageformat": "No other group members yet"
+    "messageformat": "עדיין אין חברים אחרים בקבוצה"
   },
   "icu:ConversationHero--group-members-one": {
     "messageformat": "{member}"
   },
   "icu:ConversationHero--group-members-one-and-you": {
-    "messageformat": "{member} and you"
+    "messageformat": "{member} ואת/ה"
   },
   "icu:ConversationHero--group-members-two": {
-    "messageformat": "{member1} and {member2}"
+    "messageformat": "{member1} ו–{member2}"
   },
   "icu:ConversationHero--group-members-two-and-you": {
-    "messageformat": "{member1}, {member2}, and you"
+    "messageformat": "{member1}, {member2}, ואת/ה"
   },
   "icu:ConversationHero--group-members-three": {
-    "messageformat": "{member1}, {member2}, and {member3}"
+    "messageformat": "{member1}, {member2}, ו{member3}"
   },
   "icu:ConversationHero--group-members-other": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, ו–<clickable>{remainingCount,number} אחר/ת</clickable>} two {{member1}, {member2}, {member3}, ו–<clickable>{remainingCount,number} אחרים</clickable>} many {{member1}, {member2}, {member3}, ו–<clickable>{remainingCount,number} אחרים</clickable>} other {{member1}, {member2}, {member3}, ו–<clickable>{remainingCount,number} אחרים</clickable>}}"
   },
   "icu:ConversationHero--group-members-other-and-you": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, ו–<clickable>{remainingCount,number} אחר/ת</clickable>} two {{member1}, {member2}, {member3}, ו–<clickable>{remainingCount,number} אחרים</clickable>} many {{member1}, {member2}, {member3}, ו–<clickable>{remainingCount,number} אחרים</clickable>} other {{member1}, {member2}, {member3}, ו–<clickable>{remainingCount,number} אחרים</clickable>}}"
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "יש לסקור בזהירות"
@@ -4017,10 +4017,10 @@
     "messageformat": "הורדת המדיה תמשיך ברקע"
   },
   "icu:BackupMediaDownloadProgress__title-offline": {
-    "messageformat": "Restoring media paused"
+    "messageformat": "שחזור המדיה הושהה"
   },
   "icu:BackupMediaDownloadProgress__description-offline": {
-    "messageformat": "Waiting for Internet connection..."
+    "messageformat": "בהמתנה לחיבור אינטרנט…"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "השהיית העברה"
@@ -4057,6 +4057,12 @@
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
     "messageformat": "יש לפתוח את Signal בטלפון שלך כדי להמשיך להשתמש בחשבון הזה. אם לא תפתח/י את Signal בטלפון שלך, החשבון שלך יימחק בקרוב. <learnMoreLink>למידע נוסף</learnMoreLink>"
+  },
+  "icu:LowDiskSpaceBackupImportModal__title": {
+    "messageformat": "Can't restore media"
+  },
+  "icu:LowDiskSpaceBackupImportModal__description": {
+    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "הרחב"
@@ -4998,13 +5004,13 @@
     "messageformat": "גיבויים"
   },
   "icu:Preferences__button--internal": {
-    "messageformat": "Internal"
+    "messageformat": "פנימי"
   },
   "icu:Preferences__internal__validate-backup--description": {
-    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+    "messageformat": "לייצא גיבוי מוצפן לזיכרון ולהריץ עליו אימות"
   },
   "icu:Preferences__internal__validate-backup": {
-    "messageformat": "Validate"
+    "messageformat": "אימות"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "יבוא אחרון במועד {date} {time}"

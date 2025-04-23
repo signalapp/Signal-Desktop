@@ -69,7 +69,7 @@
     "messageformat": "Unbekannter Kontakt"
   },
   "icu:unknownContactShort": {
-    "messageformat": "Unknown"
+    "messageformat": "Unbekannt"
   },
   "icu:unknownGroup": {
     "messageformat": "Unbekannte Gruppe"
@@ -2955,34 +2955,34 @@
     "messageformat": "{count, plural, one {{count,number} Mitglied} other {{count,number} Mitglieder}}"
   },
   "icu:ConversationHero--member-list-and-invited": {
-    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} eingeladen)} other {{memberList} (+{invitesCount,number} eingeladen)}}"
   },
   "icu:ConversationHero--group-members-zero": {
-    "messageformat": "No group members"
+    "messageformat": "Keine Gruppenmitglieder"
   },
   "icu:ConversationHero--group-members-only-you": {
-    "messageformat": "No other group members yet"
+    "messageformat": "Noch keine weiteren Gruppenmitglieder"
   },
   "icu:ConversationHero--group-members-one": {
     "messageformat": "{member}"
   },
   "icu:ConversationHero--group-members-one-and-you": {
-    "messageformat": "{member} and you"
+    "messageformat": "{member} und du"
   },
   "icu:ConversationHero--group-members-two": {
-    "messageformat": "{member1} and {member2}"
+    "messageformat": "{member1} und {member2}"
   },
   "icu:ConversationHero--group-members-two-and-you": {
-    "messageformat": "{member1}, {member2}, and you"
+    "messageformat": "{member1}, {member2} und du"
   },
   "icu:ConversationHero--group-members-three": {
-    "messageformat": "{member1}, {member2}, and {member3}"
+    "messageformat": "{member1}, {member2} und {member3}"
   },
   "icu:ConversationHero--group-members-other": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1},, {member2} {member3} und <clickable>{remainingCount,number} anderer</clickable>} other {{member1}, {member2}, {member3} und <clickable>{remainingCount,number} andere</clickable>}}"
   },
   "icu:ConversationHero--group-members-other-and-you": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} und <clickable>{remainingCount,number} anderer</clickable>} other {{member1}, {member2}, {member3} und <clickable>{remainingCount,number} andere</clickable>}}"
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "Prüfe sorgfältig"
@@ -4017,10 +4017,10 @@
     "messageformat": "Der Medien-Download wird im Hintergrund fortgesetzt"
   },
   "icu:BackupMediaDownloadProgress__title-offline": {
-    "messageformat": "Restoring media paused"
+    "messageformat": "Wiederherstellen von Medien angehalten"
   },
   "icu:BackupMediaDownloadProgress__description-offline": {
-    "messageformat": "Waiting for Internet connection..."
+    "messageformat": "Verbindet mit Internet …"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Übertragung anhalten"
@@ -4057,6 +4057,12 @@
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
     "messageformat": "Um dieses Konto weiterhin nutzen zu können, musst du Signal auf deinem Telefon öffnen. Wenn du Signal nicht auf deinem Telefon öffnest, wird dein Konto bald gelöscht. <learnMoreLink>Mehr erfahren</learnMoreLink>"
+  },
+  "icu:LowDiskSpaceBackupImportModal__title": {
+    "messageformat": "Can't restore media"
+  },
+  "icu:LowDiskSpaceBackupImportModal__description": {
+    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Erweitern"
@@ -4998,13 +5004,13 @@
     "messageformat": "Backups"
   },
   "icu:Preferences__button--internal": {
-    "messageformat": "Internal"
+    "messageformat": "Intern"
   },
   "icu:Preferences__internal__validate-backup--description": {
-    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+    "messageformat": "Verschlüsselte Datensicherung auf Speicher sichern und Validierungssuite darauf ausführen"
   },
   "icu:Preferences__internal__validate-backup": {
-    "messageformat": "Validate"
+    "messageformat": "Validieren"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Letzter Import: {date} {time} Uhr"

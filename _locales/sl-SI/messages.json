@@ -69,7 +69,7 @@
     "messageformat": "Neznan stik"
   },
   "icu:unknownContactShort": {
-    "messageformat": "Unknown"
+    "messageformat": "Neznano"
   },
   "icu:unknownGroup": {
     "messageformat": "Neznana skupina"
@@ -2955,34 +2955,34 @@
     "messageformat": "{count, plural, one {1 član_ica} two {{count,number} člana_ici} few {{count,number} člani_ce} other {{count,number} članov_ic}}"
   },
   "icu:ConversationHero--member-list-and-invited": {
-    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} povabljen_a)} two {{memberList} (+{invitesCount,number} povabljena)} few {{memberList} (+{invitesCount,number} povabljeni)} other {{memberList} (+{invitesCount,number} povabljenih)}}"
   },
   "icu:ConversationHero--group-members-zero": {
-    "messageformat": "No group members"
+    "messageformat": "Brez članov skupine"
   },
   "icu:ConversationHero--group-members-only-you": {
-    "messageformat": "No other group members yet"
+    "messageformat": "Drugih članov skupine še ni"
   },
   "icu:ConversationHero--group-members-one": {
     "messageformat": "{member}"
   },
   "icu:ConversationHero--group-members-one-and-you": {
-    "messageformat": "{member} and you"
+    "messageformat": "{member} in vi"
   },
   "icu:ConversationHero--group-members-two": {
-    "messageformat": "{member1} and {member2}"
+    "messageformat": "{member1} in {member2}"
   },
   "icu:ConversationHero--group-members-two-and-you": {
-    "messageformat": "{member1}, {member2}, and you"
+    "messageformat": "{member1}, {member2} in vi"
   },
   "icu:ConversationHero--group-members-three": {
-    "messageformat": "{member1}, {member2}, and {member3}"
+    "messageformat": "{member1}, {member2} in {member3}"
   },
   "icu:ConversationHero--group-members-other": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} in še <clickable>{remainingCount,number} drug</clickable>} two {{member1}, {member2}, {member3} in še <clickable>{remainingCount,number} druga</clickable>} few {{member1}, {member2}, {member3} in še <clickable>{remainingCount,number} drugi</clickable>} other {{member1}, {member2}, {member3} in še <clickable>{remainingCount,number} drugih</clickable>}}"
   },
   "icu:ConversationHero--group-members-other-and-you": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} in še <clickable>{remainingCount,number} drug</clickable>} two {{member1}, {member2}, {member3} in še <clickable>{remainingCount,number} druga</clickable>} few {{member1}, {member2}, {member3} in še <clickable>{remainingCount,number} drugi</clickable>} other {{member1}, {member2}, {member3} in še <clickable>{remainingCount,number} drugih</clickable>}}"
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "Skrbno preglejte"
@@ -4017,10 +4017,10 @@
     "messageformat": "Mediji se bodo še naprej prenašali v ozadju"
   },
   "icu:BackupMediaDownloadProgress__title-offline": {
-    "messageformat": "Restoring media paused"
+    "messageformat": "Obnovitev medijev je ustavljena"
   },
   "icu:BackupMediaDownloadProgress__description-offline": {
-    "messageformat": "Waiting for Internet connection..."
+    "messageformat": "Čakanje na internetno povezavo …"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Prekini prenos"
@@ -4057,6 +4057,12 @@
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
     "messageformat": "Če želite še naprej uporabljati ta račun, morate v telefonu odpreti aplikacijo Signal. Če Signala v telefonu ne odprete, bo vaš račun kmalu izbrisan. <learnMoreLink>Več o tem</learnMoreLink>"
+  },
+  "icu:LowDiskSpaceBackupImportModal__title": {
+    "messageformat": "Can't restore media"
+  },
+  "icu:LowDiskSpaceBackupImportModal__description": {
+    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Razširi"
@@ -4998,13 +5004,13 @@
     "messageformat": "Varnostne kopije"
   },
   "icu:Preferences__button--internal": {
-    "messageformat": "Internal"
+    "messageformat": "Notranje"
   },
   "icu:Preferences__internal__validate-backup--description": {
-    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+    "messageformat": "Izvozite šifrirano varnostno kopijo v pomnilnik in na njej zaženite paket za preverjanje"
   },
   "icu:Preferences__internal__validate-backup": {
-    "messageformat": "Validate"
+    "messageformat": "Preveri"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Zadnji uvoz: {date} {time}"

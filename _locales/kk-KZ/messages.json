@@ -69,7 +69,7 @@
     "messageformat": "Белгісіз контакт"
   },
   "icu:unknownContactShort": {
-    "messageformat": "Unknown"
+    "messageformat": "Белгісіз"
   },
   "icu:unknownGroup": {
     "messageformat": "Белгісіз топ"
@@ -2955,34 +2955,34 @@
     "messageformat": "{count, plural, one {1 мүше} other {{count,number} мүше}}"
   },
   "icu:ConversationHero--member-list-and-invited": {
-    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+    "messageformat": "{invitesCount, plural, one {{memberList} (тағы {invitesCount,number} адам шақырылды)} other {{memberList} (тағы {invitesCount,number} адам шақырылды)}}"
   },
   "icu:ConversationHero--group-members-zero": {
-    "messageformat": "No group members"
+    "messageformat": "Топ мүшелері жоқ"
   },
   "icu:ConversationHero--group-members-only-you": {
-    "messageformat": "No other group members yet"
+    "messageformat": "Бұл топта әзірге басқа мүшелер жоқ"
   },
   "icu:ConversationHero--group-members-one": {
     "messageformat": "{member}"
   },
   "icu:ConversationHero--group-members-one-and-you": {
-    "messageformat": "{member} and you"
+    "messageformat": "{member} және сіз"
   },
   "icu:ConversationHero--group-members-two": {
-    "messageformat": "{member1} and {member2}"
+    "messageformat": "{member1} және {member2}"
   },
   "icu:ConversationHero--group-members-two-and-you": {
-    "messageformat": "{member1}, {member2}, and you"
+    "messageformat": "{member1}, {member2} және сіз"
   },
   "icu:ConversationHero--group-members-three": {
-    "messageformat": "{member1}, {member2}, and {member3}"
+    "messageformat": "{member1}, {member2} және {member3}"
   },
   "icu:ConversationHero--group-members-other": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} және тағы <clickable>{remainingCount,number}</clickable> мүше} other {{member1}, {member2}, {member3} және <clickable>{remainingCount,number}</clickable> мүше}}"
   },
   "icu:ConversationHero--group-members-other-and-you": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} және тағы <clickable>{remainingCount,number}</clickable> мүше} other {{member1}, {member2}, {member3} және <clickable>{remainingCount,number}</clickable> мүше}}"
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "Мұқият тексеріңіз"
@@ -4017,10 +4017,10 @@
     "messageformat": "Мультимедиа фондық режимде жүктеп алына береді."
   },
   "icu:BackupMediaDownloadProgress__title-offline": {
-    "messageformat": "Restoring media paused"
+    "messageformat": "Мультимедианы қалпына келтіру процесі уақытша тоқтады"
   },
   "icu:BackupMediaDownloadProgress__description-offline": {
-    "messageformat": "Waiting for Internet connection..."
+    "messageformat": "Интернет байланысының қосылғаны күтіліп жатыр..."
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Тасымалдауды кідірту"
@@ -4057,6 +4057,12 @@
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
     "messageformat": "Осы аккаунтты әрі қарай пайдалана беру үшін телефоныңызда Signal қолданбасын ашыңыз. Телефоныңызда Signal қолданбасын ашпасаңыз, аккаунтыңыз көп ұзамай жойылады. <learnMoreLink>Толық ақпарат</learnMoreLink>"
+  },
+  "icu:LowDiskSpaceBackupImportModal__title": {
+    "messageformat": "Can't restore media"
+  },
+  "icu:LowDiskSpaceBackupImportModal__description": {
+    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Кеңейту"
@@ -4998,13 +5004,13 @@
     "messageformat": "Резервтік көшірмелер"
   },
   "icu:Preferences__button--internal": {
-    "messageformat": "Internal"
+    "messageformat": "Ішкі"
   },
   "icu:Preferences__internal__validate-backup--description": {
-    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+    "messageformat": "Шифрланған сақтық көшірмені жадқа экспорттаңыз және оның жарамдылығын тексеріңіз"
   },
   "icu:Preferences__internal__validate-backup": {
-    "messageformat": "Validate"
+    "messageformat": "Тексеру"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Соңғы импорттау уақыты: {date} {time}"

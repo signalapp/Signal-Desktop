@@ -69,7 +69,7 @@
     "messageformat": "不明嘅聯絡人"
   },
   "icu:unknownContactShort": {
-    "messageformat": "Unknown"
+    "messageformat": "未知"
   },
   "icu:unknownGroup": {
     "messageformat": "不明嘅群組"
@@ -2955,34 +2955,34 @@
     "messageformat": "{count, plural, other {{count,number} 位成員}}"
   },
   "icu:ConversationHero--member-list-and-invited": {
-    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+    "messageformat": "{invitesCount, plural, other {{memberList} （+ {invitesCount,number} 個已獲邀請）}}"
   },
   "icu:ConversationHero--group-members-zero": {
-    "messageformat": "No group members"
+    "messageformat": "未有谷友"
   },
   "icu:ConversationHero--group-members-only-you": {
-    "messageformat": "No other group members yet"
+    "messageformat": "仲未有其他谷友"
   },
   "icu:ConversationHero--group-members-one": {
     "messageformat": "{member}"
   },
   "icu:ConversationHero--group-members-one-and-you": {
-    "messageformat": "{member} and you"
+    "messageformat": "{member} 同你"
   },
   "icu:ConversationHero--group-members-two": {
-    "messageformat": "{member1} and {member2}"
+    "messageformat": "{member1} 同 {member2}"
   },
   "icu:ConversationHero--group-members-two-and-you": {
-    "messageformat": "{member1}, {member2}, and you"
+    "messageformat": "{member1}、{member2} 同你"
   },
   "icu:ConversationHero--group-members-three": {
-    "messageformat": "{member1}, {member2}, and {member3}"
+    "messageformat": "{member1}、{member2} 同 {member3}"
   },
   "icu:ConversationHero--group-members-other": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, other {{member1}、{member2}、{member3} 同<clickable>另外 {remainingCount,number} 個</clickable>谷友}}"
   },
   "icu:ConversationHero--group-members-other-and-you": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, other {{member1}、{member2}、{member3} 同<clickable>另外 {remainingCount,number} 個</clickable>谷友}}"
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "請仔細審查"
@@ -4017,10 +4017,10 @@
     "messageformat": "媒體會繼續喺背景下載"
   },
   "icu:BackupMediaDownloadProgress__title-offline": {
-    "messageformat": "Restoring media paused"
+    "messageformat": "還原媒體暫停咗"
   },
   "icu:BackupMediaDownloadProgress__description-offline": {
-    "messageformat": "Waiting for Internet connection..."
+    "messageformat": "等緊網絡連線…"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "暫停轉移"
@@ -4057,6 +4057,12 @@
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
     "messageformat": "你一定要喺手機上面打開 Signal 先至可以繼續用呢個帳戶。如果你唔喺手機上面打開 Signal，你嘅帳戶就會好快被刪除。<learnMoreLink>了解詳情</learnMoreLink>"
+  },
+  "icu:LowDiskSpaceBackupImportModal__title": {
+    "messageformat": "Can't restore media"
+  },
+  "icu:LowDiskSpaceBackupImportModal__description": {
+    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "展開"
@@ -4998,13 +5004,13 @@
     "messageformat": "備份"
   },
   "icu:Preferences__button--internal": {
-    "messageformat": "Internal"
+    "messageformat": "内部"
   },
   "icu:Preferences__internal__validate-backup--description": {
-    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+    "messageformat": "將加密備份匯出去內建記憶體同埋執行驗證套件"
   },
   "icu:Preferences__internal__validate-backup": {
-    "messageformat": "Validate"
+    "messageformat": "驗證"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "上次匯入嘅時間係 {date} {time}"

@@ -69,7 +69,7 @@
     "messageformat": "Невідомий контакт"
   },
   "icu:unknownContactShort": {
-    "messageformat": "Unknown"
+    "messageformat": "Невідомий користувач"
   },
   "icu:unknownGroup": {
     "messageformat": "Невідома група"
@@ -2955,34 +2955,34 @@
     "messageformat": "{count, plural, one {{count,number} учасник} few {{count,number} учасники} many {{count,number} учасників} other {{count,number} учасника}}"
   },
   "icu:ConversationHero--member-list-and-invited": {
-    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invited)} other {{memberList} (+{invitesCount,number} invited)}}"
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} запрошено)} few {{memberList} (+{invitesCount,number} запрошено)} many {{memberList} (+{invitesCount,number} запрошено)} other {{memberList} (+{invitesCount,number} запрошено)}}"
   },
   "icu:ConversationHero--group-members-zero": {
-    "messageformat": "No group members"
+    "messageformat": "Учасників немає"
   },
   "icu:ConversationHero--group-members-only-you": {
-    "messageformat": "No other group members yet"
+    "messageformat": "Інших учасників поки що немає"
   },
   "icu:ConversationHero--group-members-one": {
     "messageformat": "{member}"
   },
   "icu:ConversationHero--group-members-one-and-you": {
-    "messageformat": "{member} and you"
+    "messageformat": "{member} і ви"
   },
   "icu:ConversationHero--group-members-two": {
-    "messageformat": "{member1} and {member2}"
+    "messageformat": "{member1} і {member2}"
   },
   "icu:ConversationHero--group-members-two-and-you": {
-    "messageformat": "{member1}, {member2}, and you"
+    "messageformat": "{member1}, {member2} і ви"
   },
   "icu:ConversationHero--group-members-three": {
-    "messageformat": "{member1}, {member2}, and {member3}"
+    "messageformat": "{member1}, {member2} і {member3}"
   },
   "icu:ConversationHero--group-members-other": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} і <clickable>ще {remainingCount,number} учасник</clickable>} few {{member1}, {member2}, {member3} і <clickable>ще {remainingCount,number} учасники</clickable>} many {{member1}, {member2}, {member3} і <clickable>ще {remainingCount,number} учасників</clickable>} other {{member1}, {member2}, {member3} і <clickable>ще {remainingCount,number} учасника</clickable>}}"
   },
   "icu:ConversationHero--group-members-other-and-you": {
-    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} other</clickable>} other {{member1}, {member2}, {member3}, and <clickable>{remainingCount,number} others</clickable>}}"
+    "messageformat": "{remainingCount, plural, one {{member1}, {member2}, {member3} і <clickable>ще {remainingCount,number} учасник</clickable>} few {{member1}, {member2}, {member3} і <clickable>ще {remainingCount,number} учасники</clickable>} many {{member1}, {member2}, {member3} і <clickable>ще {remainingCount,number} учасників</clickable>} other {{member1}, {member2}, {member3} і <clickable>ще {remainingCount,number} учасника</clickable>}}"
   },
   "icu:ConversationHero--review-carefully": {
     "messageformat": "Уважно перевірте цей запит"
@@ -4017,10 +4017,10 @@
     "messageformat": "Завантаження медіафайлів продовжиться у фоновому режимі"
   },
   "icu:BackupMediaDownloadProgress__title-offline": {
-    "messageformat": "Restoring media paused"
+    "messageformat": "Відновлення медіафайлів зупинено"
   },
   "icu:BackupMediaDownloadProgress__description-offline": {
-    "messageformat": "Waiting for Internet connection..."
+    "messageformat": "Очікування з'єднання з інтернетом…"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Припинити передачу даних"
@@ -4057,6 +4057,12 @@
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
     "messageformat": "Щоб і надалі користуватися цим акаунтом, вам потрібно відкрити Signal на телефоні. Якщо цього не зробити, невдовзі ваш акаунт буде видалено. <learnMoreLink>Докладніше</learnMoreLink>"
+  },
+  "icu:LowDiskSpaceBackupImportModal__title": {
+    "messageformat": "Can't restore media"
+  },
+  "icu:LowDiskSpaceBackupImportModal__description": {
+    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Розкрити"
@@ -4998,13 +5004,13 @@
     "messageformat": "Резервні копії"
   },
   "icu:Preferences__button--internal": {
-    "messageformat": "Internal"
+    "messageformat": "Система"
   },
   "icu:Preferences__internal__validate-backup--description": {
-    "messageformat": "Export encrypted backup to memory and run validation suite on it"
+    "messageformat": "Експортувати зашифровану резервну копію в пам'ять і запустити програму перевірки"
   },
   "icu:Preferences__internal__validate-backup": {
-    "messageformat": "Validate"
+    "messageformat": "Перевірити"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "Востаннє імпортовано: {date} {time}"
