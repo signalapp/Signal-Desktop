@@ -52,7 +52,7 @@
     color: light-dark(variables.$color-gray-90, variables.$color-gray-05);
 
     .module-contact-name {
-      display: flex;
+      display: inline-flex;
       align-items: center;
     }
   }
