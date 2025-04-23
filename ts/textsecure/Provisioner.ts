@@ -458,7 +458,8 @@ export class Provisioner {
       return;
     }
 
-    log.info(`Provisioner: socket closed, code=${code}, reason=${reason}`);
+    const logId = `Provisioner.#handleClose(${index})`;
+    log.info(`${logId}: closed, code=${code}, reason=${reason}`);
 
     // Is URL from the socket displayed as a QR code?
     const isActive = index === this.#sockets.length - 1;
@@ -466,18 +467,20 @@ export class Provisioner {
 
     // Graceful closure
     if (state === SocketState.Done) {
-      log.info('Provisioner: socket closed gracefully');
+      log.info(`${logId}: closed gracefully`);
       return;
     }
 
     if (isActive) {
-      log.info('Provisioner: active socket closed');
+      log.info(`${logId}: active socket closed`);
       this.#notify({
         kind:
           state === SocketState.WaitingForUuid
             ? EventKind.ConnectError
             : EventKind.EnvelopeError,
-        error: new Error(`Socket closed, code=${code}, reason=${reason}`),
+        error: new Error(
+          `Socket ${index} closed, code=${code}, reason=${reason}`
+        ),
       });
     }
   }
