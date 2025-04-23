@@ -20,6 +20,7 @@ export const GroupTitleInput = forwardRef<HTMLInputElement, PropsType>(
   ) {
     return (
       <Input
+        expandable
         disabled={disabled}
         i18n={i18n}
         onChange={onChangeValue}
