@@ -100,6 +100,7 @@ export type ImportOptionsType = Readonly<{
 
 export type ExportResultType = Readonly<{
   totalBytes: number;
+  duration: number;
   stats: Readonly<StatsType>;
 }>;
 
@@ -767,6 +768,7 @@ export class BackupsService {
     log.info('exportBackup: starting...');
     this.#isRunning = 'export';
 
+    const start = Date.now();
     try {
       // TODO (DESKTOP-7168): Update mock-server to support this endpoint
       if (window.SignalCI || backupType === BackupType.TestOnlyPlaintext) {
@@ -815,7 +817,8 @@ export class BackupsService {
         throw missingCaseError(backupType);
       }
 
-      return { totalBytes, stats: recordStream.getStats() };
+      const duration = Date.now() - start;
+      return { totalBytes, stats: recordStream.getStats(), duration };
     } finally {
       log.info('exportBackup: finished...');
       this.#isRunning = false;

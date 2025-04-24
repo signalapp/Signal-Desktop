@@ -543,6 +543,11 @@ export class BackupExportStream extends Readable {
         continue;
       }
 
+      if (status === AdhocCallStatus.Deleted) {
+        log.info(`backups: Dropping deleted ad-hoc call ${callId.slice(-2)}`);
+        continue;
+      }
+
       this.#pushFrame({
         adHocCall: {
           callId: Long.fromString(callId),
@@ -1029,7 +1034,7 @@ export class BackupExportStream extends Readable {
     if (
       conversation &&
       isGroupV2(conversation.attributes) &&
-      message.storyReplyContext
+      (message.storyReplyContext || message.storyReaction)
     ) {
       // We drop group story replies
       return undefined;
@@ -1526,10 +1531,14 @@ export class BackupExportStream extends Readable {
       simpleUpdate.type = Backups.SimpleChatUpdate.Type.IDENTITY_UPDATE;
 
       if (message.key_changed) {
+        const target = window.ConversationController.get(message.key_changed);
+        if (!target) {
+          throw new Error(
+            'toChatItemUpdate/keyCahnge: key_changed conversation not found!'
+          );
+        }
         // This will override authorId on the original chatItem
-        patch.authorId = this.#getOrPushPrivateRecipient({
-          id: message.key_changed,
-        });
+        patch.authorId = this.#getOrPushPrivateRecipient(target.attributes);
       }
 
       updateMessage.simpleUpdate = simpleUpdate;
@@ -2618,7 +2627,6 @@ export class BackupExportStream extends Readable {
       | 'bodyAttachment'
       | 'bodyRanges'
       | 'storyReaction'
-      | 'storyReplyContext'
       | 'received_at'
       | 'reactions'
     >;
