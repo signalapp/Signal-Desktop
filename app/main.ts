@@ -995,6 +995,7 @@ async function createWindow() {
 
   mainWindow.on('show', () => {
     if (mainWindow) {
+      mainWindow.webContents.send('activate');
       mainWindow.webContents.send('set-media-playback-disabled', false);
     }
   });
@@ -1019,7 +1020,6 @@ async function createWindow() {
 
     if (shouldShowWindow) {
       getLogger().info('showing main window');
-      mainWindow.webContents.send('activate');
       mainWindow.show();
     }
   });
@@ -2560,7 +2560,6 @@ app.on('activate', () => {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow) {
-    mainWindow.webContents.send('activate');
     mainWindow.show();
   } else {
     drop(createWindow());
