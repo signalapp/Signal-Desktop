@@ -584,7 +584,7 @@ const Cell = memo(function Cell(props: {
       rowIndex={props.rowIndex}
     >
       <FunItemButton
-        tabIndex={props.isTabbable ? 0 : -1}
+        excludeFromTabOrder={!props.isTabbable}
         aria-label={
           stickerLookupItem.kind === 'sticker'
             ? (stickerLookupItem.sticker.emoji ?? '')

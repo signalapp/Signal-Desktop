@@ -1,0 +1,27 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../../mixins';
+@use '../../variables';
+@use './FunConstants.scss';
+
+.FunTooltip {
+  max-width: calc(32ch + (8px * 2));
+  padding-block: 4px;
+  padding-inline: 8px;
+  background: FunConstants.$Fun__BgColor;
+  color: light-dark(
+    variables.$color-black-alpha-80,
+    variables.$color-white-alpha-80
+  );
+  border-radius: 6px;
+  box-shadow:
+    0px 4px 12px variables.$color-black-alpha-30,
+    0px 0px 4px variables.$color-black-alpha-05;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  @include mixins.font-body-2();
+}

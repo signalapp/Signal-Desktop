@@ -2024,6 +2024,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/fun/base/FunItem.tsx",
+    "line": "  const innerRef = useRef<HTMLButtonElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-04-23T23:43:10.675Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/fun/base/FunScroller.tsx",
     "line": "  const scrollerRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
