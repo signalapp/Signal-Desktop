@@ -40,7 +40,6 @@ import { bytesToUuid } from '../../../util/uuidToBytes';
 import { createName } from '../../../util/attachmentPath';
 import { ensureAttachmentIsReencryptable } from '../../../util/ensureAttachmentIsReencryptable';
 import type { ReencryptionInfo } from '../../../AttachmentCrypto';
-import { dropZero } from '../../../util/dropZero';
 
 export function convertFilePointerToAttachment(
   filePointer: Backups.FilePointer,
@@ -70,12 +69,15 @@ export function convertFilePointerToAttachment(
     fileName: fileName ?? undefined,
     caption: caption ?? undefined,
     blurHash: blurHash ?? undefined,
-    incrementalMac: incrementalMac?.length
-      ? Bytes.toBase64(incrementalMac)
-      : undefined,
-    chunkSize: dropZero(incrementalMacChunkSize),
+    incrementalMac: undefined,
+    chunkSize: undefined,
     downloadPath: doCreateName(),
   };
+
+  if (incrementalMac?.length && incrementalMacChunkSize) {
+    commonProps.incrementalMac = Bytes.toBase64(incrementalMac);
+    commonProps.chunkSize = incrementalMacChunkSize;
+  }
 
   if (attachmentLocator) {
     const { cdnKey, cdnNumber, key, digest, uploadTimestamp, size } =
@@ -180,17 +182,22 @@ export async function getFilePointerForAttachment({
 }> {
   const filePointerRootProps = new Backups.FilePointer({
     contentType: attachment.contentType,
-    // Resilience to invalid data in the database from internal testing
-    incrementalMac:
-      typeof attachment.incrementalMac === 'string'
-        ? Bytes.fromBase64(attachment.incrementalMac)
-        : undefined,
-    incrementalMacChunkSize: dropZero(attachment.chunkSize),
     fileName: attachment.fileName,
     width: attachment.width,
     height: attachment.height,
     caption: attachment.caption,
     blurHash: attachment.blurHash,
+
+    // Resilience to invalid data in the database from internal testing
+    ...(typeof attachment.incrementalMac === 'string' && attachment.chunkSize
+      ? {
+          incrementalMac: Bytes.fromBase64(attachment.incrementalMac),
+          incrementalMacChunkSize: attachment.chunkSize,
+        }
+      : {
+          incrementalMac: undefined,
+          incrementalMacChunkSize: undefined,
+        }),
   });
   const logId = `getFilePointerForAttachment(${redactGenericText(
     attachment.digest ?? ''

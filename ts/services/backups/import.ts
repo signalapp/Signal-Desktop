@@ -3283,7 +3283,7 @@ export class BackupImportStream extends Writable {
       case Type.IDENTITY_UPDATE:
         return {
           type: 'keychange',
-          key_changed: isGroup(conversation) ? author?.id : undefined,
+          key_changed: isGroup(conversation) ? author?.serviceId : undefined,
         };
       case Type.IDENTITY_VERIFIED:
         strictAssert(author != null, 'IDENTITY_VERIFIED must have an author');
