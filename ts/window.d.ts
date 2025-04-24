@@ -75,6 +75,7 @@ export type IPCType = {
     mediaType: 'microphone' | 'camera' | 'screenCapture'
   ) => Promise<void>;
   getMediaPermissions: () => Promise<boolean>;
+  whenWindowVisible: () => Promise<void>;
   logAppLoadedEvent?: (options: { processedCount?: number }) => void;
   readyForUpdates: () => void;
   removeSetupMenuItems: () => unknown;

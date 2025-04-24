@@ -89,7 +89,20 @@ export function App({
   } else if (state.appView === AppViewType.Inbox) {
     contents = renderInbox();
   } else if (state.appView === AppViewType.Blank) {
-    contents = undefined;
+    // See `background.html`
+    contents = (
+      <div className="app-loading-screen app-loading-screen--before-app-load">
+        <div className="module-title-bar-drag-area" />
+
+        <div className="module-splash-screen__logo module-splash-screen__logo--128" />
+        <div className="dot-container">
+          <span className="dot" />
+          <span className="dot" />
+          <span className="dot" />
+        </div>
+        <div className="message-placeholder" />
+      </div>
+    );
   } else {
     throw missingCaseError(state.appView);
   }
