@@ -1546,7 +1546,15 @@ export async function startApp(): Promise<void> {
       }
     } else {
       window.IPC.readyForUpdates();
-      window.reduxActions.installer.startInstaller();
+      drop(
+        (async () => {
+          try {
+            await window.IPC.whenWindowVisible();
+          } finally {
+            window.reduxActions.installer.startInstaller();
+          }
+        })()
+      );
     }
 
     const { activeWindowService } = window.SignalContext;

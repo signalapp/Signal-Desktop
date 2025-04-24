@@ -690,6 +690,21 @@ async function createWindow() {
     ? Math.min(windowConfig.height, maxHeight)
     : DEFAULT_HEIGHT;
 
+  const [systemTraySetting, backgroundColor, spellcheck] = await Promise.all([
+    systemTraySettingCache.get(),
+    isTestEnvironment(getEnvironment())
+      ? '#ffffff' // Tests should always be rendered on a white background
+      : getBackgroundColor({ signalColors: true }),
+    getSpellCheckSetting(),
+  ]);
+
+  const startInTray =
+    isTestEnvironment(getEnvironment()) ||
+    systemTraySetting === SystemTraySetting.MinimizeToAndStartInSystemTray;
+
+  const shouldShowWindow =
+    !app.getLoginItemSettings().wasOpenedAsHidden && !startInTray;
+
   const windowOptions: Electron.BrowserWindowConstructorOptions = {
     show: false,
     width,
@@ -698,9 +713,7 @@ async function createWindow() {
     minHeight: MIN_HEIGHT,
     autoHideMenuBar: false,
     titleBarStyle: mainTitleBarStyle,
-    backgroundColor: isTestEnvironment(getEnvironment())
-      ? '#ffffff' // Tests should always be rendered on a white background
-      : await getBackgroundColor({ signalColors: true }),
+    backgroundColor,
     webPreferences: {
       ...defaultWebPrefs,
       nodeIntegration: false,
@@ -713,7 +726,7 @@ async function createWindow() {
           ? '../preload.wrapper.js'
           : '../ts/windows/main/preload.js'
       ),
-      spellcheck: await getSpellCheckSetting(),
+      spellcheck,
       backgroundThrottling: true,
       disableBlinkFeatures: 'Accelerated2dCanvas,AcceleratedSmallCanvases',
     },
@@ -730,11 +743,6 @@ async function createWindow() {
   if (!isBoolean(windowOptions.autoHideMenuBar)) {
     delete windowOptions.autoHideMenuBar;
   }
-
-  const startInTray =
-    isTestEnvironment(getEnvironment()) ||
-    (await systemTraySettingCache.get()) ===
-      SystemTraySetting.MinimizeToAndStartInSystemTray;
 
   const haveFullWindowsBounds =
     isNumber(windowOptions.x) &&
@@ -997,6 +1005,12 @@ async function createWindow() {
     }
   });
 
+  mainWindow.webContents.on('devtools-reload-page', () => {
+    mainWindow?.webContents.on('dom-ready', () => {
+      mainWindow?.webContents.send('activate');
+    });
+  });
+
   mainWindow.once('ready-to-show', async () => {
     getLogger().info('main window is ready-to-show');
 
@@ -1009,11 +1023,9 @@ async function createWindow() {
 
     mainWindow.webContents.send('ci:event', 'db-initialized', {});
 
-    const shouldShowWindow =
-      !app.getLoginItemSettings().wasOpenedAsHidden && !startInTray;
-
     if (shouldShowWindow) {
       getLogger().info('showing main window');
+      mainWindow.webContents.send('activate');
       mainWindow.show();
     }
   });
@@ -2554,6 +2566,7 @@ app.on('activate', () => {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow) {
+    mainWindow.webContents.send('activate');
     mainWindow.show();
   } else {
     drop(createWindow());
