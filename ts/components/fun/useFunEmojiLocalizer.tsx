@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { useCallback } from 'react';
+import { useMemo } from 'react';
 import type { EmojiParentKey, EmojiVariantKey } from './data/emojis';
 import {
   getEmojiParentByKey,
@@ -28,26 +28,33 @@ export function createFunEmojiLocalizerIndex(
 
     const variantKey = getEmojiVariantKeyByValue(entry.emoji);
     const parentKey = getEmojiParentKeyByVariantKey(variantKey);
-    index.set(parentKey, entry.tags.at(0) ?? entry.shortName);
+    const localizedShortName = entry.tags.at(0) ?? entry.shortName;
+    index.set(parentKey, localizedShortName);
   }
 
   return index;
 }
 
+/** @internal exported for tests */
+export function _createFunEmojiLocalizer(
+  emojiLocalizerIndex: FunEmojiLocalizerIndex
+): FunEmojiLocalizer {
+  return variantKey => {
+    const parentKey = getEmojiParentKeyByVariantKey(variantKey);
+    const localeShortName = emojiLocalizerIndex.get(parentKey);
+    if (localeShortName != null) {
+      return localeShortName;
+    }
+    // Fallback to english short name
+    const parent = getEmojiParentByKey(parentKey);
+    return parent.englishShortNameDefault;
+  };
+}
+
 export function useFunEmojiLocalizer(): FunEmojiLocalizer {
   const { emojiLocalizerIndex } = useFunEmojiLocalization();
-  const emojiLocalizer: FunEmojiLocalizer = useCallback(
-    variantKey => {
-      const parentKey = getEmojiParentKeyByVariantKey(variantKey);
-      const localeShortName = emojiLocalizerIndex.get(parentKey);
-      if (localeShortName != null) {
-        return localeShortName;
-      }
-      // Fallback to english short name
-      const parent = getEmojiParentByKey(parentKey);
-      return parent.englishShortNameDefault;
-    },
-    [emojiLocalizerIndex]
-  );
+  const emojiLocalizer = useMemo(() => {
+    return _createFunEmojiLocalizer(emojiLocalizerIndex);
+  }, [emojiLocalizerIndex]);
   return emojiLocalizer;
 }

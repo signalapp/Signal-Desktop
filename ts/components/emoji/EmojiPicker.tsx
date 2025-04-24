@@ -23,7 +23,6 @@ import { dataByCategory } from './lib';
 import type { LocalizerType } from '../../types/Util';
 import { isSingleGrapheme } from '../../util/grapheme';
 import { missingCaseError } from '../../util/missingCaseError';
-import { useEmojiSearch } from '../../hooks/useEmojiSearch';
 import { FunStaticEmoji } from '../fun/FunEmoji';
 import { strictAssert } from '../../util/assert';
 import {
@@ -35,7 +34,9 @@ import {
   getEmojiVariantByParentKeyAndSkinTone,
   isEmojiEnglishShortName,
   EMOJI_SKIN_TONE_TO_NUMBER,
+  getEmojiParentByKey,
 } from '../fun/data/emojis';
+import { useFunEmojiSearch } from '../fun/useFunEmojiSearch';
 
 export type EmojiPickDataType = {
   skinTone: EmojiSkinTone;
@@ -122,7 +123,7 @@ export const EmojiPicker = React.memo(
       const [selectedTone, setSelectedTone] =
         React.useState(emojiSkinToneDefault);
 
-      const search = useEmojiSearch(i18n.getLocale());
+      const emojiSearch = useFunEmojiSearch();
 
       const handleToggleSearch = React.useCallback(
         (
@@ -261,7 +262,13 @@ export const EmojiPicker = React.memo(
 
       const emojiGrid = React.useMemo(() => {
         if (searchText) {
-          return chunk(search(searchText), COL_COUNT);
+          return chunk(
+            emojiSearch(searchText).map(result => {
+              const parent = getEmojiParentByKey(result.parentKey);
+              return parent.englishShortNameDefault;
+            }),
+            COL_COUNT
+          );
         }
 
         const chunks = flatMap(renderableCategories, cat =>
@@ -272,7 +279,7 @@ export const EmojiPicker = React.memo(
         );
 
         return [...chunk(firstRecent, COL_COUNT), ...chunks];
-      }, [firstRecent, renderableCategories, searchText, search]);
+      }, [firstRecent, renderableCategories, searchText, emojiSearch]);
 
       const rowCount = emojiGrid.length;
 
