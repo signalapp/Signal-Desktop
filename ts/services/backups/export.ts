@@ -118,6 +118,7 @@ import {
   numberToAddressType,
   numberToPhoneType,
 } from '../../types/EmbeddedContact';
+import { toLogFormat } from '../../types/errors';
 import {
   type AttachmentType,
   isGIF,
@@ -529,7 +530,13 @@ export class BackupExportStream extends Readable {
     const allCallHistoryItems = await DataReader.getAllCallHistory();
 
     for (const item of allCallHistoryItems) {
-      const { callId, type, peerId: roomId, status, timestamp } = item;
+      const {
+        callId: callIdStr,
+        type,
+        peerId: roomId,
+        status,
+        timestamp,
+      } = item;
 
       if (type !== CallType.Adhoc || isCallHistoryForUnusedCallLink(item)) {
         continue;
@@ -544,13 +551,23 @@ export class BackupExportStream extends Readable {
       }
 
       if (status === AdhocCallStatus.Deleted) {
-        log.info(`backups: Dropping deleted ad-hoc call ${callId.slice(-2)}`);
+        continue;
+      }
+
+      let callId: Long;
+      try {
+        callId = Long.fromString(callIdStr);
+      } catch (error) {
+        log.warn(
+          'backups: Dropping ad-hoc call; invalid callId',
+          toLogFormat(error)
+        );
         continue;
       }
 
       this.#pushFrame({
         adHocCall: {
-          callId: Long.fromString(callId),
+          callId,
           recipientId: Long.fromNumber(recipientId),
           state: toAdHocCallStateProto(status),
           callTimestamp: Long.fromNumber(timestamp),
@@ -1548,7 +1565,7 @@ export class BackupExportStream extends Readable {
 
     if (isProfileChange(message)) {
       const profileChange = new Backups.ProfileChangeChatUpdate();
-      if (!message.profileChange) {
+      if (!message.profileChange?.newName || !message.profileChange?.oldName) {
         return { kind: NonBubbleResultKind.Drop };
       }
 
