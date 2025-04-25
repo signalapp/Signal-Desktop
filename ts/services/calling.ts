@@ -2162,7 +2162,15 @@ export class CallingClass {
     );
   }
 
-  hangup(conversationId: string, reason: string): void {
+  hangup({
+    conversationId,
+    excludeRinging,
+    reason,
+  }: {
+    conversationId: string;
+    excludeRinging?: boolean;
+    reason: string;
+  }): void {
     const logId = getLogId({
       source: 'CallingClass.hangup',
       conversationId,
@@ -2191,7 +2199,16 @@ export class CallingClass {
         this.videoRenderer.disable();
         call.setOutgoingAudioMuted(true);
         call.setOutgoingVideoMuted(true);
-        RingRTC.hangup(call.callId);
+
+        if (
+          excludeRinging &&
+          call.state === CallState.Ringing &&
+          call.isIncoming
+        ) {
+          log.info(`${logId}: Refusing to hang up call that is still ringing`);
+        } else {
+          RingRTC.hangup(call.callId);
+        }
       } else if (call instanceof GroupCall) {
         // This ensures that we turn off our devices.
         call.setOutgoingAudioMuted(true);
@@ -2205,10 +2222,16 @@ export class CallingClass {
     log.info(`${logId}: Done.`);
   }
 
-  hangupAllCalls(reason: string): void {
+  hangupAllCalls({
+    excludeRinging,
+    reason,
+  }: {
+    excludeRinging: boolean;
+    reason: string;
+  }): void {
     const conversationIds = Object.keys(this.#callsLookup);
     for (const conversationId of conversationIds) {
-      this.hangup(conversationId, reason);
+      this.hangup({ conversationId, excludeRinging, reason });
     }
   }
 
