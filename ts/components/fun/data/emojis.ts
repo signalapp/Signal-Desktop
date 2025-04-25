@@ -560,7 +560,7 @@ export function emojiVariantConstant(input: string): EmojiVariantData {
 export function normalizeShortNameCompletionDisplay(shortName: string): string {
   return removeDiacritics(shortName)
     .normalize('NFD')
-    .replaceAll(' ', '_')
+    .replaceAll(/[\s,]+/gi, '_')
     .toLowerCase();
 }
 
@@ -568,7 +568,7 @@ export function normalizeShortNameCompletionDisplay(shortName: string): string {
 export function normalizeShortNameCompletionQuery(query: string): string {
   return removeDiacritics(query)
     .normalize('NFD')
-    .replaceAll(/[\s_-]+/gi, ' ')
+    .replaceAll(/[\s,_-]+/gi, ' ')
     .toLowerCase();
 }
 

@@ -606,7 +606,7 @@ const Item = memo(function Item(props: {
       <FunItemButton
         aria-label={props.gif.title}
         onPress={handlePress}
-        tabIndex={props.isTabbable ? 0 : -1}
+        excludeFromTabOrder={!props.isTabbable}
       >
         {src != null && (
           <FunGif
