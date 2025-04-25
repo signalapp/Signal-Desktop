@@ -360,6 +360,40 @@ export function useEditLastMessageSent(
   );
 }
 
+export function useStickerChooserShortcut(
+  openStickerChooser: () => unknown
+): KeyboardShortcutHandlerType {
+  const hasOverlay = useHasAnyOverlay();
+
+  return useCallback(
+    ev => {
+      if (hasOverlay) {
+        return false;
+      }
+
+      const key = KeyboardLayout.lookup(ev);
+
+      if (
+        hasExactModifiers(ev, {
+          controlOrMeta: true,
+          shift: true,
+          alt: false,
+        }) &&
+        (key === 'g' || key === 'G')
+      ) {
+        ev.preventDefault();
+        ev.stopPropagation();
+
+        openStickerChooser();
+        return true;
+      }
+
+      return false;
+    },
+    [hasOverlay, openStickerChooser]
+  );
+}
+
 export function useKeyboardShortcuts(
   ...eventHandlers: Array<KeyboardShortcutHandlerType>
 ): void {
