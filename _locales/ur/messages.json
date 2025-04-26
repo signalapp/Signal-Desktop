@@ -5959,7 +5959,7 @@
   },
   "icu:UsernameLinkModalBody__hint": {
     "messageformat": "میرے ساتھ Signal پر چیٹ کرنے کے لیے اس QR کوڈ کو اپنے فون سے اسکین کریں۔",
-    "descrption": "Text of the hint displayed below generated QR code on the printable image."
+    "description": "Text of the hint displayed below generated QR code on the printable image."
   },
   "icu:UsernameLinkModalBody__save": {
     "messageformat": "محفوظ کریں"

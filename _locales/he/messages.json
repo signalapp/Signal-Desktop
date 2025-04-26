@@ -5959,7 +5959,7 @@
   },
   "icu:UsernameLinkModalBody__hint": {
     "messageformat": "אפשר לסרוק את קוד ה–QR הזה עם הטלפון שלך כדי לשוחח איתי ב–Signal.",
-    "descrption": "Text of the hint displayed below generated QR code on the printable image."
+    "description": "Text of the hint displayed below generated QR code on the printable image."
   },
   "icu:UsernameLinkModalBody__save": {
     "messageformat": "שמור"

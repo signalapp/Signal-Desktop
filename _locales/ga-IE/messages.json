@@ -5959,7 +5959,7 @@
   },
   "icu:UsernameLinkModalBody__hint": {
     "messageformat": "Scan an cód QR seo le do ghuthán chun comhrá a dhéanamh liom ar Signal.",
-    "descrption": "Text of the hint displayed below generated QR code on the printable image."
+    "description": "Text of the hint displayed below generated QR code on the printable image."
   },
   "icu:UsernameLinkModalBody__save": {
     "messageformat": "Cuir i dtaisce é"

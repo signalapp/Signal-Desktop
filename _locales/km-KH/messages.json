@@ -5959,7 +5959,7 @@
   },
   "icu:UsernameLinkModalBody__hint": {
     "messageformat": "ស្គែនកូដ QR នេះដោយប្រើទូរសព្ទរបស់អ្នក ដើម្បីជជែកជាមួយខ្ញុំនៅលើ Signal។",
-    "descrption": "Text of the hint displayed below generated QR code on the printable image."
+    "description": "Text of the hint displayed below generated QR code on the printable image."
   },
   "icu:UsernameLinkModalBody__save": {
     "messageformat": "រក្សាទុក"

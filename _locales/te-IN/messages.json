@@ -5959,7 +5959,7 @@
   },
   "icu:UsernameLinkModalBody__hint": {
     "messageformat": "Signal లో నాతో చాట్ చేయడానికి మీ ఫోన్‌తో ఈ QR కోడ్‌ను స్కాన్ చేయండి.",
-    "descrption": "Text of the hint displayed below generated QR code on the printable image."
+    "description": "Text of the hint displayed below generated QR code on the printable image."
   },
   "icu:UsernameLinkModalBody__save": {
     "messageformat": "భద్రపరుచు"

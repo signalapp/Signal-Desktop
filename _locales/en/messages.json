@@ -7924,7 +7924,7 @@
   },
   "icu:UsernameLinkModalBody__hint": {
     "messageformat": "Scan this QR code with your phone to chat with me on Signal.",
-    "descrption": "Text of the hint displayed below generated QR code on the printable image."
+    "description": "Text of the hint displayed below generated QR code on the printable image."
   },
   "icu:UsernameLinkModalBody__save": {
     "messageformat": "Save",
