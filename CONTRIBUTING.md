@@ -164,7 +164,25 @@ and you'll see all of your contacts and messages!
 
 You'll notice a prompt to re-link, because your production credentials won't work on
 staging. Click 'Relink', then 'Standalone', then verify the phone number and click
-'Send SMS.'
+'	Send SMS.'
+
+**Note: hCaptcha callback limitation on development builds**
+
+When you register or relink in **staging**, the browser completes hCaptcha and redirects
+to a URL that begins with `signalcaptcha://…`. Development (Electron) builds do **not**
+automatically capture this custom‑scheme URI, so the desktop window may not change.
+
+If that happens:
+
+1. In the browser’s **Network** tab, copy the full `signalcaptcha://signal-hcaptcha-short-…` URL.
+2. In a separate terminal, pass the URL as a command‑line argument:
+
+```bash
+pnpm start -- "signalcaptcha://signal-hcaptcha-short-XXXXXXXX"
+```
+
+Signal‑Desktop will ingest the token and continue to the SMS verification
+screen.
 
 Once you've entered the confirmation code sent to your phone, you are registered as a
 standalone staging device with your normal phone number, and a copy of your production
