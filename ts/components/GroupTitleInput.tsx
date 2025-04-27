@@ -20,8 +20,8 @@ export const GroupTitleInput = forwardRef<HTMLInputElement, PropsType>(
   ) {
     return (
       <Input
-        expandable
         disabled={disabled}
+        expandable
         i18n={i18n}
         onChange={onChangeValue}
         placeholder={i18n('icu:setGroupMetadata__group-name-placeholder')}
