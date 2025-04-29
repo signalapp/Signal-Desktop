@@ -294,7 +294,7 @@
     "danger": "12.3.3",
     "debug": "4.3.7",
     "electron": "35.1.4",
-    "electron-builder": "26.0.12",
+    "electron-builder": "26.0.14",
     "electron-mocha": "13.0.1",
     "endanger": "7.0.4",
     "enquirer": "2.4.1",
@@ -376,7 +376,6 @@
       "backbone@1.6.0": "patches/backbone+1.6.0.patch",
       "node-fetch@2.6.7": "patches/node-fetch+2.6.7.patch",
       "zod@3.23.8": "patches/zod+3.23.8.patch",
-      "@electron/rebuild": "patches/@electron__rebuild.patch",
       "app-builder-lib": "patches/app-builder-lib.patch",
       "dmg-builder": "patches/dmg-builder.patch"
     },

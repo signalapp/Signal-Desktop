@@ -30,7 +30,7 @@ RUN apt install -oAcquire::https::Verify-Peer=false -y ca-certificates
 
 # Back to normal, verification back on
 RUN apt update
-RUN apt install -y git curl g++ g++-10 gcc gcc-10 make python3 tar
+RUN apt install -y git curl g++ g++-10 gcc gcc-10 make python3 tar xz-utils
 
 # On Ubuntu 20 GCC 9 is the default but we need 10 to build
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100 \
