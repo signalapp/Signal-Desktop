@@ -158,7 +158,7 @@ export function ImageGrid({
   );
 
   const showAttachmentOrNoLongerAvailableToast = React.useCallback(
-    attachmentIndex =>
+    (attachmentIndex: number) =>
       attachments[attachmentIndex].isPermanentlyUndownloadable
         ? showMediaNoLongerAvailableToast
         : showVisualAttachment,

@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { type ComponentType, useEffect, useMemo } from 'react';
-import { useId, VisuallyHidden } from 'react-aria';
+import React, { type ComponentType, useEffect, useMemo, useId } from 'react';
+import { VisuallyHidden } from 'react-aria';
 import type { LocalizerType } from '../types/I18N';
 import { Button, ButtonVariant } from './Button';
 import { Modal } from './Modal';

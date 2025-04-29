@@ -6,7 +6,6 @@ module.exports = {
   // Detects the type of file being babel'd (either esmodule or commonjs)
   sourceType: 'unambiguous',
   plugins: [
-    'react-hot-loader/babel',
     'lodash',
     '@babel/plugin-transform-typescript',
     '@babel/plugin-proposal-class-properties',

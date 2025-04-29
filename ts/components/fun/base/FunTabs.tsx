@@ -3,9 +3,8 @@
 import type { Transition } from 'framer-motion';
 import { AnimatePresence, motion } from 'framer-motion';
 import type { ReactNode } from 'react';
-import React, { useCallback } from 'react';
+import React, { useCallback, useId } from 'react';
 import type { Key } from 'react-aria';
-import { useId } from 'react-aria';
 import { Tab, TabList, TabPanel, Tabs } from 'react-aria-components';
 import type { FunPickerTabKey } from '../constants';
 

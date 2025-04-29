@@ -1,27 +1,28 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { useEffect, useState } from 'react';
+import { useMemo, useSyncExternalStore } from 'react';
 
-// Allows this to work in Node process
-let reducedMotionQuery: MediaQueryList;
-function getReducedMotionQuery() {
-  if (reducedMotionQuery == null) {
-    reducedMotionQuery = window.matchMedia('(prefers-reduced-motion)');
-  }
-  return reducedMotionQuery;
+export function useMediaQuery(query: string): boolean {
+  const api = useMemo(() => {
+    const mediaQuery = window.matchMedia(query);
+
+    function subscribe(onChange: () => void) {
+      mediaQuery.addEventListener('change', onChange);
+      return () => {
+        mediaQuery.removeEventListener('change', onChange);
+      };
+    }
+
+    function getSnapshot() {
+      return mediaQuery.matches;
+    }
+
+    return { subscribe, getSnapshot };
+  }, [query]);
+  return useSyncExternalStore(api.subscribe, api.getSnapshot);
 }
 
 export function useReducedMotion(): boolean {
-  const [matches, setMatches] = useState(getReducedMotionQuery().matches);
-  useEffect(() => {
-    function onChange(event: MediaQueryListEvent) {
-      setMatches(event.matches);
-    }
-    getReducedMotionQuery().addEventListener('change', onChange);
-    return () => {
-      getReducedMotionQuery().removeEventListener('change', onChange);
-    };
-  }, []);
-  return matches;
+  return useMediaQuery('(prefers-reduced-motion)');
 }

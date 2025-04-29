@@ -352,7 +352,7 @@ export function ProfileEditor({
 
   // To make AvatarEditor re-render less often
   const handleAvatarLoaded = useCallback(
-    avatar => {
+    (avatar: Uint8Array) => {
       setAvatarBuffer(avatar);
       setOldAvatarBuffer(avatar);
     },

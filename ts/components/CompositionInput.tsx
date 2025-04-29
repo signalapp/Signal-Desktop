@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
+import type { MouseEvent } from 'react';
 import classNames from 'classnames';
 import { Manager, Reference } from 'react-popper';
 import Quill, { Delta } from '@signalapp/quill-cjs';
@@ -950,7 +951,7 @@ export function CompositionInput(props: Props): React.ReactElement {
   const getClassName = getClassNamesFor(BASE_CLASS_NAME, moduleClassName);
 
   const onMouseDown = React.useCallback(
-    event => {
+    (event: MouseEvent) => {
       const target = event.target as HTMLElement;
       try {
         // If the user is actually clicking the format menu, we drop this event

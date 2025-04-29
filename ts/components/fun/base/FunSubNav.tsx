@@ -12,8 +12,8 @@ import React, {
   useMemo,
   useRef,
   useState,
+  useId,
 } from 'react';
-import { useId } from 'react-aria';
 import type { Selection } from 'react-aria-components';
 import { ListBox, ListBoxItem } from 'react-aria-components';
 import {
