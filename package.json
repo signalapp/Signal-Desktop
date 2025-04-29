@@ -261,8 +261,8 @@
     "@types/pify": "5.0.4",
     "@types/pixelmatch": "5.2.6",
     "@types/pngjs": "6.0.5",
-    "@types/react": "17.0.45",
-    "@types/react-dom": "17.0.17",
+    "@types/react": "18.3.20",
+    "@types/react-dom": "18.3.6",
     "@types/react-redux": "7.1.34",
     "@types/react-virtualized": "9.22.2",
     "@types/redux-logger": "3.0.13",
@@ -344,13 +344,11 @@
   "pnpm": {
     "overrides": {
       "@storybook/core>node-fetch": "$node-fetch",
-      "@types/react": "18.3.20",
-      "@types/react-dom": "18.3.6",
       "eslint-config-airbnb-typescript-prettier>eslint-plugin-prettier": "5.2.1",
       "canvas": "-",
       "jsdom": "-",
       "thenify-all>thenify": "3.3.1",
-      "@electron/rebuild@3.7.0>@electron/node-gyp": "10.2.0-electron.2",
+      "@electron/rebuild@3.7.2>@electron/node-gyp": "10.2.0-electron.2",
       "react-contextmenu>react": "18.3.1",
       "react-contextmenu>react-dom": "18.3.1"
     },

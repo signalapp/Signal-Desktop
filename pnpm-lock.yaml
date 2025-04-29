@@ -6,13 +6,11 @@ settings:
 
 overrides:
   '@storybook/core>node-fetch': 2.6.7
-  '@types/react': 18.3.20
-  '@types/react-dom': 18.3.6
   eslint-config-airbnb-typescript-prettier>eslint-plugin-prettier: 5.2.1
   canvas: '-'
   jsdom: '-'
   thenify-all>thenify: 3.3.1
-  '@electron/rebuild@3.7.0>@electron/node-gyp': 10.2.0-electron.2
+  '@electron/rebuild@3.7.2>@electron/node-gyp': 10.2.0-electron.2
   react-contextmenu>react: 18.3.1
   react-contextmenu>react-dom: 18.3.1
 
@@ -3131,7 +3129,7 @@ packages:
   '@types/react-dom@18.3.6':
     resolution: {integrity: sha512-nf22//wEbKXusP6E9pfOCDwFdHAX4u172eaJI4YkDRQEZiorm6KfYnSC2SWLDMVWUOWPERmJnN0ujeAfTBLvrw==}
     peerDependencies:
-      '@types/react': 18.3.20
+      '@types/react': ^18.0.0
 
   '@types/react-redux@7.1.34':
     resolution: {integrity: sha512-GdFaVjEbYv4Fthm2ZLvj1VSCedV7TqE5y1kNwnjSdBOTXuRSgowux6J8TAct15T3CKBr63UMk+2CO7ilRhyrAQ==}
@@ -7954,7 +7952,7 @@ packages:
   react-redux@9.2.0:
     resolution: {integrity: sha512-ROY9fvHhwOD9ySfrF0wmvu//bKCQ6AeZZq1nJNtbDC+kk5DuSuNX/n6YWYF/SYy7bSba4D4FSz8DJeKY/S/r+g==}
     peerDependencies:
-      '@types/react': 18.3.20
+      '@types/react': ^18.2.25 || ^19
       react: ^18.0 || ^19
       redux: ^5.0.0
     peerDependenciesMeta:
