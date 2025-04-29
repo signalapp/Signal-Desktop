@@ -252,7 +252,10 @@ type EmojiIndex = Readonly<{
   pickerCategories: Record<EmojiPickerCategory, Array<EmojiParentKey>>;
 
   defaultEnglishSearchIndex: Array<FunEmojiSearchIndexEntry>;
-  defaultEnglishLocalizerIndex: Map<EmojiParentKey, string>;
+  defaultEnglishLocalizerIndex: {
+    parentKeyToLocaleShortName: Map<EmojiParentKey, string>;
+    localeShortNameToParentKey: Map<string, EmojiParentKey>;
+  };
 }>;
 
 /** @internal */
@@ -288,7 +291,10 @@ const EMOJI_INDEX: EmojiIndex = {
     [EmojiPickerCategory.Flags]: [],
   },
   defaultEnglishSearchIndex: [],
-  defaultEnglishLocalizerIndex: new Map(),
+  defaultEnglishLocalizerIndex: {
+    parentKeyToLocaleShortName: new Map(),
+    localeShortNameToParentKey: new Map(),
+  },
 };
 
 function addParent(parent: EmojiParentData, rank: number) {
@@ -320,9 +326,13 @@ function addParent(parent: EmojiParentData, rank: number) {
     emoticons: parent.emoticons,
   });
 
-  EMOJI_INDEX.defaultEnglishLocalizerIndex.set(
+  EMOJI_INDEX.defaultEnglishLocalizerIndex.parentKeyToLocaleShortName.set(
     parent.key,
     parent.englishShortNameDefault
+  );
+  EMOJI_INDEX.defaultEnglishLocalizerIndex.localeShortNameToParentKey.set(
+    parent.englishShortNameDefault,
+    parent.key
   );
 }
 

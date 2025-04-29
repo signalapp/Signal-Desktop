@@ -6,12 +6,11 @@ import Emitter from '@signalapp/quill-cjs/core/emitter';
 import React from 'react';
 import _, { isNumber } from 'lodash';
 import type Quill from '@signalapp/quill-cjs';
-
 import { Popper } from 'react-popper';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 import type { VirtualElement } from '@popperjs/core';
-import { convertShortName, isShortName } from '../../components/emoji/lib';
+import { convertShortName } from '../../components/emoji/lib';
 import type { EmojiPickDataType } from '../../components/emoji/EmojiPicker';
 import { getBlotTextPartitions, matchBlotTextPartitions } from '../util';
 import { handleOutsideClick } from '../../util/handleOutsideClick';
@@ -23,8 +22,10 @@ import {
   getEmojiVariantByParentKeyAndSkinTone,
   normalizeShortNameCompletionDisplay,
 } from '../../components/fun/data/emojis';
-import type { FunEmojiSearchResult } from '../../components/fun/useFunEmojiSearch';
-import { type FunEmojiSearch } from '../../components/fun/useFunEmojiSearch';
+import type {
+  FunEmojiSearchResult,
+  FunEmojiSearch,
+} from '../../components/fun/useFunEmojiSearch';
 import { type FunEmojiLocalizer } from '../../components/fun/useFunEmojiLocalizer';
 
 export type EmojiCompletionOptions = {
@@ -164,11 +165,14 @@ export class EmojiCompletion {
       const [, leftTokenText, isSelfClosing] = leftTokenTextMatch;
 
       if (isSelfClosing || justPressedColon) {
-        if (isShortName(leftTokenText)) {
+        const parentKey =
+          this.options.emojiLocalizer.getParentKeyForText(leftTokenText);
+        if (parentKey != null) {
           const numberOfColons = isSelfClosing ? 2 : 1;
+          const emoji = getEmojiParentByKey(parentKey);
 
           this.insertEmoji({
-            shortName: leftTokenText,
+            shortName: emoji.englishShortNameDefault,
             index: range.index - leftTokenText.length - numberOfColons,
             range: leftTokenText.length + numberOfColons,
             justPressedColon,
@@ -182,10 +186,13 @@ export class EmojiCompletion {
       if (rightTokenTextMatch) {
         const [, rightTokenText] = rightTokenTextMatch;
         const tokenText = leftTokenText + rightTokenText;
+        const parentKey =
+          this.options.emojiLocalizer.getParentKeyForText(tokenText);
 
-        if (isShortName(tokenText)) {
+        if (parentKey != null) {
+          const emoji = getEmojiParentByKey(parentKey);
           this.insertEmoji({
-            shortName: tokenText,
+            shortName: emoji.englishShortNameDefault,
             index: range.index - leftTokenText.length - 1,
             range: tokenText.length + 2,
             justPressedColon,
@@ -377,9 +384,10 @@ export class EmojiCompletion {
                 this.options.emojiSkinToneDefault ?? EmojiSkinTone.None
               );
 
-              const localeShortName = this.options.emojiLocalizer(
-                emojiVariant.key
-              );
+              const localeShortName =
+                this.options.emojiLocalizer.getLocaleShortName(
+                  emojiVariant.key
+                );
 
               const normalized =
                 normalizeShortNameCompletionDisplay(localeShortName);

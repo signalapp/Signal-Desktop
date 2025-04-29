@@ -641,7 +641,7 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
   );
 
   const emojiName = useMemo(() => {
-    return emojiLocalizer(emojiVariant.key);
+    return emojiLocalizer.getLocaleShortName(emojiVariant.key);
   }, [emojiVariant.key, emojiLocalizer]);
 
   const emojiShortNameDisplay = useMemo(() => {

@@ -3,15 +3,7 @@
 
 // Camelcase disabled due to emoji-datasource using snake_case
 /* eslint-disable camelcase */
-import {
-  compact,
-  flatMap,
-  groupBy,
-  keyBy,
-  map,
-  mapValues,
-  sortBy,
-} from 'lodash';
+import { groupBy, keyBy, mapValues, sortBy } from 'lodash';
 import { getOwn } from '../../util/getOwn';
 import {
   EMOJI_SKIN_TONE_TO_KEY,
@@ -150,15 +142,6 @@ export function getEmojiData(
   }
 
   return base;
-}
-
-const shortNames = new Set([
-  ...map(data, 'short_name'),
-  ...compact<string>(flatMap(data, 'short_names')),
-]);
-
-export function isShortName(name: string): boolean {
-  return shortNames.has(name);
 }
 
 export function unifiedToEmoji(unified: string): string {

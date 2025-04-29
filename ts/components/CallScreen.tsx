@@ -1271,7 +1271,7 @@ function useReactionsToast(props: UseReactionsToastType): void {
           <span className="CallingReactionsToasts__reaction">
             <FunStaticEmoji
               role="img"
-              aria-label={emojiLocalizer(emojiVariantKey)}
+              aria-label={emojiLocalizer.getLocaleShortName(emojiVariantKey)}
               size={28}
               emoji={emojiVariant}
             />
