@@ -352,4 +352,58 @@ describe('reactions', function (this: Mocha.Suite) {
       '👋': [charlie.profileName],
     });
   });
+
+  it('should display the local user’s thumbs-up skin tone in the reaction viewer overlay header', async () => {
+    this.timeout(10_000);
+
+    const { contacts, phone, desktop } = bootstrap;
+    const [alice, bob] = contacts;
+    const window = await app.getWindow();
+
+    // send a message to Alice
+    const ts = Date.now();
+    await sendTextMessage({
+      from: phone,
+      to: alice,
+      text: 'overlay skin-tone test',
+      timestamp: ts,
+      desktop,
+    });
+
+    // Local user reacts with 👍🏽 (medium skin tone)
+    await sendReaction({
+      from: phone,
+      to: desktop,
+      emoji: '👍🏽',
+      targetAuthor: phone,
+      targetMessageTimestamp: ts,
+      desktop,
+    });
+
+    // Bob reacts with 👍🏿 (to make him the “most recent”)
+    await sendReaction({
+      from: bob,
+      to: desktop,
+      emoji: '👍🏿',
+      targetAuthor: phone,
+      targetMessageTimestamp: Date.now(),
+      desktop,
+    });
+
+    // open the conversation and then the reaction-viewer overlay
+    await clickOnConversation(window, alice);
+    const msg = await getMessageInTimelineByTimestamp(window, ts);
+    await msg.locator('.module-message__reactions').click();
+
+    // grab the header emoji in the overlay (the one next to the total count)
+    const headerEmoji = window.locator(
+      '.module-reaction-viewer__header .FunStaticEmoji'
+    );
+
+    // assert that it’s still our 👍🏽, not Bob’s 👍🏿
+    await expect(headerEmoji).toHaveAttribute(
+      'data-emoji-value',
+      '👍🏽'
+    );
+  });
 });
