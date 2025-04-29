@@ -193,6 +193,7 @@ import { cleanupMessages } from '../util/cleanup';
 import { MessageModel } from './messages';
 import { applyNewAvatar } from '../groups';
 import { safeSetTimeout } from '../util/timeout';
+import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -313,7 +314,7 @@ export class ConversationModel extends window.Backbone
       verified: window.textsecure.storage.protocol.VerifiedStatus.DEFAULT,
       messageCount: 0,
       sentMessageCount: 0,
-      expireTimerVersion: 1,
+      expireTimerVersion: INITIAL_EXPIRE_TIMER_VERSION,
     };
   }
 
@@ -4667,6 +4668,21 @@ export class ConversationModel extends window.Backbone
       );
     }
 
+    // If this is the initial sync, we want to use the provided expire timer & version and
+    // disregard our local version. We might be re-linking after the primary has
+    // re-registered and their expireTimerVersion may have been reset, but we don't want
+    // to ignore it; our local version is out of date.
+    if (
+      isInitialSync &&
+      this.get('expireTimerVersion') !== INITIAL_EXPIRE_TIMER_VERSION
+    ) {
+      log.warn(
+        'updateExpirationTimer: Resetting expireTimerVersion since this is initialSync'
+      );
+      // This is reset after unlink, but we do it here as well to recover from errors
+      this.set('expireTimerVersion', INITIAL_EXPIRE_TIMER_VERSION);
+    }
+
     let expireTimer: DurationInSeconds | undefined = providedExpireTimer;
     let source = providedSource;
     if (this.get('left')) {
@@ -4687,7 +4703,7 @@ export class ConversationModel extends window.Backbone
       `updateExpirationTimer(${this.idForLogging()}, ` +
       `${expireTimer || 'disabled'}, version=${version || 0}) ` +
       `source=${source ?? '?'} localValue=${this.get('expireTimer')} ` +
-      `localVersion=${localVersion}, reason=${reason}`;
+      `localVersion=${localVersion}, reason=${reason}, isInitialSync=${isInitialSync}`;
 
     if (isSetByOther) {
       if (version) {
