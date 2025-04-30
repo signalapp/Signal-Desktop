@@ -465,7 +465,8 @@ describe('state/selectors/messages', () => {
       );
     });
 
-    it('returns "viewed" if the message is just for you and has been sent', () => {
+    it('returns "viewed" if the message is just for you, has been sent and read receipts are enabled', async () => {
+      await window.storage.put('read-receipt-setting', true);
       const message = createMessage({
         sendStateByConversationId: {
           [ourConversationId]: {
@@ -478,6 +479,23 @@ describe('state/selectors/messages', () => {
       assert.strictEqual(
         getMessagePropStatus(message, ourConversationId),
         'viewed'
+      );
+    });
+
+    it('returns "delivered" if the message is just for you, has been sent and read receipts are disabled', async () => {
+      await window.storage.put('read-receipt-setting', false);
+      const message = createMessage({
+        sendStateByConversationId: {
+          [ourConversationId]: {
+            status: SendStatus.Sent,
+            updatedAt: Date.now(),
+          },
+        },
+      });
+
+      assert.strictEqual(
+        getMessagePropStatus(message, ourConversationId),
+        'delivered'
       );
     });
 
