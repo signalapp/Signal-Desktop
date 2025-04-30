@@ -109,4 +109,6 @@ $ sha256sum ../release/signal-desktop_7.45.0_amd64-OUR_BUILD.deb signal-desktop_
 ### What to do if the checksums don't match
 
 - Double check you have followed the instructions correctly and are comparing the right versions.
+- Are you working from a previous checkout of Signal-Desktop? Some generated files might be inadvertently included in the build. Try to delete them before building:
+  - `rm -rf bundles`
 - File an issue [on the Github Issues page](https://github.com/signalapp/Signal-Desktop/issues).
