@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "Error en la base de datos"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "Se ha producido un error en la base de datos. Puedes copiar el error y ponerte en contacto con el equipo de asistencia de Signal para que te ayude a solucionar el problema. Si necesitas usar Signal de inmediato, puedes eliminar tus datos y reiniciar la aplicación.\n\nContacta con el equipo de asistencia en {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "Borrar datos y reiniciar"
   },
@@ -180,7 +177,7 @@
     "messageformat": "Zoom"
   },
   "icu:windowMenuBringAllToFront": {
-    "messageformat": "Traer todas al frente"
+    "messageformat": "Traer todo al frente"
   },
   "icu:viewMenuResetZoom": {
     "messageformat": "Tamaño original"
@@ -600,7 +597,7 @@
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
-    "messageformat": "No se pueden seleccionar fotos y vídeos junto con archivos."
+    "messageformat": "No se pueden adjuntar fotos y vídeos junto con documentos."
   },
   "icu:cannotSelectMultipleFileAttachments": {
     "messageformat": "Solo se puede seleccionar un archivo a la vez."
@@ -1832,12 +1829,6 @@
   "icu:ConversationDetails--support-center": {
     "messageformat": "Centro de asistencia"
   },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contacta con nosotros"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Haz una donación a Signal"
-  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Ver número de seguridad"
   },
@@ -2592,7 +2583,7 @@
     "messageformat": "Centrarse en el campo de escritura"
   },
   "icu:Keyboard--open-all-media-view": {
-    "messageformat": "Abrir vista de archivos multimedia"
+    "messageformat": "Abrir vista de todos los archivos"
   },
   "icu:Keyboard--open-emoji-chooser": {
     "messageformat": "Abrir selector de emojis"
@@ -3945,7 +3936,7 @@
     "messageformat": "Haz una donación a Signal"
   },
   "icu:BadgeSustainerInstructions__subheader": {
-    "messageformat": "Signal es posible gracias a personas como tú. Contribuye y recibe una insignia para lucir en tu perfil."
+    "messageformat": "Signal es posible gracias a personas como tú. Haz una donación y recibe una insignia para lucir en tu perfil."
   },
   "icu:BadgeSustainerInstructions__instructions__1": {
     "messageformat": "Abre Signal en tu teléfono"
@@ -4059,10 +4050,10 @@
     "messageformat": "Para continuar usando esta cuenta, debes abrir Signal en tu teléfono. Si no abres Signal en tu teléfono, tu cuenta se eliminará pronto. <learnMoreLink>Más información</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "No se pueden restaurar los archivos multimedia"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Tu dispositivo no tiene suficiente espacio libre. Libera {diskSpaceAmount} de espacio para restaurar tus archivos multimedia."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Expandir"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Consejos de seguridad"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "No tienes grupos en común con esta persona. Revisa siempre detenidamente las solicitudes de chat antes de aceptarlas para evitar mensajes no deseados."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "Acerca de las solicitudes de mensaje"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Revisa detenidamente las solicitudes. Signal ha encontrado otro contacto con el mismo nombre. <reviewRequestLink>Revisar solicitud</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "También hemos cambiado el tamaño de la ventana de imagen en imagen y añadido atajos prácticos para silenciar y reactivar el micrófono o encender y apagar la cámara mientras tienes una llamada minimizada."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "Дерекқор қатесі"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "Дерекқорда қате шықты. Ақауды түзету үшін қатені көшіріп, Signal қолдау көрсету қызметіне хабарласа аласыз. Егер Signal-ды дереу қолдану керек болса, деректерді жойып, оны өшіріп, қайта қосыңыз. \n\nҚолдау көрсету орталығына хабарласыңыз: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "Деректерді жойып, қайта іске қосыңыз"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "Support Center"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "Байланыс мәліметі"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Signal-ды демеу"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Қауіпсіздік нөмірін көру"
@@ -4059,10 +4050,10 @@
     "messageformat": "Осы аккаунтты әрі қарай пайдалана беру үшін телефоныңызда Signal қолданбасын ашыңыз. Телефоныңызда Signal қолданбасын ашпасаңыз, аккаунтыңыз көп ұзамай жойылады. <learnMoreLink>Толық ақпарат</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Мультимедианы қалпына келтіру мүмкін емес"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Құрылғыңыздағы бос орын жеткіліксіз. Мультимедианы қалпына келтіру үшін {diskSpaceAmount} орын босатыңыз."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Кеңейту"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Қауіпсіздікке қатысты кеңестер"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "Бұл адаммен ортақ тобыңыз жоқ. Өзіңіз қаламайтын хаттар алмау үшін, қабылдамас бұрын, өтініштерді мұқият қарап шығыңыз."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "Хат алмасуға өтініштер туралы ақпарат"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Өтініштерді мұқият қарап шығыңыз. Signal аты дәл осындай тағы бір адамды тапты. <reviewRequestLink>Өтінішті қарап шығу</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "Сонымен қатар енді қоңырау кезінде барлығын бақылауда ұстай аласыз. Біріншіден, сурет ішіндегі сурет терезесінің өлшемін өзгерттік. Екіншіден, қоңырау шағын терезеде жүргізілгенде, микрофон мен камераны тез қосуға не өшіруге қолайлы жылдам пәрмендер қостық."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

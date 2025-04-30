@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "Проблем с базата данни"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "Възникна грешка с базата данни. Можете да копирате грешката и да се свържете с поддръжката на Signal, за да ви помогнат с отстраняването на проблема. Ако се налага да използвате Signal веднага, можете да изтриете данните си и да рестартирате.\n\nСвържете се с поддръжката, като посетите: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "Изтриване на данни и рестартиране"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "Център за поддръжка"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "Свържете се с нас"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Дарете на Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Вижте номера за сигурност"
@@ -4059,10 +4050,10 @@
     "messageformat": "За да продължите да използвате този акаунт, трябва да отворите Signal на телефона си. Ако не отворите Signal на телефона си, вашият акаунт скоро ще бъде изтрит. <learnMoreLink>Научете повече</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Не може да се възстанови мултимедията"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Устройството ви няма достатъчно свободно място. Освободете {diskSpaceAmount} място, за да възстановите мултимедията."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Разшири"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Съвети за безопасност"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "Нямате общи групи с това лице. Преглеждайте заявките внимателно преди да приемате, за да избегнете нежелани съобщения."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "Относно заявките за съобщения"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Прегледайте внимателно заявките. Signal откри друг контакт със същото име. <reviewRequestLink>Преглед на заявката</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "Също така променихме размера на прозореца „картина в картината“ и добавихме нови удобни бързи клавиши, докато повикването е минимизирано."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

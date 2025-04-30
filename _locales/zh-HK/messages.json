@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "資料庫錯誤"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "發生資料庫錯誤。你可以複製錯誤並聯絡 Signal 支援來幫助解決問題。如果你需要立即使用 Signal，可以刪除你的資料並重新啟動。\n\n要聯絡支援團隊，請前往：{link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "刪除資料並重新啟動"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "支援中心"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "聯絡我們"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "贊助 Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "檢視安全碼"
@@ -4059,10 +4050,10 @@
     "messageformat": "你必須在手機上開啟 Signal 才能繼續使用此帳戶。如果你沒有在手機上開啟 Signal，你的帳戶將很快被刪除。<learnMoreLink>了解更多</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "無法還原媒體"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "你的裝置沒有足夠的可用空間。釋放 {diskSpaceAmount} 的空間來還原你的媒體。"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "擴充"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "安全提示"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "你沒有與此人在共同的群組。 接受之前，請仔細檢查請求，以避免出現不必要的訊息。"
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "關於訊息請求"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "請仔細檢視請求。Signal 找到另一個名字相同的聯絡人。<reviewRequestLink>檢視請求</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "我們還調整了畫中畫視窗的大小，並新增了方便的新捷徑以將麥克風靜音/取消靜音，或在通話最小化時開啟/關閉相機。"
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

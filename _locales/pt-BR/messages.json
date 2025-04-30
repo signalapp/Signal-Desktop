@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "Erro no banco de dados"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "Ocorreu um erro de base de dados. Copie o erro e entre em contato com o suporte do Signal para resolver o problema. Se precisar usar o Signal imediatamente, exclua seus dados e reinicie.\n\nEntre em contato com o suporte aqui: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "Excluir dados e reiniciar"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "Central de Suporte"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "Entre em contato"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Doar para o Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Ver Número de Segurança"
@@ -4059,10 +4050,10 @@
     "messageformat": "Você precisa abrir o Signal no seu telefone para continuar usando esta conta. Caso contrário, sua conta será excluída em breve. <learnMoreLink>Saiba mais</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Não é possível restaurar os arquivos de mídia"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Seu dispositivo não tem espaço livre suficiente. Libere {diskSpaceAmount} de espaço para restaurar seus arquivos de mídia."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Expandir"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Dicas de segurança"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "Você não tem grupos em comum com esta pessoa. Analise a solicitação com cuidado antes de aceitá-la, para evitar o recebimento de mensagens indesejadas."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "Sobre as solicitações de conversas"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Analise os pedidos com atenção. O Signal encontrou outro contato com o mesmo nome. <reviewRequestLink>Analisar o pedido</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "Também redimensionamos a janela de imagem sobre imagem e adicionamos atalhos práticos para silenciar ou reativar o microfone, além de ligar ou desligar a câmera durante uma chamada minimizada. "
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

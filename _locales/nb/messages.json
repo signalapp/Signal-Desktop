@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "Databasefeil"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "Det oppsto en feil med databasen. Du kan kopiere feilen og ta kontakt med Signals brukerstøtte for å få hjelp. Hvis du trenger tilgang til Signal umiddelbart, kan du slette alle dataene og starte på nytt.\n\nTa kontakt med brukerstøtte via {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "Slett alle data og start på nytt"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "Brukerstøttesenter"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "Kontakt oss"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Gi penger til Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Vis sikkerhetsnummer"
@@ -4059,10 +4050,10 @@
     "messageformat": "Du må åpne Signal på telefonen for å fortsette å bruke denne kontoen. Kontoen slettes snart dersom du ikke åpner Signal på telefonen din. <learnMoreLink>Les mer</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Kan ikke gjenopprette mediefilene"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Enheten har ikke nok lagringsplass. Slett {diskSpaceAmount} for å gjenopprette mediefilene dine."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Ekspander"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Sikkerhetstips"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "Du deler ingen grupper med denne personen. Se nøye gjennom forespørsler før du aksepterer, så du unngår uønskede meldinger."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "Om meldingsforespørsler"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Se grundig gjennom forespørsler. Signal fant en annen kontakt med samme navn. <reviewRequestLink>Se gjennom forespørsel</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "Vi har også endret størrelsen på bilde-i-bilde-vinduet og lagt til et par nye snarveier du kan bruke når du er i en samtale."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }
