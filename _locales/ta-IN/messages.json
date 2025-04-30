@@ -4059,10 +4059,10 @@
     "messageformat": "இந்தக் கணக்கைத் தொடர்ந்து பயன்படுத்த உங்கள் ஃபோனில் சிக்னலைத் திறக்க வேண்டும். உங்கள் ஃபோனில் நீங்கள் சிக்னலைத் திறக்கவில்லை எனில், உங்கள் கணக்கு விரைவில் அழிக்கப்படும். <learnMoreLink>மேலும் அறிக</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "மீடியாவை மீட்டமைக்க முடியவில்லை"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "உங்கள் டிவைஸில் போதுமான இடம் இல்லை. உங்கள் மீடியாவை மீட்டமைக்க {diskSpaceAmount} இடத்தைக் காலியக்கவும்."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "விரிவாக்கு"

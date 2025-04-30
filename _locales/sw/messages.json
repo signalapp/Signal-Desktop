@@ -4059,10 +4059,10 @@
     "messageformat": "Lazima ufungue Signal kwenye simu yako ili uendelee kutumia akaunti hii. Ikiwa hautafungua Signal kwenye simu yako, akaunti yako itafutwa hivi karibuni. <learnMoreLink>Pata maelezo zaidi</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Imeshindwa kurejesha video na picha"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Kifaa chako hakina nafasi ya kutosha. Futa nafasi ya {diskSpaceAmount} ili kurejesha video na picha zako."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Panua"

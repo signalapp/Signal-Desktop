@@ -4059,10 +4059,10 @@
     "messageformat": "ამ ანგარიშის გამოყენების გასაგრძელებლად შენს მობილურში Signal უნდა გახსნა. თუ შენს მობილურში Signal-ს არ გახსნი, მალე შენი ანგარიში წაიშლება. <learnMoreLink>გაიგე მეტი</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "მედია ფაილების აღდგენა ვერ მოხერხდა"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "შენს მოწყობილობას საკმარისი თავისუფალი ადგილი არ აქვს. გაათავისუფლე {diskSpaceAmount} ადგილი, რათა შენი მედია ფაილები აღადგინო."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "გაფართოება"

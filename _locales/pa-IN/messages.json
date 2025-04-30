@@ -4059,10 +4059,10 @@
     "messageformat": "ਇਸ ਖਾਤੇ ਦੀ ਵਰਤੋਂ ਜਾਰੀ ਰੱਖਣ ਲਈ ਤੁਹਾਨੂੰ ਆਪਣੇ ਫ਼ੋਨ 'ਤੇ Signal ਖੋਲ੍ਹਣਾ ਪਵੇਗਾ। ਜੇਕਰ ਤੁਸੀਂ ਆਪਣੇ ਫ਼ੋਨ 'ਤੇ Signal ਨਹੀਂ ਖੋਲ੍ਹਦੇ, ਤਾਂ ਤੁਹਾਡਾ ਖਾਤਾ ਜਲਦੀ ਹੀ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ। <learnMoreLink>ਹੋਰ ਜਾਣੋ</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "ਮੀਡੀਆ ਰੀਸਟੋਰ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "ਤੁਹਾਡੇ ਡਿਵਾਈਸ ਵਿੱਚ ਲੋੜੀਂਦੀ ਖਾਲੀ ਥਾਂ ਨਹੀਂ ਹੈ। ਆਪਣਾ ਮੀਡੀਆ ਰੀਸਟੋਰ ਕਰਨ ਲਈ {diskSpaceAmount} ਥਾਂ ਖਾਲੀ ਕਰੋ।"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "ਫੈਲਾਓ"

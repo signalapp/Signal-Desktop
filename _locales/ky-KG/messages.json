@@ -4059,10 +4059,10 @@
     "messageformat": "Бул аккаунтту колдоно берүү үчүн телефонуңуздан Signal'ды ачышыңыз керек. Ачпасаңыз, аккаунтуңуз жакында өчүп калат. <learnMoreLink>Кененирээк маалымат</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Медиа файлдар калыбына келген жок"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Түзмөгүңүздө бош орун калбай калды. Медиа файлдарыңызды калыбына келтирүү үчүн сактоо мейкиндигинен {diskSpaceAmount} орун бошотуңуз."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Кеңейтүү"

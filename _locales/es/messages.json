@@ -180,7 +180,7 @@
     "messageformat": "Zoom"
   },
   "icu:windowMenuBringAllToFront": {
-    "messageformat": "Traer todas al frente"
+    "messageformat": "Traer todo al frente"
   },
   "icu:viewMenuResetZoom": {
     "messageformat": "Tamaño original"
@@ -600,7 +600,7 @@
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
-    "messageformat": "No se pueden seleccionar fotos y vídeos junto con archivos."
+    "messageformat": "No se pueden adjuntar fotos y vídeos junto con documentos."
   },
   "icu:cannotSelectMultipleFileAttachments": {
     "messageformat": "Solo se puede seleccionar un archivo a la vez."
@@ -2592,7 +2592,7 @@
     "messageformat": "Centrarse en el campo de escritura"
   },
   "icu:Keyboard--open-all-media-view": {
-    "messageformat": "Abrir vista de archivos multimedia"
+    "messageformat": "Abrir vista de todos los archivos"
   },
   "icu:Keyboard--open-emoji-chooser": {
     "messageformat": "Abrir selector de emojis"
@@ -3945,7 +3945,7 @@
     "messageformat": "Haz una donación a Signal"
   },
   "icu:BadgeSustainerInstructions__subheader": {
-    "messageformat": "Signal es posible gracias a personas como tú. Contribuye y recibe una insignia para lucir en tu perfil."
+    "messageformat": "Signal es posible gracias a personas como tú. Haz una donación y recibe una insignia para lucir en tu perfil."
   },
   "icu:BadgeSustainerInstructions__instructions__1": {
     "messageformat": "Abre Signal en tu teléfono"
@@ -4059,10 +4059,10 @@
     "messageformat": "Para continuar usando esta cuenta, debes abrir Signal en tu teléfono. Si no abres Signal en tu teléfono, tu cuenta se eliminará pronto. <learnMoreLink>Más información</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "No se pueden restaurar los archivos multimedia"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Tu dispositivo no tiene suficiente espacio libre. Libera {diskSpaceAmount} de espacio para restaurar tus archivos multimedia."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Expandir"

@@ -4059,10 +4059,10 @@
     "messageformat": "Bu hesabı kullanmaya devam etmek için telefonunda Signal'ı açman gerekiyor. Telefonunda Signal'ı açmazsan, hesabın kısa süre içinde silinecektir. <learnMoreLink>Dahasını öğren</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Medya geri yüklenemiyor"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Cihazında yeterli boş alan yok. Medyanı geri yüklemek için {diskSpaceAmount} alan boşalt."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Genişlet"

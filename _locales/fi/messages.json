@@ -4059,10 +4059,10 @@
     "messageformat": "Sinun on avattava Signal puhelimessasi, jotta voit jatkaa tilin käyttöä. Jos et avaa Signalia puhelimellasi, tilisi poistetaan pian. <learnMoreLink>Lue lisää</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Mediaa ei voi palauttaa"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Laitteessasi ei ole tarpeeksi vapaata tilaa. Vapauta {diskSpaceAmount} tilaa median palauttamiseksi."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Laajenna"

@@ -4059,10 +4059,10 @@
     "messageformat": "您必须在手机上打开 Signal 才能继续使用此账户。如果不在手机上打开 Signal，您的账户将会很快被删除。<learnMoreLink>了解更多</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "无法恢复媒体"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "您的设备没有足够的可用空间。请释放 {diskSpaceAmount} 的存储空间以恢复您的媒体。"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "扩展"

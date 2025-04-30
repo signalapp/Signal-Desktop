@@ -4059,10 +4059,10 @@
     "messageformat": "Bạn phải mở Signal trên điện thoại để tiếp tục sử dụng tài khoản này. Nếu không mở Signal trên điện thoại, tài khoản của bạn sẽ sớm bị xóa. <learnMoreLink>Tìm hiểu thêm</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Không thể khôi phục tập tin đa phương tiện"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Thiết bị của bạn không có đủ dung lượng trống. Giải phóng {diskSpaceAmount} dung lượng để khôi phục tập tin đa phương tiện của bạn."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Mở rộng"

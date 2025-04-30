@@ -4059,10 +4059,10 @@
     "messageformat": "Lai turpinātu izmantot šo kontu, tālrunī ir jāatver Signal. Ja tālrunī neatvērsiet programmu Signal, jūsu konts drīz tiks dzēsts. <learnMoreLink>Uzzināt vairāk</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Nevar atjaunot multividi"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Ierīces krātuvē nepietiek brīvas vietas. Lai atjaunotu multividi, atbrīvojiet {diskSpaceAmount} vietas krātuvē ."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Izvērst"

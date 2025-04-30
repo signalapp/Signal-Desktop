@@ -4059,10 +4059,10 @@
     "messageformat": "Du må åpne Signal på telefonen for å fortsette å bruke denne kontoen. Kontoen slettes snart dersom du ikke åpner Signal på telefonen din. <learnMoreLink>Les mer</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Kan ikke gjenopprette mediefilene"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Enheten har ikke nok lagringsplass. Slett {diskSpaceAmount} for å gjenopprette mediefilene dine."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Ekspander"

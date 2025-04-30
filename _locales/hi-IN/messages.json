@@ -4059,10 +4059,10 @@
     "messageformat": "यह अकाउंट इस्तेमाल करना जारी रखने के लिए, आपको अपने फ़ोन पर Signal खोलना होगा। अगर आप अपने फ़ोन पर Signal नहीं खोलते, तो आपका अकाउंट जल्द ही डिलीट हो जाएगा। <learnMoreLink>ज़्यादा जानें</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "मीडिया को रीस्टोर नहीं किया जा सकता"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "आपके डिवाइस में पर्याप्त खाली जगह नहीं है। अपना मीडिया रीस्टोर करने के लिए, {diskSpaceAmount} स्पेस खाली करें।"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "बड़ा करें"

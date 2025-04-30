@@ -4059,10 +4059,10 @@
     "messageformat": "Open Signal op je telefoon om dit account te kunnen blijven gebruiken. Als je Signal niet opent op je telefoon wordt je account binnenkort verwijderd. <learnMoreLink>Meer informatie</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Kan media niet herstellen"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Je apparaat heeft niet genoeg vrije ruimte. Maak {diskSpaceAmount} ruimte vrij om je media te herstellen."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Vergroten"

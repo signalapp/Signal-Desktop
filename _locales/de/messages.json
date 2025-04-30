@@ -4020,7 +4020,7 @@
     "messageformat": "Wiederherstellen von Medien angehalten"
   },
   "icu:BackupMediaDownloadProgress__description-offline": {
-    "messageformat": "Verbindet mit Internet …"
+    "messageformat": "Wartet auf Internetverbindung …"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Übertragung anhalten"
@@ -4059,10 +4059,10 @@
     "messageformat": "Um dieses Konto weiterhin nutzen zu können, musst du Signal auf deinem Telefon öffnen. Wenn du Signal nicht auf deinem Telefon öffnest, wird dein Konto bald gelöscht. <learnMoreLink>Mehr erfahren</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Medien können nicht wiederhergestellt werden"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Dein Gerät hat nicht genug Speicherplatz. Du musst {diskSpaceAmount} freigeben, um deine Medien wiederherzustellen."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Erweitern"

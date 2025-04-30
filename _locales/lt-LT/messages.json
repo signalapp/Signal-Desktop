@@ -4059,10 +4059,10 @@
     "messageformat": "Jei norite toliau naudoti šią paskyrą, telefone turite atidaryti „Signal“. Jei neatidarysite „Signal“ savo telefone, jūsų paskyra netrukus bus pašalinta. <learnMoreLink>Sužinoti daugiau</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Įrašų atkurti neįmanoma"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Jūsų įrenginyje trūksta vietos. Atlaisvinkite iki {diskSpaceAmount} vietos, kad galėtumėte atkurti savo įrašus."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Išskleisti"

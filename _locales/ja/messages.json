@@ -4059,10 +4059,10 @@
     "messageformat": "このアカウントの使用を継続するには、お使いのスマートフォンでSignalを開く必要があります。この操作を行わないと、アカウントは間もなく消去されます。<learnMoreLink>さらに詳しく</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "メディアを復元できません"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "ご利用の端末には十分な空き容量がありません。メディアを復元するために{diskSpaceAmount}の空き容量を確保してください。"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "大きく"

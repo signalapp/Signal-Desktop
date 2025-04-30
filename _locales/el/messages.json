@@ -4059,10 +4059,10 @@
     "messageformat": "Πρέπει να ανοίξεις το Signal στο τηλέφωνό σου για να συνεχίσεις να χρησιμοποιείς αυτόν τον λογαριασμό. Εάν δεν ανοίξεις το Signal στο τηλέφωνό σου, ο λογαριασμός σου θα διαγραφεί σύντομα. <learnMoreLink>Μάθε περισσότερα</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Η επαναφορά πολυμέσων απέτυχε"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Η συσκευή σου δεν διαθέτει αρκετό ελεύθερο χώρο. Απελευθέρωσε {diskSpaceAmount} χώρου για επαναφορά των πολυμέσων σου."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Ανάπτυξη"

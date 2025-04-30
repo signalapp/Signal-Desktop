@@ -237,7 +237,7 @@
     "messageformat": "Conversations"
   },
   "icu:LeftPane--corrupted-username--text": {
-    "messageformat": "Une erreur s’est produite et votre nom d’utilisateur n’est plus associé à votre compte. Vous pouvez tenter de le reconfigurer ou en choisir un autre."
+    "messageformat": "Une erreur s'est produite : votre nom d'utilisateur n'est plus associé à votre compte. Vous pouvez tenter de le reconfigurer ou en choisir un autre."
   },
   "icu:LeftPane--corrupted-username--action-text": {
     "messageformat": "Résoudre"
@@ -912,7 +912,7 @@
     "messageformat": "Vous allez supprimer ce message de cet appareil."
   },
   "icu:deleteForEveryoneWarning": {
-    "messageformat": "Ce message sera supprimé de cette conversation pour tous les utiliateurs disposant d'une version récente de Signal. Ils verront que vous avez supprimé un message."
+    "messageformat": "Ce message sera supprimé de cette conversation pour tous les utilisateurs disposant d'une version récente de Signal. Ils verront que vous avez supprimé un message."
   },
   "icu:from": {
     "messageformat": "De"
@@ -1062,7 +1062,7 @@
     "messageformat": "En savoir plus"
   },
   "icu:ChatRefresh--summary": {
-    "messageformat": "Signal utilise un chiffrement de bout en bout, et l’actualisation de votre session de conversation pourrait parfois être nécessaire. Cela n’affecte pas la sécurité de votre conversation, mais vous pourriez alors manquer un message de ce contact. Vous pouvez lui demander de vous le renvoyer."
+    "messageformat": "Signal utilise un chiffrement de bout en bout et doit parfois actualiser votre session. Cela n'a aucune incidence sur la sécurité de votre conversation, mais il se peut que vous ayez manqué un message de ce contact. Auquel cas, vous pouvez lui demander de vous le renvoyer."
   },
   "icu:ChatRefresh--contactSupport": {
     "messageformat": "Contacter l'assistance"
@@ -1095,25 +1095,25 @@
     "messageformat": "{obsoleteConversationTitle} et {conversationTitle} appartiennent au même compte. L’historique de vos conversations est ici."
   },
   "icu:ConversationMerge--notification--with-e164": {
-    "messageformat": "L’historique de vos messages dans {conversationTitle} et son numéro {obsoleteConversationNumber} ont été fusionnés."
+    "messageformat": "Signal a fusionné les messages échangés avec {conversationTitle} et avec son numéro {obsoleteConversationNumber}."
   },
   "icu:ConversationMerge--notification--no-title": {
-    "messageformat": "L’historique de vos conversations dans {conversationTitle} et une autre conversation appartenant à ce groupe ont été fusionnés."
+    "messageformat": "Signal a fusionné les messages échangés avec {conversationTitle} et ceux d'une autre conversation associée au même contact."
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "En savoir plus"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
-    "messageformat": "Après avoir envoyé un message à {obsoleteConversationTitle}, vous avez découvert que ce numéro appartenait en fait à {conversationTitle}. Leur numéro de téléphone est privé."
+    "messageformat": "Après avoir envoyé un message au {obsoleteConversationTitle}, vous avez découvert que ce numéro est en fait celui de {conversationTitle}. Son numéro de téléphone est privé."
   },
   "icu:ConversationMerge--explainer-dialog--line-2": {
     "messageformat": "L’historique de vos messages contenus dans les deux conversations a été fusionné ici."
   },
   "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
-    "messageformat": "{phoneNumber} appartient à {conversationTitle}. Vous êtes tous deux membres du groupe {sharedGroup}."
+    "messageformat": "{phoneNumber} est le numéro de {conversationTitle}. Vous êtes tous deux membres du groupe {sharedGroup}."
   },
   "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
-    "messageformat": "{phoneNumber} appartient à {conversationTitle}"
+    "messageformat": "{phoneNumber} est le numéro de {conversationTitle}"
   },
   "icu:TitleTransition--notification": {
     "messageformat": "Vous avez démarré cette conversation avec {oldTitle}"
@@ -1203,7 +1203,7 @@
     "messageformat": "Ce média à vue unique ne peut plus être téléchargé. Demandez à {name} de vous le renvoyer."
   },
   "icu:TapToViewNotAvailableModal__body--error": {
-    "messageformat": "Impossible de télécharger ce média à vue unique. {name} devra le renvoyer."
+    "messageformat": "Impossible de télécharger ce média à vue unique. {name} devra vous le renvoyer."
   },
   "icu:BackfillFailureModal__title": {
     "messageformat": "Impossible de télécharger le média"
@@ -1335,10 +1335,10 @@
     "messageformat": "Impossible de récupérer les informations associées au lien de l’appel. Vérifiez votre connexion réseau et réessayez."
   },
   "icu:calling__call-link-copied": {
-    "messageformat": "Lien de l’appel copié."
+    "messageformat": "Lien d'appel copié."
   },
   "icu:calling__call-link-no-longer-valid": {
-    "messageformat": "Le lien de cet appel n’est plus valide."
+    "messageformat": "Ce lien d'appel n'est plus valide."
   },
   "icu:calling__call-link-default-title": {
     "messageformat": "Appel Signal"
@@ -1692,7 +1692,7 @@
     "messageformat": "Envoi mis en pause"
   },
   "icu:partiallySent": {
-    "messageformat": "Envoi partiel. Cliquer pour afficher plus d'infos."
+    "messageformat": "Envoi partiel. Cliquer pour en savoir plus"
   },
   "icu:partiallyDeleted": {
     "messageformat": "Suppression partielle. Cliquez pour réessayer."
@@ -1902,7 +1902,7 @@
     "messageformat": "Échec du téléchargement"
   },
   "icu:ToastManager__CannotEditMessage_24": {
-    "messageformat": "Vous ne pouvez modifier que pendant les 24 heures suivant l’envoi du message."
+    "messageformat": "Une fois envoyés, les messages ne peuvent être modifiés que pendant 24 heures."
   },
   "icu:startConversation--username-not-found": {
     "messageformat": "{atUsername} n'utilise pas Signal. Le nom d'utilisateur saisi est peut-être incomplet."
@@ -2931,7 +2931,7 @@
     "messageformat": "Supprimer et quitter"
   },
   "icu:MessageRequests--delete-group-confirm-body": {
-    "messageformat": "Vous allez quitter ce groupe et le supprimer de tous vos appareils."
+    "messageformat": "Vous quitterez ce groupe et il sera supprimé de tous vos appareils."
   },
   "icu:MessageRequests--accept": {
     "messageformat": "Accepter"
@@ -3354,7 +3354,7 @@
     "messageformat": "Impossible de modifier le message"
   },
   "icu:MessageMaxEditsModal__Description": {
-    "messageformat": "{max, plural, one {{max,number} modification peut-être appliquée à ce message.} other {{max,number} modifications seulement peuvent être appliquées à ce message.}}"
+    "messageformat": "{max, plural, one {Vous ne pouvez modifier ce message qu'une seule {max,number} fois.} other {Vous ne pouvez modifier ce message que {max,number} fois.}}"
   },
   "icu:unknown-sgnl-link": {
     "messageformat": "Le lien sgnl:// est incorrect."
@@ -3672,10 +3672,10 @@
     "messageformat": "Vous avez été invité à rejoindre le groupe."
   },
   "icu:GroupV2--pending-add--many--other": {
-    "messageformat": "{count, plural, one {{memberName} a invité {count,number} personne au groupe.} other {{memberName} a invité {count,number} personnes au groupe.}}"
+    "messageformat": "{count, plural, one {{memberName} a invité {count,number} personne à rejoindre le groupe.} other {{memberName} a invité {count,number} personnes à rejoindre le groupe.}}"
   },
   "icu:GroupV2--pending-add--many--you": {
-    "messageformat": "{count, plural, one {Vous avez invité {count,number} utilisateur à rejoindre le groupe.} other {Vous avez invité {count,number} utilisateurs à rejoindre le groupe.}}"
+    "messageformat": "{count, plural, one {Vous avez invité {count,number} personne à rejoindre le groupe.} other {Vous avez invité {count,number} personnes à rejoindre le groupe.}}"
   },
   "icu:GroupV2--pending-add--many--unknown": {
     "messageformat": "{count, plural, one {{count,number} personne a été invitée au groupe.} other {{count,number} personnes ont été invitées au groupe.}}"
@@ -4059,10 +4059,10 @@
     "messageformat": "Pour continuer d'utiliser ce compte, vous devez ouvrir Signal sur votre téléphone. Sans quoi, il sera bientôt supprimé. <learnMoreLink>En savoir plus</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Impossible de restaurer les médias"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "L'espace libre disponible sur votre appareil est insuffisant. Libérez {diskSpaceAmount} d’espace pour restaurer vos médias."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Agrandir"
@@ -4608,7 +4608,7 @@
     "messageformat": "Supprimer la couleur"
   },
   "icu:ChatColorPicker__delete--message": {
-    "messageformat": "{num, plural, one {Cette couleur personnalisée est utilisée dans {num,number} conversation. Souhaitez-vous la supprimer pour toutes les conversations ?} other {Cette couleur personnalisée est utilisée dans {num,number} conversations. Souhaitez-vous la supprimer pour toutes les conversations ?}}"
+    "messageformat": "{num, plural, one {Cette couleur personnalisée est utilisée dans {num,number} conversation. Voulez-vous la supprimer pour toutes les conversations ?} other {Cette couleur personnalisée est utilisée dans {num,number} conversations. Voulez-vous la supprimer pour toutes les conversations ?}}"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "Couleur des bulles"
@@ -4785,7 +4785,7 @@
     "messageformat": "Nom d'utilisateur"
   },
   "icu:ProfileEditor--username--corrupted--body": {
-    "messageformat": "Une erreur s'est produite : votre nom d'utilisateur n'est plus associé à votre compte. Nous vous invitons à le réassocier à votre compte ou à en choisir un autre."
+    "messageformat": "Une erreur s'est produite : votre nom d'utilisateur n'est plus associé à votre compte. Vous pouvez tenter de le reconfigurer ou en choisir un autre."
   },
   "icu:ProfileEditor--username--corrupted--fix-button": {
     "messageformat": "Résoudre"
@@ -4821,7 +4821,7 @@
     "messageformat": "{max, plural, one {Le nom d’utilisateur ne peut pas comporter plus de {max,number} caractère.} other {Le nom d’utilisateur ne peut pas comporter plus de {max,number} caractères.}}"
   },
   "icu:ProfileEditor--username--check-discriminator-min": {
-    "messageformat": "Nom d’utilisateur non valide. Veuillez saisir au moins 2 chiffres."
+    "messageformat": "Nom d'utilisateur incorrect. Veuillez saisir au moins 2 chiffres."
   },
   "icu:ProfileEditor--username--check-discriminator-all-zero": {
     "messageformat": "Ce numéro ne peut pas être 00. Veuillez saisir un chiffre en 1 et 9."
@@ -4875,7 +4875,7 @@
     "messageformat": "Prénom (champ obligatoire)"
   },
   "icu:ProfileEditor--last-name": {
-    "messageformat": "Nom de famille (facultatif)"
+    "messageformat": "Nom (facultatif)"
   },
   "icu:ConfirmDiscardDialog--discard": {
     "messageformat": "Voulez-vous supprimer ces modifications ?"
@@ -4896,7 +4896,7 @@
     "messageformat": "Votre nom d’utilisateur, votre code QR et votre lien ne s’affichent pas sur votre profil. Ne les partagez qu’avec des personnes de confiance."
   },
   "icu:ProfileEditor--info--pnp--no-username": {
-    "messageformat": "Vos amis peuvent désormais vous contacter grâce à votre nom d’utilisateur facultatif, ce qui vous évite de partager votre numéro de téléphone."
+    "messageformat": "Vos amis peuvent désormais vous contacter grâce à votre nom d'utilisateur facultatif, ce qui vous évite de partager votre numéro de téléphone."
   },
   "icu:Bio--speak-freely": {
     "messageformat": "Oui à la liberté d'expression !"
@@ -5103,10 +5103,10 @@
     "messageformat": "Modifier..."
   },
   "icu:Preferences__pnp__sharing--title": {
-    "messageformat": "Qui peut voir mon numéro de téléphone"
+    "messageformat": "Qui peut voir mon numéro"
   },
   "icu:Preferences__pnp__sharing--description--everyone": {
-    "messageformat": "Votre numéro de téléphone sera visible par les personnes et les groupes avec lesquels vous échangez des messages."
+    "messageformat": "Seuls les contacts et les groupes avec lesquels vous échangez des messages pourront voir votre numéro de téléphone."
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
     "messageformat": "Personne n’aura accès à votre numéro, sauf les utilisateurs qui l’ont déjà enregistré dans les contacts de leur téléphone."
@@ -5124,13 +5124,13 @@
     "messageformat": "Personne"
   },
   "icu:Preferences__pnp__discoverability--title": {
-    "messageformat": "Qui peut me retrouver grâce à mon numéro de téléphone"
+    "messageformat": "Qui peut me trouver grâce à mon numéro"
   },
   "icu:Preferences__pnp__discoverability--description--everyone": {
     "messageformat": "Toutes les personnes disposant de votre numéro de téléphone pourront voir que vous utilisez Signal et lancer une conversation avec vous."
   },
   "icu:Preferences__pnp__discoverability--description--nobody": {
-    "messageformat": "Personne ne verra votre numéro de téléphone sur Signal, à moins que vous leur envoyiez un message ou que vous ayez déjà une conversation existante avec eux."
+    "messageformat": "Personne ne saura que vous utilisez Signal, hormis les utilisateurs à qui vous envoyez un message ou avec qui vous avez déjà démarré une conversation."
   },
   "icu:Preferences__pnp__discoverability__everyone": {
     "messageformat": "Tout le monde"
@@ -5421,13 +5421,13 @@
     "messageformat": "Supprimer cette story ? Cela la supprime aussi pour tous ses destinataires."
   },
   "icu:payment-event-notification-message-you-label": {
-    "messageformat": "Vous avez initié une procédure de paiement en faveur de {receiver}"
+    "messageformat": "Vous avez initié un paiement en faveur de {receiver}"
   },
   "icu:payment-event-notification-message-you-label-without-receiver": {
     "messageformat": "Vous avez initié une procédure de paiement"
   },
   "icu:payment-event-notification-message-label": {
-    "messageformat": "{sender} a initié une procédure de paiement en votre faveur"
+    "messageformat": "{sender} a initié un paiement en votre faveur"
   },
   "icu:payment-event-activation-request-label": {
     "messageformat": "{sender} souhaite que vous activiez les paiements. N’envoyez de paiements qu’aux personnes en qui vous avez confiance. Vous pouvez activer les paiements depuis votre téléphone mobile via Paramètres > Paiements."
@@ -5676,7 +5676,7 @@
     "messageformat": "Ne partager qu'avec"
   },
   "icu:SendStoryModal__excluded": {
-    "messageformat": "{count, plural, one {{count,number} exclu} other {{count,number} exclus}}"
+    "messageformat": "{count, plural, one {{count,number} contact exclu} other {{count,number} contacts exclus}}"
   },
   "icu:SendStoryModal__new": {
     "messageformat": "Nouvelle story"
@@ -5946,7 +5946,7 @@
     "messageformat": "Ces chiffres servent à protéger la confidentialité de votre nom d'utilisateur, vous évitant ainsi de recevoir des messages indésirables. Ne partagez votre nom d’utilisateur qu’avec les personnes et les groupes avec lesquels vous voulez discuter. Si vous changez de nom d’utilisateur, une nouvelle série de chiffres vous sera attribuée."
   },
   "icu:EditUsernameModalBody__change-confirmation": {
-    "messageformat": "Modifier votre nom d’utilisateur entraîne la réinitialisation de votre lien et code QR existants. Êtes-vous sûr de vouloir continuer ?"
+    "messageformat": "Si vous changez de nom d'utilisateur, votre lien et votre code QR existants seront réinitialisés. Voulez-vous vraiment continuer ?"
   },
   "icu:EditUsernameModalBody__change-confirmation__continue": {
     "messageformat": "Poursuivre"
@@ -5955,7 +5955,7 @@
     "messageformat": "La récupération de votre nom d’utilisateur aura pour effet de réinitialiser votre lien et votre code QR existants. Voulez-vous vraiment continuer ?"
   },
   "icu:EditUsernameModalBody__username-recovered__text": {
-    "messageformat": "Nous avons réinitialisé votre lien et votre code QR. Votre nouveau nom d’utilisateur est {username}"
+    "messageformat": "Nous avons réinitialisé votre lien et votre code QR. Votre nouveau nom d'utilisateur est {username}"
   },
   "icu:UsernameLinkModalBody__hint": {
     "messageformat": "Et si on discutait sur Signal ? Scannez ce code QR pour me contacter.",
@@ -6016,7 +6016,7 @@
     "messageformat": "Liens et codes QR"
   },
   "icu:UsernameOnboardingModalBody__row__qr__body": {
-    "messageformat": "Les noms d’utilisateur sont associés à des liens et des codes QR uniques. Vous pouvez les envoyer à vos amis pour démarrer une conversation sans attendre."
+    "messageformat": "Chaque nom d'utilisateur est associé à un lien et un code QR uniques. Vous pouvez les partager avec vos amis pour démarrer une conversation instantanément."
   },
   "icu:UsernameOnboardingModalBody__continue": {
     "messageformat": "Configurer le nom d’utilisateur"

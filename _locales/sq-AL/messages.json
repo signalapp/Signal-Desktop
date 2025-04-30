@@ -4059,10 +4059,10 @@
     "messageformat": "Duhet ta hapësh Signal në telefon për të vazhduar përdorimin e llogarisë. Nëse nuk e hap Signal në telefon, llogaria do të fshihet së shpejti. <learnMoreLink>Mëso më shumë</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Media nuk mund të rikthehet"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Pajisja nuk ka hapësirë të mjaftueshme të lirë. Liro {diskSpaceAmount} hapësirë për të rikthyer median."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Zgjeroje"

@@ -4059,10 +4059,10 @@
     "messageformat": "Ní mór duit Signal a oscailt ar do ghuthán le leanúint le húsáid an chuntais seo. Mura n-osclaíonn tú Signal ar do ghuthán, scriosfar do chuntas ar ball. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Ní féidir na meáin a aischur"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Ní leor an spás saor ar do ghléas. Saor {diskSpaceAmount} de spás le do mheáin a aischur."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Fairsingigh"

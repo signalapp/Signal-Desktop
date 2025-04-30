@@ -4059,10 +4059,10 @@
     "messageformat": "بۇ ھېساباتنى داۋاملىق ئىشلىتىش ئۈچۈن چوقۇم تېلېفونىڭىزدا Signalنى ئېچىشىڭىز كېرەك. ئەگەر تېلېفونىڭىزدا Signalنى ئاچمىسىڭىز ، ھېساباتىڭىز تېزلا ئۆچۈرۈلىدۇ. <learnMoreLink>تەپسىلاتى</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "مېدىيانى ئەسلىگە كەلتۈرگىلى بولمىدى"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "ئۈسكۈنىڭىزدە يېتەرلىك بوشلۇق يوق. مېدىيارىڭىزنى ئەسلىگە كەلتۈرۈش ئۈچۈن {diskSpaceAmount} بوشلۇق بىكارلاڭ.\n\n"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "كېڭەيتىش"

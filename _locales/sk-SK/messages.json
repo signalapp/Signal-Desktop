@@ -4059,10 +4059,10 @@
     "messageformat": "Ak chcete naďalej používať tento účet, musíte v telefóne otvoriť Signal. Ak tak neurobíte, váš účet bude čoskoro odstránený. <learnMoreLink>Zistiť viac</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Médiá nie je možné obnoviť"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Vo vašom zariadení nemáte dostatok voľného miesta. Ak chcete obnoviť svoje médiá, uvoľnite {diskSpaceAmount}."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Rozbaliť"

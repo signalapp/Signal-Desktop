@@ -4059,10 +4059,10 @@
     "messageformat": "Anda mesti membuka Signal di telefon untuk terus menggunakan akaun ini. Jika anda tidak membuka Signal di telefon, akaun anda akan dipadam tidak lama lagi. <learnMoreLink>Ketahui lagi</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Tidak dapat memulihkan media"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Peranti anda tidak mempunyai ruang yang cukup. Kosongkan {diskSpaceAmount} ruang untuk memulihkan media anda."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Kembangkan"

@@ -4059,10 +4059,10 @@
     "messageformat": "Kailangan mong buksan ang Signal sa phone mo para patuloy mong magamit ang account na ito. Kung hindi mo bubuksan ang Signal sa phone mo, mabubura ang iyong account. <learnMoreLink>Matuto pa</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Hindi ma-restore ang media"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Walang sapat na free space ang iyong device. Magbawas ng {diskSpaceAmount} ng space para ma-restore ang iyong media."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "I-expand"

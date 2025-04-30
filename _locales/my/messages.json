@@ -4059,10 +4059,10 @@
     "messageformat": "ဤအကောင့်ကို ဆက်လက်အသုံးပြုရန် သင့်ဖုန်းတွင် Signal ကိုဖွင့်ရပါမည်။ သင့်ဖုန်းတွင် Signal မဖွင့်ပါက သင့်အကောင့်ကို မကြာမီ ဖျက်သွားပါမည်။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "မီဒီယာကို ပြန်လည်ရယူ၍မရပါ"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "သင့်စက်တွင် နေရာလွတ် အလုံအလောက်မရှိပါ။ သင့်မီဒီယာကိုပြန်လည်ရယူရန် နေရာလွတ် {diskSpaceAmount} ထွက်လာအောင် ရှင်းထုတ်ပါ။"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "ဖြန့်ရန်"

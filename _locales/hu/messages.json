@@ -4059,10 +4059,10 @@
     "messageformat": "A fiók használatának folytatásához meg kell nyitnod a Signalt a telefonodon. Ha nem nyitod meg a Signalt a telefonodon, a fiókod hamarosan törlődik. <learnMoreLink>Tudj meg többet!</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Nem lehet visszaállítani a médiafájlt"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Az eszközödön nincs elég szabad hely. Szabadíts fel {diskSpaceAmount} helyet a médiafájlok visszaállításához."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Bővítés"

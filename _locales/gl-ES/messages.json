@@ -4059,10 +4059,10 @@
     "messageformat": "Debes abrir Signal no teu teléfono para seguir empregando esta conta. Se non o fas, a túa conta eliminarase en breve. <learnMoreLink>Máis información</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Non se poden restaurar os arquivos"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "O teu dispositivo non ten espazo libre suficiente. Libera {diskSpaceAmount} de espazo para poder restaurar os arquivos multimedia."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Expandir"

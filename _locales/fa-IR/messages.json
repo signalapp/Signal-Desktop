@@ -4059,10 +4059,10 @@
     "messageformat": "برای ادامه استفاده از این حساب، باید سیگنال را در تلفن خود باز کنید. اگر سیگنال را در تلفن خود باز نکنید، حساب شما به زودی حذف خواهد شد. <learnMoreLink>اطلاعات بیشتر</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "رسانه بازیابی نشد"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "دستگاه شما فضای خالی کافی ندارد. برای بازیابی رسانه خود، {diskSpaceAmount} فضا آزاد کنید."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "گسترش"

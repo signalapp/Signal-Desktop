@@ -4059,10 +4059,10 @@
     "messageformat": "អ្នកត្រូវតែបើក Signal នៅលើទូរសព្ទរបស់អ្នក ដើម្បីបន្តប្រើប្រាស់គណនីនេះ។ ប្រសិនបើអ្នកមិនបើក Signal នៅលើទូរសព្ទរបស់អ្នកទេ គណនីរបស់អ្នកនឹងត្រូវបានលុបចោលក្នុងពេលឆាប់ៗនេះ។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "មិនអាចស្តារមេឌៀឡើងវិញបានទេ"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "ឧបករណ៍របស់អ្នកមិនមានទំហំផ្ទុកទំនេរគ្រប់គ្រាន់ទេ។ បង្កើនទំហំផ្ទុក {diskSpaceAmount} ដើម្បីស្ដារមេឌៀរបស់អ្នកមកវិញ។"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "ពង្រីក"

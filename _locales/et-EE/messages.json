@@ -4059,10 +4059,10 @@
     "messageformat": "Selle konto edasi kasutamiseks pead Signali telefonis avama. Kui sa Signalit oma telefonis ei ava, kustutame varsti su konto. <learnMoreLink>Rohkem teavet</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Meediat ei saa taastada"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Sinu seadmes ei ole piisavalt vaba ruumi. Oma meedia taastamiseks vabasta {diskSpaceAmount} ruumi."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Laienda"

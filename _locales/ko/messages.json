@@ -4059,10 +4059,10 @@
     "messageformat": "이 계정을 계속 사용하려면 휴대폰에서 Signal을 열어야 합니다. 휴대폰에서 Signal을 열지 않으면 계정이 곧 삭제됩니다. <learnMoreLink>자세히 알아보기</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "미디어를 복원할 수 없음"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "기기에 여유 공간이 부족합니다. 미디어를 복원하려면 {diskSpaceAmount}의 여유 공간을 확보하세요."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "확장"

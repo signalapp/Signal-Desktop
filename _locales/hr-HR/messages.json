@@ -4059,10 +4059,10 @@
     "messageformat": "Morate otvoriti Signal na svom telefonu kako biste nastavili koristiti ovaj račun. Ako ne otvorite Signal na svom telefonu, vaš račun će uskoro biti izbrisan. <learnMoreLink>Saznaj više</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Nije moguće vratiti medijske zapise"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Nema dovoljno slobodnog prostora na vašem uređaju. Oslobodite {diskSpaceAmount} prostora da biste preuzeli svoje medijske zapise."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Proširi"

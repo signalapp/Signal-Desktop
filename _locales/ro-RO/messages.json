@@ -4059,10 +4059,10 @@
     "messageformat": "Trebuie să deschizi Signal pe telefon pentru a continua să utilizezi acest cont. Dacă nu deschizi Signal pe telefon, contul tău va fi șters în curând. <learnMoreLink>Află mai multe</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Nu se pot restaura fișierele media"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Dispozitivul tău nu are suficient spațiu liber. Eliberează {diskSpaceAmount} spațiu și restaurează-ți fișierele."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Extinde"

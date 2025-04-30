@@ -4059,10 +4059,10 @@
     "messageformat": "Kontu hau erabiltzen jarraitzeko, Signal telefonoan ireki behar duzu. Signal telefonoan ireki ezean, kontua laster ezabatuko da. <learnMoreLink>Informazio gehiago</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Ezin da leheneratu multimedia-edukia"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Zure gailuak ez du leku libre nahikorik. Multimedia-edukia leheneratzeko, utzi {diskSpaceAmount} libre."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Zabaldu"

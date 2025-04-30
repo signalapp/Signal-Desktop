@@ -4059,10 +4059,10 @@
     "messageformat": "Jy moet Signal op jou foon oopmaak om voort te gaan om hierdie rekening te gebruik. As jy nie Signal op jou foon oopmaak nie, sal jou rekening binnekort geskrap word. <learnMoreLink>Vind meer uit</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Kan nie media herstel nie"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Jou toestel het nie genoeg stoorruimte beskikbaar nie. Stel {diskSpaceAmount} stoorruimte beskikbaar om jou media af te laai."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Vou uit"
