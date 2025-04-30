@@ -166,7 +166,7 @@ function BioEmoji(props: { emoji: EmojiVariantKey }) {
   return (
     <FunStaticEmoji
       role="img"
-      aria-label={emojiLocalizer(props.emoji)}
+      aria-label={emojiLocalizer.getLocaleShortName(props.emoji)}
       emoji={emojiVariant}
       size={24}
     />
