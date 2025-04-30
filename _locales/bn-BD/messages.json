@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "ডাটাবেস ত্রুটি"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "ডাটাবেজ সংক্রান্ত একটি ত্রুটি দেখা দিয়েছে। আপনি ত্রুটিটি কপি করতে পারেন এবং সমস্যাটি সমাধানে সাহায্য করতে Signal সহায়তার সাথে যোগাযোগ করতে পারেন। আপনার যদি এখনই Signal ব্যবহার করার প্রয়োজন হয়, তবে আপনি আপনার ডেটা মুছে ফেলতে পারেন এবং পুনরায় চালু করতে পারেন।\n\nএখানে ভিজিট করার মাধ্যমে সাপোর্টের সাথে যোগাযোগ করুন: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "ডেটা মুছুন এবং পুনরায় চালু করুন"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "সহায়তা কেন্দ্র"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "আমাদের সাথে যোগাযোগ করুন"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Signal-এ দান করুন"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "নিরাপত্তা নম্বর দেখুন"
@@ -4059,10 +4050,10 @@
     "messageformat": "এই অ্যাকাউন্টটির ব্যবহার চালিয়ে যেতে আপনাকে অবশ্যই আপনার ফোনে Signal খুলতে হবে। আপনি যদি আপনার ফোনে Signal না খুলেন, তাহলে আপনার অ্যাকাউন্ট শীঘ্রই মুছে ফেলা হবে। <learnMoreLink>আরো জানুন</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "মিডিয়া পুনরুদ্ধার করা যায়নি"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "আপনার ডিভাইসে পর্যাপ্ত খালি জায়গা নেই। আপনার মিডিয়া পুনরুদ্ধার করতে {diskSpaceAmount} জায়গা খালি করুন।"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "প্রসারিত করুন"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "নিরাপত্তা সংক্রান্ত পরামর্শ"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "আপনার এবং এই ব্যক্তির মধ্যে কোনও কমন গ্রুপ নেই। অনাকাঙ্ক্ষিত মেসেজ পাওয়া এড়াতে গ্রহণ করার পূর্বে অনুরোধগুলো যত্ন সহকারে পর্যালোচনা করুন।"
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "মেসেজের অনুরোধ সম্পর্কে"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "সতর্কতার সাথে অনুরোধ পর্যালোচনা করুন। Signal একই নামের আরেকটি কন্টাক্ট খুঁজে পেয়েছে। <reviewRequestLink>পর্যালোচনা করার অনুরোধ</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "আমরা পিকচার-ইন-পিকচার উইন্ডোর আকারও পরিবর্তন করেছি এবং কল মিনিমাইজ করার সময় সুবিধাজনক নতুন শর্টকাট যুক্ত করেছি।"
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

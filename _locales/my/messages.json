@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "ဒေတာဘေ့စ် ချို့ယွင်းချက်"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "ဒေတာဘေ့စ် ချို့ယွင်းချက်တစ်ခု ဖြစ်နေပါသည်။ ချို့ယွင်းချက်ကို ကူးယူပြီးနောက် ဤပြဿနာကို ဖြေရှင်းရန်အတွက် အကူအညီပေးရန် Signal ပံ့ပိုးရေးသို့ ဆက်သွယ်နိုင်ပါသည်။ Signal ကို သင် ချက်ချင်းအသုံးပြုရန် လိုအပ်ပါက သင့်ဒေတာကို ဖျက်ပြီး ပြန်လည်စတင်နိုင်ပါသည်။\n\nဤလင့်ခ်ကို ဝင်ရောက်ခြင်းဖြင့် ပံ့ပိုးရေးသို့ ဆက်သွယ်ပါ- {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "ဒေတာကို ဖျက်ပြီး ပြန်လည်စတင်ရန်"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "ပံ့ပိုးမှု စင်တာ"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "ကျွန်ုပ်တို့ကိုဆက်သွယ်ရန်"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Signal ကိုလှူဒါန်းပါ"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "လုံခြုံရေးနံပါတ် ကြည့်ရန်"
@@ -4059,10 +4050,10 @@
     "messageformat": "ဤအကောင့်ကို ဆက်လက်အသုံးပြုရန် သင့်ဖုန်းတွင် Signal ကိုဖွင့်ရပါမည်။ သင့်ဖုန်းတွင် Signal မဖွင့်ပါက သင့်အကောင့်ကို မကြာမီ ဖျက်သွားပါမည်။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "မီဒီယာကို ပြန်လည်ရယူ၍မရပါ"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "သင့်စက်တွင် နေရာလွတ် အလုံအလောက်မရှိပါ။ သင့်မီဒီယာကိုပြန်လည်ရယူရန် နေရာလွတ် {diskSpaceAmount} ထွက်လာအောင် ရှင်းထုတ်ပါ။"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "ဖြန့်ရန်"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "ဘေးကင်းရေး အကြံပြုချက်များ"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "၎င်းပုဂ္ဂိုလ်နှင့် သင့်ထံ တူညီသော အဖွဲ့များ မရှိပါ။ အလိုမရှိသော မက်ဆေ့ချ်များကို မလက်ခံမီ တောင်းခံချက်များကို သေချာစွာ သုံးသပ်ပါ။"
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "မက်ဆေ့ခ်ျတောင်းဆိုမှုများ အကြောင်း"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "တောင်းဆိုမှုများကို သေချာ ပြန်သုံးသပ်ပါ။ Signal သည် အမည်တူ အခြားအဆက်အသွယ်ကို တွေ့ရှိထားပါသည်။ <reviewRequestLink>တောင်းဆိုမှုကို ပြန်လည်သုံးသပ်ရန်</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "ကျွန်ုပ်တို့သည် Picture-in-Picture Window ကိုလည်း အရွယ်အစားပြောင်းပြီး ဖုန်းခေါ်ဆိုမှုအတွင်း စခရင်အရွယ်လျှော့ချရာတွင် အဆင်ပြေစေမည့် ရှော့တ်ကတ်အသစ်များကိုထည့်ထားသည်။"
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

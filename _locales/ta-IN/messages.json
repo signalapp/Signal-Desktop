@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "தரவுத் தளம் பிழை"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "ஒரு தரவுத்தளப் பிழை ஏற்பட்டது. நீங்கள் பிழையை நகலெடுத்து, சிக்கலைச் சரிசெய்ய சிக்னல் ஆதரவைத் தொடர்புகொள்ளலாம். நீங்கள் உடனடியாக சிக்னலைப் பயன்படுத்த வேண்டுமென்றால், உங்கள் தரவை நீக்கிவிட்டு மீண்டும் தொடங்கவும்.\n\nஇங்கு செல்வதன் மூலம் ஆதரவைத் தொடர்புகொள்ளவும்: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "தரவை நீக்கி மீண்டும் தொடங்கவும்"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "ஆதரவு மையம்"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "எங்களை தொடர்பு கொள்ள"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Signal-க்கு நன்கொடை அளி"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "பாதுகாப்பு எண்ணைக் காட்டு"
@@ -4059,10 +4050,10 @@
     "messageformat": "இந்தக் கணக்கைத் தொடர்ந்து பயன்படுத்த உங்கள் ஃபோனில் சிக்னலைத் திறக்க வேண்டும். உங்கள் ஃபோனில் நீங்கள் சிக்னலைத் திறக்கவில்லை எனில், உங்கள் கணக்கு விரைவில் அழிக்கப்படும். <learnMoreLink>மேலும் அறிக</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "மீடியாவை மீட்டமைக்க முடியவில்லை"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "உங்கள் டிவைஸில் போதுமான இடம் இல்லை. உங்கள் மீடியாவை மீட்டமைக்க {diskSpaceAmount} இடத்தைக் காலியக்கவும்."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "விரிவாக்கு"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "பாதுகாப்பு உதவிக்குறிப்புகள்"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "உங்களிடம் உள்ளது இல்லை குழுக்கள்இந்த நபருடன் பொதுவானது. தேவையற்ற செய்திகளைத் தவிர்ப்பதற்கு ஏற்றுக்கொள்வதற்கு முன் கோரிக்கைகளை கவனமாக மதிப்பாய்வு செய்யவும்.\n "
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "பற்றி செய்தி கோரிக்கைகள்"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "கோரிக்கைகளை கவனமாக மதிப்பாய்வு செய்க. அதே பெயருடன் மற்றொரு தொடர்பை Signal கண்டறிந்தது. <reviewRequestLink>மதிப்பாய்வு கோரிக்கை</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "பிக்சர்-இன்-பிக்சர் சாளரத்தின் அளவையும் மாற்றியுள்ளோம் மற்றும் அழைப்புத் திரை சிறியதாக்கப்படும் போது வசதியான புதிய குறுக்குவழிகளைச் சேர்த்துள்ளோம்."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

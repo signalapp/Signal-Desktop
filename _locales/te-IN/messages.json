@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "దత్తాంశమూల లోపం"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "డేటాబేస్ లోపం ఏర్పడింది. మీరు లోపాన్ని కాపీ చేసి, సమస్యను పరిష్కరించడంలో సహాయపడటానికి Signal మద్దతును సంప్రదించవచ్చు. ఒకవేళ మీరు Signal ను తక్షణమే ఉపయోగించవలసి వస్తే, మీరు మీ డేటాను తొలగించి, రీస్టార్ట్ చేయవచ్చు.\n\nఈ లింక్‌ను సందర్శించడం ద్వారా మద్దతును సంప్రదించండి: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "డేటాను తొలగించి, రీస్టార్ట్ చేయండి"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "సహాయ కేంద్రం"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "మమ్మల్ని సంప్రదించండి"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Signal కు దానం చేయండి"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "భద్రతా సంఖ్యను వీక్షించండి"
@@ -4059,10 +4050,10 @@
     "messageformat": "ఈ ఖాతాను ఉపయోగించడం కొనసాగించడానికి మీరు మీ ఫోన్‌లో Signal ను తప్పకుండా తెరవాలి. ఒకవేళ మీరు మీ ఫోన్‌లో Signal ను తెరవకపోతే, మీ ఖాతా త్వరలో తొలగించబడుతుంది. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "మీడియాను పునరుద్ధరించడం సాధ్యం కాదు"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "మీ పరికరంలో తగినంత ఖాళీ స్థలం లేదు. మీ మీడియాను పునరుద్ధరించడానికి స్థలంలో {diskSpaceAmount} ని ఖాళీ చేయండి.\n\n"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "విస్తరించండి"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "భద్రతా చిట్కాలు"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "ఈ వ్యక్తితో మీకు సాధారణ సమూహాలు లేవు. అవాంఛిత సందేశాలను నివారించడానికి అంగీకరించే ముందు అభ్యర్థనలను జాగ్రత్తగా సమీక్షించండి."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "సందేశ అభ్యర్థనల గురించి"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "అభ్యర్థనలను జాగ్రత్తగా సమీక్షించండి. అదే పేరుతో మరొక పరిచయాన్ని Signal కనుగొంది. <reviewRequestLink>అభ్యర్థనను సమీక్షించండి</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "మేము పిక్చర్-ఇన్-పిక్చర్ విండో పరిమాణాన్ని కూడా మార్చాము మరియు కాల్ కనిష్ఠీకరించబడినప్పుడు అనుకూలమైన కొత్త షార్ట్‌కట్‌లను జోడించాము."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "Eroare de bază de date"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "A apărut o eroare la baza de date. Poți copia eroarea și contacta serviciul de asistență Signal, pentru a ajuta la remedierea problemei. Dacă trebuie să utilizezi Signal imediat, îți poți șterge datele și să repornești.\n\nContactează serviciul de asistență vizitând: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "Șterge datele și repornește"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "Centru Asistență"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contactează-ne"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Donează pentru Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Afișează Numărul de Siguranță"
@@ -4059,10 +4050,10 @@
     "messageformat": "Trebuie să deschizi Signal pe telefon pentru a continua să utilizezi acest cont. Dacă nu deschizi Signal pe telefon, contul tău va fi șters în curând. <learnMoreLink>Află mai multe</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Nu se pot restaura fișierele media"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Dispozitivul tău nu are suficient spațiu liber. Eliberează {diskSpaceAmount} spațiu și restaurează-ți fișierele."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Extinde"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Sfaturi de siguranță"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "Nu ai grupuri în comun cu această persoană. Examinează cu atenție solicitările înainte de a accepta pentru a evita mesajele nedorite."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "Despre solicitări mesaj"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Examinează cu atenție solicitările. Signal a găsit un alt contact cu același nume. <reviewRequestLink>Revizuire solicitare</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "De asemenea, am redimensionat fereastra de imagine în imagine și am adăugat noi comenzi rapide convenabile pentru a dezactiva/reactiva microfonul sau a porni/opri camera în timp ce un apel este minimizat."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

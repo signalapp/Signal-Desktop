@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "ساندان خاتالىقى"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "سانداندا خاتالىق كۆرۈلدى. خاتالىقنى كۆچۈرىۋالالايسىز ۋە ئۇنى ئوڭشاش ئۈچۈن Signal ياردەم بىلەن ئالاقىلىشىڭ. ئەگەر Signalنى دەرھال ئىشلەتمەكچى بولسىڭىز، سانلىق مەلۇماتلىرىڭىزنى ئۆچۈرۈپ، قايتا قوزغاتسىڭىز بولىدۇ.\n\nياردەم ئالاقىلىشىش ئۇسۇلى:{link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "سانلىق مەلۇماتلارنى ئۆچۈرۈپ، قايتا قوزغىتىش"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "قوللاش مەركىزى"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "بىز بىلەن ئالاقىلىشىڭ"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "‫Signal غا ئىئانە قىلىڭ"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "بىخەتەرلىك نومۇرىنى كۆرۈڭ"
@@ -4059,10 +4050,10 @@
     "messageformat": "بۇ ھېساباتنى داۋاملىق ئىشلىتىش ئۈچۈن چوقۇم تېلېفونىڭىزدا Signalنى ئېچىشىڭىز كېرەك. ئەگەر تېلېفونىڭىزدا Signalنى ئاچمىسىڭىز ، ھېساباتىڭىز تېزلا ئۆچۈرۈلىدۇ. <learnMoreLink>تەپسىلاتى</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "مېدىيانى ئەسلىگە كەلتۈرگىلى بولمىدى"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "ئۈسكۈنىڭىزدە يېتەرلىك بوشلۇق يوق. مېدىيارىڭىزنى ئەسلىگە كەلتۈرۈش ئۈچۈن {diskSpaceAmount} بوشلۇق بىكارلاڭ.\n\n"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "كېڭەيتىش"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "بىخەتەرلىك ئەسكەرتىشلىرى"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "بۇ كىشى بىلەن ئورتاق گۇرۇپپىڭىز يوق. كېرەكسىز ئۇچۇرلاردىن ساقلىنىش ئۈچۈن قوشۇلۇشتىن ئىلگىرى تەلەپلەرنى ئەستايىدىللىق بىلەن تەكشۈرۈڭ."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "ئۇچۇر ئىلتىماسى ھەققىدە"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "ئىلتىماسلارنى ئەستايىدىللىق بىلەن تەكشۈرۈڭ. Signal ئوخشاش ئىسىملىك باشقا بىر ئالاقىداشنى بايقىدى. <reviewRequestLink>ئىلتىماسنى تەكشۈرۈش</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "بىز رەسىم ئىچىدىكى رەسىم كۆزنىكىنىڭ چوڭ-كىچىكلىكىنى ئۆزگەرتتۇق ۋە تېلېفونلىشىنى ئەڭ تۆۋەن چەككە چۈشۈرگەندە قولايلىق ئېلىپ كېلىدىغان يېڭى تېزلەتمىلەرنى قوشتۇق."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

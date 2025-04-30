@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "Gabim Baze të Dhënash"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "Gabim në bazën e të dhënave. Mund ta kopjosh gabimin dhe të kontaktosh ekipin e mbështetjes së Signal që të të ndihmojë ta rregullosh problemin. Nëse duhet që ta përdorësh Signal direkt, mund t'i fshish të dhënat dhe ta shkarkosh sërish.\n\nKontakto ekipin e mbështetjes në: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "Fshiji të dhënat dhe rinise"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "Qendër Asistence"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "Lidhuni me ne"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Dhuroni për Signal-in"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Shih Numrin e Sigurisë"
@@ -4059,10 +4050,10 @@
     "messageformat": "Duhet ta hapësh Signal në telefon për të vazhduar përdorimin e llogarisë. Nëse nuk e hap Signal në telefon, llogaria do të fshihet së shpejti. <learnMoreLink>Mëso më shumë</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Media nuk mund të rikthehet"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Pajisja nuk ka hapësirë të mjaftueshme të lirë. Liro {diskSpaceAmount} hapësirë për të rikthyer median."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Zgjeroje"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Këshilla sigurie"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "S’keni grupe të përbashkët me këtë person. Për të shmangur mesazhe të padëshiruar, shqyrtojini me kujdes kërkesat, para se t’i miratoni."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "Mbi Kërkesa Mesazhesh"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Shqyrto me kujdes kërkesat. Signal gjeti një kontakt tjetër me të njëjtin emër. <reviewRequestLink>Shqyrto kërkesën</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "Ne gjithashtu ndryshuam madhësinë e dritares \"Foto në figurë\" dhe shtuam shkurtore të reja të përshtatshme për të çaktivizuar/aktivizuar mikrofonin tuaj ose për të ndezur/fikur kamerën ndërsa një telefonatë minimizohet."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

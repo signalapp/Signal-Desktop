@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "Chyba databáze"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "Vyskytla se chyba databáze. Chybu si můžete zkopírovat a obrátit se na podporu Signal, aby vám ji pomohla opravit. Jestliže potřebujete používat službu Signal ihned, můžete smazat svá data a restartovat ji.\n\nPodporu kontaktujte na adrese: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "Smazat data a restartovat"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "Centrum uživatelské podpory"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "Kontaktujte nás"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Přispějte na službu Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Zobrazit bezpečnostní číslo"
@@ -4059,10 +4050,10 @@
     "messageformat": "Pro další používání tohoto účtu musíte otevřít aplikaci Signal ve svém telefonu. Pokud účet Signal v telefonu neotevřete, bude brzy smazán. <learnMoreLink>Zjistit více</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Média nelze obnovit"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Vaše zařízení nemá dostatek volného místa. Uvolněte {diskSpaceAmount} místa pro obnovení médií."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Rozbalit"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Bezpečnostní tipy"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "S touto osobou nemáte žádné společné skupiny. Před přijetím žádost pečlivě zkontrolujte, abyste se vyhnuli nevyžádaným zprávám."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "O žádostech o zprávy"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Žádosti pečlivě kontrolujte. Signal našel další kontakt se stejným jménem. <reviewRequestLink>Zkontrolovat žádost</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "Změnili jsme také velikost okna obrazu v obraze a přidali nové, jednoduché zkratky, když je hovor minimalizován."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }
