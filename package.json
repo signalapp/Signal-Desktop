@@ -104,7 +104,7 @@
     "fs-xattr": "0.3.0"
   },
   "dependencies": {
-    "@electron/asar": "3.3.1",
+    "@electron/asar": "3.4.1",
     "@formatjs/fast-memoize": "2.2.3",
     "@formatjs/icu-messageformat-parser": "2.9.3",
     "@formatjs/intl-localematcher": "0.2.32",
