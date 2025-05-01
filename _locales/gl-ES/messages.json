@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "Erro da base de datos"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "Ocorreu un erro na base de datos. Podes copiar o erro e contactar co Centro de axuda de Signal para solucionar o problema. Se tes que empregar Signal canto antes, podes borrar os teus datos e reiniciar.\n\nPara contactar co Centro de axuda visita: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "Borrar datos e reiniciar"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "Centro de axuda"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contacto"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Doar a Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Ver número de seguranza"
@@ -4059,10 +4050,10 @@
     "messageformat": "Debes abrir Signal no teu teléfono para seguir empregando esta conta. Se non o fas, a túa conta eliminarase en breve. <learnMoreLink>Máis información</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Non se poden restaurar os arquivos"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "O teu dispositivo non ten espazo libre suficiente. Libera {diskSpaceAmount} de espazo para poder restaurar os arquivos multimedia."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Expandir"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Consellos de seguridade"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "Non compartes ningún grupo con esta persoa. Revisa as solicitudes antes de aceptalas para evitar recibir mensaxes non desexadas."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "Información das solicitudes de mensaxe"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Revisa as solicitudes con atención. Signal atopou outro contacto co mesmo nome. <reviewRequestLink>Revisar solicitude</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "Ademais, axustamos o tamaño da xanela flotante e engadimos atallos novos para cando a chamada está minimizada."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

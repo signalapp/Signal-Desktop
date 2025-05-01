@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "Adatbázishiba"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "Adatbázishiba történt. Kimásolhatod a hibát, és kapcsolatba léphetsz a Signal ügyfélszolgálatával a probléma megoldásához. Ha azonnal használnod kell a Signalt, törölheted az adataid, és újraindíthatod.\n\nLépj kapcsolatba az ügyfélszolgálattal a következő címen: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "Adatok törlése és újraindítás"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "Támogatási Központ"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "Kapcsolat"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Adomány a Signal számára"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Biztonsági szám megjelenítése"
@@ -4059,10 +4050,10 @@
     "messageformat": "A fiók használatának folytatásához meg kell nyitnod a Signalt a telefonodon. Ha nem nyitod meg a Signalt a telefonodon, a fiókod hamarosan törlődik. <learnMoreLink>Tudj meg többet!</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Nem lehet visszaállítani a médiafájlt"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Az eszközödön nincs elég szabad hely. Szabadíts fel {diskSpaceAmount} helyet a médiafájlok visszaállításához."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Bővítés"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Biztonsági tippek"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "Nincsenek közös csoportjaid ezzel a személlyel. Ellenőrizd a kérelmeket figyelmesen elfogadás előtt, hogy elkerüld a nem kívánt üzeneteket."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "A csevegési felkérésekről"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Gondosan nézd át a felkéréseket. A Signal talált egy másik, azonos nevű névjegyet. <reviewRequestLink>Felkérés áttekintése</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "A kép a képben ablakot is átméreteztük, és kényelmes, új parancsikonokat adtunk hozzá, miközben a hívásablak minimálisra csökkent."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

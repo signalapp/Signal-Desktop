@@ -2700,7 +2700,10 @@ export function cancelConversationVerification(
         activeCall.conversationId === conversationId &&
         activeCall.callMode === CallMode.Direct
       ) {
-        calling.hangup(conversationId, 'canceled conversation verification');
+        calling.hangup({
+          conversationId,
+          reason: 'canceled conversation verification',
+        });
       }
       conversationJobQueue.resolveVerificationWaiter(conversationId);
     });

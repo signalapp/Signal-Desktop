@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "Datu bāzes kļūda"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "Radusies datubāzes kļūda. Varat nokopēt kļūdas aprakstu un sazināties ar Signal atbalsta dienestu, lai novērstu problēmu. Ja nepieciešams izmantot Signal nekavējoties, varat dzēst savus datus un sākt no jauna.\n\nSazinieties ar atbalsta dienestu, apmeklējot vietni: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "Dzēst datus un restartēt"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "Atbalsta centrs"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "Sazināties ar mums"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Ziedot Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Skatīt drošības numuru"
@@ -4059,10 +4050,10 @@
     "messageformat": "Lai turpinātu izmantot šo kontu, tālrunī ir jāatver Signal. Ja tālrunī neatvērsiet programmu Signal, jūsu konts drīz tiks dzēsts. <learnMoreLink>Uzzināt vairāk</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Nevar atjaunot multividi"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Ierīces krātuvē nepietiek brīvas vietas. Lai atjaunotu multividi, atbrīvojiet {diskSpaceAmount} vietas krātuvē ."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Izvērst"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Padomi par drošību"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "Jums nav kopīgu grupu ar šo personu. Pirms piekrišanas rūpīgi pārskatiet pieprasījumus, lai izvairītos no nevēlamām ziņām."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "Par ziņu pieprasījumiem"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Rūpīgi pārskatiet pieprasījumus. Signal atrada citu kontaktu ar tādu pašu vārdu. <reviewRequestLink>Pārskatīt pieprasījumu</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "Mēs arī mainījām loga “attēls attēlā” izmērus un pievienojām jaunus, ērtus īsceļus, kas ļauj izslēgt/ieslēgt mikrofonu vai kameru, kamēr zvans ir minimizēts."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

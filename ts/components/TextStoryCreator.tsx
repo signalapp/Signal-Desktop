@@ -538,30 +538,27 @@ export function TextStoryCreator({
                     data-popper-arrow
                     className="StoryCreator__popper__arrow"
                   />
-                  {objectMap<BackgroundStyleType>(
-                    BackgroundStyle,
-                    (bg, backgroundValue) => (
-                      <button
-                        aria-label={i18n('icu:StoryCreator__story-bg')}
-                        className={classNames({
-                          StoryCreator__bg: true,
-                          'StoryCreator__bg--selected':
-                            selectedBackground === backgroundValue,
-                        })}
-                        key={String(bg)}
-                        onClick={() => {
-                          setSelectedBackground(backgroundValue);
-                          setIsColorPickerShowing(false);
-                        }}
-                        type="button"
-                        style={{
-                          background: getBackgroundColor(
-                            getBackground(backgroundValue)
-                          ),
-                        }}
-                      />
-                    )
-                  )}
+                  {objectMap(BackgroundStyle, (bg, backgroundValue) => (
+                    <button
+                      aria-label={i18n('icu:StoryCreator__story-bg')}
+                      className={classNames({
+                        StoryCreator__bg: true,
+                        'StoryCreator__bg--selected':
+                          selectedBackground === backgroundValue,
+                      })}
+                      key={String(bg)}
+                      onClick={() => {
+                        setSelectedBackground(backgroundValue);
+                        setIsColorPickerShowing(false);
+                      }}
+                      type="button"
+                      style={{
+                        background: getBackgroundColor(
+                          getBackground(backgroundValue)
+                        ),
+                      }}
+                    />
+                  ))}
                 </div>
               )}
               <button

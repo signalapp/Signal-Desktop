@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "Duomenų bazės klaida"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "Aptikta duomenų bazės klaida. Klaidą galite nukopijuoti ir kreiptis pagalbos į „Signal“ klientų aptarnavimo komandą. Jei pasinaudoti „Signal“ jums reikia skubiai, galite ištrinti savo duomenis ir bandyti iš naujo.\n\nSusisiekite su klientų aptarnavimo komanda apsilankydami čia: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "Ištrinti duomenis ir paleisti iš naujo"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "Palaikymo centras"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "Susisiekite su mumis"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Paaukokite Signal programėlei"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Rodyti saugumo numerį"
@@ -4059,10 +4050,10 @@
     "messageformat": "Jei norite toliau naudoti šią paskyrą, telefone turite atidaryti „Signal“. Jei neatidarysite „Signal“ savo telefone, jūsų paskyra netrukus bus pašalinta. <learnMoreLink>Sužinoti daugiau</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Įrašų atkurti neįmanoma"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Jūsų įrenginyje trūksta vietos. Atlaisvinkite iki {diskSpaceAmount} vietos, kad galėtumėte atkurti savo įrašus."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Išskleisti"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Saugos patarimai"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "Jūs su šiuo žmogumi neturite jokių bendrų grupių. Prieš priimdami, atidžiai peržiūrėkite prašymus, kad išvengtumėte nepageidaujamų žinučių."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "Apie žinučių užklausas"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Atidžiai peržiūrėkite užklausas. „Signal“ rado kitą adresatą tokiu pačiu vardu. <reviewRequestLink>Peržiūrėti užklausą</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "Be to, pakeitėme lango „vaizdas vaizde“ dydį ir pridėjome patogių naujų sparčiųjų klavišų, kol skambučio langas suskleistas."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

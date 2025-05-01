@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "Veritabanı hatası"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "Bir veri tabanı hatası oluştu. Hatayı kopyalayıp sorunun giderilmesine yardımcı olmak için Signal destekle iletişime geçebilirsin. Signal'i hemen kullanman gerekiyorsa, verilerini silebilir ve yeniden başlatabilirsin.\n\nŞu adresi ziyaret ederek destekle iletişime geçebilirsin: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "Verileri sil ve yeniden başlat"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "Destek Merkezi"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "Bizimle iletişime geçin"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Signal'e Bağış Yap"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Güvenlik Numarasını görüntüle"
@@ -4059,10 +4050,10 @@
     "messageformat": "Bu hesabı kullanmaya devam etmek için telefonunda Signal'ı açman gerekiyor. Telefonunda Signal'ı açmazsan, hesabın kısa süre içinde silinecektir. <learnMoreLink>Dahasını öğren</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Medya geri yüklenemiyor"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Cihazında yeterli boş alan yok. Medyanı geri yüklemek için {diskSpaceAmount} alan boşalt."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Genişlet"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Güvenlik İpuçları"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "Bu kişiyle ortak bir grubunuz yok. İstenmeyen iletileri önlemek için kabul etmeden önce istekleri dikkatlice gözden geçirin."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "İleti İstekleri Hakkında"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "İstekleri dikkatlice incele. Signal aynı ada sahip başka bir kişi buldu. <reviewRequestLink>İsteği incele</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "Resim içinde resim penceresini de yeniden boyutlandırdık ve arama simge durumuna küçültüldüğünde kullanışlı yeni kısayollar ekledik."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

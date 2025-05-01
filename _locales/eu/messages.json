@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "Datubasearen Errorea"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "Datu-baseko errore bat gertatu da. Errorea kopiatu, eta Signal-en zerbitzu teknikoarekin harremanetan jar zaitezke, arazoa konpontzen lagun diezazuten. Signal berehala erabili behar baduzu, zure datuak ezabatu, eta berrabiarazi egin dezakezu.\n\nJarri harremanetan laguntza-zerbitzuarekin hemen: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "Ezabatu datuak eta berrabiarazi"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "Laguntzarako Zentroa"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "Harremanetan jarri gurekin"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Egin dohaintza Signal-i"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Erakutsi segurtasun-zenbakia"
@@ -4059,10 +4050,10 @@
     "messageformat": "Kontu hau erabiltzen jarraitzeko, Signal telefonoan ireki behar duzu. Signal telefonoan ireki ezean, kontua laster ezabatuko da. <learnMoreLink>Informazio gehiago</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Ezin da leheneratu multimedia-edukia"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Zure gailuak ez du leku libre nahikorik. Multimedia-edukia leheneratzeko, utzi {diskSpaceAmount} libre."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Zabaldu"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Segurtasun-aholkuak"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "Ez duzu talde komunik pertsona honekin. Eskaerak ondo aztertu onartu aurretik, nahi ez diren mezuak saihesteko."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "Mezu eskaeren inguruan"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Berrikusi eskaerak kontu handiz. Signal-ek izen bereko beste kontaktu bat aurkitu du. <reviewRequestLink>Berrikusi eskaera</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "Halaber, leiho gainjarriaren tamaina aldatu dugu, eta deiak minimizatuta dauden bitartean agertuko diren lasterbide erabilgarriak gehitu ditugu."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

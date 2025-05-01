@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "خطای پایگاه داده"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "یک خطای پایگاه داده رخ داد. می‌توانید خطا را کپی کنید و برای کمک به رفع مشکل با پشتیبانی سیگنال تماس بگیرید. اگر فوراً نیاز به استفاده از سیگنال دارید، می‌توانید داده‌هایتان را پاک کنید و سیگنال را دوباره راه‌اندازی کنید.\n\nتماس با پشتیبانی از طریق مراجعه به: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "حذف داده‌ها و راه‌اندازی مجدد"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "مرکز پشتیبانی"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "تماس با ما"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "حمایت از سیگنال"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "دیدن شمارهٔ ایمنی"
@@ -4059,10 +4050,10 @@
     "messageformat": "برای ادامه استفاده از این حساب، باید سیگنال را در تلفن خود باز کنید. اگر سیگنال را در تلفن خود باز نکنید، حساب شما به زودی حذف خواهد شد. <learnMoreLink>اطلاعات بیشتر</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "رسانه بازیابی نشد"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "دستگاه شما فضای خالی کافی ندارد. برای بازیابی رسانه خود، {diskSpaceAmount} فضا آزاد کنید."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "گسترش"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "نکات ایمنی"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "شما هیچ گروه مشترکی با این فرد ندارید. پرای جلوگیری از پیام‌های ناخواسته، پیش از قبول درخواست‌ها، آن‌ها را با دقت بررسی کنید."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "درباره درخواست‌های تبادل پیام"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "درخواست‌ها را با دقت بررسی کنید. سیگنال مخاطب دیگری با همین نام پیدا کرد. <reviewRequestLink>درخواست بررسی</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "همچنین اندازه پنجره تصویر در تصویر را تغییر دادیم و میان‌برهای جدید و راحتی را هنگام کوچک‌کردن تماس اضافه کردیم."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

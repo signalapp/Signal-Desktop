@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "Kesalahan Database"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "Terjadi kesalahan pada basis data. Anda dapat menyalin kode kesalahan dan menghubungi dukungan Signal untuk membantu mengatasi masalah ini. Jika Anda perlu segera menggunakan Signal, Anda dapat menghapus data Anda dan memulai ulang.\n\nHubungi dukungan dengan membuka: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "Hapus data dan mulai ulang"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "Pusat Bantuan"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "Hubungi kami"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Berdonasi ke Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Lihat Nomor Keamanan"
@@ -4059,10 +4050,10 @@
     "messageformat": "Anda harus membuka Signal di ponsel agar dapat terus menggunakan akun ini. Jika Anda tidak membuka Signal di ponsel, akun Anda akan segera dihapus. <learnMoreLink>Pelajari selengkapnya</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Tidak dapat memulihkan media"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Perangkat Anda tidak punya cukup ruang kosong. Kosongkan penyimpanan sebesar {diskSpaceAmount} untuk memulihkan media Anda."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Lebarkan"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Tips Keamanan"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "Anda tidak punya grup yang sama dengan orang ini. Tinjau permintaan dengan seksama sebelum menerima untuk menghindari pesan tidak diinginkan."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "Tentang Permintaan Pesan"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Tinjau permintaan dengan cermat. Signal menemukan kontak lain dengan nama yang sama. <reviewRequestLink>Tinjau permintaan</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "Kami juga mengubah ukuran jendela gambar dalam gambar dan menambahkan pintasan baru yang praktis untuk menyalakan/membisukan mikrofon atau mengaktifkan/menonaktifkan kamera saat jendela panggilan diperkecil."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

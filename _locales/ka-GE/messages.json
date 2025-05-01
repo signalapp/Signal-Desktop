@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "მონაცემთა ბაზის ხარვეზი"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "მონაცემთა ბაზის ხარვეზს გადავაწყდით. შეგიძლია შეცდომა დააკოპირო და Signal-ის მხარდაჭერის გუნდს დაუკავშირდე, რათა პრობლემის მოგვარებაში დაგეხმაროთ. თუ Signal-ის გამოყენება დაუყოვნებლივ გჭირდება, შეგიძლია შენი მონაცემები წაშალო და გადატვირთო.\n\nდაუკავშირდი მხარდაჭერის გუნდს: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "მონაცემთა წაშლა და გადატვირთვა"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "მხარდაჭერის ცენტრი"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "დაგვიკავშირდი"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Signal-ისთვის დონაციის გაკეთება"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "უსაფრთხოების ნომრის ნახვა"
@@ -4059,10 +4050,10 @@
     "messageformat": "ამ ანგარიშის გამოყენების გასაგრძელებლად შენს მობილურში Signal უნდა გახსნა. თუ შენს მობილურში Signal-ს არ გახსნი, მალე შენი ანგარიში წაიშლება. <learnMoreLink>გაიგე მეტი</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "მედია ფაილების აღდგენა ვერ მოხერხდა"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "შენს მოწყობილობას საკმარისი თავისუფალი ადგილი არ აქვს. გაათავისუფლე {diskSpaceAmount} ადგილი, რათა შენი მედია ფაილები აღადგინო."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "გაფართოება"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "რჩევები უსაფრთხოებაზე"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "შენ არ გაქვს საერთო ჯგუფი ამ ადამიანთან. დადასტურებამდე ყურადღებით განიხილე მოთხოვნები, რათა თავიდან აიცილო არასასურველი შეტყობინებები."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "შეტყობინების მოთხოვნების შესახებ"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "ყურადღებით გადახედე მოთხოვნებს. Signal-მა სხვა კონტაქტიც იპოვა იმავე სახელით. <reviewRequestLink>მოთხოვნის განხილვა</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "ასევე შევცვალეთ \"გამოსახულება გამოსახულებაში\" ფანჯრის ზომა და დავამატეთ ახალი, მოსახერხებელი შორთქათები მიკროფონის გამორთვა/ჩართვისა და კამერის ჩართვა/გამორთვისთვის, როცა ზარი დაპატარავებულია."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

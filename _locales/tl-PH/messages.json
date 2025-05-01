@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "Database Error"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "Nagkaroon ng database error. Pwede mong kopyahin ang error at kontakin ang Signal support para tulungan kang ayusin ang isyung ito. Kung kailangan mo nang gamitin ang Signal, pwede mong burahin ang iyong data at mag-restart.\n\nKontakin ang support: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "Burahin ang data at mag-restart"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "Support center"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "Kontakin kami"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Mag-donate sa Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Tingnan ang Safety Number"
@@ -4059,10 +4050,10 @@
     "messageformat": "Kailangan mong buksan ang Signal sa phone mo para patuloy mong magamit ang account na ito. Kung hindi mo bubuksan ang Signal sa phone mo, mabubura ang iyong account. <learnMoreLink>Matuto pa</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Hindi ma-restore ang media"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Walang sapat na free space ang iyong device. Magbawas ng {diskSpaceAmount} ng space para ma-restore ang iyong media."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "I-expand"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Tips Para Sa Kaligtasan"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "You have no groups in common with this person. I-review ang requests carefully bago mag-accept para makaiwas sa unwanted messages."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "About message requests"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Tingnan nang maigi ang requests. Nakakita ang Signal ng isa pang contact na may kaparehong pangalan. <reviewRequestLink>Tingnan ang request</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "Ni-resize rin namin ang picture-to-picture window at nagdagdag din kami ng bagong shortcuts habang naka-minimize ang call."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

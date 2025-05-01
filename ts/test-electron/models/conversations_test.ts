@@ -9,6 +9,7 @@ import { SendStatus } from '../../messages/MessageSendState';
 import { IMAGE_PNG } from '../../types/MIME';
 import { generateAci, generatePni } from '../../types/ServiceId';
 import { MessageModel } from '../../models/messages';
+import { DurationInSeconds } from '../../util/durations';
 
 describe('Conversations', () => {
   async function resetConversationController(): Promise<void> {
@@ -16,15 +17,20 @@ describe('Conversations', () => {
     await window.ConversationController.load();
   }
 
-  beforeEach(resetConversationController);
-
-  afterEach(resetConversationController);
+  beforeEach(async () => {
+    await DataWriter.removeAll();
+    await window.textsecure.storage.user.setCredentials({
+      number: '+15550000000',
+      aci: generateAci(),
+      pni: generatePni(),
+      deviceId: 2,
+      deviceName: 'my device',
+      password: 'password',
+    });
+    await resetConversationController();
+  });
 
   it('updates lastMessage even in race conditions with db', async () => {
-    const ourNumber = '+15550000000';
-    const ourAci = generateAci();
-    const ourPni = generatePni();
-
     // Creating a fake conversation
     const conversation = new window.Whisper.Conversation({
       avatars: [],
@@ -44,14 +50,6 @@ describe('Conversations', () => {
       lastMessage: 'starting value',
     });
 
-    await window.textsecure.storage.user.setCredentials({
-      number: ourNumber,
-      aci: ourAci,
-      pni: ourPni,
-      deviceId: 2,
-      deviceName: 'my device',
-      password: 'password',
-    });
     await window.ConversationController.load();
     await window.ConversationController.getOrCreateAndWait(
       conversation.attributes.e164 ?? null,
@@ -162,5 +160,40 @@ describe('Conversations', () => {
 
     assert.equal(resultWithImage.contentType, 'image/png');
     assert.equal(resultWithImage.fileName, null);
+  });
+
+  describe('updateExpirationTimer', () => {
+    it('always updates if `isInitialSync` is true', async () => {
+      const conversation =
+        await window.ConversationController.getOrCreateAndWait(
+          generateUuid(),
+          'private',
+          {
+            expireTimerVersion: 42,
+            expireTimer: DurationInSeconds.WEEK,
+          }
+        );
+
+      // Without isInitialSync, ignores
+      await conversation.updateExpirationTimer(DurationInSeconds.DAY, {
+        reason: 'test',
+        source: 'test',
+        version: 3,
+      });
+
+      assert.equal(conversation.getExpireTimerVersion(), 42);
+      assert.equal(conversation.get('expireTimer'), DurationInSeconds.WEEK);
+
+      // With isInitialSync, overwrites
+      await conversation.updateExpirationTimer(DurationInSeconds.DAY, {
+        reason: 'test',
+        source: 'test',
+        version: 3,
+        isInitialSync: true,
+      });
+
+      assert.equal(conversation.getExpireTimerVersion(), 3);
+      assert.equal(conversation.get('expireTimer'), DurationInSeconds.DAY);
+    });
   });
 });

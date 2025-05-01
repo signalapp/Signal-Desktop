@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "បញ្ហាទិន្នន័យ"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "មានបញ្ហាមូលដ្ឋានទិន្នន័យបានកើតឡើង។ អ្នកអាចចម្លងបញ្ហានេះ ហើយទាក់ទងផ្នែកជំនួយរបស់ Signal ឱ្យជួយដោះស្រាយបញ្ហា។ ប្រសិនបើអ្នកត្រូវការប្រើ Signal ភ្លាមៗ អ្នកអាចលុបទិន្នន័យរបស់អ្នក ហើយចាប់ផ្តើមឡើងវិញ។\n\nទាក់ទងផ្នែកជំនួយដោយចូលទៅកាន់៖ {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "លុបទិន្នន័យ រួចចាប់ផ្តើមឡើងវិញ"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "មជ្ឈមណ្ឌលគាំទ្រ"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "ទាក់ទងយើង"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "ឧបត្ថម្ភទៅ Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "មើលលេខសុវត្ថិភាព"
@@ -4059,10 +4050,10 @@
     "messageformat": "អ្នកត្រូវតែបើក Signal នៅលើទូរសព្ទរបស់អ្នក ដើម្បីបន្តប្រើប្រាស់គណនីនេះ។ ប្រសិនបើអ្នកមិនបើក Signal នៅលើទូរសព្ទរបស់អ្នកទេ គណនីរបស់អ្នកនឹងត្រូវបានលុបចោលក្នុងពេលឆាប់ៗនេះ។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "មិនអាចស្តារមេឌៀឡើងវិញបានទេ"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "ឧបករណ៍របស់អ្នកមិនមានទំហំផ្ទុកទំនេរគ្រប់គ្រាន់ទេ។ បង្កើនទំហំផ្ទុក {diskSpaceAmount} ដើម្បីស្ដារមេឌៀរបស់អ្នកមកវិញ។"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "ពង្រីក"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "គន្លឹះសុវត្ថិភាព"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "អ្នកមិនមានក្រុមជាមួយបុគ្គលនេះទេ។ សូមពិនិត្យសំណើរអោយបានច្បាស់មុនពេលទទួល ដើម្បីចៀសវាងទទួលបានសារដែលអ្នកមិនចង់ទទួល។"
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "អំពីការស្នើរសុំសារ"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "ពិនិត្យសំណើដោយយកចិត្តទុកដាក់។ Signal បានរកឃើញឈ្មោះទំនាក់ទំនងមួយផ្សេងទៀតដែលមានឈ្មោះដូចគ្នា។ <reviewRequestLink>ពិនិត្យសំណើ</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "យើងក៏បានប្តូរទំហំផ្ទាំងរូបភាពក្នុងរូបភាព និងបានបន្ថែមផ្លូវកាត់ថ្មីៗដែលងាយស្រួលសម្រាប់បិទ/បើកមីក្រូហ្វូនរបស់អ្នក ឬបិទ/បើកកាមេរ៉ា ខណៈពេលដែលផ្ទាំងហៅទូរសព្ទត្រូវបានបង្រួម។"
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "Andmebaasi tõrge"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "Tekkis andmebaasi viga. Saad vea kopeerida ja Signali kasutajatoega ühendust võtta, et probleem lahendada. Kui sul on vaja Signalit kohe kasutada, saad oma andmed kustutada ja taaskäivitada.\n\nKasutajatoega saad ühendust võtta aadressil {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "Kustuta andmed ja taaskäivita"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "Kasutajatugi"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "Võta meiega ühendust"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Anneta Signalile"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Näita turvanumbrit"
@@ -4059,10 +4050,10 @@
     "messageformat": "Selle konto edasi kasutamiseks pead Signali telefonis avama. Kui sa Signalit oma telefonis ei ava, kustutame varsti su konto. <learnMoreLink>Rohkem teavet</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Meediat ei saa taastada"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Sinu seadmes ei ole piisavalt vaba ruumi. Oma meedia taastamiseks vabasta {diskSpaceAmount} ruumi."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Laienda"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Ohutusnõuanded"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "Sul ei ole ühiseid gruppe selle isikuga. Vaata taotlused hoolikalt üle enne kinnitamist, et soovimatutest sõnumitest hoiduda."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "Teave sõnumitaotluste kohta"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Vaata taotlused tähelepanelikult üle. Signal leidis teise samanimelise kontakti. <reviewRequestLink>Vaata taotlus üle</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "Samuti muutsime pilt-pildis akna suurust ning lisasime minimeeritud kõnedele uued mugavad otseteed."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

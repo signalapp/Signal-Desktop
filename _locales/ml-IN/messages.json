@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "ഡാറ്റാബേസ് പിശക്"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "ഡാറ്റാബേസ് പിശകുണ്ടായി. പിശക് പകർത്തിയതിന് ശേഷം Signal പിന്തുണയുമായി ബന്ധപ്പെട്ട് നിങ്ങൾക്ക് പ്രശ്‌നം പരിഹരിക്കാം. നിങ്ങൾക്ക് Signal ഇപ്പോൾ തന്നെ ഉപയോഗിക്കണമെങ്കിൽ, ഡാറ്റ ഇല്ലാതാക്കി പുനരാരംഭിക്കാം.\n\nഈ ലിങ്ക് സന്ദർശിച്ച് പിന്തുണയുമായി ബന്ധപ്പെടുക: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "ഡാറ്റാ ഇല്ലാതാക്കി പുനരാരംഭിക്കുക"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "പിന്തുണാ കേന്ദ്രം"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "ഞങ്ങളെ സമീപിക്കുക"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Signal-ന് സംഭാവന ചെയ്യുക"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "സുരക്ഷാ നമ്പർ കാണുക"
@@ -4059,10 +4050,10 @@
     "messageformat": "ഈ അക്കൗണ്ട് ഉപയോഗിക്കുന്നത് തുടരാൻ നിങ്ങളുടെ ഫോണിൽ Signal തുറക്കണം. നിങ്ങളുടെ ഫോണിൽ Signal തുറന്നില്ലെങ്കിൽ, നിങ്ങളുടെ അക്കൗണ്ട് ഉടൻ തന്നെ ഇല്ലാതാക്കപ്പെടും. <learnMoreLink>കൂടുതലറിയുക</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "മീഡിയ പുനഃസ്ഥാപിക്കാനാവില്ല"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "നിങ്ങളുടെ ഉപകരണത്തിൽ മതിയായ ഇടമില്ല. നിങ്ങളുടെ മീഡിയ പുനഃസ്ഥാപിക്കാൻ {diskSpaceAmount} ഇടം സൃഷ്‌ടിക്കുക."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "വികസിപ്പിക്കുക"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "സുരക്ഷാ നുറുങ്ങുകൾ"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "ഈ വ്യക്തിയുമായി നിങ്ങൾക്ക് പൊതുവായി ഗ്രൂപ്പുകളൊന്നുമില്ല. അനാവശ്യ സന്ദേശങ്ങൾ ഒഴിവാക്കുന്നതിന് സ്വീകരിക്കുന്നതിന് മുമ്പ് അഭ്യർത്ഥനകൾ ശ്രദ്ധാപൂർവ്വം അവലോകനം ചെയ്യുക."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "സന്ദേശം അഭ്യർത്ഥനകളെക്കുറിച്ച്"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "അഭ്യർത്ഥനകൾ ശ്രദ്ധാപൂർവ്വം അവലോകനം ചെയ്യുക. Signal ഇതേ പേരിൽ മറ്റൊരു കോൺ‌ടാക്റ്റ് കണ്ടെത്തി. <reviewRequestLink>അവലോകന അഭ്യർത്ഥന</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "ഞങ്ങൾ പിക്ചർ-ഇൻ-പിക്ചർ വിൻഡോയുടെ വലുപ്പം മാറ്റുകയും കോൾ മിനിമൈസ് ചെയ്യുമ്പോൾ നിങ്ങളുടെ മൈക്രോഫോൺ മ്യൂട്ട്/അൺമ്യൂട്ട് ചെയ്യുന്നതിനോ ക്യാമറ ഓൺ/ഓഫ് ചെയ്യുന്നതിനോ സൗകര്യപ്രദമായ പുതിയ കുറുക്കുവഴികൾ ചേർക്കുകയും ചെയ്തു."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

@@ -1248,16 +1248,9 @@ export default class MessageReceiver
 
     const task = async (): Promise<DecryptResult> => {
       const { destinationServiceId } = envelope;
-      const serviceIdKind =
-        this.#storage.user.getOurServiceIdKind(destinationServiceId);
-      if (serviceIdKind === ServiceIdKind.Unknown) {
-        log.warn(
-          'MessageReceiver.decryptAndCacheBatch: ' +
-            `Rejecting envelope ${getEnvelopeId(envelope)}, ` +
-            `unknown serviceId: ${destinationServiceId}`
-        );
-        return { plaintext: undefined, envelope: undefined };
-      }
+      const serviceIdKind = isPniString(destinationServiceId)
+        ? ServiceIdKind.PNI
+        : ServiceIdKind.ACI;
 
       const unsealedEnvelope = await this.#unsealEnvelope(
         stores,

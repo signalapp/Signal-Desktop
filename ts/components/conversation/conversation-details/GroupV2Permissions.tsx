@@ -1,17 +1,13 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import React from 'react';
-
+import React, { useId } from 'react';
 import type { ConversationType } from '../../../state/ducks/conversations';
 import type { LocalizerType } from '../../../types/Util';
 import { getAccessControlOptions } from '../../../util/getAccessControlOptions';
 import { SignalService as Proto } from '../../../protobuf';
-
 import { PanelRow } from './PanelRow';
 import { PanelSection } from './PanelSection';
 import { Select } from '../../Select';
-import { useUniqueId } from '../../../hooks/useUniqueId';
 
 export type PropsDataType = {
   conversation?: ConversationType;
@@ -33,9 +29,9 @@ export function GroupV2Permissions({
   setAccessControlMembersSetting,
   setAnnouncementsOnly,
 }: PropsType): JSX.Element {
-  const addMembersSelectId = useUniqueId();
-  const groupInfoSelectId = useUniqueId();
-  const announcementSelectId = useUniqueId();
+  const addMembersSelectId = useId();
+  const groupInfoSelectId = useId();
+  const announcementSelectId = useId();
 
   if (conversation === undefined) {
     throw new Error('GroupV2Permissions rendered without a conversation');

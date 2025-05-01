@@ -166,7 +166,7 @@ function BioEmoji(props: { emoji: EmojiVariantKey }) {
   return (
     <FunStaticEmoji
       role="img"
-      aria-label={emojiLocalizer(props.emoji)}
+      aria-label={emojiLocalizer.getLocaleShortName(props.emoji)}
       emoji={emojiVariant}
       size={24}
     />
@@ -352,7 +352,7 @@ export function ProfileEditor({
 
   // To make AvatarEditor re-render less often
   const handleAvatarLoaded = useCallback(
-    avatar => {
+    (avatar: Uint8Array) => {
       setAvatarBuffer(avatar);
       setOldAvatarBuffer(avatar);
     },

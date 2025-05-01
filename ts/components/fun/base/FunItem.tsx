@@ -1,14 +1,13 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { ForwardedRef, MouseEvent, ReactNode } from 'react';
-import React, { forwardRef } from 'react';
-import {
-  mergeProps,
-  type PressEvent,
-  useLongPress,
-  usePress,
-} from 'react-aria';
+import type { ForwardedRef, ReactNode } from 'react';
+import React, { forwardRef, useEffect, useRef } from 'react';
+import { type PressEvent, useLongPress } from 'react-aria';
 import type { LongPressEvent } from '@react-types/shared';
+import { Button } from 'react-aria-components';
+import { mergeRefs } from '@react-aria/utils';
+import { PressResponder } from '@react-aria/interactions';
+import { strictAssert } from '../../../util/assert';
 
 /**
  * Button
@@ -28,7 +27,7 @@ export type FunItemButtonLongPressProps = Readonly<
 export type FunItemButtonProps = Readonly<
   {
     'aria-label': string;
-    tabIndex: number;
+    excludeFromTabOrder: boolean;
     onPress: (event: PressEvent) => void;
     onContextMenu?: (event: MouseEvent) => void;
     children: ReactNode;
@@ -37,11 +36,10 @@ export type FunItemButtonProps = Readonly<
 
 export const FunItemButton = forwardRef(function FunItemButton(
   props: FunItemButtonProps,
-  ref: ForwardedRef<HTMLButtonElement>
+  outerRef: ForwardedRef<HTMLButtonElement>
 ): JSX.Element {
-  const { pressProps } = usePress({
-    onPress: props.onPress,
-  });
+  const { onContextMenu } = props;
+  const innerRef = useRef<HTMLButtonElement>(null);
 
   const { longPressProps } = useLongPress({
     isDisabled: props.onLongPress == null,
@@ -49,17 +47,30 @@ export const FunItemButton = forwardRef(function FunItemButton(
     onLongPress: props.onLongPress,
   });
 
+  useEffect(() => {
+    strictAssert(innerRef.current, 'Missing ref element');
+    const element = innerRef.current;
+    if (onContextMenu == null) {
+      return () => null;
+    }
+    element.addEventListener('contextmenu', onContextMenu);
+    return () => {
+      element.removeEventListener('contextmenu', onContextMenu);
+    };
+  }, [onContextMenu]);
+
   return (
-    <button
-      ref={ref}
-      type="button"
-      className="FunItem__Button"
-      aria-label={props['aria-label']}
-      tabIndex={props.tabIndex}
-      {...mergeProps(pressProps, longPressProps)}
-      onContextMenu={props.onContextMenu}
-    >
-      {props.children}
-    </button>
+    <PressResponder {...longPressProps}>
+      <Button
+        ref={mergeRefs(innerRef, outerRef)}
+        type="button"
+        className="FunItem__Button"
+        aria-label={props['aria-label']}
+        excludeFromTabOrder={props.excludeFromTabOrder}
+        onPress={props.onPress}
+      >
+        {props.children}
+      </Button>
+    </PressResponder>
   );
 });

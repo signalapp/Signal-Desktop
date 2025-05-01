@@ -1653,7 +1653,7 @@ function hangUpActiveCall(
 
     const { conversationId } = activeCall;
 
-    calling.hangup(conversationId, reason);
+    calling.hangup({ conversationId, reason });
 
     dispatch({
       type: HANG_UP,

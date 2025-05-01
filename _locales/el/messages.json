@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "Σφάλμα στη βάση δεδομένων"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "Προέκυψε σφάλμα βάσης δεδομένων. Μπορείς να αντιγράψεις το σφάλμα και να επικοινωνήσεις με την υποστήριξη Signal για να επιλυθεί το πρόβλημα. Εάν πρέπει να χρησιμοποιήσεις το Signal αμέσως, μπορείς να διαγράψεις τα δεδομένα σου και να κάνεις επανεκκίνηση.\n\nΕπικοινώνησε με την υποστήριξη: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "Διαγραφή δεδομένων και επανεκκίνηση"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "Κέντρο υποστήριξης"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "Επικοινώνησε μαζί μας"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Κάνε μια δωρεά στο Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Εμφάνιση αριθμού ασφαλείας"
@@ -4059,10 +4050,10 @@
     "messageformat": "Πρέπει να ανοίξεις το Signal στο τηλέφωνό σου για να συνεχίσεις να χρησιμοποιείς αυτόν τον λογαριασμό. Εάν δεν ανοίξεις το Signal στο τηλέφωνό σου, ο λογαριασμός σου θα διαγραφεί σύντομα. <learnMoreLink>Μάθε περισσότερα</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Η επαναφορά πολυμέσων απέτυχε"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Η συσκευή σου δεν διαθέτει αρκετό ελεύθερο χώρο. Απελευθέρωσε {diskSpaceAmount} χώρου για επαναφορά των πολυμέσων σου."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Ανάπτυξη"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Συμβουλές ασφαλείας"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "Δεν είσαι σε κοινές ομάδες με αυτό το άτομο. Εξέτασε τα αιτήματα προσεκτικά πριν αποδεχτείς, για να γλιτώσεις ανεπιθύμητα μηνύματα."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "Σχετικά με τα αιτήματα μηνυμάτων"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Έλεγξε τα αιτήματα προσεκτικά. Το Signal βρήκε και άλλη επαφή με το ίδιο όνομα. <reviewRequestLink>Έλεγχος αιτήματος</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "Επίσης, αλλάξαμε το μέγεθος του παραθύρου picture-in-picture και προσθέσαμε νέες βολικές συντομεύσεις ενώ μια κλήση είναι ελαχιστοποιημένη."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

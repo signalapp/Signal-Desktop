@@ -86,7 +86,7 @@ function ReactionViewerEmoji(props: {
   return (
     <FunStaticEmoji
       role="img"
-      aria-label={emojiLocalizer(emojiVariantKey)}
+      aria-label={emojiLocalizer.getLocaleShortName(emojiVariantKey)}
       size={18}
       emoji={emojiVariant}
     />

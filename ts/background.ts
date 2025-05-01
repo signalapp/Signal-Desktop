@@ -758,9 +758,10 @@ export async function startApp(): Promise<void> {
         flushMessageCounter();
 
         // Hangup active calls
-        window.Signal.Services.calling.hangupAllCalls(
-          'background/shutdown: shutdown requested'
-        );
+        window.Signal.Services.calling.hangupAllCalls({
+          excludeRinging: true,
+          reason: 'background/shutdown: shutdown requested',
+        });
 
         const attachmentDownloadStopPromise = AttachmentDownloadManager.stop();
         const attachmentBackupStopPromise = AttachmentBackupManager.stop();
@@ -1546,7 +1547,15 @@ export async function startApp(): Promise<void> {
       }
     } else {
       window.IPC.readyForUpdates();
-      window.reduxActions.installer.startInstaller();
+      drop(
+        (async () => {
+          try {
+            await window.IPC.whenWindowVisible();
+          } finally {
+            window.reduxActions.installer.startInstaller();
+          }
+        })()
+      );
     }
 
     const { activeWindowService } = window.SignalContext;

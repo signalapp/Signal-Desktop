@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "Tietokantavirhe"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "Tapahtui tietokantavirhe. Voit kopioida virheen tiedot ja ottaa yhteyttä Signal-tukeen ongelman korjaamiseksi. Jos sinun on käytettävä Signalia heti, voit poistaa Signalin tiedot ja käynnistää ohjelman uudelleen.\n\nOta yhteyttä tukeen osoitteessa: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "Tuhoa tiedot ja käynnistä uudelleen"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "Tukikeskus"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "Ota yhteyttä"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Lahjoita Signalille"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Näytä turvanumero"
@@ -4059,10 +4050,10 @@
     "messageformat": "Sinun on avattava Signal puhelimessasi, jotta voit jatkaa tilin käyttöä. Jos et avaa Signalia puhelimellasi, tilisi poistetaan pian. <learnMoreLink>Lue lisää</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Mediaa ei voi palauttaa"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Laitteessasi ei ole tarpeeksi vapaata tilaa. Vapauta {diskSpaceAmount} tilaa median palauttamiseksi."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Laajenna"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Turvallisuusvinkkejä"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "Et kuulu samoihin ryhmiin tämän henkilön kanssa. Käy pyynnöt huolellisesti läpi ennen hyväksymistä välttääksesi ei-toivotut viestit."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "Tietoa viestipyynnöistä"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Tarkista pyynnöt huolellisesti. Signal löysi toisen yhteystiedon samalla nimellä. <reviewRequestLink>Tarkista pyyntö</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "Muutimme myös kuva kuvassa -ikkunan kokoa ja lisäsimme käteviä uusia pikanäppäimiä puhelun ollessa minimoitu."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

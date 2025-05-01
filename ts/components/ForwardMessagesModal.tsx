@@ -141,7 +141,8 @@ export function ForwardMessagesModal({
     }
     const conversationIds = selectedContacts.map(contact => contact.id);
     if (lonelyDraft != null) {
-      const previews = lonelyLinkPreview ? [lonelyLinkPreview] : [];
+      // Add link preview only if it is not currently loading.
+      const previews = lonelyLinkPreview?.domain ? [lonelyLinkPreview] : [];
       doForwardMessages(conversationIds, [{ ...lonelyDraft, previews }]);
     } else {
       doForwardMessages(
@@ -470,7 +471,7 @@ function ForwardMessageEditor({
           <StagedLinkPreview
             date={linkPreview.date}
             description={linkPreview.description ?? ''}
-            domain={linkPreview.url}
+            domain={linkPreview.domain}
             i18n={i18n}
             image={linkPreview.image}
             onClose={removeLinkPreview}
