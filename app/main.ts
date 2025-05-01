@@ -202,11 +202,6 @@ const defaultWebPrefs = {
     getEnvironment() !== Environment.PackagedApp ||
     !isProduction(app.getVersion()),
   spellcheck: false,
-  // https://chromium.googlesource.com/chromium/src/+/main/third_party/blink/renderer/platform/runtime_enabled_features.json5
-  enableBlinkFeatures: [
-    'CSSPseudoDir', // status=experimental, needed for RTL (ex: :dir(rtl))
-    'CSSLogical', // status=experimental, needed for RTL (ex: margin-inline-start)
-  ].join(','),
   enablePreferredSizeMode: true,
 };
 
@@ -690,6 +685,21 @@ async function createWindow() {
     ? Math.min(windowConfig.height, maxHeight)
     : DEFAULT_HEIGHT;
 
+  const [systemTraySetting, backgroundColor, spellcheck] = await Promise.all([
+    systemTraySettingCache.get(),
+    isTestEnvironment(getEnvironment())
+      ? '#ffffff' // Tests should always be rendered on a white background
+      : getBackgroundColor({ signalColors: true }),
+    getSpellCheckSetting(),
+  ]);
+
+  const startInTray =
+    isTestEnvironment(getEnvironment()) ||
+    systemTraySetting === SystemTraySetting.MinimizeToAndStartInSystemTray;
+
+  const shouldShowWindow =
+    !app.getLoginItemSettings().wasOpenedAsHidden && !startInTray;
+
   const windowOptions: Electron.BrowserWindowConstructorOptions = {
     show: false,
     width,
@@ -698,9 +708,7 @@ async function createWindow() {
     minHeight: MIN_HEIGHT,
     autoHideMenuBar: false,
     titleBarStyle: mainTitleBarStyle,
-    backgroundColor: isTestEnvironment(getEnvironment())
-      ? '#ffffff' // Tests should always be rendered on a white background
-      : await getBackgroundColor({ signalColors: true }),
+    backgroundColor,
     webPreferences: {
       ...defaultWebPrefs,
       nodeIntegration: false,
@@ -713,9 +721,8 @@ async function createWindow() {
           ? '../preload.wrapper.js'
           : '../ts/windows/main/preload.js'
       ),
-      spellcheck: await getSpellCheckSetting(),
+      spellcheck,
       backgroundThrottling: true,
-      disableBlinkFeatures: 'Accelerated2dCanvas,AcceleratedSmallCanvases',
     },
     icon: windowIcon,
     ...pick(windowConfig, ['autoHideMenuBar', 'x', 'y']),
@@ -730,11 +737,6 @@ async function createWindow() {
   if (!isBoolean(windowOptions.autoHideMenuBar)) {
     delete windowOptions.autoHideMenuBar;
   }
-
-  const startInTray =
-    isTestEnvironment(getEnvironment()) ||
-    (await systemTraySettingCache.get()) ===
-      SystemTraySetting.MinimizeToAndStartInSystemTray;
 
   const haveFullWindowsBounds =
     isNumber(windowOptions.x) &&
@@ -993,8 +995,15 @@ async function createWindow() {
 
   mainWindow.on('show', () => {
     if (mainWindow) {
+      mainWindow.webContents.send('activate');
       mainWindow.webContents.send('set-media-playback-disabled', false);
     }
+  });
+
+  mainWindow.webContents.on('devtools-reload-page', () => {
+    mainWindow?.webContents.on('dom-ready', () => {
+      mainWindow?.webContents.send('activate');
+    });
   });
 
   mainWindow.once('ready-to-show', async () => {
@@ -1008,9 +1017,6 @@ async function createWindow() {
     }
 
     mainWindow.webContents.send('ci:event', 'db-initialized', {});
-
-    const shouldShowWindow =
-      !app.getLoginItemSettings().wasOpenedAsHidden && !startInTray;
 
     if (shouldShowWindow) {
       getLogger().info('showing main window');

@@ -59,7 +59,7 @@ export function AttachmentSection({
                 />
               );
             default:
-              return missingCaseError(type);
+              throw missingCaseError(type);
           }
         })}
       </div>

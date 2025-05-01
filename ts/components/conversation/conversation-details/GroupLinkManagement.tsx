@@ -1,22 +1,17 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import React, { useState } from 'react';
-
+import React, { useId, useState } from 'react';
 import type { ConversationType } from '../../../state/ducks/conversations';
 import type { LocalizerType } from '../../../types/Util';
-
 import { ConfirmationDialog } from '../../ConfirmationDialog';
 import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
 import { PanelRow } from './PanelRow';
 import { PanelSection } from './PanelSection';
 import { Select } from '../../Select';
 import { SignalService as Proto } from '../../../protobuf';
-
 import { copyGroupLink } from '../../../util/copyLinksWithToast';
 import { drop } from '../../../util/drop';
 import { useDelayedRestoreFocus } from '../../../hooks/useRestoreFocus';
-import { useUniqueId } from '../../../hooks/useUniqueId';
 
 const AccessControlEnum = Proto.AccessControl.AccessRequired;
 
@@ -43,8 +38,8 @@ export function GroupLinkManagement({
   isAdmin,
   setAccessControlAddFromInviteLinkSetting,
 }: PropsType): JSX.Element {
-  const groupLinkSelectId = useUniqueId();
-  const approveSelectId = useUniqueId();
+  const groupLinkSelectId = useId();
+  const approveSelectId = useId();
 
   if (conversation === undefined) {
     throw new Error('GroupLinkManagement rendered without a conversation');

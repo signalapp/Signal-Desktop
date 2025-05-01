@@ -1,5 +1,5 @@
 diff --git a/modules/ContextMenu.js b/modules/ContextMenu.js
-index 2f88213..41e47ea 100644
+index 2f8821393f15a1ce85132385688f08cd6e390bf4..41e47ea740636f81bdd484a7093d0ea3169eb9d5 100644
 --- a/modules/ContextMenu.js
 +++ b/modules/ContextMenu.js
 @@ -81,6 +81,11 @@ var ContextMenu = function (_AbstractMenu) {
@@ -53,7 +53,7 @@ index 2f88213..41e47ea 100644
              }
          }
 diff --git a/modules/SubMenu.js b/modules/SubMenu.js
-index ad1dc70..c919be8 100644
+index ad1dc7043c13cbc30f1659d5b82696ed974c996a..c919be8d12329dd5bcf77d3660b85edb83714bb8 100644
 --- a/modules/SubMenu.js
 +++ b/modules/SubMenu.js
 @@ -129,6 +129,7 @@ var SubMenu = function (_AbstractMenu) {
@@ -142,14 +142,45 @@ index ad1dc70..c919be8 100644
              }
          }
 diff --git a/src/index.d.ts b/src/index.d.ts
-index 753ce90..c5971a4 100644
+index 753ce9081490fd90b4354e6e73937dc85957689c..e8a8b0815a7ca61ef9bc488299cda08e181267bc 100644
 --- a/src/index.d.ts
 +++ b/src/index.d.ts
-@@ -14,6 +14,7 @@ declare module "react-contextmenu" {
+@@ -14,6 +14,8 @@ declare module "react-contextmenu" {
          preventHideOnResize?: boolean,
-         preventHideOnScroll?: boolean,        
+         preventHideOnScroll?: boolean,
          style?: React.CSSProperties,
 +        avoidFocusRestoreOnBlur?: boolean;
++        children?: React.ReactNode;
      }
  
      export interface ContextMenuTriggerProps {
+@@ -25,6 +27,7 @@ declare module "react-contextmenu" {
+         renderTag?: React.ElementType,
+         mouseButton?: number,
+         disableIfShiftIsPressed?: boolean,
++        children?: React.ReactNode,
+     }
+ 
+     export interface MenuItemProps {
+@@ -35,6 +38,7 @@ declare module "react-contextmenu" {
+         divider?: boolean,
+         preventClose?: boolean,
+         onClick?: {(event: React.TouchEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>, data: Object, target: HTMLElement): void} | Function,
++        children?: React.ReactNode,
+     }
+ 
+     export interface SubMenuProps {
+@@ -45,11 +49,13 @@ declare module "react-contextmenu" {
+         rtl?: boolean,
+         preventCloseOnClick?: boolean,
+         onClick?: {(event: React.TouchEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>, data: Object, target: HTMLElement): void} | Function,
++        children?: React.ReactNode,
+     }
+ 
+     export interface ConnectMenuProps {
+         id: string;
+         trigger: any;
++        children?: React.ReactNode;
+     }
+ 
+     export const ContextMenu: React.ComponentClass<ContextMenuProps>;

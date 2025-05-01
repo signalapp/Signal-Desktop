@@ -1,6 +1,5 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
 import type { AudioDevice } from '@signalapp/ringrtc';
 import React, {
   useCallback,
@@ -8,11 +7,11 @@ import React, {
   useMemo,
   useRef,
   useState,
+  useId,
 } from 'react';
 import { noop, partition } from 'lodash';
 import classNames from 'classnames';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
-
 import type { MediaDeviceSettings } from '../types/Calling';
 import type { ValidationResultType as BackupValidationResultType } from '../services/backups';
 import type {
@@ -35,12 +34,10 @@ import type {
   SentMediaQualityType,
   ThemeType,
 } from '../types/Util';
-
 import { Button, ButtonVariant } from './Button';
 import { ChatColorPicker } from './ChatColorPicker';
 import { Checkbox } from './Checkbox';
 import { WidthBreakpoint } from './_util';
-
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { DisappearingTimeDialog } from './DisappearingTimeDialog';
 import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability';
@@ -57,7 +54,6 @@ import {
 } from '../util/expirationTimer';
 import { DurationInSeconds } from '../util/durations';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
-import { useUniqueId } from '../hooks/useUniqueId';
 import { focusableSelector } from '../util/focusableSelectors';
 import { Modal } from './Modal';
 import { SearchInput } from './SearchInput';
@@ -384,10 +380,10 @@ export function Preferences({
   whoCanSeeMe,
   zoomFactor,
 }: PropsType): JSX.Element {
-  const storiesId = useUniqueId();
-  const themeSelectId = useUniqueId();
-  const zoomSelectId = useUniqueId();
-  const languageId = useUniqueId();
+  const storiesId = useId();
+  const themeSelectId = useId();
+  const zoomSelectId = useId();
+  const languageId = useId();
 
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [confirmStoriesOff, setConfirmStoriesOff] = useState(false);

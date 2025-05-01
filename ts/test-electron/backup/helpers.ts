@@ -65,7 +65,6 @@ function sortAndNormalize(
       changedId,
       conversationId,
       editHistory,
-      key_changed: keyChanged,
       reactions,
       sendStateByConversationId,
       verifiedChanged,
@@ -132,7 +131,6 @@ function sortAndNormalize(
           };
         }),
         changedId: mapConvoId(changedId),
-        key_changed: mapConvoId(keyChanged),
         verifiedChanged: mapConvoId(verifiedChanged),
         sendStateByConverationId: mapSendState(sendStateByConversationId),
         editHistory: editHistory?.map(history => {

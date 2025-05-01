@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
+import type { MouseEvent } from 'react';
 import classNames from 'classnames';
 import { Manager, Reference } from 'react-popper';
 import Quill, { Delta } from '@signalapp/quill-cjs';
@@ -60,7 +61,6 @@ import { getClassNamesFor } from '../util/getClassNamesFor';
 import { isNotNil } from '../util/isNotNil';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
-import { useEmojiSearch } from '../hooks/useEmojiSearch';
 import type { LinkPreviewForUIType } from '../types/message/LinkPreviews';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview';
 import type { DraftEditMessageType } from '../model-types.d';
@@ -79,6 +79,9 @@ import { dropNull } from '../util/dropNull';
 import { SimpleQuillWrapper } from './SimpleQuillWrapper';
 import type { EmojiSkinTone } from './fun/data/emojis';
 import { FUN_STATIC_EMOJI_CLASS } from './fun/FunEmoji';
+import { useFunEmojiSearch } from './fun/useFunEmojiSearch';
+import type { EmojiCompletionOptions } from '../quill/emoji/completion';
+import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer';
 
 Quill.register(
   {
@@ -192,7 +195,7 @@ export function CompositionInput(props: Props): React.ReactElement {
   } = props;
 
   const [emojiCompletionElement, setEmojiCompletionElement] =
-    React.useState<JSX.Element>();
+    React.useState<JSX.Element | null>();
   const [formattingChooserElement, setFormattingChooserElement] =
     React.useState<JSX.Element>();
   const [lastSelectionRange, setLastSelectionRange] =
@@ -770,7 +773,8 @@ export function CompositionInput(props: Props): React.ReactElement {
   const callbacksRef = React.useRef(unstaleCallbacks);
   callbacksRef.current = unstaleCallbacks;
 
-  const search = useEmojiSearch(i18n.getLocale());
+  const emojiSearch = useFunEmojiSearch();
+  const emojiLocalizer = useFunEmojiLocalizer();
 
   const reactQuill = React.useMemo(
     () => {
@@ -839,8 +843,9 @@ export function CompositionInput(props: Props): React.ReactElement {
               onPickEmoji: (emoji: EmojiPickDataType) =>
                 callbacksRef.current.onPickEmoji(emoji),
               emojiSkinToneDefault,
-              search,
-            },
+              emojiSearch,
+              emojiLocalizer,
+            } satisfies EmojiCompletionOptions,
             autoSubstituteAsciiEmojis: {
               emojiSkinToneDefault,
             } satisfies AutoSubstituteAsciiEmojisOptions,
@@ -946,7 +951,7 @@ export function CompositionInput(props: Props): React.ReactElement {
   const getClassName = getClassNamesFor(BASE_CLASS_NAME, moduleClassName);
 
   const onMouseDown = React.useCallback(
-    event => {
+    (event: MouseEvent) => {
       const target = event.target as HTMLElement;
       try {
         // If the user is actually clicking the format menu, we drop this event

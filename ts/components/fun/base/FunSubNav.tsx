@@ -12,8 +12,8 @@ import React, {
   useMemo,
   useRef,
   useState,
+  useId,
 } from 'react';
-import { useId } from 'react-aria';
 import type { Selection } from 'react-aria-components';
 import { ListBox, ListBoxItem } from 'react-aria-components';
 import {
@@ -63,6 +63,25 @@ export function FunSubNavScroller(props: FunSubNavScrollerProps): JSX.Element {
       getScrollRightDistance(scroll, scrollOpacityThreshold)
     );
   });
+
+  useEffect(() => {
+    strictAssert(outerRef.current, 'Must have scroller ref');
+    const scroller = outerRef.current;
+
+    function onWheel(event: WheelEvent) {
+      event.preventDefault();
+      scroller.scrollBy({
+        left: event.deltaX + event.deltaY,
+        behavior: 'instant',
+      });
+    }
+
+    scroller.addEventListener('wheel', onWheel, { passive: false });
+
+    return () => {
+      scroller.addEventListener('wheel', onWheel, { passive: false });
+    };
+  }, []);
 
   return (
     <div className="FunSubNav__Scroller">
@@ -203,12 +222,21 @@ function FunSubNavListBoxItemButton(props: {
 
   useEffect(() => {
     strictAssert(ref.current, 'Expected ref to be defined');
+    const element = ref.current;
+    let timer: ReturnType<typeof setTimeout>;
     if (props.isSelected) {
-      ref.current.scrollIntoView({
-        behavior: 'smooth',
-        inline: 'nearest',
-      });
+      // Needs setTimeout() for arrow key navigation to work.
+      // Might be something to do with native arrow key scroll handling.
+      timer = setTimeout(() => {
+        element.scrollIntoView({
+          behavior: 'smooth',
+          inline: 'nearest',
+        });
+      }, 1);
     }
+    return () => {
+      clearTimeout(timer);
+    };
   }, [props.isSelected]);
 
   return (
@@ -230,7 +258,7 @@ export function FunSubNavListBoxItem(
       aria-label={props.label}
       textValue={props.label}
     >
-      {({ isSelected }) => {
+      {({ isSelected, isFocusVisible }) => {
         return (
           <FunSubNavListBoxItemButton isSelected={isSelected}>
             <span className="FunSubNav__ListBoxItem__ButtonIcon">
@@ -243,6 +271,9 @@ export function FunSubNavListBoxItem(
                 layoutDependency={context.selected}
                 transition={FunSubNavListBoxItemTransition}
               />
+            )}
+            {!isSelected && isFocusVisible && (
+              <div className="FunSubNav__ListBoxItem__ButtonIndicator" />
             )}
           </FunSubNavListBoxItemButton>
         );

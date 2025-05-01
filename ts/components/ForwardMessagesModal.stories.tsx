@@ -70,6 +70,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
       ourConversationId="me"
       platform="darwin"
       emojiSkinToneDefault={EmojiSkinTone.None}
+      conversationSelector={() => getDefaultConversation()}
     />
   ),
   showToast: action('showToast'),

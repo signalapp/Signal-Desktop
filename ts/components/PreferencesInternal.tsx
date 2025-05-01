@@ -5,6 +5,7 @@ import React, { useState, useCallback } from 'react';
 import type { LocalizerType } from '../types/I18N';
 import { toLogFormat } from '../types/errors';
 import { formatFileSize } from '../util/formatFileSize';
+import { SECOND } from '../util/durations';
 import type { ValidationResultType as BackupValidationResultType } from '../services/backups';
 import { SettingsRow, SettingsControl } from './PreferencesUtil';
 import { Button, ButtonVariant } from './Button';
@@ -38,12 +39,13 @@ export function PreferencesInternal({
   if (validationResult != null) {
     if ('result' in validationResult) {
       const {
-        result: { totalBytes, stats },
+        result: { totalBytes, stats, duration },
       } = validationResult;
 
       validationElem = (
         <div className="Preferences--internal--validate-backup--result">
           <p>File size: {formatFileSize(totalBytes)}</p>
+          <p>Duration: {Math.round(duration / SECOND)}s</p>
           <pre>
             <code>{JSON.stringify(stats, null, 2)}</code>
           </pre>

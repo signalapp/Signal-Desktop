@@ -76,7 +76,7 @@ export function AvatarEditor({
   const [editMode, setEditMode] = useState<EditMode>(EditMode.Main);
 
   const getSelectedAvatar = useCallback(
-    avatarToFind =>
+    (avatarToFind: AvatarDataType | undefined) =>
       localAvatarData.find(avatarData =>
         isSameAvatarData(avatarData, avatarToFind)
       ),
@@ -146,7 +146,7 @@ export function AvatarEditor({
     ]
   );
 
-  const handleAvatarLoaded = useCallback(avatarBuffer => {
+  const handleAvatarLoaded = useCallback((avatarBuffer: Uint8Array) => {
     setAvatarPreview(avatarBuffer);
     setInitialAvatar(avatarBuffer);
   }, []);

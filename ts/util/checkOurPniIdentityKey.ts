@@ -10,6 +10,15 @@ export async function checkOurPniIdentityKey(): Promise<void> {
   strictAssert(server, 'WebAPI not ready');
 
   const ourPni = window.storage.user.getCheckedPni();
+  const { pni: remotePni } = await server.whoami();
+  if (remotePni !== ourPni) {
+    log.warn(
+      `checkOurPniIdentityKey: remote pni mismatch, ${remotePni} != ${ourPni}`
+    );
+    window.Whisper.events.trigger('unlinkAndDisconnect');
+    return;
+  }
+
   const localKeyPair = await window.storage.protocol.getIdentityKeyPair(ourPni);
   if (!localKeyPair) {
     log.warn(
@@ -20,7 +29,6 @@ export async function checkOurPniIdentityKey(): Promise<void> {
   }
 
   const { identityKey: remoteKey } = await server.getKeysForServiceId(ourPni);
-
   if (!constantTimeEqual(localKeyPair.publicKey.serialize(), remoteKey)) {
     log.warn(
       `checkOurPniIdentityKey: local/remote key mismatch for ${ourPni}, unlinking`

@@ -127,10 +127,6 @@
     "messageformat": "Database Error",
     "description": "Title of a popup if the database cannot start up properly"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "A database error occurred. You can copy the error and contact Signal support to help fix the issue. If you need to use Signal right away, you can delete your data and restart.\n\nContact support by visiting: {link}",
-    "description": "(Deleted 2025/03/27) Description shown in a popup if the database cannot start up properly"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "Delete data and restart",
     "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
@@ -2435,14 +2431,6 @@
   "icu:ConversationDetails--support-center": {
     "messageformat": "Support Center",
     "description": "Label for the support center link in conversation details"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contact us",
-    "description": "(Deleted 2025/03/27) Label for the contact us link in conversation details"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Donate to Signal",
-    "description": "(Deleted 2025/03/27) Label for the donation link in conversation details"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "View Safety Number",
@@ -6012,14 +6000,6 @@
     "messageformat": "Safety Tips",
     "description": "Shown on the message request warning. Clicking this button will open a dialog with safety tips"
   },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "You have no groups in common with this person. Review requests carefully before accepting to avoid unwanted messages.",
-    "description": "(Deleted 2025/03/27) Shown in the message request warning dialog. Gives more information about message requests"
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "About Message Requests",
-    "description": "(Deleted 2025/03/27) Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
-  },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Review requests carefully. Signal found another contact with the same name. <reviewRequestLink>Review request</reviewRequestLink>",
     "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
@@ -8424,5 +8404,9 @@
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "We also resized the picture-in-picture window and added convenient new shortcuts to mute/unmute your microphone or turn the camera on/off while a call is minimized.",
     "description": "(Deleted 2025/04/17) Release notes for version 7.51"
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too.",
+    "description": "Release notes for version 7.54"
   }
 }

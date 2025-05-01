@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Key } from 'react';
+import type { Key, ReactNode } from 'react';
 import React from 'react';
 import { Tabs, TabList, Tab, TabPanel } from 'react-aria-components';
 import classNames from 'classnames';
@@ -189,12 +189,12 @@ export type NavTabsProps = Readonly<{
   navTabsCollapsed: boolean;
   onShowSettings: () => void;
   onStartUpdate: () => unknown;
-  onNavTabSelected(tab: NavTab): void;
-  onToggleNavTabsCollapse(collapsed: boolean): void;
+  onNavTabSelected: (tab: NavTab) => void;
+  onToggleNavTabsCollapse: (collapsed: boolean) => void;
   onToggleProfileEditor: () => void;
-  renderCallsTab(props: NavTabPanelProps): JSX.Element;
-  renderChatsTab(props: NavTabPanelProps): JSX.Element;
-  renderStoriesTab(props: NavTabPanelProps): JSX.Element;
+  renderCallsTab: () => ReactNode;
+  renderChatsTab: () => ReactNode;
+  renderStoriesTab: () => ReactNode;
   selectedNavTab: NavTab;
   storiesEnabled: boolean;
   theme: ThemeType;

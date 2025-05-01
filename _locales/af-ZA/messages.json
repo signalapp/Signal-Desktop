@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "Databasisfout"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "'n Databasisfout het voorgekom. Jy kan die fout kopieer en Signal-steundiens kontak om die probleem te help oplos. As jy Signal dadelik moet gebruik, kan jy jou data skrap en weer begin.\n\nKontak die steundiens deur te gaan na: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "Skrap data en begin weer"
   },
@@ -1831,12 +1828,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "Steundienssentrum"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "Kontak ons"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Dra by tot Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Bekyk veiligheidsnommer"
@@ -4059,10 +4050,10 @@
     "messageformat": "Jy moet Signal op jou foon oopmaak om voort te gaan om hierdie rekening te gebruik. As jy nie Signal op jou foon oopmaak nie, sal jou rekening binnekort geskrap word. <learnMoreLink>Vind meer uit</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Kan nie media herstel nie"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Jou toestel het nie genoeg stoorruimte beskikbaar nie. Stel {diskSpaceAmount} stoorruimte beskikbaar om jou media af te laai."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Vou uit"
@@ -4522,12 +4513,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Veiligheidswenke"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "Jy het geen groepe in gemeen met hierdie persoon nie. Hanteer versoeke met omsigtigheid om ongewenste boodskappe te voorkom."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "Oor boodskapversoeke"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Gaan versoeke noukeurig na. Signal het 'n ander kontak met dieselfde naam gevind. <reviewRequestLink>Gaan versoek na</reviewRequestLink>"
@@ -6336,5 +6321,8 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "Ons het ook die grootte van die prentjie-in-prentjie-venster verander en gerieflike nuwe kortpaaie bygevoeg terwyl 'n oproep geminimaliseer is."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
   }
 }

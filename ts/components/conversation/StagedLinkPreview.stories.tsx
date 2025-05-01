@@ -112,3 +112,15 @@ EverythingImageTitleDescriptionAndDate.args = {
     contentType: IMAGE_JPEG,
   }),
 };
+
+export const CompositionInput = Template.bind({});
+CompositionInput.args = {
+  ...getDefaultProps(),
+  moduleClassName: 'CompositionInput__link-preview',
+  title: LONG_TITLE,
+  description: LONG_DESCRIPTION,
+  image: fakeAttachment({
+    url: '/fixtures/kitten-4-112-112.jpg',
+    contentType: IMAGE_JPEG,
+  }),
+};

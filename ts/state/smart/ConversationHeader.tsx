@@ -45,6 +45,7 @@ import { getLocalDeleteWarningShown } from '../selectors/items';
 import { getDeleteSyncSendEnabled } from '../selectors/items-extra';
 import { isConversationEverUnregistered } from '../../util/isConversationUnregistered';
 import { isDirectConversation } from '../../util/whatTypeOfConversation';
+import type { DurationInSeconds } from '../../util/durations';
 
 export type OwnProps = {
   id: string;
@@ -182,7 +183,7 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
   }, [destroyMessages, conversation.id]);
 
   const onConversationDisappearingMessagesChange = useCallback(
-    seconds => {
+    (seconds: DurationInSeconds) => {
       setDisappearingMessages(conversation.id, seconds);
     },
     [setDisappearingMessages, conversation.id]
@@ -197,7 +198,7 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
   }, [onMarkUnread, conversation.id]);
 
   const onConversationMuteExpirationChange = useCallback(
-    seconds => {
+    (seconds: number) => {
       setMuteExpiration(conversation.id, seconds);
     },
     [setMuteExpiration, conversation.id]

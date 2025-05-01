@@ -53,7 +53,12 @@ import {
   prepareDownload as prepareDifferentialDownload,
 } from './differential';
 import { getGotOptions } from './got';
-import { checkIntegrity, gracefulRename, gracefulRmRecursive } from './util';
+import {
+  checkIntegrity,
+  gracefulRename,
+  gracefulRmRecursive,
+  isTimeToUpdate,
+} from './util';
 
 const POLL_INTERVAL = 30 * durations.MINUTE;
 
@@ -61,6 +66,11 @@ type JSONVendorSchema = {
   minOSVersion?: string;
   requireManualUpdate?: 'true' | 'false';
   requireUserConfirmation?: 'true' | 'false';
+
+  // If 'true' - the update will be autodownloaded as soon as it becomes
+  // available. Otherwise a delay up to 6h might be applied. See
+  // `isTimeToUpdate`.
+  noDelay?: 'true' | 'false';
 };
 
 type JSONUpdateSchema = {
@@ -141,6 +151,10 @@ export abstract class Updater {
   readonly #canRunSilently: () => boolean;
   #autoRetryAttempts = 0;
   #autoRetryAfter: number | undefined;
+
+  // Just a stable randomness that is used for determining the update time. The
+  // value does not have to be consistent across restarts.
+  #pollId = getGuid();
 
   constructor({
     settingsChannel,
@@ -578,6 +592,26 @@ export abstract class Updater {
       );
 
       return;
+    }
+
+    if (checkType === CheckType.Normal && vendor?.noDelay !== 'true') {
+      try {
+        const releasedAt = new Date(parsedYaml.releaseDate).getTime();
+
+        if (
+          !isTimeToUpdate({
+            logger: this.logger,
+            pollId: this.#pollId,
+            releasedAt,
+          })
+        ) {
+          return;
+        }
+      } catch (error) {
+        this.logger.warn(
+          `checkForUpdates: failed to compute delay for ${parsedYaml.releaseDate}`
+        );
+      }
     }
 
     this.logger.info(

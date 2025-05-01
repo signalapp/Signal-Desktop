@@ -194,6 +194,7 @@ export default {
       return {
         result: {
           totalBytes: 100,
+          duration: 10000,
           stats: {
             adHocCalls: 1,
             callLinks: 2,

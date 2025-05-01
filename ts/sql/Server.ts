@@ -212,6 +212,7 @@ import {
   replaceAllEndorsementsForGroup,
 } from './server/groupSendEndorsements';
 import type { GifType } from '../components/fun/panels/FunPanelGifs';
+import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer';
 
 type ConversationRow = Readonly<{
   json: string;
@@ -1663,7 +1664,9 @@ function saveConversation(db: WritableDB, data: ConversationType): void {
     `
   ).run({
     id,
-    json: objectToJSON(omit(data, ['profileLastFetchedAt'])),
+    json: objectToJSON(
+      omit(data, ['profileLastFetchedAt', 'expireTimerVersion'])
+    ),
 
     e164: e164 || null,
     serviceId: serviceId || null,
@@ -1799,14 +1802,20 @@ function getConversationById(
   id: string
 ): ConversationType | undefined {
   const row = db
-    .prepare('SELECT json FROM conversations WHERE id = $id;')
-    .get<{ json: string }>({ id });
+    .prepare(
+      `
+      SELECT json, profileLastFetchedAt, expireTimerVersion 
+      FROM conversations 
+      WHERE id = $id
+      `
+    )
+    .get<ConversationRow>({ id });
 
   if (!row) {
     return undefined;
   }
 
-  return jsonToObject(row.json);
+  return rowToConversation(row);
 }
 
 function getAllConversations(db: ReadableDB): Array<ConversationType> {
@@ -6952,19 +6961,25 @@ function removeAllConfiguration(db: WritableDB): void {
 
     db.exec(
       `
+        UPDATE storyDistributions SET senderKeyInfoJson = NULL;
+      `
+    );
+
+    /** Update conversations */
+    const [updateConversationsQuery, updateConversationsParams] = sql`
       UPDATE conversations
       SET
+        expireTimerVersion = ${INITIAL_EXPIRE_TIMER_VERSION}, 
         json = json_remove(
           json,
           '$.senderKeyInfo',
           '$.storageID',
           '$.needsStorageServiceSync',
-          '$.storageUnknownFields'
+          '$.storageUnknownFields',
+          '$.expireTimerVersion'
         );
-
-      UPDATE storyDistributions SET senderKeyInfoJson = NULL;
-      `
-    );
+    `;
+    db.prepare(updateConversationsQuery).run(updateConversationsParams);
   })();
 }
 

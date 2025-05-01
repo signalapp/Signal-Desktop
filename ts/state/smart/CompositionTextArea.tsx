@@ -10,6 +10,7 @@ import { useItemsActions } from '../ducks/items';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { useComposerActions } from '../ducks/composer';
 import { getTextFormattingEnabled } from '../selectors/items';
+import { getConversationSelector } from '../selectors/conversations';
 
 export type SmartCompositionTextAreaProps = Pick<
   CompositionTextAreaProps,
@@ -39,6 +40,7 @@ export const SmartCompositionTextArea = memo(function SmartCompositionTextArea(
 
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const isFormattingEnabled = useSelector(getTextFormattingEnabled);
+  const conversationSelector = useSelector(getConversationSelector);
 
   return (
     <CompositionTextArea
@@ -52,6 +54,7 @@ export const SmartCompositionTextArea = memo(function SmartCompositionTextArea(
       onTextTooLong={onTextTooLong}
       platform={platform}
       ourConversationId={ourConversationId}
+      conversationSelector={conversationSelector}
     />
   );
 });

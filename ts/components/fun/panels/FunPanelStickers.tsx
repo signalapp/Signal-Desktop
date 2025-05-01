@@ -56,6 +56,7 @@ import {
   FunSubNavScroller,
 } from '../base/FunSubNav';
 import {
+  type EmojiParentKey,
   emojiVariantConstant,
   getEmojiParentKeyByValue,
   isEmojiParentValue,
@@ -228,7 +229,11 @@ export function FunPanelStickers({
 
   const sections = useMemo(() => {
     if (searchQuery !== '') {
-      const emojiKeys = new Set(searchEmojis(searchQuery));
+      const emojiKeys = new Set<EmojiParentKey>();
+
+      for (const result of searchEmojis(searchQuery)) {
+        emojiKeys.add(result.parentKey);
+      }
 
       const allStickers = installedStickerPacks.flatMap(pack => pack.stickers);
       const matchingStickers = allStickers.filter(sticker => {
@@ -579,7 +584,7 @@ const Cell = memo(function Cell(props: {
       rowIndex={props.rowIndex}
     >
       <FunItemButton
-        tabIndex={props.isTabbable ? 0 : -1}
+        excludeFromTabOrder={!props.isTabbable}
         aria-label={
           stickerLookupItem.kind === 'sticker'
             ? (stickerLookupItem.sticker.emoji ?? '')
