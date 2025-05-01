@@ -4164,6 +4164,22 @@
     "messageformat": "Mic on",
     "description": "Shown in a call when the user is muted and then unmutes their audio input using the Mute toggle button."
   },
+  "icu:CallControls__MutedBySomeoneToast": {
+    "messageformat": "{otherName} muted you.",
+    "description": "Shown in a call when another client mutes this user"
+  },
+  "icu:CallControls__SomeoneMutedSomeoneToast": {
+    "messageformat": "{name} muted {otherName}.",
+    "description": "Shown in a call when one client mutes another client"
+  },
+  "icu:CallControls__YouMutedSomeoneToast": {
+    "messageformat": "You muted {otherName}.",
+    "description": "Shown in a call when you mute another client"
+  },
+  "icu:CallControls__YouMutedYourselfToast": {
+    "messageformat": "You muted yourself from another device.",
+    "description": "Shown in a call when you joined a call on two devices and mute one from the other."
+  },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Lower your hand?",
     "description": "Shown in a call when the user has their hand raised but has been talking, next to a button to lower their hand."

@@ -121,7 +121,7 @@
     "@react-types/shared": "3.27.0",
     "@signalapp/libsignal-client": "0.70.0",
     "@signalapp/quill-cjs": "2.1.2",
-    "@signalapp/ringrtc": "2.51.0",
+    "@signalapp/ringrtc": "2.52.0",
     "@signalapp/sqlcipher": "2.0.1",
     "@tanstack/react-virtual": "3.11.2",
     "@types/dom-mediacapture-transform": "0.1.11",

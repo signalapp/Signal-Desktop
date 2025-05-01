@@ -15,6 +15,7 @@ import type {
   SetLocalAudioType,
   SetLocalVideoType,
   SetRendererCanvasType,
+  SetMutedByType,
 } from '../state/ducks/calling';
 import { Avatar, AvatarSize } from './Avatar';
 import { CallingHeader, getCallViewIconClassname } from './CallingHeader';
@@ -135,6 +136,7 @@ export type PropsType = {
   toggleSelfViewExpanded: () => void;
   toggleSettings: () => void;
   changeCallView: (mode: CallViewMode) => void;
+  setLocalAudioRemoteMuted: SetMutedByType;
 } & Pick<ReactionPickerProps, 'renderEmojiPicker'>;
 
 export const isInSpeakerView = (
@@ -224,6 +226,7 @@ export function CallScreen({
   toggleScreenRecordingPermissionsDialog,
   toggleSelfViewExpanded,
   toggleSettings,
+  setLocalAudioRemoteMuted,
 }: PropsType): JSX.Element {
   const {
     conversation,
@@ -980,7 +983,17 @@ export function CallScreen({
             : false
         }
         isHandRaised={localHandRaised}
+        mutedBy={
+          isGroupOrAdhocActiveCall(activeCall) ? activeCall.mutedBy : undefined
+        }
+        observedRemoteMute={
+          isGroupOrAdhocActiveCall(activeCall)
+            ? activeCall.observedRemoteMute
+            : undefined
+        }
+        conversationsByDemuxId={conversationsByDemuxId}
         i18n={i18n}
+        setLocalAudioRemoteMuted={setLocalAudioRemoteMuted}
       />
       {isCallLinkAdmin ? (
         <CallingPendingParticipants

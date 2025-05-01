@@ -36,6 +36,7 @@ import type {
   SendGroupCallReactionType,
   SetGroupCallVideoRequestType,
   SetLocalAudioType,
+  SetMutedByType,
   SetLocalVideoType,
   SetRendererCanvasType,
   StartCallType,
@@ -124,6 +125,7 @@ export type PropsType = {
   setIsCallActive: (_: boolean) => void;
   setLocalAudio: SetLocalAudioType;
   setLocalVideo: SetLocalVideoType;
+  setLocalAudioRemoteMuted: SetMutedByType;
   setLocalPreviewContainer: (container: HTMLDivElement | null) => void;
   setOutgoingRing: (_: boolean) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
@@ -188,6 +190,7 @@ function ActiveCallManager({
   sendGroupCallReaction,
   setGroupCallVideoRequest,
   setLocalAudio,
+  setLocalAudioRemoteMuted,
   setLocalPreviewContainer,
   setLocalVideo,
   setRendererCanvas,
@@ -475,6 +478,7 @@ function ActiveCallManager({
         setLocalPreviewContainer={setLocalPreviewContainer}
         setRendererCanvas={setRendererCanvas}
         setLocalAudio={setLocalAudio}
+        setLocalAudioRemoteMuted={setLocalAudioRemoteMuted}
         setLocalVideo={setLocalVideo}
         stickyControls={showParticipantsList}
         switchToPresentationView={switchToPresentationView}
@@ -567,6 +571,7 @@ export function CallManager({
   setGroupCallVideoRequest,
   setIsCallActive,
   setLocalAudio,
+  setLocalAudioRemoteMuted,
   setLocalPreviewContainer,
   setLocalVideo,
   setOutgoingRing,
@@ -659,6 +664,7 @@ export function CallManager({
           sendGroupCallReaction={sendGroupCallReaction}
           setGroupCallVideoRequest={setGroupCallVideoRequest}
           setLocalAudio={setLocalAudio}
+          setLocalAudioRemoteMuted={setLocalAudioRemoteMuted}
           setLocalPreviewContainer={setLocalPreviewContainer}
           setLocalVideo={setLocalVideo}
           setOutgoingRing={setOutgoingRing}
