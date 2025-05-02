@@ -15,6 +15,7 @@ import type {
   SignedPreKeyRecord,
   Uuid,
   PrivateKey,
+  IdentityChange,
 } from '@signalapp/libsignal-client';
 import {
   IdentityKeyStore,
@@ -145,7 +146,10 @@ export class IdentityKeys extends IdentityKeyStore {
     return PublicKey.deserialize(Buffer.from(key));
   }
 
-  async saveIdentity(name: ProtocolAddress, key: PublicKey): Promise<boolean> {
+  async saveIdentity(
+    name: ProtocolAddress,
+    key: PublicKey
+  ): Promise<IdentityChange> {
     const encodedAddress = encodeAddress(name);
     const publicKey = key.serialize();
 

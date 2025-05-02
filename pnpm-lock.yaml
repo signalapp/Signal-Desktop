@@ -126,8 +126,8 @@ importers:
         specifier: 3.27.0
         version: 3.27.0(react@18.3.1)
       '@signalapp/libsignal-client':
-        specifier: 0.70.0
-        version: 0.70.0
+        specifier: 0.71.0
+        version: 0.71.0
       '@signalapp/quill-cjs':
         specifier: 2.1.2
         version: 2.1.2
@@ -2542,8 +2542,8 @@ packages:
   '@signalapp/libsignal-client@0.60.2':
     resolution: {integrity: sha512-tU4kNP/yCwkFntb2ahXOSQJtzdy+YifAB2yv5hw0qyKSidRHLn6bYiz4Zo2tjxLDRoBLAUxCRsQramStiqNZdA==}
 
-  '@signalapp/libsignal-client@0.70.0':
-    resolution: {integrity: sha512-V2b8PVQM8+HbJhX7uuq7dR7V+71p1xzcpnx091za1fiLrdvK6/wzfEmpeAh8+6VYoJEQ8Gi3DyToIT0frTFIGA==}
+  '@signalapp/libsignal-client@0.71.0':
+    resolution: {integrity: sha512-rify1IfbpW7Di8pnbB3Oylp+bCg8FsKj0DaPmUVIqzbgJybgNm6GTVmgO6SqYBw6cH36hVnb+bacL7+KPTeqaA==}
 
   '@signalapp/mock-server@11.3.0':
     resolution: {integrity: sha512-X/yqrDySJ51bRngjMJrIGDhOU/LQ7OI9vJFNrs0835bgdBPGQO1pyufndzKLJpPehMECzGIP0UCE9YZU1X6NIg==}
@@ -12042,7 +12042,7 @@ snapshots:
       type-fest: 4.26.1
       uuid: 8.3.2
 
-  '@signalapp/libsignal-client@0.70.0':
+  '@signalapp/libsignal-client@0.71.0':
     dependencies:
       node-gyp-build: 4.8.4
       type-fest: 4.26.1
