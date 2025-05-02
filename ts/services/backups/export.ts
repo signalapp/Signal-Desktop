@@ -27,7 +27,6 @@ import { type CustomColorType } from '../../types/Colors';
 import { StorySendMode, MY_STORY_ID } from '../../types/Stories';
 import { getStickerPacksForBackup } from '../../types/Stickers';
 import {
-  isServiceIdString,
   isPniString,
   type AciString,
   type ServiceIdString,
@@ -718,6 +717,7 @@ export class BackupExportStream extends Readable {
     const usernameLink = storage.get('usernameLink');
 
     const subscriberId = storage.get('subscriberId');
+    const currencyCode = storage.get('subscriberCurrencyCode');
 
     const backupsSubscriberData = generateBackupsSubscriberData();
 
@@ -736,16 +736,17 @@ export class BackupExportStream extends Readable {
       familyName: me.get('profileFamilyName'),
       avatarUrlPath: storage.get('avatarUrl'),
       backupsSubscriberData,
-      donationSubscriberData: Bytes.isNotEmpty(subscriberId)
-        ? {
-            subscriberId,
-            currencyCode: storage.get('subscriberCurrencyCode'),
-            manuallyCancelled: storage.get(
-              'donorSubscriptionManuallyCancelled',
-              false
-            ),
-          }
-        : null,
+      donationSubscriberData:
+        Bytes.isNotEmpty(subscriberId) && currencyCode
+          ? {
+              subscriberId,
+              currencyCode,
+              manuallyCancelled: storage.get(
+                'donorSubscriptionManuallyCancelled',
+                false
+              ),
+            }
+          : null,
       svrPin: storage.get('svrPin'),
       accountSettings: {
         readReceipts: storage.get('read-receipt-setting'),
@@ -885,16 +886,24 @@ export class BackupExportStream extends Readable {
 
       const { nicknameGivenName, nicknameFamilyName, note } = convo;
 
+      const aci = isAciString(convo.serviceId)
+        ? Aci.parseFromServiceIdString(convo.serviceId).getRawUuidBytes()
+        : null;
+      const pni = isPniString(convo.pni)
+        ? Pni.parseFromServiceIdString(convo.pni).getRawUuidBytes()
+        : null;
+      const e164 = convo.e164 ? Long.fromString(convo.e164) : null;
+
+      strictAssert(
+        aci != null || pni != null || e164 != null,
+        'Contact has no identifier'
+      );
+
       res.contact = {
-        aci:
-          isServiceIdString(convo.serviceId) && convo.serviceId !== convo.pni
-            ? Aci.parseFromServiceIdString(convo.serviceId).getRawUuidBytes()
-            : null,
-        pni: isServiceIdString(convo.pni)
-          ? Pni.parseFromServiceIdString(convo.pni).getRawUuidBytes()
-          : null,
+        aci,
+        pni,
+        e164,
         username: convo.username,
-        e164: convo.e164 ? Long.fromString(convo.e164) : null,
         blocked: convo.serviceId
           ? window.storage.blocked.isServiceIdBlocked(convo.serviceId)
           : null,
@@ -1498,13 +1507,15 @@ export class BackupExportStream extends Readable {
         message.conversationId
       );
 
+      const source = message.expirationTimerUpdate?.source;
+      const sourceServiceId = message.expirationTimerUpdate?.sourceServiceId;
+
       if (conversation && isGroup(conversation.attributes)) {
         const groupChatUpdate = new Backups.GroupChangeChatUpdate();
 
         const timerUpdate = new Backups.GroupExpirationTimerUpdate();
         timerUpdate.expiresInMs = Long.fromNumber(expiresInMs);
 
-        const sourceServiceId = message.expirationTimerUpdate?.sourceServiceId;
         if (sourceServiceId && Aci.parseFromServiceIdString(sourceServiceId)) {
           timerUpdate.updaterAci = uuidToBytes(sourceServiceId);
         }
@@ -1520,13 +1531,17 @@ export class BackupExportStream extends Readable {
         return { kind: NonBubbleResultKind.Directionless, patch };
       }
 
-      const source =
-        message.expirationTimerUpdate?.sourceServiceId ||
-        message.expirationTimerUpdate?.source;
-      if (source && !authorId) {
-        patch.authorId = this.#getOrPushPrivateRecipient({
-          id: source,
-        });
+      if (!authorId) {
+        if (sourceServiceId) {
+          patch.authorId = this.#getOrPushPrivateRecipient({
+            id: source,
+            serviceId: sourceServiceId,
+          });
+        } else if (source) {
+          patch.authorId = this.#getOrPushPrivateRecipient({
+            id: source,
+          });
+        }
       }
 
       const expirationTimerChange = new Backups.ExpirationTimerChatUpdate();
