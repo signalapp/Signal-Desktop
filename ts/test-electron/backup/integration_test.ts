@@ -82,8 +82,7 @@ describe('backup/integration', () => {
       if (
         expectedString.includes('ReleaseChannelDonationRequest') ||
         // TODO (DESKTOP-8025) roundtrip these frames
-        fullPath.includes('chat_folder') ||
-        fullPath.includes('notification_profile')
+        fullPath.includes('chat_folder')
       ) {
         // Skip the unsupported tests
         return;

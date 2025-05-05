@@ -58,6 +58,7 @@ import { renderReactionPicker } from './renderReactionPicker';
 import { isSharingPhoneNumberWithEverybody as getIsSharingPhoneNumberWithEverybody } from '../../util/phoneNumberSharingMode';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { isLonelyGroup } from '../ducks/callingHelpers';
+import { getActiveProfile } from '../selectors/notificationProfiles';
 
 function renderDeviceSelection(): JSX.Element {
   return <SmartCallingDeviceSelection />;
@@ -439,6 +440,7 @@ export const SmartCallManager = memo(function SmartCallManager() {
   const availableCameras = useSelector(getAvailableCameras);
   const hasInitialLoadCompleted = useSelector(getHasInitialLoadCompleted);
   const me = useSelector(getMe);
+  const activeNotificationProfile = useSelector(getActiveProfile);
 
   const {
     approveUser,
@@ -485,6 +487,7 @@ export const SmartCallManager = memo(function SmartCallManager() {
     <CallManager
       acceptCall={acceptCall}
       activeCall={activeCall}
+      activeNotificationProfile={activeNotificationProfile}
       approveUser={approveUser}
       availableCameras={availableCameras}
       batchUserAction={batchUserAction}

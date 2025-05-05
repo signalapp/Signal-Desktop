@@ -45,6 +45,7 @@ import type {
 import type { SyncTaskType } from '../util/syncTasks';
 import type { AttachmentBackupJobType } from '../types/AttachmentBackup';
 import type { GifType } from '../components/fun/panels/FunPanelGifs';
+import type { NotificationProfileType } from '../types/NotificationProfile';
 
 export type ReadableDB = Database & { __readable_db: never };
 export type WritableDB = ReadableDB & { __writable_db: never };
@@ -726,6 +727,9 @@ type ReadableInterface = {
   }): Array<StoryReadType>;
   countStoryReadsByConversation(conversationId: string): number;
 
+  getAllNotificationProfiles(): Array<NotificationProfileType>;
+  getNotificationProfileById(id: string): NotificationProfileType | undefined;
+
   getMessagesNeedingUpgrade: (
     limit: number,
     options: { maxVersion: number }
@@ -1019,6 +1023,12 @@ type WritableInterface = {
 
   _deleteAllStoryReads(): void;
   addNewStoryRead(read: StoryReadType): void;
+
+  _deleteAllNotificationProfiles(): void;
+  deleteNotificationProfileById(id: string): void;
+  markNotificationProfileDeleted(id: string): number | undefined;
+  createNotificationProfile(profile: NotificationProfileType): void;
+  updateNotificationProfile(profile: NotificationProfileType): void;
 
   removeAll: () => void;
   removeAllConfiguration: () => void;

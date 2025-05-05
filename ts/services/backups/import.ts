@@ -132,6 +132,12 @@ import { saveBackupsSubscriberData } from '../../util/backupSubscriptionData';
 import { postSaveUpdates } from '../../util/cleanup';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import { MessageModel } from '../../models/messages';
+import {
+  DEFAULT_PROFILE_COLOR,
+  fromDayOfWeekArray,
+  type NotificationProfileType,
+} from '../../types/NotificationProfile';
+import { normalizeNotificationProfileId } from '../../types/NotificationProfile-node';
 
 const MAX_CONCURRENCY = 10;
 
@@ -503,9 +509,7 @@ export class BackupImportStream extends Writable {
       } else if (frame.adHocCall) {
         await this.#fromAdHocCall(frame.adHocCall);
       } else if (frame.notificationProfile) {
-        log.warn(
-          `${this.#logId}: Received currently unsupported feature: notification profile. Dropping.`
-        );
+        await this.#fromNotificationProfile(frame.notificationProfile);
       } else if (frame.chatFolder) {
         log.warn(
           `${this.#logId}: Received currently unsupported feature: chat folder. Dropping.`
@@ -3425,6 +3429,65 @@ export class BackupImportStream extends Writable {
     if (isCallLinkAdmin(callLink)) {
       this.#adminCallLinksToHasCall.set(callLink, true);
     }
+  }
+
+  async #fromNotificationProfile(
+    incomingProfile: Backups.INotificationProfile
+  ) {
+    const {
+      id,
+      name,
+      emoji,
+      color,
+      createdAtMs,
+      allowAllCalls,
+      allowAllMentions,
+      allowedMembers,
+      scheduleEnabled,
+      scheduleStartTime,
+      scheduleEndTime,
+      scheduleDaysEnabled,
+    } = incomingProfile;
+    strictAssert(name, 'notification profile must have a valid name');
+    if (!id || !id.length) {
+      log.warn('Dropping notification profile; it was missing an id');
+      return;
+    }
+
+    const allowedMemberConversationIds: ReadonlyArray<string> | undefined =
+      allowedMembers
+        ?.map(recipientIdLong => {
+          const recipientId = recipientIdLong.toNumber();
+          const attributes = this.#recipientIdToConvo.get(recipientId);
+          if (!attributes) {
+            return undefined;
+          }
+
+          return attributes.id;
+        })
+        .filter(isNotNil);
+
+    const profile: NotificationProfileType = {
+      id: normalizeNotificationProfileId(Bytes.toHex(id), 'import', log),
+      name,
+      emoji: dropNull(emoji),
+      color: dropNull(color) ?? DEFAULT_PROFILE_COLOR,
+      createdAtMs: getCheckedTimestampOrUndefinedFromLong(createdAtMs) ?? 0,
+      allowAllCalls: Boolean(allowAllCalls),
+      allowAllMentions: Boolean(allowAllMentions),
+      allowedMembers: new Set(allowedMemberConversationIds ?? []),
+      scheduleEnabled: Boolean(scheduleEnabled),
+      scheduleStartTime: dropNull(scheduleStartTime),
+      scheduleEndTime: dropNull(scheduleEndTime),
+      scheduleDaysEnabled: fromDayOfWeekArray(scheduleDaysEnabled),
+      deletedAtTimestampMs: undefined,
+      storageNeedsSync: false,
+      storageID: undefined,
+      storageUnknownFields: undefined,
+      storageVersion: undefined,
+    };
+
+    await DataWriter.createNotificationProfile(profile);
   }
 
   async #fromCustomChatColors(

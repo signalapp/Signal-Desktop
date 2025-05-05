@@ -22,6 +22,7 @@ import type { actions as lightbox } from './ducks/lightbox';
 import type { actions as linkPreviews } from './ducks/linkPreviews';
 import type { actions as mediaGallery } from './ducks/mediaGallery';
 import type { actions as network } from './ducks/network';
+import type { actions as notificationProfiles } from './ducks/notificationProfiles';
 import type { actions as safetyNumber } from './ducks/safetyNumber';
 import type { actions as search } from './ducks/search';
 import type { actions as stickers } from './ducks/stickers';
@@ -54,6 +55,7 @@ export type ReduxActions = {
   linkPreviews: typeof linkPreviews;
   mediaGallery: typeof mediaGallery;
   network: typeof network;
+  notificationProfiles: typeof notificationProfiles;
   safetyNumber: typeof safetyNumber;
   search: typeof search;
   stickers: typeof stickers;
