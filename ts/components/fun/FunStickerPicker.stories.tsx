@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { StrictMode, useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Button } from 'react-aria-components';
 import { action } from '@storybook/addon-actions';
 import enMessages from '../../../_locales/en/messages.json';
@@ -28,38 +28,32 @@ function Template(props: TemplateProps): JSX.Element {
   }, []);
 
   return (
-    <StrictMode>
-      <FunProvider
-        i18n={i18n}
-        // Recents
-        recentEmojis={MOCK_RECENT_EMOJIS}
-        recentStickers={recentStickers}
-        recentGifs={[]}
-        // Emojis
-        emojiSkinToneDefault={EmojiSkinTone.None}
-        onEmojiSkinToneDefaultChange={() => null}
-        onOpenCustomizePreferredReactionsModal={() => null}
-        onSelectEmoji={() => null}
-        // Stickers
-        installedStickerPacks={packs}
-        showStickerPickerHint={false}
-        onClearStickerPickerHint={() => null}
-        onSelectSticker={() => null}
-        // Gifs
-        fetchGifsSearch={() => Promise.reject()}
-        fetchGifsFeatured={() => Promise.reject()}
-        fetchGif={() => Promise.reject()}
-        onSelectGif={() => null}
-      >
-        <FunStickerPicker
-          {...props}
-          open={open}
-          onOpenChange={handleOpenChange}
-        >
-          <Button>Open StickerPicker</Button>
-        </FunStickerPicker>
-      </FunProvider>
-    </StrictMode>
+    <FunProvider
+      i18n={i18n}
+      // Recents
+      recentEmojis={MOCK_RECENT_EMOJIS}
+      recentStickers={recentStickers}
+      recentGifs={[]}
+      // Emojis
+      emojiSkinToneDefault={EmojiSkinTone.None}
+      onEmojiSkinToneDefaultChange={() => null}
+      onOpenCustomizePreferredReactionsModal={() => null}
+      onSelectEmoji={() => null}
+      // Stickers
+      installedStickerPacks={packs}
+      showStickerPickerHint={false}
+      onClearStickerPickerHint={() => null}
+      onSelectSticker={() => null}
+      // Gifs
+      fetchGifsSearch={() => Promise.reject()}
+      fetchGifsFeatured={() => Promise.reject()}
+      fetchGif={() => Promise.reject()}
+      onSelectGif={() => null}
+    >
+      <FunStickerPicker {...props} open={open} onOpenChange={handleOpenChange}>
+        <Button>Open StickerPicker</Button>
+      </FunStickerPicker>
+    </FunProvider>
   );
 }
 

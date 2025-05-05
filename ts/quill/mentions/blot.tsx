@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { StrictMode } from 'react';
 import EmbedBlot from '@signalapp/quill-cjs/blots/embed';
 import { render } from 'react-dom';
 
@@ -47,14 +47,16 @@ export class MentionBlot extends EmbedBlot {
     const mentionSpan = document.createElement('span');
 
     render(
-      <FunEmojiLocalizationProvider i18n={window.i18n}>
-        <span className="module-composition-input__at-mention">
-          <bdi>
-            @
-            <Emojify text={mention.title} />
-          </bdi>
-        </span>
-      </FunEmojiLocalizationProvider>,
+      <StrictMode>
+        <FunEmojiLocalizationProvider i18n={window.i18n}>
+          <span className="module-composition-input__at-mention">
+            <bdi>
+              @
+              <Emojify text={mention.title} />
+            </bdi>
+          </span>
+        </FunEmojiLocalizationProvider>
+      </StrictMode>,
       mentionSpan
     );
 
