@@ -3510,7 +3510,7 @@ async function appendChangeMessages(
   // We updated the message, but didn't add new ones - refresh left pane
   if (!newMessages && mergedMessages.length > 0) {
     await conversation.updateLastMessage();
-    void conversation.updateUnread();
+    conversation.throttledUpdateUnread();
   }
 }
 

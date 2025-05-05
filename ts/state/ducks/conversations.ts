@@ -4767,7 +4767,7 @@ function onConversationOpened(
         Promise.all([
           conversation.loadNewestMessages(undefined, undefined),
           conversation.updateLastMessage(),
-          conversation.updateUnread(),
+          conversation.throttledUpdateUnread(),
         ])
       );
     };
