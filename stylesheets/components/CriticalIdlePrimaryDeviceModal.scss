@@ -18,12 +18,12 @@
   &::after {
     content: '';
     display: block;
+    width: 52px;
+    height: 52px;
     @include mixins.color-svg(
       '../images/icons/v3/error/error-circle.svg',
       variables.$color-orange
     );
-    width: 52px;
-    height: 52px;
   }
 }
 

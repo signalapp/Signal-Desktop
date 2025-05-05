@@ -30,7 +30,7 @@
     "mark-unusued-strings-deleted": "ts-node ./ts/scripts/mark-unused-strings-deleted.ts",
     "get-expire-time": "node ts/scripts/get-expire-time.js",
     "copy-components": "node ts/scripts/copy.js",
-    "sass": "sass stylesheets/manifest.scss:stylesheets/manifest.css stylesheets/manifest_bridge.scss:stylesheets/manifest_bridge.css",
+    "sass": "sass stylesheets/manifest.scss:stylesheets/manifest.css stylesheets/manifest_bridge.scss:stylesheets/manifest_bridge.css --fatal-deprecation=1.80.7",
     "build-module-protobuf": "pbjs --root='signal-desktop' --target static-module --force-long --no-typeurl --no-verify --no-create --no-convert --wrap commonjs --out ts/protobuf/compiled.js protos/*.proto && pbts --no-comments --out ts/protobuf/compiled.d.ts ts/protobuf/compiled.js",
     "clean-module-protobuf": "rm -f ts/protobuf/compiled.d.ts ts/protobuf/compiled.js",
     "build-protobuf": "pnpm run build-module-protobuf",

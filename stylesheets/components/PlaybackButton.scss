@@ -7,9 +7,8 @@
 
 .PlaybackButton {
   @include mixins.button-reset;
-  position: relative;
-
   & {
+    position: relative;
     flex-shrink: 0;
     margin-inline-end: MessageAudio.$audio-attachment-button-margin-big;
 

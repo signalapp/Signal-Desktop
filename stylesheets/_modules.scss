@@ -932,19 +932,18 @@ $message-padding-horizontal: 12px;
   @include mixins.button-reset;
   & {
     @include mixins.font-body-1;
-    @include mixins.light-theme {
-      border-block-start-color: variables.$color-black-alpha-10;
-    }
-    @include mixins.dark-theme {
-      border-block-start-color: variables.$color-white-alpha-10;
-    }
-
     width: calc(100% + 24px);
     margin-block-start: 9px;
     margin-inline: -12px;
     padding-block-start: 9px;
     padding-inline: 12px;
     border-block-start: 0.5px solid;
+    @include mixins.light-theme {
+      border-block-start-color: variables.$color-black-alpha-10;
+    }
+    @include mixins.dark-theme {
+      border-block-start-color: variables.$color-white-alpha-10;
+    }
   }
 }
 
@@ -4781,11 +4780,6 @@ button.module-image__border-overlay:focus {
     opacity: 0;
     transition: all 0.5s variables.$ease-out-local-preview;
 
-    &--visible {
-      opacity: 1;
-      bottom: 4px;
-    }
-
     display: flex;
     align-items: center;
     flex-direction: row;
@@ -4793,6 +4787,11 @@ button.module-image__border-overlay:focus {
     border-radius: 18px;
     justify-content: space-around;
     background-color: variables.$color-gray-78;
+
+    &--visible {
+      opacity: 1;
+      bottom: 4px;
+    }
 
     &__spacer {
       flex-grow: 1;

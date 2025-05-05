@@ -21,12 +21,12 @@
   &::after {
     content: '';
     display: block;
+    width: 32px;
+    height: 32px;
     @include mixins.color-svg(
       '../images/icons/v3/backup/backup-warning.svg',
       variables.$color-black
     );
-    width: 32px;
-    height: 32px;
   }
 }
 
