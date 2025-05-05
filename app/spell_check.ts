@@ -220,6 +220,7 @@ export const setup = (
       const menu = Menu.buildFromTemplate(template);
       menu.popup({
         window: browserWindow,
+        frame: params.frame ?? undefined,
       });
     }
   });
