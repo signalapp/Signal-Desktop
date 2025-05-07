@@ -61,9 +61,7 @@ export async function saveAndNotify(
     confirm();
 
     if (!isStory(message.attributes)) {
-      drop(
-        conversation.queueJob('updateUnread', () => conversation.updateUnread())
-      );
+      conversation.throttledUpdateUnread();
     }
   } finally {
     resolve();

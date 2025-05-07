@@ -337,7 +337,7 @@ export class ReleaseNotesFetcher {
     );
 
     signalConversation.set({ active_at: Date.now(), isArchived: false });
-    drop(signalConversation.updateUnread());
+    signalConversation.throttledUpdateUnread();
 
     log.info(
       `ReleaseNotesFetcher: Updating version watermark to ${versionWatermark}`
