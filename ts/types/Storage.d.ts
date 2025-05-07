@@ -23,9 +23,9 @@ import type {
   BackupStatusType,
 } from './backups';
 import type { ServiceIdString } from './ServiceId';
-
 import type { RegisteredChallengeType } from '../challenge';
 import type { ServerAlertsType } from '../util/handleServerAlerts';
+import type { NotificationProfileOverride } from './NotificationProfile';
 
 export type AutoDownloadAttachmentType = {
   photos: boolean;
@@ -201,6 +201,7 @@ export type StorageAccessType = {
   };
   serverAlerts: ServerAlertsType;
   needOrphanedAttachmentCheck: boolean;
+  notificationProfileOverride: NotificationProfileOverride | undefined;
   observedCapabilities: {
     deleteSync?: true;
     ssre2?: true;

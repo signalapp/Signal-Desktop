@@ -47,6 +47,10 @@ import {
   initialize as initializeExpiringMessageService,
   update as updateExpiringMessagesService,
 } from './services/expiringMessagesDeletion';
+import {
+  initialize as initializeNotificationProfilesService,
+  update as updateNotificationProfileService,
+} from './services/notificationProfilesService';
 import { tapToViewMessagesDeletionService } from './services/tapToViewMessagesDeletionService';
 import { senderCertificateService } from './services/senderCertificate';
 import { GROUP_CREDENTIALS_KEY } from './services/groupCredentialFetcher';
@@ -1455,6 +1459,7 @@ export async function startApp(): Promise<void> {
     void badgeImageFileDownloader.checkForFilesToDownload();
 
     initializeExpiringMessageService();
+    initializeNotificationProfilesService();
 
     log.info('Blocked uuids cleanup: starting...');
     const blockedUuids = window.storage.get(BLOCKED_UUIDS_ID, []);
@@ -1526,10 +1531,12 @@ export async function startApp(): Promise<void> {
       window.Whisper.events.trigger('timetravel');
     });
 
-    void updateExpiringMessagesService();
+    updateExpiringMessagesService();
+    updateNotificationProfileService();
     tapToViewMessagesDeletionService.update();
     window.Whisper.events.on('timetravel', () => {
-      void updateExpiringMessagesService();
+      updateExpiringMessagesService();
+      updateNotificationProfileService();
       tapToViewMessagesDeletionService.update();
     });
 

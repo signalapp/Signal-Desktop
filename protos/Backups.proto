@@ -1292,6 +1292,7 @@ message NotificationProfile {
   uint32 scheduleStartTime = 9; // 24-hour clock int, 0000-2359 (e.g., 15, 900, 1130, 2345)
   uint32 scheduleEndTime = 10; // 24-hour clock int, 0000-2359 (e.g., 15, 900, 1130, 2345)
   repeated DayOfWeek scheduleDaysEnabled = 11;
+  bytes id = 12; // should be 16 bytes
 }
 
 message ChatFolder {
@@ -1312,4 +1313,5 @@ message ChatFolder {
   FolderType folderType = 6;
   repeated uint64 includedRecipientIds = 7; // generated recipient id of groups, contacts, and/or note to self
   repeated uint64 excludedRecipientIds = 8; // generated recipient id of groups, contacts, and/or note to self
+  bytes id = 9; // should be 16 bytes
 }

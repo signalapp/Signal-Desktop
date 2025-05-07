@@ -53,6 +53,11 @@ import { CallingAdhocCallInfo } from './CallingAdhocCallInfo';
 import { callLinkRootKeyToUrl } from '../util/callLinkRootKeyToUrl';
 import { usePrevious } from '../hooks/usePrevious';
 import { copyCallLink } from '../util/copyLinksWithToast';
+import {
+  redactNotificationProfileId,
+  shouldNotify,
+} from '../types/NotificationProfile';
+import type { NotificationProfileType } from '../types/NotificationProfile';
 
 const GROUP_CALL_RING_DURATION = 60 * 1000;
 
@@ -78,6 +83,7 @@ export type CallingImageDataCache = Map<number, ImageData>;
 
 export type PropsType = {
   activeCall?: ActiveCallType;
+  activeNotificationProfile: NotificationProfileType | undefined;
   availableCameras: Array<MediaDeviceInfo>;
   callLink: CallLinkType | undefined;
   cancelCall: (_: CancelCallType) => void;
@@ -148,6 +154,7 @@ type ActiveCallManagerPropsType = {
 } & Omit<
   PropsType,
   | 'acceptCall'
+  | 'activeNotificationProfile'
   | 'bounceAppIconStart'
   | 'bounceAppIconStop'
   | 'declineCall'
@@ -532,6 +539,7 @@ function ActiveCallManager({
 export function CallManager({
   acceptCall,
   activeCall,
+  activeNotificationProfile,
   approveUser,
   availableCameras,
   batchUserAction,
@@ -593,6 +601,23 @@ export function CallManager({
   const ringingCallId = ringingCall?.conversation.id;
   useEffect(() => {
     if (hasInitialLoadCompleted && ringingCallId) {
+      if (
+        !shouldNotify({
+          activeProfile: activeNotificationProfile,
+          conversationId: ringingCallId,
+          isCall: true,
+          isMention: false,
+        })
+      ) {
+        const redactedId = redactNotificationProfileId(
+          activeNotificationProfile?.id ?? ''
+        );
+        log.info(
+          `CallManager: Would play ringtone, but notification profile ${redactedId} prevented it`
+        );
+        return;
+      }
+
       log.info('CallManager: Playing ringtone');
       playRingtone();
 
@@ -604,7 +629,13 @@ export function CallManager({
 
     stopRingtone();
     return noop;
-  }, [hasInitialLoadCompleted, playRingtone, ringingCallId, stopRingtone]);
+  }, [
+    activeNotificationProfile,
+    hasInitialLoadCompleted,
+    playRingtone,
+    ringingCallId,
+    stopRingtone,
+  ]);
 
   const mightBeRingingOutgoingGroupCall =
     isGroupOrAdhocActiveCall(activeCall) &&
@@ -685,6 +716,23 @@ export function CallManager({
 
   // In the future, we may want to show the incoming call bar when a call is active.
   if (ringingCall) {
+    if (
+      !shouldNotify({
+        isCall: true,
+        isMention: false,
+        conversationId: ringingCall.conversation.id,
+        activeProfile: activeNotificationProfile,
+      })
+    ) {
+      const redactedId = redactNotificationProfileId(
+        activeNotificationProfile?.id ?? ''
+      );
+      log.info(
+        `CallManager: Would show incoming call bar, but notification profile ${redactedId} prevented it`
+      );
+      return null;
+    }
+
     return (
       <IncomingCallBar
         acceptCall={acceptCall}

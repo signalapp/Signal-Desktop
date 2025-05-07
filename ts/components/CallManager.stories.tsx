@@ -88,6 +88,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   ...storyProps,
   availableCameras: [],
   acceptCall: action('accept-call'),
+  activeNotificationProfile: undefined,
   approveUser: action('approve-user'),
   batchUserAction: action('batch-user-action'),
   bounceAppIconStart: action('bounce-app-icon-start'),

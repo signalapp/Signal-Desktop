@@ -145,6 +145,7 @@ import { trimBody } from '../../util/longAttachment';
 import { generateBackupsSubscriberData } from '../../util/backupSubscriptionData';
 import { getEnvironment, isTestEnvironment } from '../../environment';
 import { calculateLightness } from '../../util/getHSL';
+import { toDayOfWeekArray } from '../../types/NotificationProfile';
 
 const MAX_CONCURRENCY = 10;
 
@@ -211,6 +212,7 @@ export type StatsType = {
   chats: number;
   distributionLists: number;
   messages: number;
+  notificationProfiles: number;
   skippedMessages: number;
   stickerPacks: number;
   fixedDirectMessages: number;
@@ -232,6 +234,7 @@ export class BackupExportStream extends Readable {
     chats: 0,
     distributionLists: 0,
     messages: 0,
+    notificationProfiles: 0,
     skippedMessages: 0,
     stickerPacks: 0,
     fixedDirectMessages: 0,
@@ -576,6 +579,60 @@ export class BackupExportStream extends Readable {
       // eslint-disable-next-line no-await-in-loop
       await this.#flush();
       this.#stats.adHocCalls += 1;
+    }
+
+    const allNotificationProfiles =
+      await DataReader.getAllNotificationProfiles();
+
+    for (const profile of allNotificationProfiles) {
+      const {
+        id,
+        name,
+        emoji,
+        color,
+        createdAtMs,
+        allowAllCalls,
+        allowAllMentions,
+        allowedMembers,
+        scheduleEnabled,
+        scheduleStartTime,
+        scheduleEndTime,
+        scheduleDaysEnabled,
+      } = profile;
+
+      const allowedRecipients = Array.from(allowedMembers)
+        .map(conversationId => {
+          const conversation =
+            window.ConversationController.get(conversationId);
+          if (!conversation) {
+            return undefined;
+          }
+
+          const { attributes } = conversation;
+          return this.#getRecipientId(attributes);
+        })
+        .filter(isNotNil);
+
+      this.#pushFrame({
+        notificationProfile: {
+          id: Bytes.fromHex(id),
+          name,
+          emoji,
+          color,
+          createdAtMs: getSafeLongFromTimestamp(createdAtMs),
+          allowAllCalls,
+          allowAllMentions,
+          allowedMembers: allowedRecipients,
+          scheduleEnabled,
+          scheduleStartTime,
+          scheduleEndTime,
+          scheduleDaysEnabled: toDayOfWeekArray(scheduleDaysEnabled),
+        },
+      });
+
+      // eslint-disable-next-line no-await-in-loop
+      await this.#flush();
+      this.#stats.notificationProfiles += 1;
     }
 
     let cursor: PageMessagesCursorType | undefined;

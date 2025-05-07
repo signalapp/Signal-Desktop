@@ -202,6 +202,7 @@ export default {
             chats: 4,
             distributionLists: 5,
             messages: 6,
+            notificationProfiles: 2,
             skippedMessages: 7,
             stickerPacks: 8,
             fixedDirectMessages: 9,
