@@ -1986,6 +1986,11 @@ const featuresToDisable = `HardwareMediaKeyHandling,${app.commandLine.getSwitchV
 )}`;
 app.commandLine.appendSwitch('disable-features', featuresToDisable);
 
+if (OS.isLinux()) {
+  // https://github.com/electron/electron/issues/46538#issuecomment-2808806722
+  app.commandLine.appendSwitch('gtk-version', '3');
+}
+
 // <canvas/> rendering is often utterly broken on Linux when using GPU
 // acceleration.
 if (DISABLE_GPU) {
