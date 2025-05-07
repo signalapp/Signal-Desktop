@@ -1403,6 +1403,9 @@ export class CallingClass {
       secretParams,
     });
 
+    // Set the camera disposition as we transition from the lobby to the group call.
+    this.#cameraEnabled = hasLocalVideo;
+
     groupCall.setOutgoingAudioMuted(!hasLocalAudio);
     groupCall.setOutgoingVideoMuted(!hasLocalVideo);
     drop(this.enableCaptureAndSend(groupCall, undefined, logId));
@@ -1749,6 +1752,9 @@ export class CallingClass {
       callLinkRootKey,
       adminPasskey,
     });
+
+    // Set the camera disposition as we transition from the lobby to the call link call.
+    this.#cameraEnabled = hasLocalVideo;
 
     groupCall.setOutgoingAudioMuted(!hasLocalAudio);
     groupCall.setOutgoingVideoMuted(!hasLocalVideo);
