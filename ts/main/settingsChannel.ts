@@ -68,6 +68,8 @@ export class SettingsChannel extends EventEmitter {
     this.#installCallback('syncRequest');
     this.#installCallback('setEmojiSkinToneDefault');
     this.#installCallback('getEmojiSkinToneDefault');
+    this.#installCallback('exportLocalBackup');
+    this.#installCallback('importLocalBackup');
     this.#installCallback('validateBackup');
 
     // Backups

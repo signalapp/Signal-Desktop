@@ -6652,6 +6652,26 @@
     "messageformat": "Internal",
     "description": "Button to switch the settings view to control internal configuration"
   },
+  "icu:Preferences__internal__local-backups": {
+    "messageformat": "Local backups",
+    "description": "Text header for internal local backup tools"
+  },
+  "icu:Preferences__internal__export-local-backup": {
+    "messageformat": "Export…",
+    "description": "Button to run internal local backup export tool"
+  },
+  "icu:Preferences__internal__export-local-backup--description": {
+    "messageformat": "Export local encrypted backup to a folder and validate it",
+    "description": "Description of the internal local backup export tool"
+  },
+  "icu:Preferences__internal__import-local-backup": {
+    "messageformat": "Import…",
+    "description": "Button to run internal local backup import tool"
+  },
+  "icu:Preferences__internal__import-local-backup--description": {
+    "messageformat": "Stage a local encrypted backup for import on link",
+    "description": "Description of the internal local backup export tool"
+  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Export encrypted backup to memory and run validation suite on it",
     "description": "Description of the internal backup validation tool"

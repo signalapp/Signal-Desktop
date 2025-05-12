@@ -43,6 +43,8 @@ export type CIType = {
   ) => unknown;
   openSignalRoute(url: string): Promise<void>;
   migrateAllMessages(): Promise<void>;
+  exportLocalBackup(backupsBaseDir: string): Promise<string>;
+  stageLocalBackupForImport(snapshotDir: string): Promise<void>;
   uploadBackup(): Promise<void>;
   unlink: () => void;
   print: (...args: ReadonlyArray<unknown>) => void;
@@ -193,6 +195,20 @@ export function getCI({
     document.body.removeChild(a);
   }
 
+  async function exportLocalBackup(backupsBaseDir: string): Promise<string> {
+    const { snapshotDir } =
+      await backupsService.exportLocalBackup(backupsBaseDir);
+    return snapshotDir;
+  }
+
+  async function stageLocalBackupForImport(snapshotDir: string): Promise<void> {
+    const { error } =
+      await backupsService.stageLocalBackupForImport(snapshotDir);
+    if (error) {
+      throw error;
+    }
+  }
+
   async function uploadBackup() {
     await backupsService.upload();
     await AttachmentBackupManager.waitForIdle();
@@ -237,6 +253,8 @@ export function getCI({
     waitForEvent,
     openSignalRoute,
     migrateAllMessages,
+    exportLocalBackup,
+    stageLocalBackupForImport,
     uploadBackup,
     unlink,
     getPendingEventCount,

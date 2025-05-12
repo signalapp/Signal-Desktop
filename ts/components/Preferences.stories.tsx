@@ -43,6 +43,28 @@ const availableSpeakers = [
   },
 ];
 
+const validateBackupResult = {
+  totalBytes: 100,
+  duration: 10000,
+  stats: {
+    adHocCalls: 1,
+    callLinks: 2,
+    conversations: 3,
+    chats: 4,
+    distributionLists: 5,
+    messages: 6,
+    notificationProfiles: 2,
+    skippedMessages: 7,
+    stickerPacks: 8,
+    fixedDirectMessages: 9,
+  },
+};
+
+const exportLocalBackupResult = {
+  ...validateBackupResult,
+  snapshotDir: '/home/signaluser/SignalBackups/signal-backup-1745618069169',
+};
+
 export default {
   title: 'Components/Preferences',
   component: Preferences,
@@ -138,6 +160,18 @@ export default {
     doDeleteAllData: action('doDeleteAllData'),
     doneRendering: action('doneRendering'),
     editCustomColor: action('editCustomColor'),
+    exportLocalBackup: async () => {
+      return {
+        result: exportLocalBackupResult,
+      };
+    },
+    importLocalBackup: async () => {
+      return {
+        success: true,
+        error: undefined,
+        snapshotDir: exportLocalBackupResult.snapshotDir,
+      };
+    },
     makeSyncRequest: action('makeSyncRequest'),
     onAudioNotificationsChange: action('onAudioNotificationsChange'),
     onAutoConvertEmojiChange: action('onAutoConvertEmojiChange'),
@@ -192,22 +226,7 @@ export default {
     ),
     validateBackup: async () => {
       return {
-        result: {
-          totalBytes: 100,
-          duration: 10000,
-          stats: {
-            adHocCalls: 1,
-            callLinks: 2,
-            conversations: 3,
-            chats: 4,
-            distributionLists: 5,
-            messages: 6,
-            notificationProfiles: 2,
-            skippedMessages: 7,
-            stickerPacks: 8,
-            fixedDirectMessages: 9,
-          },
-        },
+        result: validateBackupResult,
       };
     },
   } satisfies PropsType,

@@ -61,3 +61,9 @@ export type BackupsSubscriptionType =
           cost?: SubscriptionCostType;
         }
     );
+
+export type LocalBackupMetadataVerificationType = {
+  snapshotDir: string;
+  backupId: Uint8Array;
+  metadataKey: Uint8Array;
+};

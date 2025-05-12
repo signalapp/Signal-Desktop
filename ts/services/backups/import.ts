@@ -244,18 +244,22 @@ export class BackupImportStream extends Writable {
   #pendingGroupAvatars = new Map<string, string>();
   #frameErrorCount: number = 0;
 
-  private constructor(private readonly backupType: BackupType) {
+  private constructor(
+    private readonly backupType: BackupType,
+    private readonly localBackupSnapshotDir: string | undefined
+  ) {
     super({ objectMode: true });
   }
 
   public static async create(
-    backupType = BackupType.Ciphertext
+    backupType = BackupType.Ciphertext,
+    localBackupSnapshotDir: string | undefined = undefined
   ): Promise<BackupImportStream> {
     await AttachmentDownloadManager.stop();
     await DataWriter.removeAllBackupAttachmentDownloadJobs();
     await resetBackupMediaDownloadProgress();
 
-    return new BackupImportStream(backupType);
+    return new BackupImportStream(backupType, localBackupSnapshotDir);
   }
 
   override async _write(
@@ -1854,11 +1858,19 @@ export class BackupImportStream extends Writable {
             bodyRanges: this.#fromBodyRanges(data.text),
           })),
       bodyAttachment: data.longText
-        ? convertFilePointerToAttachment(data.longText)
+        ? convertFilePointerToAttachment(
+            data.longText,
+            this.#getFilePointerOptions()
+          )
         : undefined,
       attachments: data.attachments?.length
         ? data.attachments
-            .map(convertBackupMessageAttachmentToAttachment)
+            .map(attachment =>
+              convertBackupMessageAttachmentToAttachment(
+                attachment,
+                this.#getFilePointerOptions()
+              )
+            )
             .filter(isNotNil)
         : undefined,
       preview: data.linkPreview?.length
@@ -1902,7 +1914,10 @@ export class BackupImportStream extends Writable {
           description: dropNull(preview.description),
           date: getCheckedTimestampOrUndefinedFromLong(preview.date),
           image: preview.image
-            ? convertFilePointerToAttachment(preview.image)
+            ? convertFilePointerToAttachment(
+                preview.image,
+                this.#getFilePointerOptions()
+              )
             : undefined,
         };
       })
@@ -1917,7 +1932,10 @@ export class BackupImportStream extends Writable {
       ...(attachment
         ? {
             attachments: [
-              convertBackupMessageAttachmentToAttachment(attachment),
+              convertBackupMessageAttachmentToAttachment(
+                attachment,
+                this.#getFilePointerOptions()
+              ),
             ].filter(isNotNil),
           }
         : {
@@ -1948,7 +1966,10 @@ export class BackupImportStream extends Writable {
       result.body = textReply.text?.body ?? undefined;
       result.bodyRanges = this.#fromBodyRanges(textReply.text);
       result.bodyAttachment = textReply.longText
-        ? convertFilePointerToAttachment(textReply.longText)
+        ? convertFilePointerToAttachment(
+            textReply.longText,
+            this.#getFilePointerOptions()
+          )
         : undefined;
     } else if (emoji) {
       result.storyReaction = {
@@ -1978,7 +1999,10 @@ export class BackupImportStream extends Writable {
       body: textReply.text?.body ?? undefined,
       bodyRanges: this.#fromBodyRanges(textReply.text),
       bodyAttachment: textReply.longText
-        ? convertFilePointerToAttachment(textReply.longText)
+        ? convertFilePointerToAttachment(
+            textReply.longText,
+            this.#getFilePointerOptions()
+          )
         : undefined,
     };
   }
@@ -2101,7 +2125,10 @@ export class BackupImportStream extends Writable {
               ? stringToMIMEType(contentType)
               : APPLICATION_OCTET_STREAM,
             thumbnail: thumbnail?.pointer
-              ? convertFilePointerToAttachment(thumbnail.pointer)
+              ? convertFilePointerToAttachment(
+                  thumbnail.pointer,
+                  this.#getFilePointerOptions()
+                )
               : undefined,
           };
         }) ?? [],
@@ -2263,7 +2290,10 @@ export class BackupImportStream extends Writable {
               organization: organization || undefined,
               avatar: avatar
                 ? {
-                    avatar: convertFilePointerToAttachment(avatar),
+                    avatar: convertFilePointerToAttachment(
+                      avatar,
+                      this.#getFilePointerOptions()
+                    ),
                     isProfile: false,
                   }
                 : undefined,
@@ -2310,7 +2340,12 @@ export class BackupImportStream extends Writable {
             packId: Bytes.toHex(packId),
             packKey: Bytes.toBase64(packKey),
             stickerId,
-            data: data ? convertFilePointerToAttachment(data) : undefined,
+            data: data
+              ? convertFilePointerToAttachment(
+                  data,
+                  this.#getFilePointerOptions()
+                )
+              : undefined,
           },
           reactions: this.#fromReactions(chatItem.stickerMessage.reactions),
         },
@@ -3690,6 +3725,14 @@ export class BackupImportStream extends Writable {
       dimWallpaperInDarkMode,
       autoBubbleColor,
     };
+  }
+
+  #getFilePointerOptions() {
+    if (this.localBackupSnapshotDir != null) {
+      return { localBackupSnapshotDir: this.localBackupSnapshotDir };
+    }
+
+    return {};
   }
 }
 

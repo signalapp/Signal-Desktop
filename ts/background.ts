@@ -214,6 +214,7 @@ import { MessageModel } from './models/messages';
 import { waitForEvent } from './shims/events';
 import { sendSyncRequests } from './textsecure/syncRequests';
 import { handleServerAlerts } from './util/handleServerAlerts';
+import { isLocalBackupsEnabled } from './util/isLocalBackupsEnabled';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -1758,7 +1759,7 @@ export async function startApp(): Promise<void> {
         hasSentSyncRequests = true;
       }
 
-      // 4. Download (or resume download) of link & sync backup
+      // 4. Download (or resume download) of link & sync backup or local backup
       const { wasBackupImported } = await maybeDownloadAndImportBackup();
       log.info(logId, {
         wasBackupImported,
@@ -1836,20 +1837,29 @@ export async function startApp(): Promise<void> {
     wasBackupImported: boolean;
   }> {
     const backupDownloadPath = window.storage.get('backupDownloadPath');
-    if (backupDownloadPath) {
+    const isLocalBackupAvailable =
+      backupsService.isLocalBackupStaged() && isLocalBackupsEnabled();
+
+    if (isLocalBackupAvailable || backupDownloadPath) {
       tapToViewMessagesDeletionService.pause();
 
       // Download backup before enabling request handler and storage service
       try {
-        const { wasBackupImported } = await backupsService.downloadAndImport({
-          onProgress: (backupStep, currentBytes, totalBytes) => {
-            window.reduxActions.installer.updateBackupImportProgress({
-              backupStep,
-              currentBytes,
-              totalBytes,
-            });
-          },
-        });
+        let wasBackupImported = false;
+        if (isLocalBackupAvailable) {
+          await backupsService.importLocalBackup();
+          wasBackupImported = true;
+        } else {
+          ({ wasBackupImported } = await backupsService.downloadAndImport({
+            onProgress: (backupStep, currentBytes, totalBytes) => {
+              window.reduxActions.installer.updateBackupImportProgress({
+                backupStep,
+                currentBytes,
+                totalBytes,
+              });
+            },
+          }));
+        }
 
         log.info('afterAppStart: backup download attempt completed, resolving');
         backupReady.resolve({ wasBackupImported });

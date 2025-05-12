@@ -100,6 +100,8 @@ const ipcGetEmojiSkinToneDefault = createCallback('getEmojiSkinToneDefault');
 const ipcIsSyncNotSupported = createCallback('isPrimary');
 const ipcIsInternalUser = createCallback('isInternalUser');
 const ipcMakeSyncRequest = createCallback('syncRequest');
+const ipcExportLocalBackup = createCallback('exportLocalBackup');
+const ipcImportLocalBackup = createCallback('importLocalBackup');
 const ipcValidateBackup = createCallback('validateBackup');
 const ipcDeleteAllMyStories = createCallback('deleteAllMyStories');
 const ipcRefreshCloudBackupStatus = createCallback('refreshCloudBackupStatus');
@@ -369,6 +371,8 @@ async function renderPreferences() {
     resetAllChatColors: ipcResetAllChatColors,
     resetDefaultChatColor: ipcResetDefaultChatColor,
     setGlobalDefaultConversationColor: ipcSetGlobalDefaultConversationColor,
+    exportLocalBackup: ipcExportLocalBackup,
+    importLocalBackup: ipcImportLocalBackup,
     validateBackup: ipcValidateBackup,
     // Limited support features
     isAutoDownloadUpdatesSupported: Settings.isAutoDownloadUpdatesSupported(

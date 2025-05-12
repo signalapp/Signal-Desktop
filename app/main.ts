@@ -3110,31 +3110,50 @@ ipc.handle('show-save-dialog', async (_event, { defaultPath }) => {
   return { canceled: false, filePath: finalFilePath };
 });
 
-ipc.handle('show-save-multi-dialog', async _event => {
-  if (!mainWindow) {
-    getLogger().warn('show-save-multi-dialog: no main window');
+ipc.handle(
+  'show-open-folder-dialog',
+  async (
+    _event,
+    { useMainWindow }: { useMainWindow: boolean } = { useMainWindow: false }
+  ) => {
+    let canceled: boolean;
+    let selectedDirPaths: ReadonlyArray<string>;
 
-    return { canceled: true };
-  }
-  const { canceled, filePaths: selectedDirPaths } = await dialog.showOpenDialog(
-    mainWindow,
-    {
-      defaultPath: app.getPath('downloads'),
-      properties: ['openDirectory', 'createDirectory'],
+    if (useMainWindow) {
+      if (!mainWindow) {
+        getLogger().warn('show-open-folder-dialog: no main window');
+        return { canceled: true };
+      }
+
+      ({ canceled, filePaths: selectedDirPaths } = await dialog.showOpenDialog(
+        mainWindow,
+        {
+          defaultPath: app.getPath('downloads'),
+          properties: ['openDirectory', 'createDirectory'],
+        }
+      ));
+    } else {
+      ({ canceled, filePaths: selectedDirPaths } = await dialog.showOpenDialog({
+        defaultPath: app.getPath('downloads'),
+        properties: ['openDirectory', 'createDirectory'],
+      }));
     }
-  );
-  if (canceled || selectedDirPaths.length === 0) {
-    return { canceled: true };
+
+    if (canceled || selectedDirPaths.length === 0) {
+      return { canceled: true };
+    }
+
+    if (selectedDirPaths.length > 1) {
+      getLogger().warn(
+        'show-open-folder-dialog: multiple directories selected'
+      );
+
+      return { canceled: true };
+    }
+
+    return { canceled: false, dirPath: selectedDirPaths[0] };
   }
-
-  if (selectedDirPaths.length > 1) {
-    getLogger().warn('show-save-multi-dialog: multiple directories selected');
-
-    return { canceled: true };
-  }
-
-  return { canceled: false, dirPath: selectedDirPaths[0] };
-});
+);
 
 ipc.handle('executeMenuRole', async ({ sender }, untypedRole) => {
   const role = untypedRole as MenuItemConstructorOptions['role'];
