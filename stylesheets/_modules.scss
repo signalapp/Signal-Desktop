@@ -3087,6 +3087,7 @@ button.module-image__border-overlay:focus {
   & {
     background-color: variables.$color-black-alpha-80;
     color: variables.$color-white;
+    backdrop-filter: blur(10px);
 
     height: 44px;
     border-radius: 44px;
