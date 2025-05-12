@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { DAY, HOUR } from '../../util/durations';
+import { DAY, HOUR, MINUTE } from '../../util/durations';
 
 import {
   DayOfWeek,
@@ -382,7 +382,77 @@ describe('NotificationProfile', () => {
       });
       assert.deepEqual(expected, actual);
     });
-    it('should return willDisable with earlier start if two profiles should be active right now', () => {
+
+    it('should return willDisable if profile should be active right now, with earlier preempt time', () => {
+      const defaultProfile = createBasicProfile({
+        createdAtMs: now,
+        scheduleEnabled: true,
+        scheduleDaysEnabled: {
+          [DayOfWeek.MONDAY]: true,
+          [DayOfWeek.TUESDAY]: false,
+          [DayOfWeek.WEDNESDAY]: false,
+          [DayOfWeek.THURSDAY]: false,
+          [DayOfWeek.FRIDAY]: false,
+          [DayOfWeek.SATURDAY]: false,
+          [DayOfWeek.SUNDAY]: false,
+        },
+        scheduleStartTime: 900,
+        scheduleEndTime: 1200,
+      });
+      const preemptProfile = createBasicProfile({
+        createdAtMs: now + 10,
+        scheduleEnabled: true,
+        scheduleDaysEnabled: {
+          [DayOfWeek.MONDAY]: true,
+          [DayOfWeek.TUESDAY]: false,
+          [DayOfWeek.WEDNESDAY]: false,
+          [DayOfWeek.THURSDAY]: false,
+          [DayOfWeek.FRIDAY]: false,
+          [DayOfWeek.SATURDAY]: false,
+          [DayOfWeek.SUNDAY]: false,
+        },
+        scheduleStartTime: 1030,
+        scheduleEndTime: 1200,
+      });
+      const noPreemptProfile = createBasicProfile({
+        createdAtMs: now - 10,
+        scheduleEnabled: true,
+        scheduleDaysEnabled: {
+          [DayOfWeek.MONDAY]: true,
+          [DayOfWeek.TUESDAY]: false,
+          [DayOfWeek.WEDNESDAY]: false,
+          [DayOfWeek.THURSDAY]: false,
+          [DayOfWeek.FRIDAY]: false,
+          [DayOfWeek.SATURDAY]: false,
+          [DayOfWeek.SUNDAY]: false,
+        },
+        scheduleStartTime: 1015,
+        scheduleEndTime: 1200,
+      });
+
+      const expected: NextProfileEvent = {
+        type: 'willDisable',
+        activeProfile: defaultProfile.id,
+        willDisableAt: now + 30 * MINUTE,
+      };
+      const profiles: ReadonlyArray<NotificationProfileType> = sortProfiles([
+        preemptProfile,
+        noPreemptProfile,
+        defaultProfile,
+        createBasicProfile({
+          name: 'Work',
+        }),
+      ]);
+
+      const actual = findNextProfileEvent({
+        override: undefined,
+        profiles,
+        time: now,
+      });
+      assert.deepEqual(expected, actual);
+    });
+
+    it('should return willDisable with newer profile if two profiles should be active right now, different start time', () => {
       const oldProfile = createBasicProfile({
         createdAtMs: now - 10,
         scheduleEnabled: true,
@@ -416,7 +486,7 @@ describe('NotificationProfile', () => {
 
       const expected: NextProfileEvent = {
         type: 'willDisable',
-        activeProfile: oldProfile.id,
+        activeProfile: newProfile.id,
         willDisableAt: now + 2 * HOUR,
       };
       const profiles: ReadonlyArray<NotificationProfileType> = sortProfiles([
@@ -431,7 +501,7 @@ describe('NotificationProfile', () => {
       });
       assert.deepEqual(expected, actual);
     });
-    it('should return willDisable with newer profile with same start if two profiles should be active right now', () => {
+    it('should return willDisable with newer profile if two profiles should be active right now, same start time', () => {
       const oldProfile = createBasicProfile({
         createdAtMs: now - 10,
         scheduleEnabled: true,
