@@ -69,7 +69,8 @@ import type {
   BackupStatusType,
 } from '../types/backups';
 import { isBackupFeatureEnabled } from './isBackupEnabled';
-import * as RemoteConfig from '../RemoteConfig';
+import { isSettingsInternalEnabled } from './isSettingsInternalEnabled';
+import type { ValidateLocalBackupStructureResultType } from '../services/backups/util/localBackup';
 
 type SentMediaQualityType = 'standard' | 'high';
 type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
@@ -164,6 +165,8 @@ export type IPCEventsCallbacksType = {
   unknownSignalLink: () => void;
   getCustomColors: () => Record<string, CustomColorType>;
   syncRequest: () => Promise<void>;
+  exportLocalBackup: () => Promise<BackupValidationResultType>;
+  importLocalBackup: () => Promise<ValidateLocalBackupStructureResultType>;
   validateBackup: () => Promise<BackupValidationResultType>;
   setGlobalDefaultConversationColor: (
     color: ConversationColorType,
@@ -542,7 +545,7 @@ export function createIPCEvents(
     },
 
     isPrimary: () => window.textsecure.storage.user.getDeviceId() === 1,
-    isInternalUser: () => RemoteConfig.isEnabled('desktop.internalUser'),
+    isInternalUser: () => isSettingsInternalEnabled(),
     syncRequest: async () => {
       const contactSyncComplete = waitForEvent(
         'contactSync:complete',
@@ -552,6 +555,9 @@ export function createIPCEvents(
       return contactSyncComplete;
     },
     // Only for internal use
+    exportLocalBackup: () => backupsService._internalExportLocalBackup(),
+    importLocalBackup: () =>
+      backupsService._internalStageLocalBackupForImport(),
     validateBackup: () => backupsService._internalValidate(),
     getLastSyncTime: () => window.storage.get('synced_at'),
     setLastSyncTime: value => window.storage.put('synced_at', value),

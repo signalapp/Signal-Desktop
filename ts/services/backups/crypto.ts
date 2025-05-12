@@ -125,3 +125,12 @@ export function deriveBackupThumbnailTransitKeyMaterial(
     ),
   };
 }
+
+export function getBackupId(): Uint8Array {
+  const aci = window.storage.user.getCheckedAci();
+  return getBackupKey().deriveBackupId(toAciObject(aci));
+}
+
+export function getLocalBackupMetadataKey(): Uint8Array {
+  return getBackupKey().deriveLocalBackupMetadataKey();
+}

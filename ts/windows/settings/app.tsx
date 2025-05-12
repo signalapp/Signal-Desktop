@@ -43,6 +43,7 @@ SettingsWindowProps.onRender(
     doDeleteAllData,
     doneRendering,
     editCustomColor,
+    exportLocalBackup,
     getConversationsWithCustomColor,
     hasAudioNotifications,
     hasAutoConvertEmoji,
@@ -67,6 +68,7 @@ SettingsWindowProps.onRender(
     hasStoriesDisabled,
     hasTextFormatting,
     hasTypingIndicators,
+    importLocalBackup,
     initialSpellCheckSetting,
     isAutoDownloadUpdatesSupported,
     isAutoLaunchSupported,
@@ -151,6 +153,7 @@ SettingsWindowProps.onRender(
         defaultConversationColor={defaultConversationColor}
         deviceName={deviceName}
         emojiSkinToneDefault={emojiSkinToneDefault}
+        exportLocalBackup={exportLocalBackup}
         phoneNumber={phoneNumber}
         doDeleteAllData={doDeleteAllData}
         doneRendering={doneRendering}
@@ -180,6 +183,7 @@ SettingsWindowProps.onRender(
         hasTextFormatting={hasTextFormatting}
         hasTypingIndicators={hasTypingIndicators}
         i18n={i18n}
+        importLocalBackup={importLocalBackup}
         initialSpellCheckSetting={initialSpellCheckSetting}
         isAutoDownloadUpdatesSupported={isAutoDownloadUpdatesSupported}
         isAutoLaunchSupported={isAutoLaunchSupported}

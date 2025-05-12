@@ -5,15 +5,16 @@ import { pipeline } from 'stream/promises';
 import { PassThrough } from 'stream';
 import type { Readable, Writable } from 'stream';
 import { createReadStream, createWriteStream } from 'fs';
-import { unlink, stat } from 'fs/promises';
+import { mkdir, stat, unlink } from 'fs/promises';
 import { ensureFile } from 'fs-extra';
 import { join } from 'path';
 import { createGzip, createGunzip } from 'zlib';
 import { createCipheriv, createHmac, randomBytes } from 'crypto';
-import { noop } from 'lodash';
+import { isEqual, noop } from 'lodash';
 import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
 import { BackupKey } from '@signalapp/libsignal-client/dist/AccountKeys';
 import { throttle } from 'lodash/fp';
+import { ipcRenderer } from 'electron';
 
 import { DataReader, DataWriter } from '../../sql/Client';
 import * as log from '../../logging/log';
@@ -49,7 +50,11 @@ import { isTestOrMockEnvironment } from '../../environment';
 import { runStorageServiceSyncJob } from '../storage';
 import { BackupExportStream, type StatsType } from './export';
 import { BackupImportStream } from './import';
-import { getKeyMaterial } from './crypto';
+import {
+  getBackupId,
+  getKeyMaterial,
+  getLocalBackupMetadataKey,
+} from './crypto';
 import { BackupCredentials } from './credentials';
 import { BackupAPI } from './api';
 import { validateBackup, ValidationType } from './validator';
@@ -66,6 +71,16 @@ import { MemoryStream } from './util/MemoryStream';
 import { ToastType } from '../../types/Toast';
 import { isAdhoc, isNightly } from '../../util/version';
 import { getMessageQueueTime } from '../../util/getMessageQueueTime';
+import { isLocalBackupsEnabled } from '../../util/isLocalBackupsEnabled';
+import type { ValidateLocalBackupStructureResultType } from './util/localBackup';
+import {
+  writeLocalBackupMetadata,
+  verifyLocalBackupMetadata,
+  writeLocalBackupFilesList,
+  readLocalBackupFilesList,
+  validateLocalBackupStructure,
+} from './util/localBackup';
+import { AttachmentLocalBackupManager } from '../../jobs/AttachmentLocalBackupManager';
 
 export { BackupType };
 
@@ -94,6 +109,7 @@ type DoDownloadOptionsType = Readonly<{
 
 export type ImportOptionsType = Readonly<{
   backupType?: BackupType;
+  localBackupSnapshotDir?: string;
   ephemeralKey?: Uint8Array;
   onProgress?: (currentBytes: number, totalBytes: number) => void;
 }>;
@@ -104,9 +120,13 @@ export type ExportResultType = Readonly<{
   stats: Readonly<StatsType>;
 }>;
 
+export type LocalBackupExportResultType = ExportResultType & {
+  snapshotDir: string;
+};
+
 export type ValidationResultType = Readonly<
   | {
-      result: ExportResultType;
+      result: ExportResultType | LocalBackupExportResultType;
     }
   | {
       error: string;
@@ -122,6 +142,8 @@ export class BackupsService {
   #downloadRetryPromise:
     | ExplodePromiseResultType<RetryBackupImportValue>
     | undefined;
+
+  #localBackupSnapshotDir: string | undefined;
 
   public readonly credentials = new BackupCredentials();
   public readonly api = new BackupAPI(this.credentials);
@@ -263,23 +285,7 @@ export class BackupsService {
   }
 
   public async upload(): Promise<void> {
-    // Make sure we are up-to-date on storage service
-    {
-      const { promise: storageService, resolve } = explodePromise<void>();
-      window.Whisper.events.once('storageService:syncComplete', resolve);
-
-      runStorageServiceSyncJob({ reason: 'backups.upload' });
-      await storageService;
-    }
-
-    // Clear message queue
-    await window.waitForEmptyEventQueue();
-
-    // Make sure all batches are flushed
-    await Promise.all([
-      window.waitForAllBatchers(),
-      window.flushAllWaitBatchers(),
-    ]);
+    await this.#waitForEmptyQueues('backups.upload');
 
     const fileName = `backup-${randomBytes(32).toString('hex')}`;
     const filePath = join(window.BasePaths.temp, fileName);
@@ -290,9 +296,9 @@ export class BackupsService {
     log.info(`exportBackup: starting, backup level: ${backupLevel}...`);
 
     try {
-      const fileSize = await this.exportToDisk(filePath, backupLevel);
+      const { totalBytes } = await this.exportToDisk(filePath, backupLevel);
 
-      await this.api.upload(filePath, fileSize);
+      await this.api.upload(filePath, totalBytes);
     } finally {
       try {
         await unlink(filePath);
@@ -300,6 +306,95 @@ export class BackupsService {
         // Ignore
       }
     }
+  }
+
+  public async exportLocalBackup(
+    backupsBaseDir: string | undefined = undefined,
+    backupLevel: BackupLevel = BackupLevel.Free
+  ): Promise<LocalBackupExportResultType> {
+    strictAssert(isLocalBackupsEnabled(), 'Local backups must be enabled');
+
+    await this.#waitForEmptyQueues('backups.exportLocalBackup');
+
+    const baseDir =
+      backupsBaseDir ??
+      join(window.SignalContext.getPath('userData'), 'SignalBackups');
+    const snapshotDir = join(baseDir, `signal-backup-${new Date().getTime()}`);
+    await mkdir(snapshotDir, { recursive: true });
+    const mainProtoPath = join(snapshotDir, 'main');
+
+    log.info('exportLocalBackup: starting');
+
+    const exportResult = await this.exportToDisk(
+      mainProtoPath,
+      backupLevel,
+      BackupType.Ciphertext,
+      snapshotDir
+    );
+
+    log.info('exportLocalBackup: writing metadata');
+    const metadataArgs = {
+      snapshotDir,
+      backupId: getBackupId(),
+      metadataKey: getLocalBackupMetadataKey(),
+    };
+    await writeLocalBackupMetadata(metadataArgs);
+    await verifyLocalBackupMetadata(metadataArgs);
+
+    log.info(
+      'exportLocalBackup: waiting for AttachmentLocalBackupManager to finish'
+    );
+    await AttachmentLocalBackupManager.waitForIdle();
+
+    log.info(`exportLocalBackup: exported to disk: ${snapshotDir}`);
+    return { ...exportResult, snapshotDir };
+  }
+
+  public async stageLocalBackupForImport(
+    snapshotDir: string
+  ): Promise<ValidateLocalBackupStructureResultType> {
+    const result = await validateLocalBackupStructure(snapshotDir);
+    const { success, error } = result;
+    if (success) {
+      this.#localBackupSnapshotDir = snapshotDir;
+      log.info(
+        `stageLocalBackupForImport: Staged ${snapshotDir} for import. Please link to perform import.`
+      );
+    } else {
+      this.#localBackupSnapshotDir = undefined;
+      log.info(
+        `stageLocalBackupForImport: Invalid snapshot ${snapshotDir}. Error: ${error}.`
+      );
+    }
+    return result;
+  }
+
+  public isLocalBackupStaged(): boolean {
+    return Boolean(this.#localBackupSnapshotDir);
+  }
+
+  public async importLocalBackup(): Promise<void> {
+    strictAssert(
+      this.#localBackupSnapshotDir,
+      'importLocalBackup: Staged backup is required, use stageLocalBackupForImport()'
+    );
+
+    log.info(`importLocalBackup: Importing ${this.#localBackupSnapshotDir}`);
+
+    const backupFile = join(this.#localBackupSnapshotDir, 'main');
+    await this.importFromDisk(backupFile, {
+      localBackupSnapshotDir: this.#localBackupSnapshotDir,
+    });
+
+    await verifyLocalBackupMetadata({
+      snapshotDir: this.#localBackupSnapshotDir,
+      backupId: getBackupId(),
+      metadataKey: getLocalBackupMetadataKey(),
+    });
+
+    this.#localBackupSnapshotDir = undefined;
+
+    log.info('importLocalBackup: Done');
   }
 
   // Test harness
@@ -319,29 +414,63 @@ export class BackupsService {
     };
   }
 
-  // Test harness
   public async exportToDisk(
     path: string,
     backupLevel: BackupLevel = BackupLevel.Free,
-    backupType = BackupType.Ciphertext
-  ): Promise<number> {
-    const { totalBytes } = await this.#exportBackup(
+    backupType = BackupType.Ciphertext,
+    localBackupSnapshotDir: string | undefined = undefined
+  ): Promise<ExportResultType> {
+    const exportResult = await this.#exportBackup(
       createWriteStream(path),
       backupLevel,
-      backupType
+      backupType,
+      localBackupSnapshotDir
     );
 
     if (backupType === BackupType.Ciphertext) {
       await validateBackup(
         () => new FileStream(path),
-        totalBytes,
+        exportResult.totalBytes,
         isTestOrMockEnvironment()
           ? ValidationType.Internal
           : ValidationType.Export
       );
     }
 
-    return totalBytes;
+    return exportResult;
+  }
+
+  public async _internalExportLocalBackup(
+    backupLevel: BackupLevel = BackupLevel.Free
+  ): Promise<ValidationResultType> {
+    try {
+      const { canceled, dirPath: backupsBaseDir } = await ipcRenderer.invoke(
+        'show-open-folder-dialog'
+      );
+      if (canceled || !backupsBaseDir) {
+        return { error: 'Backups directory not selected' };
+      }
+
+      const result = await this.exportLocalBackup(backupsBaseDir, backupLevel);
+      return { result };
+    } catch (error) {
+      return { error: Errors.toLogFormat(error) };
+    }
+  }
+
+  public async _internalStageLocalBackupForImport(): Promise<ValidateLocalBackupStructureResultType> {
+    const { canceled, dirPath: snapshotDir } = await ipcRenderer.invoke(
+      'show-open-folder-dialog'
+    );
+    if (canceled || !snapshotDir) {
+      return {
+        success: false,
+        error: 'File dialog canceled',
+        snapshotDir: undefined,
+      };
+    }
+
+    return this.stageLocalBackupForImport(snapshotDir);
   }
 
   // Test harness
@@ -417,6 +546,7 @@ export class BackupsService {
       backupType = BackupType.Ciphertext,
       ephemeralKey,
       onProgress,
+      localBackupSnapshotDir = undefined,
     }: ImportOptionsType = {}
   ): Promise<void> {
     strictAssert(!this.#isRunning, 'BackupService is already running');
@@ -438,7 +568,10 @@ export class BackupsService {
 
       window.ConversationController.setReadOnly(true);
 
-      const importStream = await BackupImportStream.create(backupType);
+      const importStream = await BackupImportStream.create(
+        backupType,
+        localBackupSnapshotDir
+      );
       if (backupType === BackupType.Ciphertext) {
         const { aesKey, macKey } = getKeyMaterial(
           ephemeralKey ? new BackupKey(Buffer.from(ephemeralKey)) : undefined
@@ -761,7 +894,8 @@ export class BackupsService {
   async #exportBackup(
     sink: Writable,
     backupLevel: BackupLevel = BackupLevel.Free,
-    backupType = BackupType.Ciphertext
+    backupType = BackupType.Ciphertext,
+    localBackupSnapshotDir: string | undefined = undefined
   ): Promise<ExportResultType> {
     strictAssert(!this.#isRunning, 'BackupService is already running');
 
@@ -786,7 +920,7 @@ export class BackupsService {
       const { aesKey, macKey } = getKeyMaterial();
       const recordStream = new BackupExportStream(backupType);
 
-      recordStream.run(backupLevel);
+      recordStream.run(backupLevel, localBackupSnapshotDir);
 
       const iv = randomBytes(IV_LENGTH);
 
@@ -815,6 +949,21 @@ export class BackupsService {
         await pipeline(recordStream, sink);
       } else {
         throw missingCaseError(backupType);
+      }
+
+      if (localBackupSnapshotDir) {
+        log.info('exportBackup: writing local backup files list');
+        const filesWritten = await writeLocalBackupFilesList({
+          snapshotDir: localBackupSnapshotDir,
+          mediaNamesIterator: recordStream.getMediaNamesIterator(),
+        });
+        const filesRead = await readLocalBackupFilesList(
+          localBackupSnapshotDir
+        );
+        strictAssert(
+          isEqual(filesWritten, filesRead),
+          'exportBackup: Local backup files proto must match files written'
+        );
       }
 
       const duration = Date.now() - start;
@@ -864,6 +1013,28 @@ export class BackupsService {
     // The QR code should be regenerated only after all data is cleared to prevent
     // a race where the QR code doesn't show the backup capability
     window.reduxActions.installer.startInstaller();
+  }
+
+  async #waitForEmptyQueues(
+    reason: 'backups.upload' | 'backups.exportLocalBackup'
+  ) {
+    // Make sure we are up-to-date on storage service
+    {
+      const { promise: storageService, resolve } = explodePromise<void>();
+      window.Whisper.events.once('storageService:syncComplete', resolve);
+
+      runStorageServiceSyncJob({ reason });
+      await storageService;
+    }
+
+    // Clear message queue
+    await window.waitForEmptyEventQueue();
+
+    // Make sure all batches are flushed
+    await Promise.all([
+      window.waitForAllBatchers(),
+      window.flushAllWaitBatchers(),
+    ]);
   }
 
   public isImportRunning(): boolean {

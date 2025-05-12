@@ -74,6 +74,7 @@ import {
 import { PreferencesBackups } from './PreferencesBackups';
 import { PreferencesInternal } from './PreferencesInternal';
 import { FunEmojiLocalizationProvider } from './fun/FunEmojiLocalizationProvider';
+import type { ValidateLocalBackupStructureResultType } from '../services/backups/util/localBackup';
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
@@ -157,9 +158,11 @@ type PropsFunctionType = {
   doDeleteAllData: () => unknown;
   doneRendering: () => unknown;
   editCustomColor: (colorId: string, color: CustomColorType) => unknown;
+  exportLocalBackup: () => Promise<BackupValidationResultType>;
   getConversationsWithCustomColor: (
     colorId: string
   ) => Promise<Array<ConversationType>>;
+  importLocalBackup: () => Promise<ValidateLocalBackupStructureResultType>;
   makeSyncRequest: () => unknown;
   refreshCloudBackupStatus: () => void;
   refreshBackupSubscriptionStatus: () => void;
@@ -286,6 +289,7 @@ export function Preferences({
   doneRendering,
   editCustomColor,
   emojiSkinToneDefault,
+  exportLocalBackup,
   getConversationsWithCustomColor,
   hasAudioNotifications,
   hasAutoConvertEmoji,
@@ -311,6 +315,7 @@ export function Preferences({
   hasTextFormatting,
   hasTypingIndicators,
   i18n,
+  importLocalBackup,
   initialPage = Page.General,
   initialSpellCheckSetting,
   isAutoDownloadUpdatesSupported,
@@ -1736,7 +1741,12 @@ export function Preferences({
     );
   } else if (page === Page.Internal) {
     settings = (
-      <PreferencesInternal i18n={i18n} validateBackup={validateBackup} />
+      <PreferencesInternal
+        i18n={i18n}
+        exportLocalBackup={exportLocalBackup}
+        importLocalBackup={importLocalBackup}
+        validateBackup={validateBackup}
+      />
     );
   }
 

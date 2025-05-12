@@ -51,6 +51,8 @@ installCallback('isInternalUser');
 installCallback('syncRequest');
 installCallback('getEmojiSkinToneDefault');
 installCallback('setEmojiSkinToneDefault');
+installCallback('exportLocalBackup');
+installCallback('importLocalBackup');
 installCallback('validateBackup');
 
 installSetting('alwaysRelayCalls');
