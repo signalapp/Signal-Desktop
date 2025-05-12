@@ -571,6 +571,15 @@ async function handleCommonWindowEvents(window: BrowserWindow) {
   const focusInterval = setInterval(setWindowFocus, 10000);
   window.on('closed', () => clearInterval(focusInterval));
 
+  const contentProtection = ephemeralConfig.get('contentProtection');
+  // Apply content protection by default on Windows, unless explicitly disabled
+  // by user in settings.
+  if (contentProtection ?? OS.isWindows()) {
+    window.once('ready-to-show', async () => {
+      window.setContentProtection(true);
+    });
+  }
+
   await zoomFactorService.syncWindow(window);
 
   nativeThemeNotifier.addWindow(window);
@@ -2132,6 +2141,7 @@ app.on('ready', async () => {
     'ephemeral-setting-changed',
     sendPreferencesChangedEventToWindows
   );
+  settingsChannel.on('ephemeral-setting-changed', onEphemeralSettingChanged);
 
   // We use this event only a single time to log the startup time of the app
   // from when it's first ready until the loading screen disappears.
@@ -2901,6 +2911,20 @@ const sendPreferencesChangedEventToWindows = () => {
   }
 };
 ipc.on('preferences-changed', sendPreferencesChangedEventToWindows);
+
+const onEphemeralSettingChanged = (name: string) => {
+  if (name !== 'contentProtection') {
+    return;
+  }
+
+  const contentProtection = ephemeralConfig.get('contentProtection');
+
+  for (const window of activeWindows) {
+    if (typeof contentProtection === 'boolean') {
+      window.setContentProtection(contentProtection);
+    }
+  }
+};
 
 function maybeGetIncomingSignalRoute(argv: Array<string>) {
   for (const arg of argv) {

@@ -6920,6 +6920,30 @@
     "messageformat": "Restart",
     "description": "Button to restart Signal to apply language changes"
   },
+  "icu:Preferences__Privacy__Application": {
+    "messageformat": "Application",
+    "description": "Title of Application section in Settings > Privacy"
+  },
+  "icu:Preferences__content-protection--label": {
+    "messageformat": "Screen security",
+    "description": "Label of checkbox in Settings > Privacy > Application"
+  },
+  "icu:Preferences__content-protection--description": {
+    "messageformat": "Prevent screenshots of Signal on this computer for added privacy.",
+    "description": "Description of checkbox in Settings > Privacy > Application"
+  },
+  "icu:Preferences__content-protection__modal--title": {
+    "messageformat": "Disable screen security?",
+    "description": "Title of confirm disabling screen security modal in Settings > Privacy > Application"
+  },
+  "icu:Preferences__content-protection__modal--body": {
+    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private.",
+    "description": "Body of confirm disabling screen security modal in Settings > Privacy > Application"
+  },
+  "icu:Preferences__content-protection__modal--disable": {
+    "messageformat": "Disable",
+    "description": "Text of the button confirm disabling screen security modal in Settings > Privacy > Application"
+  },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Update to version {version} available",
     "description": "Tooltip for new update available"
