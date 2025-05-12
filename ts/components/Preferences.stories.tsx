@@ -111,6 +111,7 @@ export default {
     hasAutoLaunch: true,
     hasCallNotifications: true,
     hasCallRingtoneNotification: false,
+    hasContentProtection: false,
     hasCountMutedConversations: false,
     hasHideMenuBar: false,
     hasIncomingCallNotifications: true,
@@ -136,6 +137,8 @@ export default {
     isSyncSupported: true,
     isSystemTraySupported: true,
     isInternalUser: false,
+    isContentProtectionSupported: true,
+    isContentProtectionNeeded: true,
     isMinimizeToAndStartInSystemTraySupported: true,
     lastSyncTime: Date.now(),
     localeOverride: null,
@@ -182,6 +185,7 @@ export default {
     onCallRingtoneNotificationChange: action(
       'onCallRingtoneNotificationChange'
     ),
+    onContentProtectionChange: action('onContentProtectionChange'),
     onCountMutedConversationsChange: action('onCountMutedConversationsChange'),
     onEmojiSkinToneDefaultChange: action('onEmojiSkinToneDefaultChange'),
     onHasStoriesDisabledChanged: action('onHasStoriesDisabledChanged'),

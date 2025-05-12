@@ -192,6 +192,8 @@ type ValuesWithGetters = Omit<
   | 'mediaPermissions'
   | 'mediaCameraPermissions'
   | 'autoLaunch'
+  | 'spellCheck'
+  | 'contentProtection'
   | 'systemTraySetting'
 >;
 
@@ -240,6 +242,7 @@ export type IPCEventsGettersType = {
   getZoomFactor: () => Promise<ZoomFactorType>;
   getLocaleOverride: () => Promise<string | null>;
   getSpellCheck: () => Promise<boolean>;
+  getContentProtection: () => Promise<boolean>;
   getSystemTraySetting: () => Promise<SystemTraySetting>;
   getThemeSetting: () => Promise<ThemeType>;
   // Events
@@ -337,6 +340,12 @@ export function createIPCEvents(
       const account = window.ConversationController.getOurConversationOrThrow();
       account.captureChange('hasStoriesDisabled');
       window.textsecure.server?.onHasStoriesDisabledChange(value);
+    },
+    getContentProtection: () => {
+      return getEphemeralSetting('contentProtection');
+    },
+    setContentProtection: async (value: boolean) => {
+      await setEphemeralSetting('contentProtection', value);
     },
     getStoryViewReceiptsEnabled: () => {
       return (

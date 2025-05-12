@@ -48,6 +48,7 @@ const settingNotificationSetting = createSetting('notificationSetting');
 const settingRelayCalls = createSetting('alwaysRelayCalls');
 const settingSentMediaQuality = createSetting('sentMediaQualitySetting');
 const settingSpellCheck = createSetting('spellCheck');
+const settingContentProtection = createSetting('contentProtection');
 const settingTextFormatting = createSetting('textFormatting');
 const settingTheme = createSetting('themeSetting');
 const settingSystemTraySetting = createSetting('systemTraySetting');
@@ -176,6 +177,7 @@ async function renderPreferences() {
     hasAutoLaunch,
     hasCallNotifications,
     hasCallRingtoneNotification,
+    hasContentProtection,
     hasCountMutedConversations,
     hasHideMenuBar,
     hasIncomingCallNotifications,
@@ -223,6 +225,7 @@ async function renderPreferences() {
     hasAutoLaunch: settingAutoLaunch.getValue(),
     hasCallNotifications: settingCallSystemNotification.getValue(),
     hasCallRingtoneNotification: settingCallRingtoneNotification.getValue(),
+    hasContentProtection: settingContentProtection.getValue(),
     hasCountMutedConversations: settingCountMutedConversations.getValue(),
     hasHideMenuBar: settingHideMenuBar.getValue(),
     hasIncomingCallNotifications: settingIncomingCallNotification.getValue(),
@@ -321,6 +324,7 @@ async function renderPreferences() {
     hasAutoLaunch,
     hasCallNotifications,
     hasCallRingtoneNotification,
+    hasContentProtection,
     hasCountMutedConversations,
     hasHideMenuBar,
     hasIncomingCallNotifications,
@@ -385,6 +389,8 @@ async function renderPreferences() {
     isSyncSupported: !isSyncNotSupported,
     isInternalUser,
     isSystemTraySupported: Settings.isSystemTraySupported(OS),
+    isContentProtectionSupported: Settings.isContentProtectionSupported(OS),
+    isContentProtectionNeeded: Settings.isContentProtectionNeeded(OS),
     isMinimizeToAndStartInSystemTraySupported:
       Settings.isMinimizeToAndStartInSystemTraySupported(OS),
 
@@ -407,6 +413,9 @@ async function renderPreferences() {
     ),
     onCallRingtoneNotificationChange: attachRenderCallback(
       settingCallRingtoneNotification.setValue
+    ),
+    onContentProtectionChange: attachRenderCallback(
+      settingContentProtection.setValue
     ),
     onCountMutedConversationsChange: attachRenderCallback(
       settingCountMutedConversations.setValue

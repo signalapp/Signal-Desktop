@@ -33,6 +33,12 @@ export const isDrawAttentionSupported = (OS: OSType): boolean => !OS.isMacOS();
 export const isSystemTraySupported = (OS: OSType): boolean =>
   OS.isWindows() || OS.isLinux();
 
+export const isContentProtectionSupported = (OS: OSType): boolean =>
+  OS.isWindows() || OS.isMacOS();
+
+export const isContentProtectionNeeded = (OS: OSType): boolean =>
+  OS.isWindows();
+
 export const getDefaultSystemTraySetting = (
   OS: OSType,
   appVersion: string

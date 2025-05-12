@@ -51,6 +51,7 @@ SettingsWindowProps.onRender(
     hasAutoLaunch,
     hasCallNotifications,
     hasCallRingtoneNotification,
+    hasContentProtection,
     hasCountMutedConversations,
     hasHideMenuBar,
     hasIncomingCallNotifications,
@@ -77,6 +78,8 @@ SettingsWindowProps.onRender(
     isNotificationAttentionSupported,
     isSyncSupported,
     isSystemTraySupported,
+    isContentProtectionSupported,
+    isContentProtectionNeeded,
     isInternalUser,
     lastSyncTime,
     makeSyncRequest,
@@ -88,6 +91,7 @@ SettingsWindowProps.onRender(
     onAutoLaunchChange,
     onCallNotificationsChange,
     onCallRingtoneNotificationChange,
+    onContentProtectionChange,
     onCountMutedConversationsChange,
     onEmojiSkinToneDefaultChange,
     onHasStoriesDisabledChanged,
@@ -166,6 +170,7 @@ SettingsWindowProps.onRender(
           hasAutoLaunch={hasAutoLaunch}
           hasCallNotifications={hasCallNotifications}
           hasCallRingtoneNotification={hasCallRingtoneNotification}
+          hasContentProtection={hasContentProtection}
           hasCountMutedConversations={hasCountMutedConversations}
           hasHideMenuBar={hasHideMenuBar}
           hasIncomingCallNotifications={hasIncomingCallNotifications}
@@ -195,6 +200,8 @@ SettingsWindowProps.onRender(
           isNotificationAttentionSupported={isNotificationAttentionSupported}
           isSyncSupported={isSyncSupported}
           isSystemTraySupported={isSystemTraySupported}
+          isContentProtectionSupported={isContentProtectionSupported}
+          isContentProtectionNeeded={isContentProtectionNeeded}
           isInternalUser={isInternalUser}
           lastSyncTime={lastSyncTime}
           localeOverride={localeOverride}
@@ -207,6 +214,7 @@ SettingsWindowProps.onRender(
           onAutoLaunchChange={onAutoLaunchChange}
           onCallNotificationsChange={onCallNotificationsChange}
           onCallRingtoneNotificationChange={onCallRingtoneNotificationChange}
+          onContentProtectionChange={onContentProtectionChange}
           onCountMutedConversationsChange={onCountMutedConversationsChange}
           onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
           onHasStoriesDisabledChanged={onHasStoriesDisabledChanged}
