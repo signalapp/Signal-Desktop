@@ -214,6 +214,16 @@ export function findNextProfileEvent({
       profile: activeProfileBySchedule,
       time,
     });
+
+    // A newer profile will preempt this active profile if its schedule overlaps.
+    const newerProfiles = profiles.filter(
+      item => item.createdAtMs > activeProfileBySchedule.createdAtMs
+    );
+    const preemptResult = findNextScheduledEnableForAll({
+      profiles: newerProfiles,
+      time: time + 1,
+    });
+
     strictAssert(
       disabledAt,
       `Schedule ${activeProfileBySchedule.id} is enabled by schedule right now, it should disable soon!`
@@ -221,7 +231,9 @@ export function findNextProfileEvent({
     return {
       type: 'willDisable',
       activeProfile: activeProfileBySchedule.id,
-      willDisableAt: disabledAt,
+      willDisableAt: preemptResult
+        ? Math.min(preemptResult.time, disabledAt)
+        : disabledAt,
     };
   }
 
@@ -284,24 +296,15 @@ export function areAnyProfilesEnabledBySchedule({
   time: number;
   profiles: ReadonlyArray<NotificationProfileType>;
 }): NotificationProfileType | undefined {
-  const candidates: Array<NotificationProfileType> = [];
-
+  // We find the first match, assuming the array is sorted, newest to oldest
   for (const profile of profiles) {
     const result = isProfileEnabledBySchedule({ time, profile });
     if (result) {
-      candidates.push(profile);
+      return profile;
     }
   }
 
-  // In the case of conflicts, we want the one that started earlier. Or the one that was
-  // created more recently in the case of a tie.
-  const sortedCandidates = orderBy(
-    candidates,
-    ['scheduleStartTime', 'createdAtMs'],
-    ['asc', 'desc']
-  );
-
-  return sortedCandidates[0];
+  return undefined;
 }
 
 // Find the next time this profile's schedule will tell it to disable
