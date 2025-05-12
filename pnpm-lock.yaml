@@ -135,8 +135,8 @@ importers:
         specifier: 2.52.0
         version: 2.52.0
       '@signalapp/sqlcipher':
-        specifier: 2.0.1
-        version: 2.0.1
+        specifier: 2.0.3
+        version: 2.0.3
       '@tanstack/react-virtual':
         specifier: 3.11.2
         version: 3.11.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -2553,8 +2553,8 @@ packages:
   '@signalapp/ringrtc@2.52.0':
     resolution: {integrity: sha512-s4mwnL4f6LBpDonIJ2TZKv1mD+zbAq6aPnPH3tlJZUhrdJj0GZtjTVY2i7Y6dmLG3zsho10a8hGtGjPAMyDmlw==}
 
-  '@signalapp/sqlcipher@2.0.1':
-    resolution: {integrity: sha512-7dSgNnf/hrGZfVSGlhVH39f7BDNNOO61tg6Xu/Fa38TCeZj6/U5YILKQavBArCtkahUvzGBV9QIyRr0zereU7A==}
+  '@signalapp/sqlcipher@2.0.3':
+    resolution: {integrity: sha512-aywstwV6Lg17NSPVK7fb40CIF687D6352YwCwAxDSxrw/qTxJampgdHzPpMrsepb0y6gSAzdYEpRbosJZPqP/g==}
 
   '@sinclair/typebox@0.27.8':
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
@@ -12079,7 +12079,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@signalapp/sqlcipher@2.0.1':
+  '@signalapp/sqlcipher@2.0.3':
     dependencies:
       node-addon-api: 8.3.0
       node-gyp-build: 4.8.4
