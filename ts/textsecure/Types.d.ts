@@ -118,6 +118,7 @@ export type ProcessedAttachment = {
   cdnNumber?: number;
   textAttachment?: Omit<TextAttachmentType, 'preview'>;
   backupLocator?: AttachmentType['backupLocator'];
+  uploadTimestamp?: number;
   downloadPath?: string;
   incrementalMac?: string;
   chunkSize?: number;
