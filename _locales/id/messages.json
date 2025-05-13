@@ -1670,9 +1670,6 @@
   "icu:notificationSenderInGroup": {
     "messageformat": "{sender} dalam {group}"
   },
-  "icu:notificationReaction": {
-    "messageformat": "{sender} menanggapi {emoji} pada pesan Anda"
-  },
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} menanggapi {emoji} pada: {message}"
   },
@@ -2591,6 +2588,9 @@
   "icu:Keyboard--open-sticker-chooser": {
     "messageformat": "Buka pemilih stiker"
   },
+  "icu:Keyboard--open-gif-chooser": {
+    "messageformat": "Open GIF chooser"
+  },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Mulai merekam pesan suara"
   },
@@ -3229,9 +3229,6 @@
   },
   "icu:calling__view_mode--updated": {
     "messageformat": "Tampilan diperbarui"
-  },
-  "icu:calling__hangup": {
-    "messageformat": "Tinggalkan panggilan"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Bagikan layar Anda"
@@ -4075,9 +4072,6 @@
   },
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "Kirim pesan yang telah diedit"
-  },
-  "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "Tambahkan Emoji, Stiker, atau GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
     "messageformat": "Ganti lampiran?"
@@ -4991,6 +4985,21 @@
   "icu:Preferences__button--internal": {
     "messageformat": "Internal"
   },
+  "icu:Preferences__internal__local-backups": {
+    "messageformat": "Local backups"
+  },
+  "icu:Preferences__internal__export-local-backup": {
+    "messageformat": "Export…"
+  },
+  "icu:Preferences__internal__export-local-backup--description": {
+    "messageformat": "Export local encrypted backup to a folder and validate it"
+  },
+  "icu:Preferences__internal__import-local-backup": {
+    "messageformat": "Import…"
+  },
+  "icu:Preferences__internal__import-local-backup--description": {
+    "messageformat": "Stage a local encrypted backup for import on link"
+  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Ekspor cadangan terenkripsi ke memori perangkat dan jalankan rangkaian validasi pada cadangan tersebut"
   },
@@ -5056,9 +5065,6 @@
   },
   "icu:Preferences--backup-messages-plan__note": {
     "messageformat": "Anda dapat mengelola atau meng-upgrade Signal Backups di ponsel."
-  },
-  "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Langganan Anda tidak ditemukan. Perbarui agar dapat terus memakai Signal Backups."
   },
   "icu:Preferences--backup-plan__not-found__note": {
     "messageformat": "Anda dapat mengelola atau memperbarui langganan Signal Backups di ponsel."
@@ -5188,6 +5194,24 @@
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
     "messageformat": "Mulai ulang"
+  },
+  "icu:Preferences__Privacy__Application": {
+    "messageformat": "Application"
+  },
+  "icu:Preferences__content-protection--label": {
+    "messageformat": "Screen security"
+  },
+  "icu:Preferences__content-protection--description": {
+    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+  },
+  "icu:Preferences__content-protection__modal--title": {
+    "messageformat": "Disable screen security?"
+  },
+  "icu:Preferences__content-protection__modal--body": {
+    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+  },
+  "icu:Preferences__content-protection__modal--disable": {
+    "messageformat": "Disable"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Pembaruan {version} tersedia"
@@ -6323,6 +6347,12 @@
     "messageformat": "Kami juga mengubah ukuran jendela gambar dalam gambar dan menambahkan pintasan baru yang praktis untuk menyalakan/membisukan mikrofon atau mengaktifkan/menonaktifkan kamera saat jendela panggilan diperkecil."
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "Senyuman memang sama dalam bahasa apa pun, tapi karena sekarang pintasan emoji di Signal Desktop telah sepenuhnya diterjemahkan, jadi Anda juga bisa pakai <code>:smile:</code> atau <code>:sourire:</code> atau <code>:微笑:</code> dalam bahasa apa pun yang didukung."
+  },
+  "icu:WhatsNew__v7.55--0": {
+    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+  },
+  "icu:WhatsNew__v7.55--1": {
+    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
   }
 }
