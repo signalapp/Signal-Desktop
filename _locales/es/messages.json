@@ -6323,6 +6323,6 @@
     "messageformat": "También hemos cambiado el tamaño de la ventana de imagen en imagen y añadido atajos prácticos para silenciar y reactivar el micrófono o encender y apagar la cámara mientras tienes una llamada minimizada."
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "La sonrisa es el idioma universal, pero ahora que hemos traducido los atajos de emoji en Signal Desktop, también puedes <code>:sonreír:</code>, <code>:smile:</code> o <code>:微笑:</code> en cualquiera de los idiomas compatibles."
   }
 }

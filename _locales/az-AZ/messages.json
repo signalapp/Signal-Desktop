@@ -6323,6 +6323,6 @@
     "messageformat": "Həmçinin biz şəkil içində şəkil pəncərəsinin ölçüsünü yenidən təyin etdik və zəng görüntüsünü kiçildərək, mikrofon səsini və ya kameranı açıb-bağlamaq üçün daha əlverişli qısayollar əlavə etdik."
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "Təbəssümün dili yoxdur, amma artıq Signal Desktop-dakı emoji qısayolları tam tərcümə olunub, bundan sonra emoji ifadələrini <code>:smile:</code> <code>:sourire:</code> və ya <code>:微笑:</code> kimi istənilən dəstəklənən dildə yaza bilərsiniz."
   }
 }

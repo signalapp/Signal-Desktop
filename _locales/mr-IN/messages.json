@@ -6323,6 +6323,6 @@
     "messageformat": "आम्ही पिक्चर-इन-पिक्चर विंडोचा आकारही बदलला आहे आणि कॉल मिनिमाईझ केलेला असताना तुमचा मायक्रोफोन म्युट/ अनम्युट करण्यासाठी किंवा कॅमेरा चालू/बंद करण्यासाठी सोयीचे शॉर्टकट जोडले आहेत."
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "चेहऱ्यावरचं हसू कोणत्याही भाषेत सारखंच असतं, पण आता Signal डेस्कटॉप मधले इमोजी शॉर्टकट्स पूर्णपणे अनुवादित केले आहेत त्यामुळे आता तुम्ही समर्थित भाषांमध्ये <code>:smile:</code> किंवा <code>:sourire:</code> किंवा <code>:微笑:</code> करू शकता."
   }
 }

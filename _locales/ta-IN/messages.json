@@ -6323,6 +6323,6 @@
     "messageformat": "பிக்சர்-இன்-பிக்சர் சாளரத்தின் அளவையும் மாற்றியுள்ளோம் மற்றும் அழைப்புத் திரை சிறியதாக்கப்படும் போது வசதியான புதிய குறுக்குவழிகளைச் சேர்த்துள்ளோம்."
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "எந்த மொழியிலும் புன்னகை ஒன்றுதான், ஆனால் இப்போது சிக்னல் டெஸ்க்டாப்பில் உள்ள எமோஜி ஷார்ட்கட்கள் முழுமையாக மொழிபெயர்க்கப்பட்டுவிட்டதால், நீங்கள்<code>:smile:</code> அல்லது <code>:sourire:</code> அல்லது <code>:微笑:</code> ஆகியவற்றை ஆதரிக்கப்படும் எந்த மொழியிலும் மொழிபெயர்க்கலாம். எமோஜி ஷார்ட்கட்களுக்கான ஆதரவைக் கூடுதல் மொழிகளில் சேர்த்துள்ளோம்."
   }
 }

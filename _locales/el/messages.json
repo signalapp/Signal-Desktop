@@ -6323,6 +6323,6 @@
     "messageformat": "Επίσης, αλλάξαμε το μέγεθος του παραθύρου picture-in-picture και προσθέσαμε νέες βολικές συντομεύσεις ενώ μια κλήση είναι ελαχιστοποιημένη."
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "Προσθέσαμε υποστήριξη για συντομεύσεις emoji σε επιπρόσθετες γλώσσες."
   }
 }

@@ -6323,6 +6323,6 @@
     "messageformat": "Zmieniliśmy również rozmiar okna obrazu w obrazie i dodaliśmy nowe skróty, dzięki którym wygodnie wyciszysz lub włączysz mikrofon oraz włączysz lub wyłączysz kamerę przy zminimalizowanym oknie połączenia."
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "Nic nie przełamuje lodów tak skutecznie jak uśmiech. Od teraz, dzięki pełnemu tłumaczeniu skrótów emoji w aplikacji Signal Desktop, uśmiechniętą buźkę wyślesz jeszcze łatwiej. Wystarczy, że wpiszesz „uśmiech” w dowolnym obsługiwanym języku, na przykład <code>:smile:</code>, <code>:sourire:</code> lub <code>:微笑:</code>."
   }
 }

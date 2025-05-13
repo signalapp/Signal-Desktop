@@ -6323,6 +6323,6 @@
     "messageformat": "我們仲調整咗畫中畫視窗嘅大細，同埋加咗方便你嘅新捷徑，等你可以將個咪靜音/取消靜音，或者喺通話縮到最細時打開/閂埋個鏡頭。"
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "微笑呢個表情喺任何語言入面都係一樣，但係而家 Signal 桌面版嘅表情符號快速輸入已經有完整嘅翻譯，即係你可以用任何支援嘅語言去 <code>:smile:</code>、<code>:sourire:</code> 或者 <code>:微笑:</code>。"
   }
 }

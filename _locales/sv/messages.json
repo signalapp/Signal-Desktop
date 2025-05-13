@@ -6323,6 +6323,6 @@
     "messageformat": "Vi har också ändrat storleken på bild-i-bild-fönstret och lagt till nya praktiska genvägar när ett samtal är minimerat."
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "Vi har lagt till stöd för emoji-genvägar på fler språk."
   }
 }

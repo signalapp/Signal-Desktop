@@ -6323,6 +6323,6 @@
     "messageformat": "همچنین اندازه پنجره تصویر در تصویر را تغییر دادیم و میان‌برهای جدید و راحتی را هنگام کوچک‌کردن تماس اضافه کردیم."
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "پشتیبانی از میان‌برهای ایموجی به زبان‌های دیگر را اضافه کرده‌ایم."
   }
 }

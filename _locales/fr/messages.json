@@ -957,7 +957,7 @@
     "messageformat": "Confirmé"
   },
   "icu:AboutContactModal__blocked": {
-    "messageformat": "{name} est bloqué"
+    "messageformat": "Vous avez bloqué {name}"
   },
   "icu:AboutContactModal__message-request": {
     "messageformat": "Invitation par message en attente"
@@ -1362,7 +1362,7 @@
     "messageformat": "Tous les utilisateurs participant à cet appel via le lien verront vos nom, photo et numéro de téléphone."
   },
   "icu:CallingLobby__CallLinkNotice--join-request-pending": {
-    "messageformat": "En attente d’admission…"
+    "messageformat": "En attente d'admission…"
   },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "Rejoindre"
@@ -1518,10 +1518,10 @@
     "messageformat": "{people, plural, one {{people,number} participant} other {{people,number} participants}}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} est bloqué"
+    "messageformat": "Vous avez bloqué {name}"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} est bloqué"
+    "messageformat": "Contact bloqué : {name}"
   },
   "icu:calling__block-info": {
     "messageformat": "Vous ne recevez ni l’audio, ni la vidéo de cet utilisateur et il ne reçoit pas les vôtres."
@@ -1533,7 +1533,7 @@
     "messageformat": "Impossible de recevoir l'audio et la vidéo"
   },
   "icu:calling__missing-media-keys-info": {
-    "messageformat": "Cette personne n’a peut-être pas confirmé le changement de votre numéro de sécurité, il y a peut-être un problème avec son appareil ou elle vous a bloqué."
+    "messageformat": "Il est possible que ce contact n'ait pas confirmé votre nouveau numéro de sécurité, qu'il rencontre des problèmes avec son appareil ou qu'il vous ait bloqué."
   },
   "icu:calling__overflow__scroll-up": {
     "messageformat": "Faire défiler vers le haut"
@@ -2097,13 +2097,13 @@
     "messageformat": "Consultez votre téléphone portable pour voir ce don"
   },
   "icu:message--donation--preview--unopened": {
-    "messageformat": "{sender} a effectué un don de votre part"
+    "messageformat": "{sender} a fait un don à Signal pour vous"
   },
   "icu:message--donation--preview--redeemed": {
     "messageformat": "Vous avez récupéré un macaron"
   },
   "icu:message--donation--preview--sent": {
-    "messageformat": "Vous avez effectué un don de la part de {recipient}"
+    "messageformat": "Vous avez fait un don à Signal pour {recipient}"
   },
   "icu:message--donation": {
     "messageformat": "Don"
@@ -3117,7 +3117,7 @@
     "messageformat": "Appel de groupe"
   },
   "icu:CallControls__InfoDisplay--adhoc-join-request-pending": {
-    "messageformat": "En attente d’admission"
+    "messageformat": "En attente d'admission"
   },
   "icu:CallControls__JoinLeaveButton--hangup-1-1": {
     "messageformat": "Terminer"
@@ -5424,7 +5424,7 @@
     "messageformat": "Vous avez envoyé une demande d'activation des paiements."
   },
   "icu:payment-event-activated-label": {
-    "messageformat": "{sender} accepte désormais les paiements."
+    "messageformat": "{sender} accepte maintenant les paiements."
   },
   "icu:payment-event-activated-you-label": {
     "messageformat": "Vous avez activé les paiements."
@@ -5442,7 +5442,7 @@
     "messageformat": "Signalé comme spam"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked": {
-    "messageformat": "Vous avez bloqué cet utilisateur."
+    "messageformat": "Vous avez bloqué ce contact."
   },
   "icu:MessageRequestResponseNotification__Message--Blocked--Group": {
     "messageformat": "Vous avez bloqué ce groupe."
@@ -5937,7 +5937,7 @@
     "messageformat": "Poursuivre"
   },
   "icu:EditUsernameModalBody__recover-confirmation": {
-    "messageformat": "La récupération de votre nom d’utilisateur aura pour effet de réinitialiser votre lien et votre code QR existants. Voulez-vous vraiment continuer ?"
+    "messageformat": "La récupération de votre nom d'utilisateur entraînera la réinitialisation de votre lien et de votre code QR existants. Voulez-vous vraiment continuer ?"
   },
   "icu:EditUsernameModalBody__username-recovered__text": {
     "messageformat": "Nous avons réinitialisé votre lien et votre code QR. Votre nouveau nom d'utilisateur est {username}"
@@ -6323,6 +6323,6 @@
     "messageformat": "Nous avons aussi redimensionné la fenêtre picture-in-picture et ajouté de nouveaux raccourcis pour vous simplifier la vie : activer et désactiver votre micro ou votre caméra quand la fenêtre d'appel est réduite devient vraiment un jeu d'enfants."
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "Le sourire est un langage universel. La preuve : depuis que nous avons traduit les raccourcis d'émojis sur Signal Desktop, vous pouvez <code>:sourire:</code>, <code>:smile:</code> ou <code>:微笑:</code> dans toutes les langues que nous proposons."
   }
 }

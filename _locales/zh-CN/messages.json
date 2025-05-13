@@ -6323,6 +6323,6 @@
     "messageformat": "我们还重新调整了画中画窗口的大小，并新增了方便的快捷键，便于在通话最小化时进行操作。"
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "我们添加了对其他语言的表情符号快捷键的支持。"
   }
 }

@@ -6323,6 +6323,6 @@
     "messageformat": "我們還調整了畫中畫視窗的大小，並新增了方便的新捷徑以將麥克風靜音/取消靜音，或在通話最小化時開啟/關閉相機。"
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "微笑這表情在任何語言中都是一樣的，但現在 Signal 桌面版中的表情符號快捷輸入已獲完整翻譯，你可以使用任何支援的語言，例如 <code>:smile:</code>、<code>:sourire:</code> 或 <code>:微笑:</code>。"
   }
 }

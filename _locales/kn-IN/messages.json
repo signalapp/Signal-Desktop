@@ -6323,6 +6323,6 @@
     "messageformat": "ನಾವು ಪಿಕ್ಚರ್-ಇನ್-ಪಿಕ್ಚರ್ ವಿಂಡೋವನ್ನು ಮರುಗಾತ್ರಗೊಳಿಸಿದ್ದೇವೆ ಮತ್ತು ಕರೆಯನ್ನು ಮಿನಿಮೈಸ್ ಮಾಡುವಾಗ ನಿಮ್ಮ ಮೈಕ್ರೊಫೋನ್ ಅನ್ನು ಮ್ಯೂಟ್/ಅನ್‌ಮ್ಯೂಟ್ ಮಾಡಲು ಅಥವಾ ಕ್ಯಾಮೆರಾವನ್ನು ಆನ್/ಆಫ್ ಮಾಡಲು ಅನುಕೂಲಕರವಾದ ಹೊಸ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳನ್ನು ಸೇರಿಸಿದ್ದೇವೆ."
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "ಯಾವುದೇ ಭಾಷೆಯಲ್ಲಿಯೇ ಆಗಲಿ ನಗು ಒಂದೇ ಆಗಿರುತ್ತದೆ, ಆದರೆ ಈಗ ಸಿಗ್ನಲ್ ಡೆಸ್ಕ್‌ಟಾಪ್‌ನಲ್ಲಿರುವ ಎಮೋಜಿ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳನ್ನು ಸಂಪೂರ್ಣವಾಗಿ ಅನುವಾದಿಸಲಾಗಿರುವುದರಿಂದ ನೀವು ಯಾವುದೇ ಬೆಂಬಲಿತ ಭಾಷೆಯಲ್ಲಿಯೂ ಸಹ <code>:smile:</code> ಅಥವಾ <code>:sourire:</code> ಅಥವಾ <code>:微笑:</code> ಸಹ ಅನುವಾದಿಸಬಹುದು."
   }
 }

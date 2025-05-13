@@ -6323,6 +6323,6 @@
     "messageformat": "Мы также изменили размеры окна «картинка в картинке» и добавили новые удобные сочетания клавиш для отключения/включения микрофона и камеры, когда звонок свёрнут."
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "Улыбка одинакова на всех языках, но теперь, когда ярлыки эмодзи в Signal Desktop полностью переведены, вы также можете <code>:smile:</code>, или <code>:sourire:</code>, или <code>:微笑:</code> на любом поддерживаемом языке."
   }
 }

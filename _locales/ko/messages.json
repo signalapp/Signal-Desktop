@@ -6323,6 +6323,6 @@
     "messageformat": "또한 PIP(Picture-in-Picture) 창 크기를 조정하고, 통화 창을 최소화한 상태에서 사용할 수 있는 편리한 단축키를 새로 추가했습니다."
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "이모지 바로 가기에 대한 더 많은 언어 지원을 추가했습니다."
   }
 }

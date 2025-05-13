@@ -6323,6 +6323,6 @@
     "messageformat": "আমরা পিকচার-ইন-পিকচার উইন্ডোর আকারও পরিবর্তন করেছি এবং কল মিনিমাইজ করার সময় সুবিধাজনক নতুন শর্টকাট যুক্ত করেছি।"
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "আমরা আরো কিছু ভাষায় ইমোজি শর্টকাটের জন্য সহায়তা যোগ করেছি।"
   }
 }
