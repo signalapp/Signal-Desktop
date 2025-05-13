@@ -17,7 +17,6 @@ import { loadAllAndReinitializeRedux } from '../../services/allLoaders';
 import { backupsService, BackupType } from '../../services/backups';
 import { MemoryStream } from '../../services/backups/util/MemoryStream';
 import { initialize as initializeExpiringMessageService } from '../../services/expiringMessagesDeletion';
-import { DataWriter } from '../../sql/Client';
 
 const { BACKUP_INTEGRATION_DIR } = process.env;
 
@@ -32,7 +31,7 @@ describe('backup/integration', () => {
   });
 
   afterEach(async () => {
-    await DataWriter.removeAll();
+    await clearData();
   });
 
   if (!BACKUP_INTEGRATION_DIR) {
