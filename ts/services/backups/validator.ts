@@ -1,8 +1,11 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { Readable } from 'node:stream';
+import { once } from 'node:events';
 import * as libsignal from '@signalapp/libsignal-client/dist/MessageBackup';
 import type { InputStream } from '@signalapp/libsignal-client/dist/io';
+import { Reader } from 'protobufjs';
 
 import { strictAssert } from '../../util/assert';
 import { toAciObject } from '../../util/ServiceId';
@@ -44,4 +47,38 @@ export async function validateBackup(
   } else {
     throw missingCaseError(type);
   }
+}
+
+export async function validateBackupStream(
+  readable: Readable
+): Promise<number> {
+  let validator: libsignal.OnlineBackupValidator | undefined;
+
+  let totalBytes = 0;
+  let frameCount = 0;
+  readable.on('data', delimitedFrame => {
+    totalBytes += delimitedFrame.byteLength;
+    frameCount += 1;
+
+    const reader = new Reader(delimitedFrame);
+    const frame = Buffer.from(reader.bytes());
+
+    // Info frame
+    if (frameCount === 1) {
+      validator = new libsignal.OnlineBackupValidator(
+        frame,
+        libsignal.Purpose.RemoteBackup
+      );
+      return;
+    }
+
+    strictAssert(validator != null, 'validator must be already created');
+    validator.addFrame(frame);
+  });
+
+  await once(readable, 'end');
+  strictAssert(validator != null, 'no frames');
+  validator.finalize();
+
+  return totalBytes;
 }

@@ -57,7 +57,11 @@ import {
 } from './crypto';
 import { BackupCredentials } from './credentials';
 import { BackupAPI } from './api';
-import { validateBackup, ValidationType } from './validator';
+import {
+  validateBackup,
+  validateBackupStream,
+  ValidationType,
+} from './validator';
 import { BackupType } from './types';
 import {
   BackupInstallerError,
@@ -67,7 +71,6 @@ import {
   RelinkRequestedError,
 } from './errors';
 import { FileStream } from './util/FileStream';
-import { MemoryStream } from './util/MemoryStream';
 import { ToastType } from '../../types/Toast';
 import { isAdhoc, isNightly } from '../../util/version';
 import { getMessageQueueTime } from '../../util/getMessageQueueTime';
@@ -479,19 +482,19 @@ export class BackupsService {
     backupType = BackupType.Ciphertext
   ): Promise<ValidationResultType> {
     try {
-      const { data, ...result } = await this.exportBackupData(
-        backupLevel,
-        backupType
-      );
-      const buffer = Buffer.from(data);
+      const start = Date.now();
 
-      await validateBackup(
-        () => new MemoryStream(buffer),
-        buffer.byteLength,
-        ValidationType.Internal
-      );
+      const recordStream = new BackupExportStream(backupType);
 
-      return { result };
+      recordStream.run(backupLevel);
+
+      const totalBytes = await validateBackupStream(recordStream);
+
+      const duration = Date.now() - start;
+
+      return {
+        result: { duration, stats: recordStream.getStats(), totalBytes },
+      };
     } catch (error) {
       return { error: Errors.toLogFormat(error) };
     }
