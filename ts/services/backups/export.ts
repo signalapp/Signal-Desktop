@@ -359,11 +359,7 @@ export class BackupExportStream extends Readable {
     );
 
     for (const { attributes } of window.ConversationController.getAll()) {
-      const recipientId = this.#getRecipientId({
-        id: attributes.id,
-        serviceId: attributes.serviceId,
-        e164: attributes.e164,
-      });
+      const recipientId = this.#getRecipientId(attributes);
 
       const recipient = this.#toRecipient(
         recipientId,
