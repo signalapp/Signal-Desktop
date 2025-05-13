@@ -9,6 +9,7 @@ import { getHasPanelOpen } from '../state/selectors/conversations';
 import { isInFullScreenCall } from '../state/selectors/calling';
 import { isShowingAnyModal } from '../state/selectors/globalModals';
 import type { ContextMenuTriggerType } from '../components/conversation/MessageContextMenu';
+import { isAnyOverlayOpen } from '../utils/isAnyOverlayOpen';
 
 type KeyboardShortcutHandlerType = (ev: KeyboardEvent) => boolean;
 
@@ -358,6 +359,69 @@ export function useEditLastMessageSent(
     },
     [hasOverlay, maybeEditMessage]
   );
+}
+
+export function useStickerChooserShortcut(
+  openStickerChooser: () => unknown
+): KeyboardShortcutHandlerType {
+  const hasOverlay = useHasAnyOverlay();
+
+  return useCallback(
+    ev => {
+      if (hasOverlay) {
+        return false;
+      }
+
+      const key = KeyboardLayout.lookup(ev);
+
+      if (
+        hasExactModifiers(ev, {
+          controlOrMeta: true,
+          shift: true,
+          alt: false,
+        }) &&
+        (key === 'g' || key === 'G')
+      ) {
+        ev.preventDefault();
+        ev.stopPropagation();
+
+        openStickerChooser();
+        return true;
+      }
+
+      return false;
+    },
+    [hasOverlay, openStickerChooser]
+  );
+}
+
+export function useEmojiPickerShortcut({
+  onOpenStateChanged,
+}: {
+  onOpenStateChanged: (isOpen: boolean) => void;
+}): void {
+  useEffect(() => {
+    const handler = (event: KeyboardEvent) => {
+      const { key, ctrlKey, metaKey, shiftKey } = event;
+      const commandKey = window.platform === 'darwin' ? metaKey : ctrlKey;
+
+      if (
+        commandKey &&
+        shiftKey &&
+        key.toLowerCase() === 'j' &&
+        !isAnyOverlayOpen()
+      ) {
+        event.preventDefault();
+        event.stopPropagation();
+        onOpenStateChanged(true);
+      }
+    };
+
+    document.addEventListener('keydown', handler);
+    return () => {
+      document.removeEventListener('keydown', handler);
+    };
+  }, [onOpenStateChanged]);
 }
 
 export function useKeyboardShortcuts(
