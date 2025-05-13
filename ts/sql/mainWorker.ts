@@ -155,7 +155,11 @@ const onMessage = (
   } catch (error) {
     const errorKind = parseSqliteError(error);
 
-    if (errorKind === SqliteErrorKind.Corrupted && db != null) {
+    if (
+      (errorKind === SqliteErrorKind.Corrupted ||
+        errorKind === SqliteErrorKind.Logic) &&
+      db != null
+    ) {
       const wasRecovered = DataWriter.runCorruptionChecks(db);
       if (
         wasRecovered &&
