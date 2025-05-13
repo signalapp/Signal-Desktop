@@ -324,7 +324,12 @@ async function renderPreferences() {
     hasAutoLaunch,
     hasCallNotifications,
     hasCallRingtoneNotification,
-    hasContentProtection,
+    hasContentProtection:
+      hasContentProtection ??
+      Settings.isContentProtectionEnabledByDefault(
+        OS,
+        MinimalSignalContext.config.osRelease
+      ),
     hasCountMutedConversations,
     hasHideMenuBar,
     hasIncomingCallNotifications,
