@@ -3348,16 +3348,14 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    const lastMessage = this.get('timestamp') || Date.now();
-
+    const timestamp = Date.now();
     log.info(
       'adding verified change advisory for',
       this.idForLogging(),
       verifiedChangeId,
-      lastMessage
+      timestamp
     );
 
-    const timestamp = Date.now();
     const message = new MessageModel({
       ...generateMessageId(incrementMessageCounter()),
       conversationId: this.id,
@@ -3365,7 +3363,7 @@ export class ConversationModel extends window.Backbone
       readStatus: ReadStatus.Read,
       received_at_ms: timestamp,
       seenStatus: options.local ? SeenStatus.Seen : SeenStatus.Unseen,
-      sent_at: lastMessage,
+      sent_at: timestamp,
       timestamp,
       type: 'verified-change',
       verified,
