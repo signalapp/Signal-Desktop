@@ -89,6 +89,7 @@ import {
 import {
   getDefaultSystemTraySetting,
   isSystemTraySupported,
+  isContentProtectionEnabledByDefault,
 } from '../ts/types/Settings';
 import * as ephemeralConfig from './ephemeral_config';
 import * as logging from '../ts/logging/main_process_logging';
@@ -574,7 +575,10 @@ async function handleCommonWindowEvents(window: BrowserWindow) {
   const contentProtection = ephemeralConfig.get('contentProtection');
   // Apply content protection by default on Windows, unless explicitly disabled
   // by user in settings.
-  if (contentProtection ?? OS.isWindows()) {
+  if (
+    contentProtection ??
+    isContentProtectionEnabledByDefault(OS, os.release())
+  ) {
     window.once('ready-to-show', async () => {
       window.setContentProtection(true);
     });

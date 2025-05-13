@@ -76,3 +76,9 @@ export const shouldHideExpiringMessageBody = (
   OS: OSType,
   release: string
 ): boolean => OS.isWindows() || (OS.isMacOS() && semver.lt(release, '21.1.0'));
+
+// Windows 11 and forward
+export const isContentProtectionEnabledByDefault = (
+  OS: OSType,
+  release: string
+): boolean => OS.isWindows() && semver.gte(release, '10.0.22000');
