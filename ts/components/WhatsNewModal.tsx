@@ -33,10 +33,6 @@ export function ExternalLink(props: {
   );
 }
 
-function renderCode(parts: Array<string | JSX.Element>): JSX.Element {
-  return <code>{parts}</code>;
-}
-
 export function WhatsNewModal({
   i18n,
   hideWhatsNewModal,
@@ -47,11 +43,8 @@ export function WhatsNewModal({
     date: new Date(window.getBuildCreation?.() || Date.now()),
     version: window.getVersion?.(),
     features: [
-      <I18n
-        i18n={i18n}
-        id="icu:WhatsNew__v7.54--0"
-        components={{ code: renderCode }}
-      />,
+      <I18n i18n={i18n} id="icu:WhatsNew__v7.55--0" />,
+      <I18n i18n={i18n} id="icu:WhatsNew__v7.55--1" />,
     ],
   };
 
