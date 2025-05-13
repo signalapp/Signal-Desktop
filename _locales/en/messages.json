@@ -3436,6 +3436,10 @@
     "messageformat": "Open sticker chooser",
     "description": "Shown in the shortcuts guide"
   },
+  "icu:Keyboard--open-gif-chooser": {
+    "messageformat": "Open GIF chooser",
+    "description": "Shown in the shortcuts guide"
+  },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Begin recording voice note",
     "description": "Shown in the shortcuts guide"
