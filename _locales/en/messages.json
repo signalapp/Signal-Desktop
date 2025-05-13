@@ -2221,10 +2221,6 @@
     "messageformat": "{sender} in {group}",
     "description": "Displayed in notifications for messages in a group"
   },
-  "icu:notificationReaction": {
-    "messageformat": "{sender} reacted {emoji} to your message",
-    "description": "(Deleted 2025/04/09)"
-  },
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} reacted {emoji} to: {message}"
   },
@@ -4308,10 +4304,6 @@
     "messageformat": "View updated",
     "description": "Toast shown whenver the calling view mode is changed (e.g. paginated view -> speaker view)"
   },
-  "icu:calling__hangup": {
-    "messageformat": "Leave call",
-    "description": "(Deleted 2025/04/09) Title for hang up button"
-  },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Share your screen",
     "description": "Title for the select your screen sharing sources modal"
@@ -5435,10 +5427,6 @@
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "Send edited message",
     "description": "aria-label for send edit button"
-  },
-  "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "Add an Emoji, Sticker, or GIF",
-    "description": "(Deleted 2025/04/02) Composition Area > Fun Button > Accessibility label"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
     "messageformat": "Replace attachment?",
@@ -6763,10 +6751,6 @@
   "icu:Preferences--backup-messages-plan__note": {
     "messageformat": "You can manage or upgrade Signal Backups on your phone.",
     "description": "Note next to backups plan summary"
-  },
-  "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups.",
-    "description": "(Deleted 2025/04/09) Shown if if we could not find the user's subscription"
   },
   "icu:Preferences--backup-plan__not-found__note": {
     "messageformat": "You can manage or renew your Signal Backups subscription on your phone.",
@@ -8471,7 +8455,7 @@
   },
   "icu:WhatsNew__v7.54--0": {
     "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too.",
-    "description": "Release notes for version 7.54"
+    "description": "(Deleted 2025/05/13) Release notes for version 7.54"
   },
   "icu:WhatsNew__v7.55--0": {
     "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore.",

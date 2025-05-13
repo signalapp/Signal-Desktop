@@ -1670,9 +1670,6 @@
   "icu:notificationSenderInGroup": {
     "messageformat": "{group} में {sender}"
   },
-  "icu:notificationReaction": {
-    "messageformat": "{sender} ने आपके मेसेज पर {emoji} प्रतिक्रिया दी"
-  },
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} ने {message} पर {emoji} प्रतिक्रिया दी"
   },
@@ -2591,6 +2588,9 @@
   "icu:Keyboard--open-sticker-chooser": {
     "messageformat": "स्टिकर चुनने वाला खोलें"
   },
+  "icu:Keyboard--open-gif-chooser": {
+    "messageformat": "Open GIF chooser"
+  },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "वॉयस मेसेज रिकॉर्ड करना शुरु करें"
   },
@@ -3229,9 +3229,6 @@
   },
   "icu:calling__view_mode--updated": {
     "messageformat": "व्यु अपडेट किया गया"
-  },
-  "icu:calling__hangup": {
-    "messageformat": "कॉल छोड़ें"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "अपनी स्क्रीन साझा करें"
@@ -4075,9 +4072,6 @@
   },
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "संपादित संदेश भेजें"
-  },
-  "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "इमोजी, स्टिकर या GIF जोड़ें"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
     "messageformat": "अटैचमेंट बदलें?"
@@ -4991,6 +4985,21 @@
   "icu:Preferences__button--internal": {
     "messageformat": "अंदरूनी"
   },
+  "icu:Preferences__internal__local-backups": {
+    "messageformat": "Local backups"
+  },
+  "icu:Preferences__internal__export-local-backup": {
+    "messageformat": "Export…"
+  },
+  "icu:Preferences__internal__export-local-backup--description": {
+    "messageformat": "Export local encrypted backup to a folder and validate it"
+  },
+  "icu:Preferences__internal__import-local-backup": {
+    "messageformat": "Import…"
+  },
+  "icu:Preferences__internal__import-local-backup--description": {
+    "messageformat": "Stage a local encrypted backup for import on link"
+  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "एनक्रिप्टेड बैकअप को मेमोरी में एक्सपोर्ट करें और इस पर वैलिडेशन सुइट चलाएँ"
   },
@@ -5056,9 +5065,6 @@
   },
   "icu:Preferences--backup-messages-plan__note": {
     "messageformat": "आप अपने फ़ोन पर Signal बैकअप प्रबंधित या अपग्रेड कर सकते हैं।"
-  },
-  "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "आपका सब्सक्रिप्शन नहीं मिला। Signal बैकअप इस्तेमाल करना जारी रखने के लिए रिन्यू करें।"
   },
   "icu:Preferences--backup-plan__not-found__note": {
     "messageformat": "आप अपने फ़ोन पर अपने Signal बैकअप का सब्सक्रिप्शन प्रबंधित या रिन्यू कर सकते हैं।"
@@ -5188,6 +5194,24 @@
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
     "messageformat": "पुनः आरंभ करें"
+  },
+  "icu:Preferences__Privacy__Application": {
+    "messageformat": "Application"
+  },
+  "icu:Preferences__content-protection--label": {
+    "messageformat": "Screen security"
+  },
+  "icu:Preferences__content-protection--description": {
+    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+  },
+  "icu:Preferences__content-protection__modal--title": {
+    "messageformat": "Disable screen security?"
+  },
+  "icu:Preferences__content-protection__modal--body": {
+    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+  },
+  "icu:Preferences__content-protection__modal--disable": {
+    "messageformat": "Disable"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "{version} में अपडेट करने का वर्शन उपलब्ध"
@@ -6323,6 +6347,12 @@
     "messageformat": "हमने पिक्चर-इन-पिक्चर विंडो का आकार भी बदल दिया है और आपके माइक्रोफ़ोन को म्यूट/अनम्यूट करने या कॉल कम होने पर कैमरा चालू/बंद करने के लिए सुविधाजनक नए शॉर्टकट जोड़े हैं।"
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "हर भाषा में मुस्कान एक जैसी होती है, लेकिन अब Signal डेस्कटॉप में इमोजी शॉर्टकट्स का पूरी तरह अनुवाद कर दिया गया है, इसलिए आप सपोर्ट की गई किसी भी भाषा में <code>:smile:</code> या <code>:sourire:</code> या <code>:微笑:</code> कर सकते हैं।"
+  },
+  "icu:WhatsNew__v7.55--0": {
+    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+  },
+  "icu:WhatsNew__v7.55--1": {
+    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
   }
 }
