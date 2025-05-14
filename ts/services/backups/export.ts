@@ -128,9 +128,13 @@ import {
   getFilePointerForAttachment,
   getLocalBackupFilePointerForAttachment,
   maybeGetBackupJobForAttachmentAndFilePointer,
+  maybeGetLocalBackupJobForAttachmentAndFilePointer,
 } from './util/filePointers';
 import { getBackupMediaRootKey } from './crypto';
-import type { CoreAttachmentBackupJobType } from '../../types/AttachmentBackup';
+import type {
+  CoreAttachmentBackupJobType,
+  PartialAttachmentLocalBackupJobType,
+} from '../../types/AttachmentBackup';
 import { AttachmentBackupManager } from '../../jobs/AttachmentBackupManager';
 import { AttachmentLocalBackupManager } from '../../jobs/AttachmentLocalBackupManager';
 import { getBackupCdnInfo } from './util/mediaId';
@@ -245,7 +249,9 @@ export class BackupExportStream extends Readable {
     fixedDirectMessages: 0,
   };
   #ourConversation?: ConversationAttributesType;
-  #attachmentBackupJobs: Array<CoreAttachmentBackupJobType> = [];
+  #attachmentBackupJobs: Array<
+    CoreAttachmentBackupJobType | PartialAttachmentLocalBackupJobType
+  > = [];
   #buffers = new Array<Uint8Array>();
   #nextRecipientId = 1;
   #flushResolve: (() => void) | undefined;
@@ -289,9 +295,9 @@ export class BackupExportStream extends Readable {
             AttachmentLocalBackupManager.clearAllJobs();
             await Promise.all(
               this.#attachmentBackupJobs.map(job => {
-                if (job.type === 'thumbnail') {
+                if (job.type !== 'local') {
                   log.error(
-                    "BackupExportStream: Can't backup thumbnails to local backup, skipping"
+                    "BackupExportStream: Can't enqueue remote backup jobs during local backup, skipping"
                   );
                   return Promise.resolve();
                 }
@@ -308,9 +314,18 @@ export class BackupExportStream extends Readable {
             await DataWriter.clearAllAttachmentBackupJobs();
             if (this.backupType !== BackupType.TestOnlyPlaintext) {
               await Promise.all(
-                this.#attachmentBackupJobs.map(job =>
-                  AttachmentBackupManager.addJobAndMaybeThumbnailJob(job)
-                )
+                this.#attachmentBackupJobs.map(job => {
+                  if (job.type === 'local') {
+                    log.error(
+                      "BackupExportStream: Can't enqueue local backup jobs during remote backup, skipping"
+                    );
+                    return Promise.resolve();
+                  }
+
+                  return AttachmentBackupManager.addJobAndMaybeThumbnailJob(
+                    job
+                  );
+                })
               );
               drop(AttachmentBackupManager.start());
             }
@@ -2553,12 +2568,24 @@ export class BackupExportStream extends Readable {
     // We don't download attachments during integration tests and thus have no
     // "iv" for an attachment and can't create a job
     if (this.backupType !== BackupType.TestOnlyPlaintext) {
-      const backupJob = await maybeGetBackupJobForAttachmentAndFilePointer({
-        attachment: updatedAttachment ?? attachment,
-        filePointer,
-        getBackupCdnInfo,
-        messageReceivedAt,
-      });
+      let backupJob:
+        | CoreAttachmentBackupJobType
+        | PartialAttachmentLocalBackupJobType
+        | null;
+
+      if (isLocalBackup) {
+        backupJob = await maybeGetLocalBackupJobForAttachmentAndFilePointer({
+          attachment: updatedAttachment ?? attachment,
+          filePointer,
+        });
+      } else {
+        backupJob = await maybeGetBackupJobForAttachmentAndFilePointer({
+          attachment: updatedAttachment ?? attachment,
+          filePointer,
+          getBackupCdnInfo,
+          messageReceivedAt,
+        });
+      }
 
       if (backupJob) {
         this.#attachmentBackupJobs.push(backupJob);

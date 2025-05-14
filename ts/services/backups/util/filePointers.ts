@@ -25,7 +25,10 @@ import { Backups, SignalService } from '../../../protobuf';
 import * as Bytes from '../../../Bytes';
 import { getTimestampFromLong } from '../../../util/timestampLongUtils';
 import { strictAssert } from '../../../util/assert';
-import type { CoreAttachmentBackupJobType } from '../../../types/AttachmentBackup';
+import type {
+  CoreAttachmentBackupJobType,
+  PartialAttachmentLocalBackupJobType,
+} from '../../../types/AttachmentBackup';
 import {
   type GetBackupCdnInfoType,
   getMediaIdFromMediaName,
@@ -452,14 +455,11 @@ export async function getLocalBackupFilePointerForAttachment({
       getBackupCdnInfo,
     });
 
+  // localKey is required to export to the local backup. If it's missing then fall back
+  // to the filePointer which would have been generated for a remote backup.
   if (attachment.localKey == null) {
     return { filePointer: remoteFilePointer, updatedAttachment };
   }
-
-  strictAssert(
-    attachment.localKey != null,
-    'getLocalBackupFilePointerForAttachment: attachment must have localKey'
-  );
 
   if (remoteFilePointer.backupLocator) {
     const { backupLocator } = remoteFilePointer;
@@ -572,32 +572,20 @@ export async function maybeGetBackupJobForAttachmentAndFilePointer({
   getBackupCdnInfo: GetBackupCdnInfoType;
   messageReceivedAt: number;
 }): Promise<CoreAttachmentBackupJobType | null> {
-  let locator:
-    | Backups.FilePointer.IBackupLocator
-    | Backups.FilePointer.ILocalLocator;
-  if (filePointer.backupLocator) {
-    locator = filePointer.backupLocator;
-  } else if (filePointer.localLocator) {
-    locator = filePointer.localLocator;
-  } else {
+  if (!filePointer.backupLocator) {
     return null;
   }
 
-  const { mediaName } = locator;
+  const { mediaName } = filePointer.backupLocator;
   strictAssert(mediaName, 'mediaName must exist');
 
-  if (filePointer.backupLocator) {
-    const { isInBackupTier } = await getBackupCdnInfo(
-      getMediaIdFromMediaName(mediaName).string
-    );
-    if (isInBackupTier) {
-      return null;
-    }
-  }
+  const { isInBackupTier } = await getBackupCdnInfo(
+    getMediaIdFromMediaName(mediaName).string
+  );
 
-  // TODO: For local backups we don't want to double back up the same file, so
-  // we could check for the same file here and if it's found then return early.
-  // Also ok to skip downstream when the job runs.
+  if (isInBackupTier) {
+    return null;
+  }
 
   strictAssert(
     isAttachmentLocallySaved(attachment),
@@ -620,38 +608,19 @@ export async function maybeGetBackupJobForAttachmentAndFilePointer({
     encryptionInfo = attachment.reencryptionInfo;
   }
 
-  if (filePointer.backupLocator) {
-    strictAssert(
-      filePointer.backupLocator.digest,
-      'digest must exist on backupLocator'
-    );
-    strictAssert(
-      encryptionInfo.digest ===
-        Bytes.toBase64(filePointer.backupLocator.digest),
-      'digest on job and backupLocator must match'
-    );
-  } else if (filePointer.localLocator) {
-    strictAssert(
-      filePointer.localLocator.remoteDigest,
-      'digest must exist on backupLocator'
-    );
-    strictAssert(
-      encryptionInfo.digest ===
-        Bytes.toBase64(filePointer.localLocator.remoteDigest),
-      'digest on job and localLocator must match'
-    );
-  }
+  strictAssert(
+    filePointer.backupLocator.digest,
+    'digest must exist on backupLocator'
+  );
+  strictAssert(
+    encryptionInfo.digest === Bytes.toBase64(filePointer.backupLocator.digest),
+    'digest on job and backupLocator must match'
+  );
 
-  const { path, contentType, size, uploadTimestamp, version } = attachment;
+  const { path, contentType, size, uploadTimestamp, version, localKey } =
+    attachment;
 
-  const { transitCdnKey, transitCdnNumber } = locator;
-
-  let localKey: string | undefined;
-  if (filePointer.localLocator && filePointer.localLocator.localKey != null) {
-    localKey = Bytes.toBase64(filePointer.localLocator.localKey);
-  } else {
-    localKey = attachment.localKey;
-  }
+  const { transitCdnKey, transitCdnNumber } = filePointer.backupLocator;
 
   return {
     mediaName,
@@ -674,6 +643,44 @@ export async function maybeGetBackupJobForAttachmentAndFilePointer({
               uploadTimestamp,
             }
           : undefined,
+    },
+  };
+}
+
+export async function maybeGetLocalBackupJobForAttachmentAndFilePointer({
+  attachment,
+  filePointer,
+}: {
+  attachment: AttachmentType;
+  filePointer: Backups.FilePointer;
+}): Promise<PartialAttachmentLocalBackupJobType | null> {
+  if (!filePointer.localLocator) {
+    return null;
+  }
+
+  strictAssert(
+    isAttachmentLocallySaved(attachment),
+    'Attachment must be saved locally for it to be backed up'
+  );
+
+  const { path, size } = attachment;
+
+  // TODO: For local backups we don't want to double back up the same file, so
+  // we could check for the same file here and if it's found then return early.
+
+  const { localLocator } = filePointer;
+
+  const { localKey: localKeyBytes, mediaName } = localLocator;
+  strictAssert(mediaName, 'mediaName must exist on localLocator');
+  strictAssert(localKeyBytes, 'localKey must exist');
+
+  return {
+    type: 'local',
+    mediaName,
+    data: {
+      path,
+      size,
+      localKey: Bytes.toBase64(localKeyBytes),
     },
   };
 }
