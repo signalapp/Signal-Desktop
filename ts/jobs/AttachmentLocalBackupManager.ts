@@ -25,7 +25,6 @@ import {
 import { isInCall as isInCallSelector } from '../state/selectors/calling';
 import { encryptAndUploadAttachment } from '../util/uploadAttachment';
 import type { WebAPIType } from '../textsecure/WebAPI';
-import type { LocallySavedAttachment } from '../types/Attachment';
 import {
   getLocalBackupDirectoryForMediaName,
   getLocalBackupPathForMediaName,
@@ -151,7 +150,7 @@ function getJobId(job: CoreAttachmentLocalBackupJobType): string {
 }
 
 function getJobIdForLogging(job: CoreAttachmentLocalBackupJobType): string {
-  return `${redactGenericText(job.mediaName)}.${job.type}`;
+  return `${redactGenericText(job.mediaName)}`;
 }
 
 /**
@@ -212,7 +211,7 @@ async function runAttachmentBackupJobInner(
   log.info(`${logId}: starting`);
 
   const { backupsBaseDir, mediaName } = job;
-  const { contentType, digest, iv, keys, localKey, path, size } = job.data;
+  const { localKey, path, size } = job.data;
 
   if (!path) {
     throw new AttachmentPermanentlyMissingError('No path property');
@@ -238,22 +237,11 @@ async function runAttachmentBackupJobInner(
     mediaName,
   });
 
-  const attachment: LocallySavedAttachment = {
-    path,
-    iv,
-    key: keys,
-    localKey,
-    digest,
-    contentType,
-    size,
-  };
-
   // TODO: Add check in local FS to prevent double backup
 
   // File is already encrypted with localKey, so we just have to copy it to the backup dir
-  const attachmentPath = window.Signal.Migrations.getAbsoluteAttachmentPath(
-    attachment.path
-  );
+  const attachmentPath =
+    window.Signal.Migrations.getAbsoluteAttachmentPath(path);
 
   // Set COPYFILE_FICLONE for Copy on Write (OS dependent, gracefully falls back to copy)
   await copyFile(
@@ -263,13 +251,13 @@ async function runAttachmentBackupJobInner(
   );
 
   // TODO: Optimize this check -- it can be expensive to test decrypt on every export
-  log.info(`${logId}: Verifying file restored from local backup`);
+  log.info(`${logId}: Verifying file in local backup`);
   const sink = new PassThrough();
   sink.resume();
   await decryptAttachmentV2ToSink(
     {
       ciphertextPath: localBackupFilePath,
-      idForLogging: 'attachments/readAndDecryptDataFromDisk',
+      idForLogging: 'AttachmentLocalBackupManager',
       keysBase64: localKey,
       size,
       type: 'local',
