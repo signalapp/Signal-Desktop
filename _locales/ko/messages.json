@@ -5199,7 +5199,7 @@
     "messageformat": "Application"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Screen security"
+    "messageformat": "화면 보안"
   },
   "icu:Preferences__content-protection--description": {
     "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
@@ -5211,7 +5211,7 @@
     "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
   },
   "icu:Preferences__content-protection__modal--disable": {
-    "messageformat": "Disable"
+    "messageformat": "사용 안 함"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "{version} 버전으로 업데이트할 수 있습니다."

@@ -5199,7 +5199,7 @@
     "messageformat": "Application"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Screen security"
+    "messageformat": "အဖွင့်စာမျက်နှာ လုံခြုံရေး"
   },
   "icu:Preferences__content-protection--description": {
     "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
@@ -5211,7 +5211,7 @@
     "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
   },
   "icu:Preferences__content-protection__modal--disable": {
-    "messageformat": "Disable"
+    "messageformat": "ပိတ်ထားပါ"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "ဗားရှင်း {version} အတွက် အပ်ဒိတ် ရရှိပါပြီ"

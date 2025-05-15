@@ -5199,7 +5199,7 @@
     "messageformat": "Application"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Screen security"
+    "messageformat": "Безбедност екрана"
   },
   "icu:Preferences__content-protection--description": {
     "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
@@ -5211,7 +5211,7 @@
     "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
   },
   "icu:Preferences__content-protection__modal--disable": {
-    "messageformat": "Disable"
+    "messageformat": "Искључи"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Доступно је ажурирање на верзију {version}"

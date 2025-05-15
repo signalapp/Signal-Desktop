@@ -381,7 +381,7 @@
     "messageformat": "Détacher la conversation"
   },
   "icu:pinnedConversationsFull": {
-    "messageformat": "Vous pouvez épingler jusqu'à 4 conversations."
+    "messageformat": "Vous ne pouvez pas épingler plus de 4 conversations"
   },
   "icu:loadingMessages--other": {
     "messageformat": "{daysAgo, plural, one {Chargement des messages d’il y a 1 jour…} other {Chargement des messages d’il y a {daysAgo,number} jours…}}"
@@ -1872,7 +1872,7 @@
     "messageformat": "Conversation introuvable"
   },
   "icu:Toast--ConversationRemoved": {
-    "messageformat": "{title} a été supprimé."
+    "messageformat": "{title} : contact supprimé."
   },
   "icu:Toast--error": {
     "messageformat": "Une erreur s'est produite"
@@ -5199,7 +5199,7 @@
     "messageformat": "Application"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Screen security"
+    "messageformat": "Sécurité de l'écran"
   },
   "icu:Preferences__content-protection--description": {
     "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
@@ -5211,7 +5211,7 @@
     "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
   },
   "icu:Preferences__content-protection__modal--disable": {
-    "messageformat": "Disable"
+    "messageformat": "Désactiver"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Une mise à jour vers la version {version} est disponible"
@@ -5832,7 +5832,7 @@
     "messageformat": "Infos"
   },
   "icu:StoryListItem__hide-modal--body": {
-    "messageformat": "Masquer la story ? Les nouveaux contenus postés dans la story de {name} ne s’afficheront plus en haut de la liste des stories."
+    "messageformat": "Masquer la story ? Les nouvelles stories partagées par {name} ne s'afficheront plus en haut de la liste."
   },
   "icu:StoryListItem__hide-modal--confirm": {
     "messageformat": "Masquer"

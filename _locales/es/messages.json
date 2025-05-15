@@ -477,7 +477,7 @@
     "messageformat": "Unirme de todos modos"
   },
   "icu:debugLogExplanation": {
-    "messageformat": "Si haces clic en Enviar, tu registro se publicará durante 30 días en una URL única y privada. Lo podrás guardar en tu dispositivo como primera opción."
+    "messageformat": "Si seleccionas Enviar, tu registro se publicará durante 30 días en una URL única y privada. Lo podrás guardar en tu dispositivo como primera opción."
   },
   "icu:debugLogError": {
     "messageformat": "No se ha podido completar la carga. Envía el registro de depuración en un archivo de texto a support@signal.org."
@@ -2160,7 +2160,7 @@
     "messageformat": "Stickers recibidos"
   },
   "icu:stickers--StickerManager--ReceivedPacks--Empty": {
-    "messageformat": "Los stickers de tus mensajes recibidos aparecerán aquí"
+    "messageformat": "Aquí se mostrarán los stickers de tus mensajes recibidos."
   },
   "icu:stickers--StickerManager--Install": {
     "messageformat": "Instalar"
@@ -2172,7 +2172,7 @@
     "messageformat": "Es posible que no puedas reinstalar este paquete de stickers si no conservas el mensaje en el que se recibió."
   },
   "icu:stickers--StickerManager--Introduction--Image": {
-    "messageformat": "¡Los stickers de Bandit, el gato, han llegado a Signal!"
+    "messageformat": "¡Los stickers han llegado a Signal!"
   },
   "icu:stickers--StickerManager--Introduction--Title": {
     "messageformat": "¡Los stickers han llegado a Signal!"
@@ -2946,7 +2946,7 @@
     "messageformat": "{count, plural, one {1 participante} other {{count,number} participantes}}"
   },
   "icu:ConversationHero--member-list-and-invited": {
-    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} invitado)} other {{memberList} (+{invitesCount,number} invitados)}}"
+    "messageformat": "{invitesCount, plural, one {{memberList} (+{invitesCount,number} persona invitada)} other {{memberList} (+{invitesCount,number} personas invitadas)}}"
   },
   "icu:ConversationHero--group-members-zero": {
     "messageformat": "No hay personas en el grupo"
@@ -3966,7 +3966,7 @@
     "messageformat": "Cancelar"
   },
   "icu:BackupImportScreen__security-description": {
-    "messageformat": "Los mensajes y los chats, al igual que el proceso de sincronización, están protegidos con cifrado de extremo a extremo. <learnMoreLink>Más información</learnMoreLink>"
+    "messageformat": "Los mensajes y chats, al igual que el proceso de sincronización, están protegidos con cifrado de extremo a extremo. <learnMoreLink>Más información</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "¿Cancelar la vinculación del dispositivo?"
@@ -4044,7 +4044,7 @@
     "messageformat": "Acción requerida en tu cuenta"
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
-    "messageformat": "Para continuar usando esta cuenta, debes abrir Signal en tu teléfono. Si no abres Signal en tu teléfono, tu cuenta se eliminará pronto. <learnMoreLink>Más información</learnMoreLink>"
+    "messageformat": "Para seguir usando esta cuenta, debes abrir Signal en tu teléfono. Si no abres Signal en tu teléfono, tu cuenta se eliminará pronto. <learnMoreLink>Más información</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
     "messageformat": "No se pueden restaurar los archivos multimedia"
@@ -4317,10 +4317,10 @@
     "messageformat": "¿Rechazar la solicitud de {name}? Esta persona ya no podrá solicitar unirse al grupo mediante enlace."
   },
   "icu:PendingInvites--invited-by-you": {
-    "messageformat": "Personas invitadas por ti"
+    "messageformat": "Personas que has invitado"
   },
   "icu:PendingInvites--invited-by-others": {
-    "messageformat": "Personas invitadas por otros participantes"
+    "messageformat": "Personas que otros participantes han invitado"
   },
   "icu:PendingInvites--invited-count": {
     "messageformat": "Ha invitado a {number,number}"
@@ -4983,7 +4983,7 @@
     "messageformat": "Copias de seguridad"
   },
   "icu:Preferences__button--internal": {
-    "messageformat": "Interno"
+    "messageformat": "Configuración interna"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Local backups"
@@ -5001,7 +5001,7 @@
     "messageformat": "Stage a local encrypted backup for import on link"
   },
   "icu:Preferences__internal__validate-backup--description": {
-    "messageformat": "Exportar copia de seguridad cifrada a la memoria y ejecutar el conjunto de validación"
+    "messageformat": "Exportar la copia de seguridad cifrada a la memoria y ejecutar el conjunto de validación"
   },
   "icu:Preferences__internal__validate-backup": {
     "messageformat": "Validar"
@@ -5043,7 +5043,7 @@
     "messageformat": "Mensajes de texto + todos tus archivos multimedia"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "No se ha encontrado tu suscripción. Renuévala para continuar usando las copias de seguridad de Signal."
+    "messageformat": "No se ha encontrado tu suscripción. Renuévala para seguir usando las copias de seguridad de Signal."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Mensajes de texto + {mediaDayCount,number} día de archivos multimedia} other {Mensajes de texto + {mediaDayCount,number} días de archivos multimedia}}"
@@ -5199,7 +5199,7 @@
     "messageformat": "Application"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Screen security"
+    "messageformat": "Seguridad de la pantalla"
   },
   "icu:Preferences__content-protection--description": {
     "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
@@ -5211,7 +5211,7 @@
     "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
   },
   "icu:Preferences__content-protection__modal--disable": {
-    "messageformat": "Disable"
+    "messageformat": "Desactivar"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Está disponible la actualización a la versión {version}"
@@ -5250,7 +5250,7 @@
     "messageformat": "Actualización necesaria"
   },
   "icu:InstallScreenUpdateDialog--auto-update__body": {
-    "messageformat": "Para continuar usando Signal, debes actualizar a la última versión."
+    "messageformat": "Para seguir usando Signal, debes actualizar a la última versión."
   },
   "icu:InstallScreenUpdateDialog--manual-update__action": {
     "messageformat": "Descargar {downloadSize}"
@@ -5643,7 +5643,7 @@
     "messageformat": "Compartir solo con…"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
-    "messageformat": "Elige quién puede ver tu historia. Los cambios no afectarán a las historias que ya hayas compartido. <learnMoreLink>Más información.</learnMoreLink>"
+    "messageformat": "Elige quién puede ver tu historia. Los cambios que hagas no afectarán a las historias que ya hayas compartido. <learnMoreLink>Más información.</learnMoreLink>"
   },
   "icu:StoriesSettings__context-menu": {
     "messageformat": "Privacidad de mis historias"
@@ -5718,7 +5718,7 @@
     "messageformat": "Eliminar historia"
   },
   "icu:SendStoryModal__confirm-remove-group": {
-    "messageformat": "¿Eliminar historia? Esta acción eliminará la historia de tu lista, pero podrás seguir viendo las historias de este grupo."
+    "messageformat": "¿Eliminar historia? Se eliminará la historia de tu lista, pero podrás seguir viendo las historias de este grupo."
   },
   "icu:SendStoryModal__announcements-only": {
     "messageformat": "Solo admins pueden enviar historias en este grupo."
