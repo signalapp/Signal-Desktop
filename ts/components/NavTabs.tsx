@@ -302,7 +302,7 @@ export function NavTabs({
             iconClassName="NavTabs__ItemIcon--Settings"
             navTabClassName="NavTabs__Item--Settings"
             unreadStats={{
-              unreadCount: unreadCallsCount,
+              unreadCount: 0,
               unreadMentionsCount: 0,
               markedUnread: false,
             }}
