@@ -48,6 +48,7 @@ import {
 import type { AciString, PniString, ServiceIdString } from '../types/ServiceId';
 import {
   isUntaggedPniString,
+  normalizePni,
   ServiceIdKind,
   toTaggedPni,
 } from '../types/ServiceId';
@@ -1072,12 +1073,14 @@ export default class AccountManager extends EventTarget {
         ...keysToUpload,
       });
 
-      ourAci = normalizeAci(response.uuid, 'createAccount');
-      strictAssert(
-        isUntaggedPniString(response.pni),
-        'Response pni must be untagged'
+      ourAci = normalizeAci(
+        response.aci.getServiceIdString(),
+        '#doCreateAccount'
       );
-      ourPni = toTaggedPni(response.pni);
+      ourPni = normalizePni(
+        response.pni.getServiceIdString(),
+        '#doCreateAccount'
+      );
       deviceId = 1;
     } else if (options.type === AccountType.Linked) {
       const encryptedDeviceName = this.encryptDeviceName(

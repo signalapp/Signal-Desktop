@@ -14,7 +14,13 @@ import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
 import { z } from 'zod';
 import type { Readable } from 'stream';
-import type { KEMPublicKey, PublicKey } from '@signalapp/libsignal-client';
+import type {
+  KEMPublicKey,
+  PublicKey,
+  Aci,
+  Pni,
+} from '@signalapp/libsignal-client';
+import { AccountAttributes } from '@signalapp/libsignal-client/dist/net';
 
 import { assertDev, strictAssert } from '../util/assert';
 import * as durations from '../util/durations';
@@ -45,7 +51,7 @@ import {
 } from '../types/ServiceId';
 import type { BackupPresentationHeadersType } from '../types/backups';
 import * as Bytes from '../Bytes';
-import { randomInt } from '../Crypto';
+import { getRandomBytes, randomInt } from '../Crypto';
 import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch';
 import { isBadgeImageFileUrlValid } from '../badges/isBadgeImageFileUrlValid';
 
@@ -714,7 +720,6 @@ const URL_CALLS = {
   reserveUsername: 'v1/accounts/username_hash/reserve',
   confirmUsername: 'v1/accounts/username_hash/confirm',
   usernameLink: 'v1/accounts/username_link',
-  verificationSession: 'v1/verification/session',
   whoami: 'v1/accounts/whoami',
 };
 
@@ -1082,17 +1087,10 @@ export type LinkDeviceOptionsType = Readonly<{
   pniPqLastResortPreKey: UploadKyberPreKeyType;
 }>;
 
-const createAccountResultZod = z.object({
-  uuid: aciSchema,
-  pni: untaggedPniSchema,
-});
-export type CreateAccountResultType = z.infer<typeof createAccountResultZod>;
-
-const verificationSessionZod = z.object({
-  id: z.string(),
-  allowedToRequestCode: z.boolean(),
-  verified: z.boolean(),
-});
+export type CreateAccountResultType = Readonly<{
+  aci: Aci;
+  pni: Pni;
+}>;
 
 export type RequestVerificationResultType = Readonly<{
   sessionId: string;
@@ -2821,64 +2819,27 @@ export function initialize({
       transport: VerificationTransport
     ) {
       // Create a new blank session using just a E164
-      let session = parseUnknown(
-        verificationSessionZod,
-        await _ajax({
-          call: 'verificationSession',
-          httpType: 'POST',
-          responseType: 'json',
-          jsonData: {
-            number,
-          },
-          unauthenticated: true,
-          accessKey: undefined,
-          groupSendToken: undefined,
-        })
-      );
+      const session = await libsignalNet.createRegistrationSession({
+        e164: number,
+      });
 
       // Submit a captcha solution to the session
-      session = parseUnknown(
-        verificationSessionZod,
-        await _ajax({
-          call: 'verificationSession',
-          httpType: 'PATCH',
-          urlParameters: `/${encodeURIComponent(session.id)}`,
-          responseType: 'json',
-          jsonData: {
-            captcha,
-          },
-          unauthenticated: true,
-          accessKey: undefined,
-          groupSendToken: undefined,
-        })
-      );
+      await session.submitCaptcha(captcha);
 
       // Verify that captcha was accepted
-      if (!session.allowedToRequestCode) {
+      if (!session.sessionState.allowedToRequestCode) {
         throw new Error('requestVerification: Not allowed to send code');
       }
 
       // Request an SMS or Voice confirmation
-      session = parseUnknown(
-        verificationSessionZod,
-        await _ajax({
-          call: 'verificationSession',
-          httpType: 'POST',
-          urlParameters: `/${encodeURIComponent(session.id)}/code`,
-          responseType: 'json',
-          jsonData: {
-            client: 'ios',
-            transport:
-              transport === VerificationTransport.SMS ? 'sms' : 'voice',
-          },
-          unauthenticated: true,
-          accessKey: undefined,
-          groupSendToken: undefined,
-        })
-      );
+      await session.requestVerification({
+        transport: transport === VerificationTransport.SMS ? 'sms' : 'voice',
+        client: 'ios',
+        languages: [],
+      });
 
       // Return sessionId to be used in `createAccount`
-      return { sessionId: session.id };
+      return { sessionId: session.sessionId };
     }
 
     async function checkAccountExistence(serviceId: ServiceIdString) {
@@ -2967,24 +2928,13 @@ export function initialize({
       aciPqLastResortPreKey,
       pniPqLastResortPreKey,
     }: CreateAccountOptionsType) {
-      const session = parseUnknown(
-        verificationSessionZod,
-        await _ajax({
-          isRegistration: true,
-          call: 'verificationSession',
-          httpType: 'PUT',
-          urlParameters: `/${encodeURIComponent(sessionId)}/code`,
-          responseType: 'json',
-          jsonData: {
-            code,
-          },
-          unauthenticated: true,
-          accessKey: undefined,
-          groupSendToken: undefined,
-        })
-      );
+      const session = await libsignalNet.resumeRegistrationSession({
+        sessionId,
+        e164: number,
+      });
+      const verified = await session.verifySession(code);
 
-      if (!session.verified) {
+      if (!verified) {
         throw new Error('createAccount: invalid code');
       }
 
@@ -2995,42 +2945,48 @@ export function initialize({
         attachmentBackfill: true,
       };
 
-      const jsonData = {
-        sessionId: session.id,
-        accountAttributes: {
-          fetchesMessages: true,
-          registrationId,
-          pniRegistrationId,
-          capabilities,
-          unidentifiedAccessKey: Bytes.toBase64(accessKey),
-        },
-        requireAtomic: true,
+      // Desktop doesn't support recovery but we need to provide a recovery password.
+      // Since the value isn't used, just use a random one and then throw it away.
+      const recoveryPassword = getRandomBytes(32);
+      const accountAttributes = new AccountAttributes({
+        aciRegistrationId: registrationId,
+        pniRegistrationId,
+        capabilities: new Set(
+          Object.entries(capabilities).flatMap(([k, v]) => (v ? [k] : []))
+        ),
+        unidentifiedAccessKey: accessKey,
+        unrestrictedUnidentifiedAccess: false,
+        recoveryPassword,
+        registrationLock: null,
+        discoverableByPhoneNumber: false,
+      });
+
+      // Massages UploadSignedPreKey into SignedPublicPreKey and likewise for Kyber.
+      function asSignedKey<K>(key: {
+        keyId: number;
+        publicKey: K;
+        signature: Uint8Array;
+      }): { id: () => number; publicKey: () => K; signature: () => Buffer } {
+        return {
+          id: () => key.keyId,
+          signature: () => Buffer.from(key.signature),
+          publicKey: () => key.publicKey,
+        };
+      }
+
+      const { aci, pni } = await session.registerAccount({
+        accountPassword: newPassword,
+        accountAttributes,
         skipDeviceTransfer: true,
-        aciIdentityKey: Bytes.toBase64(aciPublicKey.serialize()),
-        pniIdentityKey: Bytes.toBase64(pniPublicKey.serialize()),
-        aciSignedPreKey: serializeSignedPreKey(aciSignedPreKey),
-        pniSignedPreKey: serializeSignedPreKey(pniSignedPreKey),
-        aciPqLastResortPreKey: serializeSignedPreKey(aciPqLastResortPreKey),
-        pniPqLastResortPreKey: serializeSignedPreKey(pniPqLastResortPreKey),
-      };
+        aciPublicKey,
+        pniPublicKey,
+        aciSignedPreKey: asSignedKey(aciSignedPreKey),
+        pniSignedPreKey: asSignedKey(pniSignedPreKey),
+        aciPqLastResortPreKey: asSignedKey(aciPqLastResortPreKey),
+        pniPqLastResortPreKey: asSignedKey(pniPqLastResortPreKey),
+      });
 
-      return _withNewCredentials(
-        {
-          username: number,
-          password: newPassword,
-        },
-        async () => {
-          const responseJson = await _ajax({
-            isRegistration: true,
-            call: 'registration',
-            httpType: 'POST',
-            responseType: 'json',
-            jsonData,
-          });
-
-          return parseUnknown(createAccountResultZod, responseJson);
-        }
-      );
+      return { aci, pni };
     }
 
     async function linkDevice({
