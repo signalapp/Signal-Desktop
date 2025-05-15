@@ -1670,9 +1670,6 @@
   "icu:notificationSenderInGroup": {
     "messageformat": "Uporabnik {sender} v skupini {group}"
   },
-  "icu:notificationReaction": {
-    "messageformat": "{sender} se je odzval_a na vaše sporočilo z {emoji}"
-  },
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} se je na {message} odzval_a z {emoji}"
   },
@@ -2591,6 +2588,9 @@
   "icu:Keyboard--open-sticker-chooser": {
     "messageformat": "Izbirnik nalepk"
   },
+  "icu:Keyboard--open-gif-chooser": {
+    "messageformat": "Open GIF chooser"
+  },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Snemanje glasovne beležke"
   },
@@ -3229,9 +3229,6 @@
   },
   "icu:calling__view_mode--updated": {
     "messageformat": "Pogled posodobljen"
-  },
-  "icu:calling__hangup": {
-    "messageformat": "Zapusti klic"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Delite svoj zaslon"
@@ -4075,9 +4072,6 @@
   },
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "Pošlji urejeno sporočilo"
-  },
-  "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "Dodajte emoji, nalepko ali GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
     "messageformat": "Želite zamenjati priponko?"
@@ -4991,6 +4985,21 @@
   "icu:Preferences__button--internal": {
     "messageformat": "Notranje"
   },
+  "icu:Preferences__internal__local-backups": {
+    "messageformat": "Local backups"
+  },
+  "icu:Preferences__internal__export-local-backup": {
+    "messageformat": "Export…"
+  },
+  "icu:Preferences__internal__export-local-backup--description": {
+    "messageformat": "Export local encrypted backup to a folder and validate it"
+  },
+  "icu:Preferences__internal__import-local-backup": {
+    "messageformat": "Import…"
+  },
+  "icu:Preferences__internal__import-local-backup--description": {
+    "messageformat": "Stage a local encrypted backup for import on link"
+  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Izvozite šifrirano varnostno kopijo v pomnilnik in na njej zaženite paket za preverjanje"
   },
@@ -5056,9 +5065,6 @@
   },
   "icu:Preferences--backup-messages-plan__note": {
     "messageformat": "Varnostne kopije Signal lahko upravljate ali nadgradite v telefonu."
-  },
-  "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Vaša naročnina ni bila najdena. Obnovite, če želite še naprej uporabljati Varnostne kopije Signal."
   },
   "icu:Preferences--backup-plan__not-found__note": {
     "messageformat": "Naročnino na Varnostne kopije Signal lahko upravljate ali obnovite v telefonu."
@@ -5188,6 +5194,24 @@
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
     "messageformat": "Ponovni zagon"
+  },
+  "icu:Preferences__Privacy__Application": {
+    "messageformat": "Application"
+  },
+  "icu:Preferences__content-protection--label": {
+    "messageformat": "Screen security"
+  },
+  "icu:Preferences__content-protection--description": {
+    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+  },
+  "icu:Preferences__content-protection__modal--title": {
+    "messageformat": "Disable screen security?"
+  },
+  "icu:Preferences__content-protection__modal--body": {
+    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+  },
+  "icu:Preferences__content-protection__modal--disable": {
+    "messageformat": "Disable"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Na voljo je nadgradnja na različico {version}"
@@ -6323,6 +6347,12 @@
     "messageformat": "Prav tako smo spremenili velikost okna slike v sliki in dodali priročne nove bližnjice za vklop/izklop mikrofona ali vklop/izklop fotoaparata, ko je klic zmanjšan na minimum."
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "Dodali smo podporo za bližnjice emojijev v dodatnih jezikih."
+  },
+  "icu:WhatsNew__v7.55--0": {
+    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+  },
+  "icu:WhatsNew__v7.55--1": {
+    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
   }
 }

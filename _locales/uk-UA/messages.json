@@ -1670,9 +1670,6 @@
   "icu:notificationSenderInGroup": {
     "messageformat": "{sender} у «{group}»"
   },
-  "icu:notificationReaction": {
-    "messageformat": "Реакція користувача {sender} на ваше повідомлення: {emoji}"
-  },
   "icu:notificationReactionMessage": {
     "messageformat": "Користувач {sender} поставив реакцію {emoji} на: {message}"
   },
@@ -2591,6 +2588,9 @@
   "icu:Keyboard--open-sticker-chooser": {
     "messageformat": "Відкрити панель стікерів"
   },
+  "icu:Keyboard--open-gif-chooser": {
+    "messageformat": "Open GIF chooser"
+  },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Почати запис голосового повідомлення"
   },
@@ -3229,9 +3229,6 @@
   },
   "icu:calling__view_mode--updated": {
     "messageformat": "Вигляд змінено"
-  },
-  "icu:calling__hangup": {
-    "messageformat": "Покинути виклик"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Демонстрація екрана"
@@ -4075,9 +4072,6 @@
   },
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "Надіслати відредаговане повідомлення"
-  },
-  "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "Додати емоджі, стікер або GIF-зображення"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
     "messageformat": "Замінити вкладення?"
@@ -4991,6 +4985,21 @@
   "icu:Preferences__button--internal": {
     "messageformat": "Система"
   },
+  "icu:Preferences__internal__local-backups": {
+    "messageformat": "Local backups"
+  },
+  "icu:Preferences__internal__export-local-backup": {
+    "messageformat": "Export…"
+  },
+  "icu:Preferences__internal__export-local-backup--description": {
+    "messageformat": "Export local encrypted backup to a folder and validate it"
+  },
+  "icu:Preferences__internal__import-local-backup": {
+    "messageformat": "Import…"
+  },
+  "icu:Preferences__internal__import-local-backup--description": {
+    "messageformat": "Stage a local encrypted backup for import on link"
+  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Експортувати зашифровану резервну копію в пам'ять і запустити програму перевірки"
   },
@@ -5056,9 +5065,6 @@
   },
   "icu:Preferences--backup-messages-plan__note": {
     "messageformat": "Щоб налаштувати або змінити передплату від Signal, зайдіть у налаштування з телефона."
-  },
-  "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Передплату не знайдено. Поновіть її, щоб знову користуватися резервним копіюванням від Signal."
   },
   "icu:Preferences--backup-plan__not-found__note": {
     "messageformat": "Щоб змінити або поновити передплату від Signal, зайдіть у налаштування з телефона."
@@ -5188,6 +5194,24 @@
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
     "messageformat": "Перезапустити"
+  },
+  "icu:Preferences__Privacy__Application": {
+    "messageformat": "Application"
+  },
+  "icu:Preferences__content-protection--label": {
+    "messageformat": "Screen security"
+  },
+  "icu:Preferences__content-protection--description": {
+    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+  },
+  "icu:Preferences__content-protection__modal--title": {
+    "messageformat": "Disable screen security?"
+  },
+  "icu:Preferences__content-protection__modal--body": {
+    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+  },
+  "icu:Preferences__content-protection__modal--disable": {
+    "messageformat": "Disable"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Наявне оновлення до версії {version}"
@@ -6323,6 +6347,12 @@
     "messageformat": "Крім того, ми змінили розмір вікна в режимі «картинка в картинці» й додали нові зручні сполучення клавіш для вимкнення / увімкнення мікрофона і камери під час згорнутого виклику."
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "Усмішка однакова в усіх мовах, але тепер ми переклали всі швидкі команди для емоджі в Signal Desktop, тож ви зможете <code>:усміхатися:</code>, <code>:sourire:</code> або <code>:微笑:</code> усіма підтримуваними мовами."
+  },
+  "icu:WhatsNew__v7.55--0": {
+    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+  },
+  "icu:WhatsNew__v7.55--1": {
+    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
   }
 }

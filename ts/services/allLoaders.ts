@@ -15,6 +15,10 @@ import {
 } from './distributionListLoader';
 import { getStoriesForRedux, loadStories } from './storyLoader';
 import { getUserDataForRedux, loadUserData } from './userLoader';
+import {
+  loadCachedProfiles as loadNotificationProfiles,
+  getCachedProfiles as getNotificationProfiles,
+} from './notificationProfilesService';
 
 // old-style loaders
 import {
@@ -37,6 +41,7 @@ export async function loadAll(): Promise<void> {
     loadCallLinks(),
     loadDistributionLists(),
     loadGifsState(),
+    loadNotificationProfiles(),
     loadRecentEmojis(),
     loadStickers(),
     loadStories(),
@@ -60,6 +65,7 @@ export function getParametersForRedux(): ReduxInitData {
     gifs: getGifsStateForRedux(),
     mainWindowStats,
     menuOptions,
+    notificationProfiles: getNotificationProfiles(),
     recentEmoji: getEmojiReducerState(),
     stickers: getStickersReduxState(),
     stories: getStoriesForRedux(),

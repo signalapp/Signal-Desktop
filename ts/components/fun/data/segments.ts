@@ -81,14 +81,22 @@ export function _getSegmentRanges(
   return segmentRanges;
 }
 
+function assertExpected<T>(actual: T, expected: T, message: string) {
+  strictAssert(
+    Object.is(actual, expected),
+    `${message}: ${actual} (expected: ${expected})`
+  );
+}
+
 async function fetchSegment(
   url: string,
   segmentRange: _SegmentRange,
+  contentLength: number,
   signal?: AbortSignal
 ): Promise<ArrayBufferView> {
   const { messaging } = window.textsecure;
   strictAssert(messaging, 'Missing window.textsecure.messaging');
-  const { data } = await messaging.server.fetchBytesViaProxy({
+  const { data, response } = await messaging.server.fetchBytesViaProxy({
     method: 'GET',
     url,
     signal,
@@ -97,9 +105,22 @@ async function fetchSegment(
     },
   });
 
-  strictAssert(
-    data.buffer.byteLength === segmentRange.segmentSize,
-    'Response buffer should be exact length of segment range'
+  assertExpected(
+    response.headers.get('Content-Length'),
+    `${segmentRange.segmentSize}`,
+    'Unexpected Content-Length header'
+  );
+
+  assertExpected(
+    response.headers.get('Content-Range'),
+    `bytes ${segmentRange.startIndex}-${segmentRange.endIndexInclusive}/${contentLength}`,
+    'Unexpected Content-Range header'
+  );
+
+  assertExpected(
+    data.byteLength,
+    segmentRange.segmentSize,
+    'Unexpected response buffer byte length'
   );
 
   let slice: ArrayBufferView;
@@ -125,7 +146,7 @@ export async function fetchInSegments(
   const segmentRanges = _getSegmentRanges(contentLength, segmentSize);
   const segmentBuffers = await Promise.all(
     segmentRanges.map(segmentRange => {
-      return fetchSegment(url, segmentRange, signal);
+      return fetchSegment(url, segmentRange, contentLength, signal);
     })
   );
   return new Blob(segmentBuffers);

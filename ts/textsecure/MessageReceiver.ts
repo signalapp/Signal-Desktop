@@ -300,7 +300,7 @@ export default class MessageReceiver
   #encryptedQueue: PQueue;
   #decryptedQueue: PQueue;
   #retryCachedTimeout: NodeJS.Timeout | undefined;
-  #serverTrustRoot: Uint8Array;
+  #serverTrustRoot: PublicKey;
   #stoppingProcessing?: boolean;
   #pniIdentityKeyCheckRequired?: boolean;
 
@@ -315,7 +315,9 @@ export default class MessageReceiver
     if (!serverTrustRoot) {
       throw new Error('Server trust root is required!');
     }
-    this.#serverTrustRoot = Bytes.fromBase64(serverTrustRoot);
+    this.#serverTrustRoot = PublicKey.deserialize(
+      Buffer.from(Bytes.fromBase64(serverTrustRoot))
+    );
 
     this.#incomingQueue = new PQueue({
       concurrency: 1,
@@ -1637,12 +1639,7 @@ export default class MessageReceiver
       `${logId}: Sealed sender message was missing serverTimestamp`
     );
 
-    if (
-      !certificate.validate(
-        PublicKey.deserialize(Buffer.from(this.#serverTrustRoot)),
-        serverTimestamp
-      )
-    ) {
+    if (!certificate.validate(this.#serverTrustRoot, serverTimestamp)) {
       throw new Error(`${logId}: Sealed sender certificate validation failed`);
     }
 
@@ -1794,7 +1791,7 @@ export default class MessageReceiver
       () =>
         sealedSenderDecryptMessage(
           Buffer.from(ciphertext),
-          PublicKey.deserialize(Buffer.from(this.#serverTrustRoot)),
+          this.#serverTrustRoot,
           envelope.serverTimestamp,
           localE164 || null,
           destinationServiceId,

@@ -1670,9 +1670,6 @@
   "icu:notificationSenderInGroup": {
     "messageformat": "{sender} in {group}"
   },
-  "icu:notificationReaction": {
-    "messageformat": "{sender} reageerde met {emoji} op je bericht"
-  },
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} reageerde met {emoji} op: {message}"
   },
@@ -2591,6 +2588,9 @@
   "icu:Keyboard--open-sticker-chooser": {
     "messageformat": "Sticker-keuzemenu openen"
   },
+  "icu:Keyboard--open-gif-chooser": {
+    "messageformat": "Open GIF chooser"
+  },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Opname spraakbericht beginnen"
   },
@@ -3229,9 +3229,6 @@
   },
   "icu:calling__view_mode--updated": {
     "messageformat": "Weergave bijgewerkt"
-  },
-  "icu:calling__hangup": {
-    "messageformat": "Oproep verlaten"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Je scherm delen"
@@ -4075,9 +4072,6 @@
   },
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "Bewerkt bericht versturen"
-  },
-  "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "Een emoji, sticker of GIF toevoegen"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
     "messageformat": "Bijlage vervangen?"
@@ -4991,6 +4985,21 @@
   "icu:Preferences__button--internal": {
     "messageformat": "Intern"
   },
+  "icu:Preferences__internal__local-backups": {
+    "messageformat": "Local backups"
+  },
+  "icu:Preferences__internal__export-local-backup": {
+    "messageformat": "Export…"
+  },
+  "icu:Preferences__internal__export-local-backup--description": {
+    "messageformat": "Export local encrypted backup to a folder and validate it"
+  },
+  "icu:Preferences__internal__import-local-backup": {
+    "messageformat": "Import…"
+  },
+  "icu:Preferences__internal__import-local-backup--description": {
+    "messageformat": "Stage a local encrypted backup for import on link"
+  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Versleutelde back-up exporteren naar geheugen en de validatiesuite erop uitvoeren"
   },
@@ -5056,9 +5065,6 @@
   },
   "icu:Preferences--backup-messages-plan__note": {
     "messageformat": "Signal back-ups kun je beheren of upgraden op je telefoon."
-  },
-  "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Je abonnement is niet gevonden. Vernieuw je Signal back-upabonnement om Signal back-ups te blijven gebruiken."
   },
   "icu:Preferences--backup-plan__not-found__note": {
     "messageformat": "Je Signal back-upabonnement kun je beheren of verlengen op je telefoon."
@@ -5188,6 +5194,24 @@
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
     "messageformat": "Opnieuw opstarten"
+  },
+  "icu:Preferences__Privacy__Application": {
+    "messageformat": "Application"
+  },
+  "icu:Preferences__content-protection--label": {
+    "messageformat": "Screen security"
+  },
+  "icu:Preferences__content-protection--description": {
+    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+  },
+  "icu:Preferences__content-protection__modal--title": {
+    "messageformat": "Disable screen security?"
+  },
+  "icu:Preferences__content-protection__modal--body": {
+    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+  },
+  "icu:Preferences__content-protection__modal--disable": {
+    "messageformat": "Disable"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Nieuwe versie {version} is beschikbaar"
@@ -6323,6 +6347,12 @@
     "messageformat": "Bovendien hebben we het formaat van het beeld-in-beeld-venster aangepast en handige nieuwe snelkoppelingen toegevoegd om de microfoon of camera aan/uit te zetten als een oproep is geminimaliseerd."
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "Een glimlach is in elke taal hetzelfde, maar nu de emoji-snelkoppelingen in Signal Desktop volledig zijn vertaald, kun je ook <code>:glimlachen:</code> of <code>:sourire:</code> of <code>:微笑:</code> in elke ondersteunde taal."
+  },
+  "icu:WhatsNew__v7.55--0": {
+    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+  },
+  "icu:WhatsNew__v7.55--1": {
+    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
   }
 }

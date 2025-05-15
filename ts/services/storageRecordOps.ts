@@ -746,10 +746,10 @@ type RecordClassObject = {
 };
 
 function areNicknamesEqual(
-  local: Proto.ContactRecord.IName,
-  remote: Proto.ContactRecord.IName
+  local: Proto.ContactRecord.IName | undefined | null,
+  remote: Proto.ContactRecord.IName | undefined | null
 ): boolean {
-  return local.given === remote.given && local.family === remote.family;
+  return local?.given === remote?.given && local?.family === remote?.family;
 }
 
 function logRecordChanges(

@@ -1670,9 +1670,6 @@
   "icu:notificationSenderInGroup": {
     "messageformat": "{group} 내 {sender} 님"
   },
-  "icu:notificationReaction": {
-    "messageformat": "{sender} 님이 내 메시지에 {emoji} 이모지로 반응했습니다."
-  },
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} 님이 ''{message}'에 {emoji} 이모지로 반응했습니다."
   },
@@ -2591,6 +2588,9 @@
   "icu:Keyboard--open-sticker-chooser": {
     "messageformat": "스티커 선택기 열기"
   },
+  "icu:Keyboard--open-gif-chooser": {
+    "messageformat": "Open GIF chooser"
+  },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "음성 녹음 시작하기"
   },
@@ -3229,9 +3229,6 @@
   },
   "icu:calling__view_mode--updated": {
     "messageformat": "보기 업데이트 완료"
-  },
-  "icu:calling__hangup": {
-    "messageformat": "전화 종료"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "화면 공유"
@@ -4075,9 +4072,6 @@
   },
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "수정한 메시지 보내기"
-  },
-  "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "이모지, 스티커, GIF 추가"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
     "messageformat": "첨부 파일을 바꾸시겠습니까?"
@@ -4991,6 +4985,21 @@
   "icu:Preferences__button--internal": {
     "messageformat": "내부"
   },
+  "icu:Preferences__internal__local-backups": {
+    "messageformat": "Local backups"
+  },
+  "icu:Preferences__internal__export-local-backup": {
+    "messageformat": "Export…"
+  },
+  "icu:Preferences__internal__export-local-backup--description": {
+    "messageformat": "Export local encrypted backup to a folder and validate it"
+  },
+  "icu:Preferences__internal__import-local-backup": {
+    "messageformat": "Import…"
+  },
+  "icu:Preferences__internal__import-local-backup--description": {
+    "messageformat": "Stage a local encrypted backup for import on link"
+  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "암호화된 백업을 메모리로 내보내고, 해당 백업에 유효성 검사 제품군을 실행합니다"
   },
@@ -5056,9 +5065,6 @@
   },
   "icu:Preferences--backup-messages-plan__note": {
     "messageformat": "휴대폰에서 Signal 백업을 관리하거나 업그레이드할 수 있습니다."
-  },
-  "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "구독을 찾지 못했습니다. Signal 백업을 계속 사용하려면 갱신하세요."
   },
   "icu:Preferences--backup-plan__not-found__note": {
     "messageformat": "휴대폰에서 Signal 백업 구독을 관리하거나 갱신할 수 있습니다."
@@ -5188,6 +5194,24 @@
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
     "messageformat": "다시 시작"
+  },
+  "icu:Preferences__Privacy__Application": {
+    "messageformat": "Application"
+  },
+  "icu:Preferences__content-protection--label": {
+    "messageformat": "Screen security"
+  },
+  "icu:Preferences__content-protection--description": {
+    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+  },
+  "icu:Preferences__content-protection__modal--title": {
+    "messageformat": "Disable screen security?"
+  },
+  "icu:Preferences__content-protection__modal--body": {
+    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+  },
+  "icu:Preferences__content-protection__modal--disable": {
+    "messageformat": "Disable"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "{version} 버전으로 업데이트할 수 있습니다."
@@ -6323,6 +6347,12 @@
     "messageformat": "또한 PIP(Picture-in-Picture) 창 크기를 조정하고, 통화 창을 최소화한 상태에서 사용할 수 있는 편리한 단축키를 새로 추가했습니다."
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "이모지 바로 가기에 대한 더 많은 언어 지원을 추가했습니다."
+  },
+  "icu:WhatsNew__v7.55--0": {
+    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+  },
+  "icu:WhatsNew__v7.55--1": {
+    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
   }
 }

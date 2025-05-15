@@ -1670,9 +1670,6 @@
   "icu:notificationSenderInGroup": {
     "messageformat": "{sender} en {group}"
   },
-  "icu:notificationReaction": {
-    "messageformat": "{sender} reaccionou con {emoji} á túa mensaxe"
-  },
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} reaccionou con {emoji} a: {message}"
   },
@@ -2591,6 +2588,9 @@
   "icu:Keyboard--open-sticker-chooser": {
     "messageformat": "Abrir selector de stickers"
   },
+  "icu:Keyboard--open-gif-chooser": {
+    "messageformat": "Open GIF chooser"
+  },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Comezar a gravar mensaxe de voz"
   },
@@ -3229,9 +3229,6 @@
   },
   "icu:calling__view_mode--updated": {
     "messageformat": "Modo de visualización actualizado"
-  },
-  "icu:calling__hangup": {
-    "messageformat": "Deixar a chamada"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Compartir pantalla"
@@ -4075,9 +4072,6 @@
   },
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "Enviar mensaxe editada"
-  },
-  "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "Engadir unha emoticona, sticker ou GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
     "messageformat": "Eliminar o anexo?"
@@ -4991,6 +4985,21 @@
   "icu:Preferences__button--internal": {
     "messageformat": "Interna"
   },
+  "icu:Preferences__internal__local-backups": {
+    "messageformat": "Local backups"
+  },
+  "icu:Preferences__internal__export-local-backup": {
+    "messageformat": "Export…"
+  },
+  "icu:Preferences__internal__export-local-backup--description": {
+    "messageformat": "Export local encrypted backup to a folder and validate it"
+  },
+  "icu:Preferences__internal__import-local-backup": {
+    "messageformat": "Import…"
+  },
+  "icu:Preferences__internal__import-local-backup--description": {
+    "messageformat": "Stage a local encrypted backup for import on link"
+  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Exporta a copia de seguridade cifrada á memoria e executa o paquete de validación"
   },
@@ -5056,9 +5065,6 @@
   },
   "icu:Preferences--backup-messages-plan__note": {
     "messageformat": "Podes xestionar ou mellorar a túa subscrición ás Copias de seguranza de Signal dende o teu teléfono."
-  },
-  "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Non se atopou a túa subscrición. Renóvaa para seguir empregando as Copias de seguranza de Signal."
   },
   "icu:Preferences--backup-plan__not-found__note": {
     "messageformat": "Podes xestionar ou renovar a túa subscrición ás Copias de seguranza de Signal dende o teu teléfono."
@@ -5188,6 +5194,24 @@
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
     "messageformat": "Reiniciar"
+  },
+  "icu:Preferences__Privacy__Application": {
+    "messageformat": "Application"
+  },
+  "icu:Preferences__content-protection--label": {
+    "messageformat": "Screen security"
+  },
+  "icu:Preferences__content-protection--description": {
+    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+  },
+  "icu:Preferences__content-protection__modal--title": {
+    "messageformat": "Disable screen security?"
+  },
+  "icu:Preferences__content-protection__modal--body": {
+    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+  },
+  "icu:Preferences__content-protection__modal--disable": {
+    "messageformat": "Disable"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Actualizar á versión dispoñible {version}"
@@ -6323,6 +6347,12 @@
     "messageformat": "Ademais, axustamos o tamaño da xanela flotante e engadimos atallos novos para cando a chamada está minimizada."
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "Agora contamos con compatibilidade para atallos de emoticonas en máis idiomas."
+  },
+  "icu:WhatsNew__v7.55--0": {
+    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+  },
+  "icu:WhatsNew__v7.55--1": {
+    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
   }
 }

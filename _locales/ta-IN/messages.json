@@ -1670,9 +1670,6 @@
   "icu:notificationSenderInGroup": {
     "messageformat": "{sender} in {group}"
   },
-  "icu:notificationReaction": {
-    "messageformat": "{sender} உங்கள் செய்திக்கு {emoji} என்று எதிர்வினையாற்றினார்"
-  },
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} {emoji} என்று எதிர்வினையாற்றினார்: {message}"
   },
@@ -2591,6 +2588,9 @@
   "icu:Keyboard--open-sticker-chooser": {
     "messageformat": "ஓட்டி தேர்வி திறக்கவும்"
   },
+  "icu:Keyboard--open-gif-chooser": {
+    "messageformat": "Open GIF chooser"
+  },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "குரல் குறிப்பைப் பதிவுசெய்யத் தொடங்குங்கள்"
   },
@@ -3229,9 +3229,6 @@
   },
   "icu:calling__view_mode--updated": {
     "messageformat": "வ்யூ புதுப்பிக்கப்பட்டது"
-  },
-  "icu:calling__hangup": {
-    "messageformat": "அழைப்பை விடுங்கள்"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "பகிர் உங்கள் திரை"
@@ -4075,9 +4072,6 @@
   },
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "திருத்தப்பட்ட மெசேஜை அனுப்பும்"
-  },
-  "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "எமோஜி, ஸ்டிக்கர், அல்லது GIFஐச் சேர்க்கவும்"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
     "messageformat": "இணைப்பை மாற்ற வேண்டுமா?"
@@ -4991,6 +4985,21 @@
   "icu:Preferences__button--internal": {
     "messageformat": "உள்ளகம்"
   },
+  "icu:Preferences__internal__local-backups": {
+    "messageformat": "Local backups"
+  },
+  "icu:Preferences__internal__export-local-backup": {
+    "messageformat": "Export…"
+  },
+  "icu:Preferences__internal__export-local-backup--description": {
+    "messageformat": "Export local encrypted backup to a folder and validate it"
+  },
+  "icu:Preferences__internal__import-local-backup": {
+    "messageformat": "Import…"
+  },
+  "icu:Preferences__internal__import-local-backup--description": {
+    "messageformat": "Stage a local encrypted backup for import on link"
+  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "குறியாக்கப்பட்ட காப்புப்பிரதியை நினைவகத்திற்கு ஏற்றுமதி செய்து, அதில் சரிபார்ப்புத் தொகுப்பை இயக்குங்கள்"
   },
@@ -5056,9 +5065,6 @@
   },
   "icu:Preferences--backup-messages-plan__note": {
     "messageformat": "உங்கள் ஃபோனில் உங்கள் சிக்னல் காப்புப்பிரதிகளை நிர்வகிக்கலாம் அல்லது புதுப்பிக்கலாம்."
-  },
-  "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "உங்கள் சந்தா கிடைக்கப்பெறவில்லை. தொடர்ந்து சிக்னல் காப்புப்பிரதிகளைப் பயன்படுத்த, புதுப்பிக்கவும்."
   },
   "icu:Preferences--backup-plan__not-found__note": {
     "messageformat": "உங்கள் ஃபோனில் உங்கள் சிக்னல் காப்புப்பிரதி சந்தாவை நிர்வகிக்கலாம் அல்லது புதுப்பிக்கலாம்."
@@ -5188,6 +5194,24 @@
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
     "messageformat": "ரீஸ்டார்ட்"
+  },
+  "icu:Preferences__Privacy__Application": {
+    "messageformat": "Application"
+  },
+  "icu:Preferences__content-protection--label": {
+    "messageformat": "Screen security"
+  },
+  "icu:Preferences__content-protection--description": {
+    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+  },
+  "icu:Preferences__content-protection__modal--title": {
+    "messageformat": "Disable screen security?"
+  },
+  "icu:Preferences__content-protection__modal--body": {
+    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+  },
+  "icu:Preferences__content-protection__modal--disable": {
+    "messageformat": "Disable"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "பதிப்புக்குப் புதுப்பிக்கவும் {version} கிடைக்கிறது"
@@ -6323,6 +6347,12 @@
     "messageformat": "பிக்சர்-இன்-பிக்சர் சாளரத்தின் அளவையும் மாற்றியுள்ளோம் மற்றும் அழைப்புத் திரை சிறியதாக்கப்படும் போது வசதியான புதிய குறுக்குவழிகளைச் சேர்த்துள்ளோம்."
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "எந்த மொழியிலும் புன்னகை ஒன்றுதான், ஆனால் இப்போது சிக்னல் டெஸ்க்டாப்பில் உள்ள எமோஜி ஷார்ட்கட்கள் முழுமையாக மொழிபெயர்க்கப்பட்டுவிட்டதால், நீங்கள்<code>:smile:</code> அல்லது <code>:sourire:</code> அல்லது <code>:微笑:</code> ஆகியவற்றை ஆதரிக்கப்படும் எந்த மொழியிலும் மொழிபெயர்க்கலாம். எமோஜி ஷார்ட்கட்களுக்கான ஆதரவைக் கூடுதல் மொழிகளில் சேர்த்துள்ளோம்."
+  },
+  "icu:WhatsNew__v7.55--0": {
+    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+  },
+  "icu:WhatsNew__v7.55--1": {
+    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
   }
 }

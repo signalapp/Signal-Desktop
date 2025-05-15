@@ -41,8 +41,8 @@ import {
   SendMessageProtoError,
   UnknownRecipientError,
   UnregisteredUserError,
+  HTTPError,
 } from '../textsecure/Errors';
-import type { HTTPError } from '../textsecure/Errors';
 import { IdentityKeys, SenderKeys, Sessions } from '../LibSignalStores';
 import type { ConversationModel } from '../models/conversations';
 import type { DeviceType, CallbackResultType } from '../textsecure/Types.d';
@@ -640,7 +640,10 @@ export async function sendToGroupViaSenderKey(
     }
 
     if (groupSendEndorsementState != null) {
-      onFailedToSendWithEndorsements(error);
+      // Ignore server errors
+      if (!(error instanceof HTTPError && error.code === 500)) {
+        onFailedToSendWithEndorsements(error);
+      }
     }
 
     log.error(
@@ -1428,7 +1431,10 @@ async function fetchKeysForServiceId(
       return;
     }
     if (useGroupSendEndorsement) {
-      onFailedToSendWithEndorsements(error as Error);
+      // Ignore untrusted identity key errors
+      if (!(error instanceof OutgoingIdentityKeyError)) {
+        onFailedToSendWithEndorsements(error as Error);
+      }
     }
     log.error(
       `${logId}: Error fetching ${devices || 'all'} devices`,

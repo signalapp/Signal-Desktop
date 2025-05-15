@@ -1209,6 +1209,8 @@ export default class AccountManager extends EventTarget {
     }
     if (accountEntropyPool) {
       await storage.put('accountEntropyPool', accountEntropyPool);
+    } else {
+      log.warn('createAccount: accountEntropyPool was missing!');
     }
     let derivedMasterKey = masterKey;
     if (derivedMasterKey == null) {

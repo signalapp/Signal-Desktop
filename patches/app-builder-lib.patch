@@ -1,3 +1,18 @@
+diff --git a/templates/linux/after-install.tpl b/templates/linux/after-install.tpl
+index 6cf860bd2847bae35ca8885cb680dd6c8c516e39..6ef8c62bd83395e5561e052a10f07bfa1773a2bf 100644
+--- a/templates/linux/after-install.tpl
++++ b/templates/linux/after-install.tpl
+@@ -55,3 +55,10 @@ if apparmor_status --enabled > /dev/null 2>&1; then
+     echo "Skipping the installation of the AppArmor profile as this version of AppArmor does not seem to support the bundled profile"
+   fi
+ fi
++
++# SIGNAL CHANGES BEGIN
++
++# Notify updater that the update was fully installed
++touch '/opt/${sanitizedProductName}/.signal-postinst'
++
++# SIGNAL CHANGES END
 diff --git a/templates/nsis/include/installer.nsh b/templates/nsis/include/installer.nsh
 index 34e91dfe82fdbb2e929820f2e8deb771b7f7893c..73bfffc6c227a018cbbeb690d6d7b882ed142fc8 100644
 --- a/templates/nsis/include/installer.nsh

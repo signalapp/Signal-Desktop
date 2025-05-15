@@ -3,7 +3,7 @@
 
 import '../ts/window.d.ts';
 
-import React from 'react';
+import React, { StrictMode } from 'react';
 
 import 'sanitize.css';
 import '../stylesheets/manifest.scss';
@@ -153,6 +153,14 @@ window.ConversationController.isSignalConversationId = () => false;
 window.ConversationController.onConvoMessageMount = noop;
 window.reduxStore = mockStore;
 
+function withStrictMode(Story, context) {
+  return (
+    <StrictMode>
+      <Story {...context} />
+    </StrictMode>
+  );
+}
+
 const withGlobalTypesProvider = (Story, context) => {
   const theme =
     context.globals.theme === 'light' ? ThemeType.light : ThemeType.dark;
@@ -234,6 +242,7 @@ function withFunProvider(Story, context) {
 }
 
 export const decorators = [
+  withStrictMode,
   withGlobalTypesProvider,
   withMockStoreProvider,
   withScrollLockProvider,

@@ -1670,9 +1670,6 @@
   "icu:notificationSenderInGroup": {
     "messageformat": "{group} ನಲ್ಲಿ {sender}"
   },
-  "icu:notificationReaction": {
-    "messageformat": "{sender} ಅವರು ನಿಮ್ಮ ಮೆಸೇಜ್‌ಗೆ {emoji} ಪ್ರತಿಕ್ರಿಯಿಸಿದ್ದಾರೆ"
-  },
   "icu:notificationReactionMessage": {
     "messageformat": "ಇದಕ್ಕೆ {sender} ಅವರು {emoji} ಪ್ರತಿಕ್ರಿಯಿಸಿದ್ದಾರೆ: {message}"
   },
@@ -2591,6 +2588,9 @@
   "icu:Keyboard--open-sticker-chooser": {
     "messageformat": "ಸ್ಟಿಕ್ಕರ್ ಆಯ್ಕೆಗಾರ ತೆರೆಯಿರಿ"
   },
+  "icu:Keyboard--open-gif-chooser": {
+    "messageformat": "Open GIF chooser"
+  },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "ವಾಯ್ಸ್ ನೋಟ್ ರೆಕಾರ್ಡಿಂಗ್ ಆರಂಭಿಸಿ"
   },
@@ -3229,9 +3229,6 @@
   },
   "icu:calling__view_mode--updated": {
     "messageformat": "ವೀಕ್ಷಣೆ ನವೀಕರಣಗೊಂಡಿದೆ"
-  },
-  "icu:calling__hangup": {
-    "messageformat": "ಕರೆ ಬಿಡಿ"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "ನಿಮ್ಮ ಸ್ಕ್ರೀನ್ ಹಂಚಿಕೊಳ್ಳಿ"
@@ -4075,9 +4072,6 @@
   },
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "ಎಡಿಟ್ ಮಾಡಿದ ಮೆಸೇಜ್ ಕಳುಹಿಸಿ"
-  },
-  "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "ಎಮೋಜಿ, ಸ್ಟಿಕ್ಕರ್ ಅಥವಾ GIF ಅನ್ನು ಸೇರಿಸಿ"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
     "messageformat": "ಅಟ್ಯಾಚ್‌ಮೆಂಟ್ ಅನ್ನು ಬದಲಾಯಿಸಬೇಕೇ?"
@@ -4991,6 +4985,21 @@
   "icu:Preferences__button--internal": {
     "messageformat": "ಆಂತರಿಕ"
   },
+  "icu:Preferences__internal__local-backups": {
+    "messageformat": "Local backups"
+  },
+  "icu:Preferences__internal__export-local-backup": {
+    "messageformat": "Export…"
+  },
+  "icu:Preferences__internal__export-local-backup--description": {
+    "messageformat": "Export local encrypted backup to a folder and validate it"
+  },
+  "icu:Preferences__internal__import-local-backup": {
+    "messageformat": "Import…"
+  },
+  "icu:Preferences__internal__import-local-backup--description": {
+    "messageformat": "Stage a local encrypted backup for import on link"
+  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "ಎನ್ಕ್ರಿಪ್ಟ್ ಆಗಿರುವ ಬ್ಯಾಕಪ್ ಅನ್ನು ಮೆಮೊರಿಗೆ ಎಕ್ಸ್‌ಪೋರ್ಟ್ ಮಾಡಿ ಮತ್ತು ಅದರ ಮೇಲೆ ವ್ಯಾಲಿಡೇಶನ್ ಸೂಟ್ ಅನ್ನು ರನ್ ಮಾಡಿ"
   },
@@ -5056,9 +5065,6 @@
   },
   "icu:Preferences--backup-messages-plan__note": {
     "messageformat": "ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ ನೀವು Signal ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ನಿರ್ವಹಿಸಬಹುದು ಅಥವಾ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಬಹುದು."
-  },
-  "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "ನಿಮ್ಮ ಚಂದಾದಾರಿಕೆ ಕಂಡುಬಂದಿಲ್ಲ. Signal ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ಬಳಸುವುದನ್ನು ಮುಂದುವರಿಸಲು ನವೀಕರಿಸಿ."
   },
   "icu:Preferences--backup-plan__not-found__note": {
     "messageformat": "ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ ನಿಮ್ಮ Signal ಬ್ಯಾಕಪ್‌ಗಳ ಚಂದಾದಾರಿಕೆಯನ್ನು ನೀವು ನಿರ್ವಹಿಸಬಹುದು ಅಥವಾ ನವೀಕರಿಸಬಹುದು."
@@ -5188,6 +5194,24 @@
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
     "messageformat": "ಮರುಪ್ರಾರಂಭಿಸಿ"
+  },
+  "icu:Preferences__Privacy__Application": {
+    "messageformat": "Application"
+  },
+  "icu:Preferences__content-protection--label": {
+    "messageformat": "Screen security"
+  },
+  "icu:Preferences__content-protection--description": {
+    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+  },
+  "icu:Preferences__content-protection__modal--title": {
+    "messageformat": "Disable screen security?"
+  },
+  "icu:Preferences__content-protection__modal--body": {
+    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+  },
+  "icu:Preferences__content-protection__modal--disable": {
+    "messageformat": "Disable"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "ಲಭ್ಯವಿರುವ ಆವೃತ್ತಿ {version} ಕ್ಕೆ ಅಪ್‌ಡೇಟ್ ಮಾಡಿ"
@@ -6323,6 +6347,12 @@
     "messageformat": "ನಾವು ಪಿಕ್ಚರ್-ಇನ್-ಪಿಕ್ಚರ್ ವಿಂಡೋವನ್ನು ಮರುಗಾತ್ರಗೊಳಿಸಿದ್ದೇವೆ ಮತ್ತು ಕರೆಯನ್ನು ಮಿನಿಮೈಸ್ ಮಾಡುವಾಗ ನಿಮ್ಮ ಮೈಕ್ರೊಫೋನ್ ಅನ್ನು ಮ್ಯೂಟ್/ಅನ್‌ಮ್ಯೂಟ್ ಮಾಡಲು ಅಥವಾ ಕ್ಯಾಮೆರಾವನ್ನು ಆನ್/ಆಫ್ ಮಾಡಲು ಅನುಕೂಲಕರವಾದ ಹೊಸ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳನ್ನು ಸೇರಿಸಿದ್ದೇವೆ."
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "ಯಾವುದೇ ಭಾಷೆಯಲ್ಲಿಯೇ ಆಗಲಿ ನಗು ಒಂದೇ ಆಗಿರುತ್ತದೆ, ಆದರೆ ಈಗ ಸಿಗ್ನಲ್ ಡೆಸ್ಕ್‌ಟಾಪ್‌ನಲ್ಲಿರುವ ಎಮೋಜಿ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳನ್ನು ಸಂಪೂರ್ಣವಾಗಿ ಅನುವಾದಿಸಲಾಗಿರುವುದರಿಂದ ನೀವು ಯಾವುದೇ ಬೆಂಬಲಿತ ಭಾಷೆಯಲ್ಲಿಯೂ ಸಹ <code>:smile:</code> ಅಥವಾ <code>:sourire:</code> ಅಥವಾ <code>:微笑:</code> ಸಹ ಅನುವಾದಿಸಬಹುದು."
+  },
+  "icu:WhatsNew__v7.55--0": {
+    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+  },
+  "icu:WhatsNew__v7.55--1": {
+    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
   }
 }

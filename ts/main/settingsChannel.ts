@@ -21,6 +21,7 @@ const EPHEMERAL_NAME_MAP = new Map([
   ['systemTraySetting', 'system-tray-setting'],
   ['themeSetting', 'theme-setting'],
   ['localeOverride', 'localeOverride'],
+  ['contentProtection', 'contentProtection'],
 ]);
 
 type ResponseQueueEntry = Readonly<{
@@ -68,6 +69,8 @@ export class SettingsChannel extends EventEmitter {
     this.#installCallback('syncRequest');
     this.#installCallback('setEmojiSkinToneDefault');
     this.#installCallback('getEmojiSkinToneDefault');
+    this.#installCallback('exportLocalBackup');
+    this.#installCallback('importLocalBackup');
     this.#installCallback('validateBackup');
 
     // Backups
@@ -121,6 +124,7 @@ export class SettingsChannel extends EventEmitter {
     this.#installEphemeralSetting('systemTraySetting');
     this.#installEphemeralSetting('localeOverride');
     this.#installEphemeralSetting('spellCheck');
+    this.#installEphemeralSetting('contentProtection');
 
     installPermissionsHandler({ session: session.defaultSession, userConfig });
 
@@ -286,7 +290,7 @@ export class SettingsChannel extends EventEmitter {
       // Notify main to notify windows of preferences change. As for DB-backed
       // settings, those are set by the renderer, and afterwards the renderer IPC sends
       // to main the event 'preferences-changed'.
-      this.emit('ephemeral-setting-changed');
+      this.emit('ephemeral-setting-changed', name);
 
       const mainWindow = this.#mainWindow;
       if (!mainWindow || !mainWindow.webContents) {
@@ -306,7 +310,7 @@ export class SettingsChannel extends EventEmitter {
 
   public override on(
     type: 'ephemeral-setting-changed',
-    callback: () => void
+    callback: (name: string) => void
   ): this;
 
   public override on(
@@ -328,7 +332,10 @@ export class SettingsChannel extends EventEmitter {
     value: string
   ): boolean;
 
-  public override emit(type: 'ephemeral-setting-changed'): boolean;
+  public override emit(
+    type: 'ephemeral-setting-changed',
+    name: string
+  ): boolean;
 
   public override emit(
     type: SettingChangeEventType<keyof SettingsValuesType>,

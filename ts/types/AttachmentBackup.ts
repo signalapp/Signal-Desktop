@@ -45,6 +45,14 @@ export type ThumbnailAttachmentBackupJobType = {
   };
 };
 
+export type CoreAttachmentLocalBackupJobType =
+  StandardAttachmentBackupJobType & {
+    backupsBaseDir: string;
+  };
+
+export type AttachmentLocalBackupJobType = CoreAttachmentLocalBackupJobType &
+  JobManagerJobType;
+
 const standardBackupJobDataSchema = z.object({
   type: z.literal('standard'),
   mediaName: z.string(),

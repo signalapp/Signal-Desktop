@@ -23,22 +23,42 @@ const CLIENT_UUID = generateUuid();
 
 const UNPROCESSED_ATTACHMENT: Proto.IAttachmentPointer = {
   cdnId: Long.fromNumber(123),
+  cdnKey: 'cdnKey',
+  cdnNumber: 2,
+  blurHash: 'blurHash',
+  caption: 'caption',
   clientUuid: uuidToBytes(CLIENT_UUID),
   key: new Uint8Array([1, 2, 3]),
   digest: new Uint8Array([4, 5, 6]),
   contentType: IMAGE_GIF,
-  incrementalMac: new Uint8Array(),
+  incrementalMac: new Uint8Array([12, 12, 12]),
+  chunkSize: 24,
+  uploadTimestamp: Long.fromNumber(456),
   size: 34,
+  height: 64,
+  width: 128,
+  flags: 1,
+  fileName: 'fileName',
 };
 
 const PROCESSED_ATTACHMENT: ProcessedAttachment = {
   cdnId: '123',
+  cdnKey: 'cdnKey',
+  cdnNumber: 2,
+  blurHash: 'blurHash',
+  caption: 'caption',
   clientUuid: CLIENT_UUID,
   key: 'AQID',
   digest: 'BAUG',
   contentType: IMAGE_GIF,
-  incrementalMac: undefined,
+  incrementalMac: 'DAwM',
+  chunkSize: 24,
   size: 34,
+  uploadTimestamp: 456,
+  height: 64,
+  width: 128,
+  flags: 1,
+  fileName: 'fileName',
 };
 
 describe('processDataMessage', () => {

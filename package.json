@@ -6,7 +6,7 @@
   "description": "Private messaging from your desktop",
   "desktopName": "signal.desktop",
   "repository": "https://github.com/signalapp/Signal-Desktop.git",
-  "version": "7.56.0-alpha.1",
+  "version": "7.57.0-alpha.1",
   "license": "AGPL-3.0-only",
   "author": {
     "name": "Signal Messenger, LLC",
@@ -30,7 +30,7 @@
     "mark-unusued-strings-deleted": "ts-node ./ts/scripts/mark-unused-strings-deleted.ts",
     "get-expire-time": "node ts/scripts/get-expire-time.js",
     "copy-components": "node ts/scripts/copy.js",
-    "sass": "sass stylesheets/manifest.scss:stylesheets/manifest.css stylesheets/manifest_bridge.scss:stylesheets/manifest_bridge.css",
+    "sass": "sass stylesheets/manifest.scss:stylesheets/manifest.css stylesheets/manifest_bridge.scss:stylesheets/manifest_bridge.css --fatal-deprecation=1.80.7",
     "build-module-protobuf": "pbjs --root='signal-desktop' --target static-module --force-long --no-typeurl --no-verify --no-create --no-convert --wrap commonjs --out ts/protobuf/compiled.js protos/*.proto && pbts --no-comments --out ts/protobuf/compiled.d.ts ts/protobuf/compiled.js",
     "clean-module-protobuf": "rm -f ts/protobuf/compiled.d.ts ts/protobuf/compiled.js",
     "build-protobuf": "pnpm run build-module-protobuf",
@@ -104,7 +104,7 @@
     "fs-xattr": "0.3.0"
   },
   "dependencies": {
-    "@electron/asar": "3.3.1",
+    "@electron/asar": "3.4.1",
     "@formatjs/fast-memoize": "2.2.3",
     "@formatjs/icu-messageformat-parser": "2.9.3",
     "@formatjs/intl-localematcher": "0.2.32",
@@ -119,10 +119,10 @@
     "@react-aria/utils": "3.25.3",
     "@react-spring/web": "9.7.5",
     "@react-types/shared": "3.27.0",
-    "@signalapp/libsignal-client": "0.70.0",
+    "@signalapp/libsignal-client": "0.71.0",
     "@signalapp/quill-cjs": "2.1.2",
-    "@signalapp/ringrtc": "2.51.0",
-    "@signalapp/sqlcipher": "2.0.1",
+    "@signalapp/ringrtc": "2.52.0",
+    "@signalapp/sqlcipher": "2.0.3",
     "@tanstack/react-virtual": "3.11.2",
     "@types/dom-mediacapture-transform": "0.1.11",
     "@types/fabric": "4.5.3",
@@ -289,7 +289,7 @@
     "csv-parse": "5.5.6",
     "danger": "12.3.3",
     "debug": "4.3.7",
-    "electron": "35.1.4",
+    "electron": "36.2.0",
     "electron-builder": "26.0.14",
     "electron-mocha": "13.0.1",
     "endanger": "7.0.4",
@@ -396,7 +396,7 @@
     ]
   },
   "engines": {
-    "node": "22.14.0"
+    "node": "22.15.0"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",

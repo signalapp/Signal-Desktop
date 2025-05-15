@@ -1670,9 +1670,6 @@
   "icu:notificationSenderInGroup": {
     "messageformat": "{group} тобындағы {sender}"
   },
-  "icu:notificationReaction": {
-    "messageformat": "{sender} хатыңызға {emoji} деп реакция қалдырды"
-  },
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} сіздің {message} деп жазған хатыңызға {emoji} деп реакция қалдырды"
   },
@@ -2591,6 +2588,9 @@
   "icu:Keyboard--open-sticker-chooser": {
     "messageformat": "Стикер таңдайтын құралды ашу"
   },
+  "icu:Keyboard--open-gif-chooser": {
+    "messageformat": "Open GIF chooser"
+  },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Дауыстық ескертпені жаза бастау"
   },
@@ -3229,9 +3229,6 @@
   },
   "icu:calling__view_mode--updated": {
     "messageformat": "Көрініс жаңартылды"
-  },
-  "icu:calling__hangup": {
-    "messageformat": "Қоңыраудан шығу"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Экраныңызды бөлісу"
@@ -4075,9 +4072,6 @@
   },
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "Өңделген хатты жіберу"
-  },
-  "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "Эмоджи, стикер немесе GIF файлын қосу"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
     "messageformat": "Тіркемені ауыстыру керек пе?"
@@ -4991,6 +4985,21 @@
   "icu:Preferences__button--internal": {
     "messageformat": "Ішкі"
   },
+  "icu:Preferences__internal__local-backups": {
+    "messageformat": "Local backups"
+  },
+  "icu:Preferences__internal__export-local-backup": {
+    "messageformat": "Export…"
+  },
+  "icu:Preferences__internal__export-local-backup--description": {
+    "messageformat": "Export local encrypted backup to a folder and validate it"
+  },
+  "icu:Preferences__internal__import-local-backup": {
+    "messageformat": "Import…"
+  },
+  "icu:Preferences__internal__import-local-backup--description": {
+    "messageformat": "Stage a local encrypted backup for import on link"
+  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Шифрланған сақтық көшірмені жадқа экспорттаңыз және оның жарамдылығын тексеріңіз"
   },
@@ -5056,9 +5065,6 @@
   },
   "icu:Preferences--backup-messages-plan__note": {
     "messageformat": "Телефоныңызда Signal-дың сақтық көшірмелерін басқаруыңызға немесе жаңартуыңызға болады."
-  },
-  "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Жазылымыңыз табылмады. Signal-дың сақтық көшірмелерін пайдалана беру үшін оны жаңартыңыз."
   },
   "icu:Preferences--backup-plan__not-found__note": {
     "messageformat": "Телефоныңызда Signal-дың сақтық көшірмелері жазылымын басқаруыңызға немесе жаңартуыңызға болады."
@@ -5188,6 +5194,24 @@
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
     "messageformat": "Өшіріп, қайта қосу"
+  },
+  "icu:Preferences__Privacy__Application": {
+    "messageformat": "Application"
+  },
+  "icu:Preferences__content-protection--label": {
+    "messageformat": "Screen security"
+  },
+  "icu:Preferences__content-protection--description": {
+    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+  },
+  "icu:Preferences__content-protection__modal--title": {
+    "messageformat": "Disable screen security?"
+  },
+  "icu:Preferences__content-protection__modal--body": {
+    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+  },
+  "icu:Preferences__content-protection__modal--disable": {
+    "messageformat": "Disable"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "{version} нұсқасына жаңартуға болады"
@@ -6323,6 +6347,12 @@
     "messageformat": "Сонымен қатар енді қоңырау кезінде барлығын бақылауда ұстай аласыз. Біріншіден, сурет ішіндегі сурет терезесінің өлшемін өзгерттік. Екіншіден, қоңырау шағын терезеде жүргізілгенде, микрофон мен камераны тез қосуға не өшіруге қолайлы жылдам пәрмендер қостық."
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "Эмоциялар тіл таңдамайды. Signal Desktop-тағы эмоджи таңбашалары толықтай аударылғандықтан, енді <code>:smile:</code>, <code>:sourire:</code> немесе <code>:微笑:</code> деп таңдасаңыз да, күлу эмоджиін жібере аласыз."
+  },
+  "icu:WhatsNew__v7.55--0": {
+    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+  },
+  "icu:WhatsNew__v7.55--1": {
+    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
   }
 }

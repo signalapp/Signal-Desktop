@@ -9,13 +9,27 @@ const MAX_SAFE_TIMEOUT_DELAY = 2147483647; // max 32-bit signed integer
 // timeout if the delay is safe, otherwise does not set a timeout.
 export function safeSetTimeout(
   callback: VoidFunction,
-  delayMs: number
+  providedDelayMs: number,
+  options?: {
+    clampToMax: boolean;
+  }
 ): NodeJS.Timeout | null {
+  let delayMs = providedDelayMs;
+
+  if (delayMs < 0) {
+    logging.warn('safeSetTimeout: timeout is less than zero');
+    delayMs = 0;
+  }
+
   if (delayMs > MAX_SAFE_TIMEOUT_DELAY) {
-    logging.warn(
-      'safeSetTimeout: timeout is larger than maximum setTimeout delay'
-    );
-    return null;
+    if (options?.clampToMax) {
+      delayMs = MAX_SAFE_TIMEOUT_DELAY;
+    } else {
+      logging.warn(
+        'safeSetTimeout: timeout is larger than maximum setTimeout delay'
+      );
+      return null;
+    }
   }
 
   return setTimeout(callback, delayMs);

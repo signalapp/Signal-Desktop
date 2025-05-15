@@ -1670,9 +1670,6 @@
   "icu:notificationSenderInGroup": {
     "messageformat": "{sender} trong {group}"
   },
-  "icu:notificationReaction": {
-    "messageformat": "{sender}đã bày tỏ {emoji} trong tin nhắn của bạn"
-  },
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} đã phản hồi {emoji} cho: {message}"
   },
@@ -2591,6 +2588,9 @@
   "icu:Keyboard--open-sticker-chooser": {
     "messageformat": "Mở bảng chọn nhãn dán"
   },
+  "icu:Keyboard--open-gif-chooser": {
+    "messageformat": "Open GIF chooser"
+  },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Bắt đầu ghi tin nhắn âm thanh"
   },
@@ -3229,9 +3229,6 @@
   },
   "icu:calling__view_mode--updated": {
     "messageformat": "Chế độ hiển thị đã cập nhật"
-  },
-  "icu:calling__hangup": {
-    "messageformat": "Rời cuộc gọi"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Chia sẻ màn hình của bạn"
@@ -4075,9 +4072,6 @@
   },
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "Gửi tin nhắn đã chỉnh sửa"
-  },
-  "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "Thêm Emoji, Nhãn dán hoặc GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
     "messageformat": "Thay tập tin đính kèm?"
@@ -4991,6 +4985,21 @@
   "icu:Preferences__button--internal": {
     "messageformat": "Nội bộ"
   },
+  "icu:Preferences__internal__local-backups": {
+    "messageformat": "Local backups"
+  },
+  "icu:Preferences__internal__export-local-backup": {
+    "messageformat": "Export…"
+  },
+  "icu:Preferences__internal__export-local-backup--description": {
+    "messageformat": "Export local encrypted backup to a folder and validate it"
+  },
+  "icu:Preferences__internal__import-local-backup": {
+    "messageformat": "Import…"
+  },
+  "icu:Preferences__internal__import-local-backup--description": {
+    "messageformat": "Stage a local encrypted backup for import on link"
+  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Xuất bản sao lưu được mã hóa vào bộ nhớ và chạy bộ xác thực trên đó"
   },
@@ -5056,9 +5065,6 @@
   },
   "icu:Preferences--backup-messages-plan__note": {
     "messageformat": "Bạn có thể quản lý hoặc nâng cấp gói đăng ký Sao lưu Signal trên điện thoại của bạn."
-  },
-  "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Không tìm thấy gói đăng ký của bạn. Gia hạn gói đăng ký Sao lưu Signal để tiếp tục sử dụng."
   },
   "icu:Preferences--backup-plan__not-found__note": {
     "messageformat": "Bạn có thể quản lý hoặc gia hạn gói đăng ký Sao lưu Signal trên điện thoại của bạn."
@@ -5188,6 +5194,24 @@
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
     "messageformat": "Khởi động lại"
+  },
+  "icu:Preferences__Privacy__Application": {
+    "messageformat": "Application"
+  },
+  "icu:Preferences__content-protection--label": {
+    "messageformat": "Screen security"
+  },
+  "icu:Preferences__content-protection--description": {
+    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+  },
+  "icu:Preferences__content-protection__modal--title": {
+    "messageformat": "Disable screen security?"
+  },
+  "icu:Preferences__content-protection__modal--body": {
+    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+  },
+  "icu:Preferences__content-protection__modal--disable": {
+    "messageformat": "Disable"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Cập nhật liên phiên bản {version} có sẵn"
@@ -6323,6 +6347,12 @@
     "messageformat": "Chúng tôi cũng đã thay đổi kích thước cửa sổ hình trong hình và thêm các phím tắt tiện lợi mới khi cuộc gọi được thu nhỏ."
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "Chúng tôi đã hỗ trợ thêm cách gõ tắt emoji bằng một số ngôn ngữ khác."
+  },
+  "icu:WhatsNew__v7.55--0": {
+    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+  },
+  "icu:WhatsNew__v7.55--1": {
+    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
   }
 }
