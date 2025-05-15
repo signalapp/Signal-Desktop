@@ -287,6 +287,8 @@ export class ConversationModel extends window.Backbone
 
   throttledUpdateVerified?: () => void;
 
+  throttledUpdateUnread: () => void;
+
   typingRefreshTimer?: NodeJS.Timeout | null;
 
   typingPauseTimer?: NodeJS.Timeout | null;
@@ -442,6 +444,7 @@ export class ConversationModel extends window.Backbone
     this.isFetchingUUID = this.isSMSOnly();
 
     this.throttledBumpTyping = throttle(this.bumpTyping, 300);
+    this.throttledUpdateUnread = throttle(this.#updateUnread, 300);
     this.throttledUpdateSharedGroups = throttle(
       this.updateSharedGroups.bind(this),
       FIVE_MINUTES
@@ -3146,7 +3149,7 @@ export class ConversationModel extends window.Backbone
     window.MessageCache.register(message);
 
     drop(this.onNewMessage(message));
-    drop(this.updateUnread());
+    this.throttledUpdateUnread();
   }
 
   async addDeliveryIssue({
@@ -3190,7 +3193,7 @@ export class ConversationModel extends window.Backbone
     window.MessageCache.register(message);
 
     drop(this.onNewMessage(message));
-    drop(this.updateUnread());
+    this.throttledUpdateUnread();
 
     await this.notify(message.attributes);
   }
@@ -3345,16 +3348,14 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    const lastMessage = this.get('timestamp') || Date.now();
-
+    const timestamp = Date.now();
     log.info(
       'adding verified change advisory for',
       this.idForLogging(),
       verifiedChangeId,
-      lastMessage
+      timestamp
     );
 
-    const timestamp = Date.now();
     const message = new MessageModel({
       ...generateMessageId(incrementMessageCounter()),
       conversationId: this.id,
@@ -3362,7 +3363,7 @@ export class ConversationModel extends window.Backbone
       readStatus: ReadStatus.Read,
       received_at_ms: timestamp,
       seenStatus: options.local ? SeenStatus.Seen : SeenStatus.Unseen,
-      sent_at: lastMessage,
+      sent_at: timestamp,
       timestamp,
       type: 'verified-change',
       verified,
@@ -3373,7 +3374,7 @@ export class ConversationModel extends window.Backbone
     window.MessageCache.register(message);
 
     drop(this.onNewMessage(message));
-    drop(this.updateUnread());
+    this.throttledUpdateUnread();
 
     const serviceId = this.getServiceId();
     if (isDirectConversation(this.attributes) && serviceId) {
@@ -4801,7 +4802,7 @@ export class ConversationModel extends window.Backbone
     window.MessageCache.register(message);
 
     void this.addSingleMessage(message.attributes);
-    void this.updateUnread();
+    this.throttledUpdateUnread();
 
     log.info(
       `${logId}: added a notification received_at=${message.get('received_at')}`
@@ -4836,11 +4837,11 @@ export class ConversationModel extends window.Backbone
     }
   ): Promise<void> {
     await markConversationRead(this.attributes, newestUnreadAt, options);
-    await this.updateUnread();
+    this.throttledUpdateUnread();
     window.reduxActions.callHistory.updateCallHistoryUnreadCount();
   }
 
-  async updateUnread(): Promise<void> {
+  async #updateUnread(): Promise<void> {
     const options = {
       storyId: undefined,
       includeStoryReplies: !isGroup(this.attributes),

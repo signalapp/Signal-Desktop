@@ -7,7 +7,6 @@ import { DataWriter } from '../../sql/Client';
 import { SignalService as Proto } from '../../protobuf';
 
 import { generateAci, generatePni } from '../../types/ServiceId';
-import type { ServiceIdString } from '../../types/ServiceId';
 import type { MessageAttributesType } from '../../model-types';
 import type { GroupV2ChangeType } from '../../groups';
 import { getRandomBytes } from '../../Crypto';
@@ -48,10 +47,8 @@ function createMessage(
   change: GroupV2ChangeType,
   {
     disableIncrement = false,
-    sourceServiceId = change.from || OUR_ACI,
   }: {
     disableIncrement?: boolean;
-    sourceServiceId?: ServiceIdString;
   } = {
     disableIncrement: false,
   }
@@ -72,11 +69,7 @@ function createMessage(
     readStatus: ReadStatus.Read,
     seenStatus: SeenStatus.Seen,
     type: 'group-v2-change',
-    sourceServiceId,
-    source:
-      sourceServiceId === CONTACT_A || sourceServiceId === CONTACT_A_PNI
-        ? CONTACT_A_E164
-        : undefined,
+    sourceServiceId: OUR_ACI,
   };
 }
 
@@ -723,19 +716,16 @@ describe('backup/groupv2/notifications', () => {
     });
 
     it('MemberAddFromInvited items', async () => {
-      const firstBefore = createMessage(
-        {
-          from: OUR_PNI,
-          details: [
-            {
-              type: 'member-add-from-invite',
-              aci: OUR_ACI,
-              inviter: CONTACT_B,
-            },
-          ],
-        },
-        { sourceServiceId: OUR_ACI }
-      );
+      const firstBefore = createMessage({
+        from: OUR_PNI,
+        details: [
+          {
+            type: 'member-add-from-invite',
+            aci: OUR_ACI,
+            inviter: CONTACT_B,
+          },
+        ],
+      });
       const firstAfter = createMessage(
         {
           from: OUR_ACI,
@@ -750,18 +740,15 @@ describe('backup/groupv2/notifications', () => {
         { disableIncrement: true }
       );
 
-      const secondBefore = createMessage(
-        {
-          from: OUR_PNI,
-          details: [
-            {
-              type: 'member-add-from-invite',
-              aci: OUR_ACI,
-            },
-          ],
-        },
-        { sourceServiceId: OUR_ACI }
-      );
+      const secondBefore = createMessage({
+        from: OUR_PNI,
+        details: [
+          {
+            type: 'member-add-from-invite',
+            aci: OUR_ACI,
+          },
+        ],
+      });
       const secondAfter = createMessage(
         {
           from: OUR_ACI,
@@ -775,18 +762,15 @@ describe('backup/groupv2/notifications', () => {
         { disableIncrement: true }
       );
 
-      const thirdBefore = createMessage(
-        {
-          from: CONTACT_A_PNI,
-          details: [
-            {
-              type: 'member-add-from-invite',
-              aci: CONTACT_A,
-            },
-          ],
-        },
-        { sourceServiceId: CONTACT_A }
-      );
+      const thirdBefore = createMessage({
+        from: CONTACT_A_PNI,
+        details: [
+          {
+            type: 'member-add-from-invite',
+            aci: CONTACT_A,
+          },
+        ],
+      });
       const thirdAfter = createMessage(
         {
           from: CONTACT_A,
@@ -800,19 +784,16 @@ describe('backup/groupv2/notifications', () => {
         { disableIncrement: true }
       );
 
-      const fourthBefore = createMessage(
-        {
-          from: CONTACT_A_PNI,
-          details: [
-            {
-              type: 'member-add-from-invite',
-              aci: CONTACT_A,
-              pni: CONTACT_A_PNI,
-            },
-          ],
-        },
-        { sourceServiceId: CONTACT_A }
-      );
+      const fourthBefore = createMessage({
+        from: CONTACT_A_PNI,
+        details: [
+          {
+            type: 'member-add-from-invite',
+            aci: CONTACT_A,
+            pni: CONTACT_A_PNI,
+          },
+        ],
+      });
       const fourthAfter = createMessage(
         {
           from: CONTACT_A,
@@ -869,17 +850,14 @@ describe('backup/groupv2/notifications', () => {
 
     it('MemberAddFromLink items asymmetric', async () => {
       const before: Array<MessageAttributesType> = [
-        createMessage(
-          {
-            details: [
-              {
-                type: 'member-add-from-link',
-                aci: CONTACT_A,
-              },
-            ],
-          },
-          { sourceServiceId: CONTACT_A }
-        ),
+        createMessage({
+          details: [
+            {
+              type: 'member-add-from-link',
+              aci: CONTACT_A,
+            },
+          ],
+        }),
       ];
       const after: Array<MessageAttributesType> = [
         createMessage(

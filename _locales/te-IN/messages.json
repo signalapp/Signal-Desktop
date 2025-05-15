@@ -1670,9 +1670,6 @@
   "icu:notificationSenderInGroup": {
     "messageformat": "{group} లో {sender}"
   },
-  "icu:notificationReaction": {
-    "messageformat": "{sender} మీ సందేశానికి {emoji} తో ప్రతిస్పందించారు"
-  },
   "icu:notificationReactionMessage": {
     "messageformat": "దీనికి {sender} {emoji} తో ప్రతిస్పందించారు: {message}"
   },
@@ -2591,6 +2588,9 @@
   "icu:Keyboard--open-sticker-chooser": {
     "messageformat": "స్టిక్కర్ ఎంపికను తెరవండి"
   },
+  "icu:Keyboard--open-gif-chooser": {
+    "messageformat": "Open GIF chooser"
+  },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "వాయిస్ నోట్ రికార్డింగ్ ప్రారంభించండి"
   },
@@ -3229,9 +3229,6 @@
   },
   "icu:calling__view_mode--updated": {
     "messageformat": "వీక్షణ అప్‌డేట్ చేయబడింది"
-  },
-  "icu:calling__hangup": {
-    "messageformat": "కాల్ ని వదిలి"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "మీ స్క్రీన్‌ను భాగస్వామ్యం చేయండి"
@@ -4075,9 +4072,6 @@
   },
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "సవరించిన సందేశాన్ని పంపండి"
-  },
-  "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "ఎమోజీ, స్టిక్కర్ లేదా GIF ను జోడించండి"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
     "messageformat": "అటాచ్‌మెంట్‌ను భర్తీ చేసేదా?"
@@ -4991,6 +4985,21 @@
   "icu:Preferences__button--internal": {
     "messageformat": "అంతర్గత"
   },
+  "icu:Preferences__internal__local-backups": {
+    "messageformat": "Local backups"
+  },
+  "icu:Preferences__internal__export-local-backup": {
+    "messageformat": "Export…"
+  },
+  "icu:Preferences__internal__export-local-backup--description": {
+    "messageformat": "Export local encrypted backup to a folder and validate it"
+  },
+  "icu:Preferences__internal__import-local-backup": {
+    "messageformat": "Import…"
+  },
+  "icu:Preferences__internal__import-local-backup--description": {
+    "messageformat": "Stage a local encrypted backup for import on link"
+  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "ఎన్‌క్రిప్ట్ చేయబడిన బ్యాకప్‌ను మెమరీకి ఎగుమతి చేయండి మరియు దానిపై వ్యాలిడేషన్ సూట్‌ను రన్ చేయండి"
   },
@@ -5056,9 +5065,6 @@
   },
   "icu:Preferences--backup-messages-plan__note": {
     "messageformat": "మీరు మీ ఫోన్‌లో Signal బ్యాకప్‌లను నిర్వహించవచ్చు లేదా అప్‌గ్రేడ్ చేయవచ్చు."
-  },
-  "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "మీ సబ్‌స్క్రిప్షన్ కనుగొనబడలేదు. Signal బ్యాకప్‌లను ఉపయోగించడం కొనసాగించడానికి పునరుద్ధరించండి."
   },
   "icu:Preferences--backup-plan__not-found__note": {
     "messageformat": "మీరు మీ ఫోన్‌లో మీ Signal బ్యాకప్‌ల సబ్‌స్క్రిప్షన్‌ను నిర్వహించవచ్చు లేదా పునరుద్ధరించవచ్చు."
@@ -5188,6 +5194,24 @@
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
     "messageformat": "రీస్టార్ట్ చేయండి"
+  },
+  "icu:Preferences__Privacy__Application": {
+    "messageformat": "Application"
+  },
+  "icu:Preferences__content-protection--label": {
+    "messageformat": "Screen security"
+  },
+  "icu:Preferences__content-protection--description": {
+    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+  },
+  "icu:Preferences__content-protection__modal--title": {
+    "messageformat": "Disable screen security?"
+  },
+  "icu:Preferences__content-protection__modal--body": {
+    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+  },
+  "icu:Preferences__content-protection__modal--disable": {
+    "messageformat": "Disable"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "వెర్షన్ {version}కు అప్‌డేట్ లభ్యమవుతోంది"
@@ -6323,6 +6347,12 @@
     "messageformat": "మేము పిక్చర్-ఇన్-పిక్చర్ విండో పరిమాణాన్ని కూడా మార్చాము మరియు కాల్ కనిష్ఠీకరించబడినప్పుడు అనుకూలమైన కొత్త షార్ట్‌కట్‌లను జోడించాము."
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "మేము ఎమోజీ షార్ట్‌కట్‌లకు అదనపు భాషలలో మద్దతును జోడించాము."
+  },
+  "icu:WhatsNew__v7.55--0": {
+    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+  },
+  "icu:WhatsNew__v7.55--1": {
+    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
   }
 }

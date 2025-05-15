@@ -48,6 +48,7 @@ const settingNotificationSetting = createSetting('notificationSetting');
 const settingRelayCalls = createSetting('alwaysRelayCalls');
 const settingSentMediaQuality = createSetting('sentMediaQualitySetting');
 const settingSpellCheck = createSetting('spellCheck');
+const settingContentProtection = createSetting('contentProtection');
 const settingTextFormatting = createSetting('textFormatting');
 const settingTheme = createSetting('themeSetting');
 const settingSystemTraySetting = createSetting('systemTraySetting');
@@ -100,6 +101,8 @@ const ipcGetEmojiSkinToneDefault = createCallback('getEmojiSkinToneDefault');
 const ipcIsSyncNotSupported = createCallback('isPrimary');
 const ipcIsInternalUser = createCallback('isInternalUser');
 const ipcMakeSyncRequest = createCallback('syncRequest');
+const ipcExportLocalBackup = createCallback('exportLocalBackup');
+const ipcImportLocalBackup = createCallback('importLocalBackup');
 const ipcValidateBackup = createCallback('validateBackup');
 const ipcDeleteAllMyStories = createCallback('deleteAllMyStories');
 const ipcRefreshCloudBackupStatus = createCallback('refreshCloudBackupStatus');
@@ -174,6 +177,7 @@ async function renderPreferences() {
     hasAutoLaunch,
     hasCallNotifications,
     hasCallRingtoneNotification,
+    hasContentProtection,
     hasCountMutedConversations,
     hasHideMenuBar,
     hasIncomingCallNotifications,
@@ -221,6 +225,7 @@ async function renderPreferences() {
     hasAutoLaunch: settingAutoLaunch.getValue(),
     hasCallNotifications: settingCallSystemNotification.getValue(),
     hasCallRingtoneNotification: settingCallRingtoneNotification.getValue(),
+    hasContentProtection: settingContentProtection.getValue(),
     hasCountMutedConversations: settingCountMutedConversations.getValue(),
     hasHideMenuBar: settingHideMenuBar.getValue(),
     hasIncomingCallNotifications: settingIncomingCallNotification.getValue(),
@@ -319,6 +324,12 @@ async function renderPreferences() {
     hasAutoLaunch,
     hasCallNotifications,
     hasCallRingtoneNotification,
+    hasContentProtection:
+      hasContentProtection ??
+      Settings.isContentProtectionEnabledByDefault(
+        OS,
+        MinimalSignalContext.config.osRelease
+      ),
     hasCountMutedConversations,
     hasHideMenuBar,
     hasIncomingCallNotifications,
@@ -369,6 +380,8 @@ async function renderPreferences() {
     resetAllChatColors: ipcResetAllChatColors,
     resetDefaultChatColor: ipcResetDefaultChatColor,
     setGlobalDefaultConversationColor: ipcSetGlobalDefaultConversationColor,
+    exportLocalBackup: ipcExportLocalBackup,
+    importLocalBackup: ipcImportLocalBackup,
     validateBackup: ipcValidateBackup,
     // Limited support features
     isAutoDownloadUpdatesSupported: Settings.isAutoDownloadUpdatesSupported(
@@ -381,6 +394,8 @@ async function renderPreferences() {
     isSyncSupported: !isSyncNotSupported,
     isInternalUser,
     isSystemTraySupported: Settings.isSystemTraySupported(OS),
+    isContentProtectionSupported: Settings.isContentProtectionSupported(OS),
+    isContentProtectionNeeded: Settings.isContentProtectionNeeded(OS),
     isMinimizeToAndStartInSystemTraySupported:
       Settings.isMinimizeToAndStartInSystemTraySupported(OS),
 
@@ -403,6 +418,9 @@ async function renderPreferences() {
     ),
     onCallRingtoneNotificationChange: attachRenderCallback(
       settingCallRingtoneNotification.setValue
+    ),
+    onContentProtectionChange: attachRenderCallback(
+      settingContentProtection.setValue
     ),
     onCountMutedConversationsChange: attachRenderCallback(
       settingCountMutedConversations.setValue

@@ -41,12 +41,15 @@ type KeyType =
   | 'L'
   | 'M'
   | 'N'
+  | 'O'
   | 'P'
+  | 'Q'
   | 'R'
   | 'S'
   | 'T'
   | 'U'
   | 'V'
+  | 'W'
   | 'X'
   | 'Y'
   | '1 to 9';
@@ -154,6 +157,11 @@ function getNavigationShortcuts(i18n: LocalizerType): Array<ShortcutType> {
     {
       id: 'Keyboard--open-sticker-chooser',
       description: i18n('icu:Keyboard--open-sticker-chooser'),
+      keys: [['commandOrCtrl', 'shift', 'O']],
+    },
+    {
+      id: 'Keyboard--open-gif-chooser',
+      description: i18n('icu:Keyboard--open-gif-chooser'),
       keys: [['commandOrCtrl', 'shift', 'G']],
     },
     {

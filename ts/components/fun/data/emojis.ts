@@ -568,7 +568,7 @@ export function emojiVariantConstant(input: string): EmojiVariantData {
 
 /** For displaying in the ui */
 export function normalizeShortNameCompletionDisplay(shortName: string): string {
-  return removeDiacritics(shortName)
+  return shortName
     .normalize('NFD')
     .replaceAll(/[\s,]+/gi, '_')
     .toLowerCase();

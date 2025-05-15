@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 
 import type { PropsPreloadType } from '../../components/Preferences';
@@ -43,6 +43,7 @@ SettingsWindowProps.onRender(
     doDeleteAllData,
     doneRendering,
     editCustomColor,
+    exportLocalBackup,
     getConversationsWithCustomColor,
     hasAudioNotifications,
     hasAutoConvertEmoji,
@@ -50,6 +51,7 @@ SettingsWindowProps.onRender(
     hasAutoLaunch,
     hasCallNotifications,
     hasCallRingtoneNotification,
+    hasContentProtection,
     hasCountMutedConversations,
     hasHideMenuBar,
     hasIncomingCallNotifications,
@@ -67,6 +69,7 @@ SettingsWindowProps.onRender(
     hasStoriesDisabled,
     hasTextFormatting,
     hasTypingIndicators,
+    importLocalBackup,
     initialSpellCheckSetting,
     isAutoDownloadUpdatesSupported,
     isAutoLaunchSupported,
@@ -75,6 +78,8 @@ SettingsWindowProps.onRender(
     isNotificationAttentionSupported,
     isSyncSupported,
     isSystemTraySupported,
+    isContentProtectionSupported,
+    isContentProtectionNeeded,
     isInternalUser,
     lastSyncTime,
     makeSyncRequest,
@@ -86,6 +91,7 @@ SettingsWindowProps.onRender(
     onAutoLaunchChange,
     onCallNotificationsChange,
     onCallRingtoneNotificationChange,
+    onContentProtectionChange,
     onCountMutedConversationsChange,
     onEmojiSkinToneDefaultChange,
     onHasStoriesDisabledChanged,
@@ -135,122 +141,130 @@ SettingsWindowProps.onRender(
     zoomFactor,
   }: PropsPreloadType) => {
     ReactDOM.render(
-      <Preferences
-        addCustomColor={addCustomColor}
-        autoDownloadAttachment={autoDownloadAttachment}
-        availableCameras={availableCameras}
-        availableLocales={availableLocales}
-        availableMicrophones={availableMicrophones}
-        availableSpeakers={availableSpeakers}
-        backupFeatureEnabled={backupFeatureEnabled}
-        backupSubscriptionStatus={backupSubscriptionStatus}
-        blockedCount={blockedCount}
-        closeSettings={closeSettings}
-        cloudBackupStatus={cloudBackupStatus}
-        customColors={customColors}
-        defaultConversationColor={defaultConversationColor}
-        deviceName={deviceName}
-        emojiSkinToneDefault={emojiSkinToneDefault}
-        phoneNumber={phoneNumber}
-        doDeleteAllData={doDeleteAllData}
-        doneRendering={doneRendering}
-        editCustomColor={editCustomColor}
-        getConversationsWithCustomColor={getConversationsWithCustomColor}
-        hasAudioNotifications={hasAudioNotifications}
-        hasAutoConvertEmoji={hasAutoConvertEmoji}
-        hasAutoDownloadUpdate={hasAutoDownloadUpdate}
-        hasAutoLaunch={hasAutoLaunch}
-        hasCallNotifications={hasCallNotifications}
-        hasCallRingtoneNotification={hasCallRingtoneNotification}
-        hasCountMutedConversations={hasCountMutedConversations}
-        hasHideMenuBar={hasHideMenuBar}
-        hasIncomingCallNotifications={hasIncomingCallNotifications}
-        hasLinkPreviews={hasLinkPreviews}
-        hasMediaCameraPermissions={hasMediaCameraPermissions}
-        hasMediaPermissions={hasMediaPermissions}
-        hasMessageAudio={hasMessageAudio}
-        hasMinimizeToAndStartInSystemTray={hasMinimizeToAndStartInSystemTray}
-        hasMinimizeToSystemTray={hasMinimizeToSystemTray}
-        hasNotificationAttention={hasNotificationAttention}
-        hasNotifications={hasNotifications}
-        hasReadReceipts={hasReadReceipts}
-        hasRelayCalls={hasRelayCalls}
-        hasSpellCheck={hasSpellCheck}
-        hasStoriesDisabled={hasStoriesDisabled}
-        hasTextFormatting={hasTextFormatting}
-        hasTypingIndicators={hasTypingIndicators}
-        i18n={i18n}
-        initialSpellCheckSetting={initialSpellCheckSetting}
-        isAutoDownloadUpdatesSupported={isAutoDownloadUpdatesSupported}
-        isAutoLaunchSupported={isAutoLaunchSupported}
-        isHideMenuBarSupported={isHideMenuBarSupported}
-        isMinimizeToAndStartInSystemTraySupported={
-          isMinimizeToAndStartInSystemTraySupported
-        }
-        isNotificationAttentionSupported={isNotificationAttentionSupported}
-        isSyncSupported={isSyncSupported}
-        isSystemTraySupported={isSystemTraySupported}
-        isInternalUser={isInternalUser}
-        lastSyncTime={lastSyncTime}
-        localeOverride={localeOverride}
-        makeSyncRequest={makeSyncRequest}
-        notificationContent={notificationContent}
-        onAudioNotificationsChange={onAudioNotificationsChange}
-        onAutoConvertEmojiChange={onAutoConvertEmojiChange}
-        onAutoDownloadAttachmentChange={onAutoDownloadAttachmentChange}
-        onAutoDownloadUpdateChange={onAutoDownloadUpdateChange}
-        onAutoLaunchChange={onAutoLaunchChange}
-        onCallNotificationsChange={onCallNotificationsChange}
-        onCallRingtoneNotificationChange={onCallRingtoneNotificationChange}
-        onCountMutedConversationsChange={onCountMutedConversationsChange}
-        onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
-        onHasStoriesDisabledChanged={onHasStoriesDisabledChanged}
-        onHideMenuBarChange={onHideMenuBarChange}
-        onIncomingCallNotificationsChange={onIncomingCallNotificationsChange}
-        onLastSyncTimeChange={onLastSyncTimeChange}
-        onLocaleChange={onLocaleChange}
-        onMediaCameraPermissionsChange={onMediaCameraPermissionsChange}
-        onMediaPermissionsChange={onMediaPermissionsChange}
-        onMessageAudioChange={onMessageAudioChange}
-        onMinimizeToAndStartInSystemTrayChange={
-          onMinimizeToAndStartInSystemTrayChange
-        }
-        onMinimizeToSystemTrayChange={onMinimizeToSystemTrayChange}
-        onNotificationAttentionChange={onNotificationAttentionChange}
-        onNotificationContentChange={onNotificationContentChange}
-        onNotificationsChange={onNotificationsChange}
-        onRelayCallsChange={onRelayCallsChange}
-        onSelectedCameraChange={onSelectedCameraChange}
-        onSelectedMicrophoneChange={onSelectedMicrophoneChange}
-        onSelectedSpeakerChange={onSelectedSpeakerChange}
-        onSentMediaQualityChange={onSentMediaQualityChange}
-        onSpellCheckChange={onSpellCheckChange}
-        onTextFormattingChange={onTextFormattingChange}
-        onThemeChange={onThemeChange}
-        onUniversalExpireTimerChange={onUniversalExpireTimerChange}
-        onWhoCanFindMeChange={onWhoCanFindMeChange}
-        onWhoCanSeeMeChange={onWhoCanSeeMeChange}
-        onZoomFactorChange={onZoomFactorChange}
-        preferredSystemLocales={preferredSystemLocales}
-        refreshCloudBackupStatus={refreshCloudBackupStatus}
-        refreshBackupSubscriptionStatus={refreshBackupSubscriptionStatus}
-        removeCustomColorOnConversations={removeCustomColorOnConversations}
-        removeCustomColor={removeCustomColor}
-        resetAllChatColors={resetAllChatColors}
-        resetDefaultChatColor={resetDefaultChatColor}
-        resolvedLocale={resolvedLocale}
-        selectedCamera={selectedCamera}
-        selectedMicrophone={selectedMicrophone}
-        selectedSpeaker={selectedSpeaker}
-        sentMediaQualitySetting={sentMediaQualitySetting}
-        setGlobalDefaultConversationColor={setGlobalDefaultConversationColor}
-        themeSetting={themeSetting}
-        universalExpireTimer={universalExpireTimer}
-        validateBackup={validateBackup}
-        whoCanFindMe={whoCanFindMe}
-        whoCanSeeMe={whoCanSeeMe}
-        zoomFactor={zoomFactor}
-      />,
+      <StrictMode>
+        <Preferences
+          addCustomColor={addCustomColor}
+          autoDownloadAttachment={autoDownloadAttachment}
+          availableCameras={availableCameras}
+          availableLocales={availableLocales}
+          availableMicrophones={availableMicrophones}
+          availableSpeakers={availableSpeakers}
+          backupFeatureEnabled={backupFeatureEnabled}
+          backupSubscriptionStatus={backupSubscriptionStatus}
+          blockedCount={blockedCount}
+          closeSettings={closeSettings}
+          cloudBackupStatus={cloudBackupStatus}
+          customColors={customColors}
+          defaultConversationColor={defaultConversationColor}
+          deviceName={deviceName}
+          emojiSkinToneDefault={emojiSkinToneDefault}
+          exportLocalBackup={exportLocalBackup}
+          phoneNumber={phoneNumber}
+          doDeleteAllData={doDeleteAllData}
+          doneRendering={doneRendering}
+          editCustomColor={editCustomColor}
+          getConversationsWithCustomColor={getConversationsWithCustomColor}
+          hasAudioNotifications={hasAudioNotifications}
+          hasAutoConvertEmoji={hasAutoConvertEmoji}
+          hasAutoDownloadUpdate={hasAutoDownloadUpdate}
+          hasAutoLaunch={hasAutoLaunch}
+          hasCallNotifications={hasCallNotifications}
+          hasCallRingtoneNotification={hasCallRingtoneNotification}
+          hasContentProtection={hasContentProtection}
+          hasCountMutedConversations={hasCountMutedConversations}
+          hasHideMenuBar={hasHideMenuBar}
+          hasIncomingCallNotifications={hasIncomingCallNotifications}
+          hasLinkPreviews={hasLinkPreviews}
+          hasMediaCameraPermissions={hasMediaCameraPermissions}
+          hasMediaPermissions={hasMediaPermissions}
+          hasMessageAudio={hasMessageAudio}
+          hasMinimizeToAndStartInSystemTray={hasMinimizeToAndStartInSystemTray}
+          hasMinimizeToSystemTray={hasMinimizeToSystemTray}
+          hasNotificationAttention={hasNotificationAttention}
+          hasNotifications={hasNotifications}
+          hasReadReceipts={hasReadReceipts}
+          hasRelayCalls={hasRelayCalls}
+          hasSpellCheck={hasSpellCheck}
+          hasStoriesDisabled={hasStoriesDisabled}
+          hasTextFormatting={hasTextFormatting}
+          hasTypingIndicators={hasTypingIndicators}
+          i18n={i18n}
+          importLocalBackup={importLocalBackup}
+          initialSpellCheckSetting={initialSpellCheckSetting}
+          isAutoDownloadUpdatesSupported={isAutoDownloadUpdatesSupported}
+          isAutoLaunchSupported={isAutoLaunchSupported}
+          isHideMenuBarSupported={isHideMenuBarSupported}
+          isMinimizeToAndStartInSystemTraySupported={
+            isMinimizeToAndStartInSystemTraySupported
+          }
+          isNotificationAttentionSupported={isNotificationAttentionSupported}
+          isSyncSupported={isSyncSupported}
+          isSystemTraySupported={isSystemTraySupported}
+          isContentProtectionSupported={isContentProtectionSupported}
+          isContentProtectionNeeded={isContentProtectionNeeded}
+          isInternalUser={isInternalUser}
+          lastSyncTime={lastSyncTime}
+          localeOverride={localeOverride}
+          makeSyncRequest={makeSyncRequest}
+          notificationContent={notificationContent}
+          onAudioNotificationsChange={onAudioNotificationsChange}
+          onAutoConvertEmojiChange={onAutoConvertEmojiChange}
+          onAutoDownloadAttachmentChange={onAutoDownloadAttachmentChange}
+          onAutoDownloadUpdateChange={onAutoDownloadUpdateChange}
+          onAutoLaunchChange={onAutoLaunchChange}
+          onCallNotificationsChange={onCallNotificationsChange}
+          onCallRingtoneNotificationChange={onCallRingtoneNotificationChange}
+          onContentProtectionChange={onContentProtectionChange}
+          onCountMutedConversationsChange={onCountMutedConversationsChange}
+          onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
+          onHasStoriesDisabledChanged={onHasStoriesDisabledChanged}
+          onHideMenuBarChange={onHideMenuBarChange}
+          onIncomingCallNotificationsChange={onIncomingCallNotificationsChange}
+          onLastSyncTimeChange={onLastSyncTimeChange}
+          onLocaleChange={onLocaleChange}
+          onMediaCameraPermissionsChange={onMediaCameraPermissionsChange}
+          onMediaPermissionsChange={onMediaPermissionsChange}
+          onMessageAudioChange={onMessageAudioChange}
+          onMinimizeToAndStartInSystemTrayChange={
+            onMinimizeToAndStartInSystemTrayChange
+          }
+          onMinimizeToSystemTrayChange={onMinimizeToSystemTrayChange}
+          onNotificationAttentionChange={onNotificationAttentionChange}
+          onNotificationContentChange={onNotificationContentChange}
+          onNotificationsChange={onNotificationsChange}
+          onRelayCallsChange={onRelayCallsChange}
+          onSelectedCameraChange={onSelectedCameraChange}
+          onSelectedMicrophoneChange={onSelectedMicrophoneChange}
+          onSelectedSpeakerChange={onSelectedSpeakerChange}
+          onSentMediaQualityChange={onSentMediaQualityChange}
+          onSpellCheckChange={onSpellCheckChange}
+          onTextFormattingChange={onTextFormattingChange}
+          onThemeChange={onThemeChange}
+          onUniversalExpireTimerChange={onUniversalExpireTimerChange}
+          onWhoCanFindMeChange={onWhoCanFindMeChange}
+          onWhoCanSeeMeChange={onWhoCanSeeMeChange}
+          onZoomFactorChange={onZoomFactorChange}
+          preferredSystemLocales={preferredSystemLocales}
+          refreshCloudBackupStatus={refreshCloudBackupStatus}
+          refreshBackupSubscriptionStatus={refreshBackupSubscriptionStatus}
+          removeCustomColorOnConversations={removeCustomColorOnConversations}
+          removeCustomColor={removeCustomColor}
+          resetAllChatColors={resetAllChatColors}
+          resetDefaultChatColor={resetDefaultChatColor}
+          resolvedLocale={resolvedLocale}
+          selectedCamera={selectedCamera}
+          selectedMicrophone={selectedMicrophone}
+          selectedSpeaker={selectedSpeaker}
+          sentMediaQualitySetting={sentMediaQualitySetting}
+          setGlobalDefaultConversationColor={setGlobalDefaultConversationColor}
+          themeSetting={themeSetting}
+          universalExpireTimer={universalExpireTimer}
+          validateBackup={validateBackup}
+          whoCanFindMe={whoCanFindMe}
+          whoCanSeeMe={whoCanSeeMe}
+          zoomFactor={zoomFactor}
+        />
+      </StrictMode>,
       document.getElementById('app')
     );
   }

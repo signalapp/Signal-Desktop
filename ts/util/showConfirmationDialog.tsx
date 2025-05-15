@@ -1,7 +1,7 @@
 // Copyright 2015 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { StrictMode } from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { ConfirmationDialog } from '../components/ConfirmationDialog';
 import { FunDefaultEnglishEmojiLocalizationProvider } from '../components/fun/FunEmojiLocalizationProvider';
@@ -56,37 +56,39 @@ export function showConfirmationDialog(
   confirmationDialogPreviousFocus = document.activeElement as HTMLElement;
 
   render(
-    <FunDefaultEnglishEmojiLocalizationProvider>
-      <ConfirmationDialog
-        dialogName={options.dialogName}
-        onTopOfEverything={options.onTopOfEverything}
-        actions={[
-          {
-            action: () => {
-              options.resolve();
+    <StrictMode>
+      <FunDefaultEnglishEmojiLocalizationProvider>
+        <ConfirmationDialog
+          dialogName={options.dialogName}
+          onTopOfEverything={options.onTopOfEverything}
+          actions={[
+            {
+              action: () => {
+                options.resolve();
+              },
+              style: options.confirmStyle,
+              text: options.okText || window.i18n('icu:ok'),
             },
-            style: options.confirmStyle,
-            text: options.okText || window.i18n('icu:ok'),
-          },
-        ]}
-        cancelText={options.cancelText || window.i18n('icu:cancel')}
-        i18n={window.i18n}
-        onCancel={() => {
-          if (options.reject) {
-            options.reject(
-              new Error('showConfirmationDialog: onCancel called')
-            );
-          }
-        }}
-        onClose={() => {
-          removeConfirmationDialog();
-        }}
-        title={options.title}
-        noMouseClose={options.noMouseClose}
-      >
-        {options.description}
-      </ConfirmationDialog>
-    </FunDefaultEnglishEmojiLocalizationProvider>,
+          ]}
+          cancelText={options.cancelText || window.i18n('icu:cancel')}
+          i18n={window.i18n}
+          onCancel={() => {
+            if (options.reject) {
+              options.reject(
+                new Error('showConfirmationDialog: onCancel called')
+              );
+            }
+          }}
+          onClose={() => {
+            removeConfirmationDialog();
+          }}
+          title={options.title}
+          noMouseClose={options.noMouseClose}
+        >
+          {options.description}
+        </ConfirmationDialog>
+      </FunDefaultEnglishEmojiLocalizationProvider>
+    </StrictMode>,
     confirmationDialogViewNode
   );
 }

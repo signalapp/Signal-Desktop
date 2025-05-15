@@ -8,6 +8,7 @@ import { EventEmitter } from 'events';
 
 import {
   Direction,
+  IdentityChange,
   IdentityKeyPair,
   KyberPreKeyRecord,
   PreKeyRecord,
@@ -1947,7 +1948,7 @@ export class SignalProtocolStore extends EventEmitter {
     publicKey: Uint8Array,
     nonblockingApproval = false,
     { zone = GLOBAL_ZONE, noOverwrite = false }: SaveIdentityOptions = {}
-  ): Promise<boolean> {
+  ): Promise<IdentityChange> {
     if (!this.identityKeys) {
       throw new Error('saveIdentity: this.identityKeys not yet cached!');
     }
@@ -1994,11 +1995,11 @@ export class SignalProtocolStore extends EventEmitter {
             'saveIdentity'
           );
 
-          return false;
+          return IdentityChange.NewOrUnchanged;
         }
 
         if (noOverwrite) {
-          return false;
+          return IdentityChange.NewOrUnchanged;
         }
 
         const identityKeyChanged = !constantTimeEqual(
@@ -2013,7 +2014,7 @@ export class SignalProtocolStore extends EventEmitter {
 
           if (isOurIdentifier && identityKeyChanged) {
             log.warn(`${logId}: ignoring identity for ourselves`);
-            return false;
+            return IdentityChange.NewOrUnchanged;
           }
 
           log.info(`${logId}: Replacing existing identity...`);
@@ -2058,7 +2059,7 @@ export class SignalProtocolStore extends EventEmitter {
             zone,
           });
 
-          return true;
+          return IdentityChange.ReplacedExisting;
         }
         if (this.#isNonBlockingApprovalRequired(identityRecord)) {
           log.info(`${logId}: Setting approval status...`);
@@ -2066,10 +2067,10 @@ export class SignalProtocolStore extends EventEmitter {
           identityRecord.nonblockingApproval = nonblockingApproval;
           await this.#_saveIdentityKey(identityRecord);
 
-          return false;
+          return IdentityChange.NewOrUnchanged;
         }
 
-        return false;
+        return IdentityChange.NewOrUnchanged;
       }
     );
   }

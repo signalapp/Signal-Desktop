@@ -1,9 +1,10 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { ReactNode } from 'react';
-import React, { memo, useCallback } from 'react';
+import React, { memo, useCallback, useEffect } from 'react';
 import type { Placement } from 'react-aria';
 import { DialogTrigger } from 'react-aria-components';
+import { createKeybindingsHandler } from 'tinykeys';
 import { FunPickerTabKey } from './constants';
 import { FunPopover } from './base/FunPopover';
 import { FunPickerTab, FunTabList, FunTabPanel, FunTabs } from './base/FunTabs';
@@ -38,7 +39,7 @@ export const FunPicker = memo(function FunPicker(
 ): JSX.Element {
   const { onOpenChange } = props;
   const fun = useFunContext();
-  const { i18n, onOpenChange: onFunOpenChange } = fun;
+  const { i18n, onOpenChange: onFunOpenChange, onChangeTab } = fun;
 
   const handleOpenChange = useCallback(
     (open: boolean) => {
@@ -51,6 +52,27 @@ export const FunPicker = memo(function FunPicker(
   const handleClose = useCallback(() => {
     handleOpenChange(false);
   }, [handleOpenChange]);
+
+  useEffect(() => {
+    const onKeyDown = createKeybindingsHandler({
+      '$mod+Shift+J': () => {
+        onChangeTab(FunPickerTabKey.Emoji);
+        handleOpenChange(true);
+      },
+      '$mod+Shift+O': () => {
+        onChangeTab(FunPickerTabKey.Stickers);
+        handleOpenChange(true);
+      },
+      '$mod+Shift+G': () => {
+        onChangeTab(FunPickerTabKey.Gifs);
+        handleOpenChange(true);
+      },
+    });
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [handleOpenChange, onChangeTab]);
 
   return (
     <DialogTrigger isOpen={props.open} onOpenChange={handleOpenChange}>

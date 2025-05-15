@@ -6,6 +6,10 @@ import type { ConversationColorType } from '../../types/Colors';
 
 export const BACKUP_VERSION = 1;
 
+export const LOCAL_BACKUP_VERSION = 1;
+
+export const LOCAL_BACKUP_BACKUP_ID_IV_LENGTH = 16;
+
 const { WallpaperPreset } = Backups.ChatStyle;
 
 // See https://github.com/signalapp/Signal-Android-Private/blob/4a41e9f9a1ed0aba7cae0e0dc4dbcac50fddc469/app/src/main/java/org/thoughtcrime/securesms/conversation/colors/ChatColorsMapper.kt#L32

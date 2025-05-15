@@ -23,6 +23,7 @@ import { getEmptyState as linkPreviewsEmptyState } from './ducks/linkPreviews';
 import { getEmptyState as mediaGalleryEmptyState } from './ducks/mediaGallery';
 import { getEmptyState as navEmptyState } from './ducks/nav';
 import { getEmptyState as networkEmptyState } from './ducks/network';
+import { getEmptyState as notificationProfilesEmptyState } from './ducks/notificationProfiles';
 import { getEmptyState as preferredReactionsEmptyState } from './ducks/preferredReactions';
 import { getEmptyState as safetyNumberEmptyState } from './ducks/safetyNumber';
 import { getEmptyState as searchEmptyState } from './ducks/search';
@@ -59,6 +60,7 @@ export function getInitialState(
     gifs,
     mainWindowStats,
     menuOptions,
+    notificationProfiles,
     recentEmoji,
     stickers,
     stories,
@@ -86,6 +88,11 @@ export function getInitialState(
     emojis: recentEmoji,
     gifs,
     items,
+    notificationProfiles: {
+      ...notificationProfilesEmptyState(),
+      override: items.notificationProfileOverride,
+      profiles: notificationProfiles,
+    },
     stickers,
     stories: {
       ...storiesEmptyState(),
@@ -145,6 +152,7 @@ function getEmptyState(): StateType {
     mediaGallery: mediaGalleryEmptyState(),
     nav: navEmptyState(),
     network: networkEmptyState(),
+    notificationProfiles: notificationProfilesEmptyState(),
     preferredReactions: preferredReactionsEmptyState(),
     safetyNumber: safetyNumberEmptyState(),
     search: searchEmptyState(),

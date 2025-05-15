@@ -7,8 +7,10 @@ import {
   AttachmentVariant,
   AttachmentPermanentlyUndownloadableError,
   getAttachmentIdForLogging,
+  mightBeInLocalBackup,
 } from '../types/Attachment';
 import { downloadAttachment as doDownloadAttachment } from '../textsecure/downloadAttachment';
+import { downloadAttachmentFromLocalBackup as doDownloadAttachmentFromLocalBackup } from './downloadAttachmentFromLocalBackup';
 import { MediaTier } from '../types/AttachmentDownload';
 import * as log from '../logging/log';
 import { HTTPError } from '../textsecure/Errors';
@@ -18,7 +20,10 @@ import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto';
 export async function downloadAttachment({
   attachment,
   options: { variant = AttachmentVariant.Default, onSizeUpdate, abortSignal },
-  dependencies = { downloadAttachmentFromServer: doDownloadAttachment },
+  dependencies = {
+    downloadAttachmentFromServer: doDownloadAttachment,
+    downloadAttachmentFromLocalBackup: doDownloadAttachmentFromLocalBackup,
+  },
 }: {
   attachment: AttachmentType;
   options: {
@@ -26,7 +31,10 @@ export async function downloadAttachment({
     onSizeUpdate: (totalBytes: number) => void;
     abortSignal: AbortSignal;
   };
-  dependencies?: { downloadAttachmentFromServer: typeof doDownloadAttachment };
+  dependencies?: {
+    downloadAttachmentFromServer: typeof doDownloadAttachment;
+    downloadAttachmentFromLocalBackup: typeof doDownloadAttachmentFromLocalBackup;
+  };
 }): Promise<ReencryptedAttachmentV2> {
   const attachmentId = getAttachmentIdForLogging(attachment);
   const variantForLogging =
@@ -49,6 +57,23 @@ export async function downloadAttachment({
       ...attachment,
       cdnId: String(legacyId),
     };
+  }
+
+  if (mightBeInLocalBackup(attachment)) {
+    log.info(`${logId}: Downloading attachment from local backup`);
+    try {
+      const result =
+        await dependencies.downloadAttachmentFromLocalBackup(attachment);
+      onSizeUpdate(attachment.size);
+      return result;
+    } catch (error) {
+      // We also just log this error instead of throwing, since we want to still try to
+      // find it on the backup then transit tiers.
+      log.error(
+        `${logId}: error when downloading from local backup; will try backup and transit tier`,
+        toLogFormat(error)
+      );
+    }
   }
 
   if (mightBeOnBackupTier(migratedAttachment)) {

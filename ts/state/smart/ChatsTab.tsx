@@ -3,6 +3,7 @@
 import React, { memo, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { ChatsTab } from '../../components/ChatsTab';
+import type { SmartConversationViewProps } from './ConversationView';
 import { SmartConversationView } from './ConversationView';
 import { SmartMiniPlayer } from './MiniPlayer';
 import { SmartLeftPane } from './LeftPane';
@@ -27,8 +28,8 @@ import {
   getTargetedMessageSource,
 } from '../selectors/conversations';
 
-function renderConversationView() {
-  return <SmartConversationView />;
+function renderConversationView(props: SmartConversationViewProps) {
+  return <SmartConversationView {...props} />;
 }
 
 function renderLeftPane(props: NavTabPanelProps) {

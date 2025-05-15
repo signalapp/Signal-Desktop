@@ -11,7 +11,6 @@ import { SmartTimeline } from './Timeline';
 import {
   getActivePanel,
   getIsPanelAnimating,
-  getSelectedConversationId,
   getSelectedMessageIds,
 } from '../selectors/conversations';
 import { useComposerActions } from '../ducks/composer';
@@ -34,43 +33,41 @@ function renderPanel(conversationId: string) {
   return <ConversationPanel conversationId={conversationId} />;
 }
 
-export const SmartConversationView = memo(
-  function SmartConversationView(): JSX.Element {
-    const conversationId = useSelector(getSelectedConversationId);
+export type SmartConversationViewProps = Readonly<{
+  selectedConversationId: string;
+}>;
 
-    if (!conversationId) {
-      throw new Error('SmartConversationView: No selected conversation');
-    }
+export const SmartConversationView = memo(function SmartConversationView(
+  props: SmartConversationViewProps
+): JSX.Element {
+  const { toggleSelectMode } = useConversationsActions();
+  const selectedMessageIds = useSelector(getSelectedMessageIds);
+  const isSelectMode = selectedMessageIds != null;
 
-    const { toggleSelectMode } = useConversationsActions();
-    const selectedMessageIds = useSelector(getSelectedMessageIds);
-    const isSelectMode = selectedMessageIds != null;
+  const { processAttachments } = useComposerActions();
 
-    const { processAttachments } = useComposerActions();
+  const hasOpenModal = useSelector(isShowingAnyModal);
+  const activePanel = useSelector(getActivePanel);
+  const isPanelAnimating = useSelector(getIsPanelAnimating);
+  const shouldHideConversationView = activePanel && !isPanelAnimating;
 
-    const hasOpenModal = useSelector(isShowingAnyModal);
-    const activePanel = useSelector(getActivePanel);
-    const isPanelAnimating = useSelector(getIsPanelAnimating);
-    const shouldHideConversationView = activePanel && !isPanelAnimating;
+  const onExitSelectMode = useCallback(() => {
+    toggleSelectMode(false);
+  }, [toggleSelectMode]);
 
-    const onExitSelectMode = useCallback(() => {
-      toggleSelectMode(false);
-    }, [toggleSelectMode]);
-
-    return (
-      <ConversationView
-        conversationId={conversationId}
-        hasOpenModal={hasOpenModal}
-        hasOpenPanel={activePanel != null}
-        isSelectMode={isSelectMode}
-        onExitSelectMode={onExitSelectMode}
-        processAttachments={processAttachments}
-        renderCompositionArea={renderCompositionArea}
-        renderConversationHeader={renderConversationHeader}
-        renderTimeline={renderTimeline}
-        renderPanel={renderPanel}
-        shouldHideConversationView={shouldHideConversationView}
-      />
-    );
-  }
-);
+  return (
+    <ConversationView
+      conversationId={props.selectedConversationId}
+      hasOpenModal={hasOpenModal}
+      hasOpenPanel={activePanel != null}
+      isSelectMode={isSelectMode}
+      onExitSelectMode={onExitSelectMode}
+      processAttachments={processAttachments}
+      renderCompositionArea={renderCompositionArea}
+      renderConversationHeader={renderConversationHeader}
+      renderTimeline={renderTimeline}
+      renderPanel={renderPanel}
+      shouldHideConversationView={shouldHideConversationView}
+    />
+  );
+});

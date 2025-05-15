@@ -1670,9 +1670,6 @@
   "icu:notificationSenderInGroup": {
     "messageformat": "{group} 入面嘅 {sender}"
   },
-  "icu:notificationReaction": {
-    "messageformat": "{sender} 用 {emoji} 回應咗你嘅訊息"
-  },
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} 用 {emoji} 回應咗：「{message}」"
   },
@@ -2591,6 +2588,9 @@
   "icu:Keyboard--open-sticker-chooser": {
     "messageformat": "打開貼圖選擇器"
   },
+  "icu:Keyboard--open-gif-chooser": {
+    "messageformat": "Open GIF chooser"
+  },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "開始錄製語音筆記"
   },
@@ -3229,9 +3229,6 @@
   },
   "icu:calling__view_mode--updated": {
     "messageformat": "更新咗檢視方式"
-  },
-  "icu:calling__hangup": {
-    "messageformat": "退出通話"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "分享你嘅畫面"
@@ -4075,9 +4072,6 @@
   },
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "傳送編輯咗嘅訊息"
-  },
-  "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "加個表情符號、貼圖或者 GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
     "messageformat": "係咪要更換附件？"
@@ -4991,6 +4985,21 @@
   "icu:Preferences__button--internal": {
     "messageformat": "内部"
   },
+  "icu:Preferences__internal__local-backups": {
+    "messageformat": "Local backups"
+  },
+  "icu:Preferences__internal__export-local-backup": {
+    "messageformat": "Export…"
+  },
+  "icu:Preferences__internal__export-local-backup--description": {
+    "messageformat": "Export local encrypted backup to a folder and validate it"
+  },
+  "icu:Preferences__internal__import-local-backup": {
+    "messageformat": "Import…"
+  },
+  "icu:Preferences__internal__import-local-backup--description": {
+    "messageformat": "Stage a local encrypted backup for import on link"
+  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "將加密備份匯出去內建記憶體同埋執行驗證套件"
   },
@@ -5056,9 +5065,6 @@
   },
   "icu:Preferences--backup-messages-plan__note": {
     "messageformat": "你可以喺手機度管理或者升級「Signal 備份」課金計劃。"
-  },
-  "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "搵唔到你嘅課金計劃。即刻續期嚟繼續用 Signal 備份啦。"
   },
   "icu:Preferences--backup-plan__not-found__note": {
     "messageformat": "你可以喺手機度管理「Signal 備份」課金計劃或者續期。"
@@ -5188,6 +5194,24 @@
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
     "messageformat": "重新開 app"
+  },
+  "icu:Preferences__Privacy__Application": {
+    "messageformat": "Application"
+  },
+  "icu:Preferences__content-protection--label": {
+    "messageformat": "Screen security"
+  },
+  "icu:Preferences__content-protection--description": {
+    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+  },
+  "icu:Preferences__content-protection__modal--title": {
+    "messageformat": "Disable screen security?"
+  },
+  "icu:Preferences__content-protection__modal--body": {
+    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+  },
+  "icu:Preferences__content-protection__modal--disable": {
+    "messageformat": "Disable"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "更新版本 {version} 已經推出咗"
@@ -6323,6 +6347,12 @@
     "messageformat": "我們仲調整咗畫中畫視窗嘅大細，同埋加咗方便你嘅新捷徑，等你可以將個咪靜音/取消靜音，或者喺通話縮到最細時打開/閂埋個鏡頭。"
   },
   "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too."
+    "messageformat": "微笑呢個表情喺任何語言入面都係一樣，但係而家 Signal 桌面版嘅表情符號快速輸入已經有完整嘅翻譯，即係你可以用任何支援嘅語言去 <code>:smile:</code>、<code>:sourire:</code> 或者 <code>:微笑:</code>。"
+  },
+  "icu:WhatsNew__v7.55--0": {
+    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+  },
+  "icu:WhatsNew__v7.55--1": {
+    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
   }
 }

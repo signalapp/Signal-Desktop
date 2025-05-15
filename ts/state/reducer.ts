@@ -25,6 +25,7 @@ import { reducer as linkPreviews } from './ducks/linkPreviews';
 import { reducer as mediaGallery } from './ducks/mediaGallery';
 import { reducer as nav } from './ducks/nav';
 import { reducer as network } from './ducks/network';
+import { reducer as notificationProfiles } from './ducks/notificationProfiles';
 import { reducer as preferredReactions } from './ducks/preferredReactions';
 import { reducer as safetyNumber } from './ducks/safetyNumber';
 import { reducer as search } from './ducks/search';
@@ -59,6 +60,7 @@ export const reducer = combineReducers({
   mediaGallery,
   nav,
   network,
+  notificationProfiles,
   preferredReactions,
   safetyNumber,
   search,

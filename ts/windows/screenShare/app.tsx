@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 
 import { CallingScreenSharingController } from '../../components/CallingScreenSharingController';
@@ -29,17 +29,19 @@ function render() {
   strictAssert(ScreenShareWindowProps, 'window values not provided');
 
   ReactDOM.render(
-    <FunDefaultEnglishEmojiLocalizationProvider>
-      <div className="App dark-theme">
-        <CallingScreenSharingController
-          i18n={i18n}
-          onCloseController={onCloseController}
-          onStopSharing={ScreenShareWindowProps.onStopSharing}
-          status={ScreenShareWindowProps.getStatus()}
-          presentedSourceName={ScreenShareWindowProps.presentedSourceName}
-        />
-      </div>
-    </FunDefaultEnglishEmojiLocalizationProvider>,
+    <StrictMode>
+      <FunDefaultEnglishEmojiLocalizationProvider>
+        <div className="App dark-theme">
+          <CallingScreenSharingController
+            i18n={i18n}
+            onCloseController={onCloseController}
+            onStopSharing={ScreenShareWindowProps.onStopSharing}
+            status={ScreenShareWindowProps.getStatus()}
+            presentedSourceName={ScreenShareWindowProps.presentedSourceName}
+          />
+        </div>
+      </FunDefaultEnglishEmojiLocalizationProvider>
+    </StrictMode>,
 
     document.getElementById('app')
   );

@@ -24,6 +24,7 @@ import {
   AttachmentVariant,
   AttachmentPermanentlyUndownloadableError,
   mightBeOnBackupTier,
+  mightBeInLocalBackup,
 } from '../types/Attachment';
 import { type ReadonlyMessageAttributesType } from '../model-types.d';
 import { getMessageById } from '../messages/getMessageById';
@@ -285,9 +286,10 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
       // try to download from the transit tier (or it's an invalid attachment, etc.). We
       // may need to extend the attachment_downloads table in the future to better
       // differentiate source vs. location.
-      source: mightBeOnBackupTier(attachment)
-        ? source
-        : AttachmentDownloadSource.STANDARD,
+      source:
+        mightBeOnBackupTier(attachment) || mightBeInLocalBackup(attachment)
+          ? source
+          : AttachmentDownloadSource.STANDARD,
     });
 
     if (!parseResult.success) {
@@ -462,7 +464,10 @@ async function runDownloadAttachmentJob({
       };
     }
 
-    if (mightBeOnBackupTier(job.attachment)) {
+    if (
+      mightBeOnBackupTier(job.attachment) ||
+      mightBeInLocalBackup(job.attachment)
+    ) {
       const currentDownloadedSize =
         window.storage.get('backupMediaDownloadCompletedBytes') ?? 0;
       drop(
@@ -615,7 +620,8 @@ export async function runDownloadAttachmentJobInner({
     isForCurrentlyVisibleMessage &&
     mightHaveThumbnailOnBackupTier(job.attachment) &&
     // TODO (DESKTOP-7204): check if thumbnail exists on attachment, not on job
-    !job.attachment.thumbnailFromBackup;
+    !job.attachment.thumbnailFromBackup &&
+    !mightBeInLocalBackup(attachment);
 
   if (preferBackupThumbnail) {
     logId += '.preferringBackupThumbnail';
@@ -811,7 +817,9 @@ async function downloadBackupThumbnail({
 }: {
   attachment: AttachmentType;
   abortSignal: AbortSignal;
-  dependencies: { downloadAttachment: typeof downloadAttachmentUtil };
+  dependencies: {
+    downloadAttachment: typeof downloadAttachmentUtil;
+  };
 }): Promise<AttachmentType> {
   const downloadedThumbnail = await dependencies.downloadAttachment({
     attachment,

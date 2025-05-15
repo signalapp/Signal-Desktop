@@ -62,7 +62,7 @@ import {
   getTimestampOrUndefinedFromLong,
 } from '../../util/timestampLongUtils';
 import { MAX_SAFE_DATE } from '../../util/timestamp';
-import { DAY, DurationInSeconds, SECOND } from '../../util/durations';
+import { DurationInSeconds, SECOND } from '../../util/durations';
 import { calculateExpirationTimestamp } from '../../util/expirationTimer';
 import { dropNull } from '../../util/dropNull';
 import {
@@ -132,6 +132,12 @@ import { saveBackupsSubscriberData } from '../../util/backupSubscriptionData';
 import { postSaveUpdates } from '../../util/cleanup';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import { MessageModel } from '../../models/messages';
+import {
+  DEFAULT_PROFILE_COLOR,
+  fromDayOfWeekArray,
+  type NotificationProfileType,
+} from '../../types/NotificationProfile';
+import { normalizeNotificationProfileId } from '../../types/NotificationProfile-node';
 
 const MAX_CONCURRENCY = 10;
 
@@ -238,18 +244,22 @@ export class BackupImportStream extends Writable {
   #pendingGroupAvatars = new Map<string, string>();
   #frameErrorCount: number = 0;
 
-  private constructor(private readonly backupType: BackupType) {
+  private constructor(
+    private readonly backupType: BackupType,
+    private readonly localBackupSnapshotDir: string | undefined
+  ) {
     super({ objectMode: true });
   }
 
   public static async create(
-    backupType = BackupType.Ciphertext
+    backupType = BackupType.Ciphertext,
+    localBackupSnapshotDir: string | undefined = undefined
   ): Promise<BackupImportStream> {
     await AttachmentDownloadManager.stop();
     await DataWriter.removeAllBackupAttachmentDownloadJobs();
     await resetBackupMediaDownloadProgress();
 
-    return new BackupImportStream(backupType);
+    return new BackupImportStream(backupType, localBackupSnapshotDir);
   }
 
   override async _write(
@@ -503,9 +513,7 @@ export class BackupImportStream extends Writable {
       } else if (frame.adHocCall) {
         await this.#fromAdHocCall(frame.adHocCall);
       } else if (frame.notificationProfile) {
-        log.warn(
-          `${this.#logId}: Received currently unsupported feature: notification profile. Dropping.`
-        );
+        await this.#fromNotificationProfile(frame.notificationProfile);
       } else if (frame.chatFolder) {
         log.warn(
           `${this.#logId}: Received currently unsupported feature: chat folder. Dropping.`
@@ -1444,13 +1452,6 @@ export class BackupImportStream extends Writable {
       return;
     }
 
-    if (expireTimer) {
-      if (DurationInSeconds.toMillis(expireTimer) <= DAY) {
-        // Message has an expire timer that's too short for import
-        return;
-      }
-    }
-
     let attributes: MessageAttributesType = {
       ...generateMessageId(incrementMessageCounter()),
       conversationId: chatConvo.id,
@@ -1850,11 +1851,19 @@ export class BackupImportStream extends Writable {
             bodyRanges: this.#fromBodyRanges(data.text),
           })),
       bodyAttachment: data.longText
-        ? convertFilePointerToAttachment(data.longText)
+        ? convertFilePointerToAttachment(
+            data.longText,
+            this.#getFilePointerOptions()
+          )
         : undefined,
       attachments: data.attachments?.length
         ? data.attachments
-            .map(convertBackupMessageAttachmentToAttachment)
+            .map(attachment =>
+              convertBackupMessageAttachmentToAttachment(
+                attachment,
+                this.#getFilePointerOptions()
+              )
+            )
             .filter(isNotNil)
         : undefined,
       preview: data.linkPreview?.length
@@ -1898,7 +1907,10 @@ export class BackupImportStream extends Writable {
           description: dropNull(preview.description),
           date: getCheckedTimestampOrUndefinedFromLong(preview.date),
           image: preview.image
-            ? convertFilePointerToAttachment(preview.image)
+            ? convertFilePointerToAttachment(
+                preview.image,
+                this.#getFilePointerOptions()
+              )
             : undefined,
         };
       })
@@ -1913,7 +1925,10 @@ export class BackupImportStream extends Writable {
       ...(attachment
         ? {
             attachments: [
-              convertBackupMessageAttachmentToAttachment(attachment),
+              convertBackupMessageAttachmentToAttachment(
+                attachment,
+                this.#getFilePointerOptions()
+              ),
             ].filter(isNotNil),
           }
         : {
@@ -1944,7 +1959,10 @@ export class BackupImportStream extends Writable {
       result.body = textReply.text?.body ?? undefined;
       result.bodyRanges = this.#fromBodyRanges(textReply.text);
       result.bodyAttachment = textReply.longText
-        ? convertFilePointerToAttachment(textReply.longText)
+        ? convertFilePointerToAttachment(
+            textReply.longText,
+            this.#getFilePointerOptions()
+          )
         : undefined;
     } else if (emoji) {
       result.storyReaction = {
@@ -1974,7 +1992,10 @@ export class BackupImportStream extends Writable {
       body: textReply.text?.body ?? undefined,
       bodyRanges: this.#fromBodyRanges(textReply.text),
       bodyAttachment: textReply.longText
-        ? convertFilePointerToAttachment(textReply.longText)
+        ? convertFilePointerToAttachment(
+            textReply.longText,
+            this.#getFilePointerOptions()
+          )
         : undefined,
     };
   }
@@ -2097,7 +2118,10 @@ export class BackupImportStream extends Writable {
               ? stringToMIMEType(contentType)
               : APPLICATION_OCTET_STREAM,
             thumbnail: thumbnail?.pointer
-              ? convertFilePointerToAttachment(thumbnail.pointer)
+              ? convertFilePointerToAttachment(
+                  thumbnail.pointer,
+                  this.#getFilePointerOptions()
+                )
               : undefined,
           };
         }) ?? [],
@@ -2259,7 +2283,10 @@ export class BackupImportStream extends Writable {
               organization: organization || undefined,
               avatar: avatar
                 ? {
-                    avatar: convertFilePointerToAttachment(avatar),
+                    avatar: convertFilePointerToAttachment(
+                      avatar,
+                      this.#getFilePointerOptions()
+                    ),
                     isProfile: false,
                   }
                 : undefined,
@@ -2306,7 +2333,12 @@ export class BackupImportStream extends Writable {
             packId: Bytes.toHex(packId),
             packKey: Bytes.toBase64(packKey),
             stickerId,
-            data: data ? convertFilePointerToAttachment(data) : undefined,
+            data: data
+              ? convertFilePointerToAttachment(
+                  data,
+                  this.#getFilePointerOptions()
+                )
+              : undefined,
           },
           reactions: this.#fromReactions(chatItem.stickerMessage.reactions),
         },
@@ -3427,6 +3459,65 @@ export class BackupImportStream extends Writable {
     }
   }
 
+  async #fromNotificationProfile(
+    incomingProfile: Backups.INotificationProfile
+  ) {
+    const {
+      id,
+      name,
+      emoji,
+      color,
+      createdAtMs,
+      allowAllCalls,
+      allowAllMentions,
+      allowedMembers,
+      scheduleEnabled,
+      scheduleStartTime,
+      scheduleEndTime,
+      scheduleDaysEnabled,
+    } = incomingProfile;
+    strictAssert(name, 'notification profile must have a valid name');
+    if (!id || !id.length) {
+      log.warn('Dropping notification profile; it was missing an id');
+      return;
+    }
+
+    const allowedMemberConversationIds: ReadonlyArray<string> | undefined =
+      allowedMembers
+        ?.map(recipientIdLong => {
+          const recipientId = recipientIdLong.toNumber();
+          const attributes = this.#recipientIdToConvo.get(recipientId);
+          if (!attributes) {
+            return undefined;
+          }
+
+          return attributes.id;
+        })
+        .filter(isNotNil);
+
+    const profile: NotificationProfileType = {
+      id: normalizeNotificationProfileId(Bytes.toHex(id), 'import', log),
+      name,
+      emoji: dropNull(emoji),
+      color: dropNull(color) ?? DEFAULT_PROFILE_COLOR,
+      createdAtMs: getCheckedTimestampOrUndefinedFromLong(createdAtMs) ?? 0,
+      allowAllCalls: Boolean(allowAllCalls),
+      allowAllMentions: Boolean(allowAllMentions),
+      allowedMembers: new Set(allowedMemberConversationIds ?? []),
+      scheduleEnabled: Boolean(scheduleEnabled),
+      scheduleStartTime: dropNull(scheduleStartTime),
+      scheduleEndTime: dropNull(scheduleEndTime),
+      scheduleDaysEnabled: fromDayOfWeekArray(scheduleDaysEnabled),
+      deletedAtTimestampMs: undefined,
+      storageNeedsSync: false,
+      storageID: undefined,
+      storageUnknownFields: undefined,
+      storageVersion: undefined,
+    };
+
+    await DataWriter.createNotificationProfile(profile);
+  }
+
   async #fromCustomChatColors(
     customChatColors:
       | ReadonlyArray<Backups.ChatStyle.ICustomChatColor>
@@ -3627,6 +3718,14 @@ export class BackupImportStream extends Writable {
       dimWallpaperInDarkMode,
       autoBubbleColor,
     };
+  }
+
+  #getFilePointerOptions() {
+    if (this.localBackupSnapshotDir != null) {
+      return { localBackupSnapshotDir: this.localBackupSnapshotDir };
+    }
+
+    return {};
   }
 }
 

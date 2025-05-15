@@ -17,6 +17,11 @@ import { drop } from '../util/drop';
 
 import type { ConversationModel } from '../models/conversations';
 import type { MessageModel } from '../models/messages';
+import { getActiveProfile } from '../state/selectors/notificationProfiles';
+import {
+  redactNotificationProfileId,
+  shouldNotify,
+} from '../types/NotificationProfile';
 
 export async function saveAndNotify(
   message: MessageModel,
@@ -48,7 +53,28 @@ export async function saveAndNotify(
 
     drop(conversation.onNewMessage(message));
 
-    if (await shouldReplyNotifyUser(message.attributes, conversation)) {
+    const activeProfile = getActiveProfile(window.reduxStore.getState());
+    const doesProfileAllowNotify = shouldNotify({
+      activeProfile,
+      conversationId: conversation.id,
+      isCall: false,
+      isMention: Boolean(message.get('mentionsMe')),
+    });
+    const shouldStoryReplyNotify = await shouldReplyNotifyUser(
+      message.attributes,
+      conversation
+    );
+
+    if (!shouldStoryReplyNotify) {
+      log.info(
+        `saveAndNotify: Not notifying for story reply ${message.get('sent_at')}`
+      );
+    } else if (!doesProfileAllowNotify) {
+      const redactedId = redactNotificationProfileId(activeProfile?.id ?? '');
+      log.info(
+        `saveAndNotify: Would notify for message ${message.get('sent_at')}, but notification profile ${redactedId} prevented it`
+      );
+    } else {
       await conversation.notify(message.attributes);
     }
 
@@ -61,9 +87,7 @@ export async function saveAndNotify(
     confirm();
 
     if (!isStory(message.attributes)) {
-      drop(
-        conversation.queueJob('updateUnread', () => conversation.updateUnread())
-      );
+      conversation.throttledUpdateUnread();
     }
   } finally {
     resolve();

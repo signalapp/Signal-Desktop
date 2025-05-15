@@ -2221,10 +2221,6 @@
     "messageformat": "{sender} in {group}",
     "description": "Displayed in notifications for messages in a group"
   },
-  "icu:notificationReaction": {
-    "messageformat": "{sender} reacted {emoji} to your message",
-    "description": "(Deleted 2025/04/09)"
-  },
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} reacted {emoji} to: {message}"
   },
@@ -3436,6 +3432,10 @@
     "messageformat": "Open sticker chooser",
     "description": "Shown in the shortcuts guide"
   },
+  "icu:Keyboard--open-gif-chooser": {
+    "messageformat": "Open GIF chooser",
+    "description": "Shown in the shortcuts guide"
+  },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Begin recording voice note",
     "description": "Shown in the shortcuts guide"
@@ -4164,6 +4164,22 @@
     "messageformat": "Mic on",
     "description": "Shown in a call when the user is muted and then unmutes their audio input using the Mute toggle button."
   },
+  "icu:CallControls__MutedBySomeoneToast": {
+    "messageformat": "{otherName} muted you.",
+    "description": "Shown in a call when another client mutes this user"
+  },
+  "icu:CallControls__SomeoneMutedSomeoneToast": {
+    "messageformat": "{name} muted {otherName}.",
+    "description": "Shown in a call when one client mutes another client"
+  },
+  "icu:CallControls__YouMutedSomeoneToast": {
+    "messageformat": "You muted {otherName}.",
+    "description": "Shown in a call when you mute another client"
+  },
+  "icu:CallControls__YouMutedYourselfToast": {
+    "messageformat": "You muted yourself from another device.",
+    "description": "Shown in a call when you joined a call on two devices and mute one from the other."
+  },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Lower your hand?",
     "description": "Shown in a call when the user has their hand raised but has been talking, next to a button to lower their hand."
@@ -4287,10 +4303,6 @@
   "icu:calling__view_mode--updated": {
     "messageformat": "View updated",
     "description": "Toast shown whenver the calling view mode is changed (e.g. paginated view -> speaker view)"
-  },
-  "icu:calling__hangup": {
-    "messageformat": "Leave call",
-    "description": "(Deleted 2025/04/09) Title for hang up button"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Share your screen",
@@ -5415,10 +5427,6 @@
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "Send edited message",
     "description": "aria-label for send edit button"
-  },
-  "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "Add an Emoji, Sticker, or GIF",
-    "description": "(Deleted 2025/04/02) Composition Area > Fun Button > Accessibility label"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
     "messageformat": "Replace attachment?",
@@ -6636,6 +6644,26 @@
     "messageformat": "Internal",
     "description": "Button to switch the settings view to control internal configuration"
   },
+  "icu:Preferences__internal__local-backups": {
+    "messageformat": "Local backups",
+    "description": "Text header for internal local backup tools"
+  },
+  "icu:Preferences__internal__export-local-backup": {
+    "messageformat": "Export…",
+    "description": "Button to run internal local backup export tool"
+  },
+  "icu:Preferences__internal__export-local-backup--description": {
+    "messageformat": "Export local encrypted backup to a folder and validate it",
+    "description": "Description of the internal local backup export tool"
+  },
+  "icu:Preferences__internal__import-local-backup": {
+    "messageformat": "Import…",
+    "description": "Button to run internal local backup import tool"
+  },
+  "icu:Preferences__internal__import-local-backup--description": {
+    "messageformat": "Stage a local encrypted backup for import on link",
+    "description": "Description of the internal local backup export tool"
+  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Export encrypted backup to memory and run validation suite on it",
     "description": "Description of the internal backup validation tool"
@@ -6723,10 +6751,6 @@
   "icu:Preferences--backup-messages-plan__note": {
     "messageformat": "You can manage or upgrade Signal Backups on your phone.",
     "description": "Note next to backups plan summary"
-  },
-  "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups.",
-    "description": "(Deleted 2025/04/09) Shown if if we could not find the user's subscription"
   },
   "icu:Preferences--backup-plan__not-found__note": {
     "messageformat": "You can manage or renew your Signal Backups subscription on your phone.",
@@ -6899,6 +6923,30 @@
   "icu:Preferences__LanguageModal__Restart__Button": {
     "messageformat": "Restart",
     "description": "Button to restart Signal to apply language changes"
+  },
+  "icu:Preferences__Privacy__Application": {
+    "messageformat": "Application",
+    "description": "Title of Application section in Settings > Privacy"
+  },
+  "icu:Preferences__content-protection--label": {
+    "messageformat": "Screen security",
+    "description": "Label of checkbox in Settings > Privacy > Application"
+  },
+  "icu:Preferences__content-protection--description": {
+    "messageformat": "Prevent screenshots of Signal on this computer for added privacy.",
+    "description": "Description of checkbox in Settings > Privacy > Application"
+  },
+  "icu:Preferences__content-protection__modal--title": {
+    "messageformat": "Disable screen security?",
+    "description": "Title of confirm disabling screen security modal in Settings > Privacy > Application"
+  },
+  "icu:Preferences__content-protection__modal--body": {
+    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private.",
+    "description": "Body of confirm disabling screen security modal in Settings > Privacy > Application"
+  },
+  "icu:Preferences__content-protection__modal--disable": {
+    "messageformat": "Disable",
+    "description": "Text of the button confirm disabling screen security modal in Settings > Privacy > Application"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Update to version {version} available",
@@ -8407,6 +8455,14 @@
   },
   "icu:WhatsNew__v7.54--0": {
     "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too.",
-    "description": "Release notes for version 7.54"
+    "description": "(Deleted 2025/05/13) Release notes for version 7.54"
+  },
+  "icu:WhatsNew__v7.55--0": {
+    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore.",
+    "description": "Release notes for version 7.55"
+  },
+  "icu:WhatsNew__v7.55--1": {
+    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet.",
+    "description": "Release notes for version 7.55"
   }
 }

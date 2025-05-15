@@ -49,22 +49,48 @@ export function processAttachment(
 export function processAttachment(
   attachment?: Proto.IAttachmentPointer | null
 ): ProcessedAttachment | undefined {
-  if (!attachment) {
+  const attachmentWithoutNulls = shallowDropNull(attachment);
+  if (!attachmentWithoutNulls) {
     return undefined;
   }
 
-  const { cdnId } = attachment;
+  const {
+    cdnId,
+    cdnKey,
+    cdnNumber,
+    clientUuid,
+    key,
+    size,
+    contentType,
+    digest,
+    incrementalMac,
+    chunkSize,
+    fileName,
+    flags,
+    width,
+    height,
+    caption,
+    blurHash,
+    uploadTimestamp,
+  } = attachmentWithoutNulls;
+
   const hasCdnId = Long.isLong(cdnId) ? !cdnId.isZero() : Boolean(cdnId);
 
-  const { clientUuid, contentType, digest, incrementalMac, key, size } =
-    attachment;
   if (!isNumber(size)) {
     throw new Error('Missing size on incoming attachment!');
   }
 
   return {
-    ...shallowDropNull(attachment),
-
+    cdnKey,
+    cdnNumber,
+    chunkSize,
+    fileName,
+    flags,
+    width,
+    height,
+    caption,
+    blurHash,
+    uploadTimestamp: uploadTimestamp?.toNumber(),
     cdnId: hasCdnId ? String(cdnId) : undefined,
     clientUuid: Bytes.isNotEmpty(clientUuid)
       ? bytesToUuid(clientUuid)
