@@ -82,6 +82,7 @@ export function initializeRedux(data: ReduxInitData): void {
       actionCreators.mediaGallery,
       store.dispatch
     ),
+    nav: bindActionCreators(actionCreators.nav, store.dispatch),
     network: bindActionCreators(actionCreators.network, store.dispatch),
     notificationProfiles: bindActionCreators(
       actionCreators.notificationProfiles,

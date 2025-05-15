@@ -63,7 +63,7 @@ function _maybeGrabLinkPreview(
 ): void {
   // Don't generate link previews if user has turned them off. When posting a
   // story we should return minimal (url-only) link previews.
-  if (!window.Events.getLinkPreviewSetting() && mode === 'conversation') {
+  if (!LinkPreview.getLinkPreviewSetting() && mode === 'conversation') {
     return;
   }
 
@@ -102,7 +102,7 @@ function _maybeGrabLinkPreview(
   drop(
     addLinkPreview(link, source, {
       conversationId,
-      disableFetch: !window.Events.getLinkPreviewSetting(),
+      disableFetch: !LinkPreview.getLinkPreviewSetting(),
     })
   );
 }

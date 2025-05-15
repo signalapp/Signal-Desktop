@@ -66,7 +66,7 @@ export type IPCType = {
     erase: () => Promise<void>;
   };
   drawAttention: () => void;
-  getAutoLaunch: () => Promise<boolean>;
+  getAutoLaunch: () => Promise<boolean | undefined>;
   getMediaAccessStatus: (
     mediaType: 'screen' | 'microphone' | 'camera'
   ) => Promise<ReturnType<SystemPreferences['getMediaAccessStatus']>>;
@@ -74,7 +74,7 @@ export type IPCType = {
   openSystemMediaPermissions: (
     mediaType: 'microphone' | 'camera' | 'screenCapture'
   ) => Promise<void>;
-  getMediaPermissions: () => Promise<boolean>;
+  getMediaPermissions: () => Promise<boolean | undefined>;
   whenWindowVisible: () => Promise<void>;
   logAppLoadedEvent?: (options: { processedCount?: number }) => void;
   readyForUpdates: () => void;
@@ -82,6 +82,8 @@ export type IPCType = {
   setAutoHideMenuBar: (value: boolean) => void;
   setAutoLaunch: (value: boolean) => Promise<void>;
   setBadge: (badge: number | 'marked-unread') => void;
+  setMediaPermissions: (value: boolean) => Promise<void>;
+  setMediaCameraPermissions: (value: boolean) => Promise<void>;
   setMenuBarVisibility: (value: boolean) => void;
   showDebugLog: () => void;
   showPermissionsPopup: (

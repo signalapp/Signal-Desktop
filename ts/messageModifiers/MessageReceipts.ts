@@ -34,6 +34,7 @@ import {
 import { drop } from '../util/drop';
 import { getMessageById } from '../messages/getMessageById';
 import { MessageModel } from '../models/messages';
+import { areStoryViewReceiptsEnabled } from '../types/Stories';
 
 const { deleteSentProtoRecipient, removeSyncTasks, removeSyncTaskById } =
   DataWriter;
@@ -398,7 +399,7 @@ const shouldDropReceipt = (
       return !window.storage.get('read-receipt-setting');
     case messageReceiptTypeSchema.Enum.View:
       if (isStory(message)) {
-        return !window.Events.getStoryViewReceiptsEnabled();
+        return !areStoryViewReceiptsEnabled();
       }
       return !window.storage.get('read-receipt-setting');
     default:

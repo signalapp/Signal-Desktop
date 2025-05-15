@@ -31,30 +31,31 @@ describe('settings', function (this: Mocha.Suite) {
     await bootstrap.teardown();
   });
 
-  it('settings window and all panes load when opened', async () => {
+  it('settings tab and all panes load when opened', async () => {
     const window = await app.getWindow();
 
-    const newPagePromise = window.context().waitForEvent('page');
     await window.locator('.NavTabs__ItemIcon--Settings').click();
-    const settingsWindow = await newPagePromise;
-    await settingsWindow.getByText('Device Name').waitFor();
+    await window.getByRole('heading', { name: 'Settings' }).waitFor();
 
-    await settingsWindow.getByText('Appearance').click();
-    await settingsWindow.getByText('Language').first().waitFor();
+    await window.getByRole('button', { name: 'General' }).click();
+    await window.getByText('Device Name').waitFor();
 
-    await settingsWindow.getByText('Chats').click();
-    await settingsWindow.getByText('Spell check text').waitFor();
+    await window.getByRole('button', { name: 'Appearance' }).click();
+    await window.getByText('Language').first().waitFor();
 
-    await settingsWindow.getByText('Calls').click();
-    await settingsWindow.getByText('Enable incoming calls').waitFor();
+    await window.getByRole('button', { name: 'Chats' }).click();
+    await window.getByText('Spell check text').waitFor();
 
-    await settingsWindow.getByText('Notifications').click();
-    await settingsWindow.getByText('Notification content').waitFor();
+    await window.getByRole('button', { name: 'Calls' }).click();
+    await window.getByText('Enable incoming calls').waitFor();
 
-    await settingsWindow.getByText('Privacy').click();
-    await settingsWindow.getByText('Read receipts').waitFor();
+    await window.getByRole('button', { name: 'Notifications' }).click();
+    await window.getByText('Notification content').waitFor();
 
-    await settingsWindow.getByText('Data usage').click();
-    await settingsWindow.getByText('Sent media quality').waitFor();
+    await window.getByRole('button', { name: 'Privacy' }).click();
+    await window.getByText('Read receipts').waitFor();
+
+    await window.getByRole('button', { name: 'Data usage' }).click();
+    await window.getByText('Sent media quality').waitFor();
   });
 });

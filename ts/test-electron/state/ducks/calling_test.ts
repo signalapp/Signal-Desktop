@@ -230,24 +230,12 @@ describe('calling duck', () => {
     });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let oldEvents: any;
   beforeEach(function (this: Mocha.Context) {
     this.sandbox = sinon.createSandbox();
-
-    oldEvents = window.Events;
-    window.Events = {
-      ...(oldEvents || {}),
-
-      getCallRingtoneNotification: sinon.spy(),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any;
   });
 
   afterEach(function (this: Mocha.Context) {
     this.sandbox.restore();
-
-    window.Events = oldEvents;
   });
 
   describe('actions', () => {

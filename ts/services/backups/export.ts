@@ -153,6 +153,8 @@ import { generateBackupsSubscriberData } from '../../util/backupSubscriptionData
 import { getEnvironment, isTestEnvironment } from '../../environment';
 import { calculateLightness } from '../../util/getHSL';
 import { toDayOfWeekArray } from '../../types/NotificationProfile';
+import { getLinkPreviewSetting } from '../../types/LinkPreview';
+import { getTypingIndicatorSetting } from '../../types/Util';
 
 const MAX_CONCURRENCY = 10;
 
@@ -864,8 +866,8 @@ export class BackupExportStream extends Readable {
       accountSettings: {
         readReceipts: storage.get('read-receipt-setting'),
         sealedSenderIndicators: storage.get('sealedSenderIndicators'),
-        typingIndicators: window.Events.getTypingIndicatorSetting(),
-        linkPreviews: window.Events.getLinkPreviewSetting(),
+        typingIndicators: getTypingIndicatorSetting(),
+        linkPreviews: getLinkPreviewSetting(),
         notDiscoverableByPhoneNumber:
           parsePhoneNumberDiscoverability(
             storage.get('phoneNumberDiscoverability')

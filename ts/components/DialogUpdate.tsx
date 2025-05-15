@@ -3,15 +3,18 @@
 
 import type { ReactNode } from 'react';
 import React, { useCallback } from 'react';
+
 import { isBeta } from '../util/version';
 import { DialogType } from '../types/Dialogs';
-import type { LocalizerType } from '../types/Util';
 import { PRODUCTION_DOWNLOAD_URL, BETA_DOWNLOAD_URL } from '../types/support';
 import { I18n } from './I18n';
 import { LeftPaneDialog } from './LeftPaneDialog';
-import type { WidthBreakpoint } from './_util';
 import { formatFileSize } from '../util/formatFileSize';
 import { getLocalizedUrl } from '../util/getLocalizedUrl';
+
+import type { LocalizerType } from '../types/Util';
+import type { DismissOptions } from './LeftPaneDialog';
+import type { WidthBreakpoint } from './_util';
 
 function contactSupportLink(parts: ReactNode): JSX.Element {
   const localizedSupportLink = getLocalizedUrl(
@@ -32,6 +35,7 @@ function contactSupportLink(parts: ReactNode): JSX.Element {
 export type PropsType = {
   containerWidthBreakpoint: WidthBreakpoint;
   dialogType: DialogType;
+  disableDismiss?: boolean;
   dismissDialog: () => void;
   downloadSize?: number;
   downloadedSize?: number;
@@ -45,6 +49,7 @@ export type PropsType = {
 export function DialogUpdate({
   containerWidthBreakpoint,
   dialogType,
+  disableDismiss,
   dismissDialog,
   downloadSize,
   downloadedSize,
@@ -215,6 +220,19 @@ export function DialogUpdate({
     title = i18n('icu:DialogUpdate__downloaded');
   }
 
+  let dismissOptions: DismissOptions = {
+    hasXButton: true,
+    onClose: snoozeUpdate,
+    closeLabel: i18n('icu:autoUpdateIgnoreButtonLabel'),
+  };
+  if (disableDismiss) {
+    dismissOptions = {
+      hasXButton: false,
+      onClose: undefined,
+      closeLabel: undefined,
+    };
+  }
+
   return (
     <LeftPaneDialog
       containerWidthBreakpoint={containerWidthBreakpoint}
@@ -225,9 +243,7 @@ export function DialogUpdate({
       hasAction
       onClick={startUpdate}
       clickLabel={clickLabel}
-      hasXButton
-      onClose={snoozeUpdate}
-      closeLabel={i18n('icu:autoUpdateIgnoreButtonLabel')}
+      {...dismissOptions}
     />
   );
 }

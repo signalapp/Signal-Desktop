@@ -235,6 +235,38 @@ export type SetPresentingOptionsType = Readonly<{
   callLinkRootKey?: string;
 }>;
 
+function getIncomingCallNotification(): boolean {
+  return window.storage.get('incoming-call-notification', true);
+}
+function getAlwaysRelayCalls(): boolean {
+  return window.storage.get('always-relay-calls', false);
+}
+
+function getPreferredAudioInputDevice(): AudioDevice | undefined {
+  return window.storage.get('preferred-audio-input-device');
+}
+async function setPreferredAudioInputDevice(
+  device: AudioDevice
+): Promise<void> {
+  await window.storage.put('preferred-audio-input-device', device);
+}
+
+function getPreferredAudioOutputDevice(): AudioDevice | undefined {
+  return window.storage.get('preferred-audio-output-device');
+}
+async function setPreferredAudioOutputDevice(
+  device: AudioDevice
+): Promise<void> {
+  await window.storage.put('preferred-audio-output-device', device);
+}
+
+function getPreferredVideoInputDevice(): string | undefined {
+  return window.storage.get('preferred-video-input-device');
+}
+async function setPreferredVideoInputDevice(device: string): Promise<void> {
+  await window.storage.put('preferred-video-input-device', device);
+}
+
 function truncateForLogging(name: string | undefined): string | undefined {
   if (!name || name.length <= 4) {
     return name;
@@ -2653,7 +2685,7 @@ export class CallingClass {
     const { availableCameras, availableMicrophones, availableSpeakers } =
       await this.getAvailableIODevices();
 
-    const preferredMicrophone = window.Events.getPreferredAudioInputDevice();
+    const preferredMicrophone = getPreferredAudioInputDevice();
     const selectedMicIndex = findBestMatchingAudioDeviceIndex(
       {
         available: availableMicrophones,
@@ -2666,7 +2698,7 @@ export class CallingClass {
         ? availableMicrophones[selectedMicIndex]
         : undefined;
 
-    const preferredSpeaker = window.Events.getPreferredAudioOutputDevice();
+    const preferredSpeaker = getPreferredAudioOutputDevice();
     const selectedSpeakerIndex = findBestMatchingAudioDeviceIndex(
       {
         available: availableSpeakers,
@@ -2679,7 +2711,7 @@ export class CallingClass {
         ? availableSpeakers[selectedSpeakerIndex]
         : undefined;
 
-    const preferredCamera = window.Events.getPreferredVideoInputDevice();
+    const preferredCamera = getPreferredVideoInputDevice();
     const selectedCamera = findBestMatchingCameraId(
       availableCameras,
       preferredCamera
@@ -2701,7 +2733,7 @@ export class CallingClass {
       device.index,
       truncateForLogging(device.name)
     );
-    void window.Events.setPreferredAudioInputDevice(device);
+    drop(setPreferredAudioInputDevice(device));
     RingRTC.setAudioInput(device.index);
   }
 
@@ -2711,7 +2743,7 @@ export class CallingClass {
       device.index,
       truncateForLogging(device.name)
     );
-    void window.Events.setPreferredAudioOutputDevice(device);
+    drop(setPreferredAudioOutputDevice(device));
     RingRTC.setAudioOutput(device.index);
   }
 
@@ -2749,7 +2781,7 @@ export class CallingClass {
 
   async setPreferredCamera(device: string): Promise<void> {
     log.info('MediaDevice: setPreferredCamera', device);
-    void window.Events.setPreferredVideoInputDevice(device);
+    drop(setPreferredVideoInputDevice(device));
     await this.#videoCapturer.setPreferredDevice(device);
   }
 
@@ -2760,7 +2792,7 @@ export class CallingClass {
     const logId = `CallingClass.handleCallingMessage(${envelope.timestamp})`;
     log.info(logId);
 
-    const enableIncomingCalls = window.Events.getIncomingCallNotification();
+    const enableIncomingCalls = getIncomingCallNotification();
     if (callingMessage.offer && !enableIncomingCalls) {
       // Drop offers silently if incoming call notifications are disabled.
       log.info(`${logId}: Incoming calls are disabled, ignoring call offer.`);
@@ -3078,7 +3110,7 @@ export class CallingClass {
         RingRTC.cancelGroupRing(groupIdBytes, ringId, null);
       } else if (this.#areAnyCallsActiveOrRinging()) {
         RingRTC.cancelGroupRing(groupIdBytes, ringId, RingCancelReason.Busy);
-      } else if (window.Events.getIncomingCallNotification()) {
+      } else if (getIncomingCallNotification()) {
         shouldRing = true;
       } else {
         log.info(
@@ -3633,7 +3665,7 @@ export class CallingClass {
       return false;
     }
 
-    const shouldRelayCalls = window.Events.getAlwaysRelayCalls();
+    const shouldRelayCalls = getAlwaysRelayCalls();
 
     // If the peer is not a Signal Connection, force IP hiding.
     const isContactUntrusted = !isSignalConnection(conversation.attributes);

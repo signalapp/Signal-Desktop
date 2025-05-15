@@ -13,7 +13,6 @@ import { NavTab } from '../state/ducks/nav';
 import { Tooltip, TooltipPlacement } from './Tooltip';
 import { Theme } from '../util/theme';
 import type { UnreadStats } from '../util/countUnreadStats';
-import { ContextMenu } from './ContextMenu';
 
 type NavTabsItemBadgesProps = Readonly<{
   i18n: LocalizerType;
@@ -72,25 +71,33 @@ function NavTabsItemBadges({
 }
 
 type NavTabProps = Readonly<{
+  hasError?: boolean;
   i18n: LocalizerType;
   iconClassName: string;
   id: NavTab;
-  hasError?: boolean;
   label: string;
+  navTabClassName: string;
   unreadStats: UnreadStats | null;
+  hasPendingUpdate?: boolean;
 }>;
 
 function NavTabsItem({
+  hasError,
   i18n,
   iconClassName,
   id,
   label,
+  navTabClassName,
   unreadStats,
-  hasError,
+  hasPendingUpdate,
 }: NavTabProps) {
   const isRTL = i18n.getLocaleDirection() === 'rtl';
   return (
-    <Tab id={id} data-testid={`NavTabsItem--${id}`} className="NavTabs__Item">
+    <Tab
+      id={id}
+      data-testid={`NavTabsItem--${id}`}
+      className={classNames('NavTabs__Item', navTabClassName)}
+    >
       <span className="NavTabs__ItemLabel">{label}</span>
       <Tooltip
         content={label}
@@ -108,6 +115,7 @@ function NavTabsItem({
               i18n={i18n}
               unreadStats={unreadStats}
               hasError={hasError}
+              hasPendingUpdate={hasPendingUpdate}
             />
           </span>
         </span>
@@ -187,14 +195,13 @@ export type NavTabsProps = Readonly<{
   i18n: LocalizerType;
   me: ConversationType;
   navTabsCollapsed: boolean;
-  onShowSettings: () => void;
-  onStartUpdate: () => unknown;
   onNavTabSelected: (tab: NavTab) => void;
   onToggleNavTabsCollapse: (collapsed: boolean) => void;
   onToggleProfileEditor: () => void;
   renderCallsTab: () => ReactNode;
   renderChatsTab: () => ReactNode;
   renderStoriesTab: () => ReactNode;
+  renderSettingsTab: () => ReactNode;
   selectedNavTab: NavTab;
   storiesEnabled: boolean;
   theme: ThemeType;
@@ -210,14 +217,13 @@ export function NavTabs({
   i18n,
   me,
   navTabsCollapsed,
-  onShowSettings,
-  onStartUpdate,
   onNavTabSelected,
   onToggleNavTabsCollapse,
   onToggleProfileEditor,
   renderCallsTab,
   renderChatsTab,
   renderStoriesTab,
+  renderSettingsTab,
   selectedNavTab,
   storiesEnabled,
   theme,
@@ -259,6 +265,7 @@ export function NavTabs({
             id={NavTab.Chats}
             label={i18n('icu:NavTabs__ItemLabel--Chats')}
             iconClassName="NavTabs__ItemIcon--Chats"
+            navTabClassName="NavTabs__Item--Chats"
             unreadStats={unreadConversationsStats}
           />
           <NavTabsItem
@@ -266,6 +273,7 @@ export function NavTabs({
             id={NavTab.Calls}
             label={i18n('icu:NavTabs__ItemLabel--Calls')}
             iconClassName="NavTabs__ItemIcon--Calls"
+            navTabClassName="NavTabs__Item--Calls"
             unreadStats={{
               unreadCount: unreadCallsCount,
               unreadMentionsCount: 0,
@@ -279,6 +287,7 @@ export function NavTabs({
               label={i18n('icu:NavTabs__ItemLabel--Stories')}
               iconClassName="NavTabs__ItemIcon--Stories"
               hasError={hasFailedStorySends}
+              navTabClassName="NavTabs__Item--Stories"
               unreadStats={{
                 unreadCount: unreadStoriesCount,
                 unreadMentionsCount: 0,
@@ -286,75 +295,21 @@ export function NavTabs({
               }}
             />
           )}
+          <NavTabsItem
+            i18n={i18n}
+            id={NavTab.Settings}
+            label={i18n('icu:NavTabs__ItemLabel--Settings')}
+            iconClassName="NavTabs__ItemIcon--Settings"
+            navTabClassName="NavTabs__Item--Settings"
+            unreadStats={{
+              unreadCount: unreadCallsCount,
+              unreadMentionsCount: 0,
+              markedUnread: false,
+            }}
+            hasPendingUpdate={hasPendingUpdate}
+          />
         </TabList>
         <div className="NavTabs__Misc">
-          <ContextMenu
-            i18n={i18n}
-            menuOptions={[
-              {
-                icon: 'NavTabs__ContextMenuIcon--Settings',
-                label: i18n('icu:NavTabs__ItemLabel--Settings'),
-                onClick: onShowSettings,
-              },
-              {
-                icon: 'NavTabs__ContextMenuIcon--Update',
-                label: i18n('icu:NavTabs__ItemLabel--Update'),
-                onClick: onStartUpdate,
-              },
-            ]}
-            popperOptions={{
-              placement: 'top-start',
-              strategy: 'absolute',
-            }}
-            portalToRoot
-          >
-            {({ onClick, onKeyDown, ref }) => {
-              return (
-                <button
-                  type="button"
-                  className="NavTabs__Item"
-                  onKeyDown={event => {
-                    if (hasPendingUpdate) {
-                      onKeyDown(event);
-                    }
-                  }}
-                  onClick={event => {
-                    if (hasPendingUpdate) {
-                      onClick(event);
-                    } else {
-                      onShowSettings();
-                    }
-                  }}
-                >
-                  <Tooltip
-                    content={i18n('icu:NavTabs__ItemLabel--Settings')}
-                    theme={Theme.Dark}
-                    direction={TooltipPlacement.Right}
-                    delay={600}
-                  >
-                    <span className="NavTabs__ItemButton" ref={ref}>
-                      <span className="NavTabs__ItemContent">
-                        <span
-                          role="presentation"
-                          className="NavTabs__ItemIcon NavTabs__ItemIcon--Settings"
-                        />
-                        <span className="NavTabs__ItemLabel">
-                          {i18n('icu:NavTabs__ItemLabel--Settings')}
-                        </span>
-
-                        <NavTabsItemBadges
-                          i18n={i18n}
-                          unreadStats={null}
-                          hasPendingUpdate={hasPendingUpdate}
-                        />
-                      </span>
-                    </span>
-                  </Tooltip>
-                </button>
-              );
-            }}
-          </ContextMenu>
-
           <button
             type="button"
             className="NavTabs__Item NavTabs__Item--Profile"
@@ -401,6 +356,9 @@ export function NavTabs({
       </TabPanel>
       <TabPanel id={NavTab.Stories} className="NavTabs__TabPanel">
         {renderStoriesTab}
+      </TabPanel>
+      <TabPanel id={NavTab.Settings} className="NavTabs__TabPanel">
+        {renderSettingsTab}
       </TabPanel>
     </Tabs>
   );

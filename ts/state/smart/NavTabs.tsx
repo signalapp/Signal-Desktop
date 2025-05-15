@@ -15,9 +15,7 @@ import {
   getHasAnyFailedStorySends,
   getStoriesNotificationCount,
 } from '../selectors/stories';
-import { showSettings } from '../../shims/Whisper';
 import { useGlobalModalActions } from '../ducks/globalModals';
-import { useUpdatesActions } from '../ducks/updates';
 import { getStoriesEnabled } from '../selectors/items';
 import { getSelectedNavTab } from '../selectors/nav';
 import type { NavTab } from '../ducks/nav';
@@ -31,6 +29,7 @@ export type SmartNavTabsProps = Readonly<{
   renderCallsTab: () => ReactNode;
   renderChatsTab: () => ReactNode;
   renderStoriesTab: () => ReactNode;
+  renderSettingsTab: () => ReactNode;
 }>;
 
 export const SmartNavTabs = memo(function SmartNavTabs({
@@ -39,6 +38,7 @@ export const SmartNavTabs = memo(function SmartNavTabs({
   renderCallsTab,
   renderChatsTab,
   renderStoriesTab,
+  renderSettingsTab,
 }: SmartNavTabsProps): JSX.Element {
   const i18n = useSelector(getIntl);
   const selectedNavTab = useSelector(getSelectedNavTab);
@@ -54,7 +54,6 @@ export const SmartNavTabs = memo(function SmartNavTabs({
   const hasPendingUpdate = useSelector(getHasPendingUpdate);
 
   const { toggleProfileEditor } = useGlobalModalActions();
-  const { startUpdate } = useUpdatesActions();
 
   const onNavTabSelected = useCallback(
     (tab: NavTab) => {
@@ -75,14 +74,13 @@ export const SmartNavTabs = memo(function SmartNavTabs({
       i18n={i18n}
       me={me}
       navTabsCollapsed={navTabsCollapsed}
-      onShowSettings={showSettings}
-      onStartUpdate={startUpdate}
       onNavTabSelected={onNavTabSelected}
       onToggleNavTabsCollapse={onToggleNavTabsCollapse}
       onToggleProfileEditor={toggleProfileEditor}
       renderCallsTab={renderCallsTab}
       renderChatsTab={renderChatsTab}
       renderStoriesTab={renderStoriesTab}
+      renderSettingsTab={renderSettingsTab}
       selectedNavTab={selectedNavTab}
       storiesEnabled={storiesEnabled}
       theme={theme}

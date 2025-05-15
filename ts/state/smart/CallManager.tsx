@@ -63,6 +63,9 @@ import { getActiveProfile } from '../selectors/notificationProfiles';
 function renderDeviceSelection(): JSX.Element {
   return <SmartCallingDeviceSelection />;
 }
+function getCallSystemNotification() {
+  return window.storage.get('call-system-notification', true);
+}
 
 const getGroupCallVideoFrameSource =
   callingService.getGroupCallVideoFrameSource.bind(callingService);
@@ -74,7 +77,7 @@ async function notifyForCall(
 ): Promise<void> {
   const shouldNotify =
     !window.SignalContext.activeWindowService.isActive() &&
-    window.Events.getCallSystemNotification();
+    getCallSystemNotification();
   if (!shouldNotify) {
     return;
   }

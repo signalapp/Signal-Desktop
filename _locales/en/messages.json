@@ -1682,6 +1682,10 @@
     "messageformat": "Need help?",
     "description": "Shown on the install screen. Link takes users to a support page"
   },
+  "icu:Preferences--header": {
+    "messageformat": "Settings",
+    "description": "Shown at the top of the settings tab when open"
+  },
   "icu:Preferences--phone-number": {
     "messageformat": "Phone Number",
     "description": "The label in settings panel shown for the phone number associated with user's account"

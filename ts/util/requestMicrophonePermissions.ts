@@ -9,7 +9,7 @@ export async function requestMicrophonePermissions(
     await window.IPC.showPermissionsPopup(forCalling, false);
 
     // Check the setting again (from the source of truth).
-    return window.IPC.getMediaPermissions();
+    return window.Events.getMediaPermissions();
   }
 
   return true;

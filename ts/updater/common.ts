@@ -34,18 +34,15 @@ import {
   isNotUpdatable,
   isStaging,
 } from '../util/version';
+import { isPathInside } from '../util/isPathInside';
 
 import * as packageJson from '../../package.json';
-import type { SettingsChannel } from '../main/settingsChannel';
-import { isPathInside } from '../util/isPathInside';
+
 import {
   getSignatureFileName,
   hexToBinary,
   verifySignature,
 } from './signature';
-
-import type { LoggerType } from '../types/Logging';
-import type { PrepareDownloadResultType as DifferentialDownloadDataType } from './differential';
 import {
   download as downloadDifferentialData,
   getBlockMapFileName,
@@ -59,6 +56,10 @@ import {
   gracefulRmRecursive,
   isTimeToUpdate,
 } from './util';
+
+import type { LoggerType } from '../types/Logging';
+import type { PrepareDownloadResultType as DifferentialDownloadDataType } from './differential';
+import type { MainSQL } from '../sql/main';
 
 const POLL_INTERVAL = 30 * durations.MINUTE;
 
@@ -109,10 +110,10 @@ type DownloadUpdateResultType = Readonly<{
 }>;
 
 export type UpdaterOptionsType = Readonly<{
-  settingsChannel: SettingsChannel;
-  logger: LoggerType;
-  getMainWindow: () => BrowserWindow | undefined;
   canRunSilently: () => boolean;
+  getMainWindow: () => BrowserWindow | undefined;
+  logger: LoggerType;
+  sql: MainSQL;
 }>;
 
 enum CheckType {
@@ -134,7 +135,7 @@ export abstract class Updater {
 
   protected readonly logger: LoggerType;
 
-  readonly #settingsChannel: SettingsChannel;
+  readonly #sql: MainSQL;
 
   protected readonly getMainWindow: () => BrowserWindow | undefined;
 
@@ -157,15 +158,15 @@ export abstract class Updater {
   #pollId = getGuid();
 
   constructor({
-    settingsChannel,
-    logger,
-    getMainWindow,
     canRunSilently,
+    getMainWindow,
+    logger,
+    sql,
   }: UpdaterOptionsType) {
-    this.#settingsChannel = settingsChannel;
-    this.logger = logger;
-    this.getMainWindow = getMainWindow;
     this.#canRunSilently = canRunSilently;
+    this.getMainWindow = getMainWindow;
+    this.logger = logger;
+    this.#sql = sql;
 
     this.#throttledSendDownloadingUpdate = throttle(
       (downloadedSize: number, downloadSize: number) => {
@@ -921,9 +922,11 @@ export abstract class Updater {
 
   async #getAutoDownloadUpdateSetting(): Promise<boolean> {
     try {
-      return await this.#settingsChannel.getSettingFromMainWindow(
-        'autoDownloadUpdate'
+      const result = await this.#sql.sqlRead(
+        'getItemById',
+        'auto-download-update'
       );
+      return result?.value ?? true;
     } catch (error) {
       this.logger.warn(
         'getAutoDownloadUpdateSetting: Failed to fetch, returning false',

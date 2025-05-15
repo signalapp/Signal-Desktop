@@ -1173,9 +1173,6 @@ async function readyForUpdates() {
       'SettingsChannel must be initialized'
     );
     await updater.start({
-      settingsChannel,
-      logger: getLogger(),
-      getMainWindow,
       canRunSilently: () => {
         return (
           systemTrayService?.isVisible() === true &&
@@ -1183,6 +1180,9 @@ async function readyForUpdates() {
           mainWindow?.webContents?.getBackgroundThrottling() !== false
         );
       },
+      getMainWindow,
+      logger: getLogger(),
+      sql,
     });
   } catch (error) {
     getLogger().error(
@@ -1421,57 +1421,6 @@ async function showAbout() {
   await safeLoadURL(
     aboutWindow,
     await prepareFileUrl([__dirname, '../about.html'])
-  );
-}
-
-let settingsWindow: BrowserWindow | undefined;
-async function showSettingsWindow() {
-  if (settingsWindow) {
-    settingsWindow.show();
-    return;
-  }
-
-  const options = {
-    width: 700,
-    height: 700,
-    frame: true,
-    resizable: false,
-    title: getResolvedMessagesLocale().i18n('icu:signalDesktopPreferences'),
-    titleBarStyle: mainTitleBarStyle,
-    autoHideMenuBar: true,
-    backgroundColor: await getBackgroundColor(),
-    show: false,
-    webPreferences: {
-      ...defaultWebPrefs,
-      nodeIntegration: false,
-      nodeIntegrationInWorker: false,
-      sandbox: true,
-      contextIsolation: true,
-      preload: join(__dirname, '../bundles/settings/preload.js'),
-      nativeWindowOpen: true,
-    },
-  };
-
-  settingsWindow = new BrowserWindow(options);
-
-  await handleCommonWindowEvents(settingsWindow);
-
-  settingsWindow.on('closed', () => {
-    settingsWindow = undefined;
-  });
-
-  ipc.once('settings-done-rendering', () => {
-    if (!settingsWindow) {
-      getLogger().warn('settings-done-rendering: no settingsWindow available!');
-      return;
-    }
-
-    settingsWindow.show();
-  });
-
-  await safeLoadURL(
-    settingsWindow,
-    await prepareFileUrl([__dirname, '../settings.html'])
   );
 }
 
@@ -2310,6 +2259,8 @@ app.on('ready', async () => {
     },
   });
 
+  appStartInitialSpellcheckSetting = await getSpellCheckSetting();
+
   // Run window preloading in parallel with database initialization.
   await createWindow();
 
@@ -2321,8 +2272,6 @@ app.on('ready', async () => {
 
     return;
   }
-
-  appStartInitialSpellcheckSetting = await getSpellCheckSetting();
 
   try {
     const IDB_KEY = 'indexeddb-delete-needed';
@@ -2382,7 +2331,15 @@ function setupMenu(options?: Partial<CreateTemplateOptionsType>) {
     showDebugLog: showDebugLogWindow,
     showCallingDevTools: showCallingDevToolsWindow,
     showKeyboardShortcuts,
-    showSettings: showSettingsWindow,
+    showSettings: () => {
+      if (!settingsChannel) {
+        getLogger().warn(
+          'showSettings: No settings channel; cannot open settings tab.'
+        );
+        return;
+      }
+      settingsChannel.openSettingsTab();
+    },
     showWindow,
     zoomIn,
     zoomOut,
@@ -2749,17 +2706,6 @@ function removeDarkOverlay() {
     mainWindow.webContents.send('remove-dark-overlay');
   }
 }
-
-ipc.on('show-settings', showSettingsWindow);
-
-ipc.on('delete-all-data', () => {
-  if (settingsWindow) {
-    settingsWindow.close();
-  }
-  if (mainWindow && mainWindow.webContents) {
-    mainWindow.webContents.send('delete-all-data');
-  }
-});
 
 ipc.on('get-config', async event => {
   const theme = await getResolvedThemeSetting();

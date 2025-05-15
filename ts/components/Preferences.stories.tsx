@@ -5,13 +5,17 @@ import type { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
 
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './Preferences';
 import { Page, Preferences } from './Preferences';
 import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors';
 import { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
 import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability';
 import { EmojiSkinTone } from './fun/data/emojis';
 import { DAY, DurationInSeconds, WEEK } from '../util/durations';
+import { DialogUpdate } from './DialogUpdate';
+import { DialogType } from '../types/Dialogs';
+
+import type { PropsType } from './Preferences';
+import type { WidthBreakpoint } from './_util';
 
 const { i18n } = window.SignalContext;
 
@@ -64,6 +68,26 @@ const exportLocalBackupResult = {
   ...validateBackupResult,
   snapshotDir: '/home/signaluser/SignalBackups/signal-backup-1745618069169',
 };
+
+function renderUpdateDialog(
+  props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
+): JSX.Element {
+  return (
+    <DialogUpdate
+      i18n={i18n}
+      containerWidthBreakpoint={props.containerWidthBreakpoint}
+      dialogType={DialogType.DownloadReady}
+      downloadSize={100000}
+      downloadedSize={50000}
+      version="8.99.0"
+      currentVersion="8.98.00"
+      disableDismiss
+      dismissDialog={action('dismissDialog')}
+      snoozeUpdate={action('snoozeUpdate')}
+      startUpdate={action('startUpdate')}
+    />
+  );
+}
 
 export default {
   title: 'Components/Preferences',
@@ -123,6 +147,7 @@ export default {
     hasMinimizeToSystemTray: true,
     hasNotificationAttention: false,
     hasNotifications: true,
+    hasPendingUpdate: false,
     hasReadReceipts: true,
     hasRelayCalls: false,
     hasSpellCheck: true,
@@ -140,6 +165,7 @@ export default {
     isContentProtectionSupported: true,
     isContentProtectionNeeded: true,
     isMinimizeToAndStartInSystemTraySupported: true,
+    isUpdateDownloaded: false,
     lastSyncTime: Date.now(),
     localeOverride: null,
     notificationContent: 'name',
@@ -156,12 +182,11 @@ export default {
     whoCanSeeMe: PhoneNumberSharingMode.Everybody,
     zoomFactor: 1,
 
-    getConversationsWithCustomColor: () => Promise.resolve([]),
+    renderUpdateDialog,
+    getConversationsWithCustomColor: () => [],
 
     addCustomColor: action('addCustomColor'),
-    closeSettings: action('closeSettings'),
     doDeleteAllData: action('doDeleteAllData'),
-    doneRendering: action('doneRendering'),
     editCustomColor: action('editCustomColor'),
     exportLocalBackup: async () => {
       return {
@@ -211,6 +236,7 @@ export default {
     onSelectedSpeakerChange: action('onSelectedSpeakerChange'),
     onSentMediaQualityChange: action('onSentMediaQualityChange'),
     onSpellCheckChange: action('onSpellCheckChange'),
+    onStartUpdate: action('onStartUpdate'),
     onTextFormattingChange: action('onTextFormattingChange'),
     onThemeChange: action('onThemeChange'),
     onUniversalExpireTimerChange: action('onUniversalExpireTimerChange'),
@@ -349,4 +375,14 @@ export const Internal = Template.bind({});
 Internal.args = {
   initialPage: Page.Internal,
   isInternalUser: true,
+};
+
+export const UpdateAvailable = Template.bind({});
+UpdateAvailable.args = {
+  hasPendingUpdate: true,
+};
+
+export const UpdateDownloaded = Template.bind({});
+UpdateDownloaded.args = {
+  isUpdateDownloaded: true,
 };

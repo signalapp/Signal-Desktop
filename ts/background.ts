@@ -215,6 +215,7 @@ import { waitForEvent } from './shims/events';
 import { sendSyncRequests } from './textsecure/syncRequests';
 import { handleServerAlerts } from './util/handleServerAlerts';
 import { isLocalBackupsEnabled } from './util/isLocalBackupsEnabled';
+import { NavTab } from './state/ducks/nav';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -1354,6 +1355,10 @@ export async function startApp(): Promise<void> {
 
   window.Whisper.events.on('setupAsStandalone', () => {
     window.reduxActions.app.openStandalone();
+  });
+
+  window.Whisper.events.on('openSettingsTab', () => {
+    window.reduxActions.nav.changeNavTab(NavTab.Settings);
   });
 
   window.Whisper.events.on('powerMonitorSuspend', () => {
