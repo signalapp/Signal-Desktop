@@ -3,6 +3,7 @@
 import Long from 'long';
 import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
 import { omit } from 'lodash';
+import { existsSync } from 'node:fs';
 
 import {
   APPLICATION_OCTET_STREAM,
@@ -455,9 +456,15 @@ export async function getLocalBackupFilePointerForAttachment({
       getBackupCdnInfo,
     });
 
-  // localKey is required to export to the local backup. If it's missing then fall back
-  // to the filePointer which would have been generated for a remote backup.
-  if (attachment.localKey == null) {
+  // If a file disappeared locally (maybe we downloaded it and it disappeared)
+  // or localKey is missing, then we can't export to a local backup.
+  // Fallback to the filePointer which would have been generated for a remote backup.
+  const isAttachmentMissingLocally =
+    attachment.path == null ||
+    !existsSync(
+      window.Signal.Migrations.getAbsoluteAttachmentPath(attachment.path)
+    );
+  if (isAttachmentMissingLocally || attachment.localKey == null) {
     return { filePointer: remoteFilePointer, updatedAttachment };
   }
 
