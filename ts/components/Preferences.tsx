@@ -74,6 +74,8 @@ import { PreferencesBackups } from './PreferencesBackups';
 import { PreferencesInternal } from './PreferencesInternal';
 import { FunEmojiLocalizationProvider } from './fun/FunEmojiLocalizationProvider';
 import type { ValidateLocalBackupStructureResultType } from '../services/backups/util/localBackup';
+import { NavTabsToggle } from './NavTabs';
+import type { UnreadStats } from '../util/countUnreadStats';
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
@@ -134,9 +136,12 @@ export type PropsDataType = {
   resolvedLocale: string;
 
   // Other props
+  hasFailedStorySends: boolean;
   hasPendingUpdate: boolean;
   initialSpellCheckSetting: boolean;
   isUpdateDownloaded: boolean;
+  navTabsCollapsed: boolean;
+  otherTabsUnreadStats: UnreadStats;
 
   // Limited support features
   isAutoDownloadUpdatesSupported: boolean;
@@ -220,6 +225,7 @@ type PropsFunctionType = {
   onSpellCheckChange: CheckboxChangeHandlerType;
   onTextFormattingChange: CheckboxChangeHandlerType;
   onThemeChange: SelectChangeHandlerType<ThemeType>;
+  onToggleNavTabsCollapse: (navTabsCollapsed: boolean) => void;
   onUniversalExpireTimerChange: SelectChangeHandlerType<number>;
   onWhoCanSeeMeChange: SelectChangeHandlerType<PhoneNumberSharingMode>;
   onWhoCanFindMeChange: SelectChangeHandlerType<PhoneNumberDiscoverability>;
@@ -305,6 +311,7 @@ export function Preferences({
   hasCallRingtoneNotification,
   hasContentProtection,
   hasCountMutedConversations,
+  hasFailedStorySends,
   hasHideMenuBar,
   hasIncomingCallNotifications,
   hasLinkPreviews,
@@ -339,6 +346,7 @@ export function Preferences({
   isUpdateDownloaded,
   lastSyncTime,
   makeSyncRequest,
+  navTabsCollapsed,
   notificationContent,
   onAudioNotificationsChange,
   onAutoConvertEmojiChange,
@@ -371,10 +379,12 @@ export function Preferences({
   onSpellCheckChange,
   onTextFormattingChange,
   onThemeChange,
+  onToggleNavTabsCollapse,
   onUniversalExpireTimerChange,
   onWhoCanSeeMeChange,
   onWhoCanFindMeChange,
   onZoomFactorChange,
+  otherTabsUnreadStats,
   phoneNumber = '',
   preferredSystemLocales,
   refreshCloudBackupStatus,
@@ -1837,9 +1847,23 @@ export function Preferences({
       <div className="module-title-bar-drag-area" />
       <div className="Preferences">
         <div className="Preferences__page-selector">
-          <h1 className="Preferences__header">
-            {i18n('icu:Preferences--header')}
-          </h1>
+          <div className="Preferences__header">
+            {navTabsCollapsed ? (
+              <div className="Preferences__header__toggle">
+                <NavTabsToggle
+                  i18n={i18n}
+                  onToggleNavTabsCollapse={onToggleNavTabsCollapse}
+                  navTabsCollapsed
+                  hasFailedStorySends={hasFailedStorySends}
+                  otherTabsUnreadStats={otherTabsUnreadStats}
+                  hasPendingUpdate={false}
+                />
+              </div>
+            ) : undefined}
+            <h1 className="Preferences__header__text">
+              {i18n('icu:Preferences--header')}
+            </h1>
+          </div>
           {maybeUpdateDialog ? (
             <div className="module-left-pane__dialogs">{maybeUpdateDialog}</div>
           ) : null}

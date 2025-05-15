@@ -137,6 +137,7 @@ export default {
     hasCallRingtoneNotification: false,
     hasContentProtection: false,
     hasCountMutedConversations: false,
+    hasFailedStorySends: false,
     hasHideMenuBar: false,
     hasIncomingCallNotifications: true,
     hasLinkPreviews: true,
@@ -168,7 +169,13 @@ export default {
     isUpdateDownloaded: false,
     lastSyncTime: Date.now(),
     localeOverride: null,
+    navTabsCollapsed: false,
     notificationContent: 'name',
+    otherTabsUnreadStats: {
+      unreadCount: 0,
+      unreadMentionsCount: 0,
+      markedUnread: false,
+    },
     preferredSystemLocales: ['en'],
     resolvedLocale: 'en',
     selectedCamera:
@@ -239,6 +246,7 @@ export default {
     onStartUpdate: action('onStartUpdate'),
     onTextFormattingChange: action('onTextFormattingChange'),
     onThemeChange: action('onThemeChange'),
+    onToggleNavTabsCollapse: action('onToggleNavTabsCollapse'),
     onUniversalExpireTimerChange: action('onUniversalExpireTimerChange'),
     onWhoCanSeeMeChange: action('onWhoCanSeeMeChange'),
     onWhoCanFindMeChange: action('onWhoCanFindMeChange'),
@@ -385,4 +393,31 @@ UpdateAvailable.args = {
 export const UpdateDownloaded = Template.bind({});
 UpdateDownloaded.args = {
   isUpdateDownloaded: true,
+};
+
+export const NavTabsCollapsed = Template.bind({});
+NavTabsCollapsed.args = {
+  navTabsCollapsed: true,
+};
+
+export const NavTabsCollapsedWithBadges = Template.bind({});
+NavTabsCollapsedWithBadges.args = {
+  navTabsCollapsed: true,
+  hasFailedStorySends: false,
+  otherTabsUnreadStats: {
+    unreadCount: 1,
+    unreadMentionsCount: 2,
+    markedUnread: false,
+  },
+};
+
+export const NavTabsCollapsedWithExclamation = Template.bind({});
+NavTabsCollapsedWithExclamation.args = {
+  navTabsCollapsed: true,
+  hasFailedStorySends: true,
+  otherTabsUnreadStats: {
+    unreadCount: 1,
+    unreadMentionsCount: 2,
+    markedUnread: true,
+  },
 };

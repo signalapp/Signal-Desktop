@@ -34,6 +34,19 @@ $secondary-text-color: light-dark(
   }
 
   &__header {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__header__toggle {
+    flex-grow: 0;
+    min-width: 80px;
+    width: 80px;
+    margin-inline-end: -24px;
+  }
+
+  &__header__text {
+    flex-grow: 1;
     margin-inline-start: 24px;
     @include mixins.font-title-medium;
     line-height: 20px;

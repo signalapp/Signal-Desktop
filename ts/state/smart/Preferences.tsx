@@ -8,7 +8,11 @@ import type { AudioDevice } from '@signalapp/ringrtc';
 import { useItemsActions } from '../ducks/items';
 import { useConversationsActions } from '../ducks/conversations';
 import { getConversationsWithCustomColorSelector } from '../selectors/conversations';
-import { getCustomColors, getItems } from '../selectors/items';
+import {
+  getCustomColors,
+  getItems,
+  getNavTabsCollapsed,
+} from '../selectors/items';
 import { DEFAULT_AUTO_DOWNLOAD_ATTACHMENT } from '../../textsecure/Storage';
 import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors';
 import { isBackupFeatureEnabledForRedux } from '../../util/isBackupEnabled';
@@ -49,6 +53,8 @@ import {
   getHasPendingUpdate,
   isUpdateDownloaded as getIsUpdateDownloaded,
 } from '../selectors/updates';
+import { getHasAnyFailedStorySends } from '../selectors/stories';
+import { getOtherTabsUnreadStats } from '../selectors/nav';
 
 const DEFAULT_NOTIFICATION_SETTING = 'message';
 
@@ -94,6 +100,7 @@ export function SmartPreferences(): JSX.Element {
     resetDefaultChatColor,
     setEmojiSkinToneDefault: onEmojiSkinToneDefaultChange,
     setGlobalDefaultConversationColor,
+    toggleNavTabsCollapse,
   } = useItemsActions();
   const { removeCustomColorOnConversations, resetAllChatColors } =
     useConversationsActions();
@@ -109,6 +116,9 @@ export function SmartPreferences(): JSX.Element {
   const i18n = useSelector(getIntl);
   const hasPendingUpdate = useSelector(getHasPendingUpdate);
   const isUpdateDownloaded = useSelector(getIsUpdateDownloaded);
+  const navTabsCollapsed = useSelector(getNavTabsCollapsed);
+  const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
+  const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
 
   // The weird ones
 
@@ -604,6 +614,7 @@ export function SmartPreferences(): JSX.Element {
         hasCallRingtoneNotification={hasCallRingtoneNotification}
         hasContentProtection={hasContentProtection}
         hasCountMutedConversations={hasCountMutedConversations}
+        hasFailedStorySends={hasFailedStorySends}
         hasHideMenuBar={hasHideMenuBar}
         hasIncomingCallNotifications={hasIncomingCallNotifications}
         hasLinkPreviews={hasLinkPreviews}
@@ -640,6 +651,7 @@ export function SmartPreferences(): JSX.Element {
         lastSyncTime={lastSyncTime}
         localeOverride={localeOverride}
         makeSyncRequest={makeSyncRequest}
+        navTabsCollapsed={navTabsCollapsed}
         notificationContent={notificationContent}
         onAudioNotificationsChange={onAudioNotificationsChange}
         onAutoConvertEmojiChange={onAutoConvertEmojiChange}
@@ -675,10 +687,12 @@ export function SmartPreferences(): JSX.Element {
         onSpellCheckChange={onSpellCheckChange}
         onTextFormattingChange={onTextFormattingChange}
         onThemeChange={onThemeChange}
+        onToggleNavTabsCollapse={toggleNavTabsCollapse}
         onUniversalExpireTimerChange={onUniversalExpireTimerChange}
         onWhoCanFindMeChange={onWhoCanFindMeChange}
         onWhoCanSeeMeChange={onWhoCanSeeMeChange}
         onZoomFactorChange={onZoomFactorChange}
+        otherTabsUnreadStats={otherTabsUnreadStats}
         preferredSystemLocales={preferredSystemLocales}
         refreshCloudBackupStatus={refreshCloudBackupStatus}
         refreshBackupSubscriptionStatus={refreshBackupSubscriptionStatus}
