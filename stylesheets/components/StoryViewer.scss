@@ -362,8 +362,11 @@
     & {
       align-items: center;
       display: flex;
-      height: 100%;
       position: absolute;
+      top: var(--title-bar-drag-area-height);
+      bottom: 0;
+      // To keep contents vertically centered in the window
+      padding-block-end: var(--title-bar-drag-area-height);
       width: 25%;
       z-index: variables.$z-index-above-above-base;
     }
