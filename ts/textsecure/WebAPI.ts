@@ -503,7 +503,6 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
   ) {
     if (options.zodSchema) {
       result = parseUnknown(options.zodSchema, result);
-      log.info(logId, 'Zod schema applied');
     }
     if (options.validateResponse) {
       if (!_validateResponse(result, options.validateResponse)) {
