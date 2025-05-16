@@ -9107,7 +9107,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## tungstenite 0.21.0, tungstenite 0.23.0
+## tungstenite 0.21.0, tungstenite 0.26.2
 
 ```
 Copyright (c) 2017 Alexey Galakhov
@@ -9226,7 +9226,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## tokio-tungstenite 0.21.0, tokio-tungstenite 0.23.1
+## tokio-tungstenite 0.21.0, tokio-tungstenite 0.26.2
 
 ```
 Copyright (c) 2017 Daniel Abramov
@@ -11723,7 +11723,7 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ```
 
-## tokio-stream 0.1.17, tokio-util 0.7.14, tokio 1.44.2
+## tokio-stream 0.1.17, tokio-util 0.7.14, tokio 1.45.0
 
 ```
 MIT License
