@@ -1613,7 +1613,7 @@ export class BackupExportStream extends Readable {
 
       individualCall.type = toIndividualCallTypeProto(type);
       individualCall.direction = toIndividualCallDirectionProto(direction);
-      individualCall.state = toIndividualCallStateProto(status);
+      individualCall.state = toIndividualCallStateProto(status, direction);
       individualCall.startedCallTimestamp = Long.fromNumber(timestamp);
       individualCall.read = message.seenStatus === SeenStatus.Seen;
 
@@ -3266,7 +3266,8 @@ function toIndividualCallTypeProto(
 }
 
 function toIndividualCallStateProto(
-  status: CallStatus
+  status: CallStatus,
+  direction: CallDirection
 ): Backups.IndividualCall.State {
   const values = Backups.IndividualCall.State;
 
@@ -3281,6 +3282,15 @@ function toIndividualCallStateProto(
   }
   if (status === DirectCallStatus.MissedNotificationProfile) {
     return values.MISSED_NOTIFICATION_PROFILE;
+  }
+
+  if (status === DirectCallStatus.Pending) {
+    if (direction === CallDirection.Incoming) {
+      return values.MISSED;
+    }
+    if (direction === CallDirection.Outgoing) {
+      return values.NOT_ACCEPTED;
+    }
   }
 
   if (status === DirectCallStatus.Deleted) {
