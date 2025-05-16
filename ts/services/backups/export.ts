@@ -29,6 +29,7 @@ import { StorySendMode, MY_STORY_ID } from '../../types/Stories';
 import { getStickerPacksForBackup } from '../../types/Stickers';
 import {
   isPniString,
+  isServiceIdString,
   type AciString,
   type ServiceIdString,
 } from '../../types/ServiceId';
@@ -152,6 +153,8 @@ import { trimBody } from '../../util/longAttachment';
 import { generateBackupsSubscriberData } from '../../util/backupSubscriptionData';
 import { getEnvironment, isTestEnvironment } from '../../environment';
 import { calculateLightness } from '../../util/getHSL';
+import { isSignalServiceId } from '../../util/isSignalConversation';
+import { isValidE164 } from '../../util/isValidE164';
 import { toDayOfWeekArray } from '../../types/NotificationProfile';
 import { getLinkPreviewSetting } from '../../types/LinkPreview';
 import { getTypingIndicatorSetting } from '../../types/Util';
@@ -375,6 +378,7 @@ export class BackupExportStream extends Readable {
       })
     );
 
+    const skippedConversationIds = new Set<string>();
     for (const { attributes } of window.ConversationController.getAll()) {
       const recipientId = this.#getRecipientId(attributes);
 
@@ -384,6 +388,7 @@ export class BackupExportStream extends Readable {
         identityKeysById
       );
       if (recipient === undefined) {
+        skippedConversationIds.add(attributes.id);
         // Can't be backed up.
         continue;
       }
@@ -517,6 +522,10 @@ export class BackupExportStream extends Readable {
     for (const { attributes } of window.ConversationController.getAll()) {
       if (isGroupV1(attributes)) {
         log.warn('backups: skipping gv1 conversation');
+        continue;
+      }
+
+      if (skippedConversationIds.has(attributes.id)) {
         continue;
       }
 
@@ -713,35 +722,35 @@ export class BackupExportStream extends Readable {
           await DataReader.pageMessages(cursor);
 
         // eslint-disable-next-line no-await-in-loop
-        const items = await pMap(
+        await pMap(
           messages,
-          message =>
-            this.#toChatItem(message, {
+          async message => {
+            const chatItem = await this.#toChatItem(message, {
               aboutMe,
               callHistoryByCallId,
               backupLevel,
               isLocalBackup,
-            }),
+            });
+
+            if (chatItem === undefined) {
+              this.#stats.skippedMessages += 1;
+              // Can't be backed up.
+              return;
+            }
+
+            this.#pushFrame({
+              chatItem,
+            });
+
+            this.#stats.messages += 1;
+          },
           { concurrency: MAX_CONCURRENCY }
         );
 
-        for (const chatItem of items) {
-          if (chatItem === undefined) {
-            this.#stats.skippedMessages += 1;
-            // Can't be backed up.
-            continue;
-          }
-
-          this.#pushFrame({
-            chatItem,
-          });
-
-          // eslint-disable-next-line no-await-in-loop
-          await this.#flush();
-          this.#stats.messages += 1;
-        }
-
         cursor = newCursor;
+
+        // eslint-disable-next-line no-await-in-loop
+        await this.#flush();
       }
     } finally {
       if (cursor !== undefined) {
@@ -983,6 +992,27 @@ export class BackupExportStream extends Readable {
         avatarColor: toAvatarColor(convo.color),
       };
     } else if (isDirectConversation(convo)) {
+      // Skip story onboarding conversation and other internal conversations.
+      if (
+        convo.serviceId != null &&
+        (isSignalServiceId(convo.serviceId) ||
+          !isServiceIdString(convo.serviceId))
+      ) {
+        log.warn(
+          'backups: skipping conversation with invalid serviceId',
+          convo.serviceId
+        );
+        return undefined;
+      }
+
+      if (convo.e164 != null && !isValidE164(convo.e164, true)) {
+        log.warn(
+          'backups: skipping conversation with invalid e164',
+          convo.serviceId
+        );
+        return undefined;
+      }
+
       let visibility: Backups.Contact.Visibility;
       if (convo.removalStage == null) {
         visibility = Backups.Contact.Visibility.VISIBLE;
@@ -1714,10 +1744,17 @@ export class BackupExportStream extends Readable {
       }
 
       if (message.changedId) {
+        const changedConvo = window.ConversationController.get(
+          message.changedId
+        );
+        if (!changedConvo) {
+          throw new Error(
+            'toChatItemUpdate/profileChange: changedId conversation not found!'
+          );
+        }
+
         // This will override authorId on the original chatItem
-        patch.authorId = this.#getOrPushPrivateRecipient({
-          id: message.changedId,
-        });
+        patch.authorId = this.#getOrPushPrivateRecipient(changedConvo);
       }
 
       const { newName, oldName } = message.profileChange;
@@ -1835,6 +1872,14 @@ export class BackupExportStream extends Readable {
         return { kind: NonBubbleResultKind.Drop };
       }
       threadMerge.previousE164 = Long.fromString(e164);
+
+      // Conversation merges generated on Desktop side never has
+      // `sourceServiceId` and thus are attributed to our conversation.
+      // However, we need to include proper `authorId` for compatibility with
+      // other clients.
+      patch.authorId = this.#getOrPushPrivateRecipient({
+        id: message.conversationId,
+      });
 
       updateMessage.threadMerge = threadMerge;
 
@@ -2401,6 +2446,10 @@ export class BackupExportStream extends Readable {
       quoteType = Backups.Quote.Type.VIEW_ONCE;
     } else {
       quoteType = Backups.Quote.Type.NORMAL;
+      if (quote.text == null && quote.attachments.length === 0) {
+        log.warn('backups: normal quote has no text or attachments');
+        return null;
+      }
     }
 
     return {
