@@ -751,7 +751,7 @@ export async function runDownloadAttachmentJobInner({
       !preferBackupThumbnail
     ) {
       log.error(
-        `${logId}: failed to download fullsize attachment, falling back to thumbnail`,
+        `${logId}: failed to download fullsize attachment, falling back to backup thumbnail`,
         Errors.toLogFormat(error)
       );
       try {
