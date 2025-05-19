@@ -141,6 +141,11 @@ async function handleServerKeys(
           `getKeysForIdentifier/${serviceId}: Missing signed prekey for deviceId ${deviceId}`
         );
       }
+      if (!pqPreKey) {
+        throw new Error(
+          `getKeysForIdentifier/${serviceId}: Missing signed PQ prekey for deviceId ${deviceId}`
+        );
+      }
       const protocolAddress = ProtocolAddress.new(serviceId, deviceId);
       const preKeyId = preKey?.keyId || null;
       const preKeyObject = preKey
@@ -153,13 +158,11 @@ async function handleServerKeys(
         Buffer.from(response.identityKey)
       );
 
-      const pqPreKeyId = pqPreKey?.keyId || null;
-      const pqPreKeyPublic = pqPreKey
-        ? KEMPublicKey.deserialize(Buffer.from(pqPreKey.publicKey))
-        : null;
-      const pqPreKeySignature = pqPreKey
-        ? Buffer.from(pqPreKey.signature)
-        : null;
+      const pqPreKeyId = pqPreKey.keyId;
+      const pqPreKeyPublic = KEMPublicKey.deserialize(
+        Buffer.from(pqPreKey.publicKey)
+      );
+      const pqPreKeySignature = Buffer.from(pqPreKey.signature);
 
       const preKeyBundle = PreKeyBundle.new(
         registrationId,
