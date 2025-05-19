@@ -9,6 +9,7 @@ export type MenuOptionsType = Readonly<{
   development: boolean;
   devTools: boolean;
   includeSetup: boolean;
+  isNightly: boolean;
   isProduction: boolean;
   platform: string;
 }>;
@@ -29,6 +30,7 @@ export type MenuActionsType = Readonly<{
   showKeyboardShortcuts: () => unknown;
   showSettings: () => unknown;
   showWindow: () => unknown;
+  stageLocalBackupForImport: () => unknown;
   zoomIn: () => unknown;
   zoomOut: () => unknown;
   zoomReset: () => unknown;

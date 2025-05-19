@@ -100,7 +100,7 @@ import type { CreateTemplateOptionsType } from './menu';
 import { createTemplate } from './menu';
 import { installFileHandler, installWebHandler } from './protocol_filter';
 import OS from '../ts/util/os/osMain';
-import { isProduction } from '../ts/util/version';
+import { isNightly, isProduction } from '../ts/util/version';
 import { clearTimeoutIfNecessary } from '../ts/util/clearTimeoutIfNecessary';
 import { toggleMaximizedBrowserWindow } from '../ts/util/toggleMaximizedBrowserWindow';
 import { ChallengeMainHandler } from '../ts/main/challengeMain';
@@ -1259,6 +1259,12 @@ function setupAsStandalone() {
   }
 }
 
+function stageLocalBackupForImport() {
+  if (mainWindow) {
+    mainWindow.webContents.send('stage-local-backup-for-import');
+  }
+}
+
 let screenShareWindow: BrowserWindow | undefined;
 async function showScreenShareWindow(sourceName: string | undefined) {
   if (screenShareWindow) {
@@ -2309,12 +2315,14 @@ app.on('ready', async () => {
 
 function setupMenu(options?: Partial<CreateTemplateOptionsType>) {
   const { platform } = process;
+  const version = app.getVersion();
   menuOptions = {
     // options
     development,
     devTools: defaultWebPrefs.devTools,
     includeSetup: false,
-    isProduction: isProduction(app.getVersion()),
+    isNightly: isNightly(version),
+    isProduction: isProduction(version),
     platform,
 
     // actions
@@ -2327,6 +2335,7 @@ function setupMenu(options?: Partial<CreateTemplateOptionsType>) {
     openSupportPage,
     setupAsNewDevice,
     setupAsStandalone,
+    stageLocalBackupForImport,
     showAbout,
     showDebugLog: showDebugLogWindow,
     showCallingDevTools: showCallingDevToolsWindow,
@@ -2359,6 +2368,7 @@ function setupMenu(options?: Partial<CreateTemplateOptionsType>) {
     development: menuOptions.development,
     devTools: menuOptions.devTools,
     includeSetup: menuOptions.includeSetup,
+    isNightly: menuOptions.isNightly,
     isProduction: menuOptions.isProduction,
     platform: menuOptions.platform,
   });
@@ -3198,6 +3208,7 @@ ipc.handle('getMenuOptions', async () => {
     development: menuOptions?.development ?? false,
     devTools: menuOptions?.devTools ?? false,
     includeSetup: menuOptions?.includeSetup ?? false,
+    isNightly: menuOptions?.isNightly ?? false,
     isProduction: menuOptions?.isProduction ?? true,
     platform: menuOptions?.platform ?? 'unknown',
   };

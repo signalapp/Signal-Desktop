@@ -279,6 +279,10 @@ ipc.on('set-up-as-standalone', () => {
   window.Whisper.events.trigger('setupAsStandalone');
 });
 
+ipc.on('stage-local-backup-for-import', () => {
+  window.Whisper.events.trigger('stageLocalBackupForImport');
+});
+
 ipc.on('challenge:response', (_event, response) => {
   window.Whisper.events.trigger('challengeResponse', response);
 });

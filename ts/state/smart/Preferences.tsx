@@ -151,8 +151,6 @@ export function SmartPreferences(): JSX.Element {
 
   const validateBackup = () => backupsService._internalValidate();
   const exportLocalBackup = () => backupsService._internalExportLocalBackup();
-  const importLocalBackup = () =>
-    backupsService._internalStageLocalBackupForImport();
   const doDeleteAllData = () => renderClearingDataView();
   const refreshCloudBackupStatus =
     window.Signal.Services.backups.throttledFetchCloudBackupStatus;
@@ -633,7 +631,6 @@ export function SmartPreferences(): JSX.Element {
         hasTextFormatting={hasTextFormatting}
         hasTypingIndicators={hasTypingIndicators}
         i18n={i18n}
-        importLocalBackup={importLocalBackup}
         initialSpellCheckSetting={initialSpellCheckSetting}
         isAutoDownloadUpdatesSupported={isAutoDownloadUpdatesSupported}
         isAutoLaunchSupported={isAutoLaunchSupported}

@@ -1357,6 +1357,10 @@ export async function startApp(): Promise<void> {
     window.reduxActions.app.openStandalone();
   });
 
+  window.Whisper.events.on('stageLocalBackupForImport', () => {
+    drop(backupsService._internalStageLocalBackupForImport());
+  });
+
   window.Whisper.events.on('openSettingsTab', () => {
     window.reduxActions.nav.changeNavTab(NavTab.Settings);
   });

@@ -200,13 +200,6 @@ export default {
         result: exportLocalBackupResult,
       };
     },
-    importLocalBackup: async () => {
-      return {
-        success: true,
-        error: undefined,
-        snapshotDir: exportLocalBackupResult.snapshotDir,
-      };
-    },
     makeSyncRequest: action('makeSyncRequest'),
     onAudioNotificationsChange: action('onAudioNotificationsChange'),
     onAutoConvertEmojiChange: action('onAutoConvertEmojiChange'),

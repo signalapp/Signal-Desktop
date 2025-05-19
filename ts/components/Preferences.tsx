@@ -73,7 +73,6 @@ import {
 import { PreferencesBackups } from './PreferencesBackups';
 import { PreferencesInternal } from './PreferencesInternal';
 import { FunEmojiLocalizationProvider } from './fun/FunEmojiLocalizationProvider';
-import type { ValidateLocalBackupStructureResultType } from '../services/backups/util/localBackup';
 import { NavTabsToggle } from './NavTabs';
 import type { UnreadStats } from '../util/countUnreadStats';
 
@@ -173,7 +172,6 @@ type PropsFunctionType = {
   editCustomColor: (colorId: string, color: CustomColorType) => unknown;
   exportLocalBackup: () => Promise<BackupValidationResultType>;
   getConversationsWithCustomColor: (colorId: string) => Array<ConversationType>;
-  importLocalBackup: () => Promise<ValidateLocalBackupStructureResultType>;
   makeSyncRequest: () => unknown;
   onStartUpdate: () => unknown;
   refreshCloudBackupStatus: () => void;
@@ -330,7 +328,6 @@ export function Preferences({
   hasTextFormatting,
   hasTypingIndicators,
   i18n,
-  importLocalBackup,
   initialPage = Page.General,
   initialSpellCheckSetting,
   isAutoDownloadUpdatesSupported,
@@ -1836,7 +1833,6 @@ export function Preferences({
       <PreferencesInternal
         i18n={i18n}
         exportLocalBackup={exportLocalBackup}
-        importLocalBackup={importLocalBackup}
         validateBackup={validateBackup}
       />
     );

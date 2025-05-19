@@ -7,7 +7,6 @@ import { toLogFormat } from '../types/errors';
 import { formatFileSize } from '../util/formatFileSize';
 import { SECOND } from '../util/durations';
 import type { ValidationResultType as BackupValidationResultType } from '../services/backups';
-import type { ValidateLocalBackupStructureResultType } from '../services/backups/util/localBackup';
 import { SettingsRow, SettingsControl } from './PreferencesUtil';
 import { Button, ButtonVariant } from './Button';
 import { Spinner } from './Spinner';
@@ -15,20 +14,15 @@ import { Spinner } from './Spinner';
 export function PreferencesInternal({
   i18n,
   exportLocalBackup: doExportLocalBackup,
-  importLocalBackup: doImportLocalBackup,
   validateBackup: doValidateBackup,
 }: {
   i18n: LocalizerType;
   exportLocalBackup: () => Promise<BackupValidationResultType>;
-  importLocalBackup: () => Promise<ValidateLocalBackupStructureResultType>;
   validateBackup: () => Promise<BackupValidationResultType>;
 }): JSX.Element {
   const [isExportPending, setIsExportPending] = useState(false);
   const [exportResult, setExportResult] = useState<
     BackupValidationResultType | undefined
-  >();
-  const [importResult, setImportResult] = useState<
-    ValidateLocalBackupStructureResultType | undefined
   >();
 
   const [isValidationPending, setIsValidationPending] = useState(false);
@@ -110,49 +104,6 @@ export function PreferencesInternal({
     }
   }, [doExportLocalBackup]);
 
-  const importLocalBackup = useCallback(async () => {
-    setImportResult(undefined);
-    try {
-      setImportResult(await doImportLocalBackup());
-    } catch (error) {
-      setImportResult({
-        success: false,
-        error: toLogFormat(error),
-        snapshotDir: undefined,
-      });
-    }
-  }, [doImportLocalBackup]);
-
-  const renderImportResult = useCallback(
-    (
-      didImportResult: ValidateLocalBackupStructureResultType | undefined
-    ): JSX.Element | undefined => {
-      if (didImportResult == null) {
-        return;
-      }
-
-      const { success, error, snapshotDir } = didImportResult;
-      if (success) {
-        return (
-          <div className="Preferences--internal--validate-backup--result">
-            <pre>
-              <code>{`Staged: ${snapshotDir}\n\nPlease link to finish import.`}</code>
-            </pre>
-          </div>
-        );
-      }
-
-      return (
-        <div className="Preferences--internal--validate-backup--error">
-          <pre>
-            <code>{`Failed: ${error}`}</code>
-          </pre>
-        </div>
-      );
-    },
-    []
-  );
-
   return (
     <>
       <div className="Preferences__title Preferences__title--internal">
@@ -209,22 +160,6 @@ export function PreferencesInternal({
         />
 
         {renderValidationResult(exportResult)}
-
-        <SettingsControl
-          left={i18n(
-            'icu:Preferences__internal__import-local-backup--description'
-          )}
-          right={
-            <Button
-              variant={ButtonVariant.Secondary}
-              onClick={importLocalBackup}
-            >
-              {i18n('icu:Preferences__internal__import-local-backup')}
-            </Button>
-          }
-        />
-
-        {renderImportResult(importResult)}
       </SettingsRow>
     </>
   );
