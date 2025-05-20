@@ -36,6 +36,7 @@ import { createProxyAgent } from '../util/createProxyAgent';
 import type { ProxyAgent } from '../util/createProxyAgent';
 import type { FetchFunctionType } from '../util/uploads/tusProtocol';
 import { VerificationTransport } from '../types/VerificationTransport';
+import { ZERO_ACCESS_KEY } from '../types/SealedSender';
 import { toLogFormat } from '../types/errors';
 import { isPackIdValid, redactPackId } from '../types/Stickers';
 import type {
@@ -362,7 +363,20 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
   const logType = socketManager ? '(WS)' : '(REST)';
   const redactedURL = options.redactUrl ? options.redactUrl(url) : url;
 
-  const unauthLabel = options.unauthenticated ? ' (unauth)' : '';
+  const { accessKey, basicAuth, groupSendToken, unauthenticated } = options;
+
+  let unauthLabel = '';
+  if (options.unauthenticated) {
+    if (groupSendToken != null) {
+      unauthLabel = ' (unauth+gse)';
+    } else if (accessKey === ZERO_ACCESS_KEY) {
+      unauthLabel = ' (unauth+zero-key)';
+    } else if (accessKey != null) {
+      unauthLabel = ' (unauth+key)';
+    } else {
+      unauthLabel = ' (unauth)';
+    }
+  }
   const logId = `${options.type} ${logType} ${redactedURL}${unauthLabel}`;
   log.info(logId);
 
@@ -375,7 +389,6 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
     fetchOptions.headers['Content-Length'] = contentLength.toString();
   }
 
-  const { accessKey, basicAuth, groupSendToken, unauthenticated } = options;
   if (basicAuth) {
     fetchOptions.headers.Authorization = `Basic ${basicAuth}`;
   } else if (unauthenticated) {
