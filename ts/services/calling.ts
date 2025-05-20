@@ -3834,17 +3834,21 @@ export class CallingClass {
   ): Promise<void> {
     let notificationTitle: string;
     let notificationMessage: string;
+    let url: string | undefined;
+    let absolutePath: string | undefined;
 
     switch (notificationService.getNotificationSetting()) {
-      case NotificationSetting.Off:
+      case NotificationSetting.Off: {
         return;
-      case NotificationSetting.NoNameOrMessage:
+      }
+      case NotificationSetting.NoNameOrMessage: {
         notificationTitle = FALLBACK_NOTIFICATION_TITLE;
         notificationMessage = window.i18n(
           'icu:calling__call-notification__started-by-someone'
         );
         break;
-      default:
+      }
+      default: {
         // These fallbacks exist just in case something unexpected goes wrong.
         notificationTitle =
           conversation?.getTitle() || FALLBACK_NOTIFICATION_TITLE;
@@ -3853,10 +3857,12 @@ export class CallingClass {
               name: creatorConversation.getTitle(),
             })
           : window.i18n('icu:calling__call-notification__started-by-someone');
+        const iconData = await conversation.getAvatarOrIdenticon();
+        url = iconData.url;
+        absolutePath = iconData.absolutePath;
         break;
+      }
     }
-
-    const { url, absolutePath } = await conversation.getAvatarOrIdenticon();
 
     notificationService.notify({
       conversationId: conversation.id,
@@ -3867,6 +3873,69 @@ export class CallingClass {
       sentAt: 0,
       silent: false,
       title: notificationTitle,
+    });
+  }
+
+  async notifyForCall(
+    conversationId: string,
+    title: string,
+    isVideoCall: boolean
+  ): Promise<void> {
+    const shouldNotify =
+      !window.SignalContext.activeWindowService.isActive() &&
+      window.storage.get('call-system-notification', true);
+
+    if (!shouldNotify) {
+      return;
+    }
+
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      log.error('notifyForCall: conversation not found');
+      return;
+    }
+
+    let notificationTitle: string;
+    let url: string | undefined;
+    let absolutePath: string | undefined;
+
+    const notificationSetting = notificationService.getNotificationSetting();
+    switch (notificationSetting) {
+      case NotificationSetting.Off: {
+        return;
+      }
+      case NotificationSetting.NoNameOrMessage: {
+        notificationTitle = FALLBACK_NOTIFICATION_TITLE;
+        break;
+      }
+      case NotificationSetting.NameOnly:
+      case NotificationSetting.NameAndMessage: {
+        notificationTitle = title;
+
+        const iconData = await conversation.getAvatarOrIdenticon();
+        url = iconData.url;
+        absolutePath = iconData.absolutePath;
+        break;
+      }
+      default: {
+        log.error(missingCaseError(notificationSetting));
+        notificationTitle = FALLBACK_NOTIFICATION_TITLE;
+        break;
+      }
+    }
+
+    notificationService.notify({
+      conversationId,
+      title: notificationTitle,
+      iconPath: absolutePath,
+      iconUrl: url,
+      message: isVideoCall
+        ? window.i18n('icu:incomingVideoCall')
+        : window.i18n('icu:incomingAudioCall'),
+      sentAt: 0,
+      // The ringtone plays so we don't need sound for the notification
+      silent: true,
+      type: NotificationType.IncomingCall,
     });
   }
 
