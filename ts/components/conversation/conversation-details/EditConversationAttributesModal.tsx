@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { FormEventHandler } from 'react';
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 
 import type { LocalizerType } from '../../../types/Util';
 import { Modal } from '../../Modal';
@@ -20,6 +20,7 @@ import type {
   SaveAvatarToDiskActionType,
 } from '../../../types/Avatar';
 import type { AvatarColorType } from '../../../types/Colors';
+import { useConfirmDiscard } from '../../../hooks/useConfirmDiscard';
 
 type PropsType = {
   avatarColor?: AvatarColorType;
@@ -79,6 +80,13 @@ export function EditConversationAttributesModal({
   const trimmedTitle = rawTitle.trim();
   const trimmedDescription = rawGroupDescription.trim();
 
+  const tryClose = useRef<() => void | undefined>();
+  const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
+    i18n,
+    name: 'EditConversationAttributesModal',
+    tryClose,
+  });
+
   const focusRef = (el: null | HTMLElement) => {
     if (el) {
       el.focus();
@@ -102,6 +110,26 @@ export function EditConversationAttributesModal({
       hasAvatarChanged ||
       hasGroupDescriptionChanged) &&
     trimmedTitle.length > 0;
+
+  const onTryClose = useCallback(() => {
+    confirmDiscardIf(
+      isRequestActive ||
+        hasAvatarChanged ||
+        hasChangedExternally ||
+        hasGroupDescriptionChanged ||
+        hasTitleChanged,
+      onClose
+    );
+  }, [
+    confirmDiscardIf,
+    isRequestActive,
+    hasAvatarChanged,
+    hasChangedExternally,
+    hasGroupDescriptionChanged,
+    hasTitleChanged,
+    onClose,
+  ]);
+  tryClose.current = onTryClose;
 
   const onSubmit: FormEventHandler<HTMLFormElement> = event => {
     event.preventDefault();
@@ -228,12 +256,16 @@ export function EditConversationAttributesModal({
     </>
   );
 
+  if (confirmDiscardModal) {
+    return confirmDiscardModal;
+  }
+
   return (
     <Modal
       modalName="EditConversationAttributesModal"
       hasXButton
       i18n={i18n}
-      onClose={onClose}
+      onClose={onTryClose}
       title={i18n('icu:updateGroupAttributes__title')}
       modalFooter={modalFooter}
     >

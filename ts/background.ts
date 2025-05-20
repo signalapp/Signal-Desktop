@@ -1361,12 +1361,42 @@ export async function startApp(): Promise<void> {
     window.reduxActions.app.openStandalone();
   });
 
-  window.Whisper.events.on('stageLocalBackupForImport', () => {
-    drop(backupsService._internalStageLocalBackupForImport());
+  let openingSettingsTab = false;
+  window.Whisper.events.on('openSettingsTab', async () => {
+    const logId = 'openSettingsTab';
+    try {
+      if (openingSettingsTab) {
+        log.info(
+          `${logId}: Already attempting to open settings tab, returning early`
+        );
+        return;
+      }
+
+      openingSettingsTab = true;
+
+      const newTab = NavTab.Settings;
+      const needToCancel =
+        await window.Signal.Services.beforeNavigate.shouldCancelNavigation({
+          context: logId,
+          newTab,
+        });
+
+      if (needToCancel) {
+        log.info(`${logId}: Cancelling navigation to the settings tab`);
+        return;
+      }
+
+      window.reduxActions.nav.changeNavTab(newTab);
+    } finally {
+      if (!openingSettingsTab) {
+        log.warn(`${logId}: openingSettingsTab was already false in finally!`);
+      }
+      openingSettingsTab = false;
+    }
   });
 
-  window.Whisper.events.on('openSettingsTab', () => {
-    window.reduxActions.nav.changeNavTab(NavTab.Settings);
+  window.Whisper.events.on('stageLocalBackupForImport', () => {
+    drop(backupsService._internalStageLocalBackupForImport());
   });
 
   window.Whisper.events.on('powerMonitorSuspend', () => {

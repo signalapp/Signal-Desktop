@@ -53,6 +53,7 @@ import type { PropsPreloadType as PreferencesPropsType } from './components/Pref
 import type { WindowsNotificationData } from './services/notifications';
 import type { QueryStatsOptions } from './sql/main';
 import type { SocketStatuses } from './textsecure/SocketManager';
+import type { BeforeNavigateService } from './services/BeforeNavigate';
 
 export { Long } from 'long';
 
@@ -151,16 +152,17 @@ export type SignalCoreType = {
   RemoteConfig: typeof RemoteConfig;
   ScreenShareWindowProps?: ScreenShareWindowPropsType;
   Services: {
-    calling: CallingClass;
     backups: BackupsService;
+    beforeNavigate: BeforeNavigateService;
+    calling: CallingClass;
     initializeGroupCredentialFetcher: () => Promise<void>;
     initializeNetworkObserver: (
       network: ReduxActions['network'],
       getAuthSocketStatus: () => SocketStatus
     ) => void;
     initializeUpdateListener: (updates: ReduxActions['updates']) => void;
-    retryPlaceholders?: RetryPlaceholders;
     lightSessionResetQueue?: PQueue;
+    retryPlaceholders?: RetryPlaceholders;
     storage: typeof StorageService;
   };
   SettingsWindowProps?: SettingsWindowPropsType;
