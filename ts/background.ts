@@ -999,6 +999,10 @@ export async function startApp(): Promise<void> {
       if (window.isBeforeVersion(lastVersion, 'v7.43.0-beta.1')) {
         await window.storage.remove('primarySendsSms');
       }
+
+      if (window.isBeforeVersion(lastVersion, 'v7.56.0-beta.1')) {
+        await window.storage.remove('backupMediaDownloadIdle');
+      }
     }
 
     setAppLoadingScreenMessage(

@@ -163,7 +163,7 @@ export type StorageAccessType = {
   backupMediaDownloadCompletedBytes: number;
   backupMediaDownloadPaused: boolean;
   backupMediaDownloadBannerDismissed: boolean;
-  backupMediaDownloadIdle: boolean;
+  attachmentDownloadManagerIdled: boolean;
   messageInsertTriggersDisabled: boolean;
   setBackupMessagesSignatureKey: boolean;
   setBackupMediaSignatureKey: boolean;
@@ -259,6 +259,7 @@ export type StorageAccessType = {
   masterKeyLastRequestTime: never;
   versionedExpirationTimer: never;
   primarySendsSms: never;
+  backupMediaDownloadIdle: never;
 };
 
 export type StorageInterface = {
