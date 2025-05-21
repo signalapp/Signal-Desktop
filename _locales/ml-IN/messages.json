@@ -2589,7 +2589,7 @@
     "messageformat": "സ്റ്റിക്കർ തിരഞ്ഞെടുക്കൽ തുറക്കുക"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "GIF ചൂസർ തുറക്കുക"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "ശബ്ദ കുറിപ്പ് റെക്കോർഡ് ചെയ്യാൻ തുടങ്ങുക"
@@ -3136,6 +3136,18 @@
   },
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "മൈക്ക് ഓണാണ്"
+  },
+  "icu:CallControls__MutedBySomeoneToast": {
+    "messageformat": "{otherName} muted you."
+  },
+  "icu:CallControls__SomeoneMutedSomeoneToast": {
+    "messageformat": "{name} muted {otherName}."
+  },
+  "icu:CallControls__YouMutedSomeoneToast": {
+    "messageformat": "You muted {otherName}."
+  },
+  "icu:CallControls__YouMutedYourselfToast": {
+    "messageformat": "You muted yourself from another device."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "കൈ താഴ്ത്തണോ?"
@@ -4986,19 +4998,19 @@
     "messageformat": "ഇന്റേണല്‍"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "ലോക്കൽ ബാക്കപ്പുകൾ"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "എക്സ്പോർട്ട് ചെയ്യുക…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "ഒരു ഫോൾഡറിലേക്ക് ലോക്കൽ എൻക്രിപ്റ്റ് ചെയ്ത ബാക്കപ്പ് എക്സ്പോർട്ട് ചെയ്ത് അത് പരിശോധിച്ചുറപ്പിക്കുക"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "ഇമ്പോർട്ട് ചെയ്യുക…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "ലിങ്കിൽ ഇമ്പോർട്ട് ചെയ്യുന്നതിനായി ഒരു ലോക്കൽ എൻക്രിപ്റ്റ് ചെയ്ത ബാക്കപ്പ് സ്റ്റേജ് ചെയ്യുക"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "എൻക്രിപ്റ്റ് ചെയ്ത ബാക്കപ്പ്, മെമ്മറിയിലേക്ക് എക്സ്പോർട്ട് ചെയ്ത് അതിൽ വാലിഡേഷൻ സ്യൂട്ട് റൺ ചെയ്യുക"
@@ -5196,22 +5208,22 @@
     "messageformat": "റീസ്റ്റാർട്ട് ചെയ്യുക"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "ആപ്ലിക്കേഷൻ"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Screen security"
+    "messageformat": "സ്‌ക്രീൻ സുരക്ഷ"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "കൂടുതൽ സ്വകാര്യതയ്ക്കായി ഈ കമ്പ്യൂട്ടറിൽ Signal-ന്റെ സ്ക്രീൻഷോട്ടുകൾ തടയുക."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "സ്ക്രീൻ സുരക്ഷ പ്രവർത്തനരഹിതമാക്കണോ?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "ഇത് പ്രവർത്തനരഹിതമാക്കിയാൽ, Microsoft Windows-ന് Signal-ന്റെ സ്ക്രീൻഷോട്ടുകൾ പകർത്താനും സ്വകാര്യമല്ലാത്ത സവിശേഷതകൾക്കായി അവ ഉപയോഗിക്കാനും അനുവദിച്ചേക്കാം."
   },
   "icu:Preferences__content-protection__modal--disable": {
-    "messageformat": "Disable"
+    "messageformat": "പ്രവർത്തനരഹിതമാക്കുക"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "{version} എന്ന പതിപ്പിലേക്കുള്ള അപ്‌ഡേറ്റ് ലഭ്യമാണ്"
@@ -6340,19 +6352,16 @@
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.51--0": {
-    "messageformat": "തീ, ചക്രം, വൈദ്യുതി എന്നിവയെല്ലാം മികച്ച വികസനങ്ങൾ തന്നെയായിരുന്നു, പക്ഷേ അവ ആനിമേറ്റഡ് GIF തിരയലിന് നിലനിൽക്കുന്നതിനുള്ള സാഹചര്യങ്ങൾ സൃഷ്ടിച്ച പാതയിലെ ആവശ്യമായ ഘട്ടങ്ങൾ മാത്രമായിരുന്നു. ഒരു നിമിഷത്തിന് അനുയോജ്യമായ ഒരു ഇമോജി, സ്റ്റിക്കർ അല്ലെങ്കിൽ ആനിമേറ്റഡ് GIF വേഗത്തിൽ കണ്ടെത്തുന്നത് എളുപ്പമാക്കുന്ന ഒരു പുതിയ സെലക്ഷൻ ഇന്റർഫേസ് വഴി, ഇപ്പോൾ നിങ്ങൾക്ക് Signal ഡെസ്ക്ടോപ്പിൽ മനുഷ്യന്റെ സാങ്കേതിക പുരോഗതിയുടെ കൊടുമുടി അനുഭവിക്കാൻ കഴിയും."
-  },
-  "icu:WhatsNew__v7.51--1": {
-    "messageformat": "ഞങ്ങൾ പിക്ചർ-ഇൻ-പിക്ചർ വിൻഡോയുടെ വലുപ്പം മാറ്റുകയും കോൾ മിനിമൈസ് ചെയ്യുമ്പോൾ നിങ്ങളുടെ മൈക്രോഫോൺ മ്യൂട്ട്/അൺമ്യൂട്ട് ചെയ്യുന്നതിനോ ക്യാമറ ഓൺ/ഓഫ് ചെയ്യുന്നതിനോ സൗകര്യപ്രദമായ പുതിയ കുറുക്കുവഴികൾ ചേർക്കുകയും ചെയ്തു."
-  },
   "icu:WhatsNew__v7.54--0": {
     "messageformat": "ഏത് ഭാഷയിലും പുഞ്ചിരി ഒരുപോലെയാണ്, എന്നാൽ ഇപ്പോൾ Signal ഡെസ്ക്ടോപ്പിലെ ഇമോജി ഷോർട്ട്കട്ടുകൾ പൂർണ്ണമായും വിവർത്തനം ചെയ്യപ്പെട്ടിരിക്കുന്നതിനാൽ നിങ്ങൾക്ക് <code>:smile:</code> അല്ലെങ്കിൽ <code>:sourire:</code> അല്ലെങ്കിൽ <code>:微笑:</code> എന്നിങ്ങനെ പിന്തുണയ്ക്കുന്ന ഏത് ഭാഷയിലും ഉപയോഗിക്കാം."
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "ഇമോജികൾക്കും സ്റ്റിക്കറുകൾക്കുമുള്ള കീബോർഡ് കുറുക്കുവഴികൾ തിരിച്ചെത്തിയിരിക്കുന്നു! ഈ കുറുക്കുവഴികൾ കൂടുതൽ സമയം ലാഭിക്കുന്നു, കാരണം ഇനി അവ തകരാറിലാണെന്ന് നിങ്ങൾ എഴുതി ഞങ്ങളോട് പറയേണ്ടതില്ല."
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "ഇതുവരെ GTK4-നെ പിന്തുണയ്ക്കാത്ത Linux വിതരണങ്ങളിലെ ഒരു ക്രാഷും ഞങ്ങൾ പരിഹരിച്ചു."
+  },
+  "icu:WhatsNew__v7.56--0": {
+    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
   }
 }

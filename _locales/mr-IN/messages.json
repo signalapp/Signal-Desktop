@@ -2589,7 +2589,7 @@
     "messageformat": "स्टिकर निवडणारा उघडा"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "GIF वेचक उघडा"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "व्हॉईस टिप रेकॉर्ड करणे चालू करा"
@@ -3136,6 +3136,18 @@
   },
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "माईक चालू आहे"
+  },
+  "icu:CallControls__MutedBySomeoneToast": {
+    "messageformat": "{otherName} muted you."
+  },
+  "icu:CallControls__SomeoneMutedSomeoneToast": {
+    "messageformat": "{name} muted {otherName}."
+  },
+  "icu:CallControls__YouMutedSomeoneToast": {
+    "messageformat": "You muted {otherName}."
+  },
+  "icu:CallControls__YouMutedYourselfToast": {
+    "messageformat": "You muted yourself from another device."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "आपल्याला हात खाली करायचा आहे?"
@@ -4986,19 +4998,19 @@
     "messageformat": "अंतर्गत"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "स्थानिक बॅकअप्स"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "एक्सपोर्ट…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "स्थानिक कूटबद्ध केलेले बॅकअप एका फोल्डरमध्ये एक्सपोर्ट करा आणि तो प्रमाणित करा"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "आयात करा…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "लिंकवर आयात करण्यासाठी स्थानिक कूटबद्ध केलेला बॅकअप तयार करा"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "कूटबद्ध केलेला बॅकअप मेमरीमध्ये पाठवा आणि त्यावर व्हॅलिडेशन सूट चालवा"
@@ -5196,22 +5208,22 @@
     "messageformat": "पुन्हा सुरु करा"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "ॲप्लिकेशन"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Screen security"
+    "messageformat": "स्क्रीन सुरक्षा"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "वाढीव गोपनीयतेसाठी या कंप्युटरवर Signalचे स्क्रीनशॉट काढता येण्याची सोय बंद करा."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "स्क्रीन सुरक्षितता निष्क्रिय करायची?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "जर निष्क्रिय केली, तर यामुळे Microsoft Windows ला Signal चे स्क्रीनशॉट घेता येतील आणि खासगी नसणाऱ्या वैशिष्ट्यांसाठी वापरता येतील."
   },
   "icu:Preferences__content-protection__modal--disable": {
-    "messageformat": "Disable"
+    "messageformat": "अक्षम करा"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "{version} वर अपडेट आवृती उपलब्ध आहे"
@@ -6340,19 +6352,16 @@
     "messageformat": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.51--0": {
-    "messageformat": "आग, चाक आणि वीज हे सगळे शोध उत्तम होते, पण खरं तर त्या निव्वळ अ‍ॅनिमेटेड GIF शोध अस्तित्वात येण्यासाठीच्या आवश्यक पायऱ्या होत्या. आता तुम्ही Signal डेक्सटॉप मध्ये मानवाच्या तंत्रज्ञानातील प्रगतीचा उच्चांक अनुभवू शकता, एका नव्या कोऱ्या इंटरफेससह, जो हव्या त्या वेळी हवे ते इमोजी, स्टिकर किंवा अ‍ॅनिमेटेड GIF चटकन शोधणे सोपे करतो."
-  },
-  "icu:WhatsNew__v7.51--1": {
-    "messageformat": "आम्ही पिक्चर-इन-पिक्चर विंडोचा आकारही बदलला आहे आणि कॉल मिनिमाईझ केलेला असताना तुमचा मायक्रोफोन म्युट/ अनम्युट करण्यासाठी किंवा कॅमेरा चालू/बंद करण्यासाठी सोयीचे शॉर्टकट जोडले आहेत."
-  },
   "icu:WhatsNew__v7.54--0": {
     "messageformat": "चेहऱ्यावरचं हसू कोणत्याही भाषेत सारखंच असतं, पण आता Signal डेस्कटॉप मधले इमोजी शॉर्टकट्स पूर्णपणे अनुवादित केले आहेत त्यामुळे आता तुम्ही समर्थित भाषांमध्ये <code>:smile:</code> किंवा <code>:sourire:</code> किंवा <code>:微笑:</code> करू शकता."
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "इमोजी आणि स्टिकर साठीचे कीबोर्ड शॉर्टकट्स परत आले आहेत! ह्या अद्यतनामुळे इमोजी आणि स्टिकर्ससाठीचे कीबोर्ड शॉर्टकट्स पुन्हा सुरु झाले आहेत."
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "अद्याप GTK4 ला सपोर्ट न करणाऱ्या Linux वितरणांवरील एक क्रॅशसुद्धा आम्ही दुरुस्त केला आहे."
+  },
+  "icu:WhatsNew__v7.56--0": {
+    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
   }
 }

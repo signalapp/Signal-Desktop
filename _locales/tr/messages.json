@@ -2589,7 +2589,7 @@
     "messageformat": "Çıkartma seçicisini aç"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "GIF seçicisini aç"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Sesli not kaydına başla"
@@ -3136,6 +3136,18 @@
   },
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofon açık"
+  },
+  "icu:CallControls__MutedBySomeoneToast": {
+    "messageformat": "{otherName} muted you."
+  },
+  "icu:CallControls__SomeoneMutedSomeoneToast": {
+    "messageformat": "{name} muted {otherName}."
+  },
+  "icu:CallControls__YouMutedSomeoneToast": {
+    "messageformat": "You muted {otherName}."
+  },
+  "icu:CallControls__YouMutedYourselfToast": {
+    "messageformat": "You muted yourself from another device."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Elin insin mi?"
@@ -4986,19 +4998,19 @@
     "messageformat": "Dahili"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "Yerel yedeklemeler"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "Dışa aktar…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "Yerel şifreli yedeklemeyi bir klasöre aktar ve doğrula"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "İçe aktar…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "Bağlantıda içe aktarma için yerel şifreli bir yedekleme hazırla"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Şifreli yedeklemeyi belleğe aktar ve üzerinde doğrulama paketini çalıştır"
@@ -5196,22 +5208,22 @@
     "messageformat": "Yeniden başlat"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "Uygulama"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Screen security"
+    "messageformat": "Ekran güvenliği"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "Ek gizlilik için bu bilgisayarda Signal'ın ekran görüntülerini engelle."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "Ekran güvenliği devre dışı bırakılsın mı?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "Devre dışı bırakılırsa, Microsoft Windows Signal'ın ekran görüntülerini yakalayabilir ve gizliliği olmayabilecek özellikler için kullanabilir."
   },
   "icu:Preferences__content-protection__modal--disable": {
-    "messageformat": "Disable"
+    "messageformat": "Devre dışı bırak"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "{version} sürümüne güncelleme mevcut"
@@ -6340,19 +6352,16 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Bundan böyle Signal Desktop'ta animasyonlu GIF'ler de arayabilirsin. Böylece Signal Desktop'ta o ana özgü mükemmel bir emoji, çıkartma veya animasyonlu GIF'i hızla bulmanı kolaylaştıran yepyeni bir seçim arayüzü ile insanoğlunun teknolojik ilerlemesinin zirvesini deneyimleyebilirsin."
-  },
-  "icu:WhatsNew__v7.51--1": {
-    "messageformat": "Resim içinde resim penceresini de yeniden boyutlandırdık ve arama simge durumuna küçültüldüğünde kullanışlı yeni kısayollar ekledik."
-  },
   "icu:WhatsNew__v7.54--0": {
     "messageformat": "Emoji kısayolları için, birçok yeni dilde destek ekledik."
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "Bu güncellemeyle emoji ve çıkartmalar için klavye kısayolları yeniden etkinleştiriliyor. Böylece istediğin emojilere ve çıkartmalara ışık hızıyla ulaşabileceksin!"
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "Bazı Linux dağıtımlarında nadir rastlanan bir çökme sorununu da düzelttik."
+  },
+  "icu:WhatsNew__v7.56--0": {
+    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
   }
 }

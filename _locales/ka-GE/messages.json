@@ -2589,7 +2589,7 @@
     "messageformat": "სტიკერის ამომრჩევის გახსნა"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "GIF-ების ამრჩევის გახსნა"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "ხმოვანი ჩანიშვნის ჩაწერის დაწყება"
@@ -3136,6 +3136,18 @@
   },
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "მიკროფონი ჩართულია"
+  },
+  "icu:CallControls__MutedBySomeoneToast": {
+    "messageformat": "{otherName} muted you."
+  },
+  "icu:CallControls__SomeoneMutedSomeoneToast": {
+    "messageformat": "{name} muted {otherName}."
+  },
+  "icu:CallControls__YouMutedSomeoneToast": {
+    "messageformat": "You muted {otherName}."
+  },
+  "icu:CallControls__YouMutedYourselfToast": {
+    "messageformat": "You muted yourself from another device."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "გსურს, ხელი ჩამოწიო?"
@@ -4986,19 +4998,19 @@
     "messageformat": "შიდა"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "ადგილობრივი სათადარიგო ასლები"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "ექსპორტი…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "ადგილობრივი დაშიფრული სათადარიგო ასლის საქაღალდეში ექსპორტირება და მისი დადასტურება"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "იმპორტი…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "ბმულზე იმპორტისთვის ადგილობრივი დაშიფრული სათადარიგო ასლის შექმნა"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "გადაიტანე დაშიფრული სათადარიგო ასლი მეხსიერებაში და გაუშვი მასზე დადასტურების ნაკრები"
@@ -5196,22 +5208,22 @@
     "messageformat": "გადატვირთვა"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "აპლიკაცია"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Screen security"
+    "messageformat": "ეკრანის უსაფრთხოება"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "დამატებითი კონფიდენციალურობისთვის, ამ კომპიუტერზე Signal-ის სქრინშოთების პრევენცია."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "გსურს ეკრანის უსაფრთხოების გათიშვა?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "გამორთვის შემთხვევაში, Microsoft Windows-ს საშუალება ექნება Signal-ის სქრინშოთები გადაიღოს და ისინი არაკონფიდენციალური ფუნქციებისთვის გამოიყენოს."
   },
   "icu:Preferences__content-protection__modal--disable": {
-    "messageformat": "Disable"
+    "messageformat": "გამორთვა"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "განახლება ვერსია {version}-ზე ხელმისაწვდომია"
@@ -6340,19 +6352,16 @@
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.51--0": {
-    "messageformat": "ცეცხლი, ბორბალი და ელექტროენერგია უდიდესი გამოგონებები იყო, მაგრამ ეს მხოლოგ ნაბიჯები იყო იმ გზაზე, რომელმაც საბოლოოდ შექმნა პირობები ანიმირებული GIF-ების საძიებო სისტემის არსებობისთვის. ადამიანური ტექნოლოგიური პროგრესის პიკი Signal Desktop-ზე შეგიძლია განიცადო სრულიად ახალი არჩევის ინტერფეისით, რომელიც მარტივად გაპოვნინებს იდეალურ ემოჯის, სტიკერს ან ანიმირებულ GIF-ს თითოეული მომენტისთვის."
-  },
-  "icu:WhatsNew__v7.51--1": {
-    "messageformat": "ასევე შევცვალეთ \"გამოსახულება გამოსახულებაში\" ფანჯრის ზომა და დავამატეთ ახალი, მოსახერხებელი შორთქათები მიკროფონის გამორთვა/ჩართვისა და კამერის ჩართვა/გამორთვისთვის, როცა ზარი დაპატარავებულია."
-  },
   "icu:WhatsNew__v7.54--0": {
     "messageformat": "ყველა ენაზე ერთნაირად იღიმებიან, მაგრამ ახლა, როდესაც Signal Desktop-ის emoji-ს შორთქათები სრულად ითარგმნა, შენ ასევე შეგიძლია გამოიყენო <code>:smile:</code> ან <code>:sourire:</code> ან <code>:微笑:</code> ნებისმიერ მხარდაჭერილ ენაზე."
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "Emoji-ებისა და სტიკერების კლავიატურის შორთქათები დაბრუნდა! ეს შორთქათები კიდევ უფრო მეტ დროს ზოგავს, რადგან ახლა აღარ დაგჭირდება წერით შეგვატყობინო, რომ ისინი არ მუშაობს."
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "ასევე გამოვასწორეთ Linux-ის დისტრიბუციებზე არსებული ქრაში, რომელსაც ჯერ GTK4-ის მხარდაჭერა არ აქვს."
+  },
+  "icu:WhatsNew__v7.56--0": {
+    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
   }
 }
