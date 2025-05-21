@@ -515,11 +515,16 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
     options.responseType === 'jsonwithdetails'
   ) {
     if (options.zodSchema) {
-      result = parseUnknown(options.zodSchema, result);
+      try {
+        result = parseUnknown(options.zodSchema, result);
+      } catch (e) {
+        log.error(logId, response.status, 'Validation error');
+        throw e;
+      }
     }
     if (options.validateResponse) {
       if (!_validateResponse(result, options.validateResponse)) {
-        log.error(logId, response.status, 'Error');
+        log.error(logId, response.status, 'Validation error');
         throw makeHTTPError(
           'promiseAjax: invalid response',
           response.status,
@@ -1376,15 +1381,17 @@ const backupFileHeadersSchema = z.object({
 type BackupFileHeadersType = z.infer<typeof backupFileHeadersSchema>;
 
 const subscriptionResponseSchema = z.object({
-  subscription: z.object({
-    level: z.number(),
-    billingCycleAnchor: z.coerce.date().optional(),
-    endOfCurrentPeriod: z.coerce.date().optional(),
-    active: z.boolean(),
-    cancelAtPeriodEnd: z.boolean().optional(),
-    currency: z.string().optional(),
-    amount: z.number().nonnegative().optional(),
-  }),
+  subscription: z
+    .object({
+      level: z.number(),
+      billingCycleAnchor: z.coerce.date().optional(),
+      endOfCurrentPeriod: z.coerce.date().optional(),
+      active: z.boolean(),
+      cancelAtPeriodEnd: z.boolean().optional(),
+      currency: z.string().optional(),
+      amount: z.number().nonnegative().optional(),
+    })
+    .nullish(),
 });
 
 export type SubscriptionResponseType = z.infer<
@@ -4706,6 +4713,9 @@ export function initialize({
       subscriberId: Uint8Array
     ): Promise<boolean> {
       const data = await getSubscription(subscriberId);
+      if (!data.subscription) {
+        return false;
+      }
       return data.subscription.active;
     }
 
