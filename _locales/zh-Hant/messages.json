@@ -2589,7 +2589,7 @@
     "messageformat": "打開貼圖選擇框"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "開啟 GIF 選擇框"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "開始錄製語音筆記"
@@ -3136,6 +3136,18 @@
   },
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "開啟麥克風"
+  },
+  "icu:CallControls__MutedBySomeoneToast": {
+    "messageformat": "{otherName} muted you."
+  },
+  "icu:CallControls__SomeoneMutedSomeoneToast": {
+    "messageformat": "{name} muted {otherName}."
+  },
+  "icu:CallControls__YouMutedSomeoneToast": {
+    "messageformat": "You muted {otherName}."
+  },
+  "icu:CallControls__YouMutedYourselfToast": {
+    "messageformat": "You muted yourself from another device."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "要放下手？"
@@ -4986,19 +4998,19 @@
     "messageformat": "內部"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "本機備份"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "匯出…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "將本機加密備份匯出到資料夾並進行驗證"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "匯入…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "安排本機加密備份，以便在連結上匯入"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "將加密備份匯出到內部記憶體並執行驗證套件"
@@ -5196,22 +5208,22 @@
     "messageformat": "重新啟動"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "應用"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Screen security"
+    "messageformat": "畫面安全性"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "防止對此電腦上的 Signal 進行截圖以增加隱私。"
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "要停用畫面安全模式嗎？"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "如果停用，則可能會允許 Microsoft Windows 擷取 Signal 的畫面截圖，並將其用於可能沒有隱私的功能。"
   },
   "icu:Preferences__content-protection__modal--disable": {
-    "messageformat": "Disable"
+    "messageformat": "停用"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "更新到可用的 {version} 版本"
@@ -6340,19 +6352,16 @@
     "messageformat": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.51--0": {
-    "messageformat": "各種發明或新發展可以造福人群，為了大家福祉，我們亦在為 GIF 動畫的搜尋創造存在條件。現在，你可以在 Signal 桌面版中體驗全新的選擇界面，讓你輕鬆快速找到適合當前的表情符號、貼圖或動畫 GIF。"
-  },
-  "icu:WhatsNew__v7.51--1": {
-    "messageformat": "我們還調整了畫中畫視窗的大小，並新增了方便的新捷徑以將麥克風靜音/取消靜音，或在通話最小化時開啟/關閉相機。"
-  },
   "icu:WhatsNew__v7.54--0": {
     "messageformat": "微笑這表情在任何語言中都是一樣的，但現在 Signal 桌面版中的表情符號快捷輸入已獲完整翻譯，你可以使用任何支援的語言，例如 <code>:smile:</code>、<code>:sourire:</code> 或 <code>:微笑:</code>。"
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "表情符號和貼圖的鍵盤快捷鍵回來了！這些快捷鍵也幫你省下更多時間，因為你現在不需要再花時間告訴我們它們壞了。"
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "我們還修復了尚未支援 GTK4 的 Linux 發行版上的當機問題。"
+  },
+  "icu:WhatsNew__v7.56--0": {
+    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
   }
 }

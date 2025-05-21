@@ -2589,7 +2589,7 @@
     "messageformat": "ஓட்டி தேர்வி திறக்கவும்"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "GIF தேர்வியைத் திறக்கவும்"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "குரல் குறிப்பைப் பதிவுசெய்யத் தொடங்குங்கள்"
@@ -3136,6 +3136,18 @@
   },
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "மைக் ஆன்"
+  },
+  "icu:CallControls__MutedBySomeoneToast": {
+    "messageformat": "{otherName} muted you."
+  },
+  "icu:CallControls__SomeoneMutedSomeoneToast": {
+    "messageformat": "{name} muted {otherName}."
+  },
+  "icu:CallControls__YouMutedSomeoneToast": {
+    "messageformat": "You muted {otherName}."
+  },
+  "icu:CallControls__YouMutedYourselfToast": {
+    "messageformat": "You muted yourself from another device."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "உங்கள் கையைத் தாழ்த்துகிறீர்களா?"
@@ -4986,19 +4998,19 @@
     "messageformat": "உள்ளகம்"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "உள்ளகக் காப்புப்பிரதிகள்"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "ஏற்றுமதி செய்க…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "உள்ளகக் குறியாக்கம் செய்யப்பட்ட காப்புப்பிரதியை ஒரு கோப்புறையில் ஏற்றுமதி செய்து சரிபார்க்கவும்"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "இறக்குமதி செய்க…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "இணைப்பில் இறக்குமதி செய்ய உள்ளகக் குறியாக்கம் செய்யப்பட்ட காப்புப்பிரதியை நிலைநிறுத்தவும்"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "குறியாக்கப்பட்ட காப்புப்பிரதியை நினைவகத்திற்கு ஏற்றுமதி செய்து, அதில் சரிபார்ப்புத் தொகுப்பை இயக்குங்கள்"
@@ -5196,22 +5208,22 @@
     "messageformat": "ரீஸ்டார்ட்"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "செயலி"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Screen security"
+    "messageformat": "திரை பாதுகாப்பு"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "கூடுதல் தனியுரிமைக்காக இந்தக் கணினியில் சிக்னலின் ஸ்கிரீன் ஷாட்களைத் தடுக்கவும்."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "திரைப் பாதுகாப்பை முடக்கவா?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "முடக்கப்பட்டால், இது மைக்ரோசாப்ட் வின்டோசில் சிக்னலின் ஸ்கிரீன் ஷாட்களை எடுக்க அனுமதிக்கும் மேலும் தனிப்பட்டதாக இல்லாத அம்சங்களுக்கு அவற்றைப் பயன்படுத்தலாம்."
   },
   "icu:Preferences__content-protection__modal--disable": {
-    "messageformat": "Disable"
+    "messageformat": "முடக்கு"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "பதிப்புக்குப் புதுப்பிக்கவும் {version} கிடைக்கிறது"
@@ -6340,19 +6352,16 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.51--0": {
-    "messageformat": "இப்போது நீங்கள் சிக்னல் டெஸ்க்டாப்பிலும் அனிமேஷன் செய்யப்பட்ட GIFகளைத் தேடலாம். இப்போது நீங்கள் சிக்னல் டெஸ்க்டாப்பிலும் எமோஜி, ஸ்டிக்கர் அல்லது அனிமேஷன் செய்யப்பட்ட GIFகளைத் தேடலாம்."
-  },
-  "icu:WhatsNew__v7.51--1": {
-    "messageformat": "பிக்சர்-இன்-பிக்சர் சாளரத்தின் அளவையும் மாற்றியுள்ளோம் மற்றும் அழைப்புத் திரை சிறியதாக்கப்படும் போது வசதியான புதிய குறுக்குவழிகளைச் சேர்த்துள்ளோம்."
-  },
   "icu:WhatsNew__v7.54--0": {
     "messageformat": "எந்த மொழியிலும் புன்னகை ஒன்றுதான், ஆனால் இப்போது சிக்னல் டெஸ்க்டாப்பில் உள்ள எமோஜி ஷார்ட்கட்கள் முழுமையாக மொழிபெயர்க்கப்பட்டுவிட்டதால், நீங்கள்<code>:smile:</code> அல்லது <code>:sourire:</code> அல்லது <code>:微笑:</code> ஆகியவற்றை ஆதரிக்கப்படும் எந்த மொழியிலும் மொழிபெயர்க்கலாம். எமோஜி ஷார்ட்கட்களுக்கான ஆதரவைக் கூடுதல் மொழிகளில் சேர்த்துள்ளோம்."
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "இந்தப் புதுப்பிப்பு எமோஜி மற்றும் ஸ்டிக்கர்களுக்கான விசைப்பலகை குறுக்குவழிகள் மீண்டும் வந்துவிட்டன! இந்தக் குறுக்குவழிகள் அதிக நேரத்தை மிச்சப்படுத்துகின்றன, ஏனெனில் இப்போது அவை உடைந்துவிட்டன என்று எழுதி எங்களிடம் சொல்ல வேண்டியதில்லை."
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "GTK4 ஐ இன்னும் ஆதரிக்காத லினக்ஸ் விநியோகங்களில் ஏற்பட்ட செயலிழப்பையும் நாங்கள் சரிசெய்துள்ளோம்."
+  },
+  "icu:WhatsNew__v7.56--0": {
+    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
   }
 }

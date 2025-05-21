@@ -2589,7 +2589,7 @@
     "messageformat": "Matricaválasztó megnyitása"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "GIF-választó megnyitása"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Hangjegyzet rögzítésének megkezdése"
@@ -3136,6 +3136,18 @@
   },
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofon be"
+  },
+  "icu:CallControls__MutedBySomeoneToast": {
+    "messageformat": "{otherName} muted you."
+  },
+  "icu:CallControls__SomeoneMutedSomeoneToast": {
+    "messageformat": "{name} muted {otherName}."
+  },
+  "icu:CallControls__YouMutedSomeoneToast": {
+    "messageformat": "You muted {otherName}."
+  },
+  "icu:CallControls__YouMutedYourselfToast": {
+    "messageformat": "You muted yourself from another device."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Leteszed a kezed?"
@@ -4986,19 +4998,19 @@
     "messageformat": "Belső"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "Helyi biztonsági mentések"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "Exportálás…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "Helyi titkosított biztonsági mentés exportálása egy mappába és annak hitelesítése"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "Importálás…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "Helyi titkosított biztonsági mentés előkészítése importáláshoz hivatkozás esetén"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Titkosított biztonsági mentés exportálása a memóriába és a validációs csomag futtatása"
@@ -5196,22 +5208,22 @@
     "messageformat": "Újraindítás"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "Alkalmazás"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Screen security"
+    "messageformat": "Képernyőbiztonság"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "A fokozott adatvédelem érdekében tiltsd le a Signal képernyőképeit ezen a számítógépen."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "Kikapcsolod a képernyőbiztonságot?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "Ha le van tiltva, ez lehetővé teheti a Microsoft Windows számára, hogy képernyőképeket készítsen a Signalról, és azokat olyan funkciókhoz használja, amelyek nem feltétlenül privátak."
   },
   "icu:Preferences__content-protection__modal--disable": {
-    "messageformat": "Disable"
+    "messageformat": "Letiltás"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Elérhető frissítés a {version} verzióra"
@@ -6340,19 +6352,16 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Mostantól a Signal Desktopban is kereshetsz animált GIF-eket."
-  },
-  "icu:WhatsNew__v7.51--1": {
-    "messageformat": "A kép a képben ablakot is átméreteztük, és kényelmes, új parancsikonokat adtunk hozzá, miközben a hívásablak minimálisra csökkent."
-  },
   "icu:WhatsNew__v7.54--0": {
     "messageformat": "További nyelveken is támogatást nyújtottuk az emoji-parancsikonokhoz."
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "Ezzel a frissítéssel visszatértek a billentyűparancsok a hangulatjelekhez és matricákhoz!"
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "Egy ritka összeomlást is kijavítottunk néhány Linux disztribúción."
+  },
+  "icu:WhatsNew__v7.56--0": {
+    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
   }
 }

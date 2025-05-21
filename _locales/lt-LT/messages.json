@@ -2589,7 +2589,7 @@
     "messageformat": "Atverti lipdukų parinkiklį"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "Atverti GIF parinkiklį"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Pradėti įrašinėti balso žinutę"
@@ -3136,6 +3136,18 @@
   },
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofonas įjungtas"
+  },
+  "icu:CallControls__MutedBySomeoneToast": {
+    "messageformat": "{otherName} muted you."
+  },
+  "icu:CallControls__SomeoneMutedSomeoneToast": {
+    "messageformat": "{name} muted {otherName}."
+  },
+  "icu:CallControls__YouMutedSomeoneToast": {
+    "messageformat": "You muted {otherName}."
+  },
+  "icu:CallControls__YouMutedYourselfToast": {
+    "messageformat": "You muted yourself from another device."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Nuleisti ranką?"
@@ -4986,19 +4998,19 @@
     "messageformat": "Vidiniai"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "Vietinės atsarginės kopijos"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "Eksportuoti…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "Eksportuoti vietinę užšifruotą atsarginę kopiją į aplanką ir ją patvirtinti"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "Importuoti…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "Kurti vietinę užšifruotą atsarginę kopiją importavimui iš nuorodos"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Eksportuokite užšifruotą atsarginę kopiją į atmintį ir paleiskite joje patvirtinimo rinkinį"
@@ -5196,22 +5208,22 @@
     "messageformat": "Paleisti iš naujo"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "Programa"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Screen security"
+    "messageformat": "Ekrano saugumas"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "Siekdami didesnio privatumo neleiskite šiame kompiuteryje daryti „Signal“ ekrano kopijų."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "Išjungti ekrano saugumą?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "Jei ši funkcija išjungta, „Microsoft Windows“ gali leisti „Signal“ užfiksuoti ekrano kopijas ir naudoti jas funkcijoms, kurios gali būti ne privačios."
   },
   "icu:Preferences__content-protection__modal--disable": {
-    "messageformat": "Disable"
+    "messageformat": "Išjungti"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Yra prieinamas atnaujinimas į versiją {version}"
@@ -6340,19 +6352,16 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Animacinių GIF failų dabar galite ieškoti ir „Signal Desktop“."
-  },
-  "icu:WhatsNew__v7.51--1": {
-    "messageformat": "Be to, pakeitėme lango „vaizdas vaizde“ dydį ir pridėjome patogių naujų sparčiųjų klavišų, kol skambučio langas suskleistas."
-  },
   "icu:WhatsNew__v7.54--0": {
     "messageformat": "Įtraukėme jaustukų šaukinių palaikymą papildomomis kalbomis."
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "Šis atnaujinimas iš naujo įjungia jaustukų ir lipdukų sparčiuosius klavišus."
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "Be to, ištaisėme retą strigtį kai kuriuose „Linux“ paketuose."
+  },
+  "icu:WhatsNew__v7.56--0": {
+    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
   }
 }

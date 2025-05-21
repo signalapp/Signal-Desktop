@@ -2589,7 +2589,7 @@
     "messageformat": "Öppna klistermärkesväljare"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "Öppna GIF-väljaren"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Börja spela in röstanteckning"
@@ -3136,6 +3136,18 @@
   },
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofon på"
+  },
+  "icu:CallControls__MutedBySomeoneToast": {
+    "messageformat": "{otherName} muted you."
+  },
+  "icu:CallControls__SomeoneMutedSomeoneToast": {
+    "messageformat": "{name} muted {otherName}."
+  },
+  "icu:CallControls__YouMutedSomeoneToast": {
+    "messageformat": "You muted {otherName}."
+  },
+  "icu:CallControls__YouMutedYourselfToast": {
+    "messageformat": "You muted yourself from another device."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Ta ner handen?"
@@ -4986,19 +4998,19 @@
     "messageformat": "Internt"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "Lokala säkerhetskopior"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "Exportera …"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "Exportera lokal krypterad säkerhetskopia till en mapp och validera den"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "Importera …"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "Skapa en lokal krypterad säkerhetskopia för import på länk"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Exportera krypterad säkerhetskopia till minnet och kör valideringssvit på den"
@@ -5196,22 +5208,22 @@
     "messageformat": "Starta om"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "Applikation"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Screen security"
+    "messageformat": "Skärmsäkerhet"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "Förhindra skärmdumpar av Signal på den här datorn för ökad integritet."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "Inaktivera skärmsäkerhet?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "Om detta är inaktiverat kan Microsoft Windows ta skärmdumpar av Signal och använda dem för funktioner som kanske inte är privata."
   },
   "icu:Preferences__content-protection__modal--disable": {
-    "messageformat": "Disable"
+    "messageformat": "Inaktivera"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Uppdatering till version {version} tillgänglig"
@@ -6340,19 +6352,16 @@
     "messageformat": "Små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Nu kan du söka efter animerade GIF-filer i Signal Desktop också."
-  },
-  "icu:WhatsNew__v7.51--1": {
-    "messageformat": "Vi har också ändrat storleken på bild-i-bild-fönstret och lagt till nya praktiska genvägar när ett samtal är minimerat."
-  },
   "icu:WhatsNew__v7.54--0": {
     "messageformat": "Vi har lagt till stöd för emoji-genvägar på fler språk."
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "Den här uppdateringen återaktiverar kortkommandon för emojier och klistermärken."
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "Vi har också åtgärdat en sällsynt krasch på vissa Linux-distributioner."
+  },
+  "icu:WhatsNew__v7.56--0": {
+    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
   }
 }

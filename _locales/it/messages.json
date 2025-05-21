@@ -2589,7 +2589,7 @@
     "messageformat": "Apri selettore adesivi"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "Apri il selezionatore di GIF"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Inizia a registrare una nota vocale"
@@ -3136,6 +3136,18 @@
   },
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Microfono attivato"
+  },
+  "icu:CallControls__MutedBySomeoneToast": {
+    "messageformat": "{otherName} muted you."
+  },
+  "icu:CallControls__SomeoneMutedSomeoneToast": {
+    "messageformat": "{name} muted {otherName}."
+  },
+  "icu:CallControls__YouMutedSomeoneToast": {
+    "messageformat": "You muted {otherName}."
+  },
+  "icu:CallControls__YouMutedYourselfToast": {
+    "messageformat": "You muted yourself from another device."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Vuoi abbassare la mano?"
@@ -4986,19 +4998,19 @@
     "messageformat": "Configurazione interna"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "Backup locali"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "Esporta…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "Esporta il backup crittografato locale in una cartella per poi validarlo"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "Importa…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "Organizza un backup crittografato locale per importarlo con un link"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Esporta backup crittografati sul tuo spazio di archiviazione ed esegui una validation suite sul backup"
@@ -5196,22 +5208,22 @@
     "messageformat": "Riavvia"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "Applicazione"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Screen security"
+    "messageformat": "Sicurezza schermo"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "Impedisce di effettuare screenshot di Signal su questo computer per un livello aggiuntivo di privacy."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "Disattivare l'opzione per la sicurezza dello schermo?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "Se disattivata, Microsoft Windows potrebbe scattare degli screenshot di Signal e usarli per delle funzioni che non sono private."
   },
   "icu:Preferences__content-protection__modal--disable": {
-    "messageformat": "Disable"
+    "messageformat": "Disabilita"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Aggiornamento alla versione {version} disponibile"
@@ -6340,19 +6352,16 @@
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Non esiste invenzione al mondo che possa tenere testa alla nostra… barra di ricerca per le GIF animate! Da ora puoi goderti una nuova interfaccia su Signal Desktop, più bella e più semplice da usare, perfetta per trovare quell'emoji, sticker o GIF animata che avevi in mente. Ah, il potere della tecnologia!"
-  },
-  "icu:WhatsNew__v7.51--1": {
-    "messageformat": "Abbiamo anche ridimensionato la finestra del picture-in-picture e aggiunto delle comode shortcut per silenziare/riattivare l'audio del tuo microfono e attivare/disattivare la tua camera, mentre la finestra della chiamata è minimizzata."
-  },
   "icu:WhatsNew__v7.54--0": {
     "messageformat": "Un sorriso è un sorriso, in qualsiasi lingua. E da ora, anche le scorciatoie per le emoji su Signal Desktop sono state tradotte, così puoi <code>:sorridere:</code>, <code>:smile:</code> o <code>:微笑:</code> in una delle tante lingue supportate!"
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "Le scorciatoie per tastiera per le emoji e gli adesivi sono finalmente tornate! Potrai usarle comodamente e risparmierai un sacco di tempo perché non dovrai più segnalarci che non funzionano correttamente."
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "Abbiamo risolto anche un crash che avveniva sulle distro di Linux che non supportavano ancora GTK4."
+  },
+  "icu:WhatsNew__v7.56--0": {
+    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
   }
 }
