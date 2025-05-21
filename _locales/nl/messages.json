@@ -2589,7 +2589,7 @@
     "messageformat": "Sticker-keuzemenu openen"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "GIF-keuzemenu openen"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Opname spraakbericht beginnen"
@@ -4986,19 +4986,19 @@
     "messageformat": "Intern"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "Lokale back-ups"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "Exporteren…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "Versleutelde lokale back-up exporteren naar een map en valideren"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "Importeren…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "Versleutelde lokale back-up maken voor het importeren via een link"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Versleutelde back-up exporteren naar geheugen en de validatiesuite erop uitvoeren"
@@ -5196,19 +5196,19 @@
     "messageformat": "Opnieuw opstarten"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "Applicatie"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Meekijkpreventie"
+    "messageformat": "Schermbeveiliging"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "Voorkom schermafbeeldingen van Signal op deze computer voor extra privacy."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "Schermbeveiliging uitschakelen?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "Als schermbeveiliging is uitgeschakeld, kan Microsoft Windows mogelijk schermafbeeldingen van Signal maken en deze gebruiken voor functies die mogelijk niet privé zijn."
   },
   "icu:Preferences__content-protection__modal--disable": {
     "messageformat": "Uitschakelen"
@@ -6350,9 +6350,9 @@
     "messageformat": "Een glimlach is in elke taal hetzelfde, maar nu de emoji-snelkoppelingen in Signal Desktop volledig zijn vertaald, kun je ook <code>:glimlachen:</code> of <code>:sourire:</code> of <code>:微笑:</code> in elke ondersteunde taal."
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "Sneltoetsen voor emoji's en stickers zijn terug! Deze sneltoetsen besparen nu nog meer tijd, omdat je niet meer hoeft te melden dat ze kapot zijn."
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "We hebben ook een crash opgelost op Linux-distributies die GTK4 nog niet ondersteunen."
   }
 }

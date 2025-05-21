@@ -2589,7 +2589,7 @@
     "messageformat": "스티커 선택기 열기"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "GIF 선택기 열기"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "음성 녹음 시작하기"
@@ -4986,19 +4986,19 @@
     "messageformat": "내부"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "로컬 백업"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "내보내기…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "로컬 암호화된 백업을 폴더로 내보내고 유효성 검사하기"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "가져오기…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "링크에서 가져오기를 위한 로컬 암호화 백업 준비하기"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "암호화된 백업을 메모리로 내보내고, 해당 백업에 유효성 검사 제품군을 실행합니다"
@@ -5196,19 +5196,19 @@
     "messageformat": "다시 시작"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "애플리케이션"
   },
   "icu:Preferences__content-protection--label": {
     "messageformat": "화면 보안"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "이 컴퓨터에서 Signal의 스크린샷을 사용하지 못하도록 방지하여 개인정보 보호를 강화하세요."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "화면 보안을 비활성화하시겠습니까?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "이 옵션을 비활성화하면 Microsoft Windows가 Signal의 스크린샷을 캡처하여 개인정보 보호가 보장되지 않는 기능에 사용할 수 있습니다."
   },
   "icu:Preferences__content-protection__modal--disable": {
     "messageformat": "사용 안 함"
@@ -6350,9 +6350,9 @@
     "messageformat": "이모지 바로 가기에 대한 더 많은 언어 지원을 추가했습니다."
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "이 업데이트는 키보드에서 이모지와 스티커 바로 가기를 재활성화합니다."
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "Linux 배포에서 아주 가끔씩 발생하는 크래시를 해결했습니다."
   }
 }

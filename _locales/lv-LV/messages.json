@@ -2589,7 +2589,7 @@
     "messageformat": "Atvērt uzlīmju izvēli"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "Atvērt GIF izvēli"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Sākt balss piezīmes ierakstīšanu"
@@ -4986,19 +4986,19 @@
     "messageformat": "Iekšējā"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "Vietējās rezerves kopijas"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "Eksportēt…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "Eksportēt lokāli šifrētu rezerves kopiju uz mapi un validēt to"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "Importēt…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "Izveidot lokālu šifrētu rezerves kopiju importēšanai, izmantojot saiti"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Eksportējiet šifrētu rezerves kopiju atmiņā un palaidiet tās validācijas komplektu"
@@ -5196,19 +5196,19 @@
     "messageformat": "Restartēt"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "Programma"
   },
   "icu:Preferences__content-protection--label": {
     "messageformat": "Ekrāna aizsardzība"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "Neļaut šajā datorā uzņemt Signal ekrānuzņēmumus privātuma nolūkos."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "Vai atspējot ekrāna drošību?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "Ja šī opcija ir atspējota, Microsoft Windows var uzņemt Signal ekrānuzņēmumus un izmantot tos funkcijām, kas, iespējams, nav privātas."
   },
   "icu:Preferences__content-protection__modal--disable": {
     "messageformat": "Atspējot"
@@ -6350,9 +6350,9 @@
     "messageformat": "Smaids nozīmē to pašu visās valodās, bet tagad, kad emocijzīmju saīsnes lietotnē Signal Desktop ir pilnībā iztulkotas, varat lietot <code>:smile:</code> <code>:sourire:</code> vai <code>:微笑:</code> jebkurā atbalstītajā valodā."
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "Mēs esam atjaunojuši emocijzīmju un uzlīmju saīsnes! Turklāt tagad ar šīm saīsnēm ietaupīsiet vēl vairāk laika, jo jums vairs nevajadzēs mums rakstīt garas vēstules, lai ziņotu, ka tās nestrādā."
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "Mēs arī novērsām avāriju Linux sadalēs, kas vēl neatbalsta GTK4."
   }
 }

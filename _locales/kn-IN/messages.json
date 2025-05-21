@@ -2589,7 +2589,7 @@
     "messageformat": "ಸ್ಟಿಕ್ಕರ್ ಆಯ್ಕೆಗಾರ ತೆರೆಯಿರಿ"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "GIF ಚೂಸರ್ ಅನ್ನು ತೆರೆಯಿರಿ"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "ವಾಯ್ಸ್ ನೋಟ್ ರೆಕಾರ್ಡಿಂಗ್ ಆರಂಭಿಸಿ"
@@ -4986,19 +4986,19 @@
     "messageformat": "ಆಂತರಿಕ"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "ಸ್ಥಳೀಯ ಬ್ಯಾಕಪ್‌ಗಳು"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "ಎಕ್ಸ್‌ಪೋರ್ಟ್ ಮಾಡಿ…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "ಸ್ಥಳೀಯ ಎನ್ಕ್ರಿಪ್ಟ್ ಆಗಿರುವ ಬ್ಯಾಕಪ್ ಅನ್ನು ಫೋಲ್ಡರ್‌ಗೆ ಎಕ್ಸ್‌ಪೋರ್ಟ್ ಮಾಡಿ ಮತ್ತು ಅದನ್ನು ಮೌಲ್ಯೀಕರಿಸಿ"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "ಇಂಪೋರ್ಟ್ ಮಾಡಿ…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "ಲಿಂಕ್‌ನಲ್ಲಿ ಇಂಪೋರ್ಟ್ ಮಾಡಿಕೊಳ್ಳಲು ಸ್ಥಳೀಯ ಎನ್ಕ್ರಿಪ್ಟ್ ಆಗಿರುವ ಬ್ಯಾಕಪ್ ಅನ್ನು ವ್ಯವಸ್ಥೆಗೊಳಿಸಿ"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "ಎನ್ಕ್ರಿಪ್ಟ್ ಆಗಿರುವ ಬ್ಯಾಕಪ್ ಅನ್ನು ಮೆಮೊರಿಗೆ ಎಕ್ಸ್‌ಪೋರ್ಟ್ ಮಾಡಿ ಮತ್ತು ಅದರ ಮೇಲೆ ವ್ಯಾಲಿಡೇಶನ್ ಸೂಟ್ ಅನ್ನು ರನ್ ಮಾಡಿ"
@@ -5196,19 +5196,19 @@
     "messageformat": "ಮರುಪ್ರಾರಂಭಿಸಿ"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "ಅಪ್ಲಿಕೇಶನ್"
   },
   "icu:Preferences__content-protection--label": {
     "messageformat": "ಸ್ಕ್ರೀನ್ ಸುರಕ್ಷತೆ"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "ಹೆಚ್ಚಿನ ಗೌಪ್ಯತೆಗಾಗಿ ಈ ಕಂಪ್ಯೂಟರ್‌ನಲ್ಲಿ Signal ನ ಸ್ಕ್ರೀನ್‌ಶಾಟ್‌ಗಳನ್ನು ತಡೆಯಿರಿ."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "ಸ್ಕ್ರೀನ್ ಭದ್ರತೆಯನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಬೇಕೇ?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿದರೆ, ಇದು Microsoft Windows ಗೆ Signal ನ ಸ್ಕ್ರೀನ್‌ಶಾಟ್‌ಗಳನ್ನು ಕ್ಯಾಪ್ಚರ್ ಮಾಡಲು ಮತ್ತು ಖಾಸಗಿಯಾಗಿಲ್ಲದ ಫೀಚರ್‌ಗಳಿಗೆ ಅವುಗಳನ್ನು ಬಳಸಲು ಅನುಮತಿಸುತ್ತದೆ."
   },
   "icu:Preferences__content-protection__modal--disable": {
     "messageformat": "ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿ"
@@ -6350,9 +6350,9 @@
     "messageformat": "ಯಾವುದೇ ಭಾಷೆಯಲ್ಲಿಯೇ ಆಗಲಿ ನಗು ಒಂದೇ ಆಗಿರುತ್ತದೆ, ಆದರೆ ಈಗ ಸಿಗ್ನಲ್ ಡೆಸ್ಕ್‌ಟಾಪ್‌ನಲ್ಲಿರುವ ಎಮೋಜಿ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳನ್ನು ಸಂಪೂರ್ಣವಾಗಿ ಅನುವಾದಿಸಲಾಗಿರುವುದರಿಂದ ನೀವು ಯಾವುದೇ ಬೆಂಬಲಿತ ಭಾಷೆಯಲ್ಲಿಯೂ ಸಹ <code>:smile:</code> ಅಥವಾ <code>:sourire:</code> ಅಥವಾ <code>:微笑:</code> ಸಹ ಅನುವಾದಿಸಬಹುದು."
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "ಎಮೋಜಿ ಮತ್ತು ಸ್ಟಿಕ್ಕರ್‌ಗಳಿಗಾಗಿ ಕೀಬೋರ್ಡ್ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳು ಮರಳಿ ಬಂದಿವೆ! ಈ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳು ಇನ್ನೂ ಹೆಚ್ಚಿನ ಸಮಯವನ್ನು ಉಳಿಸುತ್ತವೆ ಏಕೆಂದರೆ ಈಗ ನೀವು ಅವು ಮುರಿದುಹೋಗಿವೆ ಎಂದು ನಮಗೆ ಬರೆದು ಹೇಳುವ ಅಗತ್ಯವಿಲ್ಲ."
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "GTK4 ಅನ್ನು ಇನ್ನೂ ಬೆಂಬಲಿಸದ Linux ವಿತರಣೆಗಳಲ್ಲಿನ ಕ್ರ್ಯಾಶ್ ಅನ್ನು ಸಹ ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ."
   }
 }

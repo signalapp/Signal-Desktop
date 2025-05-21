@@ -2589,7 +2589,7 @@
     "messageformat": "Sticker-Auswahl öffnen"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "GIF-Auswahl öffnen"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Aufnahme der Sprachnachricht beginnen"
@@ -4986,19 +4986,19 @@
     "messageformat": "Intern"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "Lokale Datensicherungen"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "Exportieren…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "Lokale verschlüsselte Datensicherungen in einen Ordner exportieren und validieren"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "Importieren…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "Lokale verschlüsselte Datensicherungen für den Import über Link vorbereiten"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Verschlüsselte Datensicherung auf Speicher sichern und Validierungssuite darauf ausführen"
@@ -5196,19 +5196,19 @@
     "messageformat": "Neu starten"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "Anwendung"
   },
   "icu:Preferences__content-protection--label": {
     "messageformat": "Bildschirmschutz"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "Screenshots von Signal auf diesem Rechner für höheren Datenschutz deaktivieren."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "Bildschirmschutz deaktivieren?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "Wenn diese Option deaktiviert ist, kann Microsoft Windows Screenshots von Signal machen und sie für Funktionen verwenden, die möglicherweise nicht privater Natur sind."
   },
   "icu:Preferences__content-protection__modal--disable": {
     "messageformat": "Deaktivieren"
@@ -6350,9 +6350,9 @@
     "messageformat": "Emoji-Shortcuts wie <code>:joy:</code> werden nun auch in zusätzlichen Sprachen unterstützt. Ein Grund zur <code>:freude:</code>!"
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "Tastaturkurzbefehle für Emojis und Sticker sind wieder da! Mit diesen Kurzbefehlen sparst du noch mehr Zeit, weil du uns jetzt nicht mehr schreiben musst, dass sie nicht funktionieren."
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "Wir haben auch einen Absturz auf Linux-Distributionen behoben, die GTK4 noch nicht unterstützen."
   }
 }

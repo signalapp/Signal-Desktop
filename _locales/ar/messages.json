@@ -1332,7 +1332,7 @@
     "messageformat": "تعذّر إعداد معلومات رابط المُكالمة. يُرجى التحقّق من اتصالك بالانترنت ثم حاول مرة أُخرى."
   },
   "icu:calling__call-link-copied": {
-    "messageformat": "تم نسخ رابط المكالمة."
+    "messageformat": "تمَّ نسخ رابط المكالمة."
   },
   "icu:calling__call-link-no-longer-valid": {
     "messageformat": "لم يعد رابط هذه المكالمة صالحًا."
@@ -2589,7 +2589,7 @@
     "messageformat": "فتح مُنتقي المُلصَقات"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "فتح أداة تحديد صور GIF"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "بدء تسجيل الملاحظة الصوتية"
@@ -4986,19 +4986,19 @@
     "messageformat": "داخلي"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "النسخ الاحتياطية المحلية"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "تصدير…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "تصدير نسخة احتياطية محلية مُشفَّرة إلى مجلد والتحقُّق من صحتها"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "استيراد…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "تجهيز نسخة احتياطية محلية مُشفَّرة للاستيراد على الرابط"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "تصدير نسخة احتياطية مُشفَّرة إلى الذاكرة وتشغيل مجموعة اختبارات التحقُّق عليها"
@@ -5196,19 +5196,19 @@
     "messageformat": "إعادة التشغيل"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "التطبيق"
   },
   "icu:Preferences__content-protection--label": {
     "messageformat": "تأمين الشاشة"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "منع التقاط لقطات شاشة لسيجنال على هذا الكمبيوتر لمزيد من الخصوصية."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "هل ترغبُ بتعطيل أمان الشاشة؟"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "إذا قُمتَ بتعطيل هذا الخيار، قد يسمح هذا لـ Microsoft Windows بالتقاط لقطات شاشة لسيجنال واستخدامها في ميزات قد لا تكون خاصة."
   },
   "icu:Preferences__content-protection__modal--disable": {
     "messageformat": "تعطيل"
@@ -6350,9 +6350,9 @@
     "messageformat": "تتجاوز الابتسامة حواجز اللغة، ولكن بعد أن تمَّت ترجمة اختصارات الرموز التعبيرية بالكامل في سيجنال Desktop، يُمكنك الآن إرسال <code>:smile:</code> أو <code>:sourire:</code> أو <code>:微笑:</code> في أي لغة مدعومة كذلك."
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "عادَتْ اختصارات لوحة المفاتيح للرموز التعبيرية والمُلصَقات من جديد! توفر هذه الاختصارات المزيد من الوقت أيضًا لأنك لن تحتاج إلى أن تتواصل معنا عن طريق الكتابة لتُخبرنا أنها معطلة."
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "أصلحنا أيضًا عطلًا في توزيعات Linux التي لا تدعم GTK4 بعد."
   }
 }

@@ -2589,7 +2589,7 @@
     "messageformat": "ရွေးချယ်ထားသော စတစ်ကာကို ဖွင့်ရန်"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "GIF ရွေးချယ်မှုကို ဖွင့်ရန်"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "အသံမှတ်စု မှတ်တမ်းတင်ခြင်း စတင်ရန်"
@@ -4986,19 +4986,19 @@
     "messageformat": "အတွင်းပိုင်း"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "စက်အတွင်း ဘက်ခ်အပ်"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "ထုတ်ယူရန်..."
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "စက်တွင်းကုဒ်ဝှက်ထားသော ဘက်ခ်အပ်ကို ဖိုင်တွဲတစ်ခုသို့ ထုတ်ယူပြီး ၎င်းကို အတည်ပြုပါ"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "ထည့်သွင်းရန်..."
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "လင့်ခ်တွင် တင်သွင်းရန်အတွက် စက်တွင်းကုဒ်ဝှက်ထားသော ဘက်ခ်အပ်"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "ကုဒ်ပြောင်းဝှက်ထားသော ဘက်ခ်အပ်ကို မန်မိုရီသို့ပို့ပြီး ၎င်းတွင် မှန်ကန်ကြောင်းအတည်ပြုပါ"
@@ -5196,19 +5196,19 @@
     "messageformat": "ပြန်စတင်မည်"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "အက်ပလီကေးရှင်း"
   },
   "icu:Preferences__content-protection--label": {
     "messageformat": "အဖွင့်စာမျက်နှာ လုံခြုံရေး"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "ကိုယ်ပိုင်အချက်အလက် လုံခြုံရေးအတွက် ဤကွန်ပျူတာတွင် Signal ၏ စခရင်ရှော့(တ်)ရိုက်ခြင်းကို တားဆီးပါ။"
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "စခရင်လုံခြုံရေးကို ပိတ်မလား။"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "ပိတ်ထားပါက ၎င်းသည် Microsoft Windows အား Signal ၏ စခရင်ရှော့(တ်)များကို ရိုက်ယူနိုင်စေပြီး သီးသန့်မဟုတ်သည့် အင်္ဂါရပ်များအတွက် ၎င်းတို့ကို အသုံးပြုခွင့်ပေးနိုင်သည်။"
   },
   "icu:Preferences__content-protection__modal--disable": {
     "messageformat": "ပိတ်ထားပါ"
@@ -6350,9 +6350,9 @@
     "messageformat": "အီမိုဂျီရှော့တ်ကတ်များကို ထပ်ဆောင်းဘာသာစကားများတွင် ထည့်သွင်းထားပါသည်။"
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "ဤအပ်ဒိတ်သည် အီမိုဂျီနှင့် စတစ်ကာများအတွက် ကီးဘုတ်ရှော့တ်ကတ်များကို ပြန်လည်အသုံးပြုနိုင်လာစေပါသည်။"
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "Linux ဖြန့်ဝေမှုများတွင်လည်း ပျက်စီးမှုတစ်ခုကို ပြင်ဆင်ထားပါသည်။"
   }
 }

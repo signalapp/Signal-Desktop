@@ -2589,7 +2589,7 @@
     "messageformat": "Отварање бирача налепница"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "Отвори бирач GIF-ова"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Започињање снимања гласовне белешке"
@@ -4986,19 +4986,19 @@
     "messageformat": "Интерно"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "Локалне резервне копије"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "Извези…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "Извезите локалну шифровану резервну копију у фолдер и потврдите је"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "Увези…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "Креирајте локалну шифровану резервну копију за увоз помоћу линка"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Извоз шифроване резервне копије у меморију и покретање пакета за њену валидацију"
@@ -5196,19 +5196,19 @@
     "messageformat": "Покрени поново"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "Апликација"
   },
   "icu:Preferences__content-protection--label": {
     "messageformat": "Безбедност екрана"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "Спречите креирање снимака екрана Signal-а на овом рачунару да бисте имали додатну приватност."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "Желите ли да деактивирате безбедност екрана?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "Ако је ова опција деактивирана, Microsoft Windows ће моћи да прави снимке екрана Signal-а и користи их за функције које можда нису приватне."
   },
   "icu:Preferences__content-protection__modal--disable": {
     "messageformat": "Искључи"
@@ -6350,9 +6350,9 @@
     "messageformat": "Увели смо пречице за емоџије код још језика."
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "У овом ажурирању су поново активиране пречице на тастатури за емоџије и налепнице."
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "Такође смо поправили пад на Linux дистрибуцијама које још увек не подржавају GTK4."
   }
 }

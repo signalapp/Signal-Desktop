@@ -2589,7 +2589,7 @@
     "messageformat": "បើកការជ្រើសរើស ស្ទីកគ័រ"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "បើកកម្មវិធីជ្រើសរើសរូបចលនា"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "ចាប់ផ្តើមការថតកំណត់ត្រាសំឡេង"
@@ -4986,19 +4986,19 @@
     "messageformat": "ផ្ទៃក្នុង"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "ការបម្រុងទុកក្នុងឧបករណ៍"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "នាំចេញ…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "នាំចេញការបម្រុងទុកដែលបានអ៊ីនគ្រីបក្នុងឧបករណ៍ទៅកាន់ថតឯកសារ ហើយធ្វើឱ្យវាមានសុពលភាព"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "នាំចូល…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "ដំណើរការការបម្រុងទុកដែលបានអ៊ីនគ្រីបក្នុងឧបករណ៍សម្រាប់ការនាំចូលនៅលើតំណ"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "នាំចេញការបម្រុងទុកដែលបានអ៊ីនគ្រីបទៅអង្គចងចាំ ហើយធ្វើការផ្ទៀងផ្ទាត់លើវា"
@@ -5196,22 +5196,22 @@
     "messageformat": "ចាប់ផ្ដើមឡើងវិញ"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "កម្មវិធី"
   },
   "icu:Preferences__content-protection--label": {
     "messageformat": "អេក្រង់សុវត្ថិភាព"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "ទប់ស្កាត់ការថតអេក្រង់ Signal នៅលើកុំព្យូទ័រនេះ ដើម្បីរក្សាឯកជនភាពបន្ថែមទៀត។"
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "បិទសុវត្ថិភាពអេក្រង់?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "ប្រសិនបើបិទ វាអាចអនុញ្ញាតឱ្យ Microsoft Windows ចាប់យករូបថតអេក្រង់ Signal ហើយប្រើពួកវាសម្រាប់មុខងារដែលអាចមិនមានលក្ខណៈឯកជន។"
   },
   "icu:Preferences__content-protection__modal--disable": {
-    "messageformat": "បិទចោល"
+    "messageformat": "បិទ"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "ដំឡើងកំណែទៅ {version} ដែលមាន"
@@ -6350,9 +6350,9 @@
     "messageformat": "ស្នាមញញឹមគឺសុទ្ធតែដូចគ្នាទេ ទោះក្នុងភាសាណាក៏ដោយ ប៉ុន្តែឥឡូវនេះយើងបានដាក់បញ្ចូលផ្លូវកាត់ក្នុងការប្រើរូបអារម្មណ៍នៅក្នុង Signal Desktop ដែលអ្នកក៏អាច <code>:smile:</code> ឬ <code>:sourire:</code> ឬ <code>:微笑:</code> ជាភាសាដែលអាចប្រើបានដែរ។"
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "ផ្លូវកាត់ក្តារចុចសម្រាប់រូបអារម្មណ៍ និងស្ទីកគ័របានត្រឡប់មកវិញហើយ! ផ្លូវកាត់ទាំងនេះក៏សន្សំសំចៃពេលវេលាកាន់តែច្រើនផងដែរ ព្រោះឥឡូវនេះអ្នកនឹងមិនចាំបាច់សរសេរ ហើយប្រាប់យើងថាវាខូចទៀតទេ។"
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "យើងក៏បានជួសជុលការគាំងនៅលើប្រព័ន្ធប្រតិបត្តិការ Linux ដែលប្រើមិនបានជាមួយ GTK4 នៅឡើយ។"
   }
 }

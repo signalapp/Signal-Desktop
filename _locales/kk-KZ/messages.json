@@ -2589,7 +2589,7 @@
     "messageformat": "Стикер таңдайтын құралды ашу"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "GIF таңдау құралын ашу"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Дауыстық ескертпені жаза бастау"
@@ -4986,19 +4986,19 @@
     "messageformat": "Ішкі"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "Жергілікті сақтық көшірмелер"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "Экспорттау…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "Жергілікті шифрланған сақтық көшірмені қалтаға экспорттаңыз және жарамдылығын растаңыз"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "Импорттау…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "Сілтеме арқылы импорттау үшін жергілікті шифрланған сақтық көшірмені дайындаңыз"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Шифрланған сақтық көшірмені жадқа экспорттаңыз және оның жарамдылығын тексеріңіз"
@@ -5196,19 +5196,19 @@
     "messageformat": "Өшіріп, қайта қосу"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "Қолданба"
   },
   "icu:Preferences__content-protection--label": {
     "messageformat": "Экран қауіпсіздігі"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "Дерек құпиялығын сақтау үшін осы компьютерде Signal-дың скриншоттарын жасамаңыз."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "Экран қауіпсіздігін өшіру керек пе?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "Өшіріп қойсаңыз, бұл Microsoft Windows жүйесіне Signal-дың скриншоттарын түсіруге және баршаға ашық функциялар үшін қолдануға мүмкіндік береді."
   },
   "icu:Preferences__content-protection__modal--disable": {
     "messageformat": "Өшіру"
@@ -6350,9 +6350,9 @@
     "messageformat": "Эмоциялар тіл таңдамайды. Signal Desktop-тағы эмоджи таңбашалары толықтай аударылғандықтан, енді <code>:smile:</code>, <code>:sourire:</code> немесе <code>:微笑:</code> деп таңдасаңыз да, күлу эмоджиін жібере аласыз."
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "Эмоджи мен стикерлерге арналған пернелер тіркесімі қайта оралды! Енді оларды бұрынғыдан да тиімді пайдалануға болады, себебі оның бұзылғанын хабарлау үшін бізге жазудың қажеті жоқ."
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "Сонымен қатар GTK4 жүйесіне әлі қолдау көрсетпейтін Linux таратылымдарындағы ақауды түзеттік."
   }
 }

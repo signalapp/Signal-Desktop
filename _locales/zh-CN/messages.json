@@ -2589,7 +2589,7 @@
     "messageformat": "打开表情选取器"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "打开 GIF 选择器"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "开始录制语音便签"
@@ -4986,19 +4986,19 @@
     "messageformat": "内部"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "本地备份"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "导出…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "将本地加密备份导出到一个文件夹并对其进行验证"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "导入…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "准备本地加密备份以便在链接上导入"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "将加密备份导出到内存并对其运行验证套件"
@@ -5196,19 +5196,19 @@
     "messageformat": "重启"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "应用程序"
   },
   "icu:Preferences__content-protection--label": {
     "messageformat": "屏幕安全"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "防止在此计算机上截取 Signal 的屏幕截图，以增强隐私性。"
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "要禁用屏幕安全吗？"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "如果禁用，这可能会允许 Microsoft Windows 截取 Signal 的屏幕截图，并将其用于可能并非私密的功能。"
   },
   "icu:Preferences__content-protection__modal--disable": {
     "messageformat": "禁用"
@@ -6350,9 +6350,9 @@
     "messageformat": "我们添加了对其他语言的表情符号快捷键的支持。"
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "此次更新重新启用了表情符号和表情的键盘快捷键。"
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "我们还修复了一些 Linux 发行版上的罕见崩溃问题。"
   }
 }

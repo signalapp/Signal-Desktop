@@ -2589,7 +2589,7 @@
     "messageformat": "Otvoriť galériu nálepiek"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "Otvoriť ponuku GIFov"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Začať nahrávať hlasovú správu"
@@ -4986,19 +4986,19 @@
     "messageformat": "Pokročilé"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "Lokálne zálohy"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "Exportovať…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "Exportovať lokálnu šifrovanú zálohu do priečinka a overiť ju"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "Importovať…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "Pripraviť lokálnu šifrovanú zálohu na importovanie cez odkaz"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Exportujte šifrovanú zálohu do pamäte a spustite na nej testovaciu súpravu"
@@ -5196,19 +5196,19 @@
     "messageformat": "Reštartovať"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "Aplikácia"
   },
   "icu:Preferences__content-protection--label": {
     "messageformat": "Zabezpečenie obrazovky"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "Pre zvýšenie súkromia zabráni snímaniu obrazovky Signalu na tomto počítači."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "Vypnúť zabezpečenie obrazovky?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "Ak je táto možnosť vypnutá, systém Microsoft Windows môže zachytiť snímky obrazovky zo Signalu a použiť ich pre funkcie, ktoré nemusia byť súkromné."
   },
   "icu:Preferences__content-protection__modal--disable": {
     "messageformat": "Vypnúť"
@@ -6350,9 +6350,9 @@
     "messageformat": "Pridali sme skratky pre emoji v ďalších jazykoch."
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "S touto aktualizáciou na scénu opäť prichádzajú klávesové skratky pre emoji a nálepky."
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "Opravili sme tiež zriedkavé zlyhanie na niektorých distribúciách Linuxu."
   }
 }

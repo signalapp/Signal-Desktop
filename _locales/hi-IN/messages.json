@@ -2589,7 +2589,7 @@
     "messageformat": "स्टिकर चुनने वाला खोलें"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "GIF चुनने वाला खोलें"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "वॉयस मेसेज रिकॉर्ड करना शुरु करें"
@@ -4986,19 +4986,19 @@
     "messageformat": "अंदरूनी"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "स्थानीय बैकअप"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "एक्सपोर्ट करें…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "स्थानीय एनक्रिप्टेड बैकअप को एक फ़ोल्डर में एक्सपोर्ट करके वैलिडेट करें"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "आयात करें…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "लिंक पर आयात के लिए स्थानीय एनक्रिप्टेड बैकअप को स्टेज करें"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "एनक्रिप्टेड बैकअप को मेमोरी में एक्सपोर्ट करें और इस पर वैलिडेशन सुइट चलाएँ"
@@ -5196,19 +5196,19 @@
     "messageformat": "पुनः आरंभ करें"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "ऐप्लिकेशन"
   },
   "icu:Preferences__content-protection--label": {
     "messageformat": "स्क्रीन सुरक्षा"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "ज़्यादा निजता के लिए, इस कंप्यूटर पर Signal के स्क्रीनशॉट रोकें।"
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "स्क्रीन की सुरक्षा बंद करें?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "बंद होने पर, यह Microsoft Windows को Signal के स्क्रीनशॉट लेने और उन्हें ऐसे फ़ीचर के लिए इस्तेमाल करने की अनुमति दे सकता है जो शायद निजी न हों।"
   },
   "icu:Preferences__content-protection__modal--disable": {
     "messageformat": "अक्षम"
@@ -6350,9 +6350,9 @@
     "messageformat": "हर भाषा में मुस्कान एक जैसी होती है, लेकिन अब Signal डेस्कटॉप में इमोजी शॉर्टकट्स का पूरी तरह अनुवाद कर दिया गया है, इसलिए आप सपोर्ट की गई किसी भी भाषा में <code>:smile:</code> या <code>:sourire:</code> या <code>:微笑:</code> कर सकते हैं।"
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "इमोजी और स्टिकर के लिए कीबोर्ड शॉर्टकट लौट आए हैं! इन शॉर्टकट से और भी ज़्यादा समय बचता है, क्योंकि अब आपको लिखकर यह बताना नहीं पड़ेगा कि वे खराब हो गए हैं।"
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "हमने Linux डिस्ट्रिब्यूशन पर वह क्रैश भी ठीक कर दिया है जो GTK4 को अब तक सपोर्ट नहीं करता है।"
   }
 }

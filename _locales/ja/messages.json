@@ -2589,7 +2589,7 @@
     "messageformat": "ステッカー選択画面を開く"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "GIF選択画面を開く"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "音声メモの録音を開始する"
@@ -4986,19 +4986,19 @@
     "messageformat": "内部設定"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "ローカルバックアップ"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "エクスポートする"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "ローカル内の暗号化されたバックアップをフォルダにエクスポートして検証します"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "インポートする"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "ローカル内に暗号化されたバックアップを作成して、リンク時にインポートできるようにします"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "暗号化されたバックアップをメモリにエクスポートし、検証処理を実行します"
@@ -5196,19 +5196,19 @@
     "messageformat": "再起動"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "アプリ"
   },
   "icu:Preferences__content-protection--label": {
     "messageformat": "画面のセキュリティ"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "プライバシーをさらに強化するため、このコンピューター上でSignalのスクリーンショットを撮影できないようにします。"
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "スクリーンセキュリティを無効にしますか？"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "無効にすると、Microsoft WindowsがSignalのスクリーンショットを撮影して、プライベートではない機能に使用される可能性があります。"
   },
   "icu:Preferences__content-protection__modal--disable": {
     "messageformat": "無効"
@@ -6350,9 +6350,9 @@
     "messageformat": "より多くの言語で絵文字のショートカットが使えるようになりました。 <code></code><code></code><code></code>"
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "このアップデートにより、絵文字とステッカーのキーボードショートカットが再び有効となります。"
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "一部のLinuxディストリビューションで発生する稀なクラッシュも修正しました。"
   }
 }

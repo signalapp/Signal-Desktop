@@ -2589,7 +2589,7 @@
     "messageformat": "Открыть панель стикеров"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "Открыть панель GIF"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Начать запись аудиосообщения"
@@ -4986,19 +4986,19 @@
     "messageformat": "Внутренние"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "Локальные резервные копии"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "Экспорт…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "Экспортируйте зашифрованную резервную копию в папку и проверьте её"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "Импорт…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "Проиндексируйте локальные зашифрованные резервные копии для импорта по ссылке"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Экспортируйте зашифрованную резервную копию в память и запустите для нее набор проверок"
@@ -5196,19 +5196,19 @@
     "messageformat": "Перезапустить"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "Приложение"
   },
   "icu:Preferences__content-protection--label": {
     "messageformat": "Защита экрана"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "Запретите делать снимки экрана Signal на этом компьютере для дополнительной конфиденциальности."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "Отключить защиту экрана?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "Если защита отключена, это может позволить Microsoft Windows делать снимки экрана Signal и использовать их для функций, которые могут нарушать конфиденциальность."
   },
   "icu:Preferences__content-protection__modal--disable": {
     "messageformat": "Отключить"
@@ -6350,9 +6350,9 @@
     "messageformat": "Улыбка одинакова на всех языках, но теперь, когда ярлыки эмодзи в Signal Desktop полностью переведены, вы также можете <code>:smile:</code>, или <code>:sourire:</code>, или <code>:微笑:</code> на любом поддерживаемом языке."
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "Сочетания клавиш для эмодзи и стикеров вернулись! Помимо прочего, эти сочетания экономят ещё больше времени, потому что теперь вам больше не нужно сообщать нам, что они не работают."
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "Мы также исправили сбой на дистрибутивах Linux, которые ещё не поддерживают GTK4."
   }
 }
