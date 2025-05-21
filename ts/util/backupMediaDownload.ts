@@ -3,18 +3,11 @@
 
 import { AttachmentDownloadManager } from '../jobs/AttachmentDownloadManager';
 import { DataWriter } from '../sql/Client';
-import { drop } from './drop';
 
 export async function startBackupMediaDownload(): Promise<void> {
   await window.storage.put('backupMediaDownloadPaused', false);
-  await window.storage.put('backupMediaDownloadIdle', false);
 
   await AttachmentDownloadManager.start();
-  drop(
-    AttachmentDownloadManager.waitForIdle(async () => {
-      await window.storage.put('backupMediaDownloadIdle', true);
-    })
-  );
 }
 
 export async function pauseBackupMediaDownload(): Promise<void> {
@@ -31,7 +24,6 @@ export async function resetBackupMediaDownloadItems(): Promise<void> {
     window.storage.remove('backupMediaDownloadCompletedBytes'),
     window.storage.remove('backupMediaDownloadBannerDismissed'),
     window.storage.remove('backupMediaDownloadPaused'),
-    window.storage.remove('backupMediaDownloadIdle'),
   ]);
 }
 

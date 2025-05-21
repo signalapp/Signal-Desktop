@@ -270,7 +270,7 @@ export const getBackupMediaDownloadProgress = createSelector(
     totalBytes: state.backupMediaDownloadTotalBytes ?? 0,
     downloadedBytes: state.backupMediaDownloadCompletedBytes ?? 0,
     isPaused: state.backupMediaDownloadPaused ?? false,
-    isIdle: state.backupMediaDownloadIdle ?? false,
+    isIdle: state.attachmentDownloadManagerIdled ?? false,
     downloadBannerDismissed: state.backupMediaDownloadBannerDismissed ?? false,
   })
 );
