@@ -8459,10 +8459,14 @@
   },
   "icu:WhatsNew__v7.55--0": {
     "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore.",
-    "description": "Release notes for version 7.55"
+    "description": "(Deleted 2025/05/21) Release notes for version 7.55"
   },
   "icu:WhatsNew__v7.55--1": {
     "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet.",
-    "description": "Release notes for version 7.55"
+    "description": "(Deleted 2025/05/21) Release notes for version 7.55"
+  },
+  "icu:WhatsNew__v7.56--0": {
+    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab.",
+    "description": "Release notes for version 7.56"
   }
 }
