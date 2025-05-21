@@ -106,12 +106,6 @@ export function PreferencesInternal({
 
   return (
     <>
-      <div className="Preferences__title Preferences__title--internal">
-        <div className="Preferences__title--header">
-          {i18n('icu:Preferences__button--internal')}
-        </div>
-      </div>
-
       <SettingsRow
         className="Preferences--internal--backups"
         title={i18n('icu:Preferences__button--backups')}
