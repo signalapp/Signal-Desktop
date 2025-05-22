@@ -214,6 +214,10 @@ const FORCE_ENABLE_CRASH_REPORTS = process.argv.some(
   arg => arg === '--enable-crash-reports'
 );
 
+const DISABLE_SCREEN_SECURITY = process.argv.some(
+  arg => arg === '--disable-screen-security'
+);
+
 const CLI_LANG = cliOptions.lang as string | undefined;
 
 setupCrashReports(getLogger, showDebugLogWindow, FORCE_ENABLE_CRASH_REPORTS);
@@ -576,8 +580,8 @@ async function handleCommonWindowEvents(window: BrowserWindow) {
   // Apply content protection by default on Windows, unless explicitly disabled
   // by user in settings.
   if (
-    contentProtection ??
-    isContentProtectionEnabledByDefault(OS, os.release())
+    !DISABLE_SCREEN_SECURITY &&
+    (contentProtection ?? isContentProtectionEnabledByDefault(OS, os.release()))
   ) {
     window.once('ready-to-show', async () => {
       window.setContentProtection(true);
