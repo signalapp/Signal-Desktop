@@ -97,7 +97,7 @@ body:
     id: primary-device
     attributes:
       label: Version of Signal on your phone
-      description: "Android: Settings->Help,  iOS: Settings->General->About"
+      description: "Settings->Help"
       placeholder:
     validations:
       required: false
