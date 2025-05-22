@@ -1747,14 +1747,14 @@ export class BackupExportStream extends Readable {
         const changedConvo = window.ConversationController.get(
           message.changedId
         );
-        if (!changedConvo) {
-          throw new Error(
-            'toChatItemUpdate/profileChange: changedId conversation not found!'
+        if (changedConvo) {
+          // This will override authorId on the original chatItem
+          patch.authorId = this.#getOrPushPrivateRecipient(changedConvo);
+        } else {
+          log.warn(
+            `${logId}: failed to resolve changedId ${message.changedId}`
           );
         }
-
-        // This will override authorId on the original chatItem
-        patch.authorId = this.#getOrPushPrivateRecipient(changedConvo);
       }
 
       const { newName, oldName } = message.profileChange;
