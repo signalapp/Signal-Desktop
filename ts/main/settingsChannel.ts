@@ -37,6 +37,10 @@ export class SettingsChannel extends EventEmitter {
   readonly #responseQueue = new Map<number, ResponseQueueEntry>();
   #responseSeq = 0;
 
+  #disableScreenSecurity = process.argv.some(
+    arg => arg === '--disable-screen-security'
+  );
+
   public setMainWindow(mainWindow: BrowserWindow | undefined): void {
     this.#mainWindow = mainWindow;
   }
@@ -124,9 +128,28 @@ export class SettingsChannel extends EventEmitter {
     this.#installEphemeralSetting('systemTraySetting');
     this.#installEphemeralSetting('localeOverride');
     this.#installEphemeralSetting('spellCheck');
-    this.#installEphemeralSetting('contentProtection');
 
     installPermissionsHandler({ session: session.defaultSession, userConfig });
+
+    ipc.handle('settings:get:contentProtection', () => {
+      if (this.#disableScreenSecurity) {
+        return false;
+      }
+      return ephemeralConfig.get('contentProtection');
+    });
+    ipc.handle('settings:set:contentProtection', (_event, value) => {
+      // Updated setting should override the CLI argument until restart
+      this.#disableScreenSecurity = false;
+
+      ephemeralConfig.set('contentProtection', value);
+
+      this.emit('change:contentProtection', value);
+
+      // Notify main to notify windows of preferences change. As for DB-backed
+      // settings, those are set by the renderer, and afterwards the renderer IPC sends
+      // to main the event 'preferences-changed'.
+      this.emit('ephemeral-setting-changed', 'contentProtection');
+    });
 
     // These ones are different because its single source of truth is userConfig,
     // not IndexedDB
