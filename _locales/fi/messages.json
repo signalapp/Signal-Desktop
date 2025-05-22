@@ -3138,16 +3138,16 @@
     "messageformat": "Mikrofoni päällä"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} mykisti sinut."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} mykisti käyttäjän {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Mykistit käyttäjän {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Mykistit itsesi toiselta laitteelta."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Laske käsi?"

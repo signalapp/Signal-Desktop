@@ -3138,16 +3138,16 @@
     "messageformat": "Микрофонот е вклучен"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} го исклучи вашиот звук."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} го исклучи звукот на {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Го исклучивте звукот од {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Го исклучивте вашиот звук од друг уред."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Сакате да ја спуштите раката?"

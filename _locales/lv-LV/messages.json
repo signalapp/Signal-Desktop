@@ -3138,16 +3138,16 @@
     "messageformat": "Mikrofons ieslēgts"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} izslēdza jūsu skaņu."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} izslēdza skaņu {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Jūs izslēdzāt skaņu {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Jūs izslēdzāt savu skaņu citā ierīcē."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Nolaist roku?"

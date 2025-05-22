@@ -3138,16 +3138,16 @@
     "messageformat": "마이크 켜짐"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} 님이 내 알림을 껐습니다."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} 님이 {otherName} 님의 알림을 껐습니다."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "{otherName}의 알림을 껐습니다."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "다른 기기에서 내 알림을 껐습니다."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "손을 내릴까요?"

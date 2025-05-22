@@ -3138,16 +3138,16 @@
     "messageformat": "میکروفون روشن است"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} شما را بی‌صدا کرد."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name}‏، {otherName} را بی‌صدا کرد."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "شما {otherName} را بی‌صدا کردید."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "شما خودتان را از دستگاه دیگری بی‌صدا کردید."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "دستتان را پایین می‌آورید؟"

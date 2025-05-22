@@ -3138,16 +3138,16 @@
     "messageformat": "Microfoon aan"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} heeft jou gedempt."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} heeft {otherName} gedempt."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Je hebt {otherName} gedempt."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Je hebt jezelf op een ander apparaat gedempt."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Hand omlaag doen?"

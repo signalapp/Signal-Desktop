@@ -3138,16 +3138,16 @@
     "messageformat": "မိုက် ဖွင့်ထားသည်"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} သင့်ကို အသံပိတ်ထားသည်။"
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} သည် {otherName} ကို အသံပိတ်ထားသည်။"
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "သင်သည် {otherName} ကို အသံပိတ်ထားသည်။"
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "သင်သည် အခြားစက်မှ သင့်ကိုယ်သင် အသံပိတ်ထားသည်။"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "လက်ပြန်ချမည်လား။"

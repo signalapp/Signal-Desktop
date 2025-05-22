@@ -3138,16 +3138,16 @@
     "messageformat": "Mikrofon be"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} elnémított téged."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} elnémította {otherName} felhasználót."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "{otherName} elnémításra került."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Elnémítottad magadat egy másik eszközről."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Leteszed a kezed?"

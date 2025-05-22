@@ -3138,16 +3138,16 @@
     "messageformat": "Naka-on ang mic"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "Na-mute ka ni {otherName} ."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "Na-mute ni {name} si {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Na-mute mo si {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Na-mute mo ang iyong sarili mula sa ibang device."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Gusto mo bang ibaba ang iyong kamay?"

@@ -3138,16 +3138,16 @@
     "messageformat": "Mikrofon açıqdır"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} sizi səssiz rejimə keçirdi."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} {otherName} adlı istifadəçini səssiz rejimə keçirdi."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "{otherName} adlı istifadəçini səssiz rejimə keçirdiniz."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Digər cihazdan gələnlər üçün özünüzü səssiz rejimə keçirdiniz."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Əl endirilsin?"

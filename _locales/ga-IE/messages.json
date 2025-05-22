@@ -3138,16 +3138,16 @@
     "messageformat": "Micreafón air"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "Bhalbhaigh {otherName} thú."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "Bhalbhaigh {name} {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Bhalbhaigh tú {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Bhalbhaigh tú thú féin ó ghléas eile."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Ísligh do lámh?"

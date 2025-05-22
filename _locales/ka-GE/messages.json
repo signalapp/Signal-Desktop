@@ -3138,16 +3138,16 @@
     "messageformat": "მიკროფონი ჩართულია"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName}-მ ხმა გაგითიშა."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name}-მა {otherName}-ს ხმა გაუთიშა."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "{otherName}-ს ხმა გაუთიშე."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "შენს თავს ხმა სხვა მოწყობილობიდან გაუთიშე."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "გსურს, ხელი ჩამოწიო?"

@@ -3138,16 +3138,16 @@
     "messageformat": "Microfon activat"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} ți-a dezactivat sunetul."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} a dezactivat sunetul pentru {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Ai dezactivat sunetul pentru {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Ți-ai dezactivat sunetul de pe un alt dispozitiv."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Lași mâna jos?"

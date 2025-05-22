@@ -3138,16 +3138,16 @@
     "messageformat": "Mikrofon på"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} deaktiverte varslene fra deg."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} deaktiverte varslene fra {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Du deaktiverte varslene fra {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Du deaktiverte varslene fra deg selv på en annen enhet."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Vil du ta ned hånden?"

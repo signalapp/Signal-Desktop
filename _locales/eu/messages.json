@@ -3138,16 +3138,16 @@
     "messageformat": "Mikrofonoa aktibatuta"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} erabiltzaileak zure jakinarazpenak desaktibatu ditu."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} erabiltzaileak {otherName} erabiltzailearen jakinarazpenak desaktibatu ditu."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "{otherName} erabiltzailearen jakinarazpenak desaktibatu dituzu."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Zeure buruari jakinarazpenak desaktibatu dizkiozu beste gailu batetik."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Eskua jaitsi nahi duzu?"

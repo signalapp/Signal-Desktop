@@ -3138,16 +3138,16 @@
     "messageformat": "മൈക്ക് ഓണാണ്"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} നിങ്ങളെ മ്യൂട്ട് ചെയ്തു."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} {otherName}-നെ മ്യൂട്ട് ചെയ്തു."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "നിങ്ങൾ {otherName}-നെ മ്യൂട്ട് ചെയ്തു."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "നിങ്ങൾ മറ്റൊരു ഉപകരണത്തിൽ നിന്ന് നിങ്ങളെത്തന്നെ മ്യൂട്ട് ചെയ്തു."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "കൈ താഴ്ത്തണോ?"

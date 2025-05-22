@@ -3138,16 +3138,16 @@
     "messageformat": "মাইক চালু করুন"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} আপনাকে মিউট করেছেন।"
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} {otherName}-কে মিউট করেছেন।"
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "আপনি {otherName}-কে মিউট করেছেন।"
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "আপনি অন্য একটি ডিভাইস থেকে নিজেকে মিউট করে রেখেছেন।"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "হাত নামবেন?"

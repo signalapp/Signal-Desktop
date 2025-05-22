@@ -3138,16 +3138,16 @@
     "messageformat": "Микрофон күйүк"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} үнүңүздү өчүрүп койду."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} {otherName} үнүн өчүрүп койду."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "{otherName} үнүн бастыңыз."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Башка түзмөктө өзүңүздүн үнүңүздү өчүрдүңүз."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Колуңузду түшүрөсүзбү?"

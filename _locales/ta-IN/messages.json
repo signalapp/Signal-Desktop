@@ -3138,16 +3138,16 @@
     "messageformat": "மைக் ஆன்"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} உங்களை ஒலியடக்கியுள்ளார்."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} என்பவர் {otherName}ஐ ஒலியடக்கியுள்ளார்."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "நீங்கள் {otherName}ஐ ஒலியடக்கியுள்ளீர்கள்."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "நீங்கள் மற்றொரு சாதனத்தில் இருந்து உங்களை ஒலியடக்கியுள்ளீர்கள்."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "உங்கள் கையைத் தாழ்த்துகிறீர்களா?"

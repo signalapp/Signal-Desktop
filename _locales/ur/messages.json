@@ -3138,16 +3138,16 @@
     "messageformat": "مائیک آن"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} نے آپ کو خاموش کر دیا۔"
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} نے {otherName} کو خاموش کر دیا۔"
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "آپ نے {otherName} کو خاموش کر دیا۔"
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "آپ نے کسی دوسری ڈیوائس سے خود کو خاموش کر دیا۔"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "اپنا ہاتھ نیچے کریں؟"

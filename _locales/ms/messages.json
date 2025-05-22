@@ -3138,16 +3138,16 @@
     "messageformat": "Mikrofon dihidupkan"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} meredamkan anda."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} meredamkan {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Anda meredamkan {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Anda meredamkan diri anda daripada peranti lain."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Turunkan tangan anda?"

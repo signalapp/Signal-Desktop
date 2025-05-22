@@ -3138,16 +3138,16 @@
     "messageformat": "開啟麥克風"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} 已將你靜音。"
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} 已將 {otherName} 靜音。"
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "你已將 {otherName} 靜音。"
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "你已從另一個裝置將自己靜音。"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "要放下手？"

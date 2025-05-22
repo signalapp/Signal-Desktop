@@ -3138,16 +3138,16 @@
     "messageformat": "Mikrofonas įjungtas"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} jus nutildė."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} nutildė {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Nutildėte {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Nutildėte save kitame įrenginyje."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Nuleisti ranką?"

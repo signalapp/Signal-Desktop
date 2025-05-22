@@ -3138,16 +3138,16 @@
     "messageformat": "Mikrofón zapnutý"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "Používateľ {otherName} vám stlmil zvuk."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "Používateľ {name} stlmil zvuk používateľa {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Stlmili ste zvuk používateľa {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Stlmili ste si zvuk na inom zariadení."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Znížiť ruku?"

@@ -3138,16 +3138,16 @@
     "messageformat": "マイクオン"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName}があなたをミュートしました。"
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name}が{otherName}をミュートしました。"
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "{otherName}をミュートしました。"
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "別の端末で自分をミュートしました。"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "手をおろしますか？"

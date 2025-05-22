@@ -3138,16 +3138,16 @@
     "messageformat": "Washa mic"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} amekunyamazisha."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} amemnyamazisha {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Umemnyamazisha {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Umejinyamazisha katika kifaa kingine."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Je ushushe mkono wako?"

@@ -3138,16 +3138,16 @@
     "messageformat": "مىكروفون ئوچۇق"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} سىزنى ئۈنسىزلاندۇردى."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} {otherName} نى ئۈنسىزلاندۇردى."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "{otherName} نى ئۈنسىزلاندۇردىڭىز."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "ئۆزىڭىزنى باشقا ئۈسكۈنىدىن ئۈنسىزلاندۇردىڭىز."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "قولىڭىزنى چۈشۈرەمسىز؟"

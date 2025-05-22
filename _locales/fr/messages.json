@@ -3138,16 +3138,16 @@
     "messageformat": "Micro activé"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} vous a mis en sourdine."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} a mis {otherName} en sourdine."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Vous avez mis {otherName} en sourdine."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Vous vous êtes mis en sourdine depuis un autre appareil."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Baisser la main ?"

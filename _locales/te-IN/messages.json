@@ -3138,16 +3138,16 @@
     "messageformat": "మైక్ ఆన్‌లో ఉంది"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} మిమ్మల్ని మ్యూట్ చేశారు."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{otherName} ను {name} మ్యూట్ చేశారు."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "మీరు {otherName} ను మ్యూట్ చేశారు."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "మరొక పరికరం నుండి మిమ్మల్ని మీరు మ్యూట్ చేసుకున్నారు."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "మీ చేతిని దించేదా?"

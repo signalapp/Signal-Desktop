@@ -3138,16 +3138,16 @@
     "messageformat": "الميكروفون مُفعَّل"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} كتمَ صوتك."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} كتمَ صوت {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "كتمتَ صوت {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "كتمتَ نفسك من جهاز آخر."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "هل تريد خفض يدك؟"

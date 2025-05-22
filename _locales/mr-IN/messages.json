@@ -3138,16 +3138,16 @@
     "messageformat": "माईक चालू आहे"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName}ने तुम्हाला म्युट केले."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name}ने {otherName}ला म्युट केले."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "तुम्ही {otherName}ला म्युट केलेत."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "तुम्ही दुसऱ्या डिव्हाईसवरून स्वतःला म्युट केलेत."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "आपल्याला हात खाली करायचा आहे?"

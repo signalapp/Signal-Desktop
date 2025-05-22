@@ -3138,16 +3138,16 @@
     "messageformat": "Mikrofoni i ndezur"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} të hoqi zërin."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} hoqi zërin e {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Hoqe zërin e {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Hoqe zërin e vetes nga pajisja tjetër."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Ul dorën?"

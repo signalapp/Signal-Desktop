@@ -3138,16 +3138,16 @@
     "messageformat": "បានបើកមីក្រូហ្វូន"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} បានបិទសំឡេងអ្នក។"
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} បានបិទសំឡេង {otherName}។"
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "អ្នកបានបិទសំឡេង {otherName}។"
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "អ្នកបានបិទសំឡេងខ្លួនអ្នកពីឧបករណ៍ផ្សេងទៀត។"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "ដាក់ដៃរបស់អ្នកចុះឬ?"

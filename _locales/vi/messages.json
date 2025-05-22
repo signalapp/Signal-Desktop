@@ -3138,16 +3138,16 @@
     "messageformat": "Bật micro"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} đã tắt tiếng bạn."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} đã tắt tiếng {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Bạn đã tắt tiếng {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Bạn đã tắt tiếng chính mình từ một thiết bị khác."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Bạn muốn hạ tay?"

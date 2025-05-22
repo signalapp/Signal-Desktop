@@ -3138,16 +3138,16 @@
     "messageformat": "Μικρόφωνο ενεργό"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "Ο χρήστης {otherName} σε έθεσε σε σίγαση."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "Ο/Η {name} έθεσε σε σίγαση τον χρήστη {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Έθεσες σε σίγαση τον χρήστη {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Έθεσες τον εαυτό σου σε σίγαση από άλλη συσκευή."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Θες να κατεβάσεις το χέρι σου;"
