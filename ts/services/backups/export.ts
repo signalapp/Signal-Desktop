@@ -960,6 +960,7 @@ export class BackupExportStream extends Readable {
         recipient: this.#toRecipient(result, {
           type: 'private',
           serviceId,
+          pni: isPniString(serviceId) ? serviceId : undefined,
           e164,
         }),
       });
