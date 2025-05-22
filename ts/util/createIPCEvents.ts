@@ -194,11 +194,12 @@ export function createIPCEvents(
     },
     getContentProtection: async () => {
       return (
-        (await getEphemeralSetting('contentProtection')) ??
-        Settings.isContentProtectionEnabledByDefault(
-          OS,
-          window.SignalContext.config.osRelease
-        )
+        !window.SignalContext.config.disableScreenSecurity &&
+        ((await getEphemeralSetting('contentProtection')) ??
+          Settings.isContentProtectionEnabledByDefault(
+            OS,
+            window.SignalContext.config.osRelease
+          ))
       );
     },
     setContentProtection: async (value: boolean) => {
