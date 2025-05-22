@@ -139,6 +139,37 @@ export const StickerButton = React.memo(function StickerButtonInner({
     clearShowIntroduction();
   }, [clearInstalledStickerPack, clearShowIntroduction]);
 
+  // Keyboard shortcut handler for opening/closing sticker picker
+  // Uses Command/Ctrl + Shift + G to toggle the sticker picker
+  // This matches the shortcut defined in ShortcutGuide.tsx
+  React.useEffect(() => {
+    const handleKeydown = (event: KeyboardEvent) => {
+      const { ctrlKey, metaKey, shiftKey } = event;
+      const commandKey = get(window, 'platform') === 'darwin' && metaKey;
+      const controlKey = get(window, 'platform') !== 'darwin' && ctrlKey;
+      const commandOrCtrl = commandKey || controlKey;
+      const key = KeyboardLayout.lookup(event);
+
+      // We don't want to open up if the conversation has any panels open
+      const panels = document.querySelectorAll('.conversation .panel');
+      if (panels && panels.length > 1) {
+        return;
+      }
+
+      if (commandOrCtrl && shiftKey && (key === 'g' || key === 'G')) {
+        event.stopPropagation();
+        event.preventDefault();
+
+        setOpen(!open);
+      }
+    };
+    document.addEventListener('keydown', handleKeydown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeydown);
+    };
+  }, [open, setOpen]);
+
   // Create popper root and handle outside clicks
   React.useEffect(() => {
     if (open) {
@@ -186,35 +217,6 @@ export const StickerButton = React.memo(function StickerButtonInner({
       }
     );
   }, [open, popperRoot, setOpen]);
-
-  // Install keyboard shortcut to open sticker picker
-  React.useEffect(() => {
-    const handleKeydown = (event: KeyboardEvent) => {
-      const { ctrlKey, metaKey, shiftKey } = event;
-      const commandKey = get(window, 'platform') === 'darwin' && metaKey;
-      const controlKey = get(window, 'platform') !== 'darwin' && ctrlKey;
-      const commandOrCtrl = commandKey || controlKey;
-      const key = KeyboardLayout.lookup(event);
-
-      // We don't want to open up if the conversation has any panels open
-      const panels = document.querySelectorAll('.conversation .panel');
-      if (panels && panels.length > 1) {
-        return;
-      }
-
-      if (commandOrCtrl && shiftKey && (key === 'g' || key === 'G')) {
-        event.stopPropagation();
-        event.preventDefault();
-
-        setOpen(!open);
-      }
-    };
-    document.addEventListener('keydown', handleKeydown);
-
-    return () => {
-      document.removeEventListener('keydown', handleKeydown);
-    };
-  }, [open, setOpen]);
 
   // Clear the installed pack after one minute
   React.useEffect(() => {

@@ -110,17 +110,33 @@ export const StickerPicker = React.memo(
         const handler = (event: KeyboardEvent) => {
           if (event.key === 'Tab') {
             // We do NOT prevent default here to allow Tab to be used normally
-
             setIsUsingKeyboard(true);
-
             return;
           }
 
           if (event.key === 'Escape') {
             event.stopPropagation();
             event.preventDefault();
-
             onClose();
+          }
+
+          // Handle arrow key navigation between stickers
+          if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+            const currentSticker = document.activeElement;
+            if (!currentSticker) return;
+
+            const stickers = Array.from(
+              document.querySelectorAll('.module-sticker-picker__body__cell')
+            );
+            const currentIndex = stickers.indexOf(currentSticker);
+            if (currentIndex === -1) return;
+
+            const nextIndex = event.key === 'ArrowLeft' 
+              ? Math.max(0, currentIndex - 1)
+              : Math.min(stickers.length - 1, currentIndex + 1);
+            
+            const nextSticker = stickers[nextIndex] as HTMLElement;
+            nextSticker.focus();
           }
         };
 

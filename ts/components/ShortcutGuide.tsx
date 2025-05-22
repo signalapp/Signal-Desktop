@@ -56,6 +56,7 @@ type KeyType =
 type ShortcutType = {
   id: string;
   description: string;
+  note?: string;
 } & (
   | {
       keys: Array<Array<KeyType>>;
@@ -163,6 +164,7 @@ function getNavigationShortcuts(i18n: LocalizerType): Array<ShortcutType> {
       id: 'Keyboard--open-gif-chooser',
       description: i18n('icu:Keyboard--open-gif-chooser'),
       keys: [['commandOrCtrl', 'shift', 'G']],
+      note: 'Opens the sticker picker in the current conversation',
     },
     {
       id: 'Keyboard--begin-recording-voice-note',
