@@ -1032,11 +1032,13 @@ export class BackupExportStream extends Readable {
 
       const { nicknameGivenName, nicknameFamilyName, note } = convo;
 
+      const maybePni = convo.pni ?? convo.serviceId;
+
       const aci = isAciString(convo.serviceId)
         ? Aci.parseFromServiceIdString(convo.serviceId).getRawUuidBytes()
         : null;
-      const pni = isPniString(convo.pni)
-        ? Pni.parseFromServiceIdString(convo.pni).getRawUuidBytes()
+      const pni = isPniString(maybePni)
+        ? Pni.parseFromServiceIdString(maybePni).getRawUuidBytes()
         : null;
       const e164 = convo.e164 ? Long.fromString(convo.e164) : null;
 
