@@ -1,5 +1,6 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+import { omit } from 'lodash';
 import * as log from '../logging/log';
 import * as Bytes from '../Bytes';
 import type { AttachmentDownloadJobTypeType } from '../types/AttachmentDownload';
@@ -340,7 +341,7 @@ export async function addAttachmentToMessage(
               if (thumbnail !== newThumbnail) {
                 handledInEditHistory = true;
               }
-              return { ...item, thumbnail: newThumbnail };
+              return { ...item, thumbnail: omit(newThumbnail, 'thumbnail') };
             }),
           },
         };
@@ -362,7 +363,7 @@ export async function addAttachmentToMessage(
 
           return {
             ...item,
-            thumbnail: maybeReplaceAttachment(thumbnail),
+            thumbnail: maybeReplaceAttachment(omit(thumbnail, 'thumbnail')),
           };
         }),
       };

@@ -84,7 +84,7 @@ export async function getQuoteAttachment(
             thumbnail && thumbnail.path
               ? {
                   ...(await loadAttachmentData(thumbnail)),
-                  objectUrl: getLocalAttachmentUrl(thumbnail),
+                  url: getLocalAttachmentUrl(thumbnail),
                 }
               : undefined,
         };
@@ -123,7 +123,7 @@ export async function getQuoteAttachment(
         thumbnail: path
           ? {
               ...(await loadAttachmentData(sticker.data)),
-              objectUrl: getLocalAttachmentUrl(sticker.data),
+              url: getLocalAttachmentUrl(sticker.data),
             }
           : undefined,
       },

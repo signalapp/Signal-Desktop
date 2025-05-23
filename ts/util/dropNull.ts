@@ -4,6 +4,9 @@
 export type NullToUndefined<T> =
   Extract<T, null> extends never ? T : Exclude<T, null> | undefined;
 
+export type UndefinedToNull<T> =
+  Extract<T, undefined> extends never ? T : Exclude<T, undefined> | null;
+
 export function dropNull<T>(
   value: NonNullable<T> | null | undefined
 ): T | undefined {
@@ -33,5 +36,25 @@ export function shallowDropNull<O extends { [key: string]: any }>(
     result[key] = dropNull(propertyValue);
   }
 
+  return result;
+}
+
+export function convertUndefinedToNull<T>(value: T | undefined): T | null {
+  if (value === undefined) {
+    return null;
+  }
+  return value;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function shallowConvertUndefinedToNull<T extends { [key: string]: any }>(
+  obj: T
+): { [P in keyof T]: UndefinedToNull<T[P]> } {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const result: any = {};
+
+  for (const [key, propertyValue] of Object.entries(obj)) {
+    result[key] = convertUndefinedToNull(propertyValue);
+  }
   return result;
 }

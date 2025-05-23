@@ -114,7 +114,7 @@ export async function downloadAttachment(
     variant: AttachmentVariant;
     abortSignal: AbortSignal;
   }
-): Promise<ReencryptedAttachmentV2 & { size?: number }> {
+): Promise<ReencryptedAttachmentV2> {
   const logId = `downloadAttachment/${options.logPrefix ?? ''}`;
 
   const { digest, incrementalMac, chunkSize, key, size } = attachment;
@@ -272,20 +272,17 @@ export async function downloadAttachment(
         // backup thumbnails don't get trimmed, so we just calculate the size as the
         // ciphertextSize, less IV and MAC
         const calculatedSize = downloadSize - IV_LENGTH - MAC_LENGTH;
-        return {
-          ...(await decryptAndReencryptLocally({
-            type: 'backupThumbnail',
-            ciphertextPath: cipherTextAbsolutePath,
-            idForLogging: logId,
-            size: calculatedSize,
-            ...thumbnailEncryptionKeys,
-            outerEncryption:
-              getBackupThumbnailOuterEncryptionKeyMaterial(attachment),
-            getAbsoluteAttachmentPath:
-              window.Signal.Migrations.getAbsoluteAttachmentPath,
-          })),
+        return decryptAndReencryptLocally({
+          type: 'backupThumbnail',
+          ciphertextPath: cipherTextAbsolutePath,
+          idForLogging: logId,
           size: calculatedSize,
-        };
+          ...thumbnailEncryptionKeys,
+          outerEncryption:
+            getBackupThumbnailOuterEncryptionKeyMaterial(attachment),
+          getAbsoluteAttachmentPath:
+            window.Signal.Migrations.getAbsoluteAttachmentPath,
+        });
       }
       default: {
         throw missingCaseError(options.variant);

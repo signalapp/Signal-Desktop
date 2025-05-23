@@ -1887,18 +1887,16 @@ export function getPropsForAttachment(
 
 function processQuoteAttachment(attachment: QuotedAttachmentType) {
   const { thumbnail } = attachment;
-  const path = thumbnail && thumbnail.path && getLocalAttachmentUrl(thumbnail);
-  const objectUrl = thumbnail && thumbnail.objectUrl;
-
-  const thumbnailWithObjectUrl =
-    (!path && !objectUrl) || !thumbnail
-      ? undefined
-      : { ...thumbnail, objectUrl: path || objectUrl };
 
   return {
     ...attachment,
     isVoiceMessage: isVoiceMessage(attachment),
-    thumbnail: thumbnailWithObjectUrl,
+    thumbnail: thumbnail?.path
+      ? {
+          ...thumbnail,
+          url: getLocalAttachmentUrl(thumbnail),
+        }
+      : undefined,
   };
 }
 
