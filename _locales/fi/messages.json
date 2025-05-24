@@ -2589,7 +2589,7 @@
     "messageformat": "Avaa tarravalitsin"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "Avaa GIF-valitsin"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Aloita ääniviestin tallennus"
@@ -3136,6 +3136,18 @@
   },
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofoni päällä"
+  },
+  "icu:CallControls__MutedBySomeoneToast": {
+    "messageformat": "{otherName} muted you."
+  },
+  "icu:CallControls__SomeoneMutedSomeoneToast": {
+    "messageformat": "{name} muted {otherName}."
+  },
+  "icu:CallControls__YouMutedSomeoneToast": {
+    "messageformat": "You muted {otherName}."
+  },
+  "icu:CallControls__YouMutedYourselfToast": {
+    "messageformat": "You muted yourself from another device."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Laske käsi?"
@@ -4986,19 +4998,19 @@
     "messageformat": "Sisäinen"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "Paikalliset varmuuskopiot"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "Vie…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "Vie paikallinen salattu varmuuskopio kansioon ja vahvista se"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "Tuo…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "Luo paikallinen salattu varmuuskopio linkin kautta tuotavaksi"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Vie salattu varmuuskopio muistiin ja suorita sille vahvistuspaketti"
@@ -5196,22 +5208,22 @@
     "messageformat": "Käynnistä uudelleen"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "Sovellus"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Screen security"
+    "messageformat": "Näytön suojaus"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "Estä kuvakaappaukset Signalista tällä tietokoneella yksityisyyden parantamiseksi."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "Poistetaanko näytön suojaus käytöstä?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "Jos se on poistettu käytöstä, Microsoft Windows voi ehkä ottaa kuvakaappauksia Signalista ja käyttää niitä ominaisuuksiin, jotka eivät välttämättä ole yksityisiä."
   },
   "icu:Preferences__content-protection__modal--disable": {
-    "messageformat": "Disable"
+    "messageformat": "Poista käytöstä"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Päivitä saatavilla olevaan versioon {version}"
@@ -6340,19 +6352,16 @@
     "messageformat": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Nyt voit etsiä animoituja GIF-tiedostoja myös Signal Desktopissa."
-  },
-  "icu:WhatsNew__v7.51--1": {
-    "messageformat": "Muutimme myös kuva kuvassa -ikkunan kokoa ja lisäsimme käteviä uusia pikanäppäimiä puhelun ollessa minimoitu."
-  },
   "icu:WhatsNew__v7.54--0": {
     "messageformat": "Lisäsimme tuen emoji-pikavalinnoille uusilla kielillä."
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "Tämä päivitys tuo takaisin emojien ja tarrojen pikanäppäimet."
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "Korjasimme myös harvinaisen kaatumisen tietyissä Linux-jakeluissa."
+  },
+  "icu:WhatsNew__v7.56--0": {
+    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
   }
 }

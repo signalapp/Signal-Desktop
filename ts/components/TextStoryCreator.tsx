@@ -29,13 +29,13 @@ import {
 import { convertShortName } from './emoji/lib';
 import { objectMap } from '../util/objectMap';
 import { handleOutsideClick } from '../util/handleOutsideClick';
-import { ConfirmDiscardDialog } from './ConfirmDiscardDialog';
 import { Spinner } from './Spinner';
 import { FunEmojiPicker } from './fun/FunEmojiPicker';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis';
 import { getEmojiVariantByKey } from './fun/data/emojis';
 import { FunEmojiPickerButton } from './fun/FunButton';
 import { isFunPickerEnabled } from './fun/isFunPickerEnabled';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
 
 export type PropsType = {
   debouncedMaybeGrabLinkPreview: (
@@ -148,11 +148,16 @@ export function TextStoryCreator({
   recentEmojis,
   emojiSkinToneDefault,
 }: PropsType): JSX.Element {
-  const [showConfirmDiscardModal, setShowConfirmDiscardModal] = useState(false);
-
+  const tryClose = useRef<() => void | undefined>();
+  const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
+    i18n,
+    name: 'SendStoryModal',
+    tryClose,
+  });
   const onTryClose = useCallback(() => {
-    setShowConfirmDiscardModal(true);
-  }, [setShowConfirmDiscardModal]);
+    confirmDiscardIf(true, onClose);
+  }, [confirmDiscardIf, onClose]);
+  tryClose.current = onTryClose;
 
   const [isEditingText, setIsEditingText] = useState(false);
   const [selectedBackground, setSelectedBackground] =
@@ -290,8 +295,6 @@ export function TextStoryCreator({
     isEditingText,
     isLinkPreviewInputShowing,
     colorPickerPopperButtonRef,
-    showConfirmDiscardModal,
-    setShowConfirmDiscardModal,
     onTryClose,
   ]);
 
@@ -653,13 +656,7 @@ export function TextStoryCreator({
             </Button>
           </div>
         </div>
-        {showConfirmDiscardModal && (
-          <ConfirmDiscardDialog
-            i18n={i18n}
-            onClose={() => setShowConfirmDiscardModal(false)}
-            onDiscard={onClose}
-          />
-        )}
+        {confirmDiscardModal}
       </div>
     </FocusScope>
   );

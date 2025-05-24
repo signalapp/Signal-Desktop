@@ -152,6 +152,17 @@ window.ConversationController = window.ConversationController || {};
 window.ConversationController.isSignalConversationId = () => false;
 window.ConversationController.onConvoMessageMount = noop;
 window.reduxStore = mockStore;
+window.Signal = {
+  Services: {
+    beforeNavigate: {
+      registerCallback: () => undefined,
+      unregisterCallback: () => undefined,
+      shouldCancelNavigation: () => {
+        throw new Error('Not implemented');
+      },
+    },
+  },
+};
 
 function withStrictMode(Story, context) {
   return (

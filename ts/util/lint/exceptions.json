@@ -1350,6 +1350,14 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/MediaEditor.tsx",
+    "line": "  const tryClose = useRef<() => void | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-19T22:29:15.758Z",
+    "reasonDetail": "Holding on to a close function"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/MediaQualitySelector.tsx",
     "line": "  const buttonRef = React.useRef<HTMLButtonElement | null>(null);",
     "reasonCategory": "usageTrusted",
@@ -1458,6 +1466,14 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/StoriesSettingsModal.tsx",
+    "line": "  const tryClose = useRef<() => void | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-19T22:29:15.758Z",
+    "reasonDetail": "Holding on to a close function"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/StoryImage.tsx",
     "line": "  const videoRef = useRef<HTMLVideoElement | null>(null);",
     "reasonCategory": "usageTrusted",
@@ -1500,6 +1516,14 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/StoryViewsNRepliesModal.tsx",
+    "line": "  const tryClose = useRef<() => void | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-19T23:20:52.448Z",
+    "reasonDetail": "Holding on to a close function"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/TextAttachment.tsx",
     "line": "  const linkPreview = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
@@ -1525,6 +1549,14 @@
     "line": "  const textEditorRef = useRef<HTMLTextAreaElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-06-16T23:23:32.306Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/TextStoryCreator.tsx",
+    "line": "  const tryClose = useRef<() => void | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-19T22:29:15.758Z",
+    "reasonDetail": "Holding on to a close function"
   },
   {
     "rule": "React-useRef",
@@ -1686,6 +1718,14 @@
     "line": "  const startingAvatarUrlRef = useRef<undefined | string>(externalAvatarUrl);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/conversation-details/EditConversationAttributesModal.tsx",
+    "line": "  const tryClose = useRef<() => void | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-19T23:20:52.448Z",
+    "reasonDetail": "Holding on to a close function"
   },
   {
     "rule": "React-useRef",
@@ -1910,6 +1950,14 @@
     "reasonCategory": "usageTrusted",
     "updated": "2022-06-14T22:04:43.988Z",
     "reasonDetail": "Handling outside click"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/hooks/useConfirmDiscard.tsx",
+    "line": "  const confirmDiscardPromise = useRef<",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-19T22:29:15.758Z",
+    "reasonDetail": "Holding on to a promise"
   },
   {
     "rule": "React-useRef",

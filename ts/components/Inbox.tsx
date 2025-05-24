@@ -23,6 +23,7 @@ export type PropsType = {
   renderCustomizingPreferredReactionsModal: () => JSX.Element;
   renderNavTabs: (props: SmartNavTabsProps) => JSX.Element;
   renderStoriesTab: () => JSX.Element;
+  renderSettingsTab: () => JSX.Element;
 };
 
 const PART_COUNT = 16;
@@ -41,6 +42,7 @@ export function Inbox({
   renderCustomizingPreferredReactionsModal,
   renderNavTabs,
   renderStoriesTab,
+  renderSettingsTab,
 }: PropsType): JSX.Element {
   const [internalHasInitialLoadCompleted, setInternalHasInitialLoadCompleted] =
     useState(hasInitialLoadCompleted);
@@ -200,6 +202,7 @@ export function Inbox({
           renderChatsTab,
           renderCallsTab,
           renderStoriesTab,
+          renderSettingsTab,
         })}
       </div>
       {activeModal}

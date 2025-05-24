@@ -9,7 +9,7 @@ import React, {
   useState,
   useId,
 } from 'react';
-import { noop, partition } from 'lodash';
+import { isNumber, noop, partition } from 'lodash';
 import classNames from 'classnames';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
 import type { MediaDeviceSettings } from '../types/Calling';
@@ -53,7 +53,6 @@ import {
   format as formatExpirationTimer,
 } from '../util/expirationTimer';
 import { DurationInSeconds } from '../util/durations';
-import { useEscapeHandling } from '../hooks/useEscapeHandling';
 import { focusableSelector } from '../util/focusableSelectors';
 import { Modal } from './Modal';
 import { SearchInput } from './SearchInput';
@@ -74,7 +73,8 @@ import {
 import { PreferencesBackups } from './PreferencesBackups';
 import { PreferencesInternal } from './PreferencesInternal';
 import { FunEmojiLocalizationProvider } from './fun/FunEmojiLocalizationProvider';
-import type { ValidateLocalBackupStructureResultType } from '../services/backups/util/localBackup';
+import { NavTabsToggle } from './NavTabs';
+import type { UnreadStats } from '../util/countUnreadStats';
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
@@ -93,24 +93,24 @@ export type PropsDataType = {
   hasAudioNotifications?: boolean;
   hasAutoConvertEmoji: boolean;
   hasAutoDownloadUpdate: boolean;
-  hasAutoLaunch: boolean;
+  hasAutoLaunch: boolean | undefined;
   hasCallNotifications: boolean;
   hasCallRingtoneNotification: boolean;
-  hasContentProtection: boolean;
+  hasContentProtection: boolean | undefined;
   hasCountMutedConversations: boolean;
   hasHideMenuBar?: boolean;
   hasIncomingCallNotifications: boolean;
   hasLinkPreviews: boolean;
   hasMediaCameraPermissions: boolean | undefined;
-  hasMediaPermissions: boolean;
+  hasMediaPermissions: boolean | undefined;
   hasMessageAudio: boolean;
-  hasMinimizeToAndStartInSystemTray: boolean;
-  hasMinimizeToSystemTray: boolean;
+  hasMinimizeToAndStartInSystemTray: boolean | undefined;
+  hasMinimizeToSystemTray: boolean | undefined;
   hasNotificationAttention: boolean;
   hasNotifications: boolean;
   hasReadReceipts: boolean;
   hasRelayCalls?: boolean;
-  hasSpellCheck: boolean;
+  hasSpellCheck: boolean | undefined;
   hasStoriesDisabled: boolean;
   hasTextFormatting: boolean;
   hasTypingIndicators: boolean;
@@ -122,51 +122,58 @@ export type PropsDataType = {
   selectedMicrophone?: AudioDevice;
   selectedSpeaker?: AudioDevice;
   sentMediaQualitySetting: SentMediaQualitySettingType;
-  themeSetting: ThemeSettingType;
+  themeSetting: ThemeSettingType | undefined;
   universalExpireTimer: DurationInSeconds;
   whoCanFindMe: PhoneNumberDiscoverability;
   whoCanSeeMe: PhoneNumberSharingMode;
-  zoomFactor: ZoomFactorType;
+  zoomFactor: ZoomFactorType | undefined;
 
   // Localization
   availableLocales: ReadonlyArray<string>;
-  localeOverride: string | null;
+  localeOverride: string | null | undefined;
   preferredSystemLocales: ReadonlyArray<string>;
   resolvedLocale: string;
 
   // Other props
+  hasFailedStorySends: boolean;
+  hasPendingUpdate: boolean;
   initialSpellCheckSetting: boolean;
+  isUpdateDownloaded: boolean;
+  navTabsCollapsed: boolean;
+  otherTabsUnreadStats: UnreadStats;
 
   // Limited support features
   isAutoDownloadUpdatesSupported: boolean;
   isAutoLaunchSupported: boolean;
+  isContentProtectionNeeded: boolean;
+  isContentProtectionSupported: boolean;
   isHideMenuBarSupported: boolean;
   isNotificationAttentionSupported: boolean;
   isSyncSupported: boolean;
   isSystemTraySupported: boolean;
   isMinimizeToAndStartInSystemTraySupported: boolean;
   isInternalUser: boolean;
-  isContentProtectionNeeded: boolean;
-  isContentProtectionSupported: boolean;
 
+  // Devices
   availableCameras: Array<
     Pick<MediaDeviceInfo, 'deviceId' | 'groupId' | 'kind' | 'label'>
   >;
 } & Omit<MediaDeviceSettings, 'availableCameras'>;
 
 type PropsFunctionType = {
+  // Render props
+  renderUpdateDialog: (
+    _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
+  ) => JSX.Element;
+
   // Other props
   addCustomColor: (color: CustomColorType) => unknown;
-  closeSettings: () => unknown;
   doDeleteAllData: () => unknown;
-  doneRendering: () => unknown;
   editCustomColor: (colorId: string, color: CustomColorType) => unknown;
   exportLocalBackup: () => Promise<BackupValidationResultType>;
-  getConversationsWithCustomColor: (
-    colorId: string
-  ) => Promise<Array<ConversationType>>;
-  importLocalBackup: () => Promise<ValidateLocalBackupStructureResultType>;
+  getConversationsWithCustomColor: (colorId: string) => Array<ConversationType>;
   makeSyncRequest: () => unknown;
+  onStartUpdate: () => unknown;
   refreshCloudBackupStatus: () => void;
   refreshBackupSubscriptionStatus: () => void;
   removeCustomColor: (colorId: string) => unknown;
@@ -199,7 +206,7 @@ type PropsFunctionType = {
   onHideMenuBarChange: CheckboxChangeHandlerType;
   onIncomingCallNotificationsChange: CheckboxChangeHandlerType;
   onLastSyncTimeChange: (time: number) => unknown;
-  onLocaleChange: (locale: string | null) => void;
+  onLocaleChange: (locale: string | null | undefined) => void;
   onMediaCameraPermissionsChange: CheckboxChangeHandlerType;
   onMediaPermissionsChange: CheckboxChangeHandlerType;
   onMessageAudioChange: CheckboxChangeHandlerType;
@@ -216,6 +223,7 @@ type PropsFunctionType = {
   onSpellCheckChange: CheckboxChangeHandlerType;
   onTextFormattingChange: CheckboxChangeHandlerType;
   onThemeChange: SelectChangeHandlerType<ThemeType>;
+  onToggleNavTabsCollapse: (navTabsCollapsed: boolean) => void;
   onUniversalExpireTimerChange: SelectChangeHandlerType<number>;
   onWhoCanSeeMeChange: SelectChangeHandlerType<PhoneNumberSharingMode>;
   onWhoCanFindMeChange: SelectChangeHandlerType<PhoneNumberDiscoverability>;
@@ -284,13 +292,11 @@ export function Preferences({
   backupFeatureEnabled,
   backupSubscriptionStatus,
   blockedCount,
-  closeSettings,
   cloudBackupStatus,
   customColors,
   defaultConversationColor,
   deviceName = '',
   doDeleteAllData,
-  doneRendering,
   editCustomColor,
   emojiSkinToneDefault,
   exportLocalBackup,
@@ -303,6 +309,7 @@ export function Preferences({
   hasCallRingtoneNotification,
   hasContentProtection,
   hasCountMutedConversations,
+  hasFailedStorySends,
   hasHideMenuBar,
   hasIncomingCallNotifications,
   hasLinkPreviews,
@@ -313,6 +320,7 @@ export function Preferences({
   hasMinimizeToSystemTray,
   hasNotificationAttention,
   hasNotifications,
+  hasPendingUpdate,
   hasReadReceipts,
   hasRelayCalls,
   hasSpellCheck,
@@ -320,21 +328,22 @@ export function Preferences({
   hasTextFormatting,
   hasTypingIndicators,
   i18n,
-  importLocalBackup,
   initialPage = Page.General,
   initialSpellCheckSetting,
   isAutoDownloadUpdatesSupported,
   isAutoLaunchSupported,
+  isContentProtectionNeeded,
+  isContentProtectionSupported,
   isHideMenuBarSupported,
   isNotificationAttentionSupported,
   isSyncSupported,
   isSystemTraySupported,
   isMinimizeToAndStartInSystemTraySupported,
   isInternalUser,
-  isContentProtectionNeeded,
-  isContentProtectionSupported,
+  isUpdateDownloaded,
   lastSyncTime,
   makeSyncRequest,
+  navTabsCollapsed,
   notificationContent,
   onAudioNotificationsChange,
   onAutoConvertEmojiChange,
@@ -367,16 +376,19 @@ export function Preferences({
   onSpellCheckChange,
   onTextFormattingChange,
   onThemeChange,
+  onToggleNavTabsCollapse,
   onUniversalExpireTimerChange,
   onWhoCanSeeMeChange,
   onWhoCanFindMeChange,
   onZoomFactorChange,
+  otherTabsUnreadStats,
   phoneNumber = '',
   preferredSystemLocales,
   refreshCloudBackupStatus,
   refreshBackupSubscriptionStatus,
   removeCustomColor,
   removeCustomColorOnConversations,
+  renderUpdateDialog,
   resetAllChatColors,
   resetDefaultChatColor,
   resolvedLocale,
@@ -411,7 +423,7 @@ export function Preferences({
     null
   );
   const [selectedLanguageLocale, setSelectedLanguageLocale] = useState<
-    string | null
+    string | null | undefined
   >(localeOverride);
   const [languageSearchInput, setLanguageSearchInput] = useState('');
   const [toast, setToast] = useState<AnyToast | undefined>();
@@ -432,24 +444,19 @@ export function Preferences({
     setPage(Page.General);
   }
 
+  let maybeUpdateDialog: JSX.Element | undefined;
+  if (hasPendingUpdate || isUpdateDownloaded) {
+    maybeUpdateDialog = renderUpdateDialog({
+      containerWidthBreakpoint: WidthBreakpoint.Wide,
+    });
+  }
+
   useEffect(() => {
     if (page === Page.Backups) {
       refreshCloudBackupStatus();
       refreshBackupSubscriptionStatus();
     }
   }, [page, refreshCloudBackupStatus, refreshBackupSubscriptionStatus]);
-
-  useEffect(() => {
-    doneRendering();
-  }, [doneRendering]);
-
-  useEscapeHandling(() => {
-    if (languageDialog != null) {
-      closeLanguageDialog();
-    } else {
-      closeSettings();
-    }
-  });
 
   const onZoomSelectChange = useCallback(
     (value: string) => {
@@ -601,15 +608,13 @@ export function Preferences({
     });
   }, [localeSearchOptions, languageSearchInput]);
 
-  let settings: JSX.Element | undefined;
+  let pageTitle: string | undefined;
+  let pageBackButton: JSX.Element | undefined;
+  let pageContents: JSX.Element | undefined;
   if (page === Page.General) {
-    settings = (
+    pageTitle = i18n('icu:Preferences__button--general');
+    pageContents = (
       <>
-        <div className="Preferences__title">
-          <div className="Preferences__title--header">
-            {i18n('icu:Preferences__button--general')}
-          </div>
-        </div>
         <SettingsRow>
           <Control
             left={i18n('icu:Preferences--phone-number')}
@@ -631,6 +636,7 @@ export function Preferences({
           {isAutoLaunchSupported && (
             <Checkbox
               checked={hasAutoLaunch}
+              disabled={hasAutoLaunch === undefined}
               label={i18n('icu:autoLaunchDescription')}
               moduleClassName="Preferences__checkbox"
               name="autoLaunch"
@@ -650,6 +656,7 @@ export function Preferences({
             <>
               <Checkbox
                 checked={hasMinimizeToSystemTray}
+                disabled={hasMinimizeToSystemTray === undefined}
                 label={i18n('icu:SystemTraySetting__minimize-to-system-tray')}
                 moduleClassName="Preferences__checkbox"
                 name="system-tray-setting-minimize-to-system-tray"
@@ -658,7 +665,10 @@ export function Preferences({
               {isMinimizeToAndStartInSystemTraySupported && (
                 <Checkbox
                   checked={hasMinimizeToAndStartInSystemTray}
-                  disabled={!hasMinimizeToSystemTray}
+                  disabled={
+                    !hasMinimizeToSystemTray ||
+                    hasMinimizeToAndStartInSystemTray === undefined
+                  }
                   label={i18n(
                     'icu:SystemTraySetting__minimize-to-and-start-in-system-tray'
                   )}
@@ -673,6 +683,7 @@ export function Preferences({
         <SettingsRow title={i18n('icu:permissions')}>
           <Checkbox
             checked={hasMediaPermissions}
+            disabled={hasMediaPermissions === undefined}
             label={i18n('icu:mediaPermissionsDescription')}
             moduleClassName="Preferences__checkbox"
             name="mediaPermissions"
@@ -680,6 +691,7 @@ export function Preferences({
           />
           <Checkbox
             checked={hasMediaCameraPermissions ?? false}
+            disabled={hasMediaCameraPermissions === undefined}
             label={i18n('icu:mediaCameraPermissionsDescription')}
             moduleClassName="Preferences__checkbox"
             name="mediaCameraPermissions"
@@ -702,7 +714,10 @@ export function Preferences({
   } else if (page === Page.Appearance) {
     let zoomFactors = DEFAULT_ZOOM_FACTORS;
 
-    if (!zoomFactors.some(({ value }) => value === zoomFactor)) {
+    if (
+      isNumber(zoomFactor) &&
+      !zoomFactors.some(({ value }) => value === zoomFactor)
+    ) {
       zoomFactors = [
         ...zoomFactors,
         {
@@ -711,205 +726,211 @@ export function Preferences({
         },
       ].sort((a, b) => a.value - b.value);
     }
+    let localeText = '';
+    if (localeOverride !== undefined) {
+      localeText =
+        localeOverride != null
+          ? getLocaleDisplayName(resolvedLocale, localeOverride)
+          : i18n('icu:Preferences__Language__SystemLanguage');
+    }
 
-    settings = (
-      <>
-        <div className="Preferences__title">
-          <div className="Preferences__title--header">
-            {i18n('icu:Preferences__button--appearance')}
-          </div>
-        </div>
-        <SettingsRow>
-          <Control
-            icon="Preferences__LanguageIcon"
-            left={i18n('icu:Preferences__Language__Label')}
-            right={
-              <span
-                className="Preferences__LanguageButton"
-                lang={localeOverride ?? resolvedLocale}
-              >
-                {localeOverride != null
-                  ? getLocaleDisplayName(resolvedLocale, localeOverride)
-                  : i18n('icu:Preferences__Language__SystemLanguage')}
-              </span>
-            }
-            onClick={() => {
-              setLanguageDialog(LanguageDialog.Selection);
-            }}
-          />
-          {languageDialog === LanguageDialog.Selection && (
-            <Modal
-              i18n={i18n}
-              modalName="Preferences__LanguageModal"
-              moduleClassName="Preferences__LanguageModal"
-              padded={false}
-              onClose={closeLanguageDialog}
-              title={i18n('icu:Preferences__Language__ModalTitle')}
-              modalHeaderChildren={
-                <SearchInput
-                  i18n={i18n}
-                  value={languageSearchInput}
-                  placeholder={i18n(
-                    'icu:Preferences__Language__SearchLanguages'
-                  )}
-                  moduleClassName="Preferences__LanguageModal__SearchInput"
-                  onChange={event => {
-                    setLanguageSearchInput(event.currentTarget.value);
-                  }}
-                />
-              }
-              modalFooter={
-                <>
-                  <Button
-                    variant={ButtonVariant.Secondary}
-                    onClick={closeLanguageDialog}
-                  >
-                    {i18n('icu:cancel')}
-                  </Button>
-                  <Button
-                    variant={ButtonVariant.Primary}
-                    disabled={selectedLanguageLocale === localeOverride}
-                    onClick={() => {
-                      setLanguageDialog(LanguageDialog.Confirmation);
-                    }}
-                  >
-                    {i18n('icu:Preferences__LanguageModal__Set')}
-                  </Button>
-                </>
-              }
+    pageTitle = i18n('icu:Preferences__button--appearance');
+    pageContents = (
+      <SettingsRow>
+        <Control
+          icon="Preferences__LanguageIcon"
+          left={i18n('icu:Preferences__Language__Label')}
+          right={
+            <span
+              className="Preferences__LanguageButton"
+              lang={localeOverride ?? resolvedLocale}
             >
-              {localeSearchResults.length === 0 && (
-                <div className="Preferences__LanguageModal__NoResults">
-                  {i18n('icu:Preferences__Language__NoResults', {
-                    searchTerm: languageSearchInput.trim(),
-                  })}
-                </div>
-              )}
-              {localeSearchResults.map(option => {
-                const id = `${languageId}:${option.locale ?? 'system'}`;
-                const isSelected = option.locale === selectedLanguageLocale;
-                return (
-                  <button
-                    key={id}
-                    type="button"
-                    className="Preferences__LanguageModal__Item"
-                    onClick={() => {
-                      setSelectedLanguageLocale(option.locale);
-                    }}
-                    aria-pressed={isSelected}
-                  >
-                    <span className="Preferences__LanguageModal__Item__Inner">
-                      <span className="Preferences__LanguageModal__Item__Label">
-                        <span className="Preferences__LanguageModal__Item__Current">
-                          {option.currentLocaleLabel}
-                        </span>
-                        {option.matchingLocaleLabel != null && (
-                          <span
-                            lang={option.locale ?? resolvedLocale}
-                            className="Preferences__LanguageModal__Item__Matching"
-                          >
-                            {option.matchingLocaleLabel}
-                          </span>
-                        )}
-                      </span>
-                      {isSelected && (
-                        <span className="Preferences__LanguageModal__Item__Check" />
-                      )}
-                    </span>
-                  </button>
-                );
-              })}
-            </Modal>
-          )}
-          {languageDialog === LanguageDialog.Confirmation && (
-            <ConfirmationDialog
-              dialogName="Preferences__Language"
-              i18n={i18n}
-              title={i18n('icu:Preferences__LanguageModal__Restart__Title')}
-              onCancel={closeLanguageDialog}
-              onClose={closeLanguageDialog}
-              cancelText={i18n('icu:cancel')}
-              actions={[
-                {
-                  text: i18n('icu:Preferences__LanguageModal__Restart__Button'),
-                  style: 'affirmative',
-                  action: () => {
-                    onLocaleChange(selectedLanguageLocale);
-                  },
-                },
-              ]}
-            >
-              {i18n('icu:Preferences__LanguageModal__Restart__Description')}
-            </ConfirmationDialog>
-          )}
-          <Control
-            icon
-            left={
-              <label htmlFor={themeSelectId}>
-                {i18n('icu:Preferences--theme')}
-              </label>
+              {localeText}
+            </span>
+          }
+          onClick={() => {
+            // We haven't loaded the user's setting yet
+            if (localeOverride === undefined) {
+              return;
             }
-            right={
-              <Select
-                id={themeSelectId}
-                onChange={onThemeChange}
-                options={[
-                  {
-                    text: i18n('icu:themeSystem'),
-                    value: 'system',
-                  },
-                  {
-                    text: i18n('icu:themeLight'),
-                    value: 'light',
-                  },
-                  {
-                    text: i18n('icu:themeDark'),
-                    value: 'dark',
-                  },
-                ]}
-                value={themeSetting}
-              />
-            }
-          />
-          <Control
-            icon
-            left={i18n('icu:showChatColorEditor')}
-            onClick={() => {
-              setPage(Page.ChatColor);
-            }}
-            right={
-              <div
-                className={`ConversationDetails__chat-color ConversationDetails__chat-color--${defaultConversationColor.color}`}
-                style={{
-                  ...getCustomColorStyle(
-                    defaultConversationColor.customColorData?.value
-                  ),
+            setLanguageDialog(LanguageDialog.Selection);
+          }}
+        />
+        {languageDialog === LanguageDialog.Selection && (
+          <Modal
+            i18n={i18n}
+            modalName="Preferences__LanguageModal"
+            moduleClassName="Preferences__LanguageModal"
+            padded={false}
+            onClose={closeLanguageDialog}
+            title={i18n('icu:Preferences__Language__ModalTitle')}
+            modalHeaderChildren={
+              <SearchInput
+                i18n={i18n}
+                value={languageSearchInput}
+                placeholder={i18n('icu:Preferences__Language__SearchLanguages')}
+                moduleClassName="Preferences__LanguageModal__SearchInput"
+                onChange={event => {
+                  setLanguageSearchInput(event.currentTarget.value);
                 }}
               />
             }
-          />
-          <Control
-            icon
-            left={
-              <label htmlFor={zoomSelectId}>
-                {i18n('icu:Preferences--zoom')}
-              </label>
+            modalFooter={
+              <>
+                <Button
+                  variant={ButtonVariant.Secondary}
+                  onClick={closeLanguageDialog}
+                >
+                  {i18n('icu:cancel')}
+                </Button>
+                <Button
+                  variant={ButtonVariant.Primary}
+                  disabled={selectedLanguageLocale === localeOverride}
+                  onClick={() => {
+                    setLanguageDialog(LanguageDialog.Confirmation);
+                  }}
+                >
+                  {i18n('icu:Preferences__LanguageModal__Set')}
+                </Button>
+              </>
             }
-            right={
-              <Select
-                id={zoomSelectId}
-                onChange={onZoomSelectChange}
-                options={zoomFactors}
-                value={zoomFactor}
-              />
-            }
-          />
-        </SettingsRow>
-      </>
+          >
+            {localeSearchResults.length === 0 && (
+              <div className="Preferences__LanguageModal__NoResults">
+                {i18n('icu:Preferences__Language__NoResults', {
+                  searchTerm: languageSearchInput.trim(),
+                })}
+              </div>
+            )}
+            {localeSearchResults.map(option => {
+              const id = `${languageId}:${option.locale ?? 'system'}`;
+              const isSelected = option.locale === selectedLanguageLocale;
+              return (
+                <button
+                  key={id}
+                  type="button"
+                  className="Preferences__LanguageModal__Item"
+                  onClick={() => {
+                    setSelectedLanguageLocale(option.locale);
+                  }}
+                  aria-pressed={isSelected}
+                >
+                  <span className="Preferences__LanguageModal__Item__Inner">
+                    <span className="Preferences__LanguageModal__Item__Label">
+                      <span className="Preferences__LanguageModal__Item__Current">
+                        {option.currentLocaleLabel}
+                      </span>
+                      {option.matchingLocaleLabel != null && (
+                        <span
+                          lang={option.locale ?? resolvedLocale}
+                          className="Preferences__LanguageModal__Item__Matching"
+                        >
+                          {option.matchingLocaleLabel}
+                        </span>
+                      )}
+                    </span>
+                    {isSelected && (
+                      <span className="Preferences__LanguageModal__Item__Check" />
+                    )}
+                  </span>
+                </button>
+              );
+            })}
+          </Modal>
+        )}
+        {languageDialog === LanguageDialog.Confirmation && (
+          <ConfirmationDialog
+            dialogName="Preferences__Language"
+            i18n={i18n}
+            title={i18n('icu:Preferences__LanguageModal__Restart__Title')}
+            onCancel={closeLanguageDialog}
+            onClose={closeLanguageDialog}
+            cancelText={i18n('icu:cancel')}
+            actions={[
+              {
+                text: i18n('icu:Preferences__LanguageModal__Restart__Button'),
+                style: 'affirmative',
+                action: () => {
+                  onLocaleChange(selectedLanguageLocale);
+                },
+              },
+            ]}
+          >
+            {i18n('icu:Preferences__LanguageModal__Restart__Description')}
+          </ConfirmationDialog>
+        )}
+        <Control
+          icon
+          left={
+            <label htmlFor={themeSelectId}>
+              {i18n('icu:Preferences--theme')}
+            </label>
+          }
+          right={
+            <Select
+              id={themeSelectId}
+              disabled={themeSetting === undefined}
+              onChange={onThemeChange}
+              options={[
+                {
+                  text: i18n('icu:themeSystem'),
+                  value: 'system',
+                },
+                {
+                  text: i18n('icu:themeLight'),
+                  value: 'light',
+                },
+                {
+                  text: i18n('icu:themeDark'),
+                  value: 'dark',
+                },
+              ]}
+              value={themeSetting}
+            />
+          }
+        />
+        <Control
+          icon
+          left={i18n('icu:showChatColorEditor')}
+          onClick={() => {
+            setPage(Page.ChatColor);
+          }}
+          right={
+            <div
+              className={`ConversationDetails__chat-color ConversationDetails__chat-color--${defaultConversationColor.color}`}
+              style={{
+                ...getCustomColorStyle(
+                  defaultConversationColor.customColorData?.value
+                ),
+              }}
+            />
+          }
+        />
+        <Control
+          icon
+          left={
+            <label htmlFor={zoomSelectId}>
+              {i18n('icu:Preferences--zoom')}
+            </label>
+          }
+          right={
+            <Select
+              id={zoomSelectId}
+              disabled={zoomFactor === undefined}
+              onChange={onZoomSelectChange}
+              options={zoomFactor === undefined ? [] : zoomFactors}
+              value={zoomFactor}
+            />
+          }
+        />
+      </SettingsRow>
     );
   } else if (page === Page.Chats) {
     let spellCheckDirtyText: string | undefined;
-    if (initialSpellCheckSetting !== hasSpellCheck) {
+    if (
+      hasSpellCheck !== undefined &&
+      initialSpellCheckSetting !== hasSpellCheck
+    ) {
       spellCheckDirtyText = hasSpellCheck
         ? i18n('icu:spellCheckWillBeEnabled')
         : i18n('icu:spellCheckWillBeDisabled');
@@ -917,16 +938,13 @@ export function Preferences({
 
     const lastSyncDate = new Date(lastSyncTime || 0);
 
-    settings = (
+    pageTitle = i18n('icu:Preferences__button--chats');
+    pageContents = (
       <>
-        <div className="Preferences__title">
-          <div className="Preferences__title--header">
-            {i18n('icu:Preferences__button--chats')}
-          </div>
-        </div>
         <SettingsRow title={i18n('icu:Preferences__button--chats')}>
           <Checkbox
             checked={hasSpellCheck}
+            disabled={hasSpellCheck === undefined}
             description={spellCheckDirtyText}
             label={i18n('icu:spellCheckDescription')}
             moduleClassName="Preferences__checkbox"
@@ -1033,13 +1051,9 @@ export function Preferences({
       </>
     );
   } else if (page === Page.Calls) {
-    settings = (
+    pageTitle = i18n('icu:Preferences__button--calls');
+    pageContents = (
       <>
-        <div className="Preferences__title">
-          <div className="Preferences__title--header">
-            {i18n('icu:Preferences__button--calls')}
-          </div>
-        </div>
         <SettingsRow title={i18n('icu:calling')}>
           <Checkbox
             checked={hasIncomingCallNotifications}
@@ -1180,13 +1194,9 @@ export function Preferences({
       </>
     );
   } else if (page === Page.Notifications) {
-    settings = (
+    pageTitle = i18n('icu:Preferences__button--notifications');
+    pageContents = (
       <>
-        <div className="Preferences__title">
-          <div className="Preferences__title--header">
-            {i18n('icu:Preferences__button--notifications')}
-          </div>
-        </div>
         <SettingsRow>
           <Checkbox
             checked={hasNotifications}
@@ -1269,13 +1279,9 @@ export function Preferences({
     const isCustomDisappearingMessageValue =
       !DEFAULT_DURATIONS_SET.has(universalExpireTimer);
 
-    settings = (
+    pageTitle = i18n('icu:Preferences__button--privacy');
+    pageContents = (
       <>
-        <div className="Preferences__title">
-          <div className="Preferences__title--header">
-            {i18n('icu:Preferences__button--privacy')}
-          </div>
-        </div>
         <SettingsRow>
           <Control
             left={
@@ -1390,6 +1396,7 @@ export function Preferences({
           <SettingsRow title={i18n('icu:Preferences__Privacy__Application')}>
             <Checkbox
               checked={hasContentProtection}
+              disabled={hasContentProtection === undefined}
               description={i18n(
                 'icu:Preferences__content-protection--description'
               )}
@@ -1513,13 +1520,9 @@ export function Preferences({
       </>
     );
   } else if (page === Page.DataUsage) {
-    settings = (
+    pageTitle = i18n('icu:Preferences__button--data-usage');
+    pageContents = (
       <>
-        <div className="Preferences__title">
-          <div className="Preferences__title--header">
-            {i18n('icu:Preferences__button--data-usage')}
-          </div>
-        </div>
         <SettingsRow title={i18n('icu:Preferences__media-auto-download')}>
           <Checkbox
             checked={autoDownloadAttachment.photos !== false}
@@ -1618,37 +1621,33 @@ export function Preferences({
       </>
     );
   } else if (page === Page.ChatColor) {
-    settings = (
-      <>
-        <div className="Preferences__title">
-          <button
-            aria-label={i18n('icu:goBack')}
-            className="Preferences__back-icon"
-            onClick={() => setPage(Page.Appearance)}
-            type="button"
-          />
-          <div className="Preferences__title--header">
-            {i18n('icu:ChatColorPicker__menu-title')}
-          </div>
-        </div>
-        <ChatColorPicker
-          customColors={customColors}
-          getConversationsWithCustomColor={getConversationsWithCustomColor}
-          i18n={i18n}
-          isGlobal
-          selectedColor={defaultConversationColor.color}
-          selectedCustomColor={defaultConversationColor.customColorData || {}}
-          // actions
-          addCustomColor={addCustomColor}
-          colorSelected={noop}
-          editCustomColor={editCustomColor}
-          removeCustomColor={removeCustomColor}
-          removeCustomColorOnConversations={removeCustomColorOnConversations}
-          resetAllChatColors={resetAllChatColors}
-          resetDefaultChatColor={resetDefaultChatColor}
-          setGlobalDefaultConversationColor={setGlobalDefaultConversationColor}
-        />
-      </>
+    pageTitle = i18n('icu:ChatColorPicker__menu-title');
+    pageBackButton = (
+      <button
+        aria-label={i18n('icu:goBack')}
+        className="Preferences__back-icon"
+        onClick={() => setPage(Page.Appearance)}
+        type="button"
+      />
+    );
+    pageContents = (
+      <ChatColorPicker
+        customColors={customColors}
+        getConversationsWithCustomColor={getConversationsWithCustomColor}
+        i18n={i18n}
+        isGlobal
+        selectedColor={defaultConversationColor.color}
+        selectedCustomColor={defaultConversationColor.customColorData || {}}
+        // actions
+        addCustomColor={addCustomColor}
+        colorSelected={noop}
+        editCustomColor={editCustomColor}
+        removeCustomColor={removeCustomColor}
+        removeCustomColorOnConversations={removeCustomColorOnConversations}
+        resetAllChatColors={resetAllChatColors}
+        resetDefaultChatColor={resetDefaultChatColor}
+        setGlobalDefaultConversationColor={setGlobalDefaultConversationColor}
+      />
     );
   } else if (page === Page.PNP) {
     let sharingDescription: string;
@@ -1666,20 +1665,18 @@ export function Preferences({
         'icu:Preferences__pnp__sharing--description--nobody--not-discoverable'
       );
     }
-    settings = (
-      <>
-        <div className="Preferences__title">
-          <button
-            aria-label={i18n('icu:goBack')}
-            className="Preferences__back-icon"
-            onClick={() => setPage(Page.Privacy)}
-            type="button"
-          />
-          <div className="Preferences__title--header">
-            {i18n('icu:Preferences__pnp--page-title')}
-          </div>
-        </div>
 
+    pageTitle = i18n('icu:Preferences__pnp--page-title');
+    pageBackButton = (
+      <button
+        aria-label={i18n('icu:goBack')}
+        className="Preferences__back-icon"
+        onClick={() => setPage(Page.Privacy)}
+        type="button"
+      />
+    );
+    pageContents = (
+      <>
         <SettingsRow
           title={i18n('icu:Preferences__pnp__sharing--title')}
           className={classNames('Preferences__settings-row--pnp-sharing', {
@@ -1787,7 +1784,8 @@ export function Preferences({
       </>
     );
   } else if (page === Page.Backups) {
-    settings = (
+    pageTitle = i18n('icu:Preferences__button--backups');
+    pageContents = (
       <PreferencesBackups
         i18n={i18n}
         cloudBackupStatus={cloudBackupStatus}
@@ -1796,11 +1794,11 @@ export function Preferences({
       />
     );
   } else if (page === Page.Internal) {
-    settings = (
+    pageTitle = i18n('icu:Preferences__button--internal');
+    pageContents = (
       <PreferencesInternal
         i18n={i18n}
         exportLocalBackup={exportLocalBackup}
-        importLocalBackup={importLocalBackup}
         validateBackup={validateBackup}
       />
     );
@@ -1811,116 +1809,150 @@ export function Preferences({
       <div className="module-title-bar-drag-area" />
       <div className="Preferences">
         <div className="Preferences__page-selector">
-          <button
-            type="button"
-            className={classNames({
-              Preferences__button: true,
-              'Preferences__button--general': true,
-              'Preferences__button--selected': page === Page.General,
-            })}
-            onClick={() => setPage(Page.General)}
-          >
-            {i18n('icu:Preferences__button--general')}
-          </button>
-          <button
-            type="button"
-            className={classNames({
-              Preferences__button: true,
-              'Preferences__button--appearance': true,
-              'Preferences__button--selected':
-                page === Page.Appearance || page === Page.ChatColor,
-            })}
-            onClick={() => setPage(Page.Appearance)}
-          >
-            {i18n('icu:Preferences__button--appearance')}
-          </button>
-          <button
-            type="button"
-            className={classNames({
-              Preferences__button: true,
-              'Preferences__button--chats': true,
-              'Preferences__button--selected': page === Page.Chats,
-            })}
-            onClick={() => setPage(Page.Chats)}
-          >
-            {i18n('icu:Preferences__button--chats')}
-          </button>
-          <button
-            type="button"
-            className={classNames({
-              Preferences__button: true,
-              'Preferences__button--calls': true,
-              'Preferences__button--selected': page === Page.Calls,
-            })}
-            onClick={() => setPage(Page.Calls)}
-          >
-            {i18n('icu:Preferences__button--calls')}
-          </button>
-          <button
-            type="button"
-            className={classNames({
-              Preferences__button: true,
-              'Preferences__button--notifications': true,
-              'Preferences__button--selected': page === Page.Notifications,
-            })}
-            onClick={() => setPage(Page.Notifications)}
-          >
-            {i18n('icu:Preferences__button--notifications')}
-          </button>
-
-          <button
-            type="button"
-            className={classNames({
-              Preferences__button: true,
-              'Preferences__button--privacy': true,
-              'Preferences__button--selected':
-                page === Page.Privacy || page === Page.PNP,
-            })}
-            onClick={() => setPage(Page.Privacy)}
-          >
-            {i18n('icu:Preferences__button--privacy')}
-          </button>
-
-          <button
-            type="button"
-            className={classNames({
-              Preferences__button: true,
-              'Preferences__button--data-usage': true,
-              'Preferences__button--selected': page === Page.DataUsage,
-            })}
-            onClick={() => setPage(Page.DataUsage)}
-          >
-            {i18n('icu:Preferences__button--data-usage')}
-          </button>
-          {shouldShowBackupsPage ? (
+          <div className="Preferences__header">
+            {navTabsCollapsed ? (
+              <div className="Preferences__header__toggle">
+                <NavTabsToggle
+                  i18n={i18n}
+                  onToggleNavTabsCollapse={onToggleNavTabsCollapse}
+                  navTabsCollapsed
+                  hasFailedStorySends={hasFailedStorySends}
+                  otherTabsUnreadStats={otherTabsUnreadStats}
+                  hasPendingUpdate={false}
+                />
+              </div>
+            ) : undefined}
+            <h1 className="Preferences__header__text">
+              {i18n('icu:Preferences--header')}
+            </h1>
+          </div>
+          {maybeUpdateDialog ? (
+            <div className="Preferences__dialog-container">
+              <div className="module-left-pane__dialogs">
+                {maybeUpdateDialog}
+              </div>
+            </div>
+          ) : null}
+          <div className="Preferences__scroll-area">
             <button
               type="button"
               className={classNames({
                 Preferences__button: true,
-                'Preferences__button--backups': true,
-                'Preferences__button--selected': page === Page.Backups,
+                'Preferences__button--general': true,
+                'Preferences__button--selected': page === Page.General,
               })}
-              onClick={() => setPage(Page.Backups)}
+              onClick={() => setPage(Page.General)}
             >
-              {i18n('icu:Preferences__button--backups')}
+              {i18n('icu:Preferences__button--general')}
             </button>
-          ) : null}
-          {isInternalUser ? (
             <button
               type="button"
               className={classNames({
                 Preferences__button: true,
-                'Preferences__button--internal': true,
-                'Preferences__button--selected': page === Page.Internal,
+                'Preferences__button--appearance': true,
+                'Preferences__button--selected':
+                  page === Page.Appearance || page === Page.ChatColor,
               })}
-              onClick={() => setPage(Page.Internal)}
+              onClick={() => setPage(Page.Appearance)}
             >
-              {i18n('icu:Preferences__button--internal')}
+              {i18n('icu:Preferences__button--appearance')}
             </button>
-          ) : null}
+            <button
+              type="button"
+              className={classNames({
+                Preferences__button: true,
+                'Preferences__button--chats': true,
+                'Preferences__button--selected': page === Page.Chats,
+              })}
+              onClick={() => setPage(Page.Chats)}
+            >
+              {i18n('icu:Preferences__button--chats')}
+            </button>
+            <button
+              type="button"
+              className={classNames({
+                Preferences__button: true,
+                'Preferences__button--calls': true,
+                'Preferences__button--selected': page === Page.Calls,
+              })}
+              onClick={() => setPage(Page.Calls)}
+            >
+              {i18n('icu:Preferences__button--calls')}
+            </button>
+            <button
+              type="button"
+              className={classNames({
+                Preferences__button: true,
+                'Preferences__button--notifications': true,
+                'Preferences__button--selected': page === Page.Notifications,
+              })}
+              onClick={() => setPage(Page.Notifications)}
+            >
+              {i18n('icu:Preferences__button--notifications')}
+            </button>
+            <button
+              type="button"
+              className={classNames({
+                Preferences__button: true,
+                'Preferences__button--privacy': true,
+                'Preferences__button--selected':
+                  page === Page.Privacy || page === Page.PNP,
+              })}
+              onClick={() => setPage(Page.Privacy)}
+            >
+              {i18n('icu:Preferences__button--privacy')}
+            </button>
+            <button
+              type="button"
+              className={classNames({
+                Preferences__button: true,
+                'Preferences__button--data-usage': true,
+                'Preferences__button--selected': page === Page.DataUsage,
+              })}
+              onClick={() => setPage(Page.DataUsage)}
+            >
+              {i18n('icu:Preferences__button--data-usage')}
+            </button>
+            {shouldShowBackupsPage ? (
+              <button
+                type="button"
+                className={classNames({
+                  Preferences__button: true,
+                  'Preferences__button--backups': true,
+                  'Preferences__button--selected': page === Page.Backups,
+                })}
+                onClick={() => setPage(Page.Backups)}
+              >
+                {i18n('icu:Preferences__button--backups')}
+              </button>
+            ) : null}
+            {isInternalUser ? (
+              <button
+                type="button"
+                className={classNames({
+                  Preferences__button: true,
+                  'Preferences__button--internal': true,
+                  'Preferences__button--selected': page === Page.Internal,
+                })}
+                onClick={() => setPage(Page.Internal)}
+              >
+                {i18n('icu:Preferences__button--internal')}
+              </button>
+            ) : null}
+          </div>
         </div>
-        <div className="Preferences__settings-pane" ref={settingsPaneRef}>
-          {settings}
+        <div className="Preferences__content">
+          <div className="Preferences__title">
+            {pageBackButton}
+            <div className="Preferences__title--header">{pageTitle}</div>
+          </div>
+          <div className="Preferences__page">
+            <div className="Preferences__settings-pane-spacer" />
+            <div className="Preferences__settings-pane" ref={settingsPaneRef}>
+              {pageContents}
+            </div>
+            <div className="Preferences__settings-pane-spacer" />
+          </div>
         </div>
       </div>
       <ToastManager

@@ -2589,7 +2589,7 @@
     "messageformat": "Open sticker chooser"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "Buksan ang pampili ng GIF"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Simulan ang pag-record ng voice note"
@@ -3136,6 +3136,18 @@
   },
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Naka-on ang mic"
+  },
+  "icu:CallControls__MutedBySomeoneToast": {
+    "messageformat": "{otherName} muted you."
+  },
+  "icu:CallControls__SomeoneMutedSomeoneToast": {
+    "messageformat": "{name} muted {otherName}."
+  },
+  "icu:CallControls__YouMutedSomeoneToast": {
+    "messageformat": "You muted {otherName}."
+  },
+  "icu:CallControls__YouMutedYourselfToast": {
+    "messageformat": "You muted yourself from another device."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Gusto mo bang ibaba ang iyong kamay?"
@@ -4989,16 +5001,16 @@
     "messageformat": "Local backups"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "I-export…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "I-export ang local na encrypted backup sa isang folder at i-validate ito"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "I-import…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "Gumawa ng local na encrypted backup para na maaaring i-import sa link"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "I-export ang encrypted backup sa memory at magpatakbo ng validation suite dito"
@@ -5199,19 +5211,19 @@
     "messageformat": "Application"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Screen security"
+    "messageformat": "Seguridad ng screen"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "Pigilan ang pag-screenshot sa Signal sa computer na ito para sa karagdagang privacy."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "I-disable ang screen security?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "Kung naka-disable ito, maaari nitong payagan ang Microsoft Windows na kumuha ng screenshots ng Signal at gamitin ang mga ito para sa mga feature na maaaring hindi pribado."
   },
   "icu:Preferences__content-protection__modal--disable": {
-    "messageformat": "Disable"
+    "messageformat": "I-disable"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "I-update sa version {version} na available"
@@ -6340,19 +6352,16 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Pwede ka na ring mag-search ng animated GIFs sa Signal Desktop."
-  },
-  "icu:WhatsNew__v7.51--1": {
-    "messageformat": "Ni-resize rin namin ang picture-to-picture window at nagdagdag din kami ng bagong shortcuts habang naka-minimize ang call."
-  },
   "icu:WhatsNew__v7.54--0": {
     "messageformat": "Nagdagdag kami ng suporta para sa emoji shortcuts sa mga karagdagang wika."
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "Naka-enable na ulit sa update na ito ang keyboard shortcuts para sa emoji at stickers."
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "Inayos din namin ang rare crash sa ilang Linux distributions."
+  },
+  "icu:WhatsNew__v7.56--0": {
+    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
   }
 }

@@ -54,6 +54,7 @@ import type {
   LinkPreviewWithHydratedData,
 } from './types/message/LinkPreviews';
 import type { StickerType, StickerWithHydratedData } from './types/Stickers';
+import { beforeNavigateService } from './services/BeforeNavigate';
 
 type EncryptedReader = (
   attachment: Partial<AddressableAttachmentType>
@@ -467,6 +468,7 @@ export const setup = (options: {
 
   const Services = {
     backups: backupsService,
+    beforeNavigate: beforeNavigateService,
     calling,
     initializeGroupCredentialFetcher,
     initializeNetworkObserver,

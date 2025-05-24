@@ -97,6 +97,7 @@ import {
   isEmojiVariantValue,
 } from './fun/data/emojis';
 import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer';
+import { BeforeNavigateResponse } from '../services/BeforeNavigate';
 
 export type PropsType = {
   activeCall: ActiveCallType;
@@ -314,6 +315,23 @@ export function CallScreen({
     }, 5000);
     return clearTimeout.bind(null, timer);
   }, [showControls, showReactionPicker, stickyControls, controlsHover]);
+  useEffect(() => {
+    const name = 'CallScreen';
+    const callback = async () => {
+      togglePip();
+      return BeforeNavigateResponse.MadeChanges;
+    };
+    window.Signal.Services.beforeNavigate.registerCallback({
+      callback,
+      name,
+    });
+    return () => {
+      window.Signal.Services.beforeNavigate.unregisterCallback({
+        callback,
+        name,
+      });
+    };
+  }, [togglePip]);
 
   const [selfViewHover, setSelfViewHover] = useState(false);
   const onSelfViewMouseEnter = useCallback(() => {

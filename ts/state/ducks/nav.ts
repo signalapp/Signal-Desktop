@@ -11,6 +11,7 @@ export enum NavTab {
   Chats = 'Chats',
   Calls = 'Calls',
   Stories = 'Stories',
+  Settings = 'Settings',
 }
 
 // State

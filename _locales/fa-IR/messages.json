@@ -2589,7 +2589,7 @@
     "messageformat": "گزینشگر استیکر را باز کن"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "بازکردن انتخابگر GIF"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "آغاز ضبط کردن پیام صوتی"
@@ -3136,6 +3136,18 @@
   },
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "میکروفون روشن است"
+  },
+  "icu:CallControls__MutedBySomeoneToast": {
+    "messageformat": "{otherName} muted you."
+  },
+  "icu:CallControls__SomeoneMutedSomeoneToast": {
+    "messageformat": "{name} muted {otherName}."
+  },
+  "icu:CallControls__YouMutedSomeoneToast": {
+    "messageformat": "You muted {otherName}."
+  },
+  "icu:CallControls__YouMutedYourselfToast": {
+    "messageformat": "You muted yourself from another device."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "دستتان را پایین می‌آورید؟"
@@ -4986,19 +4998,19 @@
     "messageformat": "داخلی"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "پشتیبان‌های محلی"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "صادر کردن…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "نسخه پشتیبان رمزگذاری‌شده محلی را به یک پوشه صادر کنید و آن را اعتبارسنجی کنید"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "وارد کردن…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "یک نسخه پشتیبان رمزگذاری‌شده محلی را برای وارد کردن در لینک آماده کنید"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "نسخه پشتیبان رمزگذاری‌شده را به حافظه صادر کنید و مجموعه اعتبارسنجی را روی آن اجرا کنید"
@@ -5196,22 +5208,22 @@
     "messageformat": "بازراه‌اندازی"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "برنامه"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Screen security"
+    "messageformat": "امنیت صفحه"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "برای افزایش حریم خصوصی، از گرفتن اسکرین‌شات از سیگنال در این رایانه جلوگیری می‌کند."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "امنیت صفحه‌نمایش غیرفعال شود؟"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "اگر غیرفعال شود، ممکن است «مایکروسافت ویندوز» بتواند از سیگنال اسکرین‌شات بگیرد و از آن برای قابلیت‌هایی استفاده کند که ممکن است خصوصی نباشند."
   },
   "icu:Preferences__content-protection__modal--disable": {
-    "messageformat": "Disable"
+    "messageformat": "غیرفعال کردن"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "به‌روزرسانی به نسخهٔ {version} موجود است"
@@ -6340,19 +6352,16 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.51--0": {
-    "messageformat": "اکنون می‌توانید گیف‌های متحرک را در سیگنال دسک‌تاپ نیزجستجو کنید."
-  },
-  "icu:WhatsNew__v7.51--1": {
-    "messageformat": "همچنین اندازه پنجره تصویر در تصویر را تغییر دادیم و میان‌برهای جدید و راحتی را هنگام کوچک‌کردن تماس اضافه کردیم."
-  },
   "icu:WhatsNew__v7.54--0": {
     "messageformat": "پشتیبانی از میان‌برهای ایموجی به زبان‌های دیگر را اضافه کرده‌ایم."
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "این به‌روزرسانی، میانبرهای صفحه‌کلید را برای ایموجی‌ها و استیکرها دوباره فعال می‌کند."
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "همچنین مشکل ازکارافتادگی برنامه را در برخی از توزیع‌های لینوکس را برطرف کردیم."
+  },
+  "icu:WhatsNew__v7.56--0": {
+    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
   }
 }

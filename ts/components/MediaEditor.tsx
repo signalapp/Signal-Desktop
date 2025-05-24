@@ -78,6 +78,7 @@ export type MediaEditorResultType = Readonly<{
 }>;
 
 export type PropsType = {
+  isCreatingStory: boolean;
   doneButtonLabel?: string;
   i18n: LocalizerType;
   imageSrc: string;
@@ -152,6 +153,7 @@ export function MediaEditor({
   doneButtonLabel,
   i18n,
   imageSrc,
+  isCreatingStory,
   isSending,
   onClose,
   onDone,
@@ -370,11 +372,17 @@ export function MediaEditor({
 
   const [editMode, setEditMode] = useState<EditMode | undefined>();
 
-  const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard(i18n);
+  const tryClose = useRef<() => void | undefined>();
+  const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
+    i18n,
+    name: 'MediaEditor',
+    tryClose,
+  });
 
   const onTryClose = useCallback(() => {
-    confirmDiscardIf(canUndo, onClose);
-  }, [confirmDiscardIf, canUndo, onClose]);
+    confirmDiscardIf(canUndo || isCreatingStory, onClose);
+  }, [confirmDiscardIf, canUndo, isCreatingStory, onClose]);
+  tryClose.current = onTryClose;
 
   // Keyboard support
   useEffect(() => {

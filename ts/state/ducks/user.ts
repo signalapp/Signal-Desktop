@@ -148,6 +148,7 @@ export function getEmptyState(): UserStateType {
       development: false,
       devTools: false,
       includeSetup: false,
+      isNightly: false,
       isProduction: true,
       platform: 'unknown',
     },

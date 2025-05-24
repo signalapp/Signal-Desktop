@@ -176,6 +176,7 @@ const DEFAULT_REMOTE_CONFIG = [
   ['desktop.internalUser', { enabled: true }],
   ['desktop.releaseNotes', { enabled: true }],
   ['desktop.senderKey.retry', { enabled: true }],
+  ['global.backups.mediaTierFallbackCdnNumber', { enabled: true, value: '3' }],
   ['global.groupsv2.groupSizeHardLimit', { enabled: true, value: '64' }],
   ['global.groupsv2.maxGroupSize', { enabled: true, value: '32' }],
 ] as const;

@@ -20,6 +20,7 @@ import {
   getInboxEnvelopeTimestamp,
   getInboxFirstEnvelopeTimestamp,
 } from '../selectors/inbox';
+import { SmartPreferences } from './Preferences';
 
 function renderChatsTab() {
   return <SmartChatsTab />;
@@ -39,6 +40,10 @@ function renderNavTabs(props: SmartNavTabsProps) {
 
 function renderStoriesTab() {
   return <SmartStoriesTab />;
+}
+
+function renderSettingsTab() {
+  return <SmartPreferences />;
 }
 
 export const SmartInbox = memo(function SmartInbox(): JSX.Element {
@@ -70,6 +75,7 @@ export const SmartInbox = memo(function SmartInbox(): JSX.Element {
       }
       renderNavTabs={renderNavTabs}
       renderStoriesTab={renderStoriesTab}
+      renderSettingsTab={renderSettingsTab}
     />
   );
 });

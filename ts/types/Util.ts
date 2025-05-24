@@ -112,3 +112,13 @@ export type JSONWithUnknownFields<Value> =
 
 export type WithRequiredProperties<T, P extends keyof T> = Omit<T, P> &
   Required<Pick<T, P>>;
+
+export function getTypingIndicatorSetting(): boolean {
+  return window.storage.get('typingIndicators', false);
+}
+export function getReadReceiptSetting(): boolean {
+  return window.storage.get('read-receipt-setting', false);
+}
+export function getSealedSenderIndicatorSetting(): boolean {
+  return window.storage.get('sealedSenderIndicators', false);
+}

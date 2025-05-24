@@ -115,6 +115,7 @@ window.testUtilities = {
         development: false,
         devTools: false,
         includeSetup: false,
+        isNightly: false,
         isProduction: false,
         platform: 'test',
       },

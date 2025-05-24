@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { noop, sortBy } from 'lodash';
 
 import { SearchInput } from './SearchInput';
@@ -151,7 +151,10 @@ export function SendStoryModal({
 }: PropsType): JSX.Element {
   const [page, setPage] = useState<PageType>(Page.SendStory);
 
-  const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard(i18n);
+  const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
+    i18n,
+    name: 'SendStoryModal',
+  });
 
   const [selectedListIds, setSelectedListIds] = useState<
     Set<StoryDistributionIdString>
@@ -944,13 +947,17 @@ export function SendStoryModal({
     );
   }
 
+  const onTryClose = useCallback(() => {
+    confirmDiscardIf(selectedContacts.length > 0, onClose);
+  }, [confirmDiscardIf, selectedContacts, onClose]);
+
   return (
     <>
       {!confirmDiscardModal && (
         <PagedModal
           modalName="SendStoryModal"
           theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
-          onClose={() => confirmDiscardIf(selectedContacts.length > 0, onClose)}
+          onClose={onTryClose}
         >
           {modal}
         </PagedModal>

@@ -179,3 +179,19 @@ export type StoryMessageRecipientsType = Array<{
   distributionListIds: Array<StoryDistributionIdString>;
   isAllowedToReply: boolean;
 }>;
+
+export function areStoryViewReceiptsEnabled(): boolean {
+  return (
+    window.storage.get('storyViewReceiptsEnabled') ??
+    window.storage.get('read-receipt-setting') ??
+    false
+  );
+}
+
+export async function setStoryViewReceiptsEnabled(
+  value: boolean
+): Promise<void> {
+  await window.storage.put('storyViewReceiptsEnabled', value);
+  const account = window.ConversationController.getOurConversationOrThrow();
+  account.captureChange('storyViewReceiptsEnabled');
+}

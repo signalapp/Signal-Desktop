@@ -11,3 +11,12 @@ export function isBackupFeatureEnabled(): boolean {
   }
   return Boolean(RemoteConfig.isEnabled('desktop.backup.credentialFetch'));
 }
+
+export function isBackupFeatureEnabledForRedux(
+  config: RemoteConfig.ConfigMapType | undefined
+): boolean {
+  if (isStagingServer() || isTestOrMockEnvironment()) {
+    return true;
+  }
+  return Boolean(config?.['desktop.backup.credentialFetch']?.enabled);
+}
