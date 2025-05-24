@@ -1,6 +1,5 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { MouseEvent } from 'react';
 import React, { memo, useCallback, useMemo, useRef, useState } from 'react';
 import {
   Dialog,
@@ -8,6 +7,7 @@ import {
   Heading,
   OverlayArrow,
   Popover,
+  TooltipTrigger,
 } from 'react-aria-components';
 import type { PressEvent } from 'react-aria';
 import { VisuallyHidden } from 'react-aria';
@@ -54,6 +54,7 @@ import {
   getEmojiPickerCategoryParentKeys,
   getEmojiVariantByParentKeyAndSkinTone,
   isEmojiParentKey,
+  normalizeShortNameCompletionDisplay,
 } from '../data/emojis';
 import { useFunEmojiSearch } from '../useFunEmojiSearch';
 import { FunKeyboard } from '../keyboard/FunKeyboard';
@@ -70,6 +71,7 @@ import { FunStaticEmoji } from '../FunEmoji';
 import { useFunContext } from '../FunProvider';
 import { FunResults, FunResultsHeader } from '../base/FunResults';
 import { useFunEmojiLocalizer } from '../useFunEmojiLocalizer';
+import { FunTooltip } from '../base/FunTooltip';
 
 function getTitleForSection(
   i18n: LocalizerType,
@@ -186,7 +188,9 @@ export function FunPanelEmojis({
       return [
         toGridSectionNode(
           FunSectionCommon.SearchResults,
-          searchEmojis(searchQuery)
+          searchEmojis(searchQuery).map(result => {
+            return result.parentKey;
+          })
         ),
       ];
     }
@@ -636,7 +640,13 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
     ]
   );
 
-  const emojiName = emojiLocalizer(emojiVariant.key);
+  const emojiName = useMemo(() => {
+    return emojiLocalizer.getLocaleShortName(emojiVariant.key);
+  }, [emojiVariant.key, emojiLocalizer]);
+
+  const emojiShortNameDisplay = useMemo(() => {
+    return normalizeShortNameCompletionDisplay(emojiName);
+  }, [emojiName]);
 
   return (
     <FunGridCell
@@ -644,19 +654,23 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
       colIndex={props.colIndex}
       rowIndex={props.rowIndex}
     >
-      <FunItemButton
-        ref={popoverTriggerRef}
-        tabIndex={props.isTabbable ? 0 : -1}
-        aria-label={emojiName}
-        onPress={handlePress}
-        onLongPress={handleLongPress}
-        onContextMenu={handleContextMenu}
-        longPressAccessibilityDescription={i18n(
-          'icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription'
-        )}
-      >
-        <FunStaticEmoji role="presentation" size={32} emoji={emojiVariant} />
-      </FunItemButton>
+      <TooltipTrigger>
+        <FunItemButton
+          ref={popoverTriggerRef}
+          excludeFromTabOrder={!props.isTabbable}
+          aria-label={emojiName}
+          onPress={handlePress}
+          onLongPress={handleLongPress}
+          onContextMenu={handleContextMenu}
+          longPressAccessibilityDescription={i18n(
+            'icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription'
+          )}
+        >
+          <FunStaticEmoji role="presentation" size={32} emoji={emojiVariant} />
+        </FunItemButton>
+        <FunTooltip placement="top">{`:${emojiShortNameDisplay}:`}</FunTooltip>
+      </TooltipTrigger>
+      d
       {emojiHasSkinToneVariants && (
         <Popover
           data-fun-overlay

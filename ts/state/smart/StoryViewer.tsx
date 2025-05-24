@@ -35,6 +35,8 @@ import { useAudioPlayerActions } from '../ducks/audioPlayer';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { useStoriesActions } from '../ducks/stories';
 import { useIsWindowActive } from '../../hooks/useIsWindowActive';
+import type { DraftBodyRanges } from '../../types/BodyRange';
+import type { StoryViewType } from '../../types/Stories';
 
 export const SmartStoryViewer = memo(function SmartStoryViewer() {
   const {
@@ -98,17 +100,22 @@ export const SmartStoryViewer = memo(function SmartStoryViewer() {
   );
 
   const handleReactToStory = useCallback(
-    async (emoji, story) => {
+    async (emoji: string, story: StoryViewType) => {
       const { messageId } = story;
       reactToStory(emoji, messageId);
     },
     [reactToStory]
   );
   const handleReplyToStory = useCallback(
-    (message, mentions, timestamp, story) => {
+    (
+      message: string,
+      bodyRanges: DraftBodyRanges,
+      timestamp: number,
+      story: StoryViewType
+    ) => {
       const conversationId = storyInfo?.conversationStory?.conversationId;
       strictAssert(conversationId != null, 'conversationId is required');
-      replyToStory(conversationId, message, mentions, timestamp, story);
+      replyToStory(conversationId, message, bodyRanges, timestamp, story);
     },
     [storyInfo, replyToStory]
   );

@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "Verilənlər bazası xətası"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "Məlumat bazası ilə əlaqəli xəta baş verdi. Xətanın surətini köçürüb, problemin həlli üçün Signal dəstək xidməti ilə əlaqə saxlaya bilərsiniz. Signal-dan elə indi istifadə etmək üçün verilənlərinizi silib yenidən başladın.\n\n{link} keçidinə daxil olaraq dəstək xidməti ilə əlaqə saxlayın."
-  },
   "icu:deleteAndRestart": {
     "messageformat": "Verilənləri silib yenidən başladın"
   },
@@ -1673,9 +1670,6 @@
   "icu:notificationSenderInGroup": {
     "messageformat": "{sender}, {group} qrupundadır"
   },
-  "icu:notificationReaction": {
-    "messageformat": "{sender} mesajınıza reaksiya verdi: {emoji}"
-  },
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} \"{message}\" mesajına reaksiya verdi: {emoji}"
   },
@@ -1831,12 +1825,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "Dəstək mərkəzi"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "Bizimlə əlaqə"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Signal-a ianə verin"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Güvənlik nömrəsinə bax"
@@ -2600,6 +2588,9 @@
   "icu:Keyboard--open-sticker-chooser": {
     "messageformat": "Stiker seçicini aç"
   },
+  "icu:Keyboard--open-gif-chooser": {
+    "messageformat": "Open GIF chooser"
+  },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Səsli qeyd yazmağa başla"
   },
@@ -3238,9 +3229,6 @@
   },
   "icu:calling__view_mode--updated": {
     "messageformat": "Görünüş yeniləndi"
-  },
-  "icu:calling__hangup": {
-    "messageformat": "Zəngi tərk et"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Ekranınızı paylaşın"
@@ -4059,10 +4047,10 @@
     "messageformat": "Bu hesabdan istifadəyə davam etmək üçün telefonunuzda Signal-ı açmalısınız. Telefonunuzda Signal-ı açmasanız, hesabınız tezliklə silinəcək. <learnMoreLink>Daha ətraflı</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Media faylını bərpa etmək mümkün deyil"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Cihazınızda kifayət qədər boş yer yoxdur. Media faylını bərpa etmək üçün {diskSpaceAmount} həcmində yer boşaldın."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Genişləndir"
@@ -4084,9 +4072,6 @@
   },
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "Redaktə edilmiş mesajı göndər"
-  },
-  "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "Bir Emoji, Stiker və ya GİF əlavə et"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
     "messageformat": "Qoşma dəyişdirilsin?"
@@ -4522,12 +4507,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Təhlükəsizlik ipucuları"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "Bu şəxslə heç bir ortaq qrupunuz yoxdur. İstənməyən mesajları əngəlləmək üçün qəbul etməzdən əvvəl tələbləri diqqətlə nəzərdən keçirin."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "Mesaj tələbləri haqqında"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Tələbləri diqqətlə nəzərdən keçirin. Signal eyni adda başqa bir kontakt tapdı. <reviewRequestLink>Sorğunu nəzərdən keçir</reviewRequestLink>"
@@ -5006,6 +4985,21 @@
   "icu:Preferences__button--internal": {
     "messageformat": "Daxili"
   },
+  "icu:Preferences__internal__local-backups": {
+    "messageformat": "Local backups"
+  },
+  "icu:Preferences__internal__export-local-backup": {
+    "messageformat": "Export…"
+  },
+  "icu:Preferences__internal__export-local-backup--description": {
+    "messageformat": "Export local encrypted backup to a folder and validate it"
+  },
+  "icu:Preferences__internal__import-local-backup": {
+    "messageformat": "Import…"
+  },
+  "icu:Preferences__internal__import-local-backup--description": {
+    "messageformat": "Stage a local encrypted backup for import on link"
+  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Şifrələnmiş ehtiyat nüsxəni yaddaşa ixrac edin və üstündəki yoxlama paketini aktivləşdirin"
   },
@@ -5071,9 +5065,6 @@
   },
   "icu:Preferences--backup-messages-plan__note": {
     "messageformat": "Signal ehtiyat nüsxələri abunəliyinizi telefonunuzdan idarə edə və ya yüksəldə bilərsiniz."
-  },
-  "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Abunəliyiniz tapılmadı. Signal ehtiyat nüsxələrindən istifadəyə davam etmək üçün yeniləyin."
   },
   "icu:Preferences--backup-plan__not-found__note": {
     "messageformat": "Signal ehtiyat nüsxələri abunəliyinizi idarə edə və ya yeniləyə bilərsiniz."
@@ -5203,6 +5194,24 @@
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
     "messageformat": "Yenidən başlat"
+  },
+  "icu:Preferences__Privacy__Application": {
+    "messageformat": "Application"
+  },
+  "icu:Preferences__content-protection--label": {
+    "messageformat": "Screen security"
+  },
+  "icu:Preferences__content-protection--description": {
+    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+  },
+  "icu:Preferences__content-protection__modal--title": {
+    "messageformat": "Disable screen security?"
+  },
+  "icu:Preferences__content-protection__modal--body": {
+    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+  },
+  "icu:Preferences__content-protection__modal--disable": {
+    "messageformat": "Disable"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "{version} versiyası mövcuddur"
@@ -6336,5 +6345,14 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "Həmçinin biz şəkil içində şəkil pəncərəsinin ölçüsünü yenidən təyin etdik və zəng görüntüsünü kiçildərək, mikrofon səsini və ya kameranı açıb-bağlamaq üçün daha əlverişli qısayollar əlavə etdik."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "Təbəssümün dili yoxdur, amma artıq Signal Desktop-dakı emoji qısayolları tam tərcümə olunub, bundan sonra emoji ifadələrini <code>:smile:</code> <code>:sourire:</code> və ya <code>:微笑:</code> kimi istənilən dəstəklənən dildə yaza bilərsiniz."
+  },
+  "icu:WhatsNew__v7.55--0": {
+    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+  },
+  "icu:WhatsNew__v7.55--1": {
+    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
   }
 }

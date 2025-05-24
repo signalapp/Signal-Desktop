@@ -3,7 +3,7 @@
 
 import { assertDev } from './assert';
 
-export function shouldNeverBeCalled(..._args: ReadonlyArray<unknown>): void {
+export function shouldNeverBeCalled(..._args: ReadonlyArray<unknown>): never {
   assertDev(false, 'This should never be called. Doing nothing');
 }
 

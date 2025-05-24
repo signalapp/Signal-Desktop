@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "Databasefeil"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "Det oppsto en feil med databasen. Du kan kopiere feilen og ta kontakt med Signals brukerstøtte for å få hjelp. Hvis du trenger tilgang til Signal umiddelbart, kan du slette alle dataene og starte på nytt.\n\nTa kontakt med brukerstøtte via {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "Slett alle data og start på nytt"
   },
@@ -1673,9 +1670,6 @@
   "icu:notificationSenderInGroup": {
     "messageformat": "{sender} i {group}"
   },
-  "icu:notificationReaction": {
-    "messageformat": "{sender} reagerte med {emoji} på meldingen din"
-  },
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} reagerte med {emoji} på: {message}"
   },
@@ -1831,12 +1825,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "Brukerstøttesenter"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "Kontakt oss"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Gi penger til Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Vis sikkerhetsnummer"
@@ -2600,6 +2588,9 @@
   "icu:Keyboard--open-sticker-chooser": {
     "messageformat": "Åpne klistremerke-velgeren"
   },
+  "icu:Keyboard--open-gif-chooser": {
+    "messageformat": "Open GIF chooser"
+  },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Begynn å spille inn en talemelding"
   },
@@ -3238,9 +3229,6 @@
   },
   "icu:calling__view_mode--updated": {
     "messageformat": "Visning oppdatert"
-  },
-  "icu:calling__hangup": {
-    "messageformat": "Legg på"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Del skjermen din"
@@ -4059,10 +4047,10 @@
     "messageformat": "Du må åpne Signal på telefonen for å fortsette å bruke denne kontoen. Kontoen slettes snart dersom du ikke åpner Signal på telefonen din. <learnMoreLink>Les mer</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Kan ikke gjenopprette mediefilene"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Enheten har ikke nok lagringsplass. Slett {diskSpaceAmount} for å gjenopprette mediefilene dine."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Ekspander"
@@ -4084,9 +4072,6 @@
   },
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "Send den redigerte meldingen"
-  },
-  "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "Legg til emoji, klistremerke eller GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
     "messageformat": "Vil du bytte vedlegg?"
@@ -4522,12 +4507,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Sikkerhetstips"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "Du deler ingen grupper med denne personen. Se nøye gjennom forespørsler før du aksepterer, så du unngår uønskede meldinger."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "Om meldingsforespørsler"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Se grundig gjennom forespørsler. Signal fant en annen kontakt med samme navn. <reviewRequestLink>Se gjennom forespørsel</reviewRequestLink>"
@@ -5006,6 +4985,21 @@
   "icu:Preferences__button--internal": {
     "messageformat": "Internt"
   },
+  "icu:Preferences__internal__local-backups": {
+    "messageformat": "Local backups"
+  },
+  "icu:Preferences__internal__export-local-backup": {
+    "messageformat": "Export…"
+  },
+  "icu:Preferences__internal__export-local-backup--description": {
+    "messageformat": "Export local encrypted backup to a folder and validate it"
+  },
+  "icu:Preferences__internal__import-local-backup": {
+    "messageformat": "Import…"
+  },
+  "icu:Preferences__internal__import-local-backup--description": {
+    "messageformat": "Stage a local encrypted backup for import on link"
+  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Eksporter en kryptert sikkerhetskopi til minnet og kjør bekreftelse av den"
   },
@@ -5071,9 +5065,6 @@
   },
   "icu:Preferences--backup-messages-plan__note": {
     "messageformat": "Du kan administrere eller oppgradere sikkerhetskopiering av Signal på telefonen din."
-  },
-  "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Abonnementet ble ikke funnet. Forny abonnementet for å fortsette å bruke sikkerhetskopiering på Signal."
   },
   "icu:Preferences--backup-plan__not-found__note": {
     "messageformat": "Du kan administrere eller fornye abonnementet ditt på telefonen din."
@@ -5203,6 +5194,24 @@
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
     "messageformat": "Omstart"
+  },
+  "icu:Preferences__Privacy__Application": {
+    "messageformat": "Application"
+  },
+  "icu:Preferences__content-protection--label": {
+    "messageformat": "Screen security"
+  },
+  "icu:Preferences__content-protection--description": {
+    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+  },
+  "icu:Preferences__content-protection__modal--title": {
+    "messageformat": "Disable screen security?"
+  },
+  "icu:Preferences__content-protection__modal--body": {
+    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+  },
+  "icu:Preferences__content-protection__modal--disable": {
+    "messageformat": "Disable"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Oppdatering til versjon {version} er tilgjengelig"
@@ -6336,5 +6345,14 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "Vi har også endret størrelsen på bilde-i-bilde-vinduet og lagt til et par nye snarveier du kan bruke når du er i en samtale."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "Vi tilbyr nå støtte for emoji-snarveier på enda flere språk."
+  },
+  "icu:WhatsNew__v7.55--0": {
+    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+  },
+  "icu:WhatsNew__v7.55--1": {
+    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
   }
 }

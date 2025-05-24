@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "បញ្ហាទិន្នន័យ"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "មានបញ្ហាមូលដ្ឋានទិន្នន័យបានកើតឡើង។ អ្នកអាចចម្លងបញ្ហានេះ ហើយទាក់ទងផ្នែកជំនួយរបស់ Signal ឱ្យជួយដោះស្រាយបញ្ហា។ ប្រសិនបើអ្នកត្រូវការប្រើ Signal ភ្លាមៗ អ្នកអាចលុបទិន្នន័យរបស់អ្នក ហើយចាប់ផ្តើមឡើងវិញ។\n\nទាក់ទងផ្នែកជំនួយដោយចូលទៅកាន់៖ {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "លុបទិន្នន័យ រួចចាប់ផ្តើមឡើងវិញ"
   },
@@ -1673,9 +1670,6 @@
   "icu:notificationSenderInGroup": {
     "messageformat": "{sender} ក្នុង {group}"
   },
-  "icu:notificationReaction": {
-    "messageformat": "{sender} បានប្រតិកម្ម {emoji} ទៅនឹងសាររបស់អ្នក"
-  },
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} បានប្រតិកម្ម {emoji} ទៅនឹង៖ {message}"
   },
@@ -1831,12 +1825,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "មជ្ឈមណ្ឌលគាំទ្រ"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "ទាក់ទងយើង"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "ឧបត្ថម្ភទៅ Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "មើលលេខសុវត្ថិភាព"
@@ -2600,6 +2588,9 @@
   "icu:Keyboard--open-sticker-chooser": {
     "messageformat": "បើកការជ្រើសរើស ស្ទីកគ័រ"
   },
+  "icu:Keyboard--open-gif-chooser": {
+    "messageformat": "Open GIF chooser"
+  },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "ចាប់ផ្តើមការថតកំណត់ត្រាសំឡេង"
   },
@@ -3238,9 +3229,6 @@
   },
   "icu:calling__view_mode--updated": {
     "messageformat": "បានផ្លាស់ប្តូរទិដ្ឋភាព"
-  },
-  "icu:calling__hangup": {
-    "messageformat": "បិទការហៅ"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "ចែករំលែកអេក្រង់របស់អ្នក"
@@ -4059,10 +4047,10 @@
     "messageformat": "អ្នកត្រូវតែបើក Signal នៅលើទូរសព្ទរបស់អ្នក ដើម្បីបន្តប្រើប្រាស់គណនីនេះ។ ប្រសិនបើអ្នកមិនបើក Signal នៅលើទូរសព្ទរបស់អ្នកទេ គណនីរបស់អ្នកនឹងត្រូវបានលុបចោលក្នុងពេលឆាប់ៗនេះ។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "មិនអាចស្តារមេឌៀឡើងវិញបានទេ"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "ឧបករណ៍របស់អ្នកមិនមានទំហំផ្ទុកទំនេរគ្រប់គ្រាន់ទេ។ បង្កើនទំហំផ្ទុក {diskSpaceAmount} ដើម្បីស្ដារមេឌៀរបស់អ្នកមកវិញ។"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "ពង្រីក"
@@ -4084,9 +4072,6 @@
   },
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "ផ្ញើសារដែលបានកែ"
-  },
-  "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "បញ្ចូលរូបអារម្មណ៍ ស្ទីកគ័រ ឬរូបចលនា"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
     "messageformat": "ផ្លាស់ប្តូរឯកសារភ្ជាប់ឬ?"
@@ -4522,12 +4507,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "គន្លឹះសុវត្ថិភាព"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "អ្នកមិនមានក្រុមជាមួយបុគ្គលនេះទេ។ សូមពិនិត្យសំណើរអោយបានច្បាស់មុនពេលទទួល ដើម្បីចៀសវាងទទួលបានសារដែលអ្នកមិនចង់ទទួល។"
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "អំពីការស្នើរសុំសារ"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "ពិនិត្យសំណើដោយយកចិត្តទុកដាក់។ Signal បានរកឃើញឈ្មោះទំនាក់ទំនងមួយផ្សេងទៀតដែលមានឈ្មោះដូចគ្នា។ <reviewRequestLink>ពិនិត្យសំណើ</reviewRequestLink>"
@@ -5006,6 +4985,21 @@
   "icu:Preferences__button--internal": {
     "messageformat": "ផ្ទៃក្នុង"
   },
+  "icu:Preferences__internal__local-backups": {
+    "messageformat": "Local backups"
+  },
+  "icu:Preferences__internal__export-local-backup": {
+    "messageformat": "Export…"
+  },
+  "icu:Preferences__internal__export-local-backup--description": {
+    "messageformat": "Export local encrypted backup to a folder and validate it"
+  },
+  "icu:Preferences__internal__import-local-backup": {
+    "messageformat": "Import…"
+  },
+  "icu:Preferences__internal__import-local-backup--description": {
+    "messageformat": "Stage a local encrypted backup for import on link"
+  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "នាំចេញការបម្រុងទុកដែលបានអ៊ីនគ្រីបទៅអង្គចងចាំ ហើយធ្វើការផ្ទៀងផ្ទាត់លើវា"
   },
@@ -5071,9 +5065,6 @@
   },
   "icu:Preferences--backup-messages-plan__note": {
     "messageformat": "អ្នកអាចគ្រប់គ្រង ឬដំឡើងកម្រិតនៃការបម្រុងទុក Signal នៅលើទូរសព្ទរបស់អ្នក។"
-  },
-  "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "រកមិនឃើញការជាវរបស់អ្នកទេ។ បន្តជាថ្មីដើម្បីបន្តប្រើប្រាស់ការបម្រុងទុក Signal។"
   },
   "icu:Preferences--backup-plan__not-found__note": {
     "messageformat": "អ្នកអាចគ្រប់គ្រង ឬបន្តនូវការជាវការបម្រុងទុក Signal របស់អ្នកនៅលើទូរសព្ទរបស់អ្នក។"
@@ -5203,6 +5194,24 @@
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
     "messageformat": "ចាប់ផ្ដើមឡើងវិញ"
+  },
+  "icu:Preferences__Privacy__Application": {
+    "messageformat": "Application"
+  },
+  "icu:Preferences__content-protection--label": {
+    "messageformat": "Screen security"
+  },
+  "icu:Preferences__content-protection--description": {
+    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+  },
+  "icu:Preferences__content-protection__modal--title": {
+    "messageformat": "Disable screen security?"
+  },
+  "icu:Preferences__content-protection__modal--body": {
+    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+  },
+  "icu:Preferences__content-protection__modal--disable": {
+    "messageformat": "Disable"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "ដំឡើងកំណែទៅ {version} ដែលមាន"
@@ -6336,5 +6345,14 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "យើងក៏បានប្តូរទំហំផ្ទាំងរូបភាពក្នុងរូបភាព និងបានបន្ថែមផ្លូវកាត់ថ្មីៗដែលងាយស្រួលសម្រាប់បិទ/បើកមីក្រូហ្វូនរបស់អ្នក ឬបិទ/បើកកាមេរ៉ា ខណៈពេលដែលផ្ទាំងហៅទូរសព្ទត្រូវបានបង្រួម។"
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "ស្នាមញញឹមគឺសុទ្ធតែដូចគ្នាទេ ទោះក្នុងភាសាណាក៏ដោយ ប៉ុន្តែឥឡូវនេះយើងបានដាក់បញ្ចូលផ្លូវកាត់ក្នុងការប្រើរូបអារម្មណ៍នៅក្នុង Signal Desktop ដែលអ្នកក៏អាច <code>:smile:</code> ឬ <code>:sourire:</code> ឬ <code>:微笑:</code> ជាភាសាដែលអាចប្រើបានដែរ។"
+  },
+  "icu:WhatsNew__v7.55--0": {
+    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+  },
+  "icu:WhatsNew__v7.55--1": {
+    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
   }
 }

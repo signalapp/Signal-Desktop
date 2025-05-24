@@ -83,7 +83,8 @@ export type WrappedWorkerResponse =
     }>
   | WrappedWorkerLogEntry;
 
-type PromisePair<T> = {
+type ResponseEntry<T> = {
+  errorId: string;
   resolve: (response: T) => void;
   reject: (error: Error) => void;
 };
@@ -129,7 +130,7 @@ export class MainSQL {
   #logger?: LoggerType;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  #onResponse = new Map<number, PromisePair<any>>();
+  #onResponse = new Map<number, ResponseEntry<any>>();
 
   #shouldTimeQueries = false;
   #shouldTrackQueryStats = false;
@@ -323,7 +324,9 @@ export class MainSQL {
     entry: PoolEntry,
     request: WorkerRequest
   ): Promise<Response> {
+    let errorId: string = request.type;
     if (request.type === 'sqlCall:read' || request.type === 'sqlCall:write') {
+      errorId = `${request.type}(${request.method})`;
       if (this.#onReady) {
         await this.#onReady;
       }
@@ -338,7 +341,11 @@ export class MainSQL {
     this.#seq = (this.#seq + 1) >>> 0;
 
     const { promise: result, resolve, reject } = explodePromise<Response>();
-    this.#onResponse.set(seq, { resolve, reject });
+    this.#onResponse.set(seq, {
+      errorId,
+      resolve,
+      reject,
+    });
 
     const wrappedRequest: WrappedWorkerRequest = {
       seq,
@@ -467,21 +474,21 @@ export class MainSQL {
 
       const { seq, error, errorKind, response } = wrappedResponse;
 
-      const pair = this.#onResponse.get(seq);
+      const entry = this.#onResponse.get(seq);
       this.#onResponse.delete(seq);
-      if (!pair) {
+      if (!entry) {
         throw new Error(`Unexpected worker response with seq: ${seq}`);
       }
 
       if (error) {
-        const errorObj = new Error(error.message);
-        errorObj.stack = error.stack;
+        const errorObj = new Error(`${entry.errorId}: ${error.message}`);
+        errorObj.stack = `${entry.errorId}: ${error.stack}`;
         errorObj.name = error.name;
         this.#onError(errorKind ?? SqliteErrorKind.Unknown, errorObj);
 
-        pair.reject(errorObj);
+        entry.reject(errorObj);
       } else {
-        pair.resolve(response);
+        entry.resolve(response);
       }
     });
 

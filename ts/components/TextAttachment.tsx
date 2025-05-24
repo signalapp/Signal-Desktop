@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
-import TextareaAutosize from 'react-textarea-autosize';
 import classNames from 'classnames';
 
 import type { LocalizerType, RenderTextCallbackType } from '../types/Util';
@@ -241,7 +240,7 @@ export const TextAttachment = forwardRef<HTMLTextAreaElement, PropsType>(
               }}
             >
               {onChange ? (
-                <TextareaAutosize
+                <textarea
                   dir="auto"
                   className="TextAttachment__text__container TextAttachment__text__textarea"
                   disabled={!isEditingText}

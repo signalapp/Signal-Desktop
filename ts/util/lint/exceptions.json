@@ -750,258 +750,6 @@
   },
   {
     "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.cjs.js",
-    "line": "  var libRef = React__namespace.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.cjs.js",
-    "line": "  var heightRef = React__namespace.useRef(0);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.cjs.js",
-    "line": "  var measurementsCacheRef = React__namespace.useRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.development.cjs.js",
-    "line": "  var libRef = React__namespace.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.development.cjs.js",
-    "line": "  var heightRef = React__namespace.useRef(0);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.development.cjs.js",
-    "line": "  var measurementsCacheRef = React__namespace.useRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.development.esm.js",
-    "line": "  var libRef = React.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.development.esm.js",
-    "line": "  var heightRef = React.useRef(0);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.development.esm.js",
-    "line": "  var measurementsCacheRef = React.useRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.esm.js",
-    "line": "  var libRef = React.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.esm.js",
-    "line": "  var heightRef = React.useRef(0);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.esm.js",
-    "line": "  var measurementsCacheRef = React.useRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.cjs.js",
-    "line": "  var libRef = React__namespace.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.cjs.js",
-    "line": "  React__namespace.useRef(0);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.cjs.js",
-    "line": "  React__namespace.useRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.development.cjs.js",
-    "line": "  var libRef = React__namespace.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.development.cjs.js",
-    "line": "  React__namespace.useRef(0);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.development.cjs.js",
-    "line": "  React__namespace.useRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.development.esm.js",
-    "line": "  var libRef = React.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.development.esm.js",
-    "line": "  React.useRef(0);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.development.esm.js",
-    "line": "  React.useRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.development.worker.cjs.js",
-    "line": "  var libRef = React__namespace.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.development.worker.cjs.js",
-    "line": "  React__namespace.useRef(0);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.development.worker.cjs.js",
-    "line": "  React__namespace.useRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.development.worker.esm.js",
-    "line": "  var libRef = React.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.development.worker.esm.js",
-    "line": "  React.useRef(0);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.development.worker.esm.js",
-    "line": "  React.useRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.esm.js",
-    "line": "  var libRef = React.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.esm.js",
-    "line": "  React.useRef(0);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.esm.js",
-    "line": "  React.useRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.worker.cjs.js",
-    "line": "  var libRef = React__namespace.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.worker.cjs.js",
-    "line": "  React__namespace.useRef(0);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.worker.cjs.js",
-    "line": "  React__namespace.useRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.worker.esm.js",
-    "line": "  var libRef = React.useRef(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.worker.esm.js",
-    "line": "  React.useRef(0);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/react-textarea-autosize/dist/react-textarea-autosize.worker.esm.js",
-    "line": "  React.useRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-11-16T00:31:42.167Z"
-  },
-  {
-    "rule": "React-useRef",
     "path": "ts/calling/useGetCallingFrameBuffer.ts",
     "line": "  const ref = useRef<Buffer | null>(null);",
     "reasonCategory": "usageTrusted",
@@ -1996,10 +1744,38 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/fun/FunGif.tsx",
+    "line": "  const ref = useRef<HTMLVideoElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-03-21T23:22:07.920Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/fun/FunGif.tsx",
+    "line": "  const timerRef = useRef<ReturnType<typeof setTimeout>>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-03-21T23:22:07.920Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/fun/FunGif.tsx",
+    "line": "  const videoRef = useRef<HTMLVideoElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-03-24T18:57:50.198Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/fun/base/FunImage.tsx",
     "line": "  const imageRef = useRef<HTMLImageElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/fun/base/FunItem.tsx",
+    "line": "  const innerRef = useRef<HTMLButtonElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-04-23T23:43:10.675Z"
   },
   {
     "rule": "React-useRef",
@@ -2129,40 +1905,11 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/fun/FunGif.tsx",
-    "line": "  const ref = useRef<HTMLVideoElement>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2025-03-21T23:22:07.920Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/fun/FunGif.tsx",
-    "line": "  const timerRef = useRef<ReturnType<typeof setTimeout>>();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2025-03-21T23:22:07.920Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/fun/FunGif.tsx",
-    "line": "  const videoRef = useRef<HTMLVideoElement>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2025-03-24T18:57:50.198Z"
-  },
-  {
-    "rule": "React-useRef",
     "path": "ts/components/stickers/StickerButton.tsx",
     "line": "    const buttonRef = React.useRef<HTMLButtonElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-06-14T22:04:43.988Z",
     "reasonDetail": "Handling outside click"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/hooks/useEmojiSearch.ts",
-    "line": "  const searchRef = useRef(defaultSearch);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-03-16T18:34:38.165Z",
-    "reasonDetail": "Quill requires an immutable reference to the search function"
   },
   {
     "rule": "React-useRef",

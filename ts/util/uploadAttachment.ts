@@ -1,5 +1,6 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+import Long from 'long';
 import { createReadStream } from 'fs';
 import type {
   AttachmentWithHydratedData,
@@ -33,6 +34,7 @@ export async function uploadAttachment(
   const keys = getRandomBytes(64);
   const needIncrementalMac = supportsIncrementalMac(attachment.contentType);
 
+  const uploadTimestamp = Date.now();
   const { cdnKey, cdnNumber, encrypted } = await encryptAndUploadAttachment({
     keys,
     needIncrementalMac,
@@ -54,6 +56,7 @@ export async function uploadAttachment(
     plaintextHash: encrypted.plaintextHash,
     incrementalMac: encrypted.incrementalMac,
     chunkSize: encrypted.chunkSize,
+    uploadTimestamp: Long.fromNumber(uploadTimestamp),
 
     contentType: MIMETypeToString(attachment.contentType),
     fileName,

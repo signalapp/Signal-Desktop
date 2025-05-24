@@ -58,6 +58,7 @@ import { renderReactionPicker } from './renderReactionPicker';
 import { isSharingPhoneNumberWithEverybody as getIsSharingPhoneNumberWithEverybody } from '../../util/phoneNumberSharingMode';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { isLonelyGroup } from '../ducks/callingHelpers';
+import { getActiveProfile } from '../selectors/notificationProfiles';
 
 function renderDeviceSelection(): JSX.Element {
   return <SmartCallingDeviceSelection />;
@@ -338,6 +339,8 @@ const mapStateToActiveCallProp = (
         remoteParticipants,
         remoteAudioLevels: call.remoteAudioLevels || new Map<number, number>(),
         suggestLowerHand: Boolean(activeCallState.suggestLowerHand),
+        mutedBy: activeCallState.mutedBy,
+        observedRemoteMute: activeCallState.observedRemoteMute,
       } satisfies ActiveGroupCallType;
     }
     default:
@@ -437,6 +440,7 @@ export const SmartCallManager = memo(function SmartCallManager() {
   const availableCameras = useSelector(getAvailableCameras);
   const hasInitialLoadCompleted = useSelector(getHasInitialLoadCompleted);
   const me = useSelector(getMe);
+  const activeNotificationProfile = useSelector(getActiveProfile);
 
   const {
     approveUser,
@@ -460,6 +464,7 @@ export const SmartCallManager = memo(function SmartCallManager() {
     setGroupCallVideoRequest,
     setIsCallActive,
     setLocalAudio,
+    setLocalAudioRemoteMuted,
     setLocalVideo,
     setOutgoingRing,
     setRendererCanvas,
@@ -482,6 +487,7 @@ export const SmartCallManager = memo(function SmartCallManager() {
     <CallManager
       acceptCall={acceptCall}
       activeCall={activeCall}
+      activeNotificationProfile={activeNotificationProfile}
       approveUser={approveUser}
       availableCameras={availableCameras}
       batchUserAction={batchUserAction}
@@ -519,6 +525,7 @@ export const SmartCallManager = memo(function SmartCallManager() {
       setGroupCallVideoRequest={setGroupCallVideoRequest}
       setIsCallActive={setIsCallActive}
       setLocalAudio={setLocalAudio}
+      setLocalAudioRemoteMuted={setLocalAudioRemoteMuted}
       setLocalPreviewContainer={setLocalPreviewContainer}
       setLocalVideo={setLocalVideo}
       setOutgoingRing={setOutgoingRing}

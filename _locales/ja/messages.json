@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "データベースのエラー"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "データベースエラーが発生しました。エラーをコピーしてSignalサポートへ連絡すると、問題の解決に役立てることができます。すぐにSignalを使用する必要がある場合は、データを消去して再起動することができます。\n\nサポートへのお問い合わせは{link}までお願いします。"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "すべてのデータを消去して再起動する"
   },
@@ -1673,9 +1670,6 @@
   "icu:notificationSenderInGroup": {
     "messageformat": "{group} の {sender}"
   },
-  "icu:notificationReaction": {
-    "messageformat": "{sender}さんがあなたのメッセージに {emoji}のリアクションをしました"
-  },
   "icu:notificationReactionMessage": {
     "messageformat": "{sender}さんが「{message}」に {emoji}のリアクションをしました"
   },
@@ -1831,12 +1825,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "サポートセンター"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "お問い合わせ"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Signalへの寄付"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "安全番号の検証"
@@ -2600,6 +2588,9 @@
   "icu:Keyboard--open-sticker-chooser": {
     "messageformat": "ステッカー選択画面を開く"
   },
+  "icu:Keyboard--open-gif-chooser": {
+    "messageformat": "Open GIF chooser"
+  },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "音声メモの録音を開始する"
   },
@@ -3238,9 +3229,6 @@
   },
   "icu:calling__view_mode--updated": {
     "messageformat": "ビューが更新されました"
-  },
-  "icu:calling__hangup": {
-    "messageformat": "通話終了"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "あなたの画面を共有"
@@ -4059,10 +4047,10 @@
     "messageformat": "このアカウントの使用を継続するには、お使いのスマートフォンでSignalを開く必要があります。この操作を行わないと、アカウントは間もなく消去されます。<learnMoreLink>さらに詳しく</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "メディアを復元できません"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "ご利用の端末には十分な空き容量がありません。メディアを復元するために{diskSpaceAmount}の空き容量を確保してください。"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "大きく"
@@ -4084,9 +4072,6 @@
   },
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "編集したメッセージを送信する"
-  },
-  "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "絵文字、ステッカー、GIFを追加する"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
     "messageformat": "添付ファイルを置き換えますか？"
@@ -4522,12 +4507,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "安全な使い方のヒント"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "この人と共通のグループがありません。望まないメッセージを避けるため、申請は慎重に確認してください。"
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "メッセージ申請について"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "慎重に申請を確認してください。Signal は同じ名前で別の連絡先を見つけました。<reviewRequestLink>申請を確認する</reviewRequestLink>"
@@ -5006,6 +4985,21 @@
   "icu:Preferences__button--internal": {
     "messageformat": "内部設定"
   },
+  "icu:Preferences__internal__local-backups": {
+    "messageformat": "Local backups"
+  },
+  "icu:Preferences__internal__export-local-backup": {
+    "messageformat": "Export…"
+  },
+  "icu:Preferences__internal__export-local-backup--description": {
+    "messageformat": "Export local encrypted backup to a folder and validate it"
+  },
+  "icu:Preferences__internal__import-local-backup": {
+    "messageformat": "Import…"
+  },
+  "icu:Preferences__internal__import-local-backup--description": {
+    "messageformat": "Stage a local encrypted backup for import on link"
+  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "暗号化されたバックアップをメモリにエクスポートし、検証処理を実行します"
   },
@@ -5071,9 +5065,6 @@
   },
   "icu:Preferences--backup-messages-plan__note": {
     "messageformat": "お使いのスマートフォンからSignalバックアップを管理またはアップグレードできます。"
-  },
-  "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "ご利用のサブスクリプションは確認できませんでした。Signalバックアップを引き続き使用するには、更新手続きをしてください。"
   },
   "icu:Preferences--backup-plan__not-found__note": {
     "messageformat": "Signalバックアップのサブスクリプションは、お使いのスマートフォンから管理または更新手続きが行えます。"
@@ -5203,6 +5194,24 @@
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
     "messageformat": "再起動"
+  },
+  "icu:Preferences__Privacy__Application": {
+    "messageformat": "Application"
+  },
+  "icu:Preferences__content-protection--label": {
+    "messageformat": "Screen security"
+  },
+  "icu:Preferences__content-protection--description": {
+    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+  },
+  "icu:Preferences__content-protection__modal--title": {
+    "messageformat": "Disable screen security?"
+  },
+  "icu:Preferences__content-protection__modal--body": {
+    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+  },
+  "icu:Preferences__content-protection__modal--disable": {
+    "messageformat": "Disable"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "バージョン{version}へのアップデートがあります"
@@ -6336,5 +6345,14 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "また、ピクチャーインピクチャーウィンドウのサイズ変更を可能にし、通話画面が最小化されている時に使える新しいショートカット機能の追加も行いました。"
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "より多くの言語で絵文字のショートカットが使えるようになりました。 <code></code><code></code><code></code>"
+  },
+  "icu:WhatsNew__v7.55--0": {
+    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+  },
+  "icu:WhatsNew__v7.55--1": {
+    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
   }
 }

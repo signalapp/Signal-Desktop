@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "שגיאת מסד נתונים"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "אירעה שגיאת מסד נתונים. אפשר להעתיק את תוכן השגיאה וליצור קשר עם התמיכה של Signal כדי לעזור לפתור את הבעיה. אם יש לך צורך מידי להשתמש ב–Signal, יש לך אפשרות למחוק את הנתונים שלך ולהפעיל מחדש.\n\nאפשר ליצור קשר עם התמיכה כאן: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "מחיקת נתונים והפעלה מחדש"
   },
@@ -1673,9 +1670,6 @@
   "icu:notificationSenderInGroup": {
     "messageformat": "{sender} בקבוצה {group}"
   },
-  "icu:notificationReaction": {
-    "messageformat": "{sender} הגיב/ה {emoji} להודעה שלך"
-  },
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} הגיב/ה {emoji} ל: {message}"
   },
@@ -1831,12 +1825,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "מרכז תמיכה"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "צור קשר"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "תרום אל Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "הצגת מספר בטיחות"
@@ -2600,6 +2588,9 @@
   "icu:Keyboard--open-sticker-chooser": {
     "messageformat": "פתח בוחר מדבקות"
   },
+  "icu:Keyboard--open-gif-chooser": {
+    "messageformat": "Open GIF chooser"
+  },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "התחל להקליט הערה קולית"
   },
@@ -3238,9 +3229,6 @@
   },
   "icu:calling__view_mode--updated": {
     "messageformat": "תצוגה עודכנה"
-  },
-  "icu:calling__hangup": {
-    "messageformat": "עזוב שיחה"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "שתף את המסך שלך"
@@ -4059,10 +4047,10 @@
     "messageformat": "יש לפתוח את Signal בטלפון שלך כדי להמשיך להשתמש בחשבון הזה. אם לא תפתח/י את Signal בטלפון שלך, החשבון שלך יימחק בקרוב. <learnMoreLink>למידע נוסף</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "לא ניתן לשחזר מדיה"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "אין מספיק מקום פנוי במכשיר שלך. יש לפנות {diskSpaceAmount} של שטח כדי לשחזר את המדיה שלך."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "הרחב"
@@ -4084,9 +4072,6 @@
   },
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "שליחת הודעה ערוכה"
-  },
-  "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "הוספת אימוג׳י, סטיקר או GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
     "messageformat": "להחליף קובץ מצורף?"
@@ -4522,12 +4507,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "טיפים לבטיחות"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "אין לך קבוצות משותפות עם האיש הזה. סקור בקשות בזהירות טרם אישור שלהן כדי להימנע מהודעות בלתי רצויות."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "על אודות בקשות הודעה"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "כדאי לסקור בקשות בזהירות. Signal מצאה איש קשר אחר עם אותו שם. <reviewRequestLink>סקירת בקשה</reviewRequestLink>"
@@ -5006,6 +4985,21 @@
   "icu:Preferences__button--internal": {
     "messageformat": "פנימי"
   },
+  "icu:Preferences__internal__local-backups": {
+    "messageformat": "Local backups"
+  },
+  "icu:Preferences__internal__export-local-backup": {
+    "messageformat": "Export…"
+  },
+  "icu:Preferences__internal__export-local-backup--description": {
+    "messageformat": "Export local encrypted backup to a folder and validate it"
+  },
+  "icu:Preferences__internal__import-local-backup": {
+    "messageformat": "Import…"
+  },
+  "icu:Preferences__internal__import-local-backup--description": {
+    "messageformat": "Stage a local encrypted backup for import on link"
+  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "לייצא גיבוי מוצפן לזיכרון ולהריץ עליו אימות"
   },
@@ -5071,9 +5065,6 @@
   },
   "icu:Preferences--backup-messages-plan__note": {
     "messageformat": "באפשרותך לנהל או לשדרג את גיבויי Signal בטלפון שלך."
-  },
-  "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "המנוי שלך לא נמצא. יש לחדש כדי להמשיך להשתמש בגיבויי Signal."
   },
   "icu:Preferences--backup-plan__not-found__note": {
     "messageformat": "באפשרותך לנהל או לחדש את מנוי גיבויי Signal שלך בטלפון שלך."
@@ -5203,6 +5194,24 @@
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
     "messageformat": "הפעלה מחדש"
+  },
+  "icu:Preferences__Privacy__Application": {
+    "messageformat": "Application"
+  },
+  "icu:Preferences__content-protection--label": {
+    "messageformat": "Screen security"
+  },
+  "icu:Preferences__content-protection--description": {
+    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+  },
+  "icu:Preferences__content-protection__modal--title": {
+    "messageformat": "Disable screen security?"
+  },
+  "icu:Preferences__content-protection__modal--body": {
+    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+  },
+  "icu:Preferences__content-protection__modal--disable": {
+    "messageformat": "Disable"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "עדכון אל גרסה {version} זמין"
@@ -6336,5 +6345,14 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "שינינו גם את גודל החלון של תמונה–בתוך–תמונה והוספנו קיצורי דרך חדשים ונוחים לשימוש בזמן שהשיחה ממוזערת."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "הוספנו תמיכה בקיצורי מקשים של סמלי הבעה."
+  },
+  "icu:WhatsNew__v7.55--0": {
+    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+  },
+  "icu:WhatsNew__v7.55--1": {
+    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
   }
 }

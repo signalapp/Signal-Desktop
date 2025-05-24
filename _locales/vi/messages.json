@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "Lỗi Cơ sở dữ liệu"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "Đã xảy ra lỗi cơ sở dữ liệu. Bạn có thể sao chép lỗi và liên hệ bộ phận hỗ trợ của Signal để được hỗ trợ khắc phục vấn đề. Nếu bạn cần sử dụng Signal ngay, bạn có thể xóa dữ liệu của mình và khởi động lại.\n\nLiên hệ với bộ phận hỗ trợ bằng cách truy cập: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "Xóa dữ liệu và khởi động lại"
   },
@@ -1673,9 +1670,6 @@
   "icu:notificationSenderInGroup": {
     "messageformat": "{sender} trong {group}"
   },
-  "icu:notificationReaction": {
-    "messageformat": "{sender}đã bày tỏ {emoji} trong tin nhắn của bạn"
-  },
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} đã phản hồi {emoji} cho: {message}"
   },
@@ -1831,12 +1825,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "Trung tâm Hỗ trợ"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "Liên hệ với chúng tôi"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Ủng hộ Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Xem Số An toàn"
@@ -2600,6 +2588,9 @@
   "icu:Keyboard--open-sticker-chooser": {
     "messageformat": "Mở bảng chọn nhãn dán"
   },
+  "icu:Keyboard--open-gif-chooser": {
+    "messageformat": "Open GIF chooser"
+  },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Bắt đầu ghi tin nhắn âm thanh"
   },
@@ -3238,9 +3229,6 @@
   },
   "icu:calling__view_mode--updated": {
     "messageformat": "Chế độ hiển thị đã cập nhật"
-  },
-  "icu:calling__hangup": {
-    "messageformat": "Rời cuộc gọi"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Chia sẻ màn hình của bạn"
@@ -4059,10 +4047,10 @@
     "messageformat": "Bạn phải mở Signal trên điện thoại để tiếp tục sử dụng tài khoản này. Nếu không mở Signal trên điện thoại, tài khoản của bạn sẽ sớm bị xóa. <learnMoreLink>Tìm hiểu thêm</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Không thể khôi phục tập tin đa phương tiện"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Thiết bị của bạn không có đủ dung lượng trống. Giải phóng {diskSpaceAmount} dung lượng để khôi phục tập tin đa phương tiện của bạn."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Mở rộng"
@@ -4084,9 +4072,6 @@
   },
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "Gửi tin nhắn đã chỉnh sửa"
-  },
-  "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "Thêm Emoji, Nhãn dán hoặc GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
     "messageformat": "Thay tập tin đính kèm?"
@@ -4522,12 +4507,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Lời khuyên để giữ an toàn"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "Bạn không có chung nhóm nào với người này. Xem qua các yêu cầu cẩn thận trước khi đồng ý để tránh các tin nhắn không muốn."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "Về Yêu cầu Nhắn tin"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Kiểm tra các yêu cầu một cách kĩ lưỡng. Signal tìm thấy một liên hệ cùng tên. <reviewRequestLink>Kiểm tra yêu cầu</reviewRequestLink>"
@@ -5006,6 +4985,21 @@
   "icu:Preferences__button--internal": {
     "messageformat": "Nội bộ"
   },
+  "icu:Preferences__internal__local-backups": {
+    "messageformat": "Local backups"
+  },
+  "icu:Preferences__internal__export-local-backup": {
+    "messageformat": "Export…"
+  },
+  "icu:Preferences__internal__export-local-backup--description": {
+    "messageformat": "Export local encrypted backup to a folder and validate it"
+  },
+  "icu:Preferences__internal__import-local-backup": {
+    "messageformat": "Import…"
+  },
+  "icu:Preferences__internal__import-local-backup--description": {
+    "messageformat": "Stage a local encrypted backup for import on link"
+  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Xuất bản sao lưu được mã hóa vào bộ nhớ và chạy bộ xác thực trên đó"
   },
@@ -5071,9 +5065,6 @@
   },
   "icu:Preferences--backup-messages-plan__note": {
     "messageformat": "Bạn có thể quản lý hoặc nâng cấp gói đăng ký Sao lưu Signal trên điện thoại của bạn."
-  },
-  "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Không tìm thấy gói đăng ký của bạn. Gia hạn gói đăng ký Sao lưu Signal để tiếp tục sử dụng."
   },
   "icu:Preferences--backup-plan__not-found__note": {
     "messageformat": "Bạn có thể quản lý hoặc gia hạn gói đăng ký Sao lưu Signal trên điện thoại của bạn."
@@ -5203,6 +5194,24 @@
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
     "messageformat": "Khởi động lại"
+  },
+  "icu:Preferences__Privacy__Application": {
+    "messageformat": "Application"
+  },
+  "icu:Preferences__content-protection--label": {
+    "messageformat": "Screen security"
+  },
+  "icu:Preferences__content-protection--description": {
+    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+  },
+  "icu:Preferences__content-protection__modal--title": {
+    "messageformat": "Disable screen security?"
+  },
+  "icu:Preferences__content-protection__modal--body": {
+    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+  },
+  "icu:Preferences__content-protection__modal--disable": {
+    "messageformat": "Disable"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Cập nhật liên phiên bản {version} có sẵn"
@@ -6336,5 +6345,14 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "Chúng tôi cũng đã thay đổi kích thước cửa sổ hình trong hình và thêm các phím tắt tiện lợi mới khi cuộc gọi được thu nhỏ."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "Chúng tôi đã hỗ trợ thêm cách gõ tắt emoji bằng một số ngôn ngữ khác."
+  },
+  "icu:WhatsNew__v7.55--0": {
+    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+  },
+  "icu:WhatsNew__v7.55--1": {
+    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
   }
 }

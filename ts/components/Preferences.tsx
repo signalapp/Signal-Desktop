@@ -1,6 +1,5 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
 import type { AudioDevice } from '@signalapp/ringrtc';
 import React, {
   useCallback,
@@ -8,11 +7,11 @@ import React, {
   useMemo,
   useRef,
   useState,
+  useId,
 } from 'react';
 import { noop, partition } from 'lodash';
 import classNames from 'classnames';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
-
 import type { MediaDeviceSettings } from '../types/Calling';
 import type { ValidationResultType as BackupValidationResultType } from '../services/backups';
 import type {
@@ -35,12 +34,10 @@ import type {
   SentMediaQualityType,
   ThemeType,
 } from '../types/Util';
-
 import { Button, ButtonVariant } from './Button';
 import { ChatColorPicker } from './ChatColorPicker';
 import { Checkbox } from './Checkbox';
 import { WidthBreakpoint } from './_util';
-
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { DisappearingTimeDialog } from './DisappearingTimeDialog';
 import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability';
@@ -57,7 +54,6 @@ import {
 } from '../util/expirationTimer';
 import { DurationInSeconds } from '../util/durations';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
-import { useUniqueId } from '../hooks/useUniqueId';
 import { focusableSelector } from '../util/focusableSelectors';
 import { Modal } from './Modal';
 import { SearchInput } from './SearchInput';
@@ -78,6 +74,7 @@ import {
 import { PreferencesBackups } from './PreferencesBackups';
 import { PreferencesInternal } from './PreferencesInternal';
 import { FunEmojiLocalizationProvider } from './fun/FunEmojiLocalizationProvider';
+import type { ValidateLocalBackupStructureResultType } from '../services/backups/util/localBackup';
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
@@ -99,6 +96,7 @@ export type PropsDataType = {
   hasAutoLaunch: boolean;
   hasCallNotifications: boolean;
   hasCallRingtoneNotification: boolean;
+  hasContentProtection: boolean;
   hasCountMutedConversations: boolean;
   hasHideMenuBar?: boolean;
   hasIncomingCallNotifications: boolean;
@@ -148,6 +146,8 @@ export type PropsDataType = {
   isSystemTraySupported: boolean;
   isMinimizeToAndStartInSystemTraySupported: boolean;
   isInternalUser: boolean;
+  isContentProtectionNeeded: boolean;
+  isContentProtectionSupported: boolean;
 
   availableCameras: Array<
     Pick<MediaDeviceInfo, 'deviceId' | 'groupId' | 'kind' | 'label'>
@@ -161,9 +161,11 @@ type PropsFunctionType = {
   doDeleteAllData: () => unknown;
   doneRendering: () => unknown;
   editCustomColor: (colorId: string, color: CustomColorType) => unknown;
+  exportLocalBackup: () => Promise<BackupValidationResultType>;
   getConversationsWithCustomColor: (
     colorId: string
   ) => Promise<Array<ConversationType>>;
+  importLocalBackup: () => Promise<ValidateLocalBackupStructureResultType>;
   makeSyncRequest: () => unknown;
   refreshCloudBackupStatus: () => void;
   refreshBackupSubscriptionStatus: () => void;
@@ -190,6 +192,7 @@ type PropsFunctionType = {
   onAutoLaunchChange: CheckboxChangeHandlerType;
   onCallNotificationsChange: CheckboxChangeHandlerType;
   onCallRingtoneNotificationChange: CheckboxChangeHandlerType;
+  onContentProtectionChange: CheckboxChangeHandlerType;
   onCountMutedConversationsChange: CheckboxChangeHandlerType;
   onEmojiSkinToneDefaultChange: (emojiSkinTone: EmojiSkinTone) => void;
   onHasStoriesDisabledChanged: SelectChangeHandlerType<boolean>;
@@ -290,6 +293,7 @@ export function Preferences({
   doneRendering,
   editCustomColor,
   emojiSkinToneDefault,
+  exportLocalBackup,
   getConversationsWithCustomColor,
   hasAudioNotifications,
   hasAutoConvertEmoji,
@@ -297,6 +301,7 @@ export function Preferences({
   hasAutoLaunch,
   hasCallNotifications,
   hasCallRingtoneNotification,
+  hasContentProtection,
   hasCountMutedConversations,
   hasHideMenuBar,
   hasIncomingCallNotifications,
@@ -315,6 +320,7 @@ export function Preferences({
   hasTextFormatting,
   hasTypingIndicators,
   i18n,
+  importLocalBackup,
   initialPage = Page.General,
   initialSpellCheckSetting,
   isAutoDownloadUpdatesSupported,
@@ -325,6 +331,8 @@ export function Preferences({
   isSystemTraySupported,
   isMinimizeToAndStartInSystemTraySupported,
   isInternalUser,
+  isContentProtectionNeeded,
+  isContentProtectionSupported,
   lastSyncTime,
   makeSyncRequest,
   notificationContent,
@@ -335,6 +343,7 @@ export function Preferences({
   onAutoLaunchChange,
   onCallNotificationsChange,
   onCallRingtoneNotificationChange,
+  onContentProtectionChange,
   onCountMutedConversationsChange,
   onEmojiSkinToneDefaultChange,
   onHasStoriesDisabledChanged,
@@ -384,13 +393,15 @@ export function Preferences({
   whoCanSeeMe,
   zoomFactor,
 }: PropsType): JSX.Element {
-  const storiesId = useUniqueId();
-  const themeSelectId = useUniqueId();
-  const zoomSelectId = useUniqueId();
-  const languageId = useUniqueId();
+  const storiesId = useId();
+  const themeSelectId = useId();
+  const zoomSelectId = useId();
+  const languageId = useId();
 
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [confirmStoriesOff, setConfirmStoriesOff] = useState(false);
+  const [confirmContentProtection, setConfirmContentProtection] =
+    useState(false);
   const [page, setPage] = useState<Page>(initialPage);
   const [showSyncFailed, setShowSyncFailed] = useState(false);
   const [nowSyncing, setNowSyncing] = useState(false);
@@ -457,6 +468,17 @@ export function Preferences({
       }
     },
     [onSelectedMicrophoneChange, availableMicrophones]
+  );
+
+  const handleContentProtectionChange = useCallback(
+    (value: boolean) => {
+      if (value === true || !isContentProtectionNeeded) {
+        onContentProtectionChange(value);
+      } else {
+        setConfirmContentProtection(true);
+      }
+    },
+    [onContentProtectionChange, isContentProtectionNeeded]
   );
 
   const settingsPaneRef = useRef<HTMLDivElement | null>(null);
@@ -1364,6 +1386,41 @@ export function Preferences({
             }
           />
         </SettingsRow>
+        {isContentProtectionSupported && (
+          <SettingsRow title={i18n('icu:Preferences__Privacy__Application')}>
+            <Checkbox
+              checked={hasContentProtection}
+              description={i18n(
+                'icu:Preferences__content-protection--description'
+              )}
+              label={i18n('icu:Preferences__content-protection--label')}
+              moduleClassName="Preferences__checkbox"
+              name="contentProtection"
+              onChange={handleContentProtectionChange}
+            />
+          </SettingsRow>
+        )}
+        {confirmContentProtection ? (
+          <ConfirmationDialog
+            dialogName="Preference.confirmContentProtection"
+            actions={[
+              {
+                action: () => onContentProtectionChange(false),
+                style: 'negative',
+                text: i18n(
+                  'icu:Preferences__content-protection__modal--disable'
+                ),
+              },
+            ]}
+            i18n={i18n}
+            onClose={() => {
+              setConfirmContentProtection(false);
+            }}
+            title={i18n('icu:Preferences__content-protection__modal--title')}
+          >
+            {i18n('icu:Preferences__content-protection__modal--body')}
+          </ConfirmationDialog>
+        ) : null}
         <SettingsRow title={i18n('icu:Stories__title')}>
           <Control
             left={
@@ -1740,7 +1797,12 @@ export function Preferences({
     );
   } else if (page === Page.Internal) {
     settings = (
-      <PreferencesInternal i18n={i18n} validateBackup={validateBackup} />
+      <PreferencesInternal
+        i18n={i18n}
+        exportLocalBackup={exportLocalBackup}
+        importLocalBackup={importLocalBackup}
+        validateBackup={validateBackup}
+      />
     );
   }
 

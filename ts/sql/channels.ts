@@ -45,7 +45,11 @@ export async function ipcInvoke<T>(
   activeJobCount += 1;
   return createTaskWithTimeout(async () => {
     try {
-      return await ipcRenderer.invoke(channel, name, ...args);
+      const result = await ipcRenderer.invoke(channel, name, ...args);
+      if (!result.ok) {
+        throw result.error;
+      }
+      return result.value;
     } finally {
       activeJobCount -= 1;
       if (activeJobCount === 0) {

@@ -638,10 +638,23 @@ function makeHTTPError(
 ) {
   return new HTTPError(message, {
     code: providedCode,
-    headers,
+    headers: makeKeysLowercase(headers),
     response,
     stack,
   });
+}
+
+export function makeKeysLowercase<V>(
+  headers: Record<string, V>
+): Record<string, V> {
+  const keys = Object.keys(headers);
+  const lowerCase: Record<string, V> = Object.create(null);
+
+  keys.forEach(key => {
+    lowerCase[key.toLowerCase()] = headers[key];
+  });
+
+  return lowerCase;
 }
 
 const URL_CALLS = {

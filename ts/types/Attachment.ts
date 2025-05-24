@@ -109,6 +109,7 @@ export type AttachmentType = {
     mediaName: string;
     cdnNumber?: number;
   };
+  localBackupPath?: string;
 
   // See app/attachment_channel.ts
   version?: 1 | 2;
@@ -1279,6 +1280,12 @@ export function mightBeOnBackupTier(
   attachment: Pick<AttachmentType, 'backupLocator'>
 ): boolean {
   return Boolean(attachment.backupLocator?.mediaName);
+}
+
+export function mightBeInLocalBackup(
+  attachment: Pick<AttachmentType, 'localBackupPath' | 'localKey'>
+): boolean {
+  return Boolean(attachment.localBackupPath && attachment.localKey);
 }
 
 export function isDownloadableFromTransitTier(

@@ -26,6 +26,7 @@ export type ThemeType = 'light' | 'dark' | 'system';
 
 export type EphemeralSettings = {
   spellCheck: boolean;
+  contentProtection: boolean;
   systemTraySetting: SystemTraySetting;
   themeSetting: ThemeType;
   localeOverride: string | null;

@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "Hitilafu ya hifadhidata"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "Hitilafu ya kanzidata imetokea. Unaweza kunakili tatizo na kuwasiliana na watoa huduma wa Signal ili kukusaidia kurekebisha tatizo. Ikiwa unahitaji kutumia Signal haraka sana, unaweza kufuta data yako na kuanza upya. \n\nWasiliana na watoa huduma kwa kutembelea: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "Futa data na anza upya"
   },
@@ -1673,9 +1670,6 @@
   "icu:notificationSenderInGroup": {
     "messageformat": "{sender} katika {group}"
   },
-  "icu:notificationReaction": {
-    "messageformat": "{sender} ame-react {emoji} kwa ujumbe wako"
-  },
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} ame-react kwa kutuma {emoji} kwa: {message}"
   },
@@ -1831,12 +1825,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "Kituo cha Usaidizi"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "Wasiliana nasi"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Changia Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Tazama Nambari za Usalama"
@@ -2600,6 +2588,9 @@
   "icu:Keyboard--open-sticker-chooser": {
     "messageformat": "Fungua kichaguzi cha vibandiko"
   },
+  "icu:Keyboard--open-gif-chooser": {
+    "messageformat": "Open GIF chooser"
+  },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Anza kurekodi sauti"
   },
@@ -3238,9 +3229,6 @@
   },
   "icu:calling__view_mode--updated": {
     "messageformat": "Mtazamo umesasishwa"
-  },
-  "icu:calling__hangup": {
-    "messageformat": "Ondoka kwenye mazungumzo ya simu"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Shiriki skrini yako"
@@ -4059,10 +4047,10 @@
     "messageformat": "Lazima ufungue Signal kwenye simu yako ili uendelee kutumia akaunti hii. Ikiwa hautafungua Signal kwenye simu yako, akaunti yako itafutwa hivi karibuni. <learnMoreLink>Pata maelezo zaidi</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Imeshindwa kurejesha video na picha"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Kifaa chako hakina nafasi ya kutosha. Futa nafasi ya {diskSpaceAmount} ili kurejesha video na picha zako."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Panua"
@@ -4084,9 +4072,6 @@
   },
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "Tuma ujumbe uliohaririwa"
-  },
-  "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "Ongeza Emoji, Kibandiko au GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
     "messageformat": "Kiambatisho mbadala?"
@@ -4522,12 +4507,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Vidokezo vya Usalama"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "Hamshiriki vikundi na mtu huyu. Kagua maombi kwa uangalifu kabla ya kukubali ili kuepuka kutumiwa ujumbe usiohitajika."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "Kuhusu Maombi ya Ujumbe"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Kagua maombi kwa uangalifu. Signal imempata mtu mwingine mwenye jina kama hili. <reviewRequestLink>Kagua ombi</reviewRequestLink>"
@@ -5006,6 +4985,21 @@
   "icu:Preferences__button--internal": {
     "messageformat": "Wa ndani"
   },
+  "icu:Preferences__internal__local-backups": {
+    "messageformat": "Local backups"
+  },
+  "icu:Preferences__internal__export-local-backup": {
+    "messageformat": "Export…"
+  },
+  "icu:Preferences__internal__export-local-backup--description": {
+    "messageformat": "Export local encrypted backup to a folder and validate it"
+  },
+  "icu:Preferences__internal__import-local-backup": {
+    "messageformat": "Import…"
+  },
+  "icu:Preferences__internal__import-local-backup--description": {
+    "messageformat": "Stage a local encrypted backup for import on link"
+  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Hamishia hifadhi nakala iliyosimbwa fiche kwenye kumbukumbu na utekeleze masharti ya uthibitishaji juu yake"
   },
@@ -5071,9 +5065,6 @@
   },
   "icu:Preferences--backup-messages-plan__note": {
     "messageformat": "Unaweza kusimamia au kusasisha Hifadhi Nakala ya Signal kwenye simu yako."
-  },
-  "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Usajili wako haujapatikana. Weka upya ili uendelee kutumia Hifadhi Nakala ya Signal."
   },
   "icu:Preferences--backup-plan__not-found__note": {
     "messageformat": "Unaweza kusimamia au kuweka upya usajili wako wa Hifadhi Nakala ya Signal kwenye simu yako."
@@ -5203,6 +5194,24 @@
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
     "messageformat": "Anzisha tena"
+  },
+  "icu:Preferences__Privacy__Application": {
+    "messageformat": "Application"
+  },
+  "icu:Preferences__content-protection--label": {
+    "messageformat": "Screen security"
+  },
+  "icu:Preferences__content-protection--description": {
+    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+  },
+  "icu:Preferences__content-protection__modal--title": {
+    "messageformat": "Disable screen security?"
+  },
+  "icu:Preferences__content-protection__modal--body": {
+    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+  },
+  "icu:Preferences__content-protection__modal--disable": {
+    "messageformat": "Disable"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Sasisha toleo {version} lililopo"
@@ -6336,5 +6345,14 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "Tumebadili ukubwa wa dirisha la kupachika picha ndani ya picha nyingine na tukaongeza njia za mkato mpya ili kutoa sauti/kuweka sauti kwa kipaza sauti chako au kuwasha/kuzima kamera simu inapopunguzwa."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "Tabasamu huwa ni lile lile katika lugha yoyote, lakini sasa kwa vile njia za mkato za emoji katika Signal Desktop zimetafsiriwa kikamilifu unaweza pia <code>:kutabasamu:</code> au <code>:sourire:</code> au <code>:微笑:</code> katika lugha yoyote inayotumika pia."
+  },
+  "icu:WhatsNew__v7.55--0": {
+    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+  },
+  "icu:WhatsNew__v7.55--1": {
+    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
   }
 }

@@ -1,12 +1,15 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import fs from 'fs/promises';
 import { randomBytes } from 'node:crypto';
 import { join } from 'node:path';
+import os from 'os';
 import { readFile } from 'node:fs/promises';
 import createDebug from 'debug';
 import Long from 'long';
 import { Proto, StorageState } from '@signalapp/mock-server';
+import { assert } from 'chai';
 import { expect } from 'playwright/test';
 
 import { generateStoryDistributionId } from '../../types/StoryDistributionId';
@@ -17,7 +20,7 @@ import { IMAGE_JPEG } from '../../types/MIME';
 import { uuidToBytes } from '../../util/uuidToBytes';
 import * as durations from '../../util/durations';
 import type { App } from '../playwright';
-import { Bootstrap } from '../bootstrap';
+import { Bootstrap, type LinkOptionsType } from '../bootstrap';
 import {
   getMessageInTimelineByTimestamp,
   sendTextMessage,
@@ -60,7 +63,11 @@ describe('backups', function (this: Mocha.Suite) {
     await bootstrap.teardown();
   });
 
-  it('exports and imports regular backup', async function () {
+  async function generateTestDataThenRestoreBackup(
+    thisVal: Mocha.Context,
+    exportBackupFn: () => void,
+    getBootstrapLinkParams: () => LinkOptionsType
+  ) {
     let state = StorageState.getEmpty();
 
     const { phone, contacts } = bootstrap;
@@ -237,7 +244,7 @@ describe('backups', function (this: Mocha.Suite) {
         .waitFor();
     }
 
-    await app.uploadBackup();
+    await exportBackupFn();
 
     const comparator = await bootstrap.createScreenshotComparator(
       app,
@@ -288,7 +295,7 @@ describe('backups', function (this: Mocha.Suite) {
 
         await snapshot('story privacy');
       },
-      this.test
+      thisVal.test
     );
 
     await app.close();
@@ -296,7 +303,7 @@ describe('backups', function (this: Mocha.Suite) {
     // Restart
     await bootstrap.eraseStorage();
     await server.removeAllCDNAttachments();
-    app = await bootstrap.link();
+    app = await bootstrap.link(getBootstrapLinkParams());
     await app.waitForBackupImportComplete();
 
     // Make sure that contact sync happens after backup import, otherwise the
@@ -312,6 +319,35 @@ describe('backups', function (this: Mocha.Suite) {
     }
 
     await comparator(app);
+  }
+
+  it('exports and imports local backup', async function () {
+    let snapshotDir: string;
+
+    await generateTestDataThenRestoreBackup(
+      this,
+      async () => {
+        const backupsBaseDir = await fs.mkdtemp(
+          join(os.tmpdir(), 'SignalBackups')
+        );
+        snapshotDir = await app.exportLocalBackup(backupsBaseDir);
+        assert.exists(
+          snapshotDir,
+          'Local backup export should return backup dir'
+        );
+      },
+      () => ({ localBackup: snapshotDir })
+    );
+  });
+
+  it('exports and imports regular backup', async function () {
+    await generateTestDataThenRestoreBackup(
+      this,
+      async () => {
+        await app.uploadBackup();
+      },
+      () => ({})
+    );
   });
 
   it('imports ephemeral backup', async function () {

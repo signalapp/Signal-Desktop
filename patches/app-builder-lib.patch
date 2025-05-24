@@ -1,116 +1,18 @@
-diff --git a/out/targets/nsis/NsisTarget.js b/out/targets/nsis/NsisTarget.js
-index 8336c600a45fb843e0c88f3c7673b30f435c5aab..746569c20e4c9e32abf040e9c722e3eb97d53c62 100644
---- a/out/targets/nsis/NsisTarget.js
-+++ b/out/targets/nsis/NsisTarget.js
-@@ -7,7 +7,6 @@ const debug_1 = require("debug");
- const fs = require("fs");
- const fs_extra_1 = require("fs-extra");
- const path = require("path");
--const binDownload_1 = require("../../binDownload");
- const core_1 = require("../../core");
- const CommonWindowsInstallerConfiguration_1 = require("../../options/CommonWindowsInstallerConfiguration");
- const platformPackager_1 = require("../../platformPackager");
-@@ -25,8 +24,6 @@ const nsisUtil_1 = require("./nsisUtil");
- const debug = (0, debug_1.default)("electron-builder:nsis");
- // noinspection SpellCheckingInspection
- const ELECTRON_BUILDER_NS_UUID = builder_util_runtime_1.UUID.parse("50e065bc-3134-11e6-9bab-38c9862bdaf3");
--// noinspection SpellCheckingInspection
--const nsisResourcePathPromise = () => (0, binDownload_1.getBinFromUrl)("nsis-resources", "3.4.1", "Dqd6g+2buwwvoG1Vyf6BHR1b+25QMmPcwZx40atOT57gH27rkjOei1L0JTldxZu4NFoEmW4kJgZ3DlSWVON3+Q==");
- const USE_NSIS_BUILT_IN_COMPRESSOR = false;
- class NsisTarget extends core_1.Target {
-     constructor(packager, outDir, targetName, packageHelper) {
-@@ -546,7 +543,7 @@ class NsisTarget extends core_1.Target {
-         const taskManager = new builder_util_1.AsyncTaskManager(packager.info.cancellationToken);
-         const pluginArch = this.isUnicodeEnabled ? "x86-unicode" : "x86-ansi";
-         taskManager.add(async () => {
--            scriptGenerator.addPluginDir(pluginArch, path.join(await nsisResourcePathPromise(), "plugins", pluginArch));
-+            scriptGenerator.addPluginDir(pluginArch, path.join(await (0, nsisUtil_1.NSIS_RESOURCES_PATH)(), "plugins", pluginArch));
-         });
-         taskManager.add(async () => {
-             const userPluginDir = path.join(packager.info.buildResourcesDir, pluginArch);
-diff --git a/out/targets/nsis/nsisUtil.js b/out/targets/nsis/nsisUtil.js
-index 693d39c95f23b6ba890a560a4ce925c6400a45f4..5ce1e38bf9bb237b2e44f65186a3ca405b42fd26 100644
---- a/out/targets/nsis/nsisUtil.js
-+++ b/out/targets/nsis/nsisUtil.js
-@@ -35,6 +35,19 @@ const NSIS_PATH = () => {
-     });
- };
- exports.NSIS_PATH = NSIS_PATH;
-+const NSIS_RESOURCES_PATH = () => {
-+    return exports.NsisTargetOptions.then((options) => {
-+        if (options.customNsisResources) {
-+            const { checksum, url, version } = options.customNsisResources;
-+            if (checksum && url) {
-+                const binaryVersion = version || checksum.substr(0, 8);
-+                return (0, binDownload_1.getBinFromCustomLoc)("nsis-resources", binaryVersion, url, checksum);
-+            }
-+        }
-+        return (0, binDownload_1.getBinFromUrl)("nsis-resources", "3.4.1", "Dqd6g+2buwwvoG1Vyf6BHR1b+25QMmPcwZx40atOT57gH27rkjOei1L0JTldxZu4NFoEmW4kJgZ3DlSWVON3+Q==");
-+    });
-+};
-+exports.NSIS_RESOURCES_PATH = NSIS_RESOURCES_PATH;
- class AppPackageHelper {
-     constructor(elevateHelper) {
-         this.elevateHelper = elevateHelper;
-diff --git a/scheme.json b/scheme.json
-index a4fc2517768ac5dac24c1dbdec0315d85e4c1bad..d738fab1d4983fea664972b59c0cd837f6c7c2b6 100644
---- a/scheme.json
-+++ b/scheme.json
-@@ -465,6 +465,36 @@
-       ],
-       "type": "object"
-     },
-+    "CustomNsisResources": {
-+      "additionalProperties": false,
-+      "properties": {
-+        "checksum": {
-+          "default": "Dqd6g+2buwwvoG1Vyf6BHR1b+25QMmPcwZx40atOT57gH27rkjOei1L0JTldxZu4NFoEmW4kJgZ3DlSWVON3+Q==",
-+          "type": [
-+            "null",
-+            "string"
-+          ]
-+        },
-+        "url": {
-+          "default": "https://github.com/electron-userland/electron-builder-binaries/releases/download/nsis-resources-3.4.1/nsis-resources-3.4.1.7z",
-+          "type": [
-+            "null",
-+            "string"
-+          ]
-+        },
-+        "version": {
-+          "default": "3.4.1",
-+          "type": [
-+            "null",
-+            "string"
-+          ]
-+        }
-+      },
-+      "required": [
-+        "url"
-+      ],
-+      "type": "object"
-+    },
-     "CustomPublishOptions": {
-       "additionalProperties": {},
-       "properties": {
-@@ -3900,6 +3930,17 @@
-           ],
-           "description": "Allows you to provide your own `makensis`, such as one with support for debug logging via LogSet and LogText. (Logging also requires option `debugLogging = true`)"
-         },
-+        "customNsisResources": {
-+          "anyOf": [
-+            {
-+              "$ref": "#/definitions/CustomNsisResources"
-+            },
-+            {
-+              "type": "null"
-+            }
-+          ],
-+          "description": "Allows you to provide your own `nsis-resources`"
-+        },
-         "deleteAppDataOnUninstall": {
-           "default": false,
-           "description": "*one-click installer only.* Whether to delete app data on uninstall.",
+diff --git a/templates/linux/after-install.tpl b/templates/linux/after-install.tpl
+index 6cf860bd2847bae35ca8885cb680dd6c8c516e39..6ef8c62bd83395e5561e052a10f07bfa1773a2bf 100644
+--- a/templates/linux/after-install.tpl
++++ b/templates/linux/after-install.tpl
+@@ -55,3 +55,10 @@ if apparmor_status --enabled > /dev/null 2>&1; then
+     echo "Skipping the installation of the AppArmor profile as this version of AppArmor does not seem to support the bundled profile"
+   fi
+ fi
++
++# SIGNAL CHANGES BEGIN
++
++# Notify updater that the update was fully installed
++touch '/opt/${sanitizedProductName}/.signal-postinst'
++
++# SIGNAL CHANGES END
 diff --git a/templates/nsis/include/installer.nsh b/templates/nsis/include/installer.nsh
 index 34e91dfe82fdbb2e929820f2e8deb771b7f7893c..73bfffc6c227a018cbbeb690d6d7b882ed142fc8 100644
 --- a/templates/nsis/include/installer.nsh

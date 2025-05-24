@@ -29,6 +29,13 @@ import { dropNull } from '../../../util/dropNull';
 import { MessageModel } from '../../../models/messages';
 
 describe('both/state/ducks/stories', () => {
+  const ourAci = generateAci();
+  const deviceId = 2;
+
+  before(async () => {
+    await window.textsecure.storage.put('uuid_id', `${ourAci}.${deviceId}`);
+  });
+
   const getEmptyRootState = () => ({
     ...rootReducer(undefined, noopAction()),
     stories: getEmptyState(),

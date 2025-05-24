@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "Error de la base de dades"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "S'ha produït un error de la base de dades. Pots copiar l'error i posar-te en contacte amb el servei d'assistència de Signal per ajudar-te a solucionar el problema. Si necessites fer servir Signal immediatament, pots eliminar les teves dades i reiniciar-lo.\n\nPosa't en contacte amb el servei d'assistència a través de: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "Eliminar les dades i reiniciar"
   },
@@ -1673,9 +1670,6 @@
   "icu:notificationSenderInGroup": {
     "messageformat": "{sender} a {group}"
   },
-  "icu:notificationReaction": {
-    "messageformat": "{sender} ha reaccionat amb {emoji} al teu missatge"
-  },
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} ha reaccionat amb {emoji} a: {message}"
   },
@@ -1831,12 +1825,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "Centre d'assistència"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "Contacteu-nos"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Feu una donació a Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Mostra el número de seguretat"
@@ -2600,6 +2588,9 @@
   "icu:Keyboard--open-sticker-chooser": {
     "messageformat": "Obre el selector d'addhesius"
   },
+  "icu:Keyboard--open-gif-chooser": {
+    "messageformat": "Open GIF chooser"
+  },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Comença la gravació d'una nota de veu"
   },
@@ -3238,9 +3229,6 @@
   },
   "icu:calling__view_mode--updated": {
     "messageformat": "Vista actualitzada"
-  },
-  "icu:calling__hangup": {
-    "messageformat": "Surt de la trucada"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Compartiu la pantalla"
@@ -4059,10 +4047,10 @@
     "messageformat": "Per continuar utilitzant aquest compte, has d'obrir Signal al teu telèfon. Si no obres Signal al telèfon, el teu compte s'eliminarà aviat. <learnMoreLink>Més informació</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "No es poden restaurar els arxius multimèdia"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "El teu dispositiu no té prou espai lliure. Allibera {diskSpaceAmount} d'espai per restaurar els teus arxius multimèdia."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Expandeix"
@@ -4084,9 +4072,6 @@
   },
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "Envia el missatge editat"
-  },
-  "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "Afegeix un emoji, un sticker o un GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
     "messageformat": "Substituir l'arxiu?"
@@ -4522,12 +4507,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Consells de seguretat"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "No teniu cap grup en comú amb aquesta persona. Reviseu les sol·licituds amb atenció abans d’acceptar-les per a evitar missatges no desitjats."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "Quant a les sol·licituds de missatges"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Revisa les sol·licituds amb atenció. Signal ha trobat un altre contacte amb el mateix nom. <reviewRequestLink>Revisar sol·licitud</reviewRequestLink>"
@@ -5006,6 +4985,21 @@
   "icu:Preferences__button--internal": {
     "messageformat": "Intern"
   },
+  "icu:Preferences__internal__local-backups": {
+    "messageformat": "Local backups"
+  },
+  "icu:Preferences__internal__export-local-backup": {
+    "messageformat": "Export…"
+  },
+  "icu:Preferences__internal__export-local-backup--description": {
+    "messageformat": "Export local encrypted backup to a folder and validate it"
+  },
+  "icu:Preferences__internal__import-local-backup": {
+    "messageformat": "Import…"
+  },
+  "icu:Preferences__internal__import-local-backup--description": {
+    "messageformat": "Stage a local encrypted backup for import on link"
+  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Exportar còpia de seguretat xifrada a la memòria i executar-hi la suite de validació"
   },
@@ -5071,9 +5065,6 @@
   },
   "icu:Preferences--backup-messages-plan__note": {
     "messageformat": "Pots gestionar o actualitzar les Còpies de seguretat de Signal des del teu telèfon."
-  },
-  "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "No s'ha trobat la teva subscripció. Renova-la per continuar utilitzant les còpies de seguretat de Signal."
   },
   "icu:Preferences--backup-plan__not-found__note": {
     "messageformat": "Pots gestionar o renovar la teva subscripció a les Còpies de seguretat de Signal des del teu telèfon."
@@ -5203,6 +5194,24 @@
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
     "messageformat": "Reiniciar"
+  },
+  "icu:Preferences__Privacy__Application": {
+    "messageformat": "Application"
+  },
+  "icu:Preferences__content-protection--label": {
+    "messageformat": "Screen security"
+  },
+  "icu:Preferences__content-protection--description": {
+    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+  },
+  "icu:Preferences__content-protection__modal--title": {
+    "messageformat": "Disable screen security?"
+  },
+  "icu:Preferences__content-protection__modal--body": {
+    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+  },
+  "icu:Preferences__content-protection__modal--disable": {
+    "messageformat": "Disable"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Actualització a la versió {version} disponible"
@@ -6336,5 +6345,14 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "També hem canviat la mida de la finestra d'imatge dins d'imatge i hem afegit noves dreceres per a quan tens una trucada minimitzada."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "Hem afegit dreceres per emoji en idiomes addicionals."
+  },
+  "icu:WhatsNew__v7.55--0": {
+    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+  },
+  "icu:WhatsNew__v7.55--1": {
+    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
   }
 }

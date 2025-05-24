@@ -42,6 +42,15 @@ describe('Username', () => {
       );
     });
 
+    it('trims whitespace at beginning or end', () => {
+      assert.strictEqual(getUsernameFromSearch('  username.12'), 'username.12');
+      assert.strictEqual(getUsernameFromSearch('xyz.568  '), 'xyz.568');
+      assert.strictEqual(
+        getUsernameFromSearch('\t\t  numbered9.34 \t\t '),
+        'numbered9.34'
+      );
+    });
+
     it('does not match when then username starts with a number', () => {
       assert.isUndefined(getUsernameFromSearch('1user.12'));
       assert.isUndefined(getUsernameFromSearch('9user_name.12'));
@@ -75,6 +84,10 @@ describe('Username', () => {
       assert.isTrue(probablyAUsername('someone.00'));
       assert.isTrue(probablyAUsername('d2423423.04'));
       assert.isTrue(probablyAUsername('e_f.04'));
+    });
+
+    it('returns true if it starts or ends with whitespace', () => {
+      assert.isTrue(probablyAUsername('  @user\t  '));
     });
 
     it('returns false if just a discriminator', () => {

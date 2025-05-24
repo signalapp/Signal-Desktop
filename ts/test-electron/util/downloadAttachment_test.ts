@@ -50,6 +50,7 @@ describe('utils/downloadAttachment', () => {
         abortSignal: abortController.signal,
       },
       dependencies: {
+        downloadAttachmentFromLocalBackup: stubDownload,
         downloadAttachmentFromServer: stubDownload,
       },
     });
@@ -86,6 +87,7 @@ describe('utils/downloadAttachment', () => {
           abortSignal: abortController.signal,
         },
         dependencies: {
+          downloadAttachmentFromLocalBackup: stubDownload,
           downloadAttachmentFromServer: stubDownload,
         },
       }),
@@ -123,6 +125,7 @@ describe('utils/downloadAttachment', () => {
         abortSignal: abortController.signal,
       },
       dependencies: {
+        downloadAttachmentFromLocalBackup: stubDownload,
         downloadAttachmentFromServer: stubDownload,
       },
     });
@@ -161,6 +164,7 @@ describe('utils/downloadAttachment', () => {
         abortSignal: abortController.signal,
       },
       dependencies: {
+        downloadAttachmentFromLocalBackup: stubDownload,
         downloadAttachmentFromServer: stubDownload,
       },
     });
@@ -210,6 +214,7 @@ describe('utils/downloadAttachment', () => {
         abortSignal: abortController.signal,
       },
       dependencies: {
+        downloadAttachmentFromLocalBackup: stubDownload,
         downloadAttachmentFromServer: stubDownload,
       },
     });
@@ -260,6 +265,7 @@ describe('utils/downloadAttachment', () => {
           abortSignal: abortController.signal,
         },
         dependencies: {
+          downloadAttachmentFromLocalBackup: stubDownload,
           downloadAttachmentFromServer: stubDownload,
         },
       }),

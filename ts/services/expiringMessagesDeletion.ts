@@ -12,14 +12,14 @@ import { sleep } from '../util/sleep';
 import { SECOND } from '../util/durations';
 import { MessageModel } from '../models/messages';
 import { cleanupMessages } from '../util/cleanup';
+import { drop } from '../util/drop';
 
 class ExpiringMessagesDeletionService {
-  public update: () => void;
-
   #timeout?: ReturnType<typeof setTimeout>;
+  #debouncedCheckExpiringMessages = debounce(this.#checkExpiringMessages, 1000);
 
-  constructor() {
-    this.update = debounce(this.#checkExpiringMessages, 1000);
+  update() {
+    drop(this.#debouncedCheckExpiringMessages());
   }
 
   async #destroyExpiredMessages() {
@@ -118,11 +118,11 @@ export function initialize(): void {
   instance = new ExpiringMessagesDeletionService();
 }
 
-export async function update(): Promise<void> {
+export function update(): void {
   if (!instance) {
     throw new Error('Expiring Messages Deletion service not yet initialized!');
   }
-  await instance.update();
+  instance.update();
 }
 
 let instance: ExpiringMessagesDeletionService;

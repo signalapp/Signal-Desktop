@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "डेटाबेस त्रुटि"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "कोई डेटाबेस त्रुटि हुई। आप त्रुटि को कॉपी कर सकते हैं और समस्या को ठीक करने में मदद के लिए सिग्नल सपोर्ट से संपर्क कर सकते हैं। यदि आपको बिल्कुल अभी सिग्नल का उपयोग करने की जरूरत है, तो आप अपना डेटा डिलीट करके रीस्टार्ट कर सकते हैं।\n\nयहां जाकर सपोर्ट से संपर्क करें: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "डेटा को डिलीट करें और रीस्टार्ट करें"
   },
@@ -1673,9 +1670,6 @@
   "icu:notificationSenderInGroup": {
     "messageformat": "{group} में {sender}"
   },
-  "icu:notificationReaction": {
-    "messageformat": "{sender} ने आपके मेसेज पर {emoji} प्रतिक्रिया दी"
-  },
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} ने {message} पर {emoji} प्रतिक्रिया दी"
   },
@@ -1831,12 +1825,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "सहायता केंद्र"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "हमसे संपर्क करें"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Signal  को दान करें"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "सुरक्षा संख्या देखें"
@@ -2600,6 +2588,9 @@
   "icu:Keyboard--open-sticker-chooser": {
     "messageformat": "स्टिकर चुनने वाला खोलें"
   },
+  "icu:Keyboard--open-gif-chooser": {
+    "messageformat": "Open GIF chooser"
+  },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "वॉयस मेसेज रिकॉर्ड करना शुरु करें"
   },
@@ -3238,9 +3229,6 @@
   },
   "icu:calling__view_mode--updated": {
     "messageformat": "व्यु अपडेट किया गया"
-  },
-  "icu:calling__hangup": {
-    "messageformat": "कॉल छोड़ें"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "अपनी स्क्रीन साझा करें"
@@ -4059,10 +4047,10 @@
     "messageformat": "यह अकाउंट इस्तेमाल करना जारी रखने के लिए, आपको अपने फ़ोन पर Signal खोलना होगा। अगर आप अपने फ़ोन पर Signal नहीं खोलते, तो आपका अकाउंट जल्द ही डिलीट हो जाएगा। <learnMoreLink>ज़्यादा जानें</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "मीडिया को रीस्टोर नहीं किया जा सकता"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "आपके डिवाइस में पर्याप्त खाली जगह नहीं है। अपना मीडिया रीस्टोर करने के लिए, {diskSpaceAmount} स्पेस खाली करें।"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "बड़ा करें"
@@ -4084,9 +4072,6 @@
   },
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "संपादित संदेश भेजें"
-  },
-  "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "इमोजी, स्टिकर या GIF जोड़ें"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
     "messageformat": "अटैचमेंट बदलें?"
@@ -4522,12 +4507,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "सुरक्षा टिप्स"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "इस व्यक्ति के साथ आपका कोई समूह समान नहीं है। अवांछित संदेशों से बचने के लिए स्वीकार करने से पहले अनुरोधों की सावधानीपूर्वक समीक्षा करें।"
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "संदेश रिक्वेस्ट के बारे में"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "अनुरोधों की सावधानीपूर्वक समीक्षा करें। Signal को एक ही नाम वाला एक और संपर्क मिला। <reviewRequestLink>निवेदन की समीक्षा करें</reviewRequestLink>"
@@ -5006,6 +4985,21 @@
   "icu:Preferences__button--internal": {
     "messageformat": "अंदरूनी"
   },
+  "icu:Preferences__internal__local-backups": {
+    "messageformat": "Local backups"
+  },
+  "icu:Preferences__internal__export-local-backup": {
+    "messageformat": "Export…"
+  },
+  "icu:Preferences__internal__export-local-backup--description": {
+    "messageformat": "Export local encrypted backup to a folder and validate it"
+  },
+  "icu:Preferences__internal__import-local-backup": {
+    "messageformat": "Import…"
+  },
+  "icu:Preferences__internal__import-local-backup--description": {
+    "messageformat": "Stage a local encrypted backup for import on link"
+  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "एनक्रिप्टेड बैकअप को मेमोरी में एक्सपोर्ट करें और इस पर वैलिडेशन सुइट चलाएँ"
   },
@@ -5071,9 +5065,6 @@
   },
   "icu:Preferences--backup-messages-plan__note": {
     "messageformat": "आप अपने फ़ोन पर Signal बैकअप प्रबंधित या अपग्रेड कर सकते हैं।"
-  },
-  "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "आपका सब्सक्रिप्शन नहीं मिला। Signal बैकअप इस्तेमाल करना जारी रखने के लिए रिन्यू करें।"
   },
   "icu:Preferences--backup-plan__not-found__note": {
     "messageformat": "आप अपने फ़ोन पर अपने Signal बैकअप का सब्सक्रिप्शन प्रबंधित या रिन्यू कर सकते हैं।"
@@ -5203,6 +5194,24 @@
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
     "messageformat": "पुनः आरंभ करें"
+  },
+  "icu:Preferences__Privacy__Application": {
+    "messageformat": "Application"
+  },
+  "icu:Preferences__content-protection--label": {
+    "messageformat": "Screen security"
+  },
+  "icu:Preferences__content-protection--description": {
+    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+  },
+  "icu:Preferences__content-protection__modal--title": {
+    "messageformat": "Disable screen security?"
+  },
+  "icu:Preferences__content-protection__modal--body": {
+    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+  },
+  "icu:Preferences__content-protection__modal--disable": {
+    "messageformat": "Disable"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "{version} में अपडेट करने का वर्शन उपलब्ध"
@@ -6336,5 +6345,14 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "हमने पिक्चर-इन-पिक्चर विंडो का आकार भी बदल दिया है और आपके माइक्रोफ़ोन को म्यूट/अनम्यूट करने या कॉल कम होने पर कैमरा चालू/बंद करने के लिए सुविधाजनक नए शॉर्टकट जोड़े हैं।"
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "हर भाषा में मुस्कान एक जैसी होती है, लेकिन अब Signal डेस्कटॉप में इमोजी शॉर्टकट्स का पूरी तरह अनुवाद कर दिया गया है, इसलिए आप सपोर्ट की गई किसी भी भाषा में <code>:smile:</code> या <code>:sourire:</code> या <code>:微笑:</code> कर सकते हैं।"
+  },
+  "icu:WhatsNew__v7.55--0": {
+    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+  },
+  "icu:WhatsNew__v7.55--1": {
+    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
   }
 }

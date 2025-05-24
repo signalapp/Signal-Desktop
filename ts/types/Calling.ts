@@ -84,6 +84,11 @@ export type ActiveDirectCallType = ActiveCallBaseType & {
   remoteAudioLevel: number;
 };
 
+export type ObservedRemoteMuteType = {
+  source: number;
+  target: number;
+};
+
 export type ActiveGroupCallType = ActiveCallBaseType & {
   callMode: CallMode.Group | CallMode.Adhoc;
   connectionState: GroupCallConnectionState;
@@ -100,6 +105,8 @@ export type ActiveGroupCallType = ActiveCallBaseType & {
   remoteParticipants: Array<GroupCallRemoteParticipantType>;
   remoteAudioLevels: Map<number, number>;
   suggestLowerHand: boolean;
+  mutedBy?: number;
+  observedRemoteMute?: ObservedRemoteMuteType;
 };
 
 export type ActiveCallType = ActiveDirectCallType | ActiveGroupCallType;

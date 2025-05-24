@@ -54,7 +54,7 @@ export function Emojify({
               // eslint-disable-next-line react/no-array-index-key
               key={index}
               role="img"
-              aria-label={emojiLocalizer(variantKey)}
+              aria-label={emojiLocalizer.getLocaleShortName(variantKey)}
               emoji={variant}
               size={fontSizeOverride}
             />

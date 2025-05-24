@@ -1,8 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useMemo } from 'react';
-
+import React, { useMemo, useId } from 'react';
 import type { ConversationTypeType } from '../../../state/ducks/conversations';
 import type { LocalizerType } from '../../../types/Util';
 import { PanelSection } from './PanelSection';
@@ -12,7 +11,6 @@ import { Select } from '../../Select';
 import { isConversationMuted } from '../../../util/isConversationMuted';
 import { getMuteOptions } from '../../../util/getMuteOptions';
 import { parseIntOrThrow } from '../../../util/parseIntOrThrow';
-import { useUniqueId } from '../../../hooks/useUniqueId';
 
 export type PropsType = {
   id: string;
@@ -39,8 +37,8 @@ export function ConversationNotificationsSettings({
   setMuteExpiration,
   setDontNotifyForMentionsIfMuted,
 }: PropsType): JSX.Element {
-  const muteNotificationsSelectId = useUniqueId();
-  const mentionsSelectId = useUniqueId();
+  const muteNotificationsSelectId = useId();
+  const mentionsSelectId = useId();
   const muteOptions = useMemo(
     () => [
       ...(isConversationMuted({ muteExpiresAt })
