@@ -55,7 +55,7 @@ export function getCdnKey(attachment: ProcessedAttachment): string {
   return cdnKey;
 }
 
-function getBackupMediaOuterEncryptionKeyMaterial(
+export function getBackupMediaOuterEncryptionKeyMaterial(
   attachment: AttachmentType
 ): BackupMediaKeyMaterialType {
   const mediaId = getMediaIdForAttachment(attachment);

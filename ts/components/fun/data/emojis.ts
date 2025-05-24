@@ -9,6 +9,7 @@ import type {
   FunEmojiSearchIndexEntry,
 } from '../useFunEmojiSearch';
 import type { FunEmojiLocalizerIndex } from '../useFunEmojiLocalizer';
+import { removeDiacritics } from '../../../util/removeDiacritics';
 
 // Import emoji-datasource dynamically to avoid costly typechecking.
 // eslint-disable-next-line import/no-dynamic-require, @typescript-eslint/no-var-requires
@@ -251,7 +252,10 @@ type EmojiIndex = Readonly<{
   pickerCategories: Record<EmojiPickerCategory, Array<EmojiParentKey>>;
 
   defaultEnglishSearchIndex: Array<FunEmojiSearchIndexEntry>;
-  defaultEnglishLocalizerIndex: Map<EmojiParentKey, string>;
+  defaultEnglishLocalizerIndex: {
+    parentKeyToLocaleShortName: Map<EmojiParentKey, string>;
+    localeShortNameToParentKey: Map<string, EmojiParentKey>;
+  };
 }>;
 
 /** @internal */
@@ -287,7 +291,10 @@ const EMOJI_INDEX: EmojiIndex = {
     [EmojiPickerCategory.Flags]: [],
   },
   defaultEnglishSearchIndex: [],
-  defaultEnglishLocalizerIndex: new Map(),
+  defaultEnglishLocalizerIndex: {
+    parentKeyToLocaleShortName: new Map(),
+    localeShortNameToParentKey: new Map(),
+  },
 };
 
 function addParent(parent: EmojiParentData, rank: number) {
@@ -319,9 +326,13 @@ function addParent(parent: EmojiParentData, rank: number) {
     emoticons: parent.emoticons,
   });
 
-  EMOJI_INDEX.defaultEnglishLocalizerIndex.set(
+  EMOJI_INDEX.defaultEnglishLocalizerIndex.parentKeyToLocaleShortName.set(
     parent.key,
     parent.englishShortNameDefault
+  );
+  EMOJI_INDEX.defaultEnglishLocalizerIndex.localeShortNameToParentKey.set(
+    parent.englishShortNameDefault,
+    parent.key
   );
 }
 
@@ -549,6 +560,26 @@ export function emojiVariantConstant(input: string): EmojiVariantData {
   );
   const key = getEmojiVariantKeyByValue(input);
   return getEmojiVariantByKey(key);
+}
+
+/**
+ * Completions
+ */
+
+/** For displaying in the ui */
+export function normalizeShortNameCompletionDisplay(shortName: string): string {
+  return shortName
+    .normalize('NFD')
+    .replaceAll(/[\s,]+/gi, '_')
+    .toLowerCase();
+}
+
+/** For matching in search utils */
+export function normalizeShortNameCompletionQuery(query: string): string {
+  return removeDiacritics(query)
+    .normalize('NFD')
+    .replaceAll(/[\s,_-]+/gi, ' ')
+    .toLowerCase();
 }
 
 /**

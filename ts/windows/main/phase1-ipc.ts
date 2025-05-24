@@ -17,6 +17,7 @@ import * as Errors from '../../types/errors';
 
 import { strictAssert } from '../../util/assert';
 import { drop } from '../../util/drop';
+import { explodePromise } from '../../util/explodePromise';
 import { DataReader } from '../../sql/Client';
 import type { WindowsNotificationData } from '../../services/notifications';
 import { AggregatedStats } from '../../textsecure/WebsocketResources';
@@ -144,6 +145,7 @@ const IPC: IPCType = {
     ipc.send('title-bar-double-click');
   },
   updateTrayIcon: unreadCount => ipc.send('update-tray-icon', unreadCount),
+  whenWindowVisible,
 };
 
 window.IPC = IPC;
@@ -450,3 +452,14 @@ ipc.on(
     event.sender.send('art-creator:uploadStickerPack:done', packId);
   }
 );
+
+const { promise: windowVisible, resolve: resolveWindowVisible } =
+  explodePromise<void>();
+
+ipc.on('activate', () => {
+  resolveWindowVisible();
+});
+
+async function whenWindowVisible(): Promise<void> {
+  await windowVisible;
+}

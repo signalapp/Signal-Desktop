@@ -3,6 +3,7 @@
 
 import type { IntlShape } from 'react-intl';
 import { createIntl, createIntlCache } from 'react-intl';
+import type { ReactNode } from 'react';
 import type { LocaleMessageType, LocaleMessagesType } from '../types/I18N';
 import type {
   LocalizerType,
@@ -26,7 +27,7 @@ export function isLocaleMessageType(
 }
 
 export type SetupI18nOptionsType = Readonly<{
-  renderEmojify: (parts: ReadonlyArray<unknown>) => JSX.Element | void;
+  renderEmojify: (parts: ReadonlyArray<unknown>) => ReactNode;
 }>;
 
 export function createCachedIntl(

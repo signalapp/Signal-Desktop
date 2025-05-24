@@ -21,7 +21,6 @@ import {
 } from '../../types/CallDisposition';
 import * as log from '../../logging/log';
 import * as Errors from '../../types/errors';
-import { drop } from '../../util/drop';
 import {
   getCallHistoryLatestCall,
   getCallHistorySelector,
@@ -129,7 +128,9 @@ function markCallHistoryRead(
   return async dispatch => {
     try {
       await DataWriter.markCallHistoryRead(callId);
-      drop(window.ConversationController.get(conversationId)?.updateUnread());
+      window.ConversationController.get(
+        conversationId
+      )?.throttledUpdateUnread();
     } catch (error) {
       log.error(
         'markCallHistoryRead: Error marking call history read',

@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "資料庫錯誤"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "發生資料庫錯誤。你可以複製錯誤並聯絡 Signal 支援來幫助解決問題。如果你需要立即使用 Signal，可以刪除你的資料並重新啟動。\n\n要聯絡支援團隊，請前往：{link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "刪除資料並重新啟動"
   },
@@ -1673,9 +1670,6 @@
   "icu:notificationSenderInGroup": {
     "messageformat": "{sender}在{group}"
   },
-  "icu:notificationReaction": {
-    "messageformat": "{sender} 對你的訊息表達了 {emoji} 心情"
-  },
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} 表達 {emoji} 心情的訊息：{message}"
   },
@@ -1831,12 +1825,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "支援中心"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "聯絡我們"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "贊助 Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "檢視安全碼"
@@ -2600,6 +2588,9 @@
   "icu:Keyboard--open-sticker-chooser": {
     "messageformat": "打開貼圖選擇框"
   },
+  "icu:Keyboard--open-gif-chooser": {
+    "messageformat": "Open GIF chooser"
+  },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "開始錄製語音筆記"
   },
@@ -3238,9 +3229,6 @@
   },
   "icu:calling__view_mode--updated": {
     "messageformat": "已更新檢視"
-  },
-  "icu:calling__hangup": {
-    "messageformat": "離開通話"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "分享你的螢幕畫面"
@@ -4059,10 +4047,10 @@
     "messageformat": "你必須在手機上開啟 Signal 才能繼續使用此帳戶。如果你沒有在手機上開啟 Signal，你的帳戶將很快被刪除。<learnMoreLink>了解更多</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "無法還原媒體"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "你的裝置沒有足夠的可用空間。釋放 {diskSpaceAmount} 的空間來還原你的媒體。"
   },
   "icu:CompositionArea--expand": {
     "messageformat": "擴充"
@@ -4084,9 +4072,6 @@
   },
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "傳送已編輯的訊息"
-  },
-  "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "新增表情符號、貼圖或 GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
     "messageformat": "要更換附件嗎？"
@@ -4522,12 +4507,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "安全提示"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "你沒有與此人在共同的群組。 接受之前，請仔細檢查請求，以避免出現不必要的訊息。"
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "關於訊息請求"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "請仔細檢視請求。Signal 找到另一個名字相同的聯絡人。<reviewRequestLink>檢視請求</reviewRequestLink>"
@@ -5006,6 +4985,21 @@
   "icu:Preferences__button--internal": {
     "messageformat": "內部"
   },
+  "icu:Preferences__internal__local-backups": {
+    "messageformat": "Local backups"
+  },
+  "icu:Preferences__internal__export-local-backup": {
+    "messageformat": "Export…"
+  },
+  "icu:Preferences__internal__export-local-backup--description": {
+    "messageformat": "Export local encrypted backup to a folder and validate it"
+  },
+  "icu:Preferences__internal__import-local-backup": {
+    "messageformat": "Import…"
+  },
+  "icu:Preferences__internal__import-local-backup--description": {
+    "messageformat": "Stage a local encrypted backup for import on link"
+  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "將加密備份匯出到內部記憶體並執行驗證套件"
   },
@@ -5071,9 +5065,6 @@
   },
   "icu:Preferences--backup-messages-plan__note": {
     "messageformat": "你可以在手機上管理或升級「Signal 備份」。"
-  },
-  "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "找不到你的定期贊助。請立即續期以繼續使用「Signal 備份」。"
   },
   "icu:Preferences--backup-plan__not-found__note": {
     "messageformat": "你可以在手機上管理「Signal 備份」定期贊助或為其續期。"
@@ -5203,6 +5194,24 @@
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
     "messageformat": "重新啟動"
+  },
+  "icu:Preferences__Privacy__Application": {
+    "messageformat": "Application"
+  },
+  "icu:Preferences__content-protection--label": {
+    "messageformat": "Screen security"
+  },
+  "icu:Preferences__content-protection--description": {
+    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+  },
+  "icu:Preferences__content-protection__modal--title": {
+    "messageformat": "Disable screen security?"
+  },
+  "icu:Preferences__content-protection__modal--body": {
+    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+  },
+  "icu:Preferences__content-protection__modal--disable": {
+    "messageformat": "Disable"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "更新到可用的 {version} 版本"
@@ -6336,5 +6345,14 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "我們還調整了畫中畫視窗的大小，並新增了方便的新捷徑以將麥克風靜音/取消靜音，或在通話最小化時開啟/關閉相機。"
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "微笑這表情在任何語言中都是一樣的，但現在 Signal 桌面版中的表情符號快捷輸入已獲完整翻譯，你可以使用任何支援的語言，例如 <code>:smile:</code>、<code>:sourire:</code> 或 <code>:微笑:</code>。"
+  },
+  "icu:WhatsNew__v7.55--0": {
+    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+  },
+  "icu:WhatsNew__v7.55--1": {
+    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
   }
 }

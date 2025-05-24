@@ -57,7 +57,7 @@ export function FunEmojiPickerButton(
         <FunStaticEmoji
           role="img"
           size={20}
-          aria-label={emojiLocalizer(emojiVarant.key)}
+          aria-label={emojiLocalizer.getLocaleShortName(emojiVarant.key)}
           emoji={emojiVarant}
         />
       ) : (

@@ -9,9 +9,10 @@ import React, {
   useMemo,
   useRef,
   useState,
+  useId,
 } from 'react';
 import type { PressEvent } from 'react-aria';
-import { useId, VisuallyHidden } from 'react-aria';
+import { VisuallyHidden } from 'react-aria';
 import { LRUCache } from 'lru-cache';
 import { FunItemButton } from '../base/FunItem';
 import {
@@ -606,7 +607,7 @@ const Item = memo(function Item(props: {
       <FunItemButton
         aria-label={props.gif.title}
         onPress={handlePress}
-        tabIndex={props.isTabbable ? 0 : -1}
+        excludeFromTabOrder={!props.isTabbable}
       >
         {src != null && (
           <FunGif

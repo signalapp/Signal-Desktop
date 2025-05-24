@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 
 import { PermissionsPopup } from '../../components/PermissionsPopup';
@@ -27,13 +27,15 @@ if (forCalling) {
 }
 
 ReactDOM.render(
-  <FunDefaultEnglishEmojiLocalizationProvider>
-    <PermissionsPopup
-      i18n={i18n}
-      message={message}
-      onAccept={PermissionsWindowProps.onAccept}
-      onClose={PermissionsWindowProps.onClose}
-    />
-  </FunDefaultEnglishEmojiLocalizationProvider>,
+  <StrictMode>
+    <FunDefaultEnglishEmojiLocalizationProvider>
+      <PermissionsPopup
+        i18n={i18n}
+        message={message}
+        onAccept={PermissionsWindowProps.onAccept}
+        onClose={PermissionsWindowProps.onClose}
+      />
+    </FunDefaultEnglishEmojiLocalizationProvider>
+  </StrictMode>,
   document.getElementById('app')
 );

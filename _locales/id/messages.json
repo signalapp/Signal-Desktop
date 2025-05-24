@@ -83,9 +83,6 @@
   "icu:databaseError": {
     "messageformat": "Kesalahan Database"
   },
-  "icu:databaseError__detail": {
-    "messageformat": "Terjadi kesalahan pada basis data. Anda dapat menyalin kode kesalahan dan menghubungi dukungan Signal untuk membantu mengatasi masalah ini. Jika Anda perlu segera menggunakan Signal, Anda dapat menghapus data Anda dan memulai ulang.\n\nHubungi dukungan dengan membuka: {link}"
-  },
   "icu:deleteAndRestart": {
     "messageformat": "Hapus data dan mulai ulang"
   },
@@ -1673,9 +1670,6 @@
   "icu:notificationSenderInGroup": {
     "messageformat": "{sender} dalam {group}"
   },
-  "icu:notificationReaction": {
-    "messageformat": "{sender} menanggapi {emoji} pada pesan Anda"
-  },
   "icu:notificationReactionMessage": {
     "messageformat": "{sender} menanggapi {emoji} pada: {message}"
   },
@@ -1831,12 +1825,6 @@
   },
   "icu:ConversationDetails--support-center": {
     "messageformat": "Pusat Bantuan"
-  },
-  "icu:ConversationDetails--contact-us": {
-    "messageformat": "Hubungi kami"
-  },
-  "icu:ConversationDetails--donate": {
-    "messageformat": "Berdonasi ke Signal"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "Lihat Nomor Keamanan"
@@ -2600,6 +2588,9 @@
   "icu:Keyboard--open-sticker-chooser": {
     "messageformat": "Buka pemilih stiker"
   },
+  "icu:Keyboard--open-gif-chooser": {
+    "messageformat": "Open GIF chooser"
+  },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Mulai merekam pesan suara"
   },
@@ -3238,9 +3229,6 @@
   },
   "icu:calling__view_mode--updated": {
     "messageformat": "Tampilan diperbarui"
-  },
-  "icu:calling__hangup": {
-    "messageformat": "Tinggalkan panggilan"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Bagikan layar Anda"
@@ -4059,10 +4047,10 @@
     "messageformat": "Anda harus membuka Signal di ponsel agar dapat terus menggunakan akun ini. Jika Anda tidak membuka Signal di ponsel, akun Anda akan segera dihapus. <learnMoreLink>Pelajari selengkapnya</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
-    "messageformat": "Can't restore media"
+    "messageformat": "Tidak dapat memulihkan media"
   },
   "icu:LowDiskSpaceBackupImportModal__description": {
-    "messageformat": "Your device does not have enough free space. Free up {diskSpaceAmount} of space to restore your media."
+    "messageformat": "Perangkat Anda tidak punya cukup ruang kosong. Kosongkan penyimpanan sebesar {diskSpaceAmount} untuk memulihkan media Anda."
   },
   "icu:CompositionArea--expand": {
     "messageformat": "Lebarkan"
@@ -4084,9 +4072,6 @@
   },
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "Kirim pesan yang telah diedit"
-  },
-  "icu:CompositionArea__FunButtonLabel": {
-    "messageformat": "Tambahkan Emoji, Stiker, atau GIF"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
     "messageformat": "Ganti lampiran?"
@@ -4522,12 +4507,6 @@
   },
   "icu:MessageRequestWarning__safety-tips": {
     "messageformat": "Tips Keamanan"
-  },
-  "icu:MessageRequestWarning__dialog__details": {
-    "messageformat": "Anda tidak punya grup yang sama dengan orang ini. Tinjau permintaan dengan seksama sebelum menerima untuk menghindari pesan tidak diinginkan."
-  },
-  "icu:MessageRequestWarning__dialog__learn-even-more": {
-    "messageformat": "Tentang Permintaan Pesan"
   },
   "icu:ContactSpoofing__same-name--link": {
     "messageformat": "Tinjau permintaan dengan cermat. Signal menemukan kontak lain dengan nama yang sama. <reviewRequestLink>Tinjau permintaan</reviewRequestLink>"
@@ -5006,6 +4985,21 @@
   "icu:Preferences__button--internal": {
     "messageformat": "Internal"
   },
+  "icu:Preferences__internal__local-backups": {
+    "messageformat": "Local backups"
+  },
+  "icu:Preferences__internal__export-local-backup": {
+    "messageformat": "Export…"
+  },
+  "icu:Preferences__internal__export-local-backup--description": {
+    "messageformat": "Export local encrypted backup to a folder and validate it"
+  },
+  "icu:Preferences__internal__import-local-backup": {
+    "messageformat": "Import…"
+  },
+  "icu:Preferences__internal__import-local-backup--description": {
+    "messageformat": "Stage a local encrypted backup for import on link"
+  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Ekspor cadangan terenkripsi ke memori perangkat dan jalankan rangkaian validasi pada cadangan tersebut"
   },
@@ -5071,9 +5065,6 @@
   },
   "icu:Preferences--backup-messages-plan__note": {
     "messageformat": "Anda dapat mengelola atau meng-upgrade Signal Backups di ponsel."
-  },
-  "icu:Preferences--backup-plan__not-found": {
-    "messageformat": "Langganan Anda tidak ditemukan. Perbarui agar dapat terus memakai Signal Backups."
   },
   "icu:Preferences--backup-plan__not-found__note": {
     "messageformat": "Anda dapat mengelola atau memperbarui langganan Signal Backups di ponsel."
@@ -5203,6 +5194,24 @@
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
     "messageformat": "Mulai ulang"
+  },
+  "icu:Preferences__Privacy__Application": {
+    "messageformat": "Application"
+  },
+  "icu:Preferences__content-protection--label": {
+    "messageformat": "Screen security"
+  },
+  "icu:Preferences__content-protection--description": {
+    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+  },
+  "icu:Preferences__content-protection__modal--title": {
+    "messageformat": "Disable screen security?"
+  },
+  "icu:Preferences__content-protection__modal--body": {
+    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+  },
+  "icu:Preferences__content-protection__modal--disable": {
+    "messageformat": "Disable"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Pembaruan {version} tersedia"
@@ -6336,5 +6345,14 @@
   },
   "icu:WhatsNew__v7.51--1": {
     "messageformat": "Kami juga mengubah ukuran jendela gambar dalam gambar dan menambahkan pintasan baru yang praktis untuk menyalakan/membisukan mikrofon atau mengaktifkan/menonaktifkan kamera saat jendela panggilan diperkecil."
+  },
+  "icu:WhatsNew__v7.54--0": {
+    "messageformat": "Senyuman memang sama dalam bahasa apa pun, tapi karena sekarang pintasan emoji di Signal Desktop telah sepenuhnya diterjemahkan, jadi Anda juga bisa pakai <code>:smile:</code> atau <code>:sourire:</code> atau <code>:微笑:</code> dalam bahasa apa pun yang didukung."
+  },
+  "icu:WhatsNew__v7.55--0": {
+    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+  },
+  "icu:WhatsNew__v7.55--1": {
+    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
   }
 }

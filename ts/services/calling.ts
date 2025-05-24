@@ -221,6 +221,9 @@ type CallingReduxInterface = Pick<
   | 'startCallLinkLobbyByRoomId'
   | 'peekNotConnectedGroupCall'
   | 'setSuggestLowerHand'
+  | 'setLocalAudio'
+  | 'setMutedBy'
+  | 'onObservedRemoteMute'
 > & {
   areAnyCallsActiveOrRinging(): boolean;
 };
@@ -1403,6 +1406,9 @@ export class CallingClass {
       secretParams,
     });
 
+    // Set the camera disposition as we transition from the lobby to the group call.
+    this.#cameraEnabled = hasLocalVideo;
+
     groupCall.setOutgoingAudioMuted(!hasLocalAudio);
     groupCall.setOutgoingVideoMuted(!hasLocalVideo);
     drop(this.enableCaptureAndSend(groupCall, undefined, logId));
@@ -1637,6 +1643,21 @@ export class CallingClass {
           );
         }
       },
+      onRemoteMute: (_groupCall: GroupCall, demuxId: number) => {
+        log.info('GroupCall#onRemoteMute');
+        this.#reduxInterface?.setMutedBy({ mutedBy: demuxId });
+      },
+      onObservedRemoteMute: (
+        _groupCall: GroupCall,
+        sourceDemuxId: number,
+        targetDemuxId: number
+      ) => {
+        log.info('GroupCall#onObservedRemoteMute');
+        this.#reduxInterface?.onObservedRemoteMute({
+          source: sourceDemuxId,
+          target: targetDemuxId,
+        });
+      },
     };
   }
 
@@ -1749,6 +1770,9 @@ export class CallingClass {
       callLinkRootKey,
       adminPasskey,
     });
+
+    // Set the camera disposition as we transition from the lobby to the call link call.
+    this.#cameraEnabled = hasLocalVideo;
 
     groupCall.setOutgoingAudioMuted(!hasLocalAudio);
     groupCall.setOutgoingVideoMuted(!hasLocalVideo);
@@ -2162,7 +2186,15 @@ export class CallingClass {
     );
   }
 
-  hangup(conversationId: string, reason: string): void {
+  hangup({
+    conversationId,
+    excludeRinging,
+    reason,
+  }: {
+    conversationId: string;
+    excludeRinging?: boolean;
+    reason: string;
+  }): void {
     const logId = getLogId({
       source: 'CallingClass.hangup',
       conversationId,
@@ -2191,7 +2223,16 @@ export class CallingClass {
         this.videoRenderer.disable();
         call.setOutgoingAudioMuted(true);
         call.setOutgoingVideoMuted(true);
-        RingRTC.hangup(call.callId);
+
+        if (
+          excludeRinging &&
+          call.state === CallState.Ringing &&
+          call.isIncoming
+        ) {
+          log.info(`${logId}: Refusing to hang up call that is still ringing`);
+        } else {
+          RingRTC.hangup(call.callId);
+        }
       } else if (call instanceof GroupCall) {
         // This ensures that we turn off our devices.
         call.setOutgoingAudioMuted(true);
@@ -2205,10 +2246,16 @@ export class CallingClass {
     log.info(`${logId}: Done.`);
   }
 
-  hangupAllCalls(reason: string): void {
+  hangupAllCalls({
+    excludeRinging,
+    reason,
+  }: {
+    excludeRinging: boolean;
+    reason: string;
+  }): void {
     const conversationIds = Object.keys(this.#callsLookup);
     for (const conversationId of conversationIds) {
-      this.hangup(conversationId, reason);
+      this.hangup({ conversationId, excludeRinging, reason });
     }
   }
 
@@ -2225,6 +2272,20 @@ export class CallingClass {
       call.setOutgoingAudioMuted(!enabled);
     } else {
       throw missingCaseError(call);
+    }
+  }
+
+  setOutgoingAudioRemoteMuted(conversationId: string, source: number): void {
+    const call = getOwn(this.#callsLookup, conversationId);
+    if (!call) {
+      log.warn('Trying to remote mute outgoing audio for a non-existent call');
+      return;
+    }
+
+    if (call instanceof GroupCall) {
+      call.setOutgoingAudioMutedRemotely(source);
+    } else {
+      log.warn('Trying to remote mute outgoing audio on a 1:1 call');
     }
   }
 

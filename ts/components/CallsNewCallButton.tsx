@@ -180,14 +180,14 @@ export function CallsNewCall({
   }, [directConversations, groupConversations]);
 
   const isRowLoaded = useCallback(
-    ({ index }) => {
+    ({ index }: { index: number }) => {
       return rows.at(index) != null;
     },
     [rows]
   );
 
   const rowHeight = useCallback(
-    ({ index }) => {
+    ({ index }: { index: number }) => {
       if (rows.at(index)?.kind === 'conversation') {
         return ListTile.heightCompact;
       }

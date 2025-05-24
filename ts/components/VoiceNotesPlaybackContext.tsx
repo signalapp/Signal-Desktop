@@ -182,7 +182,7 @@ export const VoiceNotesPlaybackContext =
   React.createContext<Contents>(globalContents);
 
 export type VoiceNotesPlaybackProps = {
-  children?: React.ReactNode | React.ReactChildren;
+  children?: React.ReactNode;
 };
 
 /**

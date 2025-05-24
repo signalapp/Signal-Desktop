@@ -14,7 +14,13 @@ import { ReactionSource } from '../reactions/ReactionSource';
 import { DataReader, DataWriter } from '../sql/Client';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
-import { getAuthor, isIncoming, isOutgoing } from '../messages/helpers';
+import {
+  getAuthor,
+  isIncoming,
+  isIncomingStory,
+  isOutgoing,
+  isOutgoingStory,
+} from '../messages/helpers';
 import { getMessageSentTimestampSet } from '../util/getMessageSentTimestampSet';
 import { isDirectConversation, isMe } from '../util/whatTypeOfConversation';
 import {
@@ -67,6 +73,7 @@ function remove(reaction: ReactionAttributesType): void {
 export function findReactionsForMessage(
   message: ReadonlyMessageAttributesType
 ): Array<ReactionAttributesType> {
+  const ourAci = window.textsecure.storage.user.getCheckedAci();
   const matchingReactions = Array.from(reactionCache.values()).filter(
     reaction => {
       return isMessageAMatchForReaction({
@@ -74,6 +81,7 @@ export function findReactionsForMessage(
         targetTimestamp: reaction.targetTimestamp,
         targetAuthorAci: reaction.targetAuthorAci,
         reactionSenderConversationId: reaction.fromId,
+        ourAci,
       });
     }
   );
@@ -94,6 +102,7 @@ async function findMessageForReaction({
   logId: string;
 }): Promise<MessageAttributesType | undefined> {
   const messages = await DataReader.getMessagesBySentAt(targetTimestamp);
+  const ourAci = window.textsecure.storage.user.getCheckedAci();
 
   const matchingMessages = messages.filter(message =>
     isMessageAMatchForReaction({
@@ -101,6 +110,7 @@ async function findMessageForReaction({
       targetTimestamp,
       targetAuthorAci,
       reactionSenderConversationId,
+      ourAci,
     })
   );
 
@@ -119,16 +129,18 @@ async function findMessageForReaction({
   return matchingMessages[0];
 }
 
-function isMessageAMatchForReaction({
+export function isMessageAMatchForReaction({
   message,
   targetTimestamp,
   targetAuthorAci,
   reactionSenderConversationId,
+  ourAci,
 }: {
   message: ReadonlyMessageAttributesType;
   targetTimestamp: number;
   targetAuthorAci: string;
   reactionSenderConversationId: string;
+  ourAci: AciString;
 }): boolean {
   if (!getMessageSentTimestampSet(message).has(targetTimestamp)) {
     return false;
@@ -158,7 +170,7 @@ function isMessageAMatchForReaction({
     return true;
   }
 
-  if (message.type === 'outgoing') {
+  if (isOutgoing(message) || isOutgoingStory(message, ourAci)) {
     const sendStateByConversationId = getPropForTimestamp({
       log,
       message,
@@ -172,13 +184,20 @@ function isMessageAMatchForReaction({
       return false;
     }
 
+    if (isStory(message)) {
+      return (
+        isSent(sendState.status) && Boolean(sendState.isAllowedToReplyToStory)
+      );
+    }
+
     return isSent(sendState.status);
   }
 
-  if (message.type === 'incoming') {
+  if (isIncoming(message) || isIncomingStory(message, ourAci)) {
     const messageConversation = window.ConversationController.get(
       message.conversationId
     );
+
     if (!messageConversation) {
       return false;
     }
@@ -190,7 +209,8 @@ function isMessageAMatchForReaction({
     );
   }
 
-  return true;
+  // Only incoming, outgoing, and story messages can be reacted to
+  return false;
 }
 
 export async function onReaction(

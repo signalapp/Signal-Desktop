@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ClipboardEvent, ReactNode } from 'react';
+import type { ClipboardEvent, KeyboardEvent, ReactNode } from 'react';
 import React, {
   forwardRef,
   useCallback,
@@ -114,7 +114,7 @@ export const Input = forwardRef<
   }, [expandable]);
 
   const handleKeyDown = useCallback(
-    event => {
+    (event: KeyboardEvent) => {
       if (onEnter && event.key === 'Enter') {
         onEnter();
       }

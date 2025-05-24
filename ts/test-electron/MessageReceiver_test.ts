@@ -13,6 +13,7 @@ import { generateAci } from '../types/ServiceId';
 import type { AciString } from '../types/ServiceId';
 import { SignalService as Proto } from '../protobuf';
 import * as Crypto from '../Crypto';
+import { toBase64 } from '../Bytes';
 
 describe('MessageReceiver', () => {
   const someAci = generateAci();
@@ -37,9 +38,12 @@ describe('MessageReceiver', () => {
 
   describe('connecting', () => {
     it('generates decryption-error event when it cannot decrypt', async () => {
+      const fakeTrustRootPublicKey = Crypto.getRandomBytes(33);
+      fakeTrustRootPublicKey.set([5], 0); // first byte is the key type (5)
+
       const messageReceiver = new MessageReceiver({
         storage: window.storage,
-        serverTrustRoot: 'AAAAAAAA',
+        serverTrustRoot: toBase64(fakeTrustRootPublicKey),
       });
 
       const body = Proto.Envelope.encode({

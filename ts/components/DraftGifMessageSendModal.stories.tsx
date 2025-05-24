@@ -14,6 +14,7 @@ import { EmojiSkinTone } from './fun/data/emojis';
 import { LoadingState } from '../util/loadable';
 import { VIDEO_MP4 } from '../types/MIME';
 import { drop } from '../util/drop';
+import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 
 const { i18n } = window.SignalContext;
 
@@ -38,6 +39,7 @@ function RenderCompositionTextArea(props: SmartCompositionTextAreaProps) {
       ourConversationId="me"
       platform="darwin"
       emojiSkinToneDefault={EmojiSkinTone.None}
+      conversationSelector={() => getDefaultConversation()}
     />
   );
 }

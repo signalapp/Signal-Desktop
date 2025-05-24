@@ -7,6 +7,8 @@ import { isNumber } from 'lodash';
 import type { LocalizerType } from '../types/Util';
 import { SECOND, DurationInSeconds } from './durations';
 
+export const INITIAL_EXPIRE_TIMER_VERSION = 1;
+
 const SECONDS_PER_WEEK = 604800;
 export const DEFAULT_DURATIONS_IN_SECONDS: ReadonlyArray<DurationInSeconds> = [
   DurationInSeconds.ZERO,

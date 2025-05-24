@@ -16,6 +16,8 @@ import {
 } from '../../types/MIME';
 import { pngUrl, squareStickerUrl } from '../../storybook/Fixtures';
 import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
+import { strictAssert } from '../../util/assert';
+import { isDownloadable } from '../../types/Attachment';
 
 const { i18n } = window.SignalContext;
 
@@ -1039,4 +1041,38 @@ export function ContentAboveAndBelow(args: Props): JSX.Element {
 
 export function BottomOverlay(args: Props): JSX.Element {
   return <ImageGrid {...args} bottomOverlay />;
+}
+
+export function DownloadPill(args: Props): JSX.Element {
+  const attachment1 = fakeAttachment({
+    contentType: IMAGE_JPEG,
+    fileName: 'tina-rolf-269345-unsplash.jpg',
+    height: 1680,
+    width: 3000,
+    path: undefined,
+    blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+    key: 'mock-key',
+    digest: 'mock-digest',
+    cdnKey: 'mock-cdn-key',
+    cdnNumber: 4000,
+  });
+
+  const attachment2 = fakeAttachment({
+    contentType: IMAGE_JPEG,
+    fileName: 'tina-rolf-269345-unsplash.jpg',
+    height: 1680,
+    width: 3000,
+    path: undefined,
+    blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+    key: 'mock-key',
+    digest: 'mock-digest',
+    cdnKey: 'mock-cdn-key',
+    cdnNumber: 4000,
+  });
+
+  // Pill only shows if the attachments are downloadable
+  strictAssert(isDownloadable(attachment1), 'attachment1 must be downloadable');
+  strictAssert(isDownloadable(attachment2), 'attachment2 must be downloadable');
+
+  return <ImageGrid {...args} attachments={[attachment1, attachment2]} />;
 }

@@ -4,6 +4,7 @@
 export enum SqliteErrorKind {
   Corrupted = 'Corrupted',
   Readonly = 'Readonly',
+  Logic = 'Logic',
   Unknown = 'Unknown',
 }
 
@@ -26,6 +27,10 @@ export function parseSqliteError(error?: Error): SqliteErrorKind {
     message.includes('attempt to write a readonly database')
   ) {
     return SqliteErrorKind.Readonly;
+  }
+
+  if (message.includes('SQL logic error')) {
+    return SqliteErrorKind.Logic;
   }
 
   return SqliteErrorKind.Unknown;

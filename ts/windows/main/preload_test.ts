@@ -118,6 +118,7 @@ window.testUtilities = {
         isProduction: false,
         platform: 'test',
       },
+      notificationProfiles: [],
       recentEmoji: {
         recents: [],
       },

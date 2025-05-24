@@ -30,7 +30,7 @@ RUN apt install -oAcquire::https::Verify-Peer=false -y ca-certificates
 
 # Back to normal, verification back on
 RUN apt update
-RUN apt install -y git curl g++ g++-10 gcc gcc-10 make python3 tar
+RUN apt install -y git curl g++ g++-10 gcc gcc-10 make python3 tar xz-utils
 
 # On Ubuntu 20 GCC 9 is the default but we need 10 to build
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100 \
@@ -50,6 +50,7 @@ RUN curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/insta
 
 ENV NODE_PATH=$NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH=$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+ENV CI=true
 
 # Install pnpm
 RUN npm install -g pnpm@10.3.0

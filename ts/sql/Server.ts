@@ -211,7 +211,9 @@ import {
   getGroupSendMemberEndorsement,
   replaceAllEndorsementsForGroup,
 } from './server/groupSendEndorsements';
+import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer';
 import type { GifType } from '../components/fun/panels/FunPanelGifs';
+import type { NotificationProfileType } from '../types/NotificationProfile';
 
 type ConversationRow = Readonly<{
   json: string;
@@ -361,6 +363,9 @@ export const DataReader: ServerReadableInterface = {
   getCallHistoryGroupsCount,
   getCallHistoryGroups,
   hasGroupCallHistoryMessage,
+
+  getAllNotificationProfiles,
+  getNotificationProfileById,
 
   callLinkExists,
   defunctCallLinkExists,
@@ -584,6 +589,12 @@ export const DataWriter: ServerWritableInterface = {
 
   _deleteAllStoryReads,
   addNewStoryRead,
+
+  _deleteAllNotificationProfiles,
+  createNotificationProfile,
+  deleteNotificationProfileById,
+  markNotificationProfileDeleted,
+  updateNotificationProfile,
 
   removeAll,
   removeAllConfiguration,
@@ -1663,7 +1674,9 @@ function saveConversation(db: WritableDB, data: ConversationType): void {
     `
   ).run({
     id,
-    json: objectToJSON(omit(data, ['profileLastFetchedAt'])),
+    json: objectToJSON(
+      omit(data, ['profileLastFetchedAt', 'expireTimerVersion'])
+    ),
 
     e164: e164 || null,
     serviceId: serviceId || null,
@@ -1799,14 +1812,20 @@ function getConversationById(
   id: string
 ): ConversationType | undefined {
   const row = db
-    .prepare('SELECT json FROM conversations WHERE id = $id;')
-    .get<{ json: string }>({ id });
+    .prepare(
+      `
+      SELECT json, profileLastFetchedAt, expireTimerVersion 
+      FROM conversations 
+      WHERE id = $id
+      `
+    )
+    .get<ConversationRow>({ id });
 
   if (!row) {
     return undefined;
   }
 
-  return jsonToObject(row.json);
+  return rowToConversation(row);
 }
 
 function getAllConversations(db: ReadableDB): Array<ConversationType> {
@@ -6850,6 +6869,224 @@ function countStoryReadsByConversation(
   );
 }
 
+type NotificationProfileForDatabase = Readonly<
+  {
+    emoji: string | null;
+    allowAllCalls: 0 | 1;
+    allowAllMentions: 0 | 1;
+    scheduleEnabled: 0 | 1;
+    allowedMembersJson: string | null;
+    scheduleStartTime: number | null;
+    scheduleEndTime: number | null;
+    scheduleDaysEnabledJson: string | null;
+    deletedAtTimestampMs: number | null;
+    storageID: string | null;
+    storageVersion: number | null;
+    storageNeedsSync: 0 | 1;
+  } & Omit<
+    NotificationProfileType,
+    | 'emoji'
+    | 'allowAllCalls'
+    | 'allowAllMentions'
+    | 'scheduleEnabled'
+    | 'allowedMembers'
+    | 'scheduleStartTime'
+    | 'scheduleEndTime'
+    | 'scheduleDaysEnabled'
+    | 'deletedAtTimestampMs'
+    | 'storageID'
+    | 'storageVersion'
+    | 'storageNeedsSync'
+  >
+>;
+
+function hydrateNotificationProfile(
+  profile: NotificationProfileForDatabase
+): NotificationProfileType {
+  return {
+    ...omit(profile, ['allowedMembersJson', 'scheduleDaysEnabledJson']),
+    emoji: profile.emoji || undefined,
+    allowAllCalls: Boolean(profile.allowAllCalls),
+    allowAllMentions: Boolean(profile.allowAllMentions),
+    scheduleEnabled: Boolean(profile.scheduleEnabled),
+    allowedMembers: profile.allowedMembersJson
+      ? new Set(JSON.parse(profile.allowedMembersJson))
+      : new Set(),
+    scheduleStartTime: profile.scheduleStartTime || undefined,
+    scheduleEndTime: profile.scheduleEndTime || undefined,
+    scheduleDaysEnabled: profile.scheduleDaysEnabledJson
+      ? JSON.parse(profile.scheduleDaysEnabledJson)
+      : undefined,
+    deletedAtTimestampMs: profile.deletedAtTimestampMs || undefined,
+    storageID: profile.storageID || undefined,
+    storageVersion: profile.storageVersion || undefined,
+    storageNeedsSync: Boolean(profile.storageNeedsSync),
+    storageUnknownFields: profile.storageUnknownFields || undefined,
+  };
+}
+function freezeNotificationProfile(
+  profile: NotificationProfileType
+): NotificationProfileForDatabase {
+  return {
+    ...omit(profile, ['allowedMembers', 'scheduleDaysEnabled']),
+    emoji: profile.emoji || null,
+    allowAllCalls: profile.allowAllCalls ? 1 : 0,
+    allowAllMentions: profile.allowAllMentions ? 1 : 0,
+    scheduleEnabled: profile.scheduleEnabled ? 1 : 0,
+    allowedMembersJson: profile.allowedMembers
+      ? JSON.stringify(Array.from(profile.allowedMembers))
+      : null,
+    scheduleStartTime: profile.scheduleStartTime || null,
+    scheduleEndTime: profile.scheduleEndTime || null,
+    scheduleDaysEnabledJson: profile.scheduleDaysEnabled
+      ? JSON.stringify(profile.scheduleDaysEnabled)
+      : null,
+    deletedAtTimestampMs: profile.deletedAtTimestampMs || null,
+    storageID: profile.storageID || null,
+    storageVersion: profile.storageVersion || null,
+    storageNeedsSync: profile.storageNeedsSync ? 1 : 0,
+    storageUnknownFields: profile.storageUnknownFields || null,
+  };
+}
+
+function getAllNotificationProfiles(
+  db: ReadableDB
+): Array<NotificationProfileType> {
+  const notificationProfiles = db
+    .prepare('SELECT * FROM notificationProfiles ORDER BY createdAtMs DESC;')
+    .all<NotificationProfileForDatabase>();
+
+  return notificationProfiles.map(hydrateNotificationProfile);
+}
+function getNotificationProfileById(
+  db: ReadableDB,
+  id: string
+): NotificationProfileType | undefined {
+  const [query, parameters] =
+    sql`SELECT * FROM notificationProfiles WHERE id = ${id}`;
+  const fromDatabase = db
+    .prepare(query)
+    .get<NotificationProfileForDatabase>(parameters);
+
+  if (fromDatabase) {
+    return hydrateNotificationProfile(fromDatabase);
+  }
+
+  return undefined;
+}
+function _deleteAllNotificationProfiles(db: WritableDB): void {
+  db.prepare('DELETE FROM notificationProfiles;').run();
+}
+function deleteNotificationProfileById(db: WritableDB, id: string): void {
+  const [query, parameters] =
+    sql`DELETE FROM notificationProfiles WHERE id = ${id}`;
+  db.prepare(query).run(parameters);
+}
+function markNotificationProfileDeleted(
+  db: WritableDB,
+  id: string
+): number | undefined {
+  const now = new Date().getTime();
+
+  const [query, parameters] = sql`
+      UPDATE notificationProfiles
+      SET deletedAtTimestampMs = ${now}
+      WHERE
+        id = ${id} AND
+        deletedAtTimestampMs IS NULL
+      RETURNING deletedAtTimestampMs`;
+
+  const record = db
+    .prepare(query)
+    .get<{ deletedAtTimestampMs: number }>(parameters);
+
+  return record?.deletedAtTimestampMs;
+}
+function createNotificationProfile(
+  db: WritableDB,
+  profile: NotificationProfileType
+): void {
+  strictAssert(profile.name, 'Notification profile does not have a valid name');
+
+  const forDatabase = freezeNotificationProfile(profile);
+
+  db.prepare(
+    `
+      INSERT INTO notificationProfiles(
+        id,
+        name,
+        emoji,
+        color,
+        createdAtMs,
+        allowAllCalls,
+        allowAllMentions,
+        allowedMembersJson,
+        scheduleEnabled,
+        scheduleStartTime,
+        scheduleEndTime,
+        scheduleDaysEnabledJson,
+        deletedAtTimestampMs,
+        storageID,
+        storageVersion,
+        storageUnknownFields,
+        storageNeedsSync
+      ) VALUES (
+        $id,
+        $name,
+        $emoji,
+        $color,
+        $createdAtMs,
+        $allowAllCalls,
+        $allowAllMentions,
+        $allowedMembersJson,
+        $scheduleEnabled,
+        $scheduleStartTime,
+        $scheduleEndTime,
+        $scheduleDaysEnabledJson,
+        $deletedAtTimestampMs,
+        $storageID,
+        $storageVersion,
+        $storageUnknownFields,
+        $storageNeedsSync
+      );
+      `
+  ).run(forDatabase);
+}
+function updateNotificationProfile(
+  db: WritableDB,
+  profile: NotificationProfileType
+): void {
+  strictAssert(profile.name, 'Notification profile does not have a valid name');
+
+  db.transaction(() => {
+    const forDatabase = freezeNotificationProfile(profile);
+
+    db.prepare(
+      `
+      UPDATE notificationProfiles SET
+        name = $name,
+        emoji = $emoji,
+        color = $color,
+        createdAtMs = $createdAtMs,
+        allowAllCalls = $allowAllCalls,
+        allowAllMentions = $allowAllMentions,
+        allowedMembersJson = $allowedMembersJson,
+        scheduleEnabled = $scheduleEnabled,
+        scheduleStartTime = $scheduleStartTime,
+        scheduleEndTime = $scheduleEndTime,
+        scheduleDaysEnabledJson = $scheduleDaysEnabledJson,
+        deletedAtTimestampMs = $deletedAtTimestampMs,
+        storageID = $storageID,
+        storageVersion = $storageVersion,
+        storageUnknownFields = $storageUnknownFields,
+        storageNeedsSync = $storageNeedsSync
+      WHERE
+        id = $id;
+      `
+    ).run(forDatabase);
+  })();
+}
+
 // All data in database
 function removeAll(db: WritableDB): void {
   db.transaction(() => {
@@ -6876,6 +7113,7 @@ function removeAll(db: WritableDB): void {
       DELETE FROM kyberPreKeys;
       DELETE FROM messages_fts;
       DELETE FROM messages;
+      DELETE FROM notificationProfiles;
       DELETE FROM preKeys;
       DELETE FROM reactions;
       DELETE FROM senderKeys;
@@ -6952,19 +7190,25 @@ function removeAllConfiguration(db: WritableDB): void {
 
     db.exec(
       `
+        UPDATE storyDistributions SET senderKeyInfoJson = NULL;
+      `
+    );
+
+    /** Update conversations */
+    const [updateConversationsQuery, updateConversationsParams] = sql`
       UPDATE conversations
       SET
+        expireTimerVersion = ${INITIAL_EXPIRE_TIMER_VERSION}, 
         json = json_remove(
           json,
           '$.senderKeyInfo',
           '$.storageID',
           '$.needsStorageServiceSync',
-          '$.storageUnknownFields'
+          '$.storageUnknownFields',
+          '$.expireTimerVersion'
         );
-
-      UPDATE storyDistributions SET senderKeyInfoJson = NULL;
-      `
-    );
+    `;
+    db.prepare(updateConversationsQuery).run(updateConversationsParams);
   })();
 }
 
