@@ -170,6 +170,10 @@ $NavTabs__ProfileAvatar__size: 28px;
 
 .NavTabs__ItemIcon--Settings {
   @include NavTabs__Icon('../images/icons/v3/settings/settings.svg');
+  .NavTabs__Item:active &,
+  .NavTabs__Item[aria-selected='true'] & {
+    @include NavTabs__Icon('../images/icons/v3/settings/settings-fill.svg');
+  }
 }
 
 .NavTabs__ItemIcon--Chats {
@@ -201,11 +205,29 @@ $NavTabs__ProfileAvatar__size: 28px;
 }
 
 .NavTabs__TabList {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows:
+    [Chats] auto
+    [Calls] auto
+    [Stories] auto
+    1fr
+    [Settings] auto;
   align-items: center;
   width: 100%;
   flex: 1;
+}
+
+.NavTabs__Item--Chats {
+  grid-row: Chats;
+}
+.NavTabs__Item--Calls {
+  grid-row: Calls;
+}
+.NavTabs__Item--Stories {
+  grid-row: Stories;
+}
+.NavTabs__Item--Settings {
+  grid-row: Settings;
 }
 
 .NavTabs__Misc {

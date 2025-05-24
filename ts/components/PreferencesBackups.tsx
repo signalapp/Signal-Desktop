@@ -25,12 +25,6 @@ export function PreferencesBackups({
 }): JSX.Element {
   return (
     <>
-      <div className="Preferences__title Preferences__title--backups">
-        <div className="Preferences__title--header">
-          {i18n('icu:Preferences__button--backups')}
-        </div>
-      </div>
-
       <div className="Preferences--backups-summary__container">
         {getBackupsSubscriptionSummary({
           subscriptionStatus: backupSubscriptionStatus,

@@ -2589,7 +2589,7 @@
     "messageformat": "స్టిక్కర్ ఎంపికను తెరవండి"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "GIF ఎంపికను తెరవండి"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "వాయిస్ నోట్ రికార్డింగ్ ప్రారంభించండి"
@@ -3136,6 +3136,18 @@
   },
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "మైక్ ఆన్‌లో ఉంది"
+  },
+  "icu:CallControls__MutedBySomeoneToast": {
+    "messageformat": "{otherName} muted you."
+  },
+  "icu:CallControls__SomeoneMutedSomeoneToast": {
+    "messageformat": "{name} muted {otherName}."
+  },
+  "icu:CallControls__YouMutedSomeoneToast": {
+    "messageformat": "You muted {otherName}."
+  },
+  "icu:CallControls__YouMutedYourselfToast": {
+    "messageformat": "You muted yourself from another device."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "మీ చేతిని దించేదా?"
@@ -4986,19 +4998,19 @@
     "messageformat": "అంతర్గత"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "స్థానిక బ్యాకప్‌లు"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "ఎగుమతి చేయండి…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "స్థానిక గుప్తీకరించబడిన బ్యాకప్‌ను ఫోల్డర్‌కు ఎగుమతి చేయండి మరియు దానిని ధృవీకరించండి"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "దిగుమతి చేయండి…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "స్థానిక గుప్తీకరించబడిన బ్యాకప్‌ను దిగుమతి కోసం లింక్‌పై సమర్పించండి"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "ఎన్‌క్రిప్ట్ చేయబడిన బ్యాకప్‌ను మెమరీకి ఎగుమతి చేయండి మరియు దానిపై వ్యాలిడేషన్ సూట్‌ను రన్ చేయండి"
@@ -5196,22 +5208,22 @@
     "messageformat": "రీస్టార్ట్ చేయండి"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "అప్లికేషన్"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Screen security"
+    "messageformat": "స్క్రీన్ భద్రత"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "అదనపు గోప్యత కోసం ఈ కంప్యూటర్‌లో Signal స్క్రీన్‌షాట్‌లను నిరోధించండి."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "స్క్రీన్ సెక్యూరిటీని నిలిపివేయాలా?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "ఒకవేళ నిలిపివేయబడితే, ఇది Signal స్క్రీన్‌షాట్‌లను క్యాప్చర్ చేయడానికి మరియు ప్రైవేట్ కాని ఫీచర్‌ల కోసం వాటిని ఉపయోగించడానికి Microsoft Windows ను అనుమతించవచ్చు."
   },
   "icu:Preferences__content-protection__modal--disable": {
-    "messageformat": "Disable"
+    "messageformat": "అచేతనించు"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "వెర్షన్ {version}కు అప్‌డేట్ లభ్యమవుతోంది"
@@ -6340,19 +6352,16 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.51--0": {
-    "messageformat": "ఇప్పుడు మీరు Signal డెస్క్‌టాప్‌లో కూడా యానిమేటెడ్ GIFల కోసం శోధించవచ్చు."
-  },
-  "icu:WhatsNew__v7.51--1": {
-    "messageformat": "మేము పిక్చర్-ఇన్-పిక్చర్ విండో పరిమాణాన్ని కూడా మార్చాము మరియు కాల్ కనిష్ఠీకరించబడినప్పుడు అనుకూలమైన కొత్త షార్ట్‌కట్‌లను జోడించాము."
-  },
   "icu:WhatsNew__v7.54--0": {
     "messageformat": "మేము ఎమోజీ షార్ట్‌కట్‌లకు అదనపు భాషలలో మద్దతును జోడించాము."
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "ఈ అప్‌డేట్ ఎమోజీ మరియు స్టిక్కర్‌ల కోసం కీబోర్డ్ షార్ట్‌కట్‌లను తిరిగి ప్రారంభిస్తుంది."
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "మేము కొన్ని Linux డిస్ట్రిబ్యూషన్‌లలో అరుదైన క్రాష్‌ను కూడా పరిష్కరించాము."
+  },
+  "icu:WhatsNew__v7.56--0": {
+    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
   }
 }

@@ -29,7 +29,11 @@ import { DataReader, DataWriter } from '../../sql/Client';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SendStatus } from '../../messages/MessageSendState';
 import { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog';
-import { StoryViewDirectionType, StoryViewModeType } from '../../types/Stories';
+import {
+  areStoryViewReceiptsEnabled,
+  StoryViewDirectionType,
+  StoryViewModeType,
+} from '../../types/Stories';
 import { assertDev, strictAssert } from '../../util/assert';
 import { drop } from '../../util/drop';
 import { blockSendUntilConversationsAreVerified } from '../../util/blockSendUntilConversationsAreVerified';
@@ -51,6 +55,7 @@ import {
   getStories,
   getStoryDownloadableAttachment,
 } from '../selectors/stories';
+import { setStoriesDisabled as utilSetStoriesDisabled } from '../../util/stories';
 import { getStoryDataFromMessageAttributes } from '../../services/storyLoader';
 import { isGroup } from '../../util/whatTypeOfConversation';
 import { isNotNil } from '../../util/isNotNil';
@@ -443,10 +448,7 @@ function markStoryRead(
       drop(viewSyncJobQueue.add({ viewSyncs }));
     }
 
-    if (
-      !isSignalOnboardingStory &&
-      window.Events.getStoryViewReceiptsEnabled()
-    ) {
+    if (!isSignalOnboardingStory && areStoryViewReceiptsEnabled()) {
       drop(
         conversationJobQueue.add({
           type: conversationQueueJobEnum.enum.Receipts,
@@ -1380,7 +1382,7 @@ function setStoriesDisabled(
   value: boolean
 ): ThunkAction<void, RootStateType, unknown, never> {
   return async () => {
-    await window.Events.setHasStoriesDisabled(value);
+    await utilSetStoriesDisabled(value);
   };
 }
 

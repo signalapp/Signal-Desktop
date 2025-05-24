@@ -47,6 +47,7 @@ import type {
   CustomColorType,
   CustomColorDataType,
 } from '../../types/Colors';
+import { SEALED_SENDER } from '../../types/SealedSender';
 import type {
   ConversationAttributesType,
   CustomError,
@@ -81,7 +82,7 @@ import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SendStatus } from '../../messages/MessageSendState';
 import type { SendStateByConversationId } from '../../messages/MessageSendState';
 import { SeenStatus } from '../../MessageSeenStatus';
-import { constantTimeEqual } from '../../Crypto';
+import { constantTimeEqual, deriveAccessKey } from '../../Crypto';
 import * as Bytes from '../../Bytes';
 import { BACKUP_VERSION, WALLPAPER_TO_BUBBLE_COLOR } from './constants';
 import { UnsupportedBackupVersion } from './errors';
@@ -945,6 +946,10 @@ export class BackupImportStream extends Writable {
       profileKey: contact.profileKey
         ? Bytes.toBase64(contact.profileKey)
         : undefined,
+      accessKey: contact.profileKey
+        ? Bytes.toBase64(deriveAccessKey(contact.profileKey))
+        : undefined,
+      sealedSender: SEALED_SENDER.UNKNOWN,
       profileSharing: contact.profileSharing === true,
       profileName: dropNull(contact.profileGivenName),
       profileFamilyName: dropNull(contact.profileFamilyName),

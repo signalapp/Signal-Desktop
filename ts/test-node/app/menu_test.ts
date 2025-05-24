@@ -26,6 +26,7 @@ const showCallingDevTools = stub();
 const showKeyboardShortcuts = stub();
 const showSettings = stub();
 const showWindow = stub();
+const stageLocalBackupForImport = stub();
 const zoomIn = stub();
 const zoomOut = stub();
 const zoomReset = stub();
@@ -233,6 +234,7 @@ describe('createTemplate', () => {
     showKeyboardShortcuts,
     showSettings,
     showWindow,
+    stageLocalBackupForImport,
     zoomIn,
     zoomOut,
     zoomReset,
@@ -245,6 +247,7 @@ describe('createTemplate', () => {
           development: false,
           devTools: true,
           includeSetup: false,
+          isNightly: false,
           isProduction: true,
           platform,
           ...actions,
@@ -259,6 +262,7 @@ describe('createTemplate', () => {
           development: false,
           devTools: true,
           includeSetup: true,
+          isNightly: false,
           isProduction: true,
           platform,
           ...actions,

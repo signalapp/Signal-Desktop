@@ -193,6 +193,7 @@ import { cleanupMessages } from '../util/cleanup';
 import { MessageModel } from './messages';
 import { applyNewAvatar } from '../groups';
 import { safeSetTimeout } from '../util/timeout';
+import { getTypingIndicatorSetting } from '../types/Util';
 import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer';
 
 /* eslint-disable more/no-then */
@@ -1125,7 +1126,7 @@ export class ConversationModel extends window.Backbone
 
   bumpTyping(): void {
     // We don't send typing messages if the setting is disabled
-    if (!window.Events.getTypingIndicatorSetting()) {
+    if (!getTypingIndicatorSetting()) {
       return;
     }
 

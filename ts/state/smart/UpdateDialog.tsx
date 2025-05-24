@@ -16,10 +16,12 @@ import {
 
 type SmartUpdateDialogProps = Readonly<{
   containerWidthBreakpoint: WidthBreakpoint;
+  disableDismiss?: boolean;
 }>;
 
 export const SmartUpdateDialog = memo(function SmartUpdateDialog({
   containerWidthBreakpoint,
+  disableDismiss,
 }: SmartUpdateDialogProps) {
   const i18n = useSelector(getIntl);
   const { dismissDialog, snoozeUpdate, startUpdate } = useUpdatesActions();
@@ -37,6 +39,7 @@ export const SmartUpdateDialog = memo(function SmartUpdateDialog({
       version={version}
       currentVersion={window.getVersion()}
       dismissDialog={dismissDialog}
+      disableDismiss={disableDismiss}
       snoozeUpdate={snoozeUpdate}
       startUpdate={startUpdate}
     />

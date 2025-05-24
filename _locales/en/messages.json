@@ -287,6 +287,10 @@
     "messageformat": "Set Up as Standalone Device",
     "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…",
+    "description": "Only available on development modes before linking. Menu option to open file browser to pick a local backup folder for import during link."
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "More actions",
     "description": "Label for context button next to each message"
@@ -1681,6 +1685,10 @@
   "icu:Install__support-link": {
     "messageformat": "Need help?",
     "description": "Shown on the install screen. Link takes users to a support page"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Settings",
+    "description": "Shown at the top of the settings tab when open"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Phone Number",
@@ -6656,14 +6664,6 @@
     "messageformat": "Export local encrypted backup to a folder and validate it",
     "description": "Description of the internal local backup export tool"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…",
-    "description": "Button to run internal local backup import tool"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link",
-    "description": "Description of the internal local backup export tool"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Export encrypted backup to memory and run validation suite on it",
     "description": "Description of the internal backup validation tool"
@@ -8445,24 +8445,20 @@
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Fire, the wheel, and electricity were all great developments, but they were merely necessary steps along the path that created the conditions for animated GIF search to exist. Now you can experience the pinnacle of human technological advancement in Signal Desktop with a brand-new selection interface that makes it easy to quickly find an emoji, sticker, or animated GIF that's perfect for the moment.",
-    "description": "(Deleted 2025/04/17) Release notes for version 7.51"
-  },
-  "icu:WhatsNew__v7.51--1": {
-    "messageformat": "We also resized the picture-in-picture window and added convenient new shortcuts to mute/unmute your microphone or turn the camera on/off while a call is minimized.",
-    "description": "(Deleted 2025/04/17) Release notes for version 7.51"
-  },
   "icu:WhatsNew__v7.54--0": {
     "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too.",
     "description": "(Deleted 2025/05/13) Release notes for version 7.54"
   },
   "icu:WhatsNew__v7.55--0": {
     "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore.",
-    "description": "Release notes for version 7.55"
+    "description": "(Deleted 2025/05/21) Release notes for version 7.55"
   },
   "icu:WhatsNew__v7.55--1": {
     "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet.",
-    "description": "Release notes for version 7.55"
+    "description": "(Deleted 2025/05/21) Release notes for version 7.55"
+  },
+  "icu:WhatsNew__v7.56--0": {
+    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab.",
+    "description": "Release notes for version 7.56"
   }
 }

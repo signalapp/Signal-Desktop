@@ -21,6 +21,7 @@ import type { actions as items } from './ducks/items';
 import type { actions as lightbox } from './ducks/lightbox';
 import type { actions as linkPreviews } from './ducks/linkPreviews';
 import type { actions as mediaGallery } from './ducks/mediaGallery';
+import type { actions as nav } from './ducks/nav';
 import type { actions as network } from './ducks/network';
 import type { actions as notificationProfiles } from './ducks/notificationProfiles';
 import type { actions as safetyNumber } from './ducks/safetyNumber';
@@ -54,6 +55,7 @@ export type ReduxActions = {
   lightbox: typeof lightbox;
   linkPreviews: typeof linkPreviews;
   mediaGallery: typeof mediaGallery;
+  nav: typeof nav;
   network: typeof network;
   notificationProfiles: typeof notificationProfiles;
   safetyNumber: typeof safetyNumber;

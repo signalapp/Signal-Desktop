@@ -5,13 +5,17 @@ import type { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
 
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './Preferences';
 import { Page, Preferences } from './Preferences';
 import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors';
 import { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
 import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability';
 import { EmojiSkinTone } from './fun/data/emojis';
 import { DAY, DurationInSeconds, WEEK } from '../util/durations';
+import { DialogUpdate } from './DialogUpdate';
+import { DialogType } from '../types/Dialogs';
+
+import type { PropsType } from './Preferences';
+import type { WidthBreakpoint } from './_util';
 
 const { i18n } = window.SignalContext;
 
@@ -65,6 +69,26 @@ const exportLocalBackupResult = {
   snapshotDir: '/home/signaluser/SignalBackups/signal-backup-1745618069169',
 };
 
+function renderUpdateDialog(
+  props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
+): JSX.Element {
+  return (
+    <DialogUpdate
+      i18n={i18n}
+      containerWidthBreakpoint={props.containerWidthBreakpoint}
+      dialogType={DialogType.DownloadReady}
+      downloadSize={100000}
+      downloadedSize={50000}
+      version="8.99.0"
+      currentVersion="8.98.00"
+      disableDismiss
+      dismissDialog={action('dismissDialog')}
+      snoozeUpdate={action('snoozeUpdate')}
+      startUpdate={action('startUpdate')}
+    />
+  );
+}
+
 export default {
   title: 'Components/Preferences',
   component: Preferences,
@@ -113,6 +137,7 @@ export default {
     hasCallRingtoneNotification: false,
     hasContentProtection: false,
     hasCountMutedConversations: false,
+    hasFailedStorySends: false,
     hasHideMenuBar: false,
     hasIncomingCallNotifications: true,
     hasLinkPreviews: true,
@@ -123,6 +148,7 @@ export default {
     hasMinimizeToSystemTray: true,
     hasNotificationAttention: false,
     hasNotifications: true,
+    hasPendingUpdate: false,
     hasReadReceipts: true,
     hasRelayCalls: false,
     hasSpellCheck: true,
@@ -140,9 +166,16 @@ export default {
     isContentProtectionSupported: true,
     isContentProtectionNeeded: true,
     isMinimizeToAndStartInSystemTraySupported: true,
+    isUpdateDownloaded: false,
     lastSyncTime: Date.now(),
     localeOverride: null,
+    navTabsCollapsed: false,
     notificationContent: 'name',
+    otherTabsUnreadStats: {
+      unreadCount: 0,
+      unreadMentionsCount: 0,
+      markedUnread: false,
+    },
     preferredSystemLocales: ['en'],
     resolvedLocale: 'en',
     selectedCamera:
@@ -156,23 +189,15 @@ export default {
     whoCanSeeMe: PhoneNumberSharingMode.Everybody,
     zoomFactor: 1,
 
-    getConversationsWithCustomColor: () => Promise.resolve([]),
+    renderUpdateDialog,
+    getConversationsWithCustomColor: () => [],
 
     addCustomColor: action('addCustomColor'),
-    closeSettings: action('closeSettings'),
     doDeleteAllData: action('doDeleteAllData'),
-    doneRendering: action('doneRendering'),
     editCustomColor: action('editCustomColor'),
     exportLocalBackup: async () => {
       return {
         result: exportLocalBackupResult,
-      };
-    },
-    importLocalBackup: async () => {
-      return {
-        success: true,
-        error: undefined,
-        snapshotDir: exportLocalBackupResult.snapshotDir,
       };
     },
     makeSyncRequest: action('makeSyncRequest'),
@@ -211,8 +236,10 @@ export default {
     onSelectedSpeakerChange: action('onSelectedSpeakerChange'),
     onSentMediaQualityChange: action('onSentMediaQualityChange'),
     onSpellCheckChange: action('onSpellCheckChange'),
+    onStartUpdate: action('onStartUpdate'),
     onTextFormattingChange: action('onTextFormattingChange'),
     onThemeChange: action('onThemeChange'),
+    onToggleNavTabsCollapse: action('onToggleNavTabsCollapse'),
     onUniversalExpireTimerChange: action('onUniversalExpireTimerChange'),
     onWhoCanSeeMeChange: action('onWhoCanSeeMeChange'),
     onWhoCanFindMeChange: action('onWhoCanFindMeChange'),
@@ -349,4 +376,41 @@ export const Internal = Template.bind({});
 Internal.args = {
   initialPage: Page.Internal,
   isInternalUser: true,
+};
+
+export const UpdateAvailable = Template.bind({});
+UpdateAvailable.args = {
+  hasPendingUpdate: true,
+};
+
+export const UpdateDownloaded = Template.bind({});
+UpdateDownloaded.args = {
+  isUpdateDownloaded: true,
+};
+
+export const NavTabsCollapsed = Template.bind({});
+NavTabsCollapsed.args = {
+  navTabsCollapsed: true,
+};
+
+export const NavTabsCollapsedWithBadges = Template.bind({});
+NavTabsCollapsedWithBadges.args = {
+  navTabsCollapsed: true,
+  hasFailedStorySends: false,
+  otherTabsUnreadStats: {
+    unreadCount: 1,
+    unreadMentionsCount: 2,
+    markedUnread: false,
+  },
+};
+
+export const NavTabsCollapsedWithExclamation = Template.bind({});
+NavTabsCollapsedWithExclamation.args = {
+  navTabsCollapsed: true,
+  hasFailedStorySends: true,
+  otherTabsUnreadStats: {
+    unreadCount: 1,
+    unreadMentionsCount: 2,
+    markedUnread: true,
+  },
 };

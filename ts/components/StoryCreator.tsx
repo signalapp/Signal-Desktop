@@ -254,6 +254,7 @@ export function StoryCreator({
               imageSrc={attachmentUrl}
               imageToBlurHash={imageToBlurHash}
               installedPacks={installedPacks}
+              isCreatingStory
               isFormattingEnabled={isFormattingEnabled}
               isSending={isSending}
               onClose={onClose}

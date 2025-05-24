@@ -82,6 +82,7 @@ async function fetchAndUpdateDeviceName() {
   }
 
   await window.storage.user.setDeviceName(newName);
+  window.Whisper.events.trigger('deviceNameChanged');
   log.info(
     'fetchAndUpdateDeviceName: successfully updated new device name locally'
   );

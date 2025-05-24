@@ -84,6 +84,12 @@ import {
   generateBackupsSubscriberData,
   saveBackupsSubscriberData,
 } from '../util/backupSubscriptionData';
+import { getLinkPreviewSetting } from '../types/LinkPreview';
+import {
+  getReadReceiptSetting,
+  getSealedSenderIndicatorSetting,
+  getTypingIndicatorSetting,
+} from '../types/Util';
 
 const MY_STORY_BYTES = uuidToBytes(MY_STORY_ID);
 
@@ -338,14 +344,10 @@ export function toAccountRecord(
   accountRecord.noteToSelfMarkedUnread = Boolean(
     conversation.get('markedUnread')
   );
-  accountRecord.readReceipts = Boolean(window.Events.getReadReceiptSetting());
-  accountRecord.sealedSenderIndicators = Boolean(
-    window.storage.get('sealedSenderIndicators')
-  );
-  accountRecord.typingIndicators = Boolean(
-    window.Events.getTypingIndicatorSetting()
-  );
-  accountRecord.linkPreviews = Boolean(window.Events.getLinkPreviewSetting());
+  accountRecord.readReceipts = getReadReceiptSetting();
+  accountRecord.sealedSenderIndicators = getSealedSenderIndicatorSetting();
+  accountRecord.typingIndicators = getTypingIndicatorSetting();
+  accountRecord.linkPreviews = getLinkPreviewSetting();
 
   const preferContactAvatars = window.storage.get('preferContactAvatars');
   if (preferContactAvatars !== undefined) {

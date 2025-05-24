@@ -46,8 +46,8 @@ import { MAX_BACKUP_THUMBNAIL_SIZE } from '../types/VisualAttachment';
 import { missingCaseError } from '../util/missingCaseError';
 import { IV_LENGTH, MAC_LENGTH } from '../types/Crypto';
 import { BackupCredentialType } from '../types/backups';
-
-const DEFAULT_BACKUP_CDN_NUMBER = 3;
+import { getValue } from '../RemoteConfig';
+import { parseIntOrThrow } from '../util/parseIntOrThrow';
 
 export function getCdnKey(attachment: ProcessedAttachment): string {
   const cdnKey = attachment.cdnId || attachment.cdnKey;
@@ -93,7 +93,10 @@ export async function getCdnNumberForBackupTier(
     if (backupCdnInfo.isInBackupTier) {
       backupCdnNumber = backupCdnInfo.cdnNumber;
     } else {
-      backupCdnNumber = DEFAULT_BACKUP_CDN_NUMBER;
+      backupCdnNumber = parseIntOrThrow(
+        getValue('global.backups.mediaTierFallbackCdnNumber'),
+        'global.backups.mediaTierFallbackCdnNumber must be set'
+      );
     }
   }
   return backupCdnNumber;

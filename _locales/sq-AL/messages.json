@@ -2589,7 +2589,7 @@
     "messageformat": "Hapni zgjedhës ngjitësish"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "Hap përzgjedhësin e GIF"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Filloni të incizoni shënim zanor"
@@ -3136,6 +3136,18 @@
   },
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofoni i ndezur"
+  },
+  "icu:CallControls__MutedBySomeoneToast": {
+    "messageformat": "{otherName} muted you."
+  },
+  "icu:CallControls__SomeoneMutedSomeoneToast": {
+    "messageformat": "{name} muted {otherName}."
+  },
+  "icu:CallControls__YouMutedSomeoneToast": {
+    "messageformat": "You muted {otherName}."
+  },
+  "icu:CallControls__YouMutedYourselfToast": {
+    "messageformat": "You muted yourself from another device."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Ul dorën?"
@@ -4986,19 +4998,19 @@
     "messageformat": "E brendshme"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "Kopjeruajtjet lokale"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "Eksporto…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "Eksporto kopjeruajtjet lokale të koduara në një dosje dhe verifikoje atë"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "Importo…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "Krijo kopjeruajtje lokale të koduar për importim në lidhje"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Eksporto kopjeruajtjet e koduara në memorie dhe ekzekuto paketën e verifikimit në të"
@@ -5196,22 +5208,22 @@
     "messageformat": "Rihap"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "Aplikacion"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Screen security"
+    "messageformat": "Siguri ekrani"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "Parandalo shkrepjet e ekranit të Signal në këtë kompjuter për më shumë privatësi."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "Të çaktivizohet siguria e ekranit?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "Nëse çaktivizohet, Microsoft Windows mund të bëjë shkrepje të ekranit të Signal dhe t'i përdorë ato për veçori që mund të mos jenë private."
   },
   "icu:Preferences__content-protection__modal--disable": {
-    "messageformat": "Disable"
+    "messageformat": "Çaktivizoje"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Ka të gatshëm përditësim me versionin {version}"
@@ -6340,19 +6352,16 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Zjarri, rrota dhe energjia elektrike ishin të gjitha zhvillime të shkëlqyera, por ato ishin thjesht hapa të nevojshëm përgjatë rrugës që krijoi kushtet për disponueshmërinë e opsionit të kërkimit të animuar GIF. Tani mund të përjetosh kulmin e përparimit teknologjik njerëzor në Signal Desktop me një ndërfaqe të re përzgjedhjeje që lehtëson gjetjen e shpejtë të një emoxhi, ngjitëseje ose GIF-i të animuar që është perfekt për momentin."
-  },
-  "icu:WhatsNew__v7.51--1": {
-    "messageformat": "Ne gjithashtu ndryshuam madhësinë e dritares \"Foto në figurë\" dhe shtuam shkurtore të reja të përshtatshme për të çaktivizuar/aktivizuar mikrofonin tuaj ose për të ndezur/fikur kamerën ndërsa një telefonatë minimizohet."
-  },
   "icu:WhatsNew__v7.54--0": {
     "messageformat": "Buzëqeshja është e njëjtë në çdo gjuhë, por tani që shkurtoret e emoxhive në Signal Desktop janë përkthyer plotësisht, mund edhe të qeshësh <code>:smile:</code> ose <code>:sourire:</code> ose <code>:微笑:</code> në çdo gjuhë të mbështetur."
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "Shkurtoret e tastierës për emoxhit dhe ngjitëset janë rikthyer! Këto shkurtore kursejnë edhe më shumë kohë sepse tani nuk ke më nevojë të shkruash dhe të na tregosh se janë të prishura."
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "Kemi rregulluar edhe një defekt në shpërndarjet Linux që ende nuk mbështesin GTK4."
+  },
+  "icu:WhatsNew__v7.56--0": {
+    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
   }
 }

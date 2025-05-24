@@ -2,7 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { noop } from 'lodash';
 
 import type { ConversationType } from '../state/ducks/conversations';
@@ -261,7 +267,12 @@ export function StoriesSettingsModal({
   setStoriesDisabled,
   getConversationByServiceId,
 }: PropsType): JSX.Element {
-  const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard(i18n);
+  const tryClose = useRef<() => void | undefined>();
+  const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
+    i18n,
+    name: 'StoriesSettingsModal',
+    tryClose,
+  });
 
   const [listToEditId, setListToEditId] = useState<string | undefined>(
     undefined
@@ -284,6 +295,10 @@ export function StoriesSettingsModal({
   const [selectedContacts, setSelectedContacts] = useState<
     Array<ConversationType>
   >([]);
+  const onTryClose = useCallback(() => {
+    confirmDiscardIf(selectedContacts.length > 0, hideStoriesSettings);
+  }, [confirmDiscardIf, selectedContacts, hideStoriesSettings]);
+  tryClose.current = onTryClose;
 
   const resetChooseViewersScreen = useCallback(() => {
     setSelectedContacts([]);
@@ -482,9 +497,7 @@ export function StoriesSettingsModal({
         <PagedModal
           modalName="StoriesSettingsModal"
           moduleClassName="StoriesSettingsModal"
-          onClose={() =>
-            confirmDiscardIf(selectedContacts.length > 0, hideStoriesSettings)
-          }
+          onClose={onTryClose}
         >
           {modal}
         </PagedModal>

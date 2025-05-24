@@ -363,6 +363,12 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
 
   static async start(): Promise<void> {
     await AttachmentDownloadManager.saveBatchedJobs();
+    await window.storage.put('attachmentDownloadManagerIdled', false);
+    drop(
+      AttachmentDownloadManager.waitForIdle(async () => {
+        await window.storage.put('attachmentDownloadManagerIdled', true);
+      })
+    );
     await AttachmentDownloadManager.instance.start();
   }
 
@@ -751,7 +757,7 @@ export async function runDownloadAttachmentJobInner({
       !preferBackupThumbnail
     ) {
       log.error(
-        `${logId}: failed to download fullsize attachment, falling back to thumbnail`,
+        `${logId}: failed to download fullsize attachment, falling back to backup thumbnail`,
         Errors.toLogFormat(error)
       );
       try {

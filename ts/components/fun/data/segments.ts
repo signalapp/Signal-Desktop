@@ -126,13 +126,14 @@ async function fetchSegment(
   let slice: ArrayBufferView;
   // Trim duplicate bytes from start of last segment
   if (segmentRange.sliceStart > 0) {
-    slice = new Uint8Array(data.buffer.slice(segmentRange.sliceStart));
+    slice = data.slice(segmentRange.sliceStart);
   } else {
     slice = data;
   }
-  strictAssert(
-    slice.byteLength === segmentRange.sliceSize,
-    'Slice buffer should be exact length of segment range slice'
+  assertExpected(
+    slice.byteLength,
+    segmentRange.sliceSize,
+    'Unexpected slice byte length'
   );
   return slice;
 }

@@ -134,7 +134,6 @@ async function sandboxedEnv() {
         path.join(ROOT_DIR, 'ts', 'windows', 'loading', 'start.ts'),
         path.join(ROOT_DIR, 'ts', 'windows', 'permissions', 'app.tsx'),
         path.join(ROOT_DIR, 'ts', 'windows', 'screenShare', 'app.tsx'),
-        path.join(ROOT_DIR, 'ts', 'windows', 'settings', 'app.tsx'),
         path.join(
           ROOT_DIR,
           'ts',
@@ -154,7 +153,6 @@ async function sandboxedEnv() {
         path.join(ROOT_DIR, 'ts', 'windows', 'permissions', 'preload.ts'),
         path.join(ROOT_DIR, 'ts', 'windows', 'calling-tools', 'preload.ts'),
         path.join(ROOT_DIR, 'ts', 'windows', 'screenShare', 'preload.ts'),
-        path.join(ROOT_DIR, 'ts', 'windows', 'settings', 'preload.ts'),
       ],
       format: 'cjs',
       outdir: 'bundles',

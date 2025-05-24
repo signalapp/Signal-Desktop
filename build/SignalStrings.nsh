@@ -10,8 +10,8 @@ LangString signalMinAppVersionErr 1033 "A newer version of Signal is already ins
 LangString signalMinWinVersionErr 1031 "Signal Desktop funktioniert auf diesem Computer nicht mehr. Um Signal Desktop wieder verwenden zu können, aktualisiere die Windows-Version deines Computers."
 LangString signalMinAppVersionErr 1031 "Eine neuere Version von Signal ist bereits installiert. Möchtest du wirklich fortfahren?"
 # fr_FR
-LangString signalMinWinVersionErr 1036 "La version Desktop de Signal ne fonctionne plus sur cet ordinateur. Pour continuer d’utiliser la version Desktop de Signal, veuillez mettre à jour la version Windows de votre ordinateur."
-LangString signalMinAppVersionErr 1036 "Une nouvelle version de Signal est déjà installée. Êtes-vous sûr de vouloir continuer ?"
+LangString signalMinWinVersionErr 1036 "Cet ordinateur n'est plus compatible avec Signal Desktop. Pour continuer d'utiliser Signal Desktop, veuillez mettre à jour la version Windows instalée sur votre ordinateur."
+LangString signalMinAppVersionErr 1036 "Une version plus récente de Signal est déjà installée. Voulez-vous vraiment continuer ?"
 # es_ES
 LangString signalMinWinVersionErr 3082 "Signal Desktop ya no funciona en este dispositivo. Para volver a usar Signal Desktop, actualiza la versión del Windows de tu equipo de escritorio."
 LangString signalMinAppVersionErr 3082 "Ya está instalada una versión más reciente de Signal. ¿Continuar de todos modos?"

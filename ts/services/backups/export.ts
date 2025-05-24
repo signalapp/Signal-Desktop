@@ -29,6 +29,7 @@ import { StorySendMode, MY_STORY_ID } from '../../types/Stories';
 import { getStickerPacksForBackup } from '../../types/Stickers';
 import {
   isPniString,
+  isServiceIdString,
   type AciString,
   type ServiceIdString,
 } from '../../types/ServiceId';
@@ -128,9 +129,13 @@ import {
   getFilePointerForAttachment,
   getLocalBackupFilePointerForAttachment,
   maybeGetBackupJobForAttachmentAndFilePointer,
+  maybeGetLocalBackupJobForAttachmentAndFilePointer,
 } from './util/filePointers';
 import { getBackupMediaRootKey } from './crypto';
-import type { CoreAttachmentBackupJobType } from '../../types/AttachmentBackup';
+import type {
+  CoreAttachmentBackupJobType,
+  PartialAttachmentLocalBackupJobType,
+} from '../../types/AttachmentBackup';
 import { AttachmentBackupManager } from '../../jobs/AttachmentBackupManager';
 import { AttachmentLocalBackupManager } from '../../jobs/AttachmentLocalBackupManager';
 import { getBackupCdnInfo } from './util/mediaId';
@@ -148,7 +153,11 @@ import { trimBody } from '../../util/longAttachment';
 import { generateBackupsSubscriberData } from '../../util/backupSubscriptionData';
 import { getEnvironment, isTestEnvironment } from '../../environment';
 import { calculateLightness } from '../../util/getHSL';
+import { isSignalServiceId } from '../../util/isSignalConversation';
+import { isValidE164 } from '../../util/isValidE164';
 import { toDayOfWeekArray } from '../../types/NotificationProfile';
+import { getLinkPreviewSetting } from '../../types/LinkPreview';
+import { getTypingIndicatorSetting } from '../../types/Util';
 
 const MAX_CONCURRENCY = 10;
 
@@ -245,7 +254,9 @@ export class BackupExportStream extends Readable {
     fixedDirectMessages: 0,
   };
   #ourConversation?: ConversationAttributesType;
-  #attachmentBackupJobs: Array<CoreAttachmentBackupJobType> = [];
+  #attachmentBackupJobs: Array<
+    CoreAttachmentBackupJobType | PartialAttachmentLocalBackupJobType
+  > = [];
   #buffers = new Array<Uint8Array>();
   #nextRecipientId = 1;
   #flushResolve: (() => void) | undefined;
@@ -289,9 +300,9 @@ export class BackupExportStream extends Readable {
             AttachmentLocalBackupManager.clearAllJobs();
             await Promise.all(
               this.#attachmentBackupJobs.map(job => {
-                if (job.type === 'thumbnail') {
+                if (job.type !== 'local') {
                   log.error(
-                    "BackupExportStream: Can't backup thumbnails to local backup, skipping"
+                    "BackupExportStream: Can't enqueue remote backup jobs during local backup, skipping"
                   );
                   return Promise.resolve();
                 }
@@ -308,9 +319,18 @@ export class BackupExportStream extends Readable {
             await DataWriter.clearAllAttachmentBackupJobs();
             if (this.backupType !== BackupType.TestOnlyPlaintext) {
               await Promise.all(
-                this.#attachmentBackupJobs.map(job =>
-                  AttachmentBackupManager.addJobAndMaybeThumbnailJob(job)
-                )
+                this.#attachmentBackupJobs.map(job => {
+                  if (job.type === 'local') {
+                    log.error(
+                      "BackupExportStream: Can't enqueue local backup jobs during remote backup, skipping"
+                    );
+                    return Promise.resolve();
+                  }
+
+                  return AttachmentBackupManager.addJobAndMaybeThumbnailJob(
+                    job
+                  );
+                })
               );
               drop(AttachmentBackupManager.start());
             }
@@ -358,6 +378,7 @@ export class BackupExportStream extends Readable {
       })
     );
 
+    const skippedConversationIds = new Set<string>();
     for (const { attributes } of window.ConversationController.getAll()) {
       const recipientId = this.#getRecipientId(attributes);
 
@@ -367,6 +388,7 @@ export class BackupExportStream extends Readable {
         identityKeysById
       );
       if (recipient === undefined) {
+        skippedConversationIds.add(attributes.id);
         // Can't be backed up.
         continue;
       }
@@ -500,6 +522,10 @@ export class BackupExportStream extends Readable {
     for (const { attributes } of window.ConversationController.getAll()) {
       if (isGroupV1(attributes)) {
         log.warn('backups: skipping gv1 conversation');
+        continue;
+      }
+
+      if (skippedConversationIds.has(attributes.id)) {
         continue;
       }
 
@@ -696,35 +722,35 @@ export class BackupExportStream extends Readable {
           await DataReader.pageMessages(cursor);
 
         // eslint-disable-next-line no-await-in-loop
-        const items = await pMap(
+        await pMap(
           messages,
-          message =>
-            this.#toChatItem(message, {
+          async message => {
+            const chatItem = await this.#toChatItem(message, {
               aboutMe,
               callHistoryByCallId,
               backupLevel,
               isLocalBackup,
-            }),
+            });
+
+            if (chatItem === undefined) {
+              this.#stats.skippedMessages += 1;
+              // Can't be backed up.
+              return;
+            }
+
+            this.#pushFrame({
+              chatItem,
+            });
+
+            this.#stats.messages += 1;
+          },
           { concurrency: MAX_CONCURRENCY }
         );
 
-        for (const chatItem of items) {
-          if (chatItem === undefined) {
-            this.#stats.skippedMessages += 1;
-            // Can't be backed up.
-            continue;
-          }
-
-          this.#pushFrame({
-            chatItem,
-          });
-
-          // eslint-disable-next-line no-await-in-loop
-          await this.#flush();
-          this.#stats.messages += 1;
-        }
-
         cursor = newCursor;
+
+        // eslint-disable-next-line no-await-in-loop
+        await this.#flush();
       }
     } finally {
       if (cursor !== undefined) {
@@ -849,8 +875,8 @@ export class BackupExportStream extends Readable {
       accountSettings: {
         readReceipts: storage.get('read-receipt-setting'),
         sealedSenderIndicators: storage.get('sealedSenderIndicators'),
-        typingIndicators: window.Events.getTypingIndicatorSetting(),
-        linkPreviews: window.Events.getLinkPreviewSetting(),
+        typingIndicators: getTypingIndicatorSetting(),
+        linkPreviews: getLinkPreviewSetting(),
         notDiscoverableByPhoneNumber:
           parsePhoneNumberDiscoverability(
             storage.get('phoneNumberDiscoverability')
@@ -966,6 +992,27 @@ export class BackupExportStream extends Readable {
         avatarColor: toAvatarColor(convo.color),
       };
     } else if (isDirectConversation(convo)) {
+      // Skip story onboarding conversation and other internal conversations.
+      if (
+        convo.serviceId != null &&
+        (isSignalServiceId(convo.serviceId) ||
+          !isServiceIdString(convo.serviceId))
+      ) {
+        log.warn(
+          'backups: skipping conversation with invalid serviceId',
+          convo.serviceId
+        );
+        return undefined;
+      }
+
+      if (convo.e164 != null && !isValidE164(convo.e164, true)) {
+        log.warn(
+          'backups: skipping conversation with invalid e164',
+          convo.serviceId
+        );
+        return undefined;
+      }
+
       let visibility: Backups.Contact.Visibility;
       if (convo.removalStage == null) {
         visibility = Backups.Contact.Visibility.VISIBLE;
@@ -1598,7 +1645,7 @@ export class BackupExportStream extends Readable {
 
       individualCall.type = toIndividualCallTypeProto(type);
       individualCall.direction = toIndividualCallDirectionProto(direction);
-      individualCall.state = toIndividualCallStateProto(status);
+      individualCall.state = toIndividualCallStateProto(status, direction);
       individualCall.startedCallTimestamp = Long.fromNumber(timestamp);
       individualCall.read = message.seenStatus === SeenStatus.Seen;
 
@@ -1697,10 +1744,17 @@ export class BackupExportStream extends Readable {
       }
 
       if (message.changedId) {
+        const changedConvo = window.ConversationController.get(
+          message.changedId
+        );
+        if (!changedConvo) {
+          throw new Error(
+            'toChatItemUpdate/profileChange: changedId conversation not found!'
+          );
+        }
+
         // This will override authorId on the original chatItem
-        patch.authorId = this.#getOrPushPrivateRecipient({
-          id: message.changedId,
-        });
+        patch.authorId = this.#getOrPushPrivateRecipient(changedConvo);
       }
 
       const { newName, oldName } = message.profileChange;
@@ -1818,6 +1872,14 @@ export class BackupExportStream extends Readable {
         return { kind: NonBubbleResultKind.Drop };
       }
       threadMerge.previousE164 = Long.fromString(e164);
+
+      // Conversation merges generated on Desktop side never has
+      // `sourceServiceId` and thus are attributed to our conversation.
+      // However, we need to include proper `authorId` for compatibility with
+      // other clients.
+      patch.authorId = this.#getOrPushPrivateRecipient({
+        id: message.conversationId,
+      });
 
       updateMessage.threadMerge = threadMerge;
 
@@ -2384,6 +2446,10 @@ export class BackupExportStream extends Readable {
       quoteType = Backups.Quote.Type.VIEW_ONCE;
     } else {
       quoteType = Backups.Quote.Type.NORMAL;
+      if (quote.text == null && quote.attachments.length === 0) {
+        log.warn('backups: normal quote has no text or attachments');
+        return null;
+      }
     }
 
     return {
@@ -2553,12 +2619,24 @@ export class BackupExportStream extends Readable {
     // We don't download attachments during integration tests and thus have no
     // "iv" for an attachment and can't create a job
     if (this.backupType !== BackupType.TestOnlyPlaintext) {
-      const backupJob = await maybeGetBackupJobForAttachmentAndFilePointer({
-        attachment: updatedAttachment ?? attachment,
-        filePointer,
-        getBackupCdnInfo,
-        messageReceivedAt,
-      });
+      let backupJob:
+        | CoreAttachmentBackupJobType
+        | PartialAttachmentLocalBackupJobType
+        | null;
+
+      if (isLocalBackup) {
+        backupJob = await maybeGetLocalBackupJobForAttachmentAndFilePointer({
+          attachment: updatedAttachment ?? attachment,
+          filePointer,
+        });
+      } else {
+        backupJob = await maybeGetBackupJobForAttachmentAndFilePointer({
+          attachment: updatedAttachment ?? attachment,
+          filePointer,
+          getBackupCdnInfo,
+          messageReceivedAt,
+        });
+      }
 
       if (backupJob) {
         this.#attachmentBackupJobs.push(backupJob);
@@ -3239,7 +3317,8 @@ function toIndividualCallTypeProto(
 }
 
 function toIndividualCallStateProto(
-  status: CallStatus
+  status: CallStatus,
+  direction: CallDirection
 ): Backups.IndividualCall.State {
   const values = Backups.IndividualCall.State;
 
@@ -3254,6 +3333,15 @@ function toIndividualCallStateProto(
   }
   if (status === DirectCallStatus.MissedNotificationProfile) {
     return values.MISSED_NOTIFICATION_PROFILE;
+  }
+
+  if (status === DirectCallStatus.Pending) {
+    if (direction === CallDirection.Incoming) {
+      return values.MISSED;
+    }
+    if (direction === CallDirection.Outgoing) {
+      return values.NOT_ACCEPTED;
+    }
   }
 
   if (status === DirectCallStatus.Deleted) {

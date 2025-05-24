@@ -224,6 +224,10 @@ export class BackupAPI {
     }
 
     const { subscription } = subscriptionResponse;
+    if (!subscription) {
+      return { status: 'not-found' };
+    }
+
     const { active, amount, currency, endOfCurrentPeriod, cancelAtPeriodEnd } =
       subscription;
 

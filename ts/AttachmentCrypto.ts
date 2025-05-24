@@ -552,6 +552,7 @@ export async function decryptAttachmentV2ToSink(
       `${logId}: Failed to decrypt attachment`,
       Errors.toLogFormat(error)
     );
+    sink.end();
     throw error;
   } finally {
     await readFd?.close();

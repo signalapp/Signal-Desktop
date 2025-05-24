@@ -13,7 +13,6 @@ import {
   SenderCertificate,
   UnidentifiedSenderMessageContent,
 } from '@signalapp/libsignal-client';
-import * as Bytes from '../Bytes';
 import { senderCertificateService } from '../services/senderCertificate';
 import type { SendLogCallbackType } from '../textsecure/OutgoingMessage';
 import {
@@ -53,7 +52,7 @@ import type {
 } from '../model-types.d';
 import type { SendTypesType } from './handleMessageSend';
 import { handleMessageSend, shouldSaveProto } from './handleMessageSend';
-import { SEALED_SENDER } from '../types/SealedSender';
+import { SEALED_SENDER, ZERO_ACCESS_KEY } from '../types/SealedSender';
 import { parseIntOrThrow } from './parseIntOrThrow';
 import {
   multiRecipient200ResponseSchema,
@@ -87,7 +86,6 @@ const DAY = 24 * HOUR;
 const MAX_RECURSION = 10;
 
 const ACCESS_KEY_LENGTH = 16;
-const ZERO_ACCESS_KEY = Bytes.toBase64(new Uint8Array(ACCESS_KEY_LENGTH));
 
 // Public API:
 

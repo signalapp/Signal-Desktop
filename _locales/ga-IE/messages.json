@@ -2589,7 +2589,7 @@
     "messageformat": "Oscail roghnóir greamán"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "Oscail an roghnóir GIFanna"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Tosaigh ar thaifeadadh nóta gutha"
@@ -3136,6 +3136,18 @@
   },
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Micreafón air"
+  },
+  "icu:CallControls__MutedBySomeoneToast": {
+    "messageformat": "{otherName} muted you."
+  },
+  "icu:CallControls__SomeoneMutedSomeoneToast": {
+    "messageformat": "{name} muted {otherName}."
+  },
+  "icu:CallControls__YouMutedSomeoneToast": {
+    "messageformat": "You muted {otherName}."
+  },
+  "icu:CallControls__YouMutedYourselfToast": {
+    "messageformat": "You muted yourself from another device."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Ísligh do lámh?"
@@ -4986,19 +4998,19 @@
     "messageformat": "Inmheánach"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "Cúltacaí logánta"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "Easpórtáil…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "Easpórtáil cúltaca criptithe logánta chuig fillteán agus bailíochtaigh é"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "Iompórtáil…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "Socraigh cúltaca criptithe logánta le hiompórtáil ar nasc"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Easpórtáil cúltaca criptithe chuig cuimhne agus rith sraith bhailíochtaithe air"
@@ -5196,22 +5208,22 @@
     "messageformat": "Atosaigh"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "Feidhmiú"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Screen security"
+    "messageformat": "Slándáil scáileáin"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "Coisc seatanna scáileáin de Signal ar an ríomhaire seo ar mhaithe le príobháideacht bhreise."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "Díchumasaigh slándáil scáileáin?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "Agus í díchumasaithe, is féidir le Microsoft Windows seatanna scáileáin de Signal a ghabháil agus iad a úsáid le haghaidh gnéithe nach mbeadh príobháideach, b'fhéidir."
   },
   "icu:Preferences__content-protection__modal--disable": {
-    "messageformat": "Disable"
+    "messageformat": "Díchumasaigh"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Nuashonrú chuig an leagan {version} ar fáil"
@@ -6340,19 +6352,16 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Anois is féidir leat cuardach le haghaidh GIFanna beochana in Signal Desktop freisin."
-  },
-  "icu:WhatsNew__v7.51--1": {
-    "messageformat": "Rinneamar méid na fuinneoga pictiúir-i-bpictiúr a athrú freisin agus chuireamar aicearraí áisiúla nua leis le húsáid i nglaonna íoslaghdaithe."
-  },
   "icu:WhatsNew__v7.54--0": {
     "messageformat": "Chuireamar tacú le haghaidh haicearraí emoji leis i dteangacha breise."
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "Déanann an nuashonrú seo aicearraí méarchláir a chumasú arís le haghaidh emoji agus greamán."
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "Réitíomar cliseadh annamh freisin ar roinnt leaganacha Linux."
+  },
+  "icu:WhatsNew__v7.56--0": {
+    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
   }
 }

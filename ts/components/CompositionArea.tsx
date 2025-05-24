@@ -1075,6 +1075,7 @@ export const CompositionArea = memo(function CompositionArea({
             imageSrc={attachmentToEdit.url}
             imageToBlurHash={imageToBlurHash}
             installedPacks={installedPacks}
+            isCreatingStory={false}
             isFormattingEnabled={isFormattingEnabled}
             isSending={false}
             onClose={() => setAttachmentToEdit(undefined)}

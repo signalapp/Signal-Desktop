@@ -2589,7 +2589,7 @@
     "messageformat": "Izbirnik nalepk"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "Odpri izbirnik GIF-ov"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Snemanje glasovne beležke"
@@ -3136,6 +3136,18 @@
   },
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofon je vključen"
+  },
+  "icu:CallControls__MutedBySomeoneToast": {
+    "messageformat": "{otherName} muted you."
+  },
+  "icu:CallControls__SomeoneMutedSomeoneToast": {
+    "messageformat": "{name} muted {otherName}."
+  },
+  "icu:CallControls__YouMutedSomeoneToast": {
+    "messageformat": "You muted {otherName}."
+  },
+  "icu:CallControls__YouMutedYourselfToast": {
+    "messageformat": "You muted yourself from another device."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Želite spustiti roko?"
@@ -4986,19 +4998,19 @@
     "messageformat": "Notranje"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "Lokalne varnostne kopije"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "Izvoz …"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "Izvozite lokalne šifrirane varnostne kopije v mapo in jih potrdite"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "Uvoz …"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "Nastavite lokalne šifrirane varnostne kopije za uvoz prek povezave"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Izvozite šifrirano varnostno kopijo v pomnilnik in na njej zaženite paket za preverjanje"
@@ -5196,22 +5208,22 @@
     "messageformat": "Ponovni zagon"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "Aplikacija"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Screen security"
+    "messageformat": "Zaščita zaslona"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "Preprečite posnetke zaslona Signala v tem računalniku za večjo zasebnost."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "Želite onemogočiti varnost zaslona?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "Če je to onemogočeno, lahko Microsoft Windows omogoči posnetke zaslona v Signalu in njihovo uporabo za funkcije, ki morda niso zasebne."
   },
   "icu:Preferences__content-protection__modal--disable": {
-    "messageformat": "Disable"
+    "messageformat": "Onemogoči"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Na voljo je nadgradnja na različico {version}"
@@ -6340,19 +6352,16 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Ogenj, kolo in elektrika so bili veliki izumi, vendar so bili le nujni koraki na poti, ki je ustvarila pogoje za obstoj animiranega iskanja GIF-ov. Zdaj lahko v Signal Desktop doživite vrhunec človeškega tehnološkega napredka s povsem novim vmesnikom za izbiro, ki omogoča hitro iskanje emojijev, nalepk ali animiranih GIF-ov, ki so kot nalašč v danem trenutku."
-  },
-  "icu:WhatsNew__v7.51--1": {
-    "messageformat": "Prav tako smo spremenili velikost okna slike v sliki in dodali priročne nove bližnjice za vklop/izklop mikrofona ali vklop/izklop fotoaparata, ko je klic zmanjšan na minimum."
-  },
   "icu:WhatsNew__v7.54--0": {
     "messageformat": "Dodali smo podporo za bližnjice emojijev v dodatnih jezikih."
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "Vrnile so se bližnjice na tipkovnici za emojije in nalepke! Te bližnjice prihranijo še več časa, saj vam zdaj ne bo več treba pisati, da so pokvarjene."
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "Odpravili smo tudi okvaro v distribucijah Linuxa, ki še ne podpirajo GTK4."
+  },
+  "icu:WhatsNew__v7.56--0": {
+    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
   }
 }

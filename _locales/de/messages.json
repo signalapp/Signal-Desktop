@@ -2589,7 +2589,7 @@
     "messageformat": "Sticker-Auswahl öffnen"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "GIF-Auswahl öffnen"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Aufnahme der Sprachnachricht beginnen"
@@ -3136,6 +3136,18 @@
   },
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofon an"
+  },
+  "icu:CallControls__MutedBySomeoneToast": {
+    "messageformat": "{otherName} muted you."
+  },
+  "icu:CallControls__SomeoneMutedSomeoneToast": {
+    "messageformat": "{name} muted {otherName}."
+  },
+  "icu:CallControls__YouMutedSomeoneToast": {
+    "messageformat": "You muted {otherName}."
+  },
+  "icu:CallControls__YouMutedYourselfToast": {
+    "messageformat": "You muted yourself from another device."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Deine Hand senken?"
@@ -4986,19 +4998,19 @@
     "messageformat": "Intern"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "Lokale Datensicherungen"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "Exportieren…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "Lokale verschlüsselte Datensicherungen in einen Ordner exportieren und validieren"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "Importieren…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "Lokale verschlüsselte Datensicherungen für den Import über Link vorbereiten"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Verschlüsselte Datensicherung auf Speicher sichern und Validierungssuite darauf ausführen"
@@ -5196,22 +5208,22 @@
     "messageformat": "Neu starten"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "Anwendung"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Screen security"
+    "messageformat": "Bildschirmschutz"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "Screenshots von Signal auf diesem Rechner für höheren Datenschutz deaktivieren."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "Bildschirmschutz deaktivieren?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "Wenn diese Option deaktiviert ist, kann Microsoft Windows Screenshots von Signal machen und sie für Funktionen verwenden, die möglicherweise nicht privater Natur sind."
   },
   "icu:Preferences__content-protection__modal--disable": {
-    "messageformat": "Disable"
+    "messageformat": "Deaktivieren"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Aktualisierung auf Version {version} verfügbar"
@@ -6340,19 +6352,16 @@
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Das Feuer, das Rad und die Elektrizität waren alles geniale Erfindungen, aber letztendlich nur notwendige Schritte, um die Voraussetzungen für animierte GIF-Suche zu schaffen. Jetzt kannst du den Höhepunkt des technologischen Fortschritts der Menschheit mit Signal Desktop erleben: eine völlig neue Benutzeroberfläche, mit der es kinderleicht ist, im Handumdrehen ein Emoji, einen Sticker oder ein animiertes GIF zu finden, das perfekt zum jeweiligen Moment passt."
-  },
-  "icu:WhatsNew__v7.51--1": {
-    "messageformat": "Wir haben auch die Größe des Bild-in-Bild-Fensters geändert und praktische neue Tastenkombinationen hinzugefügt, mit denen du dein Mikrofon stummschalten/die Stummschaltung aufheben oder die Kamera ein-/ausschalten kannst, während ein Anruf minimiert ist."
-  },
   "icu:WhatsNew__v7.54--0": {
     "messageformat": "Emoji-Shortcuts wie <code>:joy:</code> werden nun auch in zusätzlichen Sprachen unterstützt. Ein Grund zur <code>:freude:</code>!"
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "Tastaturkurzbefehle für Emojis und Sticker sind wieder da! Mit diesen Kurzbefehlen sparst du noch mehr Zeit, weil du uns jetzt nicht mehr schreiben musst, dass sie nicht funktionieren."
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "Wir haben auch einen Absturz auf Linux-Distributionen behoben, die GTK4 noch nicht unterstützen."
+  },
+  "icu:WhatsNew__v7.56--0": {
+    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
   }
 }

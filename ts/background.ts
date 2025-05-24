@@ -215,6 +215,7 @@ import { waitForEvent } from './shims/events';
 import { sendSyncRequests } from './textsecure/syncRequests';
 import { handleServerAlerts } from './util/handleServerAlerts';
 import { isLocalBackupsEnabled } from './util/isLocalBackupsEnabled';
+import { NavTab } from './state/ducks/nav';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -998,6 +999,10 @@ export async function startApp(): Promise<void> {
       if (window.isBeforeVersion(lastVersion, 'v7.43.0-beta.1')) {
         await window.storage.remove('primarySendsSms');
       }
+
+      if (window.isBeforeVersion(lastVersion, 'v7.56.0-beta.1')) {
+        await window.storage.remove('backupMediaDownloadIdle');
+      }
     }
 
     setAppLoadingScreenMessage(
@@ -1354,6 +1359,44 @@ export async function startApp(): Promise<void> {
 
   window.Whisper.events.on('setupAsStandalone', () => {
     window.reduxActions.app.openStandalone();
+  });
+
+  let openingSettingsTab = false;
+  window.Whisper.events.on('openSettingsTab', async () => {
+    const logId = 'openSettingsTab';
+    try {
+      if (openingSettingsTab) {
+        log.info(
+          `${logId}: Already attempting to open settings tab, returning early`
+        );
+        return;
+      }
+
+      openingSettingsTab = true;
+
+      const newTab = NavTab.Settings;
+      const needToCancel =
+        await window.Signal.Services.beforeNavigate.shouldCancelNavigation({
+          context: logId,
+          newTab,
+        });
+
+      if (needToCancel) {
+        log.info(`${logId}: Cancelling navigation to the settings tab`);
+        return;
+      }
+
+      window.reduxActions.nav.changeNavTab(newTab);
+    } finally {
+      if (!openingSettingsTab) {
+        log.warn(`${logId}: openingSettingsTab was already false in finally!`);
+      }
+      openingSettingsTab = false;
+    }
+  });
+
+  window.Whisper.events.on('stageLocalBackupForImport', () => {
+    drop(backupsService._internalStageLocalBackupForImport());
   });
 
   window.Whisper.events.on('powerMonitorSuspend', () => {

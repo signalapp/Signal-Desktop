@@ -24,7 +24,7 @@ export default {
     addCustomColor: action('addCustomColor'),
     colorSelected: action('colorSelected'),
     editCustomColor: action('editCustomColor'),
-    getConversationsWithCustomColor: (_: string) => Promise.resolve([]),
+    getConversationsWithCustomColor: (_: string) => [],
     i18n,
     removeCustomColor: action('removeCustomColor'),
     removeCustomColorOnConversations: action(

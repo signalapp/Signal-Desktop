@@ -24,6 +24,8 @@ $secondary-text-color: light-dark(
   display: flex;
   overflow: hidden;
   user-select: none;
+  width: 100vw;
+
   @include mixins.light-theme {
     background: variables.$color-white;
   }
@@ -31,14 +33,59 @@ $secondary-text-color: light-dark(
     background: variables.$color-gray-95;
   }
 
+  &__header {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__header__toggle {
+    flex-grow: 0;
+    min-width: 80px;
+    width: 80px;
+    margin-inline-end: -24px;
+  }
+
+  &__header__text {
+    flex-grow: 1;
+    margin-inline-start: 24px;
+    @include mixins.font-title-medium;
+    line-height: 20px;
+    margin-top: 12px;
+    margin-bottom: 20px;
+  }
+
+  &__dialog-container {
+    margin-bottom: 8px;
+  }
+
   &__page-selector {
-    padding-top: calc(24px + var(--title-bar-drag-area-height));
-    min-width: min(34%, 240px);
+    padding-top: var(--title-bar-drag-area-height);
+    width: 279px;
+    flex-grow: 0;
+    flex-shrink: 0;
     @include mixins.light-theme {
-      background: variables.$color-gray-02;
+      background: variables.$color-gray-04;
+      border-inline-end: 0.5px solid variables.$color-black-alpha-16;
     }
     @include mixins.dark-theme {
       background: variables.$color-gray-80;
+      border-inline-end: 0.5px solid variables.$color-white-alpha-16;
+    }
+  }
+
+  &__scroll-area {
+    overflow-y: scroll;
+    max-height: calc(100% - 52px);
+
+    &::-webkit-scrollbar-thumb {
+      @include mixins.light-theme {
+        background: variables.$color-gray-25;
+        border-color: variables.$color-gray-04;
+      }
+      @include mixins.dark-theme {
+        background: variables.$color-gray-45;
+        border-color: variables.$color-gray-80;
+      }
     }
   }
 
@@ -57,10 +104,14 @@ $secondary-text-color: light-dark(
       @include mixins.font-body-1;
       align-items: center;
       display: flex;
-      height: 48px;
-      width: 100%;
+      height: 40px;
+      width: calc(100% - 20px);
       padding-block: 14px;
       padding-inline: 0;
+      margin-inline-start: 10px;
+      margin-inline-end: 10px;
+      border-radius: 10px;
+      margin-bottom: 4px;
     }
 
     &--selected {
@@ -80,13 +131,22 @@ $secondary-text-color: light-dark(
         background: variables.$color-gray-75;
       }
     }
+    &:hover:not(&--selected) {
+      @include mixins.mouse-mode {
+        background: variables.$color-gray-05;
+      }
+      @include mixins.dark-mouse-mode {
+        background: variables.$color-gray-75;
+      }
+    }
 
     &::before {
       content: '';
       display: block;
-      height: 22px;
-      margin-inline: 18px 14px;
-      width: 22px;
+      height: 20px;
+      margin-inline-start: 14px;
+      margin-inline-end: 12px;
+      width: 20px;
     }
 
     &--general {
@@ -126,24 +186,47 @@ $secondary-text-color: light-dark(
     }
   }
 
-  &__settings-pane {
-    height: 100vh;
-    overflow: overlay;
+  &__content {
+    flex-grow: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__page {
+    display: flex;
     width: 100%;
+    height: 100%;
+    flex-direction: row;
+    overflow-y: scroll;
+  }
+
+  &__settings-pane {
+    padding-top: 24px;
+    height: 100%;
+    width: 100%;
+    flex-grow: 1;
+    max-width: 750px;
 
     &::-webkit-scrollbar-corner {
       background: transparent;
     }
   }
 
+  &__settings-pane-spacer {
+    flex-grow: 1;
+    min-width: 0;
+  }
+
   &__title {
     @include mixins.font-body-1-bold;
     align-items: center;
     display: flex;
-    height: 48px;
+    height: 52px;
     margin-top: var(--title-bar-drag-area-height);
-    margin-bottom: 24px;
     text-align: center;
+    flex-grow: 0;
+    flex-shrink: 0;
 
     border-bottom: 1px solid variables.$color-gray-15;
     @include mixins.light-theme {

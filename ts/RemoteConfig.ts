@@ -41,6 +41,7 @@ export type ConfigKeyType =
   | 'desktop.releaseNotes.dev'
   | 'global.attachments.maxBytes'
   | 'global.attachments.maxReceiveBytes'
+  | 'global.backups.mediaTierFallbackCdnNumber'
   | 'global.calling.maxGroupCallRingSize'
   | 'global.groupsv2.groupSizeHardLimit'
   | 'global.groupsv2.maxGroupSize'

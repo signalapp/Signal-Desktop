@@ -50,6 +50,10 @@ export type AddLinkPreviewOptionsType = Readonly<{
 
 const linkify = new LinkifyIt();
 
+export function getLinkPreviewSetting(): boolean {
+  return window.storage.get('linkPreviews', false);
+}
+
 export function isValidLink(maybeUrl: string | undefined): boolean {
   if (maybeUrl == null) {
     return false;

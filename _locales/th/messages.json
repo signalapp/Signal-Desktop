@@ -2589,7 +2589,7 @@
     "messageformat": "เปิดตัวเลือกสติกเกอร์"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "เปิดตัวเลือก GIF"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "เริ่มการอัดบันทึกแบบเสียง"
@@ -3136,6 +3136,18 @@
   },
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "ไมค์เปิดอยู่"
+  },
+  "icu:CallControls__MutedBySomeoneToast": {
+    "messageformat": "{otherName} muted you."
+  },
+  "icu:CallControls__SomeoneMutedSomeoneToast": {
+    "messageformat": "{name} muted {otherName}."
+  },
+  "icu:CallControls__YouMutedSomeoneToast": {
+    "messageformat": "You muted {otherName}."
+  },
+  "icu:CallControls__YouMutedYourselfToast": {
+    "messageformat": "You muted yourself from another device."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "เอามือลงหรือไม่"
@@ -4986,19 +4998,19 @@
     "messageformat": "ภายใน"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "ข้อมูลสำรองในเครื่อง"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "ส่งออก…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "ส่งออกข้อมูลสำรองที่เข้ารหัสในเครื่องไปยังโฟลเดอร์และตรวจสอบความถูกต้อง"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "นำเข้า…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "จัดเตรียมข้อมูลสำรองที่เข้ารหัสในเครื่องเพื่อนำเข้าผ่านลิงก์"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "ส่งออกข้อมูลสำรองที่เข้ารหัสไปยังหน่วยความจำและดำเนินการตรวจสอบความถูกต้อง"
@@ -5196,22 +5208,22 @@
     "messageformat": "รีสตาร์ท"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "แอปพลิเคชัน"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Screen security"
+    "messageformat": "ความปลอดภัยหน้าจอ"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "ป้องกันไม่ให้มีการบันทึกภาพหน้าจอของ Signal บนคอมพิวเตอร์เครื่องนี้เพื่อรักษาความเป็นส่วนตัวยิ่งขึ้น"
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "ปิดใช้งานการรักษาความปลอดภัยของหน้าจอใช่หรือไม่"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "การปิดใช้งานตัวเลือกนี้อาจทำให้ Microsoft Windows สามารถบันทึกภาพหน้าจอของ Signal และนำไปใช้กับฟีเจอร์ที่อาจไม่เป็นส่วนตัว"
   },
   "icu:Preferences__content-protection__modal--disable": {
-    "messageformat": "Disable"
+    "messageformat": "ปิดใช้งาน"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "ปรับรุ่นเป็น {version}"
@@ -6340,19 +6352,16 @@
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.51--0": {
-    "messageformat": "เพิ่มความสามารถของ Signal เดสก์ท็อปให้ค้นหาไฟล์ GIF แบบเคลื่อนไหวได้แล้ว"
-  },
-  "icu:WhatsNew__v7.51--1": {
-    "messageformat": "นอกจากนี้ เรายังปรับขนาดของหน้าต่างโหมดจอเล็ก (Picture-in-Picture) พร้อมเพิ่มปุ่มทางลัดใหม่ๆ เพื่อความสะดวกในการย่อหน้าต่างการโทร"
-  },
   "icu:WhatsNew__v7.54--0": {
     "messageformat": "เพิ่มการรองรับตัวเลือกอีโมจิในภาษาอื่นๆ ให้ครอบคลุมยิ่งขึ้น"
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "รุ่นอัปเดตนี้นำฟีเจอร์ปุ่มลัดบนแป้นพิมพ์หรับอีโมจิและสติกเกอร์กลับมาให้คุณเลือกได้สะดวกเหมือนเคย"
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "เรายังแก้ไขปัญหาแอปหยุดทำงานซึ่งผู้ใช้ระบบปฏิบัติการ Linux น้อยคนอาจจะเคยเจอ"
+  },
+  "icu:WhatsNew__v7.56--0": {
+    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
   }
 }

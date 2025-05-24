@@ -34,7 +34,7 @@ export const isSystemTraySupported = (OS: OSType): boolean =>
   OS.isWindows() || OS.isLinux();
 
 export const isContentProtectionSupported = (OS: OSType): boolean =>
-  OS.isWindows() || OS.isMacOS();
+  OS.isWindows();
 
 export const isContentProtectionNeeded = (OS: OSType): boolean =>
   OS.isWindows();

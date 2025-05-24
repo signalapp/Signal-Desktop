@@ -2589,7 +2589,7 @@
     "messageformat": "Obre el selector d'addhesius"
   },
   "icu:Keyboard--open-gif-chooser": {
-    "messageformat": "Open GIF chooser"
+    "messageformat": "Obrir selector de GIF"
   },
   "icu:Keyboard--begin-recording-voice-note": {
     "messageformat": "Comença la gravació d'una nota de veu"
@@ -3136,6 +3136,18 @@
   },
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Micròfon encès"
+  },
+  "icu:CallControls__MutedBySomeoneToast": {
+    "messageformat": "{otherName} muted you."
+  },
+  "icu:CallControls__SomeoneMutedSomeoneToast": {
+    "messageformat": "{name} muted {otherName}."
+  },
+  "icu:CallControls__YouMutedSomeoneToast": {
+    "messageformat": "You muted {otherName}."
+  },
+  "icu:CallControls__YouMutedYourselfToast": {
+    "messageformat": "You muted yourself from another device."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Baixar la mà?"
@@ -4986,19 +4998,19 @@
     "messageformat": "Intern"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
+    "messageformat": "Còpies de seguretat locals"
   },
   "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…"
+    "messageformat": "Exportar…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it"
+    "messageformat": "Exportar còpia de seguretat local xifrada a una carpeta i validar-la"
   },
   "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
+    "messageformat": "Importar…"
   },
   "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Stage a local encrypted backup for import on link"
+    "messageformat": "Preparar una còpia de seguretat xifrada local per a la seva importació a l'enllaç"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Exportar còpia de seguretat xifrada a la memòria i executar-hi la suite de validació"
@@ -5196,22 +5208,22 @@
     "messageformat": "Reiniciar"
   },
   "icu:Preferences__Privacy__Application": {
-    "messageformat": "Application"
+    "messageformat": "Aplicació"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Screen security"
+    "messageformat": "Seguretat de la pantalla"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Prevent screenshots of Signal on this computer for added privacy."
+    "messageformat": "Impedir captures de pantalla de Signal en aquest ordinador per a més privacitat."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Disable screen security?"
+    "messageformat": "Desactivar seguretat de la pantalla?"
   },
   "icu:Preferences__content-protection__modal--body": {
-    "messageformat": "If disabled, this may allow Microsoft Windows to capture screenshots of Signal and use them for features that may not be private."
+    "messageformat": "En desactivar aquesta opció, es pot permetre que Microsoft Windows faci captures de pantalla de Signal i les utilitzi per funcions que poden no ser privades."
   },
   "icu:Preferences__content-protection__modal--disable": {
-    "messageformat": "Disable"
+    "messageformat": "Desactiva"
   },
   "icu:DialogUpdate--version-available": {
     "messageformat": "Actualització a la versió {version} disponible"
@@ -6340,19 +6352,16 @@
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.51--0": {
-    "messageformat": "Ara també pots cercar GIFs animats a Signal Desktop."
-  },
-  "icu:WhatsNew__v7.51--1": {
-    "messageformat": "També hem canviat la mida de la finestra d'imatge dins d'imatge i hem afegit noves dreceres per a quan tens una trucada minimitzada."
-  },
   "icu:WhatsNew__v7.54--0": {
     "messageformat": "Hem afegit dreceres per emoji en idiomes addicionals."
   },
   "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore."
+    "messageformat": "Aquesta actualització torna a activar les dreceres de teclat per emojis i adhesius. Aquestes dreceres estalvien encara més temps perquè ara ja no caldrà que escriguis i ens diguis que estan trencades."
   },
   "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet."
+    "messageformat": "També hem solucionat un problema amb les distribucions de Linux que encara no són compatibles amb GTK4."
+  },
+  "icu:WhatsNew__v7.56--0": {
+    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
   }
 }

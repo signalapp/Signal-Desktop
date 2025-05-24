@@ -126,8 +126,8 @@ importers:
         specifier: 3.27.0
         version: 3.27.0(react@18.3.1)
       '@signalapp/libsignal-client':
-        specifier: 0.71.0
-        version: 0.71.0
+        specifier: 0.72.1
+        version: 0.72.1
       '@signalapp/quill-cjs':
         specifier: 2.1.2
         version: 2.1.2
@@ -424,8 +424,8 @@ importers:
         specifier: 0.1.61
         version: 0.1.61
       '@signalapp/mock-server':
-        specifier: 11.3.0
-        version: 11.3.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+        specifier: 11.3.1
+        version: 11.3.1(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       '@storybook/addon-a11y':
         specifier: 8.4.4
         version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
@@ -631,8 +631,8 @@ importers:
         specifier: 4.3.7
         version: 4.3.7(supports-color@8.1.1)
       electron:
-        specifier: 36.2.0
-        version: 36.2.0
+        specifier: 36.2.1
+        version: 36.2.1
       electron-builder:
         specifier: 26.0.14
         version: 26.0.14(electron-builder-squirrel-windows@26.0.14)
@@ -2537,11 +2537,11 @@ packages:
   '@signalapp/libsignal-client@0.60.2':
     resolution: {integrity: sha512-tU4kNP/yCwkFntb2ahXOSQJtzdy+YifAB2yv5hw0qyKSidRHLn6bYiz4Zo2tjxLDRoBLAUxCRsQramStiqNZdA==}
 
-  '@signalapp/libsignal-client@0.71.0':
-    resolution: {integrity: sha512-rify1IfbpW7Di8pnbB3Oylp+bCg8FsKj0DaPmUVIqzbgJybgNm6GTVmgO6SqYBw6cH36hVnb+bacL7+KPTeqaA==}
+  '@signalapp/libsignal-client@0.72.1':
+    resolution: {integrity: sha512-YFIxrp8KVo0+q3lZBw/CEFbnPNbUsmfD3JRLu1cWH2nDLbAGwVzmbOGAzhXDzui5jO2PyEr8wXKqRpVbNKy1pw==}
 
-  '@signalapp/mock-server@11.3.0':
-    resolution: {integrity: sha512-X/yqrDySJ51bRngjMJrIGDhOU/LQ7OI9vJFNrs0835bgdBPGQO1pyufndzKLJpPehMECzGIP0UCE9YZU1X6NIg==}
+  '@signalapp/mock-server@11.3.1':
+    resolution: {integrity: sha512-nh/ynnz/3728M0Eh4BAa0kVcpSml6nyF9Vb2AV3WhlZ1VYJe5+IlshXfs57XwNghg4bHhOr9hVxIKuw/QK6ptg==}
 
   '@signalapp/parchment-cjs@3.0.1':
     resolution: {integrity: sha512-hSBMQ1M7wE4GcC8ZeNtvpJF+DAJg3eIRRf1SiHS3I3Algav/sgJJNm6HIYm6muHuK7IJmuEjkL3ILSXgmu0RfQ==}
@@ -4766,8 +4766,8 @@ packages:
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
-  electron@36.2.0:
-    resolution: {integrity: sha512-5yldoRjBKxPQfI0QMX+qq750o3Nl8N1SZnJqOPMq0gZ6rIJ+7y4ZLp808GrFwjfTm05TYgq3GSD8FGuKQZqwEw==}
+  electron@36.2.1:
+    resolution: {integrity: sha512-mm1Y+Ms46xcOTA69h8hpqfX392HfV4lga9aEkYkd/Syx1JBStvcACOIouCgGrnZpxNZPVS1jM8NTcMkNjuK6BQ==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
@@ -12034,13 +12034,13 @@ snapshots:
       type-fest: 4.26.1
       uuid: 8.3.2
 
-  '@signalapp/libsignal-client@0.71.0':
+  '@signalapp/libsignal-client@0.72.1':
     dependencies:
       node-gyp-build: 4.8.4
       type-fest: 4.26.1
       uuid: 11.0.2
 
-  '@signalapp/mock-server@11.3.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
+  '@signalapp/mock-server@11.3.1(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
     dependencies:
       '@indutny/parallel-prettier': 3.0.0(prettier@3.3.3)
       '@signalapp/libsignal-client': 0.60.2
@@ -14729,7 +14729,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  electron@36.2.0:
+  electron@36.2.1:
     dependencies:
       '@electron/get': 2.0.3
       '@types/node': 22.15.17

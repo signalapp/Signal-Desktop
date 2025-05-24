@@ -90,17 +90,28 @@ export async function downloadAttachment({
         }
       );
     } catch (error) {
+      const shouldFallbackToTransitTier =
+        variant !== AttachmentVariant.ThumbnailFromBackup;
+
       if (error instanceof HTTPError && error.code === 404) {
         // This is an expected occurrence if restoring from a backup before the
         // attachment has been moved to the backup tier
-        log.warn(`${logId}: attachment not found on backup CDN`);
+        log.warn(
+          `${logId}: attachment not found on backup CDN`,
+          shouldFallbackToTransitTier ? 'will try transit tier' : ''
+        );
       } else {
         // We also just log this error instead of throwing, since we want to still try to
         // find it on the attachment tier.
         log.error(
-          `${logId}: error when downloading from backup CDN; will try transit tier`,
+          `${logId}: error when downloading from backup CDN`,
+          shouldFallbackToTransitTier ? 'will try transit tier' : '',
           toLogFormat(error)
         );
+      }
+
+      if (!shouldFallbackToTransitTier) {
+        throw error;
       }
     }
   }

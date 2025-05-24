@@ -13,12 +13,6 @@ import { isConversationTooBigToRing as getIsConversationTooBigToRing } from '../
 import * as log from '../../logging/log';
 import { calling as callingService } from '../../services/calling';
 import {
-  FALLBACK_NOTIFICATION_TITLE,
-  NotificationSetting,
-  NotificationType,
-  notificationService,
-} from '../../services/notifications';
-import {
   bounceAppIconStart,
   bounceAppIconStop,
 } from '../../shims/bounceAppIcon';
@@ -35,7 +29,6 @@ import type {
 import { CallState } from '../../types/Calling';
 import { CallMode } from '../../types/CallDisposition';
 import type { AciString } from '../../types/ServiceId';
-import { strictAssert } from '../../util/assert';
 import { callLinkToConversation } from '../../util/callLinks';
 import { callingTones } from '../../util/callingTones';
 import { missingCaseError } from '../../util/missingCaseError';
@@ -67,55 +60,7 @@ function renderDeviceSelection(): JSX.Element {
 const getGroupCallVideoFrameSource =
   callingService.getGroupCallVideoFrameSource.bind(callingService);
 
-async function notifyForCall(
-  conversationId: string,
-  title: string,
-  isVideoCall: boolean
-): Promise<void> {
-  const shouldNotify =
-    !window.SignalContext.activeWindowService.isActive() &&
-    window.Events.getCallSystemNotification();
-  if (!shouldNotify) {
-    return;
-  }
-
-  let notificationTitle: string;
-
-  const notificationSetting = notificationService.getNotificationSetting();
-  switch (notificationSetting) {
-    case NotificationSetting.Off:
-    case NotificationSetting.NoNameOrMessage:
-      notificationTitle = FALLBACK_NOTIFICATION_TITLE;
-      break;
-    case NotificationSetting.NameOnly:
-    case NotificationSetting.NameAndMessage:
-      notificationTitle = title;
-      break;
-    default:
-      log.error(missingCaseError(notificationSetting));
-      notificationTitle = FALLBACK_NOTIFICATION_TITLE;
-      break;
-  }
-
-  const conversation = window.ConversationController.get(conversationId);
-  strictAssert(conversation, 'notifyForCall: conversation not found');
-
-  const { url, absolutePath } = await conversation.getAvatarOrIdenticon();
-
-  notificationService.notify({
-    conversationId,
-    title: notificationTitle,
-    iconPath: absolutePath,
-    iconUrl: url,
-    message: isVideoCall
-      ? window.i18n('icu:incomingVideoCall')
-      : window.i18n('icu:incomingAudioCall'),
-    sentAt: 0,
-    // The ringtone plays so we don't need sound for the notification
-    silent: true,
-    type: NotificationType.IncomingCall,
-  });
-}
+const notifyForCall = callingService.notifyForCall.bind(callingService);
 
 function setLocalPreviewContainer(container: HTMLDivElement | null): void {
   callingService.setLocalPreviewContainer(container);
