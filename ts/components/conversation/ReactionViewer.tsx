@@ -137,11 +137,12 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
             all: reactionsWithEmojiData,
             ...groupBy(reactionsWithEmojiData, 'short_name'),
           },
-          groupedReactions => orderBy(
-            groupedReactions,
-            [reaction => reaction.from.isMe, 'timestamp'],
-            ['desc', 'desc']
-          )
+          groupedReactions =>
+            orderBy(
+              groupedReactions,
+              [reaction => reaction.from.isMe, 'timestamp'],
+              ['desc', 'desc']
+            )
         ),
       [reactionsWithEmojiData]
     );

@@ -401,9 +401,6 @@ describe('reactions', function (this: Mocha.Suite) {
     );
 
     // assert that it’s still our 👍🏽, not Bob’s 👍🏿
-    await expect(headerEmoji).toHaveAttribute(
-      'data-emoji-value',
-      '👍🏽'
-    );
+    await expect(headerEmoji).toHaveAttribute('data-emoji-value', '👍🏽');
   });
 });
