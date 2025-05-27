@@ -151,7 +151,7 @@ export function CallsNewCall({
     if (directConversations.length > 0) {
       result.push({
         kind: 'header',
-        title: 'Contacts',
+        title: i18n('icu:contactsHeader'),
       });
       result = result.concat(
         directConversations.map(conversation => {
@@ -165,7 +165,7 @@ export function CallsNewCall({
     if (groupConversations.length > 0) {
       result.push({
         kind: 'header',
-        title: 'Groups',
+        title: i18n('icu:groupsHeader'),
       });
       result = result.concat(
         groupConversations.map((conversation): Row => {
@@ -177,7 +177,7 @@ export function CallsNewCall({
       );
     }
     return result;
-  }, [directConversations, groupConversations]);
+  }, [directConversations, groupConversations, i18n]);
 
   const isRowLoaded = useCallback(
     ({ index }: { index: number }) => {
