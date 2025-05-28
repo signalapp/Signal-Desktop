@@ -506,6 +506,20 @@ export function renderToast({
       </Toast>
     );
   }
+  if (toastType === ToastType.SQLError) {
+    return (
+      <Toast
+        onClose={hideToast}
+        toastAction={{
+          label: i18n('icu:Toast__ActionLabel--SubmitLog'),
+          onClick: onShowDebugLog,
+        }}
+        autoDismissDisabled
+      >
+        {i18n('icu:Toast--SQLError')}
+      </Toast>
+    );
+  }
 
   if (toastType === ToastType.StoryMuted) {
     return (

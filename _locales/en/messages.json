@@ -804,6 +804,10 @@
     "messageformat": "Failed to send message with endorsements",
     "description": "An error popup when we attempted and failed to send a message using endorsements, only for internal users."
   },
+  "icu:Toast--SQLError": {
+    "messageformat": "Database error: please share your logs.",
+    "description": "An error popup when a database method fails, for internal & beta users"
+  },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Received invalid response from storage service. Please share your logs.",
     "description": "[Only shown to internal/beta users] An error popup when we noticed an invalid response (i.e. a web request response) from one of our servers"
