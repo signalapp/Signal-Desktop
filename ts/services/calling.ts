@@ -139,7 +139,7 @@ import {
 } from '../util/callDisposition';
 import { isNormalNumber } from '../util/isNormalNumber';
 import type { AciString, ServiceIdString } from '../types/ServiceId';
-import { isServiceIdString } from '../types/ServiceId';
+import { isServiceIdString, isPniString } from '../types/ServiceId';
 import { isSignalConnection } from '../util/getSignalConnections';
 import { toAdminKeyBytes } from '../util/callLinks';
 import {
@@ -2807,6 +2807,14 @@ export class CallingClass {
       callingMessage.offer &&
       !conversation.getAccepted({ ignoreEmptyConvo: true })
     ) {
+      if (isPniString(envelope.destinationServiceId)) {
+        log.info(
+          `${logId}: Conversation was not approved by user; ` +
+            'ignoring call message on PNI.'
+        );
+        return;
+      }
+
       log.info(
         `${logId}: Conversation was not approved by user; ` +
           'rejecting call message.'
