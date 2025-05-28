@@ -6362,6 +6362,6 @@
     "messageformat": "Também corrigimos um crash em distribuições Linux que ainda não suportam GTK4."
   },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "Esta atualização corrige um erro que tornava difícil mover a janela do Signal ao ver conteúdo no separador Histórias."
   }
 }

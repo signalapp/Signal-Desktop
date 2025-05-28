@@ -3147,7 +3147,7 @@
     "messageformat": "كتمتَ صوت {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "كتمتَ نفسك من جهاز آخر."
+    "messageformat": "كتمتَ صوتك من جهازٍ آخر."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "هل تريد خفض يدك؟"
@@ -4923,7 +4923,7 @@
     "messageformat": "تعذَّر تحديث حسابك الشخصي. يُرجى المحاولة مرّة أخرى."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
-    "messageformat": "مراسلة أحد المشرفين"
+    "messageformat": "مراسلة أحد المُشرِفين"
   },
   "icu:AnnouncementsOnlyGroupBanner--announcements-only": {
     "messageformat": "فقط {admins} يمكنه إرسال رسائل"
@@ -6362,6 +6362,6 @@
     "messageformat": "أصلحنا أيضًا عطلًا في توزيعات Linux التي لا تدعم GTK4 بعد."
   },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "أصلحنا خطأ كان يُعيق تحريك نافذة سيجنال أثناء مشاهدة المحتوى في علامة تبويب \"القصص\"."
   }
 }

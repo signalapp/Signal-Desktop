@@ -6362,6 +6362,6 @@
     "messageformat": "Halaber, Linux banaketa batzuetako hutsegite arraro bat konpondu dugu."
   },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "Eguneratze honen bidez, Istorioak fitxan edukia ikusi bitartean Signal-en leihoa mugitzea zailtzen zuen akatsa konpondu da."
   }
 }

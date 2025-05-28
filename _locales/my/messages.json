@@ -6362,6 +6362,6 @@
     "messageformat": "Linux ဖြန့်ဝေမှုများတွင်လည်း ပျက်စီးမှုတစ်ခုကို ပြင်ဆင်ထားပါသည်။"
   },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "ဤအပ်ဒိတ်သည် စတိုရီတက်ဘ်ရှိ အကြောင်းအရာများကို ကြည့်ရှုနေစဉ် Signal Window ကို ရွှေ့ရန်ခက်ခဲစေသော ချွတ်ယွင်းချက်တစ်ခုကိုပြင်ဆင်ထားပါသည်။"
   }
 }

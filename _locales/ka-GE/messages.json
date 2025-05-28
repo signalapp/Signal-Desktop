@@ -6362,6 +6362,6 @@
     "messageformat": "ასევე გამოვასწორეთ Linux-ის დისტრიბუციებზე არსებული ქრაში, რომელსაც ჯერ GTK4-ის მხარდაჭერა არ აქვს."
   },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "ამ განახლებაში გამოვასწორეთ შეცდომა, რომელიც Story-ების ჩანართში კონტენტის ნახვისას Signal-ის ფანჯრის გადაადგილებას ართულებდა."
   }
 }

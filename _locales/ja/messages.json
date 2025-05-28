@@ -93,7 +93,7 @@
     "messageformat": "過去のすべてのメッセージとメディアはお使いの端末から完全に消去されます。ご利用中のスマートフォンのデータは消去されません。\n\n再リンクすると、この端末でSignalを使用できるようになります。ご利用中のスマートフォンからメッセージ履歴を移行するかどうかを選択できます。"
   },
   "icu:databaseError__startOldVersion": {
-    "messageformat": "データベースのバージョンと、開いたSignalのバージョンが一致しません。 ご利用のコンピューターで、最新バージョンのSignalを開いているかをお確かめください。"
+    "messageformat": "データベースのバージョンと、開いたSignalのバージョンが一致しません。ご利用のコンピューターで、最新バージョンのSignalを開いているかをお確かめください。"
   },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "OS暗号化キーリングバックエンドが{previousBackend}から{currentBackend}に変更されたため、データベース暗号化キーにアクセスできません。これは、デスクトップ環境がGNOMEとKDEの間で変更された場合などに発生することがあります。\n\n以前のデスクトップ環境に切り替えてください。"
@@ -6362,6 +6362,6 @@
     "messageformat": "一部のLinuxディストリビューションで発生する稀なクラッシュも修正しました。"
   },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "このアップデートでは、ストーリータブでコンテンツを表示中にSignalウィンドウを移動しにくくなるバグが修正されました。"
   }
 }

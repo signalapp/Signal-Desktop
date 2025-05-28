@@ -6362,6 +6362,6 @@
     "messageformat": "我哋仲修復咗仲未支援 GTK4 嘅 Linux 發行版嘅故障。"
   },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "精彩動人嘅影片隨時睇到人心郁郁，所以我哋修正咗個錯誤，令你喺「限時動態」分頁度睇片嗰陣 Signal 視窗郁得更順暢。"
   }
 }

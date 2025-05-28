@@ -6362,6 +6362,6 @@
     "messageformat": "Сонымен қатар GTK4 жүйесіне әлі қолдау көрсетпейтін Linux таратылымдарындағы ақауды түзеттік."
   },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "Кейде әсерлі оқиға жүрегіңізді тербейтіні сөзсіз. Сондықтан біз \"Сторис\" қойындысындағы контентті тамашалау кезінде Signal терезесін жылжытуға кедергі келтірген ақауды түзеттік."
   }
 }

@@ -6362,6 +6362,6 @@
     "messageformat": "بىز يەنەن Linux تارقىتىشلىرىدا GTK4 نى ھازىرچە قوللىمايدىغا كاشىلىنى ئوڭشىدۇق."
   },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "بۇ قېتىملىق يېڭىلاش بەتكۈچتىكى مەزمۇننى كۆرگەندە Signal كۆزنىكىنى يۆتكەش تەسكە توختايدىغان خاتالىقنى تۈزەتتى. 7.56 نەشىر نۇسخىسى ئۈچۈن تارقىتىلدى"
   }
 }

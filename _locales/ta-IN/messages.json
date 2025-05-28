@@ -6362,6 +6362,6 @@
     "messageformat": "GTK4 ஐ இன்னும் ஆதரிக்காத லினக்ஸ் விநியோகங்களில் ஏற்பட்ட செயலிழப்பையும் நாங்கள் சரிசெய்துள்ளோம்."
   },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "ஸ்டோரீஸ் டேப்-இல் உள்ளடக்கத்தைப் பார்க்கும்போது சிக்னல் திரையை நகர்த்துவது கடினமாக இருந்தது. அந்தப் பிழையை இந்தப் புதுப்பிப்பு சரிசெய்கிறது."
   }
 }

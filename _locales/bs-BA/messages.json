@@ -6362,6 +6362,6 @@
     "messageformat": "Također smo popravili rijedak pad na nekim distribucijama Linuxa."
   },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "Ovo ažuriranje ispravlja grešku koja je otežavala pomicanje prozora Signala tijekom gledanja sadržaja na kartici Priče"
   }
 }

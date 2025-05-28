@@ -6362,6 +6362,6 @@
     "messageformat": "Linux 배포에서 아주 가끔씩 발생하는 크래시를 해결했습니다."
   },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "이 업데이트는 스토리 탭에서 콘텐츠를 볼 때 Signal 창을 옮기기 어렵게 만들었던 버그를 수정합니다."
   }
 }

@@ -6362,6 +6362,6 @@
     "messageformat": "我们还修复了一些 Linux 发行版上的罕见崩溃问题。"
   },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "此次更新修复了一个漏洞，该漏洞会导致用户在查看动态选项卡的内容时难以切换到 Signal 窗口。"
   }
 }

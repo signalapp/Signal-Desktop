@@ -6362,6 +6362,6 @@
     "messageformat": "আমরা Linux ডিস্ট্রিবিউশনের একটি ক্র্যাশও সংশোধন করেছি যা এখনো GTK4 সমর্থন করে না।"
   },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "এই আপডেটটি এমন একটি বাগ সংশোধন করেছে যা স্টোরি ট্যাবে কন্টেন্ট দেখার সময় Signal উইন্ডো সরানো কঠিন করে তুলেছিল।"
   }
 }

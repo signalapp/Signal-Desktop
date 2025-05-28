@@ -6362,6 +6362,6 @@
     "messageformat": "ہم نے Linux ڈسٹریبیوشنز میں غیر معمولی کریش کو ٹھیک کر دیا ہے جو GTK4 کو سپورٹ نہیں کرتا۔"
   },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "اس اپڈیٹ میں اس نقص کی درستگی کی گئی ہے جس میں سٹوریز کی ٹیب میں مواد دیکھتے ہوئے Signal کی ونڈو کو ہٹانا مشکل ہوتا تھا۔"
   }
 }

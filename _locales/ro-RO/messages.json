@@ -6362,6 +6362,6 @@
     "messageformat": "De asemenea, am remediat o eroare apărută la distribuțiile Linux care nu suportă încă GTK4."
   },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "Uneori, o poveste puternică te poate emoționa cu adevărat, așa că am remediat o eroare care îngreuna mutarea ferestrei Signal în timpul vizualizării de conținut în fila Povești."
   }
 }

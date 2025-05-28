@@ -6362,6 +6362,6 @@
     "messageformat": "我們還修復了尚未支援 GTK4 的 Linux 發行版上的當機問題。"
   },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "「限時動態」不能「動」實在可惜。因此我們修正了一個使你在「限時動態」分頁中檢視內容時難以移動 Signal 視窗的錯誤。"
   }
 }

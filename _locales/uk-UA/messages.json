@@ -5211,13 +5211,13 @@
     "messageformat": "Застосунок"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Безпека екрана"
+    "messageformat": "Захист екрана"
   },
   "icu:Preferences__content-protection--description": {
     "messageformat": "Заборонити знімки екрана з Signal на цьому комп'ютері для додаткової конфіденційності."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Вимкнути безпеку екрана?"
+    "messageformat": "Вимкнути захист екрана?"
   },
   "icu:Preferences__content-protection__modal--body": {
     "messageformat": "Тоді Microsoft Windows зможе робити знімки екрана з Signal і потенційно використовувати їх без належного дотримання конфіденційності."
@@ -6362,6 +6362,6 @@
     "messageformat": "Також ми виправили збій у дистрибутивах Linux, які поки не підтримують GTK4."
   },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "Іноді разюча історія може стати рушієм змін. Тому ми виправили помилку, яка заважала рухати вікно Signal під час перегляду вкладки з історіями."
   }
 }

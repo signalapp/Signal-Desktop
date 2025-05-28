@@ -3141,7 +3141,7 @@
     "messageformat": "Ο χρήστης {otherName} σε έθεσε σε σίγαση."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "Ο/Η {name} έθεσε σε σίγαση τον χρήστη {otherName}."
+    "messageformat": "Ο χρήστης {name} έθεσε σε σίγαση τον χρήστη {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
     "messageformat": "Έθεσες σε σίγαση τον χρήστη {otherName}."
@@ -6362,6 +6362,6 @@
     "messageformat": "Διορθώσαμε επίσης ένα σφάλμα σε διανομές Linux που δεν υποστηρίζουν ακόμα το GTK4."
   },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "Αυτή η ενημέρωση διορθώνει ένα σφάλμα που καθιστούσε δύσκολη τη μετακίνηση του παραθύρου Signal κατά την προβολή περιεχομένου στην καρτέλα Ιστοριών."
   }
 }

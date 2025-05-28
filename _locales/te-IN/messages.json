@@ -6362,6 +6362,6 @@
     "messageformat": "మేము కొన్ని Linux డిస్ట్రిబ్యూషన్‌లలో అరుదైన క్రాష్‌ను కూడా పరిష్కరించాము."
   },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "కథలు ట్యాబ్‌లోని కంటెంట్‌ను వీక్షిస్తున్నప్పుడు Signal విండోను తరలించడాన్ని కష్టతరం చేసిన బగ్‌ను ఈ అప్‌డేట్ పరిష్కరిస్తుంది."
   }
 }

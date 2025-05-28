@@ -6362,6 +6362,6 @@
     "messageformat": "Také jsme opravili vzácně se vyskytující chybu u některých instalací Linuxu."
   },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "Tato aktualizace opravuje chybu, která způsobovala potíže s přesouváním okna aplikace Signal při prohlížení obsahu na záložce Příběhy."
   }
 }

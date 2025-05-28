@@ -6362,6 +6362,6 @@
     "messageformat": "Ошондой эле азырынча GTK4 графикалык китепканасында иштей элек Linux дистрибутивдерин оңдодук."
   },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "Кээ бир окуялар ушунчалык кызыктуу болгондуктан, алардан көзүңдү ала албай каласың. Дал ушул себептен, \"Окуялар\" өтмөгүндө бир нерсе көрүп жатканда, Signal терезесин жылдыра албаган мүчүлүштүктү чечип койдук."
   }
 }

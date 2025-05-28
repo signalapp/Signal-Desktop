@@ -6362,6 +6362,6 @@
     "messageformat": "Egy ritka összeomlást is kijavítottunk néhány Linux disztribúción."
   },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "Ez a frissítés kijavít egy hibát, amely megnehezítette a Signal ablak mozgatását a Történetek lap tartalmainak megtekintése közben."
   }
 }

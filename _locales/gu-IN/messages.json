@@ -3144,7 +3144,7 @@
     "messageformat": "{name}એ {otherName}ને મ્યૂટ કર્યા."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "તમે {otherName}ને મ્યૂટ કર્યું."
+    "messageformat": "તમે {otherName}ને મ્યૂટ કર્યા."
   },
   "icu:CallControls__YouMutedYourselfToast": {
     "messageformat": "તમે બીજા ડિવાઇસ પરથી પોતાને મ્યૂટ કર્યા."
@@ -6362,6 +6362,6 @@
     "messageformat": "અમે કેટલાક Linux ડિસ્ટ્રિબ્યુશન પરના દુર્લભ ક્રેશને પણ ઠીક કર્યા છે."
   },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "આ અપડેટમાં એક એવા બગને ઠીક કરવામાં આવ્યો છે જેના કારણે સ્ટોરી ટેબમાં કન્ટેન્ટ જોતી વખતે Signal વિન્ડો ખસેડવાનું મુશ્કેલ બનતું હતું."
   }
 }
