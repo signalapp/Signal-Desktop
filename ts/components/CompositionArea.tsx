@@ -199,6 +199,7 @@ export type OwnProps = Readonly<{
     props: SmartCompositionRecordingDraftProps
   ) => JSX.Element | null;
   selectedMessageIds: ReadonlyArray<string> | undefined;
+  areSelectedMessagesForwardable: boolean | undefined;
   toggleSelectMode: (on: boolean) => void;
   toggleForwardMessagesModal: (
     payload: ForwardMessagesPayload,
@@ -367,6 +368,7 @@ export const CompositionArea = memo(function CompositionArea({
   renderSmartCompositionRecordingDraft,
   // Selected messages
   selectedMessageIds,
+  areSelectedMessagesForwardable,
   toggleSelectMode,
   toggleForwardMessagesModal,
   // DraftGifMessageSendModal
@@ -906,6 +908,7 @@ export const CompositionArea = memo(function CompositionArea({
       <SelectModeActions
         i18n={i18n}
         selectedMessageIds={selectedMessageIds}
+        areSelectedMessagesForwardable={areSelectedMessagesForwardable === true}
         onExitSelectMode={() => {
           toggleSelectMode(false);
         }}
