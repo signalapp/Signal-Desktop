@@ -1595,7 +1595,7 @@ const runSQLCorruptionHandler = async () => {
   // This is a glorified event handler. Normally, this promise never resolves,
   // but if there is a corruption error triggered by any query that we run
   // against the database - the promise will resolve and we will call
-  // `onDatabaseError`.
+  // `onDatabaseInitializationError`.
   const error = await sql.whenCorrupted();
 
   getLogger().error(
@@ -1603,14 +1603,14 @@ const runSQLCorruptionHandler = async () => {
       `Restarting the application immediately. Error: ${error.message}`
   );
 
-  await onDatabaseError(error);
+  await onDatabaseInitializationError(error);
 };
 
 const runSQLReadonlyHandler = async () => {
   // This is a glorified event handler. Normally, this promise never resolves,
   // but if there is a corruption error triggered by any query that we run
   // against the database - the promise will resolve and we will call
-  // `onDatabaseError`.
+  // `onDatabaseInitializationError`.
   const error = await sql.whenReadonly();
 
   getLogger().error(
@@ -1779,10 +1779,19 @@ async function initializeSQL(
   drop(runSQLCorruptionHandler());
   drop(runSQLReadonlyHandler());
 
+  sql.onUnknownSqlError(onUnknownSqlError);
+
   return { ok: true, error: undefined };
 }
 
-const onDatabaseError = async (error: Error) => {
+function onUnknownSqlError(error: Error) {
+  getLogger().error('Unknown SQL Error:', Errors.toLogFormat(error));
+  if (mainWindow) {
+    mainWindow.webContents.send('sql-error');
+  }
+}
+
+const onDatabaseInitializationError = async (error: Error) => {
   // Prevent window from re-opening
   ready = false;
 
@@ -1885,11 +1894,11 @@ const onDatabaseError = async (error: Error) => {
     });
 
     if (confirmationButtonIndex === confirmDeleteAllDataButtonIndex) {
-      getLogger().error('onDatabaseError: Deleting all data');
+      getLogger().error('onDatabaseInitializationError: Deleting all data');
       await sql.removeDB();
       userConfig.remove();
       getLogger().error(
-        'onDatabaseError: Requesting immediate restart after quit'
+        'onDatabaseInitializationError: Requesting immediate restart after quit'
       );
       app.relaunch();
     }
@@ -1901,7 +1910,7 @@ const onDatabaseError = async (error: Error) => {
     );
   }
 
-  getLogger().error('onDatabaseError: Quitting application');
+  getLogger().error('onDatabaseInitializationError: Quitting application');
   app.exit(1);
 };
 
@@ -2278,7 +2287,7 @@ app.on('ready', async () => {
   if (sqlError) {
     getLogger().error('sql.initialize was unsuccessful; returning early');
 
-    await onDatabaseError(sqlError);
+    await onDatabaseInitializationError(sqlError);
 
     return;
   }
