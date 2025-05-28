@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "დამოუკიდებელ მოწყობილობად დაყენება"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "მეტი მოქმედება"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Database error: please share your logs."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "შენახვის სერვისისგან არასწორი პასუხია მიღებული. გთხოვთ შენი ჩანაწერები გაგვიზიარო."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "დახმარება გჭირდება?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Settings"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "ტელეფონის ნომერი"
@@ -3138,16 +3147,16 @@
     "messageformat": "მიკროფონი ჩართულია"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName}-მ ხმა გაგითიშა."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name}-მა {otherName}-ს ხმა გაუთიშა."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "{otherName}-ს ხმა გაუთიშე."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "შენს თავს ხმა სხვა მოწყობილობიდან გაუთიშე."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "გსურს, ხელი ჩამოწიო?"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "ადგილობრივი დაშიფრული სათადარიგო ასლის საქაღალდეში ექსპორტირება და მისი დადასტურება"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "იმპორტი…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "ბმულზე იმპორტისთვის ადგილობრივი დაშიფრული სათადარიგო ასლის შექმნა"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "გადაიტანე დაშიფრული სათადარიგო ასლი მეხსიერებაში და გაუშვი მასზე დადასტურების ნაკრები"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "ყველა ენაზე ერთნაირად იღიმებიან, მაგრამ ახლა, როდესაც Signal Desktop-ის emoji-ს შორთქათები სრულად ითარგმნა, შენ ასევე შეგიძლია გამოიყენო <code>:smile:</code> ან <code>:sourire:</code> ან <code>:微笑:</code> ნებისმიერ მხარდაჭერილ ენაზე."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Emoji-ებისა და სტიკერების კლავიატურის შორთქათები დაბრუნდა! ეს შორთქათები კიდევ უფრო მეტ დროს ზოგავს, რადგან ახლა აღარ დაგჭირდება წერით შეგვატყობინო, რომ ისინი არ მუშაობს."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "ასევე გამოვასწორეთ Linux-ის დისტრიბუციებზე არსებული ქრაში, რომელსაც ჯერ GTK4-ის მხარდაჭერა არ აქვს."
-  },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "ამ განახლებაში გამოვასწორეთ შეცდომა, რომელიც Story-ების ჩანართში კონტენტის ნახვისას Signal-ის ფანჯრის გადაადგილებას ართულებდა."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
   }
 }

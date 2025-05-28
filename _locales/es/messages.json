@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Configurar como dispositivo independiente"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Más acciones"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Database error: please share your logs."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Respuesta no válida del servicio de almacenamiento. Te agradeceríamos que nos envíes tus registros."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "¿Necesitas ayuda?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Settings"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Número de teléfono"
@@ -3138,16 +3147,16 @@
     "messageformat": "Micrófono activado"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} te ha silenciado."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} ha silenciado a {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Has silenciado a {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Te has silenciado desde otro dispositivo."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "¿Bajar la mano?"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Exportar la copia de seguridad cifrada local a una carpeta y validarla"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Importar…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Preparar una copia de seguridad cifrada local para importar en el enlace"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Exportar la copia de seguridad cifrada a la memoria y ejecutar el conjunto de validación"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Hemos hecho algunos ajustes, correcciones de errores y mejoras en el rendimiento. ¡Gracias por usar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "La sonrisa es el idioma universal, pero ahora que hemos traducido los atajos de emoji en Signal Desktop, también puedes <code>:sonreír:</code>, <code>:smile:</code> o <code>:微笑:</code> en cualquiera de los idiomas compatibles."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "¡Vuelven los atajos de teclado para emojis y stickers! Además, ahora te ahorrarán el doble de tiempo porque ya no tendrás que escribirnos para decirnos que no funcionan."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "También hemos corregido un bloqueo en las distribuciones de Linux que aún no son compatibles con GTK4."
-  },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "Dicen que una buena historia puede mover montañas. Por eso, hemos corregido un error que dificultaba mover la ventana de Signal mientras veías contenido en la pestaña Historias."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
   }
 }

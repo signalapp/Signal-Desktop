@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Asenna itsenäisenä laitteena"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Lisätoimintoja"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Database error: please share your logs."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Vastaanotettu virheellinen vastaus tallennuspalvelulta. Ole hyvä ja jaa lokit."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Tarvitsetko apua?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Settings"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Puhelinnumero"
@@ -3138,16 +3147,16 @@
     "messageformat": "Mikrofoni päällä"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} mykisti sinut."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} mykisti käyttäjän {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Mykistit käyttäjän {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Mykistit itsesi toiselta laitteelta."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Laske käsi?"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Vie paikallinen salattu varmuuskopio kansioon ja vahvista se"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Tuo…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Luo paikallinen salattu varmuuskopio linkin kautta tuotavaksi"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Vie salattu varmuuskopio muistiin ja suorita sille vahvistuspaketti"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Lisäsimme tuen emoji-pikavalinnoille uusilla kielillä."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Tämä päivitys tuo takaisin emojien ja tarrojen pikanäppäimet."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Korjasimme myös harvinaisen kaatumisen tietyissä Linux-jakeluissa."
-  },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "Päivitys korjaa virheen, joka vaikeutti Signal-ikkunan liikuttamista Tarinat-välilehden sisältöä katseltaessa."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
   }
 }

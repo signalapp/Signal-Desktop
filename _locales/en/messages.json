@@ -421,7 +421,7 @@
   },
   "icu:NavTabs__ItemLabel--Update": {
     "messageformat": "Update Signal",
-    "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
+    "description": "(Deleted 2025/05/28) Nav Tabs > Settings Button > Label & Accessibility Text"
   },
   "icu:NavTabs__ItemLabel--Profile": {
     "messageformat": "Profile",
@@ -897,7 +897,7 @@
   },
   "icu:signalDesktopPreferences": {
     "messageformat": "Signal Desktop Preferences",
-    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    "description": "(Deleted 2025/05/28) Title of the window that pops up with Signal Desktop preferences in it"
   },
   "icu:signalDesktopStickerCreator": {
     "messageformat": "Sticker pack creator",
@@ -8451,7 +8451,7 @@
   },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab.",
-    "description": "Release notes for version 7.56"
+    "description": "(Deleted 2025/05/28) Release notes for version 7.56"
   },
   "icu:WhatsNew__v7.57--0": {
     "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen.",

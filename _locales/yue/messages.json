@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "設定做獨立裝置"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "其他操作"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Database error: please share your logs."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "伺服器傳回無效嘅回應。請分享你嘅除錯記錄。"
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "需要幫手？"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Settings"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "電話冧把"
@@ -3138,16 +3147,16 @@
     "messageformat": "開咗咪"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} 已經將你靜音。"
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} 已經將 {otherName} 靜音。"
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "你已經將 {otherName} 靜音。"
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "你已經喺另一部機度將自己靜音。"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "係咪想放低手？"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "將本機加密備份匯出去資料夾同埋驗證"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "匯入…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "為連結匯入安排本機加密備份"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "將加密備份匯出去內建記憶體同埋執行驗證套件"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "微笑呢個表情喺任何語言入面都係一樣，但係而家 Signal 桌面版嘅表情符號快速輸入已經有完整嘅翻譯，即係你可以用任何支援嘅語言去 <code>:smile:</code>、<code>:sourire:</code> 或者 <code>:微笑:</code>。"
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "表情符號同貼圖嘅鍵盤快捷鍵返嚟啦！呢啲快捷鍵可以幫你慳返好多時間，因為你唔使再花時間話俾我哋知佢哋用唔到啦。"
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "我哋仲修復咗仲未支援 GTK4 嘅 Linux 發行版嘅故障。"
-  },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "精彩動人嘅影片隨時睇到人心郁郁，所以我哋修正咗個錯誤，令你喺「限時動態」分頁度睇片嗰陣 Signal 視窗郁得更順暢。"
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
   }
 }

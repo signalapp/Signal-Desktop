@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "ដំឡើង ជាឧបករណ៍ដាច់ដោយឡែក"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "សកម្មភាពច្រើនទៀត"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Database error: please share your logs."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "បានទទួលការឆ្លើយតបមិនត្រឹមត្រូវពីសេវាកម្មផ្ទុក។ សូមចែករំលែកកំណត់ហេតុរបស់អ្នក។"
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "ត្រូវការជំនួយ?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Settings"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "លេខទូរសព្ទ"
@@ -3138,16 +3147,16 @@
     "messageformat": "បានបើកមីក្រូហ្វូន"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} បានបិទសំឡេងអ្នក។"
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} បានបិទសំឡេង {otherName}។"
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "អ្នកបានបិទសំឡេង {otherName}។"
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "អ្នកបានបិទសំឡេងខ្លួនអ្នកពីឧបករណ៍ផ្សេងទៀត។"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "ដាក់ដៃរបស់អ្នកចុះឬ?"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "នាំចេញការបម្រុងទុកដែលបានអ៊ីនគ្រីបក្នុងឧបករណ៍ទៅកាន់ថតឯកសារ ហើយធ្វើឱ្យវាមានសុពលភាព"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "នាំចូល…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "ដំណើរការការបម្រុងទុកដែលបានអ៊ីនគ្រីបក្នុងឧបករណ៍សម្រាប់ការនាំចូលនៅលើតំណ"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "នាំចេញការបម្រុងទុកដែលបានអ៊ីនគ្រីបទៅអង្គចងចាំ ហើយធ្វើការផ្ទៀងផ្ទាត់លើវា"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "ស្នាមញញឹមគឺសុទ្ធតែដូចគ្នាទេ ទោះក្នុងភាសាណាក៏ដោយ ប៉ុន្តែឥឡូវនេះយើងបានដាក់បញ្ចូលផ្លូវកាត់ក្នុងការប្រើរូបអារម្មណ៍នៅក្នុង Signal Desktop ដែលអ្នកក៏អាច <code>:smile:</code> ឬ <code>:sourire:</code> ឬ <code>:微笑:</code> ជាភាសាដែលអាចប្រើបានដែរ។"
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "ផ្លូវកាត់ក្តារចុចសម្រាប់រូបអារម្មណ៍ និងស្ទីកគ័របានត្រឡប់មកវិញហើយ! ផ្លូវកាត់ទាំងនេះក៏សន្សំសំចៃពេលវេលាកាន់តែច្រើនផងដែរ ព្រោះឥឡូវនេះអ្នកនឹងមិនចាំបាច់សរសេរ ហើយប្រាប់យើងថាវាខូចទៀតទេ។"
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "យើងក៏បានជួសជុលការគាំងនៅលើប្រព័ន្ធប្រតិបត្តិការ Linux ដែលប្រើមិនបានជាមួយ GTK4 នៅឡើយ។"
-  },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "ពេលខ្លះ រឿងរ៉ាវដ៏មានអានុភាពពិតជាអាចបំផុសគំនិតអ្នក ដូច្នេះយើងបានជួសជុលបញ្ហាដែលធ្វើឱ្យវាពិបាកក្នុងការផ្លាស់ទីវីនដូ Signal ខណៈពេលកំពុងមើលខ្លឹមសារនៅក្នុងផ្ទាំងរឿងរ៉ាវ។"
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
   }
 }
