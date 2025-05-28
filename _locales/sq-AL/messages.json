@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Rregulloje si Pajisje Më Vete"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Më tepër veprime"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Database error: please share your logs."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Morëm përgjigje të pavlefshme nga shërbimi i hapësirës ruajtëse. Të lutem, ndaj regjistrat."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Ju duhet ndihmë?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Settings"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Numër telefoni"
@@ -3138,16 +3147,16 @@
     "messageformat": "Mikrofoni i ndezur"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} të hoqi zërin."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} hoqi zërin e {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Hoqe zërin e {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Hoqe zërin e vetes nga pajisja tjetër."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Ul dorën?"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Eksporto kopjeruajtjet lokale të koduara në një dosje dhe verifikoje atë"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Importo…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Krijo kopjeruajtje lokale të koduar për importim në lidhje"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Eksporto kopjeruajtjet e koduara në memorie dhe ekzekuto paketën e verifikimit në të"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Buzëqeshja është e njëjtë në çdo gjuhë, por tani që shkurtoret e emoxhive në Signal Desktop janë përkthyer plotësisht, mund edhe të qeshësh <code>:smile:</code> ose <code>:sourire:</code> ose <code>:微笑:</code> në çdo gjuhë të mbështetur."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Shkurtoret e tastierës për emoxhit dhe ngjitëset janë rikthyer! Këto shkurtore kursejnë edhe më shumë kohë sepse tani nuk ke më nevojë të shkruash dhe të na tregosh se janë të prishura."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Kemi rregulluar edhe një defekt në shpërndarjet Linux që ende nuk mbështesin GTK4."
-  },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "Ndonjëherë një postim i fuqishëm i përkohshëm mund të të prekë vërtet, ndaj rregulluam defektin që vështirësonte lëvizjen e dritares së Signal gjatë shikimit të përmbajtjes në skedën e postimeve të përkohshme."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
   }
 }

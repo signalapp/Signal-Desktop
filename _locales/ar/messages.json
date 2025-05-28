@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "إعداد كجهازٍ مستقل"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "إجراءات أخرى"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Database error: please share your logs."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "تمَّ استلام إجابة غير صالحة من خدمة التخزين. يُرجى مُشاركة سِجلات التصحيح الخاصة بك."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "هل تحتاج لمُساعدة؟"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Settings"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "رقم الهاتف"
@@ -3138,16 +3147,16 @@
     "messageformat": "الميكروفون مُفعَّل"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} كتمَ صوتك."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} كتمَ صوت {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "كتمتَ صوت {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "كتمتَ صوتك من جهازٍ آخر."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "هل تريد خفض يدك؟"
@@ -4923,7 +4932,7 @@
     "messageformat": "تعذَّر تحديث حسابك الشخصي. يُرجى المحاولة مرّة أخرى."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
-    "messageformat": "مراسلة أحد المشرفين"
+    "messageformat": "مراسلة أحد المُشرِفين"
   },
   "icu:AnnouncementsOnlyGroupBanner--announcements-only": {
     "messageformat": "فقط {admins} يمكنه إرسال رسائل"
@@ -5005,12 +5014,6 @@
   },
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "تصدير نسخة احتياطية محلية مُشفَّرة إلى مجلد والتحقُّق من صحتها"
-  },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "استيراد…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "تجهيز نسخة احتياطية محلية مُشفَّرة للاستيراد على الرابط"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "تصدير نسخة احتياطية مُشفَّرة إلى الذاكرة وتشغيل مجموعة اختبارات التحقُّق عليها"
@@ -6352,16 +6355,10 @@
     "messageformat": "تعديلات صغيرة، وإصلاح أعطال، وتحسينات للأداء. شكرًا على استخدامك سيجنال!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "تتجاوز الابتسامة حواجز اللغة، ولكن بعد أن تمَّت ترجمة اختصارات الرموز التعبيرية بالكامل في سيجنال Desktop، يُمكنك الآن إرسال <code>:smile:</code> أو <code>:sourire:</code> أو <code>:微笑:</code> في أي لغة مدعومة كذلك."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "عادَتْ اختصارات لوحة المفاتيح للرموز التعبيرية والمُلصَقات من جديد! توفر هذه الاختصارات المزيد من الوقت أيضًا لأنك لن تحتاج إلى أن تتواصل معنا عن طريق الكتابة لتُخبرنا أنها معطلة."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "أصلحنا أيضًا عطلًا في توزيعات Linux التي لا تدعم GTK4 بعد."
-  },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "أصلحنا خطأ كان يُعيق تحريك نافذة سيجنال أثناء مشاهدة المحتوى في علامة تبويب \"القصص\"."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
   }
 }

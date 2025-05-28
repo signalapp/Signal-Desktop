@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "הגדר בתור מכשיר עצמאי"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "עוד פעולות"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Database error: please share your logs."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "התקבלה תגובה לא חוקית משירות האחסון. יש לשתף את יומני ניפוי הבאגים שלך."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "צריך עזרה?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Settings"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "מספר טלפון"
@@ -3138,16 +3147,16 @@
     "messageformat": "מיקרופון מופעל"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "הושתקת על ידי {otherName}."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} השתיק/ה את {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "השתקת את {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "השתקת את עצמך ממכשיר אחר."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "להוריד את היד?"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "לייצא גיבוי מוצפן מקומי לתיקייה ולאמת אותו"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "ייבוא…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "לייצר גיבוי מקומי מוצפן לייבוא באמצעות לינק"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "לייצא גיבוי מוצפן לזיכרון ולהריץ עליו אימות"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "הוספנו תמיכה בקיצורי מקשים של סמלי הבעה."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "העדכון הזה מאפשר מחדש קיצורי מקלדת עבור אימוג׳ים וסטיקרים."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "תיקנו גם קריסה נדירה בגרסאות מסוימות של Linux."
-  },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "עדכון זה מתקן באג שהקשה על המעבר לחלון Signal בזמן הצפייה בתוכן בלשונית הסטוריז."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
   }
 }

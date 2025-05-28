@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Nastavit jako samostatné zařízení"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Další akce"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Database error: please share your logs."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Neplatná odpověď ze strany úložiště. Nasdílejte prosíme své záznamy."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Potřebujete pomoc?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Settings"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefonní číslo"
@@ -3138,16 +3147,16 @@
     "messageformat": "Mikrofon zapnutý"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} vás ztlumil/a."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} ztlumil/a {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Ztlumili jste {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Ztlumili jste sami sebe z jiného zařízení."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Dát ruku dolů?"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Exportujte místní šifrovanou zálohu do složky a ověřte ji"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Importovat…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Vytvořte místní šifrovanou zálohu pro import pomocí odkazu"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Exportuje šifrovanou zálohu do paměti a spustí ověřovací sadu"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Drobná vylepšení, opravy chyb a zvýšení výkonu. Děkujeme, že používáte Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Přidali jsme podporu emoji zkratek v dalších jazycích."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Tato aktualizace znovu povoluje klávesové zkratky pro emoji a nálepky!"
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Také jsme opravili vzácně se vyskytující chybu u některých instalací Linuxu."
-  },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "Tato aktualizace opravuje chybu, která způsobovala potíže s přesouváním okna aplikace Signal při prohlížení obsahu na záložce Příběhy."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
   }
 }

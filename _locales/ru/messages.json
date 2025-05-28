@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Настроить как самостоятельное устройство"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Больше действий"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Database error: please share your logs."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Получен неверный ответ от службы хранения. Пожалуйста, поделитесь своими журналами отладки."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Нужна помощь?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Settings"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Номер телефона"
@@ -3138,16 +3147,16 @@
     "messageformat": "Микрофон включён"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} отключил(а) вам звук."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} отключил(а) звук {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Вы отключили звук {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Вы отключили себе звук с другого устройства."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Опустить руку?"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Экспортируйте зашифрованную резервную копию в папку и проверьте её"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Импорт…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Проиндексируйте локальные зашифрованные резервные копии для импорта по ссылке"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Экспортируйте зашифрованную резервную копию в память и запустите для нее набор проверок"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Небольшие изменения, исправления ошибок и улучшения производительности. Спасибо за то, что пользуетесь Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Улыбка одинакова на всех языках, но теперь, когда ярлыки эмодзи в Signal Desktop полностью переведены, вы также можете <code>:smile:</code>, или <code>:sourire:</code>, или <code>:微笑:</code> на любом поддерживаемом языке."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Сочетания клавиш для эмодзи и стикеров вернулись! Помимо прочего, эти сочетания экономят ещё больше времени, потому что теперь вам больше не нужно сообщать нам, что они не работают."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Мы также исправили сбой на дистрибутивах Linux, которые ещё не поддерживают GTK4."
-  },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "Иногда впечатляющая история может привести в движение ваши чувства, поэтому мы исправили ошибку, из-за которой было сложно передвигать окно Signal во время просмотра контента на вкладке «Истории»."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
   }
 }
