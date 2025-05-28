@@ -754,6 +754,7 @@ export const getPropsForMessage = (
     canEditMessage: canEditMessage(message),
     canDeleteForEveryone: canDeleteForEveryone(message, conversation.isMe),
     canDownload: canDownload(message, conversationSelector),
+    canForward: canForward(message),
     canReact: canReact(message, ourConversationId, conversationSelector),
     canReply: canReply(message, ourConversationId, conversationSelector),
     canRetry: hasErrors(message),
@@ -2104,6 +2105,15 @@ export function canDownload(
   }
 
   return false;
+}
+
+export function canForward(message: ReadonlyMessageAttributesType): boolean {
+  return (
+    !isTapToView(message) &&
+    !message.deletedForEveryone &&
+    !message.giftBadge &&
+    !getPayment(message)
+  );
 }
 
 export function getLastChallengeError(
