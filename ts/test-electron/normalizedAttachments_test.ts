@@ -605,4 +605,32 @@ describe('normalizes attachment references', () => {
     assert(messageFromDB, 'message was saved');
     assert.deepEqual(messageFromDB, message);
   });
+  it('handles bad data', async () => {
+    const attachment: AttachmentType = {
+      ...composeAttachment(),
+      uploadTimestamp: {
+        low: 6174,
+        high: 0,
+        unsigned: false,
+      } as unknown as number,
+      incrementalMac: Bytes.fromString('incrementalMac') as unknown as string,
+    };
+    const message = composeMessage(Date.now(), {
+      attachments: [attachment],
+    });
+
+    await DataWriter.saveMessage(message, {
+      forceSave: true,
+      ourAci: generateAci(),
+      postSaveUpdates: () => Promise.resolve(),
+    });
+
+    const messageFromDB = await DataReader.getMessageById(message.id);
+    assert(messageFromDB, 'message was saved');
+    assert.deepEqual(messageFromDB.attachments?.[0], {
+      ...attachment,
+      uploadTimestamp: undefined,
+      incrementalMac: undefined,
+    });
+  });
 });

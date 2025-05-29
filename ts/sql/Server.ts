@@ -2580,7 +2580,11 @@ function saveMessageAttachment({
       : null,
     backupMediaName: attachment.backupLocator?.mediaName,
     backupCdnNumber: attachment.backupLocator?.cdnNumber,
-    incrementalMac: attachment.incrementalMac,
+    incrementalMac:
+      // resilience to Uint8Array-stored incrementalMac values
+      typeof attachment.incrementalMac === 'string'
+        ? attachment.incrementalMac
+        : null,
     incrementalMacChunkSize: attachment.chunkSize,
     isReencryptableToSameDigest: convertOptionalBooleanToNullableInteger(
       attachment.isReencryptableToSameDigest
