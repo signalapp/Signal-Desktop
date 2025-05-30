@@ -396,6 +396,9 @@ export class Provisioner {
             resource.close();
           }
         },
+        handleDisconnect() {
+          // No-op
+        },
       },
       timeout
     );

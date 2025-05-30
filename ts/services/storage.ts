@@ -2062,6 +2062,8 @@ async function sync({
     strictAssert(manifest.version != null, 'Manifest without version');
     const version = manifest.version?.toNumber() ?? 0;
 
+    await window.waitForEmptyEventQueue();
+
     log.info(
       `storageService.sync: updating to remoteVersion=${version} ` +
         `sourceDevice=${manifest.sourceDevice ?? '?'} from ` +
@@ -2193,10 +2195,20 @@ async function upload({
 let storageServiceEnabled = false;
 
 export function enableStorageService(): void {
+  if (storageServiceEnabled) {
+    return;
+  }
+
   storageServiceEnabled = true;
+  log.info('storageService.enableStorageService');
 }
 
-export function disableStorageService(): void {
+export function disableStorageService(reason: string): void {
+  if (!storageServiceEnabled) {
+    return;
+  }
+
+  log.info(`storageService.disableStorageService: ${reason}`);
   storageServiceEnabled = false;
 }
 
@@ -2316,7 +2328,8 @@ export const runStorageServiceSyncJob = debounce(
   ({ reason }: { reason: string }) => {
     if (!storageServiceEnabled) {
       log.info(
-        'storageService.runStorageServiceSyncJob: called before enabled'
+        `storageService.runStorageServiceSyncJob(${reason}): ` +
+          'called before enabled'
       );
       return;
     }

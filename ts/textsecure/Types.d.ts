@@ -289,6 +289,7 @@ export type CallbackResultType = {
 
 export type IRequestHandler = {
   handleRequest(request: IncomingWebSocketRequest): void;
+  handleDisconnect(): void;
 };
 
 export type PniKeyMaterialType = Readonly<{

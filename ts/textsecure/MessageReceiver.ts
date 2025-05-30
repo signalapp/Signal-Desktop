@@ -292,7 +292,6 @@ export default class MessageReceiver
   #appQueue: PQueue;
   #decryptAndCacheBatcher: BatcherType<CacheAddItemType>;
   #cacheRemoveBatcher: BatcherType<string>;
-  #count: number;
   #processedCount: number;
   #incomingQueue: PQueue;
   #isEmptied?: boolean;
@@ -308,7 +307,6 @@ export default class MessageReceiver
 
     this.#storage = storage;
 
-    this.#count = 0;
     this.#processedCount = 0;
 
     if (!serverTrustRoot) {
@@ -471,10 +469,12 @@ export default class MessageReceiver
     );
   }
 
+  public handleDisconnect(): void {
+    this.#isEmptied = false;
+  }
+
   public startProcessingQueue(): void {
     log.info('MessageReceiver.startProcessingQueue');
-    this.#count = 0;
-    this.#isEmptied = false;
     this.#stoppingProcessing = false;
 
     drop(this.#addCachedMessagesToQueue());
@@ -731,10 +731,6 @@ export default class MessageReceiver
     id: string,
     taskType: TaskType
   ): Promise<T> {
-    if (taskType === TaskType.Encrypted) {
-      this.#count += 1;
-    }
-
     const queue =
       taskType === TaskType.Encrypted
         ? this.#encryptedQueue
@@ -796,10 +792,6 @@ export default class MessageReceiver
     };
 
     const waitForIncomingQueue = async () => {
-      // Note: this.count is used in addToQueue
-      // Resetting count so everything from the websocket after this starts at zero
-      this.#count = 0;
-
       drop(
         this.#addToQueue(
           waitForEncryptedQueue,

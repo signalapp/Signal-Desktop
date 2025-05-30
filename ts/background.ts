@@ -425,7 +425,7 @@ export async function startApp(): Promise<void> {
 
     accountManager = new window.textsecure.AccountManager(server);
     accountManager.addEventListener('startRegistration', () => {
-      pauseProcessing();
+      pauseProcessing('startRegistration');
       // We should already be logged out, but this ensures that the next time we connect
       // to the auth socket it is from newly-registered credentials
       drop(server?.logout());
@@ -771,7 +771,7 @@ export async function startApp(): Promise<void> {
             'WebAPI should be initialized together with MessageReceiver'
           );
           log.info('background/shutdown: shutting down messageReceiver');
-          pauseProcessing();
+          pauseProcessing('shutdown');
           await window.waitForAllBatchers();
         }
 
@@ -1182,14 +1182,14 @@ export async function startApp(): Promise<void> {
   log.info('Storage fetch');
   drop(window.storage.fetch());
 
-  function pauseProcessing() {
+  function pauseProcessing(reason: string) {
     strictAssert(server != null, 'WebAPI not initialized');
     strictAssert(
       messageReceiver != null,
       'messageReceiver must be initialized'
     );
 
-    StorageService.disableStorageService();
+    StorageService.disableStorageService(reason);
     server.unregisterRequestHandler(messageReceiver);
     messageReceiver.stopProcessing();
   }
@@ -1447,13 +1447,18 @@ export async function startApp(): Promise<void> {
     remotelyExpired = true;
   });
 
-  async function runStorageService({ reason }: { reason: string }) {
+  async function enableStorageService({ andSync }: { andSync?: string } = {}) {
+    log.info('enableStorageService: waiting for backupReady');
     await backupReady.promise;
 
+    log.info('enableStorageService: enabling and running');
     StorageService.enableStorageService();
-    StorageService.runStorageServiceSyncJob({
-      reason: `runStorageService/${reason}`,
-    });
+
+    if (andSync != null) {
+      await StorageService.runStorageServiceSyncJob({
+        reason: andSync,
+      });
+    }
   }
 
   async function start() {
@@ -1795,20 +1800,27 @@ export async function startApp(): Promise<void> {
         wasBackupImported,
       });
 
-      // 5. Kickoff storage service sync
+      // 5. Start processing messages from websocket and clear
+      // `messageReceiver.#isEmptied`.
+      log.info(`${logId}: enabling message processing`);
+      messageReceiver.startProcessingQueue();
+      server.registerRequestHandler(messageReceiver);
+
+      // 6. Kickoff storage service sync
       if (isFirstAuthSocketConnect || !postRegistrationSyncsComplete) {
         log.info(`${logId}: triggering storage service sync`);
 
         storageServiceSyncComplete = waitForEvent(
           'storageService:syncComplete'
         );
-        drop(runStorageService({ reason: 'afterFirstAuthSocketConnect' }));
+        drop(
+          enableStorageService({
+            andSync: 'afterFirstAuthSocketConnect',
+          })
+        );
+      } else {
+        drop(enableStorageService());
       }
-
-      // 6. Start processing messages from websocket
-      log.info(`${logId}: enabling message processing`);
-      messageReceiver.startProcessingQueue();
-      server.registerRequestHandler(messageReceiver);
 
       // 7. Wait for critical post-registration syncs before showing inbox
       if (!postRegistrationSyncsComplete) {
@@ -2077,32 +2089,62 @@ export async function startApp(): Promise<void> {
       return;
     }
 
+    const waitStart = Date.now();
+
     if (!messageReceiver.hasEmptied()) {
       log.info(
         'waitForEmptyEventQueue: Waiting for MessageReceiver empty event...'
       );
       const { resolve, reject, promise } = explodePromise<void>();
 
-      const timeout = Timers.setTimeout(() => {
-        reject(new Error('Empty queue never fired'));
-      }, FIVE_MINUTES);
+      const cleanup = () => {
+        messageReceiver?.removeEventListener('empty', onEmptyOnce);
+        messageReceiver?.removeEventListener('envelopeQueued', onResetTimer);
 
-      const onEmptyOnce = () => {
-        if (messageReceiver) {
-          messageReceiver.removeEventListener('empty', onEmptyOnce);
-        }
-        Timers.clearTimeout(timeout);
-        if (resolve) {
-          resolve();
+        if (timeout !== undefined) {
+          Timers.clearTimeout(timeout);
+          timeout = undefined;
         }
       };
+
+      // Reject after 1 minutes of inactivity.
+      const onTimeout = () => {
+        cleanup();
+        reject(new Error('Empty queue never fired'));
+      };
+      let timeout: Timers.Timeout | undefined = Timers.setTimeout(
+        onTimeout,
+        durations.MINUTE
+      );
+
+      const onEmptyOnce = () => {
+        cleanup();
+        resolve();
+      };
       messageReceiver.addEventListener('empty', onEmptyOnce);
+
+      const onResetTimer = () => {
+        if (timeout !== undefined) {
+          Timers.clearTimeout(timeout);
+        }
+        timeout = Timers.setTimeout(onTimeout, durations.MINUTE);
+      };
+      messageReceiver.addEventListener('envelopeQueued', onResetTimer);
 
       await promise;
     }
 
-    log.info('waitForEmptyEventQueue: Waiting for event handler queue idle...');
-    await eventHandlerQueue.onIdle();
+    if (eventHandlerQueue.pending !== 0 || eventHandlerQueue.size !== 0) {
+      log.info(
+        'waitForEmptyEventQueue: Waiting for event handler queue idle...'
+      );
+      await eventHandlerQueue.onIdle();
+    }
+
+    const duration = Date.now() - waitStart;
+    if (duration > SECOND) {
+      log.info(`waitForEmptyEventQueue: resolving after ${duration}ms`);
+    }
   }
 
   window.waitForEmptyEventQueue = waitForEmptyEventQueue;
@@ -3114,7 +3156,7 @@ export async function startApp(): Promise<void> {
       log.info('unlinkAndDisconnect: logging out');
       strictAssert(server !== undefined, 'WebAPI not initialized');
 
-      pauseProcessing();
+      pauseProcessing('unlinkAndDisconnect');
 
       backupReady.reject(new Error('Aborted'));
       backupReady = explodePromise();

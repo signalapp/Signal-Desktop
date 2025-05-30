@@ -879,6 +879,17 @@ export class SocketManager extends EventListener {
     this.#incomingRequestQueue = [];
     this.#authenticated = undefined;
     this.#setAuthenticatedStatus({ status: SocketStatus.CLOSED });
+
+    for (const handlers of this.#requestHandlers) {
+      try {
+        handlers.handleDisconnect();
+      } catch (error) {
+        log.warn(
+          'SocketManager: got exception while handling disconnect, ' +
+            `error: ${Errors.toLogFormat(error)}`
+        );
+      }
+    }
   }
 
   #dropUnauthenticated(process: AbortableProcess<IWebSocketResource>): void {
