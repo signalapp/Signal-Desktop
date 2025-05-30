@@ -343,6 +343,16 @@ export class SocketManager extends EventListener {
       ) {
         window.Whisper.events.trigger('httpResponse499');
         return;
+      } else if (
+        error instanceof LibSignalErrorBase &&
+        error.code === ErrorCode.RateLimitedError
+      ) {
+        throw new HTTPError('Rate limited', {
+          code: 429,
+          headers: {},
+          stack: new Error().stack,
+          cause: error,
+        });
       }
 
       drop(reconnect());
@@ -739,6 +749,38 @@ export class SocketManager extends EventListener {
           ` due to error: ${Errors.toLogFormat(error)}`
       );
       this.#dropUnauthenticated(process);
+
+      if (error instanceof LibSignalErrorBase) {
+        switch (error.code) {
+          case ErrorCode.DeviceDelinked:
+            throw new HTTPError('Device delinked', {
+              code: 403,
+              headers: {},
+              stack: new Error().stack,
+              cause: error,
+            });
+          case ErrorCode.AppExpired:
+            throw new HTTPError('App expired', {
+              code: 499,
+              headers: {},
+              stack: new Error().stack,
+              cause: error,
+            });
+          case ErrorCode.RateLimitedError:
+            throw new HTTPError('Rate limited', {
+              code: 429,
+              headers: {},
+              stack: new Error().stack,
+              cause: error,
+            });
+          case ErrorCode.IoError:
+            throw new ConnectTimeoutError();
+          default:
+            // Fall through to re-throw the error
+            break;
+        }
+      }
+
       throw error;
     }
 
