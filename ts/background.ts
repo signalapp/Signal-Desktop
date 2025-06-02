@@ -1019,7 +1019,7 @@ export async function startApp(): Promise<void> {
       `Starting background data migration. Target version: ${Message.CURRENT_SCHEMA_VERSION}`
     );
     idleDetector.on('idle', async () => {
-      const NUM_MESSAGES_PER_BATCH = 1000;
+      const NUM_MESSAGES_PER_BATCH = 250;
       const BATCH_DELAY = durations.SECOND / 4;
 
       if (isIdleTaskProcessing) {

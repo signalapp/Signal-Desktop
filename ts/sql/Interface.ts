@@ -129,10 +129,9 @@ export type MessageType = MessageAttributesType;
 // - Make sure the name matches the one in `MessageAttributeTypes`
 // - Update `hydrateMessage`
 //
-export const MESSAGE_COLUMNS = [
+const MESSAGE_PRIMARY_KEY_COLUMNS = ['id'] as const;
+export const MESSAGE_NON_PRIMARY_KEY_COLUMNS = [
   'json',
-
-  'id',
   'body',
   'conversationId',
   'expirationStartTimestamp',
@@ -159,6 +158,11 @@ export const MESSAGE_COLUMNS = [
   'serverTimestamp',
   'timestamp',
   'unidentifiedDeliveryReceived',
+] as const;
+
+export const MESSAGE_COLUMNS = [
+  ...MESSAGE_PRIMARY_KEY_COLUMNS,
+  ...MESSAGE_NON_PRIMARY_KEY_COLUMNS,
 ] as const;
 
 export type MessageTypeUnhydrated = {
