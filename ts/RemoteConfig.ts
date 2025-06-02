@@ -37,9 +37,6 @@ export type ConfigKeyType =
   | 'desktop.funPicker' // alpha
   | 'desktop.funPicker.beta'
   | 'desktop.funPicker.prod'
-  | 'desktop.releaseNotes'
-  | 'desktop.releaseNotes.beta'
-  | 'desktop.releaseNotes.dev'
   | 'global.attachments.maxBytes'
   | 'global.attachments.maxReceiveBytes'
   | 'global.backups.mediaTierFallbackCdnNumber'
