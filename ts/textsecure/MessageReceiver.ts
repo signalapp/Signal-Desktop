@@ -8,7 +8,6 @@ import PQueue from 'p-queue';
 import { v7 as getGuid } from 'uuid';
 
 import type {
-  SealedSenderDecryptionResult,
   SenderCertificate,
   UnidentifiedSenderMessageContent,
 } from '@signalapp/libsignal-client';
@@ -16,14 +15,15 @@ import {
   CiphertextMessageType,
   ContentHint,
   DecryptionErrorMessage,
+  ErrorCode as LibSignalErrorCode,
   groupDecrypt,
+  LibSignalErrorBase,
   PlaintextContent,
   Pni,
   PreKeySignalMessage,
   processSenderKeyDistributionMessage,
   ProtocolAddress,
   PublicKey,
-  sealedSenderDecryptMessage,
   sealedSenderDecryptToUsmc,
   SenderKeyDistributionMessage,
   signalDecrypt,
@@ -187,8 +187,7 @@ type DecryptResult = Readonly<
 >;
 
 type DecryptSealedSenderResult = Readonly<{
-  plaintext?: Uint8Array;
-  unsealedPlaintext?: SealedSenderDecryptionResult;
+  plaintext: Uint8Array;
   wasEncrypted: boolean;
 }>;
 
@@ -1613,6 +1612,21 @@ export default class MessageReceiver
       `${logId}: Sealed sender message was missing serverTimestamp`
     );
 
+    const localAci = this.#storage.user.getCheckedAci();
+    const localDeviceId = parseIntOrThrow(
+      this.#storage.user.getDeviceId(),
+      'MessageReceiver.decryptSealedSender: localDeviceId'
+    );
+
+    if (
+      certificate.senderAci()?.getServiceIdString() === localAci &&
+      certificate.senderDeviceId() === localDeviceId
+    ) {
+      throw new Error(
+        `${logId}: Received sealed sender message sent by this device`
+      );
+    }
+
     if (!certificate.validate(this.#serverTrustRoot, serverTimestamp)) {
       throw new Error(`${logId}: Sealed sender certificate validation failed`);
     }
@@ -1657,16 +1671,9 @@ export default class MessageReceiver
 
   async #decryptSealedSender(
     { senderKeyStore, sessionStore, identityKeyStore, zone }: LockedStores,
-    envelope: UnsealedEnvelope,
-    ciphertext: Uint8Array
+    envelope: UnsealedEnvelope
   ): Promise<DecryptSealedSenderResult> {
-    const localE164 = this.#storage.user.getNumber();
     const { destinationServiceId } = envelope;
-    const localDeviceId = parseIntOrThrow(
-      this.#storage.user.getDeviceId(),
-      'MessageReceiver.decryptSealedSender: localDeviceId'
-    );
-
     const logId = getEnvelopeId(envelope);
 
     const { unsealedContent: messageContent, certificate } = envelope;
@@ -1760,26 +1767,39 @@ export default class MessageReceiver
       destinationServiceId,
       Address.create(sealedSenderIdentifier, envelope.sourceDevice)
     );
-    const unsealedPlaintext = await this.#storage.protocol.enqueueSessionJob(
+    const protocolAddress = ProtocolAddress.new(
+      sealedSenderIdentifier,
+      envelope.sourceDevice
+    );
+    const message =
+      messageContent.msgType() === unidentifiedSenderTypeEnum.PREKEY_MESSAGE
+        ? PreKeySignalMessage.deserialize(messageContent.contents())
+        : SignalMessage.deserialize(messageContent.contents());
+    const plaintext = await this.#storage.protocol.enqueueSessionJob(
       address,
-      () =>
-        sealedSenderDecryptMessage(
-          Buffer.from(ciphertext),
-          this.#serverTrustRoot,
-          envelope.serverTimestamp,
-          localE164 || null,
-          destinationServiceId,
-          localDeviceId,
+      () => {
+        if (message instanceof PreKeySignalMessage) {
+          return signalDecryptPreKey(
+            message,
+            protocolAddress,
+            sessionStore,
+            identityKeyStore,
+            preKeyStore,
+            signedPreKeyStore,
+            kyberPreKeyStore
+          );
+        }
+        return signalDecrypt(
+          message,
+          protocolAddress,
           sessionStore,
-          identityKeyStore,
-          preKeyStore,
-          signedPreKeyStore,
-          kyberPreKeyStore
-        ),
+          identityKeyStore
+        );
+      },
       zone
     );
 
-    return { unsealedPlaintext, wasEncrypted: true };
+    return { plaintext, wasEncrypted: true };
   }
 
   async #innerDecrypt(
@@ -1905,28 +1925,11 @@ export default class MessageReceiver
     }
     if (envelope.type === envelopeTypeEnum.UNIDENTIFIED_SENDER) {
       log.info(`decrypt/${logId}: unidentified message`);
-      const { plaintext, unsealedPlaintext, wasEncrypted } =
-        await this.#decryptSealedSender(stores, envelope, ciphertext);
-
-      if (plaintext) {
-        return { plaintext: this.#unpad(plaintext), wasEncrypted };
-      }
-
-      if (unsealedPlaintext) {
-        const content = unsealedPlaintext.message();
-
-        if (!content) {
-          throw new Error(
-            'MessageReceiver.innerDecrypt: Content returned was falsey!'
-          );
-        }
-
-        // Return just the content because that matches the signature of the other
-        //   decrypt methods used above.
-        return { plaintext: this.#unpad(content), wasEncrypted };
-      }
-
-      throw new Error('Unexpected lack of plaintext from unidentified sender');
+      const { plaintext, wasEncrypted } = await this.#decryptSealedSender(
+        stores,
+        envelope
+      );
+      return { plaintext: this.#unpad(plaintext), wasEncrypted };
     }
     throw new Error('Unknown message type');
   }
@@ -1979,14 +1982,7 @@ export default class MessageReceiver
       }
 
       // We don't do anything if it's just a duplicated message
-      if (error?.message?.includes?.('message with old counter')) {
-        this.#removeFromCache(envelope);
-        throw error;
-      }
-
-      // We don't do a light session reset if it's an error with the sealed sender
-      //   wrapper, since we don't trust the sender information.
-      if (error?.message?.includes?.('trust root validation failed')) {
+      if (LibSignalErrorBase.is(error, LibSignalErrorCode.DuplicatedMessage)) {
         this.#removeFromCache(envelope);
         throw error;
       }
