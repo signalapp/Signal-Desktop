@@ -75,6 +75,8 @@ import { PreferencesInternal } from './PreferencesInternal';
 import { FunEmojiLocalizationProvider } from './fun/FunEmojiLocalizationProvider';
 import { NavTabsToggle } from './NavTabs';
 import type { UnreadStats } from '../util/countUnreadStats';
+import type { MessageCountBySchemaVersionType } from '../sql/Interface';
+import type { MessageAttributesType } from '../model-types';
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
@@ -171,6 +173,10 @@ type PropsFunctionType = {
   doDeleteAllData: () => unknown;
   editCustomColor: (colorId: string, color: CustomColorType) => unknown;
   exportLocalBackup: () => Promise<BackupValidationResultType>;
+  getMessageCountBySchemaVersion: () => Promise<MessageCountBySchemaVersionType>;
+  getMessageSampleForSchemaVersion: (
+    version: number
+  ) => Promise<Array<MessageAttributesType>>;
   getConversationsWithCustomColor: (colorId: string) => Array<ConversationType>;
   makeSyncRequest: () => unknown;
   onStartUpdate: () => unknown;
@@ -301,6 +307,8 @@ export function Preferences({
   emojiSkinToneDefault,
   exportLocalBackup,
   getConversationsWithCustomColor,
+  getMessageCountBySchemaVersion,
+  getMessageSampleForSchemaVersion,
   hasAudioNotifications,
   hasAutoConvertEmoji,
   hasAutoDownloadUpdate,
@@ -1800,6 +1808,8 @@ export function Preferences({
         i18n={i18n}
         exportLocalBackup={exportLocalBackup}
         validateBackup={validateBackup}
+        getMessageCountBySchemaVersion={getMessageCountBySchemaVersion}
+        getMessageSampleForSchemaVersion={getMessageSampleForSchemaVersion}
       />
     );
   }

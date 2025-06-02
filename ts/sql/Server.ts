@@ -186,6 +186,7 @@ import type {
   MessageAttachmentDBType,
   MessageTypeUnhydrated,
   ServerMessageSearchResultType,
+  MessageCountBySchemaVersionType,
 } from './Interface';
 import {
   AttachmentDownloadSource,
@@ -436,6 +437,8 @@ export const DataReader: ServerReadableInterface = {
   getBackupCdnObjectMetadata,
   getSizeOfPendingBackupAttachmentDownloadJobs,
   getAttachmentReferencesForMessages,
+  getMessageCountBySchemaVersion,
+  getMessageSampleForSchemaVersion,
 
   // Server-only
   getKnownMessageAttachments,
@@ -8460,6 +8463,37 @@ function getUnreadEditedMessagesAndMarkRead(
         ]),
       } satisfies MessageType & { originalReadStatus: ReadStatus | undefined };
     });
+  })();
+}
+
+function getMessageCountBySchemaVersion(
+  db: ReadableDB
+): MessageCountBySchemaVersionType {
+  const [query, params] = sql`
+    SELECT schemaVersion, COUNT(1) as count from messages 
+    GROUP BY schemaVersion; 
+  `;
+  const rows = db
+    .prepare(query)
+    .all<{ schemaVersion: number; count: number }>(params);
+
+  return rows.sort((a, b) => a.schemaVersion - b.schemaVersion);
+}
+
+function getMessageSampleForSchemaVersion(
+  db: ReadableDB,
+  version: number
+): Array<MessageAttributesType> {
+  return db.transaction(() => {
+    const [query, params] = sql`
+      SELECT * from messages 
+      WHERE schemaVersion = ${version}
+      ORDER BY RANDOM()
+      LIMIT 2;
+    `;
+    const rows = db.prepare(query).all<MessageTypeUnhydrated>(params);
+
+    return hydrateMessages(db, rows);
   })();
 }
 

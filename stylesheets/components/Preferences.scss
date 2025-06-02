@@ -625,21 +625,41 @@ $secondary-text-color: light-dark(
       margin-inline: 4px;
     }
   }
+  pre {
+    max-height: 128px;
+  }
 }
 
-.Preferences--internal--validate-backup--result {
+.Preferences--internal--result {
   padding-inline: 48px 24px;
+  max-width: 100%;
+
+  table {
+    width: 100%;
+  }
+  th,
+  td {
+    padding-inline: 16px;
+    padding-block: 4px;
+    text-align: start;
+    max-width: 600px;
+  }
+  .Preferences--internal--subresult {
+    background-color: variables.$color-white-alpha-06;
+    font-size: 0.8em;
+  }
 }
 
-.Preferences--internal--validate-backup--error {
+.Preferences--internal--error {
   padding-inline: 48px 24px;
   color: variables.$color-accent-red;
 }
 
-.Preferences--internal--validate-backup--result pre,
-.Preferences--internal--validate-backup--error pre {
-  max-height: 128px;
+.Preferences--internal pre,
+.Preferences--internal pre {
+  max-height: 400px;
   max-width: 100%;
   white-space: pre-wrap;
   user-select: text;
+  overflow-x: scroll;
 }

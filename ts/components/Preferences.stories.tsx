@@ -16,6 +16,7 @@ import { DialogType } from '../types/Dialogs';
 
 import type { PropsType } from './Preferences';
 import type { WidthBreakpoint } from './_util';
+import type { MessageAttributesType } from '../model-types';
 
 const { i18n } = window.SignalContext;
 
@@ -200,6 +201,13 @@ export default {
         result: exportLocalBackupResult,
       };
     },
+    getMessageCountBySchemaVersion: async () => [
+      { schemaVersion: 10, count: 1024 },
+      { schemaVersion: 8, count: 256 },
+    ],
+    getMessageSampleForSchemaVersion: async () => [
+      { id: 'messageId' } as MessageAttributesType,
+    ],
     makeSyncRequest: action('makeSyncRequest'),
     onAudioNotificationsChange: action('onAudioNotificationsChange'),
     onAutoConvertEmojiChange: action('onAutoConvertEmojiChange'),

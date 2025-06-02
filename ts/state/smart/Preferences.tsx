@@ -55,6 +55,7 @@ import {
 } from '../selectors/updates';
 import { getHasAnyFailedStorySends } from '../selectors/stories';
 import { getOtherTabsUnreadStats } from '../selectors/nav';
+import { DataReader } from '../../sql/Client';
 
 const DEFAULT_NOTIFICATION_SETTING = 'message';
 
@@ -604,6 +605,12 @@ export function SmartPreferences(): JSX.Element {
         doDeleteAllData={doDeleteAllData}
         editCustomColor={editCustomColor}
         getConversationsWithCustomColor={getConversationsWithCustomColor}
+        getMessageCountBySchemaVersion={
+          DataReader.getMessageCountBySchemaVersion
+        }
+        getMessageSampleForSchemaVersion={
+          DataReader.getMessageSampleForSchemaVersion
+        }
         hasAudioNotifications={hasAudioNotifications}
         hasAutoConvertEmoji={hasAutoConvertEmoji}
         hasAutoDownloadUpdate={hasAutoDownloadUpdate}
