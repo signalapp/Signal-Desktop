@@ -8,7 +8,7 @@ import { DataReader } from '../sql/Client';
 import { isGroup } from './whatTypeOfConversation';
 import { isMessageUnread } from './isMessageUnread';
 
-export async function shouldReplyNotifyUser(
+export async function shouldStoryReplyNotifyUser(
   messageAttributes: Pick<
     ReadonlyMessageAttributesType,
     'readStatus' | 'storyId'
@@ -24,6 +24,7 @@ export async function shouldReplyNotifyUser(
 
   // If this is not a reply to a story, always notify.
   if (storyId == null) {
+    log.error('shouldStoryReplyNotifyUser: called with a non-story-reply');
     return true;
   }
 

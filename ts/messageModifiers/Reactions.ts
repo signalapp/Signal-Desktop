@@ -34,7 +34,6 @@ import { strictAssert } from '../util/assert';
 import { repeat, zipObject } from '../util/iterables';
 import { getMessageIdForLogging } from '../util/idForLogging';
 import { hydrateStoryContext } from '../util/hydrateStoryContext';
-import { shouldReplyNotifyUser } from '../util/shouldReplyNotifyUser';
 import { drop } from '../util/drop';
 import * as reactionUtil from '../reactions/util';
 import { isNewReactionReplacingPrevious } from '../reactions/util';
@@ -45,6 +44,7 @@ import {
   conversationJobQueue,
   conversationQueueJobEnum,
 } from '../jobs/conversationJobQueue';
+import { maybeNotify } from '../messages/maybeNotify';
 
 export type ReactionAttributesType = {
   emoji: string;
@@ -431,18 +431,12 @@ export async function handleReaction(
       }
 
       if (isFromSomeoneElse) {
-        log.info(
-          'handleReaction: notifying for story reaction to ' +
-            `${getMessageIdForLogging(storyMessage)} from someone else`
+        drop(
+          maybeNotify({
+            message: generatedMessage.attributes,
+            conversation: targetConversation,
+          })
         );
-        if (
-          await shouldReplyNotifyUser(
-            generatedMessage.attributes,
-            targetConversation
-          )
-        ) {
-          drop(targetConversation.notify(generatedMessage.attributes));
-        }
       }
     }
   } else {
@@ -515,7 +509,13 @@ export async function handleReaction(
         message.set({ reactions });
 
         if (isOutgoing(message.attributes) && isFromSomeoneElse) {
-          void conversation.notify(message.attributes, reaction);
+          drop(
+            maybeNotify({
+              targetMessage: message.attributes,
+              conversation,
+              reaction,
+            })
+          );
         }
       }
     }
