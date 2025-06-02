@@ -151,7 +151,7 @@ export function TextStoryCreator({
   const tryClose = useRef<() => void | undefined>();
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
     i18n,
-    name: 'SendStoryModal',
+    name: 'TextStoryCreator',
     tryClose,
   });
   const onTryClose = useCallback(() => {

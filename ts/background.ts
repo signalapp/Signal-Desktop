@@ -216,6 +216,8 @@ import { sendSyncRequests } from './textsecure/syncRequests';
 import { handleServerAlerts } from './util/handleServerAlerts';
 import { isLocalBackupsEnabled } from './util/isLocalBackupsEnabled';
 import { NavTab } from './state/ducks/nav';
+import { Page } from './components/Preferences';
+import { EditState } from './components/ProfileEditor';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -1348,38 +1350,14 @@ export async function startApp(): Promise<void> {
     window.reduxActions.app.openStandalone();
   });
 
-  let openingSettingsTab = false;
   window.Whisper.events.on('openSettingsTab', async () => {
-    const logId = 'openSettingsTab';
-    try {
-      if (openingSettingsTab) {
-        log.info(
-          `${logId}: Already attempting to open settings tab, returning early`
-        );
-        return;
-      }
-
-      openingSettingsTab = true;
-
-      const newTab = NavTab.Settings;
-      const needToCancel =
-        await window.Signal.Services.beforeNavigate.shouldCancelNavigation({
-          context: logId,
-          newTab,
-        });
-
-      if (needToCancel) {
-        log.info(`${logId}: Cancelling navigation to the settings tab`);
-        return;
-      }
-
-      window.reduxActions.nav.changeNavTab(newTab);
-    } finally {
-      if (!openingSettingsTab) {
-        log.warn(`${logId}: openingSettingsTab was already false in finally!`);
-      }
-      openingSettingsTab = false;
-    }
+    window.reduxActions.nav.changeLocation({
+      tab: NavTab.Settings,
+      details: {
+        page: Page.Profile,
+        state: EditState.None,
+      },
+    });
   });
 
   window.Whisper.events.on('stageLocalBackupForImport', () => {

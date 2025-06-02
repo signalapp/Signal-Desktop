@@ -26,6 +26,7 @@ export type PropsType = {
   onAvatarLoaded?: (avatarBuffer: Uint8Array) => unknown;
   onClear?: () => unknown;
   onClick?: () => unknown;
+  showUploadButton?: boolean;
   style?: CSSProperties;
 } & Pick<ConversationType, 'avatarPlaceholderGradient' | 'hasAvatar'>;
 
@@ -50,6 +51,7 @@ export function AvatarPreview({
   onAvatarLoaded,
   onClear,
   onClick,
+  showUploadButton,
   style = {},
 }: PropsType): JSX.Element {
   const [avatarPreview, setAvatarPreview] = useState<Uint8Array | undefined>();
@@ -184,7 +186,7 @@ export function AvatarPreview({
           style={componentStyle}
         >
           {content}
-          {isEditable && <div className="AvatarPreview__upload" />}
+          {showUploadButton && <div className="AvatarPreview__upload" />}
         </div>
       </div>
     );
@@ -232,7 +234,7 @@ export function AvatarPreview({
             type="button"
           />
         )}
-        {isEditable && <div className="AvatarPreview__upload" />}
+        {showUploadButton && <div className="AvatarPreview__upload" />}
       </div>
     </div>
   );

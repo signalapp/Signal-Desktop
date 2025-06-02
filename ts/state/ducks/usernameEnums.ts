@@ -12,7 +12,7 @@ export enum UsernameEditState {
 }
 
 //
-// UsernameLinkModalBody
+// UsernameLinkEditor
 //
 
 export enum UsernameLinkState {
@@ -22,7 +22,7 @@ export enum UsernameLinkState {
 }
 
 //
-// EditUsernameModalBody
+// UsernameEditor
 //
 
 export enum UsernameReservationState {

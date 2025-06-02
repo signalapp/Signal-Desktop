@@ -3,11 +3,16 @@
 
 import React, { StrictMode, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+
 import type { AudioDevice } from '@signalapp/ringrtc';
+import type { MutableRefObject } from 'react';
 
 import { useItemsActions } from '../ducks/items';
 import { useConversationsActions } from '../ducks/conversations';
-import { getConversationsWithCustomColorSelector } from '../selectors/conversations';
+import {
+  getConversationsWithCustomColorSelector,
+  getMe,
+} from '../selectors/conversations';
 import {
   getCustomColors,
   getItems,
@@ -17,7 +22,12 @@ import { DEFAULT_AUTO_DOWNLOAD_ATTACHMENT } from '../../textsecure/Storage';
 import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors';
 import { isBackupFeatureEnabledForRedux } from '../../util/isBackupEnabled';
 import { format } from '../../types/PhoneNumber';
-import { getIntl, getUserDeviceId, getUserNumber } from '../selectors/user';
+import {
+  getIntl,
+  getTheme,
+  getUserDeviceId,
+  getUserNumber,
+} from '../selectors/user';
 import { EmojiSkinTone } from '../../components/fun/data/emojis';
 import { renderClearingDataView } from '../../shims/renderClearingDataView';
 import OS from '../../util/os/osPreload';
@@ -41,21 +51,26 @@ import { getConversation } from '../../util/getConversation';
 import { waitForEvent } from '../../shims/events';
 import { MINUTE } from '../../util/durations';
 import { sendSyncRequests } from '../../textsecure/syncRequests';
-
 import { SmartUpdateDialog } from './UpdateDialog';
-import { Preferences } from '../../components/Preferences';
-
-import type { StorageAccessType, ZoomFactorType } from '../../types/Storage';
-import type { ThemeType } from '../../util/preload';
-import type { WidthBreakpoint } from '../../components/_util';
+import { Page, Preferences } from '../../components/Preferences';
 import { useUpdatesActions } from '../ducks/updates';
 import {
   getHasPendingUpdate,
   isUpdateDownloaded as getIsUpdateDownloaded,
 } from '../selectors/updates';
 import { getHasAnyFailedStorySends } from '../selectors/stories';
-import { getOtherTabsUnreadStats } from '../selectors/nav';
+import { getOtherTabsUnreadStats, getSelectedLocation } from '../selectors/nav';
+import { getPreferredBadgeSelector } from '../selectors/badges';
+import { SmartProfileEditor } from './ProfileEditor';
+import { NavTab, useNavActions } from '../ducks/nav';
+import { EditState } from '../../components/ProfileEditor';
+import { SmartToastManager } from './ToastManager';
+import { useToastActions } from '../ducks/toast';
 import { DataReader } from '../../sql/Client';
+
+import type { StorageAccessType, ZoomFactorType } from '../../types/Storage';
+import type { ThemeType } from '../../util/preload';
+import type { WidthBreakpoint } from '../../components/_util';
 
 const DEFAULT_NOTIFICATION_SETTING = 'message';
 
@@ -63,6 +78,18 @@ function renderUpdateDialog(
   props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
 ): JSX.Element {
   return <SmartUpdateDialog {...props} disableDismiss />;
+}
+
+function renderProfileEditor(options: {
+  contentsRef: MutableRefObject<HTMLDivElement | null>;
+}): JSX.Element {
+  return <SmartProfileEditor contentsRef={options.contentsRef} />;
+}
+
+function renderToastManager(props: {
+  containerWidthBreakpoint: WidthBreakpoint;
+}): JSX.Element {
+  return <SmartToastManager disableMegaphone {...props} />;
 }
 
 function getSystemTraySettingValues(
@@ -92,7 +119,7 @@ function getSystemTraySettingValues(
   };
 }
 
-export function SmartPreferences(): JSX.Element {
+export function SmartPreferences(): JSX.Element | null {
   const {
     addCustomColor,
     editCustomColor,
@@ -106,9 +133,12 @@ export function SmartPreferences(): JSX.Element {
   const { removeCustomColorOnConversations, resetAllChatColors } =
     useConversationsActions();
   const { startUpdate } = useUpdatesActions();
+  const { changeLocation } = useNavActions();
+  const { showToast } = useToastActions();
 
   // Selectors
 
+  const currentLocation = useSelector(getSelectedLocation);
   const customColors = useSelector(getCustomColors) ?? {};
   const getConversationsWithCustomColor = useSelector(
     getConversationsWithCustomColorSelector
@@ -120,6 +150,9 @@ export function SmartPreferences(): JSX.Element {
   const navTabsCollapsed = useSelector(getNavTabsCollapsed);
   const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
   const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
+  const me = useSelector(getMe);
+  const badge = useSelector(getPreferredBadgeSelector)(me.badges);
+  const theme = useSelector(getTheme);
 
   // The weird ones
 
@@ -583,6 +616,31 @@ export function SmartPreferences(): JSX.Element {
     }
   );
 
+  if (currentLocation.tab !== NavTab.Settings) {
+    return null;
+  }
+
+  const { page } = currentLocation.details;
+  const setPage = (newPage: Page, editState?: EditState) => {
+    if (newPage === Page.Profile) {
+      changeLocation({
+        tab: NavTab.Settings,
+        details: {
+          page: newPage,
+          state: editState || EditState.None,
+        },
+      });
+      return;
+    }
+
+    changeLocation({
+      tab: NavTab.Settings,
+      details: {
+        page: newPage,
+      },
+    });
+  };
+
   return (
     <StrictMode>
       <Preferences
@@ -594,6 +652,7 @@ export function SmartPreferences(): JSX.Element {
         availableSpeakers={availableSpeakers}
         backupFeatureEnabled={backupFeatureEnabled}
         backupSubscriptionStatus={backupSubscriptionStatus}
+        badge={badge}
         blockedCount={blockedCount}
         cloudBackupStatus={cloudBackupStatus}
         customColors={customColors}
@@ -655,6 +714,7 @@ export function SmartPreferences(): JSX.Element {
         lastSyncTime={lastSyncTime}
         localeOverride={localeOverride}
         makeSyncRequest={makeSyncRequest}
+        me={me}
         navTabsCollapsed={navTabsCollapsed}
         notificationContent={notificationContent}
         onAudioNotificationsChange={onAudioNotificationsChange}
@@ -697,11 +757,14 @@ export function SmartPreferences(): JSX.Element {
         onWhoCanSeeMeChange={onWhoCanSeeMeChange}
         onZoomFactorChange={onZoomFactorChange}
         otherTabsUnreadStats={otherTabsUnreadStats}
+        page={page}
         preferredSystemLocales={preferredSystemLocales}
         refreshCloudBackupStatus={refreshCloudBackupStatus}
         refreshBackupSubscriptionStatus={refreshBackupSubscriptionStatus}
         removeCustomColorOnConversations={removeCustomColorOnConversations}
         removeCustomColor={removeCustomColor}
+        renderProfileEditor={renderProfileEditor}
+        renderToastManager={renderToastManager}
         renderUpdateDialog={renderUpdateDialog}
         resetAllChatColors={resetAllChatColors}
         resetDefaultChatColor={resetDefaultChatColor}
@@ -711,6 +774,9 @@ export function SmartPreferences(): JSX.Element {
         selectedSpeaker={selectedSpeaker}
         sentMediaQualitySetting={sentMediaQualitySetting}
         setGlobalDefaultConversationColor={setGlobalDefaultConversationColor}
+        setPage={setPage}
+        showToast={showToast}
+        theme={theme}
         themeSetting={themeSetting}
         universalExpireTimer={universalExpireTimer}
         validateBackup={validateBackup}

@@ -152,6 +152,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
       totalBytes: 0,
       downloadedBytes: 0,
     },
+    changeLocation: action('changeLocation'),
     clearConversationSearch: action('clearConversationSearch'),
     clearGroupCreationError: action('clearGroupCreationError'),
     clearSearchQuery: action('clearSearchQuery'),
@@ -320,7 +321,6 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
       'toggleConversationInChooseMembers'
     ),
     toggleNavTabsCollapse: action('toggleNavTabsCollapse'),
-    toggleProfileEditor: action('toggleProfileEditor'),
     updateFilterByUnread: action('updateFilterByUnread'),
     updateSearchTerm: action('updateSearchTerm'),
 

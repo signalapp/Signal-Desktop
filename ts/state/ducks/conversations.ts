@@ -36,13 +36,8 @@ import { instance as libphonenumberInstance } from '../../util/libphonenumberIns
 import type {
   ShowSendAnywayDialogActionType,
   ShowErrorModalActionType,
-  ToggleProfileEditorErrorActionType,
 } from './globalModals';
-import {
-  SHOW_SEND_ANYWAY_DIALOG,
-  SHOW_ERROR_MODAL,
-  TOGGLE_PROFILE_EDITOR_ERROR,
-} from './globalModals';
+import { SHOW_SEND_ANYWAY_DIALOG, SHOW_ERROR_MODAL } from './globalModals';
 import {
   MODIFY_LIST,
   DELETE_LIST,
@@ -183,8 +178,13 @@ import {
   isWithinMaxEdits,
   MESSAGE_MAX_EDIT_COUNT,
 } from '../../util/canEditMessage';
-import type { ChangeNavTabActionType } from './nav';
-import { CHANGE_NAV_TAB, NavTab, actions as navActions } from './nav';
+import type { ChangeLocationAction } from './nav';
+import {
+  CHANGE_LOCATION,
+  NavTab,
+  changeLocation,
+  actions as navActions,
+} from './nav';
 import { sortByMessageOrder } from '../../types/ForwardDraft';
 import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation';
 import {
@@ -220,6 +220,8 @@ import { markFailed } from '../../test-node/util/messageFailures';
 import { cleanupMessages } from '../../util/cleanup';
 import { MessageModel } from '../../models/messages';
 import type { ConversationModel } from '../../models/conversations';
+import { EditState } from '../../components/ProfileEditor';
+import { Page } from '../../components/Preferences';
 
 // State
 
@@ -586,6 +588,7 @@ export type ConversationsStateType = ReadonlyDeep<{
   pendingRequestedAvatarDownload: Record<string, boolean>;
 
   preloadData?: ConversationPreloadDataType;
+  hasProfileUpdateError?: boolean;
 }>;
 
 // Helpers
@@ -649,6 +652,8 @@ export const CONVERSATION_UNLOADED = 'CONVERSATION_UNLOADED';
 export const SHOW_SPOILER = 'conversations/SHOW_SPOILER';
 export const SET_PENDING_REQUESTED_AVATAR_DOWNLOAD =
   'conversations/SET_PENDING_REQUESTED_AVATAR_DOWNLOAD';
+export const SET_PROFILE_UPDATE_ERROR =
+  'conversations/SET_PROFILE_UPDATE_ERROR';
 
 export type CancelVerificationDataByConversationActionType = ReadonlyDeep<{
   type: typeof CANCEL_CONVERSATION_PENDING_VERIFICATION;
@@ -844,6 +849,12 @@ export type SetPendingRequestedAvatarDownloadActionType = ReadonlyDeep<{
   payload: {
     conversationId: string;
     value: boolean;
+  };
+}>;
+export type SetProfileUpdateErrorActionType = ReadonlyDeep<{
+  type: typeof SET_PROFILE_UPDATE_ERROR;
+  payload: {
+    newErrorState: boolean;
   };
 }>;
 
@@ -1082,6 +1093,7 @@ export type ConversationActionType =
   | ReviewConversationNameCollisionActionType
   | ScrollToMessageActionType
   | SetPendingRequestedAvatarDownloadActionType
+  | SetProfileUpdateErrorActionType
   | TargetedConversationChangedActionType
   | SetComposeGroupAvatarActionType
   | SetComposeGroupExpireTimerActionType
@@ -1219,6 +1231,7 @@ export const actions = {
   setMuteExpiration,
   setPinned,
   setPreJoinConversation,
+  setProfileUpdateError,
   setVoiceNotePlaybackRate,
   showArchivedConversations,
   showAttachmentDownloadStillInProgressToast,
@@ -2214,12 +2227,7 @@ function saveAvatarToDisk(
 function myProfileChanged(
   profileData: ProfileDataType,
   avatarUpdateOptions: AvatarUpdateOptionsType
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  NoopActionType | ToggleProfileEditorErrorActionType
-> {
+): ThunkAction<void, RootStateType, unknown, SetProfileUpdateErrorActionType> {
   return async (dispatch, getState) => {
     const conversation = getMe(getState());
 
@@ -2235,13 +2243,32 @@ function myProfileChanged(
       // writeProfile above updates the backbone model which in turn updates
       // redux through it's on:change event listener. Once we lose Backbone
       // we'll need to manually sync these new changes.
+
+      // We just want to clear whatever error was there before:
       dispatch({
-        type: 'NOOP',
-        payload: null,
+        type: SET_PROFILE_UPDATE_ERROR,
+        payload: {
+          newErrorState: false,
+        },
       });
     } catch (err) {
       log.error('myProfileChanged', Errors.toLogFormat(err));
-      dispatch({ type: TOGGLE_PROFILE_EDITOR_ERROR });
+
+      // Make sure the user sees an error dialog
+      dispatch({
+        type: SET_PROFILE_UPDATE_ERROR,
+        payload: {
+          newErrorState: true,
+        },
+      });
+      // And take them to the profile editor to resolve it
+      changeLocation({
+        tab: NavTab.Settings,
+        details: {
+          page: Page.Profile,
+          state: EditState.None,
+        },
+      });
     }
   };
 }
@@ -3067,7 +3094,7 @@ export function markOpenConversationRead(
     const state = getState();
     const { nav } = state;
 
-    if (nav.selectedNavTab !== NavTab.Chats) {
+    if (nav.selectedLocation.tab !== NavTab.Chats) {
       return;
     }
 
@@ -3302,6 +3329,16 @@ function setIsFetchingUUID(
     payload: {
       identifier,
       isFetching,
+    },
+  };
+}
+function setProfileUpdateError(
+  newErrorState: boolean
+): SetProfileUpdateErrorActionType {
+  return {
+    type: SET_PROFILE_UPDATE_ERROR,
+    payload: {
+      newErrorState,
     },
   };
 }
@@ -4676,13 +4713,13 @@ function showConversation({
   void,
   RootStateType,
   unknown,
-  TargetedConversationChangedActionType | ChangeNavTabActionType
+  TargetedConversationChangedActionType | ChangeLocationAction
 > {
   return (dispatch, getState) => {
     const { conversations, nav } = getState();
 
-    if (nav.selectedNavTab !== NavTab.Chats) {
-      dispatch(navActions.changeNavTab(NavTab.Chats));
+    if (nav.selectedLocation.tab !== NavTab.Chats) {
+      dispatch(navActions.changeLocation({ tab: NavTab.Chats }));
       const conversation = window.ConversationController.get(conversationId);
       conversation?.setMarkedUnread(false);
     }
@@ -5469,7 +5506,7 @@ export function reducer(
   action: Readonly<
     | ConversationActionType
     | StoryDistributionListsActionType
-    | ChangeNavTabActionType
+    | ChangeLocationAction
   >
 ): ConversationsStateType {
   if (action.type === CLEAR_CONVERSATIONS_PENDING_VERIFICATION) {
@@ -5654,6 +5691,15 @@ export function reducer(
     return {
       ...state,
       preJoinConversation: data,
+    };
+  }
+  if (action.type === SET_PROFILE_UPDATE_ERROR) {
+    const { payload } = action;
+    const { newErrorState } = payload;
+
+    return {
+      ...state,
+      hasProfileUpdateError: newErrorState,
     };
   }
   if (action.type === 'CONVERSATIONS_UPDATED') {
@@ -7299,8 +7345,8 @@ export function reducer(
   }
 
   if (
-    action.type === CHANGE_NAV_TAB &&
-    action.payload.selectedNavTab === NavTab.Chats
+    action.type === CHANGE_LOCATION &&
+    action.payload.selectedLocation.tab === NavTab.Chats
   ) {
     const { messagesByConversation, selectedConversationId } = state;
     if (selectedConversationId == null) {

@@ -195,6 +195,7 @@ export function EditConversationAttributesModal({
           onClick={() => {
             setEditingAvatar(true);
           }}
+          showUploadButton
           style={{
             height: 96,
             width: 96,

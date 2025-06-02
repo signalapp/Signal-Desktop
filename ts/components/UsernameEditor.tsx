@@ -1,8 +1,15 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+  useRef,
+} from 'react';
 import classNames from 'classnames';
+import { noop } from 'lodash';
 
 import type { LocalizerType } from '../types/Util';
 import type { UsernameReservationType } from '../types/Username';
@@ -22,6 +29,7 @@ import { Input } from './Input';
 import { Spinner } from './Spinner';
 import { Modal } from './Modal';
 import { Button, ButtonVariant } from './Button';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
 
 export type PropsDataType = Readonly<{
   i18n: LocalizerType;
@@ -47,7 +55,6 @@ export type ActionPropsDataType = Readonly<{
 
 export type ExternalPropsDataType = Readonly<{
   onClose(): void;
-  isRootModal: boolean;
 }>;
 
 export type PropsType = PropsDataType &
@@ -62,7 +69,7 @@ enum UpdateState {
 
 const DISCRIMINATOR_MAX_LENGTH = 9;
 
-export function EditUsernameModalBody({
+export function UsernameEditor({
   i18n,
   currentUsername,
   usernameCorrupted,
@@ -77,7 +84,6 @@ export function EditUsernameModalBody({
   error,
   state,
   recoveredUsername,
-  isRootModal,
   onClose,
 }: PropsType): JSX.Element {
   const currentNickname = useMemo(() => {
@@ -155,16 +161,12 @@ export function EditUsernameModalBody({
 
   useEffect(() => {
     if (state === UsernameReservationState.Closed) {
-      onClose();
+      setTimeout(() => onClose(), 500);
     }
   }, [state, onClose]);
 
   useEffect(() => {
-    if (
-      state === UsernameReservationState.Closed &&
-      recoveredUsername &&
-      isRootModal
-    ) {
+    if (state === UsernameReservationState.Closed && recoveredUsername) {
       showToast({
         toastType: ToastType.UsernameRecovered,
         parameters: {
@@ -172,7 +174,7 @@ export function EditUsernameModalBody({
         },
       });
     }
-  }, [state, recoveredUsername, showToast, isRootModal]);
+  }, [state, recoveredUsername, showToast]);
 
   const errorString = useMemo(() => {
     if (!error) {
@@ -284,6 +286,31 @@ export function EditUsernameModalBody({
     setIsLearnMoreVisible(true);
   }, []);
 
+  const tryClose = useRef<() => void | undefined>();
+  const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
+    i18n,
+    name: 'UsernameEditor',
+    tryClose,
+  });
+
+  const onTryClose = useCallback(() => {
+    const onDiscard = noop;
+    confirmDiscardIf(
+      Boolean(
+        currentNickname !== nickname ||
+          (customDiscriminator && customDiscriminator !== currentDiscriminator)
+      ),
+      onDiscard
+    );
+  }, [
+    confirmDiscardIf,
+    currentDiscriminator,
+    currentNickname,
+    customDiscriminator,
+    nickname,
+  ]);
+  tryClose.current = onTryClose;
+
   let title = i18n('icu:ProfileEditor--username--title');
   if (nickname && discriminator) {
     title = `${nickname}.${discriminator}`;
@@ -291,21 +318,20 @@ export function EditUsernameModalBody({
 
   const learnMoreTitle = (
     <>
-      <i className="EditUsernameModalBody__learn-more__hashtag" />
+      <i className="UsernameEditor__learn-more__hashtag" />
       {i18n('icu:EditUsernameModalBody__learn-more__title')}
     </>
   );
 
   return (
     <>
-      <div className="EditUsernameModalBody__header">
-        <div className="EditUsernameModalBody__header__large-at" />
+      <div className="UsernameEditor__header">
+        <div className="UsernameEditor__header__large-at" />
 
-        <div className="EditUsernameModalBody__header__preview">{title}</div>
+        <div className="UsernameEditor__header__preview">{title}</div>
       </div>
-
       <Input
-        moduleClassName="EditUsernameModalBody__input"
+        moduleClassName="UsernameEditor__input"
         i18n={i18n}
         disableSpellcheck
         disabled={isConfirming}
@@ -317,9 +343,9 @@ export function EditUsernameModalBody({
         {isReserving && <Spinner size="16px" svgSize="small" />}
         {isDiscriminatorVisible ? (
           <>
-            <div className="EditUsernameModalBody__divider" />
+            <div className="UsernameEditor__divider" />
             <AutoSizeInput
-              moduleClassName="EditUsernameModalBody__discriminator"
+              moduleClassName="UsernameEditor__discriminator"
               disableSpellcheck
               disabled={isConfirming}
               value={discriminator}
@@ -330,28 +356,26 @@ export function EditUsernameModalBody({
           </>
         ) : null}
       </Input>
-
       {errorString && (
-        <div className="EditUsernameModalBody__error">{errorString}</div>
+        <div className="UsernameEditor__error">{errorString}</div>
       )}
       <div
         className={classNames(
-          'EditUsernameModalBody__info',
-          !errorString ? 'EditUsernameModalBody__info--no-error' : undefined
+          'UsernameEditor__info',
+          !errorString ? 'UsernameEditor__info--no-error' : undefined
         )}
       >
         {i18n('icu:EditUsernameModalBody__username-helper')}
         &nbsp;
         <button
           type="button"
-          className="EditUsernameModalBody__learn-more-button"
+          className="UsernameEditor__learn-more-button"
           onClick={onLearnMore}
         >
           {i18n('icu:EditUsernameModalBody__learn-more')}
         </button>
       </div>
-
-      <Modal.ButtonFooter>
+      <div className="UsernameEditor__button-footer">
         <Button
           disabled={isConfirming}
           onClick={onCancel}
@@ -366,32 +390,33 @@ export function EditUsernameModalBody({
             i18n('icu:save')
           )}
         </Button>
-      </Modal.ButtonFooter>
+      </div>
+
+      {confirmDiscardModal}
 
       {isLearnMoreVisible && (
         <Modal
-          modalName="EditUsernamModalBody.LearnMore"
-          moduleClassName="EditUsernameModalBody__learn-more"
+          modalName="UsernameEditor.LearnMore"
+          moduleClassName="UsernameEditor__learn-more"
           i18n={i18n}
           onClose={() => setIsLearnMoreVisible(false)}
           title={learnMoreTitle}
         >
           {i18n('icu:EditUsernameModalBody__learn-more__body')}
 
-          <Modal.ButtonFooter>
+          <div className="UsernameEditor__button-footer">
             <Button
               onClick={() => setIsLearnMoreVisible(false)}
               variant={ButtonVariant.Secondary}
             >
               {i18n('icu:ok')}
             </Button>
-          </Modal.ButtonFooter>
+          </div>
         </Modal>
       )}
-
       {error === UsernameReservationError.General && (
         <ConfirmationDialog
-          dialogName="EditUsernameModalBody.generalError"
+          dialogName="UsernameEditor.generalError"
           cancelText={i18n('icu:ok')}
           cancelButtonVariant={ButtonVariant.Secondary}
           i18n={i18n}
@@ -400,10 +425,9 @@ export function EditUsernameModalBody({
           {i18n('icu:ProfileEditor--username--general-error')}
         </ConfirmationDialog>
       )}
-
       {error === UsernameReservationError.ConflictOrGone && (
         <ConfirmationDialog
-          dialogName="EditUsernameModalBody.conflictOrGone"
+          dialogName="UsernameEditor.conflictOrGone"
           cancelText={i18n('icu:ok')}
           cancelButtonVariant={ButtonVariant.Secondary}
           i18n={i18n}
@@ -418,10 +442,9 @@ export function EditUsernameModalBody({
           })}
         </ConfirmationDialog>
       )}
-
       {isConfirmingSave && (
         <ConfirmationDialog
-          dialogName="EditUsernameModalBody.confirmChange"
+          dialogName="UsernameEditor.confirmChange"
           cancelText={i18n('icu:cancel')}
           actions={[
             {
@@ -438,10 +461,9 @@ export function EditUsernameModalBody({
           {i18n('icu:EditUsernameModalBody__change-confirmation')}
         </ConfirmationDialog>
       )}
-
       {isConfirmingReset && (
         <ConfirmationDialog
-          dialogName="EditUsernameModalBody.confirmReset"
+          dialogName="UsernameEditor.confirmReset"
           cancelText={i18n('icu:cancel')}
           actions={[
             {
