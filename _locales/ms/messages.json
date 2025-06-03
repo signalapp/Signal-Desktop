@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Pasang sebagai Peranti Kendiri"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Lebih tindakan"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Database error: please share your logs."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Menerima respons tidak sah daripada perkhidmatan storan. Sila kongsi log anda."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Perlukan bantuan?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Settings"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Nombor Telefon"
@@ -3138,16 +3147,16 @@
     "messageformat": "Mikrofon dihidupkan"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} meredamkan anda."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} meredamkan {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Anda meredamkan {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Anda meredamkan diri anda daripada peranti lain."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Turunkan tangan anda?"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Eksport sandaran disulitkan tempatan ke folder dan sahkannya"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Import…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Sediakan sandaran disulitkan setempat untuk diimport melalui pautan."
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Eksport sandaran yang disulitkan ke memori dan jalankan set pengesahan ke atasnya"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Sedikit pengubahsuaian, pembaikan pepijat dan peningkatan prestasi. Terima kasih kerana menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Kami telah menambah sokongan untuk pintasan emoji dalam lebih banyak bahasa."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Kemas kini ini mengaktifkan semula pintasan papan kekunci untuk emoji dan pelekat."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Kami juga membetulkan isu ranap pada edaran Linux yang belum menyokong GTK4."
-  },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "Kemas kini ini membetulkan pepijat yang menyukarkan untuk mengalih tetingkap Signal semasa melihat kandungan dalam tab Cerita."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
   }
 }

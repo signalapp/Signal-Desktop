@@ -913,6 +913,7 @@ export function MixedContentTypes(args: Props): JSX.Element {
           screenshot: {
             height: 112,
             width: 112,
+            size: 128000,
             url: '/fixtures/kitten-4-112-112.jpg',
             contentType: IMAGE_JPEG,
             path: 'originalpath',

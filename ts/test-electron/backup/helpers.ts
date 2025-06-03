@@ -110,9 +110,6 @@ function sortAndNormalize(
     return JSON.parse(
       JSON.stringify({
         // Defaults
-        hasAttachments: false,
-        hasFileAttachments: false,
-        hasVisualMediaAttachments: false,
         isErased: false,
         isViewOnce: false,
         mentionsMe: false,

@@ -31,16 +31,6 @@ export class EmptyEvent extends Event {
   }
 }
 
-export class ProgressEvent extends Event {
-  public readonly count: number;
-
-  constructor({ count }: { count: number }) {
-    super('progress');
-
-    this.count = count;
-  }
-}
-
 export type TypingEventData = Readonly<{
   typingMessage: Proto.ITypingMessage;
   timestamp: number;
@@ -146,12 +136,9 @@ export type SuccessfulDecryptEventData = Readonly<{
   timestamp: number;
 }>;
 
-export class SuccessfulDecryptEvent extends ConfirmableEvent {
-  constructor(
-    public readonly data: SuccessfulDecryptEventData,
-    confirm: ConfirmCallback
-  ) {
-    super('successful-decrypt', confirm);
+export class SuccessfulDecryptEvent extends Event {
+  constructor(public readonly data: SuccessfulDecryptEventData) {
+    super('successful-decrypt');
   }
 }
 

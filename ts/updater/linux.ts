@@ -14,7 +14,7 @@ import { DialogType } from '../types/Dialogs';
 import * as Errors from '../types/errors';
 import type { UpdaterOptionsType } from './common';
 
-const MIN_UBUNTU_VERSION = '20.04';
+const MIN_UBUNTU_VERSION = '22.04';
 
 const PackageSchema = z.object({
   version: z.string(),

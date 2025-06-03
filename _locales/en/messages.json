@@ -421,7 +421,7 @@
   },
   "icu:NavTabs__ItemLabel--Update": {
     "messageformat": "Update Signal",
-    "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
+    "description": "(Deleted 2025/05/28) Nav Tabs > Settings Button > Label & Accessibility Text"
   },
   "icu:NavTabs__ItemLabel--Profile": {
     "messageformat": "Profile",
@@ -804,6 +804,10 @@
     "messageformat": "Failed to send message with endorsements",
     "description": "An error popup when we attempted and failed to send a message using endorsements, only for internal users."
   },
+  "icu:Toast--SQLError": {
+    "messageformat": "Database error: please share your logs.",
+    "description": "An error popup when a database method fails, for internal & beta users"
+  },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Received invalid response from storage service. Please share your logs.",
     "description": "[Only shown to internal/beta users] An error popup when we noticed an invalid response (i.e. a web request response) from one of our servers"
@@ -893,7 +897,7 @@
   },
   "icu:signalDesktopPreferences": {
     "messageformat": "Signal Desktop Preferences",
-    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    "description": "(Deleted 2025/05/28) Title of the window that pops up with Signal Desktop preferences in it"
   },
   "icu:signalDesktopStickerCreator": {
     "messageformat": "Sticker pack creator",
@@ -8445,20 +8449,12 @@
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "A smile is the same in any language, but now that the emoji shortcuts in Signal Desktop have been fully translated you can also <code>:smile:</code> or <code>:sourire:</code> or <code>:微笑:</code> in any supported language too.",
-    "description": "(Deleted 2025/05/13) Release notes for version 7.54"
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Keyboard shortcuts for emoji and stickers are back! These shortcuts also save even more time because now you won't need to write in and tell us that they're broken anymore.",
-    "description": "(Deleted 2025/05/21) Release notes for version 7.55"
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We also fixed a crash on Linux distributions that don't support GTK4 yet.",
-    "description": "(Deleted 2025/05/21) Release notes for version 7.55"
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab.",
-    "description": "Release notes for version 7.56"
+    "description": "(Deleted 2025/05/28) Release notes for version 7.56"
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen.",
+    "description": "Release notes for version 7.57"
   }
 }

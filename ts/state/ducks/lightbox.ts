@@ -328,10 +328,9 @@ function showLightbox(opts: {
           sentAt,
         },
         attachment: item,
-        thumbnailObjectUrl:
-          item.thumbnail?.objectUrl || item.thumbnail?.path
-            ? getLocalAttachmentUrl(item.thumbnail)
-            : undefined,
+        thumbnailObjectUrl: item.thumbnail?.path
+          ? getLocalAttachmentUrl(item.thumbnail)
+          : undefined,
         size: item.size,
         totalDownloaded: item.totalDownloaded,
       }))

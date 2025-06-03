@@ -31,6 +31,7 @@ import { drop } from '../util/drop';
 import { isNotNil } from '../util/isNotNil';
 import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment';
 import { AttachmentDisposition } from '../util/getLocalAttachmentUrl';
+import { getPlaintextHashForInMemoryAttachment } from '../AttachmentCrypto';
 
 export type ActionSourceType =
   | 'startup'
@@ -1094,7 +1095,6 @@ export async function copyStickerToAttachments(
     // Fall-back
     contentType: IMAGE_WEBP,
   };
-
   const data = await window.Signal.Migrations.readAttachmentData(newSticker);
 
   const sniffedMimeType = sniffImageMimeType(data);
@@ -1105,6 +1105,8 @@ export async function copyStickerToAttachments(
       'copyStickerToAttachments: Unable to sniff sticker MIME type; falling back to WebP'
     );
   }
+
+  newSticker.plaintextHash = getPlaintextHashForInMemoryAttachment(data);
 
   return newSticker;
 }

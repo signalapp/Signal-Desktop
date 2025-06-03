@@ -554,9 +554,6 @@ export async function handleDataMessage(
         errors: [],
         flags: dataMessage.flags,
         giftBadge: initialMessage.giftBadge,
-        hasAttachments: dataMessage.hasAttachments,
-        hasFileAttachments: dataMessage.hasFileAttachments,
-        hasVisualMediaAttachments: dataMessage.hasVisualMediaAttachments,
         isViewOnce: Boolean(dataMessage.isViewOnce),
         mentionsMe: (dataMessage.bodyRanges ?? []).some(bodyRange => {
           if (!BodyRange.isMention(bodyRange)) {

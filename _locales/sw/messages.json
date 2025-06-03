@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Weka kama Kifaa Huru"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Vitendo zaidi"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Database error: please share your logs."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Umepokea majibu yasiyo sahihi kutoka huduma za uhifadhi. Tafadhali tuma logs zako."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Unahitaji usaidizi?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Settings"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Nambari ya Simu"
@@ -3138,16 +3147,16 @@
     "messageformat": "Washa mic"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} amekunyamazisha."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} amemnyamazisha {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Umemnyamazisha {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Umejinyamazisha katika kifaa kingine."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Je ushushe mkono wako?"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Hamisha hifadhi nakala ya kifaa iliyosimbwa fiche kwenye folda na kuihakikisha"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Agiza…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Andaa hifadhi nakala ya kifaa iliyosimbwa fiche kwa ajili ya kuagiza kwenye kiungo"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Hamishia hifadhi nakala iliyosimbwa fiche kwenye kumbukumbu na utekeleze masharti ya uthibitishaji juu yake"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Tabasamu huwa ni lile lile katika lugha yoyote, lakini sasa kwa vile njia za mkato za emoji katika Signal Desktop zimetafsiriwa kikamilifu unaweza pia <code>:kutabasamu:</code> au <code>:sourire:</code> au <code>:微笑:</code> katika lugha yoyote inayotumika pia."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Mikato ya kibodi za emoji na vibandiko imerudi! Njia hizi za mkato pia huokoa muda zaidi kwa sababu sasa hautahitaji kuandika na kutuambia kuwa zimevunjika tena."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Pia tumerekebisha hitilafu kwenye usambazaji wa Linux ambao bado hautumii GTK4."
-  },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "Wakati mwingine stori ya kusisimua inaweza kukuhamasisha, kwa hiyo tulirekebisha hitilafu ambayo ilifanya iwe vigumu kusogeza dirisha la Signal ukiwa unatazama maudhui kwenye kichupo cha Stori."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
   }
 }

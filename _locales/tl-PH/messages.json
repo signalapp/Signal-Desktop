@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Set Up as Standalone Device"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Iba pang actions"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Database error: please share your logs."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Nakatanggap ng invalid response mula sa storage service. Mangyaring i-share ang iyong logs."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Kailangan mo ba ng tulong?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Settings"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Phone Number"
@@ -3138,16 +3147,16 @@
     "messageformat": "Naka-on ang mic"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "Na-mute ka ni {otherName} ."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "Na-mute ni {name} si {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Na-mute mo si {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Na-mute mo ang iyong sarili mula sa ibang device."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Gusto mo bang ibaba ang iyong kamay?"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "I-export ang local na encrypted backup sa isang folder at i-validate ito"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "I-import…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Gumawa ng local na encrypted backup para na maaaring i-import sa link"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "I-export ang encrypted backup sa memory at magpatakbo ng validation suite dito"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Nagdagdag kami ng suporta para sa emoji shortcuts sa mga karagdagang wika."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Naka-enable na ulit sa update na ito ang keyboard shortcuts para sa emoji at stickers."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Inayos din namin ang rare crash sa ilang Linux distributions."
-  },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "Inayos ng update na ito ang bug na nagpapahirap sa paglipat ng Signal window habang tumitingin ng content sa Stories tab."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
   }
 }

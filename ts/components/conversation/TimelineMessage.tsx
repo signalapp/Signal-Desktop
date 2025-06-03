@@ -48,6 +48,7 @@ export type PropsData = {
   canDownload: boolean;
   canCopy: boolean;
   canEditMessage: boolean;
+  canForward: boolean;
   canRetry: boolean;
   canRetryDeleteForEveryone: boolean;
   canReact: boolean;
@@ -96,6 +97,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     canDownload,
     canCopy,
     canEditMessage,
+    canForward,
     canReact,
     canReply,
     canRetry,
@@ -103,15 +105,11 @@ export function TimelineMessage(props: Props): JSX.Element {
     containerElementRef,
     containerWidthBreakpoint,
     conversationId,
-    deletedForEveryone,
     direction,
-    giftBadge,
     i18n,
     id,
     isTargeted,
-    isTapToView,
     kickOffAttachmentDownload,
-    payment,
     copyMessageText,
     pushPanelForConversation,
     reactToMessage,
@@ -255,8 +253,6 @@ export function TimelineMessage(props: Props): JSX.Element {
   );
 
   const handleContextMenu = useHandleMessageContextMenu(menuTriggerRef);
-  const canForward =
-    !isTapToView && !deletedForEveryone && !giftBadge && !payment;
 
   const shouldShowAdditional =
     doesMessageBodyOverflow(text || '') || !isWindowWidthNotNarrow;

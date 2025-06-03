@@ -214,6 +214,10 @@ const FORCE_ENABLE_CRASH_REPORTS = process.argv.some(
   arg => arg === '--enable-crash-reports'
 );
 
+const DISABLE_SCREEN_SECURITY = process.argv.some(
+  arg => arg === '--disable-screen-security'
+);
+
 const CLI_LANG = cliOptions.lang as string | undefined;
 
 setupCrashReports(getLogger, showDebugLogWindow, FORCE_ENABLE_CRASH_REPORTS);
@@ -576,8 +580,8 @@ async function handleCommonWindowEvents(window: BrowserWindow) {
   // Apply content protection by default on Windows, unless explicitly disabled
   // by user in settings.
   if (
-    contentProtection ??
-    isContentProtectionEnabledByDefault(OS, os.release())
+    !DISABLE_SCREEN_SECURITY &&
+    (contentProtection ?? isContentProtectionEnabledByDefault(OS, os.release()))
   ) {
     window.once('ready-to-show', async () => {
       window.setContentProtection(true);
@@ -1591,7 +1595,7 @@ const runSQLCorruptionHandler = async () => {
   // This is a glorified event handler. Normally, this promise never resolves,
   // but if there is a corruption error triggered by any query that we run
   // against the database - the promise will resolve and we will call
-  // `onDatabaseError`.
+  // `onDatabaseInitializationError`.
   const error = await sql.whenCorrupted();
 
   getLogger().error(
@@ -1599,14 +1603,14 @@ const runSQLCorruptionHandler = async () => {
       `Restarting the application immediately. Error: ${error.message}`
   );
 
-  await onDatabaseError(error);
+  await onDatabaseInitializationError(error);
 };
 
 const runSQLReadonlyHandler = async () => {
   // This is a glorified event handler. Normally, this promise never resolves,
   // but if there is a corruption error triggered by any query that we run
   // against the database - the promise will resolve and we will call
-  // `onDatabaseError`.
+  // `onDatabaseInitializationError`.
   const error = await sql.whenReadonly();
 
   getLogger().error(
@@ -1775,10 +1779,19 @@ async function initializeSQL(
   drop(runSQLCorruptionHandler());
   drop(runSQLReadonlyHandler());
 
+  sql.onUnknownSqlError(onUnknownSqlError);
+
   return { ok: true, error: undefined };
 }
 
-const onDatabaseError = async (error: Error) => {
+function onUnknownSqlError(error: Error) {
+  getLogger().error('Unknown SQL Error:', Errors.toLogFormat(error));
+  if (mainWindow) {
+    mainWindow.webContents.send('sql-error');
+  }
+}
+
+const onDatabaseInitializationError = async (error: Error) => {
   // Prevent window from re-opening
   ready = false;
 
@@ -1881,11 +1894,11 @@ const onDatabaseError = async (error: Error) => {
     });
 
     if (confirmationButtonIndex === confirmDeleteAllDataButtonIndex) {
-      getLogger().error('onDatabaseError: Deleting all data');
+      getLogger().error('onDatabaseInitializationError: Deleting all data');
       await sql.removeDB();
       userConfig.remove();
       getLogger().error(
-        'onDatabaseError: Requesting immediate restart after quit'
+        'onDatabaseInitializationError: Requesting immediate restart after quit'
       );
       app.relaunch();
     }
@@ -1897,7 +1910,7 @@ const onDatabaseError = async (error: Error) => {
     );
   }
 
-  getLogger().error('onDatabaseError: Quitting application');
+  getLogger().error('onDatabaseInitializationError: Quitting application');
   app.exit(1);
 };
 
@@ -2274,7 +2287,7 @@ app.on('ready', async () => {
   if (sqlError) {
     getLogger().error('sql.initialize was unsuccessful; returning early');
 
-    await onDatabaseError(sqlError);
+    await onDatabaseInitializationError(sqlError);
 
     return;
   }
@@ -2764,6 +2777,7 @@ ipc.on('get-config', async event => {
     // Should be already computed and cached at this point
     dnsFallback: await getDNSFallback(),
     disableIPv6: DISABLE_IPV6,
+    disableScreenSecurity: DISABLE_SCREEN_SECURITY,
     nodeVersion: process.versions.node,
     hostname: os.hostname(),
     osRelease: os.release(),

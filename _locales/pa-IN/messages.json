@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "ਇਕੱਲੇ ਡਿਵਾਈਸ ਵਜੋਂ ਸੈਟ ਅੱਪ ਕਰੋ"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "ਹੋਰ ਕਾਰਵਾਈਆਂ"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Database error: please share your logs."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "ਸਟੋਰੇਜ ਸੇਵਾ ਤੋਂ ਅਵੈਧ ਜਵਾਬ ਪ੍ਰਾਪਤ ਹੋਇਆ। ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੇ ਲੌਗ ਸਾਂਝੇ ਕਰੋ।"
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "ਮਦਦ ਚਾਹੀਦੀ ਹੈ?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Settings"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "ਫ਼ੋਨ ਨੰਬਰ"
@@ -3138,16 +3147,16 @@
     "messageformat": "ਮਾਈਕ ਚਾਲੂ ਹੈ"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} ਨੇ ਤੁਹਾਨੂੰ ਮਿਊਟ ਕੀਤਾ।"
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} ਨੇ {otherName} ਨੂੰ ਮਿਊਟ ਕੀਤਾ।"
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "ਤੁਸੀਂ {otherName} ਨੂੰ ਮਿਊਟ ਕੀਤਾ।"
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "ਤੁਸੀਂ ਕਿਸੇ ਹੋਰ ਡਿਵਾਈਸ ਤੋਂ ਖੁਦ ਨੂੰ ਮਿਊਟ ਕੀਤਾ।"
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "ਕੀ ਹੱਥ ਨੀਚੇ ਕਰਨਾ ਹੈ?"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "ਲੋਕਲ ਇਨਕ੍ਰਿਪਟਡ ਬੈਕਅੱਪ ਨੂੰ ਇੱਕ ਫੋਲਡਰ ਵਿੱਚ ਐਕਸਪੋਰਟ ਕਰੋ ਅਤੇ ਇਸਨੂੰ ਪ੍ਰਮਾਣਿਤ ਕਰੋ"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "ਇੰਮਪੋਰਟ ਕਰੋ…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "ਲਿੰਕ 'ਤੇ ਇੰਮਪੋਰਟ ਲਈ ਇੱਕ ਲੋਕਲ ਇਨਕ੍ਰਿਪਟਡ ਬੈਕਅੱਪ ਤਿਆਰ ਕਰੋ"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "ਇਨਕ੍ਰਿਪਟਡ ਬੈਕਅੱਪ ਨੂੰ ਮੈਮੋਰੀ ਵਿੱਚ ਐਕਸਪੋਰਟ ਕਰੋ ਅਤੇ ਇਸ 'ਤੇ ਵੈਲੀਡੇਸ਼ਨ ਸੂਟ ਚਲਾਓ"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "ਅਸੀਂ ਹੋਰ ਭਾਸ਼ਾਵਾਂ ਵਿੱਚ ਇਮੋਜੀ ਸ਼ਾਰਟਕੱਟ ਦੀ ਸਹੂਲਤ ਸ਼ਾਮਲ ਕੀਤੀ ਹੈ।"
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "ਇਸ ਅੱਪਡੇਟ ਇਮੋਜੀ ਅਤੇ ਸਟਿੱਕਰਾਂ ਲਈ ਕੀਬੋਰਡ ਸ਼ਾਰਟਕੱਟ ਨੂੰ ਮੁੜ-ਸਮਰੱਥ ਬਣਾਉਂਦੀ ਹੈ!"
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "ਅਸੀਂ ਕੁਝ Linux ਡਿਸਟਰੀਬਿਊਸ਼ਨਾਂ 'ਤੇ ਇੱਕ ਕਰੈਸ਼ ਨੂੰ ਵੀ ਠੀਕ ਕਰ ਦਿੱਤਾ ਹੈ।"
-  },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "ਇਸ ਅੱਪਡੇਟ ਵਿੱਚ ਇੱਕ ਬੱਗ ਠੀਕ ਕੀਤਾ ਗਿਆ ਹੈ ਜਿਸ ਕਾਰਨ ਸਟੋਰੀਆਂ ਵਾਲੀ ਟੈਬ ਵਿੱਚ ਸਮੱਗਰੀ ਦੇਖਦੇ ਸਮੇਂ Signal ਵਿੰਡੋ ਨੂੰ ਹਿਲਾਉਣਾ ਮੁਸ਼ਕਲ ਹੋ ਜਾਂਦਾ ਸੀ।"
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
   }
 }

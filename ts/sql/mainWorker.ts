@@ -3,15 +3,11 @@
 
 import { parentPort } from 'worker_threads';
 
-import type { LoggerType } from '../types/Logging';
-import type {
-  WrappedWorkerRequest,
-  WrappedWorkerResponse,
-  WrappedWorkerLogEntry,
-} from './main';
+import type { WrappedWorkerRequest, WrappedWorkerResponse } from './main';
 import type { WritableDB } from './Interface';
 import { initialize, DataReader, DataWriter, removeDB } from './Server';
 import { SqliteErrorKind, parseSqliteError } from './errors';
+import { sqlLogger as logger } from './sqlLogger';
 
 if (!parentPort) {
   throw new Error('Must run as a worker thread');
@@ -31,39 +27,6 @@ function respond(seq: number, response?: any) {
   port.postMessage(wrappedResponse);
 }
 
-const log = (
-  level: WrappedWorkerLogEntry['level'],
-  args: Array<unknown>
-): void => {
-  const wrappedResponse: WrappedWorkerResponse = {
-    type: 'log',
-    level,
-    args,
-  };
-  port.postMessage(wrappedResponse);
-};
-
-const logger: LoggerType = {
-  fatal(...args: Array<unknown>) {
-    log('fatal', args);
-  },
-  error(...args: Array<unknown>) {
-    log('error', args);
-  },
-  warn(...args: Array<unknown>) {
-    log('warn', args);
-  },
-  info(...args: Array<unknown>) {
-    log('info', args);
-  },
-  debug(...args: Array<unknown>) {
-    log('debug', args);
-  },
-  trace(...args: Array<unknown>) {
-    log('trace', args);
-  },
-};
-
 let db: WritableDB | undefined;
 let isPrimary = false;
 let isRemoved = false;
@@ -79,7 +42,6 @@ const onMessage = (
       db = initialize({
         ...request.options,
         isPrimary,
-        logger,
       });
 
       respond(seq, undefined);

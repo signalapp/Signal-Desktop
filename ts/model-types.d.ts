@@ -15,11 +15,7 @@ import type { ReadStatus } from './messages/MessageReadStatus';
 import type { SendStateByConversationId } from './messages/MessageSendState';
 import type { GroupNameCollisionsWithIdsByTitle } from './util/groupMemberNameCollisions';
 
-import type {
-  AttachmentDraftType,
-  AttachmentType,
-  ThumbnailType,
-} from './types/Attachment';
+import type { AttachmentDraftType, AttachmentType } from './types/Attachment';
 import type { EmbeddedContactType } from './types/EmbeddedContact';
 import { SignalService as Proto } from './protobuf';
 import type { AvatarDataType, ContactAvatarType } from './types/Avatar';
@@ -82,7 +78,7 @@ export type GroupMigrationType = {
 export type QuotedAttachmentType = {
   contentType: MIMEType;
   fileName?: string;
-  thumbnail?: ThumbnailType;
+  thumbnail?: AttachmentType;
 };
 
 export type QuotedMessageType = {
@@ -186,9 +182,6 @@ export type MessageAttributesType = {
   expireTimer?: DurationInSeconds;
   groupMigration?: GroupMigrationType;
   group_update?: GroupV1Update;
-  hasAttachments?: boolean | 0 | 1;
-  hasFileAttachments?: boolean | 0 | 1;
-  hasVisualMediaAttachments?: boolean | 0 | 1;
   mentionsMe?: boolean | 0 | 1;
   isErased?: boolean;
   isTapToViewInvalid?: boolean;

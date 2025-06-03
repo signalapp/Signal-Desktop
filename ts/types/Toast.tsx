@@ -54,6 +54,7 @@ export enum ToastType {
   ReactionFailed = 'ReactionFailed',
   ReportedSpam = 'ReportedSpam',
   ReportedSpamAndBlocked = 'ReportedSpamAndBlocked',
+  SQLError = 'SQLError',
   StickerPackInstallFailed = 'StickerPackInstallFailed',
   StoryMuted = 'StoryMuted',
   StoryReact = 'StoryReact',
@@ -153,6 +154,7 @@ export type AnyToast =
   | { toastType: ToastType.ReportedSpam }
   | { toastType: ToastType.ReportedSpamAndBlocked }
   | { toastType: ToastType.StickerPackInstallFailed }
+  | { toastType: ToastType.SQLError }
   | { toastType: ToastType.StoryMuted }
   | { toastType: ToastType.StoryReact }
   | { toastType: ToastType.StoryReply }

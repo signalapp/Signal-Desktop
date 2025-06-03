@@ -46,7 +46,7 @@ import {
   isImageTypeSupported,
   isVideoTypeSupported,
 } from '../util/GoogleChrome';
-import type { MIMEType } from '../types/MIME';
+import { IMAGE_JPEG, type MIMEType } from '../types/MIME';
 import { AttachmentDownloadSource } from '../sql/Interface';
 import { drop } from '../util/drop';
 import {
@@ -64,6 +64,7 @@ import {
   isPermanentlyUndownloadableWithoutBackfill,
 } from './helpers/attachmentBackfill';
 import { formatCountForLogging } from '../logging/formatCountForLogging';
+import { strictAssert } from '../util/assert';
 
 export { isPermanentlyUndownloadable };
 
@@ -648,7 +649,10 @@ export async function runDownloadAttachmentJobInner({
         attachmentWithThumbnail,
       };
     } catch (e) {
-      log.warn(`${logId}: error when trying to download thumbnail`);
+      log.warn(
+        `${logId}: error when trying to download thumbnail`,
+        Errors.toLogFormat(e)
+      );
     }
   }
 
@@ -836,9 +840,16 @@ async function downloadBackupThumbnail({
     },
   });
 
+  const calculatedSize = downloadedThumbnail.size;
+  strictAssert(calculatedSize, 'size must be calculated for backup thumbnails');
+
   const attachmentWithThumbnail = {
     ...attachment,
-    thumbnailFromBackup: downloadedThumbnail,
+    thumbnailFromBackup: {
+      contentType: IMAGE_JPEG,
+      ...downloadedThumbnail,
+      size: calculatedSize,
+    },
   };
 
   return attachmentWithThumbnail;

@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Налаштувати як самостійний пристрій"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Інші дії"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Database error: please share your logs."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Неприйнятна відповідь від сервера. Будь ласка, надішліть нам журнал налагодження."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Потрібна допомога?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Settings"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Номер телефону"
@@ -3138,16 +3147,16 @@
     "messageformat": "Мікрофон увімкнено"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "Користувач {otherName} вимкнув ваш мікрофон."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "Користувач {name} вимкнув мікрофон користувача {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Ви вимкнули мікрофон користувача {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Ви вимкнули свій мікрофон з іншого пристрою."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Опустити руку?"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Експортувати локальну зашифровану резервну копію в папку і перевірити її"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Імпортувати"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Підготувати локальну зашифровану резервну копію для імпортування за посиланням"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Експортувати зашифровану резервну копію в пам'ять і запустити програму перевірки"
   },
@@ -5211,13 +5214,13 @@
     "messageformat": "Застосунок"
   },
   "icu:Preferences__content-protection--label": {
-    "messageformat": "Безпека екрана"
+    "messageformat": "Захист екрана"
   },
   "icu:Preferences__content-protection--description": {
     "messageformat": "Заборонити знімки екрана з Signal на цьому комп'ютері для додаткової конфіденційності."
   },
   "icu:Preferences__content-protection__modal--title": {
-    "messageformat": "Вимкнути безпеку екрана?"
+    "messageformat": "Вимкнути захист екрана?"
   },
   "icu:Preferences__content-protection__modal--body": {
     "messageformat": "Тоді Microsoft Windows зможе робити знімки екрана з Signal і потенційно використовувати їх без належного дотримання конфіденційності."
@@ -6352,16 +6355,10 @@
     "messageformat": "Дрібні поліпшення, виправлення помилок і покращення роботи застосунку. Дякуємо, що ви з Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Усмішка однакова в усіх мовах, але тепер ми переклали всі швидкі команди для емоджі в Signal Desktop, тож ви зможете <code>:усміхатися:</code>, <code>:sourire:</code> або <code>:微笑:</code> усіма підтримуваними мовами."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Повертаємо сполучення клавіш для емоджі й стікерів! Тепер вони збережуть вам ще більше часу, адже вам не доведеться писати нам і повідомляти, що ця функція не працює."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Також ми виправили збій у дистрибутивах Linux, які поки не підтримують GTK4."
-  },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "Іноді разюча історія може стати рушієм змін. Тому ми виправили помилку, яка заважала рухати вікно Signal під час перегляду вкладки з історіями."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
   }
 }

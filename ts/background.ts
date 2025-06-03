@@ -587,25 +587,15 @@ export async function startApp(): Promise<void> {
     });
 
     function queuedEventListener<E extends Event>(
-      handler: (event: E) => Promise<void> | void,
-      track = true
+      handler: (event: E) => Promise<void> | void
     ): (event: E) => void {
       return (event: E): void => {
         drop(
           eventHandlerQueue.add(
-            createTaskWithTimeout(async () => {
-              try {
-                await handler(event);
-              } finally {
-                // message/sent: Message.handleDataMessage has its own queue and will
-                //   trigger this event itself when complete.
-                // error: Error processing (below) also has its own queue and
-                // self-trigger.
-                if (track) {
-                  window.Whisper.events.trigger('incrementProgress');
-                }
-              }
-            }, `queuedEventListener(${event.type}, ${event.timeStamp})`)
+            createTaskWithTimeout(
+              async () => handler(event),
+              `queuedEventListener(${event.type}, ${event.timeStamp})`
+            )
           )
         );
       };
@@ -613,15 +603,15 @@ export async function startApp(): Promise<void> {
 
     messageReceiver.addEventListener(
       'envelopeUnsealed',
-      queuedEventListener(onEnvelopeUnsealed, false)
+      queuedEventListener(onEnvelopeUnsealed)
     );
     messageReceiver.addEventListener(
       'envelopeQueued',
-      queuedEventListener(onEnvelopeQueued, false)
+      queuedEventListener(onEnvelopeQueued)
     );
     messageReceiver.addEventListener(
       'message',
-      queuedEventListener(onMessageReceived, false)
+      queuedEventListener(onMessageReceived)
     );
     messageReceiver.addEventListener(
       'delivery',
@@ -633,7 +623,7 @@ export async function startApp(): Promise<void> {
     );
     messageReceiver.addEventListener(
       'sent',
-      queuedEventListener(onSentMessage, false)
+      queuedEventListener(onSentMessage)
     );
     messageReceiver.addEventListener(
       'readSync',
@@ -651,10 +641,7 @@ export async function startApp(): Promise<void> {
       'view',
       queuedEventListener(onViewReceipt)
     );
-    messageReceiver.addEventListener(
-      'error',
-      queuedEventListener(onError, false)
-    );
+    messageReceiver.addEventListener('error', queuedEventListener(onError));
 
     messageReceiver.addEventListener(
       'successful-decrypt',
@@ -710,31 +697,31 @@ export async function startApp(): Promise<void> {
     messageReceiver.addEventListener('keys', queuedEventListener(onKeysSync));
     messageReceiver.addEventListener(
       'storyRecipientUpdate',
-      queuedEventListener(onStoryRecipientUpdate, false)
+      queuedEventListener(onStoryRecipientUpdate)
     );
     messageReceiver.addEventListener(
       'callEventSync',
-      queuedEventListener(onCallEventSync, false)
+      queuedEventListener(onCallEventSync)
     );
     messageReceiver.addEventListener(
       'callLinkUpdateSync',
-      queuedEventListener(onCallLinkUpdateSync, false)
+      queuedEventListener(onCallLinkUpdateSync)
     );
     messageReceiver.addEventListener(
       'callLogEventSync',
-      queuedEventListener(onCallLogEventSync, false)
+      queuedEventListener(onCallLogEventSync)
     );
     messageReceiver.addEventListener(
       'deleteForMeSync',
-      queuedEventListener(onDeleteForMeSync, false)
+      queuedEventListener(onDeleteForMeSync)
     );
     messageReceiver.addEventListener(
       'attachmentBackfillResponseSync',
-      queuedEventListener(onAttachmentBackfillResponseSync, false)
+      queuedEventListener(onAttachmentBackfillResponseSync)
     );
     messageReceiver.addEventListener(
       'deviceNameChangeSync',
-      queuedEventListener(onDeviceNameChangeSync, false)
+      queuedEventListener(onDeviceNameChangeSync)
     );
 
     if (!window.storage.get('defaultConversationColor')) {
@@ -2204,21 +2191,6 @@ export async function startApp(): Promise<void> {
         })()
       );
     }
-  }
-
-  let initialStartupCount = 0;
-  window.Whisper.events.on('incrementProgress', incrementProgress);
-  function incrementProgress() {
-    initialStartupCount += 1;
-
-    // Only update progress every 10 items
-    if (initialStartupCount % 10 !== 0) {
-      return;
-    }
-
-    log.info(`incrementProgress: Message count is ${initialStartupCount}`);
-
-    window.Whisper.events.trigger('loadingProgress', initialStartupCount);
   }
 
   window.Whisper.events.on('manualConnect', manualConnect);

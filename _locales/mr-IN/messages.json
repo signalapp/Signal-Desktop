@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "स्टँडअलोन डिव्हाईस म्हणून सेटअप करा"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "अधिक क्रिया"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Database error: please share your logs."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "साठवण सेवेकडून अवैध सर्व्हर प्रतिसाद मिळाला. कृपया तुमचे लॉग्ज शेअर करा."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "मदत हवी?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Settings"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "फोन नंबर"
@@ -3138,16 +3147,16 @@
     "messageformat": "माईक चालू आहे"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName}ने तुम्हाला म्युट केले."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name}ने {otherName}ला म्युट केले."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "तुम्ही {otherName}ला म्युट केलेत."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "तुम्ही दुसऱ्या डिव्हाईसवरून स्वतःला म्युट केलेत."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "आपल्याला हात खाली करायचा आहे?"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "स्थानिक कूटबद्ध केलेले बॅकअप एका फोल्डरमध्ये एक्सपोर्ट करा आणि तो प्रमाणित करा"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "आयात करा…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "लिंकवर आयात करण्यासाठी स्थानिक कूटबद्ध केलेला बॅकअप तयार करा"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "कूटबद्ध केलेला बॅकअप मेमरीमध्ये पाठवा आणि त्यावर व्हॅलिडेशन सूट चालवा"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "चेहऱ्यावरचं हसू कोणत्याही भाषेत सारखंच असतं, पण आता Signal डेस्कटॉप मधले इमोजी शॉर्टकट्स पूर्णपणे अनुवादित केले आहेत त्यामुळे आता तुम्ही समर्थित भाषांमध्ये <code>:smile:</code> किंवा <code>:sourire:</code> किंवा <code>:微笑:</code> करू शकता."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "इमोजी आणि स्टिकर साठीचे कीबोर्ड शॉर्टकट्स परत आले आहेत! ह्या अद्यतनामुळे इमोजी आणि स्टिकर्ससाठीचे कीबोर्ड शॉर्टकट्स पुन्हा सुरु झाले आहेत."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "अद्याप GTK4 ला सपोर्ट न करणाऱ्या Linux वितरणांवरील एक क्रॅशसुद्धा आम्ही दुरुस्त केला आहे."
-  },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "ह्या अद्यतनामध्ये एक असा बग ज्यामुळे स्टोरीज टॅब पाहाताना Signal विंडो हलवणे अवघड होत असे, आता दुरुस्त झाला आहे."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
   }
 }

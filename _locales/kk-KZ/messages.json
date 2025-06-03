@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Автономды құрылғы ретінде орнату"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Басқа әрекеттер"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Database error: please share your logs."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Сақтау қызметі жарамсыз жауап қайтарды. Журналдарыңызды бөлісіңіз."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Көмек керек пе?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Settings"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Телефон нөмірі"
@@ -3138,16 +3147,16 @@
     "messageformat": "Микрофон қосулы"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} сіздің дыбысыңызды өшірді."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{otherName} дыбысы өшірілді. Өшірген адам: {name}"
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "{otherName} дыбысын өшіріп қойдыңыз."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Басқа құрылғыдан өз дыбысыңызды өшіріп қойдыңыз."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Қолыңызды түсіресіз бе?"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Жергілікті шифрланған сақтық көшірмені қалтаға экспорттаңыз және жарамдылығын растаңыз"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Импорттау…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Сілтеме арқылы импорттау үшін жергілікті шифрланған сақтық көшірмені дайындаңыз"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Шифрланған сақтық көшірмені жадқа экспорттаңыз және оның жарамдылығын тексеріңіз"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Эмоциялар тіл таңдамайды. Signal Desktop-тағы эмоджи таңбашалары толықтай аударылғандықтан, енді <code>:smile:</code>, <code>:sourire:</code> немесе <code>:微笑:</code> деп таңдасаңыз да, күлу эмоджиін жібере аласыз."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Эмоджи мен стикерлерге арналған пернелер тіркесімі қайта оралды! Енді оларды бұрынғыдан да тиімді пайдалануға болады, себебі оның бұзылғанын хабарлау үшін бізге жазудың қажеті жоқ."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Сонымен қатар GTK4 жүйесіне әлі қолдау көрсетпейтін Linux таратылымдарындағы ақауды түзеттік."
-  },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "Кейде әсерлі оқиға жүрегіңізді тербейтіні сөзсіз. Сондықтан біз \"Сторис\" қойындысындағы контентті тамашалау кезінде Signal терезесін жылжытуға кедергі келтірген ақауды түзеттік."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
   }
 }

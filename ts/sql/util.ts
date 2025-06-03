@@ -418,3 +418,27 @@ export class TableIterator<ObjectType extends { id: string }> {
     }
   }
 }
+
+export function convertOptionalIntegerToBoolean(
+  optionalInteger?: number
+): boolean | undefined {
+  if (optionalInteger === 1) {
+    return true;
+  }
+  if (optionalInteger === 0) {
+    return false;
+  }
+  return undefined;
+}
+
+export function convertOptionalBooleanToNullableInteger(
+  optionalBoolean?: boolean
+): 1 | 0 | null {
+  if (optionalBoolean === true) {
+    return 1;
+  }
+  if (optionalBoolean === false) {
+    return 0;
+  }
+  return null;
+}

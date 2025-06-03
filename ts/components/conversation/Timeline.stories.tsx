@@ -51,6 +51,7 @@ function mockMessageTimelineItem(
       canDeleteForEveryone: false,
       canDownload: true,
       canEditMessage: true,
+      canForward: true,
       canReact: true,
       canReply: true,
       canRetry: true,

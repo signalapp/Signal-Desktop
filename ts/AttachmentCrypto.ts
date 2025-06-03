@@ -81,6 +81,7 @@ export type ReencryptedAttachmentV2 = {
   localKey: string;
   isReencryptableToSameDigest: boolean;
   version: 2;
+  size: number;
 };
 
 export type ReencryptionInfo = {
@@ -583,7 +584,7 @@ export async function decryptAttachmentV2ToSink(
 export async function decryptAndReencryptLocally(
   options: DecryptAttachmentOptionsType
 ): Promise<ReencryptedAttachmentV2> {
-  const { idForLogging } = options;
+  const { idForLogging, size } = options;
   const logId = `reencryptAttachmentV2(${idForLogging})`;
 
   // Create random output file
@@ -622,6 +623,7 @@ export async function decryptAndReencryptLocally(
       plaintextHash: result.plaintextHash,
       isReencryptableToSameDigest: result.isReencryptableToSameDigest,
       version: 2,
+      size,
     };
   } catch (error) {
     log.error(

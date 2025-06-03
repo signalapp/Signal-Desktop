@@ -24,7 +24,11 @@ import {
   isImageTypeSupported,
   isVideoTypeSupported,
 } from '../util/GoogleChrome';
-import type { LocalizerType, WithRequiredProperties } from './Util';
+import type {
+  LocalizerType,
+  WithOptionalProperties,
+  WithRequiredProperties,
+} from './Util';
 import { ThemeType } from './Util';
 import * as GoogleChrome from '../util/GoogleChrome';
 import { ReadStatus } from '../messages/MessageReadStatus';
@@ -56,14 +60,47 @@ export class AttachmentPermanentlyUndownloadableError extends Error {
   }
 }
 
-type ScreenshotType = Omit<AttachmentType, 'size'> & {
-  height: number;
-  width: number;
-  path: string;
-  size?: number;
+export type ThumbnailType = EphemeralAttachmentFields & {
+  size: number;
+  contentType: MIME.MIMEType;
+  path?: string;
+  plaintextHash?: string;
+  width?: number;
+  height?: number;
+  version?: 1 | 2;
+  localKey?: string; // AES + MAC
 };
 
-export type AttachmentType = {
+export type ScreenshotType = WithOptionalProperties<ThumbnailType, 'size'>;
+export type BackupThumbnailType = WithOptionalProperties<ThumbnailType, 'size'>;
+
+// These fields do not get saved to the DB.
+export type EphemeralAttachmentFields = {
+  totalDownloaded?: number;
+  data?: Uint8Array;
+  /** Not included in protobuf, needs to be pulled from flags */
+  isVoiceMessage?: boolean;
+  /** For messages not already on disk, this will be a data url */
+  url?: string;
+  screenshotData?: Uint8Array;
+  /** @deprecated Legacy field */
+  screenshotPath?: string;
+
+  /** @deprecated Legacy field. Used only for downloading old attachment */
+  id?: number;
+  /** @deprecated Legacy field, used long ago for migrating attachments to disk. */
+  schemaVersion?: number;
+  /** @deprecated Legacy field, replaced by cdnKey */
+  cdnId?: string;
+};
+
+/**
+ * Adding a field to AttachmentType requires:
+ * 1) adding a column to message_attachments
+ * 2) updating MessageAttachmentDBReferenceType and MESSAGE_ATTACHMENT_COLUMNS
+ * 3) saving data to the proper column
+ */
+export type AttachmentType = EphemeralAttachmentFields & {
   error?: boolean;
   blurHash?: string;
   caption?: string;
@@ -73,36 +110,27 @@ export type AttachmentType = {
   fileName?: string;
   plaintextHash?: string;
   uploadTimestamp?: number;
-  /** Not included in protobuf, needs to be pulled from flags */
-  isVoiceMessage?: boolean;
-  /** For messages not already on disk, this will be a data url */
-  url?: string;
   size: number;
   pending?: boolean;
   width?: number;
   height?: number;
   path?: string;
   screenshot?: ScreenshotType;
-  screenshotData?: Uint8Array;
-  // Legacy Draft
-  screenshotPath?: string;
   flags?: number;
   thumbnail?: ThumbnailType;
   isCorrupted?: boolean;
   cdnNumber?: number;
-  cdnId?: string;
   cdnKey?: string;
   downloadPath?: string;
   key?: string;
   iv?: string;
-  data?: Uint8Array;
+
   textAttachment?: TextAttachmentType;
   wasTooBig?: boolean;
 
   // If `true` backfill is unavailable
   backfillError?: boolean;
 
-  totalDownloaded?: number;
   incrementalMac?: string;
   chunkSize?: number;
 
@@ -115,25 +143,19 @@ export type AttachmentType = {
   // See app/attachment_channel.ts
   version?: 1 | 2;
   localKey?: string; // AES + MAC
-  thumbnailFromBackup?: Pick<
-    AttachmentType,
-    'path' | 'version' | 'plaintextHash'
-  >;
+  thumbnailFromBackup?: BackupThumbnailType;
 
-  /** Legacy field. Used only for downloading old attachments */
-  id?: number;
-
-  /** Legacy field, used long ago for migrating attachments to disk. */
-  schemaVersion?: number;
+  /** For quote attachments, if copied from the referenced attachment */
+  copied?: boolean;
 } & (
-  | {
-      isReencryptableToSameDigest?: true;
-    }
-  | {
-      isReencryptableToSameDigest: false;
-      reencryptionInfo?: ReencryptionInfo;
-    }
-);
+    | {
+        isReencryptableToSameDigest?: true;
+      }
+    | {
+        isReencryptableToSameDigest: false;
+        reencryptionInfo?: ReencryptionInfo;
+      }
+  );
 
 export type LocalAttachmentV2Type = Readonly<{
   version: 2;
@@ -258,13 +280,6 @@ export type AttachmentDraftType =
       pending: true;
       size: number;
     };
-
-export type ThumbnailType = AttachmentType & {
-  // Only used when quote needed to make an in-memory thumbnail
-  objectUrl?: string;
-  // Whether the thumbnail has been copied from the original (quoted) message
-  copied?: boolean;
-};
 
 export enum AttachmentVariant {
   Default = 'Default',
@@ -1005,6 +1020,10 @@ export const isFile = (attachment: AttachmentType): boolean => {
   }
 
   if (isVoiceMessage(attachment)) {
+    return false;
+  }
+
+  if (MIME.isLongMessage(contentType)) {
     return false;
   }
 

@@ -1288,6 +1288,10 @@ function useReactionsToast(props: UseReactionsToastType): void {
     let anyReactionWasShown = false;
     reactions.forEach(({ timestamp, demuxId, value }) => {
       const conversation = conversationsByDemuxId.get(demuxId);
+      if (!conversation) {
+        return;
+      }
+
       const key = `reactions-${timestamp}-${demuxId}`;
 
       strictAssert(isEmojiVariantValue(value), 'Expected a valid emoji value');

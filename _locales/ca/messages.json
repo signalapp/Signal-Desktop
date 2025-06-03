@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Configura'l com a dispositiu autònom"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Més accions"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Database error: please share your logs."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Resposta del servei d'emmagatzematge no vàlida. Si us plau, comparteix els teus registres."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Us cal ajuda?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Settings"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Número de telèfon"
@@ -3138,16 +3147,16 @@
     "messageformat": "Micròfon encès"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} t'ha silenciat."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} ha silenciat a {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Has silenciat a {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "T'has silenciat en un altre dispositiu."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Baixar la mà?"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Exportar còpia de seguretat local xifrada a una carpeta i validar-la"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Importar…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Preparar una còpia de seguretat xifrada local per a la seva importació a l'enllaç"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Exportar còpia de seguretat xifrada a la memòria i executar-hi la suite de validació"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Hem afegit dreceres per emoji en idiomes addicionals."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Aquesta actualització torna a activar les dreceres de teclat per emojis i adhesius. Aquestes dreceres estalvien encara més temps perquè ara ja no caldrà que escriguis i ens diguis que estan trencades."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "També hem solucionat un problema amb les distribucions de Linux que encara no són compatibles amb GTK4."
-  },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "Aquesta actualització soluciona un error que dificultava moure la finestra de Signal mentre miraves contingut a la pestanya Històries."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
   }
 }
