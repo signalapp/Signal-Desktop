@@ -690,6 +690,10 @@ const toVersion14 = _withSchemaVersion({
     }
   ),
 });
+const toVersion15 = _withSchemaVersion({
+  schemaVersion: 15,
+  upgrade: noopUpgrade,
+});
 
 const VERSIONS = [
   toVersion0,
@@ -707,6 +711,7 @@ const VERSIONS = [
   toVersion12,
   toVersion13,
   toVersion14,
+  toVersion15,
 ];
 
 export const CURRENT_SCHEMA_VERSION = VERSIONS.length - 1;
