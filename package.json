@@ -114,6 +114,7 @@
     "@indutny/simple-windows-notifications": "2.0.16",
     "@indutny/sneequals": "4.0.0",
     "@popperjs/core": "2.11.8",
+    "@radix-ui/react-tooltip": "1.2.7",
     "@react-aria/focus": "3.19.1",
     "@react-aria/interactions": "3.23.0",
     "@react-aria/utils": "3.25.3",

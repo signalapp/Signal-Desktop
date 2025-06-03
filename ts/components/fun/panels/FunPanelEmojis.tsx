@@ -1,16 +1,16 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useCallback, useMemo, useRef, useState } from 'react';
+import type { MouseEvent, PointerEvent } from 'react';
 import {
   Dialog,
   DialogTrigger,
   Heading,
   OverlayArrow,
   Popover,
-  TooltipTrigger,
 } from 'react-aria-components';
-import type { PressEvent } from 'react-aria';
 import { VisuallyHidden } from 'react-aria';
+import * as Tooltip from '@radix-ui/react-tooltip';
 import type { LocalizerType } from '../../../types/I18N';
 import { strictAssert } from '../../../util/assert';
 import { missingCaseError } from '../../../util/missingCaseError';
@@ -388,95 +388,99 @@ export function FunPanelEmojis({
         </FunPanelFooter>
       )}
       <FunPanelBody>
-        <FunScroller
-          ref={scrollerRef}
-          sectionGap={EMOJI_GRID_SECTION_GAP}
-          onScrollSectionChange={handleScrollSectionChange}
-        >
-          {layout.sections.length === 0 && (
-            <FunResults aria-busy={false}>
-              <FunResultsHeader>
-                {i18n('icu:FunPanelEmojis__SearchResults__EmptyHeading')}{' '}
-                <FunStaticEmoji
-                  size={16}
-                  role="presentation"
-                  emoji={emojiVariantConstant('\u{1F641}')}
-                />
-              </FunResultsHeader>
-            </FunResults>
-          )}
-          {layout.sections.length > 0 && (
-            <FunKeyboard
-              scrollerRef={scrollerRef}
-              keyboard={keyboard}
-              onStateChange={handleKeyboardStateChange}
-            >
-              <FunGridContainer
-                totalSize={layout.totalHeight}
-                columnCount={EMOJI_GRID_COLUMNS}
-                cellWidth={EMOJI_GRID_CELL_WIDTH}
-                cellHeight={EMOJI_GRID_CELL_HEIGHT}
+        <Tooltip.Provider skipDelayDuration={0}>
+          <FunScroller
+            ref={scrollerRef}
+            sectionGap={EMOJI_GRID_SECTION_GAP}
+            onScrollSectionChange={handleScrollSectionChange}
+          >
+            {layout.sections.length === 0 && (
+              <FunResults aria-busy={false}>
+                <FunResultsHeader>
+                  {i18n('icu:FunPanelEmojis__SearchResults__EmptyHeading')}{' '}
+                  <FunStaticEmoji
+                    size={16}
+                    role="presentation"
+                    emoji={emojiVariantConstant('\u{1F641}')}
+                  />
+                </FunResultsHeader>
+              </FunResults>
+            )}
+            {layout.sections.length > 0 && (
+              <FunKeyboard
+                scrollerRef={scrollerRef}
+                keyboard={keyboard}
+                onStateChange={handleKeyboardStateChange}
               >
-                {layout.sections.map(section => {
-                  return (
-                    <FunGridScrollerSection
-                      key={section.key}
-                      id={section.id}
-                      sectionOffset={section.sectionOffset}
-                      sectionSize={section.sectionSize}
-                    >
-                      <FunGridHeader
-                        id={section.header.key}
-                        headerOffset={section.header.headerOffset}
-                        headerSize={section.header.headerSize}
+                <FunGridContainer
+                  totalSize={layout.totalHeight}
+                  columnCount={EMOJI_GRID_COLUMNS}
+                  cellWidth={EMOJI_GRID_CELL_WIDTH}
+                  cellHeight={EMOJI_GRID_CELL_HEIGHT}
+                >
+                  {layout.sections.map(section => {
+                    return (
+                      <FunGridScrollerSection
+                        key={section.key}
+                        id={section.id}
+                        sectionOffset={section.sectionOffset}
+                        sectionSize={section.sectionSize}
                       >
-                        <FunGridHeaderText>
-                          {getTitleForSection(
-                            i18n,
-                            section.id as FunEmojisSection
-                          )}
-                        </FunGridHeaderText>
-                        {section.id ===
-                          EmojiPickerCategory.SmileysAndPeople && (
-                          <SectionSkinToneHeaderPopover
-                            i18n={i18n}
-                            open={skinTonePopoverOpen}
-                            onOpenChange={handleSkinTonePopoverOpenChange}
-                            onSelectSkinTone={fun.onEmojiSkinToneDefaultChange}
-                          />
-                        )}
-                      </FunGridHeader>
-                      <FunGridRowGroup
-                        aria-labelledby={section.header.key}
-                        colCount={section.colCount}
-                        rowCount={section.rowCount}
-                        rowGroupOffset={section.rowGroup.rowGroupOffset}
-                        rowGroupSize={section.rowGroup.rowGroupSize}
-                      >
-                        {section.rowGroup.rows.map(row => {
-                          return (
-                            <Row
-                              key={row.key}
+                        <FunGridHeader
+                          id={section.header.key}
+                          headerOffset={section.header.headerOffset}
+                          headerSize={section.header.headerSize}
+                        >
+                          <FunGridHeaderText>
+                            {getTitleForSection(
+                              i18n,
+                              section.id as FunEmojisSection
+                            )}
+                          </FunGridHeaderText>
+                          {section.id ===
+                            EmojiPickerCategory.SmileysAndPeople && (
+                            <SectionSkinToneHeaderPopover
                               i18n={i18n}
-                              rowIndex={row.rowIndex}
-                              cells={row.cells}
-                              focusedCellKey={focusedCellKey}
-                              emojiSkinToneDefault={fun.emojiSkinToneDefault}
-                              onSelectEmoji={handleSelectEmoji}
-                              onEmojiSkinToneDefaultChange={
+                              open={skinTonePopoverOpen}
+                              onOpenChange={handleSkinTonePopoverOpenChange}
+                              onSelectSkinTone={
                                 fun.onEmojiSkinToneDefaultChange
                               }
                             />
-                          );
-                        })}
-                      </FunGridRowGroup>
-                    </FunGridScrollerSection>
-                  );
-                })}
-              </FunGridContainer>
-            </FunKeyboard>
-          )}
-        </FunScroller>
+                          )}
+                        </FunGridHeader>
+                        <FunGridRowGroup
+                          aria-labelledby={section.header.key}
+                          colCount={section.colCount}
+                          rowCount={section.rowCount}
+                          rowGroupOffset={section.rowGroup.rowGroupOffset}
+                          rowGroupSize={section.rowGroup.rowGroupSize}
+                        >
+                          {section.rowGroup.rows.map(row => {
+                            return (
+                              <Row
+                                key={row.key}
+                                i18n={i18n}
+                                rowIndex={row.rowIndex}
+                                cells={row.cells}
+                                focusedCellKey={focusedCellKey}
+                                emojiSkinToneDefault={fun.emojiSkinToneDefault}
+                                onSelectEmoji={handleSelectEmoji}
+                                onEmojiSkinToneDefaultChange={
+                                  fun.onEmojiSkinToneDefaultChange
+                                }
+                              />
+                            );
+                          })}
+                        </FunGridRowGroup>
+                      </FunGridScrollerSection>
+                    );
+                  })}
+                </FunGridContainer>
+              </FunKeyboard>
+            )}
+          </FunScroller>
+        </Tooltip.Provider>
       </FunPanelBody>
     </FunPanel>
   );
@@ -572,8 +576,8 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
     return getEmojiVariantByParentKeyAndSkinTone(emojiParent.key, skinTone);
   }, [emojiParent, skinTone]);
 
-  const handlePress = useCallback(
-    (event: PressEvent) => {
+  const handleClick = useCallback(
+    (event: PointerEvent) => {
       if (emojiHasSkinToneVariants && emojiSkinToneDefault == null) {
         setPopoverOpen(true);
         return;
@@ -585,7 +589,7 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
         skinTone,
       };
       const shouldClose =
-        (event.pointerType === 'keyboard' || event.pointerType === 'virtual') &&
+        event.nativeEvent.pointerType !== 'mouse' &&
         !(event.ctrlKey || event.metaKey);
       onSelectEmoji(emojiSelection, shouldClose);
     },
@@ -654,12 +658,20 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
       colIndex={props.colIndex}
       rowIndex={props.rowIndex}
     >
-      <TooltipTrigger>
+      <FunTooltip
+        side="top"
+        content={`:${emojiShortNameDisplay}:`}
+        collisionBoundarySelector=".FunScroller__Viewport"
+        collisionPadding={6}
+        // `skipDelayDuration=0` doesn't work with `disableHoverableContent`
+        // FIX: https://github.com/radix-ui/primitives/pull/3562
+        // disableHoverableContent
+      >
         <FunItemButton
           ref={popoverTriggerRef}
           excludeFromTabOrder={!props.isTabbable}
           aria-label={emojiName}
-          onPress={handlePress}
+          onClick={handleClick}
           onLongPress={handleLongPress}
           onContextMenu={handleContextMenu}
           longPressAccessibilityDescription={i18n(
@@ -668,9 +680,7 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
         >
           <FunStaticEmoji role="presentation" size={32} emoji={emojiVariant} />
         </FunItemButton>
-        <FunTooltip placement="top">{`:${emojiShortNameDisplay}:`}</FunTooltip>
-      </TooltipTrigger>
-      d
+      </FunTooltip>
       {emojiHasSkinToneVariants && (
         <Popover
           data-fun-overlay
