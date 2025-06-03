@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Nastavi kot samostojno napravo"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Več dejanj"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Database error: please share your logs."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Neveljaven odziv iz storitve shranjevanja. Prosimo, delite svoje dnevnike."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Potrebujete pomoč?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Settings"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefonska številka"
@@ -3138,16 +3147,16 @@
     "messageformat": "Mikrofon je vključen"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} vas je utišal_a."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} je utišal_a osebo {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Utišali ste osebo {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Utišali ste se iz druge naprave."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Želite spustiti roko?"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Izvozite lokalne šifrirane varnostne kopije v mapo in jih potrdite"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Uvoz …"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Nastavite lokalne šifrirane varnostne kopije za uvoz prek povezave"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Izvozite šifrirano varnostno kopijo v pomnilnik in na njej zaženite paket za preverjanje"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Dodali smo podporo za bližnjice emojijev v dodatnih jezikih."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Vrnile so se bližnjice na tipkovnici za emojije in nalepke! Te bližnjice prihranijo še več časa, saj vam zdaj ne bo več treba pisati, da so pokvarjene."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Odpravili smo tudi okvaro v distribucijah Linuxa, ki še ne podpirajo GTK4."
-  },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "Ta posodobitev odpravlja napako, ki je oteževala premikanje okna Signal med pregledovanjem vsebine v zavihku Zgodbe."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
   }
 }

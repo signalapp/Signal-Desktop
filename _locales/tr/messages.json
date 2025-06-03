@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Bağımsız Cihaz olarak kur"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Diğer eylemler"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Database error: please share your logs."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Geçersiz sunucu yanıtı. Lütfen günlüklerini paylaş."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Yardıma mı ihtiyacınız var?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Settings"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefon Numarası"
@@ -3138,16 +3147,16 @@
     "messageformat": "Mikrofon açık"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} seni sessize aldı."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name}, {otherName} kişisini sessize aldı."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "{otherName} kişisini sessize aldın."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Başka bir cihazda kendini sessize aldın."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Elin insin mi?"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Yerel şifreli yedeklemeyi bir klasöre aktar ve doğrula"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "İçe aktar…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Bağlantıda içe aktarma için yerel şifreli bir yedekleme hazırla"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Şifreli yedeklemeyi belleğe aktar ve üzerinde doğrulama paketini çalıştır"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Emoji kısayolları için, birçok yeni dilde destek ekledik."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Bu güncellemeyle emoji ve çıkartmalar için klavye kısayolları yeniden etkinleştiriliyor. Böylece istediğin emojilere ve çıkartmalara ışık hızıyla ulaşabileceksin!"
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Bazı Linux dağıtımlarında nadir rastlanan bir çökme sorununu da düzelttik."
-  },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "Bu güncelleme, Hikayeler sekmesinde içerik görüntülenirken Signal penceresini hareket ettirmeyi zorlaştıran bir hatayı düzeltiyor."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
   }
 }

@@ -127,7 +127,6 @@ import {
   MessageEvent,
   MessageRequestResponseEvent,
   ProfileKeyUpdateEvent,
-  ProgressEvent,
   ReadEvent,
   ReadSyncEvent,
   RetryRequestEvent,
@@ -539,11 +538,6 @@ export default class MessageReceiver
   ): void;
 
   public override addEventListener(
-    name: 'progress',
-    handler: (ev: ProgressEvent) => void
-  ): void;
-
-  public override addEventListener(
     name: 'typing',
     handler: (ev: TypingEvent) => void
   ): void;
@@ -746,13 +740,9 @@ export default class MessageReceiver
         ? this.#encryptedQueue
         : this.#decryptedQueue;
 
-    try {
-      return await queue.add(
-        createTaskWithTimeout(task, id, TASK_WITH_TIMEOUT_OPTIONS)
-      );
-    } finally {
-      this.#updateProgress(this.#count);
-    }
+    return queue.add(
+      createTaskWithTimeout(task, id, TASK_WITH_TIMEOUT_OPTIONS)
+    );
   }
 
   #onEmpty(): void {
@@ -833,14 +823,6 @@ export default class MessageReceiver
     };
 
     drop(waitForCacheAddBatcher());
-  }
-
-  #updateProgress(count: number): void {
-    // count by 10s
-    if (count % 10 !== 0) {
-      return;
-    }
-    this.dispatchEvent(new ProgressEvent({ count }));
   }
 
   async #queueAllCached(): Promise<void> {
@@ -1976,14 +1958,11 @@ export default class MessageReceiver
       );
 
       if (isAciString(uuid) && isNumber(deviceId)) {
-        const event = new SuccessfulDecryptEvent(
-          {
-            senderDevice: deviceId,
-            senderAci: uuid,
-            timestamp: envelope.timestamp,
-          },
-          () => this.#removeFromCache(envelope)
-        );
+        const event = new SuccessfulDecryptEvent({
+          senderDevice: deviceId,
+          senderAci: uuid,
+          timestamp: envelope.timestamp,
+        });
         drop(
           this.#addToQueue(
             async () => this.dispatchEvent(event),

@@ -754,6 +754,7 @@ export const getPropsForMessage = (
     canEditMessage: canEditMessage(message),
     canDeleteForEveryone: canDeleteForEveryone(message, conversation.isMe),
     canDownload: canDownload(message, conversationSelector),
+    canForward: canForward(message),
     canReact: canReact(message, ourConversationId, conversationSelector),
     canReply: canReply(message, ourConversationId, conversationSelector),
     canRetry: hasErrors(message),
@@ -1887,18 +1888,16 @@ export function getPropsForAttachment(
 
 function processQuoteAttachment(attachment: QuotedAttachmentType) {
   const { thumbnail } = attachment;
-  const path = thumbnail && thumbnail.path && getLocalAttachmentUrl(thumbnail);
-  const objectUrl = thumbnail && thumbnail.objectUrl;
-
-  const thumbnailWithObjectUrl =
-    (!path && !objectUrl) || !thumbnail
-      ? undefined
-      : { ...thumbnail, objectUrl: path || objectUrl };
 
   return {
     ...attachment,
     isVoiceMessage: isVoiceMessage(attachment),
-    thumbnail: thumbnailWithObjectUrl,
+    thumbnail: thumbnail?.path
+      ? {
+          ...thumbnail,
+          url: getLocalAttachmentUrl(thumbnail),
+        }
+      : undefined,
   };
 }
 
@@ -2104,6 +2103,15 @@ export function canDownload(
   }
 
   return false;
+}
+
+export function canForward(message: ReadonlyMessageAttributesType): boolean {
+  return (
+    !isTapToView(message) &&
+    !message.deletedForEveryone &&
+    !message.giftBadge &&
+    !getPayment(message)
+  );
 }
 
 export function getLastChallengeError(

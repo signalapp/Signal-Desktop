@@ -152,6 +152,8 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.ReportedSpam };
     case ToastType.ReportedSpamAndBlocked:
       return { toastType: ToastType.ReportedSpamAndBlocked };
+    case ToastType.SQLError:
+      return { toastType: ToastType.SQLError };
     case ToastType.StickerPackInstallFailed:
       return { toastType: ToastType.StickerPackInstallFailed };
     case ToastType.StoryMuted:

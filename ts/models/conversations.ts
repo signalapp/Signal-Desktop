@@ -851,9 +851,9 @@ export class ConversationModel extends window.Backbone
     }
 
     const e164 = this.get('e164');
+    const aci = this.getAci();
     const pni = this.getPni();
-    const aci = this.getServiceId();
-    if (e164 && pni && aci && pni !== aci) {
+    if (e164 && aci) {
       this.updateE164(undefined);
       this.updatePni(undefined, false);
 

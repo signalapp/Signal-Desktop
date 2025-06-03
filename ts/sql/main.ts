@@ -92,6 +92,7 @@ type ResponseEntry<T> = {
 type KnownErrorResolverType = Readonly<{
   kind: SqliteErrorKind;
   resolve: (err: Error) => void;
+  once?: boolean;
 }>;
 
 type CreateWorkerResultType = Readonly<{
@@ -210,14 +211,29 @@ export class MainSQL {
 
   public whenCorrupted(): Promise<Error> {
     const { promise, resolve } = explodePromise<Error>();
-    this.#errorResolvers.push({ kind: SqliteErrorKind.Corrupted, resolve });
+    this.#errorResolvers.push({
+      kind: SqliteErrorKind.Corrupted,
+      resolve,
+      once: true,
+    });
     return promise;
   }
 
   public whenReadonly(): Promise<Error> {
     const { promise, resolve } = explodePromise<Error>();
-    this.#errorResolvers.push({ kind: SqliteErrorKind.Readonly, resolve });
+    this.#errorResolvers.push({
+      kind: SqliteErrorKind.Readonly,
+      resolve,
+      once: true,
+    });
     return promise;
+  }
+
+  public onUnknownSqlError(callback: (error: Error) => void): void {
+    this.#errorResolvers.push({
+      kind: SqliteErrorKind.Unknown,
+      resolve: callback,
+    });
   }
 
   public async close(): Promise<void> {
@@ -375,15 +391,13 @@ export class MainSQL {
   }
 
   #onError(errorKind: SqliteErrorKind, error: Error): void {
-    if (errorKind === SqliteErrorKind.Unknown) {
-      return;
-    }
-
     const resolvers = new Array<(error: Error) => void>();
     this.#errorResolvers = this.#errorResolvers.filter(entry => {
       if (entry.kind === errorKind) {
         resolvers.push(entry.resolve);
-        return false;
+        if (entry.once) {
+          return false;
+        }
       }
       return true;
     });

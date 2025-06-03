@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Постави како посебен уред"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Повеќе дејствија"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Database error: please share your logs."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Добиен е невалиден одговор од услугата за складирање. Ве молиме споделете ги вашите записи."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Потребна Ви е помош?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Settings"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Телефонски број"
@@ -3138,16 +3147,16 @@
     "messageformat": "Микрофонот е вклучен"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} го исклучи вашиот звук."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} го исклучи звукот на {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Го исклучивте звукот од {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Го исклучивте вашиот звук од друг уред."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Сакате да ја спуштите раката?"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Извезете ја локалната шифрирана резервна копија во папка и валидирајте ја"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Увези…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Направете локална целосно шифрирана резервна копија за увоз на линк"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Извези ја целосна шифрираната резервна копија во меморијата и спроведи пакет за валидација"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Mали подобрувања, решени багови и подобрувања на перформансот. Ви благодариме што користите Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Додадовме поддршка за кратенки за емотикони на дополнителни јазици."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Во оваа верзија повторно се овозможени кратенките на тастатура за емотикони и налепници."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Исто така поправивме пад на некои Linux дистрибуции кои сè уште не поддржуваат GTK4."
-  },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "Во оваа верзија решена е грешка што го отежнуваше поместувањето на Signal прозорецот при гледање содржина во картичката со Приказни."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
   }
 }

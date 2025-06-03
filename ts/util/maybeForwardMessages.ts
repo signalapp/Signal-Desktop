@@ -23,6 +23,7 @@ import {
   sortByMessageOrder,
   type ForwardMessageData,
 } from '../types/ForwardDraft';
+import { canForward } from '../state/selectors/message';
 
 export async function maybeForwardMessages(
   messages: Array<ForwardMessageData>,
@@ -35,6 +36,16 @@ export async function maybeForwardMessages(
   const conversations = conversationIds
     .map(id => window.ConversationController.get(id))
     .filter(isNotNil);
+
+  const areAllMessagesForwardable = messages.every(msg =>
+    msg.originalMessage ? canForward(msg.originalMessage) : true
+  );
+
+  if (!areAllMessagesForwardable) {
+    throw new Error(
+      'maybeForwardMessage: Attempting to forward unforwardable message(s)'
+    );
+  }
 
   const cannotSend = conversations.some(
     conversation =>

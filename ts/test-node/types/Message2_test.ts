@@ -197,9 +197,6 @@ describe('Message', () => {
             fileName: 'test\uFFFDfig.exe',
           },
         ],
-        hasAttachments: 1,
-        hasVisualMediaAttachments: undefined,
-        hasFileAttachments: undefined,
         schemaVersion: Message.CURRENT_SCHEMA_VERSION,
       });
 
@@ -848,6 +845,7 @@ describe('Message', () => {
       const result = await Message.upgradeSchema(message, {
         ...getDefaultContext(),
         doesAttachmentExist: async () => false,
+        maxVersion: 14,
       });
 
       assert.deepEqual({ ...message, schemaVersion: 14 }, result);

@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "స్వతంత్ర పరికరంగా సెటప్ చేయండి"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "మరిన్ని చర్యలు"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Database error: please share your logs."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "చెల్లని సర్వర్ ప్రతిస్పందన. దయచేసి మీ లాగ్‌లను పంచుకోండి."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "సాయం అవసరమా?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Settings"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "ఫోన్ నంబరు"
@@ -3138,16 +3147,16 @@
     "messageformat": "మైక్ ఆన్‌లో ఉంది"
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} మిమ్మల్ని మ్యూట్ చేశారు."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{otherName} ను {name} మ్యూట్ చేశారు."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "మీరు {otherName} ను మ్యూట్ చేశారు."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "మరొక పరికరం నుండి మిమ్మల్ని మీరు మ్యూట్ చేసుకున్నారు."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "మీ చేతిని దించేదా?"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "స్థానిక గుప్తీకరించబడిన బ్యాకప్‌ను ఫోల్డర్‌కు ఎగుమతి చేయండి మరియు దానిని ధృవీకరించండి"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "దిగుమతి చేయండి…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "స్థానిక గుప్తీకరించబడిన బ్యాకప్‌ను దిగుమతి కోసం లింక్‌పై సమర్పించండి"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "ఎన్‌క్రిప్ట్ చేయబడిన బ్యాకప్‌ను మెమరీకి ఎగుమతి చేయండి మరియు దానిపై వ్యాలిడేషన్ సూట్‌ను రన్ చేయండి"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "మేము ఎమోజీ షార్ట్‌కట్‌లకు అదనపు భాషలలో మద్దతును జోడించాము."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "ఈ అప్‌డేట్ ఎమోజీ మరియు స్టిక్కర్‌ల కోసం కీబోర్డ్ షార్ట్‌కట్‌లను తిరిగి ప్రారంభిస్తుంది."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "మేము కొన్ని Linux డిస్ట్రిబ్యూషన్‌లలో అరుదైన క్రాష్‌ను కూడా పరిష్కరించాము."
-  },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "కథలు ట్యాబ్‌లోని కంటెంట్‌ను వీక్షిస్తున్నప్పుడు Signal విండోను తరలించడాన్ని కష్టతరం చేసిన బగ్‌ను ఈ అప్‌డేట్ పరిష్కరిస్తుంది."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
   }
 }

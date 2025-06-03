@@ -960,6 +960,7 @@ export class BackupExportStream extends Readable {
         recipient: this.#toRecipient(result, {
           type: 'private',
           serviceId,
+          pni: isPniString(serviceId) ? serviceId : undefined,
           e164,
         }),
       });
@@ -1031,11 +1032,13 @@ export class BackupExportStream extends Readable {
 
       const { nicknameGivenName, nicknameFamilyName, note } = convo;
 
+      const maybePni = convo.pni ?? convo.serviceId;
+
       const aci = isAciString(convo.serviceId)
         ? Aci.parseFromServiceIdString(convo.serviceId).getRawUuidBytes()
         : null;
-      const pni = isPniString(convo.pni)
-        ? Pni.parseFromServiceIdString(convo.pni).getRawUuidBytes()
+      const pni = isPniString(maybePni)
+        ? Pni.parseFromServiceIdString(maybePni).getRawUuidBytes()
         : null;
       const e164 = convo.e164 ? Long.fromString(convo.e164) : null;
 
@@ -1747,14 +1750,14 @@ export class BackupExportStream extends Readable {
         const changedConvo = window.ConversationController.get(
           message.changedId
         );
-        if (!changedConvo) {
-          throw new Error(
-            'toChatItemUpdate/profileChange: changedId conversation not found!'
+        if (changedConvo) {
+          // This will override authorId on the original chatItem
+          patch.authorId = this.#getOrPushPrivateRecipient(changedConvo);
+        } else {
+          log.warn(
+            `${logId}: failed to resolve changedId ${message.changedId}`
           );
         }
-
-        // This will override authorId on the original chatItem
-        patch.authorId = this.#getOrPushPrivateRecipient(changedConvo);
       }
 
       const { newName, oldName } = message.profileChange;

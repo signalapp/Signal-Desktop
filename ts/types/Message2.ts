@@ -23,7 +23,6 @@ import {
 } from './Attachment';
 import * as Errors from './errors';
 import * as SchemaVersion from './SchemaVersion';
-import { initializeAttachmentMetadata } from './message/initializeAttachmentMetadata';
 
 import { LONG_MESSAGE } from './MIME';
 import type * as MIME from './MIME';
@@ -140,6 +139,8 @@ export type ContextType = {
 //   - Attachments: write bodyAttachment to disk
 // Version 14
 //   - All attachments: ensure they are reencryptable to a known digest
+// Version 15
+//   - A noop migration to cause attachments to be normalized when the message is saved
 
 const INITIAL_SCHEMA_VERSION = 0;
 
@@ -488,12 +489,10 @@ const toVersion6 = _withSchemaVersion({
   schemaVersion: 6,
   upgrade: _mapContact(Contact.parseAndWriteAvatar(migrateDataToFileSystem)),
 });
-// IMPORTANT: We’ve updated our definition of `initializeAttachmentMetadata`, so
-// we need to run it again on existing items that have previously been incorrectly
-// classified:
+// NOOP: hasFileAttachments, etc. is now computed at message save time
 const toVersion7 = _withSchemaVersion({
   schemaVersion: 7,
-  upgrade: initializeAttachmentMetadata,
+  upgrade: noopUpgrade,
 });
 
 const toVersion8 = _withSchemaVersion({
@@ -655,6 +654,7 @@ const toVersion12 = _withSchemaVersion({
     return result;
   },
 });
+
 const toVersion13 = _withSchemaVersion({
   schemaVersion: 13,
   upgrade: migrateBodyAttachmentToDisk,

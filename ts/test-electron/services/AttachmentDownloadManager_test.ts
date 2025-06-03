@@ -22,6 +22,7 @@ import { DataReader, DataWriter } from '../../sql/Client';
 import { MINUTE } from '../../util/durations';
 import { type AttachmentType, AttachmentVariant } from '../../types/Attachment';
 import { strictAssert } from '../../util/assert';
+import type { downloadAttachment as downloadAttachmentUtil } from '../../util/downloadAttachment';
 import { AttachmentDownloadSource } from '../../sql/Interface';
 import { getAttachmentCiphertextLength } from '../../AttachmentCrypto';
 import { MEBIBYTE } from '../../types/AttachmentSize';
@@ -507,14 +508,23 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
   let processNewAttachment: sinon.SinonStub;
   const abortController = new AbortController();
 
+  const downloadedAttachment: Awaited<
+    ReturnType<typeof downloadAttachmentUtil>
+  > = {
+    path: '/path/to/file',
+    iv: 'iv',
+    plaintextHash: 'plaintextHash',
+    isReencryptableToSameDigest: true,
+    localKey: 'localKey',
+    version: 2,
+    size: 128,
+  };
+
   beforeEach(async () => {
     sandbox = sinon.createSandbox();
-    downloadAttachment = sandbox.stub().returns({
-      path: '/path/to/file',
-      iv: Buffer.alloc(16),
-      plaintextHash: 'plaintextHash',
-      isReencryptableToSameDigest: true,
-    });
+    downloadAttachment = sandbox
+      .stub()
+      .returns(Promise.resolve(downloadedAttachment));
     processNewAttachment = sandbox.stub().callsFake(attachment => attachment);
   });
 
@@ -611,6 +621,8 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
           },
           thumbnailFromBackup: {
             path: '/path/to/thumbnail',
+            size: 128,
+            contentType: MIME.IMAGE_JPEG,
           },
         },
       });
@@ -724,11 +736,7 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
         if (options.variant === AttachmentVariant.Default) {
           throw new Error('error while downloading');
         }
-        return {
-          path: '/path/to/thumbnail',
-          iv: Buffer.alloc(16),
-          plaintextHash: 'plaintextHash',
-        };
+        return downloadedAttachment;
       });
 
       const job = composeJob({

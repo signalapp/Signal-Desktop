@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Skonfiguruj jako samodzielne urządzenie"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Więcej działań"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Database error: please share your logs."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Otrzymano nieprawidłową odpowiedź z usługi w chmurze. Udostępnij dzienniki."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Potrzebujesz pomocy?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Settings"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Numer telefonu"
@@ -3138,16 +3147,16 @@
     "messageformat": "Mikrofon wł."
   },
   "icu:CallControls__MutedBySomeoneToast": {
-    "messageformat": "{otherName} muted you."
+    "messageformat": "{otherName} Cię wycisza."
   },
   "icu:CallControls__SomeoneMutedSomeoneToast": {
-    "messageformat": "{name} muted {otherName}."
+    "messageformat": "{name} wycisza tę osobę: {otherName}."
   },
   "icu:CallControls__YouMutedSomeoneToast": {
-    "messageformat": "You muted {otherName}."
+    "messageformat": "Wyciszasz tę osobę: {otherName}."
   },
   "icu:CallControls__YouMutedYourselfToast": {
-    "messageformat": "You muted yourself from another device."
+    "messageformat": "Wyciszasz siebie na innym urządzeniu."
   },
   "icu:CallControls__LowerHandSuggestionToast": {
     "messageformat": "Opuścić rękę?"
@@ -4212,7 +4221,7 @@
     "messageformat": "Odblokować grupę „{groupName}”?"
   },
   "icu:ConversationDetailsActions--block-group-modal-title": {
-    "messageformat": "Zablokować i opuścić grupę „{groupName}”?"
+    "messageformat": "Zablokować i opuścić grupę {groupName}?"
   },
   "icu:ConversationDetailsActions--block-group-modal-content": {
     "messageformat": "Nie będziesz już otrzymywać wiadomości ani powiadomień z tej grupy."
@@ -4293,7 +4302,7 @@
     "messageformat": "Nie powiadamiaj, jeśli wyciszono"
   },
   "icu:GroupLinkManagement--clipboard": {
-    "messageformat": "Skopiowano link do grupy."
+    "messageformat": "Link do grupy skopiowany."
   },
   "icu:GroupLinkManagement--share": {
     "messageformat": "Skopiuj link"
@@ -4308,7 +4317,7 @@
     "messageformat": "Wymagaj potwierdzenia administratora"
   },
   "icu:GroupLinkManagement--approve-info": {
-    "messageformat": "Wymagaj zatwierdzania przez administratora nowych osób dołączających do grupy za pomocą linku."
+    "messageformat": "Wymagaj zatwierdzania przez administratora nowych osób dołączających do grupy za pomocą linku"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
     "messageformat": "Skopiuj link signal.group do schowka"
@@ -4326,7 +4335,7 @@
     "messageformat": "Odrzucić prośbę, której nadawcą jest {name}?"
   },
   "icu:PendingRequests--deny-for--with-link": {
-    "messageformat": "Odrzucić prośbę, której nadawcą jest {name}? Ta osoba nie będzie mogła ponownie poprosić o przyjęcie do grupy przez link."
+    "messageformat": "Odrzucić prośbę, której nadawcą jest {name}? Ta osoba nie będzie mogła ponownie poprosić o przyjęcie do grupy za pomocą linku."
   },
   "icu:PendingInvites--invited-by-you": {
     "messageformat": "Zaproszenia od Ciebie"
@@ -4356,10 +4365,10 @@
     "messageformat": "Odrzuć prośbę"
   },
   "icu:PendingRequests--info": {
-    "messageformat": "Osoby na tej liście chcą dołączyć do grupy {name} przez link."
+    "messageformat": "Osoby na tej liście poprosiły o przyjęcie do grupy {name} za pomocą linku."
   },
   "icu:PendingInvites--info": {
-    "messageformat": "Informacje o zaproszonych osobach będą dostępne, dopiero gdy dołączą one do grupy. Rwónież dopiero wtedy osoby te będą mogły wyświetlić wiadomości."
+    "messageformat": "Informacje o zaproszonych osobach będą dostępne, dopiero gdy dołączą one do grupy. Również dopiero wtedy osoby te będą mogły wyświetlić wiadomości w grupie."
   },
   "icu:PendingRequests--block--button": {
     "messageformat": "Zablokuj prośbę"
@@ -4431,7 +4440,7 @@
     "messageformat": "Nie możesz automatycznie dodać do grupy tych osób."
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
-    "messageformat": "Te osoby zostały zaproszone i nie mogą wyświetlić żadnych wiadomości w grupie, dopóki nie zaakceptują zaproszenia."
+    "messageformat": "Te osoby zostały zaproszone i nie mogą wyświetlić wiadomości w grupie, dopóki nie zaakceptują zaproszenia."
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
     "messageformat": "Dowiedz się więcej"
@@ -4533,7 +4542,7 @@
     "messageformat": "Sprawdź prośbę"
   },
   "icu:ContactSpoofingReviewDialog__description": {
-    "messageformat": "Nie masz pewności, od kogo pochodzi ta prośba? Przejrzyj kontakty poniżej, zanim zdecydujesz, co zrobić."
+    "messageformat": "Nie masz pewności, od kogo pochodzi ta prośba? Przyjrzyj się kontaktom poniżej, zanim zdecydujesz, co zrobić."
   },
   "icu:ContactSpoofingReviewDialog__possibly-unsafe-title": {
     "messageformat": "Prośba"
@@ -4557,7 +4566,7 @@
     "messageformat": "Kontakt Signal"
   },
   "icu:ContactSpoofingReviewDialog__group__name-change-info": {
-    "messageformat": "Niedawna zmiana imienia w profilu: z „{oldName}” na „{newName}”"
+    "messageformat": "Niedawna zmiana imienia w profilu z „{oldName}” na „{newName}”"
   },
   "icu:RemoveGroupMemberConfirmation__remove-button": {
     "messageformat": "Usuń z grupy"
@@ -4710,19 +4719,19 @@
     "messageformat": "Domyślny czas dla nowych czatów"
   },
   "icu:UniversalTimerNotification__text": {
-    "messageformat": "Gdy wyślesz wiadomość, czas, po którym wiadomości znikają, zostanie ustawiony na {timeValue}."
+    "messageformat": "Gdy wyślesz wiadomość, zniknie ona po {timeValue}."
   },
   "icu:ContactRemovedNotification__text": {
     "messageformat": "Ten użytkownik został wcześniej usunięty. Ponowne wysłanie do niego wiadomości spowoduje dodanie tej osoby do listy kontaktów."
   },
   "icu:ErrorBoundaryNotification__text": {
-    "messageformat": "Nie udało się wyświetlić tej wiadomości. Kliknij, aby przesłać logi debugowania."
+    "messageformat": "Nie udało się wyświetlić wiadomości. Kliknij, aby przesłać dziennik debugowania."
   },
   "icu:GroupDescription__read-more": {
     "messageformat": "czytaj dalej"
   },
   "icu:EditConversationAttributesModal__description-warning": {
-    "messageformat": "Opisy grupy będą widoczne dla członków tej grupy i zaproszonych osób."
+    "messageformat": "Opis grupy będzie widoczny dla jej członków oraz osób do niej zaproszonych."
   },
   "icu:ConversationDetailsHeader--add-group-description": {
     "messageformat": "Dodaj opis grupy…"
@@ -4737,31 +4746,31 @@
     "messageformat": "Standardowa"
   },
   "icu:MediaQualitySelector--standard-quality-description": {
-    "messageformat": "Szybciej, mniejszy plik"
+    "messageformat": "Szybsze przesyłanie, mniejsze pliki"
   },
   "icu:MediaQualitySelector--high-quality-title": {
     "messageformat": "Wysoka"
   },
   "icu:MediaQualitySelector--high-quality-description": {
-    "messageformat": "Wolniej, większy plik"
+    "messageformat": "Wolniejsze przesyłanie, większe pliki"
   },
   "icu:MessageDetailsHeader--Failed": {
-    "messageformat": "Nie wysłano"
+    "messageformat": "Nie udało się wysłać"
   },
   "icu:MessageDetailsHeader--Pending": {
-    "messageformat": "Oczekuje"
+    "messageformat": "Wysyłanie"
   },
   "icu:MessageDetailsHeader--Sent": {
-    "messageformat": "Wysłano do"
+    "messageformat": "Wiadomość wysłana"
   },
   "icu:MessageDetailsHeader--Delivered": {
-    "messageformat": "Dostarczono do"
+    "messageformat": "Wiadomość dostarczona"
   },
   "icu:MessageDetailsHeader--Read": {
-    "messageformat": "Odczytano przez"
+    "messageformat": "Wiadomość odczytana"
   },
   "icu:MessageDetailsHeader--Viewed": {
-    "messageformat": "Obejrzano przez"
+    "messageformat": "Wiadomość wyświetlona"
   },
   "icu:MessageDetail--disappears-in": {
     "messageformat": "Zniknie za"
@@ -4797,10 +4806,10 @@
     "messageformat": "Pozwól innym na rozpoczęcie z Tobą rozmowy poprzez udostępnienie im unikatowego kodu QR lub linku."
   },
   "icu:ProfileEditor--username--title": {
-    "messageformat": "Wybierz swoją nazwę użytkownika"
+    "messageformat": "Wybierz dla siebie nazwę użytkownika"
   },
   "icu:ProfileEditor--username--check-characters": {
-    "messageformat": "Nazwy użytkownika mogą zawierać wyłącznie a-z, 0-9, i _"
+    "messageformat": "Nazwa użytkownika może zawierać wyłącznie znaki a–z, 0–9 oraz _"
   },
   "icu:ProfileEditor--username--check-starting-character": {
     "messageformat": "Nazwy użytkowników nie mogą zaczynać się od cyfry."
@@ -4827,19 +4836,19 @@
     "messageformat": "Ta nazwa użytkownika jest niedostępna"
   },
   "icu:ProfileEditor--username--general-error": {
-    "messageformat": "Nie udało się zapisać Twojej nazwy użytkownika. Sprawdź połączenie z siecią i spróbuj ponownie."
+    "messageformat": "Nie udało się zapisać Twojej nazwy użytkownika. Sprawdź, czy masz połączenie z internetem, i spróbuj ponownie."
   },
   "icu:ProfileEditor--username--reservation-gone": {
     "messageformat": "{username} nie jest już dostępny(-a). Do Twojej nazwy użytkownika zostanie przypisany nowy ciąg cyfr. Spróbuj zapisać go ponownie."
   },
   "icu:ProfileEditor--username--delete-general-error": {
-    "messageformat": "Nie udało się usunąć Twojej nazwy użytkownika. Sprawdź połączenie z siecią i spróbuj ponownie."
+    "messageformat": "Nie udało się usunąć Twojej nazwy użytkownika. Sprawdź, czy masz połączenie z internetem, i spróbuj ponownie."
   },
   "icu:ProfileEditor--username--copied-username": {
-    "messageformat": "Skopiowana nazwa użytkownika"
+    "messageformat": "Nazwa użytkownika skopiowana"
   },
   "icu:ProfileEditor--username--copied-username-link": {
-    "messageformat": "Skopiowany link"
+    "messageformat": "Link skopiowany"
   },
   "icu:ProfileEditor--username--deleting-username": {
     "messageformat": "Usuwanie nazwy użytkownika"
@@ -4851,10 +4860,10 @@
     "messageformat": "Usuń"
   },
   "icu:ProfileEditor--username--context-menu": {
-    "messageformat": "Kopiuj lub usuń nazwę użytkownika"
+    "messageformat": "Skopiuj lub usuń nazwę użytkownika"
   },
   "icu:ProfileEditor--username--copy": {
-    "messageformat": "Kopiuj nazwę użytkownika"
+    "messageformat": "Skopiuj nazwę użytkownika"
   },
   "icu:ProfileEditor--username--delete": {
     "messageformat": "Usuń"
@@ -4866,7 +4875,7 @@
     "messageformat": "Imię (wymagane)"
   },
   "icu:ProfileEditor--last-name": {
-    "messageformat": "Nazwisko (opcjonalne)"
+    "messageformat": "Nazwisko (opcjonalnie)"
   },
   "icu:ConfirmDiscardDialog--discard": {
     "messageformat": "Odrzucić zmiany?"
@@ -4890,19 +4899,19 @@
     "messageformat": "Od teraz użytkownicy mogą wysyłać Ci wiadomości, używając Twojej opcjonalnej nazwy użytkownika. Nie musisz już podawać swojego numeru telefonu."
   },
   "icu:Bio--speak-freely": {
-    "messageformat": "Mówcie śmiało"
+    "messageformat": "Chętnie porozmawiam"
   },
   "icu:Bio--encrypted": {
-    "messageformat": "Zaszyfrowany"
+    "messageformat": "Mówię szyfrem"
   },
   "icu:Bio--free-to-chat": {
     "messageformat": "Chętny(-a) na czat"
   },
   "icu:Bio--coffee-lover": {
-    "messageformat": "Miłośnik kawy"
+    "messageformat": "Uwielbiam kawę"
   },
   "icu:Bio--taking-break": {
-    "messageformat": "Robię przerwę"
+    "messageformat": "Robię sobie przerwę"
   },
   "icu:ProfileEditorModal--profile": {
     "messageformat": "Profil"
@@ -4920,10 +4929,10 @@
     "messageformat": "Nazwa użytkownika"
   },
   "icu:ProfileEditorModal--error": {
-    "messageformat": "Nie udało się zaktualizować Twojego profilu. Spróbuj później."
+    "messageformat": "Nie udało się zaktualizować Twojego profilu. Spróbuj ponownie później."
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
-    "messageformat": "Wyślij do administratora"
+    "messageformat": "Napisz do administratora"
   },
   "icu:AnnouncementsOnlyGroupBanner--announcements-only": {
     "messageformat": "Tylko {admins} mogą wysyłać wiadomości"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Wyeksportuj zaszyfrowaną kopię zapasową do folderu i uruchom testy"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Zaimportuj…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Przygotuj lokalną zaszyfrowaną kopię zapasową do importu po kliknięciu linku"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Eksportuj zaszyfrowaną kopię zapasową do pamięci i uruchom testy weryfikacyjne"
   },
@@ -5019,7 +5022,7 @@
     "messageformat": "Uruchom testy"
   },
   "icu:Preferences--lastSynced": {
-    "messageformat": "Ostatnio importowano {date} {time}"
+    "messageformat": "Ostatni import {date} {time}"
   },
   "icu:Preferences--system": {
     "messageformat": "System"
@@ -5028,7 +5031,7 @@
     "messageformat": "Powiększenie"
   },
   "icu:Preferences__link-previews--title": {
-    "messageformat": "Twórz podglądy linków"
+    "messageformat": "Generuj podgląd linków"
   },
   "icu:Preferences__link-previews--description": {
     "messageformat": "Aby zmienić tę opcję, otwórz aplikację Signal na swoim urządzeniu mobilnym i przejdź do Ustawienia > Czaty"
@@ -5094,7 +5097,7 @@
     "messageformat": "{num, plural, one {{num,number} kontakt} few {{num,number} kontakty} many {{num,number} kontaktów} other {{num,number} kontaktu}}"
   },
   "icu:Preferences__privacy--description": {
-    "messageformat": "Aby zmienić te opcje, otwórz aplikację Signal na swoim urządzeniu mobilnym i przejdź do Ustawienia > Prywatność"
+    "messageformat": "Aby zmienić te ustawienia, otwórz aplikację Signal na urządzeniu mobilnym i przejdź do sekcji Ustawienia > Prywatność"
   },
   "icu:Preferences__pnp__row--title": {
     "messageformat": "Numer telefonu"
@@ -5151,7 +5154,7 @@
     "messageformat": "Wiadomości"
   },
   "icu:Preferences--read-receipts": {
-    "messageformat": "Potwierdzenia przeczytania"
+    "messageformat": "Potwierdzenia odczytania"
   },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Wskaźniki pisania"
@@ -5178,7 +5181,7 @@
     "messageformat": "Wyłącz"
   },
   "icu:Preferences__turn-stories-off--body": {
-    "messageformat": "Stracisz możliwość udostępniania i wyświetlania relacji. Relacje niedawno udostępnione przez Ciebie również zostaną usunięte."
+    "messageformat": "Stracisz możliwość udostępniania i wyświetlania relacji. Usunięte zostaną również relacje udostępnione przez Ciebie w ostatnim czasie."
   },
   "icu:Preferences__Language__Label": {
     "messageformat": "Język"
@@ -5214,7 +5217,7 @@
     "messageformat": "Ochrona ekranu"
   },
   "icu:Preferences__content-protection--description": {
-    "messageformat": "Dodatkowo zadbaj o prywatność i zablokuj wykonywanie zrzutów ekranu aplikacji Signal na tym komputerze."
+    "messageformat": "Zadbaj dodatkowo o prywatność i zablokuj wykonywanie zrzutów ekranu aplikacji Signal na tym komputerze."
   },
   "icu:Preferences__content-protection__modal--title": {
     "messageformat": "Wyłączyć ochronę ekranu?"
@@ -5274,15 +5277,15 @@
     "messageformat": "Aktualizacja Signal Desktop nie powiodła się, ale dostępna jest nowa wersja. Przejdź do {downloadUrl} i zainstaluj nową wersję ręcznie, a następnie skontaktuj się z działem wsparcia lub wyślij zgłoszenie błędu."
   },
   "icu:NSIS__retry-dialog--first-line": {
-    "messageformat": "Nie można zamknąć Signal.",
+    "messageformat": "Nie udało się zamknąć aplikacji Signal.",
     "ignoreUnused": true
   },
   "icu:NSIS__retry-dialog--second-line": {
-    "messageformat": "Zamknij aplikację i kliknij Ponów, aby kontynuować.",
+    "messageformat": "Zamknij aplikację ręcznie i kliknij „Spróbuj ponownie”, aby kontynuować.",
     "ignoreUnused": true
   },
   "icu:NSIS__appRunning": {
-    "messageformat": "Aplikacja {appName} jest uruchomiona.\nKliknij OK, aby ją zamknąć.\nJeśli nie zostanie zamknięta, spróbuj zamknąć ją ręcznie.",
+    "messageformat": "Aplikacja {appName} jest włączona.\nAby ją zamknąć, kliknij OK.\nJeśli nie zamknie się automatycznie, spróbuj zrobić to ręcznie.",
     "ignoreUnused": true
   },
   "icu:NSIS__decompressionFailed": {
@@ -5298,10 +5301,10 @@
     "ignoreUnused": true
   },
   "icu:CrashReportDialog__title": {
-    "messageformat": "Aplikacja napotkała błąd"
+    "messageformat": "Wystąpiła awaria aplikacji"
   },
   "icu:CrashReportDialog__body": {
-    "messageformat": "Aplikacja Signal odzyskała sprawność po napotkaniu błędu. Możesz przesłać raport o błędzie, aby pomóc Signal zbadać ten problem."
+    "messageformat": "Aplikacja Signal uruchomiła się ponownie po awarii. Aby pomóc zespołowi Signal zbadać ten problem, możesz wysłać raport o awarii."
   },
   "icu:CrashReportDialog__submit": {
     "messageformat": "Wyślij"
@@ -5313,10 +5316,10 @@
     "messageformat": "Dostosuj reakcje"
   },
   "icu:CustomizingPreferredReactions__subtitle": {
-    "messageformat": "Kliknij, aby zastąpić emotikonę"
+    "messageformat": "Kliknij, aby zastąpić emoji"
   },
   "icu:CustomizingPreferredReactions__had-save-error": {
-    "messageformat": "Podczas zapisywania Twoich ustawień wystąpił błąd. Spróbuj ponownie."
+    "messageformat": "Podczas zapisywania ustawień wystąpił błąd. Spróbuj ponownie."
   },
   "icu:MediaEditor__input-placeholder": {
     "messageformat": "Wiadomość"
@@ -5331,25 +5334,25 @@
     "messageformat": "Dodaj tekst"
   },
   "icu:MediaEditor__control--crop": {
-    "messageformat": "Przytnij i obróć"
+    "messageformat": "Przytnij lub obróć"
   },
   "icu:MediaEditor__control--undo": {
     "messageformat": "Cofnij"
   },
   "icu:MediaEditor__control--redo": {
-    "messageformat": "Powtórz"
+    "messageformat": "Ponów"
   },
   "icu:MediaEditor__text--regular": {
-    "messageformat": "Normalny"
+    "messageformat": "Kolor czcionki"
   },
   "icu:MediaEditor__text--highlight": {
-    "messageformat": "Podświetlenie"
+    "messageformat": "Zakreślenie"
   },
   "icu:MediaEditor__text--outline": {
     "messageformat": "Kontur"
   },
   "icu:MediaEditor__draw--pen": {
-    "messageformat": "Pióro"
+    "messageformat": "Rysik"
   },
   "icu:MediaEditor__draw--highlighter": {
     "messageformat": "Zakreślacz"
@@ -5373,16 +5376,16 @@
     "messageformat": "Obróć"
   },
   "icu:MediaEditor__crop--flip": {
-    "messageformat": "Odbicie lustrzane"
+    "messageformat": "Przerzuć"
   },
   "icu:MediaEditor__crop--lock": {
     "messageformat": "Zablokuj proporcje"
   },
   "icu:MediaEditor__crop-preset--freeform": {
-    "messageformat": "Freeform"
+    "messageformat": "Własny kadr"
   },
   "icu:MediaEditor__crop-preset--square": {
-    "messageformat": "Square"
+    "messageformat": "Kwadrat"
   },
   "icu:MediaEditor__crop-preset--9-16": {
     "messageformat": "9:16"
@@ -5430,7 +5433,7 @@
     "messageformat": "{views, plural, one {{views,number} odsłona} few {{views,number} wyświetlenia} many {{views,number} wyświetleń} other {{views,number} wyświetleń}}"
   },
   "icu:MyStories__views--strong": {
-    "messageformat": "{views, plural, one {<strong>{views,number}</strong> wyświetlenie} few {<strong>{views,number}</strong> wyświetlenia} many {<strong>{views,number}</strong> wyświetleń} other {<strong>{views,number}</strong> wyświetleń}}"
+    "messageformat": "{views, plural, one {<strong>{views,number}</strong> wyświetlenie} few {<strong>{views,number}</strong> wyświetlenia} many {<strong>{views,number}</strong> wyświetleń} other {<strong>{views,number}</strong> wyświetlenia}}"
   },
   "icu:MyStories__views-off": {
     "messageformat": "Wyświetlenia: wyłączone"
@@ -5439,7 +5442,7 @@
     "messageformat": "{replyCount, plural, one {<strong>{replyCount,number}</strong> odpowiedź} few {<strong>{replyCount,number}</strong> odpowiedzi} many {<strong>{replyCount,number}</strong> odpowiedzi} other {<strong>{replyCount,number}</strong> odpowiedzi}}"
   },
   "icu:MyStories__delete": {
-    "messageformat": "Usunąć tę relację? To działanie spowoduje również usunięcie jej u wszystkich, którzy ją otrzymali."
+    "messageformat": "Usunąć tę relację? Zostanie usunięta również u wszystkich osób, które ją otrzymały."
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "Rozpoczęto płatność na rzecz {receiver}"
@@ -5499,19 +5502,19 @@
     "messageformat": "Kontakty Signal"
   },
   "icu:SignalConnectionsModal__header": {
-    "messageformat": "{connections} to osoby, którym postanowiłeś(-aś) zaufać przez:"
+    "messageformat": "{connections} to osoby, które zostały uznane za zaufane z jednego z tych powodów:"
   },
   "icu:SignalConnectionsModal__bullet--1": {
     "messageformat": "Rozpoczynanie czatu"
   },
   "icu:SignalConnectionsModal__bullet--2": {
-    "messageformat": "Zaakceptowanie prośby o kontakt"
+    "messageformat": "Została przez Ciebie zaakceptowana prośba o kontakt od nich"
   },
   "icu:SignalConnectionsModal__bullet--3": {
-    "messageformat": "Posiadanie ich w kontaktach systemowych"
+    "messageformat": "Masz te osoby w kontaktach systemowych"
   },
   "icu:SignalConnectionsModal__footer": {
-    "messageformat": "Twoje kontakty widzą Twoje imię i zdjęcie oraz posty w „Mojej relacji” – chyba że je przed nimi ukryjesz."
+    "messageformat": "Kontakty mogą wyświetlić Twoje imię, nazwisko i zdjęcie oraz to, co udostępniasz w swoich relacjach – chyba że je przed tymi osobami ukryjesz"
   },
   "icu:LocalDeleteWarningModal__header": {
     "messageformat": "Usuwanie jest teraz synchronizowane na wszystkich Twoich urządzeniach"
@@ -5526,7 +5529,7 @@
     "messageformat": "Relacje"
   },
   "icu:Stories__mine": {
-    "messageformat": "Moja relacja"
+    "messageformat": "Moje relacje"
   },
   "icu:Stories__add": {
     "messageformat": "Dodaj relację"
@@ -5541,7 +5544,7 @@
     "messageformat": "Ukryte relacje"
   },
   "icu:Stories__list-empty": {
-    "messageformat": "W tej chwili nie ma nowych relacji do pokazania"
+    "messageformat": "Brak nowych relacji do wyświetlenia"
   },
   "icu:Stories__list__empty--title": {
     "messageformat": "Brak relacji"
@@ -5550,25 +5553,25 @@
     "messageformat": "Tutaj pojawią się nowe relacje."
   },
   "icu:Stories__list--sending": {
-    "messageformat": "Trwa wysyłanie…"
+    "messageformat": "Udostępnianie…"
   },
   "icu:Stories__list--send_failed": {
-    "messageformat": "Wysyłanie nie powiodło się"
+    "messageformat": "Nie udało się udostępnić"
   },
   "icu:Stories__list--partially-sent": {
-    "messageformat": "Częściowo wysłana"
+    "messageformat": "Udostępniona częściowo"
   },
   "icu:Stories__list--retry-send": {
     "messageformat": "Kliknij, aby spróbować ponownie"
   },
   "icu:Stories__placeholder--text": {
-    "messageformat": "Kliknij, aby zobaczyć relację"
+    "messageformat": "Kliknij, aby wyświetlić relację"
   },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "Kliknij <newStoryButtonIcon></newStoryButtonIcon>, aby dodać aktualizację."
   },
   "icu:Stories__from-to-group": {
-    "messageformat": "{name} do {group}"
+    "messageformat": "{name} do grupy {group}"
   },
   "icu:Stories__toast--sending-reply": {
     "messageformat": "Wysyłanie odpowiedzi…"
@@ -5580,7 +5583,7 @@
     "messageformat": "Ta relacja nie ma dźwięku"
   },
   "icu:Stories__failed-send": {
-    "messageformat": "Nie udało się wysłać relacji do niektórych osób. Sprawdź połączenie z internetem i spróbuj ponownie."
+    "messageformat": "Nie udało się udostępnić relacji niektórym osobom. Sprawdź, czy masz połączenie z internetem, i spróbuj ponownie."
   },
   "icu:StoriesSettings__title": {
     "messageformat": "Prywatność relacji"
@@ -5604,34 +5607,34 @@
     "messageformat": "{count, plural, one {1 odbiorca} few {{count,number} odbiorców} many {{count,number} odbiorców} other {{count,number} odbiorców}}"
   },
   "icu:StoriesSettings__who-can-see": {
-    "messageformat": "Kto może wyświetlać tę relację"
+    "messageformat": "Kto może wyświetlić te relacje"
   },
   "icu:StoriesSettings__add-viewer": {
-    "messageformat": "Dodaj widza"
+    "messageformat": "Dodaj odbiorcę"
   },
   "icu:StoriesSettings__remove--action": {
     "messageformat": "Usuń"
   },
   "icu:StoriesSettings__remove--title": {
-    "messageformat": "Usuń {title}"
+    "messageformat": "Usuń tę osobę: {title}"
   },
   "icu:StoriesSettings__remove--body": {
-    "messageformat": "Ta osoba nie będzie już widzieć Twojej relacji."
+    "messageformat": "Ta osoba nie będzie już mogła wyświetlać Twoich relacji."
   },
   "icu:StoriesSettings__replies-reactions--title": {
     "messageformat": "Odpowiedzi i reakcje"
   },
   "icu:StoriesSettings__replies-reactions--label": {
-    "messageformat": "Pozwalaj na odpowiedzi i reakcje"
+    "messageformat": "Zezwól na odpowiedzi i reakcje"
   },
   "icu:StoriesSettings__replies-reactions--description": {
-    "messageformat": "Pozwól osobom, które oglądają Twoje relacje, reagować i odpowiadać."
+    "messageformat": "Pozwól osobom, które wyświetlają Twoje relacje, reagować na nie i odpowiadać."
   },
   "icu:StoriesSettings__delete-list": {
     "messageformat": "Usuń relację niestandardową"
   },
   "icu:StoriesSettings__delete-list--confirm": {
-    "messageformat": "Na pewno chcesz usunąć „{name}”? Wszelkie aktualizacje tej relacji również zostaną usunięte."
+    "messageformat": "Chcesz usunąć relację „{name}”? Oznacza to usunięcie także wszystkiego, co zostało do niej dodane."
   },
   "icu:StoriesSettings__choose-viewers": {
     "messageformat": "Wybierz odbiorców"
@@ -5640,10 +5643,10 @@
     "messageformat": "Nazwij relację"
   },
   "icu:StoriesSettings__name-placeholder": {
-    "messageformat": "Tytuł relacji (wymagane)"
+    "messageformat": "Nazwa relacji (wymagana)"
   },
   "icu:StoriesSettings__hide-story": {
-    "messageformat": "Ukryj relację przed"
+    "messageformat": "Przed kim ukryć relacje"
   },
   "icu:StoriesSettings__mine__all--label": {
     "messageformat": "Wszystkie kontakty Signal"
@@ -5655,16 +5658,16 @@
     "messageformat": "Udostępnij tylko…"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
-    "messageformat": "Zdecyduj, kto może wyświetlać relację. Zmiany nie wpłyną na przesłane już relacje. <learnMoreLink>Dowiedz się więcej.</learnMoreLink>"
+    "messageformat": "Zdecyduj, kto może wyświetlać Twoje relacje. Zmiany nie wpłyną na już opublikowane relacje. <learnMoreLink>Dowiedz się więcej.</learnMoreLink>"
   },
   "icu:StoriesSettings__context-menu": {
     "messageformat": "Prywatność relacji"
   },
   "icu:StoriesSettings__view-receipts--label": {
-    "messageformat": "Wyświetlaj potwierdzenia"
+    "messageformat": "Informacje o wyświetleniach"
   },
   "icu:StoriesSettings__view-receipts--description": {
-    "messageformat": "Aby zmienić tę opcję, otwórz aplikację Signal na swoim urządzeniu mobilnym i przejdź do Ustawienia > Relacje"
+    "messageformat": "Aby zmienić to ustawienie, otwórz aplikację Signal na urządzeniu mobilnym i przejdź do sekcji Ustawienia > Relacje"
   },
   "icu:GroupStorySettingsModal__members_title": {
     "messageformat": "Kto może wyświetlać tę relację"
@@ -5679,13 +5682,13 @@
     "messageformat": "Czy na pewno chcesz usunąć „{groupTitle}”?"
   },
   "icu:SendStoryModal__choose-who-can-view": {
-    "messageformat": "Zdecyduj, kto może wyświetlać relację"
+    "messageformat": "Wybierz, kto może wyświetlać relacje"
   },
   "icu:SendStoryModal__title": {
-    "messageformat": "Wyślij do"
+    "messageformat": "Wybierz odbiorców"
   },
   "icu:SendStoryModal__send": {
-    "messageformat": "Wyślij relację"
+    "messageformat": "Udostępnij relację"
   },
   "icu:SendStoryModal__custom-story": {
     "messageformat": "Relacja niestandardowa"
@@ -5706,7 +5709,7 @@
     "messageformat": "Nowa relacja niestandardowa"
   },
   "icu:SendStoryModal__new-custom--name-visibility": {
-    "messageformat": "Tylko Ty możesz zobaczyć nazwę tej relacji."
+    "messageformat": "Nazwa relacji będzie widoczna tylko dla Ciebie."
   },
   "icu:SendStoryModal__new-custom--description": {
     "messageformat": "Widoczna tylko dla określonych osób"
@@ -5715,7 +5718,7 @@
     "messageformat": "Nowa relacja grupowa"
   },
   "icu:SendStoryModal__new-group--description": {
-    "messageformat": "Udostępnij istniejącej grupie"
+    "messageformat": "Udostępniana określonym grupom"
   },
   "icu:SendStoryModal__choose-groups": {
     "messageformat": "Wybierz grupy"
@@ -5724,19 +5727,19 @@
     "messageformat": "Prywatność moich relacji"
   },
   "icu:SendStoryModal__privacy-disclaimer--link": {
-    "messageformat": "Zdecyduj, które kontakty Signal mogą wyświetlać Twoją relację. Możesz to zrobić później w ustawieniach prywatności. <learnMoreLink>Dowiedz się więcej.</learnMoreLink>"
+    "messageformat": "Zdecyduj, które kontakty Signal mogą wyświetlać Twoje relacje. Zawsze możesz to zmienić w ustawieniach prywatności. <learnMoreLink>Dowiedz się więcej.</learnMoreLink>"
   },
   "icu:SendStoryModal__delete-story": {
     "messageformat": "Usuń relację"
   },
   "icu:SendStoryModal__confirm-remove-group": {
-    "messageformat": "Usunąć relację? To spowoduje usunięcie relacji z tej listy, ale zachowasz możliwość wyświetlania relacji z tej grupy."
+    "messageformat": "Usunąć relację? Zostanie ona usunięta z Twojej listy, ale zachowasz możliwość wyświetlania innych relacji z tej grupy."
   },
   "icu:SendStoryModal__announcements-only": {
-    "messageformat": "Tylko administratorzy mogą przesyłać relacje tej grupie."
+    "messageformat": "W tej grupie relacje mogą udostępniać tylko administratorzy."
   },
   "icu:Stories__settings-toggle--title": {
-    "messageformat": "Udostępniaj i oglądaj relacje"
+    "messageformat": "Udostępniaj i wyświetlaj relacje"
   },
   "icu:Stories__settings-toggle--description": {
     "messageformat": "Jeśli wyłączysz tę funkcję, stracisz możliwość udostępniania i wyświetlania relacji."
@@ -5763,22 +5766,22 @@
     "messageformat": "Wycisz"
   },
   "icu:StoryViewer__unmute": {
-    "messageformat": "Cofnij wyciszenie"
+    "messageformat": "Wyłącz wyciszenie"
   },
   "icu:StoryViewer__views-off": {
-    "messageformat": "Wyświetlenia: wyłączone"
+    "messageformat": "Informacje o wyświetleniach wyłączone"
   },
   "icu:StoryViewer__sending": {
-    "messageformat": "Trwa wysyłanie…"
+    "messageformat": "Udostępnianie…"
   },
   "icu:StoryViewer__failed": {
-    "messageformat": "Wysyłanie nie powiodło się. Kliknij, aby spróbować ponownie"
+    "messageformat": "Nie udało się udostępnić. Kliknij, aby spróbować ponownie"
   },
   "icu:StoryViewer__partial-fail": {
-    "messageformat": "Wysłana częściowo. Kliknij, aby spróbować ponownie"
+    "messageformat": "Udostępniona częściowo. Kliknij, aby spróbować ponownie"
   },
   "icu:StoryDetailsModal__sent-time": {
-    "messageformat": "Wysłano {time}"
+    "messageformat": "Udostępniono {time}"
   },
   "icu:StoryDetailsModal__file-size": {
     "messageformat": "Rozmiar pliku {size}"
@@ -5787,22 +5790,22 @@
     "messageformat": "Zniknie za {countdown}"
   },
   "icu:StoryDetailsModal__copy-timestamp": {
-    "messageformat": "Skopiuj stempel czasowy"
+    "messageformat": "Skopiuj znacznik czasu"
   },
   "icu:StoryDetailsModal__download-attachment": {
     "messageformat": "Pobierz załącznik"
   },
   "icu:StoryViewsNRepliesModal__read-receipts-off": {
-    "messageformat": "Włącz potwierdzenia wyświetlenia i sprawdzaj, kto wyświetlił Twoje relacje. Otwórz aplikację Signal na urządzeniu mobilnym i przejdź do Ustawienia > Relacje."
+    "messageformat": "Włącz informacje o wyświetleniach i sprawdzaj, kto wyświetla Twoje relacje. Otwórz aplikację Signal na urządzeniu mobilnym i przejdź do sekcji Ustawienia > Relacje."
   },
   "icu:StoryViewsNRepliesModal__no-replies": {
     "messageformat": "Brak odpowiedzi"
   },
   "icu:StoryViewsNRepliesModal__no-views": {
-    "messageformat": "Brak odsłon"
+    "messageformat": "Brak wyświetleń"
   },
   "icu:StoryViewsNRepliesModal__tab--views": {
-    "messageformat": "Odsłony"
+    "messageformat": "Wyświetlenia"
   },
   "icu:StoryViewsNRepliesModal__tab--replies": {
     "messageformat": "Odpowiedzi"
@@ -5832,7 +5835,7 @@
     "messageformat": "Ujawnij relację"
   },
   "icu:StoryListItem__hide": {
-    "messageformat": "Ukryj relację"
+    "messageformat": "Ukryj relacje"
   },
   "icu:StoryListItem__go-to-chat": {
     "messageformat": "Przejdź do czatu"
@@ -5844,7 +5847,7 @@
     "messageformat": "Informacje"
   },
   "icu:StoryListItem__hide-modal--body": {
-    "messageformat": "Ukryć relację? Nowe aktualizacje relacji od {name} przestaną pojawiać się na szczycie listy relacji."
+    "messageformat": "Ukryć relacje? Nowe relacje, które doda {name}, nie będą już się pojawiać na początku listy relacji."
   },
   "icu:StoryListItem__hide-modal--confirm": {
     "messageformat": "Ukryj"
@@ -5868,16 +5871,16 @@
     "messageformat": "Nie udało się wczytać wideo"
   },
   "icu:StoryCreator__text-bg--background": {
-    "messageformat": "Tekst ma tło w kolorze białym"
+    "messageformat": "Tekst na białym tle"
   },
   "icu:StoryCreator__text-bg--inverse": {
-    "messageformat": "Tekst ma wybrany kolor tła"
+    "messageformat": "Tekst na tle w wybranym kolorze"
   },
   "icu:StoryCreator__text-bg--none": {
-    "messageformat": "Tekst nie ma koloru tła"
+    "messageformat": "Tekst bez kolorowego tła"
   },
   "icu:StoryCreator__story-bg": {
-    "messageformat": "Zmień kolor tła dla relacji"
+    "messageformat": "Zmień kolor tła relacji"
   },
   "icu:StoryCreator__next": {
     "messageformat": "Dalej"
@@ -5886,19 +5889,19 @@
     "messageformat": "Dodaj link"
   },
   "icu:StoryCreator__text--regular": {
-    "messageformat": "Normalny"
+    "messageformat": "Normalne"
   },
   "icu:StoryCreator__text--bold": {
-    "messageformat": "Pogrubienie"
+    "messageformat": "Pogrubione"
   },
   "icu:StoryCreator__text--serif": {
-    "messageformat": "Szeryf"
+    "messageformat": "Szeryfowe"
   },
   "icu:StoryCreator__text--script": {
-    "messageformat": "Scenariusz"
+    "messageformat": "Kaligraficzne"
   },
   "icu:StoryCreator__text--condensed": {
-    "messageformat": "Skondensowana"
+    "messageformat": "Skondensowane"
   },
   "icu:StoryCreator__control--text": {
     "messageformat": "Dodaj tekst do relacji"
@@ -5907,10 +5910,10 @@
     "messageformat": "Dodaj link"
   },
   "icu:StoryCreator__link-preview-placeholder": {
-    "messageformat": "Napisz coś albo wklej link"
+    "messageformat": "Wpisz albo wklej link"
   },
   "icu:StoryCreator__link-preview-empty": {
-    "messageformat": "Dodaj link dla widzów Twojej relacji"
+    "messageformat": "Dodaj link dla odbiorców relacji"
   },
   "icu:Stories__failed-send--full": {
     "messageformat": "Nie udało się wysłać relacji"
@@ -5922,28 +5925,28 @@
     "messageformat": "Dodaj tekst"
   },
   "icu:TextAttachment__preview__link": {
-    "messageformat": "Odwiedź link"
+    "messageformat": "Otwórz link"
   },
   "icu:Quote__story": {
     "messageformat": "Relacja"
   },
   "icu:Quote__story-reaction": {
-    "messageformat": "Zareagowano na relację od {name}"
+    "messageformat": "Reakcja na relację, którą udostępnia {name}"
   },
   "icu:Quote__story-reaction--you": {
     "messageformat": "Zareagowano na Twoją relację"
   },
   "icu:Quote__story-reaction--single": {
-    "messageformat": "Zareagowano na relację"
+    "messageformat": "Reakcja na relację"
   },
   "icu:Quote__story-reaction-notification--incoming": {
-    "messageformat": "Zareagował(a) tak: {emoji} na Twoją relację"
+    "messageformat": "Reakcja na Twoją relację: {emoji}"
   },
   "icu:Quote__story-reaction-notification--outgoing": {
-    "messageformat": "Zareagowałeś(-aś) tak: {emoji} na relację od {name}"
+    "messageformat": "Twoja reakcja na relację, którą udostępnia {name}: {emoji}"
   },
   "icu:Quote__story-reaction-notification--outgoing--nameless": {
-    "messageformat": "Zareagowałeś(-aś) tak: {emoji} na relację"
+    "messageformat": "Twoja reakcja na relację: {emoji}"
   },
   "icu:Quote__story-unavailable": {
     "messageformat": "Relacja nie jest już dostępna"
@@ -5961,7 +5964,7 @@
     "messageformat": "Dowiedz się więcej"
   },
   "icu:EditUsernameModalBody__learn-more__title": {
-    "messageformat": "Co to za liczba?"
+    "messageformat": "Co to za cyfry?"
   },
   "icu:EditUsernameModalBody__learn-more__body": {
     "messageformat": "Te cyfry pomagają zachować prywatność Twojej nazwy użytkownika, dzięki czemu unikasz niechcianych wiadomości. Udostępniaj swoją nazwę użytkownika tylko tym osobom i grupom, z którymi chcesz rozmawiać. Jeśli zmienisz nazwę użytkownika, otrzymasz nowy zestaw cyfr."
@@ -6325,43 +6328,37 @@
     "messageformat": "Co nowego"
   },
   "icu:WhatsNew__bugfixes": {
-    "messageformat": "Ta wersja zawiera wiele drobnych ulepszeń i poprawek błędów, zapewniających płynne działanie aplikacji Signal.",
+    "messageformat": "Ta wersja obejmuje wiele drobnych ulepszeń i poprawek błędów. Wszystko po to, aby aplikacja Signal działała płynnie.",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--1": {
-    "messageformat": "Dodatkowe ulepszenia, poprawki błędów i zwiększona funkcjonalność. Dzięki za korzystanie z Signal!",
+    "messageformat": "Drobne ulepszenia, poprawki błędów i większa funkcjonalność. Cieszymy się, że korzystasz z aplikacji Signal!",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--2": {
-    "messageformat": "Naprawiliśmy kilka błędów, żeby aplikacja działała jeszcze płynniej. Kolejne ekscytujące zmiany już wkrótce!",
+    "messageformat": "Naprawiliśmy kilka błędów, aby aplikacja dalej działała płynnie. Bardziej ekscytujące zmiany już wkrótce!",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--3": {
-    "messageformat": "Ulepszenia, poprawki błędów i zwiększona funkcjonalność. Wysyłaj wiadomości, dzwoń i rozmawiaj za pomocą czatu wideo jak dotychczas.",
+    "messageformat": "Ulepszenia, poprawki błędów i większa funkcjonalność. Śmiało dalej wysyłaj wiadomości, dzwoń i bierz udział w wideokonferencjach.",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--4": {
-    "messageformat": "Pracujemy w pocie czoła nad poprawieniem błędów i wprowadzeniem innych ulepszeń, dzięki którym apka będzie działała płynnie. ",
+    "messageformat": "Pracujemy w pocie czoła nad poprawianiem błędów i wprowadzaniem ulepszeń, dzięki którym aplikacja działa płynnie. ",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--5": {
-    "messageformat": "Dodatkowe drobne ulepszenia, poprawki błędów i różne plany na przyszłość.",
+    "messageformat": "Drobne ulepszenia, poprawki błędów i wielkie plany na przyszłość.",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--6": {
-    "messageformat": "Małe ulepszenia, poprawki błędów i zwiększona funkcjonalność. Dzięki za korzystanie z Signal!",
+    "messageformat": "Drobne ulepszenia, poprawki błędów i większa funkcjonalność. Cieszymy się, że korzystasz z aplikacji Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Nic nie przełamuje lodów tak skutecznie jak uśmiech. Od teraz, dzięki pełnemu tłumaczeniu skrótów emoji w aplikacji Signal Desktop, uśmiechniętą buźkę wyślesz jeszcze łatwiej. Wystarczy, że wpiszesz „uśmiech” w dowolnym obsługiwanym języku, na przykład <code>:smile:</code>, <code>:sourire:</code> lub <code>:微笑:</code>."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Ogłaszamy wielki powrót skrótów klawiszowych do emoji i naklejek! Od teraz wysyłanie emoji i naklejek będzie jeszcze szybsze – również dlatego, że poprawiliśmy działanie skrótów, więc odpadnie czasochłonne informowanie nas o błędach."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Naprawiliśmy również błąd występujący w wersjach systemu Linux nieobsługujących jeszcze GTK4."
-  },
   "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab."
+    "messageformat": "Trudno skupić się na oglądaniu, gdy widzisz tylko fragment ekranu… Dlatego naprawiliśmy błąd, który utrudniał przesuwanie okna aplikacji Signal podczas wyświetlania relacji."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
   }
 }
