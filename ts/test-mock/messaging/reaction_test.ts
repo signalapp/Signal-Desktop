@@ -424,17 +424,19 @@ describe('reactions', function (this: Mocha.Suite) {
     await expect(
       firstReaction.locator('.module-reaction-viewer__body__row__name')
     ).toHaveText(bob.profileName);
-    await expect(
-      firstReaction.locator('.FunStaticEmoji')
-    ).toHaveAttribute('data-emoji-value', '👍🏿');
+    await expect(firstReaction.locator('.FunStaticEmoji')).toHaveAttribute(
+      'data-emoji-value',
+      '👍🏿'
+    );
 
     // Second row: local user's 👍🏽
     const secondReaction = reactionRows[1];
     await expect(
       secondReaction.locator('.module-reaction-viewer__body__row__name')
     ).toHaveText('You');
-    await expect(
-      secondReaction.locator('.FunStaticEmoji')
-    ).toHaveAttribute('data-emoji-value', '👍🏽');
+    await expect(secondReaction.locator('.FunStaticEmoji')).toHaveAttribute(
+      'data-emoji-value',
+      '👍🏽'
+    );
   });
 });

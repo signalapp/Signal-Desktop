@@ -137,12 +137,7 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
             all: reactionsWithEmojiData,
             ...groupBy(reactionsWithEmojiData, 'short_name'),
           },
-          groupedReactions =>
-            orderBy(
-              groupedReactions,
-              ['timestamp'],
-              ['desc']
-            )
+          groupedReactions => orderBy(groupedReactions, ['timestamp'], ['desc'])
         ),
       [reactionsWithEmojiData]
     );
@@ -157,17 +152,17 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
           },
           ...Object.entries(groupedAndSortedReactions)
             .filter(([key]) => key !== 'all')
-            .map(([, reactions]) => {
+            .map(([, groupedReactions]) => {
               // Find the local user's reaction first, then fall back to most recent
-              const localUserReaction = reactions.find(r => r.from.isMe);
-              const firstReaction = localUserReaction || reactions[0];
+              const localUserReaction = groupedReactions.find(r => r.from.isMe);
+              const firstReaction = localUserReaction || groupedReactions[0];
               return {
                 id: firstReaction.short_name,
                 index: DEFAULT_EMOJI_ORDER.includes(firstReaction.short_name)
                   ? DEFAULT_EMOJI_ORDER.indexOf(firstReaction.short_name)
                   : Infinity,
                 emoji: firstReaction.emoji,
-                count: reactions.length,
+                count: groupedReactions.length,
               };
             }),
         ].sort((a, b) => a.index - b.index),
