@@ -121,6 +121,8 @@ describe('AttachmentDownloadManager/JobManager', () => {
   afterEach(async () => {
     await downloadManager?.stop();
     sandbox.restore();
+    await DataWriter.removeAll();
+    await window.storage.fetch();
   });
 
   async function addJob(

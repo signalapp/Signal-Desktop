@@ -9,6 +9,7 @@ import type { UploadKeysType, UploadPreKeyType } from '../../textsecure/WebAPI';
 import AccountManager from '../../textsecure/AccountManager';
 import { ServiceIdKind } from '../../types/ServiceId';
 import { normalizeAci } from '../../util/normalizeAci';
+import { DataWriter } from '../../sql/Client';
 
 const { textsecure } = window;
 
@@ -81,6 +82,9 @@ describe('Key generation', function (this: Mocha.Suite) {
     await textsecure.storage.protocol.clearPreKeyStore();
     await textsecure.storage.protocol.clearKyberPreKeyStore();
     await textsecure.storage.protocol.clearSignedPreKeysStore();
+
+    await DataWriter.removeAll();
+    await window.storage.fetch();
   });
 
   describe('the first time', () => {

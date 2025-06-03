@@ -168,6 +168,8 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
   afterEach(async () => {
     sandbox.restore();
     await backupManager?.stop();
+    await DataWriter.removeAll();
+    await window.storage.fetch();
   });
 
   async function addJobs(
