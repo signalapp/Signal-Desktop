@@ -16,6 +16,69 @@
     "reasonDetail": "Part of runtime library for C++ transpiled code"
   },
   {
+    "rule": "React-useRef",
+    "path": "node_modules/@radix-ui/react-tooltip/dist/index.js",
+    "line": "  const isOpenDelayedRef = React.useRef(true);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-30T20:26:57.154Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@radix-ui/react-tooltip/dist/index.js",
+    "line": "  const isPointerInTransitRef = React.useRef(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-30T20:26:57.154Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@radix-ui/react-tooltip/dist/index.js",
+    "line": "  const skipDelayTimerRef = React.useRef(0);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-30T20:26:57.154Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@radix-ui/react-tooltip/dist/index.js",
+    "line": "  const openTimerRef = React.useRef(0);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-30T20:26:57.154Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@radix-ui/react-tooltip/dist/index.js",
+    "line": "  const wasOpenDelayedRef = React.useRef(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-30T20:26:57.154Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@radix-ui/react-tooltip/dist/index.js",
+    "line": "    const ref = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-30T20:26:57.154Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@radix-ui/react-tooltip/dist/index.js",
+    "line": "    const isPointerDownRef = React.useRef(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-30T20:26:57.154Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@radix-ui/react-tooltip/dist/index.js",
+    "line": "    const hasPointerMoveOpenedRef = React.useRef(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-30T20:26:57.154Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@radix-ui/react-tooltip/dist/index.js",
+    "line": "  const ref = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-30T20:26:57.154Z"
+  },
+  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/@signalapp/quill-cjs/core/editor.js",
     "line": "      innerHTML",
@@ -1844,13 +1907,6 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/fun/base/FunItem.tsx",
-    "line": "  const innerRef = useRef<HTMLButtonElement>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2025-04-23T23:43:10.675Z"
-  },
-  {
-    "rule": "React-useRef",
     "path": "ts/components/fun/base/FunScroller.tsx",
     "line": "  const scrollerRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
@@ -1904,6 +1960,13 @@
     "line": "  const ref = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/fun/base/FunTooltip.tsx",
+    "line": "  const ref = useRef<HTMLButtonElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-30T20:26:57.154Z"
   },
   {
     "rule": "React-useRef",

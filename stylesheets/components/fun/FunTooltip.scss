@@ -6,6 +6,8 @@
 @use './FunConstants.scss';
 
 .FunTooltip {
+  position: relative;
+  z-index: 100000;
   max-width: calc(32ch + (8px * 2));
   padding-block: 4px;
   padding-inline: 8px;
