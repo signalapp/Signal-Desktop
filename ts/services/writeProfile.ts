@@ -96,7 +96,11 @@ export async function writeProfile(
   } = {};
   if (profileData.sameAvatar) {
     log.info('writeProfile: not updating avatar');
-  } else if (avatarRequestHeaders && encryptedAvatarData && newAvatar) {
+  } else if (
+    typeof avatarRequestHeaders === 'object' &&
+    encryptedAvatarData &&
+    newAvatar
+  ) {
     log.info('writeProfile: uploading new avatar');
     const avatarUrl = await server.uploadAvatar(
       avatarRequestHeaders,

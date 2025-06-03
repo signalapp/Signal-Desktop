@@ -1340,6 +1340,11 @@ export const getPreloadedConversationId = createSelector(
   ({ preloadData }): string | undefined => preloadData?.conversationId
 );
 
+export const getProfileUpdateError = createSelector(
+  getConversations,
+  ({ hasProfileUpdateError }): boolean => Boolean(hasProfileUpdateError)
+);
+
 export const getPendingAvatarDownloadSelector = createSelector(
   getConversations,
   (conversations: ConversationsStateType) => {

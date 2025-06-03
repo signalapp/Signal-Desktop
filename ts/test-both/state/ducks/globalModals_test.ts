@@ -10,21 +10,6 @@ import {
 } from '../../../state/ducks/globalModals';
 
 describe('both/state/ducks/globalModals', () => {
-  describe('toggleProfileEditor', () => {
-    const { toggleProfileEditor } = actions;
-
-    it('toggles isProfileEditorVisible', () => {
-      const state = getEmptyState();
-      const nextState = reducer(state, toggleProfileEditor());
-
-      assert.isTrue(nextState.isProfileEditorVisible);
-
-      const nextNextState = reducer(nextState, toggleProfileEditor());
-
-      assert.isFalse(nextNextState.isProfileEditorVisible);
-    });
-  });
-
   describe('showWhatsNewModal/hideWhatsNewModal', () => {
     const { showWhatsNewModal, hideWhatsNewModal } = actions;
 

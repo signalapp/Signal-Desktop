@@ -17,7 +17,6 @@ import type {
 import type { MessagePropsType } from '../selectors/message';
 import type { RecipientsByConversation } from './stories';
 import type { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog';
-import type { EditState as ProfileEditorEditState } from '../../components/ProfileEditor';
 import type { StateType as RootStateType } from '../reducer';
 import * as SingleServePromise from '../../services/singleServePromise';
 import * as Stickers from '../../types/Stickers';
@@ -125,7 +124,6 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   forwardMessagesProps?: ForwardMessagesPropsType;
   gv2MigrationProps?: MigrateToGV2PropsType;
   hasConfirmationModal: boolean;
-  isProfileEditorVisible: boolean;
   isProfileNameWarningModalVisible: boolean;
   profileNameWarningModalConversationType?: string;
   isShortcutGuideModalVisible: boolean;
@@ -143,8 +141,6 @@ export type GlobalModalsStateType = ReadonlyDeep<{
     requestor: 'call' | 'voiceNote';
     abortController: AbortController;
   };
-  profileEditorHasError: boolean;
-  profileEditorInitialEditState: ProfileEditorEditState | undefined;
   safetyNumberChangedBlockingData?: SafetyNumberChangedBlockingDataType;
   safetyNumberModalContactId?: string;
   stickerPackPreviewId?: string;
@@ -181,9 +177,6 @@ const TOGGLE_DRAFT_GIF_MESSAGE_SEND_MODAL =
 const TOGGLE_FORWARD_MESSAGES_MODAL =
   'globalModals/TOGGLE_FORWARD_MESSAGES_MODAL';
 const TOGGLE_NOTE_PREVIEW_MODAL = 'globalModals/TOGGLE_NOTE_PREVIEW_MODAL';
-const TOGGLE_PROFILE_EDITOR = 'globalModals/TOGGLE_PROFILE_EDITOR';
-export const TOGGLE_PROFILE_EDITOR_ERROR =
-  'globalModals/TOGGLE_PROFILE_EDITOR_ERROR';
 const TOGGLE_PROFILE_NAME_WARNING_MODAL =
   'globalModals/TOGGLE_PROFILE_NAME_WARNING_MODAL';
 const TOGGLE_SAFETY_NUMBER_MODAL = 'globalModals/TOGGLE_SAFETY_NUMBER_MODAL';
@@ -322,17 +315,6 @@ export type ToggleConfirmLeaveCallModalActionType = ReadonlyDeep<{
 type ToggleNotePreviewModalActionType = ReadonlyDeep<{
   type: typeof TOGGLE_NOTE_PREVIEW_MODAL;
   payload: NotePreviewModalPropsType | null;
-}>;
-
-type ToggleProfileEditorActionType = ReadonlyDeep<{
-  type: typeof TOGGLE_PROFILE_EDITOR;
-  payload: {
-    initialEditState?: ProfileEditorEditState;
-  };
-}>;
-
-export type ToggleProfileEditorErrorActionType = ReadonlyDeep<{
-  type: typeof TOGGLE_PROFILE_EDITOR_ERROR;
 }>;
 
 export type ToggleProfileNameWarningModalActionType = ReadonlyDeep<{
@@ -545,8 +527,6 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ToggleForwardMessagesModalActionType
   | ToggleMessageRequestActionsConfirmationActionType
   | ToggleNotePreviewModalActionType
-  | ToggleProfileEditorActionType
-  | ToggleProfileEditorErrorActionType
   | ToggleProfileNameWarningModalActionType
   | ToggleSafetyNumberModalActionType
   | ToggleSignalConnectionsModalActionType
@@ -602,8 +582,6 @@ export const actions = {
   toggleForwardMessagesModal,
   toggleMessageRequestActionsConfirmation,
   toggleNotePreviewModal,
-  toggleProfileEditor,
-  toggleProfileEditorHasError,
   toggleProfileNameWarningModal,
   toggleSafetyNumberModal,
   toggleSignalConnectionsModal,
@@ -947,16 +925,6 @@ function toggleNotePreviewModal(
     type: TOGGLE_NOTE_PREVIEW_MODAL,
     payload,
   };
-}
-
-function toggleProfileEditor(
-  initialEditState?: ProfileEditorEditState
-): ToggleProfileEditorActionType {
-  return { type: TOGGLE_PROFILE_EDITOR, payload: { initialEditState } };
-}
-
-function toggleProfileEditorHasError(): ToggleProfileEditorErrorActionType {
-  return { type: TOGGLE_PROFILE_EDITOR_ERROR };
 }
 
 function toggleProfileNameWarningModal(
@@ -1335,7 +1303,6 @@ export function getEmptyState(): GlobalModalsStateType {
     criticalIdlePrimaryDeviceModal: false,
     draftGifMessageSendModalProps: null,
     editNicknameAndNoteModalProps: null,
-    isProfileEditorVisible: false,
     isProfileNameWarningModalVisible: false,
     profileNameWarningModalConversationType: undefined,
     isShortcutGuideModalVisible: false,
@@ -1344,8 +1311,6 @@ export function getEmptyState(): GlobalModalsStateType {
     isWhatsNewVisible: false,
     lowDiskSpaceBackupImportModal: null,
     usernameOnboardingState: UsernameOnboardingState.NeverShown,
-    profileEditorHasError: false,
-    profileEditorInitialEditState: undefined,
     messageRequestActionsConfirmationProps: null,
     tapToViewNotAvailableModalProps: undefined,
     notePreviewModalProps: null,
@@ -1377,20 +1342,6 @@ export function reducer(
     };
   }
 
-  if (action.type === TOGGLE_PROFILE_EDITOR) {
-    return {
-      ...state,
-      isProfileEditorVisible: !state.isProfileEditorVisible,
-      profileEditorInitialEditState: action.payload.initialEditState,
-    };
-  }
-
-  if (action.type === TOGGLE_PROFILE_EDITOR_ERROR) {
-    return {
-      ...state,
-      profileEditorHasError: !state.profileEditorHasError,
-    };
-  }
   if (action.type === TOGGLE_PROFILE_NAME_WARNING_MODAL) {
     return {
       ...state,

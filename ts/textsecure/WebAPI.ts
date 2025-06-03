@@ -856,17 +856,18 @@ export type GroupLogResponseType = {
     }
 );
 
-export type ProfileRequestDataType = {
-  about: string | null;
-  aboutEmoji: string | null;
-  avatar: boolean;
-  sameAvatar: boolean;
-  commitment: string;
-  name: string;
-  paymentAddress: string | null;
-  phoneNumberSharing: string | null;
-  version: string;
-};
+const uploadProfileZod = z.object({
+  about: z.string().nullish(),
+  aboutEmoji: z.string().nullish(),
+  avatar: z.boolean(),
+  sameAvatar: z.boolean(),
+  commitment: z.string(),
+  name: z.string(),
+  paymentAddress: z.string().nullish(),
+  phoneNumberSharing: z.string().nullish(),
+  version: z.string(),
+});
+export type ProfileRequestDataType = z.infer<typeof uploadProfileZod>;
 
 const uploadAvatarHeadersZod = z.object({
   acl: z.string(),
@@ -878,6 +879,14 @@ const uploadAvatarHeadersZod = z.object({
   signature: z.string(),
 });
 export type UploadAvatarHeadersType = z.infer<typeof uploadAvatarHeadersZod>;
+const uploadAvatarOrOther = z.union([
+  uploadAvatarHeadersZod,
+  z.string(),
+  z.undefined(),
+]);
+export type UploadAvatarHeadersOrOtherType = z.infer<
+  typeof uploadAvatarOrOther
+>;
 
 const remoteConfigResponseZod = z.object({
   config: z
@@ -1544,7 +1553,7 @@ export type WebAPIType = {
   ) => Promise<void>;
   putProfile: (
     jsonData: ProfileRequestDataType
-  ) => Promise<UploadAvatarHeadersType | undefined>;
+  ) => Promise<UploadAvatarHeadersOrOtherType>;
   putStickers: (
     encryptedManifest: Uint8Array,
     encryptedStickers: ReadonlyArray<Uint8Array>,
@@ -2633,13 +2642,13 @@ export function initialize({
 
     async function putProfile(
       jsonData: ProfileRequestDataType
-    ): Promise<UploadAvatarHeadersType | undefined> {
+    ): Promise<UploadAvatarHeadersOrOtherType> {
       return _ajax({
         call: 'profile',
         httpType: 'PUT',
         responseType: 'json',
         jsonData,
-        zodSchema: uploadAvatarHeadersZod,
+        zodSchema: uploadAvatarOrOther,
       });
     }
 

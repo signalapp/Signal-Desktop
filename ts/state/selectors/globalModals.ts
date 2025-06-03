@@ -83,16 +83,6 @@ export const getForwardMessagesProps = createSelector(
   ({ forwardMessagesProps }) => forwardMessagesProps
 );
 
-export const getProfileEditorHasError = createSelector(
-  getGlobalModalsState,
-  ({ profileEditorHasError }) => profileEditorHasError
-);
-
-export const getProfileEditorInitialEditState = createSelector(
-  getGlobalModalsState,
-  ({ profileEditorInitialEditState }) => profileEditorInitialEditState
-);
-
 export const getEditNicknameAndNoteModalProps = createSelector(
   getGlobalModalsState,
   ({ editNicknameAndNoteModalProps }) => editNicknameAndNoteModalProps

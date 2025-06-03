@@ -98,6 +98,115 @@ $secondary-text-color: light-dark(
     font-weight: 600;
   }
 
+  &__profile-chip {
+    @include mixins.button-reset;
+    & {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      width: calc(100% - 11px);
+      margin-inline-start: 10px;
+      margin-inline-end: 1px;
+
+      margin-bottom: 4px;
+      border-radius: 8px;
+
+      padding-top: 14px;
+      padding-bottom: 14px;
+      padding-inline-start: 10px;
+      padding-inline-end: 10px;
+    }
+
+    &--selected {
+      @include mixins.light-theme {
+        background: variables.$color-gray-15;
+      }
+      @include mixins.dark-theme {
+        background: variables.$color-gray-65;
+      }
+    }
+
+    &:focus {
+      @include mixins.keyboard-mode {
+        background: variables.$color-gray-05;
+      }
+      @include mixins.dark-keyboard-mode {
+        background: variables.$color-gray-75;
+      }
+    }
+    &:hover:not(&--selected) {
+      @include mixins.mouse-mode {
+        background: variables.$color-gray-05;
+      }
+      @include mixins.dark-mouse-mode {
+        background: variables.$color-gray-75;
+      }
+    }
+
+    &__avatar {
+      margin-inline-end: 10px;
+    }
+
+    &__text-container {
+      flex-grow: 1;
+      // Aligning the top of capital letters one pixel below the top of the avatar
+      margin-top: -4px;
+      margin-bottom: -5px;
+      overflow-x: hidden;
+    }
+
+    &__name {
+      @include mixins.font-body-1-bold;
+      overflow-x: hidden;
+      white-space: nowrap;
+      overflow-wrap: anywhere;
+      text-overflow: ellipsis;
+    }
+    &__number {
+      @include mixins.font-body-small;
+      margin-top: 2px;
+      overflow-x: hidden;
+      white-space: nowrap;
+      overflow-wrap: anywhere;
+      text-overflow: ellipsis;
+    }
+    &__username {
+      @include mixins.font-body-small;
+      margin-top: 2px;
+      overflow-x: hidden;
+      white-space: nowrap;
+      overflow-wrap: anywhere;
+      text-overflow: ellipsis;
+    }
+
+    &__qr-icon-container {
+      margin-inline-start: 2px;
+      flex-shrink: 0;
+      position: relative;
+      height: 36px;
+      width: 36px;
+      border-radius: 50%;
+      @include mixins.light-theme {
+        background-color: variables.$color-gray-15;
+      }
+      @include mixins.dark-theme {
+        background-color: variables.$color-gray-65;
+      }
+    }
+    &__qr-icon {
+      height: 20px;
+      width: 20px;
+      @include mixins.position-absolute-center;
+
+      @include mixins.color-svg-themed(
+        '../images/icons/v3/qr_code/qr_code.svg',
+        variables.$color-black,
+        variables.$color-white
+      );
+    }
+  }
+
   &__button {
     @include mixins.button-reset;
     & {
@@ -105,11 +214,11 @@ $secondary-text-color: light-dark(
       align-items: center;
       display: flex;
       height: 40px;
-      width: calc(100% - 20px);
+      width: calc(100% - 11px);
       padding-block: 14px;
       padding-inline: 0;
       margin-inline-start: 10px;
-      margin-inline-end: 10px;
+      margin-inline-end: 1px;
       border-radius: 10px;
       margin-bottom: 4px;
     }
@@ -227,6 +336,7 @@ $secondary-text-color: light-dark(
     text-align: center;
     flex-grow: 0;
     flex-shrink: 0;
+    position: relative;
 
     border-bottom: 1px solid variables.$color-gray-15;
     @include mixins.light-theme {
@@ -378,11 +488,11 @@ $secondary-text-color: light-dark(
 
     & {
       display: inline-block;
+      inset-inline-start: 12px;
       height: 20px;
-      margin-inline-start: 12px;
-      min-width: 20px;
-      vertical-align: text-bottom;
       width: 20px;
+      vertical-align: text-bottom;
+      @include mixins.position-absolute-center-y;
     }
 
     @include mixins.light-theme {

@@ -31,6 +31,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   onAvatarLoaded: action('onAvatarLoaded'),
   onClear: action('onClear'),
   onClick: action('onClick'),
+  showUploadButton: Boolean(overrideProps.showUploadButton),
   style: overrideProps.style,
 });
 
@@ -67,6 +68,7 @@ export function NoStateGroupUploadMe(): JSX.Element {
         avatarColor: AvatarColors[1],
         isEditable: true,
         isGroup: true,
+        showUploadButton: true,
       })}
     />
   );

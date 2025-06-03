@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Meta, StoryFn } from '@storybook/react';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 
 import { action } from '@storybook/addon-actions';
 import { Page, Preferences } from './Preferences';
@@ -13,11 +13,24 @@ import { EmojiSkinTone } from './fun/data/emojis';
 import { DAY, DurationInSeconds, WEEK } from '../util/durations';
 import { DialogUpdate } from './DialogUpdate';
 import { DialogType } from '../types/Dialogs';
+import { ThemeType } from '../types/Util';
+import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import { EditState, ProfileEditor } from './ProfileEditor';
+import {
+  UsernameEditState,
+  UsernameLinkState,
+} from '../state/ducks/usernameEnums';
 
 import type { PropsType } from './Preferences';
 import type { WidthBreakpoint } from './_util';
 
 const { i18n } = window.SignalContext;
+
+const me = {
+  ...getDefaultConversation(),
+  phoneNumber: '(215) 555-2345',
+  username: 'someone.243',
+};
 
 const availableMicrophones = [
   {
@@ -88,6 +101,55 @@ function renderUpdateDialog(
     />
   );
 }
+function RenderProfileEditor(): JSX.Element {
+  const contentsRef = useRef<HTMLDivElement | null>(null);
+  return (
+    <ProfileEditor
+      aboutEmoji={undefined}
+      aboutText={undefined}
+      color={undefined}
+      contentsRef={contentsRef}
+      conversationId="something"
+      deleteAvatarFromDisk={action('deleteAvatarFromDisk')}
+      deleteUsername={action('deleteUsername')}
+      familyName={me.familyName}
+      firstName={me.firstName ?? ''}
+      hasCompletedUsernameLinkOnboarding={false}
+      i18n={i18n}
+      editState={EditState.None}
+      markCompletedUsernameLinkOnboarding={action(
+        'markCompletedUsernameLinkOnboarding'
+      )}
+      onProfileChanged={action('onProfileChanged')}
+      onEmojiSkinToneDefaultChange={action('onEmojiSkinToneDefaultChange')}
+      openUsernameReservationModal={action('openUsernameReservationModal')}
+      profileAvatarUrl={undefined}
+      recentEmojis={[]}
+      renderUsernameEditor={() => <div />}
+      replaceAvatar={action('replaceAvatar')}
+      resetUsernameLink={action('resetUsernameLink')}
+      saveAttachment={action('saveAttachment')}
+      saveAvatarToDisk={action('saveAvatarToDisk')}
+      setEditState={action('setEditState')}
+      setUsernameEditState={action('setUsernameEditState')}
+      setUsernameLinkColor={action('setUsernameLinkColor')}
+      showToast={action('showToast')}
+      emojiSkinToneDefault={null}
+      userAvatarData={[]}
+      username={undefined}
+      usernameCorrupted={false}
+      usernameEditState={UsernameEditState.Editing}
+      usernameLink={undefined}
+      usernameLinkColor={undefined}
+      usernameLinkCorrupted={false}
+      usernameLinkState={UsernameLinkState.Ready}
+    />
+  );
+}
+
+function renderToastManager(): JSX.Element {
+  return <div />;
+}
 
 export default {
   title: 'Components/Preferences',
@@ -123,6 +185,7 @@ export default {
     availableMicrophones,
     availableSpeakers,
     backupFeatureEnabled: false,
+    badge: undefined,
     blockedCount: 0,
     customColors: {},
     defaultConversationColor: DEFAULT_CONVERSATION_COLOR,
@@ -169,6 +232,7 @@ export default {
     isUpdateDownloaded: false,
     lastSyncTime: Date.now(),
     localeOverride: null,
+    me,
     navTabsCollapsed: false,
     notificationContent: 'name',
     otherTabsUnreadStats: {
@@ -176,6 +240,7 @@ export default {
       unreadMentionsCount: 0,
       markedUnread: false,
     },
+    page: Page.Profile,
     preferredSystemLocales: ['en'],
     resolvedLocale: 'en',
     selectedCamera:
@@ -184,11 +249,14 @@ export default {
     selectedSpeaker: availableSpeakers[1],
     sentMediaQualitySetting: 'standard',
     themeSetting: 'system',
+    theme: ThemeType.light,
     universalExpireTimer: DurationInSeconds.HOUR,
     whoCanFindMe: PhoneNumberDiscoverability.Discoverable,
     whoCanSeeMe: PhoneNumberSharingMode.Everybody,
     zoomFactor: 1,
 
+    renderProfileEditor: RenderProfileEditor,
+    renderToastManager,
     renderUpdateDialog,
     getConversationsWithCustomColor: () => [],
 
@@ -255,6 +323,8 @@ export default {
     setGlobalDefaultConversationColor: action(
       'setGlobalDefaultConversationColor'
     ),
+    setPage: action('setPage'),
+    showToast: action('showToast'),
     validateBackup: async () => {
       return {
         result: validateBackupResult,
@@ -264,40 +334,82 @@ export default {
 } satisfies Meta<PropsType>;
 
 // eslint-disable-next-line react/function-component-definition
-const Template: StoryFn<PropsType> = args => <Preferences {...args} />;
+const Template: StoryFn<PropsType> = args => {
+  const [page, setPage] = useState(args.page);
+  return <Preferences {...args} page={page} setPage={setPage} />;
+};
 
 export const _Preferences = Template.bind({});
+
+export const General = Template.bind({});
+General.args = {
+  page: Page.General,
+};
+export const Appearance = Template.bind({});
+Appearance.args = {
+  page: Page.Appearance,
+};
+export const Chats = Template.bind({});
+Chats.args = {
+  page: Page.Chats,
+};
+export const Calls = Template.bind({});
+Calls.args = {
+  page: Page.Calls,
+};
+export const Notifications = Template.bind({});
+Notifications.args = {
+  page: Page.Notifications,
+};
+export const Privacy = Template.bind({});
+Privacy.args = {
+  page: Page.Privacy,
+};
+export const DataUsage = Template.bind({});
+DataUsage.args = {
+  page: Page.DataUsage,
+};
+export const Internal = Template.bind({});
+Internal.args = {
+  page: Page.Internal,
+  isInternalUser: true,
+};
 
 export const Blocked1 = Template.bind({});
 Blocked1.args = {
   blockedCount: 1,
+  page: Page.Privacy,
 };
 
 export const BlockedMany = Template.bind({});
 BlockedMany.args = {
   blockedCount: 55,
+  page: Page.Privacy,
 };
 
 export const CustomUniversalExpireTimer = Template.bind({});
 CustomUniversalExpireTimer.args = {
   universalExpireTimer: DurationInSeconds.fromSeconds(9000),
+  page: Page.Privacy,
 };
 
 export const PNPSharingDisabled = Template.bind({});
 PNPSharingDisabled.args = {
   whoCanSeeMe: PhoneNumberSharingMode.Nobody,
   whoCanFindMe: PhoneNumberDiscoverability.Discoverable,
+  page: Page.PNP,
 };
 
 export const PNPDiscoverabilityDisabled = Template.bind({});
 PNPDiscoverabilityDisabled.args = {
   whoCanSeeMe: PhoneNumberSharingMode.Nobody,
   whoCanFindMe: PhoneNumberDiscoverability.NotDiscoverable,
+  page: Page.PNP,
 };
 
 export const BackupsPaidActive = Template.bind({});
 BackupsPaidActive.args = {
-  initialPage: Page.Backups,
+  page: Page.Backups,
   backupFeatureEnabled: true,
   cloudBackupStatus: {
     mediaSize: 539_249_410_039,
@@ -316,7 +428,7 @@ BackupsPaidActive.args = {
 
 export const BackupsPaidCancelled = Template.bind({});
 BackupsPaidCancelled.args = {
-  initialPage: Page.Backups,
+  page: Page.Backups,
   backupFeatureEnabled: true,
   cloudBackupStatus: {
     mediaSize: 539_249_410_039,
@@ -335,7 +447,7 @@ BackupsPaidCancelled.args = {
 
 export const BackupsFree = Template.bind({});
 BackupsFree.args = {
-  initialPage: Page.Backups,
+  page: Page.Backups,
   backupFeatureEnabled: true,
   backupSubscriptionStatus: {
     status: 'free',
@@ -345,13 +457,12 @@ BackupsFree.args = {
 
 export const BackupsOff = Template.bind({});
 BackupsOff.args = {
-  initialPage: Page.Backups,
   backupFeatureEnabled: true,
 };
 
 export const BackupsSubscriptionNotFound = Template.bind({});
 BackupsSubscriptionNotFound.args = {
-  initialPage: Page.Backups,
+  page: Page.Backups,
   backupFeatureEnabled: true,
   backupSubscriptionStatus: {
     status: 'not-found',
@@ -365,17 +476,11 @@ BackupsSubscriptionNotFound.args = {
 
 export const BackupsSubscriptionExpired = Template.bind({});
 BackupsSubscriptionExpired.args = {
-  initialPage: Page.Backups,
+  page: Page.Backups,
   backupFeatureEnabled: true,
   backupSubscriptionStatus: {
     status: 'expired',
   },
-};
-
-export const Internal = Template.bind({});
-Internal.args = {
-  initialPage: Page.Internal,
-  isInternalUser: true,
 };
 
 export const UpdateAvailable = Template.bind({});
