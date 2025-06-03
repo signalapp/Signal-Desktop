@@ -59,6 +59,7 @@ import {
   isUpdateDownloaded as getIsUpdateDownloaded,
 } from '../selectors/updates';
 import { getHasAnyFailedStorySends } from '../selectors/stories';
+import { DataReader } from '../../sql/Client';
 import { getOtherTabsUnreadStats, getSelectedLocation } from '../selectors/nav';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { SmartProfileEditor } from './ProfileEditor';
@@ -663,6 +664,12 @@ export function SmartPreferences(): JSX.Element | null {
         doDeleteAllData={doDeleteAllData}
         editCustomColor={editCustomColor}
         getConversationsWithCustomColor={getConversationsWithCustomColor}
+        getMessageCountBySchemaVersion={
+          DataReader.getMessageCountBySchemaVersion
+        }
+        getMessageSampleForSchemaVersion={
+          DataReader.getMessageSampleForSchemaVersion
+        }
         hasAudioNotifications={hasAudioNotifications}
         hasAutoConvertEmoji={hasAutoConvertEmoji}
         hasAutoDownloadUpdate={hasAutoDownloadUpdate}

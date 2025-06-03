@@ -544,6 +544,11 @@ export enum AttachmentDownloadSource {
   BACKFILL = 'backfill',
 }
 
+export type MessageCountBySchemaVersionType = Array<{
+  schemaVersion: number;
+  count: number;
+}>;
+
 export const MESSAGE_ATTACHMENT_COLUMNS = [
   'messageId',
   'conversationId',
@@ -884,6 +889,11 @@ type ReadableInterface = {
   getAttachmentReferencesForMessages: (
     messageIds: Array<string>
   ) => Array<MessageAttachmentDBType>;
+
+  getMessageCountBySchemaVersion: () => MessageCountBySchemaVersionType;
+  getMessageSampleForSchemaVersion: (
+    version: number
+  ) => Array<MessageAttributesType>;
 };
 
 type WritableInterface = {
