@@ -13402,7 +13402,7 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 
 ```
 
-## libsignal-account-keys 0.1.0, libsignal-core 0.1.0, mrp 2.52.2, protobuf 2.52.2, ringrtc 2.52.2, regex-aot 0.1.0, partial-default-derive 0.1.0
+## libsignal-account-keys 0.1.0, libsignal-core 0.1.0, mrp 2.53.0, protobuf 2.53.0, ringrtc 2.53.0, regex-aot 0.1.0, partial-default-derive 0.1.0
 
 ```
 GNU AFFERO GENERAL PUBLIC LICENSE
@@ -13643,7 +13643,7 @@ You should also get your employer (if you work as a programmer) or school, if an
 
 ```
 
-## ryu 1.0.19
+## ryu 1.0.20
 
 ```
                               Apache License
@@ -14168,7 +14168,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ```
 
-## libloading 0.8.6
+## libloading 0.8.7
 
 ```
 Copyright © 2015, Simonas Kazlauskas
@@ -14205,7 +14205,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 ```
 
-## windows-sys 0.45.0, windows-sys 0.59.0, windows-targets 0.42.2, windows-targets 0.52.6, windows_aarch64_msvc 0.42.2, windows_aarch64_msvc 0.52.6, windows_x86_64_gnu 0.52.6, windows_x86_64_msvc 0.42.2, windows_x86_64_msvc 0.52.6
+## windows-sys 0.45.0, windows-sys 0.59.0, windows-targets 0.42.2, windows-targets 0.52.6, windows-targets 0.53.0, windows_aarch64_msvc 0.42.2, windows_aarch64_msvc 0.52.6, windows_aarch64_msvc 0.53.0, windows_x86_64_gnu 0.52.6, windows_x86_64_gnu 0.53.0, windows_x86_64_msvc 0.42.2, windows_x86_64_msvc 0.52.6, windows_x86_64_msvc 0.53.0
 
 ```
     MIT License
@@ -14232,7 +14232,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 ```
 
-## sha1 0.10.6, sha2 0.10.8
+## sha1 0.10.6, sha2 0.10.9
 
 ```
 Copyright (c) 2006-2009 Graydon Hoare
@@ -14353,7 +14353,7 @@ SOFTWARE.
 
 ```
 
-## cc 1.2.14, cfg-if 1.0.0, cmake 0.1.54, pkg-config 0.3.31
+## cc 1.2.24, cfg-if 1.0.0, cmake 0.1.54, pkg-config 0.3.32
 
 ```
 Copyright (c) 2014 Alex Crichton
@@ -14384,7 +14384,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## errno 0.3.10
+## errno 0.3.12
 
 ```
 Copyright (c) 2014 Chris Wong
@@ -14415,11 +14415,11 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## base64ct 1.6.0
+## base64ct 1.7.3
 
 ```
 Copyright (c) 2014 Steve "Sc00bz" Thomas (steve at tobtu dot com)
-Copyright (c) 2021 The RustCrypto Project Developers
+Copyright (c) 2021-2025 The RustCrypto Project Developers
 
 Permission is hereby granted, free of charge, to any
 person obtaining a copy of this software and associated
@@ -14447,7 +14447,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## bitflags 1.3.2, bitflags 2.8.0, log 0.4.25, regex-automata 0.4.9, regex-syntax 0.8.5, regex 1.11.1
+## bitflags 1.3.2, bitflags 2.9.1, log 0.4.27, regex-automata 0.4.9, regex-syntax 0.8.5, regex 1.11.1
 
 ```
 Copyright (c) 2014 The Rust Project Developers
@@ -14478,7 +14478,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## uuid 1.13.1
+## uuid 1.17.0
 
 ```
 Copyright (c) 2014 The Rust Project Developers
@@ -14510,7 +14510,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## libc 0.2.169
+## libc 0.2.172
 
 ```
 Copyright (c) 2014-2020 The Rust Project Developers
@@ -14541,7 +14541,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## either 1.13.0, itertools 0.14.0, petgraph 0.7.1, serde_with 3.12.0, serde_with_macros 3.12.0
+## either 1.15.0, itertools 0.14.0, petgraph 0.7.1, serde_with 3.12.0, serde_with_macros 3.12.0
 
 ```
 Copyright (c) 2015
@@ -14572,7 +14572,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## neon-macros 1.0.0
+## neon-macros 1.1.1
 
 ```
 Copyright (c) 2015 David Herman
@@ -14597,7 +14597,7 @@ THE SOFTWARE.
 
 ```
 
-## tempfile 3.16.0
+## tempfile 3.20.0
 
 ```
 Copyright (c) 2015 Steven Allen
@@ -14804,7 +14804,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## hashbrown 0.15.2
+## hashbrown 0.15.3
 
 ```
 Copyright (c) 2016 Amanieu d'Antras
@@ -14866,7 +14866,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## multimap 0.10.0
+## multimap 0.10.1
 
 ```
 Copyright (c) 2016 multimap developers
@@ -14897,7 +14897,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## indexmap 2.7.1
+## indexmap 2.9.0
 
 ```
 Copyright (c) 2016--2017
@@ -14928,7 +14928,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## equivalent 1.0.1
+## equivalent 1.0.2
 
 ```
 Copyright (c) 2016--2023
@@ -15115,7 +15115,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## bytes 1.10.0
+## bytes 1.10.1
 
 ```
 Copyright (c) 2018 Carl Lerche
@@ -15146,7 +15146,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## smallvec 1.13.2
+## smallvec 1.15.0
 
 ```
 Copyright (c) 2018 The Servo Project Developers
@@ -15271,10 +15271,42 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## getrandom 0.2.15, getrandom 0.3.1
+## getrandom 0.2.16
 
 ```
 Copyright (c) 2018-2024 The rust-random Project Developers
+Copyright (c) 2014 The Rust Project Developers
+
+Permission is hereby granted, free of charge, to any
+person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the
+Software without restriction, including without
+limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software
+is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice
+shall be included in all copies or substantial portions
+of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
+ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+```
+
+## getrandom 0.3.3
+
+```
+Copyright (c) 2018-2025 The rust-random Project Developers
 Copyright (c) 2014 The Rust Project Developers
 
 Permission is hereby granted, free of charge, to any
@@ -15334,7 +15366,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## ppv-lite86 0.2.20
+## ppv-lite86 0.2.21
 
 ```
 Copyright (c) 2019 The CryptoCorrosion Contributors
@@ -15490,31 +15522,6 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## tonic-build 0.12.3
-
-```
-Copyright (c) 2020 Lucio Franco
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-```
-
 ## password-hash 0.5.0
 
 ```
@@ -15639,7 +15646,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## inout 0.1.3
+## inout 0.1.4
 
 ```
 Copyright (c) 2022 The RustCrypto Project Developers
@@ -15671,7 +15678,32 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## toml_datetime 0.6.8, toml_edit 0.22.24
+## tonic-build 0.13.1
+
+```
+Copyright (c) 2025 Lucio Franco
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+```
+
+## toml_datetime 0.6.9, toml_edit 0.22.26
 
 ```
 Copyright (c) Individual contributors
@@ -15728,7 +15760,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## zerocopy-derive 0.7.35, zerocopy 0.7.35
+## zerocopy 0.8.25
 
 ```
 Copyright 2023 The Fuchsia Authors
@@ -15787,7 +15819,7 @@ SOFTWARE.
 
 ```
 
-## darling 0.20.10, darling_core 0.20.10, darling_macro 0.20.10
+## darling 0.20.11, darling_core 0.20.11, darling_macro 0.20.11
 
 ```
 MIT License
@@ -15868,7 +15900,7 @@ SOFTWARE.
 
 ```
 
-## derive-where 1.2.7
+## derive-where 1.4.0
 
 ```
 MIT License
@@ -15895,7 +15927,7 @@ SOFTWARE.
 
 ```
 
-## cesu8 1.1.0, neon 1.0.0, windows-core 0.57.0, windows-core 0.58.0, windows-implement 0.57.0, windows-implement 0.58.0, windows-interface 0.57.0, windows-interface 0.58.0, windows-result 0.1.2, windows-result 0.2.0, windows-strings 0.1.0, windows 0.57.0, windows 0.58.0
+## cesu8 1.1.0, neon 1.1.1, windows-core 0.57.0, windows-core 0.58.0, windows-implement 0.57.0, windows-implement 0.58.0, windows-interface 0.57.0, windows-interface 0.58.0, windows-result 0.1.2, windows-result 0.2.0, windows-strings 0.1.0, windows 0.57.0, windows 0.58.0
 
 ```
 MIT License
@@ -15935,7 +15967,7 @@ SOFTWARE.
 
 ```
 
-## curve25519-dalek-derive 0.1.1, anyhow 1.0.95, displaydoc 0.2.5, fastrand 2.3.0, itoa 1.0.14, linux-raw-sys 0.4.15, num_enum 0.7.3, num_enum_derive 0.7.3, once_cell 1.20.3, prettyplease 0.2.29, proc-macro-crate 3.2.0, proc-macro2 1.0.93, quote 1.0.38, rustix 0.38.44, semver 1.0.25, send_wrapper 0.6.0, serde 1.0.217, serde_derive 1.0.217, serde_json 1.0.138, syn-mid 0.6.0, syn 1.0.109, syn 2.0.98, thiserror-impl 1.0.69, thiserror 1.0.69, unicode-ident 1.0.16
+## curve25519-dalek-derive 0.1.1, anyhow 1.0.98, displaydoc 0.2.5, fastrand 2.3.0, itoa 1.0.15, linkme-impl 0.3.33, linkme 0.3.33, linux-raw-sys 0.9.4, num_enum 0.7.3, num_enum_derive 0.7.3, once_cell 1.21.3, prettyplease 0.2.32, proc-macro-crate 3.3.0, proc-macro2 1.0.95, quote 1.0.40, rustix 1.0.7, semver 1.0.26, send_wrapper 0.6.0, serde 1.0.219, serde_derive 1.0.219, serde_json 1.0.140, syn 1.0.109, syn 2.0.101, thiserror-impl 1.0.69, thiserror 1.0.69, unicode-ident 1.0.18
 
 ```
 Permission is hereby granted, free of charge, to any
@@ -15964,7 +15996,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## winnow 0.7.2
+## winnow 0.7.10
 
 ```
 Permission is hereby granted, free of charge, to any person obtaining
@@ -16011,7 +16043,7 @@ SOFTWARE.
 
 ```
 
-## typenum 1.17.0
+## typenum 1.18.0
 
 ```
 The MIT License (MIT)
@@ -16065,7 +16097,7 @@ THE SOFTWARE.
 
 ```
 
-## aho-corasick 1.1.3, byteorder 1.5.0, memchr 2.7.4, walkdir 2.5.0
+## aho-corasick 1.1.3, memchr 2.7.4, walkdir 2.5.0
 
 ```
 The MIT License (MIT)
@@ -16396,7 +16428,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## unicode-ident 1.0.16
+## unicode-ident 1.0.18
 
 ```
 UNICODE LICENSE V3
@@ -18447,39 +18479,6 @@ SOFTWARE.
  * license above.
  */
 
-
-```
-
-## re2
-
-```
-// Copyright (c) 2009 The RE2 Authors. All rights reserved.
-//
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions are
-// met:
-//
-//    * Redistributions of source code must retain the above copyright
-// notice, this list of conditions and the following disclaimer.
-//    * Redistributions in binary form must reproduce the above
-// copyright notice, this list of conditions and the following disclaimer
-// in the documentation and/or other materials provided with the
-// distribution.
-//    * Neither the name of Google Inc. nor the names of its
-// contributors may be used to endorse or promote products derived from
-// this software without specific prior written permission.
-//
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-// OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-// LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ```
 
