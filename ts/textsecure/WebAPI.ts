@@ -82,7 +82,6 @@ import type {
   ProfileFetchAuthRequestOptions,
   ProfileFetchUnauthRequestOptions,
 } from '../services/profiles';
-import { isMockServer } from '../util/isMockServer';
 import { ToastType } from '../types/Toast';
 import { isProduction } from '../util/version';
 import type { ServerAlert } from '../util/handleServerAlerts';
@@ -798,7 +797,6 @@ type AjaxOptionsType<Type extends ResponseType, OutputShape = unknown> = {
       });
 
 export type WebAPIConnectOptionsType = WebAPICredentials & {
-  useWebSocket?: boolean;
   hasStoriesDisabled: boolean;
 };
 
@@ -1862,7 +1860,6 @@ export function initialize({
   function connect({
     username: initialUsername,
     password: initialPassword,
-    useWebSocket = true,
     hasStoriesDisabled,
   }: WebAPIConnectOptionsType) {
     let username = initialUsername;
@@ -1917,9 +1914,7 @@ export function initialize({
       serverAlerts = alerts;
     });
 
-    if (useWebSocket) {
-      void socketManager.authenticate({ username, password });
-    }
+    void socketManager.authenticate({ username, password });
 
     const cds = new CDSI(libsignalNet, {
       logger: log,
@@ -2123,9 +2118,7 @@ export function initialize({
 
       // When host is not provided, assume chat service
       const host = param.host || chatServiceUrl;
-      const useWebSocketForEndpoint =
-        useWebSocket &&
-        (!param.host || (host === chatServiceUrl && !isMockServer(host)));
+      const useWebSocketForEndpoint = host === chatServiceUrl;
 
       const outerParams: PromiseAjaxOptionsType<Type, OutputShape> = {
         socketManager: useWebSocketForEndpoint ? socketManager : undefined,
@@ -2223,18 +2216,14 @@ export function initialize({
       username = newUsername;
       password = newPassword;
 
-      if (useWebSocket) {
-        await socketManager.authenticate({ username, password });
-      }
+      await socketManager.authenticate({ username, password });
     }
 
     async function logout() {
       username = '';
       password = '';
 
-      if (useWebSocket) {
-        await socketManager.logout();
-      }
+      await socketManager.logout();
     }
 
     function getSocketStatus(): SocketStatuses {
