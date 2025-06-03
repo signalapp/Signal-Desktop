@@ -243,6 +243,7 @@ export default {
     },
     page: Page.Profile,
     preferredSystemLocales: ['en'],
+    preferredWidthFromStorage: 300,
     resolvedLocale: 'en',
     selectedCamera:
       'dfbe6effe70b0611ba0fdc2a9ea3f39f6cb110e6687948f7e5f016c111b7329c',
@@ -328,6 +329,7 @@ export default {
     ),
     resetAllChatColors: action('resetAllChatColors'),
     resetDefaultChatColor: action('resetDefaultChatColor'),
+    savePreferredLeftPaneWidth: action('savePreferredLeftPaneWidth'),
     setGlobalDefaultConversationColor: action(
       'setGlobalDefaultConversationColor'
     ),
