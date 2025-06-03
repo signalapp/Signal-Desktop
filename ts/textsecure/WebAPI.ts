@@ -1873,6 +1873,17 @@ export function initialize({
 
     let activeRegistration: ExplodePromiseResultType<void> | undefined;
 
+    const libsignalRemoteConfig = new Map();
+    if (
+      window.Signal.RemoteConfig.isEnabled(
+        'desktop.libsignalNet.enforceMinimumTls'
+      )
+    ) {
+      log.info('libsignal net will require TLS 1.3');
+      libsignalRemoteConfig.set('enforceMinimumTls', 'true');
+    }
+    libsignalNet.setRemoteConfig(libsignalRemoteConfig);
+
     const socketManager = new SocketManager(libsignalNet, {
       url: chatServiceUrl,
       certificateAuthority,

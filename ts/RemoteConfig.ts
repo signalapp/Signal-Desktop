@@ -31,6 +31,7 @@ export type ConfigKeyType =
   | 'desktop.experimentalTransportEnabled.alpha'
   | 'desktop.experimentalTransportEnabled.beta'
   | 'desktop.experimentalTransportEnabled.prod'
+  | 'desktop.libsignalNet.enforceMinimumTls'
   | 'desktop.cdsiViaLibsignal'
   | 'desktop.cdsiViaLibsignal.disableNewConnectionLogic'
   | 'desktop.funPicker' // alpha
