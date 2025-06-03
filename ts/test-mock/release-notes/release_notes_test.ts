@@ -27,10 +27,6 @@ describe('release notes', function (this: Mocha.Suite) {
     bootstrap = new Bootstrap();
     await bootstrap.init();
 
-    bootstrap.server.setRemoteConfig('desktop.releaseNotes', {
-      enabled: true,
-    });
-
     app = await bootstrap.link();
   });
 

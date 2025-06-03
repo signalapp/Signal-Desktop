@@ -20,8 +20,6 @@ import { saveNewMessageBatcher } from '../util/messageBatcher';
 import { generateMessageId } from '../util/generateMessageId';
 import type { RawBodyRange } from '../types/BodyRange';
 import { BodyRange } from '../types/BodyRange';
-import * as RemoteConfig from '../RemoteConfig';
-import { isBeta, isProduction } from '../util/version';
 import type {
   ReleaseNotesManifestResponseType,
   ReleaseNoteResponseType,
@@ -444,7 +442,7 @@ export class ReleaseNotesFetcher {
     events: MinimalEventsType,
     isNewVersion: boolean
   ): Promise<void> {
-    if (initComplete || !this.isEnabled()) {
+    if (initComplete) {
       return;
     }
 
@@ -462,19 +460,5 @@ export class ReleaseNotesFetcher {
         listener.setTimeoutForNextRun();
       }
     });
-  }
-
-  public static isEnabled(): boolean {
-    const version = window.getVersion();
-
-    if (isProduction(version)) {
-      return RemoteConfig.isEnabled('desktop.releaseNotes');
-    }
-
-    if (isBeta(version)) {
-      return RemoteConfig.isEnabled('desktop.releaseNotes.beta');
-    }
-
-    return RemoteConfig.isEnabled('desktop.releaseNotes.dev');
   }
 }
