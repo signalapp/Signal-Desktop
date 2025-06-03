@@ -8,12 +8,18 @@ import { strictAssert } from '../../util/assert';
 
 import { MessageCache } from '../../services/MessageCache';
 import { generateAci } from '../../types/ServiceId';
+import { DataWriter } from '../../sql/Client';
 
 describe('MessageCache', () => {
   beforeEach(async () => {
     const ourAci = generateAci();
     await window.textsecure.storage.put('uuid_id', `${ourAci}.1`);
     await window.ConversationController.load();
+  });
+
+  afterEach(async () => {
+    await DataWriter.removeAll();
+    await window.storage.fetch();
   });
 
   describe('findBySentAt', () => {

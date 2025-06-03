@@ -642,6 +642,7 @@ describe('getBackupJobForAttachmentAndFilePointer', async () => {
   });
   afterEach(async () => {
     await DataWriter.removeAll();
+    await window.storage.fetch();
   });
   const attachment = composeAttachment();
 

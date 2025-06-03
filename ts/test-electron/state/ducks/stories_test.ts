@@ -27,6 +27,7 @@ import { noopAction } from '../../../state/ducks/noop';
 import { reducer as rootReducer } from '../../../state/reducer';
 import { dropNull } from '../../../util/dropNull';
 import { MessageModel } from '../../../models/messages';
+import { DataWriter } from '../../../sql/Client';
 
 describe('both/state/ducks/stories', () => {
   const ourAci = generateAci();
@@ -34,6 +35,11 @@ describe('both/state/ducks/stories', () => {
 
   before(async () => {
     await window.textsecure.storage.put('uuid_id', `${ourAci}.${deviceId}`);
+  });
+
+  after(async () => {
+    await DataWriter.removeAll();
+    await window.storage.fetch();
   });
 
   const getEmptyRootState = () => ({

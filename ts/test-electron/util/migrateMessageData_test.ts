@@ -29,6 +29,7 @@ describe('utils/migrateMessageData', async () => {
   });
   after(async () => {
     await DataWriter.removeAll();
+    await window.storage.fetch();
   });
   it('increments attempts for messages which fail to save', async () => {
     const messages = new Array(5)
