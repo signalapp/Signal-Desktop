@@ -189,7 +189,6 @@ import { getTypingIndicatorSetting } from '../types/Util';
 import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer';
 import { maybeNotify } from '../messages/maybeNotify';
 
-/* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
 
 const { Message } = window.Signal.Types;
@@ -3241,12 +3240,9 @@ export class ConversationModel extends window.Backbone
       }
 
       if (isDirectConversation(this.attributes) && serviceId) {
-        const groups =
-          await window.ConversationController.getAllGroupsInvolvingServiceId(
-            serviceId
-          );
-        groups.forEach(group => {
-          void group.addKeyChange('addKeyChange - group fan-out', serviceId);
+        const groups = await this.#getSharedGroups();
+        groups?.forEach(group => {
+          drop(group.addKeyChange('addKeyChange - group fan-out', serviceId));
         });
       }
 
@@ -3372,12 +3368,9 @@ export class ConversationModel extends window.Backbone
 
     const serviceId = this.getServiceId();
     if (isDirectConversation(this.attributes) && serviceId) {
-      void window.ConversationController.getAllGroupsInvolvingServiceId(
-        serviceId
-      ).then(groups => {
-        groups.forEach(group => {
-          void group.addVerifiedChange(this.id, verified, options);
-        });
+      const groups = await this.#getSharedGroups();
+      groups?.forEach(group => {
+        drop(group.addVerifiedChange(this.id, verified, options));
       });
     }
   }
@@ -3409,12 +3402,9 @@ export class ConversationModel extends window.Backbone
     if (isDirectConversation(this.attributes) && serviceId) {
       this.set({ profileLastUpdatedAt: Date.now() });
 
-      void window.ConversationController.getAllGroupsInvolvingServiceId(
-        serviceId
-      ).then(groups => {
-        groups.forEach(group => {
-          void group.addProfileChange(profileChange, this.id);
-        });
+      const groups = await this.#getSharedGroups();
+      groups?.forEach(group => {
+        drop(group.addProfileChange(profileChange, this.id));
       });
     }
   }
@@ -3597,12 +3587,7 @@ export class ConversationModel extends window.Backbone
         `notification for ${sourceServiceId} from ${oldValue} to ${newValue}`
     );
 
-    const convos = [
-      this,
-      ...(await window.ConversationController.getAllGroupsInvolvingServiceId(
-        sourceServiceId
-      )),
-    ];
+    const convos = [this, ...((await this.#getSharedGroups()) ?? [])];
 
     await Promise.all(
       convos.map(convo => {
@@ -4859,32 +4844,40 @@ export class ConversationModel extends window.Backbone
     }
   }
 
-  // This is an expensive operation we use to populate the message request hero row. It
-  //   shows groups the current user has in common with this potential new contact.
-  async updateSharedGroups(): Promise<void> {
+  async #getSharedGroups(): Promise<Array<ConversationModel> | undefined> {
     if (!isDirectConversation(this.attributes)) {
-      return;
+      return undefined;
     }
     if (isMe(this.attributes)) {
-      return;
+      return undefined;
     }
 
     const ourAci = window.textsecure.storage.user.getCheckedAci();
     const theirAci = this.getAci();
     if (!theirAci) {
-      return;
+      return undefined;
     }
 
     const ourGroups =
       await window.ConversationController.getAllGroupsInvolvingServiceId(
         ourAci
       );
-    const sharedGroups = ourGroups
+    return ourGroups
       .filter(c => c.hasMember(ourAci) && c.hasMember(theirAci))
       .sort(
         (left, right) =>
           (right.get('timestamp') || 0) - (left.get('timestamp') || 0)
       );
+  }
+
+  // This is an expensive operation we use to populate the message request hero row. It
+  //   shows groups the current user has in common with this potential new contact.
+  async updateSharedGroups(): Promise<void> {
+    const sharedGroups = await this.#getSharedGroups();
+
+    if (sharedGroups == null) {
+      return;
+    }
 
     const sharedGroupNames = sharedGroups.map(conversation =>
       conversation.getTitle()
