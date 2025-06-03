@@ -191,6 +191,7 @@ export function createIPCEvents(
     },
     setLocaleOverride: async (value: string | null) => {
       await setEphemeralSetting('localeOverride', value);
+      window.SignalContext.restartApp();
     },
     getContentProtection: async () => {
       return (
