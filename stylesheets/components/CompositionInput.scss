@@ -24,6 +24,14 @@
         inset-inline: 0;
         font-style: normal;
       }
+      &::-webkit-scrollbar-thumb {
+        @include mixins.light-theme {
+          border-color: variables.$color-gray-05;
+        }
+        @include mixins.dark-theme {
+          border-color: variables.$color-gray-75;
+        }
+      }
     }
   }
 
@@ -87,10 +95,10 @@
 
       &::-webkit-scrollbar-thumb {
         @include mixins.light-theme {
-          border: 2px solid variables.$color-gray-05;
+          border-color: variables.$color-gray-05;
         }
         @include mixins.dark-theme {
-          border: 2px solid variables.$color-gray-75;
+          border-color: variables.$color-gray-75;
         }
       }
 
@@ -105,6 +113,11 @@
 
         .DraftEditor-root {
           height: $largeHeightContentBox;
+        }
+
+        .ql-editor {
+          margin-inline-end: calc(-1 * variables.$scrollbar_width);
+          padding-inline-end: variables.$scrollbar_width;
         }
       }
 
