@@ -32,12 +32,14 @@ export function SettingsControl({
   left,
   onClick,
   right,
+  rightStyle,
 }: {
   /** A className or `true` to leave room for icon */
   icon?: string | true;
   left: ReactNode;
   onClick?: () => unknown;
   right: ReactNode;
+  rightStyle?: React.CSSProperties;
 }): JSX.Element {
   const content = (
     <>
@@ -50,7 +52,9 @@ export function SettingsControl({
         />
       )}
       <div className="Preferences__control--key">{left}</div>
-      <div className="Preferences__control--value">{right}</div>
+      <div className="Preferences__control--value" style={rightStyle}>
+        {right}
+      </div>
     </>
   );
 
