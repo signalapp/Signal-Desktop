@@ -831,6 +831,7 @@ export class CallingClass {
       sfuUrl,
       authCredentialPresentation.serialize(),
       callLinkRootKey,
+      undefined,
       callLinkAdminKey
     );
 
@@ -867,6 +868,7 @@ export class CallingClass {
       sfuUrl,
       authCredentialPresentation.serialize(),
       callLinkRootKey,
+      undefined,
       callLinkAdminKey,
       name
     );
@@ -912,6 +914,7 @@ export class CallingClass {
       sfuUrl,
       authCredentialPresentation.serialize(),
       callLinkRootKey,
+      undefined,
       callLinkAdminKey,
       newRestrictions
     );
@@ -945,7 +948,8 @@ export class CallingClass {
     const result = await RingRTC.readCallLink(
       this._sfuUrl,
       authCredentialPresentation.serialize(),
-      callLinkRootKey
+      callLinkRootKey,
+      undefined
     );
     if (!result.success) {
       log.warn(`${logId}: failed with status ${result.errorStatusCode}`);
@@ -1240,7 +1244,8 @@ export class CallingClass {
     const result = await RingRTC.peekCallLinkCall(
       this._sfuUrl,
       authCredentialPresentation.serialize(),
-      callLinkRootKey
+      callLinkRootKey,
+      undefined
     );
     if (!result.success) {
       throw new Error(
@@ -1374,6 +1379,7 @@ export class CallingClass {
       this._sfuUrl,
       authCredentialPresentation.serialize(),
       callLinkRootKey,
+      undefined,
       adminPasskey,
       Buffer.alloc(0),
       AUDIO_LEVEL_INTERVAL_MS,
