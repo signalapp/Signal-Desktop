@@ -1023,9 +1023,7 @@ async function createWindow() {
     });
   });
 
-  mainWindow.once('ready-to-show', async () => {
-    getLogger().info('main window is ready-to-show');
-
+  const maybeShowMainWindow = async () => {
     // Ignore sql errors and show the window anyway
     await sqlInitPromise;
 
@@ -1039,7 +1037,19 @@ async function createWindow() {
       getLogger().info('showing main window');
       mainWindow.show();
     }
-  });
+  };
+
+  if (OS.isLinux() && OS.isWaylandEnabled()) {
+    mainWindow.webContents.once('did-finish-load', async () => {
+      getLogger().info('main window webContents did-finish-load');
+      drop(maybeShowMainWindow());
+    });
+  } else {
+    mainWindow.once('ready-to-show', async () => {
+      getLogger().info('main window is ready-to-show');
+      drop(maybeShowMainWindow());
+    });
+  }
 
   await safeLoadURL(
     mainWindow,
