@@ -6556,6 +6556,10 @@
     "messageformat": "Your profile could not be updated. Please try again.",
     "description": "Error message when something goes wrong updating your profile."
   },
+  "icu:ProfileEditorModal--sharing": {
+    "messageformat": "Sharing",
+    "description": "Title for username QR code and link screen"
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Message an admin",
     "description": "Modal title for the list of admins in a group"

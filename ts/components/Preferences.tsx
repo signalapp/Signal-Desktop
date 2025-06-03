@@ -1,5 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+
 import type { AudioDevice } from '@signalapp/ringrtc';
 import React, {
   useCallback,
@@ -12,6 +13,45 @@ import React, {
 import { isNumber, noop, partition } from 'lodash';
 import classNames from 'classnames';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
+
+import type { MutableRefObject } from 'react';
+
+import { Button, ButtonVariant } from './Button';
+import { ChatColorPicker } from './ChatColorPicker';
+import { Checkbox } from './Checkbox';
+import { WidthBreakpoint } from './_util';
+import { ConfirmationDialog } from './ConfirmationDialog';
+import { DisappearingTimeDialog } from './DisappearingTimeDialog';
+import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability';
+import { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
+import { Select } from './Select';
+import { Spinner } from './Spinner';
+import { getCustomColorStyle } from '../util/getCustomColorStyle';
+import {
+  DEFAULT_DURATIONS_IN_SECONDS,
+  DEFAULT_DURATIONS_SET,
+  format as formatExpirationTimer,
+} from '../util/expirationTimer';
+import { DurationInSeconds } from '../util/durations';
+import { focusableSelector } from '../util/focusableSelectors';
+import { Modal } from './Modal';
+import { SearchInput } from './SearchInput';
+import { removeDiacritics } from '../util/removeDiacritics';
+import { assertDev } from '../util/assert';
+import { I18n } from './I18n';
+import { FunSkinTonesList } from './fun/FunSkinTones';
+import { emojiParentKeyConstant, type EmojiSkinTone } from './fun/data/emojis';
+import {
+  SettingsControl as Control,
+  SettingsRadio,
+  SettingsRow,
+} from './PreferencesUtil';
+import { PreferencesBackups } from './PreferencesBackups';
+import { PreferencesInternal } from './PreferencesInternal';
+import { FunEmojiLocalizationProvider } from './fun/FunEmojiLocalizationProvider';
+import { NavTabsToggle } from './NavTabs';
+import { Avatar, AvatarSize } from './Avatar';
+
 import type { MediaDeviceSettings } from '../types/Calling';
 import type { ValidationResultType as BackupValidationResultType } from '../services/backups';
 import type {
@@ -34,47 +74,12 @@ import type {
   SentMediaQualityType,
   ThemeType,
 } from '../types/Util';
-import { Button, ButtonVariant } from './Button';
-import { ChatColorPicker } from './ChatColorPicker';
-import { Checkbox } from './Checkbox';
-import { WidthBreakpoint } from './_util';
-import { ConfirmationDialog } from './ConfirmationDialog';
-import { DisappearingTimeDialog } from './DisappearingTimeDialog';
-import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability';
-import { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
-import { Select } from './Select';
-import { Spinner } from './Spinner';
-import { ToastManager } from './ToastManager';
-import { getCustomColorStyle } from '../util/getCustomColorStyle';
-import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled';
-import {
-  DEFAULT_DURATIONS_IN_SECONDS,
-  DEFAULT_DURATIONS_SET,
-  format as formatExpirationTimer,
-} from '../util/expirationTimer';
-import { DurationInSeconds } from '../util/durations';
-import { focusableSelector } from '../util/focusableSelectors';
-import { Modal } from './Modal';
-import { SearchInput } from './SearchInput';
-import { removeDiacritics } from '../util/removeDiacritics';
-import { assertDev } from '../util/assert';
-import { I18n } from './I18n';
-import { FunSkinTonesList } from './fun/FunSkinTones';
-import { emojiParentKeyConstant, type EmojiSkinTone } from './fun/data/emojis';
 import type {
   BackupsSubscriptionType,
   BackupStatusType,
 } from '../types/backups';
-import {
-  SettingsControl as Control,
-  SettingsRadio,
-  SettingsRow,
-} from './PreferencesUtil';
-import { PreferencesBackups } from './PreferencesBackups';
-import { PreferencesInternal } from './PreferencesInternal';
-import { FunEmojiLocalizationProvider } from './fun/FunEmojiLocalizationProvider';
-import { NavTabsToggle } from './NavTabs';
 import type { UnreadStats } from '../util/countUnreadStats';
+import type { BadgeType } from '../badges/types';
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
@@ -114,7 +119,7 @@ export type PropsDataType = {
   hasStoriesDisabled: boolean;
   hasTextFormatting: boolean;
   hasTypingIndicators: boolean;
-  initialPage?: Page;
+  page: Page;
   lastSyncTime?: number;
   notificationContent: NotificationSettingType;
   phoneNumber: string | undefined;
@@ -141,6 +146,9 @@ export type PropsDataType = {
   isUpdateDownloaded: boolean;
   navTabsCollapsed: boolean;
   otherTabsUnreadStats: UnreadStats;
+  me: ConversationType;
+  badge: BadgeType | undefined;
+  theme: ThemeType;
 
   // Limited support features
   isAutoDownloadUpdatesSupported: boolean;
@@ -162,6 +170,12 @@ export type PropsDataType = {
 
 type PropsFunctionType = {
   // Render props
+  renderProfileEditor: (options: {
+    contentsRef: MutableRefObject<HTMLDivElement | null>;
+  }) => JSX.Element;
+  renderToastManager: (
+    _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
+  ) => JSX.Element;
   renderUpdateDialog: (
     _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
   ) => JSX.Element;
@@ -187,6 +201,8 @@ type PropsFunctionType = {
       value: CustomColorType;
     }
   ) => unknown;
+  setPage: (page: Page) => unknown;
+  showToast: (toast: AnyToast) => unknown;
   validateBackup: () => Promise<BackupValidationResultType>;
 
   // Change handlers
@@ -239,6 +255,7 @@ export type PropsPreloadType = Omit<PropsType, 'i18n'>;
 
 export enum Page {
   // Accessible through left nav
+  Profile = 'Profile',
   General = 'General',
   Appearance = 'Appearance',
   Chats = 'Chats',
@@ -291,6 +308,7 @@ export function Preferences({
   availableSpeakers,
   backupFeatureEnabled,
   backupSubscriptionStatus,
+  badge,
   blockedCount,
   cloudBackupStatus,
   customColors,
@@ -328,7 +346,6 @@ export function Preferences({
   hasTextFormatting,
   hasTypingIndicators,
   i18n,
-  initialPage = Page.General,
   initialSpellCheckSetting,
   isAutoDownloadUpdatesSupported,
   isAutoLaunchSupported,
@@ -343,6 +360,7 @@ export function Preferences({
   isUpdateDownloaded,
   lastSyncTime,
   makeSyncRequest,
+  me,
   navTabsCollapsed,
   notificationContent,
   onAudioNotificationsChange,
@@ -382,12 +400,15 @@ export function Preferences({
   onWhoCanFindMeChange,
   onZoomFactorChange,
   otherTabsUnreadStats,
+  page,
   phoneNumber = '',
   preferredSystemLocales,
   refreshCloudBackupStatus,
   refreshBackupSubscriptionStatus,
   removeCustomColor,
   removeCustomColorOnConversations,
+  renderProfileEditor,
+  renderToastManager,
   renderUpdateDialog,
   resetAllChatColors,
   resetDefaultChatColor,
@@ -397,7 +418,10 @@ export function Preferences({
   selectedSpeaker,
   sentMediaQualitySetting,
   setGlobalDefaultConversationColor,
+  setPage,
+  showToast,
   localeOverride,
+  theme,
   themeSetting,
   universalExpireTimer = DurationInSeconds.ZERO,
   validateBackup,
@@ -414,7 +438,6 @@ export function Preferences({
   const [confirmStoriesOff, setConfirmStoriesOff] = useState(false);
   const [confirmContentProtection, setConfirmContentProtection] =
     useState(false);
-  const [page, setPage] = useState<Page>(initialPage);
   const [showSyncFailed, setShowSyncFailed] = useState(false);
   const [nowSyncing, setNowSyncing] = useState(false);
   const [showDisappearingTimerDialog, setShowDisappearingTimerDialog] =
@@ -426,7 +449,6 @@ export function Preferences({
     string | null | undefined
   >(localeOverride);
   const [languageSearchInput, setLanguageSearchInput] = useState('');
-  const [toast, setToast] = useState<AnyToast | undefined>();
   const [confirmPnpNotDiscoverable, setConfirmPnpNoDiscoverable] =
     useState(false);
 
@@ -608,12 +630,14 @@ export function Preferences({
     });
   }, [localeSearchOptions, languageSearchInput]);
 
-  let pageTitle: string | undefined;
-  let pageBackButton: JSX.Element | undefined;
-  let pageContents: JSX.Element | undefined;
-  if (page === Page.General) {
-    pageTitle = i18n('icu:Preferences__button--general');
-    pageContents = (
+  let content: JSX.Element | undefined;
+
+  if (page === Page.Profile) {
+    content = renderProfileEditor({
+      contentsRef: settingsPaneRef,
+    });
+  } else if (page === Page.General) {
+    const pageContents = (
       <>
         <SettingsRow>
           <Control
@@ -711,6 +735,13 @@ export function Preferences({
         )}
       </>
     );
+    content = (
+      <PreferencesContent
+        contents={pageContents}
+        contentsRef={settingsPaneRef}
+        title={i18n('icu:Preferences__button--general')}
+      />
+    );
   } else if (page === Page.Appearance) {
     let zoomFactors = DEFAULT_ZOOM_FACTORS;
 
@@ -734,8 +765,7 @@ export function Preferences({
           : i18n('icu:Preferences__Language__SystemLanguage');
     }
 
-    pageTitle = i18n('icu:Preferences__button--appearance');
-    pageContents = (
+    const pageContents = (
       <SettingsRow>
         <Control
           icon="Preferences__LanguageIcon"
@@ -925,6 +955,13 @@ export function Preferences({
         />
       </SettingsRow>
     );
+    content = (
+      <PreferencesContent
+        contents={pageContents}
+        contentsRef={settingsPaneRef}
+        title={i18n('icu:Preferences__button--appearance')}
+      />
+    );
   } else if (page === Page.Chats) {
     let spellCheckDirtyText: string | undefined;
     if (
@@ -938,8 +975,7 @@ export function Preferences({
 
     const lastSyncDate = new Date(lastSyncTime || 0);
 
-    pageTitle = i18n('icu:Preferences__button--chats');
-    pageContents = (
+    const pageContents = (
       <>
         <SettingsRow title={i18n('icu:Preferences__button--chats')}>
           <Checkbox
@@ -1050,9 +1086,15 @@ export function Preferences({
         )}
       </>
     );
+    content = (
+      <PreferencesContent
+        contents={pageContents}
+        contentsRef={settingsPaneRef}
+        title={i18n('icu:Preferences__button--chats')}
+      />
+    );
   } else if (page === Page.Calls) {
-    pageTitle = i18n('icu:Preferences__button--calls');
-    pageContents = (
+    const pageContents = (
       <>
         <SettingsRow title={i18n('icu:calling')}>
           <Checkbox
@@ -1193,9 +1235,15 @@ export function Preferences({
         </SettingsRow>
       </>
     );
+    content = (
+      <PreferencesContent
+        contents={pageContents}
+        contentsRef={settingsPaneRef}
+        title={i18n('icu:Preferences__button--calls')}
+      />
+    );
   } else if (page === Page.Notifications) {
-    pageTitle = i18n('icu:Preferences__button--notifications');
-    pageContents = (
+    const pageContents = (
       <>
         <SettingsRow>
           <Checkbox
@@ -1275,12 +1323,17 @@ export function Preferences({
         </SettingsRow>
       </>
     );
+    content = (
+      <PreferencesContent
+        contents={pageContents}
+        contentsRef={settingsPaneRef}
+        title={i18n('icu:Preferences__button--notifications')}
+      />
+    );
   } else if (page === Page.Privacy) {
     const isCustomDisappearingMessageValue =
       !DEFAULT_DURATIONS_SET.has(universalExpireTimer);
-
-    pageTitle = i18n('icu:Preferences__button--privacy');
-    pageContents = (
+    const pageContents = (
       <>
         <SettingsRow>
           <Control
@@ -1519,9 +1572,15 @@ export function Preferences({
         ) : null}
       </>
     );
+    content = (
+      <PreferencesContent
+        contents={pageContents}
+        contentsRef={settingsPaneRef}
+        title={i18n('icu:Preferences__button--privacy')}
+      />
+    );
   } else if (page === Page.DataUsage) {
-    pageTitle = i18n('icu:Preferences__button--data-usage');
-    pageContents = (
+    const pageContents = (
       <>
         <SettingsRow title={i18n('icu:Preferences__media-auto-download')}>
           <Checkbox
@@ -1620,9 +1679,15 @@ export function Preferences({
         </SettingsRow>
       </>
     );
+    content = (
+      <PreferencesContent
+        contents={pageContents}
+        contentsRef={settingsPaneRef}
+        title={i18n('icu:Preferences__button--data-usage')}
+      />
+    );
   } else if (page === Page.ChatColor) {
-    pageTitle = i18n('icu:ChatColorPicker__menu-title');
-    pageBackButton = (
+    const backButton = (
       <button
         aria-label={i18n('icu:goBack')}
         className="Preferences__back-icon"
@@ -1630,7 +1695,7 @@ export function Preferences({
         type="button"
       />
     );
-    pageContents = (
+    const pageContents = (
       <ChatColorPicker
         customColors={customColors}
         getConversationsWithCustomColor={getConversationsWithCustomColor}
@@ -1647,6 +1712,14 @@ export function Preferences({
         resetAllChatColors={resetAllChatColors}
         resetDefaultChatColor={resetDefaultChatColor}
         setGlobalDefaultConversationColor={setGlobalDefaultConversationColor}
+      />
+    );
+    content = (
+      <PreferencesContent
+        backButton={backButton}
+        contents={pageContents}
+        contentsRef={settingsPaneRef}
+        title={i18n('icu:ChatColorPicker__menu-title')}
       />
     );
   } else if (page === Page.PNP) {
@@ -1666,8 +1739,7 @@ export function Preferences({
       );
     }
 
-    pageTitle = i18n('icu:Preferences__pnp--page-title');
-    pageBackButton = (
+    const backButton = (
       <button
         aria-label={i18n('icu:goBack')}
         className="Preferences__back-icon"
@@ -1675,7 +1747,7 @@ export function Preferences({
         type="button"
       />
     );
-    pageContents = (
+    const pageContents = (
       <>
         <SettingsRow
           title={i18n('icu:Preferences__pnp__sharing--title')}
@@ -1726,7 +1798,7 @@ export function Preferences({
                 onClick:
                   whoCanSeeMe === PhoneNumberSharingMode.Everybody
                     ? () =>
-                        setToast({ toastType: ToastType.WhoCanFindMeReadOnly })
+                        showToast({ toastType: ToastType.WhoCanFindMeReadOnly })
                     : noop,
               },
             ]}
@@ -1783,23 +1855,41 @@ export function Preferences({
         )}
       </>
     );
+    content = (
+      <PreferencesContent
+        backButton={backButton}
+        contents={pageContents}
+        contentsRef={settingsPaneRef}
+        title={i18n('icu:Preferences__pnp--page-title')}
+      />
+    );
   } else if (page === Page.Backups) {
-    pageTitle = i18n('icu:Preferences__button--backups');
-    pageContents = (
-      <PreferencesBackups
-        i18n={i18n}
-        cloudBackupStatus={cloudBackupStatus}
-        backupSubscriptionStatus={backupSubscriptionStatus}
-        locale={resolvedLocale}
+    content = (
+      <PreferencesContent
+        contents={
+          <PreferencesBackups
+            i18n={i18n}
+            cloudBackupStatus={cloudBackupStatus}
+            backupSubscriptionStatus={backupSubscriptionStatus}
+            locale={resolvedLocale}
+          />
+        }
+        contentsRef={settingsPaneRef}
+        title={i18n('icu:Preferences__button--backups')}
       />
     );
   } else if (page === Page.Internal) {
-    pageTitle = i18n('icu:Preferences__button--internal');
-    pageContents = (
-      <PreferencesInternal
-        i18n={i18n}
-        exportLocalBackup={exportLocalBackup}
-        validateBackup={validateBackup}
+    content = (
+      <PreferencesContent
+        contents={
+          <PreferencesInternal
+            i18n={i18n}
+            exportLocalBackup={exportLocalBackup}
+            validateBackup={validateBackup}
+          />
+        }
+        contentsRef={settingsPaneRef}
+        title={i18n('icu:Preferences__button--internal')}
       />
     );
   }
@@ -1834,6 +1924,49 @@ export function Preferences({
             </div>
           ) : null}
           <div className="Preferences__scroll-area">
+            <button
+              type="button"
+              className={classNames({
+                'Preferences__profile-chip': true,
+                'Preferences__profile-chip--selected': page === Page.Profile,
+              })}
+              onClick={() => setPage(Page.Profile)}
+            >
+              <div className="Preferences__profile-chip__avatar">
+                <Avatar
+                  avatarUrl={me.avatarUrl}
+                  badge={badge}
+                  className="module-main-header__avatar"
+                  color={me.color}
+                  conversationType="direct"
+                  i18n={i18n}
+                  phoneNumber={me.phoneNumber}
+                  profileName={me.profileName}
+                  theme={theme}
+                  title={me.title}
+                  // `sharedGroupNames` makes no sense for yourself, but
+                  // `<Avatar>` needs it to determine blurring.
+                  sharedGroupNames={[]}
+                  size={AvatarSize.FORTY_EIGHT}
+                />
+              </div>
+              <div className="Preferences__profile-chip__text-container">
+                <div className="Preferences__profile-chip__name">
+                  {me.title}
+                </div>
+                <div className="Preferences__profile-chip__number">
+                  {me.phoneNumber}
+                </div>
+                {me.username && (
+                  <div className="Preferences__profile-chip__username">
+                    {me.username}
+                  </div>
+                )}
+              </div>
+              <div className="Preferences__profile-chip__qr-icon-container">
+                <div className="Preferences__profile-chip__qr-icon" />
+              </div>
+            </button>
             <button
               type="button"
               className={classNames({
@@ -1941,32 +2074,11 @@ export function Preferences({
             ) : null}
           </div>
         </div>
-        <div className="Preferences__content">
-          <div className="Preferences__title">
-            {pageBackButton}
-            <div className="Preferences__title--header">{pageTitle}</div>
-          </div>
-          <div className="Preferences__page">
-            <div className="Preferences__settings-pane-spacer" />
-            <div className="Preferences__settings-pane" ref={settingsPaneRef}>
-              {pageContents}
-            </div>
-            <div className="Preferences__settings-pane-spacer" />
-          </div>
-        </div>
+        {content}
       </div>
-      <ToastManager
-        OS="unused"
-        hideToast={() => setToast(undefined)}
-        i18n={i18n}
-        onShowDebugLog={shouldNeverBeCalled}
-        onUndoArchive={shouldNeverBeCalled}
-        openFileInFolder={shouldNeverBeCalled}
-        showAttachmentNotAvailableModal={shouldNeverBeCalled}
-        toast={toast}
-        containerWidthBreakpoint={WidthBreakpoint.Narrow}
-        isInFullScreenCall={false}
-      />
+      {renderToastManager({
+        containerWidthBreakpoint: WidthBreakpoint.Wide,
+      })}
     </FunEmojiLocalizationProvider>
   );
 }
@@ -1978,4 +2090,32 @@ function localizeDefault(i18n: LocalizerType, deviceLabel: string): string {
         i18n('icu:callingDeviceSelection__select--default')
       )
     : deviceLabel;
+}
+
+export function PreferencesContent({
+  backButton,
+  contents,
+  contentsRef,
+  title,
+}: {
+  backButton?: JSX.Element | undefined;
+  contents: JSX.Element | undefined;
+  contentsRef: MutableRefObject<HTMLDivElement | null>;
+  title: string | undefined;
+}): JSX.Element {
+  return (
+    <div className="Preferences__content">
+      <div className="Preferences__title">
+        {backButton}
+        <div className="Preferences__title--header">{title}</div>
+      </div>
+      <div className="Preferences__page">
+        <div className="Preferences__settings-pane-spacer" />
+        <div className="Preferences__settings-pane" ref={contentsRef}>
+          {contents}
+        </div>
+        <div className="Preferences__settings-pane-spacer" />
+      </div>
+    </div>
+  );
 }

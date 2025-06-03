@@ -15,10 +15,12 @@ import {
   getHasAnyFailedStorySends,
   getStoriesNotificationCount,
 } from '../selectors/stories';
-import { useGlobalModalActions } from '../ducks/globalModals';
-import { getStoriesEnabled } from '../selectors/items';
+import {
+  getStoriesEnabled,
+  isInternalUser as isInternalUserSelector,
+} from '../selectors/items';
 import { getSelectedNavTab } from '../selectors/nav';
-import type { NavTab } from '../ducks/nav';
+import type { Location } from '../ducks/nav';
 import { useNavActions } from '../ducks/nav';
 import { getHasPendingUpdate } from '../selectors/updates';
 import { getCallHistoryUnreadCount } from '../selectors/callHistory';
@@ -42,7 +44,7 @@ export const SmartNavTabs = memo(function SmartNavTabs({
 }: SmartNavTabsProps): JSX.Element {
   const i18n = useSelector(getIntl);
   const selectedNavTab = useSelector(getSelectedNavTab);
-  const { changeNavTab } = useNavActions();
+  const { changeLocation } = useNavActions();
   const me = useSelector(getMe);
   const badge = useSelector(getPreferredBadgeSelector)(me.badges);
   const theme = useSelector(getTheme);
@@ -52,18 +54,17 @@ export const SmartNavTabs = memo(function SmartNavTabs({
   const unreadCallsCount = useSelector(getCallHistoryUnreadCount);
   const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
   const hasPendingUpdate = useSelector(getHasPendingUpdate);
+  const isInternalUser = useSelector(isInternalUserSelector);
 
-  const { toggleProfileEditor } = useGlobalModalActions();
-
-  const onNavTabSelected = useCallback(
-    (tab: NavTab) => {
+  const onChangeLocation = useCallback(
+    (location: Location) => {
       // For some reason react-aria will call this more often than the tab
       // actually changing.
-      if (tab !== selectedNavTab) {
-        changeNavTab(tab);
+      if (location.tab !== selectedNavTab) {
+        changeLocation(location);
       }
     },
-    [changeNavTab, selectedNavTab]
+    [changeLocation, selectedNavTab]
   );
 
   return (
@@ -72,11 +73,11 @@ export const SmartNavTabs = memo(function SmartNavTabs({
       hasFailedStorySends={hasFailedStorySends}
       hasPendingUpdate={hasPendingUpdate}
       i18n={i18n}
+      isInternalUser={isInternalUser}
       me={me}
       navTabsCollapsed={navTabsCollapsed}
-      onNavTabSelected={onNavTabSelected}
+      onChangeLocation={onChangeLocation}
       onToggleNavTabsCollapse={onToggleNavTabsCollapse}
-      onToggleProfileEditor={toggleProfileEditor}
       renderCallsTab={renderCallsTab}
       renderChatsTab={renderChatsTab}
       renderStoriesTab={renderStoriesTab}

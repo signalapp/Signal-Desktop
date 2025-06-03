@@ -177,6 +177,7 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
           isEditable
           isGroup
           onClick={toggleComposeEditingAvatar}
+          showUploadButton
           style={{
             height: 96,
             margin: 0,

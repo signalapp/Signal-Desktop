@@ -7,8 +7,8 @@ import type { Meta, StoryFn } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import type { UsernameReservationType } from '../types/Username';
 
-import type { PropsType } from './EditUsernameModalBody';
-import { EditUsernameModalBody } from './EditUsernameModalBody';
+import type { PropsType } from './UsernameEditor';
+import { UsernameEditor } from './UsernameEditor';
 import {
   UsernameReservationState as State,
   UsernameReservationError,
@@ -23,8 +23,8 @@ const DEFAULT_RESERVATION: UsernameReservationType = {
 };
 
 export default {
-  component: EditUsernameModalBody,
-  title: 'Components/EditUsernameModalBody',
+  component: UsernameEditor,
+  title: 'Components/UsernameEditor',
   argTypes: {
     usernameCorrupted: {
       type: { name: 'boolean' },
@@ -54,7 +54,6 @@ export default {
     },
   },
   args: {
-    isRootModal: false,
     usernameCorrupted: false,
     currentUsername: undefined,
     state: State.Open,
@@ -86,7 +85,7 @@ const Template: StoryFn<ArgsType> = args => {
       hash: new Uint8Array(),
     };
   }
-  return <EditUsernameModalBody {...args} reservation={reservation} />;
+  return <UsernameEditor {...args} reservation={reservation} />;
 };
 
 export const WithoutUsername = Template.bind({});

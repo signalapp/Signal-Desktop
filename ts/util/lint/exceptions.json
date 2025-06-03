@@ -773,6 +773,14 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/AvatarEditor.tsx",
+    "line": "  const tryClose = useRef<() => void | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-24T03:40:20.019Z",
+    "reasonDetail": "Holding on to a close function"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/AvatarTextEditor.tsx",
     "line": "  const measureElRef = useRef<null | HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
@@ -1416,6 +1424,14 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/ProfileEditor.tsx",
+    "line": "  const tryClose = useRef<() => void | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-24T03:23:25.769Z",
+    "reasonDetail": "Holding on to a close function"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/QrCode.tsx",
     "line": "  const elRef = useRef<null | HTMLImageElement>(null);",
     "reasonCategory": "usageTrusted",
@@ -1571,6 +1587,22 @@
     "line": "  const timeoutRef = useRef<NodeJS.Timeout | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2023-08-10T00:23:35.320Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/UsernameEditor.tsx",
+    "line": "  const tryClose = useRef<() => void | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-28T00:57:39.376Z",
+    "reasonDetail": "Holding on to a close function"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/UsernameLinkEditor.tsx",
+    "line": "  const tryClose = useRef<() => void | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-28T00:57:39.376Z",
+    "reasonDetail": "Holding on to a close function"
   },
   {
     "rule": "React-useRef",

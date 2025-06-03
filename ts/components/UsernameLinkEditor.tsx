@@ -1,10 +1,11 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useRef } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import classnames from 'classnames';
 import { changeDpiBlob } from 'changedpi';
+import { noop } from 'lodash';
 
 import { SignalService as Proto } from '../protobuf';
 import type { SaveAttachmentActionCreatorType } from '../state/ducks/conversations';
@@ -18,10 +19,10 @@ import { drop } from '../util/drop';
 import { splitText } from '../util/splitText';
 import { loadImage } from '../util/loadImage';
 import { Button, ButtonVariant } from './Button';
-import { Modal } from './Modal';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { Spinner } from './Spinner';
 import { BrandedQRCode } from './BrandedQRCode';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;
@@ -63,7 +64,7 @@ export const COLOR_MAP: ReadonlyMap<number, ColorMapEntryType> = new Map([
   [ColorEnum.PURPLE, { fg: '#7651c5', bg: '#a183d4', tint: '#f5f3fb' }],
 ]);
 
-const CLASS = 'UsernameLinkModalBody';
+const CLASS = 'UsernameLinkEditor';
 
 export const PRINT_WIDTH = 424;
 export const PRINT_HEIGHT = 576;
@@ -396,25 +397,25 @@ function UsernameLinkColors({
           );
         })}
       </div>
-      <Modal.ButtonFooter>
+      <div className="UsernameLinkEditor__button-footer">
         <Button variant={ButtonVariant.Secondary} onClick={onCancel}>
           {i18n('icu:cancel')}
         </Button>
         <Button variant={ButtonVariant.Primary} onClick={onSave}>
           {i18n('icu:save')}
         </Button>
-      </Modal.ButtonFooter>
+      </div>
     </div>
   );
 }
 
-enum ResetModalVisibility {
+enum RecoveryModalVisibility {
   NotMounted = 'NotMounted',
   Closed = 'Closed',
   Open = 'Open',
 }
 
-export function UsernameLinkModalBody({
+export function UsernameLinkEditor({
   i18n,
   link,
   username,
@@ -432,8 +433,8 @@ export function UsernameLinkModalBody({
   const [pngData, setPngData] = useState<Uint8Array | undefined>();
   const [showColors, setShowColors] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
-  const [resetModalVisibility, setResetModalVisibility] = useState(
-    ResetModalVisibility.NotMounted
+  const [recoveryModalVisibility, setRecoveryModalVisibility] = useState(
+    RecoveryModalVisibility.NotMounted
   );
   const [showError, setShowError] = useState(false);
   const [colorId, setColorId] = useState(initialColorId);
@@ -538,11 +539,6 @@ export function UsernameLinkModalBody({
     setShowColors(false);
   }, [setUsernameLinkColor, colorId]);
 
-  const onUsernameLinkColorCancel = useCallback(() => {
-    setShowColors(false);
-    setColorId(initialColorId);
-  }, [initialColorId]);
-
   // Reset sub modal
 
   const onClickReset = useCallback(() => {
@@ -581,23 +577,50 @@ export function UsernameLinkModalBody({
     setShowError(true);
   }, [usernameLinkState]);
 
-  const onResetModalClose = useCallback(() => {
-    setResetModalVisibility(ResetModalVisibility.Closed);
+  const onRecoveryModalClose = useCallback(() => {
+    setRecoveryModalVisibility(RecoveryModalVisibility.Closed);
   }, []);
 
   const isReady = usernameLinkState === UsernameLinkState.Ready;
   const isResettingLink = usernameLinkCorrupted || !isReady;
 
   useEffect(() => {
-    setResetModalVisibility(x => {
+    setRecoveryModalVisibility(x => {
       // Initial mount shouldn't show the modal
-      if (x === ResetModalVisibility.NotMounted || isResettingLink) {
-        return ResetModalVisibility.Closed;
+      if (x === RecoveryModalVisibility.NotMounted || isResettingLink) {
+        return RecoveryModalVisibility.Closed;
       }
 
-      return ResetModalVisibility.Open;
+      return RecoveryModalVisibility.Open;
     });
   }, [isResettingLink]);
+
+  const tryClose = useRef<() => void | undefined>();
+  const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
+    i18n,
+    name: 'UsernameLinkEditor',
+    tryClose,
+  });
+
+  const onTryClose = useCallback(() => {
+    const onDiscard = noop;
+    confirmDiscardIf(showColors && colorId !== initialColorId, onDiscard);
+  }, [colorId, confirmDiscardIf, initialColorId, showColors]);
+  tryClose.current = onTryClose;
+  const onUsernameLinkColorCancel = useCallback(() => {
+    const onDiscard = () => {
+      setShowColors(false);
+      setColorId(initialColorId);
+    };
+    confirmDiscardIf(showColors && colorId !== initialColorId, onDiscard);
+  }, [
+    colorId,
+    confirmDiscardIf,
+    initialColorId,
+    setColorId,
+    setShowColors,
+    showColors,
+  ]);
 
   const info = (
     <>
@@ -652,14 +675,6 @@ export function UsernameLinkModalBody({
       >
         {i18n('icu:UsernameLinkModalBody__reset')}
       </button>
-
-      <Button
-        className={classnames(`${CLASS}__done`)}
-        variant={ButtonVariant.Primary}
-        onClick={onBack}
-      >
-        {i18n('icu:UsernameLinkModalBody__done')}
-      </Button>
     </>
   );
 
@@ -751,11 +766,11 @@ export function UsernameLinkModalBody({
           </ConfirmationDialog>
         )}
 
-        {resetModalVisibility === ResetModalVisibility.Open && (
+        {recoveryModalVisibility === RecoveryModalVisibility.Open && (
           <ConfirmationDialog
             i18n={i18n}
             dialogName="UsernameLinkModal__error"
-            onClose={onResetModalClose}
+            onClose={onRecoveryModalClose}
             cancelButtonVariant={ButtonVariant.Secondary}
             cancelText={i18n('icu:ok')}
           >
@@ -774,6 +789,8 @@ export function UsernameLinkModalBody({
         ) : (
           info
         )}
+
+        {confirmDiscardModal}
       </div>
     </div>
   );

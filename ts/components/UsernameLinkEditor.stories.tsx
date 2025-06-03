@@ -8,12 +8,12 @@ import { action } from '@storybook/addon-actions';
 import { UsernameLinkState } from '../state/ducks/usernameEnums';
 import { SignalService as Proto } from '../protobuf';
 
-import type { PropsType } from './UsernameLinkModalBody';
+import type { PropsType } from './UsernameLinkEditor';
 import {
-  UsernameLinkModalBody,
+  UsernameLinkEditor,
   PRINT_WIDTH,
   PRINT_HEIGHT,
-} from './UsernameLinkModalBody';
+} from './UsernameLinkEditor';
 import { Modal } from './Modal';
 
 const ColorEnum = Proto.AccountRecord.UsernameLink.Color;
@@ -21,8 +21,8 @@ const ColorEnum = Proto.AccountRecord.UsernameLink.Color;
 const { i18n } = window.SignalContext;
 
 export default {
-  component: UsernameLinkModalBody,
-  title: 'Components/UsernameLinkModalBody',
+  component: UsernameLinkEditor,
+  title: 'Components/UsernameLinkEditor',
   argTypes: {
     link: {
       control: { type: 'text' },
@@ -92,7 +92,7 @@ const Template: StoryFn<PropsType> = args => {
   return (
     <>
       <Modal modalName="story" i18n={i18n} hasXButton>
-        <UsernameLinkModalBody {...args} saveAttachment={saveAttachment} />
+        <UsernameLinkEditor {...args} saveAttachment={saveAttachment} />
       </Modal>
       {attachment && (
         <img

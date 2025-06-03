@@ -185,8 +185,8 @@ describe('pnp/username', function (this: Mocha.Suite) {
 
     const window = await app.getWindow();
 
-    debug('opening avatar context menu');
-    await window.getByRole('button', { name: 'Profile' }).click();
+    debug('opening settings tab context menu');
+    await window.locator('[data-key="Settings"]').click();
 
     debug('opening username editor');
     const profileEditor = window.locator('.ProfileEditor');
@@ -198,7 +198,7 @@ describe('pnp/username', function (this: Mocha.Suite) {
 
     debug('waiting for generated discriminator');
     const discriminator = profileEditor.locator(
-      '.EditUsernameModalBody__discriminator__input[value]'
+      '.UsernameEditor__discriminator__input[value]'
     );
     await discriminator.waitFor();
 
