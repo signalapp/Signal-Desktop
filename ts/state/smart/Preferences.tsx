@@ -67,6 +67,7 @@ import { EditState } from '../../components/ProfileEditor';
 import { SmartToastManager } from './ToastManager';
 import { useToastActions } from '../ducks/toast';
 import { DataReader } from '../../sql/Client';
+import { deleteAllMyStories } from '../../util/deleteAllMyStories';
 
 import type { StorageAccessType, ZoomFactorType } from '../../types/Storage';
 import type { ThemeType } from '../../util/preload';
@@ -551,10 +552,13 @@ export function SmartPreferences(): JSX.Element | null {
   const [hasStoriesDisabled, onHasStoriesDisabledChanged] = createItemsAccess(
     'hasStoriesDisabled',
     false,
-    value => {
+    async value => {
       const account = window.ConversationController.getOurConversationOrThrow();
       account.captureChange('hasStoriesDisabled');
       window.textsecure.server?.onHasStoriesDisabledChange(value);
+      if (!value) {
+        await deleteAllMyStories();
+      }
     }
   );
   const [hasTextFormatting, onTextFormattingChange] = createItemsAccess(
