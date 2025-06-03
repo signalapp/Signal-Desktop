@@ -17,6 +17,7 @@ import {
   getCustomColors,
   getItems,
   getNavTabsCollapsed,
+  getPreferredLeftPaneWidth,
 } from '../selectors/items';
 import { DEFAULT_AUTO_DOWNLOAD_ATTACHMENT } from '../../textsecure/Storage';
 import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors';
@@ -127,6 +128,7 @@ export function SmartPreferences(): JSX.Element | null {
     putItem,
     removeCustomColor,
     resetDefaultChatColor,
+    savePreferredLeftPaneWidth,
     setEmojiSkinToneDefault: onEmojiSkinToneDefaultChange,
     setGlobalDefaultConversationColor,
     toggleNavTabsCollapse,
@@ -144,16 +146,18 @@ export function SmartPreferences(): JSX.Element | null {
   const getConversationsWithCustomColor = useSelector(
     getConversationsWithCustomColorSelector
   );
-  const items = useSelector(getItems);
   const i18n = useSelector(getIntl);
+  const items = useSelector(getItems);
+  const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
   const hasPendingUpdate = useSelector(getHasPendingUpdate);
   const isUpdateDownloaded = useSelector(getIsUpdateDownloaded);
-  const navTabsCollapsed = useSelector(getNavTabsCollapsed);
-  const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
-  const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
   const me = useSelector(getMe);
-  const badge = useSelector(getPreferredBadgeSelector)(me.badges);
+  const navTabsCollapsed = useSelector(getNavTabsCollapsed);
+  const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
+  const preferredWidthFromStorage = useSelector(getPreferredLeftPaneWidth);
   const theme = useSelector(getTheme);
+
+  const badge = useSelector(getPreferredBadgeSelector)(me.badges);
 
   // The weird ones
 
@@ -763,6 +767,7 @@ export function SmartPreferences(): JSX.Element | null {
         otherTabsUnreadStats={otherTabsUnreadStats}
         page={page}
         preferredSystemLocales={preferredSystemLocales}
+        preferredWidthFromStorage={preferredWidthFromStorage}
         refreshCloudBackupStatus={refreshCloudBackupStatus}
         refreshBackupSubscriptionStatus={refreshBackupSubscriptionStatus}
         removeCustomColorOnConversations={removeCustomColorOnConversations}
@@ -779,6 +784,7 @@ export function SmartPreferences(): JSX.Element | null {
         sentMediaQualitySetting={sentMediaQualitySetting}
         setGlobalDefaultConversationColor={setGlobalDefaultConversationColor}
         setPage={setPage}
+        savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
         showToast={showToast}
         theme={theme}
         themeSetting={themeSetting}

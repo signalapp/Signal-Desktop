@@ -49,8 +49,8 @@ import {
 import { PreferencesBackups } from './PreferencesBackups';
 import { PreferencesInternal } from './PreferencesInternal';
 import { FunEmojiLocalizationProvider } from './fun/FunEmojiLocalizationProvider';
-import { NavTabsToggle } from './NavTabs';
 import { Avatar, AvatarSize } from './Avatar';
+import { NavSidebar } from './NavSidebar';
 
 import type { MediaDeviceSettings } from '../types/Calling';
 import type { ValidationResultType as BackupValidationResultType } from '../services/backups';
@@ -151,6 +151,7 @@ export type PropsDataType = {
   me: ConversationType;
   badge: BadgeType | undefined;
   theme: ThemeType;
+  preferredWidthFromStorage: number;
 
   // Limited support features
   isAutoDownloadUpdatesSupported: boolean;
@@ -200,6 +201,7 @@ type PropsFunctionType = {
   removeCustomColorOnConversations: (colorId: string) => unknown;
   resetAllChatColors: () => unknown;
   resetDefaultChatColor: () => unknown;
+  savePreferredLeftPaneWidth: (_: number) => void;
   setGlobalDefaultConversationColor: (
     color: ConversationColorType,
     customColorData?: {
@@ -411,6 +413,7 @@ export function Preferences({
   page,
   phoneNumber = '',
   preferredSystemLocales,
+  preferredWidthFromStorage,
   refreshCloudBackupStatus,
   refreshBackupSubscriptionStatus,
   removeCustomColor,
@@ -421,6 +424,7 @@ export function Preferences({
   resetAllChatColors,
   resetDefaultChatColor,
   resolvedLocale,
+  savePreferredLeftPaneWidth,
   selectedCamera,
   selectedMicrophone,
   selectedSpeaker,
@@ -651,6 +655,9 @@ export function Preferences({
           <Control
             left={i18n('icu:Preferences--phone-number')}
             right={phoneNumber}
+            rightStyle={{
+              maxWidth: '33%',
+            }}
           />
           <Control
             left={
@@ -662,6 +669,9 @@ export function Preferences({
               </>
             }
             right={deviceName}
+            rightStyle={{
+              maxWidth: '33%',
+            }}
           />
         </SettingsRow>
         <SettingsRow title={i18n('icu:Preferences--system')}>
@@ -1908,187 +1918,181 @@ export function Preferences({
     <FunEmojiLocalizationProvider i18n={i18n}>
       <div className="module-title-bar-drag-area" />
       <div className="Preferences">
-        <div className="Preferences__page-selector">
-          <div className="Preferences__header">
-            {navTabsCollapsed ? (
-              <div className="Preferences__header__toggle">
-                <NavTabsToggle
-                  i18n={i18n}
-                  onToggleNavTabsCollapse={onToggleNavTabsCollapse}
-                  navTabsCollapsed
-                  hasFailedStorySends={hasFailedStorySends}
-                  otherTabsUnreadStats={otherTabsUnreadStats}
-                  hasPendingUpdate={false}
-                />
-              </div>
-            ) : undefined}
-            <h1 className="Preferences__header__text">
-              {i18n('icu:Preferences--header')}
-            </h1>
-          </div>
-          {maybeUpdateDialog ? (
-            <div className="Preferences__dialog-container">
-              <div className="module-left-pane__dialogs">
-                {maybeUpdateDialog}
-              </div>
-            </div>
-          ) : null}
-          <div className="Preferences__scroll-area">
-            <button
-              type="button"
-              className={classNames({
-                'Preferences__profile-chip': true,
-                'Preferences__profile-chip--selected': page === Page.Profile,
-              })}
-              onClick={() => setPage(Page.Profile)}
-            >
-              <div className="Preferences__profile-chip__avatar">
-                <Avatar
-                  avatarUrl={me.avatarUrl}
-                  badge={badge}
-                  className="module-main-header__avatar"
-                  color={me.color}
-                  conversationType="direct"
-                  i18n={i18n}
-                  phoneNumber={me.phoneNumber}
-                  profileName={me.profileName}
-                  theme={theme}
-                  title={me.title}
-                  // `sharedGroupNames` makes no sense for yourself, but
-                  // `<Avatar>` needs it to determine blurring.
-                  sharedGroupNames={[]}
-                  size={AvatarSize.FORTY_EIGHT}
-                />
-              </div>
-              <div className="Preferences__profile-chip__text-container">
-                <div className="Preferences__profile-chip__name">
-                  {me.title}
+        <NavSidebar
+          title={i18n('icu:Preferences--header')}
+          i18n={i18n}
+          otherTabsUnreadStats={otherTabsUnreadStats}
+          hasFailedStorySends={hasFailedStorySends}
+          hasPendingUpdate={false}
+          navTabsCollapsed={navTabsCollapsed}
+          onToggleNavTabsCollapse={onToggleNavTabsCollapse}
+          preferredLeftPaneWidth={preferredWidthFromStorage}
+          requiresFullWidth
+          savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
+          renderToastManager={renderToastManager}
+        >
+          <div className="Preferences__page-selector">
+            {maybeUpdateDialog ? (
+              <div className="Preferences__dialog-container">
+                <div className="module-left-pane__dialogs">
+                  {maybeUpdateDialog}
                 </div>
-                <div className="Preferences__profile-chip__number">
-                  {me.phoneNumber}
+              </div>
+            ) : null}
+            <div className="Preferences__scroll-area">
+              <button
+                type="button"
+                className={classNames({
+                  'Preferences__profile-chip': true,
+                  'Preferences__profile-chip--selected': page === Page.Profile,
+                })}
+                onClick={() => setPage(Page.Profile)}
+              >
+                <div className="Preferences__profile-chip__avatar">
+                  <Avatar
+                    avatarUrl={me.avatarUrl}
+                    badge={badge}
+                    className="module-main-header__avatar"
+                    color={me.color}
+                    conversationType="direct"
+                    i18n={i18n}
+                    phoneNumber={me.phoneNumber}
+                    profileName={me.profileName}
+                    theme={theme}
+                    title={me.title}
+                    // `sharedGroupNames` makes no sense for yourself, but
+                    // `<Avatar>` needs it to determine blurring.
+                    sharedGroupNames={[]}
+                    size={AvatarSize.FORTY_EIGHT}
+                  />
                 </div>
-                {me.username && (
-                  <div className="Preferences__profile-chip__username">
-                    {me.username}
+                <div className="Preferences__profile-chip__text-container">
+                  <div className="Preferences__profile-chip__name">
+                    {me.title}
                   </div>
-                )}
-              </div>
-              <div className="Preferences__profile-chip__qr-icon-container">
-                <div className="Preferences__profile-chip__qr-icon" />
-              </div>
-            </button>
-            <button
-              type="button"
-              className={classNames({
-                Preferences__button: true,
-                'Preferences__button--general': true,
-                'Preferences__button--selected': page === Page.General,
-              })}
-              onClick={() => setPage(Page.General)}
-            >
-              {i18n('icu:Preferences__button--general')}
-            </button>
-            <button
-              type="button"
-              className={classNames({
-                Preferences__button: true,
-                'Preferences__button--appearance': true,
-                'Preferences__button--selected':
-                  page === Page.Appearance || page === Page.ChatColor,
-              })}
-              onClick={() => setPage(Page.Appearance)}
-            >
-              {i18n('icu:Preferences__button--appearance')}
-            </button>
-            <button
-              type="button"
-              className={classNames({
-                Preferences__button: true,
-                'Preferences__button--chats': true,
-                'Preferences__button--selected': page === Page.Chats,
-              })}
-              onClick={() => setPage(Page.Chats)}
-            >
-              {i18n('icu:Preferences__button--chats')}
-            </button>
-            <button
-              type="button"
-              className={classNames({
-                Preferences__button: true,
-                'Preferences__button--calls': true,
-                'Preferences__button--selected': page === Page.Calls,
-              })}
-              onClick={() => setPage(Page.Calls)}
-            >
-              {i18n('icu:Preferences__button--calls')}
-            </button>
-            <button
-              type="button"
-              className={classNames({
-                Preferences__button: true,
-                'Preferences__button--notifications': true,
-                'Preferences__button--selected': page === Page.Notifications,
-              })}
-              onClick={() => setPage(Page.Notifications)}
-            >
-              {i18n('icu:Preferences__button--notifications')}
-            </button>
-            <button
-              type="button"
-              className={classNames({
-                Preferences__button: true,
-                'Preferences__button--privacy': true,
-                'Preferences__button--selected':
-                  page === Page.Privacy || page === Page.PNP,
-              })}
-              onClick={() => setPage(Page.Privacy)}
-            >
-              {i18n('icu:Preferences__button--privacy')}
-            </button>
-            <button
-              type="button"
-              className={classNames({
-                Preferences__button: true,
-                'Preferences__button--data-usage': true,
-                'Preferences__button--selected': page === Page.DataUsage,
-              })}
-              onClick={() => setPage(Page.DataUsage)}
-            >
-              {i18n('icu:Preferences__button--data-usage')}
-            </button>
-            {shouldShowBackupsPage ? (
+                  <div className="Preferences__profile-chip__number">
+                    {me.phoneNumber}
+                  </div>
+                  {me.username && (
+                    <div className="Preferences__profile-chip__username">
+                      {me.username}
+                    </div>
+                  )}
+                </div>
+                <div className="Preferences__profile-chip__qr-icon-container">
+                  <div className="Preferences__profile-chip__qr-icon" />
+                </div>
+              </button>
               <button
                 type="button"
                 className={classNames({
                   Preferences__button: true,
-                  'Preferences__button--backups': true,
-                  'Preferences__button--selected': page === Page.Backups,
+                  'Preferences__button--general': true,
+                  'Preferences__button--selected': page === Page.General,
                 })}
-                onClick={() => setPage(Page.Backups)}
+                onClick={() => setPage(Page.General)}
               >
-                {i18n('icu:Preferences__button--backups')}
+                {i18n('icu:Preferences__button--general')}
               </button>
-            ) : null}
-            {isInternalUser ? (
               <button
                 type="button"
                 className={classNames({
                   Preferences__button: true,
-                  'Preferences__button--internal': true,
-                  'Preferences__button--selected': page === Page.Internal,
+                  'Preferences__button--appearance': true,
+                  'Preferences__button--selected':
+                    page === Page.Appearance || page === Page.ChatColor,
                 })}
-                onClick={() => setPage(Page.Internal)}
+                onClick={() => setPage(Page.Appearance)}
               >
-                {i18n('icu:Preferences__button--internal')}
+                {i18n('icu:Preferences__button--appearance')}
               </button>
-            ) : null}
+              <button
+                type="button"
+                className={classNames({
+                  Preferences__button: true,
+                  'Preferences__button--chats': true,
+                  'Preferences__button--selected': page === Page.Chats,
+                })}
+                onClick={() => setPage(Page.Chats)}
+              >
+                {i18n('icu:Preferences__button--chats')}
+              </button>
+              <button
+                type="button"
+                className={classNames({
+                  Preferences__button: true,
+                  'Preferences__button--calls': true,
+                  'Preferences__button--selected': page === Page.Calls,
+                })}
+                onClick={() => setPage(Page.Calls)}
+              >
+                {i18n('icu:Preferences__button--calls')}
+              </button>
+              <button
+                type="button"
+                className={classNames({
+                  Preferences__button: true,
+                  'Preferences__button--notifications': true,
+                  'Preferences__button--selected': page === Page.Notifications,
+                })}
+                onClick={() => setPage(Page.Notifications)}
+              >
+                {i18n('icu:Preferences__button--notifications')}
+              </button>
+              <button
+                type="button"
+                className={classNames({
+                  Preferences__button: true,
+                  'Preferences__button--privacy': true,
+                  'Preferences__button--selected':
+                    page === Page.Privacy || page === Page.PNP,
+                })}
+                onClick={() => setPage(Page.Privacy)}
+              >
+                {i18n('icu:Preferences__button--privacy')}
+              </button>
+              <button
+                type="button"
+                className={classNames({
+                  Preferences__button: true,
+                  'Preferences__button--data-usage': true,
+                  'Preferences__button--selected': page === Page.DataUsage,
+                })}
+                onClick={() => setPage(Page.DataUsage)}
+              >
+                {i18n('icu:Preferences__button--data-usage')}
+              </button>
+              {shouldShowBackupsPage ? (
+                <button
+                  type="button"
+                  className={classNames({
+                    Preferences__button: true,
+                    'Preferences__button--backups': true,
+                    'Preferences__button--selected': page === Page.Backups,
+                  })}
+                  onClick={() => setPage(Page.Backups)}
+                >
+                  {i18n('icu:Preferences__button--backups')}
+                </button>
+              ) : null}
+              {isInternalUser ? (
+                <button
+                  type="button"
+                  className={classNames({
+                    Preferences__button: true,
+                    'Preferences__button--internal': true,
+                    'Preferences__button--selected': page === Page.Internal,
+                  })}
+                  onClick={() => setPage(Page.Internal)}
+                >
+                  {i18n('icu:Preferences__button--internal')}
+                </button>
+              ) : null}
+            </div>
           </div>
-        </div>
+        </NavSidebar>
         {content}
       </div>
-      {renderToastManager({
-        containerWidthBreakpoint: WidthBreakpoint.Wide,
-      })}
     </FunEmojiLocalizationProvider>
   );
 }
