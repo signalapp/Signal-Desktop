@@ -59,7 +59,6 @@ import type {
   ConversationColorType,
   CustomColorType,
 } from '../types/Colors';
-import { getAuthor } from '../messages/helpers';
 import { strictAssert } from '../util/assert';
 import { isConversationMuted } from '../util/isConversationMuted';
 import { isConversationSMSOnly } from '../util/isConversationSMSOnly';
@@ -89,14 +88,9 @@ import {
 import { decryptAttachmentV2 } from '../AttachmentCrypto';
 import * as Bytes from '../Bytes';
 import type { DraftBodyRanges } from '../types/BodyRange';
-import { BodyRange } from '../types/BodyRange';
 import { migrateColor } from '../util/migrateColor';
 import { isNotNil } from '../util/isNotNil';
-import {
-  NotificationType,
-  notificationService,
-  shouldSaveNotificationAvatarToDisk,
-} from '../services/notifications';
+import { shouldSaveNotificationAvatarToDisk } from '../services/notifications';
 import { storageServiceUploadJob } from '../services/storage';
 import { getSendOptions } from '../util/getSendOptions';
 import type { IsConversationAcceptedOptionsType } from '../util/isConversationAccepted';
@@ -143,7 +137,6 @@ import {
   conversationJobQueue,
   conversationQueueJobEnum,
 } from '../jobs/conversationJobQueue';
-import type { ReactionAttributesType } from '../messageModifiers/Reactions';
 import { getProfile } from '../util/getProfile';
 import { SEALED_SENDER } from '../types/SealedSender';
 import { createIdenticon } from '../util/createIdenticon';
@@ -177,7 +170,6 @@ import { generateMessageId } from '../util/generateMessageId';
 import { getMessageAuthorText } from '../util/getMessageAuthorText';
 import { downscaleOutgoingAttachment } from '../util/attachments';
 import { MessageRequestResponseEvent } from '../types/MessageRequestResponseEvent';
-import { hasExpiration } from '../types/Message2';
 import type { AddressableMessage } from '../textsecure/messageReceiverEvents';
 import {
   getConversationIdentifier,
@@ -195,6 +187,7 @@ import { applyNewAvatar } from '../groups';
 import { safeSetTimeout } from '../util/timeout';
 import { getTypingIndicatorSetting } from '../types/Util';
 import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer';
+import { maybeNotify } from '../messages/maybeNotify';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -3196,7 +3189,7 @@ export class ConversationModel extends window.Backbone
     drop(this.onNewMessage(message));
     this.throttledUpdateUnread();
 
-    await this.notify(message.attributes);
+    await maybeNotify({ message: message.attributes, conversation: this });
   }
 
   async addKeyChange(
@@ -5474,84 +5467,6 @@ export class ConversationModel extends window.Backbone
 
   isMuted(): boolean {
     return isConversationMuted(this.attributes);
-  }
-
-  async notify(
-    message: Readonly<MessageAttributesType>,
-    reaction?: Readonly<ReactionAttributesType>
-  ): Promise<void> {
-    // As a performance optimization don't perform any work if notifications are
-    // disabled.
-    if (!notificationService.isEnabled) {
-      return;
-    }
-
-    if (this.isMuted()) {
-      if (this.get('dontNotifyForMentionsIfMuted')) {
-        return;
-      }
-
-      const ourAci = window.textsecure.storage.user.getCheckedAci();
-      const ourPni = window.textsecure.storage.user.getCheckedPni();
-      const ourServiceIds: Set<ServiceIdString> = new Set([ourAci, ourPni]);
-
-      const mentionsMe = (message.bodyRanges || []).some(bodyRange => {
-        if (!BodyRange.isMention(bodyRange)) {
-          return false;
-        }
-        return ourServiceIds.has(
-          normalizeServiceId(bodyRange.mentionAci, 'notify: mentionsMe check')
-        );
-      });
-      if (!mentionsMe) {
-        return;
-      }
-    }
-
-    if (!isIncoming(message) && !reaction) {
-      return;
-    }
-
-    const conversationId = this.id;
-    const isMessageInDirectConversation = isDirectConversation(this.attributes);
-
-    const sender = reaction
-      ? window.ConversationController.get(reaction.fromId)
-      : getAuthor(message);
-    const senderName = sender
-      ? sender.getTitle()
-      : window.i18n('icu:unknownContact');
-    const senderTitle = isMessageInDirectConversation
-      ? senderName
-      : window.i18n('icu:notificationSenderInGroup', {
-          sender: senderName,
-          group: this.getTitle(),
-        });
-
-    const { url, absolutePath } = await this.getAvatarOrIdenticon();
-
-    const messageId = message.id;
-    const isExpiringMessage = hasExpiration(message);
-
-    notificationService.add({
-      senderTitle,
-      conversationId,
-      storyId: isMessageInDirectConversation ? undefined : message.storyId,
-      notificationIconUrl: url,
-      notificationIconAbsolutePath: absolutePath,
-      isExpiringMessage,
-      message: getNotificationTextForMessage(message),
-      messageId,
-      reaction: reaction
-        ? {
-            emoji: reaction.emoji,
-            targetAuthorAci: reaction.targetAuthorAci,
-            targetTimestamp: reaction.targetTimestamp,
-          }
-        : undefined,
-      sentAt: message.timestamp,
-      type: reaction ? NotificationType.Reaction : NotificationType.Message,
-    });
   }
 
   async getAvatarOrIdenticon(): Promise<{
