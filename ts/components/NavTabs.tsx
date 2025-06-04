@@ -196,7 +196,6 @@ export type NavTabsProps = Readonly<{
   hasFailedStorySends: boolean;
   hasPendingUpdate: boolean;
   i18n: LocalizerType;
-  isInternalUser: boolean;
   me: ConversationType;
   navTabsCollapsed: boolean;
   onChangeLocation: (location: Location) => void;
@@ -206,6 +205,7 @@ export type NavTabsProps = Readonly<{
   renderStoriesTab: () => ReactNode;
   renderSettingsTab: () => ReactNode;
   selectedNavTab: NavTab;
+  shouldShowProfileIcon: boolean;
   storiesEnabled: boolean;
   theme: ThemeType;
   unreadCallsCount: number;
@@ -218,7 +218,6 @@ export function NavTabs({
   hasFailedStorySends,
   hasPendingUpdate,
   i18n,
-  isInternalUser,
   me,
   navTabsCollapsed,
   onChangeLocation,
@@ -228,6 +227,7 @@ export function NavTabs({
   renderStoriesTab,
   renderSettingsTab,
   selectedNavTab,
+  shouldShowProfileIcon,
   storiesEnabled,
   theme,
   unreadCallsCount,
@@ -323,7 +323,7 @@ export function NavTabs({
             hasPendingUpdate={hasPendingUpdate}
           />
         </TabList>
-        {isInternalUser && (
+        {shouldShowProfileIcon && (
           <div className="NavTabs__Misc">
             <button
               type="button"

@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { NavTabs } from '../../components/NavTabs';
-import { getIntl, getTheme } from '../selectors/user';
+import { getIntl, getTheme, getIsNightly } from '../selectors/user';
 import {
   getAllConversationsUnreadStats,
   getMe,
@@ -15,15 +15,13 @@ import {
   getHasAnyFailedStorySends,
   getStoriesNotificationCount,
 } from '../selectors/stories';
-import {
-  getStoriesEnabled,
-  isInternalUser as isInternalUserSelector,
-} from '../selectors/items';
+import { getStoriesEnabled } from '../selectors/items';
 import { getSelectedNavTab } from '../selectors/nav';
 import type { Location } from '../ducks/nav';
 import { useNavActions } from '../ducks/nav';
 import { getHasPendingUpdate } from '../selectors/updates';
 import { getCallHistoryUnreadCount } from '../selectors/callHistory';
+import { Environment } from '../../environment';
 
 export type SmartNavTabsProps = Readonly<{
   navTabsCollapsed: boolean;
@@ -54,7 +52,9 @@ export const SmartNavTabs = memo(function SmartNavTabs({
   const unreadCallsCount = useSelector(getCallHistoryUnreadCount);
   const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
   const hasPendingUpdate = useSelector(getHasPendingUpdate);
-  const isInternalUser = useSelector(isInternalUserSelector);
+  const shouldShowProfileIcon =
+    useSelector(getIsNightly) ||
+    window.SignalContext.getEnvironment() !== Environment.PackagedApp;
 
   const onChangeLocation = useCallback(
     (location: Location) => {
@@ -73,7 +73,6 @@ export const SmartNavTabs = memo(function SmartNavTabs({
       hasFailedStorySends={hasFailedStorySends}
       hasPendingUpdate={hasPendingUpdate}
       i18n={i18n}
-      isInternalUser={isInternalUser}
       me={me}
       navTabsCollapsed={navTabsCollapsed}
       onChangeLocation={onChangeLocation}
@@ -83,6 +82,7 @@ export const SmartNavTabs = memo(function SmartNavTabs({
       renderStoriesTab={renderStoriesTab}
       renderSettingsTab={renderSettingsTab}
       selectedNavTab={selectedNavTab}
+      shouldShowProfileIcon={shouldShowProfileIcon}
       storiesEnabled={storiesEnabled}
       theme={theme}
       unreadCallsCount={unreadCallsCount}
