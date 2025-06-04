@@ -23,6 +23,7 @@ export enum ToastType {
   ConversationMarkedUnread = 'ConversationMarkedUnread',
   ConversationRemoved = 'ConversationRemoved',
   ConversationUnarchived = 'ConversationUnarchived',
+  CopiedBackupKey = 'CopiedBackupKey',
   CopiedCallLink = 'CopiedCallLink',
   CopiedUsername = 'CopiedUsername',
   CopiedUsernameLink = 'CopiedUsernameLink',
@@ -110,6 +111,7 @@ export type AnyToast =
   | { toastType: ToastType.ConversationMarkedUnread }
   | { toastType: ToastType.ConversationRemoved; parameters: { title: string } }
   | { toastType: ToastType.ConversationUnarchived }
+  | { toastType: ToastType.CopiedBackupKey }
   | { toastType: ToastType.CopiedCallLink }
   | { toastType: ToastType.CopiedUsername }
   | { toastType: ToastType.CopiedUsernameLink }

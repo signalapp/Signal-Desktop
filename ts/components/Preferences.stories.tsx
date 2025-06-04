@@ -158,6 +158,8 @@ export default {
   args: {
     i18n,
 
+    accountEntropyPool:
+      'uy38jh2778hjjhj8lk19ga61s672jsj089r023s6a57809bap92j2yh5t326vv7t',
     autoDownloadAttachment: {
       photos: true,
       videos: false,
@@ -186,6 +188,8 @@ export default {
     availableMicrophones,
     availableSpeakers,
     backupFeatureEnabled: false,
+    backupKeyViewed: false,
+    backupLocalBackupsEnabled: false,
     badge: undefined,
     blockedCount: 0,
     customColors: {},
@@ -233,6 +237,7 @@ export default {
     isUpdateDownloaded: false,
     lastSyncTime: Date.now(),
     localeOverride: null,
+    localBackupFolder: undefined,
     me,
     navTabsCollapsed: false,
     notificationContent: 'name',
@@ -283,6 +288,7 @@ export default {
     onAutoDownloadAttachmentChange: action('onAutoDownloadAttachmentChange'),
     onAutoDownloadUpdateChange: action('onAutoDownloadUpdateChange'),
     onAutoLaunchChange: action('onAutoLaunchChange'),
+    onBackupKeyViewedChange: action('onBackupKeyViewedChange'),
     onCallNotificationsChange: action('onCallNotificationsChange'),
     onCallRingtoneNotificationChange: action(
       'onCallRingtoneNotificationChange'
@@ -321,6 +327,8 @@ export default {
     onWhoCanSeeMeChange: action('onWhoCanSeeMeChange'),
     onWhoCanFindMeChange: action('onWhoCanFindMeChange'),
     onZoomFactorChange: action('onZoomFactorChange'),
+    pickLocalBackupFolder: () =>
+      Promise.resolve('/home/signaluser/Signal Backups/'),
     refreshCloudBackupStatus: action('refreshCloudBackupStatus'),
     refreshBackupSubscriptionStatus: action('refreshBackupSubscriptionStatus'),
     removeCustomColor: action('removeCustomColor'),
@@ -421,6 +429,7 @@ export const BackupsPaidActive = Template.bind({});
 BackupsPaidActive.args = {
   page: Page.Backups,
   backupFeatureEnabled: true,
+  backupLocalBackupsEnabled: true,
   cloudBackupStatus: {
     mediaSize: 539_249_410_039,
     protoSize: 100_000_000,
@@ -440,6 +449,7 @@ export const BackupsPaidCancelled = Template.bind({});
 BackupsPaidCancelled.args = {
   page: Page.Backups,
   backupFeatureEnabled: true,
+  backupLocalBackupsEnabled: true,
   cloudBackupStatus: {
     mediaSize: 539_249_410_039,
     protoSize: 100_000_000,
@@ -459,6 +469,7 @@ export const BackupsFree = Template.bind({});
 BackupsFree.args = {
   page: Page.Backups,
   backupFeatureEnabled: true,
+  backupLocalBackupsEnabled: true,
   backupSubscriptionStatus: {
     status: 'free',
     mediaIncludedInBackupDurationDays: 30,
@@ -467,13 +478,23 @@ BackupsFree.args = {
 
 export const BackupsOff = Template.bind({});
 BackupsOff.args = {
+  page: Page.Backups,
   backupFeatureEnabled: true,
+  backupLocalBackupsEnabled: true,
+};
+
+export const BackupsLocalBackups = Template.bind({});
+BackupsLocalBackups.args = {
+  page: Page.Backups,
+  backupFeatureEnabled: true,
+  backupLocalBackupsEnabled: true,
 };
 
 export const BackupsSubscriptionNotFound = Template.bind({});
 BackupsSubscriptionNotFound.args = {
   page: Page.Backups,
   backupFeatureEnabled: true,
+  backupLocalBackupsEnabled: true,
   backupSubscriptionStatus: {
     status: 'not-found',
   },
@@ -488,9 +509,34 @@ export const BackupsSubscriptionExpired = Template.bind({});
 BackupsSubscriptionExpired.args = {
   page: Page.Backups,
   backupFeatureEnabled: true,
+  backupLocalBackupsEnabled: true,
   backupSubscriptionStatus: {
     status: 'expired',
   },
+};
+
+export const LocalBackups = Template.bind({});
+LocalBackups.args = {
+  page: Page.LocalBackups,
+  backupFeatureEnabled: true,
+  backupLocalBackupsEnabled: true,
+  backupKeyViewed: true,
+  localBackupFolder: '/home/signaluser/Signal Backups/',
+};
+
+export const LocalBackupsSetupChooseFolder = Template.bind({});
+LocalBackupsSetupChooseFolder.args = {
+  page: Page.LocalBackupsSetupFolder,
+  backupFeatureEnabled: true,
+  backupLocalBackupsEnabled: true,
+};
+
+export const LocalBackupsSetupViewBackupKey = Template.bind({});
+LocalBackupsSetupViewBackupKey.args = {
+  page: Page.LocalBackupsSetupKey,
+  backupFeatureEnabled: true,
+  backupLocalBackupsEnabled: true,
+  localBackupFolder: '/home/signaluser/Signal Backups/',
 };
 
 export const UpdateAvailable = Template.bind({});

@@ -2232,5 +2232,13 @@
     "line": "  message.innerHTML = window.i18n('icu:optimizingApplication');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T21:02:59.414Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/PreferencesLocalBackups.tsx",
+    "line": "  const backupKeyTextareaRef = useRef<HTMLTextAreaElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-30T22:48:14.420Z",
+    "reasonDetail": "For focusing the settings backup key viewer textarea"
   }
 ]

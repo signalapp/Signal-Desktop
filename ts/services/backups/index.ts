@@ -1115,6 +1115,18 @@ export class BackupsService {
   getCachedCloudBackupStatus(): BackupStatusType | undefined {
     return window.storage.get('cloudBackupStatus');
   }
+
+  async pickLocalBackupFolder(): Promise<string | undefined> {
+    const { canceled, dirPath: snapshotDir } = await ipcRenderer.invoke(
+      'show-open-folder-dialog'
+    );
+    if (canceled || !snapshotDir) {
+      return;
+    }
+
+    drop(window.storage.put('localBackupFolder', snapshotDir));
+    return snapshotDir;
+  }
 }
 
 export const backupsService = new BackupsService();

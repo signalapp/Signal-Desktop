@@ -46,13 +46,13 @@
     height: 24px;
     @include mixins.light-theme {
       @include mixins.color-svg(
-        '../images/icons/v3/backup/backup-bold.svg',
+        '../images/icons/v3/signal_backups.svg',
         variables.$color-ultramarine
       );
     }
     @include mixins.dark-theme {
       @include mixins.color-svg(
-        '../images/icons/v3/backup/backup-bold.svg',
+        '../images/icons/v3/signal_backups.svg',
         variables.$color-ultramarine-light
       );
     }

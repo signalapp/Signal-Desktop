@@ -231,6 +231,9 @@ export type StorageAccessType = {
   cloudBackupStatus: BackupStatusType | undefined;
   backupSubscriptionStatus: BackupsSubscriptionType;
 
+  backupKeyViewed: boolean;
+  localBackupFolder: string | undefined;
+
   // If true Desktop message history was restored from backup
   isRestoredFromBackup: boolean;
 

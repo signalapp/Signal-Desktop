@@ -69,6 +69,7 @@ import { SmartToastManager } from './ToastManager';
 import { useToastActions } from '../ducks/toast';
 import { DataReader } from '../../sql/Client';
 import { deleteAllMyStories } from '../../util/deleteAllMyStories';
+import { isLocalBackupsEnabledForRedux } from '../../util/isLocalBackupsEnabled';
 
 import type { StorageAccessType, ZoomFactorType } from '../../types/Storage';
 import type { ThemeType } from '../../util/preload';
@@ -190,6 +191,8 @@ export function SmartPreferences(): JSX.Element | null {
 
   const validateBackup = () => backupsService._internalValidate();
   const exportLocalBackup = () => backupsService._internalExportLocalBackup();
+  const pickLocalBackupFolder = () => backupsService.pickLocalBackupFolder();
+
   const doDeleteAllData = () => renderClearingDataView();
   const refreshCloudBackupStatus =
     window.Signal.Services.backups.throttledFetchCloudBackupStatus;
@@ -457,7 +460,8 @@ export function SmartPreferences(): JSX.Element | null {
 
   // Simple, one-way items
 
-  const { backupSubscriptionStatus, cloudBackupStatus } = items;
+  const { backupSubscriptionStatus, cloudBackupStatus, localBackupFolder } =
+    items;
   const defaultConversationColor =
     items.defaultConversationColor || DEFAULT_CONVERSATION_COLOR;
   const hasLinkPreviews = items.linkPreviews ?? false;
@@ -474,6 +478,9 @@ export function SmartPreferences(): JSX.Element | null {
   const isContentProtectionNeeded = Settings.isContentProtectionNeeded(OS);
 
   const backupFeatureEnabled = isBackupFeatureEnabledForRedux(
+    items.remoteConfig
+  );
+  const backupLocalBackupsEnabled = isLocalBackupsEnabledForRedux(
     items.remoteConfig
   );
 
@@ -498,6 +505,11 @@ export function SmartPreferences(): JSX.Element | null {
       'auto-download-attachment',
       DEFAULT_AUTO_DOWNLOAD_ATTACHMENT
     );
+  const [backupKeyViewed, onBackupKeyViewedChange] = createItemsAccess(
+    'backupKeyViewed',
+    false
+  );
+
   const [hasAudioNotifications, onAudioNotificationsChange] = createItemsAccess(
     'audio-notification',
     false
@@ -649,9 +661,12 @@ export function SmartPreferences(): JSX.Element | null {
     });
   };
 
+  const accountEntropyPool = window.storage.get('accountEntropyPool');
+
   return (
     <StrictMode>
       <Preferences
+        accountEntropyPool={accountEntropyPool}
         addCustomColor={addCustomColor}
         autoDownloadAttachment={autoDownloadAttachment}
         availableCameras={availableCameras}
@@ -659,7 +674,9 @@ export function SmartPreferences(): JSX.Element | null {
         availableMicrophones={availableMicrophones}
         availableSpeakers={availableSpeakers}
         backupFeatureEnabled={backupFeatureEnabled}
+        backupKeyViewed={backupKeyViewed}
         backupSubscriptionStatus={backupSubscriptionStatus}
+        backupLocalBackupsEnabled={backupLocalBackupsEnabled}
         badge={badge}
         blockedCount={blockedCount}
         cloudBackupStatus={cloudBackupStatus}
@@ -720,6 +737,7 @@ export function SmartPreferences(): JSX.Element | null {
         isInternalUser={isInternalUser}
         isUpdateDownloaded={isUpdateDownloaded}
         lastSyncTime={lastSyncTime}
+        localBackupFolder={localBackupFolder}
         localeOverride={localeOverride}
         makeSyncRequest={makeSyncRequest}
         me={me}
@@ -730,6 +748,7 @@ export function SmartPreferences(): JSX.Element | null {
         onAutoDownloadAttachmentChange={onAutoDownloadAttachmentChange}
         onAutoDownloadUpdateChange={onAutoDownloadUpdateChange}
         onAutoLaunchChange={onAutoLaunchChange}
+        onBackupKeyViewedChange={onBackupKeyViewedChange}
         onCallNotificationsChange={onCallNotificationsChange}
         onCallRingtoneNotificationChange={onCallRingtoneNotificationChange}
         onContentProtectionChange={onContentProtectionChange}
@@ -766,6 +785,7 @@ export function SmartPreferences(): JSX.Element | null {
         onZoomFactorChange={onZoomFactorChange}
         otherTabsUnreadStats={otherTabsUnreadStats}
         page={page}
+        pickLocalBackupFolder={pickLocalBackupFolder}
         preferredSystemLocales={preferredSystemLocales}
         preferredWidthFromStorage={preferredWidthFromStorage}
         refreshCloudBackupStatus={refreshCloudBackupStatus}

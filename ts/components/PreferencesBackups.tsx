@@ -8,71 +8,174 @@ import type {
 } from '../types/backups';
 import type { LocalizerType } from '../types/I18N';
 import { formatTimestamp } from '../util/formatTimestamp';
-import { formatFileSize } from '../util/formatFileSize';
-import { SettingsRow } from './PreferencesUtil';
+import { SettingsControl as Control, SettingsRow } from './PreferencesUtil';
 import { missingCaseError } from '../util/missingCaseError';
+import { Button, ButtonVariant } from './Button';
+import type { PreferencesBackupPage } from '../types/PreferencesBackupPage';
+import { Page } from './Preferences';
+import { I18n } from './I18n';
+import { PreferencesLocalBackups } from './PreferencesLocalBackups';
+import type { ShowToastAction } from '../state/ducks/toast';
+
+export const SIGNAL_BACKUPS_LEARN_MORE_URL =
+  'https://support.signal.org/hc/articles/360007059752-Backup-and-Restore-Messages';
 
 export function PreferencesBackups({
-  cloudBackupStatus,
+  accountEntropyPool,
+  backupKeyViewed,
   backupSubscriptionStatus,
+  cloudBackupStatus,
   i18n,
   locale,
+  localBackupFolder,
+  onBackupKeyViewedChange,
+  pickLocalBackupFolder,
+  page,
+  setPage,
+  showToast,
 }: {
-  cloudBackupStatus?: BackupStatusType;
+  accountEntropyPool: string | undefined;
+  backupKeyViewed: boolean;
   backupSubscriptionStatus?: BackupsSubscriptionType;
+  cloudBackupStatus?: BackupStatusType;
+  localBackupFolder: string | undefined;
   i18n: LocalizerType;
   locale: string;
+  onBackupKeyViewedChange: (keyViewed: boolean) => void;
+  page: PreferencesBackupPage;
+  pickLocalBackupFolder: () => Promise<string | undefined>;
+  setPage: (page: PreferencesBackupPage) => void;
+  showToast: ShowToastAction;
 }): JSX.Element {
+  if (page === Page.BackupsDetails) {
+    return (
+      <BackupsDetailsPage
+        i18n={i18n}
+        cloudBackupStatus={cloudBackupStatus}
+        backupSubscriptionStatus={backupSubscriptionStatus}
+        locale={locale}
+      />
+    );
+  }
+
+  if (
+    page === Page.LocalBackups ||
+    page === Page.LocalBackupsKeyReference ||
+    page === Page.LocalBackupsSetupFolder ||
+    page === Page.LocalBackupsSetupKey
+  ) {
+    return (
+      <PreferencesLocalBackups
+        accountEntropyPool={accountEntropyPool}
+        backupKeyViewed={backupKeyViewed}
+        i18n={i18n}
+        localBackupFolder={localBackupFolder}
+        onBackupKeyViewedChange={onBackupKeyViewedChange}
+        page={page}
+        pickLocalBackupFolder={pickLocalBackupFolder}
+        setPage={setPage}
+        showToast={showToast}
+      />
+    );
+  }
+
+  const learnMoreLink = (parts: Array<string | JSX.Element>) => (
+    <a href={SIGNAL_BACKUPS_LEARN_MORE_URL} rel="noreferrer" target="_blank">
+      {parts}
+    </a>
+  );
+
+  const isLocalBackupsSetup = localBackupFolder && backupKeyViewed;
+
   return (
     <>
-      <div className="Preferences--backups-summary__container">
-        {getBackupsSubscriptionSummary({
-          subscriptionStatus: backupSubscriptionStatus,
-          i18n,
-          locale,
-        })}
+      <div className="Preferences__padding">
+        <div className="Preferences__description Preferences__description--medium">
+          {i18n('icu:Preferences--backup-section-description')}
+        </div>
       </div>
 
-      {cloudBackupStatus ? (
-        <SettingsRow
-          className="Preferences--backup-details"
-          title={i18n('icu:Preferences--backup-details__header')}
-        >
-          {cloudBackupStatus.createdAt ? (
-            <div className="Preferences--backup-details__row">
-              <label>{i18n('icu:Preferences--backup-created-at__label')}</label>
-              <div
-                id="Preferences--backup-details__value"
-                className="Preferences--backup-details__value"
+      {backupSubscriptionStatus ? (
+        <SettingsRow className="Preferences--BackupsRow">
+          <Control
+            icon="Preferences__BackupsIcon"
+            left={
+              <label>
+                {i18n('icu:Preferences--signal-backups')}{' '}
+                <div className="Preferences__description">
+                  {renderBackupsSubscriptionSummary({
+                    subscriptionStatus: backupSubscriptionStatus,
+                    i18n,
+                    locale,
+                  })}
+                </div>
+              </label>
+            }
+            right={
+              <Button
+                onClick={() => setPage(Page.BackupsDetails)}
+                variant={ButtonVariant.Secondary}
               >
-                {/* TODO (DESKTOP-8509) */}
-                {i18n('icu:Preferences--backup-created-by-phone')}
-                <span className="Preferences--backup-details__value-divider" />
-                {formatTimestamp(cloudBackupStatus.createdAt, {
-                  dateStyle: 'medium',
-                  timeStyle: 'short',
-                })}
-              </div>
-            </div>
-          ) : null}
-          {cloudBackupStatus.mediaSize != null ||
-            cloudBackupStatus.protoSize != null}
-          <div className="Preferences--backup-details__row">
+                {i18n('icu:Preferences__button--manage')}
+              </Button>
+            }
+          />
+        </SettingsRow>
+      ) : (
+        <SettingsRow className="Preferences--BackupsRow">
+          <Control
+            icon="Preferences__BackupsIcon"
+            left={
+              <label>
+                {i18n('icu:Preferences--signal-backups')}{' '}
+                <div className="Preferences--backup-details__value">
+                  <I18n
+                    id="icu:Preferences--signal-backups-off-description"
+                    i18n={i18n}
+                    components={{
+                      learnMoreLink,
+                    }}
+                  />
+                </div>
+              </label>
+            }
+            right={null}
+          />
+        </SettingsRow>
+      )}
+
+      <SettingsRow
+        className="Preferences--BackupsRow"
+        title={i18n('icu:Preferences__backup-other-ways')}
+      >
+        <Control
+          icon="Preferences__LocalBackupsIcon"
+          left={
             <label>
-              {i18n('icu:Preferences--backup-size__label')}{' '}
-              <div className="Preferences--backup-details__value">
-                {formatFileSize(
-                  (cloudBackupStatus.mediaSize ?? 0) +
-                    (cloudBackupStatus.protoSize ?? 0)
-                )}
+              {i18n('icu:Preferences__local-backups')}{' '}
+              <div className="Preferences__description">
+                {isLocalBackupsSetup
+                  ? null
+                  : i18n('icu:Preferences--local-backups-off-description')}
               </div>
             </label>
-          </div>
-        </SettingsRow>
-      ) : null}
+          }
+          right={
+            <Button
+              onClick={() => setPage(Page.LocalBackups)}
+              variant={ButtonVariant.Secondary}
+            >
+              {isLocalBackupsSetup
+                ? i18n('icu:Preferences__button--manage')
+                : i18n('icu:Preferences__button--set-up')}
+            </Button>
+          }
+        />
+      </SettingsRow>
     </>
   );
 }
+
 function getSubscriptionDetails({
   i18n,
   subscriptionStatus,
@@ -128,7 +231,8 @@ function getSubscriptionDetails({
 
   return null;
 }
-export function getBackupsSubscriptionSummary({
+
+export function renderBackupsSubscriptionDetails({
   subscriptionStatus,
   i18n,
   locale,
@@ -211,4 +315,112 @@ export function getBackupsSubscriptionSummary({
     default:
       throw missingCaseError(status);
   }
+}
+
+export function renderBackupsSubscriptionSummary({
+  subscriptionStatus,
+  i18n,
+  locale,
+}: {
+  locale: string;
+  subscriptionStatus?: BackupsSubscriptionType;
+  i18n: LocalizerType;
+}): JSX.Element | null {
+  if (!subscriptionStatus) {
+    return null;
+  }
+
+  const { status } = subscriptionStatus;
+  switch (status) {
+    case 'active':
+    case 'pending-cancellation':
+      return (
+        <div className="Preferences--backups-summary__status-container">
+          <div>
+            <div className="Preferences--backups-summary__type">
+              {i18n('icu:Preferences--backup-media-plan__description')}
+            </div>
+            <div className="Preferences--backups-summary__content">
+              {getSubscriptionDetails({ i18n, locale, subscriptionStatus })}
+            </div>
+          </div>
+        </div>
+      );
+    case 'free':
+      return (
+        <div className="Preferences--backups-summary__status-container">
+          <div>
+            <div className="Preferences--backups-summary__type">
+              {i18n('icu:Preferences--backup-messages-plan__description', {
+                mediaDayCount:
+                  subscriptionStatus.mediaIncludedInBackupDurationDays,
+              })}
+            </div>
+            <div className="Preferences--backups-summary__content">
+              {i18n('icu:Preferences--backup-messages-plan__cost-description')}
+            </div>
+          </div>
+        </div>
+      );
+    case 'not-found':
+    case 'expired':
+      return (
+        <div className="Preferences--backups-summary__status-container ">
+          <div className="Preferences--backups-summary__content">
+            {i18n('icu:Preferences--backup-plan-not-found__description')}
+          </div>
+        </div>
+      );
+    default:
+      throw missingCaseError(status);
+  }
+}
+
+function BackupsDetailsPage({
+  cloudBackupStatus,
+  backupSubscriptionStatus,
+  i18n,
+  locale,
+}: {
+  cloudBackupStatus?: BackupStatusType;
+  backupSubscriptionStatus?: BackupsSubscriptionType;
+  i18n: LocalizerType;
+  locale: string;
+}): JSX.Element {
+  return (
+    <>
+      <div className="Preferences--backups-summary__container">
+        {renderBackupsSubscriptionDetails({
+          subscriptionStatus: backupSubscriptionStatus,
+          i18n,
+          locale,
+        })}
+      </div>
+
+      {cloudBackupStatus ? (
+        <SettingsRow
+          className="Preferences--backup-details"
+          title={i18n('icu:Preferences--backup-details__header')}
+        >
+          {cloudBackupStatus.createdAt ? (
+            <div className="Preferences--backup-details__row">
+              <label>{i18n('icu:Preferences--backup-created-at__label')}</label>
+              <div
+                id="Preferences--backup-details__value"
+                className="Preferences--backup-details__value"
+              >
+                {/* TODO (DESKTOP-8509) */}
+                {i18n('icu:Preferences--backup-created-by-phone')}
+                <span className="Preferences--backup-details__value-divider" />
+                {formatTimestamp(cloudBackupStatus.createdAt, {
+                  dateStyle: 'medium',
+                  timeStyle: 'short',
+                })}
+              </div>
+            </div>
+          ) : null}
+        </SettingsRow>
+      ) : null}
+    </>
+  );
 }
