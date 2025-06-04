@@ -86,6 +86,7 @@ import { ToastType } from '../types/Toast';
 import { isProduction } from '../util/version';
 import type { ServerAlert } from '../util/handleServerAlerts';
 import { isAbortError } from '../util/isAbortError';
+import { missingCaseError } from '../util/missingCaseError';
 
 // Note: this will break some code that expects to be able to use err.response when a
 //   web request fails, because it will force it to text. But it is very useful for
@@ -674,7 +675,7 @@ export function makeKeysLowercase<V>(
   return lowerCase;
 }
 
-const URL_CALLS = {
+const CHAT_CALLS = {
   accountExistence: 'v1/accounts/account',
   attachmentUploadForm: 'v4/attachments/form/upload',
   attestation: 'v1/attestation',
@@ -685,21 +686,13 @@ const URL_CALLS = {
   devices: 'v1/devices',
   directoryAuthV2: 'v2/directory/auth',
   discovery: 'v1/discovery',
-  getGroupAvatarUpload: 'v1/groups/avatar/form',
   getGroupCredentials: 'v1/certificate/auth/group',
   getIceServers: 'v2/calling/relays',
-  getOnboardingStoryManifest:
-    'dynamic/desktop/stories/onboarding/manifest.json',
   getStickerPackUpload: 'v1/sticker/pack/form',
   getBackupCredentials: 'v1/archives/auth',
   getBackupCDNCredentials: 'v1/archives/auth/read',
   getBackupUploadForm: 'v1/archives/upload/form',
   getBackupMediaUploadForm: 'v1/archives/media/upload/form',
-  groupLog: 'v2/groups/logs',
-  groupJoinedAtVersion: 'v1/groups/joined_at_version',
-  groups: 'v2/groups',
-  groupsViaLink: 'v1/groups/join/',
-  groupToken: 'v1/groups/token',
   keys: 'v2/keys',
   linkDevice: 'v1/devices/link',
   messages: 'v1/messages',
@@ -713,15 +706,10 @@ const URL_CALLS = {
   callLinkCreateAuth: 'v1/call-link/create-auth',
   registration: 'v1/registration',
   registerCapabilities: 'v1/devices/capabilities',
-  releaseNotesManifest: 'dynamic/release-notes/release-notes-v2.json',
-  releaseNotes: 'static/release-notes',
   reportMessage: 'v1/messages/report',
   setBackupId: 'v1/archives/backupid',
   setBackupSignatureKey: 'v1/archives/keys',
   signed: 'v2/keys/signed',
-  storageManifest: 'v1/storage/manifest',
-  storageModify: 'v1/storage/',
-  storageRead: 'v1/storage/read',
   storageToken: 'v1/storage/auth',
   subscriptions: 'v1/subscription',
   subscriptionConfiguration: 'v1/subscription/configuration',
@@ -732,6 +720,25 @@ const URL_CALLS = {
   confirmUsername: 'v1/accounts/username_hash/confirm',
   usernameLink: 'v1/accounts/username_link',
   whoami: 'v1/accounts/whoami',
+};
+
+const STORAGE_CALLS = {
+  getGroupAvatarUpload: 'v1/groups/avatar/form',
+  groupLog: 'v2/groups/logs',
+  groupJoinedAtVersion: 'v1/groups/joined_at_version',
+  groups: 'v2/groups',
+  groupsViaLink: 'v1/groups/join/',
+  groupToken: 'v1/groups/token',
+  storageManifest: 'v1/storage/manifest',
+  storageModify: 'v1/storage/',
+  storageRead: 'v1/storage/read',
+};
+
+const RESOURCE_CALLS = {
+  getOnboardingStoryManifest:
+    'dynamic/desktop/stories/onboarding/manifest.json',
+  releaseNotesManifest: 'dynamic/release-notes/release-notes-v2.json',
+  releaseNotes: 'static/release-notes',
 };
 
 type InitializeOptionsType = {
@@ -757,38 +764,50 @@ export type MessageType = Readonly<{
   content: string;
 }>;
 
-type AjaxOptionsType<Type extends ResponseType, OutputShape = unknown> = {
+type AjaxChatOptionsType = {
+  host: 'chatService';
+  call: keyof typeof CHAT_CALLS;
+  unauthenticated?: true;
+  accessKey?: string;
+  groupSendToken?: GroupSendToken;
+  isRegistration?: true;
+};
+
+type AjaxStorageOptionsType = {
+  host: 'storageService';
+  call: keyof typeof STORAGE_CALLS;
   basicAuth?: string;
-  call: keyof typeof URL_CALLS;
+  disableSessionResumption?: true;
+} & ({ username: string; password: string } | object);
+
+type AjaxResourceOptionsType = {
+  host: 'resources';
+  call: keyof typeof RESOURCE_CALLS;
+};
+
+type AjaxResponseType =
+  | 'json'
+  | 'jsonwithdetails'
+  | 'bytes'
+  | 'byteswithdetails';
+
+type AjaxOptionsType<Type extends AjaxResponseType, OutputShape = unknown> = (
+  | AjaxStorageOptionsType
+  | AjaxResourceOptionsType
+  | AjaxChatOptionsType
+) & {
   contentType?: string;
   data?: Buffer | Uint8Array | string;
-  disableSessionResumption?: boolean;
   headers?: HeaderListType;
-  host?: string;
   httpType: HTTPCodeType;
   jsonData?: unknown;
-  password?: string;
   redactUrl?: RedactUrl;
   responseType?: Type;
   timeout?: number;
   urlParameters?: string;
-  username?: string;
   validateResponse?: any;
-  isRegistration?: true;
   abortSignal?: AbortSignal;
-} & (
-  | {
-      unauthenticated?: false;
-      accessKey?: string;
-      groupSendToken?: GroupSendToken;
-    }
-  | {
-      unauthenticated: true;
-      accessKey: undefined | string;
-      groupSendToken: undefined | GroupSendToken;
-    }
-) &
-  (Type extends 'json' | 'jsonwithdetails'
+} & (Type extends 'json' | 'jsonwithdetails'
     ? {
         zodSchema: Schema<unknown, OutputShape>;
       }
@@ -1922,6 +1941,7 @@ export function initialize({
 
       async getAuth() {
         return (await _ajax({
+          host: 'chatService',
           call: 'directoryAuthV2',
           httpType: 'GET',
           responseType: 'json',
@@ -2086,10 +2106,6 @@ export function initialize({
     function _ajax(
       param: AjaxOptionsType<'byteswithdetails', never>
     ): Promise<BytesWithDetailsType>;
-    function _ajax(param: AjaxOptionsType<'stream', never>): Promise<Readable>;
-    function _ajax(
-      param: AjaxOptionsType<'streamwithdetails', never>
-    ): Promise<StreamWithDetailsType>;
     function _ajax<OutputShape>(
       param: AjaxOptionsType<'json', OutputShape>
     ): Promise<OutputShape>;
@@ -2097,14 +2113,13 @@ export function initialize({
       param: AjaxOptionsType<'jsonwithdetails', OutputShape>
     ): Promise<JSONWithDetailsType<OutputShape>>;
 
-    async function _ajax<Type extends ResponseType, OutputShape>(
+    async function _ajax<Type extends AjaxResponseType, OutputShape>(
       param: AjaxOptionsType<Type, OutputShape>
     ): Promise<unknown> {
-      if (
-        !param.unauthenticated &&
-        activeRegistration &&
-        !param.isRegistration
-      ) {
+      const continueDuringRegistration =
+        param.host === 'chatService' &&
+        (param.unauthenticated || param.isRegistration);
+      if (activeRegistration && !continueDuringRegistration) {
         log.info('WebAPI: request blocked by active registration');
         const start = Date.now();
         await activeRegistration.promise;
@@ -2116,13 +2131,26 @@ export function initialize({
         param.urlParameters = '';
       }
 
-      // When host is not provided, assume chat service
-      const host = param.host || chatServiceUrl;
-      const useWebSocketForEndpoint = host === chatServiceUrl;
+      let host: string;
+      let path: string;
+      switch (param.host) {
+        case 'chatService':
+          [host, path] = [chatServiceUrl, CHAT_CALLS[param.call]];
+          break;
+        case 'resources':
+          [host, path] = [resourcesUrl, RESOURCE_CALLS[param.call]];
+          break;
+        case 'storageService':
+          [host, path] = [storageUrl, STORAGE_CALLS[param.call]];
+          break;
+        default:
+          throw missingCaseError(param);
+      }
+      const useWebSocketForEndpoint = param.host === 'chatService';
 
       const outerParams: PromiseAjaxOptionsType<Type, OutputShape> = {
         socketManager: useWebSocketForEndpoint ? socketManager : undefined,
-        basicAuth: param.basicAuth,
+        basicAuth: 'basicAuth' in param ? param.basicAuth : undefined,
         certificateAuthority,
         chatServiceUrl,
         contentType: param.contentType || 'application/json; charset=utf-8',
@@ -2131,20 +2159,22 @@ export function initialize({
           (param.jsonData ? JSON.stringify(param.jsonData) : undefined),
         headers: param.headers,
         host,
-        password: param.password ?? password,
-        path: URL_CALLS[param.call] + param.urlParameters,
+        password: 'password' in param ? param.password : password,
+        path: path + param.urlParameters,
         proxyUrl,
         responseType: param.responseType ?? ('raw' as Type),
         timeout: param.timeout,
         type: param.httpType,
-        user: param.username ?? username,
+        user: 'username' in param ? param.username : username,
         redactUrl: param.redactUrl,
         storageUrl,
         validateResponse: param.validateResponse,
         version,
-        unauthenticated: param.unauthenticated,
-        accessKey: param.accessKey,
-        groupSendToken: param.groupSendToken,
+        unauthenticated:
+          'unauthenticated' in param ? param.unauthenticated : undefined,
+        accessKey: 'accessKey' in param ? param.accessKey : undefined,
+        groupSendToken:
+          'groupSendToken' in param ? param.groupSendToken : undefined,
         abortSignal: param.abortSignal,
         zodSchema: param.zodSchema,
       };
@@ -2193,6 +2223,7 @@ export function initialize({
 
     async function whoami(): Promise<WhoamiResultType> {
       return _ajax({
+        host: 'chatService',
         call: 'whoami',
         httpType: 'GET',
         responseType: 'json',
@@ -2202,6 +2233,7 @@ export function initialize({
 
     async function sendChallengeResponse(challengeResponse: ChallengeType) {
       await _ajax({
+        host: 'chatService',
         call: 'challenge',
         httpType: 'PUT',
         jsonData: challengeResponse,
@@ -2273,6 +2305,7 @@ export function initialize({
 
     async function getConfig() {
       const { data, response } = await _ajax({
+        host: 'chatService',
         call: 'config',
         httpType: 'GET',
         responseType: 'jsonwithdetails',
@@ -2300,6 +2333,7 @@ export function initialize({
 
     async function getSenderCertificate(omitE164?: boolean) {
       return (await _ajax({
+        host: 'chatService',
         call: 'deliveryCert',
         httpType: 'GET',
         responseType: 'json',
@@ -2312,6 +2346,7 @@ export function initialize({
 
     async function getStorageCredentials(): Promise<StorageServiceCredentials> {
       return _ajax({
+        host: 'chatService',
         call: 'storageToken',
         httpType: 'GET',
         responseType: 'json',
@@ -2322,7 +2357,7 @@ export function initialize({
     async function getOnboardingStoryManifest() {
       const res = await _ajax({
         call: 'getOnboardingStoryManifest',
-        host: resourcesUrl,
+        host: 'resources',
         httpType: 'GET',
         responseType: 'json',
         // TODO DESKTOP-8719
@@ -2344,7 +2379,7 @@ export function initialize({
     }): Promise<string | undefined> {
       const { response } = await _ajax({
         call: 'releaseNotes',
-        host: resourcesUrl,
+        host: 'resources',
         httpType: 'HEAD',
         urlParameters: `/${uuid}/${locale}.json`,
         responseType: 'byteswithdetails',
@@ -2367,7 +2402,7 @@ export function initialize({
     }): Promise<ReleaseNoteResponseType> {
       return _ajax({
         call: 'releaseNotes',
-        host: resourcesUrl,
+        host: 'resources',
         httpType: 'GET',
         responseType: 'json',
         urlParameters: `/${uuid}/${locale}.json`,
@@ -2378,7 +2413,7 @@ export function initialize({
     async function getReleaseNotesManifest(): Promise<ReleaseNotesManifestResponseType> {
       return _ajax({
         call: 'releaseNotesManifest',
-        host: resourcesUrl,
+        host: 'resources',
         httpType: 'GET',
         responseType: 'json',
         zodSchema: releaseNotesManifestSchema,
@@ -2388,7 +2423,7 @@ export function initialize({
     async function getReleaseNotesManifestHash(): Promise<string | undefined> {
       const { response } = await _ajax({
         call: 'releaseNotesManifest',
-        host: resourcesUrl,
+        host: 'resources',
         httpType: 'HEAD',
         responseType: 'byteswithdetails',
       });
@@ -2432,7 +2467,7 @@ export function initialize({
       const { data, response } = await _ajax({
         call: 'storageManifest',
         contentType: 'application/x-protobuf',
-        host: storageUrl,
+        host: 'storageService',
         httpType: 'GET',
         responseType: 'byteswithdetails',
         urlParameters: greaterThanVersion
@@ -2464,7 +2499,7 @@ export function initialize({
         call: 'storageRead',
         contentType: 'application/x-protobuf',
         data,
-        host: storageUrl,
+        host: 'storageService',
         httpType: 'PUT',
         responseType: 'bytes',
         ...credentials,
@@ -2481,7 +2516,7 @@ export function initialize({
         call: 'storageModify',
         contentType: 'application/x-protobuf',
         data,
-        host: storageUrl,
+        host: 'storageService',
         httpType: 'PUT',
         // If we run into a conflict, the current manifest is returned -
         //   it will will be an Uint8Array at the response key on the Error
@@ -2492,6 +2527,7 @@ export function initialize({
 
     async function registerCapabilities(capabilities: CapabilitiesUploadType) {
       await _ajax({
+        host: 'chatService',
         call: 'registerCapabilities',
         httpType: 'PUT',
         jsonData: capabilities,
@@ -2502,6 +2538,7 @@ export function initialize({
       elements: VerifyServiceIdRequestType
     ) {
       const res = await _ajax({
+        host: 'chatService',
         data: JSON.stringify({ elements }),
         call: 'batchIdentityCheck',
         httpType: 'POST',
@@ -2557,6 +2594,7 @@ export function initialize({
         options;
 
       return (await _ajax({
+        host: 'chatService',
         call: 'profile',
         httpType: 'GET',
         urlParameters: getProfileUrl(serviceId, options),
@@ -2594,6 +2632,7 @@ export function initialize({
 
         // eslint-disable-next-line no-await-in-loop
         const { data, response } = await _ajax({
+          host: 'chatService',
           call: 'transferArchive',
           httpType: 'GET',
           responseType: 'jsonwithdetails',
@@ -2628,6 +2667,7 @@ export function initialize({
     }: GetAccountForUsernameOptionsType) {
       const hashBase64 = toWebSafeBase64(Bytes.toBase64(hash));
       return _ajax({
+        host: 'chatService',
         call: 'username',
         httpType: 'GET',
         urlParameters: `/${hashBase64}`,
@@ -2644,6 +2684,7 @@ export function initialize({
       jsonData: ProfileRequestDataType
     ): Promise<UploadAvatarHeadersOrOtherType> {
       return _ajax({
+        host: 'chatService',
         call: 'profile',
         httpType: 'PUT',
         responseType: 'json',
@@ -2674,6 +2715,7 @@ export function initialize({
       }
 
       return (await _ajax({
+        host: 'chatService',
         call: 'profile',
         httpType: 'GET',
         urlParameters: getProfileUrl(serviceId, options),
@@ -2748,6 +2790,7 @@ export function initialize({
       userLanguages: ReadonlyArray<string>
     ): Promise<unknown> {
       return _ajax({
+        host: 'chatService',
         call: 'subscriptionConfiguration',
         httpType: 'GET',
         headers: {
@@ -2779,6 +2822,7 @@ export function initialize({
 
     async function deleteUsername(abortSignal?: AbortSignal) {
       await _ajax({
+        host: 'chatService',
         call: 'username',
         httpType: 'DELETE',
         abortSignal,
@@ -2790,6 +2834,7 @@ export function initialize({
       abortSignal,
     }: ReserveUsernameOptionsType) {
       return _ajax({
+        host: 'chatService',
         call: 'reserveUsername',
         httpType: 'PUT',
         jsonData: {
@@ -2809,6 +2854,7 @@ export function initialize({
       abortSignal,
     }: ConfirmUsernameOptionsType): Promise<ConfirmUsernameResultType> {
       return _ajax({
+        host: 'chatService',
         call: 'confirmUsername',
         httpType: 'PUT',
         jsonData: {
@@ -2827,6 +2873,7 @@ export function initialize({
       keepLinkHandle,
     }: ReplaceUsernameLinkOptionsType): Promise<ReplaceUsernameLinkResultType> {
       return _ajax({
+        host: 'chatService',
         call: 'usernameLink',
         httpType: 'PUT',
         responseType: 'json',
@@ -2842,6 +2889,7 @@ export function initialize({
 
     async function deleteUsernameLink(): Promise<void> {
       await _ajax({
+        host: 'chatService',
         call: 'usernameLink',
         httpType: 'DELETE',
       });
@@ -2851,6 +2899,7 @@ export function initialize({
       serverId: string
     ): Promise<ResolveUsernameLinkResultType> {
       return _ajax({
+        host: 'chatService',
         httpType: 'GET',
         call: 'usernameLink',
         urlParameters: `/${encodeURIComponent(serverId)}`,
@@ -2870,6 +2919,7 @@ export function initialize({
       const jsonData = { token };
 
       await _ajax({
+        host: 'chatService',
         call: 'reportMessage',
         httpType: 'POST',
         urlParameters: urlPathFromComponents([senderAci, serverGuid]),
@@ -2910,6 +2960,7 @@ export function initialize({
     async function checkAccountExistence(serviceId: ServiceIdString) {
       try {
         await _ajax({
+          host: 'chatService',
           httpType: 'HEAD',
           call: 'accountExistence',
           urlParameters: `/${serviceId}`,
@@ -3094,6 +3145,7 @@ export function initialize({
         },
         async () => {
           const response = await _ajax({
+            host: 'chatService',
             isRegistration: true,
             call: 'linkDevice',
             httpType: 'PUT',
@@ -3114,6 +3166,7 @@ export function initialize({
 
       const [, deviceId] = username.split('.');
       await _ajax({
+        host: 'chatService',
         call: 'devices',
         httpType: 'DELETE',
         urlParameters: `/${deviceId}`,
@@ -3122,6 +3175,7 @@ export function initialize({
 
     async function getDevices() {
       return _ajax({
+        host: 'chatService',
         call: 'devices',
         httpType: 'GET',
         responseType: 'json',
@@ -3131,6 +3185,7 @@ export function initialize({
 
     async function updateDeviceName(deviceName: string) {
       await _ajax({
+        host: 'chatService',
         call: 'updateDeviceName',
         httpType: 'PUT',
         jsonData: {
@@ -3141,6 +3196,7 @@ export function initialize({
 
     async function getIceServers() {
       return (await _ajax({
+        host: 'chatService',
         call: 'getIceServers',
         httpType: 'GET',
         responseType: 'json',
@@ -3210,6 +3266,7 @@ export function initialize({
       };
 
       await _ajax({
+        host: 'chatService',
         isRegistration: true,
         call: 'keys',
         urlParameters: `?${serviceIdKindToQuery(serviceIdKind)}`,
@@ -3220,6 +3277,7 @@ export function initialize({
 
     async function getBackupInfo(headers: BackupPresentationHeadersType) {
       return _ajax({
+        host: 'chatService',
         call: 'backup',
         httpType: 'GET',
         unauthenticated: true,
@@ -3295,6 +3353,7 @@ export function initialize({
       headers: BackupPresentationHeadersType
     ): Promise<AttachmentUploadFormResponseType> {
       return _ajax({
+        host: 'chatService',
         call: 'getBackupMediaUploadForm',
         httpType: 'GET',
         unauthenticated: true,
@@ -3348,6 +3407,7 @@ export function initialize({
       headers: BackupPresentationHeadersType
     ): Promise<AttachmentUploadFormResponseType> {
       return _ajax({
+        host: 'chatService',
         call: 'getBackupUploadForm',
         httpType: 'GET',
         unauthenticated: true,
@@ -3361,6 +3421,7 @@ export function initialize({
 
     async function refreshBackup(headers: BackupPresentationHeadersType) {
       await _ajax({
+        host: 'chatService',
         call: 'backup',
         httpType: 'POST',
         unauthenticated: true,
@@ -3377,6 +3438,7 @@ export function initialize({
       const startDayInSeconds = startDayInMs / SECOND;
       const endDayInSeconds = endDayInMs / SECOND;
       return _ajax({
+        host: 'chatService',
         call: 'getBackupCredentials',
         httpType: 'GET',
         urlParameters:
@@ -3392,6 +3454,7 @@ export function initialize({
       cdn,
     }: GetBackupCDNCredentialsOptionsType) {
       return _ajax({
+        host: 'chatService',
         call: 'getBackupCDNCredentials',
         httpType: 'GET',
         unauthenticated: true,
@@ -3409,6 +3472,7 @@ export function initialize({
       mediaBackupAuthCredentialRequest,
     }: SetBackupIdOptionsType) {
       await _ajax({
+        host: 'chatService',
         call: 'setBackupId',
         httpType: 'PUT',
         jsonData: {
@@ -3427,6 +3491,7 @@ export function initialize({
       backupIdPublicKey,
     }: SetBackupSignatureKeyOptionsType) {
       await _ajax({
+        host: 'chatService',
         call: 'setBackupSignatureKey',
         httpType: 'PUT',
         unauthenticated: true,
@@ -3444,6 +3509,7 @@ export function initialize({
       items,
     }: BackupMediaBatchOptionsType) {
       return _ajax({
+        host: 'chatService',
         call: 'backupMediaBatch',
         httpType: 'PUT',
         unauthenticated: true,
@@ -3482,6 +3548,7 @@ export function initialize({
       mediaToDelete,
     }: BackupDeleteMediaOptionsType) {
       await _ajax({
+        host: 'chatService',
         call: 'backupMediaDelete',
         httpType: 'POST',
         unauthenticated: true,
@@ -3512,6 +3579,7 @@ export function initialize({
       params.push(`limit=${limit}`);
 
       return _ajax({
+        host: 'chatService',
         call: 'backupMedia',
         httpType: 'GET',
         unauthenticated: true,
@@ -3528,6 +3596,7 @@ export function initialize({
       requestBase64: string
     ): Promise<CallLinkCreateAuthResponseType> {
       return _ajax({
+        host: 'chatService',
         call: 'callLinkCreateAuth',
         httpType: 'POST',
         responseType: 'json',
@@ -3538,6 +3607,7 @@ export function initialize({
 
     async function setPhoneNumberDiscoverability(newValue: boolean) {
       await _ajax({
+        host: 'chatService',
         call: 'phoneNumberDiscoverability',
         httpType: 'PUT',
         jsonData: {
@@ -3550,6 +3620,7 @@ export function initialize({
       serviceIdKind: ServiceIdKind
     ): Promise<z.infer<typeof ServerKeyCountSchema>> {
       return _ajax({
+        host: 'chatService',
         call: 'keys',
         urlParameters: `?${serviceIdKindToQuery(serviceIdKind)}`,
         httpType: 'GET',
@@ -3625,6 +3696,7 @@ export function initialize({
       deviceId?: number
     ) {
       const keys = await _ajax({
+        host: 'chatService',
         call: 'keys',
         httpType: 'GET',
         urlParameters: `/${serviceId}/${deviceId || '*'}`,
@@ -3643,6 +3715,7 @@ export function initialize({
       }: { accessKey?: string; groupSendToken?: GroupSendToken } = {}
     ) {
       const keys = await _ajax({
+        host: 'chatService',
         call: 'keys',
         httpType: 'GET',
         urlParameters: `/${serviceId}/${deviceId || '*'}`,
@@ -3681,6 +3754,7 @@ export function initialize({
       };
 
       await _ajax({
+        host: 'chatService',
         call: 'messages',
         httpType: 'PUT',
         urlParameters: `/${destination}?story=${booleanToString(story)}`,
@@ -3712,6 +3786,7 @@ export function initialize({
       };
 
       await _ajax({
+        host: 'chatService',
         call: 'messages',
         httpType: 'PUT',
         urlParameters: `/${destination}?story=${booleanToString(story)}`,
@@ -3746,6 +3821,7 @@ export function initialize({
       const storyParam = `&story=${booleanToString(story)}`;
 
       const response = await _ajax({
+        host: 'chatService',
         call: 'multiRecipient',
         httpType: 'PUT',
         contentType: 'application/vnd.signal-messenger.mrm',
@@ -3891,6 +3967,7 @@ export function initialize({
     ) {
       // Get manifest and sticker upload parameters
       const { packId, manifest, stickers } = await _ajax({
+        host: 'chatService',
         call: 'getStickerPackUpload',
         responseType: 'json',
         httpType: 'GET',
@@ -4140,6 +4217,7 @@ export function initialize({
 
     async function getAttachmentUploadForm(): Promise<AttachmentUploadFormResponseType> {
       return _ajax({
+        host: 'chatService',
         call: 'attachmentUploadForm',
         httpType: 'GET',
         responseType: 'json',
@@ -4365,6 +4443,7 @@ export function initialize({
       const endDayInSeconds = endDayInMs / SECOND;
 
       const response = await _ajax({
+        host: 'chatService',
         call: 'getGroupCredentials',
         urlParameters:
           `?redemptionStartSeconds=${startDayInSeconds}&` +
@@ -4393,7 +4472,7 @@ export function initialize({
         httpType: 'GET',
         contentType: 'application/x-protobuf',
         responseType: 'bytes',
-        host: storageUrl,
+        host: 'storageService',
         disableSessionResumption: true,
       });
 
@@ -4465,7 +4544,7 @@ export function initialize({
         call: 'getGroupAvatarUpload',
         httpType: 'GET',
         responseType: 'bytes',
-        host: storageUrl,
+        host: 'storageService',
         disableSessionResumption: true,
       });
       const attributes = Proto.AvatarUploadAttributes.decode(response);
@@ -4515,7 +4594,7 @@ export function initialize({
         call: 'groups',
         contentType: 'application/x-protobuf',
         data,
-        host: storageUrl,
+        host: 'storageService',
         disableSessionResumption: true,
         httpType: 'PUT',
         responseType: 'bytes',
@@ -4536,7 +4615,7 @@ export function initialize({
         basicAuth,
         call: 'groups',
         contentType: 'application/x-protobuf',
-        host: storageUrl,
+        host: 'storageService',
         disableSessionResumption: true,
         httpType: 'GET',
         responseType: 'bytes',
@@ -4561,7 +4640,7 @@ export function initialize({
         basicAuth,
         call: 'groupsViaLink',
         contentType: 'application/x-protobuf',
-        host: storageUrl,
+        host: 'storageService',
         disableSessionResumption: true,
         httpType: 'GET',
         responseType: 'bytes',
@@ -4593,7 +4672,7 @@ export function initialize({
         call: 'groups',
         contentType: 'application/x-protobuf',
         data,
-        host: storageUrl,
+        host: 'storageService',
         disableSessionResumption: true,
         httpType: 'PATCH',
         responseType: 'bytes',
@@ -4631,7 +4710,7 @@ export function initialize({
           basicAuth,
           call: 'groupJoinedAtVersion',
           contentType: 'application/x-protobuf',
-          host: storageUrl,
+          host: 'storageService',
           disableSessionResumption: true,
           httpType: 'GET',
           responseType: 'byteswithdetails',
@@ -4652,7 +4731,7 @@ export function initialize({
         basicAuth,
         call: 'groupLog',
         contentType: 'application/x-protobuf',
-        host: storageUrl,
+        host: 'storageService',
         disableSessionResumption: true,
         httpType: 'GET',
         responseType: 'byteswithdetails',
@@ -4706,6 +4785,7 @@ export function initialize({
     ): Promise<SubscriptionResponseType> {
       const formattedId = toWebSafeBase64(Bytes.toBase64(subscriberId));
       return _ajax({
+        host: 'chatService',
         call: 'subscriptions',
         httpType: 'GET',
         urlParameters: `/${formattedId}`,
