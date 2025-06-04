@@ -82,14 +82,20 @@ import type { UnreadStats } from '../util/countUnreadStats';
 import type { MessageCountBySchemaVersionType } from '../sql/Interface';
 import type { MessageAttributesType } from '../model-types';
 import type { BadgeType } from '../badges/types';
+import { isBackupPage } from '../types/PreferencesBackupPage';
+import type { PreferencesBackupPage } from '../types/PreferencesBackupPage';
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
 
 export type PropsDataType = {
   // Settings
+  accountEntropyPool: string | undefined;
   autoDownloadAttachment: AutoDownloadAttachmentType;
   backupFeatureEnabled: boolean;
+  backupKeyViewed: boolean;
+  backupLocalBackupsEnabled: boolean;
+  localBackupFolder: string | undefined;
   blockedCount: number;
   cloudBackupStatus?: BackupStatusType;
   backupSubscriptionStatus?: BackupsSubscriptionType;
@@ -195,6 +201,7 @@ type PropsFunctionType = {
   getConversationsWithCustomColor: (colorId: string) => Array<ConversationType>;
   makeSyncRequest: () => unknown;
   onStartUpdate: () => unknown;
+  pickLocalBackupFolder: () => Promise<string | undefined>;
   refreshCloudBackupStatus: () => void;
   refreshBackupSubscriptionStatus: () => void;
   removeCustomColor: (colorId: string) => unknown;
@@ -221,6 +228,7 @@ type PropsFunctionType = {
   ) => unknown;
   onAutoDownloadUpdateChange: CheckboxChangeHandlerType;
   onAutoLaunchChange: CheckboxChangeHandlerType;
+  onBackupKeyViewedChange: (keyViewed: boolean) => void;
   onCallNotificationsChange: CheckboxChangeHandlerType;
   onCallRingtoneNotificationChange: CheckboxChangeHandlerType;
   onContentProtectionChange: CheckboxChangeHandlerType;
@@ -277,6 +285,11 @@ export enum Page {
   // Sub pages
   ChatColor = 'ChatColor',
   PNP = 'PNP',
+  BackupsDetails = 'BackupsDetails',
+  LocalBackups = 'LocalBackups',
+  LocalBackupsSetupFolder = 'LocalBackupsSetupFolder',
+  LocalBackupsSetupKey = 'LocalBackupsSetupKey',
+  LocalBackupsKeyReference = 'LocalBackupsKeyReference',
 }
 
 enum LanguageDialog {
@@ -308,6 +321,7 @@ const DEFAULT_ZOOM_FACTORS = [
 ];
 
 export function Preferences({
+  accountEntropyPool,
   addCustomColor,
   autoDownloadAttachment,
   availableCameras,
@@ -315,7 +329,9 @@ export function Preferences({
   availableMicrophones,
   availableSpeakers,
   backupFeatureEnabled,
+  backupKeyViewed,
   backupSubscriptionStatus,
+  backupLocalBackupsEnabled,
   badge,
   blockedCount,
   cloudBackupStatus,
@@ -369,6 +385,7 @@ export function Preferences({
   isInternalUser,
   isUpdateDownloaded,
   lastSyncTime,
+  localBackupFolder,
   makeSyncRequest,
   me,
   navTabsCollapsed,
@@ -378,6 +395,7 @@ export function Preferences({
   onAutoDownloadAttachmentChange,
   onAutoDownloadUpdateChange,
   onAutoLaunchChange,
+  onBackupKeyViewedChange,
   onCallNotificationsChange,
   onCallRingtoneNotificationChange,
   onContentProtectionChange,
@@ -412,6 +430,7 @@ export function Preferences({
   otherTabsUnreadStats,
   page,
   phoneNumber = '',
+  pickLocalBackupFolder,
   preferredSystemLocales,
   preferredWidthFromStorage,
   refreshCloudBackupStatus,
@@ -469,7 +488,8 @@ export function Preferences({
     setSelectedLanguageLocale(localeOverride);
   }
   const shouldShowBackupsPage =
-    backupFeatureEnabled && backupSubscriptionStatus != null;
+    (backupFeatureEnabled && backupSubscriptionStatus != null) ||
+    backupLocalBackupsEnabled;
 
   if (page === Page.Backups && !shouldShowBackupsPage) {
     setPage(Page.General);
@@ -1881,19 +1901,54 @@ export function Preferences({
         title={i18n('icu:Preferences__pnp--page-title')}
       />
     );
-  } else if (page === Page.Backups) {
+  } else if (isBackupPage(page)) {
+    let pageTitle: string | undefined;
+    if (page === Page.Backups || page === Page.BackupsDetails) {
+      pageTitle = i18n('icu:Preferences__button--backups');
+    } else if (page === Page.LocalBackups) {
+      pageTitle = i18n('icu:Preferences__local-backups');
+    }
+    // Local backups setup page titles intentionally left blank
+
+    let backPage: PreferencesBackupPage | undefined;
+    if (page === Page.LocalBackupsKeyReference) {
+      backPage = Page.LocalBackups;
+    } else if (page !== Page.Backups) {
+      backPage = Page.Backups;
+    }
+    let backButton: JSX.Element | undefined;
+    if (backPage) {
+      backButton = (
+        <button
+          aria-label={i18n('icu:goBack')}
+          className="Preferences__back-icon"
+          onClick={() => setPage(backPage)}
+          type="button"
+        />
+      );
+    }
+    const pageContents = (
+      <PreferencesBackups
+        accountEntropyPool={accountEntropyPool}
+        backupKeyViewed={backupKeyViewed}
+        backupSubscriptionStatus={backupSubscriptionStatus}
+        cloudBackupStatus={cloudBackupStatus}
+        i18n={i18n}
+        locale={resolvedLocale}
+        localBackupFolder={localBackupFolder}
+        onBackupKeyViewedChange={onBackupKeyViewedChange}
+        pickLocalBackupFolder={pickLocalBackupFolder}
+        page={page}
+        setPage={setPage}
+        showToast={showToast}
+      />
+    );
     content = (
       <PreferencesContent
-        contents={
-          <PreferencesBackups
-            i18n={i18n}
-            cloudBackupStatus={cloudBackupStatus}
-            backupSubscriptionStatus={backupSubscriptionStatus}
-            locale={resolvedLocale}
-          />
-        }
+        backButton={backButton}
+        contents={pageContents}
         contentsRef={settingsPaneRef}
-        title={i18n('icu:Preferences__button--backups')}
+        title={pageTitle}
       />
     );
   } else if (page === Page.Internal) {
@@ -2068,7 +2123,7 @@ export function Preferences({
                   className={classNames({
                     Preferences__button: true,
                     'Preferences__button--backups': true,
-                    'Preferences__button--selected': page === Page.Backups,
+                    'Preferences__button--selected': isBackupPage(page),
                   })}
                   onClick={() => setPage(Page.Backups)}
                 >
