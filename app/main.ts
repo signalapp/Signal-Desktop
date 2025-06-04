@@ -3122,7 +3122,15 @@ ipc.handle(
   'show-open-folder-dialog',
   async (
     _event,
-    { useMainWindow }: { useMainWindow: boolean } = { useMainWindow: false }
+    {
+      useMainWindow,
+      buttonLabel,
+      title,
+    }: {
+      useMainWindow: boolean;
+      buttonLabel?: string;
+      title?: string;
+    } = { useMainWindow: false }
   ) => {
     let canceled: boolean;
     let selectedDirPaths: ReadonlyArray<string>;
@@ -3138,12 +3146,16 @@ ipc.handle(
         {
           defaultPath: app.getPath('downloads'),
           properties: ['openDirectory', 'createDirectory'],
+          buttonLabel,
+          title,
         }
       ));
     } else {
       ({ canceled, filePaths: selectedDirPaths } = await dialog.showOpenDialog({
         defaultPath: app.getPath('downloads'),
         properties: ['openDirectory', 'createDirectory'],
+        buttonLabel,
+        title,
       }));
     }
 

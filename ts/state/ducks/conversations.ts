@@ -29,6 +29,7 @@ import { drop } from '../../util/drop';
 import type { DurationInSeconds } from '../../util/durations';
 import * as universalExpireTimer from '../../util/universalExpireTimer';
 import * as Attachment from '../../types/Attachment';
+import type { LocalizerType } from '../../types/I18N';
 import { AttachmentDownloadUrgency } from '../../types/AttachmentDownload';
 import { isFileDangerous } from '../../util/isFileDangerous';
 import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl';
@@ -4121,11 +4122,17 @@ function saveAttachment(
   };
 }
 
-const showSaveMultiDialog = (): Promise<{
+const showSaveMultiDialog = (
+  i18n: LocalizerType
+): Promise<{
   canceled: boolean;
   dirPath?: string;
 }> => {
-  return ipcRenderer.invoke('show-open-folder-dialog', { useMainWindow: true });
+  return ipcRenderer.invoke('show-open-folder-dialog', {
+    useMainWindow: true,
+    title: i18n('icu:SaveMultiDialog__title'),
+    buttonLabel: i18n('icu:save'),
+  });
 };
 
 export type SaveAttachmentsActionCreatorType = ReadonlyDeep<
@@ -4140,7 +4147,7 @@ function saveAttachments(
   attachments: ReadonlyArray<AttachmentType>,
   timestamp = Date.now()
 ): ThunkAction<void, RootStateType, unknown, ShowToastActionType> {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     // check if any of the attachments could be dangerous
     for (const attachment of attachments) {
       const { fileName = '' } = attachment;
@@ -4157,7 +4164,9 @@ function saveAttachments(
       }
     }
 
-    const { canceled, dirPath } = await showSaveMultiDialog();
+    const { canceled, dirPath } = await showSaveMultiDialog(
+      getIntl(getState())
+    );
     if (canceled || !dirPath) {
       return;
     }
