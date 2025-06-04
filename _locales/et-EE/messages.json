@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Andmebaasi viga. Palun jaga oma logisid."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Salvestusteenuselt saadi kehtetu vastus. Palun jaga oma logisid."
@@ -1269,7 +1269,7 @@
     "messageformat": "Kas vajad abi?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Sätted"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefoninumber"
@@ -6359,6 +6359,6 @@
     "messageformat": "Selle uuendusega parandati viga, mille tõttu oli keeruline lugude vahekaardil sisu vaatamise ajal Signali akent liigutada."
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "Nüüd saad oma sätteid muuta peakuvalt, mitte hüpikakna kaudu."
   }
 }

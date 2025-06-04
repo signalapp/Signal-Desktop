@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Napaka v podatkovni bazi: prosimo, delite svoje dnevnike."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Neveljaven odziv iz storitve shranjevanja. Prosimo, delite svoje dnevnike."
@@ -1269,7 +1269,7 @@
     "messageformat": "Potrebujete pomoč?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Nastavitve"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefonska številka"
@@ -6359,6 +6359,6 @@
     "messageformat": "Ta posodobitev odpravlja napako, ki je oteževala premikanje okna Signal med pregledovanjem vsebine v zavihku Zgodbe."
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "Nastavitve so bile prej v pojavnem oknu, zato smo jih vrnili nazaj. Ko zdaj prilagajate nastavitve, to počnete z glavnega zaslona."
   }
 }

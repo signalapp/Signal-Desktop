@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Earráid le bunachar sonraí: comhroinn do logaí."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Freagairt neamhbhailí soláthraí. Comhroinn do logaí."
@@ -1269,7 +1269,7 @@
     "messageformat": "An bhfuil cúnamh uait?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Socruithe"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Uimhir Ghutháin"
@@ -6359,6 +6359,6 @@
     "messageformat": "Réitíonn an nuashonrú seo fabht a bhí ina chúis le deacracht le fuinneog Signal a bhogadh agus tú ag féachaint ar ábhar sa táb Scéalta."
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "Anois, nuair a dhéanann tú do Shocruithe a choigeartú, déanfaidh tú ón bpríomhscáileán é in ionad fuinneog anuas."
   }
 }

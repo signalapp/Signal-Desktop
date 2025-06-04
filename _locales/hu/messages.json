@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Adatbázishiba: kérjük, oszd meg a naplófájljaid."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Érvénytelen szerver válasz. Kérjük, oszd meg a naplófájlokat."
@@ -1269,7 +1269,7 @@
     "messageformat": "Segítségre van szükséged?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Beállítások"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefonszám"
@@ -6359,6 +6359,6 @@
     "messageformat": "Ez a frissítés kijavít egy hibát, amely megnehezítette a Signal ablak mozgatását a Történetek lap tartalmainak megtekintése közben."
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "Mostantól, amikor módosítod a Beállításokat, a főképernyőn fogod megtenni az előugró ablak helyett."
   }
 }

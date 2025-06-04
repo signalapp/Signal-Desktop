@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "डेटाबेस से जुड़ी गड़बड़ी: कृपया अपने लॉग शेयर करें।"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "स्टोरेज सेवा से अमान्य जवाब मिला। कृपया अपने लॉग शेयर करें।"
@@ -1269,7 +1269,7 @@
     "messageformat": "मदद चाहिए?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "सेटिंग्स"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "फोन नंबर"
@@ -6359,6 +6359,6 @@
     "messageformat": "कभी-कभी एक अच्छी स्टोरी आपको भावुक कर सकती है, इसलिए हमने ऐसी गड़बड़ी को ठीक कर दिया है जिसकी वजह से स्टोरीज़ टैब में कंटेट देखते समय Signal विंडो की जगह बदलना मुश्किल हो रहा था।"
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "सेटिंग्स पॉप-आउट विंडो में रहती थीं, इसलिए हमने इन्हें वापस पॉप-इन कर दिया। अब आप मुख्य स्क्रीन से अपनी सेटिंग्स एडजस्ट कर पाएँगे।"
   }
 }

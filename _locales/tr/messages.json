@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Veritabanı hatası: Lütfen günlüklerini paylaş."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Geçersiz sunucu yanıtı. Lütfen günlüklerini paylaş."
@@ -1269,7 +1269,7 @@
     "messageformat": "Yardıma mı ihtiyacınız var?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Ayarlar"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefon Numarası"
@@ -6359,6 +6359,6 @@
     "messageformat": "Bu güncelleme, Hikayeler sekmesinde içerik görüntülenirken Signal penceresini hareket ettirmeyi zorlaştıran bir hatayı düzeltiyor."
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "Bundan böyle Ayarlarını yaparken, açılır bir pencere yerine ana ekrandan yapacaksın. Önceden Ayarlar açılır bir pencereden yapılırdı, artık o eski zamanlar kalmadı."
   }
 }

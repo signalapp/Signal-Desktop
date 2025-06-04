@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "데이터베이스 오류: 로그를 공유해 주세요."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "스토리지 서비스에서 잘못된 응답을 받았습니다. 로그를 공유해 주세요."
@@ -1269,7 +1269,7 @@
     "messageformat": "도움이 필요하신가요?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "설정"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "전화번호"
@@ -6359,6 +6359,6 @@
     "messageformat": "이 업데이트는 스토리 탭에서 콘텐츠를 볼 때 Signal 창을 옮기기 어렵게 만들었던 버그를 수정합니다."
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "이제 팝업 창이 아닌 메인 화면에서 설정을 조정하게 됩니다."
   }
 }

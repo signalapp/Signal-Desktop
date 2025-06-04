@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Ошибка базы данных: пожалуйста, поделитесь своими журналами отладки."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Получен неверный ответ от службы хранения. Пожалуйста, поделитесь своими журналами отладки."
@@ -1269,7 +1269,7 @@
     "messageformat": "Нужна помощь?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Настройки"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Номер телефона"
@@ -2283,7 +2283,7 @@
     "messageformat": "Стикеры"
   },
   "icu:FunPicker__Tab--Gifs": {
-    "messageformat": "GIF-анимации"
+    "messageformat": "GIFы"
   },
   "icu:FunPanelEmojis__SearchLabel": {
     "messageformat": "Искать эмодзи"
@@ -3114,7 +3114,7 @@
     "messageformat": "Переподключаемся…"
   },
   "icu:CallControls__InfoDisplay--participants": {
-    "messageformat": "{count, plural, one {{count,number} человека} few {{count,number} человек} many {{count,number} людей} other {{count,number} людей}}"
+    "messageformat": "{count, plural, one {{count,number} человек} few {{count,number} человека} many {{count,number} человек} other {{count,number} человека}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
     "messageformat": "Аудиозвонок"
@@ -3288,7 +3288,7 @@
     "messageformat": "Заблокировать от звонка"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} человека} few {{count,number} человек} many {{count,number} людей} other {{count,number} людей}}"
+    "messageformat": "{count, plural, one {{count,number} человек} few {{count,number} человека} many {{count,number} человек} other {{count,number} человека}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
     "messageformat": "{count, plural, one {+ ещё {count,number}} few {+ ещё {count,number}} many {+ ещё {count,number}} other {+ ещё {count,number}}}"
@@ -4248,7 +4248,7 @@
     "messageformat": "{number, plural, one {{number,number} участник} few {{number,number} участника} many {{number,number} участников} other {{number,number} участника}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
-    "messageformat": "Добавлять участников"
+    "messageformat": "Добавить участников"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Просмотреть все"
@@ -4449,7 +4449,7 @@
     "messageformat": "Добавлять участников"
   },
   "icu:AddGroupMembersModal--continue-to-confirm": {
-    "messageformat": "Обновить"
+    "messageformat": "Добавить"
   },
   "icu:AddGroupMembersModal--confirm-title--one": {
     "messageformat": "Добавить {person} в «{group}»?"
@@ -5995,7 +5995,7 @@
     "messageformat": "Копировать в буфер обмена"
   },
   "icu:UsernameLinkModalBody__help": {
-    "messageformat": "Передавайте ваш QR-код и ссылку только тем людям, которым вы доверяете. При передаче другие смогут увидеть ваше имя пользователя и начать чат с вами."
+    "messageformat": "Передавайте ваш QR-код и ссылку только тем людям, которым вы доверяете. При передаче иные смогут увидеть ваше имя пользователя и начать чат с вами."
   },
   "icu:UsernameLinkModalBody__reset": {
     "messageformat": "Сбросить"
@@ -6359,6 +6359,6 @@
     "messageformat": "Иногда впечатляющая история может привести в движение ваши чувства, поэтому мы исправили ошибку, из-за которой было сложно передвигать окно Signal во время просмотра контента на вкладке «Истории»."
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "Раньше настройки появлялись во всплывающем окне, но мы всё перенастроили. Теперь вы будете менять свои настройки с главного экрана."
   }
 }

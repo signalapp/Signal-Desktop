@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "ข้อผิดพลาดเกี่ยวกับฐานข้อมูล: โปรดแชร์บันทึกดีบักของคุณ"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "การตอบรับจากเซิร์ฟเวอร์ไม่ถูกต้อง โปรดแชร์บันทึกดีบักของคุณ"
@@ -1269,7 +1269,7 @@
     "messageformat": "ต้องการความช่วยเหลือหรือไม่?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "การตั้งค่า"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "หมายเลขโทรศัพท์"
@@ -6359,6 +6359,6 @@
     "messageformat": "แก้ไขบั๊กที่เคยเป็นอุปสรรคเวลาที่ต้องการลากย้ายหรือขยับตำแหน่งหน้าต่าง Signal ในระหว่างกำลังเปิดดูแท็บสตอรี่"
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "พัฒนาให้คุณปรับแต่งการตั้งค่าได้แบบสะดวกทันใจในหน้าต่างหลัก ไม่ต้องเปิดหน้าใหม่แยกออกมาให้ยุ่งยากอีกต่อไป"
   }
 }

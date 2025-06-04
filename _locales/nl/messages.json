@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Databasefout: deel je logs."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Ongeldige reactie van de opslagservice ontvangen. Deel alsjeblieft je logs."
@@ -1269,7 +1269,7 @@
     "messageformat": "Hulp nodig?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Instellingen"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefoonnummer"
@@ -6359,6 +6359,6 @@
     "messageformat": "Deze update lost een fout op die het moeilijk maakte om het Signal-venster te verplaatsen wanneer je content op het tabblad Verhalen aan het bekijken was."
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "Je instellingen aanpassen doe je nu vanaf het hoofdscherm in plaats van via een pop-upvenster."
   }
 }

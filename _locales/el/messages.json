@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Σφάλμα βάσης δεδομένων: κοινοποίησε τα αρχεία καταγραφής σου."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Μη έγκυρη απόκριση από την υπηρεσία αποθήκευσης. Κοινοποίησε τα αρχεία καταγραφής σου."
@@ -1269,7 +1269,7 @@
     "messageformat": "Χρειάζεσαι βοήθεια;"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Ρυθμίσεις"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Αριθμός τηλεφώνου"
@@ -6359,6 +6359,6 @@
     "messageformat": "Αυτή η ενημέρωση διορθώνει ένα σφάλμα που καθιστούσε δύσκολη τη μετακίνηση του παραθύρου Signal κατά την προβολή περιεχομένου στην καρτέλα Ιστοριών."
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "Τώρα, όταν προσαρμόζεις τις Ρυθμίσεις σου, θα το κάνεις από την κύρια οθόνη αντί από ένα αναδυόμενο παράθυρο."
   }
 }

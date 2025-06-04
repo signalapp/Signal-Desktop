@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Hitilafu ya kanzidata: tafadhali tuma kumbukumbu zako."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Umepokea majibu yasiyo sahihi kutoka huduma za uhifadhi. Tafadhali tuma logs zako."
@@ -1269,7 +1269,7 @@
     "messageformat": "Unahitaji usaidizi?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Mipangilio"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Nambari ya Simu"
@@ -6359,6 +6359,6 @@
     "messageformat": "Wakati mwingine stori ya kusisimua inaweza kukuhamasisha, kwa hiyo tulirekebisha hitilafu ambayo ilifanya iwe vigumu kusogeza dirisha la Signal ukiwa unatazama maudhui kwenye kichupo cha Stori."
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "Mipangilio ilikuwa ikichomoza kwenye dirisha ibukizi, hivyo tumeificha. Sasa, unapokuwa unarekebisha Mipangilio yako, utafanya hivyo ukiwa kwenye skrini kuu."
   }
 }

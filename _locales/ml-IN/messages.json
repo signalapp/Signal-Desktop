@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "ഡാറ്റാബേസ് പിശക്: നിങ്ങളുടെ ലോഗുകൾ പങ്കിടൂ."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "സംഭരണ സേവനത്തിൽ നിന്ന് അസാധുവായ പ്രതികരണം ലഭിച്ചു. നിങ്ങളുടെ ലോഗുകൾ പങ്കിടുക."
@@ -1269,7 +1269,7 @@
     "messageformat": "സഹായം ആവശ്യമുണ്ടോ?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "ക്രമീകരണങ്ങൾ"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "ഫോൺ നമ്പർ"
@@ -6359,6 +6359,6 @@
     "messageformat": "ചിലപ്പോൾ ശക്തമായ ഒരു കഥ നിങ്ങളെ ശരിക്കും സ്പർശിച്ചേക്കാം, അതിനാൽ 'സ്റ്റോറികൾ' ടാബിൽ ഉള്ളടക്കം കാണുമ്പോൾ Signal വിൻഡോ നീക്കുന്നത് ബുദ്ധിമുട്ടാക്കുന്ന ഒരു ബഗ് ഞങ്ങൾ പരിഹരിച്ചു."
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "ക്രമീകരണങ്ങൾ ഒരു പോപ്പ്-ഔട്ട് വിൻഡോയിൽ വന്നിരുന്നതിനാൽ ഞങ്ങൾ അത് തിരിച്ച് പോപ്പ് ഇൻ ചെയ്‌തു. ഇനി, നിങ്ങൾ ക്രമീകരണങ്ങൾ മാറ്റുമ്പോൾ, നിങ്ങൾ അത് പ്രധാന സ്ക്രീനിൽ നിന്ന് ചെയ്യും."
   }
 }

@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Грешка со базата на податоци: ве молиме споделете ги вашите записи."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Добиен е невалиден одговор од услугата за складирање. Ве молиме споделете ги вашите записи."
@@ -1269,7 +1269,7 @@
     "messageformat": "Потребна Ви е помош?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Поставувања"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Телефонски број"
@@ -6359,6 +6359,6 @@
     "messageformat": "Во оваа верзија решена е грешка што го отежнуваше поместувањето на Signal прозорецот при гледање содржина во картичката со Приказни."
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "Сега, поставувањата ќе ги менувате од главниот екран наместо од посебно прозорче."
   }
 }

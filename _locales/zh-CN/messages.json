@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "数据库错误：请分享您的日志。"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "存储服务返回无效响应。请分享您的日志。"
@@ -1269,7 +1269,7 @@
     "messageformat": "需要协助？"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "设置"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "手机号码"
@@ -6359,6 +6359,6 @@
     "messageformat": "此次更新修复了一个漏洞，该漏洞会导致用户在查看动态选项卡的内容时难以切换到 Signal 窗口。"
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "现在当您调整设置时，您将从主屏幕而不是从弹出窗口进行调整。"
   }
 }

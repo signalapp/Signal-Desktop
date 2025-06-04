@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "שגיאת מסד נתונים: יש נא לשתף את היומנים שלך."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "התקבלה תגובה לא חוקית משירות האחסון. יש לשתף את יומני ניפוי הבאגים שלך."
@@ -1269,7 +1269,7 @@
     "messageformat": "צריך עזרה?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "הגדרות"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "מספר טלפון"
@@ -6359,6 +6359,6 @@
     "messageformat": "עדכון זה מתקן באג שהקשה על המעבר לחלון Signal בזמן הצפייה בתוכן בלשונית הסטוריז."
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "מעכשיו, שינוי ההגדרות שלך יתבצע מתוך המסך הראשי במקום חלון קופץ."
   }
 }

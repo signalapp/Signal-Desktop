@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Database error: paki share ng logs mo."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Nakatanggap ng invalid response mula sa storage service. Mangyaring i-share ang iyong logs."
@@ -6359,6 +6359,6 @@
     "messageformat": "Inayos ng update na ito ang bug na nagpapahirap sa paglipat ng Signal window habang tumitingin ng content sa Stories tab."
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "Ngayon, kapag in-adjust mo ang iyong Settings, magagawa mo na ito sa main screen sa halip na sa pop-up window."
   }
 }

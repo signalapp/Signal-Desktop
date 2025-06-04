@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "தரவுதளப்பிழை: உங்கள் பதிவுகளைப் பகிருங்கள்."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "சேமிப்பகச் சேவையிலிருந்து தவறான பதில் கிடைத்தது. உங்கள் பதிவுகளைப் பகிருங்கள்."
@@ -1269,7 +1269,7 @@
     "messageformat": "உங்களுக்கு உதவி வேண்டுமா?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "அமைப்புகள்"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "தொலைபேசி எண்"
@@ -6359,6 +6359,6 @@
     "messageformat": "ஸ்டோரீஸ் டேப்-இல் உள்ளடக்கத்தைப் பார்க்கும்போது சிக்னல் திரையை நகர்த்துவது கடினமாக இருந்தது. அந்தப் பிழையை இந்தப் புதுப்பிப்பு சரிசெய்கிறது."
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "அமைப்புகள் பாப்-அவுட் சாளரத்தில் இருந்ததால், அதை மீண்டும் பாப் செய்தோம். இப்போது, நீங்கள் உங்கள் அமைப்புகளைச் சரிசெய்யும்போது, அதை பிரதான திரையில் இருந்து செய்வீர்கள்."
   }
 }

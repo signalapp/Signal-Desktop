@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "ਡਾਟਾਬੇਸ ਗੜਬੜੀ: ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੇ ਲੌਗ ਸਾਂਝੇ ਕਰੋ।"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "ਸਟੋਰੇਜ ਸੇਵਾ ਤੋਂ ਅਵੈਧ ਜਵਾਬ ਪ੍ਰਾਪਤ ਹੋਇਆ। ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੇ ਲੌਗ ਸਾਂਝੇ ਕਰੋ।"
@@ -1269,7 +1269,7 @@
     "messageformat": "ਮਦਦ ਚਾਹੀਦੀ ਹੈ?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "ਸੈਟਿੰਗਾਂ"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "ਫ਼ੋਨ ਨੰਬਰ"
@@ -6359,6 +6359,6 @@
     "messageformat": "ਇਸ ਅੱਪਡੇਟ ਵਿੱਚ ਇੱਕ ਬੱਗ ਠੀਕ ਕੀਤਾ ਗਿਆ ਹੈ ਜਿਸ ਕਾਰਨ ਸਟੋਰੀਆਂ ਵਾਲੀ ਟੈਬ ਵਿੱਚ ਸਮੱਗਰੀ ਦੇਖਦੇ ਸਮੇਂ Signal ਵਿੰਡੋ ਨੂੰ ਹਿਲਾਉਣਾ ਮੁਸ਼ਕਲ ਹੋ ਜਾਂਦਾ ਸੀ।"
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "ਹੁਣ, ਜਦੋਂ ਤੁਸੀਂ ਆਪਣੀਆਂ ਸੈਟਿੰਗਾਂ ਨੂੰ ਵਿਵਸਥਿਤ ਕਰਦੇ ਹੋ, ਤਾਂ ਤੁਸੀਂ ਪੌਪ-ਆਊਟ ਵਿੰਡੋ ਦੀ ਬਜਾਏ ਮੁੱਖ ਸਕ੍ਰੀਨ ਤੋਂ ਅਜਿਹਾ ਕਰੋਗੇ।"
   }
 }

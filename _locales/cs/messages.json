@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Chyba databáze: pošlete nám prosím své protokoly."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Neplatná odpověď ze strany úložiště. Nasdílejte prosíme své záznamy."
@@ -1269,7 +1269,7 @@
     "messageformat": "Potřebujete pomoc?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Nastavení"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefonní číslo"
@@ -6359,6 +6359,6 @@
     "messageformat": "Tato aktualizace opravuje chybu, která způsobovala potíže s přesouváním okna aplikace Signal při prohlížení obsahu na záložce Příběhy."
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "Úpravy v Nastavení nyní můžete provádět z hlavní obrazovky namísto vyskakovacího okna."
   }
 }

@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Erro na base de datos: comparte os teus rexistros."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Recibiuse unha resposta errónea do servizo de almacenamento. Comparte os teus rexistros."
@@ -1269,7 +1269,7 @@
     "messageformat": "Necesitas axuda?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Configuración"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Número de teléfono"
@@ -6359,6 +6359,6 @@
     "messageformat": "Esta actualización elimina un erro que dificultaba mover a xanela de Signal mentres se reproducía contido na lapela de Historias."
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "Agora, ao modificares a Configuración, poderás facelo dende a pantalla principal no canto dunha xanela emerxente."
   }
 }

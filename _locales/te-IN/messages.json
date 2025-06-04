@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "డేటాబేస్ లోపం: దయచేసి మీ లాగ్‌లను పంచుకోండి."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "చెల్లని సర్వర్ ప్రతిస్పందన. దయచేసి మీ లాగ్‌లను పంచుకోండి."
@@ -1269,7 +1269,7 @@
     "messageformat": "సాయం అవసరమా?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "అమరికలు"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "ఫోన్ నంబరు"
@@ -6359,6 +6359,6 @@
     "messageformat": "కథలు ట్యాబ్‌లోని కంటెంట్‌ను వీక్షిస్తున్నప్పుడు Signal విండోను తరలించడాన్ని కష్టతరం చేసిన బగ్‌ను ఈ అప్‌డేట్ పరిష్కరిస్తుంది."
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "ఇప్పుడు, మీరు మీ సెట్టింగ్‌లను సర్దుబాటు చేసినప్పుడు, మీరు పాప్-అవుట్ విండోకు బదులుగా ప్రధాన స్క్రీన్ నుండి చేస్తారు."
   }
 }

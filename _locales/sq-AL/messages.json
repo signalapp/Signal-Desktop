@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Gabim në bazën e të dhënave: të lutem, ndaj regjistrat."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Morëm përgjigje të pavlefshme nga shërbimi i hapësirës ruajtëse. Të lutem, ndaj regjistrat."
@@ -1269,7 +1269,7 @@
     "messageformat": "Ju duhet ndihmë?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Parametrat"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Numër telefoni"
@@ -6359,6 +6359,6 @@
     "messageformat": "Ndonjëherë një postim i fuqishëm i përkohshëm mund të të prekë vërtet, ndaj rregulluam defektin që vështirësonte lëvizjen e dritares së Signal gjatë shikimit të përmbajtjes në skedën e postimeve të përkohshme."
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "Parametrat më parë ndodheshin në një dritare që hapej menjëherë, ndaj i kemi rishfaqur sërish. Tani, kur të rregullosh \"Parametrat\", do ta bësh këtë nga ekrani kryesor."
   }
 }

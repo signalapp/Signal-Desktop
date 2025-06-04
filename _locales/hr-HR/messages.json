@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Pogreška u bazi podataka. Molimo podijelite svoj zapisnik pogreške."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Nevažeći odgovor usluge za pohranu. Molimo podijelite svoj zapisnik pogreške."
@@ -1269,7 +1269,7 @@
     "messageformat": "Trebate pomoć?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Postavke"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Broj telefona"
@@ -6359,6 +6359,6 @@
     "messageformat": "Ispravili smo programsku pogrešku koja je otežavala pomicanje prozora Signala tijekom pregledavanja sadržaja u kartici Priče."
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "Sada ćete moći prilagoditi postavke izravno s glavnog zaslona, umjesto putem skočnog prozora."
   }
 }

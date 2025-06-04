@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Duomenų bazės klaida: pasidalinkite savo žurnalais."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Neteisingas atsakymas iš serverio. Pasidalinkite savo žurnalais."
@@ -1269,7 +1269,7 @@
     "messageformat": "Reikia pagalbos?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Nustatymai"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefono numeris"
@@ -6359,6 +6359,6 @@
     "messageformat": "Ištaisėme klaidą, dėl kurios buvo sunku perkelti „Signal“ langą žiūrint turinį kortelėje „Istorijos“."
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "Nuo šiol koreguodami nustatymus tai darysite pagrindiniame ekrane, o ne iškylančiajame lange."
   }
 }

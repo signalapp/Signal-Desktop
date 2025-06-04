@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "ডেটাবেজ সংক্রান্ত ত্রুটি: অনুগ্রহ করে আপনার লগ শেয়ার করুন।"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "স্টোরেজ সার্ভিস থেকে অকার্যকর উত্তর পাওয়া গেছে। অনুগ্রহ করে আপনার লগ শেয়ার করুন।"
@@ -1269,7 +1269,7 @@
     "messageformat": "সাহায্য প্রয়োজন?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "সেটিংস"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "ফোন নম্বর"
@@ -6359,6 +6359,6 @@
     "messageformat": "এই আপডেটটি এমন একটি বাগ সংশোধন করেছে যা স্টোরি ট্যাবে কন্টেন্ট দেখার সময় Signal উইন্ডো সরানো কঠিন করে তুলেছিল।"
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "এখন থেকে, যখন আপনি আপনার সেটিংস সমন্বয় করবেন, তখন আপনি পপ-আউট উইন্ডোর পরিবর্তে মূল স্ক্রিন থেকে তা করতে পারবেন।"
   }
 }

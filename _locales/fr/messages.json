@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Erreur de base de données : merci de partager vos journaux de débogage."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "La réponse reçue du service de stockage n'est pas valide. Merci de partager vos journaux de débogage."
@@ -1269,7 +1269,7 @@
     "messageformat": "Besoin d'aide ?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Paramètres"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Numéro de téléphone"
@@ -6359,6 +6359,6 @@
     "messageformat": "Vous aviez du mal à déplacer la fenêtre Signal lorsque vous regardiez des stories ? C'est de l'histoire ancienne : ce n'est pas parce que certaines stories peuvent vous clouer sur place que Signal doit subir le même sort."
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "Avant, les paramètres s'affichaient dans une fenêtre contextuelle distincte. Maintenant, vous pouvez modifier vos paramètres directement depuis l'écran principal. Pourquoi faire compliqué quand on peut faire simple ?"
   }
 }

@@ -7984,7 +7984,7 @@
   },
   "icu:UsernameLinkModalBody__done": {
     "messageformat": "Done",
-    "description": "Text of button at the bottom of the username link modal"
+    "description": "(Deleted 2025/06/04) Text of button at the bottom of the username link modal"
   },
   "icu:UsernameLinkModalBody__color__radio": {
     "messageformat": "Username link color, {index, number} of {total, number}",

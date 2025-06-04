@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "資料庫錯誤：請分享你嘅除錯記錄。"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "伺服器傳回無效嘅回應。請分享你嘅除錯記錄。"
@@ -1269,7 +1269,7 @@
     "messageformat": "需要幫手？"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "設定"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "電話冧把"
@@ -6359,6 +6359,6 @@
     "messageformat": "精彩動人嘅影片隨時睇到人心郁郁，所以我哋修正咗個錯誤，令你喺「限時動態」分頁度睇片嗰陣 Signal 視窗郁得更順暢。"
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "「設定」一路都係以彈出式視窗現身，我們將佢彈返入去。而家，當你調整「設定」嗰陣，你會喺主畫面度做。"
   }
 }

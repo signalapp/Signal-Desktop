@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Error de la base de dades: comparteix els teus registres."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Resposta del servei d'emmagatzematge no vàlida. Si us plau, comparteix els teus registres."
@@ -1269,7 +1269,7 @@
     "messageformat": "Us cal ajuda?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Configuració"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Número de telèfon"
@@ -6359,6 +6359,6 @@
     "messageformat": "Aquesta actualització soluciona un error que dificultava moure la finestra de Signal mentre miraves contingut a la pestanya Històries."
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "A partir d'ara, quan vulguis configurar els teus Ajustos, ho faràs des de la pantalla principal en comptes d'una finestra emergent."
   }
 }

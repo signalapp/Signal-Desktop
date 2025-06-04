@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Databasefejl: Del dine logfiler."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Ugyldigt svar fra serveren. Del dine logfiler."
@@ -1269,7 +1269,7 @@
     "messageformat": "Brug for hjælp?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Indstillinger"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefonnummer"
@@ -6359,6 +6359,6 @@
     "messageformat": "En stærk historiefortælling kan virkelig bevæge én. Af samme grund har vi har rettet en fejl, der gjorde det svært at flytte Signal-vinduet, mens du så indhold i Stories-fanen."
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "Indstillinger plejede at være placeret i et pop op-vindue, så vi aktiverede det igen. Når du fremover justerer dine indstillinger, gør du det direkte derfra."
   }
 }
