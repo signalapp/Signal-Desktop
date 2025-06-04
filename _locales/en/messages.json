@@ -8414,6 +8414,10 @@
     "messageformat": "Don't share personal information with people you don't know",
     "description": "Third list item in profile name warning modal for group conversations"
   },
+  "icu:SaveMultiDialog__title": {
+    "messageformat": "Save attachments",
+    "description": "Title of the dialog to save multiple attachments"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "What's New",
     "description": "Title for the whats new modal"
