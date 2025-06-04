@@ -82,9 +82,9 @@ textarea {
 
 ::-webkit-scrollbar {
   // For vertical scrollbars
-  width: 9px;
+  width: variables.$scrollbar_width;
   // For horizontal scrollbars
-  height: 9px;
+  height: variables.$scrollbar_height;
 }
 
 ::-webkit-scrollbar-track {

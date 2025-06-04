@@ -3728,10 +3728,15 @@ button.module-image__border-overlay:focus {
   & {
     @include mixins.light-theme() {
       background: variables.$color-white;
+      ::-webkit-scrollbar-thumb {
+        border-color: variables.$color-white;
+      }
     }
-
-    @include mixins.dark-theme() {
+    @include mixins.dark-theme {
       background: variables.$color-gray-75;
+      ::-webkit-scrollbar-thumb {
+        border-color: variables.$color-gray-75;
+      }
     }
   }
 
