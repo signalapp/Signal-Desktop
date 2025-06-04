@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "単体の端末として設定"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "その他"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "データベースエラー：ログを共有してください。"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "クラウドストレージサービスから無効な応答がありました。ログを共有してください。"
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "お困りですか？"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "設定"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "電話番号"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "ローカル内の暗号化されたバックアップをフォルダにエクスポートして検証します"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "インポートする"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "ローカル内に暗号化されたバックアップを作成して、リンク時にインポートできるようにします"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "暗号化されたバックアップをメモリにエクスポートし、検証処理を実行します"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "より多くの言語で絵文字のショートカットが使えるようになりました。 <code></code><code></code><code></code>"
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "このアップデートにより、絵文字とステッカーのキーボードショートカットが再び有効となります。"
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "一部のLinuxディストリビューションで発生する稀なクラッシュも修正しました。"
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "このアップデートでは、ストーリータブでコンテンツを表示中にSignalウィンドウを移動しにくくなるバグが修正されました。"
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "これからは、設定の調整はポップアウトウィンドウではなく、メイン画面上で行えるようになります。"
   }
 }

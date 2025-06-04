@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Siapkan untuk Perangkat Mandiri"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Tindakan lainnya"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Kesalahan basis data: harap bagikan log Anda."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Menerima respons tidak valid dari layanan penyimpanan. Harap bagikan log Anda."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Butuh bantuan?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Pengaturan"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Nomor Telepon"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Ekspor cadangan terenkripsi lokal ke sebuah folder dan lakukan validasi"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Impor …"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Siapkan cadangan terenkripsi lokal untuk diimpor melalui tautan"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Ekspor cadangan terenkripsi ke memori perangkat dan jalankan rangkaian validasi pada cadangan tersebut"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Senyuman memang sama dalam bahasa apa pun, tapi karena sekarang pintasan emoji di Signal Desktop telah sepenuhnya diterjemahkan, jadi Anda juga bisa pakai <code>:smile:</code> atau <code>:sourire:</code> atau <code>:微笑:</code> dalam bahasa apa pun yang didukung."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Tombol pintasan untuk emoji dan stiker kini tersedia kembali! Tak perlu lagi repot melapor bahwa pintasannya tidak berfungsi, jadi Anda bisa lebih hemat waktu."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Kami juga memperbaiki crash pada distribusi Linux yang belum mendukung GTK4."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "Pembaruan kali ini mengatasi bug yang membuat pengguna sulit menggerakkan jendela Signal saat melihat konten di tab Stories."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Saat Anda ingin menyesuaikan Pengaturan, silakan langsung dilakukan dari layar utama, bukan di jendela pop-up seperti sebelumnya."
   }
 }

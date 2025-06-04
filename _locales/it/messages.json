@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Imposta come dispositivo autonomo"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Più azioni"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Errore del database: condividi con noi i tuoi log dell'errore."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Ricevuta una risposta non valida dal servizio di archiviazione. Condividi i log dell'errore con noi."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Hai bisogno di aiuto?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Impostazioni"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Numero di telefono"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Esporta il backup crittografato locale in una cartella per poi validarlo"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Importa…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Organizza un backup crittografato locale per importarlo con un link"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Esporta backup crittografati sul tuo spazio di archiviazione ed esegui una validation suite sul backup"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Un sorriso è un sorriso, in qualsiasi lingua. E da ora, anche le scorciatoie per le emoji su Signal Desktop sono state tradotte, così puoi <code>:sorridere:</code>, <code>:smile:</code> o <code>:微笑:</code> in una delle tante lingue supportate!"
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Le scorciatoie per tastiera per le emoji e gli adesivi sono finalmente tornate! Potrai usarle comodamente e risparmierai un sacco di tempo perché non dovrai più segnalarci che non funzionano correttamente."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Abbiamo risolto anche un crash che avveniva sulle distro di Linux che non supportavano ancora GTK4."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "Una bella storia può catturare l'attenzione, così come un bug (ora risolto) che rendeva difficile lo spostamento della finestra del programma di Signal mentre vedevi dei contenuti nella schermata delle Storie."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Prima le Impostazioni erano in una finestra esterna, mentre ora si trovano all'interno della finestra principale di Signal. Così per cambiare le tue Impostazioni non dovrai aprire troppe finestre e prendere troppo freddo."
   }
 }

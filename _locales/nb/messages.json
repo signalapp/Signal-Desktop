@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Sett Opp som Frittstående Enhet"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Flere funksjoner"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Databasefeil: del feilsøkingsloggen din."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Ugyldig svar fra lagringstjenesten. Del feilsøkingsloggen din."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Ønsker du hjelp?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Innstillinger"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefonnummer"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Eksporter krypterte sikkerhetskopier til en mappe og bekreft dem"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Importer …"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Lag en lokal kryptert sikkerhetskopi som du kan importere via en lenke"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Eksporter en kryptert sikkerhetskopi til minnet og kjør bekreftelse av den"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Vi tilbyr nå støtte for emoji-snarveier på enda flere språk."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "I denne oppdateringen er snarveiene for emojier og klistremerker tilbake!"
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Vi har også fikset et krasj som skjedde iblant på Linux."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "I denne oppdateringen har vi rettet opp i en feil som gjorde det vanskelig å flytte Signal-vinduet når Storyer-fanen er åpen."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Fra nå av kan du justere innstillingene på hovedskjermen i stedet for i et forgrunnsvindu."
   }
 }

@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Rregulloje si Pajisje Më Vete"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Më tepër veprime"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Gabim në bazën e të dhënave: të lutem, ndaj regjistrat."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Morëm përgjigje të pavlefshme nga shërbimi i hapësirës ruajtëse. Të lutem, ndaj regjistrat."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Ju duhet ndihmë?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Parametrat"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Numër telefoni"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Eksporto kopjeruajtjet lokale të koduara në një dosje dhe verifikoje atë"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Importo…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Krijo kopjeruajtje lokale të koduar për importim në lidhje"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Eksporto kopjeruajtjet e koduara në memorie dhe ekzekuto paketën e verifikimit në të"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Buzëqeshja është e njëjtë në çdo gjuhë, por tani që shkurtoret e emoxhive në Signal Desktop janë përkthyer plotësisht, mund edhe të qeshësh <code>:smile:</code> ose <code>:sourire:</code> ose <code>:微笑:</code> në çdo gjuhë të mbështetur."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Shkurtoret e tastierës për emoxhit dhe ngjitëset janë rikthyer! Këto shkurtore kursejnë edhe më shumë kohë sepse tani nuk ke më nevojë të shkruash dhe të na tregosh se janë të prishura."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Kemi rregulluar edhe një defekt në shpërndarjet Linux që ende nuk mbështesin GTK4."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "Ndonjëherë një postim i fuqishëm i përkohshëm mund të të prekë vërtet, ndaj rregulluam defektin që vështirësonte lëvizjen e dritares së Signal gjatë shikimit të përmbajtjes në skedën e postimeve të përkohshme."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Parametrat më parë ndodheshin në një dritare që hapej menjëherë, ndaj i kemi rishfaqur sërish. Tani, kur të rregullosh \"Parametrat\", do ta bësh këtë nga ekrani kryesor."
   }
 }

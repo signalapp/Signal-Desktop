@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Weka kama Kifaa Huru"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Vitendo zaidi"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Hitilafu ya kanzidata: tafadhali tuma kumbukumbu zako."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Umepokea majibu yasiyo sahihi kutoka huduma za uhifadhi. Tafadhali tuma logs zako."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Unahitaji usaidizi?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Mipangilio"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Nambari ya Simu"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Hamisha hifadhi nakala ya kifaa iliyosimbwa fiche kwenye folda na kuihakikisha"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Agiza…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Andaa hifadhi nakala ya kifaa iliyosimbwa fiche kwa ajili ya kuagiza kwenye kiungo"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Hamishia hifadhi nakala iliyosimbwa fiche kwenye kumbukumbu na utekeleze masharti ya uthibitishaji juu yake"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Tabasamu huwa ni lile lile katika lugha yoyote, lakini sasa kwa vile njia za mkato za emoji katika Signal Desktop zimetafsiriwa kikamilifu unaweza pia <code>:kutabasamu:</code> au <code>:sourire:</code> au <code>:微笑:</code> katika lugha yoyote inayotumika pia."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Mikato ya kibodi za emoji na vibandiko imerudi! Njia hizi za mkato pia huokoa muda zaidi kwa sababu sasa hautahitaji kuandika na kutuambia kuwa zimevunjika tena."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Pia tumerekebisha hitilafu kwenye usambazaji wa Linux ambao bado hautumii GTK4."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "Wakati mwingine stori ya kusisimua inaweza kukuhamasisha, kwa hiyo tulirekebisha hitilafu ambayo ilifanya iwe vigumu kusogeza dirisha la Signal ukiwa unatazama maudhui kwenye kichupo cha Stori."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Mipangilio ilikuwa ikichomoza kwenye dirisha ibukizi, hivyo tumeificha. Sasa, unapokuwa unarekebisha Mipangilio yako, utafanya hivyo ukiwa kwenye skrini kuu."
   }
 }

@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Einrichten als eigenständiges Gerät"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Weitere Aktionen"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Datenbankfehler: Bitte teile deine Diagnoseprotokolle mit uns."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Ungültige Antwort vom Speicherdienst erhalten. Bitte teile deine Diagnoseprotokolle mit uns."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Hilfe benötigt?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Einstellungen"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefonnummer"
@@ -3354,7 +3363,7 @@
     "messageformat": "Nachricht kann nicht bearbeitet werden"
   },
   "icu:MessageMaxEditsModal__Description": {
-    "messageformat": "{max, plural, one {Diese Nachricht kann nur {max,number} Mal bearbeitet werden.} other {Diese Nachricht kann nur {max,number} Male bearbeitet werden.}}"
+    "messageformat": "{max, plural, one {Diese Nachricht kann nur {max,number} Mal bearbeitet werden.} other {Diese Nachricht kann nur {max,number} Mal bearbeitet werden.}}"
   },
   "icu:unknown-sgnl-link": {
     "messageformat": "Sorry, dieser sgnl://-Link funktioniert nicht."
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Lokale verschlüsselte Datensicherungen in einen Ordner exportieren und validieren"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Importieren…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Lokale verschlüsselte Datensicherungen für den Import über Link vorbereiten"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Verschlüsselte Datensicherung auf Speicher sichern und Validierungssuite darauf ausführen"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Emoji-Shortcuts wie <code>:joy:</code> werden nun auch in zusätzlichen Sprachen unterstützt. Ein Grund zur <code>:freude:</code>!"
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Tastaturkurzbefehle für Emojis und Sticker sind wieder da! Mit diesen Kurzbefehlen sparst du noch mehr Zeit, weil du uns jetzt nicht mehr schreiben musst, dass sie nicht funktionieren."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Wir haben auch einen Absturz auf Linux-Distributionen behoben, die GTK4 noch nicht unterstützen."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "Manchmal kann eine starke Story echt bewegend sein. Deshalb haben wir einen Fehler behoben, der dazu führte, dass sich das Signal-Fenster beim Anzeigen von Inhalten im Tab „Storys“ nur schwer verschieben ließ."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Die Einstellungen befanden sich früher in einem eigenen Popup-Fenster, doch wir haben sie wieder zurückgebracht. Wenn du jetzt deine Einstellungen ändern willst, geht das über das Hauptfenster."
   }
 }

@@ -12,7 +12,7 @@
     "messageformat": "{contact} będzie należeć do grupy {group}"
   },
   "icu:AddUserToAnotherGroupModal__search-placeholder": {
-    "messageformat": "Szukaj"
+    "messageformat": "Wyszukaj"
   },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
     "messageformat": "{contact} należy teraz do grupy {group}"
@@ -78,7 +78,7 @@
     "messageformat": "Nie można otworzyć aplikacji Signal"
   },
   "icu:cantOpenSignalError__detail": {
-    "messageformat": "Aby rozwiązać problem, postępuj zgodnie z instrukcją odzyskiwania konta na stronie pomocy lub skontaktuj się z pomocą techniczną Signal.\n\nJeśli musisz skorzystać z aplikacji Signal już teraz, możesz usunąć swoje dane i połączyć komputer ponownie. Będziesz mieć możliwość przeniesienia historii wiadomości z telefonu."
+    "messageformat": "Aby rozwiązać problem, zapoznaj się z instrukcją odzyskiwania konta na stronie pomocy lub skontaktuj się z pomocą techniczną Signal.\n\nJeśli musisz skorzystać z aplikacji Signal już teraz, możesz usunąć jej dane i połączyć komputer ponownie. Będziesz mieć możliwość przeniesienia historii wiadomości z telefonu."
   },
   "icu:databaseError": {
     "messageformat": "Błąd bazy danych"
@@ -202,6 +202,9 @@
   },
   "icu:menuSetupAsStandalone": {
     "messageformat": "Skonfiguruj jako samodzielne urządzenie"
+  },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
   },
   "icu:messageContextMenuButton": {
     "messageformat": "Więcej działań"
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Błąd bazy danych: udostępnij dzienniki."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Otrzymano nieprawidłową odpowiedź z usługi w chmurze. Udostępnij dzienniki."
@@ -1125,7 +1131,7 @@
     "messageformat": "Obrazek wysłany na czacie"
   },
   "icu:lightBoxDownloading": {
-    "messageformat": "Pobieranie: {downloaded} z {total}"
+    "messageformat": "Pobieranie {downloaded} z {total}"
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikona informująca o tym, że zdjęcie ma podpis"
@@ -1143,7 +1149,7 @@
     "messageformat": "{count, plural, one {{count,number} element} few {{count,number} elementy} many {{count,number} elementów} other {{count,number} elementu}}"
   },
   "icu:mediaNotAvailable": {
-    "messageformat": "Te multimedia nie są dostępne"
+    "messageformat": "Te multimedia są niedostępne"
   },
   "icu:attachmentNoLongerAvailable__learnMore": {
     "messageformat": "Dowiedz się więcej"
@@ -1152,7 +1158,7 @@
     "messageformat": "Plik niedostępny"
   },
   "icu:attachmentNotAvailable__longMessage": {
-    "messageformat": "Wiadomość niekompletna"
+    "messageformat": "Ta wiadomość jest niekompletna"
   },
   "icu:attachmentNotAvailable__sticker": {
     "messageformat": "Naklejka niedostępna"
@@ -1161,7 +1167,7 @@
     "messageformat": "Wiadomość głosowa niedostępna"
   },
   "icu:attachmentNotAvailable__tapToView": {
-    "messageformat": "Multimedia jednorazowe nie są dostępne"
+    "messageformat": "Te multimedia jednorazowe są niedostępne"
   },
   "icu:attachmentNotAvailable__tapToViewCannotDownload": {
     "messageformat": "Nie udało się pobrać multimediów jednorazowych"
@@ -1170,7 +1176,7 @@
     "messageformat": "Plik niedostępny"
   },
   "icu:AttachmentNotAvailableModal__title--long-text": {
-    "messageformat": "Pełna wiadomość niedostępna"
+    "messageformat": "Kompletna wiadomość niedostępna"
   },
   "icu:AttachmentNotAvailableModal__title--media": {
     "messageformat": "Multimedia niedostępne"
@@ -1185,7 +1191,7 @@
     "messageformat": "Podczas łączenia urządzenia z Twoim telefonem plik nie został przeniesiony. Pliki i multimedia, które w momencie łączenia urządzeń mają ponad 45 dni, nie są synchronizowane."
   },
   "icu:AttachmentNotAvailableModal__body--long-text": {
-    "messageformat": "Podczas łączenia tego urządzenia z Twoim telefonem pełny tekst wiadomości nie został przeniesiony. Długie wiadomości tekstowe, które w momencie łączenia urządzeń mają ponad 45 dni, nie są synchronizowane."
+    "messageformat": "Podczas łączenia urządzenia z Twoim telefonem pełny tekst wiadomości nie został przeniesiony. Długie wiadomości tekstowe, które w momencie łączenia urządzeń mają ponad 45 dni, nie są synchronizowane."
   },
   "icu:AttachmentNotAvailableModal__body--media": {
     "messageformat": "Podczas łączenia urządzenia z Twoim telefonem multimedia nie zostały przeniesione. Multimedia, które w momencie łączenia urządzeń mają ponad 45 dni, nie są synchronizowane."
@@ -1206,10 +1212,10 @@
     "messageformat": "Nie można pobrać multimediów"
   },
   "icu:BackfillFailureModal__body--timeout": {
-    "messageformat": "Sprawdź połączenie internetowe na komputerze i telefonie. Otwórz aplikację Signal na swoim telefonie i spróbuj pobrać załączniki ponownie."
+    "messageformat": "Sprawdź połączenie z internetem na komputerze i telefonie. Otwórz Signal na telefonie i spróbuj pobrać załączniki ponownie."
   },
   "icu:BackfillFailureModal__body--not-found": {
-    "messageformat": "Te multimedia nie są już dostępne na Twoim telefonie i nie można ich pobrać."
+    "messageformat": "Te multimedia nie są już dostępne na Twoim telefonie, więc nie można ich pobrać."
   },
   "icu:save": {
     "messageformat": "Zapisz"
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Potrzebujesz pomocy?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Ustawienia"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Numer telefonu"
@@ -2100,7 +2109,7 @@
     "messageformat": "Odznaka została odebrana"
   },
   "icu:message--donation--preview--sent": {
-    "messageformat": "Darowizna wpłacona w imieniu tej osoby: {recipient}"
+    "messageformat": "Wpłacasz darowiznę w imieniu tej osoby: {recipient}"
   },
   "icu:message--donation": {
     "messageformat": "Darowizna"
@@ -2277,10 +2286,10 @@
     "messageformat": "GIF-y"
   },
   "icu:FunPanelEmojis__SearchLabel": {
-    "messageformat": "Szukaj emoji"
+    "messageformat": "Wyszukaj emoji"
   },
   "icu:FunPanelEmojis__SearchPlaceholder": {
-    "messageformat": "Szukaj emoji"
+    "messageformat": "Wyszukaj emoji"
   },
   "icu:FunPanelEmojis__SubNavLabel": {
     "messageformat": "Kategorie emoji"
@@ -2361,10 +2370,10 @@
     "messageformat": "Dostosuj reakcje"
   },
   "icu:FunPanelStickers__SearchLabel": {
-    "messageformat": "Szukaj naklejek"
+    "messageformat": "Wyszukaj naklejki"
   },
   "icu:FunPanelStickers__SearchPlaceholder": {
-    "messageformat": "Szukaj naklejek"
+    "messageformat": "Wyszukaj naklejki"
   },
   "icu:FunPanelSticker__SubNavLabel": {
     "messageformat": "Pakiety naklejek"
@@ -2724,7 +2733,7 @@
     "messageformat": "Włącz/wyłącz wideo"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Przełącznik powiększonego podglądu"
+    "messageformat": "Przełącznik powiększonego podglądu (włącz/wyłącz)"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Odbierz z wideo (tylko dla połączeń wideo)"
@@ -2793,7 +2802,7 @@
     "messageformat": "Uwaga na oszustów"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal nigdy nie zwróci się do Ciebie z prośbą o podanie kodu rejestracyjnego ani PIN-u. Uważaj na tego typu wiadomości – mogą pochodzić od osób podszywających się pod kogoś innego. Nazwę użytkownika podaje osoba posługująca się kontem, a Signal nie weryfikuje imion ani nazwisk."
+    "messageformat": "Signal nigdy nie zwróci się do Ciebie z prośbą o podanie kodu rejestracyjnego ani PIN-u. Uważaj na tego typu wiadomości – mogą pochodzić od osób podszywających się pod kogoś innego. Imię i nazwisko w profilu podaje osoba posługująca się kontem, a Signal nie weryfikuje tych danych."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "Oszustwa związane z kryptowalutami lub pieniędzmi"
@@ -2931,7 +2940,7 @@
     "messageformat": "Zaakceptować prośbę?"
   },
   "icu:MessageRequests--accept-confirm-body": {
-    "messageformat": "Uważnie sprawdzaj wszystkie prośby o kontakt. Imię i nazwisko w profilu podaje osoba, do której należy konto. Signal nie weryfikuje imion ani nazwisk."
+    "messageformat": "Uważnie sprawdzaj wszystkie prośby o kontakt. Imię i nazwisko w profilu podaje osoba, do której należy konto. Signal nie weryfikuje tych danych."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Kontynuuj"
@@ -3984,7 +3993,7 @@
     "messageformat": "Anulować łączenie urządzenia?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Jeśli anulujesz, urządzenie nie zostanie połączone, a żadne wiadomości ani multimedia nie zostaną przeniesione."
+    "messageformat": "Jeśli anulujesz, urządzenie nie zostanie połączone, a wiadomości ani multimedia nie zostaną przeniesione."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Kontynuuj łączenie"
@@ -4086,10 +4095,10 @@
     "messageformat": "Wyślij wyedytowaną wiadomość"
   },
   "icu:CompositionArea__ConfirmGifSelection__Title": {
-    "messageformat": "Zastąpić załącznik GIF-em?"
+    "messageformat": "Zastąpić załącznik?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "Jeśli dodasz GIF, zastąpi on dotychczasowy plik załączony do wersji roboczej tej wiadomości."
+    "messageformat": "Jeśli dodasz ten GIF, zastąpi on obecny załącznik w wersji roboczej wiadomości."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Zastąp"
@@ -4611,7 +4620,7 @@
     "messageformat": "Zresetuj kolory czatów"
   },
   "icu:ChatColorPicker__resetAll": {
-    "messageformat": "Zresetuj wszystkie kolory czatów"
+    "messageformat": "Zresetuj kolory wszystkich czatów"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
     "messageformat": "Zresetuj kolory domyślne"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Wyeksportuj zaszyfrowaną kopię zapasową do folderu i uruchom testy"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Zaimportuj…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Przygotuj lokalną zaszyfrowaną kopię zapasową do importu po kliknięciu linku"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Eksportuj zaszyfrowaną kopię zapasową do pamięci i uruchom testy weryfikacyjne"
   },
@@ -5241,7 +5244,7 @@
     "messageformat": "Twoje konto zostanie wkrótce usunięte. Aby temu zapobiec, uruchom aplikację Signal na swoim telefonie. Gdy to zrobisz, ten komunikat zniknie. <learnMoreLink>Dowiedz się więcej</learnMoreLink>"
   },
   "icu:IdlePrimaryDevice__body": {
-    "messageformat": "Otwórz aplikację Signal na telefonie, aby zapobiec dezaktywacji konta"
+    "messageformat": "Aby zapobiec dezaktywacji konta, uruchom aplikację Signal na swoim telefonie"
   },
   "icu:IdlePrimaryDevice__learnMore": {
     "messageformat": "Dowiedz się więcej"
@@ -5391,10 +5394,10 @@
     "messageformat": "Zezwól na dostęp do mikrofonu"
   },
   "icu:MediaPermissionsModal__title--camera": {
-    "messageformat": "Zezwól na dostęp do aparatu"
+    "messageformat": "Zezwól na dostęp do kamery"
   },
   "icu:MediaPermissionsModal__subtitle--call": {
-    "messageformat": "Aby rozpocząć rozmowę lub do niej dołączyć:"
+    "messageformat": "Aby rozpocząć połączenie lub do niego dołączyć:"
   },
   "icu:MediaPermissionsModal__subtitle--call--camera": {
     "messageformat": "Aby włączyć kamerę:"
@@ -6298,7 +6301,7 @@
     "messageformat": "Aby zmienić to ustawienie, w sekcji Kto może zobaczyć mój numer wybierz opcję Nikt."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Imię i nazwisko w profilu Signal podaje osoba posługująca się kontem."
+    "messageformat": "Imię i nazwisko w profilu Signal podaje osoba posługująca się danym kontem."
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
     "messageformat": "Nie podlegają one weryfikacji"
@@ -6352,16 +6355,10 @@
     "messageformat": "Drobne ulepszenia, poprawki błędów i większa funkcjonalność. Cieszymy się, że korzystasz z aplikacji Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Nic nie przełamuje lodów tak skutecznie jak uśmiech. Od teraz, dzięki pełnemu tłumaczeniu skrótów emoji w aplikacji Signal Desktop, uśmiechniętą buźkę wyślesz jeszcze łatwiej. Wystarczy, że wpiszesz „uśmiech” w dowolnym obsługiwanym języku, na przykład <code>:smile:</code>, <code>:sourire:</code> lub <code>:微笑:</code>."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Ogłaszamy wielki powrót skrótów klawiszowych do emoji i naklejek! Od teraz wysyłanie emoji i naklejek będzie jeszcze szybsze – również dlatego, że poprawiliśmy działanie skrótów, więc odpadnie czasochłonne informowanie nas o błędach."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Naprawiliśmy również błąd występujący w wersjach systemu Linux nieobsługujących jeszcze GTK4."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "Trudno skupić się na oglądaniu, gdy widzisz tylko fragment ekranu… Dlatego naprawiliśmy błąd, który utrudniał przesuwanie okna aplikacji Signal podczas wyświetlania relacji."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Dotychczas sekcja ustawień żyła własnym życiem… To znaczy otwierała się w wyskakującym oknie. Jeśli męczyło Cię szukanie właściwego okna na pulpicie, mamy dobrą wiadomość – od teraz swoje preferencje ustawisz wygodnie z poziomu ekranu głównego."
   }
 }

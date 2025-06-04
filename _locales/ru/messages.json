@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Настроить как самостоятельное устройство"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Больше действий"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Ошибка базы данных: пожалуйста, поделитесь своими журналами отладки."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Получен неверный ответ от службы хранения. Пожалуйста, поделитесь своими журналами отладки."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Нужна помощь?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Настройки"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Номер телефона"
@@ -2274,7 +2283,7 @@
     "messageformat": "Стикеры"
   },
   "icu:FunPicker__Tab--Gifs": {
-    "messageformat": "GIF-анимации"
+    "messageformat": "GIFы"
   },
   "icu:FunPanelEmojis__SearchLabel": {
     "messageformat": "Искать эмодзи"
@@ -3105,7 +3114,7 @@
     "messageformat": "Переподключаемся…"
   },
   "icu:CallControls__InfoDisplay--participants": {
-    "messageformat": "{count, plural, one {{count,number} человека} few {{count,number} человек} many {{count,number} людей} other {{count,number} людей}}"
+    "messageformat": "{count, plural, one {{count,number} человек} few {{count,number} человека} many {{count,number} человек} other {{count,number} человека}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
     "messageformat": "Аудиозвонок"
@@ -3279,7 +3288,7 @@
     "messageformat": "Заблокировать от звонка"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} человека} few {{count,number} человек} many {{count,number} людей} other {{count,number} людей}}"
+    "messageformat": "{count, plural, one {{count,number} человек} few {{count,number} человека} many {{count,number} человек} other {{count,number} человека}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
     "messageformat": "{count, plural, one {+ ещё {count,number}} few {+ ещё {count,number}} many {+ ещё {count,number}} other {+ ещё {count,number}}}"
@@ -4239,7 +4248,7 @@
     "messageformat": "{number, plural, one {{number,number} участник} few {{number,number} участника} many {{number,number} участников} other {{number,number} участника}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
-    "messageformat": "Добавлять участников"
+    "messageformat": "Добавить участников"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Просмотреть все"
@@ -4440,7 +4449,7 @@
     "messageformat": "Добавлять участников"
   },
   "icu:AddGroupMembersModal--continue-to-confirm": {
-    "messageformat": "Обновить"
+    "messageformat": "Добавить"
   },
   "icu:AddGroupMembersModal--confirm-title--one": {
     "messageformat": "Добавить {person} в «{group}»?"
@@ -5005,12 +5014,6 @@
   },
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Экспортируйте зашифрованную резервную копию в папку и проверьте её"
-  },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Импорт…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Проиндексируйте локальные зашифрованные резервные копии для импорта по ссылке"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Экспортируйте зашифрованную резервную копию в память и запустите для нее набор проверок"
@@ -5992,7 +5995,7 @@
     "messageformat": "Копировать в буфер обмена"
   },
   "icu:UsernameLinkModalBody__help": {
-    "messageformat": "Передавайте ваш QR-код и ссылку только тем людям, которым вы доверяете. При передаче другие смогут увидеть ваше имя пользователя и начать чат с вами."
+    "messageformat": "Передавайте ваш QR-код и ссылку только тем людям, которым вы доверяете. При передаче иные смогут увидеть ваше имя пользователя и начать чат с вами."
   },
   "icu:UsernameLinkModalBody__reset": {
     "messageformat": "Сбросить"
@@ -6352,16 +6355,10 @@
     "messageformat": "Небольшие изменения, исправления ошибок и улучшения производительности. Спасибо за то, что пользуетесь Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Улыбка одинакова на всех языках, но теперь, когда ярлыки эмодзи в Signal Desktop полностью переведены, вы также можете <code>:smile:</code>, или <code>:sourire:</code>, или <code>:微笑:</code> на любом поддерживаемом языке."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Сочетания клавиш для эмодзи и стикеров вернулись! Помимо прочего, эти сочетания экономят ещё больше времени, потому что теперь вам больше не нужно сообщать нам, что они не работают."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Мы также исправили сбой на дистрибутивах Linux, которые ещё не поддерживают GTK4."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "Иногда впечатляющая история может привести в движение ваши чувства, поэтому мы исправили ошибку, из-за которой было сложно передвигать окно Signal во время просмотра контента на вкладке «Истории»."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Раньше настройки появлялись во всплывающем окне, но мы всё перенастроили. Теперь вы будете менять свои настройки с главного экрана."
   }
 }

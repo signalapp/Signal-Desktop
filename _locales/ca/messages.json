@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Configura'l com a dispositiu autònom"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Més accions"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Error de la base de dades: comparteix els teus registres."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Resposta del servei d'emmagatzematge no vàlida. Si us plau, comparteix els teus registres."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Us cal ajuda?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Configuració"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Número de telèfon"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Exportar còpia de seguretat local xifrada a una carpeta i validar-la"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Importar…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Preparar una còpia de seguretat xifrada local per a la seva importació a l'enllaç"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Exportar còpia de seguretat xifrada a la memòria i executar-hi la suite de validació"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Hem afegit dreceres per emoji en idiomes addicionals."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Aquesta actualització torna a activar les dreceres de teclat per emojis i adhesius. Aquestes dreceres estalvien encara més temps perquè ara ja no caldrà que escriguis i ens diguis que estan trencades."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "També hem solucionat un problema amb les distribucions de Linux que encara no són compatibles amb GTK4."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "Aquesta actualització soluciona un error que dificultava moure la finestra de Signal mentre miraves contingut a la pestanya Històries."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "A partir d'ara, quan vulguis configurar els teus Ajustos, ho faràs des de la pantalla principal en comptes d'una finestra emergent."
   }
 }

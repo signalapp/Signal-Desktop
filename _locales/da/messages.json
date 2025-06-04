@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Opsæt som selvstændig enhed"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Flere handlinger"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Databasefejl: Del dine logfiler."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Ugyldigt svar fra serveren. Del dine logfiler."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Brug for hjælp?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Indstillinger"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefonnummer"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Eksportér en lokal krypteret sikkerhedskopi til en mappe og udfør validering"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Importér..."
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Opret en lokal krypteret sikkerhedskopi til import på linket"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Eksportér en krypteret sikkerhedskopi til hukommelsen, og udfør validering"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Et smil er det samme på alle sprog, men nu hvor emoji-genvejene i Signal Desktop er blevet fuldt oversat, kan du også <code>:smile:</code> eller <code>:sourire:</code> eller <code>:微笑:</code> på alle understøttede sprog."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Tastaturgenvejene til emojis og klistermærker er tilbage! Disse genveje sparer dig også endnu mere tid, fordi du nu ikke længere behøver at skrive ind og fortælle os, at de ikke fungerer."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Vi har også rettet et nedbrud på Linux-distributioner, der endnu ikke understøttede GTK4."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "En stærk historiefortælling kan virkelig bevæge én. Af samme grund har vi har rettet en fejl, der gjorde det svært at flytte Signal-vinduet, mens du så indhold i Stories-fanen."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Indstillinger plejede at være placeret i et pop op-vindue, så vi aktiverede det igen. Når du fremover justerer dine indstillinger, gør du det direkte derfra."
   }
 }

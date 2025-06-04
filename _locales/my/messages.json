@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "သီးခြားစက်အဖြစ် သတ်မှတ်ရန်"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "နောက်ထပ် လုပ်ဆောင်မှုများ"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "ဒေတာဘေ့စ် ချို့ယွင်းချက်- သင့်မှတ်တမ်းများကို မျှဝေပါ။"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "ဆာဗာတုံ့ပြန်မှု မမှန်ကန်ပါ။ သင့်မှတ်တမ်းများကို မျှဝေပါ။"
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "အကူအညီ လိုအပ်ပါသလား?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "ဆက်တင်များ"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "ဖုန်းနံပါတ်"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "စက်တွင်းကုဒ်ဝှက်ထားသော ဘက်ခ်အပ်ကို ဖိုင်တွဲတစ်ခုသို့ ထုတ်ယူပြီး ၎င်းကို အတည်ပြုပါ"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "ထည့်သွင်းရန်..."
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "လင့်ခ်တွင် တင်သွင်းရန်အတွက် စက်တွင်းကုဒ်ဝှက်ထားသော ဘက်ခ်အပ်"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "ကုဒ်ပြောင်းဝှက်ထားသော ဘက်ခ်အပ်ကို မန်မိုရီသို့ပို့ပြီး ၎င်းတွင် မှန်ကန်ကြောင်းအတည်ပြုပါ"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "အီမိုဂျီရှော့တ်ကတ်များကို ထပ်ဆောင်းဘာသာစကားများတွင် ထည့်သွင်းထားပါသည်။"
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "ဤအပ်ဒိတ်သည် အီမိုဂျီနှင့် စတစ်ကာများအတွက် ကီးဘုတ်ရှော့တ်ကတ်များကို ပြန်လည်အသုံးပြုနိုင်လာစေပါသည်။"
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Linux ဖြန့်ဝေမှုများတွင်လည်း ပျက်စီးမှုတစ်ခုကို ပြင်ဆင်ထားပါသည်။"
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "ဤအပ်ဒိတ်သည် စတိုရီတက်ဘ်ရှိ အကြောင်းအရာများကို ကြည့်ရှုနေစဉ် Signal Window ကို ရွှေ့ရန်ခက်ခဲစေသော ချွတ်ယွင်းချက်တစ်ခုကိုပြင်ဆင်ထားပါသည်။"
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "ယခု ဆက်တင်ကို ချိန်ညှိသည့်အခါ ပေါ်လာသည့် ဝင်းဒိုးတွင်မဟုတ်ဘဲ ပင်မစခရင်ပေါ်တွင် ပြုလုပ်နိုင်မည်ဖြစ်သည်။"
   }
 }

@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Ställ in som fristående enhet"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Fler åtgärder"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Databasfel: dela dina loggar."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Fick ogiltigt svar från lagringstjänsten. Dela dina loggar."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Behöver du hjälp?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Inställningar"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefonnummer"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Exportera lokal krypterad säkerhetskopia till en mapp och validera den"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Importera …"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Skapa en lokal krypterad säkerhetskopia för import på länk"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Exportera krypterad säkerhetskopia till minnet och kör valideringssvit på den"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Vi har lagt till stöd för emoji-genvägar på fler språk."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Den här uppdateringen återaktiverar kortkommandon för emojier och klistermärken."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Vi har också åtgärdat en sällsynt krasch på vissa Linux-distributioner."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "Den här uppdateringen åtgärdar en bugg som gjorde det svårt att flytta Signal-fönstret när du tittade på innehåll i fliken Stories."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "När du justerar dina inställningar gör du det nu från huvudskärmen istället för från ett popup-fönster."
   }
 }

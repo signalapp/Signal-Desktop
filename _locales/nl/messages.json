@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Instellen als apart apparaat"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Meer acties"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Databasefout: deel je logs."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Ongeldige reactie van de opslagservice ontvangen. Deel alsjeblieft je logs."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Hulp nodig?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Instellingen"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefoonnummer"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Versleutelde lokale back-up exporteren naar een map en valideren"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Importeren…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Versleutelde lokale back-up maken voor het importeren via een link"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Versleutelde back-up exporteren naar geheugen en de validatiesuite erop uitvoeren"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Een glimlach is in elke taal hetzelfde, maar nu de emoji-snelkoppelingen in Signal Desktop volledig zijn vertaald, kun je ook <code>:glimlachen:</code> of <code>:sourire:</code> of <code>:微笑:</code> in elke ondersteunde taal."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Sneltoetsen voor emoji's en stickers zijn terug! Deze sneltoetsen besparen nu nog meer tijd, omdat je niet meer hoeft te melden dat ze kapot zijn."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "We hebben ook een crash opgelost op Linux-distributies die GTK4 nog niet ondersteunen."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "Deze update lost een fout op die het moeilijk maakte om het Signal-venster te verplaatsen wanneer je content op het tabblad Verhalen aan het bekijken was."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Je instellingen aanpassen doe je nu vanaf het hoofdscherm in plaats van via een pop-upvenster."
   }
 }

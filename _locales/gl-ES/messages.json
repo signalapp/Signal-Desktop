@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Definir como dispositivo independente"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Máis accións"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Erro na base de datos: comparte os teus rexistros."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Recibiuse unha resposta errónea do servizo de almacenamento. Comparte os teus rexistros."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Necesitas axuda?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Configuración"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Número de teléfono"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Exportar unha copia de seguranza local cifrada a un cartafol e validalo"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Importar…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Configurar unha copia de seguridade local cifrada para importar a través dun enlace"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Exporta a copia de seguridade cifrada á memoria e executa o paquete de validación"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Comprende pequenas modificacións e melloras no rendemento. Moitas grazas por empregar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Agora contamos con compatibilidade para atallos de emoticonas en máis idiomas."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Esta nova versión restablece os atallos de teclado para emoticonas e stickers."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Tamén solucionamos un peche inesperado pouco frecuente que ocorría nalgunhas distribucións de Linux."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "Esta actualización elimina un erro que dificultaba mover a xanela de Signal mentres se reproducía contido na lapela de Historias."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Agora, ao modificares a Configuración, poderás facelo dende a pantalla principal no canto dunha xanela emerxente."
   }
 }

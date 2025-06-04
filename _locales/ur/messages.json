@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Standalone ڈیوائس کے طور پر مرتب کریں"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "مزید افعال"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "ڈیٹا بیس کا نقص: براہ کرم اپنے لاگز شیئر کریں۔"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "اسٹوریج سروس کی جانب سے غلط جواب موصول ہوا۔ براہ کرم اپنے لاگز شیئر کریں۔"
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "مدد چاہیے؟"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "ترتیبات"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "فون نمبر"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "مقامی انکرپٹ کردہ بیک اپ کو فولڈر میں برآمد کریں اور اس کی توثیق کریں"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "درآمد کریں…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "مقامی انکرپٹ کردہ بیک اپ کو لنک پر درآمد کے لیے تیار کریں"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "انکرپٹ کردہ بیک اپ کو میموری میں ایکسپورٹ کریں اور اس پر تصدیقی سوئٹ چلائیں"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "معمولی تبدیلیاں کی گئیں، بگ ٹھیک کیے گئے، اور کارکردگی اور بھی بہتر بنائی گئی ہے۔ Signal استعمال کرنے کے لیے شکریہ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "مسکراہٹ ہر زبان میں ایک جیسی ہے، لیکن اب Signal ڈیسک ٹاپ میں ایموجی شارٹ کٹ پوری طرح ترجمہ کر دئیے گئے ہیں تو آپ کسی بھی زبان میں <code>:smile:</code> یا <code>:sourire:</code> یا <code>:微笑:</code> کر سکتے ہیں۔"
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "یہ اپ ڈیٹ ایموجی اور اسٹیکرز کے لیے کیی بورڈ شارٹ کٹس کو دوبارہ فعال کرتی ہے۔"
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "ہم نے Linux ڈسٹریبیوشنز میں غیر معمولی کریش کو ٹھیک کر دیا ہے جو GTK4 کو سپورٹ نہیں کرتا۔"
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "اس اپڈیٹ میں اس نقص کی درستگی کی گئی ہے جس میں سٹوریز کی ٹیب میں مواد دیکھتے ہوئے Signal کی ونڈو کو ہٹانا مشکل ہوتا تھا۔"
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "اب اپنی سیٹنگز کو ایڈجسٹ کرتے وقت، آپ پاپ اپ ونڈو کی بجائے اپنی مرکزی اسکرین سے ایسا کر سکیں گے۔"
   }
 }

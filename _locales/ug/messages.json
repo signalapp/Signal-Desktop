@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "مۇستەقىل ئۈسكۈنە قىلىپ سەپلەش"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "تېخىمۇ كۆپ مەشغۇلات"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "سانلىق مەلۇمات ئامبىرى خاتالىقى: خاتىرىڭىزنى ئورتاقلىشىڭ."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "ئىناۋەتسىز مۇلازىمەت ئىنكاسى. خاتىرىللىرىڭىزنى ئورتاقلىشىڭ."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "ياردەم كېرەكمۇ؟"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "تەڭشەكلەر"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "تېلېفون نومۇرى"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "مەخپىيلەشتۈرۈلگەن يەرلىك زاپاسلاشنى ھۆججەت قىسقۇچقا چىقىرىپ دەلىللەڭ"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "ئىمپورت…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "ئۇلانغان ئىمپورت ئۈچۈن مەخپىيلەشتۈرۈلگەن يەرلىك زاپاسلاشنى ئورۇنلاشتۇرۇڭ"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "مەخپىيلەشتۈرۈلگەن زاپاسلاشنى ئىچكى ساقلىغۇچقا ئېكسپورت قىلىڭ ۋە ئۇنىڭدا دەلىللەشنى ئىجرا قىلىڭ"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "كۈلۈمسىرەش ھەر قانداق تىلدا ئوخشاش ، ئەمما ھازىر سىگنال ئۈستەل يۈزىدىكى emoji تېزلەتمىلىرى تولۇق تەرجىمە قىلىنغاندىن كېيىن ، سىز يەنە <code>:smile:</code> ياكى <code>:sourire:</code> ياكى <code>:微笑:</code> قوللايدىغان تىلدا بەھىرلىنەلەيسىز."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "emoji ۋە چاپلاقلارنىڭ تېزلەتمە كۇنۇپكا تاختىسى قايتىپ كەلدى! بۇ تېزلەتمىلەر تېخىمۇ كۆپ ۋاقىت تېجەيدۇ ، چۈنكى ھازىر خەت يېزىشنىڭ ھاجىتى يوق ، بىزگە ئەمدى ئۇلارنىڭ بۇزۇلغانلىقىنى ئېيتىشىڭىزنىڭمۇ ھاجىتى يوق."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "بىز يەنەن Linux تارقىتىشلىرىدا GTK4 نى ھازىرچە قوللىمايدىغا كاشىلىنى ئوڭشىدۇق."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "بۇ قېتىملىق يېڭىلاش بەتكۈچتىكى مەزمۇننى كۆرگەندە Signal كۆزنىكىنى يۆتكەش تەسكە توختايدىغان خاتالىقنى تۈزەتتى. 7.56 نەشىر نۇسخىسى ئۈچۈن تارقىتىلدى"
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "ھازىر تەڭشەكلىرىڭىزنى تەڭشىسىڭىز ، ئۇنى سەكرىمە كۆزنەكتىن قىلماي ئاساسىي ئېكراندىنلا قىلالايسىز. ھازىر تەڭشەكلىرىڭىزنى تەڭشىسىڭىز ، ئۇنى ئاساسىي ئېكراندىن قىلالايسىز."
   }
 }

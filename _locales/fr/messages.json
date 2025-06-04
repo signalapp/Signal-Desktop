@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Configurer comme appareil autonome"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Autres actions"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Erreur de base de données : merci de partager vos journaux de débogage."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "La réponse reçue du service de stockage n'est pas valide. Merci de partager vos journaux de débogage."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Besoin d'aide ?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Paramètres"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Numéro de téléphone"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Exporter la sauvegarde locale chiffrée vers un dossier et la valider"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Importer…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Préparer une sauvegarde locale chiffrée pour l'importer via un lien"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Exporter la sauvegarde chiffrée vers la mémoire interne et exécuter les tests de validation"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Au menu de cette version : quelques ajustements de plus, quelques petits bugs en moins et des gains de performance. Merci d'utiliser Signal !",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Le sourire est un langage universel. La preuve : depuis que nous avons traduit les raccourcis d'émojis sur Signal Desktop, vous pouvez <code>:sourire:</code>, <code>:smile:</code> ou <code>:微笑:</code> dans toutes les langues que nous proposons."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Bonne nouvelle pour les fans d'émojis et de stickers : les raccourcis clavier sont de retour !"
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Nous avons également corrigé une erreur sur les distributions Linux qui ne prennent pas encore en charge GTK4."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "Vous aviez du mal à déplacer la fenêtre Signal lorsque vous regardiez des stories ? C'est de l'histoire ancienne : ce n'est pas parce que certaines stories peuvent vous clouer sur place que Signal doit subir le même sort."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Avant, les paramètres s'affichaient dans une fenêtre contextuelle distincte. Maintenant, vous pouvez modifier vos paramètres directement depuis l'écran principal. Pourquoi faire compliqué quand on peut faire simple ?"
   }
 }

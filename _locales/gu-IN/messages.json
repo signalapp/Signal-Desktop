@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "સિંગલ ડિવાઇસ તરીકે સેટ કરો"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "વધુ પગલાં"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "ડેટાબેઝ એરર: કૃપા કરીને તમારા લૉગ શેર કરો."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "સ્ટોરેજ સેવા તરફથી અમાન્ય પ્રતિસાદ મળ્યો. કૃપા કરીને તમારા લૉગ શેર કરો."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "મદદ જોઈએ છે?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "સેટિંગ્સ"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "ફોન નંબર"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "સ્થાનિક એન્ક્રિપ્ટેડ બેકઅપને ફોલ્ડરમાં એક્સપોર્ટ કરો અને તેને માન્ય કરો"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "ઇમ્પોર્ટ કરો…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "લિંક પર ઇમ્પોર્ટ માટે સ્થાનિક એન્ક્રિપ્ટેડ બેકઅપ બનાવો"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "એન્ક્રિપ્ટેડ બેકઅપને મેમરી પર નિકાસ કરો અને તેના પર વેલિડેશન સ્યુટ ચલાવો"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "નાના ફેરફારો, ભૂલ સુધારા અને પ્રદર્શનમાં વધારો. Signalનો ઉપયોગ કરવા બદલ આભાર!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "અમે વધારાની ભાષાઓમાં ઇમોજી શોર્ટકટ માટે સપોર્ટ ઉમેર્યો છે."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "આ અપડેટ ઇમોજી અને સ્ટીકર માટે કીબોર્ડ શોર્ટકટને ફરીથી સક્ષમ કરે છે."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "અમે કેટલાક Linux ડિસ્ટ્રિબ્યુશન પરના દુર્લભ ક્રેશને પણ ઠીક કર્યા છે."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "આ અપડેટમાં એક એવા બગને ઠીક કરવામાં આવ્યો છે જેના કારણે સ્ટોરી ટેબમાં કન્ટેન્ટ જોતી વખતે Signal વિન્ડો ખસેડવાનું મુશ્કેલ બનતું હતું."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "હવે, જ્યારે તમે તમારા સેટિંગ્સને એડજસ્ટ કરશો, ત્યારે તમે તે પોપ-આઉટ વિન્ડોને બદલે મુખ્ય સ્ક્રીન પરથી કરશો."
   }
 }

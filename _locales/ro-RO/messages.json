@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Setează ca dispozitiv de sine stătător"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Mai multe acțiuni"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Eroare bază de date: trimite-ne registrele."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Răspuns invalid de la serviciul de stocare. Te rugăm să-ți partajezi jurnalele."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Ai nevoie de ajutor?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Setări"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Număr de telefon"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Exportă o copie de rezervă criptată locală într-un folder și valideaz-o"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Importă…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Creează o copie de rezervă criptată locală pentru import pe link"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Exportă backup-ul criptat în memorie și rulează suita de validare pe acesta"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Un zâmbet este același în orice limbă, dar acum, că scurtăturile pentru emoji-uri din Signal Desktop au fost complet traduse, poți să <code>:smile:</code> <code>:sourire:</code> sau <code>:微笑:</code> în orice limbă acceptată."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Comenzile rapide de la tastatură pentru emoji și autocolante au revenit! Aceste scurtături economisesc și mai mult timp, deoarece acum nu va mai trebui să scrii și să ne spui că sunt defecte."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "De asemenea, am remediat o eroare apărută la distribuțiile Linux care nu suportă încă GTK4."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "Uneori, o poveste puternică te poate emoționa cu adevărat, așa că am remediat o eroare care îngreuna mutarea ferestrei Signal în timpul vizualizării de conținut în fila Povești."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Setările se aflau înainte într-o fereastră pop-out, așa că le-am pus-o din nou în ea. Acum, când ajustezi Setările, o vei face din ecranul principal."
   }
 }

@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "ตั้งค่าเป็นอุปกรณ์เอกเทศ"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "การกระทำเพิ่มเติม"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "ข้อผิดพลาดเกี่ยวกับฐานข้อมูล: โปรดแชร์บันทึกดีบักของคุณ"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "การตอบรับจากเซิร์ฟเวอร์ไม่ถูกต้อง โปรดแชร์บันทึกดีบักของคุณ"
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "ต้องการความช่วยเหลือหรือไม่?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "การตั้งค่า"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "หมายเลขโทรศัพท์"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "ส่งออกข้อมูลสำรองที่เข้ารหัสในเครื่องไปยังโฟลเดอร์และตรวจสอบความถูกต้อง"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "นำเข้า…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "จัดเตรียมข้อมูลสำรองที่เข้ารหัสในเครื่องเพื่อนำเข้าผ่านลิงก์"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "ส่งออกข้อมูลสำรองที่เข้ารหัสไปยังหน่วยความจำและดำเนินการตรวจสอบความถูกต้อง"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "เพิ่มการรองรับตัวเลือกอีโมจิในภาษาอื่นๆ ให้ครอบคลุมยิ่งขึ้น"
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "รุ่นอัปเดตนี้นำฟีเจอร์ปุ่มลัดบนแป้นพิมพ์หรับอีโมจิและสติกเกอร์กลับมาให้คุณเลือกได้สะดวกเหมือนเคย"
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "เรายังแก้ไขปัญหาแอปหยุดทำงานซึ่งผู้ใช้ระบบปฏิบัติการ Linux น้อยคนอาจจะเคยเจอ"
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "แก้ไขบั๊กที่เคยเป็นอุปสรรคเวลาที่ต้องการลากย้ายหรือขยับตำแหน่งหน้าต่าง Signal ในระหว่างกำลังเปิดดูแท็บสตอรี่"
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "พัฒนาให้คุณปรับแต่งการตั้งค่าได้แบบสะดวกทันใจในหน้าต่างหลัก ไม่ต้องเปิดหน้าใหม่แยกออกมาให้ยุ่งยากอีกต่อไป"
   }
 }

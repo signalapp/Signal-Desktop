@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Автономды құрылғы ретінде орнату"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Басқа әрекеттер"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Дерекқорда қате орын алды. Журналдарыңызды бөлісіңіз."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Сақтау қызметі жарамсыз жауап қайтарды. Журналдарыңызды бөлісіңіз."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Көмек керек пе?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Параметрлер"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Телефон нөмірі"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Жергілікті шифрланған сақтық көшірмені қалтаға экспорттаңыз және жарамдылығын растаңыз"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Импорттау…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Сілтеме арқылы импорттау үшін жергілікті шифрланған сақтық көшірмені дайындаңыз"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Шифрланған сақтық көшірмені жадқа экспорттаңыз және оның жарамдылығын тексеріңіз"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Эмоциялар тіл таңдамайды. Signal Desktop-тағы эмоджи таңбашалары толықтай аударылғандықтан, енді <code>:smile:</code>, <code>:sourire:</code> немесе <code>:微笑:</code> деп таңдасаңыз да, күлу эмоджиін жібере аласыз."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Эмоджи мен стикерлерге арналған пернелер тіркесімі қайта оралды! Енді оларды бұрынғыдан да тиімді пайдалануға болады, себебі оның бұзылғанын хабарлау үшін бізге жазудың қажеті жоқ."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Сонымен қатар GTK4 жүйесіне әлі қолдау көрсетпейтін Linux таратылымдарындағы ақауды түзеттік."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "Кейде әсерлі оқиға жүрегіңізді тербейтіні сөзсіз. Сондықтан біз \"Сторис\" қойындысындағы контентті тамашалау кезінде Signal терезесін жылжытуға кедергі келтірген ақауды түзеттік."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Параметрлер бұрын қалқымалы терезеде ашылатын, ал біз оны орнына қайтардық. Енді параметрлерді тікелей негізгі экраннан реттей аласыз."
   }
 }

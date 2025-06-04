@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Configurar como Aparelho Independente"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Mais ações"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Erro no banco de dados: compartilhe seus registros."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Recebemos uma resposta inválida do serviço de armazenamento. Por favor, compartilhe seus registros."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Precisa de ajuda?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Configurações"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Número de telefone"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Exporte o backup criptografado local para uma pasta e faça a validação"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Importar…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Prepare um backup criptografado local para importação no link"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Exporte o backup criptografado para a memória e execute o pacote de validação"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Pequenas alterações adicionais, correções de bugs e melhorias de desempenho. Agradecemos por usar o Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Um sorriso é igual em qualquer idioma, mas agora que os atalhos de emoji no Signal Desktop foram totalmente traduzidos, você também pode <code>:sorrir:</code>, <code>:sourire:</code> ou <code>:微笑:</code> em qualquer idioma compatível."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Esta atualização traz de volta os atalhos de teclado para emojis e figurinhas."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Também corrigimos uma falha nas distribuições Linux que ainda não são compatíveis com o GTK4."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "Esta atualização corrige um erro que dificultava mover a janela do Signal ao visualizar conteúdo na aba de Stories."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "As configurações costumavam abrir em um pop-out, mas resolvemos colocá-las de volta.Agora, você pode ajustar suas configurações na tela principal."
   }
 }

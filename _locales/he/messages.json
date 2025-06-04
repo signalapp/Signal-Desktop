@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "הגדר בתור מכשיר עצמאי"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "עוד פעולות"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "שגיאת מסד נתונים: יש נא לשתף את היומנים שלך."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "התקבלה תגובה לא חוקית משירות האחסון. יש לשתף את יומני ניפוי הבאגים שלך."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "צריך עזרה?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "הגדרות"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "מספר טלפון"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "לייצא גיבוי מוצפן מקומי לתיקייה ולאמת אותו"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "ייבוא…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "לייצר גיבוי מקומי מוצפן לייבוא באמצעות לינק"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "לייצא גיבוי מוצפן לזיכרון ולהריץ עליו אימות"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "הוספנו תמיכה בקיצורי מקשים של סמלי הבעה."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "העדכון הזה מאפשר מחדש קיצורי מקלדת עבור אימוג׳ים וסטיקרים."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "תיקנו גם קריסה נדירה בגרסאות מסוימות של Linux."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "עדכון זה מתקן באג שהקשה על המעבר לחלון Signal בזמן הצפייה בתוכן בלשונית הסטוריז."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "מעכשיו, שינוי ההגדרות שלך יתבצע מתוך המסך הראשי במקום חלון קופץ."
   }
 }

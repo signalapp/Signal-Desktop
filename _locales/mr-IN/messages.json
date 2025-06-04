@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "स्टँडअलोन डिव्हाईस म्हणून सेटअप करा"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "अधिक क्रिया"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "डेटाबेसमध्ये त्रुटी : कृपया तुमचे लॉग्ज शेअर करा."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "साठवण सेवेकडून अवैध सर्व्हर प्रतिसाद मिळाला. कृपया तुमचे लॉग्ज शेअर करा."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "मदत हवी?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "सेटिंग"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "फोन नंबर"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "स्थानिक कूटबद्ध केलेले बॅकअप एका फोल्डरमध्ये एक्सपोर्ट करा आणि तो प्रमाणित करा"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "आयात करा…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "लिंकवर आयात करण्यासाठी स्थानिक कूटबद्ध केलेला बॅकअप तयार करा"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "कूटबद्ध केलेला बॅकअप मेमरीमध्ये पाठवा आणि त्यावर व्हॅलिडेशन सूट चालवा"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "चेहऱ्यावरचं हसू कोणत्याही भाषेत सारखंच असतं, पण आता Signal डेस्कटॉप मधले इमोजी शॉर्टकट्स पूर्णपणे अनुवादित केले आहेत त्यामुळे आता तुम्ही समर्थित भाषांमध्ये <code>:smile:</code> किंवा <code>:sourire:</code> किंवा <code>:微笑:</code> करू शकता."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "इमोजी आणि स्टिकर साठीचे कीबोर्ड शॉर्टकट्स परत आले आहेत! ह्या अद्यतनामुळे इमोजी आणि स्टिकर्ससाठीचे कीबोर्ड शॉर्टकट्स पुन्हा सुरु झाले आहेत."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "अद्याप GTK4 ला सपोर्ट न करणाऱ्या Linux वितरणांवरील एक क्रॅशसुद्धा आम्ही दुरुस्त केला आहे."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "ह्या अद्यतनामध्ये एक असा बग ज्यामुळे स्टोरीज टॅब पाहाताना Signal विंडो हलवणे अवघड होत असे, आता दुरुस्त झाला आहे."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "सेटिंग्ज आता पॉप आऊट विंडोत उघडत होत्या. त्या आता मुख्य स्कीनवर उघडून बदलता येतील."
   }
 }

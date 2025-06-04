@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Iestatīt kā savrupu ierīci"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Citas darbības"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Datubāzes kļūda: lūdzu, kopīgojiet savus žurnālus."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Saņemta nederīga atbilde no servera. Lūdzu, nosūtiet mums atkļūdošanas žurnālus."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Nepieciešama palīdzība?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Iestatījumi"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Tālruņa numurs"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Eksportēt lokāli šifrētu rezerves kopiju uz mapi un validēt to"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Importēt…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Izveidot lokālu šifrētu rezerves kopiju importēšanai, izmantojot saiti"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Eksportējiet šifrētu rezerves kopiju atmiņā un palaidiet tās validācijas komplektu"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Smaids nozīmē to pašu visās valodās, bet tagad, kad emocijzīmju saīsnes lietotnē Signal Desktop ir pilnībā iztulkotas, varat lietot <code>:smile:</code> <code>:sourire:</code> vai <code>:微笑:</code> jebkurā atbalstītajā valodā."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Mēs esam atjaunojuši emocijzīmju un uzlīmju saīsnes! Turklāt tagad ar šīm saīsnēm ietaupīsiet vēl vairāk laika, jo jums vairs nevajadzēs mums rakstīt garas vēstules, lai ziņotu, ka tās nestrādā."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Mēs arī novērsām avāriju Linux sadalēs, kas vēl neatbalsta GTK4."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "Reizēm spēcīgs stāsts var patiešām aizkustināt, tāpēc mēs novērsām kļūdu, kas apgrūtināja Signal loga pārvietošanu, skatot saturu cilnē “Stāsti”."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Līdz šim iestatījumi parādījās uznirstošā logā, bet mēs to aizvācām. Tagad iestatījumus var pielāgot galvenajā ekrānā."
   }
 }

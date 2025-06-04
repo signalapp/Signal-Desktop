@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Nusistatyti kaip atskirą įrenginį"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Daugiau veiksmų"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Duomenų bazės klaida: pasidalinkite savo žurnalais."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Neteisingas atsakymas iš serverio. Pasidalinkite savo žurnalais."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Reikia pagalbos?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Nustatymai"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefono numeris"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Eksportuoti vietinę užšifruotą atsarginę kopiją į aplanką ir ją patvirtinti"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Importuoti…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Kurti vietinę užšifruotą atsarginę kopiją importavimui iš nuorodos"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Eksportuokite užšifruotą atsarginę kopiją į atmintį ir paleiskite joje patvirtinimo rinkinį"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Įtraukėme jaustukų šaukinių palaikymą papildomomis kalbomis."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Šis atnaujinimas iš naujo įjungia jaustukų ir lipdukų sparčiuosius klavišus."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Be to, ištaisėme retą strigtį kai kuriuose „Linux“ paketuose."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "Ištaisėme klaidą, dėl kurios buvo sunku perkelti „Signal“ langą žiūrint turinį kortelėje „Istorijos“."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Nuo šiol koreguodami nustatymus tai darysite pagrindiniame ekrane, o ne iškylančiajame lange."
   }
 }

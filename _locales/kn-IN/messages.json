@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "ಪ್ರತ್ಯೇಕ ಸಾಧನವನ್ನಾಗಿ ಸೆಟಪ್ ಮಾಡಿ"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "ಇನ್ನಷ್ಟು ಕ್ರಮಗಳು"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "ಡೇಟಾಬೇಸ್ ದೋಷ: ನಿಮ್ಮ ಲಾಗ್‌ಗಳನ್ನು ದಯವಿಟ್ಟು ಹಂಚಿಕೊಳ್ಳಿ."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "ಅಮಾನ್ಯ ಸರ್ವರ್ ಪ್ರತಿಕ್ರಿಯೆ. ನಿಮ್ಮ ಲಾಗ್‌ಗಳನ್ನು ಹಂಚಿಕೊಳ್ಳಿ."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "ಸಹಾಯ ಅಗತ್ಯವಿದೆಯೇ?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "ಸೆಟ್ಟಿಂಗ್‌ಗಳು"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "ಫೋನ್ ಸಂಖ್ಯೆ"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "ಸ್ಥಳೀಯ ಎನ್ಕ್ರಿಪ್ಟ್ ಆಗಿರುವ ಬ್ಯಾಕಪ್ ಅನ್ನು ಫೋಲ್ಡರ್‌ಗೆ ಎಕ್ಸ್‌ಪೋರ್ಟ್ ಮಾಡಿ ಮತ್ತು ಅದನ್ನು ಮೌಲ್ಯೀಕರಿಸಿ"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "ಇಂಪೋರ್ಟ್ ಮಾಡಿ…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "ಲಿಂಕ್‌ನಲ್ಲಿ ಇಂಪೋರ್ಟ್ ಮಾಡಿಕೊಳ್ಳಲು ಸ್ಥಳೀಯ ಎನ್ಕ್ರಿಪ್ಟ್ ಆಗಿರುವ ಬ್ಯಾಕಪ್ ಅನ್ನು ವ್ಯವಸ್ಥೆಗೊಳಿಸಿ"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "ಎನ್ಕ್ರಿಪ್ಟ್ ಆಗಿರುವ ಬ್ಯಾಕಪ್ ಅನ್ನು ಮೆಮೊರಿಗೆ ಎಕ್ಸ್‌ಪೋರ್ಟ್ ಮಾಡಿ ಮತ್ತು ಅದರ ಮೇಲೆ ವ್ಯಾಲಿಡೇಶನ್ ಸೂಟ್ ಅನ್ನು ರನ್ ಮಾಡಿ"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "ಯಾವುದೇ ಭಾಷೆಯಲ್ಲಿಯೇ ಆಗಲಿ ನಗು ಒಂದೇ ಆಗಿರುತ್ತದೆ, ಆದರೆ ಈಗ ಸಿಗ್ನಲ್ ಡೆಸ್ಕ್‌ಟಾಪ್‌ನಲ್ಲಿರುವ ಎಮೋಜಿ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳನ್ನು ಸಂಪೂರ್ಣವಾಗಿ ಅನುವಾದಿಸಲಾಗಿರುವುದರಿಂದ ನೀವು ಯಾವುದೇ ಬೆಂಬಲಿತ ಭಾಷೆಯಲ್ಲಿಯೂ ಸಹ <code>:smile:</code> ಅಥವಾ <code>:sourire:</code> ಅಥವಾ <code>:微笑:</code> ಸಹ ಅನುವಾದಿಸಬಹುದು."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "ಎಮೋಜಿ ಮತ್ತು ಸ್ಟಿಕ್ಕರ್‌ಗಳಿಗಾಗಿ ಕೀಬೋರ್ಡ್ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳು ಮರಳಿ ಬಂದಿವೆ! ಈ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳು ಇನ್ನೂ ಹೆಚ್ಚಿನ ಸಮಯವನ್ನು ಉಳಿಸುತ್ತವೆ ಏಕೆಂದರೆ ಈಗ ನೀವು ಅವು ಮುರಿದುಹೋಗಿವೆ ಎಂದು ನಮಗೆ ಬರೆದು ಹೇಳುವ ಅಗತ್ಯವಿಲ್ಲ."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "GTK4 ಅನ್ನು ಇನ್ನೂ ಬೆಂಬಲಿಸದ Linux ವಿತರಣೆಗಳಲ್ಲಿನ ಕ್ರ್ಯಾಶ್ ಅನ್ನು ಸಹ ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "ಕೆಲವೊಮ್ಮೆ ಒಂದು ಪ್ರಬಲ ಸ್ಟೋರಿ ನಿಮ್ಮನ್ನು ನಿಜವಾಗಿಯೂ ಅಲುಗಾಡಿಸಬಹುದು, ಆದ್ದರಿಂದ ಸ್ಟೋರೀಸ್ ಟ್ಯಾಬ್‌ನಲ್ಲಿ ಕಂಟೆಂಟ್ ಅನ್ನು ವೀಕ್ಷಿಸುವಾಗ Signal ವಿಂಡೋವನ್ನು ಮೂವ್ ಮಾಡಲು ಕಷ್ಟಕರವಾದ ಬಗ್ ಅನ್ನು ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಪಾಪ್-ಔಟ್ ವಿಂಡೋದಲ್ಲಿ ಇರುತ್ತಿದ್ದವು, ಆದ್ದರಿಂದ ನಾವು ಅದನ್ನು ಮತ್ತೆ ಪಾಪ್ ಇನ್ ಮಾಡಿದ್ದೇವೆ. ಈಗ, ನಿಮ್ಮ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ನೀವು ಹೊಂದಿಸಿದಾಗ, ನೀವು ಅದನ್ನು ಮುಖ್ಯ ಸ್ಕ್ರೀನ್‌ನಿಂದ ಮಾಡುತ್ತೀರಿ."
   }
 }

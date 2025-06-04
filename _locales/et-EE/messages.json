@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Seadista iseseisva seadmena"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Rohkem tegevusi"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Andmebaasi viga. Palun jaga oma logisid."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Salvestusteenuselt saadi kehtetu vastus. Palun jaga oma logisid."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Kas vajad abi?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Sätted"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefoninumber"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Ekspordi kohalik krüptitud varukoopia kausta ja valideeri see"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Impordi …"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Loo lingil importimiseks kohalik krüptitud varukoopia"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Ekspordi krüptitud varukoopia mälusse ja käivita sellel valideerimisprotsess"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Nüüd on emoji otseteed täiendavates keeltes kättesaadavad."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "See uuendus võimaldab taas kasutada emojide ja kleebiste sisestamiseks klaviatuuriotseteid."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Samuti parandasime mõnes Linuxi versioonis esineva haruldase kokkujooksmise probleemi."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "Selle uuendusega parandati viga, mille tõttu oli keeruline lugude vahekaardil sisu vaatamise ajal Signali akent liigutada."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Nüüd saad oma sätteid muuta peakuvalt, mitte hüpikakna kaudu."
   }
 }

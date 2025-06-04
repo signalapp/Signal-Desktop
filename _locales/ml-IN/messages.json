@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "ഒറ്റപ്പെട്ട ഉപകരണമായി സജ്ജമാക്കുക"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "കൂടുതൽ പ്രവർത്തനങ്ങൾ"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "ഡാറ്റാബേസ് പിശക്: നിങ്ങളുടെ ലോഗുകൾ പങ്കിടൂ."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "സംഭരണ സേവനത്തിൽ നിന്ന് അസാധുവായ പ്രതികരണം ലഭിച്ചു. നിങ്ങളുടെ ലോഗുകൾ പങ്കിടുക."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "സഹായം ആവശ്യമുണ്ടോ?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "ക്രമീകരണങ്ങൾ"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "ഫോൺ നമ്പർ"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "ഒരു ഫോൾഡറിലേക്ക് ലോക്കൽ എൻക്രിപ്റ്റ് ചെയ്ത ബാക്കപ്പ് എക്സ്പോർട്ട് ചെയ്ത് അത് പരിശോധിച്ചുറപ്പിക്കുക"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "ഇമ്പോർട്ട് ചെയ്യുക…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "ലിങ്കിൽ ഇമ്പോർട്ട് ചെയ്യുന്നതിനായി ഒരു ലോക്കൽ എൻക്രിപ്റ്റ് ചെയ്ത ബാക്കപ്പ് സ്റ്റേജ് ചെയ്യുക"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "എൻക്രിപ്റ്റ് ചെയ്ത ബാക്കപ്പ്, മെമ്മറിയിലേക്ക് എക്സ്പോർട്ട് ചെയ്ത് അതിൽ വാലിഡേഷൻ സ്യൂട്ട് റൺ ചെയ്യുക"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "ഏത് ഭാഷയിലും പുഞ്ചിരി ഒരുപോലെയാണ്, എന്നാൽ ഇപ്പോൾ Signal ഡെസ്ക്ടോപ്പിലെ ഇമോജി ഷോർട്ട്കട്ടുകൾ പൂർണ്ണമായും വിവർത്തനം ചെയ്യപ്പെട്ടിരിക്കുന്നതിനാൽ നിങ്ങൾക്ക് <code>:smile:</code> അല്ലെങ്കിൽ <code>:sourire:</code> അല്ലെങ്കിൽ <code>:微笑:</code> എന്നിങ്ങനെ പിന്തുണയ്ക്കുന്ന ഏത് ഭാഷയിലും ഉപയോഗിക്കാം."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "ഇമോജികൾക്കും സ്റ്റിക്കറുകൾക്കുമുള്ള കീബോർഡ് കുറുക്കുവഴികൾ തിരിച്ചെത്തിയിരിക്കുന്നു! ഈ കുറുക്കുവഴികൾ കൂടുതൽ സമയം ലാഭിക്കുന്നു, കാരണം ഇനി അവ തകരാറിലാണെന്ന് നിങ്ങൾ എഴുതി ഞങ്ങളോട് പറയേണ്ടതില്ല."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "ഇതുവരെ GTK4-നെ പിന്തുണയ്ക്കാത്ത Linux വിതരണങ്ങളിലെ ഒരു ക്രാഷും ഞങ്ങൾ പരിഹരിച്ചു."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "ചിലപ്പോൾ ശക്തമായ ഒരു കഥ നിങ്ങളെ ശരിക്കും സ്പർശിച്ചേക്കാം, അതിനാൽ 'സ്റ്റോറികൾ' ടാബിൽ ഉള്ളടക്കം കാണുമ്പോൾ Signal വിൻഡോ നീക്കുന്നത് ബുദ്ധിമുട്ടാക്കുന്ന ഒരു ബഗ് ഞങ്ങൾ പരിഹരിച്ചു."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "ക്രമീകരണങ്ങൾ ഒരു പോപ്പ്-ഔട്ട് വിൻഡോയിൽ വന്നിരുന്നതിനാൽ ഞങ്ങൾ അത് തിരിച്ച് പോപ്പ് ഇൻ ചെയ്‌തു. ഇനി, നിങ്ങൾ ക്രമീകരണങ്ങൾ മാറ്റുമ്പോൾ, നിങ്ങൾ അത് പ്രധാന സ്ക്രീനിൽ നിന്ന് ചെയ്യും."
   }
 }

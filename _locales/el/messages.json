@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Παραμετροποίηση ως αυτόνομη συσκευή"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Περισσότερες ενέργειες"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Σφάλμα βάσης δεδομένων: κοινοποίησε τα αρχεία καταγραφής σου."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Μη έγκυρη απόκριση από την υπηρεσία αποθήκευσης. Κοινοποίησε τα αρχεία καταγραφής σου."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Χρειάζεσαι βοήθεια;"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Ρυθμίσεις"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Αριθμός τηλεφώνου"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Εξαγωγή τοπικού κρυπτογραφημένου αντιγράφου ασφαλείας σε έναν φάκελο και επικύρωσή"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Εισαγωγή…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Δημιουργία τοπικού κρυπτογραφημένου αντιγράφου ασφαλείας για εισαγωγή μέσω συνδέσμου"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Εξαγωγή αποκρυπτογραφημένου αντιγράφου ασφαλείας και εκτέλεση σουίτας επικύρωσης σε αυτό"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Προσθέσαμε υποστήριξη για συντομεύσεις emoji σε επιπρόσθετες γλώσσες."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Οι συντομεύσεις πληκτρολογίου για emoji και αυτοκόλλητα επέστρεψαν! Αυτή η ενημέρωση ενεργοποιεί ξανά τις συντομεύσεις πληκτρολογίου για emoji και αυτοκόλλητα."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Διορθώσαμε επίσης ένα σφάλμα σε διανομές Linux που δεν υποστηρίζουν ακόμα το GTK4."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "Αυτή η ενημέρωση διορθώνει ένα σφάλμα που καθιστούσε δύσκολη τη μετακίνηση του παραθύρου Signal κατά την προβολή περιεχομένου στην καρτέλα Ιστοριών."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Τώρα, όταν προσαρμόζεις τις Ρυθμίσεις σου, θα το κάνεις από την κύρια οθόνη αντί από ένα αναδυόμενο παράθυρο."
   }
 }

@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Asenna itsenäisenä laitteena"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Lisätoimintoja"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Tietokantavirhe: Ole hyvä ja jaa lokit."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Vastaanotettu virheellinen vastaus tallennuspalvelulta. Ole hyvä ja jaa lokit."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Tarvitsetko apua?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Asetukset"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Puhelinnumero"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Vie paikallinen salattu varmuuskopio kansioon ja vahvista se"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Tuo…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Luo paikallinen salattu varmuuskopio linkin kautta tuotavaksi"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Vie salattu varmuuskopio muistiin ja suorita sille vahvistuspaketti"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Lisäsimme tuen emoji-pikavalinnoille uusilla kielillä."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Tämä päivitys tuo takaisin emojien ja tarrojen pikanäppäimet."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Korjasimme myös harvinaisen kaatumisen tietyissä Linux-jakeluissa."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "Päivitys korjaa virheen, joka vaikeutti Signal-ikkunan liikuttamista Tarinat-välilehden sisältöä katseltaessa."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Nyt asetusten muuttaminen tapahtuu päänäytöltä, ei enää ponnahdusikkunasta."
   }
 }

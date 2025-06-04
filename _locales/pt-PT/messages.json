@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Configurar como dispositivo autónomo"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Mais ações"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Erro na base de dados: partilhe os seus registos."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Recebeu uma resposta inválida do serviço de armazenamento. Partilhe os seus registos."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Necessita de ajuda?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Definições"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "N.º de telemóvel"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Exporta uma cópia de segurança local encriptada para uma pasta e valida-a"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Importar…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Prepara uma cópia de segurança local encriptada para importação por link"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Exportar a cópia de segurança encriptada para a memória e executar o conjunto de validação"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Pequenos ajustes adicionais, correções de bugs e melhorias de desempenho. Obrigado por usar o Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Adicionámos suporte para atalhos de emojis em mais línguas."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Esta atualização volta a ativar os atalhos para emojis e autocolantes."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Também corrigimos um crash em distribuições Linux que ainda não suportam GTK4."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "Esta atualização corrige um erro que tornava difícil mover a janela do Signal ao ver conteúdo no separador Histórias."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Agora, irá ajustar as suas definições através do ecrã principal em vez de uma janela pop-up."
   }
 }

@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "تنظیم به عنوان دستگاه مستقل"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "اقدامات بیشتر"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "خطای پایگاه داده: لطفاً گزارش‌های خود را به اشتراک بگذارید."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "پاسخ نامعتبر از سرویس ذخیره‌سازی دریافت شد. لطفاً گزارش‌های رفع اشکال را به اشتراک بگذارید."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "به راهنمایی نیاز دارید؟"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "تنظیمات"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "شماره تلفن"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "نسخه پشتیبان رمزگذاری‌شده محلی را به یک پوشه صادر کنید و آن را اعتبارسنجی کنید"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "وارد کردن…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "یک نسخه پشتیبان رمزگذاری‌شده محلی را برای وارد کردن در لینک آماده کنید"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "نسخه پشتیبان رمزگذاری‌شده را به حافظه صادر کنید و مجموعه اعتبارسنجی را روی آن اجرا کنید"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "پشتیبانی از میان‌برهای ایموجی به زبان‌های دیگر را اضافه کرده‌ایم."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "این به‌روزرسانی، میانبرهای صفحه‌کلید را برای ایموجی‌ها و استیکرها دوباره فعال می‌کند."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "همچنین مشکل ازکارافتادگی برنامه را در برخی از توزیع‌های لینوکس را برطرف کردیم."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "این به‌روزرسانی اشکالی را برطرف می‌کند که جابجایی پنجره سیگنال را هنگام مشاهده محتوا در زبانه استوری‌ها دشوار می‌کرد."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "حالا وقتی «تنظیمات» را تغییر می‌دهید، این کار را به‌جای پنجره بازشونده از صفحه اصلی انجام می‌دهید."
   }
 }

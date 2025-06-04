@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Socraigh mar Ghléas Neamhspleách"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Tuilleadh gníomhartha"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Earráid le bunachar sonraí: comhroinn do logaí."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Freagairt neamhbhailí soláthraí. Comhroinn do logaí."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "An bhfuil cúnamh uait?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Socruithe"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Uimhir Ghutháin"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Easpórtáil cúltaca criptithe logánta chuig fillteán agus bailíochtaigh é"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Iompórtáil…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Socraigh cúltaca criptithe logánta le hiompórtáil ar nasc"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Easpórtáil cúltaca criptithe chuig cuimhne agus rith sraith bhailíochtaithe air"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Chuireamar tacú le haghaidh haicearraí emoji leis i dteangacha breise."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Déanann an nuashonrú seo aicearraí méarchláir a chumasú arís le haghaidh emoji agus greamán."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Réitíomar cliseadh annamh freisin ar roinnt leaganacha Linux."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "Réitíonn an nuashonrú seo fabht a bhí ina chúis le deacracht le fuinneog Signal a bhogadh agus tú ag féachaint ar ábhar sa táb Scéalta."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Anois, nuair a dhéanann tú do Shocruithe a choigeartú, déanfaidh tú ón bpríomhscáileán é in ionad fuinneog anuas."
   }
 }

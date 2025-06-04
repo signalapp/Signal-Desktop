@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "স্বাধীন ডিভাইস হিসেবে সেট করুন"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "আরও ক্রিয়া"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "ডেটাবেজ সংক্রান্ত ত্রুটি: অনুগ্রহ করে আপনার লগ শেয়ার করুন।"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "স্টোরেজ সার্ভিস থেকে অকার্যকর উত্তর পাওয়া গেছে। অনুগ্রহ করে আপনার লগ শেয়ার করুন।"
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "সাহায্য প্রয়োজন?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "সেটিংস"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "ফোন নম্বর"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "স্থানীয়ভাবে এনক্রিপ্ট করা ব্যাকআপ একটি ফোল্ডারে এক্সপোর্ট করুন এবং এটি যাচাই করুন"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "ইম্পোর্ট করুন…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "লিংকে ইম্পোর্টের জন্য একটি স্থানীয় এনক্রিপ্ট করা ব্যাকআপ তৈরি করুন"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "এনক্রিপ্ট করা ব্যাকআপ মেমোরিতে স্থানান্তর করুন এবং এতে যাচাইকরণ স্যুট চালান"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "আমরা আরো কিছু ভাষায় ইমোজি শর্টকাটের জন্য সহায়তা যোগ করেছি।"
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "এই আপডেটটি ইমোজি ও স্টিকারের জন্য পুনরায় কীবোর্ড শর্টকাট সক্রিয় করেছে!"
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "আমরা Linux ডিস্ট্রিবিউশনের একটি ক্র্যাশও সংশোধন করেছি যা এখনো GTK4 সমর্থন করে না।"
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "এই আপডেটটি এমন একটি বাগ সংশোধন করেছে যা স্টোরি ট্যাবে কন্টেন্ট দেখার সময় Signal উইন্ডো সরানো কঠিন করে তুলেছিল।"
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "এখন থেকে, যখন আপনি আপনার সেটিংস সমন্বয় করবেন, তখন আপনি পপ-আউট উইন্ডোর পরিবর্তে মূল স্ক্রিন থেকে তা করতে পারবেন।"
   }
 }

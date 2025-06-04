@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Подеси као самосталан уређај"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Више опција"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Грешка у бази података – молимо вас да пошаљете извештаје."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Примљен је неважећи одговор од сервиса за меморијски простор. Молимо да пошаљете извештаје."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Потребна вам је помоћ?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Подешавања"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Број телефона"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Извезите локалну шифровану резервну копију у фолдер и потврдите је"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Увези…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Креирајте локалну шифровану резервну копију за увоз помоћу линка"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Извоз шифроване резервне копије у меморију и покретање пакета за њену валидацију"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Обавили смо мања фина прилагођавања, исправке грешака и побољшања перформанси. Хвала што користите Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Увели смо пречице за емоџије код још језика."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "У овом ажурирању су поново активиране пречице на тастатури за емоџије и налепнице."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Такође смо поправили пад на Linux дистрибуцијама које још увек не подржавају GTK4."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "У овом ажурирању смо исправили грешку која је отежавала померање прозора Signal-а док гледате садржај на картици за приче."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Сада можете да мењате подешавања на главном екрану уместо у искачућем прозору."
   }
 }

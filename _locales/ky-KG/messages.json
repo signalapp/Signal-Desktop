@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "Өзүнчө түзмөк катары тууралоо"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "Дагы"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "Маалыматтар базасында ката кетти: журналдарыңызды бөлүшүңүз."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Сактоо кызматынан жараксыз жооп алынды. Журналдарыңызды бөлүшүңүз."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "Жардам керекпи?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "Тууралоо"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Телефон номериңиз"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Түзмөктөгү шифрленген камдык көчүрмөлөрдү папкага өткөрүп, текшересиз"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "Импорттоо…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "Шилтеме аркылуу импорттоло турган түзмөктөгү шифрленген камдык көчүрмөнү даярдайсыз"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Шифрленген камдык көчүрмөнү эстутумга экспорттоо жана анда текшерүү топтомун иштетүү"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "Майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, колдонмонун иштешин жакшыртып жатабыз. Signal'ды колдонгонуңуз үчүн чоң рахмат!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "Баарыбыз бир тилде жылмаябыз, бирок эми компьютердеги Signal'дын быйтыкчалары толук которулуп, каалаган тилде <code>:smile:</code> же <code>:sourire:</code> же <code>:微笑:</code> аласыз."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "Быйтыкчалар менен стикерлердин ыкчам баскычтары кайтып келди! Бул ыкчам баскычтар мурункудан да тезирээк иштеп, көп убактыңызды үнөмдөйт."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Ошондой эле азырынча GTK4 графикалык китепканасында иштей элек Linux дистрибутивдерин оңдодук."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "Кээ бир окуялар ушунчалык кызыктуу болгондуктан, алардан көзүңдү ала албай каласың. Дал ушул себептен, \"Окуялар\" өтмөгүндө бир нерсе көрүп жатканда, Signal терезесин жылдыра албаган мүчүлүштүктү чечип койдук."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "Мурун калкып чыгуучу терезеде ачылган параметрлер кайра калкып ачылмай болду. Эми аларды башкы экранда өзгөртө аласыз."
   }
 }

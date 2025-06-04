@@ -203,6 +203,9 @@
   "icu:menuSetupAsStandalone": {
     "messageformat": "독립 실행형 기기로 설정"
   },
+  "icu:menuStageLocalBackupForImport": {
+    "messageformat": "Stage Local Backup for Import…"
+  },
   "icu:messageContextMenuButton": {
     "messageformat": "더 많은 작업"
   },
@@ -589,6 +592,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--SQLError": {
+    "messageformat": "데이터베이스 오류: 로그를 공유해 주세요."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "스토리지 서비스에서 잘못된 응답을 받았습니다. 로그를 공유해 주세요."
@@ -1261,6 +1267,9 @@
   },
   "icu:Install__support-link": {
     "messageformat": "도움이 필요하신가요?"
+  },
+  "icu:Preferences--header": {
+    "messageformat": "설정"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "전화번호"
@@ -5006,12 +5015,6 @@
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "로컬 암호화된 백업을 폴더로 내보내고 유효성 검사하기"
   },
-  "icu:Preferences__internal__import-local-backup": {
-    "messageformat": "가져오기…"
-  },
-  "icu:Preferences__internal__import-local-backup--description": {
-    "messageformat": "링크에서 가져오기를 위한 로컬 암호화 백업 준비하기"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "암호화된 백업을 메모리로 내보내고, 해당 백업에 유효성 검사 제품군을 실행합니다"
   },
@@ -6352,16 +6355,10 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.54--0": {
-    "messageformat": "이모지 바로 가기에 대한 더 많은 언어 지원을 추가했습니다."
-  },
-  "icu:WhatsNew__v7.55--0": {
-    "messageformat": "이 업데이트는 키보드에서 이모지와 스티커 바로 가기를 재활성화합니다."
-  },
-  "icu:WhatsNew__v7.55--1": {
-    "messageformat": "Linux 배포에서 아주 가끔씩 발생하는 크래시를 해결했습니다."
-  },
   "icu:WhatsNew__v7.56--0": {
     "messageformat": "이 업데이트는 스토리 탭에서 콘텐츠를 볼 때 Signal 창을 옮기기 어렵게 만들었던 버그를 수정합니다."
+  },
+  "icu:WhatsNew__v7.57--0": {
+    "messageformat": "이제 팝업 창이 아닌 메인 화면에서 설정을 조정하게 됩니다."
   }
 }
