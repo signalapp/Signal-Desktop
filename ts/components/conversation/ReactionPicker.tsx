@@ -13,7 +13,7 @@ import {
   ReactionPickerPickerMoreButton,
   ReactionPickerPickerStyle,
 } from '../ReactionPickerPicker';
-import type { EmojiSkinTone } from '../fun/data/emojis';
+import type { EmojiSkinTone, EmojiVariantKey } from '../fun/data/emojis';
 import { getEmojiVariantByKey } from '../fun/data/emojis';
 import { FunEmojiPicker } from '../fun/FunEmojiPicker';
 import type { FunEmojiSelection } from '../fun/panels/FunPanelEmojis';
@@ -37,6 +37,7 @@ export type OwnProps = {
   preferredReactionEmoji: ReadonlyArray<string>;
   renderEmojiPicker: (props: RenderEmojiPickerProps) => React.ReactElement;
   theme?: ThemeType;
+  messageEmojis?: ReadonlyArray<EmojiVariantKey>;
 };
 
 export type Props = OwnProps & Pick<React.HTMLProps<HTMLDivElement>, 'style'>;
@@ -54,6 +55,7 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
       selected,
       style,
       theme,
+      messageEmojis,
     },
     ref
   ) {
@@ -156,6 +158,7 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
                 theme={theme}
                 showCustomizePreferredReactionsButton
                 closeOnSelect
+                messageEmojis={messageEmojis}
               >
                 <Button
                   aria-label={i18n('icu:Reactions--more')}

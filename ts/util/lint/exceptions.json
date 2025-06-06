@@ -1750,6 +1750,14 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/conversation/Message.tsx",
+    "line": "  const reactionsContainerRefMerger = useRef(createRefMerger());",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-06-05T12:55:51.245Z",
+    "reasonDetail": "Used for merging refs for reactions container"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/conversation/MessageDetail.tsx",
     "line": "  const messageDetailRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",

@@ -2,9 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { strictAssert } from '../../util/assert';
-import type { EmojiParentKey } from './data/emojis';
+import type { EmojiParentKey, EmojiVariantKey } from './data/emojis';
 import {
+  EmojiSkinTone,
   getEmojiParentKeyByEnglishShortName,
+  getEmojiVariantKeyByParentKeyAndSkinTone,
   isEmojiEnglishShortName,
 } from './data/emojis';
 import type { GifsPaginated } from './data/gifs';
@@ -16,6 +18,27 @@ function getEmoji(input: string): EmojiParentKey {
   );
   return getEmojiParentKeyByEnglishShortName(input);
 }
+
+function getSkinToneEmoji(
+  input: string,
+  skinTone: EmojiSkinTone = EmojiSkinTone.None
+): EmojiVariantKey {
+  strictAssert(
+    isEmojiEnglishShortName(input),
+    `Not an emoji short name ${input}`
+  );
+  const parentKey = getEmojiParentKeyByEnglishShortName(input);
+  return getEmojiVariantKeyByParentKeyAndSkinTone(parentKey, skinTone);
+}
+
+export const MOCK_THIS_MESSAGE_EMOJIS: ReadonlyArray<EmojiVariantKey> = [
+  getSkinToneEmoji('+1', EmojiSkinTone.None),
+  getSkinToneEmoji('+1', EmojiSkinTone.Type4),
+  getSkinToneEmoji('the_horns', EmojiSkinTone.Type1),
+  getSkinToneEmoji('the_horns', EmojiSkinTone.Type2),
+  getSkinToneEmoji('smile'),
+  getSkinToneEmoji('sweat_smile'),
+];
 
 export const MOCK_RECENT_EMOJIS: ReadonlyArray<EmojiParentKey> = [
   getEmoji('grinning'),
