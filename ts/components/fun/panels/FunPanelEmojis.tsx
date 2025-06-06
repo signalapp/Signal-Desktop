@@ -15,7 +15,11 @@ import type { LocalizerType } from '../../../types/I18N';
 import { strictAssert } from '../../../util/assert';
 import { missingCaseError } from '../../../util/missingCaseError';
 import type { FunEmojisSection } from '../constants';
-import { FunEmojisSectionOrder, FunSectionCommon } from '../constants';
+import {
+  FunEmojisBase,
+  FunEmojisSectionOrder,
+  FunSectionCommon,
+} from '../constants';
 import {
   FunGridCell,
   FunGridContainer,
@@ -53,8 +57,11 @@ import {
   getEmojiParentByKey,
   getEmojiPickerCategoryParentKeys,
   getEmojiVariantByParentKeyAndSkinTone,
-  isEmojiParentKey,
   normalizeShortNameCompletionDisplay,
+  isEmojiVariantKey,
+  getEmojiParentKeyByVariantKey,
+  getEmojiVariantByKey,
+  getEmojiSkinToneByVariantKey,
 } from '../data/emojis';
 import { useFunEmojiSearch } from '../useFunEmojiSearch';
 import { FunKeyboard } from '../keyboard/FunKeyboard';
@@ -82,6 +89,9 @@ function getTitleForSection(
   }
   if (section === FunSectionCommon.Recents) {
     return i18n('icu:FunPanelEmojis__SectionTitle--Recents');
+  }
+  if (section === FunEmojisBase.ThisMessage) {
+    return i18n('icu:FunPanelEmojis__SectionTitle--ThisMessage');
   }
   if (section === EmojiPickerCategory.SmileysAndPeople) {
     return i18n('icu:FunPanelEmojis__SectionTitle--SmileysAndPeople');
@@ -120,7 +130,7 @@ const EMOJI_GRID_ROW_SIZE = EMOJI_GRID_CELL_HEIGHT;
 
 function toGridSectionNode(
   section: FunEmojisSection,
-  emojiParentKeys: ReadonlyArray<EmojiParentKey>
+  emojiKeys: ReadonlyArray<EmojiVariantKey>
 ): GridSectionNode {
   return {
     id: section,
@@ -128,10 +138,10 @@ function toGridSectionNode(
     header: {
       key: `header-${section}`,
     },
-    cells: emojiParentKeys.map(emojiParentKey => {
+    cells: emojiKeys.map(emojiKey => {
       return {
-        key: `cell-${section}-${emojiParentKey}`,
-        value: emojiParentKey,
+        key: `cell-${section}-${emojiKey}`,
+        value: emojiKey,
       };
     }),
   };
@@ -149,6 +159,7 @@ export type FunPanelEmojisProps = Readonly<{
   onClose: () => void;
   showCustomizePreferredReactionsButton: boolean;
   closeOnSelect: boolean;
+  messageEmojis?: ReadonlyArray<EmojiVariantKey>;
 }>;
 
 export function FunPanelEmojis({
@@ -156,6 +167,7 @@ export function FunPanelEmojis({
   onClose,
   showCustomizePreferredReactionsButton,
   closeOnSelect,
+  messageEmojis: unstableMessageEmojis = [],
 }: FunPanelEmojisProps): JSX.Element {
   const fun = useFunContext();
   const {
@@ -171,8 +183,9 @@ export function FunPanelEmojis({
 
   const scrollerRef = useRef<HTMLDivElement>(null);
 
-  // Don't update recent emojis while the emoji panel is open
+  // Don't update recent emojis or this message emojis while the emoji panel is open
   const [recentEmojis] = useState(unstableRecentEmojis);
+  const [messageEmojis] = useState(unstableMessageEmojis);
   const [focusedCellKey, setFocusedCellKey] = useState<CellKey | null>(null);
   const [skinTonePopoverOpen, setSkinTonePopoverOpen] = useState(false);
 
@@ -184,12 +197,17 @@ export function FunPanelEmojis({
   const searchQuery = useMemo(() => fun.searchInput.trim(), [fun.searchInput]);
 
   const sections = useMemo(() => {
+    const skinTone = fun.emojiSkinToneDefault ?? EmojiSkinTone.None;
+
     if (searchQuery !== '') {
       return [
         toGridSectionNode(
           FunSectionCommon.SearchResults,
           searchEmojis(searchQuery).map(result => {
-            return result.parentKey;
+            return getEmojiVariantByParentKeyAndSkinTone(
+              result.parentKey,
+              skinTone
+            ).key;
           })
         ),
       ];
@@ -198,20 +216,50 @@ export function FunPanelEmojis({
     const result: Array<GridSectionNode> = [];
 
     for (const section of FunEmojisSectionOrder) {
+      if (section === FunEmojisBase.ThisMessage) {
+        if (messageEmojis.length > 0) {
+          result.push(
+            toGridSectionNode(FunEmojisBase.ThisMessage, messageEmojis)
+          );
+        }
+        continue;
+      }
       if (section === FunSectionCommon.Recents) {
         if (recentEmojis.length > 0) {
           result.push(
-            toGridSectionNode(FunSectionCommon.Recents, recentEmojis)
+            toGridSectionNode(
+              FunSectionCommon.Recents,
+              recentEmojis.map(parentKey => {
+                return getEmojiVariantByParentKeyAndSkinTone(
+                  parentKey,
+                  skinTone
+                ).key;
+              })
+            )
           );
         }
         continue;
       }
       const emojiKeys = getEmojiPickerCategoryParentKeys(section);
-      result.push(toGridSectionNode(section, emojiKeys));
+      result.push(
+        toGridSectionNode(
+          section,
+          emojiKeys.map(parentKey => {
+            return getEmojiVariantByParentKeyAndSkinTone(parentKey, skinTone)
+              .key;
+          })
+        )
+      );
     }
 
     return result;
-  }, [recentEmojis, searchQuery, searchEmojis]);
+  }, [
+    fun.emojiSkinToneDefault,
+    searchQuery,
+    searchEmojis,
+    messageEmojis,
+    recentEmojis,
+  ]);
 
   const [virtualizer, layout] = useFunVirtualGrid({
     scrollerRef,
@@ -553,24 +601,30 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
   }, []);
 
   const emojiParent = useMemo(() => {
-    strictAssert(
-      isEmojiParentKey(props.value),
-      'Cell value is not an emoji key'
-    );
-    return getEmojiParentByKey(props.value);
+    const isVariantKey = isEmojiVariantKey(props.value);
+
+    strictAssert(isVariantKey, 'Cell value is not a variant key');
+
+    const parentKey = getEmojiParentKeyByVariantKey(props.value);
+
+    return getEmojiParentByKey(parentKey);
   }, [props.value]);
 
   const emojiHasSkinToneVariants = useMemo(() => {
     return emojiParent.defaultSkinToneVariants != null;
   }, [emojiParent.defaultSkinToneVariants]);
 
-  const skinTone = useMemo(() => {
-    return emojiSkinToneDefault ?? EmojiSkinTone.None;
-  }, [emojiSkinToneDefault]);
-
   const emojiVariant = useMemo(() => {
-    return getEmojiVariantByParentKeyAndSkinTone(emojiParent.key, skinTone);
-  }, [emojiParent, skinTone]);
+    const isVariantKey = isEmojiVariantKey(props.value);
+
+    strictAssert(isVariantKey, 'Cell value is not a variant key');
+
+    return getEmojiVariantByKey(props.value);
+  }, [props.value]);
+
+  const skinTone = useMemo(() => {
+    return getEmojiSkinToneByVariantKey(emojiVariant.key);
+  }, [emojiVariant.key]);
 
   const handlePress = useCallback(
     (event: PressEvent) => {
@@ -592,10 +646,11 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
     [
       emojiHasSkinToneVariants,
       emojiSkinToneDefault,
-      emojiVariant,
-      emojiParent,
-      onSelectEmoji,
+      emojiVariant.key,
+      emojiParent.key,
+      emojiParent.englishShortNameDefault,
       skinTone,
+      onSelectEmoji,
     ]
   );
 

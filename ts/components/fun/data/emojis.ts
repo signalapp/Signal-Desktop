@@ -247,6 +247,7 @@ type EmojiIndex = Readonly<{
   variantByKey: Map<EmojiVariantKey, EmojiVariantData>;
   variantKeysByValue: Map<EmojiVariantValue, EmojiVariantKey>;
   variantKeysByValueNonQualified: Map<EmojiVariantValue, EmojiVariantKey>;
+  variantKeyToSkinTone: Map<EmojiVariantKey, EmojiSkinTone>;
 
   unicodeCategories: Record<EmojiUnicodeCategory, Array<EmojiParentKey>>;
   pickerCategories: Record<EmojiPickerCategory, Array<EmojiParentKey>>;
@@ -268,6 +269,7 @@ const EMOJI_INDEX: EmojiIndex = {
   variantByKey: new Map(),
   variantKeysByValue: new Map(),
   variantKeysByValueNonQualified: new Map(),
+  variantKeyToSkinTone: new Map(),
   unicodeCategories: {
     [EmojiUnicodeCategory.SmileysAndEmotion]: [],
     [EmojiUnicodeCategory.PeopleAndBody]: [],
@@ -397,6 +399,7 @@ for (const rawEmoji of RAW_EMOJI_DATA) {
         throw new Error(`Missing variant key ${parentKey} -> ${key} (${keys})`);
       }
       result[skinTone] = variantKey;
+      EMOJI_INDEX.variantKeyToSkinTone.set(variantKey, skinTone);
     }
 
     defaultSkinToneVariants = result as EmojiDefaultSkinToneVariants;
@@ -506,21 +509,36 @@ export function getEmojiPickerCategoryParentKeys(
 /**
  * Apply a skin tone (if possible) to any parent key.
  */
-export function getEmojiVariantByParentKeyAndSkinTone(
+export function getEmojiVariantKeyByParentKeyAndSkinTone(
   key: EmojiParentKey,
   skinTone: EmojiSkinTone
-): EmojiVariantData {
+): EmojiVariantKey {
   const parent = getEmojiParentByKey(key);
   const skinToneVariants = parent.defaultSkinToneVariants;
 
   if (skinTone === EmojiSkinTone.None || skinToneVariants == null) {
-    return getEmojiVariantByKey(parent.defaultVariant);
+    return parent.defaultVariant;
   }
 
   const variantKey = skinToneVariants[skinTone];
   strictAssert(variantKey, `Missing skin tone variant for ${skinTone}`);
 
-  return getEmojiVariantByKey(variantKey);
+  return variantKey;
+}
+
+export function getEmojiVariantByParentKeyAndSkinTone(
+  key: EmojiParentKey,
+  skinTone: EmojiSkinTone
+): EmojiVariantData {
+  return getEmojiVariantByKey(
+    getEmojiVariantKeyByParentKeyAndSkinTone(key, skinTone)
+  );
+}
+
+export function getEmojiSkinToneByVariantKey(
+  variantKey: EmojiVariantKey
+): EmojiSkinTone {
+  return EMOJI_INDEX.variantKeyToSkinTone.get(variantKey) ?? EmojiSkinTone.None;
 }
 
 /** @deprecated */

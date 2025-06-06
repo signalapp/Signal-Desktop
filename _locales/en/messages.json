@@ -3104,6 +3104,10 @@
     "messageformat": "Search Results",
     "description": "FunPicker > Emojis Panel > Section Title > Search Results"
   },
+  "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
+    "messageformat": "This Message",
+    "description": "FunPicker > Emojis Panel > Section Title > Recents > This Message"
+  },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Recently Used",
     "description": "FunPicker > Emojis Panel > Section Title > Recents"
