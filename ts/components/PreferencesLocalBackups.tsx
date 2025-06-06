@@ -10,8 +10,13 @@ import React, {
   useRef,
 } from 'react';
 import { noop } from 'lodash';
+import classNames from 'classnames';
+
 import type { LocalizerType } from '../types/I18N';
-import { SettingsControl as Control, SettingsRow } from './PreferencesUtil';
+import {
+  FlowingSettingsControl as FlowingControl,
+  SettingsRow,
+} from './PreferencesUtil';
 import { Button, ButtonSize, ButtonVariant } from './Button';
 import { SIGNAL_BACKUPS_LEARN_MORE_URL } from './PreferencesBackups';
 import { I18n } from './I18n';
@@ -87,42 +92,54 @@ export function PreferencesLocalBackups({
         </div>
       </div>
       <SettingsRow className="Preferences--BackupsRow">
-        <Control
-          left={
+        <FlowingControl>
+          <div className="Preferences__two-thirds-flow">
             <label>
               {i18n('icu:Preferences__local-backups-folder')}
               <div className="Preferences__description">
                 {localBackupFolder}
               </div>
             </label>
-          }
-          right={
+          </div>
+          <div
+            className={classNames(
+              'Preferences__flow-button',
+              'Preferences__one-third-flow',
+              'Preferences__one-third-flow--align-right'
+            )}
+          >
             <Button
               onClick={pickLocalBackupFolder}
               variant={ButtonVariant.Secondary}
             >
               {i18n('icu:Preferences__local-backups-folder__change')}
             </Button>
-          }
-        />
-        <Control
-          left={
+          </div>
+        </FlowingControl>
+        <FlowingControl>
+          <div className="Preferences__two-thirds-flow">
             <label>
               {i18n('icu:Preferences__backup-key')}
               <div className="Preferences__description">
                 {i18n('icu:Preferences__backup-key-description')}
               </div>
             </label>
-          }
-          right={
+          </div>
+          <div
+            className={classNames(
+              'Preferences__flow-button',
+              'Preferences__one-third-flow',
+              'Preferences__one-third-flow--align-right'
+            )}
+          >
             <Button
               onClick={() => setPage(Page.LocalBackupsKeyReference)}
               variant={ButtonVariant.Secondary}
             >
               {i18n('icu:Preferences__view-key')}
             </Button>
-          }
-        />
+          </div>
+        </FlowingControl>
       </SettingsRow>
       <SettingsRow className="Preferences--BackupsRow">
         <div className="Preferences__padding">
