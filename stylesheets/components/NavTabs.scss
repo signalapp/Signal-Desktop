@@ -141,12 +141,17 @@ $NavTabs__ProfileAvatar__size: 28px;
 .NavTabs__ItemUpdateBadge {
   background: variables.$color-ultramarine;
   border-radius: 100%;
-  border: 1px solid variables.$color-white;
   height: 8px;
   width: 8px;
   position: absolute;
   top: 0;
   inset-inline-end: 0;
+  @include mixins.light-theme {
+    border: 1px solid variables.$color-white;
+  }
+  @include mixins.dark-theme {
+    border: 1px solid variables.$color-gray-80;
+  }
 }
 
 .NavTabs__ItemIcon {

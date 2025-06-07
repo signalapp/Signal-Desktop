@@ -284,6 +284,7 @@ $secondary-text-color: light-dark(
     height: 100%;
     flex-direction: row;
     overflow-y: scroll;
+    container-type: inline-size;
   }
 
   &__settings-pane {
@@ -374,6 +375,73 @@ $secondary-text-color: light-dark(
     }
   }
 
+  &__light-icon-label {
+    display: flex;
+  }
+
+  &__flow-control {
+    display: block;
+    padding-block: 4px;
+    padding-inline: 24px;
+  }
+  &__one-third-flow {
+    vertical-align: middle;
+    display: inline-block;
+    width: 33%;
+    @container (max-width: 350px) {
+      width: 100%;
+    }
+  }
+  &__half-flow {
+    vertical-align: middle;
+    display: inline-block;
+    width: 50%;
+    @container (max-width: 350px) {
+      width: 100%;
+    }
+  }
+  &__two-thirds-flow {
+    vertical-align: middle;
+    display: inline-block;
+    width: 66%;
+    @container (max-width: 350px) {
+      width: 100%;
+    }
+  }
+
+  &__half-flow--align-right {
+    text-align: end;
+    @container (max-width: 350px) {
+      text-align: start;
+    }
+  }
+  &__one-third-flow--align-right {
+    text-align: end;
+    @container (max-width: 350px) {
+      text-align: start;
+    }
+  }
+  &__full-flow {
+    vertical-align: middle;
+    display: inline-block;
+    width: 100%;
+  }
+  &__flow-value,
+  &__flow-description {
+    vertical-align: middle;
+    color: $secondary-text-color;
+  }
+  &__device-name-description {
+    padding-top: 8px;
+  }
+  &__flow-button {
+    padding-inline-start: 5px;
+    @container (max-width: 350px) {
+      padding-inline-start: 0px;
+      padding-top: 8px;
+    }
+  }
+
   &__control {
     align-items: center;
     display: flex;
@@ -432,9 +500,16 @@ $secondary-text-color: light-dark(
     }
   }
 
+  &__checkbox__description,
   &__description {
     @include mixins.font-subtitle;
-    color: $secondary-text-color;
+    // For specificity reasons, we can't use $secondary-text-color. We need the mixins.
+    @include mixins.light-theme {
+      color: variables.$color-gray-60;
+    }
+    @include mixins.dark-theme {
+      color: variables.$color-gray-25;
+    }
     &--error {
       color: variables.$color-accent-red !important;
     }

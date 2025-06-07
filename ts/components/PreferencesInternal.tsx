@@ -2,12 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useState, useCallback } from 'react';
+import classNames from 'classnames';
+
 import type { LocalizerType } from '../types/I18N';
 import { toLogFormat } from '../types/errors';
 import { formatFileSize } from '../util/formatFileSize';
 import { SECOND } from '../util/durations';
 import type { ValidationResultType as BackupValidationResultType } from '../services/backups';
-import { SettingsRow, SettingsControl } from './PreferencesUtil';
+import { SettingsRow, FlowingSettingsControl } from './PreferencesUtil';
 import { Button, ButtonVariant } from './Button';
 import { Spinner } from './Spinner';
 
@@ -110,9 +112,17 @@ export function PreferencesInternal({
         className="Preferences--internal--backups"
         title={i18n('icu:Preferences__button--backups')}
       >
-        <SettingsControl
-          left={i18n('icu:Preferences__internal__validate-backup--description')}
-          right={
+        <FlowingSettingsControl>
+          <div className="Preferences__two-thirds-flow">
+            {i18n('icu:Preferences__internal__validate-backup--description')}
+          </div>
+          <div
+            className={classNames(
+              'Preferences__flow-button',
+              'Preferences__one-third-flow',
+              'Preferences__one-third-flow--align-right'
+            )}
+          >
             <Button
               variant={ButtonVariant.Secondary}
               onClick={validateBackup}
@@ -124,8 +134,8 @@ export function PreferencesInternal({
                 i18n('icu:Preferences__internal__validate-backup')
               )}
             </Button>
-          }
-        />
+          </div>
+        </FlowingSettingsControl>
 
         {renderValidationResult(validationResult)}
       </SettingsRow>
@@ -134,11 +144,19 @@ export function PreferencesInternal({
         className="Preferences--internal--backups"
         title={i18n('icu:Preferences__internal__local-backups')}
       >
-        <SettingsControl
-          left={i18n(
-            'icu:Preferences__internal__export-local-backup--description'
-          )}
-          right={
+        <FlowingSettingsControl>
+          <div className="Preferences__two-thirds-flow">
+            {i18n(
+              'icu:Preferences__internal__export-local-backup--description'
+            )}
+          </div>
+          <div
+            className={classNames(
+              'Preferences__flow-button',
+              'Preferences__one-third-flow',
+              'Preferences__one-third-flow--align-right'
+            )}
+          >
             <Button
               variant={ButtonVariant.Secondary}
               onClick={exportLocalBackup}
@@ -150,8 +168,8 @@ export function PreferencesInternal({
                 i18n('icu:Preferences__internal__export-local-backup')
               )}
             </Button>
-          }
-        />
+          </div>
+        </FlowingSettingsControl>
 
         {renderValidationResult(exportResult)}
       </SettingsRow>

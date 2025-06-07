@@ -43,6 +43,7 @@ import { FunSkinTonesList } from './fun/FunSkinTones';
 import { emojiParentKeyConstant, type EmojiSkinTone } from './fun/data/emojis';
 import {
   SettingsControl as Control,
+  FlowingSettingsControl as FlowingControl,
   SettingsRadio,
   SettingsRow,
 } from './PreferencesUtil';
@@ -644,27 +645,43 @@ export function Preferences({
     const pageContents = (
       <>
         <SettingsRow>
-          <Control
-            left={i18n('icu:Preferences--phone-number')}
-            right={phoneNumber}
-            rightStyle={{
-              maxWidth: '33%',
-            }}
-          />
-          <Control
-            left={
-              <>
-                <div>{i18n('icu:Preferences--device-name')}</div>
-                <div className="Preferences__description">
-                  {i18n('icu:Preferences--device-name__description')}
-                </div>
-              </>
-            }
-            right={deviceName}
-            rightStyle={{
-              maxWidth: '33%',
-            }}
-          />
+          <FlowingControl>
+            <div className="Preferences__half-flow">
+              {i18n('icu:Preferences--phone-number')}
+            </div>
+            <div
+              className={classNames(
+                'Preferences__flow-value',
+                'Preferences__half-flow',
+                'Preferences__half-flow--align-right'
+              )}
+            >
+              {phoneNumber}
+            </div>
+          </FlowingControl>
+          <FlowingControl>
+            <div className="Preferences__half-flow">
+              {i18n('icu:Preferences--device-name')}
+            </div>
+            <div
+              className={classNames(
+                'Preferences__flow-value',
+                'Preferences__half-flow',
+                'Preferences__half-flow--align-right'
+              )}
+            >
+              {deviceName}
+            </div>
+            <div
+              className={classNames(
+                'Preferences__device-name-description',
+                'Preferences__description',
+                'Preferences__full-flow'
+              )}
+            >
+              {i18n('icu:Preferences--device-name__description')}
+            </div>
+          </FlowingControl>
         </SettingsRow>
         <SettingsRow title={i18n('icu:Preferences--system')}>
           {isAutoLaunchSupported && (
@@ -1346,24 +1363,34 @@ export function Preferences({
     const pageContents = (
       <>
         <SettingsRow>
-          <Control
-            left={
-              <div className="Preferences__pnp">
-                <h3>{i18n('icu:Preferences__pnp__row--title')}</h3>
-                <div className="Preferences__description">
-                  {i18n('icu:Preferences__pnp__row--body')}
-                </div>
+          <FlowingControl>
+            <div
+              className={classNames(
+                'Preferences__pnp',
+                'Preferences__two-thirds-flow'
+              )}
+            >
+              <h3>{i18n('icu:Preferences__pnp__row--title')}</h3>
+              <div className="Preferences__description">
+                {i18n('icu:Preferences__pnp__row--body')}
               </div>
-            }
-            right={
+            </div>
+            <div
+              className={classNames(
+                'Preferences__pnp',
+                'Preferences__flow-button',
+                'Preferences__one-third-flow',
+                'Preferences__one-third-flow--align-right'
+              )}
+            >
               <Button
                 onClick={() => setPage(Page.PNP)}
                 variant={ButtonVariant.Secondary}
               >
                 {i18n('icu:Preferences__pnp__row--button')}
               </Button>
-            }
-          />
+            </div>
+          </FlowingControl>
         </SettingsRow>
         <SettingsRow>
           <Control
@@ -1405,18 +1432,22 @@ export function Preferences({
           />
         )}
         <SettingsRow title={i18n('icu:disappearingMessages')}>
-          <Control
-            left={
-              <>
-                <div>
-                  {i18n('icu:settings__DisappearingMessages__timer__label')}
-                </div>
-                <div className="Preferences__description">
-                  {i18n('icu:settings__DisappearingMessages__footer')}
-                </div>
-              </>
-            }
-            right={
+          <FlowingControl>
+            <div className="Preferences__two-thirds-flow">
+              <div>
+                {i18n('icu:settings__DisappearingMessages__timer__label')}
+              </div>
+              <div className="Preferences__description">
+                {i18n('icu:settings__DisappearingMessages__footer')}
+              </div>
+            </div>
+            <div
+              className={classNames(
+                'Preferences__flow-button',
+                'Preferences__one-third-flow',
+                'Preferences__one-third-flow--align-right'
+              )}
+            >
               <Select
                 ariaLabel={i18n(
                   'icu:settings__DisappearingMessages__timer__label'
@@ -1452,8 +1483,8 @@ export function Preferences({
                 ])}
                 value={universalExpireTimer}
               />
-            }
-          />
+            </div>
+          </FlowingControl>
         </SettingsRow>
         {isContentProtectionSupported && (
           <SettingsRow title={i18n('icu:Preferences__Privacy__Application')}>
@@ -1492,17 +1523,23 @@ export function Preferences({
           </ConfirmationDialog>
         ) : null}
         <SettingsRow title={i18n('icu:Stories__title')}>
-          <Control
-            left={
+          <FlowingControl>
+            <div className="Preferences__two-thirds-flow">
               <label htmlFor={storiesId}>
                 <div>{i18n('icu:Stories__settings-toggle--title')}</div>
                 <div className="Preferences__description">
                   {i18n('icu:Stories__settings-toggle--description')}
                 </div>
               </label>
-            }
-            right={
-              hasStoriesDisabled ? (
+            </div>
+            <div
+              className={classNames(
+                'Preferences__flow-button',
+                'Preferences__one-third-flow',
+                'Preferences__one-third-flow--align-right'
+              )}
+            >
+              {hasStoriesDisabled ? (
                 <Button
                   onClick={() => onHasStoriesDisabledChanged(false)}
                   variant={ButtonVariant.Secondary}
@@ -1517,31 +1554,40 @@ export function Preferences({
                 >
                   {i18n('icu:Preferences__turn-stories-off')}
                 </Button>
-              )
-            }
-          />
+              )}
+            </div>
+          </FlowingControl>
         </SettingsRow>
         <SettingsRow>
-          <Control
-            left={
-              <>
-                <div>{i18n('icu:clearDataHeader')}</div>
-                <div className="Preferences__description">
-                  {i18n('icu:clearDataExplanation')}
-                </div>
-              </>
-            }
-            right={
-              <div className="Preferences__right-button">
-                <Button
-                  onClick={() => setConfirmDelete(true)}
-                  variant={ButtonVariant.SecondaryDestructive}
-                >
-                  {i18n('icu:clearDataButton')}
-                </Button>
+          <FlowingControl>
+            <div
+              className={classNames(
+                'Preferences__pnp',
+                'Preferences__two-thirds-flow'
+              )}
+            >
+              <div>{i18n('icu:clearDataHeader')}</div>
+              <div className="Preferences__description">
+                {i18n('icu:clearDataExplanation')}
               </div>
-            }
-          />
+            </div>
+
+            <div
+              className={classNames(
+                'Preferences__pnp',
+                'Preferences__flow-button',
+                'Preferences__one-third-flow',
+                'Preferences__one-third-flow--align-right'
+              )}
+            >
+              <Button
+                onClick={() => setConfirmDelete(true)}
+                variant={ButtonVariant.SecondaryDestructive}
+              >
+                {i18n('icu:clearDataButton')}
+              </Button>
+            </div>
+          </FlowingControl>
         </SettingsRow>
         {confirmDelete ? (
           <ConfirmationDialog
@@ -1653,23 +1699,28 @@ export function Preferences({
           </div>
         </SettingsRow>
         <SettingsRow>
-          <Control
-            left={
-              <>
-                <div className="Preferences__option-name">
-                  {i18n('icu:Preferences__sent-media-quality')}
-                </div>
-                <div
-                  className={classNames(
-                    'Preferences__description',
-                    'Preferences__description--medium'
-                  )}
-                >
-                  {i18n('icu:Preferences__sent-media-quality__description')}
-                </div>
-              </>
-            }
-            right={
+          <FlowingControl>
+            <div className="Preferences__two-thirds-flow">
+              <div className="Preferences__option-name">
+                {i18n('icu:Preferences__sent-media-quality')}
+              </div>
+              <div
+                className={classNames(
+                  'Preferences__description',
+                  'Preferences__description--medium'
+                )}
+              >
+                {i18n('icu:Preferences__sent-media-quality__description')}
+              </div>
+            </div>
+
+            <div
+              className={classNames(
+                'Preferences__flow-button',
+                'Preferences__one-third-flow',
+                'Preferences__one-third-flow--align-right'
+              )}
+            >
               <Select
                 onChange={onSentMediaQualityChange}
                 options={[
@@ -1684,8 +1735,8 @@ export function Preferences({
                 ]}
                 value={sentMediaQualitySetting}
               />
-            }
-          />
+            </div>
+          </FlowingControl>
         </SettingsRow>
       </>
     );
