@@ -15,13 +15,17 @@ import {
   getHasAnyFailedStorySends,
   getStoriesNotificationCount,
 } from '../selectors/stories';
-import { getStoriesEnabled } from '../selectors/items';
+import {
+  getProfileMovedModalNeeded,
+  getStoriesEnabled,
+} from '../selectors/items';
 import { getSelectedNavTab } from '../selectors/nav';
 import type { Location } from '../ducks/nav';
 import { useNavActions } from '../ducks/nav';
 import { getHasPendingUpdate } from '../selectors/updates';
 import { getCallHistoryUnreadCount } from '../selectors/callHistory';
 import { Environment } from '../../environment';
+import { useItemsActions } from '../ducks/items';
 
 export type SmartNavTabsProps = Readonly<{
   navTabsCollapsed: boolean;
@@ -42,7 +46,6 @@ export const SmartNavTabs = memo(function SmartNavTabs({
 }: SmartNavTabsProps): JSX.Element {
   const i18n = useSelector(getIntl);
   const selectedNavTab = useSelector(getSelectedNavTab);
-  const { changeLocation } = useNavActions();
   const me = useSelector(getMe);
   const badge = useSelector(getPreferredBadgeSelector)(me.badges);
   const theme = useSelector(getTheme);
@@ -52,9 +55,20 @@ export const SmartNavTabs = memo(function SmartNavTabs({
   const unreadCallsCount = useSelector(getCallHistoryUnreadCount);
   const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
   const hasPendingUpdate = useSelector(getHasPendingUpdate);
+  const profileMovedModalNeeded = useSelector(getProfileMovedModalNeeded);
+  const isNightly = useSelector(getIsNightly);
+
+  const { changeLocation } = useNavActions();
+  const { putItem } = useItemsActions();
+
   const shouldShowProfileIcon =
-    useSelector(getIsNightly) ||
+    profileMovedModalNeeded ||
+    isNightly ||
     window.SignalContext.getEnvironment() !== Environment.PackagedApp;
+
+  const onDismissProfileMovedModal = useCallback(() => {
+    putItem('needProfileMovedModal', false);
+  }, [putItem]);
 
   const onChangeLocation = useCallback(
     (location: Location) => {
@@ -77,6 +91,8 @@ export const SmartNavTabs = memo(function SmartNavTabs({
       navTabsCollapsed={navTabsCollapsed}
       onChangeLocation={onChangeLocation}
       onToggleNavTabsCollapse={onToggleNavTabsCollapse}
+      profileMovedModalNeeded={profileMovedModalNeeded}
+      onDismissProfileMovedModal={onDismissProfileMovedModal}
       renderCallsTab={renderCallsTab}
       renderChatsTab={renderChatsTab}
       renderStoriesTab={renderStoriesTab}

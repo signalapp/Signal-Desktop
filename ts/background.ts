@@ -992,6 +992,13 @@ export async function startApp(): Promise<void> {
       if (window.isBeforeVersion(lastVersion, 'v7.56.0-beta.1')) {
         await window.storage.remove('backupMediaDownloadIdle');
       }
+
+      if (
+        window.isBeforeVersion(lastVersion, 'v7.57.0') &&
+        window.storage.get('needProfileMovedModal') === undefined
+      ) {
+        await window.storage.put('needProfileMovedModal', true);
+      }
     }
 
     setAppLoadingScreenMessage(

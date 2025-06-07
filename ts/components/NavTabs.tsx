@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Key, ReactNode } from 'react';
-import React from 'react';
+import React, { useState } from 'react';
 import { Tabs, TabList, Tab, TabPanel } from 'react-aria-components';
 import classNames from 'classnames';
 import { Avatar, AvatarSize } from './Avatar';
@@ -16,6 +16,7 @@ import { Theme } from '../util/theme';
 import type { UnreadStats } from '../util/countUnreadStats';
 import { Page } from './Preferences';
 import { EditState } from './ProfileEditor';
+import { ProfileMovedModal } from './ProfileMovedModal';
 
 type NavTabsItemBadgesProps = Readonly<{
   i18n: LocalizerType;
@@ -199,7 +200,9 @@ export type NavTabsProps = Readonly<{
   me: ConversationType;
   navTabsCollapsed: boolean;
   onChangeLocation: (location: Location) => void;
+  onDismissProfileMovedModal: () => void;
   onToggleNavTabsCollapse: (collapsed: boolean) => void;
+  profileMovedModalNeeded: boolean;
   renderCallsTab: () => ReactNode;
   renderChatsTab: () => ReactNode;
   renderStoriesTab: () => ReactNode;
@@ -221,7 +224,9 @@ export function NavTabs({
   me,
   navTabsCollapsed,
   onChangeLocation,
+  onDismissProfileMovedModal,
   onToggleNavTabsCollapse,
+  profileMovedModalNeeded,
   renderCallsTab,
   renderChatsTab,
   renderStoriesTab,
@@ -234,6 +239,9 @@ export function NavTabs({
   unreadConversationsStats,
   unreadStoriesCount,
 }: NavTabsProps): JSX.Element {
+  const [showingProfileMovedModal, setShowingProfileMovedModal] =
+    useState(false);
+
   function handleSelectionChange(key: Key) {
     const tab = key as NavTab;
     if (tab === NavTab.Settings) {
@@ -258,6 +266,17 @@ export function NavTabs({
       selectedKey={selectedNavTab}
       onSelectionChange={handleSelectionChange}
     >
+      {showingProfileMovedModal ? (
+        <ProfileMovedModal
+          i18n={i18n}
+          onClose={() => {
+            setShowingProfileMovedModal(false);
+            handleSelectionChange(NavTab.Settings);
+            onDismissProfileMovedModal();
+          }}
+          theme={theme}
+        />
+      ) : undefined}
       <nav
         data-supertab
         className={classNames('NavTabs', {
@@ -329,7 +348,11 @@ export function NavTabs({
               type="button"
               className="NavTabs__Item NavTabs__Item--Profile"
               onClick={() => {
-                handleSelectionChange(NavTab.Settings);
+                if (profileMovedModalNeeded) {
+                  setShowingProfileMovedModal(true);
+                } else {
+                  handleSelectionChange(NavTab.Settings);
+                }
               }}
               aria-label={i18n('icu:NavTabs__ItemLabel--Profile')}
             >

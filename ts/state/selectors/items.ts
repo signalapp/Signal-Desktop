@@ -34,6 +34,12 @@ export const getAreWeASubscriber = createSelector(
     Boolean(areWeASubscriber)
 );
 
+export const getProfileMovedModalNeeded = createSelector(
+  getItems,
+  ({ needProfileMovedModal }: Readonly<ItemsStateType>): boolean =>
+    Boolean(needProfileMovedModal)
+);
+
 export const getUserAgent = createSelector(
   getItems,
   (state: ItemsStateType): string => state.userAgent as string
