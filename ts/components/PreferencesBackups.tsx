@@ -2,13 +2,20 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
+import classNames from 'classnames';
+
 import type {
   BackupsSubscriptionType,
   BackupStatusType,
 } from '../types/backups';
 import type { LocalizerType } from '../types/I18N';
 import { formatTimestamp } from '../util/formatTimestamp';
-import { SettingsControl as Control, SettingsRow } from './PreferencesUtil';
+import {
+  SettingsControl as Control,
+  FlowingSettingsControl as FlowingControl,
+  LightIconLabel,
+  SettingsRow,
+} from './PreferencesUtil';
 import { missingCaseError } from '../util/missingCaseError';
 import { Button, ButtonVariant } from './Button';
 import type { PreferencesBackupPage } from '../types/PreferencesBackupPage';
@@ -97,29 +104,36 @@ export function PreferencesBackups({
 
       {backupSubscriptionStatus ? (
         <SettingsRow className="Preferences--BackupsRow">
-          <Control
-            icon="Preferences__BackupsIcon"
-            left={
-              <label>
-                {i18n('icu:Preferences--signal-backups')}{' '}
-                <div className="Preferences__description">
-                  {renderBackupsSubscriptionSummary({
-                    subscriptionStatus: backupSubscriptionStatus,
-                    i18n,
-                    locale,
-                  })}
-                </div>
-              </label>
-            }
-            right={
+          <FlowingControl>
+            <div className="Preferences__two-thirds-flow">
+              <LightIconLabel icon="Preferences__BackupsIcon">
+                <label>
+                  {i18n('icu:Preferences--signal-backups')}{' '}
+                  <div className="Preferences__description">
+                    {renderBackupsSubscriptionSummary({
+                      subscriptionStatus: backupSubscriptionStatus,
+                      i18n,
+                      locale,
+                    })}
+                  </div>
+                </label>
+              </LightIconLabel>
+            </div>
+            <div
+              className={classNames(
+                'Preferences__flow-button',
+                'Preferences__one-third-flow',
+                'Preferences__one-third-flow--align-right'
+              )}
+            >
               <Button
                 onClick={() => setPage(Page.BackupsDetails)}
                 variant={ButtonVariant.Secondary}
               >
                 {i18n('icu:Preferences__button--manage')}
               </Button>
-            }
-          />
+            </div>
+          </FlowingControl>
         </SettingsRow>
       ) : (
         <SettingsRow className="Preferences--BackupsRow">
@@ -148,19 +162,26 @@ export function PreferencesBackups({
         className="Preferences--BackupsRow"
         title={i18n('icu:Preferences__backup-other-ways')}
       >
-        <Control
-          icon="Preferences__LocalBackupsIcon"
-          left={
-            <label>
-              {i18n('icu:Preferences__local-backups')}{' '}
-              <div className="Preferences__description">
-                {isLocalBackupsSetup
-                  ? null
-                  : i18n('icu:Preferences--local-backups-off-description')}
-              </div>
-            </label>
-          }
-          right={
+        <FlowingControl>
+          <div className="Preferences__two-thirds-flow">
+            <LightIconLabel icon="Preferences__LocalBackupsIcon">
+              <label>
+                {i18n('icu:Preferences__local-backups')}{' '}
+                <div className="Preferences__description">
+                  {isLocalBackupsSetup
+                    ? null
+                    : i18n('icu:Preferences--local-backups-off-description')}
+                </div>
+              </label>
+            </LightIconLabel>
+          </div>
+          <div
+            className={classNames(
+              'Preferences__flow-button',
+              'Preferences__one-third-flow',
+              'Preferences__one-third-flow--align-right'
+            )}
+          >
             <Button
               onClick={() => setPage(Page.LocalBackups)}
               variant={ButtonVariant.Secondary}
@@ -169,8 +190,8 @@ export function PreferencesBackups({
                 ? i18n('icu:Preferences__button--manage')
                 : i18n('icu:Preferences__button--set-up')}
             </Button>
-          }
-        />
+          </div>
+        </FlowingControl>
       </SettingsRow>
     </>
   );
