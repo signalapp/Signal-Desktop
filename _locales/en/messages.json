@@ -5268,6 +5268,15 @@
     "messageformat": "Tap on \"Donate to Signal\" and subscribe",
     "description": "In the instructions for becoming a sustainer. Third instruction."
   },
+  "icu:ProfileMovedModal__title": {
+    "messageformat": "Your profile has moved",
+    "description": "Bolded text on modal that explains the move of Profile Editor into the new Settings Tab"
+  },
+  "icu:ProfileMovedModal__description": {
+    "messageformat": "Open the Settings tab to view and edit your profile.",
+    "description": "Description text on modal that explains the move of Profile Editor into the new Settings Tab"
+  },
+
   "icu:BackupImportScreen__title": {
     "messageformat": "Syncing messages",
     "description": "Title of backup import screen"

@@ -201,6 +201,7 @@ export type StorageAccessType = {
   };
   serverAlerts: ServerAlertsType;
   needOrphanedAttachmentCheck: boolean;
+  needProfileMovedModal: boolean;
   notificationProfileOverride: NotificationProfileOverride | undefined;
   observedCapabilities: {
     deleteSync?: true;
