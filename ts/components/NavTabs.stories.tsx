@@ -23,6 +23,7 @@ const createProps = (
   me: getDefaultConversation(),
   navTabsCollapsed: Boolean(overrideProps.navTabsCollapsed),
   onChangeLocation: action('onChangeLocation'),
+  onDismissProfileMovedModal: action('onToggleNavTabsCollapse'),
   onToggleNavTabsCollapse: action('onToggleNavTabsCollapse'),
   renderCallsTab: () => <div>Calls Tab goes here</div>,
   renderChatsTab: () => <div>Chats Tab goes here</div>,
@@ -39,6 +40,7 @@ const createProps = (
     markedUnread: false,
   },
   unreadStoriesCount: overrideProps.unreadStoriesCount ?? 0,
+  profileMovedModalNeeded: false,
 });
 
 export default {

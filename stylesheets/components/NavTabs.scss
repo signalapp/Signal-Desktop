@@ -25,6 +25,7 @@ $NavTabs__ProfileAvatar__size: 28px;
   width: variables.$NavTabs__width;
   height: 100%;
   padding-top: var(--title-bar-drag-area-height);
+  padding-bottom: 8px;
   @include mixins.light-theme {
     background-color: variables.$color-gray-04;
     border-inline-end: 1px solid variables.$color-black-alpha-16;
@@ -240,7 +241,6 @@ $NavTabs__ProfileAvatar__size: 28px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 8px;
 }
 
 .NavTabs__TabPanel {
