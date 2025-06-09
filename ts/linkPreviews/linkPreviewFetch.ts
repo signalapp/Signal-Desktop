@@ -307,7 +307,10 @@ const getHtmlDocument = async (
         chunk = Buffer.from(chunk, httpCharset || 'utf8');
       }
 
-      const truncatedChunk = chunk.slice(0, buffer.length - bytesLoadedSoFar);
+      const truncatedChunk = chunk.subarray(
+        0,
+        buffer.length - bytesLoadedSoFar
+      );
       buffer.set(truncatedChunk, bytesLoadedSoFar);
       bytesLoadedSoFar += truncatedChunk.byteLength;
 
@@ -322,7 +325,10 @@ const getHtmlDocument = async (
     );
   }
 
-  const result = parseHtmlBytes(buffer.slice(0, bytesLoadedSoFar), httpCharset);
+  const result = parseHtmlBytes(
+    buffer.subarray(0, bytesLoadedSoFar),
+    httpCharset
+  );
   return result;
 };
 

@@ -432,7 +432,7 @@ export function trimForDisplay(padded: Uint8Array): Uint8Array {
       break;
     }
   }
-  return padded.slice(0, paddingEnd);
+  return padded.subarray(0, paddingEnd);
 }
 
 function verifyDigest(data: Uint8Array, theirDigest: Uint8Array): void {
@@ -459,13 +459,16 @@ export function decryptAttachmentV1(
     throw new Error('Got invalid length attachment');
   }
 
-  const aesKey = keys.slice(0, 32);
-  const macKey = keys.slice(32, 64);
+  const aesKey = keys.subarray(0, 32);
+  const macKey = keys.subarray(32, 64);
 
-  const iv = encryptedBin.slice(0, 16);
-  const ciphertext = encryptedBin.slice(16, encryptedBin.byteLength - 32);
-  const ivAndCiphertext = encryptedBin.slice(0, encryptedBin.byteLength - 32);
-  const mac = encryptedBin.slice(
+  const iv = encryptedBin.subarray(0, 16);
+  const ciphertext = encryptedBin.subarray(16, encryptedBin.byteLength - 32);
+  const ivAndCiphertext = encryptedBin.subarray(
+    0,
+    encryptedBin.byteLength - 32
+  );
+  const mac = encryptedBin.subarray(
     encryptedBin.byteLength - 32,
     encryptedBin.byteLength
   );
@@ -504,8 +507,8 @@ export function encryptAttachment({
   }
 
   const iv = dangerousTestOnlyIv || getRandomBytes(16);
-  const aesKey = keys.slice(0, 32);
-  const macKey = keys.slice(32, 64);
+  const aesKey = keys.subarray(0, 32);
+  const macKey = keys.subarray(32, 64);
 
   const ciphertext = encryptAes256CbcPkcsPadding(aesKey, plaintext, iv);
 
@@ -564,8 +567,8 @@ export function decryptProfile(data: Uint8Array, key: Uint8Array): Uint8Array {
   if (data.byteLength < 12 + 16 + 1) {
     throw new Error(`Got too short input: ${data.byteLength}`);
   }
-  const iv = data.slice(0, PROFILE_IV_LENGTH);
-  const ciphertext = data.slice(PROFILE_IV_LENGTH, data.byteLength);
+  const iv = data.subarray(0, PROFILE_IV_LENGTH);
+  const ciphertext = data.subarray(PROFILE_IV_LENGTH, data.byteLength);
   if (key.byteLength !== PROFILE_KEY_LENGTH) {
     throw new Error('Got invalid length profile key');
   }
@@ -624,8 +627,8 @@ export function decryptProfileName(
   const foundFamilyName = familyEnd > givenEnd + 1;
 
   return {
-    given: padded.slice(0, givenEnd),
-    family: foundFamilyName ? padded.slice(givenEnd + 1, familyEnd) : null,
+    given: padded.subarray(0, givenEnd),
+    family: foundFamilyName ? padded.subarray(givenEnd + 1, familyEnd) : null,
   };
 }
 

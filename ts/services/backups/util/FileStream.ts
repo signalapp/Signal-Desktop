@@ -32,7 +32,7 @@ export class FileStream extends InputStream {
       this.#position
     );
     this.#position += bytesRead;
-    return this.#buffer.slice(0, bytesRead);
+    return this.#buffer.subarray(0, bytesRead);
   }
 
   async skip(amount: number): Promise<void> {

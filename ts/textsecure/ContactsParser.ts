@@ -143,7 +143,7 @@ export class ParseContactsTransform extends Transform {
         const spaceLeftAfterRead = reader.len - (reader.pos + attachmentSize);
         if (spaceLeftAfterRead >= 0) {
           // We've read enough data to read the entire attachment
-          const avatarData = reader.buf.slice(
+          const avatarData = reader.buf.subarray(
             reader.pos,
             reader.pos + attachmentSize
           );

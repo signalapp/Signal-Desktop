@@ -47,10 +47,10 @@ class ProvisioningCipherInner {
       throw new Error('Bad version number on ProvisioningMessage');
     }
 
-    const iv = message.slice(1, 16 + 1);
-    const mac = message.slice(message.byteLength - 32, message.byteLength);
-    const ivAndCiphertext = message.slice(0, message.byteLength - 32);
-    const ciphertext = message.slice(16 + 1, message.byteLength - 32);
+    const iv = message.subarray(1, 16 + 1);
+    const mac = message.subarray(message.byteLength - 32, message.byteLength);
+    const ivAndCiphertext = message.subarray(0, message.byteLength - 32);
+    const ciphertext = message.subarray(16 + 1, message.byteLength - 32);
 
     if (!this.keyPair) {
       throw new Error('ProvisioningCipher.decrypt: No keypair!');
