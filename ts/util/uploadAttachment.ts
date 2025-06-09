@@ -22,6 +22,7 @@ import {
 } from '../AttachmentCrypto';
 import { missingCaseError } from './missingCaseError';
 import { uuidToBytes } from './uuidToBytes';
+import { isVisualMedia } from '../types/Attachment';
 
 const CDNS_SUPPORTING_TUS = new Set([3]);
 
@@ -42,8 +43,10 @@ export async function uploadAttachment(
     uploadType: 'standard',
   });
 
-  const { blurHash, caption, clientUuid, fileName, flags, height, width } =
-    attachment;
+  const { blurHash, caption, clientUuid, flags, height, width } = attachment;
+
+  // Strip filename for visual media (images and videos) to prevent metadata leakage
+  const fileName = isVisualMedia(attachment) ? undefined : attachment.fileName;
 
   return {
     cdnKey,

@@ -134,9 +134,11 @@ describe('lightbox', function (this: Mocha.Suite) {
     async function expectLightboxImage(
       attachment: SignalService.IAttachmentPointer
     ) {
-      strictAssert(attachment.fileName, 'Must have filename');
-      const Object = LightboxContent.getByTestId(attachment.fileName);
-      debug(`Waiting for ${attachment.fileName}`);
+      debug('attachment cdnKey is', typeof attachment.cdnKey);
+      strictAssert(attachment.cdnKey, 'Must have cdnKey');
+      strictAssert(attachment.cdnKey.length > 0, 'Must have valid cdnKey');
+      const Object = LightboxContent.getByTestId(attachment.cdnKey);
+      debug(`Waiting for attachment with cdnKey ${attachment.cdnKey}`);
       await expect(Object).toBeVisible();
     }
 
