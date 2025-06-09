@@ -90,7 +90,7 @@ button.ListTile {
     cursor: pointer;
 
     &:hover:not([aria-disabled='true'], [aria-selected='true']),
-    &:focus:not([aria-disabled='true'], [aria-selected='true']) {
+    &:focus-within:not([aria-disabled='true'], [aria-selected='true']) {
       @include mixins.light-theme {
         background-color: variables.$color-black-alpha-06;
       }
