@@ -23,12 +23,13 @@ const createProps = (
   me: getDefaultConversation(),
   navTabsCollapsed: Boolean(overrideProps.navTabsCollapsed),
   onChangeLocation: action('onChangeLocation'),
-  onDismissProfileMovedModal: action('onToggleNavTabsCollapse'),
+  onDismissProfileMovedModal: action('onDismissProfileMovedModal'),
   onToggleNavTabsCollapse: action('onToggleNavTabsCollapse'),
+  profileMovedModalNeeded: false,
   renderCallsTab: () => <div>Calls Tab goes here</div>,
   renderChatsTab: () => <div>Chats Tab goes here</div>,
-  renderStoriesTab: () => <div>Stories Tab goes here</div>,
   renderSettingsTab: () => <div>Settings Tab goes here</div>,
+  renderStoriesTab: () => <div>Stories Tab goes here</div>,
   selectedNavTab: overrideProps.selectedNavTab ?? NavTab.Chats,
   shouldShowProfileIcon: Boolean(overrideProps.shouldShowProfileIcon),
   storiesEnabled: Boolean(overrideProps.storiesEnabled),
@@ -40,7 +41,6 @@ const createProps = (
     markedUnread: false,
   },
   unreadStoriesCount: overrideProps.unreadStoriesCount ?? 0,
-  profileMovedModalNeeded: false,
 });
 
 export default {

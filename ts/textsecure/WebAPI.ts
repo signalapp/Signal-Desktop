@@ -415,7 +415,7 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
     if (isAbortError(e)) {
       throw e;
     }
-    log.error(logId, 0, 'Error');
+    log.warn(logId, 0, 'Error');
     const stack = `${e.stack}\nInitial stack:\n${options.stack}`;
     throw makeHTTPError('promiseAjax catch', 0, {}, e.toString(), stack);
   }
@@ -453,7 +453,7 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
     await handleStatusCode(response.status);
 
     if (!unauthenticated && response.status === 401) {
-      log.error('Got 401 from Signal Server. We might be unlinked.');
+      log.warn('Got 401 from Signal Server. We might be unlinked.');
       window.Whisper.events.trigger('mightBeUnlinked');
     }
   }
@@ -489,7 +489,7 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
     if (isAbortError(error)) {
       throw error;
     }
-    log.error(logId, response.status, 'Error');
+    log.warn(logId, response.status, 'Error');
     const stack = `${error.stack}\nInitial stack:\n${options.stack}`;
     throw makeHTTPError(
       `promiseAjax: error parsing body (Content-Type: ${response.headers.get('content-type')})`,
@@ -500,7 +500,7 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
   }
 
   if (!isSuccess(response.status)) {
-    log.error(logId, response.status, 'Error');
+    log.warn(logId, response.status, 'Error');
 
     throw makeHTTPError(
       'promiseAjax: error response',
@@ -2553,7 +2553,7 @@ export function initialize({
         return result.data;
       }
 
-      log.warn(
+      log.error(
         'WebAPI: invalid response from postBatchIdentityCheck',
         toLogFormat(result.error)
       );
@@ -3842,7 +3842,7 @@ export function initialize({
         return parseResult.data;
       }
 
-      log.warn(
+      log.error(
         'WebAPI: invalid response from sendWithSenderKey',
         toLogFormat(parseResult.error)
       );
