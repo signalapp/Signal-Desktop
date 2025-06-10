@@ -40,6 +40,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   showConversation:
     overrideProps.showConversation || action('showConversation'),
   text: overrideProps.text || '',
+  originalText: overrideProps.originalText || overrideProps.text || '',
   textAttachment: overrideProps.textAttachment || {
     pending: false,
   },
@@ -521,6 +522,18 @@ export function ZalgoText(): JSX.Element {
       },
     ],
     text,
+  });
+
+  return <MessageBody {...props} />;
+}
+
+export function LinkOverReadMoreBoundary(): JSX.Element {
+  const text = 'https://hello.me';
+  const originalText = 'https://hello.me123';
+
+  const props = createProps({
+    text,
+    originalText,
   });
 
   return <MessageBody {...props} />;

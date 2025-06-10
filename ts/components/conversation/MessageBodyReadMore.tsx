@@ -83,6 +83,7 @@ export function MessageBodyReadMore({
       showConversation={showConversation}
       text={slicedText}
       textAttachment={textAttachment}
+      originalText={text}
     />
   );
 }
