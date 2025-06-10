@@ -55,10 +55,7 @@ import { sendSyncRequests } from '../../textsecure/syncRequests';
 import { SmartUpdateDialog } from './UpdateDialog';
 import { Page, Preferences } from '../../components/Preferences';
 import { useUpdatesActions } from '../ducks/updates';
-import {
-  getHasPendingUpdate,
-  isUpdateDownloaded as getIsUpdateDownloaded,
-} from '../selectors/updates';
+import { getUpdateDialogType } from '../selectors/updates';
 import { getHasAnyFailedStorySends } from '../selectors/stories';
 import { DataReader } from '../../sql/Client';
 import { getOtherTabsUnreadStats, getSelectedLocation } from '../selectors/nav';
@@ -74,6 +71,7 @@ import { isLocalBackupsEnabledForRedux } from '../../util/isLocalBackupsEnabled'
 import type { StorageAccessType, ZoomFactorType } from '../../types/Storage';
 import type { ThemeType } from '../../util/preload';
 import type { WidthBreakpoint } from '../../components/_util';
+import { DialogType } from '../../types/Dialogs';
 
 const DEFAULT_NOTIFICATION_SETTING = 'message';
 
@@ -150,8 +148,7 @@ export function SmartPreferences(): JSX.Element | null {
   const i18n = useSelector(getIntl);
   const items = useSelector(getItems);
   const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
-  const hasPendingUpdate = useSelector(getHasPendingUpdate);
-  const isUpdateDownloaded = useSelector(getIsUpdateDownloaded);
+  const dialogType = useSelector(getUpdateDialogType);
   const me = useSelector(getMe);
   const navTabsCollapsed = useSelector(getNavTabsCollapsed);
   const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
@@ -159,6 +156,7 @@ export function SmartPreferences(): JSX.Element | null {
   const theme = useSelector(getTheme);
 
   const badge = useSelector(getPreferredBadgeSelector)(me.badges);
+  const shouldShowUpdateDialog = dialogType !== DialogType.None;
 
   // The weird ones
 
@@ -714,7 +712,6 @@ export function SmartPreferences(): JSX.Element | null {
         hasMinimizeToSystemTray={hasMinimizeToSystemTray}
         hasNotificationAttention={hasNotificationAttention}
         hasNotifications={hasNotifications}
-        hasPendingUpdate={hasPendingUpdate}
         hasReadReceipts={hasReadReceipts}
         hasRelayCalls={hasRelayCalls}
         hasSpellCheck={hasSpellCheck}
@@ -735,7 +732,6 @@ export function SmartPreferences(): JSX.Element | null {
         isSyncSupported={isSyncSupported}
         isSystemTraySupported={isSystemTraySupported}
         isInternalUser={isInternalUser}
-        isUpdateDownloaded={isUpdateDownloaded}
         lastSyncTime={lastSyncTime}
         localBackupFolder={localBackupFolder}
         localeOverride={localeOverride}
@@ -798,13 +794,14 @@ export function SmartPreferences(): JSX.Element | null {
         resetAllChatColors={resetAllChatColors}
         resetDefaultChatColor={resetDefaultChatColor}
         resolvedLocale={resolvedLocale}
+        savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
         selectedCamera={selectedCamera}
         selectedMicrophone={selectedMicrophone}
         selectedSpeaker={selectedSpeaker}
         sentMediaQualitySetting={sentMediaQualitySetting}
         setGlobalDefaultConversationColor={setGlobalDefaultConversationColor}
         setPage={setPage}
-        savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
+        shouldShowUpdateDialog={shouldShowUpdateDialog}
         showToast={showToast}
         theme={theme}
         themeSetting={themeSetting}
