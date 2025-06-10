@@ -385,7 +385,7 @@ describe('Crypto', () => {
       const key = getRandomBytes(32);
       const plaintext = Bytes.fromString('Hello world');
       const ourMac = hmacSha256(key, plaintext);
-      const theirMac = ourMac.slice(0, -1);
+      const theirMac = ourMac.subarray(0, -1);
       let error;
       try {
         verifyHmacSha256(plaintext, key, theirMac, ourMac.byteLength);
@@ -458,7 +458,7 @@ describe('Crypto', () => {
     it('resolves with undefined if the first `length` bytes of the MACs match', () => {
       const key = getRandomBytes(32);
       const plaintext = Bytes.fromString('Hello world');
-      const theirMac = hmacSha256(key, plaintext).slice(0, -5);
+      const theirMac = hmacSha256(key, plaintext).subarray(0, -5);
       const result = verifyHmacSha256(
         plaintext,
         key,

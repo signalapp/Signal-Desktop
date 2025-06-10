@@ -2822,7 +2822,7 @@ export class CallingClass {
       );
       return;
     }
-    const senderIdentityKey = senderIdentityRecord.publicKey.slice(1); // Ignore the type header, it is not used.
+    const senderIdentityKey = senderIdentityRecord.publicKey.subarray(1); // Ignore the type header, it is not used.
 
     const ourAci = storage.user.getCheckedAci();
 
@@ -2833,7 +2833,7 @@ export class CallingClass {
       );
       return;
     }
-    const receiverIdentityKey = receiverIdentityRecord.publicKey.slice(1); // Ignore the type header, it is not used.
+    const receiverIdentityKey = receiverIdentityRecord.publicKey.subarray(1); // Ignore the type header, it is not used.
 
     const conversation = window.ConversationController.get(remoteUserId);
     if (!conversation) {

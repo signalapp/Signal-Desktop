@@ -143,7 +143,7 @@ function validatePubKeyFormat(pubKey: Uint8Array): Uint8Array {
     throw new Error('Invalid public key');
   }
   if (pubKey.byteLength === 33) {
-    return pubKey.slice(1);
+    return pubKey.subarray(1);
   }
 
   return pubKey;

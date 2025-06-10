@@ -370,8 +370,8 @@ export async function resolveUsernameByLinkBase64(
   base64: string
 ): Promise<string | undefined> {
   const content = Bytes.fromBase64(base64);
-  const entropy = content.slice(0, USERNAME_LINK_ENTROPY_SIZE);
-  const serverId = content.slice(USERNAME_LINK_ENTROPY_SIZE);
+  const entropy = content.subarray(0, USERNAME_LINK_ENTROPY_SIZE);
+  const serverId = content.subarray(USERNAME_LINK_ENTROPY_SIZE);
 
   return resolveUsernameByLink({ entropy, serverId });
 }

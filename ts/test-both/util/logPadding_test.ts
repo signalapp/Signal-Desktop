@@ -102,7 +102,7 @@ describe('appendPaddingStream', () => {
       }
     }
 
-    assert.strictEqual(buf.slice(0, -padding).toString(), inputs.join(''));
+    assert.strictEqual(buf.subarray(0, -padding).toString(), inputs.join(''));
     assert.strictEqual(buf.length, expectedSize);
   }
 

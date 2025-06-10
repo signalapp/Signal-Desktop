@@ -1653,7 +1653,7 @@ export default class MessageReceiver
   #unpad(paddedPlaintext: Uint8Array): Uint8Array {
     for (let i = paddedPlaintext.length - 1; i >= 0; i -= 1) {
       if (paddedPlaintext[i] === 0x80) {
-        return new Uint8Array(paddedPlaintext.slice(0, i));
+        return new Uint8Array(paddedPlaintext.subarray(0, i));
       }
       if (paddedPlaintext[i] !== 0x00) {
         throw new Error('Invalid padding');

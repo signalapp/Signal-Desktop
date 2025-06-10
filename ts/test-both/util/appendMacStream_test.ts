@@ -35,11 +35,11 @@ describe('appendMacStream', () => {
       const expectedMac = hmac.digest();
 
       assert.strictEqual(
-        buf.slice(0, -MAC_SIZE).toString('hex'),
+        buf.subarray(0, -MAC_SIZE).toString('hex'),
         plaintext.toString('hex')
       );
       assert.strictEqual(
-        buf.slice(-MAC_SIZE).toString('hex'),
+        buf.subarray(-MAC_SIZE).toString('hex'),
         expectedMac.toString('hex')
       );
     });

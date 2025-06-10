@@ -1923,7 +1923,7 @@ export class SignalProtocolStore extends EventEmitter {
     }
 
     const hash = sha256(pubKey);
-    const fingerprint = hash.slice(0, 4);
+    const fingerprint = hash.subarray(0, 4);
 
     return Bytes.toBase64(fingerprint);
   }

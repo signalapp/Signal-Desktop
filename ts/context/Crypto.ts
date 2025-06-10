@@ -95,8 +95,8 @@ export class Crypto {
         throw new Error('Invalid GCM ciphertext');
       }
 
-      const tag = input.slice(input.length - AUTH_TAG_SIZE);
-      input = input.slice(0, input.length - AUTH_TAG_SIZE);
+      const tag = input.subarray(input.length - AUTH_TAG_SIZE);
+      input = input.subarray(0, input.length - AUTH_TAG_SIZE);
 
       gcm.setAuthTag(tag);
 

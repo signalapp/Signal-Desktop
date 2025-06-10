@@ -268,5 +268,5 @@ export function getBucketValue(aci: AciString, flagName: string): number {
     hashInput
   );
 
-  return Number(Bytes.readBigUint64BE(hashResult.slice(0, 8)) % 1_000_000n);
+  return Number(Bytes.readBigUint64BE(hashResult.subarray(0, 8)) % 1_000_000n);
 }

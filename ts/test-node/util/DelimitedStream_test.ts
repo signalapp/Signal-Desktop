@@ -33,7 +33,7 @@ describe('DelimitedStream', () => {
         Readable.from(
           (function* () {
             for (let offset = 0; offset < data.length; offset += stride) {
-              yield data.slice(offset, offset + stride);
+              yield data.subarray(offset, offset + stride);
             }
           })()
         ),
@@ -95,7 +95,7 @@ describe('DelimitedStream', () => {
     const out = new Array<string>();
     await assert.isRejected(
       pipeline(
-        Readable.from(w.finish().slice(0, 1)),
+        Readable.from(w.finish().subarray(0, 1)),
         new DelimitedStream(),
         collect(out)
       ),
@@ -110,7 +110,7 @@ describe('DelimitedStream', () => {
     const out = new Array<string>();
     await assert.isRejected(
       pipeline(
-        Readable.from(w.finish().slice(0, 10)),
+        Readable.from(w.finish().subarray(0, 10)),
         new DelimitedStream(),
         collect(out)
       ),
