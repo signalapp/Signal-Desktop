@@ -168,6 +168,7 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
     const messageText = (
       <MessageTextRenderer
         messageText={cleanedSnippet}
+        originalMessageText={cleanedSnippet}
         bodyRanges={displayBodyRanges}
         direction={undefined}
         disableLinks

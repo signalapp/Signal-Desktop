@@ -378,6 +378,7 @@ export function Quote(props: Props): JSX.Element | null {
             isSpoilerExpanded={EMPTY_OBJECT}
             renderLocation={RenderLocation.Quote}
             text={text}
+            originalText={text}
           />
         </div>
       );

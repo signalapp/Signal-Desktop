@@ -704,6 +704,7 @@ export function StoryViewer({
                   onExpandSpoiler={data => setIsSpoilerExpanded(data)}
                   renderLocation={RenderLocation.StoryViewer}
                   text={caption.text}
+                  originalText={caption.text}
                 />
                 {caption.hasReadMore && !hasExpandedCaption && (
                   <button

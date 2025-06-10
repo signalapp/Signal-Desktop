@@ -60,6 +60,7 @@ export type Props = {
     AttachmentType,
     'pending' | 'digest' | 'key' | 'wasTooBig' | 'path'
   >;
+  originalText: string;
 };
 
 /**
@@ -84,8 +85,10 @@ export function MessageBody({
   showConversation,
   text,
   textAttachment,
+  originalText,
 }: Props): JSX.Element {
-  const shouldDisableLinks = disableLinks || !shouldLinkifyMessage(text);
+  const shouldDisableLinks =
+    disableLinks || !shouldLinkifyMessage(originalText);
   const textWithSuffix =
     textAttachment?.pending || onIncreaseTextLength || textAttachment?.wasTooBig
       ? `${text}...`
@@ -177,6 +180,7 @@ export function MessageBody({
         i18n={i18n}
         isSpoilerExpanded={isSpoilerExpanded}
         messageText={textWithSuffix}
+        originalMessageText={originalText}
         onMentionTrigger={conversationId =>
           showConversation?.({ conversationId })
         }
