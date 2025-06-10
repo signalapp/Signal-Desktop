@@ -141,16 +141,15 @@ export type PropsDataType = {
   resolvedLocale: string;
 
   // Other props
+  badge: BadgeType | undefined;
   hasFailedStorySends: boolean;
-  hasPendingUpdate: boolean;
   initialSpellCheckSetting: boolean;
-  isUpdateDownloaded: boolean;
+  me: ConversationType;
   navTabsCollapsed: boolean;
   otherTabsUnreadStats: UnreadStats;
-  me: ConversationType;
-  badge: BadgeType | undefined;
-  theme: ThemeType;
   preferredWidthFromStorage: number;
+  shouldShowUpdateDialog: boolean;
+  theme: ThemeType;
 
   // Limited support features
   isAutoDownloadUpdatesSupported: boolean;
@@ -341,7 +340,6 @@ export function Preferences({
   hasMinimizeToSystemTray,
   hasNotificationAttention,
   hasNotifications,
-  hasPendingUpdate,
   hasReadReceipts,
   hasRelayCalls,
   hasSpellCheck,
@@ -360,7 +358,6 @@ export function Preferences({
   isSystemTraySupported,
   isMinimizeToAndStartInSystemTraySupported,
   isInternalUser,
-  isUpdateDownloaded,
   lastSyncTime,
   makeSyncRequest,
   me,
@@ -424,6 +421,7 @@ export function Preferences({
   sentMediaQualitySetting,
   setGlobalDefaultConversationColor,
   setPage,
+  shouldShowUpdateDialog,
   showToast,
   localeOverride,
   theme,
@@ -472,7 +470,7 @@ export function Preferences({
   }
 
   let maybeUpdateDialog: JSX.Element | undefined;
-  if (hasPendingUpdate || isUpdateDownloaded) {
+  if (shouldShowUpdateDialog) {
     maybeUpdateDialog = renderUpdateDialog({
       containerWidthBreakpoint: WidthBreakpoint.Wide,
     });

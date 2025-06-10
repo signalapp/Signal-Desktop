@@ -13,6 +13,7 @@ import {
   getUpdateDownloadedSize,
   getUpdateVersion,
 } from '../selectors/updates';
+import { DialogType } from '../../types/Dialogs';
 
 type SmartUpdateDialogProps = Readonly<{
   containerWidthBreakpoint: WidthBreakpoint;
@@ -29,6 +30,14 @@ export const SmartUpdateDialog = memo(function SmartUpdateDialog({
   const downloadSize = useSelector(getUpdateDownloadSize);
   const downloadedSize = useSelector(getUpdateDownloadedSize);
   const version = useSelector(getUpdateVersion);
+
+  const shouldDisableDismiss =
+    disableDismiss &&
+    dialogType !== DialogType.Cannot_Update &&
+    dialogType !== DialogType.Cannot_Update_Require_Manual &&
+    dialogType !== DialogType.MacOS_Read_Only &&
+    dialogType !== DialogType.UnsupportedOS;
+
   return (
     <DialogUpdate
       i18n={i18n}
@@ -39,7 +48,7 @@ export const SmartUpdateDialog = memo(function SmartUpdateDialog({
       version={version}
       currentVersion={window.getVersion()}
       dismissDialog={dismissDialog}
-      disableDismiss={disableDismiss}
+      disableDismiss={shouldDisableDismiss}
       snoozeUpdate={snoozeUpdate}
       startUpdate={startUpdate}
     />
