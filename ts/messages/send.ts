@@ -186,11 +186,7 @@ export async function send(
     switch (error.name) {
       case 'OutgoingIdentityKeyError': {
         if (conversation) {
-          promises.push(
-            conversation.getProfiles().catch(() => {
-              /* nothing to do here; logging already happened */
-            })
-          );
+          promises.push(conversation.getProfiles());
         }
         break;
       }

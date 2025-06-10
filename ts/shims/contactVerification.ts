@@ -11,8 +11,6 @@ export async function toggleVerification(id: string): Promise<void> {
 export async function reloadProfiles(id: string): Promise<void> {
   const contact = window.getConversations().get(id);
   if (contact) {
-    await contact.getProfiles().catch(() => {
-      /* nothing to do here; logging already happened */
-    });
+    await contact.getProfiles();
   }
 }

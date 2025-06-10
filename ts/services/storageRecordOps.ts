@@ -1206,11 +1206,7 @@ export async function mergeContactRecord(
       log.info(
         `mergeContactRecord: ${conversation.idForLogging()} name doesn't match remote name; also fetching profile`
       );
-      drop(
-        conversation.getProfiles().catch(() => {
-          /* nothing to do here; logging already happened */
-        })
-      );
+      drop(conversation.getProfiles());
       details.push('refreshing profile');
     }
   }
