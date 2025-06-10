@@ -216,7 +216,6 @@ export default {
     hasMinimizeToSystemTray: true,
     hasNotificationAttention: false,
     hasNotifications: true,
-    hasPendingUpdate: false,
     hasReadReceipts: true,
     hasRelayCalls: false,
     hasSpellCheck: true,
@@ -234,7 +233,6 @@ export default {
     isContentProtectionSupported: true,
     isContentProtectionNeeded: true,
     isMinimizeToAndStartInSystemTraySupported: true,
-    isUpdateDownloaded: false,
     lastSyncTime: Date.now(),
     localeOverride: null,
     localBackupFolder: undefined,
@@ -255,6 +253,7 @@ export default {
     selectedMicrophone: availableMicrophones[0],
     selectedSpeaker: availableSpeakers[1],
     sentMediaQualitySetting: 'standard',
+    shouldShowUpdateDialog: false,
     themeSetting: 'system',
     theme: ThemeType.light,
     universalExpireTimer: DurationInSeconds.HOUR,
@@ -539,14 +538,9 @@ LocalBackupsSetupViewBackupKey.args = {
   localBackupFolder: '/home/signaluser/Signal Backups/',
 };
 
-export const UpdateAvailable = Template.bind({});
-UpdateAvailable.args = {
-  hasPendingUpdate: true,
-};
-
-export const UpdateDownloaded = Template.bind({});
-UpdateDownloaded.args = {
-  isUpdateDownloaded: true,
+export const ShowingUpdateDialog = Template.bind({});
+ShowingUpdateDialog.args = {
+  shouldShowUpdateDialog: true,
 };
 
 export const NavTabsCollapsed = Template.bind({});
