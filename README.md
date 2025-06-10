@@ -5,6 +5,13 @@
 
 Reaction Overlay: https://github.com/signalapp/Signal-Desktop/pull/7348
 
+
+---
+
+## 🔻 Below this line is the original Signal README 🔻
+
+---
+
 # Signal Desktop
 
 Signal Desktop links with Signal on [Android](https://github.com/signalapp/Signal-Android) or [iOS](https://github.com/signalapp/Signal-iOS) and lets you message from your Windows, macOS, and Linux computers.
