@@ -3047,11 +3047,7 @@ function getProfilesForConversation(conversationId: string): NoopActionType {
     throw new Error('getProfilesForConversation: no conversation found');
   }
 
-  drop(
-    conversation.getProfiles().catch(() => {
-      /* nothing to do here; logging already happened */
-    })
-  );
+  drop(conversation.getProfiles());
 
   return {
     type: 'NOOP',
@@ -3075,11 +3071,7 @@ function conversationStoppedByMissingVerification(payload: {
     }
 
     // Intentionally not awaiting here
-    drop(
-      conversation.getProfiles().catch(() => {
-        /* nothing to do here; logging already happened */
-      })
-    );
+    drop(conversation.getProfiles());
   });
 
   return {

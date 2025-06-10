@@ -1906,13 +1906,7 @@ async function processRemoteRecords(
     );
 
     // Intentionally not awaiting
-    needProfileFetch.map(convo =>
-      drop(
-        convo.getProfiles().catch(() => {
-          /* nothing to do here; logging already happened */
-        })
-      )
-    );
+    needProfileFetch.map(convo => drop(convo.getProfiles()));
 
     // Collect full map of previously and currently unknown records
     const unknownRecords: Map<string, UnknownRecord> = new Map();
