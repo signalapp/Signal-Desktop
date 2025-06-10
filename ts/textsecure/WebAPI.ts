@@ -56,7 +56,11 @@ import { getRandomBytes, randomInt } from '../Crypto';
 import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch';
 import { isBadgeImageFileUrlValid } from '../badges/isBadgeImageFileUrlValid';
 
-import { SocketManager, type SocketStatuses } from './SocketManager';
+import {
+  SocketManager,
+  type SocketStatuses,
+  type SocketExpirationReason,
+} from './SocketManager';
 import type { CDSAuthType, CDSResponseType } from './cds/Types.d';
 import { CDSI } from './cds/CDSI';
 import { SignalService as Proto } from '../protobuf';
@@ -87,6 +91,7 @@ import { isProduction } from '../util/version';
 import type { ServerAlert } from '../util/handleServerAlerts';
 import { isAbortError } from '../util/isAbortError';
 import { missingCaseError } from '../util/missingCaseError';
+import { drop } from '../util/drop';
 
 // Note: this will break some code that expects to be able to use err.response when a
 //   web request fails, because it will force it to text. But it is very useful for
@@ -817,6 +822,7 @@ type AjaxOptionsType<Type extends AjaxResponseType, OutputShape = unknown> = (
 
 export type WebAPIConnectOptionsType = WebAPICredentials & {
   hasStoriesDisabled: boolean;
+  hasBuildExpired: boolean;
 };
 
 export type WebAPIConnectType = {
@@ -1700,7 +1706,7 @@ export type WebAPIType = {
   isOnline: () => boolean | undefined;
   onNavigatorOnline: () => Promise<void>;
   onNavigatorOffline: () => Promise<void>;
-  onRemoteExpiration: () => Promise<void>;
+  onExpiration: (reason: SocketExpirationReason) => Promise<void>;
   reconnect: () => Promise<void>;
 };
 
@@ -1880,6 +1886,7 @@ export function initialize({
     username: initialUsername,
     password: initialPassword,
     hasStoriesDisabled,
+    hasBuildExpired,
   }: WebAPIConnectOptionsType) {
     let username = initialUsername;
     let password = initialPassword;
@@ -1933,7 +1940,11 @@ export function initialize({
       serverAlerts = alerts;
     });
 
-    void socketManager.authenticate({ username, password });
+    if (hasBuildExpired) {
+      drop(socketManager.onExpiration('build'));
+    }
+
+    drop(socketManager.authenticate({ username, password }));
 
     const cds = new CDSI(libsignalNet, {
       logger: log,
@@ -2071,7 +2082,7 @@ export function initialize({
       isOnline,
       onNavigatorOffline,
       onNavigatorOnline,
-      onRemoteExpiration,
+      onExpiration,
       postBatchIdentityCheck,
       putEncryptedAttachment,
       putProfile,
@@ -2283,8 +2294,8 @@ export function initialize({
       await socketManager.onNavigatorOffline();
     }
 
-    async function onRemoteExpiration(): Promise<void> {
-      await socketManager.onRemoteExpiration();
+    async function onExpiration(reason: SocketExpirationReason): Promise<void> {
+      await socketManager.onExpiration(reason);
     }
 
     async function reconnect(): Promise<void> {

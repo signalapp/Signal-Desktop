@@ -204,6 +204,7 @@ import { getParametersForRedux, loadAll } from './services/allLoaders';
 import { checkFirstEnvelope } from './util/checkFirstEnvelope';
 import { BLOCKED_UUIDS_ID } from './textsecure/storage/Blocked';
 import { ReleaseNotesFetcher } from './services/releaseNotesFetcher';
+import { BuildExpirationService } from './services/buildExpiration';
 import {
   maybeQueueDeviceNameFetch,
   onDeviceNameChangeSync,
@@ -522,9 +523,16 @@ export async function startApp(): Promise<void> {
 
     window.Whisper.events.on('firstEnvelope', checkFirstEnvelope);
 
+    const buildExpirationService = new BuildExpirationService();
+
     server = window.WebAPI.connect({
       ...window.textsecure.storage.user.getWebAPICredentials(),
+      hasBuildExpired: buildExpirationService.hasBuildExpired(),
       hasStoriesDisabled: window.storage.get('hasStoriesDisabled', false),
+    });
+
+    buildExpirationService.on('expired', () => {
+      drop(server?.onExpiration('build'));
     });
 
     window.textsecure.server = server;
@@ -1428,7 +1436,7 @@ export async function startApp(): Promise<void> {
 
     log.error('background: remote expiration detected, disabling reconnects');
     drop(window.storage.put('remoteBuildExpiration', Date.now()));
-    drop(server?.onRemoteExpiration());
+    drop(server?.onExpiration('remote'));
     remotelyExpired = true;
   });
 
@@ -1712,6 +1720,7 @@ export async function startApp(): Promise<void> {
 
     if (remotelyExpired) {
       log.info('afterAuthSocketConnect: remotely expired');
+      drop(onEmpty({ isFromMessageReceiver: false })); // this ensures that the inbox loading progress bar is dismissed
       return;
     }
 
