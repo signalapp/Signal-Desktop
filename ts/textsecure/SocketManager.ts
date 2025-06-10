@@ -89,6 +89,8 @@ export type SocketStatuses = Record<
   SocketInfo
 >;
 
+export type SocketExpirationReason = 'remote' | 'build';
+
 // This class manages two websocket resources:
 //
 // - Authenticated IWebSocketResource which uses supplied WebAPICredentials and
@@ -123,7 +125,7 @@ export class SocketManager extends EventListener {
   #incomingRequestQueue = new Array<IncomingWebSocketRequest>();
   #isNavigatorOffline = false;
   #privIsOnline: boolean | undefined;
-  #isRemotelyExpired = false;
+  #expirationReason: SocketExpirationReason | undefined;
   #hasStoriesDisabled: boolean;
   #reconnectController: AbortController | undefined;
   #envelopeCount = 0;
@@ -145,17 +147,29 @@ export class SocketManager extends EventListener {
   }
 
   #markOffline() {
-    if (this.#privIsOnline !== false) {
-      this.#privIsOnline = false;
-      this.emit('offline');
+    // Note: `#privIsOnline` starts as `undefined` so that we emit the first
+    // `offline` event.
+    if (this.#privIsOnline === false) {
+      return;
     }
+
+    this.#privIsOnline = false;
+    this.emit('offline');
+  }
+
+  #markOnline() {
+    if (this.#privIsOnline === true) {
+      return;
+    }
+    this.#privIsOnline = true;
+    this.emit('online');
   }
 
   // Update WebAPICredentials and reconnect authenticated resource if
   // credentials changed
   public async authenticate(credentials: WebAPICredentials): Promise<void> {
-    if (this.#isRemotelyExpired) {
-      throw new HTTPError('SocketManager remotely expired', {
+    if (this.#expirationReason != null) {
+      throw new HTTPError(`SocketManager ${this.#expirationReason} expired`, {
         code: 0,
         headers: {},
         stack: new Error().stack,
@@ -240,8 +254,11 @@ export class SocketManager extends EventListener {
     this.#authenticated = process;
 
     const reconnect = async (): Promise<void> => {
-      if (this.#isRemotelyExpired) {
-        log.info('SocketManager: remotely expired, not reconnecting');
+      if (this.#expirationReason != null) {
+        log.info(
+          `SocketManager: ${this.#expirationReason} expired, ` +
+            'not reconnecting'
+        );
         return;
       }
 
@@ -409,8 +426,11 @@ export class SocketManager extends EventListener {
     handler: IRequestHandler,
     timeout?: number
   ): Promise<IWebSocketResource> {
-    if (this.#isRemotelyExpired) {
-      throw new Error('Remotely expired, not connecting provisioning socket');
+    if (this.#expirationReason != null) {
+      throw new Error(
+        `${this.#expirationReason} expired, ` +
+          'not connecting provisioning socket'
+      );
     }
 
     return this.#connectResource({
@@ -597,12 +617,15 @@ export class SocketManager extends EventListener {
     await this.check();
   }
 
-  public async onRemoteExpiration(): Promise<void> {
-    log.info('SocketManager.onRemoteExpiration');
-    this.#isRemotelyExpired = true;
+  public async onExpiration(reason: SocketExpirationReason): Promise<void> {
+    log.info('SocketManager.onRemoteExpiration', reason);
+    this.#expirationReason = reason;
 
     // Cancel reconnect attempt if any
     this.#reconnectController?.abort();
+
+    // Logout
+    await this.logout();
   }
 
   public async logout(): Promise<void> {
@@ -636,10 +659,7 @@ export class SocketManager extends EventListener {
       this.#authenticatedStatus.lastConnectionTransport =
         newStatus.transportOption;
 
-      if (!this.#privIsOnline) {
-        this.#privIsOnline = true;
-        this.emit('online');
-      }
+      this.#markOnline();
     }
   }
 
@@ -682,6 +702,14 @@ export class SocketManager extends EventListener {
   }
 
   async #getUnauthenticatedResource(): Promise<IWebSocketResource> {
+    if (this.#expirationReason) {
+      throw new HTTPError(`SocketManager ${this.#expirationReason} expired`, {
+        code: 0,
+        headers: {},
+        stack: new Error().stack,
+      });
+    }
+
     // awaiting on `this.getProxyAgent()` needs to happen here
     // so that there are no calls to `await` between checking
     // the value of `this.unauthenticated` and assigning it later in this function
@@ -689,14 +717,6 @@ export class SocketManager extends EventListener {
 
     if (this.#unauthenticated) {
       return this.#unauthenticated.getResult();
-    }
-
-    if (this.#isRemotelyExpired) {
-      throw new HTTPError('SocketManager remotely expired', {
-        code: 0,
-        headers: {},
-        stack: new Error().stack,
-      });
     }
 
     log.info('SocketManager: connecting unauthenticated socket');
