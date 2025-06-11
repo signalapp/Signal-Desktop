@@ -39,6 +39,10 @@ type MinimalEventsType = {
   on(event: 'timetravel', callback: () => void): void;
 };
 
+type FetchOptions = {
+  isNewVersion?: boolean;
+};
+
 type ManifestReleaseNoteType = WithRequiredProperties<
   ReleaseNotesManifestResponseType['announcements'][0],
   'desktopMinVersion'
@@ -46,8 +50,6 @@ type ManifestReleaseNoteType = WithRequiredProperties<
 
 export type ReleaseNoteType = ReleaseNoteResponseType &
   Pick<ReleaseNotesManifestResponseType['announcements'][0], 'ctaId' | 'link'>;
-
-let initComplete = false;
 
 const STYLE_MAPPING: Record<string, BodyRange.Style> = {
   bold: BodyRange.Style.BOLD,
@@ -57,15 +59,11 @@ const STYLE_MAPPING: Record<string, BodyRange.Style> = {
   mono: BodyRange.Style.MONOSPACE,
 };
 export class ReleaseNotesFetcher {
+  static initComplete = false;
   #timeout: NodeJS.Timeout | undefined;
   #isRunning = false;
 
-  protected async scheduleUpdateForNow(): Promise<void> {
-    const now = Date.now();
-    await window.textsecure.storage.put(NEXT_FETCH_TIME_STORAGE_KEY, now);
-  }
-
-  protected setTimeoutForNextRun(): void {
+  protected setTimeoutForNextRun(options?: FetchOptions): void {
     const now = Date.now();
     const time = window.textsecure.storage.get(
       NEXT_FETCH_TIME_STORAGE_KEY,
@@ -83,7 +81,7 @@ export class ReleaseNotesFetcher {
     }
 
     clearTimeoutIfNecessary(this.#timeout);
-    this.#timeout = setTimeout(() => this.#runWhenOnline(), waitTime);
+    this.#timeout = setTimeout(() => this.#runWhenOnline(options), waitTime);
   }
 
   #getOrInitializeVersionWatermark(): string {
@@ -325,7 +323,6 @@ export class ReleaseNotesFetcher {
 
         window.MessageCache.register(message);
         drop(signalConversation.onNewMessage(message));
-
         messages.push(message.attributes);
       }
     );
@@ -348,13 +345,15 @@ export class ReleaseNotesFetcher {
     );
   }
 
-  async #scheduleForNextRun(): Promise<void> {
+  async #scheduleForNextRun(options?: {
+    isNewVersion?: boolean;
+  }): Promise<void> {
     const now = Date.now();
-    const nextTime = now + FETCH_INTERVAL;
+    const nextTime = options?.isNewVersion ? now : now + FETCH_INTERVAL;
     await window.textsecure.storage.put(NEXT_FETCH_TIME_STORAGE_KEY, nextTime);
   }
 
-  async #run(): Promise<void> {
+  async #run(options?: FetchOptions): Promise<void> {
     if (this.#isRunning) {
       log.warn('ReleaseNotesFetcher: Already running, preventing reentrancy');
       return;
@@ -380,31 +379,41 @@ export class ReleaseNotesFetcher {
         PREVIOUS_MANIFEST_HASH_STORAGE_KEY
       );
 
-      if (hash !== previousHash) {
-        log.info('ReleaseNotesFetcher: Manifest hash changed, fetching');
-      } else {
+      if (hash !== previousHash || options?.isNewVersion) {
         log.info(
-          'ReleaseNotesFetcher: Manifest hash unchanged, still fetching'
+          `ReleaseNotesFetcher: Fetching manifest, isNewVersion=${
+            options?.isNewVersion ? 'true' : 'false'
+          }, hashChanged=${hash !== previousHash ? 'true' : 'false'}`
         );
-      }
-      const manifest = await window.textsecure.server.getReleaseNotesManifest();
-      const validNotes = manifest.announcements.filter(
-        (note): note is ManifestReleaseNoteType =>
-          note.desktopMinVersion != null &&
-          semver.gt(note.desktopMinVersion, versionWatermark)
-      );
-      if (validNotes.length) {
-        log.info(
-          `ReleaseNotesFetcher: Processing ${validNotes.length} new release notes`
+        const manifest =
+          await window.textsecure.server.getReleaseNotesManifest();
+        const currentVersion = window.getVersion();
+        const validNotes = manifest.announcements.filter(
+          (note): note is ManifestReleaseNoteType =>
+            note.desktopMinVersion != null &&
+            semver.gt(note.desktopMinVersion, versionWatermark) &&
+            semver.lte(note.desktopMinVersion, currentVersion)
         );
-        await this.#processReleaseNotes(validNotes);
-      } else {
-        log.info('ReleaseNotesFetcher: No new release notes');
-      }
+        if (validNotes.length) {
+          log.info(
+            `ReleaseNotesFetcher: Processing ${validNotes.length} new release notes`
+          );
+          await this.#processReleaseNotes(validNotes);
+        } else {
+          log.info('ReleaseNotesFetcher: No new release notes');
+        }
 
-      drop(
-        window.textsecure.storage.put(PREVIOUS_MANIFEST_HASH_STORAGE_KEY, hash)
-      );
+        drop(
+          window.textsecure.storage.put(
+            PREVIOUS_MANIFEST_HASH_STORAGE_KEY,
+            hash
+          )
+        );
+      } else {
+        log.info(
+          'ReleaseNotesFetcher: Manifest hash unchanged, aborting fetch'
+        );
+      }
 
       await this.#scheduleForNextRun();
       this.setTimeoutForNextRun();
@@ -423,16 +432,16 @@ export class ReleaseNotesFetcher {
     }
   }
 
-  #runWhenOnline() {
+  #runWhenOnline(options?: FetchOptions) {
     if (window.textsecure.server?.isOnline()) {
-      drop(this.#run());
+      drop(this.#run(options));
     } else {
       log.info(
         'ReleaseNotesFetcher: We are offline; will fetch when we are next online'
       );
       const listener = () => {
         window.Whisper.events.off('online', listener);
-        this.setTimeoutForNextRun();
+        this.setTimeoutForNextRun(options);
       };
       window.Whisper.events.on('online', listener);
     }
@@ -442,18 +451,18 @@ export class ReleaseNotesFetcher {
     events: MinimalEventsType,
     isNewVersion: boolean
   ): Promise<void> {
-    if (initComplete) {
+    if (ReleaseNotesFetcher.initComplete) {
       return;
     }
 
-    initComplete = true;
+    ReleaseNotesFetcher.initComplete = true;
 
     const listener = new ReleaseNotesFetcher();
 
     if (isNewVersion) {
-      await listener.scheduleUpdateForNow();
+      await listener.#scheduleForNextRun({ isNewVersion });
     }
-    listener.setTimeoutForNextRun();
+    listener.setTimeoutForNextRun({ isNewVersion });
 
     events.on('timetravel', () => {
       if (Registration.isDone()) {
