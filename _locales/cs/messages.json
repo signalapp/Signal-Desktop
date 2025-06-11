@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Chyba databáze: pošlete nám prosím své protokoly."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Neplatná odpověď ze strany úložiště. Nasdílejte prosíme své záznamy."
@@ -1269,7 +1269,7 @@
     "messageformat": "Potřebujete pomoc?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Nastavení"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefonní číslo"
@@ -2338,6 +2338,9 @@
   },
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
     "messageformat": "Výsledky vyhledávání"
+  },
+  "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
+    "messageformat": "This Message"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Nedávno použité"
@@ -3965,6 +3968,12 @@
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "Klepněte na „Podpořit Signal finančně“ a přihlaste se k odběru"
   },
+  "icu:ProfileMovedModal__title": {
+    "messageformat": "Your profile has moved"
+  },
+  "icu:ProfileMovedModal__description": {
+    "messageformat": "Open the Settings tab to view and edit your profile."
+  },
   "icu:BackupImportScreen__title": {
     "messageformat": "Synchronizace zpráv"
   },
@@ -4931,6 +4940,9 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Váš profil se nepodařilo aktualizovat. Zkuste to prosím znovu."
   },
+  "icu:ProfileEditorModal--sharing": {
+    "messageformat": "Sharing"
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Poslat zprávu správci"
   },
@@ -5006,6 +5018,15 @@
   "icu:Preferences__button--internal": {
     "messageformat": "Vnitřní"
   },
+  "icu:Preferences__button--manage": {
+    "messageformat": "Manage"
+  },
+  "icu:Preferences__button--choose-folder": {
+    "messageformat": "Choose folder"
+  },
+  "icu:Preferences__button--set-up": {
+    "messageformat": "Set up"
+  },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Místní zálohy"
   },
@@ -5051,6 +5072,15 @@
   "icu:Preferences--blocked": {
     "messageformat": "Blokováno"
   },
+  "icu:Preferences--signal-backups": {
+    "messageformat": "Signal Backups"
+  },
+  "icu:Preferences--signal-backups-off-description": {
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+  },
+  "icu:Preferences--backup-section-description": {
+    "messageformat": "Back up your message history so you never lose data when you get a new phone or reinstall Signal."
+  },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Podrobnosti o zálohování"
   },
@@ -5092,6 +5122,84 @@
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "Velikost zálohy"
+  },
+  "icu:Preferences__local-backups": {
+    "messageformat": "Desktop backups"
+  },
+  "icu:Preferences__local-backups-section__description": {
+    "messageformat": "Backups are encrypted with a key and stored on your computer."
+  },
+  "icu:Preferences--local-backups-off-description": {
+    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+  },
+  "icu:Preferences--local-backups-restore-info": {
+    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-setup-folder": {
+    "messageformat": "Choose a folder"
+  },
+  "icu:Preferences--local-backups-setup-folder-description": {
+    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+  },
+  "icu:Preferences--local-backups-setup-next": {
+    "messageformat": "Next"
+  },
+  "icu:Preferences--local-backups-view-backup-key-done": {
+    "messageformat": "Done"
+  },
+  "icu:Preferences--local-backups-backup-key-text-box": {
+    "messageformat": "Backup key text box"
+  },
+  "icu:Preferences--local-backups-enter-backup-key": {
+    "messageformat": "Enter key"
+  },
+  "icu:Preferences--local-backups-record-backup-key": {
+    "messageformat": "Record your backup key"
+  },
+  "icu:Preferences--local-backups-record-backup-key-description": {
+    "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key": {
+    "messageformat": "Confirm your backup key"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key-description": {
+    "messageformat": "Enter the backup key that you just recorded"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-title": {
+    "messageformat": "Keep your key safe"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-body": {
+    "messageformat": "Signal will not be able to help you restore your backup if you lose your key. Store it somewhere safe and secure, and do not share it with others."
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-continue": {
+    "messageformat": "Continue"
+  },
+  "icu:Preferences--local-backups-see-backup-key-again": {
+    "messageformat": "See key again"
+  },
+  "icu:Preferences__local-backups-folder": {
+    "messageformat": "Backup folder"
+  },
+  "icu:Preferences__local-backups-folder__change": {
+    "messageformat": "Change"
+  },
+  "icu:Preferences__local-backups-copy-key": {
+    "messageformat": "Copy to clipboard"
+  },
+  "icu:Preferences__local-backups-copied-key": {
+    "messageformat": "Backup key copied"
+  },
+  "icu:Preferences__view-key": {
+    "messageformat": "View key"
+  },
+  "icu:Preferences__backup-key": {
+    "messageformat": "Backup key"
+  },
+  "icu:Preferences__backup-key-description": {
+    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+  },
+  "icu:Preferences__backup-other-ways": {
+    "messageformat": "Other ways to back up"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} kontakt} few {{num,number} kontakty} many {{num,number} kontaktů} other {{num,number} kontaktů}}"
@@ -6324,6 +6432,9 @@
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Nesdílejte osobní údaje s lidmi, které neznáte"
   },
+  "icu:SaveMultiDialog__title": {
+    "messageformat": "Save attachments"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Co je nového"
   },
@@ -6355,10 +6466,10 @@
     "messageformat": "Drobná vylepšení, opravy chyb a zvýšení výkonu. Děkujeme, že používáte Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Tato aktualizace opravuje chybu, která způsobovala potíže s přesouváním okna aplikace Signal při prohlížení obsahu na záložce Příběhy."
-  },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "Úpravy v Nastavení nyní můžete provádět z hlavní obrazovky namísto vyskakovacího okna."
+  },
+  "icu:WhatsNew__v7.58--0": {
+    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
   }
 }

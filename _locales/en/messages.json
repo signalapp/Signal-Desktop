@@ -5280,7 +5280,6 @@
     "messageformat": "Open the Settings tab to view and edit your profile.",
     "description": "Description text on modal that explains the move of Profile Editor into the new Settings Tab"
   },
-
   "icu:BackupImportScreen__title": {
     "messageformat": "Syncing messages",
     "description": "Title of backup import screen"
@@ -6811,7 +6810,7 @@
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "Backup size",
-    "description": "Label for the size (e.g. 1.4 GB) of this user's backup"
+    "description": "(Deleted 2025/06/11) Label for the size (e.g. 1.4 GB) of this user's backup"
   },
   "icu:Preferences__local-backups": {
     "messageformat": "Desktop backups",
@@ -8125,7 +8124,7 @@
   },
   "icu:UsernameLinkModalBody__done": {
     "messageformat": "Done",
-    "description": "Text of button at the bottom of the username link modal"
+    "description": "(Deleted 2025/06/11) Text of button at the bottom of the username link modal"
   },
   "icu:UsernameLinkModalBody__color__radio": {
     "messageformat": "Username link color, {index, number} of {total, number}",
@@ -8600,7 +8599,7 @@
   },
   "icu:WhatsNew__v7.57--0": {
     "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen.",
-    "description": "Release notes for version 7.57"
+    "description": "(Deleted 2025/06/11) Release notes for version 7.57"
   },
   "icu:WhatsNew__v7.58--0": {
     "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead.",
