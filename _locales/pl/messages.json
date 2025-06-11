@@ -93,13 +93,13 @@
     "messageformat": "Cała Twoja historia wiadomości wraz z multimediami zostanie trwale usunięta z tego urządzenia. Nie dotyczy to danych na Twoim telefonie.\n\nJeśli chcesz nadal korzystać z aplikacji Signal na tym urządzeniu, trzeba będzie ponownie je połączyć. Będziesz mieć możliwość przeniesienia historii wiadomości z telefonu."
   },
   "icu:databaseError__startOldVersion": {
-    "messageformat": "Wersja Twojej bazy danych jest niezgodna z tą wersją aplikacji Signal. Upewnij się, że otwierasz najnowszą wersję Signal na swoim komputerze."
+    "messageformat": "Wersja Twojej bazy danych jest niezgodna z używaną wersją aplikacji Signal. Upewnij się, że otwierasz na komputerze najnowszą wersję aplikacji Signal."
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Nie można uzyskać dostępu do klucza szyfrowania bazy danych, ponieważ zaplecze kluczy szyfrowania systemu operacyjnego zostało zmienione z {previousBackend} na {currentBackend}. Może się to zdarzyć, jeśli zmieni się środowisko graficzne, na przykład z GNOME na KDE lub odwrotnie.\n\nPrzełącz się na poprzednie środowisko graficzne."
+    "messageformat": "Nie można uzyskać dostępu do klucza szyfrowania bazy danych, ponieważ zaplecze pęku kluczy szyfrowania systemu operacyjnego zostało zmienione z {previousBackend} na {currentBackend}. Może się to zdarzyć, jeśli środowisko graficzne zmieniło się z GNOME na KDE lub na odwrót.\n\nPrzełącz się na poprzednie środowisko graficzne."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Nie można uzyskać dostępu do klucza szyfrowania bazy danych, ponieważ zaplecze kluczy szyfrowania systemu operacyjnego zostało zmienione z {previousBackend} na {currentBackend}. Może się to zdarzyć, jeśli zmieni się środowisko graficzne, na przykład z GNOME na KDE lub odwrotnie.\n\nPrzełącz się na poprzednie środowisko graficzne lub spróbuj uruchomić Signal z flagą wiersza poleceń --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Nie można uzyskać dostępu do klucza szyfrowania bazy danych, ponieważ zaplecze pęku kluczy szyfrowania systemu operacyjnego zostało zmienione z {previousBackend} na {currentBackend}.Może się to zdarzyć, jeśli środowisko graficzne zmieniło się z GNOME na KDE lub na odwrót.\n\nPrzełącz się na poprzednie środowisko graficzne lub spróbuj uruchomić Signal z flagą wiersza poleceń --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Plik"
@@ -237,28 +237,28 @@
     "messageformat": "Czaty"
   },
   "icu:LeftPane--corrupted-username--text": {
-    "messageformat": "Wystąpił błąd związany z Twoją nazwą użytkownika – nie jest już przypisana do Twojego konta. Możesz spróbować ustawić ją ponownie lub wybrać nową nazwę."
+    "messageformat": "Coś poszło nie tak z Twoją nazwą użytkownika. Nie jest już przypisana do Twojego konta. Możesz spróbować ustawić tę samą nazwę ponownie lub wybrać nową."
   },
   "icu:LeftPane--corrupted-username--action-text": {
-    "messageformat": "Napraw błąd teraz"
+    "messageformat": "Zrób to teraz"
   },
   "icu:LeftPane--corrupted-username-link--text": {
-    "messageformat": "Coś poszło nie tak z kodem QR i linkiem z nazwą użytkownika – są nieważne. Utwórz nowy link do udostępniania innym."
+    "messageformat": "Coś poszło nie tak z kodem QR i linkiem do udostępniania Twojej nazwy użytkownika. Przestały one działać. Utwórz nowy link, aby udostępniać go innym."
   },
   "icu:LeftPane--corrupted-username-link--action-text": {
-    "messageformat": "Napraw błąd teraz"
+    "messageformat": "Zrób to teraz"
   },
   "icu:LeftPane__compose__findByUsername": {
-    "messageformat": "Znajdź po nazwie użytkownika"
+    "messageformat": "Wyszukaj po nazwie użytkownika"
   },
   "icu:LeftPane__compose__findByPhoneNumber": {
-    "messageformat": "Znajdź po numerze telefonu"
+    "messageformat": "Wyszukaj po numerze telefonu"
   },
   "icu:LeftPaneFindByHelper__title--findByUsername": {
-    "messageformat": "Znajdź po nazwie użytkownika"
+    "messageformat": "Wyszukaj po nazwie użytkownika"
   },
   "icu:LeftPaneFindByHelper__title--findByPhoneNumber": {
-    "messageformat": "Znajdź po numerze telefonu"
+    "messageformat": "Wyszukaj po numerze telefonu"
   },
   "icu:LeftPaneFindByHelper__placeholder--findByUsername": {
     "messageformat": "Nazwa użytkownika"
@@ -267,7 +267,7 @@
     "messageformat": "Numer telefonu"
   },
   "icu:LeftPaneFindByHelper__description--findByUsername": {
-    "messageformat": "Wprowadź nazwę użytkownika, a następnie kropkę i zestaw cyfr."
+    "messageformat": "Wpisz nazwę użytkownika, kropkę i zestaw cyfr."
   },
   "icu:CountryCodeSelect__placeholder": {
     "messageformat": "Kod kraju"
@@ -285,10 +285,10 @@
     "messageformat": "Wystąpił błąd"
   },
   "icu:NavTabs__ItemIconLabel--UnreadCount": {
-    "messageformat": "Nieprzeczytanych: {count,number}"
+    "messageformat": "Liczba nieodczytanych wiadomości: {count,number}"
   },
   "icu:NavTabs__ItemIconLabel--MarkedUnread": {
-    "messageformat": "Oznaczona jako nieprzeczytana"
+    "messageformat": "Oznaczono jako nieprzeczytane"
   },
   "icu:NavTabs__ItemLabel--Chats": {
     "messageformat": "Czaty"
@@ -309,10 +309,10 @@
     "messageformat": "Profil"
   },
   "icu:NavSidebar__BackButtonLabel": {
-    "messageformat": "Wróć"
+    "messageformat": "Wstecz"
   },
   "icu:archiveHelperText": {
-    "messageformat": "Te czaty są zarchiwizowane i pojawią się w skrzynce odbiorczej tylko po otrzymaniu nowych wiadomości."
+    "messageformat": "Te czaty zostały zarchiwizowane i pojawią się w skrzynce odbiorczej tylko wtedy, gdy otrzymasz w nich nowe wiadomości."
   },
   "icu:noArchivedConversations": {
     "messageformat": "Brak zarchiwizowanych czatów."
@@ -324,10 +324,10 @@
     "messageformat": "Oznacz jako nieodczytane"
   },
   "icu:ConversationHeader__menu__selectMessages": {
-    "messageformat": "Wybierz wiadomości"
+    "messageformat": "Zaznacz wiadomości"
   },
   "icu:ConversationHeader__MenuItem--Accept": {
-    "messageformat": "Akceptuj"
+    "messageformat": "Zaakceptuj"
   },
   "icu:ConversationHeader__MenuItem--Block": {
     "messageformat": "Zablokuj"
@@ -345,7 +345,7 @@
     "messageformat": "Zarządzaj kontaktem"
   },
   "icu:ContactListItem__menu__message": {
-    "messageformat": "Wyślij wiadomość"
+    "messageformat": "Wiadomość"
   },
   "icu:ContactListItem__menu__audio-call": {
     "messageformat": "Połączenie głosowe"
@@ -360,19 +360,19 @@
     "messageformat": "Zablokuj"
   },
   "icu:ContactListItem__remove--title": {
-    "messageformat": "{title} – usunąć?"
+    "messageformat": "Usunąć ten kontakt: {title}?"
   },
   "icu:ContactListItem__remove--body": {
-    "messageformat": "Nie zobaczysz tej osoby podczas wyszukiwania. Jeśli w przyszłości wyśle Ci wiadomość, otrzymasz prośbę o kontakt."
+    "messageformat": "Ta osoba nie wyświetli się już podczas wyszukiwania. Jeśli w przyszłości wyśle Ci wiadomość, otrzymasz prośbę o kontakt."
   },
   "icu:ContactListItem__remove--confirm": {
     "messageformat": "Usuń"
   },
   "icu:ContactListItem__remove-system--title": {
-    "messageformat": "Nie udało się usunąć {title}"
+    "messageformat": "Nie udało się usunąć tego kontaktu: {title}"
   },
   "icu:ContactListItem__remove-system--body": {
-    "messageformat": "Ta osoba jest zapisana jako kontakt na Twoim urządzeniu. Skasuj ją z kontaktów na swoim telefonie i spróbuj ponownie."
+    "messageformat": "Ta osoba została zapisana jako kontakt na Twoim urządzeniu. Usuń ją z kontaktów na telefonie i spróbuj ponownie."
   },
   "icu:moveConversationToInbox": {
     "messageformat": "Przywróć z archiwum"
@@ -441,13 +441,13 @@
     "messageformat": "Sprawdź"
   },
   "icu:safetyNumberChangeDialog__many-contacts": {
-    "messageformat": "{count, plural, one {Wśród kontaktów masz {count,number} osobę, która mogła ponownie zainstalować aplikację Signal albo zmienić urządzenie. Przed wysłaniem możesz opcjonalnie zweryfikować jej numer bezpieczeństwa.} few {Wśród kontaktów masz {count,number} osoby, które mogły ponownie zainstalować aplikację Signal albo zmienić urządzenie. Przed wysłaniem możesz opcjonalnie zweryfikować ich numery bezpieczeństwa.} many {Wśród kontaktów masz {count,number} osób, które mogły ponownie zainstalować aplikację Signal albo zmienić urządzenie. Przed wysłaniem możesz opcjonalnie zweryfikować ich numery bezpieczeństwa.} other {Wśród kontaktów masz {count,number} osób, które mogły ponownie zainstalować aplikację Signal albo zmienić urządzenie. Przed wysłaniem możesz opcjonalnie zweryfikować ich numery bezpieczeństwa.}}"
+    "messageformat": "{count, plural, one {Wśród Twoich kontaktów jest {count,number} osoba, która mogła ponownie zainstalować aplikację Signal albo zmienić urządzenie na inne. Zanim wyślesz wiadomość, możesz opcjonalnie zweryfikować numer bezpieczeństwa tej osoby.} few {Wśród Twoich kontaktów są {count,number} osoby, które mogły ponownie zainstalować aplikację Signal albo zmienić urządzenie na inne. Zanim wyślesz wiadomość, możesz opcjonalnie zweryfikować numery bezpieczeństwa tych osób.} many {Wśród Twoich kontaktów jest {count,number} osób, które mogły ponownie zainstalować aplikację Signal albo zmienić urządzenie na inne. Zanim wyślesz wiadomość, możesz opcjonalnie zweryfikować numery bezpieczeństwa tych osób.} other {Wśród Twoich kontaktów jest {count,number} osoby, które mogła ponownie zainstalować aplikację Signal albo zmienić urządzenie na inne. Zanim wyślesz wiadomość, możesz opcjonalnie zweryfikować numer bezpieczeństwa tej osoby.}}"
   },
   "icu:safetyNumberChangeDialog__post-review": {
     "messageformat": "Sprawdzono wszystkie kontakty. Kliknij „Wyślij”, aby kontynuować."
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
-    "messageformat": "{count, plural, one {Czy na pewno chcesz usunąć jednego odbiorcę z relacji {story}?} few {Czy na pewno chcesz usunąć {count,number} odbiorców z relacji {story}?} many {Czy na pewno chcesz usunąć {count,number} odbiorców z relacji {story}?} other {Czy na pewno chcesz usunąć {count,number} odbiorców z relacji {story}?}}"
+    "messageformat": "{count, plural, one {Usunąć {count,number} osobę z odbiorców relacji „{story}”?} few {Usunąć {count,number} osoby z odbiorców relacji „{story}”?} many {Usunąć {count,number} osób z odbiorców relacji „{story}”?} other {Usunąć {count,number} osoby z odbiorców relacji „{story}”?}}"
   },
   "icu:safetyNumberChangeDialog__remove-all": {
     "messageformat": "Usuń wszystkie"
@@ -477,7 +477,7 @@
     "messageformat": "Mimo to zadzwoń"
   },
   "icu:joinAnyway": {
-    "messageformat": "Dołącz mimo to"
+    "messageformat": "Mimo to dołącz"
   },
   "icu:debugLogExplanation": {
     "messageformat": "Gdy klikniesz „Prześlij”, dziennik zostanie opublikowany online na 30 dni pod unikalnym, niepublicznym adresem URL. Możesz też najpierw zapisać dziennik na swoim urządzeniu."
@@ -513,7 +513,7 @@
     "messageformat": "Oznacz jako zweryfikowany"
   },
   "icu:SafetyNumberViewer__clearVerification": {
-    "messageformat": "Wycofaj weryfikację"
+    "messageformat": "Cofnij weryfikację"
   },
   "icu:SafetyNumberViewer__hint": {
     "messageformat": "W celu zweryfikowania szyfrowania metodą end-to-end z użytkownikiem {name} porównaj powyższe numery z numerami na urządzeniu tej osoby. Użytkownik może też zeskanować Twój kod za pomocą swojego urządzenia."
@@ -522,7 +522,7 @@
     "messageformat": "Dowiedz się więcej"
   },
   "icu:SafetyNumberNotReady__body": {
-    "messageformat": "Numer bezpieczeństwa zostanie stworzony dla tej osoby po tym, jak wymienicie wiadomości."
+    "messageformat": "Numer bezpieczeństwa zostanie utworzony, gdy wymienisz z tą osobą wiadomości."
   },
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Dowiedz się więcej"
@@ -612,7 +612,7 @@
     "messageformat": "Do tej wiadomości nie można dodać więcej załączników."
   },
   "icu:fileSizeWarning": {
-    "messageformat": "Wybrany plik przekracza ograniczenia rozmiaru wiadomości. {limit,number} {units}"
+    "messageformat": "Wybrany plik jest za duży, aby załączyć go do wiadomości. Limit rozmiaru to {limit,number}{units}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Nie można załadować wybranego załącznika."
@@ -4065,7 +4065,7 @@
     "messageformat": "Wymagana czynność na koncie"
   },
   "icu:CriticalIdlePrimaryDeviceModal__description": {
-    "messageformat": "Jeśli chcesz nadal korzystać z tego konta, otwórz aplikację Signal na swoim telefonie. Inaczej Twoje konto zostanie wkrótce usunięte. <learnMoreLink>Dowiedz się więcej</learnMoreLink>"
+    "messageformat": "Jeśli chcesz nadal korzystać z tego konta, otwórz aplikację Signal na swoim telefonie. W przeciwnym razie Twoje konto zostanie wkrótce usunięte. <learnMoreLink>Dowiedz się więcej</learnMoreLink>"
   },
   "icu:LowDiskSpaceBackupImportModal__title": {
     "messageformat": "Nie można przywrócić multimediów"
@@ -5076,13 +5076,13 @@
     "messageformat": "Subskrypcja anulowana"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Subskrypcję kopii zapasowych Signal możesz konfigurować lub anulować na swoim telefonie."
+    "messageformat": "Na telefonie możesz zarządzać kopiami zapasowymi Signal lub anulować ich subskrypcję."
   },
   "icu:Preferences--backup-messages-plan__note": {
     "messageformat": "Na telefonie możesz zarządzać kopiami zapasowymi Signal lub zasubskrybować ich rozszerzony tryb."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Subskrypcję kopii zapasowych Signal możesz odnowić lub skonfigurować na swoim telefonie."
+    "messageformat": "Na telefonie możesz zarządzać kopiami zapasowymi Signal lub odnowić ich subskrypcję."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Ostatnia kopia zapasowa"
@@ -6301,10 +6301,10 @@
     "messageformat": "Aby zmienić to ustawienie, w sekcji Kto może zobaczyć mój numer wybierz opcję Nikt."
   },
   "icu:ProfileNameWarningModal__description--direct": {
-    "messageformat": "Imię i nazwisko w profilu Signal podaje osoba posługująca się danym kontem."
+    "messageformat": "Imię i nazwisko w profilu Signal podaje osoba posługująca się kontem."
   },
   "icu:ProfileNameWarningModal__list--item1--direct": {
-    "messageformat": "Nie podlegają one weryfikacji"
+    "messageformat": "Te dane nie podlegają weryfikacji"
   },
   "icu:ProfileNameWarningModal__list--item2--direct": {
     "messageformat": "Zachowaj czujność – niektóre konta mogą należeć do osób podszywających się pod kogoś innego"
@@ -6359,6 +6359,6 @@
     "messageformat": "Trudno skupić się na oglądaniu, gdy widzisz tylko fragment ekranu… Dlatego naprawiliśmy błąd, który utrudniał przesuwanie okna aplikacji Signal podczas wyświetlania relacji."
   },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Dotychczas sekcja ustawień żyła własnym życiem… To znaczy otwierała się w wyskakującym oknie. Jeśli męczyło Cię szukanie właściwego okna na pulpicie, mamy dobrą wiadomość – od teraz swoje preferencje ustawisz wygodnie z poziomu ekranu głównego."
+    "messageformat": "Dotychczas sekcja ustawień żyła własnym życiem… To znaczy otwierała się w wyskakującym oknie. Jeśli męczyło Cię szukanie właściwego okna, mamy dobrą wiadomość: od teraz swoje preferencje ustawisz wygodnie z poziomu ekranu głównego aplikacji."
   }
 }

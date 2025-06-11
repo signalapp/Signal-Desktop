@@ -5940,13 +5940,13 @@
     "messageformat": "Reageeris loole"
   },
   "icu:Quote__story-reaction-notification--incoming": {
-    "messageformat": "Reageeris sinu loole: {emoji}"
+    "messageformat": "Reaktsioon {emoji} sinu loole"
   },
   "icu:Quote__story-reaction-notification--outgoing": {
-    "messageformat": "Reageerisid kasutaja {name} loole: {emoji}"
+    "messageformat": "Reaktsioon {emoji} kasutaja {name} loole"
   },
   "icu:Quote__story-reaction-notification--outgoing--nameless": {
-    "messageformat": "Reageerisid loole: {emoji}"
+    "messageformat": "Reaktsioon {emoji} loole"
   },
   "icu:Quote__story-unavailable": {
     "messageformat": "Ei ole enam saadaval"

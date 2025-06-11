@@ -1680,7 +1680,7 @@
     "messageformat": "{group} 내 {sender} 님"
   },
   "icu:notificationReactionMessage": {
-    "messageformat": "{sender} 님이 ''{message}'에 {emoji} 이모지로 반응했습니다."
+    "messageformat": "{sender} 님이 다음에 {emoji} 이모지로 반응함: {message}"
   },
   "icu:sendFailed": {
     "messageformat": "보내기 실패"

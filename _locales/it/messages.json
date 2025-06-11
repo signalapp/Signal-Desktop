@@ -2841,7 +2841,7 @@
     "messageformat": "Fatto"
   },
   "icu:MessageRequests--message-direct": {
-    "messageformat": "Permettere a {name} di inviarti messaggi e condividere il tuo nome e la tua foto con loro? Non sapranno che hai visto i loro messaggi finché non accetti."
+    "messageformat": "Permettere a {name} di inviarti messaggi e condividere il tuo nome e la tua foto con questa persona? Non saprà che hai visto i suoi messaggi finché non accetti."
   },
   "icu:MessageRequests--message-direct-hidden": {
     "messageformat": "Vuoi consentire a {name} di inviarti messaggi e di visualizzare il tuo nome e la tua foto? Ti ricordiamo che in passato avevi rimosso questo utente."
@@ -4194,7 +4194,7 @@
     "messageformat": "Scegli chi può inviare messaggi al gruppo."
   },
   "icu:ConversationDetails--requests-and-invites": {
-    "messageformat": "Richieste & inviti"
+    "messageformat": "Richieste e inviti"
   },
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "Abbandona il gruppo"
@@ -5604,7 +5604,7 @@
     "messageformat": "Storia di gruppo"
   },
   "icu:StoriesSettings__viewers": {
-    "messageformat": "{count, plural, one {1 persona ha visto la Storia} other {{count,number} persone hanno visto la Storia}}"
+    "messageformat": "{count, plural, one {1 persona vedranno la Storia} other {{count,number} persone vedranno la Storia}}"
   },
   "icu:StoriesSettings__who-can-see": {
     "messageformat": "Chi può vedere questa Storia"
@@ -5622,7 +5622,7 @@
     "messageformat": "Questa persona non vedrà più la tua Storia."
   },
   "icu:StoriesSettings__replies-reactions--title": {
-    "messageformat": "Risposte & reazioni"
+    "messageformat": "Risposte e reazioni"
   },
   "icu:StoriesSettings__replies-reactions--label": {
     "messageformat": "Consenti risposte e reazioni"
@@ -6280,7 +6280,7 @@
     "messageformat": "No"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On"
+    "messageformat": "Sì"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Aggiungi nome chiamata"

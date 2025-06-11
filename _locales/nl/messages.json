@@ -1458,7 +1458,7 @@
     "messageformat": "Wil graag deelnemen…"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+ {count,number} verzoek} other {+ {count,number} verzoeken}}"
+    "messageformat": "{count, plural, one {+{count,number} verzoek} other {+{count,number} verzoeken}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
     "messageformat": "{count, plural, one {{count,number} persoon is toegevoegd aan de oproep} other {{count,number} personen zijn toegevoegd aan de oproep}}"
@@ -3291,7 +3291,7 @@
     "messageformat": "{count, plural, one {{count,number} persoon} other {{count,number} personen}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+ {count,number} ander} other {+ {count,number} anderen}}"
+    "messageformat": "{count, plural, one {+{count,number} ander} other {+{count,number} anderen}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "Meer info over nieuwe contacten"
@@ -3969,16 +3969,16 @@
     "messageformat": "Berichten synchroniseren"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "{currentSize} van {totalSize} ({fractionComplete,number,percent}) aan het downloaden..."
+    "messageformat": "{currentSize} van {totalSize} ({fractionComplete,number,percent}) aan het downloaden…"
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Berichtoverdracht aan het afronden..."
+    "messageformat": "Berichtoverdracht aan het afronden…"
   },
   "icu:BackupImportScreen__progressbar-hint--canceling": {
-    "messageformat": "Annuleren..."
+    "messageformat": "Annuleren…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Download voorbereiden..."
+    "messageformat": "Download voorbereiden…"
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Dit kan enkele minuten duren"
@@ -5082,7 +5082,7 @@
     "messageformat": "Signal back-ups kun je beheren of upgraden op je telefoon."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Je Signal back-upabonnement kun je beheren of verlengen op je telefoon."
+    "messageformat": "Je Signal back-upabonnement kun je beheren of vernieuwen op je telefoon."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Laatste back-up"

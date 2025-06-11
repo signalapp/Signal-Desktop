@@ -5940,7 +5940,7 @@
     "messageformat": "Сториске реакция қалдырды"
   },
   "icu:Quote__story-reaction-notification--incoming": {
-    "messageformat": "Сіздің сторисіңізге {emoji} деп реакция қалдырды"
+    "messageformat": "Cторисіңізге {emoji} деп реакция қалдырды"
   },
   "icu:Quote__story-reaction-notification--outgoing": {
     "messageformat": "{name} сторисіне {emoji} деп реакция қалдырдыңыз"

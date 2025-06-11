@@ -1680,7 +1680,7 @@
     "messageformat": "{group} ਵਿੱਚ{sender}"
   },
   "icu:notificationReactionMessage": {
-    "messageformat": "{message}: ਉੱਤੇ {sender} ਨੇ {emoji} ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
+    "messageformat": "{emoji}: {sender} ਨੇ ਇਸ {message} ਉੱਤੇ ਇਹ ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
   },
   "icu:sendFailed": {
     "messageformat": "ਭੇਜਣ ਵਿੱਚ ਅਸਫ਼ਲ"
@@ -2484,13 +2484,13 @@
     "messageformat": "ਰੱਦ ਕਰੋ"
   },
   "icu:Message__reaction-emoji-label--you": {
-    "messageformat": "ਤੁਸੀਂ {emoji} ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
+    "messageformat": "{emoji}: ਤੁਸੀਂ ਇਹ ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
   },
   "icu:Message__reaction-emoji-label--single": {
-    "messageformat": "{title} ਨੇ {emoji} ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
+    "messageformat": "{emoji} ਰਿਐਕਸ਼ਨ: {title} ਵੱਲੋਂ"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, one {{count,number} ਵਿਅਕਤੀ ਨੇ {emoji} ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ} other {{count,number} ਲੋਕਾਂ ਨੇ {emoji} ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ}}"
+    "messageformat": "{count, plural, one {{emoji} ਰਿਐਕਸ਼ਨ: {count,number} ਵਿਅਕਤੀ ਵੱਲੋਂ} other {{emoji} ਰਿਐਕਸ਼ਨ: {count,number} ਲੋਕਾਂ ਵੱਲੋਂ}}"
   },
   "icu:Message__role-description": {
     "messageformat": "ਸੁਨੇਹਾ ਭੇਜੋ"
@@ -5940,13 +5940,13 @@
     "messageformat": "ਕਿਸੇ ਸਟੋਰੀ ਉੱਤੇ ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
   },
   "icu:Quote__story-reaction-notification--incoming": {
-    "messageformat": "ਤੁਹਾਡੀ ਸਟੋਰੀ ਉੱਤੇ {emoji} ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
+    "messageformat": "{emoji}: ਤੁਹਾਡੀ ਸਟੋਰੀ ਉੱਤੇ ਇਹ ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
   },
   "icu:Quote__story-reaction-notification--outgoing": {
-    "messageformat": "ਤੁਸੀਂ {name} ਦੀ ਸਟੋਰੀ ਉੱਤੇ {emoji} ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
+    "messageformat": "{emoji}: ਤੁਸੀਂ {name} ਦੀ ਸਟੋਰੀ ਉੱਤੇ ਇਹ ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
   },
   "icu:Quote__story-reaction-notification--outgoing--nameless": {
-    "messageformat": "ਤੁਸੀਂ ਕਿਸੇ ਸਟੋਰੀ ਉੱਤੇ {emoji} ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
+    "messageformat": "{emoji}: ਤੁਸੀਂ ਕਿਸੇ ਸਟੋਰੀ ਉੱਤੇ ਇਹ ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
   },
   "icu:Quote__story-unavailable": {
     "messageformat": "ਹੁਣ ਮੌਜੂਦ ਨਹੀਂ ਹੈ"

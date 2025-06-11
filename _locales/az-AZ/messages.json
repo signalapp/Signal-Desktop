@@ -1680,7 +1680,7 @@
     "messageformat": "{sender}, {group} qrupundadır"
   },
   "icu:notificationReactionMessage": {
-    "messageformat": "{sender} \"{message}\" mesajına reaksiya verdi: {emoji}"
+    "messageformat": "{sender} {emoji} reakiyası verdi: {message} mesajı"
   },
   "icu:sendFailed": {
     "messageformat": "Göndərilmədi"
@@ -5931,7 +5931,7 @@
     "messageformat": "Hekayə"
   },
   "icu:Quote__story-reaction": {
-    "messageformat": "{name} hekayəyə reaksiya verdi"
+    "messageformat": "{name} hekayəsinə reaksiya verdi"
   },
   "icu:Quote__story-reaction--you": {
     "messageformat": "Hekayənizə reaksiya verildi"

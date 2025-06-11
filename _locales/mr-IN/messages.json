@@ -1680,7 +1680,7 @@
     "messageformat": "{group}मध्ये{sender}"
   },
   "icu:notificationReactionMessage": {
-    "messageformat": "{sender} ने {message} वर प्रतिक्रिया दिली: {emoji}"
+    "messageformat": "{sender} ने {emoji} अशी प्रतिक्रिया {message} वर दिली"
   },
   "icu:sendFailed": {
     "messageformat": "पाठविणे अयशस्वी"
@@ -2484,13 +2484,13 @@
     "messageformat": "रद्द करा"
   },
   "icu:Message__reaction-emoji-label--you": {
-    "messageformat": "आपण {emoji} ने प्रतिक्रिया दिली"
+    "messageformat": "तुम्ही {emoji}ने प्रतिक्रिया दिली"
   },
   "icu:Message__reaction-emoji-label--single": {
-    "messageformat": "{title} ने {emoji} सह प्रतिक्रिया दिली"
+    "messageformat": "{title}ने {emoji} सह प्रतिक्रिया दिली"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, one {{count,number} लोकांनी {emoji} सह प्रतिक्रिया दिली} other {{count,number} लोकांनी {emoji} सह प्रतिक्रिया दिली}}"
+    "messageformat": "{count, plural, one {{count,number} लोकांनी {emoji}सह प्रतिक्रिया दिली} other {{count,number} लोकांनी {emoji}सह प्रतिक्रिया दिली}}"
   },
   "icu:Message__role-description": {
     "messageformat": "संदेश"
@@ -5940,7 +5940,7 @@
     "messageformat": "स्टोरीला प्रतिक्रिया दिली"
   },
   "icu:Quote__story-reaction-notification--incoming": {
-    "messageformat": "आपल्या स्टोरी वर {emoji} प्रतिक्रिया दिली"
+    "messageformat": "{emoji} अशी प्रतिक्रिया तुमच्या स्टोरीवर दिली"
   },
   "icu:Quote__story-reaction-notification--outgoing": {
     "messageformat": "आपण {name} कडील स्टोरी वर {emoji} प्रतिक्रिया दिली"

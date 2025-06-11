@@ -1680,7 +1680,7 @@
     "messageformat": "{group} の {sender}"
   },
   "icu:notificationReactionMessage": {
-    "messageformat": "{sender}さんが「{message}」に {emoji}のリアクションをしました"
+    "messageformat": "{emoji}のリアクションを、{sender}さんが「{message}」にしました"
   },
   "icu:sendFailed": {
     "messageformat": "送信できませんでした"
@@ -2487,10 +2487,10 @@
     "messageformat": "{emoji}でリアクションしました"
   },
   "icu:Message__reaction-emoji-label--single": {
-    "messageformat": "{title}さんが{emoji}でリアクションしました"
+    "messageformat": "{emoji}で{title}さんがリアクションしました"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {{count,number} 人が {emoji}でリアクションしました}}"
+    "messageformat": "{count, plural, other {{emoji}で{count,number}人がリアクションしました}}"
   },
   "icu:Message__role-description": {
     "messageformat": "メッセージを送る"
@@ -5940,7 +5940,7 @@
     "messageformat": "ストーリーにリアクションがありました"
   },
   "icu:Quote__story-reaction-notification--incoming": {
-    "messageformat": "あなたのストーリーに {emoji} のリアクションがありました"
+    "messageformat": "{emoji}のリアクションがあなたのストーリーにありました"
   },
   "icu:Quote__story-reaction-notification--outgoing": {
     "messageformat": "{name}さんのストーリーに{emoji}のリアクションをしました"

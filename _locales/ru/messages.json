@@ -4839,7 +4839,7 @@
     "messageformat": "Не удалось сохранить имя пользователя. Проверьте ваше подключение к интернету и попробуйте еще раз."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} больше не доступно. Вашему имени пользователя будет придан новый набор цифр, пожалуйста, попробуйте сохранить его снова."
+    "messageformat": "{username} больше не доступно. Вашему имени пользователя будет присвоен новый набор цифр, пожалуйста, попробуйте сохранить его снова."
   },
   "icu:ProfileEditor--username--delete-general-error": {
     "messageformat": "Не удалось удалить имя пользователя. Проверьте ваше подключение к интернету и попробуйте еще раз."
@@ -5958,7 +5958,7 @@
     "messageformat": "Имя пользователя"
   },
   "icu:EditUsernameModalBody__username-helper": {
-    "messageformat": "Именам пользователей всегда придан набор цифр."
+    "messageformat": "Именам пользователей всегда присвоен набор цифр."
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Узнать больше"

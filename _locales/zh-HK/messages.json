@@ -5940,7 +5940,7 @@
     "messageformat": "對限時動態表達了心情回應"
   },
   "icu:Quote__story-reaction-notification--incoming": {
-    "messageformat": "對你的限時動態表達了 {emoji} 心情"
+    "messageformat": "對以下內容表達了 {emoji} 心情：你的限時動態"
   },
   "icu:Quote__story-reaction-notification--outgoing": {
     "messageformat": "你對 {name} 的限時動態表達了 {emoji} 心情"

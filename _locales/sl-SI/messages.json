@@ -1680,7 +1680,7 @@
     "messageformat": "Uporabnik {sender} v skupini {group}"
   },
   "icu:notificationReactionMessage": {
-    "messageformat": "{sender} se je na {message} odzval_a z {emoji}"
+    "messageformat": "{sender} se je z {emoji} odzval_a na {message}"
   },
   "icu:sendFailed": {
     "messageformat": "Pošiljanje ni uspelo"
@@ -2490,7 +2490,7 @@
     "messageformat": "{title} se je odzval_a z {emoji}"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, one {{count,number} oseba se je odzvala z {emoji}} two {{count,number} osebi sta se odzvali z {emoji}} few {{count,number} osebe so se odzvale z {emoji}} other {{count,number} oseb se je odzvalo z {emoji}}}"
+    "messageformat": "{count, plural, one {Z {emoji} se je odzvala {count,number} oseba} two {Z {emoji} sta se odzvali {count,number} osebi} few {Z {emoji} so se odzvale {count,number} osebe} other {Z {emoji} se je odzvalo {count,number} oseb}}"
   },
   "icu:Message__role-description": {
     "messageformat": "Sporočilo"
@@ -5940,7 +5940,7 @@
     "messageformat": "Odziv na zgodbo"
   },
   "icu:Quote__story-reaction-notification--incoming": {
-    "messageformat": "Odziv na vašo zgodbo: {emoji}"
+    "messageformat": "{emoji} je odziv na vašo zgodbo"
   },
   "icu:Quote__story-reaction-notification--outgoing": {
     "messageformat": "Na zgodbo uporabnika_ce {name} ste se odzvali z {emoji}"
