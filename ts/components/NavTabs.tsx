@@ -271,7 +271,6 @@ export function NavTabs({
           i18n={i18n}
           onClose={() => {
             setShowingProfileMovedModal(false);
-            handleSelectionChange(NavTab.Settings);
             onDismissProfileMovedModal();
           }}
           theme={theme}
