@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Databasefout: deel je logs."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Ongeldige reactie van de opslagservice ontvangen. Deel alsjeblieft je logs."
@@ -1269,7 +1269,7 @@
     "messageformat": "Hulp nodig?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Instellingen"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefoonnummer"
@@ -1458,7 +1458,7 @@
     "messageformat": "Wil graag deelnemen…"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+ {count,number} verzoek} other {+ {count,number} verzoeken}}"
+    "messageformat": "{count, plural, one {+{count,number} verzoek} other {+{count,number} verzoeken}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
     "messageformat": "{count, plural, one {{count,number} persoon is toegevoegd aan de oproep} other {{count,number} personen zijn toegevoegd aan de oproep}}"
@@ -2338,6 +2338,9 @@
   },
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
     "messageformat": "Zoekresultaten"
+  },
+  "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
+    "messageformat": "This Message"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Onlangs gebruikt"
@@ -3291,7 +3294,7 @@
     "messageformat": "{count, plural, one {{count,number} persoon} other {{count,number} personen}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
-    "messageformat": "{count, plural, one {+ {count,number} ander} other {+ {count,number} anderen}}"
+    "messageformat": "{count, plural, one {+{count,number} ander} other {+{count,number} anderen}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactInfoButton": {
     "messageformat": "Meer info over nieuwe contacten"
@@ -3965,20 +3968,26 @@
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "Tik op ‘Aan Signal doneren’ en meld je aan"
   },
+  "icu:ProfileMovedModal__title": {
+    "messageformat": "Your profile has moved"
+  },
+  "icu:ProfileMovedModal__description": {
+    "messageformat": "Open the Settings tab to view and edit your profile."
+  },
   "icu:BackupImportScreen__title": {
     "messageformat": "Berichten synchroniseren"
   },
   "icu:BackupImportScreen__progressbar-hint": {
-    "messageformat": "{currentSize} van {totalSize} ({fractionComplete,number,percent}) aan het downloaden..."
+    "messageformat": "{currentSize} van {totalSize} ({fractionComplete,number,percent}) aan het downloaden…"
   },
   "icu:BackupImportScreen__progressbar-hint--processing": {
-    "messageformat": "Berichtoverdracht aan het afronden..."
+    "messageformat": "Berichtoverdracht aan het afronden…"
   },
   "icu:BackupImportScreen__progressbar-hint--canceling": {
-    "messageformat": "Annuleren..."
+    "messageformat": "Annuleren…"
   },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
-    "messageformat": "Download voorbereiden..."
+    "messageformat": "Download voorbereiden…"
   },
   "icu:BackupImportScreen__description": {
     "messageformat": "Dit kan enkele minuten duren"
@@ -4931,6 +4940,9 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Je profiel kon niet worden bijgewerkt. Probeer het opnieuw."
   },
+  "icu:ProfileEditorModal--sharing": {
+    "messageformat": "Sharing"
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Bericht sturen naar een beheerder"
   },
@@ -5006,6 +5018,15 @@
   "icu:Preferences__button--internal": {
     "messageformat": "Intern"
   },
+  "icu:Preferences__button--manage": {
+    "messageformat": "Manage"
+  },
+  "icu:Preferences__button--choose-folder": {
+    "messageformat": "Choose folder"
+  },
+  "icu:Preferences__button--set-up": {
+    "messageformat": "Set up"
+  },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Lokale back-ups"
   },
@@ -5051,6 +5072,15 @@
   "icu:Preferences--blocked": {
     "messageformat": "Geblokkeerd"
   },
+  "icu:Preferences--signal-backups": {
+    "messageformat": "Signal Backups"
+  },
+  "icu:Preferences--signal-backups-off-description": {
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+  },
+  "icu:Preferences--backup-section-description": {
+    "messageformat": "Back up your message history so you never lose data when you get a new phone or reinstall Signal."
+  },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Back-updetails"
   },
@@ -5082,7 +5112,7 @@
     "messageformat": "Signal back-ups kun je beheren of upgraden op je telefoon."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Je Signal back-upabonnement kun je beheren of verlengen op je telefoon."
+    "messageformat": "Je Signal back-upabonnement kun je beheren of vernieuwen op je telefoon."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Laatste back-up"
@@ -5092,6 +5122,84 @@
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "Back-upgrootte"
+  },
+  "icu:Preferences__local-backups": {
+    "messageformat": "Desktop backups"
+  },
+  "icu:Preferences__local-backups-section__description": {
+    "messageformat": "Backups are encrypted with a key and stored on your computer."
+  },
+  "icu:Preferences--local-backups-off-description": {
+    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+  },
+  "icu:Preferences--local-backups-restore-info": {
+    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-setup-folder": {
+    "messageformat": "Choose a folder"
+  },
+  "icu:Preferences--local-backups-setup-folder-description": {
+    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+  },
+  "icu:Preferences--local-backups-setup-next": {
+    "messageformat": "Next"
+  },
+  "icu:Preferences--local-backups-view-backup-key-done": {
+    "messageformat": "Done"
+  },
+  "icu:Preferences--local-backups-backup-key-text-box": {
+    "messageformat": "Backup key text box"
+  },
+  "icu:Preferences--local-backups-enter-backup-key": {
+    "messageformat": "Enter key"
+  },
+  "icu:Preferences--local-backups-record-backup-key": {
+    "messageformat": "Record your backup key"
+  },
+  "icu:Preferences--local-backups-record-backup-key-description": {
+    "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key": {
+    "messageformat": "Confirm your backup key"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key-description": {
+    "messageformat": "Enter the backup key that you just recorded"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-title": {
+    "messageformat": "Keep your key safe"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-body": {
+    "messageformat": "Signal will not be able to help you restore your backup if you lose your key. Store it somewhere safe and secure, and do not share it with others."
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-continue": {
+    "messageformat": "Continue"
+  },
+  "icu:Preferences--local-backups-see-backup-key-again": {
+    "messageformat": "See key again"
+  },
+  "icu:Preferences__local-backups-folder": {
+    "messageformat": "Backup folder"
+  },
+  "icu:Preferences__local-backups-folder__change": {
+    "messageformat": "Change"
+  },
+  "icu:Preferences__local-backups-copy-key": {
+    "messageformat": "Copy to clipboard"
+  },
+  "icu:Preferences__local-backups-copied-key": {
+    "messageformat": "Backup key copied"
+  },
+  "icu:Preferences__view-key": {
+    "messageformat": "View key"
+  },
+  "icu:Preferences__backup-key": {
+    "messageformat": "Backup key"
+  },
+  "icu:Preferences__backup-key-description": {
+    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+  },
+  "icu:Preferences__backup-other-ways": {
+    "messageformat": "Other ways to back up"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} contact} other {{num,number} contacten}}"
@@ -6324,6 +6432,9 @@
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Deel geen persoonlijke informatie met mensen die je niet kent"
   },
+  "icu:SaveMultiDialog__title": {
+    "messageformat": "Save attachments"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Wat er nieuw is"
   },
@@ -6355,10 +6466,10 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Deze update lost een fout op die het moeilijk maakte om het Signal-venster te verplaatsen wanneer je content op het tabblad Verhalen aan het bekijken was."
-  },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "Je instellingen aanpassen doe je nu vanaf het hoofdscherm in plaats van via een pop-upvenster."
+  },
+  "icu:WhatsNew__v7.58--0": {
+    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
   }
 }

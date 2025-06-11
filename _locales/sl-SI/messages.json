@@ -594,7 +594,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Napaka v podatkovni bazi: prosimo, delite svoje dnevnike."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Neveljaven odziv iz storitve shranjevanja. Prosimo, delite svoje dnevnike."
@@ -1269,7 +1269,7 @@
     "messageformat": "Potrebujete pomoč?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Nastavitve"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefonska številka"
@@ -1680,7 +1680,7 @@
     "messageformat": "Uporabnik {sender} v skupini {group}"
   },
   "icu:notificationReactionMessage": {
-    "messageformat": "{sender} se je na {message} odzval_a z {emoji}"
+    "messageformat": "{sender} se je z {emoji} odzval_a na {message}"
   },
   "icu:sendFailed": {
     "messageformat": "Pošiljanje ni uspelo"
@@ -2339,6 +2339,9 @@
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
     "messageformat": "Rezultati iskanja"
   },
+  "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
+    "messageformat": "This Message"
+  },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Nedavno uporabljeno"
   },
@@ -2490,7 +2493,7 @@
     "messageformat": "{title} se je odzval_a z {emoji}"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, one {{count,number} oseba se je odzvala z {emoji}} two {{count,number} osebi sta se odzvali z {emoji}} few {{count,number} osebe so se odzvale z {emoji}} other {{count,number} oseb se je odzvalo z {emoji}}}"
+    "messageformat": "{count, plural, one {Z {emoji} se je odzvala {count,number} oseba} two {Z {emoji} sta se odzvali {count,number} osebi} few {Z {emoji} so se odzvale {count,number} osebe} other {Z {emoji} se je odzvalo {count,number} oseb}}"
   },
   "icu:Message__role-description": {
     "messageformat": "Sporočilo"
@@ -3965,6 +3968,12 @@
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "Tapnite na \"Doniraj Signalu\" in se naročite"
   },
+  "icu:ProfileMovedModal__title": {
+    "messageformat": "Your profile has moved"
+  },
+  "icu:ProfileMovedModal__description": {
+    "messageformat": "Open the Settings tab to view and edit your profile."
+  },
   "icu:BackupImportScreen__title": {
     "messageformat": "Sinhronizacija sporočil"
   },
@@ -4931,6 +4940,9 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Vaše ime ni moglo biti posodobljeno. Poskusite znova."
   },
+  "icu:ProfileEditorModal--sharing": {
+    "messageformat": "Sharing"
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Sporočilo skrbniku_ci skupine"
   },
@@ -5006,6 +5018,15 @@
   "icu:Preferences__button--internal": {
     "messageformat": "Notranje"
   },
+  "icu:Preferences__button--manage": {
+    "messageformat": "Manage"
+  },
+  "icu:Preferences__button--choose-folder": {
+    "messageformat": "Choose folder"
+  },
+  "icu:Preferences__button--set-up": {
+    "messageformat": "Set up"
+  },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Lokalne varnostne kopije"
   },
@@ -5051,6 +5072,15 @@
   "icu:Preferences--blocked": {
     "messageformat": "Blokirani"
   },
+  "icu:Preferences--signal-backups": {
+    "messageformat": "Signal Backups"
+  },
+  "icu:Preferences--signal-backups-off-description": {
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+  },
+  "icu:Preferences--backup-section-description": {
+    "messageformat": "Back up your message history so you never lose data when you get a new phone or reinstall Signal."
+  },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Podrobnosti o varnostni kopji"
   },
@@ -5092,6 +5122,84 @@
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "Velikost varnostne kopije"
+  },
+  "icu:Preferences__local-backups": {
+    "messageformat": "Desktop backups"
+  },
+  "icu:Preferences__local-backups-section__description": {
+    "messageformat": "Backups are encrypted with a key and stored on your computer."
+  },
+  "icu:Preferences--local-backups-off-description": {
+    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+  },
+  "icu:Preferences--local-backups-restore-info": {
+    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-setup-folder": {
+    "messageformat": "Choose a folder"
+  },
+  "icu:Preferences--local-backups-setup-folder-description": {
+    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+  },
+  "icu:Preferences--local-backups-setup-next": {
+    "messageformat": "Next"
+  },
+  "icu:Preferences--local-backups-view-backup-key-done": {
+    "messageformat": "Done"
+  },
+  "icu:Preferences--local-backups-backup-key-text-box": {
+    "messageformat": "Backup key text box"
+  },
+  "icu:Preferences--local-backups-enter-backup-key": {
+    "messageformat": "Enter key"
+  },
+  "icu:Preferences--local-backups-record-backup-key": {
+    "messageformat": "Record your backup key"
+  },
+  "icu:Preferences--local-backups-record-backup-key-description": {
+    "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key": {
+    "messageformat": "Confirm your backup key"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key-description": {
+    "messageformat": "Enter the backup key that you just recorded"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-title": {
+    "messageformat": "Keep your key safe"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-body": {
+    "messageformat": "Signal will not be able to help you restore your backup if you lose your key. Store it somewhere safe and secure, and do not share it with others."
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-continue": {
+    "messageformat": "Continue"
+  },
+  "icu:Preferences--local-backups-see-backup-key-again": {
+    "messageformat": "See key again"
+  },
+  "icu:Preferences__local-backups-folder": {
+    "messageformat": "Backup folder"
+  },
+  "icu:Preferences__local-backups-folder__change": {
+    "messageformat": "Change"
+  },
+  "icu:Preferences__local-backups-copy-key": {
+    "messageformat": "Copy to clipboard"
+  },
+  "icu:Preferences__local-backups-copied-key": {
+    "messageformat": "Backup key copied"
+  },
+  "icu:Preferences__view-key": {
+    "messageformat": "View key"
+  },
+  "icu:Preferences__backup-key": {
+    "messageformat": "Backup key"
+  },
+  "icu:Preferences__backup-key-description": {
+    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+  },
+  "icu:Preferences__backup-other-ways": {
+    "messageformat": "Other ways to back up"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} stik} two {{num,number} stika} few {{num,number} stiki} other {{num,number} stikov}}"
@@ -5940,7 +6048,7 @@
     "messageformat": "Odziv na zgodbo"
   },
   "icu:Quote__story-reaction-notification--incoming": {
-    "messageformat": "Odziv na vašo zgodbo: {emoji}"
+    "messageformat": "{emoji} je odziv na vašo zgodbo"
   },
   "icu:Quote__story-reaction-notification--outgoing": {
     "messageformat": "Na zgodbo uporabnika_ce {name} ste se odzvali z {emoji}"
@@ -6324,6 +6432,9 @@
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Ne delite osebnih podatkov z ljudmi, ki jih ne poznate"
   },
+  "icu:SaveMultiDialog__title": {
+    "messageformat": "Save attachments"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Kaj je novega"
   },
@@ -6355,10 +6466,10 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Ta posodobitev odpravlja napako, ki je oteževala premikanje okna Signal med pregledovanjem vsebine v zavihku Zgodbe."
-  },
   "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+    "messageformat": "Nastavitve so bile prej v pojavnem oknu, zato smo jih vrnili nazaj. Ko zdaj prilagajate nastavitve, to počnete z glavnega zaslona."
+  },
+  "icu:WhatsNew__v7.58--0": {
+    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
   }
 }
