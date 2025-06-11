@@ -8598,12 +8598,12 @@
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab.",
-    "description": "(Deleted 2025/05/28) Release notes for version 7.56"
-  },
   "icu:WhatsNew__v7.57--0": {
     "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen.",
     "description": "Release notes for version 7.57"
+  },
+  "icu:WhatsNew__v7.58--0": {
+    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead.",
+    "description": "Release notes for version 7.58"
   }
 }
