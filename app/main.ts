@@ -206,9 +206,6 @@ const defaultWebPrefs = {
   enablePreferredSizeMode: true,
 };
 
-const DISABLE_GPU =
-  OS.isLinux() && !process.argv.some(arg => arg === '--enable-gpu');
-
 const DISABLE_IPV6 = process.argv.some(arg => arg === '--disable-ipv6');
 const FORCE_ENABLE_CRASH_REPORTS = process.argv.some(
   arg => arg === '--enable-crash-reports'
@@ -1982,12 +1979,6 @@ if (OS.isLinux()) {
   app.commandLine.appendSwitch('gtk-version', '3');
 }
 
-// <canvas/> rendering is often utterly broken on Linux when using GPU
-// acceleration.
-if (DISABLE_GPU) {
-  app.disableHardwareAcceleration();
-}
-
 // This has to run before the 'ready' event.
 electronProtocol.registerSchemesAsPrivileged([
   {
@@ -2796,7 +2787,7 @@ ipc.on('get-config', async event => {
     proxyUrl: process.env.HTTPS_PROXY || process.env.https_proxy || undefined,
     contentProxyUrl: config.get<string>('contentProxyUrl'),
     sfuUrl: config.get('sfuUrl'),
-    reducedMotionSetting: DISABLE_GPU || animationSettings.prefersReducedMotion,
+    reducedMotionSetting: animationSettings.prefersReducedMotion,
     registrationChallengeUrl: config.get<string>('registrationChallengeUrl'),
     serverPublicParams: config.get<string>('serverPublicParams'),
     serverTrustRoot: config.get<string>('serverTrustRoot'),
