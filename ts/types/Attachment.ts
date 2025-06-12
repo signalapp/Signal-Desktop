@@ -228,7 +228,7 @@ export type TextAttachmentType = {
 export type BaseAttachmentDraftType = {
   blurHash?: string;
   contentType: MIME.MIMEType;
-  screenshotContentType?: string;
+  screenshotContentType?: MIME.MIMEType;
   size: number;
   flags?: number;
 };
