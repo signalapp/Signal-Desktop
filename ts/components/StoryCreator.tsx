@@ -5,10 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { get, has } from 'lodash';
 
 import { createPortal } from 'react-dom';
-import type {
-  AttachmentType,
-  InMemoryAttachmentDraftType,
-} from '../types/Attachment';
+import type { AttachmentType } from '../types/Attachment';
 import type { LinkPreviewSourceType } from '../types/LinkPreview';
 import type { LinkPreviewForUIType } from '../types/message/LinkPreviews';
 import type { LocalizerType, ThemeType } from '../types/Util';
@@ -26,6 +23,7 @@ import { SendStoryModal } from './SendStoryModal';
 import { MediaEditor } from './MediaEditor';
 import { TextStoryCreator } from './TextStoryCreator';
 import type { DraftBodyRanges } from '../types/BodyRange';
+import type { processAttachment } from '../util/processAttachment';
 
 function usePortalElement(testid: string): HTMLDivElement | null {
   const [element, setElement] = useState<HTMLDivElement | null>(null);
@@ -60,9 +58,7 @@ export type PropsType = {
     bodyRanges: DraftBodyRanges | undefined
   ) => unknown;
   imageToBlurHash: typeof imageToBlurHash;
-  processAttachment: (
-    file: File
-  ) => Promise<void | InMemoryAttachmentDraftType>;
+  processAttachment: typeof processAttachment;
   sendStoryModalOpenStateChanged: (isOpen: boolean) => unknown;
   theme: ThemeType;
 } & Pick<StickerButtonProps, 'installedPacks' | 'recentStickers'> &
@@ -169,22 +165,45 @@ export function StoryCreator({
         return;
       }
 
-      const attachment = await processAttachment(file);
-      if (!attachment || unmounted) {
+      const draft = await processAttachment(file, {
+        // Screenshot is used in `getStoryBackground`
+        generateScreenshot: true,
+        flags: null,
+      });
+      if (!draft || unmounted) {
         return;
       }
 
-      setDraftAttachment(attachment);
-      if (isVideoAttachment(attachment)) {
+      let attachment: AttachmentType = draft;
+      if (isVideoAttachment(draft)) {
+        if (
+          'screenshotData' in draft &&
+          draft.screenshotData &&
+          draft.screenshotContentType
+        ) {
+          url = URL.createObjectURL(
+            new Blob([draft.screenshotData], {
+              type: draft.screenshotContentType,
+            })
+          );
+          attachment = {
+            ...draft,
+            screenshot: {
+              contentType: draft.screenshotContentType,
+              url,
+            },
+          };
+        }
         setAttachmentUrl(undefined);
         setIsReadyToSend(true);
-      } else if (attachment && has(attachment, 'data')) {
-        url = URL.createObjectURL(new Blob([get(attachment, 'data')]));
+      } else if (draft && has(draft, 'data')) {
+        url = URL.createObjectURL(new Blob([get(draft, 'data')]));
         setAttachmentUrl(url);
 
         // Needs editing in MediaEditor
         setIsReadyToSend(false);
       }
+      setDraftAttachment(attachment);
     }
 
     void loadAttachment();

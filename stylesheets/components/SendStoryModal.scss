@@ -310,7 +310,7 @@
   .SendStoryModal {
     &__story {
       border-radius: 12px;
-      backdrop-filter: blur(90px);
+      backdrop-filter: blur(45px);
       &__image {
         object-fit: contain;
       }
