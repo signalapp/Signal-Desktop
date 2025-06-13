@@ -7,6 +7,7 @@ import type { LocalizerType } from '../../types/Util';
 import { durationToPlaybackText } from '../../util/durationToPlaybackText';
 import { Waveform } from './Waveform';
 import { arrow } from '../../util/keyboard';
+import { globalMessageAudio } from '../../services/globalMessageAudio';
 
 type Props = Readonly<{
   i18n: LocalizerType;
@@ -20,10 +21,9 @@ type Props = Readonly<{
 }>;
 
 const BAR_COUNT = 47;
-
 const REWIND_BAR_COUNT = 2;
 
-// Increments for keyboard audio seek (in seconds)\
+// Increments for keyboard audio seek (in seconds)
 const SMALL_INCREMENT = 1;
 const BIG_INCREMENT = 5;
 
@@ -41,7 +41,6 @@ export const WaveformScrubber = React.forwardRef(function WaveformScrubber(
   ref
 ): JSX.Element {
   const refMerger = useRefMerger();
-
   const waveformRef = useRef<HTMLDivElement | null>(null);
 
   // Clicking waveform moves playback head position and starts playback.
@@ -63,11 +62,62 @@ export const WaveformScrubber = React.forwardRef(function WaveformScrubber(
 
       onClick(progress);
     },
-    [waveformRef, onClick]
+    [onClick]
   );
 
-  // Keyboard navigation for waveform. Pressing keys moves playback head
-  // forward/backwards.
+  const handleMouseDrag = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      e.preventDefault();
+
+      let isDragging = true;
+      const wasPlayingBeforeDrag = globalMessageAudio?.playing || false;
+
+      if (globalMessageAudio?.playing) {
+        globalMessageAudio.pause();
+      }
+
+      globalMessageAudio?.muted(true);
+
+      const handleMouseMove = (moveEvent: MouseEvent) => {
+        if (!isDragging || !waveformRef.current) {
+          return;
+        }
+
+        const rect = waveformRef.current.getBoundingClientRect();
+        let positionAsRatio = (moveEvent.clientX - rect.left) / rect.width;
+        positionAsRatio = Math.min(Math.max(0, positionAsRatio), 1);
+
+        onScrub(positionAsRatio);
+
+        const durationVal = globalMessageAudio?.duration;
+        if (
+          durationVal !== undefined &&
+          !Number.isNaN(durationVal) &&
+          durationVal > 0
+        ) {
+          globalMessageAudio.currentTime = positionAsRatio * durationVal;
+        }
+      };
+
+      const handleMouseUp = () => {
+        isDragging = false;
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+
+        globalMessageAudio?.muted(false);
+
+        if (wasPlayingBeforeDrag) {
+          globalMessageAudio?.play();
+        }
+      };
+
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+    },
+    [onScrub]
+  );
+
+  // Keyboard navigation for waveform
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (!duration) {
       return;
@@ -84,7 +134,6 @@ export const WaveformScrubber = React.forwardRef(function WaveformScrubber(
     } else if (event.key === 'PageDown') {
       increment = -BIG_INCREMENT;
     } else {
-      // We don't handle other keys
       return;
     }
 
@@ -103,6 +152,7 @@ export const WaveformScrubber = React.forwardRef(function WaveformScrubber(
       ref={refMerger(waveformRef, ref)}
       className="WaveformScrubber"
       onClick={handleClick}
+      onMouseDown={handleMouseDrag}
       onKeyDown={handleKeyDown}
       tabIndex={0}
       role="slider"
