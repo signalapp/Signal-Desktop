@@ -515,7 +515,7 @@ export default class AccountManager extends EventTarget {
       let pqPreKeys: Array<UploadKyberPreKeyType> | undefined;
       if (
         kyberPreKeyCount < PRE_KEY_MINIMUM ||
-        preKeyCount > PRE_KEY_MAX_COUNT ||
+        kyberPreKeyCount > PRE_KEY_MAX_COUNT ||
         forceUpdate
       ) {
         log.info(
