@@ -24,6 +24,7 @@ import {
 import type { PropsType } from './Preferences';
 import type { WidthBreakpoint } from './_util';
 import type { MessageAttributesType } from '../model-types';
+import { PreferencesDonations } from './PreferencesDonations';
 
 const { i18n } = window.SignalContext;
 
@@ -148,6 +149,11 @@ function RenderProfileEditor(): JSX.Element {
   );
 }
 
+function RenderDonationsPane(): JSX.Element {
+  const contentsRef = useRef<HTMLDivElement | null>(null);
+  return <PreferencesDonations i18n={i18n} contentsRef={contentsRef} />;
+}
+
 function renderToastManager(): JSX.Element {
   return <div />;
 }
@@ -195,6 +201,7 @@ export default {
     customColors: {},
     defaultConversationColor: DEFAULT_CONVERSATION_COLOR,
     deviceName: 'Work Windows ME',
+    donationsFeatureEnabled: false,
     emojiSkinToneDefault: EmojiSkinTone.None,
     phoneNumber: '+1 555 123-4567',
     hasAudioNotifications: true,
@@ -261,6 +268,7 @@ export default {
     whoCanSeeMe: PhoneNumberSharingMode.Everybody,
     zoomFactor: 1,
 
+    renderDonationsPane: RenderDonationsPane,
     renderProfileEditor: RenderProfileEditor,
     renderToastManager,
     renderUpdateDialog,
@@ -385,6 +393,11 @@ Privacy.args = {
 export const DataUsage = Template.bind({});
 DataUsage.args = {
   page: Page.DataUsage,
+};
+export const Donations = Template.bind({});
+Donations.args = {
+  donationsFeatureEnabled: true,
+  page: Page.Donations,
 };
 export const Internal = Template.bind({});
 Internal.args = {
@@ -568,4 +581,9 @@ NavTabsCollapsedWithExclamation.args = {
     unreadMentionsCount: 2,
     markedUnread: true,
   },
+};
+
+export const WithDonationsEnabled = Template.bind({});
+WithDonationsEnabled.args = {
+  donationsFeatureEnabled: true,
 };

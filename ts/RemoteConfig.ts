@@ -21,6 +21,7 @@ export type ConfigKeyType =
   | 'desktop.calling.ringrtcAdmPreStable'
   | 'desktop.clientExpiration'
   | 'desktop.backup.credentialFetch'
+  | 'desktop.donations'
   | 'desktop.internalUser'
   | 'desktop.mediaQuality.levels'
   | 'desktop.messageCleanup'

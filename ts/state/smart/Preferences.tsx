@@ -67,6 +67,7 @@ import { useToastActions } from '../ducks/toast';
 import { DataReader } from '../../sql/Client';
 import { deleteAllMyStories } from '../../util/deleteAllMyStories';
 import { isLocalBackupsEnabledForRedux } from '../../util/isLocalBackupsEnabled';
+import { SmartPreferencesDonations } from './PreferencesDonations';
 
 import type { StorageAccessType, ZoomFactorType } from '../../types/Storage';
 import type { ThemeType } from '../../util/preload';
@@ -91,6 +92,12 @@ function renderToastManager(props: {
   containerWidthBreakpoint: WidthBreakpoint;
 }): JSX.Element {
   return <SmartToastManager disableMegaphone {...props} />;
+}
+
+function renderDonationsPane(options: {
+  contentsRef: MutableRefObject<HTMLDivElement | null>;
+}): JSX.Element {
+  return <SmartPreferencesDonations contentsRef={options.contentsRef} />;
 }
 
 function getSystemTraySettingValues(
@@ -481,6 +488,10 @@ export function SmartPreferences(): JSX.Element | null {
   const backupLocalBackupsEnabled = isLocalBackupsEnabledForRedux(
     items.remoteConfig
   );
+  const donationsFeatureEnabled =
+    items.remoteConfig?.['desktop.internalUser']?.enabled ??
+    items.remoteConfig?.['desktop.donations']?.enabled ??
+    false;
 
   // Two-way items
 
@@ -681,6 +692,7 @@ export function SmartPreferences(): JSX.Element | null {
         customColors={customColors}
         defaultConversationColor={defaultConversationColor}
         deviceName={deviceName}
+        donationsFeatureEnabled={donationsFeatureEnabled}
         emojiSkinToneDefault={emojiSkinToneDefault}
         exportLocalBackup={exportLocalBackup}
         phoneNumber={phoneNumber}
@@ -788,6 +800,7 @@ export function SmartPreferences(): JSX.Element | null {
         refreshBackupSubscriptionStatus={refreshBackupSubscriptionStatus}
         removeCustomColorOnConversations={removeCustomColorOnConversations}
         removeCustomColor={removeCustomColor}
+        renderDonationsPane={renderDonationsPane}
         renderProfileEditor={renderProfileEditor}
         renderToastManager={renderToastManager}
         renderUpdateDialog={renderUpdateDialog}

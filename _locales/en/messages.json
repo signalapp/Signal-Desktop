@@ -71,6 +71,10 @@
     "messageformat": "Sending high quality media will use more data.",
     "description": "Additional detail about the sent media quality setting"
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "Donate to Signal",
+    "description": "The title of the preferences pane for donating to signal"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standard",
     "description": "Label text for standard media quality option"
@@ -6614,6 +6618,10 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "General",
+    "description": "Button to switch the settings view"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "Donate to Signal",
     "description": "Button to switch the settings view"
   },
   "icu:Preferences__button--appearance": {
