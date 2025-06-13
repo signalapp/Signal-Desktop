@@ -6091,7 +6091,7 @@
   },
   "icu:UsernameLinkModalBody__hint": {
     "messageformat": "Scan QR-koden med din mobil for at snakke med mig på Signal.",
-    "descrption": "Text of the hint displayed below generated QR code on the printable image."
+    "description": "Text of the hint displayed below generated QR code on the printable image."
   },
   "icu:UsernameLinkModalBody__save": {
     "messageformat": "Gem"
