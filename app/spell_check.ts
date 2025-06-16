@@ -11,6 +11,7 @@ import type { MenuListType } from '../ts/types/menu';
 import type { LocalizerType } from '../ts/types/Util';
 import { strictAssert } from '../ts/util/assert';
 import type { LoggerType } from '../ts/types/Logging';
+import * as log from '../ts/logging/log';
 import { handleAttachmentRequest } from './attachment_channel';
 
 export const FAKE_DEFAULT_LOCALE = 'und'; // 'und' is the BCP 47 subtag for "undetermined"
@@ -84,12 +85,9 @@ export const setup = (
 
   const availableLocales = session.availableSpellCheckerLanguages;
   const languages = getLanguages(combinedLocales, availableLocales, 'en');
-  console.log('spellcheck: user locales:', combinedLocales);
-  console.log(
-    'spellcheck: available spellchecker languages:',
-    availableLocales
-  );
-  console.log('spellcheck: setting languages to:', languages);
+  log.info('spellcheck: user locales:', combinedLocales);
+  log.info('spellcheck: available spellchecker languages:', availableLocales);
+  log.info('spellcheck: setting languages to:', languages);
   session.setSpellCheckerLanguages(languages);
 
   browserWindow.webContents.on('context-menu', (_event, params) => {

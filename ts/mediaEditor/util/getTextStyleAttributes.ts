@@ -4,6 +4,7 @@
 import * as log from '../../logging/log';
 import { getHSL } from './color';
 import { missingCaseError } from '../../util/missingCaseError';
+import { toLogFormat } from '../../types/errors';
 
 export enum TextStyle {
   Regular = 'Regular',
@@ -38,7 +39,7 @@ export function getTextStyleAttributes(
         textBackgroundColor: '',
       };
     default:
-      log.error(missingCaseError(textStyle));
+      log.error(toLogFormat(missingCaseError(textStyle)));
       return getTextStyleAttributes(TextStyle.Regular, hueSliderValue);
   }
 }

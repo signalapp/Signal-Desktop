@@ -34,6 +34,7 @@ describe('Message', () => {
     info: () => null,
     debug: () => null,
     trace: () => null,
+    child: () => logger,
   };
 
   function getDefaultMessage(

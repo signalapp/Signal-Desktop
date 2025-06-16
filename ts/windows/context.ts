@@ -5,7 +5,6 @@ import type { MenuItemConstructorOptions } from 'electron';
 import { ipcRenderer } from 'electron';
 
 import type { NativeThemeType } from '../context/createNativeThemeListener';
-import type { LoggerType } from '../types/Logging';
 import type { MenuOptionsType } from '../types/menu';
 import type { RendererConfigType } from '../types/RendererConfig';
 import type { LocalizerType } from '../types/Util';
@@ -17,16 +16,10 @@ import { Timers } from '../context/Timers';
 
 import type { LocaleDirection } from '../../app/locale';
 import { i18n } from '../context/i18n';
-import { initialize as initializeLogging } from '../logging/set_up_renderer_logging';
 import type { ActiveWindowServiceType } from '../services/ActiveWindowService';
 import type { LocaleEmojiListType } from '../types/emoji';
 import type { HourCyclePreference } from '../types/I18N';
-import { strictAssert } from '../util/assert';
 import { MinimalSignalContext } from './minimalContext';
-
-strictAssert(Boolean(window.SignalContext), 'context must be defined');
-
-initializeLogging();
 
 export type MainWindowStatsType = Readonly<{
   isMaximized: boolean;
@@ -73,7 +66,6 @@ export type SignalContextType = {
   bytes: Bytes;
   crypto: Crypto;
   i18n: LocalizerType;
-  log: LoggerType;
   renderWindow?: () => void;
   setIsCallActive: (isCallActive: boolean) => unknown;
   timers: Timers;
@@ -84,7 +76,6 @@ export const SignalContext: SignalContextType = {
   bytes: new Bytes(),
   crypto: new Crypto(),
   i18n,
-  log: window.SignalContext.log,
   setIsCallActive(isCallActive: boolean): void {
     ipcRenderer.send('set-is-call-active', isCallActive);
   },

@@ -7,6 +7,7 @@ import { app } from 'electron';
 
 import { start } from './base_config';
 import config from './config';
+import * as log from '../ts/logging/log';
 import * as Errors from '../ts/types/errors';
 
 let userData: string | undefined;
@@ -24,13 +25,13 @@ if (userData !== undefined) {
   try {
     mkdirSync(userData, { recursive: true });
   } catch (error) {
-    console.error('Failed to create userData', Errors.toLogFormat(error));
+    log.error('Failed to create userData', Errors.toLogFormat(error));
   }
 
   app.setPath('userData', userData);
 }
 
-console.log(`userData: ${app.getPath('userData')}`);
+log.info(`userData: ${app.getPath('userData')}`);
 
 const userDataPath = app.getPath('userData');
 const targetPath = join(userDataPath, 'config.json');

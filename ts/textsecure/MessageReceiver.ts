@@ -139,7 +139,7 @@ import {
   ViewOnceOpenSyncEvent,
   ViewSyncEvent,
 } from './messageReceiverEvents';
-import * as log from '../logging/log';
+import * as logger from '../logging/log';
 import { diffArraysAsSets } from '../util/diffArraysAsSets';
 import { generateBlurHash } from '../util/generateBlurHash';
 import { TEXT_ATTACHMENT } from '../types/MIME';
@@ -158,6 +158,8 @@ import { checkOurPniIdentityKey } from '../util/checkOurPniIdentityKey';
 import { CallLinkUpdateSyncType } from '../types/CallLink';
 import { bytesToUuid } from '../util/uuidToBytes';
 import { isBodyTooLong } from '../util/longAttachment';
+
+const log = logger.child('MessageReceiver');
 
 const GROUPV2_ID_LENGTH = 32;
 const RETRY_TIMEOUT = 2 * 60 * 1000;
@@ -359,7 +361,7 @@ export default class MessageReceiver
   public handleRequest(request: IncomingWebSocketRequest): void {
     // We do the message decryption here, instead of in the ordered pending queue,
     // to avoid exposing the time it took us to process messages through the time-to-ack.
-    log.info('MessageReceiver: got request', request.requestType);
+    log.info('got request', request.requestType);
     if (request.requestType !== ServerRequestType.ApiMessage) {
       request.respond(200, 'OK');
 
@@ -473,14 +475,14 @@ export default class MessageReceiver
   }
 
   public startProcessingQueue(): void {
-    log.info('MessageReceiver.startProcessingQueue');
+    log.info('startProcessingQueue');
     this.#stoppingProcessing = false;
 
     drop(this.#addCachedMessagesToQueue());
   }
 
   #addCachedMessagesToQueue(): Promise<void> {
-    log.info('MessageReceiver.addCachedMessagesToQueue');
+    log.info('addCachedMessagesToQueue');
     return this.#incomingQueue.add(
       createTaskWithTimeout(
         async () => this.#queueAllCached(),
@@ -493,7 +495,7 @@ export default class MessageReceiver
   }
 
   public stopProcessing(): void {
-    log.info('MessageReceiver.stopProcessing');
+    log.info('stopProcessing');
     this.#stoppingProcessing = true;
   }
 
@@ -748,15 +750,12 @@ export default class MessageReceiver
       ]);
 
       if (this.#pniIdentityKeyCheckRequired) {
-        log.warn(
-          "MessageReceiver: got 'empty' event, " +
-            'running scheduled pni identity key check'
-        );
+        log.warn("got 'empty' event, running scheduled pni identity key check");
         drop(checkOurPniIdentityKey());
       }
       this.#pniIdentityKeyCheckRequired = false;
 
-      log.info("MessageReceiver: emitting 'empty' event");
+      log.info("emitting 'empty' event");
       this.dispatchEvent(new EmptyEvent());
       this.#isEmptied = true;
 
@@ -765,7 +764,7 @@ export default class MessageReceiver
 
     const waitForDecryptedQueue = async () => {
       log.info(
-        "MessageReceiver: finished processing messages after 'empty', now waiting for application"
+        "finished processing messages after 'empty', now waiting for application"
       );
 
       // We don't await here because we don't want this to gate future message processing
@@ -818,9 +817,7 @@ export default class MessageReceiver
 
   async #queueAllCached(): Promise<void> {
     if (this.#stoppingProcessing) {
-      log.info(
-        'MessageReceiver.queueAllCached: not running due to stopped processing'
-      );
+      log.info('queueAllCached: not running due to stopped processing');
       return;
     }
 
@@ -831,11 +828,11 @@ export default class MessageReceiver
         await this.#queueCached(batch[i]);
       }
     }
-    log.info('MessageReceiver.queueAllCached - finished');
+    log.info('queueAllCached - finished');
   }
 
   async #queueCached(item: UnprocessedType): Promise<void> {
-    log.info('MessageReceiver.queueCached', item.id);
+    log.info('queueCached', item.id);
     try {
       const ourAci = this.#storage.user.getCheckedAci();
 
@@ -975,7 +972,7 @@ export default class MessageReceiver
   }
 
   async #decryptAndCacheBatch(items: Array<CacheAddItemType>): Promise<void> {
-    log.info('MessageReceiver.decryptAndCacheBatch', items.length);
+    log.info('decryptAndCacheBatch', items.length);
 
     const decrypted: Array<
       Readonly<{
@@ -1046,8 +1043,7 @@ export default class MessageReceiver
             } catch (error) {
               failed.push(data);
               log.error(
-                'MessageReceiver.decryptAndCacheBatch error when ' +
-                  'processing the envelope',
+                'decryptAndCacheBatch error when processing the envelope',
                 Errors.toLogFormat(error)
               );
             }
@@ -1055,7 +1051,7 @@ export default class MessageReceiver
         );
 
         log.info(
-          'MessageReceiver.decryptAndCacheBatch storing ' +
+          'decryptAndCacheBatch storing ' +
             `${decrypted.length} decrypted envelopes, keeping ` +
             `${failed.length} failed envelopes.`
         );
@@ -1086,7 +1082,7 @@ export default class MessageReceiver
         );
       });
 
-      log.info('MessageReceiver.decryptAndCacheBatch acknowledging receipt');
+      log.info('decryptAndCacheBatch acknowledging receipt');
 
       // Acknowledge all envelopes
       for (const { request } of items) {
@@ -1138,7 +1134,7 @@ export default class MessageReceiver
       })
     );
 
-    log.info('MessageReceiver.decryptAndCacheBatch fully processed');
+    log.info('decryptAndCacheBatch fully processed');
 
     this.#maybeScheduleRetryTimeout();
   }
@@ -1263,16 +1259,11 @@ export default class MessageReceiver
         TaskType.Encrypted
       );
     } catch (error) {
-      const args = [
-        'queueEncryptedEnvelope error handling envelope',
-        logId,
-        ':',
-        Errors.toLogFormat(error),
-      ];
+      const args = [logId, ':', Errors.toLogFormat(error)];
       if (error instanceof WarnOnlyError) {
-        log.warn(...args);
+        log.warn('queueEncryptedEnvelope error handling envelope', ...args);
       } else {
-        log.error(...args);
+        log.error('queueEncryptedEnvelope error handling envelope', ...args);
       }
       throw error;
     }
@@ -1321,7 +1312,7 @@ export default class MessageReceiver
     const logId = getEnvelopeId(envelope);
 
     if (this.#stoppingProcessing) {
-      log.warn(`MessageReceiver.unsealEnvelope(${logId}): dropping`);
+      log.warn(`unsealEnvelope(${logId}): dropping`);
       throw new Error('Sealed envelope dropped due to stopping processing');
     }
 
@@ -1339,7 +1330,7 @@ export default class MessageReceiver
     }
 
     if (serviceIdKind === ServiceIdKind.PNI) {
-      log.warn(`MessageReceiver.unsealEnvelope(${logId}): dropping for PNI`);
+      log.warn(`unsealEnvelope(${logId}): dropping for PNI`);
       return undefined;
     }
 
@@ -1354,7 +1345,7 @@ export default class MessageReceiver
       throw new Error('Received message with no content');
     }
 
-    log.info(`MessageReceiver.unsealEnvelope(${logId}): unidentified message`);
+    log.info(`unsealEnvelope(${logId}): unidentified message`);
     const messageContent = await sealedSenderDecryptToUsmc(
       Buffer.from(ciphertext),
       stores.identityKeyStore
@@ -1400,7 +1391,7 @@ export default class MessageReceiver
     envelope: UnsealedEnvelope,
     serviceIdKind: ServiceIdKind
   ): Promise<DecryptResult> {
-    const logId = `MessageReceiver.decryptEnvelope(${getEnvelopeId(envelope)})`;
+    const logId = `decryptEnvelope(${getEnvelopeId(envelope)})`;
 
     if (this.#stoppingProcessing) {
       log.warn(`${logId}: dropping unsealed`);
@@ -1597,7 +1588,7 @@ export default class MessageReceiver
     } = envelope;
 
     const envelopeId = getEnvelopeId(envelope);
-    const logId = `MessageReceiver.validateUnsealedEnvelope(${envelopeId})`;
+    const logId = `validateUnsealedEnvelope(${envelopeId})`;
 
     strictAssert(
       messageContent !== undefined,
@@ -1693,7 +1684,7 @@ export default class MessageReceiver
       messageContent.msgType() === unidentifiedSenderTypeEnum.PLAINTEXT_CONTENT
     ) {
       log.info(
-        `MessageReceiver.decryptSealedSender(${logId}): ` +
+        `decryptSealedSender(${logId}): ` +
           'unidentified message/plaintext contents'
       );
       const plaintextContent = PlaintextContent.deserialize(
@@ -1710,7 +1701,7 @@ export default class MessageReceiver
       messageContent.msgType() === unidentifiedSenderTypeEnum.SENDERKEY_MESSAGE
     ) {
       log.info(
-        `MessageReceiver.decryptSealedSender(${logId}): ` +
+        `decryptSealedSender(${logId}): ` +
           'unidentified message/sender key contents'
       );
       const sealedSenderIdentifier = certificate.senderUuid();
@@ -1742,7 +1733,7 @@ export default class MessageReceiver
     }
 
     log.info(
-      `MessageReceiver.decryptSealedSender(${logId}): ` +
+      `decryptSealedSender(${logId}): ` +
         'unidentified message/passing to sealedSenderDecryptMessage'
     );
 
@@ -1837,10 +1828,7 @@ export default class MessageReceiver
       serviceIdKind === ServiceIdKind.PNI &&
       envelope.type !== envelopeTypeEnum.PREKEY_BUNDLE
     ) {
-      log.warn(
-        `MessageReceiver.innerDecrypt(${logId}): ` +
-          'non-PreKey envelope on PNI'
-      );
+      log.warn(`innerDecrypt(${logId}): non-PreKey envelope on PNI`);
       return undefined;
     }
 
@@ -1992,9 +1980,7 @@ export default class MessageReceiver
         (envelope.sourceServiceId &&
           this.#isServiceIdBlocked(envelope.sourceServiceId))
       ) {
-        log.info(
-          'MessageReceiver.decrypt: Error from blocked sender; no further processing'
-        );
+        log.info('decrypt: Error from blocked sender; no further processing');
         this.#removeFromCache(envelope);
         throw error;
       }
@@ -2002,16 +1988,14 @@ export default class MessageReceiver
       if (uuid && deviceId) {
         const senderAci = uuid;
         if (!isAciString(senderAci)) {
-          log.info(
-            'MessageReceiver.decrypt: Error from PNI; no further processing'
-          );
+          log.info('decrypt: Error from PNI; no further processing');
           this.#removeFromCache(envelope);
           throw error;
         }
 
         if (serviceIdKind === ServiceIdKind.PNI) {
           log.info(
-            'MessageReceiver.decrypt: Error on PNI; no further processing; ' +
+            'decrypt: Error on PNI; no further processing; ' +
               'queueing pni identity check'
           );
           this.#pniIdentityKeyCheckRequired = true;
@@ -2047,9 +2031,7 @@ export default class MessageReceiver
         );
       } else {
         this.#removeFromCache(envelope);
-        log.error(
-          `MessageReceiver.decrypt: Envelope ${envelopeId} missing uuid or deviceId`
-        );
+        log.error(`decrypt: Envelope ${envelopeId} missing uuid or deviceId`);
       }
 
       throw error;
@@ -2060,7 +2042,7 @@ export default class MessageReceiver
     envelope: ProcessedEnvelope,
     sentContainer: ProcessedSent
   ) {
-    const logId = `MessageReceiver.handleSentMessage/${getEnvelopeId(envelope)}`;
+    const logId = `handleSentMessage/${getEnvelopeId(envelope)}`;
     log.info(logId);
 
     logUnexpectedUrgentValue(envelope, 'sentSync');
@@ -2122,7 +2104,7 @@ export default class MessageReceiver
     sentMessage?: ProcessedSent
   ): Promise<void> {
     const envelopeId = getEnvelopeId(envelope);
-    const logId = `MessageReceiver.handleStoryMessage(${envelopeId})`;
+    const logId = `handleStoryMessage(${envelopeId})`;
 
     logUnexpectedUrgentValue(envelope, 'story');
 
@@ -2137,7 +2119,7 @@ export default class MessageReceiver
     const { sourceServiceId: sourceAci } = envelope;
     strictAssert(
       isAciString(sourceAci),
-      'MessageReceiver.handleStoryMessage: received message from PNI'
+      'handleStoryMessage: received message from PNI'
     );
 
     const attachments: Array<ProcessedAttachment> = [];
@@ -2331,9 +2313,7 @@ export default class MessageReceiver
     envelope: UnsealedEnvelope,
     msg: Proto.IEditMessage
   ): Promise<void> {
-    const logId = `MessageReceiver.handleEditMessage(${getEnvelopeId(
-      envelope
-    )})`;
+    const logId = `handleEditMessage(${getEnvelopeId(envelope)})`;
     log.info(logId);
 
     if (!msg.targetSentTimestamp) {
@@ -2395,7 +2375,7 @@ export default class MessageReceiver
     envelope: UnsealedEnvelope,
     msg: Proto.IDataMessage
   ): Promise<void> {
-    const logId = `MessageReceiver.handleDataMessage/${getEnvelopeId(envelope)}`;
+    const logId = `handleDataMessage/${getEnvelopeId(envelope)}`;
     log.info(logId);
 
     if (getStoriesBlocked() && msg.storyContext) {
@@ -2759,9 +2739,7 @@ export default class MessageReceiver
 
     this.#removeFromCache(envelope);
 
-    const logId = `MessageReceiver.handleCallingMessage(${getEnvelopeId(
-      envelope
-    )})`;
+    const logId = `handleCallingMessage(${getEnvelopeId(envelope)})`;
 
     if (
       (envelope.source && this.#isBlocked(envelope.source)) ||
@@ -2887,7 +2865,7 @@ export default class MessageReceiver
   }
 
   #handleNullMessage(envelope: UnsealedEnvelope): void {
-    log.info('MessageReceiver.handleNullMessage', getEnvelopeId(envelope));
+    log.info('handleNullMessage', getEnvelopeId(envelope));
 
     logUnexpectedUrgentValue(envelope, 'nullMessage');
 
@@ -2973,7 +2951,7 @@ export default class MessageReceiver
       ) {
         if (getStoriesBlocked()) {
           log.info(
-            'MessageReceiver.handleSyncMessage: dropping story recipients update',
+            'handleSyncMessage: dropping story recipients update',
             getEnvelopeId(envelope)
           );
           this.#removeFromCache(envelope);
@@ -2981,7 +2959,7 @@ export default class MessageReceiver
         }
 
         log.info(
-          'MessageReceiver.handleSyncMessage: handling story recipients update',
+          'handleSyncMessage: handling story recipients update',
           getEnvelopeId(envelope)
         );
         const ev = new StoryRecipientUpdateEvent(
@@ -3116,9 +3094,7 @@ export default class MessageReceiver
     envelope: UnsealedEnvelope,
     sentMessage: ProcessedSent
   ): Promise<void> {
-    const logId = `MessageReceiver.handleSentEditMessage(${getEnvelopeId(
-      envelope
-    )})`;
+    const logId = `handleSentEditMessage(${getEnvelopeId(envelope)})`;
     log.info(logId);
 
     const { editMessage } = sentMessage;
@@ -3374,7 +3350,7 @@ export default class MessageReceiver
     read: Array<Proto.SyncMessage.IRead>
   ): Promise<void> {
     const logId = getEnvelopeId(envelope);
-    log.info('MessageReceiver.handleRead', logId);
+    log.info('handleRead', logId);
 
     logUnexpectedUrgentValue(envelope, 'readSync');
 
@@ -3405,7 +3381,7 @@ export default class MessageReceiver
     viewed: ReadonlyArray<Proto.SyncMessage.IViewed>
   ): Promise<void> {
     const logId = getEnvelopeId(envelope);
-    log.info('MessageReceiver.handleViewed', logId);
+    log.info('handleViewed', logId);
 
     logUnexpectedUrgentValue(envelope, 'viewSync');
 
@@ -3434,7 +3410,7 @@ export default class MessageReceiver
     callEvent: Proto.SyncMessage.ICallEvent
   ): Promise<void> {
     const logId = getEnvelopeId(envelope);
-    log.info('MessageReceiver.handleCallEvent', logId);
+    log.info('handleCallEvent', logId);
 
     logUnexpectedUrgentValue(envelope, 'callEventSync');
 
@@ -3463,7 +3439,7 @@ export default class MessageReceiver
     callLinkUpdate: Proto.SyncMessage.ICallLinkUpdate
   ): Promise<void> {
     const logId = getEnvelopeId(envelope);
-    log.info('MessageReceiver.handleCallLinkUpdate', logId);
+    log.info('handleCallLinkUpdate', logId);
 
     logUnexpectedUrgentValue(envelope, 'callLinkUpdateSync');
 
@@ -3506,7 +3482,7 @@ export default class MessageReceiver
     callLogEvent: Proto.SyncMessage.ICallLogEvent
   ): Promise<void> {
     const logId = getEnvelopeId(envelope);
-    log.info('MessageReceiver.handleCallLogEvent', logId);
+    log.info('handleCallLogEvent', logId);
 
     logUnexpectedUrgentValue(envelope, 'callLogEventSync');
 
@@ -3531,7 +3507,7 @@ export default class MessageReceiver
     deleteSync: Proto.SyncMessage.IDeleteForMe
   ): Promise<void> {
     const logId = getEnvelopeId(envelope);
-    log.info('MessageReceiver.handleDeleteForMeSync', logId);
+    log.info('handleDeleteForMeSync', logId);
 
     logUnexpectedUrgentValue(envelope, 'deleteForMeSync');
 
@@ -3730,7 +3706,7 @@ export default class MessageReceiver
     response: Proto.SyncMessage.IAttachmentBackfillResponse
   ): Promise<void> {
     const logId = getEnvelopeId(envelope);
-    log.info('MessageReceiver.handleAttachmentBackfillResponse', logId);
+    log.info('handleAttachmentBackfillResponse', logId);
 
     logUnexpectedUrgentValue(envelope, 'attachmentBackfillResponseSync');
 
@@ -3807,7 +3783,7 @@ export default class MessageReceiver
     envelope: ProcessedEnvelope,
     deviceNameChange: Proto.SyncMessage.IDeviceNameChange
   ): Promise<void> {
-    const logId = `MessageReceiver.handleDeviceNameChangeSync: ${getEnvelopeId(envelope)}`;
+    const logId = `handleDeviceNameChangeSync: ${getEnvelopeId(envelope)}`;
     log.info(logId);
 
     logUnexpectedUrgentValue(envelope, 'deviceNameChangeSync');

@@ -5,6 +5,7 @@ import type { ConversationAttributesType } from '../model-types.d';
 import type { ContactAvatarType } from './Avatar';
 import type { LocalAttachmentV2Type } from './Attachment';
 import { computeHash } from '../Crypto';
+import * as log from '../logging/log';
 
 export type BuildAvatarUpdaterOptions = Readonly<{
   data?: Uint8Array;
@@ -60,7 +61,7 @@ function buildAvatarUpdater({ field }: { field: 'avatar' | 'profileAvatar' }) {
     const { hash, path } = oldAvatar;
     const exists = path && (await doesAttachmentExist(path));
     if (!exists) {
-      window.SignalContext.log.warn(
+      log.warn(
         `Conversation.buildAvatarUpdater: attachment ${path} did not exist`
       );
     }

@@ -987,8 +987,8 @@ export class BackupImportStream extends Writable {
       attrs.firstUnregisteredAt = timestamp || undefined;
     } else if (!contact.registered) {
       log.error(
-        contact.registered,
-        'contact is neither registered nor unregistered; treating as registered'
+        'contact is neither registered nor unregistered; treating as registered',
+        contact.registered
       );
       this.#frameErrorCount += 1;
     }

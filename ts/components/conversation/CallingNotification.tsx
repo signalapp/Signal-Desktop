@@ -17,6 +17,7 @@ import {
   DirectCallStatus,
   GroupCallStatus,
 } from '../../types/CallDisposition';
+import { toLogFormat } from '../../types/errors';
 import type { CallingNotificationType } from '../../util/callingNotification';
 import {
   getCallingIcon,
@@ -241,7 +242,7 @@ function renderCallingNotificationButton(
       log.warn('CallingNotification for adhoc call, should never happen');
       return null;
     default:
-      log.error(missingCaseError(props.callHistory.mode));
+      log.error(toLogFormat(missingCaseError(props.callHistory.mode)));
       return null;
   }
 

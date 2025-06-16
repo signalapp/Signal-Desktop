@@ -12,6 +12,7 @@ import {
   setEnvironment,
   parseEnvironment,
 } from '../ts/environment';
+import * as log from '../ts/logging/log';
 
 // In production mode, NODE_ENV cannot be customized by the user
 if (app.isPackaged) {
@@ -51,7 +52,7 @@ const config: IConfig = require('config');
 
 if (getEnvironment() !== Environment.PackagedApp) {
   config.util.getConfigSources().forEach(source => {
-    console.log(`config: Using config source ${basename(source.name)}`);
+    log.info(`config: Using config source ${basename(source.name)}`);
   });
 }
 

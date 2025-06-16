@@ -408,6 +408,7 @@ describe('JobQueue', () => {
         info: sinon.fake(),
         debug: sinon.fake(),
         trace: sinon.fake(),
+        child: () => fakeLogger,
       };
 
       class TestQueue extends JobQueue<number> {

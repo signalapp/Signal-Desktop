@@ -4,6 +4,7 @@
 import { app } from 'electron';
 
 import packageJson from '../package.json';
+import * as log from '../ts/logging/log';
 import * as GlobalErrors from './global_errors';
 
 GlobalErrors.addHandler();
@@ -13,7 +14,7 @@ GlobalErrors.addHandler();
 process.umask(0o077);
 
 export const AUMID = `org.whispersystems.${packageJson.name}`;
-console.log('Set Windows Application User Model ID (AUMID)', {
+log.info('Set Windows Application User Model ID (AUMID)', {
   AUMID,
 });
 app.setAppUserModelId(AUMID);

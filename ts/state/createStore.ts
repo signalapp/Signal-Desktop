@@ -1,8 +1,6 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable no-console */
-
 import type { Middleware, Store, UnknownAction } from 'redux';
 import { applyMiddleware, createStore as reduxCreateStore } from 'redux';
 
@@ -18,28 +16,9 @@ import { isOlderThan } from '../util/timestamp';
 import { SECOND } from '../util/durations';
 import { getEnvironment } from '../environment';
 
-declare global {
-  // We want to extend `window`'s properties, so we need an interface.
-  // eslint-disable-next-line no-restricted-syntax
-  interface Console {
-    _log: Console['log'];
-  }
-}
-
 const env = getEnvironment();
 
-// So Redux logging doesn't go to disk, and so we can get colors/styles
-const directConsole = {
-  log: console._log,
-  groupCollapsed: console.groupCollapsed,
-  group: console.group,
-  groupEnd: console.groupEnd,
-  warn: console.warn,
-  error: console.error,
-};
-
 const logger = createLogger({
-  logger: directConsole,
   predicate: (_getState, action) => {
     if (action.type === 'network/CHECK_NETWORK_STATUS') {
       return false;

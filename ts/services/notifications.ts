@@ -12,6 +12,7 @@ import OS from '../util/os/osMain';
 import * as log from '../logging/log';
 import { makeEnumParser } from '../util/enum';
 import { missingCaseError } from '../util/missingCaseError';
+import { toLogFormat } from '../types/errors';
 import type { StorageInterface } from '../types/Storage.d';
 import type { LocalizerType } from '../types/Util';
 import { drop } from '../util/drop';
@@ -411,7 +412,7 @@ class NotificationService extends EventEmitter {
         notificationMessage = i18n('icu:newMessage');
         break;
       default:
-        log.error(missingCaseError(userSetting));
+        log.error(toLogFormat(missingCaseError(userSetting)));
         notificationTitle = FALLBACK_NOTIFICATION_TITLE;
         notificationMessage = i18n('icu:newMessage');
         break;

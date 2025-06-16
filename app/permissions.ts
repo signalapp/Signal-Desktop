@@ -7,6 +7,7 @@
 import type { session as ElectronSession, Session } from 'electron';
 
 import type { ConfigType } from './base_config';
+import * as log from '../ts/logging/log';
 
 const PERMISSIONS: Record<string, boolean> = {
   // Allowed
@@ -67,12 +68,12 @@ function _createPermissionHandler(
     }
 
     if (PERMISSIONS[permission]) {
-      console.log(`Approving request for permission '${permission}'`);
+      log.info(`Approving request for permission '${permission}'`);
       callback(true);
       return;
     }
 
-    console.log(`Denying request for permission '${permission}'`);
+    log.info(`Denying request for permission '${permission}'`);
     callback(false);
   };
 }

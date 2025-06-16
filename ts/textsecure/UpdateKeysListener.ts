@@ -110,7 +110,7 @@ export class UpdateKeysListener {
 
   public static init(events: MinimalEventsType, newVersion: boolean): void {
     if (initComplete) {
-      window.SignalContext.log.info('UpdateKeysListener: Already initialized');
+      log.info('UpdateKeysListener: Already initialized');
       return;
     }
     initComplete = true;

@@ -3932,7 +3932,7 @@ export class CallingClass {
         break;
       }
       default: {
-        log.error(missingCaseError(notificationSetting));
+        log.error(Errors.toLogFormat(missingCaseError(notificationSetting)));
         notificationTitle = FALLBACK_NOTIFICATION_TITLE;
         break;
       }

@@ -8,6 +8,7 @@ import * as log from '../../../logging/log';
 import type { MediaItemType } from '../../../types/MediaItem';
 
 import { missingCaseError } from '../../../util/missingCaseError';
+import { toLogFormat } from '../../../types/errors';
 
 type StaticSectionType = 'today' | 'yesterday' | 'thisWeek' | 'thisMonth';
 type YearMonthSectionType = 'yearMonth';
@@ -83,7 +84,7 @@ const toSection = (
         mediaItems,
       };
     default:
-      log.error(missingCaseError(firstMediaItemWithSection));
+      log.error(toLogFormat(missingCaseError(firstMediaItemWithSection)));
       return undefined;
   }
 };

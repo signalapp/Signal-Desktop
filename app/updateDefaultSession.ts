@@ -14,7 +14,7 @@ const SPELL_CHECKER_DICTIONARY_DOWNLOAD_URL = `https://updates.signal.org/deskto
 
 export function updateDefaultSession(
   session: Session,
-  getLogger: () => LoggerType
+  logger: LoggerType
 ): void {
   session.setSpellCheckerDictionaryDownloadURL(
     SPELL_CHECKER_DICTIONARY_DOWNLOAD_URL
@@ -74,7 +74,7 @@ export function updateDefaultSession(
           // Electron throws error here, but this is the only way to cancel the
           // request.
         }
-        getLogger().error('Failed to get desktopCapturer sources', error);
+        logger.error('Failed to get desktopCapturer sources', error);
       }
     },
     { useSystemPicker: false }

@@ -6,6 +6,7 @@ import * as log from '../logging/log';
 import type { PropsType as TimelinePropsType } from '../components/conversation/Timeline';
 import type { TimelineItemType } from '../components/conversation/TimelineItem';
 import { WidthBreakpoint } from '../components/_util';
+import { toLogFormat } from '../types/errors';
 import { MINUTE } from './durations';
 import { missingCaseError } from './missingCaseError';
 import { isSameDay } from './timestamp';
@@ -98,7 +99,7 @@ export function shouldCurrentMessageHideMetadata(
     case 'viewed':
       return true;
     default:
-      log.error(missingCaseError(message.status));
+      log.error(toLogFormat(missingCaseError(message.status)));
       return true;
   }
 }

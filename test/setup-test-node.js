@@ -1,8 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable no-console */
-
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 
@@ -22,11 +20,6 @@ global.window = {
   performance,
   SignalContext: {
     crypto: new Crypto(),
-    log: {
-      info: (...args) => console.log(...args),
-      warn: (...args) => console.warn(...args),
-      error: (...args) => console.error(...args),
-    },
     getResolvedMessagesLocale: () => 'en',
     getResolvedMessagesLocaleDirection: () => 'ltr',
     getHourCyclePreference: () => HourCyclePreference.UnknownPreference,

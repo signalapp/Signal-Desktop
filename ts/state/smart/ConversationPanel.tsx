@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 import type { PanelRenderType } from '../../types/Panels';
 import * as log from '../../logging/log';
 import { PanelType } from '../../types/Panels';
+import { toLogFormat } from '../../types/errors';
 import { SmartAllMedia } from './AllMedia';
 import { SmartChatColorPicker } from './ChatColorPicker';
 import { SmartContactDetail } from './ContactDetail';
@@ -368,6 +369,6 @@ function PanelElement({
     return <SmartStickerManager />;
   }
 
-  log.warn(missingCaseError(panel));
+  log.warn(toLogFormat(missingCaseError(panel)));
   return null;
 }

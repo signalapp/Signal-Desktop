@@ -11,11 +11,13 @@ try {
   require('./start');
 } catch (error) {
   /* eslint-disable no-console */
-  if (console._log) {
-    console._log('preload error!', error.stack);
-  }
   console.log('preload error!', error.stack);
   /* eslint-enable no-console */
+  try {
+    log.info('preload error!', error.stack);
+  } catch {
+    // Best effort
+  }
 
   throw error;
 }

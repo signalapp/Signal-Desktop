@@ -20,7 +20,7 @@ import { strictAssert } from '../../util/assert';
 import type { GetBackupCdnInfoType } from '../../services/backups/util/mediaId';
 import { MASTER_KEY, MEDIA_ROOT_KEY } from './helpers';
 import { generateKeys, safeUnlink } from '../../AttachmentCrypto';
-import { writeNewAttachmentData } from '../../windows/attachments';
+import { writeNewAttachmentData } from '../../windows/main/attachments';
 
 describe('convertFilePointerToAttachment', () => {
   it('processes filepointer with attachmentLocator', () => {

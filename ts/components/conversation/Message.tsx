@@ -47,6 +47,7 @@ import type {
 import { ReactionViewer } from './ReactionViewer';
 import { LinkPreviewDate } from './LinkPreviewDate';
 import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews';
+import { toLogFormat } from '../../types/errors';
 import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseFullSizeLinkPreviewImage';
 import type { WidthBreakpoint } from '../_util';
 import { OutgoingGiftBadgeModal } from '../OutgoingGiftBadgeModal';
@@ -1107,7 +1108,7 @@ export class Message extends React.PureComponent<Props, State> {
         isInline = false;
         break;
       default:
-        log.error(missingCaseError(metadataPlacement));
+        log.error(toLogFormat(missingCaseError(metadataPlacement)));
         isInline = false;
         break;
     }

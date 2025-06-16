@@ -24,11 +24,9 @@ class ExpiringMessagesDeletionService {
 
   async #destroyExpiredMessages() {
     try {
-      window.SignalContext.log.info(
-        'destroyExpiredMessages: Loading messages...'
-      );
+      log.info('destroyExpiredMessages: Loading messages...');
       const messages = await DataReader.getExpiredMessages();
-      window.SignalContext.log.info(
+      log.info(
         `destroyExpiredMessages: found ${messages.length} messages to expire`
       );
 
@@ -49,7 +47,7 @@ class ExpiringMessagesDeletionService {
 
       batch(() => {
         inMemoryMessages.forEach(message => {
-          window.SignalContext.log.info('Message expired', {
+          log.info('Message expired', {
             sentAt: message.get('sent_at'),
           });
 
@@ -58,32 +56,26 @@ class ExpiringMessagesDeletionService {
         });
       });
     } catch (error) {
-      window.SignalContext.log.error(
+      log.error(
         'destroyExpiredMessages: Error deleting expired messages',
         Errors.toLogFormat(error)
       );
-      window.SignalContext.log.info(
+      log.info(
         'destroyExpiredMessages: Waiting 30 seconds before trying again'
       );
       await sleep(30 * SECOND);
     }
 
-    window.SignalContext.log.info(
-      'destroyExpiredMessages: done, scheduling another check'
-    );
+    log.info('destroyExpiredMessages: done, scheduling another check');
     void this.update();
   }
 
   async #checkExpiringMessages() {
-    window.SignalContext.log.info(
-      'checkExpiringMessages: checking for expiring messages'
-    );
+    log.info('checkExpiringMessages: checking for expiring messages');
 
     const soonestExpiry = await DataReader.getSoonestMessageExpiry();
     if (!soonestExpiry) {
-      window.SignalContext.log.info(
-        'checkExpiringMessages: found no messages to expire'
-      );
+      log.info('checkExpiringMessages: found no messages to expire');
       return;
     }
 
@@ -99,7 +91,7 @@ class ExpiringMessagesDeletionService {
       wait = 2147483647;
     }
 
-    window.SignalContext.log.info(
+    log.info(
       `checkExpiringMessages: next message expires ${new Date(
         soonestExpiry
       ).toISOString()}; waiting ${wait} ms before clearing`

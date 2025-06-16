@@ -10,12 +10,15 @@ import * as moment from 'moment';
 import 'moment/min/locales.min';
 
 import { textsecure } from '../../textsecure';
-import * as Attachments from '../attachments';
+import { initialize as initializeLogging } from '../../logging/set_up_renderer_logging';
 import { setup } from '../../signal';
 import { addSensitivePath } from '../../util/privacy';
 import * as dns from '../../util/dns';
 import * as log from '../../logging/log';
 import { SignalContext } from '../context';
+import * as Attachments from './attachments';
+
+initializeLogging();
 
 window.nodeSetImmediate = setImmediate;
 window.Backbone = Backbone;

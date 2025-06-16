@@ -8,15 +8,16 @@ import { existsSync } from 'fs';
 import fse from 'fs-extra';
 import { v4 as getGuid } from 'uuid';
 
-import { isPathInside } from '../util/isPathInside';
-import { writeWindowsZoneIdentifier } from '../util/windowsZoneIdentifier';
-import OS from '../util/os/osMain';
-import { getRelativePath, createName } from '../util/attachmentPath';
-import { toHex } from '../Bytes';
-import { getRandomBytes } from '../Crypto';
+import { isPathInside } from '../../util/isPathInside';
+import { writeWindowsZoneIdentifier } from '../../util/windowsZoneIdentifier';
+import OS from '../../util/os/osMain';
+import { getRelativePath, createName } from '../../util/attachmentPath';
+import { toHex } from '../../Bytes';
+import { getRandomBytes } from '../../Crypto';
+import * as log from '../../logging/log';
 
-export * from '../util/ensureAttachmentIsReencryptable';
-export * from '../../app/attachments';
+export * from '../../util/ensureAttachmentIsReencryptable';
+export * from '../../../app/attachments';
 
 type FSAttrType = {
   set: (path: string, attribute: string, value: string) => Promise<void>;
@@ -33,7 +34,7 @@ try {
   if (process.platform === 'darwin') {
     throw e;
   }
-  window.SignalContext.log?.info('x-attr dependency did not load successfully');
+  log.info('x-attr dependency did not load successfully');
 }
 
 export const createPlaintextReader = (
@@ -226,9 +227,7 @@ async function writeWithAttributes(
     try {
       await writeWindowsZoneIdentifier(target);
     } catch (err) {
-      window.SignalContext.log?.warn(
-        'Failed to write Windows Zone.Identifier file; continuing'
-      );
+      log.error('Failed to write Windows Zone.Identifier file; continuing');
     }
   }
 }

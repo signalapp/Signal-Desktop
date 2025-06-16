@@ -20,7 +20,7 @@ import {
 import { fromBase64, toBase64 } from '../../Bytes';
 import { ensureAttachmentIsReencryptable } from '../../util/ensureAttachmentIsReencryptable';
 import { strictAssert } from '../../util/assert';
-import { writeNewAttachmentData } from '../../windows/attachments';
+import { writeNewAttachmentData } from '../../windows/main/attachments';
 
 describe('utils/ensureAttachmentIsReencryptable', async () => {
   const fixturesDir = join(__dirname, '..', '..', '..', 'fixtures');

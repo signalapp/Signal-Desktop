@@ -145,7 +145,7 @@ async function sandboxedEnv() {
     },
     preloadConfig: {
       ...sandboxedPreloadDefaults,
-      mainFields: ['main'],
+      mainFields: ['browser', 'main'],
       entryPoints: [
         path.join(ROOT_DIR, 'ts', 'windows', 'about', 'preload.ts'),
         path.join(ROOT_DIR, 'ts', 'windows', 'debuglog', 'preload.ts'),
