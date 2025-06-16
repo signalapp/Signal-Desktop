@@ -132,11 +132,11 @@ export const log: LoggerType = {
   info: pinoInstance.info.bind(pinoInstance),
   debug: pinoInstance.debug.bind(pinoInstance),
   trace: pinoInstance.trace.bind(pinoInstance),
-  child: createLogger.bind(pinoInstance),
+  child: child.bind(pinoInstance),
 };
 
-export function createLogger(name: string): LoggerType {
-  const instance = pinoInstance.child({}, { msgPrefix: `[${name}] ` });
+function child(this: typeof pinoInstance, name: string): LoggerType {
+  const instance = this.child({}, { msgPrefix: `[${name}] ` });
 
   return {
     fatal: instance.fatal.bind(instance),
@@ -145,9 +145,11 @@ export function createLogger(name: string): LoggerType {
     info: instance.info.bind(instance),
     debug: instance.debug.bind(instance),
     trace: instance.trace.bind(instance),
-    child: createLogger.bind(instance),
+    child: child.bind(instance),
   };
 }
+
+export const createLogger = log.child;
 
 /**
  * Sets the low-level logging interface. Should be called early in a process's
