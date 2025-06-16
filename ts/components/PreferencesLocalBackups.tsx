@@ -18,7 +18,10 @@ import {
   SettingsRow,
 } from './PreferencesUtil';
 import { Button, ButtonSize, ButtonVariant } from './Button';
-import { SIGNAL_BACKUPS_LEARN_MORE_URL } from './PreferencesBackups';
+import {
+  getOSAuthErrorString,
+  SIGNAL_BACKUPS_LEARN_MORE_URL,
+} from './PreferencesBackups';
 import { I18n } from './I18n';
 import type { PreferencesBackupPage } from '../types/PreferencesBackupPage';
 import { Page } from './Preferences';
@@ -26,6 +29,11 @@ import { ToastType } from '../types/Toast';
 import type { ShowToastAction } from '../state/ducks/toast';
 import { Modal } from './Modal';
 import { strictAssert } from '../util/assert';
+import type {
+  PromptOSAuthReasonType,
+  PromptOSAuthResultType,
+} from '../util/os/promptOSAuthMain';
+import { ConfirmationDialog } from './ConfirmationDialog';
 
 export function PreferencesLocalBackups({
   accountEntropyPool,
@@ -35,6 +43,7 @@ export function PreferencesLocalBackups({
   onBackupKeyViewedChange,
   page,
   pickLocalBackupFolder,
+  promptOSAuth,
   setPage,
   showToast,
 }: {
@@ -45,9 +54,16 @@ export function PreferencesLocalBackups({
   onBackupKeyViewedChange: (keyViewed: boolean) => void;
   page: PreferencesBackupPage;
   pickLocalBackupFolder: () => Promise<string | undefined>;
+  promptOSAuth: (
+    reason: PromptOSAuthReasonType
+  ) => Promise<PromptOSAuthResultType>;
   setPage: (page: PreferencesBackupPage) => void;
   showToast: ShowToastAction;
 }): JSX.Element {
+  const [authError, setAuthError] =
+    React.useState<Omit<PromptOSAuthResultType, 'success'>>();
+  const [isAuthPending, setIsAuthPending] = useState<boolean>(false);
+
   if (!localBackupFolder) {
     return (
       <LocalBackupsSetupFolderPicker
@@ -133,7 +149,23 @@ export function PreferencesLocalBackups({
             )}
           >
             <Button
-              onClick={() => setPage(Page.LocalBackupsKeyReference)}
+              className="Preferences--BackupsAuthButton"
+              disabled={isAuthPending}
+              onClick={async () => {
+                setAuthError(undefined);
+
+                try {
+                  setIsAuthPending(true);
+                  const result = await promptOSAuth('view-aep');
+                  if (result === 'success' || result === 'unsupported') {
+                    setPage(Page.LocalBackupsKeyReference);
+                  } else {
+                    setAuthError(result);
+                  }
+                } finally {
+                  setIsAuthPending(false);
+                }
+              }}
               variant={ButtonVariant.Secondary}
             >
               {i18n('icu:Preferences__view-key')}
@@ -154,6 +186,18 @@ export function PreferencesLocalBackups({
           </div>
         </div>
       </SettingsRow>
+
+      {authError && (
+        <ConfirmationDialog
+          i18n={i18n}
+          dialogName="PreferencesLocalBackups--ErrorDialog"
+          onClose={() => setAuthError(undefined)}
+          cancelButtonVariant={ButtonVariant.Secondary}
+          cancelText={i18n('icu:ok')}
+        >
+          {getOSAuthErrorString(authError) ?? i18n('icu:error')}
+        </ConfirmationDialog>
+      )}
     </>
   );
 }

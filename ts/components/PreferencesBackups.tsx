@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 
 import type {
@@ -23,6 +23,11 @@ import { Page } from './Preferences';
 import { I18n } from './I18n';
 import { PreferencesLocalBackups } from './PreferencesLocalBackups';
 import type { ShowToastAction } from '../state/ducks/toast';
+import type {
+  PromptOSAuthReasonType,
+  PromptOSAuthResultType,
+} from '../util/os/promptOSAuthMain';
+import { ConfirmationDialog } from './ConfirmationDialog';
 
 export const SIGNAL_BACKUPS_LEARN_MORE_URL =
   'https://support.signal.org/hc/articles/360007059752-Backup-and-Restore-Messages';
@@ -38,6 +43,7 @@ export function PreferencesBackups({
   onBackupKeyViewedChange,
   pickLocalBackupFolder,
   page,
+  promptOSAuth,
   setPage,
   showToast,
 }: {
@@ -51,9 +57,16 @@ export function PreferencesBackups({
   onBackupKeyViewedChange: (keyViewed: boolean) => void;
   page: PreferencesBackupPage;
   pickLocalBackupFolder: () => Promise<string | undefined>;
+  promptOSAuth: (
+    reason: PromptOSAuthReasonType
+  ) => Promise<PromptOSAuthResultType>;
   setPage: (page: PreferencesBackupPage) => void;
   showToast: ShowToastAction;
 }): JSX.Element {
+  const [authError, setAuthError] =
+    useState<Omit<PromptOSAuthResultType, 'success'>>();
+  const [isAuthPending, setIsAuthPending] = useState<boolean>(false);
+
   if (page === Page.BackupsDetails) {
     return (
       <BackupsDetailsPage
@@ -80,6 +93,7 @@ export function PreferencesBackups({
         onBackupKeyViewedChange={onBackupKeyViewedChange}
         page={page}
         pickLocalBackupFolder={pickLocalBackupFolder}
+        promptOSAuth={promptOSAuth}
         setPage={setPage}
         showToast={showToast}
       />
@@ -183,7 +197,26 @@ export function PreferencesBackups({
             )}
           >
             <Button
-              onClick={() => setPage(Page.LocalBackups)}
+              className="Preferences--BackupsAuthButton"
+              disabled={isAuthPending}
+              onClick={async () => {
+                setAuthError(undefined);
+
+                if (!isLocalBackupsSetup) {
+                  try {
+                    setIsAuthPending(true);
+                    const result = await promptOSAuth('enable-backups');
+                    if (result !== 'success' && result !== 'unsupported') {
+                      setAuthError(result);
+                      return;
+                    }
+                  } finally {
+                    setIsAuthPending(false);
+                  }
+                }
+
+                setPage(Page.LocalBackups);
+              }}
               variant={ButtonVariant.Secondary}
             >
               {isLocalBackupsSetup
@@ -193,6 +226,18 @@ export function PreferencesBackups({
           </div>
         </FlowingControl>
       </SettingsRow>
+
+      {authError && (
+        <ConfirmationDialog
+          i18n={i18n}
+          dialogName="PreferencesLocalBackups--ErrorDialog"
+          onClose={() => setAuthError(undefined)}
+          cancelButtonVariant={ButtonVariant.Secondary}
+          cancelText={i18n('icu:ok')}
+        >
+          {getOSAuthErrorString(authError) ?? i18n('icu:error')}
+        </ConfirmationDialog>
+      )}
     </>
   );
 }
@@ -444,4 +489,23 @@ function BackupsDetailsPage({
       ) : null}
     </>
   );
+}
+
+export function getOSAuthErrorString(
+  authError: Omit<PromptOSAuthResultType, 'success'> | undefined
+): string | undefined {
+  if (!authError) {
+    return undefined;
+  }
+
+  // TODO: DESKTOP-8895
+  if (authError === 'unauthorized') {
+    return 'This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your backup key.';
+  }
+
+  if (authError === 'unauthorized-no-windows-ucv') {
+    return 'This action could not be completed because Windows Hello is not enabled on your computer. Please set up Windows Hello and try again, or open the Signal app on your mobile device and go to Backup Settings to view your backup key.';
+  }
+
+  return 'The action could not be completed because authentication is not available on this computer. Please open the Signal app on your mobile device and go to Backup Settings to view your backup key.';
 }
