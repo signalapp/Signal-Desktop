@@ -13,6 +13,7 @@ import { reducer as callHistory } from './ducks/callHistory';
 import { reducer as composer } from './ducks/composer';
 import { reducer as conversations } from './ducks/conversations';
 import { reducer as crashReports } from './ducks/crashReports';
+import { reducer as donations } from './ducks/donations';
 import { reducer as emojis } from './ducks/emojis';
 import { reducer as expiration } from './ducks/expiration';
 import { reducer as gifs } from './ducks/gifs';
@@ -48,6 +49,7 @@ export const reducer = combineReducers({
   composer,
   conversations,
   crashReports,
+  donations,
   emojis,
   expiration,
   gifs,

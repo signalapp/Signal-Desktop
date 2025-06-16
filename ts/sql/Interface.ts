@@ -3,6 +3,9 @@
 
 import type { Database } from '@signalapp/sqlcipher';
 import type { ReadonlyDeep } from 'type-fest';
+
+import { strictAssert } from '../util/assert';
+
 import type {
   ConversationAttributesType,
   MessageAttributesType,
@@ -49,7 +52,7 @@ import type { SyncTaskType } from '../util/syncTasks';
 import type { AttachmentBackupJobType } from '../types/AttachmentBackup';
 import type { GifType } from '../components/fun/panels/FunPanelGifs';
 import type { NotificationProfileType } from '../types/NotificationProfile';
-import { strictAssert } from '../util/assert';
+import type { DonationReceipt } from '../types/Donations';
 
 export type ReadableDB = Database & { __readable_db: never };
 export type WritableDB = ReadableDB & { __writable_db: never };
@@ -876,6 +879,9 @@ type ReadableInterface = {
   getAllNotificationProfiles(): Array<NotificationProfileType>;
   getNotificationProfileById(id: string): NotificationProfileType | undefined;
 
+  getAllDonationReceipts(): Array<DonationReceipt>;
+  getDonationReceiptById(id: string): DonationReceipt | undefined;
+
   getMessagesNeedingUpgrade: (
     limit: number,
     options: { maxVersion: number }
@@ -1184,6 +1190,10 @@ type WritableInterface = {
   markNotificationProfileDeleted(id: string): number | undefined;
   createNotificationProfile(profile: NotificationProfileType): void;
   updateNotificationProfile(profile: NotificationProfileType): void;
+
+  _deleteAllDonationReceipts(): void;
+  deleteDonationReceiptById(id: string): void;
+  createDonationReceipt(profile: DonationReceipt): void;
 
   removeAll: () => void;
   removeAllConfiguration: () => void;

@@ -112,10 +112,11 @@ import { updateToSchemaVersion1330 } from './1330-sync-tasks-type-index';
 import { updateToSchemaVersion1340 } from './1340-recent-gifs';
 import { updateToSchemaVersion1350 } from './1350-notification-profiles';
 import { updateToSchemaVersion1360 } from './1360-attachments';
+import { updateToSchemaVersion1370 } from './1370-message-attachment-indexes';
 import {
-  updateToSchemaVersion1370,
+  updateToSchemaVersion1380,
   version as MAX_VERSION,
-} from './1370-message-attachment-indexes';
+} from './1380-donation-receipts';
 
 import { DataWriter } from '../Server';
 
@@ -2106,6 +2107,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion1350,
   updateToSchemaVersion1360,
   updateToSchemaVersion1370,
+  updateToSchemaVersion1380,
 ];
 
 export class DBVersionFromFutureError extends Error {
