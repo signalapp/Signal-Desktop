@@ -85,24 +85,32 @@ export function updateToSchemaVersion1360(
       ) STRICT;
     `);
 
-    db.exec(
-      'CREATE INDEX message_attachments_messageId ON message_attachments (messageId);'
-    );
-    db.exec(
-      'CREATE INDEX message_attachments_plaintextHash ON message_attachments (plaintextHash);'
-    );
-    db.exec(
-      'CREATE INDEX message_attachments_path ON message_attachments (path);'
-    );
-    db.exec(
-      'CREATE INDEX message_attachments_all_thumbnailPath ON message_attachments (thumbnailPath);'
-    );
-    db.exec(
-      'CREATE INDEX message_attachments_all_screenshotPath ON message_attachments (screenshotPath);'
-    );
-    db.exec(
-      'CREATE INDEX message_attachments_all_backupThumbnailPath ON message_attachments (backupThumbnailPath);'
-    );
+    // The following indexes were removed in migration 1370
+
+    // db.exec(
+    //   'CREATE INDEX message_attachments_messageId
+    //    ON message_attachments (messageId);'
+    // );
+    // db.exec(
+    //   'CREATE INDEX message_attachments_plaintextHash
+    //    ON message_attachments (plaintextHash);'
+    // );
+    // db.exec(
+    //   'CREATE INDEX message_attachments_path
+    //    ON message_attachments (path);'
+    // );
+    // db.exec(
+    //   'CREATE INDEX message_attachments_all_thumbnailPath
+    //    ON message_attachments (thumbnailPath);'
+    // );
+    // db.exec(
+    //   'CREATE INDEX message_attachments_all_screenshotPath
+    //    ON message_attachments (screenshotPath);'
+    // );
+    // db.exec(
+    //   'CREATE INDEX message_attachments_all_backupThumbnailPath
+    //    ON message_attachments (backupThumbnailPath);'
+    // );
 
     db.pragma('user_version = 1360');
   })();

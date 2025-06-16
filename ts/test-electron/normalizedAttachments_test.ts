@@ -12,7 +12,13 @@ import type {
   ThumbnailType,
   BackupThumbnailType,
 } from '../types/Attachment';
-import { IMAGE_JPEG, IMAGE_PNG, LONG_MESSAGE } from '../types/MIME';
+import {
+  APPLICATION_OCTET_STREAM,
+  IMAGE_JPEG,
+  IMAGE_PNG,
+  LONG_MESSAGE,
+  type MIMEType,
+} from '../types/MIME';
 import type { MessageAttributesType } from '../model-types';
 import { generateAci } from '../types/ServiceId';
 import { ReadStatus } from '../messages/MessageReadStatus';
@@ -608,6 +614,8 @@ describe('normalizes attachment references', () => {
   it('handles bad data', async () => {
     const attachment: AttachmentType = {
       ...composeAttachment(),
+      size: undefined as unknown as number,
+      contentType: undefined as unknown as MIMEType,
       uploadTimestamp: {
         low: 6174,
         high: 0,
@@ -629,6 +637,8 @@ describe('normalizes attachment references', () => {
     assert(messageFromDB, 'message was saved');
     assert.deepEqual(messageFromDB.attachments?.[0], {
       ...attachment,
+      size: 0,
+      contentType: APPLICATION_OCTET_STREAM,
       uploadTimestamp: undefined,
       incrementalMac: undefined,
     });

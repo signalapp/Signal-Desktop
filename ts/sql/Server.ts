@@ -192,6 +192,7 @@ import {
   AttachmentDownloadSource,
   MESSAGE_COLUMNS,
   MESSAGE_ATTACHMENT_COLUMNS,
+  MESSAGE_NON_PRIMARY_KEY_COLUMNS,
 } from './Interface';
 import {
   _removeAllCallLinks,
@@ -236,6 +237,7 @@ import {
 import { generateMessageId } from '../util/generateMessageId';
 import type { ConversationColorType, CustomColorType } from '../types/Colors';
 import { sqlLogger } from './sqlLogger';
+import { APPLICATION_OCTET_STREAM } from '../types/MIME';
 
 type ConversationRow = Readonly<{
   json: string;
@@ -2562,8 +2564,8 @@ function saveMessageAttachment({
     conversationId,
     sentAt,
     clientUuid: attachment.clientUuid,
-    size: attachment.size,
-    contentType: attachment.contentType,
+    size: attachment.size ?? 0,
+    contentType: attachment.contentType ?? APPLICATION_OCTET_STREAM,
     path: attachment.path,
     localKey: attachment.localKey,
     plaintextHash: attachment.plaintextHash,
@@ -2645,8 +2647,7 @@ function saveMessageAttachment({
         INSERT OR REPLACE INTO message_attachments 
           (${MESSAGE_ATTACHMENT_COLUMNS.join(', ')}) 
         VALUES 
-          (${MESSAGE_ATTACHMENT_COLUMNS.map(name => `$${name}`).join(', ')})
-        RETURNING rowId;
+          (${MESSAGE_ATTACHMENT_COLUMNS.map(name => `$${name}`).join(', ')});
       `
   ).run(values);
 }
@@ -2833,20 +2834,24 @@ function saveMessage(
 
   if (id && !forceSave) {
     db.prepare(
+      // UPDATE queries that set the value of a primary key column can be very slow when
+      // that key is referenced via a foreign key constraint, so we are careful to exclude
+      // it here.
       `
-      UPDATE messages SET
-        ${MESSAGE_COLUMNS.map(name => `${name} = $${name}`).join(', ')}
-      WHERE id = $id;
+        UPDATE messages SET
+          ${MESSAGE_NON_PRIMARY_KEY_COLUMNS.map(name => `${name} = $${name}`).join(', ')}
+        WHERE id = $id;
       `
     ).run({ ...payloadWithoutJson, json: objectToJSON(dataToSaveAsJSON) });
+
+    if (normalizeAttachmentData) {
+      saveMessageAttachments(db, message);
+    }
 
     if (jobToInsert) {
       insertJob(db, jobToInsert);
     }
 
-    if (normalizeAttachmentData) {
-      saveMessageAttachments(db, message);
-    }
     return id;
   }
 
