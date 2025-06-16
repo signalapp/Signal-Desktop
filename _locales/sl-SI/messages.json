@@ -2340,7 +2340,7 @@
     "messageformat": "Rezultati iskanja"
   },
   "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
-    "messageformat": "This Message"
+    "messageformat": "To sporočilo"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Nedavno uporabljeno"
@@ -3969,10 +3969,10 @@
     "messageformat": "Tapnite na \"Doniraj Signalu\" in se naročite"
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "Vaš profil se je premaknil"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "Odprite zavihek Nastavitve, da si ogledate in uredite svoj profil."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Sinhronizacija sporočil"
@@ -4941,7 +4941,7 @@
     "messageformat": "Vaše ime ni moglo biti posodobljeno. Poskusite znova."
   },
   "icu:ProfileEditorModal--sharing": {
-    "messageformat": "Sharing"
+    "messageformat": "Skupna raba"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Sporočilo skrbniku_ci skupine"
@@ -5019,13 +5019,13 @@
     "messageformat": "Notranje"
   },
   "icu:Preferences__button--manage": {
-    "messageformat": "Manage"
+    "messageformat": "Upravljaj"
   },
   "icu:Preferences__button--choose-folder": {
-    "messageformat": "Choose folder"
+    "messageformat": "Izberi mapo"
   },
   "icu:Preferences__button--set-up": {
-    "messageformat": "Set up"
+    "messageformat": "Nastavi"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Lokalne varnostne kopije"
@@ -5073,13 +5073,13 @@
     "messageformat": "Blokirani"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Backups"
+    "messageformat": "Varnostne kopije Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Samodejno varnostno kopiranje s Signalovo varno storitvijo šifriranega shranjevanja od konca do konca. Začnite v telefonu. <learnMoreLink>Preberite več.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
-    "messageformat": "Back up your message history so you never lose data when you get a new phone or reinstall Signal."
+    "messageformat": "Ustvarite varnostno kopijo zgodovine sporočil, da ne izgubite podatkov, ko dobite nov telefon ali znova namestite Signal."
   },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Podrobnosti o varnostni kopji"
@@ -5124,82 +5124,82 @@
     "messageformat": "Velikost varnostne kopije"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "Lokalne varnostne kopije"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "Varnostne kopije so šifrirane s ključem in shranjene v računalniku."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "Ustvarite celovito šifrirano varnostno kopijo, ki jo lahko obnovite v telefonu. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Za obnovo varnostne kopije morate najprej namestiti novo kopijo Signala. Nato odprite aplikacijo in tapnite »Obnovi varnostno kopijo«, ter poiščite mapo varnostne kopije. <learnMoreLink>Preberite več.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
-    "messageformat": "Choose a folder"
+    "messageformat": "Izberi mapo"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "Izberite mapo v pomnilniku računalnika, v katero bo shranjena šifrirana varnostna kopija."
   },
   "icu:Preferences--local-backups-setup-next": {
-    "messageformat": "Next"
+    "messageformat": "Naprej"
   },
   "icu:Preferences--local-backups-view-backup-key-done": {
-    "messageformat": "Done"
+    "messageformat": "V redu"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "Besedilno polje za Varnostni ključ"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "Tipka Enter"
   },
   "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Record your backup key"
+    "messageformat": "Zapišite svoj ključ za varnostno kopiranje"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
-    "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Ta ključ je potreben za obnovitev računa in podatkov. Ta ključ shranite na varnem mestu. Če ga izgubite, računa ne boste mogli obnoviti. <learnMoreLink>Preberite več.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirm your backup key"
+    "messageformat": "Potrdite svoj varnostni ključ"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Enter the backup key that you just recorded"
+    "messageformat": "Vnesite varnostni ključ, ki ste ga pravkar zapisali"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
-    "messageformat": "Keep your key safe"
+    "messageformat": "Hranite svoj ključ na varnem"
   },
   "icu:Preferences__local-backups-confirm-key-modal-body": {
-    "messageformat": "Signal will not be able to help you restore your backup if you lose your key. Store it somewhere safe and secure, and do not share it with others."
+    "messageformat": "Če izgubite ključ, vam Signal ne bo mogel pomagati obnoviti varnostne kopije. Shranite ga na varnem mestu in ga ne delite z drugimi."
   },
   "icu:Preferences__local-backups-confirm-key-modal-continue": {
-    "messageformat": "Continue"
+    "messageformat": "Nadaljuj"
   },
   "icu:Preferences--local-backups-see-backup-key-again": {
-    "messageformat": "See key again"
+    "messageformat": "Ponovni ogled ključa"
   },
   "icu:Preferences__local-backups-folder": {
-    "messageformat": "Backup folder"
+    "messageformat": "Mesto za varnostne kopije"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "Spremeni"
   },
   "icu:Preferences__local-backups-copy-key": {
-    "messageformat": "Copy to clipboard"
+    "messageformat": "Kopiraj v odložišče"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "Varnostni ključ je kopiran"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "Prikaži ključ"
   },
   "icu:Preferences__backup-key": {
-    "messageformat": "Backup key"
+    "messageformat": "Varnostni ključ"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "Varnostni ključ je 64-mestna koda, ki se uporablja za obnovitev varnostne kopije"
   },
   "icu:Preferences__backup-other-ways": {
-    "messageformat": "Other ways to back up"
+    "messageformat": "Drugi načini varnostnega kopiranja"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} stik} two {{num,number} stika} few {{num,number} stiki} other {{num,number} stikov}}"
@@ -6433,7 +6433,7 @@
     "messageformat": "Ne delite osebnih podatkov z ljudmi, ki jih ne poznate"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "Shrani priponke"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Kaj je novega"
@@ -6470,6 +6470,6 @@
     "messageformat": "Nastavitve so bile prej v pojavnem oknu, zato smo jih vrnili nazaj. Ko zdaj prilagajate nastavitve, to počnete z glavnega zaslona."
   },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "V novem razdelku v izbirniku odzivov na sporočila so samodejno prikazani vsi odzivi z emojiji, ki jih je sporočilo prejelo. Sedaj se lahko pridružite ostalim in dodate standardno svetlikajoče se srce ali pa sledite svojemu srcu in namesto tega uporabite anatomsko srce."
   }
 }

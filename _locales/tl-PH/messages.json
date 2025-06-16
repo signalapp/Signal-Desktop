@@ -3969,10 +3969,10 @@
     "messageformat": "I-tap ang \"Donate to Signal\" at mag-subscribe"
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "Inilipat ang profile mo"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "Buksan ang Settings tab para tignan at i-edit ang profile mo."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Sini-sync ang messages"
@@ -5019,13 +5019,13 @@
     "messageformat": "Internal"
   },
   "icu:Preferences__button--manage": {
-    "messageformat": "Manage"
+    "messageformat": "I-manage"
   },
   "icu:Preferences__button--choose-folder": {
-    "messageformat": "Choose folder"
+    "messageformat": "Pumili ng folder"
   },
   "icu:Preferences__button--set-up": {
-    "messageformat": "Set up"
+    "messageformat": "I-set up"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Local backups"
@@ -5076,10 +5076,10 @@
     "messageformat": "Signal Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Automatic backups na may secure end-to-end encrypted storage service hatid ng Signal. Simulan sa phone mo. <learnMoreLink>Matuto pa.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
-    "messageformat": "Back up your message history so you never lose data when you get a new phone or reinstall Signal."
+    "messageformat": "I-back up ang message history mo para hindi mawala ang data mo kapag nagpalit ka ng phone o ni-reinstall mo ang Signal."
   },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Backup details"
@@ -5124,82 +5124,82 @@
     "messageformat": "Size ng backup"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "Backups sa Desktop"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "Ang backups ay encrypted gamit ang isang key at nakalagay ito sa computer mo."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "Gumawa ng isang end-to-end encrypted backup na pwede mong i-restore sa phone mo. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Para mag-restore ng backup, mag-install ng bagong kopya ng Signal. Buksan ang app at i-tap ang Restore backup, pagkatapos ay hanapin ang backup folder. <learnMoreLink>Matuto pa.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
-    "messageformat": "Choose a folder"
+    "messageformat": "Pumili ng folder"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "Pumili ng isang folder sa storage ng computer mo kung saan ilalagay ang iyong end-to-end encrypted backup."
   },
   "icu:Preferences--local-backups-setup-next": {
-    "messageformat": "Next"
+    "messageformat": "Susunod"
   },
   "icu:Preferences--local-backups-view-backup-key-done": {
-    "messageformat": "Done"
+    "messageformat": "Tapos na"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "Text box ng backup key"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "Ilagay ang key"
   },
   "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Record your backup key"
+    "messageformat": "I-record ang backup key mo"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
-    "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Kailangan ang key para ma-recover mo ang iyong account at data. Itago ang key na ito sa ligtas na lugar. Kapag nawala mo ito, hindi mo mare-recover ang iyong account. <learnMoreLink>Matuto pa.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirm your backup key"
+    "messageformat": "I-confirm ang backup key mo"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Enter the backup key that you just recorded"
+    "messageformat": "Ilagay ang backup key na ni-record mo"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
-    "messageformat": "Keep your key safe"
+    "messageformat": "Panatilihing ligtas ang iyong key"
   },
   "icu:Preferences__local-backups-confirm-key-modal-body": {
-    "messageformat": "Signal will not be able to help you restore your backup if you lose your key. Store it somewhere safe and secure, and do not share it with others."
+    "messageformat": "Hindi ka matutulungan ng Signal na i-restore ang backup mo kapag nawala mo ang iyong key. Ilagay ito sa ligtas na lugar, at huwag itong i-share sa iba."
   },
   "icu:Preferences__local-backups-confirm-key-modal-continue": {
-    "messageformat": "Continue"
+    "messageformat": "Magpatuloy"
   },
   "icu:Preferences--local-backups-see-backup-key-again": {
-    "messageformat": "See key again"
+    "messageformat": "Tingnan ulit ang key"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Backup folder"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "Baguhin"
   },
   "icu:Preferences__local-backups-copy-key": {
-    "messageformat": "Copy to clipboard"
+    "messageformat": "Kopyahin sa clipboard"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "Nakopya ang backup key"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "Tignan ang key"
   },
   "icu:Preferences__backup-key": {
     "messageformat": "Backup key"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "Ang backup key mo ay isang 64-digit code na ginagamit sa pag-restore ng backup mo"
   },
   "icu:Preferences__backup-other-ways": {
-    "messageformat": "Other ways to back up"
+    "messageformat": "Iba pang paraan ng pag-backup"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} contact} other {{num,number} contacts}}"
@@ -6433,7 +6433,7 @@
     "messageformat": "Huwag magbigay ng personal na impormasyon sa mga hindi mo kakilala"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "I-save ang attachments"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "what's new"
@@ -6470,6 +6470,6 @@
     "messageformat": "Ngayon, kapag in-adjust mo ang iyong Settings, magagawa mo na ito sa main screen sa halip na sa pop-up window."
   },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "Ang isang bagong section sa message reaction selector ay automatic ipinapakita ang lahat ng emoji reactions na natanggap ng isang message."
   }
 }

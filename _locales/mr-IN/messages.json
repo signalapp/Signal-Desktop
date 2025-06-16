@@ -2340,7 +2340,7 @@
     "messageformat": "शोध परिणाम"
   },
   "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
-    "messageformat": "This Message"
+    "messageformat": "हा संदेश"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "अलीकडील वापरलेले"
@@ -3969,10 +3969,10 @@
     "messageformat": "\"Signal ला देणगी द्या\" वर टॅप करा आणि सदस्यत्व घ्या"
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "तुमच्या प्रोफाईलची जागा हलवली आहे"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "तुमची प्रोफाईल पाहण्यासाठी आणि संपादित करण्यासाठी सेटिंग्ज टॅब उघडा."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "संदेश समक्रमित करत आहे"
@@ -4941,7 +4941,7 @@
     "messageformat": "आपली प्रोफाईल अद्यतनित केली जाऊ शकली नाही. कृपया पुन्हा प्रयत्न करा."
   },
   "icu:ProfileEditorModal--sharing": {
-    "messageformat": "Sharing"
+    "messageformat": "शेअर करा"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "प्रशासकाला संदेश पाठवा"
@@ -5019,13 +5019,13 @@
     "messageformat": "अंतर्गत"
   },
   "icu:Preferences__button--manage": {
-    "messageformat": "Manage"
+    "messageformat": "व्यवस्थापित करा"
   },
   "icu:Preferences__button--choose-folder": {
-    "messageformat": "Choose folder"
+    "messageformat": "फोल्डर निवडा"
   },
   "icu:Preferences__button--set-up": {
-    "messageformat": "Set up"
+    "messageformat": "सेट अप"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "स्थानिक बॅकअप्स"
@@ -5073,13 +5073,13 @@
     "messageformat": "अवरोधित केले"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Backups"
+    "messageformat": "Signal बॅकअप"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "ऑटोमॅटिक बॅकअप्स, Signal च्या सुरक्षित, एण्ड-टू-एण्ड कूटबद्ध केलेल्या संग्रहण सेवेसह. तुमच्या फोनवर सुरुवात करा. <learnMoreLink>अधिक जाणून घ्या.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
-    "messageformat": "Back up your message history so you never lose data when you get a new phone or reinstall Signal."
+    "messageformat": "आपल्या संदेश इतिहास चा बॅकअप घ्या ज्यामुळे आपण जेव्हा नवीन फोन घ्याल किंवा Signal पुन्हा इन्स्टॉल कराल तेव्हा आपण कधीही आपला डेटा गमावणार नाही."
   },
   "icu:Preferences--backup-details__header": {
     "messageformat": "बॅकअप तपशील"
@@ -5124,82 +5124,82 @@
     "messageformat": "बॅकअप आकार"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "डेस्कटॉप बॅकअप्स"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "बॅकअप्स एका की सह कूटबद्ध केलेले असतात आणि तुमच्या कंप्युटरवर साठवले जातात."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "एक एण्ड-टू-एण्ड कूटबद्ध केलेले बॅकअप तयार करा जो तुम्ही तुमच्या फोनवर रीस्टोर करू शकता. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "बॅकअप रीस्टोर करण्यासाठी, Signal ची नवी आवृत्ती स्थापन करा. ॲप उघडा आणि रीस्टोर बॅकअप वर टॅप करा, मग बॅकअप फोल्डर शोधा. <learnMoreLink>अधिक जाणून घ्या.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
-    "messageformat": "Choose a folder"
+    "messageformat": "एक फोल्डर निवडा"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "तुमचा एण्ड-टू-एण्ड कूटबद्ध केलेला बॅकअप साठवण्यासाठी तुमच्या कंप्युटरच्या साठवणीतील एक फोल्डर निवडा."
   },
   "icu:Preferences--local-backups-setup-next": {
-    "messageformat": "Next"
+    "messageformat": "पुढे"
   },
   "icu:Preferences--local-backups-view-backup-key-done": {
-    "messageformat": "Done"
+    "messageformat": "ठीक"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "बॅकअप की मजकुराचा रकाना"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "की प्रविष्ट करा"
   },
   "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Record your backup key"
+    "messageformat": "आपली बॅकअप कि नोंद करा"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
-    "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "ही की आपले अकाऊंट आणि डेटा पुर्नप्राप्त करण्यासाठी आवश्यक आहे. ही की कोठेतरी सुरक्षित ठेवा. आपण जी ती गहाळ केल्यास, आपण आपले अकाऊंट पुर्नप्राप्त करू शकणार नाही. <learnMoreLink>अधिक जाणा.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirm your backup key"
+    "messageformat": "तुमची बॅकअप की निश्चित करा"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Enter the backup key that you just recorded"
+    "messageformat": "तुम्ही नुकतीच नोंदवलेली बॅकअप की प्रविष्ट करा"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
-    "messageformat": "Keep your key safe"
+    "messageformat": "आपली की सुरक्षित ठेवा"
   },
   "icu:Preferences__local-backups-confirm-key-modal-body": {
-    "messageformat": "Signal will not be able to help you restore your backup if you lose your key. Store it somewhere safe and secure, and do not share it with others."
+    "messageformat": "आपण जर आपली की गमावल्यास आपणाला आपला बॅकअप पुनर्संचयित करण्यात Signal आपणाला मदत करू शकणार नाही. त्याला कोठेतरी सुरक्षित आणि संरक्षित संग्रहित करून ठेवा, आणि ती इतरांसोबत शेअर करू नका."
   },
   "icu:Preferences__local-backups-confirm-key-modal-continue": {
-    "messageformat": "Continue"
+    "messageformat": "सुरू ठेवा"
   },
   "icu:Preferences--local-backups-see-backup-key-again": {
-    "messageformat": "See key again"
+    "messageformat": "की पुन्हा पहा"
   },
   "icu:Preferences__local-backups-folder": {
-    "messageformat": "Backup folder"
+    "messageformat": "बॅकअप फोल्डर"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "बदला"
   },
   "icu:Preferences__local-backups-copy-key": {
-    "messageformat": "Copy to clipboard"
+    "messageformat": "क्लिपबोर्ड वर कॉपी करा"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "बॅकअप की कॉपी केली"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "की पहा"
   },
   "icu:Preferences__backup-key": {
-    "messageformat": "Backup key"
+    "messageformat": "बॅकअप की"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "तुमची बॅकअप की एक 64-अंकी कोड असतो जो तुमचा बॅकअप रीस्टोर करण्यासाठी वापरला जातो"
   },
   "icu:Preferences__backup-other-ways": {
-    "messageformat": "Other ways to back up"
+    "messageformat": "बॅकअप घेण्याचे इतर मार्ग"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {1 संपर्क} other {{num,number} संपर्क}}"
@@ -6433,7 +6433,7 @@
     "messageformat": "तुम्ही ओळखत नसलेल्या लोकांना तुमची वैयक्तिक माहिती देऊ नका"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "अटॅचमेंट्स जतन करा"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "नवीन काय आहे"
@@ -6470,6 +6470,6 @@
     "messageformat": "सेटिंग्ज आता पॉप आऊट विंडोत उघडत होत्या. त्या आता मुख्य स्कीनवर उघडून बदलता येतील."
   },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "संदेश प्रतिक्रिया वेचकामधील एक नवीन विभाग आपोआप एका संदेशाला मिळालेल्या सर्व इमोजी प्रतिक्रिया दाखवतो. आता तुम्हीसुद्धा इतरांप्रमाणेच नेहमीचा चमकणारा हार्ट इमोजी समाविष्ट करा किंवा, तुम्ही तुमच्या स्वतःच्या मर्जीनुसार दुसरा एखादा इमोजी वापरू शकता."
   }
 }

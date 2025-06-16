@@ -2340,7 +2340,7 @@
     "messageformat": "തിരയൽ ഫലങ്ങൾ"
   },
   "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
-    "messageformat": "This Message"
+    "messageformat": "ഈ സന്ദേശം"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "അടുത്തിടെ ഉപയോഗിച്ചവ"
@@ -3969,10 +3969,10 @@
     "messageformat": "\"Signal-ന് സംഭാവന ചെയ്യുക\" എന്നതിൽ ടാപ്പ് ചെയ്‌ത് സബ്സ്ക്രൈബ് ചെയ്യുക"
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "നിങ്ങളുടെ പ്രൊഫൈൽ നീക്കി"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "നിങ്ങളുടെ പ്രൊഫൈൽ കാണാനും എഡിറ്റ് ചെയ്യാനും ക്രമീകരണങ്ങൾ ടാബ് തുറക്കുക."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "സന്ദേശങ്ങൾ സമന്വയിപ്പിക്കുന്നു"
@@ -4941,7 +4941,7 @@
     "messageformat": "നിങ്ങളുടെ പ്രൊഫൈൽ അപ്ഡേറ്റ് ചെയ്യാനായില്ല. ദയവായി വീണ്ടും ശ്രമിക്കുക."
   },
   "icu:ProfileEditorModal--sharing": {
-    "messageformat": "Sharing"
+    "messageformat": "പങ്കിടൽ"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "ഒരു അഡ്മിനു സന്ദേശം അയക്കുക"
@@ -5019,13 +5019,13 @@
     "messageformat": "ഇന്റേണല്‍"
   },
   "icu:Preferences__button--manage": {
-    "messageformat": "Manage"
+    "messageformat": "കൈകാര്യം ചെയ്യുക"
   },
   "icu:Preferences__button--choose-folder": {
-    "messageformat": "Choose folder"
+    "messageformat": "ഫോൾഡർ തിരഞ്ഞെടുക്കുക"
   },
   "icu:Preferences__button--set-up": {
-    "messageformat": "Set up"
+    "messageformat": "സജ്ജമാക്കുക"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "ലോക്കൽ ബാക്കപ്പുകൾ"
@@ -5073,13 +5073,13 @@
     "messageformat": "ബ്ലോക്ക് ചെയ്തു"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Backups"
+    "messageformat": "Signal ബാക്കപ്പുകൾ"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Signal-ൻ്റെ സുരക്ഷിതമായ, എൻഡ്-ടു-എൻഡ് എൻക്രിപ്റ്റ് ചെയ്ത സ്റ്റോറേജ് സേവനത്തോടുകൂടിയ സ്വയമേവയുള്ള ബാക്കപ്പുകൾ. നിങ്ങളുടെ ഫോണിൽ ആരംഭിക്കുക. <learnMoreLink>കൂടുതലറിയുക.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
-    "messageformat": "Back up your message history so you never lose data when you get a new phone or reinstall Signal."
+    "messageformat": "നിങ്ങളുടെ സന്ദേശ ചരിത്രം ബാക്കപ്പ് ചെയ്യുക, അതുവഴി നിങ്ങൾക്ക് ഒരു പുതിയ ഫോൺ ലഭിക്കുമ്പോഴോ Signal വീണ്ടും ഇൻസ്റ്റാൾ ചെയ്യുമ്പോഴോ ഒരിക്കലും ഡാറ്റ നഷ്‌ടപ്പെടില്ല."
   },
   "icu:Preferences--backup-details__header": {
     "messageformat": "ബാക്കപ്പ് വിശദാംശങ്ങൾ"
@@ -5124,82 +5124,82 @@
     "messageformat": "ബാക്കപ്പ് വലുപ്പം"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "ഡെസ്‌ക്‌ടോപ്പ് ബാക്കപ്പുകൾ"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "ബാക്കപ്പുകൾ ഒരു കീ ഉപയോഗിച്ച് എൻക്രിപ്റ്റ് ചെയ്ത് നിങ്ങളുടെ കമ്പ്യൂട്ടറിൽ സൂക്ഷിക്കുന്നു."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "നിങ്ങളുടെ ഫോണിൽ പുനഃസ്ഥാപിക്കാൻ കഴിയുന്ന ഒരു എൻഡ്-ടു-എൻഡ് എൻക്രിപ്റ്റ് ചെയ്ത ബാക്കപ്പ് സൃഷ്ടിക്കുക. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "ഒരു ബാക്കപ്പ് പുനഃസ്ഥാപിക്കാൻ, Signal-ന്റെ ഒരു പുതിയ പകർപ്പ് ഇൻസ്റ്റാൾ ചെയ്യുക. ആപ്പ് തുറന്ന് ബാക്കപ്പ് പുനഃസ്ഥാപിക്കുക ടാപ്പ് ചെയ്യുക, തുടർന്ന് ബാക്കപ്പ് ഫോൾഡർ കണ്ടെത്തുക. <learnMoreLink>കൂടുതലറിയുക.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
-    "messageformat": "Choose a folder"
+    "messageformat": "ഒരു ഫോൾഡർ തിരഞ്ഞെടുക്കുക"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "നിങ്ങളുടെ കമ്പ്യൂട്ടറിന്റെ സ്റ്റോറേജിൽ എൻഡ്-ടു-എൻഡ് എൻക്രിപ്റ്റ് ചെയ്ത ബാക്കപ്പ് സൂക്ഷിക്കുന്ന ഒരു ഫോൾഡർ തിരഞ്ഞെടുക്കുക."
   },
   "icu:Preferences--local-backups-setup-next": {
-    "messageformat": "Next"
+    "messageformat": "അടുത്തത്"
   },
   "icu:Preferences--local-backups-view-backup-key-done": {
-    "messageformat": "Done"
+    "messageformat": "ചെയ്‌തു"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "ബാക്കപ്പ് കീ ടെക്സ്റ്റ് ബോക്സ്"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "കീ നൽകുക"
   },
   "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Record your backup key"
+    "messageformat": "നിങ്ങളുടെ ബാക്കപ്പ് കീ രേഖപ്പെടുത്തുക"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
-    "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "നിങ്ങളുടെ അക്കൗണ്ടും ഡാറ്റയും വീണ്ടെടുക്കാൻ ഈ കീ ആവശ്യമാണ്. ഈ കീ സുരക്ഷിതമായ ഒരിടത്ത് സൂക്ഷിക്കുക. നിങ്ങൾക്കത് നഷ്‌ടപ്പെടുകയാണെങ്കിൽ, നിങ്ങളുടെ അക്കൗണ്ട് വീണ്ടെടുക്കാൻ നിങ്ങൾക്ക് കഴിയില്ല. <learnMoreLink>കൂടുതലറിയുക.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirm your backup key"
+    "messageformat": "നിങ്ങളുടെ ബാക്കപ്പ് കീ സ്ഥിരീകരിക്കുക"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Enter the backup key that you just recorded"
+    "messageformat": "നിങ്ങൾ ഇപ്പോൾ റെക്കോർഡ് ചെയ്ത ബാക്കപ്പ് കീ നൽകുക"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
-    "messageformat": "Keep your key safe"
+    "messageformat": "നിങ്ങളുടെ കീ സുരക്ഷിതമായി സൂക്ഷിക്കുക"
   },
   "icu:Preferences__local-backups-confirm-key-modal-body": {
-    "messageformat": "Signal will not be able to help you restore your backup if you lose your key. Store it somewhere safe and secure, and do not share it with others."
+    "messageformat": "നിങ്ങളുടെ കീ നഷ്‌ടപ്പെടുകയാണെങ്കിൽ, നിങ്ങളുടെ ബാക്കപ്പ് പുനഃസ്ഥാപിക്കാൻ നിങ്ങളെ സഹായിക്കാൻ Signal-ന് കഴിയില്ല. സുരക്ഷിതമായും ഭദ്രമായും എവിടെയെങ്കിലും സൂക്ഷിക്കുക, മറ്റുള്ളവരുമായി പങ്കിടരുത്."
   },
   "icu:Preferences__local-backups-confirm-key-modal-continue": {
-    "messageformat": "Continue"
+    "messageformat": "തുടരുക"
   },
   "icu:Preferences--local-backups-see-backup-key-again": {
-    "messageformat": "See key again"
+    "messageformat": "കീ വീണ്ടും കാണുക"
   },
   "icu:Preferences__local-backups-folder": {
-    "messageformat": "Backup folder"
+    "messageformat": "ബാക്കപ്പ് ഫോൾഡർ"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "മാറ്റുക"
   },
   "icu:Preferences__local-backups-copy-key": {
-    "messageformat": "Copy to clipboard"
+    "messageformat": "ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തൂ"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "ബാക്കപ്പ് കീ പകർത്തി"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "കീ കാണുക"
   },
   "icu:Preferences__backup-key": {
-    "messageformat": "Backup key"
+    "messageformat": "ബാക്കപ്പ് കീ"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "നിങ്ങളുടെ ബാക്കപ്പ് പുനഃസ്ഥാപിക്കാൻ ഉപയോഗിക്കുന്ന 64 അക്ക കോഡാണ് ബാക്കപ്പ് കീ"
   },
   "icu:Preferences__backup-other-ways": {
-    "messageformat": "Other ways to back up"
+    "messageformat": "ബാക്കപ്പ് ചെയ്യാനുള്ള മറ്റ് വഴികൾ"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {ഒരു കോൺടാക്റ്റ്} other {{num,number} കോൺടാക്റ്റുകൾ}}"
@@ -6433,7 +6433,7 @@
     "messageformat": "പരിചയമില്ലാത്ത ആളുകളുമായി സ്വകാര്യ വിവരങ്ങൾ പങ്കിടരുത്"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "അറ്റാച്ചുമെന്റുകൾ സംരക്ഷിക്കുക"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "പുതിയതായി എന്തുണ്ട്"
@@ -6470,6 +6470,6 @@
     "messageformat": "ക്രമീകരണങ്ങൾ ഒരു പോപ്പ്-ഔട്ട് വിൻഡോയിൽ വന്നിരുന്നതിനാൽ ഞങ്ങൾ അത് തിരിച്ച് പോപ്പ് ഇൻ ചെയ്‌തു. ഇനി, നിങ്ങൾ ക്രമീകരണങ്ങൾ മാറ്റുമ്പോൾ, നിങ്ങൾ അത് പ്രധാന സ്ക്രീനിൽ നിന്ന് ചെയ്യും."
   },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "സന്ദേശ പ്രതികരണ സെലക്ടറിലെ ഒരു പുതിയ വിഭാഗം ഒരു സന്ദേശത്തിന് ലഭിച്ച എല്ലാ ഇമോജി പ്രതികരണങ്ങളും സ്വയമേവ പ്രദർശിപ്പിക്കുന്നു. ഇനി നിങ്ങൾക്ക് വേഗത്തിൽ തന്നെ ആ വഴിയിലേക്ക് കടന്ന്, മറ്റെല്ലാവരും ചെയ്യുന്നത് പോലെ പ്രചാരമേറിയ ഒരു തിളങ്ങുന്ന ഹൃദയം ചേർക്കാം, അല്ലെങ്കിൽ നിങ്ങളുടെ സ്വന്തം ഹൃദയത്തെ പിന്തുടർന്ന് തനതായ ഒരു ഹൃദയം തിരഞ്ഞെടുക്കാം."
   }
 }

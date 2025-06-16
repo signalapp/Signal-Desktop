@@ -1680,7 +1680,7 @@
     "messageformat": "{group} ичинде {sender}"
   },
   "icu:notificationReactionMessage": {
-    "messageformat": "{sender} {message} үчүн {emoji} деген сезимин билдирди"
+    "messageformat": "{sender} {emoji} деген сезимин {message} үчүн билдирди"
   },
   "icu:sendFailed": {
     "messageformat": "Жөнөтүлбөй калды"
@@ -2340,7 +2340,7 @@
     "messageformat": "Табылган нерселер"
   },
   "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
-    "messageformat": "This Message"
+    "messageformat": "Бул билдирүү"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Жакында колдонулгандар"
@@ -2487,13 +2487,13 @@
     "messageformat": "Жок"
   },
   "icu:Message__reaction-emoji-label--you": {
-    "messageformat": "Сезимиңизди билдирдиңиз: {emoji}"
+    "messageformat": "Сиз {emoji} деп сезимиңизди билдирдиңиз"
   },
   "icu:Message__reaction-emoji-label--single": {
-    "messageformat": "{title} сезимин билдирди: {emoji}"
+    "messageformat": "{title} сезимин {emoji} деп билдирди"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {{count,number} адам сезимдерин билдиришти: {emoji}}}"
+    "messageformat": "{count, plural, other {{count,number} адам сезимдерин {emoji} деп билдиришти}}"
   },
   "icu:Message__role-description": {
     "messageformat": "Билдирүү"
@@ -3969,10 +3969,10 @@
     "messageformat": "\"Signal'га колдоо көрсөтүү\" дегенди басып туруп, жазылыңыз"
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "Профилиңиз жылды"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "Профилиңизди көрүп, оңдоо үчүн \"Параметрлер\" өтмөгүн ачыңыз."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Билдирүүлөр шайкештирилүүдө"
@@ -4941,7 +4941,7 @@
     "messageformat": "Профилиңиз жаңыртылган жок. Кайра аракет кылыңыз."
   },
   "icu:ProfileEditorModal--sharing": {
-    "messageformat": "Sharing"
+    "messageformat": "Бөлүшүү"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Администраторго билдирүү жөнөтүү"
@@ -5019,13 +5019,13 @@
     "messageformat": "Ички"
   },
   "icu:Preferences__button--manage": {
-    "messageformat": "Manage"
+    "messageformat": "Өзгөртүү"
   },
   "icu:Preferences__button--choose-folder": {
-    "messageformat": "Choose folder"
+    "messageformat": "Папка тандоо"
   },
   "icu:Preferences__button--set-up": {
-    "messageformat": "Set up"
+    "messageformat": "Коюу"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Түзмөктөгү камдык көчүрмөлөр"
@@ -5073,13 +5073,13 @@
     "messageformat": "Бөгөттөлдү"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Backups"
+    "messageformat": "Signal'дын камдык көчүрмөлөрү"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Signal'дын баштан аяк шифрленген сактоо кызматы менен камдык көчүрмөлөр автоматтык түрдө сакталат. Телефонуңузда баштаңыз. <learnMoreLink>Кененирээк маалымат.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
-    "messageformat": "Back up your message history so you never lose data when you get a new phone or reinstall Signal."
+    "messageformat": "Жаңы телефон алганыңызда же Signal'ды кайра орнотконуңузда эч качан дайындарыңызды жоготуп албашыңыз үчүн билдирүүлөр таржымалыңыздын камдык көчүрмөсүн сактаңыз."
   },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Камдык көчүрмөнүн чоо-жайы"
@@ -5124,82 +5124,82 @@
     "messageformat": "Камдык көчүрмөнүн өлчөмү"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "Компьютерде сакталган камдык көчүрмөлөр"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "Камдык көчүрмөлөр ачкыч менен шифрленип, компьютериңизде сакталган."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "Телефонуңузда калыбына келе турган баштан аяк шифрленүүчү камдык көчүрмөлөрдү түзөсүз. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Камдык көчүрмөнү калыбына келтирүү үчүн Signal'дын жаңы көчүрмөсүн орнотуңуз. Колдонмону ачып, &quot;Камдык көчүрмөнү калыбына келтирүү&quot; дегенди басып, камдык көчүрмөлөр сакталган папканы табыңыз. <learnMoreLink>Кененирээк маалымат.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
-    "messageformat": "Choose a folder"
+    "messageformat": "Папка тандоо"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "Компьютериңиздин сактагычында баштан аяк шифрленген камдык көчүрмөлөр сакталуучу папка тандаңыз."
   },
   "icu:Preferences--local-backups-setup-next": {
-    "messageformat": "Next"
+    "messageformat": "Кийинки"
   },
   "icu:Preferences--local-backups-view-backup-key-done": {
-    "messageformat": "Done"
+    "messageformat": "Бүттү"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "Камдык көчүрмөнүн ачкычы жазылган жер"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "Ачкычты киргизүү"
   },
   "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Record your backup key"
+    "messageformat": "Камдык көчүрмөңүздүн ачкычын жаздырып алыңыз"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
-    "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Бул ачкыч менен аккаунтуңузду жана андагы нерселерди калыбына келтиресиз. Аны коопсуз жерде сактаңыз. Жоготуп алсаңыз, аккаунтуңузду калыбына келтире албай каласыз. <learnMoreLink>Кененирээк маалымат.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirm your backup key"
+    "messageformat": "Камдык көчүрмөнүн ачкычын ырастаңыз"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Enter the backup key that you just recorded"
+    "messageformat": "Жаңы эле жаздырып алган ачкычты киргизиңиз"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
-    "messageformat": "Keep your key safe"
+    "messageformat": "Ачкычыңызды коопсуз жерде сактаңыз"
   },
   "icu:Preferences__local-backups-confirm-key-modal-body": {
-    "messageformat": "Signal will not be able to help you restore your backup if you lose your key. Store it somewhere safe and secure, and do not share it with others."
+    "messageformat": "Ачкычыңызды жоготуп алсаңыз, Signal камдык көчүрмөлөрүңүздү калыбына келтире албай калат. Аны эч ким көрбөгөн коопсуз жерде сактап, эч ким менен бөлүшпөңүз."
   },
   "icu:Preferences__local-backups-confirm-key-modal-continue": {
-    "messageformat": "Continue"
+    "messageformat": "Улантуу"
   },
   "icu:Preferences--local-backups-see-backup-key-again": {
-    "messageformat": "See key again"
+    "messageformat": "Ачкычты кайра көрүү"
   },
   "icu:Preferences__local-backups-folder": {
-    "messageformat": "Backup folder"
+    "messageformat": "Камдык көчүрмөлөрдүн папкасы"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "Өзгөртүү"
   },
   "icu:Preferences__local-backups-copy-key": {
-    "messageformat": "Copy to clipboard"
+    "messageformat": "Буферге көчүрүү"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "Камдык көчүрмөнүн ачкычы көчүрүлдү"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "Ачкычты карап көрүү"
   },
   "icu:Preferences__backup-key": {
-    "messageformat": "Backup key"
+    "messageformat": "Камдык көчүрмөнүн ачкычы"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "Камдык көчүрмөнүн ачкычы аны калыбына келтирүү үчүн колдонулуучу 64 орундуу код"
   },
   "icu:Preferences__backup-other-ways": {
-    "messageformat": "Other ways to back up"
+    "messageformat": "Камдык көчүрмөнүн башка сактоо жолдору"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, other {{num,number} байланыш}}"
@@ -6433,7 +6433,7 @@
     "messageformat": "Бейтааныш адамдарга жеке маалыматыңызды бербеңиз"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "Тиркемелерди сактоо"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Жаңылыктар"
@@ -6470,6 +6470,6 @@
     "messageformat": "Мурун калкып чыгуучу терезеде ачылган параметрлер кайра калкып ачылмай болду. Эми аларды башкы экранда өзгөртө аласыз."
   },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "Билдирүүгө сезимиңизди билдирүүчү жаңы бөлүмдө билдирүүгө коюлган бардык быйтыкчалар көрүнөт. Эми элдин агымына оңой кошулуп, башкалар сыяктуу жылтылдаган жүрөк кошосуз же өз жолуңузду тандап, кадимки эле жүрөкчөнү кошосуз."
   }
 }

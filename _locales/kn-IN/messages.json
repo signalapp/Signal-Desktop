@@ -2340,7 +2340,7 @@
     "messageformat": "ಹುಡುಕಾಟದ ಫಲಿತಾಂಶಗಳು"
   },
   "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
-    "messageformat": "This Message"
+    "messageformat": "ಈ ಸಂದೇಶ"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "ಇತ್ತೀಚೆಗೆ ಬಳಸಲಾಗಿದೆ"
@@ -3969,10 +3969,10 @@
     "messageformat": "\"Signal ಗೆ ದೇಣಿಗೆ ನೀಡಿ\" ಮೇಲೆ ಟ್ಯಾಪ್ ಮಾಡಿ ಮತ್ತು ಚಂದಾದಾರರಾಗಿ"
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಅನ್ನು ಮೂವ್ ಮಾಡಲಾಗಿದೆ"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಅನ್ನು ವೀಕ್ಷಿಸಲು ಮತ್ತು ಎಡಿಟ್ ಮಾಡಲು ಸೆಟ್ಟಿಂಗ್‌ಗಳ ಟ್ಯಾಬ್ ತೆರೆಯಿರಿ."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "ಮೆಸೇಜ್‌ಗಳನ್ನು ಸಿಂಕ್ ಮಾಡಲಾಗುತ್ತಿದೆ"
@@ -4941,7 +4941,7 @@
     "messageformat": "ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಅನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ."
   },
   "icu:ProfileEditorModal--sharing": {
-    "messageformat": "Sharing"
+    "messageformat": "ಹಂಚಿಕೊಳ್ಳಲಾಗುತ್ತಿದೆ"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "ಅಡ್ಮಿನ್‌ಗೆ ಸಂದೇಶ ಕಳುಹಿಸಿ"
@@ -5019,13 +5019,13 @@
     "messageformat": "ಆಂತರಿಕ"
   },
   "icu:Preferences__button--manage": {
-    "messageformat": "Manage"
+    "messageformat": "ನಿರ್ವಹಿಸಿ"
   },
   "icu:Preferences__button--choose-folder": {
-    "messageformat": "Choose folder"
+    "messageformat": "ಫೋಲ್ಡರ್‌ ಆಯ್ಕೆಮಾಡಿ"
   },
   "icu:Preferences__button--set-up": {
-    "messageformat": "Set up"
+    "messageformat": "ಸೆಟ್ ಅಪ್"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "ಸ್ಥಳೀಯ ಬ್ಯಾಕಪ್‌ಗಳು"
@@ -5073,13 +5073,13 @@
     "messageformat": "ನಿರ್ಬಂಧಿಸಲಾಗಿದೆ"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Backups"
+    "messageformat": "Signal ಬ್ಯಾಕಪ್‌ಗಳು"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Signal ನ ಸುರಕ್ಷಿತ ಎಂಡ್ ಟು ಎಂಡ್ ಎನ್ಕ್ರಿಪ್ಟ್ ಆಗಿರುವ ಸಂಗ್ರಹಣೆ ಸೇವೆಯೊಂದಿಗೆ ಸ್ವಯಂಚಾಲಿತ ಬ್ಯಾಕಪ್‌ಗಳು. ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ ಪ್ರಾರಂಭಿಸಿ. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
-    "messageformat": "Back up your message history so you never lose data when you get a new phone or reinstall Signal."
+    "messageformat": "ನಿಮ್ಮ ಮೆಸೇಜ್ ಇತಿಹಾಸವನ್ನು ಬ್ಯಾಕಪ್ ಮಾಡಿ, ಇದರಿಂದ ನೀವು ಹೊಸ ಫೋನ್ ಪಡೆದಾಗ ಅಥವಾ Signal ರೀಇನ್‍ಸ್ಟಾಲ್ ಮಾಡಿದಾಗ ಡೇಟಾವನ್ನು ಕಳೆದುಕೊಳ್ಳುವುದಿಲ್ಲ."
   },
   "icu:Preferences--backup-details__header": {
     "messageformat": "ಬ್ಯಾಕಪ್ ವಿವರಗಳು"
@@ -5124,82 +5124,82 @@
     "messageformat": "ಬ್ಯಾಕಪ್ ಗಾತ್ರ"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "ಡೆಸ್ಕ್‌ಟಾಪ್ ಬ್ಯಾಕಪ್‌ಗಳು"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ಕೀಯೊಂದಿಗೆ ಎನ್ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾಗುತ್ತದೆ ಮತ್ತು ನಿಮ್ಮ ಕಂಪ್ಯೂಟರ್‌ನಲ್ಲಿ ಸಂಗ್ರಹಿಸಲಾಗುತ್ತದೆ."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ ನೀವು ರಿಸ್ಟೋರ್ ಮಾಡಬಹುದಾದ ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್ಕ್ರಿಪ್ಟ್ ಆಗಿರುವ ಬ್ಯಾಕಪ್ ಅನ್ನು ರಚಿಸಿ. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "ಬ್ಯಾಕಪ್ ಅನ್ನು ರಿಸ್ಟೋರ್ ಮಾಡಲು, Signal ನ ಹೊಸ ಕಾಪಿಯನ್ನು ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಿ. ಆ್ಯಪ್ ತೆರೆಯಿರಿ ಮತ್ತು ಬ್ಯಾಕಪ್ ರಿಸ್ಟೋರ್ ಮಾಡಿ ಎಂಬುದನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ, ನಂತರ ಬ್ಯಾಕಪ್ ಫೋಲ್ಡರ್ ಅನ್ನು ಪತ್ತೆಹಚ್ಚಿ. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
-    "messageformat": "Choose a folder"
+    "messageformat": "ಫೋಲ್ಡರ್ ಆಯ್ಕೆ ಮಾಡಿ"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "ನಿಮ್ಮ ಕಂಪ್ಯೂಟರ್‌ನ ಸಂಗ್ರಹಣೆಯಲ್ಲಿ ನಿಮ್ಮ ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್ಕ್ರಿಪ್ಟ್ ಆಗಿರುವ ಬ್ಯಾಕಪ್ ಅನ್ನು ಸಂಗ್ರಹಿಸಲಾಗುವ ಫೋಲ್ಡರ್ ಅನ್ನು ಆರಿಸಿ."
   },
   "icu:Preferences--local-backups-setup-next": {
-    "messageformat": "Next"
+    "messageformat": "ಮುಂದೆ"
   },
   "icu:Preferences--local-backups-view-backup-key-done": {
-    "messageformat": "Done"
+    "messageformat": "ಮುಗಿದಿದೆ"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "ಬ್ಯಾಕಪ್‌ ಕೀ ಟೆಕ್ಸ್ಟ್ ಬಾಕ್ಸ್"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "ಕೀ ನಮೂದಿಸಿ"
   },
   "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Record your backup key"
+    "messageformat": "ನಿಮ್ಮ ಬ್ಯಾಕಪ್ ಕೀಯನ್ನು ರೆಕಾರ್ಡ್ ಮಾಡಿ"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
-    "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "ನಿಮ್ಮ ಖಾತೆ ಮತ್ತು ಡೇಟಾವನ್ನು ರಿಕವರ್ ಮಾಡಲು ಈ ಕೀ ಅಗತ್ಯವಿದೆ. ಈ ಕೀಯನ್ನು ಎಲ್ಲಾದರೂ ಸುರಕ್ಷಿತವಾಗಿ ಸಂಗ್ರಹಿಸಿ. ನೀವು ಅದನ್ನು ಕಳೆದುಕೊಂಡರೆ, ನಿಮ್ಮ ಖಾತೆಯನ್ನು ರಿಕವರ್ ಮಾಡಲು ನಿಮಗೆ ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirm your backup key"
+    "messageformat": "ನಿಮ್ಮ ಬ್ಯಾಕಪ್‌ ಕೀ ಅನ್ನು ಖಚಿತಪಡಿಸಿ"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Enter the backup key that you just recorded"
+    "messageformat": "ನೀವು ಈಗ ತಾನೇ ರೆಕಾರ್ಡ್ ಮಾಡಿದ ಬ್ಯಾಕಪ್ ಕೀಯನ್ನು ನಮೂದಿಸಿ"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
-    "messageformat": "Keep your key safe"
+    "messageformat": "ನಿಮ್ಮ ಕೀಯನ್ನು ಸುರಕ್ಷಿತವಾಗಿರಿಸಿ"
   },
   "icu:Preferences__local-backups-confirm-key-modal-body": {
-    "messageformat": "Signal will not be able to help you restore your backup if you lose your key. Store it somewhere safe and secure, and do not share it with others."
+    "messageformat": "ನಿಮ್ಮ ಕೀಯನ್ನು ನೀವು ಕಳೆದುಕೊಂಡರೆ ನಿಮ್ಮ ಬ್ಯಾಕಪ್ ಅನ್ನು ರಿಸ್ಟೋರ್ ಮಾಡಲು Signal ನಿಮಗೆ ಸಹಾಯ ಮಾಡಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ. ಅದನ್ನು ಎಲ್ಲೋ ಸುರಕ್ಷಿತವಾಗಿ ಮತ್ತು ಭದ್ರವಾಗಿ ಸಂಗ್ರಹಿಸಿ ಹಾಗೂ ಅದನ್ನು ಇತರರೊಂದಿಗೆ ಹಂಚಿಕೊಳ್ಳಬೇಡಿ."
   },
   "icu:Preferences__local-backups-confirm-key-modal-continue": {
-    "messageformat": "Continue"
+    "messageformat": "ಮುಂದುವರಿಸಿ"
   },
   "icu:Preferences--local-backups-see-backup-key-again": {
-    "messageformat": "See key again"
+    "messageformat": "ಕೀಯನ್ನು ಮತ್ತೊಮ್ಮೆ ನೋಡಿ"
   },
   "icu:Preferences__local-backups-folder": {
-    "messageformat": "Backup folder"
+    "messageformat": "ಬ್ಯಾಕಪ್‌ ಫೋಲ್ಡರ್‌"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "ಬದಲಾಯಿಸಿ"
   },
   "icu:Preferences__local-backups-copy-key": {
-    "messageformat": "Copy to clipboard"
+    "messageformat": "ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ ನಕಲಿಸು"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "ಬ್ಯಾಕಪ್ ಕೀ ಕಾಪಿ ಮಾಡಲಾಗಿದೆ"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "ಕೀ ವೀಕ್ಷಿಸಿ"
   },
   "icu:Preferences__backup-key": {
-    "messageformat": "Backup key"
+    "messageformat": "ಬ್ಯಾಕಪ್ ಕೀ"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "ನಿಮ್ಮ ಬ್ಯಾಕಪ್ ಕೀ ನಿಮ್ಮ ಬ್ಯಾಕಪ್ ಅನ್ನು ರಿಸ್ಟೋರ್ ಮಾಡಲು ಬಳಸುವ 64-ಅಂಕಿಯ ಕೋಡ್ ಆಗಿದೆ"
   },
   "icu:Preferences__backup-other-ways": {
-    "messageformat": "Other ways to back up"
+    "messageformat": "ಬ್ಯಾಕಪ್ ಮಾಡುವ ಇತರೆ ಮಾರ್ಗಗಳು"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} ಸಂಪರ್ಕ} other {{num,number} ಸಂಪರ್ಕಗಳು}}"
@@ -6433,7 +6433,7 @@
     "messageformat": "ನಿಮಗೆ ಪರಿಚಯವಿಲ್ಲದ ಜನರೊಂದಿಗೆ ವೈಯಕ್ತಿಕ ಮಾಹಿತಿಯನ್ನು ಹಂಚಿಕೊಳ್ಳಬೇಡಿ"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "ಲಗತ್ತುಗಳನ್ನು ಸೇವ್ ಮಾಡಿ"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "ಹೊಸತೇನಿದೆ"
@@ -6470,6 +6470,6 @@
     "messageformat": "ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಪಾಪ್-ಔಟ್ ವಿಂಡೋದಲ್ಲಿ ಇರುತ್ತಿದ್ದವು, ಆದ್ದರಿಂದ ನಾವು ಅದನ್ನು ಮತ್ತೆ ಪಾಪ್ ಇನ್ ಮಾಡಿದ್ದೇವೆ. ಈಗ, ನಿಮ್ಮ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ನೀವು ಹೊಂದಿಸಿದಾಗ, ನೀವು ಅದನ್ನು ಮುಖ್ಯ ಸ್ಕ್ರೀನ್‌ನಿಂದ ಮಾಡುತ್ತೀರಿ."
   },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "ಮೆಸೇಜ್ ಪ್ರತಿಕ್ರಿಯೆ ಆಯ್ಕೆಯಲ್ಲಿನ ಹೊಸ ವಿಭಾಗವು ಮೆಸೇಜ್ ಸ್ವೀಕರಿಸಿದ ಎಲ್ಲಾ ಎಮೋಜಿ ಪ್ರತಿಕ್ರಿಯೆಗಳನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಪ್ರದರ್ಶಿಸುತ್ತದೆ. ಈಗ ನೀವು ಬೇಗನೆ ಬ್ಯಾಂಡ್‌ವ್ಯಾಗನ್‌ಗೆ ಬದಲಿಸಬಹುದು ಮತ್ತು ಎಲ್ಲರೂ ಈಗಾಗಲೇ ಮಾಡಿದಂತೆ ಪ್ರಮಾಣಿತ ಮಿನುಗುವ ಹೃದಯವನ್ನು ಸೇರಿಸಬಹುದು ಅಥವಾ ನೀವು ನಿಮ್ಮ ಮನಸ್ಸಿಗೆ ಸರಿ ಕಾಣುವಂತೆ ಅಂಗರಚನೆ ರೂಪದ ಹೃದಯವನ್ನು ಸೇರಿಸಬಹುದು."
   }
 }

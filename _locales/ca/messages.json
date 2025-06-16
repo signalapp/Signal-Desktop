@@ -2340,7 +2340,7 @@
     "messageformat": "Resultats de la cerca"
   },
   "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
-    "messageformat": "This Message"
+    "messageformat": "Aquest missatge"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Usat recentment"
@@ -5019,13 +5019,13 @@
     "messageformat": "Intern"
   },
   "icu:Preferences__button--manage": {
-    "messageformat": "Manage"
+    "messageformat": "Administrar"
   },
   "icu:Preferences__button--choose-folder": {
-    "messageformat": "Choose folder"
+    "messageformat": "Trieu una carpeta"
   },
   "icu:Preferences__button--set-up": {
-    "messageformat": "Set up"
+    "messageformat": "Configurar"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Còpies de seguretat locals"
@@ -5073,13 +5073,13 @@
     "messageformat": "Persones bloquejades"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Backups"
+    "messageformat": "Còpies de seguretat de Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
-    "messageformat": "Back up your message history so you never lose data when you get a new phone or reinstall Signal."
+    "messageformat": "Fes una còpia de seguretat de l'historial de missatges per no perdre mai cap dada quan compris un telèfon nou o tornis a instal·lar Signal."
   },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Detalls de la còpia de seguretat"
@@ -5136,16 +5136,16 @@
     "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
-    "messageformat": "Choose a folder"
+    "messageformat": "Tria una carpeta"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
     "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
   },
   "icu:Preferences--local-backups-setup-next": {
-    "messageformat": "Next"
+    "messageformat": "Següent"
   },
   "icu:Preferences--local-backups-view-backup-key-done": {
-    "messageformat": "Done"
+    "messageformat": "Fet"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Backup key text box"
@@ -5154,37 +5154,37 @@
     "messageformat": "Enter key"
   },
   "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Record your backup key"
+    "messageformat": "Guarda la teva clau de còpia de seguretat"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
-    "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Aquesta clau és necessària per recuperar el teu compte i les teves dades. Guarda-la en un lloc segur. Si la perds, no podràs recuperar el teu compte. <learnMoreLink>Més informació.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirm your backup key"
+    "messageformat": "Confirma la teva clau de còpia de seguretat"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Enter the backup key that you just recorded"
+    "messageformat": "Introdueix la clau de còpia de seguretat que acabes de registrar"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
-    "messageformat": "Keep your key safe"
+    "messageformat": "Guarda bé la teva clau"
   },
   "icu:Preferences__local-backups-confirm-key-modal-body": {
-    "messageformat": "Signal will not be able to help you restore your backup if you lose your key. Store it somewhere safe and secure, and do not share it with others."
+    "messageformat": "Si perds la teva clau, Signal no et podrà ajudar a restaurar la còpia de seguretat. Guarda-la en un lloc segur i no la comparteixis amb ningú més."
   },
   "icu:Preferences__local-backups-confirm-key-modal-continue": {
-    "messageformat": "Continue"
+    "messageformat": "Continua"
   },
   "icu:Preferences--local-backups-see-backup-key-again": {
-    "messageformat": "See key again"
+    "messageformat": "Tornar a veure la clau"
   },
   "icu:Preferences__local-backups-folder": {
-    "messageformat": "Backup folder"
+    "messageformat": "Carpeta de còpia de seguretat"
   },
   "icu:Preferences__local-backups-folder__change": {
     "messageformat": "Change"
   },
   "icu:Preferences__local-backups-copy-key": {
-    "messageformat": "Copy to clipboard"
+    "messageformat": "Copia al porta-retalls"
   },
   "icu:Preferences__local-backups-copied-key": {
     "messageformat": "Backup key copied"
@@ -5193,13 +5193,13 @@
     "messageformat": "View key"
   },
   "icu:Preferences__backup-key": {
-    "messageformat": "Backup key"
+    "messageformat": "Còpia de seguretat de la clau"
   },
   "icu:Preferences__backup-key-description": {
     "messageformat": "Your backup key is a 64-digit code used to restore your backup"
   },
   "icu:Preferences__backup-other-ways": {
-    "messageformat": "Other ways to back up"
+    "messageformat": "Altres maneres de fer còpies de seguretat"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} contacte} other {{num,number} contactes}}"

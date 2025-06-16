@@ -2340,7 +2340,7 @@
     "messageformat": "Резултати от търсенето"
   },
   "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
-    "messageformat": "This Message"
+    "messageformat": "Това съобщение"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Наскоро използвани"
@@ -3969,10 +3969,10 @@
     "messageformat": "Докоснете върху „Дарение за Signal“ и се абонирайте"
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "Профилът ви е преместен"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "Отворете раздела „Настройки“ за преглед и редактиране на профила ви."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Синхронизиране на съобщения"
@@ -4941,7 +4941,7 @@
     "messageformat": "Грешка при обновяване на профила ви. Моля, опитайте пак."
   },
   "icu:ProfileEditorModal--sharing": {
-    "messageformat": "Sharing"
+    "messageformat": "Споделяне"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Пиши на администратор"
@@ -5019,13 +5019,13 @@
     "messageformat": "Вътрешни"
   },
   "icu:Preferences__button--manage": {
-    "messageformat": "Manage"
+    "messageformat": "Управление"
   },
   "icu:Preferences__button--choose-folder": {
-    "messageformat": "Choose folder"
+    "messageformat": "Изберете папка"
   },
   "icu:Preferences__button--set-up": {
-    "messageformat": "Set up"
+    "messageformat": "Настройка"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Локални резервни копия"
@@ -5073,13 +5073,13 @@
     "messageformat": "Блокирани"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Backups"
+    "messageformat": "Резервни копия в Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Автоматични резервни копия, криптирани от край до край със защитената услуга за съхранение на Signal. Започнете на телефона си. <learnMoreLink>Научете повече.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
-    "messageformat": "Back up your message history so you never lose data when you get a new phone or reinstall Signal."
+    "messageformat": "Създайте резервно копие на историята на съобщенията си, за да не изгубите данните, когато си вземете нов телефон или преинсталирате Signal."
   },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Подробности за резервно копие"
@@ -5124,82 +5124,82 @@
     "messageformat": "Размер на резервно копие"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "Резервни копия на Desktop"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "Резервните копия са криптирани с ключ и се съхраняват на вашия компютър."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "Създайте резервно копие, криптирано от край до край, което можете да възстановите на телефона си. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "За да възстановите архивно копие, инсталирайте ново копие на Signal. Отворете приложението и докоснете „Възстановяване на резервно копие“, след което открийте папката с резервното копие. <learnMoreLink>Научете повече.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
-    "messageformat": "Choose a folder"
+    "messageformat": "Изберете папка"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "Изберете папка в паметта на компютъра ви, в която да се съхранява резервното ви копие, криптирано от край до край."
   },
   "icu:Preferences--local-backups-setup-next": {
-    "messageformat": "Next"
+    "messageformat": "Напред"
   },
   "icu:Preferences--local-backups-view-backup-key-done": {
-    "messageformat": "Done"
+    "messageformat": "Готово"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "Текстово поле за резервен ключ"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "Въведете ключ"
   },
   "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Record your backup key"
+    "messageformat": "Запишете своя резервен ключ"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
-    "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Този ключ е необходим за възстановяване на акаунта и данните ви. Съхранявайте този ключ на сигурно място. Ако го изгубите, няма да можете да възстановите акаунта си. <learnMoreLink>Научете повече.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirm your backup key"
+    "messageformat": "Потвърдете своя резервен ключ"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Enter the backup key that you just recorded"
+    "messageformat": "Въведете резервния ключ, който току-що записахте"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
-    "messageformat": "Keep your key safe"
+    "messageformat": "Пазете ключа си на сигурно място"
   },
   "icu:Preferences__local-backups-confirm-key-modal-body": {
-    "messageformat": "Signal will not be able to help you restore your backup if you lose your key. Store it somewhere safe and secure, and do not share it with others."
+    "messageformat": "Signal няма да може да ви помогне да възстановите своето резервно копие, ако изгубите ключа си. Съхранявайте го на сигурно и защитено място и не го споделяйте с други хора."
   },
   "icu:Preferences__local-backups-confirm-key-modal-continue": {
-    "messageformat": "Continue"
+    "messageformat": "Продължаване"
   },
   "icu:Preferences--local-backups-see-backup-key-again": {
-    "messageformat": "See key again"
+    "messageformat": "Вижте ключа отново"
   },
   "icu:Preferences__local-backups-folder": {
-    "messageformat": "Backup folder"
+    "messageformat": "Архивна папка"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "Промяна"
   },
   "icu:Preferences__local-backups-copy-key": {
-    "messageformat": "Copy to clipboard"
+    "messageformat": "Копиране"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "Резервният ключ е копиран"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "Преглед на ключа"
   },
   "icu:Preferences__backup-key": {
-    "messageformat": "Backup key"
+    "messageformat": "Резервен ключ"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "Вашият резервен ключ е 64-цифрен код, който се използва за възстановяване на резервното ви копие"
   },
   "icu:Preferences__backup-other-ways": {
-    "messageformat": "Other ways to back up"
+    "messageformat": "Други начини за резервно копиране"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} контакт} other {{num,number} контакта}}"
@@ -6433,7 +6433,7 @@
     "messageformat": "Не споделяйте лична информация с хора, които не познавате"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "Запазване на прикачени файлове"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Какво ново има"
@@ -6470,6 +6470,6 @@
     "messageformat": "Сега, когато променяте настройките си, ще го правите от главния екран, а не от изскачащ прозорец."
   },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "Нов раздел в селектора за реакции на съобщенията автоматично показва всички реакции с емоджи, които дадено съобщение е получило."
   }
 }

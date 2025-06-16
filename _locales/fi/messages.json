@@ -2340,7 +2340,7 @@
     "messageformat": "Hakutulokset"
   },
   "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
-    "messageformat": "This Message"
+    "messageformat": "Tämä viesti"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Äskettäin käytetyt"
@@ -5019,13 +5019,13 @@
     "messageformat": "Sisäinen"
   },
   "icu:Preferences__button--manage": {
-    "messageformat": "Manage"
+    "messageformat": "Hallinnoi"
   },
   "icu:Preferences__button--choose-folder": {
-    "messageformat": "Choose folder"
+    "messageformat": "Valitse kansio"
   },
   "icu:Preferences__button--set-up": {
-    "messageformat": "Set up"
+    "messageformat": "Määritä"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Paikalliset varmuuskopiot"
@@ -5073,13 +5073,13 @@
     "messageformat": "Estetty"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Backups"
+    "messageformat": "Signal-varmuuskopiot"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
-    "messageformat": "Back up your message history so you never lose data when you get a new phone or reinstall Signal."
+    "messageformat": "Varmuuskopioi viestihistoriasi, jotta et koskaan menetä tietoja, kun hankit uuden puhelimen tai asennat Signalin uudelleen."
   },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Varmuuskopion tiedot"
@@ -5136,16 +5136,16 @@
     "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
-    "messageformat": "Choose a folder"
+    "messageformat": "Valitse kansio"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
     "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
   },
   "icu:Preferences--local-backups-setup-next": {
-    "messageformat": "Next"
+    "messageformat": "Seuraava"
   },
   "icu:Preferences--local-backups-view-backup-key-done": {
-    "messageformat": "Done"
+    "messageformat": "Valmis"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Backup key text box"
@@ -5154,37 +5154,37 @@
     "messageformat": "Enter key"
   },
   "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Record your backup key"
+    "messageformat": "Tallenna varmuuskopion avain"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
-    "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Tätä avainta tarvitaan tilisi ja tietojesi palauttamiseen. Säilytä avain turvallisessa paikassa. Jos kadotat sen, et voi palauttaa tiliäsi. <learnMoreLink>Lue lisää.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirm your backup key"
+    "messageformat": "Vahvista varmuuskopion avain"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Enter the backup key that you just recorded"
+    "messageformat": "Anna juuri tallentamasi varmuuskopion avain"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
-    "messageformat": "Keep your key safe"
+    "messageformat": "Pidä avain turvassa"
   },
   "icu:Preferences__local-backups-confirm-key-modal-body": {
-    "messageformat": "Signal will not be able to help you restore your backup if you lose your key. Store it somewhere safe and secure, and do not share it with others."
+    "messageformat": "Signal ei voi auttaa sinua palauttamaan varmuuskopiota, jos kadotat avaimesi. Säilytä avain turvallisessa paikassa äläkä jaa sitä muiden kanssa."
   },
   "icu:Preferences__local-backups-confirm-key-modal-continue": {
-    "messageformat": "Continue"
+    "messageformat": "Jatka"
   },
   "icu:Preferences--local-backups-see-backup-key-again": {
-    "messageformat": "See key again"
+    "messageformat": "Näytä avain uudelleen"
   },
   "icu:Preferences__local-backups-folder": {
-    "messageformat": "Backup folder"
+    "messageformat": "Varmuuskopiokansio"
   },
   "icu:Preferences__local-backups-folder__change": {
     "messageformat": "Change"
   },
   "icu:Preferences__local-backups-copy-key": {
-    "messageformat": "Copy to clipboard"
+    "messageformat": "Kopioi leikepöydälle"
   },
   "icu:Preferences__local-backups-copied-key": {
     "messageformat": "Backup key copied"
@@ -5193,13 +5193,13 @@
     "messageformat": "View key"
   },
   "icu:Preferences__backup-key": {
-    "messageformat": "Backup key"
+    "messageformat": "Varmuuskopion avain"
   },
   "icu:Preferences__backup-key-description": {
     "messageformat": "Your backup key is a 64-digit code used to restore your backup"
   },
   "icu:Preferences__backup-other-ways": {
-    "messageformat": "Other ways to back up"
+    "messageformat": "Muita tapoja varmuuskopioida"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {1 yhteystieto} other {{num,number} yhteystietoa}}"

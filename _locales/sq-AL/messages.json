@@ -2340,7 +2340,7 @@
     "messageformat": "Rezultatet e kërkimit"
   },
   "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
-    "messageformat": "This Message"
+    "messageformat": "Këtë Mesazh"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Përdorur Së Fundi"
@@ -5019,13 +5019,13 @@
     "messageformat": "E brendshme"
   },
   "icu:Preferences__button--manage": {
-    "messageformat": "Manage"
+    "messageformat": "Menaxho"
   },
   "icu:Preferences__button--choose-folder": {
-    "messageformat": "Choose folder"
+    "messageformat": "Zgjidhni dosje"
   },
   "icu:Preferences__button--set-up": {
-    "messageformat": "Set up"
+    "messageformat": "Konfiguro"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Kopjeruajtjet lokale"
@@ -5073,13 +5073,13 @@
     "messageformat": "Bllokuar"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Backups"
+    "messageformat": "Kopjeruajtjet e Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
-    "messageformat": "Back up your message history so you never lose data when you get a new phone or reinstall Signal."
+    "messageformat": "Bëj kopjeruajtje të historikut të mesazheve në mënyrë që të mos i humbasësh kurrë të dhënat kur merr një telefon të ri ose kur e riinstalon sërish Signal."
   },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Të dhënat e kopjeruajtjes"
@@ -5136,16 +5136,16 @@
     "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
-    "messageformat": "Choose a folder"
+    "messageformat": "Zgjidh një dosje"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
     "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
   },
   "icu:Preferences--local-backups-setup-next": {
-    "messageformat": "Next"
+    "messageformat": "Tjetër"
   },
   "icu:Preferences--local-backups-view-backup-key-done": {
-    "messageformat": "Done"
+    "messageformat": "U bë"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Backup key text box"
@@ -5154,37 +5154,37 @@
     "messageformat": "Enter key"
   },
   "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Record your backup key"
+    "messageformat": "Regjistro kodin e kopjeruajtjes"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
-    "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Ky kod kërkohet për të rikuperuar llogarinë dhe të dhënat e tua. Ruaje kodin në një vend të sigurt. Nëse e humb, nuk do të mund të rikuperosh llogarinë. <learnMoreLink>Mëso më shumë.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirm your backup key"
+    "messageformat": "Konfirmo kodin e kopjeruajtjes"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Enter the backup key that you just recorded"
+    "messageformat": "Vendos kodin e kopjeruajtjes që sapo regjistrove"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
-    "messageformat": "Keep your key safe"
+    "messageformat": "Ruaj kodin në mënyrë të sigurt"
   },
   "icu:Preferences__local-backups-confirm-key-modal-body": {
-    "messageformat": "Signal will not be able to help you restore your backup if you lose your key. Store it somewhere safe and secure, and do not share it with others."
+    "messageformat": "Signal nuk do të jetë në gjendje të të ndihmojë në rikthimin e kopjeruajtjes nëse humb kodin. Ruaje në një vend të sigurt dhe mos e ndaj me të tjerët."
   },
   "icu:Preferences__local-backups-confirm-key-modal-continue": {
-    "messageformat": "Continue"
+    "messageformat": "Vazhdo"
   },
   "icu:Preferences--local-backups-see-backup-key-again": {
-    "messageformat": "See key again"
+    "messageformat": "Shiko sërish kodin"
   },
   "icu:Preferences__local-backups-folder": {
-    "messageformat": "Backup folder"
+    "messageformat": "Dosje kopjeruajtjesh"
   },
   "icu:Preferences__local-backups-folder__change": {
     "messageformat": "Change"
   },
   "icu:Preferences__local-backups-copy-key": {
-    "messageformat": "Copy to clipboard"
+    "messageformat": "Kopjoje në të papastër"
   },
   "icu:Preferences__local-backups-copied-key": {
     "messageformat": "Backup key copied"
@@ -5193,13 +5193,13 @@
     "messageformat": "View key"
   },
   "icu:Preferences__backup-key": {
-    "messageformat": "Backup key"
+    "messageformat": "Kodi i kopjeruajtjes"
   },
   "icu:Preferences__backup-key-description": {
     "messageformat": "Your backup key is a 64-digit code used to restore your backup"
   },
   "icu:Preferences__backup-other-ways": {
-    "messageformat": "Other ways to back up"
+    "messageformat": "Mënyra të tjera për kopjeruajtje"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} kontakt} other {{num,number} kontakte}}"

@@ -2340,7 +2340,7 @@
     "messageformat": "অনুসন্ধানের ফলাফল"
   },
   "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
-    "messageformat": "This Message"
+    "messageformat": "এই মেসেজ"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "সম্প্রতি ব্যাবহৃত হয়েছে"
@@ -3969,10 +3969,10 @@
     "messageformat": "\"Signal-এ অনুদান দিন\" ট্যাপ করুন এবং সাবস্ক্রাইব করুন"
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "আপনার প্রোফাইল সরানো হয়েছে"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "আপনার প্রোফাইল দেখতে ও এডিট করতে সেটিংস ট্যাবটি খুলুন।"
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "মেসেজ সিঙ্ক করা হচ্ছে"
@@ -4941,7 +4941,7 @@
     "messageformat": "আপনার প্রোফাইলটি আপডেট করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।"
   },
   "icu:ProfileEditorModal--sharing": {
-    "messageformat": "Sharing"
+    "messageformat": "শেয়ার করা হচ্ছে"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "একজন অ্যাডমিনকে মেসেজ পাঠান"
@@ -5019,13 +5019,13 @@
     "messageformat": "অভ্যন্তরীণ"
   },
   "icu:Preferences__button--manage": {
-    "messageformat": "Manage"
+    "messageformat": "নিয়ন্ত্রণ করুন"
   },
   "icu:Preferences__button--choose-folder": {
-    "messageformat": "Choose folder"
+    "messageformat": "ফোল্ডার চয়ন করুন"
   },
   "icu:Preferences__button--set-up": {
-    "messageformat": "Set up"
+    "messageformat": "সেট আপ করুন"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "স্থানীয় ব্যাকআপ"
@@ -5073,13 +5073,13 @@
     "messageformat": "ব্লক করা আছে"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Backups"
+    "messageformat": "Signal ব্যাকআপ"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Signal-এর সুরক্ষিত এন্ড-টু-এন্ড এনক্রিপ্ট করা স্টোরেজ সার্ভিস সহ স্বয়ংক্রিয় ব্যাকআপ। আপনার ফোনে শুরু করুন। <learnMoreLink>আরো জানুন।</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
-    "messageformat": "Back up your message history so you never lose data when you get a new phone or reinstall Signal."
+    "messageformat": "আপনার মেসেজের ইতিহাসের ব্যাকআপ নিন, যাতে আপনি যখন কোনো নতুন ফোন ব্যবহার করা শুরু করবেন বা Signal পুনরায় ইনস্টল করবেন তখন আপনি কখনোই ডেটা হারাবেন না।"
   },
   "icu:Preferences--backup-details__header": {
     "messageformat": "ব্যাকআপের বিস্তারিত"
@@ -5124,82 +5124,82 @@
     "messageformat": "ব্যাকআপের আকার"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "ডেস্কটপ ব্যাকআপ"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "ব্যাকআপ একটি 'কি' দিয়ে এনক্রিপ্ট করা হয় এবং আপনার কম্পিউটারে সংরক্ষণ করা হয়।"
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "একটি এন্ড-টু-এন্ড এনক্রিপ্টকৃত ব্যাকআপ তৈরি করুন যা আপনি আপনার ফোনে পুনর্বহাল করতে পারবেন। "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "ব্যাকআপ পুনর্বহাল করতে, Signal-এর একটি নতুন কপি ইনস্টল করুন। অ্যাপটি খুলুন ও ব্যাকআপ পুনর্বহাল করতে ট্যাপ করুন, তারপর ব্যাকআপ ফোল্ডারটি শনাক্ত করুন। <learnMoreLink>আরো জানুন।</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
-    "messageformat": "Choose a folder"
+    "messageformat": "একটি ফোল্ডার বেছে নিন"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "আপনার কম্পিউটারের স্টোরেজে এমন একটি ফোল্ডার বেছে নিন যেখানে আপনার এন্ড-টু-এন্ড এনক্রিপ্টকৃত ব্যাকআপ সংরক্ষণ করা হবে।"
   },
   "icu:Preferences--local-backups-setup-next": {
-    "messageformat": "Next"
+    "messageformat": "পরবর্তী"
   },
   "icu:Preferences--local-backups-view-backup-key-done": {
-    "messageformat": "Done"
+    "messageformat": "শেষ"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "ব্যাকআপ 'কি' টেক্সট বক্স"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "'কি' লিখুন"
   },
   "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Record your backup key"
+    "messageformat": "আপনার ব্যাকআপ 'কি' সংরক্ষণ করুন"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
-    "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "আপনার অ্যাকাউন্ট এবং ডেটা পুনরুদ্ধার করতে এই 'কি' প্রয়োজন। এই 'কি'-টি নিরাপদ কোথাও সংরক্ষণ করুন। এটি হারিয়ে ফেললে, আপনি আপনার অ্যাকাউন্টের ব্যাকআপ পুনরুদ্ধার করতে পারবেন না। <learnMoreLink>আরো জানুন।</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirm your backup key"
+    "messageformat": "আপনার ব্যাকআপ 'কি' নিশ্চিত করুন"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Enter the backup key that you just recorded"
+    "messageformat": "আপনার রেকর্ড করা ব্যাকআপ 'কি'-টি লিখুন"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
-    "messageformat": "Keep your key safe"
+    "messageformat": "আপনার 'কি' নিরাপদ রাখুন"
   },
   "icu:Preferences__local-backups-confirm-key-modal-body": {
-    "messageformat": "Signal will not be able to help you restore your backup if you lose your key. Store it somewhere safe and secure, and do not share it with others."
+    "messageformat": "আপনি আপনার 'কি' হারিয়ে ফেললে Signal আপনাকে আপনার ব্যাকআপ পুনরুদ্ধারে সাহায্য করতে সক্ষম হবে না। এটিকে নিরাপদ ও সুরক্ষিত স্থানে সংরক্ষণ করুন এবং অন্যদের সাথে শেয়ার করবেন না।"
   },
   "icu:Preferences__local-backups-confirm-key-modal-continue": {
-    "messageformat": "Continue"
+    "messageformat": "চালিয়ে যান"
   },
   "icu:Preferences--local-backups-see-backup-key-again": {
-    "messageformat": "See key again"
+    "messageformat": "'কি'-টি আবার দেখুন"
   },
   "icu:Preferences__local-backups-folder": {
-    "messageformat": "Backup folder"
+    "messageformat": "ব্যাকআপ ফোল্ডার"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "পরিবর্তন করুন"
   },
   "icu:Preferences__local-backups-copy-key": {
-    "messageformat": "Copy to clipboard"
+    "messageformat": "ক্লিপবোর্ডে অনুলিপি করুন"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "ব্যাকআপ 'কি' কপি করা হয়েছে"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "'কি' দেখুন"
   },
   "icu:Preferences__backup-key": {
-    "messageformat": "Backup key"
+    "messageformat": "ব্যাকআপ 'কি'"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "আপনার ব্যাকআপ 'কি' হলো একটি 64-সংখ্যার কোড যা আপনার ব্যাকআপ পুনর্বহাল করতে ব্যবহৃত হয়"
   },
   "icu:Preferences__backup-other-ways": {
-    "messageformat": "Other ways to back up"
+    "messageformat": "ব্যাকআপ রাখার অন্যান্য উপায়"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} জন কন্টাক্ট} other {{num,number} জন কন্টাক্ট}}"
@@ -6433,7 +6433,7 @@
     "messageformat": "আপনার পরিচিত নন এমন কোনো ব্যক্তির সাথে ব্যক্তিগত তথ্য শেয়ার করবেন না"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "সংযুক্তিগুলো সংরক্ষণ করুন"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "নতুন কি"
@@ -6470,6 +6470,6 @@
     "messageformat": "এখন থেকে, যখন আপনি আপনার সেটিংস সমন্বয় করবেন, তখন আপনি পপ-আউট উইন্ডোর পরিবর্তে মূল স্ক্রিন থেকে তা করতে পারবেন।"
   },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "মেসেজে পাওয়া প্রতিক্রিয়া নির্বাচনকারীতে প্রদত্ত একটি নতুন বিভাগ, কোনো মেসেজে পাওয়া সকল ইমোজি প্রতিক্রিয়াগুলো স্বয়ংক্রিয়ভাবে প্রদর্শন করে।"
   }
 }

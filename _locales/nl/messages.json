@@ -2340,7 +2340,7 @@
     "messageformat": "Zoekresultaten"
   },
   "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
-    "messageformat": "This Message"
+    "messageformat": "Dit bericht"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Onlangs gebruikt"
@@ -5019,13 +5019,13 @@
     "messageformat": "Intern"
   },
   "icu:Preferences__button--manage": {
-    "messageformat": "Manage"
+    "messageformat": "Beheren"
   },
   "icu:Preferences__button--choose-folder": {
-    "messageformat": "Choose folder"
+    "messageformat": "Map kiezen"
   },
   "icu:Preferences__button--set-up": {
-    "messageformat": "Set up"
+    "messageformat": "Instellen"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Lokale back-ups"
@@ -5073,13 +5073,13 @@
     "messageformat": "Geblokkeerd"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Backups"
+    "messageformat": "Signal back-ups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
-    "messageformat": "Back up your message history so you never lose data when you get a new phone or reinstall Signal."
+    "messageformat": "Maak een back-up van je chatgeschiedenis zodat je nooit meer gegevens kwijtraakt als je een andere telefoon in gebruik neemt of Signal opnieuw installeert."
   },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Back-updetails"
@@ -5136,16 +5136,16 @@
     "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
-    "messageformat": "Choose a folder"
+    "messageformat": "Kies een map"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
     "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
   },
   "icu:Preferences--local-backups-setup-next": {
-    "messageformat": "Next"
+    "messageformat": "Volgende"
   },
   "icu:Preferences--local-backups-view-backup-key-done": {
-    "messageformat": "Done"
+    "messageformat": "Klaar"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Backup key text box"
@@ -5154,37 +5154,37 @@
     "messageformat": "Enter key"
   },
   "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Record your backup key"
+    "messageformat": "Je back-upsleutel vastleggen"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
-    "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Deze sleutel is nodig om je account en gegevens te herstellen. Bewaar deze sleutel op een veilige manier. Als je hem kwijtraakt, kun je je account niet meer herstellen. <learnMoreLink>Meer informatie.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirm your backup key"
+    "messageformat": "Bevestig je back-upsleutel"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Enter the backup key that you just recorded"
+    "messageformat": "Voer de back-upsleutel in die je zojuist hebt vastgelegd"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
-    "messageformat": "Keep your key safe"
+    "messageformat": "Bewaar je sleutel op een veilige manier"
   },
   "icu:Preferences__local-backups-confirm-key-modal-body": {
-    "messageformat": "Signal will not be able to help you restore your backup if you lose your key. Store it somewhere safe and secure, and do not share it with others."
+    "messageformat": "Signal kan je niet helpen met het herstellen van je back-up als je je sleutel kwijtraakt. Bewaar de sleutel op een veilige manier en deel deze niet met anderen."
   },
   "icu:Preferences__local-backups-confirm-key-modal-continue": {
-    "messageformat": "Continue"
+    "messageformat": "Doorgaan"
   },
   "icu:Preferences--local-backups-see-backup-key-again": {
-    "messageformat": "See key again"
+    "messageformat": "Sleutel opnieuw weergeven"
   },
   "icu:Preferences__local-backups-folder": {
-    "messageformat": "Backup folder"
+    "messageformat": "Back-uplocatie"
   },
   "icu:Preferences__local-backups-folder__change": {
     "messageformat": "Change"
   },
   "icu:Preferences__local-backups-copy-key": {
-    "messageformat": "Copy to clipboard"
+    "messageformat": "Kopiëren naar klembord"
   },
   "icu:Preferences__local-backups-copied-key": {
     "messageformat": "Backup key copied"
@@ -5193,13 +5193,13 @@
     "messageformat": "View key"
   },
   "icu:Preferences__backup-key": {
-    "messageformat": "Backup key"
+    "messageformat": "Back-upsleutel"
   },
   "icu:Preferences__backup-key-description": {
     "messageformat": "Your backup key is a 64-digit code used to restore your backup"
   },
   "icu:Preferences__backup-other-ways": {
-    "messageformat": "Other ways to back up"
+    "messageformat": "Andere manieren om een back-up te maken"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} contact} other {{num,number} contacten}}"

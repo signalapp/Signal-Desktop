@@ -2340,7 +2340,7 @@
     "messageformat": "Sökresultat"
   },
   "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
-    "messageformat": "This Message"
+    "messageformat": "Detta meddelande"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Nyligen använda"
@@ -3969,10 +3969,10 @@
     "messageformat": "Tryck på \"Donera till Signal\" och prenumerera"
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "Din profil har flyttats"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "Öppna fliken Inställningar för att visa och redigera din profil."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Synkronisera meddelanden"
@@ -4941,7 +4941,7 @@
     "messageformat": "Din profil kunde inte uppdateras. Försök igen."
   },
   "icu:ProfileEditorModal--sharing": {
-    "messageformat": "Sharing"
+    "messageformat": "Delning"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Skicka ett meddelande till en administratör"
@@ -5019,13 +5019,13 @@
     "messageformat": "Internt"
   },
   "icu:Preferences__button--manage": {
-    "messageformat": "Manage"
+    "messageformat": "Hantera"
   },
   "icu:Preferences__button--choose-folder": {
-    "messageformat": "Choose folder"
+    "messageformat": "Välj mapp"
   },
   "icu:Preferences__button--set-up": {
-    "messageformat": "Set up"
+    "messageformat": "Ställ in"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Lokala säkerhetskopior"
@@ -5073,13 +5073,13 @@
     "messageformat": "Blockerade"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Backups"
+    "messageformat": "Säkerhetskopiering av Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Automatiska säkerhetskopieringar med Signals säkra totalsträckskrypterade lagringstjänst. Kom igång på din telefon. <learnMoreLink>Läs mer.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
-    "messageformat": "Back up your message history so you never lose data when you get a new phone or reinstall Signal."
+    "messageformat": "Säkerhetskopiera din meddelandehistorik så att du aldrig förlorar data när du skaffar en ny telefon eller installerar om Signal."
   },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Information om säkerhetskopiering"
@@ -5124,82 +5124,82 @@
     "messageformat": "Storlek på säkerhetskopia"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "Säkerhetskopiering av skrivbordet"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "Säkerhetskopior krypteras med en nyckel och lagras på din dator."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "Skapa en totalsträckskrypterad säkerhetskopia som du kan återställa på din telefon. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Installera en ny kopia av Signal för att återställa en säkerhetskopia. Öppna appen och tryck på Återställ säkerhetskopia. Leta sedan upp mappen för säkerhetskopian. <learnMoreLink>Läs mer.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
-    "messageformat": "Choose a folder"
+    "messageformat": "Välj en mapp"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "Välj en mapp i datorns lagring där din totalsträckskrypterade säkerhetskopia ska lagras."
   },
   "icu:Preferences--local-backups-setup-next": {
-    "messageformat": "Next"
+    "messageformat": "Nästa"
   },
   "icu:Preferences--local-backups-view-backup-key-done": {
-    "messageformat": "Done"
+    "messageformat": "Klar"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "Textruta för säkerhetskopieringsnyckel"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "Ange nyckel"
   },
   "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Record your backup key"
+    "messageformat": "Spara din säkerhetskopieringsnyckel"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
-    "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Denna nyckel krävs för att återställa ditt konto och dina data. Förvara den här nyckeln på ett säkert ställe. Om du förlorar den kommer du inte att kunna återställa ditt konto.<learnMoreLink>Läs mer.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirm your backup key"
+    "messageformat": "Bekräfta din säkerhetskopieringsnyckel"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Enter the backup key that you just recorded"
+    "messageformat": "Ange säkerhetskopieringsnyckeln som du just spelade in"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
-    "messageformat": "Keep your key safe"
+    "messageformat": "Förvara din nyckel säkert"
   },
   "icu:Preferences__local-backups-confirm-key-modal-body": {
-    "messageformat": "Signal will not be able to help you restore your backup if you lose your key. Store it somewhere safe and secure, and do not share it with others."
+    "messageformat": "Signal kommer inte att kunna hjälpa dig att återställa din säkerhetskopia om du förlorar din nyckel. Spara den någonstans säkert och dela den inte med andra."
   },
   "icu:Preferences__local-backups-confirm-key-modal-continue": {
-    "messageformat": "Continue"
+    "messageformat": "Fortsätt"
   },
   "icu:Preferences--local-backups-see-backup-key-again": {
-    "messageformat": "See key again"
+    "messageformat": "Visa nyckel igen"
   },
   "icu:Preferences__local-backups-folder": {
-    "messageformat": "Backup folder"
+    "messageformat": "Mapp för säkerhetskopior"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "Ändra"
   },
   "icu:Preferences__local-backups-copy-key": {
-    "messageformat": "Copy to clipboard"
+    "messageformat": "Kopiera till urklipp"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "Säkerhetskopieringsnyckel kopierad"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "Visa nyckel"
   },
   "icu:Preferences__backup-key": {
-    "messageformat": "Backup key"
+    "messageformat": "Säkerhetskopieringsnyckel"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "Din säkerhetskopieringsnyckel är en 64-siffrig kod som används för att återställa din säkerhetskopia"
   },
   "icu:Preferences__backup-other-ways": {
-    "messageformat": "Other ways to back up"
+    "messageformat": "Andra sätt att säkerhetskopiera"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} kontakt} other {{num,number} kontakter}}"
@@ -6433,7 +6433,7 @@
     "messageformat": "Dela inte personlig information med personer du inte känner"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "Spara bilagor"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Vad är nytt"
@@ -6470,6 +6470,6 @@
     "messageformat": "När du justerar dina inställningar gör du det nu från huvudskärmen istället för från ett popup-fönster."
   },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "En ny sektion i väljaren för meddelande-reaktioner visar automatiskt alla emoji-reaktioner som ett meddelande har fått."
   }
 }
