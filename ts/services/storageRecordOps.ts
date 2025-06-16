@@ -40,7 +40,7 @@ import { isGroupV1, isGroupV2 } from '../util/whatTypeOfConversation';
 import { DurationInSeconds } from '../util/durations';
 import * as preferredReactionEmoji from '../reactions/preferredReactionEmoji';
 import { SignalService as Proto } from '../protobuf';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { normalizeStoryDistributionId } from '../types/StoryDistributionId';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId';
 import type { ServiceIdString } from '../types/ServiceId';
@@ -90,6 +90,8 @@ import {
   getSealedSenderIndicatorSetting,
   getTypingIndicatorSetting,
 } from '../types/Util';
+
+const log = createLogger('storageRecordOps');
 
 const MY_STORY_BYTES = uuidToBytes(MY_STORY_ID);
 

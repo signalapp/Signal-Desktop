@@ -4,7 +4,7 @@
 import * as z from 'zod';
 import PQueue from 'p-queue';
 import { CallLinkRootKey } from '@signalapp/ringrtc';
-import * as globalLogger from '../logging/log';
+import { createLogger } from '../logging/log';
 import type { LoggerType } from '../types/Logging';
 import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff';
 import type { ParsedJob, StoredJob } from './types';
@@ -21,6 +21,8 @@ import { parseUnknown } from '../util/schemas';
 import { getRoomIdFromRootKey } from '../util/callLinksRingrtc';
 import { toCallHistoryFromUnusedCallLink } from '../util/callLinks';
 import type { StorageServiceFieldsType } from '../sql/Interface';
+
+const globalLogger = createLogger('callLinkRefreshJobQueue');
 
 const MAX_RETRY_TIME = DAY;
 const MAX_PARALLEL_JOBS = 10;

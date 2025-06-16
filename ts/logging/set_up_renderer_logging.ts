@@ -11,7 +11,7 @@ import {
   LogLevel as SignalClientLogLevel,
 } from '@signalapp/libsignal-client';
 
-import * as log from './log';
+import { setPinoDestination, log } from './log';
 import * as Errors from '../types/errors';
 import { createRotatingPinoDest } from '../util/rotatingPinoDest';
 import { redactAll } from '../util/privacy';
@@ -45,7 +45,7 @@ export function initialize(): void {
   stream.on('close', onClose);
   stream.on('error', onClose);
 
-  log.setPinoDestination(stream, redactAll);
+  setPinoDestination(stream, redactAll);
 }
 
 function toLocation(source?: string, line?: number, column?: number) {
@@ -75,6 +75,8 @@ window.addEventListener('unhandledrejection', rejectionEvent => {
   log.error(`Top-level unhandled promise rejection: ${errorString}`);
 });
 
+const libSignalLog = log.child('@signalapp/libsignal-client');
+
 initLogger(
   SignalClientLogLevel.Info,
   (
@@ -90,20 +92,20 @@ initLogger(
     } else if (file) {
       fileString = ` ${file}`;
     }
-    const logString = `@signalapp/libsignal-client ${message} ${target}${fileString}`;
+    const logString = `${message} ${target}${fileString}`;
 
     if (level === SignalClientLogLevel.Trace) {
-      log.trace(logString);
+      libSignalLog.trace(logString);
     } else if (level === SignalClientLogLevel.Debug) {
-      log.debug(logString);
+      libSignalLog.debug(logString);
     } else if (level === SignalClientLogLevel.Info) {
-      log.info(logString);
+      libSignalLog.info(logString);
     } else if (level === SignalClientLogLevel.Warn) {
-      log.warn(logString);
+      libSignalLog.warn(logString);
     } else if (level === SignalClientLogLevel.Error) {
-      log.error(logString);
+      libSignalLog.error(logString);
     } else {
-      log.error(`${logString} (unknown log level ${level})`);
+      libSignalLog.error(`${logString} (unknown log level ${level})`);
     }
   }
 );

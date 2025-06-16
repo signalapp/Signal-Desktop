@@ -21,7 +21,7 @@ import type { StateType as RootStateType } from '../reducer';
 import * as SingleServePromise from '../../services/singleServePromise';
 import * as Stickers from '../../types/Stickers';
 import { UsernameOnboardingState } from '../../types/globalModals';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import {
   getMessagePropsSelector,
   getPropsForAttachment,
@@ -61,6 +61,8 @@ import type { DataPropsType as TapToViewNotAvailablePropsType } from '../../comp
 import type { DataPropsType as BackfillFailureModalPropsType } from '../../components/BackfillFailureModal';
 import type { SmartDraftGifMessageSendModalProps } from '../smart/DraftGifMessageSendModal';
 import { onCriticalIdlePrimaryDeviceModalDismissed } from '../../util/handleServerAlerts';
+
+const log = createLogger('globalModals');
 
 // State
 

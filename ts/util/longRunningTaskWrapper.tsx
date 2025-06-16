@@ -5,11 +5,13 @@ import React, { StrictMode } from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 
 import * as Errors from '../types/errors';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { ProgressModal } from '../components/ProgressModal';
 import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary';
 import { sleep } from './sleep';
 import { FunDefaultEnglishEmojiLocalizationProvider } from '../components/fun/FunEmojiLocalizationProvider';
+
+const log = createLogger('longRunningTaskWrapper');
 
 export async function longRunningTaskWrapper<T>({
   name,
@@ -31,7 +33,7 @@ export async function longRunningTaskWrapper<T>({
   let progressTimeout: NodeJS.Timeout | undefined = setTimeout(() => {
     progressNode = document.createElement('div');
 
-    log.info(`longRunningTaskWrapper/${idLog}: Creating spinner`);
+    log.info(`${idLog}: Creating spinner`);
     render(
       <StrictMode>
         <FunDefaultEnglishEmojiLocalizationProvider>
@@ -46,9 +48,9 @@ export async function longRunningTaskWrapper<T>({
   // Note: any task we put here needs to have its own safety valve; this function will
   //   show a spinner until it's done
   try {
-    log.info(`longRunningTaskWrapper/${idLog}: Starting task`);
+    log.info(`${idLog}: Starting task`);
     const result = await task();
-    log.info(`longRunningTaskWrapper/${idLog}: Task completed successfully`);
+    log.info(`${idLog}: Task completed successfully`);
 
     clearTimeoutIfNecessary(progressTimeout);
     progressTimeout = undefined;
@@ -56,7 +58,7 @@ export async function longRunningTaskWrapper<T>({
       const now = Date.now();
       if (spinnerStart && now - spinnerStart < ONE_SECOND) {
         log.info(
-          `longRunningTaskWrapper/${idLog}: Spinner shown for less than second, showing for another second`
+          `${idLog}: Spinner shown for less than second, showing for another second`
         );
         await sleep(ONE_SECOND);
       }
@@ -66,10 +68,7 @@ export async function longRunningTaskWrapper<T>({
 
     return result;
   } catch (error) {
-    log.error(
-      `longRunningTaskWrapper/${idLog}: Error!`,
-      Errors.toLogFormat(error)
-    );
+    log.error(`${idLog}: Error!`, Errors.toLogFormat(error));
 
     clearTimeoutIfNecessary(progressTimeout);
     progressTimeout = undefined;
@@ -79,7 +78,7 @@ export async function longRunningTaskWrapper<T>({
     }
 
     if (!suppressErrorDialog) {
-      log.info(`longRunningTaskWrapper/${idLog}: Showing error dialog`);
+      log.info(`${idLog}: Showing error dialog`);
       window.reduxActions.globalModals.showErrorModal({});
     }
 

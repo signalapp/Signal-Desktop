@@ -5,13 +5,15 @@ import type { BrowserWindow } from 'electron';
 import { ipcMain as ipc, session } from 'electron';
 import { EventEmitter } from 'events';
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { userConfig } from '../../app/user_config';
 import { ephemeralConfig } from '../../app/ephemeral_config';
 import { installPermissionsHandler } from '../../app/permissions';
 import { strictAssert } from '../util/assert';
 
 import type { EphemeralSettings } from '../util/preload';
+
+const log = createLogger('settingsChannel');
 
 const EPHEMERAL_NAME_MAP = new Map([
   ['spellCheck', 'spell-check'],

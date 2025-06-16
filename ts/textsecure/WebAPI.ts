@@ -74,7 +74,7 @@ import type {
   StorageServiceCredentials,
 } from './Types.d';
 import { handleStatusCode, translateError } from './Utils';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { maybeParseUrl, urlPathFromComponents } from '../util/url';
 import { HOUR, MINUTE, SECOND } from '../util/durations';
 import { safeParseNumber } from '../util/numbers';
@@ -92,6 +92,8 @@ import type { ServerAlert } from '../util/handleServerAlerts';
 import { isAbortError } from '../util/isAbortError';
 import { missingCaseError } from '../util/missingCaseError';
 import { drop } from '../util/drop';
+
+const log = createLogger('WebAPI');
 
 // Note: this will break some code that expects to be able to use err.response when a
 //   web request fails, because it will force it to text. But it is very useful for
@@ -2131,11 +2133,11 @@ export function initialize({
         param.host === 'chatService' &&
         (param.unauthenticated || param.isRegistration);
       if (activeRegistration && !continueDuringRegistration) {
-        log.info('WebAPI: request blocked by active registration');
+        log.info('request blocked by active registration');
         const start = Date.now();
         await activeRegistration.promise;
         const duration = Date.now() - start;
-        log.info(`WebAPI: request unblocked after ${duration}ms`);
+        log.info(`request unblocked after ${duration}ms`);
       }
 
       if (!param.urlParameters) {
@@ -2565,7 +2567,7 @@ export function initialize({
       }
 
       log.error(
-        'WebAPI: invalid response from postBatchIdentityCheck',
+        'invalid response from postBatchIdentityCheck',
         toLogFormat(result.error)
       );
 
@@ -2996,7 +2998,7 @@ export function initialize({
       );
 
       activeRegistration = explodePromise<void>();
-      log.info('WebAPI: starting registration');
+      log.info('starting registration');
 
       return activeRegistration;
     }
@@ -3008,7 +3010,7 @@ export function initialize({
         'Invalid registration baton'
       );
 
-      log.info('WebAPI: finishing registration');
+      log.info('finishing registration');
       const current = activeRegistration;
       activeRegistration = undefined;
       current.resolve();
@@ -3854,7 +3856,7 @@ export function initialize({
       }
 
       log.error(
-        'WebAPI: invalid response from sendWithSenderKey',
+        'invalid response from sendWithSenderKey',
         toLogFormat(parseResult.error)
       );
       return response as MultiRecipient200ResponseType;

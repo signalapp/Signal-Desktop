@@ -3,11 +3,13 @@
 
 import { createSelector } from 'reselect';
 import { mapValues } from 'lodash';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import type { StateType } from '../reducer';
 import type { BadgesStateType } from '../ducks/badges';
 import type { BadgeType } from '../../badges/types';
 import { getOwn } from '../../util/getOwn';
+
+const log = createLogger('badges');
 
 const getBadgeState = (state: Readonly<StateType>): BadgesStateType =>
   state.badges;

@@ -53,7 +53,7 @@ import {
   typeofConversation,
 } from '../util/whatTypeOfConversation';
 import { SignalService as Proto } from '../protobuf';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 import * as Errors from '../types/errors';
 import type {
@@ -82,6 +82,8 @@ import {
   getRoomIdFromRootKeyString,
 } from '../util/callLinksRingrtc';
 import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue';
+
+const log = createLogger('storage');
 
 type IManifestRecordIdentifier = Proto.ManifestRecord.IIdentifier;
 
@@ -171,10 +173,7 @@ async function generateManifest(
   previousManifest?: Proto.IManifestRecord,
   isNewManifest = false
 ): Promise<GeneratedManifestType> {
-  log.info(
-    `storageService.upload(${version}): generating manifest ` +
-      `new=${isNewManifest}`
-  );
+  log.info(`upload(${version}): generating manifest new=${isNewManifest}`);
 
   await window.ConversationController.checkForConflicts();
 
@@ -223,15 +222,13 @@ async function generateManifest(
       const newRedactedID = redactStorageID(storageID, version, conversation);
       if (currentStorageID) {
         log.info(
-          `storageService.upload(${version}): ` +
+          `upload(${version}): ` +
             `updating from=${currentRedactedID} ` +
             `to=${newRedactedID}`
         );
         deleteKeys.add(currentStorageID);
       } else {
-        log.info(
-          `storageService.upload(${version}): adding key=${newRedactedID}`
-        );
+        log.info(`upload(${version}): adding key=${newRedactedID}`);
       }
     }
 
@@ -290,7 +287,7 @@ async function generateManifest(
         );
 
         log.warn(
-          `storageService.generateManifest(${version}): ` +
+          `generateManifest(${version}): ` +
             `dropping contact=${recordID} ` +
             `due to ${dropReason}`
         );
@@ -313,7 +310,7 @@ async function generateManifest(
       identifierType = ITEM_TYPE.GROUPV1;
     } else {
       log.warn(
-        `storageService.upload(${version}): ` +
+        `upload(${version}): ` +
           `unknown conversation=${conversation.idForLogging()}`
       );
     }
@@ -353,7 +350,7 @@ async function generateManifest(
   } = await getNonConversationRecords();
 
   log.info(
-    `storageService.upload(${version}): ` +
+    `upload(${version}): ` +
       `adding storyDistributionLists=${storyDistributionLists.length}`
   );
 
@@ -379,7 +376,7 @@ async function generateManifest(
       const recordID = redactStorageID(droppedID, droppedVersion);
 
       log.warn(
-        `storageService.generateManifest(${version}): ` +
+        `generateManifest(${version}): ` +
           `dropping storyDistributionList=${recordID} ` +
           `due to expired deleted timestamp=${storyDistributionList.deletedAtTimestamp}`
       );
@@ -443,7 +440,7 @@ async function generateManifest(
   installedStickerPacks.forEach(stickerPack => {
     if (uninstalledStickerPackIds.has(stickerPack.id)) {
       log.error(
-        `storageService.upload(${version}): ` +
+        `upload(${version}): ` +
           `sticker pack ${stickerPack.id} is both installed and uninstalled`
       );
       window.reduxActions.stickers.uninstallStickerPack(
@@ -482,25 +479,19 @@ async function generateManifest(
   });
 
   log.info(
-    `storageService.upload(${version}): stickerPacks ` +
+    `upload(${version}): stickerPacks ` +
       `installed=${newlyInstalledPacks}/${installedStickerPacks.length} ` +
       `uninstalled=${newlyUninstalledPacks}/${uninstalledStickerPacks.length}`
   );
 
-  log.info(
-    `storageService.upload(${version}): ` +
-      `adding callLinks=${callLinkDbRecords.length}`
-  );
+  log.info(`upload(${version}): adding callLinks=${callLinkDbRecords.length}`);
 
   const callLinkRoomIds = new Set<string>();
 
   for (const callLinkDbRecord of callLinkDbRecords) {
     const { roomId } = callLinkDbRecord;
     if (callLinkDbRecord.adminKey == null || callLinkDbRecord.rootKey == null) {
-      log.warn(
-        `storageService.upload(${version}): ` +
-          `call link ${roomId} has empty rootKey`
-      );
+      log.warn(`upload(${version}): call link ${roomId} has empty rootKey`);
       continue;
     }
 
@@ -529,7 +520,7 @@ async function generateManifest(
         const freshCallLink = await DataReader.getCallLinkByRoomId(roomId);
         if (freshCallLink == null) {
           log.warn(
-            `storageService.upload(${version}): ` +
+            `upload(${version}): ` +
               `call link ${roomId} removed locally from DB while we were uploading to storage`
           );
           return;
@@ -543,7 +534,7 @@ async function generateManifest(
   }
 
   log.info(
-    `storageService.upload(${version}): ` +
+    `upload(${version}): ` +
       `adding defunctCallLinks=${defunctCallLinks.length}`
   );
 
@@ -576,7 +567,7 @@ async function generateManifest(
   });
 
   log.info(
-    `storageService.upload(${version}): ` +
+    `upload(${version}): ` +
       `adding pendingCallLinks=${pendingCallLinks.length}`
   );
 
@@ -619,7 +610,7 @@ async function generateManifest(
   const redactedUnknowns = unknownRecordsArray.map(redactExtendedStorageID);
 
   log.info(
-    `storageService.upload(${version}): adding unknown ` +
+    `upload(${version}): adding unknown ` +
       `records=${JSON.stringify(redactedUnknowns)} ` +
       `count=${redactedUnknowns.length}`
   );
@@ -637,7 +628,7 @@ async function generateManifest(
   const redactedErrors = recordsWithErrors.map(redactExtendedStorageID);
 
   log.info(
-    `storageService.upload(${version}): adding error ` +
+    `upload(${version}): adding error ` +
       `records=${JSON.stringify(redactedErrors)} count=${redactedErrors.length}`
   );
 
@@ -656,7 +647,7 @@ async function generateManifest(
     redactExtendedStorageID
   );
   log.info(
-    `storageService.upload(${version}): ` +
+    `upload(${version}): ` +
       `deleting extra keys=${JSON.stringify(redactedPendingDeletes)} ` +
       `count=${redactedPendingDeletes.length}`
   );
@@ -678,7 +669,7 @@ async function generateManifest(
     const typeAndID = `${itemType}+${storageID}`;
     if (duplicates.has(storageID) || typeDuplicates.has(typeAndID)) {
       log.warn(
-        `storageService.upload(${version}): removing from duplicate item ` +
+        `upload(${version}): removing from duplicate item ` +
           'from the manifest',
         redactStorageID(storageID),
         itemType
@@ -692,7 +683,7 @@ async function generateManifest(
     const hasDeleteKey = deleteKeys.has(storageID);
     if (hasDeleteKey) {
       log.warn(
-        `storageService.upload(${version}): removing key which has been deleted`,
+        `upload(${version}): removing key which has been deleted`,
         redactStorageID(storageID),
         itemType
       );
@@ -703,7 +694,7 @@ async function generateManifest(
     if (itemType === ITEM_TYPE.ACCOUNT) {
       if (hasAccountType) {
         log.warn(
-          `storageService.upload(${version}): removing duplicate account`,
+          `upload(${version}): removing duplicate account`,
           redactStorageID(storageID)
         );
         recordsByID.delete(storageID);
@@ -721,8 +712,7 @@ async function generateManifest(
     // Ensure there are no duplicate StorageIdentifiers in your list of inserts
     if (storageKeyDuplicates.has(storageID)) {
       log.warn(
-        `storageService.upload(${version}): ` +
-          'removing duplicate identifier from inserts',
+        `upload(${version}): removing duplicate identifier from inserts`,
         redactStorageID(storageID)
       );
       insertKeys.delete(storageID);
@@ -782,7 +772,7 @@ async function generateManifest(
       const remoteDeletes: Array<string> = [];
       pendingDeletes.forEach(id => remoteDeletes.push(redactStorageID(id)));
       log.error(
-        `storageService.upload(${version}): delete key sizes do not match`,
+        `upload(${version}): delete key sizes do not match`,
         'local',
         localDeletes.join(','),
         'remote',
@@ -861,7 +851,7 @@ async function encryptManifest(
         storageItem = encryptRecord(storageID, recordIkm, storageRecord);
       } catch (err) {
         log.error(
-          `storageService.upload(${version}): encrypt record failed:`,
+          `upload(${version}): encrypt record failed:`,
           Errors.toLogFormat(err)
         );
         throw err;
@@ -913,14 +903,14 @@ async function uploadManifest(
   }
 
   if (newItems.size === 0 && deleteKeys.size === 0) {
-    log.info(`storageService.upload(${version}): nothing to upload`);
+    log.info(`upload(${version}): nothing to upload`);
     return;
   }
 
   const credentials = window.storage.get('storageCredentials');
   try {
     log.info(
-      `storageService.upload(${version}): inserting=${newItems.size} ` +
+      `upload(${version}): inserting=${newItems.size} ` +
         `deleting=${deleteKeys.size}`
     );
 
@@ -939,29 +929,23 @@ async function uploadManifest(
     );
 
     log.info(
-      `storageService.upload(${version}): upload complete, updating ` +
+      `upload(${version}): upload complete, updating ` +
         `items=${postUploadUpdateFunctions.length}`
     );
 
     // update conversations with the new storageID
     postUploadUpdateFunctions.forEach(fn => fn());
   } catch (err) {
-    log.error(
-      `storageService.upload(${version}): failed!`,
-      Errors.toLogFormat(err)
-    );
+    log.error(`upload(${version}): failed!`, Errors.toLogFormat(err));
 
     if (err.code === 409) {
       if (conflictBackOff.isFull()) {
-        log.error(
-          `storageService.upload(${version}): exceeded maximum consecutive ` +
-            'conflicts'
-        );
+        log.error(`upload(${version}): exceeded maximum consecutive conflicts`);
         return;
       }
 
       log.info(
-        `storageService.upload(${version}): conflict found with ` +
+        `upload(${version}): conflict found with ` +
           `version=${version}, running sync job ` +
           `times=${conflictBackOff.getIndex()}`
       );
@@ -972,7 +956,7 @@ async function uploadManifest(
     throw err;
   }
 
-  log.info(`storageService.upload(${version}): setting new manifestVersion`);
+  log.info(`upload(${version}): setting new manifestVersion`);
   await window.storage.put('manifestVersion', version);
   conflictBackOff.reset();
   backOff.reset();
@@ -981,26 +965,24 @@ async function uploadManifest(
     await singleProtoJobQueue.add(MessageSender.getFetchManifestSyncMessage());
   } catch (error) {
     log.error(
-      `storageService.upload(${version}): Failed to queue sync message`,
+      `upload(${version}): Failed to queue sync message`,
       Errors.toLogFormat(error)
     );
   }
 }
 
 async function stopStorageServiceSync(reason: Error) {
-  log.warn('storageService.stopStorageServiceSync', Errors.toLogFormat(reason));
+  log.warn('stopStorageServiceSync', Errors.toLogFormat(reason));
 
   await window.storage.remove('storageKey');
 
   if (backOff.isFull()) {
-    log.warn(
-      'storageService.stopStorageServiceSync: too many consecutive stops'
-    );
+    log.warn('stopStorageServiceSync: too many consecutive stops');
     return;
   }
 
   await sleep(backOff.getAndIncrement());
-  log.info('storageService.stopStorageServiceSync: requesting new keys');
+  log.info('stopStorageServiceSync: requesting new keys');
   setTimeout(async () => {
     if (window.ConversationController.areWePrimaryDevice()) {
       log.warn(
@@ -1012,7 +994,7 @@ async function stopStorageServiceSync(reason: Error) {
       await singleProtoJobQueue.add(MessageSender.getRequestKeySyncMessage());
     } catch (error) {
       log.error(
-        'storageService.stopStorageServiceSync: Failed to queue sync message',
+        'stopStorageServiceSync: Failed to queue sync message',
         Errors.toLogFormat(error)
       );
     }
@@ -1020,7 +1002,7 @@ async function stopStorageServiceSync(reason: Error) {
 }
 
 async function createNewManifest() {
-  log.info('storageService.createNewManifest: creating new manifest');
+  log.info('createNewManifest: creating new manifest');
 
   const version = window.storage.get('manifestVersion', 0);
 
@@ -1063,7 +1045,7 @@ async function decryptManifest(
 async function fetchManifest(
   manifestVersion: number
 ): Promise<Proto.ManifestRecord | undefined> {
-  log.info('storageService.sync: fetch start');
+  log.info('sync: fetch start');
 
   if (!window.textsecure.messaging) {
     throw new Error('storageService.sync: we are offline!');
@@ -1089,11 +1071,11 @@ async function fetchManifest(
     }
   } catch (err) {
     if (err.code === 204) {
-      log.info('storageService.sync: no newer manifest, ok');
+      log.info('sync: no newer manifest, ok');
       return undefined;
     }
 
-    log.error('storageService.sync: failed!', Errors.toLogFormat(err));
+    log.error('sync: failed!', Errors.toLogFormat(err));
 
     if (err.code === 404) {
       await createNewManifest();
@@ -1140,10 +1122,7 @@ async function mergeRecord(
 
   try {
     if (itemType === ITEM_TYPE.UNKNOWN) {
-      log.warn(
-        'storageService.mergeRecord: Unknown item type',
-        redactedStorageID
-      );
+      log.warn('mergeRecord: Unknown item type', redactedStorageID);
     } else if (itemType === ITEM_TYPE.CONTACT && storageRecord.contact) {
       mergeResult = await mergeContactRecord(
         storageID,
@@ -1194,9 +1173,7 @@ async function mergeRecord(
       );
     } else {
       isUnsupported = true;
-      log.warn(
-        `storageService.merge(${redactedStorageID}): unknown item type=${itemType}`
-      );
+      log.warn(`merge(${redactedStorageID}): unknown item type=${itemType}`);
     }
 
     const redactedID = redactStorageID(
@@ -1217,7 +1194,7 @@ async function mergeRecord(
     }
 
     log.info(
-      `storageService.merge(${redactedID}): merged item type=${itemType} ` +
+      `merge(${redactedID}): merged item type=${itemType} ` +
         `oldID=${oldID} ` +
         `shouldDrop=${Boolean(mergeResult.shouldDrop)} ` +
         `details=${JSON.stringify(mergeResult.details)}`
@@ -1226,7 +1203,7 @@ async function mergeRecord(
     hasError = true;
     const redactedID = redactStorageID(storageID, storageVersion);
     log.error(
-      `storageService.merge(${redactedID}): error with ` +
+      `merge(${redactedID}): error with ` +
         `item type=${itemType} ` +
         `details=${Errors.toLogFormat(err)}`
     );
@@ -1383,17 +1360,17 @@ async function processManifest(
   );
 
   log.info(
-    `storageService.process(${version}): localRecords=${localRecordCount} ` +
+    `process(${version}): localRecords=${localRecordCount} ` +
       `localKeys=${localVersions.size} unknownKeys=${stillUnknown.length} ` +
       `remoteKeys=${remoteKeys.size}`
   );
   log.info(
-    `storageService.process(${version}): ` +
+    `process(${version}): ` +
       `remoteOnlyCount=${remoteOnlySet.size} ` +
       `remoteOnlyKeys=${JSON.stringify(redactedRemoteOnly)}`
   );
   log.info(
-    `storageService.process(${version}): ` +
+    `process(${version}): ` +
       `localOnlyCount=${localOnlySet.size} ` +
       `localOnlyKeys=${JSON.stringify(redactedLocalOnly)}`
   );
@@ -1437,7 +1414,7 @@ async function processManifest(
         conversation.isUnregistered()
       ) {
         log.info(
-          `storageService.process(${version}): localKey=${missingKey} is ` +
+          `process(${version}): localKey=${missingKey} is ` +
             'unregistered and not in remote manifest'
         );
         conversation.setUnregistered({
@@ -1449,7 +1426,7 @@ async function processManifest(
         });
       } else {
         log.info(
-          `storageService.process(${version}): localKey=${missingKey} ` +
+          `process(${version}): localKey=${missingKey} ` +
             'was not in remote manifest'
         );
       }
@@ -1478,7 +1455,7 @@ async function processManifest(
 
       const missingKey = redactStorageID(storageID, storageVersion);
       log.info(
-        `storageService.process(${version}): localKey=${missingKey} was not ` +
+        `process(${version}): localKey=${missingKey} was not ` +
           'in remote manifest'
       );
       void DataWriter.addUninstalledStickerPack({
@@ -1496,7 +1473,7 @@ async function processManifest(
 
       const missingKey = redactStorageID(storageID, storageVersion);
       log.info(
-        `storageService.process(${version}): localKey=${missingKey} was not ` +
+        `process(${version}): localKey=${missingKey} was not ` +
           'in remote manifest'
       );
       void DataWriter.updateStickerPackInfo({
@@ -1519,7 +1496,7 @@ async function processManifest(
 
       const missingKey = redactStorageID(storageID, storageVersion);
       log.info(
-        `storageService.process(${version}): localKey=${missingKey} was not ` +
+        `process(${version}): localKey=${missingKey} was not ` +
           'in remote manifest'
       );
       void DataWriter.modifyStoryDistribution({
@@ -1535,7 +1512,7 @@ async function processManifest(
     );
 
     if (!myStories) {
-      log.info(`storageService.process(${version}): creating my stories`);
+      log.info(`process(${version}): creating my stories`);
       const storyDistribution: StoryDistributionWithMembersType = {
         allowsReplies: true,
         id: MY_STORY_ID,
@@ -1568,7 +1545,7 @@ async function processManifest(
         storageVersion || undefined
       );
       log.info(
-        `storageService.process(${version}): localKey=${missingKey} was not ` +
+        `process(${version}): localKey=${missingKey} was not ` +
           'in remote manifest'
       );
       const callLink = callLinkFromRecord(callLinkDbRecord);
@@ -1589,7 +1566,7 @@ async function processManifest(
 
       const missingKey = redactStorageID(storageID, storageVersion);
       log.info(
-        `storageService.process(${version}): localKey=${missingKey} was not ` +
+        `process(${version}): localKey=${missingKey} was not ` +
           'in remote manifest'
       );
       drop(
@@ -1609,7 +1586,7 @@ async function processManifest(
 
       const missingKey = redactStorageID(storageID, storageVersion);
       log.info(
-        `storageService.process(${version}): localKey=${missingKey} was not ` +
+        `process(${version}): localKey=${missingKey} was not ` +
           'in remote manifest'
       );
       callLinkRefreshJobQueue.updatePendingCallLinkStorageFields(
@@ -1623,7 +1600,7 @@ async function processManifest(
     });
   }
 
-  log.info(`storageService.process(${version}): done`);
+  log.info(`process(${version}): done`);
 }
 
 export type FetchRemoteRecordsResultType = Readonly<{
@@ -1648,7 +1625,7 @@ async function fetchRemoteRecords(
   const storageKey = Bytes.fromBase64(storageKeyBase64);
 
   log.info(
-    `storageService.fetchRemoteRecords(${storageVersion}): ` +
+    `fetchRemoteRecords(${storageVersion}): ` +
       `fetching remote keys count=${remoteOnlyRecords.size}`
   );
 
@@ -1712,8 +1689,7 @@ async function fetchRemoteRecords(
         );
       } catch (err) {
         log.error(
-          `storageService.process(${storageVersion}): ` +
-            'Error decrypting storage item',
+          `process(${storageVersion}): Error decrypting storage item`,
           Errors.toLogFormat(err)
         );
         await stopStorageServiceSync(err);
@@ -1748,7 +1724,7 @@ async function fetchRemoteRecords(
   );
 
   log.info(
-    `storageService.fetchRemoteRecords(${storageVersion}): missing remote ` +
+    `fetchRemoteRecords(${storageVersion}): missing remote ` +
       `keys=${JSON.stringify(redactedMissingKeys)} ` +
       `count=${missingKeys.size}`
   );
@@ -1781,7 +1757,7 @@ async function processRemoteRecords(
     if (itemType === ITEM_TYPE.ACCOUNT) {
       if (accountItem !== undefined) {
         log.warn(
-          `storageService.process(${storageVersion}): duplicate account ` +
+          `process(${storageVersion}): duplicate account ` +
             `record=${redactStorageID(storageID, storageVersion)} ` +
             `previous=${redactStorageID(accountItem.storageID, storageVersion)}`
         );
@@ -1803,7 +1779,7 @@ async function processRemoteRecords(
     }
 
     log.warn(
-      `storageService.process(${storageVersion}): dropping ` +
+      `process(${storageVersion}): dropping ` +
         `GV1 record=${redactStorageID(storageID, storageVersion)} ` +
         `GV2 record=${redactStorageID(gv2StorageID, storageVersion)} ` +
         'is in the same manifest'
@@ -1839,18 +1815,18 @@ async function processRemoteRecords(
 
   try {
     log.info(
-      `storageService.process(${storageVersion}): ` +
+      `process(${storageVersion}): ` +
         `attempting to merge records=${prunedStorageItems.length}`
     );
     if (accountItem !== undefined) {
       log.info(
-        `storageService.process(${storageVersion}): account ` +
+        `process(${storageVersion}): account ` +
           `record=${redactStorageID(accountItem.storageID, storageVersion)}`
       );
     }
     if (splitPNIContacts.length !== 0) {
       log.info(
-        `storageService.process(${storageVersion}): ` +
+        `process(${storageVersion}): ` +
           `split pni contacts=${splitPNIContacts.length}`
       );
     }
@@ -1881,7 +1857,7 @@ async function processRemoteRecords(
     ];
 
     log.info(
-      `storageService.process(${storageVersion}): ` +
+      `process(${storageVersion}): ` +
         `processed records=${mergedRecords.length}`
     );
 
@@ -1892,7 +1868,7 @@ async function processRemoteRecords(
     await updateConversations(updatedConversations);
 
     log.info(
-      `storageService.process(${storageVersion}): ` +
+      `process(${storageVersion}): ` +
         `updated conversations=${updatedConversations.length}`
     );
 
@@ -1901,7 +1877,7 @@ async function processRemoteRecords(
       .flat();
 
     log.info(
-      `storageService.process(${storageVersion}): ` +
+      `process(${storageVersion}): ` +
         `kicking off profile fetches=${needProfileFetch.length}`
     );
 
@@ -1946,7 +1922,7 @@ async function processRemoteRecords(
       redactStorageID(key, storageVersion)
     );
     log.info(
-      `storageService.process(${storageVersion}): ` +
+      `process(${storageVersion}): ` +
         `dropped keys=${JSON.stringify(redactedDroppedKeys)} ` +
         `count=${redactedDroppedKeys.length}`
     );
@@ -1958,7 +1934,7 @@ async function processRemoteRecords(
     const redactedNewUnknowns = newUnknownRecords.map(redactExtendedStorageID);
 
     log.info(
-      `storageService.process(${storageVersion}): ` +
+      `process(${storageVersion}): ` +
         `unknown records=${JSON.stringify(redactedNewUnknowns)} ` +
         `count=${redactedNewUnknowns.length}`
     );
@@ -1971,7 +1947,7 @@ async function processRemoteRecords(
       redactExtendedStorageID
     );
     log.info(
-      `storageService.process(${storageVersion}): ` +
+      `process(${storageVersion}): ` +
         `error records=${JSON.stringify(redactedErrorRecords)} ` +
         `count=${redactedErrorRecords.length}`
     );
@@ -1991,15 +1967,14 @@ async function processRemoteRecords(
     }));
     const redactedPendingDeletes = pendingDeletes.map(redactExtendedStorageID);
     log.info(
-      `storageService.process(${storageVersion}): ` +
+      `process(${storageVersion}): ` +
         `pending deletes=${JSON.stringify(redactedPendingDeletes)} ` +
         `count=${redactedPendingDeletes.length}`
     );
     await window.storage.put('storage-service-pending-deletes', pendingDeletes);
   } catch (err) {
     log.error(
-      `storageService.process(${storageVersion}): ` +
-        'failed to process remote records',
+      `process(${storageVersion}): failed to process remote records`,
       Errors.toLogFormat(err)
     );
   }
@@ -2013,9 +1988,7 @@ async function sync({
   if (!window.storage.get('storageKey')) {
     const masterKeyBase64 = window.storage.get('masterKey');
     if (!masterKeyBase64) {
-      log.error(
-        `storageService.sync(${reason}): Cannot start; no storage or master key!`
-      );
+      log.error(`sync(${reason}): Cannot start; no storage or master key!`);
       return;
     }
 
@@ -2023,10 +1996,10 @@ async function sync({
     const storageKeyBase64 = Bytes.toBase64(deriveStorageServiceKey(masterKey));
     await window.storage.put('storageKey', storageKeyBase64);
 
-    log.warn('storageService.sync: fixed storage key');
+    log.warn('sync: fixed storage key');
   }
 
-  log.info(`storageService.sync: starting... reason=${reason}`);
+  log.info(`sync: starting... reason=${reason}`);
 
   let manifest: Proto.ManifestRecord | undefined;
   try {
@@ -2039,17 +2012,12 @@ async function sync({
 
     const localManifestVersion = manifestFromStorage || 0;
 
-    log.info(
-      'storageService.sync: fetching latest ' +
-        `after version=${localManifestVersion}`
-    );
+    log.info(`sync: fetching latest after version=${localManifestVersion}`);
     manifest = await fetchManifest(localManifestVersion);
 
     // Guarding against no manifests being returned, everything should be ok
     if (!manifest) {
-      log.info(
-        `storageService.sync: no updates, version=${localManifestVersion}`
-      );
+      log.info(`sync: no updates, version=${localManifestVersion}`);
       return undefined;
     }
 
@@ -2059,14 +2027,14 @@ async function sync({
     await window.waitForEmptyEventQueue();
 
     log.info(
-      `storageService.sync: updating to remoteVersion=${version} ` +
+      `sync: updating to remoteVersion=${version} ` +
         `sourceDevice=${manifest.sourceDevice ?? '?'} from ` +
         `version=${localManifestVersion}`
     );
 
     await processManifest(manifest, version);
 
-    log.info(`storageService.sync: updated to version=${version}`);
+    log.info(`sync: updated to version=${version}`);
 
     await window.storage.put('manifestVersion', version);
     if (Bytes.isNotEmpty(manifest.recordIkm)) {
@@ -2084,13 +2052,10 @@ async function sync({
       });
     }
   } catch (err) {
-    log.error(
-      'storageService.sync: error processing manifest',
-      Errors.toLogFormat(err)
-    );
+    log.error('sync: error processing manifest', Errors.toLogFormat(err));
   }
 
-  log.info('storageService.sync: complete');
+  log.info('sync: complete');
   return manifest;
 }
 
@@ -2194,7 +2159,7 @@ export function enableStorageService(): void {
   }
 
   storageServiceEnabled = true;
-  log.info('storageService.enableStorageService');
+  log.info('enableStorageService');
 }
 
 export function disableStorageService(reason: string): void {
@@ -2202,14 +2167,14 @@ export function disableStorageService(reason: string): void {
     return;
   }
 
-  log.info(`storageService.disableStorageService: ${reason}`);
+  log.info(`disableStorageService: ${reason}`);
   storageServiceEnabled = false;
 }
 
 export async function eraseAllStorageServiceState({
   keepUnknownFields = false,
 }: { keepUnknownFields?: boolean } = {}): Promise<void> {
-  log.info('storageService.eraseAllStorageServiceState: starting...');
+  log.info('eraseAllStorageServiceState: starting...');
 
   // First, update high-level storage service metadata
   await Promise.all([
@@ -2248,7 +2213,7 @@ export async function eraseAllStorageServiceState({
   // Finally, we update the database directly for all record types:
   await eraseStorageServiceState();
 
-  log.info('storageService.eraseAllStorageServiceState: complete');
+  log.info('eraseAllStorageServiceState: complete');
 }
 
 export async function reprocessUnknownFields(): Promise<void> {
@@ -2256,7 +2221,7 @@ export async function reprocessUnknownFields(): Promise<void> {
     storageJobQueue(async () => {
       const version = window.storage.get('manifestVersion') ?? 0;
 
-      log.info(`storageService.reprocessUnknownFields(${version}): starting`);
+      log.info(`reprocessUnknownFields(${version}): starting`);
 
       const { recordsByID, insertKeys } = await generateManifest(
         version,
@@ -2296,7 +2261,7 @@ export async function reprocessUnknownFields(): Promise<void> {
         missingKeys: new Set(),
       });
 
-      log.info(`storageService.reprocessUnknownFields(${version}): done`);
+      log.info(`reprocessUnknownFields(${version}): done`);
     })
   );
 }
@@ -2304,7 +2269,7 @@ export async function reprocessUnknownFields(): Promise<void> {
 export const storageServiceUploadJob = debounce(
   ({ reason }: { reason: string }) => {
     if (!storageServiceEnabled) {
-      log.info('storageService.storageServiceUploadJob: called before enabled');
+      log.info('storageServiceUploadJob: called before enabled');
       return;
     }
 
@@ -2321,10 +2286,7 @@ export const storageServiceUploadJob = debounce(
 export const runStorageServiceSyncJob = debounce(
   ({ reason }: { reason: string }) => {
     if (!storageServiceEnabled) {
-      log.info(
-        `storageService.runStorageServiceSyncJob(${reason}): ` +
-          'called before enabled'
-      );
+      log.info(`runStorageServiceSyncJob(${reason}): called before enabled`);
       return;
     }
 

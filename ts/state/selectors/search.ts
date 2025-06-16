@@ -30,8 +30,10 @@ import {
 } from './conversations';
 
 import { hydrateRanges } from '../../types/BodyRange';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { getOwn } from '../../util/getOwn';
+
+const log = createLogger('search');
 
 export const getSearch = (state: StateType): SearchStateType => state.search;
 

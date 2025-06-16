@@ -5,7 +5,7 @@ import type { CSSProperties } from 'react';
 import React, { useEffect, useState } from 'react';
 import { noop } from 'lodash';
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import type { LocalizerType } from '../types/Util';
 import { Spinner } from './Spinner';
 import type { AvatarColorType } from '../types/Colors';
@@ -13,6 +13,8 @@ import { AvatarColors } from '../types/Colors';
 import { getInitials } from '../util/getInitials';
 import { imagePathToBytes } from '../util/imagePathToBytes';
 import { type ConversationType } from '../state/ducks/conversations';
+
+const log = createLogger('AvatarPreview');
 
 export type PropsType = {
   avatarColor?: AvatarColorType;

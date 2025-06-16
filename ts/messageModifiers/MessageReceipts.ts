@@ -22,7 +22,7 @@ import {
 } from '../messages/MessageSendState';
 import { DataReader, DataWriter } from '../sql/Client';
 import type { DeleteSentProtoRecipientOptionsType } from '../sql/Interface';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { getSourceServiceId } from '../messages/helpers';
 import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
 import { getMessageIdForLogging } from '../util/idForLogging';
@@ -35,6 +35,8 @@ import { drop } from '../util/drop';
 import { getMessageById } from '../messages/getMessageById';
 import { MessageModel } from '../models/messages';
 import { areStoryViewReceiptsEnabled } from '../types/Stories';
+
+const log = createLogger('MessageReceipts');
 
 const { deleteSentProtoRecipient, removeSyncTasks, removeSyncTaskById } =
   DataWriter;
@@ -162,7 +164,7 @@ const processReceiptBatcher = createWaitBatcher({
             // Nope, no target message was found
             const { receiptSync } = receipt;
             log.info(
-              'MessageReceipts.processReceiptBatcher: No message for receipt',
+              'processReceiptBatcher: No message for receipt',
               receiptSync.messageSentAt,
               receiptSync.type,
               receiptSync.sourceConversationId,
@@ -281,9 +283,7 @@ const deleteSentProtoBatcher = createWaitBatcher({
   wait: DELETE_SENT_PROTO_BATCHER_WAIT_MS,
   maxSize: 30,
   async processBatch(items: Array<DeleteSentProtoRecipientOptionsType>) {
-    log.info(
-      `MessageReceipts: Batching ${items.length} sent proto recipients deletes`
-    );
+    log.info(`Batching ${items.length} sent proto recipients deletes`);
     const { successfulPhoneNumberShares } =
       await deleteSentProtoRecipient(items);
 
@@ -293,10 +293,7 @@ const deleteSentProtoBatcher = createWaitBatcher({
         continue;
       }
 
-      log.info(
-        'MessageReceipts: unsetting shareMyPhoneNumber ' +
-          `for ${convo.idForLogging()}`
-      );
+      log.info(`unsetting shareMyPhoneNumber for ${convo.idForLogging()}`);
 
       // `deleteSentProtoRecipient` has already updated the database so there
       // is no need in calling `updateConversation`
@@ -350,7 +347,7 @@ function getTargetMessage({
         UNDELIVERED_SEND_STATUSES.includes(sendStatus)
       ) {
         log.warn(
-          'MessageReceipts.getTargetMessage: received receipt for undelivered message, ' +
+          'getTargetMessage: received receipt for undelivered message, ' +
             `status: ${sendStatus}, ` +
             `sourceConversationId: ${sourceConversationId}, ` +
             `message: ${getMessageIdForLogging(msg)}.`
@@ -559,7 +556,7 @@ async function addToDeleteSentProtoBatcher(
       });
     } else {
       log.warn(
-        `MessageReceipts.deleteSentProto(sentAt=${messageSentAt}): ` +
+        `deleteSentProto(sentAt=${messageSentAt}): ` +
           `Missing serviceId or deviceId for deliveredTo ${sourceConversationId}`
       );
     }

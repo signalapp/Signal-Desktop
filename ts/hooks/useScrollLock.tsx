@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useContext, createContext, useEffect, useRef } from 'react';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const log = createLogger('useScrollLock');
 
 export type ScrollerLock = Readonly<{
   isLocked(): boolean;

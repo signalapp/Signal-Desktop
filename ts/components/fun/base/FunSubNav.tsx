@@ -22,11 +22,13 @@ import {
   getScrollRightDistance,
   useScrollObserver,
 } from '../../../hooks/useSizeObserver';
-import * as log from '../../../logging/log';
+import { createLogger } from '../../../logging/log';
 import * as Errors from '../../../types/errors';
 import { strictAssert } from '../../../util/assert';
 import { FunImage } from './FunImage';
 import { FunTooltip } from './FunTooltip';
+
+const log = createLogger('FunSubNav');
 
 /**
  * Sub Nav

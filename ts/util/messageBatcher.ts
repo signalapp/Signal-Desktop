@@ -5,10 +5,12 @@ import type { ReadonlyMessageAttributesType } from '../model-types.d';
 import { createBatcher } from './batcher';
 import { createWaitBatcher } from './waitBatcher';
 import { DataWriter } from '../sql/Client';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { postSaveUpdates } from './cleanup';
 import { MessageModel } from '../models/messages';
 import { drop } from './drop';
+
+const log = createLogger('messageBatcher');
 
 const updateMessageBatcher = createBatcher<ReadonlyMessageAttributesType>({
   name: 'messageBatcher.updateMessageBatcher',

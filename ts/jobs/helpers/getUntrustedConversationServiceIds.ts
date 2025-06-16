@@ -2,8 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isNotNil } from '../../util/isNotNil';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import type { ServiceIdString } from '../../types/ServiceId';
+
+const log = createLogger('getUntrustedConversationServiceIds');
 
 export function getUntrustedConversationServiceIds(
   recipients: ReadonlyArray<string>
@@ -22,7 +24,7 @@ export function getUntrustedConversationServiceIds(
       const serviceId = recipientConversation.getServiceId();
       if (!serviceId) {
         log.warn(
-          `getUntrustedConversationServiceIds: Conversation ${recipientConversation.idForLogging()} had no serviceId`
+          `Conversation ${recipientConversation.idForLogging()} had no serviceId`
         );
         return null;
       }

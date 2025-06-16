@@ -12,10 +12,12 @@ import { getUserAgent } from '../util/getUserAgent';
 import * as durations from '../util/durations';
 import type { ProxyAgent } from '../util/createProxyAgent';
 import { createHTTPSAgent } from '../util/createHTTPSAgent';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Timers from '../Timers';
 import { ConnectTimeoutError, HTTPError } from './Errors';
 import { handleStatusCode, translateError } from './Utils';
+
+const log = createLogger('WebSocket');
 
 const TEN_SECONDS = 10 * durations.SECOND;
 const WEBSOCKET_CONNECT_TIMEOUT = TEN_SECONDS;
@@ -129,10 +131,10 @@ export function connect<Resource extends IResource>({
     {
       abort() {
         if (resource) {
-          log.warn(`WebSocket: closing socket ${name}`);
+          log.warn(`closing socket ${name}`);
           resource.close(3000, 'aborted');
         } else {
-          log.warn(`WebSocket: aborting connection ${name}`);
+          log.warn(`aborting connection ${name}`);
           Timers.clearTimeout(timer);
           client.abort();
         }

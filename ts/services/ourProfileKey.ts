@@ -2,9 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assertDev, strictAssert } from '../util/assert';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 
 import type { StorageInterface } from '../types/Storage.d';
+
+const log = createLogger('ourProfileKey');
 
 export class OurProfileKeyService {
   private getPromise: undefined | Promise<undefined | Uint8Array>;

@@ -1,11 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
 import { DataReader } from '../sql/Client';
 import { MessageModel } from '../models/messages';
 import type { MessageAttributesType } from '../model-types.d';
+
+const log = createLogger('getMessageById');
 
 export async function getMessageById(
   messageId: string

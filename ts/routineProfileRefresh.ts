@@ -4,7 +4,7 @@
 import { isNil, sortBy } from 'lodash';
 import PQueue from 'p-queue';
 
-import * as log from './logging/log';
+import { createLogger } from './logging/log';
 import { assertDev } from './util/assert';
 import { sleep } from './util/sleep';
 import { isNormalNumber } from './util/isNormalNumber';
@@ -16,6 +16,8 @@ import { getProfile } from './util/getProfile';
 import { drop } from './util/drop';
 import { MINUTE, HOUR, DAY, WEEK } from './util/durations';
 import { isDirectConversation } from './util/whatTypeOfConversation';
+
+const log = createLogger('routineProfileRefresh');
 
 const STORAGE_KEY = 'lastAttemptedToRefreshProfilesAt';
 const MAX_AGE_TO_BE_CONSIDERED_RECENTLY_REFRESHED = 3 * DAY;

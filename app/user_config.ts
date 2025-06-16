@@ -7,8 +7,10 @@ import { app } from 'electron';
 
 import { start } from './base_config';
 import config from './config';
-import * as log from '../ts/logging/log';
+import { createLogger } from '../ts/logging/log';
 import * as Errors from '../ts/types/errors';
+
+const log = createLogger('user_config');
 
 let userData: string | undefined;
 // Use separate data directory for benchmarks & development

@@ -4,7 +4,7 @@
 import { get, throttle } from 'lodash';
 
 import type { WebAPIType } from './textsecure/WebAPI';
-import * as log from './logging/log';
+import { createLogger } from './logging/log';
 import type { AciString } from './types/ServiceId';
 import { parseIntOrThrow } from './util/parseIntOrThrow';
 import { HOUR } from './util/durations';
@@ -14,6 +14,8 @@ import { dropNull } from './util/dropNull';
 import { HashType } from './types/Crypto';
 import { getCountryCode } from './types/PhoneNumber';
 import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration';
+
+const log = createLogger('RemoteConfig');
 
 export type ConfigKeyType =
   | 'desktop.calling.ringrtcAdmFull.3'

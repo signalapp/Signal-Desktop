@@ -6,7 +6,7 @@ import { DataReader } from '../sql/Client';
 import type { StoryRecipientUpdateEvent } from '../textsecure/messageReceiverEvents';
 import { normalizeServiceId } from '../types/ServiceId';
 import { normalizeStoryDistributionId } from '../types/StoryDistributionId';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { SendStatus } from '../messages/MessageSendState';
 import { getConversationIdForLogging } from './idForLogging';
 import { isStory } from '../state/selectors/message';
@@ -15,6 +15,8 @@ import { isMe } from './whatTypeOfConversation';
 import { drop } from './drop';
 import { handleDeleteForEveryone } from './deleteForEveryone';
 import { MessageModel } from '../models/messages';
+
+const log = createLogger('onStoryRecipientUpdate');
 
 export async function onStoryRecipientUpdate(
   event: StoryRecipientUpdateEvent

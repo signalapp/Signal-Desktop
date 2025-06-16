@@ -11,7 +11,9 @@ import {
 } from '../../../util/GoogleChrome';
 import type { LocalizerType } from '../../../types/Util';
 import type { MediaItemType } from '../../../types/MediaItem';
-import * as log from '../../../logging/log';
+import { createLogger } from '../../../logging/log';
+
+const log = createLogger('MediaGridItem');
 
 export type Props = {
   mediaItem: ReadonlyDeep<MediaItemType>;
@@ -26,9 +28,7 @@ function MediaGridItemContent(props: Props) {
   const [imageBroken, setImageBroken] = useState(false);
 
   const handleImageError = useCallback(() => {
-    log.info(
-      'MediaGridItem: Image failed to load; failing over to placeholder'
-    );
+    log.info('Image failed to load; failing over to placeholder');
     setImageBroken(true);
   }, []);
 

@@ -11,8 +11,10 @@ import type { MenuListType } from '../ts/types/menu';
 import type { LocalizerType } from '../ts/types/Util';
 import { strictAssert } from '../ts/util/assert';
 import type { LoggerType } from '../ts/types/Logging';
-import * as log from '../ts/logging/log';
+import { createLogger } from '../ts/logging/log';
 import { handleAttachmentRequest } from './attachment_channel';
+
+const log = createLogger('spell_check');
 
 export const FAKE_DEFAULT_LOCALE = 'und'; // 'und' is the BCP 47 subtag for "undetermined"
 

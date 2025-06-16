@@ -3,7 +3,9 @@
 
 import type { ProfilerOnRenderCallback, ReactNode } from 'react';
 import React from 'react';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const log = createLogger('Profiler');
 
 export type PropsType = Readonly<{
   id: string;
@@ -19,7 +21,7 @@ const onRender: ProfilerOnRenderCallback = (
   commit
 ) => {
   log.info(
-    `Profiler.tsx(${id}): actual=${actual.toFixed(1)}ms phase=${phase} ` +
+    `tsx(${id}): actual=${actual.toFixed(1)}ms phase=${phase} ` +
       `base=${base.toFixed(1)}ms start=${start.toFixed(1)}ms ` +
       `commit=${commit.toFixed(1)}ms`
   );

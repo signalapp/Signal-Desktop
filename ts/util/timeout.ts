@@ -1,6 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import * as logging from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const logging = createLogger('timeout');
 
 const MAX_SAFE_TIMEOUT_DELAY = 2147483647; // max 32-bit signed integer
 

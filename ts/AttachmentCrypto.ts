@@ -21,7 +21,7 @@ import {
 import type { ChunkSizeChoice } from '@signalapp/libsignal-client/dist/incremental_mac';
 import { isAbsolute } from 'path';
 
-import * as log from './logging/log';
+import { createLogger } from './logging/log';
 import {
   HashType,
   CipherType,
@@ -44,6 +44,8 @@ import { isNotNil } from './util/isNotNil';
 import { missingCaseError } from './util/missingCaseError';
 import { getEnvironment, Environment } from './environment';
 import { toBase64 } from './Bytes';
+
+const log = createLogger('AttachmentCrypto');
 
 // This file was split from ts/Crypto.ts because it pulls things in from node, and
 //   too many things pull in Crypto.ts, so it broke storybook.

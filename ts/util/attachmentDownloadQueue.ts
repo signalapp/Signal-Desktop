@@ -5,7 +5,7 @@ import type { MessageModel } from '../models/messages';
 import type { MessageAttributesType } from '../model-types';
 import type { AttachmentType } from '../types/Attachment';
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as MIME from '../types/MIME';
 
 import { DataWriter } from '../sql/Client';
@@ -13,6 +13,8 @@ import { isMoreRecentThan } from './timestamp';
 import { isNotNil } from './isNotNil';
 import { queueAttachmentDownloadsForMessage } from './queueAttachmentDownloads';
 import { postSaveUpdates } from './cleanup';
+
+const log = createLogger('attachmentDownloadQueue');
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 const MAX_ATTACHMENT_MSGS_TO_DOWNLOAD = 250;
@@ -75,9 +77,7 @@ export async function flushAttachmentDownloadQueue(): Promise<void> {
     messageIdsToDownload.map(async messageId => {
       const message = window.MessageCache.getById(messageId);
       if (!message) {
-        log.warn(
-          'attachmentDownloadQueue: message not found in messageCache, maybe it was deleted?'
-        );
+        log.warn('message not found in messageCache, maybe it was deleted?');
         return;
       }
 

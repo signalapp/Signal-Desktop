@@ -30,7 +30,7 @@ import { createProxyAgent } from '../util/createProxyAgent';
 import { type SocketInfo, SocketStatus } from '../types/SocketStatus';
 import * as Errors from '../types/errors';
 import * as Bytes from '../Bytes';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 
 import type {
   IncomingWebSocketRequest,
@@ -55,6 +55,8 @@ import {
   parseServerAlertsFromHeader,
   type ServerAlert,
 } from '../util/handleServerAlerts';
+
+const log = createLogger('SocketManager');
 
 const FIVE_MINUTES = 5 * durations.MINUTE;
 
@@ -178,7 +180,7 @@ export class SocketManager extends EventListener {
 
     const { username, password } = credentials;
     if (!username && !password) {
-      log.warn('SocketManager authenticate was called without credentials');
+      log.warn('authenticate was called without credentials');
       return;
     }
 
@@ -192,7 +194,7 @@ export class SocketManager extends EventListener {
         await this.#authenticated.getResult();
       } catch (error) {
         log.warn(
-          'SocketManager: failed to wait for existing authenticated socket ' +
+          'failed to wait for existing authenticated socket ' +
             ` due to error: ${Errors.toLogFormat(error)}`
         );
       }
@@ -202,7 +204,7 @@ export class SocketManager extends EventListener {
     this.#credentials = credentials;
 
     log.info(
-      'SocketManager: connecting authenticated socket ' +
+      'connecting authenticated socket ' +
         `(hasStoriesDisabled=${this.#hasStoriesDisabled})`
     );
 
@@ -255,19 +257,13 @@ export class SocketManager extends EventListener {
 
     const reconnect = async (): Promise<void> => {
       if (this.#expirationReason != null) {
-        log.info(
-          `SocketManager: ${this.#expirationReason} expired, ` +
-            'not reconnecting'
-        );
+        log.info(`${this.#expirationReason} expired, not reconnecting`);
         return;
       }
 
       const timeout = this.#backOff.getAndIncrement();
 
-      log.info(
-        'SocketManager: reconnecting authenticated socket ' +
-          `after ${timeout}ms`
-      );
+      log.info(`reconnecting authenticated socket after ${timeout}ms`);
 
       const reconnectController = new AbortController();
       this.#reconnectController = reconnectController;
@@ -275,7 +271,7 @@ export class SocketManager extends EventListener {
       try {
         await sleep(timeout, reconnectController.signal);
       } catch {
-        log.info('SocketManager: reconnect cancelled');
+        log.info('reconnect cancelled');
         return;
       } finally {
         if (this.#reconnectController === reconnectController) {
@@ -284,7 +280,7 @@ export class SocketManager extends EventListener {
       }
 
       if (this.#authenticated) {
-        log.info('SocketManager: authenticated socket already connecting');
+        log.info('authenticated socket already connecting');
         return;
       }
 
@@ -294,7 +290,7 @@ export class SocketManager extends EventListener {
         await this.authenticate(this.#credentials);
       } catch (error) {
         log.info(
-          'SocketManager: authenticated socket failed to reconnect ' +
+          'authenticated socket failed to reconnect ' +
             `due to error ${Errors.toLogFormat(error)}`
         );
         return reconnect();
@@ -314,7 +310,7 @@ export class SocketManager extends EventListener {
       });
     } catch (error) {
       log.warn(
-        'SocketManager: authenticated socket connection failed with ' +
+        'authenticated socket connection failed with ' +
           `error: ${Errors.toLogFormat(error)}`
       );
 
@@ -377,7 +373,7 @@ export class SocketManager extends EventListener {
     }
 
     log.info(
-      `SocketManager: connected authenticated socket (localPort: ${authenticated.localPort()})`
+      `connected authenticated socket (localPort: ${authenticated.localPort()})`
     );
 
     window.logAuthenticatedConnect?.();
@@ -390,7 +386,7 @@ export class SocketManager extends EventListener {
       }
 
       log.warn(
-        'SocketManager: authenticated socket closed ' +
+        'authenticated socket closed ' +
           `with code=${code} and reason=${reason}`
       );
       this.#dropAuthenticated(process);
@@ -401,7 +397,7 @@ export class SocketManager extends EventListener {
       }
 
       if (code === 4409) {
-        log.error('SocketManager: got 4409, connected on another device');
+        log.error('got 4409, connected on another device');
         return;
       }
 
@@ -536,9 +532,7 @@ export class SocketManager extends EventListener {
       return;
     }
 
-    log.info(
-      `SocketManager: processing ${queue.length} queued incoming requests`
-    );
+    log.info(`processing ${queue.length} queued incoming requests`);
     this.#incomingRequestQueue = [];
     for (const req of queue) {
       this.#queueOrHandleRequest(req);
@@ -555,14 +549,12 @@ export class SocketManager extends EventListener {
     }
 
     this.#hasStoriesDisabled = newValue;
-    log.info(
-      `SocketManager: reconnecting after setting hasStoriesDisabled=${newValue}`
-    );
+    log.info(`reconnecting after setting hasStoriesDisabled=${newValue}`);
     await this.reconnect();
   }
 
   public async reconnect(): Promise<void> {
-    log.info('SocketManager.reconnect: starting...');
+    log.info('reconnect: starting...');
 
     const unauthenticated = this.#unauthenticated;
     const authenticated = this.#authenticated;
@@ -585,12 +577,12 @@ export class SocketManager extends EventListener {
       await this.authenticate(this.#credentials);
     }
 
-    log.info('SocketManager.reconnect: complete.');
+    log.info('reconnect: complete.');
   }
 
   // Force keep-alive checks on WebSocketResources
   public async check(): Promise<void> {
-    log.info('SocketManager.check');
+    log.info('check');
     await Promise.all([
       this.#checkResource(this.#authenticated),
       this.#checkResource(this.#unauthenticated),
@@ -598,7 +590,7 @@ export class SocketManager extends EventListener {
   }
 
   public async onNavigatorOnline(): Promise<void> {
-    log.info('SocketManager.onNavigatorOnline');
+    log.info('onNavigatorOnline');
     this.#isNavigatorOffline = false;
     this.#backOff.reset(FIBONACCI_TIMEOUTS);
     this.libsignalNet.onNetworkChange();
@@ -611,14 +603,14 @@ export class SocketManager extends EventListener {
   }
 
   public async onNavigatorOffline(): Promise<void> {
-    log.info('SocketManager.onNavigatorOffline');
+    log.info('onNavigatorOffline');
     this.#isNavigatorOffline = true;
     this.#backOff.reset(EXTENDED_FIBONACCI_TIMEOUTS);
     await this.check();
   }
 
   public async onExpiration(reason: SocketExpirationReason): Promise<void> {
-    log.info('SocketManager.onRemoteExpiration', reason);
+    log.info('onRemoteExpiration', reason);
     this.#expirationReason = reason;
 
     // Cancel reconnect attempt if any
@@ -719,11 +711,11 @@ export class SocketManager extends EventListener {
       return this.#unauthenticated.getResult();
     }
 
-    log.info('SocketManager: connecting unauthenticated socket');
+    log.info('connecting unauthenticated socket');
 
     const transportOption = this.#transportOption();
     log.info(
-      `SocketManager: connecting unauthenticated socket, transport option [${transportOption}]`
+      `connecting unauthenticated socket, transport option [${transportOption}]`
     );
 
     this.#setUnauthenticatedStatus({
@@ -765,7 +757,7 @@ export class SocketManager extends EventListener {
       });
     } catch (error) {
       log.info(
-        'SocketManager: failed to connect unauthenticated socket ' +
+        'failed to connect unauthenticated socket ' +
           ` due to error: ${Errors.toLogFormat(error)}`
       );
       this.#dropUnauthenticated(process);
@@ -805,7 +797,7 @@ export class SocketManager extends EventListener {
     }
 
     log.info(
-      `SocketManager: connected unauthenticated socket (localPort: ${unauthenticated.localPort()})`
+      `connected unauthenticated socket (localPort: ${unauthenticated.localPort()})`
     );
 
     unauthenticated.addEventListener('close', ({ code, reason }): void => {
@@ -814,7 +806,7 @@ export class SocketManager extends EventListener {
       }
 
       log.warn(
-        'SocketManager: unauthenticated socket closed ' +
+        'unauthenticated socket closed ' +
           `with code=${code} and reason=${reason}`
       );
 
@@ -905,7 +897,7 @@ export class SocketManager extends EventListener {
         handlers.handleDisconnect();
       } catch (error) {
         log.warn(
-          'SocketManager: got exception while handling disconnect, ' +
+          'got exception while handling disconnect, ' +
             `error: ${Errors.toLogFormat(error)}`
         );
       }
@@ -945,13 +937,9 @@ export class SocketManager extends EventListener {
       return;
     }
 
-    log.info(
-      'SocketManager: starting expiration timer for unauthenticated socket'
-    );
+    log.info('starting expiration timer for unauthenticated socket');
     this.#unauthenticatedExpirationTimer = setTimeout(async () => {
-      log.info(
-        'SocketManager: shutting down unauthenticated socket after timeout'
-      );
+      log.info('shutting down unauthenticated socket after timeout');
       unauthenticated.shutdown();
 
       // The socket is either deliberately closed or reconnected already
@@ -965,7 +953,7 @@ export class SocketManager extends EventListener {
         await this.#getUnauthenticatedResource();
       } catch (error) {
         log.warn(
-          'SocketManager: failed to reconnect unauthenticated socket ' +
+          'failed to reconnect unauthenticated socket ' +
             `due to error: ${Errors.toLogFormat(error)}`
         );
       }
@@ -982,7 +970,7 @@ export class SocketManager extends EventListener {
     if (this.#requestHandlers.size === 0) {
       this.#incomingRequestQueue.push(req);
       log.info(
-        'SocketManager: request handler unavailable, ' +
+        'request handler unavailable, ' +
           `queued request. Queue size: ${this.#incomingRequestQueue.length}`
       );
       return;
@@ -992,7 +980,7 @@ export class SocketManager extends EventListener {
         handlers.handleRequest(req);
       } catch (error) {
         log.warn(
-          'SocketManager: got exception while handling incoming request, ' +
+          'got exception while handling incoming request, ' +
             `error: ${Errors.toLogFormat(error)}`
         );
       }

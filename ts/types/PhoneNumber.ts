@@ -3,8 +3,10 @@
 
 import memoizee from 'memoizee';
 import { instance, PhoneNumberFormat } from '../util/libphonenumberInstance';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from './errors';
+
+const log = createLogger('PhoneNumber');
 
 function _format(
   phoneNumber: string,

@@ -6,7 +6,7 @@ import { ipcRenderer } from 'electron';
 
 import type { IPCResponse as ChallengeResponseType } from './challenge';
 import type { MessageAttributesType } from './model-types.d';
-import * as log from './logging/log';
+import { createLogger } from './logging/log';
 import { explodePromise } from './util/explodePromise';
 import { AccessType, ipcInvoke } from './sql/channels';
 import { backupsService } from './services/backups';
@@ -18,6 +18,8 @@ import { isSignalRoute } from './util/signalRoutes';
 import { strictAssert } from './util/assert';
 import { MessageModel } from './models/messages';
 import type { SocketStatuses } from './textsecure/SocketManager';
+
+const log = createLogger('CI');
 
 type ResolveType = (data: unknown) => void;
 
@@ -81,7 +83,7 @@ export function getCI({
       const pendingCompleted = completedEvents.get(event) || [];
       if (pendingCompleted.length) {
         const pending = pendingCompleted.shift();
-        log.info(`CI: resolving pending result for ${event}`, pending);
+        log.info(`resolving pending result for ${event}`, pending);
 
         if (pendingCompleted.length === 0) {
           completedEvents.delete(event);
@@ -91,7 +93,7 @@ export function getCI({
       }
     }
 
-    log.info(`CI: waiting for event ${event}`);
+    log.info(`waiting for event ${event}`);
     const { resolve, reject, promise } = explodePromise();
 
     const timer = setTimeout(() => {
@@ -134,12 +136,12 @@ export function getCI({
         eventListeners.delete(event);
       }
 
-      log.info(`CI: got event ${event} with data`, data);
+      log.info(`got event ${event} with data`, data);
       resolve(data);
       return;
     }
 
-    log.info(`CI: postponing event ${event}`);
+    log.info(`postponing event ${event}`);
 
     let resultList = completedEvents.get(event);
     if (!resultList) {

@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { isBoolean, isNumber } from 'lodash';
 import type { CallbackResultType } from '../textsecure/Types.d';
 import { DataWriter } from '../sql/Client';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import {
   OutgoingMessageError,
   SendMessageNetworkError,
@@ -15,6 +15,8 @@ import {
 import { SEALED_SENDER } from '../types/SealedSender';
 import type { ServiceIdString } from '../types/ServiceId';
 import { drop } from './drop';
+
+const log = createLogger('handleMessageSend');
 
 const { insertSentProto, updateConversation } = DataWriter;
 
@@ -112,7 +114,7 @@ function processError(error: unknown): void {
     if (error.code === 401 || error.code === 403) {
       if (conversation.get('sealedSender') !== SEALED_SENDER.DISABLED) {
         log.warn(
-          `handleMessageSend: Got 401/403 for ${conversation.idForLogging()}, setting sealedSender = DISABLED`
+          `Got 401/403 for ${conversation.idForLogging()}, setting sealedSender = DISABLED`
         );
         conversation.set('sealedSender', SEALED_SENDER.DISABLED);
         drop(updateConversation(conversation.attributes));
@@ -120,7 +122,7 @@ function processError(error: unknown): void {
     }
     if (error.code === 404) {
       log.warn(
-        `handleMessageSend: Got 404 for ${conversation.idForLogging()}, marking unregistered.`
+        `Got 404 for ${conversation.idForLogging()}, marking unregistered.`
       );
       conversation.setUnregistered();
     }
@@ -131,7 +133,7 @@ function processError(error: unknown): void {
       'private'
     );
     log.warn(
-      `handleMessageSend: Got 404 for ${conversation.idForLogging()}, marking unregistered.`
+      `Got 404 for ${conversation.idForLogging()}, marking unregistered.`
     );
     conversation.setUnregistered();
   }
@@ -248,16 +250,14 @@ async function maybeSaveToSendLog(
 
   if (!isNumber(contentHint) || !contentProto || !recipients || !timestamp) {
     log.warn(
-      `handleMessageSend: Missing necessary information to save to log for ${sendType} message ${timestamp}`
+      `Missing necessary information to save to log for ${sendType} message ${timestamp}`
     );
     return;
   }
 
   const identifiers = Object.keys(recipients);
   if (identifiers.length === 0) {
-    log.warn(
-      `handleMessageSend: ${sendType} message ${timestamp} had no recipients`
-    );
+    log.warn(`${sendType} message ${timestamp} had no recipients`);
     return;
   }
 

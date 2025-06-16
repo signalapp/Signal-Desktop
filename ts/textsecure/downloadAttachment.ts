@@ -9,7 +9,7 @@ import { Transform } from 'stream';
 import { pipeline } from 'stream/promises';
 import { ensureFile } from 'fs-extra';
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
 import { strictAssert } from '../util/assert';
 import {
@@ -48,6 +48,8 @@ import { IV_LENGTH, MAC_LENGTH } from '../types/Crypto';
 import { BackupCredentialType } from '../types/backups';
 import { getValue } from '../RemoteConfig';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
+
+const log = createLogger('downloadAttachment');
 
 export function getCdnKey(attachment: ProcessedAttachment): string {
   const cdnKey = attachment.cdnId || attachment.cdnKey;
@@ -145,7 +147,7 @@ export async function downloadAttachment(
     } catch (error) {
       if (error.code !== 'ENOENT') {
         log.error(
-          'downloadAttachment: Failed to get file size for previous download',
+          'Failed to get file size for previous download',
           Errors.toLogFormat(error)
         );
         try {
@@ -159,7 +161,7 @@ export async function downloadAttachment(
 
   // Start over if we go over the size
   if (downloadOffset >= size && absoluteDownloadPath) {
-    log.warn('downloadAttachment: went over, retrying');
+    log.warn('went over, retrying');
     await safeUnlink(absoluteDownloadPath);
     downloadOffset = 0;
   }

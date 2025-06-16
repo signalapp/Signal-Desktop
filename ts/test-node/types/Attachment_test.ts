@@ -7,11 +7,13 @@ import * as Attachment from '../../types/Attachment';
 import * as MIME from '../../types/MIME';
 import { SignalService } from '../../protobuf';
 import * as Bytes from '../../Bytes';
-import * as logger from '../../logging/log';
+import { createLogger } from '../../logging/log';
 
 import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
 import { DAY } from '../../util/durations';
 import { migrateDataToFileSystem } from '../../util/attachments/migrateDataToFilesystem';
+
+const logger = createLogger('Attachment_test');
 
 const FAKE_LOCAL_ATTACHMENT: Attachment.LocalAttachmentV2Type = {
   version: 2,

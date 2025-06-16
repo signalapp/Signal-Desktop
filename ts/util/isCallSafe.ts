@@ -3,11 +3,13 @@
 
 import type { ConversationAttributesType } from '../model-types';
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { blockSendUntilConversationsAreVerified } from './blockSendUntilConversationsAreVerified';
 import { getRecipientsByConversation } from './getRecipientsByConversation';
 
 import type { SafetyNumberChangeSource } from '../components/SafetyNumberChangeDialog';
+
+const log = createLogger('isCallSafe');
 
 export async function isCallSafe(
   attributes: ConversationAttributesType,

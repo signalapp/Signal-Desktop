@@ -33,7 +33,7 @@ import type {
 } from '../textsecure/messageReceiverEvents';
 
 import { SignalService as Proto } from '../protobuf';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import type MessageSender from '../textsecure/SendMessage';
 import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists';
 import { drop } from './drop';
@@ -41,6 +41,8 @@ import { conversationJobQueue } from '../jobs/conversationJobQueue';
 import { incrementMessageCounter } from './incrementMessageCounter';
 import { SECOND } from './durations';
 import { sleep } from './sleep';
+
+const log = createLogger('handleRetry');
 
 const RETRY_LIMIT = 5;
 

@@ -7,7 +7,9 @@
 import type { session as ElectronSession, Session } from 'electron';
 
 import type { ConfigType } from './base_config';
-import * as log from '../ts/logging/log';
+import { createLogger } from '../ts/logging/log';
+
+const log = createLogger('permissions');
 
 const PERMISSIONS: Record<string, boolean> = {
   // Allowed

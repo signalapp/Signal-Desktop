@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useCallback, useRef, useState } from 'react';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const log = createLogger('useIntersectionObserver');
 
 /**
  * A light hook wrapper around `IntersectionObserver`.

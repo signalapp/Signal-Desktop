@@ -16,7 +16,7 @@ import { blobToArrayBuffer } from 'blob-util';
 
 import type { LinkPreviewForUIType } from './message/LinkPreviews';
 import type { LoggerType } from './Logging';
-import * as logging from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as MIME from './MIME';
 import { toLogFormat } from './errors';
 import { SignalService } from '../protobuf';
@@ -42,6 +42,8 @@ import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl';
 import type { ReencryptionInfo } from '../AttachmentCrypto';
 import { redactGenericText } from '../util/privacy';
 import { missingCaseError } from '../util/missingCaseError';
+
+const logging = createLogger('Attachment');
 
 const MAX_WIDTH = 300;
 const MAX_HEIGHT = MAX_WIDTH * 1.5;

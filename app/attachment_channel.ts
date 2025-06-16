@@ -42,7 +42,7 @@ import { safeParseInteger } from '../ts/util/numbers';
 import { parseLoose } from '../ts/util/schemas';
 import { sleep } from '../ts/util/sleep';
 import { toWebStream } from '../ts/util/toWebStream';
-import * as log from '../ts/logging/log';
+import { createLogger } from '../ts/logging/log';
 import {
   deleteAll as deleteAllAttachments,
   deleteAllBadges,
@@ -61,6 +61,8 @@ import {
   getStickersPath,
   getTempPath,
 } from './attachments';
+
+const log = createLogger('attachment_channel');
 
 let initialized = false;
 
@@ -731,13 +733,13 @@ function handleRangeRequest({
   // Chromium only sends open-ended ranges: "start-"
   const match = range.match(/^bytes=(\d+)-$/);
   if (match == null) {
-    log.error(`attachment_channel: invalid range header: ${range}`);
+    log.error(`invalid range header: ${range}`);
     return create200Response();
   }
 
   const startParam = safeParseInteger(match[1]);
   if (startParam == null) {
-    log.error(`attachment_channel: invalid range header: ${range}`);
+    log.error(`invalid range header: ${range}`);
     return create200Response();
   }
 

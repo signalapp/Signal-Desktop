@@ -3,9 +3,11 @@
 
 import { z } from 'zod';
 import { groupBy } from 'lodash';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { aciSchema } from '../types/ServiceId';
 import { safeParseStrict } from './schemas';
+
+const log = createLogger('retryPlaceholders');
 
 const retryItemSchema = z
   .object({
@@ -57,7 +59,7 @@ export class RetryPlaceholders {
     );
     if (!parsed.success) {
       log.warn(
-        `RetryPlaceholders.constructor: Data fetched from storage did not match schema: ${JSON.stringify(
+        `constructor: Data fetched from storage did not match schema: ${JSON.stringify(
           parsed.error.flatten()
         )}`
       );
@@ -70,7 +72,7 @@ export class RetryPlaceholders {
     this.#retryReceiptLifespan = options.retryReceiptLifespan || HOUR;
 
     log.info(
-      `RetryPlaceholders.constructor: Started with ${this.#items.length} items, lifespan of ${this.#retryReceiptLifespan}`
+      `constructor: Started with ${this.#items.length} items, lifespan of ${this.#retryReceiptLifespan}`
     );
   }
 
@@ -146,9 +148,7 @@ export class RetryPlaceholders {
       }
     }
 
-    log.info(
-      `RetryPlaceholders.getExpiredAndRemove: Found ${result.length} expired items`
-    );
+    log.info(`getExpiredAndRemove: Found ${result.length} expired items`);
 
     this.#items.splice(0, result.length);
     this.makeLookups();
@@ -170,7 +170,7 @@ export class RetryPlaceholders {
 
     if (changed > 0) {
       log.info(
-        `RetryPlaceholders.findByConversationAndMarkOpened: Updated ${changed} items for conversation ${conversationId}`
+        `findByConversationAndMarkOpened: Updated ${changed} items for conversation ${conversationId}`
       );
 
       await this.save();
@@ -192,7 +192,7 @@ export class RetryPlaceholders {
     this.makeLookups();
 
     log.info(
-      `RetryPlaceholders.findByMessageAndRemove: Removing ${sentAt} from conversation ${conversationId}`
+      `findByMessageAndRemove: Removing ${sentAt} from conversation ${conversationId}`
     );
     await this.save();
 

@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { RefObject } from 'react';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const log = createLogger('handleOutsideClick');
 
 export type HandlerType = (target: Node) => boolean;
 export type HandlersType = {
@@ -32,7 +34,7 @@ function handleGlobalClick(event: MouseEvent) {
   for (const handlers of fakeHandlers.slice().reverse()) {
     const handled = handlers.handleClick(event.target as Node);
     if (handled) {
-      log.info(`handleOutsideClick: ${handlers.name} handled click`);
+      log.info(`${handlers.name} handled click`);
       break;
     }
   }

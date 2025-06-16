@@ -3,8 +3,10 @@
 
 import { chunk } from 'lodash';
 import { UUID_BYTE_SIZE } from '../types/Crypto';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Bytes from '../Bytes';
+
+const log = createLogger('uuidToBytes');
 
 export function getBytesSubarray(
   data: Uint8Array,
@@ -55,8 +57,7 @@ export function splitUuids(buffer: Uint8Array): Array<string | null> {
 export function uuidToBytes(uuid: string): Uint8Array {
   if (uuid.length !== 36) {
     log.warn(
-      'uuidToBytes: received a string of invalid length. ' +
-        'Returning an empty Uint8Array'
+      'received a string of invalid length. Returning an empty Uint8Array'
     );
     return new Uint8Array(0);
   }

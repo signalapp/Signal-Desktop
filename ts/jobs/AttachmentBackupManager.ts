@@ -6,7 +6,7 @@ import { existsSync } from 'node:fs';
 import { PassThrough } from 'node:stream';
 
 import * as durations from '../util/durations';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { DataWriter } from '../sql/Client';
 
 import * as Errors from '../types/errors';
@@ -64,6 +64,8 @@ import { findRetryAfterTimeFromError } from './helpers/findRetryAfterTimeFromErr
 import { BackupCredentialType } from '../types/backups';
 import { supportsIncrementalMac } from '../types/MIME';
 import type { MIMEType } from '../types/MIME';
+
+const log = createLogger('AttachmentBackupManager');
 
 const MAX_CONCURRENT_JOBS = 3;
 const RETRY_CONFIG = {
@@ -148,12 +150,12 @@ export class AttachmentBackupManager extends JobManager<CoreAttachmentBackupJobT
   }
 
   static async start(): Promise<void> {
-    log.info('AttachmentBackupManager/starting');
+    log.info('starting');
     await AttachmentBackupManager.instance.start();
   }
 
   static async stop(): Promise<void> {
-    log.info('AttachmentBackupManager/stopping');
+    log.info('stopping');
     return AttachmentBackupManager._instance?.stop();
   }
 

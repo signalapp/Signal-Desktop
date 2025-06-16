@@ -16,7 +16,7 @@ import type { ShowStickerPackPreviewActionType } from './globalModals';
 import type { ShowToastActionType } from './toast';
 import type { StateType as RootStateType } from '../reducer';
 
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { getMessageById } from '../../messages/getMessageById';
 import type { ReadonlyMessageAttributesType } from '../../model-types.d';
 import { isGIF, isIncremental } from '../../types/Attachment';
@@ -45,6 +45,8 @@ import { AttachmentDownloadUrgency } from '../../types/AttachmentDownload';
 import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads';
 import { getMessageIdForLogging } from '../../util/idForLogging';
 import { markViewOnceMessageViewed } from '../../services/MessageUpdater';
+
+const log = createLogger('lightbox');
 
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type LightboxStateType =

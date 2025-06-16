@@ -5,11 +5,13 @@ import * as z from 'zod';
 import { isEmpty } from 'lodash';
 import { isRecord } from '../util/isRecord';
 import { isNormalNumber } from '../util/isNormalNumber';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import type { BadgeType, BadgeImageType } from './types';
 import { parseBadgeCategory } from './BadgeCategory';
 import { BadgeImageTheme, parseBadgeImageTheme } from './BadgeImageTheme';
 import { safeParseUnknown } from '../util/schemas';
+
+const log = createLogger('parseBadgesFromServer');
 
 const MAX_BADGES = 1000;
 

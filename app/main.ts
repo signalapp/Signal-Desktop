@@ -46,7 +46,7 @@ import type { ThemeSettingType } from '../ts/types/StorageUIKeys';
 import { ThemeType } from '../ts/types/Util';
 import * as Errors from '../ts/types/errors';
 import { resolveCanonicalLocales } from '../ts/util/resolveCanonicalLocales';
-import * as log from '../ts/logging/log';
+import { createLogger } from '../ts/logging/log';
 import * as debugLog from '../ts/logging/debuglogs';
 import * as uploadDebugLog from '../ts/logging/uploadDebugLog';
 import { explodePromise } from '../ts/util/explodePromise';
@@ -124,6 +124,8 @@ import { LINUX_PASSWORD_STORE_FLAGS } from '../ts/util/linuxPasswordStoreFlags';
 import { getOwn } from '../ts/util/getOwn';
 import { safeParseLoose, safeParseUnknown } from '../ts/util/schemas';
 import { getAppErrorIcon } from '../ts/util/getAppErrorIcon';
+
+const log = createLogger('app/main');
 
 const animationSettings = systemPreferences.getAnimationSettings();
 

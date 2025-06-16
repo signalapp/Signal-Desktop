@@ -61,12 +61,14 @@ import { getRegionCodeForNumber } from '../util/libphonenumberUtil';
 import { isNotNil } from '../util/isNotNil';
 import { missingCaseError } from '../util/missingCaseError';
 import { SignalService as Proto } from '../protobuf';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import type { StorageAccessType } from '../types/Storage';
 import { getRelativePath, createName } from '../util/attachmentPath';
 import { isBackupFeatureEnabled } from '../util/isBackupEnabled';
 import { isLinkAndSyncEnabled } from '../util/isLinkAndSyncEnabled';
 import { getMessageQueueTime } from '../util/getMessageQueueTime';
+
+const log = createLogger('AccountManager');
 
 type StorageKeyByServiceIdKind = {
   [kind in ServiceIdKind]: keyof StorageAccessType;

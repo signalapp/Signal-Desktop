@@ -4,9 +4,11 @@
 import type { AciString } from '../types/ServiceId';
 import type { ConversationModel } from '../models/conversations';
 import * as Errors from '../types/errors';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { drop } from '../util/drop';
 import { getConversationIdForLogging } from '../util/idForLogging';
+
+const log = createLogger('MessageRequests');
 
 export type MessageRequestAttributesType = {
   envelopeId: string;

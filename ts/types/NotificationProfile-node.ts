@@ -5,12 +5,14 @@
 import { getRandomBytes } from '../Crypto';
 
 import * as Bytes from '../Bytes';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 
 import { NOTIFICATION_PROFILE_ID_LENGTH } from './NotificationProfile';
 
 import type { NotificationProfileIdString } from './NotificationProfile';
 import type { LoggerType } from './Logging';
+
+const log = createLogger('NotificationProfile-node');
 
 export function generateNotificationProfileId(): NotificationProfileIdString {
   return Bytes.toHex(

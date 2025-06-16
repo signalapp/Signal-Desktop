@@ -26,9 +26,11 @@ import {
 } from '../../textsecure/Provisioner';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { backupsService } from '../../services/backups';
 import OS from '../../util/os/osMain';
+
+const log = createLogger('installer');
 
 export type BatonType = ReadonlyDeep<{ __installer_baton: never }>;
 
@@ -203,7 +205,7 @@ function startInstaller(): ThunkAction<
         const { error } = event;
 
         log.error(
-          'installer: got an error while waiting for QR code',
+          'got an error while waiting for QR code',
           Errors.toLogFormat(error)
         );
 
@@ -226,7 +228,7 @@ function startInstaller(): ThunkAction<
         });
       } else if (event.kind === ProvisionEventKind.EnvelopeError) {
         log.error(
-          'installer: got an error while waiting for envelope',
+          'got an error while waiting for envelope',
           Errors.toLogFormat(event.error)
         );
 
@@ -371,7 +373,7 @@ function finishInstall({
         await window.textsecure.storage.protocol.removeAllData();
       } catch (error) {
         log.error(
-          'installer/finishInstall: error clearing database',
+          'finishInstall: error clearing database',
           Errors.toLogFormat(error)
         );
       }

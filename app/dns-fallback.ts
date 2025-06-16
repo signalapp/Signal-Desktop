@@ -6,7 +6,9 @@ import { readFile } from 'fs/promises';
 import { DNSFallbackSchema } from '../ts/types/DNSFallback';
 import type { DNSFallbackType } from '../ts/types/DNSFallback';
 import { parseUnknown } from '../ts/util/schemas';
-import * as log from '../ts/logging/log';
+import { createLogger } from '../ts/logging/log';
+
+const log = createLogger('dns-fallback');
 
 let cached: DNSFallbackType | undefined;
 

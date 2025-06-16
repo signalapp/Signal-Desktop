@@ -5,7 +5,7 @@ import { batch } from 'react-redux';
 import { debounce } from 'lodash';
 
 import * as Errors from '../types/errors';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { DataReader, DataWriter } from '../sql/Client';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { sleep } from '../util/sleep';
@@ -13,6 +13,8 @@ import { SECOND } from '../util/durations';
 import { MessageModel } from '../models/messages';
 import { cleanupMessages } from '../util/cleanup';
 import { drop } from '../util/drop';
+
+const log = createLogger('expiringMessagesDeletion');
 
 class ExpiringMessagesDeletionService {
   #timeout?: ReturnType<typeof setTimeout>;

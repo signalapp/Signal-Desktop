@@ -4,11 +4,13 @@
 import PQueue from 'p-queue';
 
 import { sleep } from './sleep';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
 import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary';
 import { MINUTE } from './durations';
 import { drop } from './drop';
+
+const log = createLogger('batcher');
 
 declare global {
   // We want to extend `window`'s properties, so we need an interface.
@@ -23,7 +25,7 @@ declare global {
 window.batchers = [];
 
 window.waitForAllBatchers = async () => {
-  log.info('batcher#waitForAllBatchers');
+  log.info('waitForAllBatchers');
   try {
     await Promise.all(window.batchers.map(item => item.flushAndWait()));
   } catch (error) {

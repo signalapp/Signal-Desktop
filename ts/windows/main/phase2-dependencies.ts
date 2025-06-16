@@ -14,9 +14,11 @@ import { initialize as initializeLogging } from '../../logging/set_up_renderer_l
 import { setup } from '../../signal';
 import { addSensitivePath } from '../../util/privacy';
 import * as dns from '../../util/dns';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { SignalContext } from '../context';
 import * as Attachments from './attachments';
+
+const log = createLogger('phase2-dependencies');
 
 initializeLogging();
 

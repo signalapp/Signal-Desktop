@@ -11,8 +11,10 @@ import {
   isEmojiVariantValue,
   isEmojiVariantValueNonQualified,
 } from '../fun/data/emojis';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer';
+
+const log = createLogger('Emojify');
 
 export type Props = {
   fontSizeOverride?: number | null;

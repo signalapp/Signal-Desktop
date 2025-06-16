@@ -5,13 +5,15 @@ import { Delta } from '@signalapp/quill-cjs';
 import Emitter from '@signalapp/quill-cjs/core/emitter';
 import type Quill from '@signalapp/quill-cjs';
 
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import type { EmojiData } from '../../components/emoji/lib';
 import {
   convertShortName,
   convertShortNameToData,
 } from '../../components/emoji/lib';
 import { EmojiSkinTone } from '../../components/fun/data/emojis';
+
+const log = createLogger('index');
 
 export type AutoSubstituteAsciiEmojisOptions = {
   emojiSkinToneDefault: EmojiSkinTone | null;

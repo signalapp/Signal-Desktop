@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as defaultLogger from '../logging/log';
+import { createLogger } from '../logging/log';
 import { isAudio, isImage, isLongMessage, isVideo } from '../types/MIME';
 import { getMessageIdForLogging } from './idForLogging';
 import {
@@ -45,6 +45,8 @@ import {
 import { queueUpdateMessage } from './messageBatcher';
 import type { LoggerType } from '../types/Logging';
 import { DEFAULT_AUTO_DOWNLOAD_ATTACHMENT } from '../textsecure/Storage';
+
+const defaultLogger = createLogger('queueAttachmentDownloads');
 
 export type MessageAttachmentsDownloadedType = {
   bodyAttachment?: AttachmentType;

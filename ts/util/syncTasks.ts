@@ -5,7 +5,7 @@ import { z } from 'zod';
 import type { ZodSchema } from 'zod';
 
 import { drop } from './drop';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as DeletesForMe from '../messageModifiers/DeletesForMe';
 import {
   deleteMessageSchema,
@@ -29,6 +29,8 @@ import {
 } from '../messageModifiers/ViewSyncs';
 import { safeParseUnknown } from './schemas';
 import { DataWriter } from '../sql/Client';
+
+const log = createLogger('syncTasks');
 
 const syncTaskDataSchema = z.union([
   deleteMessageSchema,
@@ -230,7 +232,7 @@ async function processSyncTasksBatch(
   logId: string,
   previousRowId: number | null
 ): Promise<number | null> {
-  log.info('syncTasks: Fetching tasks');
+  log.info('Fetching tasks');
   const result = await DataWriter.dequeueOldestSyncTasks({ previousRowId });
   const syncTasks = result.tasks;
 

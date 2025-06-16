@@ -8,7 +8,7 @@ import type { MessageModel } from '../models/messages';
 import type { SendStateByConversationId } from '../messages/MessageSendState';
 
 import * as Edits from '../messageModifiers/Edits';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Deletes from '../messageModifiers/Deletes';
 import * as DeletesForMe from '../messageModifiers/DeletesForMe';
 import * as MessageReceipts from '../messageModifiers/MessageReceipts';
@@ -37,6 +37,8 @@ import {
 import { getMessageIdForLogging } from './idForLogging';
 import { markViewOnceMessageViewed } from '../services/MessageUpdater';
 import { handleReaction } from '../messageModifiers/Reactions';
+
+const log = createLogger('modifyTargetMessage');
 
 export enum ModifyTargetMessageResult {
   Modified = 'Modified',

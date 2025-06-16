@@ -16,7 +16,7 @@ import { isInCall } from '../state/selectors/calling';
 import { strictAssert } from './assert';
 import * as Registration from './registration';
 import { lookupConversationWithoutServiceId } from './lookupConversationWithoutServiceId';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import {
   type NotificationClickData,
   notificationService,
@@ -32,6 +32,8 @@ import type {
 } from './preload';
 import { SystemTraySetting } from '../types/SystemTraySetting';
 import OS from './os/osPreload';
+
+const log = createLogger('createIPCEvents');
 
 export type IPCEventsValuesType = {
   // IPC-mediated

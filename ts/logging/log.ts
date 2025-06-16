@@ -3,7 +3,7 @@
 
 import pino from 'pino';
 
-import type { LoggerType, LoggingFn } from '../types/Logging';
+import type { LoggerType } from '../types/Logging';
 import { Environment, getEnvironment } from '../environment';
 import { reallyJsonStringify } from '../util/reallyJsonStringify';
 import { getLogLevelString } from './shared';
@@ -72,15 +72,17 @@ const pinoInstance = pino(
   }
 );
 
-export const fatal: LoggingFn = pinoInstance.fatal.bind(pinoInstance);
-export const error: LoggingFn = pinoInstance.error.bind(pinoInstance);
-export const warn: LoggingFn = pinoInstance.error.bind(pinoInstance);
-export const info: LoggingFn = pinoInstance.info.bind(pinoInstance);
-export const debug: LoggingFn = pinoInstance.debug.bind(pinoInstance);
-export const trace: LoggingFn = pinoInstance.trace.bind(pinoInstance);
-export const child = createChild.bind(pinoInstance);
+export const log: LoggerType = {
+  fatal: pinoInstance.fatal.bind(pinoInstance),
+  error: pinoInstance.error.bind(pinoInstance),
+  warn: pinoInstance.error.bind(pinoInstance),
+  info: pinoInstance.info.bind(pinoInstance),
+  debug: pinoInstance.debug.bind(pinoInstance),
+  trace: pinoInstance.trace.bind(pinoInstance),
+  child: createLogger.bind(pinoInstance),
+};
 
-function createChild(name: string): LoggerType {
+export function createLogger(name: string): LoggerType {
   const instance = pinoInstance.child({}, { msgPrefix: `[${name}] ` });
 
   return {
@@ -90,7 +92,7 @@ function createChild(name: string): LoggerType {
     info: instance.info.bind(instance),
     debug: instance.debug.bind(instance),
     trace: instance.trace.bind(instance),
-    child: createChild.bind(instance),
+    child: createLogger.bind(instance),
   };
 }
 

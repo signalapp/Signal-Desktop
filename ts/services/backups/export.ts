@@ -22,7 +22,7 @@ import type {
   PageMessagesCursorType,
   IdentityKeyType,
 } from '../../sql/Interface';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { GiftBadgeStates } from '../../components/conversation/Message';
 import { type CustomColorType } from '../../types/Colors';
 import { StorySendMode, MY_STORY_ID } from '../../types/Stories';
@@ -158,6 +158,8 @@ import { isValidE164 } from '../../util/isValidE164';
 import { toDayOfWeekArray } from '../../types/NotificationProfile';
 import { getLinkPreviewSetting } from '../../types/LinkPreview';
 import { getTypingIndicatorSetting } from '../../types/Util';
+
+const log = createLogger('export');
 
 const MAX_CONCURRENCY = 10;
 

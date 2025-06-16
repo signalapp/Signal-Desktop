@@ -9,7 +9,7 @@ import type {
   MessageAttributesType,
   QuotedMessageType,
 } from '../model-types.d';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { DataReader, DataWriter } from '../sql/Client';
 import type { AttachmentType } from '../types/Attachment';
 import { ErrorWithToast } from '../types/ErrorWithToast';
@@ -34,6 +34,8 @@ import { strictAssert } from './assert';
 import { timeAndLogIfTooLong } from './timeAndLogIfTooLong';
 import { makeQuote } from './makeQuote';
 import { getMessageSentTimestamp } from './getMessageSentTimestamp';
+
+const log = createLogger('sendEditedMessage');
 
 const SEND_REPORT_THRESHOLD_MS = 25;
 

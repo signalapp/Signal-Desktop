@@ -4,7 +4,9 @@
 import { DAY } from './durations';
 import { sendDeleteForEveryoneMessage } from './sendDeleteForEveryoneMessage';
 import { getMessageById } from '../messages/getMessageById';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const log = createLogger('deleteGroupStoryReplyForEveryone');
 
 export async function deleteGroupStoryReplyForEveryone(
   replyMessageId: string
@@ -26,9 +28,7 @@ export async function deleteGroupStoryReplyForEveryone(
 
   if (!group) {
     log.warn(
-      `deleteGroupStoryReplyForEveryone: No conversation model found for: ${messageModel.get(
-        'conversationId'
-      )}`
+      `No conversation model found for: ${messageModel.get('conversationId')}`
     );
     return;
   }

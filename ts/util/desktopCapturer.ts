@@ -5,7 +5,7 @@
 import { ipcRenderer, type DesktopCapturerSource } from 'electron';
 import type { Stream, StreamOptions } from '@indutny/mac-screen-share';
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
 import type { PresentableSource } from '../types/Calling';
 import type { LocalizerType } from '../types/Util';
@@ -20,6 +20,8 @@ import { isNotNil } from './isNotNil';
 import { drop } from './drop';
 import { SECOND } from './durations';
 import { isOlderThan } from './timestamp';
+
+const log = createLogger('desktopCapturer');
 
 // Chrome-only API for now, thus a declaration:
 declare class MediaStreamTrackGenerator extends MediaStreamTrack {

@@ -11,7 +11,9 @@ import { Blocked } from './storage/Blocked';
 import { assertDev } from '../util/assert';
 import { DataReader, DataWriter } from '../sql/Client';
 import type { SignalProtocolStore } from '../SignalProtocolStore';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const log = createLogger('Storage');
 
 export const DEFAULT_AUTO_DOWNLOAD_ATTACHMENT = {
   photos: true,
@@ -130,7 +132,7 @@ export class Storage implements StorageInterface {
       log.warn('Called getItemsState before storage is ready');
     }
 
-    log.info('Storage/getItemsState: now preparing copy of items...');
+    log.info('getItemsState: now preparing copy of items...');
 
     const state = Object.create(null);
 

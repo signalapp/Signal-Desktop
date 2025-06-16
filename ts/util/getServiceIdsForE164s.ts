@@ -4,9 +4,11 @@
 import type { CDSResponseType } from '../textsecure/cds/Types.d';
 import type { WebAPIType } from '../textsecure/WebAPI';
 import type { AciString } from '../types/ServiceId';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { isDirectConversation, isMe } from './whatTypeOfConversation';
 import { parseNumber } from './libphonenumberUtil';
+
+const log = createLogger('getServiceIdsForE164s');
 
 type PhoneNumberTransformation = {
   oldPattern: RegExp;

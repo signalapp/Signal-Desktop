@@ -3,7 +3,7 @@
 
 import type { ReadonlyDeep } from 'type-fest';
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import type { ConversationModel } from '../models/conversations';
 import type {
   CustomError,
@@ -16,6 +16,8 @@ import { PaymentEventKind } from '../types/Payment';
 import type { AnyPaymentEvent } from '../types/Payment';
 import type { LocalizerType } from '../types/Util';
 import { missingCaseError } from '../util/missingCaseError';
+
+const log = createLogger('helpers');
 
 export function isIncoming(
   message: Pick<ReadonlyMessageAttributesType, 'type'>

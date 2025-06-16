@@ -21,7 +21,7 @@ import { DataReader, DataWriter } from '../../sql/Client';
 import type { AttachmentType } from '../../types/Attachment';
 import type { StateType as RootStateType } from '../reducer';
 import * as groups from '../../groups';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { calling } from '../../services/calling';
 import { getOwn } from '../../util/getOwn';
 import { assertDev, strictAssert } from '../../util/assert';
@@ -223,6 +223,8 @@ import { MessageModel } from '../../models/messages';
 import type { ConversationModel } from '../../models/conversations';
 import { EditState } from '../../components/ProfileEditor';
 import { Page } from '../../components/Preferences';
+
+const log = createLogger('conversations');
 
 // State
 

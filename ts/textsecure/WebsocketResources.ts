@@ -51,7 +51,7 @@ import { isOlderThan } from '../util/timestamp';
 import { strictAssert } from '../util/assert';
 import * as Errors from '../types/errors';
 import { SignalService as Proto } from '../protobuf';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Timers from '../Timers';
 import type { IResource } from './WebSocket';
 
@@ -63,6 +63,8 @@ import {
   parseServerAlertsFromHeader,
   type ServerAlert,
 } from '../util/handleServerAlerts';
+
+const log = createLogger('WebsocketResources');
 
 const THIRTY_SECONDS = 30 * durations.SECOND;
 

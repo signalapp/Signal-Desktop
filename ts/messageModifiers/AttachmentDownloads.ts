@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { omit } from 'lodash';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Bytes from '../Bytes';
 import type { AttachmentDownloadJobTypeType } from '../types/AttachmentDownload';
 
@@ -9,6 +9,8 @@ import type { AttachmentType } from '../types/Attachment';
 import { getAttachmentSignatureSafe, isDownloaded } from '../types/Attachment';
 import { getMessageById } from '../messages/getMessageById';
 import { trimMessageWhitespace } from '../types/BodyRange';
+
+const log = createLogger('AttachmentDownloads');
 
 export async function markAttachmentAsCorrupted(
   messageId: string,

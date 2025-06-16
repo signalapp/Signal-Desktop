@@ -21,7 +21,7 @@ import {
 } from './zkgroup';
 import type { ServiceIdString } from '../types/ServiceId';
 import { fromAciObject } from '../types/ServiceId';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import type { GroupV2MemberType } from '../model-types';
 import { DurationInSeconds, MINUTE } from './durations';
 import { ToastType } from '../types/Toast';
@@ -32,6 +32,8 @@ import { parseStrict } from './schemas';
 import { DataReader } from '../sql/Client';
 import { maybeUpdateGroup } from '../groups';
 import { isGroupV2 } from './whatTypeOfConversation';
+
+const log = createLogger('groupSendEndorsements');
 
 export function decodeGroupSendEndorsementResponse({
   groupId,

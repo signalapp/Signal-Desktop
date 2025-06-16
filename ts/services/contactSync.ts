@@ -17,7 +17,7 @@ import type { ValidateConversationType } from '../model-types.d';
 import type { ConversationModel } from '../models/conversations';
 import { validateConversation } from '../util/validateConversation';
 import { isDirectConversation, isMe } from '../util/whatTypeOfConversation';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { dropNull } from '../util/dropNull';
 import type { ProcessedAttachment } from '../textsecure/Types';
 import { downloadAttachment } from '../textsecure/downloadAttachment';
@@ -25,6 +25,8 @@ import { strictAssert } from '../util/assert';
 import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto';
 import { SECOND } from '../util/durations';
 import { AttachmentVariant } from '../types/Attachment';
+
+const log = createLogger('contactSync');
 
 // When true - we are running the very first storage and contact sync after
 // linking.

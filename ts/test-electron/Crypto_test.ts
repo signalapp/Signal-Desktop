@@ -8,7 +8,7 @@ import { createCipheriv } from 'crypto';
 import { assert } from 'chai';
 import { isNumber } from 'lodash';
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Bytes from '../Bytes';
 import * as Curve from '../Curve';
 import {
@@ -53,6 +53,8 @@ import {
 import type { AciString, PniString } from '../types/ServiceId';
 import { createTempDir, deleteTempDir } from '../updater/common';
 import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes';
+
+const log = createLogger('Crypto_test');
 
 const GHOST_KITTY_HASH =
   '7bc77f27d92d00b4a1d57c480ca86dacc43d57bc318339c92119d1fbf6b557a5';

@@ -6,8 +6,10 @@ import { MessageSearchResult } from '../../components/conversationList/MessageSe
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { getIntl, getTheme } from '../selectors/user';
 import { getMessageSearchResultSelector } from '../selectors/search';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { useConversationsActions } from '../ducks/conversations';
+
+const log = createLogger('MessageSearchResult');
 
 type SmartMessageSearchResultProps = {
   id: string;

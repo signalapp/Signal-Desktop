@@ -5,7 +5,7 @@ import { pick } from 'lodash';
 import type { ReadonlyMessageAttributesType } from '../model-types.d';
 import type { StoryDataType } from '../state/ducks/stories';
 import * as durations from '../util/durations';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { DataReader } from '../sql/Client';
 import type { GetAllStoriesResultType } from '../sql/Interface';
 import {
@@ -18,6 +18,8 @@ import { strictAssert } from '../util/assert';
 import { dropNull } from '../util/dropNull';
 import { DurationInSeconds } from '../util/durations';
 import { SIGNAL_ACI } from '../types/SignalConversation';
+
+const log = createLogger('storyLoader');
 
 let storyData: GetAllStoriesResultType | undefined;
 

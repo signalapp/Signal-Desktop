@@ -12,7 +12,9 @@ import { getMessageIdForLogging } from '../util/idForLogging';
 import { eraseMessageContents } from '../util/cleanup';
 import { drop } from '../util/drop';
 import { MessageModel } from '../models/messages';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const log = createLogger('tapToViewMessagesDeletionService');
 
 async function eraseTapToViewMessages() {
   try {

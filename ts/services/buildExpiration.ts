@@ -8,7 +8,9 @@ import {
   getBuildExpirationTimestamp,
 } from '../util/buildExpiration';
 import { LongTimeout } from '../util/timeout';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const log = createLogger('buildExpiration');
 
 export class BuildExpirationService extends EventEmitter {
   constructor() {
@@ -48,19 +50,19 @@ export class BuildExpirationService extends EventEmitter {
     const now = Date.now();
     if (timestamp <= now) {
       if (this.hasBuildExpired()) {
-        log.warn('buildExpirationService: expired');
+        log.warn('expired');
         this.emit('expired');
       }
       return;
     }
 
     const delayMs = timestamp - now;
-    log.info(`buildExpirationService: expires in ${delayMs}ms`);
+    log.info(`expires in ${delayMs}ms`);
 
     // eslint-disable-next-line no-new
     new LongTimeout(() => {
       if (this.hasBuildExpired()) {
-        log.warn('buildExpirationService: expired');
+        log.warn('expired');
         this.emit('expired');
       } else {
         this.#startTimer();

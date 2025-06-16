@@ -16,7 +16,7 @@ import {
   getSelectedConversationId,
 } from './conversations';
 import type { StateType } from '../reducer';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl';
 import type { MessageWithUIFieldsType } from '../ducks/conversations';
 import type { ReadonlyMessageAttributesType } from '../../model-types.d';
@@ -25,6 +25,8 @@ import * as Attachment from '../../types/Attachment';
 import type { ActiveAudioPlayerStateType } from '../ducks/audioPlayer';
 import { isPlayed } from '../../types/Attachment';
 import type { ServiceIdString } from '../../types/ServiceId';
+
+const log = createLogger('audioPlayer');
 
 export type VoiceNoteForPlayback = {
   id: string;

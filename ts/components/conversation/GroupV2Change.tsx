@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { get } from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { I18n } from '../I18n';
 import type {
   LocalizerType,
@@ -27,6 +27,8 @@ import type { SmartContactRendererType } from '../../groupChange';
 import { renderChange } from '../../groupChange';
 import { Modal } from '../Modal';
 import { ConfirmationDialog } from '../ConfirmationDialog';
+
+const log = createLogger('GroupV2Change');
 
 export type PropsDataType = ReadonlyDeep<{
   areWeAdmin: boolean;

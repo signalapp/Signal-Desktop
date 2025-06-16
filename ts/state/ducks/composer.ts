@@ -27,7 +27,7 @@ import type { ReadonlyMessageAttributesType } from '../../model-types.d';
 import type { NoopActionType } from './noop';
 import type { ShowToastActionType } from './toast';
 import type { StateType as RootStateType } from '../reducer';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import * as Errors from '../../types/errors';
 import {
   ADD_PREVIEW as ADD_LINK_PREVIEW,
@@ -95,6 +95,8 @@ import {
   isImageTypeSupported,
   isVideoTypeSupported,
 } from '../../util/GoogleChrome';
+
+const log = createLogger('composer');
 
 // State
 // eslint-disable-next-line local-rules/type-alias-readonlydeep

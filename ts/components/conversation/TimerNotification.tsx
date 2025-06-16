@@ -10,7 +10,9 @@ import { I18n } from '../I18n';
 import type { LocalizerType } from '../../types/Util';
 import * as expirationTimer from '../../util/expirationTimer';
 import type { DurationInSeconds } from '../../util/durations';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
+
+const log = createLogger('TimerNotification');
 
 export type TimerNotificationType =
   | 'fromOther'
@@ -83,7 +85,7 @@ export function TimerNotification(props: Props): JSX.Element {
         : i18n('icu:timerSetByMember', { time: timespan });
       break;
     default:
-      log.warn('TimerNotification: unsupported type provided:', type);
+      log.warn('unsupported type provided:', type);
       break;
   }
 

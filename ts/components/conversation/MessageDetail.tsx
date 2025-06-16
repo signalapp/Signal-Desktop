@@ -25,7 +25,7 @@ import {
   type VisibleSendStatus,
 } from '../../messages/MessageSendState';
 import { WidthBreakpoint } from '../_util';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { formatDateTimeLong } from '../../util/timestamp';
 import { DurationInSeconds } from '../../util/durations';
 import { format as formatRelativeTime } from '../../util/expirationTimer';
@@ -36,6 +36,8 @@ import {
   ConversationDetailsIcon,
   IconType,
 } from './conversation-details/ConversationDetailsIcon';
+
+const log = createLogger('MessageDetail');
 
 export type Contact = Pick<
   ConversationType,
@@ -361,7 +363,7 @@ export function MessageDetail({
             showConversation={showConversation}
             showSpoiler={showSpoiler}
             scrollToQuotedMessage={() => {
-              log.warn('MessageDetail: scrollToQuotedMessage called!');
+              log.warn('scrollToQuotedMessage called!');
             }}
             showContactModal={showContactModal}
             showAttachmentDownloadStillInProgressToast={

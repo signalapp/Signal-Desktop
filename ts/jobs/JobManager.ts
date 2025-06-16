@@ -8,7 +8,7 @@ import {
 } from '../util/explodePromise';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { drop } from '../util/drop';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { missingCaseError } from '../util/missingCaseError';
 import {
   type ExponentialBackoffOptionsType,
@@ -16,6 +16,8 @@ import {
 } from '../util/exponentialBackoff';
 import * as Errors from '../types/errors';
 import { sleep } from '../util/sleep';
+
+const log = createLogger('JobManager');
 
 export type JobManagerJobType = {
   active: boolean;

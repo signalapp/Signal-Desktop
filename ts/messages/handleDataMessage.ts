@@ -3,7 +3,7 @@
 
 import { isNumber } from 'lodash';
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
 import * as LinkPreview from '../types/LinkPreview';
 
@@ -65,6 +65,8 @@ import type {
 } from '../textsecure/Types';
 import type { ServiceIdString } from '../types/ServiceId';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
+
+const log = createLogger('handleDataMessage');
 
 const CURRENT_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.CURRENT;
 const INITIAL_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.INITIAL;

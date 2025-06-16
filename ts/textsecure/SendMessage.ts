@@ -71,7 +71,7 @@ import type { SendTypesType } from '../util/handleMessageSend';
 import { shouldSaveProto, sendTypesEnum } from '../util/handleMessageSend';
 import type { DurationInSeconds } from '../util/durations';
 import { SignalService as Proto } from '../protobuf';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import type { EmbeddedContactWithUploadedAvatar } from '../types/EmbeddedContact';
 import {
   numberToPhoneType,
@@ -101,6 +101,8 @@ import {
 } from '../util/callDisposition';
 import { MAX_MESSAGE_COUNT } from '../util/deleteForMe.types';
 import type { GroupSendToken } from '../types/GroupSendEndorsements';
+
+const log = createLogger('SendMessage');
 
 export type SendIdentifierData =
   | {

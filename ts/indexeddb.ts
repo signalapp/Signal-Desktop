@@ -1,7 +1,9 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as log from './logging/log';
+import { createLogger } from './logging/log';
+
+const log = createLogger('indexeddb');
 
 const LEGACY_DATABASE_ID = 'signal';
 

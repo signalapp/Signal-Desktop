@@ -3,7 +3,7 @@
 
 import pTimeout, { TimeoutError as PTimeoutError } from 'p-timeout';
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
 import { MAX_DEVICE_NAME_LENGTH } from '../types/InstallScreen';
 import {
@@ -38,6 +38,8 @@ import {
 } from './WebsocketResources';
 import { ConnectTimeoutError } from './Errors';
 import { type WebAPIType } from './WebAPI';
+
+const log = createLogger('Provisioner');
 
 export enum EventKind {
   MaxRotationsError = 'MaxRotationsError',
@@ -217,7 +219,7 @@ export class Provisioner {
   //
 
   #start(): void {
-    log.info('Provisioner: starting');
+    log.info('starting');
 
     if (this.#abortController) {
       strictAssert(this.#isRunning, 'Must be running to have controller');
@@ -234,7 +236,7 @@ export class Provisioner {
     if (!this.#isRunning) {
       return;
     }
-    log.info(`Provisioner: stopping, reason=${reason}`);
+    log.info(`stopping, reason=${reason}`);
 
     this.#sockets = [];
     this.#abortController?.abort();
@@ -349,7 +351,7 @@ export class Provisioner {
         handleRequest: (request: IncomingWebSocketRequest) => {
           const { requestType, body } = request;
           if (!body) {
-            log.warn('Provisioner.connect: no request body');
+            log.warn('connect: no request body');
             request.respond(400, 'Missing body');
             return;
           }
@@ -385,14 +387,11 @@ export class Provisioner {
                   Bytes.isNotEmpty(envelope.ephemeralBackupKey),
               });
             } else {
-              log.warn(
-                'Provisioner.connect: unsupported request type',
-                requestType
-              );
+              log.warn('connect: unsupported request type', requestType);
               request.respond(404, 'Unsupported');
             }
           } catch (error) {
-            log.error('Provisioner.connect: error', Errors.toLogFormat(error));
+            log.error('connect: error', Errors.toLogFormat(error));
             resource.close();
           }
         },
@@ -441,7 +440,7 @@ export class Provisioner {
     this.#sockets.push(resource);
 
     while (this.#sockets.length > MAX_OPEN_SOCKETS) {
-      log.info('Provisioner: closing extra socket');
+      log.info('closing extra socket');
       this.#sockets.shift()?.close();
     }
   }
@@ -454,10 +453,7 @@ export class Provisioner {
   ): void {
     const index = this.#sockets.indexOf(resource);
     if (index === -1) {
-      log.info(
-        'Provisioner: ignoring socket closed, ' +
-          `code=${code}, reason=${reason}`
-      );
+      log.info(`ignoring socket closed, code=${code}, reason=${reason}`);
       return;
     }
 

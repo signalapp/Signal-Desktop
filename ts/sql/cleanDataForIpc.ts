@@ -2,9 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isPlainObject } from 'lodash';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 
 import { isIterable } from '../util/iterables';
+
+const log = createLogger('cleanDataForIpc');
 
 /**
  * IPC arguments are serialized with the [structured clone algorithm][0], but we can only

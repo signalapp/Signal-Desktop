@@ -8,7 +8,7 @@ import protobuf from '../protobuf/wrap';
 import { normalizeAci } from '../util/normalizeAci';
 import { isAciString } from '../util/isAciString';
 import { DurationInSeconds } from '../util/durations';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import type { ContactAvatarType } from '../types/Avatar';
 import type { AttachmentType } from '../types/Attachment';
 import { computeHash } from '../Crypto';
@@ -17,6 +17,8 @@ import { decryptAttachmentV2ToSink } from '../AttachmentCrypto';
 
 import Avatar = Proto.ContactDetails.IAvatar;
 import { stringToMIMEType } from '../types/MIME';
+
+const log = createLogger('ContactsParser');
 
 const { Reader } = protobuf;
 

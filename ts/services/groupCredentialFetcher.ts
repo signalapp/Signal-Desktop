@@ -18,7 +18,9 @@ import { sleep } from '../util/sleep';
 import { toDayMillis } from '../util/timestamp';
 import { toTaggedPni } from '../types/ServiceId';
 import { toPniObject, toAciObject } from '../util/ServiceId';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const log = createLogger('groupCredentialFetcher');
 
 export const GROUP_CREDENTIALS_KEY = 'groupCredentials';
 

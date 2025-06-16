@@ -7,7 +7,7 @@ import { last } from 'lodash';
 import * as durations from '../util/durations';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import * as Registration from '../util/registration';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
 import { HTTPError } from '../textsecure/Errors';
 import { drop } from '../util/drop';
@@ -28,6 +28,8 @@ import type { WithRequiredProperties } from '../types/Util';
 import { MessageModel } from '../models/messages';
 import { stringToMIMEType } from '../types/MIME';
 import { isNotNil } from '../util/isNotNil';
+
+const log = createLogger('releaseNotesFetcher');
 
 const FETCH_INTERVAL = 3 * durations.DAY;
 const ERROR_RETRY_DELAY = 3 * durations.HOUR;
@@ -70,10 +72,7 @@ export class ReleaseNotesFetcher {
       now
     );
 
-    log.info(
-      'ReleaseNotesFetcher: Next update scheduled for',
-      new Date(time).toISOString()
-    );
+    log.info('Next update scheduled for', new Date(time).toISOString());
 
     let waitTime = time - now;
     if (waitTime < 0) {
@@ -92,9 +91,7 @@ export class ReleaseNotesFetcher {
       return versionWatermark;
     }
 
-    log.info(
-      'ReleaseNotesFetcher: Initializing version high watermark to current version'
-    );
+    log.info('Initializing version high watermark to current version');
     const currentVersion = window.getVersion();
     drop(
       window.textsecure.storage.put(
@@ -109,7 +106,7 @@ export class ReleaseNotesFetcher {
     note: ManifestReleaseNoteType
   ): Promise<ReleaseNoteType | undefined> {
     if (!window.textsecure.server) {
-      log.info('ReleaseNotesFetcher: WebAPI unavailable');
+      log.info('WebAPI unavailable');
       throw new Error('WebAPI unavailable');
     }
 
@@ -165,11 +162,11 @@ export class ReleaseNotesFetcher {
     notes: ReadonlyArray<ManifestReleaseNoteType>
   ): Promise<void> {
     if (!window.textsecure.server) {
-      log.info('ReleaseNotesFetcher: WebAPI unavailable');
+      log.info('WebAPI unavailable');
       throw new Error('WebAPI unavailable');
     }
 
-    log.info('ReleaseNotesFetcher: Ensuring Signal conversation');
+    log.info('Ensuring Signal conversation');
     const signalConversation =
       await window.ConversationController.getOrCreateSignalConversation();
 
@@ -185,7 +182,7 @@ export class ReleaseNotesFetcher {
 
     if (signalConversation.isBlocked()) {
       log.info(
-        `ReleaseNotesFetcher: Signal conversation is blocked, updating watermark to ${versionWatermark}`
+        `Signal conversation is blocked, updating watermark to ${versionWatermark}`
       );
       drop(
         window.textsecure.storage.put(
@@ -200,7 +197,7 @@ export class ReleaseNotesFetcher {
       await Promise.all(
         sortedNotes.map(async note => {
           if (!window.textsecure.server) {
-            log.info('ReleaseNotesFetcher: WebAPI unavailable');
+            log.info('WebAPI unavailable');
             throw new Error('WebAPI unavailable');
           }
           if (!note) {
@@ -257,7 +254,7 @@ export class ReleaseNotesFetcher {
     );
 
     if (!hydratedNotes.length) {
-      log.warn('ReleaseNotesFetcher: No hydrated notes available, stopping');
+      log.warn('No hydrated notes available, stopping');
       return;
     }
 
@@ -334,9 +331,7 @@ export class ReleaseNotesFetcher {
     signalConversation.set({ active_at: Date.now(), isArchived: false });
     signalConversation.throttledUpdateUnread();
 
-    log.info(
-      `ReleaseNotesFetcher: Updating version watermark to ${versionWatermark}`
-    );
+    log.info(`Updating version watermark to ${versionWatermark}`);
     drop(
       window.textsecure.storage.put(
         VERSION_WATERMARK_STORAGE_KEY,
@@ -355,18 +350,18 @@ export class ReleaseNotesFetcher {
 
   async #run(options?: FetchOptions): Promise<void> {
     if (this.#isRunning) {
-      log.warn('ReleaseNotesFetcher: Already running, preventing reentrancy');
+      log.warn('Already running, preventing reentrancy');
       return;
     }
 
     this.#isRunning = true;
-    log.info('ReleaseNotesFetcher: Starting');
+    log.info('Starting');
     try {
       const versionWatermark = this.#getOrInitializeVersionWatermark();
-      log.info(`ReleaseNotesFetcher: Version watermark is ${versionWatermark}`);
+      log.info(`Version watermark is ${versionWatermark}`);
 
       if (!window.textsecure.server) {
-        log.info('ReleaseNotesFetcher: WebAPI unavailable');
+        log.info('WebAPI unavailable');
         throw new Error('WebAPI unavailable');
       }
 
@@ -381,7 +376,7 @@ export class ReleaseNotesFetcher {
 
       if (hash !== previousHash || options?.isNewVersion) {
         log.info(
-          `ReleaseNotesFetcher: Fetching manifest, isNewVersion=${
+          `Fetching manifest, isNewVersion=${
             options?.isNewVersion ? 'true' : 'false'
           }, hashChanged=${hash !== previousHash ? 'true' : 'false'}`
         );
@@ -395,12 +390,10 @@ export class ReleaseNotesFetcher {
             semver.lte(note.desktopMinVersion, currentVersion)
         );
         if (validNotes.length) {
-          log.info(
-            `ReleaseNotesFetcher: Processing ${validNotes.length} new release notes`
-          );
+          log.info(`Processing ${validNotes.length} new release notes`);
           await this.#processReleaseNotes(validNotes);
         } else {
-          log.info('ReleaseNotesFetcher: No new release notes');
+          log.info('No new release notes');
         }
 
         drop(
@@ -410,9 +403,7 @@ export class ReleaseNotesFetcher {
           )
         );
       } else {
-        log.info(
-          'ReleaseNotesFetcher: Manifest hash unchanged, aborting fetch'
-        );
+        log.info('Manifest hash unchanged, aborting fetch');
       }
 
       await this.#scheduleForNextRun();
@@ -423,9 +414,7 @@ export class ReleaseNotesFetcher {
         error instanceof HTTPError
           ? error.code.toString()
           : Errors.toLogFormat(error);
-      log.error(
-        `ReleaseNotesFetcher: Error, trying again later. ${errorString}`
-      );
+      log.error(`Error, trying again later. ${errorString}`);
       setTimeout(() => this.setTimeoutForNextRun(), ERROR_RETRY_DELAY);
     } finally {
       this.#isRunning = false;
@@ -436,9 +425,7 @@ export class ReleaseNotesFetcher {
     if (window.textsecure.server?.isOnline()) {
       drop(this.#run(options));
     } else {
-      log.info(
-        'ReleaseNotesFetcher: We are offline; will fetch when we are next online'
-      );
+      log.info('We are offline; will fetch when we are next online');
       const listener = () => {
         window.Whisper.events.off('online', listener);
         this.setTimeoutForNextRun(options);

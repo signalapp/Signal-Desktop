@@ -37,7 +37,7 @@ import { getUserConversationId } from './user';
 import { getDistributionListSelector } from './storyDistributionLists';
 import { calculateExpirationTimestamp } from '../../util/expirationTimer';
 import { getMessageIdForLogging } from '../../util/idForLogging';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { SIGNAL_ACI } from '../../types/SignalConversation';
 import {
   reduceStorySendStatus,
@@ -45,6 +45,8 @@ import {
 } from '../../util/resolveStorySendStatus';
 import { BodyRange, hydrateRanges } from '../../types/BodyRange';
 import { getStoriesEnabled } from './items';
+
+const log = createLogger('stories');
 
 export const getStoriesState = (state: StateType): StoriesStateType =>
   state.stories;

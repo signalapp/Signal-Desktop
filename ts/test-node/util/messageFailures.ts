@@ -6,7 +6,7 @@ import { mapValues, pick } from 'lodash';
 import type { CustomError } from '../../textsecure/Types';
 
 import type { MessageAttributesType } from '../../model-types';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import * as Errors from '../../types/errors';
 import {
   getChangesForPropAtTimestamp,
@@ -24,6 +24,8 @@ import {
   NotificationType,
 } from '../../services/notifications';
 import type { MessageModel } from '../../models/messages';
+
+const log = createLogger('messageFailures');
 
 export async function saveErrorsOnMessage(
   message: MessageModel,

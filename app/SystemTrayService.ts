@@ -6,8 +6,10 @@ import { Menu, Tray, app, nativeImage, nativeTheme, screen } from 'electron';
 import os from 'node:os';
 import { join } from 'node:path';
 import { readFileSync } from 'node:fs';
-import * as log from '../ts/logging/log';
+import { createLogger } from '../ts/logging/log';
 import type { LocalizerType } from '../ts/types/I18N';
+
+const log = createLogger('SystemTrayService');
 
 export type SystemTrayServiceOptionsType = Readonly<{
   i18n: LocalizerType;

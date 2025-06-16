@@ -14,7 +14,7 @@ import type { CapabilitiesType, ProfileType } from '../textsecure/WebAPI';
 import MessageSender from '../textsecure/SendMessage';
 import type { ServiceIdString } from '../types/ServiceId';
 import { DataWriter } from '../sql/Client';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
 import * as Bytes from '../Bytes';
 import { explodePromise } from '../util/explodePromise';
@@ -44,6 +44,8 @@ import {
   maybeCreateGroupSendEndorsementState,
   onFailedToSendWithEndorsements,
 } from '../util/groupSendEndorsements';
+
+const log = createLogger('profiles');
 
 type JobType = {
   resolve: () => void;

@@ -11,7 +11,7 @@ import type {
 } from '../model-types.d';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import * as Edits from '../messageModifiers/Edits';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { DataWriter } from '../sql/Client';
 import { drop } from './drop';
@@ -27,6 +27,8 @@ import { modifyTargetMessage } from './modifyTargetMessage';
 import { isMessageNoteToSelf } from './isMessageNoteToSelf';
 import { MessageModel } from '../models/messages';
 
+const log = createLogger('handleEditMessage');
+
 const RECURSION_LIMIT = 15;
 
 function getAttachmentSignatureSafe(
@@ -35,10 +37,7 @@ function getAttachmentSignatureSafe(
   try {
     return getAttachmentSignature(attachment);
   } catch {
-    log.warn(
-      'handleEditMessage: attachment was missing digest',
-      attachment.blurHash
-    );
+    log.warn('attachment was missing digest', attachment.blurHash);
     return undefined;
   }
 }

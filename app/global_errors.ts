@@ -6,9 +6,11 @@ import os from 'node:os';
 
 import * as Errors from '../ts/types/errors';
 import { redactAll } from '../ts/util/privacy';
-import * as log from '../ts/logging/log';
+import { createLogger } from '../ts/logging/log';
 import { reallyJsonStringify } from '../ts/util/reallyJsonStringify';
 import type { LocaleType } from './locale';
+
+const log = createLogger('global_errors');
 
 // We use hard-coded strings until we're able to update these strings from the locale.
 let quitText = 'Quit';

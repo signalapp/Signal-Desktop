@@ -20,9 +20,11 @@ import {
   getAttachmentIdForLogging,
 } from '../types/Attachment';
 import { strictAssert } from './assert';
-import * as logging from '../logging/log';
+import { createLogger } from '../logging/log';
 import { fromBase64, toBase64 } from '../Bytes';
 import { toLogFormat } from '../types/errors';
+
+const logging = createLogger('ensureAttachmentIsReencryptable');
 
 /**
  * Some attachments on desktop are not reencryptable to the digest we received for them.

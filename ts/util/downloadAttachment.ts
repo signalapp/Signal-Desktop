@@ -12,10 +12,12 @@ import {
 import { downloadAttachment as doDownloadAttachment } from '../textsecure/downloadAttachment';
 import { downloadAttachmentFromLocalBackup as doDownloadAttachmentFromLocalBackup } from './downloadAttachmentFromLocalBackup';
 import { MediaTier } from '../types/AttachmentDownload';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { HTTPError } from '../textsecure/Errors';
 import { toLogFormat } from '../types/errors';
 import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto';
+
+const log = createLogger('downloadAttachment');
 
 export async function downloadAttachment({
   attachment,

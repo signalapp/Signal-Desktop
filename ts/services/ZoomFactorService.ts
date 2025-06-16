@@ -4,7 +4,9 @@ import type { BrowserWindow } from 'electron';
 import { ipcMain } from 'electron';
 import EventEmitter from 'events';
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const log = createLogger('ZoomFactorService');
 
 const DEFAULT_ZOOM_FACTOR = 1.0;
 

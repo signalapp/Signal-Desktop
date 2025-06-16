@@ -115,7 +115,7 @@ import {
   NotificationType,
   shouldSaveNotificationAvatarToDisk,
 } from './notifications';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { assertDev, strictAssert } from '../util/assert';
 import {
   formatLocalDeviceState,
@@ -161,6 +161,9 @@ import { getColorForCallLink } from '../util/getColorForCallLink';
 import { getUseRingrtcAdm } from '../util/ringrtc/ringrtcAdm';
 import OS from '../util/os/osMain';
 import { sleep } from '../util/sleep';
+
+const log = createLogger('calling');
+const ringrtcLog = createLogger('@signalapp/ringrtc');
 
 const { wasGroupCallRingPreviouslyCanceled } = DataReader;
 const {
@@ -1923,7 +1926,7 @@ export class CallingClass {
     }
 
     log.error(
-      'Calling.formatUserId: could not convert participant UUID Uint8Array to string'
+      'formatUserId: could not convert participant UUID Uint8Array to string'
     );
     return null;
   }
@@ -1941,7 +1944,7 @@ export class CallingClass {
           }
         } else {
           log.error(
-            'Calling.formatGroupCallPeekInfoForRedux: device had no user ID; using fallback UUID'
+            'formatGroupCallPeekInfoForRedux: device had no user ID; using fallback UUID'
           );
         }
         return normalizeAci(
@@ -1999,7 +2002,7 @@ export class CallingClass {
         let aci = bytesToUuid(remoteDeviceState.userId);
         if (!aci) {
           log.error(
-            'Calling.formatGroupCallForRedux: could not convert remote participant UUID Uint8Array to string; using fallback UUID'
+            'formatGroupCallForRedux: could not convert remote participant UUID Uint8Array to string; using fallback UUID'
           );
           aci = '00000000-0000-4000-8000-000000000000';
         }
@@ -3465,13 +3468,13 @@ export class CallingClass {
   ) {
     switch (level) {
       case CallLogLevel.Info:
-        log.info(`${fileName}:${line} ${message}`);
+        ringrtcLog.info(`${fileName}:${line} ${message}`);
         break;
       case CallLogLevel.Warn:
-        log.warn(`${fileName}:${line} ${message}`);
+        ringrtcLog.warn(`${fileName}:${line} ${message}`);
         break;
       case CallLogLevel.Error:
-        log.error(`${fileName}:${line} ${message}`);
+        ringrtcLog.error(`${fileName}:${line} ${message}`);
         break;
       default:
         break;

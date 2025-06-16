@@ -4,10 +4,12 @@ import { type Readable } from 'node:stream';
 import fetch, { type RequestInit, type Response } from 'node-fetch';
 
 import { HTTPError } from '../../textsecure/Errors';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import * as Errors from '../../types/errors';
 import { sleep } from '../sleep';
 import { FIBONACCI_TIMEOUTS, BackOff } from '../BackOff';
+
+const log = createLogger('tusProtocol');
 
 export type FetchFunctionType = (
   url: string | URL,

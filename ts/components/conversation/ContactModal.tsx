@@ -13,7 +13,7 @@ import type { HasStories } from '../../types/Stories';
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { ViewUserStoriesActionCreatorType } from '../../state/ducks/stories';
 import { StoryViewModeType } from '../../types/Stories';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { Avatar, AvatarBlur, AvatarSize } from '../Avatar';
 import { AvatarLightbox } from '../AvatarLightbox';
 import { BadgeDialog } from '../BadgeDialog';
@@ -31,6 +31,8 @@ import {
   InAnotherCallTooltip,
   getTooltipContent,
 } from './InAnotherCallTooltip';
+
+const log = createLogger('ContactModal');
 
 export type PropsDataType = {
   areWeASubscriber: boolean;
@@ -216,7 +218,7 @@ export function ContactModal({
       break;
     case SubModalState.ToggleAdmin:
       if (!conversation?.id) {
-        log.warn('ContactModal: ToggleAdmin state - missing conversationId');
+        log.warn('ToggleAdmin state - missing conversationId');
         modalNode = undefined;
         break;
       }
@@ -247,9 +249,7 @@ export function ContactModal({
       break;
     case SubModalState.MemberRemove:
       if (!contact || !conversation?.id) {
-        log.warn(
-          'ContactModal: MemberRemove state - missing contact or conversationId'
-        );
+        log.warn('MemberRemove state - missing contact or conversationId');
         modalNode = undefined;
         break;
       }
@@ -291,7 +291,7 @@ export function ContactModal({
       break;
     default: {
       const state: never = subModalState;
-      log.warn(`ContactModal: unexpected ${state}!`);
+      log.warn(`unexpected ${state}!`);
       modalNode = undefined;
       break;
     }

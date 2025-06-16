@@ -13,12 +13,14 @@ import { getAuthor } from '../messages/helpers';
 import { getQuoteBodyText } from './getQuoteBodyText';
 import { isGIF } from '../types/Attachment';
 import { isGiftBadge, isTapToView } from '../state/selectors/message';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { map, take, collect } from './iterables';
 import { strictAssert } from './assert';
 import { getMessageSentTimestamp } from './getMessageSentTimestamp';
 import { getLocalAttachmentUrl } from './getLocalAttachmentUrl';
 import type { QuotedMessageForComposerType } from '../state/ducks/composer';
+
+const log = createLogger('makeQuote');
 
 export async function makeQuote(
   quotedMessage: MessageAttributesType

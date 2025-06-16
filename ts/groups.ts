@@ -13,7 +13,7 @@ import {
 import Long from 'long';
 import type { ClientZkGroupCipher } from '@signalapp/libsignal-client/zkgroup';
 import { LRUCache } from 'lru-cache';
-import * as log from './logging/log';
+import { createLogger } from './logging/log';
 import {
   getCheckedGroupCredentialsForToday,
   maybeFetchNewCredentials,
@@ -106,6 +106,8 @@ import { postSaveUpdates } from './util/cleanup';
 import { MessageModel } from './models/messages';
 import { areWePending } from './util/groupMembershipUtils';
 import { isConversationAccepted } from './util/isConversationAccepted';
+
+const log = createLogger('groups');
 
 type AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 

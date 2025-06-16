@@ -6,7 +6,7 @@
 import { isEqual, isNumber, omit, orderBy, partition } from 'lodash';
 
 import { SignalService as Proto } from '../protobuf';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { missingCaseError } from '../util/missingCaseError';
 import { isNotNil } from '../util/isNotNil';
 import type { ConversationType } from '../state/ducks/conversations';
@@ -18,6 +18,8 @@ import {
 import { assertDev } from '../util/assert';
 import type { AciString } from './ServiceId';
 import { normalizeAci } from '../util/normalizeAci';
+
+const log = createLogger('BodyRange');
 
 // Cold storage of body ranges
 

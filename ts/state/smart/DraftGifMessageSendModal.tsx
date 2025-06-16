@@ -18,10 +18,12 @@ import { processAttachment } from '../../util/processAttachment';
 import { SignalService as Proto } from '../../protobuf';
 import { writeDraftAttachment } from '../../util/writeDraftAttachment';
 import type { AttachmentDraftType } from '../../types/Attachment';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import * as Errors from '../../types/errors';
 import { type Loadable, LoadingState } from '../../util/loadable';
 import { isAbortError } from '../../util/isAbortError';
+
+const log = createLogger('DraftGifMessageSendModal');
 
 type ReadyAttachmentDraftType = AttachmentDraftType & { pending: false };
 
@@ -121,10 +123,7 @@ export const SmartDraftGifMessageSendModal = memo(
           if (isAbortError(error)) {
             return;
           }
-          log.error(
-            'DraftGifMessageSendModal: Error while downloading gif',
-            Errors.toLogFormat(error)
-          );
+          log.error('Error while downloading gif', Errors.toLogFormat(error));
           setGifDownloadState({ loadingState: LoadingState.LoadFailed, error });
         }
       }

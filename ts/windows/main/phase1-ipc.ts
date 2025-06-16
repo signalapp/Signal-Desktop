@@ -11,7 +11,7 @@ import { getSignalConnections } from '../../util/getSignalConnections';
 import { ThemeType } from '../../types/Util';
 import { Environment } from '../../environment';
 import { SignalContext } from '../context';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { formatCountForLogging } from '../../logging/formatCountForLogging';
 import * as Errors from '../../types/errors';
 
@@ -24,6 +24,8 @@ import { AggregatedStats } from '../../textsecure/WebsocketResources';
 import { UNAUTHENTICATED_CHANNEL_NAME } from '../../textsecure/SocketManager';
 import { isProduction } from '../../util/version';
 import { ToastType } from '../../types/Toast';
+
+const log = createLogger('phase1-ipc');
 
 // It is important to call this as early as possible
 window.i18n = SignalContext.i18n;

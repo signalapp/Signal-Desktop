@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as KeyboardLayout from './keyboardLayout';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { PanelType } from '../types/Panels';
 import { clearConversationDraftAttachments } from '../util/clearConversationDraftAttachments';
 import { drop } from '../util/drop';
@@ -10,6 +10,8 @@ import { matchOrQueryFocusable } from '../util/focusableSelectors';
 import { getQuotedMessageSelector } from '../state/selectors/composer';
 import { removeLinkPreview } from './LinkPreview';
 import { ForwardMessagesModalType } from '../components/ForwardMessagesModal';
+
+const log = createLogger('addGlobalKeyboardShortcuts');
 
 export function addGlobalKeyboardShortcuts(): void {
   const isMacOS = window.platform === 'darwin';

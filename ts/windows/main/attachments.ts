@@ -14,7 +14,9 @@ import OS from '../../util/os/osMain';
 import { getRelativePath, createName } from '../../util/attachmentPath';
 import { toHex } from '../../Bytes';
 import { getRandomBytes } from '../../Crypto';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
+
+const log = createLogger('attachments');
 
 export * from '../../util/ensureAttachmentIsReencryptable';
 export * from '../../../app/attachments';

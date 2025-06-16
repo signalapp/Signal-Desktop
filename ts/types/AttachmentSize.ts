@@ -1,9 +1,11 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import type * as RemoteConfig from '../RemoteConfig';
+
+const log = createLogger('AttachmentSize');
 
 export const KIBIBYTE = 1024;
 export const MEBIBYTE = 1024 * 1024;

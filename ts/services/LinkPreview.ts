@@ -20,7 +20,7 @@ import { sha256 } from '../Crypto';
 import * as LinkPreview from '../types/LinkPreview';
 import * as Stickers from '../types/Stickers';
 import * as VisualAttachment from '../types/VisualAttachment';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { IMAGE_JPEG, IMAGE_WEBP, stringToMIMEType } from '../types/MIME';
 import { SECOND } from '../util/durations';
 import { autoScale } from '../util/handleImageAttachment';
@@ -33,6 +33,8 @@ import { drop } from '../util/drop';
 import { calling } from './calling';
 import { getKeyFromCallLink } from '../util/callLinks';
 import { getRoomIdFromCallLink } from '../util/callLinksRingrtc';
+
+const log = createLogger('LinkPreview');
 
 const LINK_PREVIEW_TIMEOUT = 60 * SECOND;
 

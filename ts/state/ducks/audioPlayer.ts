@@ -21,10 +21,12 @@ import type {
   TargetedConversationChangedActionType,
   ConversationsUpdatedActionType,
 } from './conversations';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { isAudio } from '../../types/Attachment';
 import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl';
 import { assertDev } from '../../util/assert';
+
+const log = createLogger('audioPlayer');
 
 // State
 
@@ -190,7 +192,7 @@ function setPlaybackRate(
     const { audioPlayer } = getState();
     const { active } = audioPlayer;
     if (!active) {
-      log.warn('audioPlayer.setPlaybackRate: No active message audio');
+      log.warn('setPlaybackRate: No active message audio');
       return;
     }
     dispatch({
@@ -312,7 +314,7 @@ export function reducer(
 
     const { playbackRate, startPosition, ...content } = payload;
     log.info(
-      `audioPlayer/SET_MESSAGE_AUDIO: Starting playback for conversation ${content.conversationId}`
+      `SET_MESSAGE_AUDIO: Starting playback for conversation ${content.conversationId}`
     );
     return {
       ...state,
@@ -447,12 +449,12 @@ export function reducer(
         if (voiceNote) {
           if (idx === -1) {
             log.info(
-              `audioPlayer/MESSAGES_ADDED: Adding voice note ${voiceNote.messageIdForLogging} to end of queue`
+              `MESSAGES_ADDED: Adding voice note ${voiceNote.messageIdForLogging} to end of queue`
             );
             updatedQueue.push(voiceNote);
           } else {
             log.info(
-              `audioPlayer/MESSAGES_ADDED: Adding voice note ${voiceNote.messageIdForLogging} to queue at index ${idx}`
+              `MESSAGES_ADDED: Adding voice note ${voiceNote.messageIdForLogging} to queue at index ${idx}`
             );
             updatedQueue.splice(idx, 0, voiceNote);
           }
@@ -486,9 +488,7 @@ export function reducer(
     }
 
     if (AudioPlayerContent.isDraft(content)) {
-      log.info(
-        'audioPlayer/MESSAGE_AUDIO_ENDED: Voice note was draft, stopping playback'
-      );
+      log.info('MESSAGE_AUDIO_ENDED: Voice note was draft, stopping playback');
       return {
         ...state,
         active: undefined,
@@ -501,7 +501,7 @@ export function reducer(
 
     if (nextVoiceNote) {
       log.info(
-        `audioPlayer/MESSAGE_AUDIO_ENDED: Starting next voice note ${nextVoiceNote.messageIdForLogging}`
+        `MESSAGE_AUDIO_ENDED: Starting next voice note ${nextVoiceNote.messageIdForLogging}`
       );
       return {
         ...state,
@@ -518,7 +518,7 @@ export function reducer(
       };
     }
 
-    log.info('audioPlayer/MESSAGE_AUDIO_ENDED: Stopping playback');
+    log.info('MESSAGE_AUDIO_ENDED: Stopping playback');
     return {
       ...state,
       active: undefined,
@@ -549,7 +549,7 @@ export function reducer(
 
       if (!next) {
         log.info(
-          'audioPlayer/MESSAGE_DELETED: Removed currently-playing message, stopping playback'
+          'MESSAGE_DELETED: Removed currently-playing message, stopping playback'
         );
         return {
           ...state,
@@ -558,7 +558,7 @@ export function reducer(
       }
 
       log.info(
-        'audioPlayer/MESSAGE_DELETED: Removed currently-playing message, moving to next in queue'
+        'MESSAGE_DELETED: Removed currently-playing message, moving to next in queue'
       );
       return {
         ...state,
@@ -577,7 +577,7 @@ export function reducer(
     // just update the queue
     const message = content.queue.find(el => el.id === id);
     if (message) {
-      log.info('audioPlayer/MESSAGE_DELETED: Removed message from the queue');
+      log.info('MESSAGE_DELETED: Removed message from the queue');
       return {
         ...state,
         active: {
@@ -632,7 +632,7 @@ export function reducer(
       data.id
     ) {
       log.info(
-        'audioPlayer/MESSAGE_CHANGED: Adding content url to current-playing message'
+        'MESSAGE_CHANGED: Adding content url to current-playing message'
       );
       return {
         ...state,
@@ -652,9 +652,7 @@ export function reducer(
     // if it's in the queue
     const idx = content.queue.findIndex(v => v.id === id);
     if (idx !== -1) {
-      log.info(
-        'audioPlayer/MESSAGE_CHANGED: Adding content url to message in queue'
-      );
+      log.info('MESSAGE_CHANGED: Adding content url to message in queue');
       const updatedQueue = [...content.queue];
       updatedQueue[idx] = {
         ...updatedQueue[idx],

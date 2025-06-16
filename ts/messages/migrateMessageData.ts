@@ -13,7 +13,9 @@ import type { AciString } from '../types/ServiceId';
 import * as Errors from '../types/errors';
 import { DataReader, DataWriter } from '../sql/Client';
 import { postSaveUpdates } from '../util/cleanup';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const log = createLogger('migrateMessageData');
 
 const MAX_CONCURRENCY = 5;
 
@@ -84,10 +86,7 @@ export async function _migrateMessageData({
       { maxVersion }
     );
   } catch (error) {
-    log.error(
-      'migrateMessageData.getMessagesNeedingUpgrade error:',
-      Errors.toLogFormat(error)
-    );
+    log.error('getMessagesNeedingUpgrade error:', Errors.toLogFormat(error));
     return {
       done: true,
       numProcessed: 0,
@@ -104,10 +103,7 @@ export async function _migrateMessageData({
         try {
           return await upgradeMessageSchema(message, { maxVersion });
         } catch (error) {
-          log.error(
-            'migrateMessageData.upgradeMessageSchema error:',
-            Errors.toLogFormat(error)
-          );
+          log.error('upgradeMessageSchema error:', Errors.toLogFormat(error));
           failedToUpgradeMessageIds.push(message.id);
           return undefined;
         }

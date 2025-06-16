@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 
 import { getAuthor, isIncoming, isOutgoing } from './helpers';
 
@@ -20,6 +20,8 @@ import type { MessageAttributesType } from '../model-types';
 import type { ReactionAttributesType } from '../messageModifiers/Reactions';
 import { shouldStoryReplyNotifyUser } from '../util/shouldStoryReplyNotifyUser';
 import { ReactionSource } from '../reactions/ReactionSource';
+
+const log = createLogger('maybeNotify');
 
 type MaybeNotifyArgs = {
   conversation: ConversationModel;
@@ -61,9 +63,7 @@ export async function maybeNotify(args: MaybeNotifyArgs): Promise<void> {
       isMention: args.reaction ? false : Boolean(args.message.mentionsMe),
     })
   ) {
-    log.info(
-      'maybeNotify: Would notify for message, but notification profile prevented it'
-    );
+    log.info('Would notify for message, but notification profile prevented it');
     return;
   }
 

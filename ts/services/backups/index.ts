@@ -17,7 +17,7 @@ import { throttle } from 'lodash/fp';
 import { ipcRenderer } from 'electron';
 
 import { DataReader, DataWriter } from '../../sql/Client';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import * as Bytes from '../../Bytes';
 import { strictAssert } from '../../util/assert';
 import { drop } from '../../util/drop';
@@ -84,6 +84,8 @@ import {
   validateLocalBackupStructure,
 } from './util/localBackup';
 import { AttachmentLocalBackupManager } from '../../jobs/AttachmentLocalBackupManager';
+
+const log = createLogger('index');
 
 export { BackupType };
 

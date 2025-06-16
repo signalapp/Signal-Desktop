@@ -5,9 +5,11 @@ import type { CallingMessage } from '@signalapp/ringrtc';
 import { CallMessageUrgency } from '@signalapp/ringrtc';
 import Long from 'long';
 import { SignalService as Proto } from '../protobuf';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { toLogFormat } from '../types/errors';
 import { missingCaseError } from './missingCaseError';
+
+const log = createLogger('callingMessageToProto');
 
 export function callingMessageToProto(
   {

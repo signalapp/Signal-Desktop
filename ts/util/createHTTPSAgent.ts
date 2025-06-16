@@ -10,7 +10,7 @@ import type { ConnectionOptions } from 'tls';
 import { callbackify, promisify } from 'util';
 import pTimeout from 'p-timeout';
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import {
   electronLookup as electronLookupWithCb,
   interleaveAddresses,
@@ -21,6 +21,8 @@ import { sleep } from './sleep';
 import { SECOND } from './durations';
 import { dropNull } from './dropNull';
 import { explodePromise } from './explodePromise';
+
+const log = createLogger('createHTTPSAgent');
 
 // https://www.rfc-editor.org/rfc/rfc8305#section-8 recommends 250ms, but since
 // we also try to establish a TLS session - use higher value.

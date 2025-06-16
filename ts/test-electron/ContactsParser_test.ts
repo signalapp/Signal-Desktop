@@ -9,7 +9,7 @@ import { pipeline } from 'stream/promises';
 import { Transform } from 'stream';
 
 import protobuf from '../protobuf/wrap';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Bytes from '../Bytes';
 import * as Errors from '../types/errors';
 import { APPLICATION_OCTET_STREAM } from '../types/MIME';
@@ -22,6 +22,8 @@ import type { ContactDetailsWithAvatar } from '../textsecure/ContactsParser';
 import { createTempDir, deleteTempDir } from '../updater/common';
 import { strictAssert } from '../util/assert';
 import { generateKeys, encryptAttachmentV2ToDisk } from '../AttachmentCrypto';
+
+const log = createLogger('ContactsParser_test');
 
 const { Writer } = protobuf;
 

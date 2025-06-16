@@ -10,7 +10,7 @@ import * as Bytes from '../Bytes';
 import { assertDev } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
 import { waitForOnline } from '../util/waitForOnline';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import type { StorageInterface } from '../types/Storage.d';
 import * as Errors from '../types/errors';
 import type { WebAPIType } from '../textsecure/WebAPI';
@@ -18,6 +18,8 @@ import { SignalService as Proto } from '../protobuf';
 
 import SenderCertificate = Proto.SenderCertificate;
 import { safeParseUnknown } from '../util/schemas';
+
+const log = createLogger('senderCertificate');
 
 function isWellFormed(data: unknown): data is SerializedCertificateType {
   return safeParseUnknown(serializedCertificateSchema, data).success;

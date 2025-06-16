@@ -17,7 +17,7 @@ import {
   type StoryDistributionWithMembersType,
   type IdentityKeyType,
 } from '../../sql/Interface';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { GiftBadgeStates } from '../../components/conversation/Message';
 import { StorySendMode, MY_STORY_ID } from '../../types/Stories';
 import type { AciString, ServiceIdString } from '../../types/ServiceId';
@@ -139,6 +139,8 @@ import {
   type NotificationProfileType,
 } from '../../types/NotificationProfile';
 import { normalizeNotificationProfileId } from '../../types/NotificationProfile-node';
+
+const log = createLogger('import');
 
 const MAX_CONCURRENCY = 10;
 

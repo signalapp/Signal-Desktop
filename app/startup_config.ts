@@ -4,8 +4,10 @@
 import { app } from 'electron';
 
 import packageJson from '../package.json';
-import * as log from '../ts/logging/log';
+import { createLogger } from '../ts/logging/log';
 import * as GlobalErrors from './global_errors';
+
+const log = createLogger('startup_config');
 
 GlobalErrors.addHandler();
 

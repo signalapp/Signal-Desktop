@@ -1,11 +1,13 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 
 import type { Location } from '../state/ducks/nav';
 import { SECOND } from '../util/durations';
 import { sleep } from '../util/sleep';
+
+const log = createLogger('BeforeNavigate');
 
 export enum BeforeNavigateResponse {
   Noop = 'Noop',

@@ -16,7 +16,7 @@ import type {
 import type { LocalizerType } from '../types/Util';
 import type { MediaItemType } from '../types/MediaItem';
 import * as GoogleChrome from '../util/GoogleChrome';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
 import { Avatar, AvatarSize } from './Avatar';
 import { IMAGE_PNG, isImage, isVideo } from '../types/MIME';
@@ -34,6 +34,8 @@ import { useReducedMotion } from '../hooks/useReducedMotion';
 import { formatFileSize } from '../util/formatFileSize';
 import { SECOND } from '../util/durations';
 import { Toast } from './Toast';
+
+const log = createLogger('Lightbox');
 
 export type PropsType = {
   children?: ReactNode;
@@ -308,7 +310,7 @@ export function Lightbox({
     if (videoElement.paused) {
       onMediaPlaybackStart();
       void videoElement.play().catch(error => {
-        log.error('Lightbox: Failed to play video', Errors.toLogFormat(error));
+        log.error('Failed to play video', Errors.toLogFormat(error));
       });
     } else {
       videoElement.pause();
@@ -667,7 +669,7 @@ export function Lightbox({
         />
       );
     } else {
-      log.info('Lightbox: Unexpected content type', { contentType });
+      log.info('Unexpected content type', { contentType });
 
       content = (
         <button

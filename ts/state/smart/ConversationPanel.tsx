@@ -12,7 +12,7 @@ import React, {
 } from 'react';
 import { useSelector } from 'react-redux';
 import type { PanelRenderType } from '../../types/Panels';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { PanelType } from '../../types/Panels';
 import { toLogFormat } from '../../types/errors';
 import { SmartAllMedia } from './AllMedia';
@@ -37,6 +37,8 @@ import { focusableSelector } from '../../util/focusableSelectors';
 import { missingCaseError } from '../../util/missingCaseError';
 import { useConversationsActions } from '../ducks/conversations';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
+
+const log = createLogger('ConversationPanel');
 
 const ANIMATION_CONFIG = {
   duration: 350,

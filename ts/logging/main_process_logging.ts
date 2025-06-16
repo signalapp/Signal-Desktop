@@ -27,7 +27,7 @@ import * as Errors from '../types/errors';
 import { createRotatingPinoDest } from '../util/rotatingPinoDest';
 import { redactAll } from '../util/privacy';
 
-import * as log from './log';
+import { setPinoDestination, log } from './log';
 
 import type { FetchLogIpcData, LogEntryType } from './shared';
 import { LogLevel, isLogEntry } from './shared';
@@ -82,7 +82,7 @@ export async function initialize(
   rotatingStream.on('close', onClose);
   rotatingStream.on('error', onClose);
 
-  log.setPinoDestination(rotatingStream, redactAll);
+  setPinoDestination(rotatingStream, redactAll);
 
   ipc.removeHandler('fetch-log');
   ipc.handle('fetch-log', async () => {

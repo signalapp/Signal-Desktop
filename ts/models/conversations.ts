@@ -140,7 +140,7 @@ import {
 import { getProfile } from '../util/getProfile';
 import { SEALED_SENDER } from '../types/SealedSender';
 import { createIdenticon } from '../util/createIdenticon';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
 import { isMessageUnread } from '../util/isMessageUnread';
 import type { SenderKeyTargetType } from '../util/sendToGroup';
@@ -188,6 +188,8 @@ import { safeSetTimeout } from '../util/timeout';
 import { getTypingIndicatorSetting } from '../types/Util';
 import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer';
 import { maybeNotify } from '../messages/maybeNotify';
+
+const log = createLogger('conversations');
 
 window.Whisper = window.Whisper || {};
 

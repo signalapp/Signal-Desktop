@@ -51,7 +51,7 @@ import { toLogFormat } from '../../types/errors';
 import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseFullSizeLinkPreviewImage';
 import type { WidthBreakpoint } from '../_util';
 import { OutgoingGiftBadgeModal } from '../OutgoingGiftBadgeModal';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { StoryViewModeType } from '../../types/Stories';
 import type {
   AttachmentForUIType,
@@ -122,6 +122,8 @@ import {
   isEmojiVariantValue,
 } from '../fun/data/emojis';
 import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions';
+
+const log = createLogger('Message');
 
 const GUESS_METADATA_WIDTH_TIMESTAMP_SIZE = 16;
 const GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE = 18;
@@ -718,9 +720,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   public handleImageError = (): void => {
     const { id } = this.props;
-    log.info(
-      `Message ${id}: Image failed to load; failing over to placeholder`
-    );
+    log.info(`${id}: Image failed to load; failing over to placeholder`);
     this.setState({
       imageBroken: true,
     });
@@ -813,7 +813,7 @@ export class Message extends React.PureComponent<Props, State> {
         delta,
       });
       log.info(
-        `Message.tsx: Rendered 'send complete' for message ${timestamp}; took ${delta}ms`
+        `tsx: Rendered 'send complete' for message ${timestamp}; took ${delta}ms`
       );
     }
   }

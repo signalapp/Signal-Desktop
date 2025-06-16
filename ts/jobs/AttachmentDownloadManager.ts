@@ -4,7 +4,7 @@ import { noop, omit, throttle } from 'lodash';
 import { statfs } from 'node:fs/promises';
 
 import * as durations from '../util/durations';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import type { AttachmentBackfillResponseSyncEvent } from '../textsecure/messageReceiverEvents';
 import {
   type AttachmentDownloadJobTypeType,
@@ -65,6 +65,8 @@ import {
 } from './helpers/attachmentBackfill';
 import { formatCountForLogging } from '../logging/formatCountForLogging';
 import { strictAssert } from '../util/assert';
+
+const log = createLogger('AttachmentDownloadManager');
 
 export { isPermanentlyUndownloadable };
 
@@ -340,7 +342,7 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
         window.storage.get('backupMediaDownloadCompletedBytes', 0);
 
       log.info(
-        'AttachmentDownloadManager.checkFreeDiskSpaceForBackupImport: insufficient disk space. ' +
+        'checkFreeDiskSpaceForBackupImport: insufficient disk space. ' +
           `Available: ${formatCountForLogging(freeDiskSpace)}, ` +
           `Needed: ${formatCountForLogging(remainingBackupBytesToDownload)} ` +
           `Minimum threshold: ${this.#minimumFreeDiskSpace}`

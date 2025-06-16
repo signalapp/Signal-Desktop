@@ -5,7 +5,9 @@ import { assert } from 'chai';
 
 import { isTimeToUpdate } from '../../updater/util';
 import { HOUR } from '../../util/durations';
-import * as logger from '../../logging/log';
+import { createLogger } from '../../logging/log';
+
+const logger = createLogger('util_test');
 
 describe('updater/util', () => {
   const now = 1745522337601;

@@ -11,7 +11,9 @@ import type {
   CompatPreKeyType,
   CompatSignedPreKeyType,
 } from './textsecure/Types.d';
-import * as log from './logging/log';
+import { createLogger } from './logging/log';
+
+const log = createLogger('Curve');
 
 export function isNonNegativeInteger(n: unknown): n is number {
   return typeof n === 'number' && n % 1 === 0 && n >= 0;

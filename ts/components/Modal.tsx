@@ -15,13 +15,15 @@ import { assertDev } from '../util/assert';
 import { getClassNamesFor } from '../util/getClassNamesFor';
 import { useAnimated } from '../hooks/useAnimated';
 import { useHasWrapped } from '../hooks/useHasWrapped';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import {
   isScrollOverflowVertical,
   isScrollAtTop,
   isScrollAtBottom,
   useScrollObserver,
 } from '../hooks/useSizeObserver';
+
+const log = createLogger('Modal');
 
 type PropsType = {
   children: ReactNode;
@@ -98,7 +100,7 @@ export function Modal({
     }
 
     const timer = setTimeout(() => {
-      log.error(`Modal ${modalName} is closed, but still visible`);
+      log.error(`${modalName} is closed, but still visible`);
       assertDev(false, `Invisible modal ${modalName}`);
     }, 0);
     return () => {

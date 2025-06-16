@@ -11,7 +11,7 @@ import type {
 } from '../messages/MessageSendState';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId';
 import type { ServiceIdString } from '../types/ServiceId';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { DataReader, DataWriter } from '../sql/Client';
 import { MY_STORY_ID, StorySendMode } from '../types/Stories';
 import { getStoriesBlocked } from './stories';
@@ -32,6 +32,8 @@ import { DurationInSeconds } from './durations';
 import { sanitizeLinkPreview } from '../services/LinkPreview';
 import type { DraftBodyRanges } from '../types/BodyRange';
 import { MessageModel } from '../models/messages';
+
+const log = createLogger('sendStoryMessage');
 
 export async function sendStoryMessage(
   listIds: Array<string>,

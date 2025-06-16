@@ -5,10 +5,12 @@ import type { AciString } from '../types/ServiceId';
 import type { ReadonlyMessageAttributesType } from '../model-types.d';
 import { DataReader } from '../sql/Client';
 import * as Errors from '../types/errors';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { getMessageIdForLogging } from '../util/idForLogging';
 import { markViewOnceMessageViewed } from '../services/MessageUpdater';
 import { MessageModel } from '../models/messages';
+
+const log = createLogger('ViewOnceOpenSyncs');
 
 export type ViewOnceOpenSyncAttributesType = {
   removeFromMessageReceiverCache: () => unknown;

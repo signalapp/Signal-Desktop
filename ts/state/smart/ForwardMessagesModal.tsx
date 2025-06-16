@@ -4,7 +4,7 @@
 import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import type { ForwardMessagesPropsType } from '../ducks/globalModals';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { ForwardMessagesModal } from '../../components/ForwardMessagesModal';
 import { LinkPreviewSourceType } from '../../types/LinkPreview';
 import * as Errors from '../../types/errors';
@@ -30,6 +30,8 @@ import type {
   MessageForwardDraft,
 } from '../../types/ForwardDraft';
 import { getForwardMessagesProps } from '../selectors/globalModals';
+
+const log = createLogger('ForwardMessagesModal');
 
 export function SmartForwardMessagesModal(): JSX.Element | null {
   const forwardMessagesProps = useSelector(getForwardMessagesProps);

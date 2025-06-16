@@ -61,8 +61,10 @@ import type { tenorDownload } from '../data/tenor';
 import { FunGif } from '../FunGif';
 import type { LocalizerType } from '../../../types/I18N';
 import { isAbortError } from '../../../util/isAbortError';
-import * as log from '../../../logging/log';
+import { createLogger } from '../../../logging/log';
 import * as Errors from '../../../types/errors';
+
+const log = createLogger('FunPanelGifs');
 
 const MAX_CACHE_SIZE = 50 * 1024 * 1024; // 50 MB
 const FunGifBlobCache = new LRUCache<string, Blob>({

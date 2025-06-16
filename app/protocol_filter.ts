@@ -15,7 +15,9 @@ import {
   getTempPath,
   getUpdateCachePath,
 } from './attachments';
-import * as log from '../ts/logging/log';
+import { createLogger } from '../ts/logging/log';
+
+const log = createLogger('protocol_filter');
 
 type CallbackType = (response: string | ProtocolResponse) => void;
 

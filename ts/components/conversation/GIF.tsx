@@ -15,11 +15,13 @@ import {
   isDownloadable,
 } from '../../types/Attachment';
 import * as Errors from '../../types/errors';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { AttachmentDetailPill } from './AttachmentDetailPill';
 import { getSpinner } from './Image';
 import { useUndownloadableMediaHandler } from '../../hooks/useUndownloadableMediaHandler';
+
+const log = createLogger('GIF');
 
 const MAX_GIF_REPEAT = 4;
 const MAX_GIF_TIME = 8;

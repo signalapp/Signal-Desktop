@@ -15,7 +15,9 @@ import {
 } from '../types/MIME';
 import type { LoggerType } from '../types/Logging';
 import { scaleImageToLevel } from '../util/scaleImageToLevel';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const log = createLogger('linkPreviewFetch');
 
 const USER_AGENT = 'WhatsApp/2';
 

@@ -15,7 +15,7 @@ import type { DirectionType, MessageStatusType } from './Message';
 
 import type { ComputePeaksResult } from '../VoiceNotesPlaybackContext';
 import { MessageMetadata } from './MessageMetadata';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import type { ActiveAudioPlayerStateType } from '../../state/ducks/audioPlayer';
 import { PlaybackRateButton } from '../PlaybackRateButton';
 import { PlaybackButton } from '../PlaybackButton';
@@ -25,6 +25,8 @@ import { durationToPlaybackText } from '../../util/durationToPlaybackText';
 import { shouldNeverBeCalled } from '../../util/shouldNeverBeCalled';
 import { formatFileSize } from '../../util/formatFileSize';
 import { roundFractionForProgressBar } from '../../util/numbers';
+
+const log = createLogger('MessageAudio');
 
 export type OwnProps = Readonly<{
   active:

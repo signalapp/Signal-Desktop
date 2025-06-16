@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 
 import { explodePromise } from '../util/explodePromise';
 
@@ -17,6 +17,8 @@ import { drop } from '../util/drop';
 import type { ConversationModel } from '../models/conversations';
 import type { MessageModel } from '../models/messages';
 import { maybeNotify } from './maybeNotify';
+
+const log = createLogger('saveAndNotify');
 
 export async function saveAndNotify(
   message: MessageModel,

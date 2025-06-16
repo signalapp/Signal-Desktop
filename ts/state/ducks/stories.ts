@@ -22,7 +22,7 @@ import type { SyncType } from '../../jobs/helpers/syncHelpers';
 import type { StoryDistributionIdString } from '../../types/StoryDistributionId';
 import type { ServiceIdString } from '../../types/ServiceId';
 import { isAciString } from '../../util/isAciString';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { TARGETED_CONVERSATION_CHANGED } from './conversations';
 import { SIGNAL_ACI } from '../../types/SignalConversation';
 import { DataReader, DataWriter } from '../../sql/Client';
@@ -76,6 +76,8 @@ import {
 import { ReceiptType } from '../../types/Receipt';
 import { cleanupMessages } from '../../util/cleanup';
 import { AttachmentDownloadUrgency } from '../../types/AttachmentDownload';
+
+const log = createLogger('stories');
 
 export type StoryDataType = ReadonlyDeep<
   {
@@ -1007,7 +1009,7 @@ const viewStory: ViewStoryActionCreatorType = (
     );
 
     if (!story) {
-      log.warn('stories.viewStory: No story found', storyId);
+      log.warn('viewStory: No story found', storyId);
       dispatch({
         type: VIEW_STORY,
         payload: undefined,
@@ -1079,7 +1081,7 @@ const viewStory: ViewStoryActionCreatorType = (
       });
 
       if (currentDistributionListIndex < 0 || currentStoryIndex < 0) {
-        log.warn('stories.viewStory: No current story found for MyStories', {
+        log.warn('viewStory: No current story found for MyStories', {
           currentDistributionListIndex,
           currentStoryIndex,
           myStories: myStories.length,
@@ -1260,7 +1262,7 @@ const viewStory: ViewStoryActionCreatorType = (
     }
 
     if (conversationStoryIndex < 0) {
-      log.warn('stories.viewStory: No stories found for conversation', {
+      log.warn('viewStory: No stories found for conversation', {
         storiesLength: conversationStories.length,
       });
       dispatch({
@@ -1847,9 +1849,7 @@ export function reducer(
     const existing = state.addStoryData;
 
     if (!existing) {
-      log.warn(
-        'stories/reducer: Set story sending, but no existing addStoryData'
-      );
+      log.warn('reducer: Set story sending, but no existing addStoryData');
       return state;
     }
 

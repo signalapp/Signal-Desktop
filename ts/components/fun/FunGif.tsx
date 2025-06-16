@@ -8,9 +8,11 @@ import { strictAssert } from '../../util/assert';
 import type { Loadable } from '../../util/loadable';
 import { LoadingState } from '../../util/loadable';
 import { useIntent } from './base/FunImage';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import * as Errors from '../../types/errors';
 import { isAbortError } from '../../util/isAbortError';
+
+const log = createLogger('FunGif');
 
 export type FunGifProps = Readonly<{
   src: string;
@@ -66,7 +68,7 @@ function FunGifReducedMotion(props: FunGifProps) {
       video.play().catch(error => {
         // ignore errors where `play()` was interrupted by `pause()`
         if (!isAbortError(error)) {
-          log.error('FunGif: Playback error', Errors.toLogFormat(error));
+          log.error('Playback error', Errors.toLogFormat(error));
         }
       });
     } else {

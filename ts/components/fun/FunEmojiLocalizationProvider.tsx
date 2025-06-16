@@ -10,7 +10,7 @@ import React, {
   useState,
 } from 'react';
 import type { LocaleEmojiListType } from '../../types/emoji';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import * as Errors from '../../types/errors';
 import { drop } from '../../util/drop';
 import {
@@ -27,6 +27,8 @@ import {
 } from './useFunEmojiSearch';
 import type { LocalizerType } from '../../types/I18N';
 import { strictAssert } from '../../util/assert';
+
+const log = createLogger('FunEmojiLocalizationProvider');
 
 export type FunEmojiLocalizationContextType = Readonly<{
   emojiSearchIndex: FunEmojiSearchIndex;

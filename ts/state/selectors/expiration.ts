@@ -3,7 +3,7 @@
 
 import { createSelector } from 'reselect';
 
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import type { StateType } from '../reducer';
 import type { ExpirationStateType } from '../ducks/expiration';
 import { getRemoteBuildExpiration, getAutoDownloadUpdate } from './items';
@@ -11,6 +11,8 @@ import {
   getBuildExpirationTimestamp,
   hasBuildExpired,
 } from '../../util/buildExpiration';
+
+const log = createLogger('expiration');
 
 export const getExpiration = (state: StateType): ExpirationStateType =>
   state.expiration;

@@ -7,7 +7,9 @@ import { sync as writeFileSync } from 'write-file-atomic';
 import { get } from 'lodash';
 import { set } from 'lodash/fp';
 import { strictAssert } from '../ts/util/assert';
-import * as log from '../ts/logging/log';
+import { createLogger } from '../ts/logging/log';
+
+const log = createLogger('base_config');
 
 const ENCODING = 'utf8';
 

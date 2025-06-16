@@ -20,7 +20,9 @@ import {
 } from '../ts/AttachmentCrypto';
 import type { LocalAttachmentV2Type } from '../ts/types/Attachment';
 import * as Errors from '../ts/types/errors';
-import * as log from '../ts/logging/log';
+import { createLogger } from '../ts/logging/log';
+
+const log = createLogger('attachments');
 
 const PATH = 'attachments.noindex';
 const AVATAR_PATH = 'avatars.noindex';

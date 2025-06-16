@@ -4,13 +4,15 @@
 import type { ReadonlyDeep } from 'type-fest';
 import type { ThunkAction } from 'redux-thunk';
 
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import { Page } from '../../components/Preferences';
 
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type { StateType as RootStateType } from '../reducer';
 import type { EditState } from '../../components/ProfileEditor';
+
+const log = createLogger('nav');
 
 // Types
 

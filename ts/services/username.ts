@@ -21,12 +21,14 @@ import {
   isCaseChange,
 } from '../types/Username';
 import * as Errors from '../types/errors';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import MessageSender from '../textsecure/SendMessage';
 import { HTTPError } from '../textsecure/Errors';
 import { findRetryAfterTimeFromError } from '../jobs/helpers/findRetryAfterTimeFromError';
 import * as Bytes from '../Bytes';
 import { storageServiceUploadJob } from './storage';
+
+const log = createLogger('username');
 
 export type WriteUsernameOptionsType = Readonly<
   | {

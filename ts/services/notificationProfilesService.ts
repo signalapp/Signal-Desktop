@@ -3,7 +3,7 @@
 
 import { debounce, isEqual, isNumber } from 'lodash';
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { isInPast, isMoreRecentThan } from '../util/timestamp';
@@ -22,6 +22,8 @@ import {
   getProfiles,
 } from '../state/selectors/notificationProfiles';
 import { safeSetTimeout } from '../util/timeout';
+
+const log = createLogger('notificationProfilesService');
 
 export class NotificationProfilesService {
   #timeout?: ReturnType<typeof setTimeout> | null;

@@ -3,12 +3,14 @@
 
 import type { UnknownAction } from 'redux';
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { getInitialState } from './getInitialState';
 import { reducer as normalReducer } from './reducer';
 
 import type { StateType } from './reducer';
 import type { ReduxInitData } from './initializeRedux';
+
+const log = createLogger('reinitializeRedux');
 
 const REPLACE_STATE = 'resetReducer/REPLACE';
 

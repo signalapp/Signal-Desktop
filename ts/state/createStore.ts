@@ -6,9 +6,9 @@ import { applyMiddleware, createStore as reduxCreateStore } from 'redux';
 
 import promise from 'redux-promise-middleware';
 import { thunk } from 'redux-thunk';
-import { createLogger } from 'redux-logger';
+import { createLogger as createReduxLogger } from 'redux-logger';
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import type { StateType } from './reducer';
 import { reducer } from './reducer';
 import { dispatchItemsMiddleware } from '../shims/dispatchItemsMiddleware';
@@ -16,9 +16,11 @@ import { isOlderThan } from '../util/timestamp';
 import { SECOND } from '../util/durations';
 import { getEnvironment } from '../environment';
 
+const log = createLogger('createStore');
+
 const env = getEnvironment();
 
-const logger = createLogger({
+const logger = createReduxLogger({
   predicate: (_getState, action) => {
     if (action.type === 'network/CHECK_NETWORK_STATUS') {
       return false;

@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type * as Backbone from 'backbone';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const log = createLogger('reliable_trigger');
 
 type InternalBackboneEvent = {
   callback: (...args: Array<unknown>) => unknown;

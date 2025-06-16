@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { makeEnumParser } from './util/enum';
-import * as log from './logging/log';
+import { log } from './logging/log';
 
 // Many places rely on this enum being a string.
 export enum Environment {

@@ -16,7 +16,9 @@ import { themeClassName } from '../util/theme';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
 import { usePrevious } from '../hooks/usePrevious';
 import { handleOutsideClick } from '../util/handleOutsideClick';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const log = createLogger('ModalHost');
 
 export const ModalContainerContext = React.createContext<HTMLElement | null>(
   null
@@ -53,7 +55,7 @@ export const ModalHost = React.memo(function ModalHostInner({
 
   if (previousModalName !== modalName) {
     log.error(
-      `ModalHost detected conflict between ${previousModalName} ` +
+      `detected conflict between ${previousModalName} ` +
         `and ${modalName}. Consider using "key" attributes on both modals.`
     );
     assertDev(false, 'Modal conflict');

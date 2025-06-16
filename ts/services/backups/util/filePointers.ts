@@ -9,7 +9,7 @@ import {
   APPLICATION_OCTET_STREAM,
   stringToMIMEType,
 } from '../../../types/MIME';
-import * as log from '../../../logging/log';
+import { createLogger } from '../../../logging/log';
 import {
   type AttachmentType,
   isDownloadableFromTransitTier,
@@ -45,6 +45,8 @@ import { createName } from '../../../util/attachmentPath';
 import { ensureAttachmentIsReencryptable } from '../../../util/ensureAttachmentIsReencryptable';
 import type { ReencryptionInfo } from '../../../AttachmentCrypto';
 import { getAttachmentLocalBackupPathFromSnapshotDir } from './localBackup';
+
+const log = createLogger('filePointers');
 
 type ConvertFilePointerToAttachmentOptions = {
   // Only for testing

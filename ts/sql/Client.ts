@@ -10,7 +10,7 @@ import type { ReadonlyDeep } from 'type-fest';
 // their imports too. That circularity causes problems. Anything that would do that needs
 // to be passed in, like cleanupMessages below.
 import * as Bytes from '../Bytes';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
 
 import { deleteExternalFiles } from '../types/Conversation';
@@ -63,6 +63,8 @@ import type {
 } from './Interface';
 import type { MessageAttributesType } from '../model-types';
 import type { AttachmentDownloadJobType } from '../types/AttachmentDownload';
+
+const log = createLogger('Client');
 
 const ERASE_SQL_KEY = 'erase-sql-key';
 const ERASE_ATTACHMENTS_KEY = 'erase-attachments';
@@ -293,7 +295,7 @@ function specFromBytes<Input, Output>(
 // Top-level calls
 
 async function shutdown(): Promise<void> {
-  log.info('Client.shutdown');
+  log.info('shutdown');
 
   // Stop accepting new SQL jobs, flush outstanding queue
   await doShutdown();

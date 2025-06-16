@@ -36,7 +36,7 @@ import {
   toBoundedDate,
 } from '../util/timestamp';
 import type { ConversationType } from '../state/ducks/conversations';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { refMerger } from '../util/refMerger';
 import { drop } from '../util/drop';
 import { strictAssert } from '../util/assert';
@@ -72,6 +72,8 @@ import { DAY, MINUTE, SECOND } from '../util/durations';
 import type { StartCallData } from './ConfirmLeaveCallModal';
 import { Button, ButtonVariant } from './Button';
 import type { ICUJSXMessageParamsByKeyType } from '../types/Util';
+
+const log = createLogger('CallsList');
 
 function Timestamp({
   i18n,
@@ -576,7 +578,7 @@ export function CallsList({
         ]);
         results = { count, items };
       } catch (error) {
-        log.error('CallsList#fetchTotal error fetching', error);
+        log.error('fetchTotal error fetching', error);
       }
 
       // Clear the loading indicator timeout
@@ -671,7 +673,7 @@ export function CallsList({
           };
         });
       } catch (error) {
-        log.error('CallsList#loadMoreRows error fetching', error);
+        log.error('loadMoreRows error fetching', error);
       }
     },
     [enqueueCallPeeks, searchState]

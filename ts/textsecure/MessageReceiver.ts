@@ -139,7 +139,7 @@ import {
   ViewOnceOpenSyncEvent,
   ViewSyncEvent,
 } from './messageReceiverEvents';
-import * as logger from '../logging/log';
+import { createLogger } from '../logging/log';
 import { diffArraysAsSets } from '../util/diffArraysAsSets';
 import { generateBlurHash } from '../util/generateBlurHash';
 import { TEXT_ATTACHMENT } from '../types/MIME';
@@ -158,6 +158,8 @@ import { checkOurPniIdentityKey } from '../util/checkOurPniIdentityKey';
 import { CallLinkUpdateSyncType } from '../types/CallLink';
 import { bytesToUuid } from '../util/uuidToBytes';
 import { isBodyTooLong } from '../util/longAttachment';
+
+const logger = createLogger('MessageReceiver');
 
 const log = logger.child('MessageReceiver');
 
@@ -3285,13 +3287,13 @@ export default class MessageReceiver
       throw new Error('Received pni change number from another number');
     }
 
-    log.info('MessageReceiver: got pni change number sync message');
+    log.info('got pni change number sync message');
 
     logUnexpectedUrgentValue(envelope, 'pniIdentitySync');
 
     const { updatedPni } = envelope;
     if (!updatedPni) {
-      log.warn('MessageReceiver: missing pni in change number sync message');
+      log.warn('missing pni in change number sync message');
       return;
     }
 
@@ -3302,12 +3304,12 @@ export default class MessageReceiver
       !isNumber(registrationId) ||
       !isString(newE164)
     ) {
-      log.warn('MessageReceiver: empty pni change number sync message');
+      log.warn('empty pni change number sync message');
       return;
     }
 
     if (this.#pniIdentityKeyCheckRequired) {
-      log.warn('MessageReceiver: canceling pni identity key check');
+      log.warn('canceling pni identity key check');
     }
     this.#pniIdentityKeyCheckRequired = false;
 
@@ -3817,7 +3819,7 @@ export default class MessageReceiver
     contactSyncProto: Proto.SyncMessage.IContacts
   ): Promise<void> {
     const logId = getEnvelopeId(envelope);
-    log.info(`MessageReceiver: handleContacts ${logId}`);
+    log.info(`handleContacts ${logId}`);
     const { blob } = contactSyncProto;
     if (!blob) {
       throw new Error('MessageReceiver.handleContacts: blob field was missing');

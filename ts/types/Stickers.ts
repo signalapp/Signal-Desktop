@@ -24,7 +24,7 @@ import type {
 } from '../sql/Interface';
 import { DataReader, DataWriter } from '../sql/Client';
 import { SignalService as Proto } from '../protobuf';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import type { StickersStateType } from '../state/ducks/stickers';
 import { MINUTE } from '../util/durations';
 import { drop } from '../util/drop';
@@ -32,6 +32,8 @@ import { isNotNil } from '../util/isNotNil';
 import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment';
 import { AttachmentDisposition } from '../util/getLocalAttachmentUrl';
 import { getPlaintextHashForInMemoryAttachment } from '../AttachmentCrypto';
+
+const log = createLogger('Stickers');
 
 export type ActionSourceType =
   | 'startup'

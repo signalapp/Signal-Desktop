@@ -13,7 +13,7 @@ import { MessageModel } from '../models/messages';
 import { ReactionSource } from '../reactions/ReactionSource';
 import { DataReader, DataWriter } from '../sql/Client';
 import * as Errors from '../types/errors';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import {
   getAuthor,
   isIncoming,
@@ -45,6 +45,8 @@ import {
   conversationQueueJobEnum,
 } from '../jobs/conversationJobQueue';
 import { maybeNotify } from '../messages/maybeNotify';
+
+const log = createLogger('Reactions');
 
 export type ReactionAttributesType = {
   emoji: string;
@@ -412,7 +414,7 @@ export async function handleReaction(
         forceSave: true,
       });
 
-      log.info('Reactions.onReaction adding reaction to story', {
+      log.info('onReaction adding reaction to story', {
         reactionMessageId: getMessageIdForLogging(generatedMessage.attributes),
         storyId: getMessageIdForLogging(storyMessage),
         targetTimestamp: reaction.targetTimestamp,

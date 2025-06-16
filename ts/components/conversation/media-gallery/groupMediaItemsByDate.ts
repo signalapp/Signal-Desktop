@@ -4,11 +4,13 @@
 import moment from 'moment';
 import { compact, groupBy, sortBy } from 'lodash';
 
-import * as log from '../../../logging/log';
+import { createLogger } from '../../../logging/log';
 import type { MediaItemType } from '../../../types/MediaItem';
 
 import { missingCaseError } from '../../../util/missingCaseError';
 import { toLogFormat } from '../../../types/errors';
+
+const log = createLogger('groupMediaItemsByDate');
 
 type StaticSectionType = 'today' | 'yesterday' | 'thisWeek' | 'thisMonth';
 type YearMonthSectionType = 'yearMonth';

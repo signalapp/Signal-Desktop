@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { CallLinkEditModal } from '../../components/CallLinkEditModal';
 import { useCallingActions } from '../ducks/calling';
 import { getActiveCallState, getCallLinkSelector } from '../selectors/calling';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { getIntl } from '../selectors/user';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import type { CallLinkRestrictions } from '../../types/CallLink';
@@ -14,6 +14,8 @@ import { strictAssert } from '../../util/assert';
 import { linkCallRoute } from '../../util/signalRoutes';
 import { copyCallLink } from '../../util/copyLinksWithToast';
 import { drop } from '../../util/drop';
+
+const log = createLogger('CallLinkEditModal');
 
 export const SmartCallLinkEditModal = memo(
   function SmartCallLinkEditModal(): JSX.Element | null {

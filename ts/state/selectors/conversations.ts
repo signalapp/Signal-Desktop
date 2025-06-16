@@ -54,7 +54,7 @@ import {
   getUserNumber,
 } from './user';
 import { getPinnedConversationIds } from './items';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { TimelineMessageLoadingState } from '../../util/timelineUtil';
 import { isSignalConversation } from '../../util/isSignalConversation';
 import { reduce } from '../../util/iterables';
@@ -68,6 +68,8 @@ import {
   countAllConversationsUnreadStats,
   type UnreadStats,
 } from '../../util/countUnreadStats';
+
+const log = createLogger('conversations');
 
 export type ConversationWithStoriesType = ConversationType & {
   hasStories?: HasStories;
