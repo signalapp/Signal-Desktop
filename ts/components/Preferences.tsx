@@ -97,12 +97,13 @@ export type PropsDataType = {
   backupKeyViewed: boolean;
   backupLocalBackupsEnabled: boolean;
   localBackupFolder: string | undefined;
-  blockedCount: number;
   cloudBackupStatus?: BackupStatusType;
   backupSubscriptionStatus?: BackupsSubscriptionType;
+  blockedCount: number;
   customColors: Record<string, CustomColorType>;
   defaultConversationColor: DefaultConversationColorType;
   deviceName?: string;
+  donationsFeatureEnabled: boolean;
   emojiSkinToneDefault: EmojiSkinTone;
   hasAudioNotifications?: boolean;
   hasAutoConvertEmoji: boolean;
@@ -179,6 +180,9 @@ export type PropsDataType = {
 
 type PropsFunctionType = {
   // Render props
+  renderDonationsPane: (options: {
+    contentsRef: MutableRefObject<HTMLDivElement | null>;
+  }) => JSX.Element;
   renderProfileEditor: (options: {
     contentsRef: MutableRefObject<HTMLDivElement | null>;
   }) => JSX.Element;
@@ -273,6 +277,7 @@ export enum Page {
   // Accessible through left nav
   Profile = 'Profile',
   General = 'General',
+  Donations = 'Donations',
   Appearance = 'Appearance',
   Chats = 'Chats',
   Calls = 'Calls',
@@ -339,6 +344,7 @@ export function Preferences({
   defaultConversationColor,
   deviceName = '',
   doDeleteAllData,
+  donationsFeatureEnabled,
   editCustomColor,
   emojiSkinToneDefault,
   exportLocalBackup,
@@ -435,6 +441,7 @@ export function Preferences({
   refreshBackupSubscriptionStatus,
   removeCustomColor,
   removeCustomColorOnConversations,
+  renderDonationsPane,
   renderProfileEditor,
   renderToastManager,
   renderUpdateDialog,
@@ -795,6 +802,10 @@ export function Preferences({
         title={i18n('icu:Preferences__button--general')}
       />
     );
+  } else if (page === Page.Donations) {
+    content = renderDonationsPane({
+      contentsRef: settingsPaneRef,
+    });
   } else if (page === Page.Appearance) {
     let zoomFactors = DEFAULT_ZOOM_FACTORS;
 
@@ -2179,6 +2190,19 @@ export function Preferences({
                   {i18n('icu:Preferences__button--backups')}
                 </button>
               ) : null}
+              {donationsFeatureEnabled && (
+                <button
+                  type="button"
+                  className={classNames({
+                    Preferences__button: true,
+                    'Preferences__button--appearance': true,
+                    'Preferences__button--selected': page === Page.Donations,
+                  })}
+                  onClick={() => setPage(Page.Donations)}
+                >
+                  {i18n('icu:Preferences__button--donate')}
+                </button>
+              )}
               {isInternalUser ? (
                 <button
                   type="button"

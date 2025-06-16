@@ -1480,6 +1480,22 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/PreferencesDonations.tsx",
+    "line": "  const tryClose = useRef<() => void | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-06-10T19:00:29.489Z",
+    "reasonDetail": "Holding on to a close function"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/PreferencesLocalBackups.tsx",
+    "line": "  const backupKeyTextareaRef = useRef<HTMLTextAreaElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-30T22:48:14.420Z",
+    "reasonDetail": "For focusing the settings backup key viewer textarea"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/ProfileEditor.tsx",
     "line": "  const focusInputRef = useRef<HTMLInputElement | null>(null);",
     "reasonCategory": "usageTrusted",
@@ -2240,13 +2256,5 @@
     "line": "  message.innerHTML = window.i18n('icu:optimizingApplication');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T21:02:59.414Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/PreferencesLocalBackups.tsx",
-    "line": "  const backupKeyTextareaRef = useRef<HTMLTextAreaElement>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2025-05-30T22:48:14.420Z",
-    "reasonDetail": "For focusing the settings backup key viewer textarea"
   }
 ]
