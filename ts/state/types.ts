@@ -11,6 +11,7 @@ import type { actions as calling } from './ducks/calling';
 import type { actions as composer } from './ducks/composer';
 import type { actions as conversations } from './ducks/conversations';
 import type { actions as crashReports } from './ducks/crashReports';
+import type { actions as donations } from './ducks/donations';
 import type { actions as emojis } from './ducks/emojis';
 import type { actions as expiration } from './ducks/expiration';
 import type { actions as gifs } from './ducks/gifs';
@@ -45,6 +46,7 @@ export type ReduxActions = {
   composer: typeof composer;
   conversations: typeof conversations;
   crashReports: typeof crashReports;
+  donations: typeof donations;
   emojis: typeof emojis;
   expiration: typeof expiration;
   gifs: typeof gifs;

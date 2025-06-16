@@ -219,6 +219,13 @@ import {
   updateDefunctCallLink,
 } from './server/callLinks';
 import {
+  _deleteAllDonationReceipts,
+  createDonationReceipt,
+  deleteDonationReceiptById,
+  getAllDonationReceipts,
+  getDonationReceiptById,
+} from './server/donationReceipts';
+import {
   deleteAllEndorsementsForGroup,
   getGroupSendCombinedEndorsementExpiration,
   getGroupSendEndorsementsData,
@@ -390,6 +397,9 @@ export const DataReader: ServerReadableInterface = {
 
   getAllNotificationProfiles,
   getNotificationProfileById,
+
+  getAllDonationReceipts,
+  getDonationReceiptById,
 
   callLinkExists,
   defunctCallLinkExists,
@@ -623,6 +633,10 @@ export const DataWriter: ServerWritableInterface = {
   deleteNotificationProfileById,
   markNotificationProfileDeleted,
   updateNotificationProfile,
+
+  _deleteAllDonationReceipts,
+  deleteDonationReceiptById,
+  createDonationReceipt,
 
   removeAll,
   removeAllConfiguration,
@@ -7495,6 +7509,7 @@ function removeAll(db: WritableDB): void {
       DELETE FROM callsHistory;
       DELETE FROM conversations;
       DELETE FROM defunctCallLinks;
+      DELETE FROM donationReceipts;
       DELETE FROM emojis;
       DELETE FROM groupCallRingCancellations;
       DELETE FROM groupSendCombinedEndorsement;

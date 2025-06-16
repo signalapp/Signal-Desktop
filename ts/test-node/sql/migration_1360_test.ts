@@ -6,7 +6,6 @@ import { assert } from 'chai';
 import { sql } from '../../sql/util';
 import { createDB, explain, updateToVersion } from './helpers';
 import type { WritableDB } from '../../sql/Interface';
-import { DataWriter } from '../../sql/Server';
 
 describe('SQL/updateToSchemaVersion1360', () => {
   let db: WritableDB;
@@ -14,7 +13,6 @@ describe('SQL/updateToSchemaVersion1360', () => {
   beforeEach(async () => {
     db = createDB();
     updateToVersion(db, 1360);
-    await DataWriter.removeAll(db);
   });
 
   afterEach(() => {
