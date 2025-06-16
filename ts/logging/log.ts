@@ -14,6 +14,55 @@ let redactAll = (value: string) => value;
 let destination: pino.DestinationStream | undefined;
 let buffer = new Array<string>();
 
+const COLORS = [
+  '#2c6bed',
+  '#cf163e',
+  '#c73f0a',
+  '#6f6a58',
+  '#3b7845',
+  '#1d8663',
+  '#077d92',
+  '#336ba3',
+  '#6058ca',
+  '#9932c8',
+  '#aa377a',
+  '#8f616a',
+  '#71717f',
+  '#ebeae8',
+  '#506ecd',
+  '#ff9500',
+];
+
+const SUBSYSTEM_COLORS = new Map<string, string>();
+
+// Only for unpackaged app
+function getSubsystemColor(name: string): string {
+  const cached = SUBSYSTEM_COLORS.get(name);
+  if (cached != null) {
+    return cached;
+  }
+
+  // Jenkins hash
+  let hash = 0;
+
+  /* eslint-disable no-bitwise */
+  for (let i = 0; i < name.length; i += 1) {
+    hash += name.charCodeAt(i) & 0xff;
+    hash += hash << 10;
+    hash ^= hash >>> 6;
+  }
+  hash += hash << 3;
+  hash ^= hash >>> 11;
+  hash += hash << 15;
+  hash >>>= 0;
+  /* eslint-enable no-bitwise */
+
+  const result = COLORS[hash % COLORS.length];
+  SUBSYSTEM_COLORS.set(name, result);
+
+  return result;
+}
+
 const pinoInstance = pino(
   {
     formatters: {
@@ -34,10 +83,14 @@ const pinoInstance = pino(
 
           const [message, ...extra] = args;
 
+          const color = getSubsystemColor(msgPrefix ?? '');
+
           // `fatal` has no respective analog in `console`
           // eslint-disable-next-line no-console
           console[consoleMethod === 'fatal' ? 'error' : consoleMethod](
-            `${msgPrefix ?? ''}${message}`,
+            `%c${msgPrefix ?? ''}%c${message}`,
+            `color: ${color}; font-weight: bold`,
+            'color: inherit; font-weight: inherit',
             ...extra
           );
         }
