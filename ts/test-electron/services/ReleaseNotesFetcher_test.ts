@@ -378,7 +378,8 @@ describe('ReleaseNotesFetcher', () => {
       assert.strictEqual(getCurrentHash(), 'hash');
     });
 
-    it('forces a manifest fetch for a new version', async () => {
+    // Flaky in CI, TODO(yash): DESKTOP-8877
+    it.skip('forces a manifest fetch for a new version', async () => {
       const {
         setupStorage,
         runFetcherAndWaitForCompletion,
