@@ -159,9 +159,7 @@ import { CallLinkUpdateSyncType } from '../types/CallLink';
 import { bytesToUuid } from '../util/uuidToBytes';
 import { isBodyTooLong } from '../util/longAttachment';
 
-const logger = createLogger('MessageReceiver');
-
-const log = logger.child('MessageReceiver');
+const log = createLogger('MessageReceiver');
 
 const GROUPV2_ID_LENGTH = 32;
 const RETRY_TIMEOUT = 2 * 60 * 1000;
