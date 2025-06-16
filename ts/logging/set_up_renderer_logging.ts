@@ -114,22 +114,7 @@ window.SignalContext.log = {
   trace: log.trace,
 };
 
-function toLocation(
-  event: string | Event,
-  sourceArg?: string,
-  lineArg?: number,
-  columnArg?: number
-) {
-  let source = sourceArg;
-  let line = lineArg;
-  let column = columnArg;
-
-  if (event instanceof ErrorEvent) {
-    source ??= event.filename;
-    line ??= event.lineno;
-    column ??= event.colno;
-  }
-
+function toLocation(source?: string, line?: number, column?: number) {
   if (source == null) {
     return '(@ unknown)';
   }
@@ -142,11 +127,11 @@ function toLocation(
   return `(@ ${source})`;
 }
 
-window.onerror = (event, source, line, column, error) => {
+window.onerror = (message, source, line, column, error) => {
   const errorInfo = Errors.toLogFormat(error);
   log.error(
-    `Top-level unhandled error: ${errorInfo}`,
-    toLocation(event, source, line, column)
+    `Top-level unhandled error: ${message}, ${errorInfo}`,
+    toLocation(source, line, column)
   );
 };
 
