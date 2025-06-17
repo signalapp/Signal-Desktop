@@ -770,6 +770,10 @@ $secondary-text-color: light-dark(
   }
 }
 
+.Preferences--BackupsAuthButton[disabled] {
+  cursor: auto;
+}
+
 .Preferences--BackupsRow {
   padding-block: 8px;
   margin-block-start: 8px;

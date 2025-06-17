@@ -125,6 +125,7 @@ import { LINUX_PASSWORD_STORE_FLAGS } from '../ts/util/linuxPasswordStoreFlags';
 import { getOwn } from '../ts/util/getOwn';
 import { safeParseLoose, safeParseUnknown } from '../ts/util/schemas';
 import { getAppErrorIcon } from '../ts/util/getAppErrorIcon';
+import { promptOSAuth } from '../ts/util/os/promptOSAuthMain';
 
 const animationSettings = systemPreferences.getAnimationSettings();
 
@@ -1156,6 +1157,13 @@ ipc.on('set-is-call-active', (_event, isCallActive) => {
 ipc.on('convert-image', async (event, uuid, data) => {
   const { error, response } = await heicConverter(uuid, data);
   event.reply(`convert-image:${uuid}`, { error, response });
+});
+
+ipc.on('prompt-os-auth', async (event, { reason, localeString }) => {
+  getLogger().info(`Prompt for OS auth reason=${reason}`);
+  const result = await promptOSAuth({ reason, localeString });
+  getLogger().info(`Prompt for OS auth result=${result}`);
+  event.reply(`prompt-os-auth:${reason}`, result);
 });
 
 let isReadyForUpdates = false;

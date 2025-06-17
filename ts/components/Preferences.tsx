@@ -85,6 +85,10 @@ import type { MessageCountBySchemaVersionType } from '../sql/Interface';
 import type { MessageAttributesType } from '../model-types';
 import { isBackupPage } from '../types/PreferencesBackupPage';
 import type { PreferencesBackupPage } from '../types/PreferencesBackupPage';
+import type {
+  PromptOSAuthReasonType,
+  PromptOSAuthResultType,
+} from '../util/os/promptOSAuthMain';
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
@@ -210,6 +214,9 @@ type PropsFunctionType = {
   refreshBackupSubscriptionStatus: () => void;
   removeCustomColor: (colorId: string) => unknown;
   removeCustomColorOnConversations: (colorId: string) => unknown;
+  promptOSAuth: (
+    reason: PromptOSAuthReasonType
+  ) => Promise<PromptOSAuthResultType>;
   resetAllChatColors: () => unknown;
   resetDefaultChatColor: () => unknown;
   savePreferredLeftPaneWidth: (_: number) => void;
@@ -445,6 +452,7 @@ export function Preferences({
   renderProfileEditor,
   renderToastManager,
   renderUpdateDialog,
+  promptOSAuth,
   resetAllChatColors,
   resetDefaultChatColor,
   resolvedLocale,
@@ -1999,6 +2007,7 @@ export function Preferences({
         onBackupKeyViewedChange={onBackupKeyViewedChange}
         pickLocalBackupFolder={pickLocalBackupFolder}
         page={page}
+        promptOSAuth={promptOSAuth}
         setPage={setPage}
         showToast={showToast}
       />

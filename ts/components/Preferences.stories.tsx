@@ -336,6 +336,7 @@ export default {
     onZoomFactorChange: action('onZoomFactorChange'),
     pickLocalBackupFolder: () =>
       Promise.resolve('/home/signaluser/Signal Backups/'),
+    promptOSAuth: () => Promise.resolve('success'),
     refreshCloudBackupStatus: action('refreshCloudBackupStatus'),
     refreshBackupSubscriptionStatus: action('refreshBackupSubscriptionStatus'),
     removeCustomColor: action('removeCustomColor'),

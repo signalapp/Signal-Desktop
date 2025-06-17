@@ -73,6 +73,7 @@ import type { StorageAccessType, ZoomFactorType } from '../../types/Storage';
 import type { ThemeType } from '../../util/preload';
 import type { WidthBreakpoint } from '../../components/_util';
 import { DialogType } from '../../types/Dialogs';
+import { promptOSAuth } from '../../util/promptOSAuth';
 
 const DEFAULT_NOTIFICATION_SETTING = 'message';
 
@@ -804,6 +805,7 @@ export function SmartPreferences(): JSX.Element | null {
         renderProfileEditor={renderProfileEditor}
         renderToastManager={renderToastManager}
         renderUpdateDialog={renderUpdateDialog}
+        promptOSAuth={promptOSAuth}
         resetAllChatColors={resetAllChatColors}
         resetDefaultChatColor={resetDefaultChatColor}
         resolvedLocale={resolvedLocale}

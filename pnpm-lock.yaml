@@ -34,7 +34,7 @@ patchedDependencies:
     hash: e8a96f71e52bf903c9f1eadba4740489a0beb48da33db52354adca484fe1f495
     path: patches/@vitest+expect+2.0.5.patch
   app-builder-lib:
-    hash: 2a119a69a005842a6f7003c60ccd5e66c35900c65641c7930e514ae5e4c77982
+    hash: 0c3b228458f552563f27009bd822f7f7c069547b27cb27268838dcf98502693b
     path: patches/app-builder-lib.patch
   backbone@1.6.0:
     hash: 342b4b6012f8aecfa041554256444cb25af75bc933cf2ab1e91c4f66a8e47a31
@@ -140,6 +140,9 @@ importers:
       '@signalapp/sqlcipher':
         specifier: 2.0.3
         version: 2.0.3
+      '@signalapp/windows-ucv':
+        specifier: 1.0.0
+        version: 1.0.0
       '@tanstack/react-virtual':
         specifier: 3.11.2
         version: 3.11.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -2782,6 +2785,9 @@ packages:
 
   '@signalapp/sqlcipher@2.0.3':
     resolution: {integrity: sha512-aywstwV6Lg17NSPVK7fb40CIF687D6352YwCwAxDSxrw/qTxJampgdHzPpMrsepb0y6gSAzdYEpRbosJZPqP/g==}
+
+  '@signalapp/windows-ucv@1.0.0':
+    resolution: {integrity: sha512-8jDChKSW4gEZO8F3KxFntYR3fLWM0DzoJnK/t9AnUxhP7iJbgbF+K9lXamjbIjDhsLwmwbjoyGrEbqtkkx/w/g==}
 
   '@sinclair/typebox@0.27.8':
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
@@ -12504,6 +12510,11 @@ snapshots:
       node-addon-api: 8.3.0
       node-gyp-build: 4.8.4
 
+  '@signalapp/windows-ucv@1.0.0':
+    dependencies:
+      bindings: 1.5.0
+      node-addon-api: 8.3.0
+
   '@sinclair/typebox@0.27.8': {}
 
   '@sindresorhus/is@4.6.0': {}
@@ -13749,7 +13760,7 @@ snapshots:
 
   app-builder-bin@5.0.0-alpha.12: {}
 
-  app-builder-lib@26.0.14(patch_hash=2a119a69a005842a6f7003c60ccd5e66c35900c65641c7930e514ae5e4c77982)(dmg-builder@26.0.14)(electron-builder-squirrel-windows@26.0.14):
+  app-builder-lib@26.0.14(patch_hash=0c3b228458f552563f27009bd822f7f7c069547b27cb27268838dcf98502693b)(dmg-builder@26.0.14)(electron-builder-squirrel-windows@26.0.14):
     dependencies:
       '@develar/schema-utils': 2.6.5
       '@electron/asar': 3.4.1
@@ -14933,7 +14944,7 @@ snapshots:
 
   dmg-builder@26.0.14(patch_hash=cb72ed47fa8d45513a36db33fcb41cb75c30cada4737da067bf3fa1f063725f2)(electron-builder-squirrel-windows@26.0.14):
     dependencies:
-      app-builder-lib: 26.0.14(patch_hash=2a119a69a005842a6f7003c60ccd5e66c35900c65641c7930e514ae5e4c77982)(dmg-builder@26.0.14)(electron-builder-squirrel-windows@26.0.14)
+      app-builder-lib: 26.0.14(patch_hash=0c3b228458f552563f27009bd822f7f7c069547b27cb27268838dcf98502693b)(dmg-builder@26.0.14)(electron-builder-squirrel-windows@26.0.14)
       builder-util: 26.0.13
       builder-util-runtime: 9.3.2
       fs-extra: 10.1.0
@@ -15077,7 +15088,7 @@ snapshots:
 
   electron-builder-squirrel-windows@26.0.14(dmg-builder@26.0.14):
     dependencies:
-      app-builder-lib: 26.0.14(patch_hash=2a119a69a005842a6f7003c60ccd5e66c35900c65641c7930e514ae5e4c77982)(dmg-builder@26.0.14)(electron-builder-squirrel-windows@26.0.14)
+      app-builder-lib: 26.0.14(patch_hash=0c3b228458f552563f27009bd822f7f7c069547b27cb27268838dcf98502693b)(dmg-builder@26.0.14)(electron-builder-squirrel-windows@26.0.14)
       builder-util: 26.0.13
       electron-winstaller: 5.4.0
     transitivePeerDependencies:
@@ -15087,7 +15098,7 @@ snapshots:
 
   electron-builder@26.0.14(electron-builder-squirrel-windows@26.0.14):
     dependencies:
-      app-builder-lib: 26.0.14(patch_hash=2a119a69a005842a6f7003c60ccd5e66c35900c65641c7930e514ae5e4c77982)(dmg-builder@26.0.14)(electron-builder-squirrel-windows@26.0.14)
+      app-builder-lib: 26.0.14(patch_hash=0c3b228458f552563f27009bd822f7f7c069547b27cb27268838dcf98502693b)(dmg-builder@26.0.14)(electron-builder-squirrel-windows@26.0.14)
       builder-util: 26.0.13
       builder-util-runtime: 9.3.2
       chalk: 4.1.2
