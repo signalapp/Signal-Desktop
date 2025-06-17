@@ -33,7 +33,7 @@ export type ConfigKeyType =
   | 'desktop.experimentalTransport.enableAuth'
   | 'desktop.experimentalTransportEnabled.alpha'
   | 'desktop.experimentalTransportEnabled.beta'
-  | 'desktop.experimentalTransportEnabled.prod'
+  | 'desktop.experimentalTransportEnabled.prod.2'
   | 'desktop.libsignalNet.enforceMinimumTls'
   | 'desktop.cdsiViaLibsignal'
   | 'desktop.cdsiViaLibsignal.disableNewConnectionLogic'

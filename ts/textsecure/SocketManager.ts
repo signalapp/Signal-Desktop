@@ -684,7 +684,7 @@ export class SocketManager extends EventListener {
     } else if (isBeta(this.options.version)) {
       libsignalRemoteConfigFlag = 'desktop.experimentalTransportEnabled.beta';
     } else {
-      libsignalRemoteConfigFlag = 'desktop.experimentalTransportEnabled.prod';
+      libsignalRemoteConfigFlag = 'desktop.experimentalTransportEnabled.prod.2';
     }
 
     const configValue = window.Signal.RemoteConfig.isEnabled(
