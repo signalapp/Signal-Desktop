@@ -55,7 +55,7 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
         whitelisted: true,
         profileKey: undefined,
 
-        serviceE164: unknownPniContact.device.number,
+        e164: unknownPniContact.device.number,
       },
       ServiceIdKind.PNI
     );

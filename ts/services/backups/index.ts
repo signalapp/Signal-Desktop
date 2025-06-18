@@ -25,7 +25,6 @@ import { DelimitedStream } from '../../util/DelimitedStream';
 import { appendPaddingStream } from '../../util/logPadding';
 import { prependStream } from '../../util/prependStream';
 import { appendMacStream } from '../../util/appendMacStream';
-import { getIvAndDecipher } from '../../util/getIvAndDecipher';
 import { getMacAndUpdateHmac } from '../../util/getMacAndUpdateHmac';
 import { missingCaseError } from '../../util/missingCaseError';
 import { DAY, HOUR, MINUTE } from '../../util/durations';
@@ -84,6 +83,7 @@ import {
   validateLocalBackupStructure,
 } from './util/localBackup';
 import { AttachmentLocalBackupManager } from '../../jobs/AttachmentLocalBackupManager';
+import { decipherWithAesKey } from '../../util/decipherWithAesKey';
 
 export { BackupType };
 
@@ -628,7 +628,7 @@ export class BackupsService {
           createBackupStream(),
           getMacAndUpdateHmac(hmac, noop),
           progressReporter,
-          getIvAndDecipher(aesKey),
+          decipherWithAesKey(aesKey),
           createGunzip(),
           new DelimitedStream(),
           importStream,
@@ -1110,6 +1110,10 @@ export class BackupsService {
 
     drop(window.storage.put('backupSubscriptionStatus', result));
     return result;
+  }
+
+  hasMediaBackups(): boolean {
+    return window.storage.get('backupTier') === BackupLevel.Paid;
   }
 
   getCachedCloudBackupStatus(): BackupStatusType | undefined {

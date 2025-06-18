@@ -59,7 +59,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
 
         identityKey: pniIdentityKey,
 
-        serviceE164: pniContact.device.number,
+        e164: pniContact.device.number,
         givenName: 'PNI Contact',
       },
       ServiceIdKind.PNI
@@ -69,7 +69,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       identityState: Proto.ContactRecord.IdentityState.DEFAULT,
       whitelisted: true,
 
-      serviceE164: undefined,
+      e164: undefined,
       identityKey: aciIdentityKey,
       givenName: 'ACI Contact',
     });
@@ -283,7 +283,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
 
         state = state.updateContact(pniContact, {
           pni: undefined,
-          serviceE164: undefined,
+          e164: undefined,
           unregisteredAtTimestamp: Long.fromNumber(bootstrap.getTimestamp()),
         });
 
@@ -296,7 +296,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
 
               identityKey: pniIdentityKey,
 
-              serviceE164: pniContact.device.number,
+              e164: pniContact.device.number,
               givenName: 'PNI Contact',
             },
             ServiceIdKind.PNI
@@ -403,15 +403,15 @@ describe('pnp/merge', function (this: Mocha.Suite) {
           throw new Error('Invalid record');
         }
 
-        const { aci, serviceE164, pni } = contact;
+        const { aci, e164, pni } = contact;
         if (aci === pniContact.device.aci) {
           aciContacts += 1;
           assert.strictEqual(pni, '');
-          assert.strictEqual(serviceE164, '');
+          assert.strictEqual(e164, '');
         } else if (pni === toUntaggedPni(pniContact.device.pni)) {
           pniContacts += 1;
           assert.strictEqual(aci, '');
-          assert.strictEqual(serviceE164, pniContact.device.number);
+          assert.strictEqual(e164, pniContact.device.number);
         }
       }
       assert.strictEqual(aciContacts, 1);
@@ -473,7 +473,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
 
           identityKey: aciIdentityKey,
 
-          serviceE164: aciContact.device.number,
+          e164: aciContact.device.number,
           givenName: 'ACI Contact',
         },
         ServiceIdKind.ACI

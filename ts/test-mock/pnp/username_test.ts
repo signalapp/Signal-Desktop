@@ -52,7 +52,7 @@ describe('pnp/username', function (this: Mocha.Suite) {
 
     state = state.addContact(usernameContact, {
       username: USERNAME,
-      serviceE164: undefined,
+      e164: undefined,
     });
 
     // Put contact into left pane

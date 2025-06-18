@@ -19,8 +19,6 @@ export type StandardAttachmentBackupJobType = {
     path: string | null;
     contentType: MIMEType;
     keys: string;
-    digest: string;
-    iv: string;
     transitCdnInfo?: {
       cdnKey: string;
       cdnNumber: number;
@@ -72,8 +70,6 @@ const standardBackupJobDataSchema = z.object({
     size: z.number(),
     contentType: MIMETypeSchema,
     keys: z.string(),
-    iv: z.string(),
-    digest: z.string(),
     transitCdnInfo: z
       .object({
         cdnKey: z.string(),

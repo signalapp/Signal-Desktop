@@ -9,6 +9,7 @@ import {
   processPreKeyBundle,
   ProtocolAddress,
   PublicKey,
+  UsePQRatchet,
 } from '@signalapp/libsignal-client';
 
 import {
@@ -191,7 +192,8 @@ async function handleServerKeys(
               preKeyBundle,
               protocolAddress,
               sessionStore,
-              identityKeyStore
+              identityKeyStore,
+              UsePQRatchet.No
             )
         );
       } catch (error) {

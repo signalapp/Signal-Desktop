@@ -32,7 +32,7 @@ export type CoreAttachmentDownloadJobType = {
   attachmentType: AttachmentDownloadJobTypeType;
   ciphertextSize: number;
   contentType: MIMEType;
-  digest: string;
+  attachmentSignature: string;
   isManualDownload?: boolean;
   messageId: string;
   receivedAt: number;
@@ -51,7 +51,7 @@ export const coreAttachmentDownloadJobSchema = z.object({
   attachmentType: attachmentDownloadTypeSchema,
   ciphertextSize: z.number(),
   contentType: MIMETypeSchema,
-  digest: z.string(),
+  attachmentSignature: z.string(),
   isManualDownload: z.boolean().optional(),
   messageId: z.string(),
   messageIdForLogging: z.string().optional(),

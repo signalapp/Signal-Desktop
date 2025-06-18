@@ -14,10 +14,11 @@ import * as Errors from '../types/errors';
 import { strictAssert } from '../util/assert';
 import {
   AttachmentSizeError,
-  mightBeOnBackupTier,
   type AttachmentType,
   AttachmentVariant,
   AttachmentPermanentlyUndownloadableError,
+  hasRequiredInformationForBackup,
+  type BackupableAttachmentType,
 } from '../types/Attachment';
 import * as Bytes from '../Bytes';
 import {
@@ -27,6 +28,7 @@ import {
   type ReencryptedAttachmentV2,
   decryptAndReencryptLocally,
   measureSize,
+  type IntegrityCheckType,
 } from '../AttachmentCrypto';
 import type { ProcessedAttachment } from './Types.d';
 import type { WebAPIType } from './WebAPI';
@@ -56,7 +58,7 @@ export function getCdnKey(attachment: ProcessedAttachment): string {
 }
 
 export function getBackupMediaOuterEncryptionKeyMaterial(
-  attachment: AttachmentType
+  attachment: BackupableAttachmentType
 ): BackupMediaKeyMaterialType {
   const mediaId = getMediaIdForAttachment(attachment);
   const backupKey = getBackupMediaRootKey();
@@ -64,14 +66,14 @@ export function getBackupMediaOuterEncryptionKeyMaterial(
 }
 
 function getBackupThumbnailInnerEncryptionKeyMaterial(
-  attachment: AttachmentType
+  attachment: BackupableAttachmentType
 ): BackupMediaKeyMaterialType {
   const mediaId = getMediaIdForAttachmentThumbnail(attachment);
   const backupKey = getBackupMediaRootKey();
   return deriveBackupMediaKeyMaterial(backupKey, mediaId.bytes);
 }
 function getBackupThumbnailOuterEncryptionKeyMaterial(
-  attachment: AttachmentType
+  attachment: BackupableAttachmentType
 ): BackupMediaKeyMaterialType {
   const mediaId = getMediaIdForAttachmentThumbnail(attachment);
   const backupKey = getBackupMediaRootKey();
@@ -79,13 +81,9 @@ function getBackupThumbnailOuterEncryptionKeyMaterial(
 }
 
 export async function getCdnNumberForBackupTier(
-  attachment: ProcessedAttachment
+  attachment: BackupableAttachmentType
 ): Promise<number> {
-  strictAssert(
-    attachment.backupLocator,
-    'Attachment was missing backupLocator'
-  );
-  let backupCdnNumber = attachment.backupLocator.cdnNumber;
+  let { backupCdnNumber } = attachment;
 
   if (backupCdnNumber == null) {
     const mediaId = getMediaIdForAttachment(attachment);
@@ -104,11 +102,15 @@ export async function getCdnNumberForBackupTier(
 
 export async function downloadAttachment(
   server: WebAPIType,
-  attachment: ProcessedAttachment,
+  {
+    attachment,
+    mediaTier,
+  }:
+    | { attachment: AttachmentType; mediaTier: MediaTier.STANDARD }
+    | { attachment: BackupableAttachmentType; mediaTier: MediaTier.BACKUP },
   options: {
     disableRetries?: boolean;
     logPrefix?: string;
-    mediaTier?: MediaTier;
     onSizeUpdate: (totalBytes: number) => void;
     timeout?: number;
     variant: AttachmentVariant;
@@ -117,19 +119,19 @@ export async function downloadAttachment(
 ): Promise<ReencryptedAttachmentV2> {
   const logId = `downloadAttachment/${options.logPrefix ?? ''}`;
 
-  const { digest, incrementalMac, chunkSize, key, size } = attachment;
+  const { digest, plaintextHash, incrementalMac, chunkSize, key, size } =
+    attachment;
 
   try {
-    strictAssert(digest, `${logId}: missing digest`);
+    strictAssert(
+      digest || plaintextHash,
+      `${logId}: missing digest and plaintextHash`
+    );
     strictAssert(key, `${logId}: missing key`);
     strictAssert(isNumber(size), `${logId}: missing size`);
   } catch (error) {
     throw new AttachmentPermanentlyUndownloadableError(error.message);
   }
-
-  const mediaTier =
-    options?.mediaTier ??
-    (mightBeOnBackupTier(attachment) ? MediaTier.BACKUP : MediaTier.STANDARD);
 
   let downloadResult: Awaited<ReturnType<typeof downloadToDisk>>;
 
@@ -167,6 +169,12 @@ export async function downloadAttachment(
   if (downloadOffset !== 0) {
     log.info(`${logId}: resuming from ${downloadOffset}`);
   }
+  if (mediaTier === MediaTier.BACKUP) {
+    strictAssert(
+      hasRequiredInformationForBackup(attachment),
+      `${logId}: attachment missing critical information for backup tier`
+    );
+  }
 
   if (mediaTier === MediaTier.STANDARD) {
     strictAssert(
@@ -195,6 +203,8 @@ export async function downloadAttachment(
       size,
     });
   } else {
+    strictAssert(mediaTier === MediaTier.BACKUP, 'backup media tier');
+
     const mediaId =
       options.variant === AttachmentVariant.ThumbnailFromBackup
         ? getMediaIdForAttachmentThumbnail(attachment)
@@ -242,6 +252,21 @@ export async function downloadAttachment(
       case AttachmentVariant.Default:
       case undefined: {
         const { aesKey, macKey } = splitKeys(Bytes.fromBase64(key));
+        let integrityCheck: IntegrityCheckType;
+        if (plaintextHash) {
+          integrityCheck = {
+            type: 'plaintext',
+            plaintextHash: Bytes.fromHex(plaintextHash),
+          };
+        } else if (digest) {
+          integrityCheck = {
+            type: 'encrypted',
+            digest: Bytes.fromBase64(digest),
+          };
+        } else {
+          throw new Error(`${logId}: missing both digest and plaintextHash`);
+        }
+
         return await decryptAndReencryptLocally({
           type: 'standard',
           ciphertextPath: cipherTextAbsolutePath,
@@ -249,7 +274,7 @@ export async function downloadAttachment(
           aesKey,
           macKey,
           size,
-          theirDigest: Bytes.fromBase64(digest),
+          integrityCheck,
           theirIncrementalMac: incrementalMac
             ? Bytes.fromBase64(incrementalMac)
             : undefined,

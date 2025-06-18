@@ -25,6 +25,7 @@ import { strictAssert } from '../util/assert';
 import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto';
 import { SECOND } from '../util/durations';
 import { AttachmentVariant } from '../types/Attachment';
+import { MediaTier } from '../types/AttachmentDownload';
 
 // When true - we are running the very first storage and contact sync after
 // linking.
@@ -108,7 +109,7 @@ async function downloadAndParseContactAttachment(
     const abortController = new AbortController();
     downloaded = await downloadAttachment(
       window.textsecure.server,
-      contactAttachment,
+      { attachment: contactAttachment, mediaTier: MediaTier.STANDARD },
       {
         variant: AttachmentVariant.Default,
         onSizeUpdate: noop,

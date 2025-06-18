@@ -56,7 +56,7 @@ describe('pnp/phone discovery', function (this: Mocha.Suite) {
 
         identityKey: pniIdentityKey,
 
-        serviceE164: pniContact.device.number,
+        e164: pniContact.device.number,
       },
       ServiceIdKind.PNI
     );

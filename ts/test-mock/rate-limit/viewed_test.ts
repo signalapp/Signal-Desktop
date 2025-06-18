@@ -55,7 +55,7 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
       contact,
       {
         whitelisted: true,
-        serviceE164: contact.device.number,
+        e164: contact.device.number,
         identityKey: contact.getPublicKey(ServiceIdKind.PNI).serialize(),
         pni: toUntaggedPni(contact.device.pni),
         givenName: 'Jamie',
@@ -66,7 +66,7 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
       contactB,
       {
         whitelisted: true,
-        serviceE164: contactB.device.number,
+        e164: contactB.device.number,
         identityKey: contactB.getPublicKey(ServiceIdKind.PNI).serialize(),
         pni: toUntaggedPni(contactB.device.pni),
         givenName: 'Kim',

@@ -124,7 +124,11 @@ import {
   resetBackupMediaDownloadProgress,
   startBackupMediaDownload,
 } from '../../util/backupMediaDownload';
-import { getEnvironment, isTestEnvironment } from '../../environment';
+import {
+  getEnvironment,
+  isTestEnvironment,
+  isTestOrMockEnvironment,
+} from '../../environment';
 import { hasAttachmentDownloads } from '../../util/hasAttachmentDownloads';
 import { isAdhoc, isNightly } from '../../util/version';
 import { ToastType } from '../../types/Toast';
@@ -817,6 +821,16 @@ export class BackupImportStream extends Writable {
     if (svrPin) {
       await storage.put('svrPin', svrPin);
     }
+
+    if (isTestOrMockEnvironment()) {
+      // Only relevant for tests
+      await storage.put(
+        'optimizeOnDeviceStorage',
+        accountSettings?.optimizeOnDeviceStorage === true
+      );
+    }
+
+    await storage.put('backupTier', accountSettings?.backupTier?.toNumber());
 
     const { PhoneNumberSharingMode: BackupMode } = Backups.AccountData;
     switch (accountSettings?.phoneNumberSharingMode) {

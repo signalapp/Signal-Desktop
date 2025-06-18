@@ -81,6 +81,7 @@ const defaultGroups: Array<GroupListItemConversationType> = [
 ];
 
 const backupMediaDownloadProgress = {
+  isBackupMediaEnabled: true,
   downloadedBytes: 1024,
   totalBytes: 4098,
   downloadBannerDismissed: false,
@@ -146,6 +147,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
       markedUnread: false,
     },
     backupMediaDownloadProgress: {
+      isBackupMediaEnabled: true,
       downloadBannerDismissed: false,
       isIdle: false,
       isPaused: false,

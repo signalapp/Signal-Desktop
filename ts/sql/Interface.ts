@@ -576,20 +576,14 @@ export const MESSAGE_ATTACHMENT_COLUMNS = [
   'width',
   'digest',
   'key',
-  'iv',
   'flags',
   'downloadPath',
   'transitCdnKey',
   'transitCdnNumber',
   'transitCdnUploadTimestamp',
-  'backupMediaName',
   'backupCdnNumber',
   'incrementalMac',
   'incrementalMacChunkSize',
-  'isReencryptableToSameDigest',
-  'reencryptionIv',
-  'reencryptionKey',
-  'reencryptionDigest',
   'thumbnailPath',
   'thumbnailSize',
   'thumbnailContentType',
@@ -635,7 +629,6 @@ export type MessageAttachmentDBType = {
   height: number | null;
   flags: number | null;
   key: string | null;
-  iv: string | null;
   digest: string | null;
   fileName: string | null;
   incrementalMac: string | null;
@@ -645,7 +638,6 @@ export type MessageAttachmentDBType = {
   transitCdnKey: string | null;
   transitCdnNumber: number | null;
   transitCdnUploadTimestamp: number | null;
-  backupMediaName: string | null;
   backupCdnNumber: number | null;
   thumbnailPath: string | null;
   thumbnailSize: number | null;
@@ -662,9 +654,6 @@ export type MessageAttachmentDBType = {
   backupThumbnailContentType: string | null;
   backupThumbnailLocalKey: string | null;
   backupThumbnailVersion: 1 | 2 | null;
-  reencryptionIv: string | null;
-  reencryptionKey: string | null;
-  reencryptionDigest: string | null;
   storyTextAttachmentJson: string | null;
   localBackupPath: string | null;
   isCorrupted: 1 | 0 | null;
@@ -672,7 +661,6 @@ export type MessageAttachmentDBType = {
   error: 1 | 0 | null;
   wasTooBig: 1 | 0 | null;
   pending: 1 | 0 | null;
-  isReencryptableToSameDigest: 1 | 0 | null;
   copiedFromQuotedAttachment: 1 | 0 | null;
 };
 
@@ -840,7 +828,7 @@ type ReadableInterface = {
   _getAttachmentDownloadJob(
     job: Pick<
       AttachmentDownloadJobType,
-      'messageId' | 'attachmentType' | 'digest'
+      'messageId' | 'attachmentType' | 'attachmentSignature'
     >
   ): AttachmentDownloadJobType | undefined;
 

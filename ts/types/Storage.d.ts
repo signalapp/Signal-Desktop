@@ -243,6 +243,7 @@ export type StorageAccessType = {
 
   // Stored solely for pesistance during import/export sequence
   svrPin: string;
+  optimizeOnDeviceStorage: boolean;
 
   postRegistrationSyncsStatus: 'incomplete' | 'complete';
 

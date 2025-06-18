@@ -258,7 +258,7 @@ export async function createGroup(
   for (const member of otherMembers) {
     state = state.addContact(member, {
       whitelisted: true,
-      serviceE164: member.device.number,
+      e164: member.device.number,
       identityKey: member.publicKey.serialize(),
       profileKey: member.profileKey.serialize(),
       givenName: member.profileName,

@@ -129,8 +129,8 @@ importers:
         specifier: 3.27.0
         version: 3.27.0(react@18.3.1)
       '@signalapp/libsignal-client':
-        specifier: 0.72.1
-        version: 0.72.1
+        specifier: 0.74.1
+        version: 0.74.1
       '@signalapp/quill-cjs':
         specifier: 2.1.2
         version: 2.1.2
@@ -430,8 +430,8 @@ importers:
         specifier: 0.1.61
         version: 0.1.61
       '@signalapp/mock-server':
-        specifier: 11.3.1
-        version: 11.3.1(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+        specifier: 12.0.0
+        version: 12.0.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       '@storybook/addon-a11y':
         specifier: 8.4.4
         version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
@@ -2767,11 +2767,11 @@ packages:
   '@signalapp/libsignal-client@0.60.2':
     resolution: {integrity: sha512-tU4kNP/yCwkFntb2ahXOSQJtzdy+YifAB2yv5hw0qyKSidRHLn6bYiz4Zo2tjxLDRoBLAUxCRsQramStiqNZdA==}
 
-  '@signalapp/libsignal-client@0.72.1':
-    resolution: {integrity: sha512-YFIxrp8KVo0+q3lZBw/CEFbnPNbUsmfD3JRLu1cWH2nDLbAGwVzmbOGAzhXDzui5jO2PyEr8wXKqRpVbNKy1pw==}
+  '@signalapp/libsignal-client@0.74.1':
+    resolution: {integrity: sha512-PEJou0yrBvxaAGg7JjONlRNM/t3PCBuY96wu7W6+57e38/7Mibo9kAMfE5B8DgVv+DUNMW9AgJhx5McCoIXYew==}
 
-  '@signalapp/mock-server@11.3.1':
-    resolution: {integrity: sha512-nh/ynnz/3728M0Eh4BAa0kVcpSml6nyF9Vb2AV3WhlZ1VYJe5+IlshXfs57XwNghg4bHhOr9hVxIKuw/QK6ptg==}
+  '@signalapp/mock-server@12.0.0':
+    resolution: {integrity: sha512-5Ebu2c3/BViNsZ4yId8zfHyazMGUmsSfjMXXXFwNn7IYw0M0l/u+FFiR8SJdFnLoBbcxHG+KC3P+QqPdn91FIQ==}
 
   '@signalapp/parchment-cjs@3.0.1':
     resolution: {integrity: sha512-hSBMQ1M7wE4GcC8ZeNtvpJF+DAJg3eIRRf1SiHS3I3Algav/sgJJNm6HIYm6muHuK7IJmuEjkL3ILSXgmu0RfQ==}
@@ -12460,13 +12460,13 @@ snapshots:
       type-fest: 4.26.1
       uuid: 8.3.2
 
-  '@signalapp/libsignal-client@0.72.1':
+  '@signalapp/libsignal-client@0.74.1':
     dependencies:
       node-gyp-build: 4.8.4
       type-fest: 4.26.1
       uuid: 11.0.2
 
-  '@signalapp/mock-server@11.3.1(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
+  '@signalapp/mock-server@12.0.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
     dependencies:
       '@indutny/parallel-prettier': 3.0.0(prettier@3.3.3)
       '@signalapp/libsignal-client': 0.60.2

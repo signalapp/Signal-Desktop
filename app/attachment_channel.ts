@@ -19,7 +19,10 @@ import z from 'zod';
 import GrowingFile from 'growing-file';
 import { isNumber } from 'lodash';
 
-import { decryptAttachmentV2ToSink } from '../ts/AttachmentCrypto';
+import {
+  type DecryptAttachmentToSinkOptionsType,
+  decryptAttachmentV2ToSink,
+} from '../ts/AttachmentCrypto';
 import * as Bytes from '../ts/Bytes';
 import type { MessageAttachmentsCursorType } from '../ts/sql/Interface';
 import type { MainSQL } from '../ts/sql/main';
@@ -134,15 +137,18 @@ async function safeDecryptToSink(
       });
       file.pipe(ciphertextStream);
 
-      const options = {
+      const options: DecryptAttachmentToSinkOptionsType = {
         ciphertextStream,
         idForLogging: 'attachment_channel/incremental',
         keysBase64: ctx.keysBase64,
         size: ctx.size,
         theirChunkSize: ctx.chunkSize,
-        theirDigest: ctx.digest,
         theirIncrementalMac: ctx.incrementalMac,
-        type: 'standard' as const,
+        type: 'standard',
+        integrityCheck: {
+          type: 'encrypted',
+          digest: ctx.digest,
+        },
       };
 
       const controller = new AbortController();

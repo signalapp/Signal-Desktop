@@ -15,7 +15,6 @@ import { getRelativePath, createName } from '../util/attachmentPath';
 import { toHex } from '../Bytes';
 import { getRandomBytes } from '../Crypto';
 
-export * from '../util/ensureAttachmentIsReencryptable';
 export * from '../../app/attachments';
 
 type FSAttrType = {

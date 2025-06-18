@@ -29,6 +29,7 @@ import {
   signalDecrypt,
   signalDecryptPreKey,
   SignalMessage,
+  UsePQRatchet,
 } from '@signalapp/libsignal-client';
 
 import {
@@ -1786,7 +1787,8 @@ export default class MessageReceiver
             identityKeyStore,
             preKeyStore,
             signedPreKeyStore,
-            kyberPreKeyStore
+            kyberPreKeyStore,
+            UsePQRatchet.No
           );
         }
         return signalDecrypt(
@@ -1916,7 +1918,8 @@ export default class MessageReceiver
               identityKeyStore,
               preKeyStore,
               signedPreKeyStore,
-              kyberPreKeyStore
+              kyberPreKeyStore,
+              UsePQRatchet.No
             )
           ),
         zone
