@@ -4529,7 +4529,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "You can't join this group via the group link because an admin removed you.",
+    "messageformat": "You can't join this group via the group link because an admin removed you. Contact an admin to be added back to the group.",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "icu:GroupV2--join--prompt-with-approval": {
