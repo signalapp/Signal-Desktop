@@ -23,7 +23,6 @@ import {
   getAttachmentCiphertextLength,
   getAesCbcCiphertextLength,
   decryptAttachmentV2ToSink,
-  ReencryptedDigestMismatchError,
 } from '../AttachmentCrypto';
 import {
   getBackupMediaRootKey,
@@ -46,6 +45,7 @@ import { fromBase64, toBase64 } from '../Bytes';
 import type { WebAPIType } from '../textsecure/WebAPI';
 import {
   type AttachmentType,
+  canAttachmentHaveThumbnail,
   mightStillBeOnTransitTier,
 } from '../types/Attachment';
 import {
@@ -54,7 +54,6 @@ import {
   makeVideoScreenshot,
 } from '../types/VisualAttachment';
 import { missingCaseError } from '../util/missingCaseError';
-import { canAttachmentHaveThumbnail } from './AttachmentDownloadManager';
 import {
   isImageTypeSupported,
   isVideoTypeSupported,
@@ -117,7 +116,7 @@ export class AttachmentBackupManager extends JobManager<CoreAttachmentBackupJobT
   ): Promise<void> {
     await this.addJob(job);
     if (job.type === 'standard') {
-      if (canAttachmentHaveThumbnail(job.data.contentType)) {
+      if (canAttachmentHaveThumbnail({ contentType: job.data.contentType })) {
         await this.addJob({
           type: 'thumbnail',
           mediaName: getMediaNameForAttachmentThumbnail(job.mediaName),
@@ -221,13 +220,6 @@ export async function runAttachmentBackupJob(
       return { status: 'finished' };
     }
 
-    if (error instanceof ReencryptedDigestMismatchError) {
-      log.error(
-        `${logId}: Unable to reencrypt to match same digest; content must have changed`
-      );
-      return { status: 'finished' };
-    }
-
     if (
       error instanceof Error &&
       'code' in error &&
@@ -281,17 +273,8 @@ async function backupStandardAttachment(
 ) {
   const jobIdForLogging = getJobIdForLogging(job);
   const logId = `AttachmentBackupManager.backupStandardAttachment(${jobIdForLogging})`;
-  const {
-    contentType,
-    digest,
-    iv,
-    keys,
-    localKey,
-    path,
-    size,
-    transitCdnInfo,
-    version,
-  } = job.data;
+  const { contentType, keys, localKey, path, size, transitCdnInfo, version } =
+    job.data;
 
   const mediaId = getMediaIdFromMediaName(job.mediaName);
   const backupKeyMaterial = deriveBackupMediaKeyMaterial(
@@ -349,8 +332,6 @@ async function backupStandardAttachment(
     absolutePath,
     contentType,
     dependencies,
-    digest,
-    iv,
     keys,
     localKey,
     logPrefix: logId,
@@ -386,7 +367,7 @@ async function backupThumbnailAttachment(
   const { fullsizePath, fullsizeSize, contentType, version, localKey } =
     job.data;
 
-  if (!canAttachmentHaveThumbnail(contentType)) {
+  if (!canAttachmentHaveThumbnail({ contentType })) {
     log.error(
       `${logId}: cannot generate thumbnail for contentType: ${contentType}`
     );
@@ -468,8 +449,6 @@ type UploadToTransitTierArgsType = {
     decryptAttachmentV2ToSink: typeof decryptAttachmentV2ToSink;
     encryptAndUploadAttachment: typeof encryptAndUploadAttachment;
   };
-  digest: string;
-  iv: string;
   keys: string;
   localKey?: string;
   logPrefix: string;
@@ -486,8 +465,6 @@ async function uploadToTransitTier({
   absolutePath,
   contentType,
   dependencies,
-  digest,
-  iv,
   keys,
   localKey,
   logPrefix,
@@ -519,11 +496,6 @@ async function uploadToTransitTier({
           sink
         ),
         dependencies.encryptAndUploadAttachment({
-          dangerousIv: {
-            reason: 'reencrypting-for-backup',
-            iv: fromBase64(iv),
-            digestToMatch: fromBase64(digest),
-          },
           keys: fromBase64(keys),
           needIncrementalMac,
           plaintext: { stream: sink, size },
@@ -536,11 +508,6 @@ async function uploadToTransitTier({
 
     // Legacy attachments
     return dependencies.encryptAndUploadAttachment({
-      dangerousIv: {
-        reason: 'reencrypting-for-backup',
-        iv: fromBase64(iv),
-        digestToMatch: fromBase64(digest),
-      },
       keys: fromBase64(keys),
       needIncrementalMac,
       plaintext: { absolutePath },

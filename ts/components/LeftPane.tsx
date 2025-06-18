@@ -65,6 +65,7 @@ import { EditState } from './ProfileEditor';
 
 export type PropsType = {
   backupMediaDownloadProgress: {
+    isBackupMediaEnabled: boolean;
     totalBytes: number;
     downloadedBytes: number;
     isIdle: boolean;
@@ -714,7 +715,9 @@ export function LeftPane({
     modeSpecificProps.mode === LeftPaneMode.SetGroupMetadata;
 
   const showBackupMediaDownloadProgress =
-    !hideHeader && !backupMediaDownloadProgress.downloadBannerDismissed;
+    !hideHeader &&
+    backupMediaDownloadProgress.isBackupMediaEnabled &&
+    !backupMediaDownloadProgress.downloadBannerDismissed;
 
   const hasDialogs = dialogs.length ? !hideHeader : false;
 

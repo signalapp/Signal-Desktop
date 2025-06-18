@@ -191,7 +191,6 @@ export function FullyFilledOutTransientError(): JSX.Element {
       avatar: {
         avatar: fakeAttachment({
           error: true,
-          iv: 'something',
           key: 'something',
           digest: 'something',
           cdnKey: 'something',

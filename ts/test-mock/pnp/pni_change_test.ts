@@ -52,7 +52,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       contactA,
       {
         whitelisted: true,
-        serviceE164: contactA.device.number,
+        e164: contactA.device.number,
         identityKey: contactA.getPublicKey(ServiceIdKind.PNI).serialize(),
         pni: toUntaggedPni(contactA.device.pni),
         givenName: 'ContactA',
@@ -144,7 +144,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
             {
               identityState: Proto.ContactRecord.IdentityState.DEFAULT,
               whitelisted: true,
-              serviceE164: contactA.device.number,
+              e164: contactA.device.number,
               pni: toUntaggedPni(updatedPni),
               identityKey: contactA.getPublicKey(ServiceIdKind.PNI).serialize(),
             },
@@ -241,7 +241,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
             {
               identityState: Proto.ContactRecord.IdentityState.DEFAULT,
               whitelisted: true,
-              serviceE164: contactA.device.number,
+              e164: contactA.device.number,
               pni: toUntaggedPni(contactB.device.pni),
 
               // Key change - different identity key
@@ -343,7 +343,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
             {
               identityState: Proto.ContactRecord.IdentityState.DEFAULT,
               whitelisted: true,
-              serviceE164: contactA.device.number,
+              e164: contactA.device.number,
               pni: toUntaggedPni(contactB.device.pni),
 
               // Note: No identityKey key provided here!
@@ -474,7 +474,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
             {
               identityState: Proto.ContactRecord.IdentityState.DEFAULT,
               whitelisted: true,
-              serviceE164: contactA.device.number,
+              e164: contactA.device.number,
               pni: toUntaggedPni(contactB.device.pni),
 
               // Note: No identityKey key provided here!
@@ -506,7 +506,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
             {
               identityState: Proto.ContactRecord.IdentityState.DEFAULT,
               whitelisted: true,
-              serviceE164: contactA.device.number,
+              e164: contactA.device.number,
               pni: toUntaggedPni(contactA.device.pni),
             },
             ServiceIdKind.PNI

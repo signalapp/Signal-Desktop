@@ -4,7 +4,8 @@
 import { readFileSync, unlinkSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import { createCipheriv } from 'crypto';
-
+import { PassThrough } from 'stream';
+import { emptyDir } from 'fs-extra';
 import { assert } from 'chai';
 import { isNumber } from 'lodash';
 
@@ -40,7 +41,6 @@ import {
   CipherType,
 } from '../Crypto';
 import {
-  type HardcodedIVForEncryptionType,
   _generateAttachmentIv,
   decryptAttachmentV2,
   encryptAttachmentV2ToDisk,
@@ -49,10 +49,12 @@ import {
   splitKeys,
   generateAttachmentKeys,
   type DecryptedAttachmentV2,
+  decryptAttachmentV2ToSink,
 } from '../AttachmentCrypto';
 import type { AciString, PniString } from '../types/ServiceId';
 import { createTempDir, deleteTempDir } from '../updater/common';
 import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes';
+import { getPath } from '../windows/main/attachments';
 
 const log = createLogger('Crypto_test');
 
@@ -589,7 +591,10 @@ describe('Crypto', () => {
           idForLogging: 'test',
           ...splitKeys(keys),
           size: FILE_CONTENTS.byteLength,
-          theirDigest: encryptedAttachment.digest,
+          integrityCheck: {
+            type: 'encrypted',
+            digest: encryptedAttachment.digest,
+          },
           theirIncrementalMac: undefined,
           theirChunkSize: undefined,
           getAbsoluteAttachmentPath:
@@ -612,13 +617,86 @@ describe('Crypto', () => {
       }
     });
 
+    describe('decryptAttachmentV2ToSink', () => {
+      afterEach(async () => {
+        await emptyDir(getPath(window.SignalContext.config.userDataPath));
+      });
+
+      it('throws if digest is wrong', async () => {
+        const keys = generateAttachmentKeys();
+        const encryptedAttachment = await encryptAttachmentV2ToDisk({
+          keys,
+          plaintext: { data: FILE_CONTENTS },
+          getAbsoluteAttachmentPath:
+            window.Signal.Migrations.getAbsoluteAttachmentPath,
+          needIncrementalMac: true,
+        });
+
+        await assert.isRejected(
+          decryptAttachmentV2ToSink(
+            {
+              type: 'standard',
+              ciphertextPath:
+                window.Signal.Migrations.getAbsoluteAttachmentPath(
+                  encryptedAttachment.path
+                ),
+              idForLogging: 'test',
+              ...splitKeys(keys),
+              size: FILE_CONTENTS.byteLength,
+              integrityCheck: {
+                type: 'encrypted',
+                digest: sha256(new Uint8Array([1, 2, 3])),
+              },
+              theirIncrementalMac: encryptedAttachment.incrementalMac,
+              theirChunkSize: encryptedAttachment.chunkSize,
+            },
+            new PassThrough().resume()
+          ),
+          /Bad digest/
+        );
+      });
+
+      it('throws if plaintextHash is wrong', async () => {
+        const keys = generateAttachmentKeys();
+        const encryptedAttachment = await encryptAttachmentV2ToDisk({
+          keys,
+          plaintext: { data: FILE_CONTENTS },
+          getAbsoluteAttachmentPath:
+            window.Signal.Migrations.getAbsoluteAttachmentPath,
+          needIncrementalMac: true,
+        });
+
+        await assert.isRejected(
+          decryptAttachmentV2ToSink(
+            {
+              type: 'standard',
+              ciphertextPath:
+                window.Signal.Migrations.getAbsoluteAttachmentPath(
+                  encryptedAttachment.path
+                ),
+              idForLogging: 'test',
+              ...splitKeys(keys),
+              size: FILE_CONTENTS.byteLength,
+              integrityCheck: {
+                type: 'plaintext',
+                plaintextHash: sha256(new Uint8Array([1, 2, 3])),
+              },
+              theirIncrementalMac: encryptedAttachment.incrementalMac,
+              theirChunkSize: encryptedAttachment.chunkSize,
+            },
+            new PassThrough().resume()
+          ),
+          /Bad plaintextHash/
+        );
+      });
+    });
+
     describe('v2 roundtrips', () => {
       async function testV2RoundTripData({
         path,
         data,
         plaintextHash,
         encryptionKeys,
-        dangerousIv,
         modifyIncrementalMac,
         overrideSize,
       }: {
@@ -626,7 +704,6 @@ describe('Crypto', () => {
         data: Uint8Array;
         plaintextHash?: Uint8Array;
         encryptionKeys?: Uint8Array;
-        dangerousIv?: HardcodedIVForEncryptionType;
         modifyIncrementalMac?: boolean;
         overrideSize?: number;
       }): Promise<DecryptedAttachmentV2> {
@@ -638,7 +715,6 @@ describe('Crypto', () => {
           const encryptedAttachment = await encryptAttachmentV2ToDisk({
             keys,
             plaintext: path ? { absolutePath: path } : { data },
-            dangerousIv,
             getAbsoluteAttachmentPath:
               window.Signal.Migrations.getAbsoluteAttachmentPath,
             needIncrementalMac: true,
@@ -657,37 +733,46 @@ describe('Crypto', () => {
             encryptedAttachment.incrementalMac[macLength / 2] += 1;
           }
 
+          // Decrypt it via plaintextHash first
+          await decryptAttachmentV2ToSink(
+            {
+              type: 'standard',
+              ciphertextPath,
+              idForLogging: 'test',
+              ...splitKeys(keys),
+              size: overrideSize ?? data.byteLength,
+              integrityCheck: {
+                type: 'plaintext',
+                plaintextHash: Bytes.fromHex(encryptedAttachment.plaintextHash),
+              },
+
+              theirIncrementalMac: encryptedAttachment.incrementalMac,
+              theirChunkSize: encryptedAttachment.chunkSize,
+            },
+            new PassThrough().resume()
+          );
+
           const decryptedAttachment = await decryptAttachmentV2({
             type: 'standard',
             ciphertextPath,
             idForLogging: 'test',
             ...splitKeys(keys),
             size: overrideSize ?? data.byteLength,
-            theirDigest: encryptedAttachment.digest,
+            integrityCheck: {
+              type: 'encrypted',
+              digest: encryptedAttachment.digest,
+            },
             theirIncrementalMac: encryptedAttachment.incrementalMac,
             theirChunkSize: encryptedAttachment.chunkSize,
             getAbsoluteAttachmentPath:
               window.Signal.Migrations.getAbsoluteAttachmentPath,
           });
+
           plaintextPath = window.Signal.Migrations.getAbsoluteAttachmentPath(
             decryptedAttachment.path
           );
 
           const plaintext = readFileSync(plaintextPath);
-
-          assert.deepStrictEqual(
-            encryptedAttachment.iv,
-            decryptedAttachment.iv
-          );
-          if (dangerousIv) {
-            assert.deepStrictEqual(encryptedAttachment.iv, dangerousIv.iv);
-            if (dangerousIv.reason === 'reencrypting-for-backup') {
-              assert.deepStrictEqual(
-                encryptedAttachment.digest,
-                dangerousIv.digestToMatch
-              );
-            }
-          }
 
           assert.strictEqual(
             encryptedAttachment.ciphertextSize,
@@ -788,74 +873,6 @@ describe('Crypto', () => {
           plaintextHash,
         });
       });
-
-      describe('isPaddingAllZeros', () => {
-        it('detects all zeros', async () => {
-          const decryptedResult = await testV2RoundTripData({
-            data: FILE_CONTENTS,
-          });
-          assert.isTrue(decryptedResult.isReencryptableToSameDigest);
-        });
-        it('detects non-zero padding', async () => {
-          const modifiedData = Buffer.concat([FILE_CONTENTS, Buffer.from([1])]);
-          const decryptedResult = await testV2RoundTripData({
-            data: modifiedData,
-            overrideSize: FILE_CONTENTS.byteLength,
-            // setting the size as one less than the actual file size will cause the last
-            // byte (`1`) to be considered padding during decryption
-          });
-          assert.isFalse(decryptedResult.isReencryptableToSameDigest);
-        });
-      });
-      describe('dangerousIv', () => {
-        it('uses hardcodedIv in tests', async () => {
-          await testV2RoundTripData({
-            data: FILE_CONTENTS,
-            plaintextHash: FILE_HASH,
-            dangerousIv: {
-              reason: 'test',
-              iv: _generateAttachmentIv(),
-            },
-          });
-        });
-
-        it('uses hardcodedIv when re-encrypting for backup', async () => {
-          const keys = generateAttachmentKeys();
-          const previouslyEncrypted = await encryptAttachmentV2ToDisk({
-            keys,
-            plaintext: { data: FILE_CONTENTS },
-            getAbsoluteAttachmentPath:
-              window.Signal.Migrations.getAbsoluteAttachmentPath,
-            needIncrementalMac: true,
-          });
-
-          await testV2RoundTripData({
-            data: FILE_CONTENTS,
-            plaintextHash: FILE_HASH,
-            encryptionKeys: keys,
-            dangerousIv: {
-              reason: 'reencrypting-for-backup',
-              iv: previouslyEncrypted.iv,
-              digestToMatch: previouslyEncrypted.digest,
-            },
-          });
-
-          // If the digest is wrong, it should throw
-          await assert.isRejected(
-            testV2RoundTripData({
-              data: FILE_CONTENTS,
-              plaintextHash: FILE_HASH,
-              encryptionKeys: keys,
-              dangerousIv: {
-                reason: 'reencrypting-for-backup',
-                iv: previouslyEncrypted.iv,
-                digestToMatch: getRandomBytes(32),
-              },
-            }),
-            'iv was hardcoded for backup re-encryption, but digest does not match'
-          );
-        });
-      });
     });
 
     it('v2 -> v1 (disk -> memory)', async () => {
@@ -922,7 +939,7 @@ describe('Crypto', () => {
         const encryptedAttachmentV2 = await encryptAttachmentV2ToDisk({
           keys,
           plaintext: { absolutePath: FILE_PATH },
-          dangerousIv: { iv: dangerousTestOnlyIv, reason: 'test' },
+          _testOnlyDangerousIv: dangerousTestOnlyIv,
           getAbsoluteAttachmentPath:
             window.Signal.Migrations.getAbsoluteAttachmentPath,
           needIncrementalMac: false,
@@ -973,7 +990,7 @@ describe('Crypto', () => {
             keys: outerKeys,
             plaintext: { absolutePath: innerCiphertextPath },
             // We (and the server!) don't pad the second layer
-            dangerousTestOnlySkipPadding: true,
+            _testOnlyDangerousSkipPadding: true,
             getAbsoluteAttachmentPath:
               window.Signal.Migrations.getAbsoluteAttachmentPath,
             needIncrementalMac: false,
@@ -1014,7 +1031,10 @@ describe('Crypto', () => {
             idForLogging: 'test',
             ...splitKeys(innerKeys),
             size: FILE_CONTENTS.byteLength,
-            theirDigest: encryptResult.innerEncryptedAttachment.digest,
+            integrityCheck: {
+              type: 'encrypted',
+              digest: encryptResult.innerEncryptedAttachment.digest,
+            },
             theirIncrementalMac:
               encryptResult.innerEncryptedAttachment.incrementalMac,
             theirChunkSize: encryptResult.innerEncryptedAttachment.chunkSize,
@@ -1073,7 +1093,10 @@ describe('Crypto', () => {
             idForLogging: 'test',
             ...splitKeys(innerKeys),
             size: data.byteLength,
-            theirDigest: encryptResult.innerEncryptedAttachment.digest,
+            integrityCheck: {
+              type: 'encrypted',
+              digest: encryptResult.innerEncryptedAttachment.digest,
+            },
             theirIncrementalMac:
               encryptResult.innerEncryptedAttachment.incrementalMac,
             theirChunkSize: encryptResult.innerEncryptedAttachment.chunkSize,
@@ -1126,7 +1149,10 @@ describe('Crypto', () => {
               idForLogging: 'test',
               ...splitKeys(innerKeys),
               size: data.byteLength,
-              theirDigest: encryptResult.innerEncryptedAttachment.digest,
+              integrityCheck: {
+                type: 'encrypted',
+                digest: encryptResult.innerEncryptedAttachment.digest,
+              },
               theirIncrementalMac:
                 encryptResult.innerEncryptedAttachment.incrementalMac,
               theirChunkSize: encryptResult.innerEncryptedAttachment.chunkSize,

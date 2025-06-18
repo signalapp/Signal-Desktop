@@ -35,7 +35,7 @@ describe('messaging/relink', function (this: Mocha.Suite) {
     });
 
     state = state.addContact(first, {
-      serviceE164: first.device.number,
+      e164: first.device.number,
       profileKey: first.profileKey.serialize(),
       givenName: first.profileName,
 
@@ -44,7 +44,7 @@ describe('messaging/relink', function (this: Mocha.Suite) {
     });
 
     state = state.addContact(second, {
-      serviceE164: second.device.number,
+      e164: second.device.number,
       identityKey: second.publicKey.serialize(),
       profileKey: second.profileKey.serialize(),
       givenName: second.profileName,

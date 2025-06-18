@@ -18,7 +18,6 @@ import { createLogger } from '../../logging/log';
 
 const log = createLogger('attachments');
 
-export * from '../../util/ensureAttachmentIsReencryptable';
 export * from '../../../app/attachments';
 
 type FSAttrType = {

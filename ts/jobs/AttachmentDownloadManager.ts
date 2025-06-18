@@ -23,8 +23,11 @@ import {
   type AttachmentType,
   AttachmentVariant,
   AttachmentPermanentlyUndownloadableError,
-  mightBeOnBackupTier,
-  mightBeInLocalBackup,
+  hasRequiredInformationForBackup,
+  wasImportedFromLocalBackup,
+  canAttachmentHaveThumbnail,
+  shouldAttachmentEndUpInRemoteBackup,
+  getUndownloadedAttachmentSignature,
 } from '../types/Attachment';
 import { type ReadonlyMessageAttributesType } from '../model-types.d';
 import { getMessageById } from '../messages/getMessageById';
@@ -42,11 +45,7 @@ import {
   type JobManagerJobResultType,
   type JobManagerJobType,
 } from './JobManager';
-import {
-  isImageTypeSupported,
-  isVideoTypeSupported,
-} from '../util/GoogleChrome';
-import { IMAGE_JPEG, type MIMEType } from '../types/MIME';
+import { IMAGE_JPEG } from '../types/MIME';
 import { AttachmentDownloadSource } from '../sql/Interface';
 import { drop } from '../util/drop';
 import {
@@ -126,14 +125,14 @@ type AttachmentDownloadManagerParamsType = Omit<
 };
 
 function getJobId(job: CoreAttachmentDownloadJobType): string {
-  const { messageId, attachmentType, digest } = job;
-  return `${messageId}.${attachmentType}.${digest}`;
+  const { messageId, attachmentType, attachmentSignature } = job;
+  return `${messageId}.${attachmentType}.${attachmentSignature}`;
 }
 
 function getJobIdForLogging(job: CoreAttachmentDownloadJobType): string {
-  const { sentAt, attachmentType, digest } = job;
-  const redactedDigest = redactGenericText(digest);
-  return `${sentAt}.${attachmentType}.${redactedDigest}`;
+  const { sentAt, attachmentType, attachmentSignature } = job;
+  const redactedAttachmentSignature = redactGenericText(attachmentSignature);
+  return `${sentAt}.${attachmentType}.${redactedAttachmentSignature}`;
 }
 
 export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownloadJobType> {
@@ -185,7 +184,10 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
     getJobId,
     getJobIdForLogging,
     getRetryConfig: job =>
-      job.attachment.backupLocator?.mediaName
+      shouldAttachmentEndUpInRemoteBackup({
+        attachment: job.attachment,
+        hasMediaBackups: window.Signal.Services.backups.hasMediaBackups(),
+      })
         ? BACKUP_RETRY_CONFIG
         : DEFAULT_RETRY_CONFIG,
     maxConcurrentJobs: MAX_CONCURRENT_JOBS,
@@ -278,21 +280,21 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
       attachmentType,
       ciphertextSize: getAttachmentCiphertextLength(attachment.size),
       contentType: attachment.contentType,
-      digest: attachment.digest,
+      attachmentSignature: getUndownloadedAttachmentSignature(attachment),
       isManualDownload,
       messageId,
       receivedAt,
       sentAt,
       size: attachment.size,
-      // If the attachment does not have a backupLocator, we don't want to store it as a
+      // If the attachment cannot exist on the backup tier, we don't want to store it as a
       // "backup import" attachment, since it's really just a normal attachment that we'll
       // try to download from the transit tier (or it's an invalid attachment, etc.). We
       // may need to extend the attachment_downloads table in the future to better
-      // differentiate source vs. location.
-      source:
-        mightBeOnBackupTier(attachment) || mightBeInLocalBackup(attachment)
-          ? source
-          : AttachmentDownloadSource.STANDARD,
+      // differentiate source vs. location
+      // TODO: DESKTOP-8879
+      source: hasRequiredInformationForBackup(attachment)
+        ? source
+        : AttachmentDownloadSource.STANDARD,
     });
 
     if (!parseResult.success) {
@@ -473,10 +475,8 @@ async function runDownloadAttachmentJob({
       };
     }
 
-    if (
-      mightBeOnBackupTier(job.attachment) ||
-      mightBeInLocalBackup(job.attachment)
-    ) {
+    // TODO: DESKTOP-8879
+    if (job.source === AttachmentDownloadSource.BACKUP_IMPORT) {
       const currentDownloadedSize =
         window.storage.get('backupMediaDownloadCompletedBytes') ?? 0;
       drop(
@@ -624,13 +624,25 @@ export async function runDownloadAttachmentJobInner({
       `${logId}: Text attachment was ${sizeInKib}kib, max is ${maxTextAttachmentSizeInKib}kib`
     );
   }
+  const hasMediaBackups = window.Signal.Services.backups.hasMediaBackups();
+  const mightBeInRemoteBackup = shouldAttachmentEndUpInRemoteBackup({
+    attachment,
+    hasMediaBackups,
+  });
+  const wasAttachmentImportedFromLocalBackup =
+    wasImportedFromLocalBackup(attachment);
+  const alreadyDownloadedBackupThumbnail = Boolean(
+    job.attachment.thumbnailFromBackup
+  );
+
+  const mightHaveBackupThumbnailToDownload =
+    !alreadyDownloadedBackupThumbnail &&
+    mightBeInRemoteBackup &&
+    canAttachmentHaveThumbnail(attachment) &&
+    !wasAttachmentImportedFromLocalBackup;
 
   const preferBackupThumbnail =
-    isForCurrentlyVisibleMessage &&
-    mightHaveThumbnailOnBackupTier(job.attachment) &&
-    // TODO (DESKTOP-7204): check if thumbnail exists on attachment, not on job
-    !job.attachment.thumbnailFromBackup &&
-    !mightBeInLocalBackup(attachment);
+    isForCurrentlyVisibleMessage && mightHaveBackupThumbnailToDownload;
 
   if (preferBackupThumbnail) {
     logId += '.preferringBackupThumbnail';
@@ -705,6 +717,7 @@ export async function runDownloadAttachmentJobInner({
         variant: AttachmentVariant.Default,
         onSizeUpdate: throttle(onSizeUpdate, 200),
         abortSignal,
+        hasMediaBackups,
       },
     });
 
@@ -757,11 +770,7 @@ export async function runDownloadAttachmentJobInner({
     );
     return { downloadedVariant: AttachmentVariant.Default };
   } catch (error) {
-    if (
-      !job.attachment.thumbnailFromBackup &&
-      mightHaveThumbnailOnBackupTier(attachment) &&
-      !preferBackupThumbnail
-    ) {
+    if (mightHaveBackupThumbnailToDownload && !preferBackupThumbnail) {
       log.error(
         `${logId}: failed to download fullsize attachment, falling back to backup thumbnail`,
         Errors.toLogFormat(error)
@@ -839,6 +848,7 @@ async function downloadBackupThumbnail({
       onSizeUpdate: noop,
       variant: AttachmentVariant.ThumbnailFromBackup,
       abortSignal,
+      hasMediaBackups: true,
     },
   });
 
@@ -870,18 +880,4 @@ function _markAttachmentAsTransientlyErrored(
   attachment: AttachmentType
 ): AttachmentType {
   return { ...attachment, pending: false, error: true };
-}
-
-function mightHaveThumbnailOnBackupTier(
-  attachment: Pick<AttachmentType, 'backupLocator' | 'contentType'>
-): boolean {
-  if (!attachment.backupLocator?.mediaName) {
-    return false;
-  }
-
-  return canAttachmentHaveThumbnail(attachment.contentType);
-}
-
-export function canAttachmentHaveThumbnail(contentType: MIMEType): boolean {
-  return isVideoTypeSupported(contentType) || isImageTypeSupported(contentType);
 }

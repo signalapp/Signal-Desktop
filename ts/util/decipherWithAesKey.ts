@@ -12,10 +12,7 @@ import { strictAssert } from './assert';
  * Gets the IV from the start of the stream and creates a decipher.
  * Then deciphers the rest of the stream.
  */
-export function getIvAndDecipher(
-  aesKey: Uint8Array,
-  onFoundIv?: (iv: Buffer) => void
-): Transform {
+export function decipherWithAesKey(aesKey: Uint8Array): Transform {
   let maybeIvBytes: Buffer | null = Buffer.alloc(0);
   let decipher: Decipher | null = null;
   return new Transform({
@@ -39,7 +36,6 @@ export function getIvAndDecipher(
         // remainder of the bytes through.
         const iv = maybeIvBytes.subarray(0, IV_LENGTH);
         const remainder = maybeIvBytes.subarray(IV_LENGTH);
-        onFoundIv?.(iv);
         maybeIvBytes = null; // free memory
         decipher = createDecipheriv(CipherType.AES256CBC, aesKey, iv);
         callback(null, decipher.update(remainder));

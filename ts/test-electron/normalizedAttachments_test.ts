@@ -89,7 +89,6 @@ function composeAttachment(
     cdnNumber: 3,
     key: getBase64(`key${label}`),
     digest: getBase64(`digest${label}`),
-    iv: getBase64(`iv${label}`),
     size: 100,
     downloadPath: 'downloadPath',
     contentType: IMAGE_JPEG,
@@ -107,12 +106,8 @@ function composeAttachment(
     flags: 8,
     incrementalMac: 'incrementalMac',
     chunkSize: 128,
-    isReencryptableToSameDigest: true,
     version: 2,
-    backupLocator: {
-      mediaName: `medianame${label}`,
-      cdnNumber: index,
-    },
+    backupCdnNumber: index,
     localBackupPath: `localBackupPath/${label}`,
     // This would only exist on a story message with contentType TEXT_ATTACHMENT,
     // but inluding it here to ensure we are roundtripping all fields
@@ -130,7 +125,6 @@ function composeAttachment(
     thumbnail: composeThumbnail(index),
     screenshot: composeScreenshot(index),
     thumbnailFromBackup: composeBackupThumbnail(index),
-
     ...overrides,
   } as const;
 

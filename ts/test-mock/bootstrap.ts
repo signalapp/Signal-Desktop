@@ -564,8 +564,9 @@ export class Bootstrap {
     test?: Mocha.Runnable
   ): Promise<(app: App) => Promise<void>> {
     const snapshots = new Array<{ name: string; data: Buffer }>();
-
+    const viewportSize = { width: 1000, height: 2000 } as const;
     const window = await app.getWindow();
+    await window.setViewportSize(viewportSize);
     await callback(window, async (name: string) => {
       debug('creating screenshot');
       snapshots.push({
@@ -584,7 +585,7 @@ export class Bootstrap {
         const before = snapshots.shift();
         assert(before != null, 'No previous snapshot');
         assert.strictEqual(before.name, name, 'Wrong snapshot order');
-
+        await anotherWindow.setViewportSize(viewportSize);
         const after = await anotherWindow.screenshot();
 
         const beforePng = PNG.sync.read(before.data);

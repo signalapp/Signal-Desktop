@@ -26,7 +26,6 @@ import {
 import type { AttachmentType } from '../types/Attachment';
 import { IMAGE_JPEG, stringToMIMEType } from '../types/MIME';
 import { strictAssert } from '../util/assert';
-import { sqlLogger } from './sqlLogger';
 import type { MessageAttributesType } from '../model-types';
 
 export const ROOT_MESSAGE_ATTACHMENT_EDIT_HISTORY_INDEX = -1;
@@ -287,7 +286,6 @@ function convertAttachmentDBFieldsToAttachmentType(
     height,
     width,
     digest,
-    iv,
     key,
     downloadPath,
     flags,
@@ -305,7 +303,6 @@ function convertAttachmentDBFieldsToAttachmentType(
     backfillError,
     storyTextAttachmentJson,
     copiedFromQuotedAttachment,
-    isReencryptableToSameDigest,
     localBackupPath,
   } = messageAttachment;
 
@@ -321,7 +318,6 @@ function convertAttachmentDBFieldsToAttachmentType(
     height,
     width,
     digest,
-    iv,
     key,
     downloadPath,
     localBackupPath,
@@ -339,20 +335,10 @@ function convertAttachmentDBFieldsToAttachmentType(
     copied: convertOptionalIntegerToBoolean(copiedFromQuotedAttachment),
     isCorrupted: convertOptionalIntegerToBoolean(isCorrupted),
     backfillError: convertOptionalIntegerToBoolean(backfillError),
-    isReencryptableToSameDigest: convertOptionalIntegerToBoolean(
-      isReencryptableToSameDigest
-    ),
     textAttachment: storyTextAttachmentJson
       ? jsonToObject(storyTextAttachmentJson)
       : undefined,
-    ...(messageAttachment.backupMediaName
-      ? {
-          backupLocator: {
-            mediaName: messageAttachment.backupMediaName,
-            cdnNumber: messageAttachment.backupCdnNumber,
-          },
-        }
-      : {}),
+    backupCdnNumber: messageAttachment.backupCdnNumber,
     ...(messageAttachment.thumbnailPath
       ? {
           thumbnail: {
@@ -394,22 +380,5 @@ function convertAttachmentDBFieldsToAttachmentType(
       : {}),
   };
 
-  if (result.isReencryptableToSameDigest === false) {
-    if (
-      !messageAttachment.reencryptionIv ||
-      !messageAttachment.reencryptionKey ||
-      !messageAttachment.reencryptionDigest
-    ) {
-      sqlLogger.warn(
-        'Attachment missing reencryption info despite not being reencryptable'
-      );
-      return result;
-    }
-    result.reencryptionInfo = {
-      iv: messageAttachment.reencryptionIv,
-      key: messageAttachment.reencryptionKey,
-      digest: messageAttachment.reencryptionDigest,
-    };
-  }
   return result;
 }

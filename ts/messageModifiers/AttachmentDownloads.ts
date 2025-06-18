@@ -6,7 +6,10 @@ import * as Bytes from '../Bytes';
 import type { AttachmentDownloadJobTypeType } from '../types/AttachmentDownload';
 
 import type { AttachmentType } from '../types/Attachment';
-import { getAttachmentSignatureSafe, isDownloaded } from '../types/Attachment';
+import {
+  doAttachmentsOnSameMessageMatch,
+  isDownloaded,
+} from '../types/Attachment';
 import { getMessageById } from '../messages/getMessageById';
 import { trimMessageWhitespace } from '../types/BodyRange';
 
@@ -73,11 +76,6 @@ export async function addAttachmentToMessage(
     return;
   }
 
-  const attachmentSignature = getAttachmentSignatureSafe(attachment);
-  if (!attachmentSignature) {
-    log.error(`${logPrefix}: Attachment did not have valid signature (digest)`);
-  }
-
   if (type === 'long-message') {
     let handledAnywhere = false;
     let attachmentData: Uint8Array | undefined;
@@ -100,8 +98,7 @@ export async function addAttachmentToMessage(
           }
           // This attachment isn't destined for this edit
           if (
-            getAttachmentSignatureSafe(edit.bodyAttachment) !==
-            attachmentSignature
+            !doAttachmentsOnSameMessageMatch(edit.bodyAttachment, attachment)
           ) {
             return edit;
           }
@@ -138,8 +135,7 @@ export async function addAttachmentToMessage(
         return;
       }
       if (
-        getAttachmentSignatureSafe(existingBodyAttachment) !==
-        attachmentSignature
+        !doAttachmentsOnSameMessageMatch(existingBodyAttachment, attachment)
       ) {
         return;
       }
@@ -179,7 +175,7 @@ export async function addAttachmentToMessage(
       return existing;
     }
 
-    if (attachmentSignature !== getAttachmentSignatureSafe(existing)) {
+    if (!doAttachmentsOnSameMessageMatch(existing, attachment)) {
       return existing;
     }
 

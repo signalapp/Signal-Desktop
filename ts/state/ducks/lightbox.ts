@@ -19,7 +19,11 @@ import type { StateType as RootStateType } from '../reducer';
 import { createLogger } from '../../logging/log';
 import { getMessageById } from '../../messages/getMessageById';
 import type { ReadonlyMessageAttributesType } from '../../model-types.d';
-import { isGIF, isIncremental } from '../../types/Attachment';
+import {
+  getUndownloadedAttachmentSignature,
+  isGIF,
+  isIncremental,
+} from '../../types/Attachment';
 import {
   isImageTypeSupported,
   isVideoTypeSupported,
@@ -287,7 +291,8 @@ function showLightbox(opts: {
     if (isIncremental(attachment)) {
       // Queue all attachments, but this target attachment should be IMMEDIATE
       const wasUpdated = await queueAttachmentDownloads(message, {
-        attachmentDigestForImmediate: attachment.digest,
+        attachmentSignatureForImmediate:
+          getUndownloadedAttachmentSignature(attachment),
         isManualDownload: true,
         urgency: AttachmentDownloadUrgency.STANDARD,
       });

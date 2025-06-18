@@ -301,7 +301,7 @@ type StickerPackRow = InstalledStickerPackRow &
 type AttachmentDownloadJobRow = Readonly<{
   messageId: string;
   attachmentType: string;
-  digest: string;
+  attachmentSignature: string;
   receivedAt: number;
   sentAt: number;
   contentType: string;
@@ -2589,7 +2589,6 @@ function saveMessageAttachment({
     width: attachment.width,
     digest: attachment.digest,
     key: attachment.key,
-    iv: attachment.iv,
     fileName: attachment.fileName,
     downloadPath: attachment.downloadPath,
     transitCdnKey: attachment.cdnKey ?? attachment.cdnId,
@@ -2597,29 +2596,13 @@ function saveMessageAttachment({
     transitCdnUploadTimestamp: isNumber(attachment.uploadTimestamp)
       ? attachment.uploadTimestamp
       : null,
-    backupMediaName: attachment.backupLocator?.mediaName,
-    backupCdnNumber: attachment.backupLocator?.cdnNumber,
+    backupCdnNumber: attachment.backupCdnNumber,
     incrementalMac:
       // resilience to Uint8Array-stored incrementalMac values
       typeof attachment.incrementalMac === 'string'
         ? attachment.incrementalMac
         : null,
     incrementalMacChunkSize: attachment.chunkSize,
-    isReencryptableToSameDigest: convertOptionalBooleanToNullableInteger(
-      attachment.isReencryptableToSameDigest
-    ),
-    reencryptionIv:
-      attachment.isReencryptableToSameDigest === false
-        ? attachment.reencryptionInfo?.iv
-        : null,
-    reencryptionKey:
-      attachment.isReencryptableToSameDigest === false
-        ? attachment.reencryptionInfo?.key
-        : null,
-    reencryptionDigest:
-      attachment.isReencryptableToSameDigest === false
-        ? attachment.reencryptionInfo?.digest
-        : null,
     thumbnailPath: attachment.thumbnail?.path,
     thumbnailSize: attachment.thumbnail?.size,
     thumbnailContentType: attachment.thumbnail?.contentType,
@@ -5452,7 +5435,7 @@ function _getAttachmentDownloadJob(
   db: ReadableDB,
   job: Pick<
     AttachmentDownloadJobType,
-    'messageId' | 'attachmentType' | 'digest'
+    'messageId' | 'attachmentType' | 'attachmentSignature'
   >
 ): AttachmentDownloadJobType | undefined {
   const [query, params] = sql`
@@ -5462,7 +5445,7 @@ function _getAttachmentDownloadJob(
     AND
       attachmentType = ${job.attachmentType}
     AND
-      digest = ${job.digest};
+      attachmentSignature = ${job.attachmentSignature};
   `;
 
   const row = db.prepare(query).get<AttachmentDownloadJobRow>(params);
@@ -5620,7 +5603,7 @@ function saveAttachmentDownloadJob(
     INSERT OR REPLACE INTO attachment_downloads (
       messageId,
       attachmentType,
-      digest,
+      attachmentSignature,
       receivedAt,
       sentAt,
       contentType,
@@ -5635,7 +5618,7 @@ function saveAttachmentDownloadJob(
     ) VALUES (
       ${job.messageId},
       ${job.attachmentType},
-      ${job.digest},
+      ${job.attachmentSignature},
       ${job.receivedAt},
       ${job.sentAt},
       ${job.contentType},
@@ -5664,7 +5647,10 @@ function resetAttachmentDownloadActive(db: WritableDB): void {
 
 function removeAttachmentDownloadJob(
   db: WritableDB,
-  job: Pick<AttachmentDownloadJobRow, 'messageId' | 'attachmentType' | 'digest'>
+  job: Pick<
+    AttachmentDownloadJobRow,
+    'messageId' | 'attachmentType' | 'attachmentSignature'
+  >
 ): void {
   const [query, params] = sql`
     DELETE FROM attachment_downloads
@@ -5673,7 +5659,7 @@ function removeAttachmentDownloadJob(
     AND
       attachmentType = ${job.attachmentType}
     AND
-      digest = ${job.digest};
+      attachmentSignature = ${job.attachmentSignature};
   `;
 
   db.prepare(query).run(params);

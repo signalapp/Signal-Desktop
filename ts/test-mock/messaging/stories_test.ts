@@ -100,7 +100,7 @@ describe('story/messaging', function (this: Mocha.Suite) {
     for (const contact of [first, second]) {
       state = state.addContact(contact, {
         whitelisted: true,
-        serviceE164: contact.device.number,
+        e164: contact.device.number,
         identityKey: contact.publicKey.serialize(),
         profileKey: contact.profileKey.serialize(),
         givenName: contact.profileName,
