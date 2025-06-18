@@ -3969,10 +3969,10 @@
     "messageformat": "Napauta Lahjoita Signalille ja tilaa"
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "Profiilisi on siirretty"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "Avaa Asetukset-välilehti tarkastellaksesi ja muokataksesi profiiliasi."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Synkronoidaan viestejä"
@@ -4941,7 +4941,7 @@
     "messageformat": "Profiiliasi ei voitu päivittää. Ole hyvä ja yritä uudelleen."
   },
   "icu:ProfileEditorModal--sharing": {
-    "messageformat": "Sharing"
+    "messageformat": "Jakaminen"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Lähetä viesti ylläpitäjälle"
@@ -5076,7 +5076,7 @@
     "messageformat": "Signal-varmuuskopiot"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Automaattiset varmuuskopiot Signalin turvallisella, päästä päähän salatulla tallennuspalvelulla. Aloita puhelimellasi. <learnMoreLink>Lue lisää.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Varmuuskopioi viestihistoriasi, jotta et koskaan menetä tietoja, kun hankit uuden puhelimen tai asennat Signalin uudelleen."
@@ -5124,22 +5124,22 @@
     "messageformat": "Varmuuskopion koko"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "Desktop-version varmuuskopiot"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "Varmuuskopiot salataan avaimella ja tallennetaan tietokoneellesi."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "Luo päästä päähän salattu varmuuskopio, jonka voit palauttaa puhelimeesi. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Palauta varmuuskopio asentamalla uusi kopio Signalista. Avaa sovellus, napauta Palauta varmuuskopio ja etsi sitten varmuuskopiokansio. <learnMoreLink>Lue lisää.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Valitse kansio"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "Valitse tietokoneesi tallennustilasta kansio, johon päästä päähän salattu varmuuskopio tallennetaan."
   },
   "icu:Preferences--local-backups-setup-next": {
     "messageformat": "Seuraava"
@@ -5148,10 +5148,10 @@
     "messageformat": "Valmis"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "Varmuuskopion avaimen tekstilaatikko"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "Anna avain"
   },
   "icu:Preferences--local-backups-record-backup-key": {
     "messageformat": "Tallenna varmuuskopion avain"
@@ -5181,22 +5181,22 @@
     "messageformat": "Varmuuskopiokansio"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "Vaihda"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopioi leikepöydälle"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "Varmuuskopion avain kopioitu"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "Näytä avain"
   },
   "icu:Preferences__backup-key": {
     "messageformat": "Varmuuskopion avain"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "Varmuuskopion avain on 64-numeroinen koodi, jota tarvitaan varmuuskopion palauttamiseen"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Muita tapoja varmuuskopioida"
@@ -6433,7 +6433,7 @@
     "messageformat": "Älä jaa henkilökohtaisia tietoja tuntemattomille ihmisille"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "Tallenna liitetiedostot"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Uudet ominaisuudet"
@@ -6470,6 +6470,6 @@
     "messageformat": "Nyt asetusten muuttaminen tapahtuu päänäytöltä, ei enää ponnahdusikkunasta."
   },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "Viestin reaktiovalitsimen uusi osio näyttää automaattisesti kaikki viestiin lisätyt emoji-reaktiot."
   }
 }

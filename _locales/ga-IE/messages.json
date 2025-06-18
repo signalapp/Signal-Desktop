@@ -2340,7 +2340,7 @@
     "messageformat": "Torthaí Cuardaigh"
   },
   "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
-    "messageformat": "An Teachtaireacht Seo"
+    "messageformat": "An teachtaireacht seo"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Úsáidte le Déanaí"
@@ -3969,10 +3969,10 @@
     "messageformat": "Tapáil \"Tabhair airgead do Signal\" agus glac síntiús"
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "Bogadh do phróifíl"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "Oscail an táb Socruithe chun féachaint ar do phróifíl agus í a chur in eagar."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Teachtaireachtaí á sioncronú"
@@ -4941,7 +4941,7 @@
     "messageformat": "Níorbh fhéidir do phróifíl a nuashonrú. Triail arís."
   },
   "icu:ProfileEditorModal--sharing": {
-    "messageformat": "Sharing"
+    "messageformat": "Comhroinnt"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Message an Admin"
@@ -5076,7 +5076,7 @@
     "messageformat": "Cúltacaí Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Cúltacaí uathoibríocha le seirbhís shlán stórála, atá criptithe ó cheann ceann, de chuid Signal. Tosaigh air ar do ghuthán. <learnMoreLink>Tuilleadh faisnéise.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Cúltacaigh do stair teachtaireachtaí ionas nach gcaillfidh tú sonraí nuair a fhaigheann tú guthán nua nó nuair a athshuiteálann tú Signal."
@@ -5124,40 +5124,40 @@
     "messageformat": "Méid an chúltaca"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "Cúltacaí deisce"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "Déantar cúltacaí a chriptiú le heochair agus stóráiltear ar do ghléas iad."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "Cruthaigh cúltaca criptithe ó cheann ceann is féidir leat a aischur ar do ghuthán. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Chun cúltaca a aischur, suiteáil cóip nua de Signal. Oscail an aip agus tapáil Aischuir cúltaca, ansin aimsigh an fillteán cúltaca. <learnMoreLink>Tuilleadh faisnéise.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Roghnaigh fillteán"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "Roghnaigh fillteán i stóras do ríomhaire, áit a stórálfar do chúltaca criptithe ó cheann ceann."
   },
   "icu:Preferences--local-backups-setup-next": {
-    "messageformat": "Ar Aghaidh"
+    "messageformat": "Ar aghaidh"
   },
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Déanta"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "Bosca téacs don eochair chúltaca"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "Cuir isteach an eochair"
   },
   "icu:Preferences--local-backups-record-backup-key": {
     "messageformat": "Taifead d'eochair chúltaca"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
-    "messageformat": "Tá an eochair seo ag teastáil chun do chuntas agus sonraí a aisghabháil. Stóráil an eochair seo in áit shábháilte. Má chailleann tú í, ní bheidh tú in ann do chuntas a aisghabháil. <learnMoreLink>Tuilleadh faisnéise.</learnMoreLink>"
+    "messageformat": "Tá an eochair seo ag teastáil chun do chuntas agus do shonraí a athshlánú. Stóráil an eochair in áit shábháilte. Má chailleann tú í, ní bheidh tú in ann do chuntas a athshlánú. <learnMoreLink>Tuilleadh faisnéise.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
     "messageformat": "Deimhnigh d'eochair chúltaca"
@@ -5169,7 +5169,7 @@
     "messageformat": "Coinnigh d'eochair sábháilte"
   },
   "icu:Preferences__local-backups-confirm-key-modal-body": {
-    "messageformat": "Ní bheidh Signal in ann cabhrú leat do chúltaca a aischur má chailleann tú d'eochair. Stóráil in áit shlán sábháilte í, ná chomhroinn le daoine eile í."
+    "messageformat": "Ní bheidh Signal in ann cabhrú leat do chúltaca a athshlánú má chailleann tú d'eochair. Stóráil in áit shlán shábháilte í, agus ná chomhroinn le daoine eile í."
   },
   "icu:Preferences__local-backups-confirm-key-modal-continue": {
     "messageformat": "Ar aghaidh"
@@ -5181,22 +5181,22 @@
     "messageformat": "Fillteán cúltaca"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "Athraigh"
   },
   "icu:Preferences__local-backups-copy-key": {
-    "messageformat": "Macasamhlaigh chuig an ghearrthaisce"
+    "messageformat": "Cóipeáil chuig an ghearrthaisce"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "Eochair chúltaca cóipeáilte"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "Féach ar an eochair"
   },
   "icu:Preferences__backup-key": {
     "messageformat": "Eochair chúltaca"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "Cód 64 digit is ea d'eochair chúltaca a úsáidtear chun do chúltaca a aischur"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Bealaí eile chun cúltacú"
@@ -6433,7 +6433,7 @@
     "messageformat": "Ná comhroinn faisnéis phearsanta le daoine nach bhfuil aithne agat orthu"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "Sábháil ceangaltáin"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Cad Atá Nua"
@@ -6470,6 +6470,6 @@
     "messageformat": "Anois, nuair a dhéanann tú do Shocruithe a choigeartú, déanfaidh tú ón bpríomhscáileán é in ionad fuinneog anuas."
   },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "Déanann cuid nua sa roghnóir freagairtí ar theachtaireachtaí gach freagairt emoji a fuarthas i dteachtaireacht a thaispeáint go huathoibríoch."
   }
 }

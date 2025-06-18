@@ -3969,10 +3969,10 @@
     "messageformat": "Atinge „Donează pentru Signal” și abonează-te"
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "Profilul tău a fost mutat"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "Deschide fila Setări pentru a vizualiza și edita profilul."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Se sincronizează mesajele"
@@ -4941,7 +4941,7 @@
     "messageformat": "Profilul tău nu a putut fi actualizat. Te rugăm să încerci din nou."
   },
   "icu:ProfileEditorModal--sharing": {
-    "messageformat": "Sharing"
+    "messageformat": "Distribuire"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Trimite un mesaj unui administrator"
@@ -5076,7 +5076,7 @@
     "messageformat": "Backup-uri Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Backup-uri automate cu serviciul de stocare criptat complet de la Signal. Începe pe telefonul tău. <learnMoreLink>Află mai multe.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Fă back-up pentru istoricul mesajelor, astfel încât niciodată să nu pierzi date, atunci când îți iei un telefon nou sau reinstalezi Signal."
@@ -5124,22 +5124,22 @@
     "messageformat": "Dimensiunea backup-ului"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "Backup-uri pentru desktop"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "Backup-urile sunt criptate cu un cod și sunt stocate pe dispozitivul tău."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "Creează o copie de rezervă criptată end-to-end pe care o poți restaura pe telefon. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Pentru a restaura o copie de rezervă, instalează o copie nouă de Signal. Deschide aplicația și atinge Restaurare copie de rezervă, apoi localizează folderul de backup. <learnMoreLink>Află mai multe.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Alege dosarul"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "Alege un folder din memoria computerului unde va fi stocată copia de rezervă criptată end-to-end."
   },
   "icu:Preferences--local-backups-setup-next": {
     "messageformat": "Următorul"
@@ -5148,10 +5148,10 @@
     "messageformat": "Gata"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "Caseta text codul de rezervă"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "Introdu codul"
   },
   "icu:Preferences--local-backups-record-backup-key": {
     "messageformat": "Înregistrează-ți codul de rezervă"
@@ -5181,22 +5181,22 @@
     "messageformat": "Director backup"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "Schimbă"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Copiază în clipboard"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "Codul de rezervă a fost copiat"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "Vezi codul de rezervă"
   },
   "icu:Preferences__backup-key": {
     "messageformat": "Codul de rezervă"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "Codul de rezervă este un cod format din 64 de cifre necesar ca să restaurezi backup-ul"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Alte moduri de backup"
@@ -6433,7 +6433,7 @@
     "messageformat": "Nu partaja informații personale cu persoane pe care nu le cunoști"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "Salvează atașamentele"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Ce este nou"
@@ -6470,6 +6470,6 @@
     "messageformat": "Setările se aflau înainte într-o fereastră pop-out, așa că le-am pus-o din nou în ea. Acum, când ajustezi Setările, o vei face din ecranul principal."
   },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "O nouă secțiune din selectorul de reacții la mesaje afișează automat toate reacțiile emoji primite de un mesaj. Acum poți să fii în trend și să adaugi o inimă strălucitoare standard, așa cum au făcut deja toți ceilalți, sau poți să-ți urmezi propria inimă și să alegi în schimb, inima anatomică."
   }
 }

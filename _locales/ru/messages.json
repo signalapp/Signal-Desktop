@@ -5130,7 +5130,7 @@
     "messageformat": "Резервные копии шифруются с помощью ключа и хранятся на вашем компьютере."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "Создайте резервную копию, защищённую сквозным шифрованием, которую можно восстановить на телефоне. "
   },
   "icu:Preferences--local-backups-restore-info": {
     "messageformat": "Чтобы восстановить резервную копию, установите новую версию Signal. Откройте приложение и нажмите «Восстановить резервную копию», затем выберите папку резервной копии. <learnMoreLink>Узнать больше.</learnMoreLink>"

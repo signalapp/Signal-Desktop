@@ -3969,10 +3969,10 @@
     "messageformat": "انقر على \"تبرَّع لسيجنال\" واشترِك"
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "تمَّ نقل حسابك الشخصي"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "افتح علامة تبويب الإعدادات لِعرض وتعديل حسابك الشخصي."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "جارٍ مزامنة الرسائل"
@@ -4941,7 +4941,7 @@
     "messageformat": "تعذَّر تحديث حسابك الشخصي. يُرجى المحاولة مرّة أخرى."
   },
   "icu:ProfileEditorModal--sharing": {
-    "messageformat": "Sharing"
+    "messageformat": "المشاركة جارية"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "مراسلة أحد المُشرِفين"
@@ -5022,7 +5022,7 @@
     "messageformat": "إدارة"
   },
   "icu:Preferences__button--choose-folder": {
-    "messageformat": "اختر مجلدا"
+    "messageformat": "اختر مجلدًا"
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "إعداد"
@@ -5076,7 +5076,7 @@
     "messageformat": "النسخ الاحتياطية على سيجنال"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "نسخ احتياطية تلقائية باستخدام خدمة التخزين المُشفَّرة من طرف لطرف من سيجنال. ابدأ العملية على هاتفك. <learnMoreLink>اعرف المزيد.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "أنشِئ نسخة احتياطية من سجل رسائلك كي لا تفقد بياناتك أبدًا عندما تستخدم هاتفًا جديدًا أو تعيد تثبيت سيجنال."
@@ -5124,22 +5124,22 @@
     "messageformat": "حجم النسخة الاحتياطية"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "النسخ الاحتياطية للحاسوب"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "يتم تشفير النسخ الاحتياطية بمفتاح ويتمُّ تخزينها على حاسوبك."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "أنشِئ نسخة احتياطية مُشفَّرة من طرف لطرف يمكنك الوصول إليها من هاتفك. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "لاستعادة نسخة احتياطية، قُم بتثبيت نسخة جديدة من سيجنال. افتح التطبيق وانقر على &quot;استعادة النسخة الاحتياطية&quot;، ثم حدِّد مكان ملف النسخة الاحتياطية. <learnMoreLink>اعرف المزيد.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
-    "messageformat": "اِختر مجلد"
+    "messageformat": "اختر مجلدًا"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "اختر ملفًا في وحدة تخزين حاسوبك حيث سيتم تخزين النسخة الاحتياطية المُشفَّرة من طرف لطرف الخاصة بك."
   },
   "icu:Preferences--local-backups-setup-next": {
     "messageformat": "التالي"
@@ -5148,10 +5148,10 @@
     "messageformat": "تمّ"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "مربع نص مفتاح النسخة الاحتياطية"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "أدخِل المفتاح"
   },
   "icu:Preferences--local-backups-record-backup-key": {
     "messageformat": "احتفِظ بنسخة عن مفتاح النسخة الاحتياطية الخاص بك."
@@ -5181,22 +5181,22 @@
     "messageformat": "مجلد النسخ الاحتياطية"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "تغيير"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "نسخ إلى الحافظة"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "تمَّ نسخ مفتاح النسخ الاحتياطي"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "عرض المفتاح"
   },
   "icu:Preferences__backup-key": {
     "messageformat": "مفتاح النسخة الاحتياطية"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "مفتاح النسخ الاحتياطي الخاص بك هو عبارة عن كود مُكوَّن من 64 رقمًا، ويُستخدَم لاستعادة نسختك الاحتياطية."
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "طرق أخرى للنسخ الاحتياطي"
@@ -6433,7 +6433,7 @@
     "messageformat": "لا تشارِك معلومات شخصية مع أشخاص لا تعرفهم"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "حفظ الملفات المُرفَقة"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "ما هو جديد"
@@ -6470,6 +6470,6 @@
     "messageformat": "كانت الإعدادات تظهر في نافذة منبثقة فأدمجناها داخليًا من جديد. الآن، يمكنك تعديل إعداداتك مباشرةً من الشاشة الرئيسية."
   },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "يُظهر قسم جديد في مُحدِّد تفاعلات الرسائل بشكل تلقائي كل تفاعلات الإيموجي التي تلقّتها رسالة ما. يُمكنك الآن الانضمام إلى التيار وإضافة قلب لامع عادي مثلما يفعل الجميع، أو أن تتبع قلبك الخاص وتختار القلب التشريحي بدلًا منه."
   }
 }

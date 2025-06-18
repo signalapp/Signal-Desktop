@@ -3969,10 +3969,10 @@
     "messageformat": "'Singal에 기부'를 탭하여 구독하세요."
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "프로필을 이동함"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "설정 탭을 열어 프로필을 확인하고 수정하세요."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "메시지를 동기화하는 중"
@@ -4941,7 +4941,7 @@
     "messageformat": "프로필을 업데이트할 수 없습니다. 다시 시도하세요."
   },
   "icu:ProfileEditorModal--sharing": {
-    "messageformat": "Sharing"
+    "messageformat": "공유"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "관리자에게 메시지 전송"
@@ -5076,7 +5076,7 @@
     "messageformat": "Signal 백업"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Signal의 안전한 엔드투엔드 암호화 저장소 서비스를 사용하는 자동 백업. 휴대폰으로 시작해 보세요. <learnMoreLink>자세히 알아보기.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "새 휴대폰을 사용하거나 Signal을 다시 설치할 때 데이터를 잃지 않도록 메시지 기록을 백업하세요."
@@ -5124,22 +5124,22 @@
     "messageformat": "백업 크기"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "데스크톱 백업"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "백업은 키로 암호화되어 컴퓨터에 저장됩니다."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "휴대폰에서 복원할 수 있는 엔드투엔드 암호화 백업을 만듭니다. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "백업을 복원하려면 Signal의 새 복사본을 설치하세요. 앱을 열고 백업 복원을 탭한 다음 백업 폴더를 찾으세요. <learnMoreLink>자세히 알아보기.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "폴더 선택"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "컴퓨터 저장소에서 엔드투엔드 암호화된 백업을 저장할 폴더를 선택하세요."
   },
   "icu:Preferences--local-backups-setup-next": {
     "messageformat": "다음"
@@ -5148,10 +5148,10 @@
     "messageformat": "확인"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "백업 키 텍스트 상자"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "키 입력"
   },
   "icu:Preferences--local-backups-record-backup-key": {
     "messageformat": "백업 키 기록"
@@ -5181,22 +5181,22 @@
     "messageformat": "백업 폴더"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "변경"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "클립보드에 복사"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "백업 키 복사됨"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "키 보기"
   },
   "icu:Preferences__backup-key": {
     "messageformat": "백업 키"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "백업 키는 백업을 복원하는 데 사용되는 64자리 코드입니다"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "다른 백업 방법"
@@ -6433,7 +6433,7 @@
     "messageformat": "모르는 사람과 개인 정보를 공유하지 마세요"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "첨부 파일 저장"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "업데이트 내용"
@@ -6470,6 +6470,6 @@
     "messageformat": "이제 팝업 창이 아닌 메인 화면에서 설정을 조정하게 됩니다."
   },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "메시지 반응 선택기의 새로운 섹션에 메시지가 받은 모든 이모지 반응이 자동으로 표시됩니다."
   }
 }

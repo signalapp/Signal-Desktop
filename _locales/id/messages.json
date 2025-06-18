@@ -3969,10 +3969,10 @@
     "messageformat": "Ketuk \"Donasi ke Signal\" dan berlangganan"
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "Lokasi profil sudah dipindahkan"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "Buka tab Pengaturan untuk melihat dan mengedit profil Anda."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Menyinkronkan pesan"
@@ -4941,7 +4941,7 @@
     "messageformat": "Profil Anda tidak dapat diperbarui. Mohon coba lagi."
   },
   "icu:ProfileEditorModal--sharing": {
-    "messageformat": "Sharing"
+    "messageformat": "Berbagi"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Kirimkan pesan ke admin"
@@ -5076,10 +5076,10 @@
     "messageformat": "Signal Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Pencadangan otomatis dengan layanan penyimpanan Signal yang aman dan terenkripsi secara menyeluruh. Mulai pencadangan di ponsel Anda. <learnMoreLink>Pelajari selengkapnya.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
-    "messageformat": "Cadangkan riwayat pesan sehingga data Anda tidak akan hilang saat Anda memakai ponsel baru atau menginstal ulang Signal."
+    "messageformat": "Cadangkan riwayat pesan sehingga data tidak akan hilang saat Anda memakai ponsel baru atau menginstal ulang Signal."
   },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Detail pencadangan"
@@ -5124,22 +5124,22 @@
     "messageformat": "Ukuran cadangan"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "Pencadangan desktop"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "Cadangan dienkripsi dengan kunci dan disimpan di komputer Anda."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "Buat cadangan terenkripsi menyeluruh yang dapat dipulihkan di ponsel Anda. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Silakan instal ulang Signal untuk memulihkan cadangan. Buka aplikasinya dan ketuk &quot;Pulihkan cadangan&quot;, lalu temukan folder cadangannya. <learnMoreLink>Pelajari selengkapnya.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Pilih folder"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "Pilih folder di penyimpanan komputer tempat data cadangan Anda yang terenkripsi menyeluruh akan disimpan."
   },
   "icu:Preferences--local-backups-setup-next": {
     "messageformat": "Berikutnya"
@@ -5148,16 +5148,16 @@
     "messageformat": "Selesai"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "Kotak teks kunci cadangan"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "Masukkan kunci"
   },
   "icu:Preferences--local-backups-record-backup-key": {
     "messageformat": "Catat kunci cadangan Anda"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
-    "messageformat": "Kunci ini diperlukan untuk memulihkan akun dan data Anda. Simpan kunci di tempat yang aman. Jika kehilangan kunci, Anda tidak akan dapat memulihkan akun. <learnMoreLink>Pelajari selengkapnya.</learnMoreLink>"
+    "messageformat": "Kunci ini diperlukan untuk memulihkan akun dan data Anda. Simpan kunci di tempat yang aman. Jika Anda kehilangan kunci, akun tidak dapat dipulihkan. <learnMoreLink>Pelajari selengkapnya.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
     "messageformat": "Konfirmasi kunci cadangan Anda"
@@ -5169,7 +5169,7 @@
     "messageformat": "Pastikan kunci Anda aman"
   },
   "icu:Preferences__local-backups-confirm-key-modal-body": {
-    "messageformat": "Signal tidak dapat membantu memulihkan cadangan jika Anda kehilangan kunci. Simpan di tempat yang aman, dan jangan bagikan dengan orang lain."
+    "messageformat": "Signal tidak dapat membantu proses pemulihan data cadangan jika Anda kehilangan kunci. Simpan di tempat yang aman dan jangan bagikan dengan orang lain."
   },
   "icu:Preferences__local-backups-confirm-key-modal-continue": {
     "messageformat": "Lanjutkan"
@@ -5181,22 +5181,22 @@
     "messageformat": "Folder cadangan"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "Ubah"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Salin ke papan klip"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "Kunci cadangan disalin"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "Lihat kunci"
   },
   "icu:Preferences__backup-key": {
     "messageformat": "Kunci cadangan"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "Kunci cadangan adalah kode 64 digit yang digunakan untuk memulihkan cadangan Anda"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Cara lain untuk mencadangkan"
@@ -6433,7 +6433,7 @@
     "messageformat": "Jangan bagikan info pribadi dengan orang yang tidak dikenal"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "Simpan lampiran"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Yang Baru"
@@ -6470,6 +6470,6 @@
     "messageformat": "Saat Anda ingin menyesuaikan Pengaturan, silakan langsung dilakukan dari layar utama, bukan di jendela pop-up seperti sebelumnya."
   },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "Bagian baru di pemilih tanggapan pesan otomatis akan menampilkan semua tanggapan emoji yang diterima suatu pesan. Kini Anda bisa langsung pakai emoji yang sama dengan yang diberikan orang lain atau bisa juga pilih emoji lain sesuai keinginan."
   }
 }

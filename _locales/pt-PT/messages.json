@@ -3969,10 +3969,10 @@
     "messageformat": "Toca em \"Doar para o Signal\" e subscreve"
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "O seu perfil foi movido"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "Abra o separador de Definições para ver e editar o seu perfil."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "A sincronizar mensagens"
@@ -4941,7 +4941,7 @@
     "messageformat": "Não foi possível atualizar o seu perfil. Por favor, tente novamente."
   },
   "icu:ProfileEditorModal--sharing": {
-    "messageformat": "Sharing"
+    "messageformat": "Partilhar"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Envie uma mensagem para um administrador"
@@ -5076,7 +5076,7 @@
     "messageformat": "Cópias de segurança do Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Cópias de segurança automáticas com o serviço seguro de armazenamento encriptado de ponta a ponta do Signal. Comece no seu telemóvel. <learnMoreLink>Saiba mais.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Efetue cópias de segurança do seu histórico de mensagens para nunca perder dados ao mudar de telemóvel ou reinstalar o Signal."
@@ -5124,22 +5124,22 @@
     "messageformat": "Tamanho da cópia de segurança"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "Cópias de segurança do desktop"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "As cópias de segurança são encriptadas com uma chave e armazenadas no seu computador."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "Crie uma cópia de segurança encriptada de ponta a ponta que pode restaurar no seu telemóvel. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Para restaurar uma cópia de segurança, instale uma nova cópia do Signal. Abra a app e toque em &quot;Restaurar cópia de segurança&quot;, depois localize a pasta das cópias de segurança. <learnMoreLink>Saiba mais.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Escolha uma pasta"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "Escolha uma pasta no armazenamento do seu computador onde a cópia de segurança encriptada ponta a ponta será armazenada."
   },
   "icu:Preferences--local-backups-setup-next": {
     "messageformat": "Seguinte"
@@ -5148,10 +5148,10 @@
     "messageformat": "Concluído"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "Caixa de texto da chave da cópia de segurança"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "Introduza a chave"
   },
   "icu:Preferences--local-backups-record-backup-key": {
     "messageformat": "Anote a sua chave da cópia de segurança"
@@ -5181,22 +5181,22 @@
     "messageformat": "Pasta da cópia de segurança"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "Alterar"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Copiar para a área de transferência"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "Chave da cópia de segurança copiada"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "Ver chave"
   },
   "icu:Preferences__backup-key": {
     "messageformat": "Chave da cópia de segurança"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "A sua chave de cópia de segurança é um código de 64 dígitos utilizado para restaurar a sua cópia de segurança"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Outras formas de fazer cópias de segurança"
@@ -6433,7 +6433,7 @@
     "messageformat": "Não partilhe informações pessoais com pessoas que não conhece"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "Guardar anexos"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Novidades"
@@ -6470,6 +6470,6 @@
     "messageformat": "Agora, irá ajustar as suas definições através do ecrã principal em vez de uma janela pop-up."
   },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "Uma nova secção no seletor de reações de mensagens apresenta automaticamente todos os emoji de reação que uma mensagem recebeu."
   }
 }

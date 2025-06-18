@@ -3969,10 +3969,10 @@
     "messageformat": "Tik op ‘Aan Signal doneren’ en meld je aan"
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "Je profiel is verplaatst"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "Open het tabblad Instellingen om je profiel te bekijken en te bewerken."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Berichten synchroniseren"
@@ -4941,7 +4941,7 @@
     "messageformat": "Je profiel kon niet worden bijgewerkt. Probeer het opnieuw."
   },
   "icu:ProfileEditorModal--sharing": {
-    "messageformat": "Sharing"
+    "messageformat": "Delen"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Bericht sturen naar een beheerder"
@@ -5076,7 +5076,7 @@
     "messageformat": "Signal back-ups"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Automatische back-ups met de veilige, end-to-end versleutelde opslagservice van Signal. Ga aan de slag op je telefoon. <learnMoreLink>Meer informatie.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Maak een back-up van je chatgeschiedenis zodat je nooit meer gegevens kwijtraakt als je een andere telefoon in gebruik neemt of Signal opnieuw installeert."
@@ -5124,22 +5124,22 @@
     "messageformat": "Back-upgrootte"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "Lokale back-ups"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "Back-ups worden versleuteld met een sleutel en alleen op je eigen computer opgeslagen."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "Maak een end-to-end versleutelde back-up die je op je telefoon kunt herstellen. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Om je gegevens uit een back-up terug te zetten, moet je Signal opnieuw installeren. Open vervolgens de app, tik op ‘Back-upgegevens terugzetten’ en zoek de back-upmap. <learnMoreLink>Meer informatie.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Kies een map"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "Kies een map in de opslag van je computer waar je end-to-end versleutelde back-up wordt opgeslagen."
   },
   "icu:Preferences--local-backups-setup-next": {
     "messageformat": "Volgende"
@@ -5148,10 +5148,10 @@
     "messageformat": "Klaar"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "Tekstvak back-upsleutel"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "Sleutel invoeren"
   },
   "icu:Preferences--local-backups-record-backup-key": {
     "messageformat": "Je back-upsleutel vastleggen"
@@ -5181,22 +5181,22 @@
     "messageformat": "Back-uplocatie"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "Aanpassen"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopiëren naar klembord"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "Back-upsleutel gekopieerd"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "Sleutel weergeven"
   },
   "icu:Preferences__backup-key": {
     "messageformat": "Back-upsleutel"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "Je back-upsleutel is een code van 64 tekens die je nodig hebt om je back-up te herstellen"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Andere manieren om een back-up te maken"
@@ -6433,7 +6433,7 @@
     "messageformat": "Deel geen persoonlijke informatie met mensen die je niet kent"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "Bijlagen opslaan"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Wat er nieuw is"
@@ -6470,6 +6470,6 @@
     "messageformat": "Je instellingen aanpassen doe je nu vanaf het hoofdscherm in plaats van via een pop-upvenster."
   },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "Een nieuwe sectie in de kiezer van emoji-reacties toont automatisch alle gegeven emoji-reacties op een bericht. Je kunt nu dus snel hetzelfde hartje geven als iedereen of je eigen hart volgen en in emoji zoeken naar het anatomische hart."
   }
 }

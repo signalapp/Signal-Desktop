@@ -3408,7 +3408,7 @@
     "messageformat": "Impossible de rejoindre le groupe."
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "Impossible de rejoindre le groupe via le lien, car un admin vous a retiré."
+    "messageformat": "Impossible de rejoindre ce groupe via le lien, car un admin vous a retiré."
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "Pour rejoindre ce groupe, un administrateur doit d'abord approuver votre demande. Vos nom et photo seront partagés avec les membres du groupe si vous demandez à le rejoindre."
@@ -3969,10 +3969,10 @@
     "messageformat": "Sélectionnez \"Faire un don à Signal\" et inscrivez-vous."
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "Votre profil a été déplacé"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "Pour afficher et modifier votre profil, ouvrez les paramètres."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Synchronisation des messages"
@@ -4941,7 +4941,7 @@
     "messageformat": "Mise à jour du profil impossible. Veuillez réessayer."
   },
   "icu:ProfileEditorModal--sharing": {
-    "messageformat": "Sharing"
+    "messageformat": "Partager"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Écrire à un admin"
@@ -4971,7 +4971,7 @@
     "messageformat": "Sons des messages dans les conversations"
   },
   "icu:Preferences__message-audio-description": {
-    "messageformat": "Activer un son pour vous informer de l’envoi ou de la réception de messages lorsque vos conversations sont ouvertes."
+    "messageformat": "Émettre un son lorsque vous envoyez et recevez des messages dans une conversation en cours."
   },
   "icu:Preferences__button--general": {
     "messageformat": "Général"
@@ -5076,7 +5076,7 @@
     "messageformat": "Sauvegardes Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Sauvegardes automatiques chiffrées de bout en bout grâce au service de stockage sécurisé de Signal. Ouvrez Signal sur votre téléphone pour vous lancer. <learnMoreLink>En savoir plus</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Sauvegardez l'historique de vos messages pour conserver toutes vos données – même si vous changez de téléphone ou réinstallez Signal."
@@ -5124,22 +5124,22 @@
     "messageformat": "Taille de la sauvegarde"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "Sauvegardes locales"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "Les sauvegardes sont chiffrées au moyen d'une clé et stockées sur votre ordinateur."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "Créez une sauvegarde chiffrée de bout en bout, que vous pouvez restaurer sur votre téléphone. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Pour restaurer une sauvegarde, réinstallez Signal. Ouvrez l'appli, touchez &quot;Restaurer la sauvegarde&quot;, puis recherchez votre dossier de sauvegarde. <learnMoreLink>En savoir plus</learnMoreLink>."
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Choisir un dossier"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "Sur votre ordinateur, choisissez le dossier dans lequel vous voulez stocker votre sauvegarde chiffrée de bout en bout."
   },
   "icu:Preferences--local-backups-setup-next": {
     "messageformat": "Suivant"
@@ -5148,16 +5148,16 @@
     "messageformat": "OK"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "Zone de texte de la clé de sauvegarde"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "Saisir la clé"
   },
   "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Enregistrez votre clé de sauvegarde"
+    "messageformat": "Enregistrer une clé de sauvegarde"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
-    "messageformat": "Vous devrez fournir cette clé pour récupérer votre compte et vos données. Conservez-la en lieu sûr. Si vous la perdez, vous ne pourrez pas récupérer votre compte. <learnMoreLink>En savoir plus</learnMoreLink>"
+    "messageformat": "Vous devrez saisir cette clé pour restaurer votre compte et vos données. Conservez-la en lieu sûr. Si vous la perdez, vous ne pourrez pas restaurer votre compte. <learnMoreLink>En savoir plus</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
     "messageformat": "Confirmer la clé de sauvegarde"
@@ -5181,22 +5181,22 @@
     "messageformat": "Dossier de sauvegarde"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "Modifier"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Copier dans le presse-papiers"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "Clé de sauvegarde copiée"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "Afficher la clé"
   },
   "icu:Preferences__backup-key": {
     "messageformat": "Clé de sauvegarde"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "Votre clé de sauvegarde est un code de 64 caractères alphanumériques qui vous permet de restaurer votre sauvegarde."
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Autres méthodes de sauvegarde"
@@ -6433,7 +6433,7 @@
     "messageformat": "Ne communiquez pas vos informations personnelles à des inconnus."
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "Sauvegarder des pièces jointes"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Les nouveautés"
@@ -6470,6 +6470,6 @@
     "messageformat": "Avant, les paramètres s'affichaient dans une fenêtre contextuelle distincte. Maintenant, vous pouvez modifier vos paramètres directement depuis l'écran principal. Pourquoi faire compliqué quand on peut faire simple ?"
   },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "Une nouvelle section s'invite dans le sélecteur de réactions aux messages. Elle affiche automatiquement tous les émojis qu'un message a suscités. Surfez sur la vague et ajoutez vous aussi un cœur rouge, ou écoutez votre cœur et choisissez de réagir avec… une vague. Après tout, c'est bientôt l'été !"
   }
 }

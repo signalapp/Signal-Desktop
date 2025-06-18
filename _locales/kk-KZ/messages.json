@@ -3969,10 +3969,10 @@
     "messageformat": "\"Signal-ға демеу көрсету\" түймесін басыңыз да, жазылыңыз"
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "Профиліңіз көшірілді"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "\"Параметрлер\" қойындысын ашып, профиліңізді көріңіз және өзгертіңіз."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Хабарлар синхрондалып жатыр"
@@ -4941,7 +4941,7 @@
     "messageformat": "Профиліңізді жаңарту мүмкін емес. Қайталап көріңіз."
   },
   "icu:ProfileEditorModal--sharing": {
-    "messageformat": "Sharing"
+    "messageformat": "Бөлісу"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Әкімшіге хат жазу"
@@ -5076,7 +5076,7 @@
     "messageformat": "Signal-дың сақтық көшірмелері"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Автоматты cақтық көшірмелер Signal-дың қауіпсіз тура шифрланған жад қызметі арқылы жасалады. Телефоныңызда бастаңыз. <learnMoreLink>Толық ақпарат алыңыз.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Хабарлар тарихының сақтық көшірмесін жасаңыз. Сонда жаңа телефон алсаңыз да, Signal-ды қайта орнатсаңыз да, деректеріңізді ешқашан жоғалтпайсыз."
@@ -5124,22 +5124,22 @@
     "messageformat": "Резервтік көшірме өлшемі"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "Жұмыс үстелінің сақтық көшірмелері"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "Сақтық көшірмелер кілтпен шифрланады және компьютеріңізде сақталады."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "Телефоныңызда қалпына келтіруге болатын тура шифрланған сақтық көшірме жасаңыз. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Сақтық көшірмені қалпына келтіру үшін Signal-дың жаңа нұсқасын орнатыңыз. Қолданбаны ашып, &quot;Сақтық көшірмені қалпына келтіру&quot; опциясын басыңыз да, сақтық көшірме қалтасын тауып алыңыз. <learnMoreLink>Толық ақпарат алыңыз.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Қалта таңдаңыз"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "Тура шифрланған сақтық көшірме сақталатын компьютер жадындағы қалтаны таңдаңыз."
   },
   "icu:Preferences--local-backups-setup-next": {
     "messageformat": "Келесі"
@@ -5148,10 +5148,10 @@
     "messageformat": "Дайын"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "Сақтық кілт мәтін ұясы"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "Кілтті енгізу"
   },
   "icu:Preferences--local-backups-record-backup-key": {
     "messageformat": "Резервтік кілтіңізді жазып алыңыз"
@@ -5181,22 +5181,22 @@
     "messageformat": "Резервтік қалта"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "Өзгерту"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Буферге көшіру"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "Сақтық кілт көшірілді"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "Кілтті көру"
   },
   "icu:Preferences__backup-key": {
     "messageformat": "Сақтық кілт"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "Сақтық кілт – сақтық көшірмені қалпына келтіру үшін қолданылатын 64 цифрлық код"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Сақтық көшірме жасаудың басқа жолдары"
@@ -6433,7 +6433,7 @@
     "messageformat": "Танымайтын адамдармен жеке ақпаратты бөліспеңіз"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "Тіркемелерді сақтау"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Жаңалықтар"
@@ -6470,6 +6470,6 @@
     "messageformat": "Параметрлер бұрын қалқымалы терезеде ашылатын, ал біз оны орнына қайтардық. Енді параметрлерді тікелей негізгі экраннан реттей аласыз."
   },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "Хабарларға реакция таңдау құралындағы жаңа бөлім хабарларға қойылған барлық эмоджи реакцияларын автоматты түрде көрсетеді. Енді сіз басқалар сияқты жарқыраған жүректі тез қоя аласыз немесе өз жүрегіңізді тыңдап, анатомиялық жүректі таңдауыңызға да болады."
   }
 }

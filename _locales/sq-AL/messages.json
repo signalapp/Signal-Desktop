@@ -3969,10 +3969,10 @@
     "messageformat": "Prek “Dhuro për Signal” dhe pajtohu"
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "Profili yt është zhvendosur"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "Hap parametrat për të parë dhe përpunuar profilin."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Po sinkronizohen mesazhet"
@@ -4941,7 +4941,7 @@
     "messageformat": "Profili juaj s’u përditësua dot. Ju lutemi, riprovoni."
   },
   "icu:ProfileEditorModal--sharing": {
-    "messageformat": "Sharing"
+    "messageformat": "Ndarja"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Dërgojini mesazh një përgjegjësi"
@@ -5076,7 +5076,7 @@
     "messageformat": "Kopjeruajtjet e Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Kopjeruajtjet automatike me shërbimin e sigurt të ruajtjes së koduar nga skaji në skaj të Signal. Fillo në telefonin tënd. <learnMoreLink>Mëso më shumë.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Bëj kopjeruajtje të historikut të mesazheve në mënyrë që të mos i humbasësh kurrë të dhënat kur merr një telefon të ri ose kur e riinstalon sërish Signal."
@@ -5124,22 +5124,22 @@
     "messageformat": "Madhësia kopjeruajtjes"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "Kopjeruajtjet në Desktop"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "Kopjeruajtjet kodohen me një kod dhe ruhen në kompjuter."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "Krijo një kopjeruajtje të koduar nga skaji në skaj që mund ta rikthesh në telefon. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Për të rikthyer kopjeruajtjen, instalo kopjen e re të Signal. Hap aplikacionin dhe kliko te &quot;Rikthe kopjeruajtjen&quot;, pastaj gjej dosjen e kopjeruajtjeve. <learnMoreLink>Mëso më shumë.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Zgjidh një dosje"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "Zgjidh një dosje në hapësirën e kompjuterit ku do të ruhet kopjeruajtja e koduarr nga skaji në skaj."
   },
   "icu:Preferences--local-backups-setup-next": {
     "messageformat": "Tjetër"
@@ -5148,10 +5148,10 @@
     "messageformat": "U bë"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "Kutia e tekstit të kodit të kopjeruajtjes"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "Shkruaj kodin"
   },
   "icu:Preferences--local-backups-record-backup-key": {
     "messageformat": "Regjistro kodin e kopjeruajtjes"
@@ -5181,22 +5181,22 @@
     "messageformat": "Dosje kopjeruajtjesh"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "Ndrysho"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopjoje në të papastër"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "Kodi i kopjeruajtjes u kopjua"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "Shiko kodin e kopjeruajtjes"
   },
   "icu:Preferences__backup-key": {
     "messageformat": "Kodi i kopjeruajtjes"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "Kodi i kopjeruajtjes është një kod 64-shifror që përdoret për të rikthyer kopjeruajtjen"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Mënyra të tjera për kopjeruajtje"
@@ -6433,7 +6433,7 @@
     "messageformat": "Mos ndaj informacione personale me njerëz që nuk i njeh"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "Ruaj bashkëngjitjet"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Ç’ka të Re"
@@ -6470,6 +6470,6 @@
     "messageformat": "Parametrat më parë ndodheshin në një dritare që hapej menjëherë, ndaj i kemi rishfaqur sërish. Tani, kur të rregullosh \"Parametrat\", do ta bësh këtë nga ekrani kryesor."
   },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "Një seksion i ri në përzgjedhësin e reagimeve ndaj mesazheve shfaq automatikisht të gjitha reagimet ndaj figurave emoxhi që ka marrë një mesazh. Tani mund t'i bashkohesh shpejt kësaj tendence dhe të shtosh një zemër standarde me shkëlqim, ashtu siç kanë bërë të gjithë të tjerët, ose mund të ndjekësh zemrën dhe të zgjedhësh zemrën anatomike."
   }
 }

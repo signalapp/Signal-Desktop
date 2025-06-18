@@ -3969,10 +3969,10 @@
     "messageformat": "დააჭირე \"Signal-ისთვის დონაციის გაკეთება“ და გამოიწერე"
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "შენი პროფილი გადატანილია"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "გახსენი პარამეტრების ჩანართი შენი პროფილის სანახავად და რედაქტირებისთვის."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "მიმდინარეობს წერილების სინქრონიზება"
@@ -4941,7 +4941,7 @@
     "messageformat": "შენი პროფილის განახლება ვერ მოხერხდა. გთხოვთ კიდევ სცადო."
   },
   "icu:ProfileEditorModal--sharing": {
-    "messageformat": "Sharing"
+    "messageformat": "გაზიარება"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "ადმინისთვის მიწერა"
@@ -5076,7 +5076,7 @@
     "messageformat": "Signal-ის სარეზერვო კოპიები"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "შექმენი სათადარიგო ასლები Signal-ის დაშიფრული შენახვის სერვისით. დაიწყე შენს ტელეფონზე. <learnMoreLink>გაიგე მეტი.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "შექმენი შენი მიმოწერის ისტორიის სათადარიგო ასლები, რათა ახალი მობილურის შეძენისას ან Signal-ის თავიდან გადმოწერისას მონაცემები არ დაკარგო."
@@ -5124,22 +5124,22 @@
     "messageformat": "სარეზერვო კოპიების ზომა"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "დესკტოპის სათადარიგო ასლები"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "სარეზერვო ასლები დაშიფრულია გასაღებით და შენს კომპიუტერში ინახება."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "შექმენი დაშიფრული სათადარიგო ასლი, რომლის აღდგენაც შეგიძლია შენს ტელეფონზე. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "სათადარიგო ასლის აღსადგენად, დააინსტალირე Signal-ის ახალი ასლი. გახსენი აპი და დააჭირე „სათადარიგო ასლის აღდგენა“-ს, შემდეგ იპოვე სათადარიგო საქაღალდე. <learnMoreLink>გაიგე მეტი.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "აირჩიე საქაღალდე"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "შენს კომპიუტერში აირჩიე ფოლდერი, რომელშიც შენი დაშიფრული სათადარიგო ასლები შეინახება."
   },
   "icu:Preferences--local-backups-setup-next": {
     "messageformat": "შემდეგი"
@@ -5148,10 +5148,10 @@
     "messageformat": "შესრულებულია"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "სათადარიგო ასლების გასაღები ტექსტის ველი"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "შეიყვანე გასაღები"
   },
   "icu:Preferences--local-backups-record-backup-key": {
     "messageformat": "ჩაიწერე შენი სათადარიგო ჩანაწერების გასაღები"
@@ -5181,22 +5181,22 @@
     "messageformat": "სარეზერვო კოპიების შენახვის ადგილი"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "შეცვლა"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "ბუფერში ჩაკოპირება"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "სათადარიგო ასლების გასაღები დაკოპირებულია"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "გასაღების ნახვა"
   },
   "icu:Preferences__backup-key": {
     "messageformat": "სათადარიგო ასლების გასაღები"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "შენი სათადარიგო ასლების გასაღები 64 ციფრიანი კოდია, რომელიც შენი ასლების აღსადგენადაა საჭირო"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "სათადარიგო ასლების შექმნის სხვა გზები"
@@ -6433,7 +6433,7 @@
     "messageformat": "არ გაუზიარო პირადი ინფორმაცია უცნობებს"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "დანართების შენახვა"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "რა არის ახალი"
@@ -6470,6 +6470,6 @@
     "messageformat": "ახლა შენს პარამეტრებს ამომხტარი ფანჯრის ნაცვლად მთავარი ეკრანიდან შეასწორებ. ახლა პარამეტრების შეცვლას მთავარი ეკრანიან შეძლებ."
   },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "შეტყობინებებზე რეაქციის ასარჩევში ახალი სექცია ავტომატურად აჩვენებს ყველა ემოჯი რეაქციას, რაც შეტყობინებამ მიიღო. ახლა უსწრაფესად შეგიძლია შეუერთდე რეაქციებს და სტანდარტული ბრჭყვიალა გული დაამატო ან შეგიძლია შენი გულის თქმას მიჰყვე და ანატომიური გულით ჩაანაცვლო."
   }
 }

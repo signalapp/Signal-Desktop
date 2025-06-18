@@ -3969,10 +3969,10 @@
     "messageformat": "Tippe auf »An Signal spenden« und wähle einen Geldbetrag aus."
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "Dein Profil ist umgezogen"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "Öffne den Tab »Einstellungen« und schon kannst du dein Profil sehen und anpassen."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Nachrichten synchronisieren"
@@ -4941,7 +4941,7 @@
     "messageformat": "Dein Profil konnte nicht aktualisiert werden. Bitte versuche es erneut."
   },
   "icu:ProfileEditorModal--sharing": {
-    "messageformat": "Sharing"
+    "messageformat": "Teilen"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Schreib einem Admin"
@@ -5076,7 +5076,7 @@
     "messageformat": "Signal Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Automatische Datensicherungen mit dem sicheren Ende-zu-Ende-verschlüsselten Speicherservice von Signal. Leg einfach auf deinem Smartphone los. <learnMoreLink>Mehr erfahren.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Sichere deinen Nachrichtenverlauf und verliere keine alten Nachrichten, wenn du ein neues Mobiltelefon hast bzw. Signal erneut installierst."
@@ -5124,22 +5124,22 @@
     "messageformat": "Größe des Backups"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "Desktop-Datensicherungen"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "Datensicherungen werden mit einem Schlüssel verschlüsselt und auf deinem Computer gespeichert."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "Erstelle eine Ende-zu-Ende-verschlüsselte Datensicherung, die du auf deinem Smartphone wiederherstellen kannst. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Um eine Datensicherung wiederherzustellen, installiere einfach eine neue Version von Signal. Öffne die App, tippe auf »Sicherung wiederherstellen« und suche dann den Sicherungsordner. <learnMoreLink>Mehr erfahren.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Einen Ordner wählen"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "Wähle einen Ordner auf deinem Computer, wo die Ende-zu-Ende-verschlüsselte Datensicherung gespeichert werden soll."
   },
   "icu:Preferences--local-backups-setup-next": {
     "messageformat": "Weiter"
@@ -5148,10 +5148,10 @@
     "messageformat": "Fertig"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "Textfeld »Datensicherungsschlüssel«"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "Schlüssel eingeben"
   },
   "icu:Preferences--local-backups-record-backup-key": {
     "messageformat": "Sichere deinen Datensicherungsschlüssel"
@@ -5181,22 +5181,22 @@
     "messageformat": "Ordner für Datensicherung"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "Ändern"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "In Zwischenablage kopieren"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "Datensicherungsschlüssel kopiert"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "Schlüssel anzeigen"
   },
   "icu:Preferences__backup-key": {
     "messageformat": "Datensicherungsschlüssel"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "Dein Datensicherungsschlüssel ist ein 64-stelliger Code, mit dem du deine Datensicherung wiederherstellen kannst"
   },
   "icu:Preferences__backup-other-ways": {
     "messageformat": "Weitere Möglichkeiten zur Datensicherung"
@@ -6433,7 +6433,7 @@
     "messageformat": "Gib keine persönlichen Informationen an Leute weiter, die du nicht kennst"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "Anhänge sichern"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Was ist neu?"
@@ -6470,6 +6470,6 @@
     "messageformat": "Die Einstellungen befanden sich früher in einem eigenen Popup-Fenster, doch wir haben sie wieder zurückgebracht. Wenn du jetzt deine Einstellungen ändern willst, geht das über das Hauptfenster."
   },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "Ein neuer Bereich in der Nachrichten-Reaktionsauswahl zeigt automatisch alle Emoji-Reaktionen an, die eine Nachricht erhalten hat. Jetzt kannst du also auch schnell auf den Zug aufspringen und so wie alle anderen ein glitzerndes Standardherz hinzufügen – oder du folgst deinem eigenen Herzen und wählst stattdessen lieber das anatomische Herz."
   }
 }
