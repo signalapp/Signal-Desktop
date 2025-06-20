@@ -41,6 +41,9 @@
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "傳送高品質的媒體將會使用較多數據。"
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "贊助 Signal"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "標準"
   },
@@ -2340,7 +2343,7 @@
     "messageformat": "搜尋結果"
   },
   "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
-    "messageformat": "This Message"
+    "messageformat": "此訊息"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "最近使用"
@@ -3408,7 +3411,7 @@
     "messageformat": "無法加入群組"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "您無法透過群組連結加入此群組，因為管理員將您刪除了。"
+    "messageformat": "你無法透過群組連結加入此群組，因為管理員已移除你。請聯絡管理員以重新加入該群組。"
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "此群組的管理員須先核准您的請求，才可讓您加入此群組。當您請求加入時，您的名稱和照片將會與群組的成員分享。"
@@ -3969,10 +3972,10 @@
     "messageformat": "點選「捐款給 Signal」並定期贊助我們"
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "個人資料編輯換了位置"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "開啟「設定」選項標籤以檢視和編輯你的個人資料。"
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "同步訊息"
@@ -4941,7 +4944,7 @@
     "messageformat": "無法更新你的個人資料。 請再試一次。"
   },
   "icu:ProfileEditorModal--sharing": {
-    "messageformat": "Sharing"
+    "messageformat": "分享"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "給管理員留言"
@@ -4975,6 +4978,9 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "一般"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "贊助 Signal"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "介面設定"
@@ -5019,13 +5025,13 @@
     "messageformat": "內部"
   },
   "icu:Preferences__button--manage": {
-    "messageformat": "Manage"
+    "messageformat": "管理"
   },
   "icu:Preferences__button--choose-folder": {
-    "messageformat": "Choose folder"
+    "messageformat": "選擇資料夾"
   },
   "icu:Preferences__button--set-up": {
-    "messageformat": "Set up"
+    "messageformat": "設定"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "本機備份"
@@ -5073,13 +5079,13 @@
     "messageformat": "已封鎖"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Backups"
+    "messageformat": "Signal 備份"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "使用 Signal 的安全端對端加密儲存服務自動備份。就從你的手機開始。<learnMoreLink>了解更多。</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
-    "messageformat": "Back up your message history so you never lose data when you get a new phone or reinstall Signal."
+    "messageformat": "備份你的訊息紀錄，讓你在使用新手機或重新安裝 Signal 時，絕不會遺失資料。"
   },
   "icu:Preferences--backup-details__header": {
     "messageformat": "備份詳細資料"
@@ -5124,82 +5130,82 @@
     "messageformat": "備份大小"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "桌面備份"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "備份會以金鑰加密並儲存在你的電腦上。"
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "建立可在手機上還原的端對端加密備份。 "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "如要還原備份，請安裝全新的 Signal 。然後開啟應用程式並輕按「還原備份」，再找出備份資料夾位置。<learnMoreLink>了解更多。</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
-    "messageformat": "Choose a folder"
+    "messageformat": "選擇資料夾"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "在電腦的儲存空間中選擇一個資料夾，將你的端對端加密備份儲存在那裡。"
   },
   "icu:Preferences--local-backups-setup-next": {
-    "messageformat": "Next"
+    "messageformat": "下一步"
   },
   "icu:Preferences--local-backups-view-backup-key-done": {
-    "messageformat": "Done"
+    "messageformat": "完成"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "備份金鑰文字框"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "輸入金鑰"
   },
   "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Record your backup key"
+    "messageformat": "記錄你的備份金鑰"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
-    "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "需要此金鑰才能恢復你的帳戶和資料。將此金鑰存放在安全的地方。如果你將其遺失，你將會無法恢復帳戶。 <learnMoreLink>了解更多。</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirm your backup key"
+    "messageformat": "確認你的備份金鑰"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Enter the backup key that you just recorded"
+    "messageformat": "輸入你剛剛記錄的備份金鑰"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
-    "messageformat": "Keep your key safe"
+    "messageformat": "妥善保管你的金鑰"
   },
   "icu:Preferences__local-backups-confirm-key-modal-body": {
-    "messageformat": "Signal will not be able to help you restore your backup if you lose your key. Store it somewhere safe and secure, and do not share it with others."
+    "messageformat": "如果你遺失金鑰，Signal 將無法幫助你還原備份。將其存放在安全可靠的地方，不要與他人分享。"
   },
   "icu:Preferences__local-backups-confirm-key-modal-continue": {
-    "messageformat": "Continue"
+    "messageformat": "繼續"
   },
   "icu:Preferences--local-backups-see-backup-key-again": {
-    "messageformat": "See key again"
+    "messageformat": "再看一次金鑰"
   },
   "icu:Preferences__local-backups-folder": {
-    "messageformat": "Backup folder"
+    "messageformat": "備份資料夾"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "更改"
   },
   "icu:Preferences__local-backups-copy-key": {
-    "messageformat": "Copy to clipboard"
+    "messageformat": "複製至剪貼簿"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "已複製備份金鑰"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "檢視金鑰"
   },
   "icu:Preferences__backup-key": {
-    "messageformat": "Backup key"
+    "messageformat": "備份金鑰"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "你的備份金鑰是還原備份所用的一組 64 位數的代碼"
   },
   "icu:Preferences__backup-other-ways": {
-    "messageformat": "Other ways to back up"
+    "messageformat": "其他備份方式"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, other {{num,number} 位聯絡人}}"
@@ -6433,7 +6439,7 @@
     "messageformat": "不要與不認識的人分享個人資料"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "儲存附件"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "有甚麼新的"
@@ -6466,10 +6472,10 @@
     "messageformat": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "現在，當你調整「設定」時，會從主畫面而非彈出視窗中進行。"
-  },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "訊息心情回應選擇器中加入了新部分，訊息收到的所有表情符號回應都會自動顯示在那裡。以後，你可以像別人一樣立即新增標準的閃閃愛心，或者可以隨心所欲，改用解剖學的心臟符號。"
+  },
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
   }
 }

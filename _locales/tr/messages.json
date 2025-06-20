@@ -41,6 +41,9 @@
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "Yüksek kalitede içerik göndermek daha fazla veri kullanacaktır."
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "Signal'e Bağış Yap"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standart"
   },
@@ -1680,7 +1683,7 @@
     "messageformat": "{group} grubunda {sender}"
   },
   "icu:notificationReactionMessage": {
-    "messageformat": "{sender}, ' {message}' iletisine {emoji} tepkisi verdi"
+    "messageformat": "{sender} şuna {emoji} tepkisini verdi: {message}"
   },
   "icu:sendFailed": {
     "messageformat": "Gönderme başarısız"
@@ -2340,7 +2343,7 @@
     "messageformat": "Arama Sonuçları"
   },
   "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
-    "messageformat": "This Message"
+    "messageformat": "Bu İleti"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Yakınlarda Kullanılmış"
@@ -3408,7 +3411,7 @@
     "messageformat": "Gruba Katılınamadı"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "Gruptan yönetici tarafından çıkarıldığın için gruba bağlantıyla katılamazsın."
+    "messageformat": "Gruptan yönetici tarafından çıkarıldığın için, gruba bağlantıyla katılamazsın. Gruba geri eklenmek için bir yönetici ile iletişime geç."
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "Gruba katılmadan önce bu grubun bir yöneticisinin isteğinizi onaylaması gerekiyor. Katılma isteğinde bulunduğunuzda, adınız ve fotoğrafınız üyeleriyle paylaşılacaktır."
@@ -3969,10 +3972,10 @@
     "messageformat": "\"Signal'a Bağış Yap\"a dokun ve abone ol"
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "Profilin taşındı"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "Profilini görüntülemek ve düzenlemek için Ayarlar sekmesini aç."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Mesajlar senkronize ediliyor"
@@ -4941,7 +4944,7 @@
     "messageformat": "Profiliniz güncellenemedi. Lütfen tekrar deneyin."
   },
   "icu:ProfileEditorModal--sharing": {
-    "messageformat": "Sharing"
+    "messageformat": "Paylaş"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Bir yöneticiye yazın"
@@ -4975,6 +4978,9 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "Genel"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "Signal'e Bağış Yap"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "Görünüm"
@@ -5019,13 +5025,13 @@
     "messageformat": "Dahili"
   },
   "icu:Preferences__button--manage": {
-    "messageformat": "Manage"
+    "messageformat": "Yönet"
   },
   "icu:Preferences__button--choose-folder": {
-    "messageformat": "Choose folder"
+    "messageformat": "Klasör seçin"
   },
   "icu:Preferences__button--set-up": {
-    "messageformat": "Set up"
+    "messageformat": "Ayarla"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Yerel yedeklemeler"
@@ -5073,13 +5079,13 @@
     "messageformat": "Engellendi"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Backups"
+    "messageformat": "Signal Yedeklemeleri"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Signal'ın güvenli, uçtan uca şifrelenmiş depolama hizmeti ile otomatik yedeklemeler. Telefonunla başla. <learnMoreLink>Dahasını öğren.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
-    "messageformat": "Back up your message history so you never lose data when you get a new phone or reinstall Signal."
+    "messageformat": "Mesaj geçmişini yedekle böylece yeni bir telefon aldığında veya Signal'i yeniden yüklediğinde asla veri kaybetmezsin."
   },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Yedekleme detayları"
@@ -5124,82 +5130,82 @@
     "messageformat": "Yedekleme boyutu"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "Masaüstü yedeklemeleri"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "Yedeklemeler bir anahtarla şifrelenir ve bilgisayarında saklanır."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "Telefonuna geri yükleyebileceğin uçtan uca şifrelenmiş bir yedekleme oluştur. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Bir yedeklemeyi geri yüklemek için Signal'ın yeni bir kopyasını yükle. Uygulamayı aç ve Yedeklemeyi geri yükle'ye dokun, ardından yedekleme klasörünü bul. <learnMoreLink>Dahasını öğren.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
-    "messageformat": "Choose a folder"
+    "messageformat": "Klasör seç"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "Bilgisayarının depolama alanında uçtan uca şifrelenmiş yedeklemenin depolanacağı bir klasör seç."
   },
   "icu:Preferences--local-backups-setup-next": {
-    "messageformat": "Next"
+    "messageformat": "İleri"
   },
   "icu:Preferences--local-backups-view-backup-key-done": {
-    "messageformat": "Done"
+    "messageformat": "Tamam"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "Yedekleme anahtarı metin kutusu"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "Enter tuşu"
   },
   "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Record your backup key"
+    "messageformat": "Yedekleme anahtarını kaydet"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
-    "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Hesabını ve verilerini kurtarmak için bu anahtar gereklidir. Bu anahtarı güvenli bir yerde sakla. Kaybedersen, hesabını kurtarmanız mümkün olmaz. <learnMoreLink>Dahasını öğren.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirm your backup key"
+    "messageformat": "Yedekleme anahtarını onayla"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Enter the backup key that you just recorded"
+    "messageformat": "Az önce kaydettiğin yedekleme anahtarını gir"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
-    "messageformat": "Keep your key safe"
+    "messageformat": "Anahtarını güvende tut"
   },
   "icu:Preferences__local-backups-confirm-key-modal-body": {
-    "messageformat": "Signal will not be able to help you restore your backup if you lose your key. Store it somewhere safe and secure, and do not share it with others."
+    "messageformat": "Anahtarını kaybedersen Signal yedeklemeni geri yüklemene yardımcı olamaz. Güvenli ve emniyetli bir yerde sakla ve başkalarıyla paylaşma."
   },
   "icu:Preferences__local-backups-confirm-key-modal-continue": {
-    "messageformat": "Continue"
+    "messageformat": "Devam"
   },
   "icu:Preferences--local-backups-see-backup-key-again": {
-    "messageformat": "See key again"
+    "messageformat": "Anahtarı tekrar gör"
   },
   "icu:Preferences__local-backups-folder": {
-    "messageformat": "Backup folder"
+    "messageformat": "Yedekleme dizini"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "Değiştir"
   },
   "icu:Preferences__local-backups-copy-key": {
-    "messageformat": "Copy to clipboard"
+    "messageformat": "Panoya kopyala"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "Yedekleme anahtarı kopyalandı"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "Anahtarı görüntüle"
   },
   "icu:Preferences__backup-key": {
-    "messageformat": "Backup key"
+    "messageformat": "Yedekleme anahtarı"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "Yedekleme anahtarın, yedeklemeni geri yüklemek için kullanılan 64 haneli bir koddur"
   },
   "icu:Preferences__backup-other-ways": {
-    "messageformat": "Other ways to back up"
+    "messageformat": "Diğer yedekleme yolları"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} kişi} other {{num,number} kişi}}"
@@ -6433,7 +6439,7 @@
     "messageformat": "Tanımadığın kişilerle kişisel bilgilerini paylaşma"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "Ekleri kaydet"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Neler Yeni"
@@ -6466,10 +6472,10 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Bundan böyle Ayarlarını yaparken, açılır bir pencere yerine ana ekrandan yapacaksın. Önceden Ayarlar açılır bir pencereden yapılırdı, artık o eski zamanlar kalmadı."
-  },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "Mesaj tepki seçicisindeki yeni bir bölüm, bir mesajın aldığı tüm emoji tepkilerini otomatik olarak görüntüler. Böylece mesajın insanlarda uyandırdığı genel hissiyatı anında öğrenebilir, merakını hemen giderebilirsin."
+  },
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
   }
 }

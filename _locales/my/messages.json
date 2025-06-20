@@ -41,6 +41,9 @@
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "အရည်အသွေးမြင့်သည့် မီဒီယာဖိုင်ကို ပို့လျှင် ဒေတာ ပိုသုံးပါလိမ့်မည်။"
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "Signal ကိုလှူဒါန်းပါ"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "စံအရည်အသွေး"
   },
@@ -2340,7 +2343,7 @@
     "messageformat": "ရှာဖွေမှုရလဒ်များ"
   },
   "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
-    "messageformat": "This Message"
+    "messageformat": "ဤမက်ဆေ့ချ်"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "နောက်ဆုံးသုံးခဲ့သော"
@@ -3408,7 +3411,7 @@
     "messageformat": "အဖွဲ့တွင် ပါဝင်၍ မရနိုင်ပါ"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "အက်ဒ်မင်သည် သင့်အား ဖယ်ရှားခဲ့သောကြောင့် အဖွဲ့လင့်ခ်မှတစ်ဆင့် ဤအဖွဲ့တွင် ပါဝင်၍ မရနိုင်ပါ။"
+    "messageformat": "အက်ဒ်မင်သည် သင့်အား ဖယ်ရှားခဲ့သောကြောင့် အဖွဲ့လင့်ခ်မှတစ်ဆင့် ဤအဖွဲ့တွင် ပါဝင်၍ မရနိုင်ပါ။ အဖွဲ့သို့ပြန်ထည့်ရန် အက်ဒ်မင်ကို ဆက်သွယ်ပါ။"
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "သင်သည် အဖွဲ့ထဲသို့မဝင်နိုင်ခင် သင်၏ တောင်းဆိုမှုကို အဖွဲ့၏ စီမံသူတစ်ဦးမှ လက်ခံရပါမည်။ သင်မှ​ဝင်ရောက်ရန် တောင်းဆိုလျှင် သင်၏ အမည် နှင့် ရုပ်ပုံကို အဖွဲ့ဝင်များနှင့် မျှဝေပါမည်။"
@@ -3969,10 +3972,10 @@
     "messageformat": "\"Signal အတွက် လှူရန်\" ကို နှိပ်ပြီး ပုံမှန်လှူဒါန်းပါ"
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "သင့်ပရိုဖိုင်ကို ရွှေ့လိုက်ပါပြီ"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "သင့်ပရိုဖိုင်ကိုကြည့်ရှုရန်နှင့် တည်းဖြတ်ရန် ဆက်တင်တက်ဘ်ကိုဖွင့်ပါ။"
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "မက်ဆေ့ချ်များကို တူအောင်ညှိနေသည်"
@@ -4941,7 +4944,7 @@
     "messageformat": "သင်၏ ပရိုဖိုင်ကို အပ်ဒိတ်လုပ်၍ မရနိုင်ပါ။ ထပ်ကြိုးစားကြည့်ပါ။"
   },
   "icu:ProfileEditorModal--sharing": {
-    "messageformat": "Sharing"
+    "messageformat": "မျှဝေရန်"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "အက်ဒ်မင်ထံ မက်ဆေ့ချ် ပို့ရန်"
@@ -4975,6 +4978,9 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "အ​ထွေထွေ"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "Signal ကိုလှူဒါန်းပါ"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "ပုံပန်းသဏ္ဌာန်"
@@ -5019,13 +5025,13 @@
     "messageformat": "အတွင်းပိုင်း"
   },
   "icu:Preferences__button--manage": {
-    "messageformat": "Manage"
+    "messageformat": "စီမံရန်"
   },
   "icu:Preferences__button--choose-folder": {
-    "messageformat": "Choose folder"
+    "messageformat": "ဖိုင်တွဲအသစ် တစ်ခုရွေးချယ်ပါ"
   },
   "icu:Preferences__button--set-up": {
-    "messageformat": "Set up"
+    "messageformat": "သတ်မှတ်ရန်"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "စက်အတွင်း ဘက်ခ်အပ်"
@@ -5073,13 +5079,13 @@
     "messageformat": "ဘလော့ခ်ထားပြီး"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Backups"
+    "messageformat": "Signal ဘက်ခ်အပ်"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Signal ၏ လုံခြုံသော ဟိုဘက်သည်ဘက် ကုဒ်ပြောင်းဝှက်ထားသည့် သိုလှောင်ရေးဝန်ဆောင်မှုဖြင့် အလိုအလျောက် ဘက်ခ်အပ်။ သင့်ဖုန်းတွင် စတင်လိုက်ပါ။ <learnMoreLink>ပိုမိုလေ့လာရန်။</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
-    "messageformat": "Back up your message history so you never lose data when you get a new phone or reinstall Signal."
+    "messageformat": "ဖုန်းအသစ်ရသောအခါ သို့မဟုတ် Signal ကို ပြန်လည်ထည့်သွင်းသည့်အခါ ဒေတာမဆုံးရှုံးစေရန် မက်ဆေ့ချ်မှတ်တမ်းကို ဘက်ခ်အပ်လုပ်ပါ။"
   },
   "icu:Preferences--backup-details__header": {
     "messageformat": "ဘက်ခ်အပ် အသေးစိတ်"
@@ -5124,82 +5130,82 @@
     "messageformat": "ဘက်ခ်အပ် အရွယ်အစား"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "Desktop ဘက်ခ်အပ်များ"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "ဘက်ခ်အပ်များကို ကီးဖြင့် ကုဒ်ပြောင်းဝှက်ထားပြီး သင့်ကွန်ပျူတာပေါ်တွင် သိမ်းဆည်းထားသည်။"
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "သင့်ဖုန်းတွင် သင်ပြန်ယူနိုင်သည့် ဟိုဘက်သည်ဘက် ကုဒ်ပြောင်းဝှက်ထားသော ဘက်ခ်အပ်တစ်ခု ဖန်တီးပါ။ "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "ဘက်ခ်အပ်ကို ပြန်ယူလိုလျှင် Signal မိတ္တူအသစ်ကို ထည့်သွင်းပါ။ အက်ပ်ကိုဖွင့်၍ &quot;ဘက်ခ်အပ်ကိုပြန်ယူပါ&quot; ကို နှိပ်ပြီး ဘက်ခ်အပ်ဖိုင်ကို ရှာဖွေရွေးပေးပါ။ <learnMoreLink>ပိုမိုလေ့လာရန်။</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
-    "messageformat": "Choose a folder"
+    "messageformat": "ဖိုင်တွဲတစ်ခုရွေးချယ်ပါ"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "သင်၏ ဟိုဘက်သည်ဘက် ကုဒ်ပြောင်းဝှက်ထားသော ဘက်ခ်အပ်ကို သိမ်းဆည်းမည့် သင့်ကွန်ပျူတာ၏ သိုလှောင်မှုတွင် ဖိုင်တွဲတစ်ခုကို ရွေးပါ။"
   },
   "icu:Preferences--local-backups-setup-next": {
-    "messageformat": "Next"
+    "messageformat": "ဆက်ရန်"
   },
   "icu:Preferences--local-backups-view-backup-key-done": {
-    "messageformat": "Done"
+    "messageformat": "ပြီးပါပြီ"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "ဘက်ခ်အပ်ကီး စာသားအကွက်"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "ကီးထည့်ရန်"
   },
   "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Record your backup key"
+    "messageformat": "သင်၏ အက်ခ်အပ်ကီးကို မှတ်တမ်းတင်ပါ"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
-    "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "သင့်အကောင့်နှင့် ဒေတာကို ပြန်လည်ရယူရန် ဤကီးလိုအပ်ပါသည်။ ဤကီးကို လုံခြုံသောနေရာတွင် သိမ်းဆည်းပါ။ ၎င်းကိုဆုံးရှုံးသွားပါက သင့်အကောင့်ကို ပြန်လည်ရယူနိုင်မည်မဟုတ်ပါ။ <learnMoreLink>ပိုမိုလေ့လာပါ။</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirm your backup key"
+    "messageformat": "သင့် ဘက်ခ်အပ်ကီးကို အတည်ပြုပါ"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Enter the backup key that you just recorded"
+    "messageformat": "သင်မှတ်တမ်းတင်ထားသော ဘက်ခ်အပ်ကီးကို ထည့်ပါ"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
-    "messageformat": "Keep your key safe"
+    "messageformat": "သင့်ကီးကို လုံခြုံအောင်ထားပါ"
   },
   "icu:Preferences__local-backups-confirm-key-modal-body": {
-    "messageformat": "Signal will not be able to help you restore your backup if you lose your key. Store it somewhere safe and secure, and do not share it with others."
+    "messageformat": "ကီးဆုံးရှုံးသွားပါက Signal သည် သင့် ဘက်ခ်အပ်ကို ပြန်လည်ရယူရန် ကူညီနိုင်မည်မဟုတ်ပါ။ ၎င်းကို ဘေးကင်းလုံခြုံသောနေရာတွင် သိမ်းဆည်းထားပြီး အခြားသူများနှင့် မမျှဝေပါနှင့်။"
   },
   "icu:Preferences__local-backups-confirm-key-modal-continue": {
-    "messageformat": "Continue"
+    "messageformat": "ဆက်လုပ်ရန်"
   },
   "icu:Preferences--local-backups-see-backup-key-again": {
-    "messageformat": "See key again"
+    "messageformat": "ကီး ကိုပြန်ကြည့်ရန်"
   },
   "icu:Preferences__local-backups-folder": {
-    "messageformat": "Backup folder"
+    "messageformat": "ဘက်ခ်အပ် ဖိုင်တွဲ"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "ပြောင်းရန်"
   },
   "icu:Preferences__local-backups-copy-key": {
-    "messageformat": "Copy to clipboard"
+    "messageformat": "ကလစ်ဘုတ်သို့ ကူးယူမည်"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "ဘက်ခ်အပ်ကီးကို ကူးယူပြီး"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "ကီးကိုကြည့်ရန်"
   },
   "icu:Preferences__backup-key": {
-    "messageformat": "Backup key"
+    "messageformat": "သင့် ဘက်ခ်အပ်ကီး"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "သင့် ဘက်ခ်အပ်ကီးသည် သင့်ဘက်ခ်အပ်ကို ပြန်လည်ရယူရန်လိုအပ်သော ဂဏန်း 64 လုံးပါ ကုဒ်တစ်ခုဖြစ်သည်"
   },
   "icu:Preferences__backup-other-ways": {
-    "messageformat": "Other ways to back up"
+    "messageformat": "ဘက်ခ်အပ်လုပ်ရန် အခြားနည်းလမ်းများ"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, other {အဆက်အသွယ် {num,number} ခု}}"
@@ -6433,7 +6439,7 @@
     "messageformat": "ကိုယ်ရေးကိုယ်တာ အချက်အလက်ကို သင်မသိသူများအား မမျှဝေပါနှင့်"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "ပူးတွဲဖိုင်များကို သိမ်းဆည်းပါ"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "အသစ်များ"
@@ -6466,10 +6472,10 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "ယခု ဆက်တင်ကို ချိန်ညှိသည့်အခါ ပေါ်လာသည့် ဝင်းဒိုးတွင်မဟုတ်ဘဲ ပင်မစခရင်ပေါ်တွင် ပြုလုပ်နိုင်မည်ဖြစ်သည်။"
-  },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "မက်ဆေ့ချ်တုံ့ပြန်မှုရွေးချယ်ရေးစနစ်ရှိ ကဏ္ဍအသစ်တစ်ခုသည် မက်ဆေ့ချ်လက်ခံရရှိသည့် အီမိုဂျီတုံ့ပြန်မှုအားလုံးကို အလိုအလျောက်ပြသမည်ဖြစ်သည်။"
+  },
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
   }
 }

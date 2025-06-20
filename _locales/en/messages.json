@@ -8607,7 +8607,7 @@
   },
   "icu:WhatsNew__v7.58--0": {
     "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead.",
-    "description": "Release notes for version 7.58"
+    "description": "(Deleted 2025/06/20) Release notes for version 7.58"
   },
   "icu:WhatsNew__v7.59--0": {
     "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware.",
