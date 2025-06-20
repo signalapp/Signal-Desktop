@@ -41,6 +41,9 @@
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "L'invio di media in alta qualità consuma più dati."
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "Dona a Signal"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Normale"
   },
@@ -2340,7 +2343,7 @@
     "messageformat": "Cerca tra i risultati"
   },
   "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
-    "messageformat": "This Message"
+    "messageformat": "Questo messaggio"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Usate di recente"
@@ -3408,7 +3411,7 @@
     "messageformat": "Impossibile unirsi al gruppo"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "Non puoi unirti a questo gruppo tramite il link del gruppo perché un amministratore ti ha rimosso."
+    "messageformat": "Non puoi unirti a questo gruppo tramite l'apposito link perché un admin ti ha rimosso. Contatta un admin per farti aggiungere di nuovo nel gruppo."
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "Un admin deve approvare la tua richiesta prima che tu possa unirti a questo gruppo. Quando invii la richiesta, il tuo nome e la tua foto verranno condivisi con i membri del gruppo."
@@ -3969,10 +3972,10 @@
     "messageformat": "Tocca su \"Dona a Signal\" per diventare un supporter di Signal"
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "Il tuo profilo ora è da questa parte"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "Apri la schermata delle Impostazioni per vedere e modificare il tuo profilo."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Sincronizzazione messaggi"
@@ -4941,7 +4944,7 @@
     "messageformat": "Impossibile aggiornare il tuo profilo. Per favore riprova."
   },
   "icu:ProfileEditorModal--sharing": {
-    "messageformat": "Sharing"
+    "messageformat": "Condivisione"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Invia un messaggio a un amministratore"
@@ -4975,6 +4978,9 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "Generale"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "Dona a Signal"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "Aspetto"
@@ -5019,13 +5025,13 @@
     "messageformat": "Configurazione interna"
   },
   "icu:Preferences__button--manage": {
-    "messageformat": "Manage"
+    "messageformat": "Gestisci"
   },
   "icu:Preferences__button--choose-folder": {
-    "messageformat": "Choose folder"
+    "messageformat": "Scegli la cartella"
   },
   "icu:Preferences__button--set-up": {
-    "messageformat": "Set up"
+    "messageformat": "Imposta"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Backup locali"
@@ -5073,13 +5079,13 @@
     "messageformat": "Bloccati"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Backups"
+    "messageformat": "Backup di Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Backup automatici e sicuri con il servizio di archiviazione crittografato end-to-end di Signal. Provali subito sul tuo telefono. <learnMoreLink>Scopri di più.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
-    "messageformat": "Back up your message history so you never lose data when you get a new phone or reinstall Signal."
+    "messageformat": "Salva la cronologia dei tuoi messaggi con dei backup per non perdere neanche una virgola quando compri un nuovo telefono o reinstalli Signal."
   },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Dettagli sul backup"
@@ -5124,82 +5130,82 @@
     "messageformat": "Dimensioni del backup"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "Backup del desktop"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "I backup sono crittografati con una chiave di crittografia e sono archiviati sul tuo computer."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "Crea un backup crittografato end-to-end che puoi ripristinare sul tuo telefono. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Per ripristinare un backup, installa una nuova copia di Signal. Apri l'app e tocca &quot;Ripristina backup&quot;, quindi individua un file di backup. <learnMoreLink>Scopri di più.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
-    "messageformat": "Choose a folder"
+    "messageformat": "Scegli una cartella"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "Scegli una cartella nello spazio di archiviazione del tuo computer dove il tuo backup crittografato end-to-end verrà archiviato."
   },
   "icu:Preferences--local-backups-setup-next": {
-    "messageformat": "Next"
+    "messageformat": "Avanti"
   },
   "icu:Preferences--local-backups-view-backup-key-done": {
-    "messageformat": "Done"
+    "messageformat": "Fatto"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "Box testuale con la chiave di backup"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "Inserisci chiave"
   },
   "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Record your backup key"
+    "messageformat": "Annota la tua chiave di backup"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
-    "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Questa chiave ti servirà per recuperare il tuo account e i tuoi dati. Salvala in un posto sicuro. Se la perdi, non potremo aiutarti a ripristinare il tuo account. <learnMoreLink>Scopri di più.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirm your backup key"
+    "messageformat": "Conferma la tua chiave di backup"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Enter the backup key that you just recorded"
+    "messageformat": "Inserisci la chiave di backup che hai appena registrato"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
-    "messageformat": "Keep your key safe"
+    "messageformat": "Tieni la tua chiave al sicuro"
   },
   "icu:Preferences__local-backups-confirm-key-modal-body": {
-    "messageformat": "Signal will not be able to help you restore your backup if you lose your key. Store it somewhere safe and secure, and do not share it with others."
+    "messageformat": "Signal non potrà aiutarti a ripristinare il backup se perdi la chiave. Ti consigliamo di salvarla in un posto sicuro e di non condividerla mai con altre persone."
   },
   "icu:Preferences__local-backups-confirm-key-modal-continue": {
-    "messageformat": "Continue"
+    "messageformat": "Continua"
   },
   "icu:Preferences--local-backups-see-backup-key-again": {
-    "messageformat": "See key again"
+    "messageformat": "Mostra di nuovo la chiave"
   },
   "icu:Preferences__local-backups-folder": {
-    "messageformat": "Backup folder"
+    "messageformat": "Cartella dei backup"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "Modifica"
   },
   "icu:Preferences__local-backups-copy-key": {
-    "messageformat": "Copy to clipboard"
+    "messageformat": "Copia negli appunti"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "Chiave del backup copiata"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "Visualizza chiave"
   },
   "icu:Preferences__backup-key": {
-    "messageformat": "Backup key"
+    "messageformat": "Chiave di backup"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "La tua chiave di backup è un codice di 64 cifre che puoi usare per ripristinare il tuo backup"
   },
   "icu:Preferences__backup-other-ways": {
-    "messageformat": "Other ways to back up"
+    "messageformat": "Altre modalità di backup"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} contatto} other {{num,number} contatti}}"
@@ -6433,7 +6439,7 @@
     "messageformat": "Non condividere mai dati sensibili con persone che non conosci"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "Salva allegati"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Cosa c'è di nuovo"
@@ -6466,10 +6472,10 @@
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Prima le Impostazioni erano in una finestra esterna, mentre ora si trovano all'interno della finestra principale di Signal. Così per cambiare le tue Impostazioni non dovrai aprire troppe finestre e prendere troppo freddo."
-  },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "Una nuova sezione all'interno del selezionatore di reazioni per i messaggi mostrerà in automatico tutte le reazioni con emoji che un messaggio specifico ha ricevuto. Ora puoi scegliere con attenzione quale strada intraprendere: lasciare un bel cuoricino o un semplice pollice di approvazione?"
+  },
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
   }
 }

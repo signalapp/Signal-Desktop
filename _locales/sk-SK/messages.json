@@ -41,6 +41,9 @@
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "Odosielanie médií vo vysokej kvalite využije viac dát."
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "Prispieť na Signal"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Štandardná"
   },
@@ -2340,7 +2343,7 @@
     "messageformat": "Výsledky vyhľadávania"
   },
   "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
-    "messageformat": "This Message"
+    "messageformat": "Táto správa"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Nedávno použité"
@@ -3408,7 +3411,7 @@
     "messageformat": "Nie je možné pridať sa do skupiny"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "K tejto skupine sa nemôžete pripojiť prostredníctvom odkazu na skupinu, pretože vás odstránil jej správca."
+    "messageformat": "K tejto skupine sa nemôžete pripojiť prostredníctvom odkazu na skupinu, pretože vás odstránil jej správca. Ak sa chcete opäť pridať do skupiny, kontaktujte jej správcu."
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "Administrátor tejto skupiny musí schváliť vašu požiadavku, než budete môcť vstúpiť do tejto skupiny. Keď požiadate o vstup, vaše meno a fotka budú zdieľané s jej členmi."
@@ -3969,10 +3972,10 @@
     "messageformat": "Ťuknite na „Prispieť na Signal“ a prihláste sa na odber"
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "Váš profil bol presunutý"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "Ak chcete zobraziť a upraviť svoj profil, otvorte kartu Nastavenia."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Synchronizácia správ"
@@ -4941,7 +4944,7 @@
     "messageformat": "Váš profil sa nepodarilo aktualizovať. Prosím skúste to znova."
   },
   "icu:ProfileEditorModal--sharing": {
-    "messageformat": "Sharing"
+    "messageformat": "Zdieľanie"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Pošlite správu správcovi"
@@ -4975,6 +4978,9 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "Všeobecné"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "Prispieť na Signal"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "Vzhľad"
@@ -5019,13 +5025,13 @@
     "messageformat": "Pokročilé"
   },
   "icu:Preferences__button--manage": {
-    "messageformat": "Manage"
+    "messageformat": "Spravovať"
   },
   "icu:Preferences__button--choose-folder": {
-    "messageformat": "Choose folder"
+    "messageformat": "Zvoľte priečinok"
   },
   "icu:Preferences__button--set-up": {
-    "messageformat": "Set up"
+    "messageformat": "Nastaviť"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Lokálne zálohy"
@@ -5073,13 +5079,13 @@
     "messageformat": "Blokované"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Backups"
+    "messageformat": "Zálohy Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Automatické zálohovanie pomocou zabezpečeného úložiska Signal chráneného end-to-end šifrovaním. Začnite na svojom telefóne. <learnMoreLink>Zistiť viac.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
-    "messageformat": "Back up your message history so you never lose data when you get a new phone or reinstall Signal."
+    "messageformat": "Zálohujte si históriu správ, aby ste pri výmene telefónu alebo opätovnom nainštalovaní Signalu už nikdy neprišli o dáta."
   },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Podrobnosti o zálohe"
@@ -5124,82 +5130,82 @@
     "messageformat": "Veľkosť zálohy"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "Zálohy počítača"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "Zálohy sú šifrované kľúčom a uložené vo vašom počítači."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "Vytvorte si zálohu s end-to-end šifrovaním, ktorú môžete obnoviť na telefóne. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Pre obnovenie zálohy si nainštalujte novú kópiu Signal. Otvorte aplikáciu a ťuknite na Obnoviť zálohu a potom vyhľadajte priečinok so zálohou. <learnMoreLink>Zistiť viac.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
-    "messageformat": "Choose a folder"
+    "messageformat": "Vyberte priečinok"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "Vyberte priečinok v úložisku počítača, kde bude uložená vaša záloha chránená end-to-end šifrovaním."
   },
   "icu:Preferences--local-backups-setup-next": {
-    "messageformat": "Next"
+    "messageformat": "Ďalej"
   },
   "icu:Preferences--local-backups-view-backup-key-done": {
-    "messageformat": "Done"
+    "messageformat": "Hotovo"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "Textové pole záložného kľúča"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "Zadajte kód kľúča"
   },
   "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Record your backup key"
+    "messageformat": "Uložte si záložný kľúč"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
-    "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Tento kľúč je potrebný na obnovenie vášho účtu a údajov. Uložte ho na bezpečné miesto. Ak ho stratíte, nebudete môcť svoj účet obnoviť. <learnMoreLink>Zistiť viac.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirm your backup key"
+    "messageformat": "Potvrďte záložný kľúč"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Enter the backup key that you just recorded"
+    "messageformat": "Zadajte záložný kľúč, ktorý ste si práve zaznamenali"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
-    "messageformat": "Keep your key safe"
+    "messageformat": "Uchovajte svoj kľúč v bezpečí"
   },
   "icu:Preferences__local-backups-confirm-key-modal-body": {
-    "messageformat": "Signal will not be able to help you restore your backup if you lose your key. Store it somewhere safe and secure, and do not share it with others."
+    "messageformat": "Signal vám nebude môcť pomôcť obnoviť zálohu, ak stratíte kľúč. Uschovajte ho na bezpečnom mieste a s nikým ho nezdieľajte."
   },
   "icu:Preferences__local-backups-confirm-key-modal-continue": {
-    "messageformat": "Continue"
+    "messageformat": "Pokračovať"
   },
   "icu:Preferences--local-backups-see-backup-key-again": {
-    "messageformat": "See key again"
+    "messageformat": "Pozrieť si kľúč znova"
   },
   "icu:Preferences__local-backups-folder": {
-    "messageformat": "Backup folder"
+    "messageformat": "Priečinok pre zálohy"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "Zmeniť"
   },
   "icu:Preferences__local-backups-copy-key": {
-    "messageformat": "Copy to clipboard"
+    "messageformat": "Skopírovať"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "Záložný kľúč bol skopírovaný"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "Zobraziť kľúč"
   },
   "icu:Preferences__backup-key": {
-    "messageformat": "Backup key"
+    "messageformat": "Záložný kľúč"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "Váš záložný kľúč je 64-miestny kód, ktorý sa používa na obnovenie zálohy."
   },
   "icu:Preferences__backup-other-ways": {
-    "messageformat": "Other ways to back up"
+    "messageformat": "Iné spôsoby zálohovania"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} kontakt} few {{num,number} kontakty} many {{num,number} kontaktu} other {{num,number} kontaktov}}"
@@ -6433,7 +6439,7 @@
     "messageformat": "Nezdieľajte osobné údaje s ľuďmi, ktorých nepoznáte"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "Uložiť prílohy"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Čo je nové"
@@ -6466,10 +6472,10 @@
     "messageformat": "Malé úpravy, opravy chýb a vylepšenia výkonu. Ďakujeme, že používate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Nastavenia môžete odteraz upravovať na hlavnej obrazovke namiesto vyskakovacieho okna."
-  },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "Nová časť vo výbere reakcií na správy automaticky zobrazuje všetky reakcie emoji, ktoré správa dostala."
+  },
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
   }
 }

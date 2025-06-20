@@ -41,6 +41,9 @@
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "Å sende høykvalitetsmedia bruker mer data."
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "Gi penger til Signal"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standard"
   },
@@ -2340,7 +2343,7 @@
     "messageformat": "Søketreff"
   },
   "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
-    "messageformat": "This Message"
+    "messageformat": "Denne meldingen"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Nylig brukt"
@@ -3408,7 +3411,7 @@
     "messageformat": "Kan ikke bli med i gruppen"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "Du kan ikke bli med i denne gruppen via gruppelenken fordi en administrator fjernet deg fra gruppen."
+    "messageformat": "Du kan ikke bli med i denne gruppen via gruppelenken fordi en administrator fjernet deg fra gruppen. Ta kontakt med en administrator for å bli lagt til i gruppen igjen."
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "En administrator for gruppen må godkjenne forespørselen din før du kan bli med. Når du ber om å få bli med, deles navnet og bildet ditt med gruppemedlemmene."
@@ -3969,10 +3972,10 @@
     "messageformat": "Trykk på «Gi penger til Signal» for å abonnere"
   },
   "icu:ProfileMovedModal__title": {
-    "messageformat": "Your profile has moved"
+    "messageformat": "Profilen din er flyttet"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "Open the Settings tab to view and edit your profile."
+    "messageformat": "Åpne Innstillinger-fanen for å se og redigere profilen din."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Synkroniserer meldinger"
@@ -4941,7 +4944,7 @@
     "messageformat": "Profilen din kunne ikke oppdateres. Prøv igjen."
   },
   "icu:ProfileEditorModal--sharing": {
-    "messageformat": "Sharing"
+    "messageformat": "Deling"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Send melding til en administrator"
@@ -4975,6 +4978,9 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "Generelt"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "Gi penger til Signal"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "Utseende"
@@ -5019,13 +5025,13 @@
     "messageformat": "Internt"
   },
   "icu:Preferences__button--manage": {
-    "messageformat": "Manage"
+    "messageformat": "Endre"
   },
   "icu:Preferences__button--choose-folder": {
-    "messageformat": "Choose folder"
+    "messageformat": "Velg mappe"
   },
   "icu:Preferences__button--set-up": {
-    "messageformat": "Set up"
+    "messageformat": "Konfigurer"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Lokal sikkerhetskopiering"
@@ -5073,13 +5079,13 @@
     "messageformat": "Blokkert"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Backups"
+    "messageformat": "Sikkerhetskopiering av Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Automatisk sikkerhetskopiering med Signals sikre, ende-til-ende-krypterte lagringstjeneste. Kom i gang på mobilen din. <learnMoreLink>Les mer.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
-    "messageformat": "Back up your message history so you never lose data when you get a new phone or reinstall Signal."
+    "messageformat": "Ta en sikkerhetskopi av meldingsloggen din, slik at du ikke mister dataene dine når du bytter telefon eller installerer Signal på nytt."
   },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Info om sikkerhetskopiering"
@@ -5124,82 +5130,82 @@
     "messageformat": "Størrelse på sikkerhetskopi"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop backups"
+    "messageformat": "Sikkerhetskopier av skrivebordet"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer."
+    "messageformat": "Sikkerhetskopier krypteres med en kode og lagres på datamaskinen din."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. "
+    "messageformat": "Lag en ende-til-ende-kryptert sikkerhetskopi som kan gjenopprettes på mobilen din. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "For å gjenopprette en sikkerhetskopi må du installere en ny kopi av Signal. Åpne appen og trykk på «Gjenopprett sikkerhetskopi», og finn mappen med sikkerhetskopien. <learnMoreLink>Les mer.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
-    "messageformat": "Choose a folder"
+    "messageformat": "Velg en mappe"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored."
+    "messageformat": "Velg hvilken mappe på datamaskinen du vil at den ende-til-ende-krypterte sikkerhetskopien skal lagres i."
   },
   "icu:Preferences--local-backups-setup-next": {
-    "messageformat": "Next"
+    "messageformat": "Neste"
   },
   "icu:Preferences--local-backups-view-backup-key-done": {
-    "messageformat": "Done"
+    "messageformat": "Ferdig"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Backup key text box"
+    "messageformat": "Tekstboks for sikkerhetskode"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
-    "messageformat": "Enter key"
+    "messageformat": "Angi kode"
   },
   "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Record your backup key"
+    "messageformat": "Noter ned sikkerhetskoden din"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
-    "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Du trenger denne koden for å gjenopprette kontoen din og dataene dine. Oppbevar koden på en trygg plass. Uten koden kan du ikke gjenopprette kontoen din. <learnMoreLink>Les mer</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Confirm your backup key"
+    "messageformat": "Angi sikkerhetskoden din"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Enter the backup key that you just recorded"
+    "messageformat": "Skriv inn den registrerte sikkerhetskoden din"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
-    "messageformat": "Keep your key safe"
+    "messageformat": "Ta godt vare på koden"
   },
   "icu:Preferences__local-backups-confirm-key-modal-body": {
-    "messageformat": "Signal will not be able to help you restore your backup if you lose your key. Store it somewhere safe and secure, and do not share it with others."
+    "messageformat": "Signal kan ikke hjelpe deg med å gjenopprette sikkerhetskopien din dersom du mister koden. Oppbevar den på en trygg plass, og ikke del den med andre."
   },
   "icu:Preferences__local-backups-confirm-key-modal-continue": {
-    "messageformat": "Continue"
+    "messageformat": "Fortsett"
   },
   "icu:Preferences--local-backups-see-backup-key-again": {
-    "messageformat": "See key again"
+    "messageformat": "Se koden igjen"
   },
   "icu:Preferences__local-backups-folder": {
-    "messageformat": "Backup folder"
+    "messageformat": "Mappe for sikkerhetskopi"
   },
   "icu:Preferences__local-backups-folder__change": {
-    "messageformat": "Change"
+    "messageformat": "Bytt"
   },
   "icu:Preferences__local-backups-copy-key": {
-    "messageformat": "Copy to clipboard"
+    "messageformat": "Kopier til utklippstavlen"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Backup key copied"
+    "messageformat": "Sikkerhetskoden ble kopiert"
   },
   "icu:Preferences__view-key": {
-    "messageformat": "View key"
+    "messageformat": "Se koden"
   },
   "icu:Preferences__backup-key": {
-    "messageformat": "Backup key"
+    "messageformat": "Sikkerhetskode"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Your backup key is a 64-digit code used to restore your backup"
+    "messageformat": "Sikkerhetskoden består av 64 tall og brukes til å gjenopprette sikkerhetskopien din"
   },
   "icu:Preferences__backup-other-ways": {
-    "messageformat": "Other ways to back up"
+    "messageformat": "Andre muligheter for sikkerhetskopiering"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} kontakt} other {{num,number} kontakter}}"
@@ -6433,7 +6439,7 @@
     "messageformat": "Ikke send personlige opplysninger til folk du ikke kjenner"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Save attachments"
+    "messageformat": "Lagre vedlegg"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Siste nytt"
@@ -6466,10 +6472,10 @@
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Fra nå av kan du justere innstillingene på hovedskjermen i stedet for i et forgrunnsvindu."
-  },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead."
+    "messageformat": "Når du skal reagere på en melding, kan du nå se hvilke reaksjoner meldingen har fått av andre."
+  },
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
   }
 }
