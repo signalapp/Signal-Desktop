@@ -87,6 +87,7 @@ import type {
   PromptOSAuthReasonType,
   PromptOSAuthResultType,
 } from '../util/os/promptOSAuthMain';
+import type { DonationReceipt } from '../types/Donations';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import { EditChatFoldersPage } from './preferences/EditChatFoldersPage';
 import { ChatFoldersPage } from './preferences/ChatFoldersPage';
@@ -194,6 +195,8 @@ export type PropsDataType = {
   availableCameras: Array<
     Pick<MediaDeviceInfo, 'deviceId' | 'groupId' | 'kind' | 'label'>
   >;
+
+  donationReceipts: ReadonlyArray<DonationReceipt>;
 } & Omit<MediaDeviceSettings, 'availableCameras'>;
 
 type PropsFunctionType = {
@@ -245,6 +248,17 @@ type PropsFunctionType = {
   setPage: (page: Page) => unknown;
   showToast: (toast: AnyToast) => unknown;
   validateBackup: () => Promise<BackupValidationResultType>;
+
+  internalAddDonationReceipt: (receipt: DonationReceipt) => void;
+  saveAttachmentToDisk: (options: {
+    data: Uint8Array;
+    name: string;
+    baseDir?: string | undefined;
+  }) => Promise<{ fullPath: string; name: string } | null>;
+  generateDonationReceiptBlob: (
+    receipt: DonationReceipt,
+    i18n: LocalizerType
+  ) => Promise<Blob>;
 
   // Change handlers
   onAudioNotificationsChange: CheckboxChangeHandlerType;
@@ -493,6 +507,10 @@ export function Preferences({
   whoCanFindMe,
   whoCanSeeMe,
   zoomFactor,
+  donationReceipts,
+  internalAddDonationReceipt,
+  saveAttachmentToDisk,
+  generateDonationReceiptBlob,
 }: PropsType): JSX.Element {
   const storiesId = useId();
   const themeSelectId = useId();
@@ -2157,6 +2175,10 @@ export function Preferences({
             validateBackup={validateBackup}
             getMessageCountBySchemaVersion={getMessageCountBySchemaVersion}
             getMessageSampleForSchemaVersion={getMessageSampleForSchemaVersion}
+            donationReceipts={donationReceipts}
+            internalAddDonationReceipt={internalAddDonationReceipt}
+            saveAttachmentToDisk={saveAttachmentToDisk}
+            generateDonationReceiptBlob={generateDonationReceiptBlob}
           />
         }
         contentsRef={settingsPaneRef}
