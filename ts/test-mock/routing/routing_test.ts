@@ -57,7 +57,7 @@ describe('routing', function (this: Mocha.Suite) {
     await page.locator('#LeftPane').waitFor();
     const token = await page.evaluate(
       serviceId => window.SignalCI?.createNotificationToken(serviceId),
-      friend.toContact().aci
+      friend.device.aci
     );
     strictAssert(typeof token === 'string', 'token must be returned');
     const conversationUrl = showConversationRoute.toAppUrl({

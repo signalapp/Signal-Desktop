@@ -45,14 +45,10 @@ import { normalizeStoryDistributionId } from '../types/StoryDistributionId';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId';
 import type { ServiceIdString } from '../types/ServiceId';
 import {
-  normalizeServiceId,
-  normalizePni,
   ServiceIdKind,
-  isUntaggedPniString,
+  normalizeServiceId,
   toUntaggedPni,
-  toTaggedPni,
 } from '../types/ServiceId';
-import { normalizeAci } from '../util/normalizeAci';
 import { isAciString } from '../util/isAciString';
 import * as Stickers from '../types/Stickers';
 import type {
@@ -84,6 +80,15 @@ import {
   generateBackupsSubscriberData,
   saveBackupsSubscriberData,
 } from '../util/backupSubscriptionData';
+import {
+  toAciObject,
+  toPniObject,
+  toServiceIdObject,
+  fromServiceIdBinaryOrString,
+  fromAciUuidBytesOrString,
+  fromPniUuidBytesOrUntaggedString,
+} from '../util/ServiceId';
+import { isProtoBinaryEncodingEnabled } from '../util/isProtoBinaryEncodingEnabled';
 import { getLinkPreviewSetting } from '../types/LinkPreview';
 import {
   getReadReceiptSetting,
@@ -228,7 +233,11 @@ export async function toContactRecord(
   const contactRecord = new Proto.ContactRecord();
   const aci = conversation.getAci();
   if (aci) {
-    contactRecord.aci = aci;
+    if (isProtoBinaryEncodingEnabled()) {
+      contactRecord.aciBinary = toAciObject(aci).getRawUuidBytes();
+    } else {
+      contactRecord.aci = aci;
+    }
   }
   const e164 = conversation.get('e164');
   if (e164) {
@@ -241,7 +250,11 @@ export async function toContactRecord(
   }
   const pni = conversation.getPni();
   if (pni) {
-    contactRecord.pni = toUntaggedPni(pni);
+    if (isProtoBinaryEncodingEnabled()) {
+      contactRecord.pniBinary = toPniObject(pni).getRawUuidBytes();
+    } else {
+      contactRecord.pni = toUntaggedPni(pni);
+    }
   }
   contactRecord.pniSignatureVerified =
     conversation.get('pniSignatureVerified') ?? false;
@@ -411,9 +424,19 @@ export function toAccountRecord(
           new Proto.AccountRecord.PinnedConversation();
 
         if (pinnedConversation.get('type') === 'private') {
+          const serviceId = pinnedConversation.getServiceId();
           pinnedConversationRecord.identifier = 'contact';
           pinnedConversationRecord.contact = {
-            serviceId: pinnedConversation.getServiceId(),
+            ...(isProtoBinaryEncodingEnabled()
+              ? {
+                  serviceIdBinary:
+                    serviceId == null
+                      ? null
+                      : toServiceIdObject(serviceId).getServiceIdBinary(),
+                }
+              : {
+                  serviceId,
+                }),
             e164: pinnedConversation.get('e164'),
           };
         } else if (isGroupV1(pinnedConversation.attributes)) {
@@ -621,8 +644,16 @@ export function toStoryDistributionListRecord(
   storyDistributionListRecord.isBlockList = Boolean(
     storyDistributionList.isBlockList
   );
-  storyDistributionListRecord.recipientServiceIds =
-    storyDistributionList.members;
+
+  if (isProtoBinaryEncodingEnabled()) {
+    storyDistributionListRecord.recipientServiceIdsBinary =
+      storyDistributionList.members.map(serviceId => {
+        return toServiceIdObject(serviceId).getServiceIdBinary();
+      });
+  } else {
+    storyDistributionListRecord.recipientServiceIds =
+      storyDistributionList.members;
+  }
 
   if (storyDistributionList.storageUnknownFields) {
     storyDistributionListRecord.$unknownFields = [
@@ -1108,17 +1139,16 @@ export async function mergeContactRecord(
   const contactRecord = {
     ...originalContactRecord,
 
-    aci: originalContactRecord.aci
-      ? normalizeAci(originalContactRecord.aci, 'ContactRecord.aci')
-      : undefined,
-    pni:
-      originalContactRecord.pni &&
-      isUntaggedPniString(originalContactRecord.pni)
-        ? normalizePni(
-            toTaggedPni(originalContactRecord.pni),
-            'ContactRecord.pni'
-          )
-        : undefined,
+    aci: fromAciUuidBytesOrString(
+      originalContactRecord.aciBinary,
+      originalContactRecord.aci,
+      'ContactRecord.aci'
+    ),
+    pni: fromPniUuidBytesOrUntaggedString(
+      originalContactRecord.pniBinary,
+      originalContactRecord.pni,
+      'ContactRecord.pni'
+    ),
   };
 
   const e164 = dropNull(contactRecord.e164);
@@ -1481,19 +1511,22 @@ export async function mergeAccountRecord(
         let convo: ConversationModel | undefined;
 
         if (contact) {
-          if (!contact.serviceId && !contact.e164) {
+          if (
+            !contact.serviceId &&
+            !Bytes.isNotEmpty(contact.serviceIdBinary) &&
+            !contact.e164
+          ) {
             log.error(
               'storageService.mergeAccountRecord: No serviceId or e164 on contact'
             );
             return undefined;
           }
           convo = window.ConversationController.lookupOrCreate({
-            serviceId: contact.serviceId
-              ? normalizeServiceId(
-                  contact.serviceId,
-                  'AccountRecord.pin.serviceId'
-                )
-              : undefined,
+            serviceId: fromServiceIdBinaryOrString(
+              contact.serviceIdBinary,
+              contact.serviceId,
+              'AccountRecord.pin.serviceId'
+            ),
             e164: contact.e164,
             reason: 'storageService.mergeAccountRecord',
           });
@@ -1751,9 +1784,20 @@ export async function mergeStoryDistributionListRecord(
     storyDistributionListRecord
   );
 
-  const remoteListMembers: Array<ServiceIdString> = (
-    storyDistributionListRecord.recipientServiceIds || []
-  ).map(id => normalizeServiceId(id, 'mergeStoryDistributionListRecord'));
+  let remoteListMembers: Array<ServiceIdString>;
+
+  if (storyDistributionListRecord.recipientServiceIdsBinary?.length) {
+    remoteListMembers =
+      storyDistributionListRecord.recipientServiceIdsBinary.map(id =>
+        fromServiceIdBinaryOrString(id, undefined, 'unused')
+      );
+  } else if (storyDistributionListRecord.recipientServiceIds?.length) {
+    remoteListMembers = storyDistributionListRecord.recipientServiceIds.map(
+      id => normalizeServiceId(id, 'mergeStoryDistributionListRecord')
+    );
+  } else {
+    remoteListMembers = [];
+  }
 
   if (storyDistributionListRecord.$unknownFields) {
     details.push('adding unknown fields');

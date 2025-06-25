@@ -9,7 +9,7 @@ import {
   toTaggedPni,
   isUntaggedPniString,
 } from '../../types/ServiceId';
-import { SignalService as Proto } from '../../protobuf';
+import { Migrations as Proto } from '../../protobuf';
 import { sql } from '../util';
 import type { WritableDB } from '../Interface';
 import { getOurUuid } from './41-uuid-keys';

@@ -126,39 +126,49 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
   }
   debug('encrypted');
 
-  await Promise.all(messages.map(message => server.send(desktop, message)));
+  debug('sending first message');
+  {
+    const firstMessage = messages.shift();
+    if (firstMessage != null) {
+      await server.send(desktop, firstMessage);
+    }
+  }
 
   const window = await app.getWindow();
+
+  debug('waiting for conversation');
+  {
+    const leftPane = window.locator('#LeftPane');
+
+    // Left pane should show either the message preview or
+    // "You were added to the group".
+    await leftPane
+      .locator(
+        `.module-conversation-list__item--contact-or-conversation[data-testid="${group.id}"]`
+      )
+      .waitFor();
+  }
+
+  debug('sending the rest of messages');
+  await Promise.all(messages.map(message => server.send(desktop, message)));
 
   debug('opening conversation');
   {
     const leftPane = window.locator('#LeftPane');
 
-    const item = leftPane
+    await leftPane
       .locator(
-        `.module-conversation-list__item--contact-or-conversation[data-testid="${group.id}"]`
+        `.module-conversation-list__item--contact-or-conversation[data-testid="${group.id}"]` +
+          ` >> text=${LAST_MESSAGE}`
       )
-      .first();
-
-    // Wait for unread indicator to give desktop time to process messages without
-    // the timeline open
-    await item
-      .locator(
-        '.module-conversation-list__item--contact-or-conversation__content'
-      )
-      .locator(
-        '.module-conversation-list__item--contact-or-conversation__unread-indicator'
-      )
-      .first()
-      .waitFor();
-
-    await item.click();
+      .click();
   }
 
   debug('scrolling to bottom of timeline');
   await window
-    .locator('.module-timeline__messages__at-bottom-detector')
-    .scrollIntoViewIfNeeded();
+    .locator('.ScrollDownButton')
+    .or(window.locator(`.module-message >> text="${LAST_MESSAGE}"`))
+    .click({ timeout: MINUTE });
 
   debug('finding message in timeline');
   {

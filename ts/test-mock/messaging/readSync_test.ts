@@ -102,14 +102,14 @@ describe('readSync', function (this: Mocha.Suite) {
         Long.fromNumber(timestamp)
       );
 
-      const senderAci = friend.device.aci;
+      const senderAciBinary = friend.device.aciRawUuid;
 
       await phone.sendRaw(
         desktop,
         {
           syncMessage: {
             read: longTimestamps.map(timestamp => ({
-              senderAci,
+              senderAciBinary,
               timestamp,
             })),
           },

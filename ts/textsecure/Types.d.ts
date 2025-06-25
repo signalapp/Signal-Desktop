@@ -189,14 +189,17 @@ export type ProcessedBodyRange = RawBodyRange;
 
 export type ProcessedGroupCallUpdate = Proto.DataMessage.IGroupCallUpdate;
 
-export type ProcessedStoryContext = Proto.DataMessage.IStoryContext;
-
 export type ProcessedGiftBadge = {
   expiration: number;
   id: string | undefined;
   level: number;
   receiptCredentialPresentation: string;
   state: GiftBadgeStates;
+};
+
+export type ProcessedStoryContext = {
+  authorAci: AciString | undefined;
+  sentTimestamp: number;
 };
 
 export type ProcessedDataMessage = {

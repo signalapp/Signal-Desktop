@@ -7,6 +7,8 @@ import { isNumber } from 'lodash';
 
 import { assertDev, strictAssert } from '../util/assert';
 import { dropNull, shallowDropNull } from '../util/dropNull';
+import { fromAciUuidBytesOrString } from '../util/ServiceId';
+import { getTimestampFromLong } from '../util/timestampLongUtils';
 import { SignalService as Proto } from '../protobuf';
 import { deriveGroupFields } from '../groups';
 import * as Bytes from '../Bytes';
@@ -22,6 +24,7 @@ import type {
   ProcessedReaction,
   ProcessedDelete,
   ProcessedGiftBadge,
+  ProcessedStoryContext,
 } from './Types.d';
 import { GiftBadgeStates } from '../components/conversation/Message';
 import { APPLICATION_OCTET_STREAM, stringToMIMEType } from '../types/MIME';
@@ -29,8 +32,6 @@ import { SECOND, DurationInSeconds } from '../util/durations';
 import type { AnyPaymentEvent } from '../types/Payment';
 import { PaymentEventKind } from '../types/Payment';
 import { filterAndClean } from '../types/BodyRange';
-import { isAciString } from '../util/isAciString';
-import { normalizeAci } from '../util/normalizeAci';
 import { bytesToUuid } from '../util/uuidToBytes';
 import { createName } from '../util/attachmentPath';
 import { partitionBodyAndNormalAttachments } from '../types/Attachment';
@@ -168,14 +169,16 @@ export function processQuote(
     return undefined;
   }
 
-  const { authorAci } = quote;
-  if (!isAciString(authorAci)) {
-    throw new Error('quote.authorAci is not an ACI string');
-  }
+  const { authorAci: rawAuthorAci, authorAciBinary } = quote;
+  const authorAci = fromAciUuidBytesOrString(
+    authorAciBinary,
+    rawAuthorAci,
+    'Quote.authorAci'
+  );
 
   return {
     id: quote.id?.toNumber(),
-    authorAci: normalizeAci(authorAci, 'Quote.authorAci'),
+    authorAci,
     text: dropNull(quote.text),
     attachments: (quote.attachments ?? []).slice(0, 1).map(attachment => {
       return {
@@ -188,6 +191,30 @@ export function processQuote(
     }),
     bodyRanges: filterAndClean(quote.bodyRanges),
     type: quote.type || Proto.DataMessage.Quote.Type.NORMAL,
+  };
+}
+
+export function processStoryContext(
+  storyContext?: Proto.DataMessage.IStoryContext | null
+): ProcessedStoryContext | undefined {
+  if (!storyContext) {
+    return undefined;
+  }
+
+  const {
+    authorAci: rawAuthorAci,
+    authorAciBinary,
+    sentTimestamp,
+  } = storyContext;
+  const authorAci = fromAciUuidBytesOrString(
+    authorAciBinary,
+    rawAuthorAci,
+    'StoryContext.authorAci'
+  );
+
+  return {
+    authorAci,
+    sentTimestamp: getTimestampFromLong(sentTimestamp),
   };
 }
 
@@ -266,15 +293,18 @@ export function processReaction(
     return undefined;
   }
 
-  const { targetAuthorAci } = reaction;
-  if (!isAciString(targetAuthorAci)) {
-    throw new Error('reaction.targetAuthorAci is not an ACI string');
-  }
+  const { targetAuthorAci: rawTargetAuthorAci, targetAuthorAciBinary } =
+    reaction;
+  const targetAuthorAci = fromAciUuidBytesOrString(
+    targetAuthorAciBinary,
+    rawTargetAuthorAci,
+    'Reaction.targetAuthorAci'
+  );
 
   return {
     emoji: dropNull(reaction.emoji),
     remove: Boolean(reaction.remove),
-    targetAuthorAci: normalizeAci(targetAuthorAci, 'Reaction.targetAuthorAci'),
+    targetAuthorAci,
     targetTimestamp: reaction.targetSentTimestamp?.toNumber(),
   };
 }
@@ -380,7 +410,7 @@ export function processDataMessage(
     delete: processDelete(message.delete),
     bodyRanges: filterAndClean(message.bodyRanges),
     groupCallUpdate: dropNull(message.groupCallUpdate),
-    storyContext: dropNull(message.storyContext),
+    storyContext: processStoryContext(message.storyContext),
     giftBadge: processGiftBadge(message.giftBadge),
   };
 

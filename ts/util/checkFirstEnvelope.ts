@@ -31,7 +31,7 @@ export function checkFirstEnvelope(incoming: IncomingWebSocketRequest): void {
   }
 
   const decoded = Proto.Envelope.decode(plaintext);
-  const newEnvelopeTimestamp = decoded.timestamp?.toNumber();
+  const newEnvelopeTimestamp = decoded.clientTimestamp?.toNumber();
   if (!isNumber(newEnvelopeTimestamp)) {
     log.warn('timestamp is not a number!');
     return;

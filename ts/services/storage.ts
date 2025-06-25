@@ -81,6 +81,7 @@ import {
   callLinkFromRecord,
   getRoomIdFromRootKeyString,
 } from '../util/callLinksRingrtc';
+import { fromPniUuidBytesOrUntaggedString } from '../util/ServiceId';
 import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue';
 
 const log = createLogger('storage');
@@ -1800,11 +1801,16 @@ async function processRemoteRecords(
       return true;
     }
 
-    if (!contact.e164 || !contact.pni) {
+    const pni = fromPniUuidBytesOrUntaggedString(
+      contact.pniBinary,
+      contact.pni,
+      'splitPNIContacts'
+    );
+    if (!contact.e164 || !pni) {
       return true;
     }
 
-    const localAci = window.ConversationController.get(contact.pni)?.getAci();
+    const localAci = window.ConversationController.get(pni)?.getAci();
     if (!localAci) {
       return true;
     }

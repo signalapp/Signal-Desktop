@@ -7,6 +7,7 @@ import {
   signal as Signal,
   signalbackups as Backups,
   signalservice as SignalService,
+  migrations as Migrations,
 } from './compiled';
 
-export { Backups, SignalService, Signal };
+export { Backups, SignalService, Signal, Migrations };

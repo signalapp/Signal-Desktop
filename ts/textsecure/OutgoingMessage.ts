@@ -72,10 +72,10 @@ type OutgoingMessageOptionsType = SendOptionsType & {
 
 function ciphertextMessageTypeToEnvelopeType(type: number) {
   if (type === CiphertextMessageType.PreKey) {
-    return Proto.Envelope.Type.PREKEY_BUNDLE;
+    return Proto.Envelope.Type.PREKEY_MESSAGE;
   }
   if (type === CiphertextMessageType.Whisper) {
-    return Proto.Envelope.Type.CIPHERTEXT;
+    return Proto.Envelope.Type.DOUBLE_RATCHET;
   }
   if (type === CiphertextMessageType.Plaintext) {
     return Proto.Envelope.Type.PLAINTEXT_CONTENT;

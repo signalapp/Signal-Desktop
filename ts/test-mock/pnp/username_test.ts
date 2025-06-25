@@ -67,7 +67,6 @@ describe('pnp/username', function (this: Mocha.Suite) {
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: true,
           name: MY_STORY_ID,
-          recipientServiceIds: [],
         },
       },
     });
@@ -146,10 +145,16 @@ describe('pnp/username', function (this: Mocha.Suite) {
           'only one record must be removed'
         );
 
-        assert.strictEqual(added[0].contact?.aci, usernameContact.device.aci);
+        assert.deepEqual(
+          added[0].contact?.aciBinary,
+          usernameContact.device.aciRawUuid
+        );
         assert.strictEqual(added[0].contact?.username, '');
 
-        assert.strictEqual(removed[0].contact?.aci, usernameContact.device.aci);
+        assert.deepEqual(
+          removed[0].contact?.aciBinary,
+          usernameContact.device.aciRawUuid
+        );
         assert.strictEqual(removed[0].contact?.username, USERNAME);
       }
 

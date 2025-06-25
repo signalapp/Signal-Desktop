@@ -10,7 +10,6 @@ import {
   parseContactsV2,
   type ContactDetailsWithAvatar,
 } from '../textsecure/ContactsParser';
-import { normalizeAci } from '../util/normalizeAci';
 import * as Conversation from '../types/Conversation';
 import * as Errors from '../types/errors';
 import type { ValidateConversationType } from '../model-types.d';
@@ -152,7 +151,7 @@ async function doContactSync({
   for (const details of contacts) {
     const partialConversation: ValidateConversationType = {
       e164: details.number,
-      serviceId: normalizeAci(details.aci, 'doContactSync'),
+      serviceId: details.aci,
       type: 'private',
     };
 
@@ -167,7 +166,7 @@ async function doContactSync({
 
     const { conversation } = window.ConversationController.maybeMergeContacts({
       e164: details.number,
-      aci: normalizeAci(details.aci, 'contactSync.aci'),
+      aci: details.aci,
       reason: logId,
     });
 

@@ -119,13 +119,13 @@ describe('attachment backfill', function (this: Mocha.Suite) {
       return entry.syncMessage.attachmentBackfillRequest != null;
     });
 
-    assert.strictEqual(
-      request?.targetConversation?.threadServiceId,
-      unknownContact.device.aci
+    assert.deepEqual(
+      request?.targetConversation?.threadServiceIdBinary,
+      unknownContact.device.aciBinary
     );
-    assert.strictEqual(
-      request?.targetMessage?.authorServiceId,
-      unknownContact.device.aci
+    assert.deepEqual(
+      request?.targetMessage?.authorServiceIdBinary,
+      unknownContact.device.aciBinary
     );
     assert.strictEqual(
       request?.targetMessage?.sentTimestamp?.toNumber(),
@@ -302,13 +302,13 @@ describe('attachment backfill', function (this: Mocha.Suite) {
       return entry.syncMessage.attachmentBackfillRequest != null;
     });
 
-    assert.strictEqual(
-      request?.targetConversation?.threadServiceId,
-      unknownContact.device.aci
+    assert.deepEqual(
+      request?.targetConversation?.threadServiceIdBinary,
+      unknownContact.device.aciBinary
     );
-    assert.strictEqual(
-      request?.targetMessage?.authorServiceId,
-      unknownContact.device.aci
+    assert.deepEqual(
+      request?.targetMessage?.authorServiceIdBinary,
+      unknownContact.device.aciBinary
     );
     assert.strictEqual(
       request?.targetMessage?.sentTimestamp?.toNumber(),
@@ -380,13 +380,13 @@ describe('attachment backfill', function (this: Mocha.Suite) {
       return entry.syncMessage.attachmentBackfillRequest != null;
     });
 
-    assert.strictEqual(
-      request?.targetConversation?.threadServiceId,
-      unknownContact.device.aci
+    assert.deepEqual(
+      request?.targetConversation?.threadServiceIdBinary,
+      unknownContact.device.aciBinary
     );
-    assert.strictEqual(
-      request?.targetMessage?.authorServiceId,
-      unknownContact.device.aci
+    assert.deepEqual(
+      request?.targetMessage?.authorServiceIdBinary,
+      unknownContact.device.aciBinary
     );
     assert.strictEqual(
       request?.targetMessage?.sentTimestamp?.toNumber(),
@@ -439,7 +439,7 @@ describe('attachment backfill', function (this: Mocha.Suite) {
       desktop,
       quote: {
         id: Long.fromNumber(bootstrap.getTimestamp()),
-        authorAci: unknownContact.device.aci,
+        authorAciBinary: unknownContact.device.aciRawUuid,
         text: 'quote text',
         attachments: [
           {

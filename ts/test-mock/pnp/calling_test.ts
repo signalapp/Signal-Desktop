@@ -81,7 +81,7 @@ describe('pnp/calling', function (this: Mocha.Suite) {
     });
 
     debug('Open conversation with a known contact');
-    await leftPane.locator(`[data-testid="${alice.toContact().aci}"]`).click();
+    await leftPane.locator(`[data-testid="${alice.device.aci}"]`).click();
 
     debug('Accept conversation from a known contact');
     await acceptConversation(window);

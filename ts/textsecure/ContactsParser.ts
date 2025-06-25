@@ -3,16 +3,16 @@
 
 import { Transform } from 'stream';
 
+import { createLogger } from '../logging/log';
 import { SignalService as Proto } from '../protobuf';
 import protobuf from '../protobuf/wrap';
-import { normalizeAci } from '../util/normalizeAci';
-import { isAciString } from '../util/isAciString';
 import { DurationInSeconds } from '../util/durations';
-import { createLogger } from '../logging/log';
 import type { ContactAvatarType } from '../types/Avatar';
 import type { AttachmentType } from '../types/Attachment';
+import type { AciString } from '../types/ServiceId';
 import { computeHash } from '../Crypto';
 import { dropNull } from '../util/dropNull';
+import { fromAciUuidBytesOrString } from '../util/ServiceId';
 import { decryptAttachmentV2ToSink } from '../AttachmentCrypto';
 
 import Avatar = Proto.ContactDetails.IAvatar;
@@ -30,8 +30,9 @@ type OptionalFields = {
 
 type MessageWithAvatar<Message extends OptionalFields> = Omit<
   Message,
-  'avatar' | 'toJSON'
+  'avatar' | 'toJSON' | 'aci' | 'aciBinary'
 > & {
+  aci: AciString;
   avatar?: ContactAvatarType;
   expireTimer?: DurationInSeconds;
   expireTimerVersion: number | null;
@@ -193,7 +194,7 @@ export class ParseContactsTransform extends Transform {
 }
 
 function prepareContact(
-  proto: Proto.ContactDetails,
+  { aci: rawAci, aciBinary, ...proto }: Proto.ContactDetails,
   avatar?: ContactAvatarType
 ): ContactDetailsWithAvatar | undefined {
   const expireTimer =
@@ -201,14 +202,12 @@ function prepareContact(
       ? DurationInSeconds.fromSeconds(proto.expireTimer)
       : undefined;
 
-  // We reject incoming contacts with invalid aci information
-  if (proto.aci && !isAciString(proto.aci)) {
-    log.warn('ParseContactsTransform: Dropping contact with invalid aci');
+  const aci = fromAciUuidBytesOrString(aciBinary, rawAci, 'ContactBuffer.aci');
 
+  if (aci == null) {
+    log.warn('ParseContactsTransform: Dropping contact with invalid aci');
     return undefined;
   }
-
-  const aci = proto.aci ? normalizeAci(proto.aci, 'ContactBuffer.aci') : null;
 
   const result = {
     ...proto,

@@ -6,6 +6,7 @@ import { Proto } from '@signalapp/mock-server';
 
 import * as durations from '../../util/durations';
 import { generateAci } from '../../types/ServiceId';
+import { toAciObject } from '../../util/ServiceId';
 import { MAX_READ_KEYS } from '../../services/storageConstants';
 import type { App, Bootstrap } from './fixtures';
 import { initStorage, debug } from './fixtures';
@@ -45,7 +46,7 @@ describe('storage service', function (this: Mocha.Suite) {
 
     debug('wait for first contact to be pinned in the left pane');
     await leftPane
-      .locator(`[data-testid="${firstContact.toContact().aci}"]`)
+      .locator(`[data-testid="${firstContact.device.aci}"]`)
       .waitFor();
 
     {
@@ -57,7 +58,7 @@ describe('storage service', function (this: Mocha.Suite) {
           type: IdentifierType.CONTACT,
           record: {
             contact: {
-              aci: generateAci(),
+              aciBinary: toAciObject(generateAci()).getRawUuidBytes(),
             },
           },
         });
@@ -76,7 +77,7 @@ describe('storage service', function (this: Mocha.Suite) {
 
     debug('wait for last contact to be pinned in the left pane');
     await leftPane
-      .locator(`[data-testid="${lastContact.toContact().aci}"]`)
+      .locator(`[data-testid="${lastContact.device.aci}"]`)
       .waitFor({ timeout: durations.MINUTE });
 
     debug('Verifying the final manifest version');

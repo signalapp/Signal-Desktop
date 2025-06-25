@@ -1,0 +1,41 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+syntax = "proto3";
+
+package migrations;
+
+// Snapshot made at 9f22445e9
+
+message Envelope {
+  // Our parser does not handle reserved in enums: DESKTOP-1569
+  enum Type {
+    UNKNOWN = 0;
+    CIPHERTEXT = 1;  // content => (version byte | SignalMessage{Content})
+    // reserved 2;
+    // reserved "KEY_EXCHANGE";
+    PREKEY_BUNDLE = 3;  // content => (version byte | PreKeySignalMessage{Content})
+    SERVER_DELIVERY_RECEIPT = 5;  // legacyMessage => [] AND content => []
+    UNIDENTIFIED_SENDER = 6;  // legacyMessage => [] AND content => ((version byte | UnidentifiedSenderMessage) OR (version byte | Multi-Recipient Sealed Sender Format))
+    SENDERKEY_MESSAGE = 7;  // legacyMessage => [] AND content => (version byte | SenderKeyMessage)
+    PLAINTEXT_CONTENT = 8;  // legacyMessage => [] AND content => (marker byte | Content)
+  }
+
+  optional Type type = 1;
+  reserved 2; // formerly optional string sourceE164 = 2;
+  optional string sourceServiceId = 11;
+  optional uint32 sourceDevice = 7;
+  optional string destinationServiceId = 13;
+  reserved 3;  // formerly optional string relay = 3;
+  optional uint64 timestamp = 5;
+  reserved 6;  // formerly optional bytes legacyMessage = 6; // Contains an encrypted DataMessage; this field could have been set historically for type 1 or 3 messages; no longer in use
+  optional bytes content = 8; // Contains an encrypted Content
+  optional string serverGuid = 9;
+  optional uint64 serverTimestamp = 10;
+  optional bool ephemeral = 12; // indicates that the message should not be persisted if the recipient is offline
+  optional bool urgent = 14 [default = true];  // indicates that the content is considered timely by the sender; defaults to true so senders have to opt-out to say something isn't time critical
+  optional string updatedPni = 15; // for number-change synchronization messages, provides the new server-assigned phone number identifier associated with the changed number
+  optional bool story = 16;  // indicates that the content is a story.
+  optional bytes report_spam_token = 17; // token sent when reporting spam
+  reserved 18;  // internal server use
+  // next: 19
+}

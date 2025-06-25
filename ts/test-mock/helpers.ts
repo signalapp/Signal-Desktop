@@ -129,11 +129,11 @@ function maybeWrapInSyncMessage({
     ? {
         syncMessage: {
           sent: {
-            destinationServiceId: getDevice(to).aci,
+            destinationServiceIdBinary: getDevice(to).aciBinary,
             message: dataMessage,
             timestamp: dataMessage.timestamp,
             unidentifiedStatus: (sentTo ?? [to]).map(contact => ({
-              destinationServiceId: getDevice(contact).aci,
+              destinationServiceIdBinary: getDevice(contact).aciBinary,
               destination: getDevice(contact).number,
             })),
           },
@@ -222,7 +222,7 @@ export function sendReaction({
         timestamp: Long.fromNumber(reactionTimestamp),
         reaction: {
           emoji,
-          targetAuthorAci: getDevice(targetAuthor).aci,
+          targetAuthorAciBinary: getDevice(targetAuthor).aciRawUuid,
           targetSentTimestamp: Long.fromNumber(targetMessageTimestamp),
         },
       },

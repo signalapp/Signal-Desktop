@@ -3,7 +3,7 @@
 
 /* eslint-disable max-classes-per-file */
 
-import * as client from '@signalapp/libsignal-client';
+import { PublicKey, Aci, Pni } from '@signalapp/libsignal-client';
 import type { KeyPairType } from './Types.d';
 import * as Bytes from '../Bytes';
 import {
@@ -15,13 +15,23 @@ import { calculateAgreement, createKeyPair, generateKeyPair } from '../Curve';
 import { SignalService as Proto } from '../protobuf';
 import { strictAssert } from '../util/assert';
 import { dropNull } from '../util/dropNull';
+import { normalizeAci } from '../util/normalizeAci';
+import {
+  type AciString,
+  type PniString,
+  normalizePni,
+  toTaggedPni,
+  isUntaggedPniString,
+  fromAciObject,
+  fromPniObject,
+} from '../types/ServiceId';
 
 export type ProvisionDecryptResult = Readonly<{
   aciKeyPair: KeyPairType;
   pniKeyPair?: KeyPairType;
   number?: string;
-  aci?: string;
-  untaggedPni?: string;
+  aci: AciString;
+  pni: PniString;
   provisioningCode?: string;
   userAgent?: string;
   readReceipts?: boolean;
@@ -57,7 +67,7 @@ class ProvisioningCipherInner {
     }
 
     const ecRes = calculateAgreement(
-      client.PublicKey.deserialize(Buffer.from(masterEphemeral)),
+      PublicKey.deserialize(Buffer.from(masterEphemeral)),
       this.keyPair.privateKey
     );
     const keys = deriveSecrets(
@@ -78,16 +88,36 @@ class ProvisioningCipherInner {
       ? createKeyPair(pniPrivKey)
       : undefined;
 
-    const { aci, pni } = provisionMessage;
-    strictAssert(aci, 'Missing aci in provisioning message');
-    strictAssert(pni, 'Missing pni in provisioning message');
+    const {
+      aci: rawAci,
+      pni: rawUntaggedPni,
+      aciBinary,
+      pniBinary,
+    } = provisionMessage;
+
+    let aci: AciString;
+    let pni: PniString;
+    if (Bytes.isNotEmpty(aciBinary) && Bytes.isNotEmpty(pniBinary)) {
+      aci = fromAciObject(Aci.fromUuidBytes(aciBinary));
+      pni = fromPniObject(Pni.fromUuidBytes(pniBinary));
+    } else if (rawAci && rawUntaggedPni) {
+      strictAssert(
+        isUntaggedPniString(rawUntaggedPni),
+        'ProvisioningCipher: invalid untaggedPni'
+      );
+
+      aci = normalizeAci(rawAci, 'provisionMessage.aci');
+      pni = normalizePni(toTaggedPni(rawUntaggedPni), 'provisionMessage.pni');
+    } else {
+      throw new Error('Missing aci/pni in provisioning message');
+    }
 
     return {
       aciKeyPair,
       pniKeyPair,
       number: dropNull(provisionMessage.number),
       aci,
-      untaggedPni: pni,
+      pni,
       provisioningCode: dropNull(provisionMessage.provisioningCode),
       userAgent: dropNull(provisionMessage.userAgent),
       readReceipts: provisionMessage.readReceipts ?? false,
@@ -107,7 +137,7 @@ class ProvisioningCipherInner {
     };
   }
 
-  getPublicKey(): client.PublicKey {
+  getPublicKey(): PublicKey {
     if (!this.keyPair) {
       this.keyPair = generateKeyPair();
     }
@@ -132,5 +162,5 @@ export default class ProvisioningCipher {
     provisionEnvelope: Proto.ProvisionEnvelope
   ) => ProvisionDecryptResult;
 
-  getPublicKey: () => client.PublicKey;
+  getPublicKey: () => PublicKey;
 }

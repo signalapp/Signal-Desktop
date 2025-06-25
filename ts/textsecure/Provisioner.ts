@@ -6,18 +6,12 @@ import pTimeout, { TimeoutError as PTimeoutError } from 'p-timeout';
 import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
 import { MAX_DEVICE_NAME_LENGTH } from '../types/InstallScreen';
-import {
-  isUntaggedPniString,
-  normalizePni,
-  toTaggedPni,
-} from '../types/ServiceId';
 import { strictAssert } from '../util/assert';
 import { BackOff, FIBONACCI_TIMEOUTS } from '../util/BackOff';
 import { SECOND } from '../util/durations';
 import { explodePromise } from '../util/explodePromise';
 import { drop } from '../util/drop';
 import { isLinkAndSyncEnabled } from '../util/isLinkAndSyncEnabled';
-import { normalizeAci } from '../util/normalizeAci';
 import { normalizeDeviceName } from '../util/normalizeDeviceName';
 import { linkDeviceRoute } from '../util/signalRoutes';
 import { sleep } from '../util/sleep';
@@ -156,10 +150,10 @@ export class Provisioner {
       provisioningCode,
       aciKeyPair,
       pniKeyPair,
-      aci,
+      aci: ourAci,
       profileKey,
       masterKey,
-      untaggedPni,
+      pni: ourPni,
       userAgent,
       readReceipts,
       ephemeralBackupKey,
@@ -171,7 +165,6 @@ export class Provisioner {
     strictAssert(provisioningCode, 'prepareLinkData: missing provisioningCode');
     strictAssert(aciKeyPair, 'prepareLinkData: missing aciKeyPair');
     strictAssert(pniKeyPair, 'prepareLinkData: missing pniKeyPair');
-    strictAssert(aci, 'prepareLinkData: missing aci');
     strictAssert(
       Bytes.isNotEmpty(profileKey),
       'prepareLinkData: missing profileKey'
@@ -179,16 +172,6 @@ export class Provisioner {
     strictAssert(
       Bytes.isNotEmpty(masterKey) || accountEntropyPool,
       'prepareLinkData: missing masterKey or accountEntropyPool'
-    );
-    strictAssert(
-      isUntaggedPniString(untaggedPni),
-      'prepareLinkData: invalid untaggedPni'
-    );
-
-    const ourAci = normalizeAci(aci, 'provisionMessage.aci');
-    const ourPni = normalizePni(
-      toTaggedPni(untaggedPni),
-      'provisionMessage.pni'
     );
 
     return {
@@ -363,11 +346,14 @@ export class Provisioner {
                 'Provisioner.connect: duplicate uuid'
               );
 
-              const proto = Proto.ProvisioningUuid.decode(body);
-              strictAssert(proto.uuid, 'Provisioner.connect: expected a UUID');
+              const proto = Proto.ProvisioningAddress.decode(body);
+              strictAssert(
+                proto.address,
+                'Provisioner.connect: expected a UUID'
+              );
 
               state = SocketState.WaitingForEnvelope;
-              uuidPromise.resolve(proto.uuid);
+              uuidPromise.resolve(proto.address);
               request.respond(200, 'OK');
             } else if (requestType === ServerRequestType.ProvisioningMessage) {
               strictAssert(

@@ -62,9 +62,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
 
     const openConvo = async (contact: PrimaryDevice): Promise<void> => {
       debug('opening conversation', contact.profileName);
-      const item = leftPane.locator(
-        `[data-testid="${contact.toContact().aci}"]`
-      );
+      const item = leftPane.locator(`[data-testid="${contact.device.aci}"]`);
 
       await item.click();
     };

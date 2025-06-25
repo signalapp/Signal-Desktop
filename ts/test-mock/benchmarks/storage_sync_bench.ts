@@ -49,9 +49,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
 
   const leftPane = window.locator('#LeftPane');
 
-  const item = leftPane.locator(
-    `[data-testid="${lastContact?.toContact().aci}"]`
-  );
+  const item = leftPane.locator(`[data-testid="${lastContact?.device.aci}"]`);
   await item.waitFor();
 
   const duration = Date.now() - start;

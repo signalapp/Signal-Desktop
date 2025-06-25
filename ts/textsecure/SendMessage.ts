@@ -10,7 +10,6 @@ import PQueue from 'p-queue';
 import pMap from 'p-map';
 import type { PlaintextContent } from '@signalapp/libsignal-client';
 import {
-  Pni,
   ProtocolAddress,
   SenderKeyDistributionMessage,
 } from '@signalapp/libsignal-client';
@@ -33,6 +32,7 @@ import {
   serviceIdSchema,
   isPniString,
 } from '../types/ServiceId';
+import { toAciObject, toPniObject, toServiceIdObject } from '../util/ServiceId';
 import type {
   ChallengeType,
   GetGroupLogOptionsType,
@@ -100,6 +100,7 @@ import {
   getProtoForCallHistory,
 } from '../util/callDisposition';
 import { MAX_MESSAGE_COUNT } from '../util/deleteForMe.types';
+import { isProtoBinaryEncodingEnabled } from '../util/isProtoBinaryEncodingEnabled';
 import type { GroupSendToken } from '../types/GroupSendEndorsements';
 
 const log = createLogger('SendMessage');
@@ -415,6 +416,11 @@ class Message {
       proto.reaction.emoji = this.reaction.emoji || null;
       proto.reaction.remove = this.reaction.remove || false;
       proto.reaction.targetAuthorAci = this.reaction.targetAuthorAci || null;
+      if (isProtoBinaryEncodingEnabled()) {
+        proto.reaction.targetAuthorAciBinary = this.reaction.targetAuthorAci
+          ? toAciObject(this.reaction.targetAuthorAci).getRawUuidBytes()
+          : null;
+      }
       proto.reaction.targetSentTimestamp =
         this.reaction.targetTimestamp === undefined
           ? null
@@ -520,6 +526,11 @@ class Message {
       quote.id =
         this.quote.id === undefined ? null : Long.fromNumber(this.quote.id);
       quote.authorAci = this.quote.authorAci || null;
+      if (isProtoBinaryEncodingEnabled()) {
+        quote.authorAciBinary = this.quote.authorAci
+          ? toAciObject(this.quote.authorAci).getRawUuidBytes()
+          : null;
+      }
       quote.text = this.quote.text || null;
       quote.attachments = this.quote.attachments.slice() || [];
       const bodyRanges = this.quote.bodyRanges || [];
@@ -529,6 +540,11 @@ class Message {
         bodyRange.length = range.length;
         if (BodyRange.isMention(range)) {
           bodyRange.mentionAci = range.mentionAci;
+          if (isProtoBinaryEncodingEnabled()) {
+            bodyRange.mentionAciBinary = toAciObject(
+              range.mentionAci
+            ).getRawUuidBytes();
+          }
         } else if (BodyRange.isFormatting(range)) {
           bodyRange.style = range.style;
         } else {
@@ -599,6 +615,11 @@ class Message {
       const storyContext = new StoryContext();
       if (this.storyContext.authorAci) {
         storyContext.authorAci = this.storyContext.authorAci;
+        if (isProtoBinaryEncodingEnabled()) {
+          storyContext.authorAciBinary = toAciObject(
+            this.storyContext.authorAci
+          ).getRawUuidBytes();
+        }
       }
       storyContext.sentTimestamp = Long.fromNumber(this.storyContext.timestamp);
 
@@ -637,9 +658,7 @@ function addPniSignatureMessageToProto({
 
   // eslint-disable-next-line no-param-reassign
   proto.pniSignatureMessage = {
-    pni: Pni.parseFromServiceIdString(
-      pniSignatureMessage.pni
-    ).getRawUuidBytes(),
+    pni: toPniObject(pniSignatureMessage.pni).getRawUuidBytes(),
     signature: pniSignatureMessage.signature,
   };
 }
@@ -1300,6 +1319,10 @@ export default class MessageSender {
     }
     if (destinationServiceId) {
       sentMessage.destinationServiceId = destinationServiceId;
+      if (isProtoBinaryEncodingEnabled()) {
+        sentMessage.destinationServiceIdBinary =
+          toServiceIdObject(destinationServiceId).getServiceIdBinary();
+      }
     }
     if (expirationStartTimestamp) {
       sentMessage.expirationStartTimestamp = Long.fromNumber(
@@ -1330,6 +1353,10 @@ export default class MessageSender {
             const serviceId = conv.getServiceId();
             if (serviceId) {
               status.destinationServiceId = serviceId;
+              if (isProtoBinaryEncodingEnabled()) {
+                status.destinationServiceIdBinary =
+                  toServiceIdObject(serviceId).getServiceIdBinary();
+              }
             }
             if (isPniString(serviceId)) {
               const pniIdentityKey =
@@ -1801,7 +1828,11 @@ export default class MessageSender {
     const syncMessage = MessageSender.createSyncMessage();
 
     const viewOnceOpen = new Proto.SyncMessage.ViewOnceOpen();
-    viewOnceOpen.senderAci = senderAci;
+    if (isProtoBinaryEncodingEnabled()) {
+      viewOnceOpen.senderAciBinary = toAciObject(senderAci).getRawUuidBytes();
+    } else {
+      viewOnceOpen.senderAci = senderAci;
+    }
     viewOnceOpen.timestamp = Long.fromNumber(timestamp);
     syncMessage.viewOnceOpen = viewOnceOpen;
 
@@ -1823,7 +1854,7 @@ export default class MessageSender {
   static getBlockSync(
     options: Readonly<{
       e164s: Array<string>;
-      acis: Array<string>;
+      acis: Array<AciString>;
       groupIds: Array<Uint8Array>;
     }>
   ): SingleProtoJobData {
@@ -1833,7 +1864,13 @@ export default class MessageSender {
 
     const blocked = new Proto.SyncMessage.Blocked();
     blocked.numbers = options.e164s;
-    blocked.acis = options.acis;
+    if (isProtoBinaryEncodingEnabled()) {
+      blocked.acisBinary = options.acis.map(aci =>
+        toAciObject(aci).getRawUuidBytes()
+      );
+    } else {
+      blocked.acis = options.acis;
+    }
     blocked.groupIds = options.groupIds;
     syncMessage.blocked = blocked;
 
@@ -1867,7 +1904,13 @@ export default class MessageSender {
 
     const response = new Proto.SyncMessage.MessageRequestResponse();
     if (options.threadAci !== undefined) {
-      response.threadAci = options.threadAci;
+      if (isProtoBinaryEncodingEnabled()) {
+        response.threadAciBinary = toAciObject(
+          options.threadAci
+        ).getRawUuidBytes();
+      } else {
+        response.threadAci = options.threadAci;
+      }
     }
     if (options.groupId) {
       response.groupId = options.groupId;
@@ -1950,7 +1993,12 @@ export default class MessageSender {
     const verified = new Proto.Verified();
     verified.state = state;
     if (destinationAci) {
-      verified.destinationAci = destinationAci;
+      if (isProtoBinaryEncodingEnabled()) {
+        verified.destinationAciBinary =
+          toAciObject(destinationAci).getRawUuidBytes();
+      } else {
+        verified.destinationAci = destinationAci;
+      }
     }
     verified.identityKey = identityKey;
     verified.nullMessage = padding;
@@ -2501,11 +2549,23 @@ function toAddressableMessage(message: AddressableMessage) {
   targetMessage.sentTimestamp = Long.fromNumber(message.sentAt);
 
   if (message.type === 'aci') {
-    targetMessage.authorServiceId = message.authorAci;
+    if (isProtoBinaryEncodingEnabled()) {
+      targetMessage.authorServiceIdBinary = toAciObject(
+        message.authorAci
+      ).getServiceIdBinary();
+    } else {
+      targetMessage.authorServiceId = message.authorAci;
+    }
   } else if (message.type === 'e164') {
     targetMessage.authorE164 = message.authorE164;
   } else if (message.type === 'pni') {
-    targetMessage.authorServiceId = message.authorPni;
+    if (isProtoBinaryEncodingEnabled()) {
+      targetMessage.authorServiceIdBinary = toPniObject(
+        message.authorPni
+      ).getServiceIdBinary();
+    } else {
+      targetMessage.authorServiceId = message.authorPni;
+    }
   } else {
     throw missingCaseError(message);
   }
@@ -2517,9 +2577,21 @@ function toConversationIdentifier(conversation: ConversationIdentifier) {
   const targetConversation = new Proto.ConversationIdentifier();
 
   if (conversation.type === 'aci') {
-    targetConversation.threadServiceId = conversation.aci;
+    if (isProtoBinaryEncodingEnabled()) {
+      targetConversation.threadServiceIdBinary = toAciObject(
+        conversation.aci
+      ).getServiceIdBinary();
+    } else {
+      targetConversation.threadServiceId = conversation.aci;
+    }
   } else if (conversation.type === 'pni') {
-    targetConversation.threadServiceId = conversation.pni;
+    if (isProtoBinaryEncodingEnabled()) {
+      targetConversation.threadServiceIdBinary = toPniObject(
+        conversation.pni
+      ).getServiceIdBinary();
+    } else {
+      targetConversation.threadServiceId = conversation.pni;
+    }
   } else if (conversation.type === 'group') {
     targetConversation.threadGroupId = Bytes.fromBase64(conversation.groupId);
   } else if (conversation.type === 'e164') {

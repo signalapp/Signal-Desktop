@@ -54,7 +54,7 @@ import { DurationInSeconds } from '../util/durations';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
 import { normalizeStoryDistributionId } from '../types/StoryDistributionId';
-import type { ServiceIdString } from '../types/ServiceId';
+import type { ServiceIdString, AciString } from '../types/ServiceId';
 import {
   fromPniObject,
   isPniString,
@@ -159,6 +159,12 @@ import { checkOurPniIdentityKey } from '../util/checkOurPniIdentityKey';
 import { CallLinkUpdateSyncType } from '../types/CallLink';
 import { bytesToUuid } from '../util/uuidToBytes';
 import { isBodyTooLong } from '../util/longAttachment';
+import {
+  fromServiceIdBinaryOrString,
+  fromAciUuidBytes,
+  fromAciUuidBytesOrString,
+  fromPniUuidBytesOrUntaggedString,
+} from '../util/ServiceId';
 
 const log = createLogger('MessageReceiver');
 
@@ -415,27 +421,24 @@ export default class MessageReceiver
           // Proto.Envelope fields
           type: decoded.type ?? Proto.Envelope.Type.UNKNOWN,
           source: undefined,
-          sourceServiceId: decoded.sourceServiceId
-            ? normalizeServiceId(
-                decoded.sourceServiceId,
-                'MessageReceiver.handleRequest.sourceServiceId'
-              )
-            : undefined,
-          sourceDevice: decoded.sourceDevice ?? 1,
-          destinationServiceId: decoded.destinationServiceId
-            ? normalizeServiceId(
-                decoded.destinationServiceId,
-                'MessageReceiver.handleRequest.destinationServiceId'
-              )
-            : ourAci,
-          updatedPni:
-            decoded.updatedPni && isUntaggedPniString(decoded.updatedPni)
-              ? normalizePni(
-                  toTaggedPni(decoded.updatedPni),
-                  'MessageReceiver.handleRequest.updatedPni'
-                )
-              : undefined,
-          timestamp: decoded.timestamp?.toNumber() ?? 0,
+          sourceServiceId: fromServiceIdBinaryOrString(
+            decoded.sourceServiceIdBinary,
+            decoded.sourceServiceId,
+            'MessageReceiver.handleRequest.sourceServiceId'
+          ),
+          sourceDevice: decoded.sourceDeviceId ?? 1,
+          destinationServiceId:
+            fromServiceIdBinaryOrString(
+              decoded.destinationServiceIdBinary,
+              decoded.destinationServiceId,
+              'MessageReceiver.handleRequest.destinationServiceId'
+            ) || ourAci,
+          updatedPni: fromPniUuidBytesOrUntaggedString(
+            decoded.updatedPniBinary,
+            decoded.updatedPni,
+            'MessageReceiver.handleRequest.updatedPni'
+          ),
+          timestamp: decoded.clientTimestamp?.toNumber() ?? 0,
           content,
           serverGuid: decoded.serverGuid ?? getGuid(),
           serverTimestamp,
@@ -1828,7 +1831,7 @@ export default class MessageReceiver
 
     if (
       serviceIdKind === ServiceIdKind.PNI &&
-      envelope.type !== envelopeTypeEnum.PREKEY_BUNDLE
+      envelope.type !== envelopeTypeEnum.PREKEY_MESSAGE
     ) {
       log.warn(`innerDecrypt(${logId}): non-PreKey envelope on PNI`);
       return undefined;
@@ -1850,7 +1853,7 @@ export default class MessageReceiver
         wasEncrypted: false,
       };
     }
-    if (envelope.type === envelopeTypeEnum.CIPHERTEXT) {
+    if (envelope.type === envelopeTypeEnum.DOUBLE_RATCHET) {
       log.info(`decrypt/${logId}: ciphertext message`);
       if (!identifier) {
         throw new Error(
@@ -1879,7 +1882,7 @@ export default class MessageReceiver
       );
       return { plaintext, wasEncrypted: true };
     }
-    if (envelope.type === envelopeTypeEnum.PREKEY_BUNDLE) {
+    if (envelope.type === envelopeTypeEnum.PREKEY_MESSAGE) {
       log.info(`decrypt/${logId}: prekey message`);
       if (!identifier) {
         throw new Error(
@@ -3180,9 +3183,11 @@ export default class MessageReceiver
 
     const ev = new ViewOnceOpenSyncEvent(
       {
-        sourceAci: sync.senderAci
-          ? normalizeAci(sync.senderAci, 'handleViewOnceOpen.senderUuid')
-          : undefined,
+        sourceAci: fromAciUuidBytesOrString(
+          sync.senderAciBinary,
+          sync.senderAci,
+          'handleViewOnceOpen.senderUuid'
+        ),
         timestamp: sync.timestamp?.toNumber(),
       },
       this.#removeFromCache.bind(this, envelope)
@@ -3216,12 +3221,11 @@ export default class MessageReceiver
     const ev = new MessageRequestResponseEvent(
       {
         envelopeId: envelope.id,
-        threadAci: sync.threadAci
-          ? normalizeAci(
-              sync.threadAci,
-              'handleMessageRequestResponse.threadUuid'
-            )
-          : undefined,
+        threadAci: fromAciUuidBytesOrString(
+          sync.threadAciBinary,
+          sync.threadAci,
+          'handleMessageRequestResponse.threadUuid'
+        ),
         messageRequestResponseType: sync.type,
         groupV2Id: groupV2IdString,
       },
@@ -3357,16 +3361,20 @@ export default class MessageReceiver
 
     logUnexpectedUrgentValue(envelope, 'readSync');
 
-    const reads = read.map(
-      ({ timestamp, senderAci }): ReadSyncEventData => ({
+    const reads = read.map((data): ReadSyncEventData => {
+      const { timestamp, senderAci: rawSenderAci, senderAciBinary } = data;
+
+      return {
         envelopeId: envelope.id,
         envelopeTimestamp: envelope.timestamp,
         timestamp: timestamp?.toNumber(),
-        senderAci: senderAci
-          ? normalizeAci(senderAci, 'handleRead.senderAci')
-          : undefined,
-      })
-    );
+        senderAci: fromAciUuidBytesOrString(
+          senderAciBinary,
+          rawSenderAci,
+          'handleRead.senderAci'
+        ),
+      };
+    });
 
     await this.#dispatchAndWait(
       logId,
@@ -3388,14 +3396,18 @@ export default class MessageReceiver
 
     logUnexpectedUrgentValue(envelope, 'viewSync');
 
-    const views = viewed.map(
-      ({ timestamp, senderAci }): ViewSyncEventData => ({
+    const views = viewed.map((data): ViewSyncEventData => {
+      const { timestamp, senderAci: rawSenderAci, senderAciBinary } = data;
+
+      return {
         timestamp: timestamp?.toNumber(),
-        senderAci: senderAci
-          ? normalizeAci(senderAci, 'handleViewed.senderAci')
-          : undefined,
-      })
-    );
+        senderAci: fromAciUuidBytesOrString(
+          senderAciBinary,
+          rawSenderAci,
+          'handleViewed.senderAci'
+        ),
+      };
+    });
 
     await this.#dispatchAndWait(
       logId,
@@ -3879,21 +3891,40 @@ export default class MessageReceiver
       log.info(`${logId}: New e164 unblocks:`, removed);
       await this.#storage.put('blocked', blocked.numbers);
     }
-    if (blocked.acis) {
+    if (blocked.acisBinary?.length || blocked.acis?.length) {
       const previous = this.#storage.get('blocked-uuids', []);
-      const acis = blocked.acis
-        .map((aci, index) => {
-          try {
-            return normalizeAci(aci, `handleBlocked.acis.${index}`);
-          } catch (error) {
-            log.warn(
-              `${logId}: ACI ${aci} was malformed`,
-              Errors.toLogFormat(error)
-            );
-            return undefined;
-          }
-        })
-        .filter(isNotNil);
+      let acis: Array<AciString>;
+      if (blocked.acisBinary?.length) {
+        acis = blocked.acisBinary
+          .map((aciBinary, index) => {
+            try {
+              return fromAciUuidBytes(aciBinary);
+            } catch (error) {
+              log.warn(
+                `${logId}: ACI ${index} was malformed`,
+                Errors.toLogFormat(error)
+              );
+              return undefined;
+            }
+          })
+          .filter(isNotNil);
+      } else if (blocked.acis?.length) {
+        acis = blocked.acis
+          .map((aci, index) => {
+            try {
+              return normalizeAci(aci, `handleBlocked.acis.${index}`);
+            } catch (error) {
+              log.warn(
+                `${logId}: ACI ${aci} was malformed`,
+                Errors.toLogFormat(error)
+              );
+              return undefined;
+            }
+          })
+          .filter(isNotNil);
+      } else {
+        throw new Error('No blocked acis');
+      }
 
       const { added, removed } = diffArraysAsSets(previous, acis);
       if (added.length) {
@@ -4004,13 +4035,13 @@ export default class MessageReceiver
 function envelopeTypeToCiphertextType(type: number | undefined): number {
   const { Type } = Proto.Envelope;
 
-  if (type === Type.CIPHERTEXT) {
+  if (type === Type.DOUBLE_RATCHET) {
     return CiphertextMessageType.Whisper;
   }
   if (type === Type.PLAINTEXT_CONTENT) {
     return CiphertextMessageType.Plaintext;
   }
-  if (type === Type.PREKEY_BUNDLE) {
+  if (type === Type.PREKEY_MESSAGE) {
     return CiphertextMessageType.PreKey;
   }
   if (type === Type.SERVER_DELIVERY_RECEIPT) {
@@ -4042,25 +4073,26 @@ function processAddressableMessage(
     return undefined;
   }
 
-  const { authorServiceId } = target;
+  const { authorServiceId: rawAuthorServiceId, authorServiceIdBinary } = target;
+
+  const authorServiceId = fromServiceIdBinaryOrString(
+    authorServiceIdBinary,
+    rawAuthorServiceId,
+    logId
+  );
+
   if (authorServiceId) {
     if (isAciString(authorServiceId)) {
       return {
         type: 'aci' as const,
-        authorAci: normalizeAci(
-          authorServiceId,
-          `${logId}/processAddressableMessage/aci`
-        ),
+        authorAci: authorServiceId,
         sentAt,
       };
     }
     if (isPniString(authorServiceId)) {
       return {
         type: 'pni' as const,
-        authorPni: normalizePni(
-          authorServiceId,
-          `${logId}/processAddressableMessage/pni`
-        ),
+        authorPni: authorServiceId,
         sentAt,
       };
     }
@@ -4087,19 +4119,30 @@ function processConversationIdentifier(
   target: Proto.IConversationIdentifier,
   logId: string
 ): ConversationIdentifier | undefined {
-  const { threadServiceId, threadGroupId, threadE164 } = target;
+  const {
+    threadServiceId: rawThreadServiceId,
+    threadServiceIdBinary,
+    threadGroupId,
+    threadE164,
+  } = target;
+
+  const threadServiceId = fromServiceIdBinaryOrString(
+    threadServiceIdBinary,
+    rawThreadServiceId,
+    logId
+  );
 
   if (threadServiceId) {
     if (isAciString(threadServiceId)) {
       return {
         type: 'aci' as const,
-        aci: normalizeAci(threadServiceId, `${logId}/aci`),
+        aci: threadServiceId,
       };
     }
     if (isPniString(threadServiceId)) {
       return {
         type: 'pni' as const,
-        pni: normalizePni(threadServiceId, `${logId}/pni`),
+        pni: threadServiceId,
       };
     }
     log.error(

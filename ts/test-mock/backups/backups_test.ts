@@ -106,7 +106,7 @@ describe('backups', function (this: Mocha.Suite) {
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: true,
           name: MY_STORY_ID,
-          recipientServiceIds: [pinned.device.aci],
+          recipientServiceIdsBinary: [pinned.device.aciBinary],
         },
       },
     });
@@ -119,7 +119,7 @@ describe('backups', function (this: Mocha.Suite) {
           identifier: uuidToBytes(DISTRIBUTION1),
           isBlockList: false,
           name: 'friend',
-          recipientServiceIds: [friend.device.aci],
+          recipientServiceIdsBinary: [friend.device.aciBinary],
         },
       },
     });
@@ -262,14 +262,14 @@ describe('backups', function (this: Mocha.Suite) {
       async (window, snapshot) => {
         const leftPane = window.locator('#LeftPane');
         const pinnedElem = leftPane.locator(
-          `[data-testid="${pinned.toContact().aci}"] >> "cat photo"`
+          `[data-testid="${pinned.device.aci}"] >> "cat photo"`
         );
 
         debug('Waiting for messages to pinned contact to come through');
         await pinnedElem.click();
 
         const contactElem = leftPane.locator(
-          `[data-testid="${friend.toContact().aci}"] >> "respond 4"`
+          `[data-testid="${friend.device.aci}"] >> "respond 4"`
         );
 
         debug('Waiting for messages to regular contact to come through');
