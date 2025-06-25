@@ -5082,7 +5082,7 @@
     "messageformat": "Signali varukoopiad"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automaatsed varukoopiad Signali turvalise otspunktkrüptitud salvestusteenuse abil. Seadista telefonis. <learnMoreLink>Rohkem teavet.</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Varunda oma sõnumiajalugu, et mitte kaotada andmeid, kui telefoni välja vahetad ja Signali uuesti paigaldad."
@@ -6476,6 +6476,6 @@
     "messageformat": "Sõnumi reaktsioonide valija uues väljas kuvatakse automaatselt kõik emoji-reaktsioonid, mis sõnumile on antud."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Linuxi jõudluse parendused."
   }
 }

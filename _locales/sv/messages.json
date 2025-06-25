@@ -5082,7 +5082,7 @@
     "messageformat": "Säkerhetskopiering av Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatiska säkerhetskopieringar med Signals säkra totalsträckskrypterade lagringstjänst. Kom igång på din telefon. <learnMoreLink>Läs mer.</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Säkerhetskopiera din meddelandehistorik så att du aldrig förlorar data när du skaffar en ny telefon eller installerar om Signal."
@@ -6476,6 +6476,6 @@
     "messageformat": "En ny sektion i väljaren för meddelande-reaktioner visar automatiskt alla emoji-reaktioner som ett meddelande har fått."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Prestandaförbättringar för Linux."
   }
 }

@@ -42,7 +42,7 @@
     "messageformat": "고품질 미디어는 더 많은 모바일 데이터를 사용할 수 있습니다."
   },
   "icu:Preferences__DonateTitle": {
-    "messageformat": "Signal에 후원"
+    "messageformat": "Signal에 기부"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "기본"
@@ -4980,7 +4980,7 @@
     "messageformat": "일반 설정"
   },
   "icu:Preferences__button--donate": {
-    "messageformat": "Signal에 후원"
+    "messageformat": "Signal에 기부"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "모양"
@@ -5082,7 +5082,7 @@
     "messageformat": "Signal 백업"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Signal의 안전한 엔드투엔드 암호화 저장소 서비스를 사용하는 자동 백업. 휴대폰으로 시작해 보세요. <learnMoreLink>자세히 알아보기.</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "새 휴대폰을 사용하거나 Signal을 다시 설치할 때 데이터를 잃지 않도록 메시지 기록을 백업하세요."
@@ -6476,6 +6476,6 @@
     "messageformat": "메시지 반응 선택기의 새로운 섹션에 메시지가 받은 모든 이모지 반응이 자동으로 표시됩니다."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Linux 성능 개선 사항."
   }
 }

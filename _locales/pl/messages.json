@@ -102,7 +102,7 @@
     "messageformat": "Nie można uzyskać dostępu do klucza szyfrowania bazy danych, ponieważ zaplecze pęku kluczy szyfrowania systemu operacyjnego zostało zmienione z {previousBackend} na {currentBackend}. Może się to zdarzyć, jeśli środowisko graficzne zmieniło się z GNOME na KDE lub na odwrót.\n\nPrzełącz się na poprzednie środowisko graficzne."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Nie można uzyskać dostępu do klucza szyfrowania bazy danych, ponieważ zaplecze pęku kluczy szyfrowania systemu operacyjnego zostało zmienione z {previousBackend} na {currentBackend}.Może się to zdarzyć, jeśli środowisko graficzne zmieniło się z GNOME na KDE lub na odwrót.\n\nPrzełącz się na poprzednie środowisko graficzne lub spróbuj uruchomić Signal z flagą wiersza poleceń --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Nie można uzyskać dostępu do klucza szyfrowania bazy danych, ponieważ zaplecze pęku kluczy szyfrowania systemu operacyjnego zostało zmienione z {previousBackend} na {currentBackend}. Może się to zdarzyć, jeśli środowisko graficzne zmieniło się z GNOME na KDE lub na odwrót.\n\nPrzełącz się na poprzednie środowisko graficzne lub spróbuj uruchomić Signal z flagą wiersza poleceń --password-store=\"{previousBackendFlag}\""
   },
   "icu:mainMenuFile": {
     "messageformat": "&Plik"
@@ -240,13 +240,13 @@
     "messageformat": "Czaty"
   },
   "icu:LeftPane--corrupted-username--text": {
-    "messageformat": "Coś poszło nie tak z Twoją nazwą użytkownika. Nie jest już przypisana do Twojego konta. Możesz spróbować ustawić tę samą nazwę ponownie lub wybrać nową."
+    "messageformat": "Coś poszło nie tak z Twoją nazwą użytkownika – nie jest już przypisana do Twojego konta. Możesz spróbować ustawić tę samą nazwę ponownie lub wybrać nową."
   },
   "icu:LeftPane--corrupted-username--action-text": {
     "messageformat": "Zrób to teraz"
   },
   "icu:LeftPane--corrupted-username-link--text": {
-    "messageformat": "Coś poszło nie tak z kodem QR i linkiem do udostępniania Twojej nazwy użytkownika. Przestały one działać. Utwórz nowy link, aby udostępniać go innym."
+    "messageformat": "Coś poszło nie tak z kodem QR i linkiem do udostępniania Twojej nazwy użytkownika – przestały one działać. Utwórz nowy link, aby udostępniać go innym."
   },
   "icu:LeftPane--corrupted-username-link--action-text": {
     "messageformat": "Zrób to teraz"
@@ -291,7 +291,7 @@
     "messageformat": "Liczba nieodczytanych wiadomości: {count,number}"
   },
   "icu:NavTabs__ItemIconLabel--MarkedUnread": {
-    "messageformat": "Oznaczono jako nieprzeczytane"
+    "messageformat": "Oznaczono jako nieodczytane"
   },
   "icu:NavTabs__ItemLabel--Chats": {
     "messageformat": "Czaty"
@@ -366,7 +366,7 @@
     "messageformat": "Usunąć ten kontakt: {title}?"
   },
   "icu:ContactListItem__remove--body": {
-    "messageformat": "Ta osoba nie wyświetli się już podczas wyszukiwania. Jeśli w przyszłości wyśle Ci wiadomość, otrzymasz prośbę o kontakt."
+    "messageformat": "Ta osoba nie wyświetli się już w wynikach wyszukiwania. Jeśli w przyszłości wyśle Ci wiadomość, otrzymasz prośbę o kontakt."
   },
   "icu:ContactListItem__remove--confirm": {
     "messageformat": "Usuń"
@@ -390,7 +390,7 @@
     "messageformat": "Możesz przypiąć maksymalnie 4 czaty"
   },
   "icu:loadingMessages--other": {
-    "messageformat": "{daysAgo, plural, one {Wczytywanie wiadomości sprzed 1 dnia…} few {Wczytywanie wiadomości sprzed {daysAgo,number} dni…} many {Wczytywanie wiadomości sprzed {daysAgo,number} dni…} other {Wczytywanie wiadomości sprzed {daysAgo,number} dnia…}}"
+    "messageformat": "{daysAgo, plural, one {Wczytywanie wiadomości sprzed {daysAgo,number} dnia…} few {Wczytywanie wiadomości sprzed {daysAgo,number} dni…} many {Wczytywanie wiadomości sprzed {daysAgo,number} dni…} other {Wczytywanie wiadomości sprzed {daysAgo,number} dnia…}}"
   },
   "icu:loadingMessages--yesterday": {
     "messageformat": "Wczytywanie wiadomości z wczoraj…"
@@ -444,13 +444,13 @@
     "messageformat": "Sprawdź"
   },
   "icu:safetyNumberChangeDialog__many-contacts": {
-    "messageformat": "{count, plural, one {Wśród Twoich kontaktów jest {count,number} osoba, która mogła ponownie zainstalować aplikację Signal albo zmienić urządzenie na inne. Zanim wyślesz wiadomość, możesz opcjonalnie zweryfikować numer bezpieczeństwa tej osoby.} few {Wśród Twoich kontaktów są {count,number} osoby, które mogły ponownie zainstalować aplikację Signal albo zmienić urządzenie na inne. Zanim wyślesz wiadomość, możesz opcjonalnie zweryfikować numery bezpieczeństwa tych osób.} many {Wśród Twoich kontaktów jest {count,number} osób, które mogły ponownie zainstalować aplikację Signal albo zmienić urządzenie na inne. Zanim wyślesz wiadomość, możesz opcjonalnie zweryfikować numery bezpieczeństwa tych osób.} other {Wśród Twoich kontaktów jest {count,number} osoby, które mogła ponownie zainstalować aplikację Signal albo zmienić urządzenie na inne. Zanim wyślesz wiadomość, możesz opcjonalnie zweryfikować numer bezpieczeństwa tej osoby.}}"
+    "messageformat": "{count, plural, one {Wśród Twoich kontaktów jest {count,number} osoba, która mogła ponownie zainstalować aplikację Signal albo zmienić urządzenie na inne. Zanim wyślesz wiadomość, możesz opcjonalnie zweryfikować numer bezpieczeństwa tej osoby.} few {Wśród Twoich kontaktów są {count,number} osoby, które mogły ponownie zainstalować aplikację Signal albo zmienić urządzenie na inne. Zanim wyślesz wiadomość, możesz opcjonalnie zweryfikować numery bezpieczeństwa tych osób.} many {Wśród Twoich kontaktów jest {count,number} osób, które mogły ponownie zainstalować aplikację Signal albo zmienić urządzenie na inne. Zanim wyślesz wiadomość, możesz opcjonalnie zweryfikować numery bezpieczeństwa tych osób.} other {Wśród Twoich kontaktów jest {count,number} osoby, która mogła ponownie zainstalować aplikację Signal albo zmienić urządzenie na inne. Zanim wyślesz wiadomość, możesz opcjonalnie zweryfikować numer bezpieczeństwa tej osoby.}}"
   },
   "icu:safetyNumberChangeDialog__post-review": {
     "messageformat": "Sprawdzono wszystkie kontakty. Kliknij „Wyślij”, aby kontynuować."
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
-    "messageformat": "{count, plural, one {Usunąć {count,number} osobę z odbiorców relacji „{story}”?} few {Usunąć {count,number} osoby z odbiorców relacji „{story}”?} many {Usunąć {count,number} osób z odbiorców relacji „{story}”?} other {Usunąć {count,number} osoby z odbiorców relacji „{story}”?}}"
+    "messageformat": "{count, plural, one {Usunąć {count,number} osobę z listy odbiorców relacji „{story}”?} few {Usunąć {count,number} osoby z listy odbiorców relacji „{story}”?} many {Usunąć {count,number} osób z listy odbiorców relacji „{story}”?} other {Usunąć {count,number} osoby z listy odbiorców relacji „{story}”?}}"
   },
   "icu:safetyNumberChangeDialog__remove-all": {
     "messageformat": "Usuń wszystkie"
@@ -519,7 +519,7 @@
     "messageformat": "Cofnij weryfikację"
   },
   "icu:SafetyNumberViewer__hint": {
-    "messageformat": "W celu zweryfikowania szyfrowania metodą end-to-end z użytkownikiem {name} porównaj powyższe numery z numerami na urządzeniu tej osoby. Użytkownik może też zeskanować Twój kod za pomocą swojego urządzenia."
+    "messageformat": "Aby upewnić się, że Ty i {name} komunikujecie się w środowisku szyfrowanym metodą end-to-end, porównaj numer powyżej z numerem na urządzeniu tej osoby. Może ona też zeskanować kod wyświetlany na Twoim urządzeniu."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Dowiedz się więcej"
@@ -543,7 +543,7 @@
     "messageformat": "Multimedia"
   },
   "icu:mediaEmptyState": {
-    "messageformat": "Nie masz żadnych multimediów w tym czacie"
+    "messageformat": "W tym czacie nie ma żadnych multimediów"
   },
   "icu:allMedia": {
     "messageformat": "Wszystkie multimedia"
@@ -552,7 +552,7 @@
     "messageformat": "Dokumenty"
   },
   "icu:documentsEmptyState": {
-    "messageformat": "Nie masz żadnych dokumentów w tym czacie"
+    "messageformat": "W tym czacie nie ma żadnych dokumentów"
   },
   "icu:today": {
     "messageformat": "Dzisiaj"
@@ -591,7 +591,7 @@
     "messageformat": "W aplikacji Desktop wystąpił błąd odszyfrowywania ({name}, urządzenie {deviceId})"
   },
   "icu:Toast__ActionLabel--SubmitLog": {
-    "messageformat": "Wyślij logi debugowania"
+    "messageformat": "Prześlij dziennik"
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
@@ -600,7 +600,7 @@
     "messageformat": "Błąd bazy danych: udostępnij dzienniki."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
-    "messageformat": "Otrzymano nieprawidłową odpowiedź z usługi w chmurze. Udostępnij dzienniki."
+    "messageformat": "Nieprawidłowa odpowiedź usługi przechowywania w chmurze. Udostępnij dziennik debugowania."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -681,7 +681,7 @@
     "messageformat": "Narzędzia programistyczne do połączeń"
   },
   "icu:callingDeveloperToolsDescription": {
-    "messageformat": "To okno służy podczas programowania do wyświetlania diagnostyki bieżących połączeń."
+    "messageformat": "Podczas programowania to okno służy do wyświetlania diagnostyki bieżących połączeń."
   },
   "icu:speech": {
     "messageformat": "Mowa"
@@ -702,31 +702,31 @@
     "messageformat": "Wyszukaj"
   },
   "icu:searchUnreadChats": {
-    "messageformat": "Wyszukaj nieodczytane czaty"
+    "messageformat": "Wyszukaj w nieodczytanych czatach"
   },
   "icu:clearSearch": {
     "messageformat": "Wyczyść wyszukiwanie"
   },
   "icu:searchIn": {
-    "messageformat": "Szukaj w czacie"
+    "messageformat": "Wyszukaj w czacie"
   },
   "icu:noSearchResults": {
-    "messageformat": "Nie znaleziono nic pasującego do hasła „{searchTerm}”"
+    "messageformat": "Nie znaleziono niczego pasującego do hasła „{searchTerm}”"
   },
   "icu:noSearchResultsWithUnreadFilter": {
-    "messageformat": "Nie znaleziono „{searchTerm}” w nieodczytanych czatach"
+    "messageformat": "W nieodczytanych czatach nie udało się znaleźć niczego pasującego do hasła „{searchTerm}”"
   },
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "Brak nieodczytanych czatów"
   },
   "icu:noSearchResultsInConversation": {
-    "messageformat": "Nie znaleziono \"{searchTerm}\" w {conversationName}"
+    "messageformat": "W czacie {conversationName} nie udało się znaleźć niczego pasującego do hasła „{searchTerm}”"
   },
   "icu:conversationsUnreadHeader": {
-    "messageformat": "Filtrowane według nieodczytanych"
+    "messageformat": "Filtrowanie według nieodczytanych"
   },
   "icu:filterByUnreadButtonLabel": {
-    "messageformat": "Filtruj według nieprzeczytanych"
+    "messageformat": "Filtruj według nieodczytanych"
   },
   "icu:clearFilterButton": {
     "messageformat": "Usuń filtr"
@@ -744,7 +744,7 @@
     "messageformat": "Wiadomości"
   },
   "icu:findByUsernameHeader": {
-    "messageformat": "Znajdź po nazwie użytkownika"
+    "messageformat": "Wyszukaj po nazwie użytkownika"
   },
   "icu:findByPhoneNumberHeader": {
     "messageformat": "Wyszukaj po numerze telefonu"
@@ -759,7 +759,7 @@
     "messageformat": "co nowego"
   },
   "icu:typingAlt": {
-    "messageformat": "Animacja pisania dla tego czatu"
+    "messageformat": "Animacja pisania na tym czacie"
   },
   "icu:contactInAddressBook": {
     "messageformat": "Masz tę osobę w kontaktach."
@@ -825,13 +825,13 @@
     "messageformat": "Podczas nagrywania dźwięku wystąpił błąd."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Zapisano załącznik} few {Zapisano {count,number} załączniki} many {Zapisano {count,number} załączników} other {Zapisano {count,number} załączników}}"
+    "messageformat": "{count, plural, one {Zapisano załącznik} few {Zapisano {count,number} załączniki} many {Zapisano {count,number} załączników} other {Zapisano {count,number} załącznika}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Pokaż w folderze"
   },
   "icu:attachmentStillDownloading": {
-    "messageformat": "{count, plural, one {Nie można zapisać załącznika, bo trwa pobieranie} few {Nie można zapisać załącznika, bo trwa pobieranie {count,number}} many {Nie można zapisać załącznika, bo trwa pobieranie {count,number}} other {Nie można zapisać załącznika, bo trwa pobieranie {count,number}}}"
+    "messageformat": "{count, plural, one {Nie można zapisać załączników, ponieważ {count,number} z nich jeszcze się pobiera} few {Nie można zapisać załączników, ponieważ {count,number} z nich jeszcze się pobierają} many {Nie można zapisać załączników, ponieważ {count,number} z nich jeszcze się pobiera} other {Nie można zapisać załączników, ponieważ {count,number} z nich jeszcze się pobiera}}"
   },
   "icu:you": {
     "messageformat": "Ty"
@@ -867,10 +867,10 @@
     "messageformat": "Wycisz"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "Aktualizacja Signal nie powiodła się. <retryUpdateButton>Ponów próbę</retryUpdateButton> lub odwiedź {url}, aby zainstalować aktualizację ręcznie. Następnie <contactSupportLink>skontaktuj się z pomocą techniczną</contactSupportLink> w sprawie tego problemu"
+    "messageformat": "Nie udało się zaktualizować aplikacji Signal.<retryUpdateButton>Spróbuj ponownie</retryUpdateButton> lub przejdź na stronę {url}, aby zainstalować aktualizację ręcznie. Następnie <contactSupportLink>skontaktuj się z pomocą techniczną</contactSupportLink>"
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
-    "messageformat": "Aktualizacja Signal nie powiodła się. Odwiedź {url}, aby zainstalować aktualizację ręcznie. Następnie <contactSupportLink>skontaktuj się z pomocą techniczną</contactSupportLink> w sprawie tego problemu"
+    "messageformat": "Nie udało się zaktualizować aplikacji Signal. Przejdź na stronę {url}, aby zainstalować aktualizację ręcznie. Następnie <contactSupportLink>skontaktuj się z pomocą techniczną</contactSupportLink>"
   },
   "icu:readOnlyVolume": {
     "messageformat": "System macOS prawdopodobnie poddał aplikację Signal Desktop kwarantannie. Automatyczna aktualizacja jest niemożliwa. Spróbuj za pomocą Findera przenieść aplikację {app} do folderu {folder}."
@@ -918,22 +918,22 @@
     "messageformat": "Wiadomość zostanie usunięta z tego urządzenia."
   },
   "icu:deleteForEveryoneWarning": {
-    "messageformat": "Ta wiadomość zostanie usunięta u wszystkich uczestników tego czatu, jeśli używają najnowszej wersji Signal. Będą oni mogli zobaczyć, że wiadomość została usunięta."
+    "messageformat": "Wiadomość zostanie usunięta z tego czatu u wszystkich osób, jeśli używają one najnowszej wersji aplikacji Signal. Wyświetli się u nich informacja o tym, że wiadomość została usunięta."
   },
   "icu:from": {
     "messageformat": "Nadawca:"
   },
   "icu:searchResultHeader--sender-to-group": {
-    "messageformat": "{sender} do {receiverGroup}"
+    "messageformat": "{sender} w grupie {receiverGroup}"
   },
   "icu:searchResultHeader--sender-to-you": {
     "messageformat": "{sender} do Ciebie"
   },
   "icu:searchResultHeader--you-to-group": {
-    "messageformat": "Ty do {receiverGroup}"
+    "messageformat": "Ty w grupie {receiverGroup}"
   },
   "icu:searchResultHeader--you-to-receiver": {
-    "messageformat": "Ty do {receiverContact}"
+    "messageformat": "Ty w czacie, który macie Ty i {receiverContact}"
   },
   "icu:sent": {
     "messageformat": "Wysłano"
@@ -951,7 +951,7 @@
     "messageformat": "Wyświetl numer bezpieczeństwa"
   },
   "icu:AboutContactModal__title": {
-    "messageformat": "O mnie"
+    "messageformat": "O kontakcie"
   },
   "icu:AboutContactModal__title--myself": {
     "messageformat": "Ty"
@@ -960,25 +960,25 @@
     "messageformat": "{nickname} <muted>({titleNoNickname})</muted>"
   },
   "icu:AboutContactModal__TitleWithoutNickname__Tooltip": {
-    "messageformat": "„{title}” to nazwa profilu ustawiona przez daną osobę w Signal."
+    "messageformat": "„{title}” to imię, które ta osoba ustawiła w swoim profilu Signal."
   },
   "icu:AboutContactModal__verified": {
-    "messageformat": "Zweryfikowany"
+    "messageformat": "Zweryfikowany kontakt"
   },
   "icu:AboutContactModal__blocked": {
-    "messageformat": "{name} jest zablokowany(-a)"
+    "messageformat": "{name} to zablokowany kontakt"
   },
   "icu:AboutContactModal__message-request": {
-    "messageformat": "Oczekująca prośba o przesłanie wiadomości"
+    "messageformat": "Oczekująca prośba o kontakt"
   },
   "icu:AboutContactModal__no-dms": {
-    "messageformat": "Ty i {name} nie macie rozpoczętej rozmowy"
+    "messageformat": "Ty i {name} nie macie jeszcze czatu prywatnego"
   },
   "icu:AboutContactModal__signal-connection": {
     "messageformat": "Kontakt Signal"
   },
   "icu:AboutContactModal__system-contact": {
-    "messageformat": "{name} znajduje się w kontaktach systemowych"
+    "messageformat": "{name} jest w Twoich kontaktach systemowych"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Notatka"
@@ -996,7 +996,7 @@
     "messageformat": "Więcej informacji"
   },
   "icu:copy": {
-    "messageformat": "Kopiuj tekst"
+    "messageformat": "Skopiuj tekst"
   },
   "icu:MessageContextMenu__select": {
     "messageformat": "Zaznacz"
@@ -1038,7 +1038,7 @@
     "messageformat": "Usunąć czat?"
   },
   "icu:ConversationHeader__DeleteConversationConfirmation__description": {
-    "messageformat": "Wszystkie wiadomości z tego czatu zostaną skasowane z tego urządzenia."
+    "messageformat": "Wszystkie wiadomości z tego czatu zostaną usunięte z tego urządzenia."
   },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "Wszystkie wiadomości z tego czatu zostaną usunięte ze wszystkich Twoich urządzeń."
@@ -1047,16 +1047,16 @@
     "messageformat": "Opuść grupę"
   },
   "icu:ConversationHeader__LeaveGroupConfirmation__title": {
-    "messageformat": "Czy na pewno chcesz odejść?"
+    "messageformat": "Opuszczasz grupę?"
   },
   "icu:ConversationHeader__LeaveGroupConfirmation__description": {
-    "messageformat": "Nie będziesz już móc odbierać lub wysyłać wiadomości w tej grupie."
+    "messageformat": "Stracisz możliwość wysyłania i otrzymywania wiadomości w tej grupie."
   },
   "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
     "messageformat": "Opuść"
   },
   "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
-    "messageformat": "Przed opuszczeniem tej grupy musisz wybrać co najmniej jednego nowego administratora."
+    "messageformat": "Zanim opuścisz grupę, musisz wybrać co najmniej jednego nowego administratora."
   },
   "icu:sessionEnded": {
     "messageformat": "Bezpieczna sesja zresetowana"
@@ -1068,7 +1068,7 @@
     "messageformat": "Dowiedz się więcej"
   },
   "icu:ChatRefresh--summary": {
-    "messageformat": "Signal używa szyfrowania metodą end-to-end i czasem może potrzebować odświeżenia sesji czatu. To nie wpłynie na bezpieczeństwo Twojego czatu, ale możesz przegapić wiadomość od tego kontaktu. Możesz go wtedy poprosić o ponowne przesłanie tej wiadomości."
+    "messageformat": "Signal stosuje metodę szyfrowania end-to-end. Z tego powodu czasem może być konieczne odświeżenie sesji czatu. Nie wpływa to na jego bezpieczeństwo, ale mogło się zdarzyć, że wiadomość od tego kontaktu do Ciebie nie dotarła. Poproś tę osobę o ponowne przesłanie wiadomości."
   },
   "icu:ChatRefresh--contactSupport": {
     "messageformat": "Skontaktuj się z pomocą techniczną"
@@ -1089,31 +1089,31 @@
     "messageformat": "Nie udało się dostarczyć Ci wiadomości, naklejki, reakcji, multimediów lub potwierdzenia odczytania wiadomości, których nadawca to {sender}. Ta osoba mogła próbować przesłać Ci ten element w wiadomości prywatnej lub w czacie grupowym."
   },
   "icu:DeliveryIssue--summary--group": {
-    "messageformat": "Nie udało się dostarczyć Ci wiadomości, naklejki, reakcji, potwierdzenia przeczytania lub multimediów od {sender} w tym czacie."
+    "messageformat": "Nie udało się dostarczyć Ci w tym czacie wiadomości, naklejki, reakcji, multimediów lub potwierdzenia odczytania wiadomości, których nadawcą jest {sender}."
   },
   "icu:ChangeNumber--notification": {
     "messageformat": "{sender} ma nowy numer telefonu"
   },
   "icu:JoinedSignal--notification": {
-    "messageformat": "Kontakt dołączył do Signal"
+    "messageformat": "Osoba z Twoich kontaktów korzysta teraz z aplikacji Signal"
   },
   "icu:ConversationMerge--notification": {
-    "messageformat": "{obsoleteConversationTitle} i {conversationTitle} należą do tego samego konta. Tutaj znajdziesz historię wiadomości dla obu Waszych czatów."
+    "messageformat": "{obsoleteConversationTitle} i {conversationTitle} to ten sam użytkownik. Historię wiadomości z obu czatów z tą osobą znajdziesz tutaj."
   },
   "icu:ConversationMerge--notification--with-e164": {
-    "messageformat": "Twoja historia wiadomości z {conversationTitle} i jego/jej numerem {obsoleteConversationNumber} została połączona."
+    "messageformat": "Historia wiadomości na czacie, który macie Ty i {conversationTitle}, oraz na czacie z numerem tej osoby ({obsoleteConversationNumber}) została połączona."
   },
   "icu:ConversationMerge--notification--no-title": {
-    "messageformat": "Twoja historia wiadomości z {conversationTitle} została połączona z należącym do niego/niej innym czatem."
+    "messageformat": "Historia wiadomości na czacie, który macie Ty i {conversationTitle}, oraz na innym czacie z tą osobą została połączona."
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "Dowiedz się więcej"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
-    "messageformat": "Po rozmowie z {obsoleteConversationTitle} dowiedziałeś(-aś) się, że ten numer należy do {conversationTitle}. Ten numer telefonu jest prywatny."
+    "messageformat": "Wymiana wiadomości z numerem {obsoleteConversationTitle} pozwoliła potwierdzić, że osobą, do której należy ten numer, jest {conversationTitle}. Ten numer jest ukryty."
   },
   "icu:ConversationMerge--explainer-dialog--line-2": {
-    "messageformat": "Twoja historia wiadomości dla obu czatów została połączona tutaj."
+    "messageformat": "Historia wiadomości z obu czatów została połączona tutaj."
   },
   "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
     "messageformat": "{phoneNumber} należy do {conversationTitle}. Oboje należycie do {sharedGroup}"
@@ -1122,7 +1122,7 @@
     "messageformat": "{phoneNumber} należy do {conversationTitle}"
   },
   "icu:TitleTransition--notification": {
-    "messageformat": "Rozpoczęto czat z {oldTitle}"
+    "messageformat": "Rozpoczynasz czat, na którym jesteście Ty i {oldTitle}"
   },
   "icu:imageAttachmentAlt": {
     "messageformat": "Zdjęcie załączone do wiadomości"
@@ -1131,7 +1131,7 @@
     "messageformat": "Zrzut ekranu z filmu załączonego do wiadomości"
   },
   "icu:lightboxImageAlt": {
-    "messageformat": "Obrazek wysłany na czacie"
+    "messageformat": "Obraz wysłany na czacie"
   },
   "icu:lightBoxDownloading": {
     "messageformat": "Pobieranie {downloaded} z {total}"
@@ -1230,7 +1230,7 @@
     "messageformat": "Połączone urządzenia"
   },
   "icu:linkNewDevice": {
-    "messageformat": "Powiąż nowe urządzenie"
+    "messageformat": "Połącz nowe urządzenie"
   },
   "icu:Install__learn-more": {
     "messageformat": "Dowiedz się więcej"
@@ -1248,7 +1248,7 @@
     "messageformat": "Ustawienia"
   },
   "icu:Install__instructions__3": {
-    "messageformat": "Wybierz {linkNewDevice}"
+    "messageformat": "Wybierz opcję {linkNewDevice}"
   },
   "icu:Install__qr-failed-load__error--timeout": {
     "messageformat": "Nie udało się załadować kodu QR. Sprawdź połączenie z internetem i spróbuj ponownie."
@@ -1257,7 +1257,7 @@
     "messageformat": "<paragraph>Wystąpił nieoczekiwany błąd.</paragraph><paragraph>Spróbuj ponownie.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal nie może powiązać tego urządzenia przy użyciu bieżącej sieci."
+    "messageformat": "W używanej obecnie sieci nie można połączyć tego urządzenia z aplikacją Signal."
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Ponów"
@@ -1266,7 +1266,7 @@
     "messageformat": "Odśwież kod"
   },
   "icu:Install__qr-failed-load__get-help": {
-    "messageformat": "Uzyskaj pomoc"
+    "messageformat": "Otrzymaj pomoc"
   },
   "icu:Install__support-link": {
     "messageformat": "Potrzebujesz pomocy?"
@@ -1338,16 +1338,16 @@
     "messageformat": "W rozmowie uczestniczy już maksymalna liczba osób"
   },
   "icu:calling__cant-join": {
-    "messageformat": "Nie można dołączyć do połączenia"
+    "messageformat": "Nie można dołączyć do rozmowy"
   },
   "icu:calling__call-link-connection-issues": {
-    "messageformat": "Nie udało się pobrać informacji o linku do połączenia. Sprawdź swoje połączenie sieciowe i spróbuj ponownie."
+    "messageformat": "Nie udało się pobrać informacji o linku do połączenia. Sprawdź, czy masz dostęp do internetu, i spróbuj ponownie."
   },
   "icu:calling__call-link-copied": {
-    "messageformat": "Skopiowano link połączenia."
+    "messageformat": "Link do połączenia skopiowany."
   },
   "icu:calling__call-link-no-longer-valid": {
-    "messageformat": "Ten link do połączenia jest nieważny"
+    "messageformat": "Ten link do połączenia wygasł."
   },
   "icu:calling__call-link-default-title": {
     "messageformat": "Połączenie Signal"
@@ -1356,25 +1356,25 @@
     "messageformat": "Nie udało się usunąć linku. Sprawdź połączenie z internetem i spróbuj ponownie."
   },
   "icu:calling__join-request-denied": {
-    "messageformat": "Twoja prośba o dołączenie do tego połączenia została odrzucona."
+    "messageformat": "Twoja prośba o przyjęcie do rozmowy została odrzucona."
   },
   "icu:calling__join-request-denied-title": {
-    "messageformat": "Prośba o dołączenie odrzucona"
+    "messageformat": "Prośba o przyjęcie odrzucona"
   },
   "icu:calling__removed-from-call": {
-    "messageformat": "Ktoś usunął Cię z połączenia."
+    "messageformat": "Ktoś usunął Cię z rozmowy."
   },
   "icu:calling__removed-from-call-title": {
-    "messageformat": "Usunięto z połączenia"
+    "messageformat": "Usunięcie z rozmowy"
   },
   "icu:CallingLobby__CallLinkNotice": {
-    "messageformat": "Każda osoba, która dołączy do połączenia za pomocą linku, zobaczy Twoje imię oraz zdjęcie."
+    "messageformat": "Każda osoba, która dołączy do połączenia za pomocą linku, może wyświetlić Twoje imię oraz zdjęcie."
   },
   "icu:CallingLobby__CallLinkNotice--phone-sharing": {
-    "messageformat": "Każda osoba, która dołączy do połączenia za pomocą linku, zobaczy Twoje imię, zdjęcie oraz numer telefonu."
+    "messageformat": "Każda osoba, która dołączy do połączenia za pomocą linku, może wyświetlić Twoje imię, zdjęcie oraz numer telefonu."
   },
   "icu:CallingLobby__CallLinkNotice--join-request-pending": {
-    "messageformat": "Oczekiwanie na wpuszczenie…"
+    "messageformat": "Poczekaj, aż ktoś Cię wpuści…"
   },
   "icu:CallingLobbyJoinButton--join": {
     "messageformat": "Dołącz"
@@ -1383,10 +1383,10 @@
     "messageformat": "Rozpocznij"
   },
   "icu:CallingLobbyJoinButton--call-full": {
-    "messageformat": "Połączenie pełne"
+    "messageformat": "Brak miejsc"
   },
   "icu:CallingLobbyJoinButton--ask-to-join": {
-    "messageformat": "Poproś o dołączenie"
+    "messageformat": "Poproś o przyjęcie"
   },
   "icu:calling__button--video-disabled": {
     "messageformat": "Kamera wyłączona"
@@ -1431,43 +1431,43 @@
     "messageformat": "Więcej opcji"
   },
   "icu:CallingPendingParticipants__ApproveUser": {
-    "messageformat": "Zatwierdź prośbę o dołączenie"
+    "messageformat": "Zatwierdź prośbę o przyjęcie"
   },
   "icu:CallingPendingParticipants__DenyUser": {
-    "messageformat": "Odrzuć prośbę o dołączenie"
+    "messageformat": "Odrzuć prośbę o przyjęcie"
   },
   "icu:CallingPendingParticipants__ApproveAll": {
-    "messageformat": "Zatwierdź wszystkich"
+    "messageformat": "Zatwierdź wszystkie"
   },
   "icu:CallingPendingParticipants__DenyAll": {
-    "messageformat": "Odmów wszystkim"
+    "messageformat": "Odrzuć wszystkie"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--ApproveAll": {
     "messageformat": "{count, plural, one {Zatwierdzić {count,number} prośbę?} few {Zatwierdzić {count,number} prośby?} many {Zatwierdzić {count,number} próśb?} other {Zatwierdzić {count,number} prośby?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogTitle--DenyAll": {
-    "messageformat": "{count, plural, one {Odmówić {count,number} prośbie?} few {Odmówić {count,number} prośbom?} many {Odmówić {count,number} prośbom?} other {Odmówić {count,number} prośby?}}"
+    "messageformat": "{count, plural, one {Odrzucić {count,number} prośbę?} few {Odrzucić {count,number} prośby?} many {Odrzucić {count,number} próśb?} other {Odrzucić {count,number} prośby?}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--ApproveAll": {
-    "messageformat": "{count, plural, one {{count,number} osoba zostanie dodana do połączenia.} few {{count,number} osoby zostaną dodane do połączenia.} many {{count,number} osób zostanie dodanych do połączenia.} other {{count,number} osoby zostanie dodane do połączenia.}}"
+    "messageformat": "{count, plural, one {Do rozmowy zostanie dodana {count,number} osoba.} few {Do rozmowy zostaną dodane {count,number} osoby.} many {Do rozmowy zostanie dodanych {count,number} osób.} other {Do rozmowy zostanie dodane {count,number} osoby.}}"
   },
   "icu:CallingPendingParticipants__ConfirmDialogBody--DenyAll": {
-    "messageformat": "{count, plural, one {{count,number} osoba nie zostanie dodana do połączenia.} few {{count,number} osoby nie zostaną dodane do połączenia.} many {{count,number} osób nie zostanie dodanych do połączenia.} other {{count,number} osoby nie zostanie dołączone do połączenia.}}"
+    "messageformat": "{count, plural, one {Do rozmowy nie zostanie dodana {count,number} osoba.} few {Do rozmowy nie zostaną dodane {count,number} osoby.} many {Do rozmowy nie zostanie dodanych {count,number} osób.} other {Do rozmowy nie zostanie dodane {count,number} osoby.}}"
   },
   "icu:CallingPendingParticipants__RequestsToJoin": {
-    "messageformat": "{count, plural, one {{count,number} prośba o dołączenie} few {{count,number} prośby o dołączenie} many {{count,number} próśb o dołączenie} other {{count,number} próśb o dołączenie}}"
+    "messageformat": "{count, plural, one {{count,number} prośba o przyjęcie do rozmowy} few {{count,number} prośby o przyjęcie do rozmowy} many {{count,number} próśb o przyjęcie do rozmowy} other {{count,number} prośby o przyjęcie do rozmowy}}"
   },
   "icu:CallingPendingParticipants__WouldLikeToJoin": {
-    "messageformat": "Chciał(a)by dołączyć…"
+    "messageformat": "Prosi o przyjęcie…"
   },
   "icu:CallingPendingParticipants__AdditionalRequests": {
-    "messageformat": "{count, plural, one {+{count,number} prośba} few {+{count,number} prośby} many {+{count,number} próśb} other {+{count,number} prośby}}"
+    "messageformat": "{count, plural, one {Jeszcze {count,number} prośba} few {Jeszcze {count,number} prośby} many {Jeszcze {count,number} próśb} other {Jeszcze {count,number} prośby}}"
   },
   "icu:CallingPendingParticipants__Toast--added-users-to-call": {
-    "messageformat": "{count, plural, one {{count,number} osoba dodana do połączenia} few {{count,number} osoby dodane do połączenia} many {{count,number} osób dodanych do połączenia} other {{count,number} osoby dodane do połączenia}}"
+    "messageformat": "{count, plural, one {{count,number} osoba dodana do rozmowy} few {{count,number} osoby dodane do rozmowy} many {{count,number} osób dodanych do rozmowy} other {{count,number} osoby dodanej do rozmowy}}"
   },
   "icu:CallingRaisedHandsList__Title": {
-    "messageformat": "{count, plural, one {{count,number} podniesiona ręka} few {{count,number} podniesione ręce} many {{count,number} podniesionych rąk} other {{count,number} podniesionych rąk}}"
+    "messageformat": "{count, plural, one {{count,number} podniesiona ręka} few {{count,number} podniesione ręce} many {{count,number} podniesionych rąk} other {{count,number} podniesionej ręki}}"
   },
   "icu:CallingRaisedHandsList__TitleHint": {
     "messageformat": "(kolejność chronologiczna)"
@@ -1494,7 +1494,7 @@
     "messageformat": "W rozmowie uczestniczą {first}, {second} i {third}"
   },
   "icu:calling__pre-call-info--many-people-in-call": {
-    "messageformat": "{others, plural, one {{first}, {second} i {others,number} inna osoba uczestniczy w rozmowie} few {{first}, {second} i {others,number} inne osoby uczestniczą w tej rozmowie} many {{first}, {second} i {others,number} innych osób uczestniczy w tej rozmowie} other {{first}, {second} i {others,number} innych uczestniczy w tej rozmowie}}"
+    "messageformat": "{others, plural, one {W rozmowie uczestniczą {first}, {second} i jeszcze {others,number} osoba} few {W rozmowie uczestniczą {first}, {second} i jeszcze {others,number} osoby} many {W rozmowie uczestniczą {first}, {second} i jeszcze {others,number} osób} other {W rozmowie uczestniczą {first}, {second} i jeszcze {others,number} osoby}}"
   },
   "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
     "messageformat": "{count, plural, one {W rozmowie uczestniczy {count,number} osoba} few {W rozmowie uczestniczą {count,number} osoby} many {W rozmowie uczestniczy {count,number} osób} other {W rozmowie uczestniczy {count,number} osoby}}"
@@ -1509,7 +1509,7 @@
     "messageformat": "Signal zadzwoni do tych osób: {first}, {second} i {third}"
   },
   "icu:calling__pre-call-info--will-ring-many": {
-    "messageformat": "{others, plural, one {Signal zadzwoni do {first}, {second} i {others,number} innej osoby} few {Signal zadzwoni do {first}, {second} i {others,number} innych osób} many {Signal zadzwoni do {first}, {second} i {others,number} innych osób} other {Signal zadzwoni do {first}, {second} i {others,number} innych osób}}"
+    "messageformat": "{others, plural, one {Signal zadzwoni do tych osób: {first}, {second} i jeszcze do {others,number} osoby} few {Signal zadzwoni do tych osób: {first}, {second} i jeszcze do {others,number} osób} many {Signal zadzwoni do tych osób: {first}, {second} i jeszcze do {others,number} osób} other {Signal zadzwoni do tych osób: {first}, {second} i jeszcze do {others,number} osoby}}"
   },
   "icu:calling__pre-call-info--will-notify-1": {
     "messageformat": "{person} otrzyma powiadomienie"
@@ -1521,7 +1521,7 @@
     "messageformat": "{first}, {second} i {third} otrzymają powiadomienie"
   },
   "icu:calling__pre-call-info--will-notify-many": {
-    "messageformat": "{others, plural, one {{first}, {second} i {others,number} inna osoba otrzyma powiadomienie} few {{first}, {second} i {others,number} inne osoby otrzymają powiadomienie} many {{first}, {second} i {others,number} innych osób otrzyma powiadomienie} other {{first}, {second} i {others,number} innych osób otrzyma powiadomienie}}"
+    "messageformat": "{others, plural, one {{first}, {second} i jeszcze {others,number} osoba otrzymają powiadomienie} few {{first}, {second} i jeszcze {others,number} osoby otrzymają powiadomienie} many {{first}, {second} i jeszcze {others,number} osób otrzymają powiadomienie} other {{first}, {second} i jeszcze {others,number} osoby otrzymają powiadomienie}}"
   },
   "icu:calling__in-this-call--zero": {
     "messageformat": "Nikogo tu nie ma"
@@ -1530,22 +1530,22 @@
     "messageformat": "{people, plural, one {W tej rozmowie · {people,number} osoba} few {W tej rozmowie · {people,number} osoby} many {W tej rozmowie · {people,number} osób} other {W tej rozmowie · {people,number} osoby}}"
   },
   "icu:calling__blocked-participant": {
-    "messageformat": "{name} jest zablokowany(-a)"
+    "messageformat": "{name} to zablokowany kontakt"
   },
   "icu:calling__block-info-title": {
-    "messageformat": "{name} jest zablokowany(-a)"
+    "messageformat": "{name} to zablokowany kontakt"
   },
   "icu:calling__block-info": {
-    "messageformat": "Nie odbierzesz audio i wideo od tej osoby, a ona nie odbierze Twojego."
+    "messageformat": "Nie możesz odbierać połączeń audio ani wideo od tej osoby, a ona nie może ich odbierać od Ciebie."
   },
   "icu:calling__missing-media-keys": {
-    "messageformat": "Nie można odebrać audio i wideo od {name}"
+    "messageformat": "Nie można odebrać połączenia audio ani wideo, którego nadawcą jest {name}"
   },
   "icu:calling__missing-media-keys--unknown-contact": {
-    "messageformat": "Nie można odebrać audio i wideo"
+    "messageformat": "Nie można odebrać audio ani wideo"
   },
   "icu:calling__missing-media-keys-info": {
-    "messageformat": "To może być spowodowane tym, że ta osoba nie zweryfikowała Twojego numeru bezpieczeństwa, ma problem z urządzeniem albo Cię zablokowała."
+    "messageformat": "Możliwe, że ta osoba nie zweryfikowała Twojego nowego numeru bezpieczeństwa, ma problem z urządzeniem albo Cię zablokowała."
   },
   "icu:calling__overflow__scroll-up": {
     "messageformat": "Przewiń w górę"
@@ -1563,13 +1563,13 @@
     "messageformat": "Ponowne łączenie…"
   },
   "icu:calling__presenting--reconnecting--notification-body": {
-    "messageformat": "Połączenie zostało utracone. Signal łączy się ponownie."
+    "messageformat": "Połączenie zostało przerwane. Signal łączy się ponownie."
   },
   "icu:calling__presenting--info": {
     "messageformat": "Signal udostępnia ekran {window}."
   },
   "icu:calling__presenting--info--unknown": {
-    "messageformat": "Aktywowane udostępnianie ekranu Signal"
+    "messageformat": "Włączono udostępnianie ekranu w aplikacji Signal"
   },
   "icu:calling__presenting--reconnecting": {
     "messageformat": "Ponowne łączenie…"
@@ -1623,10 +1623,10 @@
     "messageformat": "Zezwól na dostęp do aparatu"
   },
   "icu:spellCheckDescription": {
-    "messageformat": "Sprawdzaj pisownię w polu wiadomości"
+    "messageformat": "Sprawdzaj pisownię w polu wpisywania wiadomości"
   },
   "icu:textFormattingDescription": {
-    "messageformat": "Pokaż okienko formatowania po zaznaczeniu tekstu"
+    "messageformat": "Po zaznaczeniu tekstu pokaż opcje formatowania"
   },
   "icu:spellCheckWillBeEnabled": {
     "messageformat": "Sprawdzanie pisowni zostanie włączone, gdy uruchomisz Signal ponownie."
@@ -1647,7 +1647,7 @@
     "messageformat": "Usuń dane aplikacji"
   },
   "icu:clearDataExplanation": {
-    "messageformat": "To działanie spowoduje usunięcie wszystkich danych w aplikacji, w tym wszystkich wiadomości i zapisanych informacji o koncie."
+    "messageformat": "Spowoduje to usunięcie wszystkich danych aplikacji, w tym całej historii wiadomości oraz zapisanych danych konta."
   },
   "icu:clearDataButton": {
     "messageformat": "Usuń dane"
@@ -1656,7 +1656,7 @@
     "messageformat": "Usunąć wszystkie dane?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Usunąć wszystkie dane i wiadomości z tej wersji Signal Desktop? Twoje konto Signal ani dane na telefonie lub innych połączonych urządzeniach nie zostaną usunięte."
+    "messageformat": "Usunąć wszystkie dane i wiadomości z tej wersji Signal Desktop? Nie spowoduje to usunięcia Twojego konta Signal ani danych na telefonie lub innych połączonych urządzeniach."
   },
   "icu:deleteAllDataProgress": {
     "messageformat": "Odłączanie i usuwanie wszystkich danych…"
@@ -1752,7 +1752,7 @@
     "messageformat": "Wczoraj, {time}"
   },
   "icu:messageLoop": {
-    "messageformat": "Możliwe, że Signal nie jest w stanie przetworzyć przychodzącej wiadomości."
+    "messageformat": "Możliwe, że aplikacji Signal nie udaje się przetworzyć wiadomości przychodzącej."
   },
   "icu:messageBodyTooLong": {
     "messageformat": "Wiadomość jest za długa."
@@ -1827,7 +1827,7 @@
     "messageformat": "Ty i {name} macie nowy numer bezpieczeństwa"
   },
   "icu:ConversationDetails__viewSafetyNumber": {
-    "messageformat": "Zobacz numer bezpieczeństwa"
+    "messageformat": "Wyświetl numer bezpieczeństwa"
   },
   "icu:ConversationDetails__HeaderButton--Message": {
     "messageformat": "Wyślij wiadomość"
@@ -1839,7 +1839,7 @@
     "messageformat": "Centrum pomocy"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
-    "messageformat": "Zobacz numer bezpieczeństwa"
+    "messageformat": "Wyświetl numer bezpieczeństwa"
   },
   "icu:cannotGenerateSafetyNumber": {
     "messageformat": "Aby można było zweryfikować tę osobę, musicie najpierw do siebie napisać."
@@ -1902,10 +1902,10 @@
     "messageformat": "Nie udało się pobrać"
   },
   "icu:ToastManager__CannotEditMessage_24": {
-    "messageformat": "Edycji można dokonać tylko w przeciągu 24 godzin od wysłania wiadomości."
+    "messageformat": "Wiadomość można edytować tylko w ciągu 24 godzin od jej wysłania."
   },
   "icu:startConversation--username-not-found": {
-    "messageformat": "{atUsername} nie jest użytkownikiem Signal. Upewnij się, że została wpisana pełna nazwa użytkownika."
+    "messageformat": "{atUsername} nie jest użytkownikiem Signal. Upewnij się, że podajesz pełną nazwę użytkownika."
   },
   "icu:startConversation--phone-number-not-found": {
     "messageformat": "Nikogo nie znaleziono. {phoneNumber} nie używa aplikacji Signal."
@@ -2031,7 +2031,7 @@
     "messageformat": "Prośba o kontakt"
   },
   "icu:ConversationListItem--blocked": {
-    "messageformat": "Zablokowani"
+    "messageformat": "Zablokowano"
   },
   "icu:ConversationListItem--draft-prefix": {
     "messageformat": "Wersja robocza:"
@@ -2079,37 +2079,37 @@
     "messageformat": "Ta wiadomość została usunięta."
   },
   "icu:message--attachmentTooBig--one": {
-    "messageformat": "Załącznik jest zbyt duży, żeby go wyświetlić."
+    "messageformat": "Załącznik jest zbyt duży, aby go wyświetlić."
   },
   "icu:message--attachmentTooBig--multiple": {
-    "messageformat": "Niektóre załączniki są zbyt duże, żeby je wyświetlić."
+    "messageformat": "Niektóre załączniki są zbyt duże, aby je wyświetlić."
   },
   "icu:message--call-link-description": {
-    "messageformat": "Użyj linku, aby dołączyć do rozmowy Signal"
+    "messageformat": "Aby dołączyć do rozmowy w aplikacji Signal, użyj tego linku"
   },
   "icu:donation--missing": {
     "messageformat": "Nie można pobrać szczegółów darowizny"
   },
   "icu:message--donation--unopened--incoming": {
-    "messageformat": "Otwórz tę wiadomość na telefonie"
+    "messageformat": "Aby otworzyć tę wiadomość, wyświetl ją na telefonie"
   },
   "icu:message--donation--unopened--outgoing": {
-    "messageformat": "Otwórz tę wiadomość na telefonie, aby wyświetlić darowiznę"
+    "messageformat": "Aby wyświetlić darowiznę, dotknij tej wiadomości na telefonie"
   },
   "icu:message--donation--unopened--label": {
-    "messageformat": "{sender} wpłacił(a) w Twoim imieniu darowiznę na rzecz Signal"
+    "messageformat": "{sender} wpłaca w Twoim imieniu darowiznę na rzecz aplikacji Signal"
   },
   "icu:message--donation--unopened--toast--incoming": {
-    "messageformat": "Otwórz darowiznę na swoim telefonie"
+    "messageformat": "Możesz wyświetlić tę darowiznę na telefonie"
   },
   "icu:message--donation--unopened--toast--outgoing": {
-    "messageformat": "Wyświetl darowiznę na swoim telefonie"
+    "messageformat": "Możesz wyświetlić swoją darowiznę na telefonie"
   },
   "icu:message--donation--preview--unopened": {
-    "messageformat": "{sender} wpłacił(a) darowiznę w Twoim imieniu"
+    "messageformat": "{sender} wpłaca darowiznę w Twoim imieniu"
   },
   "icu:message--donation--preview--redeemed": {
-    "messageformat": "Odznaka została odebrana"
+    "messageformat": "Odbierasz odznakę za darowiznę"
   },
   "icu:message--donation--preview--sent": {
     "messageformat": "Wpłacasz darowiznę w imieniu tej osoby: {recipient}"
@@ -2127,22 +2127,22 @@
     "messageformat": "{hours, plural, one {Jeszcze {hours,number} godzina} few {Jeszcze {hours,number} godziny} many {Jeszcze {hours,number} godzin} other {Jeszcze {hours,number} godziny}}"
   },
   "icu:message--donation--remaining--minutes": {
-    "messageformat": "{minutes, plural, one {Pozostała {minutes,number} minuta} few {Pozostały {minutes,number} minuty} many {Pozostało {minutes,number} minut} other {Pozostały {minutes,number} minuty}}"
+    "messageformat": "{minutes, plural, one {Jeszcze przez {minutes,number} minutę} few {Jeszcze przez {minutes,number} minuty} many {Jeszcze przez {minutes,number} minut} other {Jeszcze przez {minutes,number} minuty}}"
   },
   "icu:message--donation--expired": {
     "messageformat": "Wygasła"
   },
   "icu:message--donation--view": {
-    "messageformat": "Wyświetlona"
+    "messageformat": "Wyświetlono"
   },
   "icu:message--donation--redeemed": {
-    "messageformat": "Odebrana"
+    "messageformat": "Odebrano"
   },
   "icu:messageAccessibilityLabel--outgoing": {
     "messageformat": "Wiadomość wysłana przez Ciebie"
   },
   "icu:messageAccessibilityLabel--incoming": {
-    "messageformat": "Wiadomość wysłana przez: {author}"
+    "messageformat": "Wiadomość, której nadawcą jest {author}"
   },
   "icu:modal--donation--title": {
     "messageformat": "Dziękujemy za Twoje wsparcie!"
@@ -2505,7 +2505,7 @@
     "messageformat": "Czytaj dalej"
   },
   "icu:MessageBody--message-too-long": {
-    "messageformat": "Za długa wiadomość, żeby wyświetlić w całości"
+    "messageformat": "Wiadomość jest zbyt długa, aby wyświetlić ją w całości"
   },
   "icu:Message--unsupported-message": {
     "messageformat": "Nie można przetworzyć lub wyświetlić wiadomości, którą przesyła {contact}, ponieważ wykorzystuje ona nową funkcję Signal."
@@ -2703,7 +2703,7 @@
     "messageformat": "Ukryj zaznaczony tekst"
   },
   "icu:Keyboard--open-context-menu": {
-    "messageformat": "Otwórz menu kontekstowe dla wybranej wiadomości"
+    "messageformat": "Otwórz menu kontekstowe zaznaczonej wiadomości"
   },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Pogrubienie"
@@ -2742,7 +2742,7 @@
     "messageformat": "Przełącznik powiększonego podglądu (włącz/wyłącz)"
   },
   "icu:Keyboard--accept-video-call": {
-    "messageformat": "Odbierz z wideo (tylko dla połączeń wideo)"
+    "messageformat": "Odbierz z wideo (tylko w przypadku połączeń wideo)"
   },
   "icu:Keyboard--accept-call-without-video": {
     "messageformat": "Odbierz bez wideo"
@@ -2784,7 +2784,7 @@
     "messageformat": "Czat oznaczony jako nieprzeczytany"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "Połącz Signal na swoim telefonie i komputerze, aby móc używać Kreatora pakietów naklejek"
+    "messageformat": "Aby korzystać z kreatora pakietów naklejek, skonfiguruj aplikację Signal na telefonie i komputerze"
   },
   "icu:Reactions--remove": {
     "messageformat": "Usuń reakcję"
@@ -2802,7 +2802,7 @@
     "messageformat": "Wskazówki dotyczące bezpieczeństwa"
   },
   "icu:SafetyTipsModal__Description": {
-    "messageformat": "Zachowaj rozwagę, zatwierdzając prośby od nieznajomych. Uważaj na:"
+    "messageformat": "Zachowaj ostrożność, gdy akceptujesz prośbę o kontakt od nieznajomej osoby. Oto na co należy uważać:"
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
     "messageformat": "Uwaga na oszustów"
@@ -2811,28 +2811,28 @@
     "messageformat": "Signal nigdy nie zwróci się do Ciebie z prośbą o podanie kodu rejestracyjnego ani PIN-u. Uważaj na tego typu wiadomości – mogą pochodzić od osób podszywających się pod kogoś innego. Imię i nazwisko w profilu podaje osoba posługująca się kontem, a Signal nie weryfikuje tych danych."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
-    "messageformat": "Oszustwa związane z kryptowalutami lub pieniędzmi"
+    "messageformat": "Oszustwa związane z pieniędzmi, w tym kryptowalutami"
   },
   "icu:SafetyTipsModal__TipDescription--Crypto": {
-    "messageformat": "Jeśli ktoś, kogo nie znasz, wysyła Ci wiadomości o kryptowalutach (takich jak Bitcoin) lub okazjach finansowych, uważaj — prawdopodobnie jest to spam."
+    "messageformat": "Jeśli ktoś, kogo nie znasz, wysyła Ci wiadomości o kryptowalutach (takich jak Bitcoin) lub okazjach finansowych, uważaj – prawdopodobnie jest to spam."
   },
   "icu:SafetyTipsModal__TipTitle--Vague": {
     "messageformat": "Wiadomości ogólnikowe lub nie na temat"
   },
   "icu:SafetyTipsModal__TipDescription--Vague": {
-    "messageformat": "Spamerzy często zaczynają od prostej, angażującej wiadomości, takiej jak „cześć”. Jeśli odpiszesz, mogą wciągnąć Cię w dalszą rozmowę."
+    "messageformat": "Spamerzy często zaczynają od prostej, angażującej wiadomości, takiej jak „cześć”. Jeśli odpiszesz, mogą Cię wciągnąć w dalszą rozmowę."
   },
   "icu:SafetyTipsModal__TipTitle--Links": {
     "messageformat": "Wiadomości z linkami"
   },
   "icu:SafetyTipsModal__TipDescription--Links": {
-    "messageformat": "Uważaj na wiadomości od nieznajomych zawierające linki do stron internetowych. Nigdy nie wchodź w linki przesłane przez osoby, którym nie ufasz."
+    "messageformat": "Uważaj na wiadomości od nieznanych Ci osób zawierające linki do stron internetowych. Nigdy nie otwieraj linków przesłanych przez osoby, do których nie masz zaufania."
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
-    "messageformat": "Nieistniejące firmy i instytucje"
+    "messageformat": "Fałszywe konta firm i instytucji"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
-    "messageformat": "Uważaj na firmy lub agencje rządowe, które się z Tobą kontaktują. Wiadomości od instytucji podatkowych, kurierów itd. mogą być spamem."
+    "messageformat": "Zachowaj ostrożność, jeśli rzekomo kontaktuje się z Tobą organizacja rządowa lub firma. Wiadomości, których nadawcami mieliby być kurierzy, instytucje podatkowe itd., mogą być spamem."
   },
   "icu:SafetyTipsModal__DotLabel": {
     "messageformat": "Przejdź do strony {page,number}"
@@ -2958,7 +2958,7 @@
     "messageformat": "Kontynuować czat z {firstName} i udostępnić imię i zdjęcie temu kontaktowi? <learnMoreLink>Dowiedz się więcej</learnMoreLink>"
   },
   "icu:ConversationHero--members": {
-    "messageformat": "{count, plural, one {{count,number} członek} few {{count,number} członków} many {{count,number} członków} other {{count,number} członków}}"
+    "messageformat": "{count, plural, one {{count,number} osoba} few {{count,number} osoby} many {{count,number} osób} other {{count,number} osoby}}"
   },
   "icu:ConversationHero--member-list-and-invited": {
     "messageformat": "{invitesCount, plural, one {{memberList} (oraz {invitesCount,number} zaproszona osoba)} few {{memberList} (oraz {invitesCount,number} zaproszone osoby)} many {{memberList} (oraz {invitesCount,number} zaproszonych osób)} other {{memberList} (oraz {invitesCount,number} zaproszonej osoby)}}"
@@ -3018,7 +3018,7 @@
     "messageformat": "Należy do grup {group1}, {group2}, {group3} i jeszcze jednej innej"
   },
   "icu:member-of-more-than-3-groups--multiple-more": {
-    "messageformat": "{remainingCount, plural, one {Członek {group1}, {group2}, {group3} i {remainingCount,number} innych} few {Członek {group1}, {group2}, {group3} i {remainingCount,number} innych} many {Członek {group1}, {group2}, {group3} i {remainingCount,number} innych} other {Członek {group1}, {group2}, {group3} i {remainingCount,number} innych}}"
+    "messageformat": "{remainingCount, plural, one {Należy do grup {group1}, {group2}, {group3} i jeszcze {remainingCount,number} innej grupy} few {Należy do grup {group1}, {group2}, {group3} i jeszcze {remainingCount,number} innych grup} many {Należy do grup {group1}, {group2}, {group3} i jeszcze {remainingCount,number} innych grup} other {Należy do grup {group1}, {group2}, {group3} i jeszcze {remainingCount,number} innej grupy}}"
   },
   "icu:no-groups-in-common": {
     "messageformat": "Brak wspólnych grup"
@@ -5082,7 +5082,7 @@
     "messageformat": "Kopie zapasowe Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatyczne tworzenie kopii zapasowych w usłudze bezpiecznego przechowywania Signal, szyfrowanej metodą end-to-end. Skonfiguruj na telefonie. <learnMoreLink>Dowiedz się więcej.</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Stwórz kopię zapasową historii wiadomości, aby ich nie stracić nawet po zmianie telefonu czy ponownej instalacji aplikacji Signal."
@@ -6476,6 +6476,6 @@
     "messageformat": "W oknie wyboru reakcji pojawiła się nowa sekcja, w której wyświetlą się wszystkie emoji dodane w reakcji na daną wiadomość. Sześć serduszek, jeden szampan, trzy prezenty… Teraz wszystkie reakcje zobaczysz jak na dłoni – i szybko podejmiesz decyzję, czy iść za tłumem, czy pod prąd."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "W tej aktualizacji umożliwiliśmy akcelerację GPU w systemie Linux. Efekt – szybsze działanie i płynniejsze wideo na kompatybilnych urządzeniach."
   }
 }

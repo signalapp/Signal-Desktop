@@ -5082,7 +5082,7 @@
     "messageformat": "Signal ಬ್ಯಾಕಪ್‌ಗಳು"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Signal ನ ಸುರಕ್ಷಿತ ಎಂಡ್ ಟು ಎಂಡ್ ಎನ್ಕ್ರಿಪ್ಟ್ ಆಗಿರುವ ಸಂಗ್ರಹಣೆ ಸೇವೆಯೊಂದಿಗೆ ಸ್ವಯಂಚಾಲಿತ ಬ್ಯಾಕಪ್‌ಗಳು. ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ ಪ್ರಾರಂಭಿಸಿ. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ.</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "ನಿಮ್ಮ ಮೆಸೇಜ್ ಇತಿಹಾಸವನ್ನು ಬ್ಯಾಕಪ್ ಮಾಡಿ, ಇದರಿಂದ ನೀವು ಹೊಸ ಫೋನ್ ಪಡೆದಾಗ ಅಥವಾ Signal ರೀಇನ್‍ಸ್ಟಾಲ್ ಮಾಡಿದಾಗ ಡೇಟಾವನ್ನು ಕಳೆದುಕೊಳ್ಳುವುದಿಲ್ಲ."
@@ -6476,6 +6476,6 @@
     "messageformat": "ಮೆಸೇಜ್ ಪ್ರತಿಕ್ರಿಯೆ ಆಯ್ಕೆಯಲ್ಲಿನ ಹೊಸ ವಿಭಾಗವು ಮೆಸೇಜ್ ಸ್ವೀಕರಿಸಿದ ಎಲ್ಲಾ ಎಮೋಜಿ ಪ್ರತಿಕ್ರಿಯೆಗಳನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಪ್ರದರ್ಶಿಸುತ್ತದೆ. ಈಗ ನೀವು ಬೇಗನೆ ಬ್ಯಾಂಡ್‌ವ್ಯಾಗನ್‌ಗೆ ಬದಲಿಸಬಹುದು ಮತ್ತು ಎಲ್ಲರೂ ಈಗಾಗಲೇ ಮಾಡಿದಂತೆ ಪ್ರಮಾಣಿತ ಮಿನುಗುವ ಹೃದಯವನ್ನು ಸೇರಿಸಬಹುದು ಅಥವಾ ನೀವು ನಿಮ್ಮ ಮನಸ್ಸಿಗೆ ಸರಿ ಕಾಣುವಂತೆ ಅಂಗರಚನೆ ರೂಪದ ಹೃದಯವನ್ನು ಸೇರಿಸಬಹುದು."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "ಈ ಅಪ್‌ಡೇಟ್ ಸುಧಾರಿತ ಕಾರ್ಯಕ್ಷಮತೆಗಾಗಿ ಮತ್ತು ಬೆಂಬಲಿತ ಹಾರ್ಡ್‌ವೇರ್‌ನಲ್ಲಿ ಸುಗಮ ವೀಡಿಯೊ ಪ್ಲೇಬ್ಯಾಕ್‌ಗಾಗಿ Linux ನಲ್ಲಿ GPU ವೇಗವರ್ಧನೆಯನ್ನು ಸಕ್ರಿಯಗೊಳಿಸುತ್ತದೆ."
   }
 }

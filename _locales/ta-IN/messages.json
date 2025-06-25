@@ -5082,7 +5082,7 @@
     "messageformat": "சிக்னல் காப்புப்பிரதிகள்"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "சிக்னலின் பாதுகாப்பான எண்ட்-டு-எண்ட் குறியாக்கம் செய்யப்பட்ட சேமிப்பகச் சேவையுடன் தானியங்கி காப்புப்பிரதிகள். உங்கள் பேசியில் தொடங்குங்கள். <learnMoreLink>மேலும் அறிக.</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "உங்கள் செய்தி வரலாற்றைக் காப்புப் பிரதி எடுக்கவும், எனவே நீங்கள் புதிய தொலைபேசியைப் பெறும்போது அல்லது சிக்னலை மீண்டும் நிறுவும்போது தரவை இழக்க மாட்டீர்கள்."
@@ -6476,6 +6476,6 @@
     "messageformat": "மெசேஜ் எதிர்வினை தேர்வியில் ஒரு புதிய பிரிவானது, ஒரு மெசேஜ் பெற்ற அனைத்து எமோஜி எதிர்வினைகளையும் தானாகவே காட்டும்."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "லினக்ஸ் செயல்திறன் மேம்பாடுகள்."
   }
 }

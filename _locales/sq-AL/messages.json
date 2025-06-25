@@ -5082,7 +5082,7 @@
     "messageformat": "Kopjeruajtjet e Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Kopjeruajtjet automatike me shërbimin e sigurt të ruajtjes së koduar nga skaji në skaj të Signal. Fillo në telefonin tënd. <learnMoreLink>Mëso më shumë.</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Bëj kopjeruajtje të historikut të mesazheve në mënyrë që të mos i humbasësh kurrë të dhënat kur merr një telefon të ri ose kur e riinstalon sërish Signal."
@@ -6476,6 +6476,6 @@
     "messageformat": "Një seksion i ri në përzgjedhësin e reagimeve ndaj mesazheve shfaq automatikisht të gjitha reagimet ndaj figurave emoxhi që ka marrë një mesazh. Tani mund t'i bashkohesh shpejt kësaj tendence dhe të shtosh një zemër standarde me shkëlqim, ashtu siç kanë bërë të gjithë të tjerët, ose mund të ndjekësh zemrën dhe të zgjedhësh zemrën anatomike."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Përditësimi mundëson përshpejtimin e GPU-së në Linux për performancë të përmirësuar dhe luajtje më të rrjedhshme të videos në harduerin e mbështetur."
   }
 }

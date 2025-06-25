@@ -5082,7 +5082,7 @@
     "messageformat": "Signal-en babeskopiak"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Babeskopia automatikoak, Signal-en muturretik muturrera enkriptatutako biltegiratze-zerbitzu seguruarekin. Hasi telefonoan erabiltzen. <learnMoreLink>Lortu informazio gehiago</learnMoreLink>."
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Egin mezu-historiaren babeskopia, gailuz aldatzean edo Signal berriro instalatzean ez dezazun daturik galdu."

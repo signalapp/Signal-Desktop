@@ -5082,7 +5082,7 @@
     "messageformat": "Резервное копирование Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Автоматическое создание резервных копий с помощью надёжного, полностью зашифрованного хранилища Signal. Начните с вашего телефона. <learnMoreLink>Узнать больше.</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Создайте резервную копию истории сообщений, и вы не потеряете ни одно сообщение при покупке нового телефона или переустановке Signal."
@@ -6476,6 +6476,6 @@
     "messageformat": "В новом разделе селектора реакций на сообщение автоматически отображаются все эмодзи, им полученные. Теперь вы можете быстро присоединиться к остальным и поставить стандартное сияющее сердечко — или последовать зову собственного сердца и выбрать другое сердечко-эмодзи."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Это обновление активирует ускорение графического процессора в Linux для повышения производительности и более плавного воспроизведения видео на поддерживаемом оборудовании."
   }
 }

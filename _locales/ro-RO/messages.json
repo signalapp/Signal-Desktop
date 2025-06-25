@@ -5082,7 +5082,7 @@
     "messageformat": "Backup-uri Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Backup-uri automate cu serviciul de stocare criptat complet de la Signal. Începe pe telefonul tău. <learnMoreLink>Află mai multe.</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Fă back-up pentru istoricul mesajelor, astfel încât niciodată să nu pierzi date, atunci când îți iei un telefon nou sau reinstalezi Signal."
@@ -6476,6 +6476,6 @@
     "messageformat": "O nouă secțiune din selectorul de reacții la mesaje afișează automat toate reacțiile emoji primite de un mesaj. Acum poți să fii în trend și să adaugi o inimă strălucitoare standard, așa cum au făcut deja toți ceilalți, sau poți să-ți urmezi propria inimă și să alegi în schimb, inima anatomică."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Această actualizare activează accelerarea GPU pe Linux pentru performanțe îmbunătățite și o redare video mai fluidă pe hardware-ul compatibil."
   }
 }

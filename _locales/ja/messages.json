@@ -5082,7 +5082,7 @@
     "messageformat": "Signalバックアップ"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Signalによる、安全なエンドツーエンドの暗号化ストレージサービスによる自動バックアップです。ご利用中のスマートフォンからバックアップが可能です。<learnMoreLink>さらに詳しく。</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "メッセージ履歴をバックアップしておくと、電話を買い替えたり、Signalを再インストールしたりしてもデータが失われることはありません。"
@@ -6476,6 +6476,6 @@
     "messageformat": "メッセージのリアクション選択画面に新しいセクションが追加されました。そのセクションには、メッセージに付けられたすべての絵文字リアクションが自動的に表示されます。"
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Linuxのパフォーマンスが向上しました。"
   }
 }

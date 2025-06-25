@@ -3411,7 +3411,7 @@
     "messageformat": "Não é possível entrar no grupo"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "Você não pode entrar nesse grupo com o link porque um admin excluiu você. Entre em contato com um admin para ser adicionado ao grupo novamente."
+    "messageformat": "Você não pode entrar neste grupo usando o link porque um administrador removeu você. Entre em contato com um administrador para ser adicionado novamente. "
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "Um administrador deste grupo precisa aprovar seu pedido antes que você possa participar. Ao solicitar a entrada, seu nome e foto serão compartilhados com os membros do grupo."
@@ -5082,7 +5082,7 @@
     "messageformat": "Backups do Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Backups automáticos com armazenamento seguro e criptografado de ponta a ponta do Signal.  Comece a usar no seu telefone. <learnMoreLink>Saiba mais.</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Faça backup do seu histórico de mensagens para nunca perder dados ao comprar um novo telefone ou reinstalar o Signal."
@@ -6476,6 +6476,6 @@
     "messageformat": "Uma nova seção no seletor de reações agora exibe automaticamente todos os emojis que uma mensagem recebeu."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Esta atualização ativa a aceleração via GPU no Linux, melhorando o desempenho e facilitando a reprodução de vídeos em hardwares compatíveis."
   }
 }

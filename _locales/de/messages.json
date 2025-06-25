@@ -3411,7 +3411,7 @@
     "messageformat": "Gruppenbeitritt nicht möglich"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "Du kannst dieser Gruppe nicht über den Gruppen-Link beitreten, da ein Admin dich entfernt hat. Kontaktiere einen Admin, um der Gruppe erneut hinzugefügt zu werden."
+    "messageformat": "Du kannst dieser Gruppe nicht über den Gruppen-Link beitreten, da ein Admin dich entfernt hat. Kontaktiere einen Gruppen-Admin, um der Gruppe erneut hinzugefügt zu werden."
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "Bevor du der Gruppe beitreten kannst, muss ein Admin dieser Gruppe deine Anfrage bestätigen. Wenn du eine Beitrittsanfrage stellst, werden dein Name und dein Foto mit den Mitgliedern geteilt."
@@ -5082,7 +5082,7 @@
     "messageformat": "Signal Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatische Datensicherungen mit dem sicheren Ende-zu-Ende-verschlüsselten Speicherservice von Signal. Leg einfach auf deinem Smartphone los. <learnMoreLink>Mehr erfahren.</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Sichere deinen Nachrichtenverlauf und verliere keine alten Nachrichten, wenn du ein neues Mobiltelefon hast bzw. Signal erneut installierst."
@@ -5130,22 +5130,22 @@
     "messageformat": "Größe des Backups"
   },
   "icu:Preferences__local-backups": {
-    "messageformat": "Desktop-Datensicherungen"
+    "messageformat": "Desktop-Backups"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Datensicherungen werden mit einem Schlüssel verschlüsselt und auf deinem Computer gespeichert."
+    "messageformat": "Lokale Backups werden mit einem Schlüssel verschlüsselt und auf deinem Computer gespeichert."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Erstelle eine Ende-zu-Ende-verschlüsselte Datensicherung, die du auf deinem Smartphone wiederherstellen kannst. "
+    "messageformat": "Erstelle ein Ende-zu-Ende-verschlüsseltes Backup, das du auf deinem Smartphone wiederherstellen kannst. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Um eine Datensicherung wiederherzustellen, installiere einfach eine neue Version von Signal. Öffne die App, tippe auf »Sicherung wiederherstellen« und suche dann den Sicherungsordner. <learnMoreLink>Mehr erfahren.</learnMoreLink>"
+    "messageformat": "Um ein lokales Backup wiederherzustellen, installiere einfach eine neue Version von Signal. Öffne die App, tippe auf »Backup wiederherstellen« und suche dann den Backup-Ordner. <learnMoreLink>Mehr erfahren.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Einen Ordner wählen"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Wähle einen Ordner auf deinem Computer, wo die Ende-zu-Ende-verschlüsselte Datensicherung gespeichert werden soll."
+    "messageformat": "Wähle einen Ordner auf deinem Computer, wo das lokale Ende-zu-Ende-verschlüsselte Backup gespeichert werden soll."
   },
   "icu:Preferences--local-backups-setup-next": {
     "messageformat": "Weiter"
@@ -5154,28 +5154,28 @@
     "messageformat": "Fertig"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
-    "messageformat": "Textfeld »Datensicherungsschlüssel«"
+    "messageformat": "Textfeld »Backup-Schlüssel«"
   },
   "icu:Preferences--local-backups-enter-backup-key": {
     "messageformat": "Schlüssel eingeben"
   },
   "icu:Preferences--local-backups-record-backup-key": {
-    "messageformat": "Sichere deinen Datensicherungsschlüssel"
+    "messageformat": "Sichere deinen Backup-Schlüssel"
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Dieser Schlüssel wird benötigt, um dein Konto und deine Daten wiederherzustellen. Bewahre diesen Schlüssel sicher auf. Wenn du ihn verlierst, kannst du dein Konto nicht wiederherstellen. <learnMoreLink>Mehr erfahren.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-confirm-backup-key": {
-    "messageformat": "Bestätige deinen Datensicherungsschlüssel"
+    "messageformat": "Bestätige deinen Backup-Schlüssel"
   },
   "icu:Preferences--local-backups-confirm-backup-key-description": {
-    "messageformat": "Gib den Datensicherungsschlüssel ein, den du eben aufgezeichnet hast"
+    "messageformat": "Gib den Backup-Schlüssel ein, den du eben aufgezeichnet hast"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
     "messageformat": "Verwahre deinen Schlüssel sicher auf"
   },
   "icu:Preferences__local-backups-confirm-key-modal-body": {
-    "messageformat": "Signal kann dir nicht helfen, deine Datensicherung wiederherzustellen, wenn du deinen Schlüssel verlierst. Bewahre ihn an einem sicheren Ort auf und gib ihn nicht an andere weiter."
+    "messageformat": "Signal kann dir nicht helfen, dein Backup wiederherzustellen, wenn du deinen Schlüssel verlierst. Bewahre ihn an einem sicheren Ort auf und gib ihn nicht an andere weiter."
   },
   "icu:Preferences__local-backups-confirm-key-modal-continue": {
     "messageformat": "Fortfahren"
@@ -5184,7 +5184,7 @@
     "messageformat": "Schlüssel erneut anzeigen"
   },
   "icu:Preferences__local-backups-folder": {
-    "messageformat": "Ordner für Datensicherung"
+    "messageformat": "Ordner für Backup"
   },
   "icu:Preferences__local-backups-folder__change": {
     "messageformat": "Ändern"
@@ -5193,19 +5193,19 @@
     "messageformat": "In Zwischenablage kopieren"
   },
   "icu:Preferences__local-backups-copied-key": {
-    "messageformat": "Datensicherungsschlüssel kopiert"
+    "messageformat": "Backup-Schlüssel kopiert"
   },
   "icu:Preferences__view-key": {
     "messageformat": "Schlüssel anzeigen"
   },
   "icu:Preferences__backup-key": {
-    "messageformat": "Datensicherungsschlüssel"
+    "messageformat": "Backup-Schlüssel"
   },
   "icu:Preferences__backup-key-description": {
-    "messageformat": "Dein Datensicherungsschlüssel ist ein 64-stelliger Code, mit dem du deine Datensicherung wiederherstellen kannst"
+    "messageformat": "Dein Backup-Schlüssel ist ein 64-stelliger Code, mit dem du dein Backup wiederherstellen kannst"
   },
   "icu:Preferences__backup-other-ways": {
-    "messageformat": "Weitere Möglichkeiten zur Datensicherung"
+    "messageformat": "Weitere Backup-Möglichkeiten"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} Kontakt} other {{num,number} Kontakte}}"
@@ -6473,9 +6473,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.58--0": {
-    "messageformat": "Ein neuer Bereich in der Nachrichten-Reaktionsauswahl zeigt automatisch alle Emoji-Reaktionen an, die eine Nachricht erhalten hat. Jetzt kannst du also auch schnell auf den Zug aufspringen und so wie alle anderen ein glitzerndes Standardherz hinzufügen – oder du folgst deinem eigenen Herzen und wählst stattdessen lieber das anatomische Herz."
+    "messageformat": "Ein neuer Bereich in der Nachrichten-Reaktionsauswahl zeigt automatisch alle Emoji-Reaktionen an, die eine Nachricht erhalten hat. Jetzt kannst du also auch schnell auf den Zug aufspringen und so wie alle anderen ein glänzendes Standardherz hinzufügen – oder du folgst deinem eigenen Herzen und wählst stattdessen lieber das anatomische Herz."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Dieses Update schaltet die GPU-Beschleunigung unter Linux frei, um die Leistung zu verbessern und die Videowiedergabe auf unterstützter Hardware zu optimieren."
   }
 }

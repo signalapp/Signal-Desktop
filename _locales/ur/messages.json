@@ -5082,7 +5082,7 @@
     "messageformat": "Signal بیک اپس"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Signal کی محفوظ، آخر سے آخر تک انکرپٹ کردہ اسٹوریج سروس کے حامل خودکار بیک اپس۔ اپنے فون پر آغاز کریں۔ <learnMoreLink>مزید جانیں۔</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "اپنی میسج ہسٹری کا بیک اپ کریں تاکہ جب بھی آپ کوئی نیا فون لیں یا Signal کو دوبارہ انسٹال کریں تو اس صورت میں آپ کا ڈیٹا کبھی بھی ضائع نہ ہو۔"
@@ -6476,6 +6476,6 @@
     "messageformat": "میسج ری ایکشن کے سلیکٹر میں ایک نیا سیکشن خودکار طور پر تمام ایموجی ری ایکشنز دکھاتا ہے جو کسی پیغام کو موصول ہوئے ہیں۔ تو اب آپ بھی دوسروں کو فالو کرتے ہوئے ایک چمکدار دل والا ایموجی ڈال سکتے ہیں یا پھر اپنے خاص سٹائل میں ایناٹومکل دل کا نشان ڈال سکتے ہیں۔"
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "یہ اپ ڈیٹ لینکس پر GPU ایکسلریشن کو بہتر کارکردگی اور معاون ہارڈ ویئر پر ہموار ویڈیو پلے بیک کے لیے قابل بنایا ہے۔"
   }
 }

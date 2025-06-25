@@ -5082,7 +5082,7 @@
     "messageformat": "Signal زاپاسلانمىسى"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Signalنىڭ بىخەتەر ئاخىرىغىچە مەخپىيلەشتۈرۈلگەن ساقلاش مۇلازىمىتى بىلەن ئاپتوماتىك زاپاسلاش. تېلېفونىڭىزدىن باشلاڭ. <learnMoreLink>تەپسىلاتى.</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "ئۇچۇرلىشىش تارىخىڭىزنى زاپاسلاڭ ، يېڭى تېلېفون ئالغاندا ياكى سىگنالنى قايتا قاچىلىغاندا سانلىق مەلۇماتنى ھەرگىز يوقىتىپ قويمايسىز."

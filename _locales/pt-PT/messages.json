@@ -5082,7 +5082,7 @@
     "messageformat": "Cópias de segurança do Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Cópias de segurança automáticas com o serviço seguro de armazenamento encriptado de ponta a ponta do Signal. Comece no seu telemóvel. <learnMoreLink>Saiba mais.</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Efetue cópias de segurança do seu histórico de mensagens para nunca perder dados ao mudar de telemóvel ou reinstalar o Signal."
@@ -6476,6 +6476,6 @@
     "messageformat": "Uma nova secção no seletor de reações de mensagens apresenta automaticamente todos os emoji de reação que uma mensagem recebeu."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Esta atualização permite a aceleração por GPU no Linux para um melhor desempenho e uma reprodução de vídeo mais suave em hardware compatível."
   }
 }

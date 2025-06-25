@@ -5082,7 +5082,7 @@
     "messageformat": "Signal Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups na may secure end-to-end encrypted storage service hatid ng Signal. Simulan sa phone mo. <learnMoreLink>Matuto pa.</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "I-back up ang message history mo para hindi mawala ang data mo kapag nagpalit ka ng phone o ni-reinstall mo ang Signal."
@@ -6476,6 +6476,6 @@
     "messageformat": "Ang isang bagong section sa message reaction selector ay automatic ipinapakita ang lahat ng emoji reactions na natanggap ng isang message."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Improvements sa performance sa Linux."
   }
 }

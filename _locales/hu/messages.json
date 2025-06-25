@@ -5082,7 +5082,7 @@
     "messageformat": "A Signal biztonsági mentései"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatikus biztonsági mentések a Signal biztonságos végpontok közötti titkosított tárolási szolgáltatásával. Kezdj hozzá a telefonodon! <learnMoreLink>Tudj meg többet!</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Készíts biztonsági másolatot az üzenetelőzményeidről, hogy soha ne veszíts el adatot új telefon vásárlásakor vagy a Signal újratelepítésekor."
@@ -6476,6 +6476,6 @@
     "messageformat": "Az üzenetreakció-választó új szakasza automatikusan megjeleníti az összes hangulatjel reakciót, amely egy üzenetre érkezett."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Linuxszal kapcsolatos teljesítményfejlesztések."
   }
 }

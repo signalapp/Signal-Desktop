@@ -5082,7 +5082,7 @@
     "messageformat": "Signal બેકઅપ"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Signalની સુરક્ષિત, એન્ડ-ટૂ-એન્ડ એન્ક્રિપ્ટેડ સ્ટોરેજ સેવા સાથે ઓટોમેટિક બેકઅપ. તમારા ફોન પર શરૂઆત કરો. <learnMoreLink>વધુ જાણો.</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "તમારી મેસેજ હિસ્ટ્રીનું બેકઅપ લો જેથી જ્યારે તમે નવો ફોન લો અથવા Signalને ફરીથી ઇન્સ્ટોલ કરો ત્યારે તમે ક્યારેય ડેટા ગુમાવશો નહીં."
@@ -6476,6 +6476,6 @@
     "messageformat": "મેસેજ પ્રતિક્રિયા સિલેક્ટરમાં એક નવો વિભાગ મેસેજને મળેલી બધી ઇમોજી પ્રતિક્રિયાઓને આપમેળે પ્રદર્શિત કરે છે."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Linux પ્રદર્શન સુધારણા."
   }
 }

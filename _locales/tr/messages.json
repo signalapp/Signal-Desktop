@@ -5082,7 +5082,7 @@
     "messageformat": "Signal Yedeklemeleri"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Signal'ın güvenli, uçtan uca şifrelenmiş depolama hizmeti ile otomatik yedeklemeler. Telefonunla başla. <learnMoreLink>Dahasını öğren.</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Mesaj geçmişini yedekle böylece yeni bir telefon aldığında veya Signal'i yeniden yüklediğinde asla veri kaybetmezsin."
@@ -6476,6 +6476,6 @@
     "messageformat": "Mesaj tepki seçicisindeki yeni bir bölüm, bir mesajın aldığı tüm emoji tepkilerini otomatik olarak görüntüler. Böylece mesajın insanlarda uyandırdığı genel hissiyatı anında öğrenebilir, merakını hemen giderebilirsin."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Linux için performans iyileştirmeleri."
   }
 }
