@@ -324,6 +324,7 @@ declare global {
   interface Set<T> {
     // Needed until TS upgrade
     difference<U>(other: ReadonlySet<U>): Set<T>;
+    symmetricDifference<U>(other: ReadonlySet<U>): Set<T>;
   }
 }
 

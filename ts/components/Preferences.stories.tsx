@@ -5,6 +5,7 @@ import type { Meta, StoryFn } from '@storybook/react';
 import React, { useRef, useState } from 'react';
 
 import { action } from '@storybook/addon-actions';
+import { shuffle } from 'lodash';
 import { Page, Preferences } from './Preferences';
 import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors';
 import { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
@@ -14,7 +15,10 @@ import { DAY, DurationInSeconds, WEEK } from '../util/durations';
 import { DialogUpdate } from './DialogUpdate';
 import { DialogType } from '../types/Dialogs';
 import { ThemeType } from '../types/Util';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import {
+  getDefaultConversation,
+  getDefaultGroup,
+} from '../test-both/helpers/getDefaultConversation';
 import { EditState, ProfileEditor } from './ProfileEditor';
 import {
   UsernameEditState,
@@ -25,6 +29,7 @@ import type { PropsType } from './Preferences';
 import type { WidthBreakpoint } from './_util';
 import type { MessageAttributesType } from '../model-types';
 import { PreferencesDonations } from './PreferencesDonations';
+import { strictAssert } from '../util/assert';
 
 const { i18n } = window.SignalContext;
 
@@ -33,6 +38,20 @@ const me = {
   phoneNumber: '(215) 555-2345',
   username: 'someone.243',
 };
+
+const conversations = shuffle([
+  ...Array.from(Array(20), getDefaultGroup),
+  ...Array.from(Array(20), getDefaultConversation),
+]);
+
+function conversationSelector(conversationId?: string) {
+  strictAssert(conversationId, 'Missing conversation id');
+  const found = conversations.find(conversation => {
+    return conversation.id === conversationId;
+  });
+  strictAssert(found, 'Missing conversation');
+  return found;
+}
 
 const availableMicrophones = [
   {
@@ -164,6 +183,9 @@ export default {
   args: {
     i18n,
 
+    conversations,
+    conversationSelector,
+
     accountEntropyPool:
       'uy38jh2778hjjhj8lk19ga61s672jsj089r023s6a57809bap92j2yh5t326vv7t',
     autoDownloadAttachment: {
@@ -273,6 +295,7 @@ export default {
     renderToastManager,
     renderUpdateDialog,
     getConversationsWithCustomColor: () => [],
+    getPreferredBadge: () => undefined,
 
     addCustomColor: action('addCustomColor'),
     doDeleteAllData: action('doDeleteAllData'),
@@ -378,6 +401,14 @@ Appearance.args = {
 export const Chats = Template.bind({});
 Chats.args = {
   page: Page.Chats,
+};
+export const ChatFolders = Template.bind({});
+ChatFolders.args = {
+  page: Page.ChatFolders,
+};
+export const EditChatFolder = Template.bind({});
+EditChatFolder.args = {
+  page: Page.EditChatFolder,
 };
 export const Calls = Template.bind({});
 Calls.args = {

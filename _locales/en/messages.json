@@ -1714,6 +1714,222 @@
     "messageformat": "Emoji skin tone",
     "description": "Preferences Window > Chats Tab > Emoji skin tone default setting > Label"
   },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
+    "messageformat": "Chat folders",
+    "description": "Preferences > Chats Page > Chat Folders Section > Title"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
+    "messageformat": "Add a chat folder",
+    "description": "Preferences > Chats Page > Chat Folders Section > Add Chat Folder Item > Title"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
+    "messageformat": "Organize your chats into folders and quickly switch between them on your chat list.",
+    "description": "Preferences > Chats Page > Chat Folders Section > Add Chat Folder Item > Description"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
+    "messageformat": "Edit folder",
+    "description": "Preferences > Chats Page > Chat Folders Section > Chat Folder Item > Context Menu > Edit Folder"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__DeleteFolder": {
+    "messageformat": "Delete",
+    "description": "Preferences > Chats Page > Chat Folders Section > Chat Folder Item > Context Menu > Delete Folder"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Title": {
+    "messageformat": "Delete folder?",
+    "description": "Preferences > Chats Page > Delete Chat Folder Dialog > Title"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Description": {
+    "messageformat": "Do you want to delete the folder “{chatFolderTitle}”?",
+    "description": "Preferences > Chats Page > Delete Chat Folder Dialog > Description"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
+    "messageformat": "Delete",
+    "description": "Preferences > Chats Page > Delete Chat Folder Dialog > Delete Button"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
+    "messageformat": "Cancel",
+    "description": "Preferences > Chats Page > Delete Chat Folder Dialog > Cancel Button"
+  },
+  "icu:Preferences__ChatFoldersPage__Title": {
+    "messageformat": "Chat folders",
+    "description": "Preferences > Chat Folders Page > Title"
+  },
+  "icu:Preferences__ChatFoldersPage__Description": {
+    "messageformat": "Organize your chats into folders and quickly switch between them on your chat list",
+    "description": "Preferences > Chat Folders Page > Description"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__Title": {
+    "messageformat": "Folders",
+    "description": "Preferences > Chat Folders Page > Folders > Title"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__AllChatsFolder__Title": {
+    "messageformat": "All chats",
+    "description": "Preferences > Chat Folders Page > Folders > All Chats Folder (Default folder, always present)"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
+    "messageformat": "Create a folder",
+    "description": "Preferences > Chat Folders Page > Folders > Create A Folder Button"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
+    "messageformat": "Suggested folders",
+    "description": "Preferences > Chat Folders Page > Suggested Folders > Title"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
+    "messageformat": "Add",
+    "description": "Preferences > Chat Folders Page > Suggested Folders > Add Button"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
+    "messageformat": "{chatFolderTitle} folder added",
+    "description": "Preferences > Chat Folders Page > Suggested Folders > Add Button > Toast"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
+    "messageformat": "Unread",
+    "description": "Preferences > Chat Folders Page > Suggested Folders > Unread Folder > Title"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Description": {
+    "messageformat": "Unread messages from all chats",
+    "description": "Preferences > Chat Folders Page > Suggested Folders > Unread Folder > Description"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Title": {
+    "messageformat": "1:1 chats",
+    "description": "Preferences > Chat Folders Page > Suggested Folders > Direct chats Folder > Title"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Description": {
+    "messageformat": "Only messages from direct chats",
+    "description": "Preferences > Chat Folders Page > Suggested Folders > Direct chats Folder > Description"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Title": {
+    "messageformat": "Groups",
+    "description": "Preferences > Chat Folders Page > Suggested Folders > Group chats Folder > Title"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Description": {
+    "messageformat": "Only messages from group chats",
+    "description": "Preferences > Chat Folders Page > Suggested Folders > Group chats Folder > Description"
+  },
+  "icu:Preferences__EditChatFolderPage__Title": {
+    "messageformat": "Create a folder",
+    "description": "Preferences > Edit Chat Folder Page > Title"
+  },
+  "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
+    "messageformat": "Folder name",
+    "description": "Preferences > Edit Chat Folder Page > Folder Name Field > Label"
+  },
+  "icu:Preferences__EditChatFolderPage__FolderNameField__Placeholder": {
+    "messageformat": "Folder name (required)",
+    "description": "Preferences > Edit Chat Folder Page > Folder Name Field > Placeholder"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Title": {
+    "messageformat": "Included chats",
+    "description": "Preferences > Edit Chat Folder Page > Included Chats Section > Title"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
+    "messageformat": "Choose chats that you want to appear in this folder",
+    "description": "Preferences > Edit Chat Folder Page > Included Chats Section > Help"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
+    "messageformat": "Add chats",
+    "description": "Preferences > Edit Chat Folder Page > Included Chats Section > Add Chats Button"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog--IncludedChats__Title": {
+    "messageformat": "Included chats",
+    "description": "Preferences > Edit Chat Folder Page > Select Chats Dialog (Included Chats Mode) > Title"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog--ExcludedChats__Title": {
+    "messageformat": "Excluded chats",
+    "description": "Preferences > Edit Chat Folder Page > Select Chats Dialog (Excluded Chats Mode) > Title"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
+    "messageformat": "Search",
+    "description": "Preferences > Edit Chat Folder Page > Select Chats Dialog > Search > Placeholder"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
+    "messageformat": "Chat types",
+    "description": "Preferences > Edit Chat Folder Page > Select Chats Dialog > Chat Types Section > Title"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__DirectChats": {
+    "messageformat": "1:1 chats",
+    "description": "Preferences > Edit Chat Folder Page > Select Chats Dialog > Chat Types Section > Direct Chats"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__GroupChats": {
+    "messageformat": "Groups",
+    "description": "Preferences > Edit Chat Folder Page > Select Chats Dialog > Chat Types Section > Group Chats"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__RecentChats__Title": {
+    "messageformat": "Recent chats",
+    "description": "Preferences > Edit Chat Folder Page > Select Chats Dialog > Recent Chats Section > Title"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__DoneButton": {
+    "messageformat": "Done",
+    "description": "Preferences > Edit Chat Folder Page > Select Chats Dialog > Done Button"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__Title": {
+    "messageformat": "Exceptions",
+    "description": "Preferences > Edit Chat Folder Page > Exceptions Section > Title"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__Help": {
+    "messageformat": "Choose chats that you do not want to appear in this folder",
+    "description": "Preferences > Edit Chat Folder Page > Exceptions Section > Help"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__ExcludeChatsButton": {
+    "messageformat": "Exclude chats",
+    "description": "Preferences > Edit Chat Folder Page > Exceptions Section > Exclude chats button"
+  },
+  "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Label": {
+    "messageformat": "Only show unread chats",
+    "description": "Preferences > Edit Chat Folder Page > Only Show Unread Chats Checkbox > Label"
+  },
+  "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Description": {
+    "messageformat": "Only chats with unread messages will be shown in this folder.",
+    "description": "Preferences > Edit Chat Folder Page > Only Show Unread Chats Checkbox > Description"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludeMutedChatsCheckbox__Label": {
+    "messageformat": "Include muted chats",
+    "description": "Preferences > Edit Chat Folder Page > Include Muted Chats Checkbox > Label"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteFolderButton": {
+    "messageformat": "Delete folder",
+    "description": "Preferences > Edit Chat Folder Page > Delete Folder Button"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Title": {
+    "messageformat": "Delete this chat folder?",
+    "description": "Preferences > Delete Chat Folder Dialog > Title"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Description": {
+    "messageformat": "This folder will be removed from your chat list.",
+    "description": "Preferences > Delete Chat Folder Dialog > Description"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
+    "messageformat": "Delete",
+    "description": "Preferences > Delete Chat Folder Dialog > Delete Button"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
+    "messageformat": "Cancel",
+    "description": "Preferences > Delete Chat Folder Dialog > Cancel Button"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
+    "messageformat": "Save changes?",
+    "description": "Preferences > Edit Chat Folder Page > Save Changes Folder Dialog > Title"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Description": {
+    "messageformat": "Do you want to save the changes you’ve made to this chat folder?",
+    "description": "Preferences > Edit Chat Folder Page > Save Changes Folder Dialog > Description"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__SaveButton": {
+    "messageformat": "Save",
+    "description": "Preferences > Edit Chat Folder Page > Save Changes Folder Dialog > Save Button"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__DiscardButton": {
+    "messageformat": "Discard",
+    "description": "Preferences > Edit Chat Folder Page > Save Changes Folder Dialog > Discard Button"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveButton": {
+    "messageformat": "Save",
+    "description": "Preferences > Edit Chat Folder Page > Save Button"
+  },
+  "icu:Preferences__EditChatFolderPage__CancelButton": {
+    "messageformat": "Cancel",
+    "description": "Preferences > Edit Chat Folder Page > Cancel Button"
+  },
   "icu:initialSync": {
     "messageformat": "Syncing contacts and groups",
     "description": "Shown during initial link while contacts and groups are being pulled from mobile device"

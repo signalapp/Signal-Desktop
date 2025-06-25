@@ -10,6 +10,8 @@ import type { MutableRefObject } from 'react';
 import { useItemsActions } from '../ducks/items';
 import { useConversationsActions } from '../ducks/conversations';
 import {
+  getAllComposableConversations,
+  getConversationSelector,
   getConversationsWithCustomColorSelector,
   getMe,
 } from '../selectors/conversations';
@@ -154,6 +156,8 @@ export function SmartPreferences(): JSX.Element | null {
     getConversationsWithCustomColorSelector
   );
   const i18n = useSelector(getIntl);
+  const conversations = useSelector(getAllComposableConversations);
+  const conversationSelector = useSelector(getConversationSelector);
   const items = useSelector(getItems);
   const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
   const dialogType = useSelector(getUpdateDialogType);
@@ -163,8 +167,9 @@ export function SmartPreferences(): JSX.Element | null {
   const preferredWidthFromStorage = useSelector(getPreferredLeftPaneWidth);
   const theme = useSelector(getTheme);
 
-  const badge = useSelector(getPreferredBadgeSelector)(me.badges);
   const shouldShowUpdateDialog = dialogType !== DialogType.None;
+  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
+  const badge = getPreferredBadge(me.badges);
 
   // The weird ones
 
@@ -676,6 +681,8 @@ export function SmartPreferences(): JSX.Element | null {
   return (
     <StrictMode>
       <Preferences
+        conversations={conversations}
+        conversationSelector={conversationSelector}
         accountEntropyPool={accountEntropyPool}
         addCustomColor={addCustomColor}
         autoDownloadAttachment={autoDownloadAttachment}
@@ -706,6 +713,7 @@ export function SmartPreferences(): JSX.Element | null {
         getMessageSampleForSchemaVersion={
           DataReader.getMessageSampleForSchemaVersion
         }
+        getPreferredBadge={getPreferredBadge}
         hasAudioNotifications={hasAudioNotifications}
         hasAutoConvertEmoji={hasAutoConvertEmoji}
         hasAutoDownloadUpdate={hasAutoDownloadUpdate}

@@ -52,10 +52,9 @@ export function ListView({
 
   const style: React.CSSProperties = useMemo(() => {
     return {
-      // See `<Timeline>` for an explanation of this `any` cast.
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      overflowY: scrollable ? ('overlay' as any) : 'hidden',
+      overflowY: scrollable ? 'auto' : 'hidden',
       direction: 'inherit',
+      scrollbarGutter: 'stable',
     };
   }, [scrollable]);
 

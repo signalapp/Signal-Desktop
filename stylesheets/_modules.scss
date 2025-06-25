@@ -5098,7 +5098,8 @@ button.module-calling-participants-list__contact {
   $normal-row-height: 72px;
 
   @include mixins.NavTabs__Scroller;
-  padding-inline: 10px;
+  padding-inline-start: 10px;
+  padding-inline-end: 1px; /* leaving room for scrollbar */
 
   // list tiles in choose-group-members and compose extend to the edge
   .module-left-pane--mode-choose-group-members &,
@@ -5794,6 +5795,48 @@ button.module-calling-participants-list__contact {
 
       text-align: center;
     }
+  }
+}
+
+.module-conversation-list__empty-results {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: 48px;
+  padding-inline: 12px;
+}
+
+.module-conversation-list__generic-checkbox-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  background-color: light-dark(
+    variables.$color-black-alpha-06,
+    variables.$color-white-alpha-12
+  );
+
+  &::before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
+
+  &--contact::before {
+    @include mixins.color-svg(
+      '../images/icons/v3/person/person.svg',
+      light-dark(variables.$color-black, variables.$color-gray-05)
+    );
+  }
+
+  &--group::before {
+    @include mixins.color-svg(
+      '../images/icons/v3/group/group.svg',
+      light-dark(variables.$color-black, variables.$color-gray-05)
+    );
   }
 }
 

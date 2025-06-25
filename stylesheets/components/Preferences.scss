@@ -289,6 +289,16 @@ $secondary-text-color: light-dark(
     container-type: inline-size;
   }
 
+  &__actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    padding: 16px;
+    gap: 16px;
+  }
+
   &__settings-pane {
     display: flex;
     flex-grow: 1;
@@ -1296,4 +1306,119 @@ $secondary-text-color: light-dark(
   white-space: pre-wrap;
   user-select: text;
   overflow-x: scroll;
+}
+
+.Preferences__ChatFolders__ChatSelection__List {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.Preferences__ChatFolders__ChatSelection__Item--Button {
+  @include mixins.button-reset();
+  &:hover {
+    background: light-dark(variables.$color-gray-02, variables.$color-gray-80);
+  }
+  @include mixins.keyboard-mode {
+    &:focus {
+      outline: 2px solid variables.$color-ultramarine;
+    }
+  }
+}
+
+.Preferences__ChatFolders__ChatSelection__Item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 12px;
+  padding-block: 8px;
+  padding-inline: 24px;
+  border-radius: 1px;
+}
+
+.Preferences__ChatFolders__ChatSelection__ItemAvatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  background: light-dark(variables.$color-gray-05, variables.$color-gray-90);
+  &::before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.Preferences__ChatFolders__ChatSelection__ItemAvatar--Add::before {
+  @include mixins.color-svg(
+    '../images/icons/v3/plus/plus.svg',
+    light-dark(variables.$color-gray-75, variables.$color-gray-15)
+  );
+}
+
+.Preferences__ChatFolders__ChatSelection__ItemAvatar--Folder::before {
+  @include mixins.color-svg(
+    '../images/icons/v3/folder/folder.svg',
+    light-dark(variables.$color-gray-75, variables.$color-gray-15)
+  );
+}
+
+.Preferences__ChatFolders__ChatSelection__ItemAvatar--UnreadChats::before {
+  @include mixins.color-svg(
+    '../images/icons/v3/chat/chat-badge.svg',
+    light-dark(variables.$color-gray-75, variables.$color-gray-15)
+  );
+}
+
+.Preferences__ChatFolders__ChatSelection__ItemAvatar--DirectChats::before {
+  @include mixins.color-svg(
+    '../images/icons/v3/person/person.svg',
+    light-dark(variables.$color-gray-75, variables.$color-gray-15)
+  );
+}
+
+.Preferences__ChatFolders__ChatSelection__ItemAvatar--GroupChats::before {
+  @include mixins.color-svg(
+    '../images/icons/v3/group/group.svg',
+    light-dark(variables.$color-gray-75, variables.$color-gray-15)
+  );
+}
+
+.Preferences__ChatFolders__ChatSelection__ItemBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.Preferences__ChatFolders__ChatSelection__ItemTitle {
+  @include mixins.font-body-1;
+  color: light-dark(variables.$color-gray-90, variables.$color-gray-05);
+}
+
+.Preferences__ChatFolders__ChatSelection__ItemDescription {
+  @include mixins.font-body-2;
+  color: light-dark(variables.$color-gray-60, variables.$color-gray-25);
+}
+
+.Preferences__ChatFolders__ChatList__DeleteButton {
+  @include mixins.button-reset();
+  & {
+    color: variables.$color-accent-red;
+    border-radius: 1px;
+  }
+  @include mixins.keyboard-mode {
+    &:focus {
+      outline: 2px solid variables.$color-ultramarine;
+    }
+  }
+}
+
+.Preferences__EditChatFolderPage__SelectChatsDialog__width-container {
+  // Override .module-modal-host__width-container
+  &.module-modal-host__width-container {
+    max-width: 360px;
+  }
 }

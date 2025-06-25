@@ -13,9 +13,7 @@ import React, {
 import { isNumber, noop, partition } from 'lodash';
 import classNames from 'classnames';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
-
-import type { MutableRefObject } from 'react';
-
+import type { MutableRefObject, ReactNode } from 'react';
 import { Button, ButtonVariant } from './Button';
 import { ChatColorPicker } from './ChatColorPicker';
 import { Checkbox } from './Checkbox';
@@ -37,7 +35,7 @@ import { focusableSelector } from '../util/focusableSelectors';
 import { Modal } from './Modal';
 import { SearchInput } from './SearchInput';
 import { removeDiacritics } from '../util/removeDiacritics';
-import { assertDev } from '../util/assert';
+import { assertDev, strictAssert } from '../util/assert';
 import { I18n } from './I18n';
 import { FunSkinTonesList } from './fun/FunSkinTones';
 import { emojiParentKeyConstant, type EmojiSkinTone } from './fun/data/emojis';
@@ -89,11 +87,27 @@ import type {
   PromptOSAuthReasonType,
   PromptOSAuthResultType,
 } from '../util/os/promptOSAuthMain';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
+import { EditChatFoldersPage } from './preferences/EditChatFoldersPage';
+import { ChatFoldersPage } from './preferences/ChatFoldersPage';
+import type {
+  ChatFolderId,
+  ChatFolderParams,
+  ChatFolderRecord,
+} from '../types/ChatFolder';
+import {
+  CHAT_FOLDER_DEFAULTS,
+  isChatFoldersEnabled,
+} from '../types/ChatFolder';
+import type { GetConversationByIdType } from '../state/selectors/conversations';
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
 
 export type PropsDataType = {
+  conversations: ReadonlyArray<ConversationType>;
+  conversationSelector: GetConversationByIdType;
+
   // Settings
   accountEntropyPool: string | undefined;
   autoDownloadAttachment: AutoDownloadAttachmentType;
@@ -207,6 +221,7 @@ type PropsFunctionType = {
     version: number
   ) => Promise<Array<MessageAttributesType>>;
   getConversationsWithCustomColor: (colorId: string) => Array<ConversationType>;
+  getPreferredBadge: PreferredBadgeSelectorType;
   makeSyncRequest: () => unknown;
   onStartUpdate: () => unknown;
   pickLocalBackupFolder: () => Promise<string | undefined>;
@@ -296,6 +311,8 @@ export enum Page {
 
   // Sub pages
   ChatColor = 'ChatColor',
+  ChatFolders = 'ChatFolders',
+  EditChatFolder = 'EditChatFolder',
   PNP = 'PNP',
   BackupsDetails = 'BackupsDetails',
   LocalBackups = 'LocalBackups',
@@ -333,6 +350,8 @@ const DEFAULT_ZOOM_FACTORS = [
 ];
 
 export function Preferences({
+  conversations,
+  conversationSelector,
   accountEntropyPool,
   addCustomColor,
   autoDownloadAttachment,
@@ -358,6 +377,7 @@ export function Preferences({
   getConversationsWithCustomColor,
   getMessageCountBySchemaVersion,
   getMessageSampleForSchemaVersion,
+  getPreferredBadge,
   hasAudioNotifications,
   hasAutoConvertEmoji,
   hasAutoDownloadUpdate,
@@ -496,6 +516,54 @@ export function Preferences({
   const [languageSearchInput, setLanguageSearchInput] = useState('');
   const [confirmPnpNotDiscoverable, setConfirmPnpNoDiscoverable] =
     useState(false);
+
+  const [chatFolders, setChatFolders] = useState<
+    ReadonlyArray<ChatFolderRecord>
+  >([]);
+
+  const [editChatFolderPageId, setEditChatFolderPageId] =
+    useState<ChatFolderId | null>(null);
+
+  const handleOpenEditChatFoldersPage = useCallback(
+    (chatFolderId: ChatFolderId | null) => {
+      setPage(Page.EditChatFolder);
+      setEditChatFolderPageId(chatFolderId);
+    },
+    [setPage]
+  );
+
+  const handleCloseEditChatFoldersPage = useCallback(() => {
+    setPage(Page.ChatFolders);
+    setEditChatFolderPageId(null);
+  }, [setPage]);
+
+  const handleCreateChatFolder = useCallback((params: ChatFolderParams) => {
+    setChatFolders(prev => {
+      return [...prev, { ...params, id: String(prev.length) as ChatFolderId }];
+    });
+  }, []);
+
+  const handleUpdateChatFolder = useCallback(
+    (chatFolderId: ChatFolderId, chatFolderParams: ChatFolderParams) => {
+      setChatFolders(prev => {
+        return prev.map(chatFolder => {
+          if (chatFolder.id === chatFolderId) {
+            return { id: chatFolderId, ...chatFolderParams };
+          }
+          return chatFolder;
+        });
+      });
+    },
+    []
+  );
+
+  const handleDeleteChatFolder = useCallback((chatFolderId: ChatFolderId) => {
+    setChatFolders(prev => {
+      return prev.filter(chatFolder => {
+        return chatFolder.id !== chatFolderId;
+      });
+    });
+  }, []);
 
   function closeLanguageDialog() {
     setLanguageDialog(null);
@@ -1103,6 +1171,33 @@ export function Preferences({
             />
           </SettingsRow>
         </SettingsRow>
+        {isChatFoldersEnabled() && (
+          <SettingsRow
+            title={i18n(
+              'icu:Preferences__ChatsPage__ChatFoldersSection__Title'
+            )}
+          >
+            <Control
+              left={
+                <>
+                  <div>
+                    {i18n(
+                      'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title'
+                    )}
+                  </div>
+                  <div className="Preferences__description">
+                    {i18n(
+                      'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description'
+                    )}
+                  </div>
+                </>
+              }
+              right={null}
+              onClick={() => setPage(Page.ChatFolders)}
+            />
+          </SettingsRow>
+        )}
+
         {isSyncSupported && (
           <SettingsRow>
             <Control
@@ -1828,6 +1923,44 @@ export function Preferences({
         title={i18n('icu:ChatColorPicker__menu-title')}
       />
     );
+  } else if (page === Page.ChatFolders) {
+    content = (
+      <ChatFoldersPage
+        i18n={i18n}
+        settingsPaneRef={settingsPaneRef}
+        onBack={() => setPage(Page.Chats)}
+        onOpenEditChatFoldersPage={handleOpenEditChatFoldersPage}
+        chatFolders={chatFolders}
+        onCreateChatFolder={handleCreateChatFolder}
+      />
+    );
+  } else if (page === Page.EditChatFolder) {
+    let initChatFolderParam: ChatFolderParams;
+    if (editChatFolderPageId != null) {
+      const found = chatFolders.find(chatFolder => {
+        return chatFolder.id === editChatFolderPageId;
+      });
+      strictAssert(found, 'Missing chat folder');
+      initChatFolderParam = found;
+    } else {
+      initChatFolderParam = CHAT_FOLDER_DEFAULTS;
+    }
+    content = (
+      <EditChatFoldersPage
+        i18n={i18n}
+        settingsPaneRef={settingsPaneRef}
+        onBack={handleCloseEditChatFoldersPage}
+        conversations={conversations}
+        getPreferredBadge={getPreferredBadge}
+        theme={theme}
+        existingChatFolderId={editChatFolderPageId}
+        initChatFolderParams={initChatFolderParam}
+        conversationSelector={conversationSelector}
+        onCreateChatFolder={handleCreateChatFolder}
+        onUpdateChatFolder={handleUpdateChatFolder}
+        onDeleteChatFolder={handleDeleteChatFolder}
+      />
+    );
   } else if (page === Page.PNP) {
     let sharingDescription: string;
 
@@ -2248,11 +2381,13 @@ export function PreferencesContent({
   contents,
   contentsRef,
   title,
+  actions,
 }: {
   backButton?: JSX.Element | undefined;
   contents: JSX.Element | undefined;
   contentsRef: MutableRefObject<HTMLDivElement | null>;
   title: string | undefined;
+  actions?: ReactNode;
 }): JSX.Element {
   return (
     <div className="Preferences__content">
@@ -2267,6 +2402,7 @@ export function PreferencesContent({
         </div>
         <div className="Preferences__settings-pane-spacer" />
       </div>
+      {actions && <div className="Preferences__actions">{actions}</div>}
     </div>
   );
 }
