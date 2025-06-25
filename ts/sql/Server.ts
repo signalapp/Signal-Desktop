@@ -2830,16 +2830,25 @@ function saveMessage(
   } satisfies Omit<MessageTypeUnhydrated, 'json'>;
 
   if (id && !forceSave) {
-    db.prepare(
-      // UPDATE queries that set the value of a primary key column can be very slow when
-      // that key is referenced via a foreign key constraint, so we are careful to exclude
-      // it here.
-      `
+    const result = db
+      .prepare(
+        // UPDATE queries that set the value of a primary key column can be very slow when
+        // that key is referenced via a foreign key constraint, so we are careful to
+        // exclude it here.
+        `
         UPDATE messages SET
           ${MESSAGE_NON_PRIMARY_KEY_COLUMNS.map(name => `${name} = $${name}`).join(', ')}
         WHERE id = $id;
       `
-    ).run({ ...payloadWithoutJson, json: objectToJSON(dataToSaveAsJSON) });
+      )
+      .run({ ...payloadWithoutJson, json: objectToJSON(dataToSaveAsJSON) });
+
+    if (result.changes === 0) {
+      // Message has been deleted from DB
+      return id;
+    }
+
+    strictAssert(result.changes === 1, 'One row should have been changed');
 
     if (normalizeAttachmentData) {
       saveMessageAttachments(db, message);
