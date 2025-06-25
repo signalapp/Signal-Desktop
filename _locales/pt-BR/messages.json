@@ -3411,7 +3411,7 @@
     "messageformat": "Não é possível entrar no grupo"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "Você não pode entrar nesse grupo com o link porque um admin excluiu você. Entre em contato com um admin para ser adicionado ao grupo novamente."
+    "messageformat": "Você não pode entrar neste grupo usando o link porque um administrador removeu você. Entre em contato com um administrador para ser adicionado novamente. "
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "Um administrador deste grupo precisa aprovar seu pedido antes que você possa participar. Ao solicitar a entrada, seu nome e foto serão compartilhados com os membros do grupo."
@@ -6476,6 +6476,6 @@
     "messageformat": "Uma nova seção no seletor de reações agora exibe automaticamente todos os emojis que uma mensagem recebeu."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Esta atualização ativa a aceleração via GPU no Linux, melhorando o desempenho e facilitando a reprodução de vídeos em hardwares compatíveis."
   }
 }

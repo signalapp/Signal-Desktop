@@ -42,7 +42,7 @@
     "messageformat": "Mengirim media berkualitas tinggi akan menggunakan lebih banyak data."
   },
   "icu:Preferences__DonateTitle": {
-    "messageformat": "Berdonasi ke Signal"
+    "messageformat": "Donasi ke Signal"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standar"
@@ -3411,7 +3411,7 @@
     "messageformat": "Tidak Dapat Bergabung Grup"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "Anda tidak dapat bergabung dengan grup ini melalui tautan grup karena seorang admin mengeluarkan Anda. Hubungi admin untuk ditambahkan kembali ke dalam grup."
+    "messageformat": "Anda tidak dapat bergabung dengan grup ini melalui tautan grup karena sebelumnya Anda telah dikeluarkan oleh seorang admin. Hubungi admin agar dapat ditambahkan lagi ke dalam grup."
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "Admin dari grup ini harus menerima permintaan Anda agar Anda bisa gabung ke grup ini. Saat Anda meminta untuk bergabung, nama dan foto Anda akan dibagikan dengan anggota grup."
@@ -4980,7 +4980,7 @@
     "messageformat": "Umum"
   },
   "icu:Preferences__button--donate": {
-    "messageformat": "Berdonasi ke Signal"
+    "messageformat": "Donasi ke Signal"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "Penampilan"
@@ -6476,6 +6476,6 @@
     "messageformat": "Bagian baru di pemilih tanggapan pesan otomatis akan menampilkan semua tanggapan emoji yang diterima suatu pesan. Kini Anda bisa langsung pakai emoji yang sama dengan yang diberikan orang lain atau bisa juga pilih emoji lain sesuai keinginan."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Pembaruan kali ini memungkinkan akselerasi GPU pada Linux agar kinerja lebih optimal dan pemutaran video lebih lancar di perangkat keras yang didukung."
   }
 }

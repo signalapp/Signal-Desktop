@@ -6476,6 +6476,6 @@
     "messageformat": "En ny sektion i beskedreaktionsvælgeren viser automatisk alle de emoji-reaktioner, som en besked har modtaget. Du kan hurtigt tilføje den almindelige glitrende hjerte-emoji, som mange allerede bruger, eller følge dit eget hjerte og vælge den anatomiske hjerte-emoji i stedet."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Denne opdatering muliggør GPU-acceleration på Linux, hvilket forbedrer ydeevnen og sikrer mere flydende videoafspilning på kompatibel hardware."
   }
 }

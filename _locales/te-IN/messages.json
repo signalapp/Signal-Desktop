@@ -6476,6 +6476,6 @@
     "messageformat": "సందేశం ప్రతిస్పందన సెలెక్టర్‌లోని ఒక కొత్త విభాగం సందేశం అందుకున్న అన్ని ఎమోజి ప్రతిస్పందనలను స్వయంచాలకంగా ప్రదర్శిస్తుంది."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Linux పనితీరు మెరుగుదలలు."
   }
 }

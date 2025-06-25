@@ -6476,6 +6476,6 @@
     "messageformat": "'n Nuwe afdeling in die boodskapreaksie-kieser vertoon outomaties al die emoji-reaksies wat 'n boodskap ontvang het."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Verbeterings in Linux-prestasie."
   }
 }

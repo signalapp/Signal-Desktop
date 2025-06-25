@@ -6476,6 +6476,6 @@
     "messageformat": "يُظهر قسم جديد في مُحدِّد تفاعلات الرسائل بشكل تلقائي كل تفاعلات الإيموجي التي تلقّتها رسالة ما. يُمكنك الآن الانضمام إلى التيار وإضافة قلب لامع عادي مثلما يفعل الجميع، أو أن تتبع قلبك الخاص وتختار القلب التشريحي بدلًا منه."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "يُمكِّن هذا التحديث تسريع وحدة معالجة الرسومات (GPU) على نظام Linux لِتحسين الأداء وتشغيل الفيديو بشكل أكثر سلاسة على الأجهزة المدعومة."
   }
 }

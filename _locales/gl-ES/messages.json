@@ -6476,6 +6476,6 @@
     "messageformat": "Unha nova sección no selector de reaccións para mensaxes mostra automaticamente todas as emoticonas de reacción que recibiu unha mensaxe."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Incorporáronse melloras de rendemento para Linux."
   }
 }

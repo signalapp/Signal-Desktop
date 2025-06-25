@@ -6476,6 +6476,6 @@
     "messageformat": "Nová časť vo výbere reakcií na správy automaticky zobrazuje všetky reakcie emoji, ktoré správa dostala."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Vylepšenia výkonu na systéme Linux."
   }
 }

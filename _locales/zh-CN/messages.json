@@ -42,7 +42,7 @@
     "messageformat": "发送高质量媒体将会使用更多数据。"
   },
   "icu:Preferences__DonateTitle": {
-    "messageformat": "捐赠 Signal"
+    "messageformat": "捐款给 Signal"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "标准"
@@ -4980,7 +4980,7 @@
     "messageformat": "通用"
   },
   "icu:Preferences__button--donate": {
-    "messageformat": "捐赠 Signal"
+    "messageformat": "捐款给 Signal"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "外观"
@@ -6476,6 +6476,6 @@
     "messageformat": "消息回应选择器新增了一个部分，该部分会自动显示消息接收到的所有表情符号回应。"
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Linux 性能优化。"
   }
 }

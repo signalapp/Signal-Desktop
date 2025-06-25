@@ -6476,6 +6476,6 @@
     "messageformat": "संदेश प्रतिक्रिया सेलेक्टर में एक नया सेक्शन ऑटोमैटिक तरीके से वे सभी इमोजी प्रतिक्रियाएँ दिखाता है जो किसी संदेश को मिली हैं। अब आप भी दूसरों की राह पर चलते हुए, हर किसी की तरह चमचमाता दिल भेज सकते हैं या फिर अपने दिल की बात सुनकर दिल का असली रूप दिखाने वाला इमोजी भेज सकते हैं।"
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "इस अपडेट से, सपोर्ट किए गए हार्डवेयर पर बेहतर परफ़ॉर्मेंस और आसान वीडियो प्लेबैक के लिए Linux पर GPU एक्सेलेरेशन की सुविधा मिलती है।"
   }
 }

@@ -6476,6 +6476,6 @@
     "messageformat": "Une nouvelle section s'invite dans le sélecteur de réactions aux messages. Elle affiche automatiquement tous les émojis qu'un message a suscités. Surfez sur la vague et ajoutez vous aussi un cœur rouge, ou écoutez votre cœur et choisissez de réagir avec… une vague. Après tout, c'est bientôt l'été !"
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Cette mise à jour active l'accélération GPU sous Linux. À la clé : de meilleures performances et une lecture vidéo plus fluide sur les appareils compatibles."
   }
 }

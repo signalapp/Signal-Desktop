@@ -6476,6 +6476,6 @@
     "messageformat": "Нов раздел в селектора за реакции на съобщенията автоматично показва всички реакции с емоджи, които дадено съобщение е получило."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Подобряване на производителността в Linux."
   }
 }

@@ -6476,6 +6476,6 @@
     "messageformat": "Μια νέα ενότητα στον επιλογέα αντιδράσεων μηνυμάτων εμφανίζει αυτόματα όλες τις αντιδράσεις emoji που έχει λάβει ένα μήνυμα."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Βελτιώσεις απόδοσης σε Linux."
   }
 }

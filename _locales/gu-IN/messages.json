@@ -6476,6 +6476,6 @@
     "messageformat": "મેસેજ પ્રતિક્રિયા સિલેક્ટરમાં એક નવો વિભાગ મેસેજને મળેલી બધી ઇમોજી પ્રતિક્રિયાઓને આપમેળે પ્રદર્શિત કરે છે."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Linux પ્રદર્શન સુધારણા."
   }
 }

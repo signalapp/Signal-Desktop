@@ -3411,7 +3411,7 @@
     "messageformat": "加入唔到群組"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "你唔可以用群組連結加入呢個群組，因為管理員已經剷走咗你。請聯絡管理員叫佢加返你入群組。"
+    "messageformat": "你唔可以用群組連結加入呢個谷，因為管理員已經剷走咗你。請聯絡管理員叫佢加返你入去個谷度。"
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "群組管理員要先批准咗你嘅請求，先可以俾你加入群組。當你要求加入嘅時候，系統會將你嘅名同相分享俾群組成員。"
@@ -6476,6 +6476,6 @@
     "messageformat": "訊息心情回應選擇器裡面加咗新嘅部分，喺訊息入面收到嘅所有表情符號回應都會自動顯示喺嗰度。咁以後你可以好似人哋咁即刻加個普通嘅閃閃心心，又或者隨你心意，改用一個真正心臟咁樣嘅表情符號。"
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "呢次更新等你可以喺 Linux 開咗個 GPU 加速，咁就可以提升支援硬件嘅效能，播片都會順暢啲。"
   }
 }
