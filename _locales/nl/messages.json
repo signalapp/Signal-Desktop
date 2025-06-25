@@ -5082,7 +5082,7 @@
     "messageformat": "Signal back-ups"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatische back-ups met de veilige, end-to-end versleutelde opslagservice van Signal. Ga aan de slag op je telefoon. <learnMoreLink>Meer informatie.</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Maak een back-up van je chatgeschiedenis zodat je nooit meer gegevens kwijtraakt als je een andere telefoon in gebruik neemt of Signal opnieuw installeert."
@@ -6476,6 +6476,6 @@
     "messageformat": "Een nieuwe sectie in de kiezer van emoji-reacties toont automatisch alle gegeven emoji-reacties op een bericht. Je kunt nu dus snel hetzelfde hartje geven als iedereen of je eigen hart volgen en in emoji zoeken naar het anatomische hart."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Deze update maakt GPU-versnelling op Linux mogelijk voor betere prestaties en vloeiendere videoweergave op ondersteunde hardware."
   }
 }

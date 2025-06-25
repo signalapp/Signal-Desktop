@@ -5082,7 +5082,7 @@
     "messageformat": "Signal'дын камдык көчүрмөлөрү"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Signal'дын баштан аяк шифрленген сактоо кызматы менен камдык көчүрмөлөр автоматтык түрдө сакталат. Телефонуңузда баштаңыз. <learnMoreLink>Кененирээк маалымат.</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Жаңы телефон алганыңызда же Signal'ды кайра орнотконуңузда эч качан дайындарыңызды жоготуп албашыңыз үчүн билдирүүлөр таржымалыңыздын камдык көчүрмөсүн сактаңыз."
@@ -6476,6 +6476,6 @@
     "messageformat": "Билдирүүгө сезимиңизди билдирүүчү жаңы бөлүмдө билдирүүгө коюлган бардык быйтыкчалар көрүнөт. Эми элдин агымына оңой кошулуп, башкалар сыяктуу жылтылдаган жүрөк кошосуз же өз жолуңузду тандап, кадимки эле жүрөкчөнү кошосуз."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Бул жаңы версияда Linux'тагы аппаратты тездетүүчү GPU процессору иштеп, колдоого алынган түзмөктөрдө видеолор бир калыпта көрүнөт."
   }
 }

@@ -5082,7 +5082,7 @@
     "messageformat": "Signal rezerves kopijas"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automātiska rezerves kopiju izveide, izmantojot Signal drošās un pilnībā šifrētās krātuves pakalpojumu. Sāciet savā tālrunī. <learnMoreLink>Uzzināt vairāk.</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Izveidojiet ziņu vēstures rezerves kopiju, lai nezaudētu datus, nomainot tālruni vai pārinstalējot Signal."
@@ -6476,6 +6476,6 @@
     "messageformat": "Jaunā ziņu reakciju atlasītāja sadaļa tagad automātiski parāda visas emocijzīmju reakcijas, ko ziņa ir saņēmusi. Varat ātri pievienoties pārējiem un pievienot ierasto mirdzošo sirdi, vai arī sekot savai sirds balsij un pievienot anatomiskās sirds ikonu."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Šis atjauninājums iespējo GPU paātrinājumu operētājsistēmā Linux, lai uzlabotu veiktspēju un nodrošinātu vienmērīgāku video atskaņošanu datoros ar atbalstītu aparatūru."
   }
 }

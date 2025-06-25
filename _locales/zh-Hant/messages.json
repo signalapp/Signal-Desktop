@@ -5082,7 +5082,7 @@
     "messageformat": "Signal 備份"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "使用 Signal 的安全端對端加密儲存服務自動備份。就從你的手機開始。<learnMoreLink>了解更多。</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "備份你的訊息紀錄，讓你在使用新手機或重新安裝 Signal 時，絕不會遺失資料。"
@@ -6476,6 +6476,6 @@
     "messageformat": "訊息心情回應選擇器中加入了新部分，訊息收到的所有表情符號回應都會自動顯示在那裡。以後，你可以像別人一樣立即新增標準的閃閃愛心，或者可以隨心所欲，改用解剖學的心臟符號。"
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "此更新讓你可在 Linux 啟用 GPU 加速，以在支援硬體上提升效能和播放更流暢的影片。"
   }
 }

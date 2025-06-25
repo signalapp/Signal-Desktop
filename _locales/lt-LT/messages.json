@@ -5082,7 +5082,7 @@
     "messageformat": "„Signal“ atsarginės kopijos"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatinės atsarginės kopijos naudojant „Signal“ saugią, užšifruotą saugyklos paslaugą. Pradėkite naudotis savo telefone. <learnMoreLink>Sužinoti daugiau.</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Sukurkite savo žinučių istorijos atsarginę kopiją, kad niekada neprarastumėte duomenų įsigiję naują telefoną arba iš naujo įdiegę „Signal“."
@@ -6476,6 +6476,6 @@
     "messageformat": "Naujame reakcijų į žinutes parinkiklio skyriuje automatiškai rodomos visos reakcijos su jaustukais į konkrečią žinutę."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "„Linux“ veikimo patobulinimai."
   }
 }

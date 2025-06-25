@@ -5082,7 +5082,7 @@
     "messageformat": "Signal ਬੈਕਅੱਪ"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Signal ਦੀ ਸਿਰੇ-ਤੋਂ-ਸਿਰੇ ਤੱਕ ਇਨਕ੍ਰਿਪਟਡ ਸਟੋਰੇਜ ਸੇਵਾ ਦੇ ਨਾਲ ਆਟੋਮੈਟਿਕ ਬੈਕਅੱਪ। ਆਪਣੇ ਫ਼ੋਨ 'ਤੇ ਸ਼ੁਰੂਆਤ ਕਰੋ। <learnMoreLink>ਹੋਰ ਜਾਣੋ।</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "ਆਪਣੇ ਪੁਰਾਣੇ ਸੁਨੇਹਿਆਂ ਦਾ ਬੈਕਅੱਪ ਲਓ ਤਾਂ ਜੋ ਨਵਾਂ ਫ਼ੋਨ ਲੈਣ 'ਤੇ ਜਾਂ Signal ਨੂੰ ਦੁਬਾਰਾ ਇੰਸਟਾਲ ਕਰਨ 'ਤੇ ਵੀ ਤੁਹਾਡਾ ਡਾਟਾ ਸੁਰੱਖਿਅਤ ਰਹੇ।"
@@ -6476,6 +6476,6 @@
     "messageformat": "ਸੁਨੇਹਾ ਰਿਐਕਸ਼ਨ ਚੋਣਕਾਰ ਵਿੱਚ ਇੱਕ ਨਵਾਂ ਭਾਗ ਜਿਸ ਵਿੱਚ ਸੁਨੇਹੇ ਉੱਤੇ ਆਏ ਇਮੋਜੀ ਰਿਐਕਸ਼ਨ ਆਪਣੇ-ਆਪ ਦਿਖਾਏ ਜਾਂਦੇ ਹਨ।"
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Linux ਦੇ ਪ੍ਰਦਰਸ਼ਨ ਵਿੱਚ ਸੁਧਾਰ ਕੀਤੇ ਗਏ ਹਨ।"
   }
 }

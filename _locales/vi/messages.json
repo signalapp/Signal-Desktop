@@ -5082,7 +5082,7 @@
     "messageformat": "Bản sao lưu Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Sao lưu tự động với dịch vụ lưu trữ bảo mật, được mã hóa đầu cuối của Signal. Bắt đầu trên điện thoại. <learnMoreLink>Tìm hiểu thêm.</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Sao lưu lịch sử tin nhắn để không bao giờ mất dữ liệu khi bạn có điện thoại mới hoặc cài lại Signal."
@@ -6476,6 +6476,6 @@
     "messageformat": "Một mục mới trong bảng chọn cảm xúc cho tin nhắn tự động hiển thị tất cả emoji bày tỏ cảm xúc tin nhắn đã nhận được."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Cải thiện hiệu suất trên Linux."
   }
 }

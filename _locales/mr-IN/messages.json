@@ -5082,7 +5082,7 @@
     "messageformat": "Signal बॅकअप"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "ऑटोमॅटिक बॅकअप्स, Signal च्या सुरक्षित, एण्ड-टू-एण्ड कूटबद्ध केलेल्या संग्रहण सेवेसह. तुमच्या फोनवर सुरुवात करा. <learnMoreLink>अधिक जाणून घ्या.</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "आपल्या संदेश इतिहास चा बॅकअप घ्या ज्यामुळे आपण जेव्हा नवीन फोन घ्याल किंवा Signal पुन्हा इन्स्टॉल कराल तेव्हा आपण कधीही आपला डेटा गमावणार नाही."
@@ -6476,6 +6476,6 @@
     "messageformat": "संदेश प्रतिक्रिया वेचकामधील एक नवीन विभाग आपोआप एका संदेशाला मिळालेल्या सर्व इमोजी प्रतिक्रिया दाखवतो. आता तुम्हीसुद्धा इतरांप्रमाणेच नेहमीचा चमकणारा हार्ट इमोजी समाविष्ट करा किंवा, तुम्ही तुमच्या स्वतःच्या मर्जीनुसार दुसरा एखादा इमोजी वापरू शकता."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "हे अद्यतन समर्थित हार्डवेअर वर सुधारित कामगिरीसाठी आणि व्हिडिओ प्लेबॅक अधिक सुरळीत करण्यासाठी Linux वर GPU त्वरण सक्रिय करते."
   }
 }

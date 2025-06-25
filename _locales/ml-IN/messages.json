@@ -5082,7 +5082,7 @@
     "messageformat": "Signal ബാക്കപ്പുകൾ"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Signal-ൻ്റെ സുരക്ഷിതമായ, എൻഡ്-ടു-എൻഡ് എൻക്രിപ്റ്റ് ചെയ്ത സ്റ്റോറേജ് സേവനത്തോടുകൂടിയ സ്വയമേവയുള്ള ബാക്കപ്പുകൾ. നിങ്ങളുടെ ഫോണിൽ ആരംഭിക്കുക. <learnMoreLink>കൂടുതലറിയുക.</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "നിങ്ങളുടെ സന്ദേശ ചരിത്രം ബാക്കപ്പ് ചെയ്യുക, അതുവഴി നിങ്ങൾക്ക് ഒരു പുതിയ ഫോൺ ലഭിക്കുമ്പോഴോ Signal വീണ്ടും ഇൻസ്റ്റാൾ ചെയ്യുമ്പോഴോ ഒരിക്കലും ഡാറ്റ നഷ്‌ടപ്പെടില്ല."
@@ -6476,6 +6476,6 @@
     "messageformat": "സന്ദേശ പ്രതികരണ സെലക്ടറിലെ ഒരു പുതിയ വിഭാഗം ഒരു സന്ദേശത്തിന് ലഭിച്ച എല്ലാ ഇമോജി പ്രതികരണങ്ങളും സ്വയമേവ പ്രദർശിപ്പിക്കുന്നു. ഇനി നിങ്ങൾക്ക് വേഗത്തിൽ തന്നെ ആ വഴിയിലേക്ക് കടന്ന്, മറ്റെല്ലാവരും ചെയ്യുന്നത് പോലെ പ്രചാരമേറിയ ഒരു തിളങ്ങുന്ന ഹൃദയം ചേർക്കാം, അല്ലെങ്കിൽ നിങ്ങളുടെ സ്വന്തം ഹൃദയത്തെ പിന്തുടർന്ന് തനതായ ഒരു ഹൃദയം തിരഞ്ഞെടുക്കാം."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "പിന്തുണയ്ക്കുന്ന ഹാർഡ്‌വെയറിൽ മെച്ചപ്പെട്ട പ്രകടനത്തിനും സുഗമമായ വീഡിയോ പ്ലേബാക്കിനുമായി ഈ അപ്‌ഡേറ്റ് ലിനക്സിൽ GPU ആക്സിലറേഷൻ പ്രാപ്തമാക്കുന്നു."
   }
 }

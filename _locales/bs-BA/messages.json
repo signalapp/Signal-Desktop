@@ -5082,7 +5082,7 @@
     "messageformat": "Sigurnosne kopije Signala"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatsko kreiranje rezervnih kopija sa Signalovom sigurnom sveobuhvatnom uslugom pohranjivanja. Započnite na svom telefonu. <learnMoreLink>Saznajte više.</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Kreirajte sigurnosnu kopiju historije poruka da nikada ne izgubite podatke kada nabavite novi telefon ili ponovo instalirate Signal."
@@ -6476,6 +6476,6 @@
     "messageformat": "Novi odjeljak u odabirniku reakcija na poruke automatski prikazuje sve reakcije emotikona koje je poruka primila"
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Poboljšanja performansi Linuxa."
   }
 }

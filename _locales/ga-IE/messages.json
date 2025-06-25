@@ -42,7 +42,7 @@
     "messageformat": "Úsáidfear níos mó sonraí trí mheáin ardchaighdeáin a sheoladh."
   },
   "icu:Preferences__DonateTitle": {
-    "messageformat": "Bronn airgead ar Signal"
+    "messageformat": "Tabhair airgead do Signal"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Caighdeánach"
@@ -4980,7 +4980,7 @@
     "messageformat": "Coiteann"
   },
   "icu:Preferences__button--donate": {
-    "messageformat": "Bronn airgead ar Signal"
+    "messageformat": "Tabhair airgead do Signal"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "Cuma"
@@ -5082,7 +5082,7 @@
     "messageformat": "Cúltacaí Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Cúltacaí uathoibríocha le seirbhís shlán stórála, atá criptithe ó cheann ceann, de chuid Signal. Tosaigh air ar do ghuthán. <learnMoreLink>Tuilleadh faisnéise.</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Cúltacaigh do stair teachtaireachtaí ionas nach gcaillfidh tú sonraí nuair a fhaigheann tú guthán nua nó nuair a athshuiteálann tú Signal."
@@ -6476,6 +6476,6 @@
     "messageformat": "Déanann cuid nua sa roghnóir freagairtí ar theachtaireachtaí gach freagairt emoji a fuarthas i dteachtaireacht a thaispeáint go huathoibríoch."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Feabhsuithe ar fheidhmíocht Linux."
   }
 }

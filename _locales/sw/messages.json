@@ -5082,7 +5082,7 @@
     "messageformat": "Chelezo za Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Hifadhi nakala kiotomatiki ukitumia huduma salama za uhifadhi wa Signal zilizosimbwa kwa njia fiche. Anza kutumia katika simu yako. <learnMoreLink>Pata maelezo zaidi.</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Hifadhi nakala ya historia ya jumbe wako ili usiwahi kupoteza data unapopata simu mpya au kusakinisha upya Signal."

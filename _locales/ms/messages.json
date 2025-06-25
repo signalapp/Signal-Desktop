@@ -5082,7 +5082,7 @@
     "messageformat": "Sandaran Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Sandaran automatik dengan perkhidmatan storan selamat yang disulitkan hujung ke hujung oleh Signal. Mula di telefon anda. <learnMoreLink>Ketahui lebih lanjut.</learnMoreLink>"
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Sandarkan sejarah mesej anda supaya anda tidak kehilangan data apabila menggunakan telefon baharu atau memasang semula Signal."
@@ -6476,6 +6476,6 @@
     "messageformat": "Bahagian baharu dalam pemilih reaksi mesej kini memaparkan semua emoji reaksi yang diterima oleh sesuatu mesej secara automatik."
   },
   "icu:WhatsNew__v7.59--0": {
-    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware."
+    "messageformat": "Peningkatan prestasi Linux."
   }
 }
