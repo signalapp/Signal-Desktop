@@ -253,14 +253,14 @@ export class BackupAPI {
       return {
         status: 'pending-cancellation',
         cost,
-        expiryDate: endOfCurrentPeriod,
+        expiryTimestamp: endOfCurrentPeriod?.getTime(),
       };
     }
 
     return {
       status: 'active',
       cost,
-      renewalDate: endOfCurrentPeriod,
+      renewalTimestamp: endOfCurrentPeriod?.getTime(),
     };
   }
 

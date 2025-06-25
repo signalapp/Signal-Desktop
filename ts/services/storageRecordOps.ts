@@ -83,6 +83,7 @@ import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue';
 import {
   generateBackupsSubscriberData,
   saveBackupsSubscriberData,
+  saveBackupTier,
 } from '../util/backupSubscriptionData';
 import { getLinkPreviewSetting } from '../types/LinkPreview';
 import {
@@ -1568,7 +1569,7 @@ export async function mergeAccountRecord(
   }
 
   await saveBackupsSubscriberData(backupSubscriberData);
-  await window.storage.put('backupTier', backupTier?.toNumber());
+  await saveBackupTier(backupTier?.toNumber());
 
   await window.storage.put(
     'displayBadgesOnProfile',

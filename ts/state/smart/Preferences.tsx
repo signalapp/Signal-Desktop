@@ -685,7 +685,7 @@ export function SmartPreferences(): JSX.Element | null {
         availableSpeakers={availableSpeakers}
         backupFeatureEnabled={backupFeatureEnabled}
         backupKeyViewed={backupKeyViewed}
-        backupSubscriptionStatus={backupSubscriptionStatus}
+        backupSubscriptionStatus={backupSubscriptionStatus ?? { status: 'off' }}
         backupLocalBackupsEnabled={backupLocalBackupsEnabled}
         badge={badge}
         blockedCount={blockedCount}

@@ -778,6 +778,10 @@ $secondary-text-color: light-dark(
   padding-block: 8px;
   margin-block-start: 8px;
 
+  a {
+    text-decoration: none;
+  }
+
   &:not(:last-child) {
     padding-block-end: 24px;
   }

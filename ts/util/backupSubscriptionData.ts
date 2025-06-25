@@ -4,6 +4,7 @@
 import Long from 'long';
 import type { Backups, SignalService } from '../protobuf';
 import * as Bytes from '../Bytes';
+import { drop } from './drop';
 
 // These two proto messages (Backups.AccountData.IIAPSubscriberData &&
 // SignalService.AccountRecord.IIAPSubscriberData) should remain in sync. If they drift,
@@ -15,6 +16,12 @@ export async function saveBackupsSubscriberData(
     | null
     | undefined
 ): Promise<void> {
+  const previousSubscriberId = window.storage.get('backupsSubscriberId');
+
+  if (previousSubscriberId !== backupsSubscriberData?.subscriberId) {
+    drop(window.Signal.Services.backups.refreshBackupAndSubscriptionStatus());
+  }
+
   if (backupsSubscriberData == null) {
     await window.storage.remove('backupsSubscriberId');
     await window.storage.remove('backupsSubscriberPurchaseToken');
@@ -44,6 +51,16 @@ export async function saveBackupsSubscriberData(
     );
   } else {
     await window.storage.remove('backupsSubscriberOriginalTransactionId');
+  }
+}
+
+export async function saveBackupTier(
+  backupTier: number | undefined
+): Promise<void> {
+  const previousBackupTier = window.storage.get('backupTier');
+  await window.storage.put('backupTier', backupTier);
+  if (backupTier !== previousBackupTier) {
+    drop(window.Signal.Services.backups.refreshBackupAndSubscriptionStatus());
   }
 }
 

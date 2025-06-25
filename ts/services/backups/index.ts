@@ -27,7 +27,7 @@ import { prependStream } from '../../util/prependStream';
 import { appendMacStream } from '../../util/appendMacStream';
 import { getMacAndUpdateHmac } from '../../util/getMacAndUpdateHmac';
 import { missingCaseError } from '../../util/missingCaseError';
-import { DAY, HOUR, MINUTE } from '../../util/durations';
+import { DAY, HOUR, SECOND } from '../../util/durations';
 import type { ExplodePromiseResultType } from '../../util/explodePromise';
 import { explodePromise } from '../../util/explodePromise';
 import type { RetryBackupImportValue } from '../../state/ducks/installer';
@@ -153,11 +153,11 @@ export class BackupsService {
   public readonly credentials = new BackupCredentials();
   public readonly api = new BackupAPI(this.credentials);
   public readonly throttledFetchCloudBackupStatus = throttle(
-    MINUTE,
+    30 * SECOND,
     this.fetchCloudBackupStatus.bind(this)
   );
   public readonly throttledFetchSubscriptionStatus = throttle(
-    MINUTE,
+    30 * SECOND,
     this.fetchSubscriptionStatus.bind(this)
   );
 
@@ -986,8 +986,7 @@ export class BackupsService {
     } catch (error) {
       log.error('Backup: periodic refresh failed', Errors.toLogFormat(error));
     }
-    drop(this.fetchCloudBackupStatus());
-    drop(this.fetchSubscriptionStatus());
+    await this.refreshBackupAndSubscriptionStatus();
   }
 
   async #unlinkAndDeleteAllData() {
@@ -1064,24 +1063,15 @@ export class BackupsService {
     }
   }
 
-  async #getBackedUpMediaSize(): Promise<number> {
-    const backupInfo = await this.api.getInfo(BackupCredentialType.Media);
-    return backupInfo.usedSpace ?? 0;
-  }
-
   async fetchCloudBackupStatus(): Promise<BackupStatusType | undefined> {
     let result: BackupStatusType | undefined;
-    const [backupProtoInfo, mediaSize] = await Promise.all([
-      this.api.getBackupProtoInfo(),
-      this.#getBackedUpMediaSize(),
-    ]);
+    const backupProtoInfo = await this.api.getBackupProtoInfo();
 
     if (backupProtoInfo.backupExists) {
       const { createdAt, size: protoSize } = backupProtoInfo;
       result = {
-        createdAt: createdAt.getTime(),
+        createdTimestamp: createdAt.getTime(),
         protoSize,
-        mediaSize,
       };
     }
 
@@ -1097,6 +1087,10 @@ export class BackupsService {
     switch (backupTier) {
       case null:
       case undefined:
+        result = {
+          status: 'off',
+        };
+        break;
       case BackupLevel.Free:
         result = {
           status: 'free',
@@ -1112,6 +1106,13 @@ export class BackupsService {
 
     drop(window.storage.put('backupSubscriptionStatus', result));
     return result;
+  }
+
+  async refreshBackupAndSubscriptionStatus(): Promise<void> {
+    await Promise.all([
+      this.fetchSubscriptionStatus(),
+      this.fetchCloudBackupStatus(),
+    ]);
   }
 
   hasMediaBackups(): boolean {

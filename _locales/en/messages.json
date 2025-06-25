@@ -6757,7 +6757,7 @@
     "description": "Feature name for message backups using the Signal service."
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>.",
     "description": "Description for message backups using the Signal service."
   },
   "icu:Preferences--backup-section-description": {
