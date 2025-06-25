@@ -380,6 +380,16 @@ export default {
         result: validateBackupResult,
       };
     },
+    donationReceipts: [],
+    internalAddDonationReceipt: action('internalAddDonationReceipt'),
+    saveAttachmentToDisk: async () => {
+      action('saveAttachmentToDisk')();
+      return { fullPath: '/mock/path/to/file.png', name: 'file.png' };
+    },
+    generateDonationReceiptBlob: async () => {
+      action('generateDonationReceiptBlob')();
+      return new Blob();
+    },
   } satisfies PropsType,
 } satisfies Meta<PropsType>;
 

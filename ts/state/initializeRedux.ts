@@ -8,6 +8,7 @@ import { getInitialState } from './getInitialState';
 
 import type { BadgesStateType } from './ducks/badges';
 import type { CallHistoryDetails } from '../types/CallDisposition';
+import type { DonationsStateType } from './ducks/donations';
 import type { MainWindowStatsType } from '../windows/context';
 import type { MenuOptionsType } from '../types/menu';
 import type { StoryDataType } from './ducks/stories';
@@ -24,6 +25,7 @@ export type ReduxInitData = {
   callHistory: ReadonlyArray<CallHistoryDetails>;
   callHistoryUnreadCount: number;
   callLinks: ReadonlyArray<CallLinkType>;
+  donations: DonationsStateType;
   gifs: GifsStateType;
   mainWindowStats: MainWindowStatsType;
   menuOptions: MenuOptionsType;

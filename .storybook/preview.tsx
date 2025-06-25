@@ -137,6 +137,8 @@ window.SignalContext = {
     return result;
   },
 
+  getVersion: () => '7.61.0',
+
   // For test-runner
   _skipAnimation: () => {
     Globals.assign({
