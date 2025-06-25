@@ -218,6 +218,7 @@ export default {
     backupFeatureEnabled: false,
     backupKeyViewed: false,
     backupLocalBackupsEnabled: false,
+    backupSubscriptionStatus: { status: 'off' },
     badge: undefined,
     blockedCount: 0,
     customColors: {},
@@ -475,9 +476,8 @@ BackupsPaidActive.args = {
   backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
   cloudBackupStatus: {
-    mediaSize: 539_249_410_039,
     protoSize: 100_000_000,
-    createdAt: new Date(Date.now() - WEEK).getTime(),
+    createdTimestamp: Date.now() - WEEK,
   },
   backupSubscriptionStatus: {
     status: 'active',
@@ -485,7 +485,7 @@ BackupsPaidActive.args = {
       amount: 22.99,
       currencyCode: 'USD',
     },
-    renewalDate: new Date(Date.now() + 20 * DAY),
+    renewalTimestamp: Date.now() + 20 * DAY,
   },
 };
 
@@ -495,9 +495,8 @@ BackupsPaidCancelled.args = {
   backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
   cloudBackupStatus: {
-    mediaSize: 539_249_410_039,
     protoSize: 100_000_000,
-    createdAt: new Date(Date.now() - WEEK).getTime(),
+    createdTimestamp: Date.now() - WEEK,
   },
   backupSubscriptionStatus: {
     status: 'pending-cancellation',
@@ -505,7 +504,7 @@ BackupsPaidCancelled.args = {
       amount: 22.99,
       currencyCode: 'USD',
     },
-    expiryDate: new Date(Date.now() + 20 * DAY),
+    expiryTimestamp: Date.now() + 20 * DAY,
   },
 };
 
@@ -543,9 +542,8 @@ BackupsSubscriptionNotFound.args = {
     status: 'not-found',
   },
   cloudBackupStatus: {
-    mediaSize: 539_249_410_039,
     protoSize: 100_000_000,
-    createdAt: new Date(Date.now() - WEEK).getTime(),
+    createdTimestamp: Date.now() - WEEK,
   },
 };
 

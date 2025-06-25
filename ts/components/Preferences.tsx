@@ -116,7 +116,7 @@ export type PropsDataType = {
   backupLocalBackupsEnabled: boolean;
   localBackupFolder: string | undefined;
   cloudBackupStatus?: BackupStatusType;
-  backupSubscriptionStatus?: BackupsSubscriptionType;
+  backupSubscriptionStatus: BackupsSubscriptionType;
   blockedCount: number;
   customColors: Record<string, CustomColorType>;
   defaultConversationColor: DefaultConversationColorType;
@@ -570,8 +570,7 @@ export function Preferences({
     setSelectedLanguageLocale(localeOverride);
   }
   const shouldShowBackupsPage =
-    (backupFeatureEnabled && backupSubscriptionStatus != null) ||
-    backupLocalBackupsEnabled;
+    backupFeatureEnabled || backupLocalBackupsEnabled;
 
   if (page === Page.Backups && !shouldShowBackupsPage) {
     setPage(Page.General);
@@ -586,13 +585,6 @@ export function Preferences({
       containerWidthBreakpoint: WidthBreakpoint.Wide,
     });
   }
-
-  useEffect(() => {
-    if (page === Page.Backups) {
-      refreshCloudBackupStatus();
-      refreshBackupSubscriptionStatus();
-    }
-  }, [page, refreshCloudBackupStatus, refreshBackupSubscriptionStatus]);
 
   const onZoomSelectChange = useCallback(
     (value: string) => {
@@ -2141,6 +2133,8 @@ export function Preferences({
         pickLocalBackupFolder={pickLocalBackupFolder}
         page={page}
         promptOSAuth={promptOSAuth}
+        refreshCloudBackupStatus={refreshCloudBackupStatus}
+        refreshBackupSubscriptionStatus={refreshBackupSubscriptionStatus}
         setPage={setPage}
         showToast={showToast}
       />

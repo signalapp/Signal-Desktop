@@ -1414,16 +1414,49 @@ const backupFileHeadersSchema = z.object({
 
 type BackupFileHeadersType = z.infer<typeof backupFileHeadersSchema>;
 
+// See: https://docs.stripe.com/currencies?presentment-currency=US
+const ZERO_DECIMAL_CURRENCIES = new Set([
+  'bif',
+  'clp',
+  'djf',
+  'gnf',
+  'jpy',
+  'kmf',
+  'krw',
+  'mga',
+  'pyg',
+  'rwf',
+  'vnd',
+  'vuv',
+  'xaf',
+  'xof',
+  'xpf',
+]);
+const secondsTimestampToDate = z.coerce
+  .number()
+  .transform(sec => new Date(sec * 1_000));
+
 const subscriptionResponseSchema = z.object({
   subscription: z
     .object({
       level: z.number(),
-      billingCycleAnchor: z.coerce.date().optional(),
-      endOfCurrentPeriod: z.coerce.date().optional(),
+      billingCycleAnchor: secondsTimestampToDate.optional(),
+      endOfCurrentPeriod: secondsTimestampToDate.optional(),
       active: z.boolean(),
       cancelAtPeriodEnd: z.boolean().optional(),
       currency: z.string().optional(),
       amount: z.number().nonnegative().optional(),
+    })
+    .transform(data => {
+      const result = { ...data };
+      if (result.currency && result.amount) {
+        result.amount = ZERO_DECIMAL_CURRENCIES.has(
+          result.currency.toLowerCase()
+        )
+          ? result.amount
+          : result.amount / 100;
+      }
+      return result;
     })
     .nullish(),
 });

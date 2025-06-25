@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 import type {
@@ -44,12 +44,14 @@ export function PreferencesBackups({
   pickLocalBackupFolder,
   page,
   promptOSAuth,
+  refreshCloudBackupStatus,
+  refreshBackupSubscriptionStatus,
   setPage,
   showToast,
 }: {
   accountEntropyPool: string | undefined;
   backupKeyViewed: boolean;
-  backupSubscriptionStatus?: BackupsSubscriptionType;
+  backupSubscriptionStatus: BackupsSubscriptionType;
   cloudBackupStatus?: BackupStatusType;
   localBackupFolder: string | undefined;
   i18n: LocalizerType;
@@ -60,14 +62,29 @@ export function PreferencesBackups({
   promptOSAuth: (
     reason: PromptOSAuthReasonType
   ) => Promise<PromptOSAuthResultType>;
+  refreshCloudBackupStatus: () => void;
+  refreshBackupSubscriptionStatus: () => void;
   setPage: (page: PreferencesBackupPage) => void;
   showToast: ShowToastAction;
-}): JSX.Element {
+}): JSX.Element | null {
   const [authError, setAuthError] =
     useState<Omit<PromptOSAuthResultType, 'success'>>();
   const [isAuthPending, setIsAuthPending] = useState<boolean>(false);
 
+  useEffect(() => {
+    if (page === Page.Backups) {
+      refreshBackupSubscriptionStatus();
+    } else if (page === Page.BackupsDetails) {
+      refreshBackupSubscriptionStatus();
+      refreshCloudBackupStatus();
+    }
+  }, [page, refreshBackupSubscriptionStatus, refreshCloudBackupStatus]);
+
   if (page === Page.BackupsDetails) {
+    if (backupSubscriptionStatus.status === 'off') {
+      setPage(Page.Backups);
+      return null;
+    }
     return (
       <BackupsDetailsPage
         i18n={i18n}
@@ -116,7 +133,28 @@ export function PreferencesBackups({
         </div>
       </div>
 
-      {backupSubscriptionStatus ? (
+      {backupSubscriptionStatus.status === 'off' ? (
+        <SettingsRow className="Preferences--BackupsRow">
+          <Control
+            icon="Preferences__BackupsIcon"
+            left={
+              <label>
+                {i18n('icu:Preferences--signal-backups')}{' '}
+                <div className="Preferences--backup-details__value">
+                  <I18n
+                    id="icu:Preferences--signal-backups-off-description"
+                    i18n={i18n}
+                    components={{
+                      learnMoreLink,
+                    }}
+                  />
+                </div>
+              </label>
+            }
+            right={null}
+          />
+        </SettingsRow>
+      ) : (
         <SettingsRow className="Preferences--BackupsRow">
           <FlowingControl>
             <div className="Preferences__two-thirds-flow">
@@ -148,27 +186,6 @@ export function PreferencesBackups({
               </Button>
             </div>
           </FlowingControl>
-        </SettingsRow>
-      ) : (
-        <SettingsRow className="Preferences--BackupsRow">
-          <Control
-            icon="Preferences__BackupsIcon"
-            left={
-              <label>
-                {i18n('icu:Preferences--signal-backups')}{' '}
-                <div className="Preferences--backup-details__value">
-                  <I18n
-                    id="icu:Preferences--signal-backups-off-description"
-                    i18n={i18n}
-                    components={{
-                      learnMoreLink,
-                    }}
-                  />
-                </div>
-              </label>
-            }
-            right={null}
-          />
         </SettingsRow>
       )}
 
@@ -264,10 +281,10 @@ function getSubscriptionDetails({
             / month
           </div>
         ) : null}
-        {subscriptionStatus.renewalDate ? (
+        {subscriptionStatus.renewalTimestamp ? (
           <div className="Preferences--backups-summary__renewal-date">
             {i18n('icu:Preferences--backup-plan__renewal-date', {
-              date: formatTimestamp(subscriptionStatus.renewalDate.getTime(), {
+              date: formatTimestamp(subscriptionStatus.renewalTimestamp, {
                 dateStyle: 'medium',
               }),
             })}
@@ -282,10 +299,10 @@ function getSubscriptionDetails({
         <div className="Preferences--backups-summary__canceled">
           {i18n('icu:Preferences--backup-plan__canceled')}
         </div>
-        {subscriptionStatus.expiryDate ? (
+        {subscriptionStatus.expiryTimestamp ? (
           <div className="Preferences--backups-summary__expiry-date">
             {i18n('icu:Preferences--backup-plan__expiry-date', {
-              date: formatTimestamp(subscriptionStatus.expiryDate.getTime(), {
+              date: formatTimestamp(subscriptionStatus.expiryTimestamp, {
                 dateStyle: 'medium',
               }),
             })}
@@ -313,6 +330,8 @@ export function renderBackupsSubscriptionDetails({
 
   const { status } = subscriptionStatus;
   switch (status) {
+    case 'off':
+      return null;
     case 'active':
     case 'pending-cancellation':
       return (
@@ -398,6 +417,8 @@ export function renderBackupsSubscriptionSummary({
 
   const { status } = subscriptionStatus;
   switch (status) {
+    case 'off':
+      return null;
     case 'active':
     case 'pending-cancellation':
       return (
@@ -449,7 +470,7 @@ function BackupsDetailsPage({
   locale,
 }: {
   cloudBackupStatus?: BackupStatusType;
-  backupSubscriptionStatus?: BackupsSubscriptionType;
+  backupSubscriptionStatus: BackupsSubscriptionType;
   i18n: LocalizerType;
   locale: string;
 }): JSX.Element {
@@ -468,7 +489,7 @@ function BackupsDetailsPage({
           className="Preferences--backup-details"
           title={i18n('icu:Preferences--backup-details__header')}
         >
-          {cloudBackupStatus.createdAt ? (
+          {cloudBackupStatus.createdTimestamp ? (
             <div className="Preferences--backup-details__row">
               <label>{i18n('icu:Preferences--backup-created-at__label')}</label>
               <div
@@ -478,7 +499,7 @@ function BackupsDetailsPage({
                 {/* TODO (DESKTOP-8509) */}
                 {i18n('icu:Preferences--backup-created-by-phone')}
                 <span className="Preferences--backup-details__value-divider" />
-                {formatTimestamp(cloudBackupStatus.createdAt, {
+                {formatTimestamp(cloudBackupStatus.createdTimestamp, {
                   dateStyle: 'medium',
                   timeStyle: 'short',
                 })}
