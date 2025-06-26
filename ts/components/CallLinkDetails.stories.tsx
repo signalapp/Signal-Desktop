@@ -8,8 +8,8 @@ import { CallLinkDetails } from './CallLinkDetails';
 import {
   FAKE_CALL_LINK,
   FAKE_CALL_LINK_WITH_ADMIN_KEY,
-} from '../test-both/helpers/fakeCallLink';
-import { getFakeCallLinkHistoryGroup } from '../test-both/helpers/getFakeCallHistoryGroup';
+} from '../test-helpers/fakeCallLink';
+import { getFakeCallLinkHistoryGroup } from '../test-helpers/getFakeCallHistoryGroup';
 
 const { i18n } = window.SignalContext;
 

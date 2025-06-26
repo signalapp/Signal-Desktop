@@ -49,14 +49,14 @@ import {
   getDefaultConversation,
   getDefaultConversationWithServiceId,
   getDefaultGroup,
-} from '../../../test-both/helpers/getDefaultConversation';
+} from '../../../test-helpers/getDefaultConversation';
 import { getDefaultAvatars } from '../../../types/Avatar';
 import {
   defaultStartDirectConversationComposerState,
   defaultChooseGroupMembersComposerState,
   defaultSetGroupMetadataComposerState,
-} from '../../../test-both/helpers/defaultComposerStates';
-import { updateRemoteConfig } from '../../../test-both/helpers/RemoteConfigStub';
+} from '../../../test-helpers/defaultComposerStates';
+import { updateRemoteConfig } from '../../../test-helpers/RemoteConfigStub';
 import type { ShowSendAnywayDialogActionType } from '../../../state/ducks/globalModals';
 import { SHOW_SEND_ANYWAY_DIALOG } from '../../../state/ducks/globalModals';
 import type { StoryDistributionListsActionType } from '../../../state/ducks/storyDistributionLists';

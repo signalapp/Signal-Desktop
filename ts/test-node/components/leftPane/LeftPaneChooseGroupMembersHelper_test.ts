@@ -6,7 +6,7 @@ import * as sinon from 'sinon';
 import { times } from 'lodash';
 import { RowType, _testHeaderText } from '../../../components/ConversationList';
 import { ContactCheckboxDisabledReason } from '../../../components/conversationList/ContactCheckbox';
-import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation';
 
 import { LeftPaneChooseGroupMembersHelper } from '../../../components/leftPane/LeftPaneChooseGroupMembersHelper';
 

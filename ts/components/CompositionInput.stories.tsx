@@ -6,7 +6,7 @@ import * as React from 'react';
 import '@signalapp/quill-cjs/dist/quill.core.css';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
 import type { Props } from './CompositionInput';
 import { CompositionInput } from './CompositionInput';
 import { generateAci } from '../types/ServiceId';

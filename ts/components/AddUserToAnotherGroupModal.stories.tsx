@@ -9,7 +9,7 @@ import type { Props } from './AddUserToAnotherGroupModal';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../test-both/helpers/getDefaultConversation';
+} from '../test-helpers/getDefaultConversation';
 import { AddUserToAnotherGroupModal } from './AddUserToAnotherGroupModal';
 
 const { i18n } = window.SignalContext;

@@ -9,8 +9,8 @@ import { expect, fn, within, userEvent } from '@storybook/test';
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './MyStoryButton';
 import { MyStoryButton } from './MyStoryButton';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
-import { getFakeMyStory } from '../test-both/helpers/getFakeStory';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
+import { getFakeMyStory } from '../test-helpers/getFakeStory';
 import { SendStatus } from '../messages/MessageSendState';
 import { ResolvedSendStatus } from '../types/Stories';
 

@@ -6,7 +6,7 @@ import { action } from '@storybook/addon-actions';
 import type { PropsType } from './AboutContactModal';
 import { AboutContactModal } from './AboutContactModal';
 import { type ComponentMeta } from '../../storybook/types';
-import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
 
 const { i18n } = window.SignalContext;
 

@@ -10,11 +10,11 @@ import { SendStoryModal } from './SendStoryModal';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../test-both/helpers/getDefaultConversation';
+} from '../test-helpers/getDefaultConversation';
 import {
   getMyStories,
   getFakeDistributionListsWithMembers,
-} from '../test-both/helpers/getFakeDistributionLists';
+} from '../test-helpers/getFakeDistributionLists';
 import { VIDEO_MP4 } from '../types/MIME';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId';
 

@@ -7,11 +7,8 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './StoryListItem';
 import { StoryListItem } from './StoryListItem';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
-import {
-  fakeAttachment,
-  fakeThumbnail,
-} from '../test-both/helpers/fakeAttachment';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
+import { fakeAttachment, fakeThumbnail } from '../test-helpers/fakeAttachment';
 
 const { i18n } = window.SignalContext;
 

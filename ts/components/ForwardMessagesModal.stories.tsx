@@ -11,7 +11,7 @@ import {
   ForwardMessagesModalType,
 } from './ForwardMessagesModal';
 import { IMAGE_JPEG, VIDEO_MP4, stringToMIMEType } from '../types/MIME';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 import { CompositionTextArea } from './CompositionTextArea';
 import type { MessageForwardDraft } from '../types/ForwardDraft';

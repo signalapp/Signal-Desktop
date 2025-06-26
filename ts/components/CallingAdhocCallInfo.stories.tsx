@@ -11,7 +11,7 @@ import { CallingAdhocCallInfo } from './CallingAdhocCallInfo';
 import { AvatarColors } from '../types/Colors';
 import type { GroupCallRemoteParticipantType } from '../types/Calling';
 import { generateAci } from '../types/ServiceId';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
 import type { CallLinkType } from '../types/CallLink';
 import { CallLinkRestrictions } from '../types/CallLink';
 

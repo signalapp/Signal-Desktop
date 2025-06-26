@@ -7,7 +7,7 @@ import type { Meta } from '@storybook/react';
 import type { PropsType } from './IncomingCallBar';
 import { IncomingCallBar } from './IncomingCallBar';
 import { CallMode } from '../types/CallDisposition';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
 
 const { i18n } = window.SignalContext;
 

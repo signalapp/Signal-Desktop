@@ -6,7 +6,7 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { Props } from './ReactionViewer';
 import { ReactionViewer } from './ReactionViewer';
-import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
 import { ThemeType } from '../../types/Util';
 
 const { i18n } = window.SignalContext;

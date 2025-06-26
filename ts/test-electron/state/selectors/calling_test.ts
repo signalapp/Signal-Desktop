@@ -29,7 +29,7 @@ import { getEmptyState } from '../../../state/ducks/calling';
 import {
   FAKE_CALL_LINK,
   FAKE_CALL_LINK_WITH_ADMIN_KEY,
-} from '../../../test-both/helpers/fakeCallLink';
+} from '../../../test-helpers/fakeCallLink';
 
 const OUR_ACI = generateAci();
 const ACI_1 = generateAci();

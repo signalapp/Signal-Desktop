@@ -16,7 +16,7 @@ import { CallingNotification, type PropsType } from './CallingNotification';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../../test-both/helpers/getDefaultConversation';
+} from '../../test-helpers/getDefaultConversation';
 import type { CallStatus } from '../../types/CallDisposition';
 import type { ConversationType } from '../../state/ducks/conversations';
 

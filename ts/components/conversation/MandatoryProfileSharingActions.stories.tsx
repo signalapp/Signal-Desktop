@@ -9,7 +9,7 @@ import { MandatoryProfileSharingActions } from './MandatoryProfileSharingActions
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../../test-both/helpers/getDefaultConversation';
+} from '../../test-helpers/getDefaultConversation';
 
 const { i18n } = window.SignalContext;
 

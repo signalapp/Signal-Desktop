@@ -9,7 +9,7 @@ import { SignalService } from '../../protobuf';
 import * as Bytes from '../../Bytes';
 import { createLogger } from '../../logging/log';
 
-import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
+import { fakeAttachment } from '../../test-helpers/fakeAttachment';
 import { DAY } from '../../util/durations';
 import { migrateDataToFileSystem } from '../../util/attachments/migrateDataToFilesystem';
 

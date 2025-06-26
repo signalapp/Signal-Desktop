@@ -5,7 +5,7 @@ import React from 'react';
 import { times } from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
 import type { PropsType } from './ContactSpoofingReviewDialog';
 import { ContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog';
 import { ContactSpoofingType } from '../../util/contactSpoofing';

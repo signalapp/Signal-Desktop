@@ -6,7 +6,7 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './DisappearingTimeDialog';
 import { DisappearingTimeDialog } from './DisappearingTimeDialog';
-import { EXPIRE_TIMERS } from '../test-both/util/expireTimers';
+import { EXPIRE_TIMERS } from '../test-helpers/expireTimers';
 
 export default {
   title: 'Components/DisappearingTimeDialog',

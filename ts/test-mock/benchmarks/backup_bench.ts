@@ -3,7 +3,7 @@
 
 import { Bootstrap, MAX_CYCLES } from './fixtures';
 import { type RegressionSample } from '../bootstrap';
-import { generateBackup } from '../../test-both/helpers/generateBackup';
+import { generateBackup } from '../../test-helpers/generateBackup';
 
 const INITIAL_MESSAGE_COUNT = 10000;
 const FINAL_MESSAGE_COUNT = 30000;

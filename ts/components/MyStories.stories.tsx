@@ -12,8 +12,8 @@ import type { PropsType } from './MyStories';
 import { MY_STORY_ID } from '../types/Stories';
 import { MyStories } from './MyStories';
 import { SendStatus } from '../messages/MessageSendState';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
-import { getFakeMyStory } from '../test-both/helpers/getFakeStory';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
+import { getFakeMyStory } from '../test-helpers/getFakeStory';
 import { sleep } from '../util/sleep';
 
 const { i18n } = window.SignalContext;

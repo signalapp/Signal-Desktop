@@ -11,7 +11,7 @@ import { TimelineItem } from './TimelineItem';
 import { UniversalTimerNotification } from './UniversalTimerNotification';
 import { CallMode } from '../../types/CallDisposition';
 import { AvatarColors } from '../../types/Colors';
-import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
 import { WidthBreakpoint } from '../_util';
 import { ThemeType } from '../../types/Util';
 import { PaymentEventKind } from '../../types/Payment';

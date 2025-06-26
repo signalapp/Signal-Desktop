@@ -7,7 +7,7 @@ import { UnsupportedOSDialog } from './UnsupportedOSDialog';
 import type { PropsType } from './UnsupportedOSDialog';
 import { DAY } from '../util/durations';
 import { WidthBreakpoint } from './_util';
-import { FakeLeftPaneContainer } from '../test-both/helpers/FakeLeftPaneContainer';
+import { FakeLeftPaneContainer } from '../test-helpers/FakeLeftPaneContainer';
 
 const { i18n } = window.SignalContext;
 

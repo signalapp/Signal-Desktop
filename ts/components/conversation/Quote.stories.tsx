@@ -21,7 +21,7 @@ import {
 import type { Props } from './Quote';
 import { Quote } from './Quote';
 import { ReadStatus } from '../../messages/MessageReadStatus';
-import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
 import { WidthBreakpoint } from '../_util';
 import { ThemeType } from '../../types/Util';
 import { PaymentEventKind } from '../../types/Payment';

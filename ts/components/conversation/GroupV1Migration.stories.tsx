@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
 import type { PropsType } from './GroupV1Migration';
 import { GroupV1Migration } from './GroupV1Migration';
 import { ThemeType } from '../../types/Util';

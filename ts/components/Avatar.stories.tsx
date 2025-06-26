@@ -11,7 +11,7 @@ import { Avatar, AvatarBlur, AvatarSize } from './Avatar';
 import { AvatarColors } from '../types/Colors';
 import { HasStories } from '../types/Stories';
 import { ThemeType } from '../types/Util';
-import { getFakeBadge } from '../test-both/helpers/getFakeBadge';
+import { getFakeBadge } from '../test-helpers/getFakeBadge';
 
 const { i18n } = window.SignalContext;
 

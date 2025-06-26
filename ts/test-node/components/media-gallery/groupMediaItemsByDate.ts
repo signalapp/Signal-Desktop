@@ -7,7 +7,7 @@ import { shuffle } from 'lodash';
 import { IMAGE_JPEG } from '../../../types/MIME';
 import { groupMediaItemsByDate } from '../../../components/conversation/media-gallery/groupMediaItemsByDate';
 import type { MediaItemType } from '../../../types/MediaItem';
-import { fakeAttachment } from '../../../test-both/helpers/fakeAttachment';
+import { fakeAttachment } from '../../../test-helpers/fakeAttachment';
 
 const testDate = (
   year: number,

@@ -6,7 +6,7 @@ import React from 'react';
 
 import type { Props } from './StoryLinkPreview';
 import { StoryLinkPreview } from './StoryLinkPreview';
-import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
+import { fakeAttachment } from '../test-helpers/fakeAttachment';
 import { IMAGE_JPEG } from '../types/MIME';
 
 const LONG_TITLE =

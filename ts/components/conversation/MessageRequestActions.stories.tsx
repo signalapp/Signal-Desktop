@@ -8,7 +8,7 @@ import { MessageRequestActions } from './MessageRequestActions';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../../test-both/helpers/getDefaultConversation';
+} from '../../test-helpers/getDefaultConversation';
 
 const { i18n } = window.SignalContext;
 

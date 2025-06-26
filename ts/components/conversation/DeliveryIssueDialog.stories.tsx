@@ -6,7 +6,7 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './DeliveryIssueDialog';
 import { DeliveryIssueDialog } from './DeliveryIssueDialog';
-import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
 
 const { i18n } = window.SignalContext;
 const sender = getDefaultConversation();

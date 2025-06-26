@@ -10,11 +10,11 @@ import { StoriesSettingsModal } from './StoriesSettingsModal';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../test-both/helpers/getDefaultConversation';
+} from '../test-helpers/getDefaultConversation';
 import {
   getMyStories,
   getFakeDistributionList,
-} from '../test-both/helpers/getFakeDistributionLists';
+} from '../test-helpers/getFakeDistributionLists';
 
 const { i18n } = window.SignalContext;
 
