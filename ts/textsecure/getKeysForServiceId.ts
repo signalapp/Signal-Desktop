@@ -9,7 +9,6 @@ import {
   processPreKeyBundle,
   ProtocolAddress,
   PublicKey,
-  UsePQRatchet,
 } from '@signalapp/libsignal-client';
 
 import {
@@ -26,6 +25,7 @@ import { createLogger } from '../logging/log';
 import { isRecord } from '../util/isRecord';
 import type { GroupSendToken } from '../types/GroupSendEndorsements';
 import { onFailedToSendWithEndorsements } from '../util/groupSendEndorsements';
+import { isPQRatchetEnabled } from '../util/isPQRatchetEnabled';
 
 const log = createLogger('getKeysForServiceId');
 
@@ -195,7 +195,7 @@ async function handleServerKeys(
               protocolAddress,
               sessionStore,
               identityKeyStore,
-              UsePQRatchet.No
+              isPQRatchetEnabled()
             )
         );
       } catch (error) {

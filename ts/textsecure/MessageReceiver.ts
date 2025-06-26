@@ -29,7 +29,6 @@ import {
   signalDecrypt,
   signalDecryptPreKey,
   SignalMessage,
-  UsePQRatchet,
 } from '@signalapp/libsignal-client';
 
 import {
@@ -68,6 +67,7 @@ import {
 import { normalizeAci } from '../util/normalizeAci';
 import { isAciString } from '../util/isAciString';
 import * as Errors from '../types/errors';
+import { isPQRatchetEnabled } from '../util/isPQRatchetEnabled';
 
 import { SignalService as Proto } from '../protobuf';
 import { deriveGroupFields, MASTER_KEY_LENGTH } from '../groups';
@@ -1782,7 +1782,7 @@ export default class MessageReceiver
             preKeyStore,
             signedPreKeyStore,
             kyberPreKeyStore,
-            UsePQRatchet.No
+            isPQRatchetEnabled()
           );
         }
         return signalDecrypt(
@@ -1910,7 +1910,7 @@ export default class MessageReceiver
               preKeyStore,
               signedPreKeyStore,
               kyberPreKeyStore,
-              UsePQRatchet.No
+              isPQRatchetEnabled()
             )
           ),
         zone

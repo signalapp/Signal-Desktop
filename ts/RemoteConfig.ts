@@ -52,7 +52,8 @@ export type ConfigKeyType =
   | 'global.messageQueueTimeInSeconds'
   | 'global.nicknames.max'
   | 'global.nicknames.min'
-  | 'global.textAttachmentLimitBytes';
+  | 'global.textAttachmentLimitBytes'
+  | 'global.usePqRatchet';
 
 type ConfigValueType = {
   name: ConfigKeyType;
