@@ -40,13 +40,13 @@ import {
 } from '../../../types/Calling';
 import { CallMode } from '../../../types/CallDisposition';
 import { generateAci } from '../../../types/ServiceId';
-import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation';
 import type { UnwrapPromise } from '../../../types/Util';
 import {
   FAKE_CALL_LINK,
   FAKE_CALL_LINK_WITH_ADMIN_KEY,
   getCallLinkState,
-} from '../../../test-both/helpers/fakeCallLink';
+} from '../../../test-helpers/fakeCallLink';
 import { strictAssert } from '../../../util/assert';
 import { callLinkRefreshJobQueue } from '../../../jobs/callLinkRefreshJobQueue';
 import { CALL_LINK_DEFAULT_STATE } from '../../../util/callLinks';

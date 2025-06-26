@@ -6,7 +6,7 @@ import * as sinon from 'sinon';
 import { v4 as uuid } from 'uuid';
 import { RowType } from '../../../components/ConversationList';
 import { FindDirection } from '../../../components/leftPane/LeftPaneHelper';
-import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation';
 import { LeftPaneSearchHelper } from '../../../components/leftPane/LeftPaneSearchHelper';
 
 import { LeftPaneArchiveHelper } from '../../../components/leftPane/LeftPaneArchiveHelper';

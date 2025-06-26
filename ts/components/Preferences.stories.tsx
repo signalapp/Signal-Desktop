@@ -18,7 +18,7 @@ import { ThemeType } from '../types/Util';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../test-both/helpers/getDefaultConversation';
+} from '../test-helpers/getDefaultConversation';
 import { EditState, ProfileEditor } from './ProfileEditor';
 import {
   UsernameEditState,

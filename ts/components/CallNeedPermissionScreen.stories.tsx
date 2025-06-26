@@ -6,7 +6,7 @@ import { action } from '@storybook/addon-actions';
 import type { ComponentMeta } from '../storybook/types';
 import type { Props } from './CallNeedPermissionScreen';
 import { CallNeedPermissionScreen } from './CallNeedPermissionScreen';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
 
 const { i18n } = window.SignalContext;
 

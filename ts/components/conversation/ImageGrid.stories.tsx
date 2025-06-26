@@ -15,7 +15,7 @@ import {
   stringToMIMEType,
 } from '../../types/MIME';
 import { pngUrl, squareStickerUrl } from '../../storybook/Fixtures';
-import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
+import { fakeAttachment } from '../../test-helpers/fakeAttachment';
 import { strictAssert } from '../../util/assert';
 import { isDownloadable } from '../../types/Attachment';
 

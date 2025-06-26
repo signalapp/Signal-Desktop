@@ -6,7 +6,7 @@ import type { Meta, StoryFn } from '@storybook/react';
 
 import { action } from '@storybook/addon-actions';
 import { ThemeType } from '../../types/Util';
-import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
 
 import type { PropsType } from './ContactSpoofingReviewDialogPerson';
 import { ContactSpoofingReviewDialogPerson } from './ContactSpoofingReviewDialogPerson';

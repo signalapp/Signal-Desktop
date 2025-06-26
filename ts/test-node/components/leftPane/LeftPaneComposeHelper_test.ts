@@ -8,7 +8,7 @@ import { FindDirection } from '../../../components/leftPane/LeftPaneHelper';
 import {
   getDefaultConversation,
   getDefaultGroupListItem,
-} from '../../../test-both/helpers/getDefaultConversation';
+} from '../../../test-helpers/getDefaultConversation';
 
 import { LeftPaneComposeHelper } from '../../../components/leftPane/LeftPaneComposeHelper';
 

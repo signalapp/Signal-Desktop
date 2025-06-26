@@ -3,7 +3,7 @@
 import { action } from '@storybook/addon-actions';
 import * as React from 'react';
 import type { ComponentMeta } from '../storybook/types';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
 import type { EditNicknameAndNoteModalProps } from './EditNicknameAndNoteModal';
 import { EditNicknameAndNoteModal } from './EditNicknameAndNoteModal';
 

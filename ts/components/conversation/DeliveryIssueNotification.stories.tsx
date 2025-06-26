@@ -5,7 +5,7 @@ import * as React from 'react';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './DeliveryIssueNotification';
 import { DeliveryIssueNotification } from './DeliveryIssueNotification';
-import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
 
 export default {
   title: 'Components/Conversation/DeliveryIssueNotification',

@@ -20,7 +20,7 @@ import {
   AttachmentVariant,
   AttachmentPermanentlyUndownloadableError,
 } from '../../types/Attachment';
-import { updateRemoteConfig } from '../../test-both/helpers/RemoteConfigStub';
+import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub';
 import type { WebAPIType } from '../../textsecure/WebAPI';
 import { toHex, toBase64 } from '../../Bytes';
 import { generateAttachmentKeys } from '../../AttachmentCrypto';

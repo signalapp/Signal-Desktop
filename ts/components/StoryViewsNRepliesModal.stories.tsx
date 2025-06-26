@@ -10,7 +10,7 @@ import type { PropsType } from './StoryViewsNRepliesModal';
 import * as durations from '../util/durations';
 import { SendStatus } from '../messages/MessageSendState';
 import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
 import { StoryViewTargetType } from '../types/Stories';
 import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants';
 

@@ -6,7 +6,7 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './SafetyNumberViewer';
 import { SafetyNumberViewer } from './SafetyNumberViewer';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
 
 function generateQRData() {
   const data = new Uint8Array(128);

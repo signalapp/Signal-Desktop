@@ -5,7 +5,7 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { RowType, _testHeaderText } from '../../../components/ConversationList';
 import { FindDirection } from '../../../components/leftPane/LeftPaneHelper';
-import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation';
 
 import type { LeftPaneInboxPropsType } from '../../../components/leftPane/LeftPaneInboxHelper';
 import { LeftPaneInboxHelper } from '../../../components/leftPane/LeftPaneInboxHelper';

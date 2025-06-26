@@ -28,7 +28,7 @@ import { ReadStatus } from '../../messages/MessageReadStatus';
 import { MessageAudio } from './MessageAudio';
 import { computePeaks } from '../VoiceNotesPlaybackContext';
 import { pngUrl } from '../../storybook/Fixtures';
-import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
 import { WidthBreakpoint } from '../_util';
 import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations';
 import { ContactFormType } from '../../types/EmbeddedContact';
@@ -37,8 +37,8 @@ import { generateAci } from '../../types/ServiceId';
 import {
   fakeAttachment,
   fakeThumbnail,
-} from '../../test-both/helpers/fakeAttachment';
-import { getFakeBadge } from '../../test-both/helpers/getFakeBadge';
+} from '../../test-helpers/fakeAttachment';
+import { getFakeBadge } from '../../test-helpers/getFakeBadge';
 import { ThemeType } from '../../types/Util';
 import { BadgeCategory } from '../../badges/BadgeCategory';
 import { PaymentEventKind } from '../../types/Payment';

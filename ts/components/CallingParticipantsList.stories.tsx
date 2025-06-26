@@ -9,7 +9,7 @@ import type { Meta } from '@storybook/react';
 import type { PropsType } from './CallingParticipantsList';
 import { CallingParticipantsList } from './CallingParticipantsList';
 import { generateAci } from '../types/ServiceId';
-import { createCallParticipant } from '../test-both/helpers/createCallParticipant';
+import { createCallParticipant } from '../test-helpers/createCallParticipant';
 
 const { i18n } = window.SignalContext;
 

@@ -4,8 +4,8 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
-import { getFakeBadges } from '../../../test-both/helpers/getFakeBadge';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation';
+import { getFakeBadges } from '../../../test-helpers/getFakeBadge';
 import { StorybookThemeContext } from '../../../../.storybook/StorybookThemeContext';
 import type { ConversationType } from '../../../state/ducks/conversations';
 import type { Props } from './ConversationDetailsHeader';

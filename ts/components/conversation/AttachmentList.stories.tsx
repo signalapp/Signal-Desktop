@@ -17,7 +17,7 @@ import {
   VIDEO_MP4,
   stringToMIMEType,
 } from '../../types/MIME';
-import { fakeDraftAttachment } from '../../test-both/helpers/fakeAttachment';
+import { fakeDraftAttachment } from '../../test-helpers/fakeAttachment';
 
 const { i18n } = window.SignalContext;
 

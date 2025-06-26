@@ -9,7 +9,7 @@ import type { Meta } from '@storybook/react';
 import type { PropsType } from './NewlyCreatedGroupInvitedContactsDialog';
 import { NewlyCreatedGroupInvitedContactsDialog } from './NewlyCreatedGroupInvitedContactsDialog';
 import type { ConversationType } from '../state/ducks/conversations';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
 import { ThemeType } from '../types/Util';
 
 const { i18n } = window.SignalContext;

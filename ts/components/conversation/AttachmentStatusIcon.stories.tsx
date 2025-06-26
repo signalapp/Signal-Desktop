@@ -5,7 +5,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './AttachmentStatusIcon';
 import { AttachmentStatusIcon } from './AttachmentStatusIcon';
-import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
+import { fakeAttachment } from '../../test-helpers/fakeAttachment';
 
 export default {
   title: 'Components/Conversation/AttachmentStatusIcon',

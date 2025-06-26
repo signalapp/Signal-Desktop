@@ -6,7 +6,7 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import { getFakeBadge, getFakeBadges } from '../test-both/helpers/getFakeBadge';
+import { getFakeBadge, getFakeBadges } from '../test-helpers/getFakeBadge';
 import { repeat, zipObject } from '../util/iterables';
 import { BadgeImageTheme } from '../badges/BadgeImageTheme';
 import type { PropsType } from './BadgeDialog';

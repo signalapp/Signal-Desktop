@@ -4,7 +4,7 @@
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
 import type { PropsType } from './ProfileChangeNotification';
 import { ProfileChangeNotification } from './ProfileChangeNotification';
 

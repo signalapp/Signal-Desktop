@@ -12,7 +12,7 @@ import {
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../../test-both/helpers/getDefaultConversation';
+} from '../../test-helpers/getDefaultConversation';
 import { uuidToBytes } from '../../util/uuidToBytes';
 
 const MOCK_ERA = 'abc';

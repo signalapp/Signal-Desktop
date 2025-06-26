@@ -15,7 +15,7 @@ import {
   UsernameLinkState,
   UsernameReservationState,
 } from '../state/ducks/usernameEnums';
-import { getRandomColor } from '../test-both/helpers/getRandomColor';
+import { getRandomColor } from '../test-helpers/getRandomColor';
 import { SignalService as Proto } from '../protobuf';
 import { EmojiSkinTone } from './fun/data/emojis';
 
