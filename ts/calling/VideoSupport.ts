@@ -277,7 +277,7 @@ export class GumVideoCapturer {
 
     if (track.readyState === 'ended') {
       this.stopCapturing();
-      log.error('spawnSender(): Video track ended before spawning sender');
+      log.warn('spawnSender(): Video track ended before spawning sender');
       return;
     }
 

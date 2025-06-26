@@ -923,7 +923,7 @@ export class SignalProtocolStore extends EventEmitter {
         const entry = map.get(id);
 
         if (!entry) {
-          log.error('Failed to fetch sender key:', id);
+          log.warn('No sender key:', id);
           return undefined;
         }
 
