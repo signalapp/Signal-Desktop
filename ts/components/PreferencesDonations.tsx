@@ -1,13 +1,15 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useRef } from 'react';
+import React from 'react';
 
 import type { MutableRefObject } from 'react';
 
 import type { LocalizerType } from '../types/Util';
-import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
-import { PreferencesContent } from './Preferences';
+import { Page, PreferencesContent } from './Preferences';
+import { Button, ButtonVariant } from './Button';
+import { PreferencesDonateFlow } from './PreferencesDonateFlow';
+import type { CardDetail, DonationWorkflow } from '../types/Donations';
 
 type PropsExternalType = {
   contentsRef: MutableRefObject<HTMLDivElement | null>;
@@ -15,61 +17,64 @@ type PropsExternalType = {
 
 export type PropsDataType = {
   i18n: LocalizerType;
+  isStaging: boolean;
+  page: Page;
+  workflow: DonationWorkflow | undefined;
 };
-// type PropsActionType = {};
 
-export type PropsType = PropsDataType /* & PropsActionType */ &
-  PropsExternalType;
+type PropsActionType = {
+  clearWorkflow: () => void;
+  setPage: (page: Page) => void;
+  submitDonation: (options: {
+    currencyType: string;
+    paymentAmount: number;
+    paymentDetail: CardDetail;
+  }) => void;
+};
+
+export type PropsType = PropsDataType & PropsActionType & PropsExternalType;
 
 export function PreferencesDonations({
   contentsRef,
   i18n,
+  isStaging,
+  page,
+  workflow,
+  clearWorkflow,
+  setPage,
+  submitDonation,
 }: PropsType): JSX.Element {
-  const tryClose = useRef<() => void | undefined>();
-  const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
-    i18n,
-    name: 'PreferencesDonations',
-    tryClose,
-  });
+  if (page === Page.DonationsDonateFlow) {
+    return (
+      <PreferencesDonateFlow
+        contentsRef={contentsRef}
+        i18n={i18n}
+        workflow={workflow}
+        clearWorkflow={clearWorkflow}
+        onBack={() => setPage(Page.Donations)}
+        submitDonation={submitDonation}
+      />
+    );
+  }
 
-  // TODO: only show back button when on a sub-page.
-  // See ProfileEditor for its approach, an enum describing the current page
-  // Note that we would want to then add that to nav/location stuff
-  const backButton = (
-    <button
-      aria-label={i18n('icu:goBack')}
-      className="Preferences__back-icon"
-      onClick={() => /* TODO */ undefined}
-      type="button"
-    />
+  const content = (
+    <div className="PreferencesDonations">
+      {isStaging && (
+        <Button
+          onClick={() => setPage(Page.DonationsDonateFlow)}
+          variant={ButtonVariant.Primary}
+        >
+          Donate
+        </Button>
+      )}
+    </div>
   );
 
-  const onTryClose = useCallback(() => {
-    // TODO: check to see if we're dirty before navigating away
-    const isDirty = false;
-    const onDiscard = () => {
-      // clear data that the user had been working on, perhaps?
-    };
-    const onCancel = () => {
-      // is there anything to do if the user cancels out of navigation?
-    };
-
-    confirmDiscardIf(isDirty, onDiscard, onCancel);
-  }, [confirmDiscardIf]);
-  tryClose.current = onTryClose;
-
-  const content = 'Empty for now';
-
   return (
-    <>
-      {confirmDiscardModal}
-
-      <PreferencesContent
-        backButton={backButton}
-        contents={<div className="PreferencesDonations">{content}</div>}
-        contentsRef={contentsRef}
-        title={i18n('icu:Preferences__DonateTitle')}
-      />
-    </>
+    <PreferencesContent
+      contents={content}
+      contentsRef={contentsRef}
+      title={i18n('icu:Preferences__DonateTitle')}
+    />
   );
 }

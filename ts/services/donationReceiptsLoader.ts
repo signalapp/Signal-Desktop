@@ -19,6 +19,7 @@ export function getDonationReceiptsForRedux(): DonationsStateType {
     'donation receipts have not been loaded'
   );
   return {
+    currentWorkflow: undefined,
     receipts: donationReceipts,
   };
 }

@@ -100,10 +100,22 @@ function renderToastManager(props: {
   return <SmartToastManager disableMegaphone {...props} />;
 }
 
-function renderDonationsPane(options: {
+function renderDonationsPane({
+  contentsRef,
+  page,
+  setPage,
+}: {
   contentsRef: MutableRefObject<HTMLDivElement | null>;
+  page: Page;
+  setPage: (page: Page) => void;
 }): JSX.Element {
-  return <SmartPreferencesDonations contentsRef={options.contentsRef} />;
+  return (
+    <SmartPreferencesDonations
+      contentsRef={contentsRef}
+      page={page}
+      setPage={setPage}
+    />
+  );
 }
 
 function getSystemTraySettingValues(
