@@ -170,7 +170,18 @@ function RenderProfileEditor(): JSX.Element {
 
 function RenderDonationsPane(): JSX.Element {
   const contentsRef = useRef<HTMLDivElement | null>(null);
-  return <PreferencesDonations i18n={i18n} contentsRef={contentsRef} />;
+  return (
+    <PreferencesDonations
+      i18n={i18n}
+      contentsRef={contentsRef}
+      clearWorkflow={action('clearWorkflow')}
+      isStaging={false}
+      page={Page.Donations}
+      setPage={action('setPage')}
+      submitDonation={action('submitDonation')}
+      workflow={undefined}
+    />
+  );
 }
 
 function renderToastManager(): JSX.Element {

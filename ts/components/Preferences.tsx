@@ -203,6 +203,8 @@ type PropsFunctionType = {
   // Render props
   renderDonationsPane: (options: {
     contentsRef: MutableRefObject<HTMLDivElement | null>;
+    page: Page;
+    setPage: (page: Page) => void;
   }) => JSX.Element;
   renderProfileEditor: (options: {
     contentsRef: MutableRefObject<HTMLDivElement | null>;
@@ -326,6 +328,7 @@ export enum Page {
   // Sub pages
   ChatColor = 'ChatColor',
   ChatFolders = 'ChatFolders',
+  DonationsDonateFlow = 'DonationsDonateFlow',
   EditChatFolder = 'EditChatFolder',
   PNP = 'PNP',
   BackupsDetails = 'BackupsDetails',
@@ -591,6 +594,12 @@ export function Preferences({
     backupFeatureEnabled || backupLocalBackupsEnabled;
 
   if (page === Page.Backups && !shouldShowBackupsPage) {
+    setPage(Page.General);
+  }
+  if (
+    (page === Page.Donations || page === Page.DonationsDonateFlow) &&
+    !donationsFeatureEnabled
+  ) {
     setPage(Page.General);
   }
   if (page === Page.Internal && !isInternalUser) {
@@ -888,9 +897,11 @@ export function Preferences({
         title={i18n('icu:Preferences__button--general')}
       />
     );
-  } else if (page === Page.Donations) {
+  } else if (page === Page.Donations || page === Page.DonationsDonateFlow) {
     content = renderDonationsPane({
       contentsRef: settingsPaneRef,
+      page,
+      setPage,
     });
   } else if (page === Page.Appearance) {
     let zoomFactors = DEFAULT_ZOOM_FACTORS;
@@ -2354,7 +2365,9 @@ export function Preferences({
                   className={classNames({
                     Preferences__button: true,
                     'Preferences__button--appearance': true,
-                    'Preferences__button--selected': page === Page.Donations,
+                    'Preferences__button--selected':
+                      page === Page.Donations ||
+                      page === Page.DonationsDonateFlow,
                   })}
                   onClick={() => setPage(Page.Donations)}
                 >

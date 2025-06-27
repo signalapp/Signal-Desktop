@@ -43,6 +43,7 @@ window.WebAPI = window.textsecure.WebAPI.initialize({
   proxyUrl: config.proxyUrl,
   version: config.version,
   disableIPv6: config.disableIPv6,
+  stripePublishableKey: config.stripePublishableKey,
 });
 
 window.libphonenumberInstance = PhoneNumberUtil.getInstance();

@@ -1480,10 +1480,10 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/PreferencesDonations.tsx",
+    "path": "ts/components/PreferencesDonateFlow.tsx",
     "line": "  const tryClose = useRef<() => void | undefined>();",
     "reasonCategory": "usageTrusted",
-    "updated": "2025-06-10T19:00:29.489Z",
+    "updated": "2025-06-26T23:23:57.292Z",
     "reasonDetail": "Holding on to a close function"
   },
   {

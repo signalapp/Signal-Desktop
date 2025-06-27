@@ -14,6 +14,7 @@ import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
 import { z } from 'zod';
 import type { Readable } from 'stream';
+import qs from 'querystring';
 import type {
   KEMPublicKey,
   PublicKey,
@@ -92,6 +93,7 @@ import type { ServerAlert } from '../util/handleServerAlerts';
 import { isAbortError } from '../util/isAbortError';
 import { missingCaseError } from '../util/missingCaseError';
 import { drop } from '../util/drop';
+import type { CardDetail } from '../types/Donations';
 
 const log = createLogger('WebAPI');
 
@@ -100,6 +102,8 @@ const log = createLogger('WebAPI');
 //   debugging failed requests.
 const DEBUG = false;
 const DEFAULT_TIMEOUT = 30 * SECOND;
+
+const CONTENT_TYPE_FORM_ENCODING = 'application/x-www-form-urlencoded';
 
 function _createRedactor(
   ...toReplace: ReadonlyArray<string | undefined | null>
@@ -687,8 +691,10 @@ const CHAT_CALLS = {
   attachmentUploadForm: 'v4/attachments/form/upload',
   attestation: 'v1/attestation',
   batchIdentityCheck: 'v1/profile/identity_check/batch',
+  boostReceiptCredentials: 'v1/subscription/boost/receipt_credentials',
   challenge: 'v1/challenge',
   config: 'v1/config',
+  createBoost: 'v1/subscription/boost/create',
   deliveryCert: 'v1/certificate/delivery',
   devices: 'v1/devices',
   directoryAuthV2: 'v2/directory/auth',
@@ -711,6 +717,7 @@ const CHAT_CALLS = {
   backupMediaBatch: 'v1/archives/media/batch',
   backupMediaDelete: 'v1/archives/media/delete',
   callLinkCreateAuth: 'v1/call-link/create-auth',
+  redeemReceipt: 'v1/donation/redeem-receipt',
   registration: 'v1/registration',
   registerCapabilities: 'v1/devices/capabilities',
   reportMessage: 'v1/messages/report',
@@ -762,6 +769,7 @@ type InitializeOptionsType = {
   proxyUrl: string | undefined;
   version: string;
   disableIPv6: boolean;
+  stripePublishableKey: string;
 };
 
 export type MessageType = Readonly<{
@@ -1139,6 +1147,71 @@ export type CreateAccountResultType = Readonly<{
   pni: Pni;
 }>;
 
+export type CreateBoostOptionsType = Readonly<{
+  currency: string;
+  amount: number;
+  level: number;
+  paymentMethod: string;
+}>;
+const CreateBoostResultSchema = z.object({
+  clientSecret: z.string(),
+});
+export type CreateBoostResultType = z.infer<typeof CreateBoostResultSchema>;
+
+export type CreateBoostReceiptCredentialsOptionsType = Readonly<{
+  paymentIntentId: string;
+  receiptCredentialRequest: string;
+  processor: string;
+}>;
+const CreateBoostReceiptCredentialsResultSchema = z.object({
+  receiptCredentialResponse: z.string(),
+});
+export type CreateBoostReceiptCredentialsResultType = z.infer<
+  typeof CreateBoostReceiptCredentialsResultSchema
+>;
+
+// https://docs.stripe.com/api/payment_methods/create?api-version=2025-05-28.basil&lang=node#create_payment_method-card
+type CreatePaymentMethodWithStripeOptionsType = Readonly<{
+  cardDetail: CardDetail;
+}>;
+const CreatePaymentMethodWithStripeResultSchema = z.object({
+  id: z.string(),
+});
+type CreatePaymentMethodWithStripeResultType = z.infer<
+  typeof CreatePaymentMethodWithStripeResultSchema
+>;
+
+// https://docs.stripe.com/api/payment_intents/confirm?api-version=2025-05-28.basil
+export type ConfirmIntentWithStripeOptionsType = Readonly<{
+  clientSecret: string;
+  idempotencyKey: string;
+  paymentIntentId: string;
+  paymentMethodId: string;
+  returnUrl: string;
+}>;
+const ConfirmIntentWithStripeResultSchema = z.object({
+  next_action: z
+    .object({
+      type: z.string(),
+      redirect_to_url: z
+        .object({
+          return_url: z.string(), // what we provided originally
+          url: z.string(), // what we need to redirect to
+        })
+        .nullable(),
+    })
+    .nullable(),
+});
+type ConfirmIntentWithStripeResultType = z.infer<
+  typeof ConfirmIntentWithStripeResultSchema
+>;
+
+export type RedeemReceiptOptionsType = Readonly<{
+  receiptCredentialPresentation: string;
+  visible: boolean;
+  primary: boolean;
+}>;
+
 export type RequestVerificationResultType = Readonly<{
   sessionId: string;
 }>;
@@ -1473,6 +1546,15 @@ export type WebAPIType = {
   createAccount: (
     options: CreateAccountOptionsType
   ) => Promise<CreateAccountResultType>;
+  confirmIntentWithStripe: (
+    options: ConfirmIntentWithStripeOptionsType
+  ) => Promise<ConfirmIntentWithStripeResultType>;
+  createPaymentMethodWithStripe: (
+    options: CreatePaymentMethodWithStripeOptionsType
+  ) => Promise<CreatePaymentMethodWithStripeResultType>;
+  createBoostPaymentIntent: (
+    options: CreateBoostOptionsType
+  ) => Promise<CreateBoostResultType>;
   createGroup: (
     group: Proto.IGroup,
     options: GroupCredentialsType
@@ -1497,6 +1579,10 @@ export type WebAPIType = {
   }) => Promise<Readable>;
   getAttachmentUploadForm: () => Promise<AttachmentUploadFormResponseType>;
   getAvatar: (path: string) => Promise<Uint8Array>;
+  createBoostReceiptCredentials: (
+    options: CreateBoostReceiptCredentialsOptionsType
+  ) => Promise<CreateBoostReceiptCredentialsResultType>;
+  redeemReceipt: (options: RedeemReceiptOptionsType) => Promise<void>;
   getHasSubscription: (subscriberId: Uint8Array) => Promise<boolean>;
   getGroup: (options: GroupCredentialsType) => Promise<Proto.IGroupResponse>;
   getGroupFromLink: (
@@ -1866,6 +1952,7 @@ export function initialize({
   contentProxyUrl,
   proxyUrl,
   version,
+  stripePublishableKey,
 }: InitializeOptionsType): WebAPIConnectType {
   if (!isString(chatServiceUrl)) {
     throw new Error('WebAPI.initialize: Invalid chatServiceUrl');
@@ -1902,6 +1989,9 @@ export function initialize({
   }
   if (!isString(version)) {
     throw new Error('WebAPI.initialize: Invalid version');
+  }
+  if (!isString(stripePublishableKey)) {
+    throw new Error('WebAPI.initialize: Invalid stripePublishableKey');
   }
 
   // We store server alerts (returned on the WS upgrade response headers) so that the app
@@ -2051,8 +2141,12 @@ export function initialize({
       createAccount,
       callLinkCreateAuth,
       createFetchForAttachmentUpload,
+      confirmIntentWithStripe,
       confirmUsername,
+      createBoostPaymentIntent,
+      createBoostReceiptCredentials,
       createGroup,
+      createPaymentMethodWithStripe,
       deleteUsername,
       deleteUsernameLink,
       downloadOnboardingStories,
@@ -2123,6 +2217,7 @@ export function initialize({
       putProfile,
       putStickers,
       reconnect,
+      redeemReceipt,
       refreshBackup,
       registerCapabilities,
       registerKeys,
@@ -2414,6 +2509,18 @@ export function initialize({
         version: string;
         languages: Record<string, Array<string>>;
       };
+    }
+
+    async function redeemReceipt(
+      options: RedeemReceiptOptionsType
+    ): Promise<void> {
+      await _ajax({
+        host: 'chatService',
+        call: 'redeemReceipt',
+        httpType: 'POST',
+        jsonData: options,
+        responseType: 'byteswithdetails',
+      });
     }
 
     async function getReleaseNoteHash({
@@ -4622,6 +4729,112 @@ export function initialize({
         type: 'GET',
         version,
         redactUrl: _createRedactor(key),
+      });
+    }
+
+    function createBoostPaymentIntent(
+      options: CreateBoostOptionsType
+    ): Promise<CreateBoostResultType> {
+      return _ajax({
+        unauthenticated: true,
+        host: 'chatService',
+        call: 'createBoost',
+        httpType: 'POST',
+        jsonData: options,
+        responseType: 'json',
+        zodSchema: CreateBoostResultSchema,
+      });
+    }
+
+    async function createBoostReceiptCredentials(
+      options: CreateBoostReceiptCredentialsOptionsType
+    ): Promise<CreateBoostReceiptCredentialsResultType> {
+      return _ajax({
+        unauthenticated: true,
+        host: 'chatService',
+        call: 'boostReceiptCredentials',
+        httpType: 'POST',
+        jsonData: options,
+        responseType: 'json',
+        zodSchema: CreateBoostReceiptCredentialsResultSchema,
+      });
+    }
+
+    // https://docs.stripe.com/api/payment_intents/confirm?api-version=2025-05-28.basil
+    function confirmIntentWithStripe(
+      options: ConfirmIntentWithStripeOptionsType
+    ): Promise<ConfirmIntentWithStripeResultType> {
+      const {
+        clientSecret,
+        idempotencyKey,
+        paymentIntentId,
+        paymentMethodId,
+        returnUrl,
+      } = options;
+      const safePaymentIntentId = encodeURIComponent(paymentIntentId);
+      const url = `https://api.stripe.com/v1/payment_intents/${safePaymentIntentId}/confirm`;
+      const formData = {
+        client_secret: clientSecret,
+        payment_method: paymentMethodId,
+        return_url: returnUrl,
+      };
+      const basicAuth = getBasicAuth({
+        username: stripePublishableKey,
+        password: '',
+      });
+      const formBytes = Bytes.fromString(qs.encode(formData));
+
+      // This is going to Stripe, so we use _outerAjax
+      return _outerAjax(url, {
+        data: formBytes,
+        headers: {
+          Authorization: basicAuth,
+          'Content-Type': CONTENT_TYPE_FORM_ENCODING,
+          'Content-Length': formBytes.byteLength.toString(),
+          'Idempotency-Key': idempotencyKey,
+        },
+        proxyUrl,
+        redactUrl: () => {
+          return url.replace(safePaymentIntentId, '[REDACTED]');
+        },
+        responseType: 'json',
+        type: 'POST',
+        version,
+        zodSchema: ConfirmIntentWithStripeResultSchema,
+      });
+    }
+
+    // https://docs.stripe.com/api/payment_methods/create?api-version=2025-05-28.basil&lang=node#create_payment_method-card
+    function createPaymentMethodWithStripe(
+      options: CreatePaymentMethodWithStripeOptionsType
+    ): Promise<CreatePaymentMethodWithStripeResultType> {
+      const { cardDetail } = options;
+      const formData = {
+        type: 'card',
+        'card[cvc]': cardDetail.cvc,
+        'card[exp_month]': cardDetail.expirationMonth,
+        'card[exp_year]': cardDetail.expirationYear,
+        'card[number]': cardDetail.number,
+      };
+      const basicAuth = getBasicAuth({
+        username: stripePublishableKey,
+        password: '',
+      });
+      const formBytes = Bytes.fromString(qs.encode(formData));
+
+      // This is going to Stripe, so we use _outerAjax
+      return _outerAjax('https://api.stripe.com/v1/payment_methods', {
+        data: formBytes,
+        headers: {
+          Authorization: basicAuth,
+          'Content-Type': CONTENT_TYPE_FORM_ENCODING,
+          'Content-Length': formBytes.byteLength.toString(),
+        },
+        proxyUrl,
+        responseType: 'json',
+        type: 'POST',
+        version,
+        zodSchema: CreatePaymentMethodWithStripeResultSchema,
       });
     }
 
