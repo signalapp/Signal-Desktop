@@ -11,6 +11,7 @@ import { actions as calling } from './ducks/calling';
 import { actions as composer } from './ducks/composer';
 import { actions as conversations } from './ducks/conversations';
 import { actions as crashReports } from './ducks/crashReports';
+import { actions as donations } from './ducks/donations';
 import { actions as emojis } from './ducks/emojis';
 import { actions as expiration } from './ducks/expiration';
 import { actions as gifs } from './ducks/gifs';
@@ -46,6 +47,7 @@ export const actionCreators: ReduxActions = {
   composer,
   conversations,
   crashReports,
+  donations,
   emojis,
   expiration,
   gifs,

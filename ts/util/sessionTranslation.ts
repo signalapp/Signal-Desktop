@@ -325,7 +325,7 @@ function translateMessageKey(key: Uint8Array) {
   return {
     cipherKey,
     macKey,
-    iv: ivContainer.slice(0, 16),
+    iv: ivContainer.subarray(0, 16),
   };
 }
 

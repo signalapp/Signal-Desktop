@@ -55,7 +55,7 @@ describe('safety number', function (this: Mocha.Suite) {
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: false,
           name: MY_STORY_ID,
-          recipientServiceIds: [alice.device.aci],
+          recipientServiceIdsBinary: [alice.device.aciBinary],
         },
       },
     });

@@ -26,7 +26,8 @@ describe('RetryPlaceholders', () => {
     });
   });
 
-  afterEach(() => {
+  afterEach(async () => {
+    await window.storage.remove(STORAGE_KEY);
     clock.restore();
   });
 

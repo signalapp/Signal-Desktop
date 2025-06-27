@@ -3,9 +3,7 @@
 
 import pino from 'pino';
 import { isRecord } from '../util/isRecord';
-import { redactAll } from '../util/privacy';
 import { missingCaseError } from '../util/missingCaseError';
-import { reallyJsonStringify } from '../util/reallyJsonStringify';
 import { LogLevel } from '../types/Logging';
 
 export { LogLevel };
@@ -87,16 +85,6 @@ export function getLogLevelString(value: LogLevel): pino.Level {
     default:
       throw missingCaseError(value);
   }
-}
-
-export function cleanArgs(args: ReadonlyArray<unknown>): string {
-  return redactAll(
-    args
-      .map(item =>
-        typeof item === 'string' ? item : reallyJsonStringify(item)
-      )
-      .join(' ')
-  );
 }
 
 // To make it easier to visually scan logs, we make all levels the same length

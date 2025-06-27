@@ -11,7 +11,6 @@ import type { ConversationModel } from '../../models/conversations';
 import type { MessageAttributesType } from '../../model-types.d';
 import { MessageModel } from '../../models/messages';
 import type { RawBodyRange } from '../../types/BodyRange';
-import type { StorageAccessType } from '../../types/Storage.d';
 import type { WebAPIType } from '../../textsecure/WebAPI';
 import { DataWriter } from '../../sql/Client';
 import MessageSender from '../../textsecure/SendMessage';
@@ -35,13 +34,6 @@ import { getNotificationTextForMessage } from '../../util/getNotificationTextFor
 import { send } from '../../messages/send';
 
 describe('Message', () => {
-  const STORAGE_KEYS_TO_RESTORE: Array<keyof StorageAccessType> = [
-    'number_id',
-    'uuid_id',
-  ];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const oldStorageValues = new Map<keyof StorageAccessType, any>();
-
   const i18n = setupI18n('en', enMessages);
 
   const attributes = {
@@ -80,9 +72,6 @@ describe('Message', () => {
     window.ConversationController.reset();
     await window.ConversationController.load();
 
-    STORAGE_KEYS_TO_RESTORE.forEach(key => {
-      oldStorageValues.set(key, window.textsecure.storage.get(key));
-    });
     await window.textsecure.storage.put('number_id', `${me}.2`);
     await window.textsecure.storage.put('uuid_id', `${ourServiceId}.2`);
   });
@@ -90,15 +79,6 @@ describe('Message', () => {
   after(async () => {
     await DataWriter.removeAll();
     await window.storage.fetch();
-
-    await Promise.all(
-      Array.from(oldStorageValues.entries()).map(([key, oldValue]) => {
-        if (oldValue) {
-          return window.textsecure.storage.put(key, oldValue);
-        }
-        return window.textsecure.storage.remove(key);
-      })
-    );
   });
 
   beforeEach(function (this: Mocha.Context) {

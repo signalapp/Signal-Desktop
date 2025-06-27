@@ -9,11 +9,11 @@ import type {
   ReactNode,
   RefObject,
 } from 'react';
-import React from 'react';
+import React, { forwardRef, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
 import getDirection from 'direction';
-import { drop, groupBy, orderBy, take, unescape } from 'lodash';
+import { drop, take, unescape } from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
 import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow';
 import type { ReadonlyDeep } from 'type-fest';
@@ -40,14 +40,18 @@ import { ContactName } from './ContactName';
 import type { QuotedAttachmentForUIType } from './Quote';
 import { Quote } from './Quote';
 import { EmbeddedContact } from './EmbeddedContact';
-import type { OwnProps as ReactionViewerProps } from './ReactionViewer';
+import type {
+  OwnProps as ReactionViewerProps,
+  Reaction,
+} from './ReactionViewer';
 import { ReactionViewer } from './ReactionViewer';
 import { LinkPreviewDate } from './LinkPreviewDate';
 import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews';
+import { toLogFormat } from '../../types/errors';
 import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseFullSizeLinkPreviewImage';
 import type { WidthBreakpoint } from '../_util';
 import { OutgoingGiftBadgeModal } from '../OutgoingGiftBadgeModal';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { StoryViewModeType } from '../../types/Stories';
 import type {
   AttachmentForUIType,
@@ -84,7 +88,6 @@ import type {
   CustomColorType,
 } from '../../types/Colors';
 import { createRefMerger } from '../../util/refMerger';
-import { emojiToData } from '../emoji/lib';
 import { getCustomColorStyle } from '../../util/getCustomColorStyle';
 import type { ServiceIdString } from '../../types/ServiceId';
 import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations';
@@ -118,6 +121,9 @@ import {
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
 } from '../fun/data/emojis';
+import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions';
+
+const log = createLogger('Message');
 
 const GUESS_METADATA_WIDTH_TIMESTAMP_SIZE = 16;
 const GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE = 18;
@@ -444,6 +450,191 @@ type State = {
   hasDeleteForEveryoneTimerExpired: boolean;
 };
 
+// Function component for reactions that can use hooks
+type MessageReactionsProps = {
+  reactions: Array<Reaction>;
+  getPreferredBadge: PreferredBadgeSelectorType;
+  i18n: LocalizerType;
+  theme: ThemeType;
+  outgoing: boolean;
+  toggleReactionViewer: (onlyRemove?: boolean) => void;
+  reactionViewerRoot: HTMLDivElement | null;
+  popperPreventOverflowModifier: () => Partial<PreventOverflowModifier>;
+};
+
+const MessageReactions = forwardRef(function MessageReactions(
+  {
+    reactions,
+    getPreferredBadge,
+    i18n,
+    theme,
+    outgoing,
+    toggleReactionViewer,
+    reactionViewerRoot,
+    popperPreventOverflowModifier,
+  }: MessageReactionsProps,
+  parentRef
+): JSX.Element {
+  const ordered = useGroupedAndOrderedReactions(reactions);
+
+  const reactionsContainerRefMerger = useRef(createRefMerger());
+
+  // Take the first three groups for rendering
+  const toRender = take(ordered, 3).map(res => {
+    const isMe = res.some(re => Boolean(re.from.isMe));
+    const count = res.length;
+    const { emoji } = res[0];
+
+    let label: string;
+    if (isMe) {
+      label = i18n('icu:Message__reaction-emoji-label--you', { emoji });
+    } else if (count === 1) {
+      label = i18n('icu:Message__reaction-emoji-label--single', {
+        title: res[0].from.title,
+        emoji,
+      });
+    } else {
+      label = i18n('icu:Message__reaction-emoji-label--many', {
+        count,
+        emoji,
+      });
+    }
+
+    return {
+      count,
+      emoji,
+      isMe,
+      label,
+    };
+  });
+  const someNotRendered = ordered.length > 3;
+  // We only drop two here because the third emoji would be replaced by the
+  // more button
+  const maybeNotRendered = drop(ordered, 2);
+  const maybeNotRenderedTotal = maybeNotRendered.reduce(
+    (sum, res) => sum + res.length,
+    0
+  );
+  const notRenderedIsMe =
+    someNotRendered &&
+    maybeNotRendered.some(res => res.some(re => Boolean(re.from.isMe)));
+
+  const popperPlacement = outgoing ? 'bottom-end' : 'bottom-start';
+
+  return (
+    <Manager>
+      <Reference>
+        {({ ref: popperRef }) => (
+          <div
+            ref={reactionsContainerRefMerger.current(parentRef, popperRef)}
+            className={classNames(
+              'module-message__reactions',
+              outgoing
+                ? 'module-message__reactions--outgoing'
+                : 'module-message__reactions--incoming'
+            )}
+            onDoubleClick={ev => {
+              ev.stopPropagation();
+            }}
+          >
+            {toRender.map((re, i) => {
+              const isLast = i === toRender.length - 1;
+              const isMore = isLast && someNotRendered;
+              const isMoreWithMe = isMore && notRenderedIsMe;
+
+              return (
+                <button
+                  aria-label={re.label}
+                  type="button"
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={`${re.emoji}-${i}`}
+                  className={classNames(
+                    'module-message__reactions__reaction',
+                    re.count > 1
+                      ? 'module-message__reactions__reaction--with-count'
+                      : null,
+                    outgoing
+                      ? 'module-message__reactions__reaction--outgoing'
+                      : 'module-message__reactions__reaction--incoming',
+                    isMoreWithMe || (re.isMe && !isMoreWithMe)
+                      ? 'module-message__reactions__reaction--is-me'
+                      : null
+                  )}
+                  onClick={e => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    toggleReactionViewer(false);
+                  }}
+                  onKeyDown={e => {
+                    // Prevent enter key from opening stickers/attachments
+                    if (e.key === 'Enter') {
+                      e.stopPropagation();
+                    }
+                  }}
+                >
+                  {isMore ? (
+                    <span
+                      className={classNames(
+                        'module-message__reactions__reaction__count',
+                        'module-message__reactions__reaction__count--no-emoji',
+                        isMoreWithMe
+                          ? 'module-message__reactions__reaction__count--is-me'
+                          : null
+                      )}
+                    >
+                      +{maybeNotRenderedTotal}
+                    </span>
+                  ) : (
+                    <>
+                      <ReactionEmoji emojiVariantValue={re.emoji} />
+                      {re.count > 1 ? (
+                        <span
+                          className={classNames(
+                            'module-message__reactions__reaction__count',
+                            re.isMe
+                              ? 'module-message__reactions__reaction__count--is-me'
+                              : null
+                          )}
+                        >
+                          {re.count}
+                        </span>
+                      ) : null}
+                    </>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        )}
+      </Reference>
+      {reactionViewerRoot &&
+        createPortal(
+          <Popper
+            placement={popperPlacement}
+            strategy="fixed"
+            modifiers={[popperPreventOverflowModifier()]}
+          >
+            {({ ref, style }) => (
+              <ReactionViewer
+                ref={ref}
+                style={{
+                  ...style,
+                  zIndex: 2,
+                }}
+                getPreferredBadge={getPreferredBadge}
+                reactions={reactions}
+                i18n={i18n}
+                onClose={toggleReactionViewer}
+                theme={theme}
+              />
+            )}
+          </Popper>,
+          reactionViewerRoot
+        )}
+    </Manager>
+  );
+});
+
 export class Message extends React.PureComponent<Props, State> {
   public focusRef: React.RefObject<HTMLDivElement> = React.createRef();
 
@@ -457,8 +648,6 @@ export class Message extends React.PureComponent<Props, State> {
   };
 
   #metadataRef: React.RefObject<HTMLDivElement> = React.createRef();
-
-  public reactionsContainerRefMerger = createRefMerger();
 
   public expirationCheckInterval: NodeJS.Timeout | undefined;
 
@@ -531,9 +720,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   public handleImageError = (): void => {
     const { id } = this.props;
-    log.info(
-      `Message ${id}: Image failed to load; failing over to placeholder`
-    );
+    log.info(`${id}: Image failed to load; failing over to placeholder`);
     this.setState({
       imageBroken: true,
     });
@@ -626,7 +813,7 @@ export class Message extends React.PureComponent<Props, State> {
         delta,
       });
       log.info(
-        `Message.tsx: Rendered 'send complete' for message ${timestamp}; took ${delta}ms`
+        `tsx: Rendered 'send complete' for message ${timestamp}; took ${delta}ms`
       );
     }
   }
@@ -921,7 +1108,7 @@ export class Message extends React.PureComponent<Props, State> {
         isInline = false;
         break;
       default:
-        log.error(missingCaseError(metadataPlacement));
+        log.error(toLogFormat(missingCaseError(metadataPlacement)));
         isInline = false;
         break;
     }
@@ -2733,7 +2920,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  #popperPreventOverflowModifier(): Partial<PreventOverflowModifier> {
+  #popperPreventOverflowModifier = (): Partial<PreventOverflowModifier> => {
     const { containerElementRef } = this.props;
     return {
       name: 'preventOverflow',
@@ -2748,7 +2935,7 @@ export class Message extends React.PureComponent<Props, State> {
         },
       },
     };
-  }
+  };
 
   public toggleReactionViewer = (onlyRemove = false): void => {
     this.setState(oldState => {
@@ -2796,185 +2983,22 @@ export class Message extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const reactionsWithEmojiData = reactions.map(reaction => ({
-      ...reaction,
-      ...emojiToData(reaction.emoji),
-    }));
-
-    // Group by emoji and order each group by timestamp descending
-    const groupedAndSortedReactions = Object.values(
-      groupBy(reactionsWithEmojiData, 'short_name')
-    ).map(groupedReactions =>
-      orderBy(
-        groupedReactions,
-        [reaction => reaction.from.isMe, 'timestamp'],
-        ['desc', 'desc']
-      )
-    );
-    // Order groups by length and subsequently by most recent reaction
-    const ordered = orderBy(
-      groupedAndSortedReactions,
-      ['length', ([{ timestamp }]) => timestamp],
-      ['desc', 'desc']
-    );
-    // Take the first three groups for rendering
-    const toRender = take(ordered, 3).map(res => {
-      const isMe = res.some(re => Boolean(re.from.isMe));
-      const count = res.length;
-      const { emoji } = res[0];
-
-      let label: string;
-      if (isMe) {
-        label = i18n('icu:Message__reaction-emoji-label--you', { emoji });
-      } else if (count === 1) {
-        label = i18n('icu:Message__reaction-emoji-label--single', {
-          title: res[0].from.title,
-          emoji,
-        });
-      } else {
-        label = i18n('icu:Message__reaction-emoji-label--many', {
-          count,
-          emoji,
-        });
-      }
-
-      return {
-        count,
-        emoji,
-        isMe,
-        label,
-      };
-    });
-    const someNotRendered = ordered.length > 3;
-    // We only drop two here because the third emoji would be replaced by the
-    // more button
-    const maybeNotRendered = drop(ordered, 2);
-    const maybeNotRenderedTotal = maybeNotRendered.reduce(
-      (sum, res) => sum + res.length,
-      0
-    );
-    const notRenderedIsMe =
-      someNotRendered &&
-      maybeNotRendered.some(res => res.some(re => Boolean(re.from.isMe)));
-
     const { reactionViewerRoot } = this.state;
 
-    const popperPlacement = outgoing ? 'bottom-end' : 'bottom-start';
-
     return (
-      <Manager>
-        <Reference>
-          {({ ref: popperRef }) => (
-            <div
-              ref={this.reactionsContainerRefMerger(
-                this.reactionsContainerRef,
-                popperRef
-              )}
-              className={classNames(
-                'module-message__reactions',
-                outgoing
-                  ? 'module-message__reactions--outgoing'
-                  : 'module-message__reactions--incoming'
-              )}
-              onDoubleClick={ev => {
-                ev.stopPropagation();
-              }}
-            >
-              {toRender.map((re, i) => {
-                const isLast = i === toRender.length - 1;
-                const isMore = isLast && someNotRendered;
-                const isMoreWithMe = isMore && notRenderedIsMe;
-
-                return (
-                  <button
-                    aria-label={re.label}
-                    type="button"
-                    // eslint-disable-next-line react/no-array-index-key
-                    key={`${re.emoji}-${i}`}
-                    className={classNames(
-                      'module-message__reactions__reaction',
-                      re.count > 1
-                        ? 'module-message__reactions__reaction--with-count'
-                        : null,
-                      outgoing
-                        ? 'module-message__reactions__reaction--outgoing'
-                        : 'module-message__reactions__reaction--incoming',
-                      isMoreWithMe || (re.isMe && !isMoreWithMe)
-                        ? 'module-message__reactions__reaction--is-me'
-                        : null
-                    )}
-                    onClick={e => {
-                      e.stopPropagation();
-                      e.preventDefault();
-                      this.toggleReactionViewer(false);
-                    }}
-                    onKeyDown={e => {
-                      // Prevent enter key from opening stickers/attachments
-                      if (e.key === 'Enter') {
-                        e.stopPropagation();
-                      }
-                    }}
-                  >
-                    {isMore ? (
-                      <span
-                        className={classNames(
-                          'module-message__reactions__reaction__count',
-                          'module-message__reactions__reaction__count--no-emoji',
-                          isMoreWithMe
-                            ? 'module-message__reactions__reaction__count--is-me'
-                            : null
-                        )}
-                      >
-                        +{maybeNotRenderedTotal}
-                      </span>
-                    ) : (
-                      <>
-                        <ReactionEmoji emojiVariantValue={re.emoji} />
-                        {re.count > 1 ? (
-                          <span
-                            className={classNames(
-                              'module-message__reactions__reaction__count',
-                              re.isMe
-                                ? 'module-message__reactions__reaction__count--is-me'
-                                : null
-                            )}
-                          >
-                            {re.count}
-                          </span>
-                        ) : null}
-                      </>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          )}
-        </Reference>
-        {reactionViewerRoot &&
-          createPortal(
-            <Popper
-              placement={popperPlacement}
-              strategy="fixed"
-              modifiers={[this.#popperPreventOverflowModifier()]}
-            >
-              {({ ref, style }) => (
-                <ReactionViewer
-                  ref={ref}
-                  style={{
-                    ...style,
-                    zIndex: 2,
-                  }}
-                  getPreferredBadge={getPreferredBadge}
-                  reactions={reactions}
-                  i18n={i18n}
-                  onClose={this.toggleReactionViewer}
-                  theme={theme}
-                />
-              )}
-            </Popper>,
-            reactionViewerRoot
-          )}
-      </Manager>
+      <MessageReactions
+        reactions={reactions}
+        getPreferredBadge={getPreferredBadge}
+        i18n={i18n}
+        theme={theme}
+        outgoing={outgoing}
+        toggleReactionViewer={() => {
+          this.toggleReactionViewer();
+        }}
+        reactionViewerRoot={reactionViewerRoot}
+        popperPreventOverflowModifier={this.#popperPreventOverflowModifier}
+        ref={this.reactionsContainerRef}
+      />
     );
   }
 

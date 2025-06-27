@@ -8,6 +8,7 @@ import {
   getEmojiParentByKey,
   getEmojiParentKeyByValue,
   isEmojiParentValue,
+  isEmojiParentValueDeprecated,
   normalizeShortNameCompletionQuery,
 } from './data/emojis';
 import type { LocaleEmojiListType } from '../../types/emoji';
@@ -41,6 +42,11 @@ export function createFunEmojiSearchIndex(
   for (const localeEmoji of localeEmojiList) {
     if (!isEmojiParentValue(localeEmoji.emoji)) {
       // Skipping unknown emoji, most likely apple doesn't support it
+      continue;
+    }
+
+    if (isEmojiParentValueDeprecated(localeEmoji.emoji)) {
+      // Skipping deprecated emoji
       continue;
     }
 

@@ -40,7 +40,7 @@ import {
 import type { AciString } from '../types/ServiceId';
 import { isAciString } from './isAciString';
 import { isMe } from './whatTypeOfConversation';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
 import { incrementMessageCounter } from './incrementMessageCounter';
 import { ReadStatus } from '../messages/MessageReadStatus';
@@ -70,6 +70,8 @@ import { parsePartial, parseStrict } from './schemas';
 import { calling } from '../services/calling';
 import { cleanupMessages } from './cleanup';
 import { MessageModel } from '../models/messages';
+
+const log = createLogger('callDisposition');
 
 // utils
 // -----

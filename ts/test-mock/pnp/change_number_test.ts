@@ -61,7 +61,7 @@ describe('pnp/change number', function (this: Mocha.Suite) {
     ]);
 
     debug('opening conversation with the first contact');
-    await leftPane.locator(`[data-testid="${first.toContact().aci}"]`).click();
+    await leftPane.locator(`[data-testid="${first.device.aci}"]`).click();
 
     debug('done');
   });

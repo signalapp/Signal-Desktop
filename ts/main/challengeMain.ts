@@ -4,8 +4,10 @@
 import type { IpcMainEvent } from 'electron';
 import { ipcMain as ipc } from 'electron';
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import type { IPCRequest, IPCResponse, ChallengeResponse } from '../challenge';
+
+const log = createLogger('challengeMain');
 
 export class ChallengeMainHandler {
   #handlers: Array<(response: ChallengeResponse) => void> = [];
@@ -21,7 +23,7 @@ export class ChallengeMainHandler {
     this.#handlers = [];
 
     log.info(
-      'challengeMain.handleCaptcha: sending captcha response to ' +
+      'handleCaptcha: sending captcha response to ' +
         `${handlers.length} handlers`
     );
     for (const resolve of handlers) {

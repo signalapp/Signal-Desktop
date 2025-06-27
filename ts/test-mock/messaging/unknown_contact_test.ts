@@ -98,7 +98,7 @@ describe('unknown contacts', function (this: Mocha.Suite) {
       syncMessage: {
         messageRequestResponse: {
           type: Proto.SyncMessage.MessageRequestResponse.Type.ACCEPT,
-          threadAci: unknownContact.device.aci,
+          threadAciBinary: unknownContact.device.aciRawUuid,
         },
       },
     });

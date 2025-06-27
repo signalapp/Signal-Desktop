@@ -11,6 +11,7 @@ import { getEmptyState as callingEmptyState } from './ducks/calling';
 import { getEmptyState as composerEmptyState } from './ducks/composer';
 import { getEmptyState as conversationsEmptyState } from './ducks/conversations';
 import { getEmptyState as crashReportsEmptyState } from './ducks/crashReports';
+import { getEmptyState as donationsEmptyState } from './ducks/donations';
 import { getEmptyState as emojiEmptyState } from './ducks/emojis';
 import { getEmptyState as expirationEmptyState } from './ducks/expiration';
 import { getEmptyState as gifsEmptyState } from './ducks/gifs';
@@ -140,6 +141,7 @@ function getEmptyState(): StateType {
     composer: composerEmptyState(),
     conversations: generateConversationsState(),
     crashReports: crashReportsEmptyState(),
+    donations: donationsEmptyState(),
     emojis: emojiEmptyState(),
     gifs: gifsEmptyState(),
     expiration: expirationEmptyState(),

@@ -2,6 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type * as Backbone from 'backbone';
+import { createLogger } from '../logging/log';
+
+const log = createLogger('reliable_trigger');
 
 type InternalBackboneEvent = {
   callback: (...args: Array<unknown>) => unknown;
@@ -74,7 +77,7 @@ const triggerEvents = function (
     a2 = args[1],
     a3 = args[2];
   const logError = function (error: unknown) {
-    window.SignalContext.log.error(
+    log.error(
       'Model caught error triggering',
       name,
       'event:',

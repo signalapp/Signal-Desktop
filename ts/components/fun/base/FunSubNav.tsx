@@ -3,7 +3,7 @@
 import classNames from 'classnames';
 import type { Transition } from 'framer-motion';
 import { motion } from 'framer-motion';
-import type { ReactNode } from 'react';
+import type { ReactNode, Ref } from 'react';
 import React, {
   createContext,
   useCallback,
@@ -13,6 +13,7 @@ import React, {
   useRef,
   useState,
   useId,
+  forwardRef,
 } from 'react';
 import type { Selection } from 'react-aria-components';
 import { ListBox, ListBoxItem } from 'react-aria-components';
@@ -21,10 +22,13 @@ import {
   getScrollRightDistance,
   useScrollObserver,
 } from '../../../hooks/useSizeObserver';
-import * as log from '../../../logging/log';
+import { createLogger } from '../../../logging/log';
 import * as Errors from '../../../types/errors';
 import { strictAssert } from '../../../util/assert';
 import { FunImage } from './FunImage';
+import { FunTooltip } from './FunTooltip';
+
+const log = createLogger('FunSubNav');
 
 /**
  * Sub Nav
@@ -246,11 +250,30 @@ function FunSubNavListBoxItemButton(props: {
   );
 }
 
+const FunSubNavListBoxItemTooltipTarget = forwardRef(
+  function FunSubNavListBoxItemTooltipTarget(props, ref: Ref<HTMLSpanElement>) {
+    return (
+      <span
+        ref={ref}
+        {...props}
+        className="FunSubNav__ListBoxItem__TooltipTarget"
+      />
+    );
+  }
+);
+
 export function FunSubNavListBoxItem(
   props: FunSubNavListBoxItemProps
 ): JSX.Element {
   const context = useContext(FunSubNavListBoxContext);
   strictAssert(context, 'Must be wrapped with <FunSubNavListBox>');
+
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+
+  const handleTooltipOpenChange = useCallback((open: boolean) => {
+    setTooltipOpen(open);
+  }, []);
+
   return (
     <ListBoxItem
       id={props.id}
@@ -260,22 +283,35 @@ export function FunSubNavListBoxItem(
     >
       {({ isSelected, isFocusVisible }) => {
         return (
-          <FunSubNavListBoxItemButton isSelected={isSelected}>
-            <span className="FunSubNav__ListBoxItem__ButtonIcon">
-              {props.children}
-            </span>
-            {isSelected && (
-              <motion.div
-                className="FunSubNav__ListBoxItem__ButtonIndicator"
-                layoutId={`FunSubNav__ListBoxItem__ButtonIndicator--${context.id}`}
-                layoutDependency={context.selected}
-                transition={FunSubNavListBoxItemTransition}
-              />
-            )}
-            {!isSelected && isFocusVisible && (
-              <div className="FunSubNav__ListBoxItem__ButtonIndicator" />
-            )}
-          </FunSubNavListBoxItemButton>
+          <>
+            <FunTooltip
+              open={tooltipOpen || (isSelected && isFocusVisible)}
+              onOpenChange={handleTooltipOpenChange}
+              side="top"
+              content={props.label}
+              collisionBoundarySelector=".FunPanel"
+              collisionPadding={6}
+              disableHoverableContent
+            >
+              <FunSubNavListBoxItemTooltipTarget />
+            </FunTooltip>
+            <FunSubNavListBoxItemButton isSelected={isSelected}>
+              <span className="FunSubNav__ListBoxItem__ButtonIcon">
+                {props.children}
+              </span>
+              {isSelected && (
+                <motion.div
+                  className="FunSubNav__ListBoxItem__ButtonIndicator"
+                  layoutId={`FunSubNav__ListBoxItem__ButtonIndicator--${context.id}`}
+                  layoutDependency={context.selected}
+                  transition={FunSubNavListBoxItemTransition}
+                />
+              )}
+              {!isSelected && isFocusVisible && (
+                <div className="FunSubNav__ListBoxItem__ButtonIndicator" />
+              )}
+            </FunSubNavListBoxItemButton>
+          </>
         );
       }}
     </ListBoxItem>

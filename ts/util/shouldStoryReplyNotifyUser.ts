@@ -3,12 +3,14 @@
 
 import type { ConversationModel } from '../models/conversations';
 import type { ReadonlyMessageAttributesType } from '../model-types.d';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { DataReader } from '../sql/Client';
 import { isGroup } from './whatTypeOfConversation';
 import { isMessageUnread } from './isMessageUnread';
 
-export async function shouldReplyNotifyUser(
+const log = createLogger('shouldStoryReplyNotifyUser');
+
+export async function shouldStoryReplyNotifyUser(
   messageAttributes: Pick<
     ReadonlyMessageAttributesType,
     'readStatus' | 'storyId'
@@ -24,6 +26,7 @@ export async function shouldReplyNotifyUser(
 
   // If this is not a reply to a story, always notify.
   if (storyId == null) {
+    log.error('called with a non-story-reply');
     return true;
   }
 

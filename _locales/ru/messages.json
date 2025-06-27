@@ -41,6 +41,9 @@
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "Отправление медиа в высоком качестве использует больше данных."
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "Поддержать Signal"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Стандартное"
   },
@@ -594,7 +597,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Ошибка базы данных: пожалуйста, поделитесь своими журналами отладки."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Получен неверный ответ от службы хранения. Пожалуйста, поделитесь своими журналами отладки."
@@ -1269,7 +1272,7 @@
     "messageformat": "Нужна помощь?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Настройки"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Номер телефона"
@@ -2283,7 +2286,7 @@
     "messageformat": "Стикеры"
   },
   "icu:FunPicker__Tab--Gifs": {
-    "messageformat": "GIF-анимации"
+    "messageformat": "GIFы"
   },
   "icu:FunPanelEmojis__SearchLabel": {
     "messageformat": "Искать эмодзи"
@@ -2338,6 +2341,9 @@
   },
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
     "messageformat": "Результаты поиска"
+  },
+  "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
+    "messageformat": "Это сообщение"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Недавно использованные"
@@ -3114,7 +3120,7 @@
     "messageformat": "Переподключаемся…"
   },
   "icu:CallControls__InfoDisplay--participants": {
-    "messageformat": "{count, plural, one {{count,number} человека} few {{count,number} человек} many {{count,number} людей} other {{count,number} людей}}"
+    "messageformat": "{count, plural, one {{count,number} человек} few {{count,number} человека} many {{count,number} человек} other {{count,number} человека}}"
   },
   "icu:CallControls__InfoDisplay--audio-call": {
     "messageformat": "Аудиозвонок"
@@ -3288,7 +3294,7 @@
     "messageformat": "Заблокировать от звонка"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel": {
-    "messageformat": "{count, plural, one {{count,number} человека} few {{count,number} человек} many {{count,number} людей} other {{count,number} людей}}"
+    "messageformat": "{count, plural, one {{count,number} человек} few {{count,number} человека} many {{count,number} человек} other {{count,number} человека}}"
   },
   "icu:CallingAdhocCallInfo__UnknownContactLabel--in-addition": {
     "messageformat": "{count, plural, one {+ ещё {count,number}} few {+ ещё {count,number}} many {+ ещё {count,number}} other {+ ещё {count,number}}}"
@@ -3405,7 +3411,7 @@
     "messageformat": "Невозможно присоединиться к группе"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "Вы не можете присоединиться к этой группе по ссылке, потому что администратор удалил вас из этой группы."
+    "messageformat": "Вы не можете присоединиться к этой группе по ссылке, потому что администратор удалил вас из неё. Свяжитесь с администратором, чтобы вас снова добавили в группу."
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "Администратор этой группы должен принять ваш запрос, прежде чем вы сможете присоединиться к ней. Когда вы отправите запрос, ваши имя и фото станут доступны участникам этой группы."
@@ -3965,6 +3971,12 @@
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "Нажмите на «Поддержать Signal» и подпишитесь"
   },
+  "icu:ProfileMovedModal__title": {
+    "messageformat": "Ваш профиль перенесён"
+  },
+  "icu:ProfileMovedModal__description": {
+    "messageformat": "Откройте «Настройки», чтобы просмотреть и изменить свой профиль."
+  },
   "icu:BackupImportScreen__title": {
     "messageformat": "Синхронизация сообщений"
   },
@@ -4248,7 +4260,7 @@
     "messageformat": "{number, plural, one {{number,number} участник} few {{number,number} участника} many {{number,number} участников} other {{number,number} участника}}"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
-    "messageformat": "Добавлять участников"
+    "messageformat": "Добавить участников"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Просмотреть все"
@@ -4449,7 +4461,7 @@
     "messageformat": "Добавлять участников"
   },
   "icu:AddGroupMembersModal--continue-to-confirm": {
-    "messageformat": "Обновить"
+    "messageformat": "Добавить"
   },
   "icu:AddGroupMembersModal--confirm-title--one": {
     "messageformat": "Добавить {person} в «{group}»?"
@@ -4839,7 +4851,7 @@
     "messageformat": "Не удалось сохранить имя пользователя. Проверьте ваше подключение к интернету и попробуйте еще раз."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "{username} больше не доступно. Вашему имени пользователя будет придан новый набор цифр, пожалуйста, попробуйте сохранить его снова."
+    "messageformat": "{username} больше не доступно. Вашему имени пользователя будет присвоен новый набор цифр, пожалуйста, попробуйте сохранить его снова."
   },
   "icu:ProfileEditor--username--delete-general-error": {
     "messageformat": "Не удалось удалить имя пользователя. Проверьте ваше подключение к интернету и попробуйте еще раз."
@@ -4931,6 +4943,9 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Не удалось обновить ваш профиль. Пожалуйста, попробуйте еще раз."
   },
+  "icu:ProfileEditorModal--sharing": {
+    "messageformat": "Поделиться"
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Написать сообщение администратору"
   },
@@ -4963,6 +4978,9 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "Общие"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "Поддержать Signal"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "Внешний вид"
@@ -5005,6 +5023,15 @@
   },
   "icu:Preferences__button--internal": {
     "messageformat": "Внутренние"
+  },
+  "icu:Preferences__button--manage": {
+    "messageformat": "Управлять"
+  },
+  "icu:Preferences__button--choose-folder": {
+    "messageformat": "Выбрать папку"
+  },
+  "icu:Preferences__button--set-up": {
+    "messageformat": "Настроить"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Локальные резервные копии"
@@ -5051,6 +5078,15 @@
   "icu:Preferences--blocked": {
     "messageformat": "Заблокировано"
   },
+  "icu:Preferences--signal-backups": {
+    "messageformat": "Резервное копирование Signal"
+  },
+  "icu:Preferences--signal-backups-off-description": {
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+  },
+  "icu:Preferences--backup-section-description": {
+    "messageformat": "Создайте резервную копию истории сообщений, и вы не потеряете ни одно сообщение при покупке нового телефона или переустановке Signal."
+  },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Сведения о резервном копировании"
   },
@@ -5092,6 +5128,84 @@
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "Размер резервной копии"
+  },
+  "icu:Preferences__local-backups": {
+    "messageformat": "Резервное копирование на ПК"
+  },
+  "icu:Preferences__local-backups-section__description": {
+    "messageformat": "Резервные копии шифруются с помощью ключа и хранятся на вашем компьютере."
+  },
+  "icu:Preferences--local-backups-off-description": {
+    "messageformat": "Создайте резервную копию, защищённую сквозным шифрованием, которую можно восстановить на телефоне. "
+  },
+  "icu:Preferences--local-backups-restore-info": {
+    "messageformat": "Чтобы восстановить резервную копию, установите новую версию Signal. Откройте приложение и нажмите «Восстановить резервную копию», затем выберите папку резервной копии. <learnMoreLink>Узнать больше.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-setup-folder": {
+    "messageformat": "Выбрать папку"
+  },
+  "icu:Preferences--local-backups-setup-folder-description": {
+    "messageformat": "Выберите папку в хранилище вашего компьютера, где будет храниться резервная копия, защищённая сквозным шифрованием."
+  },
+  "icu:Preferences--local-backups-setup-next": {
+    "messageformat": "Далее"
+  },
+  "icu:Preferences--local-backups-view-backup-key-done": {
+    "messageformat": "Готово"
+  },
+  "icu:Preferences--local-backups-backup-key-text-box": {
+    "messageformat": "Текстовое поле для резервного ключа"
+  },
+  "icu:Preferences--local-backups-enter-backup-key": {
+    "messageformat": "Ввести ключ"
+  },
+  "icu:Preferences--local-backups-record-backup-key": {
+    "messageformat": "Запишите резервный ключ"
+  },
+  "icu:Preferences--local-backups-record-backup-key-description": {
+    "messageformat": "Этот ключ необходим для восстановления вашей учётной записи и данных. Храните этот ключ в безопасном месте. Если вы потеряете его, то не сможете восстановить свою учётную запись. <learnMoreLink>Узнать больше.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key": {
+    "messageformat": "Подтвердите резервный ключ"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key-description": {
+    "messageformat": "Введите резервный ключ, который вы только что записали"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-title": {
+    "messageformat": "Храните ключ в безопасности"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-body": {
+    "messageformat": "Signal не сможет помочь восстановить резервную копию, если вы потеряете ключ. Храните его в безопасном и надежном месте и ни с кем им не делитесь."
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-continue": {
+    "messageformat": "Продолжить"
+  },
+  "icu:Preferences--local-backups-see-backup-key-again": {
+    "messageformat": "Просмотреть ключ ещё раз"
+  },
+  "icu:Preferences__local-backups-folder": {
+    "messageformat": "Папка резервных копий"
+  },
+  "icu:Preferences__local-backups-folder__change": {
+    "messageformat": "Изменить"
+  },
+  "icu:Preferences__local-backups-copy-key": {
+    "messageformat": "Копировать в буфер обмена"
+  },
+  "icu:Preferences__local-backups-copied-key": {
+    "messageformat": "Резервный ключ скопирован"
+  },
+  "icu:Preferences__view-key": {
+    "messageformat": "Просмотреть ключ"
+  },
+  "icu:Preferences__backup-key": {
+    "messageformat": "Резервный ключ"
+  },
+  "icu:Preferences__backup-key-description": {
+    "messageformat": "Резервный ключ представляет собой 64-значный код, необходимый для восстановления резервной копии"
+  },
+  "icu:Preferences__backup-other-ways": {
+    "messageformat": "Другие способы резервного копирования"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} контакт} few {{num,number} контакта} many {{num,number} контактов} other {{num,number} контакта}}"
@@ -5958,7 +6072,7 @@
     "messageformat": "Имя пользователя"
   },
   "icu:EditUsernameModalBody__username-helper": {
-    "messageformat": "Именам пользователей всегда придан набор цифр."
+    "messageformat": "Именам пользователей всегда присвоен набор цифр."
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Узнать больше"
@@ -5995,7 +6109,7 @@
     "messageformat": "Копировать в буфер обмена"
   },
   "icu:UsernameLinkModalBody__help": {
-    "messageformat": "Передавайте ваш QR-код и ссылку только тем людям, которым вы доверяете. При передаче другие смогут увидеть ваше имя пользователя и начать чат с вами."
+    "messageformat": "Передавайте ваш QR-код и ссылку только тем людям, которым вы доверяете. При передаче иные смогут увидеть ваше имя пользователя и начать чат с вами."
   },
   "icu:UsernameLinkModalBody__reset": {
     "messageformat": "Сбросить"
@@ -6324,6 +6438,9 @@
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Не делитесь личной информацией с незнакомыми людьми"
   },
+  "icu:SaveMultiDialog__title": {
+    "messageformat": "Сохранить вложения"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Что нового"
   },
@@ -6355,10 +6472,10 @@
     "messageformat": "Небольшие изменения, исправления ошибок и улучшения производительности. Спасибо за то, что пользуетесь Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Иногда впечатляющая история может привести в движение ваши чувства, поэтому мы исправили ошибку, из-за которой было сложно передвигать окно Signal во время просмотра контента на вкладке «Истории»."
+  "icu:WhatsNew__v7.58--0": {
+    "messageformat": "В новом разделе селектора реакций на сообщение автоматически отображаются все эмодзи, им полученные. Теперь вы можете быстро присоединиться к остальным и поставить стандартное сияющее сердечко — или последовать зову собственного сердца и выбрать другое сердечко-эмодзи."
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "Это обновление активирует ускорение графического процессора в Linux для повышения производительности и более плавного воспроизведения видео на поддерживаемом оборудовании."
   }
 }

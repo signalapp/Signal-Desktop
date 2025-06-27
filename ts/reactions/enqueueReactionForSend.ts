@@ -21,8 +21,10 @@ import { repeat, zipObject } from '../util/iterables';
 import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
 import { isAciString } from '../util/isAciString';
 import { SendStatus } from '../messages/MessageSendState';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { getMessageIdForLogging } from '../util/idForLogging';
+
+const log = createLogger('enqueueReactionForSend');
 
 export async function enqueueReactionForSend({
   emoji,

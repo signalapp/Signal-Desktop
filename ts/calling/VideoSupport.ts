@@ -9,7 +9,9 @@
 import { videoPixelFormatToEnum } from '@signalapp/ringrtc';
 import type { VideoFrameSender, VideoFrameSource } from '@signalapp/ringrtc';
 import type { RefObject } from 'react';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const log = createLogger('VideoSupport');
 
 export class GumVideoCaptureOptions {
   maxWidth = 640;

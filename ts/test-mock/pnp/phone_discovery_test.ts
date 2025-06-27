@@ -9,7 +9,6 @@ import createDebug from 'debug';
 import * as durations from '../../util/durations';
 import { uuidToBytes } from '../../util/uuidToBytes';
 import { MY_STORY_ID } from '../../types/Stories';
-import { toUntaggedPni } from '../../types/ServiceId';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
 import {
@@ -56,7 +55,7 @@ describe('pnp/phone discovery', function (this: Mocha.Suite) {
 
         identityKey: pniIdentityKey,
 
-        serviceE164: pniContact.device.number,
+        e164: pniContact.device.number,
       },
       ServiceIdKind.PNI
     );
@@ -73,7 +72,6 @@ describe('pnp/phone discovery', function (this: Mocha.Suite) {
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: true,
           name: MY_STORY_ID,
-          recipientServiceIds: [],
         },
       },
     });
@@ -119,7 +117,7 @@ describe('pnp/phone discovery', function (this: Mocha.Suite) {
             whitelisted: true,
             identityKey: pniContact.publicKey.serialize(),
             profileKey: pniContact.profileKey.serialize(),
-            pni: toUntaggedPni(pniContact.device.pni),
+            pniBinary: pniContact.device.pniRawUuid,
           })
       );
       await phone.sendFetchStorage({

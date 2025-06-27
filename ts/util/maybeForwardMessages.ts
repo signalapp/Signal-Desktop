@@ -4,7 +4,7 @@
 import type { AttachmentType } from '../types/Attachment';
 import type { LinkPreviewWithHydratedData } from '../types/message/LinkPreviews';
 import type { QuotedMessageType } from '../model-types';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { SafetyNumberChangeSource } from '../components/SafetyNumberChangeDialog';
 import { blockSendUntilConversationsAreVerified } from './blockSendUntilConversationsAreVerified';
 import {
@@ -24,6 +24,8 @@ import {
   type ForwardMessageData,
 } from '../types/ForwardDraft';
 import { canForward } from '../state/selectors/message';
+
+const log = createLogger('maybeForwardMessages');
 
 export async function maybeForwardMessages(
   messages: Array<ForwardMessageData>,

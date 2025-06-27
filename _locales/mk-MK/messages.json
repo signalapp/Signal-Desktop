@@ -41,6 +41,9 @@
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "Испраќањето на висококвалитетна медиумска датотека ќе користи повеќе податоци."
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "Донирај на Signal"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Стандардно"
   },
@@ -594,7 +597,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Грешка со базата на податоци: ве молиме споделете ги вашите записи."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Добиен е невалиден одговор од услугата за складирање. Ве молиме споделете ги вашите записи."
@@ -1269,7 +1272,7 @@
     "messageformat": "Потребна Ви е помош?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Поставувања"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Телефонски број"
@@ -2339,6 +2342,9 @@
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
     "messageformat": "Резултати од пребарувањето"
   },
+  "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
+    "messageformat": "Оваа порака"
+  },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Скорешни"
   },
@@ -3405,7 +3411,7 @@
     "messageformat": "Не можам да се приклучам на групата"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "Не можете да се приклучите на оваа група преку групниот линк бидејќи администратор ве отстрани."
+    "messageformat": "Не можете да се приклучите на оваа група преку групниот линк бидејќи администратор ве отстрани. Контактирајте администратор за да бидете повторно додадени во групата."
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "Администраторот на ова група мора да го одобри Вашето барање пред да се приклучите. Кога барате да се приклучите, Вашето име и слика ќе бидат споделени со членовите."
@@ -3964,6 +3970,12 @@
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "Допри на „Донирај на Signal“ и претплати се"
+  },
+  "icu:ProfileMovedModal__title": {
+    "messageformat": "Вашиот профил е преместен"
+  },
+  "icu:ProfileMovedModal__description": {
+    "messageformat": "Отворете ги поставувањата за да го видите и да правите измени на вашиот профил."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Пораките се синхронизираат"
@@ -4931,6 +4943,9 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Вашиот профил не можеше да се ажурира. Ве молиме обидете се повторно."
   },
+  "icu:ProfileEditorModal--sharing": {
+    "messageformat": "Споделување"
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Испрати порака на админ"
   },
@@ -4963,6 +4978,9 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "Општо"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "Донирај на Signal"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "Изглед"
@@ -5005,6 +5023,15 @@
   },
   "icu:Preferences__button--internal": {
     "messageformat": "Внатрешнo"
+  },
+  "icu:Preferences__button--manage": {
+    "messageformat": "Управувај"
+  },
+  "icu:Preferences__button--choose-folder": {
+    "messageformat": "Одберете папка"
+  },
+  "icu:Preferences__button--set-up": {
+    "messageformat": "Поставете"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Локални резервни копии"
@@ -5051,6 +5078,15 @@
   "icu:Preferences--blocked": {
     "messageformat": "Блокирани"
   },
+  "icu:Preferences--signal-backups": {
+    "messageformat": "Signal резервни копии"
+  },
+  "icu:Preferences--signal-backups-off-description": {
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+  },
+  "icu:Preferences--backup-section-description": {
+    "messageformat": "Направете резервна копија на вашата историја на пораки за да не губите податоци кога ќе земете нов телефон или ќе ја реинсталирате Signal апликацијата."
+  },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Детали за резервната копија"
   },
@@ -5092,6 +5128,84 @@
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "Големина на резервната копија"
+  },
+  "icu:Preferences__local-backups": {
+    "messageformat": "Десктоп резервни копии"
+  },
+  "icu:Preferences__local-backups-section__description": {
+    "messageformat": "Резервните копии се шифрираат со клуч и се складираат на вашиот компјутер."
+  },
+  "icu:Preferences--local-backups-off-description": {
+    "messageformat": "Создајте целосно шифрирана резервна копија што можете да ја вратите на вашиот телефон. "
+  },
+  "icu:Preferences--local-backups-restore-info": {
+    "messageformat": "За да вратите резервна копија, инсталирајте нова копија на Signal. Отворете ја апликацијата и допрете „Врати резервна копија“, потоа лоцирајте ја папката со резервната копија. <learnMoreLink>Дознајте повеќе.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-setup-folder": {
+    "messageformat": "Одберете папка"
+  },
+  "icu:Preferences--local-backups-setup-folder-description": {
+    "messageformat": "Изберете папка во меморијата на вашиот компјутер каде што ќе се чува вашата целосно шифрирана резервна копија."
+  },
+  "icu:Preferences--local-backups-setup-next": {
+    "messageformat": "Следно"
+  },
+  "icu:Preferences--local-backups-view-backup-key-done": {
+    "messageformat": "Готово"
+  },
+  "icu:Preferences--local-backups-backup-key-text-box": {
+    "messageformat": "Поле за текст за клуч за резервни копии"
+  },
+  "icu:Preferences--local-backups-enter-backup-key": {
+    "messageformat": "Внесете клуч"
+  },
+  "icu:Preferences--local-backups-record-backup-key": {
+    "messageformat": "Направете запис од вашиот клуч за резервни копии"
+  },
+  "icu:Preferences--local-backups-record-backup-key-description": {
+    "messageformat": "Овој клуч е потребен за враќање на вашата корисничка сметка и податоците. Чувајте го овој клуч на безбедно место. Ако го изгубите, нема да може да ја вратите вашата корисничка сметка. <learnMoreLink>Дознајте повеќе.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key": {
+    "messageformat": "Потврдете го вашиот клуч за резервни копии"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key-description": {
+    "messageformat": "Внесете го клучот за резервни копии што го запишавте сега"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-title": {
+    "messageformat": "Чувајте го клучот на безбедно место"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-body": {
+    "messageformat": "Signal нема да може да ви помогне да ги вратите податоците од резервната копија ако го заборавите вашиот клуч. Чувајте го на безбедно место и не го споделувајте со други лица."
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-continue": {
+    "messageformat": "Продолжи"
+  },
+  "icu:Preferences--local-backups-see-backup-key-again": {
+    "messageformat": "Повторно видете го клучот"
+  },
+  "icu:Preferences__local-backups-folder": {
+    "messageformat": "Папка за резервна копија"
+  },
+  "icu:Preferences__local-backups-folder__change": {
+    "messageformat": "Изменете"
+  },
+  "icu:Preferences__local-backups-copy-key": {
+    "messageformat": "Копирај на таблата со исечоци"
+  },
+  "icu:Preferences__local-backups-copied-key": {
+    "messageformat": "Клучот за резервни копии е копиран"
+  },
+  "icu:Preferences__view-key": {
+    "messageformat": "Видете го клучот"
+  },
+  "icu:Preferences__backup-key": {
+    "messageformat": "Клуч за резервни копии"
+  },
+  "icu:Preferences__backup-key-description": {
+    "messageformat": "Вашиот клуч за резервни копии е код од 64 цифри којшто ви помага да ги вратите податоците од резервната копија"
+  },
+  "icu:Preferences__backup-other-ways": {
+    "messageformat": "Други начини за правење резервна копија"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} контакт} other {{num,number} контакти}}"
@@ -6324,6 +6438,9 @@
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Не споделувајте лични информации со луѓе што не ги познавате"
   },
+  "icu:SaveMultiDialog__title": {
+    "messageformat": "Зачувајте ги прилозите"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Што е ново"
   },
@@ -6355,10 +6472,10 @@
     "messageformat": "Mали подобрувања, решени багови и подобрувања на перформансот. Ви благодариме што користите Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Во оваа верзија решена е грешка што го отежнуваше поместувањето на Signal прозорецот при гледање содржина во картичката со Приказни."
+  "icu:WhatsNew__v7.58--0": {
+    "messageformat": "Нов дел во избирачот на реакции на пораки автоматски ги прикажува сите реакции со емотикони што ги има една порака."
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "Подобрувања на перформансот на Linux."
   }
 }

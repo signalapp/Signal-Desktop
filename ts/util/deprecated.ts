@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { getEnvironment, Environment } from '../environment';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const log = createLogger('deprecated');
 
 export function deprecated(message?: string): void {
   if (getEnvironment() !== Environment.PackagedApp) {

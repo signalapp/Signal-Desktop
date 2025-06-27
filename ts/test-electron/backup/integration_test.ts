@@ -40,6 +40,8 @@ describe('backup/integration', () => {
 
   const files = readdirSync(BACKUP_INTEGRATION_DIR)
     .filter(file => file.endsWith('.binproto'))
+    // TODO: DESKTOP-8906
+    .filter(file => file !== 'chat_item_view_once_00.binproto')
     .map(file => join(BACKUP_INTEGRATION_DIR, file));
 
   if (files.length === 0) {

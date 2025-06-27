@@ -59,7 +59,7 @@ import { SignalClipboard } from '../quill/signal-clipboard';
 import { DirectionalBlot } from '../quill/block/blot';
 import { getClassNamesFor } from '../util/getClassNamesFor';
 import { isNotNil } from '../util/isNotNil';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
 import type { LinkPreviewForUIType } from '../types/message/LinkPreviews';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview';
@@ -82,6 +82,8 @@ import { FUN_STATIC_EMOJI_CLASS } from './fun/FunEmoji';
 import { useFunEmojiSearch } from './fun/useFunEmojiSearch';
 import type { EmojiCompletionOptions } from '../quill/emoji/completion';
 import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer';
+
+const log = createLogger('CompositionInput');
 
 Quill.register(
   {
@@ -348,16 +350,14 @@ export function CompositionInput(props: Props): React.ReactElement {
     }
 
     if (!canSendRef.current) {
-      log.warn(
-        'CompositionInput: Not submitting message - cannot send right now'
-      );
+      log.warn('Not submitting message - cannot send right now');
       return;
     }
 
     const { text, bodyRanges } = getTextAndRanges();
 
     log.info(
-      `CompositionInput: Submitting message ${timestamp} with ${bodyRanges.length} ranges`
+      `Submitting message ${timestamp} with ${bodyRanges.length} ranges`
     );
     canSendRef.current = false;
     const didSend = onSubmit(text, bodyRanges, timestamp);
@@ -967,7 +967,7 @@ export function CompositionInput(props: Props): React.ReactElement {
         window.addEventListener('mouseup', onMouseUp);
       } catch (error) {
         log.error(
-          'CompositionInput.onMouseDown: Failed to check event target',
+          'onMouseDown: Failed to check event target',
           Errors.toLogFormat(error)
         );
       }

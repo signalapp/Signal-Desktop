@@ -8,8 +8,10 @@ import { useConversationsActions } from '../ducks/conversations';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { getConversationSelector } from '../selectors/conversations';
 import { getIntl, getTheme } from '../selectors/user';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { useGlobalModalActions } from '../ducks/globalModals';
+
+const log = createLogger('GroupV1MigrationDialog');
 
 export type PropsType = {
   readonly conversationId: string;

@@ -15,8 +15,10 @@ import { sleep } from '../util/sleep';
 import { stats } from '../util/benchmark/stats';
 import type { StatsType } from '../util/benchmark/stats';
 import type { MessageAttributesType } from '../model-types.d';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { postSaveUpdates } from '../util/cleanup';
+
+const log = createLogger('benchmarkConversationOpen');
 
 const BUFFER_DELAY_MS = 50;
 

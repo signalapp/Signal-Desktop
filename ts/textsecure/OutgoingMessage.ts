@@ -41,9 +41,11 @@ import type { ServiceIdString } from '../types/ServiceId';
 import { Sessions, IdentityKeys } from '../LibSignalStores';
 import { getKeysForServiceId } from './getKeysForServiceId';
 import { SignalService as Proto } from '../protobuf';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import type { GroupSendToken } from '../types/GroupSendEndorsements';
 import { isSignalServiceId } from '../util/isSignalConversation';
+
+const log = createLogger('OutgoingMessage');
 
 export const enum SenderCertificateMode {
   WithE164,
@@ -70,10 +72,10 @@ type OutgoingMessageOptionsType = SendOptionsType & {
 
 function ciphertextMessageTypeToEnvelopeType(type: number) {
   if (type === CiphertextMessageType.PreKey) {
-    return Proto.Envelope.Type.PREKEY_BUNDLE;
+    return Proto.Envelope.Type.PREKEY_MESSAGE;
   }
   if (type === CiphertextMessageType.Whisper) {
-    return Proto.Envelope.Type.CIPHERTEXT;
+    return Proto.Envelope.Type.DOUBLE_RATCHET;
   }
   if (type === CiphertextMessageType.Plaintext) {
     return Proto.Envelope.Type.PLAINTEXT_CONTENT;
@@ -410,7 +412,7 @@ export default class OutgoingMessage {
 
     if (accessKey && !senderCertificate) {
       log.warn(
-        'OutgoingMessage.doSendMessage: accessKey was provided, but senderCertificate was not'
+        'doSendMessage: accessKey was provided, but senderCertificate was not'
       );
     }
 
@@ -537,7 +539,7 @@ export default class OutgoingMessage {
                 });
               } else if (this.successfulServiceIds.length > 1) {
                 log.warn(
-                  `OutgoingMessage.doSendMessage: no sendLogCallback provided for message ${this.timestamp}, but multiple recipients`
+                  `doSendMessage: no sendLogCallback provided for message ${this.timestamp}, but multiple recipients`
                 );
               }
             },
@@ -547,7 +549,7 @@ export default class OutgoingMessage {
                 (error.code === 401 || error.code === 403)
               ) {
                 log.warn(
-                  `OutgoingMessage.doSendMessage: Failing over to unsealed send for serviceId ${serviceId}`
+                  `doSendMessage: Failing over to unsealed send for serviceId ${serviceId}`
                 );
                 if (this.failoverServiceIds.indexOf(serviceId) === -1) {
                   this.failoverServiceIds.push(serviceId);
@@ -579,7 +581,7 @@ export default class OutgoingMessage {
               });
             } else if (this.successfulServiceIds.length > 1) {
               log.warn(
-                `OutgoingMessage.doSendMessage: no sendLogCallback provided for message ${this.timestamp}, but multiple recipients`
+                `doSendMessage: no sendLogCallback provided for message ${this.timestamp}, but multiple recipients`
               );
             }
           }

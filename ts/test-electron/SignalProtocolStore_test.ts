@@ -170,6 +170,11 @@ describe('SignalProtocolStore', () => {
     await window.ConversationController.getOrCreateAndWait(theirAci, 'private');
   });
 
+  after(async () => {
+    await DataWriter.removeAll();
+    await window.storage.fetch();
+  });
+
   describe('getLocalRegistrationId', () => {
     it('retrieves my registration id', async () => {
       await store.hydrateCaches();

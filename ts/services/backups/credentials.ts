@@ -11,7 +11,7 @@ import {
 } from '@signalapp/libsignal-client/zkgroup';
 import { type BackupKey } from '@signalapp/libsignal-client/dist/AccountKeys';
 
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { strictAssert } from '../../util/assert';
 import { drop } from '../../util/drop';
 import { isMoreRecentThan, toDayMillis } from '../../util/timestamp';
@@ -37,6 +37,8 @@ import {
   getBackupSignatureKey,
   getBackupMediaSignatureKey,
 } from './crypto';
+
+const log = createLogger('credentials');
 
 const FETCH_INTERVAL = 3 * DAY;
 

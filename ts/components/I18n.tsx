@@ -7,7 +7,9 @@ import type {
   LocalizerType,
   ICUJSXMessageParamsByKeyType,
 } from '../types/Util';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const log = createLogger('I18n');
 
 export type Props<Key extends keyof ICUJSXMessageParamsByKeyType> = {
   /** The translation string id */

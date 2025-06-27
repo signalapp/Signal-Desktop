@@ -3,23 +3,30 @@
 
 import {
   type AttachmentType,
-  mightBeOnBackupTier,
   AttachmentVariant,
   AttachmentPermanentlyUndownloadableError,
   getAttachmentIdForLogging,
-  mightBeInLocalBackup,
+  hasRequiredInformationForBackup,
+  wasImportedFromLocalBackup,
 } from '../types/Attachment';
 import { downloadAttachment as doDownloadAttachment } from '../textsecure/downloadAttachment';
 import { downloadAttachmentFromLocalBackup as doDownloadAttachmentFromLocalBackup } from './downloadAttachmentFromLocalBackup';
 import { MediaTier } from '../types/AttachmentDownload';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { HTTPError } from '../textsecure/Errors';
 import { toLogFormat } from '../types/errors';
 import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto';
 
+const log = createLogger('downloadAttachment');
+
 export async function downloadAttachment({
   attachment,
-  options: { variant = AttachmentVariant.Default, onSizeUpdate, abortSignal },
+  options: {
+    variant = AttachmentVariant.Default,
+    onSizeUpdate,
+    abortSignal,
+    hasMediaBackups,
+  },
   dependencies = {
     downloadAttachmentFromServer: doDownloadAttachment,
     downloadAttachmentFromLocalBackup: doDownloadAttachmentFromLocalBackup,
@@ -30,6 +37,7 @@ export async function downloadAttachment({
     variant?: AttachmentVariant;
     onSizeUpdate: (totalBytes: number) => void;
     abortSignal: AbortSignal;
+    hasMediaBackups: boolean;
   };
   dependencies?: {
     downloadAttachmentFromServer: typeof doDownloadAttachment;
@@ -47,19 +55,12 @@ export async function downloadAttachment({
     throw new Error('window.textsecure.server is not available!');
   }
 
-  let migratedAttachment: AttachmentType;
+  const isBackupable = hasRequiredInformationForBackup(attachment);
 
-  const { id: legacyId } = attachment;
-  if (legacyId === undefined) {
-    migratedAttachment = attachment;
-  } else {
-    migratedAttachment = {
-      ...attachment,
-      cdnId: String(legacyId),
-    };
-  }
+  const mightBeOnBackupTierNow = isBackupable && hasMediaBackups;
+  const mightBeOnBackupTierInTheFuture = isBackupable;
 
-  if (mightBeInLocalBackup(attachment)) {
+  if (wasImportedFromLocalBackup(attachment)) {
     log.info(`${logId}: Downloading attachment from local backup`);
     try {
       const result =
@@ -76,14 +77,13 @@ export async function downloadAttachment({
     }
   }
 
-  if (mightBeOnBackupTier(migratedAttachment)) {
+  if (mightBeOnBackupTierNow) {
     try {
       return await dependencies.downloadAttachmentFromServer(
         server,
-        migratedAttachment,
+        { mediaTier: MediaTier.BACKUP, attachment },
         {
           logPrefix: dataId,
-          mediaTier: MediaTier.BACKUP,
           onSizeUpdate,
           variant,
           abortSignal,
@@ -119,21 +119,21 @@ export async function downloadAttachment({
   try {
     return await dependencies.downloadAttachmentFromServer(
       server,
-      migratedAttachment,
+      { attachment, mediaTier: MediaTier.STANDARD },
       {
         logPrefix: dataId,
-        mediaTier: MediaTier.STANDARD,
         onSizeUpdate,
         variant,
         abortSignal,
       }
     );
   } catch (error) {
-    if (mightBeOnBackupTier(migratedAttachment)) {
+    if (mightBeOnBackupTierInTheFuture) {
       // We don't want to throw the AttachmentPermanentlyUndownloadableError because we
       // may just need to wait for this attachment to end up on the backup tier
       throw error;
     }
+
     // Attachments on the transit tier expire after (message queue length + buffer) days,
     // then start returning 404
     if (error instanceof HTTPError && error.code === 404) {

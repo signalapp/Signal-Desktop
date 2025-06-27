@@ -6,9 +6,11 @@ import 'urlpattern-polyfill';
 import { URL as NodeURL } from 'url';
 import { z } from 'zod';
 import { strictAssert } from './assert';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
 import { parsePartial, parseUnknown, safeParseUnknown } from './schemas';
+
+const log = createLogger('signalRoutes');
 
 function toUrl(input: URL | string): URL | null {
   if (input instanceof URL) {

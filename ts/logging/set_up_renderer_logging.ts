@@ -3,44 +3,20 @@
 
 /* eslint-env node */
 
-/* eslint-disable no-console */
-
 import { ipcRenderer as ipc } from 'electron';
 import * as path from 'path';
-import pino from 'pino';
 
 import {
   initLogger,
   LogLevel as SignalClientLogLevel,
 } from '@signalapp/libsignal-client';
 
-import {
-  LogLevel,
-  cleanArgs,
-  getLogLevelString,
-  levelMaxLength,
-} from './shared';
-import * as log from './log';
-import { Environment, getEnvironment } from '../environment';
+import { setPinoDestination, log } from './log';
 import * as Errors from '../types/errors';
 import { createRotatingPinoDest } from '../util/rotatingPinoDest';
+import { redactAll } from '../util/privacy';
 
-// Backwards-compatible logging, simple strings and no level (defaulted to INFO)
-function now() {
-  const date = new Date();
-  return date.toJSON();
-}
-
-function consoleLog(...args: ReadonlyArray<unknown>) {
-  logAtLevel(LogLevel.Info, ...args);
-}
-
-if (window.console) {
-  console._log = console.log;
-  console.log = consoleLog;
-}
-
-let globalLogger: undefined | pino.Logger;
+let isInitialized = false;
 let shouldRestart = false;
 
 export function beforeRestart(): void {
@@ -48,16 +24,15 @@ export function beforeRestart(): void {
 }
 
 export function initialize(): void {
-  if (globalLogger) {
-    throw new Error('Already called initialize!');
+  if (isInitialized) {
+    throw new Error('Already initialized');
   }
+  isInitialized = true;
 
   const basePath = ipc.sendSync('get-user-data-path');
   const logFile = path.join(basePath, 'logs', 'app.log');
 
   const onClose = () => {
-    globalLogger = undefined;
-
     if (shouldRestart) {
       initialize();
     }
@@ -70,66 +45,10 @@ export function initialize(): void {
   stream.on('close', onClose);
   stream.on('error', onClose);
 
-  globalLogger = pino(
-    {
-      formatters: {
-        // No point in saving pid or hostname
-        bindings: () => ({}),
-      },
-      timestamp: pino.stdTimeFunctions.isoTime,
-    },
-    stream
-  );
+  setPinoDestination(stream, redactAll);
 }
 
-// A modern logging interface for the browser
-
-function logAtLevel(level: LogLevel, ...args: ReadonlyArray<unknown>): void {
-  if (getEnvironment() !== Environment.PackagedApp) {
-    const prefix = getLogLevelString(level)
-      .toUpperCase()
-      .padEnd(levelMaxLength, ' ');
-    console._log(prefix, now(), ...args);
-  }
-
-  const levelString = getLogLevelString(level);
-  const msg = cleanArgs(args);
-
-  if (!globalLogger) {
-    throw new Error('Logger has not been initialized yet');
-  }
-
-  globalLogger[levelString](msg);
-}
-
-log.setLogAtLevel(logAtLevel);
-
-window.SignalContext = window.SignalContext || {};
-window.SignalContext.log = {
-  fatal: log.fatal,
-  error: log.error,
-  warn: log.warn,
-  info: log.info,
-  debug: log.debug,
-  trace: log.trace,
-};
-
-function toLocation(
-  event: string | Event,
-  sourceArg?: string,
-  lineArg?: number,
-  columnArg?: number
-) {
-  let source = sourceArg;
-  let line = lineArg;
-  let column = columnArg;
-
-  if (event instanceof ErrorEvent) {
-    source ??= event.filename;
-    line ??= event.lineno;
-    column ??= event.colno;
-  }
-
+function toLocation(source?: string, line?: number, column?: number) {
   if (source == null) {
     return '(@ unknown)';
   }
@@ -142,11 +61,11 @@ function toLocation(
   return `(@ ${source})`;
 }
 
-window.onerror = (event, source, line, column, error) => {
+window.onerror = (message, source, line, column, error) => {
   const errorInfo = Errors.toLogFormat(error);
   log.error(
-    `Top-level unhandled error: ${errorInfo}`,
-    toLocation(event, source, line, column)
+    `Top-level unhandled error: ${message}, ${errorInfo}`,
+    toLocation(source, line, column)
   );
 };
 
@@ -155,6 +74,8 @@ window.addEventListener('unhandledrejection', rejectionEvent => {
   const errorString = Errors.toLogFormat(error);
   log.error(`Top-level unhandled promise rejection: ${errorString}`);
 });
+
+const libSignalLog = log.child('@signalapp/libsignal-client');
 
 initLogger(
   SignalClientLogLevel.Info,
@@ -171,20 +92,20 @@ initLogger(
     } else if (file) {
       fileString = ` ${file}`;
     }
-    const logString = `@signalapp/libsignal-client ${message} ${target}${fileString}`;
+    const logString = `${message} ${target}${fileString}`;
 
     if (level === SignalClientLogLevel.Trace) {
-      log.trace(logString);
+      libSignalLog.trace(logString);
     } else if (level === SignalClientLogLevel.Debug) {
-      log.debug(logString);
+      libSignalLog.debug(logString);
     } else if (level === SignalClientLogLevel.Info) {
-      log.info(logString);
+      libSignalLog.info(logString);
     } else if (level === SignalClientLogLevel.Warn) {
-      log.warn(logString);
+      libSignalLog.warn(logString);
     } else if (level === SignalClientLogLevel.Error) {
-      log.error(logString);
+      libSignalLog.error(logString);
     } else {
-      log.error(`${logString} (unknown log level ${level})`);
+      libSignalLog.error(`${logString} (unknown log level ${level})`);
     }
   }
 );

@@ -54,7 +54,7 @@ import { isServiceIdString, ServiceIdKind } from './types/ServiceId';
 import type { Address } from './types/Address';
 import type { QualifiedAddressStringType } from './types/QualifiedAddress';
 import { QualifiedAddress } from './types/QualifiedAddress';
-import * as log from './logging/log';
+import { createLogger } from './logging/log';
 import * as Errors from './types/errors';
 import { MINUTE } from './util/durations';
 import { conversationJobQueue } from './jobs/conversationJobQueue';
@@ -64,6 +64,8 @@ import {
 } from './textsecure/AccountManager';
 import { formatGroups, groupWhile } from './util/groupWhile';
 import { parseUnknown } from './util/schemas';
+
+const log = createLogger('SignalProtocolStore');
 
 const TIMESTAMP_THRESHOLD = 5 * 1000; // 5 seconds
 const LOW_KEYS_THRESHOLD = 25;
@@ -172,7 +174,7 @@ async function _fillCaches<ID, T extends HasIdType<ID>, HydratedType>(
     });
   }
 
-  log.info(`SignalProtocolStore: Finished caching ${field} data`);
+  log.info(`Finished caching ${field} data`);
   // eslint-disable-next-line no-param-reassign, @typescript-eslint/no-explicit-any
   object[field] = cache as any;
 }
@@ -1203,7 +1205,7 @@ export class SignalProtocolStore extends EventEmitter {
       this.#currentZone = zone;
 
       if (zone !== GLOBAL_ZONE) {
-        log.info(`SignalProtocolStore.enterZone(${zone.name}:${name})`);
+        log.info(`enterZone(${zone.name}:${name})`);
       }
     }
   }
@@ -1225,7 +1227,7 @@ export class SignalProtocolStore extends EventEmitter {
     }
 
     if (zone !== GLOBAL_ZONE) {
-      log.info(`SignalProtocolStore.leaveZone(${zone.name})`);
+      log.info(`leaveZone(${zone.name})`);
     }
 
     this.#currentZone = undefined;
@@ -1245,8 +1247,7 @@ export class SignalProtocolStore extends EventEmitter {
     }
 
     log.info(
-      `SignalProtocolStore: running blocked ${toEnter.length} jobs in ` +
-        `zone ${next.zone.name}`
+      `running blocked ${toEnter.length} jobs in zone ${next.zone.name}`
     );
     for (const { callback } of toEnter) {
       callback();
@@ -1781,8 +1782,7 @@ export class SignalProtocolStore extends EventEmitter {
     };
 
     log.info(
-      `SignalProtocolStore: migrating identity key from ${record.fromDB.id} ` +
-        `to ${newRecord.id}`
+      `migrating identity key from ${record.fromDB.id} to ${newRecord.id}`
     );
 
     await this.#_saveIdentityKey(newRecord);
@@ -1923,7 +1923,7 @@ export class SignalProtocolStore extends EventEmitter {
     }
 
     const hash = sha256(pubKey);
-    const fingerprint = hash.slice(0, 4);
+    const fingerprint = hash.subarray(0, 4);
 
     return Bytes.toBase64(fingerprint);
   }
@@ -2428,7 +2428,7 @@ export class SignalProtocolStore extends EventEmitter {
   async removeOurOldPni(oldPni: PniString): Promise<void> {
     const { storage } = window;
 
-    log.info(`SignalProtocolStore.removeOurOldPni(${oldPni})`);
+    log.info(`removeOurOldPni(${oldPni})`);
 
     // Update caches
     this.#ourIdentityKeys.delete(oldPni);

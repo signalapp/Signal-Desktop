@@ -108,7 +108,7 @@ describe('storage service', function (this: Mocha.Suite) {
 
           debug('pinning contact=%d', i);
           const convo = leftPane.locator(
-            `[data-testid="${contact.toContact().aci}"]`
+            `[data-testid="${contact.device.aci}"]`
           );
           await convo.click();
 

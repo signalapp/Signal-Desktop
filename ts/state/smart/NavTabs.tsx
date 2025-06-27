@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { NavTabs } from '../../components/NavTabs';
-import { getIntl, getTheme } from '../selectors/user';
+import { getIntl, getTheme, getIsNightly } from '../selectors/user';
 import {
   getAllConversationsUnreadStats,
   getMe,
@@ -15,13 +15,17 @@ import {
   getHasAnyFailedStorySends,
   getStoriesNotificationCount,
 } from '../selectors/stories';
-import { useGlobalModalActions } from '../ducks/globalModals';
-import { getStoriesEnabled } from '../selectors/items';
+import {
+  getProfileMovedModalNeeded,
+  getStoriesEnabled,
+} from '../selectors/items';
 import { getSelectedNavTab } from '../selectors/nav';
-import type { NavTab } from '../ducks/nav';
+import type { Location } from '../ducks/nav';
 import { useNavActions } from '../ducks/nav';
 import { getHasPendingUpdate } from '../selectors/updates';
 import { getCallHistoryUnreadCount } from '../selectors/callHistory';
+import { Environment } from '../../environment';
+import { useItemsActions } from '../ducks/items';
 
 export type SmartNavTabsProps = Readonly<{
   navTabsCollapsed: boolean;
@@ -42,7 +46,6 @@ export const SmartNavTabs = memo(function SmartNavTabs({
 }: SmartNavTabsProps): JSX.Element {
   const i18n = useSelector(getIntl);
   const selectedNavTab = useSelector(getSelectedNavTab);
-  const { changeNavTab } = useNavActions();
   const me = useSelector(getMe);
   const badge = useSelector(getPreferredBadgeSelector)(me.badges);
   const theme = useSelector(getTheme);
@@ -52,18 +55,30 @@ export const SmartNavTabs = memo(function SmartNavTabs({
   const unreadCallsCount = useSelector(getCallHistoryUnreadCount);
   const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
   const hasPendingUpdate = useSelector(getHasPendingUpdate);
+  const profileMovedModalNeeded = useSelector(getProfileMovedModalNeeded);
+  const isNightly = useSelector(getIsNightly);
 
-  const { toggleProfileEditor } = useGlobalModalActions();
+  const { changeLocation } = useNavActions();
+  const { putItem } = useItemsActions();
 
-  const onNavTabSelected = useCallback(
-    (tab: NavTab) => {
+  const shouldShowProfileIcon =
+    profileMovedModalNeeded ||
+    isNightly ||
+    window.SignalContext.getEnvironment() !== Environment.PackagedApp;
+
+  const onDismissProfileMovedModal = useCallback(() => {
+    putItem('needProfileMovedModal', false);
+  }, [putItem]);
+
+  const onChangeLocation = useCallback(
+    (location: Location) => {
       // For some reason react-aria will call this more often than the tab
       // actually changing.
-      if (tab !== selectedNavTab) {
-        changeNavTab(tab);
+      if (location.tab !== selectedNavTab) {
+        changeLocation(location);
       }
     },
-    [changeNavTab, selectedNavTab]
+    [changeLocation, selectedNavTab]
   );
 
   return (
@@ -74,14 +89,16 @@ export const SmartNavTabs = memo(function SmartNavTabs({
       i18n={i18n}
       me={me}
       navTabsCollapsed={navTabsCollapsed}
-      onNavTabSelected={onNavTabSelected}
+      onChangeLocation={onChangeLocation}
       onToggleNavTabsCollapse={onToggleNavTabsCollapse}
-      onToggleProfileEditor={toggleProfileEditor}
+      profileMovedModalNeeded={profileMovedModalNeeded}
+      onDismissProfileMovedModal={onDismissProfileMovedModal}
       renderCallsTab={renderCallsTab}
       renderChatsTab={renderChatsTab}
       renderStoriesTab={renderStoriesTab}
       renderSettingsTab={renderSettingsTab}
       selectedNavTab={selectedNavTab}
+      shouldShowProfileIcon={shouldShowProfileIcon}
       storiesEnabled={storiesEnabled}
       theme={theme}
       unreadCallsCount={unreadCallsCount}

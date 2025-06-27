@@ -10,7 +10,9 @@ import * as zlib from 'zlib';
 
 import * as durations from '../../util/durations';
 import { upload } from '../../logging/uploadDebugLog';
-import * as logger from '../../logging/log';
+import { createLogger } from '../../logging/log';
+
+const logger = createLogger('uploadDebugLogs_test');
 
 const gzip: (_: zlib.InputType) => Promise<Buffer> = util.promisify(zlib.gzip);
 

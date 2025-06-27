@@ -28,6 +28,11 @@ describe('MessageReceipts', () => {
     await window.ConversationController.load();
   });
 
+  afterEach(async () => {
+    await DataWriter.removeAll();
+    await window.storage.fetch();
+  });
+
   function generateReceipt(
     sourceConversationId: string,
     messageSentAt: number,

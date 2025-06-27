@@ -1,11 +1,13 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { isNotNil } from './isNotNil';
 import { updateIdentityKey } from '../services/profiles';
 import type { ServiceIdString } from '../types/ServiceId';
 import * as Bytes from '../Bytes';
+
+const log = createLogger('verifyStoryListMembers');
 
 export async function verifyStoryListMembers(
   serviceIds: Array<ServiceIdString>
@@ -27,10 +29,7 @@ export async function verifyStoryListMembers(
         await window.textsecure.storage.protocol.getFingerprint(serviceId);
 
       if (!fingerprint) {
-        log.warn(
-          'verifyStoryListMembers: no fingerprint found for serviceId=',
-          serviceId
-        );
+        log.warn('no fingerprint found for serviceId=', serviceId);
         untrustedServiceIds.add(serviceId);
         return;
       }

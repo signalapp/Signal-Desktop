@@ -6,7 +6,7 @@ import type * as client from '@signalapp/libsignal-client';
 import type { SignalService as Proto } from '../protobuf';
 import type { IncomingWebSocketRequest } from './WebsocketResources';
 import type { ServiceIdString, AciString, PniString } from '../types/ServiceId';
-import type { AttachmentType, TextAttachmentType } from '../types/Attachment';
+import type { TextAttachmentType } from '../types/Attachment';
 import type { GiftBadgeStates } from '../components/conversation/Message';
 import type { MIMEType } from '../types/MIME';
 import type { DurationInSeconds } from '../util/durations';
@@ -117,7 +117,6 @@ export type ProcessedAttachment = {
   blurHash?: string;
   cdnNumber?: number;
   textAttachment?: Omit<TextAttachmentType, 'preview'>;
-  backupLocator?: AttachmentType['backupLocator'];
   uploadTimestamp?: number;
   downloadPath?: string;
   incrementalMac?: string;
@@ -190,14 +189,17 @@ export type ProcessedBodyRange = RawBodyRange;
 
 export type ProcessedGroupCallUpdate = Proto.DataMessage.IGroupCallUpdate;
 
-export type ProcessedStoryContext = Proto.DataMessage.IStoryContext;
-
 export type ProcessedGiftBadge = {
   expiration: number;
   id: string | undefined;
   level: number;
   receiptCredentialPresentation: string;
   state: GiftBadgeStates;
+};
+
+export type ProcessedStoryContext = {
+  authorAci: AciString | undefined;
+  sentTimestamp: number;
 };
 
 export type ProcessedDataMessage = {
@@ -289,6 +291,7 @@ export type CallbackResultType = {
 
 export type IRequestHandler = {
   handleRequest(request: IncomingWebSocketRequest): void;
+  handleDisconnect(): void;
 };
 
 export type PniKeyMaterialType = Readonly<{

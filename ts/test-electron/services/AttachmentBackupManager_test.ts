@@ -60,8 +60,6 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
         path: RELATIVE_ATTACHMENT_PATH,
         contentType: VIDEO_MP4,
         keys: 'keys=',
-        iv: 'iv==',
-        digest: 'digest=',
         version: 2,
         localKey: LOCAL_ENCRYPTION_KEYS,
         transitCdnInfo: {
@@ -168,6 +166,8 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
   afterEach(async () => {
     sandbox.restore();
     await backupManager?.stop();
+    await DataWriter.removeAll();
+    await window.storage.fetch();
   });
 
   async function addJobs(

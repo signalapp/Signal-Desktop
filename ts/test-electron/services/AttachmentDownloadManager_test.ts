@@ -24,9 +24,14 @@ import { type AttachmentType, AttachmentVariant } from '../../types/Attachment';
 import { strictAssert } from '../../util/assert';
 import type { downloadAttachment as downloadAttachmentUtil } from '../../util/downloadAttachment';
 import { AttachmentDownloadSource } from '../../sql/Interface';
-import { getAttachmentCiphertextLength } from '../../AttachmentCrypto';
+import {
+  generateAttachmentKeys,
+  getAttachmentCiphertextLength,
+} from '../../AttachmentCrypto';
 import { MEBIBYTE } from '../../types/AttachmentSize';
 import { generateAci } from '../../types/ServiceId';
+import { toBase64, toHex } from '../../Bytes';
+import { getRandomBytes } from '../../Crypto';
 
 function composeJob({
   messageId,
@@ -38,6 +43,7 @@ function composeJob({
   jobOverrides?: Partial<AttachmentDownloadJobType>;
 }): AttachmentDownloadJobType {
   const digest = `digestFor${messageId}`;
+  const plaintextHash = toHex(getRandomBytes(32));
   const size = 128;
   const contentType = MIME.IMAGE_PNG;
   return {
@@ -45,7 +51,7 @@ function composeJob({
     receivedAt,
     sentAt: receivedAt,
     attachmentType: 'attachment',
-    digest,
+    attachmentSignature: `${digest}.${plaintextHash}`,
     size,
     ciphertextSize: getAttachmentCiphertextLength(size),
     contentType,
@@ -57,7 +63,9 @@ function composeJob({
     attachment: {
       contentType,
       size,
-      digest: `digestFor${messageId}`,
+      digest,
+      plaintextHash,
+      key: toBase64(generateAttachmentKeys()),
       ...attachmentOverrides,
     },
     ...jobOverrides,
@@ -121,6 +129,8 @@ describe('AttachmentDownloadManager/JobManager', () => {
   afterEach(async () => {
     await downloadManager?.stop();
     sandbox.restore();
+    await DataWriter.removeAll();
+    await window.storage.fetch();
   });
 
   async function addJob(
@@ -183,11 +193,14 @@ describe('AttachmentDownloadManager/JobManager', () => {
           .getCalls()
           .map(
             call =>
-              `${call.args[0].job.messageId}${call.args[0].job.attachmentType}.${call.args[0].job.digest}`
+              `${call.args[0].job.messageId}${call.args[0].job.attachmentType}.${call.args[0].job.attachmentSignature}`
           )
       ),
       JSON.stringify(
-        jobs.map(job => `${job.messageId}${job.attachmentType}.${job.digest}`)
+        jobs.map(
+          job =>
+            `${job.messageId}${job.attachmentType}.${job.attachmentSignature}`
+        )
       )
     );
   }
@@ -315,17 +328,8 @@ describe('AttachmentDownloadManager/JobManager', () => {
   });
 
   it('triggers onLowDiskSpace for backup import jobs', async () => {
-    const jobs = await addJobs(1, idx => ({
+    const jobs = await addJobs(1, _idx => ({
       source: AttachmentDownloadSource.BACKUP_IMPORT,
-      digest: `digestFor${idx}`,
-      attachment: {
-        contentType: MIME.IMAGE_JPEG,
-        size: 128,
-        digest: `digestFor${idx}`,
-        backupLocator: {
-          mediaName: 'medianame',
-        },
-      },
     }));
 
     const jobAttempts = getPromisesForAttempts(jobs[0], 2);
@@ -464,20 +468,12 @@ describe('AttachmentDownloadManager/JobManager', () => {
 
   it('only selects backup_import jobs if the mediaDownload is not paused', async () => {
     await window.storage.put('backupMediaDownloadPaused', true);
+
     const jobs = await addJobs(6, idx => ({
       source:
         idx % 2 === 0
           ? AttachmentDownloadSource.BACKUP_IMPORT
           : AttachmentDownloadSource.STANDARD,
-      digest: `digestFor${idx}`,
-      attachment: {
-        contentType: MIME.IMAGE_JPEG,
-        size: 128,
-        digest: `digestFor${idx}`,
-        backupLocator: {
-          mediaName: 'medianame',
-        },
-      },
     }));
     // make one of the backup job messages visible to test that code path as well
     downloadManager?.updateVisibleTimelineMessages(['message-0', 'message-1']);
@@ -512,9 +508,8 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
     ReturnType<typeof downloadAttachmentUtil>
   > = {
     path: '/path/to/file',
-    iv: 'iv',
+    digest: 'digest',
     plaintextHash: 'plaintextHash',
-    isReencryptableToSameDigest: true,
     localKey: 'localKey',
     version: 2,
     size: 128,
@@ -525,6 +520,10 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
     downloadAttachment = sandbox
       .stub()
       .returns(Promise.resolve(downloadedAttachment));
+    sandbox
+      .stub(window.Signal.Services.backups, 'hasMediaBackups')
+      .returns(true);
+
     processNewAttachment = sandbox.stub().callsFake(attachment => attachment);
   });
 
@@ -536,6 +535,9 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
       const job = composeJob({
         messageId: '1',
         receivedAt: 1,
+        attachmentOverrides: {
+          plaintextHash: undefined,
+        },
       });
 
       const result = await runDownloadAttachmentJobInner({
@@ -565,11 +567,6 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
       const job = composeJob({
         messageId: '1',
         receivedAt: 1,
-        attachmentOverrides: {
-          backupLocator: {
-            mediaName: 'medianame',
-          },
-        },
       });
 
       const result = await runDownloadAttachmentJobInner({
@@ -591,12 +588,7 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
       );
       assert.deepStrictEqual(
         omit(result.attachmentWithThumbnail, 'thumbnailFromBackup'),
-        {
-          contentType: MIME.IMAGE_PNG,
-          size: 128,
-          digest: 'digestFor1',
-          backupLocator: { mediaName: 'medianame' },
-        }
+        job.attachment
       );
       assert.equal(
         result.attachmentWithThumbnail.thumbnailFromBackup?.path,
@@ -616,9 +608,6 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
         messageId: '1',
         receivedAt: 1,
         attachmentOverrides: {
-          backupLocator: {
-            mediaName: 'medianame',
-          },
           thumbnailFromBackup: {
             path: '/path/to/thumbnail',
             size: 128,
@@ -658,11 +647,6 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
       const job = composeJob({
         messageId: '1',
         receivedAt: 1,
-        attachmentOverrides: {
-          backupLocator: {
-            mediaName: 'medianame',
-          },
-        },
       });
 
       await assert.isRejected(
@@ -702,11 +686,6 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
       const job = composeJob({
         messageId: '1',
         receivedAt: 1,
-        attachmentOverrides: {
-          backupLocator: {
-            mediaName: 'medianame',
-          },
-        },
       });
 
       const result = await runDownloadAttachmentJobInner({
@@ -731,7 +710,7 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
         AttachmentVariant.Default
       );
     });
-    it('will fallback to thumbnail if main download fails and backuplocator exists', async () => {
+    it('will fallback to thumbnail if main download fails and might exist on backup', async () => {
       downloadAttachment = sandbox.stub().callsFake(({ options }) => {
         if (options.variant === AttachmentVariant.Default) {
           throw new Error('error while downloading');
@@ -742,11 +721,6 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
       const job = composeJob({
         messageId: '1',
         receivedAt: 1,
-        attachmentOverrides: {
-          backupLocator: {
-            mediaName: 'medianame',
-          },
-        },
       });
 
       const result = await runDownloadAttachmentJobInner({
@@ -782,21 +756,24 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
       );
     });
 
-    it("won't fallback to thumbnail if main download fails and no backup locator", async () => {
+    it("won't fallback to thumbnail if main download fails and not on backup", async () => {
       downloadAttachment = sandbox.stub().callsFake(({ options }) => {
         if (options.variant === AttachmentVariant.Default) {
           throw new Error('error while downloading');
         }
         return {
           path: '/path/to/thumbnail',
-          iv: Buffer.alloc(16),
           plaintextHash: 'plaintextHash',
+          digest: 'digest',
         };
       });
 
       const job = composeJob({
         messageId: '1',
         receivedAt: 1,
+        attachmentOverrides: {
+          plaintextHash: undefined,
+        },
       });
 
       await assert.isRejected(

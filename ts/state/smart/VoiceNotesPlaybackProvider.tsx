@@ -13,13 +13,15 @@ import {
 import { globalMessageAudio } from '../../services/globalMessageAudio';
 import { strictAssert } from '../../util/assert';
 import { drop } from '../../util/drop';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { Sound, SoundType } from '../../util/Sound';
 import { getConversations } from '../selectors/conversations';
 import { SeenStatus } from '../../MessageSeenStatus';
 import { markViewed } from '../ducks/conversations';
 import * as Errors from '../../types/errors';
 import { usePrevious } from '../../hooks/usePrevious';
+
+const log = createLogger('VoiceNotesPlaybackProvider');
 
 const stateChangeConfirmDownSound = new Sound({
   soundType: SoundType.VoiceNoteStart,

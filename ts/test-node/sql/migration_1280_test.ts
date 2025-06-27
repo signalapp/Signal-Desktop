@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 
 import { type WritableDB } from '../../sql/Interface';
-import { SignalService as Proto } from '../../protobuf';
+import { Migrations as Proto } from '../../protobuf';
 import { generateAci } from '../../types/ServiceId';
 import { createDB, updateToVersion, insertData, getTableData } from './helpers';
 

@@ -201,6 +201,7 @@ export type StorageAccessType = {
   };
   serverAlerts: ServerAlertsType;
   needOrphanedAttachmentCheck: boolean;
+  needProfileMovedModal: boolean;
   notificationProfileOverride: NotificationProfileOverride | undefined;
   observedCapabilities: {
     deleteSync?: true;
@@ -231,6 +232,9 @@ export type StorageAccessType = {
   cloudBackupStatus: BackupStatusType | undefined;
   backupSubscriptionStatus: BackupsSubscriptionType;
 
+  backupKeyViewed: boolean;
+  localBackupFolder: string | undefined;
+
   // If true Desktop message history was restored from backup
   isRestoredFromBackup: boolean;
 
@@ -239,6 +243,7 @@ export type StorageAccessType = {
 
   // Stored solely for pesistance during import/export sequence
   svrPin: string;
+  optimizeOnDeviceStorage: boolean;
 
   postRegistrationSyncsStatus: 'incomplete' | 'complete';
 

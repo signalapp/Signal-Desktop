@@ -14,7 +14,7 @@ import { convertShortName } from '../../components/emoji/lib';
 import type { EmojiPickDataType } from '../../components/emoji/EmojiPicker';
 import { getBlotTextPartitions, matchBlotTextPartitions } from '../util';
 import { handleOutsideClick } from '../../util/handleOutsideClick';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { FunStaticEmoji } from '../../components/fun/FunEmoji';
 import {
   EmojiSkinTone,
@@ -27,6 +27,8 @@ import type {
   FunEmojiSearch,
 } from '../../components/fun/useFunEmojiSearch';
 import { type FunEmojiLocalizer } from '../../components/fun/useFunEmojiLocalizer';
+
+const log = createLogger('completion');
 
 export type EmojiCompletionOptions = {
   onPickEmoji: (emoji: EmojiPickDataType) => void;

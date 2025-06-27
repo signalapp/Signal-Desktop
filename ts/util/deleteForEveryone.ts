@@ -3,7 +3,7 @@
 
 import type { DeleteAttributesType } from '../messageModifiers/Deletes';
 import type { MessageModel } from '../models/messages';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { isMe } from './whatTypeOfConversation';
 import { getAuthorId } from '../messages/helpers';
 import { isStory } from '../state/selectors/message';
@@ -11,6 +11,8 @@ import { isTooOldToModifyMessage } from './isTooOldToModifyMessage';
 import { drop } from './drop';
 import { eraseMessageContents } from './cleanup';
 import { notificationService } from '../services/notifications';
+
+const log = createLogger('deleteForEveryone');
 
 export async function deleteForEveryone(
   message: MessageModel,

@@ -5,6 +5,9 @@
 @use '../variables';
 
 .ProfileEditor {
+  margin-inline-start: 24px;
+  margin-inline-end: 24px;
+
   &__icon {
     &--container {
       align-items: center;
@@ -335,6 +338,19 @@
           );
         }
       }
+    }
+  }
+
+  &__button-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    padding-block: 1em 16px;
+    gap: 8px;
+
+    .module-Button:not(:first-child) {
+      margin-inline-start: 4px;
     }
   }
 }

@@ -41,6 +41,9 @@
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "Kalitate handiko multimedia bidaltzeak datu gehiago erabiliko ditu."
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "Egin dohaintza Signal-i"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Estandarra"
   },
@@ -594,7 +597,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Datu-basearen errorea: partekatu erregistroak."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Biltegiratze-zerbitzuaren erantzun baliogabe bat jaso da. Partekatu erregistroak."
@@ -1269,7 +1272,7 @@
     "messageformat": "Laguntza behar duzu?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Ezarpenak"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefono-zenbakia"
@@ -2339,6 +2342,9 @@
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
     "messageformat": "Bilaketa-emaitzak"
   },
+  "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
+    "messageformat": "Mezu Hau"
+  },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Arestian erabilia"
   },
@@ -3405,7 +3411,7 @@
     "messageformat": "Ezin zara sartu taldean"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "Ezin zara sartu talde honetan taldearen estekaren bidez, administratzaile batek kendu egin zaituelako."
+    "messageformat": "Ezin zara sartu talde honetan taldearen estekaren bidez, administratzaile batek kendu egin zaituelako. Jarri harremanetan administratzaile batekin berriro gehi zaitzan taldean."
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "Talde honetako administratzaile batek zure eskaera onartu behar du talde honetara sartu ahal izan aurretik. Sartzeko eskatzen duzunean, zure izena eta argazkia taldeko kideekin partekatuko dira."
@@ -3964,6 +3970,12 @@
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "Sakatu \"Egin dohaintza Signal-i\" eta harpidetu"
+  },
+  "icu:ProfileMovedModal__title": {
+    "messageformat": "Profila tokiz aldatu da"
+  },
+  "icu:ProfileMovedModal__description": {
+    "messageformat": "Profila ikusi eta editatzeko, ireki Ezarpenak fitxa."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Mezuak sinkronizatzen"
@@ -4931,6 +4943,9 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Ezin izan da zure profila eguneratu. Saiatu berriro mesedez."
   },
+  "icu:ProfileEditorModal--sharing": {
+    "messageformat": "Partekatzea"
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Mezua administratzailean"
   },
@@ -4963,6 +4978,9 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "Orokorra"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "Egin dohaintza Signal-i"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "Itxura"
@@ -5005,6 +5023,15 @@
   },
   "icu:Preferences__button--internal": {
     "messageformat": "Barnekoa"
+  },
+  "icu:Preferences__button--manage": {
+    "messageformat": "Kudeatu"
+  },
+  "icu:Preferences__button--choose-folder": {
+    "messageformat": "Aukeratu karpeta"
+  },
+  "icu:Preferences__button--set-up": {
+    "messageformat": "Konfiguratu"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Babeskopia lokalak"
@@ -5051,6 +5078,15 @@
   "icu:Preferences--blocked": {
     "messageformat": "Blokeatua"
   },
+  "icu:Preferences--signal-backups": {
+    "messageformat": "Signal-en babeskopiak"
+  },
+  "icu:Preferences--signal-backups-off-description": {
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+  },
+  "icu:Preferences--backup-section-description": {
+    "messageformat": "Egin mezu-historiaren babeskopia, gailuz aldatzean edo Signal berriro instalatzean ez dezazun daturik galdu."
+  },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Babeskopiaren xehetasunak"
   },
@@ -5092,6 +5128,84 @@
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "Babeskopiaren tamaina"
+  },
+  "icu:Preferences__local-backups": {
+    "messageformat": "Ordenagailuko babeskopiak"
+  },
+  "icu:Preferences__local-backups-section__description": {
+    "messageformat": "Babeskopiak gako batekin enkriptatzen dira, eta ordenagailuan gordetzen."
+  },
+  "icu:Preferences--local-backups-off-description": {
+    "messageformat": "Sortu muturretik muturrera enkriptatutako babeskopia bat, telefonoan leheneratu ahalko duzuna. "
+  },
+  "icu:Preferences--local-backups-restore-info": {
+    "messageformat": "Babeskopia bat leheneratzeko, instalatu Signal-en kopia berri bat. Ireki aplikazioa eta sakatu Leheneratu babeskopia; ondoren, bilatu babeskopiaren karpeta. <learnMoreLink>Lortu informazio gehiago</learnMoreLink>."
+  },
+  "icu:Preferences--local-backups-setup-folder": {
+    "messageformat": "Aukeratu karpeta bat"
+  },
+  "icu:Preferences--local-backups-setup-folder-description": {
+    "messageformat": "Aukeratu ordenagailuko zein karpetatan gorde nahi duzun muturretik muturrera enkriptatutako babeskopia."
+  },
+  "icu:Preferences--local-backups-setup-next": {
+    "messageformat": "Hurrengoa"
+  },
+  "icu:Preferences--local-backups-view-backup-key-done": {
+    "messageformat": "Eginda"
+  },
+  "icu:Preferences--local-backups-backup-key-text-box": {
+    "messageformat": "Babeskopia-gakoaren testu-koadroa"
+  },
+  "icu:Preferences--local-backups-enter-backup-key": {
+    "messageformat": "Idatzi gakoa"
+  },
+  "icu:Preferences--local-backups-record-backup-key": {
+    "messageformat": "Apuntatu babeskopia-gakoa"
+  },
+  "icu:Preferences--local-backups-record-backup-key-description": {
+    "messageformat": "Zure kontua eta datuak berreskuratzeko behar da gako hori. Gorde gakoa toki seguru batean. Galduz gero, ezingo duzu berreskuratu kontua.<learnMoreLink>Gehiago ikasi.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key": {
+    "messageformat": "Berretsi babeskopia-gakoa"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key-description": {
+    "messageformat": "Idatzi grabatu berri duzun babeskopia-gakoa"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-title": {
+    "messageformat": "Mantendu gakoa seguru"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-body": {
+    "messageformat": "Gakoa galduz gero, Signal-ek ezingo dizu lagundu babeskopia leheneratzen. Gorde ezazu toki seguru batean, eta ez ezazu inorekin partekatu."
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-continue": {
+    "messageformat": "Jarraitu"
+  },
+  "icu:Preferences--local-backups-see-backup-key-again": {
+    "messageformat": "Ikusi gakoa berriro"
+  },
+  "icu:Preferences__local-backups-folder": {
+    "messageformat": "Babeskopiak gordetzeko karpeta"
+  },
+  "icu:Preferences__local-backups-folder__change": {
+    "messageformat": "Aldatu"
+  },
+  "icu:Preferences__local-backups-copy-key": {
+    "messageformat": "Kopiatu arbelera"
+  },
+  "icu:Preferences__local-backups-copied-key": {
+    "messageformat": "Kopiatu da babeskopia-gakoa"
+  },
+  "icu:Preferences__view-key": {
+    "messageformat": "Ikusi gakoa"
+  },
+  "icu:Preferences__backup-key": {
+    "messageformat": "Babeskopia-gakoa"
+  },
+  "icu:Preferences__backup-key-description": {
+    "messageformat": "Babeskopia leheneratzeko erabiltzen den 64 digituko kode bat da babeskopia-gakoa"
+  },
+  "icu:Preferences__backup-other-ways": {
+    "messageformat": "Babeskopiak egiteko beste modu batzuk"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {Kontaktu 1} other {{num,number} kontaktu}}"
@@ -6324,6 +6438,9 @@
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Ez partekatu informazio pertsonala ezagutzen ez dituzun pertsonekin"
   },
+  "icu:SaveMultiDialog__title": {
+    "messageformat": "Gorde eranskinak"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Zer berri"
   },
@@ -6355,10 +6472,10 @@
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Eguneratze honen bidez, Istorioak fitxan edukia ikusi bitartean Signal-en leihoa mugitzea zailtzen zuen akatsa konpondu da."
+  "icu:WhatsNew__v7.58--0": {
+    "messageformat": "Mezu batek jaso dituen emoji-erreakzio guztiak automatikoki bistaratuko dira mezuetarako erreakzioen hautatzaileko atal berri batean."
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "Errendimenduaren hobekuntzak Linux-erako."
   }
 }

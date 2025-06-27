@@ -13,7 +13,7 @@ import { MessageModel } from '../models/messages';
 import { ReactionSource } from '../reactions/ReactionSource';
 import { DataReader, DataWriter } from '../sql/Client';
 import * as Errors from '../types/errors';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import {
   getAuthor,
   isIncoming,
@@ -34,7 +34,6 @@ import { strictAssert } from '../util/assert';
 import { repeat, zipObject } from '../util/iterables';
 import { getMessageIdForLogging } from '../util/idForLogging';
 import { hydrateStoryContext } from '../util/hydrateStoryContext';
-import { shouldReplyNotifyUser } from '../util/shouldReplyNotifyUser';
 import { drop } from '../util/drop';
 import * as reactionUtil from '../reactions/util';
 import { isNewReactionReplacingPrevious } from '../reactions/util';
@@ -45,6 +44,9 @@ import {
   conversationJobQueue,
   conversationQueueJobEnum,
 } from '../jobs/conversationJobQueue';
+import { maybeNotify } from '../messages/maybeNotify';
+
+const log = createLogger('Reactions');
 
 export type ReactionAttributesType = {
   emoji: string;
@@ -412,7 +414,7 @@ export async function handleReaction(
         forceSave: true,
       });
 
-      log.info('Reactions.onReaction adding reaction to story', {
+      log.info('onReaction adding reaction to story', {
         reactionMessageId: getMessageIdForLogging(generatedMessage.attributes),
         storyId: getMessageIdForLogging(storyMessage),
         targetTimestamp: reaction.targetTimestamp,
@@ -431,18 +433,12 @@ export async function handleReaction(
       }
 
       if (isFromSomeoneElse) {
-        log.info(
-          'handleReaction: notifying for story reaction to ' +
-            `${getMessageIdForLogging(storyMessage)} from someone else`
+        drop(
+          maybeNotify({
+            message: generatedMessage.attributes,
+            conversation: targetConversation,
+          })
         );
-        if (
-          await shouldReplyNotifyUser(
-            generatedMessage.attributes,
-            targetConversation
-          )
-        ) {
-          drop(targetConversation.notify(generatedMessage.attributes));
-        }
       }
     }
   } else {
@@ -515,7 +511,13 @@ export async function handleReaction(
         message.set({ reactions });
 
         if (isOutgoing(message.attributes) && isFromSomeoneElse) {
-          void conversation.notify(message.attributes, reaction);
+          drop(
+            maybeNotify({
+              targetMessage: message.attributes,
+              conversation,
+              reaction,
+            })
+          );
         }
       }
     }

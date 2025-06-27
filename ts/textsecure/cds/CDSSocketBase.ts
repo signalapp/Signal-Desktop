@@ -211,7 +211,7 @@ function decodeSingleResponse(
     i < response.e164PniAciTriples.length;
     i += TRIPLE_BYTE_SIZE
   ) {
-    const tripleBytes = response.e164PniAciTriples.slice(
+    const tripleBytes = response.e164PniAciTriples.subarray(
       i,
       i + TRIPLE_BYTE_SIZE
     );
@@ -221,13 +221,13 @@ function decodeSingleResponse(
     );
 
     let offset = 0;
-    const e164Bytes = tripleBytes.slice(offset, offset + E164_BYTE_SIZE);
+    const e164Bytes = tripleBytes.subarray(offset, offset + E164_BYTE_SIZE);
     offset += E164_BYTE_SIZE;
 
-    const pniBytes = tripleBytes.slice(offset, offset + UUID_BYTE_SIZE);
+    const pniBytes = tripleBytes.subarray(offset, offset + UUID_BYTE_SIZE);
     offset += UUID_BYTE_SIZE;
 
-    const aciBytes = tripleBytes.slice(offset, offset + UUID_BYTE_SIZE);
+    const aciBytes = tripleBytes.subarray(offset, offset + UUID_BYTE_SIZE);
     offset += UUID_BYTE_SIZE;
 
     const e164Long = Long.fromBytesBE(Array.from(e164Bytes));

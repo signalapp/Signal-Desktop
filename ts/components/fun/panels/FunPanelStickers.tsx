@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { CSSProperties } from 'react';
+import type { CSSProperties, PointerEvent } from 'react';
 import React, {
   memo,
   useCallback,
@@ -9,7 +9,6 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import type { PressEvent } from 'react-aria';
 import type {
   StickerPackType,
   StickerType,
@@ -344,8 +343,8 @@ export function FunPanelStickers({
     return searchInput.length > 0;
   }, [searchInput]);
 
-  const handlePressSticker = useCallback(
-    (event: PressEvent, stickerSelection: FunStickerSelection) => {
+  const handleClickSticker = useCallback(
+    (event: PointerEvent, stickerSelection: FunStickerSelection) => {
       onFunSelectSticker(stickerSelection);
       onSelectSticker(stickerSelection);
       if (!(event.ctrlKey || event.metaKey)) {
@@ -356,8 +355,8 @@ export function FunPanelStickers({
     [onFunSelectSticker, onSelectSticker, onClose]
   );
 
-  const handlePressTimeSticker = useCallback(
-    (event: PressEvent, style: FunTimeStickerStyle) => {
+  const handleClickTimeSticker = useCallback(
+    (event: PointerEvent, style: FunTimeStickerStyle) => {
       onSelectTimeSticker?.(style);
       if (!(event.ctrlKey || event.metaKey)) {
         onClose();
@@ -492,8 +491,8 @@ export function FunPanelStickers({
                               cells={row.cells}
                               stickerLookup={stickerLookup}
                               focusedCellKey={focusedCellKey}
-                              onPressSticker={handlePressSticker}
-                              onPressTimeSticker={handlePressTimeSticker}
+                              onClickSticker={handleClickSticker}
+                              onClickTimeSticker={handleClickTimeSticker}
                             />
                           );
                         })}
@@ -515,11 +514,11 @@ const Row = memo(function Row(props: {
   stickerLookup: StickerLookup;
   cells: ReadonlyArray<CellLayoutNode>;
   focusedCellKey: CellKey | null;
-  onPressSticker: (
-    event: PressEvent,
+  onClickSticker: (
+    event: PointerEvent,
     stickerSelection: FunStickerSelection
   ) => void;
-  onPressTimeSticker: (event: PressEvent, style: FunTimeStickerStyle) => void;
+  onClickTimeSticker: (event: PointerEvent, style: FunTimeStickerStyle) => void;
 }): JSX.Element {
   return (
     <FunGridRow rowIndex={props.rowIndex}>
@@ -537,8 +536,8 @@ const Row = memo(function Row(props: {
             colIndex={cell.colIndex}
             stickerLookup={props.stickerLookup}
             isTabbable={isTabbable}
-            onPressSticker={props.onPressSticker}
-            onPressTimeSticker={props.onPressTimeSticker}
+            onClickSticker={props.onClickSticker}
+            onClickTimeSticker={props.onClickTimeSticker}
           />
         );
       })}
@@ -553,28 +552,28 @@ const Cell = memo(function Cell(props: {
   rowIndex: number;
   stickerLookup: StickerLookup;
   isTabbable: boolean;
-  onPressSticker: (
-    event: PressEvent,
+  onClickSticker: (
+    event: PointerEvent,
     stickerSelection: FunStickerSelection
   ) => void;
-  onPressTimeSticker: (event: PressEvent, style: FunTimeStickerStyle) => void;
+  onClickTimeSticker: (event: PointerEvent, style: FunTimeStickerStyle) => void;
 }): JSX.Element {
-  const { onPressSticker, onPressTimeSticker } = props;
+  const { onClickSticker, onClickTimeSticker } = props;
   const stickerLookupItem = props.stickerLookup[props.value];
 
-  const handlePress = useCallback(
-    (event: PressEvent) => {
+  const handleClick = useCallback(
+    (event: PointerEvent) => {
       if (stickerLookupItem.kind === 'sticker') {
-        onPressSticker(event, {
+        onClickSticker(event, {
           stickerPackId: stickerLookupItem.sticker.packId,
           stickerId: stickerLookupItem.sticker.id,
           stickerUrl: stickerLookupItem.sticker.url,
         });
       } else if (stickerLookupItem.kind === 'timeSticker') {
-        onPressTimeSticker(event, stickerLookupItem.style);
+        onClickTimeSticker(event, stickerLookupItem.style);
       }
     },
-    [stickerLookupItem, onPressSticker, onPressTimeSticker]
+    [stickerLookupItem, onClickSticker, onClickTimeSticker]
   );
 
   return (
@@ -590,7 +589,7 @@ const Cell = memo(function Cell(props: {
             ? (stickerLookupItem.sticker.emoji ?? '')
             : stickerLookupItem.style
         }
-        onPress={handlePress}
+        onClick={handleClick}
       >
         {stickerLookupItem.kind === 'sticker' && (
           <FunSticker

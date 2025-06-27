@@ -1,39 +1,169 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import noop from 'lodash/noop';
-import type { LogFunction } from '../types/Logging';
-import { LogLevel } from '../types/Logging';
+import pino from 'pino';
 
-type LogAtLevelFnType = (
-  level: LogLevel,
-  ...args: ReadonlyArray<unknown>
-) => void;
+import type { LoggerType } from '../types/Logging';
+import { Environment, getEnvironment } from '../environment';
+import { reallyJsonStringify } from '../util/reallyJsonStringify';
+import { getLogLevelString } from './shared';
 
-let logAtLevel: LogAtLevelFnType = noop;
-let hasInitialized = false;
+// This file is imported by some components so we can't import `ts/util/privacy`
+let redactAll = (value: string) => value;
 
-export const fatal: LogFunction = (...args) =>
-  logAtLevel(LogLevel.Fatal, ...args);
-export const error: LogFunction = (...args) =>
-  logAtLevel(LogLevel.Error, ...args);
-export const warn: LogFunction = (...args) =>
-  logAtLevel(LogLevel.Warn, ...args);
-export const info: LogFunction = (...args) =>
-  logAtLevel(LogLevel.Info, ...args);
-export const debug: LogFunction = (...args) =>
-  logAtLevel(LogLevel.Debug, ...args);
-export const trace: LogFunction = (...args) =>
-  logAtLevel(LogLevel.Trace, ...args);
+let destination: pino.DestinationStream | undefined;
+let buffer = new Array<string>();
+
+const COLORS = [
+  '#2c6bed',
+  '#cf163e',
+  '#c73f0a',
+  '#6f6a58',
+  '#3b7845',
+  '#1d8663',
+  '#077d92',
+  '#336ba3',
+  '#6058ca',
+  '#9932c8',
+  '#aa377a',
+  '#8f616a',
+  '#71717f',
+  '#ebeae8',
+  '#506ecd',
+  '#ff9500',
+];
+
+const SUBSYSTEM_COLORS = new Map<string, string>();
+
+// Only for unpackaged app
+function getSubsystemColor(name: string): string {
+  const cached = SUBSYSTEM_COLORS.get(name);
+  if (cached != null) {
+    return cached;
+  }
+
+  // Jenkins hash
+  let hash = 0;
+
+  /* eslint-disable no-bitwise */
+  for (let i = 0; i < name.length; i += 1) {
+    hash += name.charCodeAt(i) & 0xff;
+    hash += hash << 10;
+    hash ^= hash >>> 6;
+  }
+  hash += hash << 3;
+  hash ^= hash >>> 11;
+  hash += hash << 15;
+  hash >>>= 0;
+  /* eslint-enable no-bitwise */
+
+  const result = COLORS[hash % COLORS.length];
+  SUBSYSTEM_COLORS.set(name, result);
+
+  return result;
+}
+
+const pinoInstance = pino(
+  {
+    formatters: {
+      // No point in saving pid or hostname
+      bindings: () => ({}),
+    },
+    hooks: {
+      logMethod(args, method, level) {
+        if (getEnvironment() !== Environment.PackagedApp) {
+          const consoleMethod = getLogLevelString(level);
+
+          const { msgPrefixSym } = pino.symbols as unknown as {
+            readonly msgPrefixSym: unique symbol;
+          };
+          const msgPrefix = (
+            this as unknown as Record<symbol, string | undefined>
+          )[msgPrefixSym];
+
+          const [message, ...extra] = args;
+
+          const color = getSubsystemColor(msgPrefix ?? '');
+
+          // `fatal` has no respective analog in `console`
+          // eslint-disable-next-line no-console
+          console[consoleMethod === 'fatal' ? 'error' : consoleMethod](
+            `%c${msgPrefix ?? ''}%c${message}`,
+            `color: ${color}; font-weight: bold`,
+            'color: inherit; font-weight: inherit',
+            ...extra
+          );
+        }
+
+        // Always call original method, but with stringified arguments for
+        // compatibility with existing logging.
+        //
+        // (Since pino >= 6 extra arguments that don't correspond to %d/%s/%j
+        //  templates in the `message` are ignored)
+        const line = args
+          .map(item =>
+            typeof item === 'string' ? item : reallyJsonStringify(item)
+          )
+          .join(' ');
+        return method.call(this, line);
+      },
+    },
+    timestamp: pino.stdTimeFunctions.isoTime,
+    redact: {
+      paths: ['*'],
+      censor: item => redactAll(item),
+    },
+  },
+  {
+    write(msg) {
+      if (destination == null) {
+        buffer.push(msg);
+      } else {
+        destination.write(msg);
+      }
+    },
+  }
+);
+
+export const log: LoggerType = {
+  fatal: pinoInstance.fatal.bind(pinoInstance),
+  error: pinoInstance.error.bind(pinoInstance),
+  warn: pinoInstance.error.bind(pinoInstance),
+  info: pinoInstance.info.bind(pinoInstance),
+  debug: pinoInstance.debug.bind(pinoInstance),
+  trace: pinoInstance.trace.bind(pinoInstance),
+  child: child.bind(pinoInstance),
+};
+
+function child(this: typeof pinoInstance, name: string): LoggerType {
+  const instance = this.child({}, { msgPrefix: `[${name}] ` });
+
+  return {
+    fatal: instance.fatal.bind(instance),
+    error: instance.error.bind(instance),
+    warn: instance.warn.bind(instance),
+    info: instance.info.bind(instance),
+    debug: instance.debug.bind(instance),
+    trace: instance.trace.bind(instance),
+    child: child.bind(instance),
+  };
+}
+
+export const createLogger = log.child;
 
 /**
- * Sets the low-level logging interface. Should be called early in a process's life, and
- * can only be called once.
+ * Sets the low-level logging interface. Should be called early in a process's
+ * life.
  */
-export function setLogAtLevel(log: LogAtLevelFnType): void {
-  if (hasInitialized) {
-    throw new Error('Logger has already been initialized');
+export function setPinoDestination(
+  newDestination: pino.DestinationStream,
+  newRedactAll: typeof redactAll
+): void {
+  destination = newDestination;
+  redactAll = newRedactAll;
+  const queued = buffer;
+  buffer = [];
+  for (const msg of queued) {
+    destination.write(msg);
   }
-  logAtLevel = log;
-  hasInitialized = true;
 }

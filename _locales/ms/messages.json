@@ -41,6 +41,9 @@
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "Menghantar media berkualiti tinggi akan menggunakan lebih banyak data."
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "Sumbang kepada Signal"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standard"
   },
@@ -594,7 +597,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Ralat pangkalan data: sila kongsikan log anda."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Menerima respons tidak sah daripada perkhidmatan storan. Sila kongsi log anda."
@@ -1269,7 +1272,7 @@
     "messageformat": "Perlukan bantuan?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Tetapan"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Nombor Telefon"
@@ -2339,6 +2342,9 @@
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
     "messageformat": "Hasil Carian"
   },
+  "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
+    "messageformat": "Mesej Ini"
+  },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Digunakan Baru-baru Ini"
   },
@@ -3405,7 +3411,7 @@
     "messageformat": "Tidak Dapat Menyertai Kumpulan"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "Anda tidak boleh menyertai kumpulan ini melalui pautan kumpulan kerana pentadbir telah mengalih keluar anda."
+    "messageformat": "Anda tidak boleh menyertai kumpulan ini melalui pautan kumpulan kerana pentadbir telah mengalih keluar anda. Hubungi pentadbir untuk ditambahkan semula ke kumpulan."
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "Pentadbir kumpulan ini mesti meluluskan permintaan anda sebelum anda dapat menyertai kumpulan ini. Apabila anda meminta untuk menyertai kumpulan, nama dan foto anda akan dikongsikan dengan ahli-ahlinya."
@@ -3964,6 +3970,12 @@
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "Ketik \"Derma kepada Signal\" dan langgan"
+  },
+  "icu:ProfileMovedModal__title": {
+    "messageformat": "Profil anda telah dipindahkan"
+  },
+  "icu:ProfileMovedModal__description": {
+    "messageformat": "Buka tab Tetapan untuk melihat dan mengedit profil anda."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Menyegerakkan mesej"
@@ -4931,6 +4943,9 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Profil anda tidak dapat dikemas kini. Sila cuba lagi."
   },
+  "icu:ProfileEditorModal--sharing": {
+    "messageformat": "Berkongsi"
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Mesej pentadbir"
   },
@@ -4963,6 +4978,9 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "Umum"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "Sumbang kepada Signal"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "Penampilan"
@@ -5005,6 +5023,15 @@
   },
   "icu:Preferences__button--internal": {
     "messageformat": "Dalaman"
+  },
+  "icu:Preferences__button--manage": {
+    "messageformat": "Urus"
+  },
+  "icu:Preferences__button--choose-folder": {
+    "messageformat": "Memilih folder"
+  },
+  "icu:Preferences__button--set-up": {
+    "messageformat": "Tetapkan"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Sandaran setempat"
@@ -5051,6 +5078,15 @@
   "icu:Preferences--blocked": {
     "messageformat": "Disekat"
   },
+  "icu:Preferences--signal-backups": {
+    "messageformat": "Sandaran Signal"
+  },
+  "icu:Preferences--signal-backups-off-description": {
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+  },
+  "icu:Preferences--backup-section-description": {
+    "messageformat": "Sandarkan sejarah mesej anda supaya anda tidak kehilangan data apabila menggunakan telefon baharu atau memasang semula Signal."
+  },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Butiran sandaran"
   },
@@ -5092,6 +5128,84 @@
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "Saiz sandaran"
+  },
+  "icu:Preferences__local-backups": {
+    "messageformat": "Sandaran desktop"
+  },
+  "icu:Preferences__local-backups-section__description": {
+    "messageformat": "Sandaran disulitkan dengan kunci dan disimpan pada komputer anda."
+  },
+  "icu:Preferences--local-backups-off-description": {
+    "messageformat": "Cipta sandaran disulitkan hujung ke hujung yang boleh anda pulihkan pada telefon anda. "
+  },
+  "icu:Preferences--local-backups-restore-info": {
+    "messageformat": "Untuk memulihkan sandaran, pasang salinan baharu Signal. Buka aplikasi dan ketik Pulihkan sandaran, kemudian cari folder sandaran. <learnMoreLink>Ketahui lebih lanjut.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-setup-folder": {
+    "messageformat": "Pilih folder"
+  },
+  "icu:Preferences--local-backups-setup-folder-description": {
+    "messageformat": "Pilih folder dalam storan komputer anda di mana sandaran disulitkan hujung ke hujung anda akan disimpan."
+  },
+  "icu:Preferences--local-backups-setup-next": {
+    "messageformat": "Seterusnya"
+  },
+  "icu:Preferences--local-backups-view-backup-key-done": {
+    "messageformat": "Selesai"
+  },
+  "icu:Preferences--local-backups-backup-key-text-box": {
+    "messageformat": "Kotak teks kunci sandaran"
+  },
+  "icu:Preferences--local-backups-enter-backup-key": {
+    "messageformat": "Masukkan kunci"
+  },
+  "icu:Preferences--local-backups-record-backup-key": {
+    "messageformat": "Rekodkan kunci sandaran anda"
+  },
+  "icu:Preferences--local-backups-record-backup-key-description": {
+    "messageformat": "Kunci ini diperlukan untuk memulihkan akaun dan data anda. Simpan kunci ini di tempat yang selamat. Jika anda kehilangannya, anda tidak akan dapat memulihkan akaun anda. <learnMoreLink>Ketahui lebih lanjut.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key": {
+    "messageformat": "Sahkan kunci sandaran anda"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key-description": {
+    "messageformat": "Masukkan kunci sandaran yang baru anda rekodkan"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-title": {
+    "messageformat": "Pastikan kunci anda selamat"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-body": {
+    "messageformat": "Signal tidak akan dapat membantu memulihkan sandaran jika anda kehilangan kunci. Simpannya di tempat yang selamat dan jangan kongsikannya dengan orang lain."
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-continue": {
+    "messageformat": "Teruskan"
+  },
+  "icu:Preferences--local-backups-see-backup-key-again": {
+    "messageformat": "Lihat kunci lagi"
+  },
+  "icu:Preferences__local-backups-folder": {
+    "messageformat": "Folder backup"
+  },
+  "icu:Preferences__local-backups-folder__change": {
+    "messageformat": "Tukar"
+  },
+  "icu:Preferences__local-backups-copy-key": {
+    "messageformat": "Salin ke papan klip"
+  },
+  "icu:Preferences__local-backups-copied-key": {
+    "messageformat": "Kunci sandaran disalin"
+  },
+  "icu:Preferences__view-key": {
+    "messageformat": "Lihat kunci"
+  },
+  "icu:Preferences__backup-key": {
+    "messageformat": "Kunci sandaran"
+  },
+  "icu:Preferences__backup-key-description": {
+    "messageformat": "Kunci sandaran anda ialah kod 64 digit yang digunakan untuk memulihkan sandaran anda"
+  },
+  "icu:Preferences__backup-other-ways": {
+    "messageformat": "Cara lain untuk membuat sandaran"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, other {{num,number} kenalan}}"
@@ -6324,6 +6438,9 @@
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Jangan kongsi maklumat peribadi dengan orang yang tidak dikenali"
   },
+  "icu:SaveMultiDialog__title": {
+    "messageformat": "Simpan lampiran"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Perkara Baharu"
   },
@@ -6355,10 +6472,10 @@
     "messageformat": "Sedikit pengubahsuaian, pembaikan pepijat dan peningkatan prestasi. Terima kasih kerana menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Kemas kini ini membetulkan pepijat yang menyukarkan untuk mengalih tetingkap Signal semasa melihat kandungan dalam tab Cerita."
+  "icu:WhatsNew__v7.58--0": {
+    "messageformat": "Bahagian baharu dalam pemilih reaksi mesej kini memaparkan semua emoji reaksi yang diterima oleh sesuatu mesej secara automatik."
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "Peningkatan prestasi Linux."
   }
 }

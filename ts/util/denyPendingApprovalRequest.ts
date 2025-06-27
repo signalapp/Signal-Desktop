@@ -4,9 +4,11 @@
 import type { ConversationAttributesType } from '../model-types.d';
 import type { SignalService as Proto } from '../protobuf';
 import type { AciString } from '../types/ServiceId';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { getConversationIdForLogging } from './idForLogging';
 import { isMemberRequestingToJoin } from './groupMembershipUtils';
+
+const log = createLogger('denyPendingApprovalRequest');
 
 export async function denyPendingApprovalRequest(
   conversationAttributes: ConversationAttributesType,
@@ -19,7 +21,7 @@ export async function denyPendingApprovalRequest(
   //   in conflict/retry cases.
   if (!isMemberRequestingToJoin(conversationAttributes, aci)) {
     log.warn(
-      `denyPendingApprovalRequest/${idLog}: ${aci} is not requesting ` +
+      `${idLog}: ${aci} is not requesting ` +
         'to join the group. Returning early.'
     );
     return undefined;

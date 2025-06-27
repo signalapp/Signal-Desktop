@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 
 import { explodePromise } from '../util/explodePromise';
 
@@ -11,17 +11,14 @@ import {
   modifyTargetMessage,
   ModifyTargetMessageResult,
 } from '../util/modifyTargetMessage';
-import { shouldReplyNotifyUser } from '../util/shouldReplyNotifyUser';
 import { isStory } from './helpers';
 import { drop } from '../util/drop';
 
 import type { ConversationModel } from '../models/conversations';
 import type { MessageModel } from '../models/messages';
-import { getActiveProfile } from '../state/selectors/notificationProfiles';
-import {
-  redactNotificationProfileId,
-  shouldNotify,
-} from '../types/NotificationProfile';
+import { maybeNotify } from './maybeNotify';
+
+const log = createLogger('saveAndNotify');
 
 export async function saveAndNotify(
   message: MessageModel,
@@ -53,30 +50,7 @@ export async function saveAndNotify(
 
     drop(conversation.onNewMessage(message));
 
-    const activeProfile = getActiveProfile(window.reduxStore.getState());
-    const doesProfileAllowNotify = shouldNotify({
-      activeProfile,
-      conversationId: conversation.id,
-      isCall: false,
-      isMention: Boolean(message.get('mentionsMe')),
-    });
-    const shouldStoryReplyNotify = await shouldReplyNotifyUser(
-      message.attributes,
-      conversation
-    );
-
-    if (!shouldStoryReplyNotify) {
-      log.info(
-        `saveAndNotify: Not notifying for story reply ${message.get('sent_at')}`
-      );
-    } else if (!doesProfileAllowNotify) {
-      const redactedId = redactNotificationProfileId(activeProfile?.id ?? '');
-      log.info(
-        `saveAndNotify: Would notify for message ${message.get('sent_at')}, but notification profile ${redactedId} prevented it`
-      );
-    } else {
-      await conversation.notify(message.attributes);
-    }
+    drop(maybeNotify({ message: message.attributes, conversation }));
 
     // Increment the sent message count if this is an outgoing message
     if (message.get('type') === 'outgoing') {

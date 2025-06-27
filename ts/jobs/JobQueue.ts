@@ -9,13 +9,15 @@ import { Job } from './Job';
 import { JobError } from './JobError';
 import type { ParsedJob, StoredJob, JobQueueStore } from './types';
 import { assertDev } from '../util/assert';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { JobLogger } from './JobLogger';
 import * as Errors from '../types/errors';
 import type { LoggerType } from '../types/Logging';
 import { drop } from '../util/drop';
 import { sleep } from '../util/sleep';
 import { SECOND } from '../util/durations';
+
+const log = createLogger('JobQueue');
 
 const noopOnCompleteCallbacks = {
   resolve: noop,

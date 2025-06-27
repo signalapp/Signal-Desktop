@@ -6,7 +6,9 @@ import { debounce, isNumber } from 'lodash';
 import { strictAssert } from './assert';
 import { safeParseInteger } from './numbers';
 import { DataReader } from '../sql/Client';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const log = createLogger('incrementMessageCounter');
 
 let receivedAtCounter: number | undefined;
 

@@ -62,7 +62,7 @@ import {
 import { SignalService as Proto } from '../protobuf';
 
 import { strictAssert } from './assert';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { GLOBAL_ZONE } from '../SignalProtocolStore';
 import { waitForAll } from './waitForAll';
 import type { GroupSendEndorsementState } from './groupSendEndorsements';
@@ -73,6 +73,8 @@ import {
 import type { GroupSendToken } from '../types/GroupSendEndorsements';
 import { isAciString } from './isAciString';
 import { safeParseStrict, safeParseUnknown } from './schemas';
+
+const log = createLogger('sendToGroup');
 
 const UNKNOWN_RECIPIENT = 404;
 const INCORRECT_AUTH_KEY = 401;
@@ -195,9 +197,7 @@ export async function sendContentMessageToGroup(
 
   const accountManager = window.getAccountManager();
   if (accountManager.areKeysOutOfDate(ServiceIdKind.ACI)) {
-    log.warn(
-      `sendToGroup/${logId}: Keys are out of date; updating before send`
-    );
+    log.warn(`${logId}: Keys are out of date; updating before send`);
     await accountManager.maybeUpdateKeys(ServiceIdKind.ACI);
     if (accountManager.areKeysOutOfDate(ServiceIdKind.ACI)) {
       throw new Error('Keys still out of date after update');
@@ -226,7 +226,7 @@ export async function sendContentMessageToGroup(
       }
 
       log.error(
-        `sendToGroup/${logId}: Sender Key send failed, logging, proceeding to normal send`,
+        `${logId}: Sender Key send failed, logging, proceeding to normal send`,
         Errors.toLogFormat(error)
       );
     }

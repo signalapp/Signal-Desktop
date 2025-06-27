@@ -3,11 +3,13 @@
 
 import { without } from 'lodash';
 
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import * as Bytes from '../../Bytes';
 import { isAciString } from '../../util/isAciString';
 import type { StorageInterface } from '../../types/Storage.d';
 import type { AciString, ServiceIdString } from '../../types/ServiceId';
+
+const log = createLogger('Blocked');
 
 export const BLOCKED_NUMBERS_ID = 'blocked';
 export const BLOCKED_UUIDS_ID = 'blocked-uuids';

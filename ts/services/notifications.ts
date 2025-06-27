@@ -9,12 +9,15 @@ import { v4 as getGuid } from 'uuid';
 import { Sound, SoundType } from '../util/Sound';
 import { shouldHideExpiringMessageBody } from '../types/Settings';
 import OS from '../util/os/osMain';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { makeEnumParser } from '../util/enum';
 import { missingCaseError } from '../util/missingCaseError';
+import { toLogFormat } from '../types/errors';
 import type { StorageInterface } from '../types/Storage.d';
 import type { LocalizerType } from '../types/Util';
 import { drop } from '../util/drop';
+
+const log = createLogger('notifications');
 
 type NotificationDataType = Readonly<{
   conversationId: string;
@@ -411,7 +414,7 @@ class NotificationService extends EventEmitter {
         notificationMessage = i18n('icu:newMessage');
         break;
       default:
-        log.error(missingCaseError(userSetting));
+        log.error(toLogFormat(missingCaseError(userSetting)));
         notificationTitle = FALLBACK_NOTIFICATION_TITLE;
         notificationMessage = i18n('icu:newMessage');
         break;

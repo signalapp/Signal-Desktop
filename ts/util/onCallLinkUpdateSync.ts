@@ -3,13 +3,15 @@
 
 import { CallLinkRootKey } from '@signalapp/ringrtc';
 import type { CallLinkUpdateSyncEvent } from '../textsecure/messageReceiverEvents';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
 import { fromAdminKeyBytes } from './callLinks';
 import { getRoomIdFromRootKey } from './callLinksRingrtc';
 import { strictAssert } from './assert';
 import { CallLinkUpdateSyncType } from '../types/CallLink';
 import { DataWriter } from '../sql/Client';
+
+const log = createLogger('onCallLinkUpdateSync');
 
 export async function onCallLinkUpdateSync(
   syncEvent: CallLinkUpdateSyncEvent
@@ -18,7 +20,7 @@ export async function onCallLinkUpdateSync(
   const { type, rootKey, adminKey } = callLinkUpdate;
 
   if (!rootKey) {
-    log.warn('onCallLinkUpdateSync: Missing rootKey, invalid sync message');
+    log.warn('Missing rootKey, invalid sync message');
     return;
   }
 
@@ -32,7 +34,7 @@ export async function onCallLinkUpdateSync(
       'onCallLinkUpdateSync: roomId is required in sync message'
     );
   } catch (err) {
-    log.error('onCallLinkUpdateSync: Could not parse root key');
+    log.error('Could not parse root key');
     return;
   }
 

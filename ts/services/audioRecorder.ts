@@ -1,10 +1,12 @@
 // Copyright 2016 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
 import { requestMicrophonePermissions } from '../util/requestMicrophonePermissions';
 import { WebAudioRecorder } from '../WebAudioRecorder';
+
+const log = createLogger('audioRecorder');
 
 export class RecorderClass {
   #context?: AudioContext;

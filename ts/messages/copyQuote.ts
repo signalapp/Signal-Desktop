@@ -3,7 +3,7 @@
 
 import { omit } from 'lodash';
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import type { QuotedMessageType } from '../model-types';
 import { SignalService } from '../protobuf';
 import { isGiftBadge, isTapToView } from '../state/selectors/message';
@@ -15,6 +15,8 @@ import { isQuoteAMatch, messageHasPaymentEvent } from './helpers';
 import * as Errors from '../types/errors';
 import type { MessageModel } from '../models/messages';
 import { isDownloadable } from '../types/Attachment';
+
+const log = createLogger('copyQuote');
 
 export type MinimalMessageCache = Readonly<{
   findBySentAt(

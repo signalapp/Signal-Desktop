@@ -152,14 +152,17 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
           },
           ...Object.entries(groupedAndSortedReactions)
             .filter(([key]) => key !== 'all')
-            .map(([, [{ short_name: id, emoji }, ...otherReactions]]) => {
+            .map(([, groupedReactions]) => {
+              // Find the local user's reaction first, then fall back to most recent
+              const localUserReaction = groupedReactions.find(r => r.from.isMe);
+              const firstReaction = localUserReaction || groupedReactions[0];
               return {
-                id,
-                index: DEFAULT_EMOJI_ORDER.includes(id)
-                  ? DEFAULT_EMOJI_ORDER.indexOf(id)
+                id: firstReaction.short_name,
+                index: DEFAULT_EMOJI_ORDER.includes(firstReaction.short_name)
+                  ? DEFAULT_EMOJI_ORDER.indexOf(firstReaction.short_name)
                   : Infinity,
-                emoji,
-                count: otherReactions.length + 1,
+                emoji: firstReaction.emoji,
+                count: groupedReactions.length,
               };
             }),
         ].sort((a, b) => a.index - b.index),

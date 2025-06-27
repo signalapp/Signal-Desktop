@@ -7,7 +7,7 @@ import { PassThrough } from 'node:stream';
 import { constants as FS_CONSTANTS, copyFile, mkdir } from 'fs/promises';
 
 import * as durations from '../util/durations';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 
 import * as Errors from '../types/errors';
 import { redactGenericText } from '../util/privacy';
@@ -29,6 +29,8 @@ import {
   getLocalBackupDirectoryForMediaName,
   getLocalBackupPathForMediaName,
 } from '../services/backups/util/localBackup';
+
+const log = createLogger('AttachmentLocalBackupManager');
 
 const MAX_CONCURRENT_JOBS = 3;
 const RETRY_CONFIG = {
@@ -81,12 +83,12 @@ export class AttachmentLocalBackupManager extends JobManager<CoreAttachmentLocal
   }
 
   static async start(): Promise<void> {
-    log.info('AttachmentLocalBackupManager/starting');
+    log.info('starting');
     await AttachmentLocalBackupManager.instance.start();
   }
 
   static async stop(): Promise<void> {
-    log.info('AttachmentLocalBackupManager/stopping');
+    log.info('stopping');
     return AttachmentLocalBackupManager.#instance?.stop();
   }
 

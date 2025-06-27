@@ -4,7 +4,7 @@
 import { get, throttle } from 'lodash';
 
 import type { WebAPIType } from './textsecure/WebAPI';
-import * as log from './logging/log';
+import { createLogger } from './logging/log';
 import type { AciString } from './types/ServiceId';
 import { parseIntOrThrow } from './util/parseIntOrThrow';
 import { HOUR } from './util/durations';
@@ -15,12 +15,18 @@ import { HashType } from './types/Crypto';
 import { getCountryCode } from './types/PhoneNumber';
 import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration';
 
+const log = createLogger('RemoteConfig');
+
 export type ConfigKeyType =
   | 'desktop.calling.ringrtcAdmFull.3'
   | 'desktop.calling.ringrtcAdmInternal'
   | 'desktop.calling.ringrtcAdmPreStable'
+  | 'desktop.chatFolders.alpha'
+  | 'desktop.chatFolders.beta'
+  | 'desktop.chatFolders.prod'
   | 'desktop.clientExpiration'
   | 'desktop.backup.credentialFetch'
+  | 'desktop.donations'
   | 'desktop.internalUser'
   | 'desktop.mediaQuality.levels'
   | 'desktop.messageCleanup'
@@ -30,15 +36,13 @@ export type ConfigKeyType =
   | 'desktop.experimentalTransport.enableAuth'
   | 'desktop.experimentalTransportEnabled.alpha'
   | 'desktop.experimentalTransportEnabled.beta'
-  | 'desktop.experimentalTransportEnabled.prod'
+  | 'desktop.experimentalTransportEnabled.prod.2'
+  | 'desktop.libsignalNet.enforceMinimumTls'
   | 'desktop.cdsiViaLibsignal'
   | 'desktop.cdsiViaLibsignal.disableNewConnectionLogic'
   | 'desktop.funPicker' // alpha
   | 'desktop.funPicker.beta'
   | 'desktop.funPicker.prod'
-  | 'desktop.releaseNotes'
-  | 'desktop.releaseNotes.beta'
-  | 'desktop.releaseNotes.dev'
   | 'global.attachments.maxBytes'
   | 'global.attachments.maxReceiveBytes'
   | 'global.backups.mediaTierFallbackCdnNumber'
@@ -270,5 +274,5 @@ export function getBucketValue(aci: AciString, flagName: string): number {
     hashInput
   );
 
-  return Number(Bytes.readBigUint64BE(hashResult.slice(0, 8)) % 1_000_000n);
+  return Number(Bytes.readBigUint64BE(hashResult.subarray(0, 8)) % 1_000_000n);
 }

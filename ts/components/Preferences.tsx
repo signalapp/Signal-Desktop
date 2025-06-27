@@ -1,5 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+
 import type { AudioDevice } from '@signalapp/ringrtc';
 import React, {
   useCallback,
@@ -12,6 +13,44 @@ import React, {
 import { isNumber, noop, partition } from 'lodash';
 import classNames from 'classnames';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
+import type { MutableRefObject, ReactNode } from 'react';
+import { Button, ButtonVariant } from './Button';
+import { ChatColorPicker } from './ChatColorPicker';
+import { Checkbox } from './Checkbox';
+import { WidthBreakpoint } from './_util';
+import { ConfirmationDialog } from './ConfirmationDialog';
+import { DisappearingTimeDialog } from './DisappearingTimeDialog';
+import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability';
+import { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
+import { Select } from './Select';
+import { Spinner } from './Spinner';
+import { getCustomColorStyle } from '../util/getCustomColorStyle';
+import {
+  DEFAULT_DURATIONS_IN_SECONDS,
+  DEFAULT_DURATIONS_SET,
+  format as formatExpirationTimer,
+} from '../util/expirationTimer';
+import { DurationInSeconds } from '../util/durations';
+import { focusableSelector } from '../util/focusableSelectors';
+import { Modal } from './Modal';
+import { SearchInput } from './SearchInput';
+import { removeDiacritics } from '../util/removeDiacritics';
+import { assertDev, strictAssert } from '../util/assert';
+import { I18n } from './I18n';
+import { FunSkinTonesList } from './fun/FunSkinTones';
+import { emojiParentKeyConstant, type EmojiSkinTone } from './fun/data/emojis';
+import {
+  SettingsControl as Control,
+  FlowingSettingsControl as FlowingControl,
+  SettingsRadio,
+  SettingsRow,
+} from './PreferencesUtil';
+import { PreferencesBackups } from './PreferencesBackups';
+import { PreferencesInternal } from './PreferencesInternal';
+import { FunEmojiLocalizationProvider } from './fun/FunEmojiLocalizationProvider';
+import { Avatar, AvatarSize } from './Avatar';
+import { NavSidebar } from './NavSidebar';
+
 import type { MediaDeviceSettings } from '../types/Calling';
 import type { ValidationResultType as BackupValidationResultType } from '../services/backups';
 import type {
@@ -34,61 +73,55 @@ import type {
   SentMediaQualityType,
   ThemeType,
 } from '../types/Util';
-import { Button, ButtonVariant } from './Button';
-import { ChatColorPicker } from './ChatColorPicker';
-import { Checkbox } from './Checkbox';
-import { WidthBreakpoint } from './_util';
-import { ConfirmationDialog } from './ConfirmationDialog';
-import { DisappearingTimeDialog } from './DisappearingTimeDialog';
-import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability';
-import { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
-import { Select } from './Select';
-import { Spinner } from './Spinner';
-import { ToastManager } from './ToastManager';
-import { getCustomColorStyle } from '../util/getCustomColorStyle';
-import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled';
-import {
-  DEFAULT_DURATIONS_IN_SECONDS,
-  DEFAULT_DURATIONS_SET,
-  format as formatExpirationTimer,
-} from '../util/expirationTimer';
-import { DurationInSeconds } from '../util/durations';
-import { focusableSelector } from '../util/focusableSelectors';
-import { Modal } from './Modal';
-import { SearchInput } from './SearchInput';
-import { removeDiacritics } from '../util/removeDiacritics';
-import { assertDev } from '../util/assert';
-import { I18n } from './I18n';
-import { FunSkinTonesList } from './fun/FunSkinTones';
-import { emojiParentKeyConstant, type EmojiSkinTone } from './fun/data/emojis';
 import type {
   BackupsSubscriptionType,
   BackupStatusType,
 } from '../types/backups';
-import {
-  SettingsControl as Control,
-  SettingsRadio,
-  SettingsRow,
-} from './PreferencesUtil';
-import { PreferencesBackups } from './PreferencesBackups';
-import { PreferencesInternal } from './PreferencesInternal';
-import { FunEmojiLocalizationProvider } from './fun/FunEmojiLocalizationProvider';
-import { NavTabsToggle } from './NavTabs';
 import type { UnreadStats } from '../util/countUnreadStats';
+import type { BadgeType } from '../badges/types';
+import type { MessageCountBySchemaVersionType } from '../sql/Interface';
+import type { MessageAttributesType } from '../model-types';
+import { isBackupPage } from '../types/PreferencesBackupPage';
+import type { PreferencesBackupPage } from '../types/PreferencesBackupPage';
+import type {
+  PromptOSAuthReasonType,
+  PromptOSAuthResultType,
+} from '../util/os/promptOSAuthMain';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
+import { EditChatFoldersPage } from './preferences/EditChatFoldersPage';
+import { ChatFoldersPage } from './preferences/ChatFoldersPage';
+import type {
+  ChatFolderId,
+  ChatFolderParams,
+  ChatFolderRecord,
+} from '../types/ChatFolder';
+import {
+  CHAT_FOLDER_DEFAULTS,
+  isChatFoldersEnabled,
+} from '../types/ChatFolder';
+import type { GetConversationByIdType } from '../state/selectors/conversations';
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
 
 export type PropsDataType = {
+  conversations: ReadonlyArray<ConversationType>;
+  conversationSelector: GetConversationByIdType;
+
   // Settings
+  accountEntropyPool: string | undefined;
   autoDownloadAttachment: AutoDownloadAttachmentType;
   backupFeatureEnabled: boolean;
-  blockedCount: number;
+  backupKeyViewed: boolean;
+  backupLocalBackupsEnabled: boolean;
+  localBackupFolder: string | undefined;
   cloudBackupStatus?: BackupStatusType;
-  backupSubscriptionStatus?: BackupsSubscriptionType;
+  backupSubscriptionStatus: BackupsSubscriptionType;
+  blockedCount: number;
   customColors: Record<string, CustomColorType>;
   defaultConversationColor: DefaultConversationColorType;
   deviceName?: string;
+  donationsFeatureEnabled: boolean;
   emojiSkinToneDefault: EmojiSkinTone;
   hasAudioNotifications?: boolean;
   hasAutoConvertEmoji: boolean;
@@ -114,7 +147,7 @@ export type PropsDataType = {
   hasStoriesDisabled: boolean;
   hasTextFormatting: boolean;
   hasTypingIndicators: boolean;
-  initialPage?: Page;
+  page: Page;
   lastSyncTime?: number;
   notificationContent: NotificationSettingType;
   phoneNumber: string | undefined;
@@ -135,12 +168,15 @@ export type PropsDataType = {
   resolvedLocale: string;
 
   // Other props
+  badge: BadgeType | undefined;
   hasFailedStorySends: boolean;
-  hasPendingUpdate: boolean;
   initialSpellCheckSetting: boolean;
-  isUpdateDownloaded: boolean;
+  me: ConversationType;
   navTabsCollapsed: boolean;
   otherTabsUnreadStats: UnreadStats;
+  preferredWidthFromStorage: number;
+  shouldShowUpdateDialog: boolean;
+  theme: ThemeType;
 
   // Limited support features
   isAutoDownloadUpdatesSupported: boolean;
@@ -162,6 +198,15 @@ export type PropsDataType = {
 
 type PropsFunctionType = {
   // Render props
+  renderDonationsPane: (options: {
+    contentsRef: MutableRefObject<HTMLDivElement | null>;
+  }) => JSX.Element;
+  renderProfileEditor: (options: {
+    contentsRef: MutableRefObject<HTMLDivElement | null>;
+  }) => JSX.Element;
+  renderToastManager: (
+    _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
+  ) => JSX.Element;
   renderUpdateDialog: (
     _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
   ) => JSX.Element;
@@ -171,15 +216,25 @@ type PropsFunctionType = {
   doDeleteAllData: () => unknown;
   editCustomColor: (colorId: string, color: CustomColorType) => unknown;
   exportLocalBackup: () => Promise<BackupValidationResultType>;
+  getMessageCountBySchemaVersion: () => Promise<MessageCountBySchemaVersionType>;
+  getMessageSampleForSchemaVersion: (
+    version: number
+  ) => Promise<Array<MessageAttributesType>>;
   getConversationsWithCustomColor: (colorId: string) => Array<ConversationType>;
+  getPreferredBadge: PreferredBadgeSelectorType;
   makeSyncRequest: () => unknown;
   onStartUpdate: () => unknown;
+  pickLocalBackupFolder: () => Promise<string | undefined>;
   refreshCloudBackupStatus: () => void;
   refreshBackupSubscriptionStatus: () => void;
   removeCustomColor: (colorId: string) => unknown;
   removeCustomColorOnConversations: (colorId: string) => unknown;
+  promptOSAuth: (
+    reason: PromptOSAuthReasonType
+  ) => Promise<PromptOSAuthResultType>;
   resetAllChatColors: () => unknown;
   resetDefaultChatColor: () => unknown;
+  savePreferredLeftPaneWidth: (_: number) => void;
   setGlobalDefaultConversationColor: (
     color: ConversationColorType,
     customColorData?: {
@@ -187,6 +242,8 @@ type PropsFunctionType = {
       value: CustomColorType;
     }
   ) => unknown;
+  setPage: (page: Page) => unknown;
+  showToast: (toast: AnyToast) => unknown;
   validateBackup: () => Promise<BackupValidationResultType>;
 
   // Change handlers
@@ -197,6 +254,7 @@ type PropsFunctionType = {
   ) => unknown;
   onAutoDownloadUpdateChange: CheckboxChangeHandlerType;
   onAutoLaunchChange: CheckboxChangeHandlerType;
+  onBackupKeyViewedChange: (keyViewed: boolean) => void;
   onCallNotificationsChange: CheckboxChangeHandlerType;
   onCallRingtoneNotificationChange: CheckboxChangeHandlerType;
   onContentProtectionChange: CheckboxChangeHandlerType;
@@ -239,7 +297,9 @@ export type PropsPreloadType = Omit<PropsType, 'i18n'>;
 
 export enum Page {
   // Accessible through left nav
+  Profile = 'Profile',
   General = 'General',
+  Donations = 'Donations',
   Appearance = 'Appearance',
   Chats = 'Chats',
   Calls = 'Calls',
@@ -251,7 +311,14 @@ export enum Page {
 
   // Sub pages
   ChatColor = 'ChatColor',
+  ChatFolders = 'ChatFolders',
+  EditChatFolder = 'EditChatFolder',
   PNP = 'PNP',
+  BackupsDetails = 'BackupsDetails',
+  LocalBackups = 'LocalBackups',
+  LocalBackupsSetupFolder = 'LocalBackupsSetupFolder',
+  LocalBackupsSetupKey = 'LocalBackupsSetupKey',
+  LocalBackupsKeyReference = 'LocalBackupsKeyReference',
 }
 
 enum LanguageDialog {
@@ -283,6 +350,9 @@ const DEFAULT_ZOOM_FACTORS = [
 ];
 
 export function Preferences({
+  conversations,
+  conversationSelector,
+  accountEntropyPool,
   addCustomColor,
   autoDownloadAttachment,
   availableCameras,
@@ -290,17 +360,24 @@ export function Preferences({
   availableMicrophones,
   availableSpeakers,
   backupFeatureEnabled,
+  backupKeyViewed,
   backupSubscriptionStatus,
+  backupLocalBackupsEnabled,
+  badge,
   blockedCount,
   cloudBackupStatus,
   customColors,
   defaultConversationColor,
   deviceName = '',
   doDeleteAllData,
+  donationsFeatureEnabled,
   editCustomColor,
   emojiSkinToneDefault,
   exportLocalBackup,
   getConversationsWithCustomColor,
+  getMessageCountBySchemaVersion,
+  getMessageSampleForSchemaVersion,
+  getPreferredBadge,
   hasAudioNotifications,
   hasAutoConvertEmoji,
   hasAutoDownloadUpdate,
@@ -320,7 +397,6 @@ export function Preferences({
   hasMinimizeToSystemTray,
   hasNotificationAttention,
   hasNotifications,
-  hasPendingUpdate,
   hasReadReceipts,
   hasRelayCalls,
   hasSpellCheck,
@@ -328,7 +404,6 @@ export function Preferences({
   hasTextFormatting,
   hasTypingIndicators,
   i18n,
-  initialPage = Page.General,
   initialSpellCheckSetting,
   isAutoDownloadUpdatesSupported,
   isAutoLaunchSupported,
@@ -340,9 +415,10 @@ export function Preferences({
   isSystemTraySupported,
   isMinimizeToAndStartInSystemTraySupported,
   isInternalUser,
-  isUpdateDownloaded,
   lastSyncTime,
+  localBackupFolder,
   makeSyncRequest,
+  me,
   navTabsCollapsed,
   notificationContent,
   onAudioNotificationsChange,
@@ -350,6 +426,7 @@ export function Preferences({
   onAutoDownloadAttachmentChange,
   onAutoDownloadUpdateChange,
   onAutoLaunchChange,
+  onBackupKeyViewedChange,
   onCallNotificationsChange,
   onCallRingtoneNotificationChange,
   onContentProtectionChange,
@@ -382,22 +459,34 @@ export function Preferences({
   onWhoCanFindMeChange,
   onZoomFactorChange,
   otherTabsUnreadStats,
+  page,
   phoneNumber = '',
+  pickLocalBackupFolder,
   preferredSystemLocales,
+  preferredWidthFromStorage,
   refreshCloudBackupStatus,
   refreshBackupSubscriptionStatus,
   removeCustomColor,
   removeCustomColorOnConversations,
+  renderDonationsPane,
+  renderProfileEditor,
+  renderToastManager,
   renderUpdateDialog,
+  promptOSAuth,
   resetAllChatColors,
   resetDefaultChatColor,
   resolvedLocale,
+  savePreferredLeftPaneWidth,
   selectedCamera,
   selectedMicrophone,
   selectedSpeaker,
   sentMediaQualitySetting,
   setGlobalDefaultConversationColor,
+  setPage,
+  shouldShowUpdateDialog,
+  showToast,
   localeOverride,
+  theme,
   themeSetting,
   universalExpireTimer = DurationInSeconds.ZERO,
   validateBackup,
@@ -414,7 +503,6 @@ export function Preferences({
   const [confirmStoriesOff, setConfirmStoriesOff] = useState(false);
   const [confirmContentProtection, setConfirmContentProtection] =
     useState(false);
-  const [page, setPage] = useState<Page>(initialPage);
   const [showSyncFailed, setShowSyncFailed] = useState(false);
   const [nowSyncing, setNowSyncing] = useState(false);
   const [showDisappearingTimerDialog, setShowDisappearingTimerDialog] =
@@ -426,16 +514,63 @@ export function Preferences({
     string | null | undefined
   >(localeOverride);
   const [languageSearchInput, setLanguageSearchInput] = useState('');
-  const [toast, setToast] = useState<AnyToast | undefined>();
   const [confirmPnpNotDiscoverable, setConfirmPnpNoDiscoverable] =
     useState(false);
+
+  const [chatFolders, setChatFolders] = useState<
+    ReadonlyArray<ChatFolderRecord>
+  >([]);
+
+  const [editChatFolderPageId, setEditChatFolderPageId] =
+    useState<ChatFolderId | null>(null);
+
+  const handleOpenEditChatFoldersPage = useCallback(
+    (chatFolderId: ChatFolderId | null) => {
+      setPage(Page.EditChatFolder);
+      setEditChatFolderPageId(chatFolderId);
+    },
+    [setPage]
+  );
+
+  const handleCloseEditChatFoldersPage = useCallback(() => {
+    setPage(Page.ChatFolders);
+    setEditChatFolderPageId(null);
+  }, [setPage]);
+
+  const handleCreateChatFolder = useCallback((params: ChatFolderParams) => {
+    setChatFolders(prev => {
+      return [...prev, { ...params, id: String(prev.length) as ChatFolderId }];
+    });
+  }, []);
+
+  const handleUpdateChatFolder = useCallback(
+    (chatFolderId: ChatFolderId, chatFolderParams: ChatFolderParams) => {
+      setChatFolders(prev => {
+        return prev.map(chatFolder => {
+          if (chatFolder.id === chatFolderId) {
+            return { id: chatFolderId, ...chatFolderParams };
+          }
+          return chatFolder;
+        });
+      });
+    },
+    []
+  );
+
+  const handleDeleteChatFolder = useCallback((chatFolderId: ChatFolderId) => {
+    setChatFolders(prev => {
+      return prev.filter(chatFolder => {
+        return chatFolder.id !== chatFolderId;
+      });
+    });
+  }, []);
 
   function closeLanguageDialog() {
     setLanguageDialog(null);
     setSelectedLanguageLocale(localeOverride);
   }
   const shouldShowBackupsPage =
-    backupFeatureEnabled && backupSubscriptionStatus != null;
+    backupFeatureEnabled || backupLocalBackupsEnabled;
 
   if (page === Page.Backups && !shouldShowBackupsPage) {
     setPage(Page.General);
@@ -445,18 +580,11 @@ export function Preferences({
   }
 
   let maybeUpdateDialog: JSX.Element | undefined;
-  if (hasPendingUpdate || isUpdateDownloaded) {
+  if (shouldShowUpdateDialog) {
     maybeUpdateDialog = renderUpdateDialog({
       containerWidthBreakpoint: WidthBreakpoint.Wide,
     });
   }
-
-  useEffect(() => {
-    if (page === Page.Backups) {
-      refreshCloudBackupStatus();
-      refreshBackupSubscriptionStatus();
-    }
-  }, [page, refreshCloudBackupStatus, refreshBackupSubscriptionStatus]);
 
   const onZoomSelectChange = useCallback(
     (value: string) => {
@@ -608,29 +736,53 @@ export function Preferences({
     });
   }, [localeSearchOptions, languageSearchInput]);
 
-  let pageTitle: string | undefined;
-  let pageBackButton: JSX.Element | undefined;
-  let pageContents: JSX.Element | undefined;
-  if (page === Page.General) {
-    pageTitle = i18n('icu:Preferences__button--general');
-    pageContents = (
+  let content: JSX.Element | undefined;
+
+  if (page === Page.Profile) {
+    content = renderProfileEditor({
+      contentsRef: settingsPaneRef,
+    });
+  } else if (page === Page.General) {
+    const pageContents = (
       <>
         <SettingsRow>
-          <Control
-            left={i18n('icu:Preferences--phone-number')}
-            right={phoneNumber}
-          />
-          <Control
-            left={
-              <>
-                <div>{i18n('icu:Preferences--device-name')}</div>
-                <div className="Preferences__description">
-                  {i18n('icu:Preferences--device-name__description')}
-                </div>
-              </>
-            }
-            right={deviceName}
-          />
+          <FlowingControl>
+            <div className="Preferences__half-flow">
+              {i18n('icu:Preferences--phone-number')}
+            </div>
+            <div
+              className={classNames(
+                'Preferences__flow-value',
+                'Preferences__half-flow',
+                'Preferences__half-flow--align-right'
+              )}
+            >
+              {phoneNumber}
+            </div>
+          </FlowingControl>
+          <FlowingControl>
+            <div className="Preferences__half-flow">
+              {i18n('icu:Preferences--device-name')}
+            </div>
+            <div
+              className={classNames(
+                'Preferences__flow-value',
+                'Preferences__half-flow',
+                'Preferences__half-flow--align-right'
+              )}
+            >
+              {deviceName}
+            </div>
+            <div
+              className={classNames(
+                'Preferences__device-name-description',
+                'Preferences__description',
+                'Preferences__full-flow'
+              )}
+            >
+              {i18n('icu:Preferences--device-name__description')}
+            </div>
+          </FlowingControl>
         </SettingsRow>
         <SettingsRow title={i18n('icu:Preferences--system')}>
           {isAutoLaunchSupported && (
@@ -711,6 +863,17 @@ export function Preferences({
         )}
       </>
     );
+    content = (
+      <PreferencesContent
+        contents={pageContents}
+        contentsRef={settingsPaneRef}
+        title={i18n('icu:Preferences__button--general')}
+      />
+    );
+  } else if (page === Page.Donations) {
+    content = renderDonationsPane({
+      contentsRef: settingsPaneRef,
+    });
   } else if (page === Page.Appearance) {
     let zoomFactors = DEFAULT_ZOOM_FACTORS;
 
@@ -734,8 +897,7 @@ export function Preferences({
           : i18n('icu:Preferences__Language__SystemLanguage');
     }
 
-    pageTitle = i18n('icu:Preferences__button--appearance');
-    pageContents = (
+    const pageContents = (
       <SettingsRow>
         <Control
           icon="Preferences__LanguageIcon"
@@ -925,6 +1087,13 @@ export function Preferences({
         />
       </SettingsRow>
     );
+    content = (
+      <PreferencesContent
+        contents={pageContents}
+        contentsRef={settingsPaneRef}
+        title={i18n('icu:Preferences__button--appearance')}
+      />
+    );
   } else if (page === Page.Chats) {
     let spellCheckDirtyText: string | undefined;
     if (
@@ -938,8 +1107,7 @@ export function Preferences({
 
     const lastSyncDate = new Date(lastSyncTime || 0);
 
-    pageTitle = i18n('icu:Preferences__button--chats');
-    pageContents = (
+    const pageContents = (
       <>
         <SettingsRow title={i18n('icu:Preferences__button--chats')}>
           <Checkbox
@@ -995,6 +1163,33 @@ export function Preferences({
             />
           </SettingsRow>
         </SettingsRow>
+        {isChatFoldersEnabled() && (
+          <SettingsRow
+            title={i18n(
+              'icu:Preferences__ChatsPage__ChatFoldersSection__Title'
+            )}
+          >
+            <Control
+              left={
+                <>
+                  <div>
+                    {i18n(
+                      'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title'
+                    )}
+                  </div>
+                  <div className="Preferences__description">
+                    {i18n(
+                      'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description'
+                    )}
+                  </div>
+                </>
+              }
+              right={null}
+              onClick={() => setPage(Page.ChatFolders)}
+            />
+          </SettingsRow>
+        )}
+
         {isSyncSupported && (
           <SettingsRow>
             <Control
@@ -1050,9 +1245,15 @@ export function Preferences({
         )}
       </>
     );
+    content = (
+      <PreferencesContent
+        contents={pageContents}
+        contentsRef={settingsPaneRef}
+        title={i18n('icu:Preferences__button--chats')}
+      />
+    );
   } else if (page === Page.Calls) {
-    pageTitle = i18n('icu:Preferences__button--calls');
-    pageContents = (
+    const pageContents = (
       <>
         <SettingsRow title={i18n('icu:calling')}>
           <Checkbox
@@ -1193,9 +1394,15 @@ export function Preferences({
         </SettingsRow>
       </>
     );
+    content = (
+      <PreferencesContent
+        contents={pageContents}
+        contentsRef={settingsPaneRef}
+        title={i18n('icu:Preferences__button--calls')}
+      />
+    );
   } else if (page === Page.Notifications) {
-    pageTitle = i18n('icu:Preferences__button--notifications');
-    pageContents = (
+    const pageContents = (
       <>
         <SettingsRow>
           <Checkbox
@@ -1275,32 +1482,47 @@ export function Preferences({
         </SettingsRow>
       </>
     );
+    content = (
+      <PreferencesContent
+        contents={pageContents}
+        contentsRef={settingsPaneRef}
+        title={i18n('icu:Preferences__button--notifications')}
+      />
+    );
   } else if (page === Page.Privacy) {
     const isCustomDisappearingMessageValue =
       !DEFAULT_DURATIONS_SET.has(universalExpireTimer);
-
-    pageTitle = i18n('icu:Preferences__button--privacy');
-    pageContents = (
+    const pageContents = (
       <>
         <SettingsRow>
-          <Control
-            left={
-              <div className="Preferences__pnp">
-                <h3>{i18n('icu:Preferences__pnp__row--title')}</h3>
-                <div className="Preferences__description">
-                  {i18n('icu:Preferences__pnp__row--body')}
-                </div>
+          <FlowingControl>
+            <div
+              className={classNames(
+                'Preferences__pnp',
+                'Preferences__two-thirds-flow'
+              )}
+            >
+              <h3>{i18n('icu:Preferences__pnp__row--title')}</h3>
+              <div className="Preferences__description">
+                {i18n('icu:Preferences__pnp__row--body')}
               </div>
-            }
-            right={
+            </div>
+            <div
+              className={classNames(
+                'Preferences__pnp',
+                'Preferences__flow-button',
+                'Preferences__one-third-flow',
+                'Preferences__one-third-flow--align-right'
+              )}
+            >
               <Button
                 onClick={() => setPage(Page.PNP)}
                 variant={ButtonVariant.Secondary}
               >
                 {i18n('icu:Preferences__pnp__row--button')}
               </Button>
-            }
-          />
+            </div>
+          </FlowingControl>
         </SettingsRow>
         <SettingsRow>
           <Control
@@ -1342,18 +1564,22 @@ export function Preferences({
           />
         )}
         <SettingsRow title={i18n('icu:disappearingMessages')}>
-          <Control
-            left={
-              <>
-                <div>
-                  {i18n('icu:settings__DisappearingMessages__timer__label')}
-                </div>
-                <div className="Preferences__description">
-                  {i18n('icu:settings__DisappearingMessages__footer')}
-                </div>
-              </>
-            }
-            right={
+          <FlowingControl>
+            <div className="Preferences__two-thirds-flow">
+              <div>
+                {i18n('icu:settings__DisappearingMessages__timer__label')}
+              </div>
+              <div className="Preferences__description">
+                {i18n('icu:settings__DisappearingMessages__footer')}
+              </div>
+            </div>
+            <div
+              className={classNames(
+                'Preferences__flow-button',
+                'Preferences__one-third-flow',
+                'Preferences__one-third-flow--align-right'
+              )}
+            >
               <Select
                 ariaLabel={i18n(
                   'icu:settings__DisappearingMessages__timer__label'
@@ -1389,8 +1615,8 @@ export function Preferences({
                 ])}
                 value={universalExpireTimer}
               />
-            }
-          />
+            </div>
+          </FlowingControl>
         </SettingsRow>
         {isContentProtectionSupported && (
           <SettingsRow title={i18n('icu:Preferences__Privacy__Application')}>
@@ -1429,17 +1655,23 @@ export function Preferences({
           </ConfirmationDialog>
         ) : null}
         <SettingsRow title={i18n('icu:Stories__title')}>
-          <Control
-            left={
+          <FlowingControl>
+            <div className="Preferences__two-thirds-flow">
               <label htmlFor={storiesId}>
                 <div>{i18n('icu:Stories__settings-toggle--title')}</div>
                 <div className="Preferences__description">
                   {i18n('icu:Stories__settings-toggle--description')}
                 </div>
               </label>
-            }
-            right={
-              hasStoriesDisabled ? (
+            </div>
+            <div
+              className={classNames(
+                'Preferences__flow-button',
+                'Preferences__one-third-flow',
+                'Preferences__one-third-flow--align-right'
+              )}
+            >
+              {hasStoriesDisabled ? (
                 <Button
                   onClick={() => onHasStoriesDisabledChanged(false)}
                   variant={ButtonVariant.Secondary}
@@ -1454,31 +1686,40 @@ export function Preferences({
                 >
                   {i18n('icu:Preferences__turn-stories-off')}
                 </Button>
-              )
-            }
-          />
+              )}
+            </div>
+          </FlowingControl>
         </SettingsRow>
         <SettingsRow>
-          <Control
-            left={
-              <>
-                <div>{i18n('icu:clearDataHeader')}</div>
-                <div className="Preferences__description">
-                  {i18n('icu:clearDataExplanation')}
-                </div>
-              </>
-            }
-            right={
-              <div className="Preferences__right-button">
-                <Button
-                  onClick={() => setConfirmDelete(true)}
-                  variant={ButtonVariant.SecondaryDestructive}
-                >
-                  {i18n('icu:clearDataButton')}
-                </Button>
+          <FlowingControl>
+            <div
+              className={classNames(
+                'Preferences__pnp',
+                'Preferences__two-thirds-flow'
+              )}
+            >
+              <div>{i18n('icu:clearDataHeader')}</div>
+              <div className="Preferences__description">
+                {i18n('icu:clearDataExplanation')}
               </div>
-            }
-          />
+            </div>
+
+            <div
+              className={classNames(
+                'Preferences__pnp',
+                'Preferences__flow-button',
+                'Preferences__one-third-flow',
+                'Preferences__one-third-flow--align-right'
+              )}
+            >
+              <Button
+                onClick={() => setConfirmDelete(true)}
+                variant={ButtonVariant.SecondaryDestructive}
+              >
+                {i18n('icu:clearDataButton')}
+              </Button>
+            </div>
+          </FlowingControl>
         </SettingsRow>
         {confirmDelete ? (
           <ConfirmationDialog
@@ -1519,9 +1760,15 @@ export function Preferences({
         ) : null}
       </>
     );
+    content = (
+      <PreferencesContent
+        contents={pageContents}
+        contentsRef={settingsPaneRef}
+        title={i18n('icu:Preferences__button--privacy')}
+      />
+    );
   } else if (page === Page.DataUsage) {
-    pageTitle = i18n('icu:Preferences__button--data-usage');
-    pageContents = (
+    const pageContents = (
       <>
         <SettingsRow title={i18n('icu:Preferences__media-auto-download')}>
           <Checkbox
@@ -1584,23 +1831,28 @@ export function Preferences({
           </div>
         </SettingsRow>
         <SettingsRow>
-          <Control
-            left={
-              <>
-                <div className="Preferences__option-name">
-                  {i18n('icu:Preferences__sent-media-quality')}
-                </div>
-                <div
-                  className={classNames(
-                    'Preferences__description',
-                    'Preferences__description--medium'
-                  )}
-                >
-                  {i18n('icu:Preferences__sent-media-quality__description')}
-                </div>
-              </>
-            }
-            right={
+          <FlowingControl>
+            <div className="Preferences__two-thirds-flow">
+              <div className="Preferences__option-name">
+                {i18n('icu:Preferences__sent-media-quality')}
+              </div>
+              <div
+                className={classNames(
+                  'Preferences__description',
+                  'Preferences__description--medium'
+                )}
+              >
+                {i18n('icu:Preferences__sent-media-quality__description')}
+              </div>
+            </div>
+
+            <div
+              className={classNames(
+                'Preferences__flow-button',
+                'Preferences__one-third-flow',
+                'Preferences__one-third-flow--align-right'
+              )}
+            >
               <Select
                 onChange={onSentMediaQualityChange}
                 options={[
@@ -1615,14 +1867,20 @@ export function Preferences({
                 ]}
                 value={sentMediaQualitySetting}
               />
-            }
-          />
+            </div>
+          </FlowingControl>
         </SettingsRow>
       </>
     );
+    content = (
+      <PreferencesContent
+        contents={pageContents}
+        contentsRef={settingsPaneRef}
+        title={i18n('icu:Preferences__button--data-usage')}
+      />
+    );
   } else if (page === Page.ChatColor) {
-    pageTitle = i18n('icu:ChatColorPicker__menu-title');
-    pageBackButton = (
+    const backButton = (
       <button
         aria-label={i18n('icu:goBack')}
         className="Preferences__back-icon"
@@ -1630,7 +1888,7 @@ export function Preferences({
         type="button"
       />
     );
-    pageContents = (
+    const pageContents = (
       <ChatColorPicker
         customColors={customColors}
         getConversationsWithCustomColor={getConversationsWithCustomColor}
@@ -1647,6 +1905,52 @@ export function Preferences({
         resetAllChatColors={resetAllChatColors}
         resetDefaultChatColor={resetDefaultChatColor}
         setGlobalDefaultConversationColor={setGlobalDefaultConversationColor}
+      />
+    );
+    content = (
+      <PreferencesContent
+        backButton={backButton}
+        contents={pageContents}
+        contentsRef={settingsPaneRef}
+        title={i18n('icu:ChatColorPicker__menu-title')}
+      />
+    );
+  } else if (page === Page.ChatFolders) {
+    content = (
+      <ChatFoldersPage
+        i18n={i18n}
+        settingsPaneRef={settingsPaneRef}
+        onBack={() => setPage(Page.Chats)}
+        onOpenEditChatFoldersPage={handleOpenEditChatFoldersPage}
+        chatFolders={chatFolders}
+        onCreateChatFolder={handleCreateChatFolder}
+      />
+    );
+  } else if (page === Page.EditChatFolder) {
+    let initChatFolderParam: ChatFolderParams;
+    if (editChatFolderPageId != null) {
+      const found = chatFolders.find(chatFolder => {
+        return chatFolder.id === editChatFolderPageId;
+      });
+      strictAssert(found, 'Missing chat folder');
+      initChatFolderParam = found;
+    } else {
+      initChatFolderParam = CHAT_FOLDER_DEFAULTS;
+    }
+    content = (
+      <EditChatFoldersPage
+        i18n={i18n}
+        settingsPaneRef={settingsPaneRef}
+        onBack={handleCloseEditChatFoldersPage}
+        conversations={conversations}
+        getPreferredBadge={getPreferredBadge}
+        theme={theme}
+        existingChatFolderId={editChatFolderPageId}
+        initChatFolderParams={initChatFolderParam}
+        conversationSelector={conversationSelector}
+        onCreateChatFolder={handleCreateChatFolder}
+        onUpdateChatFolder={handleUpdateChatFolder}
+        onDeleteChatFolder={handleDeleteChatFolder}
       />
     );
   } else if (page === Page.PNP) {
@@ -1666,8 +1970,7 @@ export function Preferences({
       );
     }
 
-    pageTitle = i18n('icu:Preferences__pnp--page-title');
-    pageBackButton = (
+    const backButton = (
       <button
         aria-label={i18n('icu:goBack')}
         className="Preferences__back-icon"
@@ -1675,7 +1978,7 @@ export function Preferences({
         type="button"
       />
     );
-    pageContents = (
+    const pageContents = (
       <>
         <SettingsRow
           title={i18n('icu:Preferences__pnp__sharing--title')}
@@ -1726,7 +2029,7 @@ export function Preferences({
                 onClick:
                   whoCanSeeMe === PhoneNumberSharingMode.Everybody
                     ? () =>
-                        setToast({ toastType: ToastType.WhoCanFindMeReadOnly })
+                        showToast({ toastType: ToastType.WhoCanFindMeReadOnly })
                     : noop,
               },
             ]}
@@ -1783,23 +2086,81 @@ export function Preferences({
         )}
       </>
     );
-  } else if (page === Page.Backups) {
-    pageTitle = i18n('icu:Preferences__button--backups');
-    pageContents = (
+    content = (
+      <PreferencesContent
+        backButton={backButton}
+        contents={pageContents}
+        contentsRef={settingsPaneRef}
+        title={i18n('icu:Preferences__pnp--page-title')}
+      />
+    );
+  } else if (isBackupPage(page)) {
+    let pageTitle: string | undefined;
+    if (page === Page.Backups || page === Page.BackupsDetails) {
+      pageTitle = i18n('icu:Preferences__button--backups');
+    } else if (page === Page.LocalBackups) {
+      pageTitle = i18n('icu:Preferences__local-backups');
+    }
+    // Local backups setup page titles intentionally left blank
+
+    let backPage: PreferencesBackupPage | undefined;
+    if (page === Page.LocalBackupsKeyReference) {
+      backPage = Page.LocalBackups;
+    } else if (page !== Page.Backups) {
+      backPage = Page.Backups;
+    }
+    let backButton: JSX.Element | undefined;
+    if (backPage) {
+      backButton = (
+        <button
+          aria-label={i18n('icu:goBack')}
+          className="Preferences__back-icon"
+          onClick={() => setPage(backPage)}
+          type="button"
+        />
+      );
+    }
+    const pageContents = (
       <PreferencesBackups
-        i18n={i18n}
-        cloudBackupStatus={cloudBackupStatus}
+        accountEntropyPool={accountEntropyPool}
+        backupKeyViewed={backupKeyViewed}
         backupSubscriptionStatus={backupSubscriptionStatus}
+        cloudBackupStatus={cloudBackupStatus}
+        i18n={i18n}
         locale={resolvedLocale}
+        localBackupFolder={localBackupFolder}
+        onBackupKeyViewedChange={onBackupKeyViewedChange}
+        pickLocalBackupFolder={pickLocalBackupFolder}
+        page={page}
+        promptOSAuth={promptOSAuth}
+        refreshCloudBackupStatus={refreshCloudBackupStatus}
+        refreshBackupSubscriptionStatus={refreshBackupSubscriptionStatus}
+        setPage={setPage}
+        showToast={showToast}
+      />
+    );
+    content = (
+      <PreferencesContent
+        backButton={backButton}
+        contents={pageContents}
+        contentsRef={settingsPaneRef}
+        title={pageTitle}
       />
     );
   } else if (page === Page.Internal) {
-    pageTitle = i18n('icu:Preferences__button--internal');
-    pageContents = (
-      <PreferencesInternal
-        i18n={i18n}
-        exportLocalBackup={exportLocalBackup}
-        validateBackup={validateBackup}
+    content = (
+      <PreferencesContent
+        contents={
+          <PreferencesInternal
+            i18n={i18n}
+            exportLocalBackup={exportLocalBackup}
+            validateBackup={validateBackup}
+            getMessageCountBySchemaVersion={getMessageCountBySchemaVersion}
+            getMessageSampleForSchemaVersion={getMessageSampleForSchemaVersion}
+          />
+        }
+        contentsRef={settingsPaneRef}
+        title={i18n('icu:Preferences__button--internal')}
       />
     );
   }
@@ -1808,165 +2169,194 @@ export function Preferences({
     <FunEmojiLocalizationProvider i18n={i18n}>
       <div className="module-title-bar-drag-area" />
       <div className="Preferences">
-        <div className="Preferences__page-selector">
-          <div className="Preferences__header">
-            {navTabsCollapsed ? (
-              <div className="Preferences__header__toggle">
-                <NavTabsToggle
-                  i18n={i18n}
-                  onToggleNavTabsCollapse={onToggleNavTabsCollapse}
-                  navTabsCollapsed
-                  hasFailedStorySends={hasFailedStorySends}
-                  otherTabsUnreadStats={otherTabsUnreadStats}
-                  hasPendingUpdate={false}
-                />
+        <NavSidebar
+          title={i18n('icu:Preferences--header')}
+          i18n={i18n}
+          otherTabsUnreadStats={otherTabsUnreadStats}
+          hasFailedStorySends={hasFailedStorySends}
+          hasPendingUpdate={false}
+          navTabsCollapsed={navTabsCollapsed}
+          onToggleNavTabsCollapse={onToggleNavTabsCollapse}
+          preferredLeftPaneWidth={preferredWidthFromStorage}
+          requiresFullWidth
+          savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
+          renderToastManager={renderToastManager}
+        >
+          <div className="Preferences__page-selector">
+            {maybeUpdateDialog ? (
+              <div className="Preferences__dialog-container">
+                <div className="module-left-pane__dialogs">
+                  {maybeUpdateDialog}
+                </div>
               </div>
-            ) : undefined}
-            <h1 className="Preferences__header__text">
-              {i18n('icu:Preferences--header')}
-            </h1>
-          </div>
-          {maybeUpdateDialog ? (
-            <div className="Preferences__dialog-container">
-              <div className="module-left-pane__dialogs">
-                {maybeUpdateDialog}
-              </div>
-            </div>
-          ) : null}
-          <div className="Preferences__scroll-area">
-            <button
-              type="button"
-              className={classNames({
-                Preferences__button: true,
-                'Preferences__button--general': true,
-                'Preferences__button--selected': page === Page.General,
-              })}
-              onClick={() => setPage(Page.General)}
-            >
-              {i18n('icu:Preferences__button--general')}
-            </button>
-            <button
-              type="button"
-              className={classNames({
-                Preferences__button: true,
-                'Preferences__button--appearance': true,
-                'Preferences__button--selected':
-                  page === Page.Appearance || page === Page.ChatColor,
-              })}
-              onClick={() => setPage(Page.Appearance)}
-            >
-              {i18n('icu:Preferences__button--appearance')}
-            </button>
-            <button
-              type="button"
-              className={classNames({
-                Preferences__button: true,
-                'Preferences__button--chats': true,
-                'Preferences__button--selected': page === Page.Chats,
-              })}
-              onClick={() => setPage(Page.Chats)}
-            >
-              {i18n('icu:Preferences__button--chats')}
-            </button>
-            <button
-              type="button"
-              className={classNames({
-                Preferences__button: true,
-                'Preferences__button--calls': true,
-                'Preferences__button--selected': page === Page.Calls,
-              })}
-              onClick={() => setPage(Page.Calls)}
-            >
-              {i18n('icu:Preferences__button--calls')}
-            </button>
-            <button
-              type="button"
-              className={classNames({
-                Preferences__button: true,
-                'Preferences__button--notifications': true,
-                'Preferences__button--selected': page === Page.Notifications,
-              })}
-              onClick={() => setPage(Page.Notifications)}
-            >
-              {i18n('icu:Preferences__button--notifications')}
-            </button>
-            <button
-              type="button"
-              className={classNames({
-                Preferences__button: true,
-                'Preferences__button--privacy': true,
-                'Preferences__button--selected':
-                  page === Page.Privacy || page === Page.PNP,
-              })}
-              onClick={() => setPage(Page.Privacy)}
-            >
-              {i18n('icu:Preferences__button--privacy')}
-            </button>
-            <button
-              type="button"
-              className={classNames({
-                Preferences__button: true,
-                'Preferences__button--data-usage': true,
-                'Preferences__button--selected': page === Page.DataUsage,
-              })}
-              onClick={() => setPage(Page.DataUsage)}
-            >
-              {i18n('icu:Preferences__button--data-usage')}
-            </button>
-            {shouldShowBackupsPage ? (
+            ) : null}
+            <div className="Preferences__scroll-area">
+              <button
+                type="button"
+                className={classNames({
+                  'Preferences__profile-chip': true,
+                  'Preferences__profile-chip--selected': page === Page.Profile,
+                })}
+                onClick={() => setPage(Page.Profile)}
+              >
+                <div className="Preferences__profile-chip__avatar">
+                  <Avatar
+                    avatarUrl={me.avatarUrl}
+                    badge={badge}
+                    className="module-main-header__avatar"
+                    color={me.color}
+                    conversationType="direct"
+                    i18n={i18n}
+                    phoneNumber={me.phoneNumber}
+                    profileName={me.profileName}
+                    theme={theme}
+                    title={me.title}
+                    // `sharedGroupNames` makes no sense for yourself, but
+                    // `<Avatar>` needs it to determine blurring.
+                    sharedGroupNames={[]}
+                    size={AvatarSize.FORTY_EIGHT}
+                  />
+                </div>
+                <div className="Preferences__profile-chip__text-container">
+                  <div className="Preferences__profile-chip__name">
+                    {me.title}
+                  </div>
+                  <div className="Preferences__profile-chip__number">
+                    {me.phoneNumber}
+                  </div>
+                  {me.username && (
+                    <div className="Preferences__profile-chip__username">
+                      {me.username}
+                    </div>
+                  )}
+                </div>
+                <div className="Preferences__profile-chip__qr-icon-container">
+                  <div className="Preferences__profile-chip__qr-icon" />
+                </div>
+              </button>
               <button
                 type="button"
                 className={classNames({
                   Preferences__button: true,
-                  'Preferences__button--backups': true,
-                  'Preferences__button--selected': page === Page.Backups,
+                  'Preferences__button--general': true,
+                  'Preferences__button--selected': page === Page.General,
                 })}
-                onClick={() => setPage(Page.Backups)}
+                onClick={() => setPage(Page.General)}
               >
-                {i18n('icu:Preferences__button--backups')}
+                {i18n('icu:Preferences__button--general')}
               </button>
-            ) : null}
-            {isInternalUser ? (
               <button
                 type="button"
                 className={classNames({
                   Preferences__button: true,
-                  'Preferences__button--internal': true,
-                  'Preferences__button--selected': page === Page.Internal,
+                  'Preferences__button--appearance': true,
+                  'Preferences__button--selected':
+                    page === Page.Appearance || page === Page.ChatColor,
                 })}
-                onClick={() => setPage(Page.Internal)}
+                onClick={() => setPage(Page.Appearance)}
               >
-                {i18n('icu:Preferences__button--internal')}
+                {i18n('icu:Preferences__button--appearance')}
               </button>
-            ) : null}
-          </div>
-        </div>
-        <div className="Preferences__content">
-          <div className="Preferences__title">
-            {pageBackButton}
-            <div className="Preferences__title--header">{pageTitle}</div>
-          </div>
-          <div className="Preferences__page">
-            <div className="Preferences__settings-pane-spacer" />
-            <div className="Preferences__settings-pane" ref={settingsPaneRef}>
-              {pageContents}
+              <button
+                type="button"
+                className={classNames({
+                  Preferences__button: true,
+                  'Preferences__button--chats': true,
+                  'Preferences__button--selected': page === Page.Chats,
+                })}
+                onClick={() => setPage(Page.Chats)}
+              >
+                {i18n('icu:Preferences__button--chats')}
+              </button>
+              <button
+                type="button"
+                className={classNames({
+                  Preferences__button: true,
+                  'Preferences__button--calls': true,
+                  'Preferences__button--selected': page === Page.Calls,
+                })}
+                onClick={() => setPage(Page.Calls)}
+              >
+                {i18n('icu:Preferences__button--calls')}
+              </button>
+              <button
+                type="button"
+                className={classNames({
+                  Preferences__button: true,
+                  'Preferences__button--notifications': true,
+                  'Preferences__button--selected': page === Page.Notifications,
+                })}
+                onClick={() => setPage(Page.Notifications)}
+              >
+                {i18n('icu:Preferences__button--notifications')}
+              </button>
+              <button
+                type="button"
+                className={classNames({
+                  Preferences__button: true,
+                  'Preferences__button--privacy': true,
+                  'Preferences__button--selected':
+                    page === Page.Privacy || page === Page.PNP,
+                })}
+                onClick={() => setPage(Page.Privacy)}
+              >
+                {i18n('icu:Preferences__button--privacy')}
+              </button>
+              <button
+                type="button"
+                className={classNames({
+                  Preferences__button: true,
+                  'Preferences__button--data-usage': true,
+                  'Preferences__button--selected': page === Page.DataUsage,
+                })}
+                onClick={() => setPage(Page.DataUsage)}
+              >
+                {i18n('icu:Preferences__button--data-usage')}
+              </button>
+              {shouldShowBackupsPage ? (
+                <button
+                  type="button"
+                  className={classNames({
+                    Preferences__button: true,
+                    'Preferences__button--backups': true,
+                    'Preferences__button--selected': isBackupPage(page),
+                  })}
+                  onClick={() => setPage(Page.Backups)}
+                >
+                  {i18n('icu:Preferences__button--backups')}
+                </button>
+              ) : null}
+              {donationsFeatureEnabled && (
+                <button
+                  type="button"
+                  className={classNames({
+                    Preferences__button: true,
+                    'Preferences__button--appearance': true,
+                    'Preferences__button--selected': page === Page.Donations,
+                  })}
+                  onClick={() => setPage(Page.Donations)}
+                >
+                  {i18n('icu:Preferences__button--donate')}
+                </button>
+              )}
+              {isInternalUser ? (
+                <button
+                  type="button"
+                  className={classNames({
+                    Preferences__button: true,
+                    'Preferences__button--internal': true,
+                    'Preferences__button--selected': page === Page.Internal,
+                  })}
+                  onClick={() => setPage(Page.Internal)}
+                >
+                  {i18n('icu:Preferences__button--internal')}
+                </button>
+              ) : null}
             </div>
-            <div className="Preferences__settings-pane-spacer" />
           </div>
-        </div>
+        </NavSidebar>
+        {content}
       </div>
-      <ToastManager
-        OS="unused"
-        hideToast={() => setToast(undefined)}
-        i18n={i18n}
-        onShowDebugLog={shouldNeverBeCalled}
-        onUndoArchive={shouldNeverBeCalled}
-        openFileInFolder={shouldNeverBeCalled}
-        showAttachmentNotAvailableModal={shouldNeverBeCalled}
-        toast={toast}
-        containerWidthBreakpoint={WidthBreakpoint.Narrow}
-        isInFullScreenCall={false}
-      />
     </FunEmojiLocalizationProvider>
   );
 }
@@ -1978,4 +2368,35 @@ function localizeDefault(i18n: LocalizerType, deviceLabel: string): string {
         i18n('icu:callingDeviceSelection__select--default')
       )
     : deviceLabel;
+}
+
+export function PreferencesContent({
+  backButton,
+  contents,
+  contentsRef,
+  title,
+  actions,
+}: {
+  backButton?: JSX.Element | undefined;
+  contents: JSX.Element | undefined;
+  contentsRef: MutableRefObject<HTMLDivElement | null>;
+  title: string | undefined;
+  actions?: ReactNode;
+}): JSX.Element {
+  return (
+    <div className="Preferences__content">
+      <div className="Preferences__title">
+        {backButton}
+        <div className="Preferences__title--header">{title}</div>
+      </div>
+      <div className="Preferences__page">
+        <div className="Preferences__settings-pane-spacer" />
+        <div className="Preferences__settings-pane" ref={contentsRef}>
+          {contents}
+        </div>
+        <div className="Preferences__settings-pane-spacer" />
+      </div>
+      {actions && <div className="Preferences__actions">{actions}</div>}
+    </div>
+  );
 }

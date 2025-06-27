@@ -4,10 +4,12 @@
 import type { ConversationAttributesType } from '../model-types.d';
 import type { SignalService as Proto } from '../protobuf';
 import type { ServiceIdString } from '../types/ServiceId';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { getConversationIdForLogging } from './idForLogging';
 import { isMemberPending } from './groupMembershipUtils';
 import { isNotNil } from './isNotNil';
+
+const log = createLogger('removePendingMember');
 
 export async function removePendingMember(
   conversationAttributes: ConversationAttributesType,
@@ -22,7 +24,7 @@ export async function removePendingMember(
       //   in conflict/retry cases.
       if (!isMemberPending(conversationAttributes, uuid)) {
         log.warn(
-          `removePendingMember/${idLog}: ${uuid} is not a pending member of group. Returning early.`
+          `${idLog}: ${uuid} is not a pending member of group. Returning early.`
         );
         return undefined;
       }

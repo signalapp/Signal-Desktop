@@ -17,7 +17,7 @@ import {
   type StoryDistributionWithMembersType,
   type IdentityKeyType,
 } from '../../sql/Interface';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { GiftBadgeStates } from '../../components/conversation/Message';
 import { StorySendMode, MY_STORY_ID } from '../../types/Stories';
 import type { AciString, ServiceIdString } from '../../types/ServiceId';
@@ -124,7 +124,11 @@ import {
   resetBackupMediaDownloadProgress,
   startBackupMediaDownload,
 } from '../../util/backupMediaDownload';
-import { getEnvironment, isTestEnvironment } from '../../environment';
+import {
+  getEnvironment,
+  isTestEnvironment,
+  isTestOrMockEnvironment,
+} from '../../environment';
 import { hasAttachmentDownloads } from '../../util/hasAttachmentDownloads';
 import { isAdhoc, isNightly } from '../../util/version';
 import { ToastType } from '../../types/Toast';
@@ -139,6 +143,8 @@ import {
   type NotificationProfileType,
 } from '../../types/NotificationProfile';
 import { normalizeNotificationProfileId } from '../../types/NotificationProfile-node';
+
+const log = createLogger('import');
 
 const MAX_CONCURRENCY = 10;
 
@@ -818,6 +824,16 @@ export class BackupImportStream extends Writable {
       await storage.put('svrPin', svrPin);
     }
 
+    if (isTestOrMockEnvironment()) {
+      // Only relevant for tests
+      await storage.put(
+        'optimizeOnDeviceStorage',
+        accountSettings?.optimizeOnDeviceStorage === true
+      );
+    }
+
+    await storage.put('backupTier', accountSettings?.backupTier?.toNumber());
+
     const { PhoneNumberSharingMode: BackupMode } = Backups.AccountData;
     switch (accountSettings?.phoneNumberSharingMode) {
       case BackupMode.EVERYBODY:
@@ -987,8 +1003,8 @@ export class BackupImportStream extends Writable {
       attrs.firstUnregisteredAt = timestamp || undefined;
     } else if (!contact.registered) {
       log.error(
-        contact.registered,
-        'contact is neither registered nor unregistered; treating as registered'
+        'contact is neither registered nor unregistered; treating as registered',
+        contact.registered
       );
       this.#frameErrorCount += 1;
     }

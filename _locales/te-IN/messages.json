@@ -41,6 +41,9 @@
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "అధిక నాణ్యత కలిగిన మీడియాను పంపడం వల్ల మరింత డేటా ఉపయోగించబడుతుంది."
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "Signal కు దానం చేయండి"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "ప్రామాణికం"
   },
@@ -594,7 +597,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "డేటాబేస్ లోపం: దయచేసి మీ లాగ్‌లను పంచుకోండి."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "చెల్లని సర్వర్ ప్రతిస్పందన. దయచేసి మీ లాగ్‌లను పంచుకోండి."
@@ -1269,7 +1272,7 @@
     "messageformat": "సాయం అవసరమా?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "అమరికలు"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "ఫోన్ నంబరు"
@@ -2339,6 +2342,9 @@
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
     "messageformat": "శోధన ఫలితాలు"
   },
+  "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
+    "messageformat": "ఈ సందేశం"
+  },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "ఇటీవల ఉపయోగించబడింది"
   },
@@ -3405,7 +3411,7 @@
     "messageformat": "సమూహంలో చేరలేరు"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "అడ్మిన్ మిమ్మల్ని తొలగించడం వల్ల గ్రూప్ లింక్ ద్వారా ఈ గ్రూపులో మీరు చేరలేరు."
+    "messageformat": "అడ్మిన్ మిమ్మల్ని తొలగించడం వల్ల గ్రూప్ లింక్ ద్వారా ఈ గ్రూపులో మీరు చేరలేరు. తిరిగి గ్రూప్‌కు జోడించబడటానికి అడ్మిన్‌ను సంప్రదించండి."
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "మీరు ఈ గుంపులో చేరడానికి ముందు ఈ గుంపు యొక్క నిర్వాహకుడు మీ అభ్యర్థనను ఆమోదించాలి. మీరు చేరమని అభ్యర్థించినప్పుడు, మీ పేరు మరియు ఫోటో దాని సభ్యులతో భాగస్వామ్యం చేయబడుతుంది."
@@ -3964,6 +3970,12 @@
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "‘‘Signalకు విరాళం ఇవ్వండి’’ మీద తట్టి, సబ్‌స్క్రైబ్ అవ్వండి"
+  },
+  "icu:ProfileMovedModal__title": {
+    "messageformat": "మీ ప్రొఫైల్ కదిలింది"
+  },
+  "icu:ProfileMovedModal__description": {
+    "messageformat": "మీ ప్రొఫైల్‌ను వీక్షించడానికి మరియు సవరించడానికి సెట్టింగ్‌లు ట్యాబ్‌ను తెరవండి."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "సందేశాలను సమకాలీకరిస్తోంది"
@@ -4931,6 +4943,9 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "మీ ప్రొఫైల్‌ని అప్‌డేట్ చేయలేం. దయచేసి మళ్లీ ప్రయత్నించండి."
   },
+  "icu:ProfileEditorModal--sharing": {
+    "messageformat": "పంచుకోవడం"
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "నిర్వాహకుడికి సందేశం పంపండి"
   },
@@ -4963,6 +4978,9 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "సాధారణం"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "Signal కు దానం చేయండి"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "స్వరూపం"
@@ -5005,6 +5023,15 @@
   },
   "icu:Preferences__button--internal": {
     "messageformat": "అంతర్గత"
+  },
+  "icu:Preferences__button--manage": {
+    "messageformat": "నిర్వహించండి"
+  },
+  "icu:Preferences__button--choose-folder": {
+    "messageformat": "ఫోల్డర్ ఎంచుకోండి"
+  },
+  "icu:Preferences__button--set-up": {
+    "messageformat": "సెటప్ చేయండి"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "స్థానిక బ్యాకప్‌లు"
@@ -5051,6 +5078,15 @@
   "icu:Preferences--blocked": {
     "messageformat": "బ్లాక్ చేయబడింది"
   },
+  "icu:Preferences--signal-backups": {
+    "messageformat": "Signal బ్యాకప్‌లు"
+  },
+  "icu:Preferences--signal-backups-off-description": {
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+  },
+  "icu:Preferences--backup-section-description": {
+    "messageformat": "మీ సందేశ చరిత్రను బ్యాకప్ చేసుకోండి దానివల్ల మీరు కొత్త ఫోన్ కొన్నప్పుడు గానీ లేదా Signal ను తిరిగి ఇన్‌స్టాల్ చేసినప్పుడు గానీ డేటాను ఎప్పటికీ కోల్పోరు."
+  },
   "icu:Preferences--backup-details__header": {
     "messageformat": "బ్యాకప్ వివరాలు"
   },
@@ -5092,6 +5128,84 @@
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "బ్యాకప్ పరిమాణం"
+  },
+  "icu:Preferences__local-backups": {
+    "messageformat": "డెస్క్‌టాప్ బ్యాకప్‌లు"
+  },
+  "icu:Preferences__local-backups-section__description": {
+    "messageformat": "బ్యాకప్‌లు కీతో గుప్తీకరించబడతాయి మరియు మీ కంప్యూటర్‌లో నిల్వ చేయబడతాయి."
+  },
+  "icu:Preferences--local-backups-off-description": {
+    "messageformat": "మీరు మీ ఫోన్‌లో పునరుద్ధరించగల ఎండ్-టు-ఎండ్ గుప్తీకరించిన బ్యాకప్‌ను సృష్టించండి. "
+  },
+  "icu:Preferences--local-backups-restore-info": {
+    "messageformat": "బ్యాకప్‌ను పునరుద్ధరించడానికి, Signal యొక్క కొత్త కాపీని ఇన్‌స్టాల్ చేయండి. యాప్‌ను తెరవండి మరియు బ్యాకప్‌ను పునరుద్ధరించండిని తట్టండి, ఆపై బ్యాకప్ ఫోల్డర్‌ను గుర్తించండి. <learnMoreLink>మరింత తెలుసుకోండి.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-setup-folder": {
+    "messageformat": "ఒక ఫోల్డర్‌ను ఎంచుకోండి"
+  },
+  "icu:Preferences--local-backups-setup-folder-description": {
+    "messageformat": "మీ కంప్యూటర్ నిల్వలో మీ ఎండ్-టు-ఎండ్ గుప్తీకరించిన బ్యాకప్ నిల్వ చేయబడే ఫోల్డర్‌ను ఎంచుకోండి."
+  },
+  "icu:Preferences--local-backups-setup-next": {
+    "messageformat": "తరువాత"
+  },
+  "icu:Preferences--local-backups-view-backup-key-done": {
+    "messageformat": "పూర్తయింది"
+  },
+  "icu:Preferences--local-backups-backup-key-text-box": {
+    "messageformat": "బ్యాకప్ కీ టెక్స్ట్ బాక్స్"
+  },
+  "icu:Preferences--local-backups-enter-backup-key": {
+    "messageformat": "కీ ఎంటర్ చేయండి"
+  },
+  "icu:Preferences--local-backups-record-backup-key": {
+    "messageformat": "మీ బ్యాకప్ కీని రికార్డ్ చేయండి"
+  },
+  "icu:Preferences--local-backups-record-backup-key-description": {
+    "messageformat": "మీ ఖాతా మరియు డేటాను తిరిగి పొందడానికి ఈ కీ అవసరం. ఈ కీని ఎక్కడైనా సురక్షితంగా నిల్వ చేయండి. ఒకవేళ మీరు దీన్ని పోగొట్టుకుంటే, మీరు మీ ఖాతాను తిరిగి పొందలేరు. <learnMoreLink>మరింత తెలుసుకోండి.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key": {
+    "messageformat": "మీ బ్యాకప్ కీని నిర్ధారించండి"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key-description": {
+    "messageformat": "మీరు ఇప్పుడే రికార్డ్ చేసిన బ్యాకప్ కీని ఎంటర్ చేయండి"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-title": {
+    "messageformat": "మీ కీని సురక్షితంగా ఉంచండి"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-body": {
+    "messageformat": "ఒకవేళ మీరు మీ కీని పోగొట్టుకుంటే మీ బ్యాకప్‌ను పునరుద్ధరించడంలో Signal మీకు సహాయం చేయలేకపోతుంది. దాన్ని ఎక్కడైనా భద్రంగా మరియు సురక్షితంగా నిల్వచేసుకోండి మరియు దాన్ని ఇతరులతో పంచుకోకండి."
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-continue": {
+    "messageformat": "కొనసాగించండి"
+  },
+  "icu:Preferences--local-backups-see-backup-key-again": {
+    "messageformat": "కీని మళ్ళీ చూడండి"
+  },
+  "icu:Preferences__local-backups-folder": {
+    "messageformat": "బ్యాకప్ ఫోల్డర్"
+  },
+  "icu:Preferences__local-backups-folder__change": {
+    "messageformat": "మార్చండి"
+  },
+  "icu:Preferences__local-backups-copy-key": {
+    "messageformat": "తాత్కాలికంగా భద్రపరుచు ప్రదేశముకు నకలు చెయ్యి"
+  },
+  "icu:Preferences__local-backups-copied-key": {
+    "messageformat": "బ్యాకప్ కీ కాపీ చేయబడింది"
+  },
+  "icu:Preferences__view-key": {
+    "messageformat": "కీని వీక్షించండి"
+  },
+  "icu:Preferences__backup-key": {
+    "messageformat": "బ్యాకప్ కీ"
+  },
+  "icu:Preferences__backup-key-description": {
+    "messageformat": "మీ బ్యాకప్ కీ అనేది మీ బ్యాకప్‌ను పునరుద్ధరించడానికి ఉపయోగించే 64-అంకెల కోడ్"
+  },
+  "icu:Preferences__backup-other-ways": {
+    "messageformat": "బ్యాకప్ చేయడానికి ఇతర మార్గాలు"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} పరిచయం} other {{num,number} పరిచయాలు}}"
@@ -6324,6 +6438,9 @@
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "మీకు పరిచయం లేని వ్యక్తులతో వ్యక్తిగత సమాచారాన్ని పంచుకోవద్దు"
   },
+  "icu:SaveMultiDialog__title": {
+    "messageformat": "అటాచ్‌మెంట్‌లను సేవ్ చేయండి"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "కొత్తది ఏమిటి"
   },
@@ -6355,10 +6472,10 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.56--0": {
-    "messageformat": "కథలు ట్యాబ్‌లోని కంటెంట్‌ను వీక్షిస్తున్నప్పుడు Signal విండోను తరలించడాన్ని కష్టతరం చేసిన బగ్‌ను ఈ అప్‌డేట్ పరిష్కరిస్తుంది."
+  "icu:WhatsNew__v7.58--0": {
+    "messageformat": "సందేశం ప్రతిస్పందన సెలెక్టర్‌లోని ఒక కొత్త విభాగం సందేశం అందుకున్న అన్ని ఎమోజి ప్రతిస్పందనలను స్వయంచాలకంగా ప్రదర్శిస్తుంది."
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "Linux పనితీరు మెరుగుదలలు."
   }
 }

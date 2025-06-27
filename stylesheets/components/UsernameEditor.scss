@@ -4,7 +4,7 @@
 @use '../mixins';
 @use '../variables';
 
-.EditUsernameModalBody {
+.UsernameEditor {
   &__header {
     display: flex;
     flex-direction: column;
@@ -140,6 +140,19 @@
       & {
         -webkit-mask: url(../images/icons/v2/hashtag-24.svg) no-repeat center;
       }
+    }
+  }
+
+  &__button-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    padding-block: 1em 16px;
+    gap: 8px;
+
+    .module-Button:not(:first-child) {
+      margin-inline-start: 4px;
     }
   }
 

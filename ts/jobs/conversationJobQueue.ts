@@ -3,7 +3,7 @@
 
 import { z } from 'zod';
 import type PQueue from 'p-queue';
-import * as globalLogger from '../logging/log';
+import { createLogger } from '../logging/log';
 
 import * as durations from '../util/durations';
 import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff';
@@ -51,6 +51,8 @@ import { isInPast } from '../util/timestamp';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { FIBONACCI } from '../util/BackOff';
 import { parseUnknown } from '../util/schemas';
+
+const globalLogger = createLogger('conversationJobQueue');
 
 // Note: generally, we only want to add to this list. If you do need to change one of
 //   these values, you'll likely need to write a database migration.
@@ -982,9 +984,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
           // Note: This should never happen, because the zod call in parseData wouldn't
           //   accept data that doesn't look like our type specification.
           const problem: never = type;
-          log.error(
-            `conversationJobQueue: Got job with type ${problem}; Cancelling job.`
-          );
+          log.error(`Got job with type ${problem}; Cancelling job.`);
         }
       }
 

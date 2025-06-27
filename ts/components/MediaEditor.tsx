@@ -40,7 +40,7 @@ import {
   getTextStyleAttributes,
   TextStyle,
 } from '../mediaEditor/util/getTextStyleAttributes';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { Button, ButtonVariant } from './Button';
 import { CompositionInput } from './CompositionInput';
 import { ContextMenu } from './ContextMenu';
@@ -68,6 +68,8 @@ import { FunStickerPicker } from './fun/FunStickerPicker';
 import type { FunStickerSelection } from './fun/panels/FunPanelStickers';
 import { drop } from '../util/drop';
 import type { FunTimeStickerStyle } from './fun/constants';
+
+const log = createLogger('MediaEditor');
 
 export type MediaEditorResultType = Readonly<{
   data: Uint8Array;

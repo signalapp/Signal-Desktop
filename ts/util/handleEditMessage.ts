@@ -6,16 +6,18 @@ import type { EditAttributesType } from '../messageModifiers/Edits';
 import type {
   EditHistoryType,
   MessageAttributesType,
-  QuotedAttachmentType,
   QuotedMessageType,
 } from '../model-types.d';
-import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import * as Edits from '../messageModifiers/Edits';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { DataWriter } from '../sql/Client';
 import { drop } from './drop';
-import { getAttachmentSignature, isVoiceMessage } from '../types/Attachment';
+import {
+  cacheAttachmentBySignature,
+  getCachedAttachmentBySignature,
+  isVoiceMessage,
+} from '../types/Attachment';
 import { isAciString } from './isAciString';
 import { getMessageIdForLogging } from './idForLogging';
 import { hasErrors } from '../state/selectors/message';
@@ -27,21 +29,9 @@ import { modifyTargetMessage } from './modifyTargetMessage';
 import { isMessageNoteToSelf } from './isMessageNoteToSelf';
 import { MessageModel } from '../models/messages';
 
-const RECURSION_LIMIT = 15;
+const log = createLogger('handleEditMessage');
 
-function getAttachmentSignatureSafe(
-  attachment: AttachmentType
-): string | undefined {
-  try {
-    return getAttachmentSignature(attachment);
-  } catch {
-    log.warn(
-      'handleEditMessage: attachment was missing digest',
-      attachment.blurHash
-    );
-    return undefined;
-  }
-}
+const RECURSION_LIMIT = 15;
 
 export async function handleEditMessage(
   mainMessage: MessageAttributesType,
@@ -144,43 +134,34 @@ export async function handleEditMessage(
   // Copies over the attachments from the main message if they're the same
   // and they have already been downloaded.
   const attachmentSignatures: Map<string, AttachmentType> = new Map();
-  const previewSignatures: Map<string, LinkPreviewType> = new Map();
-  const quoteSignatures: Map<string, QuotedAttachmentType> = new Map();
+  const previewSignatures: Map<string, AttachmentType> = new Map();
+  const quoteSignatures: Map<string, AttachmentType> = new Map();
 
   mainMessage.attachments?.forEach(attachment => {
-    const signature = getAttachmentSignatureSafe(attachment);
-    if (signature) {
-      attachmentSignatures.set(signature, attachment);
-    }
+    cacheAttachmentBySignature(attachmentSignatures, attachment);
   });
   mainMessage.preview?.forEach(preview => {
     if (!preview.image) {
       return;
     }
-    const signature = getAttachmentSignatureSafe(preview.image);
-    if (signature) {
-      previewSignatures.set(signature, preview);
-    }
+    cacheAttachmentBySignature(previewSignatures, preview.image);
   });
   if (mainMessage.quote) {
     for (const attachment of mainMessage.quote.attachments) {
       if (!attachment.thumbnail) {
         continue;
       }
-      const signature = getAttachmentSignatureSafe(attachment.thumbnail);
-      if (signature) {
-        quoteSignatures.set(signature, attachment);
-      }
+      cacheAttachmentBySignature(quoteSignatures, attachment.thumbnail);
     }
   }
 
   let newAttachments = 0;
   const nextEditedMessageAttachments =
     upgradedEditedMessageData.attachments?.map(attachment => {
-      const signature = getAttachmentSignatureSafe(attachment);
-      const existingAttachment = signature
-        ? attachmentSignatures.get(signature)
-        : undefined;
+      const existingAttachment = getCachedAttachmentBySignature(
+        attachmentSignatures,
+        attachment
+      );
 
       if (existingAttachment) {
         return existingAttachment;
@@ -197,12 +178,13 @@ export async function handleEditMessage(
         return preview;
       }
 
-      const signature = getAttachmentSignatureSafe(preview.image);
-      const existingPreview = signature
-        ? previewSignatures.get(signature)
-        : undefined;
-      if (existingPreview) {
-        return existingPreview;
+      const existingPreviewImage = getCachedAttachmentBySignature(
+        previewSignatures,
+        preview.image
+      );
+
+      if (existingPreviewImage) {
+        return { ...preview, image: existingPreviewImage };
       }
       newPreviews += 1;
       return preview;
@@ -229,10 +211,12 @@ export async function handleEditMessage(
         if (!attachment.thumbnail) {
           return attachment;
         }
-        const signature = getAttachmentSignatureSafe(attachment.thumbnail);
-        const existingQuoteAttachment = signature
-          ? quoteSignatures.get(signature)
-          : undefined;
+
+        const existingQuoteAttachment = getCachedAttachmentBySignature(
+          quoteSignatures,
+          attachment.thumbnail
+        );
+
         if (existingQuoteAttachment) {
           return {
             ...attachment,

@@ -41,6 +41,9 @@
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "Trimiterea fișierelor media la calitate înaltă va duce la un consum mai mare de date."
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "Donează pentru Signal"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standard"
   },
@@ -594,7 +597,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Eroare bază de date: trimite-ne registrele."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Răspuns invalid de la serviciul de stocare. Te rugăm să-ți partajezi jurnalele."
@@ -1269,7 +1272,7 @@
     "messageformat": "Ai nevoie de ajutor?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Setări"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Număr de telefon"
@@ -2339,6 +2342,9 @@
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
     "messageformat": "Rezultatele căutării"
   },
+  "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
+    "messageformat": "Acest mesaj"
+  },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Utilizate Recent"
   },
@@ -3405,7 +3411,7 @@
     "messageformat": "Nu se poate realiza alăturarea la grup."
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "Nu te poți alătura acestui grup prin linkul grupului deoarece un administrator te-a eliminat."
+    "messageformat": "Nu te poți alătura acestui grup prin linkul grupului deoarece un administrator te-a eliminat. Contactează un administrator pentru a fi adăugat din nou în grup."
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "Un administrator al acestui grup trebuie să îți aprobe solicitarea înainte de a te putea alătura grupului. Când soliciți să te înscri, numele și fotografia ta vor fi distribuite membrilor săi."
@@ -3964,6 +3970,12 @@
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "Atinge „Donează pentru Signal” și abonează-te"
+  },
+  "icu:ProfileMovedModal__title": {
+    "messageformat": "Profilul tău a fost mutat"
+  },
+  "icu:ProfileMovedModal__description": {
+    "messageformat": "Deschide fila Setări pentru a vizualiza și edita profilul."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Se sincronizează mesajele"
@@ -4931,6 +4943,9 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Profilul tău nu a putut fi actualizat. Te rugăm să încerci din nou."
   },
+  "icu:ProfileEditorModal--sharing": {
+    "messageformat": "Distribuire"
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Trimite un mesaj unui administrator"
   },
@@ -4963,6 +4978,9 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "General"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "Donează pentru Signal"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "Aspect"
@@ -5005,6 +5023,15 @@
   },
   "icu:Preferences__button--internal": {
     "messageformat": "Internă"
+  },
+  "icu:Preferences__button--manage": {
+    "messageformat": "Administrează"
+  },
+  "icu:Preferences__button--choose-folder": {
+    "messageformat": "Alege directorul"
+  },
+  "icu:Preferences__button--set-up": {
+    "messageformat": "Stabilește"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Copii de rezervă locale"
@@ -5051,6 +5078,15 @@
   "icu:Preferences--blocked": {
     "messageformat": "Blocat"
   },
+  "icu:Preferences--signal-backups": {
+    "messageformat": "Backup-uri Signal"
+  },
+  "icu:Preferences--signal-backups-off-description": {
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+  },
+  "icu:Preferences--backup-section-description": {
+    "messageformat": "Fă back-up pentru istoricul mesajelor, astfel încât niciodată să nu pierzi date, atunci când îți iei un telefon nou sau reinstalezi Signal."
+  },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Detaliile backup-ului"
   },
@@ -5092,6 +5128,84 @@
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "Dimensiunea backup-ului"
+  },
+  "icu:Preferences__local-backups": {
+    "messageformat": "Backup-uri pentru desktop"
+  },
+  "icu:Preferences__local-backups-section__description": {
+    "messageformat": "Backup-urile sunt criptate cu un cod și sunt stocate pe dispozitivul tău."
+  },
+  "icu:Preferences--local-backups-off-description": {
+    "messageformat": "Creează o copie de rezervă criptată end-to-end pe care o poți restaura pe telefon. "
+  },
+  "icu:Preferences--local-backups-restore-info": {
+    "messageformat": "Pentru a restaura o copie de rezervă, instalează o copie nouă de Signal. Deschide aplicația și atinge Restaurare copie de rezervă, apoi localizează folderul de backup. <learnMoreLink>Află mai multe.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-setup-folder": {
+    "messageformat": "Alege dosarul"
+  },
+  "icu:Preferences--local-backups-setup-folder-description": {
+    "messageformat": "Alege un folder din memoria computerului unde va fi stocată copia de rezervă criptată end-to-end."
+  },
+  "icu:Preferences--local-backups-setup-next": {
+    "messageformat": "Următorul"
+  },
+  "icu:Preferences--local-backups-view-backup-key-done": {
+    "messageformat": "Gata"
+  },
+  "icu:Preferences--local-backups-backup-key-text-box": {
+    "messageformat": "Caseta text codul de rezervă"
+  },
+  "icu:Preferences--local-backups-enter-backup-key": {
+    "messageformat": "Introdu codul"
+  },
+  "icu:Preferences--local-backups-record-backup-key": {
+    "messageformat": "Înregistrează-ți codul de rezervă"
+  },
+  "icu:Preferences--local-backups-record-backup-key-description": {
+    "messageformat": "Codul e necesar ca să-ți recuperezi contul și datele. Păstrează codul într-un loc sigur. Dacă îl pierzi, nu îți vei putea recupera contul. <learnMoreLink>Află mai multe.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key": {
+    "messageformat": "Confirmă-ți codul de rezervă"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key-description": {
+    "messageformat": "Introdu codul de rezervă pe care tocmai l-ai înregistrat"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-title": {
+    "messageformat": "Păstrează-ți codul în siguranță"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-body": {
+    "messageformat": "Signal nu te va putea ajuta să îți restaurezi backupul dacă îți pierzi codul. Păstrează-l într-un loc sigur și nu îl împărtăși cu alții."
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-continue": {
+    "messageformat": "Continuă"
+  },
+  "icu:Preferences--local-backups-see-backup-key-again": {
+    "messageformat": "Vezi din nou codul"
+  },
+  "icu:Preferences__local-backups-folder": {
+    "messageformat": "Director backup"
+  },
+  "icu:Preferences__local-backups-folder__change": {
+    "messageformat": "Schimbă"
+  },
+  "icu:Preferences__local-backups-copy-key": {
+    "messageformat": "Copiază în clipboard"
+  },
+  "icu:Preferences__local-backups-copied-key": {
+    "messageformat": "Codul de rezervă a fost copiat"
+  },
+  "icu:Preferences__view-key": {
+    "messageformat": "Vezi codul de rezervă"
+  },
+  "icu:Preferences__backup-key": {
+    "messageformat": "Codul de rezervă"
+  },
+  "icu:Preferences__backup-key-description": {
+    "messageformat": "Codul de rezervă este un cod format din 64 de cifre necesar ca să restaurezi backup-ul"
+  },
+  "icu:Preferences__backup-other-ways": {
+    "messageformat": "Alte moduri de backup"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} contact} few {{num,number} contacte} other {{num,number} de contacte}}"
@@ -6324,6 +6438,9 @@
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Nu partaja informații personale cu persoane pe care nu le cunoști"
   },
+  "icu:SaveMultiDialog__title": {
+    "messageformat": "Salvează atașamentele"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Ce este nou"
   },
@@ -6355,10 +6472,10 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Uneori, o poveste puternică te poate emoționa cu adevărat, așa că am remediat o eroare care îngreuna mutarea ferestrei Signal în timpul vizualizării de conținut în fila Povești."
+  "icu:WhatsNew__v7.58--0": {
+    "messageformat": "O nouă secțiune din selectorul de reacții la mesaje afișează automat toate reacțiile emoji primite de un mesaj. Acum poți să fii în trend și să adaugi o inimă strălucitoare standard, așa cum au făcut deja toți ceilalți, sau poți să-ți urmezi propria inimă și să alegi în schimb, inima anatomică."
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "Această actualizare activează accelerarea GPU pe Linux pentru performanțe îmbunătățite și o redare video mai fluidă pe hardware-ul compatibil."
   }
 }

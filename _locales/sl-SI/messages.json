@@ -41,6 +41,9 @@
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "Pošiljanje predstavnosti boljše kvalitete porabi več podatkov."
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "Podprite Signal"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standardna"
   },
@@ -594,7 +597,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Napaka v podatkovni bazi: prosimo, delite svoje dnevnike."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Neveljaven odziv iz storitve shranjevanja. Prosimo, delite svoje dnevnike."
@@ -1269,7 +1272,7 @@
     "messageformat": "Potrebujete pomoč?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Nastavitve"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefonska številka"
@@ -1680,7 +1683,7 @@
     "messageformat": "Uporabnik {sender} v skupini {group}"
   },
   "icu:notificationReactionMessage": {
-    "messageformat": "{sender} se je na {message} odzval_a z {emoji}"
+    "messageformat": "{sender} se je z {emoji} odzval_a na {message}"
   },
   "icu:sendFailed": {
     "messageformat": "Pošiljanje ni uspelo"
@@ -2339,6 +2342,9 @@
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
     "messageformat": "Rezultati iskanja"
   },
+  "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
+    "messageformat": "To sporočilo"
+  },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Nedavno uporabljeno"
   },
@@ -2490,7 +2496,7 @@
     "messageformat": "{title} se je odzval_a z {emoji}"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, one {{count,number} oseba se je odzvala z {emoji}} two {{count,number} osebi sta se odzvali z {emoji}} few {{count,number} osebe so se odzvale z {emoji}} other {{count,number} oseb se je odzvalo z {emoji}}}"
+    "messageformat": "{count, plural, one {Z {emoji} se je odzvala {count,number} oseba} two {Z {emoji} sta se odzvali {count,number} osebi} few {Z {emoji} so se odzvale {count,number} osebe} other {Z {emoji} se je odzvalo {count,number} oseb}}"
   },
   "icu:Message__role-description": {
     "messageformat": "Sporočilo"
@@ -3405,7 +3411,7 @@
     "messageformat": "Pridružitev skupini ni mogoča"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "Skrbnik_ca vas je odstranil_a iz skupine, zato se ji ne morete več pridružiti."
+    "messageformat": "Skrbnik_ca vas je odstranil_a iz skupine, zato se ji ne morete več pridružiti. Če želite biti ponovno vključeni v skupino, se obrnite na skrbnika_co."
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "Preden se lahko pridružite, mora vašo prošnjo potrditi skrbnik_ca skupine. Ko pošljete prošnjo za pridružitev, s člani_cami skupine delite svoje ime in fotografijo."
@@ -3964,6 +3970,12 @@
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "Tapnite na \"Doniraj Signalu\" in se naročite"
+  },
+  "icu:ProfileMovedModal__title": {
+    "messageformat": "Vaš profil se je premaknil"
+  },
+  "icu:ProfileMovedModal__description": {
+    "messageformat": "Odprite zavihek Nastavitve, da si ogledate in uredite svoj profil."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Sinhronizacija sporočil"
@@ -4931,6 +4943,9 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Vaše ime ni moglo biti posodobljeno. Poskusite znova."
   },
+  "icu:ProfileEditorModal--sharing": {
+    "messageformat": "Skupna raba"
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Sporočilo skrbniku_ci skupine"
   },
@@ -4963,6 +4978,9 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "Splošno"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "Podprite Signal"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "Izgled"
@@ -5005,6 +5023,15 @@
   },
   "icu:Preferences__button--internal": {
     "messageformat": "Notranje"
+  },
+  "icu:Preferences__button--manage": {
+    "messageformat": "Upravljaj"
+  },
+  "icu:Preferences__button--choose-folder": {
+    "messageformat": "Izberi mapo"
+  },
+  "icu:Preferences__button--set-up": {
+    "messageformat": "Nastavi"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Lokalne varnostne kopije"
@@ -5051,6 +5078,15 @@
   "icu:Preferences--blocked": {
     "messageformat": "Blokirani"
   },
+  "icu:Preferences--signal-backups": {
+    "messageformat": "Varnostne kopije Signal"
+  },
+  "icu:Preferences--signal-backups-off-description": {
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+  },
+  "icu:Preferences--backup-section-description": {
+    "messageformat": "Ustvarite varnostno kopijo zgodovine sporočil, da ne izgubite podatkov, ko dobite nov telefon ali znova namestite Signal."
+  },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Podrobnosti o varnostni kopji"
   },
@@ -5092,6 +5128,84 @@
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "Velikost varnostne kopije"
+  },
+  "icu:Preferences__local-backups": {
+    "messageformat": "Lokalne varnostne kopije"
+  },
+  "icu:Preferences__local-backups-section__description": {
+    "messageformat": "Varnostne kopije so šifrirane s ključem in shranjene v računalniku."
+  },
+  "icu:Preferences--local-backups-off-description": {
+    "messageformat": "Ustvarite celovito šifrirano varnostno kopijo, ki jo lahko obnovite v telefonu. "
+  },
+  "icu:Preferences--local-backups-restore-info": {
+    "messageformat": "Za obnovo varnostne kopije morate najprej namestiti novo kopijo Signala. Nato odprite aplikacijo in tapnite »Obnovi varnostno kopijo«, ter poiščite mapo varnostne kopije. <learnMoreLink>Preberite več.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-setup-folder": {
+    "messageformat": "Izberi mapo"
+  },
+  "icu:Preferences--local-backups-setup-folder-description": {
+    "messageformat": "Izberite mapo v pomnilniku računalnika, v katero bo shranjena šifrirana varnostna kopija."
+  },
+  "icu:Preferences--local-backups-setup-next": {
+    "messageformat": "Naprej"
+  },
+  "icu:Preferences--local-backups-view-backup-key-done": {
+    "messageformat": "V redu"
+  },
+  "icu:Preferences--local-backups-backup-key-text-box": {
+    "messageformat": "Besedilno polje za Varnostni ključ"
+  },
+  "icu:Preferences--local-backups-enter-backup-key": {
+    "messageformat": "Tipka Enter"
+  },
+  "icu:Preferences--local-backups-record-backup-key": {
+    "messageformat": "Zapišite svoj ključ za varnostno kopiranje"
+  },
+  "icu:Preferences--local-backups-record-backup-key-description": {
+    "messageformat": "Ta ključ je potreben za obnovitev računa in podatkov. Ta ključ shranite na varnem mestu. Če ga izgubite, računa ne boste mogli obnoviti. <learnMoreLink>Preberite več.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key": {
+    "messageformat": "Potrdite svoj varnostni ključ"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key-description": {
+    "messageformat": "Vnesite varnostni ključ, ki ste ga pravkar zapisali"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-title": {
+    "messageformat": "Hranite svoj ključ na varnem"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-body": {
+    "messageformat": "Če izgubite ključ, vam Signal ne bo mogel pomagati obnoviti varnostne kopije. Shranite ga na varnem mestu in ga ne delite z drugimi."
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-continue": {
+    "messageformat": "Nadaljuj"
+  },
+  "icu:Preferences--local-backups-see-backup-key-again": {
+    "messageformat": "Ponovni ogled ključa"
+  },
+  "icu:Preferences__local-backups-folder": {
+    "messageformat": "Mesto za varnostne kopije"
+  },
+  "icu:Preferences__local-backups-folder__change": {
+    "messageformat": "Spremeni"
+  },
+  "icu:Preferences__local-backups-copy-key": {
+    "messageformat": "Kopiraj v odložišče"
+  },
+  "icu:Preferences__local-backups-copied-key": {
+    "messageformat": "Varnostni ključ je kopiran"
+  },
+  "icu:Preferences__view-key": {
+    "messageformat": "Prikaži ključ"
+  },
+  "icu:Preferences__backup-key": {
+    "messageformat": "Varnostni ključ"
+  },
+  "icu:Preferences__backup-key-description": {
+    "messageformat": "Varnostni ključ je 64-mestna koda, ki se uporablja za obnovitev varnostne kopije"
+  },
+  "icu:Preferences__backup-other-ways": {
+    "messageformat": "Drugi načini varnostnega kopiranja"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} stik} two {{num,number} stika} few {{num,number} stiki} other {{num,number} stikov}}"
@@ -5940,7 +6054,7 @@
     "messageformat": "Odziv na zgodbo"
   },
   "icu:Quote__story-reaction-notification--incoming": {
-    "messageformat": "Odziv na vašo zgodbo: {emoji}"
+    "messageformat": "{emoji} je odziv na vašo zgodbo"
   },
   "icu:Quote__story-reaction-notification--outgoing": {
     "messageformat": "Na zgodbo uporabnika_ce {name} ste se odzvali z {emoji}"
@@ -6324,6 +6438,9 @@
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Ne delite osebnih podatkov z ljudmi, ki jih ne poznate"
   },
+  "icu:SaveMultiDialog__title": {
+    "messageformat": "Shrani priponke"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Kaj je novega"
   },
@@ -6355,10 +6472,10 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Ta posodobitev odpravlja napako, ki je oteževala premikanje okna Signal med pregledovanjem vsebine v zavihku Zgodbe."
+  "icu:WhatsNew__v7.58--0": {
+    "messageformat": "V novem razdelku v izbirniku odzivov na sporočila so samodejno prikazani vsi odzivi z emojiji, ki jih je sporočilo prejelo. Sedaj se lahko pridružite ostalim in dodate standardno svetlikajoče se srce ali pa sledite svojemu srcu in namesto tega uporabite anatomsko srce."
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "Izboljšave zmogljivosti Linuxa."
   }
 }

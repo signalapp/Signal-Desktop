@@ -64,7 +64,7 @@ describe('Libsignal-net', function (this: Mocha.Suite) {
     {
       const leftPane = window.locator('#LeftPane');
       const item = leftPane
-        .getByTestId(contact.toContact().aci)
+        .getByTestId(contact.device.aci)
         .getByText('incoming message');
       await item.click();
     }

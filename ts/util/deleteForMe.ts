@@ -3,7 +3,7 @@
 
 import { last, sortBy } from 'lodash';
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { DataReader, DataWriter, deleteAndCleanup } from '../sql/Client';
 import { deleteData } from '../types/Attachment';
 
@@ -17,6 +17,8 @@ import {
   findMatchingMessage,
   getMessageQueryFromTarget,
 } from './syncIdentifiers';
+
+const log = createLogger('deleteForMe');
 
 const { getMostRecentAddressableMessages } = DataReader;
 

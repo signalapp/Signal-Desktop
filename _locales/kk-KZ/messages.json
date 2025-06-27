@@ -41,6 +41,9 @@
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "Жоғары сапалы мультимедианы жібергенде, трафик көбірек қолданылады."
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "Signal-ды демеу"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Стандарт"
   },
@@ -594,7 +597,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Дерекқорда қате орын алды. Журналдарыңызды бөлісіңіз."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Сақтау қызметі жарамсыз жауап қайтарды. Журналдарыңызды бөлісіңіз."
@@ -1269,7 +1272,7 @@
     "messageformat": "Көмек керек пе?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Параметрлер"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Телефон нөмірі"
@@ -1680,7 +1683,7 @@
     "messageformat": "{group} тобындағы {sender}"
   },
   "icu:notificationReactionMessage": {
-    "messageformat": "{sender} сіздің {message} деп жазған хатыңызға {emoji} деп реакция қалдырды"
+    "messageformat": "{sender} мына хабарға {emoji} эмоджиімен реакция қалдырды: {message}"
   },
   "icu:sendFailed": {
     "messageformat": "Жіберілмеді"
@@ -2339,6 +2342,9 @@
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
     "messageformat": "Іздеу нәтижелері"
   },
+  "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
+    "messageformat": "Осы хат"
+  },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Жақында қолданылғандар"
   },
@@ -2484,13 +2490,13 @@
     "messageformat": "Бас тарту"
   },
   "icu:Message__reaction-emoji-label--you": {
-    "messageformat": "{emoji} деген эмодзимен реакция қалдырдыңыз"
+    "messageformat": "{emoji} эмоджиімен реакция қалдырдыңыз"
   },
   "icu:Message__reaction-emoji-label--single": {
-    "messageformat": "{title} деген пайдаланушы {emoji} деп реакция қалдырды"
+    "messageformat": "{title} {emoji} эмоджиімен реакция қалдырды"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, one {{count,number} адам {emoji} деп реакция қалдырды} other {{count,number} адам {emoji} деп реакция қалдырды}}"
+    "messageformat": "{count, plural, one {{count,number} адам {emoji} эмоджиімен реакция қалдырды} other {{count,number} адам {emoji} эмоджиімен реакция қалдырды}}"
   },
   "icu:Message__role-description": {
     "messageformat": "Хат"
@@ -3405,7 +3411,7 @@
     "messageformat": "Топқа қосылу мүмкін емес"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "Бұл топқа топ сілтемесі арқылы кіре алмайсыз, себебі әкімші сізді шығарып тастады."
+    "messageformat": "Әкімші сізді бұл топтан өшіргендіктен, оған топ сілтемесі арқылы қосыла алмайсыз. Топқа қайта қосылу үшін әкімшіге хабарласыңыз."
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "Бұл топтың әкімшісі сіздің өтінішіңізді мақұлдауы керек, сонда ғана топқа қосыла аласыз. Топқа қосылу туралы өтініш жіберген соң, аты-жөніңіз бен фотосуретіңіз топ мүшелеріне қолжетімді болады."
@@ -3964,6 +3970,12 @@
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "\"Signal-ға демеу көрсету\" түймесін басыңыз да, жазылыңыз"
+  },
+  "icu:ProfileMovedModal__title": {
+    "messageformat": "Профиліңіз көшірілді"
+  },
+  "icu:ProfileMovedModal__description": {
+    "messageformat": "\"Параметрлер\" қойындысын ашып, профиліңізді көріңіз және өзгертіңіз."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Хабарлар синхрондалып жатыр"
@@ -4931,6 +4943,9 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Профиліңізді жаңарту мүмкін емес. Қайталап көріңіз."
   },
+  "icu:ProfileEditorModal--sharing": {
+    "messageformat": "Бөлісу"
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Әкімшіге хат жазу"
   },
@@ -4963,6 +4978,9 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "Жалпы"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "Signal-ды демеу"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "Сыртқы көрінісі"
@@ -5005,6 +5023,15 @@
   },
   "icu:Preferences__button--internal": {
     "messageformat": "Ішкі"
+  },
+  "icu:Preferences__button--manage": {
+    "messageformat": "Басқару"
+  },
+  "icu:Preferences__button--choose-folder": {
+    "messageformat": "Қалта таңдау"
+  },
+  "icu:Preferences__button--set-up": {
+    "messageformat": "Параметрлерді реттеу"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Жергілікті сақтық көшірмелер"
@@ -5051,6 +5078,15 @@
   "icu:Preferences--blocked": {
     "messageformat": "Блокталған"
   },
+  "icu:Preferences--signal-backups": {
+    "messageformat": "Signal-дың сақтық көшірмелері"
+  },
+  "icu:Preferences--signal-backups-off-description": {
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+  },
+  "icu:Preferences--backup-section-description": {
+    "messageformat": "Хабарлар тарихының сақтық көшірмесін жасаңыз. Сонда жаңа телефон алсаңыз да, Signal-ды қайта орнатсаңыз да, деректеріңізді ешқашан жоғалтпайсыз."
+  },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Резервтік көшірме туралы мәліметтер"
   },
@@ -5092,6 +5128,84 @@
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "Резервтік көшірме өлшемі"
+  },
+  "icu:Preferences__local-backups": {
+    "messageformat": "Жұмыс үстелінің сақтық көшірмелері"
+  },
+  "icu:Preferences__local-backups-section__description": {
+    "messageformat": "Сақтық көшірмелер кілтпен шифрланады және компьютеріңізде сақталады."
+  },
+  "icu:Preferences--local-backups-off-description": {
+    "messageformat": "Телефоныңызда қалпына келтіруге болатын тура шифрланған сақтық көшірме жасаңыз. "
+  },
+  "icu:Preferences--local-backups-restore-info": {
+    "messageformat": "Сақтық көшірмені қалпына келтіру үшін Signal-дың жаңа нұсқасын орнатыңыз. Қолданбаны ашып, &quot;Сақтық көшірмені қалпына келтіру&quot; опциясын басыңыз да, сақтық көшірме қалтасын тауып алыңыз. <learnMoreLink>Толық ақпарат алыңыз.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-setup-folder": {
+    "messageformat": "Қалта таңдаңыз"
+  },
+  "icu:Preferences--local-backups-setup-folder-description": {
+    "messageformat": "Тура шифрланған сақтық көшірме сақталатын компьютер жадындағы қалтаны таңдаңыз."
+  },
+  "icu:Preferences--local-backups-setup-next": {
+    "messageformat": "Келесі"
+  },
+  "icu:Preferences--local-backups-view-backup-key-done": {
+    "messageformat": "Дайын"
+  },
+  "icu:Preferences--local-backups-backup-key-text-box": {
+    "messageformat": "Сақтық кілт мәтін ұясы"
+  },
+  "icu:Preferences--local-backups-enter-backup-key": {
+    "messageformat": "Кілтті енгізу"
+  },
+  "icu:Preferences--local-backups-record-backup-key": {
+    "messageformat": "Резервтік кілтіңізді жазып алыңыз"
+  },
+  "icu:Preferences--local-backups-record-backup-key-description": {
+    "messageformat": "Бұл кілт аккаунт пен деректерді қалпына келтіру үшін қажет. Бұл кілтті қауіпсіз жерде сақтаңыз. Оны жоғалтсаңыз, аккаунтыңызды қалпына келтіре алмайсыз. <learnMoreLink>Толығырақ.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key": {
+    "messageformat": "Сақтық кілтіңізді растау"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key-description": {
+    "messageformat": "Қазір ғана жазған сақтық кілтті енгізіңіз"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-title": {
+    "messageformat": "Кілтіңізді қауіпсіз сақтаңыз"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-body": {
+    "messageformat": "Кілтіңізді жоғалтып алсаңыз, Signal резервтік көшірмені қалпына келтіруге көмектесе алмайды. Оны қауіпсіз жерде сақтаңыз және ешкіммен бөліспеңіз."
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-continue": {
+    "messageformat": "Жалғастыру"
+  },
+  "icu:Preferences--local-backups-see-backup-key-again": {
+    "messageformat": "Кілтті қайта көру"
+  },
+  "icu:Preferences__local-backups-folder": {
+    "messageformat": "Резервтік қалта"
+  },
+  "icu:Preferences__local-backups-folder__change": {
+    "messageformat": "Өзгерту"
+  },
+  "icu:Preferences__local-backups-copy-key": {
+    "messageformat": "Буферге көшіру"
+  },
+  "icu:Preferences__local-backups-copied-key": {
+    "messageformat": "Сақтық кілт көшірілді"
+  },
+  "icu:Preferences__view-key": {
+    "messageformat": "Кілтті көру"
+  },
+  "icu:Preferences__backup-key": {
+    "messageformat": "Сақтық кілт"
+  },
+  "icu:Preferences__backup-key-description": {
+    "messageformat": "Сақтық кілт – сақтық көшірмені қалпына келтіру үшін қолданылатын 64 цифрлық код"
+  },
+  "icu:Preferences__backup-other-ways": {
+    "messageformat": "Сақтық көшірме жасаудың басқа жолдары"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {1 контакт} other {{num,number} контакт}}"
@@ -5940,7 +6054,7 @@
     "messageformat": "Сториске реакция қалдырды"
   },
   "icu:Quote__story-reaction-notification--incoming": {
-    "messageformat": "Сіздің сторисіңізге {emoji} деп реакция қалдырды"
+    "messageformat": "Жаңалығыңызға {emoji} эмоджиімен реакция қалдырды"
   },
   "icu:Quote__story-reaction-notification--outgoing": {
     "messageformat": "{name} сторисіне {emoji} деп реакция қалдырдыңыз"
@@ -6324,6 +6438,9 @@
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Танымайтын адамдармен жеке ақпаратты бөліспеңіз"
   },
+  "icu:SaveMultiDialog__title": {
+    "messageformat": "Тіркемелерді сақтау"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Жаңалықтар"
   },
@@ -6355,10 +6472,10 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Кейде әсерлі оқиға жүрегіңізді тербейтіні сөзсіз. Сондықтан біз \"Сторис\" қойындысындағы контентті тамашалау кезінде Signal терезесін жылжытуға кедергі келтірген ақауды түзеттік."
+  "icu:WhatsNew__v7.58--0": {
+    "messageformat": "Хабарларға реакция таңдау құралындағы жаңа бөлім хабарларға қойылған барлық эмоджи реакцияларын автоматты түрде көрсетеді. Енді сіз басқалар сияқты жарқыраған жүректі тез қоя аласыз немесе өз жүрегіңізді тыңдап, анатомиялық жүректі таңдауыңызға да болады."
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "Бұл жаңартудың арқасында Linux жүйелеріндегі графикалық процессор жылдам жұмыс істейді және қолдау көрсетілетін жабдықтарда бейне еш кедергісіз көрсетіледі."
   }
 }

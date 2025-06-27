@@ -4,7 +4,7 @@
 import type { ThunkAction } from 'redux-thunk';
 import { omit } from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import * as Errors from '../../types/errors';
 import { replaceIndex } from '../../util/replaceIndex';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
@@ -15,6 +15,8 @@ import { getPreferredReactionEmoji } from '../../reactions/preferredReactionEmoj
 import { getEmojiSkinToneDefault } from '../selectors/items';
 import { convertShortName } from '../../components/emoji/lib';
 import { EmojiSkinTone } from '../../components/fun/data/emojis';
+
+const log = createLogger('preferredReactions');
 
 // State
 

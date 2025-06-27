@@ -36,14 +36,13 @@ export type SubscriptionCostType = {
 };
 
 export type BackupStatusType = {
-  createdAt?: number;
+  createdTimestamp?: number;
   protoSize?: number;
-  mediaSize?: number;
 };
 
 export type BackupsSubscriptionType =
   | {
-      status: 'not-found' | 'expired';
+      status: 'off' | 'not-found' | 'expired';
     }
   | {
       status: 'free';
@@ -52,12 +51,12 @@ export type BackupsSubscriptionType =
   | (
       | {
           status: 'active';
-          renewalDate?: Date;
+          renewalTimestamp?: number;
           cost?: SubscriptionCostType;
         }
       | {
           status: 'pending-cancellation';
-          expiryDate?: Date;
+          expiryTimestamp?: number;
           cost?: SubscriptionCostType;
         }
     );

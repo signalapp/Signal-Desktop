@@ -41,6 +41,9 @@
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "मिडिया पाठवताना उच्च दर्जा हा पर्याय निवडल्यास अधिक डेटा वापरला जाईल."
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "Signal ला देणगी द्या"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "मानक"
   },
@@ -594,7 +597,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "डेटाबेसमध्ये त्रुटी : कृपया तुमचे लॉग्ज शेअर करा."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "साठवण सेवेकडून अवैध सर्व्हर प्रतिसाद मिळाला. कृपया तुमचे लॉग्ज शेअर करा."
@@ -1269,7 +1272,7 @@
     "messageformat": "मदत हवी?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "सेटिंग"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "फोन नंबर"
@@ -1680,7 +1683,7 @@
     "messageformat": "{group}मध्ये{sender}"
   },
   "icu:notificationReactionMessage": {
-    "messageformat": "{sender} ने {message} वर प्रतिक्रिया दिली: {emoji}"
+    "messageformat": "{sender} ने {emoji} अशी प्रतिक्रिया {message} वर दिली"
   },
   "icu:sendFailed": {
     "messageformat": "पाठविणे अयशस्वी"
@@ -2339,6 +2342,9 @@
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
     "messageformat": "शोध परिणाम"
   },
+  "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
+    "messageformat": "हा संदेश"
+  },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "अलीकडील वापरलेले"
   },
@@ -2484,13 +2490,13 @@
     "messageformat": "रद्द करा"
   },
   "icu:Message__reaction-emoji-label--you": {
-    "messageformat": "आपण {emoji} ने प्रतिक्रिया दिली"
+    "messageformat": "तुम्ही {emoji}ने प्रतिक्रिया दिली"
   },
   "icu:Message__reaction-emoji-label--single": {
-    "messageformat": "{title} ने {emoji} सह प्रतिक्रिया दिली"
+    "messageformat": "{title}ने {emoji} सह प्रतिक्रिया दिली"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, one {{count,number} लोकांनी {emoji} सह प्रतिक्रिया दिली} other {{count,number} लोकांनी {emoji} सह प्रतिक्रिया दिली}}"
+    "messageformat": "{count, plural, one {{count,number} लोकांनी {emoji}सह प्रतिक्रिया दिली} other {{count,number} लोकांनी {emoji}सह प्रतिक्रिया दिली}}"
   },
   "icu:Message__role-description": {
     "messageformat": "संदेश"
@@ -3405,7 +3411,7 @@
     "messageformat": "गटात सामील होऊ शकत नाही"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "ॲडमिनने आपल्याला काढून टाकले असल्यामुळे आपण ग्रुप लिंकद्वारे या ग्रुपमध्ये सामील होऊ शकत नाही."
+    "messageformat": "ॲडमिन ने आपल्याला काढून टाकले असल्यामुळे आपण ग्रुप लिंकद्वारे या ग्रुपमध्ये सामील होऊ शकत नाही. ग्रूपमध्ये पुन्हा सामील होण्यासाठी एखाद्या ॲडमिन शी संंपर्क साधा."
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "आपण या गटामध्ये सामील होण्यापूर्वी या गटाच्या प्रशासकाने आपली विनंती मंजूर करणे आवश्यक आहे. आपण सामील होण्याची विनंती करता तेव्हा आपले नाव आणि फोटो सदस्यांसह सामायिक केला जाईल."
@@ -3964,6 +3970,12 @@
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "\"Signal ला देणगी द्या\" वर टॅप करा आणि सदस्यत्व घ्या"
+  },
+  "icu:ProfileMovedModal__title": {
+    "messageformat": "तुमच्या प्रोफाईलची जागा हलवली आहे"
+  },
+  "icu:ProfileMovedModal__description": {
+    "messageformat": "तुमची प्रोफाईल पाहण्यासाठी आणि संपादित करण्यासाठी सेटिंग्ज टॅब उघडा."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "संदेश समक्रमित करत आहे"
@@ -4931,6 +4943,9 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "आपली प्रोफाईल अद्यतनित केली जाऊ शकली नाही. कृपया पुन्हा प्रयत्न करा."
   },
+  "icu:ProfileEditorModal--sharing": {
+    "messageformat": "शेअर करा"
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "प्रशासकाला संदेश पाठवा"
   },
@@ -4963,6 +4978,9 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "सामान्य"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "Signal ला देणगी द्या"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "स्वरूप"
@@ -5005,6 +5023,15 @@
   },
   "icu:Preferences__button--internal": {
     "messageformat": "अंतर्गत"
+  },
+  "icu:Preferences__button--manage": {
+    "messageformat": "व्यवस्थापित करा"
+  },
+  "icu:Preferences__button--choose-folder": {
+    "messageformat": "फोल्डर निवडा"
+  },
+  "icu:Preferences__button--set-up": {
+    "messageformat": "सेट अप"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "स्थानिक बॅकअप्स"
@@ -5051,6 +5078,15 @@
   "icu:Preferences--blocked": {
     "messageformat": "अवरोधित केले"
   },
+  "icu:Preferences--signal-backups": {
+    "messageformat": "Signal बॅकअप"
+  },
+  "icu:Preferences--signal-backups-off-description": {
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+  },
+  "icu:Preferences--backup-section-description": {
+    "messageformat": "आपल्या संदेश इतिहास चा बॅकअप घ्या ज्यामुळे आपण जेव्हा नवीन फोन घ्याल किंवा Signal पुन्हा इन्स्टॉल कराल तेव्हा आपण कधीही आपला डेटा गमावणार नाही."
+  },
   "icu:Preferences--backup-details__header": {
     "messageformat": "बॅकअप तपशील"
   },
@@ -5092,6 +5128,84 @@
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "बॅकअप आकार"
+  },
+  "icu:Preferences__local-backups": {
+    "messageformat": "डेस्कटॉप बॅकअप्स"
+  },
+  "icu:Preferences__local-backups-section__description": {
+    "messageformat": "बॅकअप्स एका की सह कूटबद्ध केलेले असतात आणि तुमच्या कंप्युटरवर साठवले जातात."
+  },
+  "icu:Preferences--local-backups-off-description": {
+    "messageformat": "एक एण्ड-टू-एण्ड कूटबद्ध केलेले बॅकअप तयार करा जो तुम्ही तुमच्या फोनवर रीस्टोर करू शकता. "
+  },
+  "icu:Preferences--local-backups-restore-info": {
+    "messageformat": "बॅकअप रीस्टोर करण्यासाठी, Signal ची नवी आवृत्ती स्थापन करा. ॲप उघडा आणि रीस्टोर बॅकअप वर टॅप करा, मग बॅकअप फोल्डर शोधा. <learnMoreLink>अधिक जाणून घ्या.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-setup-folder": {
+    "messageformat": "एक फोल्डर निवडा"
+  },
+  "icu:Preferences--local-backups-setup-folder-description": {
+    "messageformat": "तुमचा एण्ड-टू-एण्ड कूटबद्ध केलेला बॅकअप साठवण्यासाठी तुमच्या कंप्युटरच्या साठवणीतील एक फोल्डर निवडा."
+  },
+  "icu:Preferences--local-backups-setup-next": {
+    "messageformat": "पुढे"
+  },
+  "icu:Preferences--local-backups-view-backup-key-done": {
+    "messageformat": "ठीक"
+  },
+  "icu:Preferences--local-backups-backup-key-text-box": {
+    "messageformat": "बॅकअप की मजकुराचा रकाना"
+  },
+  "icu:Preferences--local-backups-enter-backup-key": {
+    "messageformat": "की प्रविष्ट करा"
+  },
+  "icu:Preferences--local-backups-record-backup-key": {
+    "messageformat": "आपली बॅकअप कि नोंद करा"
+  },
+  "icu:Preferences--local-backups-record-backup-key-description": {
+    "messageformat": "ही की आपले अकाऊंट आणि डेटा पुर्नप्राप्त करण्यासाठी आवश्यक आहे. ही की कोठेतरी सुरक्षित ठेवा. आपण जी ती गहाळ केल्यास, आपण आपले अकाऊंट पुर्नप्राप्त करू शकणार नाही. <learnMoreLink>अधिक जाणा.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key": {
+    "messageformat": "तुमची बॅकअप की निश्चित करा"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key-description": {
+    "messageformat": "तुम्ही नुकतीच नोंदवलेली बॅकअप की प्रविष्ट करा"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-title": {
+    "messageformat": "आपली की सुरक्षित ठेवा"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-body": {
+    "messageformat": "आपण जर आपली की गमावल्यास आपणाला आपला बॅकअप पुनर्संचयित करण्यात Signal आपणाला मदत करू शकणार नाही. त्याला कोठेतरी सुरक्षित आणि संरक्षित संग्रहित करून ठेवा, आणि ती इतरांसोबत शेअर करू नका."
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-continue": {
+    "messageformat": "सुरू ठेवा"
+  },
+  "icu:Preferences--local-backups-see-backup-key-again": {
+    "messageformat": "की पुन्हा पहा"
+  },
+  "icu:Preferences__local-backups-folder": {
+    "messageformat": "बॅकअप फोल्डर"
+  },
+  "icu:Preferences__local-backups-folder__change": {
+    "messageformat": "बदला"
+  },
+  "icu:Preferences__local-backups-copy-key": {
+    "messageformat": "क्लिपबोर्ड वर कॉपी करा"
+  },
+  "icu:Preferences__local-backups-copied-key": {
+    "messageformat": "बॅकअप की कॉपी केली"
+  },
+  "icu:Preferences__view-key": {
+    "messageformat": "की पहा"
+  },
+  "icu:Preferences__backup-key": {
+    "messageformat": "बॅकअप की"
+  },
+  "icu:Preferences__backup-key-description": {
+    "messageformat": "तुमची बॅकअप की एक 64-अंकी कोड असतो जो तुमचा बॅकअप रीस्टोर करण्यासाठी वापरला जातो"
+  },
+  "icu:Preferences__backup-other-ways": {
+    "messageformat": "बॅकअप घेण्याचे इतर मार्ग"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {1 संपर्क} other {{num,number} संपर्क}}"
@@ -5940,7 +6054,7 @@
     "messageformat": "स्टोरीला प्रतिक्रिया दिली"
   },
   "icu:Quote__story-reaction-notification--incoming": {
-    "messageformat": "आपल्या स्टोरी वर {emoji} प्रतिक्रिया दिली"
+    "messageformat": "{emoji} अशी प्रतिक्रिया तुमच्या स्टोरीवर दिली"
   },
   "icu:Quote__story-reaction-notification--outgoing": {
     "messageformat": "आपण {name} कडील स्टोरी वर {emoji} प्रतिक्रिया दिली"
@@ -6324,6 +6438,9 @@
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "तुम्ही ओळखत नसलेल्या लोकांना तुमची वैयक्तिक माहिती देऊ नका"
   },
+  "icu:SaveMultiDialog__title": {
+    "messageformat": "अटॅचमेंट्स जतन करा"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "नवीन काय आहे"
   },
@@ -6355,10 +6472,10 @@
     "messageformat": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.56--0": {
-    "messageformat": "ह्या अद्यतनामध्ये एक असा बग ज्यामुळे स्टोरीज टॅब पाहाताना Signal विंडो हलवणे अवघड होत असे, आता दुरुस्त झाला आहे."
+  "icu:WhatsNew__v7.58--0": {
+    "messageformat": "संदेश प्रतिक्रिया वेचकामधील एक नवीन विभाग आपोआप एका संदेशाला मिळालेल्या सर्व इमोजी प्रतिक्रिया दाखवतो. आता तुम्हीसुद्धा इतरांप्रमाणेच नेहमीचा चमकणारा हार्ट इमोजी समाविष्ट करा किंवा, तुम्ही तुमच्या स्वतःच्या मर्जीनुसार दुसरा एखादा इमोजी वापरू शकता."
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "हे अद्यतन समर्थित हार्डवेअर वर सुधारित कामगिरीसाठी आणि व्हिडिओ प्लेबॅक अधिक सुरळीत करण्यासाठी Linux वर GPU त्वरण सक्रिय करते."
   }
 }

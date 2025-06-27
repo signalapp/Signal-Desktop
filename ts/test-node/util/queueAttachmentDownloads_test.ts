@@ -8,7 +8,9 @@ import type { AttachmentType } from '../../types/Attachment';
 import { IMAGE_JPEG, LONG_MESSAGE } from '../../types/MIME';
 import { generateMessageId } from '../../util/generateMessageId';
 import { ensureBodyAttachmentsAreSeparated } from '../../util/queueAttachmentDownloads';
-import * as logger from '../../logging/log';
+import { createLogger } from '../../logging/log';
+
+const logger = createLogger('queueAttachmentDownloads_test');
 
 export function composeMessage(
   overrides?: Partial<MessageAttributesType>

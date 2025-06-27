@@ -43,13 +43,15 @@ import {
   TARGETED_CONVERSATION_CHANGED,
 } from './conversations';
 import { removeDiacritics } from '../../util/removeDiacritics';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { searchConversationTitles } from '../../util/searchConversationTitles';
 import { isDirectConversation } from '../../util/whatTypeOfConversation';
 import {
   countConversationUnreadStats,
   hasUnread,
 } from '../../util/countUnreadStats';
+
+const log = createLogger('search');
 
 const { searchMessages: dataSearchMessages } = DataReader;
 
@@ -723,7 +725,7 @@ export function reducer(
   }
 
   if (action.type === 'SHOW_ARCHIVED_CONVERSATIONS') {
-    log.info('search: show archived conversations, clearing message lookup');
+    log.info('show archived conversations, clearing message lookup');
     return getEmptyState();
   }
 
@@ -762,7 +764,7 @@ export function reducer(
       };
     }
 
-    log.info('search: searching in new conversation, clearing message lookup');
+    log.info('searching in new conversation, clearing message lookup');
 
     return {
       ...getEmptyState(),
@@ -773,7 +775,7 @@ export function reducer(
   if (action.type === 'CLEAR_CONVERSATION_SEARCH') {
     const { searchConversationId } = state;
 
-    log.info('search: cleared conversation search, clearing message lookup');
+    log.info('cleared conversation search, clearing message lookup');
 
     return {
       ...getEmptyState(),
@@ -795,11 +797,11 @@ export function reducer(
 
     // Reject if the associated query is not the most recent user-provided query
     if (state.query !== query) {
-      log.info('search: query mismatch, ignoring message results');
+      log.info('query mismatch, ignoring message results');
       return state;
     }
 
-    log.info('search: got new messages, updating message lookup');
+    log.info('got new messages, updating message lookup');
 
     const messageIds = messages.map(message => message.id);
 
@@ -818,7 +820,7 @@ export function reducer(
 
     // Reject if the associated query is not the most recent user-provided query
     if (state.query !== query) {
-      log.info('search: query mismatch, ignoring message results');
+      log.info('query mismatch, ignoring message results');
       return state;
     }
 
@@ -840,9 +842,7 @@ export function reducer(
     const { searchConversationId } = state;
 
     if (searchConversationId && searchConversationId !== conversationId) {
-      log.info(
-        'search: targeted conversation changed, clearing message lookup'
-      );
+      log.info('targeted conversation changed, clearing message lookup');
       return getEmptyState();
     }
 
@@ -858,9 +858,7 @@ export function reducer(
     const { searchConversationId } = state;
 
     if (searchConversationId && searchConversationId === conversationId) {
-      log.info(
-        'search: searched conversation unloaded, clearing message lookup'
-      );
+      log.info('searched conversation unloaded, clearing message lookup');
       return getEmptyState();
     }
 
@@ -876,7 +874,7 @@ export function reducer(
     const { payload } = action;
     const { id } = payload;
 
-    log.info('search: message deleted, removing from message lookup');
+    log.info('message deleted, removing from message lookup');
 
     return {
       ...state,

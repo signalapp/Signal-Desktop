@@ -3,7 +3,7 @@
 
 import type { AttachmentBackfillResponseSyncEvent } from '../../textsecure/messageReceiverEvents';
 import MessageSender from '../../textsecure/SendMessage';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import type { ReadonlyMessageAttributesType } from '../../model-types.d';
 import {
   type AttachmentType,
@@ -43,6 +43,8 @@ import { SignalService as Proto } from '../../protobuf';
 import * as RemoteConfig from '../../RemoteConfig';
 import { isTestOrMockEnvironment } from '../../environment';
 import { BackfillFailureKind } from '../../components/BackfillFailureModal';
+
+const log = createLogger('attachmentBackfill');
 
 const REQUEST_TIMEOUT = isTestOrMockEnvironment() ? 5 * SECOND : 10 * SECOND;
 

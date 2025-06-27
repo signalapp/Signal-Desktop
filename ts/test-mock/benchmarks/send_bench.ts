@@ -68,7 +68,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
   {
     const leftPane = window.locator('#LeftPane');
     const item = leftPane.locator(
-      `[data-testid="${first.toContact().aci}"] >> text=${LAST_MESSAGE}`
+      `[data-testid="${first.device.aci}"] >> text=${LAST_MESSAGE}`
     );
     await item.click();
   }

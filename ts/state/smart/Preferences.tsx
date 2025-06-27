@@ -3,21 +3,34 @@
 
 import React, { StrictMode, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+
 import type { AudioDevice } from '@signalapp/ringrtc';
+import type { MutableRefObject } from 'react';
 
 import { useItemsActions } from '../ducks/items';
 import { useConversationsActions } from '../ducks/conversations';
-import { getConversationsWithCustomColorSelector } from '../selectors/conversations';
+import {
+  getAllComposableConversations,
+  getConversationSelector,
+  getConversationsWithCustomColorSelector,
+  getMe,
+} from '../selectors/conversations';
 import {
   getCustomColors,
   getItems,
   getNavTabsCollapsed,
+  getPreferredLeftPaneWidth,
 } from '../selectors/items';
 import { DEFAULT_AUTO_DOWNLOAD_ATTACHMENT } from '../../textsecure/Storage';
 import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors';
 import { isBackupFeatureEnabledForRedux } from '../../util/isBackupEnabled';
 import { format } from '../../types/PhoneNumber';
-import { getIntl, getUserDeviceId, getUserNumber } from '../selectors/user';
+import {
+  getIntl,
+  getTheme,
+  getUserDeviceId,
+  getUserNumber,
+} from '../selectors/user';
 import { EmojiSkinTone } from '../../components/fun/data/emojis';
 import { renderClearingDataView } from '../../shims/renderClearingDataView';
 import OS from '../../util/os/osPreload';
@@ -41,20 +54,28 @@ import { getConversation } from '../../util/getConversation';
 import { waitForEvent } from '../../shims/events';
 import { MINUTE } from '../../util/durations';
 import { sendSyncRequests } from '../../textsecure/syncRequests';
-
 import { SmartUpdateDialog } from './UpdateDialog';
-import { Preferences } from '../../components/Preferences';
+import { Page, Preferences } from '../../components/Preferences';
+import { useUpdatesActions } from '../ducks/updates';
+import { getUpdateDialogType } from '../selectors/updates';
+import { getHasAnyFailedStorySends } from '../selectors/stories';
+import { getOtherTabsUnreadStats, getSelectedLocation } from '../selectors/nav';
+import { getPreferredBadgeSelector } from '../selectors/badges';
+import { SmartProfileEditor } from './ProfileEditor';
+import { NavTab, useNavActions } from '../ducks/nav';
+import { EditState } from '../../components/ProfileEditor';
+import { SmartToastManager } from './ToastManager';
+import { useToastActions } from '../ducks/toast';
+import { DataReader } from '../../sql/Client';
+import { deleteAllMyStories } from '../../util/deleteAllMyStories';
+import { isLocalBackupsEnabledForRedux } from '../../util/isLocalBackupsEnabled';
+import { SmartPreferencesDonations } from './PreferencesDonations';
 
 import type { StorageAccessType, ZoomFactorType } from '../../types/Storage';
 import type { ThemeType } from '../../util/preload';
 import type { WidthBreakpoint } from '../../components/_util';
-import { useUpdatesActions } from '../ducks/updates';
-import {
-  getHasPendingUpdate,
-  isUpdateDownloaded as getIsUpdateDownloaded,
-} from '../selectors/updates';
-import { getHasAnyFailedStorySends } from '../selectors/stories';
-import { getOtherTabsUnreadStats } from '../selectors/nav';
+import { DialogType } from '../../types/Dialogs';
+import { promptOSAuth } from '../../util/promptOSAuth';
 
 const DEFAULT_NOTIFICATION_SETTING = 'message';
 
@@ -62,6 +83,24 @@ function renderUpdateDialog(
   props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
 ): JSX.Element {
   return <SmartUpdateDialog {...props} disableDismiss />;
+}
+
+function renderProfileEditor(options: {
+  contentsRef: MutableRefObject<HTMLDivElement | null>;
+}): JSX.Element {
+  return <SmartProfileEditor contentsRef={options.contentsRef} />;
+}
+
+function renderToastManager(props: {
+  containerWidthBreakpoint: WidthBreakpoint;
+}): JSX.Element {
+  return <SmartToastManager disableMegaphone {...props} />;
+}
+
+function renderDonationsPane(options: {
+  contentsRef: MutableRefObject<HTMLDivElement | null>;
+}): JSX.Element {
+  return <SmartPreferencesDonations contentsRef={options.contentsRef} />;
 }
 
 function getSystemTraySettingValues(
@@ -91,13 +130,14 @@ function getSystemTraySettingValues(
   };
 }
 
-export function SmartPreferences(): JSX.Element {
+export function SmartPreferences(): JSX.Element | null {
   const {
     addCustomColor,
     editCustomColor,
     putItem,
     removeCustomColor,
     resetDefaultChatColor,
+    savePreferredLeftPaneWidth,
     setEmojiSkinToneDefault: onEmojiSkinToneDefaultChange,
     setGlobalDefaultConversationColor,
     toggleNavTabsCollapse,
@@ -105,20 +145,31 @@ export function SmartPreferences(): JSX.Element {
   const { removeCustomColorOnConversations, resetAllChatColors } =
     useConversationsActions();
   const { startUpdate } = useUpdatesActions();
+  const { changeLocation } = useNavActions();
+  const { showToast } = useToastActions();
 
   // Selectors
 
+  const currentLocation = useSelector(getSelectedLocation);
   const customColors = useSelector(getCustomColors) ?? {};
   const getConversationsWithCustomColor = useSelector(
     getConversationsWithCustomColorSelector
   );
-  const items = useSelector(getItems);
   const i18n = useSelector(getIntl);
-  const hasPendingUpdate = useSelector(getHasPendingUpdate);
-  const isUpdateDownloaded = useSelector(getIsUpdateDownloaded);
-  const navTabsCollapsed = useSelector(getNavTabsCollapsed);
+  const conversations = useSelector(getAllComposableConversations);
+  const conversationSelector = useSelector(getConversationSelector);
+  const items = useSelector(getItems);
   const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
+  const dialogType = useSelector(getUpdateDialogType);
+  const me = useSelector(getMe);
+  const navTabsCollapsed = useSelector(getNavTabsCollapsed);
   const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
+  const preferredWidthFromStorage = useSelector(getPreferredLeftPaneWidth);
+  const theme = useSelector(getTheme);
+
+  const shouldShowUpdateDialog = dialogType !== DialogType.None;
+  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
+  const badge = getPreferredBadge(me.badges);
 
   // The weird ones
 
@@ -151,6 +202,8 @@ export function SmartPreferences(): JSX.Element {
 
   const validateBackup = () => backupsService._internalValidate();
   const exportLocalBackup = () => backupsService._internalExportLocalBackup();
+  const pickLocalBackupFolder = () => backupsService.pickLocalBackupFolder();
+
   const doDeleteAllData = () => renderClearingDataView();
   const refreshCloudBackupStatus =
     window.Signal.Services.backups.throttledFetchCloudBackupStatus;
@@ -418,7 +471,8 @@ export function SmartPreferences(): JSX.Element {
 
   // Simple, one-way items
 
-  const { backupSubscriptionStatus, cloudBackupStatus } = items;
+  const { backupSubscriptionStatus, cloudBackupStatus, localBackupFolder } =
+    items;
   const defaultConversationColor =
     items.defaultConversationColor || DEFAULT_CONVERSATION_COLOR;
   const hasLinkPreviews = items.linkPreviews ?? false;
@@ -437,6 +491,13 @@ export function SmartPreferences(): JSX.Element {
   const backupFeatureEnabled = isBackupFeatureEnabledForRedux(
     items.remoteConfig
   );
+  const backupLocalBackupsEnabled = isLocalBackupsEnabledForRedux(
+    items.remoteConfig
+  );
+  const donationsFeatureEnabled =
+    items.remoteConfig?.['desktop.internalUser']?.enabled ??
+    items.remoteConfig?.['desktop.donations']?.enabled ??
+    false;
 
   // Two-way items
 
@@ -459,6 +520,11 @@ export function SmartPreferences(): JSX.Element {
       'auto-download-attachment',
       DEFAULT_AUTO_DOWNLOAD_ATTACHMENT
     );
+  const [backupKeyViewed, onBackupKeyViewedChange] = createItemsAccess(
+    'backupKeyViewed',
+    false
+  );
+
   const [hasAudioNotifications, onAudioNotificationsChange] = createItemsAccess(
     'audio-notification',
     false
@@ -517,10 +583,13 @@ export function SmartPreferences(): JSX.Element {
   const [hasStoriesDisabled, onHasStoriesDisabledChanged] = createItemsAccess(
     'hasStoriesDisabled',
     false,
-    value => {
+    async value => {
       const account = window.ConversationController.getOurConversationOrThrow();
       account.captureChange('hasStoriesDisabled');
       window.textsecure.server?.onHasStoriesDisabledChange(value);
+      if (!value) {
+        await deleteAllMyStories();
+      }
     }
   );
   const [hasTextFormatting, onTextFormattingChange] = createItemsAccess(
@@ -582,9 +651,39 @@ export function SmartPreferences(): JSX.Element {
     }
   );
 
+  if (currentLocation.tab !== NavTab.Settings) {
+    return null;
+  }
+
+  const { page } = currentLocation.details;
+  const setPage = (newPage: Page, editState?: EditState) => {
+    if (newPage === Page.Profile) {
+      changeLocation({
+        tab: NavTab.Settings,
+        details: {
+          page: newPage,
+          state: editState || EditState.None,
+        },
+      });
+      return;
+    }
+
+    changeLocation({
+      tab: NavTab.Settings,
+      details: {
+        page: newPage,
+      },
+    });
+  };
+
+  const accountEntropyPool = window.storage.get('accountEntropyPool');
+
   return (
     <StrictMode>
       <Preferences
+        conversations={conversations}
+        conversationSelector={conversationSelector}
+        accountEntropyPool={accountEntropyPool}
         addCustomColor={addCustomColor}
         autoDownloadAttachment={autoDownloadAttachment}
         availableCameras={availableCameras}
@@ -592,18 +691,29 @@ export function SmartPreferences(): JSX.Element {
         availableMicrophones={availableMicrophones}
         availableSpeakers={availableSpeakers}
         backupFeatureEnabled={backupFeatureEnabled}
-        backupSubscriptionStatus={backupSubscriptionStatus}
+        backupKeyViewed={backupKeyViewed}
+        backupSubscriptionStatus={backupSubscriptionStatus ?? { status: 'off' }}
+        backupLocalBackupsEnabled={backupLocalBackupsEnabled}
+        badge={badge}
         blockedCount={blockedCount}
         cloudBackupStatus={cloudBackupStatus}
         customColors={customColors}
         defaultConversationColor={defaultConversationColor}
         deviceName={deviceName}
+        donationsFeatureEnabled={donationsFeatureEnabled}
         emojiSkinToneDefault={emojiSkinToneDefault}
         exportLocalBackup={exportLocalBackup}
         phoneNumber={phoneNumber}
         doDeleteAllData={doDeleteAllData}
         editCustomColor={editCustomColor}
         getConversationsWithCustomColor={getConversationsWithCustomColor}
+        getMessageCountBySchemaVersion={
+          DataReader.getMessageCountBySchemaVersion
+        }
+        getMessageSampleForSchemaVersion={
+          DataReader.getMessageSampleForSchemaVersion
+        }
+        getPreferredBadge={getPreferredBadge}
         hasAudioNotifications={hasAudioNotifications}
         hasAutoConvertEmoji={hasAutoConvertEmoji}
         hasAutoDownloadUpdate={hasAutoDownloadUpdate}
@@ -623,7 +733,6 @@ export function SmartPreferences(): JSX.Element {
         hasMinimizeToSystemTray={hasMinimizeToSystemTray}
         hasNotificationAttention={hasNotificationAttention}
         hasNotifications={hasNotifications}
-        hasPendingUpdate={hasPendingUpdate}
         hasReadReceipts={hasReadReceipts}
         hasRelayCalls={hasRelayCalls}
         hasSpellCheck={hasSpellCheck}
@@ -644,10 +753,11 @@ export function SmartPreferences(): JSX.Element {
         isSyncSupported={isSyncSupported}
         isSystemTraySupported={isSystemTraySupported}
         isInternalUser={isInternalUser}
-        isUpdateDownloaded={isUpdateDownloaded}
         lastSyncTime={lastSyncTime}
+        localBackupFolder={localBackupFolder}
         localeOverride={localeOverride}
         makeSyncRequest={makeSyncRequest}
+        me={me}
         navTabsCollapsed={navTabsCollapsed}
         notificationContent={notificationContent}
         onAudioNotificationsChange={onAudioNotificationsChange}
@@ -655,6 +765,7 @@ export function SmartPreferences(): JSX.Element {
         onAutoDownloadAttachmentChange={onAutoDownloadAttachmentChange}
         onAutoDownloadUpdateChange={onAutoDownloadUpdateChange}
         onAutoLaunchChange={onAutoLaunchChange}
+        onBackupKeyViewedChange={onBackupKeyViewedChange}
         onCallNotificationsChange={onCallNotificationsChange}
         onCallRingtoneNotificationChange={onCallRingtoneNotificationChange}
         onContentProtectionChange={onContentProtectionChange}
@@ -690,20 +801,32 @@ export function SmartPreferences(): JSX.Element {
         onWhoCanSeeMeChange={onWhoCanSeeMeChange}
         onZoomFactorChange={onZoomFactorChange}
         otherTabsUnreadStats={otherTabsUnreadStats}
+        page={page}
+        pickLocalBackupFolder={pickLocalBackupFolder}
         preferredSystemLocales={preferredSystemLocales}
+        preferredWidthFromStorage={preferredWidthFromStorage}
         refreshCloudBackupStatus={refreshCloudBackupStatus}
         refreshBackupSubscriptionStatus={refreshBackupSubscriptionStatus}
         removeCustomColorOnConversations={removeCustomColorOnConversations}
         removeCustomColor={removeCustomColor}
+        renderDonationsPane={renderDonationsPane}
+        renderProfileEditor={renderProfileEditor}
+        renderToastManager={renderToastManager}
         renderUpdateDialog={renderUpdateDialog}
+        promptOSAuth={promptOSAuth}
         resetAllChatColors={resetAllChatColors}
         resetDefaultChatColor={resetDefaultChatColor}
         resolvedLocale={resolvedLocale}
+        savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
         selectedCamera={selectedCamera}
         selectedMicrophone={selectedMicrophone}
         selectedSpeaker={selectedSpeaker}
         sentMediaQualitySetting={sentMediaQualitySetting}
         setGlobalDefaultConversationColor={setGlobalDefaultConversationColor}
+        setPage={setPage}
+        shouldShowUpdateDialog={shouldShowUpdateDialog}
+        showToast={showToast}
+        theme={theme}
         themeSetting={themeSetting}
         universalExpireTimer={universalExpireTimer}
         validateBackup={validateBackup}

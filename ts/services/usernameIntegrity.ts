@@ -16,9 +16,11 @@ import { storageJobQueue } from '../util/JobQueue';
 import { getProfile } from '../util/getProfile';
 import { isSharingPhoneNumberWithEverybody } from '../util/phoneNumberSharingMode';
 import { bytesToUuid } from '../util/uuidToBytes';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { runStorageServiceSyncJob } from './storage';
 import { writeProfile } from './writeProfile';
+
+const log = createLogger('usernameIntegrity');
 
 const CHECK_INTERVAL = DAY;
 
@@ -45,10 +47,10 @@ class UsernameIntegrityService {
     );
     const delay = Math.max(0, lastCheckTimestamp + CHECK_INTERVAL - Date.now());
     if (delay === 0) {
-      log.info('usernameIntegrity: running the check immediately');
+      log.info('running the check immediately');
       drop(this.#safeCheck());
     } else {
-      log.info(`usernameIntegrity: running the check in ${delay}ms`);
+      log.info(`running the check in ${delay}ms`);
       setTimeout(() => drop(this.#safeCheck()), delay);
     }
   }
@@ -63,7 +65,7 @@ class UsernameIntegrityService {
     } catch (error) {
       const delay = this.#backOff.getAndIncrement();
       log.error(
-        'usernameIntegrity: check failed with ' +
+        'check failed with ' +
           `error: ${Errors.toLogFormat(error)} retrying in ${delay}ms`
       );
       setTimeout(() => drop(this.#safeCheck()), delay);
@@ -83,13 +85,13 @@ class UsernameIntegrityService {
     const me = window.ConversationController.getOurConversationOrThrow();
     const username = me.get('username');
     if (!username) {
-      log.info('usernameIntegrity: no username');
+      log.info('no username');
       return;
     }
 
     const { server } = window.textsecure;
     if (!server) {
-      log.info('usernameIntegrity: server interface is not available');
+      log.info('server interface is not available');
       return;
     }
 
@@ -100,7 +102,7 @@ class UsernameIntegrityService {
     let failed = false;
 
     if (remoteHash !== usernames.hash(username).toString('base64url')) {
-      log.error('usernameIntegrity: remote username mismatch');
+      log.error('remote username mismatch');
       await window.storage.put('usernameCorrupted', true);
       failed = true;
 
@@ -109,18 +111,18 @@ class UsernameIntegrityService {
 
     const link = window.storage.get('usernameLink');
     if (!link) {
-      log.info('usernameIntegrity: no username link');
+      log.info('no username link');
       return;
     }
 
     if (remoteLink !== bytesToUuid(link.serverId)) {
-      log.error('usernameIntegrity: username link mismatch');
+      log.error('username link mismatch');
       await window.storage.put('usernameLinkCorrupted', true);
       failed = true;
     }
 
     if (!failed) {
-      log.info('usernameIntegrity: check pass');
+      log.info('check pass');
     }
   }
 
@@ -141,7 +143,7 @@ class UsernameIntegrityService {
       }
 
       log.warn(
-        'usernameIntegrity: phone number sharing mode conflict, running ' +
+        'phone number sharing mode conflict, running ' +
           `storage service sync (local: ${localValue}, remote: ${remoteValue})`
       );
 
@@ -167,7 +169,7 @@ class UsernameIntegrityService {
       const remoteValue = me.get('sharingPhoneNumber') === true;
       if (localValue === remoteValue) {
         log.info(
-          'usernameIntegrity: phone number sharing mode conflict resolved by ' +
+          'phone number sharing mode conflict resolved by ' +
             'storage service sync'
         );
         return;
@@ -175,15 +177,14 @@ class UsernameIntegrityService {
     }
 
     log.warn(
-      'usernameIntegrity: phone number sharing mode conflict not resolved, ' +
-        'updating profile'
+      'phone number sharing mode conflict not resolved, updating profile'
     );
 
     await writeProfile(getConversation(me), {
       keepAvatar: true,
     });
 
-    log.warn('usernameIntegrity: updated profile');
+    log.warn('updated profile');
   }
 }
 

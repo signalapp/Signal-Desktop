@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Database } from '@signalapp/sqlcipher';
+import * as z from 'zod';
 
 import type { LoggerType } from '../../types/Logging';
 import {
-  attachmentDownloadJobSchema,
+  attachmentDownloadTypeSchema,
   type AttachmentDownloadJobType,
   type AttachmentDownloadJobTypeType,
 } from '../../types/AttachmentDownload';
@@ -13,10 +14,15 @@ import type { AttachmentType } from '../../types/Attachment';
 import { jsonToObject, objectToJSON, sql } from '../util';
 import { AttachmentDownloadSource } from '../Interface';
 import { parsePartial } from '../../util/schemas';
+import { MIMETypeSchema } from '../../types/MIME';
+import {
+  jobManagerJobSchema,
+  type JobManagerJobType,
+} from '../../jobs/JobManager';
 
 export const version = 1040;
 
-export type LegacyAttachmentDownloadJobType = {
+export type _AttachmentDownloadJobTypeV1030 = {
   attachment: AttachmentType;
   attempts: number;
   id: string;
@@ -26,6 +32,29 @@ export type LegacyAttachmentDownloadJobType = {
   timestamp: number;
   type: AttachmentDownloadJobTypeType;
 };
+
+const attachmentDownloadJobSchemaV1040 = z
+  .object({
+    attachment: z
+      .object({ size: z.number(), contentType: MIMETypeSchema })
+      .passthrough(),
+    attachmentType: attachmentDownloadTypeSchema,
+    ciphertextSize: z.number(),
+    contentType: MIMETypeSchema,
+    digest: z.string(),
+    isManualDownload: z.boolean().optional(),
+    messageId: z.string(),
+    messageIdForLogging: z.string().optional(),
+    receivedAt: z.number(),
+    sentAt: z.number(),
+    size: z.number(),
+    source: z.nativeEnum(AttachmentDownloadSource),
+  })
+  .and(jobManagerJobSchema);
+export type _AttachmentDownloadJobTypeV1040 = Omit<
+  AttachmentDownloadJobType,
+  'attachmentSignature'
+> & { digest: string };
 
 export function updateToSchemaVersion1040(
   currentVersion: number,
@@ -112,15 +141,17 @@ export function updateToSchemaVersion1040(
     `);
 
     // 8. Rewrite old rows to match new schema
-    const rowsToTransfer: Array<AttachmentDownloadJobType> = [];
+    const rowsToTransfer: Array<
+      _AttachmentDownloadJobTypeV1040 & JobManagerJobType
+    > = [];
 
     for (const existingJob of existingJobs) {
       try {
         // Type this as partial in case there is missing data
-        const existingJobData: Partial<LegacyAttachmentDownloadJobType> =
+        const existingJobData: Partial<_AttachmentDownloadJobTypeV1030> =
           jsonToObject(existingJob.json ?? '');
 
-        const updatedJob: Partial<AttachmentDownloadJobType> = {
+        const updatedJob: Partial<_AttachmentDownloadJobTypeV1040> = {
           messageId: existingJobData.messageId,
           attachmentType: existingJobData.type,
           attachment: existingJobData.attachment,
@@ -140,9 +171,12 @@ export function updateToSchemaVersion1040(
           ciphertextSize: 0,
         };
 
-        const parsed = parsePartial(attachmentDownloadJobSchema, updatedJob);
+        const parsed = parsePartial(
+          attachmentDownloadJobSchemaV1040,
+          updatedJob
+        );
 
-        rowsToTransfer.push(parsed as AttachmentDownloadJobType);
+        rowsToTransfer.push(parsed);
       } catch {
         logger.warn(
           `updateToSchemaVersion1040: unable to transfer job ${existingJob.id} to new table; invalid data`

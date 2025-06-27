@@ -68,7 +68,7 @@ describe('sendSync', function (this: Mocha.Suite) {
           timestamp: Long.fromNumber(timestamp),
           message: originalDataMessage,
           unidentifiedStatus: members.map(member => ({
-            destinationServiceId: member.device.aci,
+            destinationServiceIdBinary: member.device.aciBinary,
             destination: member.device.number,
           })),
         },

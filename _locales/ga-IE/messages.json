@@ -41,6 +41,9 @@
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "Úsáidfear níos mó sonraí trí mheáin ardchaighdeáin a sheoladh."
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "Tabhair airgead do Signal"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Caighdeánach"
   },
@@ -594,7 +597,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Earráid le bunachar sonraí: comhroinn do logaí."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Freagairt neamhbhailí soláthraí. Comhroinn do logaí."
@@ -1269,7 +1272,7 @@
     "messageformat": "An bhfuil cúnamh uait?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Socruithe"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Uimhir Ghutháin"
@@ -2339,6 +2342,9 @@
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
     "messageformat": "Torthaí Cuardaigh"
   },
+  "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
+    "messageformat": "An teachtaireacht seo"
+  },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Úsáidte le Déanaí"
   },
@@ -3405,7 +3411,7 @@
     "messageformat": "Ní féidir dul isteach sa ghrúpa"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "Ní féidir leat dul isteach sa ghrúpa seo trí nasc an ghrúpa toisc gur bhain riarthóir thú."
+    "messageformat": "Ní féidir leat dul isteach sa ghrúpa seo trí nasc an ghrúpa toisc gur bhain riarthóir thú. Déan teagmháil le riarthóir le thú a chur ar ais sa ghrúpa."
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "Ní mór do riarthóir an ghrúpa seo d'iarratas a fhaomhadh sular féidir leat dul isteach sa ghrúpa seo. Nuair a iarrann tú dul isteach ann, comhroinnfear d’ainm agus do ghrianghraf lena bhaill."
@@ -3964,6 +3970,12 @@
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "Tapáil \"Tabhair airgead do Signal\" agus glac síntiús"
+  },
+  "icu:ProfileMovedModal__title": {
+    "messageformat": "Bogadh do phróifíl"
+  },
+  "icu:ProfileMovedModal__description": {
+    "messageformat": "Oscail an táb Socruithe chun féachaint ar do phróifíl agus í a chur in eagar."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Teachtaireachtaí á sioncronú"
@@ -4931,6 +4943,9 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Níorbh fhéidir do phróifíl a nuashonrú. Triail arís."
   },
+  "icu:ProfileEditorModal--sharing": {
+    "messageformat": "Comhroinnt"
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Message an Admin"
   },
@@ -4963,6 +4978,9 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "Coiteann"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "Tabhair airgead do Signal"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "Cuma"
@@ -5005,6 +5023,15 @@
   },
   "icu:Preferences__button--internal": {
     "messageformat": "Inmheánach"
+  },
+  "icu:Preferences__button--manage": {
+    "messageformat": "Bainistigh"
+  },
+  "icu:Preferences__button--choose-folder": {
+    "messageformat": "Roghnaigh fillteán"
+  },
+  "icu:Preferences__button--set-up": {
+    "messageformat": "Socraigh"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Cúltacaí logánta"
@@ -5051,6 +5078,15 @@
   "icu:Preferences--blocked": {
     "messageformat": "Bac curtha"
   },
+  "icu:Preferences--signal-backups": {
+    "messageformat": "Cúltacaí Signal"
+  },
+  "icu:Preferences--signal-backups-off-description": {
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+  },
+  "icu:Preferences--backup-section-description": {
+    "messageformat": "Cúltacaigh do stair teachtaireachtaí ionas nach gcaillfidh tú sonraí nuair a fhaigheann tú guthán nua nó nuair a athshuiteálann tú Signal."
+  },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Sonraí an chúltaca"
   },
@@ -5092,6 +5128,84 @@
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "Méid an chúltaca"
+  },
+  "icu:Preferences__local-backups": {
+    "messageformat": "Cúltacaí deisce"
+  },
+  "icu:Preferences__local-backups-section__description": {
+    "messageformat": "Déantar cúltacaí a chriptiú le heochair agus stóráiltear ar do ghléas iad."
+  },
+  "icu:Preferences--local-backups-off-description": {
+    "messageformat": "Cruthaigh cúltaca criptithe ó cheann ceann is féidir leat a aischur ar do ghuthán. "
+  },
+  "icu:Preferences--local-backups-restore-info": {
+    "messageformat": "Chun cúltaca a aischur, suiteáil cóip nua de Signal. Oscail an aip agus tapáil Aischuir cúltaca, ansin aimsigh an fillteán cúltaca. <learnMoreLink>Tuilleadh faisnéise.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-setup-folder": {
+    "messageformat": "Roghnaigh fillteán"
+  },
+  "icu:Preferences--local-backups-setup-folder-description": {
+    "messageformat": "Roghnaigh fillteán i stóras do ríomhaire, áit a stórálfar do chúltaca criptithe ó cheann ceann."
+  },
+  "icu:Preferences--local-backups-setup-next": {
+    "messageformat": "Ar aghaidh"
+  },
+  "icu:Preferences--local-backups-view-backup-key-done": {
+    "messageformat": "Déanta"
+  },
+  "icu:Preferences--local-backups-backup-key-text-box": {
+    "messageformat": "Bosca téacs don eochair chúltaca"
+  },
+  "icu:Preferences--local-backups-enter-backup-key": {
+    "messageformat": "Cuir isteach an eochair"
+  },
+  "icu:Preferences--local-backups-record-backup-key": {
+    "messageformat": "Taifead d'eochair chúltaca"
+  },
+  "icu:Preferences--local-backups-record-backup-key-description": {
+    "messageformat": "Tá an eochair seo ag teastáil chun do chuntas agus do shonraí a athshlánú. Stóráil an eochair in áit shábháilte. Má chailleann tú í, ní bheidh tú in ann do chuntas a athshlánú. <learnMoreLink>Tuilleadh faisnéise.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key": {
+    "messageformat": "Deimhnigh d'eochair chúltaca"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key-description": {
+    "messageformat": "Cuir isteach an eochair chúltaca atá taifeadta agat díreach anois"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-title": {
+    "messageformat": "Coinnigh d'eochair sábháilte"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-body": {
+    "messageformat": "Ní bheidh Signal in ann cabhrú leat do chúltaca a athshlánú má chailleann tú d'eochair. Stóráil in áit shlán shábháilte í, agus ná chomhroinn le daoine eile í."
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-continue": {
+    "messageformat": "Ar aghaidh"
+  },
+  "icu:Preferences--local-backups-see-backup-key-again": {
+    "messageformat": "Féach ar an eochair arís"
+  },
+  "icu:Preferences__local-backups-folder": {
+    "messageformat": "Fillteán cúltaca"
+  },
+  "icu:Preferences__local-backups-folder__change": {
+    "messageformat": "Athraigh"
+  },
+  "icu:Preferences__local-backups-copy-key": {
+    "messageformat": "Cóipeáil chuig an ghearrthaisce"
+  },
+  "icu:Preferences__local-backups-copied-key": {
+    "messageformat": "Eochair chúltaca cóipeáilte"
+  },
+  "icu:Preferences__view-key": {
+    "messageformat": "Féach ar an eochair"
+  },
+  "icu:Preferences__backup-key": {
+    "messageformat": "Eochair chúltaca"
+  },
+  "icu:Preferences__backup-key-description": {
+    "messageformat": "Cód 64 digit is ea d'eochair chúltaca a úsáidtear chun do chúltaca a aischur"
+  },
+  "icu:Preferences__backup-other-ways": {
+    "messageformat": "Bealaí eile chun cúltacú"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {1 teagmhálaí} two {{num,number} theagmhálaí} few {{num,number} theagmhálaí} many {{num,number} dteagmhálaí} other {{num,number} teagmhálaí}}"
@@ -6324,6 +6438,9 @@
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Ná comhroinn faisnéis phearsanta le daoine nach bhfuil aithne agat orthu"
   },
+  "icu:SaveMultiDialog__title": {
+    "messageformat": "Sábháil ceangaltáin"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Cad Atá Nua"
   },
@@ -6355,10 +6472,10 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Réitíonn an nuashonrú seo fabht a bhí ina chúis le deacracht le fuinneog Signal a bhogadh agus tú ag féachaint ar ábhar sa táb Scéalta."
+  "icu:WhatsNew__v7.58--0": {
+    "messageformat": "Déanann cuid nua sa roghnóir freagairtí ar theachtaireachtaí gach freagairt emoji a fuarthas i dteachtaireacht a thaispeáint go huathoibríoch."
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "Feabhsuithe ar fheidhmíocht Linux."
   }
 }

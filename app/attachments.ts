@@ -20,6 +20,9 @@ import {
 } from '../ts/AttachmentCrypto';
 import type { LocalAttachmentV2Type } from '../ts/types/Attachment';
 import * as Errors from '../ts/types/errors';
+import { createLogger } from '../ts/logging/log';
+
+const log = createLogger('attachments');
 
 const PATH = 'attachments.noindex';
 const AVATAR_PATH = 'avatars.noindex';
@@ -155,7 +158,7 @@ export const deleteStaleDownloads = async (
         if (error.code === 'ENOENT') {
           return;
         }
-        console.error(
+        log.error(
           'deleteStaleDownloads: failed to get file stats',
           Errors.toLogFormat(error)
         );
@@ -169,7 +172,7 @@ export const deleteStaleDownloads = async (
   if (stale.length === 0) {
     return;
   }
-  console.log(`deleteStaleDownloads: found ${stale.length}`);
+  log.info(`deleteStaleDownloads: found ${stale.length}`);
   await deleteAllDownloads({ userDataPath, downloads: stale });
 };
 
@@ -184,7 +187,7 @@ export const deleteAll = async ({
 
   await pMap(attachments, deleteFromDisk, { concurrency: FS_CONCURRENCY });
 
-  console.log(`deleteAll: deleted ${attachments.length} files`);
+  log.info(`deleteAll: deleted ${attachments.length} files`);
 };
 
 export const deleteAllDownloads = async ({
@@ -198,7 +201,7 @@ export const deleteAllDownloads = async ({
 
   await pMap(downloads, deleteFromDisk, { concurrency: FS_CONCURRENCY });
 
-  console.log(`deleteAllDownloads: deleted ${downloads.length} files`);
+  log.info(`deleteAllDownloads: deleted ${downloads.length} files`);
 };
 
 export const deleteAllStickers = async ({
@@ -212,7 +215,7 @@ export const deleteAllStickers = async ({
 
   await pMap(stickers, deleteFromDisk, { concurrency: FS_CONCURRENCY });
 
-  console.log(`deleteAllStickers: deleted ${stickers.length} files`);
+  log.info(`deleteAllStickers: deleted ${stickers.length} files`);
 };
 
 export const deleteAllBadges = async ({
@@ -233,7 +236,7 @@ export const deleteAllBadges = async ({
     }
   }
 
-  console.log(`deleteAllBadges: deleted ${filesDeleted} files`);
+  log.info(`deleteAllBadges: deleted ${filesDeleted} files`);
 };
 
 export const deleteAllDraftAttachments = async ({
@@ -247,7 +250,7 @@ export const deleteAllDraftAttachments = async ({
 
   await pMap(attachments, deleteFromDisk, { concurrency: FS_CONCURRENCY });
 
-  console.log(`deleteAllDraftAttachments: deleted ${attachments.length} files`);
+  log.info(`deleteAllDraftAttachments: deleted ${attachments.length} files`);
 };
 
 export const readAndDecryptDataFromDisk = async ({

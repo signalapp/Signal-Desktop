@@ -126,7 +126,7 @@ async function fetchSegment(
   let slice: ArrayBufferView;
   // Trim duplicate bytes from start of last segment
   if (segmentRange.sliceStart > 0) {
-    slice = data.slice(segmentRange.sliceStart);
+    slice = data.subarray(segmentRange.sliceStart);
   } else {
     slice = data;
   }

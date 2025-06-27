@@ -2308,7 +2308,6 @@ EmbeddedContactAvatarTransientError.args = {
     ...fullContact,
     avatar: {
       avatar: fakeAttachment({
-        iv: 'something',
         key: 'something',
         digest: 'something',
         cdnKey: 'something',

@@ -41,6 +41,9 @@
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "ការផ្ញើឯកសារមេឌៀដែលមានគុណភាពខ្ពស់នឹងអស់ទិន្នន័យអុីនធឺណិតច្រើន"
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "ឧបត្ថម្ភទៅ Signal"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "ស្ដង់ដារ"
   },
@@ -594,7 +597,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "បញ្ហាមូលដ្ឋានទិន្នន័យ៖ សូមចែករំលែកកំណត់ហេតុរបស់អ្នក។"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "បានទទួលការឆ្លើយតបមិនត្រឹមត្រូវពីសេវាកម្មផ្ទុក។ សូមចែករំលែកកំណត់ហេតុរបស់អ្នក។"
@@ -1269,7 +1272,7 @@
     "messageformat": "ត្រូវការជំនួយ?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "ការកំណត់"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "លេខទូរសព្ទ"
@@ -2339,6 +2342,9 @@
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
     "messageformat": "លទ្ធផលស្វែងរក"
   },
+  "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
+    "messageformat": "សារនេះ"
+  },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "បានប្រើប្រាស់ថ្មីៗ"
   },
@@ -3405,7 +3411,7 @@
     "messageformat": "មិនអាចចូលរួមក្រុមបាន"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "អ្នកមិនអាចចូលក្រុមនេះតាមរយៈតំណក្រុមបានទេ ព្រោះអ្នកគ្រប់គ្រងបានដកអ្នកចេញ។"
+    "messageformat": "អ្នកមិនអាចចូលក្រុមនេះតាមរយៈតំណក្រុមបានទេ ព្រោះអ្នកគ្រប់គ្រងបានដកអ្នកចេញ។ ទាក់ទងអ្នកគ្រប់គ្រង ដើម្បីបញ្ចូលទៅក្នុងក្រុមវិញ។"
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "អ្នកគ្រប់គ្រងក្រុមនេះត្រូវតែយល់ព្រមនឹងសំណើរបស់អ្នកសិន ទើបអ្នកអាចចូលរួមក្រុមនេះបាន។ នៅពេលដែលអ្នកស្នើសុំចូលរួម ឈ្មោះនិងរូបថតរបស់អ្នកនឹងត្រូវបានចែករំលែកជាមួយសមាជិកក្រុម។"
@@ -3964,6 +3970,12 @@
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "ចុចលើ \"បរិច្ចាគទៅ Signal\" ហើយជាវ"
+  },
+  "icu:ProfileMovedModal__title": {
+    "messageformat": "ប្រូហ្វាល់របស់អ្នកបានផ្លាស់ទី"
+  },
+  "icu:ProfileMovedModal__description": {
+    "messageformat": "បើកផ្ទាំងការកំណត់ ដើម្បីមើល និងកែប្រូហ្វាល់របស់អ្នក។"
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "ធ្វើសមកាលកម្មសារ"
@@ -4931,6 +4943,9 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "ប្រូហ្វាល់របស់អ្នកមិនអាចធ្វើបច្ចុប្បន្នភាពបានទេ។ សូម​ព្យាយាម​ម្តង​ទៀត។"
   },
+  "icu:ProfileEditorModal--sharing": {
+    "messageformat": "ការចែករំលែក"
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "ផ្ញើសារទៅអ្នកគ្រប់គ្រង"
   },
@@ -4963,6 +4978,9 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "ទូទៅ"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "ឧបត្ថម្ភទៅ Signal"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "រូបរាង"
@@ -5005,6 +5023,15 @@
   },
   "icu:Preferences__button--internal": {
     "messageformat": "ផ្ទៃក្នុង"
+  },
+  "icu:Preferences__button--manage": {
+    "messageformat": "គ្រប់គ្រង"
+  },
+  "icu:Preferences__button--choose-folder": {
+    "messageformat": "ជ្រើសរើសថតឯកសារ"
+  },
+  "icu:Preferences__button--set-up": {
+    "messageformat": "រៀបចំ"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "ការបម្រុងទុកក្នុងឧបករណ៍"
@@ -5051,6 +5078,15 @@
   "icu:Preferences--blocked": {
     "messageformat": "បានទប់ស្កាត់"
   },
+  "icu:Preferences--signal-backups": {
+    "messageformat": "ការបម្រុងទុក Signal"
+  },
+  "icu:Preferences--signal-backups-off-description": {
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+  },
+  "icu:Preferences--backup-section-description": {
+    "messageformat": "បម្រុងទុកប្រវត្តិសាររបស់អ្នក ដើម្បីកុំឱ្យបាត់បង់ទិន្នន័យនៅពេលអ្នកមានទូរសព្ទថ្មី ឬដំឡើង Signal ឡើងវិញ។"
+  },
   "icu:Preferences--backup-details__header": {
     "messageformat": "ព័ត៌មានលម្អិតអំពីការបម្រុងទុក"
   },
@@ -5092,6 +5128,84 @@
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "ទំហំបម្រុងទុក"
+  },
+  "icu:Preferences__local-backups": {
+    "messageformat": "ការបម្រុងទុកសម្រាប់ Desktop"
+  },
+  "icu:Preferences__local-backups-section__description": {
+    "messageformat": "ការបម្រុងទុកត្រូវបានអ៊ីនគ្រីបដោយប្រើសោ និងរក្សាទុកនៅលើកុំព្យូទ័ររបស់អ្នក។"
+  },
+  "icu:Preferences--local-backups-off-description": {
+    "messageformat": "បង្កើតការបម្រុងទុកដែលបានអ៊ីនគ្រីបទាំងសងខាង ដែលអ្នកអាចស្តារនៅលើទូរសព្ទរបស់អ្នក។ "
+  },
+  "icu:Preferences--local-backups-restore-info": {
+    "messageformat": "ដើម្បីស្ដារការបម្រុងទុក សូមដំឡើងច្បាប់ចម្លងថ្មីនៃ Signal។ បើកកម្មវិធី ហើយចុច &quot;ស្តារការបម្រុងទុក&quot; បន្ទាប់មកកំណត់ទីតាំងថតឯកសារបម្រុងទុក។ <learnMoreLink>ស្វែងយល់បន្ថែម។</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-setup-folder": {
+    "messageformat": "ជ្រើសរើសថតឯកសារ"
+  },
+  "icu:Preferences--local-backups-setup-folder-description": {
+    "messageformat": "ជ្រើសរើសថតឯកសារនៅក្នុងកន្លែងផ្ទុកកុំព្យូទ័ររបស់អ្នក ដែលការបម្រុងទុកដែលបានអ៊ីនគ្រីបទាំងសងខាងរបស់អ្នកនឹងត្រូវបានរក្សាទុក។"
+  },
+  "icu:Preferences--local-backups-setup-next": {
+    "messageformat": "បន្ទាប់"
+  },
+  "icu:Preferences--local-backups-view-backup-key-done": {
+    "messageformat": "រួចរាល់"
+  },
+  "icu:Preferences--local-backups-backup-key-text-box": {
+    "messageformat": "ប្រអប់អក្សរសោបម្រុងទុក"
+  },
+  "icu:Preferences--local-backups-enter-backup-key": {
+    "messageformat": "បញ្ចូលសោ"
+  },
+  "icu:Preferences--local-backups-record-backup-key": {
+    "messageformat": "កត់ត្រាសោបម្រុងទុករបស់អ្នក"
+  },
+  "icu:Preferences--local-backups-record-backup-key-description": {
+    "messageformat": "តម្រូវឱ្យមានសោនេះដើម្បីស្តារគណនី និងទិន្នន័យរបស់អ្នក។ ទុកសោនេះនៅកន្លែងដែលមានសុវត្ថិភាព។ ប្រសិនបើអ្នកបាត់វា អ្នកនឹងមិនអាចស្តារគណនីរបស់អ្នកមកវិញបានទេ។ <learnMoreLink>ស្វែងយល់បន្ថែម។</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key": {
+    "messageformat": "បញ្ជាក់សោបម្រុងទុករបស់អ្នក"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key-description": {
+    "messageformat": "បញ្ចូលសោបម្រុងទុកដែលអ្នកទើបតែបានកត់ត្រា"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-title": {
+    "messageformat": "រក្សាសោរបស់អ្នកឱ្យមានសុវត្ថិភាព"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-body": {
+    "messageformat": "Signal នឹងមិនអាចជួយអ្នកស្ដារការបម្រុងទុករបស់អ្នកឡើងវិញបានទេ ប្រសិនបើអ្នកបាត់សោរបស់អ្នក។ ទុកវានៅកន្លែងណាដែលមានសុវត្ថិភាព ហើយកុំចែករំលែកវាជាមួយអ្នកផ្សេង។"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-continue": {
+    "messageformat": "បន្ត"
+  },
+  "icu:Preferences--local-backups-see-backup-key-again": {
+    "messageformat": "មើលសោម្តងទៀត"
+  },
+  "icu:Preferences__local-backups-folder": {
+    "messageformat": "ថតឯកសារបម្រុងទុក"
+  },
+  "icu:Preferences__local-backups-folder__change": {
+    "messageformat": "ផ្លាស់ប្តូរ"
+  },
+  "icu:Preferences__local-backups-copy-key": {
+    "messageformat": "ចម្លងទៅឃ្លីបបត"
+  },
+  "icu:Preferences__local-backups-copied-key": {
+    "messageformat": "សោបម្រុងទុកត្រូវបានចម្លង"
+  },
+  "icu:Preferences__view-key": {
+    "messageformat": "មើលសោ"
+  },
+  "icu:Preferences__backup-key": {
+    "messageformat": "សោបម្រុងទុក"
+  },
+  "icu:Preferences__backup-key-description": {
+    "messageformat": "សោបម្រុងទុករបស់អ្នកគឺជាលេខកូដ 64 ខ្ទង់ដែលប្រើដើម្បីស្ដារការបម្រុងទុករបស់អ្នក"
+  },
+  "icu:Preferences__backup-other-ways": {
+    "messageformat": "វិធីផ្សេងទៀតដើម្បីបម្រុងទុក"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, other {{num,number} ឈ្មោះទំនាក់ទំនង}}"
@@ -6324,6 +6438,9 @@
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "កុំចែករំលែកព័ត៌មានផ្ទាល់ខ្លួនជាមួយមនុស្សដែលអ្នកមិនស្គាល់"
   },
+  "icu:SaveMultiDialog__title": {
+    "messageformat": "រក្សាទុកឯកសារភ្ជាប់"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "អ្វីដែលថ្មី"
   },
@@ -6355,10 +6472,10 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.56--0": {
-    "messageformat": "ពេលខ្លះ រឿងរ៉ាវដ៏មានអានុភាពពិតជាអាចបំផុសគំនិតអ្នក ដូច្នេះយើងបានជួសជុលបញ្ហាដែលធ្វើឱ្យវាពិបាកក្នុងការផ្លាស់ទីវីនដូ Signal ខណៈពេលកំពុងមើលខ្លឹមសារនៅក្នុងផ្ទាំងរឿងរ៉ាវ។"
+  "icu:WhatsNew__v7.58--0": {
+    "messageformat": "ផ្នែកថ្មីនៅក្នុងឧបករណ៍ជ្រើសរើសប្រតិកម្មសារបង្ហាញដោយស្វ័យប្រវត្តិនូវប្រតិកម្មរូបអារម្មណ៍ទាំងអស់ដែលសារបានទទួល។ ឥឡូវនេះ អ្នកអាចបញ្ចូលរូបភាពបេះដូងចែងចាំងដូចអ្នកផ្សេងអ៊ីចឹង ឬអ្នកអាចធ្វើតាមចិត្តរបស់អ្នក ហើយប្រើរូបបេះដូងកាយវិភាគជំនួសវិញ។"
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "កំណែថ្មីនេះអាចឱ្យមានការបង្កើនល្បឿន GPU នៅលើ Linux ដើម្បីធ្វើឱ្យដំណើរការកាន់តែប្រសើរឡើង និងចាក់វីដេអូបានកាន់តែរលូននៅលើហាដវែរដែលអាចប្រើបាន។"
   }
 }

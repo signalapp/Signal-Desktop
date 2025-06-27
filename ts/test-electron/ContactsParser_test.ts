@@ -9,10 +9,11 @@ import { pipeline } from 'stream/promises';
 import { Transform } from 'stream';
 
 import protobuf from '../protobuf/wrap';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Bytes from '../Bytes';
 import * as Errors from '../types/errors';
 import { APPLICATION_OCTET_STREAM } from '../types/MIME';
+import { type AciString, generateAci } from '../types/ServiceId';
 import { SignalService as Proto } from '../protobuf';
 import {
   ParseContactsTransform,
@@ -21,9 +22,14 @@ import {
 import type { ContactDetailsWithAvatar } from '../textsecure/ContactsParser';
 import { createTempDir, deleteTempDir } from '../updater/common';
 import { strictAssert } from '../util/assert';
+import { toAciObject } from '../util/ServiceId';
 import { generateKeys, encryptAttachmentV2ToDisk } from '../AttachmentCrypto';
 
+const log = createLogger('ContactsParser_test');
+
 const { Writer } = protobuf;
+
+const DEFAULT_ACI = generateAci();
 
 describe('ContactsParser', () => {
   let tempDir: string;
@@ -128,9 +134,9 @@ describe('ContactsParser', () => {
       try {
         const avatarBuffer = generateAvatar();
         const bytes = Bytes.concatenate([
-          generatePrefixedContact(avatarBuffer, 'invalid'),
+          generatePrefixedContact(avatarBuffer, null),
           avatarBuffer,
-          generatePrefixedContact(undefined, 'invalid'),
+          generatePrefixedContact(undefined, null),
           getTestBuffer(),
         ]);
 
@@ -214,12 +220,12 @@ function getTestBuffer(): Uint8Array {
 
 function generatePrefixedContact(
   avatarBuffer: Uint8Array | undefined,
-  aci = '7198E1BD-1293-452A-A098-F982FF201902'
+  aci: AciString | null = DEFAULT_ACI
 ) {
   const contactInfoBuffer = Proto.ContactDetails.encode({
     name: 'Zero Cool',
     number: '+10000000000',
-    aci,
+    aciBinary: aci == null ? null : toAciObject(aci).getRawUuidBytes(),
     avatar: avatarBuffer
       ? { contentType: 'image/jpeg', length: avatarBuffer.length }
       : undefined,
@@ -237,7 +243,7 @@ async function verifyContact(
 ): Promise<void> {
   assert.strictEqual(contact.name, 'Zero Cool');
   assert.strictEqual(contact.number, '+10000000000');
-  assert.strictEqual(contact.aci, '7198e1bd-1293-452a-a098-f982ff201902');
+  assert.strictEqual(contact.aci, DEFAULT_ACI);
 
   if (avatarIsMissing) {
     return;

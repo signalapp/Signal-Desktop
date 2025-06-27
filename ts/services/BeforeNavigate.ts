@@ -1,11 +1,13 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 
-import type { NavTab } from '../state/ducks/nav';
+import type { Location } from '../state/ducks/nav';
 import { SECOND } from '../util/durations';
 import { sleep } from '../util/sleep';
+
+const log = createLogger('BeforeNavigate');
 
 export enum BeforeNavigateResponse {
   Noop = 'Noop',
@@ -14,9 +16,10 @@ export enum BeforeNavigateResponse {
   CancelNavigation = 'CancelNavigation',
   TimedOut = 'TimedOut',
 }
-export type BeforeNavigateCallback = (
-  newTab: NavTab
-) => Promise<BeforeNavigateResponse>;
+export type BeforeNavigateCallback = (options: {
+  existingLocation?: Location;
+  newLocation: Location;
+}) => Promise<BeforeNavigateResponse>;
 export type BeforeNavigateEntry = {
   name: string;
   callback: BeforeNavigateCallback;
@@ -63,10 +66,12 @@ export class BeforeNavigateService {
 
   async shouldCancelNavigation({
     context,
-    newTab,
+    existingLocation,
+    newLocation,
   }: {
     context: string;
-    newTab: NavTab;
+    existingLocation: Location;
+    newLocation: Location;
   }): Promise<boolean> {
     const logId = `shouldCancelNavigation/${context}`;
     const entries = Array.from(this.#beforeNavigateCallbacks);
@@ -75,8 +80,8 @@ export class BeforeNavigateService {
       const entry = entries[i];
       // eslint-disable-next-line no-await-in-loop
       const response = await Promise.race([
-        entry.callback(newTab),
-        timeOutAfter(5 * SECOND),
+        entry.callback({ existingLocation, newLocation }),
+        timeOutAfter(30 * SECOND),
       ]);
       if (response === BeforeNavigateResponse.Noop) {
         continue;

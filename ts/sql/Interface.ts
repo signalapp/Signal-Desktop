@@ -3,6 +3,9 @@
 
 import type { Database } from '@signalapp/sqlcipher';
 import type { ReadonlyDeep } from 'type-fest';
+
+import { strictAssert } from '../util/assert';
+
 import type {
   ConversationAttributesType,
   MessageAttributesType,
@@ -49,7 +52,7 @@ import type { SyncTaskType } from '../util/syncTasks';
 import type { AttachmentBackupJobType } from '../types/AttachmentBackup';
 import type { GifType } from '../components/fun/panels/FunPanelGifs';
 import type { NotificationProfileType } from '../types/NotificationProfile';
-import { strictAssert } from '../util/assert';
+import type { DonationReceipt } from '../types/Donations';
 
 export type ReadableDB = Database & { __readable_db: never };
 export type WritableDB = ReadableDB & { __writable_db: never };
@@ -129,10 +132,9 @@ export type MessageType = MessageAttributesType;
 // - Make sure the name matches the one in `MessageAttributeTypes`
 // - Update `hydrateMessage`
 //
-export const MESSAGE_COLUMNS = [
+const MESSAGE_PRIMARY_KEY_COLUMNS = ['id'] as const;
+export const MESSAGE_NON_PRIMARY_KEY_COLUMNS = [
   'json',
-
-  'id',
   'body',
   'conversationId',
   'expirationStartTimestamp',
@@ -159,6 +161,11 @@ export const MESSAGE_COLUMNS = [
   'serverTimestamp',
   'timestamp',
   'unidentifiedDeliveryReceived',
+] as const;
+
+export const MESSAGE_COLUMNS = [
+  ...MESSAGE_PRIMARY_KEY_COLUMNS,
+  ...MESSAGE_NON_PRIMARY_KEY_COLUMNS,
 ] as const;
 
 export type MessageTypeUnhydrated = {
@@ -544,6 +551,11 @@ export enum AttachmentDownloadSource {
   BACKFILL = 'backfill',
 }
 
+export type MessageCountBySchemaVersionType = Array<{
+  schemaVersion: number;
+  count: number;
+}>;
+
 export const MESSAGE_ATTACHMENT_COLUMNS = [
   'messageId',
   'conversationId',
@@ -564,20 +576,14 @@ export const MESSAGE_ATTACHMENT_COLUMNS = [
   'width',
   'digest',
   'key',
-  'iv',
   'flags',
   'downloadPath',
   'transitCdnKey',
   'transitCdnNumber',
   'transitCdnUploadTimestamp',
-  'backupMediaName',
   'backupCdnNumber',
   'incrementalMac',
   'incrementalMacChunkSize',
-  'isReencryptableToSameDigest',
-  'reencryptionIv',
-  'reencryptionKey',
-  'reencryptionDigest',
   'thumbnailPath',
   'thumbnailSize',
   'thumbnailContentType',
@@ -623,7 +629,6 @@ export type MessageAttachmentDBType = {
   height: number | null;
   flags: number | null;
   key: string | null;
-  iv: string | null;
   digest: string | null;
   fileName: string | null;
   incrementalMac: string | null;
@@ -633,7 +638,6 @@ export type MessageAttachmentDBType = {
   transitCdnKey: string | null;
   transitCdnNumber: number | null;
   transitCdnUploadTimestamp: number | null;
-  backupMediaName: string | null;
   backupCdnNumber: number | null;
   thumbnailPath: string | null;
   thumbnailSize: number | null;
@@ -650,9 +654,6 @@ export type MessageAttachmentDBType = {
   backupThumbnailContentType: string | null;
   backupThumbnailLocalKey: string | null;
   backupThumbnailVersion: 1 | 2 | null;
-  reencryptionIv: string | null;
-  reencryptionKey: string | null;
-  reencryptionDigest: string | null;
   storyTextAttachmentJson: string | null;
   localBackupPath: string | null;
   isCorrupted: 1 | 0 | null;
@@ -660,7 +661,6 @@ export type MessageAttachmentDBType = {
   error: 1 | 0 | null;
   wasTooBig: 1 | 0 | null;
   pending: 1 | 0 | null;
-  isReencryptableToSameDigest: 1 | 0 | null;
   copiedFromQuotedAttachment: 1 | 0 | null;
 };
 
@@ -828,7 +828,7 @@ type ReadableInterface = {
   _getAttachmentDownloadJob(
     job: Pick<
       AttachmentDownloadJobType,
-      'messageId' | 'attachmentType' | 'digest'
+      'messageId' | 'attachmentType' | 'attachmentSignature'
     >
   ): AttachmentDownloadJobType | undefined;
 
@@ -867,6 +867,9 @@ type ReadableInterface = {
   getAllNotificationProfiles(): Array<NotificationProfileType>;
   getNotificationProfileById(id: string): NotificationProfileType | undefined;
 
+  getAllDonationReceipts(): Array<DonationReceipt>;
+  getDonationReceiptById(id: string): DonationReceipt | undefined;
+
   getMessagesNeedingUpgrade: (
     limit: number,
     options: { maxVersion: number }
@@ -884,6 +887,11 @@ type ReadableInterface = {
   getAttachmentReferencesForMessages: (
     messageIds: Array<string>
   ) => Array<MessageAttachmentDBType>;
+
+  getMessageCountBySchemaVersion: () => MessageCountBySchemaVersionType;
+  getMessageSampleForSchemaVersion: (
+    version: number
+  ) => Array<MessageAttributesType>;
 };
 
 type WritableInterface = {
@@ -1170,6 +1178,10 @@ type WritableInterface = {
   markNotificationProfileDeleted(id: string): number | undefined;
   createNotificationProfile(profile: NotificationProfileType): void;
   updateNotificationProfile(profile: NotificationProfileType): void;
+
+  _deleteAllDonationReceipts(): void;
+  deleteDonationReceiptById(id: string): void;
+  createDonationReceipt(profile: DonationReceipt): void;
 
   removeAll: () => void;
   removeAllConfiguration: () => void;

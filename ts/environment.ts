@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { makeEnumParser } from './util/enum';
-import * as log from './logging/log';
+import { log } from './logging/log';
 
 // Many places rely on this enum being a string.
 export enum Environment {
@@ -48,11 +48,13 @@ export const parseEnvironment = makeEnumParser(
 export const isTestEnvironment = (env: Environment): boolean =>
   env === Environment.Test;
 
-export const isTestOrMockEnvironment = (): boolean => {
+const isMockEnvironment = (): boolean => {
   if (isMockTestEnvironment == null) {
     log.error('Mock test environment not set');
   }
-  return (
-    isTestEnvironment(getEnvironment()) || (isMockTestEnvironment ?? false)
-  );
+  return isMockTestEnvironment === true;
+};
+
+export const isTestOrMockEnvironment = (): boolean => {
+  return isTestEnvironment(getEnvironment()) || isMockEnvironment();
 };

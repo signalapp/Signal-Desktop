@@ -3,10 +3,12 @@
 
 import PQueue from 'p-queue';
 import { DataWriter } from '../sql/Client';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { MINUTE } from '../util/durations';
 import { missingCaseError } from '../util/missingCaseError';
 import { waitForOnline } from '../util/waitForOnline';
+
+const log = createLogger('badgeImageFileDownloader');
 
 enum BadgeDownloaderState {
   Idle,

@@ -27,17 +27,42 @@ export function SettingsRow({
   );
 }
 
+export function FlowingSettingsControl({
+  children,
+}: {
+  children: ReactNode;
+}): JSX.Element {
+  return <div className="Preferences__flow-control">{children}</div>;
+}
+
+export function LightIconLabel({
+  icon,
+  children,
+}: {
+  icon: string;
+  children: ReactNode;
+}): JSX.Element {
+  return (
+    <label className="Preferences__light-icon-label">
+      <div className={classNames('Preferences__control--icon', icon)} />
+      <div>{children}</div>
+    </label>
+  );
+}
+
 export function SettingsControl({
   icon,
   left,
   onClick,
   right,
+  description,
 }: {
   /** A className or `true` to leave room for icon */
   icon?: string | true;
   left: ReactNode;
   onClick?: () => unknown;
   right: ReactNode;
+  description?: boolean;
 }): JSX.Element {
   const content = (
     <>
@@ -51,6 +76,9 @@ export function SettingsControl({
       )}
       <div className="Preferences__control--key">{left}</div>
       <div className="Preferences__control--value">{right}</div>
+      {description ? (
+        <div className="Preferences__control--value">{description}</div>
+      ) : undefined}
     </>
   );
 

@@ -104,9 +104,6 @@ export type PropsType = {
   // NotePreviewModal
   notePreviewModalProps: { conversationId: string } | null;
   renderNotePreviewModal: () => JSX.Element;
-  // ProfileEditor
-  isProfileEditorVisible: boolean;
-  renderProfileEditor: () => JSX.Element;
   // SafetyNumberModal
   safetyNumberModalContactId: string | undefined;
   renderSafetyNumber: () => JSX.Element;
@@ -208,9 +205,6 @@ export function GlobalModalContainer({
   // NotePreviewModal
   notePreviewModalProps,
   renderNotePreviewModal,
-  // ProfileEditor
-  isProfileEditorVisible,
-  renderProfileEditor,
   // SafetyNumberModal
   safetyNumberModalContactId,
   renderSafetyNumber,
@@ -331,10 +325,6 @@ export function GlobalModalContainer({
 
   if (notePreviewModalProps) {
     return renderNotePreviewModal();
-  }
-
-  if (isProfileEditorVisible) {
-    return renderProfileEditor();
   }
 
   if (isProfileNameWarningModalVisible) {

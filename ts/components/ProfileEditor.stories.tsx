@@ -8,8 +8,8 @@ import casual from 'casual';
 import { v4 as generateUuid } from 'uuid';
 
 import type { PropsType } from './ProfileEditor';
-import { ProfileEditor } from './ProfileEditor';
-import { EditUsernameModalBody } from './EditUsernameModalBody';
+import { EditState, ProfileEditor } from './ProfileEditor';
+import { UsernameEditor } from './UsernameEditor';
 import {
   UsernameEditState,
   UsernameLinkState,
@@ -51,6 +51,7 @@ export default {
     conversationId: generateUuid(),
     color: getRandomColor(),
     deleteAvatarFromDisk: action('deleteAvatarFromDisk'),
+    editState: EditState.None,
     familyName: casual.last_name,
     firstName: casual.first_name,
     i18n,
@@ -65,7 +66,6 @@ export default {
     userAvatarData: [],
     username: undefined,
 
-    onEditStateChanged: action('onEditStateChanged'),
     onProfileChanged: action('onProfileChanged'),
     onEmojiSkinToneDefaultChange: action('onEmojiSkinToneDefaultChange'),
     saveAttachment: action('saveAttachment'),
@@ -83,12 +83,9 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-function renderEditUsernameModalBody(props: {
-  isRootModal: boolean;
-  onClose: () => void;
-}): JSX.Element {
+function renderUsernameEditor(props: { onClose: () => void }): JSX.Element {
   return (
-    <EditUsernameModalBody
+    <UsernameEditor
       i18n={i18n}
       minNickname={3}
       maxNickname={20}
@@ -111,13 +108,16 @@ const Template: StoryFn<PropsType> = args => {
   const [emojiSkinToneDefault, setEmojiSkinToneDefault] = useState(
     EmojiSkinTone.None
   );
+  const [editState, setEditState] = useState(args.editState);
 
   return (
     <ProfileEditor
       {...args}
+      editState={editState}
       emojiSkinToneDefault={emojiSkinToneDefault}
       onEmojiSkinToneDefaultChange={setEmojiSkinToneDefault}
-      renderEditUsernameModalBody={renderEditUsernameModalBody}
+      renderUsernameEditor={renderUsernameEditor}
+      setEditState={setEditState}
     />
   );
 };

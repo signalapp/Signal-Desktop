@@ -12,11 +12,13 @@ import {
   reloadProfiles,
   toggleVerification,
 } from '../../shims/contactVerification';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import * as Errors from '../../types/errors';
 import type { StateType as RootStateType } from '../reducer';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
+
+const log = createLogger('safetyNumber');
 
 export type SafetyNumberContactType = ReadonlyDeep<{
   safetyNumber: SafetyNumberType;

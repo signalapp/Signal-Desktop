@@ -5,9 +5,11 @@ import * as durations from '../util/durations';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import * as Registration from '../util/registration';
 import { ServiceIdKind } from '../types/ServiceId';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
 import { HTTPError } from './Errors';
+
+const log = createLogger('UpdateKeysListener');
 
 const UPDATE_INTERVAL = 2 * durations.DAY;
 const UPDATE_TIME_STORAGE_KEY = 'nextScheduledUpdateKeyTime';
@@ -30,10 +32,7 @@ export class UpdateKeysListener {
     const now = Date.now();
     const time = window.textsecure.storage.get(UPDATE_TIME_STORAGE_KEY, now);
 
-    log.info(
-      'UpdateKeysListener: Next update scheduled for',
-      new Date(time).toISOString()
-    );
+    log.info('Next update scheduled for', new Date(time).toISOString());
 
     let waitTime = time - now;
     if (waitTime < 0) {
@@ -51,7 +50,7 @@ export class UpdateKeysListener {
   }
 
   async #run(): Promise<void> {
-    log.info('UpdateKeysListener: Updating keys...');
+    log.info('Updating keys...');
     try {
       const accountManager = window.getAccountManager();
 
@@ -64,9 +63,7 @@ export class UpdateKeysListener {
           error instanceof HTTPError &&
           (error.code === 422 || error.code === 403)
         ) {
-          log.error(
-            `UpdateKeysListener.run: Got a ${error.code} uploading PNI keys; unlinking`
-          );
+          log.error(`run: Got a ${error.code} uploading PNI keys; unlinking`);
           window.Whisper.events.trigger('unlinkAndDisconnect');
         } else {
           const errorString =
@@ -74,7 +71,7 @@ export class UpdateKeysListener {
               ? error.code.toString()
               : Errors.toLogFormat(error);
           log.error(
-            `UpdateKeysListener.run: Failure uploading PNI keys. Not trying again. ${errorString}`
+            `run: Failure uploading PNI keys. Not trying again. ${errorString}`
           );
         }
       }
@@ -86,9 +83,7 @@ export class UpdateKeysListener {
         error instanceof HTTPError
           ? error.code.toString()
           : Errors.toLogFormat(error);
-      log.error(
-        `UpdateKeysListener.run failure - trying again in five minutes ${errorString}`
-      );
+      log.error(`run failure - trying again in five minutes ${errorString}`);
       setTimeout(() => this.setTimeoutForNextRun(), 5 * durations.MINUTE);
     }
   }
@@ -97,9 +92,7 @@ export class UpdateKeysListener {
     if (window.textsecure.server?.isOnline()) {
       void this.#run();
     } else {
-      log.info(
-        'UpdateKeysListener: We are offline; will update keys when we are next online'
-      );
+      log.info('We are offline; will update keys when we are next online');
       const listener = () => {
         window.Whisper.events.off('online', listener);
         this.setTimeoutForNextRun();
@@ -110,7 +103,7 @@ export class UpdateKeysListener {
 
   public static init(events: MinimalEventsType, newVersion: boolean): void {
     if (initComplete) {
-      window.SignalContext.log.info('UpdateKeysListener: Already initialized');
+      log.info('Already initialized');
       return;
     }
     initComplete = true;

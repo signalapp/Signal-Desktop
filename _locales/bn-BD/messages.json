@@ -41,6 +41,9 @@
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "উচ্চ মানের মিডিয়া পাঠালে আরও ডেটা ব্যবহার হবে।"
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "Signal-এ দান করুন"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "স্ট্যান্ডার্ড"
   },
@@ -594,7 +597,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "ডেটাবেজ সংক্রান্ত ত্রুটি: অনুগ্রহ করে আপনার লগ শেয়ার করুন।"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "স্টোরেজ সার্ভিস থেকে অকার্যকর উত্তর পাওয়া গেছে। অনুগ্রহ করে আপনার লগ শেয়ার করুন।"
@@ -1269,7 +1272,7 @@
     "messageformat": "সাহায্য প্রয়োজন?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "সেটিংস"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "ফোন নম্বর"
@@ -2339,6 +2342,9 @@
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
     "messageformat": "অনুসন্ধানের ফলাফল"
   },
+  "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
+    "messageformat": "এই মেসেজ"
+  },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "সম্প্রতি ব্যাবহৃত হয়েছে"
   },
@@ -3405,7 +3411,7 @@
     "messageformat": "গ্রুপে যোগ দেওয়া যাবে না"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "আপনি এই লিংকের মাধ্যমে গ্ৰুপে যোগ দিতে পারবেন না, কারণ একজন অ্যাডমিন আপনাকে সরিয়ে দিয়েছেন।"
+    "messageformat": "আপনি এই লিংকের মাধ্যমে গ্ৰুপে যোগ দিতে পারবেন না, কারণ একজন অ্যাডমিন আপনাকে সরিয়ে দিয়েছেন। গ্রুপে আবারো যুক্ত হতে একজন অ্যাডমিনের সাথে যোগাযোগ করুন।"
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "আপনি এই গ্রুপে যোগদানের আগে এই গ্রুপের একজন এডমিন অবশ্যই আপনার অনুরোধটি অনুমোদন করতে হবে। আপনি যখন যোগদানের জন্য অনুরোধ করবেন তখন আপনার নাম এবং ফটো এর সদস্যদের সাথে শেয়ার করা হবে।"
@@ -3964,6 +3970,12 @@
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "\"Signal-এ অনুদান দিন\" ট্যাপ করুন এবং সাবস্ক্রাইব করুন"
+  },
+  "icu:ProfileMovedModal__title": {
+    "messageformat": "আপনার প্রোফাইল সরানো হয়েছে"
+  },
+  "icu:ProfileMovedModal__description": {
+    "messageformat": "আপনার প্রোফাইল দেখতে ও এডিট করতে সেটিংস ট্যাবটি খুলুন।"
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "মেসেজ সিঙ্ক করা হচ্ছে"
@@ -4931,6 +4943,9 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "আপনার প্রোফাইলটি আপডেট করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।"
   },
+  "icu:ProfileEditorModal--sharing": {
+    "messageformat": "শেয়ার করা হচ্ছে"
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "একজন অ্যাডমিনকে মেসেজ পাঠান"
   },
@@ -4963,6 +4978,9 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "সাধারন"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "Signal-এ দান করুন"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "অবয়ব।"
@@ -5005,6 +5023,15 @@
   },
   "icu:Preferences__button--internal": {
     "messageformat": "অভ্যন্তরীণ"
+  },
+  "icu:Preferences__button--manage": {
+    "messageformat": "নিয়ন্ত্রণ করুন"
+  },
+  "icu:Preferences__button--choose-folder": {
+    "messageformat": "ফোল্ডার চয়ন করুন"
+  },
+  "icu:Preferences__button--set-up": {
+    "messageformat": "সেট আপ করুন"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "স্থানীয় ব্যাকআপ"
@@ -5051,6 +5078,15 @@
   "icu:Preferences--blocked": {
     "messageformat": "ব্লক করা আছে"
   },
+  "icu:Preferences--signal-backups": {
+    "messageformat": "Signal ব্যাকআপ"
+  },
+  "icu:Preferences--signal-backups-off-description": {
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+  },
+  "icu:Preferences--backup-section-description": {
+    "messageformat": "আপনার মেসেজের ইতিহাসের ব্যাকআপ নিন, যাতে আপনি যখন কোনো নতুন ফোন ব্যবহার করা শুরু করবেন বা Signal পুনরায় ইনস্টল করবেন তখন আপনি কখনোই ডেটা হারাবেন না।"
+  },
   "icu:Preferences--backup-details__header": {
     "messageformat": "ব্যাকআপের বিস্তারিত"
   },
@@ -5092,6 +5128,84 @@
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "ব্যাকআপের আকার"
+  },
+  "icu:Preferences__local-backups": {
+    "messageformat": "ডেস্কটপ ব্যাকআপ"
+  },
+  "icu:Preferences__local-backups-section__description": {
+    "messageformat": "ব্যাকআপ একটি 'কি' দিয়ে এনক্রিপ্ট করা হয় এবং আপনার কম্পিউটারে সংরক্ষণ করা হয়।"
+  },
+  "icu:Preferences--local-backups-off-description": {
+    "messageformat": "একটি এন্ড-টু-এন্ড এনক্রিপ্টকৃত ব্যাকআপ তৈরি করুন যা আপনি আপনার ফোনে পুনর্বহাল করতে পারবেন। "
+  },
+  "icu:Preferences--local-backups-restore-info": {
+    "messageformat": "ব্যাকআপ পুনর্বহাল করতে, Signal-এর একটি নতুন কপি ইনস্টল করুন। অ্যাপটি খুলুন ও ব্যাকআপ পুনর্বহাল করতে ট্যাপ করুন, তারপর ব্যাকআপ ফোল্ডারটি শনাক্ত করুন। <learnMoreLink>আরো জানুন।</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-setup-folder": {
+    "messageformat": "একটি ফোল্ডার বেছে নিন"
+  },
+  "icu:Preferences--local-backups-setup-folder-description": {
+    "messageformat": "আপনার কম্পিউটারের স্টোরেজে এমন একটি ফোল্ডার বেছে নিন যেখানে আপনার এন্ড-টু-এন্ড এনক্রিপ্টকৃত ব্যাকআপ সংরক্ষণ করা হবে।"
+  },
+  "icu:Preferences--local-backups-setup-next": {
+    "messageformat": "পরবর্তী"
+  },
+  "icu:Preferences--local-backups-view-backup-key-done": {
+    "messageformat": "শেষ"
+  },
+  "icu:Preferences--local-backups-backup-key-text-box": {
+    "messageformat": "ব্যাকআপ 'কি' টেক্সট বক্স"
+  },
+  "icu:Preferences--local-backups-enter-backup-key": {
+    "messageformat": "'কি' লিখুন"
+  },
+  "icu:Preferences--local-backups-record-backup-key": {
+    "messageformat": "আপনার ব্যাকআপ 'কি' সংরক্ষণ করুন"
+  },
+  "icu:Preferences--local-backups-record-backup-key-description": {
+    "messageformat": "আপনার অ্যাকাউন্ট এবং ডেটা পুনরুদ্ধার করতে এই 'কি' প্রয়োজন। এই 'কি'-টি নিরাপদ কোথাও সংরক্ষণ করুন। এটি হারিয়ে ফেললে, আপনি আপনার অ্যাকাউন্টের ব্যাকআপ পুনরুদ্ধার করতে পারবেন না। <learnMoreLink>আরো জানুন।</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key": {
+    "messageformat": "আপনার ব্যাকআপ 'কি' নিশ্চিত করুন"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key-description": {
+    "messageformat": "আপনার রেকর্ড করা ব্যাকআপ 'কি'-টি লিখুন"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-title": {
+    "messageformat": "আপনার 'কি' নিরাপদ রাখুন"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-body": {
+    "messageformat": "আপনি আপনার 'কি' হারিয়ে ফেললে Signal আপনাকে আপনার ব্যাকআপ পুনরুদ্ধারে সাহায্য করতে সক্ষম হবে না। এটিকে নিরাপদ ও সুরক্ষিত স্থানে সংরক্ষণ করুন এবং অন্যদের সাথে শেয়ার করবেন না।"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-continue": {
+    "messageformat": "চালিয়ে যান"
+  },
+  "icu:Preferences--local-backups-see-backup-key-again": {
+    "messageformat": "'কি'-টি আবার দেখুন"
+  },
+  "icu:Preferences__local-backups-folder": {
+    "messageformat": "ব্যাকআপ ফোল্ডার"
+  },
+  "icu:Preferences__local-backups-folder__change": {
+    "messageformat": "পরিবর্তন করুন"
+  },
+  "icu:Preferences__local-backups-copy-key": {
+    "messageformat": "ক্লিপবোর্ডে অনুলিপি করুন"
+  },
+  "icu:Preferences__local-backups-copied-key": {
+    "messageformat": "ব্যাকআপ 'কি' কপি করা হয়েছে"
+  },
+  "icu:Preferences__view-key": {
+    "messageformat": "'কি' দেখুন"
+  },
+  "icu:Preferences__backup-key": {
+    "messageformat": "ব্যাকআপ 'কি'"
+  },
+  "icu:Preferences__backup-key-description": {
+    "messageformat": "আপনার ব্যাকআপ 'কি' হলো একটি 64-সংখ্যার কোড যা আপনার ব্যাকআপ পুনর্বহাল করতে ব্যবহৃত হয়"
+  },
+  "icu:Preferences__backup-other-ways": {
+    "messageformat": "ব্যাকআপ রাখার অন্যান্য উপায়"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} জন কন্টাক্ট} other {{num,number} জন কন্টাক্ট}}"
@@ -6324,6 +6438,9 @@
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "আপনার পরিচিত নন এমন কোনো ব্যক্তির সাথে ব্যক্তিগত তথ্য শেয়ার করবেন না"
   },
+  "icu:SaveMultiDialog__title": {
+    "messageformat": "সংযুক্তিগুলো সংরক্ষণ করুন"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "নতুন কি"
   },
@@ -6355,10 +6472,10 @@
     "messageformat": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.56--0": {
-    "messageformat": "এই আপডেটটি এমন একটি বাগ সংশোধন করেছে যা স্টোরি ট্যাবে কন্টেন্ট দেখার সময় Signal উইন্ডো সরানো কঠিন করে তুলেছিল।"
+  "icu:WhatsNew__v7.58--0": {
+    "messageformat": "মেসেজে পাওয়া প্রতিক্রিয়া নির্বাচনকারীতে প্রদত্ত একটি নতুন বিভাগ, কোনো মেসেজে পাওয়া সকল ইমোজি প্রতিক্রিয়াগুলো স্বয়ংক্রিয়ভাবে প্রদর্শন করে।"
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "Linux-এর কর্মক্ষমতা উন্নত করা হয়েছে।"
   }
 }

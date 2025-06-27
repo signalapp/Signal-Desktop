@@ -4,7 +4,7 @@
 import { clone, has } from 'lodash';
 import { contextBridge } from 'electron';
 
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 
 import '../context';
 
@@ -34,6 +34,8 @@ import {
   removeUseRingrtcAdm,
   setUseRingrtcAdm,
 } from '../../util/ringrtc/ringrtcAdm';
+
+const log = createLogger('start');
 
 window.addEventListener('contextmenu', e => {
   const node = e.target as Element | null;

@@ -61,7 +61,7 @@ describe('storage service', function (this: Mocha.Suite) {
     );
 
     await leftPane
-      .locator(`[data-testid="${firstContact.toContact().aci}"]`)
+      .locator(`[data-testid="${firstContact.device.aci}"]`)
       .click();
 
     {

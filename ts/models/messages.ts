@@ -3,7 +3,9 @@
 
 import type { MessageAttributesType } from '../model-types.d';
 import type { CallbackResultType } from '../textsecure/Types.d';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const log = createLogger('messages');
 
 type StringKey<T> = keyof T & string;
 

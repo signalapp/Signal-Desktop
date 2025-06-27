@@ -7,7 +7,7 @@ import { readFile, stat, writeFile } from 'fs/promises';
 import { createReadStream, createWriteStream } from 'fs';
 import { Transform } from 'stream';
 import { pipeline } from 'stream/promises';
-import * as log from '../../../logging/log';
+import { createLogger } from '../../../logging/log';
 import * as Bytes from '../../../Bytes';
 import * as Errors from '../../../types/errors';
 import { Signal } from '../../../protobuf';
@@ -20,6 +20,8 @@ import {
   LOCAL_BACKUP_BACKUP_ID_IV_LENGTH,
 } from '../constants';
 import { explodePromise } from '../../../util/explodePromise';
+
+const log = createLogger('localBackup');
 
 const { Reader } = protobuf;
 

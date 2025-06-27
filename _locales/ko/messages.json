@@ -41,6 +41,9 @@
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "고품질 미디어는 더 많은 모바일 데이터를 사용할 수 있습니다."
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "Signal에 기부"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "기본"
   },
@@ -594,7 +597,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "데이터베이스 오류: 로그를 공유해 주세요."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "스토리지 서비스에서 잘못된 응답을 받았습니다. 로그를 공유해 주세요."
@@ -1269,7 +1272,7 @@
     "messageformat": "도움이 필요하신가요?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "설정"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "전화번호"
@@ -1680,7 +1683,7 @@
     "messageformat": "{group} 내 {sender} 님"
   },
   "icu:notificationReactionMessage": {
-    "messageformat": "{sender} 님이 ''{message}'에 {emoji} 이모지로 반응했습니다."
+    "messageformat": "{sender} 님이 다음에 {emoji} 이모지로 반응함: {message}"
   },
   "icu:sendFailed": {
     "messageformat": "보내기 실패"
@@ -2338,6 +2341,9 @@
   },
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
     "messageformat": "검색 결과"
+  },
+  "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
+    "messageformat": "이 메시지"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "최근 사용함"
@@ -3405,7 +3411,7 @@
     "messageformat": "그룹에 참가할 수 없음"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "관리자가 당신을 제거했기 때문에 그룹 링크를 통해 그룹에 참가할 수 없습니다."
+    "messageformat": "관리자가 귀하를 제거했기 때문에 그룹 링크를 통해 그룹에 참가할 수 없습니다. 관리자에게 그룹에 다시 추가해 달라고 요청하세요."
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "이 그룹에 가입하려면 그룹의 관리자가 요청을 승인해야 합니다. 가입을 요청하면 내 이름과 사진이 공유됩니다."
@@ -3964,6 +3970,12 @@
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "'Singal에 기부'를 탭하여 구독하세요."
+  },
+  "icu:ProfileMovedModal__title": {
+    "messageformat": "프로필을 이동함"
+  },
+  "icu:ProfileMovedModal__description": {
+    "messageformat": "설정 탭을 열어 프로필을 확인하고 수정하세요."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "메시지를 동기화하는 중"
@@ -4931,6 +4943,9 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "프로필을 업데이트할 수 없습니다. 다시 시도하세요."
   },
+  "icu:ProfileEditorModal--sharing": {
+    "messageformat": "공유"
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "관리자에게 메시지 전송"
   },
@@ -4963,6 +4978,9 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "일반 설정"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "Signal에 기부"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "모양"
@@ -5005,6 +5023,15 @@
   },
   "icu:Preferences__button--internal": {
     "messageformat": "내부"
+  },
+  "icu:Preferences__button--manage": {
+    "messageformat": "관리"
+  },
+  "icu:Preferences__button--choose-folder": {
+    "messageformat": "폴더 선택"
+  },
+  "icu:Preferences__button--set-up": {
+    "messageformat": "설정"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "로컬 백업"
@@ -5051,6 +5078,15 @@
   "icu:Preferences--blocked": {
     "messageformat": "차단함"
   },
+  "icu:Preferences--signal-backups": {
+    "messageformat": "Signal 백업"
+  },
+  "icu:Preferences--signal-backups-off-description": {
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+  },
+  "icu:Preferences--backup-section-description": {
+    "messageformat": "새 휴대폰을 사용하거나 Signal을 다시 설치할 때 데이터를 잃지 않도록 메시지 기록을 백업하세요."
+  },
   "icu:Preferences--backup-details__header": {
     "messageformat": "백업 세부 정보"
   },
@@ -5092,6 +5128,84 @@
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "백업 크기"
+  },
+  "icu:Preferences__local-backups": {
+    "messageformat": "데스크톱 백업"
+  },
+  "icu:Preferences__local-backups-section__description": {
+    "messageformat": "백업은 키로 암호화되어 컴퓨터에 저장됩니다."
+  },
+  "icu:Preferences--local-backups-off-description": {
+    "messageformat": "휴대폰에서 복원할 수 있는 엔드투엔드 암호화 백업을 만듭니다. "
+  },
+  "icu:Preferences--local-backups-restore-info": {
+    "messageformat": "백업을 복원하려면 Signal의 새 복사본을 설치하세요. 앱을 열고 백업 복원을 탭한 다음 백업 폴더를 찾으세요. <learnMoreLink>자세히 알아보기.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-setup-folder": {
+    "messageformat": "폴더 선택"
+  },
+  "icu:Preferences--local-backups-setup-folder-description": {
+    "messageformat": "컴퓨터 저장소에서 엔드투엔드 암호화된 백업을 저장할 폴더를 선택하세요."
+  },
+  "icu:Preferences--local-backups-setup-next": {
+    "messageformat": "다음"
+  },
+  "icu:Preferences--local-backups-view-backup-key-done": {
+    "messageformat": "확인"
+  },
+  "icu:Preferences--local-backups-backup-key-text-box": {
+    "messageformat": "백업 키 텍스트 상자"
+  },
+  "icu:Preferences--local-backups-enter-backup-key": {
+    "messageformat": "키 입력"
+  },
+  "icu:Preferences--local-backups-record-backup-key": {
+    "messageformat": "백업 키 기록"
+  },
+  "icu:Preferences--local-backups-record-backup-key-description": {
+    "messageformat": "이 키는 계정과 데이터를 복원하는 데 필요합니다. 안전한 곳에 보관해 두세요. 키를 분실하면 계정을 복원할 수 없습니다. <learnMoreLink>자세히 알아보기.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key": {
+    "messageformat": "백업 키 확인"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key-description": {
+    "messageformat": "기록해 둔 백업 키를 입력하세요"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-title": {
+    "messageformat": "키를 안전하게 보관하세요"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-body": {
+    "messageformat": "키를 분실할 경우 Signal은 백업을 복원하도록 도와드릴 수 없습니다. 안전한 곳에 키를 보관해 두고, 다른 사람과 공유하지 마세요."
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-continue": {
+    "messageformat": "계속"
+  },
+  "icu:Preferences--local-backups-see-backup-key-again": {
+    "messageformat": "키 다시 보기"
+  },
+  "icu:Preferences__local-backups-folder": {
+    "messageformat": "백업 폴더"
+  },
+  "icu:Preferences__local-backups-folder__change": {
+    "messageformat": "변경"
+  },
+  "icu:Preferences__local-backups-copy-key": {
+    "messageformat": "클립보드에 복사"
+  },
+  "icu:Preferences__local-backups-copied-key": {
+    "messageformat": "백업 키 복사됨"
+  },
+  "icu:Preferences__view-key": {
+    "messageformat": "키 보기"
+  },
+  "icu:Preferences__backup-key": {
+    "messageformat": "백업 키"
+  },
+  "icu:Preferences__backup-key-description": {
+    "messageformat": "백업 키는 백업을 복원하는 데 사용되는 64자리 코드입니다"
+  },
+  "icu:Preferences__backup-other-ways": {
+    "messageformat": "다른 백업 방법"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, other {연락처 {num,number}개}}"
@@ -6324,6 +6438,9 @@
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "모르는 사람과 개인 정보를 공유하지 마세요"
   },
+  "icu:SaveMultiDialog__title": {
+    "messageformat": "첨부 파일 저장"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "업데이트 내용"
   },
@@ -6355,10 +6472,10 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.56--0": {
-    "messageformat": "이 업데이트는 스토리 탭에서 콘텐츠를 볼 때 Signal 창을 옮기기 어렵게 만들었던 버그를 수정합니다."
+  "icu:WhatsNew__v7.58--0": {
+    "messageformat": "메시지 반응 선택기의 새로운 섹션에 메시지가 받은 모든 이모지 반응이 자동으로 표시됩니다."
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "Linux 성능 개선 사항."
   }
 }

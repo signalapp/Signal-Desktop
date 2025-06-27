@@ -4,7 +4,7 @@
 import { throttle } from 'lodash';
 import { LRUCache } from 'lru-cache';
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { MessageModel } from '../models/messages';
 import { DataReader, DataWriter } from '../sql/Client';
 import { getMessageConversation } from '../util/getMessageConversation';
@@ -17,6 +17,8 @@ import { postSaveUpdates } from '../util/cleanup';
 import type { MessageAttributesType } from '../model-types.d';
 import type { SendStateByConversationId } from '../messages/MessageSendState';
 import type { StoredJob } from '../jobs/types';
+
+const log = createLogger('MessageCache');
 
 const MAX_THROTTLED_REDUX_UPDATERS = 200;
 export class MessageCache {

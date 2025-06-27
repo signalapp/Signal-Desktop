@@ -1,18 +1,62 @@
+diff --git a/out/targets/FpmTarget.js b/out/targets/FpmTarget.js
+index 47e6f48fcbed88b6ac07cff15c888c1b8b59721f..76dd6cc7265054222f2d70c76aa8456d550f29d1 100644
+--- a/out/targets/FpmTarget.js
++++ b/out/targets/FpmTarget.js
+@@ -30,6 +30,7 @@ class FpmTarget extends core_1.Target {
+         const templateOptions = {
+             // old API compatibility
+             executable: packager.executableName,
++            sanitizedName: packager.appInfo.sanitizedName,
+             sanitizedProductName: packager.appInfo.sanitizedProductName,
+             productFilename: packager.appInfo.productFilename,
+             ...packager.platformSpecificBuildOptions,
 diff --git a/templates/linux/after-install.tpl b/templates/linux/after-install.tpl
-index 6cf860bd2847bae35ca8885cb680dd6c8c516e39..6ef8c62bd83395e5561e052a10f07bfa1773a2bf 100644
+index 6cf860bd2847bae35ca8885cb680dd6c8c516e39..a19f9610d7101c925bdad8a88c434d839ebdf8f8 100644
 --- a/templates/linux/after-install.tpl
 +++ b/templates/linux/after-install.tpl
-@@ -55,3 +55,10 @@ if apparmor_status --enabled > /dev/null 2>&1; then
+@@ -55,3 +55,24 @@ if apparmor_status --enabled > /dev/null 2>&1; then
      echo "Skipping the installation of the AppArmor profile as this version of AppArmor does not seem to support the bundled profile"
    fi
  fi
 +
 +# SIGNAL CHANGES BEGIN
 +
++if command -v pkcheck >/dev/null 2>&1; then
++  POLICY_SOURCE_PATH='/opt/${sanitizedProductName}/resources'
++  POLICY_TARGET_PATH='/usr/share/polkit-1/actions'
++  POLICY_ORG='org.signalapp'
++  POLICY_ENABLE_BACKUPS='enable-backups.policy'
++  POLICY_VIEW_AEP='view-aep.policy'
++  mkdir -p "$POLICY_TARGET_PATH";
++  # Separate policies for staging and production builds
++  cp -f "$POLICY_SOURCE_PATH/$POLICY_ORG.$POLICY_ENABLE_BACKUPS" "$POLICY_TARGET_PATH/$POLICY_ORG.${sanitizedName}.$POLICY_ENABLE_BACKUPS"
++  cp -f "$POLICY_SOURCE_PATH/$POLICY_ORG.$POLICY_VIEW_AEP" "$POLICY_TARGET_PATH/$POLICY_ORG.${sanitizedName}.$POLICY_VIEW_AEP"
++else
++  echo "Skipping installation of policies as polkit does not seem to be installed. This may affect the availability of some features.";
++fi
++
 +# Notify updater that the update was fully installed
 +touch '/opt/${sanitizedProductName}/.signal-postinst'
 +
 +# SIGNAL CHANGES END
+diff --git a/templates/linux/after-remove.tpl b/templates/linux/after-remove.tpl
+index 19b3decabe18a816f9ed5440fa9124ebfd6e3907..b74c2f9425c34112d56cb7aa7e342bcf9036a662 100644
+--- a/templates/linux/after-remove.tpl
++++ b/templates/linux/after-remove.tpl
+@@ -13,3 +13,12 @@ APPARMOR_PROFILE_DEST='/etc/apparmor.d/${executable}'
+ if [ -f "$APPARMOR_PROFILE_DEST" ]; then
+   rm -f "$APPARMOR_PROFILE_DEST"
+ fi
++
++# SIGNAL CHANGES BEGIN
++
++POLKIT_TARGET_PATH='/usr/share/polkit-1/actions'
++if [ -d "$POLKIT_TARGET_PATH" ]; then
++  rm $POLKIT_TARGET_PATH/org.signalapp.${sanitizedName}.*.policy
++fi
++
++# SIGNAL CHANGES END
+\ No newline at end of file
 diff --git a/templates/nsis/include/installer.nsh b/templates/nsis/include/installer.nsh
 index 34e91dfe82fdbb2e929820f2e8deb771b7f7893c..73bfffc6c227a018cbbeb690d6d7b882ed142fc8 100644
 --- a/templates/nsis/include/installer.nsh

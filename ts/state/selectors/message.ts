@@ -122,7 +122,7 @@ import {
   getHighestSuccessfulRecipientStatus,
   someSendStatus,
 } from '../../messages/MessageSendState';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { getConversationColorAttributes } from '../../util/getConversationColorAttributes';
 import { DAY, DurationInSeconds } from '../../util/durations';
 import { getStoryReplyText } from '../../util/getStoryReplyText';
@@ -150,6 +150,8 @@ import { CallMode, CallDirection } from '../../types/CallDisposition';
 import { getCallIdFromEra } from '../../util/callDisposition';
 import { LONG_MESSAGE } from '../../types/MIME';
 import type { MessageRequestResponseNotificationData } from '../../components/conversation/MessageRequestResponseNotification';
+
+const log = createLogger('message');
 
 export { isIncoming, isOutgoing, isStory };
 
@@ -207,7 +209,7 @@ export function getSource(
     return message.source;
   }
   if (!isOutgoing(message)) {
-    log.warn('message.getSource: Called for non-incoming/non-outoing message');
+    log.warn('getSource: Called for non-incoming/non-outoing message');
   }
 
   return ourNumber;
@@ -223,9 +225,7 @@ export function getSourceDevice(
     return sourceDevice;
   }
   if (!isOutgoing(message)) {
-    log.warn(
-      'message.getSourceDevice: Called for non-incoming/non-outoing message'
-    );
+    log.warn('getSourceDevice: Called for non-incoming/non-outoing message');
   }
 
   return sourceDevice || ourDeviceId;
@@ -239,9 +239,7 @@ export function getSourceServiceId(
     return message.sourceServiceId;
   }
   if (!isOutgoing(message)) {
-    log.warn(
-      'message.getSourceServiceId: Called for non-incoming/non-outoing message'
-    );
+    log.warn('getSourceServiceId: Called for non-incoming/non-outoing message');
   }
 
   return ourAci;

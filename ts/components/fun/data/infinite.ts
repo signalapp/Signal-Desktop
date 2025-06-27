@@ -2,9 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { drop } from '../../../util/drop';
-import * as log from '../../../logging/log';
+import { createLogger } from '../../../logging/log';
 import * as Errors from '../../../types/errors';
 import { strictAssert } from '../../../util/assert';
+
+const log = createLogger('infinite');
 
 export type InfiniteQueryLoader<Query, Page> = (
   query: Query,

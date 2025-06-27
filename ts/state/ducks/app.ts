@@ -6,7 +6,7 @@ import type { ReadonlyDeep } from 'type-fest';
 import type { StateType as RootStateType } from '../reducer';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { getEnvironment, Environment } from '../../environment';
 import {
   START_INSTALLER,
@@ -14,6 +14,8 @@ import {
   SHOW_BACKUP_IMPORT,
   type ShowBackupImportActionType,
 } from './installer';
+
+const log = createLogger('app');
 
 // State
 

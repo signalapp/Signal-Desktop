@@ -7,9 +7,11 @@ import type { LocalizerType } from '../types/Util';
 import { WaveformScrubber } from './conversation/WaveformScrubber';
 import { PlaybackButton } from './PlaybackButton';
 import { RecordingComposer } from './RecordingComposer';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import type { Size } from '../hooks/useSizeObserver';
 import { SizeObserver } from '../hooks/useSizeObserver';
+
+const log = createLogger('CompositionRecordingDraft');
 
 export type Props = {
   i18n: LocalizerType;

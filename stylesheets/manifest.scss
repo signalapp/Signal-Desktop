@@ -99,7 +99,6 @@
 @use 'components/EditConversationAttributesModal.scss';
 @use 'components/EditHistoryMessagesModal.scss';
 @use 'components/EditNicknameAndNoteModal.scss';
-@use 'components/EditUsernameModalBody.scss';
 @use 'components/ForwardMessageModal.scss';
 @use 'components/fun/Fun.scss';
 @use 'components/GradientDial.scss';
@@ -145,6 +144,7 @@
 @use 'components/PlaybackRateButton.scss';
 @use 'components/Preferences.scss';
 @use 'components/ProfileEditor.scss';
+@use 'components/ProfileMovedModal.scss';
 @use 'components/ProfileNameWarningModal.scss';
 @use 'components/ProgressBar.scss';
 @use 'components/ProgressCircle.scss';
@@ -192,7 +192,8 @@
 @use 'components/ToastManager.scss';
 @use 'components/Waveform.scss';
 @use 'components/WaveformScrubber.scss';
-@use 'components/UsernameLinkModalBody.scss';
+@use 'components/UsernameEditor.scss';
+@use 'components/UsernameLinkEditor.scss';
 @use 'components/UsernameMegaphone.scss';
 @use 'components/UsernameOnboardingModal.scss';
 @use 'components/WhatsNew.scss';

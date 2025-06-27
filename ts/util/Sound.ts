@@ -1,8 +1,10 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { missingCaseError } from './missingCaseError';
+
+const log = createLogger('Sound');
 
 export enum SoundType {
   CallingHangUp,
@@ -46,7 +48,7 @@ export class Sound {
         Sound.sounds.set(this.#soundType, decodedBuffer);
         soundBuffer = decodedBuffer;
       } catch (err) {
-        log.error(`Sound error: ${err}`);
+        log.error(`error: ${err}`);
         return;
       }
     }

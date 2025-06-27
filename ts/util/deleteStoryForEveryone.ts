@@ -9,7 +9,7 @@ import * as Errors from '../types/errors';
 import type { StoryMessageRecipientsType } from '../types/Stories';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId';
 import type { ServiceIdString } from '../types/ServiceId';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { DAY } from './durations';
 import { StoryRecipientUpdateEvent } from '../textsecure/messageReceiverEvents';
 import {
@@ -23,6 +23,8 @@ import { getMessageById } from '../messages/getMessageById';
 import { strictAssert } from './assert';
 import { repeat, zipObject } from './iterables';
 import { isOlderThan } from './timestamp';
+
+const log = createLogger('deleteStoryForEveryone');
 
 export async function deleteStoryForEveryone(
   stories: ReadonlyArray<StoryDataType>,

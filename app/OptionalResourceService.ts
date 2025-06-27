@@ -14,10 +14,12 @@ import type {
   OptionalResourcesDictType,
 } from '../ts/types/OptionalResource';
 import { OptionalResourcesDictSchema } from '../ts/types/OptionalResource';
-import * as log from '../ts/logging/log';
+import { createLogger } from '../ts/logging/log';
 import { getGotOptions } from '../ts/updater/got';
 import { drop } from '../ts/util/drop';
 import { parseUnknown } from '../ts/util/schemas';
+
+const log = createLogger('OptionalResourceService');
 
 const RESOURCES_DICT_PATH = join(
   __dirname,
@@ -75,12 +77,12 @@ export class OptionalResourceService {
           timingSafeEqual(digest, Buffer.from(decl.digest, 'base64')) &&
           onDisk.length === decl.size
         ) {
-          log.warn(`OptionalResourceService: loaded ${name} from disk`);
+          log.warn(`loaded ${name} from disk`);
           this.#cache.set(name, onDisk);
           return onDisk;
         }
 
-        log.warn(`OptionalResourceService: ${name} is no longer valid on disk`);
+        log.warn(`${name} is no longer valid on disk`);
       } catch (error) {
         if (error.code !== 'ENOENT') {
           throw error;
@@ -135,10 +137,7 @@ export class OptionalResourceService {
         try {
           await unlink(fullPath);
         } catch (error) {
-          log.error(
-            `OptionalResourceService: failed to cleanup ${subPath}`,
-            error
-          );
+          log.error(`failed to cleanup ${subPath}`, error);
         }
       })
     );
@@ -182,7 +181,7 @@ export class OptionalResourceService {
       await mkdir(dirname(destPath), { recursive: true });
       await writeFile(destPath, result);
     } catch (error) {
-      log.error('OptionalResourceService: failed to save file', error);
+      log.error('failed to save file', error);
       // Still return the data that we just fetched
     }
 

@@ -5,7 +5,7 @@ import { z } from 'zod';
 
 import type { ReadonlyMessageAttributesType } from '../model-types.d';
 import * as Errors from '../types/errors';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { StartupQueue } from '../util/StartupQueue';
 import { drop } from '../util/drop';
 import { getMessageIdForLogging } from '../util/idForLogging';
@@ -19,6 +19,8 @@ import { isAciString } from '../util/isAciString';
 import { DataReader, DataWriter } from '../sql/Client';
 import { markRead } from '../services/MessageUpdater';
 import { MessageModel } from '../models/messages';
+
+const log = createLogger('ReadSyncs');
 
 const { removeSyncTaskById } = DataWriter;
 

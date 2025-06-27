@@ -41,6 +41,9 @@
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "Yüksek kalitede içerik göndermek daha fazla veri kullanacaktır."
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "Signal'e Bağış Yap"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standart"
   },
@@ -594,7 +597,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Veritabanı hatası: Lütfen günlüklerini paylaş."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Geçersiz sunucu yanıtı. Lütfen günlüklerini paylaş."
@@ -1269,7 +1272,7 @@
     "messageformat": "Yardıma mı ihtiyacınız var?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Ayarlar"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefon Numarası"
@@ -1680,7 +1683,7 @@
     "messageformat": "{group} grubunda {sender}"
   },
   "icu:notificationReactionMessage": {
-    "messageformat": "{sender}, ' {message}' iletisine {emoji} tepkisi verdi"
+    "messageformat": "{sender} şuna {emoji} tepkisini verdi: {message}"
   },
   "icu:sendFailed": {
     "messageformat": "Gönderme başarısız"
@@ -2338,6 +2341,9 @@
   },
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
     "messageformat": "Arama Sonuçları"
+  },
+  "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
+    "messageformat": "Bu İleti"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Yakınlarda Kullanılmış"
@@ -3405,7 +3411,7 @@
     "messageformat": "Gruba Katılınamadı"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "Gruptan yönetici tarafından çıkarıldığın için gruba bağlantıyla katılamazsın."
+    "messageformat": "Gruptan yönetici tarafından çıkarıldığın için, gruba bağlantıyla katılamazsın. Gruba geri eklenmek için bir yönetici ile iletişime geç."
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "Gruba katılmadan önce bu grubun bir yöneticisinin isteğinizi onaylaması gerekiyor. Katılma isteğinde bulunduğunuzda, adınız ve fotoğrafınız üyeleriyle paylaşılacaktır."
@@ -3964,6 +3970,12 @@
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "\"Signal'a Bağış Yap\"a dokun ve abone ol"
+  },
+  "icu:ProfileMovedModal__title": {
+    "messageformat": "Profilin taşındı"
+  },
+  "icu:ProfileMovedModal__description": {
+    "messageformat": "Profilini görüntülemek ve düzenlemek için Ayarlar sekmesini aç."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Mesajlar senkronize ediliyor"
@@ -4931,6 +4943,9 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Profiliniz güncellenemedi. Lütfen tekrar deneyin."
   },
+  "icu:ProfileEditorModal--sharing": {
+    "messageformat": "Paylaş"
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Bir yöneticiye yazın"
   },
@@ -4963,6 +4978,9 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "Genel"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "Signal'e Bağış Yap"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "Görünüm"
@@ -5005,6 +5023,15 @@
   },
   "icu:Preferences__button--internal": {
     "messageformat": "Dahili"
+  },
+  "icu:Preferences__button--manage": {
+    "messageformat": "Yönet"
+  },
+  "icu:Preferences__button--choose-folder": {
+    "messageformat": "Klasör seçin"
+  },
+  "icu:Preferences__button--set-up": {
+    "messageformat": "Ayarla"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Yerel yedeklemeler"
@@ -5051,6 +5078,15 @@
   "icu:Preferences--blocked": {
     "messageformat": "Engellendi"
   },
+  "icu:Preferences--signal-backups": {
+    "messageformat": "Signal Yedeklemeleri"
+  },
+  "icu:Preferences--signal-backups-off-description": {
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+  },
+  "icu:Preferences--backup-section-description": {
+    "messageformat": "Mesaj geçmişini yedekle böylece yeni bir telefon aldığında veya Signal'i yeniden yüklediğinde asla veri kaybetmezsin."
+  },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Yedekleme detayları"
   },
@@ -5092,6 +5128,84 @@
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "Yedekleme boyutu"
+  },
+  "icu:Preferences__local-backups": {
+    "messageformat": "Masaüstü yedeklemeleri"
+  },
+  "icu:Preferences__local-backups-section__description": {
+    "messageformat": "Yedeklemeler bir anahtarla şifrelenir ve bilgisayarında saklanır."
+  },
+  "icu:Preferences--local-backups-off-description": {
+    "messageformat": "Telefonuna geri yükleyebileceğin uçtan uca şifrelenmiş bir yedekleme oluştur. "
+  },
+  "icu:Preferences--local-backups-restore-info": {
+    "messageformat": "Bir yedeklemeyi geri yüklemek için Signal'ın yeni bir kopyasını yükle. Uygulamayı aç ve Yedeklemeyi geri yükle'ye dokun, ardından yedekleme klasörünü bul. <learnMoreLink>Dahasını öğren.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-setup-folder": {
+    "messageformat": "Klasör seç"
+  },
+  "icu:Preferences--local-backups-setup-folder-description": {
+    "messageformat": "Bilgisayarının depolama alanında uçtan uca şifrelenmiş yedeklemenin depolanacağı bir klasör seç."
+  },
+  "icu:Preferences--local-backups-setup-next": {
+    "messageformat": "İleri"
+  },
+  "icu:Preferences--local-backups-view-backup-key-done": {
+    "messageformat": "Tamam"
+  },
+  "icu:Preferences--local-backups-backup-key-text-box": {
+    "messageformat": "Yedekleme anahtarı metin kutusu"
+  },
+  "icu:Preferences--local-backups-enter-backup-key": {
+    "messageformat": "Enter tuşu"
+  },
+  "icu:Preferences--local-backups-record-backup-key": {
+    "messageformat": "Yedekleme anahtarını kaydet"
+  },
+  "icu:Preferences--local-backups-record-backup-key-description": {
+    "messageformat": "Hesabını ve verilerini kurtarmak için bu anahtar gereklidir. Bu anahtarı güvenli bir yerde sakla. Kaybedersen, hesabını kurtarmanız mümkün olmaz. <learnMoreLink>Dahasını öğren.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key": {
+    "messageformat": "Yedekleme anahtarını onayla"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key-description": {
+    "messageformat": "Az önce kaydettiğin yedekleme anahtarını gir"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-title": {
+    "messageformat": "Anahtarını güvende tut"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-body": {
+    "messageformat": "Anahtarını kaybedersen Signal yedeklemeni geri yüklemene yardımcı olamaz. Güvenli ve emniyetli bir yerde sakla ve başkalarıyla paylaşma."
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-continue": {
+    "messageformat": "Devam"
+  },
+  "icu:Preferences--local-backups-see-backup-key-again": {
+    "messageformat": "Anahtarı tekrar gör"
+  },
+  "icu:Preferences__local-backups-folder": {
+    "messageformat": "Yedekleme dizini"
+  },
+  "icu:Preferences__local-backups-folder__change": {
+    "messageformat": "Değiştir"
+  },
+  "icu:Preferences__local-backups-copy-key": {
+    "messageformat": "Panoya kopyala"
+  },
+  "icu:Preferences__local-backups-copied-key": {
+    "messageformat": "Yedekleme anahtarı kopyalandı"
+  },
+  "icu:Preferences__view-key": {
+    "messageformat": "Anahtarı görüntüle"
+  },
+  "icu:Preferences__backup-key": {
+    "messageformat": "Yedekleme anahtarı"
+  },
+  "icu:Preferences__backup-key-description": {
+    "messageformat": "Yedekleme anahtarın, yedeklemeni geri yüklemek için kullanılan 64 haneli bir koddur"
+  },
+  "icu:Preferences__backup-other-ways": {
+    "messageformat": "Diğer yedekleme yolları"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} kişi} other {{num,number} kişi}}"
@@ -6324,6 +6438,9 @@
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Tanımadığın kişilerle kişisel bilgilerini paylaşma"
   },
+  "icu:SaveMultiDialog__title": {
+    "messageformat": "Ekleri kaydet"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Neler Yeni"
   },
@@ -6355,10 +6472,10 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Bu güncelleme, Hikayeler sekmesinde içerik görüntülenirken Signal penceresini hareket ettirmeyi zorlaştıran bir hatayı düzeltiyor."
+  "icu:WhatsNew__v7.58--0": {
+    "messageformat": "Mesaj tepki seçicisindeki yeni bir bölüm, bir mesajın aldığı tüm emoji tepkilerini otomatik olarak görüntüler. Böylece mesajın insanlarda uyandırdığı genel hissiyatı anında öğrenebilir, merakını hemen giderebilirsin."
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "Linux için performans iyileştirmeleri."
   }
 }

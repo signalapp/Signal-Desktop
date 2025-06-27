@@ -530,7 +530,7 @@ function getMessageRecipients({
         const serviceId = recipient.getServiceId();
         if (!serviceId) {
           log.error(
-            `sendNormalMessage/getMessageRecipients: Untrusted conversation ${recipient.idForLogging()} missing serviceId.`
+            `getMessageRecipients: Untrusted conversation ${recipient.idForLogging()} missing serviceId.`
           );
           return;
         }

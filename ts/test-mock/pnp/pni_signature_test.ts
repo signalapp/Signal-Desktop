@@ -15,7 +15,6 @@ import createDebug from 'debug';
 import * as durations from '../../util/durations';
 import { uuidToBytes } from '../../util/uuidToBytes';
 import { MY_STORY_ID } from '../../types/Stories';
-import { isUntaggedPniString, toTaggedPni } from '../../types/ServiceId';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
 import {
@@ -61,7 +60,6 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: true,
           name: MY_STORY_ID,
-          recipientServiceIds: [],
         },
       },
     });
@@ -132,9 +130,7 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
     });
 
     debug('Open conversation with the stranger');
-    await leftPane
-      .locator(`[data-testid="${stranger.toContact().aci}"]`)
-      .click();
+    await leftPane.locator(`[data-testid="${stranger.device.aci}"]`).click();
 
     debug('Accept conversation from a stranger');
     await acceptConversation(window);
@@ -259,7 +255,7 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
 
     debug('Send a PNI sync message');
     const timestamp = bootstrap.getTimestamp();
-    const destinationServiceId = stranger.device.pni;
+    const destinationServiceIdBinary = stranger.device.pniBinary;
     const destinationE164 = stranger.device.number;
     const destinationPniIdentityKey = await stranger.device.getIdentityKey(
       ServiceIdKind.PNI
@@ -271,13 +267,13 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
     const content = {
       syncMessage: {
         sent: {
-          destinationServiceId,
+          destinationServiceIdBinary,
           destinationE164,
           timestamp: Long.fromNumber(timestamp),
           message: originalDataMessage,
           unidentifiedStatus: [
             {
-              destinationServiceId,
+              destinationServiceIdBinary,
               destinationPniIdentityKey: destinationPniIdentityKey.serialize(),
             },
           ],
@@ -367,9 +363,7 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
     });
 
     debug('Wait for merge to happen');
-    await leftPane
-      .locator(`[data-testid="${stranger.toContact().aci}"]`)
-      .waitFor();
+    await leftPane.locator(`[data-testid="${stranger.device.aci}"]`).waitFor();
 
     {
       debug('Wait for composition input to clear');
@@ -409,13 +403,8 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
       );
       assert(aciRecord, 'ACI Contact must be in storage service');
 
-      assert.strictEqual(aciRecord?.aci, stranger.device.aci);
-      assert.strictEqual(
-        aciRecord?.pni &&
-          isUntaggedPniString(aciRecord?.pni) &&
-          toTaggedPni(aciRecord?.pni),
-        stranger.device.pni
-      );
+      assert.deepEqual(aciRecord?.aciBinary, stranger.device.aciRawUuid);
+      assert.deepEqual(aciRecord?.pniBinary, stranger.device.pniRawUuid);
       assert.strictEqual(aciRecord?.pniSignatureVerified, true);
 
       // Two outgoing, one incoming

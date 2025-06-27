@@ -12,10 +12,12 @@ import type { Op } from '@signalapp/quill-cjs';
 import type { Context as KeyboardContext } from '@signalapp/quill-cjs/modules/keyboard';
 import type { VirtualElement } from '@popperjs/core';
 
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import * as Errors from '../../types/errors';
 import type { LocalizerType } from '../../types/Util';
 import { handleOutsideClick } from '../../util/handleOutsideClick';
+
+const log = createLogger('menu');
 
 const MENU_FADE_OUT_MS = 200;
 const POPUP_GUIDE_FADE_MS = 120;

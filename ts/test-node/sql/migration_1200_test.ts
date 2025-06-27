@@ -6,11 +6,11 @@ import { assert } from 'chai';
 import { AttachmentDownloadSource, type WritableDB } from '../../sql/Interface';
 import { objectToJSON, sql } from '../../sql/util';
 import { createDB, updateToVersion, explain } from './helpers';
-import type { AttachmentDownloadJobType } from '../../types/AttachmentDownload';
 import { IMAGE_JPEG } from '../../types/MIME';
+import type { _AttachmentDownloadJobTypeV1040 } from '../../sql/migrations/1040-undownloaded-backed-up-media';
 
 type UnflattenedAttachmentDownloadJobType = Omit<
-  AttachmentDownloadJobType,
+  _AttachmentDownloadJobTypeV1040,
   'digest' | 'contentType' | 'size' | 'ciphertextSize'
 >;
 

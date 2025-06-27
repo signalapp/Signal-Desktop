@@ -43,10 +43,10 @@ export type UsernameStateType = ReadonlyDeep<{
   // ProfileEditor
   editState: UsernameEditState;
 
-  // UsernameLinkModalBody
+  // UsernameLinkEditor
   linkState: UsernameLinkState;
 
-  // EditUsernameModalBody
+  // UsernameEditor
   usernameReservation: UsernameReservationStateType;
 }>;
 

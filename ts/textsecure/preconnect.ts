@@ -10,7 +10,9 @@ import { isMockServer } from '../util/isMockServer';
 import { pemToDer } from '../util/pemToDer';
 import { drop } from '../util/drop';
 import { toLogFormat } from '../types/errors';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const log = createLogger('preconnect');
 
 // Libsignal has internally configured values for domain names
 // (and other connectivity params) of the services.

@@ -8,13 +8,15 @@ import { notificationService } from './notifications';
 import { SeenStatus } from '../MessageSeenStatus';
 import { queueUpdateMessage } from '../util/messageBatcher';
 import * as Errors from '../types/errors';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { isValidTapToView } from '../util/isValidTapToView';
 import { getMessageIdForLogging } from '../util/idForLogging';
 import { eraseMessageContents } from '../util/cleanup';
 import { getSource, getSourceServiceId } from '../messages/helpers';
 import { isAciString } from '../util/isAciString';
 import { viewOnceOpenJobQueue } from '../jobs/viewOnceOpenJobQueue';
+
+const log = createLogger('MessageUpdater');
 
 function markReadOrViewed(
   messageAttrs: Readonly<MessageAttributesType>,

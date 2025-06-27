@@ -13,14 +13,9 @@
     margin-block: 16px;
     margin-inline: 0;
     padding-block: 2px;
-    padding-inline: 16px;
+    padding-inline: 12px;
     display: flex;
     position: relative;
-
-    &--expandable {
-      padding-block: 2px;
-      padding-inline: 8px;
-    }
 
     @include mixins.light-theme {
       background: variables.$color-white;

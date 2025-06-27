@@ -16,6 +16,69 @@
     "reasonDetail": "Part of runtime library for C++ transpiled code"
   },
   {
+    "rule": "React-useRef",
+    "path": "node_modules/@radix-ui/react-tooltip/dist/index.js",
+    "line": "  const isOpenDelayedRef = React.useRef(true);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-30T20:26:57.154Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@radix-ui/react-tooltip/dist/index.js",
+    "line": "  const isPointerInTransitRef = React.useRef(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-30T20:26:57.154Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@radix-ui/react-tooltip/dist/index.js",
+    "line": "  const skipDelayTimerRef = React.useRef(0);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-30T20:26:57.154Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@radix-ui/react-tooltip/dist/index.js",
+    "line": "  const openTimerRef = React.useRef(0);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-30T20:26:57.154Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@radix-ui/react-tooltip/dist/index.js",
+    "line": "  const wasOpenDelayedRef = React.useRef(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-30T20:26:57.154Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@radix-ui/react-tooltip/dist/index.js",
+    "line": "    const ref = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-30T20:26:57.154Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@radix-ui/react-tooltip/dist/index.js",
+    "line": "    const isPointerDownRef = React.useRef(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-30T20:26:57.154Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@radix-ui/react-tooltip/dist/index.js",
+    "line": "    const hasPointerMoveOpenedRef = React.useRef(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-30T20:26:57.154Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@radix-ui/react-tooltip/dist/index.js",
+    "line": "  const ref = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-30T20:26:57.154Z"
+  },
+  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/@signalapp/quill-cjs/core/editor.js",
     "line": "      innerHTML",
@@ -773,6 +836,14 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/AvatarEditor.tsx",
+    "line": "  const tryClose = useRef<() => void | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-24T03:40:20.019Z",
+    "reasonDetail": "Holding on to a close function"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/AvatarTextEditor.tsx",
     "line": "  const measureElRef = useRef<null | HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
@@ -1409,10 +1480,34 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/PreferencesDonations.tsx",
+    "line": "  const tryClose = useRef<() => void | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-06-10T19:00:29.489Z",
+    "reasonDetail": "Holding on to a close function"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/PreferencesLocalBackups.tsx",
+    "line": "  const backupKeyTextareaRef = useRef<HTMLTextAreaElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-30T22:48:14.420Z",
+    "reasonDetail": "For focusing the settings backup key viewer textarea"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/ProfileEditor.tsx",
     "line": "  const focusInputRef = useRef<HTMLInputElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/ProfileEditor.tsx",
+    "line": "  const tryClose = useRef<() => void | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-24T03:23:25.769Z",
+    "reasonDetail": "Holding on to a close function"
   },
   {
     "rule": "React-useRef",
@@ -1574,6 +1669,22 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/UsernameEditor.tsx",
+    "line": "  const tryClose = useRef<() => void | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-28T00:57:39.376Z",
+    "reasonDetail": "Holding on to a close function"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/UsernameLinkEditor.tsx",
+    "line": "  const tryClose = useRef<() => void | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-28T00:57:39.376Z",
+    "reasonDetail": "Holding on to a close function"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/conversation/AttachmentStatusIcon.tsx",
     "line": "  const timerRef = useRef<NodeJS.Timeout | undefined>();",
     "reasonCategory": "usageTrusted",
@@ -1652,6 +1763,14 @@
     "reasonCategory": "usageTrusted",
     "updated": "2023-06-30T22:12:49.259Z",
     "reasonDetail": "Used for excluding the message metadata from triple-click selections."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/Message.tsx",
+    "line": "  const reactionsContainerRefMerger = useRef(createRefMerger());",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-06-05T12:55:51.245Z",
+    "reasonDetail": "Used for merging refs for reactions container"
   },
   {
     "rule": "React-useRef",
@@ -1812,13 +1931,6 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/fun/base/FunItem.tsx",
-    "line": "  const innerRef = useRef<HTMLButtonElement>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2025-04-23T23:43:10.675Z"
-  },
-  {
-    "rule": "React-useRef",
     "path": "ts/components/fun/base/FunScroller.tsx",
     "line": "  const scrollerRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
@@ -1872,6 +1984,13 @@
     "line": "  const ref = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/fun/base/FunTooltip.tsx",
+    "line": "  const ref = useRef<HTMLButtonElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-05-30T20:26:57.154Z"
   },
   {
     "rule": "React-useRef",

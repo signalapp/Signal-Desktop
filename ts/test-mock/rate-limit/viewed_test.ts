@@ -9,7 +9,6 @@ import * as durations from '../../util/durations';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
 import { ReceiptType } from '../../types/Receipt';
-import { toUntaggedPni } from '../../types/ServiceId';
 import {
   acceptConversation,
   typeIntoInput,
@@ -55,9 +54,9 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
       contact,
       {
         whitelisted: true,
-        serviceE164: contact.device.number,
+        e164: contact.device.number,
         identityKey: contact.getPublicKey(ServiceIdKind.PNI).serialize(),
-        pni: toUntaggedPni(contact.device.pni),
+        pniBinary: contact.device.pniRawUuid,
         givenName: 'Jamie',
       },
       ServiceIdKind.PNI
@@ -66,9 +65,9 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
       contactB,
       {
         whitelisted: true,
-        serviceE164: contactB.device.number,
+        e164: contactB.device.number,
         identityKey: contactB.getPublicKey(ServiceIdKind.PNI).serialize(),
-        pni: toUntaggedPni(contactB.device.pni),
+        pniBinary: contactB.device.pniRawUuid,
         givenName: 'Kim',
       },
       ServiceIdKind.PNI
@@ -111,10 +110,8 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
     const window = await app.getWindow();
     const leftPane = window.locator('#LeftPane');
 
-    debug(`Opening conversation with contact (${contact.toContact().aci})`);
-    await leftPane
-      .locator(`[data-testid="${contact.toContact().aci}"]`)
-      .click();
+    debug(`Opening conversation with contact (${contact.device.aci})`);
+    await leftPane.locator(`[data-testid="${contact.device.aci}"]`).click();
 
     debug('Accept conversation from contact - does not trigger captcha!');
     await acceptConversation(window);
@@ -172,10 +169,8 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
       timestamp: timestampA,
     });
 
-    debug(`Opening conversation with ContactA (${contact.toContact().aci})`);
-    await leftPane
-      .locator(`[data-testid="${contact.toContact().aci}"]`)
-      .click();
+    debug(`Opening conversation with ContactA (${contact.device.aci})`);
+    await leftPane.locator(`[data-testid="${contact.device.aci}"]`).click();
 
     debug('Accept conversation from ContactA - does not trigger captcha!');
     await acceptConversation(window);
@@ -186,10 +181,8 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
       timestamp: timestampB,
     });
 
-    debug(`Opening conversation with ContactB (${contact.toContact().aci})`);
-    await leftPane
-      .locator(`[data-testid="${contactB.toContact().aci}"]`)
-      .click();
+    debug(`Opening conversation with ContactB (${contact.device.aci})`);
+    await leftPane.locator(`[data-testid="${contactB.device.aci}"]`).click();
 
     debug('Accept conversation from ContactB - does not trigger captcha!');
     await acceptConversation(window);
@@ -273,10 +266,8 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
     const window = await app.getWindow();
     const leftPane = window.locator('#LeftPane');
 
-    debug(`Opening conversation with contact (${contact.toContact().aci})`);
-    await leftPane
-      .locator(`[data-testid="${contact.toContact().aci}"]`)
-      .click();
+    debug(`Opening conversation with contact (${contact.device.aci})`);
+    await leftPane.locator(`[data-testid="${contact.device.aci}"]`).click();
 
     debug('Accept conversation from contact - does not trigger captcha!');
     await acceptConversation(window);
@@ -342,10 +333,8 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
       timestamp,
     });
 
-    debug(`Opening conversation with Contact B (${contactB.toContact().aci})`);
-    await leftPane
-      .locator(`[data-testid="${contactB.toContact().aci}"]`)
-      .click();
+    debug(`Opening conversation with Contact B (${contactB.device.aci})`);
+    await leftPane.locator(`[data-testid="${contactB.device.aci}"]`).click();
 
     debug('Accept conversation from Contact B - does not trigger captcha!');
     await acceptConversation(window);

@@ -14,7 +14,11 @@ function getNav(state: StateType): NavStateType {
 }
 
 export const getSelectedNavTab = createSelector(getNav, nav => {
-  return nav.selectedNavTab;
+  return nav.selectedLocation.tab;
+});
+
+export const getSelectedLocation = createSelector(getNav, nav => {
+  return nav.selectedLocation;
 });
 
 export const getOtherTabsUnreadStats = createSelector(

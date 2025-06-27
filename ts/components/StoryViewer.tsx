@@ -19,7 +19,7 @@ import type { ReplyStateType, StoryViewType } from '../types/Stories';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId';
 import type { ShowToastAction } from '../state/ducks/toast';
 import type { ViewStoryActionCreatorType } from '../state/ducks/stories';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { AnimatedEmojiGalore } from './AnimatedEmojiGalore';
 import { Avatar, AvatarSize } from './Avatar';
 import { ConfirmationDialog } from './ConfirmationDialog';
@@ -54,6 +54,8 @@ import { RenderLocation } from './conversation/MessageTextRenderer';
 import { arrow } from '../util/keyboard';
 import { StoryProgressSegment } from './StoryProgressSegment';
 import type { EmojiSkinTone } from './fun/data/emojis';
+
+const log = createLogger('StoryViewer');
 
 function renderStrong(parts: Array<JSX.Element | string>) {
   return <strong>{parts}</strong>;
@@ -704,6 +706,7 @@ export function StoryViewer({
                   onExpandSpoiler={data => setIsSpoilerExpanded(data)}
                   renderLocation={RenderLocation.StoryViewer}
                   text={caption.text}
+                  originalText={caption.text}
                 />
                 {caption.hasReadMore && !hasExpandedCaption && (
                   <button

@@ -19,7 +19,10 @@ import z from 'zod';
 import GrowingFile from 'growing-file';
 import { isNumber } from 'lodash';
 
-import { decryptAttachmentV2ToSink } from '../ts/AttachmentCrypto';
+import {
+  type DecryptAttachmentToSinkOptionsType,
+  decryptAttachmentV2ToSink,
+} from '../ts/AttachmentCrypto';
 import * as Bytes from '../ts/Bytes';
 import type { MessageAttachmentsCursorType } from '../ts/sql/Interface';
 import type { MainSQL } from '../ts/sql/main';
@@ -42,6 +45,7 @@ import { safeParseInteger } from '../ts/util/numbers';
 import { parseLoose } from '../ts/util/schemas';
 import { sleep } from '../ts/util/sleep';
 import { toWebStream } from '../ts/util/toWebStream';
+import { createLogger } from '../ts/logging/log';
 import {
   deleteAll as deleteAllAttachments,
   deleteAllBadges,
@@ -60,6 +64,8 @@ import {
   getStickersPath,
   getTempPath,
 } from './attachments';
+
+const log = createLogger('attachment_channel');
 
 let initialized = false;
 
@@ -127,22 +133,25 @@ async function safeDecryptToSink(
         timeout: GROWING_FILE_TIMEOUT,
       });
       file.on('error', (error: Error) => {
-        console.warn(
+        log.warn(
           'safeDecryptToSync/incremental: growing-file emitted an error:',
           Errors.toLogFormat(error)
         );
       });
       file.pipe(ciphertextStream);
 
-      const options = {
+      const options: DecryptAttachmentToSinkOptionsType = {
         ciphertextStream,
         idForLogging: 'attachment_channel/incremental',
         keysBase64: ctx.keysBase64,
         size: ctx.size,
         theirChunkSize: ctx.chunkSize,
-        theirDigest: ctx.digest,
         theirIncrementalMac: ctx.incrementalMac,
-        type: 'standard' as const,
+        type: 'standard',
+        integrityCheck: {
+          type: 'encrypted',
+          digest: ctx.digest,
+        },
       };
 
       const controller = new AbortController();
@@ -215,7 +224,7 @@ async function safeDecryptToSink(
       return;
     }
 
-    console.error(
+    log.error(
       'handleAttachmentRequest: decryption error',
       Errors.toLogFormat(error)
     );
@@ -307,13 +316,13 @@ async function cleanupOrphanedAttachments({
   });
 
   const orphanedAttachments = new Set(await getAllAttachments(userDataPath));
-  console.log(
+  log.info(
     'cleanupOrphanedAttachments: found ' +
       `${orphanedAttachments.size} attachments on disk`
   );
 
   const orphanedDownloads = new Set(await getAllDownloads(userDataPath));
-  console.log(
+  log.info(
     'cleanupOrphanedAttachments: found ' +
       `${orphanedDownloads.size} downloads on disk`
   );
@@ -330,13 +339,13 @@ async function cleanupOrphanedAttachments({
       }
     }
 
-    console.log(
+    log.info(
       `cleanupOrphanedAttachments: Got ${conversationAttachments.length} conversation attachments,` +
         ` ${orphanedAttachments.size} remain`
     );
 
     if (missingConversationAttachments > 0) {
-      console.warn(
+      log.warn(
         `cleanupOrphanedAttachments: ${missingConversationAttachments} conversation attachments were not found on disk`
       );
     }
@@ -352,13 +361,13 @@ async function cleanupOrphanedAttachments({
       }
     }
 
-    console.log(
+    log.info(
       `cleanupOrphanedAttachments: found ${downloads.length} known downloads, ` +
         `${orphanedDownloads.size} remain`
     );
 
     if (missing > 0) {
-      console.warn(
+      log.warn(
         `cleanupOrphanedAttachments: ${missing} downloads were not found on disk`
       );
     }
@@ -433,13 +442,13 @@ function deleteOrphanedAttachments({
       }
     }
 
-    console.log(
+    log.info(
       `cleanupOrphanedAttachments:  ${totalAttachmentsFound} message ` +
         `attachments; ${orphanedAttachments.size} remain`
     );
 
     if (totalMissing > 0) {
-      console.warn(
+      log.warn(
         `cleanupOrphanedAttachments: ${totalMissing} message attachments were not found on disk`
       );
     }
@@ -449,7 +458,7 @@ function deleteOrphanedAttachments({
       attachments: Array.from(orphanedAttachments),
     });
 
-    console.log(
+    log.info(
       `cleanupOrphanedAttachments: found ${totalDownloadsFound} downloads ` +
         `${orphanedDownloads.size} remain`
     );
@@ -464,13 +473,10 @@ function deleteOrphanedAttachments({
     try {
       await runWithPossibleException();
     } catch (error) {
-      console.error(
-        'deleteOrphanedAttachments: error',
-        Errors.toLogFormat(error)
-      );
+      log.error('deleteOrphanedAttachments: error', Errors.toLogFormat(error));
     } finally {
       const duration = Date.now() - start;
-      console.log(`deleteOrphanedAttachments: took ${duration}ms`);
+      log.info(`deleteOrphanedAttachments: took ${duration}ms`);
     }
   }
 
@@ -534,7 +540,7 @@ export function initialize({
         _block,
       });
       const duration = Date.now() - start;
-      console.log(`cleanupOrphanedAttachments: took ${duration}ms`);
+      log.info(`cleanupOrphanedAttachments: took ${duration}ms`);
     }
   );
 
@@ -542,7 +548,7 @@ export function initialize({
     const start = Date.now();
     await deleteStaleDownloads(configDir);
     const duration = Date.now() - start;
-    console.log(`cleanupDownloads: took ${duration}ms`);
+    log.info(`cleanupDownloads: took ${duration}ms`);
   });
 
   protocol.handle('attachment', handleAttachmentRequest);
@@ -680,7 +686,7 @@ export async function handleAttachmentRequest(req: Request): Promise<Response> {
       context,
     });
   } catch (error) {
-    console.error('handleAttachmentRequest: error', Errors.toLogFormat(error));
+    log.error('handleAttachmentRequest: error', Errors.toLogFormat(error));
     throw error;
   }
 }
@@ -733,13 +739,13 @@ function handleRangeRequest({
   // Chromium only sends open-ended ranges: "start-"
   const match = range.match(/^bytes=(\d+)-$/);
   if (match == null) {
-    console.error(`attachment_channel: invalid range header: ${range}`);
+    log.error(`invalid range header: ${range}`);
     return create200Response();
   }
 
   const startParam = safeParseInteger(match[1]);
   if (startParam == null) {
-    console.error(`attachment_channel: invalid range header: ${range}`);
+    log.error(`invalid range header: ${range}`);
     return create200Response();
   }
 

@@ -4,12 +4,14 @@
 import type { MessageAttributesType } from '../model-types.d';
 import { getAuthorId } from '../messages/helpers';
 import { DataReader } from '../sql/Client';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
 import { deleteForEveryone } from '../util/deleteForEveryone';
 import { drop } from '../util/drop';
 import { getMessageSentTimestampSet } from '../util/getMessageSentTimestampSet';
 import { MessageModel } from '../models/messages';
+
+const log = createLogger('Deletes');
 
 export type DeleteAttributesType = {
   envelopeId: string;

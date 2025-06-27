@@ -22,7 +22,7 @@ import type {
   PageMessagesCursorType,
   IdentityKeyType,
 } from '../../sql/Interface';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { GiftBadgeStates } from '../../components/conversation/Message';
 import { type CustomColorType } from '../../types/Colors';
 import { StorySendMode, MY_STORY_ID } from '../../types/Stories';
@@ -125,12 +125,7 @@ import {
   isGIF,
   isDownloaded,
 } from '../../types/Attachment';
-import {
-  getFilePointerForAttachment,
-  getLocalBackupFilePointerForAttachment,
-  maybeGetBackupJobForAttachmentAndFilePointer,
-  maybeGetLocalBackupJobForAttachmentAndFilePointer,
-} from './util/filePointers';
+import { getFilePointerForAttachment } from './util/filePointers';
 import { getBackupMediaRootKey } from './crypto';
 import type {
   CoreAttachmentBackupJobType,
@@ -151,7 +146,11 @@ import { SeenStatus } from '../../MessageSeenStatus';
 import { migrateAllMessages } from '../../messages/migrateMessageData';
 import { trimBody } from '../../util/longAttachment';
 import { generateBackupsSubscriberData } from '../../util/backupSubscriptionData';
-import { getEnvironment, isTestEnvironment } from '../../environment';
+import {
+  getEnvironment,
+  isTestEnvironment,
+  isTestOrMockEnvironment,
+} from '../../environment';
 import { calculateLightness } from '../../util/getHSL';
 import { isSignalServiceId } from '../../util/isSignalConversation';
 import { isValidE164 } from '../../util/isValidE164';
@@ -159,7 +158,10 @@ import { toDayOfWeekArray } from '../../types/NotificationProfile';
 import { getLinkPreviewSetting } from '../../types/LinkPreview';
 import { getTypingIndicatorSetting } from '../../types/Util';
 
-const MAX_CONCURRENCY = 10;
+const log = createLogger('export');
+
+// Temporarily limited to preserve the received_at order
+const MAX_CONCURRENCY = 1;
 
 // We want a very generous timeout to make sure that we always resume write
 // access to the database.
@@ -844,6 +846,7 @@ export class BackupExportStream extends Readable {
     const currencyCode = storage.get('subscriberCurrencyCode');
 
     const backupsSubscriberData = generateBackupsSubscriberData();
+    const backupTier = storage.get('backupTier');
 
     return {
       profileKey: storage.get('profileKey'),
@@ -901,6 +904,11 @@ export class BackupExportStream extends Readable {
         // it builds `customColorIdByUuid`
         customChatColors: this.#toCustomChatColors(),
         defaultChatStyle: this.#toDefaultChatStyle(),
+        backupTier: backupTier != null ? Long.fromNumber(backupTier) : null,
+        // Test only values
+        ...(isTestOrMockEnvironment()
+          ? { optimizeOnDeviceStorage: storage.get('optimizeOnDeviceStorage') }
+          : {}),
       },
     };
   }
@@ -2576,20 +2584,15 @@ export class BackupExportStream extends Readable {
     isLocalBackup: boolean;
     messageReceivedAt: number;
   }): Promise<Backups.FilePointer> {
-    // We need to always get updatedAttachment in case the attachment wasn't reencryptable
-    // to the original digest. In that case mediaName will be based on updatedAttachment.
-    const { filePointer, updatedAttachment } = isLocalBackup
-      ? await getLocalBackupFilePointerForAttachment({
-          attachment,
-          backupLevel,
-          getBackupCdnInfo,
-        })
-      : await getFilePointerForAttachment({
-          attachment,
-          backupLevel,
-          getBackupCdnInfo,
-        });
+    const { filePointer, backupJob } = await getFilePointerForAttachment({
+      attachment,
+      isLocalBackup,
+      backupLevel,
+      messageReceivedAt,
+      getBackupCdnInfo,
+    });
 
+    // TODO: DESKTOP-8887
     if (isLocalBackup && filePointer.localLocator) {
       // Duplicate attachment check. Local backups can only contain 1 file per mediaName,
       // so if we see a duplicate mediaName then we must reuse the previous FilePointer.
@@ -2614,36 +2617,8 @@ export class BackupExportStream extends Readable {
       this.#mediaNamesToFilePointers.set(mediaName, filePointer);
     }
 
-    if (updatedAttachment) {
-      // TODO (DESKTOP-6688): ensure that we update the message/attachment in DB with the
-      // new keys so that we don't try to re-upload it again on the next export
-    }
-
-    // We don't download attachments during integration tests and thus have no
-    // "iv" for an attachment and can't create a job
-    if (this.backupType !== BackupType.TestOnlyPlaintext) {
-      let backupJob:
-        | CoreAttachmentBackupJobType
-        | PartialAttachmentLocalBackupJobType
-        | null;
-
-      if (isLocalBackup) {
-        backupJob = await maybeGetLocalBackupJobForAttachmentAndFilePointer({
-          attachment: updatedAttachment ?? attachment,
-          filePointer,
-        });
-      } else {
-        backupJob = await maybeGetBackupJobForAttachmentAndFilePointer({
-          attachment: updatedAttachment ?? attachment,
-          filePointer,
-          getBackupCdnInfo,
-          messageReceivedAt,
-        });
-      }
-
-      if (backupJob) {
-        this.#attachmentBackupJobs.push(backupJob);
-      }
+    if (backupJob) {
+      this.#attachmentBackupJobs.push(backupJob);
     }
 
     return filePointer;

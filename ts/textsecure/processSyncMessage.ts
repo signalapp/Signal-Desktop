@@ -3,11 +3,12 @@
 
 import type { SignalService as Proto } from '../protobuf';
 import type { ServiceIdString } from '../types/ServiceId';
-import { normalizeServiceId } from '../types/ServiceId';
+import { fromServiceIdBinaryOrString } from '../util/ServiceId';
 import type { ProcessedSent, ProcessedSyncMessage } from './Types.d';
 
 type ProtoServiceId = Readonly<{
   destinationServiceId?: string | null;
+  destinationServiceIdBinary?: Uint8Array | null;
 }>;
 
 function processProtoWithDestinationServiceId<Input extends ProtoServiceId>(
@@ -15,14 +16,20 @@ function processProtoWithDestinationServiceId<Input extends ProtoServiceId>(
 ): Omit<Input, keyof ProtoServiceId> & {
   destinationServiceId?: ServiceIdString;
 } {
-  const { destinationServiceId, ...remaining } = input;
+  const {
+    destinationServiceId: rawDestinationServiceId,
+    destinationServiceIdBinary,
+    ...remaining
+  } = input;
 
   return {
     ...remaining,
 
-    destinationServiceId: destinationServiceId
-      ? normalizeServiceId(destinationServiceId, 'processSyncMessage')
-      : undefined,
+    destinationServiceId: fromServiceIdBinaryOrString(
+      destinationServiceIdBinary,
+      rawDestinationServiceId,
+      'processSyncMessage'
+    ),
   };
 }
 
@@ -34,7 +41,8 @@ function processSent(
   }
 
   const {
-    destinationServiceId,
+    destinationServiceId: rawDestinationServiceId,
+    destinationServiceIdBinary,
     unidentifiedStatus,
     storyMessageRecipients,
     ...remaining
@@ -43,9 +51,11 @@ function processSent(
   return {
     ...remaining,
 
-    destinationServiceId: destinationServiceId
-      ? normalizeServiceId(destinationServiceId, 'processSent')
-      : undefined,
+    destinationServiceId: fromServiceIdBinaryOrString(
+      destinationServiceIdBinary,
+      rawDestinationServiceId,
+      'processSent'
+    ),
     unidentifiedStatus: unidentifiedStatus
       ? unidentifiedStatus.map(processProtoWithDestinationServiceId)
       : undefined,

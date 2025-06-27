@@ -11,7 +11,9 @@ import type {
   CompatPreKeyType,
   CompatSignedPreKeyType,
 } from './textsecure/Types.d';
-import * as log from './logging/log';
+import { createLogger } from './logging/log';
+
+const log = createLogger('Curve');
 
 export function isNonNegativeInteger(n: unknown): n is number {
   return typeof n === 'number' && n % 1 === 0 && n >= 0;
@@ -143,7 +145,7 @@ function validatePubKeyFormat(pubKey: Uint8Array): Uint8Array {
     throw new Error('Invalid public key');
   }
   if (pubKey.byteLength === 33) {
-    return pubKey.slice(1);
+    return pubKey.subarray(1);
   }
 
   return pubKey;

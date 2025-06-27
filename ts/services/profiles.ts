@@ -14,7 +14,7 @@ import type { CapabilitiesType, ProfileType } from '../textsecure/WebAPI';
 import MessageSender from '../textsecure/SendMessage';
 import type { ServiceIdString } from '../types/ServiceId';
 import { DataWriter } from '../sql/Client';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
 import * as Bytes from '../Bytes';
 import { explodePromise } from '../util/explodePromise';
@@ -44,6 +44,8 @@ import {
   maybeCreateGroupSendEndorsementState,
   onFailedToSendWithEndorsements,
 } from '../util/groupSendEndorsements';
+
+const log = createLogger('profiles');
 
 type JobType = {
   resolve: () => void;
@@ -133,7 +135,11 @@ export class ProfileService {
         await this.fetchProfile(conversation, groupId);
         resolve();
       } catch (error) {
-        reject(error);
+        log.error(
+          `ProfileServices.get: Error was thrown fetching ${conversation.idForLogging()}!`,
+          Errors.toLogFormat(error)
+        );
+        resolve();
 
         if (this.#isPaused) {
           return;
@@ -517,9 +523,9 @@ async function doGetProfile(
       profile = await messaging.server.getProfile(serviceId, request);
     }
   } catch (error) {
-    log.error(`${logId}: Failed to fetch profile`, Errors.toLogFormat(error));
-
     if (error instanceof HTTPError) {
+      log.warn(`${logId}: Failed to fetch profile. Code:`, error.code);
+
       // Unauthorized/Forbidden
       if (error.code === 401 || error.code === 403) {
         if (request.groupSendToken != null) {
@@ -556,9 +562,6 @@ async function doGetProfile(
             });
           }
         }
-
-        // TODO: Is it safe to ignore these errors?
-        return;
       }
 
       // Not Found
@@ -572,6 +575,8 @@ async function doGetProfile(
           c.setUnregistered();
         }
       }
+
+      return;
     }
 
     // throw all unhandled errors

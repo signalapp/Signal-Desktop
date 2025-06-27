@@ -37,6 +37,7 @@ import { UsernameSearchResultListItem } from './conversationList/UsernameSearchR
 import { GroupListItem } from './conversationList/GroupListItem';
 import { ListView } from './ListView';
 import { Button, ButtonVariant } from './Button';
+import { ListTile } from './ListTile';
 
 export enum RowType {
   ArchiveButton = 'ArchiveButton',
@@ -46,6 +47,7 @@ export enum RowType {
   ContactCheckbox = 'ContactCheckbox',
   PhoneNumberCheckbox = 'PhoneNumberCheckbox',
   UsernameCheckbox = 'UsernameCheckbox',
+  GenericCheckbox = 'GenericCheckbox',
   Conversation = 'Conversation',
   CreateNewGroup = 'CreateNewGroup',
   FindByUsername = 'FindByUsername',
@@ -58,6 +60,7 @@ export enum RowType {
   SelectSingleGroup = 'SelectSingleGroup',
   StartNewConversation = 'StartNewConversation',
   UsernameSearchResult = 'UsernameSearchResult',
+  EmptyResults = 'EmptyResults',
 }
 
 type ArchiveButtonRowType = {
@@ -98,6 +101,19 @@ type UsernameCheckboxRowType = {
   username: string;
   isChecked: boolean;
   isFetching: boolean;
+};
+
+export enum GenericCheckboxRowIcon {
+  Contact = 'contact',
+  Group = 'group',
+}
+
+type GenericCheckboxRowType = {
+  type: RowType.GenericCheckbox;
+  icon: GenericCheckboxRowIcon;
+  label: string;
+  isChecked: boolean;
+  onClick: () => void;
 };
 
 type ConversationRowType = {
@@ -160,6 +176,11 @@ type UsernameRowType = {
   isFetchingUsername: boolean;
 };
 
+type EmptyResultsRowType = {
+  type: RowType.EmptyResults;
+  message: string;
+};
+
 export type Row =
   | ArchiveButtonRowType
   | BlankRowType
@@ -168,6 +189,7 @@ export type Row =
   | ClearFilterButtonRowType
   | PhoneNumberCheckboxRowType
   | UsernameCheckboxRowType
+  | GenericCheckboxRowType
   | ConversationRowType
   | CreateNewGroupRowType
   | FindByUsername
@@ -178,7 +200,8 @@ export type Row =
   | SearchResultsLoadingFakeRowType
   | StartNewConversationRowType
   | SelectSingleGroupRowType
-  | UsernameRowType;
+  | UsernameRowType
+  | EmptyResultsRowType;
 
 export type PropsType = {
   dimensions?: {
@@ -222,6 +245,7 @@ export type PropsType = {
 const NORMAL_ROW_HEIGHT = 76;
 const SELECT_ROW_HEIGHT = 52;
 const HEADER_ROW_HEIGHT = 40;
+const EMPTY_RESULTS_ROW_HEIGHT = 48 + 20 + 48;
 
 export function ConversationList({
   dimensions,
@@ -260,19 +284,34 @@ export function ConversationList({
         assertDev(false, `Expected a row at index ${index}`);
         return NORMAL_ROW_HEIGHT;
       }
-      switch (row.type) {
+      const { type } = row;
+      switch (type) {
         case RowType.Header:
         case RowType.SearchResultsLoadingFakeHeader:
           return HEADER_ROW_HEIGHT;
         case RowType.SelectSingleGroup:
         case RowType.ContactCheckbox:
+        case RowType.GenericCheckbox:
         case RowType.Contact:
         case RowType.CreateNewGroup:
         case RowType.FindByUsername:
         case RowType.FindByPhoneNumber:
           return SELECT_ROW_HEIGHT;
-        default:
+        case RowType.ArchiveButton:
+        case RowType.Blank:
+        case RowType.ClearFilterButton:
+        case RowType.PhoneNumberCheckbox:
+        case RowType.UsernameCheckbox:
+        case RowType.Conversation:
+        case RowType.MessageSearchResult:
+        case RowType.SearchResultsLoadingFakeRow:
+        case RowType.StartNewConversation:
+        case RowType.UsernameSearchResult:
           return NORMAL_ROW_HEIGHT;
+        case RowType.EmptyResults:
+          return EMPTY_RESULTS_ROW_HEIGHT;
+        default:
+          throw missingCaseError(type);
       }
     },
     [getRow]
@@ -397,6 +436,21 @@ export function ConversationList({
               isFetching={row.isFetching}
               i18n={i18n}
               theme={theme}
+            />
+          );
+          break;
+        case RowType.GenericCheckbox:
+          result = (
+            <ListTile.checkbox
+              leading={
+                <i
+                  className={`module-conversation-list__generic-checkbox-icon module-conversation-list__generic-checkbox-icon--${row.icon}`}
+                />
+              }
+              title={row.label}
+              isChecked={row.isChecked}
+              onClick={row.onClick}
+              clickable
             />
           );
           break;
@@ -537,6 +591,13 @@ export function ConversationList({
               setIsFetchingUUID={setIsFetchingUUID}
               showConversation={showConversation}
             />
+          );
+          break;
+        case RowType.EmptyResults:
+          result = (
+            <div className="module-conversation-list__empty-results">
+              {row.message}
+            </div>
           );
           break;
         default:

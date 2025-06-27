@@ -48,7 +48,7 @@ import { missingCaseError } from '../util/missingCaseError';
 import { CallingToastProvider } from './CallingToast';
 import type { SmartReactionPicker } from '../state/smart/ReactionPicker';
 import type { Props as ReactionPickerProps } from './conversation/ReactionPicker';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall';
 import { CallingAdhocCallInfo } from './CallingAdhocCallInfo';
 import { callLinkRootKeyToUrl } from '../util/callLinkRootKeyToUrl';
@@ -59,6 +59,8 @@ import {
   shouldNotify,
 } from '../types/NotificationProfile';
 import type { NotificationProfileType } from '../types/NotificationProfile';
+
+const log = createLogger('CallManager');
 
 const GROUP_CALL_RING_DURATION = 60 * 1000;
 
@@ -618,16 +620,16 @@ export function CallManager({
           activeNotificationProfile?.id ?? ''
         );
         log.info(
-          `CallManager: Would play ringtone, but notification profile ${redactedId} prevented it`
+          `Would play ringtone, but notification profile ${redactedId} prevented it`
         );
         return;
       }
 
-      log.info('CallManager: Playing ringtone');
+      log.info('Playing ringtone');
       playRingtone();
 
       return () => {
-        log.info('CallManager: Stopping ringtone');
+        log.info('Stopping ringtone');
         stopRingtone();
       };
     }
@@ -734,7 +736,7 @@ export function CallManager({
         activeNotificationProfile?.id ?? ''
       );
       log.info(
-        `CallManager: Would show incoming call bar, but notification profile ${redactedId} prevented it`
+        `Would show incoming call bar, but notification profile ${redactedId} prevented it`
       );
       return null;
     }

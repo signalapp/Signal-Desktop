@@ -13,7 +13,7 @@ import {
   getDownloadsPath,
   getDraftPath,
   getPath,
-} from '../windows/attachments';
+} from '../windows/main/attachments';
 
 import { generateAci } from '../types/ServiceId';
 import { IMAGE_JPEG, LONG_MESSAGE } from '../types/MIME';

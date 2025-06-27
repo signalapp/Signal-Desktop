@@ -9,7 +9,7 @@ import { CircularBuffer } from 'cirbuf';
 import type { BrowserWindow } from 'electron';
 import { app, ipcMain as ipc } from 'electron';
 import readFirstLine from 'firstline';
-import { filter, flatten, map, noop, pick, sortBy } from 'lodash';
+import { filter, flatten, map, pick, sortBy } from 'lodash';
 import {
   createReadStream,
   mkdirSync,
@@ -19,45 +19,31 @@ import {
 } from 'node:fs';
 import { rm } from 'node:fs/promises';
 import { join } from 'path';
-import type { StreamEntry } from 'pino';
-import pino from 'pino';
 import { read as readLastLines } from 'read-last-lines';
 import split2 from 'split2';
 
 import type { LoggerType } from '../types/Logging';
 import * as Errors from '../types/errors';
 import { createRotatingPinoDest } from '../util/rotatingPinoDest';
+import { redactAll } from '../util/privacy';
 
-import { Environment, getEnvironment } from '../environment';
-import * as log from './log';
+import { setPinoDestination, log } from './log';
 
 import type { FetchLogIpcData, LogEntryType } from './shared';
-import { LogLevel, cleanArgs, getLogLevelString, isLogEntry } from './shared';
-
-declare global {
-  // We want to extend `Console`, so we need an interface.
-  // eslint-disable-next-line no-restricted-syntax
-  interface Console {
-    _log: typeof console.log;
-    _warn: typeof console.warn;
-    _error: typeof console.error;
-  }
-}
+import { LogLevel, isLogEntry } from './shared';
 
 const MAX_LOG_LINES = 10_000_000;
 
-let globalLogger: undefined | pino.Logger;
+let isInitialized = false;
 let shouldRestart = false;
-
-const isRunningFromConsole =
-  Boolean(process.stdout.isTTY) || getEnvironment() === Environment.Test;
 
 export async function initialize(
   getMainWindow: () => undefined | BrowserWindow
 ): Promise<LoggerType> {
-  if (globalLogger) {
+  if (isInitialized) {
     throw new Error('Already called initialize!');
   }
+  isInitialized = true;
 
   const basePath = app.getPath('userData');
   const logPath = join(basePath, 'logs');
@@ -86,7 +72,7 @@ export async function initialize(
   });
 
   const onClose = () => {
-    globalLogger = undefined;
+    isInitialized = false;
 
     if (shouldRestart) {
       void initialize(getMainWindow);
@@ -96,34 +82,13 @@ export async function initialize(
   rotatingStream.on('close', onClose);
   rotatingStream.on('error', onClose);
 
-  const streams = new Array<StreamEntry>();
-  streams.push({ stream: rotatingStream });
-
-  if (isRunningFromConsole) {
-    process.stdout.on('error', noop);
-
-    streams.push({
-      level: 'debug' as const,
-      stream: process.stdout,
-    });
-  }
-
-  const logger = pino(
-    {
-      formatters: {
-        // No point in saving pid or hostname
-        bindings: () => ({}),
-      },
-      timestamp: pino.stdTimeFunctions.isoTime,
-    },
-    pino.multistream(streams)
-  );
+  setPinoDestination(rotatingStream, redactAll);
 
   ipc.removeHandler('fetch-log');
   ipc.handle('fetch-log', async () => {
     const mainWindow = getMainWindow();
     if (!mainWindow) {
-      logger.info('Logs were requested, but the main window is missing');
+      log.info('Logs were requested, but the main window is missing');
       return;
     }
 
@@ -138,7 +103,7 @@ export async function initialize(
         ...rest,
       };
     } catch (error) {
-      logger.error(`Problem loading log data: ${Errors.toLogFormat(error)}`);
+      log.error(`Problem loading log data: ${Errors.toLogFormat(error)}`);
       return;
     }
 
@@ -153,11 +118,9 @@ export async function initialize(
     try {
       await deleteAllLogs(logPath);
     } catch (error) {
-      logger.error(`Problem deleting all logs: ${Errors.toLogFormat(error)}`);
+      log.error(`Problem deleting all logs: ${Errors.toLogFormat(error)}`);
     }
   });
-
-  globalLogger = logger;
 
   return log;
 }
@@ -326,24 +289,3 @@ export const fetchAdditionalLogData = (
       resolve(data);
     });
   });
-
-function logAtLevel(level: LogLevel, ...args: ReadonlyArray<unknown>) {
-  if (globalLogger) {
-    const levelString = getLogLevelString(level);
-    globalLogger[levelString](cleanArgs(args));
-  } else if (isRunningFromConsole && !process.stdout.destroyed) {
-    console._log(...args);
-  }
-}
-
-// This blows up using mocha --watch, so we ensure it is run just once
-if (!console._log) {
-  log.setLogAtLevel(logAtLevel);
-
-  console._log = console.log;
-  console.log = log.info;
-  console._error = console.error;
-  console.error = log.error;
-  console._warn = console.warn;
-  console.warn = log.warn;
-}

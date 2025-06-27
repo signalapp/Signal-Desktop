@@ -8,7 +8,7 @@ import type { LocalizerType } from '../types/Util';
 import * as Errors from '../types/errors';
 import type { AnyToast } from '../types/Toast';
 import { ToastType } from '../types/Toast';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { Button, ButtonVariant } from './Button';
 import { Spinner } from './Spinner';
 import { ToastManager } from './ToastManager';
@@ -16,6 +16,8 @@ import { createSupportUrl } from '../util/createSupportUrl';
 import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
+
+const log = createLogger('DebugLogWindow');
 
 enum LoadState {
   NotStarted,
@@ -96,7 +98,7 @@ export function DebugLogWindow({
       const publishedLogURL = await uploadLogs(text);
       setPublicLogURL(publishedLogURL);
     } catch (error) {
-      log.error('DebugLogWindow error:', Errors.toLogFormat(error));
+      log.error('error:', Errors.toLogFormat(error));
       setLoadState(LoadState.Loaded);
       setToast({ toastType: ToastType.DebugLogError });
     }

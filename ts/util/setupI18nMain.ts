@@ -11,10 +11,12 @@ import type {
   LocalizerOptions,
 } from '../types/Util';
 import { strictAssert } from './assert';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
 import { Environment, getEnvironment } from '../environment';
 import { bidiIsolate, bidiStrip } from './unicodeBidi';
+
+const log = createLogger('setupI18nMain');
 
 export function isLocaleMessageType(
   value: unknown

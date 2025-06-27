@@ -1,6 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { timingSafeEqual } from 'node:crypto';
 import { assert } from 'chai';
 import { ServiceIdKind, Proto, StorageState } from '@signalapp/mock-server';
 import type { PrimaryDevice } from '@signalapp/mock-server';
@@ -10,7 +11,6 @@ import Long from 'long';
 import * as durations from '../../util/durations';
 import { uuidToBytes } from '../../util/uuidToBytes';
 import { generateConfigMatrix } from '../../util/generateConfigMatrix';
-import { toUntaggedPni } from '../../types/ServiceId';
 import { MY_STORY_ID } from '../../types/Stories';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
@@ -59,7 +59,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
 
         identityKey: pniIdentityKey,
 
-        serviceE164: pniContact.device.number,
+        e164: pniContact.device.number,
         givenName: 'PNI Contact',
       },
       ServiceIdKind.PNI
@@ -69,7 +69,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       identityState: Proto.ContactRecord.IdentityState.DEFAULT,
       whitelisted: true,
 
-      serviceE164: undefined,
+      e164: undefined,
       identityKey: aciIdentityKey,
       givenName: 'ACI Contact',
     });
@@ -87,7 +87,6 @@ describe('pnp/merge', function (this: Mocha.Suite) {
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: true,
           name: MY_STORY_ID,
-          recipientServiceIds: [],
         },
       },
     });
@@ -282,8 +281,8 @@ describe('pnp/merge', function (this: Mocha.Suite) {
         let state = await phone.expectStorageState('consistency check');
 
         state = state.updateContact(pniContact, {
-          pni: undefined,
-          serviceE164: undefined,
+          pniBinary: undefined,
+          e164: undefined,
           unregisteredAtTimestamp: Long.fromNumber(bootstrap.getTimestamp()),
         });
 
@@ -296,7 +295,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
 
               identityKey: pniIdentityKey,
 
-              serviceE164: pniContact.device.number,
+              e164: pniContact.device.number,
               givenName: 'PNI Contact',
             },
             ServiceIdKind.PNI
@@ -403,25 +402,34 @@ describe('pnp/merge', function (this: Mocha.Suite) {
           throw new Error('Invalid record');
         }
 
-        const { aci, serviceE164, pni } = contact;
-        if (aci === pniContact.device.aci) {
+        const { aciBinary, e164, pniBinary } = contact;
+        if (
+          aciBinary?.length &&
+          timingSafeEqual(aciBinary, pniContact.device.aciRawUuid)
+        ) {
           aciContacts += 1;
-          assert.strictEqual(pni, '');
-          assert.strictEqual(serviceE164, '');
-        } else if (pni === toUntaggedPni(pniContact.device.pni)) {
+          assert.strictEqual(pniBinary?.length, 0);
+          assert.strictEqual(e164, '');
+        } else if (
+          pniBinary?.length &&
+          timingSafeEqual(pniBinary, pniContact.device.pniRawUuid)
+        ) {
           pniContacts += 1;
-          assert.strictEqual(aci, '');
-          assert.strictEqual(serviceE164, pniContact.device.number);
+          assert.strictEqual(aciBinary?.length, 0);
+          assert.strictEqual(e164, pniContact.device.number);
         }
       }
       assert.strictEqual(aciContacts, 1);
       assert.strictEqual(pniContacts, 1);
 
-      assert.strictEqual(
-        removed[0].contact?.pni,
-        toUntaggedPni(pniContact.device.pni)
+      assert.deepEqual(
+        removed[0].contact?.pniBinary,
+        pniContact.device.pniRawUuid
       );
-      assert.strictEqual(removed[0].contact?.aci, pniContact.device.aci);
+      assert.deepEqual(
+        removed[0].contact?.aciBinary,
+        pniContact.device.aciRawUuid
+      );
 
       // Pin PNI so that it appears in the left pane
       const updated = newState.pin(pniContact, ServiceIdKind.PNI);
@@ -473,7 +481,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
 
           identityKey: aciIdentityKey,
 
-          serviceE164: aciContact.device.number,
+          e164: aciContact.device.number,
           givenName: 'ACI Contact',
         },
         ServiceIdKind.ACI
@@ -556,12 +564,12 @@ describe('pnp/merge', function (this: Mocha.Suite) {
     for (const key of ['aci' as const, 'pni' as const]) {
       debug(`Send a ${key} sync message`);
       const timestamp = bootstrap.getTimestamp();
-      const destinationServiceId = pniContact.device[key];
+      const destinationServiceIdBinary = pniContact.device[`${key}Binary`];
       const destination = key === 'pni' ? pniContact.device.number : undefined;
       const content = {
         syncMessage: {
           sent: {
-            destinationServiceId,
+            destinationServiceIdBinary,
             destination,
             timestamp: Long.fromNumber(timestamp),
             message: {
@@ -572,7 +580,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
             },
             unidentifiedStatus: [
               {
-                destinationServiceId,
+                destinationServiceIdBinary,
                 destination,
               },
             ],

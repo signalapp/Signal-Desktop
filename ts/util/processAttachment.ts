@@ -3,7 +3,7 @@
 
 import { v4 as generateUuid } from 'uuid';
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import type {
   AttachmentType,
   InMemoryAttachmentDraftType,
@@ -22,6 +22,8 @@ import { isHeic, stringToMIMEType } from '../types/MIME';
 import { ToastType } from '../types/Toast';
 import { isImageTypeSupported, isVideoTypeSupported } from './GoogleChrome';
 import { getAttachmentCiphertextLength } from '../AttachmentCrypto';
+
+const log = createLogger('processAttachment');
 
 export async function processAttachment(
   file: File,

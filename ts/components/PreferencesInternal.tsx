@@ -2,28 +2,44 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useState, useCallback } from 'react';
+import classNames from 'classnames';
+
 import type { LocalizerType } from '../types/I18N';
 import { toLogFormat } from '../types/errors';
 import { formatFileSize } from '../util/formatFileSize';
 import { SECOND } from '../util/durations';
 import type { ValidationResultType as BackupValidationResultType } from '../services/backups';
-import { SettingsRow, SettingsControl } from './PreferencesUtil';
+import { SettingsRow, FlowingSettingsControl } from './PreferencesUtil';
 import { Button, ButtonVariant } from './Button';
 import { Spinner } from './Spinner';
+import type { MessageCountBySchemaVersionType } from '../sql/Interface';
+import type { MessageAttributesType } from '../model-types';
 
 export function PreferencesInternal({
   i18n,
   exportLocalBackup: doExportLocalBackup,
   validateBackup: doValidateBackup,
+  getMessageCountBySchemaVersion,
+  getMessageSampleForSchemaVersion,
 }: {
   i18n: LocalizerType;
   exportLocalBackup: () => Promise<BackupValidationResultType>;
   validateBackup: () => Promise<BackupValidationResultType>;
+  getMessageCountBySchemaVersion: () => Promise<MessageCountBySchemaVersionType>;
+  getMessageSampleForSchemaVersion: (
+    version: number
+  ) => Promise<Array<MessageAttributesType>>;
 }): JSX.Element {
   const [isExportPending, setIsExportPending] = useState(false);
   const [exportResult, setExportResult] = useState<
     BackupValidationResultType | undefined
   >();
+
+  const [messageCountBySchemaVersion, setMessageCountBySchemaVersion] =
+    useState<MessageCountBySchemaVersionType>();
+  const [messageSampleForVersions, setMessageSampleForVersions] = useState<{
+    [schemaVersion: number]: Array<MessageAttributesType>;
+  }>();
 
   const [isValidationPending, setIsValidationPending] = useState(false);
   const [validationResult, setValidationResult] = useState<
@@ -68,7 +84,7 @@ export function PreferencesInternal({
         }
 
         return (
-          <div className="Preferences--internal--validate-backup--result">
+          <div className="Preferences--internal--result">
             {snapshotDirEl}
             <p>Main file size: {formatFileSize(totalBytes)}</p>
             <p>Duration: {Math.round(duration / SECOND)}s</p>
@@ -82,7 +98,7 @@ export function PreferencesInternal({
       const { error } = backupResult;
 
       return (
-        <div className="Preferences--internal--validate-backup--error">
+        <div className="Preferences--internal--error">
           <pre>
             <code>{error}</code>
           </pre>
@@ -105,14 +121,22 @@ export function PreferencesInternal({
   }, [doExportLocalBackup]);
 
   return (
-    <>
+    <div className="Preferences--internal">
       <SettingsRow
         className="Preferences--internal--backups"
         title={i18n('icu:Preferences__button--backups')}
       >
-        <SettingsControl
-          left={i18n('icu:Preferences__internal__validate-backup--description')}
-          right={
+        <FlowingSettingsControl>
+          <div className="Preferences__two-thirds-flow">
+            {i18n('icu:Preferences__internal__validate-backup--description')}
+          </div>
+          <div
+            className={classNames(
+              'Preferences__flow-button',
+              'Preferences__one-third-flow',
+              'Preferences__one-third-flow--align-right'
+            )}
+          >
             <Button
               variant={ButtonVariant.Secondary}
               onClick={validateBackup}
@@ -124,8 +148,8 @@ export function PreferencesInternal({
                 i18n('icu:Preferences__internal__validate-backup')
               )}
             </Button>
-          }
-        />
+          </div>
+        </FlowingSettingsControl>
 
         {renderValidationResult(validationResult)}
       </SettingsRow>
@@ -134,11 +158,19 @@ export function PreferencesInternal({
         className="Preferences--internal--backups"
         title={i18n('icu:Preferences__internal__local-backups')}
       >
-        <SettingsControl
-          left={i18n(
-            'icu:Preferences__internal__export-local-backup--description'
-          )}
-          right={
+        <FlowingSettingsControl>
+          <div className="Preferences__two-thirds-flow">
+            {i18n(
+              'icu:Preferences__internal__export-local-backup--description'
+            )}
+          </div>
+          <div
+            className={classNames(
+              'Preferences__flow-button',
+              'Preferences__one-third-flow',
+              'Preferences__one-third-flow--align-right'
+            )}
+          >
             <Button
               variant={ButtonVariant.Secondary}
               onClick={exportLocalBackup}
@@ -150,11 +182,104 @@ export function PreferencesInternal({
                 i18n('icu:Preferences__internal__export-local-backup')
               )}
             </Button>
-          }
-        />
+          </div>
+        </FlowingSettingsControl>
 
         {renderValidationResult(exportResult)}
       </SettingsRow>
-    </>
+
+      <SettingsRow
+        className="Preferences--internal--message-schemas"
+        title="Message schema versions"
+      >
+        <FlowingSettingsControl>
+          <div className="Preferences__two-thirds-flow">
+            Check message schema versions
+          </div>
+          <div
+            className={classNames(
+              'Preferences__flow-button',
+              'Preferences__one-third-flow',
+              'Preferences__one-third-flow--align-right'
+            )}
+          >
+            <Button
+              variant={ButtonVariant.Secondary}
+              onClick={async () => {
+                setMessageCountBySchemaVersion(
+                  await getMessageCountBySchemaVersion()
+                );
+                setMessageSampleForVersions({});
+              }}
+              disabled={isExportPending}
+            >
+              Fetch data
+            </Button>
+          </div>
+        </FlowingSettingsControl>
+
+        {messageCountBySchemaVersion ? (
+          <div className="Preferences--internal--result">
+            <pre>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Schema version</th>
+                    <th># Messages</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {messageCountBySchemaVersion.map(
+                    ({ schemaVersion, count }) => {
+                      return (
+                        <React.Fragment key={schemaVersion}>
+                          <tr>
+                            <td>{schemaVersion}</td>
+                            <td>{count}</td>
+                            <td>
+                              <button
+                                type="button"
+                                onClick={async () => {
+                                  const sampleMessages =
+                                    await getMessageSampleForSchemaVersion(
+                                      schemaVersion
+                                    );
+                                  setMessageSampleForVersions({
+                                    [schemaVersion]: sampleMessages,
+                                  });
+                                }}
+                                disabled={isExportPending}
+                              >
+                                Sample
+                              </button>
+                            </td>
+                          </tr>
+                          {messageSampleForVersions?.[schemaVersion] ? (
+                            <tr
+                              key={`${schemaVersion}_samples`}
+                              className="Preferences--internal--subresult"
+                            >
+                              <td colSpan={3}>
+                                <code>
+                                  {JSON.stringify(
+                                    messageSampleForVersions[schemaVersion],
+                                    null,
+                                    2
+                                  )}
+                                </code>
+                              </td>
+                            </tr>
+                          ) : null}
+                        </React.Fragment>
+                      );
+                    }
+                  )}
+                </tbody>
+              </table>
+            </pre>
+          </div>
+        ) : null}
+      </SettingsRow>
+    </div>
   );
 }

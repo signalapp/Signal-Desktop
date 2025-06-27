@@ -59,7 +59,7 @@ export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
     });
 
     if (!isDeviceLinked()) {
-      log.info("reportSpamJobQueue: skipping this job because we're unlinked");
+      log.info("skipping this job because we're unlinked");
       return undefined;
     }
 
@@ -89,15 +89,13 @@ export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
       }
 
       if (code === 508) {
-        log.info(
-          'reportSpamJobQueue: server responded with 508. Giving up on this job'
-        );
+        log.info('server responded with 508. Giving up on this job');
         return undefined;
       }
 
       if (isRetriable4xxStatus(code) || is5xxStatus(code)) {
         log.info(
-          `reportSpamJobQueue: server responded with ${code} status code. Sleeping before our next attempt`
+          `server responded with ${code} status code. Sleeping before our next attempt`
         );
         await sleeper.sleep(
           RETRY_WAIT_TIME,
@@ -108,7 +106,7 @@ export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
 
       if (is4xxStatus(code)) {
         log.error(
-          `reportSpamJobQueue: server responded with ${code} status code. Giving up on this job`
+          `server responded with ${code} status code. Giving up on this job`
         );
         return undefined;
       }

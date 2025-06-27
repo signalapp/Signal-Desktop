@@ -10,7 +10,7 @@ import { getOwn } from '../util/getOwn';
 import { isGroup } from '../util/whatTypeOfConversation';
 import { handleMessageSend } from '../util/handleMessageSend';
 import { getSendOptions } from '../util/getSendOptions';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import {
   getPropForTimestamp,
   getChangesForPropAtTimestamp,
@@ -28,6 +28,8 @@ import type { CallbackResultType } from '../textsecure/Types.d';
 import type { MessageModel } from '../models/messages';
 import type { ServiceIdString } from '../types/ServiceId';
 import type { SendStateByConversationId } from './MessageSendState';
+
+const log = createLogger('send');
 
 /* eslint-disable more/no-then */
 
@@ -186,11 +188,7 @@ export async function send(
     switch (error.name) {
       case 'OutgoingIdentityKeyError': {
         if (conversation) {
-          promises.push(
-            conversation.getProfiles().catch(() => {
-              /* nothing to do here; logging already happened */
-            })
-          );
+          promises.push(conversation.getProfiles());
         }
         break;
       }

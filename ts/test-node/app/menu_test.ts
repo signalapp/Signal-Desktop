@@ -4,11 +4,13 @@
 import { assert } from 'chai';
 import { stub } from 'sinon';
 import type { MenuItemConstructorOptions } from 'electron';
+import type pino from 'pino';
 
 import type { CreateTemplateOptionsType } from '../../../app/menu';
 import { createTemplate } from '../../../app/menu';
 import { load as loadLocale } from '../../../app/locale';
 import type { MenuListType } from '../../types/menu';
+import type { LoggerType } from '../../types/Logging';
 import { HourCyclePreference } from '../../types/I18N';
 
 const forceUpdate = stub();
@@ -203,19 +205,22 @@ const PLATFORMS = [
 ];
 
 describe('createTemplate', () => {
+  const logger: LoggerType = {
+    fatal: stub().throwsArg(0),
+    error: stub().throwsArg(0),
+    warn: stub().throwsArg(0),
+    info: stub() as pino.LogFn,
+    debug: stub() as pino.LogFn,
+    trace: stub() as pino.LogFn,
+    child: () => logger,
+  };
+
   const { i18n } = loadLocale({
     preferredSystemLocales: ['en'],
     localeOverride: null,
     localeDirectionTestingOverride: null,
     hourCyclePreference: HourCyclePreference.UnknownPreference,
-    logger: {
-      fatal: stub().throwsArg(0),
-      error: stub().throwsArg(0),
-      warn: stub().throwsArg(0),
-      info: stub(),
-      debug: stub(),
-      trace: stub(),
-    },
+    logger,
   });
 
   const actions = {

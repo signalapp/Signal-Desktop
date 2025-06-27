@@ -3,7 +3,7 @@
 
 import { blobToArrayBuffer } from 'blob-util';
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { scaleImageToLevel } from './scaleImageToLevel';
 import { dropNull } from './dropNull';
 import { getLocalAttachmentUrl } from './getLocalAttachmentUrl';
@@ -14,6 +14,8 @@ import type {
 import { canBeTranscoded } from '../types/Attachment';
 import * as Errors from '../types/errors';
 import * as Bytes from '../Bytes';
+
+const log = createLogger('attachments');
 
 // All outgoing images go through handleImageAttachment before being sent and thus have
 // already been scaled to high-quality level, stripped of exif data, and saved. This
@@ -106,8 +108,6 @@ export function copyCdnFields(
       ? Bytes.toBase64(uploaded.incrementalMac)
       : undefined,
     chunkSize: dropNull(uploaded.chunkSize),
-    isReencryptableToSameDigest: uploaded.isReencryptableToSameDigest,
-    iv: Bytes.toBase64(uploaded.iv),
     key: Bytes.toBase64(uploaded.key),
     plaintextHash: uploaded.plaintextHash,
     uploadTimestamp: uploaded.uploadTimestamp?.toNumber(),

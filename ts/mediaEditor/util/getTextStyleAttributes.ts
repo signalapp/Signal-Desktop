@@ -1,9 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { getHSL } from './color';
 import { missingCaseError } from '../../util/missingCaseError';
+import { toLogFormat } from '../../types/errors';
+
+const log = createLogger('getTextStyleAttributes');
 
 export enum TextStyle {
   Regular = 'Regular',
@@ -38,7 +41,7 @@ export function getTextStyleAttributes(
         textBackgroundColor: '',
       };
     default:
-      log.error(missingCaseError(textStyle));
+      log.error(toLogFormat(missingCaseError(textStyle)));
       return getTextStyleAttributes(TextStyle.Regular, hueSliderValue);
   }
 }

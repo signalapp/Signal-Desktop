@@ -5,7 +5,7 @@ import { z } from 'zod';
 
 import type { ReadonlyMessageAttributesType } from '../model-types.d';
 import * as Errors from '../types/errors';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { GiftBadgeStates } from '../components/conversation/Message';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { getMessageIdForLogging } from '../util/idForLogging';
@@ -17,6 +17,8 @@ import { queueUpdateMessage } from '../util/messageBatcher';
 import { isAciString } from '../util/isAciString';
 import { DataReader, DataWriter } from '../sql/Client';
 import { MessageModel } from '../models/messages';
+
+const log = createLogger('ViewSyncs');
 
 export const viewSyncTaskSchema = z.object({
   type: z.literal('ViewSync').readonly(),

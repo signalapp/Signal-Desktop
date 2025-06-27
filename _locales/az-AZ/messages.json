@@ -41,6 +41,9 @@
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "Yüksək keyfiyyətli media göndərərkən, daha çox verilənlər istifadə ediləcək."
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "Signal-a ianə verin"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standard"
   },
@@ -594,7 +597,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Verilənlər bazası xətası: qeyd jurnallarınızı paylaşın."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Yaddaş xidmətində etibarsız cavab alındı. Qeyd jurnallarınızı paylaşın."
@@ -1269,7 +1272,7 @@
     "messageformat": "Kömək lazımdır?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Tənzimləmələr"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefon nömrəsi"
@@ -1680,7 +1683,7 @@
     "messageformat": "{sender}, {group} qrupundadır"
   },
   "icu:notificationReactionMessage": {
-    "messageformat": "{sender} \"{message}\" mesajına reaksiya verdi: {emoji}"
+    "messageformat": "{sender} {emoji} reakiyası verdi: {message} mesajı"
   },
   "icu:sendFailed": {
     "messageformat": "Göndərilmədi"
@@ -2338,6 +2341,9 @@
   },
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
     "messageformat": "Axtarış nəticələri"
+  },
+  "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
+    "messageformat": "Bu mesaj"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Son istifadə edilən"
@@ -3405,7 +3411,7 @@
     "messageformat": "Qrupa qoşulmaq olmur"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "Bir admin sizi çıxartdığı üçün bu qrupa qrup bağlantısı vasitəsilə qoşula bilməzsiniz."
+    "messageformat": "Admin sizi çıxartdığı üçün bu qrupa qrup bağlantısı vasitəsilə qoşula bilməzsiniz. Qrupa yenidən əlavə edilmək üçün admin ilə əlaqə saxlayın."
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "Bu qrupa qoşula bilməyiniz üçün qrupdan bir admin tələbinizi təsdiqləməlidir. Siz qoşulma tələbi göndərəndə, adınız və fotonuz üzvlərlə paylaşılacaq."
@@ -3964,6 +3970,12 @@
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "\"Signal-a ianə verin\" üzərinə toxunun və abunə olun"
+  },
+  "icu:ProfileMovedModal__title": {
+    "messageformat": "Profiliniz köçürülüb"
+  },
+  "icu:ProfileMovedModal__description": {
+    "messageformat": "Profilinizə baxmaq və onu redaktə etmək üçün Parametrlər tab-vərəqəsini açın."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Mesajlar sinxronlaşdırılır"
@@ -4931,6 +4943,9 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Profiliniz yenilənə bilmir. Zəhmət olmasa yenidən sınayın."
   },
+  "icu:ProfileEditorModal--sharing": {
+    "messageformat": "Paylaşılır"
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Bir adminə mesaj yazın"
   },
@@ -4963,6 +4978,9 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "Ümumi"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "Signal-a ianə verin"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "Görünüş"
@@ -5005,6 +5023,15 @@
   },
   "icu:Preferences__button--internal": {
     "messageformat": "Daxili"
+  },
+  "icu:Preferences__button--manage": {
+    "messageformat": "İdarə et"
+  },
+  "icu:Preferences__button--choose-folder": {
+    "messageformat": "Qovluq seçin"
+  },
+  "icu:Preferences__button--set-up": {
+    "messageformat": "Quraşdır"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Lokal ehtiyat nüsxələri"
@@ -5051,6 +5078,15 @@
   "icu:Preferences--blocked": {
     "messageformat": "Bloklandı"
   },
+  "icu:Preferences--signal-backups": {
+    "messageformat": "Signal ehtiyat nüsxələri"
+  },
+  "icu:Preferences--signal-backups-off-description": {
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+  },
+  "icu:Preferences--backup-section-description": {
+    "messageformat": "Yeni telefon aldığınız və ya Signal-ı təkrar quraşdırdığınız zaman məlumatları itirməmək üçün mesaj tarixçəsinin ehtiyat nüsxəsini çıxarın."
+  },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Ehtiyat nüsxənin təfərrüatları"
   },
@@ -5092,6 +5128,84 @@
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "Ehtiyat nüsxənin həcmi"
+  },
+  "icu:Preferences__local-backups": {
+    "messageformat": "Cihazın masaüstü ehtiyat nüsxələri"
+  },
+  "icu:Preferences__local-backups-section__description": {
+    "messageformat": "Ehtiyat nüsxələr şifrə ilə tam şifrələndi və kompüterinizin yaddaşında saxlanıldı."
+  },
+  "icu:Preferences--local-backups-off-description": {
+    "messageformat": "Telefonunuzda bərpa edə biləcəyiniz tama şifrələnmiş ehtiyat nüsxə yaradın. "
+  },
+  "icu:Preferences--local-backups-restore-info": {
+    "messageformat": "Ehtiyat nüsxəni bərpa etmək üçün Signal-ın yeni versiyasını quraşdırın. Tətbiqi açıb, &quot;Ehtiyat nüsxəni bərpa et&quot; seçiminə toxunun, sonra ehtiyat nüsxə qovluğunu tapın. <learnMoreLink>Daha ətraflı.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-setup-folder": {
+    "messageformat": "Bir qovluq seç"
+  },
+  "icu:Preferences--local-backups-setup-folder-description": {
+    "messageformat": "Kompüterinizin yaddaşında tam şifrələnmiş ehtiyat nüsxənin saxlanacağı qovluğu seçin."
+  },
+  "icu:Preferences--local-backups-setup-next": {
+    "messageformat": "Növbəti"
+  },
+  "icu:Preferences--local-backups-view-backup-key-done": {
+    "messageformat": "Hazırdır"
+  },
+  "icu:Preferences--local-backups-backup-key-text-box": {
+    "messageformat": "Ehtiyat nüsxə şifrəsi mətn qutusu"
+  },
+  "icu:Preferences--local-backups-enter-backup-key": {
+    "messageformat": "Şifrəni daxil et"
+  },
+  "icu:Preferences--local-backups-record-backup-key": {
+    "messageformat": "Ehtiyat nüsxə şifrəsini qeyd edin"
+  },
+  "icu:Preferences--local-backups-record-backup-key-description": {
+    "messageformat": "Bu şifrə hesabınızı və verilənlərinizi bərpa etmək üçün tələb olunur. Bu şifrəni etibarlı bir yerdə saxlayın. Onu itirsəniz, hesabınızı bərpa edə bilməyəcəksiniz. <learnMoreLink>Daha ətraflı.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key": {
+    "messageformat": "Ehtiyat nüsxə şifrəsini təsdiqləyin"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key-description": {
+    "messageformat": "Yeni qeyd etdiyiniz ehtiyat nüsxə şifrəsini daxil edin"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-title": {
+    "messageformat": "Şifrənizin təhlükəsizliyini qoruyun"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-body": {
+    "messageformat": "Şifrənizi itirsəniz Signal ehtiyat nüsxələrinizi yenidən bərpa etməniz üçün sizə kömək edə bilməyəcək. Onu təhlükəsiz və etibarlı bir yerdə saxlayın və başqaları ilə paylaşmayın."
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-continue": {
+    "messageformat": "Davam et"
+  },
+  "icu:Preferences--local-backups-see-backup-key-again": {
+    "messageformat": "Şifrəyə yenidən bax"
+  },
+  "icu:Preferences__local-backups-folder": {
+    "messageformat": "Nüsxə qovluğu"
+  },
+  "icu:Preferences__local-backups-folder__change": {
+    "messageformat": "Dəyiş"
+  },
+  "icu:Preferences__local-backups-copy-key": {
+    "messageformat": "Lövhəyə kopyala"
+  },
+  "icu:Preferences__local-backups-copied-key": {
+    "messageformat": "Ehtiyat nüsxə şifrəsi kopiyalandı"
+  },
+  "icu:Preferences__view-key": {
+    "messageformat": "Şifrəyə bax"
+  },
+  "icu:Preferences__backup-key": {
+    "messageformat": "Ehtiyat nüsxə şifrəsi"
+  },
+  "icu:Preferences__backup-key-description": {
+    "messageformat": "Ehtiyat nüsxənin bərpası üçün istifadə olunan ehtiyat nüsxə şifrəniz 64 rəqəmli bir koddur"
+  },
+  "icu:Preferences__backup-other-ways": {
+    "messageformat": "Ehtiyat nüsxəçıxarmanın digər yolları"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {1 kontakt} other {{num,number} kontakt}}"
@@ -5931,7 +6045,7 @@
     "messageformat": "Hekayə"
   },
   "icu:Quote__story-reaction": {
-    "messageformat": "{name} hekayəyə reaksiya verdi"
+    "messageformat": "{name} hekayəsinə reaksiya verdi"
   },
   "icu:Quote__story-reaction--you": {
     "messageformat": "Hekayənizə reaksiya verildi"
@@ -6324,6 +6438,9 @@
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Tanımadığınız insanlarla şəxsi məlumatlarınızı paylaşmayın"
   },
+  "icu:SaveMultiDialog__title": {
+    "messageformat": "Qoşmaları yaddaşda saxla"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Yeni nə var"
   },
@@ -6355,10 +6472,10 @@
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Bəzən hərəkət etmək üçün əsaslı bir səbəbə ehtiyacınız ola bilər. Biz hekayələr tab-vərəqəsində məzmuna baxarkən Signal pəncərəsini hərəkət etdirməyi çətinləşdirən nasazlığı aradan qaldırdıq."
+  "icu:WhatsNew__v7.58--0": {
+    "messageformat": "Mesaj reaksiyası seçicisindəki yeni bölmə mesajın aldığı bütün emoji reaksiyalarını avtomatik olaraq göstərir. Artıq siz də vaxt itirmədən digərlərinin etdiyi kimi standart parıldayan ürək emojisi əlavə edə, yaxud da öz ürəyinizin səsini dinləyərək, onun işığında irəliləyə bilərsiniz."
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "Bu yeniləmə təkmilləşdirilmiş iş göstəriciləri və dəstəklənən cihazda videoların daha rahat izlənməsi üçün Linux-da GPU sürətləndirilməsini aktivləşdirir."
   }
 }

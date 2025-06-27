@@ -23,6 +23,7 @@ import {
   EmojiSkinTone,
   isValidEmojiSkinTone,
 } from '../../components/fun/data/emojis';
+import { BackupLevel } from '../../services/backups/types';
 
 const DEFAULT_PREFERRED_LEFT_PANE_WIDTH = 320;
 
@@ -32,6 +33,12 @@ export const getAreWeASubscriber = createSelector(
   getItems,
   ({ areWeASubscriber }: Readonly<ItemsStateType>): boolean =>
     Boolean(areWeASubscriber)
+);
+
+export const getProfileMovedModalNeeded = createSelector(
+  getItems,
+  ({ needProfileMovedModal }: Readonly<ItemsStateType>): boolean =>
+    Boolean(needProfileMovedModal)
 );
 
 export const getUserAgent = createSelector(
@@ -261,12 +268,14 @@ export const getBackupMediaDownloadProgress = createSelector(
   (
     state: ItemsStateType
   ): {
+    isBackupMediaEnabled: boolean;
     totalBytes: number;
     downloadedBytes: number;
     isPaused: boolean;
     downloadBannerDismissed: boolean;
     isIdle: boolean;
   } => ({
+    isBackupMediaEnabled: state.backupTier === BackupLevel.Paid,
     totalBytes: state.backupMediaDownloadTotalBytes ?? 0,
     downloadedBytes: state.backupMediaDownloadCompletedBytes ?? 0,
     isPaused: state.backupMediaDownloadPaused ?? false,

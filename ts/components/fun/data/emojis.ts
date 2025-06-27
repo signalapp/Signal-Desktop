@@ -228,6 +228,56 @@ function toEmojiVariantValue(unified: string): EmojiVariantValue {
   return encodeUnified(unified) as EmojiVariantValue;
 }
 
+const WOMAN = '\u{1F469}';
+const MAN = '\u{1F468}';
+const GIRL = '\u{1F467}';
+const BOY = '\u{1F466}';
+const ZWJ = '\u{200D}';
+
+/**
+ * Deprecated unicode emoji should continue to be rendered when used,
+ * but should be hidden from emoji pickers.
+ */
+const UNICODE_DEPRECATED_EMOJI = new Set<EmojiParentValue>([
+  /**
+   * 2022 - Family Emoji Redesign: Gender Inclusive Variants
+   * https://www.unicode.org/L2/L2023/23029-family-emoji.pdf
+   * https://www.unicode.org/L2/L2022/22276-family-emoji-guidelines.pdf
+   */
+
+  // 1 ADULT, 1 CHILD
+  `${WOMAN}${ZWJ}${GIRL}`,
+  `${WOMAN}${ZWJ}${BOY}`,
+  `${MAN}${ZWJ}${GIRL}`,
+  `${MAN}${ZWJ}${BOY}`,
+  // 1 ADULT, 2 CHILDREN
+  `${WOMAN}${ZWJ}${GIRL}${ZWJ}${GIRL}`,
+  `${WOMAN}${ZWJ}${GIRL}${ZWJ}${BOY}`,
+  `${WOMAN}${ZWJ}${BOY}${ZWJ}${BOY}`,
+  `${MAN}${ZWJ}${GIRL}${ZWJ}${GIRL}`,
+  `${MAN}${ZWJ}${GIRL}${ZWJ}${BOY}`,
+  `${MAN}${ZWJ}${BOY}${ZWJ}${BOY}`,
+  // 2 ADULTS, 1 CHILD
+  `${WOMAN}${ZWJ}${WOMAN}${ZWJ}${GIRL}`,
+  `${WOMAN}${ZWJ}${WOMAN}${ZWJ}${BOY}`,
+  `${MAN}${ZWJ}${WOMAN}${ZWJ}${GIRL}`,
+  `${MAN}${ZWJ}${WOMAN}${ZWJ}${BOY}`,
+  `${MAN}${ZWJ}${MAN}${ZWJ}${GIRL}`,
+  `${MAN}${ZWJ}${MAN}${ZWJ}${BOY}`,
+  // 2 ADULTS, 2 CHILDREN
+  `${WOMAN}${ZWJ}${WOMAN}${ZWJ}${GIRL}${ZWJ}${GIRL}`,
+  `${WOMAN}${ZWJ}${WOMAN}${ZWJ}${GIRL}${ZWJ}${BOY}`,
+  `${WOMAN}${ZWJ}${WOMAN}${ZWJ}${BOY}${ZWJ}${BOY}`,
+
+  `${MAN}${ZWJ}${WOMAN}${ZWJ}${GIRL}${ZWJ}${GIRL}`,
+  `${MAN}${ZWJ}${WOMAN}${ZWJ}${GIRL}${ZWJ}${BOY}`,
+  `${MAN}${ZWJ}${WOMAN}${ZWJ}${BOY}${ZWJ}${BOY}`,
+
+  `${MAN}${ZWJ}${MAN}${ZWJ}${GIRL}${ZWJ}${GIRL}`,
+  `${MAN}${ZWJ}${MAN}${ZWJ}${GIRL}${ZWJ}${BOY}`,
+  `${MAN}${ZWJ}${MAN}${ZWJ}${BOY}${ZWJ}${BOY}`,
+] as Array<EmojiParentValue>);
+
 const RAW_EMOJI_DATA = parseUnknown(
   z.array(RawEmojiSchema),
   RAW_UNTYPED_DATA
@@ -247,6 +297,7 @@ type EmojiIndex = Readonly<{
   variantByKey: Map<EmojiVariantKey, EmojiVariantData>;
   variantKeysByValue: Map<EmojiVariantValue, EmojiVariantKey>;
   variantKeysByValueNonQualified: Map<EmojiVariantValue, EmojiVariantKey>;
+  variantKeyToSkinTone: Map<EmojiVariantKey, EmojiSkinTone>;
 
   unicodeCategories: Record<EmojiUnicodeCategory, Array<EmojiParentKey>>;
   pickerCategories: Record<EmojiPickerCategory, Array<EmojiParentKey>>;
@@ -268,6 +319,7 @@ const EMOJI_INDEX: EmojiIndex = {
   variantByKey: new Map(),
   variantKeysByValue: new Map(),
   variantKeysByValueNonQualified: new Map(),
+  variantKeyToSkinTone: new Map(),
   unicodeCategories: {
     [EmojiUnicodeCategory.SmileysAndEmotion]: [],
     [EmojiUnicodeCategory.PeopleAndBody]: [],
@@ -298,6 +350,8 @@ const EMOJI_INDEX: EmojiIndex = {
 };
 
 function addParent(parent: EmojiParentData, rank: number) {
+  const isDeprecated = UNICODE_DEPRECATED_EMOJI.has(parent.value);
+
   EMOJI_INDEX.parentByKey.set(parent.key, parent);
   EMOJI_INDEX.parentKeysByValue.set(parent.value, parent.key);
   if (parent.valueNonqualified != null) {
@@ -309,7 +363,7 @@ function addParent(parent: EmojiParentData, rank: number) {
   }
   EMOJI_INDEX.parentKeysByName.set(parent.englishShortNameDefault, parent.key);
   EMOJI_INDEX.unicodeCategories[parent.unicodeCategory].push(parent.key);
-  if (parent.pickerCategory != null) {
+  if (parent.pickerCategory != null && !isDeprecated) {
     EMOJI_INDEX.pickerCategories[parent.pickerCategory].push(parent.key);
   }
 
@@ -317,14 +371,16 @@ function addParent(parent: EmojiParentData, rank: number) {
     EMOJI_INDEX.parentKeysByName.set(englishShortName, parent.key);
   }
 
-  EMOJI_INDEX.defaultEnglishSearchIndex.push({
-    key: parent.key,
-    rank,
-    shortName: parent.englishShortNameDefault,
-    shortNames: parent.englishShortNames,
-    emoticon: parent.emoticonDefault,
-    emoticons: parent.emoticons,
-  });
+  if (!isDeprecated) {
+    EMOJI_INDEX.defaultEnglishSearchIndex.push({
+      key: parent.key,
+      rank,
+      shortName: parent.englishShortNameDefault,
+      shortNames: parent.englishShortNames,
+      emoticon: parent.emoticonDefault,
+      emoticons: parent.emoticons,
+    });
+  }
 
   EMOJI_INDEX.defaultEnglishLocalizerIndex.parentKeyToLocaleShortName.set(
     parent.key,
@@ -397,6 +453,7 @@ for (const rawEmoji of RAW_EMOJI_DATA) {
         throw new Error(`Missing variant key ${parentKey} -> ${key} (${keys})`);
       }
       result[skinTone] = variantKey;
+      EMOJI_INDEX.variantKeyToSkinTone.set(variantKey, skinTone);
     }
 
     defaultSkinToneVariants = result as EmojiDefaultSkinToneVariants;
@@ -424,6 +481,10 @@ for (const rawEmoji of RAW_EMOJI_DATA) {
 
 export function isEmojiParentKey(input: string): input is EmojiParentKey {
   return EMOJI_INDEX.parentByKey.has(input as EmojiParentKey);
+}
+
+export function isEmojiParentValueDeprecated(input: EmojiParentValue): boolean {
+  return UNICODE_DEPRECATED_EMOJI.has(input);
 }
 
 export function isEmojiVariantKey(input: string): input is EmojiVariantKey {
@@ -506,21 +567,36 @@ export function getEmojiPickerCategoryParentKeys(
 /**
  * Apply a skin tone (if possible) to any parent key.
  */
-export function getEmojiVariantByParentKeyAndSkinTone(
+export function getEmojiVariantKeyByParentKeyAndSkinTone(
   key: EmojiParentKey,
   skinTone: EmojiSkinTone
-): EmojiVariantData {
+): EmojiVariantKey {
   const parent = getEmojiParentByKey(key);
   const skinToneVariants = parent.defaultSkinToneVariants;
 
   if (skinTone === EmojiSkinTone.None || skinToneVariants == null) {
-    return getEmojiVariantByKey(parent.defaultVariant);
+    return parent.defaultVariant;
   }
 
   const variantKey = skinToneVariants[skinTone];
   strictAssert(variantKey, `Missing skin tone variant for ${skinTone}`);
 
-  return getEmojiVariantByKey(variantKey);
+  return variantKey;
+}
+
+export function getEmojiVariantByParentKeyAndSkinTone(
+  key: EmojiParentKey,
+  skinTone: EmojiSkinTone
+): EmojiVariantData {
+  return getEmojiVariantByKey(
+    getEmojiVariantKeyByParentKeyAndSkinTone(key, skinTone)
+  );
+}
+
+export function getEmojiSkinToneByVariantKey(
+  variantKey: EmojiVariantKey
+): EmojiSkinTone {
+  return EMOJI_INDEX.variantKeyToSkinTone.get(variantKey) ?? EmojiSkinTone.None;
 }
 
 /** @deprecated */

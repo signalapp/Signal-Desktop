@@ -1,6 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { fromBase64, fromHex } from '../Bytes';
+
 export enum HashType {
   size256 = 'sha256',
   size512 = 'sha512',
@@ -16,6 +18,44 @@ export const UUID_BYTE_SIZE = 16;
 
 export const IV_LENGTH = 16;
 
-export const KEY_LENGTH = 32;
+export const AES_KEY_LENGTH = 32;
 
 export const MAC_LENGTH = 32;
+
+export const ATTACHMENT_MAC_LENGTH = MAC_LENGTH;
+
+export const DIGEST_LENGTH = 32;
+
+export const PLAINTEXT_HASH_LENGTH = 32;
+
+export const KEY_SET_LENGTH = AES_KEY_LENGTH + MAC_LENGTH;
+
+export function isValidAttachmentKey(
+  keyBase64: string | undefined
+): keyBase64 is string {
+  if (typeof keyBase64 !== 'string') {
+    return false;
+  }
+  const bytes = fromBase64(keyBase64);
+  return bytes.byteLength > 0;
+}
+
+export function isValidDigest(
+  digestBase64: string | undefined
+): digestBase64 is string {
+  if (typeof digestBase64 !== 'string') {
+    return false;
+  }
+  const bytes = fromBase64(digestBase64);
+  return bytes.byteLength > 0;
+}
+
+export function isValidPlaintextHash(
+  plaintextHashHex: string | undefined
+): plaintextHashHex is string {
+  if (typeof plaintextHashHex !== 'string') {
+    return false;
+  }
+  const bytes = fromHex(plaintextHashHex);
+  return bytes.byteLength > 0;
+}

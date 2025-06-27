@@ -16,11 +16,13 @@ import {
 } from '../selectors/audioPlayer';
 import { useConversationsActions } from '../ducks/conversations';
 import { getUserConversationId } from '../selectors/user';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import {
   getConversationByIdSelector,
   getSelectedConversationId,
 } from '../selectors/conversations';
+
+const log = createLogger('MessageAudio');
 
 export type Props = Omit<MessageAudioOwnProps, 'active' | 'onPlayMessage'> & {
   renderingContext: string;

@@ -5,7 +5,7 @@ import type { ThunkAction } from 'redux-thunk';
 import { v4 as generateUuid } from 'uuid';
 
 import type { ReadonlyDeep } from 'type-fest';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import type { InMemoryAttachmentDraftType } from '../../types/Attachment';
 import { SignalService as Proto } from '../../protobuf';
 import type { StateType as RootStateType } from '../reducer';
@@ -21,6 +21,8 @@ import {
   ErrorDialogAudioRecorderType,
   RecordingState,
 } from '../../types/AudioRecorder';
+
+const log = createLogger('audioRecorder');
 
 // State
 
@@ -124,7 +126,7 @@ function startRecording(
         });
       }
     } catch (err) {
-      log.error('AudioRecorder/ERROR_RECORDING', Errors.toLogFormat(err));
+      log.error('ERROR_RECORDING', Errors.toLogFormat(err));
       dispatch({
         type: ERROR_RECORDING,
         payload: ErrorDialogAudioRecorderType.ErrorRecording,

@@ -1,12 +1,14 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { isMoreRecentThan } from './timestamp';
 import { DAY, WEEK } from './durations';
 import { isNotNil } from './isNotNil';
 import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary';
 import { safeSetTimeout } from './timeout';
+
+const log = createLogger('handleServerAlerts');
 
 export enum ServerAlert {
   CRITICAL_IDLE_PRIMARY_DEVICE = 'critical_idle_primary_device',
@@ -65,7 +67,7 @@ export async function handleServerAlerts(
       newAlerts[alert] = {
         firstReceivedAt: now,
       };
-      log.info(`handleServerAlerts: got new alert: ${alert}`);
+      log.info(`got new alert: ${alert}`);
     }
 
     if (alert === ServerAlert.CRITICAL_IDLE_PRIMARY_DEVICE) {
@@ -74,9 +76,7 @@ export async function handleServerAlerts(
   }
 
   if (existingAlertNames.size > 0) {
-    log.info(
-      `handleServerAlerts: removed alerts: ${[...existingAlertNames].join(', ')}`
-    );
+    log.info(`removed alerts: ${[...existingAlertNames].join(', ')}`);
   }
 
   await window.storage.put('serverAlerts', newAlerts);

@@ -41,6 +41,9 @@
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "Жогорку сапаттагы медианы жөнөтүү көбүрөөк берилмелерди колдонот."
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "Signal'га колдоо көрсөтүү"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Стандарт"
   },
@@ -594,7 +597,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Маалыматтар базасында ката кетти: журналдарыңызды бөлүшүңүз."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Сактоо кызматынан жараксыз жооп алынды. Журналдарыңызды бөлүшүңүз."
@@ -1269,7 +1272,7 @@
     "messageformat": "Жардам керекпи?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Тууралоо"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Телефон номериңиз"
@@ -1680,7 +1683,7 @@
     "messageformat": "{group} ичинде {sender}"
   },
   "icu:notificationReactionMessage": {
-    "messageformat": "{sender} {message} үчүн {emoji} деген сезимин билдирди"
+    "messageformat": "{sender} {emoji} деген сезимин {message} үчүн билдирди"
   },
   "icu:sendFailed": {
     "messageformat": "Жөнөтүлбөй калды"
@@ -2339,6 +2342,9 @@
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
     "messageformat": "Табылган нерселер"
   },
+  "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
+    "messageformat": "Бул билдирүү"
+  },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Жакында колдонулгандар"
   },
@@ -2484,13 +2490,13 @@
     "messageformat": "Жок"
   },
   "icu:Message__reaction-emoji-label--you": {
-    "messageformat": "Сезимиңизди билдирдиңиз: {emoji}"
+    "messageformat": "Сиз {emoji} деп сезимиңизди билдирдиңиз"
   },
   "icu:Message__reaction-emoji-label--single": {
-    "messageformat": "{title} сезимин билдирди: {emoji}"
+    "messageformat": "{title} сезимин {emoji} деп билдирди"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {{count,number} адам сезимдерин билдиришти: {emoji}}}"
+    "messageformat": "{count, plural, other {{count,number} адам сезимдерин {emoji} деп билдиришти}}"
   },
   "icu:Message__role-description": {
     "messageformat": "Билдирүү"
@@ -3405,7 +3411,7 @@
     "messageformat": "Топко кошулуу мүмкүн эмес"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "Администратор сизди топтон алып салгандыктан, ага шилтеме аркылуу кошула албайсыз."
+    "messageformat": "Администратор сизди топтон алып салгандыктан, ага шилтеме аркылуу кошула албайсыз. Топко кошулгуңуз келсе, администраторго кайрылыңыз."
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "Бул топко кошулуу өтүнүчүңүздү топтун администратору кабыл алышы керек. Топко кошулууну өтүнгөнүңүздө, атыңыз менен сүрөтүңүз анын мүчөлөрүнө көрүнөт."
@@ -3964,6 +3970,12 @@
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "\"Signal'га колдоо көрсөтүү\" дегенди басып туруп, жазылыңыз"
+  },
+  "icu:ProfileMovedModal__title": {
+    "messageformat": "Профилиңиз жылды"
+  },
+  "icu:ProfileMovedModal__description": {
+    "messageformat": "Профилиңизди көрүп, оңдоо үчүн \"Параметрлер\" өтмөгүн ачыңыз."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Билдирүүлөр шайкештирилүүдө"
@@ -4931,6 +4943,9 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Профилиңиз жаңыртылган жок. Кайра аракет кылыңыз."
   },
+  "icu:ProfileEditorModal--sharing": {
+    "messageformat": "Бөлүшүү"
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Администраторго билдирүү жөнөтүү"
   },
@@ -4963,6 +4978,9 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "Жалпы"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "Signal'га колдоо көрсөтүү"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "Тышкы көрүнүшү"
@@ -5005,6 +5023,15 @@
   },
   "icu:Preferences__button--internal": {
     "messageformat": "Ички"
+  },
+  "icu:Preferences__button--manage": {
+    "messageformat": "Өзгөртүү"
+  },
+  "icu:Preferences__button--choose-folder": {
+    "messageformat": "Папка тандоо"
+  },
+  "icu:Preferences__button--set-up": {
+    "messageformat": "Коюу"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Түзмөктөгү камдык көчүрмөлөр"
@@ -5051,6 +5078,15 @@
   "icu:Preferences--blocked": {
     "messageformat": "Бөгөттөлдү"
   },
+  "icu:Preferences--signal-backups": {
+    "messageformat": "Signal'дын камдык көчүрмөлөрү"
+  },
+  "icu:Preferences--signal-backups-off-description": {
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+  },
+  "icu:Preferences--backup-section-description": {
+    "messageformat": "Жаңы телефон алганыңызда же Signal'ды кайра орнотконуңузда эч качан дайындарыңызды жоготуп албашыңыз үчүн билдирүүлөр таржымалыңыздын камдык көчүрмөсүн сактаңыз."
+  },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Камдык көчүрмөнүн чоо-жайы"
   },
@@ -5092,6 +5128,84 @@
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "Камдык көчүрмөнүн өлчөмү"
+  },
+  "icu:Preferences__local-backups": {
+    "messageformat": "Компьютерде сакталган камдык көчүрмөлөр"
+  },
+  "icu:Preferences__local-backups-section__description": {
+    "messageformat": "Камдык көчүрмөлөр ачкыч менен шифрленип, компьютериңизде сакталган."
+  },
+  "icu:Preferences--local-backups-off-description": {
+    "messageformat": "Телефонуңузда калыбына келе турган баштан аяк шифрленүүчү камдык көчүрмөлөрдү түзөсүз. "
+  },
+  "icu:Preferences--local-backups-restore-info": {
+    "messageformat": "Камдык көчүрмөнү калыбына келтирүү үчүн Signal'дын жаңы көчүрмөсүн орнотуңуз. Колдонмону ачып, &quot;Камдык көчүрмөнү калыбына келтирүү&quot; дегенди басып, камдык көчүрмөлөр сакталган папканы табыңыз. <learnMoreLink>Кененирээк маалымат.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-setup-folder": {
+    "messageformat": "Папка тандоо"
+  },
+  "icu:Preferences--local-backups-setup-folder-description": {
+    "messageformat": "Компьютериңиздин сактагычында баштан аяк шифрленген камдык көчүрмөлөр сакталуучу папка тандаңыз."
+  },
+  "icu:Preferences--local-backups-setup-next": {
+    "messageformat": "Кийинки"
+  },
+  "icu:Preferences--local-backups-view-backup-key-done": {
+    "messageformat": "Бүттү"
+  },
+  "icu:Preferences--local-backups-backup-key-text-box": {
+    "messageformat": "Камдык көчүрмөнүн ачкычы жазылган жер"
+  },
+  "icu:Preferences--local-backups-enter-backup-key": {
+    "messageformat": "Ачкычты киргизүү"
+  },
+  "icu:Preferences--local-backups-record-backup-key": {
+    "messageformat": "Камдык көчүрмөңүздүн ачкычын жаздырып алыңыз"
+  },
+  "icu:Preferences--local-backups-record-backup-key-description": {
+    "messageformat": "Бул ачкыч менен аккаунтуңузду жана андагы нерселерди калыбына келтиресиз. Аны коопсуз жерде сактаңыз. Жоготуп алсаңыз, аккаунтуңузду калыбына келтире албай каласыз. <learnMoreLink>Кененирээк маалымат.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key": {
+    "messageformat": "Камдык көчүрмөнүн ачкычын ырастаңыз"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key-description": {
+    "messageformat": "Жаңы эле жаздырып алган ачкычты киргизиңиз"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-title": {
+    "messageformat": "Ачкычыңызды коопсуз жерде сактаңыз"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-body": {
+    "messageformat": "Ачкычыңызды жоготуп алсаңыз, Signal камдык көчүрмөлөрүңүздү калыбына келтире албай калат. Аны эч ким көрбөгөн коопсуз жерде сактап, эч ким менен бөлүшпөңүз."
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-continue": {
+    "messageformat": "Улантуу"
+  },
+  "icu:Preferences--local-backups-see-backup-key-again": {
+    "messageformat": "Ачкычты кайра көрүү"
+  },
+  "icu:Preferences__local-backups-folder": {
+    "messageformat": "Камдык көчүрмөлөрдүн папкасы"
+  },
+  "icu:Preferences__local-backups-folder__change": {
+    "messageformat": "Өзгөртүү"
+  },
+  "icu:Preferences__local-backups-copy-key": {
+    "messageformat": "Буферге көчүрүү"
+  },
+  "icu:Preferences__local-backups-copied-key": {
+    "messageformat": "Камдык көчүрмөнүн ачкычы көчүрүлдү"
+  },
+  "icu:Preferences__view-key": {
+    "messageformat": "Ачкычты карап көрүү"
+  },
+  "icu:Preferences__backup-key": {
+    "messageformat": "Камдык көчүрмөнүн ачкычы"
+  },
+  "icu:Preferences__backup-key-description": {
+    "messageformat": "Камдык көчүрмөнүн ачкычы аны калыбына келтирүү үчүн колдонулуучу 64 орундуу код"
+  },
+  "icu:Preferences__backup-other-ways": {
+    "messageformat": "Камдык көчүрмөнүн башка сактоо жолдору"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, other {{num,number} байланыш}}"
@@ -6324,6 +6438,9 @@
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Бейтааныш адамдарга жеке маалыматыңызды бербеңиз"
   },
+  "icu:SaveMultiDialog__title": {
+    "messageformat": "Тиркемелерди сактоо"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Жаңылыктар"
   },
@@ -6355,10 +6472,10 @@
     "messageformat": "Майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, колдонмонун иштешин жакшыртып жатабыз. Signal'ды колдонгонуңуз үчүн чоң рахмат!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Кээ бир окуялар ушунчалык кызыктуу болгондуктан, алардан көзүңдү ала албай каласың. Дал ушул себептен, \"Окуялар\" өтмөгүндө бир нерсе көрүп жатканда, Signal терезесин жылдыра албаган мүчүлүштүктү чечип койдук."
+  "icu:WhatsNew__v7.58--0": {
+    "messageformat": "Билдирүүгө сезимиңизди билдирүүчү жаңы бөлүмдө билдирүүгө коюлган бардык быйтыкчалар көрүнөт. Эми элдин агымына оңой кошулуп, башкалар сыяктуу жылтылдаган жүрөк кошосуз же өз жолуңузду тандап, кадимки эле жүрөкчөнү кошосуз."
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "Бул жаңы версияда Linux'тагы аппаратты тездетүүчү GPU процессору иштеп, колдоого алынган түзмөктөрдө видеолор бир калыпта көрүнөт."
   }
 }

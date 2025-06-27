@@ -41,6 +41,9 @@
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "Das Senden von Medien in hoher Qualität verbraucht mehr Datenvolumen."
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "An Signal spenden"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standard"
   },
@@ -594,7 +597,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Datenbankfehler: Bitte teile deine Diagnoseprotokolle mit uns."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Ungültige Antwort vom Speicherdienst erhalten. Bitte teile deine Diagnoseprotokolle mit uns."
@@ -1269,7 +1272,7 @@
     "messageformat": "Hilfe benötigt?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Einstellungen"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefonnummer"
@@ -2339,6 +2342,9 @@
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
     "messageformat": "Suchergebnisse"
   },
+  "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
+    "messageformat": "Diese Nachricht"
+  },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Zuletzt verwendet"
   },
@@ -3363,7 +3369,7 @@
     "messageformat": "Nachricht kann nicht bearbeitet werden"
   },
   "icu:MessageMaxEditsModal__Description": {
-    "messageformat": "{max, plural, one {Diese Nachricht kann nur {max,number} Mal bearbeitet werden.} other {Diese Nachricht kann nur {max,number} Male bearbeitet werden.}}"
+    "messageformat": "{max, plural, one {Diese Nachricht kann nur {max,number} Mal bearbeitet werden.} other {Diese Nachricht kann nur {max,number} Mal bearbeitet werden.}}"
   },
   "icu:unknown-sgnl-link": {
     "messageformat": "Sorry, dieser sgnl://-Link funktioniert nicht."
@@ -3405,7 +3411,7 @@
     "messageformat": "Gruppenbeitritt nicht möglich"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "Du kannst dieser Gruppe nicht über den Gruppen-Link beitreten, da ein Admin dich entfernt hat."
+    "messageformat": "Du kannst dieser Gruppe nicht über den Gruppen-Link beitreten, da ein Admin dich entfernt hat. Kontaktiere einen Gruppen-Admin, um der Gruppe erneut hinzugefügt zu werden."
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "Bevor du der Gruppe beitreten kannst, muss ein Admin dieser Gruppe deine Anfrage bestätigen. Wenn du eine Beitrittsanfrage stellst, werden dein Name und dein Foto mit den Mitgliedern geteilt."
@@ -3964,6 +3970,12 @@
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "Tippe auf »An Signal spenden« und wähle einen Geldbetrag aus."
+  },
+  "icu:ProfileMovedModal__title": {
+    "messageformat": "Dein Profil ist umgezogen"
+  },
+  "icu:ProfileMovedModal__description": {
+    "messageformat": "Öffne den Tab »Einstellungen« und schon kannst du dein Profil sehen und anpassen."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Nachrichten synchronisieren"
@@ -4931,6 +4943,9 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Dein Profil konnte nicht aktualisiert werden. Bitte versuche es erneut."
   },
+  "icu:ProfileEditorModal--sharing": {
+    "messageformat": "Teilen"
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Schreib einem Admin"
   },
@@ -4963,6 +4978,9 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "Allgemein"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "An Signal spenden"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "Darstellung"
@@ -5005,6 +5023,15 @@
   },
   "icu:Preferences__button--internal": {
     "messageformat": "Intern"
+  },
+  "icu:Preferences__button--manage": {
+    "messageformat": "Verwalten"
+  },
+  "icu:Preferences__button--choose-folder": {
+    "messageformat": "Ordner wählen"
+  },
+  "icu:Preferences__button--set-up": {
+    "messageformat": "Einrichten"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Lokale Datensicherungen"
@@ -5051,6 +5078,15 @@
   "icu:Preferences--blocked": {
     "messageformat": "Blockiert"
   },
+  "icu:Preferences--signal-backups": {
+    "messageformat": "Signal Backups"
+  },
+  "icu:Preferences--signal-backups-off-description": {
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+  },
+  "icu:Preferences--backup-section-description": {
+    "messageformat": "Sichere deinen Nachrichtenverlauf und verliere keine alten Nachrichten, wenn du ein neues Mobiltelefon hast bzw. Signal erneut installierst."
+  },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Details zu Backups"
   },
@@ -5092,6 +5128,84 @@
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "Größe des Backups"
+  },
+  "icu:Preferences__local-backups": {
+    "messageformat": "Desktop-Backups"
+  },
+  "icu:Preferences__local-backups-section__description": {
+    "messageformat": "Lokale Backups werden mit einem Schlüssel verschlüsselt und auf deinem Computer gespeichert."
+  },
+  "icu:Preferences--local-backups-off-description": {
+    "messageformat": "Erstelle ein Ende-zu-Ende-verschlüsseltes Backup, das du auf deinem Smartphone wiederherstellen kannst. "
+  },
+  "icu:Preferences--local-backups-restore-info": {
+    "messageformat": "Um ein lokales Backup wiederherzustellen, installiere einfach eine neue Version von Signal. Öffne die App, tippe auf »Backup wiederherstellen« und suche dann den Backup-Ordner. <learnMoreLink>Mehr erfahren.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-setup-folder": {
+    "messageformat": "Einen Ordner wählen"
+  },
+  "icu:Preferences--local-backups-setup-folder-description": {
+    "messageformat": "Wähle einen Ordner auf deinem Computer, wo das lokale Ende-zu-Ende-verschlüsselte Backup gespeichert werden soll."
+  },
+  "icu:Preferences--local-backups-setup-next": {
+    "messageformat": "Weiter"
+  },
+  "icu:Preferences--local-backups-view-backup-key-done": {
+    "messageformat": "Fertig"
+  },
+  "icu:Preferences--local-backups-backup-key-text-box": {
+    "messageformat": "Textfeld »Backup-Schlüssel«"
+  },
+  "icu:Preferences--local-backups-enter-backup-key": {
+    "messageformat": "Schlüssel eingeben"
+  },
+  "icu:Preferences--local-backups-record-backup-key": {
+    "messageformat": "Sichere deinen Backup-Schlüssel"
+  },
+  "icu:Preferences--local-backups-record-backup-key-description": {
+    "messageformat": "Dieser Schlüssel wird benötigt, um dein Konto und deine Daten wiederherzustellen. Bewahre diesen Schlüssel sicher auf. Wenn du ihn verlierst, kannst du dein Konto nicht wiederherstellen. <learnMoreLink>Mehr erfahren.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key": {
+    "messageformat": "Bestätige deinen Backup-Schlüssel"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key-description": {
+    "messageformat": "Gib den Backup-Schlüssel ein, den du eben aufgezeichnet hast"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-title": {
+    "messageformat": "Verwahre deinen Schlüssel sicher auf"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-body": {
+    "messageformat": "Signal kann dir nicht helfen, dein Backup wiederherzustellen, wenn du deinen Schlüssel verlierst. Bewahre ihn an einem sicheren Ort auf und gib ihn nicht an andere weiter."
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-continue": {
+    "messageformat": "Fortfahren"
+  },
+  "icu:Preferences--local-backups-see-backup-key-again": {
+    "messageformat": "Schlüssel erneut anzeigen"
+  },
+  "icu:Preferences__local-backups-folder": {
+    "messageformat": "Ordner für Backup"
+  },
+  "icu:Preferences__local-backups-folder__change": {
+    "messageformat": "Ändern"
+  },
+  "icu:Preferences__local-backups-copy-key": {
+    "messageformat": "In Zwischenablage kopieren"
+  },
+  "icu:Preferences__local-backups-copied-key": {
+    "messageformat": "Backup-Schlüssel kopiert"
+  },
+  "icu:Preferences__view-key": {
+    "messageformat": "Schlüssel anzeigen"
+  },
+  "icu:Preferences__backup-key": {
+    "messageformat": "Backup-Schlüssel"
+  },
+  "icu:Preferences__backup-key-description": {
+    "messageformat": "Dein Backup-Schlüssel ist ein 64-stelliger Code, mit dem du dein Backup wiederherstellen kannst"
+  },
+  "icu:Preferences__backup-other-ways": {
+    "messageformat": "Weitere Backup-Möglichkeiten"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} Kontakt} other {{num,number} Kontakte}}"
@@ -6324,6 +6438,9 @@
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Gib keine persönlichen Informationen an Leute weiter, die du nicht kennst"
   },
+  "icu:SaveMultiDialog__title": {
+    "messageformat": "Anhänge sichern"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Was ist neu?"
   },
@@ -6355,10 +6472,10 @@
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Manchmal kann eine starke Story echt bewegend sein. Deshalb haben wir einen Fehler behoben, der dazu führte, dass sich das Signal-Fenster beim Anzeigen von Inhalten im Tab „Storys“ nur schwer verschieben ließ."
+  "icu:WhatsNew__v7.58--0": {
+    "messageformat": "Ein neuer Bereich in der Nachrichten-Reaktionsauswahl zeigt automatisch alle Emoji-Reaktionen an, die eine Nachricht erhalten hat. Jetzt kannst du also auch schnell auf den Zug aufspringen und so wie alle anderen ein glänzendes Standardherz hinzufügen – oder du folgst deinem eigenen Herzen und wählst stattdessen lieber das anatomische Herz."
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "Dieses Update schaltet die GPU-Beschleunigung unter Linux frei, um die Leistung zu verbessern und die Videowiedergabe auf unterstützter Hardware zu optimieren."
   }
 }

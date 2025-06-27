@@ -5,9 +5,11 @@ import type { ReactNode } from 'react';
 import React, { useEffect, useState, useMemo } from 'react';
 import classNames from 'classnames';
 import type { LocalizerType } from '../types/Util';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { SECOND, DAY } from '../util/durations';
 import type { SmartNavTabsProps } from '../state/smart/NavTabs';
+
+const log = createLogger('Inbox');
 
 export type PropsType = {
   firstEnvelopeTimestamp: number | undefined;

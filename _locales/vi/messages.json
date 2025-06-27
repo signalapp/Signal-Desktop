@@ -41,6 +41,9 @@
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "Việc gửi tập tin đa phương tiện chất lượng cao sẽ tốn nhiều lưu lượng hơn."
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "Ủng hộ Signal"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Tiêu chuẩn"
   },
@@ -594,7 +597,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Lỗi cơ sở dữ liệu: vui lòng chia sẻ nhật ký gỡ lỗi."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Nhận được phản hồi không hợp lệ từ dịch vụ lưu trữ. Vui lòng chia sẻ nhật ký gỡ lỗi."
@@ -1269,7 +1272,7 @@
     "messageformat": "Cần hỗ trợ?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Cài đặt"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Số điện thoại"
@@ -2339,6 +2342,9 @@
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
     "messageformat": "Kết quả tìm kiếm"
   },
+  "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
+    "messageformat": "Tin nhắn này"
+  },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Sử dụng gần đây"
   },
@@ -3405,7 +3411,7 @@
     "messageformat": "Không thể Tham gia Nhóm"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "Bạn không thể tham gia nhóm này qua đường dẫn nhóm vì một quản trị viên đã xóa bạn khỏi nhóm."
+    "messageformat": "Bạn không thể tham gia nhóm này qua đường dẫn nhóm vì một quản trị viên đã xóa bạn khỏi nhóm. Liên hệ với một quản trị viên để được thêm vào lại nhóm."
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "Cần một quản trị viên chấp nhận yêu cầu trước khi bạn tham gia nhóm này. Khi bạn yêu cầu tham gia, tên và ảnh đại diện của bạn sẽ được công khai với các thành viên nhóm."
@@ -3964,6 +3970,12 @@
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "Nhấn nút \"Ủng hộ Signal\" và đăng ký ủng hộ"
+  },
+  "icu:ProfileMovedModal__title": {
+    "messageformat": "Hồ sơ của bạn đã được dịch chuyển"
+  },
+  "icu:ProfileMovedModal__description": {
+    "messageformat": "Mở thẻ Cài đặt để xem và chỉnh sửa hồ sơ của bạn."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Đang đồng bộ tin nhắn"
@@ -4931,6 +4943,9 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Hồ sơ của bạn không thể cập nhật. Vui lòng thử lại."
   },
+  "icu:ProfileEditorModal--sharing": {
+    "messageformat": "Chia sẻ"
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Nhắn tin cho quản trị viên"
   },
@@ -4963,6 +4978,9 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "Chung"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "Ủng hộ Signal"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "Diện mạo"
@@ -5005,6 +5023,15 @@
   },
   "icu:Preferences__button--internal": {
     "messageformat": "Nội bộ"
+  },
+  "icu:Preferences__button--manage": {
+    "messageformat": "Quản lý"
+  },
+  "icu:Preferences__button--choose-folder": {
+    "messageformat": "Chọn thư mục"
+  },
+  "icu:Preferences__button--set-up": {
+    "messageformat": "Thiết Lập"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Bản sao lưu cục bộ"
@@ -5051,6 +5078,15 @@
   "icu:Preferences--blocked": {
     "messageformat": "Đã chặn"
   },
+  "icu:Preferences--signal-backups": {
+    "messageformat": "Bản sao lưu Signal"
+  },
+  "icu:Preferences--signal-backups-off-description": {
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+  },
+  "icu:Preferences--backup-section-description": {
+    "messageformat": "Sao lưu lịch sử tin nhắn để không bao giờ mất dữ liệu khi bạn có điện thoại mới hoặc cài lại Signal."
+  },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Thông tin bản sao lưu"
   },
@@ -5092,6 +5128,84 @@
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "Kích thước bản sao lưu"
+  },
+  "icu:Preferences__local-backups": {
+    "messageformat": "Bản sao lưu máy tính"
+  },
+  "icu:Preferences__local-backups-section__description": {
+    "messageformat": "Các bản sao lưu được mã hóa với mã khóa và được lưu trên thiết bị của bạn."
+  },
+  "icu:Preferences--local-backups-off-description": {
+    "messageformat": "Tạo một bản sao lưu được mã hóa đầu cuối bạn có thể lưu trên điện thoại. "
+  },
+  "icu:Preferences--local-backups-restore-info": {
+    "messageformat": "Để khôi phục bản sao lưu, hãy cài đặt mới Signal. Mở ứng dụng và nhấn Khôi phục bản sao lưu, sau đó tìm thư mục sao lưu. <learnMoreLink>Tìm hiểu thêm.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-setup-folder": {
+    "messageformat": "Chọn thư mục"
+  },
+  "icu:Preferences--local-backups-setup-folder-description": {
+    "messageformat": "Chọn một thư mục trong bộ lưu trữ của máy tính để lưu trữ bản sao lưu được mã hóa đầu cuối."
+  },
+  "icu:Preferences--local-backups-setup-next": {
+    "messageformat": "Tiếp"
+  },
+  "icu:Preferences--local-backups-view-backup-key-done": {
+    "messageformat": "Xong"
+  },
+  "icu:Preferences--local-backups-backup-key-text-box": {
+    "messageformat": "Khung văn bản của mã khóa sao lưu"
+  },
+  "icu:Preferences--local-backups-enter-backup-key": {
+    "messageformat": "Nhập mã khóa"
+  },
+  "icu:Preferences--local-backups-record-backup-key": {
+    "messageformat": "Lưu mã khóa sao lưu"
+  },
+  "icu:Preferences--local-backups-record-backup-key-description": {
+    "messageformat": "Cần có mã khóa này để khôi phục tài khoản và dữ liệu của bạn. Lưu mã này ở nơi an toàn. Nếu để mất, bạn sẽ không thể khôi phục tài khoản của mình. <learnMoreLink>Tìm hiểu thêm.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key": {
+    "messageformat": "Xác nhận mã khóa sao lưu"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key-description": {
+    "messageformat": "Nhập khóa sao lưu mà bạn vừa ghi lại"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-title": {
+    "messageformat": "Cất giữ an toàn mã khóa"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-body": {
+    "messageformat": "Signal sẽ không thể giúp bạn khôi phục bản sao lưu nếu bạn để mất mã khóa. Lưu mã khóa ở nơi an toàn và bảo mật, và không chia sẻ với ai khác."
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-continue": {
+    "messageformat": "Tiếp tục"
+  },
+  "icu:Preferences--local-backups-see-backup-key-again": {
+    "messageformat": "Xem lại mã khóa"
+  },
+  "icu:Preferences__local-backups-folder": {
+    "messageformat": "Thư mục sao lưu"
+  },
+  "icu:Preferences__local-backups-folder__change": {
+    "messageformat": "Thay đổi"
+  },
+  "icu:Preferences__local-backups-copy-key": {
+    "messageformat": "Sao chép vào clipboard"
+  },
+  "icu:Preferences__local-backups-copied-key": {
+    "messageformat": "Đã sao chép mã khóa sao lưu"
+  },
+  "icu:Preferences__view-key": {
+    "messageformat": "Xem mã khóa"
+  },
+  "icu:Preferences__backup-key": {
+    "messageformat": "Mã khóa sao lưu"
+  },
+  "icu:Preferences__backup-key-description": {
+    "messageformat": "Mã khóa sao lưu của bạn bao gồm 64 chữ số được sử dụng để khôi phục bản sao lưu của bạn"
+  },
+  "icu:Preferences__backup-other-ways": {
+    "messageformat": "Cách sao lưu khác"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, other {{num,number} liên hệ}}"
@@ -6324,6 +6438,9 @@
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Không chia sẻ thông tin cá nhân với người bạn không quen biết"
   },
+  "icu:SaveMultiDialog__title": {
+    "messageformat": "Lưu tập tin đính kèm"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Có gì mới"
   },
@@ -6355,10 +6472,10 @@
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Bản cập nhật này đã sửa lỗi khiến việc di chuyển cửa sổ Signal trở nên khó khăn khi xem nội dung trong tab Các Story."
+  "icu:WhatsNew__v7.58--0": {
+    "messageformat": "Một mục mới trong bảng chọn cảm xúc cho tin nhắn tự động hiển thị tất cả emoji bày tỏ cảm xúc tin nhắn đã nhận được."
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "Cải thiện hiệu suất trên Linux."
   }
 }

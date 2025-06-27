@@ -170,6 +170,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
             prefix={draftPreview.prefix}
             renderLocation={RenderLocation.ConversationList}
             text={draftPreview.text}
+            originalText={draftPreview.text}
           />
         </>
       );
@@ -191,6 +192,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
           prefix={lastMessage.prefix}
           renderLocation={RenderLocation.ConversationList}
           text={lastMessage.text}
+          originalText={lastMessage.text}
         />
       );
       if (lastMessage.status) {

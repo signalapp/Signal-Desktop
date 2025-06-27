@@ -67,7 +67,7 @@ import type {
   ConversationRemovedActionType,
 } from './conversations';
 import { getConversationCallMode, updateLastMessage } from './conversations';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { strictAssert } from '../../util/assert';
 import { waitForOnline } from '../../util/waitForOnline';
 import * as mapUtil from '../../util/mapUtil';
@@ -109,6 +109,8 @@ import {
 import { storageServiceUploadJob } from '../../services/storage';
 import { CallLinkFinalizeDeleteManager } from '../../jobs/CallLinkFinalizeDeleteManager';
 import { callLinkRefreshJobQueue } from '../../jobs/callLinkRefreshJobQueue';
+
+const log = createLogger('calling');
 
 // State
 

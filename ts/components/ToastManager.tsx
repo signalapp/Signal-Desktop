@@ -225,6 +225,14 @@ export function renderToast({
     );
   }
 
+  if (toastType === ToastType.CopiedBackupKey) {
+    return (
+      <Toast onClose={hideToast} timeout={3 * SECOND}>
+        {i18n('icu:Preferences__local-backups-copied-key')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.CopiedCallLink) {
     return (
       <Toast onClose={hideToast} timeout={3 * SECOND}>

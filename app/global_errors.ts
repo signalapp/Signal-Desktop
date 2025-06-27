@@ -6,8 +6,11 @@ import os from 'node:os';
 
 import * as Errors from '../ts/types/errors';
 import { redactAll } from '../ts/util/privacy';
+import { createLogger } from '../ts/logging/log';
 import { reallyJsonStringify } from '../ts/util/reallyJsonStringify';
 import type { LocaleType } from './locale';
+
+const log = createLogger('global_errors');
 
 // We use hard-coded strings until we're able to update these strings from the locale.
 let quitText = 'Quit';
@@ -15,10 +18,8 @@ let copyErrorAndQuitText = 'Copy error and quit';
 
 function handleError(prefix: string, error: Error): void {
   const formattedError = Errors.toLogFormat(error);
-  if (console._error) {
-    console._error(`${prefix}:`, formattedError);
-  }
   console.error(`${prefix}:`, formattedError);
+  log.error(`${prefix}:`, formattedError);
 
   if (app.isReady()) {
     // title field is not shown on macOS, so we don't use it

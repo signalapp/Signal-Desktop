@@ -6,7 +6,9 @@ import React, { memo, useEffect, useState } from 'react';
 import { Waveform } from '../../components/conversation/Waveform';
 import type { ComputePeaksResult } from '../../components/VoiceNotesPlaybackContext';
 import { VoiceNotesPlaybackContext } from '../../components/VoiceNotesPlaybackContext';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
+
+const log = createLogger('Waveform');
 
 const BAR_COUNT = 47;
 

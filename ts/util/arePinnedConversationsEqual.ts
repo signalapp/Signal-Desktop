@@ -4,6 +4,7 @@
 import * as Bytes from '../Bytes';
 
 import { SignalService as Proto } from '../protobuf';
+import { fromServiceIdBinaryOrString } from './ServiceId';
 
 import PinnedConversation = Proto.AccountRecord.IPinnedConversation;
 
@@ -22,10 +23,24 @@ export function arePinnedConversationsEqual(
         localPinnedConversation;
 
       if (contact) {
-        return (
-          remotePinnedConversation.contact &&
-          contact.serviceId === remotePinnedConversation.contact.serviceId
+        const { contact: remoteContact } = remotePinnedConversation;
+        if (!remoteContact) {
+          return false;
+        }
+
+        const serviceId = fromServiceIdBinaryOrString(
+          contact.serviceIdBinary,
+          contact.serviceId,
+          `arePinnedConversationsEqual(${index}).local`
         );
+
+        const remoteServiceId = fromServiceIdBinaryOrString(
+          remoteContact.serviceIdBinary,
+          remoteContact.serviceId,
+          `arePinnedConversationsEqual(${index}).remote`
+        );
+
+        return serviceId === remoteServiceId;
       }
 
       if (groupMasterKey && groupMasterKey.length) {

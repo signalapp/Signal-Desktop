@@ -4,7 +4,7 @@
 import { existsSync } from 'node:fs';
 import { isNumber } from 'lodash';
 import {
-  type AttachmentType,
+  type BackupableAttachmentType,
   getAttachmentIdForLogging,
 } from '../types/Attachment';
 import {
@@ -16,7 +16,7 @@ import { strictAssert } from './assert';
 export class AttachmentPermanentlyUndownloadableError extends Error {}
 
 export async function downloadAttachmentFromLocalBackup(
-  attachment: AttachmentType
+  attachment: BackupableAttachmentType
 ): Promise<ReencryptedAttachmentV2> {
   const attachmentId = getAttachmentIdForLogging(attachment);
   const dataId = `${attachmentId}`;
@@ -26,16 +26,16 @@ export async function downloadAttachmentFromLocalBackup(
 }
 
 async function doDownloadFromLocalBackup(
-  attachment: AttachmentType,
+  attachment: BackupableAttachmentType,
   {
     logId,
   }: {
     logId: string;
   }
 ): Promise<ReencryptedAttachmentV2> {
-  const { digest, localBackupPath, localKey, size } = attachment;
+  const { plaintextHash, localBackupPath, localKey, size } = attachment;
 
-  strictAssert(digest, `${logId}: missing digest`);
+  strictAssert(plaintextHash, `${logId}: missing plaintextHash`);
   strictAssert(localKey, `${logId}: missing localKey`);
   strictAssert(localBackupPath, `${logId}: missing localBackupPath`);
   strictAssert(isNumber(size), `${logId}: missing size`);

@@ -426,7 +426,7 @@ function getRecipients(
       const serviceId = recipient.getServiceId();
       if (!serviceId) {
         log.error(
-          `sendReaction/getRecipients: Untrusted conversation ${recipient.idForLogging()} missing serviceId.`
+          `getRecipients: Untrusted conversation ${recipient.idForLogging()} missing serviceId.`
         );
         continue;
       }

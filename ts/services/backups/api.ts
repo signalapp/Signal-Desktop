@@ -22,8 +22,10 @@ import {
 } from '../../types/backups';
 import { uploadFile } from '../../util/uploadAttachment';
 import { HTTPError } from '../../textsecure/Errors';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { toLogFormat } from '../../types/errors';
+
+const log = createLogger('api');
 
 export type DownloadOptionsType = Readonly<{
   downloadOffset: number;
@@ -251,14 +253,14 @@ export class BackupAPI {
       return {
         status: 'pending-cancellation',
         cost,
-        expiryDate: endOfCurrentPeriod,
+        expiryTimestamp: endOfCurrentPeriod?.getTime(),
       };
     }
 
     return {
       status: 'active',
       cost,
-      renewalDate: endOfCurrentPeriod,
+      renewalTimestamp: endOfCurrentPeriod?.getTime(),
     };
   }
 

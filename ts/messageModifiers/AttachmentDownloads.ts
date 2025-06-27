@@ -1,14 +1,19 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { omit } from 'lodash';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Bytes from '../Bytes';
 import type { AttachmentDownloadJobTypeType } from '../types/AttachmentDownload';
 
 import type { AttachmentType } from '../types/Attachment';
-import { getAttachmentSignatureSafe, isDownloaded } from '../types/Attachment';
+import {
+  doAttachmentsOnSameMessageMatch,
+  isDownloaded,
+} from '../types/Attachment';
 import { getMessageById } from '../messages/getMessageById';
 import { trimMessageWhitespace } from '../types/BodyRange';
+
+const log = createLogger('AttachmentDownloads');
 
 export async function markAttachmentAsCorrupted(
   messageId: string,
@@ -71,11 +76,6 @@ export async function addAttachmentToMessage(
     return;
   }
 
-  const attachmentSignature = getAttachmentSignatureSafe(attachment);
-  if (!attachmentSignature) {
-    log.error(`${logPrefix}: Attachment did not have valid signature (digest)`);
-  }
-
   if (type === 'long-message') {
     let handledAnywhere = false;
     let attachmentData: Uint8Array | undefined;
@@ -98,8 +98,7 @@ export async function addAttachmentToMessage(
           }
           // This attachment isn't destined for this edit
           if (
-            getAttachmentSignatureSafe(edit.bodyAttachment) !==
-            attachmentSignature
+            !doAttachmentsOnSameMessageMatch(edit.bodyAttachment, attachment)
           ) {
             return edit;
           }
@@ -136,8 +135,7 @@ export async function addAttachmentToMessage(
         return;
       }
       if (
-        getAttachmentSignatureSafe(existingBodyAttachment) !==
-        attachmentSignature
+        !doAttachmentsOnSameMessageMatch(existingBodyAttachment, attachment)
       ) {
         return;
       }
@@ -177,7 +175,7 @@ export async function addAttachmentToMessage(
       return existing;
     }
 
-    if (attachmentSignature !== getAttachmentSignatureSafe(existing)) {
+    if (!doAttachmentsOnSameMessageMatch(existing, attachment)) {
       return existing;
     }
 

@@ -41,6 +41,9 @@
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "Aukštos kokybės medijos siuntimas naudos daugiau tinklo duomenų."
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "Paaukokite Signal programėlei"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standartinė"
   },
@@ -594,7 +597,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Duomenų bazės klaida: pasidalinkite savo žurnalais."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Neteisingas atsakymas iš serverio. Pasidalinkite savo žurnalais."
@@ -1269,7 +1272,7 @@
     "messageformat": "Reikia pagalbos?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Nustatymai"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefono numeris"
@@ -2339,6 +2342,9 @@
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
     "messageformat": "Paieškos rezultatai"
   },
+  "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
+    "messageformat": "Ši žinutė"
+  },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Paskiausi"
   },
@@ -3405,7 +3411,7 @@
     "messageformat": "Nepavyksta prisijungti prie grupės"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "Tu negali prisijungti prie grupės per šią grupės nuorodą, nes administratorius tave pašalino."
+    "messageformat": "Negalite prisijungti prie grupės per šią grupės nuorodą, nes administratorius jus pašalino. Susisiekite su administratoriumi, kad vėl prisijungtumėte prie grupės."
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "Prieš tai, kai galėsite prisijungti prie šios grupės, jos administratorius privalo patvirtinti jūsų prašymą. Kai paprašysite prisijungti prie grupės, jūsų vardas ir nuotrauka bus bendrinami su jos nariais."
@@ -3964,6 +3970,12 @@
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "Bakstelėk „Paremti Signal“ ir prenumeruok"
+  },
+  "icu:ProfileMovedModal__title": {
+    "messageformat": "Jūsų profilis perkeltas"
+  },
+  "icu:ProfileMovedModal__description": {
+    "messageformat": "Atidarykite kortelę „Nustatymai“, kad peržiūrėtumėte ir redaguotumėte savo profilį."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Sinchronizuojamos žinutės"
@@ -4931,6 +4943,9 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Nepavyko atnaujinti jūsų profilio. Bandykite dar kartą."
   },
+  "icu:ProfileEditorModal--sharing": {
+    "messageformat": "Bendrinimas"
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Rašyti žinutę administratoriui"
   },
@@ -4963,6 +4978,9 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "Bendra"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "Paaukokite Signal programėlei"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "Išvaizda"
@@ -5005,6 +5023,15 @@
   },
   "icu:Preferences__button--internal": {
     "messageformat": "Vidiniai"
+  },
+  "icu:Preferences__button--manage": {
+    "messageformat": "Tvarkyti"
+  },
+  "icu:Preferences__button--choose-folder": {
+    "messageformat": "Pasirinkti aplanką"
+  },
+  "icu:Preferences__button--set-up": {
+    "messageformat": "Nustatyti"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Vietinės atsarginės kopijos"
@@ -5051,6 +5078,15 @@
   "icu:Preferences--blocked": {
     "messageformat": "Užblokuota"
   },
+  "icu:Preferences--signal-backups": {
+    "messageformat": "„Signal“ atsarginės kopijos"
+  },
+  "icu:Preferences--signal-backups-off-description": {
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+  },
+  "icu:Preferences--backup-section-description": {
+    "messageformat": "Sukurkite savo žinučių istorijos atsarginę kopiją, kad niekada neprarastumėte duomenų įsigiję naują telefoną arba iš naujo įdiegę „Signal“."
+  },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Informacija apie atsarginę kopiją"
   },
@@ -5092,6 +5128,84 @@
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "Atsarginės kopijos dydis"
+  },
+  "icu:Preferences__local-backups": {
+    "messageformat": "Darbalaukio atsarginės kopijos"
+  },
+  "icu:Preferences__local-backups-section__description": {
+    "messageformat": "Atsarginės kopijos yra šifruojamos naudojant raktą ir yra laikomos jūsų įrenginyje."
+  },
+  "icu:Preferences--local-backups-off-description": {
+    "messageformat": "Sukurkite visiškai užšifruotą atsarginę kopiją, kurią galėsite atkurti savo telefone. "
+  },
+  "icu:Preferences--local-backups-restore-info": {
+    "messageformat": "Norėdami atkurti atsarginę kopiją, įsidiekite naują „Signal“ kopiją. Atverkite programėlę ir bakstelėkite „Atkurti atsarginę kopiją“, tada eikite į atsarginės kopijos aplanką. <learnMoreLink>Sužinoti daugiau.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-setup-folder": {
+    "messageformat": "Pasirinkti aplanką"
+  },
+  "icu:Preferences--local-backups-setup-folder-description": {
+    "messageformat": "Savo kompiuterio saugykloje pasirinkite aplanką, kuriame bus saugoma jūsų visiškai užšifruota atsarginė kopija."
+  },
+  "icu:Preferences--local-backups-setup-next": {
+    "messageformat": "Kitas"
+  },
+  "icu:Preferences--local-backups-view-backup-key-done": {
+    "messageformat": "Atlikta"
+  },
+  "icu:Preferences--local-backups-backup-key-text-box": {
+    "messageformat": "Atsarginės kopijos rakto teksto laukas"
+  },
+  "icu:Preferences--local-backups-enter-backup-key": {
+    "messageformat": "Įvesti raktą"
+  },
+  "icu:Preferences--local-backups-record-backup-key": {
+    "messageformat": "Užsirašykite savo atsarginės kopijos raktą"
+  },
+  "icu:Preferences--local-backups-record-backup-key-description": {
+    "messageformat": "Šis raktas reikalingas norint atkurti paskyrą ir duomenis. Išsaugokite jį saugioje vietoje. Pamiršę raktą savo paskyros atkurti negalėsite. <learnMoreLink>Sužinoti daugiau.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key": {
+    "messageformat": "Patvirtinkite atsarginės kopijos raktą"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key-description": {
+    "messageformat": "Įveskite ką tik įrašytą atsarginės kopijos raktą"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-title": {
+    "messageformat": "Saugokite savo raktą"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-body": {
+    "messageformat": "„Signal“ negalės padėti jums atkurti atsarginės kopijos, jei pamesite raktą. Išsaugokite jį saugioje vietoje ir nesidalykite juo su kitais."
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-continue": {
+    "messageformat": "Tęsti"
+  },
+  "icu:Preferences--local-backups-see-backup-key-again": {
+    "messageformat": "Rodyti raktą dar kartą"
+  },
+  "icu:Preferences__local-backups-folder": {
+    "messageformat": "Atsarginių kopijų aplankas"
+  },
+  "icu:Preferences__local-backups-folder__change": {
+    "messageformat": "Keisti"
+  },
+  "icu:Preferences__local-backups-copy-key": {
+    "messageformat": "Kopijuoti į iškarpinę"
+  },
+  "icu:Preferences__local-backups-copied-key": {
+    "messageformat": "Atsarginės kopijos raktas nukopijuotas"
+  },
+  "icu:Preferences__view-key": {
+    "messageformat": "Peržiūrėti raktą"
+  },
+  "icu:Preferences__backup-key": {
+    "messageformat": "Atsarginės kopijos raktas"
+  },
+  "icu:Preferences__backup-key-description": {
+    "messageformat": "Jūsų atsarginės kopijos raktas yra 64 skaitmenų kodas, naudojamas atsarginei kopijai atkurti."
+  },
+  "icu:Preferences__backup-other-ways": {
+    "messageformat": "Kiti atsarginės kopijos kūrimo būdai"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} adresatas} few {{num,number} adresatai} many {{num,number} adresato} other {{num,number} adresatų}}"
@@ -6324,6 +6438,9 @@
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Nesidalinkite asmenine informacija su nepažįstamais žmonėmis"
   },
+  "icu:SaveMultiDialog__title": {
+    "messageformat": "Įrašyti priedus"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Kas naujo"
   },
@@ -6355,10 +6472,10 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Ištaisėme klaidą, dėl kurios buvo sunku perkelti „Signal“ langą žiūrint turinį kortelėje „Istorijos“."
+  "icu:WhatsNew__v7.58--0": {
+    "messageformat": "Naujame reakcijų į žinutes parinkiklio skyriuje automatiškai rodomos visos reakcijos su jaustukais į konkrečią žinutę."
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "„Linux“ veikimo patobulinimai."
   }
 }

@@ -3,7 +3,9 @@
 
 import PQueue from 'p-queue';
 import * as Errors from '../types/errors';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const log = createLogger('StartupQueue');
 
 type EntryType = Readonly<{
   value: number;
@@ -31,7 +33,7 @@ export class StartupQueue {
   }
 
   public flush(): void {
-    log.info('StartupQueue: Processing', this.#map.size, 'actions');
+    log.info('Processing', this.#map.size, 'actions');
 
     const values = Array.from(this.#map.values());
     this.#map.clear();
@@ -42,7 +44,7 @@ export class StartupQueue {
           return callback();
         } catch (error) {
           log.error(
-            'StartupQueue: Failed to process item due to error',
+            'Failed to process item due to error',
             Errors.toLogFormat(error)
           );
           throw error;
@@ -52,9 +54,7 @@ export class StartupQueue {
   }
 
   #shutdown(): Promise<void> {
-    log.info(
-      `StartupQueue: Waiting for ${this.#running.pending} tasks to drain`
-    );
+    log.info(`Waiting for ${this.#running.pending} tasks to drain`);
     return this.#running.onIdle();
   }
 

@@ -11,7 +11,7 @@ import { notificationService } from '../services/notifications';
 import { update as updateExpiringMessagesService } from '../services/expiringMessagesDeletion';
 import { tapToViewMessagesDeletionService } from '../services/tapToViewMessagesDeletionService';
 import { isGroup, isDirectConversation } from './whatTypeOfConversation';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { getConversationIdForLogging } from './idForLogging';
 import { drop } from './drop';
 import { isNotNil } from './isNotNil';
@@ -25,6 +25,8 @@ import {
 import { ReceiptType } from '../types/Receipt';
 import type { AciString } from '../types/ServiceId';
 import { isAciString } from './isAciString';
+
+const log = createLogger('markConversationRead');
 
 export async function markConversationRead(
   conversationAttrs: ConversationAttributesType,
@@ -185,9 +187,7 @@ export async function markConversationRead(
     // Because syncReadMessages sends to our other devices, and sendReadReceipts goes
     //   to a contact, we need accessKeys for both.
     if (window.ConversationController.areWePrimaryDevice()) {
-      log.warn(
-        'markConversationRead: We are primary device; not sending read syncs'
-      );
+      log.warn('We are primary device; not sending read syncs');
     } else {
       drop(readSyncJobQueue.add({ readSyncs }));
     }

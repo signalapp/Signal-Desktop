@@ -59,7 +59,6 @@ import type {
   ConversationColorType,
   CustomColorType,
 } from '../types/Colors';
-import { getAuthor } from '../messages/helpers';
 import { strictAssert } from '../util/assert';
 import { isConversationMuted } from '../util/isConversationMuted';
 import { isConversationSMSOnly } from '../util/isConversationSMSOnly';
@@ -89,14 +88,9 @@ import {
 import { decryptAttachmentV2 } from '../AttachmentCrypto';
 import * as Bytes from '../Bytes';
 import type { DraftBodyRanges } from '../types/BodyRange';
-import { BodyRange } from '../types/BodyRange';
 import { migrateColor } from '../util/migrateColor';
 import { isNotNil } from '../util/isNotNil';
-import {
-  NotificationType,
-  notificationService,
-  shouldSaveNotificationAvatarToDisk,
-} from '../services/notifications';
+import { shouldSaveNotificationAvatarToDisk } from '../services/notifications';
 import { storageServiceUploadJob } from '../services/storage';
 import { getSendOptions } from '../util/getSendOptions';
 import type { IsConversationAcceptedOptionsType } from '../util/isConversationAccepted';
@@ -143,11 +137,10 @@ import {
   conversationJobQueue,
   conversationQueueJobEnum,
 } from '../jobs/conversationJobQueue';
-import type { ReactionAttributesType } from '../messageModifiers/Reactions';
 import { getProfile } from '../util/getProfile';
 import { SEALED_SENDER } from '../types/SealedSender';
 import { createIdenticon } from '../util/createIdenticon';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
 import { isMessageUnread } from '../util/isMessageUnread';
 import type { SenderKeyTargetType } from '../util/sendToGroup';
@@ -177,7 +170,6 @@ import { generateMessageId } from '../util/generateMessageId';
 import { getMessageAuthorText } from '../util/getMessageAuthorText';
 import { downscaleOutgoingAttachment } from '../util/attachments';
 import { MessageRequestResponseEvent } from '../types/MessageRequestResponseEvent';
-import { hasExpiration } from '../types/Message2';
 import type { AddressableMessage } from '../textsecure/messageReceiverEvents';
 import {
   getConversationIdentifier,
@@ -195,8 +187,10 @@ import { applyNewAvatar } from '../groups';
 import { safeSetTimeout } from '../util/timeout';
 import { getTypingIndicatorSetting } from '../types/Util';
 import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer';
+import { maybeNotify } from '../messages/maybeNotify';
 
-/* eslint-disable more/no-then */
+const log = createLogger('conversations');
+
 window.Whisper = window.Whisper || {};
 
 const { Message } = window.Signal.Types;
@@ -3196,7 +3190,7 @@ export class ConversationModel extends window.Backbone
     drop(this.onNewMessage(message));
     this.throttledUpdateUnread();
 
-    await this.notify(message.attributes);
+    await maybeNotify({ message: message.attributes, conversation: this });
   }
 
   async addKeyChange(
@@ -3248,12 +3242,9 @@ export class ConversationModel extends window.Backbone
       }
 
       if (isDirectConversation(this.attributes) && serviceId) {
-        const groups =
-          await window.ConversationController.getAllGroupsInvolvingServiceId(
-            serviceId
-          );
-        groups.forEach(group => {
-          void group.addKeyChange('addKeyChange - group fan-out', serviceId);
+        const groups = await this.#getSharedGroups();
+        groups?.forEach(group => {
+          drop(group.addKeyChange('addKeyChange - group fan-out', serviceId));
         });
       }
 
@@ -3379,12 +3370,9 @@ export class ConversationModel extends window.Backbone
 
     const serviceId = this.getServiceId();
     if (isDirectConversation(this.attributes) && serviceId) {
-      void window.ConversationController.getAllGroupsInvolvingServiceId(
-        serviceId
-      ).then(groups => {
-        groups.forEach(group => {
-          void group.addVerifiedChange(this.id, verified, options);
-        });
+      const groups = await this.#getSharedGroups();
+      groups?.forEach(group => {
+        drop(group.addVerifiedChange(this.id, verified, options));
       });
     }
   }
@@ -3416,12 +3404,9 @@ export class ConversationModel extends window.Backbone
     if (isDirectConversation(this.attributes) && serviceId) {
       this.set({ profileLastUpdatedAt: Date.now() });
 
-      void window.ConversationController.getAllGroupsInvolvingServiceId(
-        serviceId
-      ).then(groups => {
-        groups.forEach(group => {
-          void group.addProfileChange(profileChange, this.id);
-        });
+      const groups = await this.#getSharedGroups();
+      groups?.forEach(group => {
+        drop(group.addProfileChange(profileChange, this.id));
       });
     }
   }
@@ -3604,12 +3589,7 @@ export class ConversationModel extends window.Backbone
         `notification for ${sourceServiceId} from ${oldValue} to ${newValue}`
     );
 
-    const convos = [
-      this,
-      ...(await window.ConversationController.getAllGroupsInvolvingServiceId(
-        sourceServiceId
-      )),
-    ];
+    const convos = [this, ...((await this.#getSharedGroups()) ?? [])];
 
     await Promise.all(
       convos.map(convo => {
@@ -4866,32 +4846,40 @@ export class ConversationModel extends window.Backbone
     }
   }
 
-  // This is an expensive operation we use to populate the message request hero row. It
-  //   shows groups the current user has in common with this potential new contact.
-  async updateSharedGroups(): Promise<void> {
+  async #getSharedGroups(): Promise<Array<ConversationModel> | undefined> {
     if (!isDirectConversation(this.attributes)) {
-      return;
+      return undefined;
     }
     if (isMe(this.attributes)) {
-      return;
+      return undefined;
     }
 
     const ourAci = window.textsecure.storage.user.getCheckedAci();
     const theirAci = this.getAci();
     if (!theirAci) {
-      return;
+      return undefined;
     }
 
     const ourGroups =
       await window.ConversationController.getAllGroupsInvolvingServiceId(
         ourAci
       );
-    const sharedGroups = ourGroups
+    return ourGroups
       .filter(c => c.hasMember(ourAci) && c.hasMember(theirAci))
       .sort(
         (left, right) =>
           (right.get('timestamp') || 0) - (left.get('timestamp') || 0)
       );
+  }
+
+  // This is an expensive operation we use to populate the message request hero row. It
+  //   shows groups the current user has in common with this potential new contact.
+  async updateSharedGroups(): Promise<void> {
+    const sharedGroups = await this.#getSharedGroups();
+
+    if (sharedGroups == null) {
+      return;
+    }
 
     const sharedGroupNames = sharedGroups.map(conversation =>
       conversation.getTitle()
@@ -4902,11 +4890,7 @@ export class ConversationModel extends window.Backbone
 
   onChangeProfileKey(): void {
     if (isDirectConversation(this.attributes)) {
-      drop(
-        this.getProfiles().catch(() => {
-          /* nothing to do here; logging already happened */
-        })
-      );
+      drop(this.getProfiles());
     }
   }
 
@@ -5474,84 +5458,6 @@ export class ConversationModel extends window.Backbone
 
   isMuted(): boolean {
     return isConversationMuted(this.attributes);
-  }
-
-  async notify(
-    message: Readonly<MessageAttributesType>,
-    reaction?: Readonly<ReactionAttributesType>
-  ): Promise<void> {
-    // As a performance optimization don't perform any work if notifications are
-    // disabled.
-    if (!notificationService.isEnabled) {
-      return;
-    }
-
-    if (this.isMuted()) {
-      if (this.get('dontNotifyForMentionsIfMuted')) {
-        return;
-      }
-
-      const ourAci = window.textsecure.storage.user.getCheckedAci();
-      const ourPni = window.textsecure.storage.user.getCheckedPni();
-      const ourServiceIds: Set<ServiceIdString> = new Set([ourAci, ourPni]);
-
-      const mentionsMe = (message.bodyRanges || []).some(bodyRange => {
-        if (!BodyRange.isMention(bodyRange)) {
-          return false;
-        }
-        return ourServiceIds.has(
-          normalizeServiceId(bodyRange.mentionAci, 'notify: mentionsMe check')
-        );
-      });
-      if (!mentionsMe) {
-        return;
-      }
-    }
-
-    if (!isIncoming(message) && !reaction) {
-      return;
-    }
-
-    const conversationId = this.id;
-    const isMessageInDirectConversation = isDirectConversation(this.attributes);
-
-    const sender = reaction
-      ? window.ConversationController.get(reaction.fromId)
-      : getAuthor(message);
-    const senderName = sender
-      ? sender.getTitle()
-      : window.i18n('icu:unknownContact');
-    const senderTitle = isMessageInDirectConversation
-      ? senderName
-      : window.i18n('icu:notificationSenderInGroup', {
-          sender: senderName,
-          group: this.getTitle(),
-        });
-
-    const { url, absolutePath } = await this.getAvatarOrIdenticon();
-
-    const messageId = message.id;
-    const isExpiringMessage = hasExpiration(message);
-
-    notificationService.add({
-      senderTitle,
-      conversationId,
-      storyId: isMessageInDirectConversation ? undefined : message.storyId,
-      notificationIconUrl: url,
-      notificationIconAbsolutePath: absolutePath,
-      isExpiringMessage,
-      message: getNotificationTextForMessage(message),
-      messageId,
-      reaction: reaction
-        ? {
-            emoji: reaction.emoji,
-            targetAuthorAci: reaction.targetAuthorAci,
-            targetTimestamp: reaction.targetTimestamp,
-          }
-        : undefined,
-      sentAt: message.timestamp,
-      type: reaction ? NotificationType.Reaction : NotificationType.Message,
-    });
   }
 
   async getAvatarOrIdenticon(): Promise<{

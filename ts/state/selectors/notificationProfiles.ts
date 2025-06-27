@@ -5,7 +5,7 @@
 
 import { createSelector } from 'reselect';
 
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 
 import type { StateType } from '../reducer';
 import type { NotificationProfilesStateType } from '../ducks/notificationProfiles';
@@ -15,6 +15,8 @@ import {
   type NotificationProfileOverride,
   type NotificationProfileType,
 } from '../../types/NotificationProfile';
+
+const log = createLogger('notificationProfiles');
 
 export const getNotificationProfileData = (
   state: StateType

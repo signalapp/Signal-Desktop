@@ -9,6 +9,7 @@ import {
   processPreKeyBundle,
   ProtocolAddress,
   PublicKey,
+  UsePQRatchet,
 } from '@signalapp/libsignal-client';
 
 import {
@@ -21,10 +22,12 @@ import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
 import type { ServiceIdString } from '../types/ServiceId';
 import type { ServerKeysType, WebAPIType } from './WebAPI';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { isRecord } from '../util/isRecord';
 import type { GroupSendToken } from '../types/GroupSendEndorsements';
 import { onFailedToSendWithEndorsements } from '../util/groupSendEndorsements';
+
+const log = createLogger('getKeysForServiceId');
 
 export async function getKeysForServiceId(
   serviceId: ServiceIdString,
@@ -191,7 +194,8 @@ async function handleServerKeys(
               preKeyBundle,
               protocolAddress,
               sessionStore,
-              identityKeyStore
+              identityKeyStore,
+              UsePQRatchet.No
             )
         );
       } catch (error) {

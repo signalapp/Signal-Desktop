@@ -4,7 +4,9 @@
 import { noop } from 'lodash';
 import { useEffect, useState } from 'react';
 import { computePeaks } from '../components/VoiceNotesPlaybackContext';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const log = createLogger('useComputePeaks');
 
 type WaveformData = {
   peaks: ReadonlyArray<number>;

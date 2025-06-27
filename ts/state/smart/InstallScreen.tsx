@@ -18,8 +18,10 @@ import { WidthBreakpoint } from '../../components/_util';
 import { InstallScreenStep } from '../../types/InstallScreen';
 import OS from '../../util/os/osMain';
 import { isStagingServer } from '../../util/isStagingServer';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { SmartToastManager } from './ToastManager';
+
+const log = createLogger('InstallScreen');
 
 type PropsType = ComponentProps<typeof InstallScreen>;
 
@@ -39,7 +41,7 @@ export const SmartInstallScreen = memo(function SmartInstallScreen() {
 
   switch (installerState.step) {
     case InstallScreenStep.NotStarted:
-      log.error('InstallScreen: Installer not started');
+      log.error('Installer not started');
       return null;
 
     case InstallScreenStep.QrCodeNotScanned:

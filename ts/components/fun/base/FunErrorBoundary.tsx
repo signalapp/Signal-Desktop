@@ -2,9 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { ReactNode, ErrorInfo } from 'react';
 import React, { Component, useCallback } from 'react';
-import * as log from '../../../logging/log';
+import { createLogger } from '../../../logging/log';
 import * as Errors from '../../../types/errors';
 import { ToastType } from '../../../types/Toast';
+
+const log = createLogger('FunErrorBoundary');
 
 type ErrorBoundaryProps = Readonly<{
   onError: (error: unknown, info: ErrorInfo) => void;

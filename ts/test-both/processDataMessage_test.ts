@@ -13,9 +13,11 @@ import type { ProcessedAttachment } from '../textsecure/Types.d';
 import { SignalService as Proto } from '../protobuf';
 import { IMAGE_GIF, IMAGE_JPEG, LONG_MESSAGE } from '../types/MIME';
 import { generateAci } from '../types/ServiceId';
+import { toAciObject } from '../util/ServiceId';
 import { uuidToBytes } from '../util/uuidToBytes';
 
 const ACI_1 = generateAci();
+const ACI_BINARY_1 = toAciObject(ACI_1).getRawUuidBytes();
 const FLAGS = Proto.DataMessage.Flags;
 
 const TIMESTAMP = Date.now();
@@ -205,7 +207,7 @@ describe('processDataMessage', () => {
     const out = check({
       quote: {
         id: Long.fromNumber(1),
-        authorAci: ACI_1,
+        authorAciBinary: ACI_BINARY_1,
         text: 'text',
         attachments: [
           {
@@ -298,7 +300,7 @@ describe('processDataMessage', () => {
       check({
         reaction: {
           emoji: '😎',
-          targetAuthorAci: ACI_1,
+          targetAuthorAciBinary: ACI_BINARY_1,
           targetSentTimestamp: Long.fromNumber(TIMESTAMP),
         },
       }).reaction,
@@ -315,7 +317,7 @@ describe('processDataMessage', () => {
         reaction: {
           emoji: '😎',
           remove: true,
-          targetAuthorAci: ACI_1,
+          targetAuthorAciBinary: ACI_BINARY_1,
           targetSentTimestamp: Long.fromNumber(TIMESTAMP),
         },
       }).reaction,

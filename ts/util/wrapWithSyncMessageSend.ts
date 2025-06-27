@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 
 import { SendMessageProtoError } from '../textsecure/Errors';
 import { getSendOptions } from './getSendOptions';
@@ -12,6 +12,8 @@ import type { ConversationModel } from '../models/conversations';
 import type { SendTypesType } from './handleMessageSend';
 import type MessageSender from '../textsecure/SendMessage';
 import { areAllErrorsUnregistered } from '../jobs/helpers/areAllErrorsUnregistered';
+
+const log = createLogger('wrapWithSyncMessageSend');
 
 export async function wrapWithSyncMessageSend({
   conversation,

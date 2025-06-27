@@ -71,6 +71,10 @@
     "messageformat": "Sending high quality media will use more data.",
     "description": "Additional detail about the sent media quality setting"
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "Donate to Signal",
+    "description": "The title of the preferences pane for donating to signal"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standard",
     "description": "Label text for standard media quality option"
@@ -1710,6 +1714,222 @@
     "messageformat": "Emoji skin tone",
     "description": "Preferences Window > Chats Tab > Emoji skin tone default setting > Label"
   },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
+    "messageformat": "Chat folders",
+    "description": "Preferences > Chats Page > Chat Folders Section > Title"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
+    "messageformat": "Add a chat folder",
+    "description": "Preferences > Chats Page > Chat Folders Section > Add Chat Folder Item > Title"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
+    "messageformat": "Organize your chats into folders and quickly switch between them on your chat list.",
+    "description": "Preferences > Chats Page > Chat Folders Section > Add Chat Folder Item > Description"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
+    "messageformat": "Edit folder",
+    "description": "Preferences > Chats Page > Chat Folders Section > Chat Folder Item > Context Menu > Edit Folder"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__DeleteFolder": {
+    "messageformat": "Delete",
+    "description": "Preferences > Chats Page > Chat Folders Section > Chat Folder Item > Context Menu > Delete Folder"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Title": {
+    "messageformat": "Delete folder?",
+    "description": "Preferences > Chats Page > Delete Chat Folder Dialog > Title"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Description": {
+    "messageformat": "Do you want to delete the folder “{chatFolderTitle}”?",
+    "description": "Preferences > Chats Page > Delete Chat Folder Dialog > Description"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
+    "messageformat": "Delete",
+    "description": "Preferences > Chats Page > Delete Chat Folder Dialog > Delete Button"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
+    "messageformat": "Cancel",
+    "description": "Preferences > Chats Page > Delete Chat Folder Dialog > Cancel Button"
+  },
+  "icu:Preferences__ChatFoldersPage__Title": {
+    "messageformat": "Chat folders",
+    "description": "Preferences > Chat Folders Page > Title"
+  },
+  "icu:Preferences__ChatFoldersPage__Description": {
+    "messageformat": "Organize your chats into folders and quickly switch between them on your chat list",
+    "description": "Preferences > Chat Folders Page > Description"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__Title": {
+    "messageformat": "Folders",
+    "description": "Preferences > Chat Folders Page > Folders > Title"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__AllChatsFolder__Title": {
+    "messageformat": "All chats",
+    "description": "Preferences > Chat Folders Page > Folders > All Chats Folder (Default folder, always present)"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
+    "messageformat": "Create a folder",
+    "description": "Preferences > Chat Folders Page > Folders > Create A Folder Button"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
+    "messageformat": "Suggested folders",
+    "description": "Preferences > Chat Folders Page > Suggested Folders > Title"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
+    "messageformat": "Add",
+    "description": "Preferences > Chat Folders Page > Suggested Folders > Add Button"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
+    "messageformat": "{chatFolderTitle} folder added",
+    "description": "Preferences > Chat Folders Page > Suggested Folders > Add Button > Toast"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
+    "messageformat": "Unread",
+    "description": "Preferences > Chat Folders Page > Suggested Folders > Unread Folder > Title"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Description": {
+    "messageformat": "Unread messages from all chats",
+    "description": "Preferences > Chat Folders Page > Suggested Folders > Unread Folder > Description"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Title": {
+    "messageformat": "1:1 chats",
+    "description": "Preferences > Chat Folders Page > Suggested Folders > Direct chats Folder > Title"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Description": {
+    "messageformat": "Only messages from direct chats",
+    "description": "Preferences > Chat Folders Page > Suggested Folders > Direct chats Folder > Description"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Title": {
+    "messageformat": "Groups",
+    "description": "Preferences > Chat Folders Page > Suggested Folders > Group chats Folder > Title"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Description": {
+    "messageformat": "Only messages from group chats",
+    "description": "Preferences > Chat Folders Page > Suggested Folders > Group chats Folder > Description"
+  },
+  "icu:Preferences__EditChatFolderPage__Title": {
+    "messageformat": "Create a folder",
+    "description": "Preferences > Edit Chat Folder Page > Title"
+  },
+  "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
+    "messageformat": "Folder name",
+    "description": "Preferences > Edit Chat Folder Page > Folder Name Field > Label"
+  },
+  "icu:Preferences__EditChatFolderPage__FolderNameField__Placeholder": {
+    "messageformat": "Folder name (required)",
+    "description": "Preferences > Edit Chat Folder Page > Folder Name Field > Placeholder"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Title": {
+    "messageformat": "Included chats",
+    "description": "Preferences > Edit Chat Folder Page > Included Chats Section > Title"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
+    "messageformat": "Choose chats that you want to appear in this folder",
+    "description": "Preferences > Edit Chat Folder Page > Included Chats Section > Help"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
+    "messageformat": "Add chats",
+    "description": "Preferences > Edit Chat Folder Page > Included Chats Section > Add Chats Button"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog--IncludedChats__Title": {
+    "messageformat": "Included chats",
+    "description": "Preferences > Edit Chat Folder Page > Select Chats Dialog (Included Chats Mode) > Title"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog--ExcludedChats__Title": {
+    "messageformat": "Excluded chats",
+    "description": "Preferences > Edit Chat Folder Page > Select Chats Dialog (Excluded Chats Mode) > Title"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
+    "messageformat": "Search",
+    "description": "Preferences > Edit Chat Folder Page > Select Chats Dialog > Search > Placeholder"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
+    "messageformat": "Chat types",
+    "description": "Preferences > Edit Chat Folder Page > Select Chats Dialog > Chat Types Section > Title"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__DirectChats": {
+    "messageformat": "1:1 chats",
+    "description": "Preferences > Edit Chat Folder Page > Select Chats Dialog > Chat Types Section > Direct Chats"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__GroupChats": {
+    "messageformat": "Groups",
+    "description": "Preferences > Edit Chat Folder Page > Select Chats Dialog > Chat Types Section > Group Chats"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__RecentChats__Title": {
+    "messageformat": "Recent chats",
+    "description": "Preferences > Edit Chat Folder Page > Select Chats Dialog > Recent Chats Section > Title"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__DoneButton": {
+    "messageformat": "Done",
+    "description": "Preferences > Edit Chat Folder Page > Select Chats Dialog > Done Button"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__Title": {
+    "messageformat": "Exceptions",
+    "description": "Preferences > Edit Chat Folder Page > Exceptions Section > Title"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__Help": {
+    "messageformat": "Choose chats that you do not want to appear in this folder",
+    "description": "Preferences > Edit Chat Folder Page > Exceptions Section > Help"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__ExcludeChatsButton": {
+    "messageformat": "Exclude chats",
+    "description": "Preferences > Edit Chat Folder Page > Exceptions Section > Exclude chats button"
+  },
+  "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Label": {
+    "messageformat": "Only show unread chats",
+    "description": "Preferences > Edit Chat Folder Page > Only Show Unread Chats Checkbox > Label"
+  },
+  "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Description": {
+    "messageformat": "Only chats with unread messages will be shown in this folder.",
+    "description": "Preferences > Edit Chat Folder Page > Only Show Unread Chats Checkbox > Description"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludeMutedChatsCheckbox__Label": {
+    "messageformat": "Include muted chats",
+    "description": "Preferences > Edit Chat Folder Page > Include Muted Chats Checkbox > Label"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteFolderButton": {
+    "messageformat": "Delete folder",
+    "description": "Preferences > Edit Chat Folder Page > Delete Folder Button"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Title": {
+    "messageformat": "Delete this chat folder?",
+    "description": "Preferences > Delete Chat Folder Dialog > Title"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Description": {
+    "messageformat": "This folder will be removed from your chat list.",
+    "description": "Preferences > Delete Chat Folder Dialog > Description"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
+    "messageformat": "Delete",
+    "description": "Preferences > Delete Chat Folder Dialog > Delete Button"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
+    "messageformat": "Cancel",
+    "description": "Preferences > Delete Chat Folder Dialog > Cancel Button"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
+    "messageformat": "Save changes?",
+    "description": "Preferences > Edit Chat Folder Page > Save Changes Folder Dialog > Title"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Description": {
+    "messageformat": "Do you want to save the changes you’ve made to this chat folder?",
+    "description": "Preferences > Edit Chat Folder Page > Save Changes Folder Dialog > Description"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__SaveButton": {
+    "messageformat": "Save",
+    "description": "Preferences > Edit Chat Folder Page > Save Changes Folder Dialog > Save Button"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__DiscardButton": {
+    "messageformat": "Discard",
+    "description": "Preferences > Edit Chat Folder Page > Save Changes Folder Dialog > Discard Button"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveButton": {
+    "messageformat": "Save",
+    "description": "Preferences > Edit Chat Folder Page > Save Button"
+  },
+  "icu:Preferences__EditChatFolderPage__CancelButton": {
+    "messageformat": "Cancel",
+    "description": "Preferences > Edit Chat Folder Page > Cancel Button"
+  },
   "icu:initialSync": {
     "messageformat": "Syncing contacts and groups",
     "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
@@ -3103,6 +3323,10 @@
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
     "messageformat": "Search Results",
     "description": "FunPicker > Emojis Panel > Section Title > Search Results"
+  },
+  "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
+    "messageformat": "This Message",
+    "description": "FunPicker > Emojis Panel > Section Title > Recents > This Message"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Recently Used",
@@ -4521,7 +4745,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "You can't join this group via the group link because an admin removed you.",
+    "messageformat": "You can't join this group via the group link because an admin removed you. Contact an admin to be added back to the group.",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "icu:GroupV2--join--prompt-with-approval": {
@@ -5267,6 +5491,14 @@
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "Tap on \"Donate to Signal\" and subscribe",
     "description": "In the instructions for becoming a sustainer. Third instruction."
+  },
+  "icu:ProfileMovedModal__title": {
+    "messageformat": "Your profile has moved",
+    "description": "Bolded text on modal that explains the move of Profile Editor into the new Settings Tab"
+  },
+  "icu:ProfileMovedModal__description": {
+    "messageformat": "Open the Settings tab to view and edit your profile.",
+    "description": "Description text on modal that explains the move of Profile Editor into the new Settings Tab"
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Syncing messages",
@@ -6556,6 +6788,10 @@
     "messageformat": "Your profile could not be updated. Please try again.",
     "description": "Error message when something goes wrong updating your profile."
   },
+  "icu:ProfileEditorModal--sharing": {
+    "messageformat": "Sharing",
+    "description": "Title for username QR code and link screen"
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Message an admin",
     "description": "Modal title for the list of admins in a group"
@@ -6598,6 +6834,10 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "General",
+    "description": "Button to switch the settings view"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "Donate to Signal",
     "description": "Button to switch the settings view"
   },
   "icu:Preferences__button--appearance": {
@@ -6655,6 +6895,18 @@
   "icu:Preferences__button--internal": {
     "messageformat": "Internal",
     "description": "Button to switch the settings view to control internal configuration"
+  },
+  "icu:Preferences__button--manage": {
+    "messageformat": "Manage",
+    "description": "Button in the settings view to manage details of a feature or setting."
+  },
+  "icu:Preferences__button--choose-folder": {
+    "messageformat": "Choose folder",
+    "description": "Button in the settings view to choose a folder using the computer's file browser."
+  },
+  "icu:Preferences__button--set-up": {
+    "messageformat": "Set up",
+    "description": "Button in the settings view to initially setup a feature or setting."
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Local backups",
@@ -6716,6 +6968,18 @@
     "messageformat": "Blocked",
     "description": "Label for blocked contacts setting"
   },
+  "icu:Preferences--signal-backups": {
+    "messageformat": "Signal Backups",
+    "description": "Feature name for message backups using the Signal service."
+  },
+  "icu:Preferences--signal-backups-off-description": {
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>.",
+    "description": "Description for message backups using the Signal service."
+  },
+  "icu:Preferences--backup-section-description": {
+    "messageformat": "Back up your message history so you never lose data when you get a new phone or reinstall Signal.",
+    "description": "Section description in the main backup settings section which summarizes the message backup feature."
+  },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Backup details",
     "description": "Section title for info on your current backup (created time & size)"
@@ -6770,7 +7034,111 @@
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "Backup size",
-    "description": "Label for the size (e.g. 1.4 GB) of this user's backup"
+    "description": "(Deleted 2025/06/11) Label for the size (e.g. 1.4 GB) of this user's backup"
+  },
+  "icu:Preferences__local-backups": {
+    "messageformat": "Desktop backups",
+    "description": "Section title and button text for the on-device backups feature (also known as local backups)."
+  },
+  "icu:Preferences__local-backups-section__description": {
+    "messageformat": "Backups are encrypted with a key and stored on your computer.",
+    "description": "Description in the settings view for on-device backups."
+  },
+  "icu:Preferences--local-backups-off-description": {
+    "messageformat": "Create an end-to-end encrypted backup that you can restore on your phone. ",
+    "description": "Description for on-device local message backups when the feature is off."
+  },
+  "icu:Preferences--local-backups-restore-info": {
+    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>",
+    "description": "Description for how to restore on-device local message backups."
+  },
+  "icu:Preferences--local-backups-setup-folder": {
+    "messageformat": "Choose a folder",
+    "description": "Title for picking a folder for on-device local message backups when setting it up for the first time."
+  },
+  "icu:Preferences--local-backups-setup-folder-description": {
+    "messageformat": "Choose a folder in your computer’s storage where your end-to-end encrypted backup will be stored.",
+    "description": "Description for picking a folder for on-device local message backups when setting it up for the first time."
+  },
+  "icu:Preferences--local-backups-setup-next": {
+    "messageformat": "Next",
+    "description": "Button to continue with setup of local on-device backups, shown while reviewing your backup key for the first time."
+  },
+  "icu:Preferences--local-backups-view-backup-key-done": {
+    "messageformat": "Done",
+    "description": "Button to dismiss the backup key viewer, shown when reviewing your backup key for local on-device backups."
+  },
+  "icu:Preferences--local-backups-backup-key-text-box": {
+    "messageformat": "Backup key text box",
+    "description": "ARIA label for the text box used to view or confirm the backup key for local message backups."
+  },
+  "icu:Preferences--local-backups-enter-backup-key": {
+    "messageformat": "Enter key",
+    "description": "Placeholder text for the text box used to confirm the backup key for local message backups."
+  },
+  "icu:Preferences--local-backups-record-backup-key": {
+    "messageformat": "Record your backup key",
+    "description": "Title for viewing the backup key for local message backups."
+  },
+  "icu:Preferences--local-backups-record-backup-key-description": {
+    "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>",
+    "description": "Description for viewing the backup key for local message backups."
+  },
+  "icu:Preferences--local-backups-confirm-backup-key": {
+    "messageformat": "Confirm your backup key",
+    "description": "Title for confirming the backup key for local message backups by re-entering it into a text box."
+  },
+  "icu:Preferences--local-backups-confirm-backup-key-description": {
+    "messageformat": "Enter the backup key that you just recorded",
+    "description": "Description for confirming the backup key for local message backups by re-entering it into a text box."
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-title": {
+    "messageformat": "Keep your key safe",
+    "description": "Title of modal shown after you confirmed the backup key for local on-device backups in settings"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-body": {
+    "messageformat": "Signal will not be able to help you restore your backup if you lose your key. Store it somewhere safe and secure, and do not share it with others.",
+    "description": "Body text of modal shown after you confirmed the backup key for local on-device backups in settings"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-continue": {
+    "messageformat": "Continue",
+    "description": "Text of the primary button on modal shown after you confirmed the backup key for local on-device backups in settings"
+  },
+  "icu:Preferences--local-backups-see-backup-key-again": {
+    "messageformat": "See key again",
+    "description": "Link text to return to the previous backup key page, shown when confirming the backup key for local message backups."
+  },
+  "icu:Preferences__local-backups-folder": {
+    "messageformat": "Backup folder",
+    "description": "Label for current folder in which local on-device backups are stored."
+  },
+  "icu:Preferences__local-backups-folder__change": {
+    "messageformat": "Change",
+    "description": "Button to change the folder in which local on-device backups are stored."
+  },
+  "icu:Preferences__local-backups-copy-key": {
+    "messageformat": "Copy to clipboard",
+    "description": "Button label for copying the backup key to clipboard in the settings for local on-device backups"
+  },
+  "icu:Preferences__local-backups-copied-key": {
+    "messageformat": "Backup key copied",
+    "description": "Toast message after you copied the backup key to clipboard from settings for local on-device backups"
+  },
+  "icu:Preferences__view-key": {
+    "messageformat": "View key",
+    "description": "Button to view the backup key which is used to restore a message history backup"
+  },
+  "icu:Preferences__backup-key": {
+    "messageformat": "Backup key",
+    "description": "Name for the key code used to restore a message history backup"
+  },
+  "icu:Preferences__backup-key-description": {
+    "messageformat": "Your backup key is a 64-digit code used to restore your backup",
+    "description": "Description for the key code used to restore a message history backup"
+  },
+  "icu:Preferences__backup-other-ways": {
+    "messageformat": "Other ways to back up",
+    "description": "Heading on the backups settings view for alternative backup methods such as on-device backups."
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {# contact} other {# contacts}}",
@@ -7980,7 +8348,7 @@
   },
   "icu:UsernameLinkModalBody__done": {
     "messageformat": "Done",
-    "description": "Text of button at the bottom of the username link modal"
+    "description": "(Deleted 2025/06/11) Text of button at the bottom of the username link modal"
   },
   "icu:UsernameLinkModalBody__color__radio": {
     "messageformat": "Username link color, {index, number} of {total, number}",
@@ -8410,6 +8778,10 @@
     "messageformat": "Don't share personal information with people you don't know",
     "description": "Third list item in profile name warning modal for group conversations"
   },
+  "icu:SaveMultiDialog__title": {
+    "messageformat": "Save attachments",
+    "description": "Title of the dialog to save multiple attachments"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "What's New",
     "description": "Title for the whats new modal"
@@ -8449,12 +8821,12 @@
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Sometimes a powerful story can really move you, so we fixed a bug that made it difficult to move the Signal window while viewing content in the Stories tab.",
-    "description": "(Deleted 2025/05/28) Release notes for version 7.56"
+  "icu:WhatsNew__v7.58--0": {
+    "messageformat": "A new section in the message reaction selector automatically displays all of the emoji reactions that a message has received. Now you can quickly jump on the bandwagon and add a standard sparkling heart just like everyone else already did, or you can follow your own heart and go with the anatomical heart instead.",
+    "description": "(Deleted 2025/06/20) Release notes for version 7.58"
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen.",
-    "description": "Release notes for version 7.57"
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware.",
+    "description": "(Deleted 2025/06/25) Release notes for version 7.59"
   }
 }

@@ -16,6 +16,7 @@ import type {
 import { CallViewMode } from '../types/Calling';
 import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer';
 import type { LocalizerType } from '../types/Util';
+import { toLogFormat } from '../types/errors';
 import { usePageVisibility } from '../hooks/usePageVisibility';
 import { useDevicePixelRatio } from '../hooks/useDevicePixelRatio';
 import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant';
@@ -23,11 +24,13 @@ import { missingCaseError } from '../util/missingCaseError';
 import { SECOND } from '../util/durations';
 import { filter, join } from '../util/iterables';
 import * as setUtil from '../util/setUtil';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { MAX_FRAME_HEIGHT, MAX_FRAME_WIDTH } from '../calling/constants';
 import { SizeObserver } from '../hooks/useSizeObserver';
 import { strictAssert } from '../util/assert';
 import type { CallingImageDataCache } from './CallManager';
+
+const log = createLogger('GroupCallRemoteParticipants');
 
 const SMALL_TILES_MIN_HEIGHT = 80;
 const LARGE_TILES_MIN_HEIGHT = 200;
@@ -449,7 +452,7 @@ export function GroupCallRemoteParticipants({
         videoRequest = remoteParticipants.map(nonRenderedRemoteParticipant);
         break;
       default:
-        log.error(missingCaseError(videoRequestMode));
+        log.error(toLogFormat(missingCaseError(videoRequestMode)));
         videoRequest = remoteParticipants.map(nonRenderedRemoteParticipant);
         break;
     }
@@ -773,7 +776,7 @@ function getGridParticipantsByPage({
 
       if (!nextPage) {
         log.warn(
-          `GroupCallRemoteParticipants: failed after ${attemptNumber} attempts to layout
+          `failed after ${attemptNumber} attempts to layout
           the page; pageIndex: ${pages.length}, \
           # fit in priority order: ${nextPageInPriorityOrder.numParticipants}, \
           # fit in sorted order:  ${nextPageInSortedOrder.numParticipants}`

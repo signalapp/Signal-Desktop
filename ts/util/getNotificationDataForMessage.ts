@@ -12,7 +12,7 @@ import * as GroupChange from '../groupChange';
 import * as MIME from '../types/MIME';
 import * as Stickers from '../types/Stickers';
 import * as expirationTimer from './expirationTimer';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { GiftBadgeStates } from '../components/conversation/Message';
 import { dropNull } from './dropNull';
 import { getCallHistorySelector } from '../state/selectors/callHistory';
@@ -57,6 +57,8 @@ import {
 import { MessageRequestResponseEvent } from '../types/MessageRequestResponseEvent';
 import { missingCaseError } from './missingCaseError';
 import { getUserConversationId } from '../state/selectors/user';
+
+const log = createLogger('getNotificationDataForMessage');
 
 function getNameForNumber(e164: string): string {
   const conversation = window.ConversationController.get(e164);

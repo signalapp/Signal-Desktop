@@ -3,9 +3,11 @@
 
 import type { AciString } from '../types/ServiceId';
 import type { LoggerType } from '../types/Logging';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { isAciString } from './isAciString';
 import { strictAssert } from './assert';
+
+const log = createLogger('normalizeAci');
 
 export function normalizeAci(
   rawAci: string,

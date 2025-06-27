@@ -5,7 +5,7 @@ import type { CSSProperties } from 'react';
 import React, { useEffect, useState } from 'react';
 import { noop } from 'lodash';
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import type { LocalizerType } from '../types/Util';
 import { Spinner } from './Spinner';
 import type { AvatarColorType } from '../types/Colors';
@@ -13,6 +13,8 @@ import { AvatarColors } from '../types/Colors';
 import { getInitials } from '../util/getInitials';
 import { imagePathToBytes } from '../util/imagePathToBytes';
 import { type ConversationType } from '../state/ducks/conversations';
+
+const log = createLogger('AvatarPreview');
 
 export type PropsType = {
   avatarColor?: AvatarColorType;
@@ -26,6 +28,7 @@ export type PropsType = {
   onAvatarLoaded?: (avatarBuffer: Uint8Array) => unknown;
   onClear?: () => unknown;
   onClick?: () => unknown;
+  showUploadButton?: boolean;
   style?: CSSProperties;
 } & Pick<ConversationType, 'avatarPlaceholderGradient' | 'hasAvatar'>;
 
@@ -50,6 +53,7 @@ export function AvatarPreview({
   onAvatarLoaded,
   onClear,
   onClick,
+  showUploadButton,
   style = {},
 }: PropsType): JSX.Element {
   const [avatarPreview, setAvatarPreview] = useState<Uint8Array | undefined>();
@@ -184,7 +188,7 @@ export function AvatarPreview({
           style={componentStyle}
         >
           {content}
-          {isEditable && <div className="AvatarPreview__upload" />}
+          {showUploadButton && <div className="AvatarPreview__upload" />}
         </div>
       </div>
     );
@@ -232,7 +236,7 @@ export function AvatarPreview({
             type="button"
           />
         )}
-        {isEditable && <div className="AvatarPreview__upload" />}
+        {showUploadButton && <div className="AvatarPreview__upload" />}
       </div>
     </div>
   );

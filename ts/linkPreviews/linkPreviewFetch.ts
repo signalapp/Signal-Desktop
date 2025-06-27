@@ -15,7 +15,9 @@ import {
 } from '../types/MIME';
 import type { LoggerType } from '../types/Logging';
 import { scaleImageToLevel } from '../util/scaleImageToLevel';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const log = createLogger('linkPreviewFetch');
 
 const USER_AGENT = 'WhatsApp/2';
 
@@ -307,7 +309,10 @@ const getHtmlDocument = async (
         chunk = Buffer.from(chunk, httpCharset || 'utf8');
       }
 
-      const truncatedChunk = chunk.slice(0, buffer.length - bytesLoadedSoFar);
+      const truncatedChunk = chunk.subarray(
+        0,
+        buffer.length - bytesLoadedSoFar
+      );
       buffer.set(truncatedChunk, bytesLoadedSoFar);
       bytesLoadedSoFar += truncatedChunk.byteLength;
 
@@ -322,7 +327,10 @@ const getHtmlDocument = async (
     );
   }
 
-  const result = parseHtmlBytes(buffer.slice(0, bytesLoadedSoFar), httpCharset);
+  const result = parseHtmlBytes(
+    buffer.subarray(0, bytesLoadedSoFar),
+    httpCharset
+  );
   return result;
 };
 

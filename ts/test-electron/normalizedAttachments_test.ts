@@ -12,7 +12,13 @@ import type {
   ThumbnailType,
   BackupThumbnailType,
 } from '../types/Attachment';
-import { IMAGE_JPEG, IMAGE_PNG, LONG_MESSAGE } from '../types/MIME';
+import {
+  APPLICATION_OCTET_STREAM,
+  IMAGE_JPEG,
+  IMAGE_PNG,
+  LONG_MESSAGE,
+  type MIMEType,
+} from '../types/MIME';
 import type { MessageAttributesType } from '../model-types';
 import { generateAci } from '../types/ServiceId';
 import { ReadStatus } from '../messages/MessageReadStatus';
@@ -83,7 +89,6 @@ function composeAttachment(
     cdnNumber: 3,
     key: getBase64(`key${label}`),
     digest: getBase64(`digest${label}`),
-    iv: getBase64(`iv${label}`),
     size: 100,
     downloadPath: 'downloadPath',
     contentType: IMAGE_JPEG,
@@ -101,12 +106,8 @@ function composeAttachment(
     flags: 8,
     incrementalMac: 'incrementalMac',
     chunkSize: 128,
-    isReencryptableToSameDigest: true,
     version: 2,
-    backupLocator: {
-      mediaName: `medianame${label}`,
-      cdnNumber: index,
-    },
+    backupCdnNumber: index,
     localBackupPath: `localBackupPath/${label}`,
     // This would only exist on a story message with contentType TEXT_ATTACHMENT,
     // but inluding it here to ensure we are roundtripping all fields
@@ -124,7 +125,6 @@ function composeAttachment(
     thumbnail: composeThumbnail(index),
     screenshot: composeScreenshot(index),
     thumbnailFromBackup: composeBackupThumbnail(index),
-
     ...overrides,
   } as const;
 
@@ -604,5 +604,37 @@ describe('normalizes attachment references', () => {
     const messageFromDB = await DataReader.getMessageById(message.id);
     assert(messageFromDB, 'message was saved');
     assert.deepEqual(messageFromDB, message);
+  });
+  it('handles bad data', async () => {
+    const attachment: AttachmentType = {
+      ...composeAttachment(),
+      size: undefined as unknown as number,
+      contentType: undefined as unknown as MIMEType,
+      uploadTimestamp: {
+        low: 6174,
+        high: 0,
+        unsigned: false,
+      } as unknown as number,
+      incrementalMac: Bytes.fromString('incrementalMac') as unknown as string,
+    };
+    const message = composeMessage(Date.now(), {
+      attachments: [attachment],
+    });
+
+    await DataWriter.saveMessage(message, {
+      forceSave: true,
+      ourAci: generateAci(),
+      postSaveUpdates: () => Promise.resolve(),
+    });
+
+    const messageFromDB = await DataReader.getMessageById(message.id);
+    assert(messageFromDB, 'message was saved');
+    assert.deepEqual(messageFromDB.attachments?.[0], {
+      ...attachment,
+      size: 0,
+      contentType: APPLICATION_OCTET_STREAM,
+      uploadTimestamp: undefined,
+      incrementalMac: undefined,
+    });
   });
 });

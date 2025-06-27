@@ -10,14 +10,13 @@ import {
   parseContactsV2,
   type ContactDetailsWithAvatar,
 } from '../textsecure/ContactsParser';
-import { normalizeAci } from '../util/normalizeAci';
 import * as Conversation from '../types/Conversation';
 import * as Errors from '../types/errors';
 import type { ValidateConversationType } from '../model-types.d';
 import type { ConversationModel } from '../models/conversations';
 import { validateConversation } from '../util/validateConversation';
 import { isDirectConversation, isMe } from '../util/whatTypeOfConversation';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { dropNull } from '../util/dropNull';
 import type { ProcessedAttachment } from '../textsecure/Types';
 import { downloadAttachment } from '../textsecure/downloadAttachment';
@@ -25,6 +24,9 @@ import { strictAssert } from '../util/assert';
 import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto';
 import { SECOND } from '../util/durations';
 import { AttachmentVariant } from '../types/Attachment';
+import { MediaTier } from '../types/AttachmentDownload';
+
+const log = createLogger('contactSync');
 
 // When true - we are running the very first storage and contact sync after
 // linking.
@@ -108,7 +110,7 @@ async function downloadAndParseContactAttachment(
     const abortController = new AbortController();
     downloaded = await downloadAttachment(
       window.textsecure.server,
-      contactAttachment,
+      { attachment: contactAttachment, mediaTier: MediaTier.STANDARD },
       {
         variant: AttachmentVariant.Default,
         onSizeUpdate: noop,
@@ -149,7 +151,7 @@ async function doContactSync({
   for (const details of contacts) {
     const partialConversation: ValidateConversationType = {
       e164: details.number,
-      serviceId: normalizeAci(details.aci, 'doContactSync'),
+      serviceId: details.aci,
       type: 'private',
     };
 
@@ -164,7 +166,7 @@ async function doContactSync({
 
     const { conversation } = window.ConversationController.maybeMergeContacts({
       e164: details.number,
-      aci: normalizeAci(details.aci, 'contactSync.aci'),
+      aci: details.aci,
       reason: logId,
     });
 

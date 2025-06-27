@@ -115,7 +115,7 @@ import {
   NotificationType,
   shouldSaveNotificationAvatarToDisk,
 } from './notifications';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { assertDev, strictAssert } from '../util/assert';
 import {
   formatLocalDeviceState,
@@ -161,6 +161,9 @@ import { getColorForCallLink } from '../util/getColorForCallLink';
 import { getUseRingrtcAdm } from '../util/ringrtc/ringrtcAdm';
 import OS from '../util/os/osMain';
 import { sleep } from '../util/sleep';
+
+const log = createLogger('calling');
+const ringrtcLog = createLogger('@signalapp/ringrtc');
 
 const { wasGroupCallRingPreviouslyCanceled } = DataReader;
 const {
@@ -831,6 +834,7 @@ export class CallingClass {
       sfuUrl,
       authCredentialPresentation.serialize(),
       callLinkRootKey,
+      undefined,
       callLinkAdminKey
     );
 
@@ -867,6 +871,7 @@ export class CallingClass {
       sfuUrl,
       authCredentialPresentation.serialize(),
       callLinkRootKey,
+      undefined,
       callLinkAdminKey,
       name
     );
@@ -912,6 +917,7 @@ export class CallingClass {
       sfuUrl,
       authCredentialPresentation.serialize(),
       callLinkRootKey,
+      undefined,
       callLinkAdminKey,
       newRestrictions
     );
@@ -945,7 +951,8 @@ export class CallingClass {
     const result = await RingRTC.readCallLink(
       this._sfuUrl,
       authCredentialPresentation.serialize(),
-      callLinkRootKey
+      callLinkRootKey,
+      undefined
     );
     if (!result.success) {
       log.warn(`${logId}: failed with status ${result.errorStatusCode}`);
@@ -1240,7 +1247,8 @@ export class CallingClass {
     const result = await RingRTC.peekCallLinkCall(
       this._sfuUrl,
       authCredentialPresentation.serialize(),
-      callLinkRootKey
+      callLinkRootKey,
+      undefined
     );
     if (!result.success) {
       throw new Error(
@@ -1374,6 +1382,7 @@ export class CallingClass {
       this._sfuUrl,
       authCredentialPresentation.serialize(),
       callLinkRootKey,
+      undefined,
       adminPasskey,
       Buffer.alloc(0),
       AUDIO_LEVEL_INTERVAL_MS,
@@ -1917,7 +1926,7 @@ export class CallingClass {
     }
 
     log.error(
-      'Calling.formatUserId: could not convert participant UUID Uint8Array to string'
+      'formatUserId: could not convert participant UUID Uint8Array to string'
     );
     return null;
   }
@@ -1935,7 +1944,7 @@ export class CallingClass {
           }
         } else {
           log.error(
-            'Calling.formatGroupCallPeekInfoForRedux: device had no user ID; using fallback UUID'
+            'formatGroupCallPeekInfoForRedux: device had no user ID; using fallback UUID'
           );
         }
         return normalizeAci(
@@ -1993,7 +2002,7 @@ export class CallingClass {
         let aci = bytesToUuid(remoteDeviceState.userId);
         if (!aci) {
           log.error(
-            'Calling.formatGroupCallForRedux: could not convert remote participant UUID Uint8Array to string; using fallback UUID'
+            'formatGroupCallForRedux: could not convert remote participant UUID Uint8Array to string; using fallback UUID'
           );
           aci = '00000000-0000-4000-8000-000000000000';
         }
@@ -2816,7 +2825,7 @@ export class CallingClass {
       );
       return;
     }
-    const senderIdentityKey = senderIdentityRecord.publicKey.slice(1); // Ignore the type header, it is not used.
+    const senderIdentityKey = senderIdentityRecord.publicKey.subarray(1); // Ignore the type header, it is not used.
 
     const ourAci = storage.user.getCheckedAci();
 
@@ -2827,7 +2836,7 @@ export class CallingClass {
       );
       return;
     }
-    const receiverIdentityKey = receiverIdentityRecord.publicKey.slice(1); // Ignore the type header, it is not used.
+    const receiverIdentityKey = receiverIdentityRecord.publicKey.subarray(1); // Ignore the type header, it is not used.
 
     const conversation = window.ConversationController.get(remoteUserId);
     if (!conversation) {
@@ -3459,13 +3468,13 @@ export class CallingClass {
   ) {
     switch (level) {
       case CallLogLevel.Info:
-        log.info(`${fileName}:${line} ${message}`);
+        ringrtcLog.info(`${fileName}:${line} ${message}`);
         break;
       case CallLogLevel.Warn:
-        log.warn(`${fileName}:${line} ${message}`);
+        ringrtcLog.warn(`${fileName}:${line} ${message}`);
         break;
       case CallLogLevel.Error:
-        log.error(`${fileName}:${line} ${message}`);
+        ringrtcLog.error(`${fileName}:${line} ${message}`);
         break;
       default:
         break;
@@ -3926,7 +3935,7 @@ export class CallingClass {
         break;
       }
       default: {
-        log.error(missingCaseError(notificationSetting));
+        log.error(Errors.toLogFormat(missingCaseError(notificationSetting)));
         notificationTitle = FALLBACK_NOTIFICATION_TITLE;
         break;
       }

@@ -41,6 +41,9 @@
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "ਵਧੀਆ ਕੁਆਲਟੀ ਮੀਡੀਆ ਭੇਜਣ ਲਈ ਵੱਧ ਡਾਟਾ ਵਰਤਿਆ ਜਾਵੇਗਾ।"
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "Signal ਨੂੰ ਦਾਨ ਕਰੋ"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "ਸਟੈਂਡਰਡ"
   },
@@ -594,7 +597,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "ਡਾਟਾਬੇਸ ਗੜਬੜੀ: ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੇ ਲੌਗ ਸਾਂਝੇ ਕਰੋ।"
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "ਸਟੋਰੇਜ ਸੇਵਾ ਤੋਂ ਅਵੈਧ ਜਵਾਬ ਪ੍ਰਾਪਤ ਹੋਇਆ। ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੇ ਲੌਗ ਸਾਂਝੇ ਕਰੋ।"
@@ -1269,7 +1272,7 @@
     "messageformat": "ਮਦਦ ਚਾਹੀਦੀ ਹੈ?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "ਸੈਟਿੰਗਾਂ"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "ਫ਼ੋਨ ਨੰਬਰ"
@@ -1680,7 +1683,7 @@
     "messageformat": "{group} ਵਿੱਚ{sender}"
   },
   "icu:notificationReactionMessage": {
-    "messageformat": "{message}: ਉੱਤੇ {sender} ਨੇ {emoji} ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
+    "messageformat": "{emoji}: {sender} ਨੇ ਇਸ {message} ਉੱਤੇ ਇਹ ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
   },
   "icu:sendFailed": {
     "messageformat": "ਭੇਜਣ ਵਿੱਚ ਅਸਫ਼ਲ"
@@ -2339,6 +2342,9 @@
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
     "messageformat": "ਖੋਜ ਦੇ ਨਤੀਜੇ"
   },
+  "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
+    "messageformat": "ਇਹ ਸੁਨੇਹਾ"
+  },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "ਤਾਜ਼ਾ ਵਰਤੇ"
   },
@@ -2484,13 +2490,13 @@
     "messageformat": "ਰੱਦ ਕਰੋ"
   },
   "icu:Message__reaction-emoji-label--you": {
-    "messageformat": "ਤੁਸੀਂ {emoji} ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
+    "messageformat": "{emoji}: ਤੁਸੀਂ ਇਹ ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
   },
   "icu:Message__reaction-emoji-label--single": {
-    "messageformat": "{title} ਨੇ {emoji} ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
+    "messageformat": "{emoji} ਰਿਐਕਸ਼ਨ: {title} ਵੱਲੋਂ"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, one {{count,number} ਵਿਅਕਤੀ ਨੇ {emoji} ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ} other {{count,number} ਲੋਕਾਂ ਨੇ {emoji} ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ}}"
+    "messageformat": "{count, plural, one {{emoji} ਰਿਐਕਸ਼ਨ: {count,number} ਵਿਅਕਤੀ ਵੱਲੋਂ} other {{emoji} ਰਿਐਕਸ਼ਨ: {count,number} ਲੋਕਾਂ ਵੱਲੋਂ}}"
   },
   "icu:Message__role-description": {
     "messageformat": "ਸੁਨੇਹਾ ਭੇਜੋ"
@@ -3405,7 +3411,7 @@
     "messageformat": "ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਨਹੀਂ ਹੋ ਸਕਦੇ"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "ਤੁਸੀਂ ਗਰੁੱਪ ਲਿੰਕ ਰਾਹੀਂ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਨਹੀਂ ਹੋ ਸਕਦੇ ਕਿਉਂਕਿ ਐਡਮਿਨ ਨੇ ਤੁਹਾਨੂੰ ਹਟਾ ਦਿੱਤਾ ਹੈ।"
+    "messageformat": "ਤੁਸੀਂ ਗਰੁੱਪ ਲਿੰਕ ਰਾਹੀਂ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਨਹੀਂ ਹੋ ਸਕਦੇ ਕਿਉਂਕਿ ਐਡਮਿਨ ਨੇ ਤੁਹਾਨੂੰ ਹਟਾ ਦਿੱਤਾ ਹੈ। ਗਰੁੱਪ ਵਿੱਚ ਵਾਪਸ ਸ਼ਾਮਲ ਹੋਣ ਲਈ ਕਿਸੇ ਐਡਮਿਨ ਨਾਲ ਸੰਪਰਕ ਕਰੋ।"
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "ਇਸਤੋਂ ਪਹਿਲਾਂ ਕਿ ਤੁਸੀਂ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋ ਸਕੋ, ਇਸ ਗਰੁੱਪ ਦੇ ਕਿਸੇ ਐਡਮਿਨ ਨੂੰ ਤੁਹਾਡੀ ਬੇਨਤੀ ਮਨਜ਼ੂਰ ਕਰਨੀ ਪਵੇਗੀ। ਜਦੋਂ ਤੁਸੀਂ ਸ਼ਾਮਲ ਹੋਣ ਦੀ ਬੇਨਤੀ ਕਰੋਗੇ ਤਾਂ, ਤਾਂ ਤੁਹਾਡੇ ਨਾਂ ਅਤੇ ਫ਼ੋਟੋ ਨੂੰ ਇਸਦੇ ਮੈਂਬਰਾਂ ਨਾਲ ਸਾਂਝਾ ਕੀਤਾ ਜਾਵੇਗਾ।"
@@ -3964,6 +3970,12 @@
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "\"Signal ਨੂੰ ਦਾਨ ਦਿਓ\" 'ਤੇ ਟੈਪ ਕਰੋ ਅਤੇ ਸਬਸਕ੍ਰਾਈਬ ਕਰੋ"
+  },
+  "icu:ProfileMovedModal__title": {
+    "messageformat": "ਤੁਹਾਡੀ ਪ੍ਰੋਫ਼ਾਈਲ ਮੂਵ ਕਰ ਦਿੱਤੀ ਗਈ ਹੈ"
+  },
+  "icu:ProfileMovedModal__description": {
+    "messageformat": "ਆਪਣੀ ਪ੍ਰੋਫ਼ਾਈਲ ਦੇਖਣ ਅਤੇ ਸੋਧਣ ਲਈ ਸੈਟਿੰਗਾਂ ਵਾਲੀ ਟੈਬ ਖੋਲ੍ਹੋ।"
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "ਸੁਨੇਹਿਆਂ ਨੂੰ ਸਿੰਕ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
@@ -4931,6 +4943,9 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "ਤੁਹਾਡੇ ਪ੍ਰੋਫ਼ਾਈਲ ਨੂੰ ਅੱਪਡੇਟ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ। ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
   },
+  "icu:ProfileEditorModal--sharing": {
+    "messageformat": "ਸਾਂਝਾ ਕਰਨਾ"
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "ਕਿਸੇ ਐਡਮਿਨ ਨੂੰ ਸੁਨੇਹਾ ਭੇਜੋ"
   },
@@ -4963,6 +4978,9 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "ਆਮ"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "Signal ਨੂੰ ਦਾਨ ਕਰੋ"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "ਦਿੱਖ"
@@ -5005,6 +5023,15 @@
   },
   "icu:Preferences__button--internal": {
     "messageformat": "ਅੰਦਰੂਨੀ"
+  },
+  "icu:Preferences__button--manage": {
+    "messageformat": "ਪ੍ਰਬੰਧਿਤ ਕਰੋ"
+  },
+  "icu:Preferences__button--choose-folder": {
+    "messageformat": "ਫੋਲਡਰ ਚੁਣੋ"
+  },
+  "icu:Preferences__button--set-up": {
+    "messageformat": "ਸੈੱਟ ਅੱਪ ਕਰੋ"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "ਲੋਕਲ ਬੈਕਅੱਪ"
@@ -5051,6 +5078,15 @@
   "icu:Preferences--blocked": {
     "messageformat": "ਪਾਬੰਦੀ ਲਗਾਈ ਗਈ"
   },
+  "icu:Preferences--signal-backups": {
+    "messageformat": "Signal ਬੈਕਅੱਪ"
+  },
+  "icu:Preferences--signal-backups-off-description": {
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+  },
+  "icu:Preferences--backup-section-description": {
+    "messageformat": "ਆਪਣੇ ਪੁਰਾਣੇ ਸੁਨੇਹਿਆਂ ਦਾ ਬੈਕਅੱਪ ਲਓ ਤਾਂ ਜੋ ਨਵਾਂ ਫ਼ੋਨ ਲੈਣ 'ਤੇ ਜਾਂ Signal ਨੂੰ ਦੁਬਾਰਾ ਇੰਸਟਾਲ ਕਰਨ 'ਤੇ ਵੀ ਤੁਹਾਡਾ ਡਾਟਾ ਸੁਰੱਖਿਅਤ ਰਹੇ।"
+  },
   "icu:Preferences--backup-details__header": {
     "messageformat": "ਬੈਕਅੱਪ ਦੇ ਵੇਰਵੇ"
   },
@@ -5092,6 +5128,84 @@
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "ਬੈਕਅੱਪ ਦਾ ਆਕਾਰ"
+  },
+  "icu:Preferences__local-backups": {
+    "messageformat": "ਡੈਸਕਟੌਪ ਬੈਕਅੱਪ"
+  },
+  "icu:Preferences__local-backups-section__description": {
+    "messageformat": "ਬੈਕਅੱਪ ਇੱਕ ਕੁੰਜੀ ਨਾਲ ਇਨਕ੍ਰਿਪਟ ਹੁੰਦੇ ਹਨ ਅਤੇ ਤੁਹਾਡੇ ਕੰਪਿਊਟਰ 'ਤੇ ਸਟੋਰ ਕੀਤੇ ਜਾਂਦੇ ਹਨ।"
+  },
+  "icu:Preferences--local-backups-off-description": {
+    "messageformat": "ਇੱਕ ਸਿਰੇ-ਤੋਂ-ਸਿਰੇ ਤੱਕ ਇਨਕ੍ਰਿਪਟਡ ਬੈਕਅੱਪ ਬਣਾਓ ਜਿਸਨੂੰ ਤੁਸੀਂ ਆਪਣੇ ਫ਼ੋਨ 'ਤੇ ਰੀਸਟੋਰ ਕਰ ਸਕਦੇ ਹੋ। "
+  },
+  "icu:Preferences--local-backups-restore-info": {
+    "messageformat": "ਬੈਕਅੱਪ ਰੀਸਟੋਰ ਕਰਨ ਲਈ, Signal ਦੀ ਇੱਕ ਨਵੀਂ ਕਾਪੀ ਇੰਸਟਾਲ ਕਰੋ। ਐਪ ਨੂੰ ਖੋਲ੍ਹੋ ਅਤੇ &quot;ਬੈਕਅੱਪ ਰੀਸਟੋਰ ਕਰੋ&quot; 'ਤੇ ਟੈਪ ਕਰੋ, ਫਿਰ ਬੈਕਅੱਪ ਫੋਲਡਰ ਲੱਭੋ। <learnMoreLink>ਹੋਰ ਜਾਣੋ।</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-setup-folder": {
+    "messageformat": "ਫੋਲਡਰ ਚੁਣੋ"
+  },
+  "icu:Preferences--local-backups-setup-folder-description": {
+    "messageformat": "ਆਪਣੇ ਕੰਪਿਊਟਰ ਦੀ ਸਟੋਰੇਜ ਵਿੱਚ ਇੱਕ ਫੋਲਡਰ ਚੁਣੋ ਜਿੱਥੇ ਤੁਹਾਡਾ ਸਿਰੇ-ਤੋਂ-ਸਿਰੇ ਤੱਕ ਇਨਕ੍ਰਿਪਟਡ ਬੈਕਅੱਪ ਸਟੋਰ ਕੀਤਾ ਜਾਵੇਗਾ।"
+  },
+  "icu:Preferences--local-backups-setup-next": {
+    "messageformat": "ਅੱਗੇ"
+  },
+  "icu:Preferences--local-backups-view-backup-key-done": {
+    "messageformat": "ਮੁਕੰਮਲ"
+  },
+  "icu:Preferences--local-backups-backup-key-text-box": {
+    "messageformat": "ਬੈਕਅੱਪ ਕੁੰਜੀ ਟੈਕਸਟ ਬਾਕਸ"
+  },
+  "icu:Preferences--local-backups-enter-backup-key": {
+    "messageformat": "ਕੁੰਜੀ ਦਰਜ ਕਰੋ"
+  },
+  "icu:Preferences--local-backups-record-backup-key": {
+    "messageformat": "ਆਪਣੀ ਬੈਕਅੱਪ ਕੁੰਜੀ ਨੂੰ ਰਿਕਾਰਡ ਕਰੋ"
+  },
+  "icu:Preferences--local-backups-record-backup-key-description": {
+    "messageformat": "ਇਹ ਕੁੰਜੀ ਤੁਹਾਡੇ ਖਾਤੇ ਅਤੇ ਡੇਟਾ ਨੂੰ ਰਿਕਵਰ ਕਰਨ ਲਈ ਲੋੜੀਂਦੀ ਹੈ। ਇਸ ਕੁੰਜੀ ਨੂੰ ਕਿਤੇ ਸੁਰੱਖਿਅਤ ਰੱਖੋ। ਜੇਕਰ ਤੁਸੀਂ ਇਸਨੂੰ ਗੁਆ ਦਿੰਦੇ ਹੋ, ਤਾਂ ਤੁਸੀਂ ਆਪਣਾ ਖਾਤਾ ਰਿਕਵਰ ਨਹੀਂ ਕਰ ਸਕੋਗੇ। <learnMoreLink>ਹੋਰ ਜਾਣੋ।</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key": {
+    "messageformat": "ਆਪਣੀ ਬੈਕਅੱਪ ਕੁੰਜੀ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key-description": {
+    "messageformat": "ਉਹ ਬੈਕਅੱਪ ਕੁੰਜੀ ਦਰਜ ਕਰੋ ਜੋ ਤੁਸੀਂ ਹੁਣੇ ਰਿਕਾਰਡ ਕੀਤੀ ਹੈ"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-title": {
+    "messageformat": "ਆਪਣੀ ਕੁੰਜੀ ਸੁਰੱਖਿਅਤ ਰੱਖੋ"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-body": {
+    "messageformat": "ਜੇਕਰ ਤੁਸੀਂ ਆਪਣੀ ਕੁੰਜੀ ਗੁਆ ਦਿੰਦੇ ਹੋ ਤਾਂ Signal ਤੁਹਾਡੇ ਬੈਕਅੱਪ ਨੂੰ ਰੀਸਟੋਰ ਕਰਨ ਵਿੱਚ ਤੁਹਾਡੀ ਮਦਦ ਨਹੀਂ ਕਰ ਸਕੇਗਾ। ਇਸਨੂੰ ਕਿਸੇ ਸੁਰੱਖਿਅਤ ਥਾਂ 'ਤੇ ਸਟੋਰ ਕਰੋ ਅਤੇ ਇਸਨੂੰ ਦੂਜਿਆਂ ਨਾਲ ਸਾਂਝਾ ਨਾ ਕਰੋ।"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-continue": {
+    "messageformat": "ਜਾਰੀ ਰੱਖੋ"
+  },
+  "icu:Preferences--local-backups-see-backup-key-again": {
+    "messageformat": "ਕੁੰਜੀ ਨੂੰ ਦੁਬਾਰਾ ਦੇਖੋ"
+  },
+  "icu:Preferences__local-backups-folder": {
+    "messageformat": "ਬੈਕਅੱਪ ਫੋਲਡਰ"
+  },
+  "icu:Preferences__local-backups-folder__change": {
+    "messageformat": "ਬਦਲੋ"
+  },
+  "icu:Preferences__local-backups-copy-key": {
+    "messageformat": "ਕਲਿਪਬੋਰਡ 'ਤੇ ਕਾਪੀ ਕਰੋ"
+  },
+  "icu:Preferences__local-backups-copied-key": {
+    "messageformat": "ਬੈਕਅੱਪ ਕੁੰਜੀ ਕਾਪੀ ਕੀਤੀ ਗਈ"
+  },
+  "icu:Preferences__view-key": {
+    "messageformat": "ਕੁੰਜੀ ਦੇਖੋ"
+  },
+  "icu:Preferences__backup-key": {
+    "messageformat": "ਬੈਕਅੱਪ ਕੁੰਜੀ"
+  },
+  "icu:Preferences__backup-key-description": {
+    "messageformat": "ਤੁਹਾਡੀ ਬੈਕਅੱਪ ਕੁੰਜੀ ਇੱਕ 64-ਅੰਕਾਂ ਵਾਲਾ ਕੋਡ ਹੈ ਜੋ ਤੁਹਾਡੇ ਬੈਕਅੱਪ ਨੂੰ ਰੀਸਟੋਰ ਕਰਨ ਲਈ ਵਰਤਿਆ ਜਾਂਦਾ ਹੈ"
+  },
+  "icu:Preferences__backup-other-ways": {
+    "messageformat": "ਬੈਕਅੱਪ ਲੈਣ ਦੇ ਹੋਰ ਤਰੀਕੇ"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {1 ਸੰਪਰਕ} other {{num,number} ਸੰਪਰਕ}}"
@@ -5940,13 +6054,13 @@
     "messageformat": "ਕਿਸੇ ਸਟੋਰੀ ਉੱਤੇ ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
   },
   "icu:Quote__story-reaction-notification--incoming": {
-    "messageformat": "ਤੁਹਾਡੀ ਸਟੋਰੀ ਉੱਤੇ {emoji} ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
+    "messageformat": "{emoji}: ਤੁਹਾਡੀ ਸਟੋਰੀ ਉੱਤੇ ਇਹ ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
   },
   "icu:Quote__story-reaction-notification--outgoing": {
-    "messageformat": "ਤੁਸੀਂ {name} ਦੀ ਸਟੋਰੀ ਉੱਤੇ {emoji} ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
+    "messageformat": "{emoji}: ਤੁਸੀਂ {name} ਦੀ ਸਟੋਰੀ ਉੱਤੇ ਇਹ ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
   },
   "icu:Quote__story-reaction-notification--outgoing--nameless": {
-    "messageformat": "ਤੁਸੀਂ ਕਿਸੇ ਸਟੋਰੀ ਉੱਤੇ {emoji} ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
+    "messageformat": "{emoji}: ਤੁਸੀਂ ਕਿਸੇ ਸਟੋਰੀ ਉੱਤੇ ਇਹ ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ"
   },
   "icu:Quote__story-unavailable": {
     "messageformat": "ਹੁਣ ਮੌਜੂਦ ਨਹੀਂ ਹੈ"
@@ -6324,6 +6438,9 @@
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "ਉਹਨਾਂ ਲੋਕਾਂ ਨਾਲ ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਸਾਂਝੀ ਨਾ ਕਰੋ ਜਿਹਨਾਂ ਨੂੰ ਤੁਸੀਂ ਨਹੀਂ ਜਾਣਦੇ ਹੋ"
   },
+  "icu:SaveMultiDialog__title": {
+    "messageformat": "ਅਟੈਚਮੈਂਟ ਸੇਵ ਕਰੋ"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "ਨਵਾਂ ਕੀ ਹੈ"
   },
@@ -6355,10 +6472,10 @@
     "messageformat": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.56--0": {
-    "messageformat": "ਇਸ ਅੱਪਡੇਟ ਵਿੱਚ ਇੱਕ ਬੱਗ ਠੀਕ ਕੀਤਾ ਗਿਆ ਹੈ ਜਿਸ ਕਾਰਨ ਸਟੋਰੀਆਂ ਵਾਲੀ ਟੈਬ ਵਿੱਚ ਸਮੱਗਰੀ ਦੇਖਦੇ ਸਮੇਂ Signal ਵਿੰਡੋ ਨੂੰ ਹਿਲਾਉਣਾ ਮੁਸ਼ਕਲ ਹੋ ਜਾਂਦਾ ਸੀ।"
+  "icu:WhatsNew__v7.58--0": {
+    "messageformat": "ਸੁਨੇਹਾ ਰਿਐਕਸ਼ਨ ਚੋਣਕਾਰ ਵਿੱਚ ਇੱਕ ਨਵਾਂ ਭਾਗ ਜਿਸ ਵਿੱਚ ਸੁਨੇਹੇ ਉੱਤੇ ਆਏ ਇਮੋਜੀ ਰਿਐਕਸ਼ਨ ਆਪਣੇ-ਆਪ ਦਿਖਾਏ ਜਾਂਦੇ ਹਨ।"
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "Linux ਦੇ ਪ੍ਰਦਰਸ਼ਨ ਵਿੱਚ ਸੁਧਾਰ ਕੀਤੇ ਗਏ ਹਨ।"
   }
 }

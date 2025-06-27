@@ -4,7 +4,9 @@
 import type { ConversationAttributesType } from '../model-types.d';
 import type { ConversationType } from '../state/ducks/conversations';
 import * as Bytes from '../Bytes';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const log = createLogger('whatTypeOfConversation');
 
 export enum ConversationTypes {
   Me = 'Me',

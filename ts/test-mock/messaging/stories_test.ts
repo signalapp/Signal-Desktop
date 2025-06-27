@@ -51,7 +51,6 @@ describe('story/messaging', function (this: Mocha.Suite) {
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: false,
           name: MY_STORY_ID,
-          recipientServiceIds: [],
         },
       },
     });
@@ -65,7 +64,7 @@ describe('story/messaging', function (this: Mocha.Suite) {
           identifier: uuidToBytes(DISTRIBUTION1),
           isBlockList: false,
           name: 'first',
-          recipientServiceIds: [first.device.aci],
+          recipientServiceIdsBinary: [first.device.aciBinary],
         },
       },
     });
@@ -77,7 +76,7 @@ describe('story/messaging', function (this: Mocha.Suite) {
           identifier: uuidToBytes(DISTRIBUTION2),
           isBlockList: false,
           name: 'second',
-          recipientServiceIds: [second.device.aci],
+          recipientServiceIdsBinary: [second.device.aciBinary],
         },
       },
     });
@@ -100,7 +99,7 @@ describe('story/messaging', function (this: Mocha.Suite) {
     for (const contact of [first, second]) {
       state = state.addContact(contact, {
         whitelisted: true,
-        serviceE164: contact.device.number,
+        e164: contact.device.number,
         identityKey: contact.publicKey.serialize(),
         profileKey: contact.profileKey.serialize(),
         givenName: contact.profileName,
@@ -148,12 +147,12 @@ describe('story/messaging', function (this: Mocha.Suite) {
             },
             storyMessageRecipients: [
               {
-                destinationServiceId: first.device.aci,
+                destinationServiceIdBinary: first.device.aciBinary,
                 distributionListIds: [DISTRIBUTION1],
                 isAllowedToReply: true,
               },
               {
-                destinationServiceId: second.device.aci,
+                destinationServiceIdBinary: second.device.aciBinary,
                 distributionListIds: [DISTRIBUTION2],
                 isAllowedToReply: true,
               },
@@ -171,7 +170,7 @@ describe('story/messaging', function (this: Mocha.Suite) {
         dataMessage: {
           body: 'first reply',
           storyContext: {
-            authorAci: phone.device.aci,
+            authorAciBinary: phone.device.aciRawUuid,
             sentTimestamp: Long.fromNumber(sentAt),
           },
           timestamp: Long.fromNumber(sentAt + 1),
@@ -185,7 +184,7 @@ describe('story/messaging', function (this: Mocha.Suite) {
         dataMessage: {
           body: 'second reply',
           storyContext: {
-            authorAci: phone.device.aci,
+            authorAciBinary: phone.device.aciRawUuid,
             sentTimestamp: Long.fromNumber(sentAt),
           },
           timestamp: Long.fromNumber(sentAt + 2),
@@ -245,7 +244,7 @@ describe('story/messaging', function (this: Mocha.Suite) {
         dataMessage: {
           body: 'first reply',
           storyContext: {
-            authorAci: desktop.aci,
+            authorAciBinary: desktop.aciRawUuid,
             sentTimestamp: Long.fromNumber(sentAt),
           },
           groupV2: {

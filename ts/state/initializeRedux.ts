@@ -65,6 +65,7 @@ export function initializeRedux(data: ReduxInitData): void {
       store.dispatch
     ),
     inbox: bindActionCreators(actionCreators.inbox, store.dispatch),
+    donations: bindActionCreators(actionCreators.donations, store.dispatch),
     emojis: bindActionCreators(actionCreators.emojis, store.dispatch),
     expiration: bindActionCreators(actionCreators.expiration, store.dispatch),
     gifs: bindActionCreators(actionCreators.gifs, store.dispatch),

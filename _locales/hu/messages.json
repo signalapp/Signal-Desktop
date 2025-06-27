@@ -41,6 +41,9 @@
   "icu:Preferences__sent-media-quality__description": {
     "messageformat": "A nagyfelbontású média nagyobb adathasználatot igényel."
   },
+  "icu:Preferences__DonateTitle": {
+    "messageformat": "Adomány a Signal számára"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Normál"
   },
@@ -594,7 +597,7 @@
     "messageformat": "Failed to send message with endorsements"
   },
   "icu:Toast--SQLError": {
-    "messageformat": "Database error: please share your logs."
+    "messageformat": "Adatbázishiba: kérjük, oszd meg a naplófájljaid."
   },
   "icu:Toast--InvalidStorageServiceHeaders": {
     "messageformat": "Érvénytelen szerver válasz. Kérjük, oszd meg a naplófájlokat."
@@ -1269,7 +1272,7 @@
     "messageformat": "Segítségre van szükséged?"
   },
   "icu:Preferences--header": {
-    "messageformat": "Settings"
+    "messageformat": "Beállítások"
   },
   "icu:Preferences--phone-number": {
     "messageformat": "Telefonszám"
@@ -2339,6 +2342,9 @@
   "icu:FunPanelEmojis__SectionTitle--SearchResults": {
     "messageformat": "Keresési eredmények"
   },
+  "icu:FunPanelEmojis__SectionTitle--ThisMessage": {
+    "messageformat": "Jelenlegi üzenet"
+  },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
     "messageformat": "Nemrég használt"
   },
@@ -3405,7 +3411,7 @@
     "messageformat": "Nem sikerült belépni a csoportba"
   },
   "icu:GroupV2--join--link-forbidden": {
-    "messageformat": "Egy admin távolított el, így már nem tudsz csoporthivatkozás használatával csatlakozni ehhez a csoporthoz."
+    "messageformat": "Egy admin távolított el, így már nem tudsz csoporthivatkozás használatával csatlakozni ehhez a csoporthoz. Lépj kapcsolatba egy adminisztrátorral, hogy újra felvegyenek a csoportba."
   },
   "icu:GroupV2--join--prompt-with-approval": {
     "messageformat": "A csoportba történő belépéshez a csoport egy adminjának jóváhagyása szükséges. A csatlakozási igény elküldésével neved és képed láthatóvá válik a csoport tagjai számára."
@@ -3964,6 +3970,12 @@
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
     "messageformat": "Koppints az „Adományozás a Signalnak” lehetőségre, és iratkozz fel"
+  },
+  "icu:ProfileMovedModal__title": {
+    "messageformat": "A profilod átköltözött"
+  },
+  "icu:ProfileMovedModal__description": {
+    "messageformat": "A profilod megtekintéséhez és szerkesztéséhez nyisd meg a Beállítások fület."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "Üzenetek szinkronizálása"
@@ -4931,6 +4943,9 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Nem sikerült frissíteni profilodat. Próbáld újra!"
   },
+  "icu:ProfileEditorModal--sharing": {
+    "messageformat": "Megosztás"
+  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Üzenet egy adminnak"
   },
@@ -4963,6 +4978,9 @@
   },
   "icu:Preferences__button--general": {
     "messageformat": "Általános"
+  },
+  "icu:Preferences__button--donate": {
+    "messageformat": "Adomány a Signal számára"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "Megjelenés"
@@ -5005,6 +5023,15 @@
   },
   "icu:Preferences__button--internal": {
     "messageformat": "Belső"
+  },
+  "icu:Preferences__button--manage": {
+    "messageformat": "Kezelés"
+  },
+  "icu:Preferences__button--choose-folder": {
+    "messageformat": "Mappa kiválasztása"
+  },
+  "icu:Preferences__button--set-up": {
+    "messageformat": "Beállítás"
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Helyi biztonsági mentések"
@@ -5051,6 +5078,15 @@
   "icu:Preferences--blocked": {
     "messageformat": "Letiltva"
   },
+  "icu:Preferences--signal-backups": {
+    "messageformat": "A Signal biztonsági mentései"
+  },
+  "icu:Preferences--signal-backups-off-description": {
+    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+  },
+  "icu:Preferences--backup-section-description": {
+    "messageformat": "Készíts biztonsági másolatot az üzenetelőzményeidről, hogy soha ne veszíts el adatot új telefon vásárlásakor vagy a Signal újratelepítésekor."
+  },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Biztonsági mentés részletei"
   },
@@ -5092,6 +5128,84 @@
   },
   "icu:Preferences--backup-size__label": {
     "messageformat": "Biztonsági mentés mérete"
+  },
+  "icu:Preferences__local-backups": {
+    "messageformat": "Asztali biztonsági mentések"
+  },
+  "icu:Preferences__local-backups-section__description": {
+    "messageformat": "A biztonsági mentések egy kulccsal titkosítva tárolódnak a számítógépeden."
+  },
+  "icu:Preferences--local-backups-off-description": {
+    "messageformat": "Készíts egy végponttól végpontig titkosított biztonsági mentést, amelyet visszaállíthatsz a telefonodon. "
+  },
+  "icu:Preferences--local-backups-restore-info": {
+    "messageformat": "Egy biztonsági mentés visszaállításához először is telepítsd a Signalt! Nyisd meg az alkalmazást, koppints a Biztonsági mentés visszaállítása opcióra, majd keresd ki a biztonsági mentést tartalmazó mappát! <learnMoreLink>Tudj meg többet!</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-setup-folder": {
+    "messageformat": "Válassz egy mappát"
+  },
+  "icu:Preferences--local-backups-setup-folder-description": {
+    "messageformat": "Válassz ki egy mappát a számítógép tárhelyén, ahol a végponttól végpontig titkosított biztonsági mentést tárolni fogod."
+  },
+  "icu:Preferences--local-backups-setup-next": {
+    "messageformat": "Tovább"
+  },
+  "icu:Preferences--local-backups-view-backup-key-done": {
+    "messageformat": "Befejezés"
+  },
+  "icu:Preferences--local-backups-backup-key-text-box": {
+    "messageformat": "Biztonsági kulcs szövegmező"
+  },
+  "icu:Preferences--local-backups-enter-backup-key": {
+    "messageformat": "Kulcs megadása"
+  },
+  "icu:Preferences--local-backups-record-backup-key": {
+    "messageformat": "Jegyezd fel a biztonsági kulcsod"
+  },
+  "icu:Preferences--local-backups-record-backup-key-description": {
+    "messageformat": "Ez a kulcs szükséges a fiók és az adatok helyreállításához. Tárold biztonságos helyen ezt a kulcsot. Ha elveszíted, nem tudod helyreállítani a fiókodat. <learnMoreLink>Tudj meg többet!</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key": {
+    "messageformat": "Erősítsd meg a biztonsági kulcsot"
+  },
+  "icu:Preferences--local-backups-confirm-backup-key-description": {
+    "messageformat": "Írd be az imént rögzített biztonsági kulcsot"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-title": {
+    "messageformat": "Tartsd biztonságban a kulcsod"
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-body": {
+    "messageformat": "Ha elveszíted a kulcsod, a Signal nem tud segíteni a biztonsági másolat helyreállításában. Tárold biztonságos helyen, és ne oszd meg másokkal."
+  },
+  "icu:Preferences__local-backups-confirm-key-modal-continue": {
+    "messageformat": "Folytatás"
+  },
+  "icu:Preferences--local-backups-see-backup-key-again": {
+    "messageformat": "Kulcs újbóli megtekintése"
+  },
+  "icu:Preferences__local-backups-folder": {
+    "messageformat": "Biztonsági mentés mappája"
+  },
+  "icu:Preferences__local-backups-folder__change": {
+    "messageformat": "Módosítás"
+  },
+  "icu:Preferences__local-backups-copy-key": {
+    "messageformat": "Másolás vágólapra"
+  },
+  "icu:Preferences__local-backups-copied-key": {
+    "messageformat": "Biztonsági kulcs másolva"
+  },
+  "icu:Preferences__view-key": {
+    "messageformat": "Kulcs megtekintése"
+  },
+  "icu:Preferences__backup-key": {
+    "messageformat": "Biztonsági kulcs"
+  },
+  "icu:Preferences__backup-key-description": {
+    "messageformat": "A biztonsági mentési kulcs egy 64 jegyű kód, amely a biztonsági mentés visszaállításához szükséges."
+  },
+  "icu:Preferences__backup-other-ways": {
+    "messageformat": "A biztonsági mentés egyéb módjai"
   },
   "icu:Preferences--blocked-count": {
     "messageformat": "{num, plural, one {{num,number} névjegy} other {{num,number} névjegy}}"
@@ -6324,6 +6438,9 @@
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "Ne oszd meg a személyes adataidat olyanokkal, akiket nem ismersz"
   },
+  "icu:SaveMultiDialog__title": {
+    "messageformat": "Mellékletek mentése"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Újdonságok"
   },
@@ -6355,10 +6472,10 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.56--0": {
-    "messageformat": "Ez a frissítés kijavít egy hibát, amely megnehezítette a Signal ablak mozgatását a Történetek lap tartalmainak megtekintése közben."
+  "icu:WhatsNew__v7.58--0": {
+    "messageformat": "Az üzenetreakció-választó új szakasza automatikusan megjeleníti az összes hangulatjel reakciót, amely egy üzenetre érkezett."
   },
-  "icu:WhatsNew__v7.57--0": {
-    "messageformat": "Settings used to live in a pop-out window so we popped it back in. Now, when you adjust your Settings, you'll do it from the main screen."
+  "icu:WhatsNew__v7.59--0": {
+    "messageformat": "Linuxszal kapcsolatos teljesítményfejlesztések."
   }
 }

@@ -13,7 +13,7 @@ import type {
 import type { AciString, PniString } from '../types/ServiceId';
 import { isPniString } from '../types/ServiceId';
 import { getAuthor } from '../messages/helpers';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import type { ConversationModel } from '../models/conversations';
 import { DataReader } from '../sql/Client';
 import {
@@ -24,6 +24,8 @@ import { isGroup, isGroupV2 } from './whatTypeOfConversation';
 import { getMessageSentTimestampSet } from './getMessageSentTimestampSet';
 import { isAciString } from './isAciString';
 import { missingCaseError } from './missingCaseError';
+
+const log = createLogger('syncIdentifiers');
 
 const { getMessagesBySentAt } = DataReader;
 

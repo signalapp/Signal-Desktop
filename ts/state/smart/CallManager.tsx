@@ -10,7 +10,7 @@ import type {
 } from '../../components/CallManager';
 import { CallManager } from '../../components/CallManager';
 import { isConversationTooBigToRing as getIsConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { calling as callingService } from '../../services/calling';
 import {
   bounceAppIconStart,
@@ -52,6 +52,8 @@ import { isSharingPhoneNumberWithEverybody as getIsSharingPhoneNumberWithEverybo
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { isLonelyGroup } from '../ducks/callingHelpers';
 import { getActiveProfile } from '../selectors/notificationProfiles';
+
+const log = createLogger('CallManager');
 
 function renderDeviceSelection(): JSX.Element {
   return <SmartCallingDeviceSelection />;

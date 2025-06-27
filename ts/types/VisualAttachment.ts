@@ -12,7 +12,9 @@ import { canvasToBlob } from '../util/canvasToBlob';
 import { KIBIBYTE } from './AttachmentSize';
 import { explodePromise } from '../util/explodePromise';
 import { SECOND } from '../util/durations';
-import * as logging from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const logging = createLogger('VisualAttachment');
 
 export { blobToArrayBuffer };
 

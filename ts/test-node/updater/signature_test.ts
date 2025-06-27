@@ -17,7 +17,9 @@ import {
 } from '../../updater/signature';
 import { createTempDir, deleteTempDir } from '../../updater/common';
 import { keyPair } from '../../updater/curve';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
+
+const log = createLogger('signature_test');
 
 describe('updater/signatures', () => {
   it('_getFileHash returns correct hash', async () => {

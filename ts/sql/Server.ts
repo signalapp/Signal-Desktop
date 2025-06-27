@@ -186,11 +186,13 @@ import type {
   MessageAttachmentDBType,
   MessageTypeUnhydrated,
   ServerMessageSearchResultType,
+  MessageCountBySchemaVersionType,
 } from './Interface';
 import {
   AttachmentDownloadSource,
   MESSAGE_COLUMNS,
   MESSAGE_ATTACHMENT_COLUMNS,
+  MESSAGE_NON_PRIMARY_KEY_COLUMNS,
 } from './Interface';
 import {
   _removeAllCallLinks,
@@ -217,6 +219,13 @@ import {
   updateDefunctCallLink,
 } from './server/callLinks';
 import {
+  _deleteAllDonationReceipts,
+  createDonationReceipt,
+  deleteDonationReceiptById,
+  getAllDonationReceipts,
+  getDonationReceiptById,
+} from './server/donationReceipts';
+import {
   deleteAllEndorsementsForGroup,
   getGroupSendCombinedEndorsementExpiration,
   getGroupSendEndorsementsData,
@@ -235,6 +244,7 @@ import {
 import { generateMessageId } from '../util/generateMessageId';
 import type { ConversationColorType, CustomColorType } from '../types/Colors';
 import { sqlLogger } from './sqlLogger';
+import { APPLICATION_OCTET_STREAM } from '../types/MIME';
 
 type ConversationRow = Readonly<{
   json: string;
@@ -291,7 +301,7 @@ type StickerPackRow = InstalledStickerPackRow &
 type AttachmentDownloadJobRow = Readonly<{
   messageId: string;
   attachmentType: string;
-  digest: string;
+  attachmentSignature: string;
   receivedAt: number;
   sentAt: number;
   contentType: string;
@@ -388,6 +398,9 @@ export const DataReader: ServerReadableInterface = {
   getAllNotificationProfiles,
   getNotificationProfileById,
 
+  getAllDonationReceipts,
+  getDonationReceiptById,
+
   callLinkExists,
   defunctCallLinkExists,
   getAllCallLinks,
@@ -434,6 +447,8 @@ export const DataReader: ServerReadableInterface = {
   getBackupCdnObjectMetadata,
   getSizeOfPendingBackupAttachmentDownloadJobs,
   getAttachmentReferencesForMessages,
+  getMessageCountBySchemaVersion,
+  getMessageSampleForSchemaVersion,
 
   // Server-only
   getKnownMessageAttachments,
@@ -618,6 +633,10 @@ export const DataWriter: ServerWritableInterface = {
   deleteNotificationProfileById,
   markNotificationProfileDeleted,
   updateNotificationProfile,
+
+  _deleteAllDonationReceipts,
+  deleteDonationReceiptById,
+  createDonationReceipt,
 
   removeAll,
   removeAllConfiguration,
@@ -2559,8 +2578,8 @@ function saveMessageAttachment({
     conversationId,
     sentAt,
     clientUuid: attachment.clientUuid,
-    size: attachment.size,
-    contentType: attachment.contentType,
+    size: attachment.size ?? 0,
+    contentType: attachment.contentType ?? APPLICATION_OCTET_STREAM,
     path: attachment.path,
     localKey: attachment.localKey,
     plaintextHash: attachment.plaintextHash,
@@ -2570,7 +2589,6 @@ function saveMessageAttachment({
     width: attachment.width,
     digest: attachment.digest,
     key: attachment.key,
-    iv: attachment.iv,
     fileName: attachment.fileName,
     downloadPath: attachment.downloadPath,
     transitCdnKey: attachment.cdnKey ?? attachment.cdnId,
@@ -2578,25 +2596,13 @@ function saveMessageAttachment({
     transitCdnUploadTimestamp: isNumber(attachment.uploadTimestamp)
       ? attachment.uploadTimestamp
       : null,
-    backupMediaName: attachment.backupLocator?.mediaName,
-    backupCdnNumber: attachment.backupLocator?.cdnNumber,
-    incrementalMac: attachment.incrementalMac,
+    backupCdnNumber: attachment.backupCdnNumber,
+    incrementalMac:
+      // resilience to Uint8Array-stored incrementalMac values
+      typeof attachment.incrementalMac === 'string'
+        ? attachment.incrementalMac
+        : null,
     incrementalMacChunkSize: attachment.chunkSize,
-    isReencryptableToSameDigest: convertOptionalBooleanToNullableInteger(
-      attachment.isReencryptableToSameDigest
-    ),
-    reencryptionIv:
-      attachment.isReencryptableToSameDigest === false
-        ? attachment.reencryptionInfo?.iv
-        : null,
-    reencryptionKey:
-      attachment.isReencryptableToSameDigest === false
-        ? attachment.reencryptionInfo?.key
-        : null,
-    reencryptionDigest:
-      attachment.isReencryptableToSameDigest === false
-        ? attachment.reencryptionInfo?.digest
-        : null,
     thumbnailPath: attachment.thumbnail?.path,
     thumbnailSize: attachment.thumbnail?.size,
     thumbnailContentType: attachment.thumbnail?.contentType,
@@ -2638,8 +2644,7 @@ function saveMessageAttachment({
         INSERT OR REPLACE INTO message_attachments 
           (${MESSAGE_ATTACHMENT_COLUMNS.join(', ')}) 
         VALUES 
-          (${MESSAGE_ATTACHMENT_COLUMNS.map(name => `$${name}`).join(', ')})
-        RETURNING rowId;
+          (${MESSAGE_ATTACHMENT_COLUMNS.map(name => `$${name}`).join(', ')});
       `
   ).run(values);
 }
@@ -2825,21 +2830,34 @@ function saveMessage(
   } satisfies Omit<MessageTypeUnhydrated, 'json'>;
 
   if (id && !forceSave) {
-    db.prepare(
+    const result = db
+      .prepare(
+        // UPDATE queries that set the value of a primary key column can be very slow when
+        // that key is referenced via a foreign key constraint, so we are careful to
+        // exclude it here.
+        `
+        UPDATE messages SET
+          ${MESSAGE_NON_PRIMARY_KEY_COLUMNS.map(name => `${name} = $${name}`).join(', ')}
+        WHERE id = $id;
       `
-      UPDATE messages SET
-        ${MESSAGE_COLUMNS.map(name => `${name} = $${name}`).join(', ')}
-      WHERE id = $id;
-      `
-    ).run({ ...payloadWithoutJson, json: objectToJSON(dataToSaveAsJSON) });
+      )
+      .run({ ...payloadWithoutJson, json: objectToJSON(dataToSaveAsJSON) });
+
+    if (result.changes === 0) {
+      // Message has been deleted from DB
+      return id;
+    }
+
+    strictAssert(result.changes === 1, 'One row should have been changed');
+
+    if (normalizeAttachmentData) {
+      saveMessageAttachments(db, message);
+    }
 
     if (jobToInsert) {
       insertJob(db, jobToInsert);
     }
 
-    if (normalizeAttachmentData) {
-      saveMessageAttachments(db, message);
-    }
     return id;
   }
 
@@ -5426,7 +5444,7 @@ function _getAttachmentDownloadJob(
   db: ReadableDB,
   job: Pick<
     AttachmentDownloadJobType,
-    'messageId' | 'attachmentType' | 'digest'
+    'messageId' | 'attachmentType' | 'attachmentSignature'
   >
 ): AttachmentDownloadJobType | undefined {
   const [query, params] = sql`
@@ -5436,7 +5454,7 @@ function _getAttachmentDownloadJob(
     AND
       attachmentType = ${job.attachmentType}
     AND
-      digest = ${job.digest};
+      attachmentSignature = ${job.attachmentSignature};
   `;
 
   const row = db.prepare(query).get<AttachmentDownloadJobRow>(params);
@@ -5594,7 +5612,7 @@ function saveAttachmentDownloadJob(
     INSERT OR REPLACE INTO attachment_downloads (
       messageId,
       attachmentType,
-      digest,
+      attachmentSignature,
       receivedAt,
       sentAt,
       contentType,
@@ -5609,7 +5627,7 @@ function saveAttachmentDownloadJob(
     ) VALUES (
       ${job.messageId},
       ${job.attachmentType},
-      ${job.digest},
+      ${job.attachmentSignature},
       ${job.receivedAt},
       ${job.sentAt},
       ${job.contentType},
@@ -5638,7 +5656,10 @@ function resetAttachmentDownloadActive(db: WritableDB): void {
 
 function removeAttachmentDownloadJob(
   db: WritableDB,
-  job: Pick<AttachmentDownloadJobRow, 'messageId' | 'attachmentType' | 'digest'>
+  job: Pick<
+    AttachmentDownloadJobRow,
+    'messageId' | 'attachmentType' | 'attachmentSignature'
+  >
 ): void {
   const [query, params] = sql`
     DELETE FROM attachment_downloads
@@ -5647,7 +5668,7 @@ function removeAttachmentDownloadJob(
     AND
       attachmentType = ${job.attachmentType}
     AND
-      digest = ${job.digest};
+      attachmentSignature = ${job.attachmentSignature};
   `;
 
   db.prepare(query).run(params);
@@ -7483,6 +7504,7 @@ function removeAll(db: WritableDB): void {
       DELETE FROM callsHistory;
       DELETE FROM conversations;
       DELETE FROM defunctCallLinks;
+      DELETE FROM donationReceipts;
       DELETE FROM emojis;
       DELETE FROM groupCallRingCancellations;
       DELETE FROM groupSendCombinedEndorsement;
@@ -8451,6 +8473,37 @@ function getUnreadEditedMessagesAndMarkRead(
         ]),
       } satisfies MessageType & { originalReadStatus: ReadStatus | undefined };
     });
+  })();
+}
+
+function getMessageCountBySchemaVersion(
+  db: ReadableDB
+): MessageCountBySchemaVersionType {
+  const [query, params] = sql`
+    SELECT schemaVersion, COUNT(1) as count from messages 
+    GROUP BY schemaVersion; 
+  `;
+  const rows = db
+    .prepare(query)
+    .all<{ schemaVersion: number; count: number }>(params);
+
+  return rows.sort((a, b) => a.schemaVersion - b.schemaVersion);
+}
+
+function getMessageSampleForSchemaVersion(
+  db: ReadableDB,
+  version: number
+): Array<MessageAttributesType> {
+  return db.transaction(() => {
+    const [query, params] = sql`
+      SELECT * from messages 
+      WHERE schemaVersion = ${version}
+      ORDER BY RANDOM()
+      LIMIT 2;
+    `;
+    const rows = db.prepare(query).all<MessageTypeUnhydrated>(params);
+
+    return hydrateMessages(db, rows);
   })();
 }
 

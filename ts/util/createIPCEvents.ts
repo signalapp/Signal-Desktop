@@ -16,7 +16,7 @@ import { isInCall } from '../state/selectors/calling';
 import { strictAssert } from './assert';
 import * as Registration from './registration';
 import { lookupConversationWithoutServiceId } from './lookupConversationWithoutServiceId';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import {
   type NotificationClickData,
   notificationService,
@@ -32,6 +32,8 @@ import type {
 } from './preload';
 import { SystemTraySetting } from '../types/SystemTraySetting';
 import OS from './os/osPreload';
+
+const log = createLogger('createIPCEvents');
 
 export type IPCEventsValuesType = {
   // IPC-mediated
@@ -191,6 +193,7 @@ export function createIPCEvents(
     },
     setLocaleOverride: async (value: string | null) => {
       await setEphemeralSetting('localeOverride', value);
+      window.SignalContext.restartApp();
     },
     getContentProtection: async () => {
       return (
@@ -338,33 +341,42 @@ export function createIPCEvents(
 
       let conversationId: string | undefined;
 
-      if (kind === 'phoneNumber') {
-        if (isValidE164(value, true)) {
-          conversationId = await lookupConversationWithoutServiceId({
-            type: 'e164',
-            e164: value,
-            phoneNumber: value,
-            showUserNotFoundModal,
-            setIsFetchingUUID: noop,
-          });
+      try {
+        if (kind === 'phoneNumber') {
+          if (isValidE164(value, true)) {
+            conversationId = await lookupConversationWithoutServiceId({
+              type: 'e164',
+              e164: value,
+              phoneNumber: value,
+              showUserNotFoundModal,
+              setIsFetchingUUID: noop,
+            });
+          }
+        } else if (kind === 'encryptedUsername') {
+          const usernameBase64 = fromWebSafeBase64(value);
+          const username = await resolveUsernameByLinkBase64(usernameBase64);
+          if (username != null) {
+            conversationId = await lookupConversationWithoutServiceId({
+              type: 'username',
+              username,
+              showUserNotFoundModal,
+              setIsFetchingUUID: noop,
+            });
+          }
         }
-      } else if (kind === 'encryptedUsername') {
-        const usernameBase64 = fromWebSafeBase64(value);
-        const username = await resolveUsernameByLinkBase64(usernameBase64);
-        if (username != null) {
-          conversationId = await lookupConversationWithoutServiceId({
-            type: 'username',
-            username,
-            showUserNotFoundModal,
-            setIsFetchingUUID: noop,
-          });
-        }
-      }
 
-      if (conversationId != null) {
-        window.reduxActions.conversations.showConversation({
-          conversationId,
-        });
+        if (conversationId != null) {
+          window.reduxActions.conversations.showConversation({
+            conversationId,
+          });
+          return;
+        }
+      } catch (error) {
+        log.warn(
+          'showConversationViaSignalDotMe: got error',
+          Errors.toLogFormat(error)
+        );
+        showUnknownSgnlLinkModal();
         return;
       }
 

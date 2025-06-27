@@ -22,3 +22,22 @@ export function isLocalBackupsEnabled(): boolean {
 
   return false;
 }
+
+export function isLocalBackupsEnabledForRedux(
+  config: Pick<RemoteConfig.ConfigMapType, 'desktop.internalUser'> | undefined
+): boolean {
+  if (isStagingServer() || isTestOrMockEnvironment()) {
+    return true;
+  }
+
+  if (config?.['desktop.internalUser']?.enabled) {
+    return true;
+  }
+
+  const version = window.getVersion?.();
+  if (version != null) {
+    return isNightly(version);
+  }
+
+  return false;
+}

@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
 import { drop } from '../util/drop';
 import { getMessageSentTimestampSet } from '../util/getMessageSentTimestampSet';
@@ -21,6 +21,8 @@ import {
   getMessageQueryFromTarget,
 } from '../util/syncIdentifiers';
 import { DataWriter } from '../sql/Client';
+
+const log = createLogger('DeletesForMe');
 
 const { removeSyncTaskById } = DataWriter;
 
@@ -127,7 +129,7 @@ export async function onDelete(item: DeleteForMeAttributesType): Promise<void> {
     );
   } catch (error) {
     log.error(
-      `DeletesForMe.onDelete(task=${item.syncTaskId},envelopeId=${item.envelopeId}): Error`,
+      `onDelete(task=${item.syncTaskId},envelopeId=${item.envelopeId}): Error`,
       Errors.toLogFormat(error)
     );
     await remove(item);

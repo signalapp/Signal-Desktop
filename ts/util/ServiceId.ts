@@ -3,6 +3,17 @@
 
 import { Aci, Pni, ServiceId } from '@signalapp/libsignal-client';
 import type { AciString, PniString, ServiceIdString } from '../types/ServiceId';
+import {
+  normalizeServiceId,
+  normalizePni,
+  isUntaggedPniString,
+  toTaggedPni,
+  fromServiceIdObject,
+  fromAciObject,
+  fromPniObject,
+} from '../types/ServiceId';
+import * as Bytes from '../Bytes';
+import { normalizeAci } from './normalizeAci';
 
 export function toServiceIdObject(serviceId: ServiceIdString): ServiceId {
   return ServiceId.parseFromServiceIdString(serviceId);
@@ -14,4 +25,87 @@ export function toAciObject(aci: AciString): Aci {
 
 export function toPniObject(pni: PniString): Pni {
   return Pni.parseFromServiceIdString(pni);
+}
+
+export function fromServiceIdBinaryOrString(
+  bytes: Uint8Array,
+  fallback: string | undefined | null,
+  context: string
+): ServiceIdString;
+
+export function fromServiceIdBinaryOrString(
+  bytes: Uint8Array | undefined | null,
+  fallback: string | undefined | null,
+  context: string
+): ServiceIdString | undefined;
+
+export function fromServiceIdBinaryOrString(
+  bytes: Uint8Array | undefined | null,
+  fallback: string | undefined | null,
+  context: string
+): ServiceIdString | undefined {
+  if (Bytes.isNotEmpty(bytes)) {
+    return fromServiceIdObject(
+      ServiceId.parseFromServiceIdBinary(Buffer.from(bytes))
+    );
+  }
+  if (fallback) {
+    return normalizeServiceId(fallback, context);
+  }
+  return undefined;
+}
+
+export function fromAciUuidBytes(bytes: Uint8Array): AciString;
+
+export function fromAciUuidBytes(
+  bytes: Uint8Array | undefined | null
+): AciString | undefined;
+
+export function fromAciUuidBytes(
+  bytes: Uint8Array | undefined | null
+): AciString | undefined {
+  if (Bytes.isNotEmpty(bytes)) {
+    return fromAciObject(Aci.fromUuidBytes(Buffer.from(bytes)));
+  }
+  return undefined;
+}
+
+export function fromAciUuidBytesOrString(
+  bytes: Uint8Array,
+  fallback: string | undefined | null,
+  context: string
+): AciString;
+
+export function fromAciUuidBytesOrString(
+  bytes: Uint8Array | undefined | null,
+  fallback: string | undefined | null,
+  context: string
+): AciString | undefined;
+
+export function fromAciUuidBytesOrString(
+  bytes: Uint8Array | undefined | null,
+  fallback: string | undefined | null,
+  context: string
+): AciString | undefined {
+  if (Bytes.isNotEmpty(bytes)) {
+    return fromAciUuidBytes(bytes);
+  }
+  if (fallback) {
+    return normalizeAci(fallback, context);
+  }
+  return undefined;
+}
+
+export function fromPniUuidBytesOrUntaggedString(
+  bytes: Uint8Array | undefined | null,
+  fallback: string | undefined | null,
+  context: string
+): PniString | undefined {
+  if (Bytes.isNotEmpty(bytes)) {
+    return fromPniObject(Pni.fromUuidBytes(Buffer.from(bytes)));
+  }
+  if (fallback && isUntaggedPniString(fallback)) {
+    return normalizePni(toTaggedPni(fallback), context);
+  }
+  return undefined;
 }
