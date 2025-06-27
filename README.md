@@ -4,6 +4,7 @@
 # Merged PRs
 
 Reaction Overlay: https://github.com/signalapp/Signal-Desktop/pull/7348
+Edit Group Modal Alignment: https://github.com/signalapp/Signal-Desktop/pull/7347
 
 
 ---
