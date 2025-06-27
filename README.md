@@ -3,7 +3,7 @@
 
 # Merged PRs
 
-Reaction Overlay: https://github.com/signalapp/Signal-Desktop/pull/7348
+Reaction Overlay: https://github.com/signalapp/Signal-Desktop/pull/7348<br>
 Edit Group Modal Alignment: https://github.com/signalapp/Signal-Desktop/pull/7347
 
 
