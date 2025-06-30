@@ -27,6 +27,7 @@ import { strictAssert } from '../../util/assert';
 import type { DecryptionErrorEventData } from '../../textsecure/messageReceiverEvents';
 import type { LoggerType } from '../../types/Logging';
 import { startAutomaticSessionReset } from '../../util/handleRetry';
+import * as Bytes from '../../Bytes';
 
 function failoverToLocalReset(
   logger: LoggerType,
@@ -95,7 +96,7 @@ export async function sendResendRequest(
   }
 
   const plaintext = PlaintextContent.deserialize(
-    Buffer.from(plaintextBase64, 'base64')
+    Bytes.fromBase64(plaintextBase64)
   );
   const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 

@@ -3235,10 +3235,14 @@ export function initialize({
         keyId: number;
         publicKey: K;
         signature: Uint8Array;
-      }): { id: () => number; publicKey: () => K; signature: () => Buffer } {
+      }): {
+        id: () => number;
+        publicKey: () => K;
+        signature: () => Uint8Array;
+      } {
         return {
           id: () => key.keyId,
-          signature: () => Buffer.from(key.signature),
+          signature: () => key.signature,
           publicKey: () => key.publicKey,
         };
       }
@@ -4093,22 +4097,21 @@ export function initialize({
       ].join(CRLF);
       const end = `${CRLF}--${boundaryString}--${CRLF}`;
 
-      const startBuffer = Buffer.from(start, 'utf8');
-      const attachmentBuffer = Buffer.from(encryptedBin);
-      const endBuffer = Buffer.from(end, 'utf8');
+      const startBuffer = Bytes.fromString(start);
+      const attachmentBuffer = encryptedBin;
+      const endBuffer = Bytes.fromString(end);
 
-      const contentLength =
-        startBuffer.length + attachmentBuffer.length + endBuffer.length;
-      const data = Buffer.concat(
-        [startBuffer, attachmentBuffer, endBuffer],
-        contentLength
-      );
+      const data = Bytes.concatenate([
+        startBuffer,
+        attachmentBuffer,
+        endBuffer,
+      ]);
 
       return {
         data,
         contentType: `multipart/form-data; boundary=${boundaryString}`,
         headers: {
-          'Content-Length': contentLength.toString(),
+          'Content-Length': data.length.toString(),
         },
       };
     }

@@ -678,7 +678,7 @@ async function requestResend(decryptionError: DecryptionErrorEventData) {
   }
 
   const message = DecryptionErrorMessage.forOriginal(
-    Buffer.from(cipherTextBytes),
+    cipherTextBytes,
     cipherTextType,
     timestamp,
     senderDevice

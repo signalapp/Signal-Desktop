@@ -45,9 +45,7 @@ export function fromServiceIdBinaryOrString(
   context: string
 ): ServiceIdString | undefined {
   if (Bytes.isNotEmpty(bytes)) {
-    return fromServiceIdObject(
-      ServiceId.parseFromServiceIdBinary(Buffer.from(bytes))
-    );
+    return fromServiceIdObject(ServiceId.parseFromServiceIdBinary(bytes));
   }
   if (fallback) {
     return normalizeServiceId(fallback, context);
@@ -65,7 +63,7 @@ export function fromAciUuidBytes(
   bytes: Uint8Array | undefined | null
 ): AciString | undefined {
   if (Bytes.isNotEmpty(bytes)) {
-    return fromAciObject(Aci.fromUuidBytes(Buffer.from(bytes)));
+    return fromAciObject(Aci.fromUuidBytes(bytes));
   }
   return undefined;
 }
@@ -102,7 +100,7 @@ export function fromPniUuidBytesOrUntaggedString(
   context: string
 ): PniString | undefined {
   if (Bytes.isNotEmpty(bytes)) {
-    return fromPniObject(Pni.fromUuidBytes(Buffer.from(bytes)));
+    return fromPniObject(Pni.fromUuidBytes(bytes));
   }
   if (fallback && isUntaggedPniString(fallback)) {
     return normalizePni(toTaggedPni(fallback), context);

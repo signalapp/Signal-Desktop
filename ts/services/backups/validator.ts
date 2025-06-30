@@ -61,7 +61,7 @@ export async function validateBackupStream(
     frameCount += 1;
 
     const reader = new Reader(delimitedFrame);
-    const frame = Buffer.from(reader.bytes());
+    const frame = reader.bytes();
 
     // Info frame
     if (frameCount === 1) {

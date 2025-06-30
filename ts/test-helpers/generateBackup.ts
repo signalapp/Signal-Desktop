@@ -25,17 +25,17 @@ import { Backups } from '../protobuf';
 export type BackupGeneratorConfigType = Readonly<
   {
     aci: AciString;
-    profileKey: Buffer;
+    profileKey: Uint8Array;
     conversations: number;
     conversationAcis?: ReadonlyArray<AciString>;
     messages: number;
-    mediaRootBackupKey: Buffer;
+    mediaRootBackupKey: Uint8Array;
   } & (
     | {
         accountEntropyPool: string;
       }
     | {
-        backupKey: Buffer;
+        backupKey: Uint8Array;
       }
   )
 >;
@@ -43,7 +43,7 @@ export type BackupGeneratorConfigType = Readonly<
 const IV_LENGTH = 16;
 
 export type GenerateBackupResultType = Readonly<{
-  backupId: Buffer;
+  backupId: Uint8Array;
   stream: Readable;
 }>;
 
@@ -145,7 +145,7 @@ function* createRecords({
 
   const chats = new Array<{
     id: Long;
-    aci: Buffer;
+    aci: Uint8Array;
   }>();
 
   for (let i = 1; i <= conversations; i += 1) {

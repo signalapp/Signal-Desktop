@@ -20,6 +20,7 @@ import {
   OutgoingIdentityKeyError,
   UnregisteredUserError,
 } from '../../textsecure/Errors';
+import * as Bytes from '../../Bytes';
 
 export async function sendSavedProto(
   conversation: ConversationModel,
@@ -77,7 +78,7 @@ export async function sendSavedProto(
   const sendType = 'resendFromLog';
 
   try {
-    const proto = Proto.Content.decode(Buffer.from(protoBase64, 'base64'));
+    const proto = Proto.Content.decode(Bytes.fromBase64(protoBase64));
     await handleMessageSend(
       messaging.sendMessageProtoAndWait({
         contentHint,

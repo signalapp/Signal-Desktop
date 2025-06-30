@@ -289,9 +289,7 @@ export default class AccountManager extends EventTarget {
 
     const name = decryptDeviceName(
       {
-        ephemeralPublic: PublicKey.deserialize(
-          Buffer.from(proto.ephemeralPublic)
-        ),
+        ephemeralPublic: PublicKey.deserialize(proto.ephemeralPublic),
         syntheticIv: proto.syntheticIv,
         ciphertext: proto.ciphertext,
       },

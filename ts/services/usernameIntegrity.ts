@@ -17,6 +17,7 @@ import { getProfile } from '../util/getProfile';
 import { isSharingPhoneNumberWithEverybody } from '../util/phoneNumberSharingMode';
 import { bytesToUuid } from '../util/uuidToBytes';
 import { createLogger } from '../logging/log';
+import * as Bytes from '../Bytes';
 import { runStorageServiceSyncJob } from './storage';
 import { writeProfile } from './writeProfile';
 
@@ -101,7 +102,7 @@ class UsernameIntegrityService {
 
     let failed = false;
 
-    if (remoteHash !== usernames.hash(username).toString('base64url')) {
+    if (remoteHash !== Bytes.toBase64url(usernames.hash(username))) {
       log.error('remote username mismatch');
       await window.storage.put('usernameCorrupted', true);
       failed = true;
