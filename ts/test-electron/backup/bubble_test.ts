@@ -24,8 +24,9 @@ import {
 import { loadAllAndReinitializeRedux } from '../../services/allLoaders';
 import { strictAssert } from '../../util/assert';
 import type { MessageAttributesType } from '../../model-types';
-import { TEXT_ATTACHMENT } from '../../types/MIME';
+import { IMAGE_PNG, TEXT_ATTACHMENT } from '../../types/MIME';
 import { MY_STORY_ID } from '../../types/Stories';
+import { generateAttachmentKeys } from '../../AttachmentCrypto';
 
 const CONTACT_A = generateAci();
 const CONTACT_B = generateAci();
@@ -1105,6 +1106,81 @@ describe('backup/bubble messages', () => {
       };
 
       await asymmetricRoundtripHarness([incomingReply, outgoingReply], []);
+    });
+  });
+
+  describe('view-once', () => {
+    it('roundtrips incoming viewed view-once message', async () => {
+      await symmetricRoundtripHarness([
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          isErased: true,
+          isViewOnce: true,
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          sourceServiceId: CONTACT_A,
+          readStatus: ReadStatus.Viewed,
+          seenStatus: SeenStatus.Seen,
+          unidentifiedDeliveryReceived: false,
+          timestamp: 3,
+        },
+      ]);
+    });
+    it('roundtrips incoming unviewed view-once message', async () => {
+      await symmetricRoundtripHarness([
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          isViewOnce: true,
+          attachments: [
+            {
+              size: 128,
+              contentType: IMAGE_PNG,
+              cdnKey: 'cdnKey',
+              cdnNumber: 2,
+              uploadTimestamp: 2001,
+              key: Bytes.toBase64(generateAttachmentKeys()),
+              digest: Bytes.toBase64(getRandomBytes(32)),
+              caption: 'shhhh',
+            },
+          ],
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          sourceServiceId: CONTACT_A,
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: false,
+          timestamp: 3,
+        },
+      ]);
+    });
+    it('roundtrips outgoing view-once message', async () => {
+      await symmetricRoundtripHarness([
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'outgoing',
+          isViewOnce: true,
+          isErased: true,
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          sourceServiceId: OUR_ACI,
+          seenStatus: SeenStatus.Seen,
+          sendStateByConversationId: {
+            [contactA.id]: {
+              status: SendStatus.Delivered,
+            },
+          },
+          unidentifiedDeliveries: [CONTACT_A],
+          timestamp: 3,
+        },
+      ]);
     });
   });
 });

@@ -37,7 +37,7 @@ export function isValidAttachmentKey(
     return false;
   }
   const bytes = fromBase64(keyBase64);
-  return bytes.byteLength > 0;
+  return bytes.byteLength === KEY_SET_LENGTH;
 }
 
 export function isValidDigest(
@@ -47,7 +47,7 @@ export function isValidDigest(
     return false;
   }
   const bytes = fromBase64(digestBase64);
-  return bytes.byteLength > 0;
+  return bytes.byteLength === DIGEST_LENGTH;
 }
 
 export function isValidPlaintextHash(
@@ -57,5 +57,5 @@ export function isValidPlaintextHash(
     return false;
   }
   const bytes = fromHex(plaintextHashHex);
-  return bytes.byteLength > 0;
+  return bytes.byteLength === PLAINTEXT_HASH_LENGTH;
 }
