@@ -100,7 +100,6 @@ import { isAciString } from '../../util/isAciString';
 import type { CallHistoryAdd } from './callHistory';
 import { addCallHistory, reloadCallHistory } from './callHistory';
 import { saveDraftRecordingIfNeeded } from './composer';
-import type { CallHistoryDetails } from '../../types/CallDisposition';
 import type { StartCallData } from '../../components/ConfirmLeaveCallModal';
 import {
   getCallLinksByRoomId,
@@ -1600,39 +1599,38 @@ function handleCallLinkUpdate(
     const roomId = getRoomIdFromRootKey(callLinkRootKey);
     const logId = `handleCallLinkUpdate(${roomId})`;
 
-    const existingCallLink = await DataReader.getCallLinkByRoomId(roomId);
-
     const callLink: CallLinkType = {
       ...CALL_LINK_DEFAULT_STATE,
       storageNeedsSync: false,
-      ...existingCallLink,
       roomId,
       rootKey,
       adminKey,
     };
 
-    let callHistory: CallHistoryDetails | null = null;
+    const result = await DataWriter.insertOrUpdateCallLinkFromSync(callLink);
 
-    if (existingCallLink) {
-      if (adminKey && adminKey !== existingCallLink.adminKey) {
-        log.info(`${logId}: Updating existing call link with new adminKey`);
-        await DataWriter.updateCallLinkAdminKeyByRoomId(roomId, adminKey);
-      }
+    if (result.inserted) {
+      log.info(`${logId}: Saved new call link`);
+    } else if (result.updated) {
+      log.info(`${logId}: Updated existing call link with new adminKey`);
     } else {
-      log.info(`${logId}: Saving new call link`);
-      await DataWriter.insertCallLink(callLink);
-      if (adminKey != null) {
-        callHistory = toCallHistoryFromUnusedCallLink(callLink);
-        await DataWriter.saveCallHistory(callHistory);
-      }
+      // This case happens when concurrently processing a batch of call link sync messages
+      // for the same roomId.
+      log.info(
+        `${logId}: Discarding call link update because we are already up to date`
+      );
+      return;
     }
 
     dispatch({
       type: HANDLE_CALL_LINK_UPDATE,
-      payload: { callLink },
+      payload: { callLink: result.callLink },
     });
 
-    if (callHistory != null) {
+    const isPlaceholderCallHistoryNeeded = result.inserted && adminKey != null;
+    if (isPlaceholderCallHistoryNeeded) {
+      const callHistory = toCallHistoryFromUnusedCallLink(callLink);
+      await DataWriter.saveCallHistory(callHistory);
       dispatch(addCallHistory(callHistory));
     }
 

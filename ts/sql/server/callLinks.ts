@@ -121,6 +121,41 @@ export function insertCallLink(db: WritableDB, callLink: CallLinkType): void {
   _insertCallLink(db, callLink);
 }
 
+export type InsertOrUpdateCallLinkFromSyncResult = Readonly<{
+  callLink: CallLinkType;
+  inserted: boolean;
+  updated: boolean;
+}>;
+
+export function insertOrUpdateCallLinkFromSync(
+  db: WritableDB,
+  callLink: CallLinkType
+): InsertOrUpdateCallLinkFromSyncResult {
+  const { roomId, adminKey } = callLink;
+  return db.transaction(() => {
+    const existingCallLink = getCallLinkByRoomId(db, roomId);
+    if (existingCallLink) {
+      if (adminKey && adminKey !== existingCallLink.adminKey) {
+        updateCallLinkAdminKeyByRoomId(db, roomId, adminKey);
+        return {
+          callLink: { ...existingCallLink, adminKey },
+          inserted: false,
+          updated: true,
+        };
+      }
+
+      return {
+        callLink: existingCallLink,
+        inserted: false,
+        updated: false,
+      };
+    }
+
+    insertCallLink(db, callLink);
+    return { callLink, inserted: true, updated: false };
+  })();
+}
+
 export function updateCallLink(db: WritableDB, callLink: CallLinkType): void {
   const { roomId, rootKey } = callLink;
   assertRoomIdMatchesRootKey(roomId, rootKey);
