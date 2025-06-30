@@ -1118,6 +1118,12 @@ describe('link preview fetching', () => {
       {
         title: 'PNG',
         contentType: 'image/png',
+        fixtureFilename: '20x200-yellow.png',
+      },
+      {
+        title: 'Large PNG',
+        contentType: 'image/png',
+        scaledContentType: 'image/jpeg',
         fixtureFilename:
           'freepngs-2cd43b_bed7d1327e88454487397574d87b64dc_mv2.png',
       },
@@ -1136,7 +1142,7 @@ describe('link preview fetching', () => {
         contentType: 'image/x-icon',
         fixtureFilename: 'kitten-1-64-64.ico',
       },
-    ].forEach(({ title, contentType, fixtureFilename }) => {
+    ].forEach(({ title, contentType, scaledContentType, fixtureFilename }) => {
       it(`handles ${title} images`, async () => {
         const fixture = await readFixture(fixtureFilename);
 
@@ -1157,7 +1163,7 @@ describe('link preview fetching', () => {
               new AbortController().signal
             )
           )?.contentType,
-          stringToMIMEType(contentType)
+          stringToMIMEType(scaledContentType ?? contentType)
         );
       });
     });

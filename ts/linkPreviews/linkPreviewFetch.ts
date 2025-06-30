@@ -610,20 +610,22 @@ export async function fetchLinkPreviewImage(
   }
 
   // Scale link preview image
-  if (contentType !== IMAGE_GIF) {
-    const dataBlob = new Blob([data], {
-      type: contentType,
-    });
-    const { blob: xcodedDataBlob } = await scaleImageToLevel({
+  if (contentType === IMAGE_GIF) {
+    return { data, contentType };
+  }
+
+  const dataBlob = new Blob([data], {
+    type: contentType,
+  });
+  const { blob: xcodedDataBlob, contentType: newContentType } =
+    await scaleImageToLevel({
       fileOrBlobOrURL: dataBlob,
       contentType,
       size: dataBlob.size,
       highQuality: false,
     });
-    const xcodedDataArrayBuffer = await blobToArrayBuffer(xcodedDataBlob);
+  const xcodedDataArrayBuffer = await blobToArrayBuffer(xcodedDataBlob);
 
-    data = new Uint8Array(xcodedDataArrayBuffer);
-  }
-
-  return { data, contentType };
+  data = new Uint8Array(xcodedDataArrayBuffer);
+  return { data, contentType: newContentType };
 }
