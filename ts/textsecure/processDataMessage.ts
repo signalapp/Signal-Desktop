@@ -333,7 +333,7 @@ export function processGiftBadge(
   }
 
   const receipt = new ReceiptCredentialPresentation(
-    Buffer.from(giftBadge.receiptCredentialPresentation)
+    giftBadge.receiptCredentialPresentation
   );
 
   return {

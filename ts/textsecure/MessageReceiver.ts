@@ -321,7 +321,7 @@ export default class MessageReceiver
       throw new Error('Server trust root is required!');
     }
     this.#serverTrustRoot = PublicKey.deserialize(
-      Buffer.from(Bytes.fromBase64(serverTrustRoot))
+      Bytes.fromBase64(serverTrustRoot)
     );
 
     this.#incomingQueue = new PQueue({
@@ -1351,7 +1351,7 @@ export default class MessageReceiver
 
     log.info(`unsealEnvelope(${logId}): unidentified message`);
     const messageContent = await sealedSenderDecryptToUsmc(
-      Buffer.from(ciphertext),
+      ciphertext,
       stores.identityKeyStore
     );
 
@@ -1361,6 +1361,8 @@ export default class MessageReceiver
 
     const originalSource = envelope.source;
     const originalSourceUuid = envelope.sourceServiceId;
+
+    const groupId = messageContent.groupId();
 
     const newEnvelope: UnsealedEnvelope = {
       ...envelope,
@@ -1379,7 +1381,7 @@ export default class MessageReceiver
       // UnsealedEnvelope-only fields
       unidentifiedDeliveryReceived: !(originalSource || originalSourceUuid),
       contentHint: messageContent.contentHint(),
-      groupId: messageContent.groupId()?.toString('base64'),
+      groupId: groupId ? Bytes.toBase64(groupId) : undefined,
       certificate,
       unsealedContent: messageContent,
     };
@@ -1845,8 +1847,7 @@ export default class MessageReceiver
 
     if (envelope.type === envelopeTypeEnum.PLAINTEXT_CONTENT) {
       log.info(`decrypt/${logId}: plaintext message`);
-      const buffer = Buffer.from(ciphertext);
-      const plaintextContent = PlaintextContent.deserialize(buffer);
+      const plaintextContent = PlaintextContent.deserialize(ciphertext);
 
       return {
         plaintext: this.#unpad(plaintextContent.body()),
@@ -1865,7 +1866,7 @@ export default class MessageReceiver
           'MessageReceiver.innerDecrypt: No sourceDevice for CIPHERTEXT message'
         );
       }
-      const signalMessage = SignalMessage.deserialize(Buffer.from(ciphertext));
+      const signalMessage = SignalMessage.deserialize(ciphertext);
 
       const plaintext = await this.#storage.protocol.enqueueSessionJob(
         address,
@@ -1894,9 +1895,7 @@ export default class MessageReceiver
           'MessageReceiver.innerDecrypt: No sourceDevice for PREKEY_BUNDLE message'
         );
       }
-      const preKeySignalMessage = PreKeySignalMessage.deserialize(
-        Buffer.from(ciphertext)
-      );
+      const preKeySignalMessage = PreKeySignalMessage.deserialize(ciphertext);
 
       const plaintext = await this.#storage.protocol.enqueueSessionJob(
         address,
@@ -2619,8 +2618,7 @@ export default class MessageReceiver
 
     logUnexpectedUrgentValue(envelope, 'retryRequest');
 
-    const buffer = Buffer.from(decryptionError);
-    const request = DecryptionErrorMessage.deserialize(buffer);
+    const request = DecryptionErrorMessage.deserialize(decryptionError);
 
     const { sourceServiceId: sourceAci, sourceDevice } = envelope;
     if (!sourceAci || !sourceDevice) {
@@ -2672,9 +2670,7 @@ export default class MessageReceiver
 
     const sender = ProtocolAddress.new(sourceServiceId, sourceDevice);
     const senderKeyDistributionMessage =
-      SenderKeyDistributionMessage.deserialize(
-        Buffer.from(distributionMessage)
-      );
+      SenderKeyDistributionMessage.deserialize(distributionMessage);
     const { destinationServiceId } = envelope;
     const address = new QualifiedAddress(
       destinationServiceId,
@@ -2708,7 +2704,7 @@ export default class MessageReceiver
 
     const { pni: pniBytes, signature } = pniSignatureMessage;
     strictAssert(Bytes.isNotEmpty(pniBytes), `${logId}: missing PNI bytes`);
-    const pni = fromPniObject(Pni.fromUuidBytes(Buffer.from(pniBytes)));
+    const pni = fromPniObject(Pni.fromUuidBytes(pniBytes));
     strictAssert(pni, `${logId}: missing PNI`);
     strictAssert(Bytes.isNotEmpty(signature), `${logId}: empty signature`);
     strictAssert(isAciString(aci), `${logId}: invalid ACI`);
@@ -4153,7 +4149,7 @@ function processConversationIdentifier(
   if (threadGroupId) {
     return {
       type: 'group' as const,
-      groupId: Buffer.from(threadGroupId).toString('base64'),
+      groupId: Bytes.toBase64(threadGroupId),
     };
   }
   if (threadE164) {

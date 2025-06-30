@@ -69,12 +69,7 @@ export function generateKyberPreKey(
     identityKeyPair.privateKey,
     keyPair.getPublicKey().serialize()
   );
-  return client.KyberPreKeyRecord.new(
-    keyId,
-    Date.now(),
-    keyPair,
-    Buffer.from(signature)
-  );
+  return client.KyberPreKeyRecord.new(keyId, Date.now(), keyPair, signature);
 }
 
 export function generateKeyPair(): KeyPairType {
@@ -91,13 +86,11 @@ export function createKeyPair(incomingKey: Uint8Array): KeyPairType {
     log.warn('createKeyPair: incoming private key was not clamped!');
   }
 
-  const incomingKeyBuffer = Buffer.from(incomingKey);
-
-  if (incomingKeyBuffer.length !== 32) {
+  if (incomingKey.length !== 32) {
     throw new Error('key must be 32 bytes long');
   }
 
-  const privKey = client.PrivateKey.deserialize(incomingKeyBuffer);
+  const privKey = client.PrivateKey.deserialize(incomingKey);
   const pubKey = privKey.getPublicKey();
 
   return new client.IdentityKeyPair(pubKey, privKey);
@@ -122,19 +115,14 @@ export function verifySignature(
   message: Uint8Array,
   signature: Uint8Array
 ): boolean {
-  const messageBuffer = Buffer.from(message);
-  const signatureBuffer = Buffer.from(signature);
-
-  return pubKey.verify(messageBuffer, signatureBuffer);
+  return pubKey.verify(message, signature);
 }
 
 export function calculateSignature(
   privKey: client.PrivateKey,
   plaintext: Uint8Array
 ): Uint8Array {
-  const plaintextBuffer = Buffer.from(plaintext);
-
-  return privKey.sign(plaintextBuffer);
+  return privKey.sign(plaintext);
 }
 
 function validatePubKeyFormat(pubKey: Uint8Array): Uint8Array {

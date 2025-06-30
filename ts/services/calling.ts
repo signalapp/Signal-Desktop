@@ -764,11 +764,11 @@ export class CallingClass {
       );
 
     const response = new CreateCallLinkCredentialResponse(
-      Buffer.from(credentialBase64, 'base64')
+      Bytes.fromBase64(credentialBase64)
     );
 
     const genericServerPublicParams = new GenericServerPublicParams(
-      Buffer.from(window.getGenericServerPublicParams(), 'base64')
+      Bytes.fromBase64(window.getGenericServerPublicParams())
     );
     const credential = context.receive(
       response,
@@ -785,10 +785,10 @@ export class CallingClass {
 
     const result = await RingRTC.createCallLink(
       sfuUrl,
-      credentialPresentation,
+      Buffer.from(credentialPresentation),
       rootKey,
       adminKey,
-      serializedPublicParams,
+      Buffer.from(serializedPublicParams),
       CallLinkRestrictions.AdminApproval
     );
 
@@ -832,7 +832,7 @@ export class CallingClass {
 
     const result = await RingRTC.deleteCallLink(
       sfuUrl,
-      authCredentialPresentation.serialize(),
+      Buffer.from(authCredentialPresentation.serialize()),
       callLinkRootKey,
       undefined,
       callLinkAdminKey
@@ -869,7 +869,7 @@ export class CallingClass {
       await getCallLinkAuthCredentialPresentation(callLinkRootKey);
     const result = await RingRTC.updateCallLinkName(
       sfuUrl,
-      authCredentialPresentation.serialize(),
+      Buffer.from(authCredentialPresentation.serialize()),
       callLinkRootKey,
       undefined,
       callLinkAdminKey,
@@ -915,7 +915,7 @@ export class CallingClass {
 
     const result = await RingRTC.updateCallLinkRestrictions(
       sfuUrl,
-      authCredentialPresentation.serialize(),
+      Buffer.from(authCredentialPresentation.serialize()),
       callLinkRootKey,
       undefined,
       callLinkAdminKey,
@@ -950,7 +950,7 @@ export class CallingClass {
 
     const result = await RingRTC.readCallLink(
       this._sfuUrl,
-      authCredentialPresentation.serialize(),
+      Buffer.from(authCredentialPresentation.serialize()),
       callLinkRootKey,
       undefined
     );
@@ -1246,7 +1246,7 @@ export class CallingClass {
 
     const result = await RingRTC.peekCallLinkCall(
       this._sfuUrl,
-      authCredentialPresentation.serialize(),
+      Buffer.from(authCredentialPresentation.serialize()),
       callLinkRootKey,
       undefined
     );
@@ -1380,7 +1380,7 @@ export class CallingClass {
 
     const outerGroupCall = RingRTC.getCallLinkCall(
       this._sfuUrl,
-      authCredentialPresentation.serialize(),
+      Buffer.from(authCredentialPresentation.serialize()),
       callLinkRootKey,
       undefined,
       adminPasskey,

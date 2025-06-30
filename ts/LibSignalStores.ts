@@ -143,7 +143,7 @@ export class IdentityKeys extends IdentityKeyStore {
       return null;
     }
 
-    return PublicKey.deserialize(Buffer.from(key));
+    return PublicKey.deserialize(key);
   }
 
   async saveIdentity(

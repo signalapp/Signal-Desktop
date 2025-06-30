@@ -19,6 +19,7 @@ import { toDayMillis } from '../util/timestamp';
 import { toTaggedPni } from '../types/ServiceId';
 import { toPniObject, toAciObject } from '../util/ServiceId';
 import { createLogger } from '../logging/log';
+import * as Bytes from '../Bytes';
 
 const log = createLogger('groupCredentialFetcher');
 
@@ -221,11 +222,9 @@ export async function maybeFetchNewCredentials(): Promise<void> {
         toAciObject(aci),
         toPniObject(pni),
         item.redemptionTime,
-        new AuthCredentialWithPniResponse(
-          Buffer.from(item.credential, 'base64')
-        )
+        new AuthCredentialWithPniResponse(Bytes.fromBase64(item.credential))
       );
-    const credential = authCredential.serialize().toString('base64');
+    const credential = Bytes.toBase64(authCredential.serialize());
 
     return {
       redemptionTime: item.redemptionTime * durations.SECOND,
@@ -237,21 +236,21 @@ export async function maybeFetchNewCredentials(): Promise<void> {
     sortCredentials(rawCredentials).map(formatCredential);
   const genericServerPublicParamsBase64 = window.getGenericServerPublicParams();
   const genericServerPublicParams = new GenericServerPublicParams(
-    Buffer.from(genericServerPublicParamsBase64, 'base64')
+    Bytes.fromBase64(genericServerPublicParamsBase64)
   );
 
   function formatCallingCredential(
     item: GroupCredentialType
   ): GroupCredentialType {
     const response = new CallLinkAuthCredentialResponse(
-      Buffer.from(item.credential, 'base64')
+      Bytes.fromBase64(item.credential)
     );
     const authCredential = response.receive(
       toAciObject(aci),
       item.redemptionTime,
       genericServerPublicParams
     );
-    const credential = authCredential.serialize().toString('base64');
+    const credential = Bytes.toBase64(authCredential.serialize());
 
     return {
       redemptionTime: item.redemptionTime * durations.SECOND,

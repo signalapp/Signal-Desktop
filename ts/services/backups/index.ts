@@ -579,7 +579,7 @@ export class BackupsService {
       );
       if (backupType === BackupType.Ciphertext) {
         const { aesKey, macKey } = getKeyMaterial(
-          ephemeralKey ? new BackupKey(Buffer.from(ephemeralKey)) : undefined
+          ephemeralKey ? new BackupKey(ephemeralKey) : undefined
         );
 
         // First pass - don't decrypt, only verify mac

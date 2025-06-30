@@ -31,6 +31,7 @@ import { isNightly } from './version';
 import { parseStrict } from './schemas';
 import { DataReader } from '../sql/Client';
 import { maybeUpdateGroup } from '../groups';
+import * as Bytes from '../Bytes';
 import { isGroupV2 } from './whatTypeOfConversation';
 
 const log = createLogger('groupSendEndorsements');
@@ -59,7 +60,7 @@ export function decodeGroupSendEndorsementResponse({
   );
 
   const response = new GroupSendEndorsementsResponse(
-    Buffer.from(groupSendEndorsementResponse)
+    groupSendEndorsementResponse
   );
 
   const expiration = response.getExpiration().getTime() / 1000;
@@ -69,11 +70,11 @@ export function decodeGroupSendEndorsementResponse({
   );
 
   const groupSecretParams = new GroupSecretParams(
-    Buffer.from(groupSecretParamsBase64, 'base64')
+    Bytes.fromBase64(groupSecretParamsBase64)
   );
 
   const serverPublicParams = new ServerPublicParams(
-    Buffer.from(window.getServerPublicParams(), 'base64')
+    Bytes.fromBase64(window.getServerPublicParams())
   );
 
   const groupMembers = groupMembersV2.map(member => {
@@ -193,7 +194,7 @@ export class GroupSendEndorsementState {
   #toEndorsement(contents: Uint8Array): GroupSendEndorsement {
     let endorsement = this.#endorsementCache.get(contents);
     if (endorsement == null) {
-      endorsement = new GroupSendEndorsement(Buffer.from(contents));
+      endorsement = new GroupSendEndorsement(contents);
       this.#endorsementCache.set(contents, endorsement);
     }
     return endorsement;
@@ -201,7 +202,7 @@ export class GroupSendEndorsementState {
 
   #toToken(endorsement: GroupSendEndorsement): GroupSendToken {
     const groupSecretParams = new GroupSecretParams(
-      Buffer.from(this.#groupSecretParamsBase64, 'base64')
+      Bytes.fromBase64(this.#groupSecretParamsBase64)
     );
 
     const expiration = this.getExpiration();

@@ -152,20 +152,13 @@ async function handleServerKeys(
       const protocolAddress = ProtocolAddress.new(serviceId, deviceId);
       const preKeyId = preKey?.keyId || null;
       const preKeyObject = preKey
-        ? PublicKey.deserialize(Buffer.from(preKey.publicKey))
+        ? PublicKey.deserialize(preKey.publicKey)
         : null;
-      const signedPreKeyObject = PublicKey.deserialize(
-        Buffer.from(signedPreKey.publicKey)
-      );
-      const identityKey = PublicKey.deserialize(
-        Buffer.from(response.identityKey)
-      );
+      const signedPreKeyObject = PublicKey.deserialize(signedPreKey.publicKey);
+      const identityKey = PublicKey.deserialize(response.identityKey);
 
-      const pqPreKeyId = pqPreKey.keyId;
-      const pqPreKeyPublic = KEMPublicKey.deserialize(
-        Buffer.from(pqPreKey.publicKey)
-      );
-      const pqPreKeySignature = Buffer.from(pqPreKey.signature);
+      const { keyId: pqPreKeyId, signature: pqPreKeySignature } = pqPreKey;
+      const pqPreKeyPublic = KEMPublicKey.deserialize(pqPreKey.publicKey);
 
       const preKeyBundle = PreKeyBundle.new(
         registrationId,
@@ -174,7 +167,7 @@ async function handleServerKeys(
         preKeyObject,
         signedPreKey.keyId,
         signedPreKeyObject,
-        Buffer.from(signedPreKey.signature),
+        signedPreKey.signature,
         identityKey,
         pqPreKeyId,
         pqPreKeyPublic,

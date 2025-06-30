@@ -11,6 +11,7 @@ import {
 } from '@signalapp/libsignal-client/zkgroup';
 import { type BackupKey } from '@signalapp/libsignal-client/dist/AccountKeys';
 
+import * as Bytes from '../../Bytes';
 import { createLogger } from '../../logging/log';
 import { strictAssert } from '../../util/assert';
 import { drop } from '../../util/drop';
@@ -92,20 +93,18 @@ export class BackupCredentials {
       );
     }
 
-    const cred = new BackupAuthCredential(
-      Buffer.from(result.credential, 'base64')
-    );
+    const cred = new BackupAuthCredential(Bytes.fromBase64(result.credential));
 
     const serverPublicParams = new GenericServerPublicParams(
-      Buffer.from(window.getBackupServerPublicParams(), 'base64')
+      Bytes.fromBase64(window.getBackupServerPublicParams())
     );
 
     const presentation = cred.present(serverPublicParams).serialize();
     const signature = signatureKey.sign(presentation);
 
     const headers = {
-      'X-Signal-ZK-Auth': presentation.toString('base64'),
-      'X-Signal-ZK-Auth-Signature': signature.toString('base64'),
+      'X-Signal-ZK-Auth': Bytes.toBase64(presentation),
+      'X-Signal-ZK-Auth-Signature': Bytes.toBase64(signature),
     };
 
     const info = { headers, level: result.level };
@@ -274,7 +273,7 @@ export class BackupCredentials {
     );
 
     const serverPublicParams = new GenericServerPublicParams(
-      Buffer.from(window.getBackupServerPublicParams(), 'base64')
+      Bytes.fromBase64(window.getBackupServerPublicParams())
     );
 
     const result = new Array<BackupCredentialWrapperType>();
@@ -300,7 +299,7 @@ export class BackupCredentials {
       credential: buf,
       redemptionTime,
     } of allCredentials) {
-      const credentialRes = new BackupAuthCredentialResponse(Buffer.from(buf));
+      const credentialRes = new BackupAuthCredentialResponse(buf);
 
       const redemptionTimeMs = DurationInSeconds.toMillis(redemptionTime);
       strictAssert(
@@ -326,7 +325,7 @@ export class BackupCredentials {
 
       result.push({
         type,
-        credential: credential.serialize().toString('base64'),
+        credential: Bytes.toBase64(credential.serialize()),
         level: credential.getBackupLevel(),
         redemptionTimeMs,
       });

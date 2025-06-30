@@ -269,7 +269,7 @@ async function maybeSaveToSendLog(
   await insertSentProto(
     {
       timestamp,
-      proto: Buffer.from(contentProto),
+      proto: contentProto,
       contentHint,
       urgent: isBoolean(urgent) ? urgent : true,
       hasPniSignatureMessage: Boolean(hasPniSignatureMessage),

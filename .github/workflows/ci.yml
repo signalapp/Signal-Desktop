@@ -234,7 +234,7 @@ jobs:
       uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       with:
         repository: 'signalapp/Signal-Message-Backup-Tests'
-        ref: '57807422c347f53cfa8d5a1423c382992a8fc199'
+        ref: '316c3d5eb15ffc923b5ce2925094fd49b34e8203'
         path: 'backup-integration-tests'
 
     - run: xvfb-run --auto-servernum pnpm run test-electron

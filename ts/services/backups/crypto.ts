@@ -28,7 +28,7 @@ export function getBackupMediaRootKey(): BackupKey {
   const rootKey = window.storage.get('backupMediaRootKey');
   strictAssert(rootKey, 'Media root key not available');
 
-  return new BackupKey(Buffer.from(rootKey));
+  return new BackupKey(rootKey);
 }
 
 const getMemoizedBackupSignatureKey = memoizee(
@@ -94,7 +94,7 @@ export function deriveBackupMediaKeyMaterial(
     throw new Error('deriveBackupMediaKeyMaterial: mediaId missing');
   }
 
-  const material = mediaRootKey.deriveMediaEncryptionKey(Buffer.from(mediaId));
+  const material = mediaRootKey.deriveMediaEncryptionKey(mediaId);
 
   return {
     macKey: material.subarray(0, BACKUP_MEDIA_MAC_KEY_LEN),
@@ -113,9 +113,7 @@ export function deriveBackupThumbnailTransitKeyMaterial(
     throw new Error('deriveBackupThumbnailTransitKeyMaterial: mediaId missing');
   }
 
-  const material = mediaRootKey.deriveThumbnailTransitEncryptionKey(
-    Buffer.from(mediaId)
-  );
+  const material = mediaRootKey.deriveThumbnailTransitEncryptionKey(mediaId);
 
   return {
     macKey: material.subarray(0, BACKUP_MEDIA_MAC_KEY_LEN),
