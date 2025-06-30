@@ -46,6 +46,7 @@ import {
   CreateCallLinkCredentialRequestContext,
   CreateCallLinkCredentialResponse,
   GenericServerPublicParams,
+  ServerPublicParams,
 } from '@signalapp/libsignal-client/zkgroup';
 import { Aci } from '@signalapp/libsignal-client';
 import { CanvasVideoRenderer, GumVideoCapturer } from '../calling/VideoSupport';
@@ -158,7 +159,6 @@ import { getConversationIdForLogging } from '../util/idForLogging';
 import { sendCallLinkUpdateSync } from '../util/sendCallLinkUpdateSync';
 import { createIdenticon } from '../util/createIdenticon';
 import { getColorForCallLink } from '../util/getColorForCallLink';
-import { getUseRingrtcAdm } from '../util/ringrtc/ringrtcAdm';
 import OS from '../util/os/osMain';
 import { sleep } from '../util/sleep';
 
@@ -502,7 +502,6 @@ export class CallingClass {
 
     RingRTC.setConfig({
       field_trials: undefined,
-      use_ringrtc_adm: getUseRingrtcAdm(),
     });
 
     RingRTC.handleOutgoingSignaling = this.#handleOutgoingSignaling.bind(this);
@@ -1007,12 +1006,17 @@ export class CallingClass {
 
     const authCredentialPresentation =
       await getCallLinkAuthCredentialPresentation(callLinkRootKey);
+    const serverPublicParams = new ServerPublicParams(
+      Buffer.from(window.getServerPublicParams(), 'base64')
+    );
+    const endorsementsPublicKey = serverPublicParams.getEndorsementPublicKey();
 
     const groupCall = this.connectCallLinkCall({
       roomId,
       authCredentialPresentation,
       callLinkRootKey,
       adminPasskey,
+      endorsementsPublicKey: Buffer.from(endorsementsPublicKey),
     });
 
     groupCall.setOutgoingAudioMuted(!hasLocalAudio);
@@ -1352,11 +1356,13 @@ export class CallingClass {
     authCredentialPresentation,
     callLinkRootKey,
     adminPasskey,
+    endorsementsPublicKey,
   }: {
     roomId: string;
     authCredentialPresentation: CallLinkAuthCredentialPresentation;
     callLinkRootKey: CallLinkRootKey;
     adminPasskey: Buffer | undefined;
+    endorsementsPublicKey: Buffer;
   }): GroupCall {
     const existing = this.#getGroupCall(roomId);
     if (existing) {
@@ -1380,6 +1386,7 @@ export class CallingClass {
 
     const outerGroupCall = RingRTC.getCallLinkCall(
       this._sfuUrl,
+      endorsementsPublicKey,
       Buffer.from(authCredentialPresentation.serialize()),
       callLinkRootKey,
       undefined,
@@ -1803,6 +1810,10 @@ export class CallingClass {
     const authCredentialPresentation =
       await getCallLinkAuthCredentialPresentation(callLinkRootKey);
     const adminPasskey = adminKey ? toAdminKeyBytes(adminKey) : undefined;
+    const serverPublicParams = new ServerPublicParams(
+      Buffer.from(window.getServerPublicParams(), 'base64')
+    );
+    const endorsementsPublicKey = serverPublicParams.getEndorsementPublicKey();
 
     // RingRTC reuses the same type GroupCall between Adhoc and Group calls.
     const groupCall = this.connectCallLinkCall({
@@ -1810,6 +1821,7 @@ export class CallingClass {
       authCredentialPresentation,
       callLinkRootKey,
       adminPasskey,
+      endorsementsPublicKey: Buffer.from(endorsementsPublicKey),
     });
 
     // Set the camera disposition as we transition from the lobby to the call link call.
