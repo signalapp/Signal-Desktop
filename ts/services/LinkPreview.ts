@@ -12,6 +12,7 @@ import type {
   MaybeGrabLinkPreviewOptionsType,
   AddLinkPreviewOptionsType,
 } from '../types/LinkPreview';
+import type { LinkPreviewImage as LinkPreviewFetchImage } from '../linkPreviews/linkPreviewFetch';
 import * as Errors from '../types/errors';
 import type { StickerPackType as StickerPackDBType } from '../sql/Interface';
 import type { MIMEType } from '../types/MIME';
@@ -322,31 +323,53 @@ async function getPreview(
     abortSignal
   );
   if (!linkPreviewMetadata || abortSignal.aborted) {
+    log.warn('aborted');
     return null;
   }
-  const { title, imageHref, description, date } = linkPreviewMetadata;
+  const { title, image, description, date } = linkPreviewMetadata;
 
-  let image;
-  if (imageHref && LinkPreview.shouldPreviewHref(imageHref)) {
+  let fetchedImage: LinkPreviewFetchImage | null;
+
+  if (typeof image === 'string') {
+    if (!LinkPreview.shouldPreviewHref(image)) {
+      log.warn('refusing to fetch image from provided URL');
+      fetchedImage = null;
+    } else {
+      try {
+        const fullSizeImage = await messaging.fetchLinkPreviewImage(
+          image,
+          abortSignal
+        );
+        if (abortSignal.aborted) {
+          return null;
+        }
+        if (!fullSizeImage) {
+          throw new Error('Failed to fetch link preview image');
+        }
+        fetchedImage = fullSizeImage;
+      } catch (error) {
+        // We still want to show the preview if we failed to get an image
+        log.warn(
+          'getPreview failed to get image for link preview:',
+          error.message
+        );
+        fetchedImage = null;
+      }
+    }
+  } else {
+    fetchedImage = image;
+  }
+
+  let imageAttachment: LinkPreviewImage | undefined;
+  if (fetchedImage) {
     let objectUrl: undefined | string;
     try {
-      const fullSizeImage = await messaging.fetchLinkPreviewImage(
-        imageHref,
-        abortSignal
-      );
-      if (abortSignal.aborted) {
-        return null;
-      }
-      if (!fullSizeImage) {
-        throw new Error('Failed to fetch link preview image');
-      }
-
       // Ensure that this file is either small enough or is resized to meet our
       //   requirements for attachments
       const withBlob = await autoScale({
-        contentType: fullSizeImage.contentType,
-        file: new Blob([fullSizeImage.data], {
-          type: fullSizeImage.contentType,
+        contentType: fetchedImage.contentType,
+        file: new Blob([fetchedImage.data], {
+          type: fetchedImage.contentType,
         }),
         fileName: title,
         highQuality: true,
@@ -362,7 +385,7 @@ async function getPreview(
         logger: log,
       });
 
-      image = {
+      imageAttachment = {
         data,
         size: data.byteLength,
         ...dimensions,
@@ -373,7 +396,7 @@ async function getPreview(
     } catch (error) {
       // We still want to show the preview if we failed to get an image
       log.error(
-        'getPreview failed to get image for link preview:',
+        'getPreview failed to process image for link preview:',
         error.message
       );
     } finally {
@@ -390,7 +413,7 @@ async function getPreview(
   return {
     date: date || null,
     description: description || null,
-    image,
+    image: imageAttachment,
     title,
     url,
   };

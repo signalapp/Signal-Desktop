@@ -64,7 +64,7 @@ export type LinkPreviewMetadata = {
   title: string;
   description: null | string;
   date: null | number;
-  imageHref: null | string;
+  image: null | string | LinkPreviewImage;
 };
 
 export type LinkPreviewImage = {
@@ -416,7 +416,7 @@ const parseMetadata = (
   return {
     title,
     description,
-    imageHref,
+    image: imageHref,
     date,
   };
 };
@@ -502,6 +502,19 @@ export async function fetchLinkPreviewMetadata(
 
   const contentType = parseContentType(response.headers.get('Content-Type'));
   if (contentType.type !== 'text/html') {
+    if (contentType.type && VALID_IMAGE_MIME_TYPES.has(contentType.type)) {
+      const image = await processImageResponse(response, abortSignal, logger);
+      if (image) {
+        // The best we can do for a title is the URL file name.
+        const title = lastPathComponentOfUrl(response.url);
+        return {
+          title,
+          description: null,
+          image,
+          date: null,
+        };
+      }
+    }
     logger.warn('fetchLinkPreviewMetadata: Content-Type is not HTML; bailing');
     return null;
   }
@@ -575,6 +588,14 @@ export async function fetchLinkPreviewImage(
     return null;
   }
 
+  return processImageResponse(response, abortSignal, logger);
+}
+
+async function processImageResponse(
+  response: Response,
+  abortSignal: AbortSignal,
+  logger: Pick<LoggerType, 'warn'> = log
+): Promise<null | LinkPreviewImage> {
   const contentLength = parseContentLength(
     response.headers.get('Content-Length')
   );
@@ -628,4 +649,19 @@ export async function fetchLinkPreviewImage(
 
   data = new Uint8Array(xcodedDataArrayBuffer);
   return { data, contentType: newContentType };
+}
+
+/**
+ * Tries to extract the last path component of `url`, but may end up returning a
+ * larger chunk, or even the whole thing.
+ */
+function lastPathComponentOfUrl(url: string): string {
+  let parsed: URL;
+  try {
+    parsed = new URL(url);
+  } catch {
+    return url;
+  }
+  const lastSlash = parsed.pathname.lastIndexOf('/');
+  return parsed.pathname.substring(lastSlash + 1); // This works with the -1 "not found" value too.
 }
