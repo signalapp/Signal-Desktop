@@ -5,6 +5,7 @@ import React, { Component, useCallback } from 'react';
 import { createLogger } from '../../../logging/log';
 import * as Errors from '../../../types/errors';
 import { ToastType } from '../../../types/Toast';
+import { isProduction } from '../../../util/version';
 
 const log = createLogger('FunErrorBoundary');
 
@@ -55,7 +56,9 @@ export function FunErrorBoundary(props: FunErrorBoundaryProps): JSX.Element {
       info.componentStack
     );
 
-    window.reduxActions?.toast.showToast({ toastType: ToastType.Error });
+    if (!isProduction(window.getVersion())) {
+      window.reduxActions?.toast.showToast({ toastType: ToastType.Error });
+    }
   }, []);
 
   return (
