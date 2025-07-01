@@ -1511,7 +1511,7 @@ export class BackupImportStream extends Writable {
     } else if (item.viewOnceMessage) {
       attributes = {
         ...attributes,
-        ...(await this.#fromViewOnceMessage(item.viewOnceMessage)),
+        ...(await this.#fromViewOnceMessage(item)),
       };
     } else if (item.directStoryReplyMessage) {
       strictAssert(item.directionless == null, 'reply cannot be directionless');
@@ -1938,28 +1938,37 @@ export class BackupImportStream extends Writable {
       .filter(isNotNil);
   }
 
-  async #fromViewOnceMessage({
-    attachment,
-    reactions,
-  }: Backups.IViewOnceMessage): Promise<Partial<MessageAttributesType>> {
-    return {
-      ...(attachment
-        ? {
-            attachments: [
-              convertBackupMessageAttachmentToAttachment(
-                attachment,
-                this.#getFilePointerOptions()
-              ),
-            ].filter(isNotNil),
-          }
-        : {
-            attachments: undefined,
-            readStatus: ReadStatus.Viewed,
-            isErased: true,
-          }),
+  async #fromViewOnceMessage(
+    item: Backups.IChatItem
+  ): Promise<Partial<MessageAttributesType>> {
+    const { incoming, viewOnceMessage } = item;
+    strictAssert(viewOnceMessage, 'view once message must not be null');
+
+    const { attachment, reactions } = viewOnceMessage;
+    const result: Partial<MessageAttributesType> = {
+      attachments: attachment
+        ? [
+            convertBackupMessageAttachmentToAttachment(
+              attachment,
+              this.#getFilePointerOptions()
+            ),
+          ].filter(isNotNil)
+        : undefined,
       reactions: this.#fromReactions(reactions),
       isViewOnce: true,
     };
+
+    if (!result.attachments?.length) {
+      result.isErased = true;
+
+      // Only mark it viewed if the message is read. Non-link-and-sync backups do not
+      // roundtrip view-once attachments, even if unread.
+      if (incoming?.read) {
+        result.readStatus = ReadStatus.Viewed;
+      }
+    }
+
+    return result;
   }
 
   #fromDirectStoryReplyMessage(
