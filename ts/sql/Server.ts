@@ -3498,12 +3498,12 @@ function getAdjacentMessagesByConversation(
       }
       ${
         requireVisualMediaAttachments
-          ? sqlFragment`hasVisualMediaAttachments IS 1 AND`
+          ? sqlFragment`hasVisualMediaAttachments IS 1 AND isViewOnce IS 0 AND`
           : sqlFragment``
       }
       ${
         requireFileAttachments
-          ? sqlFragment`hasFileAttachments IS 1 AND`
+          ? sqlFragment`hasFileAttachments IS 1 AND isViewOnce IS 0 AND`
           : sqlFragment``
       }
       isStory IS 0 AND
