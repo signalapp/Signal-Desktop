@@ -12,7 +12,7 @@ import {
 } from '@signalapp/libsignal-client/zkgroup';
 
 import * as Bytes from '../Bytes';
-import { donationStateSchema, paymentTypeSchema } from '../types/Donations';
+import { donationStateSchema } from '../types/Donations';
 import type {
   CardDetail,
   DonationReceipt,
@@ -155,10 +155,6 @@ export async function createPaymentMethodForIntent(
     type: donationStateSchema.Enum.INTENT_METHOD,
     timestamp: Date.now(),
     paymentMethodId,
-    paymentType: paymentTypeSchema.Enum.CARD,
-    paymentDetail: {
-      lastFourDigits: cardDetail.number.slice(-4),
-    },
   };
 }
 
@@ -400,14 +396,11 @@ export async function saveReceipt(
   }
   log.info(`${logId}: Starting`);
 
-  // TODO: Should we generate a new UUID to break all links with Stripe?
   const donationReceipt: DonationReceipt = {
     id: workflow.id,
     currencyType: workflow.currencyType,
     paymentAmount: workflow.paymentAmount,
     timestamp: workflow.timestamp,
-    paymentType: workflow.paymentType,
-    paymentDetail: workflow.paymentDetail,
   };
 
   await createDonationReceipt(donationReceipt);

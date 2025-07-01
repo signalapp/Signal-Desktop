@@ -13,8 +13,6 @@ export const donationStateSchema = z.enum([
   'DONE',
 ]);
 
-export const paymentTypeSchema = z.enum(['CARD']);
-
 const coreDataSchema = z.object({
   // Guid used to prevent duplicates at stripe and in our db
   id: z.string(),
@@ -30,19 +28,6 @@ const coreDataSchema = z.object({
   timestamp: z.number(),
 });
 export type CoreData = z.infer<typeof coreDataSchema>;
-
-const paymentDetailSchema = z.object({
-  paymentType: z.literal(paymentTypeSchema.Enum.CARD),
-
-  // Note: we really don't want this to be null, but sometimes it won't parse from the DB,
-  // and in that case we still move forward and display the receipt best we can.
-  paymentDetail: z
-    .object({
-      lastFourDigits: z.string(),
-    })
-    .nullable(),
-});
-export type PaymentDetails = z.infer<typeof paymentDetailSchema>;
 
 // Payment type: CARD
 export type CardDetail = {
@@ -81,19 +66,12 @@ const receiptContextSchema = z.object({
 });
 export type ReceiptContext = z.infer<typeof receiptContextSchema>;
 
-export const donationReceiptSchema = z.intersection(
-  z.object({
-    ...coreDataSchema.shape,
-  }),
-  // TODO: This type will demand the z.intersection when it is a discriminatedUnion.
-  // When it is a discriminatedUnion, we can't use the ...schema.shape approach
-  paymentDetailSchema
-);
+export const donationReceiptSchema = z.object({
+  ...coreDataSchema.shape,
+});
 export type DonationReceipt = z.infer<typeof donationReceiptSchema>;
 
-// We would like this to be a discriminated union, but you cannot put z.intersection()
-// inside of a discriminatedUnion today: https://github.com/colinhacks/zod/issues/1768
-const donationWorkflowSchema = z.union([
+const donationWorkflowSchema = z.discriminatedUnion('type', [
   z.object({
     // Track that user has chosen currency and amount, and we've successfully fetched an
     // intent. There is no need to persist this, because we'd need to update
@@ -103,88 +81,67 @@ const donationWorkflowSchema = z.union([
     ...stripeDataSchema.shape,
   }),
 
-  z.intersection(
-    z.object({
-      // Generally this should be a very short-lived state. The user has entered payment
-      // details and pressed the button to make the payment, and we have sent that to
-      // stripe. The next step is to use those details to confirm payment. No other
-      // user interaction is required after this point to continue the process - unless
-      // 3ds validation is needed - see INTENT_REDIRECT.
-      type: z.literal(donationStateSchema.Enum.INTENT_METHOD),
+  z.object({
+    // Generally this should be a very short-lived state. The user has entered payment
+    // details and pressed the button to make the payment, and we have sent that to
+    // stripe. The next step is to use those details to confirm payment. No other
+    // user interaction is required after this point to continue the process - unless
+    // 3ds validation is needed - see INTENT_REDIRECT.
+    type: z.literal(donationStateSchema.Enum.INTENT_METHOD),
 
-      // Stripe persists the user's payment information for us, behind this id
-      paymentMethodId: z.string(),
+    // Stripe persists the user's payment information for us, behind this id
+    paymentMethodId: z.string(),
 
-      ...coreDataSchema.shape,
-      ...stripeDataSchema.shape,
-    }),
-    // This type will demand the z.intersection when it is a discriminatedUnion
-    paymentDetailSchema
-  ),
+    ...coreDataSchema.shape,
+    ...stripeDataSchema.shape,
+  }),
 
-  z.intersection(
-    z.object({
-      // After we confirm payment details with Stripe, this state represents
-      // Stripe's acknowledgement. However it will take some time (usually seconds,
-      // sometimes minutes or 1 day) to finalize the transaction. We will only know
-      // when we request a receipt credential from the chat server.
-      type: z.literal(donationStateSchema.Enum.INTENT_CONFIRMED),
+  z.object({
+    // After we confirm payment details with Stripe, this state represents
+    // Stripe's acknowledgement. However it will take some time (usually seconds,
+    // sometimes minutes or 1 day) to finalize the transaction. We will only know
+    // when we request a receipt credential from the chat server.
+    type: z.literal(donationStateSchema.Enum.INTENT_CONFIRMED),
 
-      ...coreDataSchema.shape,
-      ...stripeDataSchema.shape,
-      ...receiptContextSchema.shape,
-    }),
-    // This type will demand the z.intersection when it is a discriminatedUnion
-    paymentDetailSchema
-  ),
+    ...coreDataSchema.shape,
+    ...stripeDataSchema.shape,
+    ...receiptContextSchema.shape,
+  }),
 
-  z.intersection(
-    z.object({
-      // An alternate state to INTENT_CONFIRMED. A response from Stripe indicated
-      // the user's card requires 3ds authentication, so we need to redirect to their
-      // bank, which will complete verification, then redirect back to us. We hand that
-      // service a token to connect it back to this process. If the user never comes back,
-      // we need to offer the redirect again.
-      type: z.literal(donationStateSchema.Enum.INTENT_REDIRECT),
+  z.object({
+    // An alternate state to INTENT_CONFIRMED. A response from Stripe indicated
+    // the user's card requires 3ds authentication, so we need to redirect to their
+    // bank, which will complete verification, then redirect back to us. We hand that
+    // service a token to connect it back to this process. If the user never comes back,
+    // we need to offer the redirect again.
+    type: z.literal(donationStateSchema.Enum.INTENT_REDIRECT),
 
-      // Where user should be sent; in this state we are waiting for them to come back
-      redirectTarget: z.string(),
+    // Where user should be sent; in this state we are waiting for them to come back
+    redirectTarget: z.string(),
 
-      ...coreDataSchema.shape,
-      ...stripeDataSchema.shape,
-      ...receiptContextSchema.shape,
-    }),
-    // This type will demand the z.intersection when it is a discriminatedUnion
-    paymentDetailSchema
-  ),
+    ...coreDataSchema.shape,
+    ...stripeDataSchema.shape,
+    ...receiptContextSchema.shape,
+  }),
 
-  z.intersection(
-    z.object({
-      // We now have everything we need to redeem. We know the payment has gone through
-      // successfully; we just need to redeem it on the server anonymously.
-      type: z.literal(donationStateSchema.Enum.RECEIPT),
+  z.object({
+    // We now have everything we need to redeem. We know the payment has gone through
+    // successfully; we just need to redeem it on the server anonymously.
+    type: z.literal(donationStateSchema.Enum.RECEIPT),
 
-      // the result of mixing the receiptCredentialResponse from the API from our
-      // previously-generated receiptCredentialRequestContext
-      receiptCredentialBase64: z.string(),
+    // the result of mixing the receiptCredentialResponse from the API from our
+    // previously-generated receiptCredentialRequestContext
+    receiptCredentialBase64: z.string(),
 
-      ...coreDataSchema.shape,
-    }),
-    // This type will demand the z.intersection when it is a discriminatedUnion
-    paymentDetailSchema
-  ),
+    ...coreDataSchema.shape,
+  }),
 
-  z.intersection(
-    z.object({
-      // A short-lived state, but we'll be in this state until we successfully save a new
-      // receipt field in the database and add to redux.
-      type: z.literal(donationStateSchema.Enum.RECEIPT_REDEEMED),
-      ...coreDataSchema.shape,
-      ...paymentDetailSchema.shape,
-    }),
-    // This type will demand the z.intersection when it is a discriminatedUnion
-    paymentDetailSchema
-  ),
+  z.object({
+    // A short-lived state, but we'll be in this state until we successfully save a new
+    // receipt field in the database and add to redux.
+    type: z.literal(donationStateSchema.Enum.RECEIPT_REDEEMED),
+    ...coreDataSchema.shape,
+  }),
 
   z.object({
     // After everything is done, we should notify the user the donation succeeded.
