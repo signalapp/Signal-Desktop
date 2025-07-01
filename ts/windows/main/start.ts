@@ -134,6 +134,14 @@ if (getEnvironment() === Environment.Test) {
   contextBridge.exposeInMainWorld('testUtilities', window.testUtilities);
 }
 
+// See ts/logging/log.ts
+if (getEnvironment() !== Environment.PackagedApp) {
+  const debug = (...args: Array<string>) => {
+    localStorage.setItem('debug', args.join(','));
+  };
+  contextBridge.exposeInMainWorld('debug', debug);
+}
+
 if (window.SignalContext.config.ciMode === 'full') {
   contextBridge.exposeInMainWorld('SignalCI', window.SignalCI);
 }
