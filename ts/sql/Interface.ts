@@ -53,6 +53,7 @@ import type { AttachmentBackupJobType } from '../types/AttachmentBackup';
 import type { GifType } from '../components/fun/panels/FunPanelGifs';
 import type { NotificationProfileType } from '../types/NotificationProfile';
 import type { DonationReceipt } from '../types/Donations';
+import type { InsertOrUpdateCallLinkFromSyncResult } from './server/callLinks';
 
 export type ReadableDB = Database & { __readable_db: never };
 export type WritableDB = ReadableDB & { __writable_db: never };
@@ -1030,8 +1031,10 @@ type WritableInterface = {
   markCallHistoryMissed(callIds: ReadonlyArray<string>): void;
   getRecentStaleRingsAndMarkOlderMissed(): ReadonlyArray<MaybeStaleCallHistory>;
   insertCallLink(callLink: CallLinkType): void;
+  insertOrUpdateCallLinkFromSync(
+    callLink: CallLinkType
+  ): InsertOrUpdateCallLinkFromSyncResult;
   updateCallLink(callLink: CallLinkType): void;
-  updateCallLinkAdminKeyByRoomId(roomId: string, adminKey: string): void;
   updateCallLinkState(
     roomId: string,
     callLinkState: CallLinkStateType
