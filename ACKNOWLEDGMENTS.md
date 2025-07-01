@@ -13769,7 +13769,7 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 
 ```
 
-## libsignal-account-keys 0.1.0, libsignal-core 0.1.0, mrp 2.53.0, protobuf 2.53.0, ringrtc 2.53.0, regex-aot 0.1.0, partial-default-derive 0.1.0
+## libsignal-account-keys 0.1.0, libsignal-core 0.1.0, mrp 2.54.1, protobuf 2.54.1, ringrtc 2.54.1, regex-aot 0.1.0, partial-default-derive 0.1.0
 
 ```
 GNU AFFERO GENERAL PUBLIC LICENSE
@@ -15450,38 +15450,6 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## hex-literal 0.4.1
-
-```
-Copyright (c) 2018 Artyom Pavlov
-Copyright (c) 2018 The RustCrypto Project Developers
-
-Permission is hereby granted, free of charge, to any
-person obtaining a copy of this software and associated
-documentation files (the "Software"), to deal in the
-Software without restriction, including without
-limitation the rights to use, copy, modify, merge,
-publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software
-is furnished to do so, subject to the following
-conditions:
-
-The above copyright notice and this permission notice
-shall be included in all copies or substantial portions
-of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
-ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
-TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
-SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
-IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
-
-```
-
 ## bytes 1.10.1
 
 ```
@@ -16095,7 +16063,7 @@ SOFTWARE.
 
 ```
 
-## rand 0.8.5, rand_chacha 0.3.1, rand_core 0.6.4
+## rand 0.8.5, rand 0.9.1, rand_chacha 0.3.1, rand_chacha 0.9.0, rand_core 0.6.4, rand_core 0.9.3
 
 ```
 Copyright 2018 Developers of the Rand project
@@ -16267,6 +16235,32 @@ SOFTWARE.
 
 ```
 
+## const-str 0.6.2
+
+```
+MIT License
+
+Copyright (c) 2020 Nugine
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
 ## derive-where 1.4.0
 
 ```
@@ -16334,7 +16328,7 @@ SOFTWARE.
 
 ```
 
-## curve25519-dalek-derive 0.1.1, anyhow 1.0.98, displaydoc 0.2.5, fastrand 2.3.0, itoa 1.0.15, linkme-impl 0.3.33, linkme 0.3.33, linux-raw-sys 0.9.4, num_enum 0.7.3, num_enum_derive 0.7.3, once_cell 1.21.3, prettyplease 0.2.32, proc-macro-crate 3.3.0, proc-macro2 1.0.95, quote 1.0.40, rustix 1.0.7, semver 1.0.26, send_wrapper 0.6.0, serde 1.0.219, serde_derive 1.0.219, serde_json 1.0.140, syn 1.0.109, syn 2.0.101, thiserror-impl 1.0.69, thiserror 1.0.69, unicode-ident 1.0.18
+## curve25519-dalek-derive 0.1.1, anyhow 1.0.98, displaydoc 0.2.5, fastrand 2.3.0, itoa 1.0.15, linkme-impl 0.3.33, linkme 0.3.33, linux-raw-sys 0.9.4, num_enum 0.7.3, num_enum_derive 0.7.3, once_cell 1.21.3, prettyplease 0.2.32, proc-macro-crate 3.3.0, proc-macro2 1.0.95, quote 1.0.40, rustix 1.0.7, semver 1.0.26, send_wrapper 0.6.0, serde 1.0.219, serde_derive 1.0.219, serde_json 1.0.140, syn 1.0.109, syn 2.0.101, thiserror-impl 1.0.69, thiserror-impl 2.0.12, thiserror 1.0.69, thiserror 2.0.12, unicode-ident 1.0.18
 
 ```
 Permission is hereby granted, free of charge, to any
@@ -16603,7 +16597,7 @@ THE SOFTWARE.
 
 ```
 
-## derive_more-impl 1.0.0, derive_more 1.0.0
+## derive_more-impl 2.0.1, derive_more 2.0.1
 
 ```
 The MIT License (MIT)
