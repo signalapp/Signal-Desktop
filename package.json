@@ -123,7 +123,7 @@
     "@signalapp/libsignal-client": "0.76.0",
     "@signalapp/quill-cjs": "2.1.2",
     "@signalapp/ringrtc": "2.54.1",
-    "@signalapp/sqlcipher": "2.0.3",
+    "@signalapp/sqlcipher": "2.1.0",
     "@signalapp/windows-ucv": "1.0.0",
     "@tanstack/react-virtual": "3.11.2",
     "@types/dom-mediacapture-transform": "0.1.11",
