@@ -68,7 +68,7 @@ function getSubsystemColor(name: string): string {
 
 let cachedPattern: RegExp | undefined;
 
-if ('window' in global && window.localStorage) {
+if (typeof window !== 'undefined' && window.localStorage) {
   window.addEventListener('storage', event => {
     if (event.key === 'debug') {
       cachedPattern = undefined;
@@ -82,10 +82,10 @@ function getPattern(): RegExp {
   }
 
   let value = '';
-  if ('window' in global && window.localStorage) {
+  if (typeof window !== 'undefined' && window.localStorage) {
     value = window.localStorage.getItem('debug') || '';
   }
-  if ('process' in global) {
+  if (typeof process !== 'undefined' && process.env) {
     value = value || process.env.DEBUG || '';
   }
 
