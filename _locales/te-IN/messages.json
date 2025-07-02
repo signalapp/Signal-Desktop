@@ -5082,7 +5082,7 @@
     "messageformat": "Signal బ్యాకప్‌లు"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Signal యొక్క సురక్షితమైన, ఎండ్-టు-ఎండ్ గుప్తీకరించబడిన నిల్వ సేవతో ఆటోమేటిక్ బ్యాకప్‌లు. మీ ఫోన్‌లో ప్రారంభించండి. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "మీ సందేశ చరిత్రను బ్యాకప్ చేసుకోండి దానివల్ల మీరు కొత్త ఫోన్ కొన్నప్పుడు గానీ లేదా Signal ను తిరిగి ఇన్‌స్టాల్ చేసినప్పుడు గానీ డేటాను ఎప్పటికీ కోల్పోరు."

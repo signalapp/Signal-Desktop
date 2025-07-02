@@ -5082,7 +5082,7 @@
     "messageformat": "پشتیبان‌های سیگنال"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "پشتیبان‌گیری خودکار با سرویس ذخیره‌سازی سرتاسر رمزگذاری‌شده و امن سیگنال. از تلفن خود شروع کنید. <learnMoreLink>اطلاعات بیشتر</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "از تاریخچه پیام خود پشتیبان‌گیری کنید تا بعد از خرید تلفن جدید یا نصب مجدد سیگنال، هرگز اطلاعات خود را از دست ندهید."

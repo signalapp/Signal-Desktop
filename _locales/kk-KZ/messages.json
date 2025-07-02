@@ -5082,7 +5082,7 @@
     "messageformat": "Signal-дың сақтық көшірмелері"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Автоматты cақтық көшірмелер Signal-дың қауіпсіз және тура шифрланған жад қызметі арқылы жасалады. Телефоныңызда бастаңыз. <learnMoreLink>Толық ақпарат алыңыз.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Хабарлар тарихының сақтық көшірмесін жасаңыз. Сонда жаңа телефон алсаңыз да, Signal-ды қайта орнатсаңыз да, деректеріңізді ешқашан жоғалтпайсыз."

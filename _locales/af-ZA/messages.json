@@ -5082,7 +5082,7 @@
     "messageformat": "Signal-rugsteun"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Outomatiese rugsteun met Signal se veilige end-tot-end-geënkripteerde stoorruimtediens. Begin daarmee op jou foon. <learnMoreLink>Vind meer uit</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Rugsteun jou boodskapgeskiedenis sodat jy nooit data verloor wanneer jy 'n nuwe foon kry of Signal herinstalleer nie."

@@ -5082,7 +5082,7 @@
     "messageformat": "Signal 备份"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "通过 Signal 的安全端对端加密存储服务自动备份。您可以在手机上开始备份。<learnMoreLink>了解更多</learnMoreLink>。"
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "备份消息记录可以确保您在更换手机或重装 Signal 时不会丢失数据。"
