@@ -8859,5 +8859,9 @@
   "icu:WhatsNew__v7.59--0": {
     "messageformat": "This update enables GPU acceleration on Linux for improved performance and smoother video playback on supported hardware.",
     "description": "(Deleted 2025/06/25) Release notes for version 7.59"
+  },
+  "icu:WhatsNew__v7.61--0": {
+    "messageformat": "This update improves audio quality and reliability during voice and video calls, and introduces better automatic configuration of connected microphones and speakers. Thanks to <padenot></padenot>, <kinetiknz></kinetiknz>, and <Pehrsons></Pehrsons> at Mozilla for their help with this project.",
+    "description": "Release notes for version 7.60"
   }
 }
