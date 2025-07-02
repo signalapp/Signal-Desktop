@@ -423,10 +423,6 @@
     "messageformat": "Settings",
     "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
   },
-  "icu:NavTabs__ItemLabel--Update": {
-    "messageformat": "Update Signal",
-    "description": "(Deleted 2025/05/28) Nav Tabs > Settings Button > Label & Accessibility Text"
-  },
   "icu:NavTabs__ItemLabel--Profile": {
     "messageformat": "Profile",
     "description": "Nav Tabs > Profile Button > Accessibility Text"
@@ -898,10 +894,6 @@
   "icu:joinTheBeta": {
     "messageformat": "Join the Beta",
     "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
-  },
-  "icu:signalDesktopPreferences": {
-    "messageformat": "Signal Desktop Preferences",
-    "description": "(Deleted 2025/05/28) Title of the window that pops up with Signal Desktop preferences in it"
   },
   "icu:signalDesktopStickerCreator": {
     "messageformat": "Sticker pack creator",
@@ -8790,17 +8782,14 @@
     "messageformat": "Donation receipt",
     "description": "Title shown at the top of donation receipt documents"
   },
-
   "icu:DonationReceipt__amount-label": {
     "messageformat": "Amount",
     "description": "Label for the donation amount field on receipt"
   },
-
   "icu:DonationReceipt__type-label": {
     "messageformat": "Type",
     "description": "Label for the donation type field on receipt"
   },
-
   "icu:DonationReceipt__date-paid-label": {
     "messageformat": "Date paid",
     "description": "Label for the payment date field on receipt"
@@ -8811,7 +8800,7 @@
   },
   "icu:DonationReceipt__payment-method-label": {
     "messageformat": "Payment method",
-    "description": "Label for the payment method field on receipt"
+    "description": "(Deleted 2025/07/02) Label for the payment method field on receipt"
   },
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840.",
