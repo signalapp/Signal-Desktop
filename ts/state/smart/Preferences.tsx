@@ -178,7 +178,7 @@ export function SmartPreferences(): JSX.Element | null {
 
   const universalExpireTimer = universalExpireTimerUtil.getForRedux(items);
   const onUniversalExpireTimerChange = async (newValue: number) => {
-    await universalExpireTimerUtil.set(DurationInSeconds.fromMillis(newValue));
+    await universalExpireTimerUtil.set(DurationInSeconds.fromSeconds(newValue));
 
     // Update account in Storage Service
     const account = window.ConversationController.getOurConversationOrThrow();
