@@ -10,7 +10,6 @@ import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { SystemMessage } from './SystemMessage';
 import { ChatSessionRefreshedDialog } from './ChatSessionRefreshedDialog';
 import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser';
-import { getLocalizedUrl } from '../../util/getLocalizedUrl';
 
 type PropsHousekeepingType = {
   i18n: LocalizerType;
@@ -34,9 +33,8 @@ export function ChatSessionRefreshedNotification(
   const wrappedContactSupport = useCallback(() => {
     setIsDialogOpen(false);
 
-    const url = getLocalizedUrl(
-      'https://support.signal.org/hc/LOCALE/requests/new?desktop&chat_refreshed'
-    );
+    const url =
+      'https://support.signal.org/hc/requests/new?desktop&chat_refreshed';
 
     openLinkInWebBrowser(url);
   }, [setIsDialogOpen]);

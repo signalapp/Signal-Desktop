@@ -74,6 +74,7 @@ import type {
   ThemeType,
 } from '../types/Util';
 import type {
+  BackupMediaDownloadStatusType,
   BackupsSubscriptionType,
   BackupStatusType,
 } from '../types/backups';
@@ -118,6 +119,10 @@ export type PropsDataType = {
   localBackupFolder: string | undefined;
   cloudBackupStatus?: BackupStatusType;
   backupSubscriptionStatus: BackupsSubscriptionType;
+  backupMediaDownloadStatus?: BackupMediaDownloadStatusType;
+  pauseBackupMediaDownload: VoidFunction;
+  cancelBackupMediaDownload: VoidFunction;
+  resumeBackupMediaDownload: VoidFunction;
   blockedCount: number;
   customColors: Record<string, CustomColorType>;
   defaultConversationColor: DefaultConversationColorType;
@@ -225,6 +230,8 @@ type PropsFunctionType = {
   getMessageSampleForSchemaVersion: (
     version: number
   ) => Promise<Array<MessageAttributesType>>;
+  resumeBackupMediaDownload: () => void;
+  pauseBackupMediaDownload: () => void;
   getConversationsWithCustomColor: (colorId: string) => Array<ConversationType>;
   getPreferredBadge: PreferredBadgeSelectorType;
   makeSyncRequest: () => unknown;
@@ -377,6 +384,10 @@ export function Preferences({
   availableMicrophones,
   availableSpeakers,
   backupFeatureEnabled,
+  backupMediaDownloadStatus,
+  pauseBackupMediaDownload,
+  resumeBackupMediaDownload,
+  cancelBackupMediaDownload,
   backupKeyViewed,
   backupSubscriptionStatus,
   backupLocalBackupsEnabled,
@@ -2154,6 +2165,10 @@ export function Preferences({
         accountEntropyPool={accountEntropyPool}
         backupKeyViewed={backupKeyViewed}
         backupSubscriptionStatus={backupSubscriptionStatus}
+        backupMediaDownloadStatus={backupMediaDownloadStatus}
+        cancelBackupMediaDownload={cancelBackupMediaDownload}
+        pauseBackupMediaDownload={pauseBackupMediaDownload}
+        resumeBackupMediaDownload={resumeBackupMediaDownload}
         cloudBackupStatus={cloudBackupStatus}
         i18n={i18n}
         locale={resolvedLocale}

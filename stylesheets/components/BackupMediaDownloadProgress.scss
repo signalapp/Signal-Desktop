@@ -138,4 +138,7 @@ button.BackupMediaDownloadProgress__button-close {
 
 .BackupMediaDownloadCancelConfirmation {
   min-width: 440px;
+  a {
+    text-decoration: none;
+  }
 }

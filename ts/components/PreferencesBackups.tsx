@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 import type {
+  BackupMediaDownloadStatusType,
   BackupsSubscriptionType,
   BackupStatusType,
 } from '../types/backups';
@@ -28,6 +29,7 @@ import type {
   PromptOSAuthResultType,
 } from '../util/os/promptOSAuthMain';
 import { ConfirmationDialog } from './ConfirmationDialog';
+import { BackupMediaDownloadProgressSettings } from './BackupMediaDownloadProgressSettings';
 
 export const SIGNAL_BACKUPS_LEARN_MORE_URL =
   'https://support.signal.org/hc/articles/360007059752-Backup-and-Restore-Messages';
@@ -42,6 +44,10 @@ export function PreferencesBackups({
   localBackupFolder,
   onBackupKeyViewedChange,
   pickLocalBackupFolder,
+  backupMediaDownloadStatus,
+  cancelBackupMediaDownload,
+  pauseBackupMediaDownload,
+  resumeBackupMediaDownload,
   page,
   promptOSAuth,
   refreshCloudBackupStatus,
@@ -58,6 +64,10 @@ export function PreferencesBackups({
   locale: string;
   onBackupKeyViewedChange: (keyViewed: boolean) => void;
   page: PreferencesBackupPage;
+  backupMediaDownloadStatus: BackupMediaDownloadStatusType | undefined;
+  cancelBackupMediaDownload: () => void;
+  pauseBackupMediaDownload: () => void;
+  resumeBackupMediaDownload: () => void;
   pickLocalBackupFolder: () => Promise<string | undefined>;
   promptOSAuth: (
     reason: PromptOSAuthReasonType
@@ -90,6 +100,10 @@ export function PreferencesBackups({
         i18n={i18n}
         cloudBackupStatus={cloudBackupStatus}
         backupSubscriptionStatus={backupSubscriptionStatus}
+        backupMediaDownloadStatus={backupMediaDownloadStatus}
+        cancelBackupMediaDownload={cancelBackupMediaDownload}
+        pauseBackupMediaDownload={pauseBackupMediaDownload}
+        resumeBackupMediaDownload={resumeBackupMediaDownload}
         locale={locale}
       />
     );
@@ -468,12 +482,25 @@ function BackupsDetailsPage({
   backupSubscriptionStatus,
   i18n,
   locale,
+  cancelBackupMediaDownload,
+  pauseBackupMediaDownload,
+  resumeBackupMediaDownload,
+  backupMediaDownloadStatus,
 }: {
   cloudBackupStatus?: BackupStatusType;
   backupSubscriptionStatus: BackupsSubscriptionType;
   i18n: LocalizerType;
   locale: string;
+  cancelBackupMediaDownload: () => void;
+  pauseBackupMediaDownload: () => void;
+  resumeBackupMediaDownload: () => void;
+  backupMediaDownloadStatus?: BackupMediaDownloadStatusType;
 }): JSX.Element {
+  const shouldShowMediaProgress =
+    backupMediaDownloadStatus &&
+    backupMediaDownloadStatus.completedBytes <
+      backupMediaDownloadStatus.totalBytes;
+
   return (
     <>
       <div className="Preferences--backups-summary__container">
@@ -484,12 +511,12 @@ function BackupsDetailsPage({
         })}
       </div>
 
-      {cloudBackupStatus ? (
+      {cloudBackupStatus || shouldShowMediaProgress ? (
         <SettingsRow
           className="Preferences--backup-details"
           title={i18n('icu:Preferences--backup-details__header')}
         >
-          {cloudBackupStatus.createdTimestamp ? (
+          {cloudBackupStatus?.createdTimestamp ? (
             <div className="Preferences--backup-details__row">
               <label>{i18n('icu:Preferences--backup-created-at__label')}</label>
               <div
@@ -504,6 +531,17 @@ function BackupsDetailsPage({
                   timeStyle: 'short',
                 })}
               </div>
+            </div>
+          ) : null}
+          {shouldShowMediaProgress && backupMediaDownloadStatus ? (
+            <div className="Preferences--backup-details__row">
+              <BackupMediaDownloadProgressSettings
+                {...backupMediaDownloadStatus}
+                handleCancel={cancelBackupMediaDownload}
+                handlePause={pauseBackupMediaDownload}
+                handleResume={resumeBackupMediaDownload}
+                i18n={i18n}
+              />
             </div>
           ) : null}
         </SettingsRow>
