@@ -35,7 +35,7 @@
 
 .module-message-detail__unix-timestamp {
   @include mixins.light-theme {
-    color: variables.$color-gray-05;
+    color: variables.$color-gray-15;
   }
   @include mixins.dark-theme {
     color: variables.$color-gray-45;
