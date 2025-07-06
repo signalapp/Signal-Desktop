@@ -470,6 +470,13 @@ export const CompositionArea = memo(function CompositionArea({
     setAttachmentToEdit(attachment);
   }
 
+  // enlarge the draft body on existing messages to provide better editing ux
+  function maybeEnlargeCompositor() {
+    if((draftEditMessageBody?.length ?? 0) > 256) {
+      setLarge(true)
+    }
+  }
+
   const isComposerEmpty =
     !draftAttachments.length && !draftText && !draftEditMessage;
 
@@ -577,6 +584,9 @@ export const CompositionArea = memo(function CompositionArea({
       draftBodyRanges ?? undefined,
       true
     );
+
+    maybeEnlargeCompositor()
+
   }, [draftBodyRanges, draftEditMessageBody, hasEditDraftChanged]);
 
   const previousConversationId = usePrevious(conversationId, conversationId);
