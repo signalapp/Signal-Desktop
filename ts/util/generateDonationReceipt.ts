@@ -6,6 +6,7 @@ import type { DonationReceipt } from '../types/Donations';
 import type { LocalizerType } from '../types/Util';
 import { strictAssert } from './assert';
 import { getDateTimeFormatter } from './formatTimestamp';
+import { isStagingServer } from './isStagingServer';
 
 const SCALING_FACTOR = 4.17;
 
@@ -318,6 +319,27 @@ export async function generateDonationReceiptBlob(
     ...scaleValues({ fontSize: 11 }),
   });
   canvas.add(footer);
+
+  // Add staging indicator if in staging environment
+  if (isStagingServer()) {
+    strictAssert(footer.height != null, 'Footer height must be defined');
+    currentY += footer.height + 100 * SCALING_FACTOR;
+
+    const stagingText = new fabric.Text(
+      'NOT A REAL RECEIPT / FOR TESTING ONLY',
+      {
+        left: width / 2,
+        top: currentY,
+        fontFamily,
+        fontSize: 24 * SCALING_FACTOR,
+        fontWeight: 'bold',
+        fill: '#7C3AED',
+        originX: 'center',
+        textAlign: 'center',
+      }
+    );
+    canvas.add(stagingText);
+  }
 
   canvas.renderAll();
 
