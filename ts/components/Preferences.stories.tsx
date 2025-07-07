@@ -15,6 +15,7 @@ import { DAY, DurationInSeconds, WEEK } from '../util/durations';
 import { DialogUpdate } from './DialogUpdate';
 import { DialogType } from '../types/Dialogs';
 import { ThemeType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import {
   getDefaultConversation,
   getDefaultGroup,
@@ -30,6 +31,8 @@ import type { WidthBreakpoint } from './_util';
 import type { MessageAttributesType } from '../model-types';
 import { PreferencesDonations } from './PreferencesDonations';
 import { strictAssert } from '../util/assert';
+import type { DonationReceipt } from '../types/Donations';
+import type { AnyToast } from '../types/Toast';
 
 const { i18n } = window.SignalContext;
 
@@ -168,7 +171,20 @@ function RenderProfileEditor(): JSX.Element {
   );
 }
 
-function RenderDonationsPane(): JSX.Element {
+function RenderDonationsPane(props: {
+  me: typeof me;
+  donationReceipts: ReadonlyArray<DonationReceipt>;
+  saveAttachmentToDisk: (options: {
+    data: Uint8Array;
+    name: string;
+    baseDir?: string | undefined;
+  }) => Promise<{ fullPath: string; name: string } | null>;
+  generateDonationReceiptBlob: (
+    receipt: DonationReceipt,
+    i18n: LocalizerType
+  ) => Promise<Blob>;
+  showToast: (toast: AnyToast) => void;
+}): JSX.Element {
   const contentsRef = useRef<HTMLDivElement | null>(null);
   return (
     <PreferencesDonations
@@ -180,6 +196,14 @@ function RenderDonationsPane(): JSX.Element {
       setPage={action('setPage')}
       submitDonation={action('submitDonation')}
       workflow={undefined}
+      userAvatarData={[]}
+      color={props.me.color}
+      firstName={props.me.firstName}
+      profileAvatarUrl={props.me.profileAvatarUrl}
+      donationReceipts={props.donationReceipts}
+      saveAttachmentToDisk={props.saveAttachmentToDisk}
+      generateDonationReceiptBlob={props.generateDonationReceiptBlob}
+      showToast={props.showToast}
     />
   );
 }
@@ -302,7 +326,20 @@ export default {
     whoCanSeeMe: PhoneNumberSharingMode.Everybody,
     zoomFactor: 1,
 
-    renderDonationsPane: RenderDonationsPane,
+    renderDonationsPane: () =>
+      RenderDonationsPane({
+        me,
+        donationReceipts: [],
+        saveAttachmentToDisk: async () => {
+          action('saveAttachmentToDisk')();
+          return { fullPath: '/mock/path/to/file.png', name: 'file.png' };
+        },
+        generateDonationReceiptBlob: async () => {
+          action('generateDonationReceiptBlob')();
+          return new Blob();
+        },
+        showToast: action('showToast'),
+      }),
     renderProfileEditor: RenderProfileEditor,
     renderToastManager,
     renderUpdateDialog,
