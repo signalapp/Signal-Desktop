@@ -378,6 +378,9 @@ export default {
     removeCustomColorOnConversations: action(
       'removeCustomColorOnConversations'
     ),
+    resumeBackupMediaDownload: action('resumeBackupMediaDownload'),
+    pauseBackupMediaDownload: action('pauseBackupMediaDownload'),
+    cancelBackupMediaDownload: action('cancelBackupMediaDownload'),
     resetAllChatColors: action('resetAllChatColors'),
     resetDefaultChatColor: action('resetDefaultChatColor'),
     savePreferredLeftPaneWidth: action('savePreferredLeftPaneWidth'),
@@ -489,6 +492,55 @@ PNPDiscoverabilityDisabled.args = {
   whoCanSeeMe: PhoneNumberSharingMode.Nobody,
   whoCanFindMe: PhoneNumberDiscoverability.NotDiscoverable,
   page: Page.PNP,
+};
+
+export const BackupsMediaDownloadActive = Template.bind({});
+BackupsMediaDownloadActive.args = {
+  page: Page.BackupsDetails,
+  backupFeatureEnabled: true,
+  backupLocalBackupsEnabled: true,
+  cloudBackupStatus: {
+    protoSize: 100_000_000,
+    createdTimestamp: Date.now() - WEEK,
+  },
+  backupSubscriptionStatus: {
+    status: 'active',
+    cost: {
+      amount: 22.99,
+      currencyCode: 'USD',
+    },
+    renewalTimestamp: Date.now() + 20 * DAY,
+  },
+  backupMediaDownloadStatus: {
+    completedBytes: 123_456_789,
+    totalBytes: 987_654_321,
+    isPaused: false,
+    isIdle: false,
+  },
+};
+export const BackupsMediaDownloadPaused = Template.bind({});
+BackupsMediaDownloadPaused.args = {
+  page: Page.BackupsDetails,
+  backupFeatureEnabled: true,
+  backupLocalBackupsEnabled: true,
+  cloudBackupStatus: {
+    protoSize: 100_000_000,
+    createdTimestamp: Date.now() - WEEK,
+  },
+  backupSubscriptionStatus: {
+    status: 'active',
+    cost: {
+      amount: 22.99,
+      currencyCode: 'USD',
+    },
+    renewalTimestamp: Date.now() + 20 * DAY,
+  },
+  backupMediaDownloadStatus: {
+    completedBytes: 123_456_789,
+    totalBytes: 987_654_321,
+    isPaused: true,
+    isIdle: false,
+  },
 };
 
 export const BackupsPaidActive = Template.bind({});
