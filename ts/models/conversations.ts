@@ -169,7 +169,11 @@ import { incrementMessageCounter } from '../util/incrementMessageCounter';
 import { generateMessageId } from '../util/generateMessageId';
 import { getMessageAuthorText } from '../util/getMessageAuthorText';
 import { downscaleOutgoingAttachment } from '../util/attachments';
-import { MessageRequestResponseEvent } from '../types/MessageRequestResponseEvent';
+import {
+  MessageRequestResponseSource,
+  type MessageRequestResponseInfo,
+  MessageRequestResponseEvent,
+} from '../types/MessageRequestResponseEvent';
 import type { AddressableMessage } from '../textsecure/messageReceiverEvents';
 import {
   getConversationIdentifier,
@@ -188,6 +192,7 @@ import { safeSetTimeout } from '../util/timeout';
 import { getTypingIndicatorSetting } from '../types/Util';
 import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer';
 import { maybeNotify } from '../messages/maybeNotify';
+import { missingCaseError } from '../util/missingCaseError';
 
 const log = createLogger('conversations');
 
@@ -1011,10 +1016,19 @@ export class ConversationModel extends window.Backbone
     // Drop existing message request state to avoid sending receipts and
     // display MR actions.
     const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
-    await this.applyMessageRequestResponse(messageRequestEnum.UNKNOWN, {
-      viaStorageServiceSync,
-      shouldSave: false,
-    });
+    await this.applyMessageRequestResponse(
+      messageRequestEnum.UNKNOWN,
+      viaStorageServiceSync
+        ? {
+            source: MessageRequestResponseSource.STORAGE_SERVICE,
+            learnedAtMs: Date.now(),
+          }
+        : {
+            source: MessageRequestResponseSource.LOCAL,
+            timestamp: Date.now(),
+          },
+      { shouldSave: false }
+    );
 
     window.reduxActions?.stories.removeAllContactStories(this.id);
     const serviceId = this.getServiceId();
@@ -2320,27 +2334,55 @@ export class ConversationModel extends window.Backbone
   }
 
   async addMessageRequestResponseEventMessage(
-    event: MessageRequestResponseEvent
+    event: MessageRequestResponseEvent,
+    responseInfo: MessageRequestResponseInfo,
+    { messageCountFromEnvelope }: { messageCountFromEnvelope: number }
   ): Promise<void> {
     const idForLogging = getConversationIdForLogging(this.attributes);
     log.info(`addMessageRequestResponseEventMessage/${idForLogging}: ${event}`);
 
-    const timestamp = Date.now();
-    const lastMessageTimestamp =
-      // Fallback to `timestamp` since `lastMessageReceivedAtMs` is new
-      this.get('lastMessageReceivedAtMs') ?? this.get('timestamp') ?? timestamp;
+    let receivedAtMs: number;
+    let timestamp: number;
+    let receivedAtCounter: number;
 
-    const maybeLastMessageTimestamp =
-      event === MessageRequestResponseEvent.ACCEPT
-        ? timestamp
-        : lastMessageTimestamp;
+    const lastMessageTimestamp =
+      this.get('lastMessageReceivedAtMs') ?? this.get('timestamp');
+
+    const { source } = responseInfo;
+    switch (source) {
+      case MessageRequestResponseSource.LOCAL:
+        receivedAtMs = responseInfo.timestamp;
+        receivedAtCounter = incrementMessageCounter();
+        timestamp = responseInfo.timestamp;
+        break;
+      case MessageRequestResponseSource.MRR_SYNC:
+        receivedAtMs = responseInfo.receivedAtMs;
+        receivedAtCounter = responseInfo.receivedAtCounter;
+        timestamp = responseInfo.timestamp;
+        break;
+      case MessageRequestResponseSource.BLOCK_SYNC:
+        receivedAtMs = lastMessageTimestamp ?? responseInfo.receivedAtMs;
+        receivedAtCounter = responseInfo.receivedAtCounter;
+        timestamp = responseInfo.timestamp;
+        break;
+      case MessageRequestResponseSource.STORAGE_SERVICE:
+        receivedAtMs = lastMessageTimestamp ?? responseInfo.learnedAtMs;
+        receivedAtCounter = incrementMessageCounter();
+        timestamp = responseInfo.learnedAtMs;
+        break;
+      default:
+        throw missingCaseError(source);
+    }
 
     const message = new MessageModel({
-      ...generateMessageId(incrementMessageCounter()),
+      ...generateMessageId(receivedAtCounter),
       conversationId: this.id,
       type: 'message-request-response-event',
-      sent_at: maybeLastMessageTimestamp,
-      received_at_ms: maybeLastMessageTimestamp,
+      // we increment sent_at by messageCountFromEnvelope to ensure consistent in-timeline
+      // ordering when we add multiple messages from a single envelope (e.g. a
+      // BlOCK_AND_SPAM MRRSync)
+      sent_at: timestamp + messageCountFromEnvelope,
+      received_at_ms: receivedAtMs,
       readStatus: ReadStatus.Read,
       seenStatus: SeenStatus.NotApplicable,
       timestamp,
@@ -2361,11 +2403,15 @@ export class ConversationModel extends window.Backbone
 
   async applyMessageRequestResponse(
     response: Proto.SyncMessage.MessageRequestResponse.Type,
-    { fromSync = false, viaStorageServiceSync = false, shouldSave = true } = {}
+    responseInfo: MessageRequestResponseInfo,
+    { shouldSave = true }: { shouldSave?: boolean } = {}
   ): Promise<void> {
     try {
       const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
-      const isLocalAction = !fromSync && !viaStorageServiceSync;
+      const { source } = responseInfo;
+      const isLocalAction = source === MessageRequestResponseSource.LOCAL;
+      const viaStorageServiceSync =
+        source === MessageRequestResponseSource.STORAGE_SERVICE;
 
       const currentMessageRequestState = this.get('messageRequestResponseType');
       const hasSpam = (messageRequestValue: number | undefined): boolean => {
@@ -2391,6 +2437,8 @@ export class ConversationModel extends window.Backbone
       const wasPreviouslyAccepted = this.getAccepted();
 
       if (didResponseChange) {
+        let messageCount = 0;
+
         if (response === messageRequestEnum.ACCEPT) {
           // Only add a message if the user unblocked this conversation, or took an
           // explicit action to accept the message request on one of their devices
@@ -2399,25 +2447,35 @@ export class ConversationModel extends window.Backbone
               this.addMessageRequestResponseEventMessage(
                 didUnblock
                   ? MessageRequestResponseEvent.UNBLOCK
-                  : MessageRequestResponseEvent.ACCEPT
+                  : MessageRequestResponseEvent.ACCEPT,
+                responseInfo,
+                { messageCountFromEnvelope: messageCount }
               )
             );
+            messageCount += 1;
           }
         }
 
         if (hasBlock(response) && didBlockChange) {
           drop(
             this.addMessageRequestResponseEventMessage(
-              MessageRequestResponseEvent.BLOCK
+              MessageRequestResponseEvent.BLOCK,
+              responseInfo,
+              { messageCountFromEnvelope: messageCount }
             )
           );
+          messageCount += 1;
         }
+
         if (hasSpam(response) && didSpamChange) {
           drop(
             this.addMessageRequestResponseEventMessage(
-              MessageRequestResponseEvent.SPAM
+              MessageRequestResponseEvent.SPAM,
+              responseInfo,
+              { messageCountFromEnvelope: messageCount }
             )
           );
+          messageCount += 1;
         }
       }
 
