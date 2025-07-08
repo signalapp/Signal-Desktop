@@ -165,6 +165,10 @@ import {
   fromAciUuidBytesOrString,
   fromPniUuidBytesOrUntaggedString,
 } from '../util/ServiceId';
+import {
+  type MessageRequestResponseInfo,
+  MessageRequestResponseSource,
+} from '../types/MessageRequestResponseEvent';
 
 const log = createLogger('MessageReceiver');
 
@@ -3224,6 +3228,9 @@ export default class MessageReceiver
         ),
         messageRequestResponseType: sync.type,
         groupV2Id: groupV2IdString,
+        receivedAtCounter: envelope.receivedAtCounter,
+        receivedAtMs: envelope.receivedAtDate,
+        sentAt: envelope.timestamp,
       },
       this.#removeFromCache.bind(this, envelope)
     );
@@ -3858,6 +3865,13 @@ export default class MessageReceiver
 
     logUnexpectedUrgentValue(envelope, 'blockSync');
 
+    const responseInfo: MessageRequestResponseInfo = {
+      source: MessageRequestResponseSource.BLOCK_SYNC,
+      receivedAtCounter: envelope.receivedAtCounter,
+      receivedAtMs: envelope.receivedAtDate,
+      timestamp: envelope.timestamp,
+    };
+
     function getAndApply(
       type: Proto.SyncMessage.MessageRequestResponse.Type
     ): (value: string) => Promise<void> {
@@ -3866,9 +3880,7 @@ export default class MessageReceiver
           item,
           'private'
         );
-        await conversation.applyMessageRequestResponse(type, {
-          fromSync: true,
-        });
+        await conversation.applyMessageRequestResponse(type, responseInfo);
       };
     }
 
@@ -3958,9 +3970,7 @@ export default class MessageReceiver
             }
             await conversation.applyMessageRequestResponse(
               messageRequestEnum.BLOCK,
-              {
-                fromSync: true,
-              }
+              responseInfo
             );
           })
         );
@@ -3975,9 +3985,7 @@ export default class MessageReceiver
             }
             await conversation.applyMessageRequestResponse(
               messageRequestEnum.ACCEPT,
-              {
-                fromSync: true,
-              }
+              responseInfo
             );
           })
         );

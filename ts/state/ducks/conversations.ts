@@ -223,6 +223,7 @@ import { MessageModel } from '../../models/messages';
 import type { ConversationModel } from '../../models/conversations';
 import { EditState } from '../../components/ProfileEditor';
 import { Page } from '../../components/Preferences';
+import { MessageRequestResponseSource } from '../../types/MessageRequestResponseEvent';
 
 const log = createLogger('conversations');
 
@@ -3627,7 +3628,14 @@ async function syncMessageRequestResponse(
 ): Promise<void> {
   // In GroupsV2, this may modify the server. We only want to continue if those
   //   server updates were successful.
-  await conversation.applyMessageRequestResponse(response, { shouldSave });
+  await conversation.applyMessageRequestResponse(
+    response,
+    {
+      source: MessageRequestResponseSource.LOCAL,
+      timestamp: Date.now(),
+    },
+    { shouldSave }
+  );
 
   const groupId = conversation.getGroupIdBuffer();
 
@@ -3840,8 +3848,10 @@ function acceptConversation(
       await conversation.applyMessageRequestResponse(
         messageRequestEnum.ACCEPT,
         {
-          shouldSave: true,
-        }
+          source: MessageRequestResponseSource.LOCAL,
+          timestamp: Date.now(),
+        },
+        { shouldSave: true }
       );
 
       try {
@@ -3916,9 +3926,14 @@ function blockConversation(
     } else {
       // In GroupsV2, this may modify the server. We only want to continue if those
       //   server updates were successful.
-      await conversation.applyMessageRequestResponse(messageRequestEnum.BLOCK, {
-        shouldSave: true,
-      });
+      await conversation.applyMessageRequestResponse(
+        messageRequestEnum.BLOCK,
+        {
+          source: MessageRequestResponseSource.LOCAL,
+          timestamp: Date.now(),
+        },
+        { shouldSave: true }
+      );
 
       try {
         await singleProtoJobQueue.add(
