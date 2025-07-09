@@ -13,6 +13,7 @@ import type { AciString } from '../types/ServiceId';
 import { computeHash } from '../Crypto';
 import { dropNull } from '../util/dropNull';
 import { fromAciUuidBytesOrString } from '../util/ServiceId';
+import * as Bytes from '../Bytes';
 import { decryptAttachmentV2ToSink } from '../AttachmentCrypto';
 
 import Avatar = Proto.ContactDetails.IAvatar;
@@ -204,7 +205,7 @@ function prepareContact(
 
   const aci = fromAciUuidBytesOrString(aciBinary, rawAci, 'ContactBuffer.aci');
 
-  if (aci == null) {
+  if ((Bytes.isNotEmpty(aciBinary) || rawAci) && aci == null) {
     log.warn('ParseContactsTransform: Dropping contact with invalid aci');
     return undefined;
   }
