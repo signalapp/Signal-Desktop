@@ -40,6 +40,13 @@ export type BackupStatusType = {
   protoSize?: number;
 };
 
+export type BackupMediaDownloadStatusType = {
+  totalBytes: number;
+  completedBytes: number;
+  isPaused: boolean;
+  isIdle: boolean;
+};
+
 export type BackupsSubscriptionType =
   | {
       status: 'off' | 'not-found' | 'expired';
