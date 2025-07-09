@@ -472,6 +472,8 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
   try {
     if (DEBUG && !isSuccess(response.status)) {
       result = await response.text();
+      // eslint-disable-next-line no-console
+      console.error(result);
     } else if (
       (options.responseType === 'json' ||
         options.responseType === 'jsonwithdetails') &&
@@ -1189,6 +1191,9 @@ export type ConfirmIntentWithStripeOptionsType = Readonly<{
   returnUrl: string;
 }>;
 const ConfirmIntentWithStripeResultSchema = z.object({
+  // https://docs.stripe.com/api/payment_intents/object#payment_intent_object-status
+  status: z.string(),
+  // https://docs.stripe.com/api/payment_intents/object#payment_intent_object-next_action
   next_action: z
     .object({
       type: z.string(),
@@ -1198,6 +1203,14 @@ const ConfirmIntentWithStripeResultSchema = z.object({
           url: z.string(), // what we need to redirect to
         })
         .nullable(),
+    })
+    .nullable(),
+  // https://docs.stripe.com/api/payment_intents/object#payment_intent_object-last_payment_error
+  last_payment_error: z
+    .object({
+      type: z.string(),
+      advice_code: z.string().nullable(),
+      message: z.string().nullable(),
     })
     .nullable(),
 });
@@ -1580,7 +1593,7 @@ export type WebAPIType = {
   getAvatar: (path: string) => Promise<Uint8Array>;
   createBoostReceiptCredentials: (
     options: CreateBoostReceiptCredentialsOptionsType
-  ) => Promise<CreateBoostReceiptCredentialsResultType>;
+  ) => Promise<JSONWithDetailsType<CreateBoostReceiptCredentialsResultType>>;
   redeemReceipt: (options: RedeemReceiptOptionsType) => Promise<void>;
   getHasSubscription: (subscriberId: Uint8Array) => Promise<boolean>;
   getGroup: (options: GroupCredentialsType) => Promise<Proto.IGroupResponse>;
@@ -4735,14 +4748,14 @@ export function initialize({
 
     async function createBoostReceiptCredentials(
       options: CreateBoostReceiptCredentialsOptionsType
-    ): Promise<CreateBoostReceiptCredentialsResultType> {
+    ): Promise<JSONWithDetailsType<CreateBoostReceiptCredentialsResultType>> {
       return _ajax({
         unauthenticated: true,
         host: 'chatService',
         call: 'boostReceiptCredentials',
         httpType: 'POST',
         jsonData: options,
-        responseType: 'json',
+        responseType: 'jsonwithdetails',
         zodSchema: CreateBoostReceiptCredentialsResultSchema,
       });
     }

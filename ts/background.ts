@@ -219,6 +219,7 @@ import { isLocalBackupsEnabled } from './util/isLocalBackupsEnabled';
 import { NavTab } from './state/ducks/nav';
 import { Page } from './components/Preferences';
 import { EditState } from './components/ProfileEditor';
+import { runDonationWorkflow } from './services/donations';
 import { MessageRequestResponseSource } from './types/MessageRequestResponseEvent';
 
 const log = createLogger('background');
@@ -2194,6 +2195,8 @@ export async function startApp(): Promise<void> {
     drop(usernameIntegrity.start());
 
     drop(ReleaseNotesFetcher.init(window.Whisper.events, newVersion));
+
+    drop(runDonationWorkflow());
 
     if (isFromMessageReceiver) {
       drop(

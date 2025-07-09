@@ -9,9 +9,20 @@ export const donationStateSchema = z.enum([
   'INTENT_CONFIRMED',
   'INTENT_REDIRECT',
   'RECEIPT',
-  'RECEIPT_REDEEMED',
   'DONE',
 ]);
+
+export const donationErrorTypeSchema = z.enum([
+  // Any 4xx error when adding payment method or confirming intent
+  'PaymentDeclined',
+  // Only used if we can't support 3DS validation for our first release
+  'CardNotSupported',
+  // Any other HTTPError during the process
+  'DonationProcessingError',
+  // Any other error
+  'GeneralError',
+]);
+export type DonationErrorType = z.infer<typeof donationErrorTypeSchema>;
 
 const coreDataSchema = z.object({
   // Guid used to prevent duplicates at stripe and in our db
@@ -23,8 +34,7 @@ const coreDataSchema = z.object({
   // Cents as whole numbers, so multiply by 100
   paymentAmount: z.number(),
 
-  // The last time we transitioned into a new state. So the timestamp shown to the user
-  // will be when we redeem the receipt, not when they initiated the donation.
+  // The last time we transitioned into a new state.
   timestamp: z.number(),
 });
 export type CoreData = z.infer<typeof coreDataSchema>;
@@ -71,7 +81,7 @@ export const donationReceiptSchema = z.object({
 });
 export type DonationReceipt = z.infer<typeof donationReceiptSchema>;
 
-const donationWorkflowSchema = z.discriminatedUnion('type', [
+export const donationWorkflowSchema = z.discriminatedUnion('type', [
   z.object({
     // Track that user has chosen currency and amount, and we've successfully fetched an
     // intent. There is no need to persist this, because we'd need to update
@@ -82,11 +92,10 @@ const donationWorkflowSchema = z.discriminatedUnion('type', [
   }),
 
   z.object({
-    // Generally this should be a very short-lived state. The user has entered payment
-    // details and pressed the button to make the payment, and we have sent that to
-    // stripe. The next step is to use those details to confirm payment. No other
-    // user interaction is required after this point to continue the process - unless
-    // 3ds validation is needed - see INTENT_REDIRECT.
+    // Once we are here, we can proceed without further user input. The user has entered
+    // payment details and pressed the button to make the payment, and we have sent that
+    // to stripe, which has saved that data behind a paymentMethodId. The only thing
+    // that might require further user interaction: 3ds validation - see INTENT_REDIRECT.
     type: z.literal(donationStateSchema.Enum.INTENT_METHOD),
 
     // Stripe persists the user's payment information for us, behind this id
@@ -97,10 +106,10 @@ const donationWorkflowSchema = z.discriminatedUnion('type', [
   }),
 
   z.object({
-    // After we confirm payment details with Stripe, this state represents
-    // Stripe's acknowledgement. However it will take some time (usually seconds,
-    // sometimes minutes or 1 day) to finalize the transaction. We will only know
-    // when we request a receipt credential from the chat server.
+    // By this point, Stripe is attempting to charge the user's provided payment method.
+    // However it will take some time (usually seconds, sometimes minutes or 1 day) to
+    // finalize the transaction. We will only know when we successfully get a receipt
+    // credential from the chat server.
     type: z.literal(donationStateSchema.Enum.INTENT_CONFIRMED),
 
     ...coreDataSchema.shape,
@@ -129,17 +138,10 @@ const donationWorkflowSchema = z.discriminatedUnion('type', [
     // successfully; we just need to redeem it on the server anonymously.
     type: z.literal(donationStateSchema.Enum.RECEIPT),
 
-    // the result of mixing the receiptCredentialResponse from the API from our
+    // The result of mixing the receiptCredentialResponse from the API from our
     // previously-generated receiptCredentialRequestContext
     receiptCredentialBase64: z.string(),
 
-    ...coreDataSchema.shape,
-  }),
-
-  z.object({
-    // A short-lived state, but we'll be in this state until we successfully save a new
-    // receipt field in the database and add to redux.
-    type: z.literal(donationStateSchema.Enum.RECEIPT_REDEEMED),
     ...coreDataSchema.shape,
   }),
 
@@ -148,7 +150,8 @@ const donationWorkflowSchema = z.discriminatedUnion('type', [
     // After we show a notification, or if the user initiates a new donation,
     // then this workflow can be deleted.
     type: z.literal(donationStateSchema.Enum.DONE),
-    id: z.string(),
+    id: coreDataSchema.shape.id,
+    timestamp: coreDataSchema.shape.timestamp,
   }),
 ]);
 

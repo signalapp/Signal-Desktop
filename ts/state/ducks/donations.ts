@@ -12,6 +12,7 @@ import { isStagingServer } from '../../util/isStagingServer';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type {
   CardDetail,
+  DonationErrorType,
   DonationReceipt,
   DonationWorkflow,
 } from '../../types/Donations';
@@ -25,6 +26,7 @@ const log = createLogger('donations');
 
 export type DonationsStateType = ReadonlyDeep<{
   currentWorkflow: DonationWorkflow | undefined;
+  lastError: DonationErrorType | undefined;
   receipts: Array<DonationReceipt>;
 }>;
 
@@ -33,6 +35,7 @@ export type DonationsStateType = ReadonlyDeep<{
 export const ADD_RECEIPT = 'donations/ADD_RECEIPT';
 export const SUBMIT_DONATION = 'donations/SUBMIT_DONATION';
 export const UPDATE_WORKFLOW = 'donations/UPDATE_WORKFLOW';
+export const UPDATE_LAST_ERROR = 'donations/UPDATE_LAST_ERROR';
 
 export type AddReceiptAction = ReadonlyDeep<{
   type: typeof ADD_RECEIPT;
@@ -48,13 +51,21 @@ export type SubmitDonationAction = ReadonlyDeep<{
   };
 }>;
 
+export type UpdateLastErrorAction = ReadonlyDeep<{
+  type: typeof UPDATE_LAST_ERROR;
+  payload: { lastError: DonationErrorType | undefined };
+}>;
+
 export type UpdateWorkflowAction = ReadonlyDeep<{
   type: typeof UPDATE_WORKFLOW;
   payload: { nextWorkflow: DonationWorkflow | undefined };
 }>;
 
 export type DonationsActionType = ReadonlyDeep<
-  AddReceiptAction | SubmitDonationAction | UpdateWorkflowAction
+  | AddReceiptAction
+  | SubmitDonationAction
+  | UpdateLastErrorAction
+  | UpdateWorkflowAction
 >;
 
 // Action Creators
@@ -105,7 +116,7 @@ function submitDonation({
     }
 
     try {
-      await donations.internalDoDonation({
+      await donations._internalDoDonation({
         currencyType,
         paymentAmount,
         paymentDetail,
@@ -123,6 +134,15 @@ function clearWorkflow(): UpdateWorkflowAction {
   };
 }
 
+function updateLastError(
+  lastError: DonationErrorType | undefined
+): UpdateLastErrorAction {
+  return {
+    type: UPDATE_LAST_ERROR,
+    payload: { lastError },
+  };
+}
+
 function updateWorkflow(
   nextWorkflow: DonationWorkflow | undefined
 ): UpdateWorkflowAction {
@@ -137,6 +157,7 @@ export const actions = {
   clearWorkflow,
   internalAddDonationReceipt,
   submitDonation,
+  updateLastError,
   updateWorkflow,
 };
 
@@ -149,6 +170,7 @@ export const useDonationsActions = (): BoundActionCreatorsMapObject<
 export function getEmptyState(): DonationsStateType {
   return {
     currentWorkflow: undefined,
+    lastError: undefined,
     receipts: [],
   };
 }
@@ -161,6 +183,13 @@ export function reducer(
     return {
       ...state,
       receipts: [...state.receipts, action.payload.receipt],
+    };
+  }
+
+  if (action.type === UPDATE_LAST_ERROR) {
+    return {
+      ...state,
+      lastError: action.payload.lastError,
     };
   }
 
