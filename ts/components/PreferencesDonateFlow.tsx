@@ -3,18 +3,11 @@
 
 import React, { useCallback, useRef, useState } from 'react';
 
-import type { MutableRefObject } from 'react';
-
 import type { LocalizerType } from '../types/Util';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
-import { PreferencesContent } from './Preferences';
 import { Button, ButtonVariant } from './Button';
 import type { CardDetail, DonationWorkflow } from '../types/Donations';
 import { Input } from './Input';
-
-type PropsExternalType = {
-  contentsRef: MutableRefObject<HTMLDivElement | null>;
-};
 
 export type PropsDataType = {
   i18n: LocalizerType;
@@ -23,7 +16,6 @@ export type PropsDataType = {
 
 type PropsActionType = {
   clearWorkflow: () => void;
-  onBack: () => void;
   submitDonation: (options: {
     currencyType: string;
     paymentAmount: number;
@@ -31,14 +23,12 @@ type PropsActionType = {
   }) => void;
 };
 
-export type PropsType = PropsDataType & PropsActionType & PropsExternalType;
+export type PropsType = PropsDataType & PropsActionType;
 
 export function PreferencesDonateFlow({
-  contentsRef,
   i18n,
   workflow,
   clearWorkflow,
-  onBack,
   submitDonation,
 }: PropsType): JSX.Element {
   const tryClose = useRef<() => void | undefined>();
@@ -80,15 +70,6 @@ export function PreferencesDonateFlow({
   ]);
 
   const isDonateDisabled = workflow !== undefined;
-
-  const backButton = (
-    <button
-      aria-label={i18n('icu:goBack')}
-      className="Preferences__back-icon"
-      onClick={onBack}
-      type="button"
-    />
-  );
 
   const onTryClose = useCallback(() => {
     const onDiscard = () => {
@@ -165,13 +146,7 @@ export function PreferencesDonateFlow({
   return (
     <>
       {confirmDiscardModal}
-
-      <PreferencesContent
-        backButton={backButton}
-        contents={content}
-        contentsRef={contentsRef}
-        title={i18n('icu:Preferences__DonateTitle')}
-      />
+      {content}
     </>
   );
 }

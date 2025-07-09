@@ -150,6 +150,13 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.PinnedConversationsFull };
     case ToastType.ReactionFailed:
       return { toastType: ToastType.ReactionFailed };
+    case ToastType.ReceiptSaved:
+      return {
+        toastType: ToastType.ReceiptSaved,
+        parameters: { fullPath: '/image.png' },
+      };
+    case ToastType.ReceiptSaveFailed:
+      return { toastType: ToastType.ReceiptSaveFailed };
     case ToastType.ReportedSpam:
       return { toastType: ToastType.ReportedSpam };
     case ToastType.ReportedSpamAndBlocked:

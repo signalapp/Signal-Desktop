@@ -329,6 +329,7 @@ export enum Page {
   ChatColor = 'ChatColor',
   ChatFolders = 'ChatFolders',
   DonationsDonateFlow = 'DonationsDonateFlow',
+  DonationsReceiptList = 'DonationsReceiptList',
   EditChatFolder = 'EditChatFolder',
   PNP = 'PNP',
   BackupsDetails = 'BackupsDetails',
@@ -336,6 +337,14 @@ export enum Page {
   LocalBackupsSetupFolder = 'LocalBackupsSetupFolder',
   LocalBackupsSetupKey = 'LocalBackupsSetupKey',
   LocalBackupsKeyReference = 'LocalBackupsKeyReference',
+}
+
+function isDonationsPage(page: Page): boolean {
+  return (
+    page === Page.Donations ||
+    page === Page.DonationsDonateFlow ||
+    page === Page.DonationsReceiptList
+  );
 }
 
 enum LanguageDialog {
@@ -596,10 +605,7 @@ export function Preferences({
   if (page === Page.Backups && !shouldShowBackupsPage) {
     setPage(Page.General);
   }
-  if (
-    (page === Page.Donations || page === Page.DonationsDonateFlow) &&
-    !donationsFeatureEnabled
-  ) {
+  if (isDonationsPage(page) && !donationsFeatureEnabled) {
     setPage(Page.General);
   }
   if (page === Page.Internal && !isInternalUser) {
@@ -897,7 +903,7 @@ export function Preferences({
         title={i18n('icu:Preferences__button--general')}
       />
     );
-  } else if (page === Page.Donations || page === Page.DonationsDonateFlow) {
+  } else if (isDonationsPage(page)) {
     content = renderDonationsPane({
       contentsRef: settingsPaneRef,
       page,
@@ -2365,9 +2371,7 @@ export function Preferences({
                   className={classNames({
                     Preferences__button: true,
                     'Preferences__button--appearance': true,
-                    'Preferences__button--selected':
-                      page === Page.Donations ||
-                      page === Page.DonationsDonateFlow,
+                    'Preferences__button--selected': isDonationsPage(page),
                   })}
                   onClick={() => setPage(Page.Donations)}
                 >
