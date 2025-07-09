@@ -291,7 +291,7 @@
     "csv-parse": "5.5.6",
     "danger": "12.3.3",
     "debug": "4.3.7",
-    "electron": "37.1.0",
+    "electron": "36.3.2",
     "electron-builder": "26.0.14",
     "electron-mocha": "13.0.1",
     "endanger": "7.0.4",
@@ -399,7 +399,7 @@
     ]
   },
   "engines": {
-    "node": "22.16.0"
+    "node": "22.15.0"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",
