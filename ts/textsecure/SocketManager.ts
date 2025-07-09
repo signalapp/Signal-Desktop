@@ -55,6 +55,10 @@ import {
   parseServerAlertsFromHeader,
   type ServerAlert,
 } from '../util/handleServerAlerts';
+import {
+  formatAcceptLanguageHeader,
+  getUserLanguages,
+} from '../util/userLanguages';
 
 const log = createLogger('SocketManager');
 
@@ -216,6 +220,11 @@ export class SocketManager extends EventListener {
         'desktop.experimentalTransport.enableAuth'
       ) && this.#transportOption() === TransportOption.Libsignal;
 
+    const userLanguages = getUserLanguages(
+      window.SignalContext.getPreferredSystemLocales(),
+      window.SignalContext.getResolvedMessagesLocale()
+    );
+
     const process = useLibsignalTransport
       ? connectAuthenticatedLibsignal({
           libsignalNet: this.libsignalNet,
@@ -228,6 +237,7 @@ export class SocketManager extends EventListener {
             this.emit('serverAlerts', alerts);
           },
           receiveStories: !this.#hasStoriesDisabled,
+          userLanguages,
           keepalive: { path: '/v1/keepalive' },
         })
       : this.#connectResource({
@@ -243,6 +253,7 @@ export class SocketManager extends EventListener {
           extraHeaders: {
             Authorization: getBasicAuth({ username, password }),
             'X-Signal-Receive-Stories': String(!this.#hasStoriesDisabled),
+            'Accept-Language': formatAcceptLanguageHeader(userLanguages),
           },
           onUpgradeResponse: (response: IncomingMessage) => {
             this.#handleAuthenticatedUpgradeResponseHeaders(response.headers);
@@ -722,12 +733,18 @@ export class SocketManager extends EventListener {
       status: SocketStatus.CONNECTING,
     });
 
+    const userLanguages = getUserLanguages(
+      window.SignalContext.getPreferredSystemLocales(),
+      window.SignalContext.getResolvedMessagesLocale()
+    );
+
     let process: AbortableProcess<IWebSocketResource>;
 
     if (transportOption === TransportOption.Libsignal) {
       process = connectUnauthenticatedLibsignal({
         libsignalNet: this.libsignalNet,
         name: UNAUTHENTICATED_CHANNEL_NAME,
+        userLanguages,
         keepalive: { path: '/v1/keepalive' },
       });
     } else {
@@ -739,6 +756,9 @@ export class SocketManager extends EventListener {
           name: UNAUTHENTICATED_CHANNEL_NAME,
           keepalive: { path: '/v1/keepalive' },
           transportOption,
+        },
+        extraHeaders: {
+          'Accept-Language': formatAcceptLanguageHeader(userLanguages),
         },
       });
     }

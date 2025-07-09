@@ -315,10 +315,12 @@ const UNEXPECTED_DISCONNECT_CODE = 3001;
 export function connectUnauthenticatedLibsignal({
   libsignalNet,
   name,
+  userLanguages,
   keepalive,
 }: {
   libsignalNet: Net.Net;
   name: string;
+  userLanguages: ReadonlyArray<string>;
   keepalive: KeepAliveOptionsType;
 }): AbortableProcess<LibsignalWebSocketResource> {
   const logId = `LibsignalWebSocketResource(${name})`;
@@ -338,6 +340,7 @@ export function connectUnauthenticatedLibsignal({
     abortSignal =>
       libsignalNet.connectUnauthenticatedChat(listener, {
         abortSignal,
+        languages: [...userLanguages],
       }),
     listener,
     logId,
@@ -351,6 +354,7 @@ export function connectAuthenticatedLibsignal({
   credentials,
   handler,
   receiveStories,
+  userLanguages,
   keepalive,
   onReceivedAlerts,
 }: {
@@ -360,6 +364,7 @@ export function connectAuthenticatedLibsignal({
   handler: (request: IncomingWebSocketRequest) => void;
   onReceivedAlerts: (alerts: Array<ServerAlert>) => void;
   receiveStories: boolean;
+  userLanguages: ReadonlyArray<string>;
   keepalive: KeepAliveOptionsType;
 }): AbortableProcess<LibsignalWebSocketResource> {
   const logId = `LibsignalWebSocketResource(${name})`;
@@ -411,7 +416,7 @@ export function connectAuthenticatedLibsignal({
         credentials.password,
         receiveStories,
         listener,
-        { abortSignal }
+        { abortSignal, languages: [...userLanguages] }
       ),
     listener,
     logId,
