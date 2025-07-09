@@ -16,7 +16,7 @@ import {
   parseAndWriteAvatar,
   parsePhoneItem,
 } from '../../types/EmbeddedContact';
-import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
+import { fakeAttachment } from '../../test-helpers/fakeAttachment';
 import { generateAci } from '../../types/ServiceId';
 
 const logger = createLogger('EmbeddedContact_test');

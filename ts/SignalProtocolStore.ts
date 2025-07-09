@@ -180,23 +180,23 @@ async function _fillCaches<ID, T extends HasIdType<ID>, HydratedType>(
 }
 
 export function hydrateSession(session: SessionType): SessionRecord {
-  return SessionRecord.deserialize(Buffer.from(session.record));
+  return SessionRecord.deserialize(session.record);
 }
 export function hydratePublicKey(identityKey: IdentityKeyType): PublicKey {
-  return PublicKey.deserialize(Buffer.from(identityKey.publicKey));
+  return PublicKey.deserialize(identityKey.publicKey);
 }
 export function hydratePreKey(preKey: PreKeyType): PreKeyRecord {
-  const publicKey = PublicKey.deserialize(Buffer.from(preKey.publicKey));
-  const privateKey = PrivateKey.deserialize(Buffer.from(preKey.privateKey));
+  const publicKey = PublicKey.deserialize(preKey.publicKey);
+  const privateKey = PrivateKey.deserialize(preKey.privateKey);
   return PreKeyRecord.new(preKey.keyId, publicKey, privateKey);
 }
 export function hydrateSignedPreKey(
   signedPreKey: SignedPreKeyType
 ): SignedPreKeyRecord {
   const createdAt = signedPreKey.created_at;
-  const pubKey = PublicKey.deserialize(Buffer.from(signedPreKey.publicKey));
-  const privKey = PrivateKey.deserialize(Buffer.from(signedPreKey.privateKey));
-  const signature = Buffer.from([]);
+  const pubKey = PublicKey.deserialize(signedPreKey.publicKey);
+  const privKey = PrivateKey.deserialize(signedPreKey.privateKey);
+  const signature = new Uint8Array(0);
 
   return SignedPreKeyRecord.new(
     signedPreKey.keyId,
@@ -277,8 +277,8 @@ export class SignalProtocolStore extends EventEmitter {
             'Invalid identity key serviceId'
           );
           const { privKey, pubKey } = map.value[serviceId];
-          const privateKey = PrivateKey.deserialize(Buffer.from(privKey));
-          const publicKey = PublicKey.deserialize(Buffer.from(pubKey));
+          const privateKey = PrivateKey.deserialize(privKey);
+          const publicKey = PublicKey.deserialize(pubKey);
           this.#ourIdentityKeys.set(
             serviceId,
             new IdentityKeyPair(publicKey, privateKey)
@@ -374,7 +374,7 @@ export class SignalProtocolStore extends EventEmitter {
       return entry;
     }
 
-    const item = KyberPreKeyRecord.deserialize(Buffer.from(entry.fromDB.data));
+    const item = KyberPreKeyRecord.deserialize(entry.fromDB.data);
     const newEntry = {
       hydrated: true as const,
       fromDB: entry.fromDB,
@@ -923,7 +923,7 @@ export class SignalProtocolStore extends EventEmitter {
         const entry = map.get(id);
 
         if (!entry) {
-          log.error('Failed to fetch sender key:', id);
+          log.warn('No sender key:', id);
           return undefined;
         }
 
@@ -932,9 +932,7 @@ export class SignalProtocolStore extends EventEmitter {
           return entry.item;
         }
 
-        const item = SenderKeyRecord.deserialize(
-          Buffer.from(entry.fromDB.data)
-        );
+        const item = SenderKeyRecord.deserialize(entry.fromDB.data);
         this.senderKeys.set(id, {
           hydrated: true,
           item,
@@ -2485,14 +2483,10 @@ export class SignalProtocolStore extends EventEmitter {
     const logId = `SignalProtocolStore.updateOurPniKeyMaterial(${pni})`;
     log.info(`${logId}: starting...`);
 
-    const identityKeyPair = IdentityKeyPair.deserialize(
-      Buffer.from(identityBytes)
-    );
-    const signedPreKey = SignedPreKeyRecord.deserialize(
-      Buffer.from(signedPreKeyBytes)
-    );
+    const identityKeyPair = IdentityKeyPair.deserialize(identityBytes);
+    const signedPreKey = SignedPreKeyRecord.deserialize(signedPreKeyBytes);
     const lastResortKyberPreKey = lastResortKyberPreKeyBytes
-      ? KyberPreKeyRecord.deserialize(Buffer.from(lastResortKyberPreKeyBytes))
+      ? KyberPreKeyRecord.deserialize(lastResortKyberPreKeyBytes)
       : undefined;
 
     const { storage } = window;
@@ -2636,13 +2630,10 @@ export class SignalProtocolStore extends EventEmitter {
       return false;
     }
 
-    const aciPublicKey = PublicKey.deserialize(Buffer.from(aciPublicKeyBytes));
-    const pniPublicKey = PublicKey.deserialize(Buffer.from(pniPublicKeyBytes));
+    const aciPublicKey = PublicKey.deserialize(aciPublicKeyBytes);
+    const pniPublicKey = PublicKey.deserialize(pniPublicKeyBytes);
 
-    return pniPublicKey.verifyAlternateIdentity(
-      aciPublicKey,
-      Buffer.from(signature)
-    );
+    return pniPublicKey.verifyAlternateIdentity(aciPublicKey, signature);
   }
 
   #_getAllSessions(): Array<SessionCacheEntry> {

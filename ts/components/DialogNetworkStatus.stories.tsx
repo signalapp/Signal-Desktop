@@ -9,7 +9,7 @@ import type { PropsType } from './DialogNetworkStatus';
 import { DialogNetworkStatus } from './DialogNetworkStatus';
 import { SocketStatus } from '../types/SocketStatus';
 import { WidthBreakpoint } from './_util';
-import { FakeLeftPaneContainer } from '../test-both/helpers/FakeLeftPaneContainer';
+import { FakeLeftPaneContainer } from '../test-helpers/FakeLeftPaneContainer';
 
 const { i18n } = window.SignalContext;
 

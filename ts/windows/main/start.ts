@@ -30,10 +30,6 @@ import { initMessageCleanup } from '../../services/messageStateCleanup';
 import { Environment, getEnvironment } from '../../environment';
 import { isProduction } from '../../util/version';
 import { benchmarkConversationOpen } from '../../CI/benchmarkConversationOpen';
-import {
-  removeUseRingrtcAdm,
-  setUseRingrtcAdm,
-} from '../../util/ringrtc/ringrtcAdm';
 
 const log = createLogger('start');
 
@@ -98,10 +94,6 @@ if (
       name: K,
       value: StorageAccessType[K]
     ) => window.storage.put(name, value),
-    removeUseRingrtcAdm: async () => {
-      await removeUseRingrtcAdm();
-      log.info('Restart to make ADM change take effect!');
-    },
     setFlag: (name: keyof FeatureFlagType, value: boolean) => {
       if (!has(window.Flags, name)) {
         return;
@@ -110,10 +102,6 @@ if (
     },
     setSfuUrl: (url: string) => {
       window.Signal.Services.calling._sfuUrl = url;
-    },
-    setUseRingrtcAdm: async (value: boolean) => {
-      await setUseRingrtcAdm(value);
-      log.info('Restart to make ADM change take effect!');
     },
     setIceServerOverride: (
       override: GetIceServersResultType | string | undefined
@@ -144,6 +132,14 @@ if (getEnvironment() === Environment.Test) {
   contextBridge.exposeInMainWorld('RETRY_DELAY', window.RETRY_DELAY);
   contextBridge.exposeInMainWorld('assert', window.assert);
   contextBridge.exposeInMainWorld('testUtilities', window.testUtilities);
+}
+
+// See ts/logging/log.ts
+if (getEnvironment() !== Environment.PackagedApp) {
+  const debug = (...args: Array<string>) => {
+    localStorage.setItem('debug', args.join(','));
+  };
+  contextBridge.exposeInMainWorld('debug', debug);
 }
 
 if (window.SignalContext.config.ciMode === 'full') {

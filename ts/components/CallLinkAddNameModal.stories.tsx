@@ -6,7 +6,7 @@ import { action } from '@storybook/addon-actions';
 import type { CallLinkAddNameModalProps } from './CallLinkAddNameModal';
 import { CallLinkAddNameModal } from './CallLinkAddNameModal';
 import type { ComponentMeta } from '../storybook/types';
-import { FAKE_CALL_LINK_WITH_ADMIN_KEY } from '../test-both/helpers/fakeCallLink';
+import { FAKE_CALL_LINK_WITH_ADMIN_KEY } from '../test-helpers/fakeCallLink';
 
 const { i18n } = window.SignalContext;
 

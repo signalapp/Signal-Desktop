@@ -2922,9 +2922,12 @@ export class BackupExportStream extends Readable {
     isLocalBackup: boolean;
   }): Promise<Backups.IViewOnceMessage> {
     const attachment = message.attachments?.at(0);
+    // Integration tests use the 'link-and-sync' version of export, which will include
+    // view-once attachments
+    const shouldIncludeAttachments = isTestOrMockEnvironment();
     return {
       attachment:
-        attachment == null
+        !shouldIncludeAttachments || attachment == null
           ? null
           : await this.#processMessageAttachment({
               attachment,

@@ -16,7 +16,7 @@ import {
   stringToMIMEType,
 } from '../types/MIME';
 
-import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
+import { fakeAttachment } from '../test-helpers/fakeAttachment';
 
 const { i18n } = window.SignalContext;
 

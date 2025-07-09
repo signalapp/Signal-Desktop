@@ -125,6 +125,10 @@ window.testUtilities = {
       },
       stories: [],
       storyDistributionLists: [],
+      donations: {
+        currentWorkflow: undefined,
+        receipts: [],
+      },
       stickers: {
         installedPack: null,
         packs: {},

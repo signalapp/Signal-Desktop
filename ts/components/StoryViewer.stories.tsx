@@ -10,9 +10,9 @@ import { StoryViewModeType } from '../types/Stories';
 import { generateStoryDistributionId } from '../types/StoryDistributionId';
 import { StoryViewer } from './StoryViewer';
 import { VIDEO_MP4 } from '../types/MIME';
-import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
-import { getFakeStoryView } from '../test-both/helpers/getFakeStory';
+import { fakeAttachment } from '../test-helpers/fakeAttachment';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
+import { getFakeStoryView } from '../test-helpers/getFakeStory';
 import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants';
 import { EmojiSkinTone } from './fun/data/emojis';
 

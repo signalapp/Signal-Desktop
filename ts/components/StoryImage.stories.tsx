@@ -9,10 +9,7 @@ import { noop } from 'lodash';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './StoryImage';
 import { StoryImage } from './StoryImage';
-import {
-  fakeAttachment,
-  fakeThumbnail,
-} from '../test-both/helpers/fakeAttachment';
+import { fakeAttachment, fakeThumbnail } from '../test-helpers/fakeAttachment';
 import { VIDEO_MP4 } from '../types/MIME';
 
 const { i18n } = window.SignalContext;

@@ -6,7 +6,7 @@
   "description": "Private messaging from your desktop",
   "desktopName": "signal.desktop",
   "repository": "https://github.com/signalapp/Signal-Desktop.git",
-  "version": "7.62.0-alpha.1",
+  "version": "7.63.0-alpha.1",
   "license": "AGPL-3.0-only",
   "author": {
     "name": "Signal Messenger, LLC",
@@ -46,7 +46,7 @@
     "test": "run-s test-node test-electron test-lint-intl test-eslint",
     "test-electron": "node ts/scripts/test-electron.js",
     "test-release": "node ts/scripts/test-release.js",
-    "test-node": "cross-env LANG=en-us electron-mocha --timeout 10000 --main test/fix-linux-gtk.js --file test/setup-test-node.js --recursive ts/test-node ts/test-both",
+    "test-node": "cross-env LANG=en-us electron-mocha --timeout 10000 --main test/fix-linux-gtk.js --file test/setup-test-node.js --recursive ts/test-node",
     "test-mock": "mocha --require ts/test-mock/setup-ci.js ts/test-mock/**/*_test.js",
     "test-eslint": "mocha .eslint/rules/**/*.test.js --ignore-leaks",
     "test-lint-intl": "ts-node ./build/intl-linter/linter.ts --test",
@@ -120,10 +120,10 @@
     "@react-aria/utils": "3.25.3",
     "@react-spring/web": "9.7.5",
     "@react-types/shared": "3.27.0",
-    "@signalapp/libsignal-client": "0.74.1",
+    "@signalapp/libsignal-client": "0.76.0",
     "@signalapp/quill-cjs": "2.1.2",
-    "@signalapp/ringrtc": "2.53.0",
-    "@signalapp/sqlcipher": "2.0.3",
+    "@signalapp/ringrtc": "2.54.1",
+    "@signalapp/sqlcipher": "2.1.0",
     "@signalapp/windows-ucv": "1.0.0",
     "@tanstack/react-virtual": "3.11.2",
     "@types/dom-mediacapture-transform": "0.1.11",
@@ -291,7 +291,7 @@
     "csv-parse": "5.5.6",
     "danger": "12.3.3",
     "debug": "4.3.7",
-    "electron": "36.3.2",
+    "electron": "37.1.0",
     "electron-builder": "26.0.14",
     "electron-mocha": "13.0.1",
     "endanger": "7.0.4",
@@ -399,7 +399,7 @@
     ]
   },
   "engines": {
-    "node": "22.15.0"
+    "node": "22.16.0"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",
@@ -567,7 +567,7 @@
       "ts/*.js",
       "!ts/scripts/**",
       "!build",
-      "!ts/{storybook,test-node,test-mock,test-both,test-electron}",
+      "!ts/{storybook,test-helpers,test-node,test-mock,test-electron}",
       "!**/{tsconfig,bower,component}.json",
       "!**/.{github,husky,grenrc,npmrc,nycrc,taprc,bithoundrc}",
       "!**/.testem.json",

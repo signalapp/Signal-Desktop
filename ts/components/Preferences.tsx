@@ -87,6 +87,7 @@ import type {
   PromptOSAuthReasonType,
   PromptOSAuthResultType,
 } from '../util/os/promptOSAuthMain';
+import type { DonationReceipt } from '../types/Donations';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import { EditChatFoldersPage } from './preferences/EditChatFoldersPage';
 import { ChatFoldersPage } from './preferences/ChatFoldersPage';
@@ -194,12 +195,16 @@ export type PropsDataType = {
   availableCameras: Array<
     Pick<MediaDeviceInfo, 'deviceId' | 'groupId' | 'kind' | 'label'>
   >;
+
+  donationReceipts: ReadonlyArray<DonationReceipt>;
 } & Omit<MediaDeviceSettings, 'availableCameras'>;
 
 type PropsFunctionType = {
   // Render props
   renderDonationsPane: (options: {
     contentsRef: MutableRefObject<HTMLDivElement | null>;
+    page: Page;
+    setPage: (page: Page) => void;
   }) => JSX.Element;
   renderProfileEditor: (options: {
     contentsRef: MutableRefObject<HTMLDivElement | null>;
@@ -245,6 +250,17 @@ type PropsFunctionType = {
   setPage: (page: Page) => unknown;
   showToast: (toast: AnyToast) => unknown;
   validateBackup: () => Promise<BackupValidationResultType>;
+
+  internalAddDonationReceipt: (receipt: DonationReceipt) => void;
+  saveAttachmentToDisk: (options: {
+    data: Uint8Array;
+    name: string;
+    baseDir?: string | undefined;
+  }) => Promise<{ fullPath: string; name: string } | null>;
+  generateDonationReceiptBlob: (
+    receipt: DonationReceipt,
+    i18n: LocalizerType
+  ) => Promise<Blob>;
 
   // Change handlers
   onAudioNotificationsChange: CheckboxChangeHandlerType;
@@ -312,6 +328,7 @@ export enum Page {
   // Sub pages
   ChatColor = 'ChatColor',
   ChatFolders = 'ChatFolders',
+  DonationsDonateFlow = 'DonationsDonateFlow',
   EditChatFolder = 'EditChatFolder',
   PNP = 'PNP',
   BackupsDetails = 'BackupsDetails',
@@ -493,6 +510,10 @@ export function Preferences({
   whoCanFindMe,
   whoCanSeeMe,
   zoomFactor,
+  donationReceipts,
+  internalAddDonationReceipt,
+  saveAttachmentToDisk,
+  generateDonationReceiptBlob,
 }: PropsType): JSX.Element {
   const storiesId = useId();
   const themeSelectId = useId();
@@ -573,6 +594,12 @@ export function Preferences({
     backupFeatureEnabled || backupLocalBackupsEnabled;
 
   if (page === Page.Backups && !shouldShowBackupsPage) {
+    setPage(Page.General);
+  }
+  if (
+    (page === Page.Donations || page === Page.DonationsDonateFlow) &&
+    !donationsFeatureEnabled
+  ) {
     setPage(Page.General);
   }
   if (page === Page.Internal && !isInternalUser) {
@@ -870,9 +897,11 @@ export function Preferences({
         title={i18n('icu:Preferences__button--general')}
       />
     );
-  } else if (page === Page.Donations) {
+  } else if (page === Page.Donations || page === Page.DonationsDonateFlow) {
     content = renderDonationsPane({
       contentsRef: settingsPaneRef,
+      page,
+      setPage,
     });
   } else if (page === Page.Appearance) {
     let zoomFactors = DEFAULT_ZOOM_FACTORS;
@@ -2157,6 +2186,10 @@ export function Preferences({
             validateBackup={validateBackup}
             getMessageCountBySchemaVersion={getMessageCountBySchemaVersion}
             getMessageSampleForSchemaVersion={getMessageSampleForSchemaVersion}
+            donationReceipts={donationReceipts}
+            internalAddDonationReceipt={internalAddDonationReceipt}
+            saveAttachmentToDisk={saveAttachmentToDisk}
+            generateDonationReceiptBlob={generateDonationReceiptBlob}
           />
         }
         contentsRef={settingsPaneRef}
@@ -2332,7 +2365,9 @@ export function Preferences({
                   className={classNames({
                     Preferences__button: true,
                     'Preferences__button--appearance': true,
-                    'Preferences__button--selected': page === Page.Donations,
+                    'Preferences__button--selected':
+                      page === Page.Donations ||
+                      page === Page.DonationsDonateFlow,
                   })}
                   onClick={() => setPage(Page.Donations)}
                 >

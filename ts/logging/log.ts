@@ -2,11 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import pino from 'pino';
+import { LRUCache } from 'lru-cache';
 
 import type { LoggerType } from '../types/Logging';
 import { Environment, getEnvironment } from '../environment';
 import { reallyJsonStringify } from '../util/reallyJsonStringify';
-import { getLogLevelString } from './shared';
+import { getLogLevelString, type LogLevel } from './shared';
 
 // This file is imported by some components so we can't import `ts/util/privacy`
 let redactAll = (value: string) => value;
@@ -33,7 +34,9 @@ const COLORS = [
   '#ff9500',
 ];
 
-const SUBSYSTEM_COLORS = new Map<string, string>();
+const SUBSYSTEM_COLORS = new LRUCache<string, string>({
+  max: 500,
+});
 
 // Only for unpackaged app
 function getSubsystemColor(name: string): string {
@@ -63,6 +66,93 @@ function getSubsystemColor(name: string): string {
   return result;
 }
 
+let cachedPattern: RegExp | undefined;
+
+if (typeof window !== 'undefined' && window.localStorage) {
+  window.addEventListener('storage', event => {
+    if (event.key === 'debug') {
+      cachedPattern = undefined;
+    }
+  });
+}
+
+function getPattern(): RegExp {
+  if (cachedPattern != null) {
+    return cachedPattern;
+  }
+
+  let value = '';
+  if (typeof window !== 'undefined' && window.localStorage) {
+    value = window.localStorage.getItem('debug') || '';
+  }
+  if (typeof process !== 'undefined' && process.env) {
+    value = value || process.env.DEBUG || '';
+  }
+
+  const parts = value
+    .trim()
+    .replace(/\s+/g, ',')
+    .split(',')
+    .filter(part => part)
+    .map(part => {
+      const result = part
+        .replace(/([^a-zA-Z0-9_\s*])/g, '\\$1')
+        .replace('*', '.*');
+
+      // Wrap with `[]` if not provided
+      if (!/^\[.*\]/.test(part)) {
+        return `\\[${result}\\]`;
+      }
+      return result;
+    });
+
+  if (parts.length === 0) {
+    return /^.*$/;
+  }
+
+  const result = new RegExp(`^(${parts.join('|')})\\s+$`);
+  cachedPattern = result;
+  return result;
+}
+
+function debugLog(
+  logger: typeof pinoInstance,
+  args: Array<unknown>,
+  level: LogLevel
+): void {
+  if (getEnvironment() === Environment.PackagedApp) {
+    return;
+  }
+
+  const consoleMethod = getLogLevelString(level);
+
+  const { msgPrefixSym } = pino.symbols as unknown as {
+    readonly msgPrefixSym: unique symbol;
+  };
+  const msgPrefix = (logger as unknown as Record<symbol, string | undefined>)[
+    msgPrefixSym
+  ];
+
+  const pattern = getPattern();
+
+  if (!pattern.test(msgPrefix ?? '')) {
+    return;
+  }
+
+  const [message, ...extra] = args;
+
+  const color = getSubsystemColor(msgPrefix ?? '');
+
+  // `fatal` has no respective analog in `console`
+  // eslint-disable-next-line no-console
+  console[consoleMethod === 'fatal' ? 'error' : consoleMethod](
+    `%c${msgPrefix ?? ''}%c${message}`,
+    `color: ${color}; font-weight: bold`,
+    'color: inherit; font-weight: inherit',
+    ...extra
+  );
+}
+
 const pinoInstance = pino(
   {
     formatters: {
@@ -71,29 +161,7 @@ const pinoInstance = pino(
     },
     hooks: {
       logMethod(args, method, level) {
-        if (getEnvironment() !== Environment.PackagedApp) {
-          const consoleMethod = getLogLevelString(level);
-
-          const { msgPrefixSym } = pino.symbols as unknown as {
-            readonly msgPrefixSym: unique symbol;
-          };
-          const msgPrefix = (
-            this as unknown as Record<symbol, string | undefined>
-          )[msgPrefixSym];
-
-          const [message, ...extra] = args;
-
-          const color = getSubsystemColor(msgPrefix ?? '');
-
-          // `fatal` has no respective analog in `console`
-          // eslint-disable-next-line no-console
-          console[consoleMethod === 'fatal' ? 'error' : consoleMethod](
-            `%c${msgPrefix ?? ''}%c${message}`,
-            `color: ${color}; font-weight: bold`,
-            'color: inherit; font-weight: inherit',
-            ...extra
-          );
-        }
+        debugLog(this, args, level);
 
         // Always call original method, but with stringified arguments for
         // compatibility with existing logging.

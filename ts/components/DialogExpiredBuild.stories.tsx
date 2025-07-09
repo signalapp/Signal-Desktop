@@ -6,7 +6,7 @@ import type { Meta } from '@storybook/react';
 import type { PropsType } from './DialogExpiredBuild';
 import { DialogExpiredBuild } from './DialogExpiredBuild';
 import { WidthBreakpoint } from './_util';
-import { FakeLeftPaneContainer } from '../test-both/helpers/FakeLeftPaneContainer';
+import { FakeLeftPaneContainer } from '../test-helpers/FakeLeftPaneContainer';
 
 const { i18n } = window.SignalContext;
 

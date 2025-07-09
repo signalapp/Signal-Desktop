@@ -10,8 +10,8 @@ import type { PropsType } from './ContactModal';
 import { ContactModal } from './ContactModal';
 import { HasStories } from '../../types/Stories';
 import { ThemeType } from '../../types/Util';
-import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
-import { getFakeBadges } from '../../test-both/helpers/getFakeBadge';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
+import { getFakeBadges } from '../../test-helpers/getFakeBadge';
 
 const { i18n } = window.SignalContext;
 

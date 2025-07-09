@@ -24,14 +24,14 @@ import type {
 } from '../state/ducks/conversations';
 import { AvatarColors } from '../types/Colors';
 import { generateAci } from '../types/ServiceId';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
-import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
+import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCallVideoFrameSource';
 import { StorySendMode } from '../types/Stories';
 import {
   FAKE_CALL_LINK,
   FAKE_CALL_LINK_WITH_ADMIN_KEY,
   getDefaultCallLinkConversation,
-} from '../test-both/helpers/fakeCallLink';
+} from '../test-helpers/fakeCallLink';
 import { allRemoteParticipants } from './CallScreen.stories';
 import { getPlaceholderContact } from '../state/selectors/conversations';
 

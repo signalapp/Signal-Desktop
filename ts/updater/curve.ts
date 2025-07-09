@@ -3,7 +3,7 @@
 
 import { PrivateKey, PublicKey } from '@signalapp/libsignal-client';
 
-export function keyPair(): Record<string, Buffer> {
+export function keyPair(): Record<string, Uint8Array> {
   const privKey = PrivateKey.generate();
   const pubKey = privKey.getPublicKey();
 
@@ -13,16 +13,16 @@ export function keyPair(): Record<string, Buffer> {
   };
 }
 
-export function sign(privateKey: Buffer, message: Buffer): Buffer {
+export function sign(privateKey: Uint8Array, message: Uint8Array): Uint8Array {
   const privKeyObj = PrivateKey.deserialize(privateKey);
   const signature = privKeyObj.sign(message);
   return signature;
 }
 
 export function verify(
-  publicKey: Buffer,
-  message: Buffer,
-  signature: Buffer
+  publicKey: Uint8Array,
+  message: Uint8Array,
+  signature: Uint8Array
 ): boolean {
   const pubKeyObj = PublicKey.deserialize(publicKey);
   const result = pubKeyObj.verify(message, signature);

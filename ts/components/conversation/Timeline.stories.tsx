@@ -13,7 +13,7 @@ import type { TimelineItemType } from './TimelineItem';
 import { TimelineItem } from './TimelineItem';
 import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext';
 import { ConversationHero } from './ConversationHero';
-import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
 import { TypingBubble } from './TypingBubble';
 import { ContactSpoofingType } from '../../util/contactSpoofing';
 import { ReadStatus } from '../../messages/MessageReadStatus';

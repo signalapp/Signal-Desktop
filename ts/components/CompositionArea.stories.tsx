@@ -9,11 +9,11 @@ import type { Props } from './CompositionArea';
 import { CompositionArea } from './CompositionArea';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 
-import { fakeDraftAttachment } from '../test-both/helpers/fakeAttachment';
+import { fakeDraftAttachment } from '../test-helpers/fakeAttachment';
 import { landscapeGreenUrl } from '../storybook/Fixtures';
 import { RecordingState } from '../types/AudioRecorder';
 import { ConversationColors } from '../types/Colors';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
 import { PaymentEventKind } from '../types/Payment';
 import { EmojiSkinTone } from './fun/data/emojis';
 

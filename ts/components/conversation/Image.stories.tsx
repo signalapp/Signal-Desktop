@@ -11,7 +11,7 @@ import { IMAGE_PNG } from '../../types/MIME';
 import type { ThemeType } from '../../types/Util';
 import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext';
 
-import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
+import { fakeAttachment } from '../../test-helpers/fakeAttachment';
 
 const { i18n } = window.SignalContext;
 

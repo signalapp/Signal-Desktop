@@ -15,7 +15,7 @@ import Long from 'long';
 import { generateStoryDistributionId } from '../../types/StoryDistributionId';
 import { MY_STORY_ID } from '../../types/Stories';
 import { generateAci } from '../../types/ServiceId';
-import { generateBackup } from '../../test-both/helpers/generateBackup';
+import { generateBackup } from '../../test-helpers/generateBackup';
 import { IMAGE_JPEG } from '../../types/MIME';
 import { uuidToBytes } from '../../util/uuidToBytes';
 import * as durations from '../../util/durations';

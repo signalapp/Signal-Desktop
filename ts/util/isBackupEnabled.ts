@@ -5,6 +5,15 @@ import * as RemoteConfig from '../RemoteConfig';
 import { isTestOrMockEnvironment } from '../environment';
 import { isStagingServer } from './isStagingServer';
 
+export function areRemoteBackupsTurnedOn(): boolean {
+  return isBackupFeatureEnabled() && window.storage.get('backupTier') != null;
+}
+
+// Downloading from a remote backup is currently a test-only feature
+export function canAttemptRemoteBackupDownload(): boolean {
+  return isBackupFeatureEnabled() && isTestOrMockEnvironment();
+}
+
 export function isBackupFeatureEnabled(): boolean {
   if (isStagingServer() || isTestOrMockEnvironment()) {
     return true;

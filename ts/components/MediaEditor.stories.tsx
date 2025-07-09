@@ -7,7 +7,7 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './MediaEditor';
 import { MediaEditor } from './MediaEditor';
-import { Stickers, installedPacks } from '../test-both/helpers/getStickerPacks';
+import { Stickers, installedPacks } from '../test-helpers/getStickerPacks';
 import { EmojiSkinTone } from './fun/data/emojis';
 
 const { i18n } = window.SignalContext;

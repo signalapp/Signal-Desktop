@@ -53,6 +53,7 @@ type AllHostnamePatterns =
   | 'start-call-lobby'
   | 'show-window'
   | 'cancel-presenting'
+  | 'donation-validation-complete'
   | ':captchaId(.+)'
   | '';
 
@@ -544,6 +545,42 @@ export const cancelPresentingRoute = _route('cancelPresenting', {
 });
 
 /**
+ * Resume donation workflow after completing 3ds validation
+ * @example
+ * ```ts
+ * donationValidationCompleteRoute.toAppUrl({
+ *   token: "123",
+ * })
+ * // URL { "sgnl://donation-validation-complete?token=123" }
+ * ```
+ */
+export const donationValidationCompleteRoute = _route(
+  'donationValidationComplete',
+  {
+    patterns: [
+      _pattern('sgnl:', 'donation-validation-complete', '{/}?', {
+        search: ':params',
+      }),
+    ],
+    schema: z.object({
+      token: paramSchema,
+    }),
+    parse(result) {
+      const params = new URLSearchParams(result.search.groups.params);
+      return {
+        token: params.get('token'),
+      };
+    },
+    toAppUrl(args) {
+      const params = new URLSearchParams({ token: args.token });
+      return new URL(
+        `sgnl://donation-validation-complete?${params.toString()}`
+      );
+    },
+  }
+);
+
+/**
  * Should include all routes for matching purposes.
  * @internal
  */
@@ -559,6 +596,7 @@ const _allSignalRoutes = [
   startCallLobbyRoute,
   showWindowRoute,
   cancelPresentingRoute,
+  donationValidationCompleteRoute,
 ] as const;
 
 strictAssert(

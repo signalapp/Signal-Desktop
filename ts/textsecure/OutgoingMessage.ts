@@ -44,6 +44,7 @@ import { SignalService as Proto } from '../protobuf';
 import { createLogger } from '../logging/log';
 import type { GroupSendToken } from '../types/GroupSendEndorsements';
 import { isSignalServiceId } from '../util/isSignalConversation';
+import * as Bytes from '../Bytes';
 
 const log = createLogger('OutgoingMessage');
 
@@ -388,7 +389,7 @@ export default class OutgoingMessage {
 
     if (message instanceof Proto.Content) {
       return signalEncrypt(
-        Buffer.from(this.getPlaintext()),
+        this.getPlaintext(),
         protocolAddress,
         sessionStore,
         identityKeyStore
@@ -472,10 +473,10 @@ export default class OutgoingMessage {
               });
 
               const certificate = SenderCertificate.deserialize(
-                Buffer.from(senderCertificate.serialized)
+                senderCertificate.serialized
               );
               const groupIdBuffer = this.groupId
-                ? Buffer.from(this.groupId, 'base64')
+                ? Bytes.fromBase64(this.groupId)
                 : null;
 
               const content = UnidentifiedSenderMessageContent.new(
@@ -495,7 +496,7 @@ export default class OutgoingMessage {
                 type: Proto.Envelope.Type.UNIDENTIFIED_SENDER,
                 destinationDeviceId,
                 destinationRegistrationId,
-                content: buffer.toString('base64'),
+                content: Bytes.toBase64(buffer),
               };
             }
 
@@ -508,7 +509,7 @@ export default class OutgoingMessage {
               ciphertextMessage.type()
             );
 
-            const content = ciphertextMessage.serialize().toString('base64');
+            const content = Bytes.toBase64(ciphertextMessage.serialize());
 
             return {
               type,

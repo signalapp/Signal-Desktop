@@ -11,7 +11,7 @@ import { ContactPills } from './ContactPills';
 import type { PropsType as ContactPillPropsType } from './ContactPill';
 import { ContactPill } from './ContactPill';
 import { gifUrl } from '../storybook/Fixtures';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
 
 const { i18n } = window.SignalContext;
 

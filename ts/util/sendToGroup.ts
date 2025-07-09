@@ -26,6 +26,7 @@ import { DataWriter } from '../sql/Client';
 import { getValue } from '../RemoteConfig';
 import type { ServiceIdString } from '../types/ServiceId';
 import { ServiceIdKind } from '../types/ServiceId';
+import * as Bytes from '../Bytes';
 import { isRecord } from './isRecord';
 
 import { isOlderThan } from './timestamp';
@@ -235,7 +236,7 @@ export async function sendContentMessageToGroup(
   const sendLogCallback = window.textsecure.messaging.makeSendLogCallback({
     contentHint,
     messageId,
-    proto: Buffer.from(Proto.Content.encode(contentMessage).finish()),
+    proto: Proto.Content.encode(contentMessage).finish(),
     sendType,
     timestamp,
     urgent,
@@ -583,7 +584,7 @@ export async function sendToGroupViaSenderKey(
       sendLogId = await DataWriter.insertSentProto(
         {
           contentHint,
-          proto: Buffer.from(Proto.Content.encode(contentMessage).finish()),
+          proto: Proto.Content.encode(contentMessage).finish(),
           timestamp,
           urgent,
           hasPniSignatureMessage: false,
@@ -667,7 +668,7 @@ export async function sendToGroupViaSenderKey(
 
       contentHint,
       timestamp,
-      contentProto: Buffer.from(Proto.Content.encode(contentMessage).finish()),
+      contentProto: Proto.Content.encode(contentMessage).finish(),
       recipients: senderKeyRecipientsWithDevices,
       urgent,
     };
@@ -1100,7 +1101,7 @@ function getXorOfAccessKeys(
       'Cannot be endorsement in getXorOfAccessKeys'
     );
 
-    const accessKeyBuffer = Buffer.from(accessKey, 'base64');
+    const accessKeyBuffer = Bytes.fromBase64(accessKey);
     if (accessKeyBuffer.length !== ACCESS_KEY_LENGTH) {
       throw new Error(
         `getXorOfAccessKeys: Access key for ${uuid} had length ${accessKeyBuffer.length}`
@@ -1128,7 +1129,7 @@ async function encryptForSenderKey({
   devices: Array<DeviceType>;
   distributionId: string;
   groupId?: string;
-}): Promise<Buffer> {
+}): Promise<Uint8Array> {
   const ourAci = window.textsecure.storage.user.getCheckedAci();
   const ourDeviceId = window.textsecure.storage.user.getDeviceId();
   if (!ourDeviceId) {
@@ -1146,7 +1147,7 @@ async function encryptForSenderKey({
     ourServiceId: ourAci,
     zone: GLOBAL_ZONE,
   });
-  const message = Buffer.from(padMessage(contentMessage));
+  const message = padMessage(contentMessage);
 
   const ciphertextMessage =
     await window.textsecure.storage.protocol.enqueueSenderKeyJob(
@@ -1154,7 +1155,7 @@ async function encryptForSenderKey({
       () => groupEncrypt(sender, distributionId, senderKeyStore, message)
     );
 
-  const groupIdBuffer = groupId ? Buffer.from(groupId, 'base64') : null;
+  const groupIdBuffer = groupId ? Bytes.fromBase64(groupId) : null;
   const senderCertificateObject = await senderCertificateService.get(
     SenderCertificateMode.WithoutE164
   );
@@ -1163,7 +1164,7 @@ async function encryptForSenderKey({
   }
 
   const senderCertificate = SenderCertificate.deserialize(
-    Buffer.from(senderCertificateObject.serialized)
+    senderCertificateObject.serialized
   );
   const content = UnidentifiedSenderMessageContent.new(
     ciphertextMessage,

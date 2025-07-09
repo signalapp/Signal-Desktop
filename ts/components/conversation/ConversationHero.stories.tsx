@@ -9,7 +9,7 @@ import type { Props } from './ConversationHero';
 import { ConversationHero } from './ConversationHero';
 import { HasStories } from '../../types/Stories';
 import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext';
-import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
 import { ThemeType } from '../../types/Util';
 import type { GroupV2Membership } from './conversation-details/ConversationDetailsMembershipList';
 

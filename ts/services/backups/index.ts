@@ -84,8 +84,9 @@ import {
 } from './util/localBackup';
 import { AttachmentLocalBackupManager } from '../../jobs/AttachmentLocalBackupManager';
 import { decipherWithAesKey } from '../../util/decipherWithAesKey';
+import { areRemoteBackupsTurnedOn } from '../../util/isBackupEnabled';
 
-const log = createLogger('index');
+const log = createLogger('backupsService');
 
 export { BackupType };
 
@@ -162,13 +163,18 @@ export class BackupsService {
   );
 
   public start(): void {
+    if (!areRemoteBackupsTurnedOn()) {
+      log.warn('remote backups are not turned on; not starting');
+      return;
+    }
+
     if (this.#isStarted) {
-      log.warn('BackupsService: already started');
+      log.warn('already started');
       return;
     }
 
     this.#isStarted = true;
-    log.info('BackupsService: starting...');
+    log.info('starting...');
 
     setInterval(() => {
       drop(this.#runPeriodicRefresh());
@@ -579,7 +585,7 @@ export class BackupsService {
       );
       if (backupType === BackupType.Ciphertext) {
         const { aesKey, macKey } = getKeyMaterial(
-          ephemeralKey ? new BackupKey(Buffer.from(ephemeralKey)) : undefined
+          ephemeralKey ? new BackupKey(ephemeralKey) : undefined
         );
 
         // First pass - don't decrypt, only verify mac

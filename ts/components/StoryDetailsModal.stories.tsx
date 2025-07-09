@@ -9,7 +9,7 @@ import { action } from '@storybook/addon-actions';
 import type { PropsType } from './StoryDetailsModal';
 import { SendStatus } from '../messages/MessageSendState';
 import { StoryDetailsModal } from './StoryDetailsModal';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
 
 const { i18n } = window.SignalContext;
 

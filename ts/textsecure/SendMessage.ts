@@ -2176,7 +2176,7 @@ export default class MessageSender {
   }: Readonly<{
     contentHint: number;
     messageId?: string;
-    proto: Buffer;
+    proto: Uint8Array;
     sendType: SendTypesType;
     timestamp: number;
     urgent: boolean;
@@ -2402,7 +2402,7 @@ export default class MessageSender {
       serviceIds.length > 1
         ? this.makeSendLogCallback({
             contentHint: contentHint ?? ContentHint.IMPLICIT,
-            proto: Buffer.from(Proto.Content.encode(contentMessage).finish()),
+            proto: Proto.Content.encode(contentMessage).finish(),
             sendType: 'senderKeyDistributionMessage',
             timestamp,
             urgent,

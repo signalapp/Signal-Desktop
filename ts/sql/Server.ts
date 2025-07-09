@@ -213,8 +213,8 @@ import {
   getCallLinkRecordByRoomId,
   insertCallLink,
   insertDefunctCallLink,
+  insertOrUpdateCallLinkFromSync,
   updateCallLink,
-  updateCallLinkAdminKeyByRoomId,
   updateCallLinkState,
   updateDefunctCallLink,
 } from './server/callLinks';
@@ -546,8 +546,8 @@ export const DataWriter: ServerWritableInterface = {
   saveCallHistory,
   markCallHistoryMissed,
   insertCallLink,
+  insertOrUpdateCallLinkFromSync,
   updateCallLink,
-  updateCallLinkAdminKeyByRoomId,
   updateCallLinkState,
   beginDeleteAllCallLinks,
   beginDeleteCallLink,
@@ -3498,12 +3498,12 @@ function getAdjacentMessagesByConversation(
       }
       ${
         requireVisualMediaAttachments
-          ? sqlFragment`hasVisualMediaAttachments IS 1 AND`
+          ? sqlFragment`hasVisualMediaAttachments IS 1 AND isViewOnce IS 0 AND`
           : sqlFragment``
       }
       ${
         requireFileAttachments
-          ? sqlFragment`hasFileAttachments IS 1 AND`
+          ? sqlFragment`hasFileAttachments IS 1 AND isViewOnce IS 0 AND`
           : sqlFragment``
       }
       isStory IS 0 AND
@@ -5597,51 +5597,87 @@ function saveAttachmentDownloadJobs(
   db: WritableDB,
   jobs: Array<AttachmentDownloadJobType>
 ): void {
+  const errors: Array<Error> = [];
   db.transaction(() => {
     for (const job of jobs) {
-      saveAttachmentDownloadJob(db, job);
+      try {
+        saveAttachmentDownloadJob(db, job);
+      } catch (e) {
+        errors.push(e);
+      }
     }
   })();
+
+  if (errors.length === 0) {
+    return;
+  }
+  if (errors.length === 1) {
+    throw errors[0];
+  }
+  throw new AggregateError(
+    errors,
+    `Multiple errors while saving attachment download jobs:\n ${errors.map(e => e.message).join('\n')}`
+  );
 }
 
 function saveAttachmentDownloadJob(
   db: WritableDB,
   job: AttachmentDownloadJobType
 ): void {
-  const [query, params] = sql`
-    INSERT OR REPLACE INTO attachment_downloads (
-      messageId,
-      attachmentType,
-      attachmentSignature,
-      receivedAt,
-      sentAt,
-      contentType,
-      size,
-      active,
-      attempts,
-      retryAfter,
-      lastAttemptTimestamp,
-      attachmentJson,
-      ciphertextSize,
-      source
-    ) VALUES (
-      ${job.messageId},
-      ${job.attachmentType},
-      ${job.attachmentSignature},
-      ${job.receivedAt},
-      ${job.sentAt},
-      ${job.contentType},
-      ${job.size},
-      ${job.active ? 1 : 0},
-      ${job.attempts},
-      ${job.retryAfter},
-      ${job.lastAttemptTimestamp},
-      ${objectToJSON(job.attachment)},
-      ${job.ciphertextSize},
-      ${job.source}
-    );
-  `;
-  db.prepare(query).run(params);
+  return db.transaction(() => {
+    const [messageExistsQuery, messageExistsParams] = sql`
+      SELECT EXISTS(
+        SELECT 1 FROM messages
+        WHERE messages.id = ${job.messageId}
+      );
+    `;
+
+    const messageExists = db
+      .prepare(messageExistsQuery, {
+        pluck: true,
+      })
+      .get<number>(messageExistsParams);
+
+    if (messageExists !== 1) {
+      logger.warn('saveAttachmentDownloadJob: message does not exist, bailing');
+      return;
+    }
+
+    const [insertQuery, insertParams] = sql`
+      INSERT OR REPLACE INTO attachment_downloads (
+        messageId,
+        attachmentType,
+        attachmentSignature,
+        receivedAt,
+        sentAt,
+        contentType,
+        size,
+        active,
+        attempts,
+        retryAfter,
+        lastAttemptTimestamp,
+        attachmentJson,
+        ciphertextSize,
+        source
+      ) VALUES (
+        ${job.messageId},
+        ${job.attachmentType},
+        ${job.attachmentSignature},
+        ${job.receivedAt},
+        ${job.sentAt},
+        ${job.contentType},
+        ${job.size},
+        ${job.active ? 1 : 0},
+        ${job.attempts},
+        ${job.retryAfter},
+        ${job.lastAttemptTimestamp},
+        ${objectToJSON(job.attachment)},
+        ${job.ciphertextSize},
+        ${job.source}
+      );
+    `;
+    db.prepare(insertQuery).run(insertParams);
+  })();
 }
 
 function resetAttachmentDownloadActive(db: WritableDB): void {

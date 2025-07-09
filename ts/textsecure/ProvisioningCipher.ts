@@ -67,7 +67,7 @@ class ProvisioningCipherInner {
     }
 
     const ecRes = calculateAgreement(
-      PublicKey.deserialize(Buffer.from(masterEphemeral)),
+      PublicKey.deserialize(masterEphemeral),
       this.keyPair.privateKey
     );
     const keys = deriveSecrets(

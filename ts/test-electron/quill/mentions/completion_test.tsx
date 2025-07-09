@@ -15,7 +15,7 @@ import type { ConversationType } from '../../../state/ducks/conversations';
 import { MemberRepository, _toMembers } from '../../../quill/memberRepository';
 import type { MemberType } from '../../../quill/memberRepository';
 import { ThemeType } from '../../../types/Util';
-import { getDefaultConversationWithServiceId } from '../../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversationWithServiceId } from '../../../test-helpers/getDefaultConversation';
 import { setupI18n } from '../../../util/setupI18n';
 
 type MiniLeafBlot = {

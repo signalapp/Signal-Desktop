@@ -18,7 +18,7 @@ import { ThemeType } from '../types/Util';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../test-both/helpers/getDefaultConversation';
+} from '../test-helpers/getDefaultConversation';
 import { EditState, ProfileEditor } from './ProfileEditor';
 import {
   UsernameEditState,
@@ -170,7 +170,18 @@ function RenderProfileEditor(): JSX.Element {
 
 function RenderDonationsPane(): JSX.Element {
   const contentsRef = useRef<HTMLDivElement | null>(null);
-  return <PreferencesDonations i18n={i18n} contentsRef={contentsRef} />;
+  return (
+    <PreferencesDonations
+      i18n={i18n}
+      contentsRef={contentsRef}
+      clearWorkflow={action('clearWorkflow')}
+      isStaging={false}
+      page={Page.Donations}
+      setPage={action('setPage')}
+      submitDonation={action('submitDonation')}
+      workflow={undefined}
+    />
+  );
 }
 
 function renderToastManager(): JSX.Element {
@@ -379,6 +390,16 @@ export default {
       return {
         result: validateBackupResult,
       };
+    },
+    donationReceipts: [],
+    internalAddDonationReceipt: action('internalAddDonationReceipt'),
+    saveAttachmentToDisk: async () => {
+      action('saveAttachmentToDisk')();
+      return { fullPath: '/mock/path/to/file.png', name: 'file.png' };
+    },
+    generateDonationReceiptBlob: async () => {
+      action('generateDonationReceiptBlob')();
+      return new Blob();
     },
   } satisfies PropsType,
 } satisfies Meta<PropsType>;

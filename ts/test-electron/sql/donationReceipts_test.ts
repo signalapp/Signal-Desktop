@@ -3,7 +3,6 @@
 
 import { assert } from 'chai';
 import { v1 as getGuid } from 'uuid';
-import { omit } from 'lodash';
 
 import { DataReader, DataWriter } from '../../sql/Client';
 
@@ -30,20 +29,12 @@ describe('sql/DonationReceipts', () => {
       id: getGuid(),
       currencyType: 'USD',
       paymentAmount: 500, // $5.00
-      paymentType: 'CARD',
-      paymentDetail: {
-        lastFourDigits: '1111',
-      },
       timestamp: now,
     };
     const receipt2: DonationReceipt = {
       id: getGuid(),
       currencyType: 'USD',
       paymentAmount: 1000, // $10.00
-      paymentType: 'CARD',
-      paymentDetail: {
-        lastFourDigits: '1111',
-      },
       timestamp: now + 10,
     };
 
@@ -68,28 +59,5 @@ describe('sql/DonationReceipts', () => {
 
     const fetched = await getDonationReceiptById(receipt2.id);
     assert.deepEqual(fetched, receipt2);
-  });
-
-  it('clears payment detail if the zod parse fails', async () => {
-    const now = Date.now();
-    const receipt1: DonationReceipt = {
-      id: getGuid(),
-      currencyType: 'USD',
-      paymentAmount: 500, // $5.00
-      paymentType: 'CARD',
-      paymentDetail: {
-        // @ts-expect-error We are intentionally breaking things here
-        lastFourDigits: 1111,
-      },
-      timestamp: now,
-    };
-
-    await createDonationReceipt(receipt1);
-    const receipt = await getAllDonationReceipts();
-    assert.lengthOf(receipt, 1);
-    assert.deepEqual(receipt[0], {
-      ...omit(receipt1, 'paymentDetail'),
-      paymentDetail: null,
-    });
   });
 });

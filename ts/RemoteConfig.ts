@@ -18,9 +18,6 @@ import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration'
 const log = createLogger('RemoteConfig');
 
 export type ConfigKeyType =
-  | 'desktop.calling.ringrtcAdmFull.3'
-  | 'desktop.calling.ringrtcAdmInternal'
-  | 'desktop.calling.ringrtcAdmPreStable'
   | 'desktop.chatFolders.alpha'
   | 'desktop.chatFolders.beta'
   | 'desktop.chatFolders.prod'
@@ -52,7 +49,8 @@ export type ConfigKeyType =
   | 'global.messageQueueTimeInSeconds'
   | 'global.nicknames.max'
   | 'global.nicknames.min'
-  | 'global.textAttachmentLimitBytes';
+  | 'global.textAttachmentLimitBytes'
+  | 'global.usePqRatchet';
 
 type ConfigValueType = {
   name: ConfigKeyType;
