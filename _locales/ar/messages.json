@@ -602,6 +602,12 @@
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
+  "icu:Toast--ReceiptSaved": {
+    "messageformat": "Receipt saved"
+  },
+  "icu:Toast--ReceiptSaveFailed": {
+    "messageformat": "Error saving receipt. Please try again."
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "لا يُمكنك تحديد الصور ومقاطع الفيديو مع الملفات."
   },
@@ -1281,34 +1287,34 @@
     "messageformat": "لون الرمز التعبيري"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "مجلدات الدردشة"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
-    "messageformat": "Add a chat folder"
+    "messageformat": "إضافة مجلد دردشة"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
-    "messageformat": "Organize your chats into folders and quickly switch between them on your chat list."
+    "messageformat": "نظّم دردشاتك في مجلدات وقُم بالتبديل بينها بسرعة في قائمة الدردشة لديك."
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "تعديل المجلد"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__DeleteFolder": {
-    "messageformat": "Delete"
+    "messageformat": "حذف"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Title": {
-    "messageformat": "Delete folder?"
+    "messageformat": "هل ترغبُ بحذف المجلد؟"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Description": {
-    "messageformat": "Do you want to delete the folder “{chatFolderTitle}”?"
+    "messageformat": "هل تريد حذف المجلد \"{chatFolderTitle}\"؟"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "حذف"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Cancel"
+    "messageformat": "إلغاء"
   },
   "icu:Preferences__ChatFoldersPage__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "مجلدات الدردشة"
   },
   "icu:Preferences__ChatFoldersPage__Description": {
     "messageformat": "Organize your chats into folders and quickly switch between them on your chat list"
@@ -1881,7 +1887,7 @@
     "messageformat": "جارٍ الاستيراد…"
   },
   "icu:syncFailed": {
-    "messageformat": "فشل الاستيراد. يُرجى التأكُّد من أن الحاسوب و هاتفك متصلان بالإنترنت."
+    "messageformat": "فشل الاستيراد. تأكَّد من أن الحاسوب و هاتفك متصلان بالإنترنت."
   },
   "icu:timestamp_s": {
     "messageformat": "الآن"
@@ -1914,7 +1920,7 @@
     "messageformat": "نص الرسالة طويل جدًا."
   },
   "icu:unblockToSend": {
-    "messageformat": "ألغِ حظر هذا الشخص لإرسال رسالة."
+    "messageformat": "ألغِ حظر جهة الاتصال هذه لإرسال رسالة."
   },
   "icu:unblockGroupToSend": {
     "messageformat": "ألغِ الحظر عن هذه المجموعة لإرسال رسالة."
@@ -1926,7 +1932,7 @@
     "messageformat": "تمَّ تحديث وقت اختفاء الرسالة بعد {time}."
   },
   "icu:timerSetByMember": {
-    "messageformat": "ضبط أحد الأعضاء وقت اختفاء الرسائل بعد {time}."
+    "messageformat": "ضبَطَ أحد الأعضاء وقت اختفاء الرسائل بعد {time}."
   },
   "icu:theyChangedTheTimer": {
     "messageformat": "أعاد العضو {name} وقت اختفاء الرسائل بعد {time}."
@@ -3324,7 +3330,7 @@
     "messageformat": "هل تريد خفض يدك؟"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "خفض اليد"
+    "messageformat": "خفض"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "تمَّ تفعيل الرنين"
@@ -3354,7 +3360,7 @@
     "messageformat": "فتح القائمة"
   },
   "icu:CallControls__RaiseHands--lower": {
-    "messageformat": "اخفض"
+    "messageformat": "خفض"
   },
   "icu:CallControls__MenuItemRaiseHand": {
     "messageformat": "رفع اليد"
@@ -4131,7 +4137,7 @@
     "messageformat": "تمَّ نقل حسابك الشخصي"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "افتح علامة تبويب الإعدادات لِعرض وتعديل حسابك الشخصي."
+    "messageformat": "افتح علامة تبويب \"الإعدادات\" لِعرض وتعديل حسابك الشخصي."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "جارٍ مزامنة الرسائل"
@@ -4182,10 +4188,10 @@
     "messageformat": "إعادة المُحاولة"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
-    "messageformat": "جارٍ استرجاع ملفات الوسائط"
+    "messageformat": "Syncing media"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "تمَّ إيقاف الاستعادة مؤقَّتًا"
+    "messageformat": "Syncing paused"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
     "messageformat": "تمَّت استعادة {currentSize} من أصل {totalSize}."
@@ -4200,13 +4206,13 @@
     "messageformat": "في انتظار الاتصال بالإنترنت…"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "إيقاف النقل مؤقَّتًا"
+    "messageformat": "Pause"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "استئناف النقل"
+    "messageformat": "Resume"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
-    "messageformat": "إلغاء التحويل"
+    "messageformat": "Cancel syncing"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
     "messageformat": "خيارات أكثر"
@@ -4218,16 +4224,34 @@
     "messageformat": "{currentSize} من {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "هل ترغبُ بإلغاء نقل الوسائط؟"
+    "messageformat": "Cancel media syncing?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "لم تكتمل استعادة رسائلك ووسائطك. إذا اخترتَ الإلغاء، يمكنك تحويلها مُجدَّدًا من خلال \"الإعدادات\"."
+    "messageformat": "Your media has not completed syncing. If you choose to cancel, you can sync again by re-linking this device. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "متابعة النقل"
+    "messageformat": "Continue syncing"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
-    "messageformat": "إلغاء التحويل"
+    "messageformat": "Cancel syncing"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--title": {
+    "messageformat": "Syncing paused"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--description": {
+    "messageformat": "Click “{resumeButtonText}” to continue syncing"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-resume": {
+    "messageformat": "Resume"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-pause": {
+    "messageformat": "Pause"
+  },
+  "icu:BackupMediaDownloadProgressSettings__title-in-progress": {
+    "messageformat": "Syncing media"
+  },
+  "icu:BackupMediaDownloadProgressSettings__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
     "messageformat": "إجراء مطلوب خاص بالحساب"
@@ -5202,7 +5226,7 @@
     "messageformat": "تصدير نسخة احتياطية مُشفَّرة إلى الذاكرة وتشغيل مجموعة اختبارات التحقُّق عليها"
   },
   "icu:Preferences__internal__validate-backup": {
-    "messageformat": "تحقّق"
+    "messageformat": "تحقُّق"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "‫‫آخر استيراد في {date}‏ عند الساعة {time}"
@@ -5328,7 +5352,7 @@
     "messageformat": "أدخِل مفتاح النسخة الاحتياطية الذي سجّلته للتو"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
-    "messageformat": "حافظ على مفتاحك في مكانٍ آمن."
+    "messageformat": "حافِظ على مفتاحك في مكانٍ آمن."
   },
   "icu:Preferences__local-backups-confirm-key-modal-body": {
     "messageformat": "لن يتمكّن سيجنال من مُساعدتك على استعادة نسختك الاحتياطية إذا فقدتَ مفتاحك. احتفِظ بمفتاحك في مكانٍ آمن، ولا تُشاركه مع أي أحد."
@@ -6600,6 +6624,42 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "ما هو جديد"
   },
+  "icu:PreferencesDonations__title": {
+    "messageformat": "Privacy over Profit"
+  },
+  "icu:PreferencesDonations__description": {
+    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:PreferencesDonations__donate-button": {
+    "messageformat": "Donate"
+  },
+  "icu:PreferencesDonations__mobile-info": {
+    "messageformat": "Badges and monthly donations can be managed on your mobile device."
+  },
+  "icu:PreferencesDonations__receipts": {
+    "messageformat": "Receipts"
+  },
+  "icu:PreferencesDonations__faqs": {
+    "messageformat": "Donation FAQs"
+  },
+  "icu:PreferencesDonations--receiptList__info": {
+    "messageformat": "Receipts do not sync across devices. If you have reinstalled Signal, receipts from previous donations will not be available."
+  },
+  "icu:PreferencesDonations--receiptList__empty-title": {
+    "messageformat": "No Receipts"
+  },
+  "icu:PreferencesDonations__ReceiptModal--title": {
+    "messageformat": "Details"
+  },
+  "icu:PreferencesDonations__ReceiptModal--download": {
+    "messageformat": "Download receipt"
+  },
+  "icu:PreferencesDonations__ReceiptModal--type-label": {
+    "messageformat": "Type"
+  },
+  "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
+    "messageformat": "Date paid"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Donation receipt"
   },
@@ -6613,10 +6673,7 @@
     "messageformat": "Date paid"
   },
   "icu:DonationReceipt__type-value--one-time": {
-    "messageformat": "One-time"
-  },
-  "icu:DonationReceipt__payment-method-label": {
-    "messageformat": "Payment method"
+    "messageformat": "One time"
   },
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840."
@@ -6657,5 +6714,8 @@
   },
   "icu:WhatsNew__v7.61--0": {
     "messageformat": "This update improves audio quality and reliability during voice and video calls, and introduces better automatic configuration of connected microphones and speakers. Thanks to <padenot></padenot>, <kinetiknz></kinetiknz>, and <Pehrsons></Pehrsons> at Mozilla for their help with this project."
+  },
+  "icu:WhatsNew__v7.62--0": {
+    "messageformat": "We fixed a rare bug that could prevent some contacts from synchronizing correctly."
   }
 }
