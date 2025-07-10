@@ -1390,6 +1390,226 @@ export function Image(): JSX.Element {
   );
 }
 
+export function BrokenImage(): JSX.Element {
+  const darkImageProps = createProps({
+    attachments: [
+      fakeAttachment({
+        url: 'nonexistent.jpg',
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        contentType: IMAGE_JPEG,
+        width: 128,
+        height: 128,
+      }),
+    ],
+    status: 'sent',
+  });
+  const lightImageProps = createProps({
+    attachments: [
+      fakeAttachment({
+        url: 'nonexistent.jpg',
+        fileName: 'the-sax.png',
+        contentType: IMAGE_PNG,
+        height: 240,
+        width: 320,
+      }),
+    ],
+    status: 'sent',
+  });
+
+  return (
+    <>
+      {renderBothDirections(darkImageProps)}
+      {renderBothDirections(lightImageProps)}
+    </>
+  );
+}
+
+export function BrokenImageWithExpirationTimer(): JSX.Element {
+  const darkImageProps = createProps({
+    attachments: [
+      fakeAttachment({
+        url: 'nonexistent.jpg',
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        contentType: IMAGE_JPEG,
+        width: 128,
+        height: 128,
+      }),
+    ],
+    expirationLength: 30 * 1000,
+    expirationTimestamp: Date.now() + 30 * 1000,
+    status: 'sent',
+  });
+  const lightImageProps = createProps({
+    attachments: [
+      fakeAttachment({
+        url: 'nonexistent.jpg',
+        fileName: 'the-sax.png',
+        contentType: IMAGE_PNG,
+        height: 240,
+        width: 320,
+      }),
+    ],
+    expirationLength: 30 * 1000,
+    expirationTimestamp: Date.now() + 30 * 1000,
+    status: 'sent',
+  });
+
+  return (
+    <>
+      {renderBothDirections(darkImageProps)}
+      {renderBothDirections(lightImageProps)}
+    </>
+  );
+}
+
+export function Video(): JSX.Element {
+  const darkImageProps = createProps({
+    attachments: [
+      fakeAttachment({
+        url: 'nonexistent.mp4',
+        screenshot: {
+          url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+          size: 100000,
+          width: 3000,
+          height: 1680,
+          contentType: IMAGE_JPEG,
+        },
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        contentType: VIDEO_MP4,
+        width: 128,
+        height: 128,
+      }),
+    ],
+    status: 'sent',
+  });
+  const lightImageProps = createProps({
+    attachments: [
+      fakeAttachment({
+        url: 'nonexistent.mp4',
+        screenshot: {
+          url: pngUrl,
+          width: 800,
+          height: 1200,
+          size: 100000,
+          contentType: IMAGE_PNG,
+        },
+        fileName: 'the-sax.png',
+        contentType: VIDEO_MP4,
+        height: 240,
+        width: 320,
+      }),
+    ],
+    status: 'sent',
+  });
+
+  return (
+    <>
+      {renderBothDirections(darkImageProps)}
+      {renderBothDirections(lightImageProps)}
+    </>
+  );
+}
+
+export function BrokenVideo(): JSX.Element {
+  const darkImageProps = createProps({
+    attachments: [
+      fakeAttachment({
+        url: 'nonexistent.mp4',
+        screenshot: {
+          url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+          size: 100000,
+          width: 7680,
+          height: 3200,
+          contentType: IMAGE_JPEG,
+        },
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        contentType: VIDEO_MP4,
+        height: 3200,
+        width: 7680,
+      }),
+    ],
+    status: 'sent',
+  });
+  const lightImageProps = createProps({
+    attachments: [
+      fakeAttachment({
+        url: 'nonexistent.mp4',
+        screenshot: {
+          url: pngUrl,
+          width: 7680,
+          height: 3200,
+          size: 100000,
+          contentType: IMAGE_PNG,
+        },
+        fileName: 'the-sax.png',
+        contentType: VIDEO_MP4,
+        height: 3200,
+        width: 7680,
+      }),
+    ],
+    status: 'sent',
+  });
+
+  return (
+    <>
+      {renderBothDirections(darkImageProps)}
+      {renderBothDirections(lightImageProps)}
+    </>
+  );
+}
+
+export function BrokenVideoWithExpirationTimer(): JSX.Element {
+  const darkImageProps = createProps({
+    attachments: [
+      fakeAttachment({
+        url: 'nonexistent.mp4',
+        screenshot: {
+          url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+          size: 100000,
+          width: 7680,
+          height: 3200,
+          contentType: IMAGE_JPEG,
+        },
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        contentType: VIDEO_MP4,
+        height: 3200,
+        width: 7680,
+      }),
+    ],
+    expirationLength: 30 * 1000,
+    expirationTimestamp: Date.now() + 30 * 1000,
+    status: 'sent',
+  });
+  const lightImageProps = createProps({
+    attachments: [
+      fakeAttachment({
+        url: 'nonexistent.mp4',
+        screenshot: {
+          url: pngUrl,
+          width: 7680,
+          height: 3200,
+          size: 100000,
+          contentType: IMAGE_PNG,
+        },
+        fileName: 'the-sax.png',
+        contentType: VIDEO_MP4,
+        height: 3200,
+        width: 7680,
+      }),
+    ],
+    expirationLength: 30 * 1000,
+    expirationTimestamp: Date.now() + 30 * 1000,
+    status: 'sent',
+  });
+
+  return (
+    <>
+      {renderBothDirections(darkImageProps)}
+      {renderBothDirections(lightImageProps)}
+    </>
+  );
+}
+
 export const MultipleImages2 = Template.bind({});
 MultipleImages2.args = {
   attachments: [
@@ -1785,6 +2005,21 @@ OtherFileType.args = {
       size: 10200000,
     }),
   ],
+  status: 'sent',
+};
+
+export const OtherFileTypeWithExpirationTimer = Template.bind({});
+OtherFileTypeWithExpirationTimer.args = {
+  attachments: [
+    fakeAttachment({
+      contentType: stringToMIMEType('text/plain'),
+      fileName: 'things.zip',
+      url: 'things.zip',
+      size: 10200000,
+    }),
+  ],
+  expirationLength: 30 * 1000,
+  expirationTimestamp: Date.now() + 30 * 1000,
   status: 'sent',
 };
 
