@@ -1281,34 +1281,34 @@
     "messageformat": "To de pell de l'emoji"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "Carpetes de xats"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
-    "messageformat": "Add a chat folder"
+    "messageformat": "Afegir una carpeta de xats"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
-    "messageformat": "Organize your chats into folders and quickly switch between them on your chat list."
+    "messageformat": "Organitza els teus xats en carpetes i passa ràpidament d'una a l'altra a la teva llista de xats."
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "Editar carpeta"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__DeleteFolder": {
-    "messageformat": "Delete"
+    "messageformat": "Suprimeix"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Title": {
-    "messageformat": "Delete folder?"
+    "messageformat": "Eliminar carpeta?"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Description": {
-    "messageformat": "Do you want to delete the folder “{chatFolderTitle}”?"
+    "messageformat": "Vols eliminar la carpeta \"{chatFolderTitle}\"?"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "Suprimeix"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Cancel"
+    "messageformat": "Cancel·la"
   },
   "icu:Preferences__ChatFoldersPage__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "Carpetes de xats"
   },
   "icu:Preferences__ChatFoldersPage__Description": {
     "messageformat": "Organize your chats into folders and quickly switch between them on your chat list"

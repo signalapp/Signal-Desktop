@@ -1281,34 +1281,34 @@
     "messageformat": "ಎಮೋಜಿ ಸ್ಕಿನ್ ಟೋನ್"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "ಚಾಟ್ ಫೋಲ್ಡರ್ ಗಳು"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
-    "messageformat": "Add a chat folder"
+    "messageformat": "ಚಾಟ್ ಫೋಲ್ಡರ್ ಸೇರಿಸಲಾಗಿದೆ"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
-    "messageformat": "Organize your chats into folders and quickly switch between them on your chat list."
+    "messageformat": "ಫೋಲ್ಡರ್ ಗಳಲ್ಲಿ ಚಾಟ್ ಗಳನ್ನು ಅನುಕ್ರಮವಾಗಿ ಹೊಂದಿಸಿ ಮತ್ತು ಅವುಗಳನ್ನು ನಿಮ್ಮ ಚಾಟ್ ಗಳ ಪಟ್ಟಿಗೆ ತ್ವರಿತವಾಗಿ ಬದಲಾಯಿಸಿ."
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "ಫೋಲ್ಡರ್ ಗಳನ್ನು ಎಡಿಟ್ ಮಾಡಿ"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__DeleteFolder": {
-    "messageformat": "Delete"
+    "messageformat": "ಅಳಿಸಿ"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Title": {
-    "messageformat": "Delete folder?"
+    "messageformat": "ಫೋಲ್ಡರ್ ಅಳಿಸಬೇಕೇ?"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Description": {
-    "messageformat": "Do you want to delete the folder “{chatFolderTitle}”?"
+    "messageformat": "ನೀವು “{chatFolderTitle}” ಫೋಲ್ಡರ್ ಅನ್ನು ಅಳಿಸಲು ಬಯಸುತ್ತೀರಾ?"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "ಅಳಿಸಿ"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Cancel"
+    "messageformat": "ರದ್ದುಮಾಡಿ"
   },
   "icu:Preferences__ChatFoldersPage__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "ಚಾಟ್ ಫೋಲ್ಡರ್ ಗಳು"
   },
   "icu:Preferences__ChatFoldersPage__Description": {
     "messageformat": "Organize your chats into folders and quickly switch between them on your chat list"

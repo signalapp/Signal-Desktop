@@ -1281,34 +1281,34 @@
     "messageformat": "Tono de piel de los emojis"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "Carpetas de chats"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
-    "messageformat": "Add a chat folder"
+    "messageformat": "Añadir una carpeta de chats"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
-    "messageformat": "Organize your chats into folders and quickly switch between them on your chat list."
+    "messageformat": "Organiza tus chats en carpetas y cambia rápidamente de una a otra en tu lista de chats."
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "Editar carpeta"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__DeleteFolder": {
-    "messageformat": "Delete"
+    "messageformat": "Eliminar"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Title": {
-    "messageformat": "Delete folder?"
+    "messageformat": "¿Eliminar carpeta?"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Description": {
-    "messageformat": "Do you want to delete the folder “{chatFolderTitle}”?"
+    "messageformat": "¿Quieres eliminar la carpeta \"{chatFolderTitle}\"?"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "Eliminar"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Cancel"
+    "messageformat": "Cancelar"
   },
   "icu:Preferences__ChatFoldersPage__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "Carpetas de chats"
   },
   "icu:Preferences__ChatFoldersPage__Description": {
     "messageformat": "Organize your chats into folders and quickly switch between them on your chat list"
@@ -5292,7 +5292,7 @@
     "messageformat": "Las copias de seguridad se cifran con una clave y se guardan en tu dispositivo de escritorio."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "Crea una copia de seguridad cifrada de extremo a extremo que puedas restaurar en tu teléfono. "
+    "messageformat": "Crea una copia de seguridad cifrada de extremo a extremo que puedes restaurar en tu teléfono. "
   },
   "icu:Preferences--local-backups-restore-info": {
     "messageformat": "Para restaurar una copia de seguridad, debes reinstalar Signal. Luego, abre la aplicación, toca &quot;Restaurar copia&quot; y busca la carpeta de copias de seguridad. <learnMoreLink>Más información.</learnMoreLink>"
@@ -5301,7 +5301,7 @@
     "messageformat": "Selecciona una carpeta"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "Elige una carpeta en tu dispositivo de escritorio donde quieras almacenar tu copia de seguridad cifrada de extremo a extremo."
+    "messageformat": "Elige una carpeta en tu dispositivo de escritorio donde quieras guardar tu copia de seguridad cifrada de extremo a extremo."
   },
   "icu:Preferences--local-backups-setup-next": {
     "messageformat": "Siguiente"

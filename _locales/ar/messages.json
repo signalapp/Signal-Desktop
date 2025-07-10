@@ -1281,34 +1281,34 @@
     "messageformat": "لون الرمز التعبيري"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "مجلدات الدردشة"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
-    "messageformat": "Add a chat folder"
+    "messageformat": "إضافة مجلد دردشة"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
-    "messageformat": "Organize your chats into folders and quickly switch between them on your chat list."
+    "messageformat": "نظّم دردشاتك في مجلدات وقُم بالتبديل بينها بسرعة في قائمة الدردشة لديك."
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "تعديل المجلد"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__DeleteFolder": {
-    "messageformat": "Delete"
+    "messageformat": "حذف"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Title": {
-    "messageformat": "Delete folder?"
+    "messageformat": "هل ترغبُ بحذف المجلد؟"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Description": {
-    "messageformat": "Do you want to delete the folder “{chatFolderTitle}”?"
+    "messageformat": "هل تريد حذف المجلد \"{chatFolderTitle}\"؟"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "حذف"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Cancel"
+    "messageformat": "إلغاء"
   },
   "icu:Preferences__ChatFoldersPage__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "مجلدات الدردشة"
   },
   "icu:Preferences__ChatFoldersPage__Description": {
     "messageformat": "Organize your chats into folders and quickly switch between them on your chat list"
@@ -1881,7 +1881,7 @@
     "messageformat": "جارٍ الاستيراد…"
   },
   "icu:syncFailed": {
-    "messageformat": "فشل الاستيراد. يُرجى التأكُّد من أن الحاسوب و هاتفك متصلان بالإنترنت."
+    "messageformat": "فشل الاستيراد. تأكَّد من أن الحاسوب و هاتفك متصلان بالإنترنت."
   },
   "icu:timestamp_s": {
     "messageformat": "الآن"
@@ -1914,7 +1914,7 @@
     "messageformat": "نص الرسالة طويل جدًا."
   },
   "icu:unblockToSend": {
-    "messageformat": "ألغِ حظر هذا الشخص لإرسال رسالة."
+    "messageformat": "ألغِ حظر جهة الاتصال هذه لإرسال رسالة."
   },
   "icu:unblockGroupToSend": {
     "messageformat": "ألغِ الحظر عن هذه المجموعة لإرسال رسالة."
@@ -1926,7 +1926,7 @@
     "messageformat": "تمَّ تحديث وقت اختفاء الرسالة بعد {time}."
   },
   "icu:timerSetByMember": {
-    "messageformat": "ضبط أحد الأعضاء وقت اختفاء الرسائل بعد {time}."
+    "messageformat": "ضبَطَ أحد الأعضاء وقت اختفاء الرسائل بعد {time}."
   },
   "icu:theyChangedTheTimer": {
     "messageformat": "أعاد العضو {name} وقت اختفاء الرسائل بعد {time}."
@@ -3324,7 +3324,7 @@
     "messageformat": "هل تريد خفض يدك؟"
   },
   "icu:CallControls__LowerHandSuggestionToast--button": {
-    "messageformat": "خفض اليد"
+    "messageformat": "خفض"
   },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "تمَّ تفعيل الرنين"
@@ -3354,7 +3354,7 @@
     "messageformat": "فتح القائمة"
   },
   "icu:CallControls__RaiseHands--lower": {
-    "messageformat": "اخفض"
+    "messageformat": "خفض"
   },
   "icu:CallControls__MenuItemRaiseHand": {
     "messageformat": "رفع اليد"
@@ -4131,7 +4131,7 @@
     "messageformat": "تمَّ نقل حسابك الشخصي"
   },
   "icu:ProfileMovedModal__description": {
-    "messageformat": "افتح علامة تبويب الإعدادات لِعرض وتعديل حسابك الشخصي."
+    "messageformat": "افتح علامة تبويب \"الإعدادات\" لِعرض وتعديل حسابك الشخصي."
   },
   "icu:BackupImportScreen__title": {
     "messageformat": "جارٍ مزامنة الرسائل"
@@ -5202,7 +5202,7 @@
     "messageformat": "تصدير نسخة احتياطية مُشفَّرة إلى الذاكرة وتشغيل مجموعة اختبارات التحقُّق عليها"
   },
   "icu:Preferences__internal__validate-backup": {
-    "messageformat": "تحقّق"
+    "messageformat": "تحقُّق"
   },
   "icu:Preferences--lastSynced": {
     "messageformat": "‫‫آخر استيراد في {date}‏ عند الساعة {time}"
@@ -5328,7 +5328,7 @@
     "messageformat": "أدخِل مفتاح النسخة الاحتياطية الذي سجّلته للتو"
   },
   "icu:Preferences__local-backups-confirm-key-modal-title": {
-    "messageformat": "حافظ على مفتاحك في مكانٍ آمن."
+    "messageformat": "حافِظ على مفتاحك في مكانٍ آمن."
   },
   "icu:Preferences__local-backups-confirm-key-modal-body": {
     "messageformat": "لن يتمكّن سيجنال من مُساعدتك على استعادة نسختك الاحتياطية إذا فقدتَ مفتاحك. احتفِظ بمفتاحك في مكانٍ آمن، ولا تُشاركه مع أي أحد."

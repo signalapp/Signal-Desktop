@@ -1281,34 +1281,34 @@
     "messageformat": "Odcień skóry emoji"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "Foldery z czatami"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
-    "messageformat": "Add a chat folder"
+    "messageformat": "Dodaj folder z czatami"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
-    "messageformat": "Organize your chats into folders and quickly switch between them on your chat list."
+    "messageformat": "Uporządkuj czaty w folderach i z łatwością przełączaj się między nimi na swojej liście czatów."
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "Edytuj folder"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__DeleteFolder": {
-    "messageformat": "Delete"
+    "messageformat": "Usuń"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Title": {
-    "messageformat": "Delete folder?"
+    "messageformat": "Usunąć folder?"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Description": {
-    "messageformat": "Do you want to delete the folder “{chatFolderTitle}”?"
+    "messageformat": "Czy chcesz usunąć folder „{chatFolderTitle}”?"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "Usuń"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Cancel"
+    "messageformat": "Anuluj"
   },
   "icu:Preferences__ChatFoldersPage__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "Foldery z czatami"
   },
   "icu:Preferences__ChatFoldersPage__Description": {
     "messageformat": "Organize your chats into folders and quickly switch between them on your chat list"
@@ -2895,7 +2895,7 @@
     "messageformat": "Włącz/wyłącz wideo"
   },
   "icu:Keyboard--toggle-preview": {
-    "messageformat": "Przełącznik powiększonego podglądu (włącz/wyłącz)"
+    "messageformat": "Włącz/wyłącz powiększony podgląd"
   },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Odbierz z wideo (tylko w przypadku połączeń wideo)"
@@ -3111,7 +3111,7 @@
     "messageformat": "Czy chcesz dalej należeć do tej grupy oraz udostępnić jej swoje imię i zdjęcie? <learnMoreLink>Dowiedz się więcej.</learnMoreLink>"
   },
   "icu:MessageRequests--profile-sharing--direct--link": {
-    "messageformat": "Czy Ty i {firstName} dalej będziecie komunikować się ze sobą na tym czacie i czy udostępnić tej osobie Twoje imię i zdjęcie?"
+    "messageformat": "Czy Ty i {firstName} dalej będziecie się ze sobą komunikować na tym czacie i czy udostępnić tej osobie Twoje imię i zdjęcie? <learnMoreLink>Dowiedz się więcej</learnMoreLink>"
   },
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {{count,number} osoba} few {{count,number} osoby} many {{count,number} osób} other {{count,number} osoby}}"
@@ -4698,7 +4698,7 @@
     "messageformat": "Wskazówki dotyczące bezpieczeństwa"
   },
   "icu:ContactSpoofing__same-name--link": {
-    "messageformat": "Uważnie sprawdzaj wszystkie prośby o kontakt. Aplikacja Signal znalazła inny kontakt, który nazywa się tak samo. <reviewRequestLink>Sprawdź tę prośbę</reviewRequestLink>"
+    "messageformat": "Uważnie sprawdzaj wszystkie prośby o kontakt. Aplikacja Signal znalazła inny kontakt, który nazywa się tak samo. <reviewRequestLink>Kliknij, aby to sprawdzić</reviewRequestLink>"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
     "messageformat": "{count, plural, one {{count,number} osoba w grupie nazywa się tak samo. <reviewRequestLink> Sprawdź, o kim mowa</reviewRequestLink>} few {{count,number} osoby w grupie nazywają się tak samo. <reviewRequestLink> Sprawdź, o kim mowa</reviewRequestLink>} many {{count,number} osób w grupie nazywa się tak samo. <reviewRequestLink> Sprawdź, o kim mowa</reviewRequestLink>} other {{count,number} osoby w grupie nazywa się tak samo. <reviewRequestLink> Sprawdź, o kim mowa</reviewRequestLink>}}"
@@ -4776,7 +4776,7 @@
     "messageformat": "Usuń kolor"
   },
   "icu:ChatColorPicker__delete--message": {
-    "messageformat": "{num, plural, one {Ten kolor niestandardowy jest używany w {num,number} czacie. Czy chcesz usunąć ten kolorć?} few {Ten kolor niestandardowy jest używany w {num,number} czatach. Czy chcesz go usunąć ze wszystkich tych czatów?} many {Ten kolor niestandardowy jest używany w {num,number} czatach. Czy chcesz go usunąć ze wszystkich tych czatów?} other {Ten kolor niestandardowy jest używany w {num,number} czatu. Czy chcesz go usunąć ze wszystkich tych czatów?}}"
+    "messageformat": "{num, plural, one {Ten kolor niestandardowy jest używany w {num,number} czacie. Czy chcesz usunąć kolor z tego czatu?} few {Ten kolor niestandardowy jest używany w {num,number} czatach. Czy chcesz go usunąć z tych czatów?} many {Ten kolor niestandardowy jest używany w {num,number} czatach. Czy chcesz go usunąć ze wszystkich tych czatów?} other {Ten kolor niestandardowy jest używany w {num,number} czatu. Czy chcesz go usunąć z tych czatów?}}"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "Kolor czatu"
@@ -4881,7 +4881,7 @@
     "messageformat": "tygodnie"
   },
   "icu:settings__DisappearingMessages__footer": {
-    "messageformat": "Ustaw domyślny czas, po którym wiadomości znikają, we wszystkich nowych czatach rozpoczętych przez Ciebie."
+    "messageformat": "Ustaw domyślny czas, po którym wiadomości znikają we wszystkich nowych czatach rozpoczętych przez Ciebie."
   },
   "icu:settings__DisappearingMessages__timer__label": {
     "messageformat": "Domyślny czas, po którym wiadomości znikają"
@@ -4995,10 +4995,10 @@
     "messageformat": "Nie możesz wybrać cyfr 00. Podaj cyfrę od 1 do 9."
   },
   "icu:ProfileEditor--username--check-discriminator-leading-zero": {
-    "messageformat": "Numer składający się z więcej niż dwóch cyfr nie możee się zaczynać od cyfry 0."
+    "messageformat": "Numer składający się z więcej niż dwóch cyfr nie może się zaczynać od cyfry 0"
   },
   "icu:ProfileEditor--username--too-many-attempts": {
-    "messageformat": "Zbyt wiele prób. Spróbuj ponownie później."
+    "messageformat": "Zbyt wiele prób. Spróbuj ponownie później"
   },
   "icu:ProfileEditor--username--unavailable": {
     "messageformat": "Ta nazwa użytkownika jest niedostępna"
@@ -5058,7 +5058,7 @@
     "messageformat": "Edytuj zdjęcie"
   },
   "icu:ProfileEditor--info--general": {
-    "messageformat": "Twój profil i wprowadzane w nim zmiany są widoczne dla Twoich kontaktów, grup i rozmówców."
+    "messageformat": "Twój profil oraz wprowadzane w nim zmiany są widoczne dla osób, z którymi wymieniasz wiadomości, a także Twoich kontaktów i grup."
   },
   "icu:ProfileEditor--info--pnp": {
     "messageformat": "Nazwa użytkownika, kod QR ani link nie są widoczne w Twoim profilu. Udostępniaj je tylko zaufanym osobom."
@@ -5220,10 +5220,10 @@
     "messageformat": "Aby zmienić to ustawienie, otwórz Signal na urządzeniu mobilnym i przejdź do sekcji Ustawienia > Czaty"
   },
   "icu:Preferences__auto-convert-emoji--title": {
-    "messageformat": "Konwertuj emotikony wpisane jao znaki na emoji"
+    "messageformat": "Zamieniaj w emoji emotikony wpisane jako znaki"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "Na przykład :-) zostanie przekonwertowane na <emojify>🙂</emojify>"
+    "messageformat": "Na przykład emotikon :-) zamieni się w to emoji: <emojify>🙂</emojify>"
   },
   "icu:Preferences--advanced": {
     "messageformat": "Zaawansowane"
@@ -5418,7 +5418,7 @@
     "messageformat": "Na pewno?"
   },
   "icu:Preferences__pnp__discoverability__nobody__confirmModal__description": {
-    "messageformat": "Jeśli w ustawieniu „{nobodyLabel}” wybierzesz opcję „{settingTitle}”, utrudni to innym znalezienie Cię w aplikacji Signal."
+    "messageformat": "Jeśli w ustawieniu „{settingTitle}” wybierzesz opcję „{nobodyLabel}”, utrudni to innym znalezienie Cię w aplikacji Signal."
   },
   "icu:Preferences--messaging": {
     "messageformat": "Wiadomości"
@@ -5472,10 +5472,10 @@
     "messageformat": "Ustaw"
   },
   "icu:Preferences__LanguageModal__Restart__Title": {
-    "messageformat": "Aby zastosować zmianę, uruchom Signal ponownie"
+    "messageformat": "Uruchom Signal ponownie"
   },
   "icu:Preferences__LanguageModal__Restart__Description": {
-    "messageformat": "Aby zmienić język, aplikacja musi zostać uruchomiona ponownie."
+    "messageformat": "Aby zmienić język, uruchom aplikację ponownie."
   },
   "icu:Preferences__LanguageModal__Restart__Button": {
     "messageformat": "Uruchom ponownie"
@@ -5526,7 +5526,7 @@
     "messageformat": "Wymagana aktualizacja"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "Aby dokończyć synchronizację wiadomości, zaktualizuj aplikację Signal Desktop teraz."
+    "messageformat": "Aby dokończyć synchronizację wiadomości, zaktualizuj aplikację Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Zaktualizuj"
@@ -5544,7 +5544,7 @@
     "messageformat": "Aby zainstalować aktualizację, uruchom Signal ponownie."
   },
   "icu:InstallScreenUpdateDialog--cannot-update__body": {
-    "messageformat": "Nie udało się zaktualizować aplikacji Signal, ale jest dostępna jej nowa wersja. Przejdź na stronę {downloadUrl}, aby zainstalować nową wersję ręcznie. Następnie skontaktuj się z pomocą techniczną lub prześlij zgłoszenie o błędzie."
+    "messageformat": "Nie udało się zaktualizować aplikacji Signal, ale jest dostępna jej nowa wersja. Przejdź na stronę {downloadUrl}, aby zainstalować nową wersję ręcznie. Następnie skontaktuj się z pomocą techniczną albo prześlij zgłoszenie o błędzie."
   },
   "icu:NSIS__retry-dialog--first-line": {
     "messageformat": "Nie udało się zamknąć aplikacji Signal.",
@@ -5567,7 +5567,7 @@
     "ignoreUnused": true
   },
   "icu:NSIS__semver-downgrade": {
-    "messageformat": "Masz zainstalowaną nowszą wersję aplikacji Signal. Chcesz kontynuować?",
+    "messageformat": "Masz już zainstalowaną nowszą wersję aplikacji Signal. Czy w takim razie chcesz kontynuować?",
     "ignoreUnused": true
   },
   "icu:CrashReportDialog__title": {
@@ -5760,7 +5760,7 @@
     "messageformat": "Odblokowujesz tę osobę"
   },
   "icu:MessageRequestResponseNotification__Message--Unblocked--Group": {
-    "messageformat": "Odblokowujesz grupę"
+    "messageformat": "Odblokowujesz tę grupę"
   },
   "icu:MessageRequestResponseNotification__Button--Options": {
     "messageformat": "Opcje"
@@ -5787,7 +5787,7 @@
     "messageformat": "Kontakty mogą wyświetlić Twoje imię, nazwisko i zdjęcie oraz to, co udostępniasz w swoich relacjach – chyba że je przed tymi osobami ukryjesz"
   },
   "icu:LocalDeleteWarningModal__header": {
-    "messageformat": "Usuwanie jest teraz synchronizowane na wszystkich Twoich urządzeniach"
+    "messageformat": "Usuwanie jest synchronizowane na wszystkich urządzeniach"
   },
   "icu:LocalDeleteWarningModal__description": {
     "messageformat": "Gdy usuniesz wiadomości lub czaty, zostaną one usunięte ze wszystkich Twoich urządzeń."
@@ -5838,7 +5838,7 @@
     "messageformat": "Kliknij, aby wyświetlić relację"
   },
   "icu:Stories__placeholder-with-icon--text-2": {
-    "messageformat": "Kliknij <newStoryButtonIcon></newStoryButtonIcon>, aby dodać relację."
+    "messageformat": "Aby dodać relację, kliknij <newStoryButtonIcon></newStoryButtonIcon>."
   },
   "icu:Stories__from-to-group": {
     "messageformat": "{name} do grupy {group}"
@@ -5859,7 +5859,7 @@
     "messageformat": "Prywatność relacji"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "Relacje znikają automatycznie po 24 godzinach. Zdecyduj, kto może wyświetlać Twoje relacje, lub twórz relacje przeznaczone dla określonych odbiorców czy też ich grup."
+    "messageformat": "Relacje znikają automatycznie po 24 godzinach. Zdecyduj, kto może wyświetlać Twoje relacje, lub utwórz relacje przeznaczone dla określonych odbiorców czy też ich grup."
   },
   "icu:StoriesSettings__my_stories": {
     "messageformat": "Moje relacje"
@@ -5949,7 +5949,7 @@
     "messageformat": "Usuń relację grupową"
   },
   "icu:StoriesSettings__remove_group--confirm": {
-    "messageformat": "Usunąć relację w grupie {groupTitle}?"
+    "messageformat": "Usunąć relację grupową {groupTitle}?"
   },
   "icu:SendStoryModal__choose-who-can-view": {
     "messageformat": "Wybierz, kto może wyświetlać relacje"
@@ -6265,7 +6265,7 @@
     "messageformat": "Skopiuj do schowka"
   },
   "icu:UsernameLinkModalBody__help": {
-    "messageformat": "Udostępniaj swój kod QR i link tylko zaufanym osobom. Po udostępnieniu inni będą mogli wyświetlić Twoją nazwę użytkownika i rozpocząć z Tobą czat."
+    "messageformat": "Udostępniaj swój kod QR oraz swój link tylko zaufanym osobom. Po udostępnieniu inni będą mogli wyświetlić Twoją nazwę użytkownika i rozpocząć z Tobą czat."
   },
   "icu:UsernameLinkModalBody__reset": {
     "messageformat": "Zresetuj"
@@ -6277,7 +6277,7 @@
     "messageformat": "Kolor linku do nazwy użytkownika, {index,number} z {total,number}"
   },
   "icu:UsernameLinkModalBody__reset__confirm": {
-    "messageformat": "Jeśli zresetujesz kod QR i link, obecny kod QR i obecny link przestaną działać."
+    "messageformat": "Jeśli zresetujesz kod QR i link, te dotychczasowe przestaną działać."
   },
   "icu:UsernameLinkModalBody__resetting-link": {
     "messageformat": "Resetowanie linku…"
@@ -6310,7 +6310,7 @@
     "messageformat": "Kod QR i link"
   },
   "icu:UsernameOnboardingModalBody__row__qr__body": {
-    "messageformat": "Każda nazwa użytkownika jest powiązana z unikalnym kodem QR i unikalnym linkiem, które możesz udostępnić znajomym, aby szybko rozpocząć z nimi czat."
+    "messageformat": "Każda nazwa użytkownika jest powiązana z unikalnym kodem QR i unikalnym linkiem. Udostępnij je znajomym, aby mogli szybko rozpocząć z Tobą czat."
   },
   "icu:UsernameOnboardingModalBody__continue": {
     "messageformat": "Ustaw nazwę użytkownika"
@@ -6331,13 +6331,13 @@
     "messageformat": "Odrzuć"
   },
   "icu:UnsupportedOSWarningDialog__body": {
-    "messageformat": "Signal Desktop wkrótce przestanie obsługiwać system operacyjny {OS} zainstalowany na Twoim komputerze. Aby dalej korzystać z aplikacji Signal, zaktualizuj system operacyjny do {expirationDate}. <learnMoreLink>Dowiedz się więcej</learnMoreLink>"
+    "messageformat": "Signal Desktop wkrótce przestanie obsługiwać wersję systemu operacyjnego {OS} zainstalowaną na Twoim komputerze. Aby dalej korzystać z aplikacji Signal, do {expirationDate} zaktualizuj system operacyjny. <learnMoreLink>Dowiedz się więcej</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorDialog__body": {
-    "messageformat": "Ten komputer nie obsługuje już aplikacji Signal Desktop. Aby znów z niej korzystać, zaktualizuj system operacyjny {OS} na komputerze. <learnMoreLink>Dowiedz się więcej</learnMoreLink>"
+    "messageformat": "Ten komputer nie obsługuje już aplikacji Signal Desktop. Aby dalej z niej korzystać, zaktualizuj system operacyjny {OS} na komputerze. <learnMoreLink>Dowiedz się więcej</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorToast": {
-    "messageformat": "Ten komputer nie obsługuje już aplikacji Signal Desktop. Aby znów z niej korzystać, zaktualizuj system operacyjny {OS} na komputerze. "
+    "messageformat": "Ten komputer nie obsługuje już aplikacji Signal Desktop. Aby dalej z niej korzystać, zaktualizuj system operacyjny {OS} na komputerze."
   },
   "icu:MessageMetadata__edited": {
     "messageformat": "Edytowana"
@@ -6355,7 +6355,7 @@
     "messageformat": "Historia edycji"
   },
   "icu:ResendMessageEdit__body": {
-    "messageformat": "Nie udało się wysłać edytowanej wiadomości.  Sprawdź połączenie z internetem i spróbuj ponownie"
+    "messageformat": "Nie udało się wysłać edytowanej wiadomości. Sprawdź połączenie z internetem i spróbuj ponownie"
   },
   "icu:ResendMessageEdit__button": {
     "messageformat": "Wyślij ponownie"
@@ -6415,7 +6415,7 @@
     "messageformat": "Filtruj według nieodebranych"
   },
   "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
-    "messageformat": "Przełącz"
+    "messageformat": "Przełącznik"
   },
   "icu:CallsList__EmptyState--noQuery__title": {
     "messageformat": "Brak połączeń"
@@ -6457,7 +6457,7 @@
     "messageformat": "Opuścić bieżącą rozmowę?"
   },
   "icu:CallsList__LeaveCallDialogBody": {
-    "messageformat": "Zanim rozpoczniesz nowe połączone lub do niego dołączysz, musisz opuścić bieżącą rozmowę."
+    "messageformat": "Zanim rozpoczniesz nowe połączenie lub do niego dołączysz, musisz opuścić bieżącą rozmowę."
   },
   "icu:CallsList__LeaveCallDialogButton--leave": {
     "messageformat": "Opuść rozmowę"
@@ -6496,7 +6496,7 @@
     "messageformat": "Edytuj nazwę połączenia"
   },
   "icu:CallLinkDetails__ApproveAllMembersLabel": {
-    "messageformat": "Wymagaj zatwierdzenia przez administratora"
+    "messageformat": "Zatwierdzanie przez administratora"
   },
   "icu:CallLinkDetails__SettingTooltip--disabled-for-active-call": {
     "messageformat": "Tego ustawienia nie można zmienić, gdy trwa połączenie"

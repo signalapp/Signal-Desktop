@@ -1233,7 +1233,7 @@
     "messageformat": "Scan deze code met de Signal-app op je telefoon"
   },
   "icu:Install__instructions__1": {
-    "messageformat": "Open de Signal-app op je telefoon"
+    "messageformat": "Open Signal op je telefoon"
   },
   "icu:Install__instructions__2": {
     "messageformat": "Tik op {settings} en vervolgens op {linkedDevices}"
@@ -1281,34 +1281,34 @@
     "messageformat": "Emoji-huidskleur"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "Chatmappen"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
-    "messageformat": "Add a chat folder"
+    "messageformat": "Een chatmap toevoegen"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
-    "messageformat": "Organize your chats into folders and quickly switch between them on your chat list."
+    "messageformat": "Orden je chats in mappen en schakel snel tussen deze mappen in je chatlijst."
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "Map bewerken"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__DeleteFolder": {
-    "messageformat": "Delete"
+    "messageformat": "Verwijderen"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Title": {
-    "messageformat": "Delete folder?"
+    "messageformat": "Map verwijderen?"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Description": {
-    "messageformat": "Do you want to delete the folder “{chatFolderTitle}”?"
+    "messageformat": "Wil je de map ‘{chatFolderTitle}’ verwijderen?"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "Verwijderen"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Cancel"
+    "messageformat": "Annuleren"
   },
   "icu:Preferences__ChatFoldersPage__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "Chatmappen"
   },
   "icu:Preferences__ChatFoldersPage__Description": {
     "messageformat": "Organize your chats into folders and quickly switch between them on your chat list"
@@ -1815,7 +1815,7 @@
     "messageformat": "Alle gegevens en berichten wissen uit deze versie van Signal Desktop? Je Signal-account en gegevens op je telefoon of andere gekoppelde apparaten worden niet gewist."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Aan het ontkoppelen en alle gegevens aan het wissen…"
+    "messageformat": "Bezig met ontkoppelen en wissen van alle gegevens…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Je hebt nog verouderde gegevens op je apparaat van een eerdere installatie van Signal Desktop. Als je ervoor kiest om verder te gaan, dan zullen alle gegevens worden gewist en zal je met een schone installatie van Signal Desktop beginnen."
@@ -4119,7 +4119,7 @@
     "messageformat": "Signal wordt mogelijk gemaakt door donaties van mensen zoals jij. Als je ons steunt krijg je een badge."
   },
   "icu:BadgeSustainerInstructions__instructions__1": {
-    "messageformat": "Open de Signal-app op je telefoon"
+    "messageformat": "Open Signal op je telefoon"
   },
   "icu:BadgeSustainerInstructions__instructions__2": {
     "messageformat": "Tik in de linkerbovenhoek op je profielfoto om de instellingen te openen"
@@ -4254,7 +4254,7 @@
     "messageformat": "Signal Desktop biedt geen ondersteuning voor het verzenden van berichten naar personen die niet geregistreerd zijn bij Signal. Vraag deze persoon om Signal te installeren om zo beveiligde gesprekken te kunnen voeren."
   },
   "icu:CompositionArea--sms-only__spinner-label": {
-    "messageformat": "Aan het nagaan of deze persoon staat geregistreerd bij Signal"
+    "messageformat": "Controleren of deze persoon staat geregistreerd bij Signal"
   },
   "icu:CompositionArea__edit-action--discard": {
     "messageformat": "Bericht weggooien"
@@ -5508,7 +5508,7 @@
     "messageformat": "Update gedownload"
   },
   "icu:CriticalIdlePrimaryDevice__title": {
-    "messageformat": "Open de Signal-app op je telefoon"
+    "messageformat": "Open Signal op je telefoon"
   },
   "icu:CriticalIdlePrimaryDevice__body": {
     "messageformat": "Je account wordt binnenkort verwijderd, tenzij je Signal op je telefoon opent. Dit bericht verdwijnt als dit is gelukt. <learnMoreLink>Meer informatie</learnMoreLink>"
