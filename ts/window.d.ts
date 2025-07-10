@@ -21,6 +21,7 @@ import type {
 import type AccountManager from './textsecure/AccountManager';
 import type { WebAPIConnectType } from './textsecure/WebAPI';
 import type { CallingClass } from './services/calling';
+import type * as Donations from './services/donations';
 import type * as StorageService from './services/storage';
 import type { BackupsService } from './services/backups';
 import type * as Groups from './groups';
@@ -164,6 +165,7 @@ export type SignalCoreType = {
     lightSessionResetQueue?: PQueue;
     retryPlaceholders?: RetryPlaceholders;
     storage: typeof StorageService;
+    donations: typeof Donations;
   };
   SettingsWindowProps?: SettingsWindowPropsType;
   Migrations: ReturnType<typeof initializeMigrations>;

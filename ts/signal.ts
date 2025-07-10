@@ -464,9 +464,9 @@ export const setup = (options: {
     initializeGroupCredentialFetcher,
     initializeNetworkObserver,
     initializeUpdateListener,
+    donations,
 
     // Testing
-    donations,
     storage,
   };
 

@@ -113,12 +113,22 @@ export async function finishDonationWithCard(
 }
 
 export async function finish3dsValidation(token: string): Promise<void> {
-  const existing = _getWorkflowFromRedux();
-  if (!existing) {
-    throw new Error('finish3dsValidation: Cannot finish nonexistent workflow!');
+  let workflow: DonationWorkflow;
+
+  try {
+    const existing = _getWorkflowFromRedux();
+    if (!existing) {
+      throw new Error(
+        'finish3dsValidation: Cannot finish nonexistent workflow!'
+      );
+    }
+
+    workflow = await _completeValidationRedirect(existing, token);
+  } catch (error) {
+    await failDonation(donationErrorTypeSchema.Enum.Failed3dsValidation);
+    throw error;
   }
 
-  const workflow = await _completeValidationRedirect(existing, token);
   await _saveAndRunWorkflow(workflow);
 }
 
@@ -681,7 +691,8 @@ async function failDonation(errorType: DonationErrorType): Promise<void> {
   if (
     workflow &&
     workflow.type !== donationStateSchema.Enum.INTENT_METHOD &&
-    workflow.type !== donationStateSchema.Enum.INTENT
+    workflow.type !== donationStateSchema.Enum.INTENT &&
+    workflow.type !== donationStateSchema.Enum.INTENT_REDIRECT
   ) {
     await _saveWorkflow(undefined);
   }

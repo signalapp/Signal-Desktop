@@ -17,6 +17,8 @@ export const donationErrorTypeSchema = z.enum([
   'PaymentDeclined',
   // Only used if we can't support 3DS validation for our first release
   'CardNotSupported',
+  // Used if the user is redirected back from validation, but continuing forward fails
+  'Failed3dsValidation',
   // Any other HTTPError during the process
   'DonationProcessingError',
   // Any other error
