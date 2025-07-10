@@ -602,6 +602,12 @@
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
+  "icu:Toast--ReceiptSaved": {
+    "messageformat": "Receipt saved"
+  },
+  "icu:Toast--ReceiptSaveFailed": {
+    "messageformat": "Error saving receipt. Please try again."
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "നിങ്ങൾക്ക് ഫയലുകൾക്കൊപ്പം ഫോട്ടോകളും വീഡിയോകളും തിരഞ്ഞെടുക്കാനാകില്ല."
   },
@@ -1281,34 +1287,34 @@
     "messageformat": "ഇമോജി സ്കിൻ ടോൺ"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "ചാറ്റ് ഫോൾഡറുകൾ"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
-    "messageformat": "Add a chat folder"
+    "messageformat": "ഒരു ചാറ്റ് ഫോൾഡർ ചേർക്കുക"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
-    "messageformat": "Organize your chats into folders and quickly switch between them on your chat list."
+    "messageformat": "നിങ്ങളുടെ ചാറ്റുകൾ ഫോൾഡറുകളായി ഓർഗനൈസുചെയ്യുകയും നിങ്ങളുടെ ചാറ്റ് ലിസ്റ്റിൽ അവയ്ക്കിടയിൽ വേഗത്തിൽ മാറുകയും ചെയ്യുക."
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "ഫോൾഡർ എഡിറ്റ് ചെയ്യുക"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__DeleteFolder": {
-    "messageformat": "Delete"
+    "messageformat": "ഇല്ലാതാക്കൂ"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Title": {
-    "messageformat": "Delete folder?"
+    "messageformat": "ഫോൾഡർ ഇല്ലാതാക്കണോ?"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Description": {
-    "messageformat": "Do you want to delete the folder “{chatFolderTitle}”?"
+    "messageformat": "“{chatFolderTitle}” എന്ന ഫോൾഡർ ഇല്ലാതാക്കണോ?"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "ഇല്ലാതാക്കൂ"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Cancel"
+    "messageformat": "റദ്ദാക്കുക"
   },
   "icu:Preferences__ChatFoldersPage__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "ചാറ്റ് ഫോൾഡറുകൾ"
   },
   "icu:Preferences__ChatFoldersPage__Description": {
     "messageformat": "Organize your chats into folders and quickly switch between them on your chat list"
@@ -4182,10 +4188,10 @@
     "messageformat": "വീണ്ടും ശ്രമിക്കുക"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
-    "messageformat": "മീഡിയ പുനഃസ്ഥാപിക്കുന്നു"
+    "messageformat": "Syncing media"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "പുനഃസ്ഥാപിക്കൽ താൽക്കാലികമായി നിർത്തി"
+    "messageformat": "Syncing paused"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
     "messageformat": "{totalSize} -ൽ {currentSize} പുനഃസ്ഥാപിച്ചു"
@@ -4200,13 +4206,13 @@
     "messageformat": "ഇൻ്റർനെറ്റ് കണക്ഷനായി കാത്തിരിക്കുന്നു..."
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "കൈമാറ്റം താൽക്കാലികമായി നിർത്തുക"
+    "messageformat": "Pause"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "കൈമാറ്റം പുനരാരംഭിക്കുക"
+    "messageformat": "Resume"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
-    "messageformat": "കൈമാറ്റം റദ്ദാക്കുക"
+    "messageformat": "Cancel syncing"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
     "messageformat": "കൂടുതൽ ഓപ്‌ഷനുകൾ"
@@ -4218,16 +4224,34 @@
     "messageformat": "{totalSize} ൽ {currentSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "മീഡിയ കൈമാറ്റം റദ്ദാക്കണോ?"
+    "messageformat": "Cancel media syncing?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "നിങ്ങളുടെ സന്ദേശങ്ങളും മീഡിയയും പുനഃസ്ഥാപിക്കൽ പൂർത്തിയാക്കിയിട്ടില്ല. നിങ്ങൾ റദ്ദാക്കാൻ തിരഞ്ഞെടുക്കുകയാണെങ്കിൽ, ക്രമീകരണങ്ങളിൽ നിന്ന് നിങ്ങൾക്ക് വീണ്ടും കൈമാറാനാകും."
+    "messageformat": "Your media has not completed syncing. If you choose to cancel, you can sync again by re-linking this device. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "കൈമാറ്റം തുടരുക"
+    "messageformat": "Continue syncing"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
-    "messageformat": "കൈമാറ്റം റദ്ദാക്കുക"
+    "messageformat": "Cancel syncing"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--title": {
+    "messageformat": "Syncing paused"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--description": {
+    "messageformat": "Click “{resumeButtonText}” to continue syncing"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-resume": {
+    "messageformat": "Resume"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-pause": {
+    "messageformat": "Pause"
+  },
+  "icu:BackupMediaDownloadProgressSettings__title-in-progress": {
+    "messageformat": "Syncing media"
+  },
+  "icu:BackupMediaDownloadProgressSettings__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
     "messageformat": "അക്കൗണ്ട് നടപടി ആവശ്യമാണ്"
@@ -6600,6 +6624,42 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "പുതിയതായി എന്തുണ്ട്"
   },
+  "icu:PreferencesDonations__title": {
+    "messageformat": "Privacy over Profit"
+  },
+  "icu:PreferencesDonations__description": {
+    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:PreferencesDonations__donate-button": {
+    "messageformat": "Donate"
+  },
+  "icu:PreferencesDonations__mobile-info": {
+    "messageformat": "Badges and monthly donations can be managed on your mobile device."
+  },
+  "icu:PreferencesDonations__receipts": {
+    "messageformat": "Receipts"
+  },
+  "icu:PreferencesDonations__faqs": {
+    "messageformat": "Donation FAQs"
+  },
+  "icu:PreferencesDonations--receiptList__info": {
+    "messageformat": "Receipts do not sync across devices. If you have reinstalled Signal, receipts from previous donations will not be available."
+  },
+  "icu:PreferencesDonations--receiptList__empty-title": {
+    "messageformat": "No Receipts"
+  },
+  "icu:PreferencesDonations__ReceiptModal--title": {
+    "messageformat": "Details"
+  },
+  "icu:PreferencesDonations__ReceiptModal--download": {
+    "messageformat": "Download receipt"
+  },
+  "icu:PreferencesDonations__ReceiptModal--type-label": {
+    "messageformat": "Type"
+  },
+  "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
+    "messageformat": "Date paid"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Donation receipt"
   },
@@ -6613,10 +6673,7 @@
     "messageformat": "Date paid"
   },
   "icu:DonationReceipt__type-value--one-time": {
-    "messageformat": "One-time"
-  },
-  "icu:DonationReceipt__payment-method-label": {
-    "messageformat": "Payment method"
+    "messageformat": "One time"
   },
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840."
@@ -6657,5 +6714,8 @@
   },
   "icu:WhatsNew__v7.61--0": {
     "messageformat": "This update improves audio quality and reliability during voice and video calls, and introduces better automatic configuration of connected microphones and speakers. Thanks to <padenot></padenot>, <kinetiknz></kinetiknz>, and <Pehrsons></Pehrsons> at Mozilla for their help with this project."
+  },
+  "icu:WhatsNew__v7.62--0": {
+    "messageformat": "We fixed a rare bug that could prevent some contacts from synchronizing correctly."
   }
 }

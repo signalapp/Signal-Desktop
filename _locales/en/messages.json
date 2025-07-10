@@ -8824,49 +8824,40 @@
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Badges and monthly donations can be managed on your mobile device.",
-    "description": "Information about donations receipt syncing limitations"
+    "description": "(Deleted 2025/07/09) Information about donations receipt syncing limitations"
   },
-
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Receipts",
     "description": "Menu item to view donation receipts"
   },
-
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Donation FAQs",
     "description": "Menu item to view donation FAQs"
   },
-
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Receipts do not sync across devices. If you have reinstalled Signal, receipts from previous donations will not be available.",
     "description": "Information about donation receipts syncing limitations"
   },
-
   "icu:PreferencesDonations--receiptList__empty-title": {
     "messageformat": "No Receipts",
     "description": "Title shown when there are no donation receipts"
   },
-
   "icu:PreferencesDonations__ReceiptModal--title": {
     "messageformat": "Details",
     "description": "Title of the donation receipt details modal"
   },
-
   "icu:PreferencesDonations__ReceiptModal--download": {
     "messageformat": "Download receipt",
     "description": "Button text to download a donation receipt"
   },
-
   "icu:PreferencesDonations__ReceiptModal--type-label": {
     "messageformat": "Type",
     "description": "Label for the donation type in donation receipt modal"
   },
-
   "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
     "messageformat": "Date paid",
     "description": "Label for the payment date in donation receipt modal"
   },
-
   "icu:DonationReceipt__title": {
     "messageformat": "Donation receipt",
     "description": "Title shown at the top of donation receipt documents"
@@ -8936,7 +8927,7 @@
   },
   "icu:WhatsNew__v7.61--0": {
     "messageformat": "This update improves audio quality and reliability during voice and video calls, and introduces better automatic configuration of connected microphones and speakers. Thanks to <padenot></padenot>, <kinetiknz></kinetiknz>, and <Pehrsons></Pehrsons> at Mozilla for their help with this project.",
-    "description": "Release notes for version 7.61"
+    "description": "(Deleted 2025/07/09) Release notes for version 7.61"
   },
   "icu:WhatsNew__v7.62--0": {
     "messageformat": "We fixed a rare bug that could prevent some contacts from synchronizing correctly.",
