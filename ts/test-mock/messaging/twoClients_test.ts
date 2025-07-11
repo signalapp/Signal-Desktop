@@ -7,7 +7,7 @@ import type { App } from '../playwright';
 import { Bootstrap } from '../bootstrap';
 import { typeIntoInput, waitForEnabledComposer } from '../helpers';
 
-describe('callMessages', function (this: Mocha.Suite) {
+describe('twoClients', function twoClients(this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
 
   let bootstrap1: Bootstrap;
@@ -56,12 +56,12 @@ describe('callMessages', function (this: Mocha.Suite) {
     app2 = await bootstrap2.link();
   });
 
-  afterEach(async function (this: Mocha.Context) {
+  afterEach(async function after(this: Mocha.Context) {
     if (!bootstrap1) {
       return;
     }
-    await bootstrap2.maybeSaveLogs(this.currentTest, app2);
     await bootstrap1.maybeSaveLogs(this.currentTest, app1);
+    await bootstrap2.maybeSaveLogs(this.currentTest, app2);
 
     await app2.close();
     await app1.close();
