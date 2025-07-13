@@ -816,6 +816,14 @@
     "messageformat": "Failed to process some frames during backup import. Please share your logs.",
     "description": "[Only shown to internal users] An error popup when we failed to process some parts of a backup import."
   },
+  "icu:Toast--ReceiptSaved": {
+    "messageformat": "Receipt saved",
+    "description": "Toast message shown when a donation receipt has been successfully saved to disk"
+  },
+  "icu:Toast--ReceiptSaveFailed": {
+    "messageformat": "Error saving receipt. Please try again.",
+    "description": "Toast message shown when a donation receipt fails to save to disk"
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "You can't select photos and videos along with files.",
     "description": "An error popup when the user has attempted to add an attachment"
@@ -5557,11 +5565,11 @@
     "description": "Text of the retry button of the error modal in the backup import screen"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
-    "messageformat": "Restoring media",
+    "messageformat": "Syncing media",
     "description": "Label next to a progress bar showing active media (attachment) download progress after restoring from backup"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Restore paused",
+    "messageformat": "Syncing paused",
     "description": "Label indicating media (attachment) download progress has been paused (due to user interaction)"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
@@ -5581,15 +5589,15 @@
     "description": "Description text when attachment download in progress but offline"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause transfer",
+    "messageformat": "Pause",
     "description": "Text for button to pause media (attachment) download after backup impor"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume transfer",
+    "messageformat": "Resume",
     "description": "Text for button to resume media (attachment) download after backup import"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
-    "messageformat": "Cancel transfer",
+    "messageformat": "Cancel syncing",
     "description": "Text for button to cancel (pause) media (attachment) download after backup import"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
@@ -5605,20 +5613,44 @@
     "description": "Hint under the progressbar showing media (attachment) download progress after restoring from backup"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media transfer?",
-    "description": "Text for button to cancel (pause) media (attachment) download after backup import"
+    "messageformat": "Cancel media syncing?",
+    "description": "Text for button to cancel media (attachment) download after backup import"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings.",
-    "description": "Text for button to cancel (pause) media (attachment) download after backup import"
+    "messageformat": "Your media has not completed syncing. If you choose to cancel, you can sync again by re-linking this device. <learnMoreLink>Learn more</learnMoreLink>.",
+    "description": "Text for button to cancel media (attachment) download after backup import"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "Continue transfer",
+    "messageformat": "Continue syncing",
     "description": "Text for button to close confirmation dialog and continue media (attachment) download"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
-    "messageformat": "Cancel transfer",
+    "messageformat": "Cancel syncing",
     "description": "Text for button to confirm cancellation of media (attachment) download"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--title": {
+    "messageformat": "Syncing paused",
+    "description": "Label indicating media (attachment) download progress when the transfer has been paused"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--description": {
+    "messageformat": "Click “{resumeButtonText}” to continue syncing",
+    "description": "Shown below progress bar when the transfer has been paused. {resumeButtonText} will be 'icu:BackupMediaDownloadProgressSettings__button-resume'"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-resume": {
+    "messageformat": "Resume",
+    "description": "Text for button to resume media (attachment) download after backup import"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-pause": {
+    "messageformat": "Pause",
+    "description": "Text for button to pause media (attachment) download after backup import"
+  },
+  "icu:BackupMediaDownloadProgressSettings__title-in-progress": {
+    "messageformat": "Syncing media",
+    "description": "Label next to a progress bar showing active media (attachment) download progress after restoring from backup"
+  },
+  "icu:BackupMediaDownloadProgressSettings__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete, number, percent})...",
+    "description": "Hint under the progressbar in the backup import screen"
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
     "messageformat": "Account action required",
@@ -8778,29 +8810,73 @@
     "messageformat": "What's New",
     "description": "Title for the whats new modal"
   },
+  "icu:PreferencesDonations__title": {
+    "messageformat": "Privacy over Profit",
+    "description": "Title shown at the top of the donations preferences page"
+  },
+  "icu:PreferencesDonations__description": {
+    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Description text explaining Signal's donation model with learn more link"
+  },
+  "icu:PreferencesDonations__donate-button": {
+    "messageformat": "Donate",
+    "description": "Button text to make a donation"
+  },
+  "icu:PreferencesDonations__mobile-info": {
+    "messageformat": "Badges and monthly donations can be managed on your mobile device.",
+    "description": "(Deleted 2025/07/09) Information about donations receipt syncing limitations"
+  },
+  "icu:PreferencesDonations__receipts": {
+    "messageformat": "Receipts",
+    "description": "Menu item to view donation receipts"
+  },
+  "icu:PreferencesDonations__faqs": {
+    "messageformat": "Donation FAQs",
+    "description": "Menu item to view donation FAQs"
+  },
+  "icu:PreferencesDonations--receiptList__info": {
+    "messageformat": "Receipts do not sync across devices. If you have reinstalled Signal, receipts from previous donations will not be available.",
+    "description": "Information about donation receipts syncing limitations"
+  },
+  "icu:PreferencesDonations--receiptList__empty-title": {
+    "messageformat": "No Receipts",
+    "description": "Title shown when there are no donation receipts"
+  },
+  "icu:PreferencesDonations__ReceiptModal--title": {
+    "messageformat": "Details",
+    "description": "Title of the donation receipt details modal"
+  },
+  "icu:PreferencesDonations__ReceiptModal--download": {
+    "messageformat": "Download receipt",
+    "description": "Button text to download a donation receipt"
+  },
+  "icu:PreferencesDonations__ReceiptModal--type-label": {
+    "messageformat": "Type",
+    "description": "Label for the donation type in donation receipt modal"
+  },
+  "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
+    "messageformat": "Date paid",
+    "description": "Label for the payment date in donation receipt modal"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Donation receipt",
     "description": "Title shown at the top of donation receipt documents"
   },
   "icu:DonationReceipt__amount-label": {
     "messageformat": "Amount",
-    "description": "Label for the donation amount field on receipt"
+    "description": "Label for the donation amount field on donation receipt"
   },
   "icu:DonationReceipt__type-label": {
     "messageformat": "Type",
-    "description": "Label for the donation type field on receipt"
+    "description": "Label for the donation type field on donation receipt"
   },
   "icu:DonationReceipt__date-paid-label": {
     "messageformat": "Date paid",
-    "description": "Label for the payment date field on receipt"
+    "description": "Label for the payment date field on donation receipt"
   },
   "icu:DonationReceipt__type-value--one-time": {
-    "messageformat": "One-time",
-    "description": "Value shown for one-time donations on receipt"
-  },
-  "icu:DonationReceipt__payment-method-label": {
-    "messageformat": "Payment method",
-    "description": "(Deleted 2025/07/02) Label for the payment method field on receipt"
+    "messageformat": "One time",
+    "description": "Value shown for one-time donations on donation receipt"
   },
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840.",
@@ -8851,6 +8927,10 @@
   },
   "icu:WhatsNew__v7.61--0": {
     "messageformat": "This update improves audio quality and reliability during voice and video calls, and introduces better automatic configuration of connected microphones and speakers. Thanks to <padenot></padenot>, <kinetiknz></kinetiknz>, and <Pehrsons></Pehrsons> at Mozilla for their help with this project.",
-    "description": "Release notes for version 7.60"
+    "description": "(Deleted 2025/07/09) Release notes for version 7.61"
+  },
+  "icu:WhatsNew__v7.62--0": {
+    "messageformat": "We fixed a rare bug that could prevent some contacts from synchronizing correctly.",
+    "description": "Release notes for version 7.62"
   }
 }

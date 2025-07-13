@@ -491,6 +491,28 @@ export function renderToast({
     return <Toast onClose={hideToast}>{i18n('icu:Reactions--error')}</Toast>;
   }
 
+  if (toastType === ToastType.ReceiptSaved) {
+    return (
+      <Toast
+        onClose={hideToast}
+        toastAction={{
+          label: i18n('icu:attachmentSavedShow'),
+          onClick: () => {
+            openFileInFolder(toast.parameters.fullPath);
+          },
+        }}
+      >
+        {i18n('icu:Toast--ReceiptSaved')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.ReceiptSaveFailed) {
+    return (
+      <Toast onClose={hideToast}>{i18n('icu:Toast--ReceiptSaveFailed')}</Toast>
+    );
+  }
+
   if (toastType === ToastType.ReportedSpam) {
     return (
       <Toast onClose={hideToast}>

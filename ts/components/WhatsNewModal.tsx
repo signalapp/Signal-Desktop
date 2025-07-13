@@ -33,22 +33,6 @@ export function ExternalLink(props: {
   );
 }
 
-function Padenot() {
-  return (
-    <ExternalLink href="https://github.com/padenot">@padenot</ExternalLink>
-  );
-}
-function Kinetiknz() {
-  return (
-    <ExternalLink href="https://github.com/kinetiknz">@kinetiknz</ExternalLink>
-  );
-}
-function Pehrsons() {
-  return (
-    <ExternalLink href="https://github.com/Pehrsons">@Pehrsons</ExternalLink>
-  );
-}
-
 export function WhatsNewModal({
   i18n,
   hideWhatsNewModal,
@@ -58,17 +42,7 @@ export function WhatsNewModal({
   const releaseNotes: ReleaseNotesType = {
     date: new Date(window.getBuildCreation?.() || Date.now()),
     version: window.getVersion?.(),
-    features: [
-      <I18n
-        i18n={i18n}
-        id="icu:WhatsNew__v7.61--0"
-        components={{
-          padenot: Padenot,
-          kinetiknz: Kinetiknz,
-          Pehrsons,
-        }}
-      />,
-    ],
+    features: [<I18n i18n={i18n} id="icu:WhatsNew__v7.62--0" />],
   };
 
   if (releaseNotes.features.length === 1 && !releaseNotes.header) {

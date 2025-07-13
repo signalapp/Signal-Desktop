@@ -79,6 +79,11 @@ import type { WidthBreakpoint } from '../../components/_util';
 import { DialogType } from '../../types/Dialogs';
 import { promptOSAuth } from '../../util/promptOSAuth';
 import type { StateType } from '../reducer';
+import {
+  pauseBackupMediaDownload,
+  resumeBackupMediaDownload,
+  cancelBackupMediaDownload,
+} from '../../util/backupMediaDownload';
 
 const DEFAULT_NOTIFICATION_SETTING = 'message';
 
@@ -490,8 +495,15 @@ export function SmartPreferences(): JSX.Element | null {
 
   // Simple, one-way items
 
-  const { backupSubscriptionStatus, cloudBackupStatus, localBackupFolder } =
-    items;
+  const {
+    backupSubscriptionStatus,
+    cloudBackupStatus,
+    localBackupFolder,
+    backupMediaDownloadCompletedBytes,
+    backupMediaDownloadTotalBytes,
+    attachmentDownloadManagerIdled,
+    backupMediaDownloadPaused,
+  } = items;
   const defaultConversationColor =
     items.defaultConversationColor || DEFAULT_CONVERSATION_COLOR;
   const hasLinkPreviews = items.linkPreviews ?? false;
@@ -712,6 +724,12 @@ export function SmartPreferences(): JSX.Element | null {
         backupFeatureEnabled={backupFeatureEnabled}
         backupKeyViewed={backupKeyViewed}
         backupSubscriptionStatus={backupSubscriptionStatus ?? { status: 'off' }}
+        backupMediaDownloadStatus={{
+          completedBytes: backupMediaDownloadCompletedBytes ?? 0,
+          totalBytes: backupMediaDownloadTotalBytes ?? 0,
+          isPaused: Boolean(backupMediaDownloadPaused),
+          isIdle: Boolean(attachmentDownloadManagerIdled),
+        }}
         backupLocalBackupsEnabled={backupLocalBackupsEnabled}
         badge={badge}
         blockedCount={blockedCount}
@@ -837,6 +855,9 @@ export function SmartPreferences(): JSX.Element | null {
         resetDefaultChatColor={resetDefaultChatColor}
         resolvedLocale={resolvedLocale}
         savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
+        resumeBackupMediaDownload={resumeBackupMediaDownload}
+        pauseBackupMediaDownload={pauseBackupMediaDownload}
+        cancelBackupMediaDownload={cancelBackupMediaDownload}
         selectedCamera={selectedCamera}
         selectedMicrophone={selectedMicrophone}
         selectedSpeaker={selectedSpeaker}

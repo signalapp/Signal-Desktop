@@ -602,6 +602,12 @@
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
+  "icu:Toast--ReceiptSaved": {
+    "messageformat": "Receipt saved"
+  },
+  "icu:Toast--ReceiptSaveFailed": {
+    "messageformat": "Error saving receipt. Please try again."
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Níl féidir leat grianghraif agus comhaid a roghnú in éineacht le comhaid."
   },
@@ -1281,34 +1287,34 @@
     "messageformat": "Ton craicinn Emoji"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "Fillteáin comhráite"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
-    "messageformat": "Add a chat folder"
+    "messageformat": "Cuir fillteán comhráite leis"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
-    "messageformat": "Organize your chats into folders and quickly switch between them on your chat list."
+    "messageformat": "Eagraigh do chomhráite i bhfillteáin agus aistrigh eatarthu go tapa ar do liosta comhráite."
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "Cuir fillteán in eagar"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__DeleteFolder": {
-    "messageformat": "Delete"
+    "messageformat": "Scrios"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Title": {
-    "messageformat": "Delete folder?"
+    "messageformat": "Scrios an fillteán?"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Description": {
-    "messageformat": "Do you want to delete the folder “{chatFolderTitle}”?"
+    "messageformat": "An bhfuil fonn ort an fillteán \"{chatFolderTitle}\" a scriosadh?"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "Scrios"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Cancel"
+    "messageformat": "Cuir ar ceal"
   },
   "icu:Preferences__ChatFoldersPage__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "Fillteáin comhráite"
   },
   "icu:Preferences__ChatFoldersPage__Description": {
     "messageformat": "Organize your chats into folders and quickly switch between them on your chat list"
@@ -4182,10 +4188,10 @@
     "messageformat": "Bain triail eile as"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
-    "messageformat": "Meáin á n-aischur"
+    "messageformat": "Syncing media"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Aischur curtha ar sos"
+    "messageformat": "Syncing paused"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
     "messageformat": "{currentSize} as {totalSize} aischurtha"
@@ -4200,13 +4206,13 @@
     "messageformat": "Ag feitheamh le nasc Idirlín..."
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Cuir an t-aistriú ar sos"
+    "messageformat": "Pause"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Fill ar an aistriú"
+    "messageformat": "Resume"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
-    "messageformat": "Cuir an t-aistriú ar ceal"
+    "messageformat": "Cancel syncing"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
     "messageformat": "Tuilleadh roghanna"
@@ -4218,16 +4224,34 @@
     "messageformat": "{currentSize} as {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cuir an t-aistriú meán ar ceal?"
+    "messageformat": "Cancel media syncing?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "Níl aischur na dteachtaireachtaí agus na meán agat críochnaithe. Má roghnaíonn tú é a chur ar ceal, is féidir leat an t-aistriú a dhéanamh arís ó Shocruithe."
+    "messageformat": "Your media has not completed syncing. If you choose to cancel, you can sync again by re-linking this device. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "Lean leis an aistriú"
+    "messageformat": "Continue syncing"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
-    "messageformat": "Cuir an t-aistriú ar ceal"
+    "messageformat": "Cancel syncing"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--title": {
+    "messageformat": "Syncing paused"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--description": {
+    "messageformat": "Click “{resumeButtonText}” to continue syncing"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-resume": {
+    "messageformat": "Resume"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-pause": {
+    "messageformat": "Pause"
+  },
+  "icu:BackupMediaDownloadProgressSettings__title-in-progress": {
+    "messageformat": "Syncing media"
+  },
+  "icu:BackupMediaDownloadProgressSettings__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
     "messageformat": "Gníomh de dhíth maidir le do chuntas"
@@ -6600,6 +6624,42 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "Cad Atá Nua"
   },
+  "icu:PreferencesDonations__title": {
+    "messageformat": "Privacy over Profit"
+  },
+  "icu:PreferencesDonations__description": {
+    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:PreferencesDonations__donate-button": {
+    "messageformat": "Donate"
+  },
+  "icu:PreferencesDonations__mobile-info": {
+    "messageformat": "Badges and monthly donations can be managed on your mobile device."
+  },
+  "icu:PreferencesDonations__receipts": {
+    "messageformat": "Receipts"
+  },
+  "icu:PreferencesDonations__faqs": {
+    "messageformat": "Donation FAQs"
+  },
+  "icu:PreferencesDonations--receiptList__info": {
+    "messageformat": "Receipts do not sync across devices. If you have reinstalled Signal, receipts from previous donations will not be available."
+  },
+  "icu:PreferencesDonations--receiptList__empty-title": {
+    "messageformat": "No Receipts"
+  },
+  "icu:PreferencesDonations__ReceiptModal--title": {
+    "messageformat": "Details"
+  },
+  "icu:PreferencesDonations__ReceiptModal--download": {
+    "messageformat": "Download receipt"
+  },
+  "icu:PreferencesDonations__ReceiptModal--type-label": {
+    "messageformat": "Type"
+  },
+  "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
+    "messageformat": "Date paid"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Donation receipt"
   },
@@ -6613,10 +6673,7 @@
     "messageformat": "Date paid"
   },
   "icu:DonationReceipt__type-value--one-time": {
-    "messageformat": "One-time"
-  },
-  "icu:DonationReceipt__payment-method-label": {
-    "messageformat": "Payment method"
+    "messageformat": "One time"
   },
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840."
@@ -6657,5 +6714,8 @@
   },
   "icu:WhatsNew__v7.61--0": {
     "messageformat": "This update improves audio quality and reliability during voice and video calls, and introduces better automatic configuration of connected microphones and speakers. Thanks to <padenot></padenot>, <kinetiknz></kinetiknz>, and <Pehrsons></Pehrsons> at Mozilla for their help with this project."
+  },
+  "icu:WhatsNew__v7.62--0": {
+    "messageformat": "We fixed a rare bug that could prevent some contacts from synchronizing correctly."
   }
 }

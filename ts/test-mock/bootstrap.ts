@@ -117,6 +117,9 @@ export type BootstrapOptions = Readonly<{
   contactPreKeyCount?: number;
 
   useLegacyStorageEncryption?: boolean;
+
+  // Optional. specify a server to use instead of creating and initializing one.
+  server?: Server;
 }>;
 
 export type EphemeralBackupType = Readonly<
@@ -207,7 +210,7 @@ const DEFAULT_REMOTE_CONFIG = [
 //
 export class Bootstrap {
   public readonly server: Server;
-  public readonly cdn3Path: string;
+  public readonly cdn3Path?: string;
 
   readonly #options: BootstrapInternalOptions;
   #privContacts?: ReadonlyArray<PrimaryDevice>;
@@ -221,16 +224,18 @@ export class Bootstrap {
   readonly #randomId = crypto.randomBytes(8).toString('hex');
 
   constructor(options: BootstrapOptions = {}) {
-    this.cdn3Path = path.join(
-      os.tmpdir(),
-      `mock-signal-cdn3-${this.#randomId}`
-    );
-    this.server = new Server({
-      // Limit number of storage read keys for easier testing
-      maxStorageReadKeys: MAX_STORAGE_READ_KEYS,
-      cdn3Path: this.cdn3Path,
-      updates2Path: path.join(__dirname, 'updates-data'),
-    });
+    this.cdn3Path =
+      options.server === undefined
+        ? path.join(os.tmpdir(), `mock-signal-cdn3-${this.#randomId}`)
+        : undefined;
+    this.server =
+      options.server ??
+      new Server({
+        // Limit number of storage read keys for easier testing
+        maxStorageReadKeys: MAX_STORAGE_READ_KEYS,
+        cdn3Path: this.cdn3Path,
+        updates2Path: path.join(__dirname, 'updates-data'),
+      });
 
     this.#options = {
       linkedDevices: 5,
@@ -254,10 +259,14 @@ export class Bootstrap {
   public async init(): Promise<void> {
     debug('initializing');
 
-    await this.server.listen(0);
+    if (this.#options.server === undefined) {
+      await this.server.listen(0);
 
-    const { port } = this.server.address();
-    debug('started server on port=%d', port);
+      const { port } = this.server.address();
+      debug('started server on port=%d', port);
+    } else {
+      debug('existing server listening on port = ', this.server.address().port);
+    }
 
     const totalContactCount =
       this.#options.contactCount +
@@ -367,7 +376,9 @@ export class Bootstrap {
         ...[this.#storagePath, this.cdn3Path].map(tmpPath =>
           tmpPath ? fs.rm(tmpPath, { recursive: true }) : Promise.resolve()
         ),
-        this.server.close(),
+        this.#options.server === undefined
+          ? this.server.close()
+          : Promise.resolve(),
         this.#lastApp?.close(),
       ]),
       new Promise(resolve => setTimeout(resolve, CLOSE_TIMEOUT).unref()),

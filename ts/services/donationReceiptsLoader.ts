@@ -4,6 +4,8 @@
 import { DataReader } from '../sql/Client';
 import { strictAssert } from '../util/assert';
 
+import { _getWorkflowFromStorage } from './donations';
+
 import type { DonationReceipt } from '../types/Donations';
 import type { DonationsStateType } from '../state/ducks/donations';
 
@@ -19,7 +21,8 @@ export function getDonationReceiptsForRedux(): DonationsStateType {
     'donation receipts have not been loaded'
   );
   return {
-    currentWorkflow: undefined,
+    currentWorkflow: _getWorkflowFromStorage(),
+    lastError: undefined,
     receipts: donationReceipts,
   };
 }

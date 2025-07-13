@@ -34,7 +34,7 @@ patchedDependencies:
     hash: e8a96f71e52bf903c9f1eadba4740489a0beb48da33db52354adca484fe1f495
     path: patches/@vitest+expect+2.0.5.patch
   app-builder-lib:
-    hash: 0c3b228458f552563f27009bd822f7f7c069547b27cb27268838dcf98502693b
+    hash: b412b44a47bb3d2be98e6edffed5dc4286cc62ac3c02fef42d1557927baa2420
     path: patches/app-builder-lib.patch
   backbone@1.6.0:
     hash: 342b4b6012f8aecfa041554256444cb25af75bc933cf2ab1e91c4f66a8e47a31
@@ -129,8 +129,8 @@ importers:
         specifier: 3.27.0
         version: 3.27.0(react@18.3.1)
       '@signalapp/libsignal-client':
-        specifier: 0.76.0
-        version: 0.76.0
+        specifier: 0.76.3
+        version: 0.76.3
       '@signalapp/quill-cjs':
         specifier: 2.1.2
         version: 2.1.2
@@ -430,8 +430,8 @@ importers:
         specifier: 0.1.61
         version: 0.1.61
       '@signalapp/mock-server':
-        specifier: 13.0.1
-        version: 13.0.1(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+        specifier: 13.1.0
+        version: 13.1.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       '@storybook/addon-a11y':
         specifier: 8.4.4
         version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
@@ -637,8 +637,8 @@ importers:
         specifier: 4.3.7
         version: 4.3.7(supports-color@8.1.1)
       electron:
-        specifier: 37.1.0
-        version: 37.1.0
+        specifier: 36.3.2
+        version: 36.3.2
       electron-builder:
         specifier: 26.0.14
         version: 26.0.14(electron-builder-squirrel-windows@26.0.14)
@@ -2767,11 +2767,11 @@ packages:
   '@signalapp/libsignal-client@0.60.2':
     resolution: {integrity: sha512-tU4kNP/yCwkFntb2ahXOSQJtzdy+YifAB2yv5hw0qyKSidRHLn6bYiz4Zo2tjxLDRoBLAUxCRsQramStiqNZdA==}
 
-  '@signalapp/libsignal-client@0.76.0':
-    resolution: {integrity: sha512-wQZFC79GAUeee8pf+aDK5Gii0HbQoCAv/oTn1Ht7d5mFq2pw/L0jRcv3j9DgVYodzCOlnanfto3apfA6eN/Whw==}
+  '@signalapp/libsignal-client@0.76.3':
+    resolution: {integrity: sha512-Ht8XtdsSvgiCb8ftUYE9DaLcWy0vltrj9cQ2sfy+DGUayE1k2njicNhB2RKOfQV2Wb/1Cl0WxVZP/NlXRo2+jA==}
 
-  '@signalapp/mock-server@13.0.1':
-    resolution: {integrity: sha512-1rT0fYyqEad64GnZRrFVhNsgKpPS+pvyyk8iOGUHqnqnf818yLIYHblS/5m/cNcvHyC/BBqdtgRHAsfGNqkuZw==}
+  '@signalapp/mock-server@13.1.0':
+    resolution: {integrity: sha512-CuDNLNEBMzwIs5jr7Lx9F4YFoRD62s7WgPGtm3qpaggixSQtabjMC7AKSR0xvaHcZpYZtBU5jcGK8Roguo9nuw==}
 
   '@signalapp/parchment-cjs@3.0.1':
     resolution: {integrity: sha512-hSBMQ1M7wE4GcC8ZeNtvpJF+DAJg3eIRRf1SiHS3I3Algav/sgJJNm6HIYm6muHuK7IJmuEjkL3ILSXgmu0RfQ==}
@@ -4999,8 +4999,8 @@ packages:
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
-  electron@37.1.0:
-    resolution: {integrity: sha512-Fcr3yfAw4oU392waVZSlrFUQx4P+h/k31+PRgkBY9tFx9E/zxzdPQQj0achZlG1HRDusw3ooQB+OXb9PvufdzA==}
+  electron@36.3.2:
+    resolution: {integrity: sha512-v0/j7n22CL3OYv9BIhq6JJz2+e1HmY9H4bjTk8/WzVT9JwVX/T/21YNdR7xuQ6XDSEo9gP5JnqmjOamE+CUY8Q==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
@@ -12460,13 +12460,13 @@ snapshots:
       type-fest: 4.26.1
       uuid: 8.3.2
 
-  '@signalapp/libsignal-client@0.76.0':
+  '@signalapp/libsignal-client@0.76.3':
     dependencies:
       node-gyp-build: 4.8.4
       type-fest: 4.26.1
       uuid: 11.0.2
 
-  '@signalapp/mock-server@13.0.1(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
+  '@signalapp/mock-server@13.1.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
     dependencies:
       '@indutny/parallel-prettier': 3.0.0(prettier@3.3.3)
       '@signalapp/libsignal-client': 0.60.2
@@ -13760,7 +13760,7 @@ snapshots:
 
   app-builder-bin@5.0.0-alpha.12: {}
 
-  app-builder-lib@26.0.14(patch_hash=0c3b228458f552563f27009bd822f7f7c069547b27cb27268838dcf98502693b)(dmg-builder@26.0.14)(electron-builder-squirrel-windows@26.0.14):
+  app-builder-lib@26.0.14(patch_hash=b412b44a47bb3d2be98e6edffed5dc4286cc62ac3c02fef42d1557927baa2420)(dmg-builder@26.0.14)(electron-builder-squirrel-windows@26.0.14):
     dependencies:
       '@develar/schema-utils': 2.6.5
       '@electron/asar': 3.4.1
@@ -14944,7 +14944,7 @@ snapshots:
 
   dmg-builder@26.0.14(patch_hash=cb72ed47fa8d45513a36db33fcb41cb75c30cada4737da067bf3fa1f063725f2)(electron-builder-squirrel-windows@26.0.14):
     dependencies:
-      app-builder-lib: 26.0.14(patch_hash=0c3b228458f552563f27009bd822f7f7c069547b27cb27268838dcf98502693b)(dmg-builder@26.0.14)(electron-builder-squirrel-windows@26.0.14)
+      app-builder-lib: 26.0.14(patch_hash=b412b44a47bb3d2be98e6edffed5dc4286cc62ac3c02fef42d1557927baa2420)(dmg-builder@26.0.14)(electron-builder-squirrel-windows@26.0.14)
       builder-util: 26.0.13
       builder-util-runtime: 9.3.2
       fs-extra: 10.1.0
@@ -15088,7 +15088,7 @@ snapshots:
 
   electron-builder-squirrel-windows@26.0.14(dmg-builder@26.0.14):
     dependencies:
-      app-builder-lib: 26.0.14(patch_hash=0c3b228458f552563f27009bd822f7f7c069547b27cb27268838dcf98502693b)(dmg-builder@26.0.14)(electron-builder-squirrel-windows@26.0.14)
+      app-builder-lib: 26.0.14(patch_hash=b412b44a47bb3d2be98e6edffed5dc4286cc62ac3c02fef42d1557927baa2420)(dmg-builder@26.0.14)(electron-builder-squirrel-windows@26.0.14)
       builder-util: 26.0.13
       electron-winstaller: 5.4.0
     transitivePeerDependencies:
@@ -15098,7 +15098,7 @@ snapshots:
 
   electron-builder@26.0.14(electron-builder-squirrel-windows@26.0.14):
     dependencies:
-      app-builder-lib: 26.0.14(patch_hash=0c3b228458f552563f27009bd822f7f7c069547b27cb27268838dcf98502693b)(dmg-builder@26.0.14)(electron-builder-squirrel-windows@26.0.14)
+      app-builder-lib: 26.0.14(patch_hash=b412b44a47bb3d2be98e6edffed5dc4286cc62ac3c02fef42d1557927baa2420)(dmg-builder@26.0.14)(electron-builder-squirrel-windows@26.0.14)
       builder-util: 26.0.13
       builder-util-runtime: 9.3.2
       chalk: 4.1.2
@@ -15160,7 +15160,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  electron@37.1.0:
+  electron@36.3.2:
     dependencies:
       '@electron/get': 2.0.3
       '@types/node': 22.15.24

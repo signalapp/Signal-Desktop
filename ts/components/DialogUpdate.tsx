@@ -10,20 +10,16 @@ import { PRODUCTION_DOWNLOAD_URL, BETA_DOWNLOAD_URL } from '../types/support';
 import { I18n } from './I18n';
 import { LeftPaneDialog } from './LeftPaneDialog';
 import { formatFileSize } from '../util/formatFileSize';
-import { getLocalizedUrl } from '../util/getLocalizedUrl';
 
 import type { LocalizerType } from '../types/Util';
 import type { DismissOptions } from './LeftPaneDialog';
 import type { WidthBreakpoint } from './_util';
 
 function contactSupportLink(parts: ReactNode): JSX.Element {
-  const localizedSupportLink = getLocalizedUrl(
-    'https://support.signal.org/hc/LOCALE/requests/new?desktop'
-  );
   return (
     <a
       key="signal-support"
-      href={localizedSupportLink}
+      href="https://support.signal.org/hc/requests/new?desktop"
       rel="noreferrer"
       target="_blank"
     >

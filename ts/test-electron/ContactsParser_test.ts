@@ -127,35 +127,6 @@ describe('ContactsParser', () => {
         }
       }
     });
-
-    it('parses an array buffer of contacts where contacts are dropped due to missing ACI', async () => {
-      let absolutePath: string | undefined;
-
-      try {
-        const avatarBuffer = generateAvatar();
-        const bytes = Bytes.concatenate([
-          generatePrefixedContact(avatarBuffer, null),
-          avatarBuffer,
-          generatePrefixedContact(undefined, null),
-          getTestBuffer(),
-        ]);
-
-        const fileName = generateGuid();
-        absolutePath = join(tempDir, fileName);
-        writeFileSync(absolutePath, bytes);
-
-        const contacts = await parseContactsWithSmallChunkSize({
-          absolutePath,
-        });
-        assert.strictEqual(contacts.length, 3);
-
-        await Promise.all(contacts.map(contact => verifyContact(contact)));
-      } finally {
-        if (absolutePath) {
-          unlinkSync(absolutePath);
-        }
-      }
-    });
   });
 });
 

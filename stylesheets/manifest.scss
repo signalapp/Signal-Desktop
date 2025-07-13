@@ -33,6 +33,7 @@
 @use 'components/AvatarTextEditor.scss';
 @use 'components/BackfillFailureModal.scss';
 @use 'components/BackupMediaDownloadProgress.scss';
+@use 'components/BackupMediaDownloadProgressSettings.scss';
 @use 'components/BadgeCarouselIndex.scss';
 @use 'components/BadgeDialog.scss';
 @use 'components/BadgeSustainerInstructionsDialog.scss';
@@ -143,6 +144,7 @@
 @use 'components/PlaybackButton.scss';
 @use 'components/PlaybackRateButton.scss';
 @use 'components/Preferences.scss';
+@use 'components/PreferencesDonations.scss';
 @use 'components/ProfileEditor.scss';
 @use 'components/ProfileMovedModal.scss';
 @use 'components/ProfileNameWarningModal.scss';

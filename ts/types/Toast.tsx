@@ -53,6 +53,8 @@ export enum ToastType {
   OriginalMessageNotFound = 'OriginalMessageNotFound',
   PinnedConversationsFull = 'PinnedConversationsFull',
   ReactionFailed = 'ReactionFailed',
+  ReceiptSaved = 'ReceiptSaved',
+  ReceiptSaveFailed = 'ReceiptSaveFailed',
   ReportedSpam = 'ReportedSpam',
   ReportedSpamAndBlocked = 'ReportedSpamAndBlocked',
   SQLError = 'SQLError',
@@ -153,6 +155,11 @@ export type AnyToast =
   | { toastType: ToastType.OriginalMessageNotFound }
   | { toastType: ToastType.PinnedConversationsFull }
   | { toastType: ToastType.ReactionFailed }
+  | {
+      toastType: ToastType.ReceiptSaved;
+      parameters: { fullPath: string };
+    }
+  | { toastType: ToastType.ReceiptSaveFailed }
   | { toastType: ToastType.ReportedSpam }
   | { toastType: ToastType.ReportedSpamAndBlocked }
   | { toastType: ToastType.StickerPackInstallFailed }

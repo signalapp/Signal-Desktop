@@ -602,6 +602,12 @@
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
+  "icu:Toast--ReceiptSaved": {
+    "messageformat": "Receipt saved"
+  },
+  "icu:Toast--ReceiptSaveFailed": {
+    "messageformat": "Error saving receipt. Please try again."
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "మీరు ఫైళ్ళతో పాటుగా ఫోటోలు మరియు వీడియోలను ఎంపిక చేసుకోలేరు."
   },
@@ -1281,34 +1287,34 @@
     "messageformat": "ఎమోజీ స్కిన్ టోన్"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "చాట్ ఫోల్డర్‌లు"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
-    "messageformat": "Add a chat folder"
+    "messageformat": "ఒక చాట్ ఫోల్డర్‌ను జోడించండి"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
-    "messageformat": "Organize your chats into folders and quickly switch between them on your chat list."
+    "messageformat": "మీ చాట్‌లను ఫోల్డర్‌లుగా నిర్వహించండి మరియు మీ చాట్ జాబితాలో వాటి మధ్య త్వరగా మారండి."
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "ఫోల్డర్‌ను సవరించండి"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__DeleteFolder": {
-    "messageformat": "Delete"
+    "messageformat": "తొలగించండి"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Title": {
-    "messageformat": "Delete folder?"
+    "messageformat": "ఫోల్డర్‌ను తొలగించేదా?"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Description": {
-    "messageformat": "Do you want to delete the folder “{chatFolderTitle}”?"
+    "messageformat": "మీరు “{chatFolderTitle}” ఫోల్డర్‌ను తొలగించాలని అనుకుంటున్నారా?"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "తొలగించండి"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Cancel"
+    "messageformat": "రద్దు చేయండి"
   },
   "icu:Preferences__ChatFoldersPage__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "చాట్ ఫోల్డర్‌లు"
   },
   "icu:Preferences__ChatFoldersPage__Description": {
     "messageformat": "Organize your chats into folders and quickly switch between them on your chat list"
@@ -4182,10 +4188,10 @@
     "messageformat": "మళ్ళీ ప్రయత్నించు"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
-    "messageformat": "మీడియాను పునరుద్ధరిస్తోంది"
+    "messageformat": "Syncing media"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "పాజ్ చేసిన దానిని పునరుద్ధరించండి"
+    "messageformat": "Syncing paused"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
     "messageformat": "{totalSize} లో {currentSize} పునరుద్ధరించబడింది"
@@ -4200,13 +4206,13 @@
     "messageformat": "ఇంటర్నెట్ కనెక్షన్ కోసం వేచి ఉంది..."
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "బదిలీని పాజ్ చేయండి"
+    "messageformat": "Pause"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "బదిలీని కొనసాగించండి"
+    "messageformat": "Resume"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
-    "messageformat": "బదిలీని రద్దు చేయండి"
+    "messageformat": "Cancel syncing"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
     "messageformat": "మరిన్ని ఎంపికలు"
@@ -4218,16 +4224,34 @@
     "messageformat": "{currentSize} ఆఫ్ {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "మీడియా బదిలీని రద్దు చేసేదా?"
+    "messageformat": "Cancel media syncing?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "మీ సందేశాలు మరియు మీడియా పునరుద్ధరణ పూర్తి కాలేదు. ఒకవేళ మీరు రద్దు చేయాలని ఎంచుకుంటే, మీరు మళ్ళీ సెట్టింగ్‌ల నుండి బదిలీ చేయవచ్చు."
+    "messageformat": "Your media has not completed syncing. If you choose to cancel, you can sync again by re-linking this device. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "బదిలీని కొనసాగించండి"
+    "messageformat": "Continue syncing"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
-    "messageformat": "బదిలీని రద్దు చేయండి"
+    "messageformat": "Cancel syncing"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--title": {
+    "messageformat": "Syncing paused"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--description": {
+    "messageformat": "Click “{resumeButtonText}” to continue syncing"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-resume": {
+    "messageformat": "Resume"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-pause": {
+    "messageformat": "Pause"
+  },
+  "icu:BackupMediaDownloadProgressSettings__title-in-progress": {
+    "messageformat": "Syncing media"
+  },
+  "icu:BackupMediaDownloadProgressSettings__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
     "messageformat": "ఖాతా చర్య అవసరం"
@@ -6600,6 +6624,42 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "కొత్తది ఏమిటి"
   },
+  "icu:PreferencesDonations__title": {
+    "messageformat": "Privacy over Profit"
+  },
+  "icu:PreferencesDonations__description": {
+    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:PreferencesDonations__donate-button": {
+    "messageformat": "Donate"
+  },
+  "icu:PreferencesDonations__mobile-info": {
+    "messageformat": "Badges and monthly donations can be managed on your mobile device."
+  },
+  "icu:PreferencesDonations__receipts": {
+    "messageformat": "Receipts"
+  },
+  "icu:PreferencesDonations__faqs": {
+    "messageformat": "Donation FAQs"
+  },
+  "icu:PreferencesDonations--receiptList__info": {
+    "messageformat": "Receipts do not sync across devices. If you have reinstalled Signal, receipts from previous donations will not be available."
+  },
+  "icu:PreferencesDonations--receiptList__empty-title": {
+    "messageformat": "No Receipts"
+  },
+  "icu:PreferencesDonations__ReceiptModal--title": {
+    "messageformat": "Details"
+  },
+  "icu:PreferencesDonations__ReceiptModal--download": {
+    "messageformat": "Download receipt"
+  },
+  "icu:PreferencesDonations__ReceiptModal--type-label": {
+    "messageformat": "Type"
+  },
+  "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
+    "messageformat": "Date paid"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Donation receipt"
   },
@@ -6613,10 +6673,7 @@
     "messageformat": "Date paid"
   },
   "icu:DonationReceipt__type-value--one-time": {
-    "messageformat": "One-time"
-  },
-  "icu:DonationReceipt__payment-method-label": {
-    "messageformat": "Payment method"
+    "messageformat": "One time"
   },
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840."
@@ -6657,5 +6714,8 @@
   },
   "icu:WhatsNew__v7.61--0": {
     "messageformat": "This update improves audio quality and reliability during voice and video calls, and introduces better automatic configuration of connected microphones and speakers. Thanks to <padenot></padenot>, <kinetiknz></kinetiknz>, and <Pehrsons></Pehrsons> at Mozilla for their help with this project."
+  },
+  "icu:WhatsNew__v7.62--0": {
+    "messageformat": "We fixed a rare bug that could prevent some contacts from synchronizing correctly."
   }
 }

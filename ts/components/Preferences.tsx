@@ -74,6 +74,7 @@ import type {
   ThemeType,
 } from '../types/Util';
 import type {
+  BackupMediaDownloadStatusType,
   BackupsSubscriptionType,
   BackupStatusType,
 } from '../types/backups';
@@ -118,6 +119,10 @@ export type PropsDataType = {
   localBackupFolder: string | undefined;
   cloudBackupStatus?: BackupStatusType;
   backupSubscriptionStatus: BackupsSubscriptionType;
+  backupMediaDownloadStatus?: BackupMediaDownloadStatusType;
+  pauseBackupMediaDownload: VoidFunction;
+  cancelBackupMediaDownload: VoidFunction;
+  resumeBackupMediaDownload: VoidFunction;
   blockedCount: number;
   customColors: Record<string, CustomColorType>;
   defaultConversationColor: DefaultConversationColorType;
@@ -225,6 +230,8 @@ type PropsFunctionType = {
   getMessageSampleForSchemaVersion: (
     version: number
   ) => Promise<Array<MessageAttributesType>>;
+  resumeBackupMediaDownload: () => void;
+  pauseBackupMediaDownload: () => void;
   getConversationsWithCustomColor: (colorId: string) => Array<ConversationType>;
   getPreferredBadge: PreferredBadgeSelectorType;
   makeSyncRequest: () => unknown;
@@ -329,6 +336,7 @@ export enum Page {
   ChatColor = 'ChatColor',
   ChatFolders = 'ChatFolders',
   DonationsDonateFlow = 'DonationsDonateFlow',
+  DonationsReceiptList = 'DonationsReceiptList',
   EditChatFolder = 'EditChatFolder',
   PNP = 'PNP',
   BackupsDetails = 'BackupsDetails',
@@ -336,6 +344,14 @@ export enum Page {
   LocalBackupsSetupFolder = 'LocalBackupsSetupFolder',
   LocalBackupsSetupKey = 'LocalBackupsSetupKey',
   LocalBackupsKeyReference = 'LocalBackupsKeyReference',
+}
+
+function isDonationsPage(page: Page): boolean {
+  return (
+    page === Page.Donations ||
+    page === Page.DonationsDonateFlow ||
+    page === Page.DonationsReceiptList
+  );
 }
 
 enum LanguageDialog {
@@ -377,6 +393,10 @@ export function Preferences({
   availableMicrophones,
   availableSpeakers,
   backupFeatureEnabled,
+  backupMediaDownloadStatus,
+  pauseBackupMediaDownload,
+  resumeBackupMediaDownload,
+  cancelBackupMediaDownload,
   backupKeyViewed,
   backupSubscriptionStatus,
   backupLocalBackupsEnabled,
@@ -596,10 +616,7 @@ export function Preferences({
   if (page === Page.Backups && !shouldShowBackupsPage) {
     setPage(Page.General);
   }
-  if (
-    (page === Page.Donations || page === Page.DonationsDonateFlow) &&
-    !donationsFeatureEnabled
-  ) {
+  if (isDonationsPage(page) && !donationsFeatureEnabled) {
     setPage(Page.General);
   }
   if (page === Page.Internal && !isInternalUser) {
@@ -897,7 +914,7 @@ export function Preferences({
         title={i18n('icu:Preferences__button--general')}
       />
     );
-  } else if (page === Page.Donations || page === Page.DonationsDonateFlow) {
+  } else if (isDonationsPage(page)) {
     content = renderDonationsPane({
       contentsRef: settingsPaneRef,
       page,
@@ -2154,6 +2171,10 @@ export function Preferences({
         accountEntropyPool={accountEntropyPool}
         backupKeyViewed={backupKeyViewed}
         backupSubscriptionStatus={backupSubscriptionStatus}
+        backupMediaDownloadStatus={backupMediaDownloadStatus}
+        cancelBackupMediaDownload={cancelBackupMediaDownload}
+        pauseBackupMediaDownload={pauseBackupMediaDownload}
+        resumeBackupMediaDownload={resumeBackupMediaDownload}
         cloudBackupStatus={cloudBackupStatus}
         i18n={i18n}
         locale={resolvedLocale}
@@ -2365,9 +2386,7 @@ export function Preferences({
                   className={classNames({
                     Preferences__button: true,
                     'Preferences__button--appearance': true,
-                    'Preferences__button--selected':
-                      page === Page.Donations ||
-                      page === Page.DonationsDonateFlow,
+                    'Preferences__button--selected': isDonationsPage(page),
                   })}
                   onClick={() => setPage(Page.Donations)}
                 >

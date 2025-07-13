@@ -48,7 +48,6 @@ import { isValidTapToView } from '../util/isValidTapToView';
 import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage';
 import { getMessageAuthorText } from '../util/getMessageAuthorText';
 import { GiftBadgeStates } from '../components/conversation/Message';
-import { getUserLanguages } from '../util/userLanguages';
 import { parseBoostBadgeListFromServer } from '../badges/parseBadgesFromServer';
 import { SignalService as Proto } from '../protobuf';
 import {
@@ -761,16 +760,11 @@ export async function handleDataMessage(
           typeof updatesUrl === 'string',
           'getProfile: expected updatesUrl to be a defined string'
         );
-        const userLanguages = getUserLanguages(
-          window.SignalContext.getPreferredSystemLocales(),
-          window.SignalContext.getResolvedMessagesLocale()
-        );
         const { messaging } = window.textsecure;
         if (!messaging) {
           throw new Error(`${idLog}: messaging is not available`);
         }
-        const response =
-          await messaging.server.getSubscriptionConfiguration(userLanguages);
+        const response = await messaging.server.getSubscriptionConfiguration();
         const boostBadgesByLevel = parseBoostBadgeListFromServer(
           response,
           updatesUrl

@@ -127,6 +127,7 @@ window.testUtilities = {
       storyDistributionLists: [],
       donations: {
         currentWorkflow: undefined,
+        lastError: undefined,
         receipts: [],
       },
       stickers: {

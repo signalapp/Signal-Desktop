@@ -219,6 +219,8 @@ import { isLocalBackupsEnabled } from './util/isLocalBackupsEnabled';
 import { NavTab } from './state/ducks/nav';
 import { Page } from './components/Preferences';
 import { EditState } from './components/ProfileEditor';
+import { runDonationWorkflow } from './services/donations';
+import { MessageRequestResponseSource } from './types/MessageRequestResponseEvent';
 
 const log = createLogger('background');
 
@@ -2194,6 +2196,8 @@ export async function startApp(): Promise<void> {
 
     drop(ReleaseNotesFetcher.init(window.Whisper.events, newVersion));
 
+    drop(runDonationWorkflow());
+
     if (isFromMessageReceiver) {
       drop(
         (async () => {
@@ -3398,7 +3402,14 @@ export async function startApp(): Promise<void> {
   }
 
   function onMessageRequestResponse(ev: MessageRequestResponseEvent): void {
-    const { threadAci, groupV2Id, messageRequestResponseType } = ev;
+    const {
+      threadAci,
+      groupV2Id,
+      messageRequestResponseType,
+      receivedAtCounter,
+      receivedAtMs,
+      sentAt,
+    } = ev;
 
     log.info('onMessageRequestResponse', {
       threadAci,
@@ -3418,6 +3429,10 @@ export async function startApp(): Promise<void> {
       removeFromMessageReceiverCache: ev.confirm,
       threadAci,
       groupV2Id,
+      receivedAtCounter,
+      receivedAtMs,
+      sentAt,
+      sourceType: MessageRequestResponseSource.MRR_SYNC,
       type: messageRequestResponseType,
     };
     drop(MessageRequests.onResponse(attributes));

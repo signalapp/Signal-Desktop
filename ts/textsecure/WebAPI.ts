@@ -29,7 +29,6 @@ import type { ExplodePromiseResultType } from '../util/explodePromise';
 import { explodePromise } from '../util/explodePromise';
 import { getUserAgent } from '../util/getUserAgent';
 import { getTimeoutStream } from '../util/getStreamWithTimeout';
-import { formatAcceptLanguageHeader } from '../util/userLanguages';
 import { toWebSafeBase64, fromWebSafeBase64 } from '../util/webSafeBase64';
 import { getBasicAuth } from '../util/getBasicAuth';
 import { createHTTPSAgent } from '../util/createHTTPSAgent';
@@ -473,6 +472,8 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
   try {
     if (DEBUG && !isSuccess(response.status)) {
       result = await response.text();
+      // eslint-disable-next-line no-console
+      console.error(result);
     } else if (
       (options.responseType === 'json' ||
         options.responseType === 'jsonwithdetails') &&
@@ -1190,6 +1191,9 @@ export type ConfirmIntentWithStripeOptionsType = Readonly<{
   returnUrl: string;
 }>;
 const ConfirmIntentWithStripeResultSchema = z.object({
+  // https://docs.stripe.com/api/payment_intents/object#payment_intent_object-status
+  status: z.string(),
+  // https://docs.stripe.com/api/payment_intents/object#payment_intent_object-next_action
   next_action: z
     .object({
       type: z.string(),
@@ -1199,6 +1203,14 @@ const ConfirmIntentWithStripeResultSchema = z.object({
           url: z.string(), // what we need to redirect to
         })
         .nullable(),
+    })
+    .nullable(),
+  // https://docs.stripe.com/api/payment_intents/object#payment_intent_object-last_payment_error
+  last_payment_error: z
+    .object({
+      type: z.string(),
+      advice_code: z.string().nullable(),
+      message: z.string().nullable(),
     })
     .nullable(),
 });
@@ -1581,7 +1593,7 @@ export type WebAPIType = {
   getAvatar: (path: string) => Promise<Uint8Array>;
   createBoostReceiptCredentials: (
     options: CreateBoostReceiptCredentialsOptionsType
-  ) => Promise<CreateBoostReceiptCredentialsResultType>;
+  ) => Promise<JSONWithDetailsType<CreateBoostReceiptCredentialsResultType>>;
   redeemReceipt: (options: RedeemReceiptOptionsType) => Promise<void>;
   getHasSubscription: (subscriberId: Uint8Array) => Promise<boolean>;
   getGroup: (options: GroupCredentialsType) => Promise<Proto.IGroupResponse>;
@@ -1630,9 +1642,7 @@ export type WebAPIType = {
     options: ProfileFetchUnauthRequestOptions
   ) => Promise<ProfileType>;
   getBadgeImageFile: (imageUrl: string) => Promise<Uint8Array>;
-  getSubscriptionConfiguration: (
-    userLanguages: ReadonlyArray<string>
-  ) => Promise<unknown>;
+  getSubscriptionConfiguration: () => Promise<unknown>;
   getSubscription: (
     subscriberId: Uint8Array
   ) => Promise<SubscriptionResponseType>;
@@ -2743,17 +2753,13 @@ export function initialize({
       serviceId: ServiceIdString,
       options: ProfileFetchAuthRequestOptions
     ) {
-      const { profileKeyVersion, profileKeyCredentialRequest, userLanguages } =
-        options;
+      const { profileKeyVersion, profileKeyCredentialRequest } = options;
 
       return (await _ajax({
         host: 'chatService',
         call: 'profile',
         httpType: 'GET',
         urlParameters: getProfileUrl(serviceId, options),
-        headers: {
-          'Accept-Language': formatAcceptLanguageHeader(userLanguages),
-        },
         responseType: 'json',
         redactUrl: _createRedactor(
           serviceId,
@@ -2855,7 +2861,6 @@ export function initialize({
         groupSendToken,
         profileKeyVersion,
         profileKeyCredentialRequest,
-        userLanguages,
       } = options;
 
       if (profileKeyVersion != null || profileKeyCredentialRequest != null) {
@@ -2872,9 +2877,6 @@ export function initialize({
         call: 'profile',
         httpType: 'GET',
         urlParameters: getProfileUrl(serviceId, options),
-        headers: {
-          'Accept-Language': formatAcceptLanguageHeader(userLanguages),
-        },
         responseType: 'json',
         unauthenticated: true,
         accessKey: accessKey ?? undefined,
@@ -2939,16 +2941,11 @@ export function initialize({
       );
     }
 
-    async function getSubscriptionConfiguration(
-      userLanguages: ReadonlyArray<string>
-    ): Promise<unknown> {
+    async function getSubscriptionConfiguration(): Promise<unknown> {
       return _ajax({
         host: 'chatService',
         call: 'subscriptionConfiguration',
         httpType: 'GET',
-        headers: {
-          'Accept-Language': formatAcceptLanguageHeader(userLanguages),
-        },
         responseType: 'json',
         // TODO DESKTOP-8719
         zodSchema: z.unknown(),
@@ -4751,14 +4748,14 @@ export function initialize({
 
     async function createBoostReceiptCredentials(
       options: CreateBoostReceiptCredentialsOptionsType
-    ): Promise<CreateBoostReceiptCredentialsResultType> {
+    ): Promise<JSONWithDetailsType<CreateBoostReceiptCredentialsResultType>> {
       return _ajax({
         unauthenticated: true,
         host: 'chatService',
         call: 'boostReceiptCredentials',
         httpType: 'POST',
         jsonData: options,
-        responseType: 'json',
+        responseType: 'jsonwithdetails',
         zodSchema: CreateBoostReceiptCredentialsResultSchema,
       });
     }

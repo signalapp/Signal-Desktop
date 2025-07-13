@@ -131,6 +131,7 @@ export type StorageAccessType = {
   linkPreviews: boolean;
   universalExpireTimer: number;
   retryPlaceholders: ReadonlyArray<RetryItemType>;
+  donationWorkflow: string;
   chromiumRegistrationDoneEver: '';
   chromiumRegistrationDone: '';
   phoneNumberSharingMode: PhoneNumberSharingMode;

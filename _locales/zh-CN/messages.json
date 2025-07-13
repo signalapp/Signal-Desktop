@@ -602,6 +602,12 @@
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
+  "icu:Toast--ReceiptSaved": {
+    "messageformat": "Receipt saved"
+  },
+  "icu:Toast--ReceiptSaveFailed": {
+    "messageformat": "Error saving receipt. Please try again."
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "您无法在选择文件的同时选择照片和视频。"
   },
@@ -1281,34 +1287,34 @@
     "messageformat": "表情符号肤色"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "聊天文件夹"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
-    "messageformat": "Add a chat folder"
+    "messageformat": "添加聊天文件夹"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
-    "messageformat": "Organize your chats into folders and quickly switch between them on your chat list."
+    "messageformat": "您可以将聊天整理到文件夹中，并在聊天列表中快速切换。"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
-    "messageformat": "Edit folder"
+    "messageformat": "编辑文件夹"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__DeleteFolder": {
-    "messageformat": "Delete"
+    "messageformat": "删除"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Title": {
-    "messageformat": "Delete folder?"
+    "messageformat": "要删除文件夹？"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Description": {
-    "messageformat": "Do you want to delete the folder “{chatFolderTitle}”?"
+    "messageformat": "您是否要删除文件夹“{chatFolderTitle}”？"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "删除"
   },
   "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Cancel"
+    "messageformat": "取消"
   },
   "icu:Preferences__ChatFoldersPage__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "聊天文件夹"
   },
   "icu:Preferences__ChatFoldersPage__Description": {
     "messageformat": "Organize your chats into folders and quickly switch between them on your chat list"
@@ -4182,10 +4188,10 @@
     "messageformat": "重试"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
-    "messageformat": "正在恢复媒体"
+    "messageformat": "Syncing media"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "恢复已暂停"
+    "messageformat": "Syncing paused"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
     "messageformat": "已恢复 {totalSize} 中的 {currentSize}"
@@ -4200,13 +4206,13 @@
     "messageformat": "正在等待互联网连接…"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "暂停转移"
+    "messageformat": "Pause"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "继续转移"
+    "messageformat": "Resume"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
-    "messageformat": "取消转移"
+    "messageformat": "Cancel syncing"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
     "messageformat": "更多选项"
@@ -4218,16 +4224,34 @@
     "messageformat": "{currentSize} / {totalSize} 匹配"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "要取消媒体转移吗？"
+    "messageformat": "Cancel media syncing?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "您的消息和媒体未完成恢复。如果您选择取消，您可以在设置中再次进行转移。"
+    "messageformat": "Your media has not completed syncing. If you choose to cancel, you can sync again by re-linking this device. <learnMoreLink>Learn more</learnMoreLink>."
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "继续转移"
+    "messageformat": "Continue syncing"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
-    "messageformat": "取消转移"
+    "messageformat": "Cancel syncing"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--title": {
+    "messageformat": "Syncing paused"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--description": {
+    "messageformat": "Click “{resumeButtonText}” to continue syncing"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-resume": {
+    "messageformat": "Resume"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-pause": {
+    "messageformat": "Pause"
+  },
+  "icu:BackupMediaDownloadProgressSettings__title-in-progress": {
+    "messageformat": "Syncing media"
+  },
+  "icu:BackupMediaDownloadProgressSettings__progressbar-hint": {
+    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
     "messageformat": "需要采取账户操作"
@@ -6600,6 +6624,42 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "最新消息"
   },
+  "icu:PreferencesDonations__title": {
+    "messageformat": "Privacy over Profit"
+  },
+  "icu:PreferencesDonations__description": {
+    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:PreferencesDonations__donate-button": {
+    "messageformat": "Donate"
+  },
+  "icu:PreferencesDonations__mobile-info": {
+    "messageformat": "Badges and monthly donations can be managed on your mobile device."
+  },
+  "icu:PreferencesDonations__receipts": {
+    "messageformat": "Receipts"
+  },
+  "icu:PreferencesDonations__faqs": {
+    "messageformat": "Donation FAQs"
+  },
+  "icu:PreferencesDonations--receiptList__info": {
+    "messageformat": "Receipts do not sync across devices. If you have reinstalled Signal, receipts from previous donations will not be available."
+  },
+  "icu:PreferencesDonations--receiptList__empty-title": {
+    "messageformat": "No Receipts"
+  },
+  "icu:PreferencesDonations__ReceiptModal--title": {
+    "messageformat": "Details"
+  },
+  "icu:PreferencesDonations__ReceiptModal--download": {
+    "messageformat": "Download receipt"
+  },
+  "icu:PreferencesDonations__ReceiptModal--type-label": {
+    "messageformat": "Type"
+  },
+  "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
+    "messageformat": "Date paid"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Donation receipt"
   },
@@ -6613,10 +6673,7 @@
     "messageformat": "Date paid"
   },
   "icu:DonationReceipt__type-value--one-time": {
-    "messageformat": "One-time"
-  },
-  "icu:DonationReceipt__payment-method-label": {
-    "messageformat": "Payment method"
+    "messageformat": "One time"
   },
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840."
@@ -6657,5 +6714,8 @@
   },
   "icu:WhatsNew__v7.61--0": {
     "messageformat": "This update improves audio quality and reliability during voice and video calls, and introduces better automatic configuration of connected microphones and speakers. Thanks to <padenot></padenot>, <kinetiknz></kinetiknz>, and <Pehrsons></Pehrsons> at Mozilla for their help with this project."
+  },
+  "icu:WhatsNew__v7.62--0": {
+    "messageformat": "We fixed a rare bug that could prevent some contacts from synchronizing correctly."
   }
 }
