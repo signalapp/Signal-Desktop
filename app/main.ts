@@ -2600,7 +2600,7 @@ ipc.on(
   'set-menu-bar-visibility',
   (_event: Electron.Event, visibility: boolean) => {
     if (mainWindow) {
-      mainWindow.setMenuBarVisibility(visibility);
+      mainWindow.setMenuBarVisibility(false);
     }
   }
 );
