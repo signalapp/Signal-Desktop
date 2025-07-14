@@ -6,21 +6,20 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './DonationVerificationModal';
-import { DonationVerificationModal } from './DonationVerificationModal';
+import type { PropsType } from './DonationStillProcessingModal';
+import { DonationStillProcessingModal } from './DonationStillProcessingModal';
 
 const { i18n } = window.SignalContext;
 
 export default {
-  title: 'Components/DonationVerificationModal',
+  title: 'Components/DonationStillProcessingModal',
 } satisfies Meta<PropsType>;
 
 const defaultProps = {
   i18n,
-  onCancel: action('onCancel'),
-  onOpenBrowser: action('onOpenBrowser'),
+  onClose: action('onClose'),
 };
 
 export function Default(): JSX.Element {
-  return <DonationVerificationModal {...defaultProps} />;
+  return <DonationStillProcessingModal {...defaultProps} />;
 }

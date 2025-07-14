@@ -1,0 +1,26 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../mixins';
+@use '../variables';
+
+.DonationProgressModal__width-container {
+  max-width: 204px;
+}
+
+.DonationProgressModal {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  text-align: center;
+  outline: none;
+}
+
+.DonationProgressModal__text {
+  margin-top: 20px;
+  color: light-dark(variables.$color-gray-60, variables.$color-gray-25);
+  @include mixins.font-body-2;
+}
+
+.DonationProgressModal .SpinnerV2__Path {
+  color: variables.$color-ultramarine;
+}

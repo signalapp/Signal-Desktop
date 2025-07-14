@@ -8882,6 +8882,18 @@
     "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840.",
     "description": "Footer text shown on donation receipts explaining tax deductibility and Signal's mission"
   },
+  "icu:Donations__Processing": {
+    "messageformat": "Processing donation...",
+    "description": "Explainer text for donation progress dialog"
+  },
+  "icu:Donations__StillProcessing": {
+    "messageformat": "Still processing",
+    "description": "Title of the dialog shown when the user has made a donation and it's taking some time to complete the process"
+  },
+  "icu:Donations__StillProcessing__Description": {
+    "messageformat": "Your donation is still being processed. This can take a few minutes.",
+    "description": "An explanation for the 'still processing' dialog"
+  },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "Additional verification required",
     "description": "Title of the dialog shown when the user's payment method requires a redirect to a verification website"
