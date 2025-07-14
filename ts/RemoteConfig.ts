@@ -40,6 +40,7 @@ export type ConfigKeyType =
   | 'desktop.funPicker' // alpha
   | 'desktop.funPicker.beta'
   | 'desktop.funPicker.prod'
+  | 'desktop.usePqRatchet'
   | 'global.attachments.maxBytes'
   | 'global.attachments.maxReceiveBytes'
   | 'global.backups.mediaTierFallbackCdnNumber'
@@ -49,8 +50,7 @@ export type ConfigKeyType =
   | 'global.messageQueueTimeInSeconds'
   | 'global.nicknames.max'
   | 'global.nicknames.min'
-  | 'global.textAttachmentLimitBytes'
-  | 'global.usePqRatchet';
+  | 'global.textAttachmentLimitBytes';
 
 type ConfigValueType = {
   name: ConfigKeyType;
