@@ -141,8 +141,8 @@ importers:
         specifier: 2.1.0
         version: 2.1.0
       '@signalapp/windows-ucv':
-        specifier: 1.0.0
-        version: 1.0.0
+        specifier: 1.0.1
+        version: 1.0.1
       '@tanstack/react-virtual':
         specifier: 3.11.2
         version: 3.11.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -2786,8 +2786,8 @@ packages:
   '@signalapp/sqlcipher@2.1.0':
     resolution: {integrity: sha512-SRHiTOBcC25KXM7aZMyDiY2MP5uwsZM1NOIlUZlH0gtR4kTPiLEJqyhomA8II6lhl9BTGc9R2M/GLelQrQhvhw==}
 
-  '@signalapp/windows-ucv@1.0.0':
-    resolution: {integrity: sha512-8jDChKSW4gEZO8F3KxFntYR3fLWM0DzoJnK/t9AnUxhP7iJbgbF+K9lXamjbIjDhsLwmwbjoyGrEbqtkkx/w/g==}
+  '@signalapp/windows-ucv@1.0.1':
+    resolution: {integrity: sha512-tArRaDzAFXQ6BcYseUtd9bp52/sb5C/zbCIoNkDH+FUoxnZRvX25Fv2HHbH7Xe2+bcdb4+DQmyoUeHMhTUxAmA==}
 
   '@sinclair/typebox@0.27.8':
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
@@ -12510,7 +12510,7 @@ snapshots:
       node-addon-api: 8.3.0
       node-gyp-build: 4.8.4
 
-  '@signalapp/windows-ucv@1.0.0':
+  '@signalapp/windows-ucv@1.0.1':
     dependencies:
       bindings: 1.5.0
       node-addon-api: 8.3.0
