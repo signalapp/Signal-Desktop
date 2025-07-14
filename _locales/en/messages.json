@@ -8882,6 +8882,38 @@
     "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840.",
     "description": "Footer text shown on donation receipts explaining tax deductibility and Signal's mission"
   },
+  "icu:Donations__PaymentMethodDeclined": {
+    "messageformat": "Payment method declined",
+    "description": "Title of the dialog shown with the user's provided payment method has not worked"
+  },
+  "icu:Donations__PaymentMethodDeclined__Description": {
+    "messageformat": "Try another payment method or contact your bank for more information.",
+    "description": "An explanation for the 'payment declined' dialog"
+  },
+  "icu:Donations__ErrorProcessingDonation": {
+    "messageformat": "Error processing donation",
+    "description": "Title of the dialog shown when a user's donation didn't seem to complete"
+  },
+  "icu:Donations__ErrorProcessingDonation__Description": {
+    "messageformat": "Try another payment method or contact your bank for more information.",
+    "description": "An explanation for the 'error processing' dialog"
+  },
+  "icu:Donations__Failed3dsValidation": {
+    "messageformat": "Verification Failed",
+    "description": "Title of the dialog shown when something went wrong processing a user's 3ds verification with their bank"
+  },
+  "icu:Donations__Failed3dsValidation__Description": {
+    "messageformat": "Additional verification step failed. Please try again.",
+    "description": "An explanation for the 'verification failed' dialog"
+  },
+  "icu:Donations__GenericError": {
+    "messageformat": "An error occurred with your donation",
+    "description": "Title of the dialog shown when some unknown error has happened during a user's attempted donation"
+  },
+  "icu:Donations__GenericError__Description": {
+    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm.",
+    "description": "An explanation for the 'error occurred' dialog"
+  },
   "icu:Donations__Processing": {
     "messageformat": "Processing donation...",
     "description": "Explainer text for donation progress dialog"
