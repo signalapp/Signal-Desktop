@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isNumber, groupBy, throttle } from 'lodash';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import PQueue from 'p-queue';
 import pMap from 'p-map';
 import { v7 as generateUuid } from 'uuid';
@@ -1552,9 +1552,11 @@ export async function startApp(): Promise<void> {
     await runAllSyncTasks();
 
     cancelInitializationMessage();
-    render(
-      window.Signal.State.Roots.createApp(window.reduxStore),
-      document.getElementById('app-container')
+
+    const appContainer = document.getElementById('app-container');
+    strictAssert(appContainer != null, 'No #app-container');
+    createRoot(appContainer).render(
+      window.Signal.State.Roots.createApp(window.reduxStore)
     );
     const hideMenuBar = window.storage.get('hide-menu-bar', false);
     window.IPC.setAutoHideMenuBar(hideMenuBar);

@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { render, unmountComponentAtNode } from 'react-dom';
+import { unmountComponentAtNode } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import type { ConversationAttributesType } from '../model-types.d';
 import type { ConversationModel } from '../models/conversations';
@@ -389,9 +390,8 @@ export async function joinViaLink(value: string): Promise<void> {
   let groupV2InfoNode: HTMLDivElement | undefined =
     document.createElement('div');
 
-  render(
-    createGroupV2JoinModal(window.reduxStore, { join, onClose: closeDialog }),
-    groupV2InfoNode
+  createRoot(groupV2InfoNode).render(
+    createGroupV2JoinModal(window.reduxStore, { join, onClose: closeDialog })
   );
 
   // We declare a new function here so we can await but not block

@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { StrictMode } from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
+import { unmountComponentAtNode } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import * as Errors from '../types/errors';
 import { createLogger } from '../logging/log';
@@ -34,13 +35,12 @@ export async function longRunningTaskWrapper<T>({
     progressNode = document.createElement('div');
 
     log.info(`${idLog}: Creating spinner`);
-    render(
+    createRoot(progressNode).render(
       <StrictMode>
         <FunDefaultEnglishEmojiLocalizationProvider>
           <ProgressModal i18n={window.i18n} />
         </FunDefaultEnglishEmojiLocalizationProvider>
-      </StrictMode>,
-      progressNode
+      </StrictMode>
     );
     spinnerStart = Date.now();
   }, TWO_SECONDS);
