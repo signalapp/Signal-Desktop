@@ -203,7 +203,7 @@ export async function onSync(sync: ReadSyncAttributesType): Promise<void> {
       message.set({ expirationStartTimestamp });
     }
 
-    queueUpdateMessage(message.attributes);
+    drop(queueUpdateMessage(message.attributes));
 
     await remove(sync);
   } catch (error) {

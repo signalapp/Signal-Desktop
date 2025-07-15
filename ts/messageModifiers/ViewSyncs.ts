@@ -17,6 +17,7 @@ import { queueUpdateMessage } from '../util/messageBatcher';
 import { isAciString } from '../util/isAciString';
 import { DataReader, DataWriter } from '../sql/Client';
 import { MessageModel } from '../models/messages';
+import { drop } from '../util/drop';
 
 const log = createLogger('ViewSyncs');
 
@@ -136,7 +137,7 @@ export async function onSync(sync: ViewSyncAttributesType): Promise<void> {
     }
 
     if (didChangeMessage) {
-      queueUpdateMessage(message.attributes);
+      drop(queueUpdateMessage(message.attributes));
     }
 
     await remove(sync);

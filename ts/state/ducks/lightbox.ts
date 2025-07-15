@@ -46,7 +46,7 @@ import { useBoundActions } from '../../hooks/useBoundActions';
 import { DataReader } from '../../sql/Client';
 import { deleteDownloadsJobQueue } from '../../jobs/deleteDownloadsJobQueue';
 import { AttachmentDownloadUrgency } from '../../types/AttachmentDownload';
-import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads';
+import { queueAttachmentDownloadsAndMaybeSaveMessage } from '../../util/queueAttachmentDownloads';
 import { getMessageIdForLogging } from '../../util/idForLogging';
 import { markViewOnceMessageViewed } from '../../services/MessageUpdater';
 
@@ -289,16 +289,20 @@ function showLightbox(opts: {
     }
 
     if (isIncremental(attachment)) {
-      // Queue all attachments, but this target attachment should be IMMEDIATE
-      const wasUpdated = await queueAttachmentDownloads(message, {
-        attachmentSignatureForImmediate:
+      // Queue this target attachment with urgency IMMEDIATE
+      await queueAttachmentDownloadsAndMaybeSaveMessage(message, {
+        signaturesToQueue: new Set([
           getUndownloadedAttachmentSignature(attachment),
+        ]),
+        isManualDownload: true,
+        urgency: AttachmentDownloadUrgency.IMMEDIATE,
+      });
+
+      // Queue all the remaining with standard urgency.
+      await queueAttachmentDownloadsAndMaybeSaveMessage(message, {
         isManualDownload: true,
         urgency: AttachmentDownloadUrgency.STANDARD,
       });
-      if (wasUpdated) {
-        await window.MessageCache.saveMessage(message);
-      }
     }
 
     const attachments = filterValidAttachments(message.attributes);
