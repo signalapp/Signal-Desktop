@@ -429,7 +429,7 @@ jobs:
       run: |
         set -o pipefail
         xvfb-run --auto-servernum pnpm run test-mock
-      timeout-minutes: 10
+      timeout-minutes: 15
       env:
         NODE_ENV: production
         DEBUG: mock:test:*

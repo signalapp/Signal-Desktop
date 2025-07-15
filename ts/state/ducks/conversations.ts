@@ -210,7 +210,7 @@ import { actions as searchActions } from './search';
 import type { SearchActionType } from './search';
 import { getNotificationTextForMessage } from '../../util/getNotificationTextForMessage';
 import { doubleCheckMissingQuoteReference as doDoubleCheckMissingQuoteReference } from '../../util/doubleCheckMissingQuoteReference';
-import { queueAttachmentDownloadsForMessage } from '../../util/queueAttachmentDownloads';
+import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads';
 import { markAttachmentAsCorrupted as doMarkAttachmentAsCorrupted } from '../../messageModifiers/AttachmentDownloads';
 import {
   isSent,
@@ -2344,7 +2344,7 @@ function kickOffAttachmentDownload(
         `kickOffAttachmentDownload: Message ${options.messageId} missing!`
       );
     }
-    const didUpdateValues = await queueAttachmentDownloadsForMessage(message, {
+    const didUpdateValues = await queueAttachmentDownloads(message, {
       urgency: AttachmentDownloadUrgency.IMMEDIATE,
       isManualDownload: true,
     });

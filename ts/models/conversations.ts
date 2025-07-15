@@ -184,7 +184,7 @@ import { getCallHistorySelector } from '../state/selectors/callHistory';
 import { migrateLegacyReadStatus } from '../messages/migrateLegacyReadStatus';
 import { migrateLegacySendAttributes } from '../messages/migrateLegacySendAttributes';
 import { getIsInitialContactSync } from '../services/contactSync';
-import { queueAttachmentDownloadsForMessage } from '../util/queueAttachmentDownloads';
+import { queueAttachmentDownloadsAndMaybeSaveMessage } from '../util/queueAttachmentDownloads';
 import { cleanupMessages } from '../util/cleanup';
 import { MessageModel } from './messages';
 import { applyNewAvatar } from '../groups';
@@ -2321,13 +2321,9 @@ export class ConversationModel extends window.Backbone
       await Promise.all(
         readMessages.map(async m => {
           const registered = window.MessageCache.register(new MessageModel(m));
-          const shouldSave = await queueAttachmentDownloadsForMessage(
-            registered,
-            { isManualDownload: false }
-          );
-          if (shouldSave) {
-            await window.MessageCache.saveMessage(registered.attributes);
-          }
+          await queueAttachmentDownloadsAndMaybeSaveMessage(registered, {
+            isManualDownload: false,
+          });
         })
       );
     } while (messages.length > 0);

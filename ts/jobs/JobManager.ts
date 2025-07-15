@@ -193,11 +193,6 @@ export abstract class JobManager<CoreJobType> {
         log.info(`${logId}: already running; resetting attempts`);
         runningJob.attempts = 0;
 
-        await this.params.saveJob({
-          ...runningJob,
-          attempts: 0,
-        });
-
         return { isAlreadyRunning: true };
       }
 
