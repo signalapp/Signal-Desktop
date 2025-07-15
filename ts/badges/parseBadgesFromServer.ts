@@ -15,7 +15,7 @@ const log = createLogger('parseBadgesFromServer');
 
 const MAX_BADGES = 1000;
 
-const badgeFromServerSchema = z.object({
+export const badgeFromServerSchema = z.object({
   category: z.string(),
   description: z.string(),
   id: z.string(),
@@ -27,7 +27,7 @@ const badgeFromServerSchema = z.object({
 });
 
 // GET /v1/subscription/configuration
-const boostBadgesFromServerSchema = z.object({
+export const boostBadgesFromServerSchema = z.object({
   levels: z.record(
     z
       .object({

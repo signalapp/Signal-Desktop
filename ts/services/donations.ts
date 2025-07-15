@@ -38,6 +38,7 @@ import type {
   DonationReceipt,
   DonationWorkflow,
   ReceiptContext,
+  StripeDonationAmount,
 } from '../types/Donations';
 
 const { createDonationReceipt } = DataWriter;
@@ -73,7 +74,7 @@ export async function startDonation({
   paymentAmount,
 }: {
   currencyType: string;
-  paymentAmount: number;
+  paymentAmount: StripeDonationAmount;
 }): Promise<void> {
   const workflow = await _createPaymentIntent({
     currencyType,
@@ -145,7 +146,7 @@ export async function _internalDoDonation({
   paymentDetail,
 }: {
   currencyType: string;
-  paymentAmount: number;
+  paymentAmount: StripeDonationAmount;
   paymentDetail: CardDetail;
 }): Promise<void> {
   if (isInternalDonationInProgress) {
@@ -365,7 +366,7 @@ export async function _createPaymentIntent({
   workflow,
 }: {
   currencyType: string;
-  paymentAmount: number;
+  paymentAmount: StripeDonationAmount;
   workflow: DonationWorkflow | undefined;
 }): Promise<DonationWorkflow> {
   const id = uuid();

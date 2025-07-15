@@ -18,6 +18,7 @@ import type { MessageAttributesType } from '../model-types';
 import type { DonationReceipt } from '../types/Donations';
 import { createLogger } from '../logging/log';
 import { isStagingServer } from '../util/isStagingServer';
+import { getHumanDonationAmount } from '../util/currency';
 
 const log = createLogger('PreferencesInternal');
 
@@ -398,8 +399,7 @@ export function PreferencesInternal({
                         {new Date(receipt.timestamp).toLocaleDateString()}
                       </td>
                       <td style={{ padding: '8px' }}>
-                        ${(receipt.paymentAmount / 100).toFixed(2)}{' '}
-                        {receipt.currencyType}
+                        {getHumanDonationAmount(receipt)} {receipt.currencyType}
                       </td>
                       <td
                         style={{

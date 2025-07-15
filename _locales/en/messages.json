@@ -8822,6 +8822,10 @@
     "messageformat": "Donate",
     "description": "Button text to make a donation"
   },
+  "icu:PreferencesDonations__donate-button-with-amount": {
+    "messageformat": "Donate {formattedCurrencyAmount}",
+    "description": "Button text to make a donation after selecting a currency amount. Amount includes the currency symbol and is formatted in the locale's standard format. Examples: Donate $10; Donate ¥1000; Donate €10"
+  },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Badges and monthly donations can be managed on your mobile device.",
     "description": "(Deleted 2025/07/09) Information about donations receipt syncing limitations"

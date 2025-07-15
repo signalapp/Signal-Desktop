@@ -3,6 +3,8 @@
 
 import { z } from 'zod';
 
+export const ONE_TIME_DONATION_CONFIG_ID = '1';
+
 export const donationStateSchema = z.enum([
   'INTENT',
   'INTENT_METHOD',
@@ -156,3 +158,33 @@ export const donationWorkflowSchema = z.discriminatedUnion('type', [
 ]);
 
 export type DonationWorkflow = z.infer<typeof donationWorkflowSchema>;
+
+export const humanDonationAmountSchema = z
+  .number()
+  .nonnegative()
+  .brand('humanAmount');
+
+export type HumanDonationAmount = z.infer<typeof humanDonationAmountSchema>;
+
+// Always in currency minor units e.g. 1000 for 10 USD, 10 for 10 JPY
+// https://docs.stripe.com/currencies#minor-units
+export const stripeDonationAmountSchema = z
+  .number()
+  .nonnegative()
+  .brand('stripeAmount');
+
+export type StripeDonationAmount = z.infer<typeof stripeDonationAmountSchema>;
+
+export const subscriptionConfigurationCurrencyZod = z.object({
+  minimum: humanDonationAmountSchema,
+  oneTime: z.record(z.string(), humanDonationAmountSchema.array()),
+});
+
+export const oneTimeDonationAmountsZod = z.record(
+  z.string(),
+  subscriptionConfigurationCurrencyZod
+);
+
+export type OneTimeDonationHumanAmounts = z.infer<
+  typeof oneTimeDonationAmountsZod
+>;

@@ -92,7 +92,13 @@ import type { ServerAlert } from '../util/handleServerAlerts';
 import { isAbortError } from '../util/isAbortError';
 import { missingCaseError } from '../util/missingCaseError';
 import { drop } from '../util/drop';
-import type { CardDetail } from '../types/Donations';
+import type { StripeDonationAmount } from '../types/Donations';
+import {
+  subscriptionConfigurationCurrencyZod,
+  type CardDetail,
+} from '../types/Donations';
+import { badgeFromServerSchema } from '../badges/parseBadgesFromServer';
+import { ZERO_DECIMAL_CURRENCIES } from '../util/currency';
 
 const log = createLogger('WebAPI');
 
@@ -1108,6 +1114,20 @@ const linkDeviceResultZod = z.object({
 });
 export type LinkDeviceResultType = z.infer<typeof linkDeviceResultZod>;
 
+const subscriptionConfigurationResultZod = z.object({
+  currencies: z.record(z.string(), subscriptionConfigurationCurrencyZod),
+  levels: z.record(
+    z.string(),
+    z.object({
+      name: z.string(),
+      badge: badgeFromServerSchema,
+    })
+  ),
+});
+export type SubscriptionConfigurationResultType = z.infer<
+  typeof subscriptionConfigurationResultZod
+>;
+
 export type ReportMessageOptionsType = Readonly<{
   senderAci: AciString;
   serverGuid: string;
@@ -1150,7 +1170,7 @@ export type CreateAccountResultType = Readonly<{
 
 export type CreateBoostOptionsType = Readonly<{
   currency: string;
-  amount: number;
+  amount: StripeDonationAmount;
   level: number;
   paymentMethod: string;
 }>;
@@ -1499,24 +1519,6 @@ const backupFileHeadersSchema = z.object({
 
 type BackupFileHeadersType = z.infer<typeof backupFileHeadersSchema>;
 
-// See: https://docs.stripe.com/currencies?presentment-currency=US
-const ZERO_DECIMAL_CURRENCIES = new Set([
-  'bif',
-  'clp',
-  'djf',
-  'gnf',
-  'jpy',
-  'kmf',
-  'krw',
-  'mga',
-  'pyg',
-  'rwf',
-  'vnd',
-  'vuv',
-  'xaf',
-  'xof',
-  'xpf',
-]);
 const secondsTimestampToDate = z.coerce
   .number()
   .transform(sec => new Date(sec * 1_000));
@@ -1642,7 +1644,7 @@ export type WebAPIType = {
     options: ProfileFetchUnauthRequestOptions
   ) => Promise<ProfileType>;
   getBadgeImageFile: (imageUrl: string) => Promise<Uint8Array>;
-  getSubscriptionConfiguration: () => Promise<unknown>;
+  getSubscriptionConfiguration: () => Promise<SubscriptionConfigurationResultType>;
   getSubscription: (
     subscriberId: Uint8Array
   ) => Promise<SubscriptionResponseType>;
@@ -2941,14 +2943,13 @@ export function initialize({
       );
     }
 
-    async function getSubscriptionConfiguration(): Promise<unknown> {
+    async function getSubscriptionConfiguration(): Promise<SubscriptionConfigurationResultType> {
       return _ajax({
         host: 'chatService',
         call: 'subscriptionConfiguration',
         httpType: 'GET',
         responseType: 'json',
-        // TODO DESKTOP-8719
-        zodSchema: z.unknown(),
+        zodSchema: subscriptionConfigurationResultZod,
       });
     }
 
