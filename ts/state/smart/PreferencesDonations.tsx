@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import type { MutableRefObject } from 'react';
@@ -15,6 +15,9 @@ import type { StateType } from '../reducer';
 import { isStagingServer } from '../../util/isStagingServer';
 import { generateDonationReceiptBlob } from '../../util/generateDonationReceipt';
 import { useToastActions } from '../ducks/toast';
+import { getDonationHumanAmounts } from '../../util/subscriptionConfiguration';
+import { drop } from '../../util/drop';
+import type { OneTimeDonationHumanAmounts } from '../../types/Donations';
 
 export const SmartPreferencesDonations = memo(
   function SmartPreferencesDonations({
@@ -26,6 +29,12 @@ export const SmartPreferencesDonations = memo(
     page: Page;
     setPage: (page: Page) => void;
   }) {
+    const [validCurrencies, setValidCurrencies] = useState<
+      ReadonlyArray<string>
+    >([]);
+    const [donationAmountsConfig, setDonationAmountsConfig] =
+      useState<OneTimeDonationHumanAmounts>();
+
     const isStaging = isStagingServer();
     const i18n = useSelector(getIntl);
 
@@ -46,6 +55,18 @@ export const SmartPreferencesDonations = memo(
     );
     const { saveAttachmentToDisk } = window.Signal.Migrations;
 
+    // Eagerly load donation config from API when entering Donations Home so the
+    // Amount picker loads instantly
+    useEffect(() => {
+      async function loadDonationAmounts() {
+        const amounts = await getDonationHumanAmounts();
+        setDonationAmountsConfig(amounts);
+        const currencies = Object.keys(amounts);
+        setValidCurrencies(currencies);
+      }
+      drop(loadDonationAmounts());
+    }, []);
+
     return (
       <PreferencesDonations
         i18n={i18n}
@@ -56,6 +77,8 @@ export const SmartPreferencesDonations = memo(
         donationReceipts={donationReceipts}
         saveAttachmentToDisk={saveAttachmentToDisk}
         generateDonationReceiptBlob={generateDonationReceiptBlob}
+        donationAmountsConfig={donationAmountsConfig}
+        validCurrencies={validCurrencies}
         showToast={showToast}
         contentsRef={contentsRef}
         isStaging={isStaging}

@@ -15,6 +15,7 @@ import type {
   DonationErrorType,
   DonationReceipt,
   DonationWorkflow,
+  StripeDonationAmount,
 } from '../../types/Donations';
 import type { StateType as RootStateType } from '../reducer';
 import { DataWriter } from '../../sql/Client';
@@ -44,11 +45,7 @@ export type AddReceiptAction = ReadonlyDeep<{
 
 export type SubmitDonationAction = ReadonlyDeep<{
   type: typeof SUBMIT_DONATION;
-  payload: {
-    currencyType: string;
-    amount: number;
-    paymentDetail: CardDetail;
-  };
+  payload: SubmitDonationType;
 }>;
 
 export type UpdateLastErrorAction = ReadonlyDeep<{
@@ -100,15 +97,22 @@ function internalAddDonationReceipt(
   };
 }
 
+export type SubmitDonationType = ReadonlyDeep<{
+  currencyType: string;
+  paymentAmount: StripeDonationAmount;
+  paymentDetail: CardDetail;
+}>;
+
 function submitDonation({
   currencyType,
   paymentAmount,
   paymentDetail,
-}: {
-  currencyType: string;
-  paymentAmount: number;
-  paymentDetail: CardDetail;
-}): ThunkAction<void, RootStateType, unknown, UpdateWorkflowAction> {
+}: SubmitDonationType): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  UpdateWorkflowAction
+> {
   return async () => {
     if (!isStagingServer()) {
       log.error('internalAddDonationReceipt: Only available on staging server');

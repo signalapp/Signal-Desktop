@@ -31,7 +31,10 @@ import type { WidthBreakpoint } from './_util';
 import type { MessageAttributesType } from '../model-types';
 import { PreferencesDonations } from './PreferencesDonations';
 import { strictAssert } from '../util/assert';
-import type { DonationReceipt } from '../types/Donations';
+import type {
+  DonationReceipt,
+  OneTimeDonationHumanAmounts,
+} from '../types/Donations';
 import type { AnyToast } from '../types/Toast';
 
 const { i18n } = window.SignalContext;
@@ -105,6 +108,23 @@ const exportLocalBackupResult = {
   ...validateBackupResult,
   snapshotDir: '/home/signaluser/SignalBackups/signal-backup-1745618069169',
 };
+
+const donationAmountsConfig = {
+  jpy: {
+    minimum: 400,
+    oneTime: {
+      '1': [500, 1000, 2000, 3000, 5000, 10000],
+      '100': [500],
+    },
+  },
+  usd: {
+    minimum: 3,
+    oneTime: {
+      1: [5, 10, 20, 30, 50, 100],
+      100: [5],
+    },
+  },
+} as unknown as OneTimeDonationHumanAmounts;
 
 function renderUpdateDialog(
   props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
@@ -200,6 +220,8 @@ function RenderDonationsPane(props: {
       color={props.me.color}
       firstName={props.me.firstName}
       profileAvatarUrl={props.me.profileAvatarUrl}
+      donationAmountsConfig={donationAmountsConfig}
+      validCurrencies={Object.keys(donationAmountsConfig)}
       donationReceipts={props.donationReceipts}
       saveAttachmentToDisk={props.saveAttachmentToDisk}
       generateDonationReceiptBlob={props.generateDonationReceiptBlob}
