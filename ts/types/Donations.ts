@@ -13,16 +13,14 @@ export const donationStateSchema = z.enum([
 ]);
 
 export const donationErrorTypeSchema = z.enum([
-  // Any 4xx error when adding payment method or confirming intent
-  'PaymentDeclined',
-  // Only used if we can't support 3DS validation for our first release
-  'CardNotSupported',
-  // Used if the user is redirected back from validation, but continuing forward fails
-  'Failed3dsValidation',
   // Any other HTTPError during the process
   'DonationProcessingError',
+  // Used if the user is redirected back from validation, but continuing forward fails
+  'Failed3dsValidation',
   // Any other error
   'GeneralError',
+  // Any 4xx error when adding payment method or confirming intent
+  'PaymentDeclined',
 ]);
 export type DonationErrorType = z.infer<typeof donationErrorTypeSchema>;
 
