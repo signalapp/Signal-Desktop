@@ -61,7 +61,7 @@ import {
   canDisplayImage,
   getExtensionForDisplay,
   getGridDimensions,
-  getImageDimensions,
+  getImageDimensionsForTimeline,
   hasImage,
   hasVideoScreenshot,
   isAudio,
@@ -2622,7 +2622,7 @@ export class Message extends React.PureComponent<Props, State> {
       firstLinkPreview.image &&
       shouldUseFullSizeLinkPreviewImage(firstLinkPreview)
     ) {
-      const dimensions = getImageDimensions(firstLinkPreview.image);
+      const dimensions = getImageDimensionsForTimeline(firstLinkPreview.image);
       if (dimensions) {
         return dimensions.width;
       }

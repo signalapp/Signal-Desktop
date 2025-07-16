@@ -11,7 +11,7 @@ import type {
 import {
   areAllAttachmentsVisual,
   getAlt,
-  getImageDimensions,
+  getImageDimensionsForTimeline,
   getThumbnailUrl,
   getUrl,
   isDownloadable,
@@ -189,7 +189,7 @@ export function ImageGrid({
   });
 
   if (attachments.length === 1 || !areAllAttachmentsVisual(attachments)) {
-    const { height, width } = getImageDimensions(
+    const { height, width } = getImageDimensionsForTimeline(
       attachments[0],
       isSticker ? stickerSize : undefined
     );
