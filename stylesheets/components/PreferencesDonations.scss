@@ -50,6 +50,7 @@
     height: 0.5px;
     border: none;
     margin: 0;
+    margin-bottom: 12px;
     background-color: light-dark(
       variables.$color-black-alpha-12,
       variables.$color-white-alpha-12
@@ -59,8 +60,9 @@
   &__section-header {
     @include mixins.font-body-2-bold;
     width: 100%;
-    margin-top: 24px;
-    margin-bottom: 8px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    padding-inline: 8px;
     color: light-dark(
       variables.$color-black-alpha-85,
       variables.$color-white-alpha-85
@@ -68,7 +70,6 @@
   }
 
   &__list {
-    margin-top: 24px;
     width: 100%;
   }
 
@@ -81,7 +82,7 @@
       align-items: center;
       gap: 12px;
       padding-block: 12px;
-      padding-inline: 24px;
+      padding-inline: 8px;
       border-radius: 5px;
     }
 
@@ -143,6 +144,30 @@
         );
       }
     }
+
+    &__open {
+      &::before {
+        content: '';
+        display: block;
+        width: 20px;
+        height: 20px;
+        @include mixins.color-svg(
+          '../images/icons/v3/open/open.svg',
+          light-dark(variables.$color-gray-45, variables.$color-gray-25)
+        );
+      }
+    }
+  }
+
+  &__mobile-info {
+    @include mixins.font-subtitle;
+    margin-top: 18px;
+    align-self: flex-start;
+    padding-inline: 8px;
+    color: light-dark(
+      variables.$color-black-alpha-50,
+      variables.$color-white-alpha-50
+    );
   }
 }
 
@@ -337,5 +362,27 @@
       variables.$color-black-alpha-50,
       variables.$color-white-alpha-50
     );
+  }
+}
+
+.DonationPrivacyInformationModal {
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+
+  &__faqs-link {
+    @include mixins.button-reset;
+
+    & {
+      color: variables.$color-ultramarine;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 }

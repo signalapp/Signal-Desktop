@@ -28,6 +28,8 @@ import { ToastType } from '../types/Toast';
 import { createLogger } from '../logging/log';
 import { toLogFormat } from '../types/errors';
 import { I18n } from './I18n';
+import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
+import { DonationPrivacyInformationModal } from './DonationPrivacyInformationModal';
 import type { SubmitDonationType } from '../state/ducks/donations';
 import { getHumanDonationAmount } from '../util/currency';
 
@@ -86,20 +88,6 @@ function isDonationPage(page: SettingsPage): page is DonationPage {
   );
 }
 
-function LearnMoreButton(parts: ReactNode): JSX.Element {
-  return (
-    <button
-      type="button"
-      className="PreferencesDonations__description__read-more"
-      onClick={() => {
-        // DESKTOP-8973
-      }}
-    >
-      {parts}
-    </button>
-  );
-}
-
 function DonationsHome({
   i18n,
   userAvatarData,
@@ -114,6 +102,24 @@ function DonationsHome({
   const avatarData = userAvatarData[0];
   const avatarBuffer = avatarData?.buffer;
   const hasReceipts = donationReceipts.length > 0;
+  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
+
+  const ReadMoreButtonWithModal = useCallback(
+    (parts: ReactNode): JSX.Element => {
+      return (
+        <button
+          type="button"
+          className="PreferencesDonations__description__read-more"
+          onClick={() => {
+            setShowPrivacyModal(true);
+          }}
+        >
+          {parts}
+        </button>
+      );
+    },
+    []
+  );
 
   return (
     <div className="PreferencesDonations">
@@ -136,7 +142,7 @@ function DonationsHome({
       <div className="PreferencesDonations__description">
         <I18n
           components={{
-            learnMoreLink: LearnMoreButton,
+            readMoreLink: ReadMoreButtonWithModal,
           }}
           i18n={i18n}
           id="icu:PreferencesDonations__description"
@@ -157,6 +163,12 @@ function DonationsHome({
 
       <hr className="PreferencesDonations__separator" />
 
+      {hasReceipts && (
+        <div className="PreferencesDonations__section-header">
+          {i18n('icu:PreferencesDonations__my-support')}
+        </div>
+      )}
+
       <ListBox className="PreferencesDonations__list">
         {hasReceipts && (
           <ListBoxItem
@@ -175,16 +187,29 @@ function DonationsHome({
         <ListBoxItem
           className="PreferencesDonations__list-item"
           onAction={() => {
-            // TODO: Handle donation FAQs action
+            openLinkInWebBrowser(
+              'https://support.signal.org/hc/articles/360031949872-Donor-FAQs'
+            );
           }}
         >
           <span className="PreferencesDonations__list-item__icon PreferencesDonations__list-item__icon--faqs" />
           <span className="PreferencesDonations__list-item__text">
             {i18n('icu:PreferencesDonations__faqs')}
           </span>
-          <span className="PreferencesDonations__list-item__chevron" />
+          <span className="PreferencesDonations__list-item__open" />
         </ListBoxItem>
       </ListBox>
+
+      <div className="PreferencesDonations__mobile-info">
+        {i18n('icu:PreferencesDonations__mobile-info')}
+      </div>
+
+      {showPrivacyModal && (
+        <DonationPrivacyInformationModal
+          i18n={i18n}
+          onClose={() => setShowPrivacyModal(false)}
+        />
+      )}
     </div>
   );
 }
