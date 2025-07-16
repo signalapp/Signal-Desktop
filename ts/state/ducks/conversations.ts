@@ -1468,8 +1468,7 @@ function markMessageRead(
       throw new Error(`markMessageRead: failed to load message ${messageId}`);
     }
 
-    await conversation.markRead(message.get('received_at'), {
-      newestSentAt: message.get('sent_at'),
+    await conversation.markRead(message.attributes, {
       sendReadReceipts: true,
     });
 

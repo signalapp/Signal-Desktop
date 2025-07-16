@@ -3658,8 +3658,7 @@ export class ConversationModel extends window.Backbone
 
   async onReadMessage(
     message: MessageAttributesType,
-    readAt?: number,
-    newestSentAt?: number
+    readAt?: number
   ): Promise<void> {
     // We mark as read everything older than this message - to clean up old stuff
     //   still marked unread in the database. If the user generally doesn't read in
@@ -3673,9 +3672,7 @@ export class ConversationModel extends window.Backbone
     // Lastly, we don't send read syncs for any message marked read due to a read
     //   sync. That's a notification explosion we don't need.
     return this.queueJob('onReadMessage', () =>
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      this.markRead(message.received_at!, {
-        newestSentAt: newestSentAt || message.sent_at,
+      this.markRead(message, {
         sendReadReceipts: false,
         readAt,
       })
@@ -4862,16 +4859,15 @@ export class ConversationModel extends window.Backbone
   }
 
   async markRead(
-    newestUnreadAt: number,
+    readMessage: { received_at: number; sent_at: number },
     options: {
       readAt?: number;
       sendReadReceipts: boolean;
-      newestSentAt?: number;
     } = {
       sendReadReceipts: true,
     }
   ): Promise<void> {
-    await markConversationRead(this.attributes, newestUnreadAt, options);
+    await markConversationRead(this.attributes, readMessage, options);
     this.throttledUpdateUnread();
     window.reduxActions.callHistory.updateCallHistoryUnreadCount();
   }

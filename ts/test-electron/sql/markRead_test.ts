@@ -143,7 +143,7 @@ describe('sql/markRead', () => {
 
     const markedRead = await getUnreadByConversationAndMarkRead({
       conversationId,
-      newestUnreadAt: unreadStoryReply.received_at,
+      readMessageReceivedAt: unreadStoryReply.received_at,
       readAt,
       includeStoryReplies: false,
     });
@@ -172,7 +172,7 @@ describe('sql/markRead', () => {
 
     const markedRead2 = await getUnreadByConversationAndMarkRead({
       conversationId,
-      newestUnreadAt: newestUnread.received_at,
+      readMessageReceivedAt: newestUnread.received_at,
       readAt,
       includeStoryReplies: true,
     });
@@ -300,7 +300,7 @@ describe('sql/markRead', () => {
 
     const markedRead = await getUnreadByConversationAndMarkRead({
       conversationId,
-      newestUnreadAt: message7.received_at,
+      readMessageReceivedAt: message7.received_at,
       readAt,
       storyId,
       includeStoryReplies: false,
@@ -410,7 +410,7 @@ describe('sql/markRead', () => {
 
     const markedRead = await getUnreadByConversationAndMarkRead({
       conversationId,
-      newestUnreadAt: message4.received_at,
+      readMessageReceivedAt: message4.received_at,
       readAt,
       includeStoryReplies: false,
       now,
@@ -587,7 +587,7 @@ describe('sql/markRead', () => {
     assert.lengthOf(await _getAllReactions(), 5);
     const markedRead = await getUnreadReactionsAndMarkRead({
       conversationId,
-      newestUnreadAt: reaction4.messageReceivedAt,
+      readMessageReceivedAt: reaction4.messageReceivedAt,
     });
 
     assert.lengthOf(markedRead, 2, 'two reactions marked read');
@@ -606,7 +606,7 @@ describe('sql/markRead', () => {
 
     const markedRead2 = await getUnreadReactionsAndMarkRead({
       conversationId,
-      newestUnreadAt: reaction5.messageReceivedAt,
+      readMessageReceivedAt: reaction5.messageReceivedAt,
     });
 
     assert.lengthOf(markedRead2, 1);
@@ -742,7 +742,7 @@ describe('sql/markRead', () => {
     assert.lengthOf(await _getAllReactions(), 5);
     const markedRead = await getUnreadReactionsAndMarkRead({
       conversationId,
-      newestUnreadAt: reaction4.messageReceivedAt,
+      readMessageReceivedAt: reaction4.messageReceivedAt,
       storyId,
     });
 
@@ -762,7 +762,7 @@ describe('sql/markRead', () => {
 
     const markedRead2 = await getUnreadReactionsAndMarkRead({
       conversationId,
-      newestUnreadAt: reaction5.messageReceivedAt,
+      readMessageReceivedAt: reaction5.messageReceivedAt,
       storyId,
     });
 
@@ -837,7 +837,7 @@ describe('sql/markRead', () => {
     const markedRead = await getUnreadByConversationAndMarkRead({
       conversationId,
       includeStoryReplies: false,
-      newestUnreadAt: message4.received_at,
+      readMessageReceivedAt: message4.received_at,
       readAt,
     });
 

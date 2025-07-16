@@ -983,18 +983,18 @@ type WritableInterface = {
   getUnreadByConversationAndMarkRead: (options: {
     conversationId: string;
     includeStoryReplies: boolean;
-    newestUnreadAt: number;
+    readMessageReceivedAt: number;
     now?: number;
     readAt?: number;
     storyId?: string;
   }) => GetUnreadByConversationAndMarkReadResultType;
   getUnreadEditedMessagesAndMarkRead: (options: {
     conversationId: string;
-    newestUnreadAt: number;
+    readMessageReceivedAt: number;
   }) => GetUnreadByConversationAndMarkReadResultType;
   getUnreadReactionsAndMarkRead: (options: {
     conversationId: string;
-    newestUnreadAt: number;
+    readMessageReceivedAt: number;
     storyId?: string;
   }) => Array<ReactionResultType>;
   markReactionAsRead: (
