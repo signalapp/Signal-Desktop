@@ -452,7 +452,9 @@ export class Timeline extends React.Component<
         setIsNearBottom(id, newIsNearBottom);
 
         if (newestBottomVisibleMessageId) {
-          this.#markNewestBottomVisibleMessageRead();
+          this.#markNewestBottomVisibleMessageRead(
+            newestBottomVisibleMessageId
+          );
 
           const rowIndex = getRowIndexFromElement(newestBottomVisible);
           const maxRowIndex = items.length - 1;
@@ -506,11 +508,12 @@ export class Timeline extends React.Component<
     this.#intersectionObserver.observe(atBottomDetectorEl);
   }
 
-  #markNewestBottomVisibleMessageRead = throttle((): void => {
+  #markNewestBottomVisibleMessageRead = throttle((messageId?: string): void => {
     const { id, markMessageRead } = this.props;
-    const { newestBottomVisibleMessageId } = this.state;
-    if (newestBottomVisibleMessageId) {
-      markMessageRead(id, newestBottomVisibleMessageId);
+    const messageIdToMarkRead =
+      messageId ?? this.state.newestBottomVisibleMessageId;
+    if (messageIdToMarkRead) {
+      markMessageRead(id, messageIdToMarkRead);
     }
   }, 500);
 
