@@ -151,16 +151,8 @@ export function applyAllRules(url: URL): URL {
   return url;
 }
 
-// Returns a URL object if the given string is a valid URL. Else, null.
-export function tryParseAsURL(url_str): URL | null {
-  try {
-    return new URL(url_str);
-  } catch {
-    return null;
-  }
-}
-
-// Parses all the rules from RULE_LINES and puts them in ALL_POSITIVE_RULES and ALL_NEGATIVE_RULES
+// Parses all the rules from RULE_LINES and puts them in ALL_POSITIVE_RULES and ALL_NEGATIVE_RULES.
+// This is called at the very bottom of this file.
 function init() {
   // We ignore any lines between !#if and !#endif
   var in_ifelse_pragma = false;

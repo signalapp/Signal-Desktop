@@ -8,7 +8,8 @@ import { deleteRange } from '@signalapp/quill-cjs/modules/keyboard';
 import { FormattingMenu, QuillFormattingStyle } from '../formatting/menu';
 import { insertEmojiOps } from '../util';
 import { createEventHandler } from './util';
-import { tryParseAsURL, applyAllRules } from './sanitizeUrl';
+import { applyAllRules } from '../../util/stripUrlTracking';
+import { maybeParseUrl } from '../../util/url'
 
 type ClipboardOptions = Readonly<{
   isDisabled: boolean;
@@ -78,7 +79,7 @@ export class SignalClipboard {
     }
 
     if (text && window.storage.get('autoRemoveUrlTracking', true)) {
-      var url = tryParseAsURL(text);
+      var url = maybeParseUrl(text);
       if (url && url.protocol == "https:" || url.protocol == "http:") {
         text = applyAllRules(url).toString();
       }
