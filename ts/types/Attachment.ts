@@ -48,11 +48,13 @@ import { missingCaseError } from '../util/missingCaseError';
 
 const logging = createLogger('Attachment');
 
-const MAX_WIDTH = 300;
-const MAX_HEIGHT = MAX_WIDTH * 1.5;
-const MIN_WIDTH = 200;
-const MIN_HEIGHT = 50;
+const MAX_TIMELINE_IMAGE_WIDTH = 300;
+const MAX_TIMELINE_IMAGE_HEIGHT = MAX_TIMELINE_IMAGE_WIDTH * 1.5;
+const MIN_TIMELINE_IMAGE_WIDTH = 200;
+const MIN_TIMELINE_IMAGE_HEIGHT = 50;
 
+const MAX_DISPLAYABLE_IMAGE_WIDTH = 8192;
+const MAX_DISPLAYABLE_IMAGE_HEIGHT = 8192;
 // Used for display
 
 export class AttachmentSizeError extends Error {}
@@ -706,10 +708,10 @@ export function canDisplayImage(
   return Boolean(
     height &&
       height > 0 &&
-      height <= 4096 &&
+      height <= MAX_DISPLAYABLE_IMAGE_HEIGHT &&
       width &&
       width > 0 &&
-      width <= 4096
+      width <= MAX_DISPLAYABLE_IMAGE_WIDTH
   );
 }
 
@@ -885,26 +887,33 @@ type DimensionsType = {
   width: number;
 };
 
-export function getImageDimensions(
+export function getImageDimensionsForTimeline(
   attachment: Pick<AttachmentType, 'width' | 'height'>,
   forcedWidth?: number
 ): DimensionsType {
   const { height, width } = attachment;
   if (!height || !width) {
     return {
-      height: MIN_HEIGHT,
-      width: MIN_WIDTH,
+      height: MIN_TIMELINE_IMAGE_HEIGHT,
+      width: MIN_TIMELINE_IMAGE_WIDTH,
     };
   }
 
   const aspectRatio = height / width;
   const targetWidth =
-    forcedWidth || Math.max(Math.min(MAX_WIDTH, width), MIN_WIDTH);
+    forcedWidth ||
+    Math.max(
+      Math.min(MAX_TIMELINE_IMAGE_WIDTH, width),
+      MIN_TIMELINE_IMAGE_WIDTH
+    );
   const candidateHeight = Math.round(targetWidth * aspectRatio);
 
   return {
     width: targetWidth,
-    height: Math.max(Math.min(MAX_HEIGHT, candidateHeight), MIN_HEIGHT),
+    height: Math.max(
+      Math.min(MAX_TIMELINE_IMAGE_HEIGHT, candidateHeight),
+      MIN_TIMELINE_IMAGE_HEIGHT
+    ),
   };
 }
 
@@ -938,7 +947,7 @@ export function getGridDimensions(
   }
 
   if (attachments.length === 1) {
-    return getImageDimensions(attachments[0]);
+    return getImageDimensionsForTimeline(attachments[0]);
   }
 
   if (attachments.length === 2) {
