@@ -132,6 +132,7 @@ export type PropsDataType = {
   emojiSkinToneDefault: EmojiSkinTone;
   hasAudioNotifications?: boolean;
   hasAutoConvertEmoji: boolean;
+  hasAutoRemoveUrlTracking: boolean;
   hasAutoDownloadUpdate: boolean;
   hasAutoLaunch: boolean | undefined;
   hasCallNotifications: boolean;
@@ -273,6 +274,7 @@ type PropsFunctionType = {
   // Change handlers
   onAudioNotificationsChange: CheckboxChangeHandlerType;
   onAutoConvertEmojiChange: CheckboxChangeHandlerType;
+  onAutoRemoveUrlTrackingChange: CheckboxChangeHandlerType;
   onAutoDownloadAttachmentChange: (
     setting: AutoDownloadAttachmentType
   ) => unknown;
@@ -390,6 +392,7 @@ export function Preferences({
   getPreferredBadge,
   hasAudioNotifications,
   hasAutoConvertEmoji,
+  hasAutoRemoveUrlTracking,
   hasAutoDownloadUpdate,
   hasAutoLaunch,
   hasCallNotifications,
@@ -433,6 +436,7 @@ export function Preferences({
   notificationContent,
   onAudioNotificationsChange,
   onAutoConvertEmojiChange,
+  onAutoRemoveUrlTrackingChange,
   onAutoDownloadAttachmentChange,
   onAutoDownloadUpdateChange,
   onAutoLaunchChange,
@@ -1166,6 +1170,14 @@ export function Preferences({
             moduleClassName="Preferences__checkbox"
             name="autoConvertEmoji"
             onChange={onAutoConvertEmojiChange}
+          />
+          <Checkbox
+            checked={hasAutoRemoveUrlTracking}
+            description="Automatically remove tracking parameters from a URL when pasting into the composition box"
+            label="Remove URL tracking parameters on paste"
+            moduleClassName="Preferences__checkbox"
+            name="autoRemoveUrlTracking"
+            onChange={onAutoRemoveUrlTrackingChange}
           />
           <SettingsRow>
             <Control

@@ -8,6 +8,7 @@ import { deleteRange } from '@signalapp/quill-cjs/modules/keyboard';
 import { FormattingMenu, QuillFormattingStyle } from '../formatting/menu';
 import { insertEmojiOps } from '../util';
 import { createEventHandler } from './util';
+import { tryParseAsURL, applyAllRules } from './sanitizeUrl';
 
 type ClipboardOptions = Readonly<{
   isDisabled: boolean;
@@ -56,7 +57,7 @@ export class SignalClipboard {
 
     const { clipboard } = this.quill;
     const selection = this.quill.getSelection();
-    const text = event.clipboardData.getData('text/plain');
+    var text = event.clipboardData.getData('text/plain');
     const signal = event.clipboardData.getData('text/signal');
 
     const clipboardContainsFiles = event.clipboardData.files?.length > 0;
@@ -74,6 +75,13 @@ export class SignalClipboard {
 
     if (!text && !signal) {
       return;
+    }
+
+    if (text && window.storage.get('autoRemoveUrlTracking', true)) {
+      var url = tryParseAsURL(text);
+      if (url && url.protocol == "https:" || url.protocol == "http:") {
+        text = applyAllRules(url).toString();
+      }
     }
 
     const { ops } = this.quill.getContents(selection.index, selection.length);
