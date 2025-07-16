@@ -603,10 +603,10 @@
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
   "icu:Toast--ReceiptSaved": {
-    "messageformat": "Receipt saved"
+    "messageformat": "ரசீது சேமிக்கப்பட்டது"
   },
   "icu:Toast--ReceiptSaveFailed": {
-    "messageformat": "Error saving receipt. Please try again."
+    "messageformat": "ரசீதைச் சேமிப்பதில் பிழை. மீண்டும் முயலுங்கள்."
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "கோப்புகளுடன் புகைப்படங்களையும் வீடியோக்களையும் தேர்ந்தெடுக்க முடியாது."
@@ -1317,136 +1317,136 @@
     "messageformat": "சாட் கோப்புறைகள்"
   },
   "icu:Preferences__ChatFoldersPage__Description": {
-    "messageformat": "Organize your chats into folders and quickly switch between them on your chat list"
+    "messageformat": "உங்கள் சாட்களைக் கோப்புறைகளாக ஒழுங்கமைத்து, உங்கள் சாட் பட்டியலில் உள்ளவற்றுக்கிடையே விரைவாக மாறுங்கள்"
   },
   "icu:Preferences__ChatFoldersPage__FoldersSection__Title": {
-    "messageformat": "Folders"
+    "messageformat": "கோப்புறைகள்"
   },
   "icu:Preferences__ChatFoldersPage__FoldersSection__AllChatsFolder__Title": {
-    "messageformat": "All chats"
+    "messageformat": "அனைத்து சாட்ஸ்"
   },
   "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
-    "messageformat": "Create a folder"
+    "messageformat": "கோப்புறையை உருவாக்கு"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
-    "messageformat": "Suggested folders"
+    "messageformat": "பரிந்துரைக்கப்பட்ட கோப்புறைகள்"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
-    "messageformat": "Add"
+    "messageformat": "சேர்க்கவும்"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
-    "messageformat": "{chatFolderTitle} folder added"
+    "messageformat": "{chatFolderTitle} கோப்புறை சேர்க்கப்பட்டது"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
-    "messageformat": "Unread"
+    "messageformat": "படிக்காதவை"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Description": {
-    "messageformat": "Unread messages from all chats"
+    "messageformat": "அனைத்து சாட்ஸில் இருந்தும் படிக்கப்பட்டாத மெசேஜ்கள்"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Title": {
-    "messageformat": "1:1 chats"
+    "messageformat": "1:1 சாட்ஸ்"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Description": {
-    "messageformat": "Only messages from direct chats"
+    "messageformat": "நேரடி சாட்ஸிலிருந்து மெசேஜ்கள் மட்டும்"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Title": {
-    "messageformat": "Groups"
+    "messageformat": "குழுக்கள்"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Description": {
-    "messageformat": "Only messages from group chats"
+    "messageformat": "குழு சாட்ஸிலிருந்து மெசேஜ்கள் மட்டும்"
   },
   "icu:Preferences__EditChatFolderPage__Title": {
-    "messageformat": "Create a folder"
+    "messageformat": "கோப்புறையை உருவாக்கு"
   },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
-    "messageformat": "Folder name"
+    "messageformat": "கோப்புறையின் பெயர்"
   },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Placeholder": {
-    "messageformat": "Folder name (required)"
+    "messageformat": "கோப்புறை பெயர் (தேவையானது)"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Title": {
-    "messageformat": "Included chats"
+    "messageformat": "சாட்ஸ் உள்ளடங்கும்"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
-    "messageformat": "Choose chats that you want to appear in this folder"
+    "messageformat": "இந்தக் கோப்புறையில் தோன்ற வேண்டிய சாட்களைத் தேர்ந்தெடுங்கள்"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
-    "messageformat": "Add chats"
+    "messageformat": "சாட்ஸைச் சேர்"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog--IncludedChats__Title": {
-    "messageformat": "Included chats"
+    "messageformat": "சாட்ஸ் உள்ளடங்கும்"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog--ExcludedChats__Title": {
-    "messageformat": "Excluded chats"
+    "messageformat": "விலக்கப்பட்ட சாட்கள்"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "தேடு"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
-    "messageformat": "Chat types"
+    "messageformat": "சாட் வகைகள்"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "1:1 சாட்ஸ்"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__GroupChats": {
-    "messageformat": "Groups"
+    "messageformat": "குழுக்கள்"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__RecentChats__Title": {
-    "messageformat": "Recent chats"
+    "messageformat": "சமீபத்திய சாட்ஸ்"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__DoneButton": {
-    "messageformat": "Done"
+    "messageformat": "முடிந்தது"
   },
   "icu:Preferences__EditChatFolderPage__ExceptionsSection__Title": {
-    "messageformat": "Exceptions"
+    "messageformat": "விதிவிலக்குகள்"
   },
   "icu:Preferences__EditChatFolderPage__ExceptionsSection__Help": {
-    "messageformat": "Choose chats that you do not want to appear in this folder"
+    "messageformat": "இந்தக் கோப்புறையில் தோன்றக் கூடாத சாட்களைத் தேர்ந்தெடுங்கள்"
   },
   "icu:Preferences__EditChatFolderPage__ExceptionsSection__ExcludeChatsButton": {
-    "messageformat": "Exclude chats"
+    "messageformat": "சாட்ஸை விலக்கு"
   },
   "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Label": {
-    "messageformat": "Only show unread chats"
+    "messageformat": "படிக்கப்படாத சாட்ஸை மட்டும் காட்டு"
   },
   "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Description": {
-    "messageformat": "Only chats with unread messages will be shown in this folder."
+    "messageformat": "கோப்புறையில் படிக்கப்படாத மெசேஜ்களைக் கொண்ட சாட்ஸ் மட்டும் தோன்றும்."
   },
   "icu:Preferences__EditChatFolderPage__IncludeMutedChatsCheckbox__Label": {
-    "messageformat": "Include muted chats"
+    "messageformat": "மியூட் செய்யப்பட்ட சாட்ஸைச் சேர்க்கவும்"
   },
   "icu:Preferences__EditChatFolderPage__DeleteFolderButton": {
-    "messageformat": "Delete folder"
+    "messageformat": "கோப்புறையை அழி"
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Title": {
-    "messageformat": "Delete this chat folder?"
+    "messageformat": "இந்த சாட் கோப்புறையை அழிக்க வேண்டுமா?"
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Description": {
-    "messageformat": "This folder will be removed from your chat list."
+    "messageformat": "இந்தக் கோப்புறை உங்கள் சாட் பட்டியலிலிருந்து அகற்றப்படும்."
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "நீக்கு"
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Cancel"
+    "messageformat": "ரத்துசெய்"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
-    "messageformat": "Save changes?"
+    "messageformat": "மாற்றங்களைச் சேமிப்பதா?"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Description": {
-    "messageformat": "Do you want to save the changes you’ve made to this chat folder?"
+    "messageformat": "இந்த சாட் கோப்புறையில், நீங்கள் மேற்கொண்ட மாற்றங்களைச் சேமிக்க விரும்புகிறீர்களா?"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__SaveButton": {
-    "messageformat": "Save"
+    "messageformat": "சேமி"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__DiscardButton": {
-    "messageformat": "Discard"
+    "messageformat": "புறந்தள்ளு"
   },
   "icu:Preferences__EditChatFolderPage__SaveButton": {
-    "messageformat": "Save"
+    "messageformat": "சேமி"
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
-    "messageformat": "Cancel"
+    "messageformat": "ரத்துசெய்"
   },
   "icu:initialSync": {
     "messageformat": "தொடர்புகள் மற்றும் குழுக்களை ஒத்திசைத்தல்"
@@ -4188,10 +4188,10 @@
     "messageformat": "மீண்டும் முயற்சி செய்"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
-    "messageformat": "Syncing media"
+    "messageformat": "ஊடகத்தை ஒத்திசைக்கிறது"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Syncing paused"
+    "messageformat": "ஒத்திசைப்பது இடைநிறுத்தப்பட்டது"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
     "messageformat": "{totalSize} இல் {currentSize} மீட்டெடுக்கப்பட்டது"
@@ -4206,13 +4206,13 @@
     "messageformat": "இணைய இணைப்பிற்காகக் காத்திருக்கிறது..."
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause"
+    "messageformat": "நிறுத்து"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume"
+    "messageformat": "தொடர்க"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
-    "messageformat": "Cancel syncing"
+    "messageformat": "ஒத்திசைவை ரத்துசெய்க"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
     "messageformat": "அதிக விருப்பத்தேர்வுகள்"
@@ -4224,34 +4224,34 @@
     "messageformat": "{totalSize} இன் {currentSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media syncing?"
+    "messageformat": "ஊடக ஒத்திசைவை ரத்துசெய்யவா?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "Your media has not completed syncing. If you choose to cancel, you can sync again by re-linking this device. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "உங்கள் ஊடகங்கள் ஒத்திசைவை முடிக்கவில்லை. நீங்கள் ரத்துசெய்வதைத் தேர்வுசெய்தால், இந்தச் சாதனத்தை மீண்டும் இணைப்பதன் மூலம் மீண்டும் ஒத்திசைக்கலாம். <learnMoreLink>மேலும் அறிக</learnMoreLink>."
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "Continue syncing"
+    "messageformat": "ஒத்திசைவைத் தொடர்க"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
-    "messageformat": "Cancel syncing"
+    "messageformat": "ஒத்திசைவை ரத்துசெய்க"
   },
   "icu:BackupMediaDownloadProgressSettings__paused--title": {
-    "messageformat": "Syncing paused"
+    "messageformat": "ஒத்திசைப்பது இடைநிறுத்தப்பட்டது"
   },
   "icu:BackupMediaDownloadProgressSettings__paused--description": {
-    "messageformat": "Click “{resumeButtonText}” to continue syncing"
+    "messageformat": "ஒத்திசைவைத் தொடர, “{resumeButtonText}” ஐக் கிளிக் செய்யவும்"
   },
   "icu:BackupMediaDownloadProgressSettings__button-resume": {
-    "messageformat": "Resume"
+    "messageformat": "தொடர்க"
   },
   "icu:BackupMediaDownloadProgressSettings__button-pause": {
-    "messageformat": "Pause"
+    "messageformat": "நிறுத்து"
   },
   "icu:BackupMediaDownloadProgressSettings__title-in-progress": {
-    "messageformat": "Syncing media"
+    "messageformat": "ஊடகத்தை ஒத்திசைக்கிறது"
   },
   "icu:BackupMediaDownloadProgressSettings__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "{totalSize} இல் {currentSize}({fractionComplete,number,percent})..."
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
     "messageformat": "கணக்கிற்கு நடவடிக்கை தேவை"
@@ -6625,58 +6625,58 @@
     "messageformat": "புதிதாக என்ன உள்ளது"
   },
   "icu:PreferencesDonations__title": {
-    "messageformat": "Privacy over Profit"
+    "messageformat": "லாபத்தை விட தனியுரிமை"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "தனிப்பட்ட மெசேஜிங், உங்களால் நிதியளிக்கப்பட்டது. விளம்பரம் இல்லை, கண்காணிப்பு இல்லை, சமரசம் இல்லை. சிக்னலை ஆதரிக்க இப்போதே நன்கொடை அளித்திடுங்கள். <learnMoreLink>மேலும் அறிக</learnMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
-    "messageformat": "Donate"
+    "messageformat": "நன்கொடை அளி"
   },
   "icu:PreferencesDonations__mobile-info": {
-    "messageformat": "Badges and monthly donations can be managed on your mobile device."
+    "messageformat": "உங்கள் மொபைல் சாதனத்தில் பேட்ஜ்கள் மற்றும் மாதாந்திர நன்கொடைகளை நீங்கள் நிர்வகிக்க முடியும்."
   },
   "icu:PreferencesDonations__receipts": {
-    "messageformat": "Receipts"
+    "messageformat": "ரசீதுகள்"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donation FAQs"
+    "messageformat": "நன்கொடை சார்ந்து அதிகம் கேட்கப்படும் கேள்விகள்"
   },
   "icu:PreferencesDonations--receiptList__info": {
-    "messageformat": "Receipts do not sync across devices. If you have reinstalled Signal, receipts from previous donations will not be available."
+    "messageformat": "ரசீதுகள் சாதனங்கள் முழுவதும் ஒத்திசைக்கப்படவில்லை. நீங்கள் சிக்னலை மீண்டும் நிறுவியிருந்தால், முந்தைய நன்கொடைகளின் ரசீதுகள் கிடைக்காது."
   },
   "icu:PreferencesDonations--receiptList__empty-title": {
-    "messageformat": "No Receipts"
+    "messageformat": "ரசீதுகள் இல்லை"
   },
   "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "Details"
+    "messageformat": "விவரங்கள்"
   },
   "icu:PreferencesDonations__ReceiptModal--download": {
-    "messageformat": "Download receipt"
+    "messageformat": "ரசீதைப் பதிவிறக்குக"
   },
   "icu:PreferencesDonations__ReceiptModal--type-label": {
     "messageformat": "Type"
   },
   "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
-    "messageformat": "Date paid"
+    "messageformat": "செலுத்திய தேதி"
   },
   "icu:DonationReceipt__title": {
-    "messageformat": "Donation receipt"
+    "messageformat": "நன்கொடை ரசீது"
   },
   "icu:DonationReceipt__amount-label": {
-    "messageformat": "Amount"
+    "messageformat": "தொகை"
   },
   "icu:DonationReceipt__type-label": {
     "messageformat": "Type"
   },
   "icu:DonationReceipt__date-paid-label": {
-    "messageformat": "Date paid"
+    "messageformat": "செலுத்திய தேதி"
   },
   "icu:DonationReceipt__type-value--one-time": {
-    "messageformat": "One time"
+    "messageformat": "ஒரு முறை"
   },
   "icu:DonationReceipt__footer-text": {
-    "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840."
+    "messageformat": "சிக்னலை ஆதரித்ததற்கு நன்றி. திறந்த மூல தனியுரிமை தொழில்நுட்பத்தின் மூலம், சுதந்திரமான வெளிப்பாட்டைப் பாதுகாப்பதற்கும் உலகெங்கிலும் உள்ள மில்லியன் கணக்கானவர்களுக்குப் பாதுகாப்பான உலகளாவிய தகவல்தொடர்புக்கு உதவுவதற்கும் உங்கள் பங்களிப்பு உதவுகிறது. நீங்கள் அமெரிக்காவில் வசிப்பவராக இருந்தால், உங்கள் வரிப் பதிவுகளுக்காக இந்த ரசீதைத் தக்கவைத்துக் கொள்ளுங்கள். சிக்னல் தொழில்நுட்ப அறக்கட்டளை என்பது உள்நாட்டு வருவாய்க் குறியீட்டின் 501c3 பிரிவின் கீழ் அமெரிக்காவில் உள்ள வரிவிலக்கு பெற்ற லாப நோக்கமற்ற அமைப்பாகும். எங்களின் ஃபெடரல் வரி ID 82-4506840 ஆகும்."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "இந்த பதிப்பில் சிக்னலை சீராக இயங்க வைக்க பல சிறிய மாற்றங்கள் மற்றும் பிழை திருத்தங்கள் உள்ளன.",
@@ -6713,9 +6713,9 @@
     "messageformat": "லினக்ஸ் செயல்திறன் மேம்பாடுகள்."
   },
   "icu:WhatsNew__v7.61--0": {
-    "messageformat": "This update improves audio quality and reliability during voice and video calls, and introduces better automatic configuration of connected microphones and speakers. Thanks to <padenot></padenot>, <kinetiknz></kinetiknz>, and <Pehrsons></Pehrsons> at Mozilla for their help with this project."
+    "messageformat": "இந்தப் புதுப்பிப்பு குரல் மற்றும் வீடியோ அழைப்புகளின்போது ஆடியோ தரம் மற்றும் நம்பகத்தன்மையை மேம்படுத்துகிறது, மேலும் இணைக்கப்பட்ட மைக்ரோஃபோன்கள் மற்றும் ஸ்பீக்கர்களின் சிறந்த தானியங்கி உள்ளமைவை அறிமுகப்படுத்துகிறது. இந்தத் திட்டத்தில் அவர்கள் அளித்த உதவிக்காக மொஸில்லாவில் <padenot></padenot>, <kinetiknz></kinetiknz> மற்றும் <Pehrsons></Pehrsons> எங்களின் நன்றியைத் தெரிவித்துக் கொள்கிறோம்."
   },
   "icu:WhatsNew__v7.62--0": {
-    "messageformat": "We fixed a rare bug that could prevent some contacts from synchronizing correctly."
+    "messageformat": "சில தொடர்புகளைச் சரியாக ஒத்திசைப்பதைத் தடுக்கக்கூடிய அரிய பிழையை நாங்கள் சரிசெய்துள்ளோம்."
   }
 }

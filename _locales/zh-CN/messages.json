@@ -603,10 +603,10 @@
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
   "icu:Toast--ReceiptSaved": {
-    "messageformat": "Receipt saved"
+    "messageformat": "收据已保存"
   },
   "icu:Toast--ReceiptSaveFailed": {
-    "messageformat": "Error saving receipt. Please try again."
+    "messageformat": "保存收据时出错。请重试。"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "您无法在选择文件的同时选择照片和视频。"
@@ -1317,136 +1317,136 @@
     "messageformat": "聊天文件夹"
   },
   "icu:Preferences__ChatFoldersPage__Description": {
-    "messageformat": "Organize your chats into folders and quickly switch between them on your chat list"
+    "messageformat": "您可以将聊天整理到文件夹中，并在聊天列表中快速切换"
   },
   "icu:Preferences__ChatFoldersPage__FoldersSection__Title": {
-    "messageformat": "Folders"
+    "messageformat": "文件夹"
   },
   "icu:Preferences__ChatFoldersPage__FoldersSection__AllChatsFolder__Title": {
-    "messageformat": "All chats"
+    "messageformat": "所有聊天"
   },
   "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
-    "messageformat": "Create a folder"
+    "messageformat": "创建文件夹"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
-    "messageformat": "Suggested folders"
+    "messageformat": "建议的文件夹"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
-    "messageformat": "Add"
+    "messageformat": "添加"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
-    "messageformat": "{chatFolderTitle} folder added"
+    "messageformat": "已添加{chatFolderTitle}文件夹"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
-    "messageformat": "Unread"
+    "messageformat": "未读"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Description": {
-    "messageformat": "Unread messages from all chats"
+    "messageformat": "所有聊天中的未读消息"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Title": {
-    "messageformat": "1:1 chats"
+    "messageformat": "私聊"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Description": {
-    "messageformat": "Only messages from direct chats"
+    "messageformat": "仅包含私聊消息"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Title": {
-    "messageformat": "Groups"
+    "messageformat": "群组"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Description": {
-    "messageformat": "Only messages from group chats"
+    "messageformat": "仅包含群聊消息"
   },
   "icu:Preferences__EditChatFolderPage__Title": {
-    "messageformat": "Create a folder"
+    "messageformat": "创建文件夹"
   },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
-    "messageformat": "Folder name"
+    "messageformat": "文件夹名称"
   },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Placeholder": {
-    "messageformat": "Folder name (required)"
+    "messageformat": "文件夹名称（必填）"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Title": {
-    "messageformat": "Included chats"
+    "messageformat": "包含的聊天"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
-    "messageformat": "Choose chats that you want to appear in this folder"
+    "messageformat": "选择您希望显示在此文件夹中的聊天"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
-    "messageformat": "Add chats"
+    "messageformat": "添加聊天"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog--IncludedChats__Title": {
-    "messageformat": "Included chats"
+    "messageformat": "包含的聊天"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog--ExcludedChats__Title": {
-    "messageformat": "Excluded chats"
+    "messageformat": "排除的聊天"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "搜索"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
-    "messageformat": "Chat types"
+    "messageformat": "聊天类型"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "私聊"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__GroupChats": {
-    "messageformat": "Groups"
+    "messageformat": "群组"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__RecentChats__Title": {
-    "messageformat": "Recent chats"
+    "messageformat": "最近对话"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__DoneButton": {
-    "messageformat": "Done"
+    "messageformat": "完成"
   },
   "icu:Preferences__EditChatFolderPage__ExceptionsSection__Title": {
-    "messageformat": "Exceptions"
+    "messageformat": "例外情况"
   },
   "icu:Preferences__EditChatFolderPage__ExceptionsSection__Help": {
-    "messageformat": "Choose chats that you do not want to appear in this folder"
+    "messageformat": "选择您不希望显示在此文件夹中的聊天"
   },
   "icu:Preferences__EditChatFolderPage__ExceptionsSection__ExcludeChatsButton": {
-    "messageformat": "Exclude chats"
+    "messageformat": "排除聊天"
   },
   "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Label": {
-    "messageformat": "Only show unread chats"
+    "messageformat": "仅显示未读聊天"
   },
   "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Description": {
-    "messageformat": "Only chats with unread messages will be shown in this folder."
+    "messageformat": "只有含未读消息的聊天才会显示在此文件夹中。"
   },
   "icu:Preferences__EditChatFolderPage__IncludeMutedChatsCheckbox__Label": {
-    "messageformat": "Include muted chats"
+    "messageformat": "包含静音聊天"
   },
   "icu:Preferences__EditChatFolderPage__DeleteFolderButton": {
-    "messageformat": "Delete folder"
+    "messageformat": "删除文件夹"
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Title": {
-    "messageformat": "Delete this chat folder?"
+    "messageformat": "要删除此聊天文件夹吗？"
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Description": {
-    "messageformat": "This folder will be removed from your chat list."
+    "messageformat": "此文件夹将会从您的聊天列表中移除。"
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "删除"
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Cancel"
+    "messageformat": "取消"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
-    "messageformat": "Save changes?"
+    "messageformat": "要保存更改吗？"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Description": {
-    "messageformat": "Do you want to save the changes you’ve made to this chat folder?"
+    "messageformat": "您是否要保存对此聊天文件夹所做的更改？"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__SaveButton": {
-    "messageformat": "Save"
+    "messageformat": "保存"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__DiscardButton": {
-    "messageformat": "Discard"
+    "messageformat": "放弃"
   },
   "icu:Preferences__EditChatFolderPage__SaveButton": {
-    "messageformat": "Save"
+    "messageformat": "保存"
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
-    "messageformat": "Cancel"
+    "messageformat": "取消"
   },
   "icu:initialSync": {
     "messageformat": "正在同步联系人和群组"
@@ -4188,10 +4188,10 @@
     "messageformat": "重试"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
-    "messageformat": "Syncing media"
+    "messageformat": "正在同步媒体"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Syncing paused"
+    "messageformat": "同步已暂停"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
     "messageformat": "已恢复 {totalSize} 中的 {currentSize}"
@@ -4206,13 +4206,13 @@
     "messageformat": "正在等待互联网连接…"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause"
+    "messageformat": "暂停"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume"
+    "messageformat": "继续"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
-    "messageformat": "Cancel syncing"
+    "messageformat": "取消同步"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
     "messageformat": "更多选项"
@@ -4224,34 +4224,34 @@
     "messageformat": "{currentSize} / {totalSize} 匹配"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media syncing?"
+    "messageformat": "要取消媒体同步吗？"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "Your media has not completed syncing. If you choose to cancel, you can sync again by re-linking this device. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "您的媒体尚未完成同步。如果选择取消，您可以通过重新链接此设备再次同步。<learnMoreLink>了解更多</learnMoreLink>。"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "Continue syncing"
+    "messageformat": "继续同步"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
-    "messageformat": "Cancel syncing"
+    "messageformat": "取消同步"
   },
   "icu:BackupMediaDownloadProgressSettings__paused--title": {
-    "messageformat": "Syncing paused"
+    "messageformat": "同步已暂停"
   },
   "icu:BackupMediaDownloadProgressSettings__paused--description": {
-    "messageformat": "Click “{resumeButtonText}” to continue syncing"
+    "messageformat": "点击“{resumeButtonText}”以继续同步"
   },
   "icu:BackupMediaDownloadProgressSettings__button-resume": {
-    "messageformat": "Resume"
+    "messageformat": "继续"
   },
   "icu:BackupMediaDownloadProgressSettings__button-pause": {
-    "messageformat": "Pause"
+    "messageformat": "暂停"
   },
   "icu:BackupMediaDownloadProgressSettings__title-in-progress": {
-    "messageformat": "Syncing media"
+    "messageformat": "正在同步媒体"
   },
   "icu:BackupMediaDownloadProgressSettings__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "{currentSize}/{totalSize}（{fractionComplete,number,percent}）…"
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
     "messageformat": "需要采取账户操作"
@@ -6625,58 +6625,58 @@
     "messageformat": "最新消息"
   },
   "icu:PreferencesDonations__title": {
-    "messageformat": "Privacy over Profit"
+    "messageformat": "我们坚信隐私高于营利"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "私密通信平台，依用户而生。无广告，无跟踪，服务不打折。立即捐款支持 Signal。 <learnMoreLink>了解更多</learnMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
-    "messageformat": "Donate"
+    "messageformat": "捐款"
   },
   "icu:PreferencesDonations__mobile-info": {
-    "messageformat": "Badges and monthly donations can be managed on your mobile device."
+    "messageformat": "您可以在移动设备上管理徽章和每月捐款。"
   },
   "icu:PreferencesDonations__receipts": {
-    "messageformat": "Receipts"
+    "messageformat": "收据"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donation FAQs"
+    "messageformat": "捐款常见问题解答"
   },
   "icu:PreferencesDonations--receiptList__info": {
-    "messageformat": "Receipts do not sync across devices. If you have reinstalled Signal, receipts from previous donations will not be available."
+    "messageformat": "收据无法跨设备同步。如果您重新安装了 Signal，系统将无法提供先前的捐款收据。"
   },
   "icu:PreferencesDonations--receiptList__empty-title": {
-    "messageformat": "No Receipts"
+    "messageformat": "无收据"
   },
   "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "Details"
+    "messageformat": "更多"
   },
   "icu:PreferencesDonations__ReceiptModal--download": {
-    "messageformat": "Download receipt"
+    "messageformat": "下载收据"
   },
   "icu:PreferencesDonations__ReceiptModal--type-label": {
-    "messageformat": "Type"
+    "messageformat": "类型"
   },
   "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
-    "messageformat": "Date paid"
+    "messageformat": "付款日期"
   },
   "icu:DonationReceipt__title": {
-    "messageformat": "Donation receipt"
+    "messageformat": "捐款收据"
   },
   "icu:DonationReceipt__amount-label": {
-    "messageformat": "Amount"
+    "messageformat": "金额"
   },
   "icu:DonationReceipt__type-label": {
-    "messageformat": "Type"
+    "messageformat": "类型"
   },
   "icu:DonationReceipt__date-paid-label": {
-    "messageformat": "Date paid"
+    "messageformat": "付款日期"
   },
   "icu:DonationReceipt__type-value--one-time": {
-    "messageformat": "One time"
+    "messageformat": "一次"
   },
   "icu:DonationReceipt__footer-text": {
-    "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840."
+    "messageformat": "感谢您支持 Signal。您的捐款将助力我们履行使命：保护自由表达，通过开源隐私技术让全球数百万用户享受全球安全通信。如果您是美国居民，请保留此收据作为您的税务记录。Signal 技术基金会是美国国内税收法第 501c3 条定义的美国免税非营利组织。我们的联邦税号为 82-4506840。"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "此版本包含多个小调整和漏洞修复，以维持 Signal 的顺畅运行。",
@@ -6713,9 +6713,9 @@
     "messageformat": "Linux 性能优化。"
   },
   "icu:WhatsNew__v7.61--0": {
-    "messageformat": "This update improves audio quality and reliability during voice and video calls, and introduces better automatic configuration of connected microphones and speakers. Thanks to <padenot></padenot>, <kinetiknz></kinetiknz>, and <Pehrsons></Pehrsons> at Mozilla for their help with this project."
+    "messageformat": "此次更新提高了语音和视频通话期间的音频质量和稳定性，并改进了已连接麦克风和扬声器的自动配置功能。感谢 Mozilla 的<padenot></padenot>、<kinetiknz></kinetiknz>和<Pehrsons></Pehrsons>为此项目提供的帮助。"
   },
   "icu:WhatsNew__v7.62--0": {
-    "messageformat": "We fixed a rare bug that could prevent some contacts from synchronizing correctly."
+    "messageformat": "我们修复了一个罕见漏洞，该漏洞可能会导致某些联系人无法正确同步。"
   }
 }

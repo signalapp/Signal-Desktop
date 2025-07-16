@@ -603,10 +603,10 @@
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
   "icu:Toast--ReceiptSaved": {
-    "messageformat": "Receipt saved"
+    "messageformat": "Na-save ang receipt"
   },
   "icu:Toast--ReceiptSaveFailed": {
-    "messageformat": "Error saving receipt. Please try again."
+    "messageformat": "Nagkaroon ng error sa pag-save ng receipt. Paki subukan ulit."
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Hindi ka pwedeng pumili ng photos at videos kasabay ng files."
@@ -1317,70 +1317,70 @@
     "messageformat": "Chat folders"
   },
   "icu:Preferences__ChatFoldersPage__Description": {
-    "messageformat": "Organize your chats into folders and quickly switch between them on your chat list"
+    "messageformat": "I-organize ang chats mo sa iba't-ibang folders at mabilis na mag-switch sa mga ito sa iyong chat list"
   },
   "icu:Preferences__ChatFoldersPage__FoldersSection__Title": {
     "messageformat": "Folders"
   },
   "icu:Preferences__ChatFoldersPage__FoldersSection__AllChatsFolder__Title": {
-    "messageformat": "All chats"
+    "messageformat": "Lahat ng chats"
   },
   "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
-    "messageformat": "Create a folder"
+    "messageformat": "Gumawa ng folder"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
     "messageformat": "Suggested folders"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
-    "messageformat": "Add"
+    "messageformat": "Mag-add"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
-    "messageformat": "{chatFolderTitle} folder added"
+    "messageformat": "In-add ang {chatFolderTitle} folder"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
     "messageformat": "Unread"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Description": {
-    "messageformat": "Unread messages from all chats"
+    "messageformat": "Unread messages mula sa lahat ng chats"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Title": {
     "messageformat": "1:1 chats"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Description": {
-    "messageformat": "Only messages from direct chats"
+    "messageformat": "Messages lang mula sa direct chats"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Title": {
-    "messageformat": "Groups"
+    "messageformat": "Mga Grupo"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Description": {
-    "messageformat": "Only messages from group chats"
+    "messageformat": "Messages lang na mula sa group chats"
   },
   "icu:Preferences__EditChatFolderPage__Title": {
-    "messageformat": "Create a folder"
+    "messageformat": "Gumawa ng folder"
   },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
-    "messageformat": "Folder name"
+    "messageformat": "Pangalan ng folder"
   },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Placeholder": {
-    "messageformat": "Folder name (required)"
+    "messageformat": "Pangalan ng folder (required)"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Title": {
     "messageformat": "Included chats"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
-    "messageformat": "Choose chats that you want to appear in this folder"
+    "messageformat": "Piliin ang chats na gusto mong makita sa folder na ito"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
-    "messageformat": "Add chats"
+    "messageformat": "Magdagdag ng chats"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog--IncludedChats__Title": {
     "messageformat": "Included chats"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog--ExcludedChats__Title": {
-    "messageformat": "Excluded chats"
+    "messageformat": "Mag-exclude ng chats"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Maghanap"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Chat types"
@@ -1389,64 +1389,64 @@
     "messageformat": "1:1 chats"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__GroupChats": {
-    "messageformat": "Groups"
+    "messageformat": "Mga Grupo"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__RecentChats__Title": {
     "messageformat": "Recent chats"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__DoneButton": {
-    "messageformat": "Done"
+    "messageformat": "Tapos na"
   },
   "icu:Preferences__EditChatFolderPage__ExceptionsSection__Title": {
     "messageformat": "Exceptions"
   },
   "icu:Preferences__EditChatFolderPage__ExceptionsSection__Help": {
-    "messageformat": "Choose chats that you do not want to appear in this folder"
+    "messageformat": "Piliin ang chats na ayaw mong makita sa folder na ito"
   },
   "icu:Preferences__EditChatFolderPage__ExceptionsSection__ExcludeChatsButton": {
-    "messageformat": "Exclude chats"
+    "messageformat": "Mag-exclude ng chats"
   },
   "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Label": {
-    "messageformat": "Only show unread chats"
+    "messageformat": "Ipakita lamang ang unread chats"
   },
   "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Description": {
-    "messageformat": "Only chats with unread messages will be shown in this folder."
+    "messageformat": "Ang chats na may unread messages lamang ang ipakikita sa folder na ito."
   },
   "icu:Preferences__EditChatFolderPage__IncludeMutedChatsCheckbox__Label": {
-    "messageformat": "Include muted chats"
+    "messageformat": "Isama ang muted chats"
   },
   "icu:Preferences__EditChatFolderPage__DeleteFolderButton": {
-    "messageformat": "Delete folder"
+    "messageformat": "Burahin ang folder"
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Title": {
-    "messageformat": "Delete this chat folder?"
+    "messageformat": "Gusto mo bang burahin ang chat folder na ito?"
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Description": {
-    "messageformat": "This folder will be removed from your chat list."
+    "messageformat": "Aalisin ang folder na ito sa chat list mo."
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "Burahin"
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Cancel"
+    "messageformat": "I-cancel"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
-    "messageformat": "Save changes?"
+    "messageformat": "I-save ang changes?"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Description": {
-    "messageformat": "Do you want to save the changes you’ve made to this chat folder?"
+    "messageformat": "Gusto mo bang i-save ang changes na ginawa mo sa chat folder na ito?"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__SaveButton": {
-    "messageformat": "Save"
+    "messageformat": "I-save"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__DiscardButton": {
-    "messageformat": "Discard"
+    "messageformat": "I-discard"
   },
   "icu:Preferences__EditChatFolderPage__SaveButton": {
-    "messageformat": "Save"
+    "messageformat": "I-save"
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
-    "messageformat": "Cancel"
+    "messageformat": "I-cancel"
   },
   "icu:initialSync": {
     "messageformat": "Syncing contacts and groups"
@@ -4188,10 +4188,10 @@
     "messageformat": "Subukang muli"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
-    "messageformat": "Syncing media"
+    "messageformat": "Sini-sync ang media"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Syncing paused"
+    "messageformat": "Naka-pause ang pag-sync"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
     "messageformat": "{currentSize} ng {totalSize} ang na-restore"
@@ -4209,10 +4209,10 @@
     "messageformat": "Pause"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume"
+    "messageformat": "Ipagpatuloy"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
-    "messageformat": "Cancel syncing"
+    "messageformat": "Kanselahin ang pag-sync"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
     "messageformat": "Karagdagang options"
@@ -4224,34 +4224,34 @@
     "messageformat": "{currentSize} sa {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media syncing?"
+    "messageformat": "Gusto mo bang i-cancel ang pag-sync ng media?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "Your media has not completed syncing. If you choose to cancel, you can sync again by re-linking this device. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Hindi natapos ang pag-sync ng media mo. Kung pipiliin mong mag-cancel, maaari kang mag-sync ulit sa pamamagitan ng pag-relink ng device na ito. <learnMoreLink>Matuto pa</learnMoreLink>."
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "Continue syncing"
+    "messageformat": "Ipagpatuloy ang pag-sync"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
-    "messageformat": "Cancel syncing"
+    "messageformat": "I-cancel ang pag-sync"
   },
   "icu:BackupMediaDownloadProgressSettings__paused--title": {
-    "messageformat": "Syncing paused"
+    "messageformat": "Naka-pause ang pag-sync"
   },
   "icu:BackupMediaDownloadProgressSettings__paused--description": {
-    "messageformat": "Click “{resumeButtonText}” to continue syncing"
+    "messageformat": "I-click ang \"{resumeButtonText} para ipagpatuloy ang pag-sync"
   },
   "icu:BackupMediaDownloadProgressSettings__button-resume": {
-    "messageformat": "Resume"
+    "messageformat": "Ipagpatuloy"
   },
   "icu:BackupMediaDownloadProgressSettings__button-pause": {
     "messageformat": "Pause"
   },
   "icu:BackupMediaDownloadProgressSettings__title-in-progress": {
-    "messageformat": "Syncing media"
+    "messageformat": "Sini-sync ang media"
   },
   "icu:BackupMediaDownloadProgressSettings__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "{currentSize} ng {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
     "messageformat": "Kinakailangang hakbang"
@@ -6628,31 +6628,31 @@
     "messageformat": "Privacy over Profit"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Private messaging na suportado mo. Walang ads, walang tracking, walang kompromiso. Mag-donate ngayon para suportahan ang Signal. <learnMoreLink>Matuto pa</learnMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
-    "messageformat": "Donate"
+    "messageformat": "Mag-donate"
   },
   "icu:PreferencesDonations__mobile-info": {
-    "messageformat": "Badges and monthly donations can be managed on your mobile device."
+    "messageformat": "Ang badges at monthly donations ay maaaring i-manage sa mobile device mo."
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Receipts"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donation FAQs"
+    "messageformat": "FAQs sa Donasyon"
   },
   "icu:PreferencesDonations--receiptList__info": {
-    "messageformat": "Receipts do not sync across devices. If you have reinstalled Signal, receipts from previous donations will not be available."
+    "messageformat": "Hindi nagsi-sync ang receipts sa iba't-ibang devices. Kung ni-reinstall mo ang Signal app, hindi magiging available ang receipts ng lumang donations."
   },
   "icu:PreferencesDonations--receiptList__empty-title": {
-    "messageformat": "No Receipts"
+    "messageformat": "Walang receipts"
   },
   "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "Details"
+    "messageformat": "Mga Detalye"
   },
   "icu:PreferencesDonations__ReceiptModal--download": {
-    "messageformat": "Download receipt"
+    "messageformat": "I-download ang receipt"
   },
   "icu:PreferencesDonations__ReceiptModal--type-label": {
     "messageformat": "Type"
@@ -6673,10 +6673,10 @@
     "messageformat": "Date paid"
   },
   "icu:DonationReceipt__type-value--one-time": {
-    "messageformat": "One time"
+    "messageformat": "Isang beses"
   },
   "icu:DonationReceipt__footer-text": {
-    "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840."
+    "messageformat": "Maraming salamat sa pagsuporta sa Signal. Ang iyong contribution ay nakatutulong para maipagpatuloy ang aming mission na protektahan ang malayang pamamahayag at pag-enable sa secure global communication para sa milyun-milyong katao sa buong mundo, sa pamamagitan ng open source privacy technology. Kung ika'y isang residente ng United States, ingatan ang receipt na ito para sa tax records mo. Ang Signal Technology Foundation ay isang tax-exempt nonprofit organization sa United States sa ilalim ng section 501c3 ng Internal Revenue Code. Ang aming Federal Tax ID ay 82-4506840."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ang version na ito'y may small tweaks at bug fixes to keep Signal running smoothly.",
@@ -6713,9 +6713,9 @@
     "messageformat": "Improvements sa performance sa Linux."
   },
   "icu:WhatsNew__v7.61--0": {
-    "messageformat": "This update improves audio quality and reliability during voice and video calls, and introduces better automatic configuration of connected microphones and speakers. Thanks to <padenot></padenot>, <kinetiknz></kinetiknz>, and <Pehrsons></Pehrsons> at Mozilla for their help with this project."
+    "messageformat": "Pinapabuti ng update na ito ang audio quality at ang reliability sa voice at video calls, at dala rin ito ang mas mahusay na automatic configuration ng connected microphones at speakers. Maraming salamat sa <padenot></padenot>, <kinetiknz></kinetiknz>, at <Pehrsons></Pehrsons> at Mozilla para sa kanilang tulong sa proyektong ito."
   },
   "icu:WhatsNew__v7.62--0": {
-    "messageformat": "We fixed a rare bug that could prevent some contacts from synchronizing correctly."
+    "messageformat": "Inayos namin ang isang rare bug na maaaring pumigil sa ilang contacts na mag-synchronize nang tama."
   }
 }

@@ -603,10 +603,10 @@
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
   "icu:Toast--ReceiptSaved": {
-    "messageformat": "Receipt saved"
+    "messageformat": "ਰਸੀਦ ਸੇਵ ਕੀਤੀ ਗਈ"
   },
   "icu:Toast--ReceiptSaveFailed": {
-    "messageformat": "Error saving receipt. Please try again."
+    "messageformat": "ਰਸੀਦ ਨੂੰ ਸੇਵ ਕਰਨ ਵੇਲੇ ਗੜਬੜ ਹੋਈ। ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "ਤੁਸੀਂ ਫ਼ਾਈਲਾਂ ਦੇ ਨਾਲ-ਨਾਲ ਫ਼ੋਟੋੋਆਂ ਅਤੇ ਵੀਡੀਓ ਚੁਣ ਨਹੀਂ ਸਕਦੇ ਹੋ।"
@@ -1317,136 +1317,136 @@
     "messageformat": "ਚੈਟ ਫੋਲਡਰ"
   },
   "icu:Preferences__ChatFoldersPage__Description": {
-    "messageformat": "Organize your chats into folders and quickly switch between them on your chat list"
+    "messageformat": "ਆਪਣੀਆਂ ਚੈਟਾਂ ਨੂੰ ਫੋਲਡਰਾਂ ਵਿੱਚ ਵਿਵਸਥਿਤ ਕਰੋ ਅਤੇ ਆਪਣੀ ਚੈਟ ਸੂਚੀ ਵਿੱਚ ਉਹਨਾਂ ਵਿਚਕਾਰ ਤੇਜ਼ੀ ਨਾਲ ਸਵਿੱਚ ਕਰੋ"
   },
   "icu:Preferences__ChatFoldersPage__FoldersSection__Title": {
-    "messageformat": "Folders"
+    "messageformat": "ਫੋਲਡਰ"
   },
   "icu:Preferences__ChatFoldersPage__FoldersSection__AllChatsFolder__Title": {
-    "messageformat": "All chats"
+    "messageformat": "ਸਾਰੀਆਂ ਚੈਟਾਂ"
   },
   "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
-    "messageformat": "Create a folder"
+    "messageformat": "ਇੱਕ ਫੋਲਡਰ ਬਣਾਓ"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
-    "messageformat": "Suggested folders"
+    "messageformat": "ਸੁਝਾਏ ਗਏ ਫੋਲਡਰ"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
-    "messageformat": "Add"
+    "messageformat": "ਸ਼ਾਮਲ ਕਰੋ"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
-    "messageformat": "{chatFolderTitle} folder added"
+    "messageformat": "{chatFolderTitle} ਫੋਲਡਰ ਸ਼ਾਮਲ ਕੀਤਾ ਗਿਆ"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
-    "messageformat": "Unread"
+    "messageformat": "ਨਹੀਂ-ਪੜ੍ਹੀਆਂ ਚੈਟਾਂ"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Description": {
-    "messageformat": "Unread messages from all chats"
+    "messageformat": "ਸਾਰੀਆਂ ਚੈਟਾਂ ਦੇ ਨਹੀਂ ਪੜ੍ਹੇ ਸੁਨੇਹੇ"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Title": {
-    "messageformat": "1:1 chats"
+    "messageformat": "1:1 ਚੈਟ"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Description": {
-    "messageformat": "Only messages from direct chats"
+    "messageformat": "ਸਿਰਫ਼ ਤੁਹਾਡੇ ਨਾਲ ਕੀਤੀਆਂ ਸਿੱਧੀਆਂ ਚੈਟਾਂ ਦੇ ਸੁਨੇਹੇ"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Title": {
-    "messageformat": "Groups"
+    "messageformat": "ਗਰੁੱਪ"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Description": {
-    "messageformat": "Only messages from group chats"
+    "messageformat": "ਸਿਰਫ਼ ਗਰੁੱਪ ਚੈਟਾਂ ਦੇ ਸੁਨੇਹੇ"
   },
   "icu:Preferences__EditChatFolderPage__Title": {
-    "messageformat": "Create a folder"
+    "messageformat": "ਇੱਕ ਫੋਲਡਰ ਬਣਾਓ"
   },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
-    "messageformat": "Folder name"
+    "messageformat": "ਫੋਲਡਰ ਦਾ ਨਾਮ"
   },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Placeholder": {
-    "messageformat": "Folder name (required)"
+    "messageformat": "ਫੋਲਡਰ ਦਾ ਨਾਮ (ਲੋੜੀਂਦਾ ਹੈ)"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Title": {
-    "messageformat": "Included chats"
+    "messageformat": "ਸ਼ਾਮਲ ਚੈਟਾਂ"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
-    "messageformat": "Choose chats that you want to appear in this folder"
+    "messageformat": "ਉਹ ਚੈਟ ਚੁਣੋ ਜੋ ਤੁਸੀਂ ਇਸ ਫੋਲਡਰ ਵਿੱਚ ਦੇਖਣਾ ਚਾਹੁੰਦੇ ਹੋ"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
-    "messageformat": "Add chats"
+    "messageformat": "ਚੈਟਾਂ ਸ਼ਾਮਲ ਕਰੋ"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog--IncludedChats__Title": {
-    "messageformat": "Included chats"
+    "messageformat": "ਸ਼ਾਮਲ ਚੈਟਾਂ"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog--ExcludedChats__Title": {
-    "messageformat": "Excluded chats"
+    "messageformat": "ਬਾਹਰ ਰੱਖੀਆਂ ਗਈਆਂ ਚੈਟਾਂ"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "ਖੋਜੋ"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
-    "messageformat": "Chat types"
+    "messageformat": "ਚੈਟ ਦੀਆਂ ਕਿਸਮਾਂ"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "1:1 ਚੈਟ"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__GroupChats": {
-    "messageformat": "Groups"
+    "messageformat": "ਗਰੁੱਪ"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__RecentChats__Title": {
-    "messageformat": "Recent chats"
+    "messageformat": "ਹਾਲ ਹੀ ਦੀਆਂ ਚੈਟਾਂ"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__DoneButton": {
-    "messageformat": "Done"
+    "messageformat": "ਮੁਕੰਮਲ"
   },
   "icu:Preferences__EditChatFolderPage__ExceptionsSection__Title": {
-    "messageformat": "Exceptions"
+    "messageformat": "ਬਾਹਰ ਰੱਖੀਆਂ ਚੈਟਾਂ"
   },
   "icu:Preferences__EditChatFolderPage__ExceptionsSection__Help": {
-    "messageformat": "Choose chats that you do not want to appear in this folder"
+    "messageformat": "ਉਹ ਚੈਟ ਚੁਣੋ ਜੋ ਤੁਸੀਂ ਇਸ ਫੋਲਡਰ ਵਿੱਚ ਨਹੀਂ ਦੇਖਣਾ ਚਾਹੁੰਦੇ ਹੋ"
   },
   "icu:Preferences__EditChatFolderPage__ExceptionsSection__ExcludeChatsButton": {
-    "messageformat": "Exclude chats"
+    "messageformat": "ਚੈਟਾਂ ਨੂੰ ਬਾਹਰ ਰੱਖੋ"
   },
   "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Label": {
-    "messageformat": "Only show unread chats"
+    "messageformat": "ਸਿਰਫ਼ ਨਹੀਂ ਪੜ੍ਹੀਆਂ ਚੈਟਾਂ ਦਿਖਾਓ"
   },
   "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Description": {
-    "messageformat": "Only chats with unread messages will be shown in this folder."
+    "messageformat": "ਇਸ ਫੋਲਡਰ ਵਿੱਚ ਸਿਰਫ਼ ਉਹ ਚੈਟਾਂ ਦਿਖਾਈ ਦੇਣਗੀਆਂ ਜਿਹਨਾਂ ਵਿੱਚ ਆਏ ਸੁਨੇਹੇ ਪੜ੍ਹੇ ਨਹੀਂ ਗਏ ਹਨ।"
   },
   "icu:Preferences__EditChatFolderPage__IncludeMutedChatsCheckbox__Label": {
-    "messageformat": "Include muted chats"
+    "messageformat": "ਮਿਊਟ ਕੀਤੀਆਂ ਚੈਟਾਂ ਸ਼ਾਮਲ ਕਰੋ"
   },
   "icu:Preferences__EditChatFolderPage__DeleteFolderButton": {
-    "messageformat": "Delete folder"
+    "messageformat": "ਫੋਲਡਰ ਮਿਟਾਓ"
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Title": {
-    "messageformat": "Delete this chat folder?"
+    "messageformat": "ਕੀ ਇਸ ਚੈਟ ਫੋਲਡਰ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?"
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Description": {
-    "messageformat": "This folder will be removed from your chat list."
+    "messageformat": "ਇਹ ਫੋਲਡਰ ਤੁਹਾਡੀ ਚੈਟ ਸੂਚੀ ਵਿੱਚੋਂ ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।"
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "ਮਿਟਾਓ"
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Cancel"
+    "messageformat": "ਰੱਦ ਕਰੋ"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
-    "messageformat": "Save changes?"
+    "messageformat": "ਕੀ ਤਬਦੀਲੀਆਂ ਨੂੰ ਸੇਵ ਕਰਨਾ ਹੈ?"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Description": {
-    "messageformat": "Do you want to save the changes you’ve made to this chat folder?"
+    "messageformat": "ਕੀ ਤੁਸੀਂ ਇਸ ਚੈਟ ਫੋਲਡਰ ਵਿੱਚ ਕੀਤੀਆਂ ਆਪਣੀਆਂ ਕੀਤੀਆਂ ਤਬਦੀਲੀਆਂ ਨੂੰ ਸੇਵ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__SaveButton": {
-    "messageformat": "Save"
+    "messageformat": "ਸੇਵ ਕਰੋ"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__DiscardButton": {
-    "messageformat": "Discard"
+    "messageformat": "ਖਾਰਜ ਕਰੋ"
   },
   "icu:Preferences__EditChatFolderPage__SaveButton": {
-    "messageformat": "Save"
+    "messageformat": "ਸੇਵ ਕਰੋ"
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
-    "messageformat": "Cancel"
+    "messageformat": "ਰੱਦ ਕਰੋ"
   },
   "icu:initialSync": {
     "messageformat": "ਸੰਪਰਕ ਅਤੇ ਗਰੁੱਪ ਸਮਕਾਲੀ ਬਣਾਏ ਜਾ ਰਹੇ ਹਨ"
@@ -4188,10 +4188,10 @@
     "messageformat": "ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
-    "messageformat": "Syncing media"
+    "messageformat": "ਮੀਡੀਆ ਸਿੰਕ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Syncing paused"
+    "messageformat": "ਸਿੰਕ ਕਰਨਾ ਰੋਕਿਆ ਗਿਆ"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
     "messageformat": "{totalSize} ਵਿੱਚੋਂ {currentSize} ਨੂੰ ਰੀਸਟੋਰ ਕੀਤਾ ਗਿਆ"
@@ -4206,13 +4206,13 @@
     "messageformat": "ਇੰਟਰਨੈੱਟ ਕਨੈਕਸ਼ਨ ਦੀ ਉਡੀਕ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ…"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause"
+    "messageformat": "ਰੋਕੋ"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume"
+    "messageformat": "ਮੁੜ-ਸ਼ੁਰੂ ਕਰੋ"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
-    "messageformat": "Cancel syncing"
+    "messageformat": "ਸਿੰਕ ਕਰਨਾ ਰੱਦ ਕਰੋ"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
     "messageformat": "ਹੋਰ ਵਿਕਲਪ"
@@ -4224,34 +4224,34 @@
     "messageformat": "{totalSize} ਵਿੱਚੋਂ {currentSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media syncing?"
+    "messageformat": "ਕੀ ਮੀਡੀਆ ਸਿੰਕ ਕਰਨਾ ਰੱਦ ਕਰਨਾ ਹੈ?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "Your media has not completed syncing. If you choose to cancel, you can sync again by re-linking this device. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "ਤੁਹਾਡੇ ਮੀਡੀਆ ਨੂੰ ਸਿੰਕ ਕਰਨ ਦਾ ਕਾਰਜ ਪੂਰਾ ਨਹੀਂ ਹੋਇਆ ਹੈ। ਜੇਕਰ ਤੁਸੀਂ ਰੱਦ ਕਰਦੇ ਹੋ, ਤਾਂ ਤੁਸੀਂ ਇਸ ਡਿਵਾਈਸ ਨੂੰ ਦੁਬਾਰਾ ਲਿੰਕ ਕਰਕੇ ਦੁਬਾਰਾ ਸਿੰਕ ਕਰ ਸਕਦੇ ਹੋ। <learnMoreLink>ਹੋਰ ਜਾਣੋ।</learnMoreLink>"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "Continue syncing"
+    "messageformat": "ਸਿੰਕ ਕਰਨਾ ਜਾਰੀ ਰੱਖੋ"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
-    "messageformat": "Cancel syncing"
+    "messageformat": "ਸਿੰਕ ਕਰਨਾ ਰੱਦ ਕਰੋ"
   },
   "icu:BackupMediaDownloadProgressSettings__paused--title": {
-    "messageformat": "Syncing paused"
+    "messageformat": "ਸਿੰਕ ਕਰਨਾ ਰੋਕਿਆ ਗਿਆ"
   },
   "icu:BackupMediaDownloadProgressSettings__paused--description": {
-    "messageformat": "Click “{resumeButtonText}” to continue syncing"
+    "messageformat": "ਸਿੰਕ ਕਰਨਾ ਜਾਰੀ ਰੱਖਣ ਲਈ “{resumeButtonText}” 'ਤੇ ਕਲਿੱਕ ਕਰੋ"
   },
   "icu:BackupMediaDownloadProgressSettings__button-resume": {
-    "messageformat": "Resume"
+    "messageformat": "ਮੁੜ-ਸ਼ੁਰੂ ਕਰੋ"
   },
   "icu:BackupMediaDownloadProgressSettings__button-pause": {
-    "messageformat": "Pause"
+    "messageformat": "ਰੋਕੋ"
   },
   "icu:BackupMediaDownloadProgressSettings__title-in-progress": {
-    "messageformat": "Syncing media"
+    "messageformat": "ਮੀਡੀਆ ਸਿੰਕ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
   },
   "icu:BackupMediaDownloadProgressSettings__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "{totalSize} ਵਿੱਚੋਂ {currentSize} ({fractionComplete,number,percent})..."
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
     "messageformat": "ਖਾਤੇ ਲਈ ਕਾਰਵਾਈ ਲੋੜੀਂਦੀ ਹੈ"
@@ -6625,58 +6625,58 @@
     "messageformat": "ਨਵਾਂ ਕੀ ਹੈ"
   },
   "icu:PreferencesDonations__title": {
-    "messageformat": "Privacy over Profit"
+    "messageformat": "ਸਾਡੇ ਲਈ ਤੁਹਾਡੀ ਪਰਦੇਦਾਰੀ, ਮੁਨਾਫੇ ਤੋਂ ਵੱਧ ਅਹਿਮ ਹੈ"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "ਪ੍ਰਾਈਵੇਟ ਮੈਸੇਜਿੰਗ, ਜੋ ਤੁਹਾਡੇ ਸਹਿਯੋਗ ਨਾਲ ਚਲਦੀ ਹੈ। ਕੋਈ ਇਸ਼ਤਿਹਾਰ ਨਹੀਂ, ਕੋਈ ਟ੍ਰੈਕਰ ਨਹੀਂ, ਕੋਈ ਸਮਝੌਤਾ ਨਹੀਂ। ਹੁਣੇ ਦਾਨ ਦੇ ਕੇ Signal ਨੂੰ ਆਪਣਾ ਸਹਿਯੋਗ ਦਿਓ। <learnMoreLink>ਹੋਰ ਜਾਣੋ</learnMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
-    "messageformat": "Donate"
+    "messageformat": "ਦਾਨ ਦਿਓ"
   },
   "icu:PreferencesDonations__mobile-info": {
-    "messageformat": "Badges and monthly donations can be managed on your mobile device."
+    "messageformat": "ਬੈਜ ਅਤੇ ਮਾਸਿਕ ਦਾਨ ਸੰਬੰਧੀ ਚੀਜ਼ਾਂ ਤੁਹਾਡੇ ਮੋਬਾਈਲ ਡਿਵਾਈਸ 'ਤੇ ਪ੍ਰਬੰਧਿਤ ਕੀਤੀਆਂ ਜਾ ਸਕਦੀਆਂ ਹਨ।"
   },
   "icu:PreferencesDonations__receipts": {
-    "messageformat": "Receipts"
+    "messageformat": "ਰਸੀਦਾਂ"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donation FAQs"
+    "messageformat": "ਦਾਨ ਬਾਰੇ ਅਕਸਰ ਪੁੱਛੇ ਜਾਣ ਵਾਲੇ ਸਵਾਲ"
   },
   "icu:PreferencesDonations--receiptList__info": {
-    "messageformat": "Receipts do not sync across devices. If you have reinstalled Signal, receipts from previous donations will not be available."
+    "messageformat": "ਰਸੀਦਾਂ ਸਾਰੇ ਡਿਵਾਈਸਾਂ ਵਿੱਚ ਸਿੰਕ ਨਹੀਂ ਹੁੰਦੀਆਂ ਹਨ। ਜੇਕਰ ਤੁਸੀਂ Signal ਨੂੰ ਦੁਬਾਰਾ ਇੰਸਟਾਲ ਕੀਤਾ ਹੈ, ਤਾਂ ਪਿਛਲੇ ਦਾਨ ਦੀਆਂ ਰਸੀਦਾਂ ਉਪਲਬਧ ਨਹੀਂ ਹੋਣਗੀਆਂ।"
   },
   "icu:PreferencesDonations--receiptList__empty-title": {
-    "messageformat": "No Receipts"
+    "messageformat": "ਕੋਈ ਵੀ ਰਸੀਦ ਮੌਜੂਦ ਨਹੀਂ ਹੈ"
   },
   "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "Details"
+    "messageformat": "ਵੇਰਵਾ"
   },
   "icu:PreferencesDonations__ReceiptModal--download": {
-    "messageformat": "Download receipt"
+    "messageformat": "ਰਸੀਦ ਡਾਊਨਲੋਡ ਕਰੋ"
   },
   "icu:PreferencesDonations__ReceiptModal--type-label": {
-    "messageformat": "Type"
+    "messageformat": "ਕਿਸਮ"
   },
   "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
-    "messageformat": "Date paid"
+    "messageformat": "ਭੁਗਤਾਨ ਕਰਨ ਦੀ ਮਿਤੀ"
   },
   "icu:DonationReceipt__title": {
-    "messageformat": "Donation receipt"
+    "messageformat": "ਦਾਨ ਦੀ ਰਸੀਦ"
   },
   "icu:DonationReceipt__amount-label": {
-    "messageformat": "Amount"
+    "messageformat": "ਰਕਮ"
   },
   "icu:DonationReceipt__type-label": {
-    "messageformat": "Type"
+    "messageformat": "ਕਿਸਮ"
   },
   "icu:DonationReceipt__date-paid-label": {
-    "messageformat": "Date paid"
+    "messageformat": "ਭੁਗਤਾਨ ਕਰਨ ਦੀ ਮਿਤੀ"
   },
   "icu:DonationReceipt__type-value--one-time": {
-    "messageformat": "One time"
+    "messageformat": "ਇੱਕ ਵਾਰ"
   },
   "icu:DonationReceipt__footer-text": {
-    "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840."
+    "messageformat": "Signal ਨੂੰ ਸਹਿਯੋਗ ਦੇਣ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ। ਤੁਹਾਡਾ ਯੋਗਦਾਨ ਓਪਨ ਸੋਰਸ ਪ੍ਰਾਈਵੇਸੀ ਤਕਨਾਲੋਜੀ ਵਿਕਸਤ ਕਰਨ ਦੇ ਉਦੇਸ਼ ਨੂੰ ਪੂਰਾ ਕਰਨ ਵਿੱਚ ਮਦਦ ਕਰਦਾ ਹੈ। ਇਹ ਤਕਨਾਲੋਜੀ ਆਜ਼ਾਦੀ ਨਾਲ ਆਪਣੇ ਵਿਚਾਰ ਪੇਸ਼ ਕਰਨ ਦੇ ਅਧਿਕਾਰ ਦੀ ਰਾਖੀ ਕਰਦੀ ਹੈ ਅਤੇ ਪੂਰੀ ਦੁਨੀਆਂ ਵਿੱਚ ਸੰਚਾਰ ਨੂੰ ਸੁਰੱਖਿਅਤ ਬਣਾਉਂਦੀ ਹੈ। ਜੇਕਰ ਤੁਸੀਂ ਸੰਯੁਕਤ ਰਾਜ ਅਮਰੀਕਾ ਦੇ ਨਿਵਾਸੀ ਹੋ, ਤਾਂ ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੇ ਟੈਕਸ ਰਿਕਾਰਡਾਂ ਲਈ ਇਸ ਰਸੀਦ ਨੂੰ ਆਪਣੇ ਕੋਲ ਸਾਂਭ ਕੇ ਰੱਖੋ। Signal ਟੈਕਨਾਲੋਜੀ ਫਾਊਂਡੇਸ਼ਨ, ਸੰਯੁਕਤ ਰਾਜ ਅਮਰੀਕਾ ਵਿੱਚ ਇੰਟਰਨਲ ਰਿਵੈਨਿਊ ਕੋਡ ਦੀ ਧਾਰਾ 501c3 ਦੇ ਤਹਿਤ ਇੱਕ ਟੈਕਸ-ਮੁਕਤ ਗੈਰ-ਲਾਭਕਾਰੀ ਸੰਸਥਾ ਹੈ। ਸਾਡੀ ਫੈਡਰਲ ਟੈਕਸ ID 82–4506840 ਹੈ।"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal ਨੂੰ ਸੁਚਾਰੂ ਢੰਗ ਨਾਲ ਚੱਲਦਾ ਰੱਖਣ ਲਈ ਇਸ ਵਰਜ਼ਨ ਵਿੱਚ ਨਿੱਕੇ-ਮੋਟੇ ਸੁਧਾਰ ਅਤੇ ਬੱਗ ਠੀਕ ਕੀਤੇ ਗਏ ਹਨ।",
@@ -6713,9 +6713,9 @@
     "messageformat": "Linux ਦੇ ਪ੍ਰਦਰਸ਼ਨ ਵਿੱਚ ਸੁਧਾਰ ਕੀਤੇ ਗਏ ਹਨ।"
   },
   "icu:WhatsNew__v7.61--0": {
-    "messageformat": "This update improves audio quality and reliability during voice and video calls, and introduces better automatic configuration of connected microphones and speakers. Thanks to <padenot></padenot>, <kinetiknz></kinetiknz>, and <Pehrsons></Pehrsons> at Mozilla for their help with this project."
+    "messageformat": "ਇਹ ਅੱਪਡੇਟ, ਵੌਇਸ ਅਤੇ ਵੀਡੀਓ ਕਾਲਾਂ ਦੌਰਾਨ ਆਡੀਓ ਗੁਣਵੱਤਾ ਅਤੇ ਭਰੋਸੇਯੋਗਤਾ ਵਿੱਚ ਸੁਧਾਰ ਕਰਦੀ ਹੈ ਅਤੇ ਕਨੈਕਟ ਕੀਤੇ ਮਾਈਕ੍ਰੋਫ਼ੋਨਾਂ ਅਤੇ ਸਪੀਕਰਾਂ ਦੀ ਬਿਹਤਰ ਕੌਨਫਿਗਰੇਸ਼ਨ ਪ੍ਰਦਾਨ ਕਰਦੀ ਹੈ। ਇਸ ਪ੍ਰੋਜੈਕਟ ਵਿੱਚ ਮਦਦ ਲਈ Mozilla ਵਿਖੇ <padenot></padenot>, <kinetiknz></kinetiknz> ਅਤੇ <Pehrsons></Pehrsons> ਦਾ ਬਹੁਤ-ਬਹੁਤ ਧੰਨਵਾਦ।"
   },
   "icu:WhatsNew__v7.62--0": {
-    "messageformat": "We fixed a rare bug that could prevent some contacts from synchronizing correctly."
+    "messageformat": "ਅਸੀਂ ਇੱਕ ਦੁਰਲੱਭ ਖਰਾਬੀ ਨੂੰ ਠੀਕ ਕੀਤਾ ਹੈ ਜੋ ਕੁਝ ਸੰਪਰਕਾਂ ਨੂੰ ਸਹੀ ਢੰਗ ਨਾਲ ਸਿੰਕ ਕਰਨ ਤੋਂ ਰੋਕ ਸਕਦੀ ਸੀ।"
   }
 }

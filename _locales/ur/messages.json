@@ -603,10 +603,10 @@
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
   "icu:Toast--ReceiptSaved": {
-    "messageformat": "Receipt saved"
+    "messageformat": "رسید محفوظ ہو گئی"
   },
   "icu:Toast--ReceiptSaveFailed": {
-    "messageformat": "Error saving receipt. Please try again."
+    "messageformat": "رسید محفوظ کرنے میں خرابی واقع ہوئی ہے۔ براہ کرم دوبارہ کوشش کریں۔"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "آپ فائلز کے ساتھ تصاویر اور ویڈیوز منتخب نہیں کر سکتے۔"
@@ -1317,136 +1317,136 @@
     "messageformat": "چیٹ فولڈرز"
   },
   "icu:Preferences__ChatFoldersPage__Description": {
-    "messageformat": "Organize your chats into folders and quickly switch between them on your chat list"
+    "messageformat": "اپنی چیٹس کو فولڈرز میں ترتیب دیں اور اپنی چیٹ کی فہرست میں ان کے درمیان فوری طور پر سوئچ کریں"
   },
   "icu:Preferences__ChatFoldersPage__FoldersSection__Title": {
-    "messageformat": "Folders"
+    "messageformat": "فولڈرز"
   },
   "icu:Preferences__ChatFoldersPage__FoldersSection__AllChatsFolder__Title": {
-    "messageformat": "All chats"
+    "messageformat": "تمام چیٹس"
   },
   "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
-    "messageformat": "Create a folder"
+    "messageformat": "فولڈر تخلیق کریں"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
-    "messageformat": "Suggested folders"
+    "messageformat": "تجویز کردہ فولڈرز"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
-    "messageformat": "Add"
+    "messageformat": "شامل کریں"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
-    "messageformat": "{chatFolderTitle} folder added"
+    "messageformat": "{chatFolderTitle} فولڈر شامل کیا گیا"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
-    "messageformat": "Unread"
+    "messageformat": "نا پڑھی ہوئی"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Description": {
-    "messageformat": "Unread messages from all chats"
+    "messageformat": "تمام چیٹس سے بغیر پڑھے ہوئے میسجز"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Title": {
-    "messageformat": "1:1 chats"
+    "messageformat": "1:1 چیٹس"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Description": {
-    "messageformat": "Only messages from direct chats"
+    "messageformat": "صرف براہ راست چیٹس کے میسجز"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Title": {
-    "messageformat": "Groups"
+    "messageformat": "گروپس"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Description": {
-    "messageformat": "Only messages from group chats"
+    "messageformat": "صرف گروپ چیٹس کے میسجز"
   },
   "icu:Preferences__EditChatFolderPage__Title": {
-    "messageformat": "Create a folder"
+    "messageformat": "فولڈر تخلیق کریں"
   },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
-    "messageformat": "Folder name"
+    "messageformat": "فولڈر کا نام"
   },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Placeholder": {
-    "messageformat": "Folder name (required)"
+    "messageformat": "فولڈر کا نام (درکار ہے)"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Title": {
-    "messageformat": "Included chats"
+    "messageformat": "شامل کردہ چیٹس"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
-    "messageformat": "Choose chats that you want to appear in this folder"
+    "messageformat": "ان چیٹس کا انتخاب کریں جو آپ اس فولڈر میں دکھانا چاہتے ہیں"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
-    "messageformat": "Add chats"
+    "messageformat": "چیٹس شامل کریں"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog--IncludedChats__Title": {
-    "messageformat": "Included chats"
+    "messageformat": "شامل کردہ چیٹس"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog--ExcludedChats__Title": {
-    "messageformat": "Excluded chats"
+    "messageformat": "چیٹس نکال دی گئیں"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "تلا ‎ش کر یں"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
-    "messageformat": "Chat types"
+    "messageformat": "چیٹ کی اقسام"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "1:1 چیٹس"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__GroupChats": {
-    "messageformat": "Groups"
+    "messageformat": "گروپس"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__RecentChats__Title": {
-    "messageformat": "Recent chats"
+    "messageformat": "موجودہ چیٹس"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__DoneButton": {
-    "messageformat": "Done"
+    "messageformat": "ہو گیا"
   },
   "icu:Preferences__EditChatFolderPage__ExceptionsSection__Title": {
-    "messageformat": "Exceptions"
+    "messageformat": "استثنات"
   },
   "icu:Preferences__EditChatFolderPage__ExceptionsSection__Help": {
-    "messageformat": "Choose chats that you do not want to appear in this folder"
+    "messageformat": "ان چیٹس کا انتخاب کریں جو آپ اس فولڈر میں دکھانا نہیں چاہتے"
   },
   "icu:Preferences__EditChatFolderPage__ExceptionsSection__ExcludeChatsButton": {
-    "messageformat": "Exclude chats"
+    "messageformat": "چیٹس نکال دیں"
   },
   "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Label": {
-    "messageformat": "Only show unread chats"
+    "messageformat": "صرف بغیر پڑھی ہوئی چیٹس ظاہر کرتا ہے"
   },
   "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Description": {
-    "messageformat": "Only chats with unread messages will be shown in this folder."
+    "messageformat": "اس فولڈر میں صرف نا پڑھے ہوئے میسجز والی چیٹس ظاہر ہوں گی۔"
   },
   "icu:Preferences__EditChatFolderPage__IncludeMutedChatsCheckbox__Label": {
-    "messageformat": "Include muted chats"
+    "messageformat": "خاموش کردہ چیٹس شامل کریں"
   },
   "icu:Preferences__EditChatFolderPage__DeleteFolderButton": {
-    "messageformat": "Delete folder"
+    "messageformat": "فولڈر حذف کریں"
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Title": {
-    "messageformat": "Delete this chat folder?"
+    "messageformat": "اس چیٹ فولڈر کو حذف کریں؟"
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Description": {
-    "messageformat": "This folder will be removed from your chat list."
+    "messageformat": "یہ فولڈر آپ کی چیٹ کی فہرست سے ہٹا دیا جائے گا۔"
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "حذف کریں"
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Cancel"
+    "messageformat": "منسوخ کریں"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
-    "messageformat": "Save changes?"
+    "messageformat": "تبدیلیوں کو محفوظ کریں؟"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Description": {
-    "messageformat": "Do you want to save the changes you’ve made to this chat folder?"
+    "messageformat": "کیا آپ ان تبدیلیوں کو محفوظ کرنا چاہتے ہیں جو آپ نے اس چیٹ فولڈر میں کی ہیں؟"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__SaveButton": {
-    "messageformat": "Save"
+    "messageformat": "محفوظ کریں"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__DiscardButton": {
-    "messageformat": "Discard"
+    "messageformat": "مسترد کیجئے"
   },
   "icu:Preferences__EditChatFolderPage__SaveButton": {
-    "messageformat": "Save"
+    "messageformat": "محفوظ کریں"
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
-    "messageformat": "Cancel"
+    "messageformat": "منسوخ کریں"
   },
   "icu:initialSync": {
     "messageformat": "گروپس اور رابطے ہم آہنگ ہو رہے ہیں "
@@ -4188,10 +4188,10 @@
     "messageformat": "دوبارہ کوشش کریں"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
-    "messageformat": "Syncing media"
+    "messageformat": "میڈیا سنک ہو رہا ہے"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Syncing paused"
+    "messageformat": "سنکنگ روک دی گئی"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
     "messageformat": "{totalSize} میں {currentSize} بحال ہو گیا"
@@ -4206,13 +4206,13 @@
     "messageformat": "انٹرنیٹ کنکشن کا انتظار ہو رہا ہے..."
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause"
+    "messageformat": "وقفہ کریں"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume"
+    "messageformat": "جاری رکھیں"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
-    "messageformat": "Cancel syncing"
+    "messageformat": "سنکنگ منسوخ کریں"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
     "messageformat": "مزید آپشنز"
@@ -4224,34 +4224,34 @@
     "messageformat": "{currentSize}کا{totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media syncing?"
+    "messageformat": "میڈیا کی سنکنگ منسوخ کریں؟"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "Your media has not completed syncing. If you choose to cancel, you can sync again by re-linking this device. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "آپ کا میڈیا ابھی مکمل طور پر سنک نہیں ہوا ہے۔ اگر آپ منسوخ کرنے کا انتخاب کرتے ہیں، تو آپ اس ڈیوائس کو ری لنک کر کے دوبارہ سنک کر سکتے ہیں۔ <learnMoreLink>مزید جانیں</learnMoreLink>۔"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "Continue syncing"
+    "messageformat": "سنکنگ جاری رکھیں"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
-    "messageformat": "Cancel syncing"
+    "messageformat": "سنکنگ منسوخ کریں"
   },
   "icu:BackupMediaDownloadProgressSettings__paused--title": {
-    "messageformat": "Syncing paused"
+    "messageformat": "سنکنگ روک دی گئی"
   },
   "icu:BackupMediaDownloadProgressSettings__paused--description": {
-    "messageformat": "Click “{resumeButtonText}” to continue syncing"
+    "messageformat": "سنکنگ جاری رکھنے کے لیے “{resumeButtonText}” پر کلک کریں"
   },
   "icu:BackupMediaDownloadProgressSettings__button-resume": {
-    "messageformat": "Resume"
+    "messageformat": "جاری رکھیں"
   },
   "icu:BackupMediaDownloadProgressSettings__button-pause": {
-    "messageformat": "Pause"
+    "messageformat": "وقفہ کریں"
   },
   "icu:BackupMediaDownloadProgressSettings__title-in-progress": {
-    "messageformat": "Syncing media"
+    "messageformat": "میڈیا سنک ہو رہا ہے"
   },
   "icu:BackupMediaDownloadProgressSettings__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "{totalSize} کا {currentSize} ({fractionComplete,number,percent})..."
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
     "messageformat": "اکاؤنٹ کی کارروائی درکار ہے"
@@ -6625,58 +6625,58 @@
     "messageformat": "نیا کیا ہے"
   },
   "icu:PreferencesDonations__title": {
-    "messageformat": "Privacy over Profit"
+    "messageformat": "پیسہ نہیں پرائیویسی"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "پرائیوٹ میسجنگ، جسے آپ فنڈ کرتے ہیں۔ کوئی اشتہارات نہیں، کوئی ٹریکنگ نہیں، کوئی سمجھوتہ نہیں۔ Signal کو سپورٹ کرنے کے لیے ابھی عطیہ کریں۔ <learnMoreLink>مزید جانیں</learnMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
-    "messageformat": "Donate"
+    "messageformat": "عطیہ کریں"
   },
   "icu:PreferencesDonations__mobile-info": {
-    "messageformat": "Badges and monthly donations can be managed on your mobile device."
+    "messageformat": "بیجز اور ماہانہ عطیات اپنی موبائل ڈیوائس پر منظم کیے جا سکتے ہیں۔"
   },
   "icu:PreferencesDonations__receipts": {
-    "messageformat": "Receipts"
+    "messageformat": "رسیدیں"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donation FAQs"
+    "messageformat": "عطیات کے متعلق عمومی سوالات"
   },
   "icu:PreferencesDonations--receiptList__info": {
-    "messageformat": "Receipts do not sync across devices. If you have reinstalled Signal, receipts from previous donations will not be available."
+    "messageformat": "رسیدیں مختلف ڈیوائسز پر سنک نہیں ہوتیں۔ اگر آپ نے Signal دوبارہ انسٹال کیا ہے، تو گزشتہ عطیات کی رسیدیں دستیاب نہیں ہوں گی۔"
   },
   "icu:PreferencesDonations--receiptList__empty-title": {
-    "messageformat": "No Receipts"
+    "messageformat": "کوئی رسیدیں نہیں"
   },
   "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "Details"
+    "messageformat": "تفصیلات"
   },
   "icu:PreferencesDonations__ReceiptModal--download": {
-    "messageformat": "Download receipt"
+    "messageformat": "رسید ڈاؤن لوڈ کریں"
   },
   "icu:PreferencesDonations__ReceiptModal--type-label": {
-    "messageformat": "Type"
+    "messageformat": "قسم"
   },
   "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
-    "messageformat": "Date paid"
+    "messageformat": "ادا کیے جانے کی تاریخ"
   },
   "icu:DonationReceipt__title": {
-    "messageformat": "Donation receipt"
+    "messageformat": "عطیے کی رسید"
   },
   "icu:DonationReceipt__amount-label": {
-    "messageformat": "Amount"
+    "messageformat": "رقم"
   },
   "icu:DonationReceipt__type-label": {
-    "messageformat": "Type"
+    "messageformat": "قسم"
   },
   "icu:DonationReceipt__date-paid-label": {
-    "messageformat": "Date paid"
+    "messageformat": "ادا کیے جانے کی تاریخ"
   },
   "icu:DonationReceipt__type-value--one-time": {
-    "messageformat": "One time"
+    "messageformat": "ایک مرتبہ"
   },
   "icu:DonationReceipt__footer-text": {
-    "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840."
+    "messageformat": "Signal کو سپورٹ کرنے کے لیے آپ کا شکریہ۔ آپ کی شراکت دنیا بھر کے لاکھوں افراد کے لیے آزاد اظہارِ رائے کے تحفظ اور محفوظ عالمی کمیونیکیشن کے مشن کو تقویت دیتی ہے اور یہ سب اوپن سورس پرائیویسی ٹیکنالوجی کے ذریعے ممکن ہوتا ہے۔ اگر آپ امریکہ کے رہائشی ہیں، تو براہ کرم اس رسید کو اپنے ٹیکس ریکارڈز کے لیے محفوظ رکھیں۔ Signal ٹیکنالوجی فاؤنڈیشن امریکہ میں انٹرنل ریوینیو کوڈ کے سیکشن 501c3 کے تحت ٹیکس سے مستثنیٰ غیر منفعتی تنظیم ہے۔ ہماری فیڈرل ٹیکس کی ID 82-4506840 ہے۔"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "یہ ورژن Signal کو بے خلل طور پر چلتا رکھنے کے لیے کچھ معمولی تبدیلیوں اور بگ درستگیوں پر مشتمل ہے۔",
@@ -6713,9 +6713,9 @@
     "messageformat": "یہ اپ ڈیٹ لینکس پر GPU ایکسلریشن کو بہتر کارکردگی اور معاون ہارڈ ویئر پر ہموار ویڈیو پلے بیک کے لیے قابل بنایا ہے۔"
   },
   "icu:WhatsNew__v7.61--0": {
-    "messageformat": "This update improves audio quality and reliability during voice and video calls, and introduces better automatic configuration of connected microphones and speakers. Thanks to <padenot></padenot>, <kinetiknz></kinetiknz>, and <Pehrsons></Pehrsons> at Mozilla for their help with this project."
+    "messageformat": "یہ اپ ڈیٹ آڈیو کے معیار اور وائس و ویڈیو کالز کی پائیداری کو بہتر بناتی ہے، اور مربوط شدہ مائکروفونز اور اسپیکرز کی بہتر انداز میں خودکار کنفیگریشن کو متعارف کرواتی ہے۔ اس پراجیکٹ میں مدد کرنے کے لیے Mozilla کے <padenot></padenot>، <kinetiknz></kinetiknz>، اور <Pehrsons></Pehrsons> کا شکریہ۔"
   },
   "icu:WhatsNew__v7.62--0": {
-    "messageformat": "We fixed a rare bug that could prevent some contacts from synchronizing correctly."
+    "messageformat": "ہم نے اس غیر معمولی نقص کو ٹھیک کر دیا ہے جو کچھ روابط کو درست طریقے سے سنک ہونے سے روک سکتا تھا۔"
   }
 }
