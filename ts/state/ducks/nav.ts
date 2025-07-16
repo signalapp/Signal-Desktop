@@ -6,38 +6,19 @@ import type { ThunkAction } from 'redux-thunk';
 
 import { createLogger } from '../../logging/log';
 import { useBoundActions } from '../../hooks/useBoundActions';
-import { Page } from '../../components/Preferences';
+import { NavTab, SettingsPage } from '../../types/Nav';
 
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type { StateType as RootStateType } from '../reducer';
-import type { EditState } from '../../components/ProfileEditor';
+import type { Location } from '../../types/Nav';
 
 const log = createLogger('nav');
 
 // Types
 
-export enum NavTab {
-  Chats = 'Chats',
-  Calls = 'Calls',
-  Stories = 'Stories',
-  Settings = 'Settings',
-}
-export type Location = ReadonlyDeep<
-  | {
-      tab: NavTab.Settings;
-      details:
-        | {
-            page: Page.Profile;
-            state: EditState;
-          }
-        | { page: Exclude<Page, Page.Profile> };
-    }
-  | { tab: Exclude<NavTab, NavTab.Settings> }
->;
-
 function printLocation(location: Location): string {
   if (location.tab === NavTab.Settings) {
-    if (location.details.page === Page.Profile) {
+    if (location.details.page === SettingsPage.Profile) {
       return `${location.tab}/${location.details.page}/${location.details.state}`;
     }
     return `${location.tab}/${location.details.page}`;

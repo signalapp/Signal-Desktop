@@ -9,7 +9,7 @@ import type { MutableRefObject } from 'react';
 import { getIntl } from '../selectors/user';
 import { getMe } from '../selectors/conversations';
 import { PreferencesDonations } from '../../components/PreferencesDonations';
-import type { Page } from '../../components/Preferences';
+import type { SettingsPage } from '../../types/Nav';
 import { useDonationsActions } from '../ducks/donations';
 import type { StateType } from '../reducer';
 import { isStagingServer } from '../../util/isStagingServer';
@@ -26,8 +26,8 @@ export const SmartPreferencesDonations = memo(
     setPage,
   }: {
     contentsRef: MutableRefObject<HTMLDivElement | null>;
-    page: Page;
-    setPage: (page: Page) => void;
+    page: SettingsPage;
+    setPage: (page: SettingsPage) => void;
   }) {
     const [validCurrencies, setValidCurrencies] = useState<
       ReadonlyArray<string>

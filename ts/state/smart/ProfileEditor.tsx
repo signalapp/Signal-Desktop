@@ -27,10 +27,10 @@ import {
 } from '../selectors/username';
 import { SmartUsernameEditor } from './UsernameEditor';
 import { getSelectedLocation } from '../selectors/nav';
-import { NavTab, useNavActions } from '../ducks/nav';
-import { Page } from '../../components/Preferences';
+import { useNavActions } from '../ducks/nav';
+import { NavTab, SettingsPage } from '../../types/Nav';
 
-import type { EditState } from '../../components/ProfileEditor';
+import type { ProfileEditorPage } from '../../types/Nav';
 import type { SmartUsernameEditorProps } from './UsernameEditor';
 import { ConfirmationDialog } from '../../components/ConfirmationDialog';
 
@@ -103,17 +103,17 @@ export const SmartProfileEditor = memo(function SmartProfileEditor(props: {
 
   if (
     selectedLocation.tab !== NavTab.Settings ||
-    selectedLocation.details.page !== Page.Profile
+    selectedLocation.details.page !== SettingsPage.Profile
   ) {
     return null;
   }
 
   const editState = selectedLocation.details.state;
-  const setEditState = (newState: EditState) => {
+  const setEditState = (newState: ProfileEditorPage) => {
     changeLocation({
       tab: NavTab.Settings,
       details: {
-        page: Page.Profile,
+        page: SettingsPage.Profile,
         state: newState,
       },
     });

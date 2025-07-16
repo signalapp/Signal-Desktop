@@ -3,9 +3,10 @@
 
 import { createLogger } from '../logging/log';
 
-import type { Location } from '../state/ducks/nav';
 import { SECOND } from '../util/durations';
 import { sleep } from '../util/sleep';
+
+import type { Location } from '../types/Nav';
 
 const log = createLogger('BeforeNavigate');
 

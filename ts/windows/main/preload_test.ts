@@ -126,6 +126,7 @@ window.testUtilities = {
       stories: [],
       storyDistributionLists: [],
       donations: {
+        didResumeWorkflowAtStartup: false,
         currentWorkflow: undefined,
         lastError: undefined,
         receipts: [],

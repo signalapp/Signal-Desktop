@@ -216,10 +216,8 @@ import { waitForEvent } from './shims/events';
 import { sendSyncRequests } from './textsecure/syncRequests';
 import { handleServerAlerts } from './util/handleServerAlerts';
 import { isLocalBackupsEnabled } from './util/isLocalBackupsEnabled';
-import { NavTab } from './state/ducks/nav';
-import { Page } from './components/Preferences';
-import { EditState } from './components/ProfileEditor';
-import { runDonationWorkflow } from './services/donations';
+import { NavTab, SettingsPage, ProfileEditorPage } from './types/Nav';
+import { initialize as initializeDonationService } from './services/donations';
 import { MessageRequestResponseSource } from './types/MessageRequestResponseEvent';
 
 const log = createLogger('background');
@@ -1373,8 +1371,8 @@ export async function startApp(): Promise<void> {
     window.reduxActions.nav.changeLocation({
       tab: NavTab.Settings,
       details: {
-        page: Page.Profile,
-        state: EditState.None,
+        page: SettingsPage.Profile,
+        state: ProfileEditorPage.None,
       },
     });
   });
@@ -2198,7 +2196,7 @@ export async function startApp(): Promise<void> {
 
     drop(ReleaseNotesFetcher.init(window.Whisper.events, newVersion));
 
-    drop(runDonationWorkflow());
+    drop(initializeDonationService());
 
     if (isFromMessageReceiver) {
       drop(

@@ -8,7 +8,9 @@ import casual from 'casual';
 import { v4 as generateUuid } from 'uuid';
 
 import type { PropsType } from './ProfileEditor';
-import { EditState, ProfileEditor } from './ProfileEditor';
+
+import { ProfileEditorPage } from '../types/Nav';
+import { ProfileEditor } from './ProfileEditor';
 import { UsernameEditor } from './UsernameEditor';
 import {
   UsernameEditState,
@@ -51,7 +53,7 @@ export default {
     conversationId: generateUuid(),
     color: getRandomColor(),
     deleteAvatarFromDisk: action('deleteAvatarFromDisk'),
-    editState: EditState.None,
+    editState: ProfileEditorPage.None,
     familyName: casual.last_name,
     firstName: casual.first_name,
     i18n,

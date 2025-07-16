@@ -24,7 +24,7 @@ import {
 } from './PreferencesBackups';
 import { I18n } from './I18n';
 import type { PreferencesBackupPage } from '../types/PreferencesBackupPage';
-import { Page } from './Preferences';
+import { SettingsPage } from '../types/Nav';
 import { ToastType } from '../types/Toast';
 import type { ShowToastAction } from '../state/ducks/toast';
 import { Modal } from './Modal';
@@ -73,7 +73,7 @@ export function PreferencesLocalBackups({
     );
   }
 
-  const isReferencingBackupKey = page === Page.LocalBackupsKeyReference;
+  const isReferencingBackupKey = page === SettingsPage.LocalBackupsKeyReference;
   if (!backupKeyViewed || isReferencingBackupKey) {
     strictAssert(accountEntropyPool, 'AEP is required for backup key viewer');
 
@@ -84,7 +84,7 @@ export function PreferencesLocalBackups({
         isReferencing={isReferencingBackupKey}
         onBackupKeyViewed={() => {
           if (backupKeyViewed) {
-            setPage(Page.LocalBackups);
+            setPage(SettingsPage.LocalBackups);
           } else {
             onBackupKeyViewedChange(true);
           }
@@ -158,7 +158,7 @@ export function PreferencesLocalBackups({
                   setIsAuthPending(true);
                   const result = await promptOSAuth('view-aep');
                   if (result === 'success' || result === 'unsupported') {
-                    setPage(Page.LocalBackupsKeyReference);
+                    setPage(SettingsPage.LocalBackupsKeyReference);
                   } else {
                     setAuthError(result);
                   }

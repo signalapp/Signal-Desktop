@@ -1,8 +1,10 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
 import React, { memo, useCallback } from 'react';
+
+import type { ReactNode } from 'react';
+
 import { useSelector } from 'react-redux';
 import { NavTabs } from '../../components/NavTabs';
 import { getIntl, getTheme, getIsNightly } from '../selectors/user';
@@ -20,12 +22,13 @@ import {
   getStoriesEnabled,
 } from '../selectors/items';
 import { getSelectedNavTab } from '../selectors/nav';
-import type { Location } from '../ducks/nav';
 import { useNavActions } from '../ducks/nav';
 import { getHasPendingUpdate } from '../selectors/updates';
 import { getCallHistoryUnreadCount } from '../selectors/callHistory';
 import { Environment } from '../../environment';
 import { useItemsActions } from '../ducks/items';
+
+import type { Location } from '../../types/Nav';
 
 export type SmartNavTabsProps = Readonly<{
   navTabsCollapsed: boolean;

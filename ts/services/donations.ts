@@ -40,6 +40,8 @@ import type {
   ReceiptContext,
   StripeDonationAmount,
 } from '../types/Donations';
+import { ToastType } from '../types/Toast';
+import { NavTab, SettingsPage } from '../types/Nav';
 
 const { createDonationReceipt } = DataWriter;
 
@@ -63,8 +65,35 @@ const MAX_CREDENTIAL_EXPIRATION_IN_DAYS = 90;
 let runDonationAbortController: AbortController | undefined;
 let isInternalDonationInProgress = false;
 let isDonationInProgress = false;
+let isInitialized = false;
 
 // Public API
+
+// Starting everything up
+
+export async function initialize(): Promise<void> {
+  if (isInitialized) {
+    return;
+  }
+
+  isInitialized = true;
+
+  const workflow = _getWorkflowFromRedux();
+  if (!workflow) {
+    return;
+  }
+
+  if (didResumeWorkflowAtStartup() && !isDonationPageVisible()) {
+    log.info(
+      'initialize: We resumed at startup and donation page not visible. Showing processing toast.'
+    );
+    window.reduxActions.toast.showToast({
+      toastType: ToastType.DonationProcessing,
+    });
+  }
+
+  await _runDonationWorkflow();
+}
 
 // These are the four moments the user provides input to the donation workflow. So,
 // UI calls these methods directly; everything else happens automatically.
@@ -190,13 +219,11 @@ export async function _saveAndRunWorkflow(
     log.info(`${logId}: No need to start workflow; it's been cleared`);
   }
 
-  await runDonationWorkflow();
+  await _runDonationWorkflow();
 }
 
-// There's one place where this is called outside this file - when starting up, in the
-// onEmpty handler in background.ts.
-export async function runDonationWorkflow(): Promise<void> {
-  let logId = 'runDonationWorkflow';
+export async function _runDonationWorkflow(): Promise<void> {
+  let logId = '_runDonationWorkflow';
 
   let totalCount = 0;
   let backoffCount = 0;
@@ -283,6 +310,15 @@ export async function runDonationWorkflow(): Promise<void> {
           updated = await _redeemReceipt(existing);
           // continuing
         } else if (type === donationStateSchema.Enum.DONE) {
+          if (!isDonationPageVisible()) {
+            log.info(
+              `${logId}: Donation page not visible. Showing complete toast.`
+            );
+            window.reduxActions.toast.showToast({
+              toastType: ToastType.DonationCompleted,
+            });
+          }
+
           log.info(`${logId}: Workflow is complete. Returning.`);
           return;
         } else {
@@ -787,6 +823,19 @@ async function saveReceipt(workflow: DonationWorkflow, logId: string) {
   window.reduxActions.donations.addReceipt(donationReceipt);
 
   log.info(`${logId}: Successfully saved receipt`);
+}
+
+function didResumeWorkflowAtStartup() {
+  return window.reduxStore.getState().donations.didResumeWorkflowAtStartup;
+}
+
+function isDonationPageVisible() {
+  const { selectedLocation } = window.reduxStore.getState().nav;
+  return (
+    selectedLocation.tab === NavTab.Settings &&
+    (selectedLocation.details.page === SettingsPage.DonationsDonateFlow ||
+      selectedLocation.details.page === SettingsPage.DonationsReceiptList)
+  );
 }
 
 // Working with zkgroup receipts

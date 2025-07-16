@@ -100,6 +100,10 @@ function getToast(toastType: ToastType): AnyToast {
       };
     case ToastType.DeleteForEveryoneFailed:
       return { toastType: ToastType.DeleteForEveryoneFailed };
+    case ToastType.DonationCompleted:
+      return { toastType: ToastType.DonationCompleted };
+    case ToastType.DonationProcessing:
+      return { toastType: ToastType.DonationProcessing };
     case ToastType.Error:
       return { toastType: ToastType.Error };
     case ToastType.Expired:
@@ -252,6 +256,8 @@ export default {
     },
   },
   args: {
+    changeLocation: action('changeLocation'),
+    clearDonation: action('clearDonation'),
     hideToast: action('hideToast'),
     openFileInFolder: action('openFileInFolder'),
     onShowDebugLog: action('onShowDebugLog'),

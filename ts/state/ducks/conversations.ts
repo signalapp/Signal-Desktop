@@ -180,12 +180,8 @@ import {
   MESSAGE_MAX_EDIT_COUNT,
 } from '../../util/canEditMessage';
 import type { ChangeLocationAction } from './nav';
-import {
-  CHANGE_LOCATION,
-  NavTab,
-  changeLocation,
-  actions as navActions,
-} from './nav';
+import { CHANGE_LOCATION, changeLocation, actions as navActions } from './nav';
+import { NavTab, ProfileEditorPage, SettingsPage } from '../../types/Nav';
 import { sortByMessageOrder } from '../../types/ForwardDraft';
 import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation';
 import {
@@ -221,8 +217,6 @@ import { markFailed } from '../../test-node/util/messageFailures';
 import { cleanupMessages } from '../../util/cleanup';
 import { MessageModel } from '../../models/messages';
 import type { ConversationModel } from '../../models/conversations';
-import { EditState } from '../../components/ProfileEditor';
-import { Page } from '../../components/Preferences';
 import { MessageRequestResponseSource } from '../../types/MessageRequestResponseEvent';
 
 const log = createLogger('conversations');
@@ -2268,8 +2262,8 @@ function myProfileChanged(
       changeLocation({
         tab: NavTab.Settings,
         details: {
-          page: Page.Profile,
-          state: EditState.None,
+          page: SettingsPage.Profile,
+          state: ProfileEditorPage.None,
         },
       });
     }

@@ -20,7 +20,7 @@ import {
 import { missingCaseError } from '../util/missingCaseError';
 import { Button, ButtonVariant } from './Button';
 import type { PreferencesBackupPage } from '../types/PreferencesBackupPage';
-import { Page } from './Preferences';
+import { SettingsPage } from '../types/Nav';
 import { I18n } from './I18n';
 import { PreferencesLocalBackups } from './PreferencesLocalBackups';
 import type { ShowToastAction } from '../state/ducks/toast';
@@ -82,17 +82,17 @@ export function PreferencesBackups({
   const [isAuthPending, setIsAuthPending] = useState<boolean>(false);
 
   useEffect(() => {
-    if (page === Page.Backups) {
+    if (page === SettingsPage.Backups) {
       refreshBackupSubscriptionStatus();
-    } else if (page === Page.BackupsDetails) {
+    } else if (page === SettingsPage.BackupsDetails) {
       refreshBackupSubscriptionStatus();
       refreshCloudBackupStatus();
     }
   }, [page, refreshBackupSubscriptionStatus, refreshCloudBackupStatus]);
 
-  if (page === Page.BackupsDetails) {
+  if (page === SettingsPage.BackupsDetails) {
     if (backupSubscriptionStatus.status === 'off') {
-      setPage(Page.Backups);
+      setPage(SettingsPage.Backups);
       return null;
     }
     return (
@@ -110,10 +110,10 @@ export function PreferencesBackups({
   }
 
   if (
-    page === Page.LocalBackups ||
-    page === Page.LocalBackupsKeyReference ||
-    page === Page.LocalBackupsSetupFolder ||
-    page === Page.LocalBackupsSetupKey
+    page === SettingsPage.LocalBackups ||
+    page === SettingsPage.LocalBackupsKeyReference ||
+    page === SettingsPage.LocalBackupsSetupFolder ||
+    page === SettingsPage.LocalBackupsSetupKey
   ) {
     return (
       <PreferencesLocalBackups
@@ -193,7 +193,7 @@ export function PreferencesBackups({
               )}
             >
               <Button
-                onClick={() => setPage(Page.BackupsDetails)}
+                onClick={() => setPage(SettingsPage.BackupsDetails)}
                 variant={ButtonVariant.Secondary}
               >
                 {i18n('icu:Preferences__button--manage')}
@@ -246,7 +246,7 @@ export function PreferencesBackups({
                   }
                 }
 
-                setPage(Page.LocalBackups);
+                setPage(SettingsPage.LocalBackups);
               }}
               variant={ButtonVariant.Secondary}
             >

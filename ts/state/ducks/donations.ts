@@ -8,6 +8,8 @@ import { useBoundActions } from '../../hooks/useBoundActions';
 import { createLogger } from '../../logging/log';
 import * as Errors from '../../types/errors';
 import { isStagingServer } from '../../util/isStagingServer';
+import { DataWriter } from '../../sql/Client';
+import * as donations from '../../services/donations';
 
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type {
@@ -18,8 +20,7 @@ import type {
   StripeDonationAmount,
 } from '../../types/Donations';
 import type { StateType as RootStateType } from '../reducer';
-import { DataWriter } from '../../sql/Client';
-import * as donations from '../../services/donations';
+import { drop } from '../../util/drop';
 
 const log = createLogger('donations');
 
@@ -29,6 +30,7 @@ export type DonationsStateType = ReadonlyDeep<{
   currentWorkflow: DonationWorkflow | undefined;
   lastError: DonationErrorType | undefined;
   receipts: Array<DonationReceipt>;
+  didResumeWorkflowAtStartup: boolean;
 }>;
 
 // Actions
@@ -37,10 +39,16 @@ export const ADD_RECEIPT = 'donations/ADD_RECEIPT';
 export const SUBMIT_DONATION = 'donations/SUBMIT_DONATION';
 export const UPDATE_WORKFLOW = 'donations/UPDATE_WORKFLOW';
 export const UPDATE_LAST_ERROR = 'donations/UPDATE_LAST_ERROR';
+export const SET_DID_RESUME = 'donations/SET_DID_RESUME';
 
 export type AddReceiptAction = ReadonlyDeep<{
   type: typeof ADD_RECEIPT;
   payload: { receipt: DonationReceipt };
+}>;
+
+export type SetDidResumeAction = ReadonlyDeep<{
+  type: typeof SET_DID_RESUME;
+  payload: boolean;
 }>;
 
 export type SubmitDonationAction = ReadonlyDeep<{
@@ -60,6 +68,7 @@ export type UpdateWorkflowAction = ReadonlyDeep<{
 
 export type DonationsActionType = ReadonlyDeep<
   | AddReceiptAction
+  | SetDidResumeAction
   | SubmitDonationAction
   | UpdateLastErrorAction
   | UpdateWorkflowAction
@@ -94,6 +103,13 @@ function internalAddDonationReceipt(
       log.error('Error adding donation receipt', Errors.toLogFormat(error));
       throw error;
     }
+  };
+}
+
+function setDidResume(didResume: boolean): SetDidResumeAction {
+  return {
+    type: SET_DID_RESUME,
+    payload: didResume,
   };
 }
 
@@ -132,6 +148,8 @@ function submitDonation({
 }
 
 function clearWorkflow(): UpdateWorkflowAction {
+  drop(donations.clearDonation());
+
   return {
     type: UPDATE_WORKFLOW,
     payload: { nextWorkflow: undefined },
@@ -160,6 +178,7 @@ export const actions = {
   addReceipt,
   clearWorkflow,
   internalAddDonationReceipt,
+  setDidResume,
   submitDonation,
   updateLastError,
   updateWorkflow,
@@ -174,6 +193,7 @@ export const useDonationsActions = (): BoundActionCreatorsMapObject<
 export function getEmptyState(): DonationsStateType {
   return {
     currentWorkflow: undefined,
+    didResumeWorkflowAtStartup: false,
     lastError: undefined,
     receipts: [],
   };
@@ -190,6 +210,13 @@ export function reducer(
     };
   }
 
+  if (action.type === SET_DID_RESUME) {
+    return {
+      ...state,
+      didResumeWorkflowAtStartup: action.payload,
+    };
+  }
+
   if (action.type === UPDATE_LAST_ERROR) {
     return {
       ...state,
@@ -198,9 +225,11 @@ export function reducer(
   }
 
   if (action.type === UPDATE_WORKFLOW) {
+    const { nextWorkflow } = action.payload;
+
     return {
       ...state,
-      currentWorkflow: action.payload.nextWorkflow,
+      currentWorkflow: nextWorkflow,
     };
   }
 

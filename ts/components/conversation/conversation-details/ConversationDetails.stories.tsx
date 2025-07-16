@@ -16,7 +16,7 @@ import { getDefaultConversation } from '../../../test-helpers/getDefaultConversa
 import { makeFakeLookupConversationWithoutServiceId } from '../../../test-helpers/fakeLookupConversationWithoutServiceId';
 import { ThemeType } from '../../../types/Util';
 import { DurationInSeconds } from '../../../util/durations';
-import { NavTab } from '../../../state/ducks/nav';
+import { NavTab } from '../../../types/Nav';
 import { getFakeCallHistoryGroup } from '../../../test-helpers/getFakeCallHistoryGroup';
 
 const { i18n } = window.SignalContext;

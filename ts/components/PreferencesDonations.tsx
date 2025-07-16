@@ -9,7 +9,8 @@ import { ListBox, ListBoxItem } from 'react-aria-components';
 import { getDateTimeFormatter } from '../util/formatTimestamp';
 
 import type { LocalizerType } from '../types/Util';
-import { Page, PreferencesContent } from './Preferences';
+import { PreferencesContent } from './Preferences';
+import { SettingsPage } from '../types/Nav';
 import { PreferencesDonateFlow } from './PreferencesDonateFlow';
 import type {
   DonationWorkflow,
@@ -39,7 +40,7 @@ type PropsExternalType = {
 export type PropsDataType = {
   i18n: LocalizerType;
   isStaging: boolean;
-  page: Page;
+  page: SettingsPage;
   workflow: DonationWorkflow | undefined;
   userAvatarData: ReadonlyArray<AvatarDataType>;
   color?: AvatarColorType;
@@ -62,26 +63,26 @@ export type PropsDataType = {
 
 type PropsActionType = {
   clearWorkflow: () => void;
-  setPage: (page: Page) => void;
+  setPage: (page: SettingsPage) => void;
   submitDonation: (payload: SubmitDonationType) => void;
 };
 
 export type PropsType = PropsDataType & PropsActionType & PropsExternalType;
 
 type DonationPage =
-  | Page.Donations
-  | Page.DonationsDonateFlow
-  | Page.DonationsReceiptList;
+  | SettingsPage.Donations
+  | SettingsPage.DonationsDonateFlow
+  | SettingsPage.DonationsReceiptList;
 
 type PreferencesHomeProps = PropsType & {
-  navigateToPage: (newPage: Page) => void;
+  navigateToPage: (newPage: SettingsPage) => void;
 };
 
-function isDonationPage(page: Page): page is DonationPage {
+function isDonationPage(page: SettingsPage): page is DonationPage {
   return (
-    page === Page.Donations ||
-    page === Page.DonationsDonateFlow ||
-    page === Page.DonationsReceiptList
+    page === SettingsPage.Donations ||
+    page === SettingsPage.DonationsDonateFlow ||
+    page === SettingsPage.DonationsReceiptList
   );
 }
 
@@ -147,7 +148,7 @@ function DonationsHome({
           variant={ButtonVariant.Primary}
           size={ButtonSize.Medium}
           onClick={() => {
-            setPage(Page.DonationsDonateFlow);
+            setPage(SettingsPage.DonationsDonateFlow);
           }}
         >
           {i18n('icu:PreferencesDonations__donate-button')}
@@ -161,7 +162,7 @@ function DonationsHome({
           <ListBoxItem
             className="PreferencesDonations__list-item"
             onAction={() => {
-              navigateToPage(Page.DonationsReceiptList);
+              navigateToPage(SettingsPage.DonationsReceiptList);
             }}
           >
             <span className="PreferencesDonations__list-item__icon PreferencesDonations__list-item__icon--receipts" />
@@ -418,7 +419,7 @@ export function PreferencesDonations({
   showToast,
 }: PropsType): JSX.Element | null {
   const navigateToPage = useCallback(
-    (newPage: Page) => {
+    (newPage: SettingsPage) => {
       setPage(newPage);
     },
     [setPage]
@@ -429,7 +430,7 @@ export function PreferencesDonations({
   }
 
   let content;
-  if (page === Page.DonationsDonateFlow) {
+  if (page === SettingsPage.DonationsDonateFlow) {
     // DonateFlow has to control Back button to switch between CC form and Amount picker
     return (
       <PreferencesDonateFlow
@@ -440,11 +441,11 @@ export function PreferencesDonations({
         workflow={workflow}
         clearWorkflow={clearWorkflow}
         submitDonation={submitDonation}
-        onBack={() => setPage(Page.Donations)}
+        onBack={() => setPage(SettingsPage.Donations)}
       />
     );
   }
-  if (page === Page.Donations) {
+  if (page === SettingsPage.Donations) {
     content = (
       <DonationsHome
         contentsRef={contentsRef}
@@ -468,7 +469,7 @@ export function PreferencesDonations({
         submitDonation={submitDonation}
       />
     );
-  } else if (page === Page.DonationsReceiptList) {
+  } else if (page === SettingsPage.DonationsReceiptList) {
     content = (
       <PreferencesReceiptList
         i18n={i18n}
@@ -482,15 +483,15 @@ export function PreferencesDonations({
 
   let title: string | undefined;
   let backButton: JSX.Element | undefined;
-  if (page === Page.Donations) {
+  if (page === SettingsPage.Donations) {
     title = i18n('icu:Preferences__DonateTitle');
-  } else if (page === Page.DonationsReceiptList) {
+  } else if (page === SettingsPage.DonationsReceiptList) {
     title = i18n('icu:PreferencesDonations__receipts');
     backButton = (
       <button
         aria-label={i18n('icu:goBack')}
         className="Preferences__back-icon"
-        onClick={() => setPage(Page.Donations)}
+        onClick={() => setPage(SettingsPage.Donations)}
         type="button"
       />
     );
