@@ -7056,10 +7056,6 @@
     "messageformat": "Your phone",
     "description": "Label for the primary device (your phone) that made the most recent cloud backup"
   },
-  "icu:Preferences--backup-size__label": {
-    "messageformat": "Backup size",
-    "description": "(Deleted 2025/06/11) Label for the size (e.g. 1.4 GB) of this user's backup"
-  },
   "icu:Preferences__local-backups": {
     "messageformat": "Desktop backups",
     "description": "Section title and button text for the on-device backups feature (also known as local backups)."
@@ -8370,10 +8366,6 @@
     "messageformat": "Reset",
     "description": "Text of button at the bottom of the username link modal"
   },
-  "icu:UsernameLinkModalBody__done": {
-    "messageformat": "Done",
-    "description": "(Deleted 2025/06/11) Text of button at the bottom of the username link modal"
-  },
   "icu:UsernameLinkModalBody__color__radio": {
     "messageformat": "Username link color, {index, number} of {total, number}",
     "description": "ARIA label of button for selecting username link color"
@@ -8999,6 +8991,6 @@
   },
   "icu:WhatsNew__v7.62--0": {
     "messageformat": "We fixed a rare bug that could prevent some contacts from synchronizing correctly.",
-    "description": "Release notes for version 7.62"
+    "description": "(Deleted 2025/07/16) Release notes for version 7.62"
   }
 }
