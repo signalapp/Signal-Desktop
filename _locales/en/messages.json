@@ -6980,6 +6980,14 @@
     "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>",
     "description": "Description for the auto convert emoji setting"
   },
+  "icu:Preferences__auto-remove-url-tracking--title": {
+    "messageformat": "Remove URL tracking parameters on paste",
+    "description": "Title for the auto remove URL tracking setting"
+  },
+  "icu:Preferences__auto-remove-url-tracking--description": {
+    "messageformat": "Automatically remove tracking parameters from a URL when pasting into the composition box",
+    "description": "Description for the auto remove URL tracking setting"
+  },
   "icu:Preferences--advanced": {
     "messageformat": "Advanced",
     "description": "Title for advanced settings"

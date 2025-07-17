@@ -1173,8 +1173,13 @@ export function Preferences({
           />
           <Checkbox
             checked={hasAutoRemoveUrlTracking}
-            description="Automatically remove tracking parameters from a URL when pasting into the composition box"
-            label="Remove URL tracking parameters on paste"
+            description={
+              <I18n
+                i18n={i18n}
+                id="icu:Preferences__auto-remove-url-tracking--description"
+              />
+            }
+            label={i18n('icu:Preferences__auto-remove-url-tracking--title')}
             moduleClassName="Preferences__checkbox"
             name="autoRemoveUrlTracking"
             onChange={onAutoRemoveUrlTrackingChange}
