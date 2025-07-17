@@ -78,6 +78,8 @@ export class SignalClipboard {
       return;
     }
 
+    // If URL tracking parameter stripping is enabled, see if the pasted text is an HTTPS or HTTP
+    // URL. If so, strip the tracking parameters
     if (text && window.storage.get('autoRemoveUrlTracking', true)) {
       var url = maybeParseUrl(text);
       if (url && url.protocol == "https:" || url.protocol == "http:") {
