@@ -23,10 +23,10 @@ const WILDCARD_REMOVEPARAM = '=REMOVE ALL=';
 const SEPARATOR: string = '[^a-zA-Z0-9_\\-\\.\\%]';
 
 // Contains all the positive (ie non-'@@') rules at the bottom of this file, parsed
-var ALL_POSITIVE_RULES: RegExp[] = [];
+var ALL_POSITIVE_RULES: URLFilter[] = [];
 
 // Contains all the negative (ie '@@') rules at the bottom of this file, parsed
-var ALL_NEGATIVE_RULES: RegExp[] = [];
+var ALL_NEGATIVE_RULES: URLFilter[] = [];
 
 // Removes the parameter `toRemove` from `url` unless there is also a match in `exceptions`
 function removeParamsExcept(
@@ -60,6 +60,9 @@ function removeParamsExcept(
 
 // A class that contains the filter rules for a URL
 class URLFilter {
+  private addressExp: RegExp;
+  public removeExp: string;
+
   constructor(addressExp: RegExp, removeExp: string) {
     this.addressExp = addressExp;
     this.removeExp = removeExp;
@@ -88,6 +91,11 @@ class URLFilter {
   }
 }
 
+// Escapes the given string so it can be used as a literal in a RegExp
+function escapeRegExp(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 // Parses everything to the right of the '=' in a removeparam rule. Returns either a literal string
 // for the parameter to be removed, or WILDCARD_REMOVEPARAM if it's a naked removeparam, ie one that
 // matches everything.
@@ -112,7 +120,7 @@ function parseAddressPattern(addressPat: string): RegExp {
   }
 
   // Convert all asterisks into wildcard matches
-  var addressExp = RegExp.escape(addressPat);
+  var addressExp = escapeRegExp(addressPat);
   addressExp = addressExp.replaceAll(/\\\*/g, '.*');
 
   // Convert all carets into separators

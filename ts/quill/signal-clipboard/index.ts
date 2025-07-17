@@ -82,7 +82,7 @@ export class SignalClipboard {
     // URL. If so, strip the tracking parameters
     if (text && window.storage.get('autoRemoveUrlTracking', true)) {
       var url = maybeParseUrl(text);
-      if ((url && url.protocol == 'https:') || url.protocol == 'http:') {
+      if (url && (url.protocol == 'https:' || url.protocol == 'http:')) {
         text = applyAllRules(url).toString();
       }
     }
