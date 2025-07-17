@@ -183,7 +183,9 @@ export function applyAllRules(url: URL): URL {
 // Parses all the rules from RULES and puts them in ALL_POSITIVE_RULES and
 // ALL_NEGATIVE_RULES. This is called at the very bottom of this file.
 function init() {
-  // We ignore any lines between !#if and !#endif
+  // We ignore any lines between !#if and !#endif. Most of these are temp fixes for a bug
+  // that this impl doesn't have, namely
+  // https://github.com/AdguardTeam/AdguardBrowserExtension/issues/3076
   let inIfelsePragma = false;
   // We ignore the line after any !+ pragma
   let inOnelinePragma = false;

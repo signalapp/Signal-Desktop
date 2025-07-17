@@ -388,7 +388,7 @@ export default {
     makeSyncRequest: action('makeSyncRequest'),
     onAudioNotificationsChange: action('onAudioNotificationsChange'),
     onAutoConvertEmojiChange: action('onAutoConvertEmojiChange'),
-    onAutoRemoveUrlTrackingChange: action('onAutoConvertEmojiChange'),
+    onAutoRemoveUrlTrackingChange: action('onAutoRemoveUrlTrackingChange'),
     onAutoDownloadAttachmentChange: action('onAutoDownloadAttachmentChange'),
     onAutoDownloadUpdateChange: action('onAutoDownloadUpdateChange'),
     onAutoLaunchChange: action('onAutoLaunchChange'),
