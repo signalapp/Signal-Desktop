@@ -14,6 +14,11 @@ try {
   );
 }
 
+/// Placeholder value we use to represent a naked removeparam modifier, ie one that indicates to
+// remove all parameters. The '=' here make it so it's impossible that this collides with a real
+// rule in a filter file.
+const WILDCARD_REMOVEPARAM = '=REMOVE ALL=';
+
 // A separator is "any character, but a letter, a digit, or one of the following: _ - . %"
 const SEPARATOR: string = '[^a-zA-Z0-9_\\-\\.\\%]';
 
@@ -23,34 +28,39 @@ var ALL_POSITIVE_RULES: RegExp[] = [];
 // Contains all the negative (ie '@@') rules at the bottom of this file, parsed
 var ALL_NEGATIVE_RULES: RegExp[] = [];
 
-// Removes every instance of `toRemove` from `s`, unless the instance also matches an element of
-// `exceptions`
-function removeAllExcept(
-  s: string,
-  toRemove: URLFilter,
-  exceptions: RegExp[]
-): string {
-  // First make a copy of toRemove with the global flag so we can use replaceAll. Since replaceAll
-  // mutates its regex, we don't wanna do this with our stored regexes
-  var toRemoveCopy = new RegExp(toRemove, 'g');
+// Removes the parameter `toRemove` from `url` unless there is also a match in `exceptions`
+function removeParamsExcept(
+  url: URL,
+  paramToRemove: string,
+  exceptions: Set<string>
+): URL {
+  // If the exception is literally every param, then return the URL unchanged
+  if (exceptions.has(WILDCARD_REMOVEPARAM)) {
+    return url;
+  }
 
-  // Remove all instances of toRemove from s
-  return s.replaceAll(toRemoveCopy, match => {
-    // If anything in exceptions matches this, then do not remove it. Just return the match
-    // verbatim.
-    for (const exception of exceptions) {
-      if (exception.test(match)) {
-        return match;
+  // Otehrwise see what we can remove
+
+  if (paramToRemove == WILDCARD_REMOVEPARAM) {
+    // If it's a wildcard, delete all the search params except those that appear in exceptions
+    for (const param of url.searchParams.keys()) {
+      if (!exceptions.has(param)) {
+        url.searchParams.delete(param);
       }
     }
-    // If nothing in exceptions matches, replace it with an empty string
-    return '';
-  });
+  } else {
+    // If it's a literal and none of the exceptions have the same literal, we're good to delete
+    if (!exceptions.has(paramToRemove)) {
+      url.searchParams.delete(paramToRemove);
+    }
+  }
+
+  return url;
 }
 
 // A class that contains the filter rules for a URL
 class URLFilter {
-  constructor(addressExp: RegExp, removeExp: RegExp) {
+  constructor(addressExp: RegExp, removeExp: string) {
     this.addressExp = addressExp;
     this.removeExp = removeExp;
   }
@@ -66,49 +76,49 @@ class URLFilter {
     return this.addressExp.test(stringToMatch);
   }
 
-  // Strips the given HTTPS URL params according to this filter. If a param is matched by any RegExp
-  // in `exceptions`, it is not stripped.
-  applyWithExceptions(url: URL, exceptions: RegExp[]): URL {
+  // Strips the given HTTPS URL params according to this filter. If a param is matched by any
+  // matcher in `exceptions`, it is not stripped.
+  applyWithExceptions(url: URL, exceptions: Set<string>): URL {
     if (this.addressMatches(url)) {
       // Apply the removeparam rule
-      url.search = removeAllExcept(url.search, this.removeExp, exceptions);
+      return removeParamsExcept(url, this.removeExp, exceptions);
+    } else {
+      return url;
     }
-
-    return url;
   }
 }
 
-// Parses everything to the right of the '=' in a removeparam rule. Returns a matcher for the
-// param(s) that we wish to remove
-function parseRemoveRule(removePat: string): RegExp {
-  // If there is no pattern, it's a naked remove, ie remove everything
+// Parses everything to the right of the '=' in a removeparam rule. Returns either a literal string
+// for the parameter to be removed, or WILDCARD_REMOVEPARAM if it's a naked removeparam, ie one that
+// matches everything.
+function parseRemoveRule(removePat: string): string {
   if (!removePat) {
-    return '.*';
+    // If there is no pattern, it's a naked remove, ie remove everything
+    return WILDCARD_REMOVEPARAM;
   } else if (removePat.startsWith('/') || removePat.startsWith('~')) {
     throw new Error('regex removeparam not supported');
   } else {
     // Otherwise the pattern is a literal
-    // Match removePat followed by '=' then any number of non-'&' chars, then '&' or end of string
-    return RegExp.escape(removePat) + '=[^&]*?' + '(?:&|$)';
+    return removePat;
   }
 }
 
 // Parses the address pattern, ie everything to the left of the '$' in the filter. Returns a regexp
 // for everything in the URL except the protocol.
-function parse_addressPattern(addressPat: string): RegExp {
+function parseAddressPattern(addressPat: string): RegExp {
   // Strip off the "||" if it's there. We only care about http(s) links anyway
   if (addressPat.startsWith('||')) {
     addressPat = addressPat.slice(2);
   }
 
-  // Convert all asterisks into non-greedy "whatever" matches
+  // Convert all asterisks into wildcard matches
   var addressExp = RegExp.escape(addressPat);
-  addressExp = addressExp.replaceAll(/\\\*/g, '.*?');
+  addressExp = addressExp.replaceAll(/\\\*/g, '.*');
 
   // Convert all carets into separators
   addressExp = addressExp.replaceAll(/\\\^/g, SEPARATOR);
 
-  return addressExp;
+  return new RegExp(addressExp);
 }
 
 // Parses a uBlock-encoded URL filter with `removeparam` rule and returns the corersponding
@@ -120,11 +130,11 @@ function parseRule(s: string): URLFilter {
   // Parse the modifiers
 
   // Find the `removeparam` modifier in the list of modifiers
-  const remove_modifier = modifiers
+  const removeModifier = modifiers
     .split(',')
     .filter(mod => mod.startsWith('removeparam'))[0];
   // Get the pattern of the removeparam modifier if it exists
-  const removePat = remove_modifier.split('=', 2)[1];
+  const removePat = removeModifier.split('=', 2)[1];
   const removeExp = parseRemoveRule(removePat);
 
   // Now parse the address pattern
@@ -136,12 +146,12 @@ function parseRule(s: string): URLFilter {
 
   // If the address pattern doesn't exist, we have everything we need already
   if (!addressPat) {
-    return new URLFilter(/.*/, new RegExp(removeExp));
+    return new URLFilter(/.*/, removeExp);
   }
   // Otherwise parse the pattern
-  const addressExp = parse_addressPattern(addressPat);
+  const addressExp = parseAddressPattern(addressPat);
 
-  return new URLFilter(new RegExp(addressExp), new RegExp(removeExp));
+  return new URLFilter(addressExp, removeExp);
 }
 
 // Applies all the loaded filter rules to the given URL. Returns a new URL with tracking parameters
@@ -151,9 +161,10 @@ export function applyAllRules(url: URL): URL {
   const negativeFilters = ALL_NEGATIVE_RULES.filter(filter =>
     filter.addressMatches(url)
   ).map(f => f.removeExp);
+  const negativeFiltersSet = new Set(negativeFilters);
 
   for (const filter of ALL_POSITIVE_RULES) {
-    url = filter.applyWithExceptions(url, negativeFilters);
+    url = filter.applyWithExceptions(url, negativeFiltersSet);
   }
   return url;
 }
