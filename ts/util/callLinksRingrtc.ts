@@ -37,6 +37,7 @@ import {
   toAdminKeyBytes,
 } from './callLinks';
 import { parseStrict } from './schemas';
+import * as Bytes from '../Bytes';
 
 /**
  * RingRTC conversions
@@ -64,7 +65,7 @@ export function callLinkRestrictionsToRingRTC(
 }
 
 export function getRoomIdFromRootKey(rootKey: CallLinkRootKey): string {
-  return rootKey.deriveRoomId().toString('hex');
+  return Bytes.toHex(rootKey.deriveRoomId());
 }
 
 export function getRoomIdFromRootKeyString(rootKeyString: string): string {

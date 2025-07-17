@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { CallLinkRootKey } from '@signalapp/ringrtc';
+import * as Bytes from '../../Bytes';
 import type {
   CallLinkRecord,
   CallLinkStateType,
@@ -221,9 +222,9 @@ export function updateCallLinkAdminKeyByRoomId(
 }
 
 function assertRoomIdMatchesRootKey(roomId: string, rootKey: string): void {
-  const derivedRoomId = CallLinkRootKey.parse(rootKey)
-    .deriveRoomId()
-    .toString('hex');
+  const derivedRoomId = Bytes.toHex(
+    CallLinkRootKey.parse(rootKey).deriveRoomId()
+  );
   strictAssert(
     roomId === derivedRoomId,
     'passed roomId must match roomId derived from root key'

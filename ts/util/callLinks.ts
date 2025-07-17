@@ -69,8 +69,8 @@ export function getPlaceholderCallLinkConversation(
   };
 }
 
-export function toAdminKeyBytes(adminKey: string): Buffer {
-  return Buffer.from(adminKey, 'base64');
+export function toAdminKeyBytes(adminKey: string): Uint8Array {
+  return Bytes.fromBase64(adminKey);
 }
 
 export function fromAdminKeyBytes(adminKey: Uint8Array): string {

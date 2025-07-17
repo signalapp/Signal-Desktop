@@ -135,8 +135,8 @@ importers:
         specifier: 2.1.2
         version: 2.1.2
       '@signalapp/ringrtc':
-        specifier: 2.54.1
-        version: 2.54.1
+        specifier: 2.55.0
+        version: 2.55.0
       '@signalapp/sqlcipher':
         specifier: 2.1.0
         version: 2.1.0
@@ -2780,8 +2780,8 @@ packages:
     resolution: {integrity: sha512-y2sgqdivlrG41J4Zvt/82xtH/PZjDlgItqlD2g/Cv3ZbjlR6cGhTNXbfNygCJB8nXj+C7I28pjt1Zm3k0pv2mg==}
     engines: {npm: '>=8.2.3'}
 
-  '@signalapp/ringrtc@2.54.1':
-    resolution: {integrity: sha512-BcV4ewf3QJl3QAltWS+nImZx4o4k3cTEL1RFnSY8vO1lg9Zc4XkaDJVjbSEWakQR8NorrFIy/nNEf+RKb8kr+g==}
+  '@signalapp/ringrtc@2.55.0':
+    resolution: {integrity: sha512-dXmRc4WucEe3bnEDvSUf2MGrNNS3WkSUbRkP3xYchWKb5g9Afc8ax8ORPGVqD8cp9FHqAydW0OZDyzdnSb9p3A==}
 
   '@signalapp/sqlcipher@2.1.0':
     resolution: {integrity: sha512-SRHiTOBcC25KXM7aZMyDiY2MP5uwsZM1NOIlUZlH0gtR4kTPiLEJqyhomA8II6lhl9BTGc9R2M/GLelQrQhvhw==}
@@ -12498,7 +12498,7 @@ snapshots:
       lodash: 4.17.21
       quill-delta: 5.1.0
 
-  '@signalapp/ringrtc@2.54.1':
+  '@signalapp/ringrtc@2.55.0':
     dependencies:
       https-proxy-agent: 7.0.6
       tar: 6.2.1
