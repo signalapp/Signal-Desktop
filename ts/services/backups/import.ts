@@ -3738,13 +3738,25 @@ export class BackupImportStream extends Writable {
       autoBubbleColor = true;
     }
 
+    // We only roundtrip wallpaper info in tests since it is not synced in storage service
+    const shouldImportWallpaper = isTestOrMockEnvironment();
+
     return {
-      wallpaperPhotoPointer,
-      wallpaperPreset,
       color,
       customColorData,
-      dimWallpaperInDarkMode,
-      autoBubbleColor,
+      ...(shouldImportWallpaper
+        ? {
+            autoBubbleColor,
+            wallpaperPhotoPointer,
+            wallpaperPreset,
+            dimWallpaperInDarkMode,
+          }
+        : {
+            autoBubbleColor: undefined,
+            wallpaperPhotoPointer: undefined,
+            wallpaperPreset: undefined,
+            dimWallpaperInDarkMode: undefined,
+          }),
     };
   }
 

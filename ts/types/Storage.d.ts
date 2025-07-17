@@ -78,12 +78,6 @@ export type StorageAccessType = {
   blocked: ReadonlyArray<string>;
   defaultConversationColor: DefaultConversationColorType;
 
-  // Not used UI, stored as is when imported from backup.
-  defaultWallpaperPhotoPointer: Uint8Array;
-  defaultWallpaperPreset: number;
-  defaultDimWallpaperInDarkMode: boolean;
-  defaultAutoBubbleColor: boolean;
-
   customColors: CustomColorsItemType;
   device_name: string;
   existingOnboardingStoryMessageIds: ReadonlyArray<string> | undefined;
@@ -249,6 +243,13 @@ export type StorageAccessType = {
   postRegistrationSyncsStatus: 'incomplete' | 'complete';
 
   avatarsHaveBeenMigrated: boolean;
+
+  // Test-only
+  // Not used UI, stored as is when imported from backup during tests
+  defaultWallpaperPhotoPointer: Uint8Array;
+  defaultWallpaperPreset: number;
+  defaultDimWallpaperInDarkMode: boolean;
+  defaultAutoBubbleColor: boolean;
 
   // Deprecated
   'challenge:retry-message-ids': never;

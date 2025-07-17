@@ -115,10 +115,11 @@ import { updateToSchemaVersion1360 } from './1360-attachments';
 import { updateToSchemaVersion1370 } from './1370-message-attachment-indexes';
 import { updateToSchemaVersion1380 } from './1380-donation-receipts';
 import { updateToSchemaVersion1390 } from './1390-attachment-download-keys';
+import { updateToSchemaVersion1400 } from './1400-simplify-receipts';
 import {
-  updateToSchemaVersion1400,
+  updateToSchemaVersion1410,
   version as MAX_VERSION,
-} from './1400-simplify-receipts';
+} from './1410-remove-wallpaper';
 
 import { DataWriter } from '../Server';
 
@@ -2113,6 +2114,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion1390,
 
   updateToSchemaVersion1400,
+  updateToSchemaVersion1410,
 ];
 
 export class DBVersionFromFutureError extends Error {
