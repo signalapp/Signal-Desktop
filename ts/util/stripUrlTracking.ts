@@ -23,19 +23,19 @@ var ALL_POSITIVE_RULES: RegExp[] = [];
 // Contains all the negative (ie '@@') rules at the bottom of this file, parsed
 var ALL_NEGATIVE_RULES: RegExp[] = [];
 
-// Removes every instance of `to_remove` from `s`, unless the instance also matches an element of
+// Removes every instance of `toRemove` from `s`, unless the instance also matches an element of
 // `exceptions`
 function removeAllExcept(
   s: string,
-  to_remove: URLFilter,
+  toRemove: URLFilter,
   exceptions: RegExp[]
 ): string {
-  // First make a copy of to_remove with the global flag so we can use replaceAll. Since replaceAll
+  // First make a copy of toRemove with the global flag so we can use replaceAll. Since replaceAll
   // mutates its regex, we don't wanna do this with our stored regexes
-  var to_remove_copy = new RegExp(to_remove, 'g');
+  var toRemoveCopy = new RegExp(toRemove, 'g');
 
-  // Remove all instances of to_remove from s
-  return s.replaceAll(to_remove_copy, match => {
+  // Remove all instances of toRemove from s
+  return s.replaceAll(toRemoveCopy, match => {
     // If anything in exceptions matches this, then do not remove it. Just return the match
     // verbatim.
     for (const exception of exceptions) {
@@ -50,87 +50,72 @@ function removeAllExcept(
 
 // A class that contains the filter rules for a URL
 class URLFilter {
-  constructor(address_exp: RegExp, remove_exp: RegExp) {
-    this.address_exp = address_exp;
-    this.remove_exp = remove_exp;
+  constructor(addressExp: RegExp, removeExp: RegExp) {
+    this.addressExp = addressExp;
+    this.removeExp = removeExp;
   }
 
   // Checks if the address portion of the URL matches the address portion of the filter
-  address_matches(url: URL): boolean {
+  addressMatches(url: URL): boolean {
     // Ensure it's HTTPS, then strip it from the URL
     if (url.protocol != 'https:') {
       throw new Error('can only filter https URLs');
     }
-    const string_to_match = url.toString().slice(8);
+    const stringToMatch = url.toString().slice(8);
 
-    return this.address_exp.test(string_to_match);
+    return this.addressExp.test(stringToMatch);
   }
 
   // Strips the given HTTPS URL params according to this filter. If a param is matched by any RegExp
   // in `exceptions`, it is not stripped.
-  apply_with_exceptions(url: URL, exceptions: RegExp[]): URL {
-    if (this.address_matches(url)) {
+  applyWithExceptions(url: URL, exceptions: RegExp[]): URL {
+    if (this.addressMatches(url)) {
       // Apply the removeparam rule
-      url.search = removeAllExcept(url.search, this.remove_exp, exceptions);
+      url.search = removeAllExcept(url.search, this.removeExp, exceptions);
     }
 
     return url;
   }
 }
 
-// Returns the part of the string before `pat` and after `pat`. If `pat` does not occur, the second
-// output is `null`
-function split_at_first(s: string, pat: RegExp): string[] {
-  let [first, ...rest] = s.split(pat);
-
-  // The array size is 0 if there's no match
-  if (rest.length == 0) {
-    rest = null;
-  } else {
-    // If there was a match, join the elemetns of the array
-    rest = rest.join(pat);
-  }
-  return [first, rest];
-}
-
 // Parses everything to the right of the '=' in a removeparam rule. Returns a matcher for the
 // param(s) that we wish to remove
-function parse_remove_rule(remove_pat: string): RegExp {
+function parseRemoveRule(removePat: string): RegExp {
   // If there is no pattern, it's a naked remove, ie remove everything
-  if (!remove_pat) {
+  if (!removePat) {
     return '.*';
-  } else if (remove_pat.startsWith('/') || remove_pat.startsWith('~')) {
+  } else if (removePat.startsWith('/') || removePat.startsWith('~')) {
     throw new Error('regex removeparam not supported');
   } else {
     // Otherwise the pattern is a literal
-    // Match remove_pat followed by '=' then any number of non-'&' chars, then '&' or end of string
-    return RegExp.escape(remove_pat) + '=[^&]*?' + '(?:&|$)';
+    // Match removePat followed by '=' then any number of non-'&' chars, then '&' or end of string
+    return RegExp.escape(removePat) + '=[^&]*?' + '(?:&|$)';
   }
 }
 
 // Parses the address pattern, ie everything to the left of the '$' in the filter. Returns a regexp
 // for everything in the URL except the protocol.
-function parse_address_pattern(address_pat: string): RegExp {
+function parse_addressPattern(addressPat: string): RegExp {
   // Strip off the "||" if it's there. We only care about http(s) links anyway
-  if (address_pat.startsWith('||')) {
-    address_pat = address_pat.slice(2);
+  if (addressPat.startsWith('||')) {
+    addressPat = addressPat.slice(2);
   }
 
   // Convert all asterisks into non-greedy "whatever" matches
-  var address_exp = RegExp.escape(address_pat);
-  address_exp = address_exp.replaceAll(/\\\*/g, '.*?');
+  var addressExp = RegExp.escape(addressPat);
+  addressExp = addressExp.replaceAll(/\\\*/g, '.*?');
 
   // Convert all carets into separators
-  address_exp = address_exp.replaceAll(/\\\^/g, SEPARATOR);
+  addressExp = addressExp.replaceAll(/\\\^/g, SEPARATOR);
 
-  return address_exp;
+  return addressExp;
 }
 
 // Parses a uBlock-encoded URL filter with `removeparam` rule and returns the corersponding
 // `URLFilter` object
-function parse_rule(s: string): URLFilter {
+function parseRule(s: string): URLFilter {
   // Split s into the part that comes before '$' and after
-  const [address_pat, modifiers] = s.split('$');
+  const [addressPat, modifiers] = s.split('$');
 
   // Parse the modifiers
 
@@ -139,36 +124,36 @@ function parse_rule(s: string): URLFilter {
     .split(',')
     .filter(mod => mod.startsWith('removeparam'))[0];
   // Get the pattern of the removeparam modifier if it exists
-  const remove_pat = remove_modifier.split('=', 2)[1];
-  const remove_exp = parse_remove_rule(remove_pat);
+  const removePat = remove_modifier.split('=', 2)[1];
+  const removeExp = parseRemoveRule(removePat);
 
   // Now parse the address pattern
 
   // We don't handle negative patterns rn
-  if (address_pat.startsWith('@@')) {
+  if (addressPat.startsWith('@@')) {
     throw new Error('cannot handle negative rule');
   }
 
   // If the address pattern doesn't exist, we have everything we need already
-  if (!address_pat) {
-    return new URLFilter(/.*/, new RegExp(remove_exp));
+  if (!addressPat) {
+    return new URLFilter(/.*/, new RegExp(removeExp));
   }
   // Otherwise parse the pattern
-  const address_exp = parse_address_pattern(address_pat);
+  const addressExp = parse_addressPattern(addressPat);
 
-  return new URLFilter(new RegExp(address_exp), new RegExp(remove_exp));
+  return new URLFilter(new RegExp(addressExp), new RegExp(removeExp));
 }
 
 // Applies all the loaded filter rules to the given URL. Returns a new URL with tracking parameters
 // stripped.
 export function applyAllRules(url: URL): URL {
   // Gather negative rules first. Specifically the remove RegExps from the ones that match our path.
-  const negative_filters = ALL_NEGATIVE_RULES.filter(filter =>
-    filter.address_matches(url)
-  ).map(f => f.remove_exp);
+  const negativeFilters = ALL_NEGATIVE_RULES.filter(filter =>
+    filter.addressMatches(url)
+  ).map(f => f.removeExp);
 
   for (const filter of ALL_POSITIVE_RULES) {
-    url = filter.apply_with_exceptions(url, negative_filters);
+    url = filter.applyWithExceptions(url, negativeFilters);
   }
   return url;
 }
@@ -177,31 +162,31 @@ export function applyAllRules(url: URL): URL {
 // This is called at the very bottom of this file.
 function init() {
   // We ignore any lines between !#if and !#endif
-  var in_ifelse_pragma = false;
+  var inIfelsePragma = false;
   // We ignore the line after any !+ pragma
-  var in_oneline_pragma = false;
+  var inOnelinePragma = false;
 
   // Parse every line in RULES
   for (const line of RULES.split('\n')) {
     // See if this line is a parser pragma
     if (line.startsWith('!#if')) {
       // We're in an if-else pragma iff we're between an #!if and #!endif
-      in_ifelse_pragma = true;
+      inIfelsePragma = true;
     } else if (line.startsWith('!#endif')) {
-      in_ifelse_pragma = false;
+      inIfelsePragma = false;
     } else if (line.startsWith('!+')) {
       // This is a !+ pragma (eg "!+ PLATFORM" or "!+ NOT_PLATFORM")
-      in_oneline_pragma = true;
+      inOnelinePragma = true;
     }
 
     // Now decide if we're gonna skip this line
     if (line.startsWith('!')) {
       // Skip comment/pragma lines
       continue;
-    } else if (in_oneline_pragma) {
-      in_oneline_pragma = false;
+    } else if (inOnelinePragma) {
+      inOnelinePragma = false;
       continue;
-    } else if (in_ifelse_pragma) {
+    } else if (inIfelsePragma) {
       // Skip lines in an if-else pragma
       continue;
     } else if (
@@ -217,10 +202,10 @@ function init() {
 
     if (line.startsWith('@@')) {
       // Strip the @@ and parse
-      const filter = parse_rule(line.slice(2));
+      const filter = parseRule(line.slice(2));
       ALL_NEGATIVE_RULES.push(filter);
     } else {
-      const filter = parse_rule(line);
+      const filter = parseRule(line);
       ALL_POSITIVE_RULES.push(filter);
     }
   }
