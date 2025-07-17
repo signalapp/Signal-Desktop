@@ -1,4 +1,15 @@
-import RULES from './url_param_filter.txt'
+let RULES: string;
+
+// In a Webpack context, we can directly import files as strings
+try {
+  RULES = require('./url_param_filter.txt');
+} catch {
+  // If this fails, it's because we're in a Node context (probably for running tests). In this case,
+  // load the file the Node way
+  const fs = require('fs');
+  const path = require('path');
+  RULES = fs.readFileSync(path.join(__dirname, './url_param_filter.txt'), 'utf8');
+}
 
 // A separator is "any character, but a letter, a digit, or one of the following: _ - . %"
 const SEPARATOR: string = "[^a-zA-Z0-9_\\-\\.\\%]";
