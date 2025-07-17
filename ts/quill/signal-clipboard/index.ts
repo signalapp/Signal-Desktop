@@ -9,7 +9,7 @@ import { FormattingMenu, QuillFormattingStyle } from '../formatting/menu';
 import { insertEmojiOps } from '../util';
 import { createEventHandler } from './util';
 import { applyAllRules } from '../../util/stripUrlTracking';
-import { maybeParseUrl } from '../../util/url'
+import { maybeParseUrl } from '../../util/url';
 
 type ClipboardOptions = Readonly<{
   isDisabled: boolean;
@@ -82,7 +82,7 @@ export class SignalClipboard {
     // URL. If so, strip the tracking parameters
     if (text && window.storage.get('autoRemoveUrlTracking', true)) {
       var url = maybeParseUrl(text);
-      if (url && url.protocol == "https:" || url.protocol == "http:") {
+      if ((url && url.protocol == 'https:') || url.protocol == 'http:') {
         text = applyAllRules(url).toString();
       }
     }
