@@ -1488,6 +1488,27 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/preferences/donations/DonateInputCardCvc.tsx",
+    "line": "  const inputRef = useRef<HTMLInputElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-07-17T19:33:27.401Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/preferences/donations/DonateInputCardExp.tsx",
+    "line": "  const inputRef = useRef<HTMLInputElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-07-17T19:33:27.401Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/preferences/donations/DonateInputCardNumber.tsx",
+    "line": "  const inputRef = useRef<HTMLInputElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-07-17T19:33:27.401Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/PreferencesLocalBackups.tsx",
     "line": "  const backupKeyTextareaRef = useRef<HTMLTextAreaElement>(null);",
     "reasonCategory": "usageTrusted",

@@ -19,6 +19,20 @@ import {
   type DonationWorkflow,
   type OneTimeDonationHumanAmounts,
 } from '../types/Donations';
+import type {
+  CardCvcError,
+  CardExpirationError,
+  CardNumberError,
+} from '../types/DonationsCardForm';
+import {
+  cardFormToCardDetail,
+  getCardFormSettings,
+  getPossibleCardFormats,
+  parseCardCvc,
+  parseCardExpiration,
+  parseCardForm,
+  parseCardNumber,
+} from '../types/DonationsCardForm';
 import {
   brandHumanDonationAmount,
   parseCurrencyString,
@@ -29,6 +43,18 @@ import { Input } from './Input';
 import { PreferencesContent } from './Preferences';
 import type { SubmitDonationType } from '../state/ducks/donations';
 import { Select } from './Select';
+import {
+  DonateInputCardNumber,
+  getCardNumberErrorMessage,
+} from './preferences/donations/DonateInputCardNumber';
+import {
+  DonateInputCardExp,
+  getCardExpirationErrorMessage,
+} from './preferences/donations/DonateInputCardExp';
+import {
+  DonateInputCardCvc,
+  getCardCvcErrorMessage,
+} from './preferences/donations/DonateInputCardCvc';
 
 export type PropsDataType = {
   i18n: LocalizerType;
@@ -70,10 +96,58 @@ export function PreferencesDonateFlow({
 
   const [amount, setAmount] = useState<HumanDonationAmount>();
   const [currency, setCurrency] = useState<string>();
-  const [cardExpirationMonth, setCardExpirationMonth] = useState('');
-  const [cardExpirationYear, setCardExpirationYear] = useState('');
+  const [cardExpiration, setCardExpiration] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [cardCvc, setCardCvc] = useState('');
+
+  const [cardNumberError, setCardNumberError] =
+    useState<CardNumberError | null>(null);
+  const [cardExpirationError, setCardExpirationError] =
+    useState<CardExpirationError | null>(null);
+  const [cardCvcError, setCardCvcError] = useState<CardCvcError | null>(null);
+
+  const possibleCardFormats = useMemo(() => {
+    return getPossibleCardFormats(cardNumber);
+  }, [cardNumber]);
+  const cardFormSettings = useMemo(() => {
+    return getCardFormSettings(possibleCardFormats);
+  }, [possibleCardFormats]);
+
+  const handleCardNumberChange = useCallback((value: string) => {
+    setCardNumber(value);
+    setCardNumberError(null);
+  }, []);
+
+  const handleCardNumberBlur = useCallback(() => {
+    if (cardNumber !== '') {
+      const result = parseCardNumber(cardNumber);
+      setCardNumberError(result.error ?? null);
+    }
+  }, [cardNumber]);
+
+  const handleCardExpirationChange = useCallback((value: string) => {
+    setCardExpiration(value);
+    setCardExpirationError(null);
+  }, []);
+
+  const handleCardExpirationBlur = useCallback(() => {
+    if (cardExpiration !== '') {
+      const result = parseCardExpiration(cardExpiration);
+      setCardExpirationError(result.error ?? null);
+    }
+  }, [cardExpiration]);
+
+  const handleCardCvcChange = useCallback((value: string) => {
+    setCardCvc(value);
+    setCardCvcError(null);
+  }, []);
+
+  const handleCardCvcBlur = useCallback(() => {
+    if (cardCvc !== '') {
+      const result = parseCardCvc(cardCvc, possibleCardFormats);
+      setCardCvcError(result.error ?? null);
+    }
+  }, [cardCvc, possibleCardFormats]);
 
   const formattedCurrencyAmount = useMemo<string>(() => {
     return toHumanCurrencyString({ amount, currency });
@@ -92,26 +166,23 @@ export function PreferencesDonateFlow({
     }
 
     const paymentAmount = toStripeDonationAmount({ amount, currency });
+    const formResult = parseCardForm({ cardNumber, cardExpiration, cardCvc });
+
+    setCardNumberError(formResult.cardNumber.error ?? null);
+    setCardExpirationError(formResult.cardExpiration.error ?? null);
+    setCardCvcError(formResult.cardCvc.error ?? null);
+
+    const cardDetail = cardFormToCardDetail(formResult);
+    if (cardDetail == null) {
+      return;
+    }
 
     submitDonation({
       currencyType: currency,
       paymentAmount,
-      paymentDetail: {
-        expirationMonth: cardExpirationMonth,
-        expirationYear: cardExpirationYear,
-        number: cardNumber,
-        cvc: cardCvc,
-      },
+      paymentDetail: cardDetail,
     });
-  }, [
-    amount,
-    cardCvc,
-    cardExpirationMonth,
-    cardExpirationYear,
-    cardNumber,
-    currency,
-    submitDonation,
-  ]);
+  }, [amount, cardCvc, cardExpiration, cardNumber, currency, submitDonation]);
 
   const isDonateDisabled = workflow !== undefined;
 
@@ -158,38 +229,39 @@ export function PreferencesDonateFlow({
           {amount} {currency}
         </pre>
         <label htmlFor="cardNumber">Card Number</label>
-        <Input
+        <DonateInputCardNumber
           id="cardNumber"
-          i18n={i18n}
-          onChange={value => setCardNumber(value)}
-          placeholder="0000000000000000"
-          maxLengthCount={16}
           value={cardNumber}
+          onValueChange={handleCardNumberChange}
+          maxInputLength={cardFormSettings.cardNumber.maxInputLength}
+          onBlur={handleCardNumberBlur}
         />
-        <label htmlFor="cardExpirationMonth">Expiration Month</label>
-        <Input
-          id="cardExpirationMonth"
-          i18n={i18n}
-          onChange={value => setCardExpirationMonth(value)}
-          placeholder="MM"
-          value={cardExpirationMonth}
+        {cardNumberError != null && (
+          <span>{getCardNumberErrorMessage(i18n, cardNumberError)}</span>
+        )}
+        <label htmlFor="cardExpiration">Expiration Date</label>
+        <DonateInputCardExp
+          id="cardExpiration"
+          value={cardExpiration}
+          onValueChange={handleCardExpirationChange}
+          onBlur={handleCardExpirationBlur}
         />
-        <label htmlFor="cardExpirationYear">Expiration Year</label>
-        <Input
-          id="cardExpirationYear"
-          i18n={i18n}
-          onChange={value => setCardExpirationYear(value)}
-          placeholder="YY"
-          value={cardExpirationYear}
-        />
-        <label htmlFor="cardCvc">Cvc</label>
-        <Input
+        {cardExpirationError && (
+          <span>
+            {getCardExpirationErrorMessage(i18n, cardExpirationError)}
+          </span>
+        )}
+        <label htmlFor="cardCvc">{cardFormSettings.cardCvc.label}</label>
+        <DonateInputCardCvc
           id="cardCvc"
-          i18n={i18n}
-          onChange={value => setCardCvc(value)}
-          placeholder="123"
           value={cardCvc}
+          onValueChange={handleCardCvcChange}
+          maxInputLength={cardFormSettings.cardCvc.maxInputLength}
+          onBlur={handleCardCvcBlur}
         />
+        {cardCvcError && (
+          <span>{getCardCvcErrorMessage(i18n, cardCvcError)}</span>
+        )}
         <Button
           disabled={isDonateDisabled}
           onClick={handleDonateClicked}
