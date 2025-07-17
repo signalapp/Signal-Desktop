@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import { applyAllRules } from '../../util/stripUrlTracking';
 
-const TEST_VECTORS: string[][] = [
+const TEST_VECTORS: Array<Array<string>> = [
   // All domains should have igshid stripped
   [
     'https://instagram.com/blasdflkjasdf?igshid=192u34oijserr',
@@ -19,8 +19,8 @@ const TEST_VECTORS: string[][] = [
     'https://luisaviaroma.com/_5@%foo/_@()!bar/p?x=y&lvrid=test',
     'https://luisaviaroma.com/_5@%foo/_@()!bar/p?x=y',
   ],
-  // A `*` in the middle of a path rule should NOT match a `#`, since that indicates the start of
-  // the hash property
+  // A `*` in the middle of a path rule should NOT match a `#`, since that indicates the
+  // start of the hash property
   [
     'https://luisaviaroma.com/_%@#()!bar/p?x=y&lvrid=test',
     'https://luisaviaroma.com/_%@#()!bar/p?x=y&lvrid=test',
@@ -74,13 +74,15 @@ const TEST_VECTORS: string[][] = [
     'https://em.dynamicyield.com/foo/bar?cuid=baz',
     'https://em.dynamicyield.com/foo/bar?cuid=baz',
   ],
-  // Negative rule for `empflix.com` is a naked removeparam. That means absolutely everything must stay
+  // Negative rule for `empflix.com` is a naked removeparam. That means absolutely
+  // everything must stay
   [
     'https://empflix.com/?fbclid=hello&cuid=world',
     'https://empflix.com/?fbclid=hello&cuid=world',
   ],
-  // The stripping shouldn't be too eager. If some undesirable params appear url-encoded in another param, leave them alone
-  // Some other impls don't handle this well, eg https://github.com/AdguardTeam/AdguardBrowserExtension/issues/3076
+  // The stripping shouldn't be too eager. If some undesirable params appear url-encoded
+  // in another param, leave them alone Some other impls don't handle this well, eg
+  // https://github.com/AdguardTeam/AdguardBrowserExtension/issues/3076
   [
     'https://adguardteam.github.io/AnonymousRedirect/redirect.html?url=https%3A%2F%2Fregister.hollywoodbets.net%2Fsouth-africa%2F1%3Futm_source%3DAdCash%26utm_medium%3DDirect%2B%26utm_campaign%3DGenericPopunder',
     'https://adguardteam.github.io/AnonymousRedirect/redirect.html?url=https%3A%2F%2Fregister.hollywoodbets.net%2Fsouth-africa%2F1%3Futm_source%3DAdCash%26utm_medium%3DDirect%2B%26utm_campaign%3DGenericPopunder',

@@ -58,7 +58,7 @@ export class SignalClipboard {
 
     const { clipboard } = this.quill;
     const selection = this.quill.getSelection();
-    var text = event.clipboardData.getData('text/plain');
+    let text = event.clipboardData.getData('text/plain');
     const signal = event.clipboardData.getData('text/signal');
 
     const clipboardContainsFiles = event.clipboardData.files?.length > 0;
@@ -78,11 +78,11 @@ export class SignalClipboard {
       return;
     }
 
-    // If URL tracking parameter stripping is enabled, see if the pasted text is an HTTPS or HTTP
-    // URL. If so, strip the tracking parameters
+    // If URL tracking parameter stripping is enabled, see if the pasted text is an HTTPS
+    // or HTTP URL. If so, strip the tracking parameters
     if (text && window.storage.get('autoRemoveUrlTracking', true)) {
-      var url = maybeParseUrl(text);
-      if (url && (url.protocol == 'https:' || url.protocol == 'http:')) {
+      const url = maybeParseUrl(text);
+      if (url && (url.protocol === 'https:' || url.protocol === 'http:')) {
         text = applyAllRules(url).toString();
       }
     }

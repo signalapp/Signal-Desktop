@@ -1,11 +1,12 @@
 let RULES: string;
 
+/* eslint-disable global-require, @typescript-eslint/no-var-requires */
 // In a Webpack context, we can directly import files as strings
 try {
   RULES = require('./url_param_filter.txt');
 } catch {
-  // If this fails, it's because we're in a Node context (probably for running tests). In this case,
-  // load the file the Node way
+  // If this fails, it's because we're in a Node context (probably for running tests). In
+  // this case, load the file the Node way
   const fs = require('fs');
   const path = require('path');
   RULES = fs.readFileSync(
@@ -14,21 +15,22 @@ try {
   );
 }
 
-/// Placeholder value we use to represent a naked removeparam modifier, ie one that indicates to
-// remove all parameters. The '=' here make it so it's impossible that this collides with a real
-// rule in a filter file.
+// Placeholder value we use to represent a naked removeparam modifier, ie one that
+// indicates to remove all parameters. The '=' here make it so it's impossible that this
+// collides with a real rule in a filter file.
 const WILDCARD_REMOVEPARAM = '=REMOVE ALL=';
 
 // A separator is "any character, but a letter, a digit, or one of the following: _ - . %"
 const SEPARATOR: string = '[^a-zA-Z0-9_\\-\\.\\%]';
 
 // Contains all the positive (ie non-'@@') rules at the bottom of this file, parsed
-var ALL_POSITIVE_RULES: URLFilter[] = [];
+const ALL_POSITIVE_RULES: Array<URLFilter> = [];
 
 // Contains all the negative (ie '@@') rules at the bottom of this file, parsed
-var ALL_NEGATIVE_RULES: URLFilter[] = [];
+const ALL_NEGATIVE_RULES: Array<URLFilter> = [];
 
-// Removes the parameter `toRemove` from `url` unless there is also a match in `exceptions`
+// Removes the parameter `toRemove` from `url` unless there is also a match in
+// `exceptions`
 function removeParamsExcept(
   url: URL,
   paramToRemove: string,
@@ -39,21 +41,22 @@ function removeParamsExcept(
     return url;
   }
 
-  // Otehrwise see what we can remove
+  // Otherwise see what we can remove
 
-  if (paramToRemove == WILDCARD_REMOVEPARAM) {
-    // If it's a wildcard, delete all the search params except those that appear in exceptions
+  if (paramToRemove === WILDCARD_REMOVEPARAM) {
+    // If it's a wildcard, delete all the search params except those that appear in
+    // exceptions
     for (const param of url.searchParams.keys()) {
       if (!exceptions.has(param)) {
         url.searchParams.delete(param);
       }
     }
-  } else {
-    // If it's a literal and none of the exceptions have the same literal, we're good to delete
-    if (!exceptions.has(paramToRemove)) {
-      url.searchParams.delete(paramToRemove);
-    }
+  } else if (!exceptions.has(paramToRemove)) {
+    // If it's a literal and none of the exceptions have the same literal, we're good to
+    // delete
+    url.searchParams.delete(paramToRemove);
   }
+  // Otherwise don't delete anything
 
   return url;
 }
@@ -71,7 +74,7 @@ class URLFilter {
   // Checks if the address portion of the URL matches the address portion of the filter
   addressMatches(url: URL): boolean {
     // Ensure it's HTTPS, then strip it from the URL
-    if (url.protocol != 'https:') {
+    if (url.protocol !== 'https:') {
       throw new Error('can only filter https URLs');
     }
     const stringToMatch = url.toString().slice(8);
@@ -79,15 +82,14 @@ class URLFilter {
     return this.addressExp.test(stringToMatch);
   }
 
-  // Strips the given HTTPS URL params according to this filter. If a param is matched by any
-  // matcher in `exceptions`, it is not stripped.
+  // Strips the given HTTPS URL params according to this filter. If a param is matched by
+  // any matcher in `exceptions`, it is not stripped.
   applyWithExceptions(url: URL, exceptions: Set<string>): URL {
     if (this.addressMatches(url)) {
       // Apply the removeparam rule
       return removeParamsExcept(url, this.removeExp, exceptions);
-    } else {
-      return url;
     }
+    return url;
   }
 }
 
@@ -96,31 +98,29 @@ function escapeRegExp(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-// Parses everything to the right of the '=' in a removeparam rule. Returns either a literal string
-// for the parameter to be removed, or WILDCARD_REMOVEPARAM if it's a naked removeparam, ie one that
-// matches everything.
+// Parses everything to the right of the '=' in a removeparam rule. Returns either a
+// literal string for the parameter to be removed, or WILDCARD_REMOVEPARAM if it's a naked
+// removeparam, ie one that matches everything.
 function parseRemoveRule(removePat: string): string {
   if (!removePat) {
     // If there is no pattern, it's a naked remove, ie remove everything
     return WILDCARD_REMOVEPARAM;
-  } else if (removePat.startsWith('/') || removePat.startsWith('~')) {
-    throw new Error('regex removeparam not supported');
-  } else {
-    // Otherwise the pattern is a literal
-    return removePat;
   }
+  if (removePat.startsWith('/') || removePat.startsWith('~')) {
+    throw new Error('regex removeparam not supported');
+  }
+  // Otherwise the pattern is a literal
+  return removePat;
 }
 
-// Parses the address pattern, ie everything to the left of the '$' in the filter. Returns a regexp
-// for everything in the URL except the protocol.
+// Parses the address pattern, ie everything to the left of the '$' in the filter. Returns
+// a regexp for everything in the URL except the protocol.
 function parseAddressPattern(addressPat: string): RegExp {
   // Strip off the "||" if it's there. We only care about http(s) links anyway
-  if (addressPat.startsWith('||')) {
-    addressPat = addressPat.slice(2);
-  }
+  const pat = addressPat.startsWith('||') ? addressPat.slice(2) : addressPat;
 
   // Convert all asterisks into wildcard matches
-  var addressExp = escapeRegExp(addressPat);
+  let addressExp = escapeRegExp(pat);
   addressExp = addressExp.replaceAll(/\\\*/g, '.*');
 
   // Convert all carets into separators
@@ -129,8 +129,8 @@ function parseAddressPattern(addressPat: string): RegExp {
   return new RegExp(addressExp);
 }
 
-// Parses a uBlock-encoded URL filter with `removeparam` rule and returns the corersponding
-// `URLFilter` object
+// Parses a uBlock-encoded URL filter with `removeparam` rule and returns the
+// corersponding `URLFilter` object
 function parseRule(s: string): URLFilter {
   // Split s into the part that comes before '$' and after
   const [addressPat, modifiers] = s.split('$');
@@ -162,28 +162,31 @@ function parseRule(s: string): URLFilter {
   return new URLFilter(addressExp, removeExp);
 }
 
-// Applies all the loaded filter rules to the given URL. Returns a new URL with tracking parameters
-// stripped.
+// Applies all the loaded filter rules to the given URL. Returns a new URL with tracking
+// parameters stripped.
 export function applyAllRules(url: URL): URL {
-  // Gather negative rules first. Specifically the remove RegExps from the ones that match our path.
+  // Gather negative rules first. Specifically the remove RegExps from the ones that match
+  // our path.
   const negativeFilters = ALL_NEGATIVE_RULES.filter(filter =>
     filter.addressMatches(url)
   ).map(f => f.removeExp);
   const negativeFiltersSet = new Set(negativeFilters);
 
+  // Apply all the rules to the URL
+  let newUrl = url;
   for (const filter of ALL_POSITIVE_RULES) {
-    url = filter.applyWithExceptions(url, negativeFiltersSet);
+    newUrl = filter.applyWithExceptions(newUrl, negativeFiltersSet);
   }
-  return url;
+  return newUrl;
 }
 
-// Parses all the rules from RULES and puts them in ALL_POSITIVE_RULES and ALL_NEGATIVE_RULES.
-// This is called at the very bottom of this file.
+// Parses all the rules from RULES and puts them in ALL_POSITIVE_RULES and
+// ALL_NEGATIVE_RULES. This is called at the very bottom of this file.
 function init() {
   // We ignore any lines between !#if and !#endif
-  var inIfelsePragma = false;
+  let inIfelsePragma = false;
   // We ignore the line after any !+ pragma
-  var inOnelinePragma = false;
+  let inOnelinePragma = false;
 
   // Parse every line in RULES
   for (const line of RULES.split('\n')) {
