@@ -7,7 +7,7 @@ import { action } from '@storybook/addon-actions';
 
 import type { Props } from './StagedLinkPreview';
 import { StagedLinkPreview } from './StagedLinkPreview';
-import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
+import { fakeAttachment } from '../../test-helpers/fakeAttachment';
 import { IMAGE_JPEG } from '../../types/MIME';
 
 const LONG_TITLE =

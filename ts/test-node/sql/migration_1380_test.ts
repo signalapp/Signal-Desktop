@@ -65,7 +65,5 @@ describe('SQL/updateToSchemaVersion1380', () => {
     const details = explain(db, template);
     assert.include(details, 'USING INDEX donationReceipts_byTimestamp');
     assert.notInclude(details, 'TEMP B-TREE');
-    // TODO: are we actually okay with a SCAN?
-    // assert.notInclude(details, 'SCAN');
   });
 });

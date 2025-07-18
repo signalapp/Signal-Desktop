@@ -15,10 +15,10 @@ import { generateAci } from '../types/ServiceId';
 import {
   getDefaultConversation,
   getDefaultConversationWithServiceId,
-} from '../test-both/helpers/getDefaultConversation';
+} from '../test-helpers/getDefaultConversation';
 import { CallingToastProvider } from './CallingToast';
 import { CallMode } from '../types/CallDisposition';
-import { getDefaultCallLinkConversation } from '../test-both/helpers/fakeCallLink';
+import { getDefaultCallLinkConversation } from '../test-helpers/fakeCallLink';
 
 const { i18n } = window.SignalContext;
 

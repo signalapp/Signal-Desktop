@@ -305,9 +305,6 @@
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "Настройки"
   },
-  "icu:NavTabs__ItemLabel--Update": {
-    "messageformat": "Обновить Signal"
-  },
   "icu:NavTabs__ItemLabel--Profile": {
     "messageformat": "Профиль"
   },
@@ -605,6 +602,12 @@
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
+  "icu:Toast--ReceiptSaved": {
+    "messageformat": "Квитанция сохранена"
+  },
+  "icu:Toast--ReceiptSaveFailed": {
+    "messageformat": "Ошибка сохранения квитанции. Пожалуйста, попробуйте ещё раз."
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Вы не можете выбирать фото и видео вместе с файлами."
   },
@@ -664,9 +667,6 @@
   },
   "icu:joinTheBeta": {
     "messageformat": "Присоединиться к бета-версии"
-  },
-  "icu:signalDesktopPreferences": {
-    "messageformat": "Параметры Signal Desktop"
   },
   "icu:signalDesktopStickerCreator": {
     "messageformat": "Редактор наборов стикеров"
@@ -1285,6 +1285,168 @@
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "Оттенок кожи на эмодзи"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
+    "messageformat": "Папки чатов"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
+    "messageformat": "Добавить папку чата"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
+    "messageformat": "Организуйте свои чаты в папки и быстро переключайтесь между ними в списке чатов."
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
+    "messageformat": "Изменить папку"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__DeleteFolder": {
+    "messageformat": "Удалить"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Title": {
+    "messageformat": "Удалить папку?"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Description": {
+    "messageformat": "Хотите удалить папку «{chatFolderTitle}»?"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
+    "messageformat": "Удалить"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
+    "messageformat": "Отменить"
+  },
+  "icu:Preferences__ChatFoldersPage__Title": {
+    "messageformat": "Папки чатов"
+  },
+  "icu:Preferences__ChatFoldersPage__Description": {
+    "messageformat": "Организуйте свои чаты в папки и быстро переключайтесь между ними в списке чатов"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__Title": {
+    "messageformat": "Папки"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__AllChatsFolder__Title": {
+    "messageformat": "Все чаты"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
+    "messageformat": "Создать папку"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
+    "messageformat": "Рекомендуемые папки"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
+    "messageformat": "Добавить"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
+    "messageformat": "Папка добавлена: {chatFolderTitle}"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
+    "messageformat": "Не прочитано"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Description": {
+    "messageformat": "Непрочитанные сообщения из всех чатов"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Title": {
+    "messageformat": "Личные чаты"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Description": {
+    "messageformat": "Только сообщения из личных чатов"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Title": {
+    "messageformat": "Группы"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Description": {
+    "messageformat": "Только сообщения из групповых чатов"
+  },
+  "icu:Preferences__EditChatFolderPage__Title": {
+    "messageformat": "Создать папку"
+  },
+  "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
+    "messageformat": "Имя папки"
+  },
+  "icu:Preferences__EditChatFolderPage__FolderNameField__Placeholder": {
+    "messageformat": "Название папки (обязательно)"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Title": {
+    "messageformat": "Чаты в папке"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
+    "messageformat": "Выберите чаты, которые хотите видеть в этой папке"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
+    "messageformat": "Добавить чаты"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog--IncludedChats__Title": {
+    "messageformat": "Чаты в папке"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog--ExcludedChats__Title": {
+    "messageformat": "Исключить чаты"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
+    "messageformat": "Поиск"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
+    "messageformat": "Типы чатов"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__DirectChats": {
+    "messageformat": "Личные чаты"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__GroupChats": {
+    "messageformat": "Группы"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__RecentChats__Title": {
+    "messageformat": "Недавние чаты"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__DoneButton": {
+    "messageformat": "Готово"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__Title": {
+    "messageformat": "Исключения"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__Help": {
+    "messageformat": "Выберите чаты, которые не должны отображаться в этой папке"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__ExcludeChatsButton": {
+    "messageformat": "Исключить чаты"
+  },
+  "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Label": {
+    "messageformat": "Показывать только непрочитанные чаты"
+  },
+  "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Description": {
+    "messageformat": "В этой папке будут отображаться только чаты с непрочитанными сообщениями."
+  },
+  "icu:Preferences__EditChatFolderPage__IncludeMutedChatsCheckbox__Label": {
+    "messageformat": "Учитывать беззвучные чаты"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteFolderButton": {
+    "messageformat": "Удалить папку"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Title": {
+    "messageformat": "Удалить эту папку чата?"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Description": {
+    "messageformat": "Эта папка будет удалена из вашего списка чатов."
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
+    "messageformat": "Удалить"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
+    "messageformat": "Отменить"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
+    "messageformat": "Сохранить изменения?"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Description": {
+    "messageformat": "Вы хотите сохранить изменения, которые внесли в эту папку чата?"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__SaveButton": {
+    "messageformat": "Сохранить"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__DiscardButton": {
+    "messageformat": "Сбросить"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveButton": {
+    "messageformat": "Сохранить"
+  },
+  "icu:Preferences__EditChatFolderPage__CancelButton": {
+    "messageformat": "Отменить"
   },
   "icu:initialSync": {
     "messageformat": "Синхронизация контактов и групп"
@@ -4026,10 +4188,10 @@
     "messageformat": "Повторить попытку"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
-    "messageformat": "Восстановление медиафайлов"
+    "messageformat": "Синхронизация медиафайлов"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Восстановление приостановлено"
+    "messageformat": "Синхронизация приостановлена"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
     "messageformat": "{currentSize} из {totalSize} восстановлено"
@@ -4044,13 +4206,13 @@
     "messageformat": "Ожидаем подключение к интернету..."
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Приостановить трансфер"
+    "messageformat": "Пауза"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Продолжить трансфер"
+    "messageformat": "Возобновить"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
-    "messageformat": "Отменить трансфер"
+    "messageformat": "Отменить синхронизацию"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
     "messageformat": "Больше опций"
@@ -4062,16 +4224,34 @@
     "messageformat": "{currentSize} из {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Отменить трансфер медиафайлов?"
+    "messageformat": "Отменить синхронизацию медиафайлов?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "Восстановление сообщений и медиафайлов не завершено. Если вы решите отменить трансфер, то сможете снова запустить его в настройках."
+    "messageformat": "Синхронизация медиафайлов не завершена. Если вы решите отменить синхронизацию, то сможете выполнить её повторно, снова привязав это устройство. <learnMoreLink>Узнать больше</learnMoreLink>."
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "Продолжить трансфер"
+    "messageformat": "Продолжить синхронизацию"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
-    "messageformat": "Отменить трансфер"
+    "messageformat": "Отменить синхронизацию"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--title": {
+    "messageformat": "Синхронизация приостановлена"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--description": {
+    "messageformat": "Нажмите «{resumeButtonText}», чтобы продолжить синхронизацию"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-resume": {
+    "messageformat": "Возобновить"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-pause": {
+    "messageformat": "Пауза"
+  },
+  "icu:BackupMediaDownloadProgressSettings__title-in-progress": {
+    "messageformat": "Синхронизация медиафайлов"
+  },
+  "icu:BackupMediaDownloadProgressSettings__progressbar-hint": {
+    "messageformat": "{currentSize} из {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
     "messageformat": "Требуются действия с учётной записью"
@@ -5082,7 +5262,7 @@
     "messageformat": "Резервное копирование Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Автоматическое создание резервных копий с помощью надёжного, полностью зашифрованного хранилища Signal. Начните с вашего телефона. <learnMoreLink>Узнать больше</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Создайте резервную копию истории сообщений, и вы не потеряете ни одно сообщение при покупке нового телефона или переустановке Signal."
@@ -5125,9 +5305,6 @@
   },
   "icu:Preferences--backup-created-by-phone": {
     "messageformat": "Ваш телефон"
-  },
-  "icu:Preferences--backup-size__label": {
-    "messageformat": "Размер резервной копии"
   },
   "icu:Preferences__local-backups": {
     "messageformat": "Резервное копирование на ПК"
@@ -6114,9 +6291,6 @@
   "icu:UsernameLinkModalBody__reset": {
     "messageformat": "Сбросить"
   },
-  "icu:UsernameLinkModalBody__done": {
-    "messageformat": "Готово"
-  },
   "icu:UsernameLinkModalBody__color__radio": {
     "messageformat": "Цвет ссылки на имя пользователя, {index,number} из {total,number}"
   },
@@ -6444,6 +6618,105 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "Что нового"
   },
+  "icu:PreferencesDonations__title": {
+    "messageformat": "Конфиденциальность превыше прибыли"
+  },
+  "icu:PreferencesDonations__description": {
+    "messageformat": "Безопасный мессенджер, существующий благодаря вашей поддержке. Без рекламы, без трекеров, без компромиссов. Пожертвуйте сейчас, чтобы поддержать Signal. <learnMoreLink>Узнать больше</learnMoreLink>"
+  },
+  "icu:PreferencesDonations__donate-button": {
+    "messageformat": "Пожертвовать"
+  },
+  "icu:PreferencesDonations__donate-button-with-amount": {
+    "messageformat": "Donate {formattedCurrencyAmount}"
+  },
+  "icu:PreferencesDonations__mobile-info": {
+    "messageformat": "Значками и ежемесячными пожертвованиями можно управлять на своём мобильном устройстве."
+  },
+  "icu:PreferencesDonations__receipts": {
+    "messageformat": "Квитанции"
+  },
+  "icu:PreferencesDonations__faqs": {
+    "messageformat": "ЧаВо о пожертвованиях"
+  },
+  "icu:PreferencesDonations--receiptList__info": {
+    "messageformat": "Квитанции не синхронизируются между устройствами. Если вы переустановили Signal, квитанции о ранее сделанных пожертвованиях не будут доступны."
+  },
+  "icu:PreferencesDonations--receiptList__empty-title": {
+    "messageformat": "Нет квитанций"
+  },
+  "icu:PreferencesDonations__ReceiptModal--title": {
+    "messageformat": "Подробнее"
+  },
+  "icu:PreferencesDonations__ReceiptModal--download": {
+    "messageformat": "Загрузить квитанцию"
+  },
+  "icu:PreferencesDonations__ReceiptModal--type-label": {
+    "messageformat": "Тип"
+  },
+  "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
+    "messageformat": "Дата оплаты"
+  },
+  "icu:DonationReceipt__title": {
+    "messageformat": "Квитанция о пожертвовании"
+  },
+  "icu:DonationReceipt__amount-label": {
+    "messageformat": "Сумма"
+  },
+  "icu:DonationReceipt__type-label": {
+    "messageformat": "Тип"
+  },
+  "icu:DonationReceipt__date-paid-label": {
+    "messageformat": "Дата оплаты"
+  },
+  "icu:DonationReceipt__type-value--one-time": {
+    "messageformat": "Один раз"
+  },
+  "icu:DonationReceipt__footer-text": {
+    "messageformat": "Спасибо, что поддерживаете Signal. Ваш вклад помогает поддерживать миссию по защите свободы слова и делает возможным безопасное общение между миллионами людей по всему миру благодаря технологии конфиденциальности с открытым исходным кодом. Если вы проживаете в США, пожалуйста, сохраните эту квитанцию для своего налогового учёта. Signal Technology Foundation — это некоммерческая организация, освобождённая от налогов в США со статусом 501c3. Наш ИНН: 82–4506840."
+  },
+  "icu:Donations__PaymentMethodDeclined": {
+    "messageformat": "Payment method declined"
+  },
+  "icu:Donations__PaymentMethodDeclined__Description": {
+    "messageformat": "Try another payment method or contact your bank for more information."
+  },
+  "icu:Donations__ErrorProcessingDonation": {
+    "messageformat": "Error processing donation"
+  },
+  "icu:Donations__ErrorProcessingDonation__Description": {
+    "messageformat": "Try another payment method or contact your bank for more information."
+  },
+  "icu:Donations__Failed3dsValidation": {
+    "messageformat": "Verification Failed"
+  },
+  "icu:Donations__Failed3dsValidation__Description": {
+    "messageformat": "Additional verification step failed. Please try again."
+  },
+  "icu:Donations__GenericError": {
+    "messageformat": "An error occurred with your donation"
+  },
+  "icu:Donations__GenericError__Description": {
+    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+  },
+  "icu:Donations__Processing": {
+    "messageformat": "Processing donation..."
+  },
+  "icu:Donations__StillProcessing": {
+    "messageformat": "Still processing"
+  },
+  "icu:Donations__StillProcessing__Description": {
+    "messageformat": "Your donation is still being processed. This can take a few minutes."
+  },
+  "icu:Donations__3dsValidationNeeded": {
+    "messageformat": "Additional verification required"
+  },
+  "icu:Donations__3dsValidationNeeded__Description": {
+    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+  },
+  "icu:Donations__3dsValidationNeeded__OpenBrowser": {
+    "messageformat": "Open browser"
+  },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Эта версия содержит несколько небольших изменений и исправлений ошибок.",
     "ignoreUnused": true
@@ -6477,5 +6750,11 @@
   },
   "icu:WhatsNew__v7.59--0": {
     "messageformat": "Это обновление активирует ускорение графического процессора в Linux для повышения производительности и более плавного воспроизведения видео на поддерживаемом оборудовании."
+  },
+  "icu:WhatsNew__v7.61--0": {
+    "messageformat": "Это обновление повышает качество и надёжность аудио во время голосовых и видеозвонков, а также улучшает автоматическую настройку подключённых микрофонов и динамиков. Спасибо <padenot></padenot>, <kinetiknz></kinetiknz> и <Pehrsons></Pehrsons> из Mozilla за помощь в работе над этим проектом."
+  },
+  "icu:WhatsNew__v7.62--0": {
+    "messageformat": "Мы исправили редкую ошибку, из-за которой некоторые контакты могли синхронизироваться некорректно."
   }
 }

@@ -6,13 +6,21 @@ import { Response } from 'node-fetch';
 import * as sinon from 'sinon';
 import * as fs from 'fs';
 import * as path from 'path';
-import { IMAGE_JPEG, stringToMIMEType } from '../../types/MIME';
+import { IMAGE_JPEG, IMAGE_WEBP, stringToMIMEType } from '../../types/MIME';
 import type { LoggerType } from '../../types/Logging';
 
 import {
   fetchLinkPreviewImage,
   fetchLinkPreviewMetadata,
 } from '../../linkPreviews/linkPreviewFetch';
+
+async function readFixtureImage(filename: string): Promise<Uint8Array> {
+  const result = await fs.promises.readFile(
+    path.join(__dirname, '..', '..', '..', 'fixtures', filename)
+  );
+  assert(result.length > 10, `Test failed to read fixture ${filename}`);
+  return result;
+}
 
 describe('link preview fetching', () => {
   // We'll use this to create a fake `fetch`. We'll want to call `.resolves` or
@@ -114,7 +122,7 @@ describe('link preview fetching', () => {
           title: 'test title',
           description: 'test description',
           date: 1587386096009,
-          imageHref: 'https://example.com/image.jpg',
+          image: 'https://example.com/image.jpg',
         }
       );
     });
@@ -170,7 +178,7 @@ describe('link preview fetching', () => {
         );
         assert.propertyVal(
           val,
-          'imageHref',
+          'image',
           orderedImageHrefSources[i].expectedHref
         );
       }
@@ -297,7 +305,7 @@ describe('link preview fetching', () => {
             title: 'test title',
             description: null,
             date: null,
-            imageHref: null,
+            image: null,
           }
         );
 
@@ -347,7 +355,7 @@ describe('link preview fetching', () => {
           title: 'test title',
           description: null,
           date: null,
-          imageHref: null,
+          image: null,
         }
       );
 
@@ -502,7 +510,7 @@ describe('link preview fetching', () => {
           title: 'test title',
           description: null,
           date: null,
-          imageHref: null,
+          image: null,
         }
       );
     });
@@ -547,7 +555,7 @@ describe('link preview fetching', () => {
           title: 'test title',
           description: null,
           date: null,
-          imageHref: null,
+          image: null,
         }
       );
     });
@@ -577,7 +585,7 @@ describe('link preview fetching', () => {
           title: '🎉',
           description: null,
           date: null,
-          imageHref: null,
+          image: null,
         }
       );
     });
@@ -874,7 +882,7 @@ describe('link preview fetching', () => {
           title: 'foo bar',
           description: null,
           date: null,
-          imageHref: null,
+          image: null,
         }
       );
 
@@ -1009,7 +1017,7 @@ describe('link preview fetching', () => {
           'https://example.com',
           new AbortController().signal
         ),
-        'imageHref',
+        'image',
         'https://example.com/image.jpg'
       );
     });
@@ -1030,7 +1038,7 @@ describe('link preview fetching', () => {
           'https://example.com',
           new AbortController().signal
         ),
-        'imageHref',
+        'image',
         'https://example.com/assets/image.jpg'
       );
     });
@@ -1052,7 +1060,7 @@ describe('link preview fetching', () => {
           'https://foo.example',
           new AbortController().signal
         ),
-        'imageHref',
+        'image',
         'https://bar.example/assets/image.jpg'
       );
     });
@@ -1073,7 +1081,7 @@ describe('link preview fetching', () => {
           'https://example.com',
           new AbortController().signal
         ),
-        'imageHref',
+        'image',
         null
       );
     });
@@ -1094,21 +1102,42 @@ describe('link preview fetching', () => {
           'https://example.com',
           new AbortController().signal
         ),
-        'imageHref',
+        'image',
         null
       );
+    });
+
+    it('handles being given an image URL directly', async () => {
+      const fixture = await readFixtureImage('512x515-thumbs-up-lincoln.webp');
+      const fakeFetch = stub().resolves(
+        new Response(fixture, {
+          headers: {
+            'Content-Type': IMAGE_WEBP,
+            'Content-Length': fixture.length.toString(),
+          },
+          url: 'https://example.com/d/lincoln.webp?spurious=true',
+        })
+      );
+
+      const result = await fetchLinkPreviewMetadata(
+        fakeFetch,
+        'https://example.com/d/lincoln.webp?spurious=true',
+        new AbortController().signal
+      );
+      assert.hasAllDeepKeys(result, {
+        title: 'lincoln.webp',
+        description: null,
+        date: null,
+        image: {
+          contentType: IMAGE_WEBP,
+        },
+      });
+      assert(typeof result?.image === 'object');
+      assert.isNotEmpty(result?.image?.data);
     });
   });
 
   describe('fetchLinkPreviewImage', () => {
-    const readFixture = async (filename: string): Promise<Uint8Array> => {
-      const result = await fs.promises.readFile(
-        path.join(__dirname, '..', '..', '..', 'fixtures', filename)
-      );
-      assert(result.length > 10, `Test failed to read fixture ${filename}`);
-      return result;
-    };
-
     [
       {
         title: 'JPEG',
@@ -1118,6 +1147,12 @@ describe('link preview fetching', () => {
       {
         title: 'PNG',
         contentType: 'image/png',
+        fixtureFilename: '20x200-yellow.png',
+      },
+      {
+        title: 'Large PNG',
+        contentType: 'image/png',
+        scaledContentType: 'image/jpeg',
         fixtureFilename:
           'freepngs-2cd43b_bed7d1327e88454487397574d87b64dc_mv2.png',
       },
@@ -1136,9 +1171,9 @@ describe('link preview fetching', () => {
         contentType: 'image/x-icon',
         fixtureFilename: 'kitten-1-64-64.ico',
       },
-    ].forEach(({ title, contentType, fixtureFilename }) => {
+    ].forEach(({ title, contentType, scaledContentType, fixtureFilename }) => {
       it(`handles ${title} images`, async () => {
-        const fixture = await readFixture(fixtureFilename);
+        const fixture = await readFixtureImage(fixtureFilename);
 
         const fakeFetch = stub().resolves(
           new Response(fixture, {
@@ -1157,7 +1192,7 @@ describe('link preview fetching', () => {
               new AbortController().signal
             )
           )?.contentType,
-          stringToMIMEType(contentType)
+          stringToMIMEType(scaledContentType ?? contentType)
         );
       });
     });
@@ -1182,7 +1217,7 @@ describe('link preview fetching', () => {
     });
 
     it("returns null if the response status code isn't 2xx", async () => {
-      const fixture = await readFixture('kitten-1-64-64.jpg');
+      const fixture = await readFixtureImage('kitten-1-64-64.jpg');
 
       await Promise.all(
         [400, 404, 500, 598].map(async status => {
@@ -1215,7 +1250,7 @@ describe('link preview fetching', () => {
 
     // Most of the redirect behavior is tested above.
     it('handles 301 redirects', async () => {
-      const fixture = await readFixture('kitten-1-64-64.jpg');
+      const fixture = await readFixtureImage('kitten-1-64-64.jpg');
 
       const fakeFetch = stub();
       fakeFetch.onFirstCall().resolves(
@@ -1256,7 +1291,7 @@ describe('link preview fetching', () => {
 
     it('returns null if the response is too small', async () => {
       const fakeFetch = stub().resolves(
-        new Response(await readFixture('kitten-1-64-64.jpg'), {
+        new Response(await readFixtureImage('kitten-1-64-64.jpg'), {
           headers: {
             'Content-Type': 'image/jpeg',
             'Content-Length': '2',
@@ -1282,7 +1317,7 @@ describe('link preview fetching', () => {
 
     it('returns null if the response is too large', async () => {
       const fakeFetch = stub().resolves(
-        new Response(await readFixture('kitten-1-64-64.jpg'), {
+        new Response(await readFixtureImage('kitten-1-64-64.jpg'), {
           headers: {
             'Content-Type': 'image/jpeg',
             'Content-Length': '123456789',
@@ -1307,7 +1342,7 @@ describe('link preview fetching', () => {
     });
 
     it('returns null if the Content-Type is not a valid image', async () => {
-      const fixture = await readFixture('kitten-1-64-64.jpg');
+      const fixture = await readFixtureImage('kitten-1-64-64.jpg');
 
       await Promise.all(
         ['', 'image/tiff', 'video/mp4', 'text/plain', 'application/html'].map(
@@ -1362,7 +1397,7 @@ describe('link preview fetching', () => {
     it("doesn't read the image if the request was aborted before reading started", async () => {
       const abortController = new AbortController();
 
-      const fixture = await readFixture('kitten-1-64-64.jpg');
+      const fixture = await readFixtureImage('kitten-1-64-64.jpg');
 
       const fakeFetch = stub().callsFake(() => {
         const response = new Response(fixture, {
@@ -1397,7 +1432,7 @@ describe('link preview fetching', () => {
     it('returns null if the request was aborted after the image was read', async () => {
       const abortController = new AbortController();
 
-      const fixture = await readFixture('kitten-1-64-64.jpg');
+      const fixture = await readFixtureImage('kitten-1-64-64.jpg');
 
       const fakeFetch = stub().callsFake(() => {
         const response = new Response(fixture, {

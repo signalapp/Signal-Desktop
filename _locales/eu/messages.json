@@ -305,9 +305,6 @@
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "Ezarpenak"
   },
-  "icu:NavTabs__ItemLabel--Update": {
-    "messageformat": "Eguneratu Signal"
-  },
   "icu:NavTabs__ItemLabel--Profile": {
     "messageformat": "Profila"
   },
@@ -605,6 +602,12 @@
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
+  "icu:Toast--ReceiptSaved": {
+    "messageformat": "Gorde da ordainagiria"
+  },
+  "icu:Toast--ReceiptSaveFailed": {
+    "messageformat": "Errore bat gertatu da irakurragiria gordetzean. Saiatu berriro."
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Fitxategiekin batera, ezin dituzu hautatu argazki eta bideoak."
   },
@@ -664,9 +667,6 @@
   },
   "icu:joinTheBeta": {
     "messageformat": "Beta bertsioa erabili"
-  },
-  "icu:signalDesktopPreferences": {
-    "messageformat": "Signal Desktop Hobespenak"
   },
   "icu:signalDesktopStickerCreator": {
     "messageformat": "Eranskailuen paketeak sortzeko tresna"
@@ -1285,6 +1285,168 @@
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "Emojiaren azal-tonua"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
+    "messageformat": "Txat-karpetak"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
+    "messageformat": "Gehitu txat-karpeta bat"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
+    "messageformat": "Antolatu txatak karpetatan eta joan bizkor batetik bestera txat-zerrendan."
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
+    "messageformat": "Editatu karpeta"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__DeleteFolder": {
+    "messageformat": "Ezabatu"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Title": {
+    "messageformat": "Karpeta ezabatu nahi duzu?"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Description": {
+    "messageformat": "\"{chatFolderTitle}\" karpeta ezabatu nahi duzu?"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
+    "messageformat": "Ezabatu"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
+    "messageformat": "Utzi"
+  },
+  "icu:Preferences__ChatFoldersPage__Title": {
+    "messageformat": "Txat-karpetak"
+  },
+  "icu:Preferences__ChatFoldersPage__Description": {
+    "messageformat": "Antolatu txatak karpetatan eta joan bizkor batetik bestera txat-zerrendan"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__Title": {
+    "messageformat": "Karpetak"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__AllChatsFolder__Title": {
+    "messageformat": "Txat guztiak"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
+    "messageformat": "Sortu karpeta bat"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
+    "messageformat": "Iradokitako karpetak"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
+    "messageformat": "Gehitu"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
+    "messageformat": "Gehitu da {chatFolderTitle} karpeta"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
+    "messageformat": "Irakurri gabe"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Description": {
+    "messageformat": "Txat guztietako mezu irakurri gabeak"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Title": {
+    "messageformat": "Banako txatak"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Description": {
+    "messageformat": "Zuzeneko txatetako mezuak bakarrik"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Title": {
+    "messageformat": "Taldeak"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Description": {
+    "messageformat": "Taldeko txatetako mezuak bakarrik"
+  },
+  "icu:Preferences__EditChatFolderPage__Title": {
+    "messageformat": "Sortu karpeta bat"
+  },
+  "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
+    "messageformat": "Karpetaren izena"
+  },
+  "icu:Preferences__EditChatFolderPage__FolderNameField__Placeholder": {
+    "messageformat": "Karpetaren izena (beharrezkoa)"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Title": {
+    "messageformat": "Karpetako txatak"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
+    "messageformat": "Aukeratu karpeta honetan agertzea nahi duzun txatak"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
+    "messageformat": "Gehitu txatak"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog--IncludedChats__Title": {
+    "messageformat": "Karpetako txatak"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog--ExcludedChats__Title": {
+    "messageformat": "Kanpoan utzitako txatak"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
+    "messageformat": "Bilatu"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
+    "messageformat": "Txat motak"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__DirectChats": {
+    "messageformat": "Banako txatak"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__GroupChats": {
+    "messageformat": "Taldeak"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__RecentChats__Title": {
+    "messageformat": "Azken txatak"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__DoneButton": {
+    "messageformat": "Eginda"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__Title": {
+    "messageformat": "Salbuespenak"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__Help": {
+    "messageformat": "Aukeratu karpeta honetan agertzerik nahi ez duzun txatak"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__ExcludeChatsButton": {
+    "messageformat": "Atera txatak"
+  },
+  "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Label": {
+    "messageformat": "Erakutsi irakurri gabeko txatak soilik"
+  },
+  "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Description": {
+    "messageformat": "Irakurri gabeko mezuak dituzten txatak bakarrik agertuko dira karpeta honetan."
+  },
+  "icu:Preferences__EditChatFolderPage__IncludeMutedChatsCheckbox__Label": {
+    "messageformat": "Sartu jakinarazpenak desaktibatuta dauzkaten txatak"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteFolderButton": {
+    "messageformat": "Ezabatu karpeta"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Title": {
+    "messageformat": "Txat-karpeta hau ezabatu nahi duzu?"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Description": {
+    "messageformat": "Karpeta hau txaten zerrendatik kenduko da."
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
+    "messageformat": "Ezabatu"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
+    "messageformat": "Utzi"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
+    "messageformat": "Aldaketak gorde nahi dituzu?"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Description": {
+    "messageformat": "Txat-karpeta honetan egindako aldaketak gorde nahi dituzu?"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__SaveButton": {
+    "messageformat": "Gorde"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__DiscardButton": {
+    "messageformat": "Baztertu"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveButton": {
+    "messageformat": "Gorde"
+  },
+  "icu:Preferences__EditChatFolderPage__CancelButton": {
+    "messageformat": "Utzi"
   },
   "icu:initialSync": {
     "messageformat": "Kontaktuak eta taldeak sinkronizatzen"
@@ -4026,10 +4188,10 @@
     "messageformat": "Berriro saiatu"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
-    "messageformat": "Multimedia-edukia leheneratzen"
+    "messageformat": "Multimedia-edukia sinkronizatzea"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Leheneratzea pausatu egin da"
+    "messageformat": "Pausatu da sinkronizazioa"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
     "messageformat": "{currentSize}/{totalSize} leheneratuta"
@@ -4044,13 +4206,13 @@
     "messageformat": "Interneteko konexioaren zain…"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pausatu transferentzia"
+    "messageformat": "Pausatu"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Berrekin transferentziari"
+    "messageformat": "Berrekin"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
-    "messageformat": "Utzi transferentzia bertan behera"
+    "messageformat": "Utzi sinkronizatzeari"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
     "messageformat": "Aukera gehiago"
@@ -4062,16 +4224,34 @@
     "messageformat": "{currentSize} / {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Multimedia-edukiaren transferentzia bertan behera utzi nahi duzu?"
+    "messageformat": "Multimedia-edukien sinkronizazioa bertan behera utzi nahi duzu?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "Oraindik ez dira leheneratu mezuak eta multimedia-edukiak. Bertan behera utzi arren, berriro transferitu ahalko dituzu ezarpenetatik."
+    "messageformat": "Multimedia-edukiak ez dira sinkronizatu oraindik. Bertan behera uztea aukeratzen baduzu, berriro sinkronizatu ahalko dituzu, gailu hau berriro lotuta. <learnMoreLink>Lortu informazio gehiago</learnMoreLink>."
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "Jarraitu transferitzen"
+    "messageformat": "Jarraitu sinkronizatzen"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
-    "messageformat": "Utzi transferentzia bertan behera"
+    "messageformat": "Utzi sinkronizatzeari"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--title": {
+    "messageformat": "Pausatu da sinkronizazioa"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--description": {
+    "messageformat": "Sinkronizatzen jarraitzeko, sakatu \"{resumeButtonText}\""
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-resume": {
+    "messageformat": "Berrekin"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-pause": {
+    "messageformat": "Pausatu"
+  },
+  "icu:BackupMediaDownloadProgressSettings__title-in-progress": {
+    "messageformat": "Multimedia-edukia sinkronizatzea"
+  },
+  "icu:BackupMediaDownloadProgressSettings__progressbar-hint": {
+    "messageformat": "{totalSize}/{currentSize} ({fractionComplete,number,percent})"
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
     "messageformat": "Zerbait egin behar duzu kontuan"
@@ -5082,7 +5262,7 @@
     "messageformat": "Signal-en babeskopiak"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Babeskopia automatikoak, Signal-en muturretik muturrera enkriptatutako biltegiratze-zerbitzu seguruarekin. Hasi telefonoan erabiltzen. <learnMoreLink>Lortu informazio gehiago</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Egin mezu-historiaren babeskopia, gailuz aldatzean edo Signal berriro instalatzean ez dezazun daturik galdu."
@@ -5125,9 +5305,6 @@
   },
   "icu:Preferences--backup-created-by-phone": {
     "messageformat": "Zure telefonoa"
-  },
-  "icu:Preferences--backup-size__label": {
-    "messageformat": "Babeskopiaren tamaina"
   },
   "icu:Preferences__local-backups": {
     "messageformat": "Ordenagailuko babeskopiak"
@@ -6114,9 +6291,6 @@
   "icu:UsernameLinkModalBody__reset": {
     "messageformat": "Berrabiarazi"
   },
-  "icu:UsernameLinkModalBody__done": {
-    "messageformat": "Eginda"
-  },
   "icu:UsernameLinkModalBody__color__radio": {
     "messageformat": "Erabiltzaile-izenen esteken kolorea, {total,number} koloretatik {index,number}garrena"
   },
@@ -6444,6 +6618,105 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "Zer berri"
   },
+  "icu:PreferencesDonations__title": {
+    "messageformat": "Pribatutasuna irabazien gainetik"
+  },
+  "icu:PreferencesDonations__description": {
+    "messageformat": "Mezularitza pribatua, zuk finantzatua. Iragarkirik gabe, jarraipen-tresnarik gabe, konpromisorik gabe. Egin dohaintza bat orain Signal-i laguntzeko. <learnMoreLink>Informazio gehiago</learnMoreLink>"
+  },
+  "icu:PreferencesDonations__donate-button": {
+    "messageformat": "Egin dohaintza"
+  },
+  "icu:PreferencesDonations__donate-button-with-amount": {
+    "messageformat": "Donate {formattedCurrencyAmount}"
+  },
+  "icu:PreferencesDonations__mobile-info": {
+    "messageformat": "Bereizgarriak eta hileko dirulaguntzak gailu mugikorrean kudea daitezke."
+  },
+  "icu:PreferencesDonations__receipts": {
+    "messageformat": "Ordainagiriak"
+  },
+  "icu:PreferencesDonations__faqs": {
+    "messageformat": "Dirulaguntzei buruz maiz egiten diren galderak"
+  },
+  "icu:PreferencesDonations--receiptList__info": {
+    "messageformat": "Irakurragiriak ez dira sinkronizatzen gailu artean. Signal berriro instalatu baduzu, aurreko dohaintzen ordainagiriak ez dira erabilgarri egongo."
+  },
+  "icu:PreferencesDonations--receiptList__empty-title": {
+    "messageformat": "Ordainagiririk ez"
+  },
+  "icu:PreferencesDonations__ReceiptModal--title": {
+    "messageformat": "Xehetasunak"
+  },
+  "icu:PreferencesDonations__ReceiptModal--download": {
+    "messageformat": "Deskargatu ordainagiria"
+  },
+  "icu:PreferencesDonations__ReceiptModal--type-label": {
+    "messageformat": "Mota"
+  },
+  "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
+    "messageformat": "Ordainketa data"
+  },
+  "icu:DonationReceipt__title": {
+    "messageformat": "Dohaintzaren ordainagiria"
+  },
+  "icu:DonationReceipt__amount-label": {
+    "messageformat": "Zenbatekoa"
+  },
+  "icu:DonationReceipt__type-label": {
+    "messageformat": "Mota"
+  },
+  "icu:DonationReceipt__date-paid-label": {
+    "messageformat": "Ordainketa data"
+  },
+  "icu:DonationReceipt__type-value--one-time": {
+    "messageformat": "Behin"
+  },
+  "icu:DonationReceipt__footer-text": {
+    "messageformat": "Eskerrik asko Signal-i laguntzeagatik. Zure ekarpenarekin, kode irekiko pribatutasun-teknologiaren bidez adierazpen-askatasuna babesteko eta mundu osoko milioika pertsonarentzako komunikazio segurua ahalbidetzeko dugun misioa bultzatuko duzu. Ameriketako Estatu Batuetan bizi bazara, gorde ordainagiri hau, zerga-aitorpenetarako. Signal Technology Foundation zergak ordaintzetik salbuetsita dagoen AEBko erakunde bat da, Internal Revenue Code-ko 501c3 sekzioari jarraikiz. Gure IFZa federala 82-4506840 da."
+  },
+  "icu:Donations__PaymentMethodDeclined": {
+    "messageformat": "Payment method declined"
+  },
+  "icu:Donations__PaymentMethodDeclined__Description": {
+    "messageformat": "Try another payment method or contact your bank for more information."
+  },
+  "icu:Donations__ErrorProcessingDonation": {
+    "messageformat": "Error processing donation"
+  },
+  "icu:Donations__ErrorProcessingDonation__Description": {
+    "messageformat": "Try another payment method or contact your bank for more information."
+  },
+  "icu:Donations__Failed3dsValidation": {
+    "messageformat": "Verification Failed"
+  },
+  "icu:Donations__Failed3dsValidation__Description": {
+    "messageformat": "Additional verification step failed. Please try again."
+  },
+  "icu:Donations__GenericError": {
+    "messageformat": "An error occurred with your donation"
+  },
+  "icu:Donations__GenericError__Description": {
+    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+  },
+  "icu:Donations__Processing": {
+    "messageformat": "Processing donation..."
+  },
+  "icu:Donations__StillProcessing": {
+    "messageformat": "Still processing"
+  },
+  "icu:Donations__StillProcessing__Description": {
+    "messageformat": "Your donation is still being processed. This can take a few minutes."
+  },
+  "icu:Donations__3dsValidationNeeded": {
+    "messageformat": "Additional verification required"
+  },
+  "icu:Donations__3dsValidationNeeded__Description": {
+    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+  },
+  "icu:Donations__3dsValidationNeeded__OpenBrowser": {
+    "messageformat": "Open browser"
+  },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Bertsio honek hainbat doikuntza txiki eta akats konpontzen ditu Signal-ek ondo funtzionatzen jarraitzeko.",
     "ignoreUnused": true
@@ -6477,5 +6750,11 @@
   },
   "icu:WhatsNew__v7.59--0": {
     "messageformat": "Errendimenduaren hobekuntzak Linux-erako."
+  },
+  "icu:WhatsNew__v7.61--0": {
+    "messageformat": "Eguneratze honen bidez, audioaren kalitatea eta ahots-dei eta bideodeien fidagarritasuna hobetu dira, eta mikrofono eta bozgorailu konektatuen konfigurazio automatiko hobea inplementatu da. Eskerrik asko Mozilla-ko <padenot></padenot>,<kinetiknz></kinetiknz> eta <Pehrsons></Pehrsons>(r)i proiektu honetan laguntzeagatik."
+  },
+  "icu:WhatsNew__v7.62--0": {
+    "messageformat": "Kontaktu batzuk behar bezala sinkronizatzea galarazten zuen akats arraro bat konpondu dugu."
   }
 }

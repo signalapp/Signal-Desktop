@@ -40,16 +40,17 @@ import {
 } from '../../../types/Calling';
 import { CallMode } from '../../../types/CallDisposition';
 import { generateAci } from '../../../types/ServiceId';
-import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation';
 import type { UnwrapPromise } from '../../../types/Util';
 import {
   FAKE_CALL_LINK,
   FAKE_CALL_LINK_WITH_ADMIN_KEY,
   getCallLinkState,
-} from '../../../test-both/helpers/fakeCallLink';
+} from '../../../test-helpers/fakeCallLink';
 import { strictAssert } from '../../../util/assert';
 import { callLinkRefreshJobQueue } from '../../../jobs/callLinkRefreshJobQueue';
 import { CALL_LINK_DEFAULT_STATE } from '../../../util/callLinks';
+import { DataWriter } from '../../../sql/Client';
 
 const ACI_1 = generateAci();
 const NOW = new Date('2020-01-23T04:56:00.000');
@@ -1466,11 +1467,13 @@ describe('calling duck', () => {
     describe('handleCallLinkUpdate', () => {
       const { roomId, rootKey, adminKey } = FAKE_CALL_LINK;
 
-      beforeEach(function (this: Mocha.Context) {
+      beforeEach(async function (this: Mocha.Context) {
+        await DataWriter.removeAll();
         this.callLinkRefreshJobQueueAdd = this.sandbox.stub(
           callLinkRefreshJobQueue,
           'add'
         );
+        this.clock = this.sandbox.useFakeTimers();
       });
 
       const doAction = async (
@@ -1500,9 +1503,6 @@ describe('calling duck', () => {
               roomId,
               rootKey,
               adminKey,
-              storageID: undefined,
-              storageVersion: undefined,
-              storageUnknownFields: undefined,
               storageNeedsSync: false,
             },
           },
@@ -1512,22 +1512,33 @@ describe('calling duck', () => {
       it('can save adminKey', async () => {
         const { dispatch } = await doAction({ rootKey, adminKey: 'banana' });
 
-        sinon.assert.calledOnce(dispatch);
-        sinon.assert.calledWith(dispatch, {
-          type: 'calling/HANDLE_CALL_LINK_UPDATE',
-          payload: {
-            callLink: {
-              ...CALL_LINK_DEFAULT_STATE,
-              roomId,
-              rootKey,
-              adminKey: 'banana',
-              storageID: undefined,
-              storageVersion: undefined,
-              storageUnknownFields: undefined,
-              storageNeedsSync: false,
+        sinon.assert.calledTwice(dispatch);
+        assert(
+          dispatch.getCall(0).calledWithExactly({
+            type: 'calling/HANDLE_CALL_LINK_UPDATE',
+            payload: {
+              callLink: {
+                ...CALL_LINK_DEFAULT_STATE,
+                roomId,
+                rootKey,
+                adminKey: 'banana',
+                storageNeedsSync: false,
+              },
             },
-          },
-        });
+          }),
+          'dispatches HANDLE_CALL_LINK_UPDATE'
+        );
+        const secondCall = dispatch.getCall(1);
+        assert.strictEqual(
+          secondCall.args[0].type,
+          'callHistory/ADD',
+          'dispatches CALL_HISTORY_ADD'
+        );
+        assert.strictEqual(
+          secondCall.args[0].payload.peerId,
+          roomId,
+          'CALL_HISTORY_ADD peerId is call link roomId'
+        );
       });
     });
 

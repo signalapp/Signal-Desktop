@@ -55,8 +55,8 @@ LangString signalMinAppVersionErr 2070 "Uma versão mais recente do Signal já e
 LangString signalMinWinVersionErr 1046 "O Signal para desktop não funciona mais neste computador. Para usar o Signal para desktop novamente, atualize a versão do Windows do seu computador."
 LangString signalMinAppVersionErr 1046 "Uma versão mais recente do Signal já está instalada. Tem certeza de que deseja continuar?"
 # pl_PL
-LangString signalMinWinVersionErr 1045 "Signal Desktop już nie działa na tym komputerze. Aby móc znów obsługiwać Signal Desktop, zaktualizuj Windows na swoim komputerze."
-LangString signalMinAppVersionErr 1045 "Zainstalowana jest nowsza wersja Signal. Czy na pewno chcesz kontynuować?"
+LangString signalMinWinVersionErr 1045 "Ten komputer nie obsługuje już aplikacji Signal Desktop. Aby dalej z niej korzystać, zaktualizuj system operacyjny Windows na komputerze."
+LangString signalMinAppVersionErr 1045 "Masz już zainstalowaną nowszą wersję aplikacji Signal. Czy w takim razie chcesz kontynuować?"
 # uk_UA
 LangString signalMinWinVersionErr 1058 "Signal Desktop більше не працює на цьому комп'ютері. Щоб знову користуватися Signal, оновіть версію Windows вашого комп'ютера."
 LangString signalMinAppVersionErr 1058 "Новішу версію Signal уже встановлено. Продовжити?"

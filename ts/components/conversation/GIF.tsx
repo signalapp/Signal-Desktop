@@ -10,7 +10,7 @@ import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { AttachmentForUIType } from '../../types/Attachment';
 import {
   hasNotResolved,
-  getImageDimensions,
+  getImageDimensionsForTimeline,
   defaultBlurHash,
   isDownloadable,
 } from '../../types/Attachment';
@@ -65,7 +65,7 @@ export function GIF(props: Props): JSX.Element {
   const tapToPlay = useReducedMotion() || _forceTapToPlay;
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const { height, width } = getImageDimensions(attachment, size);
+  const { height, width } = getImageDimensionsForTimeline(attachment, size);
 
   const [repeatCount, setRepeatCount] = useState(0);
   const [playTime, setPlayTime] = useState(MAX_GIF_TIME);

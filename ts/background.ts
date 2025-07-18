@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isNumber, groupBy, throttle } from 'lodash';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import PQueue from 'p-queue';
 import pMap from 'p-map';
 import { v7 as generateUuid } from 'uuid';
@@ -40,7 +40,7 @@ import { isWindowDragElement } from './util/isWindowDragElement';
 import { assertDev, strictAssert } from './util/assert';
 import { filter } from './util/iterables';
 import { isNotNil } from './util/isNotNil';
-import { isBackupFeatureEnabled } from './util/isBackupEnabled';
+import { areRemoteBackupsTurnedOn } from './util/isBackupEnabled';
 import { setAppLoadingScreenMessage } from './setAppLoadingScreenMessage';
 import { IdleDetector } from './IdleDetector';
 import {
@@ -216,9 +216,9 @@ import { waitForEvent } from './shims/events';
 import { sendSyncRequests } from './textsecure/syncRequests';
 import { handleServerAlerts } from './util/handleServerAlerts';
 import { isLocalBackupsEnabled } from './util/isLocalBackupsEnabled';
-import { NavTab } from './state/ducks/nav';
-import { Page } from './components/Preferences';
-import { EditState } from './components/ProfileEditor';
+import { NavTab, SettingsPage, ProfileEditorPage } from './types/Nav';
+import { initialize as initializeDonationService } from './services/donations';
+import { MessageRequestResponseSource } from './types/MessageRequestResponseEvent';
 
 const log = createLogger('background');
 
@@ -1371,8 +1371,8 @@ export async function startApp(): Promise<void> {
     window.reduxActions.nav.changeLocation({
       tab: NavTab.Settings,
       details: {
-        page: Page.Profile,
-        state: EditState.None,
+        page: SettingsPage.Profile,
+        state: ProfileEditorPage.None,
       },
     });
   });
@@ -1550,9 +1550,11 @@ export async function startApp(): Promise<void> {
     await runAllSyncTasks();
 
     cancelInitializationMessage();
-    render(
-      window.Signal.State.Roots.createApp(window.reduxStore),
-      document.getElementById('app-container')
+
+    const appContainer = document.getElementById('app-container');
+    strictAssert(appContainer != null, 'No #app-container');
+    createRoot(appContainer).render(
+      window.Signal.State.Roots.createApp(window.reduxStore)
     );
     const hideMenuBar = window.storage.get('hide-menu-bar', false);
     window.IPC.setAutoHideMenuBar(hideMenuBar);
@@ -2012,7 +2014,7 @@ export async function startApp(): Promise<void> {
     drop(window.Signal.Services.initializeGroupCredentialFetcher());
     drop(AttachmentDownloadManager.start());
 
-    if (isBackupFeatureEnabled()) {
+    if (areRemoteBackupsTurnedOn()) {
       backupsService.start();
       drop(AttachmentBackupManager.start());
     }
@@ -2193,6 +2195,8 @@ export async function startApp(): Promise<void> {
     drop(usernameIntegrity.start());
 
     drop(ReleaseNotesFetcher.init(window.Whisper.events, newVersion));
+
+    drop(initializeDonationService());
 
     if (isFromMessageReceiver) {
       drop(
@@ -3398,7 +3402,14 @@ export async function startApp(): Promise<void> {
   }
 
   function onMessageRequestResponse(ev: MessageRequestResponseEvent): void {
-    const { threadAci, groupV2Id, messageRequestResponseType } = ev;
+    const {
+      threadAci,
+      groupV2Id,
+      messageRequestResponseType,
+      receivedAtCounter,
+      receivedAtMs,
+      sentAt,
+    } = ev;
 
     log.info('onMessageRequestResponse', {
       threadAci,
@@ -3418,6 +3429,10 @@ export async function startApp(): Promise<void> {
       removeFromMessageReceiverCache: ev.confirm,
       threadAci,
       groupV2Id,
+      receivedAtCounter,
+      receivedAtMs,
+      sentAt,
+      sourceType: MessageRequestResponseSource.MRR_SYNC,
       type: messageRequestResponseType,
     };
     drop(MessageRequests.onResponse(attributes));

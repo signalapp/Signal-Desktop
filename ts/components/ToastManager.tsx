@@ -5,20 +5,25 @@ import classNames from 'classnames';
 import React from 'react';
 import { createPortal } from 'react-dom';
 
-import type { LocalizerType } from '../types/Util';
 import { SECOND } from '../util/durations';
 import { Toast } from './Toast';
 import { WidthBreakpoint } from './_util';
 import { UsernameMegaphone } from './UsernameMegaphone';
 import { assertDev } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
-import type { AnyToast } from '../types/Toast';
 import { ToastType } from '../types/Toast';
-import type { AnyActionableMegaphone } from '../types/Megaphone';
 import { MegaphoneType } from '../types/Megaphone';
 import { AttachmentNotAvailableModalType } from './AttachmentNotAvailableModal';
+import { NavTab, SettingsPage } from '../types/Nav';
+
+import type { LocalizerType } from '../types/Util';
+import type { AnyToast } from '../types/Toast';
+import type { AnyActionableMegaphone } from '../types/Megaphone';
+import type { Location } from '../types/Nav';
 
 export type PropsType = {
+  changeLocation: (newLocation: Location) => unknown;
+  clearDonation: () => unknown;
   hideToast: () => unknown;
   i18n: LocalizerType;
   openFileInFolder: (target: string) => unknown;
@@ -28,6 +33,7 @@ export type PropsType = {
     conversationId: string,
     options?: { wasPinned?: boolean }
   ) => unknown;
+  setDidResumeDonation: (didResume: boolean) => unknown;
   showAttachmentNotAvailableModal: (
     type: AttachmentNotAvailableModalType
   ) => void;
@@ -42,11 +48,14 @@ export type PropsType = {
 const SHORT_TIMEOUT = 3 * SECOND;
 
 export function renderToast({
+  changeLocation,
+  clearDonation,
   hideToast,
   i18n,
   openFileInFolder,
   onShowDebugLog,
   onUndoArchive,
+  setDidResumeDonation,
   showAttachmentNotAvailableModal,
   OS,
   toast,
@@ -271,6 +280,54 @@ export function renderToast({
     );
   }
 
+  if (toastType === ToastType.DonationCompleted) {
+    return (
+      <Toast
+        autoDismissDisabled
+        onClose={() => {
+          clearDonation();
+          hideToast();
+        }}
+        toastAction={{
+          label: i18n('icu:view'),
+          onClick: () =>
+            changeLocation({
+              tab: NavTab.Settings,
+              details: {
+                page: SettingsPage.Donations,
+              },
+            }),
+        }}
+      >
+        {i18n('icu:Donations__Toast__Completed')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.DonationProcessing) {
+    return (
+      <Toast
+        onClose={() => {
+          setDidResumeDonation(false);
+          hideToast();
+        }}
+        toastAction={{
+          label: i18n('icu:view'),
+          onClick: () => {
+            changeLocation({
+              tab: NavTab.Settings,
+              details: {
+                page: SettingsPage.DonationsDonateFlow,
+              },
+            });
+          },
+        }}
+      >
+        {i18n('icu:Donations__Toast__Processing')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.Error) {
     return (
       <Toast
@@ -489,6 +546,28 @@ export function renderToast({
 
   if (toastType === ToastType.ReactionFailed) {
     return <Toast onClose={hideToast}>{i18n('icu:Reactions--error')}</Toast>;
+  }
+
+  if (toastType === ToastType.ReceiptSaved) {
+    return (
+      <Toast
+        onClose={hideToast}
+        toastAction={{
+          label: i18n('icu:attachmentSavedShow'),
+          onClick: () => {
+            openFileInFolder(toast.parameters.fullPath);
+          },
+        }}
+      >
+        {i18n('icu:Toast--ReceiptSaved')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.ReceiptSaveFailed) {
+    return (
+      <Toast onClose={hideToast}>{i18n('icu:Toast--ReceiptSaveFailed')}</Toast>
+    );
   }
 
   if (toastType === ToastType.ReportedSpam) {

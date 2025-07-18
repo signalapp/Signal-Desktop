@@ -96,6 +96,7 @@ import {
   getSealedSenderIndicatorSetting,
   getTypingIndicatorSetting,
 } from '../types/Util';
+import { MessageRequestResponseSource } from '../types/MessageRequestResponseEvent';
 
 const log = createLogger('storageRecordOps');
 
@@ -752,15 +753,15 @@ function applyMessageRequestState(
 
   if (record.blocked) {
     void conversation.applyMessageRequestResponse(messageRequestEnum.BLOCK, {
-      fromSync: true,
-      viaStorageServiceSync: true,
+      source: MessageRequestResponseSource.STORAGE_SERVICE,
+      learnedAtMs: Date.now(),
     });
   } else if (record.whitelisted) {
     // unblocking is also handled by this function which is why the next
     // condition is part of the else-if and not separate
     void conversation.applyMessageRequestResponse(messageRequestEnum.ACCEPT, {
-      fromSync: true,
-      viaStorageServiceSync: true,
+      source: MessageRequestResponseSource.STORAGE_SERVICE,
+      learnedAtMs: Date.now(),
     });
   } else if (!record.blocked) {
     // if the condition above failed the state could still be blocked=false

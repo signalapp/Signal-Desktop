@@ -5,7 +5,7 @@ import React from 'react';
 import type { Meta } from '@storybook/react';
 import type { Props } from './UniversalTimerNotification';
 import { UniversalTimerNotification } from './UniversalTimerNotification';
-import { EXPIRE_TIMERS } from '../../test-both/util/expireTimers';
+import { EXPIRE_TIMERS } from '../../test-helpers/expireTimers';
 
 export default {
   title: 'Components/UniversalTimerNotification',

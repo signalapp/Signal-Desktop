@@ -305,9 +305,6 @@
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "Sätted"
   },
-  "icu:NavTabs__ItemLabel--Update": {
-    "messageformat": "Uuenda Signalit"
-  },
   "icu:NavTabs__ItemLabel--Profile": {
     "messageformat": "Profiil"
   },
@@ -605,6 +602,12 @@
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
+  "icu:Toast--ReceiptSaved": {
+    "messageformat": "Kviitung salvestatud"
+  },
+  "icu:Toast--ReceiptSaveFailed": {
+    "messageformat": "Viga kviitungi salvestamisel. Palun proovi uuesti."
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Sa ei saa fotosid ja videoid koos failidega valida."
   },
@@ -664,9 +667,6 @@
   },
   "icu:joinTheBeta": {
     "messageformat": "Liitu beeta-programmiga"
-  },
-  "icu:signalDesktopPreferences": {
-    "messageformat": "Signal Desktopi eelistused"
   },
   "icu:signalDesktopStickerCreator": {
     "messageformat": "Kleebisepaki looja"
@@ -1285,6 +1285,168 @@
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "Emoji nahatoon"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
+    "messageformat": "Vestluste kaustad"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
+    "messageformat": "Lisa vestluste kaust"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
+    "messageformat": "Sorteeri oma vestlused kaustadesse ja lülitu nende vahel kiiresti ja mugavalt vestluse loendi kaudu."
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
+    "messageformat": "Muuda kausta"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__DeleteFolder": {
+    "messageformat": "Kustuta"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Title": {
+    "messageformat": "Kas kustutada kaust?"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Description": {
+    "messageformat": "Kas soovid kustutada kausta „{chatFolderTitle}“?"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
+    "messageformat": "Kustuta"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
+    "messageformat": "Loobu"
+  },
+  "icu:Preferences__ChatFoldersPage__Title": {
+    "messageformat": "Vestluste kaustad"
+  },
+  "icu:Preferences__ChatFoldersPage__Description": {
+    "messageformat": "Sorteeri oma vestlused kaustadesse ja lülitu nende vahel kiiresti ja mugavalt vestluste loendi kaudu"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__Title": {
+    "messageformat": "Kaustad"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__AllChatsFolder__Title": {
+    "messageformat": "Kõik vestlused"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
+    "messageformat": "Loo kaust"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
+    "messageformat": "Soovitatud kaustad"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
+    "messageformat": "Lisa"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
+    "messageformat": "Lisatud kaust: „{chatFolderTitle}“"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
+    "messageformat": "Lugemata"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Description": {
+    "messageformat": "Lugemata sõnumid kõigist vestlustest"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Title": {
+    "messageformat": "Üks-ühele vestlused"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Description": {
+    "messageformat": "Ainult sõnumid otsevestlustest"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Title": {
+    "messageformat": "Grupid"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Description": {
+    "messageformat": "Ainult sõnumid grupivestlustest"
+  },
+  "icu:Preferences__EditChatFolderPage__Title": {
+    "messageformat": "Loo kaust"
+  },
+  "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
+    "messageformat": "Kausta nimi"
+  },
+  "icu:Preferences__EditChatFolderPage__FolderNameField__Placeholder": {
+    "messageformat": "Kausta nimi (kohustuslik)"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Title": {
+    "messageformat": "Kaustas olevad vestlused"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
+    "messageformat": "Vali vestlused, mida tahaksid selles kaustas näha"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
+    "messageformat": "Lisa vestlusi"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog--IncludedChats__Title": {
+    "messageformat": "Kaustas olevad vestlused"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog--ExcludedChats__Title": {
+    "messageformat": "Väljajäetud vestlused"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
+    "messageformat": "Otsi"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
+    "messageformat": "Vestluste tüübid"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__DirectChats": {
+    "messageformat": "Üks-ühele vestlused"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__GroupChats": {
+    "messageformat": "Grupid"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__RecentChats__Title": {
+    "messageformat": "Hiljutised vestlused"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__DoneButton": {
+    "messageformat": "Valmis"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__Title": {
+    "messageformat": "Erandid"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__Help": {
+    "messageformat": "Vali vestlused, mida sa ei taha selles kaustas näha"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__ExcludeChatsButton": {
+    "messageformat": "Jäta vestlused välja"
+  },
+  "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Label": {
+    "messageformat": "Näita ainult lugemata vestlusi"
+  },
+  "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Description": {
+    "messageformat": "Selles kaustas kuvatakse ainult lugemata sõnumitega vestlusi."
+  },
+  "icu:Preferences__EditChatFolderPage__IncludeMutedChatsCheckbox__Label": {
+    "messageformat": "Kaasa vaigistatud vestlused"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteFolderButton": {
+    "messageformat": "Kustuta kaust"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Title": {
+    "messageformat": "Kas kustutada see vestluste kaust?"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Description": {
+    "messageformat": "See kaust eemaldatakse sinu vestluste loendist."
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
+    "messageformat": "Kustuta"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
+    "messageformat": "Loobu"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
+    "messageformat": "Kas salvestada muudatused?"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Description": {
+    "messageformat": "Kas soovid salvestada selle vestluste kaustaga tehtud muudatused?"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__SaveButton": {
+    "messageformat": "Salvesta"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__DiscardButton": {
+    "messageformat": "Loobu"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveButton": {
+    "messageformat": "Salvesta"
+  },
+  "icu:Preferences__EditChatFolderPage__CancelButton": {
+    "messageformat": "Loobu"
   },
   "icu:initialSync": {
     "messageformat": "Kontaktide ja gruppide sünkimine"
@@ -4026,10 +4188,10 @@
     "messageformat": "Proovi uuesti"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
-    "messageformat": "Meedia taastamine"
+    "messageformat": "Meedia sünkroonimine"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Taastamine peatatud"
+    "messageformat": "Sünkroonimine on pausil"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
     "messageformat": "Taastatud {currentSize} kogumahust {totalSize}"
@@ -4044,13 +4206,13 @@
     "messageformat": "Internetiühenduse ootel …"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Peata edastus"
+    "messageformat": "Pane pausile"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Jätka edastust"
+    "messageformat": "Taasta"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
-    "messageformat": "Tühista edastus"
+    "messageformat": "Tühista sünkroonimine"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
     "messageformat": "Rohkem valikuid"
@@ -4062,16 +4224,34 @@
     "messageformat": "{currentSize} / {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Kas tühistada meedia edastus?"
+    "messageformat": "Kas tühistada meedia sünkroonimine?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "Sinu sõnumite ja meedia taastamine ei ole lõppenud. Kui valid tühistamise, saad edastuse uuesti käivitada Sätete alt."
+    "messageformat": "Sinu meedia sünkroonimine ei ole lõpule viidud. Kui valid tühistamise, saad uuesti sünkroonida, kui seadme uuesi seod. <learnMoreLink>Rohkem teavet</learnMoreLink>."
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "Jätka edastust"
+    "messageformat": "Jätka sünkroonimist"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
-    "messageformat": "Tühista edastus"
+    "messageformat": "Tühista sünkroonimine"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--title": {
+    "messageformat": "Sünkroonimine on pausil"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--description": {
+    "messageformat": "Sünkroonimise jätkamiseks klõpsa nuppu „ {resumeButtonText}”"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-resume": {
+    "messageformat": "Taasta"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-pause": {
+    "messageformat": "Pane pausile"
+  },
+  "icu:BackupMediaDownloadProgressSettings__title-in-progress": {
+    "messageformat": "Meedia sünkroonimine"
+  },
+  "icu:BackupMediaDownloadProgressSettings__progressbar-hint": {
+    "messageformat": "{currentSize} kogumahust {totalSize} ({fractionComplete,number,percent}) …"
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
     "messageformat": "Nõutav konto toiming"
@@ -5082,7 +5262,7 @@
     "messageformat": "Signali varukoopiad"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Automaatsed varukoopiad Signali turvalise otspunktkrüptitud salvestusteenuse abil. Seadista telefonis. <learnMoreLink>Rohkem teavet</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Varunda oma sõnumiajalugu, et mitte kaotada andmeid, kui telefoni välja vahetad ja Signali uuesti paigaldad."
@@ -5125,9 +5305,6 @@
   },
   "icu:Preferences--backup-created-by-phone": {
     "messageformat": "Sinu telefon"
-  },
-  "icu:Preferences--backup-size__label": {
-    "messageformat": "Varukoopia suurus"
   },
   "icu:Preferences__local-backups": {
     "messageformat": "Töölaua varukoopiad"
@@ -6114,9 +6291,6 @@
   "icu:UsernameLinkModalBody__reset": {
     "messageformat": "Lähtesta"
   },
-  "icu:UsernameLinkModalBody__done": {
-    "messageformat": "Tehtud"
-  },
   "icu:UsernameLinkModalBody__color__radio": {
     "messageformat": "Kasutajanime lingi värv, {index,number} {total,number}-st"
   },
@@ -6444,6 +6618,105 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "Mis on uut"
   },
+  "icu:PreferencesDonations__title": {
+    "messageformat": "Privaatsus on meile olulisem kui tulu"
+  },
+  "icu:PreferencesDonations__description": {
+    "messageformat": "Privaatne sõnumiside, mida toetad sina ise. Ei mingeid reklaame, jälgijaid ega järeleandmisi. Anneta nüüd, et Signalit toetada. <learnMoreLink>Rohkem teavet</learnMoreLink>"
+  },
+  "icu:PreferencesDonations__donate-button": {
+    "messageformat": "Anneta"
+  },
+  "icu:PreferencesDonations__donate-button-with-amount": {
+    "messageformat": "Donate {formattedCurrencyAmount}"
+  },
+  "icu:PreferencesDonations__mobile-info": {
+    "messageformat": "Märke ja igakuiseid annetusi saad hallata oma mobiilseadmes."
+  },
+  "icu:PreferencesDonations__receipts": {
+    "messageformat": "Kviitungid"
+  },
+  "icu:PreferencesDonations__faqs": {
+    "messageformat": "Annetuste KKK"
+  },
+  "icu:PreferencesDonations--receiptList__info": {
+    "messageformat": "Kviitungeid ei sünkroonita eri seadmete vahel. Kui oled Signali uuesti alla laadinud, ei ole eelmiste annetustega seotud kviitungid saadaval."
+  },
+  "icu:PreferencesDonations--receiptList__empty-title": {
+    "messageformat": "Kviitungeid ei ole"
+  },
+  "icu:PreferencesDonations__ReceiptModal--title": {
+    "messageformat": "Üksikasjad"
+  },
+  "icu:PreferencesDonations__ReceiptModal--download": {
+    "messageformat": "Laadi kviitung alla"
+  },
+  "icu:PreferencesDonations__ReceiptModal--type-label": {
+    "messageformat": "Tüüp"
+  },
+  "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
+    "messageformat": "Tasumiskuupäev"
+  },
+  "icu:DonationReceipt__title": {
+    "messageformat": "Annetuse kviitung"
+  },
+  "icu:DonationReceipt__amount-label": {
+    "messageformat": "Summa"
+  },
+  "icu:DonationReceipt__type-label": {
+    "messageformat": "Tüüp"
+  },
+  "icu:DonationReceipt__date-paid-label": {
+    "messageformat": "Tasumiskuupäev"
+  },
+  "icu:DonationReceipt__type-value--one-time": {
+    "messageformat": "Ühekordne"
+  },
+  "icu:DonationReceipt__footer-text": {
+    "messageformat": "Aitäh, et toetad Signalit. Sinu panus annab tõuke missioonile kaitsta väljendusvabadust ja võimaldada turvalist suhtlust miljonitele inimestele üle kogu maailma avatud lähtekoodiga privaatsustehnoloogia abil. Kui elad Ameerika Ühendriikides, jäta see kviitung alles oma maksude deklareerimiseks. Signal Technology Foundation on Ameerika Ühendriikides maksuseadustiku (US Internal Revenue Code) jao 501c3 järgi registreeritud maksuvaba mittetulundusühing. Meie föderaalne maksukood (Federal Tax ID) on 82-4506840."
+  },
+  "icu:Donations__PaymentMethodDeclined": {
+    "messageformat": "Payment method declined"
+  },
+  "icu:Donations__PaymentMethodDeclined__Description": {
+    "messageformat": "Try another payment method or contact your bank for more information."
+  },
+  "icu:Donations__ErrorProcessingDonation": {
+    "messageformat": "Error processing donation"
+  },
+  "icu:Donations__ErrorProcessingDonation__Description": {
+    "messageformat": "Try another payment method or contact your bank for more information."
+  },
+  "icu:Donations__Failed3dsValidation": {
+    "messageformat": "Verification Failed"
+  },
+  "icu:Donations__Failed3dsValidation__Description": {
+    "messageformat": "Additional verification step failed. Please try again."
+  },
+  "icu:Donations__GenericError": {
+    "messageformat": "An error occurred with your donation"
+  },
+  "icu:Donations__GenericError__Description": {
+    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+  },
+  "icu:Donations__Processing": {
+    "messageformat": "Processing donation..."
+  },
+  "icu:Donations__StillProcessing": {
+    "messageformat": "Still processing"
+  },
+  "icu:Donations__StillProcessing__Description": {
+    "messageformat": "Your donation is still being processed. This can take a few minutes."
+  },
+  "icu:Donations__3dsValidationNeeded": {
+    "messageformat": "Additional verification required"
+  },
+  "icu:Donations__3dsValidationNeeded__Description": {
+    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+  },
+  "icu:Donations__3dsValidationNeeded__OpenBrowser": {
+    "messageformat": "Open browser"
+  },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "See versioon sisaldab paljusid väikseid parendusi, mis Signali sujuvalt käimas.",
     "ignoreUnused": true
@@ -6477,5 +6750,11 @@
   },
   "icu:WhatsNew__v7.59--0": {
     "messageformat": "Linuxi jõudluse parendused."
+  },
+  "icu:WhatsNew__v7.61--0": {
+    "messageformat": "See värskendus parandab heli kvaliteeti ja töökindlust hääl- ja videokõnede ajal ning võimaldab ühendatud mikrofonide ja kõlarite paremat automaatset konfigureerimist. Tänud kasutajatele <padenot></padenot>, <kinetiknz></kinetiknz> ja <Pehrsons></Pehrsons> Mozillast abi eest selle projektiga."
+  },
+  "icu:WhatsNew__v7.62--0": {
+    "messageformat": "Parandasime haruldase vea, mis võis takistada mõnede kontaktide korrektset sünkroonimist."
   }
 }

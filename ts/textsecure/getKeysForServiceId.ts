@@ -9,7 +9,6 @@ import {
   processPreKeyBundle,
   ProtocolAddress,
   PublicKey,
-  UsePQRatchet,
 } from '@signalapp/libsignal-client';
 
 import {
@@ -26,6 +25,7 @@ import { createLogger } from '../logging/log';
 import { isRecord } from '../util/isRecord';
 import type { GroupSendToken } from '../types/GroupSendEndorsements';
 import { onFailedToSendWithEndorsements } from '../util/groupSendEndorsements';
+import { isPQRatchetEnabled } from '../util/isPQRatchetEnabled';
 
 const log = createLogger('getKeysForServiceId');
 
@@ -152,20 +152,13 @@ async function handleServerKeys(
       const protocolAddress = ProtocolAddress.new(serviceId, deviceId);
       const preKeyId = preKey?.keyId || null;
       const preKeyObject = preKey
-        ? PublicKey.deserialize(Buffer.from(preKey.publicKey))
+        ? PublicKey.deserialize(preKey.publicKey)
         : null;
-      const signedPreKeyObject = PublicKey.deserialize(
-        Buffer.from(signedPreKey.publicKey)
-      );
-      const identityKey = PublicKey.deserialize(
-        Buffer.from(response.identityKey)
-      );
+      const signedPreKeyObject = PublicKey.deserialize(signedPreKey.publicKey);
+      const identityKey = PublicKey.deserialize(response.identityKey);
 
-      const pqPreKeyId = pqPreKey.keyId;
-      const pqPreKeyPublic = KEMPublicKey.deserialize(
-        Buffer.from(pqPreKey.publicKey)
-      );
-      const pqPreKeySignature = Buffer.from(pqPreKey.signature);
+      const { keyId: pqPreKeyId, signature: pqPreKeySignature } = pqPreKey;
+      const pqPreKeyPublic = KEMPublicKey.deserialize(pqPreKey.publicKey);
 
       const preKeyBundle = PreKeyBundle.new(
         registrationId,
@@ -174,7 +167,7 @@ async function handleServerKeys(
         preKeyObject,
         signedPreKey.keyId,
         signedPreKeyObject,
-        Buffer.from(signedPreKey.signature),
+        signedPreKey.signature,
         identityKey,
         pqPreKeyId,
         pqPreKeyPublic,
@@ -195,7 +188,7 @@ async function handleServerKeys(
               protocolAddress,
               sessionStore,
               identityKeyStore,
-              UsePQRatchet.No
+              isPQRatchetEnabled()
             )
         );
       } catch (error) {

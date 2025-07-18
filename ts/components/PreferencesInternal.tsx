@@ -3,6 +3,7 @@
 
 import React, { useState, useCallback } from 'react';
 import classNames from 'classnames';
+import { v4 as uuid } from 'uuid';
 
 import type { LocalizerType } from '../types/I18N';
 import { toLogFormat } from '../types/errors';
@@ -14,6 +15,12 @@ import { Button, ButtonVariant } from './Button';
 import { Spinner } from './Spinner';
 import type { MessageCountBySchemaVersionType } from '../sql/Interface';
 import type { MessageAttributesType } from '../model-types';
+import type { DonationReceipt } from '../types/Donations';
+import { createLogger } from '../logging/log';
+import { isStagingServer } from '../util/isStagingServer';
+import { getHumanDonationAmount } from '../util/currency';
+
+const log = createLogger('PreferencesInternal');
 
 export function PreferencesInternal({
   i18n,
@@ -21,6 +28,10 @@ export function PreferencesInternal({
   validateBackup: doValidateBackup,
   getMessageCountBySchemaVersion,
   getMessageSampleForSchemaVersion,
+  donationReceipts,
+  internalAddDonationReceipt,
+  saveAttachmentToDisk,
+  generateDonationReceiptBlob,
 }: {
   i18n: LocalizerType;
   exportLocalBackup: () => Promise<BackupValidationResultType>;
@@ -29,6 +40,17 @@ export function PreferencesInternal({
   getMessageSampleForSchemaVersion: (
     version: number
   ) => Promise<Array<MessageAttributesType>>;
+  donationReceipts: ReadonlyArray<DonationReceipt>;
+  internalAddDonationReceipt: (receipt: DonationReceipt) => void;
+  saveAttachmentToDisk: (options: {
+    data: Uint8Array;
+    name: string;
+    baseDir?: string | undefined;
+  }) => Promise<{ fullPath: string; name: string } | null>;
+  generateDonationReceiptBlob: (
+    receipt: DonationReceipt,
+    i18n: LocalizerType
+  ) => Promise<Blob>;
 }): JSX.Element {
   const [isExportPending, setIsExportPending] = useState(false);
   const [exportResult, setExportResult] = useState<
@@ -119,6 +141,48 @@ export function PreferencesInternal({
       setIsExportPending(false);
     }
   }, [doExportLocalBackup]);
+
+  // Donation receipt states
+  const [isGeneratingReceipt, setIsGeneratingReceipt] = useState(false);
+
+  const handleAddTestReceipt = useCallback(async () => {
+    const testReceipt: DonationReceipt = {
+      id: uuid(),
+      currencyType: 'USD',
+      paymentAmount: Math.floor(Math.random() * 10000) + 100, // Random amount between $1 and $100 (in cents)
+      timestamp: Date.now(),
+    };
+
+    try {
+      await internalAddDonationReceipt(testReceipt);
+    } catch (error) {
+      log.error('Error adding test receipt:', toLogFormat(error));
+    }
+  }, [internalAddDonationReceipt]);
+
+  const handleGenerateReceipt = useCallback(
+    async (receipt: DonationReceipt) => {
+      setIsGeneratingReceipt(true);
+      try {
+        const blob = await generateDonationReceiptBlob(receipt, i18n);
+        const buffer = await blob.arrayBuffer();
+
+        const result = await saveAttachmentToDisk({
+          name: `Signal_Receipt_${new Date(receipt.timestamp).toISOString().split('T')[0]}.png`,
+          data: new Uint8Array(buffer),
+        });
+
+        if (result) {
+          log.info('Receipt saved to:', result.fullPath);
+        }
+      } catch (error) {
+        log.error('Error generating receipt:', toLogFormat(error));
+      } finally {
+        setIsGeneratingReceipt(false);
+      }
+    },
+    [i18n, saveAttachmentToDisk, generateDonationReceiptBlob]
+  );
 
   return (
     <div className="Preferences--internal">
@@ -280,6 +344,99 @@ export function PreferencesInternal({
           </div>
         ) : null}
       </SettingsRow>
+
+      {isStagingServer() && (
+        <SettingsRow
+          className="Preferences--internal--donation-receipts"
+          title="Donation Receipts Testing"
+        >
+          <FlowingSettingsControl>
+            <div className="Preferences__two-thirds-flow">
+              Test donation receipt generation functionality
+            </div>
+            <div
+              className={classNames(
+                'Preferences__flow-button',
+                'Preferences__one-third-flow',
+                'Preferences__one-third-flow--align-right'
+              )}
+            >
+              <Button
+                variant={ButtonVariant.Secondary}
+                onClick={handleAddTestReceipt}
+              >
+                Add Test Receipt
+              </Button>
+            </div>
+          </FlowingSettingsControl>
+
+          {donationReceipts.length > 0 ? (
+            <div className="Preferences--internal--result">
+              <h4>Receipts ({donationReceipts.length})</h4>
+              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <thead>
+                  <tr style={{ borderBottom: '2px solid #ddd' }}>
+                    <th style={{ padding: '8px', textAlign: 'left' }}>Date</th>
+                    <th style={{ padding: '8px', textAlign: 'left' }}>
+                      Amount
+                    </th>
+                    <th style={{ padding: '8px', textAlign: 'left' }}>
+                      Last 4
+                    </th>
+                    <th style={{ padding: '8px', textAlign: 'left' }}>ID</th>
+                    <th style={{ padding: '8px', textAlign: 'left' }}>
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {donationReceipts.map(receipt => (
+                    <tr
+                      key={receipt.id}
+                      style={{ borderBottom: '1px solid #eee' }}
+                    >
+                      <td style={{ padding: '8px' }}>
+                        {new Date(receipt.timestamp).toLocaleDateString()}
+                      </td>
+                      <td style={{ padding: '8px' }}>
+                        {getHumanDonationAmount(receipt)} {receipt.currencyType}
+                      </td>
+                      <td
+                        style={{
+                          padding: '8px',
+                          fontSize: '12px',
+                          fontFamily: 'monospace',
+                        }}
+                      >
+                        {receipt.id.substring(0, 8)}...
+                      </td>
+                      <td style={{ padding: '8px' }}>
+                        <Button
+                          variant={ButtonVariant.Secondary}
+                          onClick={() => handleGenerateReceipt(receipt)}
+                          disabled={isGeneratingReceipt}
+                        >
+                          {isGeneratingReceipt ? (
+                            <Spinner size="16px" svgSize="small" />
+                          ) : (
+                            'Download'
+                          )}
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="Preferences--internal--result">
+              <p style={{ color: '#666' }}>
+                No receipts found. Add some test receipts above.
+              </p>
+            </div>
+          )}
+        </SettingsRow>
+      )}
     </div>
   );
 }

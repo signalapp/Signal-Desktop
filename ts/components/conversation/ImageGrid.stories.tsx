@@ -15,11 +15,21 @@ import {
   stringToMIMEType,
 } from '../../types/MIME';
 import { pngUrl, squareStickerUrl } from '../../storybook/Fixtures';
-import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
+import { fakeAttachment } from '../../test-helpers/fakeAttachment';
 import { strictAssert } from '../../util/assert';
 import { isDownloadable } from '../../types/Attachment';
+import { toBase64 } from '../../Bytes';
+import { DIGEST_LENGTH, KEY_SET_LENGTH } from '../../types/Crypto';
 
 const { i18n } = window.SignalContext;
+
+const getRandomBytes = (length: number): Uint8Array => {
+  const arr = new Uint8Array(length);
+  return window.crypto.getRandomValues(arr);
+};
+
+const MOCK_KEY = toBase64(getRandomBytes(KEY_SET_LENGTH));
+const MOCK_DIGEST = toBase64(getRandomBytes(DIGEST_LENGTH));
 
 export default {
   title: 'Components/Conversation/ImageGrid',
@@ -1052,8 +1062,8 @@ export function DownloadPill(args: Props): JSX.Element {
     width: 3000,
     path: undefined,
     blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
-    key: 'mock-key',
-    digest: 'mock-digest',
+    key: MOCK_KEY,
+    digest: MOCK_DIGEST,
     cdnKey: 'mock-cdn-key',
     cdnNumber: 4000,
   });
@@ -1065,8 +1075,8 @@ export function DownloadPill(args: Props): JSX.Element {
     width: 3000,
     path: undefined,
     blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
-    key: 'mock-key',
-    digest: 'mock-digest',
+    key: MOCK_KEY,
+    digest: MOCK_DIGEST,
     cdnKey: 'mock-cdn-key',
     cdnNumber: 4000,
   });

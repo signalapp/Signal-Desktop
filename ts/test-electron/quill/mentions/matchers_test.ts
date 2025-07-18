@@ -10,7 +10,7 @@ import { generateAci } from '../../../types/ServiceId';
 import { matchMention } from '../../../quill/mentions/matchers';
 import { MemberRepository } from '../../../quill/memberRepository';
 import type { ConversationType } from '../../../state/ducks/conversations';
-import { getDefaultConversationWithServiceId } from '../../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversationWithServiceId } from '../../../test-helpers/getDefaultConversation';
 
 const ACI_1 = generateAci();
 

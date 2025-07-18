@@ -21,11 +21,13 @@ import { getMe, getSelectedConversationId } from '../selectors/conversations';
 import { useConversationsActions } from '../ducks/conversations';
 import { useToastActions } from '../ducks/toast';
 import { useGlobalModalActions } from '../ducks/globalModals';
-import { NavTab } from '../ducks/nav';
+import { useNavActions } from '../ducks/nav';
+import { NavTab } from '../../types/Nav';
 import { getHasCompletedUsernameOnboarding } from '../selectors/items';
 import { ToastManager } from '../../components/ToastManager';
 import type { WidthBreakpoint } from '../../components/_util';
 import { getToast } from '../selectors/toast';
+import { useDonationsActions } from '../ducks/donations';
 
 export type SmartPropsType = Readonly<{
   disableMegaphone?: boolean;
@@ -53,6 +55,8 @@ export const SmartToastManager = memo(function SmartToastManager({
   const { username } = useSelector(getMe);
   const selectedNavTab = useSelector(getSelectedNavTab);
   const selectedConversationId = useSelector(getSelectedConversationId);
+  const { changeLocation } = useNavActions();
+  const { clearWorkflow, setDidResume } = useDonationsActions();
 
   const { onUndoArchive } = useConversationsActions();
   const { openFileInFolder, hideToast } = useToastActions();
@@ -86,6 +90,8 @@ export const SmartToastManager = memo(function SmartToastManager({
 
   return (
     <ToastManager
+      changeLocation={changeLocation}
+      clearDonation={clearWorkflow}
       i18n={i18n}
       OS={OS.getName()}
       toast={toast}
@@ -94,6 +100,7 @@ export const SmartToastManager = memo(function SmartToastManager({
       onUndoArchive={onUndoArchive}
       openFileInFolder={openFileInFolder}
       hideToast={hideToast}
+      setDidResumeDonation={setDidResume}
       showAttachmentNotAvailableModal={showAttachmentNotAvailableModal}
       centerToast={centerToast}
       containerWidthBreakpoint={containerWidthBreakpoint}

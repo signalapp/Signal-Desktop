@@ -64,9 +64,9 @@ import { SignalService as Proto } from '../protobuf';
 import { createLogger } from '../logging/log';
 import type { StorageAccessType } from '../types/Storage';
 import { getRelativePath, createName } from '../util/attachmentPath';
-import { isBackupFeatureEnabled } from '../util/isBackupEnabled';
 import { isLinkAndSyncEnabled } from '../util/isLinkAndSyncEnabled';
 import { getMessageQueueTime } from '../util/getMessageQueueTime';
+import { canAttemptRemoteBackupDownload } from '../util/isBackupEnabled';
 
 const log = createLogger('AccountManager');
 
@@ -289,9 +289,7 @@ export default class AccountManager extends EventTarget {
 
     const name = decryptDeviceName(
       {
-        ephemeralPublic: PublicKey.deserialize(
-          Buffer.from(proto.ephemeralPublic)
-        ),
+        ephemeralPublic: PublicKey.deserialize(proto.ephemeralPublic),
         syntheticIv: proto.syntheticIv,
         ciphertext: proto.ciphertext,
       },
@@ -1122,7 +1120,7 @@ export default class AccountManager extends EventTarget {
     }
 
     const shouldDownloadBackup =
-      isBackupFeatureEnabled() ||
+      canAttemptRemoteBackupDownload() ||
       (isLinkAndSyncEnabled() && options.ephemeralBackupKey);
 
     // Set backup download path before storing credentials to ensure that

@@ -213,8 +213,8 @@ import {
   getCallLinkRecordByRoomId,
   insertCallLink,
   insertDefunctCallLink,
+  insertOrUpdateCallLinkFromSync,
   updateCallLink,
-  updateCallLinkAdminKeyByRoomId,
   updateCallLinkState,
   updateDefunctCallLink,
 } from './server/callLinks';
@@ -546,8 +546,8 @@ export const DataWriter: ServerWritableInterface = {
   saveCallHistory,
   markCallHistoryMissed,
   insertCallLink,
+  insertOrUpdateCallLinkFromSync,
   updateCallLink,
-  updateCallLinkAdminKeyByRoomId,
   updateCallLinkState,
   beginDeleteAllCallLinks,
   beginDeleteCallLink,
@@ -3113,14 +3113,14 @@ function getUnreadByConversationAndMarkRead(
   {
     conversationId,
     includeStoryReplies,
-    newestUnreadAt,
+    readMessageReceivedAt,
     storyId,
     readAt,
     now = Date.now(),
   }: {
     conversationId: string;
     includeStoryReplies: boolean;
-    newestUnreadAt: number;
+    readMessageReceivedAt: number;
     storyId?: string;
     readAt?: number;
     now?: number;
@@ -3147,7 +3147,7 @@ function getUnreadByConversationAndMarkRead(
           expirationStartTimestamp > ${expirationStartTimestamp}
         ) AND
         expireTimer > 0 AND
-        received_at <= ${newestUnreadAt};
+        received_at <= ${readMessageReceivedAt};
     `;
 
     db.prepare(updateExpirationQuery).run(updateExpirationParams);
@@ -3161,7 +3161,7 @@ function getUnreadByConversationAndMarkRead(
           seenStatus = ${SeenStatus.Unseen} AND
           isStory = 0 AND
           (${_storyIdPredicate(storyId, includeStoryReplies)}) AND
-          received_at <= ${newestUnreadAt}
+          received_at <= ${readMessageReceivedAt}
         ORDER BY received_at DESC, sent_at DESC;
     `;
 
@@ -3185,7 +3185,7 @@ function getUnreadByConversationAndMarkRead(
           seenStatus = ${SeenStatus.Unseen} AND
           isStory = 0 AND
           (${_storyIdPredicate(storyId, includeStoryReplies)}) AND
-          received_at <= ${newestUnreadAt};
+          received_at <= ${readMessageReceivedAt};
     `;
 
     db.prepare(updateStatusQuery).run(updateStatusParams);
@@ -3211,11 +3211,11 @@ function getUnreadReactionsAndMarkRead(
   db: WritableDB,
   {
     conversationId,
-    newestUnreadAt,
+    readMessageReceivedAt,
     storyId,
   }: {
     conversationId: string;
-    newestUnreadAt: number;
+    readMessageReceivedAt: number;
     storyId?: string;
   }
 ): Array<ReactionResultType> {
@@ -3230,14 +3230,14 @@ function getUnreadReactionsAndMarkRead(
         WHERE
           reactions.conversationId IS $conversationId AND
           reactions.unread > 0 AND
-          messages.received_at <= $newestUnreadAt AND
+          messages.received_at <= $readMessageReceivedAt AND
           messages.storyId IS $storyId
         ORDER BY messageReceivedAt DESC;
       `
       )
       .all({
         conversationId,
-        newestUnreadAt,
+        readMessageReceivedAt,
         storyId: storyId || null,
       });
 
@@ -3498,12 +3498,12 @@ function getAdjacentMessagesByConversation(
       }
       ${
         requireVisualMediaAttachments
-          ? sqlFragment`hasVisualMediaAttachments IS 1 AND`
+          ? sqlFragment`hasVisualMediaAttachments IS 1 AND isViewOnce IS 0 AND`
           : sqlFragment``
       }
       ${
         requireFileAttachments
-          ? sqlFragment`hasFileAttachments IS 1 AND`
+          ? sqlFragment`hasFileAttachments IS 1 AND isViewOnce IS 0 AND`
           : sqlFragment``
       }
       isStory IS 0 AND
@@ -5597,51 +5597,87 @@ function saveAttachmentDownloadJobs(
   db: WritableDB,
   jobs: Array<AttachmentDownloadJobType>
 ): void {
+  const errors: Array<Error> = [];
   db.transaction(() => {
     for (const job of jobs) {
-      saveAttachmentDownloadJob(db, job);
+      try {
+        saveAttachmentDownloadJob(db, job);
+      } catch (e) {
+        errors.push(e);
+      }
     }
   })();
+
+  if (errors.length === 0) {
+    return;
+  }
+  if (errors.length === 1) {
+    throw errors[0];
+  }
+  throw new AggregateError(
+    errors,
+    `Multiple errors while saving attachment download jobs:\n ${errors.map(e => e.message).join('\n')}`
+  );
 }
 
 function saveAttachmentDownloadJob(
   db: WritableDB,
   job: AttachmentDownloadJobType
 ): void {
-  const [query, params] = sql`
-    INSERT OR REPLACE INTO attachment_downloads (
-      messageId,
-      attachmentType,
-      attachmentSignature,
-      receivedAt,
-      sentAt,
-      contentType,
-      size,
-      active,
-      attempts,
-      retryAfter,
-      lastAttemptTimestamp,
-      attachmentJson,
-      ciphertextSize,
-      source
-    ) VALUES (
-      ${job.messageId},
-      ${job.attachmentType},
-      ${job.attachmentSignature},
-      ${job.receivedAt},
-      ${job.sentAt},
-      ${job.contentType},
-      ${job.size},
-      ${job.active ? 1 : 0},
-      ${job.attempts},
-      ${job.retryAfter},
-      ${job.lastAttemptTimestamp},
-      ${objectToJSON(job.attachment)},
-      ${job.ciphertextSize},
-      ${job.source}
-    );
-  `;
-  db.prepare(query).run(params);
+  return db.transaction(() => {
+    const [messageExistsQuery, messageExistsParams] = sql`
+      SELECT EXISTS(
+        SELECT 1 FROM messages
+        WHERE messages.id = ${job.messageId}
+      );
+    `;
+
+    const messageExists = db
+      .prepare(messageExistsQuery, {
+        pluck: true,
+      })
+      .get<number>(messageExistsParams);
+
+    if (messageExists !== 1) {
+      logger.warn('saveAttachmentDownloadJob: message does not exist, bailing');
+      return;
+    }
+
+    const [insertQuery, insertParams] = sql`
+      INSERT OR REPLACE INTO attachment_downloads (
+        messageId,
+        attachmentType,
+        attachmentSignature,
+        receivedAt,
+        sentAt,
+        contentType,
+        size,
+        active,
+        attempts,
+        retryAfter,
+        lastAttemptTimestamp,
+        attachmentJson,
+        ciphertextSize,
+        source
+      ) VALUES (
+        ${job.messageId},
+        ${job.attachmentType},
+        ${job.attachmentSignature},
+        ${job.receivedAt},
+        ${job.sentAt},
+        ${job.contentType},
+        ${job.size},
+        ${job.active ? 1 : 0},
+        ${job.attempts},
+        ${job.retryAfter},
+        ${job.lastAttemptTimestamp},
+        ${objectToJSON(job.attachment)},
+        ${job.ciphertextSize},
+        ${job.source}
+      );
+    `;
+    db.prepare(insertQuery).run(insertParams);
+  })();
 }
 
 function resetAttachmentDownloadActive(db: WritableDB): void {
@@ -8409,10 +8445,10 @@ function getUnreadEditedMessagesAndMarkRead(
   db: WritableDB,
   {
     conversationId,
-    newestUnreadAt,
+    readMessageReceivedAt,
   }: {
     conversationId: string;
-    newestUnreadAt: number;
+    readMessageReceivedAt: number;
   }
 ): GetUnreadByConversationAndMarkReadResultType {
   return db.transaction(() => {
@@ -8431,7 +8467,7 @@ function getUnreadEditedMessagesAndMarkRead(
       WHERE
         edited_messages.readStatus = ${ReadStatus.Unread} AND
         edited_messages.conversationId = ${conversationId} AND
-        received_at <= ${newestUnreadAt}
+        received_at <= ${readMessageReceivedAt}
       ORDER BY messages.received_at DESC, messages.sent_at DESC;
     `;
 

@@ -8,8 +8,8 @@ import type { Meta } from '@storybook/react';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../../test-both/helpers/getDefaultConversation';
-import { getRandomColor } from '../../test-both/helpers/getRandomColor';
+} from '../../test-helpers/getDefaultConversation';
+import { getRandomColor } from '../../test-helpers/getRandomColor';
 import { DurationInSeconds } from '../../util/durations';
 import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext';
 import type { PropsType } from './ConversationHeader';

@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 import type {
+  BackupMediaDownloadStatusType,
   BackupsSubscriptionType,
   BackupStatusType,
 } from '../types/backups';
@@ -19,7 +20,7 @@ import {
 import { missingCaseError } from '../util/missingCaseError';
 import { Button, ButtonVariant } from './Button';
 import type { PreferencesBackupPage } from '../types/PreferencesBackupPage';
-import { Page } from './Preferences';
+import { SettingsPage } from '../types/Nav';
 import { I18n } from './I18n';
 import { PreferencesLocalBackups } from './PreferencesLocalBackups';
 import type { ShowToastAction } from '../state/ducks/toast';
@@ -28,6 +29,7 @@ import type {
   PromptOSAuthResultType,
 } from '../util/os/promptOSAuthMain';
 import { ConfirmationDialog } from './ConfirmationDialog';
+import { BackupMediaDownloadProgressSettings } from './BackupMediaDownloadProgressSettings';
 
 export const SIGNAL_BACKUPS_LEARN_MORE_URL =
   'https://support.signal.org/hc/articles/360007059752-Backup-and-Restore-Messages';
@@ -42,6 +44,10 @@ export function PreferencesBackups({
   localBackupFolder,
   onBackupKeyViewedChange,
   pickLocalBackupFolder,
+  backupMediaDownloadStatus,
+  cancelBackupMediaDownload,
+  pauseBackupMediaDownload,
+  resumeBackupMediaDownload,
   page,
   promptOSAuth,
   refreshCloudBackupStatus,
@@ -58,6 +64,10 @@ export function PreferencesBackups({
   locale: string;
   onBackupKeyViewedChange: (keyViewed: boolean) => void;
   page: PreferencesBackupPage;
+  backupMediaDownloadStatus: BackupMediaDownloadStatusType | undefined;
+  cancelBackupMediaDownload: () => void;
+  pauseBackupMediaDownload: () => void;
+  resumeBackupMediaDownload: () => void;
   pickLocalBackupFolder: () => Promise<string | undefined>;
   promptOSAuth: (
     reason: PromptOSAuthReasonType
@@ -72,17 +82,17 @@ export function PreferencesBackups({
   const [isAuthPending, setIsAuthPending] = useState<boolean>(false);
 
   useEffect(() => {
-    if (page === Page.Backups) {
+    if (page === SettingsPage.Backups) {
       refreshBackupSubscriptionStatus();
-    } else if (page === Page.BackupsDetails) {
+    } else if (page === SettingsPage.BackupsDetails) {
       refreshBackupSubscriptionStatus();
       refreshCloudBackupStatus();
     }
   }, [page, refreshBackupSubscriptionStatus, refreshCloudBackupStatus]);
 
-  if (page === Page.BackupsDetails) {
+  if (page === SettingsPage.BackupsDetails) {
     if (backupSubscriptionStatus.status === 'off') {
-      setPage(Page.Backups);
+      setPage(SettingsPage.Backups);
       return null;
     }
     return (
@@ -90,16 +100,20 @@ export function PreferencesBackups({
         i18n={i18n}
         cloudBackupStatus={cloudBackupStatus}
         backupSubscriptionStatus={backupSubscriptionStatus}
+        backupMediaDownloadStatus={backupMediaDownloadStatus}
+        cancelBackupMediaDownload={cancelBackupMediaDownload}
+        pauseBackupMediaDownload={pauseBackupMediaDownload}
+        resumeBackupMediaDownload={resumeBackupMediaDownload}
         locale={locale}
       />
     );
   }
 
   if (
-    page === Page.LocalBackups ||
-    page === Page.LocalBackupsKeyReference ||
-    page === Page.LocalBackupsSetupFolder ||
-    page === Page.LocalBackupsSetupKey
+    page === SettingsPage.LocalBackups ||
+    page === SettingsPage.LocalBackupsKeyReference ||
+    page === SettingsPage.LocalBackupsSetupFolder ||
+    page === SettingsPage.LocalBackupsSetupKey
   ) {
     return (
       <PreferencesLocalBackups
@@ -179,7 +193,7 @@ export function PreferencesBackups({
               )}
             >
               <Button
-                onClick={() => setPage(Page.BackupsDetails)}
+                onClick={() => setPage(SettingsPage.BackupsDetails)}
                 variant={ButtonVariant.Secondary}
               >
                 {i18n('icu:Preferences__button--manage')}
@@ -232,7 +246,7 @@ export function PreferencesBackups({
                   }
                 }
 
-                setPage(Page.LocalBackups);
+                setPage(SettingsPage.LocalBackups);
               }}
               variant={ButtonVariant.Secondary}
             >
@@ -468,12 +482,25 @@ function BackupsDetailsPage({
   backupSubscriptionStatus,
   i18n,
   locale,
+  cancelBackupMediaDownload,
+  pauseBackupMediaDownload,
+  resumeBackupMediaDownload,
+  backupMediaDownloadStatus,
 }: {
   cloudBackupStatus?: BackupStatusType;
   backupSubscriptionStatus: BackupsSubscriptionType;
   i18n: LocalizerType;
   locale: string;
+  cancelBackupMediaDownload: () => void;
+  pauseBackupMediaDownload: () => void;
+  resumeBackupMediaDownload: () => void;
+  backupMediaDownloadStatus?: BackupMediaDownloadStatusType;
 }): JSX.Element {
+  const shouldShowMediaProgress =
+    backupMediaDownloadStatus &&
+    backupMediaDownloadStatus.completedBytes <
+      backupMediaDownloadStatus.totalBytes;
+
   return (
     <>
       <div className="Preferences--backups-summary__container">
@@ -484,12 +511,12 @@ function BackupsDetailsPage({
         })}
       </div>
 
-      {cloudBackupStatus ? (
+      {cloudBackupStatus || shouldShowMediaProgress ? (
         <SettingsRow
           className="Preferences--backup-details"
           title={i18n('icu:Preferences--backup-details__header')}
         >
-          {cloudBackupStatus.createdTimestamp ? (
+          {cloudBackupStatus?.createdTimestamp ? (
             <div className="Preferences--backup-details__row">
               <label>{i18n('icu:Preferences--backup-created-at__label')}</label>
               <div
@@ -504,6 +531,17 @@ function BackupsDetailsPage({
                   timeStyle: 'short',
                 })}
               </div>
+            </div>
+          ) : null}
+          {shouldShowMediaProgress && backupMediaDownloadStatus ? (
+            <div className="Preferences--backup-details__row">
+              <BackupMediaDownloadProgressSettings
+                {...backupMediaDownloadStatus}
+                handleCancel={cancelBackupMediaDownload}
+                handlePause={pauseBackupMediaDownload}
+                handleResume={resumeBackupMediaDownload}
+                i18n={i18n}
+              />
             </div>
           ) : null}
         </SettingsRow>

@@ -24,14 +24,14 @@ import { ThemeType } from '../types/Util';
 import {
   getDefaultConversation,
   getDefaultGroupListItem,
-} from '../test-both/helpers/getDefaultConversation';
+} from '../test-helpers/getDefaultConversation';
 import { DialogType } from '../types/Dialogs';
 import { SocketStatus } from '../types/SocketStatus';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 import {
   makeFakeLookupConversationWithoutServiceId,
   useUuidFetchState,
-} from '../test-both/helpers/fakeLookupConversationWithoutServiceId';
+} from '../test-helpers/fakeLookupConversationWithoutServiceId';
 import type { GroupListItemConversationType } from './conversationList/GroupListItem';
 import { ServerAlert } from '../util/handleServerAlerts';
 
@@ -284,12 +284,15 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     ),
     renderToastManager: ({ containerWidthBreakpoint }) => (
       <ToastManager
+        changeLocation={action('changeLocation')}
+        clearDonation={action('clearDonation')}
         OS="unused"
         hideToast={action('hideToast')}
         i18n={i18n}
         onShowDebugLog={action('onShowDebugLog')}
         onUndoArchive={action('onUndoArchive')}
         openFileInFolder={action('openFileInFolder')}
+        setDidResumeDonation={action('setDidResumeDonation')}
         showAttachmentNotAvailableModal={action(
           'showAttachmentNotAvailableModal'
         )}

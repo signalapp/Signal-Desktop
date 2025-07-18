@@ -180,12 +180,8 @@ import {
   MESSAGE_MAX_EDIT_COUNT,
 } from '../../util/canEditMessage';
 import type { ChangeLocationAction } from './nav';
-import {
-  CHANGE_LOCATION,
-  NavTab,
-  changeLocation,
-  actions as navActions,
-} from './nav';
+import { CHANGE_LOCATION, changeLocation, actions as navActions } from './nav';
+import { NavTab, ProfileEditorPage, SettingsPage } from '../../types/Nav';
 import { sortByMessageOrder } from '../../types/ForwardDraft';
 import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation';
 import {
@@ -210,7 +206,7 @@ import { actions as searchActions } from './search';
 import type { SearchActionType } from './search';
 import { getNotificationTextForMessage } from '../../util/getNotificationTextForMessage';
 import { doubleCheckMissingQuoteReference as doDoubleCheckMissingQuoteReference } from '../../util/doubleCheckMissingQuoteReference';
-import { queueAttachmentDownloadsForMessage } from '../../util/queueAttachmentDownloads';
+import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads';
 import { markAttachmentAsCorrupted as doMarkAttachmentAsCorrupted } from '../../messageModifiers/AttachmentDownloads';
 import {
   isSent,
@@ -221,8 +217,7 @@ import { markFailed } from '../../test-node/util/messageFailures';
 import { cleanupMessages } from '../../util/cleanup';
 import { MessageModel } from '../../models/messages';
 import type { ConversationModel } from '../../models/conversations';
-import { EditState } from '../../components/ProfileEditor';
-import { Page } from '../../components/Preferences';
+import { MessageRequestResponseSource } from '../../types/MessageRequestResponseEvent';
 
 const log = createLogger('conversations');
 
@@ -1467,8 +1462,7 @@ function markMessageRead(
       throw new Error(`markMessageRead: failed to load message ${messageId}`);
     }
 
-    await conversation.markRead(message.get('received_at'), {
-      newestSentAt: message.get('sent_at'),
+    await conversation.markRead(message.attributes, {
       sendReadReceipts: true,
     });
 
@@ -2268,8 +2262,8 @@ function myProfileChanged(
       changeLocation({
         tab: NavTab.Settings,
         details: {
-          page: Page.Profile,
-          state: EditState.None,
+          page: SettingsPage.Profile,
+          state: ProfileEditorPage.None,
         },
       });
     }
@@ -2343,7 +2337,7 @@ function kickOffAttachmentDownload(
         `kickOffAttachmentDownload: Message ${options.messageId} missing!`
       );
     }
-    const didUpdateValues = await queueAttachmentDownloadsForMessage(message, {
+    const didUpdateValues = await queueAttachmentDownloads(message, {
       urgency: AttachmentDownloadUrgency.IMMEDIATE,
       isManualDownload: true,
     });
@@ -3627,7 +3621,14 @@ async function syncMessageRequestResponse(
 ): Promise<void> {
   // In GroupsV2, this may modify the server. We only want to continue if those
   //   server updates were successful.
-  await conversation.applyMessageRequestResponse(response, { shouldSave });
+  await conversation.applyMessageRequestResponse(
+    response,
+    {
+      source: MessageRequestResponseSource.LOCAL,
+      timestamp: Date.now(),
+    },
+    { shouldSave }
+  );
 
   const groupId = conversation.getGroupIdBuffer();
 
@@ -3840,8 +3841,10 @@ function acceptConversation(
       await conversation.applyMessageRequestResponse(
         messageRequestEnum.ACCEPT,
         {
-          shouldSave: true,
-        }
+          source: MessageRequestResponseSource.LOCAL,
+          timestamp: Date.now(),
+        },
+        { shouldSave: true }
       );
 
       try {
@@ -3916,9 +3919,14 @@ function blockConversation(
     } else {
       // In GroupsV2, this may modify the server. We only want to continue if those
       //   server updates were successful.
-      await conversation.applyMessageRequestResponse(messageRequestEnum.BLOCK, {
-        shouldSave: true,
-      });
+      await conversation.applyMessageRequestResponse(
+        messageRequestEnum.BLOCK,
+        {
+          source: MessageRequestResponseSource.LOCAL,
+          timestamp: Date.now(),
+        },
+        { shouldSave: true }
+      );
 
       try {
         await singleProtoJobQueue.add(

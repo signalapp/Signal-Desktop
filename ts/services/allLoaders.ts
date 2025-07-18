@@ -13,6 +13,7 @@ import {
   getDistributionListsForRedux,
   loadDistributionLists,
 } from './distributionListLoader';
+import { getDonationsForRedux, loadDonationReceipts } from './donationsLoader';
 import { getStoriesForRedux, loadStories } from './storyLoader';
 import { getUserDataForRedux, loadUserData } from './userLoader';
 import {
@@ -40,6 +41,7 @@ export async function loadAll(): Promise<void> {
     loadCallHistory(),
     loadCallLinks(),
     loadDistributionLists(),
+    loadDonationReceipts(),
     loadGifsState(),
     loadNotificationProfiles(),
     loadRecentEmojis(),
@@ -62,6 +64,7 @@ export function getParametersForRedux(): ReduxInitData {
     callHistory: getCallsHistoryForRedux(),
     callHistoryUnreadCount: getCallsHistoryUnreadCountForRedux(),
     callLinks: getCallLinksForRedux(),
+    donations: getDonationsForRedux(),
     gifs: getGifsStateForRedux(),
     mainWindowStats,
     menuOptions,

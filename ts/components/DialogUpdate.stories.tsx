@@ -9,7 +9,7 @@ import { DialogUpdate } from './DialogUpdate';
 import { DialogType } from '../types/Dialogs';
 import { WidthBreakpoint } from './_util';
 import { SECOND } from '../util/durations';
-import { FakeLeftPaneContainer } from '../test-both/helpers/FakeLeftPaneContainer';
+import { FakeLeftPaneContainer } from '../test-helpers/FakeLeftPaneContainer';
 
 const { i18n } = window.SignalContext;
 

@@ -1,7 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Buffer } from 'buffer';
 import Long from 'long';
 import { sample } from 'lodash';
 import { Aci, Pni, hkdf } from '@signalapp/libsignal-client';
@@ -58,12 +57,7 @@ export function deriveSecrets(
   salt: Uint8Array,
   info: Uint8Array
 ): [Uint8Array, Uint8Array, Uint8Array] {
-  const output = hkdf(
-    3 * 32,
-    Buffer.from(input),
-    Buffer.from(info),
-    Buffer.from(salt)
-  );
+  const output = hkdf(3 * 32, input, info, salt);
   return [
     output.subarray(0, 32),
     output.subarray(32, 64),
@@ -198,12 +192,12 @@ export function deriveStorageItemKey({
 
   return hkdf(
     STORAGE_SERVICE_ITEM_KEY_LEN,
-    Buffer.from(recordIkm),
-    Buffer.concat([
-      Buffer.from(STORAGE_SERVICE_ITEM_KEY_INFO_PREFIX),
-      Buffer.from(key),
+    recordIkm,
+    Bytes.concatenate([
+      Bytes.fromString(STORAGE_SERVICE_ITEM_KEY_INFO_PREFIX),
+      key,
     ]),
-    Buffer.alloc(0)
+    new Uint8Array(0)
   );
 }
 
@@ -547,7 +541,7 @@ export function padAndEncryptAttachment({
     // We generate the plaintext hash here for forwards-compatibility with streaming
     // attachment encryption, which may be the only place that the whole attachment flows
     // through memory
-    plaintextHash: Buffer.from(sha256(plaintext)).toString('hex'),
+    plaintextHash: Bytes.toHex(sha256(plaintext)),
   };
 }
 

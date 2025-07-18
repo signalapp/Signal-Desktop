@@ -305,9 +305,6 @@
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "Parametrat"
   },
-  "icu:NavTabs__ItemLabel--Update": {
-    "messageformat": "Përditësoni Signal-in"
-  },
   "icu:NavTabs__ItemLabel--Profile": {
     "messageformat": "Profil"
   },
@@ -605,6 +602,12 @@
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
+  "icu:Toast--ReceiptSaved": {
+    "messageformat": "Fatura u ruajt"
+  },
+  "icu:Toast--ReceiptSaveFailed": {
+    "messageformat": "Gabim gjatë ruajtjes së faturës. Të lutem, provo sërish."
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Nuk mund të zgjedhësh foto dhe video bashkë me skedarë."
   },
@@ -664,9 +667,6 @@
   },
   "icu:joinTheBeta": {
     "messageformat": "Merrni pjesë në Beta"
-  },
-  "icu:signalDesktopPreferences": {
-    "messageformat": "Parapëlqime për Signal-in në Desktop"
   },
   "icu:signalDesktopStickerCreator": {
     "messageformat": "Krijues pakete ngjitësish"
@@ -1285,6 +1285,168 @@
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "Toni i lëkurës së emoxhit"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
+    "messageformat": "Dosjet e bisedës"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
+    "messageformat": "Shto dosje bisede"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
+    "messageformat": "Organizo bisedat në dosje dhe kalo shpejt ndërmjet tyre në listën e bisedave."
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
+    "messageformat": "Përpuno dosjen"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__DeleteFolder": {
+    "messageformat": "Fshije"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Title": {
+    "messageformat": "Të fshihet dosja?"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Description": {
+    "messageformat": "Dëshiron të fshish dosjen \"{chatFolderTitle}\"?"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
+    "messageformat": "Fshije"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
+    "messageformat": "Anulo"
+  },
+  "icu:Preferences__ChatFoldersPage__Title": {
+    "messageformat": "Dosjet e bisedës"
+  },
+  "icu:Preferences__ChatFoldersPage__Description": {
+    "messageformat": "Organizo bisedat në dosje dhe kalo shpejt ndërmjet tyre në listën e bisedave"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__Title": {
+    "messageformat": "Dosjet"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__AllChatsFolder__Title": {
+    "messageformat": "Të gjitha bisedat"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
+    "messageformat": "Krijo dosje"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
+    "messageformat": "Dosjet e sugjeruara"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
+    "messageformat": "Shtoje"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
+    "messageformat": "Dosja {chatFolderTitle} u shtua"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
+    "messageformat": "Të palexuara"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Description": {
+    "messageformat": "Mesazhe të palexuara nga të gjitha bisedat"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Title": {
+    "messageformat": "Biseda 1:1"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Description": {
+    "messageformat": "Vetëm mesazhe nga biseda direkte"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Title": {
+    "messageformat": "Grupe"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Description": {
+    "messageformat": "Mesazhe vetëm nga bisedat në grup"
+  },
+  "icu:Preferences__EditChatFolderPage__Title": {
+    "messageformat": "Krijo dosje"
+  },
+  "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
+    "messageformat": "Emri i dosjes"
+  },
+  "icu:Preferences__EditChatFolderPage__FolderNameField__Placeholder": {
+    "messageformat": "Emri i dosjes (kërkohet)"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Title": {
+    "messageformat": "Bisedat e përfshira"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
+    "messageformat": "Zgjidh bisedat që dëshiron të shfaqen në këtë dosje"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
+    "messageformat": "Shto biseda"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog--IncludedChats__Title": {
+    "messageformat": "Bisedat e përfshira"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog--ExcludedChats__Title": {
+    "messageformat": "Bisedat e përjashtuara"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
+    "messageformat": "Kërko"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
+    "messageformat": "Llojet e bisedave"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__DirectChats": {
+    "messageformat": "Biseda 1:1"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__GroupChats": {
+    "messageformat": "Grupe"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__RecentChats__Title": {
+    "messageformat": "Bisedat më të fundit"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__DoneButton": {
+    "messageformat": "U bë"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__Title": {
+    "messageformat": "Përjashtime"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__Help": {
+    "messageformat": "Zgjidh bisedat që nuk dëshiron të shfaqen në këtë dosje"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__ExcludeChatsButton": {
+    "messageformat": "Përjashto biseda"
+  },
+  "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Label": {
+    "messageformat": "Shfaq vetëm biseda të palexuara"
+  },
+  "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Description": {
+    "messageformat": "Vetëm bisedat me mesazhe të palexuara do të shfaqen në këtë dosje."
+  },
+  "icu:Preferences__EditChatFolderPage__IncludeMutedChatsCheckbox__Label": {
+    "messageformat": "Përfshi bisedat pa zë"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteFolderButton": {
+    "messageformat": "Fshi dosjen"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Title": {
+    "messageformat": "Të fshihet dosja e bisedë?"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Description": {
+    "messageformat": "Kjo dosje do të hiqet nga lista e bisedave."
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
+    "messageformat": "Fshije"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
+    "messageformat": "Anulo"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
+    "messageformat": "Të ruhen ndryshimet?"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Description": {
+    "messageformat": "Dëshiron të ruash ndryshimet që ke bërë në dosjen e bisedës?"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__SaveButton": {
+    "messageformat": "Ruaje"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__DiscardButton": {
+    "messageformat": "Hidhe tej"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveButton": {
+    "messageformat": "Ruaje"
+  },
+  "icu:Preferences__EditChatFolderPage__CancelButton": {
+    "messageformat": "Anulo"
   },
   "icu:initialSync": {
     "messageformat": "Po njëkohësohen kontakte dhe grupe"
@@ -4026,10 +4188,10 @@
     "messageformat": "Riprovo"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
-    "messageformat": "Duke rikthyer median"
+    "messageformat": "Sinkronizim i medias"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Rikthimi u ndërpre"
+    "messageformat": "Sinkronizimi u ndërpre"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
     "messageformat": "{currentSize} nga {totalSize} u rikthyen"
@@ -4044,13 +4206,13 @@
     "messageformat": "Në pritje të lidhjes me internetin..."
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Ndërprit transferimin"
+    "messageformat": "Ndalesë"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Rifillo transferimin"
+    "messageformat": "Rifillo"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
-    "messageformat": "Anulo transferimin"
+    "messageformat": "Anulo sinkronizimin"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
     "messageformat": "Opsione të tjera"
@@ -4062,16 +4224,34 @@
     "messageformat": "{currentSize} nga {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Të anulohet transferimi i medias?"
+    "messageformat": "Të anulohet sinkronizimi i medias?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "Mesazhet dhe media nuk kanë përfunduar rikthimin. Nëse zgjedh ta anulosh, mund t'i transferosh përsëri nga parametrat."
+    "messageformat": "Sinkronizimi i medias nuk ka përfunduar. Nëse zgjedh ta anulosh, mund ta sinkronizosh përsëri duke e rilidhur këtë pajisje. <learnMoreLink>Mëso më shumë.</learnMoreLink>"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "Vazhdo transferimin"
+    "messageformat": "Vazhdo sinkronizimin"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
-    "messageformat": "Anulo transferimin"
+    "messageformat": "Anulo sinkronizimin"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--title": {
+    "messageformat": "Sinkronizimi u ndërpre"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--description": {
+    "messageformat": "Kliko \"{resumeButtonText} \" për të vazhduar sinkronizimin"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-resume": {
+    "messageformat": "Rifillo"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-pause": {
+    "messageformat": "Ndalesë"
+  },
+  "icu:BackupMediaDownloadProgressSettings__title-in-progress": {
+    "messageformat": "Sinkronizim i medias"
+  },
+  "icu:BackupMediaDownloadProgressSettings__progressbar-hint": {
+    "messageformat": "{currentSize} nga {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
     "messageformat": "Kërkohet veprim i llogarisë"
@@ -5082,7 +5262,7 @@
     "messageformat": "Kopjeruajtjet e Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Kopjeruajtjet automatike me shërbimin e sigurt të ruajtjes së koduar nga skaji në skaj të Signal. Fillo në telefon. <learnMoreLink>Mëso më shumë.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Bëj kopjeruajtje të historikut të mesazheve në mënyrë që të mos i humbasësh kurrë të dhënat kur merr një telefon të ri ose kur e riinstalon sërish Signal."
@@ -5125,9 +5305,6 @@
   },
   "icu:Preferences--backup-created-by-phone": {
     "messageformat": "Telefoni yt"
-  },
-  "icu:Preferences--backup-size__label": {
-    "messageformat": "Madhësia kopjeruajtjes"
   },
   "icu:Preferences__local-backups": {
     "messageformat": "Kopjeruajtjet në Desktop"
@@ -6114,9 +6291,6 @@
   "icu:UsernameLinkModalBody__reset": {
     "messageformat": "Riktheje"
   },
-  "icu:UsernameLinkModalBody__done": {
-    "messageformat": "U bë"
-  },
   "icu:UsernameLinkModalBody__color__radio": {
     "messageformat": "Ngjyra e lidhjes së emrit të përdoruesit, {index,number} nga {total,number}"
   },
@@ -6444,6 +6618,105 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "Ç’ka të Re"
   },
+  "icu:PreferencesDonations__title": {
+    "messageformat": "Privatësia mbi fitimet"
+  },
+  "icu:PreferencesDonations__description": {
+    "messageformat": "Mesazhe private, financuar nga ti. Pa reklama, pa gjurmim, pa kompromise. Dhuro tani për të mbështetur Signal. <learnMoreLink>Mëso më shumë</learnMoreLink>"
+  },
+  "icu:PreferencesDonations__donate-button": {
+    "messageformat": "Dhuro"
+  },
+  "icu:PreferencesDonations__donate-button-with-amount": {
+    "messageformat": "Donate {formattedCurrencyAmount}"
+  },
+  "icu:PreferencesDonations__mobile-info": {
+    "messageformat": "Distinktivët dhe dhurimet mujore mund t'i menaxhosh në celular."
+  },
+  "icu:PreferencesDonations__receipts": {
+    "messageformat": "Fatura"
+  },
+  "icu:PreferencesDonations__faqs": {
+    "messageformat": "Pyetje të shpeshta rreth dhurimeve"
+  },
+  "icu:PreferencesDonations--receiptList__info": {
+    "messageformat": "Faturat nuk sinkronizohen në të gjitha pajisjet. Nëse ke riinstaluar Signal, faturat e dhurimeve të mëparshme nuk do të shfaqen."
+  },
+  "icu:PreferencesDonations--receiptList__empty-title": {
+    "messageformat": "S’ka dëftesa"
+  },
+  "icu:PreferencesDonations__ReceiptModal--title": {
+    "messageformat": "Hollësi"
+  },
+  "icu:PreferencesDonations__ReceiptModal--download": {
+    "messageformat": "Shkarko faturën"
+  },
+  "icu:PreferencesDonations__ReceiptModal--type-label": {
+    "messageformat": "Lloj"
+  },
+  "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
+    "messageformat": "Datë pagese"
+  },
+  "icu:DonationReceipt__title": {
+    "messageformat": "Fatura e dhurimit"
+  },
+  "icu:DonationReceipt__amount-label": {
+    "messageformat": "Shuma"
+  },
+  "icu:DonationReceipt__type-label": {
+    "messageformat": "Lloj"
+  },
+  "icu:DonationReceipt__date-paid-label": {
+    "messageformat": "Datë pagese"
+  },
+  "icu:DonationReceipt__type-value--one-time": {
+    "messageformat": "Një herë"
+  },
+  "icu:DonationReceipt__footer-text": {
+    "messageformat": "Faleminderit që mbështet Signal! Kontributi yt ndihmon në nxitjen e misionit të mbrojtjes së shprehjes së lirë dhe mundësimit të komunikimit të sigurt global për miliona njerëz në mbarë botën, përmes teknologjisë së privatësisë me burim të hapur. Nëse je banor i Shteteve të Bashkuara, të lutem, ruaje këtë faturë për të dhënat e tua tatimore. Signal Technology Foundation është një ent jofitimprurës, i përjashtuar nga taksat, në Shtetet e Bashkuara sipas seksionit 501c3 të Kodit të të Ardhurave të Brendshme. Numri i ID-së federale të tatimeve është 82-4506840."
+  },
+  "icu:Donations__PaymentMethodDeclined": {
+    "messageformat": "Payment method declined"
+  },
+  "icu:Donations__PaymentMethodDeclined__Description": {
+    "messageformat": "Try another payment method or contact your bank for more information."
+  },
+  "icu:Donations__ErrorProcessingDonation": {
+    "messageformat": "Error processing donation"
+  },
+  "icu:Donations__ErrorProcessingDonation__Description": {
+    "messageformat": "Try another payment method or contact your bank for more information."
+  },
+  "icu:Donations__Failed3dsValidation": {
+    "messageformat": "Verification Failed"
+  },
+  "icu:Donations__Failed3dsValidation__Description": {
+    "messageformat": "Additional verification step failed. Please try again."
+  },
+  "icu:Donations__GenericError": {
+    "messageformat": "An error occurred with your donation"
+  },
+  "icu:Donations__GenericError__Description": {
+    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+  },
+  "icu:Donations__Processing": {
+    "messageformat": "Processing donation..."
+  },
+  "icu:Donations__StillProcessing": {
+    "messageformat": "Still processing"
+  },
+  "icu:Donations__StillProcessing__Description": {
+    "messageformat": "Your donation is still being processed. This can take a few minutes."
+  },
+  "icu:Donations__3dsValidationNeeded": {
+    "messageformat": "Additional verification required"
+  },
+  "icu:Donations__3dsValidationNeeded__Description": {
+    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+  },
+  "icu:Donations__3dsValidationNeeded__OpenBrowser": {
+    "messageformat": "Open browser"
+  },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ky version përmban një numër përimtimesh të vockla dhe ndreqje të metash për ta mbajtur të rrjedhshme punën e Signal-it.",
     "ignoreUnused": true
@@ -6477,5 +6750,11 @@
   },
   "icu:WhatsNew__v7.59--0": {
     "messageformat": "Përditësimi mundëson përshpejtimin e GPU-së në Linux për performancë të përmirësuar dhe luajtje më të rrjedhshme të videos në harduerin e mbështetur."
+  },
+  "icu:WhatsNew__v7.61--0": {
+    "messageformat": "Ky përditësim përmirëson cilësinë dhe besueshmërinë e audios gjatë thirrjeve me zë dhe video, si dhe prezanton konfigurim automatik më të mirë të mikrofonave dhe bokseve të lidhur. Faleminderit <padenot></padenot>, <kinetiknz></kinetiknz> dhe <Pehrsons></Pehrsons> në Mozilla për ndihmën e tyre në këtë projekt."
+  },
+  "icu:WhatsNew__v7.62--0": {
+    "messageformat": "Ne rregulluam një defekt të rrallë që mund të pengonte sinkronizimin e saktë të disa kontakteve."
   }
 }

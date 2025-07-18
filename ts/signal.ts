@@ -35,6 +35,7 @@ import { initializeUpdateListener } from './services/updateListener';
 import { calling } from './services/calling';
 import * as storage from './services/storage';
 import { backupsService } from './services/backups';
+import * as donations from './services/donations';
 
 import type { LoggerType } from './types/Logging';
 import type {
@@ -463,6 +464,7 @@ export const setup = (options: {
     initializeGroupCredentialFetcher,
     initializeNetworkObserver,
     initializeUpdateListener,
+    donations,
 
     // Testing
     storage,

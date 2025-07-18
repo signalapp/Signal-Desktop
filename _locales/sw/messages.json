@@ -305,9 +305,6 @@
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "Mipangilio"
   },
-  "icu:NavTabs__ItemLabel--Update": {
-    "messageformat": "Sasisha Signal"
-  },
   "icu:NavTabs__ItemLabel--Profile": {
     "messageformat": "Wasifu"
   },
@@ -605,6 +602,12 @@
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
+  "icu:Toast--ReceiptSaved": {
+    "messageformat": "Risiti imehifadhiwa"
+  },
+  "icu:Toast--ReceiptSaveFailed": {
+    "messageformat": "Hitilafu katika kuhifadhi risiti. Tafadhali jaribu tena."
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Huwezi kuchagua picha na video pamoja na faili."
   },
@@ -664,9 +667,6 @@
   },
   "icu:joinTheBeta": {
     "messageformat": "Jiunge na Toleo la Beta"
-  },
-  "icu:signalDesktopPreferences": {
-    "messageformat": "Upendeleo wa Signal Desktop"
   },
   "icu:signalDesktopStickerCreator": {
     "messageformat": "Fundi wa pakiti ya vibandiko"
@@ -1285,6 +1285,168 @@
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "Emoji ya rangi ya ngozi"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
+    "messageformat": "Folda la magumzo"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
+    "messageformat": "Weka folda la gumzo"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
+    "messageformat": "Panga magumzo yako katika folda na hama haraka baina yao katika orodha yako ya gumzo."
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
+    "messageformat": "Badili folda"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__DeleteFolder": {
+    "messageformat": "Futa"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Title": {
+    "messageformat": "Ungependa kufuta folda?"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Description": {
+    "messageformat": "Unataka kufuta folda la \"{chatFolderTitle}\"?"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
+    "messageformat": "Futa"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
+    "messageformat": "Ghairi"
+  },
+  "icu:Preferences__ChatFoldersPage__Title": {
+    "messageformat": "Folda la magumzo"
+  },
+  "icu:Preferences__ChatFoldersPage__Description": {
+    "messageformat": "Panga magumzo yako katika folda na hama haraka baina yao kwenye orodha yako ya gumzo"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__Title": {
+    "messageformat": "Mafolda"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__AllChatsFolder__Title": {
+    "messageformat": "Magumzo yote"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
+    "messageformat": "Tengeneza folda"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
+    "messageformat": "Mafolda yaliyopendekezwa"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
+    "messageformat": "Ongeza"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
+    "messageformat": "Folda ya {chatFolderTitle} imeongezwa"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
+    "messageformat": "Hazijasomwa"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Description": {
+    "messageformat": "Jumbe ambazo hazijasomwa kutoka kwenye magumzo yote"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Title": {
+    "messageformat": "Magumzo ya 1:1"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Description": {
+    "messageformat": "Jumbe kutoka kwenye magumzo ya moja kwa moja tu"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Title": {
+    "messageformat": "Makundi"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Description": {
+    "messageformat": "Ujumbe kutoka kwenye gumzo la moja kwa moja tu"
+  },
+  "icu:Preferences__EditChatFolderPage__Title": {
+    "messageformat": "Tengeneza folda"
+  },
+  "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
+    "messageformat": "Jina la folda"
+  },
+  "icu:Preferences__EditChatFolderPage__FolderNameField__Placeholder": {
+    "messageformat": "Jina la folda (linahitajika)"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Title": {
+    "messageformat": "Magumzo yaliyojumuishwa"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
+    "messageformat": "Chagua magumzo unayotaka yaonekane kwenye folda hii"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
+    "messageformat": "Weka magumzo"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog--IncludedChats__Title": {
+    "messageformat": "Magumzo yaliyojumuishwa"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog--ExcludedChats__Title": {
+    "messageformat": "Magumzo yaliyotengwa"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
+    "messageformat": "Tafuta"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
+    "messageformat": "Aina za gumzo"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__DirectChats": {
+    "messageformat": "Magumzo ya 1:1"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__GroupChats": {
+    "messageformat": "Makundi"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__RecentChats__Title": {
+    "messageformat": "Gumzo za hivi karibuni"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__DoneButton": {
+    "messageformat": "Imekamilika"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__Title": {
+    "messageformat": "Isipokuwa"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__Help": {
+    "messageformat": "Chagua magumzo ambayo hutaki yaonekana kwenye folda hii"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__ExcludeChatsButton": {
+    "messageformat": "Usijumuishe magumzo"
+  },
+  "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Label": {
+    "messageformat": "Onyesha magumzo hayajasomwa"
+  },
+  "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Description": {
+    "messageformat": "Magumzo yaliyo na ujumbe ambao haujasomwa pekee ndio yataonyeshwa kwenye folda hii."
+  },
+  "icu:Preferences__EditChatFolderPage__IncludeMutedChatsCheckbox__Label": {
+    "messageformat": "Jumuisha magumzo yaliyonyamazishwa"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteFolderButton": {
+    "messageformat": "Futa folda"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Title": {
+    "messageformat": "Ungependa kufuta folda hili la gumzo?"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Description": {
+    "messageformat": "Folda hii itaondolewa kwenye orodha yako ya gumzo."
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
+    "messageformat": "Futa"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
+    "messageformat": "Ghairi"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
+    "messageformat": "Hifadhi mabadiliko?"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Description": {
+    "messageformat": "Ungetaka kuhifadhi mabadiliko uliyofanya kwenye folda la gumzo hili?"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__SaveButton": {
+    "messageformat": "Hifadhi"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__DiscardButton": {
+    "messageformat": "Ghairi"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveButton": {
+    "messageformat": "Hifadhi"
+  },
+  "icu:Preferences__EditChatFolderPage__CancelButton": {
+    "messageformat": "Ghairi"
   },
   "icu:initialSync": {
     "messageformat": "Unganisha wawasiliani na vikundi"
@@ -4026,10 +4188,10 @@
     "messageformat": "Jaribu Upya"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
-    "messageformat": "Inarejesha video na picha"
+    "messageformat": "Inasawazisha picha na video"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Urejeshaji umesitishwa"
+    "messageformat": "Usawazishaji umesitishwa"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
     "messageformat": "{currentSize} ya {totalSize} zimerejeshwa"
@@ -4044,13 +4206,13 @@
     "messageformat": "Inasubiri muunganiko wa Intaneti..."
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Sitisha kuhamisha"
+    "messageformat": "Sitisha"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Endelea kuhamisha"
+    "messageformat": "Endelea"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
-    "messageformat": "Ghairi uhamishaji"
+    "messageformat": "Sitisha usawazishaji"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
     "messageformat": "Chaguzi zaidi"
@@ -4062,16 +4224,34 @@
     "messageformat": "{currentSize} kwa {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Ghairi uhamishaji wa picha na video?"
+    "messageformat": "Ungependa kusitisha usawazishaji wa picha na video?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "Jumbe na picha na video zako hazijakamilika kurejeshwa. Ukichagua kughairi, unaweza kuhamisha tena kutoka kwenye Mipangilio."
+    "messageformat": "Picha na video zako bado hazijakamilka kusawazishwa. Ukichagua kughairi, unaweza kusawazisha tena kwa kuunganisha upya kutoka kwenye Mipangilio. <learnMoreLink>Pata maelezo zaidi</learnMoreLink>."
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "Endelea na uhamishaji"
+    "messageformat": "Endelea kusawazisha"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
-    "messageformat": "Ghairi uhamishaji"
+    "messageformat": "Sitisha usawazishaji"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--title": {
+    "messageformat": "Usawazishaji umesitishwa"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--description": {
+    "messageformat": "Bofya “{resumeButtonText}” kuendelea kusawazisha"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-resume": {
+    "messageformat": "Endelea"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-pause": {
+    "messageformat": "Sitisha"
+  },
+  "icu:BackupMediaDownloadProgressSettings__title-in-progress": {
+    "messageformat": "Inasawazisha picha na video"
+  },
+  "icu:BackupMediaDownloadProgressSettings__progressbar-hint": {
+    "messageformat": "{currentSize} kati ya {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
     "messageformat": "Hatua inahitajika kwa akaunti"
@@ -5082,7 +5262,7 @@
     "messageformat": "Chelezo za Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Uhifadhi nakala wa kiotomatiki ukitumia huduma salama za uhifadhi wa Signal zilizosimbwa fiche. Anza kutumia kwenye simu yako. <learnMoreLink>Pata maelezo zaidi.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Hifadhi nakala ya historia ya jumbe wako ili usiwahi kupoteza data unapopata simu mpya au kusakinisha upya Signal."
@@ -5125,9 +5305,6 @@
   },
   "icu:Preferences--backup-created-by-phone": {
     "messageformat": "Simu yako"
-  },
-  "icu:Preferences--backup-size__label": {
-    "messageformat": "Ukubwa wa nakala"
   },
   "icu:Preferences__local-backups": {
     "messageformat": "Hifadhi nakala za eneo-kazi"
@@ -6114,9 +6291,6 @@
   "icu:UsernameLinkModalBody__reset": {
     "messageformat": "Weka upya"
   },
-  "icu:UsernameLinkModalBody__done": {
-    "messageformat": "Imekamilika"
-  },
   "icu:UsernameLinkModalBody__color__radio": {
     "messageformat": "Rangi ya kiungo cha jina la mtumiaji, {index,number} ya {total,number}"
   },
@@ -6444,6 +6618,105 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "Kuna Lipi Jipya?"
   },
+  "icu:PreferencesDonations__title": {
+    "messageformat": "Faragha ikilinganishwa na faida"
+  },
+  "icu:PreferencesDonations__description": {
+    "messageformat": "Utumaji jumbe wa faragha, uliofadhiliwa na wewe. Hakuna matangazo, hakuna kufuatilia, hakuna kuenda dhidi ya maelewano. Changia sasa kuiunga mkono Signal. <learnMoreLink>Pata maelezo zaidi</learnMoreLink>"
+  },
+  "icu:PreferencesDonations__donate-button": {
+    "messageformat": "Changia"
+  },
+  "icu:PreferencesDonations__donate-button-with-amount": {
+    "messageformat": "Donate {formattedCurrencyAmount}"
+  },
+  "icu:PreferencesDonations__mobile-info": {
+    "messageformat": "Beji na michango ya kila mwezi inaweza kudhibitiwa kwenye kifaa chako cha mkononi."
+  },
+  "icu:PreferencesDonations__receipts": {
+    "messageformat": "Risiti"
+  },
+  "icu:PreferencesDonations__faqs": {
+    "messageformat": "FAQ kuhusu Ufadhili"
+  },
+  "icu:PreferencesDonations--receiptList__info": {
+    "messageformat": "Risiti hazisawazishwi kwenye vifaa vyote. Kama umeweka upya Signal, risiti kutoka kwenye michango ya hapo awali hazitapatikana."
+  },
+  "icu:PreferencesDonations--receiptList__empty-title": {
+    "messageformat": "Hakuna risiti"
+  },
+  "icu:PreferencesDonations__ReceiptModal--title": {
+    "messageformat": "Maelezo"
+  },
+  "icu:PreferencesDonations__ReceiptModal--download": {
+    "messageformat": "Pakua risiti"
+  },
+  "icu:PreferencesDonations__ReceiptModal--type-label": {
+    "messageformat": "Aina"
+  },
+  "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
+    "messageformat": "Tarehe Ilipolipwa"
+  },
+  "icu:DonationReceipt__title": {
+    "messageformat": "Risiti ya mchango"
+  },
+  "icu:DonationReceipt__amount-label": {
+    "messageformat": "Kiwango"
+  },
+  "icu:DonationReceipt__type-label": {
+    "messageformat": "Aina"
+  },
+  "icu:DonationReceipt__date-paid-label": {
+    "messageformat": "Tarehe Ilipolipwa"
+  },
+  "icu:DonationReceipt__type-value--one-time": {
+    "messageformat": "Mara moja"
+  },
+  "icu:DonationReceipt__footer-text": {
+    "messageformat": "Asante kwa kuiunga mkono Signal. Mchango wako husaidia kukuza dhamira ya kutengeneza teknolojia huria ya faragha ambayo hulinda uhuru wa kujieleza na kuwezesha mawasiliano salama ya kidunia kwa mamilioni ya watu duniani kote. Kama wewe ni mkazi wa Marekani, tafadhali hifadhi risiti hii kwa rekodi zako za kodi. Signal Technology Foundation ni shirika lisilo la kibiashara lisilotozwa kodi nchini Marekani chini ya kifungu cha 501c3 cha Kanuni ya Mapato ya Ndani. Kitambulisho chetu cha Ushuru wa Shirikisho ni 82-4506840."
+  },
+  "icu:Donations__PaymentMethodDeclined": {
+    "messageformat": "Payment method declined"
+  },
+  "icu:Donations__PaymentMethodDeclined__Description": {
+    "messageformat": "Try another payment method or contact your bank for more information."
+  },
+  "icu:Donations__ErrorProcessingDonation": {
+    "messageformat": "Error processing donation"
+  },
+  "icu:Donations__ErrorProcessingDonation__Description": {
+    "messageformat": "Try another payment method or contact your bank for more information."
+  },
+  "icu:Donations__Failed3dsValidation": {
+    "messageformat": "Verification Failed"
+  },
+  "icu:Donations__Failed3dsValidation__Description": {
+    "messageformat": "Additional verification step failed. Please try again."
+  },
+  "icu:Donations__GenericError": {
+    "messageformat": "An error occurred with your donation"
+  },
+  "icu:Donations__GenericError__Description": {
+    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+  },
+  "icu:Donations__Processing": {
+    "messageformat": "Processing donation..."
+  },
+  "icu:Donations__StillProcessing": {
+    "messageformat": "Still processing"
+  },
+  "icu:Donations__StillProcessing__Description": {
+    "messageformat": "Your donation is still being processed. This can take a few minutes."
+  },
+  "icu:Donations__3dsValidationNeeded": {
+    "messageformat": "Additional verification required"
+  },
+  "icu:Donations__3dsValidationNeeded__Description": {
+    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+  },
+  "icu:Donations__3dsValidationNeeded__OpenBrowser": {
+    "messageformat": "Open browser"
+  },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Toleo hili lina mabadiliko kidogo na maboresho ya program kuiwezesha Signal kufanya kazi vizuri.",
     "ignoreUnused": true
@@ -6477,5 +6750,11 @@
   },
   "icu:WhatsNew__v7.59--0": {
     "messageformat": "Sasisho hili huwezesha kuongeza kasi ya GPU kwenye Linux kwa utendakazi ulioboreshwa na uchezaji rahisi wa video kwenye maunzi yanayotumika."
+  },
+  "icu:WhatsNew__v7.61--0": {
+    "messageformat": "Sasisho hili huboresha ubora na hali ya kutegemewa kwa sauti wakati wa simu za kawaida na za video, na huleta usanidi bora wa kiotomatiki wa maikrofoni na spika zilizounganishwa. Shukrani kwa <padenot></padenot>, <kinetiknz></kinetiknz>, na <Pehrsons></Pehrsons> wa Mozilla kwa usaidizi wao katika mradi huu."
+  },
+  "icu:WhatsNew__v7.62--0": {
+    "messageformat": "Tumerekebisha hitilafu adimu ambayo inaweza kuzuia baadhi ya wawasiliani wako kusawazishwa ipasavyo."
   }
 }

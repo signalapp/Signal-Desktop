@@ -3,8 +3,6 @@
 
 import Backbone from 'backbone';
 import { PhoneNumberUtil, PhoneNumberFormat } from 'google-libphonenumber';
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 import * as moment from 'moment';
 // @ts-expect-error -- no types
 import 'moment/min/locales.min';
@@ -43,13 +41,11 @@ window.WebAPI = window.textsecure.WebAPI.initialize({
   proxyUrl: config.proxyUrl,
   version: config.version,
   disableIPv6: config.disableIPv6,
+  stripePublishableKey: config.stripePublishableKey,
 });
 
 window.libphonenumberInstance = PhoneNumberUtil.getInstance();
 window.libphonenumberFormat = PhoneNumberFormat;
-
-window.React = React;
-window.ReactDOM = ReactDOM;
 
 const { resolvedTranslationsLocale, preferredSystemLocales, localeOverride } =
   config;

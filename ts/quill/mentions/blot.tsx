@@ -3,7 +3,7 @@
 
 import React, { StrictMode } from 'react';
 import EmbedBlot from '@signalapp/quill-cjs/blots/embed';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import { Emojify } from '../../components/conversation/Emojify';
 import { normalizeAci } from '../../util/normalizeAci';
@@ -46,7 +46,7 @@ export class MentionBlot extends EmbedBlot {
 
     const mentionSpan = document.createElement('span');
 
-    render(
+    createRoot(mentionSpan).render(
       <StrictMode>
         <FunEmojiLocalizationProvider i18n={window.i18n}>
           <span className="module-composition-input__at-mention">
@@ -56,8 +56,7 @@ export class MentionBlot extends EmbedBlot {
             </bdi>
           </span>
         </FunEmojiLocalizationProvider>
-      </StrictMode>,
-      mentionSpan
+      </StrictMode>
     );
 
     node.appendChild(mentionSpan);

@@ -7,8 +7,8 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { NavTabsProps } from './NavTabs';
 import { NavTabs } from './NavTabs';
-import { NavTab } from '../state/ducks/nav';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import { NavTab } from '../types/Nav';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
 import { ThemeType } from '../types/Util';
 
 const { i18n } = window.SignalContext;

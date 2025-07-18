@@ -15,7 +15,6 @@ import type { SmartChooseGroupMembersModalPropsType } from '../../../state/smart
 import type { SmartConfirmAdditionsModalPropsType } from '../../../state/smart/ConfirmAdditionsModal';
 import { assertDev } from '../../../util/assert';
 import { getMutedUntilText } from '../../../util/getMutedUntilText';
-import { getLocalizedUrl } from '../../../util/getLocalizedUrl';
 
 import type { LocalizerType, ThemeType } from '../../../types/Util';
 import type { BadgeType } from '../../../badges/types';
@@ -54,7 +53,7 @@ import { isConversationMuted } from '../../../util/isConversationMuted';
 import { ConversationDetailsGroups } from './ConversationDetailsGroups';
 import { PanelType } from '../../../types/Panels';
 import { type CallHistoryGroup } from '../../../types/CallDisposition';
-import { NavTab } from '../../../state/ducks/nav';
+import { NavTab } from '../../../types/Nav';
 import { ContextMenu } from '../../ContextMenu';
 import { canHaveNicknameAndNote } from '../../../util/nicknames';
 import { CallHistoryGroupPanelSection } from './CallHistoryGroupPanelSection';
@@ -521,9 +520,7 @@ export function ConversationDetails({
               }
               label={i18n('icu:ConversationDetails--support-center')}
               onClick={() => {
-                openLinkInWebBrowser(
-                  getLocalizedUrl('https://support.signal.org/hc/LOCALE')
-                );
+                openLinkInWebBrowser('https://support.signal.org');
               }}
             />
             <PanelRow
@@ -536,9 +533,7 @@ export function ConversationDetails({
               label={i18n('icu:contactUs')}
               onClick={() => {
                 openLinkInWebBrowser(
-                  getLocalizedUrl(
-                    'https://support.signal.org/hc/LOCALE/requests/new?desktop'
-                  )
+                  'https://support.signal.org/hc/requests/new?desktop'
                 );
               }}
             />

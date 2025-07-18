@@ -6,7 +6,7 @@ import { memoize } from 'lodash';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './GroupCallRemoteParticipant';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
 import { FRAME_BUFFER_SIZE } from '../calling/constants';
 import { generateAci } from '../types/ServiceId';
 import type { CallingImageDataCache } from './CallManager';

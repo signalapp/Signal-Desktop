@@ -40,7 +40,7 @@ index 6cf860bd2847bae35ca8885cb680dd6c8c516e39..a19f9610d7101c925bdad8a88c434d83
 +
 +# SIGNAL CHANGES END
 diff --git a/templates/linux/after-remove.tpl b/templates/linux/after-remove.tpl
-index 19b3decabe18a816f9ed5440fa9124ebfd6e3907..b74c2f9425c34112d56cb7aa7e342bcf9036a662 100644
+index 19b3decabe18a816f9ed5440fa9124ebfd6e3907..b5011d1b8cdb741ba6453f942a3c0660b66d41a0 100644
 --- a/templates/linux/after-remove.tpl
 +++ b/templates/linux/after-remove.tpl
 @@ -13,3 +13,12 @@ APPARMOR_PROFILE_DEST='/etc/apparmor.d/${executable}'
@@ -52,7 +52,7 @@ index 19b3decabe18a816f9ed5440fa9124ebfd6e3907..b74c2f9425c34112d56cb7aa7e342bcf
 +
 +POLKIT_TARGET_PATH='/usr/share/polkit-1/actions'
 +if [ -d "$POLKIT_TARGET_PATH" ]; then
-+  rm $POLKIT_TARGET_PATH/org.signalapp.${sanitizedName}.*.policy
++  rm -f $POLKIT_TARGET_PATH/org.signalapp.${sanitizedName}.*.policy
 +fi
 +
 +# SIGNAL CHANGES END

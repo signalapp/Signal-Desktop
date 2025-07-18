@@ -207,7 +207,7 @@ export async function onStoryRecipientUpdate(
           message.set({
             sendStateByConversationId: nextSendStateByConversationId,
           });
-          queueUpdateMessage(message.attributes);
+          drop(queueUpdateMessage(message.attributes));
         }
 
         return true;

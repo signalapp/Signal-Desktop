@@ -1,11 +1,13 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-export function pemToDer(pem: string): Buffer {
+import * as Bytes from '../Bytes';
+
+export function pemToDer(pem: string): Uint8Array {
   const pemContent = pem
     .replace(/-----BEGIN [^-]+-----/, '')
     .replace(/-----END [^-]+-----/, '')
     .replace(/\s+/g, '');
-  const derBuffer = Buffer.from(pemContent, 'base64');
+  const derBuffer = Bytes.fromBase64(pemContent);
   return derBuffer;
 }

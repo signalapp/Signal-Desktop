@@ -305,9 +305,6 @@
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "Tənzimləmələr"
   },
-  "icu:NavTabs__ItemLabel--Update": {
-    "messageformat": "Signal-ı yenilə"
-  },
   "icu:NavTabs__ItemLabel--Profile": {
     "messageformat": "Profil"
   },
@@ -605,6 +602,12 @@
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
+  "icu:Toast--ReceiptSaved": {
+    "messageformat": "Qəbz yadda saxlanıldı"
+  },
+  "icu:Toast--ReceiptSaveFailed": {
+    "messageformat": "Qəbz yaddaşda saxlanılarkən xəta baş verdi. Yenidən cəhd edin."
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "Fayllarla birgə foto və videolar da seçə bilməzsiniz."
   },
@@ -664,9 +667,6 @@
   },
   "icu:joinTheBeta": {
     "messageformat": "Beta-ya qoşul"
-  },
-  "icu:signalDesktopPreferences": {
-    "messageformat": "Signal Masaüstü Tərcihləri"
   },
   "icu:signalDesktopStickerCreator": {
     "messageformat": "Stiker paketi hazırlayıcı"
@@ -1285,6 +1285,168 @@
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "Emojinin dəri tonu"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
+    "messageformat": "Çat qovluqları"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
+    "messageformat": "Bir çat qovluğu əlavə et"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
+    "messageformat": "Çatlarınızı qovluqlara ayırın və çat siyahısında onlar arasında sürətli keçid edin."
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
+    "messageformat": "Qovluğu redaktə et"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__DeleteFolder": {
+    "messageformat": "Sil"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Title": {
+    "messageformat": "Qovluq silinsin?"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Description": {
+    "messageformat": "\"{chatFolderTitle}\" qovluğunu silmək istəyirsiniz?"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
+    "messageformat": "Sil"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
+    "messageformat": "Ləğv et"
+  },
+  "icu:Preferences__ChatFoldersPage__Title": {
+    "messageformat": "Çat qovluqları"
+  },
+  "icu:Preferences__ChatFoldersPage__Description": {
+    "messageformat": "Çatlarınızı qovluqlara ayırın və çat siyahısında onlar arasında sürətli keçid edin"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__Title": {
+    "messageformat": "Qovluqlar"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__AllChatsFolder__Title": {
+    "messageformat": "Bütün çatlar"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
+    "messageformat": "Qovluq yarat"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
+    "messageformat": "Təqdim olunan qovluqlar"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
+    "messageformat": "Əlavə et"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
+    "messageformat": "{chatFolderTitle} adlı qovluq əlavə edildi"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
+    "messageformat": "Oxunmamışlar"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Description": {
+    "messageformat": "Bütün çatlardan oxunmamış mesajlar"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Title": {
+    "messageformat": "1-ə 1 çatlar"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Description": {
+    "messageformat": "Yalnız birbaşa çatlardan olan mesajlar"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Title": {
+    "messageformat": "Qruplar"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Description": {
+    "messageformat": "Yalnız qrup çatlarından olan mesajlar"
+  },
+  "icu:Preferences__EditChatFolderPage__Title": {
+    "messageformat": "Qovluq yarat"
+  },
+  "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
+    "messageformat": "Qovluq adı"
+  },
+  "icu:Preferences__EditChatFolderPage__FolderNameField__Placeholder": {
+    "messageformat": "Qovluq adı (zəruri)"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Title": {
+    "messageformat": "Əhatə olunan çatlar"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
+    "messageformat": "Bu qovluqda görünməsini istədiyiniz çatları seçin"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
+    "messageformat": "Çatlar əlavə et"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog--IncludedChats__Title": {
+    "messageformat": "Əhatə olunan çatlar"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog--ExcludedChats__Title": {
+    "messageformat": "Çıxarılmış çatlar"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
+    "messageformat": "Axtar"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
+    "messageformat": "Çat növləri"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__DirectChats": {
+    "messageformat": "1-ə 1 çatlar"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__GroupChats": {
+    "messageformat": "Qruplar"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__RecentChats__Title": {
+    "messageformat": "Son çatlar"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__DoneButton": {
+    "messageformat": "Hazırdır"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__Title": {
+    "messageformat": "İstisnalar"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__Help": {
+    "messageformat": "Bu qovluqda görünməsini istəmədiyiniz çatları seçin"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__ExcludeChatsButton": {
+    "messageformat": "Çatları çıxar"
+  },
+  "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Label": {
+    "messageformat": "Yalnız oxunmamış çatları göstər"
+  },
+  "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Description": {
+    "messageformat": "Bu qovluqda yalnız oxunmamış mesajları olan çatlar görünəcək."
+  },
+  "icu:Preferences__EditChatFolderPage__IncludeMutedChatsCheckbox__Label": {
+    "messageformat": "Səssiz edilmiş çatları daxil et"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteFolderButton": {
+    "messageformat": "Qovluğu sil"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Title": {
+    "messageformat": "Bu çat qovluğu silinsin?"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Description": {
+    "messageformat": "Bu qovluq çat siyahınızdan silinəcək."
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
+    "messageformat": "Sil"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
+    "messageformat": "Ləğv et"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
+    "messageformat": "Dəyişikliklər yaddaşda saxlansın?"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Description": {
+    "messageformat": "Bu çat qovluğunda etdiyiniz dəyişiklikləri yaddaşda saxlamaq istəyirsiniz?"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__SaveButton": {
+    "messageformat": "Saxla"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__DiscardButton": {
+    "messageformat": "Ləğv et"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveButton": {
+    "messageformat": "Saxla"
+  },
+  "icu:Preferences__EditChatFolderPage__CancelButton": {
+    "messageformat": "Ləğv et"
   },
   "icu:initialSync": {
     "messageformat": "Əlaqələr və qruplar eyniləşdirilir"
@@ -4026,10 +4188,10 @@
     "messageformat": "Yenidən sına"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
-    "messageformat": "Media faylı bərpa olunur"
+    "messageformat": "Media faylları sinxronlaşdırılır"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Bərpaetmə dayandırıldı"
+    "messageformat": "Sinxronlaşdırmaya fasilə verildi"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
     "messageformat": "{currentSize} / {totalSize} bərpa edildi"
@@ -4044,13 +4206,13 @@
     "messageformat": "İnternet bağlantısı gözlənilir..."
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Köçürməyə fasilə ver"
+    "messageformat": "Fasilə ver"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Köçürməyə qayıt"
+    "messageformat": "Davam etdir"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
-    "messageformat": "Köçürməni ləğv et"
+    "messageformat": "Sinxronlaşdırmanı ləğv et"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
     "messageformat": "Daha çox seçim"
@@ -4062,16 +4224,34 @@
     "messageformat": "{currentSize} /{totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Media fayllarının köçürülməsi ləğv edilsin?"
+    "messageformat": "Media fayllarının sinxronlaşdırılması ləğv edilsin?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "Mesajlarınız və media faylınızın bərpası tamamlanmayıb. Ləğv etsəniz, Parametrlərdən yenidən köçürə bilərsiniz."
+    "messageformat": "Media faylınızın sinxronlaşdırılması tamamlanmadı. Ləğv etməyi seçsəniz, bu cihazı təkrar əlaqələndirməklə yenidən sinxronlaşdıra bilərsiniz. <learnMoreLink>Daha ətraflı</learnMoreLink>."
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "Köçürməni davam et"
+    "messageformat": "Sinxronlaşdırmağa davam et"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
-    "messageformat": "Köçürməni ləğv et"
+    "messageformat": "Sinxronlaşdırmanı ləğv et"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--title": {
+    "messageformat": "Sinxronlaşdırmaya fasilə verildi"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--description": {
+    "messageformat": "Sinxronlaşdırmağa davam etmək üçün \"{resumeButtonText}\" düyməsinə klikləyin"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-resume": {
+    "messageformat": "Davam etdir"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-pause": {
+    "messageformat": "Fasilə ver"
+  },
+  "icu:BackupMediaDownloadProgressSettings__title-in-progress": {
+    "messageformat": "Media faylları sinxronlaşdırılır"
+  },
+  "icu:BackupMediaDownloadProgressSettings__progressbar-hint": {
+    "messageformat": "{currentSize} / {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
     "messageformat": "Hesab əməliyyatı tələb olunur"
@@ -5082,7 +5262,7 @@
     "messageformat": "Signal ehtiyat nüsxələri"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Signal-ın təhlükəsiz, tam şifrələnmiş yaddaş xidməti ilə avtomatik çıxarılan ehtiyat nüsxələr. Telefondan başlayın. <learnMoreLink>Daha ətraflı</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Yeni telefon aldığınız və ya Signal-ı təkrar quraşdırdığınız zaman məlumatları itirməmək üçün mesaj tarixçəsinin ehtiyat nüsxəsini çıxarın."
@@ -5125,9 +5305,6 @@
   },
   "icu:Preferences--backup-created-by-phone": {
     "messageformat": "Telefonunuz"
-  },
-  "icu:Preferences--backup-size__label": {
-    "messageformat": "Ehtiyat nüsxənin həcmi"
   },
   "icu:Preferences__local-backups": {
     "messageformat": "Cihazın masaüstü ehtiyat nüsxələri"
@@ -6114,9 +6291,6 @@
   "icu:UsernameLinkModalBody__reset": {
     "messageformat": "Sıfırla"
   },
-  "icu:UsernameLinkModalBody__done": {
-    "messageformat": "Hazırdır"
-  },
   "icu:UsernameLinkModalBody__color__radio": {
     "messageformat": "{index,number} / {total,number} istifadəçi adı keçid rəngi"
   },
@@ -6444,6 +6618,105 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "Yeni nə var"
   },
+  "icu:PreferencesDonations__title": {
+    "messageformat": "Məxfiliyiniz mənfəətimizdən daha üstündür"
+  },
+  "icu:PreferencesDonations__description": {
+    "messageformat": "Dəstəklərinizlə yaradılmış şəxsi mesajlaşma. Reklamsız, təqibsiz və güzəştsiz. Signal-ı dəstəkləmək üçün indi ianə verin. <learnMoreLink>Daha ətraflı</learnMoreLink>"
+  },
+  "icu:PreferencesDonations__donate-button": {
+    "messageformat": "İanə ver"
+  },
+  "icu:PreferencesDonations__donate-button-with-amount": {
+    "messageformat": "Donate {formattedCurrencyAmount}"
+  },
+  "icu:PreferencesDonations__mobile-info": {
+    "messageformat": "Nişanlar və aylıq ianələr mobil cihazınızda idarə oluna bilər."
+  },
+  "icu:PreferencesDonations__receipts": {
+    "messageformat": "Qəbzlər"
+  },
+  "icu:PreferencesDonations__faqs": {
+    "messageformat": "İanə haqqında TVS-lar"
+  },
+  "icu:PreferencesDonations--receiptList__info": {
+    "messageformat": "Qəbzlər cihazlar arasında sinxronlaşdırılmır. Signal-ı yenidən quraşdırmısınızsa, əvvəlki ianələrin qəbzləri mövcud olmayacaq."
+  },
+  "icu:PreferencesDonations--receiptList__empty-title": {
+    "messageformat": "Qəbz yoxdur"
+  },
+  "icu:PreferencesDonations__ReceiptModal--title": {
+    "messageformat": "Təfsilatlar"
+  },
+  "icu:PreferencesDonations__ReceiptModal--download": {
+    "messageformat": "Qəbzi endir"
+  },
+  "icu:PreferencesDonations__ReceiptModal--type-label": {
+    "messageformat": "Növü"
+  },
+  "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
+    "messageformat": "Ödəniş tarixi"
+  },
+  "icu:DonationReceipt__title": {
+    "messageformat": "İanə qəbzi"
+  },
+  "icu:DonationReceipt__amount-label": {
+    "messageformat": "Məbləğ"
+  },
+  "icu:DonationReceipt__type-label": {
+    "messageformat": "Növü"
+  },
+  "icu:DonationReceipt__date-paid-label": {
+    "messageformat": "Ödəniş tarixi"
+  },
+  "icu:DonationReceipt__type-value--one-time": {
+    "messageformat": "Bir dəfə"
+  },
+  "icu:DonationReceipt__footer-text": {
+    "messageformat": "Signal-ı dəstəklədiyiniz üçün təşəkkürlər. Töhfəniz, açıq mənbəli məxfilik texnologiyası vasitəsilə dünyadakı milyonlarla insan üçün azad ifadəni qoruyan və etibarlı qlobal ünsiyyəti təmin edən inkişaf missiyasını dəstəkləməyə kömək edir. Əgər Amerika Birləşmiş Ştatlarında yaşayırsınızsa, bu qəbzi vergi qeydlərinizin arasında saxlayın. Signal Texnologiya Fondu, Daxili Gəlir Məcəlləsinin 501c3 maddəsinə əsasən Amerika Birləşmiş Ştatlarında vergidən azad edilmiş qeyri-kommersiya təşkilatıdır. Federal Vergi Ödəyicisi Nömrəmiz: 82-4506840."
+  },
+  "icu:Donations__PaymentMethodDeclined": {
+    "messageformat": "Payment method declined"
+  },
+  "icu:Donations__PaymentMethodDeclined__Description": {
+    "messageformat": "Try another payment method or contact your bank for more information."
+  },
+  "icu:Donations__ErrorProcessingDonation": {
+    "messageformat": "Error processing donation"
+  },
+  "icu:Donations__ErrorProcessingDonation__Description": {
+    "messageformat": "Try another payment method or contact your bank for more information."
+  },
+  "icu:Donations__Failed3dsValidation": {
+    "messageformat": "Verification Failed"
+  },
+  "icu:Donations__Failed3dsValidation__Description": {
+    "messageformat": "Additional verification step failed. Please try again."
+  },
+  "icu:Donations__GenericError": {
+    "messageformat": "An error occurred with your donation"
+  },
+  "icu:Donations__GenericError__Description": {
+    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+  },
+  "icu:Donations__Processing": {
+    "messageformat": "Processing donation..."
+  },
+  "icu:Donations__StillProcessing": {
+    "messageformat": "Still processing"
+  },
+  "icu:Donations__StillProcessing__Description": {
+    "messageformat": "Your donation is still being processed. This can take a few minutes."
+  },
+  "icu:Donations__3dsValidationNeeded": {
+    "messageformat": "Additional verification required"
+  },
+  "icu:Donations__3dsValidationNeeded__Description": {
+    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+  },
+  "icu:Donations__3dsValidationNeeded__OpenBrowser": {
+    "messageformat": "Open browser"
+  },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Bu versiya, Signal-ın problemsiz işləməsini təmin etmək üçün kiçik düzəltmələr və xəta düzəltmələri ehtiva edir.",
     "ignoreUnused": true
@@ -6477,5 +6750,11 @@
   },
   "icu:WhatsNew__v7.59--0": {
     "messageformat": "Bu yeniləmə təkmilləşdirilmiş iş göstəriciləri və dəstəklənən cihazda videoların daha rahat izlənməsi üçün Linux-da GPU sürətləndirilməsini aktivləşdirir."
+  },
+  "icu:WhatsNew__v7.61--0": {
+    "messageformat": "Bu yeniləmə səsli və görüntülü video zənglər zamanı səs keyfiyyətini təkmilləşdirərək, qoşulmuş mikrofonların və dinamiklərin avtomatik şəkildə daha yaxşı konfiqurasiya olunmasını təmin edir. Bu layihədəki köməyinə görə Mozilla-dakı <padenot></padenot>, <kinetiknz></kinetiknz> və <Pehrsons></Pehrsons> təşəkkürlər."
+  },
+  "icu:WhatsNew__v7.62--0": {
+    "messageformat": "Bəzi kontaktların düzgün şəkildə sinxronlaşdırılmasının qarşısını ala bilən nadir nasazlıq aradan qaldırdı."
   }
 }

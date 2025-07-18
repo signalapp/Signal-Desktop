@@ -16,7 +16,7 @@ import {
 } from './CallingRaisedHandsList';
 import type { ConversationType } from '../state/ducks/conversations';
 import { AvatarColors } from '../types/Colors';
-import { getDefaultConversationWithServiceId } from '../test-both/helpers/getDefaultConversation';
+import { getDefaultConversationWithServiceId } from '../test-helpers/getDefaultConversation';
 
 const MAX_HANDS = 20;
 const LOCAL_DEMUX_ID = 1;

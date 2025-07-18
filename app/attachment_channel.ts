@@ -108,7 +108,7 @@ type RangeFinderContextType = Readonly<
 
 type DigestLRUEntryType = Readonly<{
   key: Buffer;
-  digest: Buffer;
+  digest: Uint8Array;
 }>;
 
 const digestLRU = new LRUCache<string, DigestLRUEntryType>({

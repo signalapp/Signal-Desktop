@@ -119,7 +119,7 @@ export async function reserveUsername(
       abortSignal,
     });
 
-    const index = hashes.findIndex(hash => hash.equals(usernameHash));
+    const index = hashes.findIndex(hash => Bytes.areEqual(hash, usernameHash));
     if (index === -1) {
       log.warn('reserveUsername: failed to find username hash in the response');
       return { ok: false, error: ReserveUsernameError.Unprocessable };
@@ -244,7 +244,10 @@ export async function confirmUsername(
   }
 
   const { hash } = reservation;
-  strictAssert(usernames.hash(username).equals(hash), 'username hash mismatch');
+  strictAssert(
+    Bytes.areEqual(usernames.hash(username), hash),
+    'username hash mismatch'
+  );
 
   const wasCorrupted = window.storage.get('usernameCorrupted');
 
@@ -252,13 +255,13 @@ export async function confirmUsername(
     await window.storage.remove('usernameLink');
 
     let serverIdString: string;
-    let entropy: Buffer;
+    let entropy: Uint8Array;
     if (previousLink && isCaseChange(reservation)) {
       log.info('confirmUsername: updating link only');
 
       const updatedLink = usernames.createUsernameLink(
         username,
-        Buffer.from(previousLink.entropy)
+        previousLink.entropy
       );
       ({ entropy } = updatedLink);
 
@@ -401,8 +404,8 @@ export async function resolveUsernameByLink({
       await server.resolveUsernameLink(serverId);
 
     return usernames.decryptUsernameLink({
-      entropy: Buffer.from(entropy),
-      encryptedUsername: Buffer.from(usernameLinkEncryptedValue),
+      entropy,
+      encryptedUsername: usernameLinkEncryptedValue,
     });
   } catch (error) {
     if (error instanceof HTTPError && error.code === 404) {

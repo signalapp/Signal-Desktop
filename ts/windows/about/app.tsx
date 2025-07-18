@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { StrictMode } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import { About } from '../../components/About';
 import { i18n } from '../sandboxedInit';
@@ -13,7 +13,10 @@ const { AboutWindowProps } = window.Signal;
 
 strictAssert(AboutWindowProps, 'window values not provided');
 
-ReactDOM.render(
+const app = document.getElementById('app');
+strictAssert(app != null, 'No #app');
+
+createRoot(app).render(
   <StrictMode>
     <FunDefaultEnglishEmojiLocalizationProvider>
       <About
@@ -25,6 +28,5 @@ ReactDOM.render(
         version={window.SignalContext.getVersion()}
       />
     </FunDefaultEnglishEmojiLocalizationProvider>
-  </StrictMode>,
-  document.getElementById('app')
+  </StrictMode>
 );

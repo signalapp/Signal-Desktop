@@ -10,8 +10,8 @@ import type { Props } from './MessageDetail';
 import { MessageDetail } from './MessageDetail';
 import { SendStatus } from '../../messages/MessageSendState';
 import { ReadStatus } from '../../messages/MessageReadStatus';
-import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
-import { getFakeBadge } from '../../test-both/helpers/getFakeBadge';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
+import { getFakeBadge } from '../../test-helpers/getFakeBadge';
 import { ThemeType } from '../../types/Util';
 
 const { i18n } = window.SignalContext;

@@ -305,9 +305,6 @@
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "ਸੈਟਿੰਗਾਂ"
   },
-  "icu:NavTabs__ItemLabel--Update": {
-    "messageformat": "Signal ਨੂੰ ਅੱਪਡੇਟ ਕਰੋ"
-  },
   "icu:NavTabs__ItemLabel--Profile": {
     "messageformat": "ਪ੍ਰੋਫਾਈਲ"
   },
@@ -605,6 +602,12 @@
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
+  "icu:Toast--ReceiptSaved": {
+    "messageformat": "ਰਸੀਦ ਸੇਵ ਕੀਤੀ ਗਈ"
+  },
+  "icu:Toast--ReceiptSaveFailed": {
+    "messageformat": "ਰਸੀਦ ਨੂੰ ਸੇਵ ਕਰਨ ਵੇਲੇ ਗੜਬੜ ਹੋਈ। ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "ਤੁਸੀਂ ਫ਼ਾਈਲਾਂ ਦੇ ਨਾਲ-ਨਾਲ ਫ਼ੋਟੋੋਆਂ ਅਤੇ ਵੀਡੀਓ ਚੁਣ ਨਹੀਂ ਸਕਦੇ ਹੋ।"
   },
@@ -664,9 +667,6 @@
   },
   "icu:joinTheBeta": {
     "messageformat": "ਬੀਟਾ ਦਾ ਹਿੱਸਾ ਬਣੋ"
-  },
-  "icu:signalDesktopPreferences": {
-    "messageformat": "Signal Desktop ਪਸੰਦਾਂ"
   },
   "icu:signalDesktopStickerCreator": {
     "messageformat": "ਸਟਿਕੱਰ ਪੈਕ ਨਿਰਮਾਤਾ"
@@ -1285,6 +1285,168 @@
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "ਇਮੋਜੀ ਦੀ ਸਕਿੱਨ ਟੋਨ"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
+    "messageformat": "ਚੈਟ ਫੋਲਡਰ"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
+    "messageformat": "ਇੱਕ ਚੈਟ ਫੋਲਡਰ ਸ਼ਾਮਲ ਕਰੋ"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
+    "messageformat": "ਆਪਣੀਆਂ ਚੈਟਾਂ ਨੂੰ ਫੋਲਡਰਾਂ ਵਿੱਚ ਵਿਵਸਥਿਤ ਕਰੋ ਅਤੇ ਆਪਣੀ ਚੈਟ ਸੂਚੀ ਵਿੱਚ ਉਹਨਾਂ ਵਿਚਕਾਰ ਤੇਜ਼ੀ ਨਾਲ ਸਵਿੱਚ ਕਰੋ।"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
+    "messageformat": "ਫੋਲਡਰ ਸੋਧੋ"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__DeleteFolder": {
+    "messageformat": "ਮਿਟਾਓ"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Title": {
+    "messageformat": "ਕੀ ਫੋਲਡਰ ਮਿਟਾਉਣਾ ਹੈ?"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Description": {
+    "messageformat": "ਕੀ ਤੁਸੀਂ \"{chatFolderTitle}\" ਫੋਲਡਰ ਨੂੰ ਮਿਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
+    "messageformat": "ਮਿਟਾਓ"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
+    "messageformat": "ਰੱਦ ਕਰੋ"
+  },
+  "icu:Preferences__ChatFoldersPage__Title": {
+    "messageformat": "ਚੈਟ ਫੋਲਡਰ"
+  },
+  "icu:Preferences__ChatFoldersPage__Description": {
+    "messageformat": "ਆਪਣੀਆਂ ਚੈਟਾਂ ਨੂੰ ਫੋਲਡਰਾਂ ਵਿੱਚ ਵਿਵਸਥਿਤ ਕਰੋ ਅਤੇ ਆਪਣੀ ਚੈਟ ਸੂਚੀ ਵਿੱਚ ਉਹਨਾਂ ਵਿਚਕਾਰ ਤੇਜ਼ੀ ਨਾਲ ਸਵਿੱਚ ਕਰੋ"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__Title": {
+    "messageformat": "ਫੋਲਡਰ"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__AllChatsFolder__Title": {
+    "messageformat": "ਸਾਰੀਆਂ ਚੈਟਾਂ"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
+    "messageformat": "ਇੱਕ ਫੋਲਡਰ ਬਣਾਓ"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
+    "messageformat": "ਸੁਝਾਏ ਗਏ ਫੋਲਡਰ"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
+    "messageformat": "ਸ਼ਾਮਲ ਕਰੋ"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
+    "messageformat": "{chatFolderTitle} ਫੋਲਡਰ ਸ਼ਾਮਲ ਕੀਤਾ ਗਿਆ"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
+    "messageformat": "ਨਹੀਂ-ਪੜ੍ਹੀਆਂ ਚੈਟਾਂ"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Description": {
+    "messageformat": "ਸਾਰੀਆਂ ਚੈਟਾਂ ਦੇ ਨਹੀਂ ਪੜ੍ਹੇ ਸੁਨੇਹੇ"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Title": {
+    "messageformat": "1:1 ਚੈਟ"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Description": {
+    "messageformat": "ਸਿਰਫ਼ ਤੁਹਾਡੇ ਨਾਲ ਕੀਤੀਆਂ ਸਿੱਧੀਆਂ ਚੈਟਾਂ ਦੇ ਸੁਨੇਹੇ"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Title": {
+    "messageformat": "ਗਰੁੱਪ"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Description": {
+    "messageformat": "ਸਿਰਫ਼ ਗਰੁੱਪ ਚੈਟਾਂ ਦੇ ਸੁਨੇਹੇ"
+  },
+  "icu:Preferences__EditChatFolderPage__Title": {
+    "messageformat": "ਇੱਕ ਫੋਲਡਰ ਬਣਾਓ"
+  },
+  "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
+    "messageformat": "ਫੋਲਡਰ ਦਾ ਨਾਮ"
+  },
+  "icu:Preferences__EditChatFolderPage__FolderNameField__Placeholder": {
+    "messageformat": "ਫੋਲਡਰ ਦਾ ਨਾਮ (ਲੋੜੀਂਦਾ ਹੈ)"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Title": {
+    "messageformat": "ਸ਼ਾਮਲ ਚੈਟਾਂ"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
+    "messageformat": "ਉਹ ਚੈਟ ਚੁਣੋ ਜੋ ਤੁਸੀਂ ਇਸ ਫੋਲਡਰ ਵਿੱਚ ਦੇਖਣਾ ਚਾਹੁੰਦੇ ਹੋ"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
+    "messageformat": "ਚੈਟਾਂ ਸ਼ਾਮਲ ਕਰੋ"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog--IncludedChats__Title": {
+    "messageformat": "ਸ਼ਾਮਲ ਚੈਟਾਂ"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog--ExcludedChats__Title": {
+    "messageformat": "ਬਾਹਰ ਰੱਖੀਆਂ ਗਈਆਂ ਚੈਟਾਂ"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
+    "messageformat": "ਖੋਜੋ"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
+    "messageformat": "ਚੈਟ ਦੀਆਂ ਕਿਸਮਾਂ"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__DirectChats": {
+    "messageformat": "1:1 ਚੈਟ"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__GroupChats": {
+    "messageformat": "ਗਰੁੱਪ"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__RecentChats__Title": {
+    "messageformat": "ਹਾਲ ਹੀ ਦੀਆਂ ਚੈਟਾਂ"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__DoneButton": {
+    "messageformat": "ਮੁਕੰਮਲ"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__Title": {
+    "messageformat": "ਬਾਹਰ ਰੱਖੀਆਂ ਚੈਟਾਂ"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__Help": {
+    "messageformat": "ਉਹ ਚੈਟ ਚੁਣੋ ਜੋ ਤੁਸੀਂ ਇਸ ਫੋਲਡਰ ਵਿੱਚ ਨਹੀਂ ਦੇਖਣਾ ਚਾਹੁੰਦੇ ਹੋ"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__ExcludeChatsButton": {
+    "messageformat": "ਚੈਟਾਂ ਨੂੰ ਬਾਹਰ ਰੱਖੋ"
+  },
+  "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Label": {
+    "messageformat": "ਸਿਰਫ਼ ਨਹੀਂ ਪੜ੍ਹੀਆਂ ਚੈਟਾਂ ਦਿਖਾਓ"
+  },
+  "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Description": {
+    "messageformat": "ਇਸ ਫੋਲਡਰ ਵਿੱਚ ਸਿਰਫ਼ ਉਹ ਚੈਟਾਂ ਦਿਖਾਈ ਦੇਣਗੀਆਂ ਜਿਹਨਾਂ ਵਿੱਚ ਆਏ ਸੁਨੇਹੇ ਪੜ੍ਹੇ ਨਹੀਂ ਗਏ ਹਨ।"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludeMutedChatsCheckbox__Label": {
+    "messageformat": "ਮਿਊਟ ਕੀਤੀਆਂ ਚੈਟਾਂ ਸ਼ਾਮਲ ਕਰੋ"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteFolderButton": {
+    "messageformat": "ਫੋਲਡਰ ਮਿਟਾਓ"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Title": {
+    "messageformat": "ਕੀ ਇਸ ਚੈਟ ਫੋਲਡਰ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Description": {
+    "messageformat": "ਇਹ ਫੋਲਡਰ ਤੁਹਾਡੀ ਚੈਟ ਸੂਚੀ ਵਿੱਚੋਂ ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
+    "messageformat": "ਮਿਟਾਓ"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
+    "messageformat": "ਰੱਦ ਕਰੋ"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
+    "messageformat": "ਕੀ ਤਬਦੀਲੀਆਂ ਨੂੰ ਸੇਵ ਕਰਨਾ ਹੈ?"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Description": {
+    "messageformat": "ਕੀ ਤੁਸੀਂ ਇਸ ਚੈਟ ਫੋਲਡਰ ਵਿੱਚ ਕੀਤੀਆਂ ਆਪਣੀਆਂ ਕੀਤੀਆਂ ਤਬਦੀਲੀਆਂ ਨੂੰ ਸੇਵ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__SaveButton": {
+    "messageformat": "ਸੇਵ ਕਰੋ"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__DiscardButton": {
+    "messageformat": "ਖਾਰਜ ਕਰੋ"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveButton": {
+    "messageformat": "ਸੇਵ ਕਰੋ"
+  },
+  "icu:Preferences__EditChatFolderPage__CancelButton": {
+    "messageformat": "ਰੱਦ ਕਰੋ"
   },
   "icu:initialSync": {
     "messageformat": "ਸੰਪਰਕ ਅਤੇ ਗਰੁੱਪ ਸਮਕਾਲੀ ਬਣਾਏ ਜਾ ਰਹੇ ਹਨ"
@@ -4026,10 +4188,10 @@
     "messageformat": "ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
-    "messageformat": "ਮੀਡੀਆ ਰੀਸਟੋਰ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
+    "messageformat": "ਮੀਡੀਆ ਸਿੰਕ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "ਰੀਸਟੋਰ ਕਰਨਾ ਰੋਕਿਆ ਗਿਆ"
+    "messageformat": "ਸਿੰਕ ਕਰਨਾ ਰੋਕਿਆ ਗਿਆ"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
     "messageformat": "{totalSize} ਵਿੱਚੋਂ {currentSize} ਨੂੰ ਰੀਸਟੋਰ ਕੀਤਾ ਗਿਆ"
@@ -4044,13 +4206,13 @@
     "messageformat": "ਇੰਟਰਨੈੱਟ ਕਨੈਕਸ਼ਨ ਦੀ ਉਡੀਕ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ…"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "ਟ੍ਰਾਂਸਫਰ ਨੂੰ ਰੋਕੋ"
+    "messageformat": "ਰੋਕੋ"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "ਟ੍ਰਾਂਸਫਰ ਮੁੜ ਸ਼ੁਰੂ ਕਰੋ"
+    "messageformat": "ਮੁੜ-ਸ਼ੁਰੂ ਕਰੋ"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
-    "messageformat": "ਟ੍ਰਾਂਸਫਰ ਰੱਦ ਕਰੋ"
+    "messageformat": "ਸਿੰਕ ਕਰਨਾ ਰੱਦ ਕਰੋ"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
     "messageformat": "ਹੋਰ ਵਿਕਲਪ"
@@ -4062,16 +4224,34 @@
     "messageformat": "{totalSize} ਵਿੱਚੋਂ {currentSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "ਮੀਡੀਆ ਟ੍ਰਾਂਸਫਰ ਨੂੰ ਰੱਦ ਕਰਨਾ ਹੈ?"
+    "messageformat": "ਕੀ ਮੀਡੀਆ ਸਿੰਕ ਕਰਨਾ ਰੱਦ ਕਰਨਾ ਹੈ?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "ਤੁਹਾਡੇ ਸੁਨੇਹਿਆਂ ਅਤੇ ਮੀਡੀਆ ਨੂੰ ਰੀਸਟੋਰ ਕਰਨ ਦਾ ਕਾਰਜ ਪੂਰਾ ਨਹੀਂ ਹੋਇਆ। ਜੇਕਰ ਤੁਸੀਂ ਰੱਦ ਕਰਦੇ ਹੋ, ਤਾਂ ਤੁਸੀਂ ਸੈਟਿੰਗਾਂ ਵਿੱਚ ਜਾ ਕੇ ਦੁਬਾਰਾ ਟ੍ਰਾਂਸਫਰ ਕਰ ਸਕਦੇ ਹੋ।"
+    "messageformat": "ਤੁਹਾਡੇ ਮੀਡੀਆ ਨੂੰ ਸਿੰਕ ਕਰਨ ਦਾ ਕਾਰਜ ਪੂਰਾ ਨਹੀਂ ਹੋਇਆ ਹੈ। ਜੇਕਰ ਤੁਸੀਂ ਰੱਦ ਕਰਦੇ ਹੋ, ਤਾਂ ਤੁਸੀਂ ਇਸ ਡਿਵਾਈਸ ਨੂੰ ਦੁਬਾਰਾ ਲਿੰਕ ਕਰਕੇ ਦੁਬਾਰਾ ਸਿੰਕ ਕਰ ਸਕਦੇ ਹੋ। <learnMoreLink>ਹੋਰ ਜਾਣੋ।</learnMoreLink>"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "ਟ੍ਰਾਂਸਫਰ ਜਾਰੀ ਰੱਖੋ"
+    "messageformat": "ਸਿੰਕ ਕਰਨਾ ਜਾਰੀ ਰੱਖੋ"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
-    "messageformat": "ਟ੍ਰਾਂਸਫਰ ਰੱਦ ਕਰੋ"
+    "messageformat": "ਸਿੰਕ ਕਰਨਾ ਰੱਦ ਕਰੋ"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--title": {
+    "messageformat": "ਸਿੰਕ ਕਰਨਾ ਰੋਕਿਆ ਗਿਆ"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--description": {
+    "messageformat": "ਸਿੰਕ ਕਰਨਾ ਜਾਰੀ ਰੱਖਣ ਲਈ “{resumeButtonText}” 'ਤੇ ਕਲਿੱਕ ਕਰੋ"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-resume": {
+    "messageformat": "ਮੁੜ-ਸ਼ੁਰੂ ਕਰੋ"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-pause": {
+    "messageformat": "ਰੋਕੋ"
+  },
+  "icu:BackupMediaDownloadProgressSettings__title-in-progress": {
+    "messageformat": "ਮੀਡੀਆ ਸਿੰਕ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
+  },
+  "icu:BackupMediaDownloadProgressSettings__progressbar-hint": {
+    "messageformat": "{totalSize} ਵਿੱਚੋਂ {currentSize} ({fractionComplete,number,percent})..."
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
     "messageformat": "ਖਾਤੇ ਲਈ ਕਾਰਵਾਈ ਲੋੜੀਂਦੀ ਹੈ"
@@ -5082,7 +5262,7 @@
     "messageformat": "Signal ਬੈਕਅੱਪ"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Signal ਦੀ ਸੁਰੱਖਿਅਤ, ਸਿਰੇ-ਤੋਂ-ਸਿਰੇ ਤੱਕ ਇਨਕ੍ਰਿਪਟਡ ਸਟੋਰੇਜ ਸੇਵਾ ਦੇ ਨਾਲ ਆਟੋਮੈਟਿਕ ਬੈਕਅੱਪ। ਆਪਣੇ ਫ਼ੋਨ 'ਤੇ ਸ਼ੁਰੂਆਤ ਕਰੋ। <learnMoreLink>ਹੋਰ ਜਾਣੋ।</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "ਆਪਣੇ ਪੁਰਾਣੇ ਸੁਨੇਹਿਆਂ ਦਾ ਬੈਕਅੱਪ ਲਓ ਤਾਂ ਜੋ ਨਵਾਂ ਫ਼ੋਨ ਲੈਣ 'ਤੇ ਜਾਂ Signal ਨੂੰ ਦੁਬਾਰਾ ਇੰਸਟਾਲ ਕਰਨ 'ਤੇ ਵੀ ਤੁਹਾਡਾ ਡਾਟਾ ਸੁਰੱਖਿਅਤ ਰਹੇ।"
@@ -5125,9 +5305,6 @@
   },
   "icu:Preferences--backup-created-by-phone": {
     "messageformat": "ਤੁਹਾਡਾ ਫ਼ੋਨ"
-  },
-  "icu:Preferences--backup-size__label": {
-    "messageformat": "ਬੈਕਅੱਪ ਦਾ ਆਕਾਰ"
   },
   "icu:Preferences__local-backups": {
     "messageformat": "ਡੈਸਕਟੌਪ ਬੈਕਅੱਪ"
@@ -6114,9 +6291,6 @@
   "icu:UsernameLinkModalBody__reset": {
     "messageformat": "ਮੁੜ-ਸੈੱਟ ਕਰੋ"
   },
-  "icu:UsernameLinkModalBody__done": {
-    "messageformat": "ਮੁਕੰਮਲ"
-  },
   "icu:UsernameLinkModalBody__color__radio": {
     "messageformat": "ਵਰਤੋਂਕਾਰ ਨਾਂ ਲਿੰਕ ਦਾ ਰੰਗ, {total,number} ਵਿੱਚੋਂ {index,number}"
   },
@@ -6444,6 +6618,105 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "ਨਵਾਂ ਕੀ ਹੈ"
   },
+  "icu:PreferencesDonations__title": {
+    "messageformat": "ਸਾਡੇ ਲਈ ਤੁਹਾਡੀ ਪਰਦੇਦਾਰੀ, ਮੁਨਾਫੇ ਤੋਂ ਵੱਧ ਅਹਿਮ ਹੈ"
+  },
+  "icu:PreferencesDonations__description": {
+    "messageformat": "ਪ੍ਰਾਈਵੇਟ ਮੈਸੇਜਿੰਗ, ਜੋ ਤੁਹਾਡੇ ਸਹਿਯੋਗ ਨਾਲ ਚਲਦੀ ਹੈ। ਕੋਈ ਇਸ਼ਤਿਹਾਰ ਨਹੀਂ, ਕੋਈ ਟ੍ਰੈਕਰ ਨਹੀਂ, ਕੋਈ ਸਮਝੌਤਾ ਨਹੀਂ। ਹੁਣੇ ਦਾਨ ਦੇ ਕੇ Signal ਨੂੰ ਆਪਣਾ ਸਹਿਯੋਗ ਦਿਓ। <learnMoreLink>ਹੋਰ ਜਾਣੋ</learnMoreLink>"
+  },
+  "icu:PreferencesDonations__donate-button": {
+    "messageformat": "ਦਾਨ ਦਿਓ"
+  },
+  "icu:PreferencesDonations__donate-button-with-amount": {
+    "messageformat": "Donate {formattedCurrencyAmount}"
+  },
+  "icu:PreferencesDonations__mobile-info": {
+    "messageformat": "ਬੈਜ ਅਤੇ ਮਾਸਿਕ ਦਾਨ ਸੰਬੰਧੀ ਚੀਜ਼ਾਂ ਤੁਹਾਡੇ ਮੋਬਾਈਲ ਡਿਵਾਈਸ 'ਤੇ ਪ੍ਰਬੰਧਿਤ ਕੀਤੀਆਂ ਜਾ ਸਕਦੀਆਂ ਹਨ।"
+  },
+  "icu:PreferencesDonations__receipts": {
+    "messageformat": "ਰਸੀਦਾਂ"
+  },
+  "icu:PreferencesDonations__faqs": {
+    "messageformat": "ਦਾਨ ਬਾਰੇ ਅਕਸਰ ਪੁੱਛੇ ਜਾਣ ਵਾਲੇ ਸਵਾਲ"
+  },
+  "icu:PreferencesDonations--receiptList__info": {
+    "messageformat": "ਰਸੀਦਾਂ ਸਾਰੇ ਡਿਵਾਈਸਾਂ ਵਿੱਚ ਸਿੰਕ ਨਹੀਂ ਹੁੰਦੀਆਂ ਹਨ। ਜੇਕਰ ਤੁਸੀਂ Signal ਨੂੰ ਦੁਬਾਰਾ ਇੰਸਟਾਲ ਕੀਤਾ ਹੈ, ਤਾਂ ਪਿਛਲੇ ਦਾਨ ਦੀਆਂ ਰਸੀਦਾਂ ਉਪਲਬਧ ਨਹੀਂ ਹੋਣਗੀਆਂ।"
+  },
+  "icu:PreferencesDonations--receiptList__empty-title": {
+    "messageformat": "ਕੋਈ ਵੀ ਰਸੀਦ ਮੌਜੂਦ ਨਹੀਂ ਹੈ"
+  },
+  "icu:PreferencesDonations__ReceiptModal--title": {
+    "messageformat": "ਵੇਰਵਾ"
+  },
+  "icu:PreferencesDonations__ReceiptModal--download": {
+    "messageformat": "ਰਸੀਦ ਡਾਊਨਲੋਡ ਕਰੋ"
+  },
+  "icu:PreferencesDonations__ReceiptModal--type-label": {
+    "messageformat": "ਕਿਸਮ"
+  },
+  "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
+    "messageformat": "ਭੁਗਤਾਨ ਕਰਨ ਦੀ ਮਿਤੀ"
+  },
+  "icu:DonationReceipt__title": {
+    "messageformat": "ਦਾਨ ਦੀ ਰਸੀਦ"
+  },
+  "icu:DonationReceipt__amount-label": {
+    "messageformat": "ਰਕਮ"
+  },
+  "icu:DonationReceipt__type-label": {
+    "messageformat": "ਕਿਸਮ"
+  },
+  "icu:DonationReceipt__date-paid-label": {
+    "messageformat": "ਭੁਗਤਾਨ ਕਰਨ ਦੀ ਮਿਤੀ"
+  },
+  "icu:DonationReceipt__type-value--one-time": {
+    "messageformat": "ਇੱਕ ਵਾਰ"
+  },
+  "icu:DonationReceipt__footer-text": {
+    "messageformat": "Signal ਨੂੰ ਸਹਿਯੋਗ ਦੇਣ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ। ਤੁਹਾਡਾ ਯੋਗਦਾਨ ਓਪਨ ਸੋਰਸ ਪ੍ਰਾਈਵੇਸੀ ਤਕਨਾਲੋਜੀ ਵਿਕਸਤ ਕਰਨ ਦੇ ਉਦੇਸ਼ ਨੂੰ ਪੂਰਾ ਕਰਨ ਵਿੱਚ ਮਦਦ ਕਰਦਾ ਹੈ। ਇਹ ਤਕਨਾਲੋਜੀ ਆਜ਼ਾਦੀ ਨਾਲ ਆਪਣੇ ਵਿਚਾਰ ਪੇਸ਼ ਕਰਨ ਦੇ ਅਧਿਕਾਰ ਦੀ ਰਾਖੀ ਕਰਦੀ ਹੈ ਅਤੇ ਪੂਰੀ ਦੁਨੀਆਂ ਵਿੱਚ ਸੰਚਾਰ ਨੂੰ ਸੁਰੱਖਿਅਤ ਬਣਾਉਂਦੀ ਹੈ। ਜੇਕਰ ਤੁਸੀਂ ਸੰਯੁਕਤ ਰਾਜ ਅਮਰੀਕਾ ਦੇ ਨਿਵਾਸੀ ਹੋ, ਤਾਂ ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੇ ਟੈਕਸ ਰਿਕਾਰਡਾਂ ਲਈ ਇਸ ਰਸੀਦ ਨੂੰ ਆਪਣੇ ਕੋਲ ਸਾਂਭ ਕੇ ਰੱਖੋ। Signal ਟੈਕਨਾਲੋਜੀ ਫਾਊਂਡੇਸ਼ਨ, ਸੰਯੁਕਤ ਰਾਜ ਅਮਰੀਕਾ ਵਿੱਚ ਇੰਟਰਨਲ ਰਿਵੈਨਿਊ ਕੋਡ ਦੀ ਧਾਰਾ 501c3 ਦੇ ਤਹਿਤ ਇੱਕ ਟੈਕਸ-ਮੁਕਤ ਗੈਰ-ਲਾਭਕਾਰੀ ਸੰਸਥਾ ਹੈ। ਸਾਡੀ ਫੈਡਰਲ ਟੈਕਸ ID 82–4506840 ਹੈ।"
+  },
+  "icu:Donations__PaymentMethodDeclined": {
+    "messageformat": "Payment method declined"
+  },
+  "icu:Donations__PaymentMethodDeclined__Description": {
+    "messageformat": "Try another payment method or contact your bank for more information."
+  },
+  "icu:Donations__ErrorProcessingDonation": {
+    "messageformat": "Error processing donation"
+  },
+  "icu:Donations__ErrorProcessingDonation__Description": {
+    "messageformat": "Try another payment method or contact your bank for more information."
+  },
+  "icu:Donations__Failed3dsValidation": {
+    "messageformat": "Verification Failed"
+  },
+  "icu:Donations__Failed3dsValidation__Description": {
+    "messageformat": "Additional verification step failed. Please try again."
+  },
+  "icu:Donations__GenericError": {
+    "messageformat": "An error occurred with your donation"
+  },
+  "icu:Donations__GenericError__Description": {
+    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+  },
+  "icu:Donations__Processing": {
+    "messageformat": "Processing donation..."
+  },
+  "icu:Donations__StillProcessing": {
+    "messageformat": "Still processing"
+  },
+  "icu:Donations__StillProcessing__Description": {
+    "messageformat": "Your donation is still being processed. This can take a few minutes."
+  },
+  "icu:Donations__3dsValidationNeeded": {
+    "messageformat": "Additional verification required"
+  },
+  "icu:Donations__3dsValidationNeeded__Description": {
+    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+  },
+  "icu:Donations__3dsValidationNeeded__OpenBrowser": {
+    "messageformat": "Open browser"
+  },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal ਨੂੰ ਸੁਚਾਰੂ ਢੰਗ ਨਾਲ ਚੱਲਦਾ ਰੱਖਣ ਲਈ ਇਸ ਵਰਜ਼ਨ ਵਿੱਚ ਨਿੱਕੇ-ਮੋਟੇ ਸੁਧਾਰ ਅਤੇ ਬੱਗ ਠੀਕ ਕੀਤੇ ਗਏ ਹਨ।",
     "ignoreUnused": true
@@ -6477,5 +6750,11 @@
   },
   "icu:WhatsNew__v7.59--0": {
     "messageformat": "Linux ਦੇ ਪ੍ਰਦਰਸ਼ਨ ਵਿੱਚ ਸੁਧਾਰ ਕੀਤੇ ਗਏ ਹਨ।"
+  },
+  "icu:WhatsNew__v7.61--0": {
+    "messageformat": "ਇਹ ਅੱਪਡੇਟ, ਵੌਇਸ ਅਤੇ ਵੀਡੀਓ ਕਾਲਾਂ ਦੌਰਾਨ ਆਡੀਓ ਗੁਣਵੱਤਾ ਅਤੇ ਭਰੋਸੇਯੋਗਤਾ ਵਿੱਚ ਸੁਧਾਰ ਕਰਦੀ ਹੈ ਅਤੇ ਕਨੈਕਟ ਕੀਤੇ ਮਾਈਕ੍ਰੋਫ਼ੋਨਾਂ ਅਤੇ ਸਪੀਕਰਾਂ ਦੀ ਬਿਹਤਰ ਕੌਨਫਿਗਰੇਸ਼ਨ ਪ੍ਰਦਾਨ ਕਰਦੀ ਹੈ। ਇਸ ਪ੍ਰੋਜੈਕਟ ਵਿੱਚ ਮਦਦ ਲਈ Mozilla ਵਿਖੇ <padenot></padenot>, <kinetiknz></kinetiknz> ਅਤੇ <Pehrsons></Pehrsons> ਦਾ ਬਹੁਤ-ਬਹੁਤ ਧੰਨਵਾਦ।"
+  },
+  "icu:WhatsNew__v7.62--0": {
+    "messageformat": "ਅਸੀਂ ਇੱਕ ਦੁਰਲੱਭ ਖਰਾਬੀ ਨੂੰ ਠੀਕ ਕੀਤਾ ਹੈ ਜੋ ਕੁਝ ਸੰਪਰਕਾਂ ਨੂੰ ਸਹੀ ਢੰਗ ਨਾਲ ਸਿੰਕ ਕਰਨ ਤੋਂ ਰੋਕ ਸਕਦੀ ਸੀ।"
   }
 }

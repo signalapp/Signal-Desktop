@@ -325,6 +325,9 @@ export type MessageRequestResponseOptions = {
   messageRequestResponseType: Proto.SyncMessage.IMessageRequestResponse['type'];
   groupId?: string;
   groupV2Id?: string;
+  receivedAtCounter: number;
+  receivedAtMs: number;
+  sentAt: number;
 };
 
 export class MessageRequestResponseEvent extends ConfirmableEvent {
@@ -338,6 +341,12 @@ export class MessageRequestResponseEvent extends ConfirmableEvent {
 
   public readonly envelopeId?: string;
 
+  public readonly receivedAtMs: number;
+
+  public readonly receivedAtCounter: number;
+
+  public readonly sentAt: number;
+
   constructor(
     {
       envelopeId,
@@ -345,6 +354,9 @@ export class MessageRequestResponseEvent extends ConfirmableEvent {
       messageRequestResponseType,
       groupId,
       groupV2Id,
+      receivedAtMs,
+      receivedAtCounter,
+      sentAt,
     }: MessageRequestResponseOptions,
     confirm: ConfirmCallback
   ) {
@@ -355,6 +367,9 @@ export class MessageRequestResponseEvent extends ConfirmableEvent {
     this.messageRequestResponseType = messageRequestResponseType;
     this.groupId = groupId;
     this.groupV2Id = groupV2Id;
+    this.receivedAtMs = receivedAtMs;
+    this.receivedAtCounter = receivedAtCounter;
+    this.sentAt = sentAt;
   }
 }
 

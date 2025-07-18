@@ -7,7 +7,7 @@ import type { Meta } from '@storybook/react';
 import { AvatarColors } from '../types/Colors';
 import type { PropsType } from './AvatarLightbox';
 import { AvatarLightbox } from './AvatarLightbox';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
 
 const { i18n } = window.SignalContext;
 

@@ -145,6 +145,10 @@ export class App extends EventEmitter {
     return this.#waitForEvent('storageServiceComplete');
   }
 
+  public async waitForWindow(): Promise<Page> {
+    return this.#app.waitForEvent('window');
+  }
+
   public async waitForManifestVersion(version: number): Promise<void> {
     // eslint-disable-next-line no-constant-condition
     while (true) {

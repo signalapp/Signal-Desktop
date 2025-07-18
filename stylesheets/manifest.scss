@@ -33,6 +33,7 @@
 @use 'components/AvatarTextEditor.scss';
 @use 'components/BackfillFailureModal.scss';
 @use 'components/BackupMediaDownloadProgress.scss';
+@use 'components/BackupMediaDownloadProgressSettings.scss';
 @use 'components/BadgeCarouselIndex.scss';
 @use 'components/BadgeDialog.scss';
 @use 'components/BadgeSustainerInstructionsDialog.scss';
@@ -95,6 +96,10 @@
 @use 'components/DeleteMessagesModal.scss';
 @use 'components/DisappearingTimeDialog.scss';
 @use 'components/DisappearingTimerSelect.scss';
+@use 'components/DonationErrorModal.scss';
+@use 'components/DonationProgressModal.scss';
+@use 'components/DonationStillProcessingModal.scss';
+@use 'components/DonationVerificationModal.scss';
 @use 'components/DraftGifMessageSendModal.scss';
 @use 'components/EditConversationAttributesModal.scss';
 @use 'components/EditHistoryMessagesModal.scss';
@@ -143,6 +148,7 @@
 @use 'components/PlaybackButton.scss';
 @use 'components/PlaybackRateButton.scss';
 @use 'components/Preferences.scss';
+@use 'components/PreferencesDonations.scss';
 @use 'components/ProfileEditor.scss';
 @use 'components/ProfileMovedModal.scss';
 @use 'components/ProfileNameWarningModal.scss';

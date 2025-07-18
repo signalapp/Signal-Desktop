@@ -9,7 +9,7 @@ import {
   sessionStructureToBytes,
 } from '../../util/sessionTranslation';
 import { createDB, updateToVersion, insertData, getTableData } from './helpers';
-import { SESSION_V1_RECORD } from '../../test-both/util/sessionTranslation_test';
+import { SESSION_V1_RECORD } from '../util/sessionTranslation_test';
 
 const MAPS = [
   {

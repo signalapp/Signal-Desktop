@@ -11,7 +11,7 @@ import * as MIME from '../types/MIME';
 import { DataWriter } from '../sql/Client';
 import { isMoreRecentThan } from './timestamp';
 import { isNotNil } from './isNotNil';
-import { queueAttachmentDownloadsForMessage } from './queueAttachmentDownloads';
+import { queueAttachmentDownloads } from './queueAttachmentDownloads';
 import { postSaveUpdates } from './cleanup';
 
 const log = createLogger('attachmentDownloadQueue');
@@ -90,7 +90,7 @@ export async function flushAttachmentDownloadQueue(): Promise<void> {
         // to display the message properly.
         hasRequiredAttachmentDownloads(message.attributes)
       ) {
-        const shouldSave = await queueAttachmentDownloadsForMessage(message, {
+        const shouldSave = await queueAttachmentDownloads(message, {
           isManualDownload: false,
         });
         if (shouldSave) {

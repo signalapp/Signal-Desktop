@@ -7,12 +7,12 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './StoryCreator';
 import { StoryCreator } from './StoryCreator';
-import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
+import { fakeAttachment } from '../test-helpers/fakeAttachment';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../test-both/helpers/getDefaultConversation';
-import { getFakeDistributionListsWithMembers } from '../test-both/helpers/getFakeDistributionLists';
+} from '../test-helpers/getDefaultConversation';
+import { getFakeDistributionListsWithMembers } from '../test-helpers/getFakeDistributionLists';
 import { EmojiSkinTone } from './fun/data/emojis';
 
 const { i18n } = window.SignalContext;

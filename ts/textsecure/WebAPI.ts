@@ -14,6 +14,7 @@ import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
 import { z } from 'zod';
 import type { Readable } from 'stream';
+import qs from 'querystring';
 import type {
   KEMPublicKey,
   PublicKey,
@@ -28,7 +29,6 @@ import type { ExplodePromiseResultType } from '../util/explodePromise';
 import { explodePromise } from '../util/explodePromise';
 import { getUserAgent } from '../util/getUserAgent';
 import { getTimeoutStream } from '../util/getStreamWithTimeout';
-import { formatAcceptLanguageHeader } from '../util/userLanguages';
 import { toWebSafeBase64, fromWebSafeBase64 } from '../util/webSafeBase64';
 import { getBasicAuth } from '../util/getBasicAuth';
 import { createHTTPSAgent } from '../util/createHTTPSAgent';
@@ -92,6 +92,13 @@ import type { ServerAlert } from '../util/handleServerAlerts';
 import { isAbortError } from '../util/isAbortError';
 import { missingCaseError } from '../util/missingCaseError';
 import { drop } from '../util/drop';
+import type { StripeDonationAmount } from '../types/Donations';
+import {
+  subscriptionConfigurationCurrencyZod,
+  type CardDetail,
+} from '../types/Donations';
+import { badgeFromServerSchema } from '../badges/parseBadgesFromServer';
+import { ZERO_DECIMAL_CURRENCIES } from '../util/currency';
 
 const log = createLogger('WebAPI');
 
@@ -100,6 +107,8 @@ const log = createLogger('WebAPI');
 //   debugging failed requests.
 const DEBUG = false;
 const DEFAULT_TIMEOUT = 30 * SECOND;
+
+const CONTENT_TYPE_FORM_ENCODING = 'application/x-www-form-urlencoded';
 
 function _createRedactor(
   ...toReplace: ReadonlyArray<string | undefined | null>
@@ -469,6 +478,8 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
   try {
     if (DEBUG && !isSuccess(response.status)) {
       result = await response.text();
+      // eslint-disable-next-line no-console
+      console.error(result);
     } else if (
       (options.responseType === 'json' ||
         options.responseType === 'jsonwithdetails') &&
@@ -687,8 +698,10 @@ const CHAT_CALLS = {
   attachmentUploadForm: 'v4/attachments/form/upload',
   attestation: 'v1/attestation',
   batchIdentityCheck: 'v1/profile/identity_check/batch',
+  boostReceiptCredentials: 'v1/subscription/boost/receipt_credentials',
   challenge: 'v1/challenge',
   config: 'v1/config',
+  createBoost: 'v1/subscription/boost/create',
   deliveryCert: 'v1/certificate/delivery',
   devices: 'v1/devices',
   directoryAuthV2: 'v2/directory/auth',
@@ -711,6 +724,7 @@ const CHAT_CALLS = {
   backupMediaBatch: 'v1/archives/media/batch',
   backupMediaDelete: 'v1/archives/media/delete',
   callLinkCreateAuth: 'v1/call-link/create-auth',
+  redeemReceipt: 'v1/donation/redeem-receipt',
   registration: 'v1/registration',
   registerCapabilities: 'v1/devices/capabilities',
   reportMessage: 'v1/messages/report',
@@ -762,6 +776,7 @@ type InitializeOptionsType = {
   proxyUrl: string | undefined;
   version: string;
   disableIPv6: boolean;
+  stripePublishableKey: string;
 };
 
 export type MessageType = Readonly<{
@@ -1099,6 +1114,20 @@ const linkDeviceResultZod = z.object({
 });
 export type LinkDeviceResultType = z.infer<typeof linkDeviceResultZod>;
 
+const subscriptionConfigurationResultZod = z.object({
+  currencies: z.record(z.string(), subscriptionConfigurationCurrencyZod),
+  levels: z.record(
+    z.string(),
+    z.object({
+      name: z.string(),
+      badge: badgeFromServerSchema,
+    })
+  ),
+});
+export type SubscriptionConfigurationResultType = z.infer<
+  typeof subscriptionConfigurationResultZod
+>;
+
 export type ReportMessageOptionsType = Readonly<{
   senderAci: AciString;
   serverGuid: string;
@@ -1137,6 +1166,82 @@ export type LinkDeviceOptionsType = Readonly<{
 export type CreateAccountResultType = Readonly<{
   aci: Aci;
   pni: Pni;
+}>;
+
+export type CreateBoostOptionsType = Readonly<{
+  currency: string;
+  amount: StripeDonationAmount;
+  level: number;
+  paymentMethod: string;
+}>;
+const CreateBoostResultSchema = z.object({
+  clientSecret: z.string(),
+});
+export type CreateBoostResultType = z.infer<typeof CreateBoostResultSchema>;
+
+export type CreateBoostReceiptCredentialsOptionsType = Readonly<{
+  paymentIntentId: string;
+  receiptCredentialRequest: string;
+  processor: string;
+}>;
+const CreateBoostReceiptCredentialsResultSchema = z.object({
+  receiptCredentialResponse: z.string(),
+});
+export type CreateBoostReceiptCredentialsResultType = z.infer<
+  typeof CreateBoostReceiptCredentialsResultSchema
+>;
+
+// https://docs.stripe.com/api/payment_methods/create?api-version=2025-05-28.basil&lang=node#create_payment_method-card
+type CreatePaymentMethodWithStripeOptionsType = Readonly<{
+  cardDetail: CardDetail;
+}>;
+const CreatePaymentMethodWithStripeResultSchema = z.object({
+  id: z.string(),
+});
+type CreatePaymentMethodWithStripeResultType = z.infer<
+  typeof CreatePaymentMethodWithStripeResultSchema
+>;
+
+// https://docs.stripe.com/api/payment_intents/confirm?api-version=2025-05-28.basil
+export type ConfirmIntentWithStripeOptionsType = Readonly<{
+  clientSecret: string;
+  idempotencyKey: string;
+  paymentIntentId: string;
+  paymentMethodId: string;
+  returnUrl: string;
+}>;
+const ConfirmIntentWithStripeResultSchema = z.object({
+  // https://docs.stripe.com/api/payment_intents/object#payment_intent_object-status
+  status: z.string(),
+  // https://docs.stripe.com/api/payment_intents/object#payment_intent_object-next_action
+  next_action: z
+    .object({
+      type: z.string(),
+      redirect_to_url: z
+        .object({
+          return_url: z.string(), // what we provided originally
+          url: z.string(), // what we need to redirect to
+        })
+        .nullable(),
+    })
+    .nullable(),
+  // https://docs.stripe.com/api/payment_intents/object#payment_intent_object-last_payment_error
+  last_payment_error: z
+    .object({
+      type: z.string(),
+      advice_code: z.string().nullable(),
+      message: z.string().nullable(),
+    })
+    .nullable(),
+});
+type ConfirmIntentWithStripeResultType = z.infer<
+  typeof ConfirmIntentWithStripeResultSchema
+>;
+
+export type RedeemReceiptOptionsType = Readonly<{
+  receiptCredentialPresentation: string;
+  visible: boolean;
+  primary: boolean;
 }>;
 
 export type RequestVerificationResultType = Readonly<{
@@ -1414,24 +1519,6 @@ const backupFileHeadersSchema = z.object({
 
 type BackupFileHeadersType = z.infer<typeof backupFileHeadersSchema>;
 
-// See: https://docs.stripe.com/currencies?presentment-currency=US
-const ZERO_DECIMAL_CURRENCIES = new Set([
-  'bif',
-  'clp',
-  'djf',
-  'gnf',
-  'jpy',
-  'kmf',
-  'krw',
-  'mga',
-  'pyg',
-  'rwf',
-  'vnd',
-  'vuv',
-  'xaf',
-  'xof',
-  'xpf',
-]);
 const secondsTimestampToDate = z.coerce
   .number()
   .transform(sec => new Date(sec * 1_000));
@@ -1473,6 +1560,15 @@ export type WebAPIType = {
   createAccount: (
     options: CreateAccountOptionsType
   ) => Promise<CreateAccountResultType>;
+  confirmIntentWithStripe: (
+    options: ConfirmIntentWithStripeOptionsType
+  ) => Promise<ConfirmIntentWithStripeResultType>;
+  createPaymentMethodWithStripe: (
+    options: CreatePaymentMethodWithStripeOptionsType
+  ) => Promise<CreatePaymentMethodWithStripeResultType>;
+  createBoostPaymentIntent: (
+    options: CreateBoostOptionsType
+  ) => Promise<CreateBoostResultType>;
   createGroup: (
     group: Proto.IGroup,
     options: GroupCredentialsType
@@ -1497,6 +1593,10 @@ export type WebAPIType = {
   }) => Promise<Readable>;
   getAttachmentUploadForm: () => Promise<AttachmentUploadFormResponseType>;
   getAvatar: (path: string) => Promise<Uint8Array>;
+  createBoostReceiptCredentials: (
+    options: CreateBoostReceiptCredentialsOptionsType
+  ) => Promise<JSONWithDetailsType<CreateBoostReceiptCredentialsResultType>>;
+  redeemReceipt: (options: RedeemReceiptOptionsType) => Promise<void>;
   getHasSubscription: (subscriberId: Uint8Array) => Promise<boolean>;
   getGroup: (options: GroupCredentialsType) => Promise<Proto.IGroupResponse>;
   getGroupFromLink: (
@@ -1544,9 +1644,7 @@ export type WebAPIType = {
     options: ProfileFetchUnauthRequestOptions
   ) => Promise<ProfileType>;
   getBadgeImageFile: (imageUrl: string) => Promise<Uint8Array>;
-  getSubscriptionConfiguration: (
-    userLanguages: ReadonlyArray<string>
-  ) => Promise<unknown>;
+  getSubscriptionConfiguration: () => Promise<SubscriptionConfigurationResultType>;
   getSubscription: (
     subscriberId: Uint8Array
   ) => Promise<SubscriptionResponseType>;
@@ -1866,6 +1964,7 @@ export function initialize({
   contentProxyUrl,
   proxyUrl,
   version,
+  stripePublishableKey,
 }: InitializeOptionsType): WebAPIConnectType {
   if (!isString(chatServiceUrl)) {
     throw new Error('WebAPI.initialize: Invalid chatServiceUrl');
@@ -1902,6 +2001,9 @@ export function initialize({
   }
   if (!isString(version)) {
     throw new Error('WebAPI.initialize: Invalid version');
+  }
+  if (!isString(stripePublishableKey)) {
+    throw new Error('WebAPI.initialize: Invalid stripePublishableKey');
   }
 
   // We store server alerts (returned on the WS upgrade response headers) so that the app
@@ -2051,8 +2153,12 @@ export function initialize({
       createAccount,
       callLinkCreateAuth,
       createFetchForAttachmentUpload,
+      confirmIntentWithStripe,
       confirmUsername,
+      createBoostPaymentIntent,
+      createBoostReceiptCredentials,
       createGroup,
+      createPaymentMethodWithStripe,
       deleteUsername,
       deleteUsernameLink,
       downloadOnboardingStories,
@@ -2123,6 +2229,7 @@ export function initialize({
       putProfile,
       putStickers,
       reconnect,
+      redeemReceipt,
       refreshBackup,
       registerCapabilities,
       registerKeys,
@@ -2416,6 +2523,18 @@ export function initialize({
       };
     }
 
+    async function redeemReceipt(
+      options: RedeemReceiptOptionsType
+    ): Promise<void> {
+      await _ajax({
+        host: 'chatService',
+        call: 'redeemReceipt',
+        httpType: 'POST',
+        jsonData: options,
+        responseType: 'byteswithdetails',
+      });
+    }
+
     async function getReleaseNoteHash({
       uuid,
       locale,
@@ -2636,17 +2755,13 @@ export function initialize({
       serviceId: ServiceIdString,
       options: ProfileFetchAuthRequestOptions
     ) {
-      const { profileKeyVersion, profileKeyCredentialRequest, userLanguages } =
-        options;
+      const { profileKeyVersion, profileKeyCredentialRequest } = options;
 
       return (await _ajax({
         host: 'chatService',
         call: 'profile',
         httpType: 'GET',
         urlParameters: getProfileUrl(serviceId, options),
-        headers: {
-          'Accept-Language': formatAcceptLanguageHeader(userLanguages),
-        },
         responseType: 'json',
         redactUrl: _createRedactor(
           serviceId,
@@ -2748,7 +2863,6 @@ export function initialize({
         groupSendToken,
         profileKeyVersion,
         profileKeyCredentialRequest,
-        userLanguages,
       } = options;
 
       if (profileKeyVersion != null || profileKeyCredentialRequest != null) {
@@ -2765,9 +2879,6 @@ export function initialize({
         call: 'profile',
         httpType: 'GET',
         urlParameters: getProfileUrl(serviceId, options),
-        headers: {
-          'Accept-Language': formatAcceptLanguageHeader(userLanguages),
-        },
         responseType: 'json',
         unauthenticated: true,
         accessKey: accessKey ?? undefined,
@@ -2832,19 +2943,13 @@ export function initialize({
       );
     }
 
-    async function getSubscriptionConfiguration(
-      userLanguages: ReadonlyArray<string>
-    ): Promise<unknown> {
+    async function getSubscriptionConfiguration(): Promise<SubscriptionConfigurationResultType> {
       return _ajax({
         host: 'chatService',
         call: 'subscriptionConfiguration',
         httpType: 'GET',
-        headers: {
-          'Accept-Language': formatAcceptLanguageHeader(userLanguages),
-        },
         responseType: 'json',
-        // TODO DESKTOP-8719
-        zodSchema: z.unknown(),
+        zodSchema: subscriptionConfigurationResultZod,
       });
     }
 
@@ -3128,10 +3233,14 @@ export function initialize({
         keyId: number;
         publicKey: K;
         signature: Uint8Array;
-      }): { id: () => number; publicKey: () => K; signature: () => Buffer } {
+      }): {
+        id: () => number;
+        publicKey: () => K;
+        signature: () => Uint8Array;
+      } {
         return {
           id: () => key.keyId,
-          signature: () => Buffer.from(key.signature),
+          signature: () => key.signature,
           publicKey: () => key.publicKey,
         };
       }
@@ -3986,22 +4095,21 @@ export function initialize({
       ].join(CRLF);
       const end = `${CRLF}--${boundaryString}--${CRLF}`;
 
-      const startBuffer = Buffer.from(start, 'utf8');
-      const attachmentBuffer = Buffer.from(encryptedBin);
-      const endBuffer = Buffer.from(end, 'utf8');
+      const startBuffer = Bytes.fromString(start);
+      const attachmentBuffer = encryptedBin;
+      const endBuffer = Bytes.fromString(end);
 
-      const contentLength =
-        startBuffer.length + attachmentBuffer.length + endBuffer.length;
-      const data = Buffer.concat(
-        [startBuffer, attachmentBuffer, endBuffer],
-        contentLength
-      );
+      const data = Bytes.concatenate([
+        startBuffer,
+        attachmentBuffer,
+        endBuffer,
+      ]);
 
       return {
         data,
         contentType: `multipart/form-data; boundary=${boundaryString}`,
         headers: {
-          'Content-Length': contentLength.toString(),
+          'Content-Length': data.length.toString(),
         },
       };
     }
@@ -4622,6 +4730,112 @@ export function initialize({
         type: 'GET',
         version,
         redactUrl: _createRedactor(key),
+      });
+    }
+
+    function createBoostPaymentIntent(
+      options: CreateBoostOptionsType
+    ): Promise<CreateBoostResultType> {
+      return _ajax({
+        unauthenticated: true,
+        host: 'chatService',
+        call: 'createBoost',
+        httpType: 'POST',
+        jsonData: options,
+        responseType: 'json',
+        zodSchema: CreateBoostResultSchema,
+      });
+    }
+
+    async function createBoostReceiptCredentials(
+      options: CreateBoostReceiptCredentialsOptionsType
+    ): Promise<JSONWithDetailsType<CreateBoostReceiptCredentialsResultType>> {
+      return _ajax({
+        unauthenticated: true,
+        host: 'chatService',
+        call: 'boostReceiptCredentials',
+        httpType: 'POST',
+        jsonData: options,
+        responseType: 'jsonwithdetails',
+        zodSchema: CreateBoostReceiptCredentialsResultSchema,
+      });
+    }
+
+    // https://docs.stripe.com/api/payment_intents/confirm?api-version=2025-05-28.basil
+    function confirmIntentWithStripe(
+      options: ConfirmIntentWithStripeOptionsType
+    ): Promise<ConfirmIntentWithStripeResultType> {
+      const {
+        clientSecret,
+        idempotencyKey,
+        paymentIntentId,
+        paymentMethodId,
+        returnUrl,
+      } = options;
+      const safePaymentIntentId = encodeURIComponent(paymentIntentId);
+      const url = `https://api.stripe.com/v1/payment_intents/${safePaymentIntentId}/confirm`;
+      const formData = {
+        client_secret: clientSecret,
+        payment_method: paymentMethodId,
+        return_url: returnUrl,
+      };
+      const basicAuth = getBasicAuth({
+        username: stripePublishableKey,
+        password: '',
+      });
+      const formBytes = Bytes.fromString(qs.encode(formData));
+
+      // This is going to Stripe, so we use _outerAjax
+      return _outerAjax(url, {
+        data: formBytes,
+        headers: {
+          Authorization: basicAuth,
+          'Content-Type': CONTENT_TYPE_FORM_ENCODING,
+          'Content-Length': formBytes.byteLength.toString(),
+          'Idempotency-Key': idempotencyKey,
+        },
+        proxyUrl,
+        redactUrl: () => {
+          return url.replace(safePaymentIntentId, '[REDACTED]');
+        },
+        responseType: 'json',
+        type: 'POST',
+        version,
+        zodSchema: ConfirmIntentWithStripeResultSchema,
+      });
+    }
+
+    // https://docs.stripe.com/api/payment_methods/create?api-version=2025-05-28.basil&lang=node#create_payment_method-card
+    function createPaymentMethodWithStripe(
+      options: CreatePaymentMethodWithStripeOptionsType
+    ): Promise<CreatePaymentMethodWithStripeResultType> {
+      const { cardDetail } = options;
+      const formData = {
+        type: 'card',
+        'card[cvc]': cardDetail.cvc,
+        'card[exp_month]': cardDetail.expirationMonth,
+        'card[exp_year]': cardDetail.expirationYear,
+        'card[number]': cardDetail.number,
+      };
+      const basicAuth = getBasicAuth({
+        username: stripePublishableKey,
+        password: '',
+      });
+      const formBytes = Bytes.fromString(qs.encode(formData));
+
+      // This is going to Stripe, so we use _outerAjax
+      return _outerAjax('https://api.stripe.com/v1/payment_methods', {
+        data: formBytes,
+        headers: {
+          Authorization: basicAuth,
+          'Content-Type': CONTENT_TYPE_FORM_ENCODING,
+          'Content-Length': formBytes.byteLength.toString(),
+        },
+        proxyUrl,
+        responseType: 'json',
+        type: 'POST',
+        version,
+        zodSchema: CreatePaymentMethodWithStripeResultSchema,
       });
     }
 

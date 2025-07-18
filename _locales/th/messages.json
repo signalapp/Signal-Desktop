@@ -305,9 +305,6 @@
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "การตั้งค่า"
   },
-  "icu:NavTabs__ItemLabel--Update": {
-    "messageformat": "ปรับปรุง Signal"
-  },
   "icu:NavTabs__ItemLabel--Profile": {
     "messageformat": "โปรไฟล์"
   },
@@ -605,6 +602,12 @@
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
+  "icu:Toast--ReceiptSaved": {
+    "messageformat": "บันทึกใบเสร็จแล้ว"
+  },
+  "icu:Toast--ReceiptSaveFailed": {
+    "messageformat": "เกิดข้อผิดพลาดในการบันทึกใบเสร็จ โปรดลองอีกครั้ง"
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "ไม่สามารถเลือกรูปภาพและวิดีโอพร้อมกับไฟล์อื่นได้"
   },
@@ -664,9 +667,6 @@
   },
   "icu:joinTheBeta": {
     "messageformat": "ร่วมทดสอบซอฟต์แวร์"
-  },
-  "icu:signalDesktopPreferences": {
-    "messageformat": "การกำหนดลักษณะ Signal Desktop"
   },
   "icu:signalDesktopStickerCreator": {
     "messageformat": "ผู้สร้างสรรค์ชุดสติกเกอร์"
@@ -1285,6 +1285,168 @@
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "โทนสีผิวของอีโมจิ"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
+    "messageformat": "โฟลเดอร์แชท"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
+    "messageformat": "เพิ่มโฟลเดอร์แชท"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
+    "messageformat": "จัดแยกแชทเป็นโฟลเดอร์ ให้คุณเปิดสลับไปมาได้อย่างสะดวกรวดเร็วในหน้ารายการแชท"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
+    "messageformat": "แก้ไขโฟลเดอร์"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__DeleteFolder": {
+    "messageformat": "ลบ"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Title": {
+    "messageformat": "ลบโฟลเดอร์ใช่หรือไม่"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Description": {
+    "messageformat": "คุณต้องการลบโฟลเดอร์ “{chatFolderTitle}” ใช่หรือไม่"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
+    "messageformat": "ลบ"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
+    "messageformat": "ยกเลิก"
+  },
+  "icu:Preferences__ChatFoldersPage__Title": {
+    "messageformat": "โฟลเดอร์แชท"
+  },
+  "icu:Preferences__ChatFoldersPage__Description": {
+    "messageformat": "จัดแยกแชทเป็นโฟลเดอร์ ให้คุณเปิดสลับไปมาได้อย่างสะดวกรวดเร็วในหน้ารายการแชท"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__Title": {
+    "messageformat": "โฟลเดอร์"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__AllChatsFolder__Title": {
+    "messageformat": "แชททั้งหมด"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
+    "messageformat": "สร้างโฟลเดอร์"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
+    "messageformat": "โฟลเดอร์ที่แนะนำ"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
+    "messageformat": "เพิ่ม"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
+    "messageformat": "เพิ่มโฟลเดอร์ {chatFolderTitle} เรียบร้อยแล้ว"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
+    "messageformat": "ยังไม่ได้อ่าน"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Description": {
+    "messageformat": "ข้อความที่ยังไม่ได้อ่านจากแชททั้งหมด"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Title": {
+    "messageformat": "แชทส่วนตัว"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Description": {
+    "messageformat": "ข้อความจากแชทส่วนตัวเท่านั้น"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Title": {
+    "messageformat": "กลุ่ม"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Description": {
+    "messageformat": "ข้อความจากแชทกลุ่มเท่านั้น"
+  },
+  "icu:Preferences__EditChatFolderPage__Title": {
+    "messageformat": "สร้างโฟลเดอร์"
+  },
+  "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
+    "messageformat": "ชื่อโฟลเดอร์"
+  },
+  "icu:Preferences__EditChatFolderPage__FolderNameField__Placeholder": {
+    "messageformat": "ชื่อโฟลเดอร์ (ต้องระบุ)"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Title": {
+    "messageformat": "แชทในโฟลเดอร์"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
+    "messageformat": "เลือกแชทที่คุณต้องการให้ปรากฏในโฟลเดอร์นี้"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
+    "messageformat": "เพิ่มแชท"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog--IncludedChats__Title": {
+    "messageformat": "แชทในโฟลเดอร์"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog--ExcludedChats__Title": {
+    "messageformat": "แชทที่ยกเว้น"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
+    "messageformat": "ค้นหา"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
+    "messageformat": "ประเภทของแชท"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__DirectChats": {
+    "messageformat": "แชทส่วนตัว"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__GroupChats": {
+    "messageformat": "กลุ่ม"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__RecentChats__Title": {
+    "messageformat": "แชทล่าสุด"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__DoneButton": {
+    "messageformat": "เสร็จสิ้น"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__Title": {
+    "messageformat": "ข้อยกเว้น"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__Help": {
+    "messageformat": "เลือกแชทที่คุณไม่ต้องการให้ปรากฏในโฟลเดอร์นี้"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__ExcludeChatsButton": {
+    "messageformat": "แยกแชทออกจากโฟลเดอร์"
+  },
+  "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Label": {
+    "messageformat": "แสดงเฉพาะแชทที่ยังไม่ได้อ่าน"
+  },
+  "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Description": {
+    "messageformat": "โฟลเดอร์นี้จะแสดงเฉพาะแชทที่มีข้อความที่ยังไม่ได้อ่าน"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludeMutedChatsCheckbox__Label": {
+    "messageformat": "รวมแชทที่ถูกปิดการแจ้งเตือนเข้าไว้ด้วย"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteFolderButton": {
+    "messageformat": "ลบโฟลเดอร์"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Title": {
+    "messageformat": "ลบโฟลเดอร์แชทนี้ใช่หรือไม่"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Description": {
+    "messageformat": "โฟลเดอร์นี้จะถูกลบออกจากรายการแชทของคุณ"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
+    "messageformat": "ลบ"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
+    "messageformat": "ยกเลิก"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
+    "messageformat": "บันทึกการเปลี่ยนแปลงหรือไม่"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Description": {
+    "messageformat": "คุณต้องการบันทึกการเปลี่ยนแปลงในโฟลเดอร์แชทนี้หรือไม่"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__SaveButton": {
+    "messageformat": "บันทึก"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__DiscardButton": {
+    "messageformat": "ละทิ้ง"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveButton": {
+    "messageformat": "บันทึก"
+  },
+  "icu:Preferences__EditChatFolderPage__CancelButton": {
+    "messageformat": "ยกเลิก"
   },
   "icu:initialSync": {
     "messageformat": "กำลังปรับประสานรายชื่อผู้ติดต่อและกลุ่ม"
@@ -4026,10 +4188,10 @@
     "messageformat": "ลองอีกครั้ง"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
-    "messageformat": "กำลังกู้คืนไฟล์สื่อ"
+    "messageformat": "กำลังซิงค์ไฟล์สื่อ"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "การกู้คืนหยุดชั่วคราว"
+    "messageformat": "การซิงค์หยุดชั่วคราว"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
     "messageformat": "กู้คืน {currentSize} จาก {totalSize}"
@@ -4044,13 +4206,13 @@
     "messageformat": "กำลังรอการเชื่อมต่ออินเทอร์เน็ต..."
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "หยุดการถ่ายโอนชั่วคราว"
+    "messageformat": "หยุดชั่วคราว"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "ถ่ายโอนต่อ"
+    "messageformat": "ดำเนินการต่อ"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
-    "messageformat": "ยกเลิกการถ่ายโอน"
+    "messageformat": "ยกเลิกการซิงค์"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
     "messageformat": "ตัวเลือกเพิ่มเติม"
@@ -4062,16 +4224,34 @@
     "messageformat": "{currentSize} ของ {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "ยกเลิกการถ่ายโอนไฟล์สื่อใช่หรือไม่"
+    "messageformat": "ยกเลิกการซิงค์ไฟล์สื่อใช่หรือไม่"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "ยังกู้คืนข้อความและไฟล์สื่อของคุณไม่เสร็จสมบูรณ์ โดยหากยกเลิก คุณยังสามารถเลือกถ่ายโอนข้อมูลได้อีกจากเมนูการตั้งค่า"
+    "messageformat": "ระบบยังซิงค์ไฟล์สื่อของคุณไม่เสร็จสมบูรณ์ โดยหากยกเลิก คุณจะยังสามารถซิงค์ได้อีกด้วยการเชื่อมโยงอุปกรณ์นี้อีกครั้ง <learnMoreLink>เรียนรู้เพิ่มเติม</learnMoreLink>"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "ถ่ายโอนต่อ"
+    "messageformat": "ดำเนินการซิงค์ต่อ"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
-    "messageformat": "ยกเลิกการถ่ายโอน"
+    "messageformat": "ยกเลิกการซิงค์"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--title": {
+    "messageformat": "การซิงค์หยุดชั่วคราว"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--description": {
+    "messageformat": "คลิก “{resumeButtonText}” เพื่อดำเนินการซิงค์ต่อ"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-resume": {
+    "messageformat": "ดำเนินการต่อ"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-pause": {
+    "messageformat": "หยุดชั่วคราว"
+  },
+  "icu:BackupMediaDownloadProgressSettings__title-in-progress": {
+    "messageformat": "กำลังซิงค์ไฟล์สื่อ"
+  },
+  "icu:BackupMediaDownloadProgressSettings__progressbar-hint": {
+    "messageformat": "{currentSize} จาก {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
     "messageformat": "ต้องดำเนินการเพื่อรักษาบัญชี"
@@ -5082,7 +5262,7 @@
     "messageformat": "การสำรองข้อมูลของ Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "สำรองข้อมูลอัตโนมัติด้วยบริการจัดเก็บที่ปลอดภัยและถูกเข้ารหัสตั้งแต่ต้นทางถึงปลายทางของ Signal เริ่มต้นใช้งานบนโทรศัพท์ของคุณ <learnMoreLink>เรียนรู้เพิ่มเติม</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "สำรองประวัติการส่งข้อความของคุณ ช่วยเก็บรักษาข้อมูลแม้ในกรณีที่คุณเปลี่ยนโทรศัพท์เครื่องใหม่หรือติดตั้ง Signal อีกครั้ง"
@@ -5125,9 +5305,6 @@
   },
   "icu:Preferences--backup-created-by-phone": {
     "messageformat": "โทรศัพท์ของคุณ"
-  },
-  "icu:Preferences--backup-size__label": {
-    "messageformat": "ขนาดของข้อมูลสำรอง"
   },
   "icu:Preferences__local-backups": {
     "messageformat": "สำรองข้อมูลบนเดสก์ท็อป"
@@ -6114,9 +6291,6 @@
   "icu:UsernameLinkModalBody__reset": {
     "messageformat": "รีเซ็ต"
   },
-  "icu:UsernameLinkModalBody__done": {
-    "messageformat": "เสร็จสิ้น"
-  },
   "icu:UsernameLinkModalBody__color__radio": {
     "messageformat": "สีลิงก์ชื่อผู้ใช้, {index,number} จาก {total,number}"
   },
@@ -6444,6 +6618,105 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "ฟีเจอร์และบริการใหม่ๆ"
   },
+  "icu:PreferencesDonations__title": {
+    "messageformat": "เพราะความเป็นส่วนตัวสำคัญกว่าผลกำไรใดๆ"
+  },
+  "icu:PreferencesDonations__description": {
+    "messageformat": "ส่งข้อความอย่างเป็นส่วนตัว เป็นไปได้ด้วยทุนสนับสนุนจากคุณ ไม่มีโฆษณา ไม่มีการติดตาม ไม่มีทางเปลี่ยนแปลง บริจาควันนี้เพื่อร่วมสนับสนุน Signal <learnMoreLink>เรียนรู้เพิ่มเติม</learnMoreLink>"
+  },
+  "icu:PreferencesDonations__donate-button": {
+    "messageformat": "บริจาค"
+  },
+  "icu:PreferencesDonations__donate-button-with-amount": {
+    "messageformat": "Donate {formattedCurrencyAmount}"
+  },
+  "icu:PreferencesDonations__mobile-info": {
+    "messageformat": "คุณสามารถจัดการโล่และการบริจาครายเดือนได้บนอุปกรณ์เคลื่อนที่"
+  },
+  "icu:PreferencesDonations__receipts": {
+    "messageformat": "ใบเสร็จ"
+  },
+  "icu:PreferencesDonations__faqs": {
+    "messageformat": "คำถามที่พบบ่อยเกี่ยวกับการบริจาค"
+  },
+  "icu:PreferencesDonations--receiptList__info": {
+    "messageformat": "ระบบจะไม่ซิงค์ใบเสร็จไปยังอุปกรณ์เครื่องอื่น โดยหากคุณเคยลบและติดตั้ง Signal ใหม่ ใบเสร็จจากการบริจาคก่อนหน้านั้นจะไม่ปรากฏในแอป"
+  },
+  "icu:PreferencesDonations--receiptList__empty-title": {
+    "messageformat": "ไม่มีใบเสร็จ"
+  },
+  "icu:PreferencesDonations__ReceiptModal--title": {
+    "messageformat": "รายละเอียด"
+  },
+  "icu:PreferencesDonations__ReceiptModal--download": {
+    "messageformat": "ดาวน์โหลดใบเสร็จ"
+  },
+  "icu:PreferencesDonations__ReceiptModal--type-label": {
+    "messageformat": "ประเภท"
+  },
+  "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
+    "messageformat": "วันที่ชำระ"
+  },
+  "icu:DonationReceipt__title": {
+    "messageformat": "ใบเสร็จรับเงินบริจาค"
+  },
+  "icu:DonationReceipt__amount-label": {
+    "messageformat": "ยอดเงิน"
+  },
+  "icu:DonationReceipt__type-label": {
+    "messageformat": "ประเภท"
+  },
+  "icu:DonationReceipt__date-paid-label": {
+    "messageformat": "วันที่ชำระ"
+  },
+  "icu:DonationReceipt__type-value--one-time": {
+    "messageformat": "หนึ่งครั้ง"
+  },
+  "icu:DonationReceipt__footer-text": {
+    "messageformat": "ขอบคุณที่ร่วมสนับสนุน Signal การบริจาคของคุณจะช่วยเป็นพลังให้กับภารกิจในการปกป้องการแสดงออกอย่างอิสระ พร้อมมอบการสื่อสารที่ปลอดภัยและไร้พรมแดนให้แก่ผู้คนหลายล้านทั่วโลกผ่านเทคโนโลยีความเป็นส่วนตัวแบบโอเพนซอร์ส หากคุณเป็นผู้พำนักอาศัยในสหรัฐอเมริกา โปรดเก็บใบเสร็จนี้ไว้เพื่อเป็นหลักฐานในการชำระภาษี โดย Signal Technology Foundation เป็นองค์กรที่ไม่แสวงหากำไรและได้รับการยกเว้นภาษีภายใต้มาตรา 501c3 ของประมวลกฎหมายภาษีอากรของสหรัฐอเมริกา หมายเลขประจำตัวผู้เสียภาษีให้แก่รัฐบาลกลางของเราคือ 82-4506840"
+  },
+  "icu:Donations__PaymentMethodDeclined": {
+    "messageformat": "Payment method declined"
+  },
+  "icu:Donations__PaymentMethodDeclined__Description": {
+    "messageformat": "Try another payment method or contact your bank for more information."
+  },
+  "icu:Donations__ErrorProcessingDonation": {
+    "messageformat": "Error processing donation"
+  },
+  "icu:Donations__ErrorProcessingDonation__Description": {
+    "messageformat": "Try another payment method or contact your bank for more information."
+  },
+  "icu:Donations__Failed3dsValidation": {
+    "messageformat": "Verification Failed"
+  },
+  "icu:Donations__Failed3dsValidation__Description": {
+    "messageformat": "Additional verification step failed. Please try again."
+  },
+  "icu:Donations__GenericError": {
+    "messageformat": "An error occurred with your donation"
+  },
+  "icu:Donations__GenericError__Description": {
+    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+  },
+  "icu:Donations__Processing": {
+    "messageformat": "Processing donation..."
+  },
+  "icu:Donations__StillProcessing": {
+    "messageformat": "Still processing"
+  },
+  "icu:Donations__StillProcessing__Description": {
+    "messageformat": "Your donation is still being processed. This can take a few minutes."
+  },
+  "icu:Donations__3dsValidationNeeded": {
+    "messageformat": "Additional verification required"
+  },
+  "icu:Donations__3dsValidationNeeded__Description": {
+    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+  },
+  "icu:Donations__3dsValidationNeeded__OpenBrowser": {
+    "messageformat": "Open browser"
+  },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "รุ่นนี้มาพร้อมการปรับเปลี่ยนเล็กๆ น้อยๆ และการแก้ไขบั๊กต่างๆ เพื่อให้ Signal ทำงานได้อย่างราบรื่นไร้ปัญหา",
     "ignoreUnused": true
@@ -6477,5 +6750,11 @@
   },
   "icu:WhatsNew__v7.59--0": {
     "messageformat": "พัฒนาประสิทธิภาพให้การใช้งานบนเครื่อง Linux ลื่นไหลยิ่งขึ้นอีก"
+  },
+  "icu:WhatsNew__v7.61--0": {
+    "messageformat": "การอัปเดตครั้งนี้มาพร้อมการพัฒนาเสถียรภาพและคุณภาพของระบบเสียงระหว่างโทรเสียงและวิดีโอคอล ทั้งยังปรับปรุงการตั้งค่าเริ่มต้นของไมโครโฟนและลำโพงให้พร้อมใช้งานยิ่งขึ้นอีก ขอขอบคุณ <padenot></padenot>, <kinetiknz></kinetiknz> และ <Pehrsons></Pehrsons> จาก Mozilla ที่ให้ความช่วยเหลือในโปรเจกต์นี้"
+  },
+  "icu:WhatsNew__v7.62--0": {
+    "messageformat": "แก้ไขบั๊กที่อาจเคยทำให้การซิงค์ผู้ติดต่อขัดข้องในบางกรณี"
   }
 }

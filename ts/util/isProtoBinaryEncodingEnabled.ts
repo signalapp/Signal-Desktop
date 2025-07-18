@@ -8,6 +8,6 @@ export function isProtoBinaryEncodingEnabled(): boolean {
     return true;
   }
 
-  // TODO: https://signalmessenger.atlassian.net/browse/DESKTOP-8938
+  // TODO: DESKTOP-8938
   return false;
 }

@@ -7,7 +7,7 @@ import { generateAci } from '../../types/ServiceId';
 import { isAciString } from '../../util/isAciString';
 import type { ConversationType } from '../../state/ducks/conversations';
 import { MemberRepository, _toMembers } from '../../quill/memberRepository';
-import { getDefaultConversationWithServiceId } from '../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversationWithServiceId } from '../../test-helpers/getDefaultConversation';
 
 const UNKNOWN_SERVICE_ID = generateAci();
 

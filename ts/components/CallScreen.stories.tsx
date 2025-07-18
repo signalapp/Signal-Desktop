@@ -30,8 +30,8 @@ import { missingCaseError } from '../util/missingCaseError';
 import {
   getDefaultConversation,
   getDefaultConversationWithServiceId,
-} from '../test-both/helpers/getDefaultConversation';
-import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
+} from '../test-helpers/getDefaultConversation';
+import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCallVideoFrameSource';
 import { CallingToastProvider, useCallingToasts } from './CallingToast';
 import type { CallingImageDataCache } from './CallManager';
 import { MINUTE } from '../util/durations';

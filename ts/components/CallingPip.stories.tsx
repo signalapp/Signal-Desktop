@@ -17,11 +17,11 @@ import {
   GroupCallJoinState,
 } from '../types/Calling';
 import { CallMode } from '../types/CallDisposition';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
-import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
+import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCallVideoFrameSource';
 import { MINUTE } from '../util/durations';
 import type { SetRendererCanvasType } from '../state/ducks/calling';
-import { createCallParticipant } from '../test-both/helpers/createCallParticipant';
+import { createCallParticipant } from '../test-helpers/createCallParticipant';
 
 const { i18n } = window.SignalContext;
 

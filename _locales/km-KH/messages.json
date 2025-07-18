@@ -305,9 +305,6 @@
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "ការកំណត់"
   },
-  "icu:NavTabs__ItemLabel--Update": {
-    "messageformat": "ដំឡើង Signal"
-  },
   "icu:NavTabs__ItemLabel--Profile": {
     "messageformat": "ប្រវត្តិរូប"
   },
@@ -605,6 +602,12 @@
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
+  "icu:Toast--ReceiptSaved": {
+    "messageformat": "បង្កាន់ដៃត្រូវបានរក្សាទុក"
+  },
+  "icu:Toast--ReceiptSaveFailed": {
+    "messageformat": "មានបញ្ហាក្នុងការរក្សាទុកបង្កាន់ដៃ។ សូមព្យាយាមម្តងទៀត។"
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "អ្នកមិនអាចជ្រើសរើសរូបថត និងវីដេអូរួមជាមួយឯកសារបានទេ។"
   },
@@ -664,9 +667,6 @@
   },
   "icu:joinTheBeta": {
     "messageformat": "ចូលរួមកម្មវិធីបេតា"
-  },
-  "icu:signalDesktopPreferences": {
-    "messageformat": "ចំណង់ចំណូលចិត្តSignal Desktop "
   },
   "icu:signalDesktopStickerCreator": {
     "messageformat": "កម្មវិធីបង្កើតកញ្ចប់ស្ទីកគ័រ"
@@ -1285,6 +1285,168 @@
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "ពណ៌ស្បែករូបអារម្មណ៍"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
+    "messageformat": "ថតឯកសារជជែក"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
+    "messageformat": "បញ្ចូលថតឯកសារជជែក"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
+    "messageformat": "រៀបចំការជជែករបស់អ្នកទៅក្នុងថតឯកសារ ហើយមើលពីមួយទៅមួយបានលឿននៅលើបញ្ជីជជែករបស់អ្នក។"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
+    "messageformat": "កែថតឯកសារ"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__DeleteFolder": {
+    "messageformat": "លុប"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Title": {
+    "messageformat": "លុបថតឯកសារឬ?"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Description": {
+    "messageformat": "តើអ្នកចង់លុបថតឯកសារ “{chatFolderTitle}” ឬទេ?"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
+    "messageformat": "លុប"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
+    "messageformat": "បោះបង់"
+  },
+  "icu:Preferences__ChatFoldersPage__Title": {
+    "messageformat": "ថតឯកសារជជែក"
+  },
+  "icu:Preferences__ChatFoldersPage__Description": {
+    "messageformat": "រៀបចំការជជែករបស់អ្នកទៅក្នុងថតឯកសារ ហើយមើលពីមួយទៅមួយបានលឿននៅលើបញ្ជីជជែករបស់អ្នក"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__Title": {
+    "messageformat": "ថតឯកសារ"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__AllChatsFolder__Title": {
+    "messageformat": "ការជជែកទាំងអស់"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
+    "messageformat": "បង្កើតថតឯកសារ"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
+    "messageformat": "ថតឯកសារដែលបានណែនាំ"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
+    "messageformat": "បញ្ចូល"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
+    "messageformat": "ថតឯកសារ {chatFolderTitle} ត្រូវបានបញ្ចូល"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
+    "messageformat": "មិនទាន់អាន"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Description": {
+    "messageformat": "សារដែលមិនទាន់បានអានពីការជជែកទាំងអស់"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Title": {
+    "messageformat": "ការជជែកមួយទល់មួយ"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Description": {
+    "messageformat": "សម្រាប់តែសារពីការជជែកផ្ទាល់ប៉ុណ្ណោះ"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Title": {
+    "messageformat": "ក្រុម"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Description": {
+    "messageformat": "សម្រាប់តែសារពីការជជែកជាក្រុមប៉ុណ្ណោះ"
+  },
+  "icu:Preferences__EditChatFolderPage__Title": {
+    "messageformat": "បង្កើតថតឯកសារ"
+  },
+  "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
+    "messageformat": "ឈ្មោះថតឯកសារ"
+  },
+  "icu:Preferences__EditChatFolderPage__FolderNameField__Placeholder": {
+    "messageformat": "ឈ្មោះថតឯកសារ (ទាមទារ)"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Title": {
+    "messageformat": "ការជជែកដែលបានរាប់បញ្ចូល"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
+    "messageformat": "ជ្រើសរើសការជជែកដែលអ្នកចង់បង្ហាញនៅក្នុងថតឯកសារនេះ"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
+    "messageformat": "បញ្ចូលការជជែក"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog--IncludedChats__Title": {
+    "messageformat": "ការជជែកដែលបានរាប់បញ្ចូល"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog--ExcludedChats__Title": {
+    "messageformat": "ការជជែកដែលបានយកចេញ"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
+    "messageformat": "ស្វែងរក"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
+    "messageformat": "ប្រភេទនៃការជជែក"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__DirectChats": {
+    "messageformat": "ការជជែកមួយទល់មួយ"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__GroupChats": {
+    "messageformat": "ក្រុម"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__RecentChats__Title": {
+    "messageformat": "ការសន្ទនាថ្មីៗនេះ"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__DoneButton": {
+    "messageformat": "រួចរាល់"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__Title": {
+    "messageformat": "ការមិនរាប់បញ្ចូល"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__Help": {
+    "messageformat": "ជ្រើសរើសការជជែកដែលអ្នកមិនចង់បង្ហាញនៅក្នុងថតឯកសារនេះ"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__ExcludeChatsButton": {
+    "messageformat": "មិនរាប់បញ្ចូលការជជែក"
+  },
+  "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Label": {
+    "messageformat": "បង្ហាញតែការជជែកដែលមិនទាន់អាន"
+  },
+  "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Description": {
+    "messageformat": "មានតែការជជែកដែលមានសារមិនទាន់បានអានប៉ុណ្ណោះនឹងត្រូវបង្ហាញនៅក្នុងថតឯកសារនេះ។"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludeMutedChatsCheckbox__Label": {
+    "messageformat": "រាប់បញ្ចូលទាំងការជជែកដែលបានបិទសំឡេង"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteFolderButton": {
+    "messageformat": "លុបថតឯកសារ"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Title": {
+    "messageformat": "លុបថតឯកសារជជែកនេះឬ?"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Description": {
+    "messageformat": "ថតឯកសារនេះនឹងត្រូវបានយកចេញពីបញ្ជីជជែករបស់អ្នក។"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
+    "messageformat": "លុប"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
+    "messageformat": "បោះបង់"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
+    "messageformat": "រក្សាទុកការផ្លាស់ប្តូរឬ?"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Description": {
+    "messageformat": "តើអ្នកចង់រក្សាទុកការផ្លាស់ប្តូរដែលអ្នកបានធ្វើលើថតឯកសារជជែកនេះឬទេ?"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__SaveButton": {
+    "messageformat": "រក្សាទុក"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__DiscardButton": {
+    "messageformat": "បោះបង់"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveButton": {
+    "messageformat": "រក្សាទុក"
+  },
+  "icu:Preferences__EditChatFolderPage__CancelButton": {
+    "messageformat": "បោះបង់"
   },
   "icu:initialSync": {
     "messageformat": "កំពុងចម្លងបញ្ជីទំនាក់ទំនង និងក្រុម"
@@ -4026,10 +4188,10 @@
     "messageformat": "ព្យាយាមម្តងទៀត"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
-    "messageformat": "កំពុងស្ដារមេឌៀឡើងវិញ"
+    "messageformat": "កំពុងធ្វើសមកាលកម្មមេឌៀ"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "ការស្តារឡើងវិញត្រូវបានផ្អាក"
+    "messageformat": "ការធ្វើសមកាលកម្មបានផ្អាក"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
     "messageformat": "បានស្ដារ {currentSize} លើ {totalSize}"
@@ -4044,13 +4206,13 @@
     "messageformat": "កំពុងរង់ចាំការតភ្ជាប់អ៊ីនធឺណិត…"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "ផ្អាកការផ្ទេរ"
+    "messageformat": "ផ្អាក"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "បន្តការផ្ទេរ"
+    "messageformat": "បន្ត"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
-    "messageformat": "បោះបង់ការផ្ទេរ"
+    "messageformat": "បោះបង់ការធ្វើសមកាលកម្ម"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
     "messageformat": "ជម្រើសច្រើនទៀត"
@@ -4062,16 +4224,34 @@
     "messageformat": "{currentSize} នៃ {totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "បោះបង់ការផ្ទេរមេឌៀឬ?"
+    "messageformat": "បោះបង់ការធ្វើសមកាលកម្មមេឌៀ?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "សារ និងមេឌៀរបស់អ្នកមិនទាន់បញ្ចប់ការស្ដារឡើងវិញទេ។ ប្រសិនបើអ្នកជ្រើសរើសបោះបង់ អ្នកអាចផ្ទេរម្តងទៀតពីការកំណត់។"
+    "messageformat": "មេឌៀរបស់អ្នកមិនទាន់បានបញ្ចប់ការធ្វើសមកាលកម្មទេ។ ប្រសិនបើអ្នកជ្រើសរើសបោះបង់ អ្នកអាចធ្វើសមកាលកម្មម្តងទៀតដោយភ្ជាប់ឧបករណ៍នេះឡើងវិញ។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>។"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "បន្តផ្ទេរ"
+    "messageformat": "បន្តធ្វើសមកាលកម្ម"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
-    "messageformat": "បោះបង់ការផ្ទេរ"
+    "messageformat": "បោះបង់ការធ្វើសមកាលកម្ម"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--title": {
+    "messageformat": "ការធ្វើសមកាលកម្មបានផ្អាក"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--description": {
+    "messageformat": "ចុច “{resumeButtonText}” ដើម្បីបន្តធ្វើសមកាលកម្ម"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-resume": {
+    "messageformat": "បន្ត"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-pause": {
+    "messageformat": "ផ្អាក"
+  },
+  "icu:BackupMediaDownloadProgressSettings__title-in-progress": {
+    "messageformat": "កំពុងធ្វើសមកាលកម្មមេឌៀ"
+  },
+  "icu:BackupMediaDownloadProgressSettings__progressbar-hint": {
+    "messageformat": "{currentSize} ក្នុងចំណោម {totalSize} ({fractionComplete,number,percent})..."
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
     "messageformat": "តម្រូវឱ្យមានសកម្មភាពក្នុងគណនី"
@@ -5082,7 +5262,7 @@
     "messageformat": "ការបម្រុងទុក Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "ការបម្រុងទុកដោយស្វ័យប្រវត្តិជាមួយនឹងសេវាកម្មផ្ទុកទិន្នន័យដែលបានអ៊ីនគ្រីបទាំងសងខាងដ៏មានសុវត្ថិភាពរបស់ Signal។ ចាប់ផ្តើមនៅលើទូរសព្ទរបស់អ្នក។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>។"
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "បម្រុងទុកប្រវត្តិសាររបស់អ្នក ដើម្បីកុំឱ្យបាត់បង់ទិន្នន័យនៅពេលអ្នកមានទូរសព្ទថ្មី ឬដំឡើង Signal ឡើងវិញ។"
@@ -5125,9 +5305,6 @@
   },
   "icu:Preferences--backup-created-by-phone": {
     "messageformat": "ទូរសព្ទរបស់អ្នក"
-  },
-  "icu:Preferences--backup-size__label": {
-    "messageformat": "ទំហំបម្រុងទុក"
   },
   "icu:Preferences__local-backups": {
     "messageformat": "ការបម្រុងទុកសម្រាប់ Desktop"
@@ -6114,9 +6291,6 @@
   "icu:UsernameLinkModalBody__reset": {
     "messageformat": "កំណត់ឡើងវិញ"
   },
-  "icu:UsernameLinkModalBody__done": {
-    "messageformat": "បញ្ចប់"
-  },
   "icu:UsernameLinkModalBody__color__radio": {
     "messageformat": "ពណ៌តំណឈ្មោះអ្នកប្រើ, {index,number} នៃ {total,number}"
   },
@@ -6444,6 +6618,105 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "អ្វីដែលថ្មី"
   },
+  "icu:PreferencesDonations__title": {
+    "messageformat": "ឯកជនភាពធំជាងប្រាក់ចំណេញ"
+  },
+  "icu:PreferencesDonations__description": {
+    "messageformat": "ការផ្ញើសារលក្ខណៈឯកជនទទួលបានមូលនិធិពីអ្នក។ គ្មានការផ្សាយពាណិជ្ជកម្ម គ្មានការតាមដាន គ្មានការប៉ះពាល់។ បរិច្ចាគឥឡូវនេះដើម្បីគាំទ្រ Signal។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>"
+  },
+  "icu:PreferencesDonations__donate-button": {
+    "messageformat": "បរិច្ចាគ"
+  },
+  "icu:PreferencesDonations__donate-button-with-amount": {
+    "messageformat": "Donate {formattedCurrencyAmount}"
+  },
+  "icu:PreferencesDonations__mobile-info": {
+    "messageformat": "ស្លាក និងការបរិច្ចាគប្រចាំខែអាចគ្រប់គ្រងបាននៅលើឧបករណ៍ចល័តរបស់អ្នក។"
+  },
+  "icu:PreferencesDonations__receipts": {
+    "messageformat": "បង្កាន់ដៃ"
+  },
+  "icu:PreferencesDonations__faqs": {
+    "messageformat": "សំណួរសួរញឹកញាប់អំពីការបរិច្ចាគ"
+  },
+  "icu:PreferencesDonations--receiptList__info": {
+    "messageformat": "បង្កាន់ដៃមិនធ្វើសមកាលកម្មលើឧបករណ៍នានាទេ។ ប្រសិនបើអ្នកបានដំឡើង Signal ឡើងវិញ បង្កាន់ដៃពីការបរិច្ចាគមុនៗនឹងមិនមានទេ។"
+  },
+  "icu:PreferencesDonations--receiptList__empty-title": {
+    "messageformat": "មិនមានបង្កាន់ដៃ"
+  },
+  "icu:PreferencesDonations__ReceiptModal--title": {
+    "messageformat": "លម្អិត"
+  },
+  "icu:PreferencesDonations__ReceiptModal--download": {
+    "messageformat": "ទាញយកបង្កាន់ដៃ"
+  },
+  "icu:PreferencesDonations__ReceiptModal--type-label": {
+    "messageformat": "ប្រភេទ"
+  },
+  "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
+    "messageformat": "កាលបរិច្ឆេទបង់ប្រាក់"
+  },
+  "icu:DonationReceipt__title": {
+    "messageformat": "បង្កាន់ដៃបរិច្ចាគ"
+  },
+  "icu:DonationReceipt__amount-label": {
+    "messageformat": "ចំនួនទឹកប្រាក់"
+  },
+  "icu:DonationReceipt__type-label": {
+    "messageformat": "ប្រភេទ"
+  },
+  "icu:DonationReceipt__date-paid-label": {
+    "messageformat": "កាលបរិច្ឆេទបង់ប្រាក់"
+  },
+  "icu:DonationReceipt__type-value--one-time": {
+    "messageformat": "ម្តង"
+  },
+  "icu:DonationReceipt__footer-text": {
+    "messageformat": "សូមអរគុណចំពោះការគាំទ្រ Signal។ ការចូលរួមចំណែករបស់អ្នកជួយជំរុញដល់បេសកកម្មការពារការបញ្ចេញមតិដោយសេរី និងញ៉ាំងឱ្យមានការប្រាស្រ័យទាក់ទងគ្នាជាសាកលដោយសុវត្ថិភាពសម្រាប់មនុស្សរាប់លាននាក់ជុំវិញពិភពលោក តាមរយៈបច្ចេកវិទ្យាឯកជនភាពប្រភពបើកចំហ។ ប្រសិនបើអ្នកជាអ្នករស់នៅក្នុងសហរដ្ឋអាមេរិក សូមរក្សាទុកបង្កាន់ដៃនេះសម្រាប់កំណត់ត្រាពន្ធរបស់អ្នក។ Signal Technology Foundation គឺជាអង្គការមិនរកប្រាក់ចំណេញដែលទទួលបានការលើកលែងពន្ធនៅក្នុងសហរដ្ឋអាមេរិកក្រោមផ្នែក 501c3 នៃក្រមស្តីពីប្រាក់ចំណូលផ្ទៃក្នុង។ លេខអត្តសញ្ញាណកម្មពន្ធរបស់យើងគឺ 82-4506840។"
+  },
+  "icu:Donations__PaymentMethodDeclined": {
+    "messageformat": "Payment method declined"
+  },
+  "icu:Donations__PaymentMethodDeclined__Description": {
+    "messageformat": "Try another payment method or contact your bank for more information."
+  },
+  "icu:Donations__ErrorProcessingDonation": {
+    "messageformat": "Error processing donation"
+  },
+  "icu:Donations__ErrorProcessingDonation__Description": {
+    "messageformat": "Try another payment method or contact your bank for more information."
+  },
+  "icu:Donations__Failed3dsValidation": {
+    "messageformat": "Verification Failed"
+  },
+  "icu:Donations__Failed3dsValidation__Description": {
+    "messageformat": "Additional verification step failed. Please try again."
+  },
+  "icu:Donations__GenericError": {
+    "messageformat": "An error occurred with your donation"
+  },
+  "icu:Donations__GenericError__Description": {
+    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+  },
+  "icu:Donations__Processing": {
+    "messageformat": "Processing donation..."
+  },
+  "icu:Donations__StillProcessing": {
+    "messageformat": "Still processing"
+  },
+  "icu:Donations__StillProcessing__Description": {
+    "messageformat": "Your donation is still being processed. This can take a few minutes."
+  },
+  "icu:Donations__3dsValidationNeeded": {
+    "messageformat": "Additional verification required"
+  },
+  "icu:Donations__3dsValidationNeeded__Description": {
+    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+  },
+  "icu:Donations__3dsValidationNeeded__OpenBrowser": {
+    "messageformat": "Open browser"
+  },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "កំណែ​នេះ​មាន​ការ​កែ​សម្រួល និង​ការកែបញ្ហាតូចៗ​មួយ​ចំនួន ដើម្បី​ឲ្យ​ Signal បន្ត​ដំណើរការ​ដោយ​រលូន។",
     "ignoreUnused": true
@@ -6477,5 +6750,11 @@
   },
   "icu:WhatsNew__v7.59--0": {
     "messageformat": "កំណែថ្មីនេះអាចឱ្យមានការបង្កើនល្បឿន GPU នៅលើ Linux ដើម្បីធ្វើឱ្យដំណើរការកាន់តែប្រសើរឡើង និងចាក់វីដេអូបានកាន់តែរលូននៅលើហាដវែរដែលអាចប្រើបាន។"
+  },
+  "icu:WhatsNew__v7.61--0": {
+    "messageformat": "កំណែថ្មីនេះបង្កើនគុណភាពសំឡេង និងភាពទុកចិត្តបានក្នុងអំឡុងពេលហៅជាសំឡេង និងវីដេអូ និងដាក់ឱ្យប្រើនូវការកំណត់រចនាសម្ព័ន្ធដោយស្វ័យប្រវត្តិកាន់តែប្រសើរឡើងរបស់មីក្រូហ្វូន និងឧបករណ៍បំពងសំឡេងដែលបានភ្ជាប់។ សូមអរគុណដល់ <padenot></padenot>, <kinetiknz></kinetiknz> និង <Pehrsons></Pehrsons> នៅ Mozilla ដែលបានជួយលើគម្រោងនេះ។"
+  },
+  "icu:WhatsNew__v7.62--0": {
+    "messageformat": "យើងបានដោះស្រាយបញ្ហាដ៏កម្រមួយ ដែលអាចធ្វើឱ្យទំនាក់ទំនងមួយចំនួនមិនអាចធ្វើសមកាលកម្មបានត្រឹមត្រូវ។"
   }
 }

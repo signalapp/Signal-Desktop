@@ -305,9 +305,6 @@
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "設定"
   },
-  "icu:NavTabs__ItemLabel--Update": {
-    "messageformat": "更新 Signal"
-  },
   "icu:NavTabs__ItemLabel--Profile": {
     "messageformat": "個人資訊"
   },
@@ -605,6 +602,12 @@
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
+  "icu:Toast--ReceiptSaved": {
+    "messageformat": "已儲存收據"
+  },
+  "icu:Toast--ReceiptSaveFailed": {
+    "messageformat": "儲存收據時發生錯誤。請重試。"
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "你無法同時選擇相片、影片以及檔案。"
   },
@@ -664,9 +667,6 @@
   },
   "icu:joinTheBeta": {
     "messageformat": "加入 Beta 測試版"
-  },
-  "icu:signalDesktopPreferences": {
-    "messageformat": "Signal 桌面版設定"
   },
   "icu:signalDesktopStickerCreator": {
     "messageformat": "貼圖包製作器"
@@ -1285,6 +1285,168 @@
   },
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "表情符號膚色"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
+    "messageformat": "聊天資料夾"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
+    "messageformat": "新增聊天資料夾"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description": {
+    "messageformat": "將你的聊天整理到資料夾中，然後在聊天清單上快速切換。"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
+    "messageformat": "編輯資料夾"
+  },
+  "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__DeleteFolder": {
+    "messageformat": "刪除"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Title": {
+    "messageformat": "要刪除資料夾嗎？"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__Description": {
+    "messageformat": "你要刪除資料夾「{chatFolderTitle}」嗎？"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__DeleteButton": {
+    "messageformat": "刪除"
+  },
+  "icu:Preferences__ChatsPage__DeleteChatFolderDialog__CancelButton": {
+    "messageformat": "取消"
+  },
+  "icu:Preferences__ChatFoldersPage__Title": {
+    "messageformat": "聊天資料夾"
+  },
+  "icu:Preferences__ChatFoldersPage__Description": {
+    "messageformat": "將你的聊天整理到資料夾中，然後在聊天清單上快速切換"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__Title": {
+    "messageformat": "資料夾"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__AllChatsFolder__Title": {
+    "messageformat": "所有聊天"
+  },
+  "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
+    "messageformat": "建立資料夾"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
+    "messageformat": "建議的資料夾"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
+    "messageformat": "新增"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
+    "messageformat": "新增了 {chatFolderTitle} 資料夾"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
+    "messageformat": "未讀"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Description": {
+    "messageformat": "所有聊天中的未讀訊息"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Title": {
+    "messageformat": "1 對 1 聊天"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Description": {
+    "messageformat": "只有直接聊天的訊息"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Title": {
+    "messageformat": "群組"
+  },
+  "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Description": {
+    "messageformat": "只有群組聊天的訊息"
+  },
+  "icu:Preferences__EditChatFolderPage__Title": {
+    "messageformat": "建立資料夾"
+  },
+  "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
+    "messageformat": "資料夾名稱"
+  },
+  "icu:Preferences__EditChatFolderPage__FolderNameField__Placeholder": {
+    "messageformat": "資料夾名稱（必填）"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Title": {
+    "messageformat": "包含的聊天"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
+    "messageformat": "選擇要顯示在此資料夾中的聊天"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
+    "messageformat": "新增聊天"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog--IncludedChats__Title": {
+    "messageformat": "包含的聊天"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog--ExcludedChats__Title": {
+    "messageformat": "已排除的聊天"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
+    "messageformat": "搜尋"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
+    "messageformat": "聊天類型"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__DirectChats": {
+    "messageformat": "1 對 1 聊天"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__GroupChats": {
+    "messageformat": "群組"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__RecentChats__Title": {
+    "messageformat": "最近的聊天"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__DoneButton": {
+    "messageformat": "完成"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__Title": {
+    "messageformat": "例外"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__Help": {
+    "messageformat": "選擇你不想顯示在此資料夾中的聊天"
+  },
+  "icu:Preferences__EditChatFolderPage__ExceptionsSection__ExcludeChatsButton": {
+    "messageformat": "排除聊天"
+  },
+  "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Label": {
+    "messageformat": "僅顯示未讀的聊天"
+  },
+  "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Description": {
+    "messageformat": "此資料夾只會顯示含有未讀訊息的聊天。"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludeMutedChatsCheckbox__Label": {
+    "messageformat": "包括靜音聊天"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteFolderButton": {
+    "messageformat": "刪除資料夾"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Title": {
+    "messageformat": "要刪除此聊天資料夾嗎？"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Description": {
+    "messageformat": "此資料夾將會從你的聊天清單中移除。"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
+    "messageformat": "刪除"
+  },
+  "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
+    "messageformat": "取消"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
+    "messageformat": "要儲存變更嗎？"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Description": {
+    "messageformat": "你要儲存對此聊天資料夾所作的變更嗎？"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__SaveButton": {
+    "messageformat": "儲存"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__DiscardButton": {
+    "messageformat": "放棄"
+  },
+  "icu:Preferences__EditChatFolderPage__SaveButton": {
+    "messageformat": "儲存"
+  },
+  "icu:Preferences__EditChatFolderPage__CancelButton": {
+    "messageformat": "取消"
   },
   "icu:initialSync": {
     "messageformat": "正在同步聯絡人與群組"
@@ -4026,10 +4188,10 @@
     "messageformat": "重試"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
-    "messageformat": "正在還原媒體"
+    "messageformat": "正在同步媒體"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "還原已暫停"
+    "messageformat": "同步已暫停"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
     "messageformat": "已還原 {totalSize} 中的 {currentSize}"
@@ -4044,13 +4206,13 @@
     "messageformat": "正在等待網絡連線..."
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "暫停轉移"
+    "messageformat": "暫停"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "恢復轉移"
+    "messageformat": "恢復"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
-    "messageformat": "取消轉移"
+    "messageformat": "取消同步"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
     "messageformat": "更多選項"
@@ -4062,16 +4224,34 @@
     "messageformat": "第 {currentSize} 個，共 {totalSize} 個"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "要取消媒體轉移嗎？"
+    "messageformat": "要取消媒體同步嗎？"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "你的訊息和媒體還原尚未完成。如果你選擇取消，可以從「設定」再次轉移。"
+    "messageformat": "你的媒體同步尚未完成。如果你選擇取消，可以透過再次連結此裝置來重新同步。<learnMoreLink>了解更多</learnMoreLink>。"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "繼續轉移"
+    "messageformat": "繼續同步"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
-    "messageformat": "取消轉移"
+    "messageformat": "取消同步"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--title": {
+    "messageformat": "同步已暫停"
+  },
+  "icu:BackupMediaDownloadProgressSettings__paused--description": {
+    "messageformat": "點擊「{resumeButtonText}」以繼續同步"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-resume": {
+    "messageformat": "恢復"
+  },
+  "icu:BackupMediaDownloadProgressSettings__button-pause": {
+    "messageformat": "暫停"
+  },
+  "icu:BackupMediaDownloadProgressSettings__title-in-progress": {
+    "messageformat": "正在同步媒體"
+  },
+  "icu:BackupMediaDownloadProgressSettings__progressbar-hint": {
+    "messageformat": "總共 {totalSize} 中的 {currentSize} ({fractionComplete,number,percent})..."
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
     "messageformat": "需為帳戶採取行動"
@@ -5082,7 +5262,7 @@
     "messageformat": "Signal 備份"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatic backups with Signal’s secure, end-to-end encrypted storage service. Get started on your phone. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "使用 Signal 的安全端對端加密儲存服務自動備份。就從你的手機開始。<learnMoreLink>了解更多</learnMoreLink>。"
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "備份你的訊息紀錄，讓你在使用新手機或重新安裝 Signal 時，絕不會遺失資料。"
@@ -5125,9 +5305,6 @@
   },
   "icu:Preferences--backup-created-by-phone": {
     "messageformat": "你的手機"
-  },
-  "icu:Preferences--backup-size__label": {
-    "messageformat": "備份大小"
   },
   "icu:Preferences__local-backups": {
     "messageformat": "桌面備份"
@@ -6114,9 +6291,6 @@
   "icu:UsernameLinkModalBody__reset": {
     "messageformat": "重設"
   },
-  "icu:UsernameLinkModalBody__done": {
-    "messageformat": "完成"
-  },
   "icu:UsernameLinkModalBody__color__radio": {
     "messageformat": "用戶名稱連結顏色，{total,number} 中的 {index,number}"
   },
@@ -6444,6 +6618,105 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "有甚麼新的"
   },
+  "icu:PreferencesDonations__title": {
+    "messageformat": "隱私比盈利更重要"
+  },
+  "icu:PreferencesDonations__description": {
+    "messageformat": "我們是由你贊助的私密通訊軟體。無廣告、無追蹤、而且絕不妥協。請立即捐款支持 Signal。 <learnMoreLink>了解更多</learnMoreLink>"
+  },
+  "icu:PreferencesDonations__donate-button": {
+    "messageformat": "捐款"
+  },
+  "icu:PreferencesDonations__donate-button-with-amount": {
+    "messageformat": "Donate {formattedCurrencyAmount}"
+  },
+  "icu:PreferencesDonations__mobile-info": {
+    "messageformat": "你可在行動裝置上管理徽章和每月捐款。"
+  },
+  "icu:PreferencesDonations__receipts": {
+    "messageformat": "收據"
+  },
+  "icu:PreferencesDonations__faqs": {
+    "messageformat": "捐款常見問題"
+  },
+  "icu:PreferencesDonations--receiptList__info": {
+    "messageformat": "收據不會跨裝置進行同步。若你已重新安裝 Signal，恕未能提供先前捐款的收據。"
+  },
+  "icu:PreferencesDonations--receiptList__empty-title": {
+    "messageformat": "未有收據"
+  },
+  "icu:PreferencesDonations__ReceiptModal--title": {
+    "messageformat": "細節"
+  },
+  "icu:PreferencesDonations__ReceiptModal--download": {
+    "messageformat": "下載收據"
+  },
+  "icu:PreferencesDonations__ReceiptModal--type-label": {
+    "messageformat": "類型"
+  },
+  "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
+    "messageformat": "付款日期"
+  },
+  "icu:DonationReceipt__title": {
+    "messageformat": "捐款收據"
+  },
+  "icu:DonationReceipt__amount-label": {
+    "messageformat": "金額"
+  },
+  "icu:DonationReceipt__type-label": {
+    "messageformat": "類型"
+  },
+  "icu:DonationReceipt__date-paid-label": {
+    "messageformat": "付款日期"
+  },
+  "icu:DonationReceipt__type-value--one-time": {
+    "messageformat": "一次"
+  },
+  "icu:DonationReceipt__footer-text": {
+    "messageformat": "感謝你對 Signal 的支持。你的捐款有助於推動保護自由表達的使命，並透過開放原始碼隱私技術，讓全球數百萬人能夠進行安全的全球通訊。若你是美國居民，請保留此收據作為你的稅務紀錄。Signal Technology Foundation 是在美國依據《國稅法規》(IRC) 第 501c3 條的免稅非盈利組織。我們的聯邦稅識別號碼為 82-4506840。"
+  },
+  "icu:Donations__PaymentMethodDeclined": {
+    "messageformat": "Payment method declined"
+  },
+  "icu:Donations__PaymentMethodDeclined__Description": {
+    "messageformat": "Try another payment method or contact your bank for more information."
+  },
+  "icu:Donations__ErrorProcessingDonation": {
+    "messageformat": "Error processing donation"
+  },
+  "icu:Donations__ErrorProcessingDonation__Description": {
+    "messageformat": "Try another payment method or contact your bank for more information."
+  },
+  "icu:Donations__Failed3dsValidation": {
+    "messageformat": "Verification Failed"
+  },
+  "icu:Donations__Failed3dsValidation__Description": {
+    "messageformat": "Additional verification step failed. Please try again."
+  },
+  "icu:Donations__GenericError": {
+    "messageformat": "An error occurred with your donation"
+  },
+  "icu:Donations__GenericError__Description": {
+    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+  },
+  "icu:Donations__Processing": {
+    "messageformat": "Processing donation..."
+  },
+  "icu:Donations__StillProcessing": {
+    "messageformat": "Still processing"
+  },
+  "icu:Donations__StillProcessing__Description": {
+    "messageformat": "Your donation is still being processed. This can take a few minutes."
+  },
+  "icu:Donations__3dsValidationNeeded": {
+    "messageformat": "Additional verification required"
+  },
+  "icu:Donations__3dsValidationNeeded__Description": {
+    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+  },
+  "icu:Donations__3dsValidationNeeded__OpenBrowser": {
+    "messageformat": "Open browser"
+  },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "此版本包含許多小調整和錯誤修復，以維持 Signal 穩定運作。",
     "ignoreUnused": true
@@ -6477,5 +6750,11 @@
   },
   "icu:WhatsNew__v7.59--0": {
     "messageformat": "此更新讓你可在 Linux 啟用 GPU 加速，以在支援硬體上提升效能和播放更流暢的影片。"
+  },
+  "icu:WhatsNew__v7.61--0": {
+    "messageformat": "此更新可改善語音和視訊通話期間的音訊品質和可靠性，並引進更好的連接麥克風和揚聲器的自動設定功能。感謝 Mozilla 的 <padenot></padenot>、<kinetiknz></kinetiknz> 和 <Pehrsons></Pehrsons> 對此項目的幫助。"
+  },
+  "icu:WhatsNew__v7.62--0": {
+    "messageformat": "我們修復了一個可能導致某些聯絡人無法正確同步的罕見錯誤。"
   }
 }

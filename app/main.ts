@@ -2755,6 +2755,7 @@ ipc.on('get-config', async event => {
     registrationChallengeUrl: config.get<string>('registrationChallengeUrl'),
     serverPublicParams: config.get<string>('serverPublicParams'),
     serverTrustRoot: config.get<string>('serverTrustRoot'),
+    stripePublishableKey: config.get<string>('stripePublishableKey'),
     genericServerPublicParams: config.get<string>('genericServerPublicParams'),
     backupServerPublicParams: config.get<string>('backupServerPublicParams'),
     theme,
@@ -2923,6 +2924,9 @@ function handleSignalRoute(route: ParsedSignalRoute) {
     challengeHandler.handleCaptcha(route.args.captchaId);
     // Show window after handling captcha
     showWindow();
+  } else if (route.key === 'donationValidationComplete') {
+    log.info('donationValidationComplete route handled');
+    mainWindow.webContents.send('donation-validation-complete', route.args);
   } else {
     log.info('handleSignalRoute: Unknown signal route:', route.key);
     mainWindow.webContents.send('unknown-sgnl-link');
