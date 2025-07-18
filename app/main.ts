@@ -1,12 +1,15 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { join, normalize, extname, dirname, basename } from 'path';
-import { pathToFileURL } from 'url';
+import path, { join, normalize, extname, dirname, basename } from 'path';
+import { pathToFileURL, URL } from 'url';
 import * as os from 'os';
 import { chmod, realpath, writeFile } from 'fs-extra';
 import { randomBytes } from 'crypto';
 import { createParser } from 'dashdash';
+
+import http, { type IncomingMessage } from 'http';
+import https from 'https';
 
 import fastGlob from 'fast-glob';
 import PQueue from 'p-queue';
@@ -125,6 +128,12 @@ import { getOwn } from '../ts/util/getOwn';
 import { safeParseLoose, safeParseUnknown } from '../ts/util/schemas';
 import { getAppErrorIcon } from '../ts/util/getAppErrorIcon';
 import { promptOSAuth } from '../ts/util/os/promptOSAuthMain';
+
+type DownloadImageResponse = {
+  buffer: Uint8Array;
+  mimeType: string;
+  filename: string;
+};
 
 const log = createLogger('app/main');
 
@@ -3285,3 +3294,93 @@ if (isTestEnvironment(getEnvironment())) {
     );
   });
 }
+
+ipc.handle(
+  'download-image-from-url',
+  async (_event, url: string): Promise<DownloadImageResponse> => {
+    console.log('download-image-from-url: starting download for URL:', url);
+
+    // Helper to follow up to 5 redirects
+    function fetchWithRedirects(
+      currentUrl: string,
+      redirectsLeft = 5
+    ): Promise<{ buffer: Buffer; mimeType: string; finalUrl: string }> {
+      return new Promise((resolve, reject) => {
+        console.log(
+          'fetchWithRedirects: fetching URL:',
+          currentUrl,
+          'redirects left:',
+          redirectsLeft
+        );
+        const client = currentUrl.startsWith('https') ? https : http;
+        const req = client.get(currentUrl, (res: IncomingMessage) => {
+          console.log(
+            'fetchWithRedirects: response status:',
+            res.statusCode,
+            'location:',
+            res.headers.location
+          );
+          if (
+            res.statusCode &&
+            res.statusCode >= 300 &&
+            res.statusCode < 400 &&
+            res.headers.location
+          ) {
+            if (redirectsLeft === 0) {
+              reject(new Error('Too many redirects while fetching image.'));
+              return;
+            }
+            // Follow the redirect (handle relative redirects)
+            const nextUrl = new URL(
+              res.headers.location,
+              currentUrl
+            ).toString();
+            console.log('fetchWithRedirects: following redirect to:', nextUrl);
+            resolve(fetchWithRedirects(nextUrl, redirectsLeft - 1));
+            return;
+          }
+          if (res.statusCode !== 200) {
+            reject(
+              new Error(`Failed to fetch image. Status code: ${res.statusCode}`)
+            );
+            return;
+          }
+          const chunks: Array<Buffer> = [];
+          res.on('data', chunk => chunks.push(chunk));
+          res.on('end', () => {
+            const buffer = Buffer.concat(chunks);
+            const mimeType =
+              res.headers['content-type'] ?? 'application/octet-stream';
+            console.log(
+              'fetchWithRedirects: successfully downloaded image, size:',
+              buffer.length,
+              'mimeType:',
+              mimeType
+            );
+            resolve({ buffer, mimeType, finalUrl: currentUrl });
+          });
+        });
+        req.on('error', error => {
+          console.log('fetchWithRedirects: error downloading:', error.message);
+          reject(error);
+        });
+      });
+    }
+
+    try {
+      const { buffer, mimeType, finalUrl } = await fetchWithRedirects(url);
+      const filename =
+        path.basename(new URL(finalUrl).pathname) ||
+        `image.${mimeType.split('/')[1] ?? 'png'}`;
+      console.log('download-image-from-url: success, filename:', filename);
+      return {
+        buffer: new Uint8Array(buffer),
+        mimeType,
+        filename,
+      };
+    } catch (error) {
+      console.log('download-image-from-url: error:', error.message);
+      throw error;
+    }
+  }
+);
