@@ -53,7 +53,7 @@ const attachmentDownloadJobSchemaV1040 = z
   .and(jobManagerJobSchema);
 export type _AttachmentDownloadJobTypeV1040 = Omit<
   AttachmentDownloadJobType,
-  'attachmentSignature'
+  'attachmentSignature' | 'originalSource'
 > & { digest: string };
 
 export function updateToSchemaVersion1040(
