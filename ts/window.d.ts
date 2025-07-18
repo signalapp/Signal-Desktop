@@ -67,6 +67,11 @@ export type IPCType = {
     erase: () => Promise<void>;
   };
   drawAttention: () => void;
+  downloadImageFromUrl: (url: string) => Promise<{
+    buffer: Uint8Array;
+    mimeType: string;
+    filename: string;
+  }>;
   getAutoLaunch: () => Promise<boolean | undefined>;
   getMediaAccessStatus: (
     mediaType: 'screen' | 'microphone' | 'camera'
