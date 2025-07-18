@@ -6,6 +6,13 @@ import classNames from 'classnames';
 import { useEscapeHandling } from '../../hooks/useEscapeHandling';
 import { getSuggestedFilename } from '../../types/Attachment';
 import { IMAGE_PNG, type MIMEType } from '../../types/MIME';
+import { extractImageUrl } from '../../util/parseImageUrl';
+
+type DownloadImageResponse = {
+  buffer: Uint8Array;
+  mimeType: string;
+  filename: string;
+};
 
 export type PropsType = {
   conversationId: string;
@@ -56,6 +63,12 @@ function getAsFile(item: DataTransferItem): File | null {
   return file;
 }
 
+// Utility to extract <img src=...> from HTML
+function extractImgSrcFromHtml(html: string): string | undefined {
+  const match = html.match(/<img[^>]+src=["']([^"'>]+)["']/i);
+  return match ? match[1] : undefined;
+}
+
 export function ConversationView({
   conversationId,
   hasOpenModal,
@@ -70,24 +83,90 @@ export function ConversationView({
   shouldHideConversationView,
 }: PropsType): JSX.Element {
   const onDrop = React.useCallback(
-    (event: React.DragEvent<HTMLDivElement>) => {
-      event.stopPropagation();
+    async (event: React.DragEvent<HTMLDivElement>) => {
       event.preventDefault();
+      event.stopPropagation();
 
       if (!event.dataTransfer) {
         return;
       }
 
-      if (event.dataTransfer.types[0] !== 'Files') {
+      const files = Array.from(event.dataTransfer.files);
+      if (files.length > 0) {
+        processAttachments({ conversationId, files, flags: null });
         return;
       }
 
-      const { files } = event.dataTransfer;
-      processAttachments({
-        conversationId,
-        files: Array.from(files),
-        flags: null,
-      });
+      // Try to get an image file from dataTransfer.items
+      let foundImage = false;
+      if (event.dataTransfer?.items) {
+        for (let i = 0; i < event.dataTransfer.items.length; i += 1) {
+          const item = event.dataTransfer.items[i];
+          if (item.kind === 'file' && item.type.startsWith('image/')) {
+            const file = item.getAsFile();
+            if (file) {
+              processAttachments({
+                conversationId,
+                files: [file],
+                flags: null,
+              });
+              foundImage = true;
+              break;
+            }
+          }
+        }
+      }
+      if (foundImage) {
+        return;
+      }
+
+      // Try using the extraction function
+      let imageUrl =
+        event.dataTransfer?.getData('text/uri-list') ||
+        event.dataTransfer?.getData('text/plain');
+
+      if (imageUrl && imageUrl.startsWith('http')) {
+        const realImageUrl = extractImageUrl(imageUrl);
+
+        if (/\.(jpe?g|png|gif|bmp|webp|svg)(\?|$)/i.test(realImageUrl)) {
+          const response: DownloadImageResponse =
+            await window.IPC.downloadImageFromUrl(realImageUrl);
+          const array = new Uint8Array(response.buffer);
+          const blob = new Blob([array], { type: response.mimeType });
+          const file = new File([blob], response.filename, {
+            type: response.mimeType,
+          });
+          processAttachments({
+            conversationId,
+            files: [file],
+            flags: null,
+          });
+          return;
+        }
+        // If not a direct image URL, fall through to HTML parsing
+        imageUrl = realImageUrl;
+      }
+
+      // Try to parse text/html for an <img src=...>
+      const html = event.dataTransfer?.getData('text/html');
+      if (html) {
+        const imgSrc = extractImgSrcFromHtml(html);
+
+        if (imgSrc && imgSrc.startsWith('http')) {
+          const response: DownloadImageResponse =
+            await window.IPC.downloadImageFromUrl(imgSrc);
+          const array = new Uint8Array(response.buffer);
+          const blob = new Blob([array], { type: response.mimeType });
+          const file = new File([blob], response.filename, {
+            type: response.mimeType,
+          });
+          processAttachments({
+            conversationId,
+            files: [file],
+            flags: null,
+          });
+        }
+      }
     },
     [conversationId, processAttachments]
   );
