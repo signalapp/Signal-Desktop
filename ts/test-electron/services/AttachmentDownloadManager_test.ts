@@ -59,6 +59,7 @@ function composeJob({
     attempts: 0,
     retryAfter: null,
     lastAttemptTimestamp: null,
+    originalSource: jobOverrides?.source ?? AttachmentDownloadSource.STANDARD,
     source: AttachmentDownloadSource.STANDARD,
     attachment: {
       contentType,

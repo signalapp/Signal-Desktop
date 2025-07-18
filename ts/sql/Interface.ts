@@ -557,6 +557,11 @@ export type MessageCountBySchemaVersionType = Array<{
   count: number;
 }>;
 
+export type BackupAttachmentDownloadProgress = {
+  totalBytes: number;
+  completedBytes: number;
+};
+
 export const MESSAGE_ATTACHMENT_COLUMNS = [
   'messageId',
   'conversationId',
@@ -884,7 +889,7 @@ type ReadableInterface = {
   getMaxMessageCounter(): number | undefined;
 
   getStatisticsForLogging(): Record<string, string>;
-  getSizeOfPendingBackupAttachmentDownloadJobs(): number;
+  getBackupAttachmentDownloadProgress(): BackupAttachmentDownloadProgress;
   getAttachmentReferencesForMessages: (
     messageIds: Array<string>
   ) => Array<MessageAttachmentDBType>;
@@ -1095,6 +1100,7 @@ type WritableInterface = {
   removeAttachmentDownloadJob: (job: AttachmentDownloadJobType) => void;
   removeAttachmentDownloadJobsForMessage: (messageId: string) => void;
   removeAllBackupAttachmentDownloadJobs: () => void;
+  resetBackupAttachmentDownloadStats: () => void;
 
   getNextAttachmentBackupJobs: (options: {
     limit: number;

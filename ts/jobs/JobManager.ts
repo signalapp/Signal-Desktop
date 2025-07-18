@@ -120,11 +120,11 @@ export abstract class JobManager<CoreJobType> {
   }
 
   async waitForIdle(): Promise<void> {
-    if (this.#activeJobs.size === 0) {
-      return;
-    }
-
-    await new Promise<void>(resolve => this.#idleCallbacks.push(resolve));
+    const idledPromise = new Promise<void>(resolve =>
+      this.#idleCallbacks.push(resolve)
+    );
+    this.#tick();
+    return idledPromise;
   }
 
   #tick(): void {
