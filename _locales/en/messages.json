@@ -8807,12 +8807,16 @@
     "description": "Title shown at the top of the donations preferences page"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <learnMoreLink>Learn more</learnMoreLink>",
+    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>",
     "description": "Description text explaining Signal's donation model with learn more link"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Donate",
     "description": "Button text to make a donation"
+  },
+  "icu:PreferencesDonations__my-support": {
+    "messageformat": "My Support",
+    "description": "Section header for the user's current donations"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Donate {formattedCurrencyAmount}",
@@ -8820,7 +8824,15 @@
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Badges and monthly donations can be managed on your mobile device.",
-    "description": "(Deleted 2025/07/09) Information about donations receipt syncing limitations"
+    "description": "Information about some donations features only existing on mobile"
+  },
+  "icu:PreferencesDonations__privacy-modal-title": {
+    "messageformat": "Your information is private",
+    "description": "Title for the modal that explains donation privacy information"
+  },
+  "icu:PreferencesDonations__privacy-modal-content": {
+    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>",
+    "description": "Content for the modal that explains donation privacy information"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Receipts",
