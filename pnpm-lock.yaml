@@ -131,6 +131,9 @@ importers:
       '@signalapp/libsignal-client':
         specifier: 0.76.4
         version: 0.76.4
+      '@signalapp/minimask':
+        specifier: 1.0.1
+        version: 1.0.1
       '@signalapp/quill-cjs':
         specifier: 2.1.2
         version: 2.1.2
@@ -167,6 +170,9 @@ importers:
       buffer:
         specifier: 6.0.3
         version: 6.0.3
+      card-validator:
+        specifier: 10.0.3
+        version: 10.0.3
       changedpi:
         specifier: 1.0.4
         version: 1.0.4
@@ -182,6 +188,9 @@ importers:
       copy-text-to-clipboard:
         specifier: 2.1.0
         version: 2.1.0
+      credit-card-type:
+        specifier: 10.0.2
+        version: 10.0.2
       dashdash:
         specifier: 2.0.0
         version: 2.0.0
@@ -2770,6 +2779,9 @@ packages:
   '@signalapp/libsignal-client@0.76.4':
     resolution: {integrity: sha512-Sy5uDKOiGg3qeBAe1/eZnHG2zqz9prtloMXq1cZllKDWFMB+1ZXXVO878hfAhkD4a4Tt8RikV0c3WOpClrdiBw==}
 
+  '@signalapp/minimask@1.0.1':
+    resolution: {integrity: sha512-QAwo0joA60urTNbW9RIz6vLKQjy+jdVtH7cvY0wD9PVooD46MAjE40MLssp4xUJrph91n2XvtJ3pbEUDrmT2AA==}
+
   '@signalapp/mock-server@13.2.0':
     resolution: {integrity: sha512-f5uxzsIwPmkevX5ycCRWgqy/VCbvj/dUA8yGWlfO2hFc62UZ4FaOY0n5YFMOpQgp5eMO6TMgr1KqIR/uAxfkIg==}
 
@@ -4185,6 +4197,9 @@ packages:
     resolution: {integrity: sha512-X/WM2UQs6VMHUtjUDnZTRI+i1crWteJySFzr9UpGoQa4WQffXVTTXuekjl7TjZRlcF2XfjgITT0HxZ9RnxeT0w==}
     engines: {node: '>=0.10.0'}
 
+  card-validator@10.0.3:
+    resolution: {integrity: sha512-xOEDsK3hojV0OIpmrR64eZGpngnOqRDEP20O+WSRtvjLSW6nyekW4i2N9SzYg679uFO3RyHcFHxb+mml5tXc4A==}
+
   case-sensitive-paths-webpack-plugin@2.4.0:
     resolution: {integrity: sha512-roIFONhcxog0JSSWbvVAh3OocukmSgpqOH6YpMkCvav/ySIV3JKg4Dc8vYtQjYi/UxpNE36r/9v+VqTQqgkYmw==}
     engines: {node: '>=4'}
@@ -4544,6 +4559,9 @@ packages:
 
   create-require@1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
+
+  credit-card-type@10.0.2:
+    resolution: {integrity: sha512-vt/iQokU0mtrT7ceRU75FSmWnIh5JFpLsUUUWYRmztYekOGm0ZbCuzwFTbNkq41k92y+0B8ChscFhRN9DhVZEA==}
 
   cross-dirname@0.1.0:
     resolution: {integrity: sha512-+R08/oI0nl3vfPcqftZRpytksBXDzOUveBq/NBVx0sUp1axwzPQrKinNx5yd5sxPu8j1wIy8AfnVQ+5eFdha6Q==}
@@ -12466,6 +12484,8 @@ snapshots:
       type-fest: 4.26.1
       uuid: 11.0.2
 
+  '@signalapp/minimask@1.0.1': {}
+
   '@signalapp/mock-server@13.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
     dependencies:
       '@indutny/parallel-prettier': 3.0.0(prettier@3.3.3)
@@ -14284,6 +14304,10 @@ snapshots:
 
   capture-stack-trace@1.0.2: {}
 
+  card-validator@10.0.3:
+    dependencies:
+      credit-card-type: 10.0.2
+
   case-sensitive-paths-webpack-plugin@2.4.0: {}
 
   casual@1.6.2(patch_hash=b88b5052437cbdc1882137778b76ca5037f71b2a030ae9ef39dc97f51670d599):
@@ -14628,6 +14652,8 @@ snapshots:
       - ts-node
 
   create-require@1.1.1: {}
+
+  credit-card-type@10.0.2: {}
 
   cross-dirname@0.1.0:
     optional: true
