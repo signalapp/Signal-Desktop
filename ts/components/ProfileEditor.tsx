@@ -51,6 +51,7 @@ import { FunEmojiPickerButton } from './fun/FunButton';
 import { isFunPickerEnabled } from './fun/isFunPickerEnabled';
 import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer';
 import { PreferencesContent } from './Preferences';
+import { ProfileEditorPage } from '../types/Nav';
 
 import type { AvatarColorType } from '../types/Colors';
 import type {
@@ -73,15 +74,6 @@ import type { EmojiVariantKey } from './fun/data/emojis';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
 
-export enum EditState {
-  None = 'None',
-  BetterAvatar = 'BetterAvatar',
-  ProfileName = 'ProfileName',
-  Bio = 'Bio',
-  Username = 'Username',
-  UsernameLink = 'UsernameLink',
-}
-
 type PropsExternalType = {
   onProfileChanged: (
     profileData: ProfileDataType,
@@ -100,7 +92,7 @@ export type PropsDataType = {
   firstName: string;
   hasCompletedUsernameLinkOnboarding: boolean;
   i18n: LocalizerType;
-  editState: EditState;
+  editState: ProfileEditorPage;
   profileAvatarUrl?: string;
   userAvatarData: ReadonlyArray<AvatarDataType>;
   username?: string;
@@ -123,7 +115,7 @@ type PropsActionType = {
   setUsernameLinkColor: (color: number) => void;
   resetUsernameLink: () => void;
   deleteUsername: () => void;
-  setEditState: (editState: EditState) => void;
+  setEditState: (editState: ProfileEditorPage) => void;
   showToast: ShowToastAction;
   openUsernameReservationModal: () => void;
 };
@@ -219,13 +211,13 @@ export function ProfileEditor({
     tryClose,
   });
 
-  const TITLES_BY_EDIT_STATE: Record<EditState, string | undefined> = {
-    [EditState.BetterAvatar]: i18n('icu:ProfileEditorModal--avatar'),
-    [EditState.Bio]: i18n('icu:ProfileEditorModal--about'),
-    [EditState.None]: i18n('icu:ProfileEditorModal--profile'),
-    [EditState.ProfileName]: i18n('icu:ProfileEditorModal--name'),
-    [EditState.Username]: i18n('icu:ProfileEditorModal--username'),
-    [EditState.UsernameLink]: i18n('icu:ProfileEditorModal--sharing'),
+  const TITLES_BY_EDIT_STATE: Record<ProfileEditorPage, string | undefined> = {
+    [ProfileEditorPage.BetterAvatar]: i18n('icu:ProfileEditorModal--avatar'),
+    [ProfileEditorPage.Bio]: i18n('icu:ProfileEditorModal--about'),
+    [ProfileEditorPage.None]: i18n('icu:ProfileEditorModal--profile'),
+    [ProfileEditorPage.ProfileName]: i18n('icu:ProfileEditorModal--name'),
+    [ProfileEditorPage.Username]: i18n('icu:ProfileEditorModal--username'),
+    [ProfileEditorPage.UsernameLink]: i18n('icu:ProfileEditorModal--sharing'),
   };
 
   // This is here to avoid component re-render jitters in the time it takes
@@ -275,7 +267,7 @@ export function ProfileEditor({
 
   // To make AvatarEditor re-render less often
   const handleBack = useCallback(() => {
-    setEditState(EditState.None);
+    setEditState(ProfileEditorPage.None);
   }, [setEditState]);
 
   const handleEmojiPickerOpenChange = useCallback((open: boolean) => {
@@ -379,7 +371,7 @@ export function ProfileEditor({
 
   let content: JSX.Element;
 
-  if (editState === EditState.BetterAvatar) {
+  if (editState === ProfileEditorPage.BetterAvatar) {
     content = (
       <AvatarEditor
         avatarColor={color || AvatarColors[0]}
@@ -396,7 +388,7 @@ export function ProfileEditor({
         saveAvatarToDisk={saveAvatarToDisk}
       />
     );
-  } else if (editState === EditState.ProfileName) {
+  } else if (editState === ProfileEditorPage.ProfileName) {
     const shouldDisableSave =
       !stagedProfile.firstName ||
       (stagedProfile.firstName === fullName.firstName &&
@@ -458,7 +450,7 @@ export function ProfileEditor({
         </div>
       </>
     );
-  } else if (editState === EditState.Bio) {
+  } else if (editState === ProfileEditorPage.Bio) {
     const shouldDisableSave =
       stagedProfile.aboutText === fullBio.aboutText &&
       stagedProfile.aboutEmoji === fullBio.aboutEmoji;
@@ -587,11 +579,11 @@ export function ProfileEditor({
         </div>
       </>
     );
-  } else if (editState === EditState.Username) {
+  } else if (editState === ProfileEditorPage.Username) {
     content = renderUsernameEditor({
       onClose: handleBack,
     });
-  } else if (editState === EditState.UsernameLink) {
+  } else if (editState === ProfileEditorPage.UsernameLink) {
     content = (
       <UsernameLinkEditor
         i18n={i18n}
@@ -604,10 +596,10 @@ export function ProfileEditor({
         resetUsernameLink={resetUsernameLink}
         saveAttachment={saveAttachment}
         showToast={showToast}
-        onBack={() => setEditState(EditState.None)}
+        onBack={() => setEditState(ProfileEditorPage.None)}
       />
     );
-  } else if (editState === EditState.None) {
+  } else if (editState === ProfileEditorPage.None) {
     let actions: JSX.Element | undefined;
     let alwaysShowActions = false;
 
@@ -696,7 +688,7 @@ export function ProfileEditor({
               return;
             }
 
-            setEditState(EditState.UsernameLink);
+            setEditState(ProfileEditorPage.UsernameLink);
           }}
           alwaysShowActions
           actions={linkActions}
@@ -734,7 +726,7 @@ export function ProfileEditor({
             }
 
             openUsernameReservationModal();
-            setEditState(EditState.Username);
+            setEditState(ProfileEditorPage.Username);
           }}
           alwaysShowActions={alwaysShowActions}
           actions={actions}
@@ -758,7 +750,7 @@ export function ProfileEditor({
           i18n={i18n}
           onAvatarLoaded={handleAvatarLoaded}
           onClick={() => {
-            setEditState(EditState.BetterAvatar);
+            setEditState(ProfileEditorPage.BetterAvatar);
           }}
           style={{
             height: 80,
@@ -768,7 +760,7 @@ export function ProfileEditor({
         <div className="ProfileEditor__EditPhotoContainer">
           <Button
             onClick={() => {
-              setEditState(EditState.BetterAvatar);
+              setEditState(ProfileEditorPage.BetterAvatar);
             }}
             variant={ButtonVariant.Secondary}
             className="ProfileEditor__EditPhoto"
@@ -783,7 +775,7 @@ export function ProfileEditor({
           }
           label={<UserText text={getFullNameText()} />}
           onClick={() => {
-            setEditState(EditState.ProfileName);
+            setEditState(ProfileEditorPage.ProfileName);
           }}
         />
         <PanelRow
@@ -805,7 +797,7 @@ export function ProfileEditor({
             />
           }
           onClick={() => {
-            setEditState(EditState.Bio);
+            setEditState(ProfileEditorPage.Bio);
           }}
         />
         <div className="ProfileEditor__info">
@@ -819,7 +811,7 @@ export function ProfileEditor({
   }
 
   const backButton =
-    editState !== EditState.None ? (
+    editState !== ProfileEditorPage.None ? (
       <button
         aria-label={i18n('icu:goBack')}
         className="Preferences__back-icon"
@@ -862,7 +854,7 @@ export function ProfileEditor({
             {
               action: () => {
                 setIsResettingUsernameLink(false);
-                setEditState(EditState.UsernameLink);
+                setEditState(ProfileEditorPage.UsernameLink);
               },
               style: 'affirmative',
               text: i18n('icu:UsernameLinkModalBody__error__fix-now'),
@@ -885,7 +877,7 @@ export function ProfileEditor({
               style: 'affirmative',
               action: () => {
                 openUsernameReservationModal();
-                setEditState(EditState.Username);
+                setEditState(ProfileEditorPage.Username);
               },
             },
           ]}

@@ -7,6 +7,7 @@ import type { LocalizerType } from '../types/Util';
 import { strictAssert } from './assert';
 import { getDateTimeFormatter } from './formatTimestamp';
 import { isStagingServer } from './isStagingServer';
+import { getHumanDonationAmount, toHumanCurrencyString } from './currency';
 
 const SCALING_FACTOR = 4.17;
 
@@ -185,18 +186,12 @@ export async function generateDonationReceiptBlob(
   );
   canvas.add(amountLabel);
 
-  // Format currency
-  const preferredSystemLocales =
-    window.SignalContext.getPreferredSystemLocales();
-  const localeOverride = window.SignalContext.getLocaleOverride();
-  const locales =
-    localeOverride != null ? [localeOverride] : preferredSystemLocales;
-
-  const formatter = new Intl.NumberFormat(locales, {
-    style: 'currency',
+  const humanAmount = getHumanDonationAmount(receipt);
+  const amountStr = toHumanCurrencyString({
+    amount: humanAmount,
     currency: receipt.currencyType,
+    showInsignificantFractionDigits: true,
   });
-  const amountStr = formatter.format(receipt.paymentAmount / 100);
   const amountValue = new fabric.Text(amountStr, {
     left: width - paddingX,
     top: currentY,

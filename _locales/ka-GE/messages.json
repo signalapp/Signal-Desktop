@@ -603,10 +603,10 @@
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
   "icu:Toast--ReceiptSaved": {
-    "messageformat": "Receipt saved"
+    "messageformat": "ქვითარი შენახულია"
   },
   "icu:Toast--ReceiptSaveFailed": {
-    "messageformat": "Error saving receipt. Please try again."
+    "messageformat": "ქვითრის შენახვის ხარვეზი. გთხოვთ, თავიდან სცადო."
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "ფოტოებსა და ვიდეოებს ფაილებთან ერთად ვერ აირჩევ."
@@ -1317,136 +1317,136 @@
     "messageformat": "ჩატის საქაღალდეები"
   },
   "icu:Preferences__ChatFoldersPage__Description": {
-    "messageformat": "Organize your chats into folders and quickly switch between them on your chat list"
+    "messageformat": "გაანაწილე შენი ჩატები საქაღალდეებში და ჩატების სიაში სწრაფად გადადი ერთიდან მეორეზე"
   },
   "icu:Preferences__ChatFoldersPage__FoldersSection__Title": {
-    "messageformat": "Folders"
+    "messageformat": "საქაღალდეები"
   },
   "icu:Preferences__ChatFoldersPage__FoldersSection__AllChatsFolder__Title": {
-    "messageformat": "All chats"
+    "messageformat": "ყველა ჩატი"
   },
   "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
-    "messageformat": "Create a folder"
+    "messageformat": "საქაღალდის შექმნა"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
-    "messageformat": "Suggested folders"
+    "messageformat": "შემოთავაზებული საქაღალდეები"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
-    "messageformat": "Add"
+    "messageformat": "დამატება"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
-    "messageformat": "{chatFolderTitle} folder added"
+    "messageformat": "საქაღალდე {chatFolderTitle} დამატებულია"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
-    "messageformat": "Unread"
+    "messageformat": "წაუკითხავი"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Description": {
-    "messageformat": "Unread messages from all chats"
+    "messageformat": "წაუკითხავი შეტყობინებები ყველა ჩატიდან"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Title": {
-    "messageformat": "1:1 chats"
+    "messageformat": "ერთი ერთზე ჩატები"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Description": {
-    "messageformat": "Only messages from direct chats"
+    "messageformat": "შეტყობინებები მხოლოდ პირდაპირი ჩატებიდან"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Title": {
-    "messageformat": "Groups"
+    "messageformat": "ჯგუფები"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Description": {
-    "messageformat": "Only messages from group chats"
+    "messageformat": "მხოლოდ ჯგუფური ჩატების შეტყობინებები"
   },
   "icu:Preferences__EditChatFolderPage__Title": {
-    "messageformat": "Create a folder"
+    "messageformat": "საქაღალდის შექმნა"
   },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
-    "messageformat": "Folder name"
+    "messageformat": "საქაღალდის სახელი"
   },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Placeholder": {
-    "messageformat": "Folder name (required)"
+    "messageformat": "საქაღალდის სახელი (სავალდებულო)"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Title": {
-    "messageformat": "Included chats"
+    "messageformat": "შემავალი ჩატები"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
-    "messageformat": "Choose chats that you want to appear in this folder"
+    "messageformat": "აირჩიე ჩატები, რომელთა გამოჩენაც ამ საქაღალდეში გსურს"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
-    "messageformat": "Add chats"
+    "messageformat": "დაამატე ჩატები"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog--IncludedChats__Title": {
-    "messageformat": "Included chats"
+    "messageformat": "შემავალი ჩატები"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog--ExcludedChats__Title": {
-    "messageformat": "Excluded chats"
+    "messageformat": "გამოტოვე ჩატები"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "ძიება"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
-    "messageformat": "Chat types"
+    "messageformat": "ჩატის ტიპები"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "ერთი ერთზე ჩატები"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__GroupChats": {
-    "messageformat": "Groups"
+    "messageformat": "ჯგუფები"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__RecentChats__Title": {
-    "messageformat": "Recent chats"
+    "messageformat": "ბოლო ჩატები"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__DoneButton": {
-    "messageformat": "Done"
+    "messageformat": "შესრულებულია"
   },
   "icu:Preferences__EditChatFolderPage__ExceptionsSection__Title": {
-    "messageformat": "Exceptions"
+    "messageformat": "გამონაკლისები"
   },
   "icu:Preferences__EditChatFolderPage__ExceptionsSection__Help": {
-    "messageformat": "Choose chats that you do not want to appear in this folder"
+    "messageformat": "აირჩიე ჩატები, რომელთა გამოჩენაც ამ საქაღალდეში არ გსურს"
   },
   "icu:Preferences__EditChatFolderPage__ExceptionsSection__ExcludeChatsButton": {
-    "messageformat": "Exclude chats"
+    "messageformat": "გამოტოვე ჩატები"
   },
   "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Label": {
-    "messageformat": "Only show unread chats"
+    "messageformat": "მხოლოდ წაუკითხავი ჩატების ჩვენება"
   },
   "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Description": {
-    "messageformat": "Only chats with unread messages will be shown in this folder."
+    "messageformat": "ამ საქაღალდეში გამოჩნდება ჩატები წაუკითხავი წერილებით"
   },
   "icu:Preferences__EditChatFolderPage__IncludeMutedChatsCheckbox__Label": {
-    "messageformat": "Include muted chats"
+    "messageformat": "შეიყვანე ხმა გამორთული ჩატები"
   },
   "icu:Preferences__EditChatFolderPage__DeleteFolderButton": {
-    "messageformat": "Delete folder"
+    "messageformat": "საქაღალდის წაშლა"
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Title": {
-    "messageformat": "Delete this chat folder?"
+    "messageformat": "გსურს ჩატის ეს საქაღალდე წაშალო?"
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Description": {
-    "messageformat": "This folder will be removed from your chat list."
+    "messageformat": "ეს საქაღალდე შენი ჩატების სიიდან წაიშლება."
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "წაშლა"
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Cancel"
+    "messageformat": "გაუქმება"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
-    "messageformat": "Save changes?"
+    "messageformat": "გსურს, ცვლილებების შენახვა?"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Description": {
-    "messageformat": "Do you want to save the changes you’ve made to this chat folder?"
+    "messageformat": "გსურს, ამ ჩატის საქაღალდეში შენ მიერ განხორციელებული ცვლილებები შეინახოს?"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__SaveButton": {
-    "messageformat": "Save"
+    "messageformat": "შენახვა"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__DiscardButton": {
-    "messageformat": "Discard"
+    "messageformat": "გაუქმება"
   },
   "icu:Preferences__EditChatFolderPage__SaveButton": {
-    "messageformat": "Save"
+    "messageformat": "შენახვა"
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
-    "messageformat": "Cancel"
+    "messageformat": "გაუქმება"
   },
   "icu:initialSync": {
     "messageformat": "მიმდინარეობს კონტაქტებისა და ჯგუფების სინქრონიზაცია"
@@ -4188,10 +4188,10 @@
     "messageformat": "თავიდან ცდა"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
-    "messageformat": "Syncing media"
+    "messageformat": "მედია ფაილების სინქრონიზაცია"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Syncing paused"
+    "messageformat": "სინქრონიზაცია შეჩერდა"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
     "messageformat": "{totalSize}-დან {currentSize} აღდგენილია"
@@ -4206,13 +4206,13 @@
     "messageformat": "ველოდებით ინტერნეტ კავშირს..."
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause"
+    "messageformat": "დაპაუზება"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume"
+    "messageformat": "გაგრძელება"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
-    "messageformat": "Cancel syncing"
+    "messageformat": "სინქრონიზაციის გაუქმება"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
     "messageformat": "მეტი ოფცია"
@@ -4224,34 +4224,34 @@
     "messageformat": "{currentSize} {totalSize}-დან"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media syncing?"
+    "messageformat": "მედია ფაილების სინქრონიზაციის გაუქმება გსურს?"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "Your media has not completed syncing. If you choose to cancel, you can sync again by re-linking this device. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "შენი მედია ფაილების სინქრონიზაცია არ დასრულებულა. თუ გაუქმებას აირჩევ, ხელახალ სინქრონიზაციას ამ მოწყობილობის თავიდან დაკავშირებით შეძლებ. <learnMoreLink>გაიგე მეტი</learnMoreLink>."
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "Continue syncing"
+    "messageformat": "სინქრონიზაციის გაგრძელება"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
-    "messageformat": "Cancel syncing"
+    "messageformat": "სინქრონიზაციის გაუქმება"
   },
   "icu:BackupMediaDownloadProgressSettings__paused--title": {
-    "messageformat": "Syncing paused"
+    "messageformat": "სინქრონიზაცია შეჩერდა"
   },
   "icu:BackupMediaDownloadProgressSettings__paused--description": {
-    "messageformat": "Click “{resumeButtonText}” to continue syncing"
+    "messageformat": "სინქრონიზაციის გასაგრძელებლად დააჭირე ღილაკს {resumeButtonText}"
   },
   "icu:BackupMediaDownloadProgressSettings__button-resume": {
-    "messageformat": "Resume"
+    "messageformat": "გაგრძელება"
   },
   "icu:BackupMediaDownloadProgressSettings__button-pause": {
-    "messageformat": "Pause"
+    "messageformat": "დაპაუზება"
   },
   "icu:BackupMediaDownloadProgressSettings__title-in-progress": {
-    "messageformat": "Syncing media"
+    "messageformat": "მედია ფაილების სინქრონიზაცია"
   },
   "icu:BackupMediaDownloadProgressSettings__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "{currentSize} {totalSize} -დან ({fractionComplete,number,percent})..."
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
     "messageformat": "ანგარიშთან დაკავშირებით საჭიროა მოქმედება"
@@ -5306,9 +5306,6 @@
   "icu:Preferences--backup-created-by-phone": {
     "messageformat": "შენი მობილური"
   },
-  "icu:Preferences--backup-size__label": {
-    "messageformat": "სარეზერვო კოპიების ზომა"
-  },
   "icu:Preferences__local-backups": {
     "messageformat": "დესკტოპის სათადარიგო ასლები"
   },
@@ -6294,9 +6291,6 @@
   "icu:UsernameLinkModalBody__reset": {
     "messageformat": "ახლიდან დაყენება"
   },
-  "icu:UsernameLinkModalBody__done": {
-    "messageformat": "შესრულებულია"
-  },
   "icu:UsernameLinkModalBody__color__radio": {
     "messageformat": "მომხმარებლის სახელის ბმულის ფერი, {total,number}-დან {index,number}"
   },
@@ -6625,58 +6619,103 @@
     "messageformat": "რა არის ახალი"
   },
   "icu:PreferencesDonations__title": {
-    "messageformat": "Privacy over Profit"
+    "messageformat": "ჩვენთვის კონფიდენციალურობა მოგებაზე მაღლა დგას"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "კონფიდენციალური მიმოწერა, რომელიც შენით ფინანსდება. არანაირი რეკლამა, არანაირი ტრეკერები, არანაირი კომპრომისი. გააკეთე დონაცია ახლა, რათა მხარი დაუჭირო Signal-ს. <learnMoreLink>გაიგე მეტი</learnMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
-    "messageformat": "Donate"
+    "messageformat": "გააკეთე დონაცია"
+  },
+  "icu:PreferencesDonations__donate-button-with-amount": {
+    "messageformat": "Donate {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
-    "messageformat": "Badges and monthly donations can be managed on your mobile device."
+    "messageformat": "ემბლემებისა და ყოველთვიური დონაციების მართვა შენს მობილურ მოწყობილობაზეა შესაძლებელი."
   },
   "icu:PreferencesDonations__receipts": {
-    "messageformat": "Receipts"
+    "messageformat": "ქვითრები"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donation FAQs"
+    "messageformat": "დონაციის ხდკ"
   },
   "icu:PreferencesDonations--receiptList__info": {
-    "messageformat": "Receipts do not sync across devices. If you have reinstalled Signal, receipts from previous donations will not be available."
+    "messageformat": "ქვითრები სხვადასხვა მოწყობილობაზე არ სინქრონიზდება. თუ Signal-ი ხელახლა გადმოწერე, წინა დონაციების ქვითრები არ იქნება ხელმისაწვდომი."
   },
   "icu:PreferencesDonations--receiptList__empty-title": {
-    "messageformat": "No Receipts"
+    "messageformat": "ქვითრები ვერ მოიძებნა"
   },
   "icu:PreferencesDonations__ReceiptModal--title": {
     "messageformat": "Details"
   },
   "icu:PreferencesDonations__ReceiptModal--download": {
-    "messageformat": "Download receipt"
+    "messageformat": "ჩამოტვირთე ქვითარი"
   },
   "icu:PreferencesDonations__ReceiptModal--type-label": {
-    "messageformat": "Type"
+    "messageformat": "ტიპი"
   },
   "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
-    "messageformat": "Date paid"
+    "messageformat": "გადახდის დღე"
   },
   "icu:DonationReceipt__title": {
-    "messageformat": "Donation receipt"
+    "messageformat": "დონაციის ქვითარი"
   },
   "icu:DonationReceipt__amount-label": {
-    "messageformat": "Amount"
+    "messageformat": "თანხა"
   },
   "icu:DonationReceipt__type-label": {
-    "messageformat": "Type"
+    "messageformat": "ტიპი"
   },
   "icu:DonationReceipt__date-paid-label": {
-    "messageformat": "Date paid"
+    "messageformat": "გადახდის დღე"
   },
   "icu:DonationReceipt__type-value--one-time": {
-    "messageformat": "One time"
+    "messageformat": "ერთჯერადად"
   },
   "icu:DonationReceipt__footer-text": {
-    "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840."
+    "messageformat": "მადლობა Signal-ის მხარდაჭერისთვის. შენი წვლილი ხელს უწყობს გამოხატვის თავისუფლების დაცვისა და მთელ მსოფლიოში მილიონობით ადამიანისთვის უსაფრთხო გლობალური კომუნიკაციის უზრუნველყოფის მისიის განხორციელებას ღია კოდის კონფიდენციალურობის ტექნოლოგიების მეშვეობით. თუ შეერთებული შტატების რეზიდენტი ხარ, გთხოვთ, ეს ქვითარი შენი საგადასახადო ჩანაწერებისთვის შეინახო. Signal-ის ტექნოლოგიების ფონდი არის გადასახადებისგან გათავისუფლებული არაკომერციული ორგანიზაცია შეერთებულ შტატებში, Internal Revenue Code-ის 501c3 მუხლის შესაბამისად. ჩვენი ფედერალური საგადასახადო ID არის 82-4506840."
+  },
+  "icu:Donations__PaymentMethodDeclined": {
+    "messageformat": "Payment method declined"
+  },
+  "icu:Donations__PaymentMethodDeclined__Description": {
+    "messageformat": "Try another payment method or contact your bank for more information."
+  },
+  "icu:Donations__ErrorProcessingDonation": {
+    "messageformat": "Error processing donation"
+  },
+  "icu:Donations__ErrorProcessingDonation__Description": {
+    "messageformat": "Try another payment method or contact your bank for more information."
+  },
+  "icu:Donations__Failed3dsValidation": {
+    "messageformat": "Verification Failed"
+  },
+  "icu:Donations__Failed3dsValidation__Description": {
+    "messageformat": "Additional verification step failed. Please try again."
+  },
+  "icu:Donations__GenericError": {
+    "messageformat": "An error occurred with your donation"
+  },
+  "icu:Donations__GenericError__Description": {
+    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+  },
+  "icu:Donations__Processing": {
+    "messageformat": "Processing donation..."
+  },
+  "icu:Donations__StillProcessing": {
+    "messageformat": "Still processing"
+  },
+  "icu:Donations__StillProcessing__Description": {
+    "messageformat": "Your donation is still being processed. This can take a few minutes."
+  },
+  "icu:Donations__3dsValidationNeeded": {
+    "messageformat": "Additional verification required"
+  },
+  "icu:Donations__3dsValidationNeeded__Description": {
+    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+  },
+  "icu:Donations__3dsValidationNeeded__OpenBrowser": {
+    "messageformat": "Open browser"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "ეს ვერსია შეიცავს უამრავ მცირე შესწორებას და ბაგების გამოსწორებებს Signal-ის შეუფერხებლად მუშაობის შესანარჩუნებლად.",
@@ -6713,9 +6752,9 @@
     "messageformat": "ახალი ვერსია უზრუნველყოფს GPU აჩქარებას Linux-ზე გაუმჯობესებული პერფორმანსისა და ვიდეოს ყურების უფრო უნაკლო გამოცდილებისთვის."
   },
   "icu:WhatsNew__v7.61--0": {
-    "messageformat": "This update improves audio quality and reliability during voice and video calls, and introduces better automatic configuration of connected microphones and speakers. Thanks to <padenot></padenot>, <kinetiknz></kinetiknz>, and <Pehrsons></Pehrsons> at Mozilla for their help with this project."
+    "messageformat": "ამ განახლებაში გავაუმჯობესეთ აუდიოს ხარისხი და საიმედოობა ხმოვანი თუ ვიდეო ზარების დროს. ასევე, დავნერგეთ დაკავშირებული მიკროფონებისა და დინამიკების უკეთესი ავტომატური კონფიგურაცია. მადლობა <padenot></padenot>-ს, <kinetiknz></kinetiknz>-სა და <Pehrsons></Pehrsons>-ს Mozilla-დან ამ პროექტში გაწეული დახმარებისთვის."
   },
   "icu:WhatsNew__v7.62--0": {
-    "messageformat": "We fixed a rare bug that could prevent some contacts from synchronizing correctly."
+    "messageformat": "ჩვენ გამოვასწორეთ იშვიათი ბაგი, რომელიც ზოგიერთ კონტაქტს სწორ სინქრონიზაციაში ხელს უშლიდა."
   }
 }

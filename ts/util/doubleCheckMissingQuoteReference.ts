@@ -14,6 +14,7 @@ import {
 } from '../messages/helpers';
 import { copyQuoteContentFromOriginal } from '../messages/copyQuote';
 import { queueUpdateMessage } from './messageBatcher';
+import { drop } from './drop';
 
 const log = createLogger('doubleCheckMissingQuoteReference');
 
@@ -85,6 +86,6 @@ export async function doubleCheckMissingQuoteReference(
         referencedMessageNotFound: false,
       },
     });
-    queueUpdateMessage(message.attributes);
+    drop(queueUpdateMessage(message.attributes));
   }
 }

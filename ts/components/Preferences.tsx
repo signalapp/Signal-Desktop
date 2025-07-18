@@ -50,6 +50,7 @@ import { PreferencesInternal } from './PreferencesInternal';
 import { FunEmojiLocalizationProvider } from './fun/FunEmojiLocalizationProvider';
 import { Avatar, AvatarSize } from './Avatar';
 import { NavSidebar } from './NavSidebar';
+import { SettingsPage } from '../types/Nav';
 
 import type { MediaDeviceSettings } from '../types/Calling';
 import type { ValidationResultType as BackupValidationResultType } from '../services/backups';
@@ -153,7 +154,7 @@ export type PropsDataType = {
   hasStoriesDisabled: boolean;
   hasTextFormatting: boolean;
   hasTypingIndicators: boolean;
-  page: Page;
+  page: SettingsPage;
   lastSyncTime?: number;
   notificationContent: NotificationSettingType;
   phoneNumber: string | undefined;
@@ -208,8 +209,8 @@ type PropsFunctionType = {
   // Render props
   renderDonationsPane: (options: {
     contentsRef: MutableRefObject<HTMLDivElement | null>;
-    page: Page;
-    setPage: (page: Page) => void;
+    page: SettingsPage;
+    setPage: (page: SettingsPage) => void;
   }) => JSX.Element;
   renderProfileEditor: (options: {
     contentsRef: MutableRefObject<HTMLDivElement | null>;
@@ -254,7 +255,7 @@ type PropsFunctionType = {
       value: CustomColorType;
     }
   ) => unknown;
-  setPage: (page: Page) => unknown;
+  setPage: (page: SettingsPage) => unknown;
   showToast: (toast: AnyToast) => unknown;
   validateBackup: () => Promise<BackupValidationResultType>;
 
@@ -318,39 +319,11 @@ export type PropsType = PropsDataType & PropsFunctionType;
 
 export type PropsPreloadType = Omit<PropsType, 'i18n'>;
 
-export enum Page {
-  // Accessible through left nav
-  Profile = 'Profile',
-  General = 'General',
-  Donations = 'Donations',
-  Appearance = 'Appearance',
-  Chats = 'Chats',
-  Calls = 'Calls',
-  Notifications = 'Notifications',
-  Privacy = 'Privacy',
-  DataUsage = 'DataUsage',
-  Backups = 'Backups',
-  Internal = 'Internal',
-
-  // Sub pages
-  ChatColor = 'ChatColor',
-  ChatFolders = 'ChatFolders',
-  DonationsDonateFlow = 'DonationsDonateFlow',
-  DonationsReceiptList = 'DonationsReceiptList',
-  EditChatFolder = 'EditChatFolder',
-  PNP = 'PNP',
-  BackupsDetails = 'BackupsDetails',
-  LocalBackups = 'LocalBackups',
-  LocalBackupsSetupFolder = 'LocalBackupsSetupFolder',
-  LocalBackupsSetupKey = 'LocalBackupsSetupKey',
-  LocalBackupsKeyReference = 'LocalBackupsKeyReference',
-}
-
-function isDonationsPage(page: Page): boolean {
+function isDonationsPage(page: SettingsPage): boolean {
   return (
-    page === Page.Donations ||
-    page === Page.DonationsDonateFlow ||
-    page === Page.DonationsReceiptList
+    page === SettingsPage.Donations ||
+    page === SettingsPage.DonationsDonateFlow ||
+    page === SettingsPage.DonationsReceiptList
   );
 }
 
@@ -567,14 +540,14 @@ export function Preferences({
 
   const handleOpenEditChatFoldersPage = useCallback(
     (chatFolderId: ChatFolderId | null) => {
-      setPage(Page.EditChatFolder);
+      setPage(SettingsPage.EditChatFolder);
       setEditChatFolderPageId(chatFolderId);
     },
     [setPage]
   );
 
   const handleCloseEditChatFoldersPage = useCallback(() => {
-    setPage(Page.ChatFolders);
+    setPage(SettingsPage.ChatFolders);
     setEditChatFolderPageId(null);
   }, [setPage]);
 
@@ -613,14 +586,14 @@ export function Preferences({
   const shouldShowBackupsPage =
     backupFeatureEnabled || backupLocalBackupsEnabled;
 
-  if (page === Page.Backups && !shouldShowBackupsPage) {
-    setPage(Page.General);
+  if (page === SettingsPage.Backups && !shouldShowBackupsPage) {
+    setPage(SettingsPage.General);
   }
   if (isDonationsPage(page) && !donationsFeatureEnabled) {
-    setPage(Page.General);
+    setPage(SettingsPage.General);
   }
-  if (page === Page.Internal && !isInternalUser) {
-    setPage(Page.General);
+  if (page === SettingsPage.Internal && !isInternalUser) {
+    setPage(SettingsPage.General);
   }
 
   let maybeUpdateDialog: JSX.Element | undefined;
@@ -782,11 +755,11 @@ export function Preferences({
 
   let content: JSX.Element | undefined;
 
-  if (page === Page.Profile) {
+  if (page === SettingsPage.Profile) {
     content = renderProfileEditor({
       contentsRef: settingsPaneRef,
     });
-  } else if (page === Page.General) {
+  } else if (page === SettingsPage.General) {
     const pageContents = (
       <>
         <SettingsRow>
@@ -920,7 +893,7 @@ export function Preferences({
       page,
       setPage,
     });
-  } else if (page === Page.Appearance) {
+  } else if (page === SettingsPage.Appearance) {
     let zoomFactors = DEFAULT_ZOOM_FACTORS;
 
     if (
@@ -1101,7 +1074,7 @@ export function Preferences({
           icon
           left={i18n('icu:showChatColorEditor')}
           onClick={() => {
-            setPage(Page.ChatColor);
+            setPage(SettingsPage.ChatColor);
           }}
           right={
             <div
@@ -1140,7 +1113,7 @@ export function Preferences({
         title={i18n('icu:Preferences__button--appearance')}
       />
     );
-  } else if (page === Page.Chats) {
+  } else if (page === SettingsPage.Chats) {
     let spellCheckDirtyText: string | undefined;
     if (
       hasSpellCheck !== undefined &&
@@ -1231,7 +1204,7 @@ export function Preferences({
                 </>
               }
               right={null}
-              onClick={() => setPage(Page.ChatFolders)}
+              onClick={() => setPage(SettingsPage.ChatFolders)}
             />
           </SettingsRow>
         )}
@@ -1298,7 +1271,7 @@ export function Preferences({
         title={i18n('icu:Preferences__button--chats')}
       />
     );
-  } else if (page === Page.Calls) {
+  } else if (page === SettingsPage.Calls) {
     const pageContents = (
       <>
         <SettingsRow title={i18n('icu:calling')}>
@@ -1447,7 +1420,7 @@ export function Preferences({
         title={i18n('icu:Preferences__button--calls')}
       />
     );
-  } else if (page === Page.Notifications) {
+  } else if (page === SettingsPage.Notifications) {
     const pageContents = (
       <>
         <SettingsRow>
@@ -1535,7 +1508,7 @@ export function Preferences({
         title={i18n('icu:Preferences__button--notifications')}
       />
     );
-  } else if (page === Page.Privacy) {
+  } else if (page === SettingsPage.Privacy) {
     const isCustomDisappearingMessageValue =
       !DEFAULT_DURATIONS_SET.has(universalExpireTimer);
     const pageContents = (
@@ -1562,7 +1535,7 @@ export function Preferences({
               )}
             >
               <Button
-                onClick={() => setPage(Page.PNP)}
+                onClick={() => setPage(SettingsPage.PNP)}
                 variant={ButtonVariant.Secondary}
               >
                 {i18n('icu:Preferences__pnp__row--button')}
@@ -1813,7 +1786,7 @@ export function Preferences({
         title={i18n('icu:Preferences__button--privacy')}
       />
     );
-  } else if (page === Page.DataUsage) {
+  } else if (page === SettingsPage.DataUsage) {
     const pageContents = (
       <>
         <SettingsRow title={i18n('icu:Preferences__media-auto-download')}>
@@ -1925,12 +1898,12 @@ export function Preferences({
         title={i18n('icu:Preferences__button--data-usage')}
       />
     );
-  } else if (page === Page.ChatColor) {
+  } else if (page === SettingsPage.ChatColor) {
     const backButton = (
       <button
         aria-label={i18n('icu:goBack')}
         className="Preferences__back-icon"
-        onClick={() => setPage(Page.Appearance)}
+        onClick={() => setPage(SettingsPage.Appearance)}
         type="button"
       />
     );
@@ -1961,18 +1934,18 @@ export function Preferences({
         title={i18n('icu:ChatColorPicker__menu-title')}
       />
     );
-  } else if (page === Page.ChatFolders) {
+  } else if (page === SettingsPage.ChatFolders) {
     content = (
       <ChatFoldersPage
         i18n={i18n}
         settingsPaneRef={settingsPaneRef}
-        onBack={() => setPage(Page.Chats)}
+        onBack={() => setPage(SettingsPage.Chats)}
         onOpenEditChatFoldersPage={handleOpenEditChatFoldersPage}
         chatFolders={chatFolders}
         onCreateChatFolder={handleCreateChatFolder}
       />
     );
-  } else if (page === Page.EditChatFolder) {
+  } else if (page === SettingsPage.EditChatFolder) {
     let initChatFolderParam: ChatFolderParams;
     if (editChatFolderPageId != null) {
       const found = chatFolders.find(chatFolder => {
@@ -1999,7 +1972,7 @@ export function Preferences({
         onDeleteChatFolder={handleDeleteChatFolder}
       />
     );
-  } else if (page === Page.PNP) {
+  } else if (page === SettingsPage.PNP) {
     let sharingDescription: string;
 
     if (whoCanSeeMe === PhoneNumberSharingMode.Everybody) {
@@ -2020,7 +1993,7 @@ export function Preferences({
       <button
         aria-label={i18n('icu:goBack')}
         className="Preferences__back-icon"
-        onClick={() => setPage(Page.Privacy)}
+        onClick={() => setPage(SettingsPage.Privacy)}
         type="button"
       />
     );
@@ -2142,18 +2115,18 @@ export function Preferences({
     );
   } else if (isBackupPage(page)) {
     let pageTitle: string | undefined;
-    if (page === Page.Backups || page === Page.BackupsDetails) {
+    if (page === SettingsPage.Backups || page === SettingsPage.BackupsDetails) {
       pageTitle = i18n('icu:Preferences__button--backups');
-    } else if (page === Page.LocalBackups) {
+    } else if (page === SettingsPage.LocalBackups) {
       pageTitle = i18n('icu:Preferences__local-backups');
     }
     // Local backups setup page titles intentionally left blank
 
     let backPage: PreferencesBackupPage | undefined;
-    if (page === Page.LocalBackupsKeyReference) {
-      backPage = Page.LocalBackups;
-    } else if (page !== Page.Backups) {
-      backPage = Page.Backups;
+    if (page === SettingsPage.LocalBackupsKeyReference) {
+      backPage = SettingsPage.LocalBackups;
+    } else if (page !== SettingsPage.Backups) {
+      backPage = SettingsPage.Backups;
     }
     let backButton: JSX.Element | undefined;
     if (backPage) {
@@ -2197,7 +2170,7 @@ export function Preferences({
         title={pageTitle}
       />
     );
-  } else if (page === Page.Internal) {
+  } else if (page === SettingsPage.Internal) {
     content = (
       <PreferencesContent
         contents={
@@ -2249,9 +2222,10 @@ export function Preferences({
                 type="button"
                 className={classNames({
                   'Preferences__profile-chip': true,
-                  'Preferences__profile-chip--selected': page === Page.Profile,
+                  'Preferences__profile-chip--selected':
+                    page === SettingsPage.Profile,
                 })}
-                onClick={() => setPage(Page.Profile)}
+                onClick={() => setPage(SettingsPage.Profile)}
               >
                 <div className="Preferences__profile-chip__avatar">
                   <Avatar
@@ -2293,9 +2267,10 @@ export function Preferences({
                 className={classNames({
                   Preferences__button: true,
                   'Preferences__button--general': true,
-                  'Preferences__button--selected': page === Page.General,
+                  'Preferences__button--selected':
+                    page === SettingsPage.General,
                 })}
-                onClick={() => setPage(Page.General)}
+                onClick={() => setPage(SettingsPage.General)}
               >
                 {i18n('icu:Preferences__button--general')}
               </button>
@@ -2305,9 +2280,10 @@ export function Preferences({
                   Preferences__button: true,
                   'Preferences__button--appearance': true,
                   'Preferences__button--selected':
-                    page === Page.Appearance || page === Page.ChatColor,
+                    page === SettingsPage.Appearance ||
+                    page === SettingsPage.ChatColor,
                 })}
-                onClick={() => setPage(Page.Appearance)}
+                onClick={() => setPage(SettingsPage.Appearance)}
               >
                 {i18n('icu:Preferences__button--appearance')}
               </button>
@@ -2316,9 +2292,9 @@ export function Preferences({
                 className={classNames({
                   Preferences__button: true,
                   'Preferences__button--chats': true,
-                  'Preferences__button--selected': page === Page.Chats,
+                  'Preferences__button--selected': page === SettingsPage.Chats,
                 })}
-                onClick={() => setPage(Page.Chats)}
+                onClick={() => setPage(SettingsPage.Chats)}
               >
                 {i18n('icu:Preferences__button--chats')}
               </button>
@@ -2327,9 +2303,9 @@ export function Preferences({
                 className={classNames({
                   Preferences__button: true,
                   'Preferences__button--calls': true,
-                  'Preferences__button--selected': page === Page.Calls,
+                  'Preferences__button--selected': page === SettingsPage.Calls,
                 })}
-                onClick={() => setPage(Page.Calls)}
+                onClick={() => setPage(SettingsPage.Calls)}
               >
                 {i18n('icu:Preferences__button--calls')}
               </button>
@@ -2338,9 +2314,10 @@ export function Preferences({
                 className={classNames({
                   Preferences__button: true,
                   'Preferences__button--notifications': true,
-                  'Preferences__button--selected': page === Page.Notifications,
+                  'Preferences__button--selected':
+                    page === SettingsPage.Notifications,
                 })}
-                onClick={() => setPage(Page.Notifications)}
+                onClick={() => setPage(SettingsPage.Notifications)}
               >
                 {i18n('icu:Preferences__button--notifications')}
               </button>
@@ -2350,9 +2327,9 @@ export function Preferences({
                   Preferences__button: true,
                   'Preferences__button--privacy': true,
                   'Preferences__button--selected':
-                    page === Page.Privacy || page === Page.PNP,
+                    page === SettingsPage.Privacy || page === SettingsPage.PNP,
                 })}
-                onClick={() => setPage(Page.Privacy)}
+                onClick={() => setPage(SettingsPage.Privacy)}
               >
                 {i18n('icu:Preferences__button--privacy')}
               </button>
@@ -2361,9 +2338,10 @@ export function Preferences({
                 className={classNames({
                   Preferences__button: true,
                   'Preferences__button--data-usage': true,
-                  'Preferences__button--selected': page === Page.DataUsage,
+                  'Preferences__button--selected':
+                    page === SettingsPage.DataUsage,
                 })}
-                onClick={() => setPage(Page.DataUsage)}
+                onClick={() => setPage(SettingsPage.DataUsage)}
               >
                 {i18n('icu:Preferences__button--data-usage')}
               </button>
@@ -2375,7 +2353,7 @@ export function Preferences({
                     'Preferences__button--backups': true,
                     'Preferences__button--selected': isBackupPage(page),
                   })}
-                  onClick={() => setPage(Page.Backups)}
+                  onClick={() => setPage(SettingsPage.Backups)}
                 >
                   {i18n('icu:Preferences__button--backups')}
                 </button>
@@ -2388,7 +2366,7 @@ export function Preferences({
                     'Preferences__button--appearance': true,
                     'Preferences__button--selected': isDonationsPage(page),
                   })}
-                  onClick={() => setPage(Page.Donations)}
+                  onClick={() => setPage(SettingsPage.Donations)}
                 >
                   {i18n('icu:Preferences__button--donate')}
                 </button>
@@ -2399,9 +2377,10 @@ export function Preferences({
                   className={classNames({
                     Preferences__button: true,
                     'Preferences__button--internal': true,
-                    'Preferences__button--selected': page === Page.Internal,
+                    'Preferences__button--selected':
+                      page === SettingsPage.Internal,
                   })}
-                  onClick={() => setPage(Page.Internal)}
+                  onClick={() => setPage(SettingsPage.Internal)}
                 >
                   {i18n('icu:Preferences__button--internal')}
                 </button>

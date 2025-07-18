@@ -53,7 +53,7 @@ import { isConversationMuted } from '../../../util/isConversationMuted';
 import { ConversationDetailsGroups } from './ConversationDetailsGroups';
 import { PanelType } from '../../../types/Panels';
 import { type CallHistoryGroup } from '../../../types/CallDisposition';
-import { NavTab } from '../../../state/ducks/nav';
+import { NavTab } from '../../../types/Nav';
 import { ContextMenu } from '../../ContextMenu';
 import { canHaveNicknameAndNote } from '../../../util/nicknames';
 import { CallHistoryGroupPanelSection } from './CallHistoryGroupPanelSection';

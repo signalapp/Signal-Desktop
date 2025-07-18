@@ -8,9 +8,8 @@ import { UsernameOnboardingModal } from '../../components/UsernameOnboardingModa
 import { getIntl } from '../selectors/user';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { useUsernameActions } from '../ducks/username';
-import { NavTab, useNavActions } from '../ducks/nav';
-import { Page } from '../../components/Preferences';
-import { EditState } from '../../components/ProfileEditor';
+import { useNavActions } from '../ducks/nav';
+import { NavTab, SettingsPage, ProfileEditorPage } from '../../types/Nav';
 
 export const SmartUsernameOnboardingModal = memo(
   function SmartUsernameOnboardingModal(): JSX.Element {
@@ -25,8 +24,8 @@ export const SmartUsernameOnboardingModal = memo(
       changeLocation({
         tab: NavTab.Settings,
         details: {
-          page: Page.Profile,
-          state: EditState.Username,
+          page: SettingsPage.Profile,
+          state: ProfileEditorPage.Username,
         },
       });
       toggleUsernameOnboarding();

@@ -58,10 +58,8 @@ import type { UnreadStats } from '../util/countUnreadStats';
 import { BackupMediaDownloadProgress } from './BackupMediaDownloadProgress';
 import type { ServerAlertsType } from '../util/handleServerAlerts';
 import { getServerAlertDialog } from './ServerAlerts';
-import { NavTab } from '../state/ducks/nav';
-import type { Location } from '../state/ducks/nav';
-import { Page } from './Preferences';
-import { EditState } from './ProfileEditor';
+import { NavTab, SettingsPage, ProfileEditorPage } from '../types/Nav';
+import type { Location } from '../types/Nav';
 
 export type PropsType = {
   backupMediaDownloadProgress: {
@@ -674,8 +672,8 @@ export function LeftPane({
           changeLocation({
             tab: NavTab.Settings,
             details: {
-              page: Page.Profile,
-              state: EditState.Username,
+              page: SettingsPage.Profile,
+              state: ProfileEditorPage.Username,
             },
           });
         }}
@@ -691,8 +689,8 @@ export function LeftPane({
           changeLocation({
             tab: NavTab.Settings,
             details: {
-              page: Page.Profile,
-              state: EditState.UsernameLink,
+              page: SettingsPage.Profile,
+              state: ProfileEditorPage.UsernameLink,
             },
           });
         }}

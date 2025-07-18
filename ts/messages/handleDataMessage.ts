@@ -64,6 +64,7 @@ import type {
 } from '../textsecure/Types';
 import type { ServiceIdString } from '../types/ServiceId';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
+import { getCachedSubscriptionConfiguration } from '../util/subscriptionConfiguration';
 
 const log = createLogger('handleDataMessage');
 
@@ -760,11 +761,7 @@ export async function handleDataMessage(
           typeof updatesUrl === 'string',
           'getProfile: expected updatesUrl to be a defined string'
         );
-        const { messaging } = window.textsecure;
-        if (!messaging) {
-          throw new Error(`${idLog}: messaging is not available`);
-        }
-        const response = await messaging.server.getSubscriptionConfiguration();
+        const response = await getCachedSubscriptionConfiguration();
         const boostBadgesByLevel = parseBoostBadgeListFromServer(
           response,
           updatesUrl

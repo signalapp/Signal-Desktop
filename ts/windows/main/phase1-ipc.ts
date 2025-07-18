@@ -373,6 +373,10 @@ ipc.on('cancel-presenting', () => {
   window.reduxActions?.calling?.cancelPresenting();
 });
 
+ipc.on('donation-validation-complete', (_event, { token }) => {
+  drop(window.Signal.Services.donations.finish3dsValidation(token));
+});
+
 ipc.on('show-conversation-via-token', (_event, token: string) => {
   const { showConversationViaToken } = window.Events;
   if (showConversationViaToken) {

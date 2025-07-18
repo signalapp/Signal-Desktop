@@ -55,15 +55,15 @@ import { waitForEvent } from '../../shims/events';
 import { MINUTE } from '../../util/durations';
 import { sendSyncRequests } from '../../textsecure/syncRequests';
 import { SmartUpdateDialog } from './UpdateDialog';
-import { Page, Preferences } from '../../components/Preferences';
+import { Preferences } from '../../components/Preferences';
 import { useUpdatesActions } from '../ducks/updates';
 import { getUpdateDialogType } from '../selectors/updates';
 import { getHasAnyFailedStorySends } from '../selectors/stories';
 import { getOtherTabsUnreadStats, getSelectedLocation } from '../selectors/nav';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { SmartProfileEditor } from './ProfileEditor';
-import { NavTab, useNavActions } from '../ducks/nav';
-import { EditState } from '../../components/ProfileEditor';
+import { useNavActions } from '../ducks/nav';
+import { NavTab, ProfileEditorPage, SettingsPage } from '../../types/Nav';
 import { SmartToastManager } from './ToastManager';
 import { useToastActions } from '../ducks/toast';
 import { DataReader } from '../../sql/Client';
@@ -111,8 +111,8 @@ function renderDonationsPane({
   setPage,
 }: {
   contentsRef: MutableRefObject<HTMLDivElement | null>;
-  page: Page;
-  setPage: (page: Page) => void;
+  page: SettingsPage;
+  setPage: (page: SettingsPage) => void;
 }): JSX.Element {
   return (
     <SmartPreferencesDonations
@@ -687,13 +687,13 @@ export function SmartPreferences(): JSX.Element | null {
   }
 
   const { page } = currentLocation.details;
-  const setPage = (newPage: Page, editState?: EditState) => {
-    if (newPage === Page.Profile) {
+  const setPage = (newPage: SettingsPage, editState?: ProfileEditorPage) => {
+    if (newPage === SettingsPage.Profile) {
       changeLocation({
         tab: NavTab.Settings,
         details: {
           page: newPage,
-          state: editState || EditState.None,
+          state: editState || ProfileEditorPage.None,
         },
       });
       return;

@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { StrictMode } from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
+import { unmountComponentAtNode } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { ConfirmationDialog } from '../components/ConfirmationDialog';
 import { FunDefaultEnglishEmojiLocalizationProvider } from '../components/fun/FunEmojiLocalizationProvider';
 
@@ -55,7 +56,7 @@ export function showConfirmationDialog(
 
   confirmationDialogPreviousFocus = document.activeElement as HTMLElement;
 
-  render(
+  createRoot(confirmationDialogViewNode).render(
     <StrictMode>
       <FunDefaultEnglishEmojiLocalizationProvider>
         <ConfirmationDialog
@@ -88,7 +89,6 @@ export function showConfirmationDialog(
           {options.description}
         </ConfirmationDialog>
       </FunDefaultEnglishEmojiLocalizationProvider>
-    </StrictMode>,
-    confirmationDialogViewNode
+    </StrictMode>
   );
 }

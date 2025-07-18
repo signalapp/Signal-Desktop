@@ -3113,14 +3113,14 @@ function getUnreadByConversationAndMarkRead(
   {
     conversationId,
     includeStoryReplies,
-    newestUnreadAt,
+    readMessageReceivedAt,
     storyId,
     readAt,
     now = Date.now(),
   }: {
     conversationId: string;
     includeStoryReplies: boolean;
-    newestUnreadAt: number;
+    readMessageReceivedAt: number;
     storyId?: string;
     readAt?: number;
     now?: number;
@@ -3147,7 +3147,7 @@ function getUnreadByConversationAndMarkRead(
           expirationStartTimestamp > ${expirationStartTimestamp}
         ) AND
         expireTimer > 0 AND
-        received_at <= ${newestUnreadAt};
+        received_at <= ${readMessageReceivedAt};
     `;
 
     db.prepare(updateExpirationQuery).run(updateExpirationParams);
@@ -3161,7 +3161,7 @@ function getUnreadByConversationAndMarkRead(
           seenStatus = ${SeenStatus.Unseen} AND
           isStory = 0 AND
           (${_storyIdPredicate(storyId, includeStoryReplies)}) AND
-          received_at <= ${newestUnreadAt}
+          received_at <= ${readMessageReceivedAt}
         ORDER BY received_at DESC, sent_at DESC;
     `;
 
@@ -3185,7 +3185,7 @@ function getUnreadByConversationAndMarkRead(
           seenStatus = ${SeenStatus.Unseen} AND
           isStory = 0 AND
           (${_storyIdPredicate(storyId, includeStoryReplies)}) AND
-          received_at <= ${newestUnreadAt};
+          received_at <= ${readMessageReceivedAt};
     `;
 
     db.prepare(updateStatusQuery).run(updateStatusParams);
@@ -3211,11 +3211,11 @@ function getUnreadReactionsAndMarkRead(
   db: WritableDB,
   {
     conversationId,
-    newestUnreadAt,
+    readMessageReceivedAt,
     storyId,
   }: {
     conversationId: string;
-    newestUnreadAt: number;
+    readMessageReceivedAt: number;
     storyId?: string;
   }
 ): Array<ReactionResultType> {
@@ -3230,14 +3230,14 @@ function getUnreadReactionsAndMarkRead(
         WHERE
           reactions.conversationId IS $conversationId AND
           reactions.unread > 0 AND
-          messages.received_at <= $newestUnreadAt AND
+          messages.received_at <= $readMessageReceivedAt AND
           messages.storyId IS $storyId
         ORDER BY messageReceivedAt DESC;
       `
       )
       .all({
         conversationId,
-        newestUnreadAt,
+        readMessageReceivedAt,
         storyId: storyId || null,
       });
 
@@ -8445,10 +8445,10 @@ function getUnreadEditedMessagesAndMarkRead(
   db: WritableDB,
   {
     conversationId,
-    newestUnreadAt,
+    readMessageReceivedAt,
   }: {
     conversationId: string;
-    newestUnreadAt: number;
+    readMessageReceivedAt: number;
   }
 ): GetUnreadByConversationAndMarkReadResultType {
   return db.transaction(() => {
@@ -8467,7 +8467,7 @@ function getUnreadEditedMessagesAndMarkRead(
       WHERE
         edited_messages.readStatus = ${ReadStatus.Unread} AND
         edited_messages.conversationId = ${conversationId} AND
-        received_at <= ${newestUnreadAt}
+        received_at <= ${readMessageReceivedAt}
       ORDER BY messages.received_at DESC, messages.sent_at DESC;
     `;
 

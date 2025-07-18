@@ -5,7 +5,7 @@ import { UsePQRatchet } from '@signalapp/libsignal-client';
 import * as RemoteConfig from '../RemoteConfig';
 
 export const isPQRatchetEnabled = (): UsePQRatchet => {
-  return RemoteConfig.isEnabled('global.usePqRatchet')
+  return RemoteConfig.isEnabled('desktop.usePqRatchet')
     ? UsePQRatchet.Yes
     : UsePQRatchet.No;
 };

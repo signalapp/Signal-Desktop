@@ -9,13 +9,11 @@ import { Avatar, AvatarSize } from './Avatar';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { BadgeType } from '../badges/types';
-import { NavTab } from '../state/ducks/nav';
-import type { Location } from '../state/ducks/nav';
+import { NavTab, ProfileEditorPage, SettingsPage } from '../types/Nav';
+import type { Location } from '../types/Nav';
 import { Tooltip, TooltipPlacement } from './Tooltip';
 import { Theme } from '../util/theme';
 import type { UnreadStats } from '../util/countUnreadStats';
-import { Page } from './Preferences';
-import { EditState } from './ProfileEditor';
 import { ProfileMovedModal } from './ProfileMovedModal';
 
 type NavTabsItemBadgesProps = Readonly<{
@@ -248,8 +246,8 @@ export function NavTabs({
       onChangeLocation({
         tab: NavTab.Settings,
         details: {
-          page: Page.Profile,
-          state: EditState.None,
+          page: SettingsPage.Profile,
+          state: ProfileEditorPage.None,
         },
       });
     } else {

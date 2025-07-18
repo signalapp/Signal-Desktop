@@ -15,6 +15,7 @@ import { eraseMessageContents } from '../util/cleanup';
 import { getSource, getSourceServiceId } from '../messages/helpers';
 import { isAciString } from '../util/isAciString';
 import { viewOnceOpenJobQueue } from '../jobs/viewOnceOpenJobQueue';
+import { drop } from '../util/drop';
 
 const log = createLogger('MessageUpdater');
 
@@ -46,7 +47,7 @@ function markReadOrViewed(
   notificationService.removeBy({ messageId });
 
   if (!skipSave) {
-    queueUpdateMessage(nextMessageAttributes);
+    drop(queueUpdateMessage(nextMessageAttributes));
   }
 
   return nextMessageAttributes;

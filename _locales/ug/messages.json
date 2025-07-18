@@ -603,10 +603,10 @@
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
   },
   "icu:Toast--ReceiptSaved": {
-    "messageformat": "Receipt saved"
+    "messageformat": "تالون ساقلاندى"
   },
   "icu:Toast--ReceiptSaveFailed": {
-    "messageformat": "Error saving receipt. Please try again."
+    "messageformat": "تالوننى ساقلىغاندا خاتالىق كۋرۈلدى. قايتا سىناڭ."
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "رەسىم ۋە ۋىدېيولارنى ھۆججەتلەر بىلەن بىرلىكتە تاللىغىلى بولمايدۇ."
@@ -1317,136 +1317,136 @@
     "messageformat": "پاراڭ ھۆججەت قىسقۇچلىرى"
   },
   "icu:Preferences__ChatFoldersPage__Description": {
-    "messageformat": "Organize your chats into folders and quickly switch between them on your chat list"
+    "messageformat": "پاراڭلىرىڭىزنى ھۆججەت قىسقۇچلارغا ئورۇنلاشتۇرۇڭ ۋە پاراڭ تىزىملىكىڭىزدە تېز ئالماشتۇرۇڭ."
   },
   "icu:Preferences__ChatFoldersPage__FoldersSection__Title": {
-    "messageformat": "Folders"
+    "messageformat": "ھۆججەت قىسقۇچلار"
   },
   "icu:Preferences__ChatFoldersPage__FoldersSection__AllChatsFolder__Title": {
-    "messageformat": "All chats"
+    "messageformat": "بارلىق پاراڭلار"
   },
   "icu:Preferences__ChatFoldersPage__FoldersSection__CreateAFolderButton": {
-    "messageformat": "Create a folder"
+    "messageformat": "بىرتال ھۆججەت قىسقۇچ قۇرۇش"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__Title": {
-    "messageformat": "Suggested folders"
+    "messageformat": "تەكلىپلىك ھۆججەت قىسقۇچلار"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton": {
-    "messageformat": "Add"
+    "messageformat": "قوشۇش"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__AddButton__Toast": {
-    "messageformat": "{chatFolderTitle} folder added"
+    "messageformat": "{chatFolderTitle} ھۆججەت قىسقۇچ قوشۇلدى."
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
-    "messageformat": "Unread"
+    "messageformat": "ئوقۇلمىغان"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Description": {
-    "messageformat": "Unread messages from all chats"
+    "messageformat": "بارلىق پاراڭلاردىن ئوقۇلمىغان ئۇچۇرلار"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Title": {
-    "messageformat": "1:1 chats"
+    "messageformat": "1:1 پاراڭلار"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Description": {
-    "messageformat": "Only messages from direct chats"
+    "messageformat": "بىۋاسىتە پاراڭلاردىن ئوقۇلمىغان ئۇچۇرلار"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Title": {
-    "messageformat": "Groups"
+    "messageformat": "گۇرۇپپا"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Description": {
-    "messageformat": "Only messages from group chats"
+    "messageformat": "پەقەت گۇرۇپپا پاراڭلىرىدىن كەلگەن ئۇچۇرلار"
   },
   "icu:Preferences__EditChatFolderPage__Title": {
-    "messageformat": "Create a folder"
+    "messageformat": "بىرتال ھۆججەت قىسقۇچ قۇرۇش"
   },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Label": {
-    "messageformat": "Folder name"
+    "messageformat": "ھۆججەت قىسقۇچ نامى"
   },
   "icu:Preferences__EditChatFolderPage__FolderNameField__Placeholder": {
-    "messageformat": "Folder name (required)"
+    "messageformat": "ھۆججەت قىسقۇچ نامى (تەلەپ قىلىنىدۇ)"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Title": {
-    "messageformat": "Included chats"
+    "messageformat": "ئۆز ئىچىگە ئېلىنغان پاراڭلار"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
-    "messageformat": "Choose chats that you want to appear in this folder"
+    "messageformat": "بۇ ھۆججەت قىسقۇچقا كۆرۈشنى خالايدىغان پاراڭلارنى تاللاڭ"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
-    "messageformat": "Add chats"
+    "messageformat": "پاراڭلارنى قوشۇش"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog--IncludedChats__Title": {
-    "messageformat": "Included chats"
+    "messageformat": "ئۆز ئىچىگە ئېلىنغان پاراڭلار"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog--ExcludedChats__Title": {
-    "messageformat": "Excluded chats"
+    "messageformat": "چىقىرىۋېتىلگەن پاراڭلار"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "ئىزدە"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
-    "messageformat": "Chat types"
+    "messageformat": "پاراڭ تۈرلىرى"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "1:1 پاراڭلار"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__GroupChats": {
-    "messageformat": "Groups"
+    "messageformat": "گۇرۇپپا"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__RecentChats__Title": {
-    "messageformat": "Recent chats"
+    "messageformat": "يېقىنقى پاراڭلار"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__DoneButton": {
-    "messageformat": "Done"
+    "messageformat": "بولدى"
   },
   "icu:Preferences__EditChatFolderPage__ExceptionsSection__Title": {
-    "messageformat": "Exceptions"
+    "messageformat": "ئايرىم ئەھۋاللار"
   },
   "icu:Preferences__EditChatFolderPage__ExceptionsSection__Help": {
-    "messageformat": "Choose chats that you do not want to appear in this folder"
+    "messageformat": "بۇ ھۆججەت قىسقۇچقا كۆرۈشنى خالىمايدىغان پاراڭلارنى تاللاڭ"
   },
   "icu:Preferences__EditChatFolderPage__ExceptionsSection__ExcludeChatsButton": {
-    "messageformat": "Exclude chats"
+    "messageformat": "پاراڭلارنى چىقىرىۋېتىش"
   },
   "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Label": {
-    "messageformat": "Only show unread chats"
+    "messageformat": "پەقەت ئوقۇلمىغان پاراڭلارنىلا كۆرسىتىش"
   },
   "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Description": {
-    "messageformat": "Only chats with unread messages will be shown in this folder."
+    "messageformat": "بۇ ھۆججەت قىسقۇچتا پەقەت ئوقۇلمىغان ئۇچۇرلارلا كۆرسىتىلىدۇ."
   },
   "icu:Preferences__EditChatFolderPage__IncludeMutedChatsCheckbox__Label": {
-    "messageformat": "Include muted chats"
+    "messageformat": "ئۈنسىز پاراڭلارنى ئۆز ئىچىگە ئېلىش"
   },
   "icu:Preferences__EditChatFolderPage__DeleteFolderButton": {
-    "messageformat": "Delete folder"
+    "messageformat": "ھۆججەت قىسقۇچنى ئۆچۈرۈش"
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Title": {
-    "messageformat": "Delete this chat folder?"
+    "messageformat": "بۇ پاراڭ ھۆججىتىنى ئۆچۈرەمسىز؟"
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__Description": {
-    "messageformat": "This folder will be removed from your chat list."
+    "messageformat": "بۇ ھۆججەت قىسقۇچ پاراڭلىشىش تىزىملىكىڭىزدىن ئۆچۈرۈلىدۇ."
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "ئۆچۈر"
   },
   "icu:Preferences__EditChatFolderPage__DeleteChatFolderDialog__CancelButton": {
-    "messageformat": "Cancel"
+    "messageformat": "بىكار قىلىش"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Title": {
-    "messageformat": "Save changes?"
+    "messageformat": "ئۆزگەرتىشلەرنى ساقلامسىز؟"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__Description": {
-    "messageformat": "Do you want to save the changes you’ve made to this chat folder?"
+    "messageformat": "بۇ پاراڭ ھۆججىتىدە قىلغان ئۆزگەرتىشلەرنى ساقلامسىز؟"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__SaveButton": {
-    "messageformat": "Save"
+    "messageformat": "ساقلا"
   },
   "icu:Preferences__EditChatFolderPage__SaveChangesFolderDialog__DiscardButton": {
-    "messageformat": "Discard"
+    "messageformat": "تاشلىۋەت"
   },
   "icu:Preferences__EditChatFolderPage__SaveButton": {
-    "messageformat": "Save"
+    "messageformat": "ساقلا"
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
-    "messageformat": "Cancel"
+    "messageformat": "بىكار قىلىش"
   },
   "icu:initialSync": {
     "messageformat": "ئالاقىداش ۋە گۇرۇپپىلارنى ماسقەدەملەۋاتىدۇ"
@@ -4188,10 +4188,10 @@
     "messageformat": "قايتا سىنا"
   },
   "icu:BackupMediaDownloadProgress__title-in-progress": {
-    "messageformat": "Syncing media"
+    "messageformat": "مېدىيانى ماسقەدەملەۋاتىدۇ"
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
-    "messageformat": "Syncing paused"
+    "messageformat": "ماسقەدەملەش ۋاقىتلىق توختىدى"
   },
   "icu:BackupMediaDownloadProgress__title-idle": {
     "messageformat": "{totalSize} نىڭ {currentSize} ئەسلىگە كەلتۈرۈلدى"
@@ -4206,13 +4206,13 @@
     "messageformat": "تور ئۇلىنىشىنى ساقلاۋاتىدۇ..."
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
-    "messageformat": "Pause"
+    "messageformat": "توختىتىش"
   },
   "icu:BackupMediaDownloadProgress__button-resume": {
-    "messageformat": "Resume"
+    "messageformat": "ئەسلىگە كەلتۈرۈش"
   },
   "icu:BackupMediaDownloadProgress__button-cancel": {
-    "messageformat": "Cancel syncing"
+    "messageformat": "ماسقەدەملەشنى ئەمەلدىن قالدۇرۇش"
   },
   "icu:BackupMediaDownloadProgress__button-more": {
     "messageformat": "تېخىمۇ كۆپ تاللاش"
@@ -4224,34 +4224,34 @@
     "messageformat": "{currentSize} نىڭ{totalSize}"
   },
   "icu:BackupMediaDownloadCancelConfirmation__title": {
-    "messageformat": "Cancel media syncing?"
+    "messageformat": "مېدىيا ماسقەدەملەشنى ئەمەلدىن قالدۇرامسىز؟"
   },
   "icu:BackupMediaDownloadCancelConfirmation__description": {
-    "messageformat": "Your media has not completed syncing. If you choose to cancel, you can sync again by re-linking this device. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "مېدىيارىڭىز ماسقەدەملەشنى تېخى تاماملىمىدى. ئەگەر بىكار قىلىشنى تاللىسىڭىز ، بۇ ئۈسكۈنىنى قايتا ئۇلاش ئارقىلىق قايتا ماسقەدەملىيەلەيسىز. <learnMoreLink>تەپسىلاتى</learnMoreLink>."
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-continue": {
-    "messageformat": "Continue syncing"
+    "messageformat": "ماسقەدەملەشنى داۋاملاشتۇرۇش"
   },
   "icu:BackupMediaDownloadCancelConfirmation__button-confirm-cancel": {
-    "messageformat": "Cancel syncing"
+    "messageformat": "ماسقەدەملەشنى ئەمەلدىن قالدۇرۇش"
   },
   "icu:BackupMediaDownloadProgressSettings__paused--title": {
-    "messageformat": "Syncing paused"
+    "messageformat": "ماسقەدەملەش ۋاقىتلىق توختىدى"
   },
   "icu:BackupMediaDownloadProgressSettings__paused--description": {
-    "messageformat": "Click “{resumeButtonText}” to continue syncing"
+    "messageformat": "ماس قەدەملاشنى داۋاملاشتۇرۇش ئۈچۈن « {resumeButtonText} » نى چېكىڭ"
   },
   "icu:BackupMediaDownloadProgressSettings__button-resume": {
-    "messageformat": "Resume"
+    "messageformat": "ئەسلىگە كەلتۈرۈش"
   },
   "icu:BackupMediaDownloadProgressSettings__button-pause": {
-    "messageformat": "Pause"
+    "messageformat": "توختىتىش"
   },
   "icu:BackupMediaDownloadProgressSettings__title-in-progress": {
-    "messageformat": "Syncing media"
+    "messageformat": "مېدىيانى ماسقەدەملەۋاتىدۇ"
   },
   "icu:BackupMediaDownloadProgressSettings__progressbar-hint": {
-    "messageformat": "{currentSize} of {totalSize} ({fractionComplete,number,percent})..."
+    "messageformat": "{totalSize} نىڭ {currentSize} تى (ئومۇمىي {fractionComplete,number,percent})..."
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
     "messageformat": "ئاساسلىق ئۈسكىنىڭىزدىن ھېساباتنى ھەرىكەتلەندۈرۈش تەلەپ قىلىنىدۇ"
@@ -5306,9 +5306,6 @@
   "icu:Preferences--backup-created-by-phone": {
     "messageformat": "تېلېفونىڭىز"
   },
-  "icu:Preferences--backup-size__label": {
-    "messageformat": "زاپاسلانما چوڭلۇقى"
-  },
   "icu:Preferences__local-backups": {
     "messageformat": "ئۈستەليۈزى زاپاسلانمىللىرى"
   },
@@ -6294,9 +6291,6 @@
   "icu:UsernameLinkModalBody__reset": {
     "messageformat": "ئەسلىگە قايتۇر"
   },
-  "icu:UsernameLinkModalBody__done": {
-    "messageformat": "بولدى"
-  },
   "icu:UsernameLinkModalBody__color__radio": {
     "messageformat": "ئىشلەتكۈچى نامىنىڭ ئۇلانما رەڭگى، {total,number}نىڭ{index,number}"
   },
@@ -6625,58 +6619,103 @@
     "messageformat": "يېڭىلىقلار"
   },
   "icu:PreferencesDonations__title": {
-    "messageformat": "Privacy over Profit"
+    "messageformat": "پايدا ئەمەس، مەخپىيەتلىك مۇھىم"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "بىخەتەر ئۇچۇرلىشىشنى سىز مەبلەغ بىلەن تەمىنلىگەن. ئېلان يوق ، ئىز قوغلاش يوق ، مۇرەسسە قىلىش يوق. Signalنى قوللاش ئۈچۈن ھازىرلا ئىئانە قىلىڭ. <learnMoreLink>تەپسىلاتى</learnMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
-    "messageformat": "Donate"
+    "messageformat": "ئىئانە قىلىڭ"
+  },
+  "icu:PreferencesDonations__donate-button-with-amount": {
+    "messageformat": "Donate {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
-    "messageformat": "Badges and monthly donations can be managed on your mobile device."
+    "messageformat": "ئىزنەكلار ۋە ئايلىق ئىئانىلەرنى كۆچمە ئۈسكۈنىڭىزدە باشقۇرغىلى بولىدۇ."
   },
   "icu:PreferencesDonations__receipts": {
-    "messageformat": "Receipts"
+    "messageformat": "تالونلار"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donation FAQs"
+    "messageformat": "ئىئانە قىلىشقا ئائىت سۇئال-جاۋابلار"
   },
   "icu:PreferencesDonations--receiptList__info": {
-    "messageformat": "Receipts do not sync across devices. If you have reinstalled Signal, receipts from previous donations will not be available."
+    "messageformat": "تالونلار ئۈسكۈنىلەردە ماسقەدەملەنمەيدۇ. ئەگەر Signal نى قايتا قاچىلىغان بولسىڭىز ، بۇرۇنقى ئىئانىلەرنىڭ تالونىنى كۆرگىلى بولمايدۇ."
   },
   "icu:PreferencesDonations--receiptList__empty-title": {
-    "messageformat": "No Receipts"
+    "messageformat": "تالون يوق"
   },
   "icu:PreferencesDonations__ReceiptModal--title": {
-    "messageformat": "Details"
+    "messageformat": "تەپسىلاتى"
   },
   "icu:PreferencesDonations__ReceiptModal--download": {
-    "messageformat": "Download receipt"
+    "messageformat": "تالوننى چۈشۈرۈڭ"
   },
   "icu:PreferencesDonations__ReceiptModal--type-label": {
-    "messageformat": "Type"
+    "messageformat": "تىپ"
   },
   "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
-    "messageformat": "Date paid"
+    "messageformat": "پۇل تۆلەنگەن ۋاقىت"
   },
   "icu:DonationReceipt__title": {
-    "messageformat": "Donation receipt"
+    "messageformat": "ئىئانە تالونى"
   },
   "icu:DonationReceipt__amount-label": {
-    "messageformat": "Amount"
+    "messageformat": "سومما"
   },
   "icu:DonationReceipt__type-label": {
-    "messageformat": "Type"
+    "messageformat": "تىپ"
   },
   "icu:DonationReceipt__date-paid-label": {
-    "messageformat": "Date paid"
+    "messageformat": "پۇل تۆلەنگەن ۋاقىت"
   },
   "icu:DonationReceipt__type-value--one-time": {
-    "messageformat": "One time"
+    "messageformat": "بىر قېتىم"
   },
   "icu:DonationReceipt__footer-text": {
-    "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840."
+    "messageformat": "Signalنى قوللىغانلىقىڭىزغا رەھمەت. سىزنىڭ ئىئانىڭىز ، ئوچۇق مەنبە مەخپىيەتلىك تېخنىكىسى ئارقىلىق ئەركىن ئىپادىلەش ھوقۇقىنى قوغدايدۇ ۋە دۇنيادىكى مىليونلىغان كىشىلەرنىڭ ئالاقىلىشىش بىخەتەرلىكىگە كاپالەتلىك قىلىدۇ. ئەگەر سىز ئامېرىكىنىڭ ئاھالىسى بولسىڭىز ، باج خاتىرىلىرى ئۈچۈن بۇ تالوننى ساقلاپ قويۇڭ. Signal Technology Foundation بولسا ئامېرىكا دۆلەت ئىچى باج قانۇنى 501c3 ماددىسىدىكى بەلگىلىمە بويىچە باجدىن كەچۈرۈم قىلىنىدىغان تاپاۋەتسىز ئورگان بولۇپ ھېسابلىنىدۇ. فېدېراتسىيە باج ID نومۇرىمىز 82-4506840."
+  },
+  "icu:Donations__PaymentMethodDeclined": {
+    "messageformat": "Payment method declined"
+  },
+  "icu:Donations__PaymentMethodDeclined__Description": {
+    "messageformat": "Try another payment method or contact your bank for more information."
+  },
+  "icu:Donations__ErrorProcessingDonation": {
+    "messageformat": "Error processing donation"
+  },
+  "icu:Donations__ErrorProcessingDonation__Description": {
+    "messageformat": "Try another payment method or contact your bank for more information."
+  },
+  "icu:Donations__Failed3dsValidation": {
+    "messageformat": "Verification Failed"
+  },
+  "icu:Donations__Failed3dsValidation__Description": {
+    "messageformat": "Additional verification step failed. Please try again."
+  },
+  "icu:Donations__GenericError": {
+    "messageformat": "An error occurred with your donation"
+  },
+  "icu:Donations__GenericError__Description": {
+    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+  },
+  "icu:Donations__Processing": {
+    "messageformat": "Processing donation..."
+  },
+  "icu:Donations__StillProcessing": {
+    "messageformat": "Still processing"
+  },
+  "icu:Donations__StillProcessing__Description": {
+    "messageformat": "Your donation is still being processed. This can take a few minutes."
+  },
+  "icu:Donations__3dsValidationNeeded": {
+    "messageformat": "Additional verification required"
+  },
+  "icu:Donations__3dsValidationNeeded__Description": {
+    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+  },
+  "icu:Donations__3dsValidationNeeded__OpenBrowser": {
+    "messageformat": "Open browser"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal نىڭ راۋان ئىجرا بولۇشى ئۈچۈن بۇ نەشرىدە بىر قانچە كىچىك ئۆزگەرتىشلەر ئېلىپ بېرىلدى ۋە كاشىلىلار ئوڭشالدى.",
@@ -6713,9 +6752,9 @@
     "messageformat": "Linuxنىڭ ئىقتىدارلىرى ياخشىلاندى. 7.59 نەشىر ننۇسخىسى ئۈچۈن تارقىتىلدى."
   },
   "icu:WhatsNew__v7.61--0": {
-    "messageformat": "This update improves audio quality and reliability during voice and video calls, and introduces better automatic configuration of connected microphones and speakers. Thanks to <padenot></padenot>, <kinetiknz></kinetiknz>, and <Pehrsons></Pehrsons> at Mozilla for their help with this project."
+    "messageformat": "بۇ يېڭىلاش ئاۋازلىق ۋە سىنلىق سۆزلىشىش جەريانىدىكى ئاۋاز سۈپىتى ۋە ئىشەنچلىك دەرىجىسىنى يۇقىرى كۆتۈرىدۇ ، ھەمدە ئۇلانغان مىكروفون ۋە ياڭراتقۇنىڭ تېخىمۇ ياخشى ئاپتوماتىك سەپلىنىشىنى ئەمەلگە ئاشۇرىدۇ. Mozilla دىكى<padenot></padenot>, <kinetiknz></kinetiknz>, ۋە <Pehrsons></Pehrsons> نىڭ بۇ تۈرگە ياردەم بەرگىنىگە رەھمەت."
   },
   "icu:WhatsNew__v7.62--0": {
-    "messageformat": "We fixed a rare bug that could prevent some contacts from synchronizing correctly."
+    "messageformat": "بىز ناھايتى كەم ئۇچرايدىغان ، بەزى ئالاقىلاشقۇچىلارنىڭ توغرا ماسقەدەملىشىشىنى توسىدىغان بىر خاتالىقنى تۈزەتتۇق."
   }
 }

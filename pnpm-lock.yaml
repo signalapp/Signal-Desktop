@@ -129,8 +129,8 @@ importers:
         specifier: 3.27.0
         version: 3.27.0(react@18.3.1)
       '@signalapp/libsignal-client':
-        specifier: 0.76.3
-        version: 0.76.3
+        specifier: 0.76.4
+        version: 0.76.4
       '@signalapp/quill-cjs':
         specifier: 2.1.2
         version: 2.1.2
@@ -141,8 +141,8 @@ importers:
         specifier: 2.1.0
         version: 2.1.0
       '@signalapp/windows-ucv':
-        specifier: 1.0.0
-        version: 1.0.0
+        specifier: 1.0.1
+        version: 1.0.1
       '@tanstack/react-virtual':
         specifier: 3.11.2
         version: 3.11.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -430,8 +430,8 @@ importers:
         specifier: 0.1.61
         version: 0.1.61
       '@signalapp/mock-server':
-        specifier: 13.1.0
-        version: 13.1.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+        specifier: 13.2.0
+        version: 13.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       '@storybook/addon-a11y':
         specifier: 8.4.4
         version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
@@ -2767,11 +2767,11 @@ packages:
   '@signalapp/libsignal-client@0.60.2':
     resolution: {integrity: sha512-tU4kNP/yCwkFntb2ahXOSQJtzdy+YifAB2yv5hw0qyKSidRHLn6bYiz4Zo2tjxLDRoBLAUxCRsQramStiqNZdA==}
 
-  '@signalapp/libsignal-client@0.76.3':
-    resolution: {integrity: sha512-Ht8XtdsSvgiCb8ftUYE9DaLcWy0vltrj9cQ2sfy+DGUayE1k2njicNhB2RKOfQV2Wb/1Cl0WxVZP/NlXRo2+jA==}
+  '@signalapp/libsignal-client@0.76.4':
+    resolution: {integrity: sha512-Sy5uDKOiGg3qeBAe1/eZnHG2zqz9prtloMXq1cZllKDWFMB+1ZXXVO878hfAhkD4a4Tt8RikV0c3WOpClrdiBw==}
 
-  '@signalapp/mock-server@13.1.0':
-    resolution: {integrity: sha512-CuDNLNEBMzwIs5jr7Lx9F4YFoRD62s7WgPGtm3qpaggixSQtabjMC7AKSR0xvaHcZpYZtBU5jcGK8Roguo9nuw==}
+  '@signalapp/mock-server@13.2.0':
+    resolution: {integrity: sha512-f5uxzsIwPmkevX5ycCRWgqy/VCbvj/dUA8yGWlfO2hFc62UZ4FaOY0n5YFMOpQgp5eMO6TMgr1KqIR/uAxfkIg==}
 
   '@signalapp/parchment-cjs@3.0.1':
     resolution: {integrity: sha512-hSBMQ1M7wE4GcC8ZeNtvpJF+DAJg3eIRRf1SiHS3I3Algav/sgJJNm6HIYm6muHuK7IJmuEjkL3ILSXgmu0RfQ==}
@@ -2786,8 +2786,8 @@ packages:
   '@signalapp/sqlcipher@2.1.0':
     resolution: {integrity: sha512-SRHiTOBcC25KXM7aZMyDiY2MP5uwsZM1NOIlUZlH0gtR4kTPiLEJqyhomA8II6lhl9BTGc9R2M/GLelQrQhvhw==}
 
-  '@signalapp/windows-ucv@1.0.0':
-    resolution: {integrity: sha512-8jDChKSW4gEZO8F3KxFntYR3fLWM0DzoJnK/t9AnUxhP7iJbgbF+K9lXamjbIjDhsLwmwbjoyGrEbqtkkx/w/g==}
+  '@signalapp/windows-ucv@1.0.1':
+    resolution: {integrity: sha512-tArRaDzAFXQ6BcYseUtd9bp52/sb5C/zbCIoNkDH+FUoxnZRvX25Fv2HHbH7Xe2+bcdb4+DQmyoUeHMhTUxAmA==}
 
   '@sinclair/typebox@0.27.8':
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
@@ -12460,13 +12460,13 @@ snapshots:
       type-fest: 4.26.1
       uuid: 8.3.2
 
-  '@signalapp/libsignal-client@0.76.3':
+  '@signalapp/libsignal-client@0.76.4':
     dependencies:
       node-gyp-build: 4.8.4
       type-fest: 4.26.1
       uuid: 11.0.2
 
-  '@signalapp/mock-server@13.1.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
+  '@signalapp/mock-server@13.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
     dependencies:
       '@indutny/parallel-prettier': 3.0.0(prettier@3.3.3)
       '@signalapp/libsignal-client': 0.60.2
@@ -12510,7 +12510,7 @@ snapshots:
       node-addon-api: 8.3.0
       node-gyp-build: 4.8.4
 
-  '@signalapp/windows-ucv@1.0.0':
+  '@signalapp/windows-ucv@1.0.1':
     dependencies:
       bindings: 1.5.0
       node-addon-api: 8.3.0

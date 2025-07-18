@@ -10,6 +10,7 @@ import {
   isDownloading,
   isDownloaded,
   isDownloadable,
+  getUndownloadedAttachmentSignature,
 } from '../../types/Attachment';
 import {
   type AttachmentDownloadJobTypeType,
@@ -30,7 +31,7 @@ import { missingCaseError } from '../../util/missingCaseError';
 import { isStagingServer } from '../../util/isStagingServer';
 import {
   ensureBodyAttachmentsAreSeparated,
-  queueAttachmentDownloadsForMessage,
+  queueAttachmentDownloads,
 } from '../../util/queueAttachmentDownloads';
 import { SECOND } from '../../util/durations';
 import { showDownloadFailedToast } from '../../util/showDownloadFailedToast';
@@ -174,8 +175,7 @@ export class AttachmentBackfill {
     // If `true` - show a toast at the end of the process
     let showToast = false;
 
-    // If `true` - queue downloads at the end of the process
-    let shouldDownload = false;
+    const attachmentSignaturesToDownload = new Set<string>();
 
     // Track number of pending attachments to decide when the request is
     // fully processed by the phone.
@@ -213,7 +213,9 @@ export class AttachmentBackfill {
         // other device's backfill request. Update the CDN info without queueing
         // a download.
         if (isDownloading(updatedSticker.data)) {
-          shouldDownload = true;
+          attachmentSignaturesToDownload.add(
+            getUndownloadedAttachmentSignature(updatedSticker.data)
+          );
         }
         updatedSticker = {
           ...updatedSticker,
@@ -261,7 +263,9 @@ export class AttachmentBackfill {
       } else {
         // See sticker handling code above for the reasoning
         if (isDownloading(updatedBodyAttachment)) {
-          shouldDownload = true;
+          attachmentSignaturesToDownload.add(
+            getUndownloadedAttachmentSignature(updatedBodyAttachment)
+          );
         }
         updatedBodyAttachment = response.longText.attachment;
         changeCount += 1;
@@ -298,7 +302,9 @@ export class AttachmentBackfill {
 
       // See sticker handling code above for the reasoning
       if (isDownloading(existing)) {
-        shouldDownload = true;
+        attachmentSignaturesToDownload.add(
+          getUndownloadedAttachmentSignature(existing)
+        );
       }
       updatedAttachments[index] = entry.attachment;
     }
@@ -326,17 +332,18 @@ export class AttachmentBackfill {
       editHistory: message.get('editHistory')?.map(edit => ({
         ...edit,
         attachments: updatedAttachments,
-        bodyAttachment: updatedBodyAttachment,
       })),
     });
 
     // It is fine to await below this line
-
-    if (shouldDownload) {
-      log.info(`${logId}: queueing downloads`);
-      await queueAttachmentDownloadsForMessage(message, {
+    if (attachmentSignaturesToDownload.size) {
+      log.info(
+        `${logId}: queueing ${attachmentSignaturesToDownload.size} download(s)`
+      );
+      await queueAttachmentDownloads(message, {
         source: AttachmentDownloadSource.BACKFILL,
         urgency: AttachmentDownloadUrgency.IMMEDIATE,
+        signaturesToQueue: attachmentSignaturesToDownload,
         isManualDownload: true,
       });
     }

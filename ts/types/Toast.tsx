@@ -31,6 +31,8 @@ export enum ToastType {
   DecryptionError = 'DecryptionError',
   DebugLogError = 'DebugLogError',
   DeleteForEveryoneFailed = 'DeleteForEveryoneFailed',
+  DonationCompleted = 'DonationCompleted',
+  DonationProcessing = 'DonationProcessing',
   Error = 'Error',
   Expired = 'Expired',
   FailedToDeleteUsername = 'FailedToDeleteUsername',
@@ -120,6 +122,8 @@ export type AnyToast =
   | { toastType: ToastType.DangerousFileType }
   | { toastType: ToastType.DebugLogError }
   | { toastType: ToastType.DeleteForEveryoneFailed }
+  | { toastType: ToastType.DonationCompleted }
+  | { toastType: ToastType.DonationProcessing }
   | { toastType: ToastType.Error }
   | { toastType: ToastType.Expired }
   | { toastType: ToastType.FailedToDeleteUsername }

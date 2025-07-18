@@ -16,7 +16,7 @@ import type { App } from '../playwright';
 import { Bootstrap } from '../bootstrap';
 import { sendTextMessage, getTimelineMessageWithText } from '../helpers';
 
-export const debug = createDebug('mock:test:edit');
+export const debug = createDebug('mock:test:backfill');
 
 const FIXTURES_PATH = join(__dirname, '..', '..', '..', 'fixtures');
 
@@ -288,7 +288,7 @@ describe('attachment backfill', function (this: Mocha.Suite) {
     });
     await conversationListItem.getByText('Message Request').click();
 
-    debug('dowloading attachment');
+    debug('downloading attachment');
     const conversationStack = page.locator('.Inbox__conversation-stack');
     const startDownload = conversationStack.getByRole('button', {
       name: 'Start Download',

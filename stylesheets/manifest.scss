@@ -96,6 +96,10 @@
 @use 'components/DeleteMessagesModal.scss';
 @use 'components/DisappearingTimeDialog.scss';
 @use 'components/DisappearingTimerSelect.scss';
+@use 'components/DonationErrorModal.scss';
+@use 'components/DonationProgressModal.scss';
+@use 'components/DonationStillProcessingModal.scss';
+@use 'components/DonationVerificationModal.scss';
 @use 'components/DraftGifMessageSendModal.scss';
 @use 'components/EditConversationAttributesModal.scss';
 @use 'components/EditHistoryMessagesModal.scss';

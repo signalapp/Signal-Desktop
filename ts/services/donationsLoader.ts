@@ -15,13 +15,16 @@ export async function loadDonationReceipts(): Promise<void> {
   donationReceipts = await DataReader.getAllDonationReceipts();
 }
 
-export function getDonationReceiptsForRedux(): DonationsStateType {
+export function getDonationsForRedux(): DonationsStateType {
   strictAssert(
     donationReceipts != null,
     'donation receipts have not been loaded'
   );
+  const currentWorkflow = _getWorkflowFromStorage();
+
   return {
-    currentWorkflow: _getWorkflowFromStorage(),
+    currentWorkflow,
+    didResumeWorkflowAtStartup: Boolean(currentWorkflow),
     lastError: undefined,
     receipts: donationReceipts,
   };

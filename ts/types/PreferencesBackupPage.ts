@@ -1,25 +1,27 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Page } from '../components/Preferences';
+import { SettingsPage } from './Nav';
 
 // Should be in sync with isBackupPage()
 export type PreferencesBackupPage =
-  | Page.Backups
-  | Page.BackupsDetails
-  | Page.LocalBackups
-  | Page.LocalBackupsKeyReference
-  | Page.LocalBackupsSetupFolder
-  | Page.LocalBackupsSetupKey;
+  | SettingsPage.Backups
+  | SettingsPage.BackupsDetails
+  | SettingsPage.LocalBackups
+  | SettingsPage.LocalBackupsKeyReference
+  | SettingsPage.LocalBackupsSetupFolder
+  | SettingsPage.LocalBackupsSetupKey;
 
 // Should be in sync with PreferencesBackupPage
-export function isBackupPage(page: Page): page is PreferencesBackupPage {
+export function isBackupPage(
+  page: SettingsPage
+): page is PreferencesBackupPage {
   return (
-    page === Page.Backups ||
-    page === Page.BackupsDetails ||
-    page === Page.LocalBackups ||
-    page === Page.LocalBackupsSetupFolder ||
-    page === Page.LocalBackupsSetupKey ||
-    page === Page.LocalBackupsKeyReference
+    page === SettingsPage.Backups ||
+    page === SettingsPage.BackupsDetails ||
+    page === SettingsPage.LocalBackups ||
+    page === SettingsPage.LocalBackupsSetupFolder ||
+    page === SettingsPage.LocalBackupsSetupKey ||
+    page === SettingsPage.LocalBackupsKeyReference
   );
 }

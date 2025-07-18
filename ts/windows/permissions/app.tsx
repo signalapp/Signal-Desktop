@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { StrictMode } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import { PermissionsPopup } from '../../components/PermissionsPopup';
 import { i18n } from '../sandboxedInit';
@@ -26,7 +26,10 @@ if (forCalling) {
   message = i18n('icu:audioPermissionNeeded');
 }
 
-ReactDOM.render(
+const app = document.getElementById('app');
+strictAssert(app != null, 'No #app');
+
+createRoot(app).render(
   <StrictMode>
     <FunDefaultEnglishEmojiLocalizationProvider>
       <PermissionsPopup
@@ -36,6 +39,5 @@ ReactDOM.render(
         onClose={PermissionsWindowProps.onClose}
       />
     </FunDefaultEnglishEmojiLocalizationProvider>
-  </StrictMode>,
-  document.getElementById('app')
+  </StrictMode>
 );
