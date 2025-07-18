@@ -480,6 +480,9 @@ importers:
       '@storybook/types':
         specifier: 8.1.11
         version: 8.1.11
+      '@testing-library/react':
+        specifier: ^16.3.0
+        version: 16.3.0(@testing-library/dom@10.4.0)(@types/react-dom@18.3.6(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@types/backbone':
         specifier: 1.4.22
         version: 1.4.22(patch_hash=9dace206a9f53e0e3b0203051b26aec1e92ad49744b156ad8076946356c6c8e7)
@@ -576,6 +579,9 @@ importers:
       '@types/split2':
         specifier: 4.2.3
         version: 4.2.3
+      '@types/testing-library__react':
+        specifier: ^10.2.0
+        version: 10.2.0(@testing-library/dom@10.4.0)(@types/react-dom@18.3.6(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@types/uuid':
         specifier: 10.0.0
         version: 10.0.0
@@ -3094,6 +3100,21 @@ packages:
     resolution: {integrity: sha512-xGGHpBXYSHUUr6XsKBfs85TWlYKpTc37cSBBVrXcib2MkHLboWlkClhWF37JKlDb9KEq3dHs+f2xR7XJEWGBxA==}
     engines: {node: '>=14', npm: '>=6', yarn: '>=1'}
 
+  '@testing-library/react@16.3.0':
+    resolution: {integrity: sha512-kFSyxiEDwv1WLl2fgsq6pPBbw5aWKrsY2/noi1Id0TK0UParSF62oFQFGHXIyaG4pp2tEub/Zlel+fjjZILDsw==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@testing-library/dom': ^10.0.0
+      '@types/react': ^18.0.0 || ^19.0.0
+      '@types/react-dom': ^18.0.0 || ^19.0.0
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+
   '@testing-library/user-event@14.5.2':
     resolution: {integrity: sha512-YAh82Wh4TIrxYLmfGcixwD18oIjyC1pFQC2Y01F2lzV2HTMiYrI0nze0FD0ocB//CKS/7jIUgae+adPqxK5yCQ==}
     engines: {node: '>=12', npm: '>=6'}
@@ -3409,6 +3430,10 @@ packages:
 
   '@types/stack-utils@2.0.3':
     resolution: {integrity: sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw==}
+
+  '@types/testing-library__react@10.2.0':
+    resolution: {integrity: sha512-KbU7qVfEwml8G5KFxM+xEfentAAVj/SOQSjW0+HqzjPE0cXpt0IpSamfX4jGYCImznDHgQcfXBPajS7HjLZduw==}
+    deprecated: This is a stub types definition. testing-library__react provides its own type definitions, so you do not need this installed.
 
   '@types/underscore@1.13.0':
     resolution: {integrity: sha512-L6LBgy1f0EFQZ+7uSA57+n2g/s4Qs5r06Vwrwn0/nuK1de+adz00NWaztRQ30aEqw5qOaWbPI8u2cGQ52lj6VA==}
@@ -12942,6 +12967,16 @@ snapshots:
       lodash: 4.17.21
       redent: 3.0.0
 
+  '@testing-library/react@16.3.0(@testing-library/dom@10.4.0)(@types/react-dom@18.3.6(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@babel/runtime': 7.26.7
+      '@testing-library/dom': 10.4.0
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+    optionalDependencies:
+      '@types/react': 18.3.20
+      '@types/react-dom': 18.3.6(@types/react@18.3.20)
+
   '@testing-library/user-event@14.5.2(@testing-library/dom@10.4.0)':
     dependencies:
       '@testing-library/dom': 10.4.0
@@ -13301,6 +13336,16 @@ snapshots:
       '@types/node': 20.17.6
 
   '@types/stack-utils@2.0.3': {}
+
+  '@types/testing-library__react@10.2.0(@testing-library/dom@10.4.0)(@types/react-dom@18.3.6(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@testing-library/react': 16.3.0(@testing-library/dom@10.4.0)(@types/react-dom@18.3.6(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+    transitivePeerDependencies:
+      - '@testing-library/dom'
+      - '@types/react'
+      - '@types/react-dom'
+      - react
+      - react-dom
 
   '@types/underscore@1.13.0': {}
 
