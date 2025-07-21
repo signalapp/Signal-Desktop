@@ -283,7 +283,8 @@ export async function sendSyncMessageOnly(
   try {
     message.set({
       // This is the same as a normal send()
-      expirationStartTimestamp: Date.now(),
+      expirationStartTimestamp:
+        message.get('expirationStartTimestamp') ?? Date.now(),
       errors: [],
     });
     const result = await sendSyncMessage(message, targetTimestamp);
