@@ -8,6 +8,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 590px;
   padding-block: 0;
   padding-inline: 0;
   margin-inline-start: 24px;
@@ -15,14 +16,14 @@
 
   &__title {
     @include mixins.font-title-medium;
-    margin-bottom: 16px;
+    margin-bottom: 8px;
   }
 
   &__description {
     @include mixins.font-body-2;
     text-align: center;
     max-width: 320px;
-    margin-bottom: 24px;
+    margin-block-end: 12px;
     color: light-dark(
       variables.$color-black-alpha-50,
       variables.$color-white-alpha-50
@@ -42,7 +43,7 @@
   }
 
   &__donate-button {
-    margin-bottom: 24px;
+    margin-block-end: 32px;
   }
 
   &__separator {
@@ -60,13 +61,20 @@
   &__section-header {
     @include mixins.font-body-2-bold;
     width: 100%;
-    margin-top: 12px;
-    margin-bottom: 12px;
+    margin-block: 12px;
     padding-inline: 8px;
     color: light-dark(
       variables.$color-black-alpha-85,
       variables.$color-white-alpha-85
     );
+
+    &--my-support {
+      margin-block-start: 6px;
+    }
+
+    &--donate-flow {
+      margin-block-start: 22px;
+    }
   }
 
   &__list {
@@ -161,14 +169,18 @@
 
   &__mobile-info {
     @include mixins.font-subtitle;
-    margin-top: 18px;
-    align-self: flex-start;
     padding-inline: 8px;
+    margin-block-start: 10px;
+    align-self: flex-start;
     color: light-dark(
       variables.$color-black-alpha-50,
       variables.$color-white-alpha-50
     );
   }
+}
+
+.PreferencesDonations__avatar {
+  margin-block-end: 12px;
 }
 
 // Receipts page specific styles
@@ -385,4 +397,12 @@
       }
     }
   }
+}
+
+.PreferencesDonations__PrimaryButton {
+  @include mixins.font-body-2;
+  padding-block: 5px;
+  padding-inline: 12px;
+  font-weight: 400;
+  border-radius: 6px;
 }

@@ -1,0 +1,149 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../mixins';
+@use '../variables';
+
+.DonationForm {
+  text-align: center;
+}
+
+.DonationForm__CurrencySelect {
+  width: 78px;
+  margin-inline: auto;
+}
+
+.DonationForm__CurrencySelect.module-select select {
+  height: auto;
+  min-width: auto;
+  padding-block: 5px;
+}
+
+.DonationForm .DonationForm__CurrencySelect.module-select select {
+  border-color: light-dark(
+    variables.$color-gray-25,
+    variables.$color-white-alpha-12
+  );
+}
+
+.DonationForm__HelpFooter {
+  @include mixins.font-body-small;
+  flex-grow: 1;
+  color: light-dark(
+    variables.$color-black-alpha-50,
+    variables.$color-white-alpha-50
+  );
+  align-content: flex-end;
+  text-align: center;
+}
+
+.DonationForm__HelpFooterDesktopOneTimeOnlyNotice {
+  margin-block: 10px 17px;
+}
+
+a.DonationFormHelpFooter__ContactSupportLink {
+  color: variables.$color-ultramarine;
+  text-decoration: none;
+}
+
+.DonationAmountPicker__AmountOptions {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 340px;
+  justify-content: center;
+}
+
+.DonationAmountPicker__PresetButton,
+.DonationForm.PreferencesDonations
+  .DonationAmountPicker__CustomInput__container,
+.DonationForm .DonationAmountPicker__CustomInput--selected__container,
+.DonationForm .DonationAmountPicker__CustomInput--with-error__container {
+  margin-block: 5px;
+  margin-inline: 5px;
+  border-width: 0.5px;
+  border-style: solid;
+  border-radius: 6px;
+  font-weight: 400;
+}
+
+.DonationAmountPicker__PresetButton,
+.DonationForm .DonationForm__CurrencySelect.module-select select,
+.DonationForm.PreferencesDonations
+  .DonationAmountPicker__CustomInput__container,
+.DonationForm.PreferencesDonations
+  .DonationAmountPicker__CustomInput--selected__container,
+.DonationForm.PreferencesDonations
+  .DonationAmountPicker__CustomInput--with-error__container {
+  background-color: light-dark(
+    variables.$color-white,
+    variables.$color-gray-85
+  );
+  border-color: light-dark(
+    variables.$color-gray-25,
+    variables.$color-white-alpha-12
+  );
+}
+
+.DonationAmountPicker__PresetButton {
+  @include mixins.font-body-1;
+  width: 100px;
+  padding-inline: 12px;
+  padding-block: 14px;
+  margin-block: 5px;
+  margin-inline: 5px;
+  font-weight: 400;
+}
+
+.DonationAmountPicker__PresetButton--selected,
+.DonationForm .DonationAmountPicker__CustomInput--selected__container,
+.DonationForm
+  .DonationAmountPicker__CustomInput--with-error__container:focus-within,
+.DonationForm .DonationAmountPicker__CustomInput__container:focus-within {
+  border-color: variables.$color-ultramarine;
+  outline: 2.5px solid variables.$color-ultramarine;
+  outline-offset: -2.5px;
+}
+
+.DonationForm .DonationAmountPicker__CustomInput__container,
+.DonationForm .DonationAmountPicker__CustomInput--selected__container,
+.DonationForm .DonationAmountPicker__CustomInput--with-error__container {
+  width: 320px;
+  padding-block: 0;
+  border-width: 0.5px;
+}
+
+.DonationForm
+  .DonationAmountPicker__CustomInput--with-error__container:not(:focus-within) {
+  border-color: variables.$color-deep-red;
+  outline: 2.5px solid variables.$color-deep-red;
+  outline-offset: -2.5px;
+}
+
+.DonationForm .DonationAmountPicker__CustomInput__input,
+.DonationForm .DonationAmountPicker__CustomInput--selected__input,
+.DonationForm .DonationAmountPicker__CustomInput--with-error__input {
+  @include mixins.font-body-1;
+  padding-inline: 12px;
+  padding-block: 14px;
+  text-align: center;
+}
+
+.DonationAmountPicker__CustomInput__input:not(:focus)::placeholder {
+  color: light-dark(
+    variables.$color-black-alpha-85,
+    variables.$color-white-alpha-85
+  );
+  opacity: 1;
+}
+
+.DonationAmountPicker__CustomInput__input:focus::placeholder,
+.DonationAmountPicker__CustomInput--selected__input:focus::placeholder,
+.DonationAmountPicker__CustomInput--with-error__input:focus::placeholder {
+  color: transparent;
+}
+
+.DonationAmountPicker__PrimaryButtonContainer {
+  margin-block-start: 11px;
+  margin-inline-end: 10px;
+  text-align: end;
+}

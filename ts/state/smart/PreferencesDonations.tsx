@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 import type { MutableRefObject } from 'react';
 
-import { getIntl } from '../selectors/user';
+import { getIntl, getTheme } from '../selectors/user';
 import { getMe } from '../selectors/conversations';
 import { PreferencesDonations } from '../../components/PreferencesDonations';
 import type { SettingsPage } from '../../types/Nav';
@@ -18,6 +18,7 @@ import { useToastActions } from '../ducks/toast';
 import { getDonationHumanAmounts } from '../../util/subscriptionConfiguration';
 import { drop } from '../../util/drop';
 import type { OneTimeDonationHumanAmounts } from '../../types/Donations';
+import { getPreferredBadgeSelector } from '../selectors/badges';
 
 export const SmartPreferencesDonations = memo(
   function SmartPreferencesDonations({
@@ -35,24 +36,24 @@ export const SmartPreferencesDonations = memo(
     const [donationAmountsConfig, setDonationAmountsConfig] =
       useState<OneTimeDonationHumanAmounts>();
 
+    const getPreferredBadge = useSelector(getPreferredBadgeSelector);
     const isStaging = isStagingServer();
     const i18n = useSelector(getIntl);
+    const theme = useSelector(getTheme);
 
     const workflow = useSelector(
       (state: StateType) => state.donations.currentWorkflow
     );
     const { clearWorkflow, submitDonation } = useDonationsActions();
 
-    const {
-      avatars: userAvatarData = [],
-      color,
-      firstName,
-      profileAvatarUrl,
-    } = useSelector(getMe);
+    const { badges, color, firstName, profileAvatarUrl } = useSelector(getMe);
+    const badge = getPreferredBadge(badges);
+
     const { showToast } = useToastActions();
     const donationReceipts = useSelector(
       (state: StateType) => state.donations.receipts
     );
+
     const { saveAttachmentToDisk } = window.Signal.Migrations;
 
     // Eagerly load donation config from API when entering Donations Home so the
@@ -70,7 +71,7 @@ export const SmartPreferencesDonations = memo(
     return (
       <PreferencesDonations
         i18n={i18n}
-        userAvatarData={userAvatarData}
+        badge={badge}
         color={color}
         firstName={firstName}
         profileAvatarUrl={profileAvatarUrl}
@@ -87,6 +88,7 @@ export const SmartPreferencesDonations = memo(
         clearWorkflow={clearWorkflow}
         submitDonation={submitDonation}
         setPage={setPage}
+        theme={theme}
       />
     );
   }
