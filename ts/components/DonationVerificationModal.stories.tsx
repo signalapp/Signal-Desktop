@@ -17,7 +17,7 @@ export default {
 
 const defaultProps = {
   i18n,
-  onCancel: action('onCancel'),
+  onCancelDonation: action('onCancelDonation'),
   onOpenBrowser: action('onOpenBrowser'),
 };
 

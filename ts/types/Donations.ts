@@ -15,8 +15,6 @@ export const donationStateSchema = z.enum([
 ]);
 
 export const donationErrorTypeSchema = z.enum([
-  // Any other HTTPError during the process
-  'DonationProcessingError',
   // Used if the user is redirected back from validation, but continuing forward fails
   'Failed3dsValidation',
   // Any other error

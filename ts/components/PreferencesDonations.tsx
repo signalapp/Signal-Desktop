@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { groupBy, sortBy } from 'lodash';
 
 import type { MutableRefObject, ReactNode } from 'react';
@@ -16,7 +16,9 @@ import type {
   DonationWorkflow,
   DonationReceipt,
   OneTimeDonationHumanAmounts,
+  DonationErrorType,
 } from '../types/Donations';
+import { donationStateSchema } from '../types/Donations';
 import type { AvatarColorType } from '../types/Colors';
 import { Button, ButtonSize, ButtonVariant } from './Button';
 import { Modal } from './Modal';
@@ -32,6 +34,10 @@ import type { SubmitDonationType } from '../state/ducks/donations';
 import { getHumanDonationAmount } from '../util/currency';
 import { Avatar, AvatarSize } from './Avatar';
 import type { BadgeType } from '../badges/types';
+import { DonationErrorModal } from './DonationErrorModal';
+import { DonationVerificationModal } from './DonationVerificationModal';
+import { DonationProgressModal } from './DonationProgressModal';
+import { DonationStillProcessingModal } from './DonationStillProcessingModal';
 
 const log = createLogger('PreferencesDonations');
 
@@ -43,6 +49,7 @@ export type PropsDataType = {
   i18n: LocalizerType;
   isStaging: boolean;
   page: SettingsPage;
+  lastError: DonationErrorType | undefined;
   workflow: DonationWorkflow | undefined;
   badge: BadgeType | undefined;
   color: AvatarColorType | undefined;
@@ -68,6 +75,7 @@ type PropsActionType = {
   clearWorkflow: () => void;
   setPage: (page: SettingsPage) => void;
   submitDonation: (payload: SubmitDonationType) => void;
+  updateLastError: (error: DonationErrorType | undefined) => void;
 };
 
 export type PropsType = PropsDataType & PropsActionType & PropsExternalType;
@@ -447,6 +455,7 @@ export function PreferencesDonations({
   isStaging,
   page,
   workflow,
+  lastError,
   clearWorkflow,
   setPage,
   submitDonation,
@@ -461,13 +470,30 @@ export function PreferencesDonations({
   saveAttachmentToDisk,
   generateDonationReceiptBlob,
   showToast,
+  updateLastError,
 }: PropsType): JSX.Element | null {
+  const [hasProcessingExpired, setHasProcessingExpired] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const navigateToPage = useCallback(
     (newPage: SettingsPage) => {
       setPage(newPage);
     },
     [setPage]
   );
+
+  useEffect(() => {
+    if (!workflow || lastError) {
+      setIsSubmitted(false);
+    }
+
+    if (
+      workflow?.type === donationStateSchema.Enum.INTENT_CONFIRMED ||
+      workflow?.type === donationStateSchema.Enum.RECEIPT ||
+      workflow?.type === donationStateSchema.Enum.DONE
+    ) {
+      setIsSubmitted(false);
+    }
+  }, [lastError, workflow, setIsSubmitted]);
 
   const renderDonationHero = useCallback(
     () => (
@@ -487,21 +513,87 @@ export function PreferencesDonations({
     return null;
   }
 
+  let dialog: ReactNode | undefined;
+  if (lastError) {
+    dialog = (
+      <DonationErrorModal
+        errorType={lastError}
+        i18n={i18n}
+        onClose={() => {
+          updateLastError(undefined);
+        }}
+      />
+    );
+  } else if (workflow?.type === donationStateSchema.Enum.INTENT_REDIRECT) {
+    dialog = (
+      <DonationVerificationModal
+        i18n={i18n}
+        onCancelDonation={() => {
+          clearWorkflow();
+          setPage(SettingsPage.Donations);
+          showToast({ toastType: ToastType.DonationCancelled });
+        }}
+        onOpenBrowser={() => {
+          openLinkInWebBrowser(workflow.redirectTarget);
+        }}
+      />
+    );
+  } else if (
+    page === SettingsPage.DonationsDonateFlow &&
+    (isSubmitted ||
+      workflow?.type === donationStateSchema.Enum.INTENT_CONFIRMED ||
+      workflow?.type === donationStateSchema.Enum.RECEIPT)
+  ) {
+    // We can't transition away from the payment screen until that payment information
+    // has been accepted. Even if it takes more than 30 seconds.
+    if (
+      hasProcessingExpired &&
+      (workflow?.type === donationStateSchema.Enum.INTENT_CONFIRMED ||
+        workflow?.type === donationStateSchema.Enum.RECEIPT)
+    ) {
+      dialog = (
+        <DonationStillProcessingModal
+          i18n={i18n}
+          onClose={() => {
+            setPage(SettingsPage.Donations);
+            // We need to delay until we've transitioned away from this page, or we'll
+            // go back to showing the spinner.
+            setTimeout(() => setHasProcessingExpired(false), 500);
+          }}
+        />
+      );
+    } else {
+      dialog = (
+        <DonationProgressModal
+          i18n={i18n}
+          onWaitedTooLong={() => setHasProcessingExpired(true)}
+        />
+      );
+    }
+  }
+
   let content;
   if (page === SettingsPage.DonationsDonateFlow) {
     // DonateFlow has to control Back button to switch between CC form and Amount picker
     return (
-      <PreferencesDonateFlow
-        contentsRef={contentsRef}
-        i18n={i18n}
-        donationAmountsConfig={donationAmountsConfig}
-        validCurrencies={validCurrencies}
-        workflow={workflow}
-        clearWorkflow={clearWorkflow}
-        renderDonationHero={renderDonationHero}
-        submitDonation={submitDonation}
-        onBack={() => setPage(SettingsPage.Donations)}
-      />
+      <>
+        {dialog}
+        <PreferencesDonateFlow
+          contentsRef={contentsRef}
+          i18n={i18n}
+          donationAmountsConfig={donationAmountsConfig}
+          lastError={lastError}
+          validCurrencies={validCurrencies}
+          workflow={workflow}
+          clearWorkflow={clearWorkflow}
+          renderDonationHero={renderDonationHero}
+          submitDonation={details => {
+            setIsSubmitted(true);
+            submitDonation(details);
+          }}
+          onBack={() => setPage(SettingsPage.Donations)}
+        />
+      </>
     );
   }
   if (page === SettingsPage.Donations) {
@@ -521,11 +613,13 @@ export function PreferencesDonations({
         showToast={showToast}
         isStaging={isStaging}
         page={page}
+        lastError={lastError}
         workflow={workflow}
         clearWorkflow={clearWorkflow}
         renderDonationHero={renderDonationHero}
         setPage={setPage}
         submitDonation={submitDonation}
+        updateLastError={updateLastError}
       />
     );
   } else if (page === SettingsPage.DonationsReceiptList) {
@@ -557,11 +651,14 @@ export function PreferencesDonations({
   }
 
   return (
-    <PreferencesContent
-      backButton={backButton}
-      contents={content}
-      contentsRef={contentsRef}
-      title={title}
-    />
+    <>
+      {dialog}
+      <PreferencesContent
+        backButton={backButton}
+        contents={content}
+        contentsRef={contentsRef}
+        title={title}
+      />
+    </>
   );
 }

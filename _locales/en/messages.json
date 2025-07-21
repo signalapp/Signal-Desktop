@@ -8902,13 +8902,29 @@
     "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840.",
     "description": "Footer text shown on donation receipts explaining tax deductibility and Signal's mission"
   },
+  "icu:Donations__Toast__Cancelled": {
+    "messageformat": "Donation cancelled",
+    "description": "Toast shown when a donation was manually cancelled by the user"
+  },
   "icu:Donations__Toast__Completed": {
     "messageformat": "Donation completed",
     "description": "Toast shown when a donation started processing after resuming on startup, and it completed successfully when the user is not on the Preferences/Donations screen"
   },
+  "icu:Donations__Toast__Error": {
+    "messageformat": "Error processing donation",
+    "description": "Toast shown when a donation fails when the user is not on the Preferences/Donations screen"
+  },
   "icu:Donations__Toast__Processing": {
     "messageformat": "Processing donation",
     "description": "Toast shown when a donation starts processing again after resuming on startup"
+  },
+  "icu:Donations__Toast__VerificationFailed": {
+    "messageformat": "Verification failed",
+    "description": "Shown when the user is not on the Preferences/Donations screen, and for some reason their attempt to complete verification failed"
+  },
+  "icu:Donations__Toast__VerificationNeeded": {
+    "messageformat": "You have a donation in progress that needs additional verification.",
+    "description": "Shown when the user is not on the Preferences/Donations screen, and donation verification is needed. Like when resuming from startup."
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Payment method declined",
@@ -8917,14 +8933,6 @@
   "icu:Donations__PaymentMethodDeclined__Description": {
     "messageformat": "Try another payment method or contact your bank for more information.",
     "description": "An explanation for the 'payment declined' dialog"
-  },
-  "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation",
-    "description": "Title of the dialog shown when a user's donation didn't seem to complete"
-  },
-  "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information.",
-    "description": "An explanation for the 'error processing' dialog"
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Verification Failed",
@@ -8958,12 +8966,24 @@
     "messageformat": "Additional verification required",
     "description": "Title of the dialog shown when the user's payment method requires a redirect to a verification website"
   },
+  "icu:Donations__3dsValidationNeeded--waiting": {
+    "messageformat": "Waiting for verification",
+    "description": "Title of the dialog shown when the user's payment method requires a redirect to a verification website"
+  },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "Your credit card issuer requires an additional verification step in a web browser.",
     "description": "An explanation for the 'verification required' dialog"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
     "messageformat": "Open browser",
+    "description": "When external payment method validation is required, this button will open that external verification website"
+  },
+  "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
+    "messageformat": "Re-open browser",
+    "description": "When the user has started external payment method validation, the button switches to this text. It allows them to kick off the process again if necessary."
+  },
+  "icu:Donations__3dsValidationNeeded__CancelDonation": {
+    "messageformat": "Cancel donation",
     "description": "When external payment method validation is required, this button will open that external verification website"
   },
   "icu:WhatsNew__bugfixes": {

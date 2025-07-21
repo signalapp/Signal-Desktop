@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Meta, StoryFn } from '@storybook/react';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
+import type { MutableRefObject } from 'react';
 
 import { action } from '@storybook/addon-actions';
 import { shuffle } from 'lodash';
@@ -146,8 +147,11 @@ function renderUpdateDialog(
     />
   );
 }
-function RenderProfileEditor(): JSX.Element {
-  const contentsRef = useRef<HTMLDivElement | null>(null);
+function renderProfileEditor({
+  contentsRef,
+}: {
+  contentsRef: MutableRefObject<HTMLDivElement | null>;
+}): JSX.Element {
   return (
     <ProfileEditor
       aboutEmoji={undefined}
@@ -192,10 +196,12 @@ function RenderProfileEditor(): JSX.Element {
   );
 }
 
-function RenderDonationsPane(props: {
+function renderDonationsPane(props: {
+  contentsRef: MutableRefObject<HTMLDivElement | null>;
+  page: SettingsPage;
+  setPage: (page: SettingsPage) => void;
   me: typeof me;
   donationReceipts: ReadonlyArray<DonationReceipt>;
-  page: SettingsPage;
   saveAttachmentToDisk: (options: {
     data: Uint8Array;
     name: string;
@@ -207,16 +213,16 @@ function RenderDonationsPane(props: {
   ) => Promise<Blob>;
   showToast: (toast: AnyToast) => void;
 }): JSX.Element {
-  const contentsRef = useRef<HTMLDivElement | null>(null);
   return (
     <PreferencesDonations
       i18n={i18n}
-      contentsRef={contentsRef}
+      contentsRef={props.contentsRef}
       clearWorkflow={action('clearWorkflow')}
       isStaging
       page={props.page}
-      setPage={action('setPage')}
+      setPage={props.setPage}
       submitDonation={action('submitDonation')}
+      lastError={undefined}
       workflow={undefined}
       badge={undefined}
       color={props.me.color}
@@ -229,6 +235,7 @@ function RenderDonationsPane(props: {
       generateDonationReceiptBlob={props.generateDonationReceiptBlob}
       showToast={props.showToast}
       theme={ThemeType.light}
+      updateLastError={action('updateLastError')}
     />
   );
 }
@@ -351,11 +358,21 @@ export default {
     whoCanSeeMe: PhoneNumberSharingMode.Everybody,
     zoomFactor: 1,
 
-    renderDonationsPane: () =>
-      RenderDonationsPane({
+    renderDonationsPane: ({
+      contentsRef,
+      page,
+      setPage,
+    }: {
+      contentsRef: MutableRefObject<HTMLDivElement | null>;
+      page: SettingsPage;
+      setPage: (page: SettingsPage) => void;
+    }) =>
+      renderDonationsPane({
+        contentsRef,
+        page,
+        setPage,
         me,
         donationReceipts: [],
-        page: SettingsPage.Donations,
         saveAttachmentToDisk: async () => {
           action('saveAttachmentToDisk')();
           return { fullPath: '/mock/path/to/file.png', name: 'file.png' };
@@ -366,7 +383,7 @@ export default {
         },
         showToast: action('showToast'),
       }),
-    renderProfileEditor: RenderProfileEditor,
+    renderProfileEditor,
     renderToastManager,
     renderUpdateDialog,
     getConversationsWithCustomColor: () => [],
@@ -473,7 +490,17 @@ export default {
 // eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType> = args => {
   const [page, setPage] = useState(args.page);
-  return <Preferences {...args} page={page} setPage={setPage} />;
+  return (
+    <Preferences
+      {...args}
+      page={page}
+      setPage={(newPage: SettingsPage, profilePage?: ProfileEditorPage) => {
+        // eslint-disable-next-line no-console
+        console.log('setPage:', newPage, profilePage);
+        setPage(newPage);
+      }}
+    />
+  );
 };
 
 export const _Preferences = Template.bind({});
@@ -523,11 +550,19 @@ export const DonationsDonateFlow = Template.bind({});
 DonationsDonateFlow.args = {
   donationsFeatureEnabled: true,
   page: SettingsPage.DonationsDonateFlow,
-  renderDonationsPane: () =>
-    RenderDonationsPane({
+  renderDonationsPane: ({
+    contentsRef,
+  }: {
+    contentsRef: MutableRefObject<HTMLDivElement | null>;
+    page: SettingsPage;
+    setPage: (page: SettingsPage) => void;
+  }) =>
+    renderDonationsPane({
+      contentsRef,
       me,
       donationReceipts: [],
       page: SettingsPage.DonationsDonateFlow,
+      setPage: action('setPage'),
       saveAttachmentToDisk: async () => {
         action('saveAttachmentToDisk')();
         return { fullPath: '/mock/path/to/file.png', name: 'file.png' };

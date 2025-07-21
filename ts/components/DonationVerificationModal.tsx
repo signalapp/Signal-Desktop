@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import type { LocalizerType } from '../types/Util';
 import { Modal } from './Modal';
@@ -9,33 +9,46 @@ import { Button, ButtonVariant } from './Button';
 
 export type PropsType = {
   i18n: LocalizerType;
-  onCancel: () => unknown;
+  onCancelDonation: () => unknown;
   onOpenBrowser: () => unknown;
 };
 
 export function DonationVerificationModal(props: PropsType): JSX.Element {
-  const { i18n, onCancel, onOpenBrowser } = props;
+  const { i18n, onCancelDonation, onOpenBrowser } = props;
+  const [hasOpenedBrowser, setHasOpenedBrowser] = useState(false);
+
+  const titleText = hasOpenedBrowser
+    ? i18n('icu:Donations__3dsValidationNeeded--waiting')
+    : i18n('icu:Donations__3dsValidationNeeded');
+  const openBrowserText = hasOpenedBrowser
+    ? i18n('icu:Donations__3dsValidationNeeded__OpenBrowser--opened')
+    : i18n('icu:Donations__3dsValidationNeeded__OpenBrowser');
 
   const footer = (
     <>
-      <Button variant={ButtonVariant.Secondary} onClick={onCancel}>
-        {i18n('icu:confirmation-dialog--Cancel')}
+      <Button variant={ButtonVariant.Secondary} onClick={onCancelDonation}>
+        {i18n('icu:Donations__3dsValidationNeeded__CancelDonation')}
       </Button>
-      <Button onClick={onOpenBrowser}>
-        {i18n('icu:Donations__3dsValidationNeeded__OpenBrowser')}
+      <Button
+        onClick={() => {
+          setHasOpenedBrowser(true);
+          onOpenBrowser();
+        }}
+      >
+        {openBrowserText}
       </Button>
     </>
   );
 
   return (
     <Modal
-      hasXButton
       i18n={i18n}
       modalFooter={footer}
       moduleClassName="DonationVerificationModal"
       modalName="DonationVerificationModal"
-      onClose={onCancel}
-      title={i18n('icu:Donations__3dsValidationNeeded')}
+      noMouseClose
+      onClose={onCancelDonation}
+      title={titleText}
     >
       {i18n('icu:Donations__3dsValidationNeeded__Description')}
     </Modal>

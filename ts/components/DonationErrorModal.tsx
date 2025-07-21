@@ -25,11 +25,6 @@ export function DonationErrorModal(props: PropsType): JSX.Element {
   let body: ReactNode;
 
   switch (props.errorType) {
-    case donationErrorTypeSchema.Enum.DonationProcessingError: {
-      title = i18n('icu:Donations__ErrorProcessingDonation');
-      body = i18n('icu:Donations__ErrorProcessingDonation__Description');
-      break;
-    }
     case donationErrorTypeSchema.Enum.Failed3dsValidation: {
       title = i18n('icu:Donations__Failed3dsValidation');
       body = i18n('icu:Donations__Failed3dsValidation__Description');
@@ -52,13 +47,14 @@ export function DonationErrorModal(props: PropsType): JSX.Element {
 
   return (
     <Modal
+      hasXButton
       i18n={i18n}
       modalFooter={
         <Button onClick={onClose}>{i18n('icu:Confirmation--confirm')}</Button>
       }
-      hasXButton
       moduleClassName="DonationErrorModal"
       modalName="DonationErrorModal"
+      noMouseClose
       onClose={onClose}
       title={title}
     >
