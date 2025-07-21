@@ -8866,6 +8866,18 @@
     "messageformat": "Date paid",
     "description": "Label for the payment date in donation receipt modal"
   },
+  "icu:DonateFlow__make-a-one-time-donation": {
+    "messageformat": "Make a one time donation",
+    "description": "In the Donations settings section after beginning the donations process, then the user selects currency and amount which they want to donate. This string is the section header above currency amount options for a one time donation."
+  },
+  "icu:DonateFlow__desktop-one-time-only-notice": {
+    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device.",
+    "description": "In the Donations settings section after beginning the donations process, then the user selects currency and amount which they want to donate. This footer notice indicates that only one time donations are available on desktop, and recurring donations must be processed on the mobile device."
+  },
+  "icu:DonateFlow__having-issues-contact-support": {
+    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>",
+    "description": "In the Donations settings section, this footer text appears during parts of the donation workflow such as when picking a donation currency and amount, or entering the credit card info."
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Donation receipt",
     "description": "Title shown at the top of donation receipt documents"

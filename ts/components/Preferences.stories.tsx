@@ -195,6 +195,7 @@ function RenderProfileEditor(): JSX.Element {
 function RenderDonationsPane(props: {
   me: typeof me;
   donationReceipts: ReadonlyArray<DonationReceipt>;
+  page: SettingsPage;
   saveAttachmentToDisk: (options: {
     data: Uint8Array;
     name: string;
@@ -212,12 +213,12 @@ function RenderDonationsPane(props: {
       i18n={i18n}
       contentsRef={contentsRef}
       clearWorkflow={action('clearWorkflow')}
-      isStaging={false}
-      page={SettingsPage.Donations}
+      isStaging
+      page={props.page}
       setPage={action('setPage')}
       submitDonation={action('submitDonation')}
       workflow={undefined}
-      userAvatarData={[]}
+      badge={undefined}
       color={props.me.color}
       firstName={props.me.firstName}
       profileAvatarUrl={props.me.profileAvatarUrl}
@@ -227,6 +228,7 @@ function RenderDonationsPane(props: {
       saveAttachmentToDisk={props.saveAttachmentToDisk}
       generateDonationReceiptBlob={props.generateDonationReceiptBlob}
       showToast={props.showToast}
+      theme={ThemeType.light}
     />
   );
 }
@@ -353,6 +355,7 @@ export default {
       RenderDonationsPane({
         me,
         donationReceipts: [],
+        page: SettingsPage.Donations,
         saveAttachmentToDisk: async () => {
           action('saveAttachmentToDisk')();
           return { fullPath: '/mock/path/to/file.png', name: 'file.png' };
@@ -515,6 +518,26 @@ export const Donations = Template.bind({});
 Donations.args = {
   donationsFeatureEnabled: true,
   page: SettingsPage.Donations,
+};
+export const DonationsDonateFlow = Template.bind({});
+DonationsDonateFlow.args = {
+  donationsFeatureEnabled: true,
+  page: SettingsPage.DonationsDonateFlow,
+  renderDonationsPane: () =>
+    RenderDonationsPane({
+      me,
+      donationReceipts: [],
+      page: SettingsPage.DonationsDonateFlow,
+      saveAttachmentToDisk: async () => {
+        action('saveAttachmentToDisk')();
+        return { fullPath: '/mock/path/to/file.png', name: 'file.png' };
+      },
+      generateDonationReceiptBlob: async () => {
+        action('generateDonationReceiptBlob')();
+        return new Blob();
+      },
+      showToast: action('showToast'),
+    }),
 };
 export const Internal = Template.bind({});
 Internal.args = {

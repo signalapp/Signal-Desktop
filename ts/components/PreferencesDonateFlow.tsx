@@ -10,6 +10,7 @@ import React, {
   useState,
 } from 'react';
 
+import classNames from 'classnames';
 import type { LocalizerType } from '../types/Util';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
 import { Button, ButtonVariant } from './Button';
@@ -55,12 +56,16 @@ import {
   DonateInputCardCvc,
   getCardCvcErrorMessage,
 } from './preferences/donations/DonateInputCardCvc';
+import { I18n } from './I18n';
+
+const SUPPORT_URL = 'https://support.signal.org/hc/requests/new?desktop';
 
 export type PropsDataType = {
   i18n: LocalizerType;
   donationAmountsConfig: OneTimeDonationHumanAmounts | undefined;
   validCurrencies: ReadonlyArray<string>;
   workflow: DonationWorkflow | undefined;
+  renderDonationHero: () => JSX.Element;
 };
 
 type PropsHousekeepingType = {
@@ -82,6 +87,7 @@ export function PreferencesDonateFlow({
   validCurrencies,
   workflow,
   clearWorkflow,
+  renderDonationHero,
   submitDonation,
   onBack,
 }: PropsType): JSX.Element {
@@ -191,8 +197,8 @@ export function PreferencesDonateFlow({
       // TODO: DESKTOP-8950
     };
 
-    confirmDiscardIf(true, onDiscard);
-  }, [confirmDiscardIf]);
+    confirmDiscardIf(step === 'paymentDetails', onDiscard);
+  }, [confirmDiscardIf, step]);
   tryClose.current = onTryClose;
 
   let innerContent: JSX.Element;
@@ -200,14 +206,18 @@ export function PreferencesDonateFlow({
 
   if (step === 'amount') {
     innerContent = (
-      <AmountPicker
-        i18n={i18n}
-        initialAmount={amount}
-        initialCurrency={currency}
-        donationAmountsConfig={donationAmountsConfig}
-        validCurrencies={validCurrencies}
-        onSubmit={handleAmountPickerResult}
-      />
+      <>
+        {renderDonationHero()}
+        <AmountPicker
+          i18n={i18n}
+          initialAmount={amount}
+          initialCurrency={currency}
+          donationAmountsConfig={donationAmountsConfig}
+          validCurrencies={validCurrencies}
+          onSubmit={handleAmountPickerResult}
+        />
+        <HelpFooter i18n={i18n} showOneTimeOnlyNotice />
+      </>
     );
     // Dismiss DonateFlow and return to Donations home
     handleBack = () => onBack();
@@ -287,10 +297,10 @@ export function PreferencesDonateFlow({
     />
   );
   const content = (
-    <>
+    <div className="PreferencesDonations DonationForm">
       {confirmDiscardModal}
       {innerContent}
-    </>
+    </div>
   );
 
   return (
@@ -321,16 +331,16 @@ function AmountPicker({
   donationAmountsConfig,
   i18n,
   initialAmount,
-  initialCurrency,
+  initialCurrency = 'usd',
   validCurrencies,
   onSubmit,
 }: AmountPickerProps): JSX.Element {
-  const [currency, setCurrency] = useState(initialCurrency ?? 'usd');
+  const [currency, setCurrency] = useState(initialCurrency);
 
   const [presetAmount, setPresetAmount] = useState<
     HumanDonationAmount | undefined
-  >(initialAmount);
-  const [customAmount, setCustomAmount] = useState<string>();
+  >();
+  const [customAmount, setCustomAmount] = useState<string | undefined>();
 
   // Reset amount selections when API donation config or selected currency changes
   // Memo here so preset options instantly load when component mounts.
@@ -345,9 +355,17 @@ function AmountPicker({
   }, [donationAmountsConfig, currency]);
 
   useEffect(() => {
-    setCustomAmount(undefined);
-    setPresetAmount(undefined);
-  }, [donationAmountsConfig, currency]);
+    if (
+      initialAmount &&
+      presetAmountOptions.find(option => option === initialAmount)
+    ) {
+      setPresetAmount(initialAmount);
+      setCustomAmount(undefined);
+    } else {
+      setPresetAmount(undefined);
+      setCustomAmount(initialAmount?.toString());
+    }
+  }, [initialAmount, presetAmountOptions]);
 
   const minimumAmount = useMemo<HumanDonationAmount>(() => {
     if (!donationAmountsConfig || !donationAmountsConfig[currency]) {
@@ -422,51 +440,103 @@ function AmountPicker({
     onSubmit({ amount, currency });
   }, [amount, currency, isContinueEnabled, onSubmit]);
 
+  let customInputClassName;
+  if (error) {
+    customInputClassName = 'DonationAmountPicker__CustomInput--with-error';
+  } else if (parsedCustomAmount) {
+    customInputClassName = 'DonationAmountPicker__CustomInput--selected';
+  } else {
+    customInputClassName = 'DonationAmountPicker__CustomInput';
+  }
+
   return (
-    <div>
+    <div className="DonationAmountPicker">
       <Select
+        moduleClassName="DonationForm__CurrencySelect"
         id="currency"
         options={currencyOptionsForSelect}
         onChange={handleCurrencyChanged}
         value={currency}
       />
-      <div>
+      <div className="PreferencesDonations__section-header PreferencesDonations__section-header--donate-flow">
+        {i18n('icu:DonateFlow__make-a-one-time-donation')}
+      </div>
+      <div className="DonationAmountPicker__AmountOptions">
         {presetAmountOptions.map(value => (
-          <Button
+          <button
+            className={classNames({
+              DonationAmountPicker__PresetButton: true,
+              'DonationAmountPicker__PresetButton--selected':
+                presetAmount === value,
+            })}
             key={value}
             onClick={() => {
               setCustomAmount(undefined);
               setPresetAmount(value);
             }}
-            variant={
-              presetAmount === value
-                ? ButtonVariant.SecondaryAffirmative
-                : ButtonVariant.Secondary
-            }
+            type="button"
           >
             {toHumanCurrencyString({ amount: value, currency })}
-          </Button>
+          </button>
         ))}
-      </div>
-      <label htmlFor="customAmount">Custom Amount</label>
-      <div>
         <Input
+          moduleClassName={customInputClassName}
           id="customAmount"
           i18n={i18n}
           onChange={handleCustomAmountChanged}
+          onFocus={() => setPresetAmount(undefined)}
           placeholder="Enter Custom Amount"
           value={customAmount}
         />
-        <span>{currency.toUpperCase()}</span>
       </div>
-      {error && <div>Error: {error}</div>}
-      <Button
-        disabled={!isContinueEnabled}
-        onClick={handleContinueClicked}
-        variant={ButtonVariant.Primary}
-      >
-        Continue
-      </Button>
+      <div className="DonationAmountPicker__PrimaryButtonContainer">
+        <Button
+          className="PreferencesDonations__PrimaryButton"
+          disabled={!isContinueEnabled}
+          onClick={handleContinueClicked}
+          variant={ButtonVariant.Primary}
+        >
+          Continue
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+type HelpFooterProps = {
+  i18n: LocalizerType;
+  showOneTimeOnlyNotice?: boolean;
+};
+
+function HelpFooter({
+  i18n,
+  showOneTimeOnlyNotice,
+}: HelpFooterProps): JSX.Element {
+  const contactSupportLink = (parts: Array<string | JSX.Element>) => (
+    <a
+      className="DonationFormHelpFooter__ContactSupportLink"
+      href={SUPPORT_URL}
+      rel="noreferrer"
+      target="_blank"
+    >
+      {parts}
+    </a>
+  );
+
+  return (
+    <div className="DonationForm__HelpFooter">
+      {showOneTimeOnlyNotice && (
+        <div className="DonationForm__HelpFooterDesktopOneTimeOnlyNotice">
+          {i18n('icu:DonateFlow__desktop-one-time-only-notice')}
+        </div>
+      )}
+      <I18n
+        id="icu:DonateFlow__having-issues-contact-support"
+        i18n={i18n}
+        components={{
+          contactSupportLink,
+        }}
+      />
     </div>
   );
 }

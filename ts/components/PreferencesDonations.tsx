@@ -8,7 +8,7 @@ import type { MutableRefObject, ReactNode } from 'react';
 import { ListBox, ListBoxItem } from 'react-aria-components';
 import { getDateTimeFormatter } from '../util/formatTimestamp';
 
-import type { LocalizerType } from '../types/Util';
+import type { LocalizerType, ThemeType } from '../types/Util';
 import { PreferencesContent } from './Preferences';
 import { SettingsPage } from '../types/Nav';
 import { PreferencesDonateFlow } from './PreferencesDonateFlow';
@@ -18,8 +18,6 @@ import type {
   OneTimeDonationHumanAmounts,
 } from '../types/Donations';
 import type { AvatarColorType } from '../types/Colors';
-import type { AvatarDataType } from '../types/Avatar';
-import { AvatarPreview } from './AvatarPreview';
 import { Button, ButtonSize, ButtonVariant } from './Button';
 import { Modal } from './Modal';
 import { Spinner } from './Spinner';
@@ -32,6 +30,8 @@ import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
 import { DonationPrivacyInformationModal } from './DonationPrivacyInformationModal';
 import type { SubmitDonationType } from '../state/ducks/donations';
 import { getHumanDonationAmount } from '../util/currency';
+import { Avatar, AvatarSize } from './Avatar';
+import type { BadgeType } from '../badges/types';
 
 const log = createLogger('PreferencesDonations');
 
@@ -44,13 +44,14 @@ export type PropsDataType = {
   isStaging: boolean;
   page: SettingsPage;
   workflow: DonationWorkflow | undefined;
-  userAvatarData: ReadonlyArray<AvatarDataType>;
-  color?: AvatarColorType;
-  firstName?: string;
+  badge: BadgeType | undefined;
+  color: AvatarColorType | undefined;
+  firstName: string | undefined;
   profileAvatarUrl?: string;
   donationAmountsConfig: OneTimeDonationHumanAmounts | undefined;
   validCurrencies: ReadonlyArray<string>;
   donationReceipts: ReadonlyArray<DonationReceipt>;
+  theme: ThemeType;
   saveAttachmentToDisk: (options: {
     data: Uint8Array;
     name: string;
@@ -76,8 +77,9 @@ type DonationPage =
   | SettingsPage.DonationsDonateFlow
   | SettingsPage.DonationsReceiptList;
 
-type PreferencesHomeProps = PropsType & {
+type PreferencesHomeProps = Omit<PropsType, 'badge' | 'theme'> & {
   navigateToPage: (newPage: SettingsPage) => void;
+  renderDonationHero: () => JSX.Element;
 };
 
 function isDonationPage(page: SettingsPage): page is DonationPage {
@@ -88,20 +90,19 @@ function isDonationPage(page: SettingsPage): page is DonationPage {
   );
 }
 
-function DonationsHome({
-  i18n,
-  userAvatarData,
+type DonationHeroProps = Pick<
+  PropsDataType,
+  'badge' | 'color' | 'firstName' | 'i18n' | 'profileAvatarUrl' | 'theme'
+>;
+
+function DonationHero({
+  badge,
   color,
   firstName,
+  i18n,
   profileAvatarUrl,
-  navigateToPage,
-  setPage,
-  isStaging,
-  donationReceipts,
-}: PreferencesHomeProps): JSX.Element {
-  const avatarData = userAvatarData[0];
-  const avatarBuffer = avatarData?.buffer;
-  const hasReceipts = donationReceipts.length > 0;
+  theme,
+}: DonationHeroProps): JSX.Element {
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
 
   const ReadMoreButtonWithModal = useCallback(
@@ -122,18 +123,25 @@ function DonationsHome({
   );
 
   return (
-    <div className="PreferencesDonations">
-      <div className="PreferencesDonations__avatar">
-        <AvatarPreview
-          avatarColor={color}
-          avatarUrl={profileAvatarUrl}
-          avatarValue={avatarBuffer}
-          conversationTitle={firstName || i18n('icu:unknownContact')}
+    <>
+      {showPrivacyModal && (
+        <DonationPrivacyInformationModal
           i18n={i18n}
-          style={{
-            height: 80,
-            width: 80,
-          }}
+          onClose={() => setShowPrivacyModal(false)}
+        />
+      )}
+
+      <div className="PreferencesDonations__avatar">
+        <Avatar
+          avatarUrl={profileAvatarUrl}
+          badge={badge}
+          color={color}
+          conversationType="direct"
+          title={firstName ?? ''}
+          i18n={i18n}
+          sharedGroupNames={[]}
+          size={AvatarSize.SEVENTY_TWO}
+          theme={theme}
         />
       </div>
       <div className="PreferencesDonations__title">
@@ -148,9 +156,26 @@ function DonationsHome({
           id="icu:PreferencesDonations__description"
         />
       </div>
+    </>
+  );
+}
+
+function DonationsHome({
+  i18n,
+  renderDonationHero,
+  navigateToPage,
+  setPage,
+  isStaging,
+  donationReceipts,
+}: PreferencesHomeProps): JSX.Element {
+  const hasReceipts = donationReceipts.length > 0;
+
+  return (
+    <div className="PreferencesDonations">
+      {renderDonationHero()}
       {isStaging && (
         <Button
-          className="PreferencesDonations__donate-button"
+          className="PreferencesDonations__PrimaryButton PreferencesDonations__donate-button"
           variant={ButtonVariant.Primary}
           size={ButtonSize.Medium}
           onClick={() => {
@@ -164,7 +189,7 @@ function DonationsHome({
       <hr className="PreferencesDonations__separator" />
 
       {hasReceipts && (
-        <div className="PreferencesDonations__section-header">
+        <div className="PreferencesDonations__section-header PreferencesDonations__section-header--my-support">
           {i18n('icu:PreferencesDonations__my-support')}
         </div>
       )}
@@ -203,13 +228,6 @@ function DonationsHome({
       <div className="PreferencesDonations__mobile-info">
         {i18n('icu:PreferencesDonations__mobile-info')}
       </div>
-
-      {showPrivacyModal && (
-        <DonationPrivacyInformationModal
-          i18n={i18n}
-          onClose={() => setShowPrivacyModal(false)}
-        />
-      )}
     </div>
   );
 }
@@ -432,13 +450,14 @@ export function PreferencesDonations({
   clearWorkflow,
   setPage,
   submitDonation,
-  userAvatarData,
+  badge,
   color,
   firstName,
   profileAvatarUrl,
   donationAmountsConfig,
   validCurrencies,
   donationReceipts,
+  theme,
   saveAttachmentToDisk,
   generateDonationReceiptBlob,
   showToast,
@@ -448,6 +467,20 @@ export function PreferencesDonations({
       setPage(newPage);
     },
     [setPage]
+  );
+
+  const renderDonationHero = useCallback(
+    () => (
+      <DonationHero
+        badge={badge}
+        color={color}
+        firstName={firstName}
+        i18n={i18n}
+        profileAvatarUrl={profileAvatarUrl}
+        theme={theme}
+      />
+    ),
+    [badge, color, firstName, i18n, profileAvatarUrl, theme]
   );
 
   if (!isDonationPage(page)) {
@@ -465,6 +498,7 @@ export function PreferencesDonations({
         validCurrencies={validCurrencies}
         workflow={workflow}
         clearWorkflow={clearWorkflow}
+        renderDonationHero={renderDonationHero}
         submitDonation={submitDonation}
         onBack={() => setPage(SettingsPage.Donations)}
       />
@@ -475,7 +509,6 @@ export function PreferencesDonations({
       <DonationsHome
         contentsRef={contentsRef}
         i18n={i18n}
-        userAvatarData={userAvatarData}
         color={color}
         firstName={firstName}
         profileAvatarUrl={profileAvatarUrl}
@@ -490,6 +523,7 @@ export function PreferencesDonations({
         page={page}
         workflow={workflow}
         clearWorkflow={clearWorkflow}
+        renderDonationHero={renderDonationHero}
         setPage={setPage}
         submitDonation={submitDonation}
       />
