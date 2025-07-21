@@ -43,6 +43,7 @@ import { SmartMiniPlayer } from './MiniPlayer';
 import { SmartTimelineItem, type SmartTimelineItemProps } from './TimelineItem';
 import { SmartTypingBubble } from './TypingBubble';
 import { AttachmentDownloadManager } from '../../jobs/AttachmentDownloadManager';
+import { isInFullScreenCall as getIsInFullScreenCall } from '../selectors/calling';
 
 type ExternalProps = {
   id: string;
@@ -166,7 +167,7 @@ export const SmartTimeline = memo(function SmartTimeline({
   const selectedConversationId = useSelector(getSelectedConversationId);
   const targetedMessage = useSelector(getTargetedMessage);
   const theme = useSelector(getTheme);
-
+  const isInFullScreenCall = useSelector(getIsInFullScreenCall);
   const conversation = conversationSelector(id);
   const conversationMessages = conversationMessagesSelector(id);
 
@@ -257,6 +258,7 @@ export const SmartTimeline = memo(function SmartTimeline({
       isBlocked={isBlocked}
       isConversationSelected={isConversationSelected}
       isGroupV1AndDisabled={isGroupV1AndDisabled}
+      isInFullScreenCall={isInFullScreenCall}
       isIncomingMessageRequest={isIncomingMessageRequest}
       isNearBottom={isNearBottom}
       isSomeoneTyping={isSomeoneTyping}

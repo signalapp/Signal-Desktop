@@ -462,6 +462,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   isBlocked: false,
   isConversationSelected: true,
   isIncomingMessageRequest: overrideProps.isIncomingMessageRequest ?? false,
+  isInFullScreenCall: false,
   items: overrideProps.items ?? Object.keys(items),
   messageChangeCounter: 0,
   messageLoadingState: null,
