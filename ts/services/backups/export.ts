@@ -144,7 +144,7 @@ import {
 import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc';
 import { SeenStatus } from '../../MessageSeenStatus';
 import { migrateAllMessages } from '../../messages/migrateMessageData';
-import { trimBody } from '../../util/longAttachment';
+import { isBodyTooLong, trimBody } from '../../util/longAttachment';
 import { generateBackupsSubscriberData } from '../../util/backupSubscriptionData';
 import {
   getEnvironment,
@@ -157,6 +157,7 @@ import { isValidE164 } from '../../util/isValidE164';
 import { toDayOfWeekArray } from '../../types/NotificationProfile';
 import { getLinkPreviewSetting } from '../../types/LinkPreview';
 import { getTypingIndicatorSetting } from '../../types/Util';
+import { KIBIBYTE } from '../../types/AttachmentSize';
 
 const log = createLogger('export');
 
@@ -169,6 +170,8 @@ const FLUSH_TIMEOUT = 30 * MINUTE;
 
 // Threshold for reporting slow flushes
 const REPORTING_THRESHOLD = SECOND;
+
+const BACKUP_LONG_ATTACHMENT_TEXT_LIMIT = 128 * KIBIBYTE;
 
 type GetRecipientIdOptionsType =
   | Readonly<{
@@ -2799,10 +2802,18 @@ export class BackupExportStream extends Readable {
       | 'preview'
       | 'reactions'
       | 'received_at'
+      | 'timestamp'
     >;
     backupLevel: BackupLevel;
     isLocalBackup: boolean;
   }): Promise<Backups.IStandardMessage> {
+    if (
+      message.body &&
+      isBodyTooLong(message.body, BACKUP_LONG_ATTACHMENT_TEXT_LIMIT)
+    ) {
+      log.warn(`${message.timestamp}: Message body is too long; will truncate`);
+    }
+
     return {
       quote: await this.#toQuote({
         message,
@@ -2821,18 +2832,23 @@ export class BackupExportStream extends Readable {
             })
           )
         : undefined,
-      longText: message.bodyAttachment
-        ? await this.#processAttachment({
-            attachment: message.bodyAttachment,
-            backupLevel,
-            isLocalBackup,
-            messageReceivedAt: message.received_at,
-          })
-        : undefined,
+      longText:
+        // We only include the bodyAttachment if it's not downloaded; otherwise all text
+        // is inlined
+        message.bodyAttachment && !isDownloaded(message.bodyAttachment)
+          ? await this.#processAttachment({
+              attachment: message.bodyAttachment,
+              backupLevel,
+              isLocalBackup,
+              messageReceivedAt: message.received_at,
+            })
+          : undefined,
       text:
         message.body != null
           ? {
-              body: message.body ? trimBody(message.body) : undefined,
+              body: message.body
+                ? trimBody(message.body, BACKUP_LONG_ATTACHMENT_TEXT_LIMIT)
+                : undefined,
               bodyRanges: message.bodyRanges?.map(range =>
                 this.#toBodyRange(range)
               ),

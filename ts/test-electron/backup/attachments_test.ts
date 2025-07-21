@@ -41,7 +41,7 @@ import {
   generateKeys,
   getPlaintextHashForInMemoryAttachment,
 } from '../../AttachmentCrypto';
-import { isValidAttachmentKey } from '../../types/Crypto';
+import { KIBIBYTE } from '../../types/AttachmentSize';
 
 const CONTACT_A = generateAci();
 
@@ -149,6 +149,7 @@ describe('backup/attachments', () => {
     }
     return base;
   }
+
   describe('long-message attachments', () => {
     it('preserves attachment still on message.attachments', async () => {
       const longMessageAttachment = composeAttachment(1, {
@@ -188,7 +189,7 @@ describe('backup/attachments', () => {
         ],
         [
           composeMessage(1, {
-            body: body.slice(0, 2048),
+            body,
             bodyAttachment: {
               contentType: LONG_MESSAGE,
               size: bodyBytes.byteLength,
@@ -206,22 +207,23 @@ describe('backup/attachments', () => {
 
             assert.deepStrictEqual(
               expected.bodyAttachment,
-              // all encryption info will be generated anew
-              omit(msgInDB.bodyAttachment, ['digest', 'key', 'downloadPath'])
+              omit(msgInDB.bodyAttachment, ['localKey', 'path', 'version'])
             );
 
             assert.isUndefined(msgInDB.bodyAttachment?.digest);
-            assert.isTrue(isValidAttachmentKey(msgInDB.bodyAttachment?.key));
           },
         }
       );
     });
 
     it('handles existing bodyAttachments', async () => {
+      const body = 'a'.repeat(3000);
+      const bodyBytes = Bytes.fromString(body);
+
       const attachment = omit(
         composeAttachment(1, {
           contentType: LONG_MESSAGE,
-          size: 3000,
+          size: bodyBytes.byteLength,
           downloadPath: 'downloadPath',
         }),
         'thumbnail'
@@ -232,13 +234,17 @@ describe('backup/attachments', () => {
         [
           composeMessage(1, {
             bodyAttachment: attachment,
-            body: 'a'.repeat(3000),
+            body,
           }),
         ],
         [
           composeMessage(1, {
-            body: 'a'.repeat(2048),
-            bodyAttachment: expectedRoundtrippedFields(attachment),
+            body,
+            bodyAttachment: {
+              contentType: LONG_MESSAGE,
+              size: 3000,
+              plaintextHash: getPlaintextHashForInMemoryAttachment(bodyBytes),
+            },
           }),
         ],
         {
@@ -250,11 +256,105 @@ describe('backup/attachments', () => {
             );
 
             assert.deepStrictEqual(
-              omit(expected.bodyAttachment, ['clientUuid', 'downloadPath']),
-              omit(msgInDB.bodyAttachment, ['clientUuid', 'downloadPath'])
+              expected.bodyAttachment,
+              omit(msgInDB.bodyAttachment, ['localKey', 'path', 'version'])
+            );
+          },
+        }
+      );
+    });
+    it('truncates at 128 KiB', async () => {
+      const body = 'a'.repeat(129 * KIBIBYTE);
+      const truncatedBody = body.slice(0, 128 * KIBIBYTE);
+      const bodyBytes = Bytes.fromString(body);
+
+      const attachment = omit(
+        composeAttachment(1, {
+          contentType: LONG_MESSAGE,
+          size: bodyBytes.byteLength,
+          downloadPath: 'downloadPath',
+        }),
+        'thumbnail'
+      );
+      strictAssert(attachment.digest, 'must exist');
+
+      await asymmetricRoundtripHarness(
+        [
+          composeMessage(1, {
+            bodyAttachment: attachment,
+            body,
+          }),
+        ],
+        [
+          composeMessage(1, {
+            body: truncatedBody,
+            bodyAttachment: {
+              contentType: LONG_MESSAGE,
+              size: 128 * KIBIBYTE,
+              plaintextHash: getPlaintextHashForInMemoryAttachment(
+                Bytes.fromString(truncatedBody)
+              ),
+            },
+          }),
+        ],
+        {
+          backupLevel: BackupLevel.Paid,
+          comparator: (expected, msgInDB) => {
+            assert.deepStrictEqual(
+              omit(expected, 'bodyAttachment'),
+              omit(msgInDB, 'bodyAttachment')
             );
 
-            assert.isNotEmpty(msgInDB.bodyAttachment?.downloadPath);
+            assert.deepStrictEqual(
+              expected.bodyAttachment,
+              omit(msgInDB.bodyAttachment, ['localKey', 'path', 'version'])
+            );
+          },
+        }
+      );
+    });
+    it('includes bodyAttachment if it has not downloaded', async () => {
+      const truncatedBody = 'a'.repeat(2 * KIBIBYTE);
+
+      const attachment = omit(
+        composeAttachment(1, {
+          contentType: LONG_MESSAGE,
+          size: 64 * KIBIBYTE,
+          path: undefined,
+          plaintextHash: undefined,
+          localKey: undefined,
+          downloadPath: undefined,
+          clientUuid: undefined, // clientUuids are not roundtripped for bodyAttachments
+        }),
+        'thumbnail'
+      );
+      strictAssert(attachment.digest, 'must exist');
+
+      await asymmetricRoundtripHarness(
+        [
+          composeMessage(1, {
+            body: truncatedBody,
+            bodyAttachment: attachment,
+          }),
+        ],
+        [
+          composeMessage(1, {
+            body: truncatedBody,
+            bodyAttachment: attachment,
+          }),
+        ],
+        {
+          backupLevel: BackupLevel.Paid,
+          comparator: (expected, msgInDB) => {
+            assert.deepStrictEqual(
+              omit(msgInDB, 'bodyAttachment'),
+              omit(expected, 'bodyAttachment')
+            );
+
+            assert.deepStrictEqual(
+              omit(msgInDB.bodyAttachment, ['downloadPath']),
+              expected.bodyAttachment
+            );
           },
         }
       );
