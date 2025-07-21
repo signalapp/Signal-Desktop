@@ -5,8 +5,11 @@ import { unicodeSlice } from './unicodeSlice';
 
 const LONG_ATTACHMENT_LIMIT = 2048;
 
-export function isBodyTooLong(body: string): boolean {
-  return Buffer.byteLength(body) > LONG_ATTACHMENT_LIMIT;
+export function isBodyTooLong(
+  body: string,
+  length = LONG_ATTACHMENT_LIMIT
+): boolean {
+  return Buffer.byteLength(body) > length;
 }
 
 export function trimBody(body: string, length = LONG_ATTACHMENT_LIMIT): string {
