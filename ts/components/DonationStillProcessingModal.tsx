@@ -17,13 +17,14 @@ export function DonationStillProcessingModal(props: PropsType): JSX.Element {
 
   return (
     <Modal
+      hasXButton
       i18n={i18n}
       modalFooter={
         <Button onClick={onClose}>{i18n('icu:Confirmation--confirm')}</Button>
       }
-      hasXButton
-      moduleClassName="DonationStillProcessingModal"
       modalName="DonationStillProcessingModal"
+      moduleClassName="DonationStillProcessingModal"
+      noMouseClose
       onClose={onClose}
       title={i18n('icu:Donations__StillProcessing')}
     >

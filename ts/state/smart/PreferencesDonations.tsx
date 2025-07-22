@@ -41,10 +41,9 @@ export const SmartPreferencesDonations = memo(
     const i18n = useSelector(getIntl);
     const theme = useSelector(getTheme);
 
-    const workflow = useSelector(
-      (state: StateType) => state.donations.currentWorkflow
-    );
-    const { clearWorkflow, submitDonation } = useDonationsActions();
+    const donationsState = useSelector((state: StateType) => state.donations);
+    const { clearWorkflow, submitDonation, updateLastError } =
+      useDonationsActions();
 
     const { badges, color, firstName, profileAvatarUrl } = useSelector(getMe);
     const badge = getPreferredBadge(badges);
@@ -84,8 +83,10 @@ export const SmartPreferencesDonations = memo(
         contentsRef={contentsRef}
         isStaging={isStaging}
         page={page}
-        workflow={workflow}
+        lastError={donationsState.lastError}
+        workflow={donationsState.currentWorkflow}
         clearWorkflow={clearWorkflow}
+        updateLastError={updateLastError}
         submitDonation={submitDonation}
         setPage={setPage}
         theme={theme}

@@ -10,6 +10,8 @@ import * as Errors from '../../types/errors';
 import { isStagingServer } from '../../util/isStagingServer';
 import { DataWriter } from '../../sql/Client';
 import * as donations from '../../services/donations';
+import { donationStateSchema } from '../../types/Donations';
+import { drop } from '../../util/drop';
 
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type {
@@ -20,7 +22,6 @@ import type {
   StripeDonationAmount,
 } from '../../types/Donations';
 import type { StateType as RootStateType } from '../reducer';
-import { drop } from '../../util/drop';
 
 const log = createLogger('donations');
 
@@ -28,9 +29,9 @@ const log = createLogger('donations');
 
 export type DonationsStateType = ReadonlyDeep<{
   currentWorkflow: DonationWorkflow | undefined;
+  didResumeWorkflowAtStartup: boolean;
   lastError: DonationErrorType | undefined;
   receipts: Array<DonationReceipt>;
-  didResumeWorkflowAtStartup: boolean;
 }>;
 
 // Actions
@@ -129,18 +130,29 @@ function submitDonation({
   unknown,
   UpdateWorkflowAction
 > {
-  return async () => {
+  return async (_dispatch, getState) => {
     if (!isStagingServer()) {
       log.error('internalAddDonationReceipt: Only available on staging server');
       return;
     }
 
     try {
-      await donations._internalDoDonation({
-        currencyType,
-        paymentAmount,
-        paymentDetail,
-      });
+      const { currentWorkflow } = getState().donations;
+      if (
+        currentWorkflow?.type === donationStateSchema.Enum.INTENT &&
+        currentWorkflow.paymentAmount === paymentAmount &&
+        currentWorkflow.currencyType === currencyType
+      ) {
+        // we can proceed without starting afresh
+      } else {
+        await donations.clearDonation();
+        await donations.startDonation({
+          currencyType,
+          paymentAmount,
+        });
+      }
+
+      await donations.finishDonationWithCard(paymentDetail);
     } catch (error) {
       log.warn('submitDonation failed', Errors.toLogFormat(error));
     }

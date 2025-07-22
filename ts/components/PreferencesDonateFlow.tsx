@@ -14,7 +14,10 @@ import classNames from 'classnames';
 import type { LocalizerType } from '../types/Util';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
 import { Button, ButtonVariant } from './Button';
-import type { HumanDonationAmount } from '../types/Donations';
+import type {
+  DonationErrorType,
+  HumanDonationAmount,
+} from '../types/Donations';
 import {
   ONE_TIME_DONATION_CONFIG_ID,
   type DonationWorkflow,
@@ -63,6 +66,7 @@ const SUPPORT_URL = 'https://support.signal.org/hc/requests/new?desktop';
 export type PropsDataType = {
   i18n: LocalizerType;
   donationAmountsConfig: OneTimeDonationHumanAmounts | undefined;
+  lastError: DonationErrorType | undefined;
   validCurrencies: ReadonlyArray<string>;
   workflow: DonationWorkflow | undefined;
   renderDonationHero: () => JSX.Element;
@@ -84,6 +88,7 @@ export function PreferencesDonateFlow({
   contentsRef,
   i18n,
   donationAmountsConfig,
+  lastError,
   validCurrencies,
   workflow,
   clearWorkflow,
@@ -105,6 +110,7 @@ export function PreferencesDonateFlow({
   const [cardExpiration, setCardExpiration] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [cardCvc, setCardCvc] = useState('');
+  const [isDonateDisabled, setIsDonateDisabled] = useState(false);
 
   const [cardNumberError, setCardNumberError] =
     useState<CardNumberError | null>(null);
@@ -183,22 +189,45 @@ export function PreferencesDonateFlow({
       return;
     }
 
+    setIsDonateDisabled(true);
     submitDonation({
       currencyType: currency,
       paymentAmount,
       paymentDetail: cardDetail,
     });
-  }, [amount, cardCvc, cardExpiration, cardNumber, currency, submitDonation]);
+  }, [
+    amount,
+    cardCvc,
+    cardExpiration,
+    cardNumber,
+    currency,
+    setIsDonateDisabled,
+    submitDonation,
+  ]);
 
-  const isDonateDisabled = workflow !== undefined;
+  useEffect(() => {
+    if (!workflow || lastError) {
+      setIsDonateDisabled(false);
+    }
+  }, [lastError, setIsDonateDisabled, workflow]);
 
   const onTryClose = useCallback(() => {
     const onDiscard = () => {
-      // TODO: DESKTOP-8950
+      clearWorkflow();
     };
+    const isDirty = Boolean(
+      (cardExpiration || cardNumber || cardCvc) && !isDonateDisabled
+    );
 
-    confirmDiscardIf(step === 'paymentDetails', onDiscard);
-  }, [confirmDiscardIf, step]);
+    confirmDiscardIf(isDirty, onDiscard);
+  }, [
+    cardCvc,
+    cardExpiration,
+    cardNumber,
+    clearWorkflow,
+    confirmDiscardIf,
+    isDonateDisabled,
+  ]);
   tryClose.current = onTryClose;
 
   let innerContent: JSX.Element;

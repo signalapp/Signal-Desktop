@@ -100,10 +100,18 @@ function getToast(toastType: ToastType): AnyToast {
       };
     case ToastType.DeleteForEveryoneFailed:
       return { toastType: ToastType.DeleteForEveryoneFailed };
+    case ToastType.DonationCancelled:
+      return { toastType: ToastType.DonationCancelled };
     case ToastType.DonationCompleted:
       return { toastType: ToastType.DonationCompleted };
+    case ToastType.DonationError:
+      return { toastType: ToastType.DonationError };
     case ToastType.DonationProcessing:
       return { toastType: ToastType.DonationProcessing };
+    case ToastType.DonationVerificationFailed:
+      return { toastType: ToastType.DonationVerificationFailed };
+    case ToastType.DonationVerificationNeeded:
+      return { toastType: ToastType.DonationVerificationNeeded };
     case ToastType.Error:
       return { toastType: ToastType.Error };
     case ToastType.Expired:

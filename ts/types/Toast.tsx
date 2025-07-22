@@ -31,8 +31,12 @@ export enum ToastType {
   DecryptionError = 'DecryptionError',
   DebugLogError = 'DebugLogError',
   DeleteForEveryoneFailed = 'DeleteForEveryoneFailed',
+  DonationCancelled = 'DonationCancelled',
   DonationCompleted = 'DonationCompleted',
+  DonationError = 'DonationError',
   DonationProcessing = 'DonationProcessing',
+  DonationVerificationNeeded = 'DonationVerificationNeeded',
+  DonationVerificationFailed = 'DonationVerificationFailed',
   Error = 'Error',
   Expired = 'Expired',
   FailedToDeleteUsername = 'FailedToDeleteUsername',
@@ -122,8 +126,12 @@ export type AnyToast =
   | { toastType: ToastType.DangerousFileType }
   | { toastType: ToastType.DebugLogError }
   | { toastType: ToastType.DeleteForEveryoneFailed }
+  | { toastType: ToastType.DonationCancelled }
   | { toastType: ToastType.DonationCompleted }
+  | { toastType: ToastType.DonationError }
   | { toastType: ToastType.DonationProcessing }
+  | { toastType: ToastType.DonationVerificationFailed }
+  | { toastType: ToastType.DonationVerificationNeeded }
   | { toastType: ToastType.Error }
   | { toastType: ToastType.Expired }
   | { toastType: ToastType.FailedToDeleteUsername }

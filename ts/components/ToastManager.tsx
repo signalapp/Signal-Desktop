@@ -280,6 +280,14 @@ export function renderToast({
     );
   }
 
+  if (toastType === ToastType.DonationCancelled) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:Donations__Toast__Cancelled')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.DonationCompleted) {
     return (
       <Toast
@@ -324,6 +332,43 @@ export function renderToast({
         }}
       >
         {i18n('icu:Donations__Toast__Processing')}
+      </Toast>
+    );
+  }
+
+  if (
+    toastType === ToastType.DonationError ||
+    toastType === ToastType.DonationVerificationFailed ||
+    toastType === ToastType.DonationVerificationNeeded
+  ) {
+    const mapping = {
+      [ToastType.DonationError]: i18n('icu:Donations__Toast__Error'),
+      [ToastType.DonationVerificationFailed]: i18n(
+        'icu:Donations__Toast__VerificationFailed'
+      ),
+      [ToastType.DonationVerificationNeeded]: i18n(
+        'icu:Donations__Toast__VerificationNeeded'
+      ),
+    };
+
+    const text = mapping[toastType];
+
+    return (
+      <Toast
+        onClose={hideToast}
+        toastAction={{
+          label: i18n('icu:view'),
+          onClick: () => {
+            changeLocation({
+              tab: NavTab.Settings,
+              details: {
+                page: SettingsPage.Donations,
+              },
+            });
+          },
+        }}
+      >
+        {text}
       </Toast>
     );
   }
