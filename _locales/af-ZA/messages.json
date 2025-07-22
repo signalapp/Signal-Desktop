@@ -6628,7 +6628,7 @@
     "messageformat": "Skenk"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "Skenk {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Wapens en maandelikse skenkings kan op jou mobiele toestel bestuur word."
@@ -6676,46 +6676,46 @@
     "messageformat": "Dankie vir jou ondersteuning van Signal. Jou bydrae help om deur oopbron-privaatheidstegnologie die missie van die beskerming van vryheid van uitdrukking te befonds en veilige globale kommunikasie vir miljoene mense regoor die wêreld moontlik maak. Indien jy 'n inwoner van die Verenigde State is, behou asseblief hierdie kwitansie vir jou belastingrekords. Signal Technology Foundation is 'n niewinsgewende organisasie in die Verenigde State wat van belasting vrygestel is ingevolge artikel 501c3 van die Internal Revenue Code. Ons Federale Belasting-ID is 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Betalingsmetode geweier"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Probeer ’n ander betaalmetode of kontak jou bank vir meer inligting."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Kon nie skenking verwerk nie"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Probeer ’n ander betaalmetode of kontak jou bank vir meer inligting."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Verifiëring het misluk"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Bykomende verifiëringstap het misluk. Probeer asb. weer."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "'n Fout het met jou skenking voorgekom"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Jou skenking is dalk nie verwerk nie. Klik op “Skenk aan Signal” en dan op “Skenkingskwitansies\" om jou kwitansies na te gaan en te bevestig."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Skenking word verwerk…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Steeds besig om te verwerk"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Jou skenking word nog verwerk. Dit kan 'n paar minute neem."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Bykomende verifiëring word vereis"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "Die instansie wat jou kredietkaart uitgereik het, vereis 'n bykomende verifiëringstap in 'n webblaaier."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Maak webblaaier oop"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Hierdie weergawe bevat ’n aantal klein aanpassings en regstellings om Signal glad te laat werk.",

@@ -6628,7 +6628,7 @@
     "messageformat": "Faire un don"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "Faire un don de {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Vous pouvez gérer vos macarons et vos dons mensuels sur votre appareil mobile."
@@ -6676,46 +6676,46 @@
     "messageformat": "Merci de soutenir Signal. Votre contribution nous aide à mener à bien notre mission : protéger la liberté d'expression et offrir des communications sécurisées à des millions de personnes à travers le monde grâce à une technologie open source. Si vous résidez aux États-Unis, conservez ce reçu pour le communiquer aux services fiscaux. La Signal Technology Foundation est un organisme à but non lucratif, régi par le code fédéral des impôts des États-Unis. Notre numéro d'identification fiscale est le suivant : 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Mode de paiement refusé"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Veuillez choisir un autre mode de paiement ou contacter votre banque pour en savoir plus."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Erreur de traitement"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Veuillez choisir un autre mode de paiement ou contacter votre banque pour en savoir plus."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Échec de la vérification"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Impossible de procéder à cette vérification complémentaire. Veuillez réessayer."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Une erreur s'est produite lors du traitement de votre don"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Votre don n'a peut-être pas été traité. Pour consulter vos reçus et en avoir le cœur net, cliquez sur \"Faire un don à Signal\", puis sur \"Reçus de dons\"."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Don en cours de traitement..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Traitement en cours"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Votre don est en cours de traitement. Cela peut prendre quelques minutes."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Encore une petite vérification..."
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "L'émetteur de votre carte de paiement exige une dernière vérification dans un navigateur web."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Ouvrir le navigateur"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Dans cette version, nous avons apporté quelques ajustements et corrigé de petits bugs. Pour que votre messagerie préférée continue de fonctionner comme sur des roulettes.",

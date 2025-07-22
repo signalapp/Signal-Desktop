@@ -6628,7 +6628,7 @@
     "messageformat": "Wpłać darowiznę"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "Wpłać {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Odznakami i comiesięcznymi darowiznami możesz zarządzać na swoim urządzeniu mobilnym."
@@ -6676,46 +6676,46 @@
     "messageformat": "Dziękujemy za wsparcie aplikacji Signal. Twoja darowizna wspomaga rozwój otwartoźródłowej technologii, która zapewnia prywatność, chroni wolność słowa i umożliwia bezpieczną komunikację milionom osób na całym świecie. Jeśli mieszkasz w Stanach Zjednoczonych, zachowaj to potwierdzenie, aby uwzględnić wpłatę w zeznaniu podatkowym. Signal Technology Foundation jest organizacją non profit zwolnioną z podatku w USA na podstawie zapisu 501c3 Internal Revenue Code (Kodeksu Podatkowego). Nasz federalny numer identyfikacji podatkowej to 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Metoda płatności została odrzucona"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Spróbuj użyć innej metody płatności lub skontaktuj się ze swoim bankiem, aby otrzymać więcej informacji."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Błąd przetwarzania darowizny"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Spróbuj użyć innej metody płatności lub skontaktuj się ze swoim bankiem, aby otrzymać więcej informacji."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Weryfikacja nieudana"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Nie udało się przejść dodatkowej weryfikacji. Spróbuj ponownie."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Wystąpił problem z darowizną"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Twoja darowizna mogła nie zostać przetworzona. Aby to sprawdzić, kliknij opcję „Wesprzyj Signal darowizną”, a następnie „Potwierdzenia darowizn”."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Przetwarzanie darowizny…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Przetwarzanie"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Twoja darowizna jest jeszcze przetwarzana. Może to zająć kilka minut."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Wymagana dodatkowa weryfikacja"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "Wydawca Twojej karty kredytowej wymaga dodatkowego kroku weryfikacyjnego w przeglądarce internetowej."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Otwórz przeglądarkę"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ta wersja obejmuje wiele drobnych ulepszeń i poprawek błędów. Wszystko po to, aby aplikacja Signal działała płynnie.",

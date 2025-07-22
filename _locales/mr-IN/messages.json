@@ -6628,7 +6628,7 @@
     "messageformat": "देणगी द्या"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "{formattedCurrencyAmount} देणगी द्या"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "बॅजेस आणि मासिक देणग्या तुमच्या मोबाईल डिव्हाईसवरून व्यवस्थापित करता येतात."
@@ -6676,46 +6676,46 @@
     "messageformat": "Signal ला समर्थन दिल्याबद्दल धन्यवाद. तुमचे योगदान ओपन सोर्स गोपनीयता तंत्रज्ञानामार्फत मुक्त अभिव्यक्तीचे रक्षण करण्यास आणि जगभरातील लक्षावधी लोकांना जागतिक पातळीवर एकमेकांशी संपर्क साधण्यास मदत करते. जर तुम्ही युनायटेड स्टेट्सचे रहिवासी असाल, तर कृपया तुमच्या कर नोंदींसाठी ही पावती जपून ठेवा. सिग्नल टेक्नॉलॉजी फाऊंडेशन ही इंटर्नल रेव्हेन्यू कोडच्या कलम 501c3 अंतर्गत युनायटेड स्टेट्समधील एक करमुक्त ना-नफा संस्था आहे. आमचा फेडरल कर क्रमांक आहे 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "पेमेंट करायची पद्धत नाकारण्यात आली"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "दुसरी पेमेंट पद्धत वापरून पहा किंवा अधिक माहितीसाठी आपल्या बँकेशी संपर्क साधा."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "देणगीवर प्रक्रिया करताना त्रुटी आली"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "दुसरी पेमेंट पद्धत वापरून पहा किंवा अधिक माहितीसाठी आपल्या बँकेशी संपर्क साधा."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "सत्यापन अयशस्वी"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "अतिरिक्त पडताळणीची पायरी अयशस्वी ठरली. कृपया पुन्हा प्रयत्न करा."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "तुमच्या देणगीमध्ये एक त्रुटी उद्भवली"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "तुमच्या देणगीची प्रक्रिया कदाचित पार पडली नसेल. \"Signalला देणगी द्या\" आणि मग \"देणगीच्या पावत्या\" वर क्लिक करा आणि तुमच्या पावत्या तपासून खात्री करा."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "देणगीवर प्रक्रिया करत आहे..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "अजूनही प्रक्रिया करत आहे"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "आपल्या देणगीवर अद्याप प्रक्रिया केली जात आहे. ह्याला काही मिनिटे लागू शकतात."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "अतिरिक्त सत्यापन आवश्यक आहे"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "तुमच्या क्रेडिट कार्ड प्रसृतकर्त्याला वेब ब्राऊझरमध्ये आणखी एक पडताळणीची पायरी पूर्ण करून घ्यावी लागते."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "ब्राऊझर उघडा"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal निर्विघ्नपणे चालत ठेवण्यासाठी या आवृत्तीत अनेक लहान समन्वय आणि त्रुटी दुरुस्त्या समाविष्ट आहेत",

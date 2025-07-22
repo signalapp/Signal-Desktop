@@ -6628,7 +6628,7 @@
     "messageformat": "Anneta"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "Anneta {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Märke ja igakuiseid annetusi saad hallata oma mobiilseadmes."
@@ -6676,46 +6676,46 @@
     "messageformat": "Aitäh, et toetad Signalit. Sinu panus annab tõuke missioonile kaitsta väljendusvabadust ja võimaldada turvalist suhtlust miljonitele inimestele üle kogu maailma avatud lähtekoodiga privaatsustehnoloogia abil. Kui elad Ameerika Ühendriikides, jäta see kviitung alles oma maksude deklareerimiseks. Signal Technology Foundation on Ameerika Ühendriikides maksuseadustiku (US Internal Revenue Code) jao 501c3 järgi registreeritud maksuvaba mittetulundusühing. Meie föderaalne maksukood (Federal Tax ID) on 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Maksemeetod on tagasi lükatud"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Proovi teist maksemeetodit või võta lisainfo saamiseks ühendust oma pangaga."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Tõrge annetuse töötlemisel"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Proovi teist maksemeetodit või võta lisainfo saamiseks ühendust oma pangaga."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Kinnitamine nurjus"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Täiendav kinnitussamm nurjus. Palun proovi uuesti."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Sinu annetusega ilmnes viga"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "On võimalik, et sinu annetust ei töödeldud. Kviitungite nägemiseks ja kinnitamiseks klõpsake „Anneta Signalile“ ja seejärel „Annetuste kviitungid“."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Annetuse töötlemine …"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Töötlemine käib"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Sinu annetus on endiselt töötlemisel. Selleks võib kuluda mõni minut."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Vajalik täiendav kontroll"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "Sinu krediitkaardi väljastaja nõuab veebibrauseris täiendavat kinnitussammu."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Ava brauser"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "See versioon sisaldab paljusid väikseid parendusi, mis Signali sujuvalt käimas.",

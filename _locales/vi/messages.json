@@ -6628,7 +6628,7 @@
     "messageformat": "Ủng hộ"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "Ủng hộ {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Bạn có thể quản lý huy hiệu và khoản ủng hộ hằng tháng trên thiết bị di động của mình."
@@ -6676,46 +6676,46 @@
     "messageformat": "Cảm ơn bạn đã hỗ trợ Signal. Đóng góp của bạn giúp duy trì sứ mệnh bảo vệ việc tự biểu đạt và cung cấp nền tảng giao tiếp bảo mật cho hàng triệu người trên thế giới, thông qua công nghệ mã nguồn mở hướng tới quyền riêng tư. Nếu bạn là một cư dân của Hoa Kỳ, vui lòng giữ biên lai này cho hồ sơ thuế. Signal Technology Foundation là một tổ chức phi lợi nhuận được miễn trừ nghĩa vụ thuế ở Hoa Kỳ theo mục 501c3 của Internal Revenue Code. ID Thuế Liên bang của chúng tôi là 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Phương thức thanh toán bị từ chối"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Hãy thử một phương thức thanh toán khác hoặc liên hệ với ngân hàng của bạn để biết thêm thông tin."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Có lỗi khi xử lý khoản ủng hộ"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Hãy thử một phương thức thanh toán khác hoặc liên hệ với ngân hàng của bạn để biết thêm thông tin."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Xác minh không thành công"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Bước xác minh bổ sung không thành công. Vui lòng thử lại."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Đã xảy ra lỗi với khoản ủng hộ của bạn"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Có thể khoản ủng hộ của bạn chưa được xử lý. Bấm \"Ủng hộ Signal\", sau đó bấm \"Biên lai Ủng hộ\" để xem biên lai của bạn và xác nhận."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Đang xử lý khoản ủng hộ…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Vẫn đang xữ lý"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Khoản ủng hộ của bạn vẫn đang được xử lý. Quá trình này có thể mất ít phút."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Cần thêm bước xác minh"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "Bên phát hành thẻ tín dụng của bạn yêu cầu một bước xác minh bổ sung trong trình duyệt web."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Mở trình duyệt"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Phiên bản này có một số tinh chỉnh và sửa lỗi để giữ cho Signal hoạt động mượt mà.",

@@ -6628,7 +6628,7 @@
     "messageformat": "İanə ver"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "{formattedCurrencyAmount} ianə ver"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Nişanlar və aylıq ianələr mobil cihazınızda idarə oluna bilər."
@@ -6676,46 +6676,46 @@
     "messageformat": "Signal-ı dəstəklədiyiniz üçün təşəkkürlər. Töhfəniz, açıq mənbəli məxfilik texnologiyası vasitəsilə dünyadakı milyonlarla insan üçün azad ifadəni qoruyan və etibarlı qlobal ünsiyyəti təmin edən inkişaf missiyasını dəstəkləməyə kömək edir. Əgər Amerika Birləşmiş Ştatlarında yaşayırsınızsa, bu qəbzi vergi qeydlərinizin arasında saxlayın. Signal Texnologiya Fondu, Daxili Gəlir Məcəlləsinin 501c3 maddəsinə əsasən Amerika Birləşmiş Ştatlarında vergidən azad edilmiş qeyri-kommersiya təşkilatıdır. Federal Vergi Ödəyicisi Nömrəmiz: 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Ödəniş üsulu rədd edildi"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Başqa ödəniş metodunu sınayın və ya daha ətraflı məlumat üçün bankınızla əlaqə saxlayın."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "İanə emal edilərkən xəta baş verdi"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Başqa ödəniş metodunu sınayın və ya daha ətraflı məlumat üçün bankınızla əlaqə saxlayın."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Yoxlama baş tutmadı"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Əlavə yoxlama addımı baş tutmadı. Yenidən cəhd edin."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "İanənizdə xəta baş verdi"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "İanəniz emal edilməmiş ola bilər. \"Signal-a ianə ver\", sonra isə \"İanə qəbzləri\" üzərinə klikləyib qəbzlərinizi yoxlayın və təsdiqləyin."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "İanə emal edilir..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Hələ də emal olunur"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "İanəniz hələ də emal edilir. Bu, bir neçə dəqiqə çəkə bilər."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Əlavə təsdiqləmə tələb olunur"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "Kredit kartınızı verən qurum veb brauzerdə əlavə yoxlama addımı tələb edir."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Brauzeri aç"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Bu versiya, Signal-ın problemsiz işləməsini təmin etmək üçün kiçik düzəltmələr və xəta düzəltmələri ehtiva edir.",

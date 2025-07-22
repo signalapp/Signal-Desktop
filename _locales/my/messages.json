@@ -6628,7 +6628,7 @@
     "messageformat": "လှူဒါန်းရန်"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "{formattedCurrencyAmount} လှူရန်"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "ဘဲ့ဂျ်များနှင့် လစဉ်အလှူငွေများကို သင့်မိုဘိုင်းစက်တွင် စီမံခန့်ခွဲနိုင်ပါသည်။"
@@ -6676,46 +6676,46 @@
     "messageformat": "Signal ကို ပံ့ပိုးကူညီသည့်အတွက် ကျေးဇူးတင်ပါသည်။ သင်၏ ကူညီထောက်ပံ့မှုသည် လွတ်လပ်စွာ ထုတ်ဖော်ပြောဆိုခွင့်ကို ကာကွယ်ပေးခြင်းနှင့် သုံးစွဲသူသန်းပေါင်းများစွာ၏ ကမ္ဘာတစ်ဝန်း ဆက်သွယ်မှုများကို လုံခြုံစိတ်ချရစေခြင်း စသည့် မစ်ရှင်ကို Open Source Privacy Technology မှတစ်ဆင့် ကူညီအားဖြည့်ပေးပါသည်။ သင်သည် အမေရိကန်ပြည်ထောင်စုတွင် နေထိုင်သူဖြစ်ပါက သင်၏အခွန်မှတ်တမ်းများအတွက် ဤပြေစာကိုထိန်းသိမ်းထားပေးပါ။ Signal Technology Foundation သည် ပြည်တွင်းအခွန်ဥပဒေ၏ ပုဒ်မ 501c3 အရ အမေရိကန်ပြည်ထောင်စုရှိ အခွန်ကင်းလွတ်ခွင့်ရသော အကျိုးအမြတ်မယူသည့် အဖွဲ့အစည်း ဖြစ်ပါသည်။ ကျွန်ုပ်တို့၏ ဖက်ဒရယ် အခွန် ID မှာ 82–4506840 ဖြစ်ပါသည်။"
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "ငွေပေးချေမှုနည်းလမ်းကို ငြင်းဆိုထားသည်"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "အခြားသော ငွေပေးချေနည်းကို သုံးကြည့်ပါ သို့မဟုတ် နောက်ထပ်အချက်အလက်များအတွက် သင့်ဘဏ်ကို ဆက်သွယ်ပါ။"
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "လှူဒါန်းမှု စီမံလုပ်ဆောင်ရာတွင် ချို့ယွင်းချက်ရှိသည်"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "အခြားသော ငွေပေးချေနည်းကို သုံးကြည့်ပါ သို့မဟုတ် နောက်ထပ်အချက်အလက်များအတွက် သင့်ဘဏ်ကို ဆက်သွယ်ပါ။"
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "အတည်ပြုခြင်း မအောင်မြင်ပါ"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "ထပ်ဆောင်းအတည်ပြုမှု မအောင်မြင်ပါ။ ထပ်ကြိုးစားကြည့်ပါ။"
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "သင့်လှူဒါန်းမှုတွင် ချို့ယွင်းချက်တစ်ခု ဖြစ်ခဲ့သည်"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "သင်၏အလှူငွေကို စီမံဆောင်ရွက်၍မရပါ။ သင်၏ပြေစာများကို စစ်ဆေးပြီး အတည်ပြုရန် \"Signal ကို လှူရန်\" ကိုနှိပ်ပြီးနောက် \"လှူဒါန်းမှု ပြေစာများ\" ကိုနှိပ်ပါ။"
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "လှူဒါန်းမှုကို စီမံလုပ်ဆောင်နေသည်..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "စီမံလုပ်ဆောင်နေဆဲ"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "သင့်လှူဒါန်းမှုကို လုပ်ဆောင်နေဆဲ ဖြစ်သည်။ မိနစ်အနည်းငယ် ကြာနိုင်ပါသည်။"
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "ထပ်ဆောင်း အတည်ပြုချက် လိုအပ်ပါသည်"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "သင့်ခရက်ဒစ်ကတ်ထုတ်ပေးသူမှ ဝဘ်ဘရောက်ဆာတွင် နောက်ထပ်အတည်ပြုချက်အဆင့်တစ်ခု တောင်းခံပါသည်။"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "ဘရောက်ဆာကိုဖွင့်ပါ"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "ဤဗားရှင်းတွင် Signal အား အထစ်အငေါ့မရှိ လုပ်ဆောင်နိုင်စေရန် ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် အနေအထား ပြုပြင်မှု အသေးလေးများ ပါဝင်ပါသည်။",

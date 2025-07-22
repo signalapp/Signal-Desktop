@@ -6628,7 +6628,7 @@
     "messageformat": "દાન આપો"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "{formattedCurrencyAmount} દાન કરો"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "બૅજ અને માસિક દાન તમારા મોબાઇલ ડિવાઇસ પર મેનેજ કરી શકાય છે."
@@ -6676,46 +6676,46 @@
     "messageformat": "Signalને સપોર્ટ કરવા બદલ આપનો આભાર. તમારું યોગદાન ઓપન સોર્સ પ્રાઇવસી ટેક્નોલોજી વિકસિત કરવાના મિશનને વેગ આપવામાં મદદ કરે છે જે મુક્ત અભિવ્યક્તિનું રક્ષણ કરે છે અને વિશ્વના લાખો લોકો માટે સુરક્ષિત વૈશ્વિક સંચારને સક્રિય કરે છે. જો તમે યુનાઇટેડ સ્ટેટ્સના રહેવાસી હો, તો કૃપા કરીને તમારા ટેક્સ રેકોર્ડ માટે આ રસીદને સાચવી રાખો. Signal Technology Foundation એ યુનાઇટેડ સ્ટેટ્સમાં Internal Revenue Code (આંતરિક મહેસૂલ સંહિતા)ની કલમ 501c3 હેઠળ એક કરવેરા-મુક્ત બિનલાભકારી સંસ્થા છે. અમારું સંઘીય ટેક્સ ID છે 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "ચુકવણી પદ્ધતિ નકારવામાં આવી"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "અન્ય ચુકવણી પદ્ધતિ અજમાવો અથવા વધુ માહિતી માટે તમારી બેંકનો સંપર્ક કરો."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "દાનની પ્રક્રિયા કરવામાં ભૂલ આવી"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "અન્ય ચુકવણી પદ્ધતિ અજમાવો અથવા વધુ માહિતી માટે તમારી બેંકનો સંપર્ક કરો."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "ચકાસણી નિષ્ફળ"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "વધારાનું ખાતરીનું પગલું નિષ્ફળ ગયું. કૃપા કરીને ફરીથી પ્રયાસ કરો."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "તમારા દાનમાં એક ભૂલ આવી"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "તમારા દાનની પ્રક્રિયા થઈ ન હોય એવું બની શકે. તમારી રસીદો તપાસવા અને પુષ્ટિ કરવા માટે \"Signalને દાન આપો\" અને પછી \"દાનની રસીદ\" પર ક્લિક કરો."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "દાનની પ્રક્રિયા થઈ રહી છે..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "હજી પ્રક્રિયા ચાલુ છે"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "તમારા દાનની પ્રક્રિયા હજી ચાલુ છે. આમાં થોડીવાર લાગી શકે છે."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "વધારાની ચકાસણી જરૂરી છે"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "તમારા ક્રેડિટ કાર્ડ જારીકર્તાને વેબ બ્રાઉઝરમાં એક વધારાનું ખાતરીનું પગલું આવશ્યક છે."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "બ્રાઉઝર ખોલો"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "આ વર્ઝનમાં Signalને સરસ રીતે ચાલતું રાખવા માટે નાના ફેરફારો અને ભૂલ સુધાર શામેલ છે.",

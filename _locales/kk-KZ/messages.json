@@ -6628,7 +6628,7 @@
     "messageformat": "Демеу"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "{formattedCurrencyAmount} демеушілік жасаңыз"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Танымбелгілер мен қайырымдылыққа берілген ай сайынғы қаражатты мобильдік құрылғыдан басқаруға болады."
@@ -6676,46 +6676,46 @@
     "messageformat": "Signal-ға қолдау көрсеткеніңіз үшін рақмет. Сіздің қосқан үлесіңіз ашық кодты құпиялық технологиясы арқылы әлемдегі миллиондаған адам үшін сөз еркіндігін қорғау және жаһандық байланыс орнату қауіпсіздігін қамтамасыз ету миссиясын жүзеге асыруға ықпал етеді. Егер Америка Құрама Штаттарының резиденті болсаңыз, осы түбіртекті салық жазбалары үшін сақтап қойыңыз. Signal Technology Foundation – Салық кодексінің 501c3 бөліміне сәйкес Америка Құрама Штаттарындағы салықтан босатылған коммерциялық емес ұйым. Біздің федералдық салық идентификаторымыз: 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Төлеу әдісі қабылданбады"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Басқа төлеу әдісін қолданып көріңіз немесе қосымша ақпарат алу үшін банкке хабарласыңыз."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Демеуді өңдеу кезінде қате шықты"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Басқа төлеу әдісін қолданып көріңіз немесе қосымша ақпарат алу үшін банкке хабарласыңыз."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Растаудан өтпеді"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Қосымша растау орындалмады. Қайталап көріңіз."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Қайырымдылыққа жіберген қаражатыңызды өңдеу кезінде қате шықты"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Қайырымдылыққа жіберген қаражатыңыз өңделмей қалған болуы мүмкін. \"Signal-ды демеу\" түймесін, содан кейін \"Демеу чегі\" түймесін басып, чектеріңізді тексеріңіз және растаңыз."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Қайырымдылыққа жіберген қаражат өңделіп жатыр..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Әлі өңделуде"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Қайырымдылыққа жіберген қаражатыңыз әлі өңделіп жатыр. Оған бірнеше минут кетуі мүмкін."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Қосымша верификация қажет"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "Несиелік картаңыздың эмитенті веб-браузерде қосымша растауды қажет етеді."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Браузерді ашу"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Бұл нұсқада Signal-дың еш кінәратсыз жұмыс істеуіне қажетті бірнеше шағын түзетпе жасалды және ақаулар түзетілді.",

@@ -6628,7 +6628,7 @@
     "messageformat": "Lahjoita"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "Lahjoita {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Voit hallinnoida merkkejä ja kuukausittaisia lahjoituksia mobiililaitteellasi."
@@ -6676,46 +6676,46 @@
     "messageformat": "Kiitos Signalin tukemisesta. Lahjoituksesi auttaa edistämään tavoitettamme suojata sananvapautta ja mahdollistaa turvallinen maailmanlaajuinen viestintä miljoonille käyttäjille ympäri maailmaa avoimen lähdekoodin tietosuojateknologialla. Jos asut Yhdysvalloissa, säilytä tämä kuitti verotusta varten. Signal Technology Foundation on verovapaa voittoa tavoittelematon organisaatio Yhdysvaltojen Internal Revenue Code -pykälän 501c3 mukaisesti. Liittovaltion verotunnuksemme on 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Maksutapa hylätty"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Kokeile toista maksutapaa tai ole yhteydessä pankkiisi saadaksesi lisätietoja."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Virhe lahjoituksen käsittelyssä"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Kokeile toista maksutapaa tai ole yhteydessä pankkiisi saadaksesi lisätietoja."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Vahvistus epäonnistui"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Lisävahvistus epäonnistui. Yritä uudelleen."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Lahjoituksen kanssa tapahtui virhe"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Lahjoitusta ei ehkä ole käsitelty. Tarkista kuitti napsauttamalla Lahjoita Signalille ja sitten Lahjoituskuitit."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Käsitellään lahjoitusta..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Käsitellään edelleen"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Lahjoitusta käsitellään vielä. Tämä saattaa kestää muutaman minuutin."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Lisävahvistus vaaditaan"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "Luottokorttisi myöntäjä vaatii ylimääräisen vahvistusvaiheen verkkoselaimessa."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Avaa selain"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Tämä versio sisältää useita pieniä parannuksia ja virhekorjauksia, jotka pitävät Signalin toiminnan sujuvana.",

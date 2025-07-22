@@ -6628,7 +6628,7 @@
     "messageformat": "Донирајте"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "Донирајте {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Значкама и месечним донацијама можете управљати на вашем мобилном уређају."
@@ -6676,46 +6676,46 @@
     "messageformat": "Хвала вам што подржавате Signal. Ваш допринос омогућава подстицање мисије заштите слободног изражавања и пружања безбедне глобалне комуникације милионима широм света кроз технологију отвореног кода за заштиту приватности. Ако сте резидент Сједињених Америчких Држава, сачувајте ову признаницу за своју пореску евиденцију. Signal Technology Foundation је непрофитна организација изузета од опорезивања у Сједињеним Америчким Државама према одељку 501c3 Закона о интерним приходима. Наш савезни порески број је 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Начин плаћања је одбијен"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Пробајте други начин плаћања или се обратите својој банци за више информација."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Грешка приликом обраде донације"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Пробајте други начин плаћања или се обратите својој банци за више информација."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Потврда није успела"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Додатна верификација није успела. Пробајте поново."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Дошло је до грешке са вашом донацијом"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Ваша донација можда није обрађена. Кликните на „Донирајте Signal-у“, а затим на „Потврде о донацији“ да проверите своје потврде."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Обрађујемо донацију…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Још увек се обрађује"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Ваша донација се и даље обрађује. Може потрајати пар минута."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Потребна је додатна верификација"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "Издавач ваше кредитне картице захтева корак за додатну верификацију у веб-прегледачу."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Отвори прегледач"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ова верзија садржи низ мањих подешавања и исправки грешака како би Signal радио несметано.",

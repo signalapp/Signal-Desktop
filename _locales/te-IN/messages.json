@@ -6628,7 +6628,7 @@
     "messageformat": "విరాళమివ్వండి"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "{formattedCurrencyAmount} విరాళం ఇవ్వండి"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "బ్యాడ్జ్‌లు మరియు నెలవారీ విరాళాలను మీ మొబైల్ పరికరంలో నిర్వహించవచ్చు."
@@ -6676,46 +6676,46 @@
     "messageformat": "Signal కు మద్దతు ఇచ్చినందుకు ధన్యవాదాలు. ఓపెన్ సోర్స్ గోప్యతా సాంకేతికత ద్వారా ప్రపంచవ్యాప్తంగా లక్షలాది మందికి స్వేచ్ఛా వ్యక్తీకరణను రక్షించడం మరియు సురక్షితమైన భౌగోళిక కమ్యూనికేషన్‌ను ప్రారంభించడం అనే లక్ష్యాన్ని ముందుకు తీసుకెళ్ళడంలో మీ సహకారం సహాయపడుతుంది. ఒకవేళ మీరు యునైటెడ్ స్టేట్స్ పౌరులు అయితే, మీ పన్ను రికార్డ్‌ల కోసం దయచేసి ఈ రసీదును మీ దగ్గర ఉంచుకోండి. Signal టెక్నాలజీ ఫౌండేషన్ అనేది యునైటెడ్ స్టేట్స్‌లోని అంతర్గత రెవెన్యూ కోడ్ యొక్క సెక్షన్ 501c3 కింద పన్ను మినహాయింపు పొందిన లాభాపేక్షలేని సంస్థ. మా ఫెడరల్ పన్ను ID 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "చెల్లింపు విధానం తిరస్కరించబడింది"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "మరో చెల్లింపు విధానాన్ని ప్రయత్నించండి లేదా మరింత సమాచారం కొరకు మీ బ్యాంక్‌ను సంప్రదించండి."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "విరాళాన్ని ప్రక్రియ చేసేటప్పుడు పొరపాటు ఏర్పడింది"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "మరో చెల్లింపు విధానాన్ని ప్రయత్నించండి లేదా మరింత సమాచారం కొరకు మీ బ్యాంక్‌ను సంప్రదించండి."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "ధృవీకరణ విఫలమైంది"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "అదనపు ధృవీకరణ దశ విఫలమైంది. దయచేసి మళ్ళీ ప్రయత్నించండి."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "మీ విరాళం విషయంలో పొరపాటు సంభవించింది"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "మీ విరాళం ప్రాసెస్ చేయబడి ఉండకపోవచ్చు. మీ రసీదులను తనిఖీ చేయడానికి మరియు నిర్ధారించుకోవడానికి “Signal కు విరాళం ఇవ్వండి” పై క్లిక్ చేసి, ఆపై “విరాళం రసీదులు” పై క్లిక్ చేయండి."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "విరాళాన్ని ప్రాసెస్ చేస్తోంది..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "ఇంకా ప్రాసెసింగ్ చేస్తోంది"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "మీ విరాళం ఇంకా ప్రాసెస్ చేయబడుతోంది. దీనికి కొన్ని నిమిషాలు పట్టవచ్చు."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "అదనపు ధృవీకరణ అవసరం"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "మీ క్రెడిట్ కార్డ్ జారీదారుకు వెబ్ బ్రౌజర్‌లో అదనపు ధృవీకరణ దశ అవసరం."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "బ్రౌజర్‌ను తెరవండి"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal ని సజావుగా నడిపించడానికి ఈ వెర్షన్‌లో చిన్నపాటి ట్వీక్‌లు మరియు బగ్ ఫిక్స్‌లు ఉన్నాయి.",

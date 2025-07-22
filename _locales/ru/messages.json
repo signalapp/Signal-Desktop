@@ -6628,7 +6628,7 @@
     "messageformat": "Пожертвовать"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "Пожертвовать {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Значками и ежемесячными пожертвованиями можно управлять на своём мобильном устройстве."
@@ -6676,46 +6676,46 @@
     "messageformat": "Спасибо, что поддерживаете Signal. Ваш вклад помогает поддерживать миссию по защите свободы слова и делает возможным безопасное общение между миллионами людей по всему миру благодаря технологии конфиденциальности с открытым исходным кодом. Если вы проживаете в США, пожалуйста, сохраните эту квитанцию для своего налогового учёта. Signal Technology Foundation — это некоммерческая организация, освобождённая от налогов в США со статусом 501c3. Наш ИНН: 82–4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Способ оплаты отклонён"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Попробуйте другой способ оплаты или свяжитесь со своим банком для получения дополнительной информации."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Ошибка обработки пожертвования"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Попробуйте другой способ оплаты или свяжитесь со своим банком для получения дополнительной информации."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Проверка не пройдена"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Дополнительная проверка не пройдена. Пожалуйста, попробуйте ещё раз."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Произошла ошибка с вашим пожертвованием"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Возможно, ваше пожертвование не было обработано. Нажмите «Пожертвовать Signal», а затем «Чек пожертвования», чтобы проверить свои чеки и подтвердить."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Обработка пожертвования..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Продолжается обработка"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Ваше пожертвование всё ещё обрабатывается. Это может занять несколько минут."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Требуется дополнительная проверка"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "Эмитент кредитной карты должен пройти дополнительную проверку в веб-браузере."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Открыть браузер"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Эта версия содержит несколько небольших изменений и исправлений ошибок.",

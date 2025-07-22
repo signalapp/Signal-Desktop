@@ -6628,7 +6628,7 @@
     "messageformat": "បរិច្ចាគ"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "បរិច្ចាគ {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "ស្លាក និងការបរិច្ចាគប្រចាំខែអាចគ្រប់គ្រងបាននៅលើឧបករណ៍ចល័តរបស់អ្នក។"
@@ -6676,46 +6676,46 @@
     "messageformat": "សូមអរគុណចំពោះការគាំទ្រ Signal។ ការចូលរួមចំណែករបស់អ្នកជួយជំរុញដល់បេសកកម្មការពារការបញ្ចេញមតិដោយសេរី និងញ៉ាំងឱ្យមានការប្រាស្រ័យទាក់ទងគ្នាជាសាកលដោយសុវត្ថិភាពសម្រាប់មនុស្សរាប់លាននាក់ជុំវិញពិភពលោក តាមរយៈបច្ចេកវិទ្យាឯកជនភាពប្រភពបើកចំហ។ ប្រសិនបើអ្នកជាអ្នករស់នៅក្នុងសហរដ្ឋអាមេរិក សូមរក្សាទុកបង្កាន់ដៃនេះសម្រាប់កំណត់ត្រាពន្ធរបស់អ្នក។ Signal Technology Foundation គឺជាអង្គការមិនរកប្រាក់ចំណេញដែលទទួលបានការលើកលែងពន្ធនៅក្នុងសហរដ្ឋអាមេរិកក្រោមផ្នែក 501c3 នៃក្រមស្តីពីប្រាក់ចំណូលផ្ទៃក្នុង។ លេខអត្តសញ្ញាណកម្មពន្ធរបស់យើងគឺ 82-4506840។"
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "វិធីទូទាត់ត្រូវបានបដិសេធ"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "សូមសាកល្បងវិធីទូទាត់មួយផ្សេងទៀត ឬទាក់ទងធនាគាររបស់អ្នកសម្រាប់ព័ត៌មានបន្ថែម។"
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "មានបញ្ហាក្នុងការដំណើរការការបរិច្ចាគ"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "សូមសាកល្បងវិធីទូទាត់មួយផ្សេងទៀត ឬទាក់ទងធនាគាររបស់អ្នកសម្រាប់ព័ត៌មានបន្ថែម។"
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "ការផ្ទៀងផ្ទាត់មិនបានជោគជ័យ"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "ជំហានផ្ទៀងផ្ទាត់បន្ថែមមិនបានជោគជ័យ។ សូមព្យាយាមម្តងទៀត។"
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "បញ្ហាមួយបានកើតឡើងជាមួយនឹងការបរិច្ចាគរបស់អ្នក"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "ការបរិច្ចាគរបស់អ្នកប្រហែលជាមិនត្រូវបានដំណើរការទេ។ ចុចលើ “បរិច្ចាគទៅ Signal” ហើយបន្ទាប់មក “បង្កាន់ដៃបរិច្ចាគ” ដើម្បីពិនិត្យមើលបង្កាន់ដៃរបស់អ្នក រួចបញ្ជាក់។"
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "កំពុងដំណើរការការបរិច្ចាគ…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "កំពុងដំណើរការនៅឡើយ"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "ការបរិច្ចាគរបស់អ្នកកំពុងត្រូវបានដំណើរការនៅឡើយ។ វាអាចចំណាយពេលពីរបីនាទី។"
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "ទាមទារការផ្ទៀងផ្ទាត់បន្ថែម"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "អ្នកចេញបណ្ណឥណទានរបស់អ្នកទាមទារជំហានផ្ទៀងផ្ទាត់បន្ថែមនៅក្នុងកម្មវិធីរុករក។"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "បើកកម្មវិធីរុករក"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "កំណែ​នេះ​មាន​ការ​កែ​សម្រួល និង​ការកែបញ្ហាតូចៗ​មួយ​ចំនួន ដើម្បី​ឲ្យ​ Signal បន្ត​ដំណើរការ​ដោយ​រលូន។",

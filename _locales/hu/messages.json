@@ -6628,7 +6628,7 @@
     "messageformat": "Adományozás"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "{formattedCurrencyAmount} adományozása"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "A jelvények és a havi adományok mobileszközödön is kezelhetők."
@@ -6676,46 +6676,46 @@
     "messageformat": "Köszönjük, hogy támogatod a Signalt! Adományoddal hozzájárulsz a szabad véleménynyilvánítást és milliók számára biztonságos kommunikációt biztosító, nyílt forrású, magánéletet védő technológiák fejlesztéséhez. Ha az Egyesült Államokban adózol, kérünk, őrizd meg ezt a nyugtát adóbevallásodhoz. A Signal Technology Foundation egy adómentes, non-profit szervezet, amely az USA területén az 501c3 Internal Revenue Code hatálya alá tartozik. Federal Tax ID: 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Fizetési mód elutasítva"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Próbáld újra egy másik fizetési móddal, vagy keresd fel a bankodat további információért!"
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Hiba történt az adomány feldolgozása közben"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Próbáld újra egy másik fizetési móddal, vagy keresd fel a bankodat további információért!"
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Visszaellenőrzés sikertelen"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "A további ellenőrzési lépés sikertelen. Próbáld újra!"
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Hiba történt az adományoddal"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Lehetséges, hogy az adományodat nem dolgoztuk fel. A nyugták ellenőrzéséhez és megerősítéséhez kattints az „Adományozás a Signalnak” lehetőségre, majd az „Adományt igazoló nyugták” opcióra."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Adomány feldolgozása..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Még dolgozunk"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Az adományod feldolgozása még folyamatban van. Ez pár percet is igénybe vehet."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "További ellenőrzés szükséges"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "A hitelkártya-kibocsátó további ellenőrzési lépést kér egy webböngészőben."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Böngésző megnyitása"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ebbe a verzióba néhány kisebb újítás és hibajavítás került annak érdekében, hogy a Signal továbbra is gond nélkül fusson.",

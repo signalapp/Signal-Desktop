@@ -6628,7 +6628,7 @@
     "messageformat": "Задонатити"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "Задонатити {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Змінити налаштування значків і щомісячних донатів можна з мобільного пристрою."
@@ -6676,46 +6676,46 @@
     "messageformat": "Дякуємо за підтримку Signal. Ваш внесок допомагає реалізувати нашу місію: захищати свободу слова і робити можливим безпечне спілкування для мільйонів людей у всьому світі за допомогою технології конфіденційності з відкритим кодом. Якщо ви резидент Сполучених Штатів Америки, збережіть цю квитанцію для звітування в податкові органи. Signal Technology Foundation — звільнена від оподаткування неприбуткова організація, створена відповідно до розділу 501c3 податкового кодексу США. Наш федеральний податковий номер: 82–4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Платіжний засіб відхилено"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Використайте інший платіжний засіб або зв'яжіться зі своїм банком для додаткової інформації."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Помилка під час опрацювання донату"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Використайте інший платіжний засіб або зв'яжіться зі своїм банком для додаткової інформації."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Невдале підтвердження"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Не вдалося пройти додатковий етап перевірки. Будь ласка, спробуйте знову."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "З вашим донатом сталася помилка"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Можливо, ваш донат не вдалось опрацювати. Натисніть «Задонатити на Signal», а потім «Підтвердження донату», щоб перевірити квитанції та підтвердити їх."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Триває опрацювання донату…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Опрацювання триває"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Опрацювання вашого донату ще триває. Перевірка триватиме кілька хвилин."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Необхідна додаткова перевірка"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "Емітент вашої кредитної картки вимагає додаткового етапу перевірки у веббраузері."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Відкрити браузер"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ця версія містить ряд невеликих покращень і виправлень помилок для забезпечення безперебійної роботи Signal.",

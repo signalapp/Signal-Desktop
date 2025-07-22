@@ -6628,7 +6628,7 @@
     "messageformat": "اهدای کمک مالی"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "اهدای مالی {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "نشان‌ها و کمک‌های مالی ماهانه را می‌توانید از طریق دستگاه تلفن همراه خود مدیریت کنید."
@@ -6676,46 +6676,46 @@
     "messageformat": "قدردان حمایتتان از سیگنال هستیم. مشارکت شما به پیشبرد ماموریت حفاظت از آزادی بیان و ایجاد امکان ارتباط جهانی امن برای میلیون‌ها نفر در سراسر جهان، از طریق فناوری متن‌باز حفظ حریم خصوصی، کمک می‌کند. اگر ساکن ایالات متحده هستید، لطفاً این رسید را در سوابق مالیاتی خود نگه دارید. بنیاد فناوری سیگنال یک سازمان غیرانتفاعی معاف از مالیات در ایالات متحده است که طبق بخش ۵۰۱c۳ قانون درآمد داخلی فعالیت می‌کند. شناسه مالیاتی ما ۴۵۰۶۸۴۰-۸۲ است."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "روش پرداخت رد شد"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "روش پرداخت دیگری را امتحان کنید یا با بانک خود برای اطلاعات بیشتر تماس بگیرید."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "خطا در پردازش اهدای مالی"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "روش پرداخت دیگری را امتحان کنید یا با بانک خود برای اطلاعات بیشتر تماس بگیرید."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "خطا در تأیید"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "مرحله تأیید تکمیلی انجام نشد. لطفاً دوباره امتحان کنید."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "خطایی در اهدای مالی شما رخ داده است"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "ممکن است اهدای مالی شما پردازش نشده باشد. برای بررسی رسیدهای خود و تأیید، روی «اهدای کمک مالی به سیگنال» و سپس «رسید اهدا» کلیک کنید."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "در حال پردازش اهدای مالی..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "هنوز در حال پردازش"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "اهدای مالی شما هنوز در حال پردازش است. ممکن است چند دقیقه زمان ببرد."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "تأیید تکمیلی لازم است"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "صادرکننده کارت اعتباری شما به یک مرحله تأیید تکمیلی در مرورگر وب نیاز دارد."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "مرورگر را باز کنید"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "این نسخه شامل شماری از بهینه سازی های کوچک و رفع عیب برای تداوم اجرای راحت سیگنال می باشد",

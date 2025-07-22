@@ -6628,7 +6628,7 @@
     "messageformat": "Changia"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "Changia {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Beji na michango ya kila mwezi inaweza kudhibitiwa kwenye kifaa chako cha mkononi."
@@ -6676,46 +6676,46 @@
     "messageformat": "Asante kwa kuiunga mkono Signal. Mchango wako husaidia kukuza dhamira ya kutengeneza teknolojia huria ya faragha ambayo hulinda uhuru wa kujieleza na kuwezesha mawasiliano salama ya kidunia kwa mamilioni ya watu duniani kote. Kama wewe ni mkazi wa Marekani, tafadhali hifadhi risiti hii kwa rekodi zako za kodi. Signal Technology Foundation ni shirika lisilo la kibiashara lisilotozwa kodi nchini Marekani chini ya kifungu cha 501c3 cha Kanuni ya Mapato ya Ndani. Kitambulisho chetu cha Ushuru wa Shirikisho ni 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Njia ya malipo imekataliwa"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Jaribu njia nyingine ya malipo au wasiliana na benki unayotumia kwa maelezo zaidi."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Hitilafu katika kuchakata mchango"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Jaribu njia nyingine ya malipo au wasiliana na benki unayotumia kwa maelezo zaidi."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Imeshindwa Kuthibitisha"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Imeshindwa kuthibitisha hatua ya ziada. Tafadhali jaribu tena."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Hitilafu imetokea kwenye mchango wako"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Huenda mchango wako haujachakatwa. Bofya kwenye \"Changia Signal\" kisha \"Risiti za Mchango\" ili ukague risiti zako na uthibitishe."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Inachakata mchango..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Bado inachakata"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Mchango wako bado unachakatwa. Hatua hii inaweza ikachukua dakika kadhaa."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Uthibitishaji wa ziada unahitajika"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "Mtoa kadi yako ya mikopo anahitaji hatua ya ziada ya uthibitishaji katika kivinjari."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Fungua kivinjari"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Toleo hili lina mabadiliko kidogo na maboresho ya program kuiwezesha Signal kufanya kazi vizuri.",

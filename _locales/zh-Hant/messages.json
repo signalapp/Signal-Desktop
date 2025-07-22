@@ -6628,7 +6628,7 @@
     "messageformat": "捐款"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "捐款 {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "你可在行動裝置上管理徽章和每月捐款。"
@@ -6676,46 +6676,46 @@
     "messageformat": "感謝你對 Signal 的支持。你的捐款有助於推動保護自由表達的使命，並透過開放原始碼隱私技術，讓全球數百萬人能夠進行安全的全球通訊。若你是美國居民，請保留此收據作為你的稅務紀錄。Signal Technology Foundation 是在美國依據《國稅法規》(IRC) 第 501c3 條的免稅非盈利組織。我們的聯邦稅識別號碼為 82-4506840。"
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "付款方式拒絕"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "試試換另一個付款方法，又或者聯絡您的銀行取得更多資訊。"
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "處理捐款時發生錯誤"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "試試換另一個付款方法，又或者聯絡您的銀行取得更多資訊。"
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "驗證失敗"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "額外驗證失敗，請重試。"
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "捐款時發生錯誤"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "可能尚未處理你的捐款。點擊「捐款給 Signal」，然後點擊「捐款收據」以查看你的收據並確認。"
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "正在處理捐款..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "仍在處理中"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "你的捐款仍在處理中。 請稍候"
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "需要額外驗證"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "你的信用卡發卡機構需要在網頁瀏覽器中進行額外的驗證步驟。"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "開啟瀏覽器"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "此版本包含許多小調整和錯誤修復，以維持 Signal 穩定運作。",

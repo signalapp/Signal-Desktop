@@ -6628,7 +6628,7 @@
     "messageformat": "Колдоо көрсөтүү"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "Колдоо көрсөтүү: {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Мобилдик түзмөгүңүздө төшбелгилер менен бир айлык салымдарыңызды тескей аласыз."
@@ -6676,46 +6676,46 @@
     "messageformat": "Signal'ды колдогонуңуз үчүн чоң рахмат! Салым кошуу менен, баштапкы коду ачык купуялык технологиялары аркылуу дүйнө жүзүндөгү миллиондогон адамдарга өз оюн эркин билдирип, коопсуз шарттарда баарлашуу мүмкүнчүлүгүн берүү миссиябызды жайылтканга жардам бересиз. Эгер Америка Кошмо Штаттарынын тургуну болсоңуз, бул дүмүрчөктү салык органдарына көрсөтүү үчүн сактап коюңуз. Signal Technology фонду Ички кирешелер кодексинин 501(c)(3) бөлүмү боюнча салыктан бошотулган коммерциялык эмес уюм. Федералдык салык идентификаторубуз 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Төлөм ыкмасы четке кагылды"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Башка төлөм ыкмасын колдонуп көрүңүз же көбүрөөк маалымат алуу үчүн банкыңызга кайрылыңыз."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Салымды иштетүүдө ката кетти"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Башка төлөм ыкмасын колдонуп көрүңүз же көбүрөөк маалымат алуу үчүн банкыңызга кайрылыңыз."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Ырасталбай калды"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Кошумча ырастоо кадамы аткарылбай калды. Кайталап көрүңүз."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Салымыңыз өтпөй калды"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Салымыңыз иштелбей калды окшойт. \"Signal'га колдоо көрсөтүү\" дегенди басып, дүмүрчөктөрүңүздү текшерүү үчүн \"Салымдардын дүмүрчөктөрү\" дегенди караңыз."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Салым иштелүүдө..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Дагы эле иштетилүүдө"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Салымыңыз дагы деле иштелүүдө. Бир нече мүнөт кетиши мүмкүн."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Дагы бир жолу ырастоо керек"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "Картаңызды берген тараптын талабы боюнча веб браузерде кошумча ырастоодон өтүшүңүз керек."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Браузерди ачуу"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Бул версия бир нече майда өзгөртүүлөрдү жана мүчүлүштүктөрдү оңдоолорду камтыйт.",

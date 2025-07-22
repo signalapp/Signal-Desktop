@@ -6628,7 +6628,7 @@
     "messageformat": "Donasi"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "Donasi {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Badge dan donasi bulanan dapat dikelola dari perangkat seluler Anda."
@@ -6676,46 +6676,46 @@
     "messageformat": "Terima kasih telah mendukung Signal. Kontribusi Anda membantu misi perlindungan terhadap kebebasan berekspresi dan mendukung teknologi privasi sumber terbuka yang memungkinkan komunikasi yang aman bagi jutaan pengguna di seluruh dunia. Jika Anda warga Amerika Serikat, harap simpan struk ini untuk pencatatan pajak. Signal Technology Foundation adalah organisasi nirlaba bebas pajak di Amerika Serikat menurut pasal 501c3 di Internal Revenue Code (IRC). ID Pajak Federal kami adalah 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Metode pembayaran ditolak"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Coba metode pembayaran lain atau hubungi bank Anda untuk informasi lebih lanjut."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Terjadi kesalahan saat memproses donasi"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Coba metode pembayaran lain atau hubungi bank Anda untuk informasi lebih lanjut."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Verifikasi Gagal"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Langkah verifikasi tambahan gagal. Silakan coba lagi."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Terjadi kesalahan dalam proses donasi"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Donasi Anda mungkin belum diproses. Klik “Donasi ke Signal”, lalu klik “Struk Donasi” untuk memeriksa struk dan mengonfirmasi."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Memproses donasi …"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Masih memproses"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Donasi Anda sedang diproses. Perlu waktu beberapa menit."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Diperlukan verifikasi tambahan"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "Penerbit kartu kredit Anda mewajibkan langkah verifikasi tambahan di browser web."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Buka browser"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Versi ini mengandung sejumlah perubahan kecil dan perbaikan bug agar Signal tetap berjalan lancar.",

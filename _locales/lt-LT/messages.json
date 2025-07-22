@@ -6628,7 +6628,7 @@
     "messageformat": "Skirti paramą"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "Skirti {formattedCurrencyAmount} paramą"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Ženklelius ir kasmėnesinę paramą galite tvarkyti savo mobiliajame įrenginyje."
@@ -6676,46 +6676,46 @@
     "messageformat": "Dėkojame, kad remiate „Signal“. Jūsų įnašas padeda skatinti misiją apsaugoti žodžio laisvę ir įgalinti saugų bendravimą milijonams žmonių visame pasaulyje dėl atvirojo kodo privatumo technologijos. Jei gyvenate Jungtinėse Valstijose, išsaugokite šį kvitą, kad turėtumėte jį savo mokestinių duomenų reikmėms. „Signal Technology Foundation“ yra Jungtinėse Valstijose įsteigta pelno nesiekianti organizacija, atleista nuo mokesčių pagal Vidaus mokesčių kodekso skirsnį 501c3. Mūsų federalinis mokesčių mokėtojo kodas: 82–4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Mokėjimo būdas atmestas"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Bandyk kitą mokėjimo būdą arba kreipkis į savo banką, jei reikia daugiau informacijos."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Apdorojant paramą įvyko klaida"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Bandyk kitą mokėjimo būdą arba kreipkis į savo banką, jei reikia daugiau informacijos."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Patvirtinimas nepavyko"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Papildomas patvirtinimo veiksmas nepavyko. Bandykite dar kartą."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Teikiant paramą įvyko klaida"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Jūsų parama galėjo būti neapdorota. Norėdami patikrinti kvitus ir patvirtinti, spustelėkite „Paremti „Signal“, o tada – „Paramos kvitai“."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Parama apdorojama..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Vis dar apdorojama"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Jūsų parama vis dar apdorojama. Tai gali šiek tiek užtrukti."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Reikalingas papildomas patvirtinimas"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "Jūsų kredito kortelės išdavėjas reikalauja atlikti papildomą patvirtinimo veiksmą žiniatinklio naršyklėje."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Atverti naršyklę"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Šioje versijoje yra daug smulkių patobulinimų ir klaidų ištaisymų, kurie padės Signal sklandžiai veikti.",

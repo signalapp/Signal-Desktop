@@ -6628,7 +6628,7 @@
     "messageformat": "Tabhair airgead"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "Tabhair {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Is féidir suaitheantais agus síntiúis mhíosúla a bhainistiú ar do ghléas móibíleach."
@@ -6676,46 +6676,46 @@
     "messageformat": "Go raibh maith agat as tacú le Signal. Cabhraíonn do dheonachán cur leis an misean chun saoirse cainte a chosaint agus chun cur ar ár gcumas cumarsáid dhomhanda a chur ar fáil ag na milliúin ar fud an domhan, trí theicneolaíocht phríobháideachta foinse oscailte. Más cónaitheoir sna Stáit Aontaithe thú, coinnigh an admháil seo do do thaifid chánach. Eagraíocht neamhbhrabúis díolmhaithe ó cháin sna Stáit Aontaithe faoi alt 501c3 den Internal Revenue Code is ea Signal Technology Foundation. Is é 82–4506840 ár nUimhir Aitheantais Cánach Feidearálaí."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Diúltaíodh don mhodh íocaíochta"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Triail modh íocaíochta eile nó déan teagmháil le do bhanc le tuilleadh faisnéise a fháil."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Earráid le próiseáil an tabhartais"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Triail modh íocaíochta eile nó déan teagmháil le do bhanc le tuilleadh faisnéise a fháil."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Theip ar Dheimhniú"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Theip ar an gcéim fíoraithe sa bhreis. Triail arís."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Tharla earráid le do dheonachán"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Is féidir nár próiseáladh do dheonachán. Cliceáil ar \"Tabhair airgead do Signal\" agus ansin ar \"Admhálacha Tabhartas\" le do chuid admhálacha a sheiceáil agus a dheimhniú."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Tabhartas á phróiseáil..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Still Processing"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Tá do thabhartas á phróiseáil fós. Tógann sé seo nóiméad nó dhó."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Fíorú breise ag teastáil"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "Éilíonn d'eisitheoir cárta creidmheasa céim fíoraithe sa bhreis i mbrabhsálaí gréasáin."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Oscail an brabhsálaí"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Tá roinnt mionathruithe agus paistí ar fhabhtanna sa leagan seo chun Signal a choinneáil ag rith go réidh.",

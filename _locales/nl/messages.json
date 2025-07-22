@@ -6628,7 +6628,7 @@
     "messageformat": "Doneren"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "{formattedCurrencyAmount} doneren"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Badges en maandelijkse donaties kunnen op je mobiele apparaat worden beheerd."
@@ -6676,46 +6676,46 @@
     "messageformat": "Bedankt dat je Signal steunt! Jouw bijdrage helpt bij het voortzetten van onze missie om via opensource privacytechnologie de vrijheid van expressie te beschermen en beveiligde communicatie voor miljoenen mensen over de hele wereld mogelijk te maken. Bewaar dit donatiebewijs als je een inwoner bent van de Verenigde Staten van Amerika, zodat je je donatie kunt opgeven bij je belastingaangifte. Signal Technology Foundation is een organisatie zonder winstoogmerk in de Verenigde Staten van Amerika en is vrijgesteld van belastingen volgens sectie 501c3 van de US Internal Revenue Code (het Amerikaanse belastingreglement). Ons federale-belasting-ID is 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Betaalmethode geweigerd"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Probeer het via een andere betaalmethode of neem contact op met je bank voor meer informatie."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Fout bij het verwerken van donatie"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Probeer het via een andere betaalmethode of neem contact op met je bank voor meer informatie."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Verificatie mislukt"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Aanvullende verificatiestap mislukt. Probeer het opnieuw."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Er is een fout opgetreden bij je donatie"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Je donatie is mogelijk niet verwerkt. Klik op 'Aan Signal doneren' en vervolgens op 'Donatiebewijzen' om je betaalbewijzen te controleren en te bevestigen dat je donatie is verwerkt."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Aan het verwerken…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Wordt nog verwerkt"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Je donatie is nog in behandeling. Dit kan enkele minuten duren."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Aanvullende verificatie vereist"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "Je creditcardmaatschappij vereist een extra verificatiestap in een webbrowser."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Browser openen"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Deze versie bevat een aantal kleine foutoplossingen waardoor Signal voor nog meer mensen goed werkt.",

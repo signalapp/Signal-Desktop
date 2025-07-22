@@ -6628,7 +6628,7 @@
     "messageformat": "Ziedot"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "Ziedot {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Nozīmītes un ikmēneša ziedojumus varat pārvaldīt jūsu mobilajā ierīcē."
@@ -6676,46 +6676,46 @@
     "messageformat": "Pateicamies, ka atbalstāt Signal. Jūsu atbalsts palīdz īstenot mūsu misiju: aizsargāt vārda brīvību un nodrošināt drošu saziņu miljoniem cilvēku visā pasaulē. Mēs to darām, izmantojot atvērtā pirmkoda privātuma tehnoloģijas. Ja jūs esat Amerikas Savienoto valstu iedzīvotājs, lūdzu, saglabājiet šo kvīti nodokļu uzskaitei. Signal Technology Foundation ir no nodokļu maksāšanas atbrīvota bezpeļnas organizācija Amerikas Savienotajās valstīs saskaņā ar Iekšējo ieņēmumu likuma 501c3 sadaļu. Mūsu federālais nodokļu ID ir 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Maksājuma veids noraidīts"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Mēģiniet izmantot citu maksājuma veidu vai sazinieties ar savu banku, lai iegūtu vairāk informācijas."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Ziedojuma apstrādes kļūda"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Mēģiniet izmantot citu maksājuma veidu vai sazinieties ar savu banku, lai iegūtu vairāk informācijas."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Verifikācija neizdevās"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Papildu verifikācijas darbība neizdevās. Lūdzu, mēģiniet vēlreiz."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Ar jūsu ziedojumu radās kļūda"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Jūsu ziedojums, iespējams, nav apstrādāts. Noklikšķiniet uz “Ziedot Signal” un tad uz “Ziedojumu kvītis”, lai pārbaudītu un apstiprinātu kvītis."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Notiek ziedojuma apstrāde..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Vēl apstrādā"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Jūsu ziedojums joprojām tiek apstrādāts. Process var ilgt dažas minūtes."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Nepieciešama papildu verifikācija"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "Jūsu kredītkartes izsniedzējs tīmekļa pārlūkprogrammā pieprasa papildu verifikācijas darbību."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Atvērt pārlūkprogrammu"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Šī versija ietver vairākus nelielus uzlabojumus un kļūdu labojumus, lai Signal darbotos bez problēmām.",

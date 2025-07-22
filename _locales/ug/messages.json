@@ -6628,7 +6628,7 @@
     "messageformat": "ئىئانە قىلىڭ"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "{formattedCurrencyAmount} ئىئانە قىلىش"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "ئىزنەكلار ۋە ئايلىق ئىئانىلەرنى كۆچمە ئۈسكۈنىڭىزدە باشقۇرغىلى بولىدۇ."
@@ -6676,46 +6676,46 @@
     "messageformat": "Signalنى قوللىغانلىقىڭىزغا رەھمەت. سىزنىڭ ئىئانىڭىز ، ئوچۇق مەنبە مەخپىيەتلىك تېخنىكىسى ئارقىلىق ئەركىن ئىپادىلەش ھوقۇقىنى قوغدايدۇ ۋە دۇنيادىكى مىليونلىغان كىشىلەرنىڭ ئالاقىلىشىش بىخەتەرلىكىگە كاپالەتلىك قىلىدۇ. ئەگەر سىز ئامېرىكىنىڭ ئاھالىسى بولسىڭىز ، باج خاتىرىلىرى ئۈچۈن بۇ تالوننى ساقلاپ قويۇڭ. Signal Technology Foundation بولسا ئامېرىكا دۆلەت ئىچى باج قانۇنى 501c3 ماددىسىدىكى بەلگىلىمە بويىچە باجدىن كەچۈرۈم قىلىنىدىغان تاپاۋەتسىز ئورگان بولۇپ ھېسابلىنىدۇ. فېدېراتسىيە باج ID نومۇرىمىز 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "پۇل تۆلەش ئۇسۇلى رەت قىلىندى"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "باشقا پۇل تۆلەش ئۇسۇلىنى سىناپ بېقىڭ ياكى تەپسىلاتى ئۈچۈن بانكا بىلەن ئالاقىلىشىڭ."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "ئىئانە بىر تەرەپ قىلىش خاتالىقى"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "باشقا پۇل تۆلەش ئۇسۇلىنى سىناپ بېقىڭ ياكى تەپسىلاتى ئۈچۈن بانكا بىلەن ئالاقىلىشىڭ."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "دەلىللىيەلمىدى"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "قوشۇمچە دەلىللەش باسقۇچى مەغلۇپ بولدى. قايتا سىناڭ."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "ئىئانىڭىزدە بىر خاتالىق كۆرۈلدى"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "ئىئانىڭىز بىر تەرەپ قىلىنمىغان بولۇشى مۇمكىن. «Signalغا ئىئانە قىلىش» نى چېكىپ ، ئاندىن «ئىئانە تالونلىرى» نى بېسىپ تالونلىرىڭىزنى تەكشۈرۈپ جەزملەشتۈرۈڭ."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "ئىئانە بىر تەرەپ قىلىنىۋاتىدۇ..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "تېخىچە بىر تەرەپ قىلىۋاتىدۇ"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "ئىئانىڭىزنى تېخىچە بىر تەرەپ قىلىۋاتىدۇ. بۇنىڭغا بىر مىنۇتتەك ۋەقىت كېتىشى مۇمكىن."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "قوشۇمچە دەلىللەش تەلەپ قىلىنىدۇ"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "ئىناۋەتلىك كارتىڭىزنى تارقاتقۇچى تەرەپ توركۆرگۈدە قوشۇمچە دەلىللەش باسقۇچىنى تەلەپ قىلىدۇ."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "توركۆرگۈنى ئېچىڭ"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal نىڭ راۋان ئىجرا بولۇشى ئۈچۈن بۇ نەشرىدە بىر قانچە كىچىك ئۆزگەرتىشلەر ئېلىپ بېرىلدى ۋە كاشىلىلار ئوڭشالدى.",

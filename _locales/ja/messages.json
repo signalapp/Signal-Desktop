@@ -6628,7 +6628,7 @@
     "messageformat": "寄付する"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "{formattedCurrencyAmount} を寄付する"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "バッジと毎月の寄付は、モバイル端末で管理できます。"
@@ -6676,46 +6676,46 @@
     "messageformat": "Signalをサポートしていただきありがとうございます。皆様のご寄付は、オープンソースのプライバシー技術を通して表現の自由を守り、世界中の何百万人もの人々に安全なグローバルコミュニケーションを可能にするというミッションを推進する原動力となるものです。米国にお住まいの方は、この領収書を税務記録のために保管しておいてください。Signal Technology Foundationは、米国内国歳入法第501c3条に基づく非課税の非営利団体です。連邦税IDは82-4506840です。"
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "支払い方法が承認されませんでした"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "別の決済方法をお試しいただくか、取引先の銀行にお問い合わせください。"
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "寄付のお手続き中にエラーが発生しました"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "別の決済方法をお試しいただくか、取引先の銀行にお問い合わせください。"
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "認証失敗"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "追加認証ステップに失敗しました。もう一度お試しください。"
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "寄付のお手続きができませんでした"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "寄付のお手続き処理できなかった可能性があります。「Signalへの寄付」から「寄付の領収書」をクリックし、該当する領収書を確認してください。"
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "寄付の処理中です..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "処理を継続しています"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "寄付の処理は完了していません。数分かかるかも知れません。"
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "追加の認証手続きが必要です"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "ご利用のクレジットカードの発行会社は、Webブラウザでの追加認証ステップが必要です。"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "ブラウザを開く"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signalをスムーズに動作させるための微調整とバグ修正を行いました。",

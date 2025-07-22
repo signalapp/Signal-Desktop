@@ -825,7 +825,7 @@
     "messageformat": "Es gab einen Fehler bei der Sprachaufzeichnung."
   },
   "icu:attachmentSavedPlural": {
-    "messageformat": "{count, plural, one {Anhang gesichert.} other {{count,number} Anhänge gesichert.}}"
+    "messageformat": "{count, plural, one {Anhang gespeichert.} other {{count,number} Anhänge gespeichert.}}"
   },
   "icu:attachmentSavedShow": {
     "messageformat": "Im Ordner anzeigen"
@@ -5214,16 +5214,16 @@
     "messageformat": "Einrichten"
   },
   "icu:Preferences__internal__local-backups": {
-    "messageformat": "Lokale Datensicherungen"
+    "messageformat": "Lokale Backups"
   },
   "icu:Preferences__internal__export-local-backup": {
     "messageformat": "Exportieren…"
   },
   "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Lokale verschlüsselte Datensicherungen in einen Ordner exportieren und validieren"
+    "messageformat": "Lokale verschlüsselte Backups in einen Ordner exportieren und validieren"
   },
   "icu:Preferences__internal__validate-backup--description": {
-    "messageformat": "Verschlüsselte Datensicherung auf Speicher sichern und Validierungssuite darauf ausführen"
+    "messageformat": "Verschlüsseltes Backup auf Speicher sichern und Validierungssuite darauf ausführen"
   },
   "icu:Preferences__internal__validate-backup": {
     "messageformat": "Validieren"
@@ -5262,7 +5262,7 @@
     "messageformat": "Signal Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Automatische Datensicherungen mit dem sicheren Ende-zu-Ende-verschlüsselten Speicherservice von Signal. Leg einfach auf deinem Smartphone los. <learnMoreLink>Mehr erfahren</learnMoreLink>."
+    "messageformat": "Automatische Backups mit dem sicheren Ende-zu-Ende-verschlüsselten Speicherservice von Signal. Leg einfach auf deinem Smartphone los. <learnMoreLink>Mehr erfahren</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "Sichere deinen Nachrichtenverlauf und verliere keine alten Nachrichten, wenn du ein neues Mobiltelefon hast bzw. Signal erneut installierst."
@@ -6613,7 +6613,7 @@
     "messageformat": "Gib keine persönlichen Informationen an Leute weiter, die du nicht kennst"
   },
   "icu:SaveMultiDialog__title": {
-    "messageformat": "Anhänge sichern"
+    "messageformat": "Anhänge speichern"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Was ist neu?"
@@ -6628,7 +6628,7 @@
     "messageformat": "Spenden"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "Spende {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Abzeichen und monatliche Spenden kannst du auf deinem Mobilgerät verwalten."
@@ -6676,46 +6676,46 @@
     "messageformat": "Danke, dass du Signal unterstützt. Deine Spende trägt dazu bei, mithilfe von Open-Source-Datenschutztechnologien die freie Meinungsäußerung zu schützen und eine sichere globale Kommunikation für Millionen von Menschen auf der ganzen Welt zu ermöglichen. Falls du deinen Wohnsitz in den USA hast, bitte bewahre diese Bescheinigung für deine Steuerunterlagen auf. Die Signal Stiftung (Signal Technology Foundation) ist eine steuerbefreite gemeinnützige Organisation in den USA gemäß Abschnitt 501c3 des Internal Revenue Code.Unsere Federal Tax ID lautet 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Zahlungsmethode abgelehnt"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Versuche es mit einer anderen Zahlungsmethode oder kontaktiere deine Bank für weitere Informationen."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Fehler beim Bearbeiten der Spende"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Versuche es mit einer anderen Zahlungsmethode oder kontaktiere deine Bank für weitere Informationen."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Verifizierung gescheitert"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Zusätzliche Verifizierung fehlgeschlagen. Bitte versuche es erneut."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Bei deiner Spende ist ein Fehler aufgetreten"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Deine Spende wurde möglicherweise nicht bearbeitet. Klicke auf »An Signal spenden« und dann auf »Spendenbescheinigung«, um deine Belege zu prüfen und zu bestätigen."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Spende wird bearbeitet…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Wird noch verarbeitet"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Deine Spende wird immer noch bearbeitet. Dies kann einige Minuten dauern."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Zusätzliche Verifizierung erforderlich"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "Deine Kreditkarte muss in einem Webbrowser noch mal verifiziert werden."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Browser öffnen"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Diese Version enthält eine Reihe kleinerer Optimierungen und Fehlerbehebungen, damit Signal weiterhin reibungslos funktioniert.",

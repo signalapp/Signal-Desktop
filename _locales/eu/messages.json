@@ -6628,7 +6628,7 @@
     "messageformat": "Egin dohaintza"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "Eman {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Bereizgarriak eta hileko dirulaguntzak gailu mugikorrean kudea daitezke."
@@ -6676,46 +6676,46 @@
     "messageformat": "Eskerrik asko Signal-i laguntzeagatik. Zure ekarpenarekin, kode irekiko pribatutasun-teknologiaren bidez adierazpen-askatasuna babesteko eta mundu osoko milioika pertsonarentzako komunikazio segurua ahalbidetzeko dugun misioa bultzatuko duzu. Ameriketako Estatu Batuetan bizi bazara, gorde ordainagiri hau, zerga-aitorpenetarako. Signal Technology Foundation zergak ordaintzetik salbuetsita dagoen AEBko erakunde bat da, Internal Revenue Code-ko 501c3 sekzioari jarraikiz. Gure IFZa federala 82-4506840 da."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Ordainketa-metodo baztertu egin da"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Saiatu berriro beste ordainketa-metodo batekin edo jarri harremanetan zure bankuarekin informazio gehiago lortzeko."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Errore bat gertatu da dohaintza prozesatzean"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Saiatu berriro beste ordainketa-metodo batekin edo jarri harremanetan zure bankuarekin informazio gehiago lortzeko."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Egiaztapenak huts egin du"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Egiaztapen-urrats gehigarriak huts egin du. Saiatu berriro."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Dohaintzarekin lotutako errore bat gertatu da"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Baliteke dohaintza ez prozesatu izatea. Sakatu \"Egin dohaintza bat Signal-i\" eta \"Dohaintzen ordainagiriak\" ordainagiriak ikusteko eta berretsi."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Dohaintza prozesatzen…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Oraindik prozesatzen"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Dohaintza prozesatzen ari da oraindik. Baliteke minutu batzuk behar izatea."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Egiaztapen osagarria behar da"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "Web-arakatzaile batean egiaztapen-urrats gehigarri bat egitea behar du zure kreditu-txartelaren jaulkitzaileak."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Ireki arakatzailea"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Bertsio honek hainbat doikuntza txiki eta akats konpontzen ditu Signal-ek ondo funtzionatzen jarraitzeko.",

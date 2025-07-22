@@ -6628,7 +6628,7 @@
     "messageformat": "기부"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "{formattedCurrencyAmount} 기부"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "모바일 기기에서 배지와 월별 기부금을 관리할 수 있습니다."
@@ -6676,46 +6676,46 @@
     "messageformat": "Signal을 지지해 주셔서 감사합니다. 귀하의 기부는 오픈 소스 프라이버시 기술을 통해 표현의 자유를 지키고 안전한 글로벌 커뮤니케이션을 제공하겠다는 Signal의 사명을 실현하는 데 도움이 됩니다. 미국 거주자라면 세금 보고 시 사용할 수 있도록 이 영수증을 보관하세요. 내국세법조항 501c3조에 의거하여 세금 공제를 받을 수 있는 비영리 기관입니다. Signal 연방세 ID는 82-4506840입니다."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "결제 수단 거부됨"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "다른 결제 수단을 시도하거나 거래 은행에 자세한 정보를 문의하세요."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "기부 처리 오류"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "다른 결제 수단을 시도하거나 거래 은행에 자세한 정보를 문의하세요."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "검증 실패"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "추가 인증 단계에 실패했습니다. 다시 시도해 주세요."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "기부 과정에서 오류 발생"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "귀하의 기부금이 처리되지 않았을 수 있습니다. 'Signal에 기부'를 클릭한 후 '기부 영수증'을 클릭하여 영수증을 확인하세요."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "기부를 처리하는 중..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "아직 처리 중"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "기부를 아직 처리하는 중입니다. 몇 분 정도 소요됩니다."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "추가 확인이 필요합니다."
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "신용카드 발급사가 웹 브라우저에서 추가 인증 단계를 요구합니다."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "브라우저 열기"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "이 버전에는 Signal의 원활한 실행을 위한 일부 기능 업데이트와 버그 수정이 다수 포함되어 있습니다.",

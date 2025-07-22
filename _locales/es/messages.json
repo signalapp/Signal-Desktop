@@ -5160,7 +5160,7 @@
     "messageformat": "General"
   },
   "icu:Preferences__button--donate": {
-    "messageformat": "Haz una donación a Signal"
+    "messageformat": "Donar a Signal"
   },
   "icu:Preferences__button--appearance": {
     "messageformat": "Apariencia"
@@ -6628,7 +6628,7 @@
     "messageformat": "Donar"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "Donar {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Puedes gestionar tus insignias y donaciones mensuales desde tu teléfono."
@@ -6676,46 +6676,46 @@
     "messageformat": "Gracias por apoyar a Signal. Con tu contribución, impulsas nuestra misión de proteger la libertad de expresión y permitir una comunicación segura para millones de personas en todo el mundo gracias a una tecnología de código abierto centrada en la privacidad. Si resides en Estados Unidos, guarda este recibo para tus declaraciones fiscales. Signal Technology Foundation es una organización sin ánimo de lucro exenta de impuestos en Estados Unidos bajo la sección 501(c)(3) del código tributario de EE. UU. (Internal Revenue Code). Nuestro número de identificación fiscal es 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Método de pago rechazado"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Selecciona otro método de pago o contacta con tu banco para obtener más información."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "No se ha podido procesar tu donación"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Selecciona otro método de pago o contacta con tu banco para obtener más información."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "No se ha podido verificar"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Error en el paso de verificación adicional. Inténtalo de nuevo."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Se ha producido un error con tu donación"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Es posible que tu donación no se haya procesado. Haz clic en \"Donar a Signal\" y luego en \"Recibos de donación\" para verificar tus recibos y confirmar."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Procesando donación…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Aún se está procesando"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Tu donación aún se está procesando. Puede llevar unos minutos."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Verificación adicional necesaria"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "La entidad emisora de tu tarjeta de crédito requiere un paso de verificación adicional en un navegador web."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Abrir navegador"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Esta versión incluye una series de ajustes y correcciones de errores para que Signal funcione sin problemas.",

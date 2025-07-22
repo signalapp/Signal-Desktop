@@ -6628,7 +6628,7 @@
     "messageformat": "Bağış yap"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "{formattedCurrencyAmount} bağış yap"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Rozetler ve aylık bağışlar mobil cihazından yönetilebilir."
@@ -6676,46 +6676,46 @@
     "messageformat": "Signal'ı desteklediğin için teşekkürler. Katkın açık kaynak gizlilik teknolojisi aracılığıyla, ifade özgürlüğünü koruma ve dünya çapında milyonlarca kişi için güvenli küresel iletişim sağlama misyonunu desteklemeye yardımcı olur. Amerika Birleşik Devletleri'nde ikamet ediyorsan, lütfen bu makbuzu vergi kayıtların için sakla. Signal Technology Foundation, Amerika Birleşik Devletleri'nde İç Gelir Yasası'nın 501c3 numaralı bölümü kapsamında vergiden muaf, kar amacı gütmeyen bir kuruluştur. Federal Vergi Kimlik Numaramız 82-4506840'tır."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Ödeme yöntemi reddedildi"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Başka bir ödeme yöntemi dene veya daha fazla bilgi için bankanla iletişime geç."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Bağış işlenirken hata oluştu"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Başka bir ödeme yöntemi dene veya daha fazla bilgi için bankanla iletişime geç."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Doğrulama Başarısız Oldu"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Ek doğrulama adımı başarısız oldu. Lütfen tekrar dene."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Bağışınla ilgili bir hata oluştu"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Bağışın işleme alınmamış olabilir. Makbuzlarını kontrol etmek ve onaylamak için \"Signal'a Bağış Yap\" seçeneğine, ardından \"Bağış Makbuzları\"na tıkla."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Bağış işleniyor..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "İşlem sürüyor"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Bağışın hâlâ işleniyor. Bu birkaç dakika sürebilir."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Ek doğrulama gerekli"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "Kredi kartı sağlayıcın, tarayıcı üzerinden ek bir doğrulama adımı istiyor."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Tarayıcıyı aç"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Bu sürüm Signal'in sorunsuz çalışması için gereken bir takım küçük düzeltme ve hata gidermelerini içerir.",

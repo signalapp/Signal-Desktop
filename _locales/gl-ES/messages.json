@@ -6628,7 +6628,7 @@
     "messageformat": "Doar"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "Doa {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "As insignias e as doazóns mensuais poden xestionarse no teu dispositivo móbil."
@@ -6676,46 +6676,46 @@
     "messageformat": "Grazas por apoiar a Signal. A túa contribución impulsa a nosa misión de protexer a liberdade de expresión e asegurar a comunicación global para millóns de persoas arredor do mundo mediante unha tecnoloxía privada de código aberto. Se es residente dos Estados Unidos, garda este comprobante para para a túa declaración fiscal. Signal Technology Foundation é una organización benéfica independente sen ánimo de lucro e está exenta de impostos de acordo coa sección 501c3 do Código de impostos internos dos Estados Unidos. O noso número de identificación fiscal federal é 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Método de pagamento rexeitado"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Proba outro método de pagamento ou contacta co teu banco para obter máis información."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Erro ao procesar a doazón"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Proba outro método de pagamento ou contacta co teu banco para obter máis información."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Verificación non superada"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Verificación adicional non superada. Inténtao de novo."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Produciuse un erro co teu donativo"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "É posible que a túa doazón non se procesase. Preme en «Doar a Signal» e en «Recibos de donativo» para consultar e verificar todos os recibos."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Procesando doazón…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Procesando"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "A túa doazón segue procesándose. Isto pode tardar uns minutos."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Necesítase verificación adicional"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "O emisor da túa tarxeta de crédito require un paso adicional de verificación nun navegador web."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Abrir navegador"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Esta versión contén pequenos arranxos e reparacións que fan que Signal funcione sen problemas.",

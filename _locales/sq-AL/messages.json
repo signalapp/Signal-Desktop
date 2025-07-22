@@ -6628,7 +6628,7 @@
     "messageformat": "Dhuro"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "Dhuro {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Distinktivët dhe dhurimet mujore mund t'i menaxhosh në celular."
@@ -6676,46 +6676,46 @@
     "messageformat": "Faleminderit që mbështet Signal! Kontributi yt ndihmon në nxitjen e misionit të mbrojtjes së shprehjes së lirë dhe mundësimit të komunikimit të sigurt global për miliona njerëz në mbarë botën, përmes teknologjisë së privatësisë me burim të hapur. Nëse je banor i Shteteve të Bashkuara, të lutem, ruaje këtë faturë për të dhënat e tua tatimore. Signal Technology Foundation është një ent jofitimprurës, i përjashtuar nga taksat, në Shtetet e Bashkuara sipas seksionit 501c3 të Kodit të të Ardhurave të Brendshme. Numri i ID-së federale të tatimeve është 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Metoda e pagesës u refuzua"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Provo një metodë tjetër pagese ose lidhu me bankën për më shumë informacion."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Gabim gjatë përpunimit të dhurimit"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Provo një metodë tjetër pagese ose lidhu me bankën për më shumë informacion."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Verifikimi dështoi"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Hapi shtesë i verifikimit dështoi. Të lutem, provo sërish."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Ndodhi një gabim me dhurimin"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Dhurimi mund të mos jetë përpunuar. Kliko te “Dhuro për Signal” dhe pastaj te “Faturat e dhurimit” për të kontrolluar faturat dhe për t'i konfirmuar."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Përpunimi i dhurimit..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Ende në përpunim"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Dhurimi është ende duke u përpunuar. Kjo mund të zgjasë disa minuta."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Kërkohet verifikim shtesë"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "Lëshuesi i kartës së kreditit kërkon një hap shtesë verifikimi në një shfletues interneti."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Hap shfletuesin"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ky version përmban një numër përimtimesh të vockla dhe ndreqje të metash për ta mbajtur të rrjedhshme punën e Signal-it.",

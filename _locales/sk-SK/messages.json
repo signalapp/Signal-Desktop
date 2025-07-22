@@ -6628,7 +6628,7 @@
     "messageformat": "Prispieť"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "Prispieť {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Odznaky a mesačné príspevky môžete spravovať na svojom mobilnom zariadení."
@@ -6676,46 +6676,46 @@
     "messageformat": "Ďakujeme, že podporujete Signal. Váš príspevok pomáha napĺňať naše poslanie chrániť slobodu prejavu a umožňovať bezpečnú globálnu komunikáciu pre milióny ľudí na celom svete prostredníctvom technológie ochrany súkromia s otvoreným zdrojovým kódom. Ak ste občanom Spojených štátov, uchovajte si toto potvrdenie pre svoju daňovú evidenciu. Signal Technology Foundation je nezisková organizácia oslobodená od platenia daní v Spojených štátoch, podľa sekcie 501c3 zákona Internal Revenue Code (IRC, zákon o vnútroštátnych výnosoch). Naše federálne daňové ID je 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Spôsob platby bol zamietnutý"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Skúste iný spôsob platby alebo kontaktujte svoju banku a požiadajte o viac informácií."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Chyba pri spracovaní príspevku"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Skúste iný spôsob platby alebo kontaktujte svoju banku a požiadajte o viac informácií."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Verifikácia zlyhala"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Dodatočný krok overenia zlyhal. Skúste to znova."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Počas prispievania sa vyskytla chyba"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Váš príspevok pravdepodobne nebol spracovaný. Skontrolujte svoje potvrdenia kliknutím na „Prispieť na Signal“ a potom na „Potvrdenia o prispení“."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Spracováva sa príspevok…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Stále sa spracováva"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Váš príspevok sa stále spracováva. Môže to trvať pár minút."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Vyžaduje sa dodatočné overenie"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "Vydavateľ vašej kreditnej karty vyžaduje dodatočný krok overenia vo webovom prehliadači."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Otvoriť prehliadač"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Táto verzia obsahuje množstvo drobných vylepšení a opráv chýb, ktoré zaisťujú bezproblémový chod systému Signal.",

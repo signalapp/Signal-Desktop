@@ -6628,7 +6628,7 @@
     "messageformat": "გააკეთე დონაცია"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "გააკეთე დონაცია {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "ემბლემებისა და ყოველთვიური დონაციების მართვა შენს მობილურ მოწყობილობაზეა შესაძლებელი."
@@ -6676,46 +6676,46 @@
     "messageformat": "მადლობა Signal-ის მხარდაჭერისთვის. შენი წვლილი ხელს უწყობს გამოხატვის თავისუფლების დაცვისა და მთელ მსოფლიოში მილიონობით ადამიანისთვის უსაფრთხო გლობალური კომუნიკაციის უზრუნველყოფის მისიის განხორციელებას ღია კოდის კონფიდენციალურობის ტექნოლოგიების მეშვეობით. თუ შეერთებული შტატების რეზიდენტი ხარ, გთხოვთ, ეს ქვითარი შენი საგადასახადო ჩანაწერებისთვის შეინახო. Signal-ის ტექნოლოგიების ფონდი არის გადასახადებისგან გათავისუფლებული არაკომერციული ორგანიზაცია შეერთებულ შტატებში, Internal Revenue Code-ის 501c3 მუხლის შესაბამისად. ჩვენი ფედერალური საგადასახადო ID არის 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "გადახდის მეთოდი უარყოფილია"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "სცადე გადახდის სხვა მეთოდი ან დამატებითი ინფორმაციისთვის შენს ბანკს დაუკავშირდი."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "დონაციის დამუშავებისას მოხდა შეცდომა"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "სცადე გადახდის სხვა მეთოდი ან დამატებითი ინფორმაციისთვის შენს ბანკს დაუკავშირდი."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "ვერიფიკაცია ვერ მოხერხდა"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "დამატებითი დადასტურების ეტაპის გავლა ვერ მოხერხდა. გთხოვთ, თავიდან სცადო."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "შენს დონაციასთან დაკავშირებით შეცდომა მოხდა"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "შეიძლება, შენი დონაცია ვერ დამუშავდა. ქვითრების შესამოწმებლად და დასადასტურებლად აირჩიე „დონაცია Signal-ისთვის“ და შემდეგ „დონაციის ქვითრები“."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "მიმდინარეობს დონაციის დამუშავება..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "ისევ ვამუშავებთ"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "შენი დონაცია ისევ მუშავდება. შეიძლება, ამას რამდენიმე წუთი დასჭირდეს."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "საჭიროა დამატებითი ვერიფიკაცია"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "შენი საკრედიტო ბარათის გამცემი ვებ ბრაუზერში დამატებითი დადასტურების ეტაპის გავლას ითხოვს."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "ბრაუზერის გახსნა"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "ეს ვერსია შეიცავს უამრავ მცირე შესწორებას და ბაგების გამოსწორებებს Signal-ის შეუფერხებლად მუშაობის შესანარჩუნებლად.",

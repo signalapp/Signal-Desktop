@@ -6628,7 +6628,7 @@
     "messageformat": "Doar"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "Doar {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Os selos e as doações mensais podem ser gerenciados no seu dispositivo móvel."
@@ -6676,46 +6676,46 @@
     "messageformat": "Obrigado por apoiar o Signal. Sua contribuição ajuda na nossa missão de proteger a liberdade de expressão e permite a comunicação global segura para milhões de pessoas em todo o mundo, por meio da tecnologia de privacidade open source. Se você mora nos Estados Unidos, guarde a nota para seus registros fiscais. A Signal Technology Foundation é uma organização sem fins lucrativos, isenta de impostos nos Estados Unidos, sob a seção 501c3 do Código da Receita Federal. Nossa identificação fiscal nos EUA é 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Forma de pagamento recusada"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Tente outra forma de pagamento ou entre em contato com seu banco para obter informações sobre o erro."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Erro ao processar doação"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Tente outra forma de pagamento ou entre em contato com seu banco para obter informações sobre o erro."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Falha ao verificar"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Ocorreu um erro na etapa de verificação adicional. Tente novamente."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Ocorreu um erro com sua doação"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Sua doação talvez não tenha sido processada. Clique em “Doar para o Signal” e depois em “Recibos de doação” para verificar seus recibos e confirmar."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Processando doação…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Ainda em processamento"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Sua doação ainda está sendo processada. Isso pode levar alguns minutos."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Verificação adicional obrigatória"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "O emissor do seu cartão de crédito exige uma etapa adicional de verificação em um navegador da web."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Abrir navegador"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Essa versão contém pequenos retoques e consertos no Signal para ele continuar funcionando confortavelmente.",

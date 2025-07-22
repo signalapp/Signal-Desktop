@@ -6628,7 +6628,7 @@
     "messageformat": "التبرُّع"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "تبرَّع لـ {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "يمكن إدارة الشارات والتبرُّعات الشهرية على جهازك المحمول."
@@ -6676,46 +6676,46 @@
     "messageformat": "شكرًا لك على دعم سيجنال. تساعدنا مساهمتكم على دعم مهمة حماية حرية التعبير وتمكين التواصل العالمي الآمن لملايين الأشخاص حول العالم، وذلك من خلال تقنية الخصوصية مفتوحة المصدر. إذا كُنتَ من المقيمين بالولايات المتحدة الأمريكية، يُرجى الاحتفاظ بهذا الإيصال لتقديمه إلى مصلحة الضرائب. مؤسسة تكنولوجيا سيجنال‬ هي منظمة غير ربحية معفاة من الضرائب في الولايات المتحدة بموجب الفقرة 501c3 من قانون الإيرادات الداخلية. مُعرِّفنا الضريبي هو 4506840-82."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "طريقة الدفع مرفوضة."
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "جرِّب طريقة دفع أخرى أو تواصَل مع المصرف الذي تتعامل معه للمزيد من المعلومات."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "حدث خطأ أثناء معالجة التبرُّع"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "جرِّب طريقة دفع أخرى أو تواصَل مع المصرف الذي تتعامل معه للمزيد من المعلومات."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "فشل التحقُّق"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "فشلت خطوة التحقُّق الإضافية. يُرجى المُحاولة مرّة أخرى."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "حدث خطأ ما في تبرُّعك."
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "ربما لم تتمّ معالجة تبرُّعك. اضغط على \"تبرَّع لسيجنال\"، ثم \"إيصالات التبرُّع\" للتحقُّق من إيصالاتك والتأكيد."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "التبرُّع قيد المعالجة…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "ما زال قيد المعالجة"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "لا يزال تبرُّعك قيد المعالجة. قد يستغرق ذلك بضع دقائق."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "التحقُّق الإضافي مطلوب"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "تتطلَّب المؤسَّسة المُصدِرة لبطاقة ائتمانك خطوة تحقُّق إضافية على مُتصفِّح الويب."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "افتح المُتصفِّح"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "يحتوي هذا الإصدار على عدد من التعديلات الصغيرة وإصلاحات الأخطاء للحفاظ على عمل سيجنال بسلاسة.",

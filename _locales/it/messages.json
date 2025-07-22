@@ -6628,7 +6628,7 @@
     "messageformat": "Dona"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "Dona {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Puoi gestire i badge e le donazioni mensili sul tuo dispositivo mobile."
@@ -6676,46 +6676,46 @@
     "messageformat": "Grazie per sostenere Signal. Il tuo contributo aiuta ad alimentare la missione di sviluppare una tecnologia open source per la privacy che tuteli la libera espressione e che consenta una comunicazione globale sicura per milioni di persone in tutto il mondo. Se sei residente negli Stati Uniti, conserva questa ricevuta per la tua documentazione fiscale. Signal Technology Foundation è un'organizzazione non profit esente da tasse negli Stati Uniti ai sensi della sezione 501c3 dell'Internal Revenue Code. Il nostro Federal Tax ID è 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "Metodo di pagamento rifiutato"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Prova un altro metodo di pagamento o contatta la tua banca per maggiori informazioni."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Errore nell'elaborazione della donazione"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "Prova un altro metodo di pagamento o contatta la tua banca per maggiori informazioni."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Verifica non riuscita"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Il passaggio di verifica aggiuntivo non è riuscito. Riprova."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Si è verificato un errore con la tua donazione"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Probabilmente non è stato possibile elaborare la tua donazione. Clicca su \"Dona a Signal\" e poi su \"Ricevute delle donazioni\" per controllare le tue ricevute e assicurarti che la donazione sia stata effettuata correttamente."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Donazione in elaborazione…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Ancora in fase di elaborazione"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "La tua donazione è ancora in fase di elaborazione. L'operazione può richiedere alcuni minuti."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "È richiesta un'ulteriore verifica"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "La società emittente della tua carta di credito richiede un ulteriore passaggio di verifica da completare in un browser web."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Apri il browser"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Questa versione contiene una serie di piccole modifiche e correzioni di bug per far funzionare Signal senza problemi.",

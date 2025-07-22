@@ -6628,7 +6628,7 @@
     "messageformat": "לתרומה"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "תרומה של {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "ניתן לנהל תגים ותרומות חודשיות במכשיר הנייד שלך."
@@ -6676,46 +6676,46 @@
     "messageformat": "תודה על התמיכה ב–Signal. התרומה שלך עוזרת להמשיך להניע את המשימה שלנו להגן על חופש הביטוי ולאפשר תקשורת גלובלית מאובטחת עבור מיליונים ברחבי העולם, באמצעות טכנולוגיית פרטיות בקוד פתוח. אם מקום המגורים שלך הוא ארה״ב, יש לשמור את הקבלה הזו לצורך רישומי המס שלך. Signal Technology Foundation היא עמותה ללא מטרות רווח פטורה ממס בארה״ב תחת סעיף 501c3 של קוד מס ההכנסה האמריקאי. מזהה המס הפדרלי שלנו הוא 82-4506840."
   },
   "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+    "messageformat": "אמצעי התשלום נדחה"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "יש לנסות שיטת תשלום אחרת או ליצור קשר עם הבנק שלך לקבלת מידע נוסף."
   },
   "icu:Donations__ErrorProcessingDonation": {
-    "messageformat": "Error processing donation"
+    "messageformat": "שגיאה בעיבוד תרומה"
   },
   "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+    "messageformat": "יש לנסות שיטת תשלום אחרת או ליצור קשר עם הבנק שלך לקבלת מידע נוסף."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "וידוא נכשל"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "שלב האימות הנוסף נכשל. יש לנסות שוב."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "אירעה שגיאה במהלך עיבוד התרומה שלך"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "ייתכן שהתרומה שלך לא עובדה בהצלחה. יש ללחוץ על ״תרומה ל–Signal״ ואז על ״קבלות על תרומות״ כדי לבדוק את הקבלות שלך ולאשר."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "תרומה בעיבוד…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "עדין מעבד"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "התרומה שלך עדיין בתהליך עיבוד. ייתכן וזה יקח מספר דקות"
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "נדרש אימות נוסף"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "חברת האשראי שלך דורשת שלב אימות נוסף בדפדפן אינטרנט."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "פתיחת דפדפן"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "גרסה זו מכילה מספר של שפצורים קטנים ותיקוני תקלים כדי לשמור על Signal שירוץ באופן חלק.",
