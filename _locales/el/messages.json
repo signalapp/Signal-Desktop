@@ -6622,16 +6622,25 @@
     "messageformat": "Το απόρρητο πάνω από το κέρδος"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Ιδιωτικά μηνύματα, χρηματοδότηση από εσένα. Χωρίς διαφημίσεις, παρακολούθηση, συμβιβασμούς. Κάνε τώρα μια δωρεά για να στηρίξεις το Signal. <learnMoreLink>Μάθε περισσότερα</learnMoreLink>"
+    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Κάνε δωρεά"
   },
+  "icu:PreferencesDonations__my-support": {
+    "messageformat": "My Support"
+  },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "Δωρεά {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Μπορείς να διαχειριστείς τα σήματα και τις μηνιαιές δωρεές στην κινητή σου συσκευή."
+  },
+  "icu:PreferencesDonations__privacy-modal-title": {
+    "messageformat": "Your information is private"
+  },
+  "icu:PreferencesDonations__privacy-modal-content": {
+    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Αποδείξεις"
@@ -6657,6 +6666,15 @@
   "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
     "messageformat": "Ημερομηνία πληρωμής"
   },
+  "icu:DonateFlow__make-a-one-time-donation": {
+    "messageformat": "Make a one time donation"
+  },
+  "icu:DonateFlow__desktop-one-time-only-notice": {
+    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+  },
+  "icu:DonateFlow__having-issues-contact-support": {
+    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Απόδειξη δωρεάς"
   },
@@ -6675,47 +6693,68 @@
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Σε ευχαριστούμε που στηρίζεις το Signal. Η συνεισφορά σου βοηθά στην ανάπτυξη της τεχνολογίας απορρήτου ανοιχτού κώδικα, που προστατεύει την ελευθερία της έκφρασης και δίνει τη δυνατότητα ασφαλών διεθνών επικοινωνιών για εκατομμύρια ανθρώπους σε όλο τον κόσμο. Αν είσαι κάτοικος των Ηνωμένων Πολιτειών, παρακαλούμε κράτα αυτή την απόδειξη για τα φορολογικά σου αρχεία. Το Signal Technology Foundation είναι ένας μη κερδοσκοπικός οργανισμός στις Ηνωμένες Πολιτείες, που έχει φοροαπαλλαγή σύμφωνα με την ενότητα 501c3 του Internal Revenue Code. Το Federal Tax ID μας είναι 82-4506840."
   },
-  "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+  "icu:Donations__Toast__Cancelled": {
+    "messageformat": "Donation cancelled"
   },
-  "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+  "icu:Donations__Toast__Completed": {
+    "messageformat": "Donation completed"
   },
-  "icu:Donations__ErrorProcessingDonation": {
+  "icu:Donations__Toast__Error": {
     "messageformat": "Error processing donation"
   },
-  "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+  "icu:Donations__Toast__Processing": {
+    "messageformat": "Processing donation"
+  },
+  "icu:Donations__Toast__VerificationFailed": {
+    "messageformat": "Verification failed"
+  },
+  "icu:Donations__Toast__VerificationNeeded": {
+    "messageformat": "You have a donation in progress that needs additional verification."
+  },
+  "icu:Donations__PaymentMethodDeclined": {
+    "messageformat": "Η μέθοδος πληρωμής απορρίφθηκε"
+  },
+  "icu:Donations__PaymentMethodDeclined__Description": {
+    "messageformat": "Δοκίμασε άλλο τρόπο πληρωμής ή επικοινώνησε με την τράπεζά σου για περισσότερες πληροφορίες."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Η επαλήθευση απέτυχε"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Το πρόσθετο βήμα επαλήθευσης απέτυχε. Δοκίμασε ξανά."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Παρουσιάστηκε σφάλμα με τη δωρεά σου"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Η δωρεά σου ενδέχεται να μην έχει διεκπεραιωθεί. Κάνε κλικ στην επιλογή \"Δωρεά στο Signal\" και, στη συνέχεια, στην επιλογή \"Αποδείξεις δωρεάς\" για να ελέγξεις τις αποδείξεις σου και να τις επιβεβαιώσεις."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Επεξεργασία δωρεάς…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Ακόμη σε επεξεργασία"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Η δωρεά σου είναι ακόμη σε επεξεργασία. Αυτό μπορεί να πάρει μερικά λεπτά."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Απαιτείται πρόσθετη επαλήθευση"
+  },
+  "icu:Donations__3dsValidationNeeded--waiting": {
+    "messageformat": "Waiting for verification"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "Ο εκδότης της πιστωτικής σου κάρτας απαιτεί ένα επιπλέον βήμα επαλήθευσης σε πρόγραμμα περιήγησης."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Άνοιγμα προγράμματος περιήγησης"
+  },
+  "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
+    "messageformat": "Re-open browser"
+  },
+  "icu:Donations__3dsValidationNeeded__CancelDonation": {
+    "messageformat": "Cancel donation"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Αυτή η έκδοση περιλαμβάνει διάφορες μικρές βελτιώσεις και αποσφαλματώσεις για να συνεχίσει το Signal να λειτουργεί ομαλά.",
@@ -6745,16 +6784,7 @@
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.58--0": {
-    "messageformat": "Μια νέα ενότητα στον επιλογέα αντιδράσεων μηνυμάτων εμφανίζει αυτόματα όλες τις αντιδράσεις emoji που έχει λάβει ένα μήνυμα."
-  },
-  "icu:WhatsNew__v7.59--0": {
-    "messageformat": "Βελτιώσεις απόδοσης σε Linux."
-  },
-  "icu:WhatsNew__v7.61--0": {
-    "messageformat": "Αυτή η ενημέρωση βελτιώνει την ποιότητα και την αξιοπιστία του ήχου κατά τη διάρκεια φωνητικών κλήσεων και βιντεοκλήσεων και εισάγει καλύτερη αυτόματη διαμόρφωση των συνδεδεμένων μικροφώνων και ηχείων. Ευχαριστούμε τους χρήστες <padenot></padenot>, <kinetiknz></kinetiknz> και <Pehrsons></Pehrsons> στη Mozilla για τη βοήθειά τους με αυτό το έργο."
-  },
-  "icu:WhatsNew__v7.62--0": {
-    "messageformat": "Διορθώσαμε ένα σπάνιο σφάλμα που μπορούσε να εμποδίσει τον σωστό συγχρονισμό ορισμένων επαφών."
+  "icu:WhatsNew__v7.64--0": {
+    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
   }
 }

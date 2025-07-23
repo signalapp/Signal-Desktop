@@ -6622,16 +6622,25 @@
     "messageformat": "फायद्यापेक्षा गोपनीयता"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "आपल्या निधीवर चालणारे, गोपनीय संदेशन. कोणत्याही जाहिराती नाहीत, कोणतेही ट्रॅकिंग नाही, कोणतीही तडजोड नाही. Signal ला समर्थन देण्यासाठी आता देणगी द्या. <learnMoreLink>अधिक जाणून घ्या</learnMoreLink>"
+    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "देणगी द्या"
   },
+  "icu:PreferencesDonations__my-support": {
+    "messageformat": "My Support"
+  },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "{formattedCurrencyAmount} देणगी द्या"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "बॅजेस आणि मासिक देणग्या तुमच्या मोबाईल डिव्हाईसवरून व्यवस्थापित करता येतात."
+  },
+  "icu:PreferencesDonations__privacy-modal-title": {
+    "messageformat": "Your information is private"
+  },
+  "icu:PreferencesDonations__privacy-modal-content": {
+    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "पावत्या"
@@ -6657,6 +6666,15 @@
   "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
     "messageformat": "तारीख भरली"
   },
+  "icu:DonateFlow__make-a-one-time-donation": {
+    "messageformat": "Make a one time donation"
+  },
+  "icu:DonateFlow__desktop-one-time-only-notice": {
+    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+  },
+  "icu:DonateFlow__having-issues-contact-support": {
+    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "देणगीची पावती"
   },
@@ -6675,47 +6693,68 @@
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Signal ला समर्थन दिल्याबद्दल धन्यवाद. तुमचे योगदान ओपन सोर्स गोपनीयता तंत्रज्ञानामार्फत मुक्त अभिव्यक्तीचे रक्षण करण्यास आणि जगभरातील लक्षावधी लोकांना जागतिक पातळीवर एकमेकांशी संपर्क साधण्यास मदत करते. जर तुम्ही युनायटेड स्टेट्सचे रहिवासी असाल, तर कृपया तुमच्या कर नोंदींसाठी ही पावती जपून ठेवा. सिग्नल टेक्नॉलॉजी फाऊंडेशन ही इंटर्नल रेव्हेन्यू कोडच्या कलम 501c3 अंतर्गत युनायटेड स्टेट्समधील एक करमुक्त ना-नफा संस्था आहे. आमचा फेडरल कर क्रमांक आहे 82-4506840."
   },
-  "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+  "icu:Donations__Toast__Cancelled": {
+    "messageformat": "Donation cancelled"
   },
-  "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+  "icu:Donations__Toast__Completed": {
+    "messageformat": "Donation completed"
   },
-  "icu:Donations__ErrorProcessingDonation": {
+  "icu:Donations__Toast__Error": {
     "messageformat": "Error processing donation"
   },
-  "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+  "icu:Donations__Toast__Processing": {
+    "messageformat": "Processing donation"
+  },
+  "icu:Donations__Toast__VerificationFailed": {
+    "messageformat": "Verification failed"
+  },
+  "icu:Donations__Toast__VerificationNeeded": {
+    "messageformat": "You have a donation in progress that needs additional verification."
+  },
+  "icu:Donations__PaymentMethodDeclined": {
+    "messageformat": "पेमेंट करायची पद्धत नाकारण्यात आली"
+  },
+  "icu:Donations__PaymentMethodDeclined__Description": {
+    "messageformat": "दुसरी पेमेंट पद्धत वापरून पहा किंवा अधिक माहितीसाठी आपल्या बँकेशी संपर्क साधा."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "सत्यापन अयशस्वी"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "अतिरिक्त पडताळणीची पायरी अयशस्वी ठरली. कृपया पुन्हा प्रयत्न करा."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "तुमच्या देणगीमध्ये एक त्रुटी उद्भवली"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "तुमच्या देणगीची प्रक्रिया कदाचित पार पडली नसेल. \"Signalला देणगी द्या\" आणि मग \"देणगीच्या पावत्या\" वर क्लिक करा आणि तुमच्या पावत्या तपासून खात्री करा."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "देणगीवर प्रक्रिया करत आहे..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "अजूनही प्रक्रिया करत आहे"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "आपल्या देणगीवर अद्याप प्रक्रिया केली जात आहे. ह्याला काही मिनिटे लागू शकतात."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "अतिरिक्त सत्यापन आवश्यक आहे"
+  },
+  "icu:Donations__3dsValidationNeeded--waiting": {
+    "messageformat": "Waiting for verification"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "तुमच्या क्रेडिट कार्ड प्रसृतकर्त्याला वेब ब्राऊझरमध्ये आणखी एक पडताळणीची पायरी पूर्ण करून घ्यावी लागते."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "ब्राऊझर उघडा"
+  },
+  "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
+    "messageformat": "Re-open browser"
+  },
+  "icu:Donations__3dsValidationNeeded__CancelDonation": {
+    "messageformat": "Cancel donation"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal निर्विघ्नपणे चालत ठेवण्यासाठी या आवृत्तीत अनेक लहान समन्वय आणि त्रुटी दुरुस्त्या समाविष्ट आहेत",
@@ -6745,16 +6784,7 @@
     "messageformat": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.58--0": {
-    "messageformat": "संदेश प्रतिक्रिया वेचकामधील एक नवीन विभाग आपोआप एका संदेशाला मिळालेल्या सर्व इमोजी प्रतिक्रिया दाखवतो. आता तुम्हीसुद्धा इतरांप्रमाणेच नेहमीचा चमकणारा हार्ट इमोजी समाविष्ट करा किंवा, तुम्ही तुमच्या स्वतःच्या मर्जीनुसार दुसरा एखादा इमोजी वापरू शकता."
-  },
-  "icu:WhatsNew__v7.59--0": {
-    "messageformat": "हे अद्यतन समर्थित हार्डवेअर वर सुधारित कामगिरीसाठी आणि व्हिडिओ प्लेबॅक अधिक सुरळीत करण्यासाठी Linux वर GPU त्वरण सक्रिय करते."
-  },
-  "icu:WhatsNew__v7.61--0": {
-    "messageformat": "हे अद्यतन व्हॉईस आणि व्हिडिओ कॉल्स दरम्यान ऑडिओ गुणवत्ता आणि विश्वसनीयता सुधारते, आणि जोडलेल्या मायक्रोफोन्स आणि स्पीकर्समध्ये आपोआप अधिक चांगले कॉन्फिगरेशन निर्माण करते. मॉझिलामधील <padenot></padenot>,<kinetiknz></kinetiknz>, आणि <Pehrsons></Pehrsons> यांचे या प्रकल्पात त्यांनी केलेल्या मदतीसाठी आभार."
-  },
-  "icu:WhatsNew__v7.62--0": {
-    "messageformat": "आम्ही एक क्वचित उद्भवणारा बग दुरुस्त केला ज्यामुळे काही संंपर्क नीट सिंक्रोनाईझ होत नव्हते."
+  "icu:WhatsNew__v7.64--0": {
+    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
   }
 }
