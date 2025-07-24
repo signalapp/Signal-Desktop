@@ -642,9 +642,7 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
         englishShortName: emojiParent.englishShortNameDefault,
         skinTone,
       };
-      const shouldClose =
-        event.nativeEvent.pointerType !== 'mouse' &&
-        !(event.ctrlKey || event.metaKey);
+      const shouldClose = false;
       onSelectEmoji(emojiSelection, shouldClose);
     },
     [
