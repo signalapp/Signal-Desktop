@@ -48,24 +48,11 @@ export function initialize(): void {
   setPinoDestination(stream, redactAll);
 }
 
-function toLocation(source?: string, line?: number, column?: number) {
-  if (source == null) {
-    return '(@ unknown)';
-  }
-  if (line != null && column != null) {
-    return `(@ ${source}:${line}:${column})`;
-  }
-  if (line != null) {
-    return `(@ ${source}:${line})`;
-  }
-  return `(@ ${source})`;
-}
-
 window.onerror = (message, source, line, column, error) => {
   const errorInfo = Errors.toLogFormat(error);
   log.error(
     `Top-level unhandled error: ${message}, ${errorInfo}`,
-    toLocation(source, line, column)
+    Errors.toLocation(source, line, column)
   );
 };
 

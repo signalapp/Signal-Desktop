@@ -16,7 +16,6 @@ import type {
 import { CallViewMode } from '../types/Calling';
 import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer';
 import type { LocalizerType } from '../types/Util';
-import { toLogFormat } from '../types/errors';
 import { usePageVisibility } from '../hooks/usePageVisibility';
 import { useDevicePixelRatio } from '../hooks/useDevicePixelRatio';
 import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant';
@@ -452,9 +451,7 @@ export function GroupCallRemoteParticipants({
         videoRequest = remoteParticipants.map(nonRenderedRemoteParticipant);
         break;
       default:
-        log.error(toLogFormat(missingCaseError(videoRequestMode)));
-        videoRequest = remoteParticipants.map(nonRenderedRemoteParticipant);
-        break;
+        throw missingCaseError(videoRequestMode);
     }
     setGroupCallVideoRequest(
       videoRequest,

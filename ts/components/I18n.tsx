@@ -7,9 +7,7 @@ import type {
   LocalizerType,
   ICUJSXMessageParamsByKeyType,
 } from '../types/Util';
-import { createLogger } from '../logging/log';
-
-const log = createLogger('I18n');
+import { strictAssert } from '../util/assert';
 
 export type Props<Key extends keyof ICUJSXMessageParamsByKeyType> = {
   /** The translation string id */
@@ -29,11 +27,7 @@ export function I18n<Key extends keyof ICUJSXMessageParamsByKeyType>({
   // Indirection for linter/migration tooling
   i18n: localizer,
 }: Props<Key>): JSX.Element | null {
-  if (!id) {
-    log.error('Error: <I18n> id prop not provided');
-    return null;
-  }
-
+  strictAssert(id != null, 'Error: <I18n> id prop not provided');
   const intl = localizer.getIntl();
   return <>{intl.formatMessage({ id }, components, {})}</>;
 }

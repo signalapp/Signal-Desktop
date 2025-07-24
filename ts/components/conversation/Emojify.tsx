@@ -39,7 +39,7 @@ export function Emojify({
         if (type === 'emoji') {
           // If we don't recognize the emoji, render it as text.
           if (!isEmojiVariantValue(match)) {
-            log.error(`Found emoji that we did not recognize: ${match}`);
+            log.warn('Found emoji that we did not recognize', match.length);
             return renderNonEmoji({ text: match, key: index });
           }
 

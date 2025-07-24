@@ -59,6 +59,7 @@ import {
   shouldNotify,
 } from '../types/NotificationProfile';
 import type { NotificationProfileType } from '../types/NotificationProfile';
+import { strictAssert } from '../util/assert';
 
 const log = createLogger('CallManager');
 
@@ -292,11 +293,7 @@ function ActiveCallManager({
   }, [callLink]);
 
   const handleShareCallLinkViaSignal = useCallback(() => {
-    if (!callLink) {
-      log.error('Missing call link');
-      return;
-    }
-
+    strictAssert(callLink != null, 'Missing call link');
     showShareCallLinkViaSignal(callLink, i18n);
   }, [callLink, i18n, showShareCallLinkViaSignal]);
 

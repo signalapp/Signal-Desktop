@@ -1656,7 +1656,7 @@ export async function modifyGroupV2({
         // Fetch credentials only once
         refreshedCredentials = true;
       } else if (error.code === 409) {
-        log.error(
+        log.warn(
           `modifyGroupV2/${logId}: Conflict while updating. Timed out; not retrying.`
         );
         // We don't wait here because we're breaking out of the loop immediately.

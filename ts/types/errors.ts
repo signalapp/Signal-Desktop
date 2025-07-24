@@ -18,4 +18,21 @@ export function toLogFormat(error: unknown): string {
   return result;
 }
 
+export function toLocation(
+  source?: string,
+  line?: number,
+  column?: number
+): string {
+  if (source == null) {
+    return '(@ unknown)';
+  }
+  if (line != null && column != null) {
+    return `(@ ${source}:${line}:${column})`;
+  }
+  if (line != null) {
+    return `(@ ${source}:${line})`;
+  }
+  return `(@ ${source})`;
+}
+
 export class ProfileDecryptError extends Error {}
