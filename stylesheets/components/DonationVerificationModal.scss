@@ -11,3 +11,7 @@
 .module-Modal__title.DonationVerificationModal__title {
   @include mixins.font-title-medium;
 }
+
+.DonationVerificationModal__body_inner {
+  @include mixins.font-body-2;
+}

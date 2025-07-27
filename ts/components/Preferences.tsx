@@ -103,6 +103,7 @@ import {
   isChatFoldersEnabled,
 } from '../types/ChatFolder';
 import type { GetConversationByIdType } from '../state/selectors/conversations';
+import type { ProfileEditorPage } from '../types/Nav';
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
@@ -210,7 +211,7 @@ type PropsFunctionType = {
   renderDonationsPane: (options: {
     contentsRef: MutableRefObject<HTMLDivElement | null>;
     page: SettingsPage;
-    setPage: (page: SettingsPage) => void;
+    setPage: (page: SettingsPage, profilePage?: ProfileEditorPage) => void;
   }) => JSX.Element;
   renderProfileEditor: (options: {
     contentsRef: MutableRefObject<HTMLDivElement | null>;

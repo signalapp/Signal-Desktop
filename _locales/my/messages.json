@@ -6622,16 +6622,25 @@
     "messageformat": "ကိုယ်ပိုင်အချက်အလက်သည် အကျိုးအမြတ်ထက် ပိုအရေးကြီးပါသည်"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "သင် ငွေကြေးထောက်ပံ့ထားသည့် သီးသန့် မက်ဆေ့ချ်လုပ်ဆောင်ချက်။ ကြော်ငြာများ မရှိ၊ ခြေရာခံခြင်း မရှိ၊ အပေးအယူ မရှိ။ Signal ကို ပံ့ပိုးရန် ယခုပင် လှူဒါန်းလိုက်ပါ။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
+    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "လှူဒါန်းရန်"
   },
+  "icu:PreferencesDonations__my-support": {
+    "messageformat": "My Support"
+  },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "{formattedCurrencyAmount} လှူရန်"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "ဘဲ့ဂျ်များနှင့် လစဉ်အလှူငွေများကို သင့်မိုဘိုင်းစက်တွင် စီမံခန့်ခွဲနိုင်ပါသည်။"
+  },
+  "icu:PreferencesDonations__privacy-modal-title": {
+    "messageformat": "Your information is private"
+  },
+  "icu:PreferencesDonations__privacy-modal-content": {
+    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "ပြေစာများ"
@@ -6657,6 +6666,15 @@
   "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
     "messageformat": "ပေးချေသည့် ရက်စွဲ"
   },
+  "icu:DonateFlow__make-a-one-time-donation": {
+    "messageformat": "Make a one time donation"
+  },
+  "icu:DonateFlow__desktop-one-time-only-notice": {
+    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+  },
+  "icu:DonateFlow__having-issues-contact-support": {
+    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "လှူဒါန်းမှု ပြေစာ"
   },
@@ -6675,47 +6693,68 @@
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Signal ကို ပံ့ပိုးကူညီသည့်အတွက် ကျေးဇူးတင်ပါသည်။ သင်၏ ကူညီထောက်ပံ့မှုသည် လွတ်လပ်စွာ ထုတ်ဖော်ပြောဆိုခွင့်ကို ကာကွယ်ပေးခြင်းနှင့် သုံးစွဲသူသန်းပေါင်းများစွာ၏ ကမ္ဘာတစ်ဝန်း ဆက်သွယ်မှုများကို လုံခြုံစိတ်ချရစေခြင်း စသည့် မစ်ရှင်ကို Open Source Privacy Technology မှတစ်ဆင့် ကူညီအားဖြည့်ပေးပါသည်။ သင်သည် အမေရိကန်ပြည်ထောင်စုတွင် နေထိုင်သူဖြစ်ပါက သင်၏အခွန်မှတ်တမ်းများအတွက် ဤပြေစာကိုထိန်းသိမ်းထားပေးပါ။ Signal Technology Foundation သည် ပြည်တွင်းအခွန်ဥပဒေ၏ ပုဒ်မ 501c3 အရ အမေရိကန်ပြည်ထောင်စုရှိ အခွန်ကင်းလွတ်ခွင့်ရသော အကျိုးအမြတ်မယူသည့် အဖွဲ့အစည်း ဖြစ်ပါသည်။ ကျွန်ုပ်တို့၏ ဖက်ဒရယ် အခွန် ID မှာ 82–4506840 ဖြစ်ပါသည်။"
   },
-  "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+  "icu:Donations__Toast__Cancelled": {
+    "messageformat": "Donation cancelled"
   },
-  "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+  "icu:Donations__Toast__Completed": {
+    "messageformat": "Donation completed"
   },
-  "icu:Donations__ErrorProcessingDonation": {
+  "icu:Donations__Toast__Error": {
     "messageformat": "Error processing donation"
   },
-  "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+  "icu:Donations__Toast__Processing": {
+    "messageformat": "Processing donation"
+  },
+  "icu:Donations__Toast__VerificationFailed": {
+    "messageformat": "Verification failed"
+  },
+  "icu:Donations__Toast__VerificationNeeded": {
+    "messageformat": "You have a donation in progress that needs additional verification."
+  },
+  "icu:Donations__PaymentMethodDeclined": {
+    "messageformat": "ငွေပေးချေမှုနည်းလမ်းကို ငြင်းဆိုထားသည်"
+  },
+  "icu:Donations__PaymentMethodDeclined__Description": {
+    "messageformat": "အခြားသော ငွေပေးချေနည်းကို သုံးကြည့်ပါ သို့မဟုတ် နောက်ထပ်အချက်အလက်များအတွက် သင့်ဘဏ်ကို ဆက်သွယ်ပါ။"
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "အတည်ပြုခြင်း မအောင်မြင်ပါ"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "ထပ်ဆောင်းအတည်ပြုမှု မအောင်မြင်ပါ။ ထပ်ကြိုးစားကြည့်ပါ။"
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "သင့်လှူဒါန်းမှုတွင် ချို့ယွင်းချက်တစ်ခု ဖြစ်ခဲ့သည်"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "သင်၏အလှူငွေကို စီမံဆောင်ရွက်၍မရပါ။ သင်၏ပြေစာများကို စစ်ဆေးပြီး အတည်ပြုရန် \"Signal ကို လှူရန်\" ကိုနှိပ်ပြီးနောက် \"လှူဒါန်းမှု ပြေစာများ\" ကိုနှိပ်ပါ။"
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "လှူဒါန်းမှုကို စီမံလုပ်ဆောင်နေသည်..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "စီမံလုပ်ဆောင်နေဆဲ"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "သင့်လှူဒါန်းမှုကို လုပ်ဆောင်နေဆဲ ဖြစ်သည်။ မိနစ်အနည်းငယ် ကြာနိုင်ပါသည်။"
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "ထပ်ဆောင်း အတည်ပြုချက် လိုအပ်ပါသည်"
+  },
+  "icu:Donations__3dsValidationNeeded--waiting": {
+    "messageformat": "Waiting for verification"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "သင့်ခရက်ဒစ်ကတ်ထုတ်ပေးသူမှ ဝဘ်ဘရောက်ဆာတွင် နောက်ထပ်အတည်ပြုချက်အဆင့်တစ်ခု တောင်းခံပါသည်။"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "ဘရောက်ဆာကိုဖွင့်ပါ"
+  },
+  "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
+    "messageformat": "Re-open browser"
+  },
+  "icu:Donations__3dsValidationNeeded__CancelDonation": {
+    "messageformat": "Cancel donation"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "ဤဗားရှင်းတွင် Signal အား အထစ်အငေါ့မရှိ လုပ်ဆောင်နိုင်စေရန် ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် အနေအထား ပြုပြင်မှု အသေးလေးများ ပါဝင်ပါသည်။",
@@ -6745,16 +6784,7 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.58--0": {
-    "messageformat": "မက်ဆေ့ချ်တုံ့ပြန်မှုရွေးချယ်ရေးစနစ်ရှိ ကဏ္ဍအသစ်တစ်ခုသည် မက်ဆေ့ချ်လက်ခံရရှိသည့် အီမိုဂျီတုံ့ပြန်မှုအားလုံးကို အလိုအလျောက်ပြသမည်ဖြစ်သည်။"
-  },
-  "icu:WhatsNew__v7.59--0": {
-    "messageformat": "Linux တွင် စွမ်းဆောင်ရည် အရှိန်မြှင့်တင်မှုများ။"
-  },
-  "icu:WhatsNew__v7.61--0": {
-    "messageformat": "ဤအပ်ဒိတ်သည် အသံနှင့် ဗီဒီယိုခေါ်ဆိုမှုများအတွင်း အသံအရည်အသွေးနှင့် ယုံကြည်စိတ်ချရမှုကို မြှင့်တင်ပေးပြီး ချိတ်ဆက်ထားသော မိုက်ခရိုဖုန်းများနှင့် စပီကာများ၏ အလိုအလျောက်ချိတ်ဆက်မှုစနစ်ကို ပိုမိုကောင်းမွန်စေသည်။ Mozilla ရှိ <padenot></padenot> ၊ <kinetiknz></kinetiknz> နှင့် <Pehrsons></Pehrsons> တို့အား ဤပရောဂျက်တွင် ကူညီပေးမှုအတွက် ကျေးဇူးတင်ပါသည်။"
-  },
-  "icu:WhatsNew__v7.62--0": {
-    "messageformat": "အချို့ အဆက်အသွယ်များကို တူအောင်ညှိခြင်းမှ ဟန့်တားနိုင်သည့် ဖြစ်ခဲသော ချွတ်ယွင်းချက်တစ်ခုကို ပြင်ဆင်ထားပါသည်။"
+  "icu:WhatsNew__v7.64--0": {
+    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
   }
 }

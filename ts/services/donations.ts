@@ -300,6 +300,14 @@ export async function _runDonationWorkflow(): Promise<void> {
           log.info(
             `${logId}: Waiting for user to return from confirmation URL. Returning.`
           );
+          if (!isDonationPageVisible()) {
+            log.info(
+              `${logId}: Donation page not visible. Showing verification needed toast.`
+            );
+            window.reduxActions.toast.showToast({
+              toastType: ToastType.DonationVerificationNeeded,
+            });
+          }
           return;
         } else if (type === donationStateSchema.Enum.INTENT_CONFIRMED) {
           log.info(`${logId}: Attempting to get receipt`);
@@ -346,9 +354,7 @@ export async function _runDonationWorkflow(): Promise<void> {
           if (type === donationStateSchema.Enum.INTENT_METHOD) {
             await failDonation(donationErrorTypeSchema.Enum.PaymentDeclined);
           } else {
-            await failDonation(
-              donationErrorTypeSchema.Enum.DonationProcessingError
-            );
+            await failDonation(donationErrorTypeSchema.Enum.GeneralError);
           }
           throw error;
         }
@@ -360,9 +366,7 @@ export async function _runDonationWorkflow(): Promise<void> {
           log.warn(
             `${logId}: Donation step threw unexpectedly. Failing donation. ${Errors.toLogFormat(error)}`
           );
-          await failDonation(
-            donationErrorTypeSchema.Enum.DonationProcessingError
-          );
+          await failDonation(donationErrorTypeSchema.Enum.GeneralError);
           throw error;
         }
       }
@@ -723,6 +727,7 @@ export async function _redeemReceipt(
 
 async function failDonation(errorType: DonationErrorType): Promise<void> {
   const workflow = _getWorkflowFromRedux();
+  const logId = `failDonation(${workflow?.id ? redactId(workflow.id) : 'NONE'})`;
 
   // We clear the workflow if we didn't just get user input
   if (
@@ -735,6 +740,24 @@ async function failDonation(errorType: DonationErrorType): Promise<void> {
   }
 
   log.info(`failDonation: Failing with type ${errorType}`);
+  if (!isDonationPageVisible()) {
+    if (errorType === donationErrorTypeSchema.Enum.Failed3dsValidation) {
+      log.info(
+        `${logId}: Donation page not visible. Showing 'verification failed' toast.`
+      );
+      window.reduxActions.toast.showToast({
+        toastType: ToastType.DonationVerificationFailed,
+      });
+    } else {
+      log.info(
+        `${logId}: Donation page not visible. Showing 'error processing donation' toast.`
+      );
+      window.reduxActions.toast.showToast({
+        toastType: ToastType.DonationError,
+      });
+    }
+  }
+
   window.reduxActions.donations.updateLastError(errorType);
 }
 async function _saveWorkflow(

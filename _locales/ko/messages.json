@@ -6622,16 +6622,25 @@
     "messageformat": "이익보다 개인정보보호를 우선시하는 Signal"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "사용자의 기부로 운영되는 개인정보를 보호하는 메시지. 광고와 트래커, 타협에서 자유로운 앱. 지금 기부를 통해 Signal을 지지해 주세요. <learnMoreLink>자세히 알아보기</learnMoreLink>"
+    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "기부"
   },
+  "icu:PreferencesDonations__my-support": {
+    "messageformat": "My Support"
+  },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "{formattedCurrencyAmount} 기부"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "모바일 기기에서 배지와 월별 기부금을 관리할 수 있습니다."
+  },
+  "icu:PreferencesDonations__privacy-modal-title": {
+    "messageformat": "Your information is private"
+  },
+  "icu:PreferencesDonations__privacy-modal-content": {
+    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "영수증"
@@ -6657,6 +6666,15 @@
   "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
     "messageformat": "지불 날짜"
   },
+  "icu:DonateFlow__make-a-one-time-donation": {
+    "messageformat": "Make a one time donation"
+  },
+  "icu:DonateFlow__desktop-one-time-only-notice": {
+    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+  },
+  "icu:DonateFlow__having-issues-contact-support": {
+    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "기부 영수증"
   },
@@ -6675,47 +6693,68 @@
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Signal을 지지해 주셔서 감사합니다. 귀하의 기부는 오픈 소스 프라이버시 기술을 통해 표현의 자유를 지키고 안전한 글로벌 커뮤니케이션을 제공하겠다는 Signal의 사명을 실현하는 데 도움이 됩니다. 미국 거주자라면 세금 보고 시 사용할 수 있도록 이 영수증을 보관하세요. 내국세법조항 501c3조에 의거하여 세금 공제를 받을 수 있는 비영리 기관입니다. Signal 연방세 ID는 82-4506840입니다."
   },
-  "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+  "icu:Donations__Toast__Cancelled": {
+    "messageformat": "Donation cancelled"
   },
-  "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+  "icu:Donations__Toast__Completed": {
+    "messageformat": "Donation completed"
   },
-  "icu:Donations__ErrorProcessingDonation": {
+  "icu:Donations__Toast__Error": {
     "messageformat": "Error processing donation"
   },
-  "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+  "icu:Donations__Toast__Processing": {
+    "messageformat": "Processing donation"
+  },
+  "icu:Donations__Toast__VerificationFailed": {
+    "messageformat": "Verification failed"
+  },
+  "icu:Donations__Toast__VerificationNeeded": {
+    "messageformat": "You have a donation in progress that needs additional verification."
+  },
+  "icu:Donations__PaymentMethodDeclined": {
+    "messageformat": "결제 수단 거부됨"
+  },
+  "icu:Donations__PaymentMethodDeclined__Description": {
+    "messageformat": "다른 결제 수단을 시도하거나 거래 은행에 자세한 정보를 문의하세요."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "검증 실패"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "추가 인증 단계에 실패했습니다. 다시 시도해 주세요."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "기부 과정에서 오류 발생"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "귀하의 기부금이 처리되지 않았을 수 있습니다. 'Signal에 기부'를 클릭한 후 '기부 영수증'을 클릭하여 영수증을 확인하세요."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "기부를 처리하는 중..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "아직 처리 중"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "기부를 아직 처리하는 중입니다. 몇 분 정도 소요됩니다."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "추가 확인이 필요합니다."
+  },
+  "icu:Donations__3dsValidationNeeded--waiting": {
+    "messageformat": "Waiting for verification"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "신용카드 발급사가 웹 브라우저에서 추가 인증 단계를 요구합니다."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "브라우저 열기"
+  },
+  "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
+    "messageformat": "Re-open browser"
+  },
+  "icu:Donations__3dsValidationNeeded__CancelDonation": {
+    "messageformat": "Cancel donation"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "이 버전에는 Signal의 원활한 실행을 위한 일부 기능 업데이트와 버그 수정이 다수 포함되어 있습니다.",
@@ -6745,16 +6784,7 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.58--0": {
-    "messageformat": "메시지 반응 선택기의 새로운 섹션에 메시지가 받은 모든 이모지 반응이 자동으로 표시됩니다."
-  },
-  "icu:WhatsNew__v7.59--0": {
-    "messageformat": "Linux 성능 개선 사항."
-  },
-  "icu:WhatsNew__v7.61--0": {
-    "messageformat": "본 업데이트는 음성과 영상 통화 중 오디오의 품질과 안정성을 개선하고, 연결된 마이크와 스피커의 자동 구성을 향상합니다. 이 프로젝트에 도움을 주신 Mozilla의 <padenot></padenot>, <kinetiknz></kinetiknz>, <Pehrsons></Pehrsons> 님께 감사드립니다."
-  },
-  "icu:WhatsNew__v7.62--0": {
-    "messageformat": "일부 연락처가 제대로 동기화되지 않는 버그를 수정했습니다."
+  "icu:WhatsNew__v7.64--0": {
+    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
   }
 }

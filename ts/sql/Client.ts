@@ -61,8 +61,13 @@ import type {
   ClientOnlyReadableInterface,
   ClientOnlyWritableInterface,
 } from './Interface';
+import { AttachmentDownloadSource } from './Interface';
 import type { MessageAttributesType } from '../model-types';
 import type { AttachmentDownloadJobType } from '../types/AttachmentDownload';
+import {
+  throttledUpdateBackupMediaDownloadProgress,
+  updateBackupMediaDownloadProgress,
+} from '../util/updateBackupMediaDownloadProgress';
 
 const log = createLogger('Client');
 
@@ -142,12 +147,21 @@ const clientOnlyWritable: ClientOnlyWritableInterface = {
 type ClientOverridesType = ClientOnlyWritableInterface &
   Pick<
     ClientInterfaceWrap<ServerWritableDirectInterface>,
-    'saveAttachmentDownloadJob' | 'updateConversations'
+    | 'saveAttachmentDownloadJob'
+    | 'saveAttachmentDownloadJobs'
+    | 'removeAllBackupAttachmentDownloadJobs'
+    | 'removeAttachmentDownloadJob'
+    | 'removeAttachmentDownloadJobsForMessage'
+    | 'updateConversations'
   >;
 
 const clientOnlyWritableOverrides: ClientOverridesType = {
   ...clientOnlyWritable,
   saveAttachmentDownloadJob,
+  saveAttachmentDownloadJobs,
+  removeAllBackupAttachmentDownloadJobs,
+  removeAttachmentDownloadJob,
+  removeAttachmentDownloadJobsForMessage,
   updateConversations,
 };
 
@@ -818,7 +832,61 @@ async function removeMessagesInConversation(
 async function saveAttachmentDownloadJob(
   job: AttachmentDownloadJobType
 ): Promise<void> {
-  await writableChannel.saveAttachmentDownloadJob(_cleanData(job));
+  await writableChannel.saveAttachmentDownloadJob(job);
+  if (job.originalSource === AttachmentDownloadSource.BACKUP_IMPORT) {
+    drop(
+      throttledUpdateBackupMediaDownloadProgress(
+        readableChannel.getBackupAttachmentDownloadProgress
+      )
+    );
+  }
+}
+async function saveAttachmentDownloadJobs(
+  jobs: Array<AttachmentDownloadJobType>
+): Promise<void> {
+  await writableChannel.saveAttachmentDownloadJobs(jobs);
+  if (
+    jobs.some(
+      job => job.originalSource === AttachmentDownloadSource.BACKUP_IMPORT
+    )
+  ) {
+    drop(
+      throttledUpdateBackupMediaDownloadProgress(
+        readableChannel.getBackupAttachmentDownloadProgress
+      )
+    );
+  }
+}
+
+async function removeAttachmentDownloadJob(
+  job: AttachmentDownloadJobType
+): Promise<void> {
+  await writableChannel.removeAttachmentDownloadJob(job);
+  if (job.originalSource === AttachmentDownloadSource.BACKUP_IMPORT) {
+    drop(
+      throttledUpdateBackupMediaDownloadProgress(
+        readableChannel.getBackupAttachmentDownloadProgress
+      )
+    );
+  }
+}
+
+async function removeAttachmentDownloadJobsForMessage(
+  messageId: string
+): Promise<void> {
+  await writableChannel.removeAttachmentDownloadJobsForMessage(messageId);
+  drop(
+    throttledUpdateBackupMediaDownloadProgress(
+      readableChannel.getBackupAttachmentDownloadProgress
+    )
+  );
+}
+
+async function removeAllBackupAttachmentDownloadJobs(): Promise<void> {
+  await writableChannel.removeAllBackupAttachmentDownloadJobs();
+  await updateBackupMediaDownloadProgress(
+    readableChannel.getBackupAttachmentDownloadProgress
+  );
 }
 
 // Other

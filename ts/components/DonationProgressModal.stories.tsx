@@ -17,7 +17,7 @@ export default {
 
 const defaultProps = {
   i18n,
-  onClose: action('onClose'),
+  onWaitedTooLong: action('onWaitedTooLong'),
 };
 
 export function Default(): JSX.Element {

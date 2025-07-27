@@ -14,7 +14,7 @@ import {
   coreAttachmentDownloadJobSchema,
 } from '../types/AttachmentDownload';
 import { downloadAttachment as downloadAttachmentUtil } from '../util/downloadAttachment';
-import { DataWriter } from '../sql/Client';
+import { DataReader, DataWriter } from '../sql/Client';
 import { getValue } from '../RemoteConfig';
 
 import { isInCall as isInCallSelector } from '../state/selectors/calling';
@@ -23,7 +23,6 @@ import {
   type AttachmentType,
   AttachmentVariant,
   AttachmentPermanentlyUndownloadableError,
-  hasRequiredInformationForBackup,
   wasImportedFromLocalBackup,
   canAttachmentHaveThumbnail,
   shouldAttachmentEndUpInRemoteBackup,
@@ -64,6 +63,7 @@ import {
 } from './helpers/attachmentBackfill';
 import { formatCountForLogging } from '../logging/formatCountForLogging';
 import { strictAssert } from '../util/assert';
+import { updateBackupMediaDownloadProgress } from '../util/updateBackupMediaDownloadProgress';
 
 const log = createLogger('AttachmentDownloadManager');
 
@@ -286,15 +286,8 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
       receivedAt,
       sentAt,
       size: attachment.size,
-      // If the attachment cannot exist on the backup tier, we don't want to store it as a
-      // "backup import" attachment, since it's really just a normal attachment that we'll
-      // try to download from the transit tier (or it's an invalid attachment, etc.). We
-      // may need to extend the attachment_downloads table in the future to better
-      // differentiate source vs. location
-      // TODO: DESKTOP-8879
-      source: hasRequiredInformationForBackup(attachment)
-        ? source
-        : AttachmentDownloadSource.STANDARD,
+      source,
+      originalSource: source,
     });
 
     if (!parseResult.success) {
@@ -369,12 +362,15 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
   static async start(): Promise<void> {
     await AttachmentDownloadManager.saveBatchedJobs();
     await window.storage.put('attachmentDownloadManagerIdled', false);
+    await AttachmentDownloadManager.instance.start();
     drop(
       AttachmentDownloadManager.waitForIdle(async () => {
+        await updateBackupMediaDownloadProgress(
+          DataReader.getBackupAttachmentDownloadProgress
+        );
         await window.storage.put('attachmentDownloadManagerIdled', true);
       })
     );
-    await AttachmentDownloadManager.instance.start();
   }
 
   static async saveBatchedJobs(): Promise<void> {
@@ -473,18 +469,6 @@ async function runDownloadAttachmentJob({
         status: 'finished',
         newJob: { ...job, attachment: result.attachmentWithThumbnail },
       };
-    }
-
-    // TODO: DESKTOP-8879
-    if (job.source === AttachmentDownloadSource.BACKUP_IMPORT) {
-      const currentDownloadedSize =
-        window.storage.get('backupMediaDownloadCompletedBytes') ?? 0;
-      drop(
-        window.storage.put(
-          'backupMediaDownloadCompletedBytes',
-          currentDownloadedSize + job.ciphertextSize
-        )
-      );
     }
 
     return {

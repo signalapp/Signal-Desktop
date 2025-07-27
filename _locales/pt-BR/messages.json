@@ -6622,16 +6622,25 @@
     "messageformat": "Privacidade acima do lucro"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Mensagens privadas, financiadas por você. Sem anúncios, sem rastreamento, sem vigilância. Faça uma doação agora para apoiar o Signal. <learnMoreLink>Saiba mais</learnMoreLink>"
+    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Doar"
   },
+  "icu:PreferencesDonations__my-support": {
+    "messageformat": "My Support"
+  },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "Doar {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Os selos e as doações mensais podem ser gerenciados no seu dispositivo móvel."
+  },
+  "icu:PreferencesDonations__privacy-modal-title": {
+    "messageformat": "Your information is private"
+  },
+  "icu:PreferencesDonations__privacy-modal-content": {
+    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Comprovantes"
@@ -6657,6 +6666,15 @@
   "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
     "messageformat": "Data de pagamento"
   },
+  "icu:DonateFlow__make-a-one-time-donation": {
+    "messageformat": "Make a one time donation"
+  },
+  "icu:DonateFlow__desktop-one-time-only-notice": {
+    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+  },
+  "icu:DonateFlow__having-issues-contact-support": {
+    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Nota fiscal da doação"
   },
@@ -6675,47 +6693,68 @@
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Obrigado por apoiar o Signal. Sua contribuição ajuda na nossa missão de proteger a liberdade de expressão e permite a comunicação global segura para milhões de pessoas em todo o mundo, por meio da tecnologia de privacidade open source. Se você mora nos Estados Unidos, guarde a nota para seus registros fiscais. A Signal Technology Foundation é uma organização sem fins lucrativos, isenta de impostos nos Estados Unidos, sob a seção 501c3 do Código da Receita Federal. Nossa identificação fiscal nos EUA é 82-4506840."
   },
-  "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+  "icu:Donations__Toast__Cancelled": {
+    "messageformat": "Donation cancelled"
   },
-  "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+  "icu:Donations__Toast__Completed": {
+    "messageformat": "Donation completed"
   },
-  "icu:Donations__ErrorProcessingDonation": {
+  "icu:Donations__Toast__Error": {
     "messageformat": "Error processing donation"
   },
-  "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+  "icu:Donations__Toast__Processing": {
+    "messageformat": "Processing donation"
+  },
+  "icu:Donations__Toast__VerificationFailed": {
+    "messageformat": "Verification failed"
+  },
+  "icu:Donations__Toast__VerificationNeeded": {
+    "messageformat": "You have a donation in progress that needs additional verification."
+  },
+  "icu:Donations__PaymentMethodDeclined": {
+    "messageformat": "Forma de pagamento recusada"
+  },
+  "icu:Donations__PaymentMethodDeclined__Description": {
+    "messageformat": "Tente outra forma de pagamento ou entre em contato com seu banco para obter informações sobre o erro."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Falha ao verificar"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Ocorreu um erro na etapa de verificação adicional. Tente novamente."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Ocorreu um erro com sua doação"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Sua doação talvez não tenha sido processada. Clique em “Doar para o Signal” e depois em “Recibos de doação” para verificar seus recibos e confirmar."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Processando doação…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Ainda em processamento"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Sua doação ainda está sendo processada. Isso pode levar alguns minutos."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Verificação adicional obrigatória"
+  },
+  "icu:Donations__3dsValidationNeeded--waiting": {
+    "messageformat": "Waiting for verification"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "O emissor do seu cartão de crédito exige uma etapa adicional de verificação em um navegador da web."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Abrir navegador"
+  },
+  "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
+    "messageformat": "Re-open browser"
+  },
+  "icu:Donations__3dsValidationNeeded__CancelDonation": {
+    "messageformat": "Cancel donation"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Essa versão contém pequenos retoques e consertos no Signal para ele continuar funcionando confortavelmente.",
@@ -6745,16 +6784,7 @@
     "messageformat": "Pequenas alterações adicionais, correções de bugs e melhorias de desempenho. Agradecemos por usar o Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.58--0": {
-    "messageformat": "Uma nova seção no seletor de reações agora exibe automaticamente todos os emojis que uma mensagem recebeu."
-  },
-  "icu:WhatsNew__v7.59--0": {
-    "messageformat": "Esta atualização ativa a aceleração via GPU no Linux, melhorando o desempenho e facilitando a reprodução de vídeos em hardwares compatíveis."
-  },
-  "icu:WhatsNew__v7.61--0": {
-    "messageformat": "Essa atualização melhora a qualidade e a confiabilidade do áudio durante chamadas de voz e vídeo e introduz uma melhor configuração automática dos microfones e alto-falantes conectados. Obrigado a <padenot></padenot>, <kinetiknz></kinetiknz>, e <Pehrsons></Pehrsons> da Mozilla por sua ajuda com este projeto."
-  },
-  "icu:WhatsNew__v7.62--0": {
-    "messageformat": "Corrigimos um erro raro que impedia que alguns contatos fossem sincronizados corretamente."
+  "icu:WhatsNew__v7.64--0": {
+    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
   }
 }

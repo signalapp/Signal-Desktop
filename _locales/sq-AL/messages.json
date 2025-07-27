@@ -6622,16 +6622,25 @@
     "messageformat": "Privatësia mbi fitimet"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Mesazhe private, financuar nga ti. Pa reklama, pa gjurmim, pa kompromise. Dhuro tani për të mbështetur Signal. <learnMoreLink>Mëso më shumë</learnMoreLink>"
+    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Dhuro"
   },
+  "icu:PreferencesDonations__my-support": {
+    "messageformat": "My Support"
+  },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "Dhuro {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Distinktivët dhe dhurimet mujore mund t'i menaxhosh në celular."
+  },
+  "icu:PreferencesDonations__privacy-modal-title": {
+    "messageformat": "Your information is private"
+  },
+  "icu:PreferencesDonations__privacy-modal-content": {
+    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Fatura"
@@ -6657,6 +6666,15 @@
   "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
     "messageformat": "Datë pagese"
   },
+  "icu:DonateFlow__make-a-one-time-donation": {
+    "messageformat": "Make a one time donation"
+  },
+  "icu:DonateFlow__desktop-one-time-only-notice": {
+    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+  },
+  "icu:DonateFlow__having-issues-contact-support": {
+    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Fatura e dhurimit"
   },
@@ -6675,47 +6693,68 @@
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Faleminderit që mbështet Signal! Kontributi yt ndihmon në nxitjen e misionit të mbrojtjes së shprehjes së lirë dhe mundësimit të komunikimit të sigurt global për miliona njerëz në mbarë botën, përmes teknologjisë së privatësisë me burim të hapur. Nëse je banor i Shteteve të Bashkuara, të lutem, ruaje këtë faturë për të dhënat e tua tatimore. Signal Technology Foundation është një ent jofitimprurës, i përjashtuar nga taksat, në Shtetet e Bashkuara sipas seksionit 501c3 të Kodit të të Ardhurave të Brendshme. Numri i ID-së federale të tatimeve është 82-4506840."
   },
-  "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+  "icu:Donations__Toast__Cancelled": {
+    "messageformat": "Donation cancelled"
   },
-  "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+  "icu:Donations__Toast__Completed": {
+    "messageformat": "Donation completed"
   },
-  "icu:Donations__ErrorProcessingDonation": {
+  "icu:Donations__Toast__Error": {
     "messageformat": "Error processing donation"
   },
-  "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+  "icu:Donations__Toast__Processing": {
+    "messageformat": "Processing donation"
+  },
+  "icu:Donations__Toast__VerificationFailed": {
+    "messageformat": "Verification failed"
+  },
+  "icu:Donations__Toast__VerificationNeeded": {
+    "messageformat": "You have a donation in progress that needs additional verification."
+  },
+  "icu:Donations__PaymentMethodDeclined": {
+    "messageformat": "Metoda e pagesës u refuzua"
+  },
+  "icu:Donations__PaymentMethodDeclined__Description": {
+    "messageformat": "Provo një metodë tjetër pagese ose lidhu me bankën për më shumë informacion."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Verifikimi dështoi"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Hapi shtesë i verifikimit dështoi. Të lutem, provo sërish."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Ndodhi një gabim me dhurimin"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Dhurimi mund të mos jetë përpunuar. Kliko te “Dhuro për Signal” dhe pastaj te “Faturat e dhurimit” për të kontrolluar faturat dhe për t'i konfirmuar."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Përpunimi i dhurimit..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Ende në përpunim"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Dhurimi është ende duke u përpunuar. Kjo mund të zgjasë disa minuta."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Kërkohet verifikim shtesë"
+  },
+  "icu:Donations__3dsValidationNeeded--waiting": {
+    "messageformat": "Waiting for verification"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "Lëshuesi i kartës së kreditit kërkon një hap shtesë verifikimi në një shfletues interneti."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Hap shfletuesin"
+  },
+  "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
+    "messageformat": "Re-open browser"
+  },
+  "icu:Donations__3dsValidationNeeded__CancelDonation": {
+    "messageformat": "Cancel donation"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ky version përmban një numër përimtimesh të vockla dhe ndreqje të metash për ta mbajtur të rrjedhshme punën e Signal-it.",
@@ -6745,16 +6784,7 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.58--0": {
-    "messageformat": "Një seksion i ri në përzgjedhësin e reagimeve ndaj mesazheve shfaq automatikisht të gjitha reagimet ndaj figurave emoxhi që ka marrë një mesazh. Tani mund t'i bashkohesh shpejt kësaj tendence dhe të shtosh një zemër standarde me shkëlqim, ashtu siç kanë bërë të gjithë të tjerët, ose mund të ndjekësh zemrën dhe të zgjedhësh zemrën anatomike."
-  },
-  "icu:WhatsNew__v7.59--0": {
-    "messageformat": "Përditësimi mundëson përshpejtimin e GPU-së në Linux për performancë të përmirësuar dhe luajtje më të rrjedhshme të videos në harduerin e mbështetur."
-  },
-  "icu:WhatsNew__v7.61--0": {
-    "messageformat": "Ky përditësim përmirëson cilësinë dhe besueshmërinë e audios gjatë thirrjeve me zë dhe video, si dhe prezanton konfigurim automatik më të mirë të mikrofonave dhe bokseve të lidhur. Faleminderit <padenot></padenot>, <kinetiknz></kinetiknz> dhe <Pehrsons></Pehrsons> në Mozilla për ndihmën e tyre në këtë projekt."
-  },
-  "icu:WhatsNew__v7.62--0": {
-    "messageformat": "Ne rregulluam një defekt të rrallë që mund të pengonte sinkronizimin e saktë të disa kontakteve."
+  "icu:WhatsNew__v7.64--0": {
+    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
   }
 }

@@ -1,14 +1,14 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { groupBy, sortBy } from 'lodash';
 
 import type { MutableRefObject, ReactNode } from 'react';
 import { ListBox, ListBoxItem } from 'react-aria-components';
 import { getDateTimeFormatter } from '../util/formatTimestamp';
 
-import type { LocalizerType } from '../types/Util';
+import type { LocalizerType, ThemeType } from '../types/Util';
 import { PreferencesContent } from './Preferences';
 import { SettingsPage } from '../types/Nav';
 import { PreferencesDonateFlow } from './PreferencesDonateFlow';
@@ -16,10 +16,10 @@ import type {
   DonationWorkflow,
   DonationReceipt,
   OneTimeDonationHumanAmounts,
+  DonationErrorType,
 } from '../types/Donations';
+import { donationStateSchema } from '../types/Donations';
 import type { AvatarColorType } from '../types/Colors';
-import type { AvatarDataType } from '../types/Avatar';
-import { AvatarPreview } from './AvatarPreview';
 import { Button, ButtonSize, ButtonVariant } from './Button';
 import { Modal } from './Modal';
 import { Spinner } from './Spinner';
@@ -28,8 +28,16 @@ import { ToastType } from '../types/Toast';
 import { createLogger } from '../logging/log';
 import { toLogFormat } from '../types/errors';
 import { I18n } from './I18n';
+import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
+import { DonationPrivacyInformationModal } from './DonationPrivacyInformationModal';
 import type { SubmitDonationType } from '../state/ducks/donations';
 import { getHumanDonationAmount } from '../util/currency';
+import { Avatar, AvatarSize } from './Avatar';
+import type { BadgeType } from '../badges/types';
+import { DonationErrorModal } from './DonationErrorModal';
+import { DonationVerificationModal } from './DonationVerificationModal';
+import { DonationProgressModal } from './DonationProgressModal';
+import { DonationStillProcessingModal } from './DonationStillProcessingModal';
 
 const log = createLogger('PreferencesDonations');
 
@@ -41,14 +49,16 @@ export type PropsDataType = {
   i18n: LocalizerType;
   isStaging: boolean;
   page: SettingsPage;
+  lastError: DonationErrorType | undefined;
   workflow: DonationWorkflow | undefined;
-  userAvatarData: ReadonlyArray<AvatarDataType>;
-  color?: AvatarColorType;
-  firstName?: string;
+  badge: BadgeType | undefined;
+  color: AvatarColorType | undefined;
+  firstName: string | undefined;
   profileAvatarUrl?: string;
   donationAmountsConfig: OneTimeDonationHumanAmounts | undefined;
   validCurrencies: ReadonlyArray<string>;
   donationReceipts: ReadonlyArray<DonationReceipt>;
+  theme: ThemeType;
   saveAttachmentToDisk: (options: {
     data: Uint8Array;
     name: string;
@@ -65,6 +75,7 @@ type PropsActionType = {
   clearWorkflow: () => void;
   setPage: (page: SettingsPage) => void;
   submitDonation: (payload: SubmitDonationType) => void;
+  updateLastError: (error: DonationErrorType | undefined) => void;
 };
 
 export type PropsType = PropsDataType & PropsActionType & PropsExternalType;
@@ -74,8 +85,9 @@ type DonationPage =
   | SettingsPage.DonationsDonateFlow
   | SettingsPage.DonationsReceiptList;
 
-type PreferencesHomeProps = PropsType & {
+type PreferencesHomeProps = Omit<PropsType, 'badge' | 'theme'> & {
   navigateToPage: (newPage: SettingsPage) => void;
+  renderDonationHero: () => JSX.Element;
 };
 
 function isDonationPage(page: SettingsPage): page is DonationPage {
@@ -86,48 +98,58 @@ function isDonationPage(page: SettingsPage): page is DonationPage {
   );
 }
 
-function LearnMoreButton(parts: ReactNode): JSX.Element {
-  return (
-    <button
-      type="button"
-      className="PreferencesDonations__description__read-more"
-      onClick={() => {
-        // DESKTOP-8973
-      }}
-    >
-      {parts}
-    </button>
-  );
-}
+type DonationHeroProps = Pick<
+  PropsDataType,
+  'badge' | 'color' | 'firstName' | 'i18n' | 'profileAvatarUrl' | 'theme'
+>;
 
-function DonationsHome({
-  i18n,
-  userAvatarData,
+function DonationHero({
+  badge,
   color,
   firstName,
+  i18n,
   profileAvatarUrl,
-  navigateToPage,
-  setPage,
-  isStaging,
-  donationReceipts,
-}: PreferencesHomeProps): JSX.Element {
-  const avatarData = userAvatarData[0];
-  const avatarBuffer = avatarData?.buffer;
-  const hasReceipts = donationReceipts.length > 0;
+  theme,
+}: DonationHeroProps): JSX.Element {
+  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
+
+  const ReadMoreButtonWithModal = useCallback(
+    (parts: ReactNode): JSX.Element => {
+      return (
+        <button
+          type="button"
+          className="PreferencesDonations__description__read-more"
+          onClick={() => {
+            setShowPrivacyModal(true);
+          }}
+        >
+          {parts}
+        </button>
+      );
+    },
+    []
+  );
 
   return (
-    <div className="PreferencesDonations">
-      <div className="PreferencesDonations__avatar">
-        <AvatarPreview
-          avatarColor={color}
-          avatarUrl={profileAvatarUrl}
-          avatarValue={avatarBuffer}
-          conversationTitle={firstName || i18n('icu:unknownContact')}
+    <>
+      {showPrivacyModal && (
+        <DonationPrivacyInformationModal
           i18n={i18n}
-          style={{
-            height: 80,
-            width: 80,
-          }}
+          onClose={() => setShowPrivacyModal(false)}
+        />
+      )}
+
+      <div className="PreferencesDonations__avatar">
+        <Avatar
+          avatarUrl={profileAvatarUrl}
+          badge={badge}
+          color={color}
+          conversationType="direct"
+          title={firstName ?? ''}
+          i18n={i18n}
+          sharedGroupNames={[]}
+          size={AvatarSize.SEVENTY_TWO}
+          theme={theme}
         />
       </div>
       <div className="PreferencesDonations__title">
@@ -136,15 +158,32 @@ function DonationsHome({
       <div className="PreferencesDonations__description">
         <I18n
           components={{
-            learnMoreLink: LearnMoreButton,
+            readMoreLink: ReadMoreButtonWithModal,
           }}
           i18n={i18n}
           id="icu:PreferencesDonations__description"
         />
       </div>
+    </>
+  );
+}
+
+function DonationsHome({
+  i18n,
+  renderDonationHero,
+  navigateToPage,
+  setPage,
+  isStaging,
+  donationReceipts,
+}: PreferencesHomeProps): JSX.Element {
+  const hasReceipts = donationReceipts.length > 0;
+
+  return (
+    <div className="PreferencesDonations">
+      {renderDonationHero()}
       {isStaging && (
         <Button
-          className="PreferencesDonations__donate-button"
+          className="PreferencesDonations__PrimaryButton PreferencesDonations__donate-button"
           variant={ButtonVariant.Primary}
           size={ButtonSize.Medium}
           onClick={() => {
@@ -156,6 +195,12 @@ function DonationsHome({
       )}
 
       <hr className="PreferencesDonations__separator" />
+
+      {hasReceipts && (
+        <div className="PreferencesDonations__section-header PreferencesDonations__section-header--my-support">
+          {i18n('icu:PreferencesDonations__my-support')}
+        </div>
+      )}
 
       <ListBox className="PreferencesDonations__list">
         {hasReceipts && (
@@ -175,16 +220,22 @@ function DonationsHome({
         <ListBoxItem
           className="PreferencesDonations__list-item"
           onAction={() => {
-            // TODO: Handle donation FAQs action
+            openLinkInWebBrowser(
+              'https://support.signal.org/hc/articles/360031949872-Donor-FAQs'
+            );
           }}
         >
           <span className="PreferencesDonations__list-item__icon PreferencesDonations__list-item__icon--faqs" />
           <span className="PreferencesDonations__list-item__text">
             {i18n('icu:PreferencesDonations__faqs')}
           </span>
-          <span className="PreferencesDonations__list-item__chevron" />
+          <span className="PreferencesDonations__list-item__open" />
         </ListBoxItem>
       </ListBox>
+
+      <div className="PreferencesDonations__mobile-info">
+        {i18n('icu:PreferencesDonations__mobile-info')}
+      </div>
     </div>
   );
 }
@@ -404,20 +455,25 @@ export function PreferencesDonations({
   isStaging,
   page,
   workflow,
+  lastError,
   clearWorkflow,
   setPage,
   submitDonation,
-  userAvatarData,
+  badge,
   color,
   firstName,
   profileAvatarUrl,
   donationAmountsConfig,
   validCurrencies,
   donationReceipts,
+  theme,
   saveAttachmentToDisk,
   generateDonationReceiptBlob,
   showToast,
+  updateLastError,
 }: PropsType): JSX.Element | null {
+  const [hasProcessingExpired, setHasProcessingExpired] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const navigateToPage = useCallback(
     (newPage: SettingsPage) => {
       setPage(newPage);
@@ -425,24 +481,119 @@ export function PreferencesDonations({
     [setPage]
   );
 
+  useEffect(() => {
+    if (!workflow || lastError) {
+      setIsSubmitted(false);
+    }
+
+    if (
+      workflow?.type === donationStateSchema.Enum.INTENT_CONFIRMED ||
+      workflow?.type === donationStateSchema.Enum.RECEIPT ||
+      workflow?.type === donationStateSchema.Enum.DONE
+    ) {
+      setIsSubmitted(false);
+    }
+  }, [lastError, workflow, setIsSubmitted]);
+
+  const renderDonationHero = useCallback(
+    () => (
+      <DonationHero
+        badge={badge}
+        color={color}
+        firstName={firstName}
+        i18n={i18n}
+        profileAvatarUrl={profileAvatarUrl}
+        theme={theme}
+      />
+    ),
+    [badge, color, firstName, i18n, profileAvatarUrl, theme]
+  );
+
   if (!isDonationPage(page)) {
     return null;
+  }
+
+  let dialog: ReactNode | undefined;
+  if (lastError) {
+    dialog = (
+      <DonationErrorModal
+        errorType={lastError}
+        i18n={i18n}
+        onClose={() => {
+          updateLastError(undefined);
+        }}
+      />
+    );
+  } else if (workflow?.type === donationStateSchema.Enum.INTENT_REDIRECT) {
+    dialog = (
+      <DonationVerificationModal
+        i18n={i18n}
+        onCancelDonation={() => {
+          clearWorkflow();
+          setPage(SettingsPage.Donations);
+          showToast({ toastType: ToastType.DonationCancelled });
+        }}
+        onOpenBrowser={() => {
+          openLinkInWebBrowser(workflow.redirectTarget);
+        }}
+      />
+    );
+  } else if (
+    page === SettingsPage.DonationsDonateFlow &&
+    (isSubmitted ||
+      workflow?.type === donationStateSchema.Enum.INTENT_CONFIRMED ||
+      workflow?.type === donationStateSchema.Enum.RECEIPT)
+  ) {
+    // We can't transition away from the payment screen until that payment information
+    // has been accepted. Even if it takes more than 30 seconds.
+    if (
+      hasProcessingExpired &&
+      (workflow?.type === donationStateSchema.Enum.INTENT_CONFIRMED ||
+        workflow?.type === donationStateSchema.Enum.RECEIPT)
+    ) {
+      dialog = (
+        <DonationStillProcessingModal
+          i18n={i18n}
+          onClose={() => {
+            setPage(SettingsPage.Donations);
+            // We need to delay until we've transitioned away from this page, or we'll
+            // go back to showing the spinner.
+            setTimeout(() => setHasProcessingExpired(false), 500);
+          }}
+        />
+      );
+    } else {
+      dialog = (
+        <DonationProgressModal
+          i18n={i18n}
+          onWaitedTooLong={() => setHasProcessingExpired(true)}
+        />
+      );
+    }
   }
 
   let content;
   if (page === SettingsPage.DonationsDonateFlow) {
     // DonateFlow has to control Back button to switch between CC form and Amount picker
     return (
-      <PreferencesDonateFlow
-        contentsRef={contentsRef}
-        i18n={i18n}
-        donationAmountsConfig={donationAmountsConfig}
-        validCurrencies={validCurrencies}
-        workflow={workflow}
-        clearWorkflow={clearWorkflow}
-        submitDonation={submitDonation}
-        onBack={() => setPage(SettingsPage.Donations)}
-      />
+      <>
+        {dialog}
+        <PreferencesDonateFlow
+          contentsRef={contentsRef}
+          i18n={i18n}
+          donationAmountsConfig={donationAmountsConfig}
+          lastError={lastError}
+          validCurrencies={validCurrencies}
+          workflow={workflow}
+          clearWorkflow={clearWorkflow}
+          renderDonationHero={renderDonationHero}
+          submitDonation={details => {
+            setIsSubmitted(true);
+            submitDonation(details);
+          }}
+          onBack={() => setPage(SettingsPage.Donations)}
+        />
+      </>
     );
   }
   if (page === SettingsPage.Donations) {
@@ -450,7 +601,6 @@ export function PreferencesDonations({
       <DonationsHome
         contentsRef={contentsRef}
         i18n={i18n}
-        userAvatarData={userAvatarData}
         color={color}
         firstName={firstName}
         profileAvatarUrl={profileAvatarUrl}
@@ -463,10 +613,13 @@ export function PreferencesDonations({
         showToast={showToast}
         isStaging={isStaging}
         page={page}
+        lastError={lastError}
         workflow={workflow}
         clearWorkflow={clearWorkflow}
+        renderDonationHero={renderDonationHero}
         setPage={setPage}
         submitDonation={submitDonation}
+        updateLastError={updateLastError}
       />
     );
   } else if (page === SettingsPage.DonationsReceiptList) {
@@ -498,11 +651,14 @@ export function PreferencesDonations({
   }
 
   return (
-    <PreferencesContent
-      backButton={backButton}
-      contents={content}
-      contentsRef={contentsRef}
-      title={title}
-    />
+    <>
+      {dialog}
+      <PreferencesContent
+        backButton={backButton}
+        contents={content}
+        contentsRef={contentsRef}
+        title={title}
+      />
+    </>
   );
 }

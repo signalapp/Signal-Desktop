@@ -6622,16 +6622,25 @@
     "messageformat": "નફા કરતાં ગોપનીયતા વધુ મહત્વની છે"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "ખાનગી મેસેજિંગ, તમારા ભંડોળની મદદથી. કોઈ જાહેરાતો નહીં, કોઈ પગેરું નહીં, કોઈ બાંધછોડ નહીં. Signalને સહાય કરવા દાન આપો. <learnMoreLink>વધુ જાણો</learnMoreLink>"
+    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "દાન આપો"
   },
+  "icu:PreferencesDonations__my-support": {
+    "messageformat": "My Support"
+  },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "{formattedCurrencyAmount} દાન કરો"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "બૅજ અને માસિક દાન તમારા મોબાઇલ ડિવાઇસ પર મેનેજ કરી શકાય છે."
+  },
+  "icu:PreferencesDonations__privacy-modal-title": {
+    "messageformat": "Your information is private"
+  },
+  "icu:PreferencesDonations__privacy-modal-content": {
+    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "રસીદો"
@@ -6657,6 +6666,15 @@
   "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
     "messageformat": "ચુકવણીની તારીખ"
   },
+  "icu:DonateFlow__make-a-one-time-donation": {
+    "messageformat": "Make a one time donation"
+  },
+  "icu:DonateFlow__desktop-one-time-only-notice": {
+    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+  },
+  "icu:DonateFlow__having-issues-contact-support": {
+    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "દાનની રસીદ"
   },
@@ -6675,47 +6693,68 @@
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Signalને સપોર્ટ કરવા બદલ આપનો આભાર. તમારું યોગદાન ઓપન સોર્સ પ્રાઇવસી ટેક્નોલોજી વિકસિત કરવાના મિશનને વેગ આપવામાં મદદ કરે છે જે મુક્ત અભિવ્યક્તિનું રક્ષણ કરે છે અને વિશ્વના લાખો લોકો માટે સુરક્ષિત વૈશ્વિક સંચારને સક્રિય કરે છે. જો તમે યુનાઇટેડ સ્ટેટ્સના રહેવાસી હો, તો કૃપા કરીને તમારા ટેક્સ રેકોર્ડ માટે આ રસીદને સાચવી રાખો. Signal Technology Foundation એ યુનાઇટેડ સ્ટેટ્સમાં Internal Revenue Code (આંતરિક મહેસૂલ સંહિતા)ની કલમ 501c3 હેઠળ એક કરવેરા-મુક્ત બિનલાભકારી સંસ્થા છે. અમારું સંઘીય ટેક્સ ID છે 82-4506840."
   },
-  "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+  "icu:Donations__Toast__Cancelled": {
+    "messageformat": "Donation cancelled"
   },
-  "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+  "icu:Donations__Toast__Completed": {
+    "messageformat": "Donation completed"
   },
-  "icu:Donations__ErrorProcessingDonation": {
+  "icu:Donations__Toast__Error": {
     "messageformat": "Error processing donation"
   },
-  "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+  "icu:Donations__Toast__Processing": {
+    "messageformat": "Processing donation"
+  },
+  "icu:Donations__Toast__VerificationFailed": {
+    "messageformat": "Verification failed"
+  },
+  "icu:Donations__Toast__VerificationNeeded": {
+    "messageformat": "You have a donation in progress that needs additional verification."
+  },
+  "icu:Donations__PaymentMethodDeclined": {
+    "messageformat": "ચુકવણી પદ્ધતિ નકારવામાં આવી"
+  },
+  "icu:Donations__PaymentMethodDeclined__Description": {
+    "messageformat": "અન્ય ચુકવણી પદ્ધતિ અજમાવો અથવા વધુ માહિતી માટે તમારી બેંકનો સંપર્ક કરો."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "ચકાસણી નિષ્ફળ"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "વધારાનું ખાતરીનું પગલું નિષ્ફળ ગયું. કૃપા કરીને ફરીથી પ્રયાસ કરો."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "તમારા દાનમાં એક ભૂલ આવી"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "તમારા દાનની પ્રક્રિયા થઈ ન હોય એવું બની શકે. તમારી રસીદો તપાસવા અને પુષ્ટિ કરવા માટે \"Signalને દાન આપો\" અને પછી \"દાનની રસીદ\" પર ક્લિક કરો."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "દાનની પ્રક્રિયા થઈ રહી છે..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "હજી પ્રક્રિયા ચાલુ છે"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "તમારા દાનની પ્રક્રિયા હજી ચાલુ છે. આમાં થોડીવાર લાગી શકે છે."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "વધારાની ચકાસણી જરૂરી છે"
+  },
+  "icu:Donations__3dsValidationNeeded--waiting": {
+    "messageformat": "Waiting for verification"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "તમારા ક્રેડિટ કાર્ડ જારીકર્તાને વેબ બ્રાઉઝરમાં એક વધારાનું ખાતરીનું પગલું આવશ્યક છે."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "બ્રાઉઝર ખોલો"
+  },
+  "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
+    "messageformat": "Re-open browser"
+  },
+  "icu:Donations__3dsValidationNeeded__CancelDonation": {
+    "messageformat": "Cancel donation"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "આ વર્ઝનમાં Signalને સરસ રીતે ચાલતું રાખવા માટે નાના ફેરફારો અને ભૂલ સુધાર શામેલ છે.",
@@ -6745,16 +6784,7 @@
     "messageformat": "નાના ફેરફારો, ભૂલ સુધારા અને પ્રદર્શનમાં વધારો. Signalનો ઉપયોગ કરવા બદલ આભાર!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.58--0": {
-    "messageformat": "મેસેજ પ્રતિક્રિયા સિલેક્ટરમાં એક નવો વિભાગ મેસેજને મળેલી બધી ઇમોજી પ્રતિક્રિયાઓને આપમેળે પ્રદર્શિત કરે છે."
-  },
-  "icu:WhatsNew__v7.59--0": {
-    "messageformat": "Linux પ્રદર્શન સુધારણા."
-  },
-  "icu:WhatsNew__v7.61--0": {
-    "messageformat": "આ અપડેટ વોઇસ અને વીડિયો કૉલ દરમિયાન ઓડિયો ગુણવત્તા અને વિશ્વસનીયતામાં સુધારો કરે છે અને કનેક્ટેડ માઇક્રોફોન અને સ્પીકર્સનું બહેતર ઓટોમેટિક કન્ફિગ્રેશન આપે છે. આ પ્રોજેક્ટમાં મદદ માટે Mozilla ખાતેના <padenot></padenot>, <kinetiknz></kinetiknz> અને <Pehrsons></Pehrsons>નો આભાર."
-  },
-  "icu:WhatsNew__v7.62--0": {
-    "messageformat": "અમે એક દુર્લભ બગ ઠીક કર્યો છે જે કેટલાક સંપર્કોને યોગ્ય રીતે સિંક થવાથી અટકાવી શકે."
+  "icu:WhatsNew__v7.64--0": {
+    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
   }
 }

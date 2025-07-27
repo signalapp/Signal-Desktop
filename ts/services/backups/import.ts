@@ -143,6 +143,7 @@ import {
   type NotificationProfileType,
 } from '../../types/NotificationProfile';
 import { normalizeNotificationProfileId } from '../../types/NotificationProfile-node';
+import { updateBackupMediaDownloadProgress } from '../../util/updateBackupMediaDownloadProgress';
 
 const log = createLogger('import');
 
@@ -263,7 +264,6 @@ export class BackupImportStream extends Writable {
     localBackupSnapshotDir: string | undefined = undefined
   ): Promise<BackupImportStream> {
     await AttachmentDownloadManager.stop();
-    await DataWriter.removeAllBackupAttachmentDownloadJobs();
     await resetBackupMediaDownloadProgress();
 
     return new BackupImportStream(backupType, localBackupSnapshotDir);
@@ -418,9 +418,8 @@ export class BackupImportStream extends Writable {
           .map(([, id]) => id)
       );
 
-      await window.storage.put(
-        'backupMediaDownloadTotalBytes',
-        await DataReader.getSizeOfPendingBackupAttachmentDownloadJobs()
+      await updateBackupMediaDownloadProgress(
+        DataReader.getBackupAttachmentDownloadProgress
       );
 
       if (
@@ -3738,13 +3737,25 @@ export class BackupImportStream extends Writable {
       autoBubbleColor = true;
     }
 
+    // We only roundtrip wallpaper info in tests since it is not synced in storage service
+    const shouldImportWallpaper = isTestOrMockEnvironment();
+
     return {
-      wallpaperPhotoPointer,
-      wallpaperPreset,
       color,
       customColorData,
-      dimWallpaperInDarkMode,
-      autoBubbleColor,
+      ...(shouldImportWallpaper
+        ? {
+            autoBubbleColor,
+            wallpaperPhotoPointer,
+            wallpaperPreset,
+            dimWallpaperInDarkMode,
+          }
+        : {
+            autoBubbleColor: undefined,
+            wallpaperPhotoPointer: undefined,
+            wallpaperPreset: undefined,
+            dimWallpaperInDarkMode: undefined,
+          }),
     };
   }
 

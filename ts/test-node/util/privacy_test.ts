@@ -9,6 +9,100 @@ import { APP_ROOT_PATH } from '../../util/privacy';
 Privacy.addSensitivePath('sensitive-path');
 
 describe('Privacy', () => {
+  describe('redactCardNumbers', () => {
+    it('should redact anything that looks like a credit card', () => {
+      const text =
+        'This is a log line with a card number 1234-1234-1234-12\n' +
+        'and another one 1234 1234 1234 1234 123';
+
+      const actual = Privacy.redactCardNumbers(text);
+      const expected =
+        'This is a log line with a card number [REDACTED]\n' +
+        'and another one [REDACTED]';
+      assert.equal(actual, expected);
+    });
+
+    it('should redact weird credit card numbers', () => {
+      const text =
+        '1234123412341\n' +
+        '12341234123412\n' +
+        '123412341234123\n' +
+        '1234123412341234\n' +
+        '12341234123412341\n' +
+        '123412341234123412\n' +
+        '1234123412341234123\n' +
+        '12341234123412341234\n' +
+        '123-4-1-2-3-4-1-2-3-4-1\n' +
+        '123-4-1-2-3-4-1-2-3-4-1-2\n' +
+        '123-4-1-2-3-4-1-2-3-4-1-2-3\n' +
+        '123-4-1-2-3-4-1-2-3-4-1-2-3-4\n' +
+        '123-4-1-2-3-4-1-2-3-4-1-2-3-4-1\n' +
+        '123-4-1-2-3-4-1-2-3-4-1-2-3-4-1-2\n' +
+        '123-4-1-2-3-4-1-2-3-4-1-2-3-4-1-2-3\n' +
+        '123-4-1-2-3-4-1-2-3-4-1-2-3-4-1-2-3-4\n' +
+        '123 4 1 2 3 4 1 2 3 4 1\n' +
+        '123 4 1 2 3 4 1 2 3 4 1 2\n' +
+        '123 4 1 2 3 4 1 2 3 4 1 2 3\n' +
+        '123 4 1 2 3 4 1 2 3 4 1 2 3 4\n' +
+        '123 4 1 2 3 4 1 2 3 4 1 2 3 4 1\n' +
+        '123 4 1 2 3 4 1 2 3 4 1 2 3 4 1 2\n' +
+        '123 4 1 2 3 4 1 2 3 4 1 2 3 4 1 2 3\n' +
+        '123 4 1 2 3 4 1 2 3 4 1 2 3 4 1 2 3 4\n' +
+        '123a412 3 4 1 2 3 4 1 2 3 4 1 2 3 4\n' +
+        '123 4 1 2 3 4 1 2 3 4 1 2 3 4 1 a 2 3 4\n' +
+        '';
+
+      const actual = Privacy.redactCardNumbers(text);
+      const expected =
+        '1234123412341\n' +
+        '[REDACTED]\n' +
+        '[REDACTED]\n' +
+        '[REDACTED]\n' +
+        '[REDACTED]\n' +
+        '[REDACTED]\n' +
+        '[REDACTED]\n' +
+        '[REDACTED]4\n' +
+        '123-4-1-2-3-4-1-2-3-4-1\n' +
+        '[REDACTED]\n' +
+        '[REDACTED]\n' +
+        '[REDACTED]\n' +
+        '[REDACTED]\n' +
+        '[REDACTED]\n' +
+        '[REDACTED]\n' +
+        '[REDACTED]-4\n' +
+        '123 4 1 2 3 4 1 2 3 4 1\n' +
+        '[REDACTED]\n' +
+        '[REDACTED]\n' +
+        '[REDACTED]\n' +
+        '[REDACTED]\n' +
+        '[REDACTED]\n' +
+        '[REDACTED]\n' +
+        '[REDACTED] 4\n' +
+        '123a[REDACTED]\n' +
+        '[REDACTED] a 2 3 4\n' +
+        '';
+      assert.equal(actual, expected);
+    });
+
+    it('should not redact things that are close to credit card numbers', () => {
+      const text = `
+        INFO  2025-07-22T16:39:12.383Z [background] delivery receipt from [REDACTED]f41.1 1753202353590 for sent message 1753202351897 wasSentEncrypted=true
+        12--3412341234
+        1234123  412341234
+        1e23412341234
+      `;
+
+      const actual = Privacy.redactCardNumbers(text);
+      const expected = `
+        INFO  2025-07-22T16:39:12.383Z [background] delivery receipt from [REDACTED]f41.1 1753202353590 for sent message 1753202351897 wasSentEncrypted=true
+        12--3412341234
+        1234123  412341234
+        1e23412341234
+      `;
+      assert.equal(actual, expected);
+    });
+  });
+
   describe('redactPhoneNumbers', () => {
     it('should redact all phone numbers', () => {
       const text =
@@ -143,6 +237,7 @@ describe('Privacy', () => {
         'phone2 +13334445566 lorem\n' +
         'group2 group(abcdefghij) doloret\n' +
         'path3 sensitive-path/attachment.noindex\n' +
+        'cc 1234 1234 1234 1234 and another 1234123412341234\n' +
         'attachment://v2/ab/abcde?key=specialkey\n';
 
       const actual = Privacy.redactAll(text);
@@ -155,6 +250,7 @@ describe('Privacy', () => {
         'phone2 +[REDACTED]566 lorem\n' +
         'group2 group([REDACTED]hij) doloret\n' +
         'path3 [REDACTED]/attachment.noindex\n' +
+        'cc [REDACTED] and another [REDACTED]\n' +
         'attachment://v2/ab/abcde?key=[REDACTED]\n';
       assert.equal(actual, expected);
     });

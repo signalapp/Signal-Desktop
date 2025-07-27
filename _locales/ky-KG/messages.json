@@ -6622,16 +6622,25 @@
     "messageformat": "Кирешеге караганда коопсуздукту жогору коебуз"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Өзүңүз каржылаган купуя жазышуу мүмкүнчүлүгү. Жарнамалар жок, эч ким көз салбайт, эч ким ачыктабайт. Signal'ды колдоо үчүн азыр салым кошуңуз. <learnMoreLink>Кененирээк маалымат</learnMoreLink>"
+    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Колдоо көрсөтүү"
   },
+  "icu:PreferencesDonations__my-support": {
+    "messageformat": "My Support"
+  },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount}"
+    "messageformat": "Колдоо көрсөтүү: {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "Мобилдик түзмөгүңүздө төшбелгилер менен бир айлык салымдарыңызды тескей аласыз."
+  },
+  "icu:PreferencesDonations__privacy-modal-title": {
+    "messageformat": "Your information is private"
+  },
+  "icu:PreferencesDonations__privacy-modal-content": {
+    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Дүмүрчөктөр"
@@ -6657,6 +6666,15 @@
   "icu:PreferencesDonations__ReceiptModal--date-paid-label": {
     "messageformat": "Төлөгөн күн"
   },
+  "icu:DonateFlow__make-a-one-time-donation": {
+    "messageformat": "Make a one time donation"
+  },
+  "icu:DonateFlow__desktop-one-time-only-notice": {
+    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+  },
+  "icu:DonateFlow__having-issues-contact-support": {
+    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Колдоо дүмүрчөгү"
   },
@@ -6675,47 +6693,68 @@
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Signal'ды колдогонуңуз үчүн чоң рахмат! Салым кошуу менен, баштапкы коду ачык купуялык технологиялары аркылуу дүйнө жүзүндөгү миллиондогон адамдарга өз оюн эркин билдирип, коопсуз шарттарда баарлашуу мүмкүнчүлүгүн берүү миссиябызды жайылтканга жардам бересиз. Эгер Америка Кошмо Штаттарынын тургуну болсоңуз, бул дүмүрчөктү салык органдарына көрсөтүү үчүн сактап коюңуз. Signal Technology фонду Ички кирешелер кодексинин 501(c)(3) бөлүмү боюнча салыктан бошотулган коммерциялык эмес уюм. Федералдык салык идентификаторубуз 82-4506840."
   },
-  "icu:Donations__PaymentMethodDeclined": {
-    "messageformat": "Payment method declined"
+  "icu:Donations__Toast__Cancelled": {
+    "messageformat": "Donation cancelled"
   },
-  "icu:Donations__PaymentMethodDeclined__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+  "icu:Donations__Toast__Completed": {
+    "messageformat": "Donation completed"
   },
-  "icu:Donations__ErrorProcessingDonation": {
+  "icu:Donations__Toast__Error": {
     "messageformat": "Error processing donation"
   },
-  "icu:Donations__ErrorProcessingDonation__Description": {
-    "messageformat": "Try another payment method or contact your bank for more information."
+  "icu:Donations__Toast__Processing": {
+    "messageformat": "Processing donation"
+  },
+  "icu:Donations__Toast__VerificationFailed": {
+    "messageformat": "Verification failed"
+  },
+  "icu:Donations__Toast__VerificationNeeded": {
+    "messageformat": "You have a donation in progress that needs additional verification."
+  },
+  "icu:Donations__PaymentMethodDeclined": {
+    "messageformat": "Төлөм ыкмасы четке кагылды"
+  },
+  "icu:Donations__PaymentMethodDeclined__Description": {
+    "messageformat": "Башка төлөм ыкмасын колдонуп көрүңүз же көбүрөөк маалымат алуу үчүн банкыңызга кайрылыңыз."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "Verification Failed"
+    "messageformat": "Ырасталбай калды"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Additional verification step failed. Please try again."
+    "messageformat": "Кошумча ырастоо кадамы аткарылбай калды. Кайталап көрүңүз."
   },
   "icu:Donations__GenericError": {
-    "messageformat": "An error occurred with your donation"
+    "messageformat": "Салымыңыз өтпөй калды"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm."
+    "messageformat": "Салымыңыз иштелбей калды окшойт. \"Signal'га колдоо көрсөтүү\" дегенди басып, дүмүрчөктөрүңүздү текшерүү үчүн \"Салымдардын дүмүрчөктөрү\" дегенди караңыз."
   },
   "icu:Donations__Processing": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Салым иштелүүдө..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Дагы эле иштетилүүдө"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Your donation is still being processed. This can take a few minutes."
+    "messageformat": "Салымыңыз дагы деле иштелүүдө. Бир нече мүнөт кетиши мүмкүн."
   },
   "icu:Donations__3dsValidationNeeded": {
-    "messageformat": "Additional verification required"
+    "messageformat": "Дагы бир жолу ырастоо керек"
+  },
+  "icu:Donations__3dsValidationNeeded--waiting": {
+    "messageformat": "Waiting for verification"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
-    "messageformat": "Your credit card issuer requires an additional verification step in a web browser."
+    "messageformat": "Картаңызды берген тараптын талабы боюнча веб браузерде кошумча ырастоодон өтүшүңүз керек."
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser": {
-    "messageformat": "Open browser"
+    "messageformat": "Браузерди ачуу"
+  },
+  "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
+    "messageformat": "Re-open browser"
+  },
+  "icu:Donations__3dsValidationNeeded__CancelDonation": {
+    "messageformat": "Cancel donation"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Бул версия бир нече майда өзгөртүүлөрдү жана мүчүлүштүктөрдү оңдоолорду камтыйт.",
@@ -6745,16 +6784,7 @@
     "messageformat": "Майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, колдонмонун иштешин жакшыртып жатабыз. Signal'ды колдонгонуңуз үчүн чоң рахмат!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.58--0": {
-    "messageformat": "Билдирүүгө сезимиңизди билдирүүчү жаңы бөлүмдө билдирүүгө коюлган бардык быйтыкчалар көрүнөт. Эми элдин агымына оңой кошулуп, башкалар сыяктуу жылтылдаган жүрөк кошосуз же өз жолуңузду тандап, кадимки эле жүрөкчөнү кошосуз."
-  },
-  "icu:WhatsNew__v7.59--0": {
-    "messageformat": "Бул жаңы версияда Linux'тагы аппаратты тездетүүчү GPU процессору иштеп, колдоого алынган түзмөктөрдө видеолор бир калыпта көрүнөт."
-  },
-  "icu:WhatsNew__v7.61--0": {
-    "messageformat": "Бул жаңы версия аудио жана видео чалуулардын сапаты менен ишенимдүүлүгүн арттырып, туташкан микрофондор менен динамиктердин өркүндөтүлгөн автоматтык конфигурацияларын сунуштайт. Mozilla'дан <padenot></padenot>, <kinetiknz></kinetiknz> жана <Pehrsons></Pehrsons> ушул долбоорго колдоо көрсөткөнү үчүн терең ыраазычылык."
-  },
-  "icu:WhatsNew__v7.62--0": {
-    "messageformat": "Кээ бир байланыштарды туура шайкештирүүгө тоскоол болгон мүчүлүштүктү оңдоп койдук."
+  "icu:WhatsNew__v7.64--0": {
+    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
   }
 }

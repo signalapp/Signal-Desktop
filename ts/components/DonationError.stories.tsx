@@ -21,15 +21,6 @@ const defaultProps = {
   onClose: action('onClose'),
 };
 
-export function DonationProcessingError(): JSX.Element {
-  return (
-    <DonationErrorModal
-      {...defaultProps}
-      errorType={donationErrorTypeSchema.Enum.DonationProcessingError}
-    />
-  );
-}
-
 export function Failed3dsValidation(): JSX.Element {
   return (
     <DonationErrorModal
