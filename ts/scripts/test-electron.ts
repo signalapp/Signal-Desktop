@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { spawn } from 'node:child_process';
-import { join } from 'node:path';
+import path, { join } from 'node:path';
 import { pipeline } from 'node:stream/promises';
 import { cpus, tmpdir } from 'node:os';
-import { mkdtemp, rm } from 'node:fs/promises';
+import { mkdir, mkdtemp, rename, rm } from 'node:fs/promises';
+import crypto from 'node:crypto';
 import z from 'zod';
 import split2 from 'split2';
 import logSymbols from 'log-symbols';
@@ -183,6 +184,18 @@ async function launchElectron(
     throw error;
   } finally {
     try {
+      if (failures.length) {
+        const artifactsDir = await makeArtifactsDir();
+        if (artifactsDir) {
+          await rename(
+            path.join(storagePath, 'logs'),
+            path.join(artifactsDir, 'logs')
+          );
+          console.log('\n');
+          console.log(`Saving logs to ${artifactsDir}`);
+        }
+      }
+
       await rm(storagePath, { recursive: true });
     } catch {
       // Ignore
@@ -236,3 +249,18 @@ main().catch(error => {
   console.error(error);
   process.exit(1);
 });
+
+async function makeArtifactsDir(): Promise<string | undefined> {
+  const { ARTIFACTS_DIR } = process.env;
+  if (!ARTIFACTS_DIR) {
+    console.log('\nTo save artifacts, please set ARTIFACTS_DIR env variable\n');
+    return undefined;
+  }
+
+  const normalizedPath = crypto.randomBytes(8).toString('hex');
+
+  const outDir = path.join(ARTIFACTS_DIR, normalizedPath);
+  await mkdir(outDir, { recursive: true });
+
+  return outDir;
+}
