@@ -12,6 +12,7 @@ import {
   ReceiptSerial,
   ServerPublicParams,
 } from '@signalapp/libsignal-client/zkgroup';
+import * as countryCodes from 'country-codes-list';
 
 import * as Bytes from '../Bytes';
 import * as Errors from '../types/errors';
@@ -42,6 +43,7 @@ import type {
 } from '../types/Donations';
 import { ToastType } from '../types/Toast';
 import { NavTab, SettingsPage } from '../types/Nav';
+import { getRegionCodeForNumber } from '../util/libphonenumberUtil';
 
 const { createDonationReceipt } = DataWriter;
 
@@ -954,4 +956,10 @@ function isCredentialValid(credential: ReceiptCredential): boolean {
   }
 
   return true;
+}
+
+export function phoneNumberToCurrencyCode(e164: string): string {
+  const regionCode = getRegionCodeForNumber(e164) ?? 'US';
+  const countryData = countryCodes.findOne('countryCode', regionCode);
+  return countryData?.currencyCode ?? 'USD';
 }

@@ -65,6 +65,7 @@ const SUPPORT_URL = 'https://support.signal.org/hc/requests/new?desktop';
 
 export type PropsDataType = {
   i18n: LocalizerType;
+  initialCurrency: string;
   donationAmountsConfig: OneTimeDonationHumanAmounts | undefined;
   lastError: DonationErrorType | undefined;
   validCurrencies: ReadonlyArray<string>;
@@ -87,6 +88,7 @@ export type PropsType = PropsDataType & PropsActionType & PropsHousekeepingType;
 export function PreferencesDonateFlow({
   contentsRef,
   i18n,
+  initialCurrency,
   donationAmountsConfig,
   lastError,
   validCurrencies,
@@ -106,7 +108,7 @@ export function PreferencesDonateFlow({
   const [step, setStep] = useState<'amount' | 'paymentDetails'>('amount');
 
   const [amount, setAmount] = useState<HumanDonationAmount>();
-  const [currency, setCurrency] = useState<string>();
+  const [currency, setCurrency] = useState<string>(initialCurrency);
   const [cardExpiration, setCardExpiration] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [cardCvc, setCardCvc] = useState('');

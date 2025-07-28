@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 import type { MutableRefObject } from 'react';
 
-import { getIntl, getTheme } from '../selectors/user';
+import { getIntl, getTheme, getUserNumber } from '../selectors/user';
 import { getMe } from '../selectors/conversations';
 import { PreferencesDonations } from '../../components/PreferencesDonations';
 import type { SettingsPage } from '../../types/Nav';
@@ -19,6 +19,7 @@ import { getDonationHumanAmounts } from '../../util/subscriptionConfiguration';
 import { drop } from '../../util/drop';
 import type { OneTimeDonationHumanAmounts } from '../../types/Donations';
 import { getPreferredBadgeSelector } from '../selectors/badges';
+import { phoneNumberToCurrencyCode } from '../../services/donations';
 
 export const SmartPreferencesDonations = memo(
   function SmartPreferencesDonations({
@@ -45,6 +46,7 @@ export const SmartPreferencesDonations = memo(
     const { clearWorkflow, submitDonation, updateLastError } =
       useDonationsActions();
 
+    const ourNumber = useSelector(getUserNumber);
     const { badges, color, firstName, profileAvatarUrl } = useSelector(getMe);
     const badge = getPreferredBadge(badges);
 
@@ -67,6 +69,13 @@ export const SmartPreferencesDonations = memo(
       drop(loadDonationAmounts());
     }, []);
 
+    const currencyFromPhone = ourNumber
+      ? phoneNumberToCurrencyCode(ourNumber).toLowerCase()
+      : 'usd';
+    const initialCurrency = validCurrencies.includes(currencyFromPhone)
+      ? currencyFromPhone
+      : 'usd';
+
     return (
       <PreferencesDonations
         i18n={i18n}
@@ -81,6 +90,7 @@ export const SmartPreferencesDonations = memo(
         validCurrencies={validCurrencies}
         showToast={showToast}
         contentsRef={contentsRef}
+        initialCurrency={initialCurrency}
         isStaging={isStaging}
         page={page}
         lastError={donationsState.lastError}
