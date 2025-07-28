@@ -47,6 +47,7 @@ type PropsExternalType = {
 
 export type PropsDataType = {
   i18n: LocalizerType;
+  initialCurrency: string;
   isStaging: boolean;
   page: SettingsPage;
   lastError: DonationErrorType | undefined;
@@ -452,6 +453,7 @@ function PreferencesReceiptList({
 export function PreferencesDonations({
   contentsRef,
   i18n,
+  initialCurrency,
   isStaging,
   page,
   workflow,
@@ -581,6 +583,7 @@ export function PreferencesDonations({
         <PreferencesDonateFlow
           contentsRef={contentsRef}
           i18n={i18n}
+          initialCurrency={initialCurrency}
           donationAmountsConfig={donationAmountsConfig}
           lastError={lastError}
           validCurrencies={validCurrencies}
@@ -612,6 +615,7 @@ export function PreferencesDonations({
         generateDonationReceiptBlob={generateDonationReceiptBlob}
         showToast={showToast}
         isStaging={isStaging}
+        initialCurrency={initialCurrency}
         page={page}
         lastError={lastError}
         workflow={workflow}

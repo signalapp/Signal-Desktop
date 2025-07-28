@@ -188,6 +188,9 @@ importers:
       copy-text-to-clipboard:
         specifier: 2.1.0
         version: 2.1.0
+      country-codes-list:
+        specifier: 2.0.0
+        version: 2.0.0
       credit-card-type:
         specifier: 10.0.2
         version: 10.0.2
@@ -4544,6 +4547,9 @@ packages:
     peerDependenciesMeta:
       typescript:
         optional: true
+
+  country-codes-list@2.0.0:
+    resolution: {integrity: sha512-KZqq/LBdCD76hQCa6nOx0bA/nIjYly1OtV8+Bbt/4SW+mJEqGk7oZHjUj7PRrV0gXJJKs6Tv2cIntFdofBByvA==}
 
   crc@3.8.0:
     resolution: {integrity: sha512-iX3mfgcTMIq3ZKLIsVFAbv7+Mc10kxabAGQb8HvjA1o3T1PIYprbakQ65d3I+2HGHt6nSKkM9PYjgoJO2KcFBQ==}
@@ -14626,6 +14632,8 @@ snapshots:
       parse-json: 5.2.0
     optionalDependencies:
       typescript: 5.6.3
+
+  country-codes-list@2.0.0: {}
 
   crc@3.8.0:
     dependencies:
