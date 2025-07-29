@@ -147,6 +147,20 @@ function toGridSectionNode(
   };
 }
 
+function getSelectedSection(
+  hasSearchQuery: boolean,
+  hasRecentEmojis: boolean
+): FunEmojisSection {
+  if (hasSearchQuery) {
+    return FunSectionCommon.SearchResults;
+  }
+  if (hasRecentEmojis) {
+    return FunSectionCommon.Recents;
+  }
+
+  return EmojiPickerCategory.SmileysAndPeople;
+}
+
 export type FunEmojiSelection = Readonly<{
   variantKey: EmojiVariantKey;
   parentKey: EmojiParentKey;
@@ -172,10 +186,8 @@ export function FunPanelEmojis({
   const fun = useFunContext();
   const {
     i18n,
-    searchInput,
-    onSearchInputChange,
-    selectedEmojisSection,
-    onChangeSelectedEmojisSection,
+    storedSearchInput,
+    onStoredSearchInputChange,
     onOpenCustomizePreferredReactionsModal,
     recentEmojis: unstableRecentEmojis,
     onSelectEmoji: onFunSelectEmoji,
@@ -186,15 +198,20 @@ export function FunPanelEmojis({
   // Don't update recent emojis or this message emojis while the emoji panel is open
   const [recentEmojis] = useState(unstableRecentEmojis);
   const [messageEmojis] = useState(unstableMessageEmojis);
+
+  const [searchInput, setSearchInput] = useState(storedSearchInput);
+  const searchQuery = useMemo(() => searchInput.trim(), [searchInput]);
+
   const [focusedCellKey, setFocusedCellKey] = useState<CellKey | null>(null);
   const [skinTonePopoverOpen, setSkinTonePopoverOpen] = useState(false);
 
-  const handleSkinTonePopoverOpenChange = useCallback((open: boolean) => {
-    setSkinTonePopoverOpen(open);
-  }, []);
+  const [selectedSection, setSelectedSection] = useState(() => {
+    const hasSearchQuery = searchQuery !== '';
+    const hasRecentEmojis = recentEmojis.length > 0;
+    return getSelectedSection(hasSearchQuery, hasRecentEmojis);
+  });
 
   const searchEmojis = useFunEmojiSearch();
-  const searchQuery = useMemo(() => fun.searchInput.trim(), [fun.searchInput]);
 
   const sections = useMemo(() => {
     const skinTone = fun.emojiSkinToneDefault ?? EmojiSkinTone.None;
@@ -276,24 +293,33 @@ export function FunPanelEmojis({
     return new GridKeyboardDelegate(virtualizer, layout);
   }, [virtualizer, layout]);
 
+  const handleSearchInputChange = useCallback(
+    (nextSearchInput: string) => {
+      const hasSearchQuery = nextSearchInput.trim() !== '';
+      const hasRecentEmojis = recentEmojis.length > 0;
+      setSearchInput(nextSearchInput);
+      setSelectedSection(getSelectedSection(hasSearchQuery, hasRecentEmojis));
+      onStoredSearchInputChange(nextSearchInput);
+    },
+    [onStoredSearchInputChange, recentEmojis]
+  );
+
   const handleSelectSection = useCallback(
     (section: FunEmojisSection) => {
       const layoutSection = layout.sections.find(s => s.id === section);
       strictAssert(layoutSection != null, `Expected section for ${section}`);
-      onChangeSelectedEmojisSection(section);
+      setSelectedSection(section);
+      setSearchInput('');
       virtualizer.scrollToOffset(layoutSection.header.item.start, {
         align: 'start',
       });
     },
-    [virtualizer, layout, onChangeSelectedEmojisSection]
+    [virtualizer, layout]
   );
 
-  const handleScrollSectionChange = useCallback(
-    (id: string) => {
-      onChangeSelectedEmojisSection(id as FunEmojisSection);
-    },
-    [onChangeSelectedEmojisSection]
-  );
+  const handleScrollSectionChange = useCallback((id: string) => {
+    setSelectedSection(id as FunEmojisSection);
+  }, []);
 
   const handleKeyboardStateChange = useCallback(
     (state: GridKeyboardState) => {
@@ -305,9 +331,9 @@ export function FunPanelEmojis({
       const section = layout.sections.find(s => s.key === sectionKey);
       strictAssert(section != null, `Expected section for ${sectionKey}`);
       setFocusedCellKey(cellKey);
-      onChangeSelectedEmojisSection(section.id as FunEmojisSection);
+      setSelectedSection(section.id as FunEmojisSection);
     },
-    [onChangeSelectedEmojisSection, layout]
+    [layout]
   );
 
   const handleSelectEmoji = useCallback(
@@ -321,6 +347,10 @@ export function FunPanelEmojis({
     },
     [onFunSelectEmoji, onSelectEmoji, onClose, closeOnSelect]
   );
+
+  const handleSkinTonePopoverOpenChange = useCallback((open: boolean) => {
+    setSkinTonePopoverOpen(open);
+  }, []);
 
   const handleOpenCustomizePreferredReactionsModal = useCallback(() => {
     onOpenCustomizePreferredReactionsModal();
@@ -337,7 +367,7 @@ export function FunPanelEmojis({
         <FunSearch
           i18n={i18n}
           searchInput={searchInput}
-          onSearchInputChange={onSearchInputChange}
+          onSearchInputChange={handleSearchInputChange}
           placeholder={i18n('icu:FunPanelEmojis__SearchLabel')}
           aria-label={i18n('icu:FunPanelEmojis__SearchPlaceholder')}
         />
@@ -360,7 +390,7 @@ export function FunPanelEmojis({
           <FunSubNav>
             <FunSubNavListBox
               aria-label={i18n('icu:FunPanelEmojis__SubNavLabel')}
-              selected={selectedEmojisSection}
+              selected={selectedSection}
               onSelect={handleSelectSection}
             >
               {recentEmojis.length > 0 && (
