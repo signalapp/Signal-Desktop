@@ -85,7 +85,24 @@ export async function initialize(): Promise<void> {
     return;
   }
 
-  if (didResumeWorkflowAtStartup() && !isDonationPageVisible()) {
+  const shouldShowToast =
+    didResumeWorkflowAtStartup() && !isDonationPageVisible();
+
+  if (workflow.type === donationStateSchema.Enum.INTENT_METHOD) {
+    if (shouldShowToast) {
+      log.info(
+        'initialize: Showing confirmation toast, workflow is at INTENT_METHOD.'
+      );
+      window.reduxActions.toast.showToast({
+        toastType: ToastType.DonationConfirmationNeeded,
+      });
+    }
+
+    // Note that we are not starting the workflow here
+    return;
+  }
+
+  if (shouldShowToast) {
     log.info(
       'initialize: We resumed at startup and donation page not visible. Showing processing toast.'
     );
@@ -97,7 +114,7 @@ export async function initialize(): Promise<void> {
   await _runDonationWorkflow();
 }
 
-// These are the four moments the user provides input to the donation workflow. So,
+// These are the five moments the user provides input to the donation workflow. So,
 // UI calls these methods directly; everything else happens automatically.
 
 export async function startDonation({
@@ -167,6 +184,15 @@ export async function finish3dsValidation(token: string): Promise<void> {
 export async function clearDonation(): Promise<void> {
   runDonationAbortController?.abort();
   await _saveWorkflow(undefined);
+}
+
+export async function resumeDonation(): Promise<void> {
+  const existing = _getWorkflowFromRedux();
+  if (!existing) {
+    throw new Error('resumeDonation: Cannot finish nonexistent workflow!');
+  }
+
+  await _saveAndRunWorkflow(existing);
 }
 
 // For testing
@@ -295,6 +321,13 @@ export async function _runDonationWorkflow(): Promise<void> {
           return;
         }
         if (type === donationStateSchema.Enum.INTENT_METHOD) {
+          if (didResumeWorkflowAtStartup()) {
+            log.info(
+              `${logId}: Resumed after startup and haven't charged payment method. Waiting for user confirmation.`
+            );
+            return;
+          }
+
           log.info(`${logId}: Attempting to confirm payment`);
           updated = await _confirmPayment(existing);
           // continuing

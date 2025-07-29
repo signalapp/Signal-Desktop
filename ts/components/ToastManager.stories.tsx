@@ -104,6 +104,8 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.DonationCancelled };
     case ToastType.DonationCompleted:
       return { toastType: ToastType.DonationCompleted };
+    case ToastType.DonationConfirmationNeeded:
+      return { toastType: ToastType.DonationConfirmationNeeded };
     case ToastType.DonationError:
       return { toastType: ToastType.DonationError };
     case ToastType.DonationProcessing:

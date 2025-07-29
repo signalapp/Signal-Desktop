@@ -33,6 +33,7 @@ export enum ToastType {
   DeleteForEveryoneFailed = 'DeleteForEveryoneFailed',
   DonationCancelled = 'DonationCancelled',
   DonationCompleted = 'DonationCompleted',
+  DonationConfirmationNeeded = 'DonationConfirmationNeeded',
   DonationError = 'DonationError',
   DonationProcessing = 'DonationProcessing',
   DonationVerificationNeeded = 'DonationVerificationNeeded',
@@ -128,6 +129,7 @@ export type AnyToast =
   | { toastType: ToastType.DeleteForEveryoneFailed }
   | { toastType: ToastType.DonationCancelled }
   | { toastType: ToastType.DonationCompleted }
+  | { toastType: ToastType.DonationConfirmationNeeded }
   | { toastType: ToastType.DonationError }
   | { toastType: ToastType.DonationProcessing }
   | { toastType: ToastType.DonationVerificationFailed }

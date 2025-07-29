@@ -114,6 +114,27 @@ function setDidResume(didResume: boolean): SetDidResumeAction {
   };
 }
 
+function resumeWorkflow(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  SetDidResumeAction
+> {
+  return async dispatch => {
+    try {
+      dispatch({
+        type: SET_DID_RESUME,
+        payload: false,
+      });
+
+      await donations.resumeDonation();
+    } catch (error) {
+      log.error('Error resuming workflow', Errors.toLogFormat(error));
+      throw error;
+    }
+  };
+}
+
 export type SubmitDonationType = ReadonlyDeep<{
   currencyType: string;
   paymentAmount: StripeDonationAmount;
@@ -132,7 +153,7 @@ function submitDonation({
 > {
   return async (_dispatch, getState) => {
     if (!isStagingServer()) {
-      log.error('internalAddDonationReceipt: Only available on staging server');
+      log.error('submitDonation: Only available on staging server');
       return;
     }
 
@@ -191,6 +212,7 @@ export const actions = {
   clearWorkflow,
   internalAddDonationReceipt,
   setDidResume,
+  resumeWorkflow,
   submitDonation,
   updateLastError,
   updateWorkflow,

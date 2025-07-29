@@ -219,12 +219,14 @@ function renderDonationsPane(props: {
       contentsRef={props.contentsRef}
       clearWorkflow={action('clearWorkflow')}
       initialCurrency="USD"
+      resumeWorkflow={action('resumeWorkflow')}
       isStaging
       page={props.page}
       setPage={props.setPage}
       submitDonation={action('submitDonation')}
       lastError={undefined}
       workflow={undefined}
+      didResumeWorkflowAtStartup={false}
       badge={undefined}
       color={props.me.color}
       firstName={props.me.firstName}

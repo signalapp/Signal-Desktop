@@ -8926,6 +8926,22 @@
     "messageformat": "You have a donation in progress that needs additional verification.",
     "description": "Shown when the user is not on the Preferences/Donations screen, and donation verification is needed. Like when resuming from startup."
   },
+  "icu:Donations__Toast__ConfirmationNeeded": {
+    "messageformat": "You have a donation in progress that requires confirmation.",
+    "description": "Shown when the user is not on the Preferences/Donations screen, and donation verification is needed. Like when resuming from startup."
+  },
+  "icu:Donations__DonationInterrupted": {
+    "messageformat": "Donation interrupted",
+    "description": "Title of the dialog shown when starting up if a donation had been started, and we've saved payment information, but the charge hasn't happened yet"
+  },
+  "icu:Donations__DonationInterrupted__Description": {
+    "messageformat": "Your card was not charged. Do you want to retry the donation?",
+    "description": "An explanation for the 'donation interrupted' dialog"
+  },
+  "icu:Donations__DonationInterrupted__RetryButton": {
+    "messageformat": "Try again",
+    "description": "The button in the 'donation interrupted' dialog which allows the user to move forward with the donation."
+  },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Payment method declined",
     "description": "Title of the dialog shown with the user's provided payment method has not worked"

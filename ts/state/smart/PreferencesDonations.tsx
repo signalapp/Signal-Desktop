@@ -43,7 +43,7 @@ export const SmartPreferencesDonations = memo(
     const theme = useSelector(getTheme);
 
     const donationsState = useSelector((state: StateType) => state.donations);
-    const { clearWorkflow, submitDonation, updateLastError } =
+    const { clearWorkflow, resumeWorkflow, submitDonation, updateLastError } =
       useDonationsActions();
 
     const ourNumber = useSelector(getUserNumber);
@@ -93,9 +93,11 @@ export const SmartPreferencesDonations = memo(
         initialCurrency={initialCurrency}
         isStaging={isStaging}
         page={page}
+        didResumeWorkflowAtStartup={donationsState.didResumeWorkflowAtStartup}
         lastError={donationsState.lastError}
         workflow={donationsState.currentWorkflow}
         clearWorkflow={clearWorkflow}
+        resumeWorkflow={resumeWorkflow}
         updateLastError={updateLastError}
         submitDonation={submitDonation}
         setPage={setPage}
