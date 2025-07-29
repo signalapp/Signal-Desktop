@@ -413,7 +413,7 @@ export default class MessageReceiver
         const envelope: ProcessedEnvelope = {
           // Make non-private envelope IDs dashless so they don't get redacted
           //   from logs
-          id: getGuid().replace(/-/g, ''),
+          id: getGuid().replace(/-/g, '.'),
           receivedAtCounter: incrementMessageCounter(),
           receivedAtDate: Date.now(),
           // Calculate the message age (time on server).

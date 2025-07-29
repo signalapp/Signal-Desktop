@@ -64,6 +64,7 @@ import {
 import { formatCountForLogging } from '../logging/formatCountForLogging';
 import { strictAssert } from '../util/assert';
 import { updateBackupMediaDownloadProgress } from '../util/updateBackupMediaDownloadProgress';
+import { HTTPError } from '../textsecure/Errors';
 
 const log = createLogger('AttachmentDownloadManager');
 
@@ -447,7 +448,7 @@ async function runDownloadAttachmentJob({
   const message = await getMessageById(job.messageId);
 
   if (!message) {
-    log.error(`${logId} message not found`);
+    log.info(`${logId} message not found, returning early`);
     return { status: 'finished' };
   }
 
@@ -476,9 +477,8 @@ async function runDownloadAttachmentJob({
     };
   } catch (error) {
     if (options.abortSignal.aborted) {
-      log.warn(
-        `${logId}: Cancelled attempt ${job.attempts}. Not scheduling a retry. Error:`,
-        Errors.toLogFormat(error)
+      log.info(
+        `${logId}: Cancelled attempt ${job.attempts}. Not scheduling a retry.`
       );
       // Remove `pending` flag from the attachment. User can retry later.
       await addAttachmentToMessage(
@@ -493,12 +493,8 @@ async function runDownloadAttachmentJob({
       return { status: 'finished' };
     }
 
-    log.error(
-      `${logId}: Failed to download attachment, attempt ${job.attempts}:`,
-      Errors.toLogFormat(error)
-    );
-
     if (error instanceof AttachmentSizeError) {
+      log.info(`${logId}: Attachment is too big.`);
       await addAttachmentToMessage(
         message.id,
         _markAttachmentAsTooBig(job.attachment),
@@ -517,9 +513,14 @@ async function runDownloadAttachmentJob({
         );
 
       if (job.source !== AttachmentDownloadSource.BACKFILL && canBackfill) {
+        log.info(
+          `${logId}: Attachment is permanently undownloadable, requesting backfill.`
+        );
         await AttachmentDownloadManager.requestBackfill(message.attributes);
         return { status: 'finished' };
       }
+
+      log.info(`${logId}: Attachment is permanently undownloadable.`);
 
       await addAttachmentToMessage(
         message.id,
@@ -531,6 +532,13 @@ async function runDownloadAttachmentJob({
       );
 
       return { status: 'finished' };
+    }
+
+    const logText = `${logId}: Failed to fetch attachment, attempt ${job.attempts}: ${Errors.toLogFormat(error)}`;
+    if (error instanceof HTTPError) {
+      log.info(logText);
+    } else {
+      log.warn(logText);
     }
 
     if (isLastAttempt) {
