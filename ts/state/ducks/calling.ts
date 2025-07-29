@@ -1608,26 +1608,24 @@ function handleCallLinkUpdate(
     };
 
     const result = await DataWriter.insertOrUpdateCallLinkFromSync(callLink);
+    const { inserted, updated, callLink: resultCallLink } = result;
 
-    if (result.inserted) {
-      log.info(`${logId}: Saved new call link`);
-    } else if (result.updated) {
-      log.info(`${logId}: Updated existing call link with new adminKey`);
-    } else {
-      // This case happens when concurrently processing a batch of call link sync messages
-      // for the same roomId.
-      log.info(
-        `${logId}: Discarding call link update because we are already up to date`
-      );
-      return;
+    // Sync messages only include rootKey and adminKey. We will update a record here
+    // if another device tells us of the adminKey. If other info has changed,
+    // we need to fetch the call link from the server with callLinkRefreshJobQueue.
+    if (inserted || updated) {
+      if (inserted) {
+        log.info(`${logId}: Saved new call link`);
+      } else {
+        log.info(`${logId}: Updated existing call link with new adminKey`);
+      }
+      dispatch({
+        type: HANDLE_CALL_LINK_UPDATE,
+        payload: { callLink: resultCallLink },
+      });
     }
 
-    dispatch({
-      type: HANDLE_CALL_LINK_UPDATE,
-      payload: { callLink: result.callLink },
-    });
-
-    const isPlaceholderCallHistoryNeeded = result.inserted && adminKey != null;
+    const isPlaceholderCallHistoryNeeded = inserted && adminKey != null;
     if (isPlaceholderCallHistoryNeeded) {
       const callHistory = toCallHistoryFromUnusedCallLink(callLink);
       await DataWriter.saveCallHistory(callHistory);
