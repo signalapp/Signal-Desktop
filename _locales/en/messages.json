@@ -9024,5 +9024,9 @@
   "icu:WhatsNew__v7.64--0": {
     "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough.",
     "description": "Release notes for version 7.64"
+  },
+  "icu:WhatsNew__v7.65--0": {
+    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box.",
+    "description": "Release notes for version 7.65"
   }
 }
