@@ -1,15 +1,11 @@
 <!-- Copyright 2014 Signal Messenger, LLC -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
-# Merged PRs
-
-Reaction Overlay: https://github.com/signalapp/Signal-Desktop/pull/7348<br>
-Edit Group Modal Alignment: https://github.com/signalapp/Signal-Desktop/pull/7347
-
-# PRs in Review
+# Pull Requests
 
 Drag-and-Drop from Web Browsers: https://github.com/signalapp/Signal-Desktop/pull/7425<br>
-
+Reaction Overlay: https://github.com/signalapp/Signal-Desktop/pull/7348<br>
+Edit Group Modal Alignment: https://github.com/signalapp/Signal-Desktop/pull/7347
 
 ---
 
