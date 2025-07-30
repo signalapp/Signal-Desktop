@@ -6622,13 +6622,13 @@
     "messageformat": "نفضِّل الخصوصية على الربح"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "تراسُل خاص، مُموَّل من طرفك. دون إعلانات، دون مُتعقِّبات، دون مساومة. تبرَّع الآن لدعم سيجنال. <readMoreLink>اقرأ المزيد</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "التبرُّع"
   },
   "icu:PreferencesDonations__my-support": {
-    "messageformat": "My Support"
+    "messageformat": "الدعم الخاص بي"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "تبرَّع لـ {formattedCurrencyAmount}"
@@ -6637,10 +6637,10 @@
     "messageformat": "يمكن إدارة الشارات والتبرُّعات الشهرية على جهازك المحمول."
   },
   "icu:PreferencesDonations__privacy-modal-title": {
-    "messageformat": "Your information is private"
+    "messageformat": "ستتمُّ المحافظة على خصوصية معلوماتك."
   },
   "icu:PreferencesDonations__privacy-modal-content": {
-    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
+    "messageformat": "<paragraph>لا يقوم سيجنال بجمع أو تخزين معلوماتك الشخصية عند قيامك بتبرُّع.</paragraph><paragraph>نستخدم Stripe كمعالج عمليات الدفع الخاصة بنا لتلقي تبرُّعاتك. لا يُمكننا الوصول إلى أو تخزين أو حفظ أي من المعلومات التي تُقدمها.</paragraph><paragraph>لا يقوم تطبيق سيجنال ولا يمكنه ربط تبرُّعاتك بحسابك على سيجنال.</paragraph><paragraph>شكرًا لدعمك!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "الإيصالات"
@@ -6667,13 +6667,13 @@
     "messageformat": "تاريخ الدفع"
   },
   "icu:DonateFlow__make-a-one-time-donation": {
-    "messageformat": "Make a one time donation"
+    "messageformat": "التبرُّع لمرّة واحدة"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+    "messageformat": "فقط التبرُّعات لمرّة واحدة هي المتاحة على الحاسوب. يمكن القيام بالتبرُّعات الشهرية على جهازك المحمول."
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+    "messageformat": "هل تواجه مشكلات؟ <contactSupportLink>الاتصال بالدعم</contactSupportLink>"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "إيصال التبرُّع"
@@ -6694,22 +6694,22 @@
     "messageformat": "شكرًا لك على دعم سيجنال. تساعدنا مساهمتكم على دعم مهمة حماية حرية التعبير وتمكين التواصل العالمي الآمن لملايين الأشخاص حول العالم، وذلك من خلال تقنية الخصوصية مفتوحة المصدر. إذا كُنتَ من المقيمين بالولايات المتحدة الأمريكية، يُرجى الاحتفاظ بهذا الإيصال لتقديمه إلى مصلحة الضرائب. مؤسسة تكنولوجيا سيجنال‬ هي منظمة غير ربحية معفاة من الضرائب في الولايات المتحدة بموجب الفقرة 501c3 من قانون الإيرادات الداخلية. مُعرِّفنا الضريبي هو 4506840-82."
   },
   "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled"
+    "messageformat": "تمَّ إلغاء التبرُّع"
   },
   "icu:Donations__Toast__Completed": {
-    "messageformat": "Donation completed"
+    "messageformat": "اكتمل التبرُّع"
   },
   "icu:Donations__Toast__Error": {
-    "messageformat": "Error processing donation"
+    "messageformat": "حدث خطأ أثناء معالجة التبرُّع"
   },
   "icu:Donations__Toast__Processing": {
-    "messageformat": "Processing donation"
+    "messageformat": "معالجة التبرُّع جارية"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "Verification failed"
+    "messageformat": "فشل التحقُّق"
   },
   "icu:Donations__Toast__VerificationNeeded": {
-    "messageformat": "You have a donation in progress that needs additional verification."
+    "messageformat": "لديك تبرُّع قيد المعالجة يحتاج إلى خطوة تحقُّق إضافية."
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "طريقة الدفع مرفوضة."
@@ -6742,7 +6742,7 @@
     "messageformat": "التحقُّق الإضافي مطلوب"
   },
   "icu:Donations__3dsValidationNeeded--waiting": {
-    "messageformat": "Waiting for verification"
+    "messageformat": "في انتظار التحقُّق"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "تتطلَّب المؤسَّسة المُصدِرة لبطاقة ائتمانك خطوة تحقُّق إضافية على مُتصفِّح الويب."
@@ -6751,10 +6751,10 @@
     "messageformat": "افتح المُتصفِّح"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
-    "messageformat": "Re-open browser"
+    "messageformat": "إعادة فتح المُتصفِّح"
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
-    "messageformat": "Cancel donation"
+    "messageformat": "إلغاء التبرُّع"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "يحتوي هذا الإصدار على عدد من التعديلات الصغيرة وإصلاحات الأخطاء للحفاظ على عمل سيجنال بسلاسة.",
@@ -6785,6 +6785,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
+    "messageformat": "قمنا بتحسين تجربة الرسائل المقروءة/غير المقروءة أثناء تعدُّد المهام، وقُمنا بإصلاح خطأ كان يُؤدي أحيانًا إلى فتح عارض الصور المُوسَّع بشكل غير صحيح إذا ضغطت على مفتاح المسافة أثناء البحث عن تفاعل إيموجي مثالي. لا يزال بإمكانك التكبير إذا نقرت على الصورة أو إذا كتبت بسرعة كافية."
   }
 }

@@ -6622,13 +6622,13 @@
     "messageformat": "Το απόρρητο πάνω από το κέρδος"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Ιδιωτικά μηνύματα, χρηματοδότηση από εσένα. Χωρίς διαφημίσεις, παρακολούθηση, συμβιβασμούς. Κάνε τώρα μια δωρεά για να στηρίξεις το Signal. <readMoreLink>Δες περισσότερα</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Κάνε δωρεά"
   },
   "icu:PreferencesDonations__my-support": {
-    "messageformat": "My Support"
+    "messageformat": "Η υποστήριξή μου"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Δωρεά {formattedCurrencyAmount}"
@@ -6637,10 +6637,10 @@
     "messageformat": "Μπορείς να διαχειριστείς τα σήματα και τις μηνιαιές δωρεές στην κινητή σου συσκευή."
   },
   "icu:PreferencesDonations__privacy-modal-title": {
-    "messageformat": "Your information is private"
+    "messageformat": "Τα στοιχεία σου είναι ιδιωτικά"
   },
   "icu:PreferencesDonations__privacy-modal-content": {
-    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
+    "messageformat": "<paragraph>Το Signal δεν συλλέγει ούτε αποθηκεύει τα προσωπικά στοιχεία σου όταν κάνεις δωρεά.</paragraph><paragraph>Χρησιμοποιούμε τη Stripe για την επεξεργασία πληρωμών, ώστε να λαμβάνουμε τις δωρεές μας. Δεν επεξεργαζόμαστε ούτε αποθηκεύουμε κανένα από τα στοιχεία που της παρέχεις.</paragraph><paragraph>Το Signal δεν μπορεί να συνδέσει τη δωρεά με τον λογαριασμό σου στο Signal.</paragraph><paragraph>Ευχαριστούμε για την υποστήριξή σου!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Αποδείξεις"
@@ -6667,13 +6667,13 @@
     "messageformat": "Ημερομηνία πληρωμής"
   },
   "icu:DonateFlow__make-a-one-time-donation": {
-    "messageformat": "Make a one time donation"
+    "messageformat": "Κάνε μια μεμονωμένη δωρεά"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+    "messageformat": "Οι μεμονωμένες δωρεές είναι διαθέσιμες στο desktop. Οι μηνιαίες δωρεές μπορούν να γίνουν στη κινητή σου συσκευή."
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+    "messageformat": "Αντιμετωπίζεις προβλήματα; <contactSupportLink>Επικοινώνησε με την υποστήριξη</contactSupportLink>"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Απόδειξη δωρεάς"
@@ -6694,22 +6694,22 @@
     "messageformat": "Σε ευχαριστούμε που στηρίζεις το Signal. Η συνεισφορά σου βοηθά στην ανάπτυξη της τεχνολογίας απορρήτου ανοιχτού κώδικα, που προστατεύει την ελευθερία της έκφρασης και δίνει τη δυνατότητα ασφαλών διεθνών επικοινωνιών για εκατομμύρια ανθρώπους σε όλο τον κόσμο. Αν είσαι κάτοικος των Ηνωμένων Πολιτειών, παρακαλούμε κράτα αυτή την απόδειξη για τα φορολογικά σου αρχεία. Το Signal Technology Foundation είναι ένας μη κερδοσκοπικός οργανισμός στις Ηνωμένες Πολιτείες, που έχει φοροαπαλλαγή σύμφωνα με την ενότητα 501c3 του Internal Revenue Code. Το Federal Tax ID μας είναι 82-4506840."
   },
   "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled"
+    "messageformat": "Η δωρεά ακυρώθηκε"
   },
   "icu:Donations__Toast__Completed": {
-    "messageformat": "Donation completed"
+    "messageformat": "Η δωρεά ολοκληρώθηκε"
   },
   "icu:Donations__Toast__Error": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Σφάλμα κατά την επεξεργασία της δωρεάς"
   },
   "icu:Donations__Toast__Processing": {
-    "messageformat": "Processing donation"
+    "messageformat": "Επεξεργασία δωρεάς"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "Verification failed"
+    "messageformat": "Η επαλήθευση απέτυχε"
   },
   "icu:Donations__Toast__VerificationNeeded": {
-    "messageformat": "You have a donation in progress that needs additional verification."
+    "messageformat": "Έχεις μια δωρεά σε εξέλιξη που χρειάζεται επιπλέον επαλήθευση."
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Η μέθοδος πληρωμής απορρίφθηκε"
@@ -6742,7 +6742,7 @@
     "messageformat": "Απαιτείται πρόσθετη επαλήθευση"
   },
   "icu:Donations__3dsValidationNeeded--waiting": {
-    "messageformat": "Waiting for verification"
+    "messageformat": "Αναμονή για επαλήθευση"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "Ο εκδότης της πιστωτικής σου κάρτας απαιτεί ένα επιπλέον βήμα επαλήθευσης σε πρόγραμμα περιήγησης."
@@ -6751,10 +6751,10 @@
     "messageformat": "Άνοιγμα προγράμματος περιήγησης"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
-    "messageformat": "Re-open browser"
+    "messageformat": "Άνοιξε το πρόγραμμα περιήγησης ξανά"
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
-    "messageformat": "Cancel donation"
+    "messageformat": "Ακύρωση δωρεάς"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Αυτή η έκδοση περιλαμβάνει διάφορες μικρές βελτιώσεις και αποσφαλματώσεις για να συνεχίσει το Signal να λειτουργεί ομαλά.",
@@ -6785,6 +6785,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
+    "messageformat": "Βελτιώσαμε την εμπειρία αναγνωσμένων/μη αναγνωσμένων μηνυμάτων κατά το multitasking."
   }
 }

@@ -6622,13 +6622,13 @@
     "messageformat": "پايدا ئەمەس، مەخپىيەتلىك مۇھىم"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "بىخەتەر ئۇچۇرلىشىشنى سىز مەبلەغ بىلەن تەمىنلىگەن. ئېلان يوق ، ئىز قوغلاش يوق ، مۇرەسسە قىلىش يوق. Signalنى قوللاش ئۈچۈن ھازىرلا ئىئانە قىلىڭ. <readMoreLink>تەپسىلاتى</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "ئىئانە قىلىڭ"
   },
   "icu:PreferencesDonations__my-support": {
-    "messageformat": "My Support"
+    "messageformat": "قوللىشىم"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "{formattedCurrencyAmount} ئىئانە قىلىش"
@@ -6637,10 +6637,10 @@
     "messageformat": "ئىزنەكلار ۋە ئايلىق ئىئانىلەرنى كۆچمە ئۈسكۈنىڭىزدە باشقۇرغىلى بولىدۇ."
   },
   "icu:PreferencesDonations__privacy-modal-title": {
-    "messageformat": "Your information is private"
+    "messageformat": "ئۇچۇرلىرىڭىز شەخسىي"
   },
   "icu:PreferencesDonations__privacy-modal-content": {
-    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
+    "messageformat": "<paragraph>سىز ئىئانە قىلغاندا Signal شەخسىي ئۇچۇرلىرىڭىزنى توپلىمايدۇ ياكى ساقلىمايدۇ.</paragraph> <paragraph>ئىئانىڭىزنى تاپشۇرۇۋېلىش ئۈچۈن Stripe نى پۇل تۆلەش بىر تەرەپ قىلغۇچىسى ئورنىدا ئىشلىتىمىز.سىز ئۇلارغا تەمىنلىگەن ئۇچۇرلارنى بىز كۆرەلمەيمىز ياكى ساقلىيالمايمىز</paragraph>.<paragraph>Signal سىزنىڭ ئىئانىڭىزنى Signal ھېساباتىڭىزغا باغلىمايدۇ ۋە ئۇنداقمۇ قىلالمايدۇ.</paragraph><paragraph>قوللىغىنىڭىزغا رەھمەت!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "تالونلار"
@@ -6667,13 +6667,13 @@
     "messageformat": "پۇل تۆلەنگەن ۋاقىت"
   },
   "icu:DonateFlow__make-a-one-time-donation": {
-    "messageformat": "Make a one time donation"
+    "messageformat": "«بىر قېتىم ئىئانە» قىلىڭ"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+    "messageformat": "ئۈستەليۈزىدە پەقەت «بىر قېتىملىق ئىئانىلەر»نى قىلىشقا بولىدۇ. كۆچمە ئۈسكۈنىڭىزدە ئايلىق ئىئانىلەرنى قىلىشقا بولىدۇ."
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+    "messageformat": "مەسىلىگە يولۇقتىڭىزمۇ؟ <contactSupportLink>ياردەمچى خادىم بىلەن ئالاقىلىشىڭ</contactSupportLink>"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "ئىئانە تالونى"
@@ -6694,22 +6694,22 @@
     "messageformat": "Signalنى قوللىغانلىقىڭىزغا رەھمەت. سىزنىڭ ئىئانىڭىز ، ئوچۇق مەنبە مەخپىيەتلىك تېخنىكىسى ئارقىلىق ئەركىن ئىپادىلەش ھوقۇقىنى قوغدايدۇ ۋە دۇنيادىكى مىليونلىغان كىشىلەرنىڭ ئالاقىلىشىش بىخەتەرلىكىگە كاپالەتلىك قىلىدۇ. ئەگەر سىز ئامېرىكىنىڭ ئاھالىسى بولسىڭىز ، باج خاتىرىلىرى ئۈچۈن بۇ تالوننى ساقلاپ قويۇڭ. Signal Technology Foundation بولسا ئامېرىكا دۆلەت ئىچى باج قانۇنى 501c3 ماددىسىدىكى بەلگىلىمە بويىچە باجدىن كەچۈرۈم قىلىنىدىغان تاپاۋەتسىز ئورگان بولۇپ ھېسابلىنىدۇ. فېدېراتسىيە باج ID نومۇرىمىز 82-4506840."
   },
   "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled"
+    "messageformat": "ئىئانە ئەمەلدىن قالدۇرۇلدى"
   },
   "icu:Donations__Toast__Completed": {
-    "messageformat": "Donation completed"
+    "messageformat": "ئىئانە تاماملاندى"
   },
   "icu:Donations__Toast__Error": {
-    "messageformat": "Error processing donation"
+    "messageformat": "ئىئانە بىر تەرەپ قىلىش خاتالىقى"
   },
   "icu:Donations__Toast__Processing": {
-    "messageformat": "Processing donation"
+    "messageformat": "ئىئانە بىر تەرەپ قىلىنىۋاتىدۇ"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "Verification failed"
+    "messageformat": "دەلىللىيەلمىدى"
   },
   "icu:Donations__Toast__VerificationNeeded": {
-    "messageformat": "You have a donation in progress that needs additional verification."
+    "messageformat": "قوشۇمچە دەلىللەشكە ئېھتىياجلىق بىر ئىئانىڭىز بار."
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "پۇل تۆلەش ئۇسۇلى رەت قىلىندى"
@@ -6742,7 +6742,7 @@
     "messageformat": "قوشۇمچە دەلىللەش تەلەپ قىلىنىدۇ"
   },
   "icu:Donations__3dsValidationNeeded--waiting": {
-    "messageformat": "Waiting for verification"
+    "messageformat": "دەلىللەشنى ساقلاۋاتىدۇ"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "ئىناۋەتلىك كارتىڭىزنى تارقاتقۇچى تەرەپ توركۆرگۈدە قوشۇمچە دەلىللەش باسقۇچىنى تەلەپ قىلىدۇ."
@@ -6751,10 +6751,10 @@
     "messageformat": "توركۆرگۈنى ئېچىڭ"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
-    "messageformat": "Re-open browser"
+    "messageformat": "توركۆرگۈنى قايتا ئېچىش"
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
-    "messageformat": "Cancel donation"
+    "messageformat": "ئىئانە قىلىشنى ئەمەلدىن قالدۇرۇش"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal نىڭ راۋان ئىجرا بولۇشى ئۈچۈن بۇ نەشرىدە بىر قانچە كىچىك ئۆزگەرتىشلەر ئېلىپ بېرىلدى ۋە كاشىلىلار ئوڭشالدى.",
@@ -6785,6 +6785,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
+    "messageformat": "بىز كۆپ ۋەزىپە ئىجرا قىلغاندا ، ئوقۇلغان / ئوقۇلمىغان ئۇچۇر تەجىرىبىسىنى ياخشىلىدۇق. رەسىمنى چەكسىڭىز ياكى يېتەرلىك تېزلىكتە خەت يازسىڭىز يەنىلا چوڭايتالايسىز."
   }
 }

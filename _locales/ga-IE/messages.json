@@ -6622,13 +6622,13 @@
     "messageformat": "Príobháideachas chun tosaigh ar bhrabús"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Teachtaireachtaí príobháideacha, maoinithe agatsa. Gan aon fhógra, gan aon rianaire, gan aon chomhghéilleadh. Tabhair airgead do Signal anois chun tacú leis. <readMoreLink>Tuilleadh faisnéise</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Tabhair airgead"
   },
   "icu:PreferencesDonations__my-support": {
-    "messageformat": "My Support"
+    "messageformat": "Tabhartais"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Tabhair {formattedCurrencyAmount}"
@@ -6637,10 +6637,10 @@
     "messageformat": "Is féidir suaitheantais agus síntiúis mhíosúla a bhainistiú ar do ghléas móibíleach."
   },
   "icu:PreferencesDonations__privacy-modal-title": {
-    "messageformat": "Your information is private"
+    "messageformat": "Tá d'fhaisnéis príobháideach"
   },
   "icu:PreferencesDonations__privacy-modal-content": {
-    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
+    "messageformat": "<paragraph>Ní dhéanann Signal d'fhaisnéis phearsanta a bhailiú ná a stóráil nuair a thugann tú tabhartas.</paragraph><paragraph>Úsáidimid Stripe mar ár bpróiseálaí íocaíochtaí chun do thabhartais a fháil. Ní dhéanaimid aon fhaisnéis a thugann tú dóibh a rochtain, a stóráil ná a shábháil.</paragraph><paragraph>Níl cead ag Signal do thabhartas a cheangal le do chuntas Signal agus ní déanann sé amhlaidh.</paragraph><paragraph>Go raibh maith agat as do thacaíocht!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Admhálacha"
@@ -6667,13 +6667,13 @@
     "messageformat": "Dáta íoctha"
   },
   "icu:DonateFlow__make-a-one-time-donation": {
-    "messageformat": "Make a one time donation"
+    "messageformat": "Déan tabhartas aonuaire"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+    "messageformat": "Níl ach tabhartais aonuaire ar fáil ar dheasc. Is féidir tabhartais mhíosúla a dhéanamh ar do ghléas móibíleach."
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+    "messageformat": "Fadhbanna agat? <contactSupportLink>Déan teagmháil leis an bhfoireann tacaíochta</contactSupportLink>"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Admháil tabhartais"
@@ -6694,22 +6694,22 @@
     "messageformat": "Go raibh maith agat as tacú le Signal. Cabhraíonn do dheonachán cur leis an misean chun saoirse cainte a chosaint agus chun cur ar ár gcumas cumarsáid dhomhanda a chur ar fáil ag na milliúin ar fud an domhan, trí theicneolaíocht phríobháideachta foinse oscailte. Más cónaitheoir sna Stáit Aontaithe thú, coinnigh an admháil seo do do thaifid chánach. Eagraíocht neamhbhrabúis díolmhaithe ó cháin sna Stáit Aontaithe faoi alt 501c3 den Internal Revenue Code is ea Signal Technology Foundation. Is é 82–4506840 ár nUimhir Aitheantais Cánach Feidearálaí."
   },
   "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled"
+    "messageformat": "Tabhartas curtha ar ceal"
   },
   "icu:Donations__Toast__Completed": {
-    "messageformat": "Donation completed"
+    "messageformat": "Tabhartas críochnaithe"
   },
   "icu:Donations__Toast__Error": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Earráid le próiseáil an tabhartais"
   },
   "icu:Donations__Toast__Processing": {
-    "messageformat": "Processing donation"
+    "messageformat": "Tabhartas á phróiseáil"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "Verification failed"
+    "messageformat": "Theip ar dheimhniú"
   },
   "icu:Donations__Toast__VerificationNeeded": {
-    "messageformat": "You have a donation in progress that needs additional verification."
+    "messageformat": "Tá tabhartas ar bun agat a bhfuil fíorú sa bhreis ag teastáil ina leith."
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Diúltaíodh don mhodh íocaíochta"
@@ -6742,7 +6742,7 @@
     "messageformat": "Fíorú breise ag teastáil"
   },
   "icu:Donations__3dsValidationNeeded--waiting": {
-    "messageformat": "Waiting for verification"
+    "messageformat": "Ag feitheamh le fíorú"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "Éilíonn d'eisitheoir cárta creidmheasa céim fíoraithe sa bhreis i mbrabhsálaí gréasáin."
@@ -6751,10 +6751,10 @@
     "messageformat": "Oscail an brabhsálaí"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
-    "messageformat": "Re-open browser"
+    "messageformat": "Athoscail an brabhsálaí"
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
-    "messageformat": "Cancel donation"
+    "messageformat": "Cuir an tabhartas ar ceal"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Tá roinnt mionathruithe agus paistí ar fhabhtanna sa leagan seo chun Signal a choinneáil ag rith go réidh.",
@@ -6785,6 +6785,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
+    "messageformat": "D'fheabhsaíomar an t-eispéireas maidir le teachtaireacht léite/neamhléite le linn na hiltascála."
   }
 }

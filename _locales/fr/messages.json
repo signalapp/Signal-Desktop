@@ -6622,13 +6622,13 @@
     "messageformat": "La vie privée avant le profit"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Une messagerie privée, financée par des personnes comme vous. Aucune publicité, aucun cookie de suivi, zéro compromis. Faites un don pour soutenir Signal. <readMoreLink>En savoir plus</readMoreLink>."
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Faire un don"
   },
   "icu:PreferencesDonations__my-support": {
-    "messageformat": "My Support"
+    "messageformat": "Ma contribution"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Faire un don de {formattedCurrencyAmount}"
@@ -6637,10 +6637,10 @@
     "messageformat": "Vous pouvez gérer vos macarons et vos dons mensuels sur votre appareil mobile."
   },
   "icu:PreferencesDonations__privacy-modal-title": {
-    "messageformat": "Your information is private"
+    "messageformat": "Vos données sont confidentielles"
   },
   "icu:PreferencesDonations__privacy-modal-content": {
-    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
+    "messageformat": "<paragraph>Lorsque vous faites un don à Signal, nous ne collectons, ni n'enregistrons aucune de vos informations personnelles.</paragraph><paragraph>Pour recevoir vos dons, nous utilisons le processeur de paiement Stripe. Nous n'avons pas accès aux informations que vous fournissez à Stripe, ne les stockons pas et ne les enregistrons pas.</paragraph><paragraph>De plus, Signal ne peut établir aucun lien entre votre don et votre compte Signal.</paragraph><paragraph>Merci pour votre soutien.</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Reçus"
@@ -6667,13 +6667,13 @@
     "messageformat": "Date de paiement"
   },
   "icu:DonateFlow__make-a-one-time-donation": {
-    "messageformat": "Make a one time donation"
+    "messageformat": "Faire un don ponctuel"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+    "messageformat": "Depuis votre ordinateur, vous ne pouvez faire que des dons ponctuels. N'hésitez pas à utiliser votre appareil mobile si vous préférez nous faire un don mensuel."
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+    "messageformat": "Un souci ? <contactSupportLink>Contactez l'assistance</contactSupportLink>."
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Reçu de don"
@@ -6694,22 +6694,22 @@
     "messageformat": "Merci de soutenir Signal. Votre contribution nous aide à mener à bien notre mission : protéger la liberté d'expression et offrir des communications sécurisées à des millions de personnes à travers le monde grâce à une technologie open source. Si vous résidez aux États-Unis, conservez ce reçu pour le communiquer aux services fiscaux. La Signal Technology Foundation est un organisme à but non lucratif, régi par le code fédéral des impôts des États-Unis. Notre numéro d'identification fiscale est le suivant : 82-4506840."
   },
   "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled"
+    "messageformat": "Don annulé"
   },
   "icu:Donations__Toast__Completed": {
-    "messageformat": "Donation completed"
+    "messageformat": "Don effectué"
   },
   "icu:Donations__Toast__Error": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Erreur de traitement"
   },
   "icu:Donations__Toast__Processing": {
-    "messageformat": "Processing donation"
+    "messageformat": "Don en cours de traitement"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "Verification failed"
+    "messageformat": "Échec de la vérification"
   },
   "icu:Donations__Toast__VerificationNeeded": {
-    "messageformat": "You have a donation in progress that needs additional verification."
+    "messageformat": "Un don en cours de traitement nécessite une vérification supplémentaire."
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Mode de paiement refusé"
@@ -6742,7 +6742,7 @@
     "messageformat": "Encore une petite vérification..."
   },
   "icu:Donations__3dsValidationNeeded--waiting": {
-    "messageformat": "Waiting for verification"
+    "messageformat": "En attente de vérification"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "L'émetteur de votre carte de paiement exige une dernière vérification dans un navigateur web."
@@ -6751,10 +6751,10 @@
     "messageformat": "Ouvrir le navigateur"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
-    "messageformat": "Re-open browser"
+    "messageformat": "Rouvrir le navigateur"
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
-    "messageformat": "Cancel donation"
+    "messageformat": "Annuler le don"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Dans cette version, nous avons apporté quelques ajustements et corrigé de petits bugs. Pour que votre messagerie préférée continue de fonctionner comme sur des roulettes.",
@@ -6785,6 +6785,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
+    "messageformat": "Avant, lorsqu'on recherchait un émoji pour réagir à un message et qu'on avait la mauvaise idée d'appuyer sur la barre d'espace en même temps, Signal affichait la visionneuse d'images en plein écran. Dans la nouvelle version, la seule façon d'agrandir une image est aussi la plus simple : il vous suffit de cliquer dessus (qui l'eût cru ?). Autre amélioration : pour ceux et celles qui font toujours mille choses en même temps, distinguer les messages lus des messages non lus devient mille fois plus simple."
   }
 }

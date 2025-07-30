@@ -6622,13 +6622,13 @@
     "messageformat": "ឯកជនភាពធំជាងប្រាក់ចំណេញ"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "ការផ្ញើសារលក្ខណៈឯកជនទទួលបានមូលនិធិពីអ្នក។ គ្មានការផ្សាយពាណិជ្ជកម្ម គ្មានការតាមដាន គ្មានការប៉ះពាល់។ បរិច្ចាគឥឡូវនេះដើម្បីគាំទ្រ Signal។ <readMoreLink>អានបន្ថែម</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "បរិច្ចាគ"
   },
   "icu:PreferencesDonations__my-support": {
-    "messageformat": "My Support"
+    "messageformat": "ការគាំទ្ររបស់ខ្ញុំ"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "បរិច្ចាគ {formattedCurrencyAmount}"
@@ -6637,10 +6637,10 @@
     "messageformat": "ស្លាក និងការបរិច្ចាគប្រចាំខែអាចគ្រប់គ្រងបាននៅលើឧបករណ៍ចល័តរបស់អ្នក។"
   },
   "icu:PreferencesDonations__privacy-modal-title": {
-    "messageformat": "Your information is private"
+    "messageformat": "ព័ត៌មានរបស់អ្នកមានលក្ខណៈឯកជន"
   },
   "icu:PreferencesDonations__privacy-modal-content": {
-    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
+    "messageformat": "<paragraph>Signal មិនប្រមូល ឬរក្សាទុកព័ត៌មានផ្ទាល់ខ្លួនណាមួយរបស់អ្នកទេ នៅពេលអ្នកធ្វើការបរិច្ចាគ។</paragraph><paragraph>យើងប្រើ Stripe ជាអ្នកដំណើរការទូទាត់របស់យើង ដើម្បីទទួលបានការបរិច្ចាគរបស់អ្នក។ យើងមិនចូលប្រើ រក្សា ឬរក្សាទុកព័ត៌មានណាមួយដែលអ្នកផ្តល់ឱ្យពួកគេទេ។</paragraph><paragraph>Signal មិនមាន និងមិនអាចភ្ជាប់ការបរិច្ចាគរបស់អ្នកជាមួយគណនី Signal របស់អ្នកបានទេ។</paragraph><paragraph>សូមអរគុណចំពោះការគាំទ្ររបស់អ្នក!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "បង្កាន់ដៃ"
@@ -6667,13 +6667,13 @@
     "messageformat": "កាលបរិច្ឆេទបង់ប្រាក់"
   },
   "icu:DonateFlow__make-a-one-time-donation": {
-    "messageformat": "Make a one time donation"
+    "messageformat": "ធ្វើការបរិច្ចាគតែមួយដង"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+    "messageformat": "មានតែការបរិច្ចាគមួយដងប៉ុណ្ណោះដែលមាននៅលើកុំព្យូទ័រ។ ការបរិច្ចាគប្រចាំខែអាចធ្វើបាននៅលើឧបករណ៍ចល័តរបស់អ្នក។"
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+    "messageformat": "កំពុងមានបញ្ហា? <contactSupportLink>ទាក់ទងផ្នែកជំនួយ</contactSupportLink>"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "បង្កាន់ដៃបរិច្ចាគ"
@@ -6694,22 +6694,22 @@
     "messageformat": "សូមអរគុណចំពោះការគាំទ្រ Signal។ ការចូលរួមចំណែករបស់អ្នកជួយជំរុញដល់បេសកកម្មការពារការបញ្ចេញមតិដោយសេរី និងញ៉ាំងឱ្យមានការប្រាស្រ័យទាក់ទងគ្នាជាសាកលដោយសុវត្ថិភាពសម្រាប់មនុស្សរាប់លាននាក់ជុំវិញពិភពលោក តាមរយៈបច្ចេកវិទ្យាឯកជនភាពប្រភពបើកចំហ។ ប្រសិនបើអ្នកជាអ្នករស់នៅក្នុងសហរដ្ឋអាមេរិក សូមរក្សាទុកបង្កាន់ដៃនេះសម្រាប់កំណត់ត្រាពន្ធរបស់អ្នក។ Signal Technology Foundation គឺជាអង្គការមិនរកប្រាក់ចំណេញដែលទទួលបានការលើកលែងពន្ធនៅក្នុងសហរដ្ឋអាមេរិកក្រោមផ្នែក 501c3 នៃក្រមស្តីពីប្រាក់ចំណូលផ្ទៃក្នុង។ លេខអត្តសញ្ញាណកម្មពន្ធរបស់យើងគឺ 82-4506840។"
   },
   "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled"
+    "messageformat": "ការបរិច្ចាគត្រូវបានបោះបង់"
   },
   "icu:Donations__Toast__Completed": {
-    "messageformat": "Donation completed"
+    "messageformat": "ការបរិច្ចាគត្រូវបានបញ្ចប់"
   },
   "icu:Donations__Toast__Error": {
-    "messageformat": "Error processing donation"
+    "messageformat": "មានបញ្ហាក្នុងការដំណើរការការបរិច្ចាគ"
   },
   "icu:Donations__Toast__Processing": {
-    "messageformat": "Processing donation"
+    "messageformat": "កំពុងដំណើរការការបរិច្ចាគ"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "Verification failed"
+    "messageformat": "ការផ្ទៀងផ្ទាត់មិនបានជោគជ័យ"
   },
   "icu:Donations__Toast__VerificationNeeded": {
-    "messageformat": "You have a donation in progress that needs additional verification."
+    "messageformat": "អ្នកមានការបរិច្ចាគមួយដែលកំពុងដំណើរការដែលត្រូវការការផ្ទៀងផ្ទាត់បន្ថែម។"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "វិធីទូទាត់ត្រូវបានបដិសេធ"
@@ -6742,7 +6742,7 @@
     "messageformat": "ទាមទារការផ្ទៀងផ្ទាត់បន្ថែម"
   },
   "icu:Donations__3dsValidationNeeded--waiting": {
-    "messageformat": "Waiting for verification"
+    "messageformat": "កំពុងរង់ចាំការផ្ទៀងផ្ទាត់"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "អ្នកចេញបណ្ណឥណទានរបស់អ្នកទាមទារជំហានផ្ទៀងផ្ទាត់បន្ថែមនៅក្នុងកម្មវិធីរុករក។"
@@ -6751,10 +6751,10 @@
     "messageformat": "បើកកម្មវិធីរុករក"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
-    "messageformat": "Re-open browser"
+    "messageformat": "បើកកម្មវិធីរុករកឡើងវិញ"
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
-    "messageformat": "Cancel donation"
+    "messageformat": "បោះបង់ការបរិច្ចាគ"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "កំណែ​នេះ​មាន​ការ​កែ​សម្រួល និង​ការកែបញ្ហាតូចៗ​មួយ​ចំនួន ដើម្បី​ឲ្យ​ Signal បន្ត​ដំណើរការ​ដោយ​រលូន។",
@@ -6785,6 +6785,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
+    "messageformat": "យើងបានធ្វើឱ្យប្រសើរឡើងនូវបទពិសោធន៍អាន/មិនទាន់អានសារ ពេលកំពុងធ្វើកិច្ចការជាច្រើន ហើយបានកែបញ្ហាមួយដែលពេលខ្លះបើកកម្មវិធីមើលរូបភាពដែលបានពង្រីកដោយមិនបានត្រឹមត្រូវ ប្រសិនបើអ្នកចុចរបារដកឃ្លា ពេលកំពុងស្វែងរករូបអារម្មណ៍ដ៏ល្អឥតខ្ចោះ។ អ្នកនៅតែអាចពង្រីកបាន ប្រសិនបើអ្នកចុចលើរូបភាព ឬប្រសិនបើអ្នកវាយបញ្ចូលបានលឿនគួរសម។"
   }
 }

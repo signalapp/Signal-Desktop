@@ -6622,13 +6622,13 @@
     "messageformat": "मुनाफ़े से ज़्यादा निजता को वरीयता"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "आपकी फ़ंडिंग पर चल रही प्राइवेट मैसेजिंग सेवा। न कोई विज्ञापन, न ट्रैकिंग, न ही समझौता। Signal को सहयोग करने के लिए अभी दान दें। <readMoreLink>ज़्यादा पढ़ें</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "दान दें"
   },
   "icu:PreferencesDonations__my-support": {
-    "messageformat": "My Support"
+    "messageformat": "मेरा सपोर्ट"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "{formattedCurrencyAmount} का दान दें"
@@ -6637,10 +6637,10 @@
     "messageformat": "बैजस और मासिक दान को आपके मोबाइल डिवाइस पर प्रबंधित किया जा सकता है।"
   },
   "icu:PreferencesDonations__privacy-modal-title": {
-    "messageformat": "Your information is private"
+    "messageformat": "आपकी जानकारी निजी है"
   },
   "icu:PreferencesDonations__privacy-modal-content": {
-    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
+    "messageformat": "<paragraph>आपकी ओर से दान किए जाने पर, Signal आपकी कोई भी निजी जानकारी इकट्ठा या स्टोर नहीं करता है।</paragraph><paragraph>हम आपसे दान पाने के लिए Stripe को अपने भुगतान प्रोसेसर के तौर पर इस्तेमाल करते हैं। आपके द्वारा उन्हें दी जाने वाली किसी भी जानकारी को हम ऐक्सेस, स्टोर, या सेव नहीं करते।</paragraph><paragraph>Signal आपके दान को न तो आपके Signal अकाउंट से कनेक्ट करता है, न ही ऐसा कर सकता है।</paragraph><paragraph>आपके सहयोग के लिए धन्यवाद!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "रसीद"
@@ -6667,13 +6667,13 @@
     "messageformat": "भुगतान की तारीख"
   },
   "icu:DonateFlow__make-a-one-time-donation": {
-    "messageformat": "Make a one time donation"
+    "messageformat": "एक-बार का दान करें"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+    "messageformat": "डेस्कटॉप पर सिर्फ़ एक-बार दान की सुविधा उपलब्ध है। मासिक दान सिर्फ़ आपके मोबाइल डिवाइस पर किए जा सकते हैं।"
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+    "messageformat": "क्या कोई परेशानी है? <contactSupportLink>सपोर्ट से संपर्क करें</contactSupportLink>"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "दान की रसीद"
@@ -6694,22 +6694,22 @@
     "messageformat": "Signal की सहायता करने के लिए शुक्रिया. आपका योगदान मुक्त स्रोत प्राइवेसी तकनीक के माध्यम से दुनिया भर में लाखों लोगों के लिए स्वतंत्र अभिव्यक्ति की रक्षा करने और सुरक्षित वैश्विक संचार को सक्षम करने के मिशन को बढ़ावा देने में मदद करता है। यदि आप संयुक्त राज्य अमेरिका के निवासी हैं, तो कृपया अपने कर रिकॉर्ड्स के लिए यह रसीद अपने पास रखें। Signal Technology Foundation आंतरिक राजस्व संहिता की धारा 501c3 के तहत एक स्वतंत्र गैर-लाभकारी धर्मार्थ संगठन है और कर-मुक्त है। हमारा फ़ेडरल टैक्स आईडी नंबर 82-4506840 है।"
   },
   "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled"
+    "messageformat": "दान रद्द किया गया"
   },
   "icu:Donations__Toast__Completed": {
-    "messageformat": "Donation completed"
+    "messageformat": "दान पूरा हुआ"
   },
   "icu:Donations__Toast__Error": {
-    "messageformat": "Error processing donation"
+    "messageformat": "दान प्रोसेस करने में कोई गड़बड़ी हुई"
   },
   "icu:Donations__Toast__Processing": {
-    "messageformat": "Processing donation"
+    "messageformat": "दान प्रोसेस किया जा रहा है"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "Verification failed"
+    "messageformat": "वेरिफ़िकेशन नहीं हो सका"
   },
   "icu:Donations__Toast__VerificationNeeded": {
-    "messageformat": "You have a donation in progress that needs additional verification."
+    "messageformat": "आपका दान प्रगति में है, जिसे अतिरिक्त वेरिफ़िकेशन की ज़रूरत है।"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "भुगतान के तरीके को मंज़ूरी नहीं मिली"
@@ -6742,7 +6742,7 @@
     "messageformat": "अतिरिक्त सत्यापन की आवश्यकता है"
   },
   "icu:Donations__3dsValidationNeeded--waiting": {
-    "messageformat": "Waiting for verification"
+    "messageformat": "वेरिफ़िकेशन का इंतज़ार है"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "आपकी क्रेडिट कार्ड कंपनी की ज़रूरतों के मुताबिक, आपको वेब ब्राउज़र में एक अतिरिक्त वेरिफ़िकेशन स्टेप पूरा करना होगा।"
@@ -6751,10 +6751,10 @@
     "messageformat": "ब्राउज़र खोलें"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
-    "messageformat": "Re-open browser"
+    "messageformat": "ब्राउज़र फिर से खोलें"
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
-    "messageformat": "Cancel donation"
+    "messageformat": "दान रद्द करें"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "सिग्नल को सही रूप से चलाने के लिए इस वर्शन में कई छोटे बदलाव और बग फ़िक्स शामिल हैं.",
@@ -6785,6 +6785,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
+    "messageformat": "हमने मल्टीटास्किंग के दौरान संदेश पढ़ने/न पढ़ने के अनुभव में सुधार किया है। साथ ही, पसंदीदा इमोजी रिएक्शन चुनते समय गलती से स्पेस बार दबने पर कभी-कभी बड़े साइज़ में इमेज व्यूअर खुल जाता था। हमने उस गड़बड़ी को भी ठीक किया है। इमेज पर क्लिक करने या तेज़ी से टाइप करने पर, अब भी ज़ूम किया जा सकता है।"
   }
 }

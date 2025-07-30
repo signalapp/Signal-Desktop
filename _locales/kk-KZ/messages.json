@@ -6622,7 +6622,7 @@
     "messageformat": "Пайдадан гөрі құпиялылыққа мән береміз"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Сіз демеушілік жасаған қауіпсіз хабар алмасу қолданбасы. Жарнамасыз, бақылаусыз, ымырасыз. Signal-ға қазір демеушілік жасаңыз. <readMoreLink>Толық ақпарат</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Демеу"
@@ -6637,10 +6637,10 @@
     "messageformat": "Танымбелгілер мен қайырымдылыққа берілген ай сайынғы қаражатты мобильдік құрылғыдан басқаруға болады."
   },
   "icu:PreferencesDonations__privacy-modal-title": {
-    "messageformat": "Your information is private"
+    "messageformat": "Ақпаратыңыз құпия сақталады"
   },
   "icu:PreferencesDonations__privacy-modal-content": {
-    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
+    "messageformat": "<paragraph>Сіз демеушілік жасағанда, Signal сіздің ешқандай жеке ақпаратыңызды жинамайды немесе сақтамайды.</paragraph><paragraph>Демеу мақсатында жіберген қаражатыңызды қабылдау үшін Stripe төлем операторын қолданамыз. Оларға берген ақпаратыңыздың ешқайсысын пайдаланбаймыз немесе сақтамаймыз.</paragraph><paragraph>Signal сіздің демеушілігіңізді Signal аккаунтыңызбен байланыстырмайды.</paragraph><paragraph>Қолдау көрсеткеніңіз үшін рақмет!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Чектер"
@@ -6667,13 +6667,13 @@
     "messageformat": "Төленген күні"
   },
   "icu:DonateFlow__make-a-one-time-donation": {
-    "messageformat": "Make a one time donation"
+    "messageformat": "Бір реттік демеу"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+    "messageformat": "Жұмыс үстелінде бір реттік демеу ғана қолжетімді. Мобильдік құрылғыда ай сайын демеушілік жасауға болады."
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+    "messageformat": "Мәселелер туындап жатыр ма? <contactSupportLink>Қолдау қызметіне хабарласыңыз.</contactSupportLink>"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Демеушілік чегі"
@@ -6694,22 +6694,22 @@
     "messageformat": "Signal-ға қолдау көрсеткеніңіз үшін рақмет. Сіздің қосқан үлесіңіз ашық кодты құпиялық технологиясы арқылы әлемдегі миллиондаған адам үшін сөз еркіндігін қорғау және жаһандық байланыс орнату қауіпсіздігін қамтамасыз ету миссиясын жүзеге асыруға ықпал етеді. Егер Америка Құрама Штаттарының резиденті болсаңыз, осы түбіртекті салық жазбалары үшін сақтап қойыңыз. Signal Technology Foundation – Салық кодексінің 501c3 бөліміне сәйкес Америка Құрама Штаттарындағы салықтан босатылған коммерциялық емес ұйым. Біздің федералдық салық идентификаторымыз: 82-4506840."
   },
   "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled"
+    "messageformat": "Демеушіліктен бас тартылды"
   },
   "icu:Donations__Toast__Completed": {
-    "messageformat": "Donation completed"
+    "messageformat": "Демеушілік жасалды"
   },
   "icu:Donations__Toast__Error": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Демеуді өңдеу кезінде қате шықты"
   },
   "icu:Donations__Toast__Processing": {
-    "messageformat": "Processing donation"
+    "messageformat": "Демеушілік өңделіп жатыр"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "Verification failed"
+    "messageformat": "Растаудан өтпеді"
   },
   "icu:Donations__Toast__VerificationNeeded": {
-    "messageformat": "You have a donation in progress that needs additional verification."
+    "messageformat": "Демеу үшін жіберген қаражатыңыз өңделіп жатыр. Қосымша растау керек."
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Төлеу әдісі қабылданбады"
@@ -6742,7 +6742,7 @@
     "messageformat": "Қосымша верификация қажет"
   },
   "icu:Donations__3dsValidationNeeded--waiting": {
-    "messageformat": "Waiting for verification"
+    "messageformat": "Расталғанын күтіңіз"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "Несиелік картаңыздың эмитенті веб-браузерде қосымша растауды қажет етеді."
@@ -6751,10 +6751,10 @@
     "messageformat": "Браузерді ашу"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
-    "messageformat": "Re-open browser"
+    "messageformat": "Браузерді қайта ашу"
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
-    "messageformat": "Cancel donation"
+    "messageformat": "Демеушіліктен бас тарту"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Бұл нұсқада Signal-дың еш кінәратсыз жұмыс істеуіне қажетті бірнеше шағын түзетпе жасалды және ақаулар түзетілді.",
@@ -6785,6 +6785,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
+    "messageformat": "Басқа тапсырмаларды орындап отырып, хабарды оқылған/оқылмаған деп белгілеу функциясын жақсарттық. Сондай-ақ көңіл-күйіңізге сай эмоджи реакциясын іздеп жатып, бос орын пернесін басқан кезде, кеңейтілген суретті көру құралын дұрыс ашуға кедергі келтіретін ақауды түзеттік. Суретті бассаңыз немесе жылдам жазсаңыз, масштаб өзгертіле береді."
   }
 }
