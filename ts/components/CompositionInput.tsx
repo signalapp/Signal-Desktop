@@ -81,6 +81,7 @@ import { FUN_STATIC_EMOJI_CLASS } from './fun/FunEmoji';
 import { useFunEmojiSearch } from './fun/useFunEmojiSearch';
 import type { EmojiCompletionOptions } from '../quill/emoji/completion';
 import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer';
+import { MAX_BODY_ATTACHMENT_BYTE_LENGTH } from '../util/longAttachment';
 
 const log = createLogger('CompositionInput');
 
@@ -158,7 +159,6 @@ export type Props = Readonly<{
   onCloseLinkPreview?(conversationId: string): unknown;
 }>;
 
-const MAX_LENGTH = 64 * 1024;
 const BASE_CLASS_NAME = 'module-composition-input';
 
 export function CompositionInput(props: Props): React.ReactElement {
@@ -612,7 +612,7 @@ export function CompositionInput(props: Props): React.ReactElement {
         node.attributes.removeNamedItem('style');
       }
 
-      if (text.length > MAX_LENGTH) {
+      if (Buffer.byteLength(text) > MAX_BODY_ATTACHMENT_BYTE_LENGTH) {
         quill.history.undo();
         propsRef.current.onTextTooLong();
         return;
