@@ -683,8 +683,8 @@ BackupsPaidActive.args = {
   },
 };
 
-export const BackupsPaidCancelled = Template.bind({});
-BackupsPaidCancelled.args = {
+export const BackupsPaidCanceled = Template.bind({});
+BackupsPaidCanceled.args = {
   page: SettingsPage.Backups,
   backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,

@@ -1189,7 +1189,7 @@ message GroupJoinRequestCanceledUpdate {
   bytes requestorAci = 1;
 }
 
-// A single requestor has requested to join and cancelled
+// A single requestor has requested to join and canceled
 // their request repeatedly with no other updates in between.
 // The last action encompassed by this update is always a
 // cancellation; if there was another open request immediately

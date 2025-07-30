@@ -79,13 +79,13 @@ export async function sendProfileKey(
   }
 
   if (!data?.isOneTimeSend && !conversation.get('profileSharing')) {
-    log.info('No longer sharing profile. Cancelling job.');
+    log.info('No longer sharing profile. Canceling job.');
     return;
   }
 
   const profileKey = await ourProfileKeyService.get();
   if (!profileKey) {
-    log.info('Unable to fetch profile. Cancelling job.');
+    log.info('Unable to fetch profile. Canceling job.');
     return;
   }
 

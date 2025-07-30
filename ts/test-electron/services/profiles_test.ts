@@ -54,10 +54,10 @@ describe('util/profiles', () => {
 
       service.clearAll('testing');
 
-      await assert.isRejected(promise1, 'job cancelled');
-      await assert.isRejected(promise2, 'job cancelled');
-      await assert.isRejected(promise3, 'job cancelled');
-      await assert.isRejected(promise4, 'job cancelled');
+      await assert.isRejected(promise1, 'job canceled');
+      await assert.isRejected(promise2, 'job canceled');
+      await assert.isRejected(promise3, 'job canceled');
+      await assert.isRejected(promise4, 'job canceled');
     });
   });
 
@@ -147,9 +147,9 @@ describe('util/profiles', () => {
         // Never queued
         const promise5 = service.get(SERVICE_ID_5, null);
 
-        await assert.isRejected(promise2, 'job cancelled');
-        await assert.isRejected(promise3, 'job cancelled');
-        await assert.isRejected(promise4, 'job cancelled');
+        await assert.isRejected(promise2, 'job canceled');
+        await assert.isRejected(promise3, 'job canceled');
+        await assert.isRejected(promise4, 'job canceled');
         await assert.isRejected(promise5, 'paused queue');
 
         assert.strictEqual(runCount, 3, 'after await');
@@ -184,9 +184,9 @@ describe('util/profiles', () => {
       // Queued, because we aren't pausing
       const promise5 = service.get(SERVICE_ID_5, null);
 
-      await assert.isRejected(promise2, 'job cancelled');
-      await assert.isRejected(promise3, 'job cancelled');
-      await assert.isRejected(promise4, 'job cancelled');
+      await assert.isRejected(promise2, 'job canceled');
+      await assert.isRejected(promise3, 'job canceled');
+      await assert.isRejected(promise4, 'job canceled');
 
       // It didn't succeed, but we log and resolve as normal
       await assert.isFulfilled(promise5);

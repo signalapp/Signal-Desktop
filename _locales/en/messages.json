@@ -5253,7 +5253,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{joinerName} requested and cancelled {numberOfRequests, plural, one {their request} other {# requests}} to join via the group link",
+    "messageformat": "{joinerName} requested and canceled {numberOfRequests, plural, one {their request} other {# requests}} to join via the group link",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
@@ -8902,9 +8902,9 @@
     "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840.",
     "description": "Footer text shown on donation receipts explaining tax deductibility and Signal's mission"
   },
-  "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled",
-    "description": "Toast shown when a donation was manually cancelled by the user"
+  "icu:Donations__Toast__Canceled": {
+    "messageformat": "Donation canceled",
+    "description": "Toast shown when a donation was manually canceled by the user"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "Donation completed",
@@ -8977,6 +8977,14 @@
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Your donation is still being processed. This can take a few minutes.",
     "description": "An explanation for the 'still processing' dialog"
+  },
+  "icu:Donations__TimedOut": {
+    "messageformat": "Donation canceled",
+    "description": "Title of the dialog shown when the it's been too long since the last step in the donation process"
+  },
+  "icu:Donations__TimedOut__Description": {
+    "messageformat": "It has been too long since you started your donation. Please start over.",
+    "description": "An explanation for the 'donation timed out' dialog"
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "Additional verification required",

@@ -56,9 +56,9 @@ export async function force(): Promise<void> {
   }
 }
 
-export function onRestartCancelled(): void {
+export function onRestartCanceled(): void {
   if (updater) {
-    updater.onRestartCancelled();
+    updater.onRestartCanceled();
   }
 }
 

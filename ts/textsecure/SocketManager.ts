@@ -282,7 +282,7 @@ export class SocketManager extends EventListener {
       try {
         await sleep(timeout, reconnectController.signal);
       } catch {
-        log.info('reconnect cancelled');
+        log.info('reconnect canceled');
         return;
       } finally {
         if (this.#reconnectController === reconnectController) {

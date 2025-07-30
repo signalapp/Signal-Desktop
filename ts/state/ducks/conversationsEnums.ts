@@ -23,7 +23,7 @@ export enum OneTimeModalState {
 
 export enum ConversationVerificationState {
   PendingVerification = 'PendingVerification',
-  VerificationCancelled = 'VerificationCancelled',
+  VerificationCanceled = 'VerificationCanceled',
 }
 
 export enum TargetedMessageSource {

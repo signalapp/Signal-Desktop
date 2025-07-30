@@ -134,7 +134,7 @@ export async function sendCallingMessage(
       error instanceof UnregisteredUserError
     ) {
       log.info(
-        `${logId}: Send failure was OutgoingIdentityKeyError or UnregisteredUserError. Cancelling job.`
+        `${logId}: Send failure was OutgoingIdentityKeyError or UnregisteredUserError. Canceling job.`
       );
       return;
     }

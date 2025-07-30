@@ -868,7 +868,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
       ) {
         if (type === conversationQueueJobEnum.enum.ProfileKey) {
           log.warn(
-            "Cancelling profile share, we don't want to wait for pending verification."
+            "Canceling profile share, we don't want to wait for pending verification."
           );
           return undefined;
         }
@@ -895,18 +895,16 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
 
       if (
         verificationData.type ===
-        ConversationVerificationState.VerificationCancelled
+        ConversationVerificationState.VerificationCanceled
       ) {
         if (verificationData.canceledAt >= timestamp) {
-          log.info(
-            'cancelling job; user cancelled out of verification dialog.'
-          );
+          log.info('canceling job; user canceled out of verification dialog.');
           shouldContinue = false;
         } else {
           log.info(
             'clearing cancellation tombstone; continuing ahead with job'
           );
-          window.reduxActions.conversations.clearCancelledConversationVerification(
+          window.reduxActions.conversations.clearCanceledConversationVerification(
             conversation.id
           );
         }
@@ -984,7 +982,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
           // Note: This should never happen, because the zod call in parseData wouldn't
           //   accept data that doesn't look like our type specification.
           const problem: never = type;
-          log.error(`Got job with type ${problem}; Cancelling job.`);
+          log.error(`Got job with type ${problem}; Canceling job.`);
         }
       }
 
@@ -1056,14 +1054,14 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
       if (untrustedServiceIds.length) {
         if (type === jobSet.ProfileKey || type === jobSet.ProfileKeyForCall) {
           log.warn(
-            `Cancelling profile share, since there were ${untrustedServiceIds.length} untrusted send targets.`
+            `Canceling profile share, since there were ${untrustedServiceIds.length} untrusted send targets.`
           );
           return undefined;
         }
 
         if (type === jobSet.Receipts) {
           log.warn(
-            `Cancelling receipt send, since there were ${untrustedServiceIds.length} untrusted send targets.`
+            `Canceling receipt send, since there were ${untrustedServiceIds.length} untrusted send targets.`
           );
           return undefined;
         }

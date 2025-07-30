@@ -280,10 +280,10 @@ export function renderToast({
     );
   }
 
-  if (toastType === ToastType.DonationCancelled) {
+  if (toastType === ToastType.DonationCanceled) {
     return (
       <Toast onClose={hideToast}>
-        {i18n('icu:Donations__Toast__Cancelled')}
+        {i18n('icu:Donations__Toast__Canceled')}
       </Toast>
     );
   }
@@ -337,12 +337,16 @@ export function renderToast({
   }
 
   if (
+    toastType === ToastType.DonationCanceledWithView ||
     toastType === ToastType.DonationConfirmationNeeded ||
     toastType === ToastType.DonationError ||
     toastType === ToastType.DonationVerificationFailed ||
     toastType === ToastType.DonationVerificationNeeded
   ) {
     const mapping = {
+      [ToastType.DonationCanceledWithView]: i18n(
+        'icu:Donations__Toast__Canceled'
+      ),
       [ToastType.DonationConfirmationNeeded]: i18n(
         'icu:Donations__Toast__ConfirmationNeeded'
       ),

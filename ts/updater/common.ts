@@ -192,15 +192,15 @@ export abstract class Updater {
     return this.#checkForUpdatesMaybeInstall(CheckType.ForceDownload);
   }
 
-  // If the updater was about to restart the app but the user cancelled it, show dialog
+  // If the updater was about to restart the app but the user canceled it, show dialog
   // to let them retry the restart
-  public onRestartCancelled(): void {
+  public onRestartCanceled(): void {
     if (!this.#restarting) {
       return;
     }
 
     this.logger.info(
-      'updater/onRestartCancelled: restart was cancelled. forcing update to reset updater state'
+      'updater/onRestartCanceled: restart was canceled. forcing update to reset updater state'
     );
     this.#restarting = false;
     markShouldNotQuit();

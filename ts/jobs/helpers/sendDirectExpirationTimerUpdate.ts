@@ -40,7 +40,7 @@ export async function sendDirectExpirationTimerUpdate(
 
   if (!isDirectConversation(conversation.attributes)) {
     log.error(
-      `Conversation ${conversation.idForLogging()} is not a 1:1 conversation; cancelling expiration timer job.`
+      `Conversation ${conversation.idForLogging()} is not a 1:1 conversation; canceling expiration timer job.`
     );
     return;
   }
@@ -91,7 +91,7 @@ export async function sendDirectExpirationTimerUpdate(
 
   if (!proto.dataMessage) {
     log.error(
-      "ContentMessage proto didn't have a data message; cancelling job."
+      "ContentMessage proto didn't have a data message; canceling job."
     );
     return;
   }

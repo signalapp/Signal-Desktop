@@ -47,3 +47,12 @@ export function PaymentDeclined(): JSX.Element {
     />
   );
 }
+
+export function TimedOut(): JSX.Element {
+  return (
+    <DonationErrorModal
+      {...defaultProps}
+      errorType={donationErrorTypeSchema.Enum.TimedOut}
+    />
+  );
+}

@@ -261,8 +261,15 @@ export function reducer(
   if (action.type === UPDATE_WORKFLOW) {
     const { nextWorkflow } = action.payload;
 
+    // If we've cleared the workflow or are starting afresh, we clear the startup flag
+    const didResumeWorkflowAtStartup =
+      !nextWorkflow || nextWorkflow.type === donationStateSchema.Enum.INTENT
+        ? false
+        : state.didResumeWorkflowAtStartup;
+
     return {
       ...state,
+      didResumeWorkflowAtStartup,
       currentWorkflow: nextWorkflow,
     };
   }

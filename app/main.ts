@@ -885,7 +885,7 @@ async function createWindow() {
       );
     }
     if (!shouldClose) {
-      updater.onRestartCancelled();
+      updater.onRestartCanceled();
       return;
     }
 

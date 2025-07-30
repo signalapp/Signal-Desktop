@@ -180,6 +180,7 @@ export type StorageAccessType = {
   areWeASubscriber: boolean;
   subscriberId: Uint8Array;
   subscriberCurrencyCode: string;
+  // Note: for historical reasons, this has two l's
   donorSubscriptionManuallyCancelled: boolean;
   backupsSubscriberId: Uint8Array;
   backupsSubscriberPurchaseToken: string;

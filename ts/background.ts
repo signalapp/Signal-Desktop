@@ -1517,7 +1517,7 @@ export async function startApp(): Promise<void> {
     );
     if (!window.textsecure.storage.user.getAci()) {
       log.info(
-        "Expiration start timestamp cleanup: Cancelling update; we don't have our own UUID"
+        "Expiration start timestamp cleanup: Canceling update; we don't have our own UUID"
       );
     } else if (messagesUnexpectedlyMissingExpirationStartTimestamp.length) {
       const newMessageAttributes =

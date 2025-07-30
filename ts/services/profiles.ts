@@ -200,9 +200,7 @@ export class ProfileService {
 
       this.#jobsByConversationId.forEach(job => {
         job.reject(
-          new Error(
-            `ProfileService.clearAll: job cancelled because '${reason}'`
-          )
+          new Error(`ProfileService.clearAll: job canceled because '${reason}'`)
         );
       });
 

@@ -1,20 +1,24 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import type { LocalizerType } from '../types/Util';
 import { Modal } from './Modal';
 import { Button, ButtonVariant } from './Button';
+import { DAY } from '../util/durations';
 
 export type PropsType = {
+  // Test-only
+  _timeout?: number;
   i18n: LocalizerType;
   onCancelDonation: () => unknown;
   onOpenBrowser: () => unknown;
+  onTimedOut: () => unknown;
 };
 
 export function DonationVerificationModal(props: PropsType): JSX.Element {
-  const { i18n, onCancelDonation, onOpenBrowser } = props;
+  const { _timeout, i18n, onCancelDonation, onOpenBrowser, onTimedOut } = props;
   const [hasOpenedBrowser, setHasOpenedBrowser] = useState(false);
 
   const titleText = hasOpenedBrowser
@@ -39,6 +43,19 @@ export function DonationVerificationModal(props: PropsType): JSX.Element {
       </Button>
     </>
   );
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout | undefined = setTimeout(() => {
+      timeout = undefined;
+      onTimedOut();
+    }, _timeout ?? DAY);
+
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+    };
+  }, [_timeout, onTimedOut]);
 
   return (
     <Modal

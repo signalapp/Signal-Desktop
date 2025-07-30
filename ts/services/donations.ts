@@ -87,6 +87,21 @@ export async function initialize(): Promise<void> {
 
   const shouldShowToast =
     didResumeWorkflowAtStartup() && !isDonationPageVisible();
+  const isTooOld = isOlderThan(workflow.timestamp, DAY);
+
+  if (
+    isTooOld &&
+    (workflow.type === donationStateSchema.Enum.INTENT_METHOD ||
+      workflow.type === donationStateSchema.Enum.INTENT_REDIRECT)
+  ) {
+    log.info(
+      `initialize: Workflow at ${workflow.type} is too old, canceling donation.`
+    );
+    await clearDonation();
+    await failDonation(donationErrorTypeSchema.Enum.TimedOut);
+
+    return;
+  }
 
   if (workflow.type === donationStateSchema.Enum.INTENT_METHOD) {
     if (shouldShowToast) {
@@ -783,6 +798,13 @@ async function failDonation(errorType: DonationErrorType): Promise<void> {
       window.reduxActions.toast.showToast({
         toastType: ToastType.DonationVerificationFailed,
       });
+    } else if (errorType === donationErrorTypeSchema.Enum.TimedOut) {
+      log.info(
+        `${logId}: Donation page not visible. Showing 'donation canceled w/view' toast.`
+      );
+      window.reduxActions.toast.showToast({
+        toastType: ToastType.DonationCanceledWithView,
+      });
     } else {
       log.info(
         `${logId}: Donation page not visible. Showing 'error processing donation' toast.`
@@ -891,7 +913,8 @@ function isDonationPageVisible() {
   const { selectedLocation } = window.reduxStore.getState().nav;
   return (
     selectedLocation.tab === NavTab.Settings &&
-    (selectedLocation.details.page === SettingsPage.DonationsDonateFlow ||
+    (selectedLocation.details.page === SettingsPage.Donations ||
+      selectedLocation.details.page === SettingsPage.DonationsDonateFlow ||
       selectedLocation.details.page === SettingsPage.DonationsReceiptList)
   );
 }

@@ -18,7 +18,10 @@ import type {
   OneTimeDonationHumanAmounts,
   DonationErrorType,
 } from '../types/Donations';
-import { donationStateSchema } from '../types/Donations';
+import {
+  donationErrorTypeSchema,
+  donationStateSchema,
+} from '../types/Donations';
 import type { AvatarColorType } from '../types/Colors';
 import { Button, ButtonSize, ButtonVariant } from './Button';
 import { Modal } from './Modal';
@@ -544,7 +547,7 @@ export function PreferencesDonations({
         onCancelDonation={() => {
           clearWorkflow();
           setPage(SettingsPage.Donations);
-          showToast({ toastType: ToastType.DonationCancelled });
+          showToast({ toastType: ToastType.DonationCanceled });
         }}
         onRetryDonation={() => {
           resumeWorkflow();
@@ -558,10 +561,15 @@ export function PreferencesDonations({
         onCancelDonation={() => {
           clearWorkflow();
           setPage(SettingsPage.Donations);
-          showToast({ toastType: ToastType.DonationCancelled });
+          showToast({ toastType: ToastType.DonationCanceled });
         }}
         onOpenBrowser={() => {
           openLinkInWebBrowser(workflow.redirectTarget);
+        }}
+        onTimedOut={() => {
+          clearWorkflow();
+          updateLastError(donationErrorTypeSchema.Enum.TimedOut);
+          setPage(SettingsPage.Donations);
         }}
       />
     );

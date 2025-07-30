@@ -424,7 +424,7 @@ describe('backups', function (this: Mocha.Suite) {
     await window.locator('.module-message >> "Message 33"').waitFor();
   });
 
-  it('handles remote ephemeral backup cancelation', async function () {
+  it('handles remote ephemeral backup cancellation', async function () {
     const ephemeralBackupKey = randomBytes(32);
 
     const { phone, server } = bootstrap;

@@ -2108,10 +2108,10 @@ export function initialize({
     }
     function cancelInflightRequests(reason: string) {
       const logId = `cancelInflightRequests/${reason}`;
-      log.warn(`${logId}: Cancelling ${inflightRequests.size} requests`);
+      log.warn(`${logId}: Canceling ${inflightRequests.size} requests`);
       for (const request of inflightRequests) {
         try {
-          request(new Error(`${logId}: Cancelled!`));
+          request(new Error(`${logId}: Canceled!`));
         } catch (error: unknown) {
           log.error(
             `${logId}: Failed to cancel request: ${toLogFormat(error)}`
