@@ -8,18 +8,17 @@ import { missingCaseError } from '../../../util/missingCaseError';
 import type { LocalizerType } from '../../../types/I18N';
 
 export function getCardExpirationErrorMessage(
-  _i18n: LocalizerType,
+  i18n: LocalizerType,
   error: CardExpirationError
 ): string {
   switch (error) {
-    case CardExpirationError.EMPTY:
-      return 'EMPTY';
     case CardExpirationError.EXPIRED_PAST_YEAR:
     case CardExpirationError.EXPIRED_EARLIER_IN_YEAR:
-      return 'EXPIRED';
+      return i18n('icu:DonateFlow__card-form-error-expiration-expired');
     case CardExpirationError.YEAR_MISSING:
     case CardExpirationError.YEAR_EMPTY:
-      return 'MISSING YEAR';
+      return i18n('icu:DonateFlow__card-form-error-year-missing');
+    case CardExpirationError.EMPTY:
     case CardExpirationError.INVALID_CHARS:
     case CardExpirationError.TOO_MANY_SLASHES:
     case CardExpirationError.MONTH_EMPTY:
@@ -30,7 +29,7 @@ export function getCardExpirationErrorMessage(
     case CardExpirationError.YEAR_INVALID_INTEGER:
     case CardExpirationError.MONTH_OUT_OF_RANGE:
     case CardExpirationError.YEAR_TOO_FAR_IN_FUTURE:
-      return 'INVALID';
+      return i18n('icu:DonateFlow__card-form-error-invalid');
     default:
       throw missingCaseError(error);
   }

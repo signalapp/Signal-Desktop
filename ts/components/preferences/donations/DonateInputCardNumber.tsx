@@ -8,16 +8,15 @@ import { CardNumberError } from '../../../types/DonationsCardForm';
 import { missingCaseError } from '../../../util/missingCaseError';
 
 export function getCardNumberErrorMessage(
-  _i18n: LocalizerType,
+  i18n: LocalizerType,
   error: CardNumberError
 ): string {
   switch (error) {
     case CardNumberError.EMPTY:
-      return 'EMPTY';
     case CardNumberError.INVALID_CHARS:
     case CardNumberError.INVALID_OR_INCOMPLETE_NUMBER:
     case CardNumberError.INVALID_NUMBER:
-      return 'INVALID';
+      return i18n('icu:DonateFlow__card-form-error-invalid-card-number');
     default:
       throw missingCaseError(error);
   }
