@@ -6636,6 +6636,14 @@
     "messageformat": "Username link needs reset",
     "description": "Accessibility title of an icon in profile editor"
   },
+  "icu:ProfileEditor__open": {
+    "messageformat": "Open username link screen",
+    "description": "Accessibility title for the small qr code icon in the preferences pane list"
+  },
+  "icu:ProfileEditor__username-link__open": {
+    "messageformat": "Open username link screen",
+    "description": "Accessibility title for the small qr code icon in the preferences pane list"
+  },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "Share your username",
     "description": "Title of tooltip displayed under 'QR code or link' button for getting username link"
