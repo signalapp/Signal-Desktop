@@ -102,6 +102,7 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/snyk-try-require/.+',
     '^node_modules/@snyk/.+',
     '^node_modules/use-sync-external-store/.+',
+    '^node_modules/@testing-library/react/.+',
 
     // Submodules we trust
     '^node_modules/react-color/.+/(?:core-js|fbjs|lodash)/.+',

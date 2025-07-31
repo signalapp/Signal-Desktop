@@ -90,6 +90,8 @@ const IPC: IPCType = {
     log.info('draw attention');
     ipc.send('draw-attention');
   },
+  downloadImageFromUrl: (url: string) =>
+    ipc.invoke('download-image-from-url', url),
   getAutoLaunch: () => ipc.invoke('get-auto-launch'),
   getMediaAccessStatus: mediaType =>
     ipc.invoke('get-media-access-status', mediaType),
