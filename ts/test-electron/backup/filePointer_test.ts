@@ -13,7 +13,7 @@ import {
   getFilePointerForAttachment,
   convertFilePointerToAttachment,
 } from '../../services/backups/util/filePointers';
-import { APPLICATION_OCTET_STREAM, IMAGE_PNG } from '../../types/MIME';
+import { IMAGE_PNG } from '../../types/MIME';
 import * as Bytes from '../../Bytes';
 import { type AttachmentType } from '../../types/Attachment';
 import { MASTER_KEY, MEDIA_ROOT_KEY } from './helpers';
@@ -44,109 +44,6 @@ describe('convertFilePointerToAttachment', () => {
     chunkSize: 1000,
   } as const;
 
-  const key = generateKeys();
-  const digest = randomBytes(32);
-  describe('legacy locators', () => {
-    it('processes filepointer with attachmentLocator', () => {
-      const result = convertFilePointerToAttachment(
-        new Backups.FilePointer({
-          ...commonFilePointerProps,
-          attachmentLocator: new Backups.FilePointer.AttachmentLocator({
-            size: 128,
-            cdnKey: 'cdnKey',
-            cdnNumber: 2,
-            key,
-            digest,
-            uploadTimestamp: Long.fromNumber(1970),
-          }),
-        }),
-        { _createName: () => 'downloadPath' }
-      );
-
-      assert.deepStrictEqual(result, {
-        ...commonAttachmentProps,
-        size: 128,
-        cdnKey: 'cdnKey',
-        cdnNumber: 2,
-        key: Bytes.toBase64(key),
-        digest: Bytes.toBase64(digest),
-        uploadTimestamp: 1970,
-        downloadPath: 'downloadPath',
-      });
-    });
-
-    it('processes filepointer with backupLocator and missing fields', () => {
-      const result = convertFilePointerToAttachment(
-        new Backups.FilePointer({
-          ...commonFilePointerProps,
-          backupLocator: new Backups.FilePointer.BackupLocator({
-            mediaName: 'mediaName',
-            cdnNumber: 3,
-            size: 128,
-            key,
-            digest,
-            transitCdnKey: 'transitCdnKey',
-            transitCdnNumber: 2,
-          }),
-        }),
-        { _createName: () => 'downloadPath' }
-      );
-
-      assert.deepStrictEqual(result, {
-        ...commonAttachmentProps,
-        size: 128,
-        cdnKey: 'transitCdnKey',
-        cdnNumber: 2,
-        key: Bytes.toBase64(key),
-        digest: Bytes.toBase64(digest),
-        backupCdnNumber: 3,
-        downloadPath: 'downloadPath',
-      });
-    });
-
-    it('processes filepointer with invalidAttachmentLocator', () => {
-      const result = convertFilePointerToAttachment(
-        new Backups.FilePointer({
-          ...commonFilePointerProps,
-          invalidAttachmentLocator:
-            new Backups.FilePointer.InvalidAttachmentLocator(),
-        })
-      );
-
-      assert.deepStrictEqual(result, {
-        ...commonAttachmentProps,
-        size: 0,
-        error: true,
-        downloadPath: undefined,
-      });
-    });
-
-    it('accepts missing / null fields and adds defaults to contentType and size', () => {
-      const result = convertFilePointerToAttachment(
-        new Backups.FilePointer({
-          backupLocator: new Backups.FilePointer.BackupLocator(),
-        }),
-        { _createName: () => 'downloadPath' }
-      );
-
-      assert.deepStrictEqual(result, {
-        contentType: APPLICATION_OCTET_STREAM,
-        size: 0,
-        downloadPath: 'downloadPath',
-        width: undefined,
-        height: undefined,
-        blurHash: undefined,
-        fileName: undefined,
-        caption: undefined,
-        cdnKey: undefined,
-        cdnNumber: undefined,
-        key: undefined,
-        digest: undefined,
-        incrementalMac: undefined,
-        chunkSize: undefined,
-      });
-    });
-  });
   describe('locatorInfo', () => {
     it('processes filepointer with empty locatorInfo', () => {
       const result = convertFilePointerToAttachment(
@@ -164,103 +61,20 @@ describe('convertFilePointerToAttachment', () => {
         downloadPath: undefined,
       });
     });
-    describe('legacyDigest/legacyMediaName', () => {
-      it('processes locatorInfo with transit only info & legacy digest', () => {
-        const result = convertFilePointerToAttachment(
-          new Backups.FilePointer({
-            ...commonFilePointerProps,
-            locatorInfo: {
-              transitCdnKey: 'cdnKey',
-              transitCdnNumber: 42,
-              size: 128,
-              transitTierUploadTimestamp: Long.fromNumber(12345),
-              key: Bytes.fromString('key'),
-              legacyDigest: Bytes.fromString('legacyDigest'),
-            },
-          }),
-          { _createName: () => 'downloadPath' }
-        );
-
-        assert.deepStrictEqual(result, {
-          ...commonAttachmentProps,
-          size: 128,
-          cdnKey: 'cdnKey',
-          cdnNumber: 42,
-          downloadPath: 'downloadPath',
-          key: Bytes.toBase64(Bytes.fromString('key')),
-          digest: Bytes.toBase64(Bytes.fromString('legacyDigest')),
-          uploadTimestamp: 12345,
-          plaintextHash: undefined,
-          localBackupPath: undefined,
-          localKey: undefined,
-        });
-      });
-      it('processes locatorInfo with legacy digest and legacyMediaName', () => {
-        const result = convertFilePointerToAttachment(
-          new Backups.FilePointer({
-            ...commonFilePointerProps,
-            locatorInfo: {
-              transitCdnKey: 'cdnKey',
-              transitCdnNumber: 42,
-              size: 128,
-              transitTierUploadTimestamp: Long.fromNumber(12345),
-              key: Bytes.fromString('key'),
-              legacyDigest: Bytes.fromString('legacyDigest'),
-              legacyMediaName: 'legacyMediaName',
-              mediaTierCdnNumber: 43,
-            },
-          }),
-          { _createName: () => 'downloadPath' }
-        );
-
-        assert.deepStrictEqual(result, {
-          ...commonAttachmentProps,
-          size: 128,
-          cdnKey: 'cdnKey',
-          cdnNumber: 42,
-          downloadPath: 'downloadPath',
-          key: Bytes.toBase64(Bytes.fromString('key')),
-          digest: Bytes.toBase64(Bytes.fromString('legacyDigest')),
-          uploadTimestamp: 12345,
-          backupCdnNumber: 43,
-          plaintextHash: undefined,
-          localBackupPath: undefined,
-          localKey: undefined,
-        });
-      });
-    });
-
-    it('processes locatorInfo with new and legacy digests and prefers new one', () => {
+    it('processes filepointer with missing locatorInfo', () => {
       const result = convertFilePointerToAttachment(
-        new Backups.FilePointer({
-          ...commonFilePointerProps,
-          locatorInfo: {
-            transitCdnKey: 'cdnKey',
-            transitCdnNumber: 42,
-            size: 128,
-            transitTierUploadTimestamp: Long.fromNumber(12345),
-            key: Bytes.fromString('key'),
-            legacyDigest: Bytes.fromString('legacyDigest'),
-            encryptedDigest: Bytes.fromString('encryptedDigest'),
-          },
-        }),
+        new Backups.FilePointer(commonFilePointerProps),
         { _createName: () => 'downloadPath' }
       );
 
       assert.deepStrictEqual(result, {
         ...commonAttachmentProps,
-        size: 128,
-        cdnKey: 'cdnKey',
-        cdnNumber: 42,
-        downloadPath: 'downloadPath',
-        key: Bytes.toBase64(Bytes.fromString('key')),
-        digest: Bytes.toBase64(Bytes.fromString('encryptedDigest')),
-        uploadTimestamp: 12345,
-        plaintextHash: undefined,
-        localBackupPath: undefined,
-        localKey: undefined,
+        size: 0,
+        error: true,
+        downloadPath: undefined,
       });
     });
+
     it('processes locatorInfo with plaintextHash', () => {
       const result = convertFilePointerToAttachment(
         new Backups.FilePointer({
@@ -272,8 +86,6 @@ describe('convertFilePointerToAttachment', () => {
             transitTierUploadTimestamp: Long.fromNumber(12345),
             key: Bytes.fromString('key'),
             plaintextHash: Bytes.fromString('plaintextHash'),
-            legacyDigest: Bytes.fromString('legacyDigest'),
-            legacyMediaName: 'legacyMediaName',
             mediaTierCdnNumber: 43,
           },
         }),
@@ -286,8 +98,8 @@ describe('convertFilePointerToAttachment', () => {
         cdnKey: 'cdnKey',
         cdnNumber: 42,
         downloadPath: 'downloadPath',
+        digest: undefined,
         key: Bytes.toBase64(Bytes.fromString('key')),
-        digest: Bytes.toBase64(Bytes.fromString('legacyDigest')),
         uploadTimestamp: 12345,
         backupCdnNumber: 43,
         plaintextHash: Bytes.toHex(Bytes.fromString('plaintextHash')),
