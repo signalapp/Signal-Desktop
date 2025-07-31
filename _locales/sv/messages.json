@@ -6622,13 +6622,13 @@
     "messageformat": "Integritet före profit"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Privata meddelanden, finansierade av dig. Inga annonser, ingen spårning, ingen kompromiss. Donera nu för att stödja Signal. <readMoreLink>Läs mer</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Donera"
   },
   "icu:PreferencesDonations__my-support": {
-    "messageformat": "My Support"
+    "messageformat": "Mitt stöd"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Donera {formattedCurrencyAmount}"
@@ -6637,10 +6637,10 @@
     "messageformat": "Märken och månatliga donationer kan hanteras på din mobila enhet."
   },
   "icu:PreferencesDonations__privacy-modal-title": {
-    "messageformat": "Your information is private"
+    "messageformat": "Dina uppgifter är privata"
   },
   "icu:PreferencesDonations__privacy-modal-content": {
-    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
+    "messageformat": "<paragraph>Signal samlar inte in eller lagrar någon av dina personuppgifter när du gör en donation.</paragraph><paragraph>Vi använder Stripe som vår betalningstjänst för att ta emot dina donationer. Vi kommer varken åt, lagrar eller sparar någon av de uppgifter du lämnar till dem.</paragraph><paragraph>Signal kopplar inte och kan inte koppla din donation till ditt Signal-konto.</paragraph><paragraph>Tack för ditt stöd!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Kvitton"
@@ -6667,13 +6667,13 @@
     "messageformat": "Betalningsdatum"
   },
   "icu:DonateFlow__make-a-one-time-donation": {
-    "messageformat": "Make a one time donation"
+    "messageformat": "Gör en engångsdonation"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+    "messageformat": "Endast engångsdonationer är tillgängliga på datorn. Månatliga donationer kan göras via din mobila enhet."
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+    "messageformat": "Har det uppstått problem? <contactSupportLink>Kontakta supporten</contactSupportLink>"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Donationskvitto"
@@ -6694,22 +6694,22 @@
     "messageformat": "Tack för att du stöder Signal. Ditt bidrag hjälper till att främja uppdraget att skydda yttrandefriheten och möjliggöra säker global kommunikation för miljontals människor runt om i världen, genom öppen källkod för integritetsskydd. Spara detta kvitto för dina skatteuppgifter om du är bosatt i USA. Signal Technology Foundation är en skattebefriad ideell organisation i USA enligt avsnitt 501c3 i Internal Revenue Code. Vårt federala skatte-ID är 82-4506840."
   },
   "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled"
+    "messageformat": "Donationen avbruten"
   },
   "icu:Donations__Toast__Completed": {
-    "messageformat": "Donation completed"
+    "messageformat": "Donationen är slutförd"
   },
   "icu:Donations__Toast__Error": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Fel vid bearbetning av donation"
   },
   "icu:Donations__Toast__Processing": {
-    "messageformat": "Processing donation"
+    "messageformat": "Bearbetar donation"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "Verification failed"
+    "messageformat": "Verifiering misslyckades"
   },
   "icu:Donations__Toast__VerificationNeeded": {
-    "messageformat": "You have a donation in progress that needs additional verification."
+    "messageformat": "Du har en pågående donation som behöver ytterligare verifiering."
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Betalningsmetod avvisad"
@@ -6742,7 +6742,7 @@
     "messageformat": "Ytterligare verifiering krävs"
   },
   "icu:Donations__3dsValidationNeeded--waiting": {
-    "messageformat": "Waiting for verification"
+    "messageformat": "Väntar på verifiering"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "Din kreditkortsutgivare kräver ett ytterligare verifieringssteg i en webbläsare."
@@ -6751,10 +6751,10 @@
     "messageformat": "Öppna webbläsare"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
-    "messageformat": "Re-open browser"
+    "messageformat": "Öppna webbläsaren igen"
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
-    "messageformat": "Cancel donation"
+    "messageformat": "Avbryt donation"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Den här versionen innehåller ett antal små justeringar och felrättningar för att Signal ska fungera smidigt.",
@@ -6785,6 +6785,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
+    "messageformat": "Vi har förbättrat upplevelsen av lästa/olästa meddelanden vid multitasking."
+  },
+  "icu:WhatsNew__v7.65--0": {
+    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
   }
 }

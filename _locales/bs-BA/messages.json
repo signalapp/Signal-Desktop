@@ -6622,13 +6622,13 @@
     "messageformat": "Privatnost je važnija od zarade"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Privatno razmjenjivanje poruka koje finansirate vi. Bez oglasa, bez praćenja, bez kompromisa. Donirajte sada da podržite Signal. Saznaj više"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Doniraj"
   },
   "icu:PreferencesDonations__my-support": {
-    "messageformat": "My Support"
+    "messageformat": "Moja podrška"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Donirajte {formattedCurrencyAmount}"
@@ -6637,10 +6637,10 @@
     "messageformat": "Značkama i mjesečnim donacijama .možete upravljati na svom mobilnom uređaju."
   },
   "icu:PreferencesDonations__privacy-modal-title": {
-    "messageformat": "Your information is private"
+    "messageformat": "Vaše informacije su privatne"
   },
   "icu:PreferencesDonations__privacy-modal-content": {
-    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
+    "messageformat": "<paragraph>Signal ne prikuplja niti pohranjuje vaše lične podatke kada izvršite donaciju.</paragraph><paragraph>Koristimo Stripe kao našeg obrađivača plaćanja za primanje vaših donacija. Ne pristupamo, ne pohranjujemo niti čuvamo bilo koju informaciju koju im dostavite.</paragraph><paragraph>Signal ne povezuje i ne može povezati vašu donaciju s vašim Signal računom.</paragraph><paragraph>Hvala vam na podršci!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Potvrde"
@@ -6667,13 +6667,13 @@
     "messageformat": "Datum plaćanja"
   },
   "icu:DonateFlow__make-a-one-time-donation": {
-    "messageformat": "Make a one time donation"
+    "messageformat": "Dajte jednokratnu donaciju"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+    "messageformat": "Samo jednokratne donacije su dostupne na računaru. Mjesečne donacije možete izvršiti putem mobilnog uređaja."
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+    "messageformat": "Imate problema? <contactSupportLink>Kontaktirajte podršku</contactSupportLink>"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Priznanica za donaciju"
@@ -6694,22 +6694,22 @@
     "messageformat": "Hvala što podržavate Signal! Vaš doprinos pomaže u ostvarivanju misije zaštite slobode izražavanja i omogućavanja sigurne globalne komunikacije za milione širom svijeta, putem tehnologije privatnosti otvorenog koda. Ako ste stanovnik Sjedinjenih Američkih Država, sačuvajte ovaj račun za svoju poreznu evidenciju. Fondacija Signal Technology je neprofitna organizacija oslobođena poreza u Sjedinjenim Američkim Državama prema članu 501c3 Zakona o unutrašnjim prihodima. Naš federalni poreski identifikacioni broj je 82-4506840."
   },
   "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled"
+    "messageformat": "Donacija je otkazana"
   },
   "icu:Donations__Toast__Completed": {
-    "messageformat": "Donation completed"
+    "messageformat": "Donacija je završena"
   },
   "icu:Donations__Toast__Error": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Greška u obradi donacije"
   },
   "icu:Donations__Toast__Processing": {
-    "messageformat": "Processing donation"
+    "messageformat": "Obrada donacije"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "Verification failed"
+    "messageformat": "Verifikacija nije uspjela"
   },
   "icu:Donations__Toast__VerificationNeeded": {
-    "messageformat": "You have a donation in progress that needs additional verification."
+    "messageformat": "Imate donaciju u u toku koja zahtijeva dodatnu verifikaciju."
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Način plaćanja je odbijen"
@@ -6742,7 +6742,7 @@
     "messageformat": "Potrebna je dodatna verifikacija"
   },
   "icu:Donations__3dsValidationNeeded--waiting": {
-    "messageformat": "Waiting for verification"
+    "messageformat": "Čekanje na verifikaciju"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "Izdavatelj vaše kreditne kartice zahtijeva dodatni korak verifikacije u web pregledniku."
@@ -6751,10 +6751,10 @@
     "messageformat": "Otvori preglednik"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
-    "messageformat": "Re-open browser"
+    "messageformat": "Ponovo otvori preglednik"
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
-    "messageformat": "Cancel donation"
+    "messageformat": "Otkaži donaciju"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ova verzija sadrži brojna mala poboljšanja i ispravke grešaka kako bi Signal nesmetano funkcionirao.",
@@ -6785,6 +6785,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
+    "messageformat": "Poboljšali smo prikaz pročitanih/nepročitanih poruka tokom rada u više zadataka istovremeno i ispravili grešku koja je povremeno pogrešno otvarala prošireni pregled slika kada ste pritisnuli razmaknicu dok ste tražili savršenu emoji reakciju. I dalje možete zumirati ako kliknete na sliku ili ako dovoljno brzo kucate."
+  },
+  "icu:WhatsNew__v7.65--0": {
+    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
   }
 }

@@ -6622,13 +6622,13 @@
     "messageformat": "Soukromí má přednost před ziskem"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Soukromé zasílání zpráv financované vámi. Žádné reklamy, žádné sledování, žádné kompromisy. Přispějte nyní na podporu služby Signal. <readMoreLink>Číst dále</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Přispět"
   },
   "icu:PreferencesDonations__my-support": {
-    "messageformat": "My Support"
+    "messageformat": "Moje podpora"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Přispět {formattedCurrencyAmount}"
@@ -6637,10 +6637,10 @@
     "messageformat": "Odznaky a měsíční příspěvky lze spravovat v mobilním zařízení."
   },
   "icu:PreferencesDonations__privacy-modal-title": {
-    "messageformat": "Your information is private"
+    "messageformat": "Vaše informace jsou soukromé"
   },
   "icu:PreferencesDonations__privacy-modal-content": {
-    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
+    "messageformat": "<paragraph>Signal při poskytnutí příspěvku neshromažďuje ani neukládá žádné vaše osobní údaje.</paragraph> <paragraph>K přijímání vašich příspěvků používáme jako zpracovatele plateb službu Stripe. K žádným informacím, které jim poskytnete, nemáme přístup, neshromažďujeme je, ani je neukládáme. </paragraph><paragraph>Signal nepropojuje a nemůže propojit váš příspěvek s vaším účtem Signal. </paragraph><paragraph>Děkujeme za vaši podporu!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Potvrzení"
@@ -6667,13 +6667,13 @@
     "messageformat": "Datum platby"
   },
   "icu:DonateFlow__make-a-one-time-donation": {
-    "messageformat": "Make a one time donation"
+    "messageformat": "Poskytnout jednorázový příspěvek"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+    "messageformat": "Jednorázové příspěvky jsou k dispozici pouze v desktopové verzi. Měsíční příspěvky lze zadávat na mobilním zařízení."
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+    "messageformat": "Máte problémy? <contactSupportLink>Kontaktujte podporu</contactSupportLink>"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Potvrzení o příspěvku"
@@ -6694,22 +6694,22 @@
     "messageformat": "Děkujeme, že podporujete Signal. Váš příspěvek pomáhá podporovat naše poslání chránit svobodu projevu a umožnit bezpečnou komunikaci milionům lidí na celém světě prostřednictvím technologie ochrany soukromí s otevřeným zdrojovým kódem. Pokud jste obyvatelem Spojených států, uschovejte si toto potvrzení pro své daňové záznamy. Nadace Signal Technology Foundation je nezisková organizace osvobozená od daní ve Spojených státech amerických podle § 501c3 daňového zákona. Naše daňové identifikační číslo je 82-4506840."
   },
   "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled"
+    "messageformat": "Příspěvek zrušen"
   },
   "icu:Donations__Toast__Completed": {
-    "messageformat": "Donation completed"
+    "messageformat": "Příspěvek uhrazen"
   },
   "icu:Donations__Toast__Error": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Při zpracování příspěvku se vyskytla chyba"
   },
   "icu:Donations__Toast__Processing": {
-    "messageformat": "Processing donation"
+    "messageformat": "Příspěvek se zpracovává"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "Verification failed"
+    "messageformat": "Ověření se nezdařilo"
   },
   "icu:Donations__Toast__VerificationNeeded": {
-    "messageformat": "You have a donation in progress that needs additional verification."
+    "messageformat": "Váš příspěvek se zpracovává, ale potřebuje další ověření."
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Platební metoda byla zamítnuta"
@@ -6742,7 +6742,7 @@
     "messageformat": "Je vyžadováno dodatečné ověření"
   },
   "icu:Donations__3dsValidationNeeded--waiting": {
-    "messageformat": "Waiting for verification"
+    "messageformat": "Čeká se na ověření"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "Vydavatel vaší kreditní karty vyžaduje další krok ověření v internetovém prohlížeči."
@@ -6751,10 +6751,10 @@
     "messageformat": "Otevřít prohlížeč"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
-    "messageformat": "Re-open browser"
+    "messageformat": "Znovu otevřít prohlížeč"
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
-    "messageformat": "Cancel donation"
+    "messageformat": "Zrušit příspěvek"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Tato verze obsahuje řadu drobných vylepšení a oprav chyb, aby Signal fungoval bez problémů.",
@@ -6785,6 +6785,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
+    "messageformat": "Vylepšili jsme zobrazení přečtených a nepřečtených zpráv při multitaskingu."
+  },
+  "icu:WhatsNew__v7.65--0": {
+    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
   }
 }

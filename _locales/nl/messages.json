@@ -6622,13 +6622,13 @@
     "messageformat": "Privacy boven winst"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Privéberichten, gefinancierd door jou. Geen advertenties, geen tracking, geen compromissen. Doneer nu om Signal te steunen. <readMoreLink>Meer lezen</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Doneren"
   },
   "icu:PreferencesDonations__my-support": {
-    "messageformat": "My Support"
+    "messageformat": "Mijn bijdrage"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "{formattedCurrencyAmount} doneren"
@@ -6637,10 +6637,10 @@
     "messageformat": "Badges en maandelijkse donaties kunnen op je mobiele apparaat worden beheerd."
   },
   "icu:PreferencesDonations__privacy-modal-title": {
-    "messageformat": "Your information is private"
+    "messageformat": "Jouw informatie is privé"
   },
   "icu:PreferencesDonations__privacy-modal-content": {
-    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
+    "messageformat": "<paragraph>Signal verzamelt of bewaart geen persoonlijke gegevens wanneer je een donatie doet.</paragraph><paragraph>Wij gebruiken Stripe als onze betalingsverwerker om je donaties te ontvangen. Wij hebben geen toegang tot de informatie die je aan hen verstrekt en slaan die ook niet op.</paragraph><paragraph>Signal koppelt je donatie niet aan je Signal-account en kan dat ook niet.</paragraph><paragraph>Bedankt voor je steun!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Donatiebewijzen"
@@ -6667,13 +6667,13 @@
     "messageformat": "Datum van betaling"
   },
   "icu:DonateFlow__make-a-one-time-donation": {
-    "messageformat": "Make a one time donation"
+    "messageformat": "Doe een eenmalige donatie"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+    "messageformat": "Alleen eenmalige donaties zijn beschikbaar op desktop. Maandelijkse donaties kun je doen via je mobiele apparaat."
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+    "messageformat": "Problemen? <contactSupportLink>Neem contact op met ondersteuning</contactSupportLink>"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Donatiebewijs"
@@ -6694,22 +6694,22 @@
     "messageformat": "Bedankt dat je Signal steunt! Jouw bijdrage helpt bij het voortzetten van onze missie om via opensource privacytechnologie de vrijheid van expressie te beschermen en beveiligde communicatie voor miljoenen mensen over de hele wereld mogelijk te maken. Bewaar dit donatiebewijs als je een inwoner bent van de Verenigde Staten van Amerika, zodat je je donatie kunt opgeven bij je belastingaangifte. Signal Technology Foundation is een organisatie zonder winstoogmerk in de Verenigde Staten van Amerika en is vrijgesteld van belastingen volgens sectie 501c3 van de US Internal Revenue Code (het Amerikaanse belastingreglement). Ons federale-belasting-ID is 82-4506840."
   },
   "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled"
+    "messageformat": "Donatie geannuleerd"
   },
   "icu:Donations__Toast__Completed": {
-    "messageformat": "Donation completed"
+    "messageformat": "Donatie voltooid"
   },
   "icu:Donations__Toast__Error": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Fout bij het verwerken van donatie"
   },
   "icu:Donations__Toast__Processing": {
-    "messageformat": "Processing donation"
+    "messageformat": "Donatie aan het verwerken"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "Verification failed"
+    "messageformat": "Verificatie mislukt"
   },
   "icu:Donations__Toast__VerificationNeeded": {
-    "messageformat": "You have a donation in progress that needs additional verification."
+    "messageformat": "Je donatie is nog niet afgerond en vereist aanvullende verificatie."
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Betaalmethode geweigerd"
@@ -6742,7 +6742,7 @@
     "messageformat": "Aanvullende verificatie vereist"
   },
   "icu:Donations__3dsValidationNeeded--waiting": {
-    "messageformat": "Waiting for verification"
+    "messageformat": "Wachten op verificatie"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "Je creditcardmaatschappij vereist een extra verificatiestap in een webbrowser."
@@ -6751,10 +6751,10 @@
     "messageformat": "Browser openen"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
-    "messageformat": "Re-open browser"
+    "messageformat": "Browser opnieuw openen"
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
-    "messageformat": "Cancel donation"
+    "messageformat": "Donatie annuleren"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Deze versie bevat een aantal kleine foutoplossingen waardoor Signal voor nog meer mensen goed werkt.",
@@ -6785,6 +6785,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
+    "messageformat": "We hebben de ervaring met gelezen/ongelezen berichten tijdens het multitasken verbeterd en een fout opgelost die de afbeelding soms ten onrechte opende als je op de spatiebalk drukte tijdens het zoeken naar de perfecte emoji-reactie."
+  },
+  "icu:WhatsNew__v7.65--0": {
+    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
   }
 }

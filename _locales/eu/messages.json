@@ -6622,7 +6622,7 @@
     "messageformat": "Pribatutasuna irabazien gainetik"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Mezularitza pribatua, zuk finantzatua. Iragarkirik gabe, jarraipen-tresnarik gabe, konpromisorik gabe. Egin dohaintza bat orain Signal-i laguntzeko. <readMoreLink>Irakurri gehiago</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Egin dohaintza"
@@ -6637,10 +6637,10 @@
     "messageformat": "Bereizgarriak eta hileko dirulaguntzak gailu mugikorrean kudea daitezke."
   },
   "icu:PreferencesDonations__privacy-modal-title": {
-    "messageformat": "Your information is private"
+    "messageformat": "Zure informazioa pribatua da"
   },
   "icu:PreferencesDonations__privacy-modal-content": {
-    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
+    "messageformat": "<paragraph>Signal-ek ez du zure informazio pertsonalik biltzen edo gordetzen dohaintza bat egiten duzunean.</paragraph><paragraph>Stripe erabiltzen dugu ordainketa-prozesadore gisa zure dohaintzak jasotzeko. Ez dugu ematen diezun informaziorik atzitzen edo gordetzen.</paragraph><paragraph>Signal-ek ez du zure dohaintza zure Signal kontuarekin lotzen eta ezin du lotu.</paragraph><paragraph>Eskerrik asko zure babesagatik!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Ordainagiriak"
@@ -6667,13 +6667,13 @@
     "messageformat": "Ordainketa data"
   },
   "icu:DonateFlow__make-a-one-time-donation": {
-    "messageformat": "Make a one time donation"
+    "messageformat": "Egin dohaintza bakarra"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+    "messageformat": "Dohaintza bakarrak soilik daude eskuragarri mahaigainean. Hileroko dohaintzak egin ditzakezu gailu mugikorrean."
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+    "messageformat": "Arazoak dituzu? <contactSupportLink>Jarri harremanetan laguntza-zerbitzuarekin</contactSupportLink>"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Dohaintzaren ordainagiria"
@@ -6694,22 +6694,22 @@
     "messageformat": "Eskerrik asko Signal-i laguntzeagatik. Zure ekarpenarekin, kode irekiko pribatutasun-teknologiaren bidez adierazpen-askatasuna babesteko eta mundu osoko milioika pertsonarentzako komunikazio segurua ahalbidetzeko dugun misioa bultzatuko duzu. Ameriketako Estatu Batuetan bizi bazara, gorde ordainagiri hau, zerga-aitorpenetarako. Signal Technology Foundation zergak ordaintzetik salbuetsita dagoen AEBko erakunde bat da, Internal Revenue Code-ko 501c3 sekzioari jarraikiz. Gure IFZa federala 82-4506840 da."
   },
   "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled"
+    "messageformat": "Dohaintza utzi da"
   },
   "icu:Donations__Toast__Completed": {
-    "messageformat": "Donation completed"
+    "messageformat": "Dohaintza egin da"
   },
   "icu:Donations__Toast__Error": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Errore bat gertatu da dohaintza prozesatzean"
   },
   "icu:Donations__Toast__Processing": {
-    "messageformat": "Processing donation"
+    "messageformat": "Dohaintza prozesatzen"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "Verification failed"
+    "messageformat": "Egiaztapenak huts egin du"
   },
   "icu:Donations__Toast__VerificationNeeded": {
-    "messageformat": "You have a donation in progress that needs additional verification."
+    "messageformat": "Dohaintza bat martxan duzu, eta egiaztapen gehigarria behar du."
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Ordainketa-metodo baztertu egin da"
@@ -6742,7 +6742,7 @@
     "messageformat": "Egiaztapen osagarria behar da"
   },
   "icu:Donations__3dsValidationNeeded--waiting": {
-    "messageformat": "Waiting for verification"
+    "messageformat": "Egiaztapenaren zain"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "Web-arakatzaile batean egiaztapen-urrats gehigarri bat egitea behar du zure kreditu-txartelaren jaulkitzaileak."
@@ -6751,10 +6751,10 @@
     "messageformat": "Ireki arakatzailea"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
-    "messageformat": "Re-open browser"
+    "messageformat": "Ireki arakatzailea berriro"
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
-    "messageformat": "Cancel donation"
+    "messageformat": "Utzi dohaintza"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Bertsio honek hainbat doikuntza txiki eta akats konpontzen ditu Signal-ek ondo funtzionatzen jarraitzeko.",
@@ -6785,6 +6785,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
+    "messageformat": "Mezuak irakurri/irakurri gabe aldi berean uzteko esperientzia hobetu dugu. Oraindik ere irudia handi dezakezu harengan klik eginez edo azkar idatziz."
+  },
+  "icu:WhatsNew__v7.65--0": {
+    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
   }
 }

@@ -6622,7 +6622,7 @@
     "messageformat": "లాభం కంటే గోప్యత ముఖ్యం"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "ప్రైవేట్ మెసేజింగ్, మీ ద్వారా నిధులు సమకూర్చబడినది. ప్రకటనలు లేవు, ట్రాకింగ్ లేదు, రాజీ లేదు. Signal కు మద్దతు ఇవ్వడానికి ఇప్పుడే విరాళం ఇవ్వండి. <readMoreLink>మరింత చదవండి</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "విరాళమివ్వండి"
@@ -6637,10 +6637,10 @@
     "messageformat": "బ్యాడ్జ్‌లు మరియు నెలవారీ విరాళాలను మీ మొబైల్ పరికరంలో నిర్వహించవచ్చు."
   },
   "icu:PreferencesDonations__privacy-modal-title": {
-    "messageformat": "Your information is private"
+    "messageformat": "మీ సమాచారం రహస్యమైనది"
   },
   "icu:PreferencesDonations__privacy-modal-content": {
-    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
+    "messageformat": "<paragraph>మీరు విరాళం ఇచ్చినప్పుడు Signal మీ వ్యక్తిగత సమాచారంలో దేనినీ సేకరించదు లేదా నిల్వ చేయదు.</paragraph><paragraph>మీ విరాళాలను అందుకోవడానికి మేము Stripe ను మా చెల్లింపు ప్రాసెసర్‌గా ఉపయోగిస్తాము. మీరు వారికి అందించే ఏ సమాచారాన్ని మేము యాక్సెస్ చేయము, నిల్వ చేయము లేదా సేవ్ చేయము.</paragraph><paragraph>Signal మీ విరాళాన్ని మీ Signal ఖాతాకు కనెక్ట్ చేయదు మరియు చేయలేదు.</paragraph><paragraph>మీ మద్దతుకు ధన్యవాదాలు!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "రసీదులు"
@@ -6667,13 +6667,13 @@
     "messageformat": "చెల్లించిన తేదీ"
   },
   "icu:DonateFlow__make-a-one-time-donation": {
-    "messageformat": "Make a one time donation"
+    "messageformat": "ఒక్కసారి విరాళం ఇవ్వండి"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+    "messageformat": "డెస్క్‌టాప్‌లో ఒక్కసారి విరాళాలు మాత్రమే అందుబాటులో ఉన్నాయి. నెలవారీ విరాళాలను మీ మొబైల్ పరికరం ద్వారా చేయవచ్చు."
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+    "messageformat": "సమస్యలు ఉన్నాయా? <contactSupportLink>మద్దతును సంప్రదించండి</contactSupportLink>"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "విరాళం రసీదు"
@@ -6694,22 +6694,22 @@
     "messageformat": "Signal కు మద్దతు ఇచ్చినందుకు ధన్యవాదాలు. ఓపెన్ సోర్స్ గోప్యతా సాంకేతికత ద్వారా ప్రపంచవ్యాప్తంగా లక్షలాది మందికి స్వేచ్ఛా వ్యక్తీకరణను రక్షించడం మరియు సురక్షితమైన భౌగోళిక కమ్యూనికేషన్‌ను ప్రారంభించడం అనే లక్ష్యాన్ని ముందుకు తీసుకెళ్ళడంలో మీ సహకారం సహాయపడుతుంది. ఒకవేళ మీరు యునైటెడ్ స్టేట్స్ పౌరులు అయితే, మీ పన్ను రికార్డ్‌ల కోసం దయచేసి ఈ రసీదును మీ దగ్గర ఉంచుకోండి. Signal టెక్నాలజీ ఫౌండేషన్ అనేది యునైటెడ్ స్టేట్స్‌లోని అంతర్గత రెవెన్యూ కోడ్ యొక్క సెక్షన్ 501c3 కింద పన్ను మినహాయింపు పొందిన లాభాపేక్షలేని సంస్థ. మా ఫెడరల్ పన్ను ID 82-4506840."
   },
   "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled"
+    "messageformat": "విరాళం రద్దు చేయబడింది"
   },
   "icu:Donations__Toast__Completed": {
-    "messageformat": "Donation completed"
+    "messageformat": "విరాళం పూర్తయింది"
   },
   "icu:Donations__Toast__Error": {
-    "messageformat": "Error processing donation"
+    "messageformat": "విరాళాన్ని ప్రక్రియ చేసేటప్పుడు పొరపాటు ఏర్పడింది"
   },
   "icu:Donations__Toast__Processing": {
-    "messageformat": "Processing donation"
+    "messageformat": "విరాళం ప్రాసెస్ చేయబడుతోంది"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "Verification failed"
+    "messageformat": "ధృవీకరణ విఫలమైంది"
   },
   "icu:Donations__Toast__VerificationNeeded": {
-    "messageformat": "You have a donation in progress that needs additional verification."
+    "messageformat": "మీ వద్ద అదనపు ధృవీకరణ అవసరమయ్యే విరాళం పురోగతిలో ఉంది."
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "చెల్లింపు విధానం తిరస్కరించబడింది"
@@ -6742,7 +6742,7 @@
     "messageformat": "అదనపు ధృవీకరణ అవసరం"
   },
   "icu:Donations__3dsValidationNeeded--waiting": {
-    "messageformat": "Waiting for verification"
+    "messageformat": "ధృవీకరణ కోసం వేచి ఉంది"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "మీ క్రెడిట్ కార్డ్ జారీదారుకు వెబ్ బ్రౌజర్‌లో అదనపు ధృవీకరణ దశ అవసరం."
@@ -6751,10 +6751,10 @@
     "messageformat": "బ్రౌజర్‌ను తెరవండి"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
-    "messageformat": "Re-open browser"
+    "messageformat": "బ్రౌజర్‌ను తిరిగి తెరవండి"
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
-    "messageformat": "Cancel donation"
+    "messageformat": "విరాళాన్ని రద్దు చేయండి"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal ని సజావుగా నడిపించడానికి ఈ వెర్షన్‌లో చిన్నపాటి ట్వీక్‌లు మరియు బగ్ ఫిక్స్‌లు ఉన్నాయి.",
@@ -6785,6 +6785,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
+    "messageformat": "మల్టీ టాస్కింగ్ చేస్తున్నప్పుడు సందేశం చదివిన/చదవని అనుభవాన్ని మేము మెరుగుపరిచాము."
+  },
+  "icu:WhatsNew__v7.65--0": {
+    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
   }
 }

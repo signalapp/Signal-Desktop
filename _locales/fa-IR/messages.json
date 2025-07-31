@@ -6622,13 +6622,13 @@
     "messageformat": "حریم خصوصی بر سود ارجحیت دارد"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "پیام‌رسانی خصوصی، با حمایت مالی شما. بدون تبلیغات، بدون ردیابی، بدون کاستن از کیفیت. اکنون برای حمایت از سیگنال کمک مالی کنید. <readMoreLink>بیشتر بخوانید</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "اهدای کمک مالی"
   },
   "icu:PreferencesDonations__my-support": {
-    "messageformat": "My Support"
+    "messageformat": "پشتیبانی من"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "اهدای مالی {formattedCurrencyAmount}"
@@ -6637,10 +6637,10 @@
     "messageformat": "نشان‌ها و کمک‌های مالی ماهانه را می‌توانید از طریق دستگاه تلفن همراه خود مدیریت کنید."
   },
   "icu:PreferencesDonations__privacy-modal-title": {
-    "messageformat": "Your information is private"
+    "messageformat": "اطلاعات شما محرمانه است"
   },
   "icu:PreferencesDonations__privacy-modal-content": {
-    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
+    "messageformat": "<paragraph>سیگنال هیچ‌گونه اطلاعات شخصی شما را هنگام اهدای کمک مالی جمع آوری یا ذخیره نمی‌کند.</paragraph><paragraph>ما برای دریافت کمک‌های مالی شما از Stripe به‌عنوان پردازش‌گر پرداخت خود استفاده می‌کنیم. به هیچ‌گونه اطلاعاتی که در اختیار آن‌ها قرار می‌دهید دسترسی نداریم، آن‌ها را نگه نمی‌داریم یا ذخیره نمی‌کنیم.</paragraph><paragraph>سیگنال کمک مالی‌تان را به حساب سیگنال شما متصل نمی‌کند و امکان انجام این کار را هم ندارد.</paragraph><paragraph>سپاس از حمایت شما!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "رسیدها"
@@ -6667,13 +6667,13 @@
     "messageformat": "تاریخ پرداخت"
   },
   "icu:DonateFlow__make-a-one-time-donation": {
-    "messageformat": "Make a one time donation"
+    "messageformat": "کمک مالی یک‌باره"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+    "messageformat": "فقط کمک‌های مالی یک‌باره روی دسک‌تاپ در دسترس است. کمک‌های مالی ماهانه را می‌توانید از طریق دستگاه تلفن همراه خود انجام دهید."
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+    "messageformat": "مشکلی وجود دارد؟ <contactSupportLink>ارتباط با پشتیبانی</contactSupportLink>"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "رسید کمک مالی"
@@ -6694,22 +6694,22 @@
     "messageformat": "قدردان حمایتتان از سیگنال هستیم. مشارکت شما به پیشبرد ماموریت حفاظت از آزادی بیان و ایجاد امکان ارتباط جهانی امن برای میلیون‌ها نفر در سراسر جهان، از طریق فناوری متن‌باز حفظ حریم خصوصی، کمک می‌کند. اگر ساکن ایالات متحده هستید، لطفاً این رسید را در سوابق مالیاتی خود نگه دارید. بنیاد فناوری سیگنال یک سازمان غیرانتفاعی معاف از مالیات در ایالات متحده است که طبق بخش ۵۰۱c۳ قانون درآمد داخلی فعالیت می‌کند. شناسه مالیاتی ما ۴۵۰۶۸۴۰-۸۲ است."
   },
   "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled"
+    "messageformat": "کمک مالی لغو شد"
   },
   "icu:Donations__Toast__Completed": {
-    "messageformat": "Donation completed"
+    "messageformat": "کمک مالی تکمیل شد"
   },
   "icu:Donations__Toast__Error": {
-    "messageformat": "Error processing donation"
+    "messageformat": "خطا در پردازش اهدای مالی"
   },
   "icu:Donations__Toast__Processing": {
-    "messageformat": "Processing donation"
+    "messageformat": "در حال پردازش کمک مالی"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "Verification failed"
+    "messageformat": "خطا در تأیید"
   },
   "icu:Donations__Toast__VerificationNeeded": {
-    "messageformat": "You have a donation in progress that needs additional verification."
+    "messageformat": "شما یک کمک مالی در حال انجام دارید که نیاز به تأیید تکمیلی دارد."
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "روش پرداخت رد شد"
@@ -6742,7 +6742,7 @@
     "messageformat": "تأیید تکمیلی لازم است"
   },
   "icu:Donations__3dsValidationNeeded--waiting": {
-    "messageformat": "Waiting for verification"
+    "messageformat": "در انتظار تأیید"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "صادرکننده کارت اعتباری شما به یک مرحله تأیید تکمیلی در مرورگر وب نیاز دارد."
@@ -6751,10 +6751,10 @@
     "messageformat": "مرورگر را باز کنید"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
-    "messageformat": "Re-open browser"
+    "messageformat": "مرورگر را دوباره باز کنید"
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
-    "messageformat": "Cancel donation"
+    "messageformat": "لغو کمک مالی"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "این نسخه شامل شماری از بهینه سازی های کوچک و رفع عیب برای تداوم اجرای راحت سیگنال می باشد",
@@ -6785,6 +6785,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
+    "messageformat": "ما تجربه خواندن/نخواندن پیام در حین انجام چند کار همزمان را بهبود بخشیده‌ایم."
+  },
+  "icu:WhatsNew__v7.65--0": {
+    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
   }
 }

@@ -6622,13 +6622,13 @@
     "messageformat": "ਸਾਡੇ ਲਈ ਤੁਹਾਡੀ ਪਰਦੇਦਾਰੀ, ਮੁਨਾਫੇ ਤੋਂ ਵੱਧ ਅਹਿਮ ਹੈ"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "ਪ੍ਰਾਈਵੇਟ ਮੈਸੇਜਿੰਗ, ਜੋ ਤੁਹਾਡੇ ਸਹਿਯੋਗ ਨਾਲ ਚਲਦੀ ਹੈ। ਕੋਈ ਇਸ਼ਤਿਹਾਰ ਨਹੀਂ, ਕੋਈ ਟ੍ਰੈਕਰ ਨਹੀਂ, ਕੋਈ ਸਮਝੌਤਾ ਨਹੀਂ। ਹੁਣੇ ਦਾਨ ਦੇ ਕੇ Signal ਨੂੰ ਆਪਣਾ ਸਹਿਯੋਗ ਦਿਓ। <readMoreLink>ਹੋਰ ਪੜ੍ਹੋ</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "ਦਾਨ ਦਿਓ"
   },
   "icu:PreferencesDonations__my-support": {
-    "messageformat": "My Support"
+    "messageformat": "ਮੇਰਾ ਸਹਿਯੋਗ"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "{formattedCurrencyAmount} ਦਾਨ ਦਿਓ"
@@ -6637,10 +6637,10 @@
     "messageformat": "ਬੈਜ ਅਤੇ ਮਾਸਿਕ ਦਾਨ ਸੰਬੰਧੀ ਚੀਜ਼ਾਂ ਤੁਹਾਡੇ ਮੋਬਾਈਲ ਡਿਵਾਈਸ 'ਤੇ ਪ੍ਰਬੰਧਿਤ ਕੀਤੀਆਂ ਜਾ ਸਕਦੀਆਂ ਹਨ।"
   },
   "icu:PreferencesDonations__privacy-modal-title": {
-    "messageformat": "Your information is private"
+    "messageformat": "ਤੁਹਾਡੀ ਜਾਣਕਾਰੀ ਪ੍ਰਾਈਵੇਟ ਹੈ"
   },
   "icu:PreferencesDonations__privacy-modal-content": {
-    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
+    "messageformat": "<paragraph>ਜਦੋਂ ਤੁਸੀਂ ਦਾਨ ਦਿੰਦੇ ਹੋ ਤਾਂ Signal ਤੁਹਾਡੀ ਕੋਈ ਵੀ ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਇਕੱਠੀ ਜਾਂ ਸਟੋਰ ਨਹੀਂ ਕਰਦਾ ਹੈ।</paragraph><paragraph>ਤੁਹਾਡਾ ਦਾਨ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ ਅਸੀਂ Stripe ਨੂੰ ਆਪਣੇ ਪੇਮੈਂਟ ਪ੍ਰੋਸੈਸਰ ਦੇ ਤੌਰ 'ਤੇ ਵਰਤਦੇ ਹਾਂ। ਅਸੀਂ ਤੁਹਾਡੇ ਦੁਆਰਾ ਉਹਨਾਂ ਨੂੰ ਪ੍ਰਦਾਨ ਕੀਤੀ ਕਿਸੇ ਵੀ ਜਾਣਕਾਰੀ ਦੀ ਵਰਤੋਂ, ਉਸ ਨੂੰ ਸਟੋਰ ਜਾਂ ਸੁਰੱਖਿਅਤ ਨਹੀਂ ਕਰਦੇ ਹਾਂ।</paragraph><paragraph>Signal ਤੁਹਾਡੇ ਦਾਨ ਨੂੰ ਤੁਹਾਡੇ Signal ਖਾਤੇ ਨਾਲ ਨਾ ਹੀ ਕਨੈਕਟ ਕਰਦਾ ਹੈ ਅਤੇ ਨਾ ਹੀ ਕਨੈਕਟ ਕਰ ਸਕਦਾ ਹੈ।</paragraph><paragraph>ਸਹਿਯੋਗ ਦੇਣ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ! </paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "ਰਸੀਦਾਂ"
@@ -6667,13 +6667,13 @@
     "messageformat": "ਭੁਗਤਾਨ ਕਰਨ ਦੀ ਮਿਤੀ"
   },
   "icu:DonateFlow__make-a-one-time-donation": {
-    "messageformat": "Make a one time donation"
+    "messageformat": "ਇੱਕ-ਵਾਰ ਦਾਨ ਦਿਓ"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+    "messageformat": "ਡੈਸਕਟੌਪ 'ਤੇ ਸਿਰਫ਼ ਇੱਕ-ਵਾਰ ਦਾਨ ਦੇਣ ਦੀ ਸਹੂਲਤ ਉਪਲਬਧ ਹੈ। ਮਹੀਨਾਵਾਰ ਦਾਨ ਤੁਹਾਡੇ ਮੋਬਾਈਲ ਡਿਵਾਈਸ ਰਾਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ।"
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+    "messageformat": "ਸਮੱਸਿਆਵਾਂ ਪੇਸ਼ ਆ ਰਹੀਆਂ ਹਨ? <contactSupportLink>ਸਹਾਇਤਾ ਟੀਮ ਨਾਲ ਸੰਪਰਕ ਕਰੋ</contactSupportLink>"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "ਦਾਨ ਦੀ ਰਸੀਦ"
@@ -6694,22 +6694,22 @@
     "messageformat": "Signal ਨੂੰ ਸਹਿਯੋਗ ਦੇਣ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ। ਤੁਹਾਡਾ ਯੋਗਦਾਨ ਓਪਨ ਸੋਰਸ ਪ੍ਰਾਈਵੇਸੀ ਤਕਨਾਲੋਜੀ ਵਿਕਸਤ ਕਰਨ ਦੇ ਉਦੇਸ਼ ਨੂੰ ਪੂਰਾ ਕਰਨ ਵਿੱਚ ਮਦਦ ਕਰਦਾ ਹੈ। ਇਹ ਤਕਨਾਲੋਜੀ ਆਜ਼ਾਦੀ ਨਾਲ ਆਪਣੇ ਵਿਚਾਰ ਪੇਸ਼ ਕਰਨ ਦੇ ਅਧਿਕਾਰ ਦੀ ਰਾਖੀ ਕਰਦੀ ਹੈ ਅਤੇ ਪੂਰੀ ਦੁਨੀਆਂ ਵਿੱਚ ਸੰਚਾਰ ਨੂੰ ਸੁਰੱਖਿਅਤ ਬਣਾਉਂਦੀ ਹੈ। ਜੇਕਰ ਤੁਸੀਂ ਸੰਯੁਕਤ ਰਾਜ ਅਮਰੀਕਾ ਦੇ ਨਿਵਾਸੀ ਹੋ, ਤਾਂ ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੇ ਟੈਕਸ ਰਿਕਾਰਡਾਂ ਲਈ ਇਸ ਰਸੀਦ ਨੂੰ ਆਪਣੇ ਕੋਲ ਸਾਂਭ ਕੇ ਰੱਖੋ। Signal ਟੈਕਨਾਲੋਜੀ ਫਾਊਂਡੇਸ਼ਨ, ਸੰਯੁਕਤ ਰਾਜ ਅਮਰੀਕਾ ਵਿੱਚ ਇੰਟਰਨਲ ਰਿਵੈਨਿਊ ਕੋਡ ਦੀ ਧਾਰਾ 501c3 ਦੇ ਤਹਿਤ ਇੱਕ ਟੈਕਸ-ਮੁਕਤ ਗੈਰ-ਲਾਭਕਾਰੀ ਸੰਸਥਾ ਹੈ। ਸਾਡੀ ਫੈਡਰਲ ਟੈਕਸ ID 82–4506840 ਹੈ।"
   },
   "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled"
+    "messageformat": "ਦਾਨ ਰੱਦ ਕੀਤਾ ਗਿਆ"
   },
   "icu:Donations__Toast__Completed": {
-    "messageformat": "Donation completed"
+    "messageformat": "ਦਾਨ ਪੂਰਾ ਹੋਇਆ"
   },
   "icu:Donations__Toast__Error": {
-    "messageformat": "Error processing donation"
+    "messageformat": "ਦਾਨ ਉੱਤੇ ਕਾਰਵਾਈ ਕਰਨ ਵੇਲੇ ਗੜਬੜ ਹੋਈ"
   },
   "icu:Donations__Toast__Processing": {
-    "messageformat": "Processing donation"
+    "messageformat": "ਦਾਨ ਉੱਤੇ ਕਾਰਵਾਈ ਹੋ ਰਹੀ ਹੈ"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "Verification failed"
+    "messageformat": "ਤਸਦੀਕ ਅਸਫਲ ਰਹੀ"
   },
   "icu:Donations__Toast__VerificationNeeded": {
-    "messageformat": "You have a donation in progress that needs additional verification."
+    "messageformat": "ਤੁਹਾਡਾ ਇੱਕ ਦਾਨ ਪ੍ਰਗਤੀ ਅਧੀਨ ਹੈ ਜਿਸਦੇ ਲਈ ਵਾਧੂ ਤਸਦੀਕ ਲੋੜੀਂਦੀ ਹੈ।"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "ਭੁਗਤਾਨ ਵਿਧੀ ਅਸਵੀਕਾਰ ਕੀਤੀ ਗਈ"
@@ -6742,7 +6742,7 @@
     "messageformat": "ਵਾਧੂ ਤਸਦੀਕ ਨੂੰ ਪੂਰਾ ਕਰਨ ਦੀ ਲੋੜ ਹੈ"
   },
   "icu:Donations__3dsValidationNeeded--waiting": {
-    "messageformat": "Waiting for verification"
+    "messageformat": "ਤਸਦੀਕ ਹੋਣ ਦੀ ਉਡੀਕ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "ਤੁਹਾਡੇ ਕ੍ਰੈਡਿਟ ਕਾਰਡ ਦਾ ਜਾਰੀਕਰਤਾ ਚਾਹੁੰਦਾ ਹੈ ਕਿ ਵੈੱਬ ਬ੍ਰਾਊਜ਼ਰ ਵਿੱਚ ਤਸਦੀਕ ਲਈ ਇੱਕ ਵਾਧੂ ਕਦਮ ਪੂਰਾ ਕੀਤਾ ਜਾਵੇ।"
@@ -6751,10 +6751,10 @@
     "messageformat": "ਬ੍ਰਾਊਜ਼ਰ ਖੋਲ੍ਹੋ"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
-    "messageformat": "Re-open browser"
+    "messageformat": "ਬ੍ਰਾਊਜ਼ਰ ਦੁਬਾਰਾ ਖੋਲ੍ਹੋ"
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
-    "messageformat": "Cancel donation"
+    "messageformat": "ਦਾਨ ਰੱਦ ਕਰੋ"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal ਨੂੰ ਸੁਚਾਰੂ ਢੰਗ ਨਾਲ ਚੱਲਦਾ ਰੱਖਣ ਲਈ ਇਸ ਵਰਜ਼ਨ ਵਿੱਚ ਨਿੱਕੇ-ਮੋਟੇ ਸੁਧਾਰ ਅਤੇ ਬੱਗ ਠੀਕ ਕੀਤੇ ਗਏ ਹਨ।",
@@ -6785,6 +6785,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
+    "messageformat": "ਅਸੀਂ ਮਲਟੀਟਾਸਕਿੰਗ ਕਰਨ ਦੌਰਾਨ ਸੁਨੇਹੇ ਨੂੰ ਪੜ੍ਹਨ/ਨਾ-ਪੜ੍ਹਨ ਦੇ ਅਨੁਭਵ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਹੈ।"
+  },
+  "icu:WhatsNew__v7.65--0": {
+    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
   }
 }

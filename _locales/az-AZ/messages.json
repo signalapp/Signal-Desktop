@@ -6622,13 +6622,13 @@
     "messageformat": "Məxfiliyiniz mənfəətimizdən daha üstündür"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Dəstəklərinizlə yaradılmış şəxsi mesajlaşma. Reklamsız, təqibsiz və güzəştsiz. Signal-ı dəstəkləmək üçün indi ianə verin. <readMoreLink>Daha ətraflı</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "İanə ver"
   },
   "icu:PreferencesDonations__my-support": {
-    "messageformat": "My Support"
+    "messageformat": "Dəstəyim"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "{formattedCurrencyAmount} ianə ver"
@@ -6637,10 +6637,10 @@
     "messageformat": "Nişanlar və aylıq ianələr mobil cihazınızda idarə oluna bilər."
   },
   "icu:PreferencesDonations__privacy-modal-title": {
-    "messageformat": "Your information is private"
+    "messageformat": "Məlumatınız məxfidir"
   },
   "icu:PreferencesDonations__privacy-modal-content": {
-    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
+    "messageformat": "<paragraph>İanə etdiyiniz zaman Signal şəxsi məlumatlarınızı toplamır və saxlamır.</paragraph><paragraph>Biz ianələrinizi qəbul etmək üçün ödəniş prosessorumuz kimi Stripe-dan istifadə edirik. Ona göndərdiyiniz hər hansı məlumatı əldə etmir, saxlamır və ya yaddaşa vermirik.</paragraph><paragraph>Signal etdiyiniz ianəni Signal hesabınızla əlaqələndirmir və bunu edə bilməz.</paragraph><paragraph>Dəstəyiniz üçün təşəkkür edirik!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Qəbzlər"
@@ -6667,13 +6667,13 @@
     "messageformat": "Ödəniş tarixi"
   },
   "icu:DonateFlow__make-a-one-time-donation": {
-    "messageformat": "Make a one time donation"
+    "messageformat": "Birdəfəlik ianə edin"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+    "messageformat": "Desktop versiyasında yalnız birdəfəlik ianələr mümkündür. Aylıq ianələri mobil cihazınızdan edə bilərsiniz."
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+    "messageformat": "Problem yaşayırsınız? <contactSupportLink>Dəstək xidməti ilə əlaqə saxlayın</contactSupportLink>"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "İanə qəbzi"
@@ -6694,22 +6694,22 @@
     "messageformat": "Signal-ı dəstəklədiyiniz üçün təşəkkürlər. Töhfəniz, açıq mənbəli məxfilik texnologiyası vasitəsilə dünyadakı milyonlarla insan üçün azad ifadəni qoruyan və etibarlı qlobal ünsiyyəti təmin edən inkişaf missiyasını dəstəkləməyə kömək edir. Əgər Amerika Birləşmiş Ştatlarında yaşayırsınızsa, bu qəbzi vergi qeydlərinizin arasında saxlayın. Signal Texnologiya Fondu, Daxili Gəlir Məcəlləsinin 501c3 maddəsinə əsasən Amerika Birləşmiş Ştatlarında vergidən azad edilmiş qeyri-kommersiya təşkilatıdır. Federal Vergi Ödəyicisi Nömrəmiz: 82-4506840."
   },
   "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled"
+    "messageformat": "İanə ləğv edildi"
   },
   "icu:Donations__Toast__Completed": {
-    "messageformat": "Donation completed"
+    "messageformat": "İanə tamamlandı"
   },
   "icu:Donations__Toast__Error": {
-    "messageformat": "Error processing donation"
+    "messageformat": "İanə emal edilərkən xəta baş verdi"
   },
   "icu:Donations__Toast__Processing": {
-    "messageformat": "Processing donation"
+    "messageformat": "İanə emal edilir"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "Verification failed"
+    "messageformat": "Yoxlama baş tutmadı"
   },
   "icu:Donations__Toast__VerificationNeeded": {
-    "messageformat": "You have a donation in progress that needs additional verification."
+    "messageformat": "Əlavə yoxlama tələb olunan ianəniz var."
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Ödəniş üsulu rədd edildi"
@@ -6742,7 +6742,7 @@
     "messageformat": "Əlavə təsdiqləmə tələb olunur"
   },
   "icu:Donations__3dsValidationNeeded--waiting": {
-    "messageformat": "Waiting for verification"
+    "messageformat": "Yoxlama gözlənilir"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "Kredit kartınızı verən qurum veb brauzerdə əlavə yoxlama addımı tələb edir."
@@ -6751,10 +6751,10 @@
     "messageformat": "Brauzeri aç"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
-    "messageformat": "Re-open browser"
+    "messageformat": "Brauzeri yenidən aç"
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
-    "messageformat": "Cancel donation"
+    "messageformat": "İanəni ləğv et"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Bu versiya, Signal-ın problemsiz işləməsini təmin etmək üçün kiçik düzəltmələr və xəta düzəltmələri ehtiva edir.",
@@ -6785,6 +6785,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
+    "messageformat": "Çoxyönlü tapşırıqlarda oxunmuş/oxunmamış mesaj təcrübəsini təkmilləşdirdik və mükəmməl emoji reaksiyasını axtararkən boşluq düyməsini basdığınız zaman bəzi hallarda böyüdülmüş şəkil izləyicisini xətalı açan nasazlığı düzəltdik. Şəklin üzərinə kliklədiyiniz zaman və ya kifayət qədər sürətli yazsanız görüntünü böyüdə bilərsiniz."
+  },
+  "icu:WhatsNew__v7.65--0": {
+    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
   }
 }

@@ -6622,13 +6622,13 @@
     "messageformat": "ჩვენთვის კონფიდენციალურობა მოგებაზე მაღლა დგას"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "კონფიდენციალური მიმოწერა, რომელსაც შენ აფინანსებ. არანაირი რეკლამა, არანაირი ტრეკერები, არანაირი კომპრომისი. გააკეთე დონაცია ახლა, რათა მხარი დაუჭირო Signal-ს. <readMoreLink>წაიკითხე მეტი</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "გააკეთე დონაცია"
   },
   "icu:PreferencesDonations__my-support": {
-    "messageformat": "My Support"
+    "messageformat": "ჩემი მხარდაჭერა"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "გააკეთე დონაცია {formattedCurrencyAmount}"
@@ -6637,10 +6637,10 @@
     "messageformat": "ემბლემებისა და ყოველთვიური დონაციების მართვა შენს მობილურ მოწყობილობაზეა შესაძლებელი."
   },
   "icu:PreferencesDonations__privacy-modal-title": {
-    "messageformat": "Your information is private"
+    "messageformat": "შენი ინფორმაცია კონფიდენციალურია"
   },
   "icu:PreferencesDonations__privacy-modal-content": {
-    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
+    "messageformat": "<paragraph>Signal-ი არ აგროვებს და არ ინახავს შენს პირად ინფორმაციას, როცა დონაციას აკეთებ.</paragraph><paragraph>შენი დონაციების მისაღებად Stripe-ს ვიყენებთ, როგორც გადახდის დამმუშავებელს. ჩვენ არ გვაქვს წვდომა შენ მიერ მათთვის მიწოდებულ ინფორმაციაზე და მას არ ვინახავთ.</paragraph><paragraph>Signal-ი არ და ვერ აკავშირებს შენს დონაციას შენს Signal-ის ანგარიშთან.</paragraph><paragraph>მადლობა მხარდაჭერისთვის!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "ქვითრები"
@@ -6667,13 +6667,13 @@
     "messageformat": "გადახდის დღე"
   },
   "icu:DonateFlow__make-a-one-time-donation": {
-    "messageformat": "Make a one time donation"
+    "messageformat": "ერთჯერადი დონაციის გაკეთება"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+    "messageformat": "დესკტოპზე მხოლოდ ერთჯერადი დონაციებია ხელმისაწვდომი. ყოველთვიური დონაციების გაკეთება შენი მობილური მოწყობილობიდან შეგიძლია."
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+    "messageformat": "პრობლემას გადააწყდი? <contactSupportLink>დაუკავშირდი მხარდაჭერის გუნდს</contactSupportLink>"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "დონაციის ქვითარი"
@@ -6694,22 +6694,22 @@
     "messageformat": "მადლობა Signal-ის მხარდაჭერისთვის. შენი წვლილი ხელს უწყობს გამოხატვის თავისუფლების დაცვისა და მთელ მსოფლიოში მილიონობით ადამიანისთვის უსაფრთხო გლობალური კომუნიკაციის უზრუნველყოფის მისიის განხორციელებას ღია კოდის კონფიდენციალურობის ტექნოლოგიების მეშვეობით. თუ შეერთებული შტატების რეზიდენტი ხარ, გთხოვთ, ეს ქვითარი შენი საგადასახადო ჩანაწერებისთვის შეინახო. Signal-ის ტექნოლოგიების ფონდი არის გადასახადებისგან გათავისუფლებული არაკომერციული ორგანიზაცია შეერთებულ შტატებში, Internal Revenue Code-ის 501c3 მუხლის შესაბამისად. ჩვენი ფედერალური საგადასახადო ID არის 82-4506840."
   },
   "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled"
+    "messageformat": "დონაცია გაუქმებულია"
   },
   "icu:Donations__Toast__Completed": {
-    "messageformat": "Donation completed"
+    "messageformat": "დონაცია შესრულებულია"
   },
   "icu:Donations__Toast__Error": {
-    "messageformat": "Error processing donation"
+    "messageformat": "დონაციის დამუშავებისას მოხდა შეცდომა"
   },
   "icu:Donations__Toast__Processing": {
-    "messageformat": "Processing donation"
+    "messageformat": "მიმდინარეობს დონაციის დამუშავება"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "Verification failed"
+    "messageformat": "ვერიფიკაცია ვერ მოხერხდა"
   },
   "icu:Donations__Toast__VerificationNeeded": {
-    "messageformat": "You have a donation in progress that needs additional verification."
+    "messageformat": "მიმდინარეობს დონაციის მიღების პროცესი, რომელიც დამატებით დადასტურებას საჭიროებს."
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "გადახდის მეთოდი უარყოფილია"
@@ -6742,7 +6742,7 @@
     "messageformat": "საჭიროა დამატებითი ვერიფიკაცია"
   },
   "icu:Donations__3dsValidationNeeded--waiting": {
-    "messageformat": "Waiting for verification"
+    "messageformat": "ვერიფიკაციის მოლოდინში"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "შენი საკრედიტო ბარათის გამცემი ვებ ბრაუზერში დამატებითი დადასტურების ეტაპის გავლას ითხოვს."
@@ -6751,10 +6751,10 @@
     "messageformat": "ბრაუზერის გახსნა"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
-    "messageformat": "Re-open browser"
+    "messageformat": "ბრაუზერის თავიდან გახსნა"
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
-    "messageformat": "Cancel donation"
+    "messageformat": "დონაციის გაუქმება"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "ეს ვერსია შეიცავს უამრავ მცირე შესწორებას და ბაგების გამოსწორებებს Signal-ის შეუფერხებლად მუშაობის შესანარჩუნებლად.",
@@ -6785,6 +6785,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
+    "messageformat": "მულტითასქინგისას წაკითხული/წაუკითხავი შეტყობინებების გამოცდილება გავაუმჯობესეთ. ასევე გამოვასწორეთ შეცდომა, რომელიც ზოგჯერ არასწორად ხსნიდა სურათების გაფართოებულ ხედს, თუ იდეალური ემოჯის ძიებისას Space ღილაკს დააჭერდი. სურათზე დაჭერით ან სწრაფად აკრეფით კვლავ შეგიძლია მისი გადიდება."
+  },
+  "icu:WhatsNew__v7.65--0": {
+    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
   }
 }

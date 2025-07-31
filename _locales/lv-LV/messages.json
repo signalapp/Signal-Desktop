@@ -6622,13 +6622,13 @@
     "messageformat": "Privātums ir svarīgāks par peļņu"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Privāta ziņapmaiņa, kas ir iespējama ar jūsu atbalstu. Bez reklāmām, bez izsekošanas, bez kompromisiem. Ziedojiet tūlīt, lai atbalstītu Signal. <readMoreLink>Lasīt vairāk</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Ziedot"
   },
   "icu:PreferencesDonations__my-support": {
-    "messageformat": "My Support"
+    "messageformat": "Mans atbalsts"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Ziedot {formattedCurrencyAmount}"
@@ -6637,10 +6637,10 @@
     "messageformat": "Nozīmītes un ikmēneša ziedojumus varat pārvaldīt jūsu mobilajā ierīcē."
   },
   "icu:PreferencesDonations__privacy-modal-title": {
-    "messageformat": "Your information is private"
+    "messageformat": "Jūsu informācija ir konfidenciāla"
   },
   "icu:PreferencesDonations__privacy-modal-content": {
-    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
+    "messageformat": "<paragraph>Veicot ziedojumu, Signal nevāc un neuzglabā jūsu personas informāciju.</paragraph><paragraph>Mēs izmantojam Stripe kā maksājumu apstrādātāju ziedojumu saņemšanai. Mēs nepiekļūstam, neuzglabājam un nesaglabājam nekādu informāciju, ko jūs tam sniedzat.</paragraph><paragraph>Signal nesaista un nevar sasaistīt jūsu ziedojumu ar jūsu Signal kontu.</paragraph><paragraph>Paldies par jūsu atbalstu!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Kvītis"
@@ -6667,13 +6667,13 @@
     "messageformat": "Samaksas datums"
   },
   "icu:DonateFlow__make-a-one-time-donation": {
-    "messageformat": "Make a one time donation"
+    "messageformat": "Veikt vienreizēju ziedojumu"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+    "messageformat": "Datora versijā ir pieejami tikai vienreizēji ziedojumi. Ikmēneša ziedojumus var veikt savā mobilajā ierīcē."
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+    "messageformat": "Vai radušās problēmas? <contactSupportLink>Sazināties ar atbalstu</contactSupportLink>"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Ziedojuma kvīts"
@@ -6694,22 +6694,22 @@
     "messageformat": "Pateicamies, ka atbalstāt Signal. Jūsu atbalsts palīdz īstenot mūsu misiju: aizsargāt vārda brīvību un nodrošināt drošu saziņu miljoniem cilvēku visā pasaulē. Mēs to darām, izmantojot atvērtā pirmkoda privātuma tehnoloģijas. Ja jūs esat Amerikas Savienoto valstu iedzīvotājs, lūdzu, saglabājiet šo kvīti nodokļu uzskaitei. Signal Technology Foundation ir no nodokļu maksāšanas atbrīvota bezpeļnas organizācija Amerikas Savienotajās valstīs saskaņā ar Iekšējo ieņēmumu likuma 501c3 sadaļu. Mūsu federālais nodokļu ID ir 82-4506840."
   },
   "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled"
+    "messageformat": "Ziedojums atcelts"
   },
   "icu:Donations__Toast__Completed": {
-    "messageformat": "Donation completed"
+    "messageformat": "Ziedojums pabeigts"
   },
   "icu:Donations__Toast__Error": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Ziedojuma apstrādes kļūda"
   },
   "icu:Donations__Toast__Processing": {
-    "messageformat": "Processing donation"
+    "messageformat": "Notiek ziedojuma apstrāde"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "Verification failed"
+    "messageformat": "Verifikācija neizdevās"
   },
   "icu:Donations__Toast__VerificationNeeded": {
-    "messageformat": "You have a donation in progress that needs additional verification."
+    "messageformat": "Jūsu ziedojuma apstrādei nepieciešama papildu verifikācija."
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Maksājuma veids noraidīts"
@@ -6742,7 +6742,7 @@
     "messageformat": "Nepieciešama papildu verifikācija"
   },
   "icu:Donations__3dsValidationNeeded--waiting": {
-    "messageformat": "Waiting for verification"
+    "messageformat": "Gaida verifikāciju"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "Jūsu kredītkartes izsniedzējs tīmekļa pārlūkprogrammā pieprasa papildu verifikācijas darbību."
@@ -6751,10 +6751,10 @@
     "messageformat": "Atvērt pārlūkprogrammu"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
-    "messageformat": "Re-open browser"
+    "messageformat": "Atkārtoti atvērt pārlūkprogrammu"
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
-    "messageformat": "Cancel donation"
+    "messageformat": "Atcelt ziedojumu"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Šī versija ietver vairākus nelielus uzlabojumus un kļūdu labojumus, lai Signal darbotos bez problēmām.",
@@ -6785,6 +6785,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
+    "messageformat": "Mēs uzlabojām ziņu “izlasīts/neizlasīts” statusa darbību, veicot vairākus uzdevumus vienlaikus un izlabojām kļūdu, kuras dēļ, meklējot piemērotāko emodži un nospiežot atstarpes taustiņu, dažkārt nepareizi atvērās palielinātais attēlu skatītājs. Joprojām varat veikt pietuvināšanu, noklikšķinot uz attēla vai rakstot pietiekami ātri."
+  },
+  "icu:WhatsNew__v7.65--0": {
+    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
   }
 }
