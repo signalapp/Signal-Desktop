@@ -80,6 +80,10 @@ class GlobalMessageAudio {
     this.#playing = false;
   }
 
+  muted(value: boolean): void {
+    this.#audio.muted = value;
+  }
+
   get playbackRate() {
     return this.#audio.playbackRate;
   }
