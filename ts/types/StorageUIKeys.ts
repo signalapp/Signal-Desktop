@@ -14,6 +14,7 @@ export const STORAGE_UI_KEYS: ReadonlyArray<keyof StorageAccessType> = [
   'audioMessage',
   'auto-download-update',
   'autoConvertEmoji',
+  'autoRemoveUrlTracking',
   'badge-count-muted-conversations',
   'call-ringtone-notification',
   'call-system-notification',
