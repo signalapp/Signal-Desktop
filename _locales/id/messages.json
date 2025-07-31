@@ -6622,13 +6622,13 @@
     "messageformat": "Privasi Lebih Utama daripada Keuntungan"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Perpesanan privat, didanai oleh Anda. Tanpa iklan, tanpa pelacak, tanpa kompromi. Donasi sekarang untuk mendukung Signal. <readMoreLink>Baca selengkapnya</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Donasi"
   },
   "icu:PreferencesDonations__my-support": {
-    "messageformat": "My Support"
+    "messageformat": "Dukungan Saya"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Donasi {formattedCurrencyAmount}"
@@ -6637,10 +6637,10 @@
     "messageformat": "Badge dan donasi bulanan dapat dikelola dari perangkat seluler Anda."
   },
   "icu:PreferencesDonations__privacy-modal-title": {
-    "messageformat": "Your information is private"
+    "messageformat": "Informasi Anda bersifat privat"
   },
   "icu:PreferencesDonations__privacy-modal-content": {
-    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
+    "messageformat": "<paragraph>Signal tidak mengumpulkan atau menyimpan informasi pribadi saat Anda memberikan donasi.</paragraph><paragraph>Kami menggunakan Stripe sebagai pemroses pembayaran donasi Anda. Kami tidak mengakses, menahan, atau menyimpan informasi apa pun yang Anda berikan kepada mereka.</paragraph><paragraph>Signal tidak (dan tidak dapat) menghubungkan donasi Anda ke akun Signal Anda.</paragraph><paragraph>Terima kasih atas dukungan Anda!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Struk"
@@ -6667,13 +6667,13 @@
     "messageformat": "Tanggal dibayar"
   },
   "icu:DonateFlow__make-a-one-time-donation": {
-    "messageformat": "Make a one time donation"
+    "messageformat": "Berikan donasi satu kali"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+    "messageformat": "Hanya donasi satu kali yang tersedia di desktop. Donasi bulanan dapat diberikan melalui perangkat seluler."
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+    "messageformat": "Ada masalah? <contactSupportLink>Hubungi Tim Dukungan</contactSupportLink>"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Struk donasi"
@@ -6694,22 +6694,22 @@
     "messageformat": "Terima kasih telah mendukung Signal. Kontribusi Anda membantu misi perlindungan terhadap kebebasan berekspresi dan mendukung teknologi privasi sumber terbuka yang memungkinkan komunikasi yang aman bagi jutaan pengguna di seluruh dunia. Jika Anda warga Amerika Serikat, harap simpan struk ini untuk pencatatan pajak. Signal Technology Foundation adalah organisasi nirlaba bebas pajak di Amerika Serikat menurut pasal 501c3 di Internal Revenue Code (IRC). ID Pajak Federal kami adalah 82-4506840."
   },
   "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled"
+    "messageformat": "Donasi dibatalkan"
   },
   "icu:Donations__Toast__Completed": {
-    "messageformat": "Donation completed"
+    "messageformat": "Donasi selesai"
   },
   "icu:Donations__Toast__Error": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Terjadi kesalahan saat memproses donasi"
   },
   "icu:Donations__Toast__Processing": {
-    "messageformat": "Processing donation"
+    "messageformat": "Memproses donasi"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "Verification failed"
+    "messageformat": "Verifikasi gagal"
   },
   "icu:Donations__Toast__VerificationNeeded": {
-    "messageformat": "You have a donation in progress that needs additional verification."
+    "messageformat": "Ada donasi yang sedang diproses yang memerlukan verifikasi tambahan."
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Metode pembayaran ditolak"
@@ -6742,7 +6742,7 @@
     "messageformat": "Diperlukan verifikasi tambahan"
   },
   "icu:Donations__3dsValidationNeeded--waiting": {
-    "messageformat": "Waiting for verification"
+    "messageformat": "Menunggu verifikasi"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "Penerbit kartu kredit Anda mewajibkan langkah verifikasi tambahan di browser web."
@@ -6751,10 +6751,10 @@
     "messageformat": "Buka browser"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
-    "messageformat": "Re-open browser"
+    "messageformat": "Buka ulang browser"
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
-    "messageformat": "Cancel donation"
+    "messageformat": "Batalkan donasi"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Versi ini mengandung sejumlah perubahan kecil dan perbaikan bug agar Signal tetap berjalan lancar.",
@@ -6785,6 +6785,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
+    "messageformat": "Kami meningkatkan pengalaman fitur pesan telah dibaca/belum dibaca saat Anda melakukan beberapa hal sekaligus. Kami juga memperbaiki bug yang kadang salah membuka penampil gambar yang diperbesar ketika Anda menekan spasi saat mencari emoji yang tepat. Anda masih bisa memperbesar gambar dengan mengkliknya atau bila Anda mengetiknya cukup cepat."
+  },
+  "icu:WhatsNew__v7.65--0": {
+    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
   }
 }

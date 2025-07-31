@@ -6622,13 +6622,13 @@
     "messageformat": "Конфиденциальность превыше прибыли"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Безопасный мессенджер, существующий благодаря вашей поддержке. Без рекламы, без трекеров, без компромиссов. Пожертвуйте сейчас, чтобы поддержать Signal. <readMoreLink>Читать далее</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Пожертвовать"
   },
   "icu:PreferencesDonations__my-support": {
-    "messageformat": "My Support"
+    "messageformat": "Моя поддержка"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Пожертвовать {formattedCurrencyAmount}"
@@ -6637,10 +6637,10 @@
     "messageformat": "Значками и ежемесячными пожертвованиями можно управлять на своём мобильном устройстве."
   },
   "icu:PreferencesDonations__privacy-modal-title": {
-    "messageformat": "Your information is private"
+    "messageformat": "Ваша информация конфиденциальна"
   },
   "icu:PreferencesDonations__privacy-modal-content": {
-    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
+    "messageformat": "<paragraph>Signal не собирает и не хранит вашу личную информацию, когда вы делаете пожертвование.</paragraph><paragraph>Для получения ваших пожертвований мы используем компанию Stripe в качестве оператора платежей. Мы не имеем доступа ни к какой информации, которую вы ей предоставляете, не сохраняем и не храним её.</paragraph><paragraph>Signal не связывает и не может связать ваше пожертвование с вашей учётной записью Signal.</paragraph><paragraph>Спасибо за вашу поддержку!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Квитанции"
@@ -6667,13 +6667,13 @@
     "messageformat": "Дата оплаты"
   },
   "icu:DonateFlow__make-a-one-time-donation": {
-    "messageformat": "Make a one time donation"
+    "messageformat": "Сделать разовое пожертвование"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+    "messageformat": "На ПК доступны только разовые пожертвования. Ежемесячными пожертвованиями можно управлять на своём мобильном устройстве."
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+    "messageformat": "Возникли проблемы? <contactSupportLink>Связаться с поддержкой</contactSupportLink>"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Квитанция о пожертвовании"
@@ -6694,22 +6694,22 @@
     "messageformat": "Спасибо, что поддерживаете Signal. Ваш вклад помогает поддерживать миссию по защите свободы слова и делает возможным безопасное общение между миллионами людей по всему миру благодаря технологии конфиденциальности с открытым исходным кодом. Если вы проживаете в США, пожалуйста, сохраните эту квитанцию для своего налогового учёта. Signal Technology Foundation — это некоммерческая организация, освобождённая от налогов в США со статусом 501c3. Наш ИНН: 82–4506840."
   },
   "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled"
+    "messageformat": "Пожертвование отменено"
   },
   "icu:Donations__Toast__Completed": {
-    "messageformat": "Donation completed"
+    "messageformat": "Пожертвование завершено"
   },
   "icu:Donations__Toast__Error": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Ошибка обработки пожертвования"
   },
   "icu:Donations__Toast__Processing": {
-    "messageformat": "Processing donation"
+    "messageformat": "Обработка пожертвования"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "Verification failed"
+    "messageformat": "Проверка не пройдена"
   },
   "icu:Donations__Toast__VerificationNeeded": {
-    "messageformat": "You have a donation in progress that needs additional verification."
+    "messageformat": "У вас есть незавершённое пожертвование, требующее дополнительной проверки."
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Способ оплаты отклонён"
@@ -6742,7 +6742,7 @@
     "messageformat": "Требуется дополнительная проверка"
   },
   "icu:Donations__3dsValidationNeeded--waiting": {
-    "messageformat": "Waiting for verification"
+    "messageformat": "Ожидание подтверждения"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "Эмитент кредитной карты должен пройти дополнительную проверку в веб-браузере."
@@ -6751,10 +6751,10 @@
     "messageformat": "Открыть браузер"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
-    "messageformat": "Re-open browser"
+    "messageformat": "Снова открыть браузер"
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
-    "messageformat": "Cancel donation"
+    "messageformat": "Отменить пожертвование"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Эта версия содержит несколько небольших изменений и исправлений ошибок.",
@@ -6785,6 +6785,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
+    "messageformat": "Мы улучшили функцию пометки сообщений прочитанными/непрочитанными в режиме многозадачности и исправили ошибку, из-за которой иногда некорректно открывался расширенный просмотр изображений, если вы, ища идеальный эмодзи, нажимали пробел. Вы всё ещё можете увеличить изображение, если нажмёте на него или будете печатать достаточно быстро."
+  },
+  "icu:WhatsNew__v7.65--0": {
+    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
   }
 }

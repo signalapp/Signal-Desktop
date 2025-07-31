@@ -6622,13 +6622,13 @@
     "messageformat": "이익보다 개인정보보호를 우선시하는 Signal"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "사용자의 기부로 운영되는 개인정보를 보호하는 메시지. 광고와 트래커, 타협에서 자유로운 앱. 지금 기부를 통해 Signal을 지지해 주세요. <readMoreLink>자세히 알아보기</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "기부"
   },
   "icu:PreferencesDonations__my-support": {
-    "messageformat": "My Support"
+    "messageformat": "내 지원"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "{formattedCurrencyAmount} 기부"
@@ -6637,10 +6637,10 @@
     "messageformat": "모바일 기기에서 배지와 월별 기부금을 관리할 수 있습니다."
   },
   "icu:PreferencesDonations__privacy-modal-title": {
-    "messageformat": "Your information is private"
+    "messageformat": "개인 정보는 비공개로 유지됩니다."
   },
   "icu:PreferencesDonations__privacy-modal-content": {
-    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
+    "messageformat": "<paragraph>Signal은 기부할 때 사용자의 개인 정보를 수집하거나 저장하지 않습니다.</paragraph><paragraph>Signal은 기부를 받을 때 Stripe를 결제 처리자로 사용합니다. Signal은 사용자가 Stripe에 제공하는 어떠한 정보에도 액세스하지 않으며, 이를 보관하거나 저장하지 않습니다.</paragraph><paragraph>Signal은 사용자의 기부를 Signal 계정에 연결하거나 연결을 시도하지 않습니다.</paragraph><paragraph>Signal을 지지해 주셔서 감사합니다!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "영수증"
@@ -6667,13 +6667,13 @@
     "messageformat": "지불 날짜"
   },
   "icu:DonateFlow__make-a-one-time-donation": {
-    "messageformat": "Make a one time donation"
+    "messageformat": "1회성 기부하기"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+    "messageformat": "데스크톱에서는 1회성 기부만 가능합니다. 월별 기부는 모바일 기기에서 진행하실 수 있습니다."
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+    "messageformat": "문제가 있나요? <contactSupportLink>지원팀에 문의하세요</contactSupportLink>"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "기부 영수증"
@@ -6694,22 +6694,22 @@
     "messageformat": "Signal을 지지해 주셔서 감사합니다. 귀하의 기부는 오픈 소스 프라이버시 기술을 통해 표현의 자유를 지키고 안전한 글로벌 커뮤니케이션을 제공하겠다는 Signal의 사명을 실현하는 데 도움이 됩니다. 미국 거주자라면 세금 보고 시 사용할 수 있도록 이 영수증을 보관하세요. 내국세법조항 501c3조에 의거하여 세금 공제를 받을 수 있는 비영리 기관입니다. Signal 연방세 ID는 82-4506840입니다."
   },
   "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled"
+    "messageformat": "기부를 취소함"
   },
   "icu:Donations__Toast__Completed": {
-    "messageformat": "Donation completed"
+    "messageformat": "기부를 완료함"
   },
   "icu:Donations__Toast__Error": {
-    "messageformat": "Error processing donation"
+    "messageformat": "기부 처리 오류"
   },
   "icu:Donations__Toast__Processing": {
-    "messageformat": "Processing donation"
+    "messageformat": "기부를 처리하는 중"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "Verification failed"
+    "messageformat": "확인 실패"
   },
   "icu:Donations__Toast__VerificationNeeded": {
-    "messageformat": "You have a donation in progress that needs additional verification."
+    "messageformat": "현재 진행 중인 기부에 추가 확인 절차가 필요합니다."
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "결제 수단 거부됨"
@@ -6742,7 +6742,7 @@
     "messageformat": "추가 확인이 필요합니다."
   },
   "icu:Donations__3dsValidationNeeded--waiting": {
-    "messageformat": "Waiting for verification"
+    "messageformat": "확인 대기 중"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "신용카드 발급사가 웹 브라우저에서 추가 인증 단계를 요구합니다."
@@ -6751,10 +6751,10 @@
     "messageformat": "브라우저 열기"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
-    "messageformat": "Re-open browser"
+    "messageformat": "브라우저 다시 열기"
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
-    "messageformat": "Cancel donation"
+    "messageformat": "기부 취소"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "이 버전에는 Signal의 원활한 실행을 위한 일부 기능 업데이트와 버그 수정이 다수 포함되어 있습니다.",
@@ -6785,6 +6785,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
+    "messageformat": "멀티태스킹 중 메시지 읽음/읽지 않음 환경을 개선했습니다."
+  },
+  "icu:WhatsNew__v7.65--0": {
+    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
   }
 }
