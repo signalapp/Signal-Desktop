@@ -244,13 +244,22 @@
       );
     }
 
-    // Placeholder for icon depending on receipt type
+    // Currently only one time donations are possible
     &__icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 18px;
-      background-color: variables.$color-ultramarine-pale;
-      flex-shrink: 0;
+      @include mixins.light-theme {
+        background: url('../images/rocket-36-light.svg');
+      }
+      @include mixins.dark-theme {
+        background: url('../images/rocket-36-dark.svg');
+      }
+
+      & {
+        width: 36px;
+        height: 36px;
+        background-size: 100%;
+        border-radius: 18px;
+        flex-shrink: 0;
+      }
     }
 
     &__details {
