@@ -2383,7 +2383,7 @@ export function Preferences({
                   type="button"
                   className={classNames({
                     Preferences__button: true,
-                    'Preferences__button--appearance': true,
+                    'Preferences__button--donations': true,
                     'Preferences__button--selected': isDonationsPage(page),
                   })}
                   onClick={() => setPage(SettingsPage.Donations)}

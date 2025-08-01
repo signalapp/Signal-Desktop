@@ -300,6 +300,10 @@ $secondary-text-color: light-dark(
       );
     }
 
+    &--donations {
+      @include preferences-icon('../images/icons/v3/heart/heart.svg');
+    }
+
     &--internal {
       @include preferences-icon('../images/icons/v3/internal/internal.svg');
     }
