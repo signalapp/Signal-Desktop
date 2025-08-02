@@ -6980,6 +6980,14 @@
     "messageformat": "For example, :-) will be converted to <emojify>🙂</emojify>",
     "description": "Description for the auto convert emoji setting"
   },
+  "icu:Preferences__multiple-emoji-reactions--title": {
+    "messageformat": "Allow multiple emoji reactions per message",
+    "description": "Title for the multiple emoji reactions setting"
+  },
+  "icu:Preferences__multiple-emoji-reactions--description": {
+  "messageformat": "React with multiple different emojis to the same message",
+  "description": "Description for the multiple emoji reactions setting"
+},
   "icu:Preferences--advanced": {
     "messageformat": "Advanced",
     "description": "Title for advanced settings"
