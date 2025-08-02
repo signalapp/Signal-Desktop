@@ -61,6 +61,7 @@ export type StorageAccessType = {
   'auto-download-update': boolean;
   'auto-download-attachment': AutoDownloadAttachmentType;
   autoConvertEmoji: boolean;
+  multipleEmojiReactions: boolean;
   'badge-count-muted-conversations': boolean;
   'blocked-groups': ReadonlyArray<string>;
   'blocked-uuids': ReadonlyArray<ServiceIdString>;
