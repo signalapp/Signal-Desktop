@@ -108,7 +108,9 @@ export function isNewReactionReplacingPrevious(
   reaction: MessageReactionType,
   newReaction: MessageReactionType
 ): boolean {
-  return reaction.fromId === newReaction.fromId;
+  // Only replace reactions with the same emoji from the same user
+  // This allows multiple different emoji reactions from the same user
+  return reaction.fromId === newReaction.fromId && reaction.emoji === newReaction.emoji;;
 }
 
 export const markOutgoingReactionFailed = (
