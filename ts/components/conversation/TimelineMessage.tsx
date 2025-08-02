@@ -121,6 +121,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     copyMessageText,
     pushPanelForConversation,
     reactToMessage,
+    reactions,
     renderEmojiPicker,
     renderReactionPicker,
     retryDeleteForEveryone,
@@ -336,9 +337,15 @@ export function TimelineMessage(props: Props): JSX.Element {
                   onClose: toggleReactionPicker,
                   onPick: emoji => {
                     toggleReactionPicker(true);
+                    // Check if current user already has this specific emoji reaction
+                    const ourId = window.ConversationController.getOurConversationIdOrThrow();
+                    const alreadyReacted = (reactions || []).some(
+                      reaction => reaction.fromId === ourId && reaction.emoji === emoji
+                    );
+
                     reactToMessage(id, {
                       emoji,
-                      remove: emoji === selectedReaction,
+                      remove: alreadyReacted, // Toggle: remove if already reacted, add if not
                     });
                   },
                   renderEmojiPicker,
