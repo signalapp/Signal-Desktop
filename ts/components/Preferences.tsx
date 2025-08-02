@@ -134,6 +134,7 @@ export type PropsDataType = {
   hasAudioNotifications?: boolean;
   hasAutoConvertEmoji: boolean;
   hasAutoDownloadUpdate: boolean;
+  hasMultipleEmojiReactions: boolean;
   hasAutoLaunch: boolean | undefined;
   hasCallNotifications: boolean;
   hasCallRingtoneNotification: boolean;
@@ -274,6 +275,7 @@ type PropsFunctionType = {
   // Change handlers
   onAudioNotificationsChange: CheckboxChangeHandlerType;
   onAutoConvertEmojiChange: CheckboxChangeHandlerType;
+  onMultipleEmojiReactionsChange: CheckboxChangeHandlerType;
   onAutoDownloadAttachmentChange: (
     setting: AutoDownloadAttachmentType
   ) => unknown;
@@ -392,6 +394,7 @@ export function Preferences({
   hasAudioNotifications,
   hasAutoConvertEmoji,
   hasAutoDownloadUpdate,
+  hasMultipleEmojiReactions,
   hasAutoLaunch,
   hasCallNotifications,
   hasCallRingtoneNotification,
@@ -434,6 +437,7 @@ export function Preferences({
   notificationContent,
   onAudioNotificationsChange,
   onAutoConvertEmojiChange,
+  onMultipleEmojiReactionsChange,
   onAutoDownloadAttachmentChange,
   onAutoDownloadUpdateChange,
   onAutoLaunchChange,
@@ -1168,6 +1172,14 @@ export function Preferences({
             name="autoConvertEmoji"
             onChange={onAutoConvertEmojiChange}
           />
+          <Checkbox
+            checked={hasMultipleEmojiReactions}
+            description={i18n('icu:Preferences__multiple-emoji-reactions--description')}
+            label={i18n('icu:Preferences__multiple-emoji-reactions--title')}
+            moduleClassName="Preferences__checkbox"
+            name="multipleEmojiReactions"
+            onChange={onMultipleEmojiReactionsChange}
+            />
           <SettingsRow>
             <Control
               left={i18n('icu:Preferences__EmojiSkinToneDefaultSetting__Label')}
