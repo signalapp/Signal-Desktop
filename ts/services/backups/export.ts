@@ -124,6 +124,7 @@ import {
   type AttachmentType,
   isGIF,
   isDownloaded,
+  hasRequiredInformationForBackup,
 } from '../../types/Attachment';
 import { getFilePointerForAttachment } from './util/filePointers';
 import { getBackupMediaRootKey } from './crypto';
@@ -133,7 +134,7 @@ import type {
 } from '../../types/AttachmentBackup';
 import { AttachmentBackupManager } from '../../jobs/AttachmentBackupManager';
 import { AttachmentLocalBackupManager } from '../../jobs/AttachmentLocalBackupManager';
-import { getBackupCdnInfo } from './util/mediaId';
+import { getBackupCdnInfo, getMediaNameForAttachment } from './util/mediaId';
 import { calculateExpirationTimestamp } from '../../util/expirationTimer';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { CallLinkRestrictions } from '../../types/CallLink';
@@ -245,7 +246,10 @@ export class BackupExportStream extends Readable {
   readonly #serviceIdToRecipientId = new Map<string, number>();
   readonly #e164ToRecipientId = new Map<string, number>();
   readonly #roomIdToRecipientId = new Map<string, number>();
-  readonly #mediaNamesToFilePointers = new Map<string, Backups.FilePointer>();
+  readonly #mediaNamesToLocatorInfos = new Map<
+    string,
+    Backups.FilePointer.ILocatorInfo
+  >();
   readonly #stats: StatsType = {
     adHocCalls: 0,
     callLinks: 0,
@@ -348,7 +352,7 @@ export class BackupExportStream extends Readable {
   }
 
   public getMediaNamesIterator(): MapIterator<string> {
-    return this.#mediaNamesToFilePointers.keys();
+    return this.#mediaNamesToLocatorInfos.keys();
   }
 
   public getStats(): Readonly<StatsType> {
@@ -2595,33 +2599,26 @@ export class BackupExportStream extends Readable {
       getBackupCdnInfo,
     });
 
-    // TODO: DESKTOP-8887
-    if (isLocalBackup && filePointer.localLocator) {
-      // Duplicate attachment check. Local backups can only contain 1 file per mediaName,
-      // so if we see a duplicate mediaName then we must reuse the previous FilePointer.
-      const { mediaName } = filePointer.localLocator;
-      strictAssert(
-        mediaName,
-        'FilePointer.LocalLocator must contain mediaName'
-      );
-      const existingFilePointer = this.#mediaNamesToFilePointers.get(mediaName);
-      if (existingFilePointer) {
-        strictAssert(
-          existingFilePointer.localLocator,
-          'Local backup existing mediaName FilePointer must contain LocalLocator'
-        );
-        strictAssert(
-          existingFilePointer.localLocator.size === attachment.size,
-          'Local backup existing mediaName FilePointer size must match attachment'
-        );
-        return existingFilePointer;
+    if (hasRequiredInformationForBackup(attachment)) {
+      const mediaName = getMediaNameForAttachment(attachment);
+
+      // Re-use existing locatorInfo and backup job if we've already seen this file
+      const existingLocatorInfo = this.#mediaNamesToLocatorInfos.get(mediaName);
+
+      if (existingLocatorInfo) {
+        filePointer.locatorInfo = existingLocatorInfo;
+      } else {
+        if (filePointer.locatorInfo) {
+          this.#mediaNamesToLocatorInfos.set(
+            mediaName,
+            filePointer.locatorInfo
+          );
+        }
+
+        if (backupJob) {
+          this.#attachmentBackupJobs.push(backupJob);
+        }
       }
-
-      this.#mediaNamesToFilePointers.set(mediaName, filePointer);
-    }
-
-    if (backupJob) {
-      this.#attachmentBackupJobs.push(backupJob);
     }
 
     return filePointer;
