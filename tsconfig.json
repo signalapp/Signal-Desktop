@@ -33,6 +33,7 @@
       "DOM", // Required to access `window`
       "DOM.Iterable",
       "ES2022",
+      "ES2023.Array",
       "ESNext.Disposable" // For `playwright`
     ],
     /* Specify what JSX code is generated. */

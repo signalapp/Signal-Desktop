@@ -44,7 +44,6 @@ import {
   toHumanCurrencyString,
   toStripeDonationAmount,
 } from '../util/currency';
-import { Input } from './Input';
 import { PreferencesContent } from './Preferences';
 import type { SubmitDonationType } from '../state/ducks/donations';
 import { Select } from './Select';
@@ -62,6 +61,7 @@ import {
 } from './preferences/donations/DonateInputCardCvc';
 import { I18n } from './I18n';
 import { strictAssert } from '../util/assert';
+import { DonateInputAmount } from './preferences/donations/DonateInputAmount';
 
 const SUPPORT_URL = 'https://support.signal.org/hc/requests/new?desktop';
 
@@ -117,6 +117,12 @@ export function PreferencesDonateFlow({
   const [cardFormValues, setCardFormValues] = useState<
     CardFormValues | undefined
   >();
+
+  // When changing currency, clear out the last selected amount
+  const handleAmountPickerCurrencyChanged = useCallback((value: string) => {
+    setAmount(undefined);
+    setCurrency(value);
+  }, []);
 
   const handleAmountPickerResult = useCallback((result: AmountPickerResult) => {
     const { currency: pickedCurrency, amount: pickedAmount } = result;
@@ -180,6 +186,7 @@ export function PreferencesDonateFlow({
           initialCurrency={currency}
           donationAmountsConfig={donationAmountsConfig}
           validCurrencies={validCurrencies}
+          onChangeCurrency={handleAmountPickerCurrencyChanged}
           onSubmit={handleAmountPickerResult}
         />
         <HelpFooter i18n={i18n} showOneTimeOnlyNotice />
@@ -247,6 +254,7 @@ type AmountPickerProps = {
   initialCurrency: string | undefined;
   donationAmountsConfig: OneTimeDonationHumanAmounts | undefined;
   validCurrencies: ReadonlyArray<string>;
+  onChangeCurrency: (value: string) => void;
   onSubmit: (result: AmountPickerResult) => void;
 };
 
@@ -256,6 +264,7 @@ function AmountPicker({
   initialAmount,
   initialCurrency = 'usd',
   validCurrencies,
+  onChangeCurrency,
   onSubmit,
 }: AmountPickerProps): JSX.Element {
   const [currency, setCurrency] = useState(initialCurrency);
@@ -263,7 +272,9 @@ function AmountPicker({
   const [presetAmount, setPresetAmount] = useState<
     HumanDonationAmount | undefined
   >();
-  const [customAmount, setCustomAmount] = useState<string | undefined>();
+  const [customAmount, setCustomAmount] = useState<string>(
+    initialAmount?.toString() ?? ''
+  );
 
   // Reset amount selections when API donation config or selected currency changes
   // Memo here so preset options instantly load when component mounts.
@@ -283,10 +294,10 @@ function AmountPicker({
       presetAmountOptions.find(option => option === initialAmount)
     ) {
       setPresetAmount(initialAmount);
-      setCustomAmount(undefined);
+      setCustomAmount('');
     } else {
       setPresetAmount(undefined);
-      setCustomAmount(initialAmount?.toString());
+      setCustomAmount(initialAmount?.toString() ?? '');
     }
   }, [initialAmount, presetAmountOptions]);
 
@@ -300,7 +311,7 @@ function AmountPicker({
   }, [donationAmountsConfig, currency]);
 
   const currencyOptionsForSelect = useMemo(() => {
-    return validCurrencies.map((currencyString: string) => {
+    return validCurrencies.toSorted().map((currencyString: string) => {
       return { text: currencyString.toUpperCase(), value: currencyString };
     });
   }, [validCurrencies]);
@@ -342,9 +353,14 @@ function AmountPicker({
     };
   }, [currency, customAmount, minimumAmount]);
 
-  const handleCurrencyChanged = useCallback((value: string) => {
-    setCurrency(value);
-  }, []);
+  const handleCurrencyChanged = useCallback(
+    (value: string) => {
+      setCurrency(value);
+      setCustomAmount('');
+      onChangeCurrency(value);
+    },
+    [onChangeCurrency]
+  );
 
   const handleCustomAmountChanged = useCallback((value: string) => {
     // Custom amount overrides any selected preset amount
@@ -394,7 +410,7 @@ function AmountPicker({
             })}
             key={value}
             onClick={() => {
-              setCustomAmount(undefined);
+              setCustomAmount('');
               setPresetAmount(value);
             }}
             type="button"
@@ -402,13 +418,15 @@ function AmountPicker({
             {toHumanCurrencyString({ amount: value, currency })}
           </button>
         ))}
-        <Input
-          moduleClassName={customInputClassName}
+        <DonateInputAmount
+          className={customInputClassName}
+          currency={currency}
           id="customAmount"
-          i18n={i18n}
-          onChange={handleCustomAmountChanged}
+          onValueChange={handleCustomAmountChanged}
           onFocus={() => setPresetAmount(undefined)}
-          placeholder="Enter Custom Amount"
+          placeholder={i18n(
+            'icu:DonateFlow__amount-picker-custom-amount-placeholder'
+          )}
           value={customAmount}
         />
       </div>
