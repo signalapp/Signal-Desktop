@@ -350,7 +350,7 @@ export async function handleReaction(
   );
 
   const newReaction: MessageReactionType = {
-    emoji: reaction.emoji, // Keep emoji for both add and remove to enable proper filtering
+    emoji: reaction.remove ? undefined : reaction.emoji,
     fromId: reaction.fromId,
     targetTimestamp: reaction.targetTimestamp,
     timestamp: reaction.timestamp,
@@ -505,7 +505,7 @@ export async function handleReaction(
         }
 
         reactions = oldReactions.filter(
-          re => !isNewReactionReplacingPrevious(re, newReaction)
+          re => !isNewReactionReplacingPrevious(re, reaction)
         );
         reactions.push(reactionToAdd);
         message.set({ reactions });

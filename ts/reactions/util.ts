@@ -108,15 +108,6 @@ export function isNewReactionReplacingPrevious(
   reaction: MessageReactionType,
   newReaction: MessageReactionType
 ): boolean {
-  const hasMultipleEmojiReactions = window.storage.get('multipleEmojiReactions', false);
-
-  if (hasMultipleEmojiReactions) {
-    // Only replace reactions with the same emoji from the same user
-    // This allows multiple different emoji reactions from the same user
-    return reaction.fromId === newReaction.fromId && reaction.emoji === newReaction.emoji;
-  }
- 
-  // Default behavior: replace all reactions from the same user
   return reaction.fromId === newReaction.fromId;
 }
 

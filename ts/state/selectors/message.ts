@@ -405,33 +405,20 @@ const getReactionsForMessage = (
   { reactions = [] }: MessageWithUIFieldsType,
   { conversationSelector }: { conversationSelector: GetConversationByIdType }
 ) => {
-  const hasMultipleEmojiReactions = window.storage.get('multipleEmojiReactions', false);
-
-  let reactionsToFormat: Iterable<MessageReactionType>;
-
-  if (hasMultipleEmojiReactions) {
-    // Just show all reactions with emojis - no grouping by user
-    reactionsToFormat = iterables.filter(
-      reactions,
-      re => re.emoji
-    );
-  } else {
-    // Default behavior: group by sender, keeping only the latest reaction
-    const reactionBySender = new Map<string, MessageReactionType>();
-    for (const reaction of reactions) {
-      const existingReaction = reactionBySender.get(reaction.fromId);
-      if (!existingReaction || reaction.timestamp > existingReaction.timestamp) {
-        reactionBySender.set(reaction.fromId, reaction);
-      }
+  const reactionBySender = new Map<string, MessageReactionType>();
+  for (const reaction of reactions) {
+    const existingReaction = reactionBySender.get(reaction.fromId);
+    if (!existingReaction || reaction.timestamp > existingReaction.timestamp) {
+      reactionBySender.set(reaction.fromId, reaction);
     }
-    const reactionsWithEmpties = reactionBySender.values();
-    reactionsToFormat = iterables.filter(
-      reactionsWithEmpties,
-      re => re.emoji
-    );
   }
 
-  const formattedReactions = iterables.map(reactionsToFormat, re => {
+  const reactionsWithEmpties = reactionBySender.values();
+  const reactionsWithEmoji = iterables.filter(
+    reactionsWithEmpties,
+    re => re.emoji
+  );
+  const formattedReactions = iterables.map(reactionsWithEmoji, re => {
     const c = conversationSelector(re.fromId);
 
     type From = NonNullable<PropsData['reactions']>[0]['from'];
