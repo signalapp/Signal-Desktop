@@ -517,8 +517,21 @@ export async function handleReaction(
         const hasMultipleEmojiReactions = window.storage.get('multipleEmojiReactions', false);
         
         if (hasMultipleEmojiReactions) {
-          // In multiple reaction mode, just add the new reaction
-          reactions = [...oldReactions, reactionToAdd];
+          // In multiple reaction mode, allow multiple reactions per sender
+          // But check if the sender might be in single reaction mode
+          const senderReactions = oldReactions.filter(re => re.fromId === reaction.fromId);
+          
+          // If sender already has reactions and is adding a new different one,
+          // they might be in single reaction mode, so replace their previous reactions
+          if (senderReactions.length > 0 && !senderReactions.some(re => re.emoji === reactionToAdd.emoji)) {
+            reactions = oldReactions.filter(
+              re => !isNewReactionReplacingPrevious(re, reaction)
+            );
+            reactions.push(reactionToAdd);
+          } else {
+            // Normal multiple reaction mode - just add
+            reactions = [...oldReactions, reactionToAdd];
+          }
         } else {
           // In single reaction mode, replace previous reactions from same sender
           reactions = oldReactions.filter(
