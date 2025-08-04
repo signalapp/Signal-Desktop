@@ -484,7 +484,7 @@ export async function handleReaction(
           'handleReaction: removing reaction for message',
           getMessageIdForLogging(message.attributes)
         );
-        
+
         if (isFromSync) {
           reactions = oldReactions.filter(
             re =>

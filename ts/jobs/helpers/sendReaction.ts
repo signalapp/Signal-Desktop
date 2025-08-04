@@ -353,9 +353,8 @@ export async function sendReaction(
       pendingReaction,
       successfulConversationIds
     );
-    
     setReactions(message, newReactions);
-    
+
     if (!didFullySend) {
       throw new Error('reaction did not fully send');
     }
