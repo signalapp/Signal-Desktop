@@ -395,10 +395,9 @@ export async function startApp(): Promise<void> {
   window.textsecure.storage.protocol.on(
     'lowKeys',
     throttle(
-      (ourServiceId: ServiceIdString) => {
-        const serviceIdKind =
-          window.textsecure.storage.user.getOurServiceIdKind(ourServiceId);
-        drop(window.getAccountManager().maybeUpdateKeys(serviceIdKind));
+      async () => {
+        await window.getAccountManager().maybeUpdateKeys(ServiceIdKind.ACI);
+        await window.getAccountManager().maybeUpdateKeys(ServiceIdKind.PNI);
       },
       durations.MINUTE,
       { trailing: true, leading: false }
