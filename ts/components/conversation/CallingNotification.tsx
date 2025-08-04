@@ -17,7 +17,6 @@ import {
   DirectCallStatus,
   GroupCallStatus,
 } from '../../types/CallDisposition';
-import { toLogFormat } from '../../types/errors';
 import type { CallingNotificationType } from '../../util/callingNotification';
 import {
   getCallingIcon,
@@ -244,8 +243,7 @@ function renderCallingNotificationButton(
       log.warn('for adhoc call, should never happen');
       return null;
     default:
-      log.error(toLogFormat(missingCaseError(props.callHistory.mode)));
-      return null;
+      throw missingCaseError(props.callHistory.mode);
   }
 
   const disabled = Boolean(disabledTooltipText);

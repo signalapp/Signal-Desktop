@@ -159,7 +159,7 @@ async function safeDecryptToSink(
       await Promise.race([
         // Just use a non-existing event name to wait for an 'error'. We want
         // to handle errors on `sink` while generating digest in case the whole
-        // request gets cancelled early.
+        // request gets canceled early.
         once(sink, 'non-error-event', { signal: controller.signal }),
         decryptAttachmentV2ToSink(options, sink),
       ]);

@@ -414,7 +414,7 @@ export abstract class JobManager<CoreJobType> {
         abortController.abort();
 
         // First tell those waiting for the job that it's not happening
-        const rejectionError = new Error('Cancelled at JobManager.cancelJobs');
+        const rejectionError = new Error('Canceled at JobManager.cancelJobs');
         const idWithAttempts = this.#getJobIdIncludingAttempts(job);
         this.#jobCompletePromises.get(idWithAttempts)?.reject(rejectionError);
         this.#jobCompletePromises.delete(idWithAttempts);
@@ -438,7 +438,7 @@ export abstract class JobManager<CoreJobType> {
       })
     );
 
-    log.warn(`${logId}: Successfully cancelled ${jobs.length} jobs`);
+    log.warn(`${logId}: Successfully canceled ${jobs.length} jobs`);
   }
 
   #addRunningJob(

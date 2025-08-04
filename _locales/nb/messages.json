@@ -6622,13 +6622,13 @@
     "messageformat": "Personvern fremfor profitt"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Private meldinger, finansiert av brukerne. Ingen annonser, ingen sporing, ingen kompromiss. Støtt Signal med en pengegave nå. <readMoreLink>Les mer</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Gi penger"
   },
   "icu:PreferencesDonations__my-support": {
-    "messageformat": "My Support"
+    "messageformat": "Mine bidrag"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Gi {formattedCurrencyAmount}"
@@ -6637,10 +6637,10 @@
     "messageformat": "Du kan administrere merker og pengegaver fra mobilen din."
   },
   "icu:PreferencesDonations__privacy-modal-title": {
-    "messageformat": "Your information is private"
+    "messageformat": "Informasjonen din holdes privat"
   },
   "icu:PreferencesDonations__privacy-modal-content": {
-    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
+    "messageformat": "<paragraph>Signal lagrer ikke personopplysningene dine når du gir en pengegave.</paragraph><paragraph>Betalingstjenesten Stripe behandler pengebeløpet du gir oss. Vi har ikke tilgang til og verken lagrer eller oppbevarer opplysningene du gir til Stripe.</paragraph><paragraph>Signal vil ikke, og kan ikke, knytte pengegaven til Signal-kontoen din.</paragraph><paragraph>Takk for støtten!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Kvitteringer"
@@ -6667,13 +6667,13 @@
     "messageformat": "Betalingsdato"
   },
   "icu:DonateFlow__make-a-one-time-donation": {
-    "messageformat": "Make a one time donation"
+    "messageformat": "Gi et engangsbeløp"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+    "messageformat": "Du kan bare gi engangsbeløp i skrivebordsversjonen. Månedlige pengegaver kan gis via mobile enheter."
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+    "messageformat": "Lurer du på noe? <contactSupportLink>Kontakt brukerstøtten</contactSupportLink>"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Kvittering for pengebeløp"
@@ -6694,22 +6694,22 @@
     "messageformat": "Takk for at du støtter Signal. Bidraget ditt hjelper oss i kampen for å utvikle personvernteknologi med åpen kilde som gjør det mulig å kommunisere fritt og trygt for millioner av mennesker over hele verden. Ta vare på denne kvitteringen for skatteoppgjøret ditt hvis du har adresse i USA. Signal Technology Foundation er en ideell organisasjon som er fritatt skatt i USA under avsnitt 501c3 i den amerikanske skatteloven. Vårt nasjonale skattenummer er 82-4506840."
   },
   "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled"
+    "messageformat": "Pengegaven ble avbrutt"
   },
   "icu:Donations__Toast__Completed": {
-    "messageformat": "Donation completed"
+    "messageformat": "Pengegaven ble sendt"
   },
   "icu:Donations__Toast__Error": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Betalingen av pengegaven kunne ikke gjennomføres"
   },
   "icu:Donations__Toast__Processing": {
-    "messageformat": "Processing donation"
+    "messageformat": "Behandler pengegaven"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "Verification failed"
+    "messageformat": "Bekreftelse mislyktes"
   },
   "icu:Donations__Toast__VerificationNeeded": {
-    "messageformat": "You have a donation in progress that needs additional verification."
+    "messageformat": "Du har en pengegave som krever ekstra bekreftelse."
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Betalingsmåten ble avvist"
@@ -6742,7 +6742,7 @@
     "messageformat": "Ekstra bekreftelse kreves"
   },
   "icu:Donations__3dsValidationNeeded--waiting": {
-    "messageformat": "Waiting for verification"
+    "messageformat": "Venter på bekreftelse"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "Betalingskortutstederen krever en ekstra bekreftelse via nettleseren."
@@ -6751,10 +6751,10 @@
     "messageformat": "Åpne nettleseren"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
-    "messageformat": "Re-open browser"
+    "messageformat": "Åpne nettleseren på nytt"
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
-    "messageformat": "Cancel donation"
+    "messageformat": "Avbryt pengegave"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Denne versjonen inneholder noen justeringer og feilrettinger som sikrer at Signal fungerer optimalt.",
@@ -6785,6 +6785,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
+    "messageformat": "Vi har gjort melding lest/ulest-funksjonen bedre."
+  },
+  "icu:WhatsNew__v7.65--0": {
+    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
   }
 }

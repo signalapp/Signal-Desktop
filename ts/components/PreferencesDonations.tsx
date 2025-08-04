@@ -18,7 +18,10 @@ import type {
   OneTimeDonationHumanAmounts,
   DonationErrorType,
 } from '../types/Donations';
-import { donationStateSchema } from '../types/Donations';
+import {
+  donationErrorTypeSchema,
+  donationStateSchema,
+} from '../types/Donations';
 import type { AvatarColorType } from '../types/Colors';
 import { Button, ButtonSize, ButtonVariant } from './Button';
 import { Modal } from './Modal';
@@ -34,6 +37,7 @@ import type { SubmitDonationType } from '../state/ducks/donations';
 import { getHumanDonationAmount } from '../util/currency';
 import { Avatar, AvatarSize } from './Avatar';
 import type { BadgeType } from '../badges/types';
+import { DonationInterruptedModal } from './DonationInterruptedModal';
 import { DonationErrorModal } from './DonationErrorModal';
 import { DonationVerificationModal } from './DonationVerificationModal';
 import { DonationProgressModal } from './DonationProgressModal';
@@ -47,8 +51,10 @@ type PropsExternalType = {
 
 export type PropsDataType = {
   i18n: LocalizerType;
+  initialCurrency: string;
   isStaging: boolean;
   page: SettingsPage;
+  didResumeWorkflowAtStartup: boolean;
   lastError: DonationErrorType | undefined;
   workflow: DonationWorkflow | undefined;
   badge: BadgeType | undefined;
@@ -68,12 +74,13 @@ export type PropsDataType = {
     receipt: DonationReceipt,
     i18n: LocalizerType
   ) => Promise<Blob>;
-  showToast: (toast: AnyToast) => void;
 };
 
 type PropsActionType = {
   clearWorkflow: () => void;
+  resumeWorkflow: () => void;
   setPage: (page: SettingsPage) => void;
+  showToast: (toast: AnyToast) => void;
   submitDonation: (payload: SubmitDonationType) => void;
   updateLastError: (error: DonationErrorType | undefined) => void;
 };
@@ -85,7 +92,10 @@ type DonationPage =
   | SettingsPage.DonationsDonateFlow
   | SettingsPage.DonationsReceiptList;
 
-type PreferencesHomeProps = Omit<PropsType, 'badge' | 'theme'> & {
+type PreferencesHomeProps = Pick<
+  PropsType,
+  'contentsRef' | 'i18n' | 'setPage' | 'isStaging' | 'donationReceipts'
+> & {
   navigateToPage: (newPage: SettingsPage) => void;
   renderDonationHero: () => JSX.Element;
 };
@@ -452,11 +462,14 @@ function PreferencesReceiptList({
 export function PreferencesDonations({
   contentsRef,
   i18n,
+  initialCurrency,
   isStaging,
   page,
   workflow,
+  didResumeWorkflowAtStartup,
   lastError,
   clearWorkflow,
+  resumeWorkflow,
   setPage,
   submitDonation,
   badge,
@@ -524,6 +537,23 @@ export function PreferencesDonations({
         }}
       />
     );
+  } else if (
+    didResumeWorkflowAtStartup &&
+    workflow?.type === donationStateSchema.Enum.INTENT_METHOD
+  ) {
+    dialog = (
+      <DonationInterruptedModal
+        i18n={i18n}
+        onCancelDonation={() => {
+          clearWorkflow();
+          setPage(SettingsPage.Donations);
+          showToast({ toastType: ToastType.DonationCanceled });
+        }}
+        onRetryDonation={() => {
+          resumeWorkflow();
+        }}
+      />
+    );
   } else if (workflow?.type === donationStateSchema.Enum.INTENT_REDIRECT) {
     dialog = (
       <DonationVerificationModal
@@ -531,10 +561,15 @@ export function PreferencesDonations({
         onCancelDonation={() => {
           clearWorkflow();
           setPage(SettingsPage.Donations);
-          showToast({ toastType: ToastType.DonationCancelled });
+          showToast({ toastType: ToastType.DonationCanceled });
         }}
         onOpenBrowser={() => {
           openLinkInWebBrowser(workflow.redirectTarget);
+        }}
+        onTimedOut={() => {
+          clearWorkflow();
+          updateLastError(donationErrorTypeSchema.Enum.TimedOut);
+          setPage(SettingsPage.Donations);
         }}
       />
     );
@@ -581,6 +616,7 @@ export function PreferencesDonations({
         <PreferencesDonateFlow
           contentsRef={contentsRef}
           i18n={i18n}
+          initialCurrency={initialCurrency}
           donationAmountsConfig={donationAmountsConfig}
           lastError={lastError}
           validCurrencies={validCurrencies}
@@ -601,25 +637,11 @@ export function PreferencesDonations({
       <DonationsHome
         contentsRef={contentsRef}
         i18n={i18n}
-        color={color}
-        firstName={firstName}
-        profileAvatarUrl={profileAvatarUrl}
         navigateToPage={navigateToPage}
         donationReceipts={donationReceipts}
-        donationAmountsConfig={donationAmountsConfig}
-        validCurrencies={validCurrencies}
-        saveAttachmentToDisk={saveAttachmentToDisk}
-        generateDonationReceiptBlob={generateDonationReceiptBlob}
-        showToast={showToast}
         isStaging={isStaging}
-        page={page}
-        lastError={lastError}
-        workflow={workflow}
-        clearWorkflow={clearWorkflow}
         renderDonationHero={renderDonationHero}
         setPage={setPage}
-        submitDonation={submitDonation}
-        updateLastError={updateLastError}
       />
     );
   } else if (page === SettingsPage.DonationsReceiptList) {

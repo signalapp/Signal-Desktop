@@ -60,7 +60,6 @@ import { DirectionalBlot } from '../quill/block/blot';
 import { getClassNamesFor } from '../util/getClassNamesFor';
 import { isNotNil } from '../util/isNotNil';
 import { createLogger } from '../logging/log';
-import * as Errors from '../types/errors';
 import type { LinkPreviewForUIType } from '../types/message/LinkPreviews';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview';
 import type { DraftEditMessageType } from '../model-types.d';
@@ -82,6 +81,7 @@ import { FUN_STATIC_EMOJI_CLASS } from './fun/FunEmoji';
 import { useFunEmojiSearch } from './fun/useFunEmojiSearch';
 import type { EmojiCompletionOptions } from '../quill/emoji/completion';
 import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer';
+import { MAX_BODY_ATTACHMENT_BYTE_LENGTH } from '../util/longAttachment';
 
 const log = createLogger('CompositionInput');
 
@@ -159,7 +159,6 @@ export type Props = Readonly<{
   onCloseLinkPreview?(conversationId: string): unknown;
 }>;
 
-const MAX_LENGTH = 64 * 1024;
 const BASE_CLASS_NAME = 'module-composition-input';
 
 export function CompositionInput(props: Props): React.ReactElement {
@@ -613,7 +612,7 @@ export function CompositionInput(props: Props): React.ReactElement {
         node.attributes.removeNamedItem('style');
       }
 
-      if (text.length > MAX_LENGTH) {
+      if (Buffer.byteLength(text) > MAX_BODY_ATTACHMENT_BYTE_LENGTH) {
         quill.history.undo();
         propsRef.current.onTextTooLong();
         return;
@@ -951,30 +950,32 @@ export function CompositionInput(props: Props): React.ReactElement {
   const getClassName = getClassNamesFor(BASE_CLASS_NAME, moduleClassName);
 
   const onMouseDown = React.useCallback(
-    (event: MouseEvent) => {
-      const target = event.target as HTMLElement;
-      try {
-        // If the user is actually clicking the format menu, we drop this event
-        if (target.closest('.module-composition-input__format-menu')) {
-          return;
-        }
-        setIsMouseDown(true);
-
-        const onMouseUp = () => {
-          setIsMouseDown(false);
-          window.removeEventListener('mouseup', onMouseUp);
-        };
-        window.addEventListener('mouseup', onMouseUp);
-      } catch (error) {
-        log.error(
-          'onMouseDown: Failed to check event target',
-          Errors.toLogFormat(error)
-        );
+    (event: MouseEvent<HTMLDivElement>) => {
+      const { currentTarget } = event;
+      // If the user is actually clicking the format menu, we drop this event
+      if (currentTarget.closest('.module-composition-input__format-menu')) {
+        return;
       }
       setIsMouseDown(true);
     },
     [setIsMouseDown]
   );
+
+  React.useEffect(() => {
+    if (!isMouseDown) {
+      return;
+    }
+
+    function onMouseUp() {
+      setIsMouseDown(false);
+    }
+
+    window.addEventListener('mouseup', onMouseUp);
+
+    return () => {
+      window.removeEventListener('mouseup', onMouseUp);
+    };
+  }, [isMouseDown]);
 
   return (
     <Manager>

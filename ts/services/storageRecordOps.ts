@@ -483,12 +483,12 @@ export function toAccountRecord(
   if (typeof subscriberCurrencyCode === 'string') {
     accountRecord.donorSubscriberCurrencyCode = subscriberCurrencyCode;
   }
-  const donorSubscriptionManuallyCancelled = window.storage.get(
+  const donorSubscriptionManuallyCanceled = window.storage.get(
     'donorSubscriptionManuallyCancelled'
   );
-  if (typeof donorSubscriptionManuallyCancelled === 'boolean') {
+  if (typeof donorSubscriptionManuallyCanceled === 'boolean') {
     accountRecord.donorSubscriptionManuallyCancelled =
-      donorSubscriptionManuallyCancelled;
+      donorSubscriptionManuallyCanceled;
   }
 
   accountRecord.backupSubscriberData = generateBackupsSubscriberData();

@@ -218,12 +218,15 @@ function renderDonationsPane(props: {
       i18n={i18n}
       contentsRef={props.contentsRef}
       clearWorkflow={action('clearWorkflow')}
+      initialCurrency="USD"
+      resumeWorkflow={action('resumeWorkflow')}
       isStaging
       page={props.page}
       setPage={props.setPage}
       submitDonation={action('submitDonation')}
       lastError={undefined}
       workflow={undefined}
+      didResumeWorkflowAtStartup={false}
       badge={undefined}
       color={props.me.color}
       firstName={props.me.firstName}
@@ -680,8 +683,8 @@ BackupsPaidActive.args = {
   },
 };
 
-export const BackupsPaidCancelled = Template.bind({});
-BackupsPaidCancelled.args = {
+export const BackupsPaidCanceled = Template.bind({});
+BackupsPaidCanceled.args = {
   page: SettingsPage.Backups,
   backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,

@@ -767,11 +767,12 @@ async function generateManifest(
     );
 
     if (deleteKeys.size !== pendingDeletes.size) {
-      const localDeletes = Array.from(deleteKeys).map(key =>
-        redactStorageID(key)
-      );
-      const remoteDeletes: Array<string> = [];
-      pendingDeletes.forEach(id => remoteDeletes.push(redactStorageID(id)));
+      const localDeletes = Array.from(deleteKeys, key => {
+        return redactStorageID(key);
+      });
+      const remoteDeletes = Array.from(pendingDeletes, id => {
+        return redactStorageID(id);
+      });
       log.error(
         `upload(${version}): delete key sizes do not match`,
         'local',
@@ -937,8 +938,6 @@ async function uploadManifest(
     // update conversations with the new storageID
     postUploadUpdateFunctions.forEach(fn => fn());
   } catch (err) {
-    log.error(`upload(${version}): failed!`, Errors.toLogFormat(err));
-
     if (err.code === 409) {
       if (conflictBackOff.isFull()) {
         log.error(`upload(${version}): exceeded maximum consecutive conflicts`);
@@ -954,6 +953,7 @@ async function uploadManifest(
       throw err;
     }
 
+    log.error(`upload(${version}): failed!`, Errors.toLogFormat(err));
     throw err;
   }
 
@@ -962,14 +962,7 @@ async function uploadManifest(
   conflictBackOff.reset();
   backOff.reset();
 
-  try {
-    await singleProtoJobQueue.add(MessageSender.getFetchManifestSyncMessage());
-  } catch (error) {
-    log.error(
-      `upload(${version}): Failed to queue sync message`,
-      Errors.toLogFormat(error)
-    );
-  }
+  await singleProtoJobQueue.add(MessageSender.getFetchManifestSyncMessage());
 }
 
 async function stopStorageServiceSync(reason: Error) {
@@ -991,14 +984,7 @@ async function stopStorageServiceSync(reason: Error) {
       );
       return;
     }
-    try {
-      await singleProtoJobQueue.add(MessageSender.getRequestKeySyncMessage());
-    } catch (error) {
-      log.error(
-        'stopStorageServiceSync: Failed to queue sync message',
-        Errors.toLogFormat(error)
-      );
-    }
+    await singleProtoJobQueue.add(MessageSender.getRequestKeySyncMessage());
   });
 }
 
@@ -1046,7 +1032,8 @@ async function decryptManifest(
 async function fetchManifest(
   manifestVersion: number
 ): Promise<Proto.ManifestRecord | undefined> {
-  log.info('sync: fetch start');
+  const logId = `sync(${manifestVersion})`;
+  log.info(`${logId}: fetch start`);
 
   if (!window.textsecure.messaging) {
     throw new Error('storageService.sync: we are offline!');
@@ -1072,17 +1059,17 @@ async function fetchManifest(
     }
   } catch (err) {
     if (err.code === 204) {
-      log.info('sync: no newer manifest, ok');
+      log.info(`${logId}: no newer manifest, ok`);
       return undefined;
     }
 
-    log.error('sync: failed!', Errors.toLogFormat(err));
-
     if (err.code === 404) {
+      log.info(`${logId}: missing`);
       await createNewManifest();
       return undefined;
     }
 
+    log.error(`${logId}: failed!`, err.code);
     throw err;
   }
 
@@ -1690,7 +1677,7 @@ async function fetchRemoteRecords(
         );
       } catch (err) {
         log.error(
-          `process(${storageVersion}): Error decrypting storage item`,
+          `process(${storageVersion}): Error decrypting storage item ${redactStorageID(base64ItemID)}`,
           Errors.toLogFormat(err)
         );
         await stopStorageServiceSync(err);
@@ -2057,11 +2044,12 @@ async function sync({
         manifestVersion: version,
       });
     }
+
+    log.info('sync: complete');
   } catch (err) {
     log.error('sync: error processing manifest', Errors.toLogFormat(err));
   }
 
-  log.info('sync: complete');
   return manifest;
 }
 
@@ -2103,14 +2091,7 @@ async function upload({
       return;
     }
 
-    try {
-      await singleProtoJobQueue.add(MessageSender.getRequestKeySyncMessage());
-    } catch (error) {
-      log.error(
-        `${logId}: Failed to queue sync message`,
-        Errors.toLogFormat(error)
-      );
-    }
+    await singleProtoJobQueue.add(MessageSender.getRequestKeySyncMessage());
 
     return;
   }

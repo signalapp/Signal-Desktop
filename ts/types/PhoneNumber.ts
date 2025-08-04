@@ -40,7 +40,9 @@ export function getCountryCode(
       return undefined;
     }
 
-    return instance.parse(phoneNumber).getCountryCode();
+    const parsed = instance.parse(phoneNumber);
+
+    return parsed.getCountryCode();
   } catch (error) {
     const errorText = Errors.toLogFormat(error);
     log.info(

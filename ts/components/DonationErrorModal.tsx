@@ -40,6 +40,11 @@ export function DonationErrorModal(props: PropsType): JSX.Element {
       body = i18n('icu:Donations__PaymentMethodDeclined__Description');
       break;
     }
+    case donationErrorTypeSchema.Enum.TimedOut: {
+      title = i18n('icu:Donations__TimedOut');
+      body = i18n('icu:Donations__TimedOut__Description');
+      break;
+    }
 
     default:
       throw missingCaseError(props.errorType);

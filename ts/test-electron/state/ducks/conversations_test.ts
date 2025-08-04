@@ -29,7 +29,7 @@ import {
   TARGETED_CONVERSATION_CHANGED,
   actions,
   cancelConversationVerification,
-  clearCancelledConversationVerification,
+  clearCanceledConversationVerification,
   getConversationCallMode,
   getEmptyState,
   reducer,
@@ -940,12 +940,12 @@ describe('both/state/ducks/conversations', () => {
         });
       });
 
-      it('stomps on VerificationCancelled state', () => {
+      it('stomps on VerificationCanceled state', () => {
         const state: ConversationsStateType = {
           ...getEmptyState(),
           verificationDataByConversation: {
             'convo A': {
-              type: ConversationVerificationState.VerificationCancelled,
+              type: ConversationVerificationState.VerificationCanceled,
               canceledAt: Date.now(),
             },
           },
@@ -1111,19 +1111,19 @@ describe('both/state/ducks/conversations', () => {
 
         assert.deepStrictEqual(actual.verificationDataByConversation, {
           'convo A': {
-            type: ConversationVerificationState.VerificationCancelled,
+            type: ConversationVerificationState.VerificationCanceled,
             canceledAt: now,
           },
         });
       });
 
-      it('updates timestamp for existing VerificationCancelled state', () => {
+      it('updates timestamp for existing VerificationCanceled state', () => {
         const now = Date.now();
         const state: ConversationsStateType = {
           ...getEmptyState(),
           verificationDataByConversation: {
             'convo A': {
-              type: ConversationVerificationState.VerificationCancelled,
+              type: ConversationVerificationState.VerificationCanceled,
               canceledAt: now - 1,
             },
           },
@@ -1133,19 +1133,19 @@ describe('both/state/ducks/conversations', () => {
 
         assert.deepStrictEqual(actual.verificationDataByConversation, {
           'convo A': {
-            type: ConversationVerificationState.VerificationCancelled,
+            type: ConversationVerificationState.VerificationCanceled,
             canceledAt: now,
           },
         });
       });
 
-      it('uses newest timestamp when updating existing VerificationCancelled state', () => {
+      it('uses newest timestamp when updating existing VerificationCanceled state', () => {
         const now = Date.now();
         const state: ConversationsStateType = {
           ...getEmptyState(),
           verificationDataByConversation: {
             'convo A': {
-              type: ConversationVerificationState.VerificationCancelled,
+              type: ConversationVerificationState.VerificationCanceled,
               canceledAt: now,
             },
           },
@@ -1155,7 +1155,7 @@ describe('both/state/ducks/conversations', () => {
 
         assert.deepStrictEqual(actual.verificationDataByConversation, {
           'convo A': {
-            type: ConversationVerificationState.VerificationCancelled,
+            type: ConversationVerificationState.VerificationCanceled,
             canceledAt: now,
           },
         });
@@ -1171,20 +1171,20 @@ describe('both/state/ducks/conversations', () => {
     });
 
     describe('CANCEL_CONVERSATION_PENDING_VERIFICATION', () => {
-      it('removes existing VerificationCancelled state', () => {
+      it('removes existing VerificationCanceled state', () => {
         const now = Date.now();
         const state: ConversationsStateType = {
           ...getEmptyState(),
           verificationDataByConversation: {
             'convo A': {
-              type: ConversationVerificationState.VerificationCancelled,
+              type: ConversationVerificationState.VerificationCanceled,
               canceledAt: now,
             },
           },
         };
         const actual = reducer(
           state,
-          clearCancelledConversationVerification('convo A')
+          clearCanceledConversationVerification('convo A')
         );
 
         assert.deepStrictEqual(actual.verificationDataByConversation, {});
@@ -1202,7 +1202,7 @@ describe('both/state/ducks/conversations', () => {
         };
         const actual = reducer(
           state,
-          clearCancelledConversationVerification('convo A')
+          clearCanceledConversationVerification('convo A')
         );
 
         assert.deepStrictEqual(actual, state);
@@ -1212,7 +1212,7 @@ describe('both/state/ducks/conversations', () => {
         const state: ConversationsStateType = getEmptyState();
         const actual = reducer(
           state,
-          clearCancelledConversationVerification('convo A')
+          clearCanceledConversationVerification('convo A')
         );
 
         assert.deepStrictEqual(actual, state);

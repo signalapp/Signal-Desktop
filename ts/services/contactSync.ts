@@ -25,6 +25,7 @@ import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto';
 import { SECOND } from '../util/durations';
 import { AttachmentVariant } from '../types/Attachment';
 import { MediaTier } from '../types/AttachmentDownload';
+import { waitForOnline } from '../util/waitForOnline';
 
 const log = createLogger('contactSync');
 
@@ -142,7 +143,33 @@ async function doContactSync({
     `receivedAt=${receivedAtCounter}, isFullSync=${isFullSync})`;
 
   log.info(`${logId}: downloading contact attachment`);
-  const contacts = await downloadAndParseContactAttachment(contactAttachment);
+  let contacts: ReadonlyArray<ContactDetailsWithAvatar> | undefined;
+  let attempts = 0;
+  const ATTEMPT_LIMIT = 3;
+  while (contacts === undefined) {
+    attempts += 1;
+    try {
+      if (!window.textsecure.server?.isOnline()) {
+        log.info(`${logId}: We are not online; waiting until we are online`);
+        // eslint-disable-next-line no-await-in-loop
+        await waitForOnline();
+        log.info(`${logId}: We are back online; starting up again`);
+      }
+
+      // eslint-disable-next-line no-await-in-loop
+      contacts = await downloadAndParseContactAttachment(contactAttachment);
+    } catch (error) {
+      if (attempts >= ATTEMPT_LIMIT) {
+        throw error;
+      }
+
+      log.warn(
+        `${logId}: Failed to download attachment, attempt ${attempts}`,
+        Errors.toLogFormat(error)
+      );
+      // continue
+    }
+  }
 
   log.info(`${logId}: got ${contacts.length} contacts`);
   const updatedConversations = new Set<ConversationModel>();

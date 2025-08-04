@@ -98,7 +98,7 @@ export function DebugLogWindow({
       const publishedLogURL = await uploadLogs(text);
       setPublicLogURL(publishedLogURL);
     } catch (error) {
-      log.error('error:', Errors.toLogFormat(error));
+      log.error('Failed to upload logs:', Errors.toLogFormat(error));
       setLoadState(LoadState.Loaded);
       setToast({ toastType: ToastType.DebugLogError });
     }

@@ -506,7 +506,7 @@ export type ConversationVerificationData = ReadonlyDeep<
       >;
     }
   | {
-      type: ConversationVerificationState.VerificationCancelled;
+      type: ConversationVerificationState.VerificationCanceled;
       canceledAt: number;
     }
 >;
@@ -618,8 +618,7 @@ export const getConversationCallMode = (
 
 const CANCEL_CONVERSATION_PENDING_VERIFICATION =
   'conversations/CANCEL_CONVERSATION_PENDING_VERIFICATION';
-const CLEAR_CANCELLED_VERIFICATION =
-  'conversations/CLEAR_CANCELLED_VERIFICATION';
+const CLEAR_CANCELED_VERIFICATION = 'conversations/CLEAR_CANCELED_VERIFICATION';
 const CLEAR_CONVERSATIONS_PENDING_VERIFICATION =
   'conversations/CLEAR_CONVERSATIONS_PENDING_VERIFICATION';
 export const COLORS_CHANGED = 'conversations/COLORS_CHANGED';
@@ -668,8 +667,8 @@ type ClearInvitedServiceIdsForNewlyCreatedGroupActionType = ReadonlyDeep<{
 type ClearVerificationDataByConversationActionType = ReadonlyDeep<{
   type: typeof CLEAR_CONVERSATIONS_PENDING_VERIFICATION;
 }>;
-type ClearCancelledVerificationActionType = ReadonlyDeep<{
-  type: typeof CLEAR_CANCELLED_VERIFICATION;
+type ClearCanceledVerificationActionType = ReadonlyDeep<{
+  type: typeof CLEAR_CANCELED_VERIFICATION;
   payload: {
     conversationId: string;
   };
@@ -1048,7 +1047,7 @@ export type ConsumePreloadDataActionType = ReadonlyDeep<{
 export type ConversationActionType =
   | AddPreloadDataActionType
   | CancelVerificationDataByConversationActionType
-  | ClearCancelledVerificationActionType
+  | ClearCanceledVerificationActionType
   | ClearGroupCreationErrorActionType
   | ClearInvitedServiceIdsForNewlyCreatedGroupActionType
   | ClearTargetedMessageActionType
@@ -1134,7 +1133,7 @@ export const actions = {
   cancelAttachmentDownload,
   cancelConversationVerification,
   changeHasGroupLink,
-  clearCancelledConversationVerification,
+  clearCanceledConversationVerification,
   clearGroupCreationError,
   clearInvitedServiceIdsForNewlyCreatedGroup,
   clearTargetedMessage,
@@ -2783,11 +2782,11 @@ function verifyConversationsStoppingSend(): ThunkAction<
   };
 }
 
-export function clearCancelledConversationVerification(
+export function clearCanceledConversationVerification(
   conversationId: string
-): ClearCancelledVerificationActionType {
+): ClearCanceledVerificationActionType {
   return {
-    type: CLEAR_CANCELLED_VERIFICATION,
+    type: CLEAR_CANCELED_VERIFICATION,
     payload: {
       conversationId,
     },
@@ -5229,7 +5228,7 @@ function getVerificationDataForConversation({
 
   if (
     !existing ||
-    existing.type === ConversationVerificationState.VerificationCancelled
+    existing.type === ConversationVerificationState.VerificationCanceled
   ) {
     return {
       [conversationId]: {
@@ -5527,7 +5526,7 @@ export function reducer(
     };
   }
 
-  if (action.type === CLEAR_CANCELLED_VERIFICATION) {
+  if (action.type === CLEAR_CANCELED_VERIFICATION) {
     const { conversationId } = action.payload;
     const { verificationDataByConversation } = state;
 
@@ -5568,13 +5567,13 @@ export function reducer(
 
     for (const [conversationId, data] of entries) {
       if (
-        data.type === ConversationVerificationState.VerificationCancelled &&
+        data.type === ConversationVerificationState.VerificationCanceled &&
         data.canceledAt > canceledAt
       ) {
         newverificationDataByConversation[conversationId] = data;
       } else {
         newverificationDataByConversation[conversationId] = {
-          type: ConversationVerificationState.VerificationCancelled,
+          type: ConversationVerificationState.VerificationCanceled,
           canceledAt,
         };
       }

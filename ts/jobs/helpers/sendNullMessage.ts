@@ -142,7 +142,7 @@ export async function sendNullMessage(
       error instanceof UnregisteredUserError
     ) {
       log.info(
-        'Send failure was OutgoingIdentityKeyError or UnregisteredUserError. Cancelling job.'
+        'Send failure was OutgoingIdentityKeyError or UnregisteredUserError. Canceling job.'
       );
       return;
     }

@@ -6622,13 +6622,13 @@
     "messageformat": "Privatumas svarbesnis už pelną"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Privačios žinutės – jūsų remiama paslauga. Jokių reklamų, jokio sekimo, jokių kompromisų. Skirkite paramą dabar ir palaikykite „Signal“. <readMoreLink>Skaityti daugiau</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Skirti paramą"
   },
   "icu:PreferencesDonations__my-support": {
-    "messageformat": "My Support"
+    "messageformat": "Mano palaikymas"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Skirti {formattedCurrencyAmount} paramą"
@@ -6637,10 +6637,10 @@
     "messageformat": "Ženklelius ir kasmėnesinę paramą galite tvarkyti savo mobiliajame įrenginyje."
   },
   "icu:PreferencesDonations__privacy-modal-title": {
-    "messageformat": "Your information is private"
+    "messageformat": "Tavo informacija yra privati"
   },
   "icu:PreferencesDonations__privacy-modal-content": {
-    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
+    "messageformat": "<paragraph>„Signal“ nerenka ir nesaugo jokios jūsų asmeninės informacijos, kai skiriate paramą.</paragraph><paragraph>Jūsų paramai gauti kaip mokėjimų tvarkytoją naudojame „Stripe“. Mes nepasiekiame, nelaikome ir neišsaugome jokios jūsų jiems pateiktos informacijos.</paragraph><paragraph>„Signal“ nesusieja ir negali susieti jūsų paramos su jūsų „Signal“ paskyra.</paragraph><paragraph>Dėkojame už jūsų paramą!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Kvitai"
@@ -6667,13 +6667,13 @@
     "messageformat": "Mokėjimo data"
   },
   "icu:DonateFlow__make-a-one-time-donation": {
-    "messageformat": "Make a one time donation"
+    "messageformat": "Skirti vienkartinę paramą"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+    "messageformat": "Kompiuteryje galima skirti tik vienkartinę paramą. Kasmėnesinę paramą galima skirti mobiliajame įrenginyje."
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+    "messageformat": "Kyla problemų? <contactSupportLink>Susisiekti su aptarnavimo komanda</contactSupportLink>"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Paramos kvitas"
@@ -6694,22 +6694,22 @@
     "messageformat": "Dėkojame, kad remiate „Signal“. Jūsų įnašas padeda skatinti misiją apsaugoti žodžio laisvę ir įgalinti saugų bendravimą milijonams žmonių visame pasaulyje dėl atvirojo kodo privatumo technologijos. Jei gyvenate Jungtinėse Valstijose, išsaugokite šį kvitą, kad turėtumėte jį savo mokestinių duomenų reikmėms. „Signal Technology Foundation“ yra Jungtinėse Valstijose įsteigta pelno nesiekianti organizacija, atleista nuo mokesčių pagal Vidaus mokesčių kodekso skirsnį 501c3. Mūsų federalinis mokesčių mokėtojo kodas: 82–4506840."
   },
   "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled"
+    "messageformat": "Parama atšaukta"
   },
   "icu:Donations__Toast__Completed": {
-    "messageformat": "Donation completed"
+    "messageformat": "Parama pervesta"
   },
   "icu:Donations__Toast__Error": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Apdorojant paramą įvyko klaida"
   },
   "icu:Donations__Toast__Processing": {
-    "messageformat": "Processing donation"
+    "messageformat": "Parama apdorojama"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "Verification failed"
+    "messageformat": "Patvirtinimas nepavyko"
   },
   "icu:Donations__Toast__VerificationNeeded": {
-    "messageformat": "You have a donation in progress that needs additional verification."
+    "messageformat": "Jūsų parama yra apdorojama ir ją reikia papildomai patvirtinti."
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Mokėjimo būdas atmestas"
@@ -6742,7 +6742,7 @@
     "messageformat": "Reikalingas papildomas patvirtinimas"
   },
   "icu:Donations__3dsValidationNeeded--waiting": {
-    "messageformat": "Waiting for verification"
+    "messageformat": "Laukiama patvirtinimo"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "Jūsų kredito kortelės išdavėjas reikalauja atlikti papildomą patvirtinimo veiksmą žiniatinklio naršyklėje."
@@ -6751,10 +6751,10 @@
     "messageformat": "Atverti naršyklę"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
-    "messageformat": "Re-open browser"
+    "messageformat": "Iš naujo atverti naršyklę"
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
-    "messageformat": "Cancel donation"
+    "messageformat": "Atšaukti paramą"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Šioje versijoje yra daug smulkių patobulinimų ir klaidų ištaisymų, kurie padės Signal sklandžiai veikti.",
@@ -6785,6 +6785,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
+    "messageformat": "Patobulinome perskaitytų ir neperskaitytų žinučių patirtį atliekant kelias užduotis vienu metu."
+  },
+  "icu:WhatsNew__v7.65--0": {
+    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
   }
 }

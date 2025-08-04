@@ -234,11 +234,11 @@ describe('both/state/selectors/conversations-extra', () => {
           ...state.conversations,
           verificationDataByConversation: {
             direct1: {
-              type: ConversationVerificationState.VerificationCancelled,
+              type: ConversationVerificationState.VerificationCanceled,
               canceledAt: Date.now(),
             },
             direct2: {
-              type: ConversationVerificationState.VerificationCancelled,
+              type: ConversationVerificationState.VerificationCanceled,
               canceledAt: Date.now(),
             },
           },

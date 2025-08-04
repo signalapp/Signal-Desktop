@@ -55,7 +55,11 @@ import {
 } from '../../util/editHelpers';
 import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp';
 import { isSignalConversation } from '../../util/isSignalConversation';
-import { isBodyTooLong, trimBody } from '../../util/longAttachment';
+import {
+  isBodyTooLong,
+  MAX_BODY_ATTACHMENT_BYTE_LENGTH,
+  trimBody,
+} from '../../util/longAttachment';
 import {
   markFailed,
   saveErrorsOnMessage,
@@ -606,6 +610,15 @@ async function getMessageSendData({
     prop: 'bodyAttachment',
     targetTimestamp,
   });
+
+  if (
+    maybeLongAttachment &&
+    maybeLongAttachment.size > MAX_BODY_ATTACHMENT_BYTE_LENGTH
+  ) {
+    throw new Error(
+      `Body attachment too long for send: ${maybeLongAttachment.size}`
+    );
+  }
 
   if (body && isBodyTooLong(body)) {
     body = trimBody(body);

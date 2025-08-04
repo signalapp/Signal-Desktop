@@ -6622,13 +6622,13 @@
     "messageformat": "La privacy prima di tutto"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Messaggi privati e sicuri, sostenuti proprio da te. Niente pubblicità, cookie o tracciamenti. Dona ora a Signal per supportare il nostro lavoro. <readMoreLink>Leggi di più</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Dona"
   },
   "icu:PreferencesDonations__my-support": {
-    "messageformat": "My Support"
+    "messageformat": "Il mio supporto"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Dona {formattedCurrencyAmount}"
@@ -6637,10 +6637,10 @@
     "messageformat": "Puoi gestire i badge e le donazioni mensili sul tuo dispositivo mobile."
   },
   "icu:PreferencesDonations__privacy-modal-title": {
-    "messageformat": "Your information is private"
+    "messageformat": "Le tue informazioni rimangono sempre private"
   },
   "icu:PreferencesDonations__privacy-modal-content": {
-    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
+    "messageformat": "<paragraph>Signal non archivia né salva le tue informazioni personali quando fai una donazione.</paragraph><paragraph>Usiamo Stripe per elaborare i pagamenti e ricevere le tue donazioni. Non abbiamo accesso, né archiviamo o salviamo le informazioni che fornisci a Stripe per le transazioni.</paragraph><paragraph>Signal non assocerà mai (né è in grado di farlo) le informazioni legate alla donazione al tuo account.</paragraph><paragraph>Grazie per il tuo supporto!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Ricevute"
@@ -6667,13 +6667,13 @@
     "messageformat": "Data pagamento"
   },
   "icu:DonateFlow__make-a-one-time-donation": {
-    "messageformat": "Make a one time donation"
+    "messageformat": "Fai una donazione singola"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+    "messageformat": "Su desktop sono disponibili solo le donazioni singole. Puoi effettuare le donazioni mensili dal tuo dispositivo mobile."
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+    "messageformat": "Stai riscontrando dei problemi? <contactSupportLink>Contatta l'assistenza</contactSupportLink>"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Ricevuta della donazione"
@@ -6694,22 +6694,22 @@
     "messageformat": "Grazie per sostenere Signal. Il tuo contributo aiuta ad alimentare la missione di sviluppare una tecnologia open source per la privacy che tuteli la libera espressione e che consenta una comunicazione globale sicura per milioni di persone in tutto il mondo. Se sei residente negli Stati Uniti, conserva questa ricevuta per la tua documentazione fiscale. Signal Technology Foundation è un'organizzazione non profit esente da tasse negli Stati Uniti ai sensi della sezione 501c3 dell'Internal Revenue Code. Il nostro Federal Tax ID è 82-4506840."
   },
   "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled"
+    "messageformat": "Donazione annullata"
   },
   "icu:Donations__Toast__Completed": {
-    "messageformat": "Donation completed"
+    "messageformat": "Donazione completata"
   },
   "icu:Donations__Toast__Error": {
-    "messageformat": "Error processing donation"
+    "messageformat": "Errore nell'elaborazione della donazione"
   },
   "icu:Donations__Toast__Processing": {
-    "messageformat": "Processing donation"
+    "messageformat": "Donazione in elaborazione"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "Verification failed"
+    "messageformat": "Verifica non riuscita"
   },
   "icu:Donations__Toast__VerificationNeeded": {
-    "messageformat": "You have a donation in progress that needs additional verification."
+    "messageformat": "Hai una donazione in corso che richiede una verifica ulteriore."
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Metodo di pagamento rifiutato"
@@ -6742,7 +6742,7 @@
     "messageformat": "È richiesta un'ulteriore verifica"
   },
   "icu:Donations__3dsValidationNeeded--waiting": {
-    "messageformat": "Waiting for verification"
+    "messageformat": "In attesa della verifica"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "La società emittente della tua carta di credito richiede un ulteriore passaggio di verifica da completare in un browser web."
@@ -6751,10 +6751,10 @@
     "messageformat": "Apri il browser"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
-    "messageformat": "Re-open browser"
+    "messageformat": "Riapri il browser"
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
-    "messageformat": "Cancel donation"
+    "messageformat": "Annulla donazione"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Questa versione contiene una serie di piccole modifiche e correzioni di bug per far funzionare Signal senza problemi.",
@@ -6785,6 +6785,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
+    "messageformat": "Abbiamo migliorato l'esperienza dei messaggi letti/non letti durante il multitasking e risolto un bug che a volte apriva in modo improprio la schermata per vedere le immagini a dimensioni originali quando premevi la barra spaziatrice mentre cercavi l'emoji perfetta. Puoi ancora fare zoom se clicchi sull'immagine o se digiti velocemente."
+  },
+  "icu:WhatsNew__v7.65--0": {
+    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
   }
 }

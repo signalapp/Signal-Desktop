@@ -6622,13 +6622,13 @@
     "messageformat": "利益よりもプライバシーを"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "あなたが資金提供するプライベートメッセージ。広告なし、トラッキングなし、不正アクセスなし。Signalをサポートするための寄付を今すぐお願いします。<readMoreLink>続きを読む</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "寄付する"
   },
   "icu:PreferencesDonations__my-support": {
-    "messageformat": "My Support"
+    "messageformat": "マイサポート"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "{formattedCurrencyAmount} を寄付する"
@@ -6637,10 +6637,10 @@
     "messageformat": "バッジと毎月の寄付は、モバイル端末で管理できます。"
   },
   "icu:PreferencesDonations__privacy-modal-title": {
-    "messageformat": "Your information is private"
+    "messageformat": "お客様の個人情報は保護されています"
   },
   "icu:PreferencesDonations__privacy-modal-content": {
-    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
+    "messageformat": "<paragraph>Signalは、寄付を受ける際に、お客様のいかなる個人情報も収集したり保存したりすることはありません。</paragraph><paragraph>Signalでは寄付を受け取る決済処理にStripeを使用しています。Signalは、お客様から提供されたいかなる情報にもアクセスすることはありません。また保管・保存したりすることもありません。</paragraph><paragraph>Signalは、寄付からお客様のSignalアカウントを特定することはありません。特定はできない仕組みになっています。</paragraph><paragraph>ご支援ありがとうございます！</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "領収書"
@@ -6667,13 +6667,13 @@
     "messageformat": "支払い日"
   },
   "icu:DonateFlow__make-a-one-time-donation": {
-    "messageformat": "Make a one time donation"
+    "messageformat": "1 回限りの寄付"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+    "messageformat": "デスクトップでは1回限りの寄付しかおこなえません。毎月の寄付をご希望の場合はスマートフォンからお手続き願います。"
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+    "messageformat": "お困りですか？<contactSupportLink>サポートに問い合わせる</contactSupportLink>"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "寄付の領収書"
@@ -6694,22 +6694,22 @@
     "messageformat": "Signalをサポートしていただきありがとうございます。皆様のご寄付は、オープンソースのプライバシー技術を通して表現の自由を守り、世界中の何百万人もの人々に安全なグローバルコミュニケーションを可能にするというミッションを推進する原動力となるものです。米国にお住まいの方は、この領収書を税務記録のために保管しておいてください。Signal Technology Foundationは、米国内国歳入法第501c3条に基づく非課税の非営利団体です。連邦税IDは82-4506840です。"
   },
   "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled"
+    "messageformat": "寄付がキャンセルされました"
   },
   "icu:Donations__Toast__Completed": {
-    "messageformat": "Donation completed"
+    "messageformat": "寄付が完了しました"
   },
   "icu:Donations__Toast__Error": {
-    "messageformat": "Error processing donation"
+    "messageformat": "寄付のお手続き中にエラーが発生しました"
   },
   "icu:Donations__Toast__Processing": {
-    "messageformat": "Processing donation"
+    "messageformat": "寄付のお手続き中です"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "Verification failed"
+    "messageformat": "認証失敗"
   },
   "icu:Donations__Toast__VerificationNeeded": {
-    "messageformat": "You have a donation in progress that needs additional verification."
+    "messageformat": "寄付のお手続き中です。追加の認証が必要です。"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "支払い方法が承認されませんでした"
@@ -6742,7 +6742,7 @@
     "messageformat": "追加の認証手続きが必要です"
   },
   "icu:Donations__3dsValidationNeeded--waiting": {
-    "messageformat": "Waiting for verification"
+    "messageformat": "認証を待機中です"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "ご利用のクレジットカードの発行会社は、Webブラウザでの追加認証ステップが必要です。"
@@ -6751,10 +6751,10 @@
     "messageformat": "ブラウザを開く"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
-    "messageformat": "Re-open browser"
+    "messageformat": "ブラウザをもう一度開く"
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
-    "messageformat": "Cancel donation"
+    "messageformat": "寄付をキャンセルする"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signalをスムーズに動作させるための微調整とバグ修正を行いました。",
@@ -6785,6 +6785,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
+    "messageformat": "マルチタスク中でもメッセージの既読/未読がより分かりやすくなりました。"
+  },
+  "icu:WhatsNew__v7.65--0": {
+    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
   }
 }

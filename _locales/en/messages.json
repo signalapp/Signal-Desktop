@@ -5253,7 +5253,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{joinerName} requested and cancelled {numberOfRequests, plural, one {their request} other {# requests}} to join via the group link",
+    "messageformat": "{joinerName} requested and canceled {numberOfRequests, plural, one {their request} other {# requests}} to join via the group link",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
@@ -8902,9 +8902,9 @@
     "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840.",
     "description": "Footer text shown on donation receipts explaining tax deductibility and Signal's mission"
   },
-  "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled",
-    "description": "Toast shown when a donation was manually cancelled by the user"
+  "icu:Donations__Toast__Canceled": {
+    "messageformat": "Donation canceled",
+    "description": "Toast shown when a donation was manually canceled by the user"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "Donation completed",
@@ -8925,6 +8925,22 @@
   "icu:Donations__Toast__VerificationNeeded": {
     "messageformat": "You have a donation in progress that needs additional verification.",
     "description": "Shown when the user is not on the Preferences/Donations screen, and donation verification is needed. Like when resuming from startup."
+  },
+  "icu:Donations__Toast__ConfirmationNeeded": {
+    "messageformat": "You have a donation in progress that requires confirmation.",
+    "description": "Shown when the user is not on the Preferences/Donations screen, and donation verification is needed. Like when resuming from startup."
+  },
+  "icu:Donations__DonationInterrupted": {
+    "messageformat": "Donation interrupted",
+    "description": "Title of the dialog shown when starting up if a donation had been started, and we've saved payment information, but the charge hasn't happened yet"
+  },
+  "icu:Donations__DonationInterrupted__Description": {
+    "messageformat": "Your card was not charged. Do you want to retry the donation?",
+    "description": "An explanation for the 'donation interrupted' dialog"
+  },
+  "icu:Donations__DonationInterrupted__RetryButton": {
+    "messageformat": "Try again",
+    "description": "The button in the 'donation interrupted' dialog which allows the user to move forward with the donation."
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Payment method declined",
@@ -8961,6 +8977,14 @@
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Your donation is still being processed. This can take a few minutes.",
     "description": "An explanation for the 'still processing' dialog"
+  },
+  "icu:Donations__TimedOut": {
+    "messageformat": "Donation canceled",
+    "description": "Title of the dialog shown when the it's been too long since the last step in the donation process"
+  },
+  "icu:Donations__TimedOut__Description": {
+    "messageformat": "It has been too long since you started your donation. Please start over.",
+    "description": "An explanation for the 'donation timed out' dialog"
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "Additional verification required",
@@ -9023,6 +9047,10 @@
   },
   "icu:WhatsNew__v7.64--0": {
     "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough.",
-    "description": "Release notes for version 7.64"
+    "description": "(Deleted 2025/07/30) Release notes for version 7.64"
+  },
+  "icu:WhatsNew__v7.65--0": {
+    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box.",
+    "description": "Release notes for version 7.65"
   }
 }

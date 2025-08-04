@@ -150,8 +150,16 @@ window.testUtilities = {
 
     for (let i = 0; i < files.length; i += 1) {
       if (i % workerCount === worker) {
-        // eslint-disable-next-line import/no-dynamic-require, global-require
-        require(files[i]);
+        try {
+          // eslint-disable-next-line import/no-dynamic-require, global-require
+          require(files[i]);
+        } catch (error) {
+          window.testUtilities.onTestEvent({
+            type: 'fail',
+            title: ['Failed to load test:', files[i]],
+            error: error.stack || String(error),
+          });
+        }
       }
     }
   },

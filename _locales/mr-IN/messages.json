@@ -6622,13 +6622,13 @@
     "messageformat": "फायद्यापेक्षा गोपनीयता"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "तुमच्या अर्थसाहाय्याने चालणारी, खासगी संदेश सेवा. कोणत्याही जाहिराती नाहीत, कोणतेही ट्रॅकिंग नाही, कोणतीही तडजोड नाही. Signalला सपोर्ट देण्यासाठी आता देणगी द्या. <readMoreLink>आणखी वाचा</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "देणगी द्या"
   },
   "icu:PreferencesDonations__my-support": {
-    "messageformat": "My Support"
+    "messageformat": "आपले समर्थन"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "{formattedCurrencyAmount} देणगी द्या"
@@ -6637,10 +6637,10 @@
     "messageformat": "बॅजेस आणि मासिक देणग्या तुमच्या मोबाईल डिव्हाईसवरून व्यवस्थापित करता येतात."
   },
   "icu:PreferencesDonations__privacy-modal-title": {
-    "messageformat": "Your information is private"
+    "messageformat": "आपली माहिती गोपनीय आहे"
   },
   "icu:PreferencesDonations__privacy-modal-content": {
-    "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>"
+    "messageformat": "<paragraph>तुम्ही जेव्हा देणगी देता तेव्हा Signal तुमची कोणतीही वैयक्तिक माहिती संग्रहित किंवा संकलित करत नाही.</paragraph> <paragraph>तुमच्या देणग्या प्राप्त करण्यासाठी आम्ही आमचा पेमेंट्स प्रोसेसर म्हणून स्ट्राईपचा वापर करतो. तुम्ही त्यांना प्रदान करत असलेली कोणतीही माहिती आम्ही मिळवत नाही, किंवा ती संग्रहित किंवा जतन करत नाही.</paragraph> <paragraph>Signal तुमच्या देणग्या तुमच्या Signal खात्याशी जोडत नाही आणि जोडू शकत नाही.</paragraph><paragraph>तुमच्या सपोर्टबद्दल धन्यवाद!</paragraph>"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "पावत्या"
@@ -6667,13 +6667,13 @@
     "messageformat": "तारीख भरली"
   },
   "icu:DonateFlow__make-a-one-time-donation": {
-    "messageformat": "Make a one time donation"
+    "messageformat": "एक-वेळ देणगी द्या"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "Only one time donations are available on desktop. Monthly donations can be made on your mobile device."
+    "messageformat": "डेस्कटॉपवरून केवळ एक-वेळ देणगीचा पर्यायच उपलब्ध आहे. मासिक देणग्या तुमच्या मोबाईल डिव्हाईसवरून करता येतात."
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>"
+    "messageformat": "अडचणी येत आहेत? <contactSupportLink>सपोर्ट शी संपर्क साधा</contactSupportLink>"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "देणगीची पावती"
@@ -6694,22 +6694,22 @@
     "messageformat": "Signal ला समर्थन दिल्याबद्दल धन्यवाद. तुमचे योगदान ओपन सोर्स गोपनीयता तंत्रज्ञानामार्फत मुक्त अभिव्यक्तीचे रक्षण करण्यास आणि जगभरातील लक्षावधी लोकांना जागतिक पातळीवर एकमेकांशी संपर्क साधण्यास मदत करते. जर तुम्ही युनायटेड स्टेट्सचे रहिवासी असाल, तर कृपया तुमच्या कर नोंदींसाठी ही पावती जपून ठेवा. सिग्नल टेक्नॉलॉजी फाऊंडेशन ही इंटर्नल रेव्हेन्यू कोडच्या कलम 501c3 अंतर्गत युनायटेड स्टेट्समधील एक करमुक्त ना-नफा संस्था आहे. आमचा फेडरल कर क्रमांक आहे 82-4506840."
   },
   "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donation cancelled"
+    "messageformat": "देणगी प्रक्रिया रद्द झाली"
   },
   "icu:Donations__Toast__Completed": {
-    "messageformat": "Donation completed"
+    "messageformat": "देणगी प्रक्रिया पूर्ण झाली"
   },
   "icu:Donations__Toast__Error": {
-    "messageformat": "Error processing donation"
+    "messageformat": "देणगीवर प्रक्रिया करताना त्रुटी आली"
   },
   "icu:Donations__Toast__Processing": {
-    "messageformat": "Processing donation"
+    "messageformat": "देणगीवर प्रक्रिया होत आहे"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "Verification failed"
+    "messageformat": "सत्यापन अयशस्वी"
   },
   "icu:Donations__Toast__VerificationNeeded": {
-    "messageformat": "You have a donation in progress that needs additional verification."
+    "messageformat": "तुमच्या एका देणगीवर प्रक्रिया सुरु आहे जिची अतिरिक्त पडताळणी होणे आवश्यक आहे."
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "पेमेंट करायची पद्धत नाकारण्यात आली"
@@ -6742,7 +6742,7 @@
     "messageformat": "अतिरिक्त सत्यापन आवश्यक आहे"
   },
   "icu:Donations__3dsValidationNeeded--waiting": {
-    "messageformat": "Waiting for verification"
+    "messageformat": "पडताळणीच्या प्रतीक्षेत"
   },
   "icu:Donations__3dsValidationNeeded__Description": {
     "messageformat": "तुमच्या क्रेडिट कार्ड प्रसृतकर्त्याला वेब ब्राऊझरमध्ये आणखी एक पडताळणीची पायरी पूर्ण करून घ्यावी लागते."
@@ -6751,10 +6751,10 @@
     "messageformat": "ब्राऊझर उघडा"
   },
   "icu:Donations__3dsValidationNeeded__OpenBrowser--opened": {
-    "messageformat": "Re-open browser"
+    "messageformat": "ब्राऊझर पुन्हा उघडा"
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
-    "messageformat": "Cancel donation"
+    "messageformat": "देणगी रद्द करा"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal निर्विघ्नपणे चालत ठेवण्यासाठी या आवृत्तीत अनेक लहान समन्वय आणि त्रुटी दुरुस्त्या समाविष्ट आहेत",
@@ -6785,6 +6785,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough."
+    "messageformat": "आम्ही मल्टिटास्किंग करताना संदेश वाचण्याचा / न वाचण्याचा अनुभव सुधारला आहे, आणि चपखल बसणारी इमोजी प्रतिक्रिया शोधताना तुम्ही स्पेस बार दाबल्यावर कधीकधी मोठा इमेज दर्शक चुकून उघडणारा बग दुरुस्त केला. तुम्ही इमेजवर क्लिक केल्यास किंवा तुम्ही पटकन टाईप केल्यास तुम्ही अजूनही झूम करू शकता."
+  },
+  "icu:WhatsNew__v7.65--0": {
+    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
   }
 }

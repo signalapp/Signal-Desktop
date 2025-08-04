@@ -420,15 +420,15 @@ export function CallsList({
       return;
     }
 
-    if (isGroupOrAdhocCallMode(callMode)) {
-      peekQueueArgsRef.current.set(peerId, {
-        callMode,
-        conversationId: peerId,
-      });
-      queue.add(peerId);
-    } else {
-      log.error(`Trying to peek unsupported call mode ${callMode}`);
+    if (!isGroupOrAdhocCallMode(callMode)) {
+      return;
     }
+
+    peekQueueArgsRef.current.set(peerId, {
+      callMode,
+      conversationId: peerId,
+    });
+    queue.add(peerId);
   }, []);
 
   // Get the oldest inserted peerIds by iterating the Set in insertion order.

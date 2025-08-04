@@ -21,6 +21,8 @@ export const donationErrorTypeSchema = z.enum([
   'GeneralError',
   // Any 4xx error when adding payment method or confirming intent
   'PaymentDeclined',
+  // When it's been too long since the last step of the donation, and card wasn't charged
+  'TimedOut',
 ]);
 export type DonationErrorType = z.infer<typeof donationErrorTypeSchema>;
 

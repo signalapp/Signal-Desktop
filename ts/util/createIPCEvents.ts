@@ -291,7 +291,7 @@ export function createIPCEvents(
         );
         return true;
       } catch {
-        log.info('requestCloseConfirmation: Close cancelled by user.');
+        log.info('requestCloseConfirmation: Close canceled by user.');
         return false;
       }
     },

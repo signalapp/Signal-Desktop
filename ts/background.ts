@@ -1444,7 +1444,12 @@ export async function startApp(): Promise<void> {
 
   async function enableStorageService({ andSync }: { andSync?: string } = {}) {
     log.info('enableStorageService: waiting for backupReady');
-    await backupReady.promise;
+    try {
+      await backupReady.promise;
+    } catch (error) {
+      log.warn('enableStorageService: backup is not ready; returning early');
+      return;
+    }
 
     log.info('enableStorageService: enabling and running');
     StorageService.enableStorageService();
@@ -1512,7 +1517,7 @@ export async function startApp(): Promise<void> {
     );
     if (!window.textsecure.storage.user.getAci()) {
       log.info(
-        "Expiration start timestamp cleanup: Cancelling update; we don't have our own UUID"
+        "Expiration start timestamp cleanup: Canceling update; we don't have our own UUID"
       );
     } else if (messagesUnexpectedlyMissingExpirationStartTimestamp.length) {
       const newMessageAttributes =

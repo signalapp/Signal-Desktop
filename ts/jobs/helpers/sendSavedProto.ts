@@ -61,7 +61,7 @@ export async function sendSavedProto(
   const serviceId = conversation.getServiceId();
   if (!serviceId) {
     log.info(
-      `conversation ${conversation.idForLogging()} was missing serviceId, cancelling job.`
+      `conversation ${conversation.idForLogging()} was missing serviceId, canceling job.`
     );
     return;
   }
@@ -101,7 +101,7 @@ export async function sendSavedProto(
       error instanceof UnregisteredUserError
     ) {
       log.info(
-        'Send failure was OutgoingIdentityKeyError or UnregisteredUserError. Cancelling job.'
+        'Send failure was OutgoingIdentityKeyError or UnregisteredUserError. Canceling job.'
       );
       return;
     }

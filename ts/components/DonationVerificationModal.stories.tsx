@@ -8,6 +8,7 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './DonationVerificationModal';
 import { DonationVerificationModal } from './DonationVerificationModal';
+import { SECOND } from '../util/durations';
 
 const { i18n } = window.SignalContext;
 
@@ -19,8 +20,13 @@ const defaultProps = {
   i18n,
   onCancelDonation: action('onCancelDonation'),
   onOpenBrowser: action('onOpenBrowser'),
+  onTimedOut: action('onTimedOut'),
 };
 
 export function Default(): JSX.Element {
   return <DonationVerificationModal {...defaultProps} />;
+}
+
+export function FiveSecondTimeout(): JSX.Element {
+  return <DonationVerificationModal {...defaultProps} _timeout={5 * SECOND} />;
 }

@@ -68,6 +68,7 @@ import { FunStickerPicker } from './fun/FunStickerPicker';
 import type { FunStickerSelection } from './fun/panels/FunPanelStickers';
 import { drop } from '../util/drop';
 import type { FunTimeStickerStyle } from './fun/constants';
+import * as Errors from '../types/errors';
 
 const log = createLogger('MediaEditor');
 
@@ -360,9 +361,20 @@ export function MediaEditor({
       setImageState(newImageState);
       takeSnapshot('initial state', newImageState, canvas);
     };
-    img.onerror = () => {
+    img.onerror = (
+      event: Event | string,
+      source?: string,
+      line?: number,
+      column?: number,
+      error?: Error
+    ) => {
       // This is a bad experience, but it should be impossible.
-      log.error('<MediaEditor>: image failed to load. Closing');
+      log.error(
+        '<MediaEditor>: image failed to load. Closing',
+        event,
+        Errors.toLocation(source, line, column),
+        Errors.toLogFormat(error)
+      );
       onClose();
     };
     img.src = imageSrc;

@@ -73,14 +73,14 @@ export async function sendSenderKeyDistribution(
 
   if (!distributionId) {
     log.info(
-      `group ${group?.idForLogging()} had no distributionid, cancelling job.`
+      `group ${group?.idForLogging()} had no distributionid, canceling job.`
     );
     return;
   }
 
   if (!serviceId) {
     log.info(
-      `conversation ${conversation.idForLogging()} was missing serviceId, cancelling job.`
+      `conversation ${conversation.idForLogging()} was missing serviceId, canceling job.`
     );
     return;
   }
@@ -106,7 +106,7 @@ export async function sendSenderKeyDistribution(
       error instanceof UnregisteredUserError
     ) {
       log.info(
-        'Send failure was NoSenderKeyError, OutgoingIdentityKeyError or UnregisteredUserError. Cancelling job.'
+        'Send failure was NoSenderKeyError, OutgoingIdentityKeyError or UnregisteredUserError. Canceling job.'
       );
       return;
     }

@@ -27,6 +27,7 @@ import {
 } from './useFunEmojiSearch';
 import type { LocalizerType } from '../../types/I18N';
 import { strictAssert } from '../../util/assert';
+import { isTestOrMockEnvironment } from '../../environment';
 
 const log = createLogger('FunEmojiLocalizationProvider');
 
@@ -101,6 +102,9 @@ function useLocaleEmojiList(i18n: LocalizerType): LocaleEmojiListType | null {
   useEffect(() => {
     let canceled = false;
     async function run(): Promise<void> {
+      if (isTestOrMockEnvironment()) {
+        return;
+      }
       try {
         const list = await window.SignalContext.getLocalizedEmojiList(locale);
         if (!canceled) {

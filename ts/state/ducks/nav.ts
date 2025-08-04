@@ -61,7 +61,7 @@ export function changeLocation(
       });
 
     if (needToCancel) {
-      log.info(`${logId}: Cancelling navigation`);
+      log.info(`${logId}: Canceling navigation`);
       return;
     }
 
