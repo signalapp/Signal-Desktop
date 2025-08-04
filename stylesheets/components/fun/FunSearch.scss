@@ -43,6 +43,7 @@ $input-padding-inline: 12px;
     $input-padding-inline + $icon-actual-size + $icon-margin-inline-start
   );
   @include mixins.font-body-1;
+  color: light-dark(variables.$color-black, variables.$color-white);
   background: light-dark(variables.$color-gray-05, variables.$color-gray-80);
 
   &:focus {

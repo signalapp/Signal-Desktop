@@ -5,8 +5,8 @@ import '../ts/window.d.ts';
 
 import React, { StrictMode } from 'react';
 
-import 'sanitize.css';
 import '../stylesheets/manifest.scss';
+import '../ts/axo/tailwind.css';
 
 import * as styles from './styles.scss';
 import messages from '../_locales/en/messages.json';

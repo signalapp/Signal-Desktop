@@ -20,6 +20,7 @@
     padding-inline: 12px 32px;
     text-overflow: ellipsis;
     width: 100%;
+    color: variables.$color-black;
 
     @include mixins.dark-theme {
       background-color: variables.$color-gray-90;

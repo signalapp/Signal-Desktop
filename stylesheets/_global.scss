@@ -7,6 +7,8 @@
 html {
   height: 100%;
   cursor: inherit;
+  // Legacy style from sanitize.css:
+  overflow-wrap: break-word;
 }
 
 .light-theme {
@@ -157,10 +159,13 @@ audio {
 }
 
 button {
-  cursor: pointer;
   font-size: inherit;
   -webkit-app-region: no-drag;
 }
+button:not(:disabled) {
+  cursor: pointer;
+}
+
 button.grey {
   border-radius: 5px;
   border: solid 1px variables.$color-gray-25;

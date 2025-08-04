@@ -17,6 +17,7 @@ ts/**/*.js
 ts/protobuf/*.d.ts
 ts/protobuf/*.js
 stylesheets/manifest.css
+stylesheets/tailwind.css
 ts/util/lint/exceptions.json
 storybook-static
 build/locale-display-names.json
