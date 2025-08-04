@@ -405,17 +405,9 @@ const getReactionsForMessage = (
   { reactions = [] }: MessageWithUIFieldsType,
   { conversationSelector }: { conversationSelector: GetConversationByIdType }
 ) => {
-  const reactionBySender = new Map<string, MessageReactionType>();
-  for (const reaction of reactions) {
-    const existingReaction = reactionBySender.get(reaction.fromId);
-    if (!existingReaction || reaction.timestamp > existingReaction.timestamp) {
-      reactionBySender.set(reaction.fromId, reaction);
-    }
-  }
-
-  const reactionsWithEmpties = reactionBySender.values();
+  // Just display all reactions - duplicates are now prevented at storage level
   const reactionsWithEmoji = iterables.filter(
-    reactionsWithEmpties,
+    reactions,
     re => re.emoji
   );
   const formattedReactions = iterables.map(reactionsWithEmoji, re => {

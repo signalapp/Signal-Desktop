@@ -126,10 +126,20 @@ export async function enqueueReactionForSend({
   const ourId = window.ConversationController.getOurConversationIdOrThrow();
   const hasMultipleEmojiReactions = window.storage.get('multipleEmojiReactions', false);
 
+  // Check if we already have this emoji (for toggle behavior)
+  const existingReactions = message.get('reactions') || [];
+  const alreadyHasThisEmoji = existingReactions.some(
+    r => r.fromId === ourId && r.emoji === emoji
+  );
+
+  // If we already have this emoji and not explicitly removing, toggle it off
+  if (!remove && alreadyHasThisEmoji) {
+    remove = true;
+  }
+
   // If adding a reaction and multiple reactions are disabled,
   // first remove all our existing reactions
   if (!remove && !hasMultipleEmojiReactions) {
-    const existingReactions = message.get('reactions') || [];
     const ourReactions = existingReactions.filter(r => r.fromId === ourId);
     
     log.info('Single reaction mode - removing existing reactions before adding new one:', {
