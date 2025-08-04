@@ -577,6 +577,47 @@ DonationsDonateFlow.args = {
       showToast: action('showToast'),
     }),
 };
+export const DonationReceipts = Template.bind({});
+DonationReceipts.args = {
+  donationsFeatureEnabled: true,
+  page: SettingsPage.DonationsDonateFlow,
+  renderDonationsPane: ({
+    contentsRef,
+  }: {
+    contentsRef: MutableRefObject<HTMLDivElement | null>;
+    page: SettingsPage;
+    setPage: (page: SettingsPage) => void;
+  }) =>
+    renderDonationsPane({
+      contentsRef,
+      me,
+      donationReceipts: [
+        {
+          id: '9f9288a1-acb6-4d2e-a4fe-0a736a318a26',
+          currencyType: 'usd',
+          paymentAmount: 1000,
+          timestamp: 1754000413436,
+        },
+        {
+          id: '22defee0-8797-4a49-bac8-1673232706fa',
+          currencyType: 'jpy',
+          paymentAmount: 1000,
+          timestamp: 1753995255509,
+        },
+      ],
+      page: SettingsPage.DonationsReceiptList,
+      setPage: action('setPage'),
+      saveAttachmentToDisk: async () => {
+        action('saveAttachmentToDisk')();
+        return { fullPath: '/mock/path/to/file.png', name: 'file.png' };
+      },
+      generateDonationReceiptBlob: async () => {
+        action('generateDonationReceiptBlob')();
+        return new Blob();
+      },
+      showToast: action('showToast'),
+    }),
+};
 export const Internal = Template.bind({});
 Internal.args = {
   page: SettingsPage.Internal,
