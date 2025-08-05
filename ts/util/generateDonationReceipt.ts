@@ -23,6 +23,7 @@ const COLORS = {
 
 /**
  * Helper function to scale font sizes, heights, and letter spacing for the receipt
+ * NOTE: letterSpacing does not work for arabic, breaks the script
  * @param params - Object containing original values to scale
  * @param params.fontSize - Original font size in pixels
  * @param params.height - Optional original height/margin/padding in pixels
@@ -90,6 +91,14 @@ const SIGNAL_LOGO_SVG = `<svg width="417" height="121" viewBox="0 0 560 160" fil
 </svg>
 `;
 
+const SPLIT_BY_GRAPHEME_LOCALES = new Set([
+  'ja',
+  'ko',
+  'zh-CN',
+  'zh-Hant',
+  'zh-HK',
+]);
+
 export async function generateDonationReceiptBlob(
   receipt: DonationReceipt,
   i18n: LocalizerType
@@ -104,9 +113,23 @@ export async function generateDonationReceiptBlob(
 
   const fontFamily = 'Inter';
 
+  // Fabric does word wrap on long strings (such as the footer text) by spaces, however
+  // it doesn't work for languages without spaces such as Chinese. We use Fabric's
+  // suggested workaround to use the splitByGrapheme option.
+  const splitByGrapheme = SPLIT_BY_GRAPHEME_LOCALES.has(i18n.getLocale());
+
+  const direction = i18n.getLocaleDirection();
+  const isRTL = direction === 'rtl';
+  const textAlignInlineStart = isRTL ? 'right' : 'left';
+
   const paddingTop = 70 * SCALING_FACTOR;
   const paddingX = 66 * SCALING_FACTOR;
   const contentWidth = width - paddingX * 2;
+  const originXStart = isRTL ? 'right' : 'left';
+  const originXEnd = isRTL ? 'left' : 'right';
+
+  const leftInlineStart = isRTL ? width - paddingX : paddingX;
+  const leftInlineEnd = isRTL ? paddingX : width - paddingX;
 
   let currentY = paddingTop;
 
@@ -121,7 +144,9 @@ export async function generateDonationReceiptBlob(
 
       // Position the logo
       fabricImg.set({
-        left: paddingX,
+        left: isRTL
+          ? leftInlineStart - (fabricImg.width ?? 0)
+          : leftInlineStart,
         top: currentY,
       });
 
@@ -133,18 +158,20 @@ export async function generateDonationReceiptBlob(
 
   const dateFormatter = getDateTimeFormatter({
     month: 'short',
-    day: '2-digit',
+    day: 'numeric',
     year: 'numeric',
   });
   const dateStr = dateFormatter.format(new Date());
   const dateText = new fabric.Text(dateStr, {
-    left: width - paddingX,
+    left: leftInlineEnd,
     top: currentY + (logo.height ?? 0),
     fontFamily,
     fill: COLORS.GRAY_60,
-    originX: 'right',
+    direction,
+    originX: originXEnd,
     originY: 'bottom',
-    ...scaleValues({ fontSize: 12, letterSpacing: -0.03 }),
+    textAlign: textAlignInlineStart,
+    ...scaleValues({ fontSize: 12 }),
   });
   canvas.add(dateText);
 
@@ -163,11 +190,14 @@ export async function generateDonationReceiptBlob(
 
   currentY += 167;
   const title = new fabric.Text(i18n('icu:DonationReceipt__title'), {
-    left: paddingX,
+    left: leftInlineStart,
     top: currentY,
     fontFamily,
     fill: COLORS.GRAY_90,
-    ...scaleValues({ fontSize: 20, letterSpacing: -0.34 }),
+    direction,
+    originX: originXStart,
+    textAlign: textAlignInlineStart,
+    ...scaleValues({ fontSize: 20 }),
   });
   canvas.add(title);
   strictAssert(title.height != null, 'Title height must be defined');
@@ -177,11 +207,14 @@ export async function generateDonationReceiptBlob(
   const amountLabel = new fabric.Text(
     i18n('icu:DonationReceipt__amount-label'),
     {
-      left: paddingX,
+      left: leftInlineStart,
       top: currentY,
       fontFamily,
       fill: COLORS.GRAY_90,
-      ...scaleValues({ fontSize: 14, letterSpacing: -0.34 }),
+      direction,
+      originX: originXStart,
+      textAlign: textAlignInlineStart,
+      ...scaleValues({ fontSize: 14 }),
     }
   );
   canvas.add(amountLabel);
@@ -193,12 +226,13 @@ export async function generateDonationReceiptBlob(
     showInsignificantFractionDigits: true,
   });
   const amountValue = new fabric.Text(amountStr, {
-    left: width - paddingX,
+    left: leftInlineEnd,
     top: currentY,
     fontFamily,
     fill: COLORS.GRAY_90,
-    originX: 'right',
-    ...scaleValues({ fontSize: 14, letterSpacing: -0.34 }),
+    direction,
+    originX: originXEnd,
+    ...scaleValues({ fontSize: 14 }),
   });
   canvas.add(amountValue);
 
@@ -233,11 +267,13 @@ export async function generateDonationReceiptBlob(
   // Detail row 1 - Type (padding: 50px 0)
   currentY += 12 * SCALING_FACTOR;
   const typeLabel = new fabric.Text(i18n('icu:DonationReceipt__type-label'), {
-    left: paddingX,
+    left: leftInlineStart,
     top: currentY,
     fontFamily,
     fill: COLORS.GRAY_95,
-    ...scaleValues({ fontSize: 14, letterSpacing: -0.34 }),
+    direction,
+    originX: originXStart,
+    ...scaleValues({ fontSize: 14 }),
   });
   canvas.add(typeLabel);
 
@@ -246,11 +282,13 @@ export async function generateDonationReceiptBlob(
   const typeValue = new fabric.Text(
     i18n('icu:DonationReceipt__type-value--one-time'),
     {
-      left: paddingX,
+      left: leftInlineStart,
       top: currentY,
       fontFamily,
       fill: COLORS.GRAY_45,
-      ...scaleValues({ fontSize: 12, letterSpacing: -0.08 }),
+      direction,
+      originX: originXStart,
+      ...scaleValues({ fontSize: 12 }),
     }
   );
   canvas.add(typeValue);
@@ -273,11 +311,13 @@ export async function generateDonationReceiptBlob(
   const dateLabel = new fabric.Text(
     i18n('icu:DonationReceipt__date-paid-label'),
     {
-      left: paddingX,
+      left: leftInlineStart,
       top: currentY,
       fontFamily,
       fill: COLORS.GRAY_95,
-      ...scaleValues({ fontSize: 14, letterSpacing: -0.34 }),
+      direction,
+      originX: originXStart,
+      ...scaleValues({ fontSize: 14 }),
     }
   );
   canvas.add(dateLabel);
@@ -291,11 +331,13 @@ export async function generateDonationReceiptBlob(
   });
   const paymentDate = paymentDateFormatter.format(new Date(receipt.timestamp));
   const dateValue = new fabric.Text(paymentDate, {
-    left: paddingX,
+    left: leftInlineStart,
     top: currentY,
     fontFamily,
     fill: COLORS.GRAY_45,
-    ...scaleValues({ fontSize: 12, letterSpacing: -0.08 }),
+    direction,
+    originX: originXStart,
+    ...scaleValues({ fontSize: 12 }),
   });
   canvas.add(dateValue);
   strictAssert(dateValue.height != null, 'Date value height must be defined');
@@ -305,12 +347,16 @@ export async function generateDonationReceiptBlob(
   const footerText = i18n('icu:DonationReceipt__footer-text');
 
   const footer = new fabric.Textbox(footerText, {
-    left: paddingX,
+    left: leftInlineStart,
     top: currentY,
     width: contentWidth,
     fontFamily,
     fill: COLORS.GRAY_60,
     lineHeight: 1.45,
+    direction,
+    originX: originXStart,
+    splitByGrapheme,
+    textAlign: textAlignInlineStart,
     ...scaleValues({ fontSize: 11 }),
   });
   canvas.add(footer);
