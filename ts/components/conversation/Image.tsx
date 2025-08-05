@@ -179,7 +179,7 @@ export function Image({
       intrinsicWidth={attachment.width}
       intrinsicHeight={attachment.height}
       src={url}
-      blurHash={resolvedBlurHash}
+      blurHash={noBackground && url ? undefined : resolvedBlurHash}
     />
   );
 
