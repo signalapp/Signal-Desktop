@@ -293,6 +293,8 @@ describe('SignalProtocolStore', () => {
     it('should not deadlock', async () => {
       const newIdentity = getPublicKey();
       const zone = new Zone('zone', {
+        pendingKyberPreKeysToRemove: true,
+        pendingPreKeysToRemove: true,
         pendingSenderKeys: true,
         pendingSessions: true,
         pendingUnprocessed: true,
@@ -1230,6 +1232,8 @@ describe('SignalProtocolStore', () => {
   describe('zones', () => {
     const distributionId = generateUuid();
     const zone = new Zone('zone', {
+      pendingKyberPreKeysToRemove: true,
+      pendingPreKeysToRemove: true,
       pendingSenderKeys: true,
       pendingSessions: true,
       pendingUnprocessed: true,
