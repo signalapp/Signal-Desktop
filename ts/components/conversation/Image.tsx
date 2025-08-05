@@ -232,6 +232,7 @@ export function Image({
       className={classNames(
         'module-image',
         className,
+        attachment.path ? 'module-image--loaded' : null,
         !noBackground ? 'module-image--with-background' : null,
         cropWidth || cropHeight ? 'module-image--cropped' : null
       )}

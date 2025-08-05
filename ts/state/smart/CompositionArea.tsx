@@ -127,13 +127,15 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
   const {
     attachments: draftAttachments,
     focusCounter,
-    isDisabled,
+    disabledCounter,
     linkPreviewLoading,
     linkPreviewResult,
     messageCompositionId,
     sendCounter,
     shouldSendHighQualityAttachments,
   } = composerState;
+
+  const isDisabled = disabledCounter > 0;
 
   const areSelectedMessagesForwardable = useMemo(() => {
     return selectedMessageIds?.every(messageId => {

@@ -335,16 +335,15 @@ export async function composerAttachImages(
   const AttachmentInput = page.getByTestId('attachfile-input');
 
   const AttachmentsList = page.locator('.module-attachments');
-  const AttachmentsListImage = AttachmentsList.locator('.module-image');
-  const AttachmentsListImageLoaded = AttachmentsListImage.locator(
-    '.module-image__image'
+  const AttachmentsListImageLoaded = AttachmentsList.locator(
+    '.module-image--loaded'
   );
 
   debug('setting input files');
   await AttachmentInput.setInputFiles(filePaths);
 
   debug(`waiting for ${filePaths.length} items`);
-  await AttachmentsListImage.nth(filePaths.length - 1).waitFor();
+  await AttachmentsListImageLoaded.nth(filePaths.length - 1).waitFor();
 
   await Promise.all(
     filePaths.map(async (_, index) => {
