@@ -10,6 +10,8 @@ const BUNDLES_DIR = 'bundles';
 
 const watch = process.argv.some(argv => argv === '-w' || argv === '--watch');
 const isProd = process.argv.some(argv => argv === '-prod' || argv === '--prod');
+const noBundle = process.argv.some(argv => argv === '--no-bundle');
+const noScripts = process.argv.some(argv => argv === '--no-scripts');
 
 const nodeDefaults = {
   platform: 'node',
@@ -84,16 +86,27 @@ const sandboxedBrowserDefaults = {
 };
 
 async function build({ appConfig, preloadConfig }) {
-  const app = await esbuild.context(appConfig);
-  const preload = await esbuild.context(preloadConfig);
+  let app;
+  let preload;
+
+  if (!noScripts) {
+    app = await esbuild.context(appConfig);
+  }
+  if (!noBundle) {
+    preload = await esbuild.context(preloadConfig);
+  }
 
   if (watch) {
-    await Promise.all([app.watch(), preload.watch()]);
+    await Promise.all([app && app.watch(), preload && preload.watch()]);
   } else {
-    await Promise.all([app.rebuild(), preload.rebuild()]);
+    await Promise.all([app && app.rebuild(), preload && preload.rebuild()]);
 
-    await app.dispose();
-    await preload.dispose();
+    if (app) {
+      await app.dispose();
+    }
+    if (preload) {
+      await preload.dispose();
+    }
   }
 }
 
