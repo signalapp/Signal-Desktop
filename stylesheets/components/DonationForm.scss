@@ -56,10 +56,9 @@ a.DonationFormHelpFooter__ContactSupportLink {
 }
 
 .DonationAmountPicker__PresetButton,
-.DonationForm.PreferencesDonations
-  .DonationAmountPicker__CustomInput__container,
-.DonationForm .DonationAmountPicker__CustomInput--selected__container,
-.DonationForm .DonationAmountPicker__CustomInput--with-error__container {
+.DonationForm.PreferencesDonations .DonationAmountPicker__CustomInput,
+.DonationForm .DonationAmountPicker__CustomInput--selected,
+.DonationForm .DonationAmountPicker__CustomInput--with-error {
   margin-block: 5px;
   margin-inline: 5px;
   border-width: 0.5px;
@@ -70,12 +69,10 @@ a.DonationFormHelpFooter__ContactSupportLink {
 
 .DonationAmountPicker__PresetButton,
 .DonationForm .DonationForm__CurrencySelect.module-select select,
+.DonationForm.PreferencesDonations .DonationAmountPicker__CustomInput,
+.DonationForm.PreferencesDonations .DonationAmountPicker__CustomInput--selected,
 .DonationForm.PreferencesDonations
-  .DonationAmountPicker__CustomInput__container,
-.DonationForm.PreferencesDonations
-  .DonationAmountPicker__CustomInput--selected__container,
-.DonationForm.PreferencesDonations
-  .DonationAmountPicker__CustomInput--with-error__container {
+  .DonationAmountPicker__CustomInput--with-error {
   background-color: light-dark(
     variables.$color-white,
     variables.$color-gray-85
@@ -97,40 +94,38 @@ a.DonationFormHelpFooter__ContactSupportLink {
 }
 
 .DonationAmountPicker__PresetButton--selected,
-.DonationForm .DonationAmountPicker__CustomInput--selected__container,
-.DonationForm
-  .DonationAmountPicker__CustomInput--with-error__container:focus-within,
-.DonationForm .DonationAmountPicker__CustomInput__container:focus-within {
+.DonationForm .DonationAmountPicker__CustomInput--selected,
+.DonationForm .DonationAmountPicker__CustomInput--with-error:focus,
+.DonationForm .DonationAmountPicker__CustomInput:focus {
   border-color: variables.$color-ultramarine;
   outline: 2.5px solid variables.$color-ultramarine;
   outline-offset: -2.5px;
 }
 
-.DonationForm .DonationAmountPicker__CustomInput__container,
-.DonationForm .DonationAmountPicker__CustomInput--selected__container,
-.DonationForm .DonationAmountPicker__CustomInput--with-error__container {
+.DonationForm .DonationAmountPicker__CustomInput,
+.DonationForm .DonationAmountPicker__CustomInput--selected,
+.DonationForm .DonationAmountPicker__CustomInput--with-error {
   width: 320px;
   padding-block: 0;
   border-width: 0.5px;
 }
 
-.DonationForm
-  .DonationAmountPicker__CustomInput--with-error__container:not(:focus-within) {
+.DonationForm .DonationAmountPicker__CustomInput--with-error:not(:focus) {
   border-color: variables.$color-deep-red;
   outline: 2.5px solid variables.$color-deep-red;
   outline-offset: -2.5px;
 }
 
-.DonationForm .DonationAmountPicker__CustomInput__input,
-.DonationForm .DonationAmountPicker__CustomInput--selected__input,
-.DonationForm .DonationAmountPicker__CustomInput--with-error__input {
+.DonationForm .DonationAmountPicker__CustomInput,
+.DonationForm .DonationAmountPicker__CustomInput--selected,
+.DonationForm .DonationAmountPicker__CustomInput--with-error {
   @include mixins.font-body-1;
   padding-inline: 12px;
   padding-block: 14px;
   text-align: center;
 }
 
-.DonationAmountPicker__CustomInput__input:not(:focus)::placeholder {
+.DonationAmountPicker__CustomInput:not(:focus)::placeholder {
   color: light-dark(
     variables.$color-black-alpha-85,
     variables.$color-white-alpha-85
@@ -138,9 +133,9 @@ a.DonationFormHelpFooter__ContactSupportLink {
   opacity: 1;
 }
 
-.DonationAmountPicker__CustomInput__input:focus::placeholder,
-.DonationAmountPicker__CustomInput--selected__input:focus::placeholder,
-.DonationAmountPicker__CustomInput--with-error__input:focus::placeholder {
+.DonationAmountPicker__CustomInput:focus::placeholder,
+.DonationAmountPicker__CustomInput--selected:focus::placeholder,
+.DonationAmountPicker__CustomInput--with-error:focus::placeholder {
   color: transparent;
 }
 

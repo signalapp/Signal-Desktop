@@ -1488,6 +1488,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/preferences/donations/DonateInputAmount.tsx",
+    "line": "  const inputRef = useRef<HTMLInputElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-08-01T20:31:42.993Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/preferences/donations/DonateInputCardCvc.tsx",
     "line": "  const inputRef = useRef<HTMLInputElement>(null);",
     "reasonCategory": "usageTrusted",

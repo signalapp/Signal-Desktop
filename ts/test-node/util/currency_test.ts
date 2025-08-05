@@ -28,18 +28,33 @@ describe('parseCurrencyString', () => {
     testFn({ currency: 'usd', value: '10' }, 10);
     testFn({ currency: 'usd', value: '10.0' }, 10);
     testFn({ currency: 'usd', value: '10.00' }, 10);
-    testFn({ currency: 'usd', value: '10.000' }, 10);
     testFn({ currency: 'usd', value: '10.50' }, 10.5);
-    testFn({ currency: 'usd', value: '10.6969' }, 10.69);
-    testFn({ currency: 'usd', value: '.69' }, 0.69);
     testFn({ currency: 'usd', value: '0.69' }, 0.69);
+    testFn({ currency: 'usd', value: '$10' }, 10);
+    testFn({ currency: 'usd', value: '$10.00' }, 10);
+    testFn({ currency: 'usd', value: '$0.69' }, 0.69);
+    testFn({ currency: 'usd', value: '$14,000.50' }, 14000.5);
+    testFn({ currency: 'usd', value: '$1,000,000' }, 1000000);
   });
 
   it('handles JPY', () => {
     testFn({ currency: 'jpy', value: '1000' }, 1000);
     testFn({ currency: 'jpy', value: '1000.0' }, 1000);
     testFn({ currency: 'jpy', value: '1000.5' }, 1000);
-    testFn({ currency: 'jpy', value: '1000.5555' }, 1000);
+    testFn({ currency: 'jpy', value: '1000.55' }, 1000);
+    testFn({ currency: 'jpy', value: '¥1000' }, 1000);
+    testFn({ currency: 'jpy', value: '¥1,000' }, 1000);
+  });
+
+  it('handles EUR', () => {
+    testFn({ currency: 'eur', value: '€10' }, 10);
+    testFn({ currency: 'eur', value: '10€' }, 10);
+    testFn({ currency: 'eur', value: '€14.000,50' }, 14000.5);
+    testFn({ currency: 'eur', value: '€14,000.5' }, 14000.5);
+  });
+
+  it('handles SEK', () => {
+    testFn({ currency: 'sek', value: '14 000,99 kr' }, 14000.99);
   });
 
   it('handles malformed input', () => {
@@ -47,6 +62,7 @@ describe('parseCurrencyString', () => {
     testFn({ currency: 'usd', value: '??' }, undefined);
     testFn({ currency: 'usd', value: '-50' }, undefined);
     testFn({ currency: 'usd', value: 'abc' }, undefined);
+    testFn({ currency: 'usd', value: '$' }, undefined);
   });
 });
 

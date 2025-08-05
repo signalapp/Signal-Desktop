@@ -8878,6 +8878,10 @@
     "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>",
     "description": "In the Donations settings section, this footer text appears during parts of the donation workflow such as when picking a donation currency and amount, or entering the credit card info."
   },
+  "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
+    "messageformat": "Enter Custom Amount",
+    "description": "When selecting currency and amount for a donation, this is the placeholder text in the custom amount input box."
+  },
   "icu:DonateFlow__credit-or-debit-card": {
     "messageformat": "Credit or Debit Card",
     "description": "When entering payment card details for a donation, this heading indicates the section for credit or debit cards."

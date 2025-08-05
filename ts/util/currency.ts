@@ -1,6 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import parseCurrency from 'parsecurrency';
 import type {
   HumanDonationAmount,
   DonationReceipt,
@@ -38,16 +39,31 @@ export function parseCurrencyString({
   currency: string;
   value: string;
 }): HumanDonationAmount | undefined {
-  const valueAsFloat = parseFloat(value);
+  // Known issues with parseCurrency:
+  // Triple decimal interpreted as a thousands group separator e.g. 1.000 -> 1000
+  // Decimals must have leading 0 or else are parsed as integers e.g. .42 -> 42
+  const { value: parsedCurrencyValue } = parseCurrency(value) ?? {};
+  if (!parsedCurrencyValue) {
+    return;
+  }
+
   const truncatedAmount = ZERO_DECIMAL_CURRENCIES.has(currency.toLowerCase())
-    ? Math.trunc(valueAsFloat)
-    : Math.trunc(valueAsFloat * 100) / 100;
+    ? Math.trunc(parsedCurrencyValue)
+    : Math.trunc(parsedCurrencyValue * 100) / 100;
+
   const parsed = safeParseStrict(humanDonationAmountSchema, truncatedAmount);
   if (!parsed.success) {
     return;
   }
 
   return parsed.data;
+}
+
+function getLocales(): Intl.LocalesArgument {
+  const preferredSystemLocales =
+    window.SignalContext.getPreferredSystemLocales();
+  const localeOverride = window.SignalContext.getLocaleOverride();
+  return localeOverride != null ? [localeOverride] : preferredSystemLocales;
 }
 
 // Takes a donation amount and currency and returns a human readable currency string
@@ -67,17 +83,11 @@ export function toHumanCurrencyString({
   }
 
   try {
-    const preferredSystemLocales =
-      window.SignalContext.getPreferredSystemLocales();
-    const localeOverride = window.SignalContext.getLocaleOverride();
-    const locales =
-      localeOverride != null ? [localeOverride] : preferredSystemLocales;
-
     const fractionOptions =
       showInsignificantFractionDigits || amount % 1 !== 0
         ? {}
         : { minimumFractionDigits: 0 };
-    const formatter = new Intl.NumberFormat(locales, {
+    const formatter = new Intl.NumberFormat(getLocales(), {
       style: 'currency',
       currency,
       ...fractionOptions,
@@ -85,6 +95,57 @@ export function toHumanCurrencyString({
     return formatter.format(amount);
   } catch {
     return '';
+  }
+}
+
+export type CurrencyFormatResult = {
+  decimal: string | undefined;
+  group: string | undefined;
+  symbol: string;
+  symbolPrefix: string;
+  symbolSuffix: string;
+};
+
+export function getCurrencyFormat(
+  currency: string
+): CurrencyFormatResult | undefined {
+  if (currency == null) {
+    return;
+  }
+
+  try {
+    const formatter = new Intl.NumberFormat(getLocales(), {
+      style: 'currency',
+      currency,
+      currencyDisplay: 'narrowSymbol',
+    });
+
+    let symbol = '';
+    let symbolPrefix = '';
+    let symbolSuffix = '';
+    let group;
+    let decimal;
+
+    const parts = formatter.formatToParts(123456);
+    for (const [index, part] of parts.entries()) {
+      const { type, value } = part;
+      if (type === 'currency') {
+        symbol += value;
+        if (index === 0) {
+          symbolPrefix = part.value;
+        } else {
+          symbolSuffix = part.value;
+        }
+      } else if (type === 'group') {
+        group = value;
+      } else if (type === 'decimal') {
+        decimal = value;
+      }
+    }
+
+    return { decimal, group, symbol, symbolPrefix, symbolSuffix };
+  } catch {
+    return undefined;
   }
 }
 
