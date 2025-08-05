@@ -218,7 +218,7 @@ function renderDonationsPane(props: {
       i18n={i18n}
       contentsRef={props.contentsRef}
       clearWorkflow={action('clearWorkflow')}
-      initialCurrency="USD"
+      initialCurrency="usd"
       resumeWorkflow={action('resumeWorkflow')}
       isStaging
       page={props.page}

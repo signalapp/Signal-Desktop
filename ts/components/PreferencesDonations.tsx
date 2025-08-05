@@ -111,7 +111,9 @@ function isDonationPage(page: SettingsPage): page is DonationPage {
 type DonationHeroProps = Pick<
   PropsDataType,
   'badge' | 'color' | 'firstName' | 'i18n' | 'profileAvatarUrl' | 'theme'
->;
+> & {
+  showPrivacyModal: () => void;
+};
 
 function DonationHero({
   badge,
@@ -120,35 +122,25 @@ function DonationHero({
   i18n,
   profileAvatarUrl,
   theme,
+  showPrivacyModal,
 }: DonationHeroProps): JSX.Element {
-  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
-
-  const ReadMoreButtonWithModal = useCallback(
+  const privacyReadMoreLink = useCallback(
     (parts: ReactNode): JSX.Element => {
       return (
         <button
           type="button"
           className="PreferencesDonations__description__read-more"
-          onClick={() => {
-            setShowPrivacyModal(true);
-          }}
+          onClick={showPrivacyModal}
         >
           {parts}
         </button>
       );
     },
-    []
+    [showPrivacyModal]
   );
 
   return (
     <>
-      {showPrivacyModal && (
-        <DonationPrivacyInformationModal
-          i18n={i18n}
-          onClose={() => setShowPrivacyModal(false)}
-        />
-      )}
-
       <div className="PreferencesDonations__avatar">
         <Avatar
           avatarUrl={profileAvatarUrl}
@@ -168,7 +160,7 @@ function DonationHero({
       <div className="PreferencesDonations__description">
         <I18n
           components={{
-            readMoreLink: ReadMoreButtonWithModal,
+            readMoreLink: privacyReadMoreLink,
           }}
           i18n={i18n}
           id="icu:PreferencesDonations__description"
@@ -487,6 +479,8 @@ export function PreferencesDonations({
 }: PropsType): JSX.Element | null {
   const [hasProcessingExpired, setHasProcessingExpired] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isPrivacyModalVisible, setIsPrivacyModalVisible] = useState(false);
+
   const navigateToPage = useCallback(
     (newPage: SettingsPage) => {
       setPage(newPage);
@@ -517,6 +511,7 @@ export function PreferencesDonations({
         i18n={i18n}
         profileAvatarUrl={profileAvatarUrl}
         theme={theme}
+        showPrivacyModal={() => setIsPrivacyModalVisible(true)}
       />
     ),
     [badge, color, firstName, i18n, profileAvatarUrl, theme]
@@ -607,12 +602,20 @@ export function PreferencesDonations({
     }
   }
 
+  const privacyModal = isPrivacyModalVisible ? (
+    <DonationPrivacyInformationModal
+      i18n={i18n}
+      onClose={() => setIsPrivacyModalVisible(false)}
+    />
+  ) : null;
+
   let content;
   if (page === SettingsPage.DonationsDonateFlow) {
     // DonateFlow has to control Back button to switch between CC form and Amount picker
     return (
       <>
         {dialog}
+        {privacyModal}
         <PreferencesDonateFlow
           contentsRef={contentsRef}
           i18n={i18n}
@@ -627,6 +630,7 @@ export function PreferencesDonations({
             setIsSubmitted(true);
             submitDonation(details);
           }}
+          showPrivacyModal={() => setIsPrivacyModalVisible(true)}
           onBack={() => setPage(SettingsPage.Donations)}
         />
       </>
@@ -675,6 +679,7 @@ export function PreferencesDonations({
   return (
     <>
       {dialog}
+      {privacyModal}
       <PreferencesContent
         backButton={backButton}
         contents={content}

@@ -368,7 +368,21 @@ export async function _runDonationWorkflow(): Promise<void> {
           updated = await _redeemReceipt(existing);
           // continuing
         } else if (type === donationStateSchema.Enum.DONE) {
-          if (!isDonationPageVisible()) {
+          if (isDonationPageVisible()) {
+            if (isDonationsDonateFlowVisible()) {
+              window.reduxActions.nav.changeLocation({
+                tab: NavTab.Settings,
+                details: {
+                  page: SettingsPage.Donations,
+                },
+              });
+
+              // TODO: Replace with DESKTOP-8959
+              window.reduxActions.toast.showToast({
+                toastType: ToastType.DonationCompleted,
+              });
+            }
+          } else {
             log.info(
               `${logId}: Donation page not visible. Showing complete toast.`
             );
@@ -916,6 +930,14 @@ function isDonationPageVisible() {
     (selectedLocation.details.page === SettingsPage.Donations ||
       selectedLocation.details.page === SettingsPage.DonationsDonateFlow ||
       selectedLocation.details.page === SettingsPage.DonationsReceiptList)
+  );
+}
+
+function isDonationsDonateFlowVisible() {
+  const { selectedLocation } = window.reduxStore.getState().nav;
+  return (
+    selectedLocation.tab === NavTab.Settings &&
+    selectedLocation.details.page === SettingsPage.DonationsDonateFlow
   );
 }
 

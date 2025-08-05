@@ -8878,6 +8878,50 @@
     "messageformat": "Having issues? <contactSupportLink>Contact support</contactSupportLink>",
     "description": "In the Donations settings section, this footer text appears during parts of the donation workflow such as when picking a donation currency and amount, or entering the credit card info."
   },
+  "icu:DonateFlow__credit-or-debit-card": {
+    "messageformat": "Credit or Debit Card",
+    "description": "When entering payment card details for a donation, this heading indicates the section for credit or debit cards."
+  },
+  "icu:DonateFlow__card-form-instructions": {
+    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "When entering payment card details for a donation, these instructions explain how to use the entry form and how payment information is protected."
+  },
+  "icu:DonateFlow__card-form-card-number": {
+    "messageformat": "Card Number",
+    "description": "When entering payment card details for a donation, this label is for the credit card account number input box."
+  },
+  "icu:DonateFlow__card-form-expiration-date": {
+    "messageformat": "Expiration Date",
+    "description": "When entering payment card details for a donation, this label is for the credit card expiration date input box."
+  },
+  "icu:DonateFlow__card-form-title-donate-with-amount": {
+    "messageformat": "Donate {formattedCurrencyAmount} to Signal",
+    "description": "Title above the payment card entry form after selecting a donation amount. Amount includes the currency symbol and is formatted in the locale's standard format. Examples: Donate $10; Donate ¥1000; Donate €10"
+  },
+  "icu:DonateFlow__card-form-error-invalid-card-number": {
+    "messageformat": "Invalid card number",
+    "description": "When entering payment card details, this error appears when the card number was entered incorrectly."
+  },
+  "icu:DonateFlow__card-form-error-expiration-expired": {
+    "messageformat": "Card has expired",
+    "description": "When entering payment card expiration date, this error appears when the card has expired."
+  },
+  "icu:DonateFlow__card-form-error-year-missing": {
+    "messageformat": "Year required",
+    "description": "When entering payment card expiration date, this error appears when year was not entered but the user changed focus from the input box."
+  },
+  "icu:DonateFlow__card-form-error-invalid": {
+    "messageformat": "Invalid",
+    "description": "When entering payment card details, this error appears when validation fails but we do not have a specific string for the failure case. For example, a card expiration date was mistyped with non-numeric digits."
+  },
+  "icu:DonateFlow__card-form-error-cvc-too-short": {
+    "messageformat": "Code too short",
+    "description": "When entering payment card CVC/CVV code, this error appears when the code entered did not include all digits in the CVC/CVV code."
+  },
+  "icu:DonateFlow__one-time-donation-boost-badge-info": {
+    "messageformat": "Get the Signal Boost badge for 30 days",
+    "description": "Info text above the payment card entry form when making a one time donation. Explains the in-app badge which you can receive after donating."
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Donation receipt",
     "description": "Title shown at the top of donation receipt documents"

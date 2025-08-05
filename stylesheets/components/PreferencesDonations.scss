@@ -56,6 +56,10 @@
       variables.$color-black-alpha-12,
       variables.$color-white-alpha-12
     );
+
+    &--card-form {
+      margin-block: 20px 12px;
+    }
   }
 
   &__section-header {

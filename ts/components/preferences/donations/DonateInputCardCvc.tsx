@@ -8,18 +8,17 @@ import { CardCvcError } from '../../../types/DonationsCardForm';
 import { missingCaseError } from '../../../util/missingCaseError';
 
 export function getCardCvcErrorMessage(
-  _i18n: LocalizerType,
+  i18n: LocalizerType,
   error: CardCvcError
 ): string {
   switch (error) {
-    case CardCvcError.EMPTY:
-      return 'EMPTY';
     case CardCvcError.LENGTH_TOO_SHORT:
-      return 'LENGTH_TOO_SHORT';
+      return i18n('icu:DonateFlow__card-form-error-cvc-too-short');
+    case CardCvcError.EMPTY:
     case CardCvcError.INVALID_CHARS:
     case CardCvcError.LENGTH_TOO_LONG:
     case CardCvcError.LENGTH_INVALID:
-      return 'INVALID';
+      return i18n('icu:DonateFlow__card-form-error-invalid');
     default:
       throw missingCaseError(error);
   }
