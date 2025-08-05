@@ -380,6 +380,7 @@ export default {
           action('saveAttachmentToDisk')();
           return { fullPath: '/mock/path/to/file.png', name: 'file.png' };
         },
+
         generateDonationReceiptBlob: async () => {
           action('generateDonationReceiptBlob')();
           return new Blob();
@@ -497,7 +498,10 @@ const Template: StoryFn<PropsType> = args => {
     <Preferences
       {...args}
       page={page}
-      setPage={(newPage: SettingsPage, profilePage?: ProfileEditorPage) => {
+      setPage={(
+        newPage: SettingsPage,
+        profilePage: ProfileEditorPage | undefined
+      ) => {
         // eslint-disable-next-line no-console
         console.log('setPage:', newPage, profilePage);
         setPage(newPage);
