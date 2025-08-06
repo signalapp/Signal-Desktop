@@ -3,29 +3,11 @@
 
 import type { Database } from '@signalapp/sqlcipher';
 
-import type { LoggerType } from '../../types/Logging';
-
-export const version = 1080;
-
-export function updateToSchemaVersion1080(
-  currentVersion: number,
-  db: Database,
-  logger: LoggerType
-): void {
-  if (currentVersion >= 1080) {
-    return;
-  }
-
-  db.transaction(() => {
-    db.exec(`
-      CREATE INDEX messages_by_date_addressable_nondisappearing
-        ON messages (
-          conversationId, isAddressableMessage, received_at, sent_at
-      ) WHERE expireTimer IS NULL;
-    `);
-
-    db.pragma('user_version = 1080');
-  })();
-
-  logger.info('updateToSchemaVersion1080: success!');
+export default function updateToSchemaVersion1080(db: Database): void {
+  db.exec(`
+    CREATE INDEX messages_by_date_addressable_nondisappearing
+      ON messages (
+        conversationId, isAddressableMessage, received_at, sent_at
+    ) WHERE expireTimer IS NULL;
+  `);
 }

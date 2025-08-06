@@ -1321,6 +1321,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/ImageOrBlurhash.tsx",
+    "line": "  const ref = useRef<HTMLImageElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-08-05T17:07:11.678Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/IncomingCallBar.tsx",
     "line": "  const initialTitleRef = useRef<string>(title);",
     "reasonCategory": "usageTrusted",
@@ -1485,27 +1492,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2025-06-26T23:23:57.292Z",
     "reasonDetail": "Holding on to a close function"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/preferences/donations/DonateInputCardCvc.tsx",
-    "line": "  const inputRef = useRef<HTMLInputElement>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2025-07-17T19:33:27.401Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/preferences/donations/DonateInputCardExp.tsx",
-    "line": "  const inputRef = useRef<HTMLInputElement>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2025-07-17T19:33:27.401Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/preferences/donations/DonateInputCardNumber.tsx",
-    "line": "  const inputRef = useRef<HTMLInputElement>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2025-07-17T19:33:27.401Z"
   },
   {
     "rule": "React-useRef",
@@ -2082,6 +2068,34 @@
     "line": "  const scrollerRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/preferences/donations/DonateInputAmount.tsx",
+    "line": "  const inputRef = useRef<HTMLInputElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-08-01T20:31:42.993Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/preferences/donations/DonateInputCardCvc.tsx",
+    "line": "  const inputRef = useRef<HTMLInputElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-07-17T19:33:27.401Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/preferences/donations/DonateInputCardExp.tsx",
+    "line": "  const inputRef = useRef<HTMLInputElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-07-17T19:33:27.401Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/preferences/donations/DonateInputCardNumber.tsx",
+    "line": "  const inputRef = useRef<HTMLInputElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-07-17T19:33:27.401Z"
   },
   {
     "rule": "React-useRef",

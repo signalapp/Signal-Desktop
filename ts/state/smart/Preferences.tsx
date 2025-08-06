@@ -23,7 +23,7 @@ import {
 } from '../selectors/items';
 import { DEFAULT_AUTO_DOWNLOAD_ATTACHMENT } from '../../textsecure/Storage';
 import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors';
-import { isBackupFeatureEnabledForRedux } from '../../util/isBackupEnabled';
+import { isBackupFeatureEnabled } from '../../util/isBackupEnabled';
 import { format } from '../../types/PhoneNumber';
 import {
   getIntl,
@@ -68,7 +68,7 @@ import { SmartToastManager } from './ToastManager';
 import { useToastActions } from '../ducks/toast';
 import { DataReader } from '../../sql/Client';
 import { deleteAllMyStories } from '../../util/deleteAllMyStories';
-import { isLocalBackupsEnabledForRedux } from '../../util/isLocalBackupsEnabled';
+import { isLocalBackupsEnabled } from '../../util/isLocalBackupsEnabled';
 import { SmartPreferencesDonations } from './PreferencesDonations';
 import { useDonationsActions } from '../ducks/donations';
 import { generateDonationReceiptBlob } from '../../util/generateDonationReceipt';
@@ -519,12 +519,8 @@ export function SmartPreferences(): JSX.Element | null {
     Settings.isContentProtectionSupported(OS);
   const isContentProtectionNeeded = Settings.isContentProtectionNeeded(OS);
 
-  const backupFeatureEnabled = isBackupFeatureEnabledForRedux(
-    items.remoteConfig
-  );
-  const backupLocalBackupsEnabled = isLocalBackupsEnabledForRedux(
-    items.remoteConfig
-  );
+  const backupFeatureEnabled = isBackupFeatureEnabled(items.remoteConfig);
+  const backupLocalBackupsEnabled = isLocalBackupsEnabled(items.remoteConfig);
   const donationsFeatureEnabled =
     items.remoteConfig?.['desktop.internalUser']?.enabled ??
     items.remoteConfig?.['desktop.donations']?.enabled ??

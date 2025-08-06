@@ -3,27 +3,11 @@
 
 import type { Database } from '@signalapp/sqlcipher';
 
-import type { LoggerType } from '../../types/Logging';
-
-export default function updateToSchemaVersion57(
-  currentVersion: number,
-  db: Database,
-  logger: LoggerType
-): void {
-  if (currentVersion >= 57) {
-    return;
-  }
-
-  db.transaction(() => {
-    db.exec(
-      `
-      DELETE FROM messages
-      WHERE type IS 'message-history-unsynced';
-      `
-    );
-
-    db.pragma('user_version = 57');
-  })();
-
-  logger.info('updateToSchemaVersion57: success!');
+export default function updateToSchemaVersion57(db: Database): void {
+  db.exec(
+    `
+    DELETE FROM messages
+    WHERE type IS 'message-history-unsynced';
+    `
+  );
 }

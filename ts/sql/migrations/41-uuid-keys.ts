@@ -25,22 +25,17 @@ export function getOurUuid(db: ReadableDB): string | undefined {
 }
 
 export default function updateToSchemaVersion41(
-  currentVersion: number,
   db: WritableDB,
   logger: LoggerType
 ): void {
-  if (currentVersion >= 41) {
-    return;
-  }
-
   const getConversationUuid = db.prepare(
     `
-  SELECT uuid
-  FROM
-    conversations
-  WHERE
-    id = $conversationId
-  `,
+    SELECT uuid
+    FROM
+      conversations
+    WHERE
+      id = $conversationId
+    `,
     {
       pluck: true,
     }
@@ -377,70 +372,61 @@ export default function updateToSchemaVersion41(
     logger.info(`Migrated ${migrated} identity keys`);
   };
 
-  db.transaction(() => {
-    db.exec(
-      `
-      -- Change type of 'id' column from INTEGER to STRING
+  db.exec(
+    `
+    -- Change type of 'id' column from INTEGER to STRING
 
-      ALTER TABLE preKeys
-      RENAME TO old_preKeys;
+    ALTER TABLE preKeys
+    RENAME TO old_preKeys;
 
-      ALTER TABLE signedPreKeys
-      RENAME TO old_signedPreKeys;
+    ALTER TABLE signedPreKeys
+    RENAME TO old_signedPreKeys;
 
-      CREATE TABLE preKeys(
-        id STRING PRIMARY KEY ASC,
-        json TEXT
-      );
-      CREATE TABLE signedPreKeys(
-        id STRING PRIMARY KEY ASC,
-        json TEXT
-      );
-
-      -- sqlite handles the type conversion
-      INSERT INTO preKeys SELECT * FROM old_preKeys;
-      INSERT INTO signedPreKeys SELECT * FROM old_signedPreKeys;
-
-      DROP TABLE old_preKeys;
-      DROP TABLE old_signedPreKeys;
-
-      -- Alter sessions
-
-      ALTER TABLE sessions
-        ADD COLUMN ourUuid STRING;
-
-      ALTER TABLE sessions
-        ADD COLUMN uuid STRING;
-      `
+    CREATE TABLE preKeys(
+      id STRING PRIMARY KEY ASC,
+      json TEXT
+    );
+    CREATE TABLE signedPreKeys(
+      id STRING PRIMARY KEY ASC,
+      json TEXT
     );
 
-    const ourUuid = getOurUuid(db);
+    -- sqlite handles the type conversion
+    INSERT INTO preKeys SELECT * FROM old_preKeys;
+    INSERT INTO signedPreKeys SELECT * FROM old_signedPreKeys;
 
-    if (!isValidUuid(ourUuid)) {
-      const deleteCount = clearSessionsAndKeys();
+    DROP TABLE old_preKeys;
+    DROP TABLE old_signedPreKeys;
 
-      if (deleteCount > 0) {
-        logger.error(
-          'updateToSchemaVersion41: no uuid is available, ' +
-            `erased ${deleteCount} sessions/keys`
-        );
-      }
+    -- Alter sessions
 
-      db.pragma('user_version = 41');
-      return;
+    ALTER TABLE sessions
+      ADD COLUMN ourUuid STRING;
+
+    ALTER TABLE sessions
+      ADD COLUMN uuid STRING;
+    `
+  );
+
+  const ourUuid = getOurUuid(db);
+
+  if (!isValidUuid(ourUuid)) {
+    const deleteCount = clearSessionsAndKeys();
+
+    if (deleteCount > 0) {
+      logger.error(`no uuid is available, erased ${deleteCount} sessions/keys`);
     }
 
-    prefixKeys(ourUuid);
+    return;
+  }
 
-    updateSenderKeys(ourUuid);
+  prefixKeys(ourUuid);
 
-    updateSessions(ourUuid);
+  updateSenderKeys(ourUuid);
 
-    moveIdentityKeyToMap(ourUuid);
+  updateSessions(ourUuid);
 
-    updateIdentityKeys();
+  moveIdentityKeyToMap(ourUuid);
 
-    db.pragma('user_version = 41');
-  })();
-  logger.info('updateToSchemaVersion41: success!');
+  updateIdentityKeys();
 }

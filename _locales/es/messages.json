@@ -3954,7 +3954,7 @@
     "messageformat": "Se ha rechazado la solicitud de {joinerName} para unirse al grupo."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} ha enviado y cancelado una solicitud para unirse al grupo mediante enlace} other {{joinerName} ha enviado y cancelado {numberOfRequests,number} solicitudes para unirse al grupo mediante enlace}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Has activado el enlace para unirse al grupo sin aprobación de admin."
@@ -4990,6 +4990,12 @@
   },
   "icu:ProfileEditor__username-link__error-icon": {
     "messageformat": "Es necesario restablecer el enlace del alias"
+  },
+  "icu:ProfileEditor__open": {
+    "messageformat": "Open username link screen"
+  },
+  "icu:ProfileEditor__username-link__open": {
+    "messageformat": "Open username link screen"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "Comparte tu alias"
@@ -6675,6 +6681,42 @@
   "icu:DonateFlow__having-issues-contact-support": {
     "messageformat": "¿Problemas con tu donación? Selecciona <contactSupportLink>Contactar con asistencia</contactSupportLink>."
   },
+  "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
+    "messageformat": "Enter Custom Amount"
+  },
+  "icu:DonateFlow__credit-or-debit-card": {
+    "messageformat": "Credit or Debit Card"
+  },
+  "icu:DonateFlow__card-form-instructions": {
+    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:DonateFlow__card-form-card-number": {
+    "messageformat": "Card Number"
+  },
+  "icu:DonateFlow__card-form-expiration-date": {
+    "messageformat": "Expiration Date"
+  },
+  "icu:DonateFlow__card-form-title-donate-with-amount": {
+    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+  },
+  "icu:DonateFlow__card-form-error-invalid-card-number": {
+    "messageformat": "Invalid card number"
+  },
+  "icu:DonateFlow__card-form-error-expiration-expired": {
+    "messageformat": "Card has expired"
+  },
+  "icu:DonateFlow__card-form-error-year-missing": {
+    "messageformat": "Year required"
+  },
+  "icu:DonateFlow__card-form-error-invalid": {
+    "messageformat": "Invalid"
+  },
+  "icu:DonateFlow__card-form-error-cvc-too-short": {
+    "messageformat": "Code too short"
+  },
+  "icu:DonateFlow__one-time-donation-boost-badge-info": {
+    "messageformat": "Get the Signal Boost badge for 30 days"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Recibo de donación"
   },
@@ -6693,8 +6735,8 @@
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Gracias por apoyar a Signal. Con tu contribución, impulsas nuestra misión de proteger la libertad de expresión y permitir una comunicación segura para millones de personas en todo el mundo gracias a una tecnología de código abierto centrada en la privacidad. Si resides en Estados Unidos, guarda este recibo para tus declaraciones fiscales. Signal Technology Foundation es una organización sin ánimo de lucro exenta de impuestos en Estados Unidos bajo la sección 501(c)(3) del código tributario de EE. UU. (Internal Revenue Code). Nuestro número de identificación fiscal es 82-4506840."
   },
-  "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Donación cancelada"
+  "icu:Donations__Toast__Canceled": {
+    "messageformat": "Donation canceled"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "Donación completada"
@@ -6710,6 +6752,18 @@
   },
   "icu:Donations__Toast__VerificationNeeded": {
     "messageformat": "Tienes una donación en curso que necesita verificación adicional."
+  },
+  "icu:Donations__Toast__ConfirmationNeeded": {
+    "messageformat": "You have a donation in progress that requires confirmation."
+  },
+  "icu:Donations__DonationInterrupted": {
+    "messageformat": "Donation interrupted"
+  },
+  "icu:Donations__DonationInterrupted__Description": {
+    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+  },
+  "icu:Donations__DonationInterrupted__RetryButton": {
+    "messageformat": "Try again"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Método de pago rechazado"
@@ -6737,6 +6791,12 @@
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Tu donación aún se está procesando. Puede llevar unos minutos."
+  },
+  "icu:Donations__TimedOut": {
+    "messageformat": "Donation canceled"
+  },
+  "icu:Donations__TimedOut__Description": {
+    "messageformat": "It has been too long since you started your donation. Please start over."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "Verificación adicional necesaria"
@@ -6788,6 +6848,9 @@
     "messageformat": "Antes, pulsar la barra espaciadora al intentar reaccionar a un mensaje hacía que Signal abriera la imagen en pantalla completa. En esta nueva versión, la forma más sencilla de hacer zoom es simplemente hacer clic. También hemos mejorado la experiencia para que te sea más fácil distinguir los mensajes leídos de los no leídos cuando estás con mil cosas a la vez."
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "Dar con el emoji correcto puede parecer un laberinto sin salida, pero hemos corregido un error que podía producirse al presionar la tecla Escape en el cuadro de búsqueda de emojis."
+  },
+  "icu:WhatsNew__v7.66--0": {
+    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
   }
 }

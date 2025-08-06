@@ -3,8 +3,8 @@
 
 import type { Database } from '@signalapp/sqlcipher';
 
-import type { LoggerType } from '../../types/Logging';
 import { cleanKeys } from './920-clean-more-keys';
+import type { LoggerType } from '../../types/Logging';
 import { sqlFragment } from '../util';
 
 // Note: for many users, this is not what ran for them as migration 87. You can see that
@@ -13,42 +13,38 @@ import { sqlFragment } from '../util';
 // The goal of this migration is to ensure that key cleanup happens before migration 88.
 
 export default function updateToSchemaVersion87(
-  currentVersion: number,
   db: Database,
-  logger: LoggerType
+  logger: LoggerType,
+  startingVersion: number
 ): void {
   // We're checking for the version of the next migration here, not this version. We want
   //   this to run if the user hasn't yet successfully run migration 88.
-  if (currentVersion >= 88) {
+  if (startingVersion >= 88) {
     return;
   }
 
-  db.transaction(() => {
-    cleanKeys(
-      db,
-      logger,
-      'updateToSchemaVersion87(cleanup)/kyberPreKeys',
-      sqlFragment`kyberPreKeys`,
-      sqlFragment`createdAt`,
-      sqlFragment`ourUuid`
-    );
-    cleanKeys(
-      db,
-      logger,
-      'updateToSchemaVersion87(cleanup)/preKeys',
-      sqlFragment`preKeys`,
-      sqlFragment`createdAt`,
-      sqlFragment`ourUuid`
-    );
-    cleanKeys(
-      db,
-      logger,
-      'updateToSchemaVersion87(cleanup)/signedPreKeys',
-      sqlFragment`signedPreKeys`,
-      sqlFragment`created_at`,
-      sqlFragment`ourUuid`
-    );
-  })();
-
-  logger.info('updateToSchemaVersion87(cleanup): success!');
+  cleanKeys(
+    db,
+    logger,
+    '(cleanup)/kyberPreKeys',
+    sqlFragment`kyberPreKeys`,
+    sqlFragment`createdAt`,
+    sqlFragment`ourUuid`
+  );
+  cleanKeys(
+    db,
+    logger,
+    '(cleanup)/preKeys',
+    sqlFragment`preKeys`,
+    sqlFragment`createdAt`,
+    sqlFragment`ourUuid`
+  );
+  cleanKeys(
+    db,
+    logger,
+    '(cleanup)/signedPreKeys',
+    sqlFragment`signedPreKeys`,
+    sqlFragment`created_at`,
+    sqlFragment`ourUuid`
+  );
 }

@@ -1601,16 +1601,46 @@ function createOrUpdateSessions(
 function commitDecryptResult(
   db: WritableDB,
   {
+    kyberPreKeysToRemove,
+    preKeysToRemove,
     senderKeys,
     sessions,
     unprocessed,
   }: {
+    kyberPreKeysToRemove: Array<PreKeyIdType>;
+    preKeysToRemove: Array<PreKeyIdType>;
     senderKeys: Array<SenderKeyType>;
     sessions: Array<SessionType>;
     unprocessed: Array<UnprocessedType>;
   }
 ): void {
   db.transaction(() => {
+    if (kyberPreKeysToRemove.length > 0) {
+      const kyberPreKeyChanges = removeKyberPreKeyById(
+        db,
+        kyberPreKeysToRemove
+      );
+      if (kyberPreKeyChanges === kyberPreKeysToRemove.length) {
+        logger.info(
+          `commitDecryptResult: Removed ${kyberPreKeyChanges} kyberPreKeys`
+        );
+      } else {
+        logger.error(
+          `commitDecryptResult: Changed ${kyberPreKeyChanges} keys, but had ${kyberPreKeysToRemove.length} kyberPreKeys to remove`
+        );
+      }
+    }
+    if (preKeysToRemove.length > 0) {
+      const preKeyChanges = removePreKeyById(db, preKeysToRemove);
+      if (preKeyChanges === preKeysToRemove.length) {
+        logger.info(`commitDecryptResult: Removed ${preKeyChanges} preKeys`);
+      } else {
+        logger.error(
+          `commitDecryptResult: Changed ${preKeyChanges} keys, but had ${preKeysToRemove.length} preKeys to remove`
+        );
+      }
+    }
+
     for (const item of senderKeys) {
       createOrUpdateSenderKey(db, item);
     }

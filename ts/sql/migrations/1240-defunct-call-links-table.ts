@@ -3,33 +3,16 @@
 
 import type { Database } from '@signalapp/sqlcipher';
 
-import type { LoggerType } from '../../types/Logging';
 import { sql } from '../util';
 
-export const version = 1240;
+export default function updateToSchemaVersion1240(db: Database): void {
+  const [createTable] = sql`
+    CREATE TABLE defunctCallLinks (
+      roomId TEXT NOT NULL PRIMARY KEY,
+      rootKey BLOB NOT NULL,
+      adminKey BLOB
+    ) STRICT;
+  `;
 
-export function updateToSchemaVersion1240(
-  currentVersion: number,
-  db: Database,
-  logger: LoggerType
-): void {
-  if (currentVersion >= 1240) {
-    return;
-  }
-
-  db.transaction(() => {
-    const [createTable] = sql`
-      CREATE TABLE defunctCallLinks (
-        roomId TEXT NOT NULL PRIMARY KEY,
-        rootKey BLOB NOT NULL,
-        adminKey BLOB
-      ) STRICT;
-    `;
-
-    db.exec(createTable);
-
-    db.pragma('user_version = 1240');
-  })();
-
-  logger.info('updateToSchemaVersion1240: success!');
+  db.exec(createTable);
 }

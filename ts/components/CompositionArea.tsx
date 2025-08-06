@@ -393,7 +393,7 @@ export const CompositionArea = memo(function CompositionArea({
   const draftEditMessageBody = draftEditMessage?.body;
   const editedMessageId = draftEditMessage?.targetMessageId;
 
-  const canSend =
+  let canSend =
     // Text or link preview edited
     dirty ||
     // Quote of edited message changed
@@ -405,6 +405,11 @@ export const CompositionArea = memo(function CompositionArea({
       !isSameLinkPreview(linkPreviewResult, draftEditMessage?.preview)) ||
     // Not edit message, but has attachments
     (draftEditMessage == null && draftAttachments.length !== 0);
+
+  // Draft attachments should finish loading
+  if (draftAttachments.some(attachment => attachment.pending)) {
+    canSend = false;
+  }
 
   const handleSubmit = useCallback(
     (

@@ -5,69 +5,37 @@ import type { Database } from '@signalapp/sqlcipher';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SeenStatus } from '../../MessageSeenStatus';
 
-import type { LoggerType } from '../../types/Logging';
+export default function updateToSchemaVersion56(db: Database): void {
+  db.exec(
+    `
+    --- Add column to messages table
 
-export default function updateToSchemaVersion56(
-  currentVersion: number,
-  db: Database,
-  logger: LoggerType
-): void {
-  if (currentVersion >= 56) {
-    return;
-  }
+    ALTER TABLE messages ADD COLUMN seenStatus NUMBER default 0;
 
-  db.transaction(() => {
-    db.exec(
-      `
-      --- Add column to messages table
+    --- Add index to make searching on this field easy
 
-      ALTER TABLE messages ADD COLUMN seenStatus NUMBER default 0;
+    CREATE INDEX messages_unseen_no_story ON messages
+      (conversationId, seenStatus, isStory, received_at, sent_at)
+      WHERE
+        seenStatus IS NOT NULL;
 
-      --- Add index to make searching on this field easy
+    CREATE INDEX messages_unseen_with_story ON messages
+      (conversationId, seenStatus, isStory, storyId, received_at, sent_at)
+      WHERE
+        seenStatus IS NOT NULL;
 
-      CREATE INDEX messages_unseen_no_story ON messages
-        (conversationId, seenStatus, isStory, received_at, sent_at)
-        WHERE
-          seenStatus IS NOT NULL;
+    --- Update seenStatus to UnseenStatus.Unseen for certain messages
+    --- (NULL included because 'timer-notification' in 1:1 convos had type = NULL)
 
-      CREATE INDEX messages_unseen_with_story ON messages
-        (conversationId, seenStatus, isStory, storyId, received_at, sent_at)
-        WHERE
-          seenStatus IS NOT NULL;
-
-      --- Update seenStatus to UnseenStatus.Unseen for certain messages
-      --- (NULL included because 'timer-notification' in 1:1 convos had type = NULL)
-
-      UPDATE messages
-        SET
-          seenStatus = ${SeenStatus.Unseen}
-        WHERE
-          readStatus = ${ReadStatus.Unread} AND
-          (
-            type IS NULL
-            OR
-            type IN (
-              'call-history',
-              'change-number-notification',
-              'chat-session-refreshed',
-              'delivery-issue',
-              'group',
-              'incoming',
-              'keychange',
-              'timer-notification',
-              'verified-change'
-            )
-          );
-
-      --- Set readStatus to ReadStatus.Read for all other message types
-
-      UPDATE messages
-        SET
-          readStatus = ${ReadStatus.Read}
-        WHERE
-          readStatus = ${ReadStatus.Unread} AND
-          type IS NOT NULL AND
-          type NOT IN (
+    UPDATE messages
+      SET
+        seenStatus = ${SeenStatus.Unseen}
+      WHERE
+        readStatus = ${ReadStatus.Unread} AND
+        (
+          type IS NULL
+          OR
+          type IN (
             'call-history',
             'change-number-notification',
             'chat-session-refreshed',
@@ -77,12 +45,28 @@ export default function updateToSchemaVersion56(
             'keychange',
             'timer-notification',
             'verified-change'
-          );
-      `
-    );
+          )
+        );
 
-    db.pragma('user_version = 56');
-  })();
+    --- Set readStatus to ReadStatus.Read for all other message types
 
-  logger.info('updateToSchemaVersion56: success!');
+    UPDATE messages
+      SET
+        readStatus = ${ReadStatus.Read}
+      WHERE
+        readStatus = ${ReadStatus.Unread} AND
+        type IS NOT NULL AND
+        type NOT IN (
+          'call-history',
+          'change-number-notification',
+          'chat-session-refreshed',
+          'delivery-issue',
+          'group',
+          'incoming',
+          'keychange',
+          'timer-notification',
+          'verified-change'
+        );
+    `
+  );
 }

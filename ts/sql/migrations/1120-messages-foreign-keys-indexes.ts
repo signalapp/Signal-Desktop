@@ -3,31 +3,13 @@
 
 import type { Database } from '@signalapp/sqlcipher';
 
-import type { LoggerType } from '../../types/Logging';
+export default function updateToSchemaVersion1120(db: Database): void {
+  /** Adds indexes for all tables with foreign key relationships to messages(id) */
+  db.exec(`
+    CREATE INDEX edited_messages_messageId
+      ON edited_messages(messageId);
 
-export const version = 1120;
-
-export function updateToSchemaVersion1120(
-  currentVersion: number,
-  db: Database,
-  logger: LoggerType
-): void {
-  if (currentVersion >= 1120) {
-    return;
-  }
-
-  db.transaction(() => {
-    /** Adds indexes for all tables with foreign key relationships to messages(id) */
-    db.exec(`
-      CREATE INDEX edited_messages_messageId
-        ON edited_messages(messageId);
-
-      CREATE INDEX mentions_messageId
-        ON mentions(messageId);
-    `);
-
-    db.pragma('user_version = 1120');
-  })();
-
-  logger.info('updateToSchemaVersion1120: success!');
+    CREATE INDEX mentions_messageId
+      ON mentions(messageId);
+  `);
 }

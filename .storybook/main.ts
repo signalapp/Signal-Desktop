@@ -9,7 +9,7 @@ const config: StorybookConfig = {
     reactDocgen: false,
   },
 
-  stories: ['../ts/components/**/*.stories.tsx'],
+  stories: ['../ts/axo/**/*.stories.tsx', '../ts/components/**/*.stories.tsx'],
 
   addons: [
     '@storybook/addon-a11y',
@@ -66,6 +66,23 @@ const config: StorybookConfig = {
       test: /\.css$/,
       use: [
         // prevent storybook defaults from being applied
+      ],
+    });
+
+    config.module!.rules!.push({
+      test: /tailwind\.css$/,
+      use: [
+        {
+          loader: 'postcss-loader',
+          options: {
+            postcssOptions: {
+              config: false,
+              plugins: {
+                '@tailwindcss/postcss': {},
+              },
+            },
+          },
+        },
       ],
     });
 

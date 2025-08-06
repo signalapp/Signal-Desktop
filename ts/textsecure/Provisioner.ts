@@ -417,7 +417,7 @@ export class Provisioner {
       .toAppUrl({
         uuid,
         pubKey: Bytes.toBase64(cipher.getPublicKey().serialize()),
-        capabilities: isLinkAndSyncEnabled() ? ['backup3', 'backup4'] : [],
+        capabilities: isLinkAndSyncEnabled() ? ['backup4'] : [],
       })
       .toString();
 

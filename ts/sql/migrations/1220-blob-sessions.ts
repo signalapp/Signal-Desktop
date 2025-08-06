@@ -120,100 +120,84 @@ function migrateSession(
   throw missingCaseError(session.version);
 }
 
-export function updateToSchemaVersion1220(
-  currentVersion: number,
+export default function updateToSchemaVersion1220(
   db: Database,
   logger: LoggerType
 ): void {
-  if (currentVersion >= 1220) {
+  db.exec(`
+    ALTER TABLE sessions
+      RENAME TO old_sessions;
+
+    CREATE TABLE sessions (
+      id TEXT NOT NULL PRIMARY KEY,
+      ourServiceId TEXT NOT NULL,
+      serviceId TEXT NOT NULL,
+      conversationId TEXT NOT NULL,
+      deviceId INTEGER NOT NULL,
+      record BLOB NOT NULL
+    ) STRICT;
+  `);
+
+  const getItem = db.prepare(
+    `
+    SELECT json -> '$.value' FROM items WHERE id IS ?
+  `,
+    {
+      pluck: true,
+    }
+  );
+
+  const identityKeyMapJson = getItem.get<string>(['identityKeyMap']);
+  const registrationIdMapJson = getItem.get<string>(['registrationIdMap']);
+
+  // If we don't have private keys - the sessions cannot be used anyway
+  if (!identityKeyMapJson || !registrationIdMapJson) {
+    logger.info('no identity/registration id');
+    db.exec('DROP TABLE old_sessions');
     return;
   }
 
-  db.transaction(() => {
-    db.exec(`
-      ALTER TABLE sessions
-        RENAME TO old_sessions;
+  const identityKeyMap = identityKeyMapSchema.parse(
+    JSON.parse(identityKeyMapJson)
+  );
+  const registrationIdMap = registrationIdMapSchema.parse(
+    JSON.parse(registrationIdMapJson)
+  );
 
-      CREATE TABLE sessions (
-        id TEXT NOT NULL PRIMARY KEY,
-        ourServiceId TEXT NOT NULL,
-        serviceId TEXT NOT NULL,
-        conversationId TEXT NOT NULL,
-        deviceId INTEGER NOT NULL,
-        record BLOB NOT NULL
-      ) STRICT;
-    `);
+  const getSessionsPage = db.prepare(
+    'DELETE FROM old_sessions RETURNING * LIMIT 1000'
+  );
+  const insertSession = db.prepare(`
+    INSERT INTO sessions
+    (id, ourServiceId, serviceId, conversationId, deviceId, record)
+    VALUES
+    ($id, $ourServiceId, $serviceId, $conversationId, $deviceId, $record)
+  `);
 
-    const getItem = db.prepare(
-      `
-      SELECT json -> '$.value' FROM items WHERE id IS ?
-    `,
-      {
-        pluck: true,
-      }
-    );
+  let migrated = 0;
+  let failed = 0;
 
-    const identityKeyMapJson = getItem.get<string>(['identityKeyMap']);
-    const registrationIdMapJson = getItem.get<string>(['registrationIdMap']);
-
-    // If we don't have private keys - the sessions cannot be used anyway
-    if (!identityKeyMapJson || !registrationIdMapJson) {
-      logger.info('updateToSchemaVersion1220: no identity/registration id');
-      db.exec('DROP TABLE old_sessions');
-      db.pragma('user_version = 1220');
-      return;
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    const rows: Array<PreviousSessionRowType> = getSessionsPage.all();
+    if (rows.length === 0) {
+      break;
     }
 
-    const identityKeyMap = identityKeyMapSchema.parse(
-      JSON.parse(identityKeyMapJson)
-    );
-    const registrationIdMap = registrationIdMapSchema.parse(
-      JSON.parse(registrationIdMapJson)
-    );
-
-    const getSessionsPage = db.prepare(
-      'DELETE FROM old_sessions RETURNING * LIMIT 1000'
-    );
-    const insertSession = db.prepare(`
-      INSERT INTO sessions
-      (id, ourServiceId, serviceId, conversationId, deviceId, record)
-      VALUES
-      ($id, $ourServiceId, $serviceId, $conversationId, $deviceId, $record)
-    `);
-
-    let migrated = 0;
-    let failed = 0;
-
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-      const rows: Array<PreviousSessionRowType> = getSessionsPage.all();
-      if (rows.length === 0) {
-        break;
-      }
-
-      for (const row of rows) {
-        try {
-          insertSession.run(
-            migrateSession(row, identityKeyMap, registrationIdMap, logger)
-          );
-          migrated += 1;
-        } catch (error) {
-          failed += 1;
-          logger.error(
-            'updateToSchemaVersion1220: failed to migrate session',
-            Errors.toLogFormat(error)
-          );
-        }
+    for (const row of rows) {
+      try {
+        insertSession.run(
+          migrateSession(row, identityKeyMap, registrationIdMap, logger)
+        );
+        migrated += 1;
+      } catch (error) {
+        failed += 1;
+        logger.error('failed to migrate session', Errors.toLogFormat(error));
       }
     }
+  }
 
-    logger.info(
-      `updateToSchemaVersion1220: migrated ${migrated} sessions, ` +
-        `${failed} failed`
-    );
+  logger.info(`migrated ${migrated} sessions, ${failed} failed`);
 
-    db.exec('DROP TABLE old_sessions');
-    db.pragma('user_version = 1220');
-  })();
-  logger.info('updateToSchemaVersion1220: success!');
+  db.exec('DROP TABLE old_sessions');
 }

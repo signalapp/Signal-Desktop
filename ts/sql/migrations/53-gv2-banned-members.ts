@@ -7,14 +7,9 @@ import type { LoggerType } from '../../types/Logging';
 import { jsonToObject } from '../util';
 
 export default function updateToSchemaVersion53(
-  currentVersion: number,
   db: Database,
   logger: LoggerType
 ): void {
-  if (currentVersion >= 53) {
-    return;
-  }
-
   type LegacyConversationType = {
     id: string;
     groupId: string;
@@ -52,7 +47,7 @@ export default function updateToSchemaVersion53(
     };
 
     logger.info(
-      `updateToSchemaVersion53: Updating ${logId} with ` +
+      `Updating ${logId} with ` +
         `${legacy.bannedMembersV2.length} banned members`
     );
 
@@ -64,33 +59,27 @@ export default function updateToSchemaVersion53(
     return true;
   };
 
-  db.transaction(() => {
-    const allConversations = db
-      .prepare(
-        `
-          SELECT json
-          FROM conversations
-          WHERE type = 'group'
-          ORDER BY id ASC;
-        `,
-        { pluck: true }
-      )
-      .all<string>()
-      .map(json => jsonToObject<ConversationType>(json));
+  const allConversations = db
+    .prepare(
+      `
+        SELECT json
+        FROM conversations
+        WHERE type = 'group'
+        ORDER BY id ASC;
+      `,
+      { pluck: true }
+    )
+    .all<string>()
+    .map(json => jsonToObject<ConversationType>(json));
 
-    logger.info(
-      'updateToSchemaVersion53: About to iterate through ' +
-        `${allConversations.length} conversations`
-    );
+  logger.info(
+    `About to iterate through ${allConversations.length} conversations`
+  );
 
-    let updated = 0;
-    for (const convo of allConversations) {
-      updated += upgradeConversation(convo) ? 1 : 0;
-    }
+  let updated = 0;
+  for (const convo of allConversations) {
+    updated += upgradeConversation(convo) ? 1 : 0;
+  }
 
-    logger.info(`updateToSchemaVersion53: Updated ${updated} conversations`);
-
-    db.pragma('user_version = 53');
-  })();
-  logger.info('updateToSchemaVersion53: success!');
+  logger.info(`Updated ${updated} conversations`);
 }

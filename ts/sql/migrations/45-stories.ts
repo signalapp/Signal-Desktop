@@ -3,135 +3,119 @@
 
 import type { Database } from '@signalapp/sqlcipher';
 
-import type { LoggerType } from '../../types/Logging';
+export default function updateToSchemaVersion45(db: Database): void {
+  db.exec(
+    `
+    --- Add column to messages table
 
-export default function updateToSchemaVersion45(
-  currentVersion: number,
-  db: Database,
-  logger: LoggerType
-): void {
-  if (currentVersion >= 45) {
-    return;
-  }
+    ALTER TABLE messages ADD COLUMN storyId STRING;
 
-  db.transaction(() => {
-    db.exec(
-      `
-      --- Add column to messages table
+    --- Update important message indices
 
-      ALTER TABLE messages ADD COLUMN storyId STRING;
+    DROP INDEX   messages_conversation;
+    CREATE INDEX messages_conversation ON messages
+      (conversationId, type, storyId, received_at);
 
-      --- Update important message indices
+    DROP INDEX   messages_unread;
+    CREATE INDEX messages_unread ON messages
+      (conversationId, readStatus, type, storyId) WHERE readStatus IS NOT NULL;
 
-      DROP INDEX   messages_conversation;
-      CREATE INDEX messages_conversation ON messages
-        (conversationId, type, storyId, received_at);
+    --- Update attachment indices for All Media views
 
-      DROP INDEX   messages_unread;
-      CREATE INDEX messages_unread ON messages
-        (conversationId, readStatus, type, storyId) WHERE readStatus IS NOT NULL;
+    DROP INDEX   messages_hasAttachments;
+    CREATE INDEX messages_hasAttachments
+      ON messages (conversationId, hasAttachments, received_at)
+      WHERE type IS NOT 'story' AND storyId IS NULL;
 
-      --- Update attachment indices for All Media views
+    DROP INDEX   messages_hasFileAttachments;
+    CREATE INDEX messages_hasFileAttachments
+      ON messages (conversationId, hasFileAttachments, received_at)
+      WHERE type IS NOT 'story' AND storyId IS NULL;
 
-      DROP INDEX   messages_hasAttachments;
-      CREATE INDEX messages_hasAttachments
-        ON messages (conversationId, hasAttachments, received_at)
-        WHERE type IS NOT 'story' AND storyId IS NULL;
+    DROP INDEX   messages_hasVisualMediaAttachments;
+    CREATE INDEX messages_hasVisualMediaAttachments
+      ON messages (conversationId, hasVisualMediaAttachments, received_at)
+      WHERE type IS NOT 'story' AND storyId IS NULL;
 
-      DROP INDEX   messages_hasFileAttachments;
-      CREATE INDEX messages_hasFileAttachments
-        ON messages (conversationId, hasFileAttachments, received_at)
-        WHERE type IS NOT 'story' AND storyId IS NULL;
+    --- Message insert/update triggers to exclude stories and story replies
 
-      DROP INDEX   messages_hasVisualMediaAttachments;
-      CREATE INDEX messages_hasVisualMediaAttachments
-        ON messages (conversationId, hasVisualMediaAttachments, received_at)
-        WHERE type IS NOT 'story' AND storyId IS NULL;
+    DROP   TRIGGER messages_on_insert;
+    -- Note: any changes to this trigger must be reflected in 
+    -- Server.ts: enableMessageInsertTriggersAndBackfill
+    CREATE TRIGGER messages_on_insert AFTER INSERT ON messages
+    WHEN new.isViewOnce IS NOT 1 AND new.storyId IS NULL
+    BEGIN
+      INSERT INTO messages_fts
+        (rowid, body)
+      VALUES
+        (new.rowid, new.body);
+    END;
 
-      --- Message insert/update triggers to exclude stories and story replies
+    DROP   TRIGGER messages_on_update;
+    CREATE TRIGGER messages_on_update AFTER UPDATE ON messages
+    WHEN
+      (new.body IS NULL OR old.body IS NOT new.body) AND
+       new.isViewOnce IS NOT 1 AND new.storyId IS NULL
+    BEGIN
+      DELETE FROM messages_fts WHERE rowid = old.rowid;
+      INSERT INTO messages_fts
+        (rowid, body)
+      VALUES
+        (new.rowid, new.body);
+    END;
 
-      DROP   TRIGGER messages_on_insert;
-      -- Note: any changes to this trigger must be reflected in 
-      -- Server.ts: enableMessageInsertTriggersAndBackfill
-      CREATE TRIGGER messages_on_insert AFTER INSERT ON messages
-      WHEN new.isViewOnce IS NOT 1 AND new.storyId IS NULL
-      BEGIN
-        INSERT INTO messages_fts
-          (rowid, body)
-        VALUES
-          (new.rowid, new.body);
-      END;
+    --- Update delete trigger to remove storyReads
 
-      DROP   TRIGGER messages_on_update;
-      CREATE TRIGGER messages_on_update AFTER UPDATE ON messages
-      WHEN
-        (new.body IS NULL OR old.body IS NOT new.body) AND
-         new.isViewOnce IS NOT 1 AND new.storyId IS NULL
-      BEGIN
-        DELETE FROM messages_fts WHERE rowid = old.rowid;
-        INSERT INTO messages_fts
-          (rowid, body)
-        VALUES
-          (new.rowid, new.body);
-      END;
-
-      --- Update delete trigger to remove storyReads
-
-      --- Note: for future updates to this trigger, be sure to update Server.ts/removeAll()
-      ---       (it deletes and re-adds this trigger for performance)
-      DROP   TRIGGER messages_on_delete;
-      CREATE TRIGGER messages_on_delete AFTER DELETE ON messages BEGIN
-        DELETE FROM messages_fts WHERE rowid = old.rowid;
-        DELETE FROM sendLogPayloads WHERE id IN (
-          SELECT payloadId FROM sendLogMessageIds
-          WHERE messageId = old.id
-        );
-        DELETE FROM reactions WHERE rowid IN (
-          SELECT rowid FROM reactions
-          WHERE messageId = old.id
-        );
-        DELETE FROM storyReads WHERE storyId = old.storyId;
-      END;
-
-      --- Story Read History
-
-      CREATE TABLE storyReads (
-        authorId STRING NOT NULL,
-        conversationId STRING NOT NULL,
-        storyId STRING NOT NULL,
-        storyReadDate NUMBER NOT NULL,
-
-        PRIMARY KEY (authorId, storyId)
+    --- Note: for future updates to this trigger, be sure to update Server.ts/removeAll()
+    ---       (it deletes and re-adds this trigger for performance)
+    DROP   TRIGGER messages_on_delete;
+    CREATE TRIGGER messages_on_delete AFTER DELETE ON messages BEGIN
+      DELETE FROM messages_fts WHERE rowid = old.rowid;
+      DELETE FROM sendLogPayloads WHERE id IN (
+        SELECT payloadId FROM sendLogMessageIds
+        WHERE messageId = old.id
       );
-
-      CREATE INDEX storyReads_data ON storyReads (
-        storyReadDate, authorId, conversationId
+      DELETE FROM reactions WHERE rowid IN (
+        SELECT rowid FROM reactions
+        WHERE messageId = old.id
       );
+      DELETE FROM storyReads WHERE storyId = old.storyId;
+    END;
 
-      --- Story Distribution Lists
+    --- Story Read History
 
-      CREATE TABLE storyDistributions(
-        id STRING PRIMARY KEY NOT NULL,
-        name TEXT,
+    CREATE TABLE storyReads (
+      authorId STRING NOT NULL,
+      conversationId STRING NOT NULL,
+      storyId STRING NOT NULL,
+      storyReadDate NUMBER NOT NULL,
 
-        avatarUrlPath TEXT,
-        avatarKey BLOB,
-        senderKeyInfoJson STRING
-      );
-
-      CREATE TABLE storyDistributionMembers(
-        listId STRING NOT NULL REFERENCES storyDistributions(id)
-          ON DELETE CASCADE
-          ON UPDATE CASCADE,
-        uuid STRING NOT NULL,
-
-        PRIMARY KEY (listId, uuid)
-      )
-      `
+      PRIMARY KEY (authorId, storyId)
     );
 
-    db.pragma('user_version = 45');
-  })();
+    CREATE INDEX storyReads_data ON storyReads (
+      storyReadDate, authorId, conversationId
+    );
 
-  logger.info('updateToSchemaVersion45: success!');
+    --- Story Distribution Lists
+
+    CREATE TABLE storyDistributions(
+      id STRING PRIMARY KEY NOT NULL,
+      name TEXT,
+
+      avatarUrlPath TEXT,
+      avatarKey BLOB,
+      senderKeyInfoJson STRING
+    );
+
+    CREATE TABLE storyDistributionMembers(
+      listId STRING NOT NULL REFERENCES storyDistributions(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+      uuid STRING NOT NULL,
+
+      PRIMARY KEY (listId, uuid)
+    )
+    `
+  );
 }

@@ -3954,7 +3954,7 @@
     "messageformat": "{joinerName}માંથી ગ્રુપમાં જોડાવાની વિનંતી નકારી કાઢવામાં આવી હતી."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName}એ ગ્રૂપ લિંક વડે જોડાવાની તેમની વિનંતી કરી અને રદ કરી} other {{joinerName} એ ગ્રૂપ લિંક વડે જોડાવાની {numberOfRequests,number} વિનંતીઓ કરી અને રદ કરી}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "તમે એડમિન મંજૂરી અક્ષમ સાથે ગ્રુપ લિંક ચાલુ કરી."
@@ -4990,6 +4990,12 @@
   },
   "icu:ProfileEditor__username-link__error-icon": {
     "messageformat": "યુઝરનેમ લિંકને ફરીથી સેટ કરવાની જરૂર છે"
+  },
+  "icu:ProfileEditor__open": {
+    "messageformat": "Open username link screen"
+  },
+  "icu:ProfileEditor__username-link__open": {
+    "messageformat": "Open username link screen"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "તમારું યુઝરનેમ શેર કરો"
@@ -6675,6 +6681,42 @@
   "icu:DonateFlow__having-issues-contact-support": {
     "messageformat": "સમસ્યાઓ આવી રહી છે? <contactSupportLink>સપોર્ટનો સંપર્ક કરો</contactSupportLink>"
   },
+  "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
+    "messageformat": "Enter Custom Amount"
+  },
+  "icu:DonateFlow__credit-or-debit-card": {
+    "messageformat": "Credit or Debit Card"
+  },
+  "icu:DonateFlow__card-form-instructions": {
+    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:DonateFlow__card-form-card-number": {
+    "messageformat": "Card Number"
+  },
+  "icu:DonateFlow__card-form-expiration-date": {
+    "messageformat": "Expiration Date"
+  },
+  "icu:DonateFlow__card-form-title-donate-with-amount": {
+    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+  },
+  "icu:DonateFlow__card-form-error-invalid-card-number": {
+    "messageformat": "Invalid card number"
+  },
+  "icu:DonateFlow__card-form-error-expiration-expired": {
+    "messageformat": "Card has expired"
+  },
+  "icu:DonateFlow__card-form-error-year-missing": {
+    "messageformat": "Year required"
+  },
+  "icu:DonateFlow__card-form-error-invalid": {
+    "messageformat": "Invalid"
+  },
+  "icu:DonateFlow__card-form-error-cvc-too-short": {
+    "messageformat": "Code too short"
+  },
+  "icu:DonateFlow__one-time-donation-boost-badge-info": {
+    "messageformat": "Get the Signal Boost badge for 30 days"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "દાનની રસીદ"
   },
@@ -6693,8 +6735,8 @@
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Signalને સપોર્ટ કરવા બદલ આપનો આભાર. તમારું યોગદાન ઓપન સોર્સ પ્રાઇવસી ટેક્નોલોજી વિકસિત કરવાના મિશનને વેગ આપવામાં મદદ કરે છે જે મુક્ત અભિવ્યક્તિનું રક્ષણ કરે છે અને વિશ્વના લાખો લોકો માટે સુરક્ષિત વૈશ્વિક સંચારને સક્રિય કરે છે. જો તમે યુનાઇટેડ સ્ટેટ્સના રહેવાસી હો, તો કૃપા કરીને તમારા ટેક્સ રેકોર્ડ માટે આ રસીદને સાચવી રાખો. Signal Technology Foundation એ યુનાઇટેડ સ્ટેટ્સમાં Internal Revenue Code (આંતરિક મહેસૂલ સંહિતા)ની કલમ 501c3 હેઠળ એક કરવેરા-મુક્ત બિનલાભકારી સંસ્થા છે. અમારું સંઘીય ટેક્સ ID છે 82-4506840."
   },
-  "icu:Donations__Toast__Cancelled": {
-    "messageformat": "દાન રદ કર્યું"
+  "icu:Donations__Toast__Canceled": {
+    "messageformat": "Donation canceled"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "દાન પૂર્ણ થયું"
@@ -6710,6 +6752,18 @@
   },
   "icu:Donations__Toast__VerificationNeeded": {
     "messageformat": "તમારા એક દાનની પ્રક્રિયા ચાલુ છે જેને વધારાની ચકાસણીની જરૂર છે."
+  },
+  "icu:Donations__Toast__ConfirmationNeeded": {
+    "messageformat": "You have a donation in progress that requires confirmation."
+  },
+  "icu:Donations__DonationInterrupted": {
+    "messageformat": "Donation interrupted"
+  },
+  "icu:Donations__DonationInterrupted__Description": {
+    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+  },
+  "icu:Donations__DonationInterrupted__RetryButton": {
+    "messageformat": "Try again"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "ચુકવણી પદ્ધતિ નકારવામાં આવી"
@@ -6737,6 +6791,12 @@
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "તમારા દાનની પ્રક્રિયા હજી ચાલુ છે. આમાં થોડીવાર લાગી શકે છે."
+  },
+  "icu:Donations__TimedOut": {
+    "messageformat": "Donation canceled"
+  },
+  "icu:Donations__TimedOut__Description": {
+    "messageformat": "It has been too long since you started your donation. Please start over."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "વધારાની ચકાસણી જરૂરી છે"
@@ -6788,6 +6848,9 @@
     "messageformat": "અમે મલ્ટિટાસ્કિંગ કરતી વખતે મેસેજને વાંચેલ / ન વાંચેલ તરીકે ચિહ્નિત કરવાના અનુભવમાં સુધારો કર્યો છે."
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "અમે ઇમોજી સર્ચ બોક્સમાં એક બગ સુધાર્યો."
+  },
+  "icu:WhatsNew__v7.66--0": {
+    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
   }
 }

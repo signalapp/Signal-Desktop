@@ -75,23 +75,25 @@ $secondary-text-color: light-dark(
   }
 
   &__profile-chip {
-    @include mixins.button-reset;
-    & {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 
-      width: calc(100% - 11px);
-      margin-inline-start: 10px;
-      margin-inline-end: 1px;
+    width: calc(100% - 11px);
+    margin-inline-start: 10px;
+    margin-inline-end: 1px;
 
-      margin-bottom: 4px;
-      border-radius: 8px;
+    margin-bottom: 4px;
+    border-radius: 8px;
 
-      padding-top: 14px;
-      padding-bottom: 14px;
-      padding-inline-start: 10px;
-      padding-inline-end: 10px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    padding-inline-start: 10px;
+    padding-inline-end: 10px;
+
+    &__screenreader-only {
+      @include mixins.sr-only;
     }
 
     &--selected {
@@ -103,7 +105,7 @@ $secondary-text-color: light-dark(
       }
     }
 
-    &:focus {
+    &:has(.Preferences__profile-chip__button:focus) {
       @include mixins.keyboard-mode {
         background: variables.$color-gray-05;
       }
@@ -111,12 +113,21 @@ $secondary-text-color: light-dark(
         background: variables.$color-gray-75;
       }
     }
-    &:hover:not(&--selected) {
+    &:has(.Preferences__profile-chip__button:hover):not(&--selected) {
       @include mixins.mouse-mode {
         background: variables.$color-gray-05;
       }
       @include mixins.dark-mouse-mode {
         background: variables.$color-gray-75;
+      }
+    }
+
+    &__button {
+      @include mixins.button-reset;
+      & {
+        position: absolute;
+        z-index: 1;
+        inset: 0;
       }
     }
 
@@ -156,18 +167,39 @@ $secondary-text-color: light-dark(
       text-overflow: ellipsis;
     }
 
-    &__qr-icon-container {
-      margin-inline-start: 2px;
-      flex-shrink: 0;
-      position: relative;
-      height: 36px;
-      width: 36px;
-      border-radius: 50%;
+    &__qr-icon-button {
+      @include mixins.button-reset;
+      & {
+        z-index: 2;
+        margin-inline-start: 2px;
+        flex-shrink: 0;
+        position: relative;
+        height: 36px;
+        width: 36px;
+        border-radius: 50%;
+      }
       @include mixins.light-theme {
-        background-color: variables.$color-gray-15;
+        background-color: variables.$color-white;
       }
       @include mixins.dark-theme {
-        background-color: variables.$color-gray-65;
+        background-color: rgba(variables.$color-gray-40, 0.2);
+      }
+
+      &:active {
+        @include mixins.mouse-mode {
+          background-color: variables.$color-gray-02;
+        }
+        @include mixins.dark-mouse-mode {
+          background-color: rgba(variables.$color-gray-40, 0.28);
+        }
+      }
+      &:focus {
+        @include mixins.keyboard-mode {
+          box-shadow: 0px 0px 0px 2.5px #a0a7fe;
+        }
+        @include mixins.dark-keyboard-mode {
+          box-shadow: 0px 0px 0px 2.5px #c1c7fe;
+        }
       }
     }
     &__qr-icon {
@@ -266,6 +298,10 @@ $secondary-text-color: light-dark(
       @include preferences-icon(
         '../images/icons/v3/signal_backups/signal_backups.svg'
       );
+    }
+
+    &--donations {
+      @include preferences-icon('../images/icons/v3/heart/heart.svg');
     }
 
     &--internal {

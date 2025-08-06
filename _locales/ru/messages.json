@@ -3954,7 +3954,7 @@
     "messageformat": "Запрос на присоединение к группе от {joinerName} был отклонён."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} запросил(-а) и отменил(-а) запрос на присоединение к группе по ссылке} few {{joinerName} запросил(-а) и отменил(-а) {numberOfRequests,number} запроса на присоединение к группе по ссылке} many {{joinerName} запросил(-а) и отменил(-а) {numberOfRequests,number} запросов на присоединение к группе по ссылке} other {{joinerName} запросил(-а) и отменил(-а) {numberOfRequests,number} запроса на присоединение к группе по ссылке}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Вы включили ссылку на группу с отключенным одобрением администратора."
@@ -4990,6 +4990,12 @@
   },
   "icu:ProfileEditor__username-link__error-icon": {
     "messageformat": "Ссылку на имя пользователя необходимо сбросить"
+  },
+  "icu:ProfileEditor__open": {
+    "messageformat": "Open username link screen"
+  },
+  "icu:ProfileEditor__username-link__open": {
+    "messageformat": "Open username link screen"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "Поделитесь вашим именем пользователя"
@@ -6675,6 +6681,42 @@
   "icu:DonateFlow__having-issues-contact-support": {
     "messageformat": "Возникли проблемы? <contactSupportLink>Связаться с поддержкой</contactSupportLink>"
   },
+  "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
+    "messageformat": "Enter Custom Amount"
+  },
+  "icu:DonateFlow__credit-or-debit-card": {
+    "messageformat": "Credit or Debit Card"
+  },
+  "icu:DonateFlow__card-form-instructions": {
+    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:DonateFlow__card-form-card-number": {
+    "messageformat": "Card Number"
+  },
+  "icu:DonateFlow__card-form-expiration-date": {
+    "messageformat": "Expiration Date"
+  },
+  "icu:DonateFlow__card-form-title-donate-with-amount": {
+    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+  },
+  "icu:DonateFlow__card-form-error-invalid-card-number": {
+    "messageformat": "Invalid card number"
+  },
+  "icu:DonateFlow__card-form-error-expiration-expired": {
+    "messageformat": "Card has expired"
+  },
+  "icu:DonateFlow__card-form-error-year-missing": {
+    "messageformat": "Year required"
+  },
+  "icu:DonateFlow__card-form-error-invalid": {
+    "messageformat": "Invalid"
+  },
+  "icu:DonateFlow__card-form-error-cvc-too-short": {
+    "messageformat": "Code too short"
+  },
+  "icu:DonateFlow__one-time-donation-boost-badge-info": {
+    "messageformat": "Get the Signal Boost badge for 30 days"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Квитанция о пожертвовании"
   },
@@ -6693,8 +6735,8 @@
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Спасибо, что поддерживаете Signal. Ваш вклад помогает поддерживать миссию по защите свободы слова и делает возможным безопасное общение между миллионами людей по всему миру благодаря технологии конфиденциальности с открытым исходным кодом. Если вы проживаете в США, пожалуйста, сохраните эту квитанцию для своего налогового учёта. Signal Technology Foundation — это некоммерческая организация, освобождённая от налогов в США со статусом 501c3. Наш ИНН: 82–4506840."
   },
-  "icu:Donations__Toast__Cancelled": {
-    "messageformat": "Пожертвование отменено"
+  "icu:Donations__Toast__Canceled": {
+    "messageformat": "Donation canceled"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "Пожертвование завершено"
@@ -6710,6 +6752,18 @@
   },
   "icu:Donations__Toast__VerificationNeeded": {
     "messageformat": "У вас есть незавершённое пожертвование, требующее дополнительной проверки."
+  },
+  "icu:Donations__Toast__ConfirmationNeeded": {
+    "messageformat": "You have a donation in progress that requires confirmation."
+  },
+  "icu:Donations__DonationInterrupted": {
+    "messageformat": "Donation interrupted"
+  },
+  "icu:Donations__DonationInterrupted__Description": {
+    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+  },
+  "icu:Donations__DonationInterrupted__RetryButton": {
+    "messageformat": "Try again"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Способ оплаты отклонён"
@@ -6737,6 +6791,12 @@
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Ваше пожертвование всё ещё обрабатывается. Это может занять несколько минут."
+  },
+  "icu:Donations__TimedOut": {
+    "messageformat": "Donation canceled"
+  },
+  "icu:Donations__TimedOut__Description": {
+    "messageformat": "It has been too long since you started your donation. Please start over."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "Требуется дополнительная проверка"
@@ -6788,6 +6848,9 @@
     "messageformat": "Мы улучшили функцию пометки сообщений прочитанными/непрочитанными в режиме многозадачности и исправили ошибку, из-за которой иногда некорректно открывался расширенный просмотр изображений, если вы, ища идеальный эмодзи, нажимали пробел. Вы всё ещё можете увеличить изображение, если нажмёте на него или будете печатать достаточно быстро."
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "Поиск подходящего эмодзи бывает нелёгкой задачей, но мы исправили ошибку, из-за которой могло возникать затруднение после нажатия клавиши Escape в окне поиска эмодзи."
+  },
+  "icu:WhatsNew__v7.66--0": {
+    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
   }
 }

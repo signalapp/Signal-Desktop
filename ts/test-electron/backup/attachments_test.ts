@@ -103,6 +103,7 @@ describe('backup/attachments', () => {
       size: 100,
       contentType: IMAGE_JPEG,
       path: `/path/to/file${index}.png`,
+      caption: `caption${index}`,
       localKey: Bytes.toBase64(generateAttachmentKeys()),
       uploadTimestamp: index,
       thumbnail: {
@@ -396,6 +397,42 @@ describe('backup/attachments', () => {
         [
           composeMessage(1, {
             attachments: [expectedRoundtrippedFields(attachment)],
+          }),
+        ],
+        { backupLevel: BackupLevel.Paid }
+      );
+    });
+    it('deduplicates attachments on export based on mediaName', async () => {
+      const attachment1 = composeAttachment(1);
+      const attachment2 = {
+        ...attachment1,
+        contentType: IMAGE_WEBP,
+        caption: 'attachment2caption',
+        cdnKey: 'attachment2cdnkey',
+        cdnNumber: 25,
+      };
+
+      await asymmetricRoundtripHarness(
+        [
+          composeMessage(1, {
+            attachments: [attachment1],
+          }),
+          composeMessage(2, {
+            attachments: [attachment2],
+          }),
+        ],
+        [
+          composeMessage(1, {
+            attachments: [expectedRoundtrippedFields(attachment1)],
+          }),
+          composeMessage(2, {
+            attachments: [
+              expectedRoundtrippedFields({
+                ...attachment2,
+                cdnKey: attachment1.cdnKey,
+                cdnNumber: attachment1.cdnNumber,
+              }),
+            ],
           }),
         ],
         { backupLevel: BackupLevel.Paid }

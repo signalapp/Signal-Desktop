@@ -3,30 +3,12 @@
 
 import type { Database } from '@signalapp/sqlcipher';
 
-import type { LoggerType } from '../../types/Logging';
+export default function updateToSchemaVersion1090(db: Database): void {
+  db.exec(`
+    CREATE INDEX reactions_messageId
+      ON reactions (messageId);
 
-export const version = 1090;
-
-export function updateToSchemaVersion1090(
-  currentVersion: number,
-  db: Database,
-  logger: LoggerType
-): void {
-  if (currentVersion >= 1090) {
-    return;
-  }
-
-  db.transaction(() => {
-    db.exec(`
-      CREATE INDEX reactions_messageId
-        ON reactions (messageId);
-    
-      CREATE INDEX storyReads_storyId
-        ON storyReads (storyId);
-    `);
-
-    db.pragma('user_version = 1090');
-  })();
-
-  logger.info('updateToSchemaVersion1090: success!');
+    CREATE INDEX storyReads_storyId
+      ON storyReads (storyId);
+  `);
 }

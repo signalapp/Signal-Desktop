@@ -216,9 +216,13 @@ type CacheAddItemType = {
 };
 
 type LockedStores = {
+  readonly identityKeyStore: IdentityKeys;
+  readonly kyberPreKeyStore: KyberPreKeys;
+  readonly preKeyStore: PreKeys;
   readonly senderKeyStore: SenderKeys;
   readonly sessionStore: Sessions;
-  readonly identityKeyStore: IdentityKeys;
+  readonly signedPreKeyStore: SignedPreKeys;
+
   readonly zone?: Zone;
 };
 
@@ -994,6 +998,8 @@ export default class MessageReceiver
 
     try {
       const zone = new Zone('decryptAndCacheBatch', {
+        pendingKyberPreKeysToRemove: true,
+        pendingPreKeysToRemove: true,
         pendingSenderKeys: true,
         pendingSessions: true,
         pendingUnprocessed: true,
@@ -1019,19 +1025,17 @@ export default class MessageReceiver
 
               let stores = storesMap.get(destinationServiceId);
               if (!stores) {
+                const sharedParams = {
+                  ourServiceId: destinationServiceId,
+                  zone,
+                };
                 stores = {
-                  senderKeyStore: new SenderKeys({
-                    ourServiceId: destinationServiceId,
-                    zone,
-                  }),
-                  sessionStore: new Sessions({
-                    zone,
-                    ourServiceId: destinationServiceId,
-                  }),
-                  identityKeyStore: new IdentityKeys({
-                    zone,
-                    ourServiceId: destinationServiceId,
-                  }),
+                  identityKeyStore: new IdentityKeys(sharedParams),
+                  kyberPreKeyStore: new KyberPreKeys(sharedParams),
+                  preKeyStore: new PreKeys(sharedParams),
+                  senderKeyStore: new SenderKeys(sharedParams),
+                  sessionStore: new Sessions(sharedParams),
+                  signedPreKeyStore: new SignedPreKeys(sharedParams),
                   zone,
                 };
                 storesMap.set(destinationServiceId, stores);
@@ -1671,7 +1675,15 @@ export default class MessageReceiver
   }
 
   async #decryptSealedSender(
-    { senderKeyStore, sessionStore, identityKeyStore, zone }: LockedStores,
+    {
+      identityKeyStore,
+      kyberPreKeyStore,
+      preKeyStore,
+      senderKeyStore,
+      sessionStore,
+      signedPreKeyStore,
+      zone,
+    }: LockedStores,
     envelope: UnsealedEnvelope
   ): Promise<DecryptSealedSenderResult> {
     const { destinationServiceId } = envelope;
@@ -1747,14 +1759,6 @@ export default class MessageReceiver
         'unidentified message/passing to sealedSenderDecryptMessage'
     );
 
-    const preKeyStore = new PreKeys({ ourServiceId: destinationServiceId });
-    const signedPreKeyStore = new SignedPreKeys({
-      ourServiceId: destinationServiceId,
-    });
-    const kyberPreKeyStore = new KyberPreKeys({
-      ourServiceId: destinationServiceId,
-    });
-
     const sealedSenderIdentifier = envelope.sourceServiceId;
     strictAssert(
       sealedSenderIdentifier !== undefined,
@@ -1810,7 +1814,14 @@ export default class MessageReceiver
     ciphertext: Uint8Array,
     serviceIdKind: ServiceIdKind
   ): Promise<InnerDecryptResultType | undefined> {
-    const { sessionStore, identityKeyStore, zone } = stores;
+    const {
+      identityKeyStore,
+      kyberPreKeyStore,
+      preKeyStore,
+      sessionStore,
+      signedPreKeyStore,
+      zone,
+    } = stores;
 
     const logId = getEnvelopeId(envelope);
     const envelopeTypeEnum = Proto.Envelope.Type;
@@ -1819,13 +1830,6 @@ export default class MessageReceiver
     const { sourceDevice } = envelope;
 
     const { destinationServiceId } = envelope;
-    const preKeyStore = new PreKeys({ ourServiceId: destinationServiceId });
-    const signedPreKeyStore = new SignedPreKeys({
-      ourServiceId: destinationServiceId,
-    });
-    const kyberPreKeyStore = new KyberPreKeys({
-      ourServiceId: destinationServiceId,
-    });
 
     strictAssert(identifier !== undefined, 'Empty identifier');
     strictAssert(sourceDevice !== undefined, 'Empty source device');

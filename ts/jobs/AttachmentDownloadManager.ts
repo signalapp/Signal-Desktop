@@ -65,6 +65,8 @@ import { formatCountForLogging } from '../logging/formatCountForLogging';
 import { strictAssert } from '../util/assert';
 import { updateBackupMediaDownloadProgress } from '../util/updateBackupMediaDownloadProgress';
 import { HTTPError } from '../textsecure/Errors';
+import { isOlderThan } from '../util/timestamp';
+import { getMessageQueueTime as doGetMessageQueueTime } from '../util/getMessageQueueTime';
 
 const log = createLogger('AttachmentDownloadManager');
 
@@ -103,6 +105,7 @@ type RunDownloadAttachmentJobOptions = {
   isForCurrentlyVisibleMessage: boolean;
   maxAttachmentSizeInKib: number;
   maxTextAttachmentSizeInKib: number;
+  hasMediaBackups: boolean;
 };
 
 type AttachmentDownloadManagerParamsType = Omit<
@@ -122,6 +125,8 @@ type AttachmentDownloadManagerParamsType = Omit<
     dependencies?: DependenciesType;
   }) => Promise<JobManagerJobResultType<CoreAttachmentDownloadJobType>>;
   onLowDiskSpaceBackupImport: (bytesNeeded: number) => Promise<void>;
+  hasMediaBackups: () => boolean;
+  getMessageQueueTime: () => number;
   statfs: typeof statfs;
 };
 
@@ -149,6 +154,8 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
     },
   });
   #onLowDiskSpaceBackupImport: (bytesNeeded: number) => Promise<void>;
+  #getMessageQueueTime: () => number;
+  #hasMediaBackups: () => boolean;
   #statfs: typeof statfs;
   #maxAttachmentSizeInKib = getMaximumIncomingAttachmentSizeInKb(getValue);
   #maxTextAttachmentSizeInKib =
@@ -204,6 +211,8 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
         bytesNeeded
       );
     },
+    hasMediaBackups: () => window.Signal.Services.backups.hasMediaBackups(),
+    getMessageQueueTime: () => doGetMessageQueueTime(),
     statfs,
   };
 
@@ -244,6 +253,7 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
           isLastAttempt,
           options: {
             abortSignal,
+            hasMediaBackups: this.#hasMediaBackups(),
             isForCurrentlyVisibleMessage,
             maxAttachmentSizeInKib: this.#maxAttachmentSizeInKib,
             maxTextAttachmentSizeInKib: this.#maxTextAttachmentSizeInKib,
@@ -252,6 +262,8 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
       },
     });
     this.#onLowDiskSpaceBackupImport = params.onLowDiskSpaceBackupImport;
+    this.#getMessageQueueTime = params.getMessageQueueTime;
+    this.#hasMediaBackups = params.hasMediaBackups;
     this.#statfs = params.statfs;
   }
 
@@ -272,8 +284,25 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
 
     const logId = `AttachmentDownloadManager/addJob(${sentAt}.${attachmentType})`;
 
-    if (attachment.error && source === AttachmentDownloadSource.BACKUP_IMPORT) {
-      return attachment;
+    if (source === AttachmentDownloadSource.BACKUP_IMPORT) {
+      if (attachment.error) {
+        return attachment;
+      }
+
+      // For non-media-enabled backups, we will skip queueing download for old attachments
+      // that cannot still be on the transit tier
+      if (!this.#hasMediaBackups() && !wasImportedFromLocalBackup(attachment)) {
+        const attachmentUploadedAt = attachment.uploadTimestamp || sentAt;
+
+        // Skip queueing download if attachment is older than twice the message queue time
+        // (a generous buffer that ensures we download anything that could still exist on
+        // the transit tier)
+        if (
+          isOlderThan(attachmentUploadedAt, this.#getMessageQueueTime() * 2)
+        ) {
+          return attachment;
+        }
+      }
     }
 
     const parseResult = safeParsePartial(coreAttachmentDownloadJobSchema, {
@@ -458,6 +487,7 @@ async function runDownloadAttachmentJob({
     const result = await runDownloadAttachmentJobInner({
       job,
       abortSignal: options.abortSignal,
+      hasMediaBackups: options.hasMediaBackups,
       isForCurrentlyVisibleMessage:
         options?.isForCurrentlyVisibleMessage ?? false,
       maxAttachmentSizeInKib: options.maxAttachmentSizeInKib,
@@ -582,6 +612,7 @@ export async function runDownloadAttachmentJobInner({
   isForCurrentlyVisibleMessage,
   maxAttachmentSizeInKib,
   maxTextAttachmentSizeInKib,
+  hasMediaBackups,
   dependencies,
 }: {
   job: AttachmentDownloadJobType;
@@ -616,7 +647,6 @@ export async function runDownloadAttachmentJobInner({
       `${logId}: Text attachment was ${sizeInKib}kib, max is ${maxTextAttachmentSizeInKib}kib`
     );
   }
-  const hasMediaBackups = window.Signal.Services.backups.hasMediaBackups();
   const mightBeInRemoteBackup = shouldAttachmentEndUpInRemoteBackup({
     attachment,
     hasMediaBackups,

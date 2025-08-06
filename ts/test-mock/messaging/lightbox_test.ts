@@ -78,7 +78,7 @@ describe('lightbox', function (this: Mocha.Suite) {
       });
       debug('wait for message to appear in timeline');
       const Message = getMessageInTimelineByTimestamp(page, timestamp);
-      const MessageImageLoaded = Message.locator('img.module-image__image');
+      const MessageImageLoaded = Message.locator('.module-image--loaded');
 
       await Message.waitFor();
 

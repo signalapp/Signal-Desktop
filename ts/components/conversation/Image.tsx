@@ -4,8 +4,8 @@
 import type { CSSProperties } from 'react';
 import React, { useCallback } from 'react';
 import classNames from 'classnames';
-import { Blurhash } from 'react-blurhash';
 
+import { ImageOrBlurhash } from '../ImageOrBlurhash';
 import { Spinner } from '../Spinner';
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { AttachmentForUIType } from '../../types/Attachment';
@@ -169,21 +169,17 @@ export function Image({
     showMediaNoLongerAvailableToast
   );
 
-  const imageOrBlurHash = url ? (
-    <img
+  const imageOrBlurHash = (
+    <ImageOrBlurhash
       onError={onError}
       className="module-image__image"
       alt={alt}
       height={height}
       width={width}
+      intrinsicWidth={attachment.width}
+      intrinsicHeight={attachment.height}
       src={url}
-    />
-  ) : (
-    <Blurhash
-      hash={resolvedBlurHash}
-      width={width}
-      height={height}
-      style={{ display: 'block' }}
+      blurHash={noBackground && url ? undefined : resolvedBlurHash}
     />
   );
 
@@ -236,6 +232,7 @@ export function Image({
       className={classNames(
         'module-image',
         className,
+        attachment.path ? 'module-image--loaded' : null,
         !noBackground ? 'module-image--with-background' : null,
         cropWidth || cropHeight ? 'module-image--cropped' : null
       )}

@@ -3,33 +3,15 @@
 
 import type { Database } from '@signalapp/sqlcipher';
 
-import type { LoggerType } from '../../types/Logging';
+export default function updateToSchemaVersion1110(db: Database): void {
+  db.exec(`
+    ALTER TABLE stickers
+      ADD COLUMN version INTEGER NOT NULL DEFAULT 1;
 
-export const version = 1110;
+    ALTER TABLE stickers
+      ADD COLUMN localKey TEXT;
 
-export function updateToSchemaVersion1110(
-  currentVersion: number,
-  db: Database,
-  logger: LoggerType
-): void {
-  if (currentVersion >= 1110) {
-    return;
-  }
-
-  db.transaction(() => {
-    db.exec(`
-      ALTER TABLE stickers
-        ADD COLUMN version INTEGER NOT NULL DEFAULT 1;
-
-      ALTER TABLE stickers
-        ADD COLUMN localKey TEXT;
-
-      ALTER TABLE stickers
-        ADD COLUMN size INTEGER;
-    `);
-
-    db.pragma('user_version = 1110');
-  })();
-
-  logger.info('updateToSchemaVersion1110: success!');
+    ALTER TABLE stickers
+      ADD COLUMN size INTEGER;
+  `);
 }

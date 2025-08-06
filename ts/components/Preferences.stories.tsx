@@ -218,8 +218,9 @@ function renderDonationsPane(props: {
       i18n={i18n}
       contentsRef={props.contentsRef}
       clearWorkflow={action('clearWorkflow')}
-      initialCurrency="USD"
+      initialCurrency="usd"
       resumeWorkflow={action('resumeWorkflow')}
+      isOnline
       isStaging
       page={props.page}
       setPage={props.setPage}
@@ -380,6 +381,7 @@ export default {
           action('saveAttachmentToDisk')();
           return { fullPath: '/mock/path/to/file.png', name: 'file.png' };
         },
+
         generateDonationReceiptBlob: async () => {
           action('generateDonationReceiptBlob')();
           return new Blob();
@@ -497,7 +499,10 @@ const Template: StoryFn<PropsType> = args => {
     <Preferences
       {...args}
       page={page}
-      setPage={(newPage: SettingsPage, profilePage?: ProfileEditorPage) => {
+      setPage={(
+        newPage: SettingsPage,
+        profilePage: ProfileEditorPage | undefined
+      ) => {
         // eslint-disable-next-line no-console
         console.log('setPage:', newPage, profilePage);
         setPage(newPage);
@@ -565,6 +570,47 @@ DonationsDonateFlow.args = {
       me,
       donationReceipts: [],
       page: SettingsPage.DonationsDonateFlow,
+      setPage: action('setPage'),
+      saveAttachmentToDisk: async () => {
+        action('saveAttachmentToDisk')();
+        return { fullPath: '/mock/path/to/file.png', name: 'file.png' };
+      },
+      generateDonationReceiptBlob: async () => {
+        action('generateDonationReceiptBlob')();
+        return new Blob();
+      },
+      showToast: action('showToast'),
+    }),
+};
+export const DonationReceipts = Template.bind({});
+DonationReceipts.args = {
+  donationsFeatureEnabled: true,
+  page: SettingsPage.DonationsDonateFlow,
+  renderDonationsPane: ({
+    contentsRef,
+  }: {
+    contentsRef: MutableRefObject<HTMLDivElement | null>;
+    page: SettingsPage;
+    setPage: (page: SettingsPage) => void;
+  }) =>
+    renderDonationsPane({
+      contentsRef,
+      me,
+      donationReceipts: [
+        {
+          id: '9f9288a1-acb6-4d2e-a4fe-0a736a318a26',
+          currencyType: 'usd',
+          paymentAmount: 1000,
+          timestamp: 1754000413436,
+        },
+        {
+          id: '22defee0-8797-4a49-bac8-1673232706fa',
+          currencyType: 'jpy',
+          paymentAmount: 1000,
+          timestamp: 1753995255509,
+        },
+      ],
+      page: SettingsPage.DonationsReceiptList,
       setPage: action('setPage'),
       saveAttachmentToDisk: async () => {
         action('saveAttachmentToDisk')();

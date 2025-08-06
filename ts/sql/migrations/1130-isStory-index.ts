@@ -3,29 +3,11 @@
 
 import type { Database } from '@signalapp/sqlcipher';
 
-import type { LoggerType } from '../../types/Logging';
-
-export const version = 1130;
-
-export function updateToSchemaVersion1130(
-  currentVersion: number,
-  db: Database,
-  logger: LoggerType
-): void {
-  if (currentVersion >= 1130) {
-    return;
-  }
-
-  db.transaction(() => {
-    // This is to improve the performance of getAllStories
-    db.exec(`
-      CREATE INDEX messages_isStory
-        ON messages(received_at, sent_at)
-        WHERE isStory = 1;
-    `);
-
-    db.pragma('user_version = 1130');
-  })();
-
-  logger.info('updateToSchemaVersion1130: success!');
+export default function updateToSchemaVersion1130(db: Database): void {
+  // This is to improve the performance of getAllStories
+  db.exec(`
+    CREATE INDEX messages_isStory
+      ON messages(received_at, sent_at)
+      WHERE isStory = 1;
+  `);
 }

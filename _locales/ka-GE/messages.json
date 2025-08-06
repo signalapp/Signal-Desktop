@@ -3954,7 +3954,7 @@
     "messageformat": "{joinerName}-ის ჯგუფში გაწევრიანების მოთხოვნა უარყოფილია."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName}-მა ჯგუფში ბმულით გაწევრიანება მოითხოვა და მოთხოვნა გააუქმა.} other {{joinerName}-მა ჯგუფში ბმულით გაწევრიანება მოითხოვა და {numberOfRequests,number} მოთხოვნა გააუქმა.}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "შენ ჩართე ჯგუფის ბმული ადმინის დასტურის გათიშული ფუნქციით."
@@ -4990,6 +4990,12 @@
   },
   "icu:ProfileEditor__username-link__error-icon": {
     "messageformat": "მომხმარებლის სახელის ბმულს გადაყენება სჭირდება"
+  },
+  "icu:ProfileEditor__open": {
+    "messageformat": "Open username link screen"
+  },
+  "icu:ProfileEditor__username-link__open": {
+    "messageformat": "Open username link screen"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "მომხმარებლის სახელის გაზიარება"
@@ -6675,6 +6681,42 @@
   "icu:DonateFlow__having-issues-contact-support": {
     "messageformat": "პრობლემას გადააწყდი? <contactSupportLink>დაუკავშირდი მხარდაჭერის გუნდს</contactSupportLink>"
   },
+  "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
+    "messageformat": "Enter Custom Amount"
+  },
+  "icu:DonateFlow__credit-or-debit-card": {
+    "messageformat": "Credit or Debit Card"
+  },
+  "icu:DonateFlow__card-form-instructions": {
+    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:DonateFlow__card-form-card-number": {
+    "messageformat": "Card Number"
+  },
+  "icu:DonateFlow__card-form-expiration-date": {
+    "messageformat": "Expiration Date"
+  },
+  "icu:DonateFlow__card-form-title-donate-with-amount": {
+    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+  },
+  "icu:DonateFlow__card-form-error-invalid-card-number": {
+    "messageformat": "Invalid card number"
+  },
+  "icu:DonateFlow__card-form-error-expiration-expired": {
+    "messageformat": "Card has expired"
+  },
+  "icu:DonateFlow__card-form-error-year-missing": {
+    "messageformat": "Year required"
+  },
+  "icu:DonateFlow__card-form-error-invalid": {
+    "messageformat": "Invalid"
+  },
+  "icu:DonateFlow__card-form-error-cvc-too-short": {
+    "messageformat": "Code too short"
+  },
+  "icu:DonateFlow__one-time-donation-boost-badge-info": {
+    "messageformat": "Get the Signal Boost badge for 30 days"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "დონაციის ქვითარი"
   },
@@ -6693,8 +6735,8 @@
   "icu:DonationReceipt__footer-text": {
     "messageformat": "მადლობა Signal-ის მხარდაჭერისთვის. შენი წვლილი ხელს უწყობს გამოხატვის თავისუფლების დაცვისა და მთელ მსოფლიოში მილიონობით ადამიანისთვის უსაფრთხო გლობალური კომუნიკაციის უზრუნველყოფის მისიის განხორციელებას ღია კოდის კონფიდენციალურობის ტექნოლოგიების მეშვეობით. თუ შეერთებული შტატების რეზიდენტი ხარ, გთხოვთ, ეს ქვითარი შენი საგადასახადო ჩანაწერებისთვის შეინახო. Signal-ის ტექნოლოგიების ფონდი არის გადასახადებისგან გათავისუფლებული არაკომერციული ორგანიზაცია შეერთებულ შტატებში, Internal Revenue Code-ის 501c3 მუხლის შესაბამისად. ჩვენი ფედერალური საგადასახადო ID არის 82-4506840."
   },
-  "icu:Donations__Toast__Cancelled": {
-    "messageformat": "დონაცია გაუქმებულია"
+  "icu:Donations__Toast__Canceled": {
+    "messageformat": "Donation canceled"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "დონაცია შესრულებულია"
@@ -6710,6 +6752,18 @@
   },
   "icu:Donations__Toast__VerificationNeeded": {
     "messageformat": "მიმდინარეობს დონაციის მიღების პროცესი, რომელიც დამატებით დადასტურებას საჭიროებს."
+  },
+  "icu:Donations__Toast__ConfirmationNeeded": {
+    "messageformat": "You have a donation in progress that requires confirmation."
+  },
+  "icu:Donations__DonationInterrupted": {
+    "messageformat": "Donation interrupted"
+  },
+  "icu:Donations__DonationInterrupted__Description": {
+    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+  },
+  "icu:Donations__DonationInterrupted__RetryButton": {
+    "messageformat": "Try again"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "გადახდის მეთოდი უარყოფილია"
@@ -6737,6 +6791,12 @@
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "შენი დონაცია ისევ მუშავდება. შეიძლება, ამას რამდენიმე წუთი დასჭირდეს."
+  },
+  "icu:Donations__TimedOut": {
+    "messageformat": "Donation canceled"
+  },
+  "icu:Donations__TimedOut__Description": {
+    "messageformat": "It has been too long since you started your donation. Please start over."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "საჭიროა დამატებითი ვერიფიკაცია"
@@ -6788,6 +6848,9 @@
     "messageformat": "მულტითასქინგისას წაკითხული/წაუკითხავი შეტყობინებების გამოცდილება გავაუმჯობესეთ. ასევე გამოვასწორეთ შეცდომა, რომელიც ზოგჯერ არასწორად ხსნიდა სურათების გაფართოებულ ხედს, თუ იდეალური ემოჯის ძიებისას Space ღილაკს დააჭერდი. სურათზე დაჭერით ან სწრაფად აკრეფით კვლავ შეგიძლია მისი გადიდება."
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "სწორი ემოჯის პოვნა ზოგჯერ ძალიან რთულია, მაგრამ გამოვასწორეთ ბაგი, რომელიც ემოჯის საძიებო ველში Escape ღილაკის დაჭერის შემდეგ შეცდომას იწვევდა."
+  },
+  "icu:WhatsNew__v7.66--0": {
+    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
   }
 }

@@ -181,14 +181,17 @@ export class IdentityKeys extends IdentityKeyStore {
 
 export type PreKeysOptions = Readonly<{
   ourServiceId: ServiceIdString;
+  zone?: Zone;
 }>;
 
 export class PreKeys extends PreKeyStore {
   readonly #ourServiceId: ServiceIdString;
+  readonly #zone: Zone | undefined;
 
-  constructor({ ourServiceId }: PreKeysOptions) {
+  constructor({ ourServiceId, zone }: PreKeysOptions) {
     super();
     this.#ourServiceId = ourServiceId;
+    this.#zone = zone;
   }
 
   async savePreKey(): Promise<void> {
@@ -209,18 +212,22 @@ export class PreKeys extends PreKeyStore {
   }
 
   async removePreKey(id: number): Promise<void> {
-    await window.textsecure.storage.protocol.removePreKeys(this.#ourServiceId, [
-      id,
-    ]);
+    await window.textsecure.storage.protocol.removePreKeys(
+      this.#ourServiceId,
+      [id],
+      { zone: this.#zone }
+    );
   }
 }
 
 export class KyberPreKeys extends KyberPreKeyStore {
   readonly #ourServiceId: ServiceIdString;
+  readonly #zone: Zone | undefined;
 
-  constructor({ ourServiceId }: PreKeysOptions) {
+  constructor({ ourServiceId, zone }: PreKeysOptions) {
     super();
     this.#ourServiceId = ourServiceId;
+    this.#zone = zone;
   }
 
   async saveKyberPreKey(): Promise<void> {
@@ -244,7 +251,8 @@ export class KyberPreKeys extends KyberPreKeyStore {
   async markKyberPreKeyUsed(id: number): Promise<void> {
     await window.textsecure.storage.protocol.maybeRemoveKyberPreKey(
       this.#ourServiceId,
-      id
+      id,
+      { zone: this.#zone }
     );
   }
 }
@@ -256,7 +264,6 @@ export type SenderKeysOptions = Readonly<{
 
 export class SenderKeys extends SenderKeyStore {
   readonly #ourServiceId: ServiceIdString;
-
   readonly zone: Zone | undefined;
 
   constructor({ ourServiceId, zone }: SenderKeysOptions) {
@@ -300,6 +307,7 @@ export type SignedPreKeysOptions = Readonly<{
   ourServiceId: ServiceIdString;
 }>;
 
+// No need for zone awareness, since no mutation happens in this store
 export class SignedPreKeys extends SignedPreKeyStore {
   readonly #ourServiceId: ServiceIdString;
 
