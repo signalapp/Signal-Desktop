@@ -474,7 +474,7 @@ const MessageReactions = forwardRef(function MessageReactions(
   }: MessageReactionsProps,
   parentRef
 ): JSX.Element {
-  const ordered = useGroupedAndOrderedReactions(reactions);
+  const ordered = useGroupedAndOrderedReactions(reactions, 'parentKey');
 
   const reactionsContainerRefMerger = useRef(createRefMerger());
 
