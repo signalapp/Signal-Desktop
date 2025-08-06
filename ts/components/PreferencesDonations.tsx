@@ -42,6 +42,7 @@ import { DonationErrorModal } from './DonationErrorModal';
 import { DonationVerificationModal } from './DonationVerificationModal';
 import { DonationProgressModal } from './DonationProgressModal';
 import { DonationStillProcessingModal } from './DonationStillProcessingModal';
+import { DonationsOfflineTooltip } from './conversation/DonationsOfflineTooltip';
 
 const log = createLogger('PreferencesDonations');
 
@@ -52,6 +53,7 @@ type PropsExternalType = {
 export type PropsDataType = {
   i18n: LocalizerType;
   initialCurrency: string;
+  isOnline: boolean;
   isStaging: boolean;
   page: SettingsPage;
   didResumeWorkflowAtStartup: boolean;
@@ -94,7 +96,12 @@ type DonationPage =
 
 type PreferencesHomeProps = Pick<
   PropsType,
-  'contentsRef' | 'i18n' | 'setPage' | 'isStaging' | 'donationReceipts'
+  | 'contentsRef'
+  | 'i18n'
+  | 'setPage'
+  | 'isOnline'
+  | 'isStaging'
+  | 'donationReceipts'
 > & {
   navigateToPage: (newPage: SettingsPage) => void;
   renderDonationHero: () => JSX.Element;
@@ -175,25 +182,35 @@ function DonationsHome({
   renderDonationHero,
   navigateToPage,
   setPage,
+  isOnline,
   isStaging,
   donationReceipts,
 }: PreferencesHomeProps): JSX.Element {
   const hasReceipts = donationReceipts.length > 0;
 
+  const donateButton = (
+    <Button
+      className="PreferencesDonations__PrimaryButton PreferencesDonations__donate-button"
+      disabled={!isOnline}
+      variant={isOnline ? ButtonVariant.Primary : ButtonVariant.Secondary}
+      size={ButtonSize.Medium}
+      onClick={() => {
+        setPage(SettingsPage.DonationsDonateFlow);
+      }}
+    >
+      {i18n('icu:PreferencesDonations__donate-button')}
+    </Button>
+  );
+
   return (
     <div className="PreferencesDonations">
       {renderDonationHero()}
-      {isStaging && (
-        <Button
-          className="PreferencesDonations__PrimaryButton PreferencesDonations__donate-button"
-          variant={ButtonVariant.Primary}
-          size={ButtonSize.Medium}
-          onClick={() => {
-            setPage(SettingsPage.DonationsDonateFlow);
-          }}
-        >
-          {i18n('icu:PreferencesDonations__donate-button')}
-        </Button>
+      {isStaging && isOnline ? (
+        donateButton
+      ) : (
+        <DonationsOfflineTooltip i18n={i18n}>
+          {donateButton}
+        </DonationsOfflineTooltip>
       )}
 
       <hr className="PreferencesDonations__separator" />
@@ -455,6 +472,7 @@ export function PreferencesDonations({
   contentsRef,
   i18n,
   initialCurrency,
+  isOnline,
   isStaging,
   page,
   workflow,
@@ -619,6 +637,7 @@ export function PreferencesDonations({
         <PreferencesDonateFlow
           contentsRef={contentsRef}
           i18n={i18n}
+          isOnline={isOnline}
           initialCurrency={initialCurrency}
           donationAmountsConfig={donationAmountsConfig}
           lastError={lastError}
@@ -641,6 +660,7 @@ export function PreferencesDonations({
       <DonationsHome
         contentsRef={contentsRef}
         i18n={i18n}
+        isOnline={isOnline}
         navigateToPage={navigateToPage}
         donationReceipts={donationReceipts}
         isStaging={isStaging}

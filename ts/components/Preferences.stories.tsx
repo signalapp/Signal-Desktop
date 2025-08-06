@@ -220,6 +220,7 @@ function renderDonationsPane(props: {
       clearWorkflow={action('clearWorkflow')}
       initialCurrency="usd"
       resumeWorkflow={action('resumeWorkflow')}
+      isOnline
       isStaging
       page={props.page}
       setPage={props.setPage}

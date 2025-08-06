@@ -20,6 +20,7 @@ import { drop } from '../../util/drop';
 import type { OneTimeDonationHumanAmounts } from '../../types/Donations';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { phoneNumberToCurrencyCode } from '../../services/donations';
+import { getNetworkIsOnline } from '../selectors/network';
 
 export const SmartPreferencesDonations = memo(
   function SmartPreferencesDonations({
@@ -38,6 +39,8 @@ export const SmartPreferencesDonations = memo(
       useState<OneTimeDonationHumanAmounts>();
 
     const getPreferredBadge = useSelector(getPreferredBadgeSelector);
+
+    const isOnline = useSelector(getNetworkIsOnline);
     const isStaging = isStagingServer();
     const i18n = useSelector(getIntl);
     const theme = useSelector(getTheme);
@@ -91,6 +94,7 @@ export const SmartPreferencesDonations = memo(
         showToast={showToast}
         contentsRef={contentsRef}
         initialCurrency={initialCurrency}
+        isOnline={isOnline}
         isStaging={isStaging}
         page={page}
         didResumeWorkflowAtStartup={donationsState.didResumeWorkflowAtStartup}

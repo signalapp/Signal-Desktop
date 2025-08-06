@@ -8958,6 +8958,10 @@
     "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840.",
     "description": "Footer text shown on donation receipts explaining tax deductibility and Signal's mission"
   },
+  "icu:Donations__OfflineTooltip": {
+    "messageformat": "You are offline. Please connect to the internet to complete a donation.",
+    "description": "Tooltip for donation related buttons which are temporarily disabled due to the app being offline."
+  },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Donation canceled",
     "description": "Toast shown when a donation was manually canceled by the user"

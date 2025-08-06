@@ -61,6 +61,7 @@ import {
 } from './preferences/donations/DonateInputCardCvc';
 import { I18n } from './I18n';
 import { strictAssert } from '../util/assert';
+import { DonationsOfflineTooltip } from './conversation/DonationsOfflineTooltip';
 import { DonateInputAmount } from './preferences/donations/DonateInputAmount';
 
 const SUPPORT_URL = 'https://support.signal.org/hc/requests/new?desktop';
@@ -68,6 +69,7 @@ const SUPPORT_URL = 'https://support.signal.org/hc/requests/new?desktop';
 export type PropsDataType = {
   i18n: LocalizerType;
   initialCurrency: string;
+  isOnline: boolean;
   donationAmountsConfig: OneTimeDonationHumanAmounts | undefined;
   lastError: DonationErrorType | undefined;
   validCurrencies: ReadonlyArray<string>;
@@ -92,6 +94,7 @@ export function PreferencesDonateFlow({
   contentsRef,
   i18n,
   initialCurrency,
+  isOnline,
   donationAmountsConfig,
   lastError,
   validCurrencies,
@@ -184,6 +187,7 @@ export function PreferencesDonateFlow({
           i18n={i18n}
           initialAmount={amount}
           initialCurrency={currency}
+          isOnline={isOnline}
           donationAmountsConfig={donationAmountsConfig}
           validCurrencies={validCurrencies}
           onChangeCurrency={handleAmountPickerCurrencyChanged}
@@ -206,6 +210,7 @@ export function PreferencesDonateFlow({
           disabled={isCardFormDisabled}
           i18n={i18n}
           initialValues={cardFormValues}
+          isOnline={isOnline}
           onChange={handleCardFormChanged}
           onSubmit={handleSubmitDonation}
           showPrivacyModal={showPrivacyModal}
@@ -252,6 +257,7 @@ type AmountPickerProps = {
   i18n: LocalizerType;
   initialAmount: HumanDonationAmount | undefined;
   initialCurrency: string | undefined;
+  isOnline: boolean;
   donationAmountsConfig: OneTimeDonationHumanAmounts | undefined;
   validCurrencies: ReadonlyArray<string>;
   onChangeCurrency: (value: string) => void;
@@ -263,6 +269,7 @@ function AmountPicker({
   i18n,
   initialAmount,
   initialCurrency = 'usd',
+  isOnline,
   validCurrencies,
   onChangeCurrency,
   onSubmit,
@@ -369,7 +376,7 @@ function AmountPicker({
   }, []);
 
   const amount = parsedCustomAmount ?? presetAmount;
-  const isContinueEnabled = currency != null && amount != null;
+  const isContinueEnabled = isOnline && currency != null && amount != null;
 
   const handleContinueClicked = useCallback(() => {
     if (!isContinueEnabled) {
@@ -387,6 +394,17 @@ function AmountPicker({
   } else {
     customInputClassName = 'DonationAmountPicker__CustomInput';
   }
+
+  const continueButton = (
+    <Button
+      className="PreferencesDonations__PrimaryButton"
+      disabled={!isContinueEnabled}
+      onClick={handleContinueClicked}
+      variant={isOnline ? ButtonVariant.Primary : ButtonVariant.Secondary}
+    >
+      Continue
+    </Button>
+  );
 
   return (
     <div className="DonationAmountPicker">
@@ -431,14 +449,13 @@ function AmountPicker({
         />
       </div>
       <div className="DonationAmountPicker__PrimaryButtonContainer">
-        <Button
-          className="PreferencesDonations__PrimaryButton"
-          disabled={!isContinueEnabled}
-          onClick={handleContinueClicked}
-          variant={ButtonVariant.Primary}
-        >
-          Continue
-        </Button>
+        {isOnline ? (
+          continueButton
+        ) : (
+          <DonationsOfflineTooltip i18n={i18n}>
+            {continueButton}
+          </DonationsOfflineTooltip>
+        )}
       </div>
     </div>
   );
@@ -456,6 +473,7 @@ type CardFormProps = {
   disabled: boolean;
   i18n: LocalizerType;
   initialValues: CardFormValues | undefined;
+  isOnline: boolean;
   onChange: (values: CardFormValues) => void;
   onSubmit: (cardDetail: CardDetail) => void;
   showPrivacyModal: () => void;
@@ -467,6 +485,7 @@ function CardForm({
   disabled,
   i18n,
   initialValues,
+  isOnline,
   onChange,
   onSubmit,
   showPrivacyModal,
@@ -566,12 +585,26 @@ function CardForm({
 
   const isDonateDisabled =
     disabled ||
+    !isOnline ||
     cardNumber === '' ||
     cardExpiration === '' ||
     cardCvc === '' ||
     cardNumberError != null ||
     cardExpirationError != null ||
     cardCvcError != null;
+
+  const donateButton = (
+    <Button
+      className="PreferencesDonations__PrimaryButton"
+      disabled={isDonateDisabled}
+      onClick={handleDonateClicked}
+      variant={isOnline ? ButtonVariant.Primary : ButtonVariant.Secondary}
+    >
+      {i18n('icu:PreferencesDonations__donate-button-with-amount', {
+        formattedCurrencyAmount,
+      })}
+    </Button>
+  );
 
   return (
     <div className="DonationCardForm">
@@ -658,16 +691,13 @@ function CardForm({
         </div>
       </div>
       <div className="DonationCardForm__PrimaryButtonContainer">
-        <Button
-          className="PreferencesDonations__PrimaryButton"
-          disabled={isDonateDisabled}
-          onClick={handleDonateClicked}
-          variant={ButtonVariant.Primary}
-        >
-          {i18n('icu:PreferencesDonations__donate-button-with-amount', {
-            formattedCurrencyAmount,
-          })}
-        </Button>
+        {isOnline ? (
+          donateButton
+        ) : (
+          <DonationsOfflineTooltip i18n={i18n}>
+            {donateButton}
+          </DonationsOfflineTooltip>
+        )}
       </div>
     </div>
   );
