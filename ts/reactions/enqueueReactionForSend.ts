@@ -123,11 +123,82 @@ export async function enqueueReactionForSend({
     });
   }
 
+  const ourId = window.ConversationController.getOurConversationIdOrThrow();
+  const hasMultipleEmojiReactions = window.storage.get('multipleEmojiReactions', false);
+
+  // Check if we already have this emoji (for toggle behavior)
+  const existingReactions = message.get('reactions') || [];
+  const alreadyHasThisEmoji = existingReactions.some(
+    r => r.fromId === ourId && r.emoji === emoji
+  );
+
+  // If we already have this emoji and not explicitly removing, toggle it off
+  if (!remove && alreadyHasThisEmoji) {
+    remove = true;
+  }
+
+  // If adding a reaction and multiple reactions are disabled,
+  // first remove all our existing reactions
+  if (!remove && !hasMultipleEmojiReactions) {
+    const ourReactions = existingReactions.filter(r => r.fromId === ourId);
+    
+    log.info('Single reaction mode - removing existing reactions before adding new one:', {
+      existingCount: ourReactions.length,
+      existingEmojis: ourReactions.map(r => r.emoji),
+      newEmoji: emoji
+    });
+
+    // Remove all our existing reactions first
+    for (const existingReaction of ourReactions) {
+      // Skip if it's the same emoji we're about to add
+      if (existingReaction.emoji === emoji) {
+        continue;
+      }
+
+      const removeReaction: ReactionAttributesType = {
+        envelopeId: generateUuid(),
+        removeFromMessageReceiverCache: noop,
+        emoji: existingReaction.emoji,
+        fromId: ourId,
+        remove: true,
+        source: ReactionSource.FromThisDevice,
+        generatedMessageForStoryReaction: storyMessage ? new MessageModel({
+          ...generateMessageId(incrementMessageCounter()),
+          type: 'outgoing',
+          conversationId: targetConversation.id,
+          sent_at: timestamp - 1,
+          received_at_ms: timestamp - 1,
+          timestamp: timestamp - 1,
+          expireTimer,
+          sendStateByConversationId: zipObject(
+            targetConversation.getMemberConversationIds(),
+            repeat({
+              status: SendStatus.Pending,
+              updatedAt: Date.now(),
+            })
+          ),
+          storyId: message.id,
+          storyReaction: {
+            emoji: existingReaction.emoji,
+            targetAuthorAci,
+            targetTimestamp,
+          },
+        }) : undefined,
+        targetAuthorAci,
+        targetTimestamp,
+        receivedAtDate: timestamp - 1,
+        timestamp: timestamp - 1, // Ensure removal happens before addition
+      };
+
+      await handleReaction(message, removeReaction, { storyMessage });
+    }
+  }
+
   const reaction: ReactionAttributesType = {
     envelopeId: generateUuid(),
     removeFromMessageReceiverCache: noop,
     emoji,
-    fromId: window.ConversationController.getOurConversationIdOrThrow(),
+    fromId: ourId,
     remove,
     source: ReactionSource.FromThisDevice,
     generatedMessageForStoryReaction: storyReactionMessage,

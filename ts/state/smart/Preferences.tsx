@@ -560,6 +560,10 @@ export function SmartPreferences(): JSX.Element | null {
     'autoConvertEmoji',
     true
   );
+  const [hasMultipleEmojiReactions, onMultipleEmojiReactionsChange] = createItemsAccess(
+    'multipleEmojiReactions',
+    false
+  );
   const [hasAutoDownloadUpdate, onAutoDownloadUpdateChange] = createItemsAccess(
     'auto-download-update',
     true
@@ -750,6 +754,7 @@ export function SmartPreferences(): JSX.Element | null {
         hasAudioNotifications={hasAudioNotifications}
         hasAutoConvertEmoji={hasAutoConvertEmoji}
         hasAutoDownloadUpdate={hasAutoDownloadUpdate}
+        hasMultipleEmojiReactions={hasMultipleEmojiReactions}
         hasAutoLaunch={hasAutoLaunch}
         hasCallNotifications={hasCallNotifications}
         hasCallRingtoneNotification={hasCallRingtoneNotification}
@@ -795,6 +800,7 @@ export function SmartPreferences(): JSX.Element | null {
         notificationContent={notificationContent}
         onAudioNotificationsChange={onAudioNotificationsChange}
         onAutoConvertEmojiChange={onAutoConvertEmojiChange}
+        onMultipleEmojiReactionsChange={onMultipleEmojiReactionsChange}
         onAutoDownloadAttachmentChange={onAutoDownloadAttachmentChange}
         onAutoDownloadUpdateChange={onAutoDownloadUpdateChange}
         onAutoLaunchChange={onAutoLaunchChange}

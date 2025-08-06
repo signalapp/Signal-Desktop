@@ -140,12 +140,14 @@ export const markOutgoingReactionSent = (
   }
 
   const isFullySent = Object.values(newIsSentByConversationId).every(identity);
+  const hasMultipleEmojiReactions = window.storage.get('multipleEmojiReactions', false);
 
   for (const re of reactions) {
     if (!isReactionEqual(re, reaction)) {
       let shouldKeep = true;
       if (
         isFullySent &&
+        !hasMultipleEmojiReactions &&
         isNewReactionReplacingPrevious(re, reaction) &&
         re.timestamp <= reaction.timestamp
       ) {

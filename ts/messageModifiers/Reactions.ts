@@ -350,7 +350,7 @@ export async function handleReaction(
   );
 
   const newReaction: MessageReactionType = {
-    emoji: reaction.remove ? undefined : reaction.emoji,
+    emoji: reaction.emoji,
     fromId: reaction.fromId,
     targetTimestamp: reaction.targetTimestamp,
     timestamp: reaction.timestamp,
@@ -451,11 +451,21 @@ export async function handleReaction(
           'from this device'
       );
 
-      const reactions = reactionUtil.addOutgoingReaction(
-        message.get('reactions') || [],
-        newReaction
-      );
-      message.set({ reactions });
+      if (reaction.remove) {
+        // Handle removal for reactions from this device
+        const oldReactions = message.get('reactions') || [];
+        const reactions = oldReactions.filter(
+          re => !(re.fromId === reaction.fromId && re.emoji === reaction.emoji)
+        );
+        message.set({ reactions });
+      } else {
+        // Handle addition for reactions from this device
+        const reactions = reactionUtil.addOutgoingReaction(
+          message.get('reactions') || [],
+          newReaction
+        );
+        message.set({ reactions });
+      }
     } else {
       const oldReactions = message.get('reactions') || [];
       let reactions: Array<MessageReactionType>;
@@ -504,10 +514,32 @@ export async function handleReaction(
           reactionToAdd = newReaction;
         }
 
-        reactions = oldReactions.filter(
-          re => !isNewReactionReplacingPrevious(re, reaction)
-        );
-        reactions.push(reactionToAdd);
+        const hasMultipleEmojiReactions = window.storage.get('multipleEmojiReactions', false);
+        
+        if (hasMultipleEmojiReactions) {
+          // In multiple reaction mode, allow multiple reactions per sender
+          // But check if the sender might be in single reaction mode
+          const senderReactions = oldReactions.filter(re => re.fromId === reaction.fromId);
+          
+          // If sender already has reactions and is adding a new different one,
+          // they might be in single reaction mode, so replace their previous reactions
+          if (senderReactions.length > 0 && !senderReactions.some(re => re.emoji === reactionToAdd.emoji)) {
+            reactions = oldReactions.filter(
+              re => !isNewReactionReplacingPrevious(re, reaction)
+            );
+            reactions.push(reactionToAdd);
+          } else {
+            // Normal multiple reaction mode - just add
+            reactions = [...oldReactions, reactionToAdd];
+          }
+        } else {
+          // In single reaction mode, replace previous reactions from same sender
+          reactions = oldReactions.filter(
+            re => !isNewReactionReplacingPrevious(re, reaction)
+          );
+          reactions.push(reactionToAdd);
+        }
+        
         message.set({ reactions });
 
         if (isOutgoing(message.attributes) && isFromSomeoneElse) {
