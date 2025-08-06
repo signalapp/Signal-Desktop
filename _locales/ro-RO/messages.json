@@ -6788,6 +6788,6 @@
     "messageformat": "Am îmbunătățit experiența de citire/necitire a mesajelor în timpul ce faci multitasking și am remediat o eroare care uneori deschidea incorect vizualizatorul de imagini extins, dacă apăsai bara de spațiu în timp ce căutai reacția emoji perfectă. Poți totuși să mărești imaginea dacă dai clic pe ea sau dacă tastezi suficient de repede."
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "Găsirea emoji-ului potrivit poate părea o luptă inevitabilă, dar am remediat o eroare care putea cauza apariția unei erori după apăsarea tastei Escape în caseta de căutare a emoji-urilor."
   }
 }

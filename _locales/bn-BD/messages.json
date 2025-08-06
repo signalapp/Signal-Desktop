@@ -6788,6 +6788,6 @@
     "messageformat": "মাল্টিটাস্কিং করার সময় মেসেজ পড়া/না পড়ার অভিজ্ঞতা আমরা উন্নত করেছি। আপনি যদি ছবিতে ক্লিক করেন, অথবা যথেষ্ট দ্রুত টাইপ করেন তবে আপনি এখনো জুম করতে পারেন।"
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "আমরা ইমোজি সার্চ বক্সে একটি বাগ সংশোধন করেছি।"
   }
 }

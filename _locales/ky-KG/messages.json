@@ -6788,6 +6788,6 @@
     "messageformat": "Бир нече колдонмо ачылып турганда, окулган/окула элек билдирүүлөрдүн көрүнүшүн жакшыртып, сезимиңизди билдирүү үчүн быйтыкча издеп жатканда кокус боштукту басып алып, быйтыкча толук көрүнгөн мүчүлүштүктү оңдоп койдук. Азыр деле быйтыкчаны басып, чоңойтуп көрө аласыз же терип деле көрсөңүз болот."
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "Кээде керектүү быйтыкчаны таба албай калабыз. Издөө сабында Esc баскычын басканда ката деп чыккан билдирүүнү оңдоп койдук."
   }
 }

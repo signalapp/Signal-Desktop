@@ -6788,6 +6788,6 @@
     "messageformat": "Vylepšili jsme zobrazení přečtených a nepřečtených zpráv při multitaskingu."
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "Opravili jsme chybu ve vyhledávacím poli emoji."
   }
 }

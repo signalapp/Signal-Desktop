@@ -6788,6 +6788,6 @@
     "messageformat": "שיפרנו את חוויית התצוגה של הודעות שנקראו/שלא נקראו בזמן ריבוי משימות."
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "מציאת האימוג'י הנכון יכולה להרגיש כמו מאבק בלתי נגמר, אבל תיקנו באג שגרם לשגיאה להתרחש לאחר לחיצה על מקש Escape בתיבת החיפוש של האימוג'י."
   }
 }

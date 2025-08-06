@@ -1086,10 +1086,10 @@
     "messageformat": "Problema di consegna"
   },
   "icu:DeliveryIssue--summary": {
-    "messageformat": "Non è stato possibile consegnarti un messaggio, uno sticker, una reazione o una conferma di lettura da parte di {sender}. Potrebbe aver provato a inviarti il contenuto in una chat singola o in un gruppo."
+    "messageformat": "Non è stato possibile consegnarti un messaggio, un adesivo, una reazione o una conferma di lettura da parte di {sender}. Potrebbe aver provato a inviarti il contenuto in una chat singola o in un gruppo."
   },
   "icu:DeliveryIssue--summary--group": {
-    "messageformat": "Non è stato possibile consegnarti un messaggio, uno sticker, una reazione, una conferma di lettura o un media da parte di {sender} in questa chat."
+    "messageformat": "Non è stato possibile consegnarti un messaggio, un adesivo, una reazione, una conferma di lettura o un media da parte di {sender} in questa chat."
   },
   "icu:ChangeNumber--notification": {
     "messageformat": "{sender} ha cambiato il suo numero di telefono"
@@ -1164,7 +1164,7 @@
     "messageformat": "Questo messaggio è incompleto"
   },
   "icu:attachmentNotAvailable__sticker": {
-    "messageformat": "Sticker non disponibile"
+    "messageformat": "Adesivo non disponibile"
   },
   "icu:attachmentNotAvailable__voice": {
     "messageformat": "Messaggio vocale non disponibile"
@@ -1185,7 +1185,7 @@
     "messageformat": "Media non disponibile"
   },
   "icu:AttachmentNotAvailableModal__title--sticker": {
-    "messageformat": "Sticker non disponibile"
+    "messageformat": "Adesivo non disponibile"
   },
   "icu:AttachmentNotAvailableModal__title--voice-message": {
     "messageformat": "Messaggio vocale non disponibile"
@@ -1200,7 +1200,7 @@
     "messageformat": "Questo media non è stato trasferito dal tuo telefono quando questo dispositivo è stato collegato. Non è possibile sincronizzare media più vecchi di 45 giorni al momento del collegamento del dispositivo."
   },
   "icu:AttachmentNotAvailableModal__body--sticker": {
-    "messageformat": "Questo sticker non è stato trasferito dal tuo telefono quando questo dispositivo è stato collegato. Non è possibile sincronizzare file e media più vecchi di 45 giorni al momento del collegamento del dispositivo."
+    "messageformat": "Questo adesivo non è stato trasferito dal tuo telefono quando questo dispositivo è stato collegato. Non è possibile sincronizzare file e media più vecchi di 45 giorni al momento del collegamento del dispositivo."
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
     "messageformat": "Questo messaggio vocale non è stato trasferito dal tuo telefono quando questo dispositivo è stato collegato. Non è possibile sincronizzare file e media più vecchi di 45 giorni al momento del collegamento del dispositivo."
@@ -2373,7 +2373,7 @@
     "messageformat": "Alcuni adesivi non possono essere scaricati."
   },
   "icu:stickers--StickerPicker--DownloadPending": {
-    "messageformat": "Installazione pacchetto sticker…"
+    "messageformat": "Installazione pacchetto di adesivi…"
   },
   "icu:stickers--StickerPicker--Empty": {
     "messageformat": "Nessun adesivo trovato"
@@ -2445,7 +2445,7 @@
     "messageformat": "Emoji"
   },
   "icu:FunPicker__Tab--Stickers": {
-    "messageformat": "Sticker"
+    "messageformat": "Adesivo"
   },
   "icu:FunPicker__Tab--Gifs": {
     "messageformat": "GIF"
@@ -2538,13 +2538,13 @@
     "messageformat": "Personalizza le reazioni"
   },
   "icu:FunPanelStickers__SearchLabel": {
-    "messageformat": "Cerca sticker"
+    "messageformat": "Cerca adesivo"
   },
   "icu:FunPanelStickers__SearchPlaceholder": {
-    "messageformat": "Cerca sticker"
+    "messageformat": "Cerca adesivo"
   },
   "icu:FunPanelSticker__SubNavLabel": {
-    "messageformat": "Pacchetti di sticker"
+    "messageformat": "Pacchetti di adesivi"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "Usati di recente"
@@ -2559,10 +2559,10 @@
     "messageformat": "In evidenza"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
-    "messageformat": "Nessuno sticker trovato"
+    "messageformat": "Nessun adesivo trovato"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
-    "messageformat": "Anteprima sticker"
+    "messageformat": "Anteprima adesivo"
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Cerca le GIF via Tenor"
@@ -2640,13 +2640,13 @@
     "messageformat": "Tonalità pelle nera scura"
   },
   "icu:FunButton__Label--FunPicker": {
-    "messageformat": "Aggiungi emoji, sticker o GIF"
+    "messageformat": "Aggiungi emoji, adesivi o GIF"
   },
   "icu:FunButton__Label--EmojiPicker": {
     "messageformat": "Aggiungi un'emoji"
   },
   "icu:FunButton__Label--StickerPicker": {
-    "messageformat": "Aggiungi uno sticker"
+    "messageformat": "Aggiungi un adesivo"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Annulla"
@@ -3672,7 +3672,7 @@
     "messageformat": "Hai cambiato chi può modificare le informazioni del gruppo in \"Solo gli amministratori.\""
   },
   "icu:GroupV2--access-attributes--admins--unknown": {
-    "messageformat": "Un amministratore ha cambiato chi può modificare le informazioni del gruppo in \"Solo gli amministratori.\""
+    "messageformat": "Un admin ha cambiato chi può modificare le informazioni del gruppo in \"Solo gli admin.\""
   },
   "icu:GroupV2--access-attributes--all--other": {
     "messageformat": "{adminName} ha cambiato chi può modificare le informazioni del gruppo in \"Tutti i membri.\""
@@ -3681,7 +3681,7 @@
     "messageformat": "Hai cambiato chi può modificare le informazioni del gruppo in \"Tutti i membri.\""
   },
   "icu:GroupV2--access-attributes--all--unknown": {
-    "messageformat": "Un amministratore ha cambiato chi può modificare le informazioni del gruppo in \"Tutti i membri.\""
+    "messageformat": "Un admin ha cambiato chi può modificare le informazioni del gruppo in \"Tutti i membri.\""
   },
   "icu:GroupV2--access-members--admins--other": {
     "messageformat": "{adminName} ha cambiato chi può modificare l'appartenenza al gruppo in \"Solo gli amministratori.\""
@@ -3690,7 +3690,7 @@
     "messageformat": "Hai cambiato chi può modificare l'appartenenza al gruppo in \"Solo gli amministratori.\""
   },
   "icu:GroupV2--access-members--admins--unknown": {
-    "messageformat": "Un amministratore ha cambiato chi può modificare l'appartenenza al gruppo in \"Solo gli amministratori.\""
+    "messageformat": "Un admin ha cambiato chi può modificare l'appartenenza al gruppo in \"Solo gli amministratori.\""
   },
   "icu:GroupV2--access-members--all--other": {
     "messageformat": "{adminName} ha cambiato chi può modificare l'appartenenza al gruppo in \"Tutti i membri.\""
@@ -3699,7 +3699,7 @@
     "messageformat": "Hai cambiato chi può modificare l'appartenenza al gruppo in \"Tutti i membri.\""
   },
   "icu:GroupV2--access-members--all--unknown": {
-    "messageformat": "Un amministratore ha cambiato chi può modificare l'appartenenza al gruppo in \"Tutti i membri.\""
+    "messageformat": "Un admin ha cambiato chi può modificare l'appartenenza al gruppo in \"Tutti i membri.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Hai disabilitato l'approvazione degli amministratori per il link del gruppo."
@@ -3810,13 +3810,13 @@
     "messageformat": "Hai reso {memberName} un amministratore."
   },
   "icu:GroupV2--member-privilege--promote--other--unknown": {
-    "messageformat": "Un amministratore ha reso {memberName} un amministratore."
+    "messageformat": "Un admin ha reso {memberName} un admin."
   },
   "icu:GroupV2--member-privilege--promote--you--other": {
     "messageformat": "{adminName} ti ha reso un amministratore."
   },
   "icu:GroupV2--member-privilege--promote--you--unknown": {
-    "messageformat": "Un amministratore ti ha reso un amministratore."
+    "messageformat": "Un admin ti ha reso un admin."
   },
   "icu:GroupV2--member-privilege--demote--other--other": {
     "messageformat": "{adminName} ha revocato i privilegi di amministrazione da {memberName}."
@@ -3825,13 +3825,13 @@
     "messageformat": "Hai revocato i privilegi di amministrazione da {memberName}."
   },
   "icu:GroupV2--member-privilege--demote--other--unknown": {
-    "messageformat": "Un amministratore ha revocato i privilegi di amministrazione da {memberName}."
+    "messageformat": "Un admin ha revocato i privilegi di amministrazione da {memberName}."
   },
   "icu:GroupV2--member-privilege--demote--you--other": {
     "messageformat": "{adminName} ha revocato i tuoi privilegi di amministrazione."
   },
   "icu:GroupV2--member-privilege--demote--you--unknown": {
-    "messageformat": "Un amministratore ha revocato i tuoi privilegi di amministrazione."
+    "messageformat": "Un admin ha revocato i tuoi privilegi di amministrazione."
   },
   "icu:GroupV2--pending-add--one--other--other": {
     "messageformat": "{memberName} ha invitato 1 persona ad entrare nel gruppo."
@@ -3882,7 +3882,7 @@
     "messageformat": "{inviterName} ha revocato il suo invito a 1 persona."
   },
   "icu:GroupV2--pending-remove--revoke--one--unknown": {
-    "messageformat": "Un amministratore ha revocato un invito al gruppo per 1 persona."
+    "messageformat": "Un admin ha revocato un invito al gruppo per 1 persona."
   },
   "icu:GroupV2--pending-remove--revoke--many--other": {
     "messageformat": "{count, plural, one {{memberName} ha ritirato l'invito al gruppo per 1 persona.} other {{memberName} ha ritirato gli inviti al gruppo per {count,number} persone.}}"
@@ -3900,7 +3900,7 @@
     "messageformat": "Hai revocato un invito al gruppo per 1 persona invitata da {memberName}."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-    "messageformat": "Un amministratore ha revocato un invito al gruppo per 1 persona invitata da {memberName}."
+    "messageformat": "Un admin ha revocato un invito al gruppo per 1 persona invitata da {memberName}."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--one--other": {
     "messageformat": "{adminName} ha revocato l'invito al gruppo che hai inviato a {inviteeName}."
@@ -3909,7 +3909,7 @@
     "messageformat": "Hai annullato il tuo invito a {inviteeName}."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from-you--one--unknown": {
-    "messageformat": "Un amministratore ha revocato l'invito al gruppo che hai inviato a {inviteeName}."
+    "messageformat": "Un admin ha revocato l'invito al gruppo che hai inviato a {inviteeName}."
   },
   "icu:GroupV2--pending-remove--revoke-invite-from--many--other": {
     "messageformat": "{count, plural, one {{adminName} ha annullato gli inviti al gruppo per {count,number} persona invitata da {memberName}.} other {{adminName} ha annullato gli inviti al gruppo per {count,number} persone invitate da {memberName}.}}"
@@ -4314,7 +4314,7 @@
     "messageformat": "{contact} potrà modificare questo gruppo e i suoi membri."
   },
   "icu:ContactModal--rm-admin-info": {
-    "messageformat": "Rimuovere {contact} come amministratore del gruppo?"
+    "messageformat": "Rimuovere {contact} come admin del gruppo?"
   },
   "icu:ContactModal--add-to-group": {
     "messageformat": "Aggiungi a un altro gruppo"
@@ -4398,7 +4398,7 @@
     "messageformat": "Sblocca il gruppo"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
-    "messageformat": "Prima di abbandonarlo, devi scegliere almeno un nuovo amministratore per questo gruppo."
+    "messageformat": "Prima di abbandonarlo, devi scegliere almeno un nuovo admin per questo gruppo."
   },
   "icu:ConversationDetailsActions--leave-group-modal-title": {
     "messageformat": "Vuoi davvero abbandonare?"
@@ -4509,7 +4509,7 @@
     "messageformat": "Richiedi l'approvazione dell'admin"
   },
   "icu:GroupLinkManagement--approve-info": {
-    "messageformat": "Richiedi a un amministratore di approvare i nuovi membri che si uniscono tramite il link del gruppo"
+    "messageformat": "Richiedi a un admin di approvare i nuovi membri che si uniscono tramite il link del gruppo"
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
     "messageformat": "Copia il link signal.group negli appunti"
@@ -5196,7 +5196,7 @@
     "messageformat": "Documenti"
   },
   "icu:Preferences__media-auto-download__description": {
-    "messageformat": "I messaggi vocali e gli sticker vengono sempre scaricati automaticamente."
+    "messageformat": "I messaggi vocali e gli adesivi vengono sempre scaricati automaticamente."
   },
   "icu:Preferences__button--backups": {
     "messageformat": "Backup"
@@ -6788,6 +6788,6 @@
     "messageformat": "Abbiamo migliorato l'esperienza dei messaggi letti/non letti durante il multitasking e risolto un bug che a volte apriva in modo improprio la schermata per vedere le immagini a dimensioni originali quando premevi la barra spaziatrice mentre cercavi l'emoji perfetta. Puoi ancora fare zoom se clicchi sull'immagine o se digiti velocemente."
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "Trovare la giusta emoji a volte non è per niente facile, ma almeno abbiamo risolto un bug che causava un errore dopo aver premuto il tasto ESC nella barra di ricerca delle emoji."
   }
 }

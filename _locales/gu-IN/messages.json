@@ -6788,6 +6788,6 @@
     "messageformat": "અમે મલ્ટિટાસ્કિંગ કરતી વખતે મેસેજને વાંચેલ / ન વાંચેલ તરીકે ચિહ્નિત કરવાના અનુભવમાં સુધારો કર્યો છે."
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "અમે ઇમોજી સર્ચ બોક્સમાં એક બગ સુધાર્યો."
   }
 }

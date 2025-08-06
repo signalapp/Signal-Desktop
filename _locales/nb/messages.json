@@ -6788,6 +6788,6 @@
     "messageformat": "Vi har gjort melding lest/ulest-funksjonen bedre."
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "Vi har rettet opp i en feil i søkefeltet for emojier."
   }
 }

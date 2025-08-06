@@ -6788,6 +6788,6 @@
     "messageformat": "మల్టీ టాస్కింగ్ చేస్తున్నప్పుడు సందేశం చదివిన/చదవని అనుభవాన్ని మేము మెరుగుపరిచాము."
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "మేము ఎమోజీ శోధన బాక్స్‌లో ఒక బగ్‌ను పరిష్కరించాము."
   }
 }

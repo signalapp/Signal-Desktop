@@ -6788,6 +6788,6 @@
     "messageformat": "Wir haben die Funktion von Nachricht gelesen/ungelesen beim Multitasking verbessert und einen Fehler behoben, durch den sich manchmal fälschlicherweise der erweiterte Bildbetrachter geöffnet hat, wenn du bei der Suche nach der perfekten Emoji-Reaktion die Leertaste gedrückt hast. Du kannst immer noch zoomen, wenn auf das Bild klickst oder schnell genug tippst."
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "Manchmal ist es echt schwierig, das richtige Emoji zu finden – jetzt haben wir einen Fehler behoben, der dazu führte, dass etwas nach dem Drücken der Escape-Taste im Emoji-Suchfeld einfach nicht funktionierte."
   }
 }

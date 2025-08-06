@@ -6788,6 +6788,6 @@
     "messageformat": "Javítottuk az üzenetek olvasott/olvasatlan állapotát multitasking közben."
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "Kijavítottunk egy hibát az emoji keresőmezőben."
   }
 }

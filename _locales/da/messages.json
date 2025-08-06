@@ -6788,6 +6788,6 @@
     "messageformat": "Vi har forbedret oplevelsen af at læse/ikke læse beskeder under multitasking og rettet en fejl, der nogle gange åbnede den udvidede billedfremviser forkert, hvis man trykkede på mellemrumstasten, mens man søgte efter den perfekte emojireaktion. Du kan stadig zoome, hvis du klikker på billedet, eller hvis du skriver hurtigt nok."
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "Det kan føles som en uundgåelig kamp at finde den rigtige emoji, men vi har rettet en fejl, der kunne forårsage en fejl, efter at man havde trykket på escape-tasten i emoji-søgefeltet."
   }
 }

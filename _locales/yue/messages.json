@@ -6788,6 +6788,6 @@
     "messageformat": "我們改善咗多工處理嗰陣嘅訊息睇咗或者未睇嘅體驗，同埋修復咗個錯誤，喺搵緊至啱用嘅表情符號心情回應嗰陣㩒空格鍵，唔會再展開圖像瀏覽器。當點擊圖像或打字速度夠快，圖像仍然可以放大。"
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "搵表情符號搵到懷疑人生？我們修正咗一個錯誤﹐以後喺表情符號搜尋框入面㩒 Esc 退出鍵之後都唔會出現問題。"
   }
 }

@@ -6788,6 +6788,6 @@
     "messageformat": "Çoxyönlü tapşırıqlarda oxunmuş/oxunmamış mesaj təcrübəsini təkmilləşdirdik və mükəmməl emoji reaksiyasını axtararkən boşluq düyməsini basdığınız zaman bəzi hallarda böyüdülmüş şəkil izləyicisini xətalı açan nasazlığı düzəltdik. Şəklin üzərinə kliklədiyiniz zaman və ya kifayət qədər sürətli yazsanız görüntünü böyüdə bilərsiniz."
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "Düzgün emojinizi tapmaq bəzən çıxılmaz bir məsələyə çevrilə bilər, ancaq biz emoji axtarış qutusunda çıxış düyməsinə basdıqdan sonra baş verən nasazlığı aradan qaldırdıq."
   }
 }

@@ -6788,6 +6788,6 @@
     "messageformat": "我們改善了多工處理時的訊息已讀或未讀體驗。"
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "我們修正了一個錯誤﹐以後在表情符號搜尋框中按下 Esc 退出鍵後，便不會再出現問題。"
   }
 }

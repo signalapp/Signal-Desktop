@@ -6788,6 +6788,6 @@
     "messageformat": "Wyświetlanie odczytanych i nieodczytanych wiadomości, gdy robisz wiele rzeczy naraz, jest teraz łatwiejsze. Ponadto naprawiliśmy błąd, który czasami powodował otwieranie rozszerzonego podglądu obrazu, jeśli podczas wyszukiwania reakcji emoji została naciśnięta spacja. Oczywiście dalej możesz powiększyć obraz, gdy go klikniesz lub w odpowiednim momencie naciśniesz spację."
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "Naprawiliśmy błąd, który występował czasem po naciśnięciu klawisza Esc w polu wyszukiwania emoji. Teraz możesz znów skupić się na najważniejszym: znalezieniu idealnej emotki."
   }
 }

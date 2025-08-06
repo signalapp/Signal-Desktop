@@ -6788,6 +6788,6 @@
     "messageformat": "Ne përmirësuam përvojën e leximit/paleximit të mesazheve gjatë kryerjes së shumë detyrave njëkohësisht dhe rregulluam një gabim që ndonjëherë hapte gabimisht shikuesin e zgjeruar të imazheve nëse shtypnit tastin e hapësirës ndërsa kërkonit reagimin perfekt të emoxhit. Mund ta zmadhosh akoma nëse kliko mbi imazhin ose nëse shkruan mjaftueshëm shpejt."
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "Gjetja e emoxhit të duhur mund të përngjajë me një luftë të pashmangshme, megjithatë gabimi që mund të shkaktohej pas shtypjes së tastit \"Escape\" në kutinë e kërkimit të emoxhive u rregullua."
   }
 }

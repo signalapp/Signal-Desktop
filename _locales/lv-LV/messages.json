@@ -6788,6 +6788,6 @@
     "messageformat": "Mēs uzlabojām ziņu “izlasīts/neizlasīts” statusa darbību, veicot vairākus uzdevumus vienlaikus un izlabojām kļūdu, kuras dēļ, meklējot piemērotāko emodži un nospiežot atstarpes taustiņu, dažkārt nepareizi atvērās palielinātais attēlu skatītājs. Joprojām varat veikt pietuvināšanu, noklikšķinot uz attēla vai rakstot pietiekami ātri."
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "Pareizās emocijzīmes atrašana reizēm šķiet kā neizbēgama cīņa. Tagad no tās varēs izbēgt vieglāk, jo mēs izlabojām kļūdu, kas radās emocijzīmju meklēšanas lodziņā, nospiežot taustiņu Escape."
   }
 }

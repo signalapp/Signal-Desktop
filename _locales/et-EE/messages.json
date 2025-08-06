@@ -6673,7 +6673,7 @@
     "messageformat": "Arvutis saab teha ainult ühekordseid annetusi. Igakuiseid annetusi saab teha mobiilseadmes."
   },
   "icu:DonateFlow__having-issues-contact-support": {
-    "messageformat": "Kas sul on probleeme? <contactSupportLink>Võta ühendust kasutajatoega</contactSupportLink>"
+    "messageformat": "Kas sul on küsimus? <contactSupportLink>Võta ühendust kasutajatoega</contactSupportLink>"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Annetuse kviitung"
@@ -6785,9 +6785,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Lisaks sai korda bugi, mis avas vahel pildi täisvaate, kui vajutasid tühikut samal ajal, kui otsisid reageerimiseks just seda õiget emojit.Pilti saad ikka suurendada, kui sellele klikid, või kui oled klaviatuuril piisavalt kiire."
+    "messageformat": "Lihtsustasime sõnumi loetuks/mitteloetuks muutmise märkimise võimalust mitut asja samal ajal tehes."
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "Parandasime emoji otsingukasti vea."
   }
 }

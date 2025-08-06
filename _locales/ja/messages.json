@@ -6788,6 +6788,6 @@
     "messageformat": "マルチタスク中でもメッセージの既読/未読がより分かりやすくなりました。"
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "絵文字検索ボックスに関する不具合を解消しました。"
   }
 }

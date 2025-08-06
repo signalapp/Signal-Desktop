@@ -6788,6 +6788,6 @@
     "messageformat": "بىز كۆپ ۋەزىپە ئىجرا قىلغاندا ، ئوقۇلغان / ئوقۇلمىغان ئۇچۇر تەجىرىبىسىنى ياخشىلىدۇق. رەسىمنى چەكسىڭىز ياكى يېتەرلىك تېزلىكتە خەت يازسىڭىز يەنىلا چوڭايتالايسىز."
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "بىز emoji ئىزدەش رامكىسىدىكى بىر كەمتۈكلۈكنى ئوڭشىدۇق. 7.65چى نەشىر نۇسخىسى ئۈچۈن تارقىتىلدى."
   }
 }

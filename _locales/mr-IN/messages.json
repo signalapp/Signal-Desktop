@@ -6788,6 +6788,6 @@
     "messageformat": "आम्ही मल्टिटास्किंग करताना संदेश वाचण्याचा / न वाचण्याचा अनुभव सुधारला आहे, आणि चपखल बसणारी इमोजी प्रतिक्रिया शोधताना तुम्ही स्पेस बार दाबल्यावर कधीकधी मोठा इमेज दर्शक चुकून उघडणारा बग दुरुस्त केला. तुम्ही इमेजवर क्लिक केल्यास किंवा तुम्ही पटकन टाईप केल्यास तुम्ही अजूनही झूम करू शकता."
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "योग्य इमोजी शोधत बसायला अनंत काळ लागू शकतो, पण आता आम्ही एक बग दुरुस्त केला, ज्यामुळे इमोजी शोध रकान्यामध्ये असताना एस्केप की दाबल्यावर एक त्रुटी उद्भवत होती."
   }
 }

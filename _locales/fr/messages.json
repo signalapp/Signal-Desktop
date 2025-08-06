@@ -6788,6 +6788,6 @@
     "messageformat": "Avant, lorsqu'on recherchait un émoji pour réagir à un message et qu'on avait la mauvaise idée d'appuyer sur la barre d'espace en même temps, Signal affichait la visionneuse d'images en plein écran. Dans la nouvelle version, la seule façon d'agrandir une image est aussi la plus simple : il vous suffit de cliquer dessus (qui l'eût cru ?). Autre amélioration : pour ceux et celles qui font toujours mille choses en même temps, distinguer les messages lus des messages non lus devient mille fois plus simple."
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "Avant, quand on appuyait sur la touche Échap dans la barre de recherche d'émojis, cela pouvait générer une erreur. Mais ce bug n'a pas échappé à la règle : nos ingénieurs l'ont pulvérisé."
   }
 }

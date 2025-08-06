@@ -6788,6 +6788,6 @@
     "messageformat": "Izboljšali smo izkušnjo prebranih/neprebranih sporočil med večopravilnostjo. Še vedno lahko povečate sliko, če kliknete nanjo ali če tipkate dovolj hitro."
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "Odpravili smo napako v iskalnem polju za emojije."
   }
 }

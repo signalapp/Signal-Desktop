@@ -6788,6 +6788,6 @@
     "messageformat": "Agora ficou mais fácil saber se alguém leu sua mensagem mesmo quando você está fazendo mil coisas ao mesmo tempo. Também corrigimos um erro em que o visualizador de imagem se abria do nada se você apertasse a barra de espaço enquanto caçava o emoji perfeito.  Ainda dá pra ampliar a imagem, é só clicar nela ou digitar rápido o bastante. "
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "Corrigimos um erro que às vezes ocorria ao pressionar a tecla Esc na busca de emojis. "
   }
 }

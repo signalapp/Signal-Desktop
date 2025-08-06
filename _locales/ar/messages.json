@@ -6788,6 +6788,6 @@
     "messageformat": "قمنا بتحسين تجربة الرسائل المقروءة/غير المقروءة أثناء تعدُّد المهام، وقُمنا بإصلاح خطأ كان يُؤدي أحيانًا إلى فتح عارض الصور المُوسَّع بشكل غير صحيح إذا ضغطت على مفتاح المسافة أثناء البحث عن تفاعل إيموجي مثالي. لا يزال بإمكانك التكبير إذا نقرت على الصورة أو إذا كتبت بسرعة كافية."
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box."
+    "messageformat": "قد يبدو العثور على الرمز التعبيري المناسب مهمة شاقّة أحيانًا، لكننا أصلحنا خللًا كان قد يؤدي إلى حدوث خطأ عند الضغط على مفتاح Escape في مربع البحث عن الرموز التعبيرية."
   }
 }
