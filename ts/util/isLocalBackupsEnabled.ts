@@ -6,31 +6,14 @@ import { isTestOrMockEnvironment } from '../environment';
 import { isStagingServer } from './isStagingServer';
 import { isNightly } from './version';
 
-export function isLocalBackupsEnabled(): boolean {
-  if (isStagingServer() || isTestOrMockEnvironment()) {
-    return true;
-  }
-
-  if (RemoteConfig.isEnabled('desktop.internalUser')) {
-    return true;
-  }
-
-  const version = window.getVersion?.();
-  if (version != null) {
-    return isNightly(version);
-  }
-
-  return false;
-}
-
-export function isLocalBackupsEnabledForRedux(
-  config: Pick<RemoteConfig.ConfigMapType, 'desktop.internalUser'> | undefined
+export function isLocalBackupsEnabled(
+  reduxConfig?: RemoteConfig.ConfigMapType
 ): boolean {
   if (isStagingServer() || isTestOrMockEnvironment()) {
     return true;
   }
 
-  if (config?.['desktop.internalUser']?.enabled) {
+  if (RemoteConfig.isEnabled('desktop.internalUser', reduxConfig)) {
     return true;
   }
 
