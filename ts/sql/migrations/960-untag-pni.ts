@@ -13,44 +13,31 @@ import { normalizePni } from '../../types/ServiceId';
 import { normalizeAci } from '../../util/normalizeAci';
 import type { JSONWithUnknownFields } from '../../types/Util';
 
-export const version = 960;
-
-export function updateToSchemaVersion960(
-  currentVersion: number,
+export default function updateToSchemaVersion960(
   db: Database,
   logger: LoggerType
 ): void {
-  if (currentVersion >= 960) {
+  const ourServiceIds = migratePni(db, logger);
+  if (!ourServiceIds) {
+    logger.info('not running, pni is normalized');
     return;
   }
 
-  db.transaction(() => {
-    const ourServiceIds = migratePni(db, logger);
-    if (!ourServiceIds) {
-      logger.info('updateToSchemaVersion960: not running, pni is normalized');
-      return;
-    }
+  // Migrate JSON fields
+  db.prepare(
+    `
+      UPDATE conversations
+      SET json = json_set(json, '$.pni', $pni)
+      WHERE serviceId IS $aci
+    `
+  ).run({
+    aci: ourServiceIds.aci,
+    pni: ourServiceIds.pni,
+  });
 
-    // Migrate JSON fields
-    db.prepare(
-      `
-        UPDATE conversations
-        SET json = json_set(json, '$.pni', $pni)
-        WHERE serviceId IS $aci
-      `
-    ).run({
-      aci: ourServiceIds.aci,
-      pni: ourServiceIds.pni,
-    });
-
-    migratePreKeys(db, 'preKeys', ourServiceIds, logger);
-    migratePreKeys(db, 'signedPreKeys', ourServiceIds, logger);
-    migratePreKeys(db, 'kyberPreKeys', ourServiceIds, logger);
-
-    db.pragma('user_version = 960');
-  })();
-
-  logger.info('updateToSchemaVersion960: success!');
+  migratePreKeys(db, 'preKeys', ourServiceIds, logger);
+  migratePreKeys(db, 'signedPreKeys', ourServiceIds, logger);
+  migratePreKeys(db, 'kyberPreKeys', ourServiceIds, logger);
 }
 
 //
@@ -101,12 +88,9 @@ function migratePni(
     [aci] = JSON.parse(uuidIdJson ?? '').value.split('.', 2);
   } catch (error) {
     if (uuidIdJson) {
-      logger.warn(
-        'updateToSchemaVersion960: failed to parse uuid_id item',
-        error
-      );
+      logger.warn('failed to parse uuid_id item', error);
     } else {
-      logger.info('updateToSchemaVersion960: Our ACI not found');
+      logger.info('Our ACI not found');
     }
   }
   if (!aci) {
@@ -118,9 +102,9 @@ function migratePni(
     legacyPni = JSON.parse(pniJson ?? '').value;
   } catch (error) {
     if (pniJson) {
-      logger.warn('updateToSchemaVersion960: failed to parse pni item', error);
+      logger.warn('failed to parse pni item', error);
     } else {
-      logger.info('updateToSchemaVersion960: Our PNI not found');
+      logger.info('Our PNI not found');
     }
   }
   if (!legacyPni) {
@@ -164,10 +148,7 @@ function migratePni(
 
       updateStmt.run({ id, json: JSON.stringify(data) });
     } catch (error) {
-      logger.warn(
-        `updateToSchemaVersion960: failed to parse ${id} item`,
-        error
-      );
+      logger.warn(`failed to parse ${id} item`, error);
     }
   }
   return {
@@ -200,11 +181,11 @@ function migratePreKeys(
     WHERE id = $id
   `);
 
-  logger.info(`updateToSchemaVersion960: updating ${preKeys.length} ${table}`);
+  logger.info(`updating ${preKeys.length} ${table}`);
   for (const { id, json } of preKeys) {
     const match = id.match(/^(.*):(.*)$/);
     if (!match) {
-      logger.warn(`updateToSchemaVersion960: invalid ${table} id ${id}`);
+      logger.warn(`invalid ${table} id ${id}`);
       continue;
     }
 
@@ -212,20 +193,13 @@ function migratePreKeys(
     try {
       legacyData = JSON.parse(json);
     } catch (error) {
-      logger.warn(
-        `updateToSchemaVersion960: failed to parse ${table} ${id}`,
-        error
-      );
+      logger.warn(`failed to parse ${table} ${id}`, error);
       continue;
     }
 
     const [, ourServiceId, keyId] = match;
     if (ourServiceId !== legacyPni) {
-      logger.warn(
-        'updateToSchemaVersion960: unexpected ourServiceId',
-        ourServiceId,
-        legacyPni
-      );
+      logger.warn('unexpected ourServiceId', ourServiceId, legacyPni);
       continue;
     }
 

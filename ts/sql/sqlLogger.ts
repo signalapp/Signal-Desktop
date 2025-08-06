@@ -8,43 +8,50 @@ import type { WrappedWorkerLogEntry, WrappedWorkerResponse } from './main';
 import { consoleLogger } from '../util/consoleLogger';
 import { strictAssert } from '../util/assert';
 
-const log = (
-  level: WrappedWorkerLogEntry['level'],
-  args: Array<unknown>
-): void => {
-  if (parentPort) {
-    const wrappedResponse: WrappedWorkerResponse = {
-      type: 'log',
-      level,
-      args,
-    };
-    parentPort.postMessage(wrappedResponse);
-  } else {
-    strictAssert(process.env.NODE_ENV === 'test', 'must be test environment');
-    consoleLogger[level](format(...args));
-  }
-};
+class SQLLogger {
+  #msgPrefix: string;
 
-export const sqlLogger: LoggerType = {
+  constructor(msgPrefix: string) {
+    this.#msgPrefix = msgPrefix;
+  }
+
   fatal(...args: Array<unknown>) {
-    log('fatal', args);
-  },
+    this.#log('fatal', args);
+  }
   error(...args: Array<unknown>) {
-    log('error', args);
-  },
+    this.#log('error', args);
+  }
   warn(...args: Array<unknown>) {
-    log('warn', args);
-  },
+    this.#log('warn', args);
+  }
   info(...args: Array<unknown>) {
-    log('info', args);
-  },
+    this.#log('info', args);
+  }
   debug(...args: Array<unknown>) {
-    log('debug', args);
-  },
+    this.#log('debug', args);
+  }
   trace(...args: Array<unknown>) {
-    log('trace', args);
-  },
-  child() {
-    return sqlLogger;
-  },
-};
+    this.#log('trace', args);
+  }
+  child(subsystem: string) {
+    return new SQLLogger(`${this.#msgPrefix}[${subsystem}] `);
+  }
+
+  #log(level: WrappedWorkerLogEntry['level'], args: Array<unknown>): void {
+    if (parentPort) {
+      const [fmt, ...rest] = args;
+
+      const wrappedResponse: WrappedWorkerResponse = {
+        type: 'log',
+        level,
+        args: ([this.#msgPrefix + fmt] as Array<unknown>).concat(rest),
+      };
+      parentPort.postMessage(wrappedResponse);
+    } else {
+      strictAssert(process.env.NODE_ENV === 'test', 'must be test environment');
+      consoleLogger[level](this.#msgPrefix + format(...args));
+    }
+  }
+}
+
+export const sqlLogger: LoggerType = new SQLLogger('');

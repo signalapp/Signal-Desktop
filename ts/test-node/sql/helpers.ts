@@ -17,16 +17,24 @@ export function createDB(): WritableDB {
 
 export function updateToVersion(db: WritableDB, version: number): void {
   const startVersion = db.pragma('user_version', { simple: true }) as number;
+  if (startVersion === version) {
+    return;
+  }
 
   const silentLogger = {
     ...consoleLogger,
     info: noop,
   };
 
-  for (const run of SCHEMA_VERSIONS) {
-    run(startVersion, db, silentLogger);
+  for (const { version: currentVersion, update } of SCHEMA_VERSIONS) {
+    if (currentVersion <= startVersion) {
+      continue;
+    }
 
-    const currentVersion = db.pragma('user_version', { simple: true });
+    db.transaction(() => {
+      update(db, silentLogger, startVersion);
+      db.pragma(`user_version = ${version}`);
+    })();
 
     if (currentVersion === version) {
       return;

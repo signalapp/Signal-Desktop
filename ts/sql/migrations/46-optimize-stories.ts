@@ -3,38 +3,22 @@
 
 import type { Database } from '@signalapp/sqlcipher';
 
-import type { LoggerType } from '../../types/Logging';
+export default function updateToSchemaVersion46(db: Database): void {
+  db.exec(
+    `
+    --- Add column to messages table
 
-export default function updateToSchemaVersion46(
-  currentVersion: number,
-  db: Database,
-  logger: LoggerType
-): void {
-  if (currentVersion >= 46) {
-    return;
-  }
+    ALTER TABLE messages
+    ADD COLUMN
+    isStory INTEGER
+    GENERATED ALWAYS
+    AS (type = 'story');
 
-  db.transaction(() => {
-    db.exec(
-      `
-      --- Add column to messages table
+    --- Update important message indices
 
-      ALTER TABLE messages
-      ADD COLUMN
-      isStory INTEGER
-      GENERATED ALWAYS
-      AS (type = 'story');
-
-      --- Update important message indices
-
-      DROP INDEX   messages_conversation;
-      CREATE INDEX messages_conversation ON messages
-        (conversationId, isStory, storyId, received_at, sent_at);
-      `
-    );
-
-    db.pragma('user_version = 46');
-  })();
-
-  logger.info('updateToSchemaVersion46: success!');
+    DROP INDEX   messages_conversation;
+    CREATE INDEX messages_conversation ON messages
+      (conversationId, isStory, storyId, received_at, sent_at);
+    `
+  );
 }

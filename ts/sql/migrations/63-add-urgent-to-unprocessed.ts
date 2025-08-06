@@ -3,26 +3,10 @@
 
 import type { Database } from '@signalapp/sqlcipher';
 
-import type { LoggerType } from '../../types/Logging';
-
-export default function updateToSchemaVersion63(
-  currentVersion: number,
-  db: Database,
-  logger: LoggerType
-): void {
-  if (currentVersion >= 63) {
-    return;
-  }
-
-  db.transaction(() => {
-    db.exec(
-      `
-      ALTER TABLE unprocessed ADD COLUMN urgent INTEGER;
-      `
-    );
-
-    db.pragma('user_version = 63');
-  })();
-
-  logger.info('updateToSchemaVersion63: success!');
+export default function updateToSchemaVersion63(db: Database): void {
+  db.exec(
+    `
+    ALTER TABLE unprocessed ADD COLUMN urgent INTEGER;
+    `
+  );
 }

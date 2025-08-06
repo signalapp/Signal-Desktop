@@ -3,38 +3,21 @@
 
 import type { Database } from '@signalapp/sqlcipher';
 
-import type { LoggerType } from '../../types/Logging';
 import { sql } from '../util';
 
-export const version = 1010;
+export default function updateToSchemaVersion1010(db: Database): void {
+  const [createTable] = sql`
+    CREATE TABLE callLinks (
+      roomId TEXT NOT NULL PRIMARY KEY,
+      rootKey BLOB NOT NULL,
+      adminKey BLOB,
+      name TEXT NOT NULL,
+      -- Enum which stores CallLinkRestrictions from ringrtc
+      restrictions INTEGER NOT NULL,
+      revoked INTEGER NOT NULL,
+      expiration INTEGER
+    ) STRICT;
+  `;
 
-export function updateToSchemaVersion1010(
-  currentVersion: number,
-  db: Database,
-  logger: LoggerType
-): void {
-  if (currentVersion >= 1010) {
-    return;
-  }
-
-  db.transaction(() => {
-    const [createTable] = sql`
-      CREATE TABLE callLinks (
-        roomId TEXT NOT NULL PRIMARY KEY,
-        rootKey BLOB NOT NULL,
-        adminKey BLOB,
-        name TEXT NOT NULL,
-        -- Enum which stores CallLinkRestrictions from ringrtc
-        restrictions INTEGER NOT NULL,
-        revoked INTEGER NOT NULL,
-        expiration INTEGER
-      ) STRICT;
-    `;
-
-    db.exec(createTable);
-
-    db.pragma('user_version = 1010');
-  })();
-
-  logger.info('updateToSchemaVersion1010: success!');
+  db.exec(createTable);
 }

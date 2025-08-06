@@ -33,14 +33,9 @@ type ConversationType = Readonly<{
 }>;
 
 export default function updateToSchemaVersion43(
-  currentVersion: number,
   db: WritableDB,
   logger: LoggerType
 ): void {
-  if (currentVersion >= 43) {
-    return;
-  }
-
   type LegacyPendingMemberType = {
     addedByUserId?: string;
     conversationId: string;
@@ -117,8 +112,7 @@ export default function updateToSchemaVersion43(
           });
           if (!uuid) {
             logger.warn(
-              `updateToSchemaVersion43: ${logId}.${key} UUID not found ` +
-                `for ${member.conversationId}`
+              `${logId}.${key} UUID not found for ${member.conversationId}`
             );
             return undefined;
           }
@@ -158,15 +152,14 @@ export default function updateToSchemaVersion43(
 
       if (oldValue.length !== 0) {
         logger.info(
-          `updateToSchemaVersion43: migrated ${oldValue.length} ${key} ` +
+          `migrated ${oldValue.length} ${key} ` +
             `entries to ${newValue.length} for ${logId}`
         );
       }
 
       if (addedByCount > 0) {
         logger.info(
-          `updateToSchemaVersion43: migrated ${addedByCount} addedByUserId ` +
-            `in ${key} for ${logId}`
+          `migrated ${addedByCount} addedByUserId in ${key} for ${logId}`
         );
       }
     }
@@ -286,7 +279,7 @@ export default function updateToSchemaVersion43(
             }
             if (!newValue) {
               logger.warn(
-                `updateToSchemaVersion43: ${id}.groupV2Change.details.${key} ` +
+                `${id}.groupV2Change.details.${key} ` +
                   `UUID not found for ${oldValue}`
               );
               return undefined;
@@ -342,7 +335,7 @@ export default function updateToSchemaVersion43(
 
           if (!uuid) {
             logger.warn(
-              `updateToSchemaVersion43: ${id}.invitedGV2Members UUID ` +
+              `${id}.invitedGV2Members UUID ` +
                 `not found for ${conversationId}`
             );
             return undefined;
@@ -390,44 +383,35 @@ export default function updateToSchemaVersion43(
     return true;
   };
 
-  db.transaction(() => {
-    const allConversations = db
-      .prepare(
-        `
-      SELECT json
-      FROM conversations
-      ORDER BY id ASC;
-      `,
-        { pluck: true }
-      )
-      .all<string>()
-      .map(json => jsonToObject<ConversationType>(json));
+  const allConversations = db
+    .prepare(
+      `
+    SELECT json
+    FROM conversations
+    ORDER BY id ASC;
+    `,
+      { pluck: true }
+    )
+    .all<string>()
+    .map(json => jsonToObject<ConversationType>(json));
 
-    logger.info(
-      'updateToSchemaVersion43: About to iterate through ' +
-        `${allConversations.length} conversations`
-    );
+  logger.info(
+    `About to iterate through ${allConversations.length} conversations`
+  );
 
-    for (const convo of allConversations) {
-      upgradeConversation(convo);
+  for (const convo of allConversations) {
+    upgradeConversation(convo);
+  }
+
+  const messageCount = getCountFromTable(db, 'messages');
+  logger.info(`About to iterate through ${messageCount} messages`);
+
+  let updatedCount = 0;
+  for (const message of new TableIterator<MessageType>(db, 'messages')) {
+    if (upgradeMessage(message)) {
+      updatedCount += 1;
     }
+  }
 
-    const messageCount = getCountFromTable(db, 'messages');
-    logger.info(
-      'updateToSchemaVersion43: About to iterate through ' +
-        `${messageCount} messages`
-    );
-
-    let updatedCount = 0;
-    for (const message of new TableIterator<MessageType>(db, 'messages')) {
-      if (upgradeMessage(message)) {
-        updatedCount += 1;
-      }
-    }
-
-    logger.info(`updateToSchemaVersion43: Updated ${updatedCount} messages`);
-
-    db.pragma('user_version = 43');
-  })();
-  logger.info('updateToSchemaVersion43: success!');
+  logger.info(`Updated ${updatedCount} messages`);
 }

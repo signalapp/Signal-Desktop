@@ -26,14 +26,9 @@ import { isNotNil } from '../../util/isNotNil';
 //
 
 export default function updateToSchemaVersion88(
-  currentVersion: number,
   db: Database,
   logger: LoggerType
 ): void {
-  if (currentVersion >= 88) {
-    return;
-  }
-
   // See updateToSchemaVersion84
   const selectMentionsFromMessages = `
     SELECT messages.id, bodyRanges.value ->> 'mentionAci' as mentionAci,
@@ -43,205 +38,199 @@ export default function updateToSchemaVersion88(
     WHERE bodyRanges.value ->> 'mentionAci' IS NOT NULL
   `;
 
-  db.transaction(() => {
-    // Rename all columns and re-create all indexes first.
-    db.exec(`
-      --
-      -- conversations
-      --
+  // Rename all columns and re-create all indexes first.
+  db.exec(`
+    --
+    -- conversations
+    --
 
-      DROP INDEX conversations_uuid;
+    DROP INDEX conversations_uuid;
 
-      ALTER TABLE conversations
-        RENAME COLUMN uuid TO serviceId;
+    ALTER TABLE conversations
+      RENAME COLUMN uuid TO serviceId;
 
-      -- See: updateToSchemaVersion20
-      CREATE INDEX conversations_serviceId ON conversations(serviceId);
+    -- See: updateToSchemaVersion20
+    CREATE INDEX conversations_serviceId ON conversations(serviceId);
 
-      --
-      -- sessions
-      --
+    --
+    -- sessions
+    --
 
-      ALTER TABLE sessions
-        RENAME COLUMN ourUuid TO ourServiceId;
-      ALTER TABLE sessions
-        RENAME COLUMN uuid TO serviceId;
+    ALTER TABLE sessions
+      RENAME COLUMN ourUuid TO ourServiceId;
+    ALTER TABLE sessions
+      RENAME COLUMN uuid TO serviceId;
 
-      --
-      -- messages
-      --
+    --
+    -- messages
+    --
 
-      DROP INDEX messages_sourceUuid;
-      DROP INDEX messages_preview;
-      DROP INDEX messages_preview_without_story;
-      DROP INDEX messages_activity;
+    DROP INDEX messages_sourceUuid;
+    DROP INDEX messages_preview;
+    DROP INDEX messages_preview_without_story;
+    DROP INDEX messages_activity;
 
-      ALTER TABLE messages
-        DROP COLUMN isGroupLeaveEventFromOther;
-      ALTER TABLE messages
-        DROP COLUMN isGroupLeaveEvent;
+    ALTER TABLE messages
+      DROP COLUMN isGroupLeaveEventFromOther;
+    ALTER TABLE messages
+      DROP COLUMN isGroupLeaveEvent;
 
-      ALTER TABLE messages
-        RENAME COLUMN sourceUuid TO sourceServiceId;
+    ALTER TABLE messages
+      RENAME COLUMN sourceUuid TO sourceServiceId;
 
-      -- See: updateToSchemaVersion47
-      ALTER TABLE messages
-        ADD COLUMN isGroupLeaveEvent INTEGER
-        GENERATED ALWAYS AS (
-          type IS 'group-v2-change' AND
-          json_array_length(json_extract(json, '$.groupV2Change.details')) IS 1 AND
-          json_extract(json, '$.groupV2Change.details[0].type') IS 'member-remove' AND
-          json_extract(json, '$.groupV2Change.from') IS NOT NULL AND
-          json_extract(json, '$.groupV2Change.from') IS json_extract(json, '$.groupV2Change.details[0].aci')
-        );
-
-      ALTER TABLE messages
-        ADD COLUMN isGroupLeaveEventFromOther INTEGER
-        GENERATED ALWAYS AS (
-          isGroupLeaveEvent IS 1
-          AND
-          isChangeCreatedByUs IS 0
-        );
-
-      -- See: updateToSchemaVersion25
-      CREATE INDEX messages_sourceServiceId on messages(sourceServiceId);
-
-      -- See: updateToSchemaVersion81
-      CREATE INDEX messages_preview ON messages
-        (conversationId, shouldAffectPreview, isGroupLeaveEventFromOther,
-         received_at, sent_at);
-      CREATE INDEX messages_preview_without_story ON messages
-        (conversationId, shouldAffectPreview, isGroupLeaveEventFromOther,
-         received_at, sent_at) WHERE storyId IS NULL;
-      CREATE INDEX messages_activity ON messages
-        (conversationId, shouldAffectActivity, isTimerChangeFromSync,
-         isGroupLeaveEventFromOther, received_at, sent_at);
-
-      --
-      -- reactions
-      --
-
-      DROP INDEX reaction_identifier;
-
-      ALTER TABLE reactions
-        RENAME COLUMN targetAuthorUuid TO targetAuthorAci;
-
-      -- See: updateToSchemaVersion29
-      CREATE INDEX reaction_identifier ON reactions (
-        emoji,
-        targetAuthorAci,
-        targetTimestamp
+    -- See: updateToSchemaVersion47
+    ALTER TABLE messages
+      ADD COLUMN isGroupLeaveEvent INTEGER
+      GENERATED ALWAYS AS (
+        type IS 'group-v2-change' AND
+        json_array_length(json_extract(json, '$.groupV2Change.details')) IS 1 AND
+        json_extract(json, '$.groupV2Change.details[0].type') IS 'member-remove' AND
+        json_extract(json, '$.groupV2Change.from') IS NOT NULL AND
+        json_extract(json, '$.groupV2Change.from') IS json_extract(json, '$.groupV2Change.details[0].aci')
       );
 
-      --
-      -- unprocessed
-      --
+    ALTER TABLE messages
+      ADD COLUMN isGroupLeaveEventFromOther INTEGER
+      GENERATED ALWAYS AS (
+        isGroupLeaveEvent IS 1
+        AND
+        isChangeCreatedByUs IS 0
+      );
 
-      ALTER TABLE unprocessed
-        RENAME COLUMN sourceUuid TO sourceServiceId;
+    -- See: updateToSchemaVersion25
+    CREATE INDEX messages_sourceServiceId on messages(sourceServiceId);
 
-      --
-      -- sendLogRecipients
-      --
+    -- See: updateToSchemaVersion81
+    CREATE INDEX messages_preview ON messages
+      (conversationId, shouldAffectPreview, isGroupLeaveEventFromOther,
+       received_at, sent_at);
+    CREATE INDEX messages_preview_without_story ON messages
+      (conversationId, shouldAffectPreview, isGroupLeaveEventFromOther,
+       received_at, sent_at) WHERE storyId IS NULL;
+    CREATE INDEX messages_activity ON messages
+      (conversationId, shouldAffectActivity, isTimerChangeFromSync,
+       isGroupLeaveEventFromOther, received_at, sent_at);
 
-      DROP INDEX sendLogRecipientsByRecipient;
+    --
+    -- reactions
+    --
 
-      ALTER TABLE sendLogRecipients
-        RENAME COLUMN recipientUuid TO recipientServiceId;
+    DROP INDEX reaction_identifier;
 
-      -- See: updateToSchemaVersion37
-      CREATE INDEX sendLogRecipientsByRecipient
-        ON sendLogRecipients (recipientServiceId, deviceId);
+    ALTER TABLE reactions
+      RENAME COLUMN targetAuthorUuid TO targetAuthorAci;
 
-      --
-      -- storyDistributionMembers
-      --
+    -- See: updateToSchemaVersion29
+    CREATE INDEX reaction_identifier ON reactions (
+      emoji,
+      targetAuthorAci,
+      targetTimestamp
+    );
 
-      ALTER TABLE storyDistributionMembers
-        RENAME COLUMN uuid TO serviceId;
+    --
+    -- unprocessed
+    --
 
-      --
-      -- mentions
-      --
+    ALTER TABLE unprocessed
+      RENAME COLUMN sourceUuid TO sourceServiceId;
 
-      DROP TRIGGER messages_on_update;
-      DROP TRIGGER messages_on_insert_insert_mentions;
-      DROP TRIGGER messages_on_update_update_mentions;
-      DROP INDEX mentions_uuid;
+    --
+    -- sendLogRecipients
+    --
 
-      ALTER TABLE mentions
-        RENAME COLUMN mentionUuid TO mentionAci;
+    DROP INDEX sendLogRecipientsByRecipient;
 
-      -- See: updateToSchemaVersion84
-      CREATE INDEX mentions_aci ON mentions (mentionAci);
+    ALTER TABLE sendLogRecipients
+      RENAME COLUMN recipientUuid TO recipientServiceId;
 
-      --
-      -- preKeys
-      --
+    -- See: updateToSchemaVersion37
+    CREATE INDEX sendLogRecipientsByRecipient
+      ON sendLogRecipients (recipientServiceId, deviceId);
 
-      DROP INDEX preKeys_ourUuid;
-      DROP INDEX signedPreKeys_ourUuid;
-      DROP INDEX kyberPreKeys_ourUuid;
+    --
+    -- storyDistributionMembers
+    --
 
-      ALTER TABLE preKeys
-        RENAME COLUMN ourUuid TO ourServiceId;
-      ALTER TABLE signedPreKeys
-        RENAME COLUMN ourUuid TO ourServiceId;
-      ALTER TABLE kyberPreKeys
-        RENAME COLUMN ourUuid TO ourServiceId;
+    ALTER TABLE storyDistributionMembers
+      RENAME COLUMN uuid TO serviceId;
 
-      -- See: updateToSchemaVersion64
-      CREATE INDEX preKeys_ourServiceId ON preKeys (ourServiceId);
-      CREATE INDEX signedPreKeys_ourServiceId ON signedPreKeys (ourServiceId);
-      CREATE INDEX kyberPreKeys_ourServiceId ON kyberPreKeys (ourServiceId);
-    `);
+    --
+    -- mentions
+    --
 
-    // Migrate JSON fields
-    const { identifierToServiceId } = migrateConversations(db, logger);
-    const ourServiceIds = migrateItems(db, logger);
-    migrateSessions(db, ourServiceIds, logger);
-    migrateMessages(db, logger);
-    migratePreKeys(db, 'preKeys', ourServiceIds, logger);
-    migratePreKeys(db, 'signedPreKeys', ourServiceIds, logger);
-    migratePreKeys(db, 'kyberPreKeys', ourServiceIds, logger);
-    migrateJobs(db, identifierToServiceId, logger);
+    DROP TRIGGER messages_on_update;
+    DROP TRIGGER messages_on_insert_insert_mentions;
+    DROP TRIGGER messages_on_update_update_mentions;
+    DROP INDEX mentions_uuid;
 
-    // Re-create triggers after updating messages
-    db.exec(`
-      -- See: updateToSchemaVersion45
-      CREATE TRIGGER messages_on_update AFTER UPDATE ON messages
-      WHEN
-        (new.body IS NULL OR old.body IS NOT new.body) AND
-         new.isViewOnce IS NOT 1 AND new.storyId IS NULL
-      BEGIN
-        DELETE FROM messages_fts WHERE rowid = old.rowid;
-        INSERT INTO messages_fts
-          (rowid, body)
-        VALUES
-          (new.rowid, new.body);
-      END;
+    ALTER TABLE mentions
+      RENAME COLUMN mentionUuid TO mentionAci;
 
-      -- See: updateToSchemaVersion84
-      CREATE TRIGGER messages_on_insert_insert_mentions AFTER INSERT ON messages
-      BEGIN
-        INSERT INTO mentions (messageId, mentionAci, start, length)
-        ${selectMentionsFromMessages}
-        AND messages.id = new.id;
-      END;
+    -- See: updateToSchemaVersion84
+    CREATE INDEX mentions_aci ON mentions (mentionAci);
 
-      CREATE TRIGGER messages_on_update_update_mentions AFTER UPDATE ON messages
-      BEGIN
-        DELETE FROM mentions WHERE messageId = new.id;
-        INSERT INTO mentions (messageId, mentionAci, start, length)
-        ${selectMentionsFromMessages}
-        AND messages.id = new.id;
-      END;
-    `);
+    --
+    -- preKeys
+    --
 
-    db.pragma('user_version = 88');
-  })();
+    DROP INDEX preKeys_ourUuid;
+    DROP INDEX signedPreKeys_ourUuid;
+    DROP INDEX kyberPreKeys_ourUuid;
 
-  logger.info('updateToSchemaVersion88: success!');
+    ALTER TABLE preKeys
+      RENAME COLUMN ourUuid TO ourServiceId;
+    ALTER TABLE signedPreKeys
+      RENAME COLUMN ourUuid TO ourServiceId;
+    ALTER TABLE kyberPreKeys
+      RENAME COLUMN ourUuid TO ourServiceId;
+
+    -- See: updateToSchemaVersion64
+    CREATE INDEX preKeys_ourServiceId ON preKeys (ourServiceId);
+    CREATE INDEX signedPreKeys_ourServiceId ON signedPreKeys (ourServiceId);
+    CREATE INDEX kyberPreKeys_ourServiceId ON kyberPreKeys (ourServiceId);
+  `);
+
+  // Migrate JSON fields
+  const { identifierToServiceId } = migrateConversations(db, logger);
+  const ourServiceIds = migrateItems(db, logger);
+  migrateSessions(db, ourServiceIds, logger);
+  migrateMessages(db, logger);
+  migratePreKeys(db, 'preKeys', ourServiceIds, logger);
+  migratePreKeys(db, 'signedPreKeys', ourServiceIds, logger);
+  migratePreKeys(db, 'kyberPreKeys', ourServiceIds, logger);
+  migrateJobs(db, identifierToServiceId, logger);
+
+  // Re-create triggers after updating messages
+  db.exec(`
+    -- See: updateToSchemaVersion45
+    CREATE TRIGGER messages_on_update AFTER UPDATE ON messages
+    WHEN
+      (new.body IS NULL OR old.body IS NOT new.body) AND
+       new.isViewOnce IS NOT 1 AND new.storyId IS NULL
+    BEGIN
+      DELETE FROM messages_fts WHERE rowid = old.rowid;
+      INSERT INTO messages_fts
+        (rowid, body)
+      VALUES
+        (new.rowid, new.body);
+    END;
+
+    -- See: updateToSchemaVersion84
+    CREATE TRIGGER messages_on_insert_insert_mentions AFTER INSERT ON messages
+    BEGIN
+      INSERT INTO mentions (messageId, mentionAci, start, length)
+      ${selectMentionsFromMessages}
+      AND messages.id = new.id;
+    END;
+
+    CREATE TRIGGER messages_on_update_update_mentions AFTER UPDATE ON messages
+    BEGIN
+      DELETE FROM mentions WHERE messageId = new.id;
+      INSERT INTO mentions (messageId, mentionAci, start, length)
+      ${selectMentionsFromMessages}
+      AND messages.id = new.id;
+    END;
+  `);
 }
 
 //
@@ -338,9 +327,7 @@ function migrateConversations(
     'UPDATE conversations SET json = $json WHERE id IS $id'
   );
 
-  logger.info(
-    `updateToSchemaVersion88: updating ${convos.length} conversations`
-  );
+  logger.info(`updating ${convos.length} conversations`);
 
   // Build lookup map for senderKeyInfo
   const identifierToServiceId = new Map<string, ServiceIdString>();
@@ -439,9 +426,7 @@ function migrateConversations(
                 .map(({ identifier, ...rest }) => {
                   const deviceServiceId = identifierToServiceId.get(identifier);
                   if (!deviceServiceId) {
-                    logger.warn(
-                      `updateToSchemaVersion88: failed to resolve identifier ${identifier}`
-                    );
+                    logger.warn(`failed to resolve identifier ${identifier}`);
                     return undefined;
                   }
 
@@ -454,10 +439,7 @@ function migrateConversations(
 
       updateStmt.run({ id, json: JSON.stringify(modern) });
     } catch (error) {
-      logger.warn(
-        `updateToSchemaVersion88: failed to parse convo ${id} json`,
-        error
-      );
+      logger.warn(`failed to parse convo ${id} json`, error);
       continue;
     }
   }
@@ -511,12 +493,9 @@ function migrateItems(db: Database, logger: LoggerType): OurServiceIds {
     [legacyAci] = JSON.parse(uuidIdJson ?? '').value.split('.', 2);
   } catch (error) {
     if (uuidIdJson) {
-      logger.warn(
-        'updateToSchemaVersion88: failed to parse uuid_id item',
-        error
-      );
+      logger.warn('failed to parse uuid_id item', error);
     } else {
-      logger.info('updateToSchemaVersion88: Our UUID not found');
+      logger.info('Our UUID not found');
     }
   }
 
@@ -525,9 +504,9 @@ function migrateItems(db: Database, logger: LoggerType): OurServiceIds {
     legacyPni = JSON.parse(pniJson ?? '').value;
   } catch (error) {
     if (pniJson) {
-      logger.warn('updateToSchemaVersion88: failed to parse pni item', error);
+      logger.warn('failed to parse pni item', error);
     } else {
-      logger.info('updateToSchemaVersion88: Our PNI not found');
+      logger.info('Our PNI not found');
     }
   }
 
@@ -573,7 +552,7 @@ function migrateItems(db: Database, logger: LoggerType): OurServiceIds {
 
       updateStmt.run({ id, json: JSON.stringify(data) });
     } catch (error) {
-      logger.warn(`updateToSchemaVersion88: failed to parse ${id} item`, error);
+      logger.warn(`failed to parse ${id} item`, error);
     }
   }
   return { aci, pni, legacyAci, legacyPni };
@@ -611,21 +590,18 @@ function migrateSessions(
     `
   );
 
-  logger.info(`updateToSchemaVersion88: updating ${sessions.length} sessions`);
+  logger.info(`updating ${sessions.length} sessions`);
   for (const { id, serviceId, ourServiceId, json } of sessions) {
     const match = id.match(/^(.*):(.*)\.(.*)$/);
     if (!match) {
-      logger.warn(`updateToSchemaVersion88: invalid session id ${id}`);
+      logger.warn(`invalid session id ${id}`);
       continue;
     }
     let legacyData: JSONWithUnknownFields<Record<string, unknown>>;
     try {
       legacyData = JSON.parse(json);
     } catch (error) {
-      logger.warn(
-        `updateToSchemaVersion88: failed to parse session ${id}`,
-        error
-      );
+      logger.warn(`failed to parse session ${id}`, error);
       continue;
     }
 
@@ -642,7 +618,7 @@ function migrateSessions(
     );
     if (!newServiceId || !newOurServiceId) {
       logger.warn(
-        'updateToSchemaVersion88: failed to normalize session service ids',
+        'failed to normalize session service ids',
         serviceId,
         ourServiceId
       );
@@ -753,7 +729,7 @@ function migrateMessages(db: Database, logger: LoggerType): void {
     WHERE rowid = $rowid
   `);
 
-  logger.info('updateToSchemaVersion88: updating messages');
+  logger.info('updating messages');
 
   let totalMessages = 0;
   // eslint-disable-next-line no-constant-condition
@@ -832,15 +808,12 @@ function migrateMessages(db: Database, logger: LoggerType): void {
           json: JSON.stringify(updatedMessage),
         });
       } catch (error) {
-        logger.warn(
-          `updateToSchemaVersion88: failed to parse message ${id} json`,
-          error
-        );
+        logger.warn(`failed to parse message ${id} json`, error);
       }
     }
   }
 
-  logger.info(`updateToSchemaVersion88: updated ${totalMessages} messages`);
+  logger.info(`updated ${totalMessages} messages`);
 }
 
 // migratePreKeys works similarly to migrateSessions and does:
@@ -867,11 +840,11 @@ function migratePreKeys(
     WHERE id = $id
   `);
 
-  logger.info(`updateToSchemaVersion88: updating ${preKeys.length} ${table}`);
+  logger.info(`updating ${preKeys.length} ${table}`);
   for (const { id, json } of preKeys) {
     const match = id.match(/^(.*):(.*)$/);
     if (!match) {
-      logger.warn(`updateToSchemaVersion88: invalid ${table} id ${id}`);
+      logger.warn(`invalid ${table} id ${id}`);
       continue;
     }
 
@@ -879,10 +852,7 @@ function migratePreKeys(
     try {
       legacyData = JSON.parse(json);
     } catch (error) {
-      logger.warn(
-        `updateToSchemaVersion88: failed to parse ${table} ${id}`,
-        error
-      );
+      logger.warn(`failed to parse ${table} ${id}`, error);
       continue;
     }
 
@@ -1118,7 +1088,7 @@ function migrateJobs(
         const serviceId = identifierToServiceId.get(identifier);
         if (!serviceId) {
           logger.warn(
-            `updateToSchemaVersion88: failed to resolve identifier ${identifier} ` +
+            `failed to resolve identifier ${identifier} ` +
               `for job ${id}/${queueType}`
           );
           continue;
@@ -1137,14 +1107,11 @@ function migrateJobs(
         updateStmt.run({ id, data: JSON.stringify(updatedData) });
       }
     } catch (error) {
-      logger.warn(
-        `updateToSchemaVersion88: failed to migrate job ${id}/${queueType} json`,
-        error
-      );
+      logger.warn(`failed to migrate job ${id}/${queueType} json`, error);
     }
   }
 
-  logger.info(`updateToSchemaVersion88: updated ${updatedCount} jobs`);
+  logger.info(`updated ${updatedCount} jobs`);
 }
 
 //

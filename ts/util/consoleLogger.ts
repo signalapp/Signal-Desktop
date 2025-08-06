@@ -24,7 +24,7 @@ export const consoleLogger: LoggerType = {
     console.log(...args);
   },
   child() {
-    throw new Error('Not supported');
+    return consoleLogger;
   },
 };
 

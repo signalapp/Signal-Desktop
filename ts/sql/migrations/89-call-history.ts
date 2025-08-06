@@ -94,7 +94,7 @@ function getPeerIdFromConversation(
   if (conversation.type === 'private') {
     if (conversation.serviceId == null) {
       logger.warn(
-        `updateToSchemaVersion89: Private conversation (${conversation.id}) was missing serviceId (discoveredUnregisteredAt: ${conversation.discoveredUnregisteredAt})`
+        `Private conversation (${conversation.id}) was missing serviceId (discoveredUnregisteredAt: ${conversation.discoveredUnregisteredAt})`
       );
       return conversation.id;
     }
@@ -191,205 +191,194 @@ function convertLegacyCallDetails(
 }
 
 export default function updateToSchemaVersion89(
-  currentVersion: number,
   db: WritableDB,
   logger: LoggerType
 ): void {
-  if (currentVersion >= 89) {
-    return;
+  const ourUuid = getOurUuid(db);
+
+  const [createTable] = sql`
+    -- This table may have already existed from migration 87
+    CREATE TABLE IF NOT EXISTS callsHistory (
+      callId TEXT PRIMARY KEY,
+      peerId TEXT NOT NULL, -- conversation id (legacy) | uuid | groupId | roomId
+      ringerId TEXT DEFAULT NULL, -- ringer uuid
+      mode TEXT NOT NULL, -- enum "Direct" | "Group"
+      type TEXT NOT NULL, -- enum "Audio" | "Video" | "Group"
+      direction TEXT NOT NULL, -- enum "Incoming" | "Outgoing
+      -- Direct: enum "Pending" | "Missed" | "Accepted" | "Deleted"
+      -- Group: enum "GenericGroupCall" | "OutgoingRing" | "Ringing" | "Joined" | "Missed" | "Declined" | "Accepted" | "Deleted"
+      status TEXT NOT NULL,
+      timestamp INTEGER NOT NULL,
+      UNIQUE (callId, peerId) ON CONFLICT FAIL
+    );
+
+    -- Update peerId to be uuid or groupId
+    UPDATE callsHistory
+      SET peerId = (
+        SELECT
+          CASE
+            WHEN conversations.type = 'private' THEN conversations.serviceId
+            WHEN conversations.type = 'group' THEN conversations.groupId
+          END
+        FROM conversations
+        WHERE callsHistory.peerId IS conversations.id
+          AND callsHistory.peerId IS NOT conversations.serviceId
+      )
+      WHERE EXISTS (
+        SELECT 1
+        FROM conversations
+        WHERE callsHistory.peerId IS conversations.id
+          AND callsHistory.peerId IS NOT conversations.serviceId
+      );
+
+    CREATE INDEX IF NOT EXISTS callsHistory_order on callsHistory (timestamp DESC);
+    CREATE INDEX IF NOT EXISTS callsHistory_byConversation ON callsHistory (peerId);
+    -- For 'getCallHistoryGroupData':
+    -- This index should target the subqueries for 'possible_parent' and 'possible_children'
+    CREATE INDEX IF NOT EXISTS callsHistory_callAndGroupInfo_optimize on callsHistory (
+      direction,
+      peerId,
+      timestamp DESC,
+      status
+    );
+  `;
+
+  db.exec(createTable);
+
+  const [selectQuery] = sql`
+    SELECT
+      messages.json AS messageJson,
+      conversations.id AS conversationId,
+      conversations.json AS conversationJson
+    FROM messages
+    LEFT JOIN conversations ON conversations.id = messages.conversationId
+    WHERE messages.type = 'call-history'
+    -- Some of these messages were already migrated
+    AND messages.json->'callHistoryDetails' IS NOT NULL
+    -- Sort from oldest to newest, so that newer messages can overwrite older
+    ORDER BY messages.received_at ASC, messages.sent_at ASC;
+  `;
+
+  // Must match query above
+  type CallHistoryRow = {
+    messageJson: string;
+    conversationId: string;
+    conversationJson: string;
+  };
+
+  const rows: Array<CallHistoryRow> = db.prepare(selectQuery).all();
+
+  for (const row of rows) {
+    const { messageJson, conversationId, conversationJson } = row;
+    const message = jsonToObject<MessageWithCallHistoryDetails>(messageJson);
+    const conversation = jsonToObject<ConversationType>(conversationJson);
+
+    if (!isObject(conversation)) {
+      logger.warn(
+        `Private conversation (${conversationId}) ` +
+          'has non-object json column'
+      );
+      continue;
+    }
+
+    const details = message.callHistoryDetails;
+
+    const peerId = getPeerIdFromConversation(conversation, logger);
+
+    const callHistory = convertLegacyCallDetails(
+      ourUuid,
+      peerId,
+      message,
+      details,
+      logger
+    );
+
+    const [insertQuery, insertParams] = sql`
+      -- Using 'OR REPLACE' because in some earlier versions of call history
+      -- we had a bug where we would insert duplicate call history entries
+      -- for the same callId and peerId.
+      -- We're assuming here that the latest call history entry is the most
+      -- accurate.
+      INSERT OR REPLACE INTO callsHistory (
+        callId,
+        peerId,
+        ringerId,
+        mode,
+        type,
+        direction,
+        status,
+        timestamp
+      ) VALUES (
+        ${callHistory.callId},
+        ${callHistory.peerId},
+        ${callHistory.ringerId},
+        ${callHistory.mode},
+        ${callHistory.type},
+        ${callHistory.direction},
+        ${callHistory.status},
+        ${callHistory.timestamp}
+      )
+    `;
+
+    db.prepare(insertQuery).run(insertParams);
+
+    const messageId = message.id;
+    strictAssert(messageId != null, 'message.id must exist');
+
+    const [updateQuery, updateParams] = sql`
+      UPDATE messages
+      SET json = JSON_PATCH(json, ${JSON.stringify({
+        callHistoryDetails: null, // delete
+        callId: callHistory.callId,
+      })})
+      WHERE id = ${messageId}
+    `;
+
+    db.prepare(updateQuery).run(updateParams);
   }
 
-  db.transaction(() => {
-    const ourUuid = getOurUuid(db);
+  const [dropIndex] = sql`
+    DROP INDEX IF EXISTS messages_call;
+  `;
+  db.exec(dropIndex);
 
-    const [createTable] = sql`
-      -- This table may have already existed from migration 87
-      CREATE TABLE IF NOT EXISTS callsHistory (
-        callId TEXT PRIMARY KEY,
-        peerId TEXT NOT NULL, -- conversation id (legacy) | uuid | groupId | roomId
-        ringerId TEXT DEFAULT NULL, -- ringer uuid
-        mode TEXT NOT NULL, -- enum "Direct" | "Group"
-        type TEXT NOT NULL, -- enum "Audio" | "Video" | "Group"
-        direction TEXT NOT NULL, -- enum "Incoming" | "Outgoing
-        -- Direct: enum "Pending" | "Missed" | "Accepted" | "Deleted"
-        -- Group: enum "GenericGroupCall" | "OutgoingRing" | "Ringing" | "Joined" | "Missed" | "Declined" | "Accepted" | "Deleted"
-        status TEXT NOT NULL,
-        timestamp INTEGER NOT NULL,
-        UNIQUE (callId, peerId) ON CONFLICT FAIL
-      );
-
-      -- Update peerId to be uuid or groupId
-      UPDATE callsHistory
-        SET peerId = (
-          SELECT
-            CASE
-              WHEN conversations.type = 'private' THEN conversations.serviceId
-              WHEN conversations.type = 'group' THEN conversations.groupId
-            END
-          FROM conversations
-          WHERE callsHistory.peerId IS conversations.id
-            AND callsHistory.peerId IS NOT conversations.serviceId
-        )
-        WHERE EXISTS (
-          SELECT 1
-          FROM conversations
-          WHERE callsHistory.peerId IS conversations.id
-            AND callsHistory.peerId IS NOT conversations.serviceId
-        );
-
-      CREATE INDEX IF NOT EXISTS callsHistory_order on callsHistory (timestamp DESC);
-      CREATE INDEX IF NOT EXISTS callsHistory_byConversation ON callsHistory (peerId);
-      -- For 'getCallHistoryGroupData':
-      -- This index should target the subqueries for 'possible_parent' and 'possible_children'
-      CREATE INDEX IF NOT EXISTS callsHistory_callAndGroupInfo_optimize on callsHistory (
-        direction,
-        peerId,
-        timestamp DESC,
-        status
-      );
-    `;
-
-    db.exec(createTable);
-
-    const [selectQuery] = sql`
-      SELECT
-        messages.json AS messageJson,
-        conversations.id AS conversationId,
-        conversations.json AS conversationJson
-      FROM messages
-      LEFT JOIN conversations ON conversations.id = messages.conversationId
-      WHERE messages.type = 'call-history'
-      -- Some of these messages were already migrated
-      AND messages.json->'callHistoryDetails' IS NOT NULL
-      -- Sort from oldest to newest, so that newer messages can overwrite older
-      ORDER BY messages.received_at ASC, messages.sent_at ASC;
-    `;
-
-    // Must match query above
-    type CallHistoryRow = {
-      messageJson: string;
-      conversationId: string;
-      conversationJson: string;
-    };
-
-    const rows: Array<CallHistoryRow> = db.prepare(selectQuery).all();
-
-    for (const row of rows) {
-      const { messageJson, conversationId, conversationJson } = row;
-      const message = jsonToObject<MessageWithCallHistoryDetails>(messageJson);
-      const conversation = jsonToObject<ConversationType>(conversationJson);
-
-      if (!isObject(conversation)) {
-        logger.warn(
-          `updateToSchemaVersion89: Private conversation (${conversationId}) ` +
-            'has non-object json column'
-        );
-        continue;
-      }
-
-      const details = message.callHistoryDetails;
-
-      const peerId = getPeerIdFromConversation(conversation, logger);
-
-      const callHistory = convertLegacyCallDetails(
-        ourUuid,
-        peerId,
-        message,
-        details,
-        logger
-      );
-
-      const [insertQuery, insertParams] = sql`
-        -- Using 'OR REPLACE' because in some earlier versions of call history
-        -- we had a bug where we would insert duplicate call history entries
-        -- for the same callId and peerId.
-        -- We're assuming here that the latest call history entry is the most
-        -- accurate.
-        INSERT OR REPLACE INTO callsHistory (
-          callId,
-          peerId,
-          ringerId,
-          mode,
-          type,
-          direction,
-          status,
-          timestamp
-        ) VALUES (
-          ${callHistory.callId},
-          ${callHistory.peerId},
-          ${callHistory.ringerId},
-          ${callHistory.mode},
-          ${callHistory.type},
-          ${callHistory.direction},
-          ${callHistory.status},
-          ${callHistory.timestamp}
-        )
-      `;
-
-      db.prepare(insertQuery).run(insertParams);
-
-      const messageId = message.id;
-      strictAssert(messageId != null, 'message.id must exist');
-
-      const [updateQuery, updateParams] = sql`
-        UPDATE messages
-        SET json = JSON_PATCH(json, ${JSON.stringify({
-          callHistoryDetails: null, // delete
-          callId: callHistory.callId,
-        })})
-        WHERE id = ${messageId}
-      `;
-
-      db.prepare(updateQuery).run(updateParams);
-    }
-
-    const [dropIndex] = sql`
-      DROP INDEX IF EXISTS messages_call;
-    `;
-    db.exec(dropIndex);
-
-    try {
-      const [dropColumnQuery] = sql`
-        ALTER TABLE messages
-          DROP COLUMN callMode;
-      `;
-      db.exec(dropColumnQuery);
-    } catch (error) {
-      if (!error.message.includes('no such column: "callMode"')) {
-        throw error;
-      }
-    }
-
-    try {
-      const [dropColumnQuery] = sql`
-        ALTER TABLE messages
-          DROP COLUMN callId;
-      `;
-      db.exec(dropColumnQuery);
-    } catch (error) {
-      if (!error.message.includes('no such column: "callId"')) {
-        throw error;
-      }
-    }
-
-    const [optimizeMessages] = sql`
+  try {
+    const [dropColumnQuery] = sql`
       ALTER TABLE messages
-        ADD COLUMN callId TEXT
-        GENERATED ALWAYS AS (
-          json_extract(json, '$.callId')
-        );
-      -- Optimize getCallHistoryMessageByCallId
-      CREATE INDEX messages_call ON messages
-        (conversationId, type, callId);
-
-      CREATE INDEX messages_callHistory_readStatus ON messages
-        (type, readStatus)
-        WHERE type IS 'call-history';
+        DROP COLUMN callMode;
     `;
-    db.exec(optimizeMessages);
+    db.exec(dropColumnQuery);
+  } catch (error) {
+    if (!error.message.includes('no such column: "callMode"')) {
+      throw error;
+    }
+  }
 
-    db.pragma('user_version = 89');
-  })();
+  try {
+    const [dropColumnQuery] = sql`
+      ALTER TABLE messages
+        DROP COLUMN callId;
+    `;
+    db.exec(dropColumnQuery);
+  } catch (error) {
+    if (!error.message.includes('no such column: "callId"')) {
+      throw error;
+    }
+  }
 
-  logger.info('updateToSchemaVersion89: success!');
+  const [optimizeMessages] = sql`
+    ALTER TABLE messages
+      ADD COLUMN callId TEXT
+      GENERATED ALWAYS AS (
+        json_extract(json, '$.callId')
+      );
+    -- Optimize getCallHistoryMessageByCallId
+    CREATE INDEX messages_call ON messages
+      (conversationId, type, callId);
+
+    CREATE INDEX messages_callHistory_readStatus ON messages
+      (type, readStatus)
+      WHERE type IS 'call-history';
+  `;
+  db.exec(optimizeMessages);
 }
