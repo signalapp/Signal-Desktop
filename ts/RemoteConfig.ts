@@ -182,8 +182,12 @@ export async function forceRefreshRemoteConfig(
   await _refreshRemoteConfig(server);
 }
 
-export function isEnabled(name: ConfigKeyType): boolean {
-  return get(config, [name, 'enabled'], false);
+export function isEnabled(
+  name: ConfigKeyType,
+  // when called from UI component, provide redux config (items.remoteConfig)
+  reduxConfig?: ConfigMapType
+): boolean {
+  return get(reduxConfig ?? config, [name, 'enabled'], false);
 }
 
 export function getValue(name: ConfigKeyType): string | undefined {
