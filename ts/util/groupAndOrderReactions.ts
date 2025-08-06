@@ -11,6 +11,7 @@ import {
   getEmojiParentKeyByVariantKey,
   getEmojiVariantByKey,
   type EmojiVariantKey,
+  type EmojiParentKey,
 } from '../components/fun/data/emojis';
 import { isNotNil } from './isNotNil';
 import { useFunEmojiLocalizer } from '../components/fun/useFunEmojiLocalizer';
@@ -20,12 +21,13 @@ type ReactionWithEmojiData = Reaction & {
   short_names: Array<string>;
   sheet_x: number;
   sheet_y: number;
+  parentKey: EmojiParentKey;
   variantKey: EmojiVariantKey;
 };
 
 export function useGroupedAndOrderedReactions(
   reactions: ReadonlyArray<Reaction> | undefined,
-  groupByKey: string = 'variantKey'
+  groupByKey: 'variantKey' | 'parentKey'
 ): Array<Array<ReactionWithEmojiData>> {
   const emojiLocalization = useFunEmojiLocalizer();
 
