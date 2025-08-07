@@ -560,6 +560,8 @@ export function SmartPreferences(): JSX.Element | null {
     'autoConvertEmoji',
     true
   );
+  const [hasAutoRemoveUrlTracking, onAutoRemoveUrlTrackingChange] =
+    createItemsAccess('autoRemoveUrlTracking', true);
   const [hasAutoDownloadUpdate, onAutoDownloadUpdateChange] = createItemsAccess(
     'auto-download-update',
     true
@@ -749,6 +751,7 @@ export function SmartPreferences(): JSX.Element | null {
         getPreferredBadge={getPreferredBadge}
         hasAudioNotifications={hasAudioNotifications}
         hasAutoConvertEmoji={hasAutoConvertEmoji}
+        hasAutoRemoveUrlTracking={hasAutoRemoveUrlTracking}
         hasAutoDownloadUpdate={hasAutoDownloadUpdate}
         hasAutoLaunch={hasAutoLaunch}
         hasCallNotifications={hasCallNotifications}
@@ -795,6 +798,7 @@ export function SmartPreferences(): JSX.Element | null {
         notificationContent={notificationContent}
         onAudioNotificationsChange={onAudioNotificationsChange}
         onAutoConvertEmojiChange={onAutoConvertEmojiChange}
+        onAutoRemoveUrlTrackingChange={onAutoRemoveUrlTrackingChange}
         onAutoDownloadAttachmentChange={onAutoDownloadAttachmentChange}
         onAutoDownloadUpdateChange={onAutoDownloadUpdateChange}
         onAutoLaunchChange={onAutoLaunchChange}
