@@ -6,7 +6,7 @@ import type { CallLinkUpdateSyncEvent } from '../textsecure/messageReceiverEvent
 import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
 import { fromAdminKeyBytes } from './callLinks';
-import { getRoomIdFromRootKey } from './callLinksRingrtc';
+import { fromEpochBytes, getRoomIdFromRootKey } from './callLinksRingrtc';
 import { strictAssert } from './assert';
 import { CallLinkUpdateSyncType } from '../types/CallLink';
 import { DataWriter } from '../sql/Client';
@@ -17,7 +17,7 @@ export async function onCallLinkUpdateSync(
   syncEvent: CallLinkUpdateSyncEvent
 ): Promise<void> {
   const { callLinkUpdate, confirm } = syncEvent;
-  const { type, rootKey, adminKey } = callLinkUpdate;
+  const { type, rootKey, epoch, adminKey } = callLinkUpdate;
 
   if (!rootKey) {
     log.warn('Missing rootKey, invalid sync message');
@@ -44,9 +44,11 @@ export async function onCallLinkUpdateSync(
   try {
     if (type === CallLinkUpdateSyncType.Update) {
       const rootKeyString = callLinkRootKey.toString();
+      const epochString = epoch ? fromEpochBytes(epoch) : null;
       const adminKeyString = adminKey ? fromAdminKeyBytes(adminKey) : null;
       window.reduxActions.calling.handleCallLinkUpdate({
         rootKey: rootKeyString,
+        epoch: epochString,
         adminKey: adminKeyString,
       });
     } else if (type === CallLinkUpdateSyncType.Delete) {

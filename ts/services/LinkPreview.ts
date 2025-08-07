@@ -3,7 +3,7 @@
 
 import { debounce, omit } from 'lodash';
 
-import { CallLinkRootKey } from '@signalapp/ringrtc';
+import { CallLinkRootKey, CallLinkEpoch } from '@signalapp/ringrtc';
 import type { LinkPreviewWithHydratedData } from '../types/message/LinkPreviews';
 import type {
   LinkPreviewImage,
@@ -32,7 +32,7 @@ import { maybeParseUrl } from '../util/url';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import { drop } from '../util/drop';
 import { calling } from './calling';
-import { getKeyFromCallLink } from '../util/callLinks';
+import { getKeyAndEpochFromCallLink } from '../util/callLinks';
 import { getRoomIdFromCallLink } from '../util/callLinksRingrtc';
 
 const log = createLogger('LinkPreview');
@@ -601,9 +601,13 @@ async function getCallLinkPreview(
   url: string,
   _abortSignal: Readonly<AbortSignal>
 ): Promise<null | LinkPreviewResult> {
-  const keyString = getKeyFromCallLink(url);
-  const callLinkRootKey = CallLinkRootKey.parse(keyString);
-  const callLinkState = await calling.readCallLink(callLinkRootKey);
+  const { key, epoch } = getKeyAndEpochFromCallLink(url);
+  const callLinkRootKey = CallLinkRootKey.parse(key);
+  const callLinkEpoch = epoch ? CallLinkEpoch.parse(epoch) : undefined;
+  const callLinkState = await calling.readCallLink(
+    callLinkRootKey,
+    callLinkEpoch
+  );
   if (callLinkState == null || callLinkState.revoked) {
     return null;
   }

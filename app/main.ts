@@ -2906,6 +2906,7 @@ function handleSignalRoute(route: ParsedSignalRoute) {
   } else if (route.key === 'linkCall') {
     mainWindow.webContents.send('start-call-link', {
       key: route.args.key,
+      epoch: route.args.epoch,
     });
   } else if (route.key === 'showWindow') {
     mainWindow.webContents.send('show-window');

@@ -46,6 +46,7 @@ export const SmartCallLinkEditModal = memo(
       const callLinkWebUrl = linkCallRoute
         .toWebUrl({
           key: callLink?.rootKey,
+          epoch: callLink?.epoch,
         })
         .toString();
       drop(copyCallLink(callLinkWebUrl));
@@ -69,7 +70,7 @@ export const SmartCallLinkEditModal = memo(
 
     const handleStartCallLinkLobby = useCallback(() => {
       strictAssert(callLink != null, 'callLink not found');
-      startCallLinkLobby({ rootKey: callLink.rootKey });
+      startCallLinkLobby({ rootKey: callLink.rootKey, epoch: callLink.epoch });
       toggleCallLinkEditModal(null);
     }, [callLink, startCallLinkLobby, toggleCallLinkEditModal]);
 

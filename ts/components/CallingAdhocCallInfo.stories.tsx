@@ -52,6 +52,7 @@ function getCallLink(overrideProps: Partial<CallLinkType> = {}): CallLinkType {
   return {
     roomId: 'abcd1234abcd1234abcd1234abcd1234abcd1234',
     rootKey: 'abcd-abcd-abcd-abcd-abcd-abcd-abcd-abcd',
+    epoch: null,
     adminKey: null,
     name: 'Axolotl Discuss',
     restrictions: CallLinkRestrictions.None,

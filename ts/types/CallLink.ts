@@ -57,6 +57,7 @@ export function toCallLinkRestrictions(
 
 export type CallLinkType = Readonly<{
   roomId: string;
+  epoch: string | null;
   rootKey: string;
   adminKey: string | null;
   name: string;
@@ -86,6 +87,7 @@ export type CallLinkConversationType = ReadonlyDeep<
 // Call link discovered from sync, waiting to refresh state from the calling server
 export type PendingCallLinkType = Readonly<{
   rootKey: string;
+  epoch: string | null;
   adminKey: string | null;
 }> &
   StorageServiceFieldsType;
@@ -94,6 +96,7 @@ export type PendingCallLinkType = Readonly<{
 export type DefunctCallLinkType = Readonly<{
   roomId: string;
   rootKey: string;
+  epoch: string | null;
   adminKey: string | null;
 }> &
   StorageServiceFieldsType;
@@ -101,6 +104,7 @@ export type DefunctCallLinkType = Readonly<{
 export type DefunctCallLinkRecord = Readonly<{
   roomId: string;
   rootKey: Uint8Array;
+  epoch: Uint8Array | null;
   adminKey: Uint8Array | null;
   storageID: string | null;
   storageVersion: number | null;
@@ -111,6 +115,7 @@ export type DefunctCallLinkRecord = Readonly<{
 export const defunctCallLinkRecordSchema = z.object({
   roomId: z.string(),
   rootKey: z.instanceof(Uint8Array),
+  epoch: z.instanceof(Uint8Array).nullable(),
   adminKey: z.instanceof(Uint8Array).nullable(),
   storageID: z.string().nullable(),
   storageVersion: z.number().int().nullable(),
@@ -122,6 +127,7 @@ export const defunctCallLinkRecordSchema = z.object({
 export type CallLinkRecord = Readonly<{
   roomId: string;
   rootKey: Uint8Array | null;
+  epoch: Uint8Array | null;
   adminKey: Uint8Array | null;
   name: string;
   restrictions: number;
@@ -139,6 +145,7 @@ export const callLinkRecordSchema = z.object({
   roomId: z.string(),
   // credentials
   rootKey: z.instanceof(Uint8Array).nullable(),
+  epoch: z.instanceof(Uint8Array).nullable(),
   adminKey: z.instanceof(Uint8Array).nullable(),
   // state
   name: callLinkNameSchema,

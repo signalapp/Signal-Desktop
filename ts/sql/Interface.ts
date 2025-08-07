@@ -1046,6 +1046,11 @@ type WritableInterface = {
     roomId: string,
     callLinkState: CallLinkStateType
   ): CallLinkType;
+  updateCallLinkStateAndEpoch(
+    roomId: string,
+    callLinkState: CallLinkStateType,
+    epoch: string | null
+  ): CallLinkType;
   beginDeleteAllCallLinks(): boolean;
   beginDeleteCallLink(roomId: string): boolean;
   deleteCallHistoryByRoomId(roomid: string): void;
