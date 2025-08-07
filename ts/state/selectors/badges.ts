@@ -8,6 +8,7 @@ import type { StateType } from '../reducer';
 import type { BadgesStateType } from '../ducks/badges';
 import type { BadgeType } from '../../badges/types';
 import { getOwn } from '../../util/getOwn';
+import type { ConversationType } from '../ducks/conversations';
 
 const log = createLogger('badges');
 
@@ -54,19 +55,25 @@ export const getBadgesSelector = createSelector(
 );
 
 export type PreferredBadgeSelectorType = (
-  conversationBadges: ReadonlyArray<Pick<BadgeType, 'id'>>
+  conversationBadges: ConversationType['badges']
 ) => undefined | BadgeType;
 
 export const getPreferredBadgeSelector = createSelector(
   getBadgesById,
   (badgesById): PreferredBadgeSelectorType =>
     conversationBadges => {
-      const firstId: undefined | string = conversationBadges[0]?.id;
-      if (!firstId) {
+      // Find the first visible badge. For other people's badges, isVisible will be
+      // unset and the badge is guaranteed to be visible.
+      // For the local user's badges, isVisible will be set and we need to check it.
+      const firstVisibleBadge = conversationBadges.find(conversationBadge =>
+        'isVisible' in conversationBadge ? conversationBadge.isVisible : true
+      );
+
+      if (!firstVisibleBadge) {
         return undefined;
       }
 
-      const badge = getOwn(badgesById, firstId);
+      const badge = getOwn(badgesById, firstVisibleBadge.id);
       if (!badge) {
         log.error(
           'getPreferredBadgeSelector: conversation badge was not found'

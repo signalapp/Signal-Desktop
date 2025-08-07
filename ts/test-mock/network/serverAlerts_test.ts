@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import createDebug from 'debug';
 import type { Page } from 'playwright';
+import { StorageState, type PrimaryDevice } from '@signalapp/mock-server';
 
 import type { App } from '../playwright';
 import { Bootstrap } from '../bootstrap';
@@ -18,10 +19,25 @@ describe('serverAlerts', function (this: Mocha.Suite) {
   this.timeout(MINUTE);
   let bootstrap: Bootstrap;
   let app: App;
+  let pinned: PrimaryDevice;
 
   beforeEach(async () => {
     bootstrap = new Bootstrap();
     await bootstrap.init();
+
+    // Set up a pinned contact to trigger profile fetch to test unauth socket
+    let state = StorageState.getEmpty();
+    const { phone, contacts } = bootstrap;
+    [pinned] = contacts;
+
+    state = state.addContact(pinned, {
+      identityKey: pinned.publicKey.serialize(),
+      profileKey: pinned.profileKey.serialize(),
+      whitelisted: true,
+    });
+
+    state = state.pin(pinned);
+    await phone.setStorageState(state);
   });
 
   afterEach(async function (this: Mocha.Context) {
@@ -81,6 +97,10 @@ describe('serverAlerts', function (this: Mocha.Suite) {
             ? await bootstrap.link()
             : await setupAppToUseLibsignalWebsockets(bootstrap);
         const window = await app.getWindow();
+
+        // Trigger a profile fetch for a contact to ensure unauth websocket is used
+        await window.getByTestId(pinned.device.aci).click();
+
         await testCase.test(window);
 
         if (transport === 'libsignal') {
