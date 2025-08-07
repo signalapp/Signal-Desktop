@@ -57,7 +57,9 @@ describe('readSync', function (this: Mocha.Suite) {
     const leftPane = page.locator('#LeftPane');
 
     await leftPane
-      .locator('.module-conversation-list__item--contact-or-conversation')
+      .locator(
+        '.module-conversation-list__item--contact-or-conversation >> "<(˶ᵔᵕᵔ˶)>"'
+      )
       .first()
       .waitFor();
 

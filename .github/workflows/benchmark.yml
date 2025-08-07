@@ -14,6 +14,52 @@ on:
 
 jobs:
   linux:
+    strategy:
+      matrix:
+        metric:
+          - startup
+          - send
+          - groupSend
+          - largeGroupSendWithBlocks
+          - largeGroupSend
+          - convoOpen
+          - callHistorySearch
+          - backup
+        include:
+          - metric: startup
+            script: ts/test-mock/benchmarks/startup_bench.js
+            runCount: 10
+          - metric: send
+            script: ts/test-mock/benchmarks/send_bench.js
+            runCount: 100
+          - metric: groupSend
+            script: ts/test-mock/benchmarks/group_send_bench.js
+            runCount: 100
+            conversationSize: 500
+          - metric: largeGroupSendWithBlocks
+            script: ts/test-mock/benchmarks/group_send_bench.js
+            runCount: 50
+            conversationSize: 500
+            groupSize: 500
+            contactCount: 500
+            blockedCount: 10
+            discardCount: 2
+          - metric: largeGroupSend
+            script: ts/test-mock/benchmarks/group_send_bench.js
+            runCount: 20
+            conversationSize: 50
+            groupSize: 500
+            contactCount: 500
+            discardCount: 2
+          - metric: convoOpen
+            script: ts/test-mock/benchmarks/group_send_bench.js
+            runCount: 100
+          - metric: callHistorySearch
+            script: ts/test-mock/benchmarks/call_history_search_bench.js
+            runCount: 100
+          - metric: backup
+            script: ts/test-mock/benchmarks/backup_bench.js
+
     runs-on: ubuntu-22.04-8-cores
     if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && (!github.event.schedule || github.ref == 'refs/heads/main') }}
     timeout-minutes: 30
@@ -72,132 +118,22 @@ jobs:
       run: |
         echo "MAX_CYCLES=2" >> "$GITHUB_ENV"
 
-    - name: Run startup benchmarks
+    - name: Run ${{ matrix.metric }}
       run: |
         set -o pipefail
-        xvfb-run --auto-servernum node ts/test-mock/benchmarks/startup_bench.js |
-          tee benchmark-startup.log
+        xvfb-run --auto-servernum node ${{ matrix.script }} | tee benchmark.log
       timeout-minutes: 10
       env:
         NODE_ENV: production
-        RUN_COUNT: 10
         ELECTRON_ENABLE_STACK_DUMPING: on
         DEBUG: 'mock:benchmarks'
-        ARTIFACTS_DIR: artifacts/startup
-
-    - name: Run send benchmarks
-      run: |
-        set -o pipefail
-        rm -rf /tmp/mock
-        xvfb-run --auto-servernum node ts/test-mock/benchmarks/send_bench.js |
-          tee benchmark-send.log
-      timeout-minutes: 10
-      env:
-        NODE_ENV: production
-        RUN_COUNT: 100
-        ELECTRON_ENABLE_STACK_DUMPING: on
-        # DEBUG: 'mock:benchmarks'
-        ARTIFACTS_DIR: artifacts/send
-
-    - name: Run group send benchmarks
-      run: |
-        set -o pipefail
-        rm -rf /tmp/mock
-        xvfb-run --auto-servernum node \
-          ts/test-mock/benchmarks/group_send_bench.js | \
-          tee benchmark-group-send.log
-      timeout-minutes: 10
-      env:
-        NODE_ENV: production
-        RUN_COUNT: 100
-        CONVERSATION_SIZE: 500
-        ELECTRON_ENABLE_STACK_DUMPING: on
-        # DEBUG: 'mock:benchmarks'
-        ARTIFACTS_DIR: artifacts/group-send
-
-    - name: Run large group send benchmarks with blocks
-      run: |
-        set -o pipefail
-        rm -rf /tmp/mock
-        xvfb-run --auto-servernum node \
-          ts/test-mock/benchmarks/group_send_bench.js | \
-          tee benchmark-large-group-send-with-blocks.log
-      timeout-minutes: 10
-      env:
-        NODE_ENV: production
-        GROUP_SIZE: 500
-        CONTACT_COUNT: 500
-        BLOCKED_COUNT: 10
-        DISCARD_COUNT: 2
-        RUN_COUNT: 50
-        CONVERSATION_SIZE: 500
-        ELECTRON_ENABLE_STACK_DUMPING: on
-        # DEBUG: 'mock:benchmarks'
-        ARTIFACTS_DIR: artifacts/group-send
-
-    - name: Run large group send benchmarks with delivery receipts
-      run: |
-        set -o pipefail
-        rm -rf /tmp/mock
-        xvfb-run --auto-servernum node \
-          ts/test-mock/benchmarks/group_send_bench.js | \
-          tee benchmark-large-group-send.log
-      timeout-minutes: 10
-      env:
-        NODE_ENV: production
-        GROUP_SIZE: 500
-        CONTACT_COUNT: 500
-        GROUP_DELIVERY_RECEIPTS: 500
-        DISCARD_COUNT: 2
-        RUN_COUNT: 20
-        CONVERSATION_SIZE: 50
-        ELECTRON_ENABLE_STACK_DUMPING: on
-        # DEBUG: 'mock:benchmarks'
-        ARTIFACTS_DIR: artifacts/large-group-send
-
-    - name: Run conversation open benchmarks
-      run: |
-        set -o pipefail
-        rm -rf /tmp/mock
-        xvfb-run --auto-servernum node \
-          ts/test-mock/benchmarks/convo_open_bench.js | \
-          tee benchmark-convo-open.log
-      timeout-minutes: 10
-      env:
-        NODE_ENV: production
-        RUN_COUNT: 100
-        ELECTRON_ENABLE_STACK_DUMPING: on
-        # DEBUG: 'mock:benchmarks'
-        ARTIFACTS_DIR: artifacts/convo-open
-
-    - name: Run call history search benchmarks
-      run: |
-        set -o pipefail
-        rm -rf /tmp/mock
-        xvfb-run --auto-servernum node \
-          ts/test-mock/benchmarks/call_history_search_bench.js | \
-          tee benchmark-call-history-search.log
-      timeout-minutes: 10
-      env:
-        NODE_ENV: production
-        RUN_COUNT: 100
-        ELECTRON_ENABLE_STACK_DUMPING: on
-        # DEBUG: 'mock:benchmarks'
-        ARTIFACTS_DIR: artifacts/call-history-search
-
-    - name: Run backup benchmarks
-      run: |
-        set -o pipefail
-        rm -rf /tmp/mock
-        xvfb-run --auto-servernum node \
-          ts/test-mock/benchmarks/backup_bench.js | \
-          tee benchmark-backup.log
-      timeout-minutes: 10
-      env:
-        NODE_ENV: production
-        ELECTRON_ENABLE_STACK_DUMPING: on
-        # DEBUG: 'mock:benchmarks'
-        ARTIFACTS_DIR: artifacts/backup-bench
+        ARTIFACTS_DIR: artifacts/${{ matrix.metric }}
+        GROUP_SIZE: ${{ matrix.groupSize }}
+        CONTACT_COUNT: ${{ matrix.contactCount }}
+        BLOCKED_COUNT: ${{ matrix.blockedCount }}
+        DISCARD_COUNT: ${{ matrix.discardCount }}
+        RUN_COUNT: ${{ matrix.runCount }}
+        CONVERSATION_SIZE: ${{ matrix.conversationSize }}
 
     - name: Upload benchmark logs on failure
       if: failure()
@@ -222,13 +158,6 @@ jobs:
     - name: Publish to DataDog
       working-directory: benchmark-results
       run: |
-        node ./bin/publish.js ../benchmark-startup.log desktop.ci.performance.startup
-        node ./bin/publish.js ../benchmark-send.log desktop.ci.performance.send
-        node ./bin/publish.js ../benchmark-group-send.log desktop.ci.performance.groupSend
-        node ./bin/publish.js ../benchmark-large-group-send-with-blocks.log desktop.ci.performance.largeGroupSendWithBlocks
-        node ./bin/publish.js ../benchmark-large-group-send.log desktop.ci.performance.largeGroupSend
-        node ./bin/publish.js ../benchmark-convo-open.log desktop.ci.performance.convoOpen
-        node ./bin/publish.js ../benchmark-call-history-search.log desktop.ci.performance.callHistorySearch
-        node ./bin/publish.js ../benchmark-backup.log desktop.ci.performance.backup
+        node ./bin/publish.js ../benchmark.log destop.ci.performance.${{ matrix.metric }}
       env:
         DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}

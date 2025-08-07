@@ -102,18 +102,6 @@ export const SmartChatsTab = memo(function SmartChatsTab() {
   }, [prevConversationId, selectedConversationId]);
 
   useEffect(() => {
-    function refreshConversation({
-      newId,
-      oldId,
-    }: {
-      newId: string;
-      oldId: string;
-    }) {
-      if (prevConversationId === oldId) {
-        showConversation({ conversationId: newId });
-      }
-    }
-
     // Close current opened conversation to reload the group information once
     // linked.
     function unload() {
@@ -128,12 +116,10 @@ export const SmartChatsTab = memo(function SmartChatsTab() {
     }
 
     window.Whisper.events.on('pack-install-failed', packInstallFailed);
-    window.Whisper.events.on('refreshConversation', refreshConversation);
     window.Whisper.events.on('setupAsNewDevice', unload);
 
     return () => {
       window.Whisper.events.off('pack-install-failed', packInstallFailed);
-      window.Whisper.events.off('refreshConversation', refreshConversation);
       window.Whisper.events.off('setupAsNewDevice', unload);
     };
   }, [onConversationClosed, prevConversationId, showConversation, showToast]);

@@ -272,7 +272,13 @@ function renderNode({
     !isLinkSneaky(node.url)
   ) {
     return (
-      <a key={key} className={formattingClasses} href={node.url}>
+      <a
+        key={key}
+        className={formattingClasses}
+        href={node.url}
+        target="_blank"
+        rel="noreferrer"
+      >
         {content}
       </a>
     );

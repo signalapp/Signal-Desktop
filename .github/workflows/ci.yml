@@ -370,6 +370,11 @@ jobs:
 
   mock-tests:
     needs: lint
+
+    strategy:
+      matrix:
+        workerIndex: [0, 1, 2, 3]
+
     runs-on: ubuntu-22.04-8-cores
     if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' }}
     timeout-minutes: 30
@@ -429,12 +434,24 @@ jobs:
       run: |
         set -o pipefail
         xvfb-run --auto-servernum pnpm run test-mock
+      timeout-minutes: 15
+      env:
+        NODE_ENV: production
+        DEBUG: mock:test:*
+        ARTIFACTS_DIR: artifacts/mock
+        WORKER_INDEX: ${{ matrix.workerIndex }}
+        WORKER_COUNT: 4
+
+    - name: Run docker mock server tests
+      if: ${{ matrix.workerIndex == 0 }}
+      run: |
+        set -o pipefail
         xvfb-run --auto-servernum pnpm run test-mock-docker
       timeout-minutes: 15
       env:
         NODE_ENV: production
         DEBUG: mock:test:*
-        ARTIFACTS_DIR: artifacts/startup
+        ARTIFACTS_DIR: artifacts/mock-docker
 
     - name: Upload mock server test logs on failure
       if: failure()

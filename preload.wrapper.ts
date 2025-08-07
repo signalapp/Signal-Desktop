@@ -61,6 +61,11 @@ const fn = script.runInThisContext({
 
 // See `ts/scripts/generate-preload-cache.ts`
 if (process.env.GENERATE_PRELOAD_CACHE) {
+  // Use hottest cache possible in CI
+  if (process.env.CI) {
+    fn(require, __dirname);
+    window.startApp();
+  }
   writeFileSync(cachePath, script.createCachedData());
   ipcRenderer.send('shutdown');
 } else {

@@ -400,23 +400,30 @@ export class Bootstrap {
       await app.stageLocalBackupForImport(localBackup);
     }
 
-    debug('looking for QR code or relink button');
-    const qrCode = window.locator(
-      '.module-InstallScreenQrCodeNotScannedStep__qr-code__code'
+    let gotProvisionURL = false;
+
+    drop(
+      (async () => {
+        try {
+          const relinkButton = window.locator('.LeftPaneDialog__icon--relink');
+          await relinkButton.waitFor();
+          if (gotProvisionURL) {
+            return;
+          }
+          await relinkButton.click();
+        } catch {
+          // Ignore, provision will fail if QR code was never generated
+        }
+      })()
     );
-    const relinkButton = window.locator('.LeftPaneDialog__icon--relink');
-    await qrCode.or(relinkButton).waitFor();
-    if (await relinkButton.isVisible()) {
-      debug('unlinked, clicking left pane button');
-      await relinkButton.click();
-      await qrCode.waitFor();
-    }
 
     debug('waiting for provision');
     const provision = await this.server.waitForProvision();
 
     debug('waiting for provision URL');
     const provisionURL = await app.waitForProvisionURL();
+
+    gotProvisionURL = true;
 
     debug('completing provision');
     this.#privDesktop = await provision.complete({

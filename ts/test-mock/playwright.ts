@@ -83,6 +83,7 @@ export class App extends EventEmitter {
               snapshots: true,
             });
           }
+          await page?.emulateMedia({ reducedMotion: 'reduce' });
           await page?.waitForLoadState('load');
         })(),
         20 * SECOND

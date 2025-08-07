@@ -70,11 +70,10 @@ describe('storage service', function (this: Mocha.Suite) {
 
       await conversationView
         .locator(`a:has-text("${STICKER_PACKS[0].id.toString('hex')}")`)
-        .click({ noWaitAfter: true });
+        .click();
       await window
-        .locator(
-          '.module-sticker-manager__preview-modal__footer--install button >> "Install"'
-        )
+        .getByTestId('StickerPreviewModal')
+        .getByRole('button', { name: 'Install' })
         .click();
 
       debug('waiting for sync message');
@@ -114,12 +113,10 @@ describe('storage service', function (this: Mocha.Suite) {
 
       await conversationView
         .locator(`a:has-text("${STICKER_PACKS[0].id.toString('hex')}")`)
-        .click({ noWaitAfter: true });
+        .click();
       await window
-        .locator(
-          '.module-sticker-manager__preview-modal__footer--install button ' +
-            '>> "Uninstall"'
-        )
+        .getByTestId('StickerPreviewModal')
+        .getByRole('button', { name: 'Uninstall' })
         .click();
 
       // Confirm

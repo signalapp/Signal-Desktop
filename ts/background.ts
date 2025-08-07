@@ -1457,6 +1457,7 @@ export async function startApp(): Promise<void> {
       await StorageService.runStorageServiceSyncJob({
         reason: andSync,
       });
+      StorageService.runStorageServiceSyncJob.flush();
     }
   }
 

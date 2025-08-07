@@ -88,9 +88,7 @@ describe('unprocessed', function (this: Mocha.Suite) {
     const page = await app.getWindow();
 
     debug('opening conversation');
-    await page
-      .locator(`[data-testid="${alice.device.aci}"] >> "${alice.profileName}"`)
-      .click();
+    await page.getByTestId(alice.device.aci).click();
 
     await page.locator('.module-message__text >> "hello: 4"').waitFor();
     await page.locator('.module-message__text >> "hello: 5"').waitFor();

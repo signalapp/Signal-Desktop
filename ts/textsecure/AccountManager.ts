@@ -28,6 +28,7 @@ import type {
 import createTaskWithTimeout from './TaskWithTimeout';
 import * as Bytes from '../Bytes';
 import * as Errors from '../types/errors';
+import { isMockEnvironment } from '../environment';
 import { senderCertificateService } from '../services/senderCertificate';
 import { backupsService } from '../services/backups';
 import {
@@ -96,7 +97,9 @@ const LAST_RESORT_KEY_UPDATE_TIME_KEY: StorageKeyByServiceIdKind = {
 };
 
 const PRE_KEY_ARCHIVE_AGE = 90 * DAY;
-const PRE_KEY_GEN_BATCH_SIZE = 100;
+// Use 20 keys for mock tests which is above the minimum, but takes much less
+// time to generate and store in the database (especially for PQ keys)
+const PRE_KEY_GEN_BATCH_SIZE = isMockEnvironment() ? 20 : 100;
 const PRE_KEY_MAX_COUNT = 200;
 const PRE_KEY_ID_KEY: StorageKeyByServiceIdKind = {
   [ServiceIdKind.ACI]: 'maxPreKeyId',

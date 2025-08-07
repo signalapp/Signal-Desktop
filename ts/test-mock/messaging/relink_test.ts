@@ -87,11 +87,13 @@ describe('messaging/relink', function (this: Mocha.Suite) {
         )
         .waitFor();
 
+      debug('unlinkng');
       await app.unlink();
       await app.waitForUnlink();
       await phone.unlink(desktop);
       await server.removeDevice(desktop.number, desktop.deviceId);
 
+      debug('closing');
       await app.close();
 
       debug('change pinned contact, identity key');
