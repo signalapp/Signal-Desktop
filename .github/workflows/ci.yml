@@ -257,7 +257,7 @@ jobs:
 
   windows:
     needs: lint
-    runs-on: windows-latest
+    runs-on: windows-latest-8-cores
     timeout-minutes: 30
 
     steps:
@@ -273,18 +273,10 @@ jobs:
         node-version-file: '.nvmrc'
         cache: 'pnpm'
         cache-dependency-path: 'pnpm-lock.yaml'
-    - name: Cache .electron-gyp
-      uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
-      with:
-        path: ${{ env.SCCACHE_PATH }}\.electron-gyp
-        key: electron-gyp-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
-
-    - run: pnpm install -g node-gyp@10.0.1
 
     - name: Install Desktop node_modules
       run: pnpm install
       env:
-        CHILD_CONCURRENCY: 1
         NPM_CONFIG_LOGLEVEL: verbose
 
     - run: pnpm run generate
@@ -321,6 +313,7 @@ jobs:
     - run: pnpm run test-electron
       env:
         ARTIFACTS_DIR: artifacts/windows
+        WORKER_COUNT: 4
       timeout-minutes: 5
     - run: pnpm run test-release
       env:
