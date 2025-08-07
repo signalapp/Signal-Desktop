@@ -311,23 +311,15 @@ async function buildProfileFetchOptions({
   const accessKey = conversation.get('accessKey');
   const serviceId = conversation.getCheckedServiceId('getProfile');
 
-  if (
-    profileKey &&
-    profileKeyVersion &&
-    accessKey &&
-    !options.ignoreProfileKey
-  ) {
+  function getProfileCredentialsToUseIfExpired(profileKeyArg: string): {
+    credentialRequestContext: ProfileKeyCredentialRequestContext | null;
+    credentialRequestHex: string | null;
+  } {
     if (!conversation.hasProfileKeyCredentialExpired()) {
       log.info(`${logId}: using unexpired profile key credential`);
       return {
-        profileKey,
-        profileCredentialRequestContext: null,
-        request: {
-          accessKey,
-          groupSendToken: null,
-          profileKeyVersion,
-          profileKeyCredentialRequest: null,
-        },
+        credentialRequestContext: null,
+        credentialRequestHex: null,
       };
     }
 
@@ -335,17 +327,32 @@ async function buildProfileFetchOptions({
     const result = generateProfileKeyCredentialRequest(
       clientZkProfileCipher,
       serviceId,
-      profileKey
+      profileKeyArg
     );
 
     return {
+      credentialRequestContext: result.context,
+      credentialRequestHex: result.requestHex,
+    };
+  }
+
+  if (
+    profileKey &&
+    profileKeyVersion &&
+    accessKey &&
+    !options.ignoreProfileKey &&
+    !isMe(conversation.attributes)
+  ) {
+    const { credentialRequestContext, credentialRequestHex } =
+      getProfileCredentialsToUseIfExpired(profileKey);
+    return {
       profileKey,
-      profileCredentialRequestContext: result.context,
+      profileCredentialRequestContext: credentialRequestContext,
       request: {
         accessKey,
         groupSendToken: null,
         profileKeyVersion,
-        profileKeyCredentialRequest: result.requestHex,
+        profileKeyCredentialRequest: credentialRequestHex,
       },
     };
   }
@@ -369,6 +376,23 @@ async function buildProfileFetchOptions({
         groupSendToken: null,
         profileKeyVersion: lastProfile.profileKeyVersion,
         profileKeyCredentialRequest: null,
+      },
+    };
+  }
+
+  // For self we also use the versioned profile on the authenticated socket,
+  // with profile key credentials if needed.
+  if (profileKey && profileKeyVersion && isMe(conversation.attributes)) {
+    const { credentialRequestContext, credentialRequestHex } =
+      getProfileCredentialsToUseIfExpired(profileKey);
+    return {
+      profileKey,
+      profileCredentialRequestContext: credentialRequestContext,
+      request: {
+        accessKey: null,
+        groupSendToken: null,
+        profileKeyVersion,
+        profileKeyCredentialRequest: credentialRequestHex,
       },
     };
   }
