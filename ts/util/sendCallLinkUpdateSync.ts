@@ -8,12 +8,13 @@ import { SignalService as Proto } from '../protobuf';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 import MessageSender from '../textsecure/SendMessage';
 import { toAdminKeyBytes } from './callLinks';
-import { toRootKeyBytes } from './callLinksRingrtc';
+import { toEpochBytes, toRootKeyBytes } from './callLinksRingrtc';
 
 const log = createLogger('sendCallLinkUpdateSync');
 
 export type sendCallLinkUpdateSyncCallLinkType = {
   rootKey: string;
+  epoch: string | null;
   adminKey: string | null;
 };
 
@@ -42,6 +43,7 @@ async function _sendCallLinkUpdateSync(
     const callLinkUpdate = new Proto.SyncMessage.CallLinkUpdate({
       type: protoType,
       rootKey: toRootKeyBytes(callLink.rootKey),
+      epoch: callLink.epoch ? toEpochBytes(callLink.epoch) : null,
       adminPasskey: callLink.adminKey
         ? toAdminKeyBytes(callLink.adminKey)
         : null,

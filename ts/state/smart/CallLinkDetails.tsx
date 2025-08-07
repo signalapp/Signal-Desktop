@@ -57,7 +57,7 @@ export const SmartCallLinkDetails = memo(function SmartCallLinkDetails({
 
   const handleStartCallLinkLobby = useCallback(() => {
     strictAssert(callLink != null, 'callLink not found');
-    startCallLinkLobby({ rootKey: callLink.rootKey });
+    startCallLinkLobby({ rootKey: callLink.rootKey, epoch: callLink.epoch });
   }, [callLink, startCallLinkLobby]);
 
   const handleUpdateCallLinkRestrictions = useCallback(

@@ -142,7 +142,10 @@ import {
   isCallHistoryForUnusedCallLink,
   toAdminKeyBytes,
 } from '../../util/callLinks';
-import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc';
+import {
+  getRoomIdFromRootKey,
+  toEpochBytes,
+} from '../../util/callLinksRingrtc';
 import { SeenStatus } from '../../MessageSeenStatus';
 import { migrateAllMessages } from '../../messages/migrateMessageData';
 import { isBodyTooLong, trimBody } from '../../util/longAttachment';
@@ -473,6 +476,7 @@ export class BackupExportStream extends Readable {
     for (const link of callLinks) {
       const {
         rootKey: rootKeyString,
+        epoch,
         adminKey,
         name,
         restrictions,
@@ -495,6 +499,7 @@ export class BackupExportStream extends Readable {
           id: Long.fromNumber(id),
           callLink: {
             rootKey: rootKey.bytes,
+            epoch: epoch ? toEpochBytes(epoch) : null,
             adminKey: adminKey ? toAdminKeyBytes(adminKey) : null,
             name,
             restrictions: toCallLinkRestrictionsProto(restrictions),

@@ -475,6 +475,7 @@ export class CallEventSyncEvent extends ConfirmableEvent {
 export type CallLinkUpdateSyncEventData = Readonly<{
   type: CallLinkUpdateSyncType;
   rootKey: Uint8Array | undefined;
+  epoch: Uint8Array | undefined;
   adminKey: Uint8Array | undefined;
 }>;
 

@@ -221,6 +221,7 @@ import {
   insertOrUpdateCallLinkFromSync,
   updateCallLink,
   updateCallLinkState,
+  updateCallLinkStateAndEpoch,
   updateDefunctCallLink,
 } from './server/callLinks';
 import {
@@ -569,6 +570,7 @@ export const DataWriter: ServerWritableInterface = {
   insertOrUpdateCallLinkFromSync,
   updateCallLink,
   updateCallLinkState,
+  updateCallLinkStateAndEpoch,
   beginDeleteAllCallLinks,
   beginDeleteCallLink,
   deleteCallHistoryByRoomId,
@@ -1903,8 +1905,8 @@ function getConversationById(
   const row = db
     .prepare(
       `
-      SELECT json, profileLastFetchedAt, expireTimerVersion 
-      FROM conversations 
+      SELECT json, profileLastFetchedAt, expireTimerVersion
+      FROM conversations
       WHERE id = $id
       `
     )
@@ -2692,9 +2694,9 @@ function saveMessageAttachment({
 
   db.prepare(
     `
-        INSERT OR REPLACE INTO message_attachments 
-          (${MESSAGE_ATTACHMENT_COLUMNS.join(', ')}) 
-        VALUES 
+        INSERT OR REPLACE INTO message_attachments
+          (${MESSAGE_ATTACHMENT_COLUMNS.join(', ')})
+        VALUES
           (${MESSAGE_ATTACHMENT_COLUMNS.map(name => `$${name}`).join(', ')});
       `
   ).run(values);
@@ -5530,7 +5532,7 @@ function removeAllBackupAttachmentDownloadJobs(db: WritableDB): void {
 
 function resetBackupAttachmentDownloadStats(db: WritableDB): void {
   const [query, params] = sql`
-    INSERT OR REPLACE INTO attachment_downloads_backup_stats 
+    INSERT OR REPLACE INTO attachment_downloads_backup_stats
       (id, totalBytes, completedBytes)
     VALUES
       (0,0,0);
@@ -5729,11 +5731,11 @@ function saveAttachmentDownloadJob(
     db.prepare(
       `
       INSERT INTO attachment_downloads
-        (${ATTACHMENT_DOWNLOADS_COLUMNS.join(', ')}) 
-      VALUES 
+        (${ATTACHMENT_DOWNLOADS_COLUMNS.join(', ')})
+      VALUES
         (${ATTACHMENT_DOWNLOADS_COLUMNS.map(name => `$${name}`).join(', ')})
-      ON CONFLICT DO UPDATE SET 
-          -- preserve originalSource 
+      ON CONFLICT DO UPDATE SET
+          -- preserve originalSource
           ${ATTACHMENT_DOWNLOADS_COLUMNS.filter(
             name => name !== 'originalSource'
           )
@@ -5924,7 +5926,7 @@ function getBackupCdnObjectMetadata(
   mediaId: string
 ): BackupCdnMediaObjectType | undefined {
   const [query, params] = sql`
-    SELECT * FROM backup_cdn_object_metadata 
+    SELECT * FROM backup_cdn_object_metadata
     WHERE mediaId = ${mediaId}
   `;
 
@@ -7639,7 +7641,7 @@ function removeAll(db: WritableDB): void {
 
       INSERT INTO messages_fts(messages_fts) VALUES('optimize');
 
-    
+
       --- Re-create the messages delete trigger
       --- See migration 45
       CREATE TRIGGER messages_on_delete AFTER DELETE ON messages BEGIN
@@ -7706,7 +7708,7 @@ function removeAllConfiguration(db: WritableDB): void {
     const [updateConversationsQuery, updateConversationsParams] = sql`
       UPDATE conversations
       SET
-        expireTimerVersion = ${INITIAL_EXPIRE_TIMER_VERSION}, 
+        expireTimerVersion = ${INITIAL_EXPIRE_TIMER_VERSION},
         json = json_remove(
           json,
           '$.senderKeyInfo',
@@ -8585,8 +8587,8 @@ function getMessageCountBySchemaVersion(
   db: ReadableDB
 ): MessageCountBySchemaVersionType {
   const [query, params] = sql`
-    SELECT schemaVersion, COUNT(1) as count from messages 
-    GROUP BY schemaVersion; 
+    SELECT schemaVersion, COUNT(1) as count from messages
+    GROUP BY schemaVersion;
   `;
   const rows = db
     .prepare(query)
@@ -8601,7 +8603,7 @@ function getMessageSampleForSchemaVersion(
 ): Array<MessageAttributesType> {
   return db.transaction(() => {
     const [query, params] = sql`
-      SELECT * from messages 
+      SELECT * from messages
       WHERE schemaVersion = ${version}
       ORDER BY RANDOM()
       LIMIT 2;

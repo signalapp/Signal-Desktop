@@ -19,6 +19,7 @@ import {
   CallingMessage,
   CallMessageUrgency,
   CallLinkRootKey,
+  CallLinkEpoch,
   CallLogLevel,
   CallState,
   ConnectionState,
@@ -798,11 +799,13 @@ export class CallingClass {
     }
 
     log.info(`${logId}: success`);
+    const { epoch } = result.value;
     const state = callLinkStateFromRingRTC(result.value);
 
     const callLink: CallLinkType = {
       roomId: roomIdHex,
       rootKey: rootKey.toString(),
+      epoch: epoch ? epoch.toString() : null,
       adminKey: Bytes.toBase64(adminKey),
       storageNeedsSync: true,
       ...state,
@@ -824,6 +827,9 @@ export class CallingClass {
     log.info(logId);
 
     const callLinkRootKey = CallLinkRootKey.parse(callLink.rootKey);
+    const callLinkEpoch = callLink.epoch
+      ? CallLinkEpoch.parse(callLink.epoch)
+      : undefined;
     strictAssert(callLink.adminKey, 'Missing admin key');
     const callLinkAdminKey = toAdminKeyBytes(callLink.adminKey);
     const authCredentialPresentation =
@@ -833,7 +839,7 @@ export class CallingClass {
       sfuUrl,
       authCredentialPresentation.serialize(),
       callLinkRootKey,
-      undefined,
+      callLinkEpoch,
       callLinkAdminKey
     );
 
@@ -862,6 +868,9 @@ export class CallingClass {
     log.info(`${logId}: Updating call link name`);
 
     const callLinkRootKey = CallLinkRootKey.parse(callLink.rootKey);
+    const callLinkEpoch = callLink.epoch
+      ? CallLinkEpoch.parse(callLink.epoch)
+      : undefined;
     strictAssert(callLink.adminKey, 'Missing admin key');
     const callLinkAdminKey = toAdminKeyBytes(callLink.adminKey);
     const authCredentialPresentation =
@@ -870,7 +879,7 @@ export class CallingClass {
       sfuUrl,
       authCredentialPresentation.serialize(),
       callLinkRootKey,
-      undefined,
+      callLinkEpoch,
       callLinkAdminKey,
       name
     );
@@ -901,6 +910,9 @@ export class CallingClass {
     log.info(`${logId}: Updating call link restrictions`);
 
     const callLinkRootKey = CallLinkRootKey.parse(callLink.rootKey);
+    const callLinkEpoch = callLink.epoch
+      ? CallLinkEpoch.parse(callLink.epoch)
+      : undefined;
     strictAssert(callLink.adminKey, 'Missing admin key');
     const callLinkAdminKey = toAdminKeyBytes(callLink.adminKey);
     const authCredentialPresentation =
@@ -916,7 +928,7 @@ export class CallingClass {
       sfuUrl,
       authCredentialPresentation.serialize(),
       callLinkRootKey,
-      undefined,
+      callLinkEpoch,
       callLinkAdminKey,
       newRestrictions
     );
@@ -934,7 +946,8 @@ export class CallingClass {
   }
 
   async readCallLink(
-    callLinkRootKey: CallLinkRootKey
+    callLinkRootKey: CallLinkRootKey,
+    callLinkEpoch: CallLinkEpoch | undefined
   ): Promise<CallLinkStateType | null> {
     if (!this._sfuUrl) {
       throw new Error('readCallLink() missing SFU URL; not handling call link');
@@ -951,7 +964,7 @@ export class CallingClass {
       this._sfuUrl,
       authCredentialPresentation.serialize(),
       callLinkRootKey,
-      undefined
+      callLinkEpoch
     );
     if (!result.success) {
       log.warn(`${logId}: failed with status ${result.errorStatusCode}`);
@@ -967,11 +980,13 @@ export class CallingClass {
 
   async startCallLinkLobby({
     callLinkRootKey,
+    callLinkEpoch,
     adminPasskey,
     hasLocalAudio,
     preferLocalVideo = true,
   }: Readonly<{
     callLinkRootKey: CallLinkRootKey;
+    callLinkEpoch: CallLinkEpoch | undefined;
     adminPasskey: Uint8Array | undefined;
     hasLocalAudio: boolean;
     preferLocalVideo?: boolean;
@@ -1015,6 +1030,7 @@ export class CallingClass {
       roomId,
       authCredentialPresentation,
       callLinkRootKey,
+      callLinkEpoch,
       adminPasskey,
       endorsementsPublicKey,
     });
@@ -1225,7 +1241,8 @@ export class CallingClass {
 
   public async peekCallLinkCall(
     roomId: string,
-    rootKey: string | undefined
+    rootKey: string | undefined,
+    epoch: string | undefined
   ): Promise<PeekInfo> {
     log.info(`peekCallLinkCall: For roomId ${roomId}`);
     const statefulPeekInfo = this.#getGroupCall(roomId)?.getPeekInfo();
@@ -1244,7 +1261,7 @@ export class CallingClass {
     }
 
     const callLinkRootKey = CallLinkRootKey.parse(rootKey);
-
+    const callLinkEpoch = epoch ? CallLinkEpoch.parse(epoch) : undefined;
     const authCredentialPresentation =
       await getCallLinkAuthCredentialPresentation(callLinkRootKey);
 
@@ -1252,7 +1269,7 @@ export class CallingClass {
       this._sfuUrl,
       authCredentialPresentation.serialize(),
       callLinkRootKey,
-      undefined
+      callLinkEpoch
     );
     if (!result.success) {
       throw new Error(
@@ -1355,12 +1372,14 @@ export class CallingClass {
     roomId,
     authCredentialPresentation,
     callLinkRootKey,
+    callLinkEpoch,
     adminPasskey,
     endorsementsPublicKey,
   }: {
     roomId: string;
     authCredentialPresentation: CallLinkAuthCredentialPresentation;
     callLinkRootKey: CallLinkRootKey;
+    callLinkEpoch: CallLinkEpoch | undefined;
     adminPasskey: Uint8Array | undefined;
     endorsementsPublicKey: Uint8Array;
   }): GroupCall {
@@ -1389,7 +1408,7 @@ export class CallingClass {
       endorsementsPublicKey,
       authCredentialPresentation.serialize(),
       callLinkRootKey,
-      undefined,
+      callLinkEpoch,
       adminPasskey,
       new Uint8Array(),
       AUDIO_LEVEL_INTERVAL_MS,
@@ -1783,12 +1802,14 @@ export class CallingClass {
   public async joinCallLinkCall({
     roomId,
     rootKey,
+    epoch,
     adminKey,
     hasLocalAudio,
     hasLocalVideo,
   }: {
     roomId: string;
     rootKey: string;
+    epoch: string | undefined;
     adminKey: string | undefined;
     hasLocalAudio: boolean;
     hasLocalVideo: boolean;
@@ -1807,6 +1828,7 @@ export class CallingClass {
     await this.#startDeviceReselectionTimer();
 
     const callLinkRootKey = CallLinkRootKey.parse(rootKey);
+    const callLinkEpoch = epoch ? CallLinkEpoch.parse(epoch) : undefined;
     const authCredentialPresentation =
       await getCallLinkAuthCredentialPresentation(callLinkRootKey);
     const adminPasskey = adminKey ? toAdminKeyBytes(adminKey) : undefined;
@@ -1820,6 +1842,7 @@ export class CallingClass {
       roomId,
       authCredentialPresentation,
       callLinkRootKey,
+      callLinkEpoch,
       adminPasskey,
       endorsementsPublicKey,
     });

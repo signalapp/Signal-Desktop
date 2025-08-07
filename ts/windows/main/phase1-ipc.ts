@@ -359,9 +359,10 @@ ipc.on('start-call-lobby', (_event, info) => {
   window.Events.startCallingLobbyViaToken(info.token);
 });
 
-ipc.on('start-call-link', (_event, { key }) => {
+ipc.on('start-call-link', (_event, { key, epoch }) => {
   window.reduxActions?.calling?.startCallLinkLobby({
     rootKey: key,
+    epoch,
   });
 });
 
