@@ -1457,7 +1457,7 @@ export async function markAllCallHistoryReadAndSync(
         : Proto.SyncMessage.CallLogEvent.Type.MARKED_AS_READ,
       timestamp: Long.fromNumber(latestCall.timestamp),
       peerId: getBytesForPeerId(latestCall),
-      callId: Long.fromString(latestCall.callId),
+      callId: getCallIdForProto(latestCall),
     });
 
     const syncMessage = MessageSender.createSyncMessage();
