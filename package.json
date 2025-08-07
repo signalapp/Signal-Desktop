@@ -189,7 +189,7 @@
     "p-timeout": "4.1.0",
     "parsecurrency": "1.1.1",
     "pify": "3.0.0",
-    "pino": "9.5.0",
+    "pino": "9.8.0",
     "protobufjs": "7.3.2",
     "proxy-agent": "6.4.0",
     "qrcode-generator": "1.4.4",
