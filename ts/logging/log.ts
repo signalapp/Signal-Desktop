@@ -126,12 +126,7 @@ function debugLog(
 
   const consoleMethod = getLogLevelString(level);
 
-  const { msgPrefixSym } = pino.symbols as unknown as {
-    readonly msgPrefixSym: unique symbol;
-  };
-  const msgPrefix = (logger as unknown as Record<symbol, string | undefined>)[
-    msgPrefixSym
-  ];
+  const { msgPrefix } = logger;
 
   const pattern = getPattern();
 
