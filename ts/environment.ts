@@ -48,7 +48,7 @@ export const parseEnvironment = makeEnumParser(
 export const isTestEnvironment = (env: Environment): boolean =>
   env === Environment.Test;
 
-const isMockEnvironment = (): boolean => {
+export const isMockEnvironment = (): boolean => {
   if (isMockTestEnvironment == null) {
     log.error('Mock test environment not set');
   }

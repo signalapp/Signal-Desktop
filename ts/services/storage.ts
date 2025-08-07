@@ -82,7 +82,9 @@ import {
   getRoomIdFromRootKeyString,
 } from '../util/callLinksRingrtc';
 import { fromPniUuidBytesOrUntaggedString } from '../util/ServiceId';
+import { isDone as isRegistrationDone } from '../util/registration';
 import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue';
+import { isMockEnvironment } from '../environment';
 
 const log = createLogger('storage');
 
@@ -2083,7 +2085,6 @@ async function upload({
   if (!window.storage.get('storageKey')) {
     // requesting new keys runs the sync job which will detect the conflict
     // and re-run the upload job once we're merged and up-to-date.
-    log.info(`${logId}: no storageKey, requesting new keys`);
     backOff.reset();
 
     if (window.ConversationController.areWePrimaryDevice()) {
@@ -2091,6 +2092,12 @@ async function upload({
       return;
     }
 
+    if (!isRegistrationDone()) {
+      log.warn(`${logId}: no storageKey, unlinked`);
+      return;
+    }
+
+    log.info(`${logId}: no storageKey, requesting new keys`);
     await singleProtoJobQueue.add(MessageSender.getRequestKeySyncMessage());
 
     return;
@@ -2267,7 +2274,7 @@ export const storageServiceUploadJob = debounce(
       `upload v${window.storage.get('manifestVersion')}`
     );
   },
-  500
+  isMockEnvironment() ? 0 : 500
 );
 
 export const runStorageServiceSyncJob = debounce(
@@ -2289,7 +2296,7 @@ export const runStorageServiceSyncJob = debounce(
       )
     );
   },
-  500
+  isMockEnvironment() ? 0 : 500
 );
 
 export const addPendingDelete = (item: ExtendedStorageID): void => {

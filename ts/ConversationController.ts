@@ -351,6 +351,16 @@ export class ConversationController {
         if (isGroupV1(conversation.attributes)) {
           maybeDeriveGroupV2Id(conversation);
         }
+
+        // If conversation does not have pre-existing storageID and is not our
+        // own (that we create on link), it might need to be uploaded to storage
+        // service.
+        if (conversation.attributes.storageID == null) {
+          StorageService.storageServiceUploadJob({
+            reason: 'new conversation',
+          });
+        }
+
         await saveConversation(conversation.attributes);
       } catch (error) {
         log.error(
@@ -1221,11 +1231,15 @@ export class ConversationController {
     log.warn(`${logId}: Update messages table`);
     await migrateConversationMessages(obsoleteId, currentId);
 
-    log.warn(`${logId}: Emit refreshConversation event to close old/open new`);
-    window.Whisper.events.trigger('refreshConversation', {
-      newId: currentId,
-      oldId: obsoleteId,
-    });
+    if (
+      window.reduxStore.getState().conversations.selectedConversationId ===
+      obsoleteId
+    ) {
+      log.warn(`${logId}: opening new conversation`);
+      window.reduxActions.conversations.showConversation({
+        conversationId: currentId,
+      });
+    }
 
     log.warn(
       `${logId}: Eliminate old conversation from ConversationController lookups`
@@ -1236,8 +1250,10 @@ export class ConversationController {
     current.captureChange('combineConversations');
     drop(current.updateLastMessage());
 
-    const state = window.reduxStore.getState();
-    if (state.conversations.selectedConversationId === current.id) {
+    if (
+      window.reduxStore.getState().conversations.selectedConversationId ===
+      current.id
+    ) {
       // TODO: DESKTOP-4807
       drop(current.loadNewestMessages(undefined, undefined));
     }

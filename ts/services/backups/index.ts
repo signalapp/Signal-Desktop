@@ -1034,6 +1034,7 @@ export class BackupsService {
       window.Whisper.events.once('storageService:syncComplete', resolve);
 
       runStorageServiceSyncJob({ reason });
+      runStorageServiceSyncJob.flush();
       await storageService;
     }
 

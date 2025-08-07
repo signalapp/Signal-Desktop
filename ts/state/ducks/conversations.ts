@@ -4879,14 +4879,17 @@ function onConversationClosed(
 ): ThunkAction<void, RootStateType, unknown, ConversationUnloadedActionType> {
   return async dispatch => {
     const conversation = window.ConversationController.get(conversationId);
+    // Conversation was removed due to the merge
     if (!conversation) {
-      throw new Error('onConversationClosed: Conversation not found');
+      log.warn(
+        `onConversationClosed: Conversation ${conversationId} not found`
+      );
     }
 
-    const logId = `onConversationClosed/${conversation.idForLogging()}`;
+    const logId = `onConversationClosed/${conversation?.idForLogging() ?? conversationId}`;
     log.info(`${logId}: unloading due to ${reason}`);
 
-    if (conversation.get('draftChanged')) {
+    if (conversation?.get('draftChanged')) {
       if (conversation.hasDraft()) {
         log.info(`${logId}: new draft info needs update`);
         const now = Date.now();

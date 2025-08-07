@@ -39,6 +39,7 @@ async function main(): Promise<void> {
         WAYLAND_DISPLAY: process.env.WAYLAND_DISPLAY,
         XAUTHORITY: process.env.XAUTHORITY,
 
+        CI: process.env.CI ? 'on' : undefined,
         GENERATE_PRELOAD_CACHE: 'on',
         SIGNAL_CI_CONFIG: JSON.stringify({
           storagePath,
