@@ -158,6 +158,6 @@ jobs:
     - name: Publish to DataDog
       working-directory: benchmark-results
       run: |
-        node ./bin/publish.js ../benchmark.log destop.ci.performance.${{ matrix.metric }}
+        node ./bin/publish.js ../benchmark.log desktop.ci.performance.${{ matrix.metric }}
       env:
         DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}
