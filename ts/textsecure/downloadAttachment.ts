@@ -38,6 +38,7 @@ import {
   getBackupMediaRootKey,
   deriveBackupMediaKeyMaterial,
   type BackupMediaKeyMaterialType,
+  deriveBackupThumbnailTransitKeyMaterial,
 } from '../services/backups/crypto';
 import { backupsService } from '../services/backups';
 import {
@@ -72,7 +73,7 @@ function getBackupThumbnailInnerEncryptionKeyMaterial(
 ): BackupMediaKeyMaterialType {
   const mediaId = getMediaIdForAttachmentThumbnail(attachment);
   const backupKey = getBackupMediaRootKey();
-  return deriveBackupMediaKeyMaterial(backupKey, mediaId.bytes);
+  return deriveBackupThumbnailTransitKeyMaterial(backupKey, mediaId.bytes);
 }
 function getBackupThumbnailOuterEncryptionKeyMaterial(
   attachment: BackupableAttachmentType
