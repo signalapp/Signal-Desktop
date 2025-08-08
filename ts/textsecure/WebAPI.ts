@@ -849,14 +849,9 @@ export type WebAPIConnectType = {
 // When updating this make sure to update `observedCapabilities` type in
 // ts/types/Storage.d.ts
 export type CapabilitiesType = {
-  deleteSync: boolean;
-  ssre2: boolean;
   attachmentBackfill: boolean;
 };
 export type CapabilitiesUploadType = {
-  deleteSync: true;
-  versionedExpirationTimer: true;
-  ssre2: true;
   attachmentBackfill: true;
 };
 
@@ -3206,9 +3201,6 @@ export function initialize({
       }
 
       const capabilities: CapabilitiesUploadType = {
-        deleteSync: true,
-        versionedExpirationTimer: true,
-        ssre2: true,
         attachmentBackfill: true,
       };
 
@@ -3273,9 +3265,6 @@ export function initialize({
       pniPqLastResortPreKey,
     }: LinkDeviceOptionsType) {
       const capabilities: CapabilitiesUploadType = {
-        deleteSync: true,
-        versionedExpirationTimer: true,
-        ssre2: true,
         attachmentBackfill: true,
       };
 

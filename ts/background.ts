@@ -1993,9 +1993,6 @@ export async function startApp(): Promise<void> {
 
     try {
       await server.registerCapabilities({
-        deleteSync: true,
-        versionedExpirationTimer: true,
-        ssre2: true,
         attachmentBackfill: true,
       });
     } catch (error) {

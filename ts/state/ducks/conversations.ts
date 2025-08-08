@@ -1841,13 +1841,6 @@ function deleteMessages({
       dispatch(scrollToMessage(conversationId, nearbyMessageId));
     }
 
-    const ourConversation =
-      window.ConversationController.getOurConversationOrThrow();
-    const capable = Boolean(ourConversation.get('capabilities')?.deleteSync);
-
-    if (!capable) {
-      return;
-    }
     if (messages.length === 0) {
       return;
     }

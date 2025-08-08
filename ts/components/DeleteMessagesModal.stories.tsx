@@ -16,7 +16,6 @@ export default {
   args: {
     i18n,
     isMe: false,
-    isDeleteSyncSendEnabled: false,
     canDeleteForEveryone: true,
     messageCount: 1,
     onClose: action('onClose'),
@@ -30,7 +29,6 @@ function createProps(args: Partial<DeleteMessagesModalProps>) {
   return {
     i18n,
     isMe: false,
-    isDeleteSyncSendEnabled: false,
     canDeleteForEveryone: true,
     messageCount: 1,
     onClose: action('onClose'),
@@ -62,15 +60,4 @@ export const IsMeThreeMessages = Template.bind({});
 IsMeThreeMessages.args = createProps({
   isMe: true,
   messageCount: 3,
-});
-
-export const DeleteSyncEnabled = Template.bind({});
-DeleteSyncEnabled.args = createProps({
-  isDeleteSyncSendEnabled: true,
-});
-
-export const IsMeDeleteSyncEnabled = Template.bind({});
-IsMeDeleteSyncEnabled.args = createProps({
-  isDeleteSyncSendEnabled: true,
-  isMe: true,
 });

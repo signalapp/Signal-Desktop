@@ -10,7 +10,6 @@ import { ToastType } from '../types/Toast';
 
 export type DeleteMessagesModalProps = Readonly<{
   isMe: boolean;
-  isDeleteSyncSendEnabled: boolean;
   canDeleteForEveryone: boolean;
   i18n: LocalizerType;
   messageCount: number;
@@ -24,7 +23,6 @@ const MAX_DELETE_FOR_EVERYONE = 30;
 
 export default function DeleteMessagesModal({
   isMe,
-  isDeleteSyncSendEnabled,
   canDeleteForEveryone,
   i18n,
   messageCount,
@@ -35,7 +33,7 @@ export default function DeleteMessagesModal({
 }: DeleteMessagesModalProps): JSX.Element {
   const actions: Array<ActionSpec> = [];
 
-  const syncNoteToSelfDelete = isMe && isDeleteSyncSendEnabled;
+  const syncNoteToSelfDelete = isMe;
 
   let deleteForMeText = i18n('icu:DeleteMessagesModal--deleteForMe');
   if (syncNoteToSelfDelete) {

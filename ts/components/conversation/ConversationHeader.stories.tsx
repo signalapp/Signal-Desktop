@@ -46,7 +46,6 @@ const commonProps: PropsType = {
   i18n,
 
   localDeleteWarningShown: true,
-  isDeleteSyncSendEnabled: true,
   setLocalDeleteWarningShown: action('setLocalDeleteWarningShown'),
 
   onConversationAccept: action('onConversationAccept'),
@@ -407,20 +406,6 @@ export function NeedsDeleteConfirmation(): JSX.Element {
   const props = {
     ...commonProps,
     localDeleteWarningShown,
-    setLocalDeleteWarningShown: () => setLocalDeleteWarningShown(true),
-  };
-  const theme = useContext(StorybookThemeContext);
-
-  return <ConversationHeader {...props} theme={theme} />;
-}
-
-export function NeedsDeleteConfirmationButNotEnabled(): JSX.Element {
-  const [localDeleteWarningShown, setLocalDeleteWarningShown] =
-    React.useState(false);
-  const props = {
-    ...commonProps,
-    localDeleteWarningShown,
-    isDeleteSyncSendEnabled: false,
     setLocalDeleteWarningShown: () => setLocalDeleteWarningShown(true),
   };
   const theme = useContext(StorybookThemeContext);

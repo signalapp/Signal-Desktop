@@ -71,8 +71,6 @@ type JobType = {
 //   - Don't even attempt jobs when offline
 
 const OBSERVED_CAPABILITY_KEYS = Object.keys({
-  deleteSync: true,
-  ssre2: true,
   attachmentBackfill: true,
 } satisfies CapabilitiesType) as ReadonlyArray<keyof CapabilitiesType>;
 
