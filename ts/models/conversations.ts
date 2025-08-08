@@ -5284,10 +5284,7 @@ export class ConversationModel extends window.Backbone
     });
     await DataWriter.updateConversation(this.attributes);
 
-    const ourConversation =
-      window.ConversationController.getOurConversationOrThrow();
-    const capable = Boolean(ourConversation.get('capabilities')?.deleteSync);
-    if (source === 'local-delete' && capable) {
+    if (source === 'local-delete') {
       log.info(`${logId}: Preparing sync message`);
       const timestamp = Date.now();
 

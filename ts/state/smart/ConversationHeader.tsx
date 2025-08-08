@@ -42,7 +42,6 @@ import { getHasStoriesSelector } from '../selectors/stories2';
 import { getIntl, getTheme, getUserACI } from '../selectors/user';
 import { useItemsActions } from '../ducks/items';
 import { getLocalDeleteWarningShown } from '../selectors/items';
-import { getDeleteSyncSendEnabled } from '../selectors/items-extra';
 import { isConversationEverUnregistered } from '../../util/isConversationUnregistered';
 import { isDirectConversation } from '../../util/whatTypeOfConversation';
 import type { DurationInSeconds } from '../../util/durations';
@@ -154,7 +153,6 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
   const conversationName = useContactNameData(conversation);
   strictAssert(conversationName, 'conversationName is required');
 
-  const isDeleteSyncSendEnabled = useSelector(getDeleteSyncSendEnabled);
   const isMissingMandatoryProfileSharing =
     getIsMissingRequiredProfileSharing(conversation);
 
@@ -274,7 +272,6 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
       hasStories={hasStories}
       i18n={i18n}
       localDeleteWarningShown={localDeleteWarningShown}
-      isDeleteSyncSendEnabled={isDeleteSyncSendEnabled}
       isMissingMandatoryProfileSharing={isMissingMandatoryProfileSharing}
       isSelectMode={isSelectMode}
       isSignalConversation={isSignalConversation(conversation)}

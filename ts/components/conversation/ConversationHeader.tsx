@@ -107,7 +107,6 @@ export type PropsDataType = {
   hasStories?: HasStories;
   hasActiveCall?: boolean;
   localDeleteWarningShown: boolean;
-  isDeleteSyncSendEnabled: boolean;
   isMissingMandatoryProfileSharing?: boolean;
   isSelectMode: boolean;
   isSignalConversation?: boolean;
@@ -166,7 +165,6 @@ export const ConversationHeader = memo(function ConversationHeader({
   hasPanelShowing,
   hasStories,
   i18n,
-  isDeleteSyncSendEnabled,
   isMissingMandatoryProfileSharing,
   isSelectMode,
   isSignalConversation,
@@ -245,7 +243,6 @@ export const ConversationHeader = memo(function ConversationHeader({
       {hasDeleteMessagesConfirmation && (
         <DeleteMessagesConfirmationDialog
           i18n={i18n}
-          isDeleteSyncSendEnabled={isDeleteSyncSendEnabled}
           localDeleteWarningShown={localDeleteWarningShown}
           onDestroyMessages={() => {
             setHasDeleteMessagesConfirmation(false);
@@ -1008,21 +1005,19 @@ function CannotLeaveGroupBecauseYouAreLastAdminAlert({
 }
 
 function DeleteMessagesConfirmationDialog({
-  isDeleteSyncSendEnabled,
   i18n,
   localDeleteWarningShown,
   onDestroyMessages,
   onClose,
   setLocalDeleteWarningShown,
 }: {
-  isDeleteSyncSendEnabled: boolean;
   i18n: LocalizerType;
   localDeleteWarningShown: boolean;
   onDestroyMessages: () => void;
   onClose: () => void;
   setLocalDeleteWarningShown: () => void;
 }) {
-  if (!localDeleteWarningShown && isDeleteSyncSendEnabled) {
+  if (!localDeleteWarningShown) {
     return (
       <LocalDeleteWarningModal
         i18n={i18n}
@@ -1031,13 +1026,9 @@ function DeleteMessagesConfirmationDialog({
     );
   }
 
-  const dialogBody = isDeleteSyncSendEnabled
-    ? i18n(
-        'icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync'
-      )
-    : i18n(
-        'icu:ConversationHeader__DeleteConversationConfirmation__description'
-      );
+  const dialogBody = i18n(
+    'icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync'
+  );
 
   return (
     <ConfirmationDialog
