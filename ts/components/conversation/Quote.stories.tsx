@@ -14,6 +14,7 @@ import { TextDirection } from './Message';
 import {
   AUDIO_MP3,
   IMAGE_PNG,
+  IMAGE_GIF,
   LONG_MESSAGE,
   VIDEO_MP4,
   stringToMIMEType,
@@ -450,6 +451,15 @@ VoiceMessageAttachment.args = {
     fileName: 'great-video.mp3',
     isVoiceMessage: true,
   },
+};
+
+export const GIFAttachmentOnly = Template.bind({});
+GIFAttachmentOnly.args = {
+  rawAttachment: {
+    contentType: IMAGE_GIF,
+    fileName: 'sax.png',
+  },
+  text: undefined,
 };
 
 export const OtherFileOnly = Template.bind({});

@@ -2968,6 +2968,10 @@
     "messageformat": "View-once Video",
     "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
   },
+  "icu:message--getDescription--gif": {
+    "messageformat": "GIF",
+    "description": "Shown when quoting a GIF."
+  },
   "icu:message--deletedForEveryone": {
     "messageformat": "This message was deleted.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
