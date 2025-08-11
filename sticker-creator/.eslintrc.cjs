@@ -96,7 +96,7 @@ module.exports = {
     // Prefer functional components with default params
     'react/require-default-props': 'off',
 
-    // Empty fragments are used in adapters between backbone and react views.
+    // Empty fragments are used in adapters between models and react views.
     'react/jsx-no-useless-fragment': [
       'error',
       {

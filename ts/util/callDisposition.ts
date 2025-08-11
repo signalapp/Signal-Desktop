@@ -1262,10 +1262,12 @@ async function saveCallHistory({
     );
   });
 
-  conversation.set(
-    'active_at',
-    Math.max(conversation.get('active_at') ?? 0, callHistory.timestamp)
-  );
+  conversation.set({
+    active_at: Math.max(
+      conversation.get('active_at') ?? 0,
+      callHistory.timestamp
+    ),
+  });
 
   if (canConversationBeUnarchived(conversation.attributes)) {
     conversation.setArchived(false);

@@ -44,7 +44,7 @@ export function initializeRedux(data: ReduxInitData): void {
   window.reduxStore = store;
 
   // Binding these actions to our redux store and exposing them allows us to update
-  //   redux when things change in the backbone world.
+  //   redux when things change in the rest of the app.
   window.reduxActions = {
     accounts: bindActionCreators(actionCreators.accounts, store.dispatch),
     app: bindActionCreators(actionCreators.app, store.dispatch),

@@ -1,7 +1,6 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import Backbone from 'backbone';
 import { PhoneNumberUtil, PhoneNumberFormat } from 'google-libphonenumber';
 import * as moment from 'moment';
 // @ts-expect-error -- no types
@@ -21,7 +20,6 @@ const log = createLogger('phase2-dependencies');
 initializeLogging();
 
 window.nodeSetImmediate = setImmediate;
-window.Backbone = Backbone;
 window.textsecure = textsecure;
 
 const { config } = window.SignalContext;

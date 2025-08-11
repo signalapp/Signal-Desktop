@@ -104,7 +104,7 @@ export async function onDelete(item: DeleteForMeAttributesType): Promise<void> {
 
         let result: boolean;
         if (item.deleteAttachmentData) {
-          // This will find the message, then work with a backbone model to mirror what
+          // This will find the message, then work with a model to mirror what
           //   modifyTargetMessage does.
           result = await deleteAttachmentFromMessage(
             conversation.id,

@@ -365,7 +365,7 @@ export class SocketManager extends EventListener {
         error instanceof LibSignalErrorBase &&
         error.code === ErrorCode.AppExpired
       ) {
-        window.Whisper.events.trigger('httpResponse499');
+        window.Whisper.events.emit('httpResponse499');
         return;
       } else if (
         error instanceof LibSignalErrorBase &&

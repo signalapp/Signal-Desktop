@@ -73,7 +73,7 @@ export async function enqueueReactionForSend({
   ) {
     log.info('Enabling profile sharing for reaction send');
     if (!messageConversation.get('profileSharing')) {
-      messageConversation.set('profileSharing', true);
+      messageConversation.set({ profileSharing: true });
       await DataWriter.updateConversation(messageConversation.attributes);
     }
     await messageConversation.restoreContact();

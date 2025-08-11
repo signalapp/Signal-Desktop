@@ -241,7 +241,7 @@ export async function sendStoryMessage(
     group => group.getStorySendMode() !== StorySendMode.Always
   );
   for (const group of groupsToUpdate) {
-    group.set('storySendMode', StorySendMode.Always);
+    group.set({ storySendMode: StorySendMode.Always });
   }
   void DataWriter.updateConversations(
     groupsToUpdate.map(group => group.attributes)

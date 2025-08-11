@@ -8,7 +8,7 @@ import { explodePromise } from '../util/explodePromise';
 // Matching Whisper.events.trigger API
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function trigger(name: string, ...rest: Array<any>): void {
-  window.Whisper.events.trigger(name, ...rest);
+  window.Whisper.events.emit(name, ...rest);
 }
 
 export const waitForEvent = (

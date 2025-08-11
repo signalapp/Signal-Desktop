@@ -64,7 +64,7 @@ export class UpdateKeysListener {
           (error.code === 422 || error.code === 403)
         ) {
           log.error(`run: Got a ${error.code} uploading PNI keys; unlinking`);
-          window.Whisper.events.trigger('unlinkAndDisconnect');
+          window.Whisper.events.emit('unlinkAndDisconnect');
         } else {
           const errorString =
             error instanceof HTTPError

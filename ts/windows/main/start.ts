@@ -1,7 +1,7 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { clone, has } from 'lodash';
+import { has } from 'lodash';
 import { contextBridge } from 'electron';
 
 import { createLogger } from '../../logging/log';
@@ -17,7 +17,6 @@ import '../preload';
 import './phase2-dependencies';
 import './phase3-post-signal';
 import './phase4-test';
-import '../../backbone/reliable_trigger';
 
 import type {
   CdsLookupOptionsType,
@@ -25,7 +24,6 @@ import type {
 } from '../../textsecure/WebAPI';
 import type { FeatureFlagType } from '../../window.d';
 import type { StorageAccessType } from '../../types/Storage.d';
-import { start as startConversationController } from '../../ConversationController';
 import { initMessageCleanup } from '../../services/messageStateCleanup';
 import { Environment, getEnvironment } from '../../environment';
 import { isProduction } from '../../util/version';
@@ -52,9 +50,7 @@ if (window.SignalContext.config.proxyUrl) {
   log.info('Using provided proxy url');
 }
 
-window.Whisper.events = clone(window.Backbone.Events);
 initMessageCleanup();
-startConversationController();
 
 if (
   !isProduction(window.SignalContext.getVersion()) ||

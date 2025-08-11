@@ -140,7 +140,7 @@ type PropsHousekeepingType = {
 };
 
 export type PropsActionsType = {
-  // From Backbone
+  // From Model
   acknowledgeGroupMemberNameCollisions: (
     conversationId: string,
     groupNameCollisions: ReadonlyDeep<GroupNameCollisionsWithIdsByTitle>

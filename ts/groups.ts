@@ -3304,7 +3304,11 @@ async function updateGroup(
   });
 
   if (idChanged) {
-    conversation.trigger('idUpdated', conversation, 'groupId', previousId);
+    window.ConversationController.idUpdated(
+      conversation,
+      'groupId',
+      previousId
+    );
   }
 
   // Save these most recent updates to conversation

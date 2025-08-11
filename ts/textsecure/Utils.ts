@@ -5,7 +5,7 @@ import type { HTTPError } from './Errors';
 
 export async function handleStatusCode(status: number): Promise<void> {
   if (status === 499) {
-    window.Whisper.events.trigger('httpResponse499');
+    window.Whisper.events.emit('httpResponse499');
   }
 }
 

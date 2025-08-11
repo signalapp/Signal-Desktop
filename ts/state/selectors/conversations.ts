@@ -834,7 +834,7 @@ export const getComposeSelectedContacts = createSelector(
 // What needs to happen to pull that selector logic here?
 //   1) contactTypingTimers - that UI-only state needs to be moved to redux
 //   2) all of the message selectors need to be reselect-based; today those
-//      Backbone-based prop-generation functions expect to get Conversation information
+//      model-based prop-generation functions expect to get Conversation information
 //      directly via ConversationController
 export function _conversationSelector(
   conversation?: ConversationType

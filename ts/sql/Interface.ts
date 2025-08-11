@@ -699,10 +699,6 @@ type ReadableInterface = {
 
   getAllConversations: () => Array<ConversationType>;
   getAllConversationIds: () => Array<string>;
-  getAllGroupsInvolvingServiceId: (
-    serviceId: ServiceIdString
-  ) => Array<ConversationType>;
-
   getGroupSendCombinedEndorsementExpiration: (groupId: string) => number | null;
   getGroupSendEndorsementsData: (
     groupId: string

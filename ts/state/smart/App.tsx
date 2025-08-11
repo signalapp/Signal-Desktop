@@ -100,8 +100,7 @@ async function uploadProfile({
   lastName: string;
 }): Promise<void> {
   const us = window.ConversationController.getOurConversationOrThrow();
-  us.set('profileName', firstName);
-  us.set('profileFamilyName', lastName);
+  us.set({ profileName: firstName, profileFamilyName: lastName });
   us.captureChange('standaloneProfile');
   await DataWriter.updateConversation(us.attributes);
 

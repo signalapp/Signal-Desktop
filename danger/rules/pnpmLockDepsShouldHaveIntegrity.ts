@@ -20,7 +20,7 @@ function has<T extends object, const K extends T[any]>(
   return Object.hasOwn(value, key);
 }
 
-export default function migrateBackboneToRedux() {
+export default function pnpmLockDepsShouldHaveIntegrity() {
   return new Rule({
     match: {
       files: ['pnpm-lock.yaml'],

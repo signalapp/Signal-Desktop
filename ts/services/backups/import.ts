@@ -703,8 +703,9 @@ export class BackupImportStream extends Writable {
     svrPin,
   }: Backups.IAccountData): Promise<void> {
     strictAssert(this.#ourConversation === undefined, 'Duplicate AccountData');
-    const me =
-      window.ConversationController.getOurConversationOrThrow().attributes;
+    const me = {
+      ...window.ConversationController.getOurConversationOrThrow().attributes,
+    };
     this.#ourConversation = me;
 
     const { storage } = window;

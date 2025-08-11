@@ -130,7 +130,7 @@ describe('both/state/ducks/conversations', () => {
 
     sinonSandbox = sinon.createSandbox();
 
-    sinonSandbox.stub(window.Whisper.events, 'trigger');
+    sinonSandbox.stub(window.Whisper.events, 'emit');
 
     createGroupStub = sinon.stub();
   });

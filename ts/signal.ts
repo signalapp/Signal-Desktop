@@ -7,7 +7,6 @@ import type { ReadonlyDeep } from 'type-fest';
 
 import * as Crypto from './Crypto';
 import * as Curve from './Curve';
-import { start as conversationControllerStart } from './ConversationController';
 import * as Groups from './groups';
 import OS from './util/os/osMain';
 import { isProduction } from './util/version';
@@ -486,8 +485,6 @@ export const setup = (options: {
     Components,
     Crypto,
     Curve,
-    // Note: used in test/index.html, and not type-checked!
-    conversationControllerStart,
     Groups,
     Migrations,
     OS,

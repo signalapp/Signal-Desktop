@@ -1,12 +1,11 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNumber, groupBy, throttle } from 'lodash';
+import { isNumber, throttle } from 'lodash';
 import { createRoot } from 'react-dom/client';
 import PQueue from 'p-queue';
 import pMap from 'p-map';
 import { v7 as generateUuid } from 'uuid';
-import { batch as batchDispatch } from 'react-redux';
 
 import * as Registration from './util/registration';
 import MessageReceiver from './textsecure/MessageReceiver';
@@ -25,8 +24,6 @@ import * as Bytes from './Bytes';
 import * as Timers from './Timers';
 import * as indexedDb from './indexeddb';
 import type { MenuOptionsType } from './types/menu';
-import type { Receipt } from './types/Receipt';
-import { ReceiptType } from './types/Receipt';
 import { SocketStatus } from './types/SocketStatus';
 import { DEFAULT_CONVERSATION_COLOR } from './types/Colors';
 import { ThemeType } from './types/Util';
@@ -153,10 +150,7 @@ import { deleteAllLogs } from './util/deleteAllLogs';
 import { startInteractionMode } from './services/InteractionMode';
 import { ReactionSource } from './reactions/ReactionSource';
 import { singleProtoJobQueue } from './jobs/singleProtoJobQueue';
-import {
-  conversationJobQueue,
-  conversationQueueJobEnum,
-} from './jobs/conversationJobQueue';
+import { conversationJobQueue } from './jobs/conversationJobQueue';
 import { SeenStatus } from './MessageSeenStatus';
 import MessageSender from './textsecure/SendMessage';
 import type AccountManager from './textsecure/AccountManager';
@@ -304,29 +298,7 @@ export async function startApp(): Promise<void> {
   const onRetryRequestQueue = new PQueue({ concurrency: 1 });
   onRetryRequestQueue.pause();
 
-  window.Whisper.deliveryReceiptQueue = new PQueue({
-    concurrency: 1,
-    timeout: durations.MINUTE * 30,
-  });
   window.Whisper.deliveryReceiptQueue.pause();
-  window.Whisper.deliveryReceiptBatcher = createBatcher<Receipt>({
-    name: 'Whisper.deliveryReceiptBatcher',
-    wait: 500,
-    maxSize: 100,
-    processBatch: async deliveryReceipts => {
-      const groups = groupBy(deliveryReceipts, 'conversationId');
-      await Promise.all(
-        Object.keys(groups).map(async conversationId => {
-          await conversationJobQueue.add({
-            type: conversationQueueJobEnum.enum.Receipts,
-            conversationId,
-            receiptsType: ReceiptType.Delivery,
-            receipts: groups[conversationId],
-          });
-        })
-      );
-    },
-  });
 
   if (window.platform === 'darwin') {
     window.addEventListener('dblclick', (event: Event) => {
@@ -441,7 +413,7 @@ export async function startApp(): Promise<void> {
     });
 
     accountManager.addEventListener('endRegistration', () => {
-      window.Whisper.events.trigger('userChanged', false);
+      window.Whisper.events.emit('userChanged', false);
 
       drop(window.storage.put('postRegistrationSyncsStatus', 'incomplete'));
       registrationCompleted?.resolve();
@@ -595,6 +567,23 @@ export async function startApp(): Promise<void> {
     messageReceiver = new MessageReceiver({
       storage: window.storage,
       serverTrustRoot: window.getServerTrustRoot(),
+    });
+    window.ConversationController.registerDelayBeforeUpdatingRedux(() => {
+      if (backupsService.isImportRunning()) {
+        return 500;
+      }
+
+      if (messageReceiver && !messageReceiver.hasEmptied()) {
+        return 250;
+      }
+
+      return 1;
+    });
+    window.ConversationController.registerIsAppStillLoading(() => {
+      return (
+        backupsService.isImportRunning() ||
+        !window.reduxStore?.getState().app.hasInitialLoadCompleted
+      );
     });
 
     function queuedEventListener<E extends Event>(
@@ -1215,114 +1204,6 @@ export async function startApp(): Promise<void> {
   function setupAppState() {
     initializeRedux(getParametersForRedux());
 
-    // Here we set up a full redux store with initial state for our LeftPane Root
-    const convoCollection = window.getConversations();
-
-    const {
-      conversationsUpdated,
-      conversationRemoved,
-      removeAllConversations,
-      onConversationClosed,
-    } = window.reduxActions.conversations;
-
-    // Conversation add/update/remove actions are batched in this batcher to ensure
-    // that we retain correct orderings
-    const convoUpdateBatcher = createBatcher<
-      | { type: 'change' | 'add'; conversation: ConversationModel }
-      | { type: 'remove'; id: string }
-    >({
-      name: 'changedConvoBatcher',
-      processBatch(batch) {
-        let changedOrAddedBatch = new Array<ConversationModel>();
-        function flushChangedOrAddedBatch() {
-          if (!changedOrAddedBatch.length) {
-            return;
-          }
-          conversationsUpdated(
-            changedOrAddedBatch.map(conversation => conversation.format())
-          );
-          changedOrAddedBatch = [];
-        }
-
-        batchDispatch(() => {
-          for (const item of batch) {
-            if (item.type === 'add' || item.type === 'change') {
-              changedOrAddedBatch.push(item.conversation);
-            } else {
-              strictAssert(item.type === 'remove', 'must be remove');
-
-              flushChangedOrAddedBatch();
-
-              onConversationClosed(item.id, 'removed');
-              conversationRemoved(item.id);
-            }
-          }
-          flushChangedOrAddedBatch();
-        });
-      },
-
-      wait: () => {
-        if (backupsService.isImportRunning()) {
-          return 500;
-        }
-
-        if (messageReceiver && !messageReceiver.hasEmptied()) {
-          return 250;
-        }
-
-        // This delay ensures that the .format() call isn't synchronous as a
-        //   Backbone property is changed. Important because our _byUuid/_byE164
-        //   lookups aren't up-to-date as the change happens; just a little bit
-        //   after.
-        return 1;
-      },
-      maxSize: Infinity,
-    });
-
-    convoCollection.on('add', (conversation: ConversationModel | undefined) => {
-      if (!conversation) {
-        return;
-      }
-      if (
-        backupsService.isImportRunning() ||
-        !window.reduxStore.getState().app.hasInitialLoadCompleted
-      ) {
-        convoUpdateBatcher.add({ type: 'add', conversation });
-      } else {
-        // During normal app usage, we require conversations to be added synchronously
-        conversationsUpdated([conversation.format()]);
-      }
-    });
-
-    convoCollection.on('remove', conversation => {
-      const { id } = conversation || {};
-
-      convoUpdateBatcher.add({ type: 'remove', id });
-    });
-
-    convoCollection.on(
-      'props-change',
-      (conversation: ConversationModel | undefined, isBatched?: boolean) => {
-        if (!conversation) {
-          return;
-        }
-
-        // `isBatched` is true when the `.set()` call on the conversation model already
-        // runs from within `react-redux`'s batch. Instead of batching the redux update
-        // for later, update immediately. To ensure correct update ordering, only do this
-        // optimization if there are no other pending conversation updates
-        if (isBatched && !convoUpdateBatcher.anyPending()) {
-          conversationsUpdated([conversation.format()]);
-          return;
-        }
-
-        convoUpdateBatcher.add({ type: 'change', conversation });
-      }
-    );
-
-    // Called by SignalProtocolStore#removeAllData()
-    convoCollection.on('reset', removeAllConversations);
-
     window.Whisper.events.on('userChanged', (reconnect = false) => {
       const newDeviceId = window.textsecure.storage.user.getDeviceId();
       const newNumber = window.textsecure.storage.user.getNumber();
@@ -1332,7 +1213,7 @@ export async function startApp(): Promise<void> {
         window.ConversationController.getOurConversation();
 
       if (ourConversation?.get('e164') !== newNumber) {
-        ourConversation?.set('e164', newNumber);
+        ourConversation?.set({ e164: newNumber });
       }
 
       window.reduxActions.user.userChanged({
@@ -1566,7 +1447,7 @@ export async function startApp(): Promise<void> {
     window.IPC.setMenuBarVisibility(!hideMenuBar);
 
     startTimeTravelDetector(() => {
-      window.Whisper.events.trigger('timetravel');
+      window.Whisper.events.emit('timetravel');
     });
 
     updateExpiringMessagesService();
@@ -3145,7 +3026,7 @@ export async function startApp(): Promise<void> {
   }
 
   async function unlinkAndDisconnect(): Promise<void> {
-    window.Whisper.events.trigger('unauthorized');
+    window.Whisper.events.emit('unauthorized');
 
     log.warn(
       'unlinkAndDisconnect: Client is no longer authorized; ' +
@@ -3192,7 +3073,7 @@ export async function startApp(): Promise<void> {
       const ourConversation =
         window.ConversationController.getOurConversation();
       if (ourConversation) {
-        ourConversation.unset('username');
+        ourConversation.set({ username: undefined });
         await DataWriter.updateConversation(ourConversation.attributes);
       }
 

@@ -15,9 +15,6 @@ overrides:
   react-contextmenu>react-dom: 18.3.1
 
 patchedDependencies:
-  '@types/backbone@1.4.22':
-    hash: 9dace206a9f53e0e3b0203051b26aec1e92ad49744b156ad8076946356c6c8e7
-    path: patches/@types+backbone+1.4.22.patch
   '@types/express@4.17.21':
     hash: 85d9b3f3cac67003e41b22245281f53b51d7d1badd0bcc222d547ab802599bae
     path: patches/@types+express+4.17.21.patch
@@ -36,9 +33,6 @@ patchedDependencies:
   app-builder-lib:
     hash: b412b44a47bb3d2be98e6edffed5dc4286cc62ac3c02fef42d1557927baa2420
     path: patches/app-builder-lib.patch
-  backbone@1.6.0:
-    hash: 342b4b6012f8aecfa041554256444cb25af75bc933cf2ab1e91c4f66a8e47a31
-    path: patches/backbone+1.6.0.patch
   casual@1.6.2:
     hash: b88b5052437cbdc1882137778b76ca5037f71b2a030ae9ef39dc97f51670d599
     path: patches/casual+1.6.2.patch
@@ -158,9 +152,6 @@ importers:
       '@types/fabric':
         specifier: 4.5.3
         version: 4.5.3(patch_hash=e5f339ecf72fbab1c91505e7713e127a7184bfe8164aa3a9afe9bf45a0ad6b89)
-      backbone:
-        specifier: 1.6.0
-        version: 1.6.0(patch_hash=342b4b6012f8aecfa041554256444cb25af75bc933cf2ab1e91c4f66a8e47a31)
       blob-util:
         specifier: 2.0.2
         version: 2.0.2
@@ -504,9 +495,6 @@ importers:
       '@tailwindcss/postcss':
         specifier: 4.1.7
         version: 4.1.7
-      '@types/backbone':
-        specifier: 1.4.22
-        version: 1.4.22(patch_hash=9dace206a9f53e0e3b0203051b26aec1e92ad49744b156ad8076946356c6c8e7)
       '@types/blueimp-load-image':
         specifier: 5.16.6
         version: 5.16.6
@@ -3780,9 +3768,6 @@ packages:
   '@types/babel__traverse@7.20.6':
     resolution: {integrity: sha512-r1bzfrm0tomOI8g1SzvCaQHo6Lcv6zu0EA+W2kHrt8dyrHQxGzBBL4kdkzIS+jBMV+EYcMAEAqXqYaLJq5rOZg==}
 
-  '@types/backbone@1.4.22':
-    resolution: {integrity: sha512-i79hj6XPfsJ37yBHUb9560luep8SPoAbGcpA9TeW1R6Jufk4hHZn5q0l2xuTVtugBcoLlxGQ5qOjaNLBPmqaAg==}
-
   '@types/blueimp-load-image@5.16.6':
     resolution: {integrity: sha512-e7s6CdDCUoBQdCe62Q6OS+DF68M8+ABxCEMh2Isjt4Fl3xuddljCHMN8mak48AMSVGGwUUtNRaZbkzgL5PEWew==}
 
@@ -4045,9 +4030,6 @@ packages:
 
   '@types/stack-utils@2.0.3':
     resolution: {integrity: sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw==}
-
-  '@types/underscore@1.13.0':
-    resolution: {integrity: sha512-L6LBgy1f0EFQZ+7uSA57+n2g/s4Qs5r06Vwrwn0/nuK1de+adz00NWaztRQ30aEqw5qOaWbPI8u2cGQ52lj6VA==}
 
   '@types/unist@2.0.11':
     resolution: {integrity: sha512-CmBKiL6NNo/OqgmMn95Fk9Whlp2mtvIv+KNpQKN2F4SjvrEesubTRWGYSg+BnWZOnlCaSTU1sMpsBOzgbYhnsA==}
@@ -4624,9 +4606,6 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     peerDependencies:
       '@babel/core': ^7.0.0
-
-  backbone@1.6.0:
-    resolution: {integrity: sha512-13PUjmsgw/49EowNcQvfG4gmczz1ximTMhUktj0Jfrjth0MVaTxehpU+qYYX4MxnuIuhmvBLC6/ayxuAGnOhbA==}
 
   bail@1.0.5:
     resolution: {integrity: sha512-xFbRxM1tahm08yHBP16MMjVUAvDaBMD38zsM9EMAUN61omwLmKlOpB/Zku5QkjZ8TZ4vn53pj+t518cH0S03RQ==}
@@ -14587,11 +14566,6 @@ snapshots:
     dependencies:
       '@babel/types': 7.26.8
 
-  '@types/backbone@1.4.22(patch_hash=9dace206a9f53e0e3b0203051b26aec1e92ad49744b156ad8076946356c6c8e7)':
-    dependencies:
-      '@types/jquery': 3.5.32
-      '@types/underscore': 1.13.0
-
   '@types/blueimp-load-image@5.16.6': {}
 
   '@types/body-parser@1.19.5':
@@ -14889,8 +14863,6 @@ snapshots:
       '@types/node': 20.17.6
 
   '@types/stack-utils@2.0.3': {}
-
-  '@types/underscore@1.13.0': {}
 
   '@types/unist@2.0.11': {}
 
@@ -15610,10 +15582,6 @@ snapshots:
       '@babel/core': 7.26.0
       babel-plugin-jest-hoist: 29.6.3
       babel-preset-current-node-syntax: 1.1.0(@babel/core@7.26.0)
-
-  backbone@1.6.0(patch_hash=342b4b6012f8aecfa041554256444cb25af75bc933cf2ab1e91c4f66a8e47a31):
-    dependencies:
-      underscore: 1.13.7
 
   bail@1.0.5: {}
 
