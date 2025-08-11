@@ -842,6 +842,7 @@ export function LeftPane({
               tabIndex={-1}
             >
               <ConversationList
+                key={modeSpecificProps.mode}
                 dimensions={measureSize ?? undefined}
                 getPreferredBadge={getPreferredBadge}
                 getRow={getRow}
