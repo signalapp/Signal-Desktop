@@ -57,7 +57,7 @@ export async function saveAndNotify(
       conversation.incrementSentMessageCount();
     }
 
-    window.Whisper.events.trigger('incrementProgress');
+    window.Whisper.events.emit('incrementProgress');
     confirm();
 
     if (!isStory(message.attributes)) {

@@ -26,7 +26,7 @@ export function isSignalConnection(
 }
 
 export function getSignalConnections(): Array<ConversationModel> {
-  return window
-    .getConversations()
-    .filter(conversation => isSignalConnection(conversation.attributes));
+  return window.ConversationController.getAll().filter(conversation =>
+    isSignalConnection(conversation.attributes)
+  );
 }

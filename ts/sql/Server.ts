@@ -372,7 +372,6 @@ export const DataReader: ServerReadableInterface = {
 
   getAllConversations,
   getAllConversationIds,
-  getAllGroupsInvolvingServiceId,
 
   getGroupSendCombinedEndorsementExpiration,
   getGroupSendEndorsementsData,
@@ -1943,27 +1942,6 @@ function getAllConversationIds(db: ReadableDB): Array<string> {
     .all();
 
   return rows.map(row => row.id);
-}
-
-function getAllGroupsInvolvingServiceId(
-  db: ReadableDB,
-  serviceId: ServiceIdString
-): Array<ConversationType> {
-  const rows: ConversationRows = db
-    .prepare(
-      `
-      SELECT json, profileLastFetchedAt, expireTimerVersion
-      FROM conversations WHERE
-        type = 'group' AND
-        members LIKE $serviceId
-      ORDER BY id ASC;
-      `
-    )
-    .all({
-      serviceId: `%${serviceId}%`,
-    });
-
-  return rows.map(row => rowToConversation(row));
 }
 
 function searchMessages(

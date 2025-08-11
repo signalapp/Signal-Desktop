@@ -116,7 +116,7 @@ function processError(error: unknown): void {
         log.warn(
           `Got 401/403 for ${conversation.idForLogging()}, setting sealedSender = DISABLED`
         );
-        conversation.set('sealedSender', SEALED_SENDER.DISABLED);
+        conversation.set({ sealedSender: SEALED_SENDER.DISABLED });
         drop(updateConversation(conversation.attributes));
       }
     }

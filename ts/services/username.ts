@@ -210,7 +210,7 @@ async function updateUsernameAndSyncProfile(
 ): Promise<void> {
   const me = window.ConversationController.getOurConversationOrThrow();
 
-  // Update backbone, update DB, then tell linked devices about profile update
+  // Update model, update DB, then tell linked devices about profile update
   await me.updateUsername(username);
 
   try {

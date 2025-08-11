@@ -554,6 +554,9 @@ export function CallsList({
       };
 
       let timer = setTimeout(() => {
+        if (controller.signal.aborted) {
+          return;
+        }
         setSearchState(prevSearchState => {
           if (prevSearchState.state === 'init') {
             return defaultPendingState;
@@ -561,6 +564,10 @@ export function CallsList({
           return prevSearchState;
         });
         timer = setTimeout(() => {
+          if (controller.signal.aborted) {
+            return;
+          }
+
           // Show loading indicator after a delay
           setSearchState(defaultPendingState);
         }, 300);

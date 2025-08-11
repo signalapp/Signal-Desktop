@@ -96,7 +96,7 @@ export async function populateConversationWithMessages({
     postSaveUpdates,
   });
 
-  conversation.set('active_at', Date.now());
+  conversation.set({ active_at: Date.now() });
   await DataWriter.updateConversation(conversation.attributes);
   log.info(`${logId}: populating conversation complete`);
 }

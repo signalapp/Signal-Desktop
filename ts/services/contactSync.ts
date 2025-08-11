@@ -97,7 +97,7 @@ async function updateConversationFromContactSync(
     );
   }
 
-  window.Whisper.events.trigger('incrementProgress');
+  window.Whisper.events.emit('incrementProgress');
 }
 
 const queue = new PQueue({ concurrency: 1 });
@@ -182,11 +182,11 @@ async function doContactSync({
       type: 'private',
     };
 
-    const validationError = validateConversation(partialConversation);
-    if (validationError) {
+    const validationErrorString = validateConversation(partialConversation);
+    if (validationErrorString) {
       log.error(
         `${logId}: Invalid contact received`,
-        Errors.toLogFormat(validationError)
+        Errors.toLogFormat(validationErrorString)
       );
       continue;
     }
@@ -261,7 +261,7 @@ async function doContactSync({
   await Promise.all(promises);
 
   await window.storage.put('synced_at', Date.now());
-  window.Whisper.events.trigger('contactSync:complete');
+  window.Whisper.events.emit('contactSync:complete');
   if (isInitialSync) {
     isInitialSync = false;
   }

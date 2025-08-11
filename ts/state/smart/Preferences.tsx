@@ -577,7 +577,7 @@ export function SmartPreferences(): JSX.Element | null {
     createItemsAccess('call-ringtone-notification', true);
   const [hasCountMutedConversations, onCountMutedConversationsChange] =
     createItemsAccess('badge-count-muted-conversations', false, () => {
-      window.Whisper.events.trigger('updateUnreadCount');
+      window.Whisper.events.emit('updateUnreadCount');
     });
   const [hasHideMenuBar, onHideMenuBarChange] = createItemsAccess(
     'hide-menu-bar',

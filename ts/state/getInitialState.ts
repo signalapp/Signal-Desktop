@@ -113,7 +113,7 @@ export function getInitialState(
 }
 
 export function generateConversationsState(): ConversationsStateType {
-  const convoCollection = window.getConversations();
+  const convoCollection = window.ConversationController.getAll();
   const formattedConversations = convoCollection.map(conversation =>
     conversation.format()
   );

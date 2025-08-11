@@ -182,7 +182,7 @@ function stickerPackAdded(
 ): StickerPackAddedAction {
   const { status, attemptedStatus } = payload;
 
-  // We do this to trigger a toast, which is still done via Backbone
+  // We do this to trigger a toast, which is still done via Whisper.events
   if (
     status === 'error' &&
     attemptedStatus === 'installed' &&
@@ -336,7 +336,7 @@ function stickerPackUpdated(
 ): StickerPackUpdatedAction {
   const { status, attemptedStatus } = patch;
 
-  // We do this to trigger a toast, which is still done via Backbone
+  // We do this to trigger a toast, which is still done via Whisper.events
   if (
     status === 'error' &&
     attemptedStatus === 'installed' &&

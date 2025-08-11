@@ -297,7 +297,7 @@ const deleteSentProtoBatcher = createWaitBatcher({
 
       // `deleteSentProtoRecipient` has already updated the database so there
       // is no need in calling `updateConversation`
-      convo.unset('shareMyPhoneNumber');
+      convo.set({ shareMyPhoneNumber: undefined });
     }
   },
 });

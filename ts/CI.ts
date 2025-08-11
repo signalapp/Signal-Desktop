@@ -220,7 +220,7 @@ export function getCI({
   }
 
   function unlink() {
-    window.Whisper.events.trigger('unlinkAndDisconnect');
+    window.Whisper.events.emit('unlinkAndDisconnect');
   }
 
   function print(...args: ReadonlyArray<unknown>) {

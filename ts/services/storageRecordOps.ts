@@ -212,7 +212,7 @@ function addUnknownFields(
     // If the record doesn't have unknown fields attached but we have them
     // saved locally then we need to clear it out
     details.push('clearing unknown fields');
-    conversation.unset('storageUnknownFields');
+    conversation.set({ storageUnknownFields: undefined });
   }
 }
 
@@ -1487,9 +1487,10 @@ export async function mergeAccountRecord(
   }
 
   if (pinnedConversations) {
-    const modelPinnedConversations = window
-      .getConversations()
-      .filter(convo => Boolean(convo.get('isPinned')));
+    const modelPinnedConversations =
+      window.ConversationController.getAll().filter(convo =>
+        Boolean(convo.get('isPinned'))
+      );
 
     const modelPinnedConversationIds = modelPinnedConversations.map(convo =>
       convo.get('id')

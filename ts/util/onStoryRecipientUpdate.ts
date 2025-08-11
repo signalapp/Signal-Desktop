@@ -214,7 +214,7 @@ export async function onStoryRecipientUpdate(
       });
 
       if (handledMessages.length) {
-        window.Whisper.events.trigger('incrementProgress');
+        window.Whisper.events.emit('incrementProgress');
         confirm();
       }
     })

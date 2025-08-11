@@ -86,8 +86,8 @@ describe('MessageCache', () => {
     });
   });
 
-  describe('register: syncing with backbone', () => {
-    it('backbone to redux', () => {
+  describe('register: syncing with models', () => {
+    it('model to redux', () => {
       const message1 = new MessageModel({
         conversationId: 'xyz',
         id: uuid(),
@@ -126,7 +126,7 @@ describe('MessageCache', () => {
       );
     });
 
-    it('redux to backbone (working with models)', () => {
+    it('redux to model (working with models)', () => {
       const message = new MessageModel({
         conversationId: 'xyz',
         id: uuid(),
