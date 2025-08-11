@@ -40,6 +40,7 @@ function resolveLibsignalNet(
       TESTING_localServer_chatPort: parseInt(getMockServerPort(url), 10),
       TESTING_localServer_cdsiPort: DISCARD_PORT,
       TESTING_localServer_svr2Port: DISCARD_PORT,
+      TESTING_localServer_svrBPort: DISCARD_PORT,
       TESTING_localServer_rootCertificateDer: pemToDer(certificateAuthority),
     });
   }
