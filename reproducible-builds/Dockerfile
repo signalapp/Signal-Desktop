@@ -1,4 +1,4 @@
-FROM ubuntu:focal-20240530@sha256:fa17826afb526a9fc7250e0fbcbfd18d03fe7a54849472f86879d8bf562c629e
+FROM ubuntu:jammy-20250714@sha256:1ec65b2719518e27d4d25f104d93f9fac60dc437f81452302406825c46fcc9cb
 
 # Allows package builders like FPM (used for creating the .deb package
 # on linux) to make their build timestamps determistic. Otherwise, a fresh
@@ -32,9 +32,6 @@ RUN apt install -oAcquire::https::Verify-Peer=false -y ca-certificates
 RUN apt update
 RUN apt install -y git curl g++ g++-10 gcc gcc-10 make python3 tar xz-utils
 
-# On Ubuntu 20 GCC 9 is the default but we need 10 to build
-RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100 \
-    --slave /usr/bin/g++ g++ /usr/bin/g++-10
 # ---
 
 # Install nvm
@@ -53,7 +50,7 @@ ENV PATH=$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 ENV CI=true
 
 # Install pnpm
-RUN npm install -g pnpm@10.3.0
+RUN npm install -g pnpm@10.6.4
 
 RUN git config --global --add safe.directory /project
 
