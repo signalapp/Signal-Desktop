@@ -122,6 +122,67 @@ describe('utils/downloadAttachment', () => {
     ]);
   });
 
+  it('throw permanently missing error if attachment fails with 403 from cdn 0 and no backup information', async () => {
+    const stubDownload = sinon
+      .stub()
+      .onFirstCall()
+      .throws(new HTTPError('not found', { code: 403, headers: {} }));
+
+    const attachment = { ...baseAttachment, cdnNumber: 0 };
+    await assert.isRejected(
+      downloadAttachment({
+        attachment,
+        options: {
+          hasMediaBackups: true,
+          onSizeUpdate: noop,
+          abortSignal: abortController.signal,
+        },
+        dependencies: {
+          downloadAttachmentFromLocalBackup: stubDownload,
+          downloadAttachmentFromServer: stubDownload,
+        },
+      }),
+      AttachmentPermanentlyUndownloadableError
+    );
+
+    assert.equal(stubDownload.callCount, 1);
+    assertDownloadArgs(stubDownload.getCall(0).args, [
+      fakeServer,
+      { attachment, mediaTier: MediaTier.STANDARD },
+      {
+        variant: AttachmentVariant.Default,
+        onSizeUpdate: noop,
+        abortSignal: abortController.signal,
+        logPrefix: '[REDACTED]est',
+      },
+    ]);
+  });
+
+  it('throw permanently missing error if attachment fails with 403 with no cdn number and no backup information', async () => {
+    const stubDownload = sinon
+      .stub()
+      .onFirstCall()
+      .throws(new HTTPError('not found', { code: 403, headers: {} }));
+
+    // nullish cdn number gets converted to 0
+    const attachment = { ...baseAttachment, cdnNumber: undefined };
+    await assert.isRejected(
+      downloadAttachment({
+        attachment,
+        options: {
+          hasMediaBackups: true,
+          onSizeUpdate: noop,
+          abortSignal: abortController.signal,
+        },
+        dependencies: {
+          downloadAttachmentFromLocalBackup: stubDownload,
+          downloadAttachmentFromServer: stubDownload,
+        },
+      }),
+      AttachmentPermanentlyUndownloadableError
+    );
+  });
+
   it('downloads from backup tier first if there is backup information', async () => {
     const stubDownload = sinon.stub();
     const attachment = backupableAttachment;
