@@ -73,7 +73,7 @@ instance while you make changes - they'll run until you stop them:
 
 ```
 pnpm run dev:transpile # recompiles when you change .ts files
-pnpm run dev:sass      # recompiles when you change .scss files
+pnpm run dev:styles    # recompiles when you change .scss files
 ```
 
 #### Known issues

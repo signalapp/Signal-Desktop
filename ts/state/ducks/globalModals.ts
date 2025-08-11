@@ -116,6 +116,9 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   criticalIdlePrimaryDeviceModal: boolean;
   deleteMessagesProps?: DeleteMessagesPropsType;
   draftGifMessageSendModalProps: SmartDraftGifMessageSendModalProps | null;
+  debugLogErrorModalProps?: {
+    description?: string;
+  };
   editHistoryMessages?: EditHistoryMessagesType;
   editNicknameAndNoteModalProps: EditNicknameAndNoteModalPropsType | null;
   errorModalProps?: {
@@ -200,6 +203,8 @@ const SHOW_STICKER_PACK_PREVIEW = 'globalModals/SHOW_STICKER_PACK_PREVIEW';
 const CLOSE_STICKER_PACK_PREVIEW = 'globalModals/CLOSE_STICKER_PACK_PREVIEW';
 const CLOSE_ERROR_MODAL = 'globalModals/CLOSE_ERROR_MODAL';
 export const SHOW_ERROR_MODAL = 'globalModals/SHOW_ERROR_MODAL';
+const CLOSE_DEBUG_LOG_ERROR_MODAL = 'globalModals/CLOSE_DEBUG_LOG_ERROR_MODAL';
+const SHOW_DEBUG_LOG_ERROR_MODAL = 'globalModals/SHOW_DEBUG_LOG_ERROR_MODAL';
 const TOGGLE_EDIT_NICKNAME_AND_NOTE_MODAL =
   'globalModals/TOGGLE_EDIT_NICKNAME_AND_NOTE_MODAL';
 const TOGGLE_MESSAGE_REQUEST_ACTIONS_CONFIRMATION =
@@ -419,6 +424,17 @@ export type ShowErrorModalActionType = ReadonlyDeep<{
   };
 }>;
 
+type CloseDebugLogErrorModalActionType = ReadonlyDeep<{
+  type: typeof CLOSE_DEBUG_LOG_ERROR_MODAL;
+}>;
+
+type ShowDebugLogErrorModalActionType = ReadonlyDeep<{
+  type: typeof SHOW_DEBUG_LOG_ERROR_MODAL;
+  payload: {
+    description?: string;
+  };
+}>;
+
 type CloseMediaPermissionsModalActionType = ReadonlyDeep<{
   type: typeof CLOSE_MEDIA_PERMISSIONS_MODAL;
 }>;
@@ -482,6 +498,7 @@ type CloseEditHistoryModalActionType = ReadonlyDeep<{
 
 export type GlobalModalsActionType = ReadonlyDeep<
   | CloseEditHistoryModalActionType
+  | CloseDebugLogErrorModalActionType
   | CloseErrorModalActionType
   | CloseMediaPermissionsModalActionType
   | CloseGV2MigrationDialogActionType
@@ -504,6 +521,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ShowBackfillFailureModalActionType
   | ShowCriticalIdlePrimaryDeviceModalActionType
   | ShowContactModalActionType
+  | ShowDebugLogErrorModalActionType
   | ShowEditHistoryModalActionType
   | ShowErrorModalActionType
   | ShowLowDiskSpaceBackupImportModalActionType
@@ -538,6 +556,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
 // Action Creators
 
 export const actions = {
+  closeDebugLogErrorModal,
   closeEditHistoryModal,
   closeErrorModal,
   closeGV2MigrationDialog,
@@ -560,6 +579,7 @@ export const actions = {
   showBlockingSafetyNumberChangeDialog,
   showContactModal,
   showCriticalIdlePrimaryDeviceModal,
+  showDebugLogErrorModal,
   showEditHistoryModal,
   showErrorModal,
   showGV2MigrationDialog,
@@ -1095,6 +1115,25 @@ function showErrorModal({
   };
 }
 
+function closeDebugLogErrorModal(): CloseDebugLogErrorModalActionType {
+  return {
+    type: CLOSE_DEBUG_LOG_ERROR_MODAL,
+  };
+}
+
+function showDebugLogErrorModal({
+  description,
+}: {
+  description?: string;
+}): ShowDebugLogErrorModalActionType {
+  return {
+    type: SHOW_DEBUG_LOG_ERROR_MODAL,
+    payload: {
+      description,
+    },
+  };
+}
+
 function closeMediaPermissionsModal(): CloseMediaPermissionsModalActionType {
   return {
     type: CLOSE_MEDIA_PERMISSIONS_MODAL,
@@ -1588,6 +1627,20 @@ export function reducer(
     return {
       ...state,
       errorModalProps: action.payload,
+    };
+  }
+
+  if (action.type === CLOSE_DEBUG_LOG_ERROR_MODAL) {
+    return {
+      ...state,
+      debugLogErrorModalProps: undefined,
+    };
+  }
+
+  if (action.type === SHOW_DEBUG_LOG_ERROR_MODAL) {
+    return {
+      ...state,
+      debugLogErrorModalProps: action.payload,
     };
   }
 
