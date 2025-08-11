@@ -5,8 +5,8 @@ import type { FC, ReactNode } from 'react';
 import { Select } from 'radix-ui';
 import { AxoBaseMenu } from './_internal/AxoBaseMenu';
 import { AxoSymbol } from './AxoSymbol';
-import type { Styles } from './_internal/css';
-import { css } from './_internal/css';
+import type { TailwindStyles } from './tw';
+import { tw } from './tw';
 
 const Namespace = 'AxoSelect';
 
@@ -78,36 +78,36 @@ export namespace AxoSelect {
    * ---------------------------
    */
 
-  const baseTriggerStyles = css(
+  const baseTriggerStyles = tw(
     'flex',
-    'rounded-full py-[5px] ps-3 pe-2.5 text-label-primary',
+    'rounded-full py-[5px] ps-3 pe-2.5 type-body-medium text-label-primary',
     'disabled:text-label-disabled',
     'outline-0 outline-border-focused focused:outline-[2.5px]'
   );
 
   const TriggerVariants = {
-    default: css(
+    default: tw(
       baseTriggerStyles,
       'bg-fill-secondary',
       'pressed:bg-fill-secondary-pressed'
     ),
-    floating: css(
+    floating: tw(
       baseTriggerStyles,
       'bg-fill-floating',
       'shadow-elevation-1',
       'pressed:bg-fill-floating-pressed'
     ),
-    borderless: css(
+    borderless: tw(
       baseTriggerStyles,
       'bg-transparent',
       'hovered:bg-fill-secondary',
       'pressed:bg-fill-secondary-pressed'
     ),
-  } as const satisfies Record<string, Styles>;
+  } as const satisfies Record<string, TailwindStyles>;
 
   const TriggerWidths = {
-    hug: css(),
-    fixed: css('w-[120px]'),
+    hug: tw(),
+    full: tw('w-full'),
   };
 
   export type TriggerVariant = keyof typeof TriggerVariants;
@@ -131,13 +131,13 @@ export namespace AxoSelect {
     const variantStyles = TriggerVariants[variant];
     const widthStyles = TriggerWidths[width];
     return (
-      <Select.Trigger className={css(variantStyles, widthStyles)}>
+      <Select.Trigger className={tw(variantStyles, widthStyles)}>
         <AxoBaseMenu.ItemText>
           <Select.Value placeholder={props.placeholder}>
             {props.children}
           </Select.Value>
         </AxoBaseMenu.ItemText>
-        <Select.Icon className="ml-2">
+        <Select.Icon className={tw('ml-2')}>
           <AxoSymbol.Icon symbol="chevron-down" size={14} label={null} />
         </Select.Icon>
       </Select.Trigger>
@@ -163,13 +163,21 @@ export namespace AxoSelect {
     return (
       <Select.Portal>
         <Select.Content className={AxoBaseMenu.selectContentStyles}>
-          <Select.ScrollUpButton className="flex items-center justify-center p-1 text-label-primary">
+          <Select.ScrollUpButton
+            className={tw(
+              'flex items-center justify-center p-1 text-label-primary'
+            )}
+          >
             <AxoSymbol.Icon symbol="chevron-up" size={14} label={null} />
           </Select.ScrollUpButton>
           <Select.Viewport className={AxoBaseMenu.selectContentViewportStyles}>
-            {props.children}
+            <div className={AxoBaseMenu.menuGroupStyles}>{props.children}</div>
           </Select.Viewport>
-          <Select.ScrollDownButton className="flex items-center justify-center p-1 text-label-primary">
+          <Select.ScrollDownButton
+            className={tw(
+              'flex items-center justify-center p-1 text-label-primary'
+            )}
+          >
             <AxoSymbol.Icon symbol="chevron-down" size={14} label={null} />
           </Select.ScrollDownButton>
         </Select.Content>

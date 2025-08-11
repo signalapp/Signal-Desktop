@@ -217,7 +217,7 @@
   font-style: normal;
   font-weight: 300 400 700;
   font-display: block;
-  src: url('../../fonts/signal-symbols/SignalSymbolsVariable.woff2');
+  src: url('../fonts/signal-symbols/SignalSymbolsVariable.woff2');
 }
 
 @layer base {

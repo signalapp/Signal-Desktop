@@ -5,6 +5,7 @@ import React, { memo } from 'react';
 import { Direction } from 'radix-ui';
 import { VisuallyHidden } from 'react-aria';
 import { assert } from './_internal/assert';
+import { tw } from './tw';
 
 const { useDirection } = Direction;
 
@@ -225,11 +226,13 @@ export namespace AxoSymbol {
     const symbol = _getAxoSymbol(props.symbol, direction);
     return (
       <>
-        <span aria-hidden className="font-symbols select-none">
+        <span aria-hidden className={tw('font-symbols select-none')}>
           {symbol}
         </span>
         {props.label != null && (
-          <VisuallyHidden className="select-none">{props.label}</VisuallyHidden>
+          <VisuallyHidden className={tw('select-none')}>
+            {props.label}
+          </VisuallyHidden>
         )}
       </>
     );
@@ -251,7 +254,9 @@ export namespace AxoSymbol {
   export const Icon: FC<IconProps> = memo(props => {
     return (
       <span
-        className="inline-flex size-[1em] shrink-0 items-center justify-center"
+        className={tw(
+          'inline-flex size-[1em] shrink-0 items-center justify-center'
+        )}
         style={{ fontSize: props.size }}
       >
         <AxoSymbol.InlineGlyph symbol={props.symbol} label={props.label} />

@@ -6,7 +6,7 @@ import '../ts/window.d.ts';
 import React, { StrictMode } from 'react';
 
 import '../stylesheets/manifest.scss';
-import '../ts/axo/tailwind.css';
+import '../stylesheets/tailwind-config.css';
 
 import * as styles from './styles.scss';
 import messages from '../_locales/en/messages.json';
