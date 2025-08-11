@@ -1,11 +1,11 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-export type Styles = string & { __Styles: never };
+export type TailwindStyles = string & { __Styles: never };
 
-export function css(
-  ...classNames: ReadonlyArray<Styles | string | boolean | null>
-): Styles {
+export function tw(
+  ...classNames: ReadonlyArray<TailwindStyles | string | boolean | null>
+): TailwindStyles {
   const { length } = classNames;
 
   let result = '';
@@ -23,5 +23,5 @@ export function css(
     }
   }
 
-  return result as Styles;
+  return result as TailwindStyles;
 }

@@ -5,6 +5,7 @@ import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { AxoDropdownMenu } from './AxoDropdownMenu';
 import { AxoButton } from './AxoButton';
+import { tw } from './tw';
 
 export default {
   title: 'Axo/AxoDropdownMenu',
@@ -15,7 +16,7 @@ export function Basic(): JSX.Element {
   const [showFullUrls, setShowFullUrls] = useState(false);
   const [selectedPerson, setSelectedPerson] = useState('jamie');
   return (
-    <div className="flex h-96 w-full items-center justify-center">
+    <div className={tw('flex h-96 w-full items-center justify-center')}>
       <AxoDropdownMenu.Root>
         <AxoDropdownMenu.Trigger>
           <AxoButton variant="secondary" size="medium">

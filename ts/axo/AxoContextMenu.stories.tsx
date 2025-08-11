@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { AxoContextMenu } from './AxoContextMenu';
+import { tw } from './tw';
 
 export default {
   title: 'Axo/AxoContextMenu',
@@ -14,10 +15,12 @@ export function Basic(): JSX.Element {
   const [showFullUrls, setShowFullUrls] = useState(false);
   const [selectedPerson, setSelectedPerson] = useState('jamie');
   return (
-    <div className="flex h-96 w-full items-center justify-center">
+    <div className={tw('flex h-96 w-full items-center justify-center')}>
       <AxoContextMenu.Root>
         <AxoContextMenu.Trigger>
-          <div className="bg-fill-secondary p-12 text-color-label-primary">
+          <div
+            className={tw('bg-fill-secondary p-12 text-color-label-primary')}
+          >
             Right-Click
           </div>
         </AxoContextMenu.Trigger>

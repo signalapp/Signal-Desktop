@@ -8,6 +8,7 @@ import {
   _getAllAxoButtonSizes,
   AxoButton,
 } from './AxoButton';
+import { tw } from './tw';
 
 export default {
   title: 'Axo/AxoButton',
@@ -17,14 +18,14 @@ export function Basic(): JSX.Element {
   const variants = _getAllAxoButtonVariants();
   const sizes = _getAllAxoButtonSizes();
   return (
-    <div className="grid gap-1">
+    <div className={tw('grid gap-1')}>
       {sizes.map(size => {
         return (
           <div>
-            <h2 className="type-title-medium">Size: {size}</h2>
+            <h2 className={tw('type-title-medium')}>Size: {size}</h2>
             {variants.map(variant => {
               return (
-                <div key={variant} className="flex gap-1">
+                <div key={variant} className={tw('flex gap-1')}>
                   <AxoButton
                     variant={variant}
                     size={size}

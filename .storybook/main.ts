@@ -70,7 +70,7 @@ const config: StorybookConfig = {
     });
 
     config.module!.rules!.push({
-      test: /tailwind\.css$/,
+      test: /tailwind-config\.css$/,
       use: [
         {
           loader: 'postcss-loader',

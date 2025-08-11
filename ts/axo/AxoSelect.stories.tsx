@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { AxoSelect } from './AxoSelect';
+import { tw } from './tw';
 
 export default {
   title: 'Axo/AxoSelect',
@@ -59,31 +60,35 @@ function Template(props: {
 
 export function Basic(): JSX.Element {
   return (
-    <div className="flex h-96 w-full flex-col items-center justify-center gap-2">
-      <div className="flex gap-2">
+    <div
+      className={tw(
+        'flex h-96 w-full flex-col items-center justify-center gap-2'
+      )}
+    >
+      <div className={tw('flex w-full gap-2')}>
         <Template triggerVariant="default" />
         <Template triggerVariant="default" disabled />
       </div>
-      <div className="flex gap-2">
+      <div className={tw('flex w-full gap-2')}>
         <Template triggerVariant="floating" />
         <Template triggerVariant="floating" disabled />
       </div>
-      <div className="flex gap-2">
+      <div className={tw('flex w-full gap-2')}>
         <Template triggerVariant="borderless" />
         <Template triggerVariant="borderless" disabled />
       </div>
 
-      <div className="flex gap-2">
-        <Template triggerWidth="fixed" triggerVariant="default" />
-        <Template triggerWidth="fixed" triggerVariant="default" disabled />
+      <div className={tw('flex w-full gap-2')}>
+        <Template triggerWidth="full" triggerVariant="default" />
+        <Template triggerWidth="full" triggerVariant="default" disabled />
       </div>
-      <div className="flex gap-2">
-        <Template triggerWidth="fixed" triggerVariant="floating" />
-        <Template triggerWidth="fixed" triggerVariant="floating" disabled />
+      <div className={tw('flex w-full gap-2')}>
+        <Template triggerWidth="full" triggerVariant="floating" />
+        <Template triggerWidth="full" triggerVariant="floating" disabled />
       </div>
-      <div className="flex gap-2">
-        <Template triggerWidth="fixed" triggerVariant="borderless" />
-        <Template triggerWidth="fixed" triggerVariant="borderless" disabled />
+      <div className={tw('flex w-full gap-2')}>
+        <Template triggerWidth="full" triggerVariant="borderless" />
+        <Template triggerWidth="full" triggerVariant="borderless" disabled />
       </div>
     </div>
   );

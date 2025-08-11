@@ -291,6 +291,7 @@ export function CallingLobby({
           className={classNames(
             'module-calling__camera-is-off module-CallingLobby__camera-is-off',
             `module-CallingLobby__camera-is-off--${
+              // eslint-disable-next-line local-rules/enforce-tw
               shouldShowLocalVideo ? 'invisible' : 'visible'
             }`
           )}

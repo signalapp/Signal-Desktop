@@ -2,60 +2,60 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, forwardRef } from 'react';
 import type { ButtonHTMLAttributes, FC, ForwardedRef, ReactNode } from 'react';
-import type { Styles } from './_internal/css';
-import { css } from './_internal/css';
+import type { TailwindStyles } from './tw';
+import { tw } from './tw';
 import { AxoSymbol, type AxoSymbolName } from './AxoSymbol';
 import { assert } from './_internal/assert';
 
 const Namespace = 'AxoButton';
 
-const baseAxoButtonStyles = css(
+const baseAxoButtonStyles = tw(
   'flex items-center-safe justify-center-safe gap-1 truncate rounded-full select-none',
   'outline-0 outline-border-focused focused:outline-[2.5px]'
 );
 
 const AxoButtonTypes = {
-  default: css(baseAxoButtonStyles),
-  subtle: css(
+  default: tw(baseAxoButtonStyles),
+  subtle: tw(
     baseAxoButtonStyles,
     'bg-fill-secondary',
     'pressed:bg-fill-secondary-pressed'
   ),
-  floating: css(
+  floating: tw(
     baseAxoButtonStyles,
     'bg-fill-floating',
     'shadow-elevation-1',
     'pressed:bg-fill-floating-pressed'
   ),
-  borderless: css(
+  borderless: tw(
     baseAxoButtonStyles,
     'bg-transparent',
     'hovered:bg-fill-secondary',
     'pressed:bg-fill-secondary-pressed'
   ),
-} as const satisfies Record<string, Styles>;
+} as const satisfies Record<string, TailwindStyles>;
 
 const AxoButtonVariants = {
   // default
-  secondary: css(
+  secondary: tw(
     AxoButtonTypes.default,
     'bg-fill-secondary text-label-primary',
     'pressed:bg-fill-secondary-pressed',
     'disabled:text-label-disabled'
   ),
-  primary: css(
+  primary: tw(
     AxoButtonTypes.default,
     'bg-color-fill-primary text-label-primary-on-color',
     'pressed:bg-color-fill-primary-pressed',
     'disabled:text-label-disabled-on-color'
   ),
-  affirmative: css(
+  affirmative: tw(
     AxoButtonTypes.default,
     'bg-color-fill-affirmative text-label-primary-on-color',
     'pressed:bg-color-fill-affirmative-pressed',
     'disabled:text-label-disabled-on-color'
   ),
-  destructive: css(
+  destructive: tw(
     AxoButtonTypes.default,
     'bg-color-fill-destructive text-label-primary-on-color',
     'pressed:bg-color-fill-destructive-pressed',
@@ -63,61 +63,61 @@ const AxoButtonVariants = {
   ),
 
   // subtle
-  'subtle-primary': css(
+  'subtle-primary': tw(
     AxoButtonTypes.subtle,
     'text-color-label-primary',
     'disabled:text-color-label-primary-disabled'
   ),
-  'subtle-affirmative': css(
+  'subtle-affirmative': tw(
     AxoButtonTypes.subtle,
     'text-color-label-affirmative',
     'disabled:text-color-label-affirmative-disabled'
   ),
-  'subtle-destructive': css(
+  'subtle-destructive': tw(
     AxoButtonTypes.subtle,
     'text-color-label-destructive',
     'disabled:text-color-label-destructive-disabled'
   ),
 
   // floating
-  'floating-secondary': css(
+  'floating-secondary': tw(
     AxoButtonTypes.floating,
     'text-label-primary',
     'disabled:text-label-disabled'
   ),
-  'floating-primary': css(
+  'floating-primary': tw(
     AxoButtonTypes.floating,
     'text-color-label-primary',
     'disabled:text-color-label-primary-disabled'
   ),
-  'floating-affirmative': css(
+  'floating-affirmative': tw(
     AxoButtonTypes.floating,
     'text-color-label-affirmative',
     'disabled:text-color-label-affirmative-disabled'
   ),
-  'floating-destructive': css(
+  'floating-destructive': tw(
     AxoButtonTypes.floating,
     'text-color-label-destructive',
     'disabled:text-color-label-destructive-disabled'
   ),
 
   // borderless
-  'borderless-secondary': css(
+  'borderless-secondary': tw(
     AxoButtonTypes.borderless,
     'text-label-primary',
     'disabled:text-label-disabled'
   ),
-  'borderless-primary': css(
+  'borderless-primary': tw(
     AxoButtonTypes.borderless,
     'text-color-label-primary',
     'disabled:text-color-label-primary-disabled'
   ),
-  'borderless-affirmative': css(
+  'borderless-affirmative': tw(
     AxoButtonTypes.borderless,
     'text-color-label-affirmative',
     'disabled:text-color-label-affirmative-disabled'
   ),
-  'borderless-destructive': css(
+  'borderless-destructive': tw(
     AxoButtonTypes.borderless,
     'text-color-label-destructive',
     'disabled:text-color-label-destructive-disabled'
@@ -125,10 +125,10 @@ const AxoButtonVariants = {
 };
 
 const AxoButtonSizes = {
-  large: css('px-4 py-2 type-body-medium font-medium'),
-  medium: css('px-3 py-1.5 type-body-medium font-medium'),
-  small: css('px-2 py-1 type-body-small font-medium'),
-} as const satisfies Record<string, Styles>;
+  large: tw('px-4 py-2 type-body-medium font-medium'),
+  medium: tw('px-3 py-1.5 type-body-medium font-medium'),
+  small: tw('px-2 py-1 type-body-small font-medium'),
+} as const satisfies Record<string, TailwindStyles>;
 
 type BaseButtonAttrs = Omit<
   ButtonHTMLAttributes<HTMLButtonElement>,
@@ -171,7 +171,7 @@ export const AxoButton: FC<AxoButtonProps> = memo(
       <button
         ref={ref}
         type="button"
-        className={css(variantStyles, sizeStyles)}
+        className={tw(variantStyles, sizeStyles)}
         {...rest}
       >
         {symbol != null && (
