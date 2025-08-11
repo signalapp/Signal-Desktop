@@ -32,6 +32,7 @@ import { SmartCallLinkPendingParticipantModal } from './CallLinkPendingParticipa
 import { SmartAttachmentNotAvailableModal } from './AttachmentNotAvailableModal';
 import { SmartProfileNameWarningModal } from './ProfileNameWarningModal';
 import { SmartDraftGifMessageSendModal } from './DraftGifMessageSendModal';
+import { DebugLogErrorModal } from '../../components/DebugLogErrorModal';
 
 function renderCallLinkAddNameModal(): JSX.Element {
   return <SmartCallLinkAddNameModal />;
@@ -128,6 +129,7 @@ export const SmartGlobalModalContainer = memo(
       confirmLeaveCallModalState,
       contactModalState,
       criticalIdlePrimaryDeviceModal,
+      debugLogErrorModalProps,
       deleteMessagesProps,
       draftGifMessageSendModalProps,
       editHistoryMessages,
@@ -153,6 +155,7 @@ export const SmartGlobalModalContainer = memo(
     } = useSelector(getGlobalModalsState);
 
     const {
+      closeDebugLogErrorModal,
       closeErrorModal,
       closeMediaPermissionsModal,
       hideCriticalIdlePrimaryDeviceModal,
@@ -210,6 +213,18 @@ export const SmartGlobalModalContainer = memo(
       [closeErrorModal, i18n]
     );
 
+    const renderDebugLogErrorModal = useCallback(
+      ({ description }: { description?: string }) => (
+        <DebugLogErrorModal
+          description={description}
+          i18n={i18n}
+          onClose={closeDebugLogErrorModal}
+          onSubmitDebugLog={() => window.IPC.showDebugLog()}
+        />
+      ),
+      [closeDebugLogErrorModal, i18n]
+    );
+
     return (
       <GlobalModalContainer
         attachmentNotAvailableModalType={attachmentNotAvailableModalType}
@@ -225,6 +240,7 @@ export const SmartGlobalModalContainer = memo(
         confirmLeaveCallModalState={confirmLeaveCallModalState}
         contactModalState={contactModalState}
         criticalIdlePrimaryDeviceModal={criticalIdlePrimaryDeviceModal}
+        debugLogErrorModalProps={debugLogErrorModalProps}
         editHistoryMessages={editHistoryMessages}
         editNicknameAndNoteModalProps={editNicknameAndNoteModalProps}
         errorModalProps={errorModalProps}
@@ -263,6 +279,7 @@ export const SmartGlobalModalContainer = memo(
         }
         renderConfirmLeaveCallModal={renderConfirmLeaveCallModal}
         renderContactModal={renderContactModal}
+        renderDebugLogErrorModal={renderDebugLogErrorModal}
         renderEditHistoryMessagesModal={renderEditHistoryMessagesModal}
         renderEditNicknameAndNoteModal={renderEditNicknameAndNoteModal}
         renderErrorModal={renderErrorModal}

@@ -4684,6 +4684,18 @@
     "messageformat": "Please try again or contact support.",
     "description": "Description text in popup dialog when user-initiated task has gone wrong"
   },
+  "icu:DebugLogErrorModal__UnexpectedError": {
+    "messageformat": "An unexpected error occurred",
+    "description": "Title of the dialog shown when an unexpected user interface or coding bug occurs. The dialog's description text requests the user to submit debug logs."
+  },
+  "icu:DebugLogErrorModal__SubmitDebugLog": {
+    "messageformat": "Submit debug log",
+    "description": "Primary button text in the dialog shown when an unexpected user interface or coding bug occurs. Clicking the button will open the Debug Log submission dialog."
+  },
+  "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
+    "messageformat": "No thanks",
+    "description": "Secondary button text in the dialog shown when an unexpected user interface or coding bug occurs. Clicking the button will dismiss the error dialog."
+  },
   "icu:Confirmation--confirm": {
     "messageformat": "Okay",
     "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
@@ -9024,11 +9036,15 @@
   },
   "icu:Donations__GenericError": {
     "messageformat": "An error occurred with your donation",
-    "description": "Title of the dialog shown when some unknown error has happened during a user's attempted donation"
+    "description": "Title of the dialog shown when some unknown error has happened during a user's attempted donation. This will show when we detect an error but haven't designed a string for the error type."
   },
   "icu:Donations__GenericError__Description": {
     "messageformat": "Your donation might not have been processed. Click on “Donate to Signal” and then “Donation Receipts” to check your receipts and confirm.",
     "description": "An explanation for the 'error occurred' dialog"
+  },
+  "icu:DonationsErrorBoundary__DonationUnexpectedError": {
+    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information.",
+    "description": "Description of the dialog shown when an unexpected user interface or coding bug occurs while using a donations-related part of the app."
   },
   "icu:Donations__Processing": {
     "messageformat": "Processing donation...",

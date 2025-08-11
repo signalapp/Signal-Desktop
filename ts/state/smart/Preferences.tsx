@@ -84,6 +84,7 @@ import {
   resumeBackupMediaDownload,
   cancelBackupMediaDownload,
 } from '../../util/backupMediaDownload';
+import { DonationsErrorBoundary } from '../../components/DonationsErrorBoundary';
 
 const DEFAULT_NOTIFICATION_SETTING = 'message';
 
@@ -115,11 +116,13 @@ function renderDonationsPane({
   setPage: (page: SettingsPage) => void;
 }): JSX.Element {
   return (
-    <SmartPreferencesDonations
-      contentsRef={contentsRef}
-      page={page}
-      setPage={setPage}
-    />
+    <DonationsErrorBoundary>
+      <SmartPreferencesDonations
+        contentsRef={contentsRef}
+        page={page}
+        setPage={setPage}
+      />
+    </DonationsErrorBoundary>
   );
 }
 
