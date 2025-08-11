@@ -318,15 +318,14 @@ export function ConversationList({
   );
 
   const renderRow: ListRowRenderer = useCallback(
-    ({ key: providedKey, index, style }) => {
+    ({ key, index, style }) => {
       const row = getRow(index);
       if (!row) {
         assertDev(false, `Expected a row at index ${index}`);
-        return <div key={providedKey} style={style} />;
+        return <div key={key} style={style} />;
       }
 
       let result: ReactNode;
-      let key: string;
       switch (row.type) {
         case RowType.ArchiveButton:
           result = (
@@ -345,11 +344,9 @@ export function ConversationList({
               </span>
             </button>
           );
-          key = 'archive';
           break;
         case RowType.Blank:
           result = undefined;
-          key = `blank:${providedKey}`;
           break;
         case RowType.Contact: {
           const { isClickable = true, hasContextMenu = false } = row;
@@ -371,7 +368,6 @@ export function ConversationList({
               onRemove={isClickable ? removeConversation : undefined}
             />
           );
-          key = `contact:${row.contact.id}`;
           break;
         }
         case RowType.ContactCheckbox:
@@ -386,7 +382,6 @@ export function ConversationList({
               theme={theme}
             />
           );
-          key = `contact-checkbox:${row.contact.id}`;
           break;
         case RowType.ClearFilterButton:
           result = (
@@ -405,7 +400,6 @@ export function ConversationList({
               </Button>
             </div>
           );
-          key = 'clear-filter';
           break;
         case RowType.PhoneNumberCheckbox:
           result = (
@@ -425,7 +419,6 @@ export function ConversationList({
               theme={theme}
             />
           );
-          key = `phone-number-checkbox:${row.phoneNumber.e164}`;
           break;
         case RowType.UsernameCheckbox:
           result = (
@@ -445,7 +438,6 @@ export function ConversationList({
               theme={theme}
             />
           );
-          key = `username-checkbox:${row.username}`;
           break;
         case RowType.GenericCheckbox:
           result = (
@@ -461,7 +453,6 @@ export function ConversationList({
               clickable
             />
           );
-          key = `generic-checkbox:${providedKey}`;
           break;
         case RowType.Conversation: {
           const itemProps = pick(row.conversation, [
@@ -495,7 +486,6 @@ export function ConversationList({
             'serviceId',
           ]);
           const { badges, title, unreadCount, lastMessage } = itemProps;
-          key = `conversation:${itemProps.id}`;
           result = (
             <ConversationListItem
               {...itemProps}
@@ -524,7 +514,6 @@ export function ConversationList({
               onClick={showChooseGroupMembers}
             />
           );
-          key = 'create-new-group';
           break;
         case RowType.FindByUsername:
           result = (
@@ -534,7 +523,6 @@ export function ConversationList({
               onClick={showFindByUsername}
             />
           );
-          key = 'find-by-username';
           break;
         case RowType.FindByPhoneNumber:
           result = (
@@ -544,7 +532,6 @@ export function ConversationList({
               onClick={showFindByPhoneNumber}
             />
           );
-          key = 'find-by-phonenumber';
           break;
         case RowType.Header: {
           const headerText = row.getHeaderText(i18n);
@@ -556,20 +543,16 @@ export function ConversationList({
               {headerText}
             </div>
           );
-          key = `header:${providedKey}`;
           break;
         }
         case RowType.MessageSearchResult:
           result = <>{renderMessageSearchResult?.(row.messageId)}</>;
-          key = `message-search-result:${row.messageId}`;
           break;
         case RowType.SearchResultsLoadingFakeHeader:
           result = <SearchResultsLoadingFakeHeaderComponent />;
-          key = `loading-header:${providedKey}`;
           break;
         case RowType.SearchResultsLoadingFakeRow:
           result = <SearchResultsLoadingFakeRowComponent />;
-          key = `loading-row:${providedKey}`;
           break;
         case RowType.SelectSingleGroup:
           result = (
@@ -579,7 +562,6 @@ export function ConversationList({
               onSelectGroup={onSelectConversation}
             />
           );
-          key = 'select-single-group';
           break;
         case RowType.StartNewConversation:
           result = (
@@ -595,7 +577,6 @@ export function ConversationList({
               showConversation={showConversation}
             />
           );
-          key = 'start-new-conversation';
           break;
         case RowType.UsernameSearchResult:
           result = (
@@ -611,7 +592,6 @@ export function ConversationList({
               showConversation={showConversation}
             />
           );
-          key = `username-search-result:${row.username}`;
           break;
         case RowType.EmptyResults:
           result = (
@@ -619,7 +599,6 @@ export function ConversationList({
               {row.message}
             </div>
           );
-          key = 'empty-results';
           break;
         default:
           throw missingCaseError(row);
