@@ -3340,10 +3340,6 @@ button.module-image__border-overlay:focus {
   &.module-image:hover::before {
     opacity: 1;
   }
-
-  &.module-image .module-image__image {
-    aspect-ratio: 1 / 1;
-  }
 }
 
 // Module: Staged Generic Attachment

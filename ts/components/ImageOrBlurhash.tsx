@@ -59,6 +59,9 @@ export function ImageOrBlurhash({
             ? `${intrinsicWidth} / ${intrinsicHeight}`
             : undefined,
 
+        width: '100%',
+        height: '100%',
+
         // Preserve aspect ratio
         backgroundSize: 'cover',
         backgroundPosition: 'center',
