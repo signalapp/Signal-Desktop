@@ -34,6 +34,7 @@ export function DonationProgressModal(props: PropsType): JSX.Element {
       i18n={i18n}
       moduleClassName="DonationProgressModal"
       modalName="DonationProgressModal"
+      noEscapeClose
       noMouseClose
       onClose={() => undefined}
     >

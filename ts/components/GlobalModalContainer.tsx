@@ -80,6 +80,13 @@ export type PropsType = {
     description?: string;
     title?: string | null;
   }) => JSX.Element;
+  // DebugLogErrorModal
+  debugLogErrorModalProps:
+    | {
+        description?: string;
+      }
+    | undefined;
+  renderDebugLogErrorModal: (opts: { description?: string }) => JSX.Element;
   // DeleteMessageModal
   deleteMessagesProps: DeleteMessagesPropsType | undefined;
   renderDeleteMessagesModal: () => JSX.Element;
@@ -186,6 +193,9 @@ export function GlobalModalContainer({
   // ErrorModal
   errorModalProps,
   renderErrorModal,
+  // DebugLogErrorModal
+  debugLogErrorModalProps,
+  renderDebugLogErrorModal,
   // DeleteMessageModal
   deleteMessagesProps,
   renderDeleteMessagesModal,
@@ -261,6 +271,11 @@ export function GlobalModalContainer({
   // Errors
   if (errorModalProps) {
     return renderErrorModal(errorModalProps);
+  }
+
+  // Errors where we want them to submit a debug log
+  if (debugLogErrorModalProps) {
+    return renderDebugLogErrorModal(debugLogErrorModalProps);
   }
 
   // Safety Number
