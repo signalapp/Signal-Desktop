@@ -138,6 +138,13 @@ export async function downloadAttachment({
     // then start returning 404
     if (error instanceof HTTPError && error.code === 404) {
       throw new AttachmentPermanentlyUndownloadableError(`HTTP ${error.code}`);
+    } else if (
+      error instanceof HTTPError &&
+      // CDN 0 can return 403 which means the same as 404 from other CDNs
+      error.code === 403 &&
+      (attachment.cdnNumber == null || attachment.cdnNumber === 0)
+    ) {
+      throw new AttachmentPermanentlyUndownloadableError(`HTTP ${error.code}`);
     } else {
       throw error;
     }
