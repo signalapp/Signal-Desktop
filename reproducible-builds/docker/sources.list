@@ -1,3 +1,3 @@
-deb [snapshot=20240829T060900Z] http://archive.ubuntu.com/ubuntu/ focal main universe
-deb [snapshot=20240829T060900Z] http://archive.ubuntu.com/ubuntu/ focal-updates main universe
-deb [snapshot=20240829T060900Z] http://security.ubuntu.com/ubuntu focal-security main universe
+deb [snapshot=20250811T060900Z] http://archive.ubuntu.com/ubuntu/ jammy main universe
+deb [snapshot=20250811T060900Z] http://archive.ubuntu.com/ubuntu/ jammy-updates main universe
+deb [snapshot=20250811T060900Z] http://security.ubuntu.com/ubuntu jammy-security main universe
