@@ -66,7 +66,8 @@ export const copyIntoAttachmentsDirectory = (
     throw new TypeError("'root' must be a path");
   }
 
-  const userDataPath = window.SignalContext.getPath('userData');
+  const naiveUserDataPath = window.SignalContext.getPath('userData');
+  const userDataPath = fse.realpathSync(naiveUserDataPath);
 
   return async (
     sourcePath: string
