@@ -8360,10 +8360,10 @@ function wasGroupCallRingPreviouslyCanceled(
           bigint: true,
         }
       )
-      .get<number>({
+      .get<bigint>({
         ringId,
         ringsOlderThanThisAreIgnored: Date.now() - MAX_GROUP_CALL_RING_AGE,
-      }) === 1
+      }) === 1n
   );
 }
 
