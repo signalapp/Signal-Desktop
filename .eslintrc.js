@@ -179,6 +179,7 @@ const rules = {
       additionalHooks: '^(useSpring|useSprings)$',
     },
   ],
+  'local-rules/license-comments': 'error',
 };
 
 const typescriptRules = {
