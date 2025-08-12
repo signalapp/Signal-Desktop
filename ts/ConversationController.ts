@@ -256,12 +256,22 @@ export class ConversationController {
 
     this.#convoUpdateBatcher.add({ type: 'change', conversation });
 
+    if (
+      hasAttributeChanged('active_at') ||
+      hasAttributeChanged('isArchived') ||
+      hasAttributeChanged('markedUnread') ||
+      hasAttributeChanged('muteExpiresAt') ||
+      hasAttributeChanged('unreadCount')
+    ) {
+      this.#debouncedUpdateUnreadCount();
+    }
+
     if (isDirectConversation(conversation.attributes)) {
       const updateLastMessage =
+        hasAttributeChanged('e164') ||
         hasAttributeChanged('name') ||
         hasAttributeChanged('profileName') ||
-        hasAttributeChanged('profileFamilyName') ||
-        hasAttributeChanged('e164');
+        hasAttributeChanged('profileFamilyName');
 
       const memberVerifiedChange = hasAttributeChanged('verified');
 
