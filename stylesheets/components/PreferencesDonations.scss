@@ -420,3 +420,68 @@
   border: 0.5px solid variables.$color-black-alpha-16;
   border-radius: 6px;
 }
+
+.PreferencesDonations__badge-list {
+  width: 100%;
+  margin-block: 4px 8px;
+}
+
+.PreferencesDonations__badge {
+  &:hover {
+    background: light-dark(variables.$color-gray-04, variables.$color-gray-80);
+  }
+
+  @include mixins.keyboard-mode {
+    &:focus {
+      outline: 2px solid variables.$color-ultramarine;
+    }
+  }
+
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  height: 58px;
+  padding-block: 8px;
+  padding-inline: 12px 8px;
+  background: light-dark(variables.$color-gray-02, variables.$color-gray-85);
+  border: 0.5px solid;
+  border-color: light-dark(
+    variables.$color-black-alpha-12,
+    variables.$color-white-alpha-12
+  );
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.PreferencesDonations__badge-icon {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  background-size: 100%;
+
+  // Currently only one time donations are possible
+  background-image: url('../images/rocket-160.svg');
+}
+
+.PreferencesDonations__badge-info {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  align-items: start;
+}
+
+.PreferencesDonations__badge-label {
+  @include mixins.font-body-1;
+  color: light-dark(
+    variables.$color-black-alpha-85,
+    variables.$color-white-alpha-85
+  );
+}
+
+.PreferencesDonations__badge-processing-info {
+  @include mixins.font-body-small;
+  color: light-dark(
+    variables.$color-black-alpha-50,
+    variables.$color-white-alpha-55
+  );
+}
