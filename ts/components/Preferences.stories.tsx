@@ -323,6 +323,7 @@ export default {
     hasStoriesDisabled: false,
     hasTextFormatting: true,
     hasTypingIndicators: true,
+    hasKeepMutedChatsArchived: false,
     initialSpellCheckSetting: true,
     isAutoDownloadUpdatesSupported: true,
     isAutoLaunchSupported: true,
@@ -428,6 +429,7 @@ export default {
     onIncomingCallNotificationsChange: action(
       'onIncomingCallNotificationsChange'
     ),
+    onKeepMutedChatsArchivedChange: action('onKeepMutedChatsArchivedChange'),
     onLocaleChange: action('onLocaleChange'),
     onLastSyncTimeChange: action('onLastSyncTimeChange'),
     onMediaCameraPermissionsChange: action('onMediaCameraPermissionsChange'),

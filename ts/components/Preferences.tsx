@@ -154,6 +154,7 @@ export type PropsDataType = {
   hasStoriesDisabled: boolean;
   hasTextFormatting: boolean;
   hasTypingIndicators: boolean;
+  hasKeepMutedChatsArchived: boolean;
   page: SettingsPage;
   lastSyncTime?: number;
   notificationContent: NotificationSettingType;
@@ -287,6 +288,7 @@ type PropsFunctionType = {
   onHasStoriesDisabledChanged: SelectChangeHandlerType<boolean>;
   onHideMenuBarChange: CheckboxChangeHandlerType;
   onIncomingCallNotificationsChange: CheckboxChangeHandlerType;
+  onKeepMutedChatsArchivedChange: CheckboxChangeHandlerType;
   onLastSyncTimeChange: (time: number) => unknown;
   onLocaleChange: (locale: string | null | undefined) => void;
   onMediaCameraPermissionsChange: CheckboxChangeHandlerType;
@@ -413,6 +415,7 @@ export function Preferences({
   hasStoriesDisabled,
   hasTextFormatting,
   hasTypingIndicators,
+  hasKeepMutedChatsArchived,
   i18n,
   initialSpellCheckSetting,
   isAutoDownloadUpdatesSupported,
@@ -445,6 +448,7 @@ export function Preferences({
   onHasStoriesDisabledChanged,
   onHideMenuBarChange,
   onIncomingCallNotificationsChange,
+  onKeepMutedChatsArchivedChange,
   onLastSyncTimeChange,
   onLocaleChange,
   onMediaCameraPermissionsChange,
@@ -1166,6 +1170,16 @@ export function Preferences({
             moduleClassName="Preferences__checkbox"
             name="autoConvertEmoji"
             onChange={onAutoConvertEmojiChange}
+          />
+          <Checkbox
+            checked={hasKeepMutedChatsArchived}
+            description={i18n(
+              'icu:Preferences__keep-muted-chats-archived--description'
+            )}
+            label={i18n('icu:Preferences__keep-muted-chats-archived--title')}
+            moduleClassName="Preferences__checkbox"
+            name="keepMutedChatsArchived"
+            onChange={onKeepMutedChatsArchivedChange}
           />
           <SettingsRow>
             <Control
