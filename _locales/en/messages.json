@@ -8850,6 +8850,14 @@
     "messageformat": "My Support",
     "description": "Section header for the user's current donations"
   },
+  "icu:PreferencesDonations__badge-label-one-time": {
+    "messageformat": "{formattedCurrencyAmount} one-time",
+    "description": "Label next to the in-app badge associated with a donation amount and type. Amount includes the currency symbol and is formatted in the locale's standard format. The hyphen between one-time is optional depending on language norms. Examples: $10 one-time; ¥1000 one-time; €10 one-time"
+  },
+  "icu:PreferencesDonations__badge-processing-donation": {
+    "messageformat": "Processing donation...",
+    "description": "Label next to the in-app badge associated with a donation while the donation is still processing and the badge is not yet available to the user."
+  },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Donate {formattedCurrencyAmount}",
     "description": "Button text to make a donation after selecting a currency amount. Amount includes the currency symbol and is formatted in the locale's standard format. Examples: Donate $10; Donate ¥1000; Donate €10"
@@ -9059,7 +9067,7 @@
     "description": "Explainer text for donation progress dialog"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing",
+    "messageformat": "Still processing donation",
     "description": "Title of the dialog shown when the user has made a donation and it's taking some time to complete the process"
   },
   "icu:Donations__StillProcessing__Description": {
