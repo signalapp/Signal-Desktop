@@ -563,6 +563,11 @@ export function SmartPreferences(): JSX.Element | null {
     'autoConvertEmoji',
     true
   );
+  const [hasKeepMutedChatsArchived, onKeepMutedChatsArchivedChange] =
+    createItemsAccess('keepMutedChatsArchived', false, () => {
+      const account = window.ConversationController.getOurConversationOrThrow();
+      account.captureChange('keepMutedChatsArchived');
+    });
   const [hasAutoDownloadUpdate, onAutoDownloadUpdateChange] = createItemsAccess(
     'auto-download-update',
     true
@@ -754,6 +759,7 @@ export function SmartPreferences(): JSX.Element | null {
         hasAutoConvertEmoji={hasAutoConvertEmoji}
         hasAutoDownloadUpdate={hasAutoDownloadUpdate}
         hasAutoLaunch={hasAutoLaunch}
+        hasKeepMutedChatsArchived={hasKeepMutedChatsArchived}
         hasCallNotifications={hasCallNotifications}
         hasCallRingtoneNotification={hasCallRingtoneNotification}
         hasContentProtection={hasContentProtection}
@@ -810,6 +816,7 @@ export function SmartPreferences(): JSX.Element | null {
         onHasStoriesDisabledChanged={onHasStoriesDisabledChanged}
         onHideMenuBarChange={onHideMenuBarChange}
         onIncomingCallNotificationsChange={onIncomingCallNotificationsChange}
+        onKeepMutedChatsArchivedChange={onKeepMutedChatsArchivedChange}
         onLastSyncTimeChange={onLastSyncTimeChange}
         onLocaleChange={onLocaleChange}
         onMediaCameraPermissionsChange={onMediaCameraPermissionsChange}
