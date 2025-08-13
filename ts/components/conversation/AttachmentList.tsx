@@ -99,7 +99,12 @@ export function AttachmentList<
           const url = getUrl(attachment);
           const forUI = attachmentsForUI[index];
 
-          const key = url || attachment.path || attachment.fileName || index;
+          const key =
+            attachment.clientUuid ||
+            url ||
+            attachment.path ||
+            attachment.fileName ||
+            index;
 
           const isImage = isImageAttachment(attachment);
           const isVideo = isVideoAttachment(attachment);
