@@ -164,10 +164,14 @@ export async function finishDonationWithCard(
   try {
     workflow = await _createPaymentMethodForIntent(existing, paymentDetail);
   } catch (error) {
-    if (error.code >= 400 && error.code <= 499) {
-      await failDonation(donationErrorTypeSchema.Enum.PaymentDeclined);
+    const errorType: string | undefined = error.response?.error?.type;
+    if (error.code >= 400 && error.code <= 499 && errorType === 'card_error') {
+      await failDonation(
+        donationErrorTypeSchema.Enum.PaymentDeclined,
+        errorType
+      );
     } else {
-      await failDonation(donationErrorTypeSchema.Enum.GeneralError);
+      await failDonation(donationErrorTypeSchema.Enum.GeneralError, errorType);
     }
 
     throw error;
@@ -405,16 +409,27 @@ export async function _runDonationWorkflow(): Promise<void> {
 
         await _saveWorkflow(updated);
       } catch (error) {
+        const errorType: string | undefined = error.response?.error?.type;
+
         if (
           error.name === 'HTTPError' &&
           error.code >= 400 &&
           error.code <= 499
         ) {
           log.warn(`${logId}: Got a ${error.code} error. Failing donation.`);
-          if (type === donationStateSchema.Enum.INTENT_METHOD) {
-            await failDonation(donationErrorTypeSchema.Enum.PaymentDeclined);
+          if (
+            type === donationStateSchema.Enum.INTENT_METHOD &&
+            errorType === 'card_error'
+          ) {
+            await failDonation(
+              donationErrorTypeSchema.Enum.PaymentDeclined,
+              errorType
+            );
           } else {
-            await failDonation(donationErrorTypeSchema.Enum.GeneralError);
+            await failDonation(
+              donationErrorTypeSchema.Enum.GeneralError,
+              errorType
+            );
           }
           throw error;
         }
@@ -426,7 +441,10 @@ export async function _runDonationWorkflow(): Promise<void> {
           log.warn(
             `${logId}: Donation step threw unexpectedly. Failing donation. ${Errors.toLogFormat(error)}`
           );
-          await failDonation(donationErrorTypeSchema.Enum.GeneralError);
+          await failDonation(
+            donationErrorTypeSchema.Enum.GeneralError,
+            errorType
+          );
           throw error;
         }
       }
@@ -800,7 +818,10 @@ export async function _redeemReceipt(
 
 // Helper functions
 
-async function failDonation(errorType: DonationErrorType): Promise<void> {
+async function failDonation(
+  errorType: DonationErrorType,
+  details: string | undefined = undefined
+): Promise<void> {
   const workflow = _getWorkflowFromRedux();
   const logId = `failDonation(${workflow?.id ? redactId(workflow.id) : 'NONE'})`;
 
@@ -814,7 +835,9 @@ async function failDonation(errorType: DonationErrorType): Promise<void> {
     await _saveWorkflow(undefined);
   }
 
-  log.info(`failDonation: Failing with type ${errorType}`);
+  log.info(
+    `failDonation: Failing with type ${errorType} ${details ? `details=${details}` : ''}`
+  );
   if (!isDonationPageVisible()) {
     if (errorType === donationErrorTypeSchema.Enum.Failed3dsValidation) {
       log.info(

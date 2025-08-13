@@ -224,7 +224,6 @@ function renderDonationsPane(props: {
       initialCurrency="usd"
       resumeWorkflow={action('resumeWorkflow')}
       isOnline
-      isStaging
       page={props.page}
       setPage={props.setPage}
       submitDonation={action('submitDonation')}
