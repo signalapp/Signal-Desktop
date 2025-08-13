@@ -13,7 +13,6 @@ import type { SettingsPage } from '../../types/Nav';
 import { useDonationsActions } from '../ducks/donations';
 import type { StateType } from '../reducer';
 import { useConversationsActions } from '../ducks/conversations';
-import { isStagingServer } from '../../util/isStagingServer';
 import { generateDonationReceiptBlob } from '../../util/generateDonationReceipt';
 import { useToastActions } from '../ducks/toast';
 import {
@@ -51,7 +50,6 @@ export const SmartPreferencesDonations = memo(
     const getPreferredBadge = useSelector(getPreferredBadgeSelector);
 
     const isOnline = useSelector(getNetworkIsOnline);
-    const isStaging = isStagingServer();
     const i18n = useSelector(getIntl);
     const theme = useSelector(getTheme);
 
@@ -138,7 +136,6 @@ export const SmartPreferencesDonations = memo(
         contentsRef={contentsRef}
         initialCurrency={initialCurrency}
         isOnline={isOnline}
-        isStaging={isStaging}
         page={page}
         didResumeWorkflowAtStartup={donationsState.didResumeWorkflowAtStartup}
         lastError={donationsState.lastError}

@@ -160,11 +160,6 @@ function submitDonation({
   UpdateWorkflowAction
 > {
   return async (_dispatch, getState) => {
-    if (!isStagingServer()) {
-      log.error('submitDonation: Only available on staging server');
-      return;
-    }
-
     try {
       const { currentWorkflow } = getState().donations;
       if (

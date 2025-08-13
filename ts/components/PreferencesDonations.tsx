@@ -65,7 +65,6 @@ export type PropsDataType = {
   i18n: LocalizerType;
   initialCurrency: string;
   isOnline: boolean;
-  isStaging: boolean;
   page: SettingsPage;
   didResumeWorkflowAtStartup: boolean;
   lastError: DonationErrorType | undefined;
@@ -124,7 +123,6 @@ type PreferencesHomeProps = Pick<
   | 'i18n'
   | 'setPage'
   | 'isOnline'
-  | 'isStaging'
   | 'donationReceipts'
   | 'workflow'
 > & {
@@ -208,7 +206,6 @@ function DonationsHome({
   navigateToPage,
   setPage,
   isOnline,
-  isStaging,
   donationReceipts,
   workflow,
 }: PreferencesHomeProps): JSX.Element {
@@ -258,7 +255,7 @@ function DonationsHome({
 
       {renderDonationHero()}
 
-      {isStaging && isOnline ? (
+      {isOnline ? (
         donateButton
       ) : (
         <DonationsOfflineTooltip i18n={i18n}>
@@ -547,7 +544,6 @@ export function PreferencesDonations({
   i18n,
   initialCurrency,
   isOnline,
-  isStaging,
   page,
   workflow,
   didResumeWorkflowAtStartup,
@@ -773,7 +769,6 @@ export function PreferencesDonations({
         isOnline={isOnline}
         navigateToPage={navigateToPage}
         donationReceipts={donationReceipts}
-        isStaging={isStaging}
         renderDonationHero={renderDonationHero}
         setPage={setPage}
         workflow={workflow}
