@@ -3954,7 +3954,7 @@
     "messageformat": "Žiadosť o členstvo v skupine od {joinerName} bola odmietnutá."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {Používateľ {joinerName} vyžiadal a zrušil svoju žiadosť o pripojenie cez odkaz na skupinu} few {Používateľ {joinerName} vyžiadal a zrušil {numberOfRequests,number} žiadosti o pripojenie cez odkaz na skupinu} many {Používateľ {joinerName} vyžiadal a zrušil {numberOfRequests,number} žiadosti o pripojenie cez odkaz na skupinu} other {Používateľ {joinerName} vyžiadal a zrušil {numberOfRequests,number} žiadostí o pripojenie cez odkaz na skupinu}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Zapli ste odkaz na skupinu s nepovolenou funkciou \"schválenie správcom\"."
@@ -4992,10 +4992,10 @@
     "messageformat": "Odkaz na používateľské meno je potrebné resetovať"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Otvoriť obrazovku s odkazom na používateľské meno"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Otvoriť obrazovku s odkazom na používateľské meno"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "Zdieľajte svoje používateľské meno"
@@ -6682,40 +6682,40 @@
     "messageformat": "Máte problémy? <contactSupportLink>Kontaktujte podporu</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "Zadajte vlastnú čiastku"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Kreditná alebo debetná karta"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Zadajte údaje zo svojej kreditnej alebo debetnej karty. Signal nezhromažďuje ani neukladá vaše osobné údaje. <learnMoreLink>Zistiť viac</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "Číslo karty"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "Dátum exspirácie"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "Prispieť {formattedCurrencyAmount} na Signal"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "Neplatné číslo karty"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "Platnosť karty vypršala"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "Vyžaduje sa rok"
   },
   "icu:DonateFlow__card-form-error-invalid": {
-    "messageformat": "Invalid"
+    "messageformat": "Neplatné"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "Kód je príliš krátky"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "Získajte odznak Signal Boost na 30 dní"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Potvrdenie o príspevku"
@@ -6736,7 +6736,7 @@
     "messageformat": "Ďakujeme, že podporujete Signal. Váš príspevok pomáha napĺňať naše poslanie chrániť slobodu prejavu a umožňovať bezpečnú globálnu komunikáciu pre milióny ľudí na celom svete prostredníctvom technológie ochrany súkromia s otvoreným zdrojovým kódom. Ak ste občanom Spojených štátov, uchovajte si toto potvrdenie pre svoju daňovú evidenciu. Signal Technology Foundation je nezisková organizácia oslobodená od platenia daní v Spojených štátoch, podľa sekcie 501c3 zákona Internal Revenue Code (IRC, zákon o vnútroštátnych výnosoch). Naše federálne daňové ID je 82-4506840."
   },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Prispenie bolo zrušené"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "Prispeli ste na Signal"
@@ -6754,16 +6754,16 @@
     "messageformat": "Prebieha spracovanie príspevku, ktoré si vyžaduje dodatočné overenie."
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Prebieha spracovanie príspevku, ktoré si vyžaduje potvrdenie."
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "Prispenie bolo prerušené"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "Poplatok z vašej karty nebol zaúčtovaný. Chcete skúsiť prispieť znova?"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "Skúsiť znova"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Spôsob platby bol zamietnutý"
@@ -6793,10 +6793,10 @@
     "messageformat": "Váš príspevok sa stále spracováva. Môže to trvať pár minút."
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Prispenie bolo zrušené"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "Od začiatku procesu prispievania prešlo príliš veľa času. Začnite odznova."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "Vyžaduje sa dodatočné overenie"
@@ -6851,6 +6851,6 @@
     "messageformat": "Opravili sme chybu vo vyhľadávacom poli pre emotikony."
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "Táto aktualizácia opravuje niekoľko malých chýb."
   }
 }

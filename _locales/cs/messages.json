@@ -3954,7 +3954,7 @@
     "messageformat": "Požadavek na připojení ke skupině od {joinerName} byl zamítnut."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} požádal/a a zrušil/a žádost o připojení ke skupině pomocí skupinového odkazu} few {{joinerName} požádal/a a zrušil/a {numberOfRequests,number} žádosti o připojení ke skupině pomocí skupinového odkazu} many {{joinerName} požádal/a a zrušil/a {numberOfRequests,number} žádostí o připojení ke skupině přes odkaz skupiny} other {{joinerName} požádal/a a zrušil/a {numberOfRequests,number} žádostí o připojení ke skupině pomocí skupinového odkazu}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Zapnuli jste odkaz skupiny bez schvalování správcem."
@@ -4992,10 +4992,10 @@
     "messageformat": "Odkaz na uživatelské jméno je potřeba resetovat"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Otevřít obrazovku s odkazem na uživatelské jméno"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Otevřít obrazovku s odkazem na uživatelské jméno"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "Sdílení uživatelského jména"
@@ -6682,40 +6682,40 @@
     "messageformat": "Máte problémy? <contactSupportLink>Kontaktujte podporu</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "Zadat vlastní částku"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Kreditní nebo debetní karta"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Zadejte údaje o své platební kartě. Signal neshromažďuje ani neukládá vaše osobní údaje. <learnMoreLink>Zjistit více</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "Číslo karty"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "Datum vypršení platnosti"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "Přispět částkou {formattedCurrencyAmount} na aplikaci Signal"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "Neplatné číslo platební karty"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "Platnost platební karty vypršela"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "Je nutné zadat rok"
   },
   "icu:DonateFlow__card-form-error-invalid": {
-    "messageformat": "Invalid"
+    "messageformat": "Neplatné"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "Kód je příliš krátký"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "Získejte odznak Signal Boost na 30 dní"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Potvrzení o příspěvku"
@@ -6736,7 +6736,7 @@
     "messageformat": "Děkujeme, že podporujete Signal. Váš příspěvek pomáhá podporovat naše poslání chránit svobodu projevu a umožnit bezpečnou komunikaci milionům lidí na celém světě prostřednictvím technologie ochrany soukromí s otevřeným zdrojovým kódem. Pokud jste obyvatelem Spojených států, uschovejte si toto potvrzení pro své daňové záznamy. Nadace Signal Technology Foundation je nezisková organizace osvobozená od daní ve Spojených státech amerických podle § 501c3 daňového zákona. Naše daňové identifikační číslo je 82-4506840."
   },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Příspěvek zrušen"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "Příspěvek uhrazen"
@@ -6754,16 +6754,16 @@
     "messageformat": "Váš příspěvek se zpracovává, ale potřebuje další ověření."
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Váš příspěvek se zpracovává a je třeba jej potvrdit."
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "Příspěvek přerušen"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "Částka nebyla z vaší karty stržena. Chcete zkusit zadat příspěvek znovu?"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "Zkusit znovu"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Platební metoda byla zamítnuta"
@@ -6793,10 +6793,10 @@
     "messageformat": "Váš příspěvek se stále zpracovává. To může trvat několik minut."
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Příspěvek zrušen"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "Od zahájení zadání příspěvku uplynula příliš dlouhá doba. Začněte prosím znovu."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "Je vyžadováno dodatečné ověření"
@@ -6851,6 +6851,6 @@
     "messageformat": "Opravili jsme chybu ve vyhledávacím poli emoji."
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "Oprava několika drobných chyb."
   }
 }

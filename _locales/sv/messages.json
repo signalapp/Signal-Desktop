@@ -3954,7 +3954,7 @@
     "messageformat": "En förfrågan om att gå med i gruppen från {joinerName} avvisades."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} begärde och avbröt sin begäran att gå med via grupplänken} other {{joinerName} begärde och avbröt {numberOfRequests,number} begäran att gå med via grupplänken}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Du aktiverade grupplänken med administratörsgodkännande inaktiverat."
@@ -4992,10 +4992,10 @@
     "messageformat": "Användarnamnslänken behöver återställas"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Öppna skärmen för användarnamnslänk"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Öppna skärmen för användarnamnslänk"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "Dela ditt användarnamn"
@@ -6682,40 +6682,40 @@
     "messageformat": "Har det uppstått problem? <contactSupportLink>Kontakta supporten</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "Ange anpassat belopp"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Betalkort"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Ange dina kredit- eller betalkortsuppgifter. Signal samlar inte in eller lagrar dina personuppgifter. <learnMoreLink>Läs mer</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "Kortnummer"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "Utgångsdatum"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "Donera {formattedCurrencyAmount} till Signal"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "Ogiltigt kortnummer"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "Kortet har gått ut"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "År krävs"
   },
   "icu:DonateFlow__card-form-error-invalid": {
-    "messageformat": "Invalid"
+    "messageformat": "Ogiltig"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "Koden är för kort"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "Få Signal Boost-märket i 30 dagar"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Donationskvitto"
@@ -6736,7 +6736,7 @@
     "messageformat": "Tack för att du stöder Signal. Ditt bidrag hjälper till att främja uppdraget att skydda yttrandefriheten och möjliggöra säker global kommunikation för miljontals människor runt om i världen, genom öppen källkod för integritetsskydd. Spara detta kvitto för dina skatteuppgifter om du är bosatt i USA. Signal Technology Foundation är en skattebefriad ideell organisation i USA enligt avsnitt 501c3 i Internal Revenue Code. Vårt federala skatte-ID är 82-4506840."
   },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Donationen avbruten"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "Donationen är slutförd"
@@ -6754,16 +6754,16 @@
     "messageformat": "Du har en pågående donation som behöver ytterligare verifiering."
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Du har en pågående donation som kräver bekräftelse."
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "Donationen avbröts"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "Ditt kort debiterades inte. Vill du försöka donera igen?"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "Försök igen"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Betalningsmetod avvisad"
@@ -6793,10 +6793,10 @@
     "messageformat": "Din donation bearbetas fortfarande. Detta kan ta några minuter."
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Donationen avbruten"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "Det har gått för lång tid sedan du började din donation. Börja om."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "Ytterligare verifiering krävs"
@@ -6851,6 +6851,6 @@
     "messageformat": "Vi har åtgärdat ett fel i emoji-sökrutan."
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "Några små buggfixar."
   }
 }

@@ -3954,7 +3954,7 @@
     "messageformat": "Захтев за придруживање групи од {joinerName} је одбијен."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} је послао/ла и отказао/ла захтев да се придружи преко линка за групу} other {{joinerName} је послао/ла и отказао/ла захтеве ({numberOfRequests,number}) да се придружи преко линка за групу}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Укључили сте линк за групу без обавезног одобрења администратора."
@@ -4992,10 +4992,10 @@
     "messageformat": "Линк корисничког имена треба ресетовати"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Екран за отварање линка корисничког имена"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Екран за отварање линка корисничког имена"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "Поделите своје корисничко име"
@@ -6682,40 +6682,40 @@
     "messageformat": "Имате проблема? <contactSupportLink>Обратите се подршци</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "Унесите износ"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Кредитна или дебитна картица"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Унесите податке са кредитне или дебитне картице. Signal не прикупља нити чува ваше податке о личности. <learnMoreLink>Сазнајте више</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "Број картице"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "Датум истека"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "Донирајте {formattedCurrencyAmount} Signal-у"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "Неважећи број картице"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "Картица је истекла"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "Година је обавезна"
   },
   "icu:DonateFlow__card-form-error-invalid": {
-    "messageformat": "Invalid"
+    "messageformat": "Неважеће"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "Код је прекратак"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "Набавите значку подршке за Signal која траје 30 дана"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Потврда о донацији"
@@ -6736,7 +6736,7 @@
     "messageformat": "Хвала вам што подржавате Signal. Ваш допринос омогућава подстицање мисије заштите слободног изражавања и пружања безбедне глобалне комуникације милионима широм света кроз технологију отвореног кода за заштиту приватности. Ако сте резидент Сједињених Америчких Држава, сачувајте ову признаницу за своју пореску евиденцију. Signal Technology Foundation је непрофитна организација изузета од опорезивања у Сједињеним Америчким Државама према одељку 501c3 Закона о интерним приходима. Наш савезни порески број је 82-4506840."
   },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Донација је отказана"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "Донација је извршена"
@@ -6754,16 +6754,16 @@
     "messageformat": "У току је донација за коју је неопходна додатна верификација."
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Имате донацију у току за коју је потребна потврда."
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "Донација је прекинута"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "Није вам наплаћено преко картице. Желите ли да поново покушате донацију?"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "Пробајте поново"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Начин плаћања је одбијен"
@@ -6793,10 +6793,10 @@
     "messageformat": "Ваша донација се и даље обрађује. Може потрајати пар минута."
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Донација је отказана"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "Прошло је превише времена од када сте започели своју донацију. Почните испочетка."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "Потребна је додатна верификација"
@@ -6851,6 +6851,6 @@
     "messageformat": "Исправили смо грешку у пољу за претрагу емоџија."
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "Исправљено је неколико мањих грешака."
   }
 }

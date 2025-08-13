@@ -3954,7 +3954,7 @@
     "messageformat": "Një kërkesë nga 1{joinerName} për t’u bërë pjesë e grupit u hodh poshtë."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} kërkoi dhe anuloi kërkesën për t'u bashkuar përmes lidhjes së grupit} other {{joinerName} kërkuan dhe anuluan{numberOfRequests,number} kërkesat për t'u bashkuar përmes lidhjes së grupit}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Aktivizuat lidhjen e grupit me miratim nga përgjegjësi të çaktivizuar."
@@ -4992,10 +4992,10 @@
     "messageformat": "Lidhja e emrit të përdoruesit duhet të rivendoset"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Hap ekranin e lidhjes së emrit të përdoruesit"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Hap ekranin e lidhjes së emrit të përdoruesit"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "Shpërndaj emrin tënd të përdoruesit"
@@ -6682,40 +6682,40 @@
     "messageformat": "Po has probleme? <contactSupportLink>Kontakto ndihmën</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "Vendos shumën e personalizuar"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Kartë krediti ose debiti"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Vendos të dhënat e kartës së kreditit ose debitit. Signal nuk mbledh dhe as nuk ruan të dhënat personale. <learnMoreLink>Mëso më shumë</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "Numri i kartës"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "Data e skadencës"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "Dhuro {formattedCurrencyAmount} te Signal"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "Numri i kartës është i pavlefshëm"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "Karta ka skaduar"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "Kërkohet viti"
   },
   "icu:DonateFlow__card-form-error-invalid": {
-    "messageformat": "Invalid"
+    "messageformat": "I pavlefshëm"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "Kodi është shumë i shkurtër"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "Merr distinktivin shtesë të Signal për 30 ditë"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Fatura e dhurimit"
@@ -6736,7 +6736,7 @@
     "messageformat": "Faleminderit që mbështet Signal! Kontributi yt ndihmon në nxitjen e misionit të mbrojtjes së shprehjes së lirë dhe mundësimit të komunikimit të sigurt global për miliona njerëz në mbarë botën, përmes teknologjisë së privatësisë me burim të hapur. Nëse je banor i Shteteve të Bashkuara, të lutem, ruaje këtë faturë për të dhënat e tua tatimore. Signal Technology Foundation është një ent jofitimprurës, i përjashtuar nga taksat, në Shtetet e Bashkuara sipas seksionit 501c3 të Kodit të të Ardhurave të Brendshme. Numri i ID-së federale të tatimeve është 82-4506840."
   },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Dhurimi u anulua"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "Dhurimi përfundoi"
@@ -6754,16 +6754,16 @@
     "messageformat": "Ke një dhurim në proces që ka nevojë për verifikim shtesë."
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Ke një dhurim në proces që kërkon konfirmim."
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "Dhurimi u ndërpre"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "Karta nuk u faturua. Dëshirosh ta provosh sërish dhurimin?"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "Riprovo"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Metoda e pagesës u refuzua"
@@ -6793,10 +6793,10 @@
     "messageformat": "Dhurimi është ende duke u përpunuar. Kjo mund të zgjasë disa minuta."
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Dhurimi u anulua"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "Ka kaluar shumë kohë që kur e nise dhurimin. Të lutem, fillo nga e para."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "Kërkohet verifikim shtesë"
@@ -6851,6 +6851,6 @@
     "messageformat": "Gjetja e emoxhit të duhur mund të përngjajë me një luftë të pashmangshme, megjithatë gabimi që mund të shkaktohej pas shtypjes së tastit \"Escape\" në kutinë e kërkimit të emoxhive u rregullua."
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "Ky përditësim rregullon disa gabime të vogla, përfshirë një ku reagimet ndaj emoxhive nuk grupoheshin siç duhet në disa raste."
   }
 }

@@ -3954,7 +3954,7 @@
     "messageformat": "En forespørsel fra {joinerName} om å bli med i gruppen ble avslått."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} ba om å bli medlem av gruppen, men trakk så tilbake forespørselen via gruppelenken.} other {{joinerName} ba om å bli medlem av gruppen, men trakk så tilbake {numberOfRequests,number} forespørsler via gruppelenken.}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Du slo på gruppelenken med administrativ godkjenning avslått."
@@ -4992,10 +4992,10 @@
     "messageformat": "Profillenken må tilbakestilles"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Åpne lenken i brukernavnet"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Åpne lenken i brukernavnet"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "Del brukernavnet ditt"
@@ -6682,40 +6682,40 @@
     "messageformat": "Lurer du på noe? <contactSupportLink>Kontakt brukerstøtten</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "Angi tilpasset beløp"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Kredittkort eller debetkort"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Skriv inn kortinformasjonen din. Signal samler ikke inn og lagrer ikke personopplysningene dine. <learnMoreLink>Les mer</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "Kortnummer"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "Utløpsdato"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "Gi {formattedCurrencyAmount} til Signal"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "Ugyldig kortnummer"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "Kortet er utløpt"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "Angi årstall"
   },
   "icu:DonateFlow__card-form-error-invalid": {
-    "messageformat": "Invalid"
+    "messageformat": "Ugyldig"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "Koden er for kort"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "Få et Signal Boost-merke i 30 dager"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Kvittering for pengebeløp"
@@ -6736,7 +6736,7 @@
     "messageformat": "Takk for at du støtter Signal. Bidraget ditt hjelper oss i kampen for å utvikle personvernteknologi med åpen kilde som gjør det mulig å kommunisere fritt og trygt for millioner av mennesker over hele verden. Ta vare på denne kvitteringen for skatteoppgjøret ditt hvis du har adresse i USA. Signal Technology Foundation er en ideell organisasjon som er fritatt skatt i USA under avsnitt 501c3 i den amerikanske skatteloven. Vårt nasjonale skattenummer er 82-4506840."
   },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Pengegaven ble avbrutt"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "Pengegaven ble sendt"
@@ -6754,16 +6754,16 @@
     "messageformat": "Du har en pengegave som krever ekstra bekreftelse."
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Du har en pengegave som krever bekreftelse."
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "Pengegaven ble avbrutt"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "Kortet ditt ble ikke belastet. Vil du prøve å gi gaven på nytt?"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "Prøv igjen"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Betalingsmåten ble avvist"
@@ -6793,10 +6793,10 @@
     "messageformat": "Betalingen av pengegaven er fremdeles under behandling. Dette kan ta noen minutter."
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Pengegaven ble avbrutt"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "Det har gått for lang tid siden du startet pengegaven. Start på nytt."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "Ekstra bekreftelse kreves"
@@ -6851,6 +6851,6 @@
     "messageformat": "Vi har rettet opp i en feil i søkefeltet for emojier."
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "Et par små feilrettinger."
   }
 }

@@ -3954,7 +3954,7 @@
     "messageformat": "{joinerName} жөнөткөн топко кошулуу өтүнүчү четке кагылды."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, other {{joinerName} топко шилтеме аркылуу кошулууну {numberOfRequests,number} жолу суранып, жокко чыгарды}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Сиз администратордун уруксаты өчүрүлгөн топко шилтеме коштуңуз."
@@ -4992,10 +4992,10 @@
     "messageformat": "Колдонуучу атынын шилтемесин кайра түзүү керек"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Колдонуучунун профилине алып барган шилтеменин экранын ачуу"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Колдонуучунун профилине алып барган шилтеменин экранын ачуу"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "Колдонуучу атыңызды бөлүшүңүз"
@@ -6682,40 +6682,40 @@
     "messageformat": "Маселе жаралдыбы? <contactSupportLink>Кардарларды тейлеген кызматка кайрылыңыз</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "Өзүңүздүн суммаңызды киргизиңиз"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Насыя же дебет картасы"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Насыя же дебет картасынын чоо-жайын киргизиңиз. Signal жеке маалыматыңызды чогултпайт же сактабайт. <learnMoreLink>Кененирээк маалымат</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "Картанын номери"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "Качан бүтөт"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "Signal'га {formattedCurrencyAmount} салым кошуу"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "Картанын номери туура эмес"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "Картанын мөөнөтү өтүп кеткен"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "Жылды киргизиңиз"
   },
   "icu:DonateFlow__card-form-error-invalid": {
-    "messageformat": "Invalid"
+    "messageformat": "Жараксыз"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "Код өтө кыска"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "30 күн Signal Boost төшбелгисин колдонуңуз"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Колдоо дүмүрчөгү"
@@ -6736,7 +6736,7 @@
     "messageformat": "Signal'ды колдогонуңуз үчүн чоң рахмат! Салым кошуу менен, баштапкы коду ачык купуялык технологиялары аркылуу дүйнө жүзүндөгү миллиондогон адамдарга өз оюн эркин билдирип, коопсуз шарттарда баарлашуу мүмкүнчүлүгүн берүү миссиябызды жайылтканга жардам бересиз. Эгер Америка Кошмо Штаттарынын тургуну болсоңуз, бул дүмүрчөктү салык органдарына көрсөтүү үчүн сактап коюңуз. Signal Technology фонду Ички кирешелер кодексинин 501(c)(3) бөлүмү боюнча салыктан бошотулган коммерциялык эмес уюм. Федералдык салык идентификаторубуз 82-4506840."
   },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Салым токтотулду"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "Салым кошулду"
@@ -6754,16 +6754,16 @@
     "messageformat": "Кошумча ырастоону талап кылган салымыңыз каралууда."
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Ырастоону талап кылган салымыңыз ишке ашууда."
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "Салым үзгүлтүккө учурады"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "Картаңыздан акы алынган жок. Кайра салым кошуп көрөсүзбү?"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "Кайталап көрүңүз"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Төлөм ыкмасы четке кагылды"
@@ -6793,10 +6793,10 @@
     "messageformat": "Салымыңыз дагы деле иштелүүдө. Бир нече мүнөт кетиши мүмкүн."
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Салым токтотулду"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "Салымыңызды кошуп баштагандан бери өтө көп убакыт өттү. Кайра баштаңыз."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "Дагы бир жолу ырастоо керек"
@@ -6851,6 +6851,6 @@
     "messageformat": "Кээде керектүү быйтыкчаны таба албай калабыз. Издөө сабында Esc баскычын басканда ката деп чыккан билдирүүнү оңдоп койдук."
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "Бул жаңы версияда бир нече мүчүлүштүктөр оңдолду. Мисалы, сезимдерди билдирген быйтыкчалар туура эмес топтоштурулган мүчүлүштүк."
   }
 }

@@ -3954,7 +3954,7 @@
     "messageformat": "En anmodning fra {joinerName} om at deltage i gruppen blev afvist"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} anmodede om og annullerede anmodningen om at deltage via gruppelinket} other {{joinerName} anmodede og annullerede {numberOfRequests,number} anmodninger om at deltage via gruppelinket}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Du aktiverede gruppelinket med administratorgodkendelse slået fra."
@@ -4992,10 +4992,10 @@
     "messageformat": "Link til brugernavnet skal nulstilles"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Åbn skærmen med brugernavnslinket"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Åbn skærmen med brugernavnslinket"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "Del dit brugernavn"
@@ -6682,40 +6682,40 @@
     "messageformat": "Har du problemer? <contactSupportLink>Kontakt support</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "Angiv tilpasset beløb"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Kredit- eller debetkort"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Angiv dine kredit- eller betalingskortoplysninger. Signal indsamler eller opbevarer ikke dine personlige oplysninger. <learnMoreLink>Få mere at vide</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "Kortnummer"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "Udløbsdato"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "Donér {formattedCurrencyAmount} til Signal"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "Ugyldigt kortnummer"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "Kortet er udløbet"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "År påkrævet"
   },
   "icu:DonateFlow__card-form-error-invalid": {
-    "messageformat": "Invalid"
+    "messageformat": "Ugyldig"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "Koden er for kort"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "Få et Signal Boost-badge i 30 dage"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Kvittering for donation"
@@ -6736,7 +6736,7 @@
     "messageformat": "Tak, fordi du støtter Signal! Dit bidrag er med til at fremme missionen om at beskytte ytringsfriheden og muliggøre sikker global kommunikation for millioner af mennesker verden over gennem open source-privatlivsteknologi. Hvis du er bosiddende i USA, bedes du gemme denne kvittering til dine skatteoptegnelser. Signal Technology Foundation er en skattefritaget nonprofitorganisation i USA i henhold til paragraf 501c3 i Internal Revenue Code. Vores føderale skatte-id er 82-4506840."
   },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Donation annulleret"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "Donation gennemført"
@@ -6754,16 +6754,16 @@
     "messageformat": "Du har en igangværende donation, der kræver yderligere verificering."
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Du har en igangværende donation, der kræver bekræftelse."
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "Donationen afbrudt"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "Dit kort blev ikke debiteret. Vil du prøve at donere igen?"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "Prøv igen"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Betalingsmetode blev afvist"
@@ -6793,10 +6793,10 @@
     "messageformat": "Din donation er stadig under behandling. Dette kan tage et par minutter"
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Donation annulleret"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "Det er for længe siden, du startede din donation. Prøv igen."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "Yderligere verificering er påkrævet"
@@ -6851,6 +6851,6 @@
     "messageformat": "Det kan føles som en uundgåelig kamp at finde den rigtige emoji, men vi har rettet en fejl, der kunne forårsage en fejl, efter at man havde trykket på escape-tasten i emoji-søgefeltet."
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "Denne opdatering retter et par små fejl, herunder en hvor emoji-reaktioner i nogle tilfælde ikke blev grupperet korrekt."
   }
 }

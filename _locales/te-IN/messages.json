@@ -3954,7 +3954,7 @@
     "messageformat": "{joinerName} నుండి సమూహంలో చేరాలని అభ్యర్థన తిరస్కరించబడింది."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} గ్రూప్ లింక్ ద్వారా చేరడానికి {numberOfRequests,number} అభ్యర్థనను అభ్యర్థించారు మరియు రద్దు చేశారు} other {{joinerName} గ్రూప్ లింక్ ద్వారా చేరడానికి {numberOfRequests,number} అభ్యర్థనలను అభ్యర్థించారు మరియు రద్దు చేశారు}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "నిర్వాహక ఆమోదం నిలిపివేయబడిన మీరు సమూహ లింక్‌ను ఆన్ చేసారు."
@@ -4992,10 +4992,10 @@
     "messageformat": "యూజర్‌నేమ్ లింక్ రీసెట్ చేయబడాలి"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "యూజర్‌నేమ్ లింక్ స్క్రీన్‌ను తెరవండి"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "యూజర్‌నేమ్ లింక్ స్క్రీన్‌ను తెరవండి"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "మీ యూజర్‌నేమ్‌ను పంచుకోండి"
@@ -6682,40 +6682,40 @@
     "messageformat": "సమస్యలు ఉన్నాయా? <contactSupportLink>మద్దతును సంప్రదించండి</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "అనుకూల మొత్తాన్ని ఎంటర్ చేయండి"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "క్రెడిట్ లేదా డెబిట్ కార్డు"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "మీ క్రెడిట్ లేదా డెబిట్ కార్డ్ వివరాలను ఎంటర్ చేయండి. Signal మీ వ్యక్తిగత సమాచారాన్ని సేకరించదు లేదా నిల్వ చేయదు. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "కార్డు నంబర్"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "గడువు తేదీ"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "Signal కు {formattedCurrencyAmount} విరాళం ఇవ్వండి"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "చెల్లని కార్డు నంబర్"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "కార్డు గడువు ముగిసింది"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "సంవత్సరం అవసరం"
   },
   "icu:DonateFlow__card-form-error-invalid": {
-    "messageformat": "Invalid"
+    "messageformat": "చెల్లదు"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "కోడ్ చాలా చిన్నగా ఉంది"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "30 రోజులపాటు Signal బూస్ట్ బ్యాడ్జ్‌ను పొందండి"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "విరాళం రసీదు"
@@ -6736,7 +6736,7 @@
     "messageformat": "Signal కు మద్దతు ఇచ్చినందుకు ధన్యవాదాలు. ఓపెన్ సోర్స్ గోప్యతా సాంకేతికత ద్వారా ప్రపంచవ్యాప్తంగా లక్షలాది మందికి స్వేచ్ఛా వ్యక్తీకరణను రక్షించడం మరియు సురక్షితమైన భౌగోళిక కమ్యూనికేషన్‌ను ప్రారంభించడం అనే లక్ష్యాన్ని ముందుకు తీసుకెళ్ళడంలో మీ సహకారం సహాయపడుతుంది. ఒకవేళ మీరు యునైటెడ్ స్టేట్స్ పౌరులు అయితే, మీ పన్ను రికార్డ్‌ల కోసం దయచేసి ఈ రసీదును మీ దగ్గర ఉంచుకోండి. Signal టెక్నాలజీ ఫౌండేషన్ అనేది యునైటెడ్ స్టేట్స్‌లోని అంతర్గత రెవెన్యూ కోడ్ యొక్క సెక్షన్ 501c3 కింద పన్ను మినహాయింపు పొందిన లాభాపేక్షలేని సంస్థ. మా ఫెడరల్ పన్ను ID 82-4506840."
   },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "విరాళం రద్దు చేయబడింది"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "విరాళం పూర్తయింది"
@@ -6754,16 +6754,16 @@
     "messageformat": "మీ వద్ద అదనపు ధృవీకరణ అవసరమయ్యే విరాళం పురోగతిలో ఉంది."
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "నిర్ధారణ అవసరమయ్యే విరాళం మీ వద్ద పురోగతిలో ఉంది."
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "విరాళానికి అంతరాయం కలిగింది"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "మీ కార్డ్‌కు ఛార్జీ చేయబడలేదు. మీరు విరాళాన్ని మళ్ళీ ప్రయత్నించాలని అనుకుంటున్నారా?"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "మళ్ళీ ప్రయత్నించండి"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "చెల్లింపు విధానం తిరస్కరించబడింది"
@@ -6793,10 +6793,10 @@
     "messageformat": "మీ విరాళం ఇంకా ప్రాసెస్ చేయబడుతోంది. దీనికి కొన్ని నిమిషాలు పట్టవచ్చు."
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "విరాళం రద్దు చేయబడింది"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "మీరు విరాళం ఇవ్వడం ప్రారంభించి చాలా కాలం అయింది. దయచేసి మళ్ళీ ప్రారంభించండి."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "అదనపు ధృవీకరణ అవసరం"
@@ -6851,6 +6851,6 @@
     "messageformat": "మేము ఎమోజీ శోధన బాక్స్‌లో ఒక బగ్‌ను పరిష్కరించాము."
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "కొన్ని చిన్న బగ్ పరిష్కారాలు."
   }
 }

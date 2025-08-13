@@ -3954,7 +3954,7 @@
     "messageformat": "សំណើចូលរួមក្រុមពី {joinerName} ត្រូវបានបដិសេធ។"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, other {{joinerName} បានស្នើសុំ និងបោះបង់ {numberOfRequests,number} សំណើក្នុងការចូលរួមតាមរយៈតំណក្រុម}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "អ្នកបានបើកតំណក្រុម ដោយការឯកភាពពីអ្នកគ្រប់គ្រងត្រូវបានបិទ។"
@@ -4992,10 +4992,10 @@
     "messageformat": "តំណឈ្មោះអ្នកប្រើត្រូវកំណត់ឡើងវិញ"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "បើកអេក្រង់តំណឈ្មោះអ្នកប្រើ"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "បើកអេក្រង់តំណឈ្មោះអ្នកប្រើ"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "ចែករំលែកឈ្មោះអ្នកប្រើរបស់អ្នក"
@@ -6682,40 +6682,40 @@
     "messageformat": "កំពុងមានបញ្ហា? <contactSupportLink>ទាក់ទងផ្នែកជំនួយ</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "បញ្ចូលចំនួនទឹកប្រាក់កំណត់ផ្ទាល់ខ្លួន"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "កាតឥណទាន ឬឥណពន្ធ"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "បញ្ចូលព័ត៌មានលម្អិតកាតឥណទាន ឬឥណពន្ធរបស់អ្នក។ Signal មិនប្រមូល ឬរក្សាទុកព័ត៌មានផ្ទាល់ខ្លួនរបស់អ្នកទេ។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "លេខកាត"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "កាលបរិច្ឆេទផុតកំណត់"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "បរិច្ចាគ {formattedCurrencyAmount} ទៅ Signal"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "លេខកាតមិនត្រឹមត្រូវ"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "កាតបានផុតកំណត់"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "ត្រូវការឆ្នាំ"
   },
   "icu:DonateFlow__card-form-error-invalid": {
-    "messageformat": "Invalid"
+    "messageformat": "មិនត្រឹមត្រូវ"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "លេខកូដខ្លីពេក"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "ទទួលបានស្លាកទ្រទ្រង់ Signal រយៈពេល 30 ថ្ងៃ"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "បង្កាន់ដៃបរិច្ចាគ"
@@ -6736,7 +6736,7 @@
     "messageformat": "សូមអរគុណចំពោះការគាំទ្រ Signal។ ការចូលរួមចំណែករបស់អ្នកជួយជំរុញដល់បេសកកម្មការពារការបញ្ចេញមតិដោយសេរី និងញ៉ាំងឱ្យមានការប្រាស្រ័យទាក់ទងគ្នាជាសាកលដោយសុវត្ថិភាពសម្រាប់មនុស្សរាប់លាននាក់ជុំវិញពិភពលោក តាមរយៈបច្ចេកវិទ្យាឯកជនភាពប្រភពបើកចំហ។ ប្រសិនបើអ្នកជាអ្នករស់នៅក្នុងសហរដ្ឋអាមេរិក សូមរក្សាទុកបង្កាន់ដៃនេះសម្រាប់កំណត់ត្រាពន្ធរបស់អ្នក។ Signal Technology Foundation គឺជាអង្គការមិនរកប្រាក់ចំណេញដែលទទួលបានការលើកលែងពន្ធនៅក្នុងសហរដ្ឋអាមេរិកក្រោមផ្នែក 501c3 នៃក្រមស្តីពីប្រាក់ចំណូលផ្ទៃក្នុង។ លេខអត្តសញ្ញាណកម្មពន្ធរបស់យើងគឺ 82-4506840។"
   },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "ការបរិច្ចាគត្រូវបានបោះបង់"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "ការបរិច្ចាគត្រូវបានបញ្ចប់"
@@ -6754,16 +6754,16 @@
     "messageformat": "អ្នកមានការបរិច្ចាគមួយដែលកំពុងដំណើរការដែលត្រូវការការផ្ទៀងផ្ទាត់បន្ថែម។"
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "អ្នកមានការបរិច្ចាគមួយដែលកំពុងដំណើរការដែលត្រូវការការបញ្ជាក់។"
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "ការបរិច្ចាគត្រូវបានរំខាន"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "កាតរបស់អ្នកមិនត្រូវបានគិតប្រាក់ទេ។ តើអ្នកចង់សាកល្បងបរិច្ចាគម្តងទៀតឬទេ?"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "ព្យាយាមម្តងទៀត"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "វិធីទូទាត់ត្រូវបានបដិសេធ"
@@ -6793,10 +6793,10 @@
     "messageformat": "ការបរិច្ចាគរបស់អ្នកកំពុងត្រូវបានដំណើរការនៅឡើយ។ វាអាចចំណាយពេលពីរបីនាទី។"
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "ការបរិច្ចាគត្រូវបានបោះបង់"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "វាយូរពេកហើយចាប់តាំងពីអ្នកចាប់ផ្តើមការបរិច្ចាគរបស់អ្នក។ សូមចាប់ផ្តើមឡើងវិញ។"
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "ទាមទារការផ្ទៀងផ្ទាត់បន្ថែម"
@@ -6851,6 +6851,6 @@
     "messageformat": "ការស្វែងរកឱ្យត្រូវរូបអារម្មណ៍អាចធ្វើឱ្យអ្នកមានអារម្មណ៍ថាពិបាកបន្តិច ប៉ុន្តែយើងបានដោះស្រាយបញ្ហាមួយដែលអាចបណ្តាលឱ្យមានបញ្ហាកើតឡើងបន្ទាប់ពីចុចគ្រាប់ចុច Escape នៅក្នុងប្រអប់ស្វែងរករូបអារម្មណ៍។"
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "កំណែថ្មីនេះដោះស្រាយបញ្ហាតូចៗមួយចំនួន រួមទាំងបញ្ហាដែលប្រតិកម្មតាមរូបអារម្មណ៍មិនត្រូវបានដាក់ជាក្រុមជាមួយគ្នាឱ្យបានត្រឹមត្រូវនៅក្នុងករណីខ្លះៗ។"
   }
 }

@@ -3954,7 +3954,7 @@
     "messageformat": "{joinerName} မှ အဖွဲ့သို့ဝင်ရန် တောင်းဆိုချက်သည် ငြင်းဆိုခံခဲ့ရပါသည်။"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, other {{joinerName} သည် အဖွဲ့လင့်ခ်မှတစ်ဆင့် ပါဝင်ရန် တောင်းဆိုချက် {numberOfRequests,number} ခုကို တောင်းဆိုပြီးနောက် ဖျက်သိမ်းခဲ့ပါသည်}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "သင်သည် ပိတ်ထားသော အက်ဒ်မင် အတည်ပြုမှုဖြင့် အဖွဲ့လင့်ခ်ကို ဖွင့်ခဲ့ပါသည်။"
@@ -4992,10 +4992,10 @@
     "messageformat": "သုံးစွဲသူအမည် လင့်ခ်ကို ပြန်လည်သတ်မှတ်ရန် လိုအပ်သည်"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "သုံးစွဲသူအမည် လင့်ခ်မျက်နှာပြင်ကို ဖွင့်ပါ"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "သုံးစွဲသူအမည် လင့်ခ်မျက်နှာပြင်ကို ဖွင့်ပါ"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "သင်၏ သုံးစွဲသူအမည်ကို ဝေမျှရန်"
@@ -6682,40 +6682,40 @@
     "messageformat": "ပြဿနာ ရှိနေပါသလား။ <contactSupportLink>ပံ့ပိုးရေးသို့ ဆက်သွယ်ရန်</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "စိတ်ကြိုက်ပမာဏကို ရိုက်ထည့်ပါ"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "ခရက်ဒစ် သို့မဟုတ် ဒက်ဘစ်ကတ်"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "သင့်ခရက်ဒစ် သို့မဟုတ် ဒက်ဘစ်ကတ် အသေးစိတ်အချက်အလက်များကို ထည့်သွင်းပါ။ Signal သည် သင်၏ ကိုယ်ရေးအချက်အလက်များကို စုဆောင်းခြင်း သို့မဟုတ် သိမ်းဆည်းခြင်း မပြုပါ။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "ကတ်နံပါတ်"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "သက်တမ်းကုန်ဆုံးရက်"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "Signal သို့ {formattedCurrencyAmount} လှူဒါန်းရန်"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "ကတ်နံပါတ် မမှန်ကန်ပါ"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "ကတ်သက်တမ်း ကုန်သွားပါပြီ"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "နှစ် လိုအပ်ပါသည်"
   },
   "icu:DonateFlow__card-form-error-invalid": {
-    "messageformat": "Invalid"
+    "messageformat": "မမှန်ပါ"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "ကုဒ်တိုလွန်းပါသည်"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "ရက် 30 Signal Boost ဘဲ့ဂျ်ကို ရယူပါ။"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "လှူဒါန်းမှု ပြေစာ"
@@ -6736,7 +6736,7 @@
     "messageformat": "Signal ကို ပံ့ပိုးကူညီသည့်အတွက် ကျေးဇူးတင်ပါသည်။ သင်၏ ကူညီထောက်ပံ့မှုသည် လွတ်လပ်စွာ ထုတ်ဖော်ပြောဆိုခွင့်ကို ကာကွယ်ပေးခြင်းနှင့် သုံးစွဲသူသန်းပေါင်းများစွာ၏ ကမ္ဘာတစ်ဝန်း ဆက်သွယ်မှုများကို လုံခြုံစိတ်ချရစေခြင်း စသည့် မစ်ရှင်ကို Open Source Privacy Technology မှတစ်ဆင့် ကူညီအားဖြည့်ပေးပါသည်။ သင်သည် အမေရိကန်ပြည်ထောင်စုတွင် နေထိုင်သူဖြစ်ပါက သင်၏အခွန်မှတ်တမ်းများအတွက် ဤပြေစာကိုထိန်းသိမ်းထားပေးပါ။ Signal Technology Foundation သည် ပြည်တွင်းအခွန်ဥပဒေ၏ ပုဒ်မ 501c3 အရ အမေရိကန်ပြည်ထောင်စုရှိ အခွန်ကင်းလွတ်ခွင့်ရသော အကျိုးအမြတ်မယူသည့် အဖွဲ့အစည်း ဖြစ်ပါသည်။ ကျွန်ုပ်တို့၏ ဖက်ဒရယ် အခွန် ID မှာ 82–4506840 ဖြစ်ပါသည်။"
   },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "လှူဒါန်းမှု ပယ်ဖျက်ထားသည်"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "လှူဒါန်းမှု ပြီးစီးပါပြီ"
@@ -6754,16 +6754,16 @@
     "messageformat": "သင်လုပ်ဆောင်နေသော လှူဒါန်းမှုသည် ထပ်လောင်းအတည်ပြုချက်လိုအပ်နေပါသည်။"
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "အတည်ပြုရန် လိုအပ်သော လှူဒါန်းမှုတစ်ခုရှိနေသည်။"
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "လှူဒါန်းမှု ပြတ်တောက်ခဲ့သည်"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "သင့်ကတ်ကို ငွေမကောက်ခံခဲ့ပါ။ လှူဒါန်းမှုကို ထပ်စမ်းကြည့်လိုပါသလား။"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "ထပ်မံကြိုးစားမည်"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "ငွေပေးချေမှုနည်းလမ်းကို ငြင်းဆိုထားသည်"
@@ -6793,10 +6793,10 @@
     "messageformat": "သင့်လှူဒါန်းမှုကို လုပ်ဆောင်နေဆဲ ဖြစ်သည်။ မိနစ်အနည်းငယ် ကြာနိုင်ပါသည်။"
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "လှူဒါန်းမှု ပယ်ဖျက်ထားသည်"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "သင့်လှူဒါန်းမှုကို စတင်ခဲ့သည်မှာ ကြာပြီဖြစ်သည်။ ကျေးဇူးပြု၍ ပြန်စပါ။"
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "ထပ်ဆောင်း အတည်ပြုချက် လိုအပ်ပါသည်"
@@ -6851,6 +6851,6 @@
     "messageformat": "အီမိုဂျီရှာဖွေမှုအကွက်တွင် ချို့ယွင်းချက်တစ်ခုကို ကျွန်ုပ်တို့ ပြင်ဆင်ထားပါသည်။"
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "ချို့ယွင်းချက် အသေးစားအချို့ကို ပြင်ဆင်ပေးထားသည်။"
   }
 }

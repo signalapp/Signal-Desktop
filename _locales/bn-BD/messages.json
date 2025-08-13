@@ -3954,7 +3954,7 @@
     "messageformat": "গ্রুপটিতে যোগদানের জন্য {joinerName}-এর অনুরোধ প্রত্যাখ্যান করা হয়েছে।"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} গ্রুপ লিংকের মাধ্যমে যোগ দেওয়ার অনুরোধ পাঠিয়েছেন এবং বাতিল করেছেন} other {{joinerName} গ্রুপ লিংকের মাধ্যমে যোগ দেওয়ার {numberOfRequests,number}-টি অনুরোধ পাঠিয়েছেন এবং বাতিল করেছেন}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "অ্যাডমিনের অনুমোদন নিষ্ক্রিয় থাকা অবস্থায় আপনি গ্রুপ লিংকটি চালু করেছেন।"
@@ -4992,10 +4992,10 @@
     "messageformat": "ব্যবহারকারীর নামের লিংক রিসেট করা প্রয়োজন"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "'ব্যবহারকারীর নাম' লিংকের স্ক্রিনটি খুলুন"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "'ব্যবহারকারীর নাম' লিংকের স্ক্রিনটি খুলুন"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "আপনার 'ব্যবহারকারীর নাম' শেয়ার করুন"
@@ -6682,40 +6682,40 @@
     "messageformat": "সমস্যা হচ্ছে? <contactSupportLink>সহায়তায় যোগাযোগ করুন</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "কাস্টম পরিমাণ লিখুন"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "ক্রেডিট বা ডেবিট কার্ড"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "আপনার ক্রেডিট বা ডেবিট কার্ডের বিস্তারিত লিখুন। Signal আপনার ব্যক্তিগত তথ্য সংগ্রহ কিংবা সংরক্ষণ করে না। <learnMoreLink>আরো জানুন</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "কার্ডের নম্বর"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "মেয়াদ শেষ হওয়ার তারিখ"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "Signal-এ {formattedCurrencyAmount} ডোনেট করুন"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "কার্ড নম্বর অকার্যকর"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "কার্ডের মেয়াদ শেষ হয়ে গেছে"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "বছর প্রয়োজন"
   },
   "icu:DonateFlow__card-form-error-invalid": {
-    "messageformat": "Invalid"
+    "messageformat": "অকার্যকর"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "কোডটি খুবই ছোট"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "30 দিনের জন্য Signal বুস্ট ব্যাজ নিন"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "ডোনেশন রিসিপ্ট"
@@ -6736,7 +6736,7 @@
     "messageformat": "Signal-এর পাশে থাকার জন্য আপনাকে ধন্যবাদ। আপনার অবদান ওপেন সোর্স গোপনীয়তা প্রযুক্তির মাধ্যমে বিশ্বজুড়ে লক্ষ লক্ষ মানুষের জন্য স্বাধীন মত প্রকাশের সুরক্ষা এবং বিশ্বব্যাপী নিরাপদ যোগাযোগ সক্ষম করার লক্ষ্যকে আরো এগিয়ে নিয়ে যেতে সাহায্য করবে। আপনি যদি মার্কিন যুক্তরাষ্ট্রের অধিবাসী হয়ে থাকেন, তাহলে অনুগ্রহ করে আপনার ট্যাক্স রেকর্ডের জন্য এই রিসিপ্টটি সংরক্ষণ করুন। Signal টেকনোলজি ফাউন্ডেশন হলো অভ্যন্তরীণ রাজস্ব কোডের ধারা 501c3-এর অধীনে মার্কিন যুক্তরাষ্ট্রের একটি কর-মুক্ত অলাভজনক সংস্থা। আমাদের ফেডারেল ট্যাক্স আইডি হলো 82-4506840।"
   },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "ডোনেশন বাতিল করা হয়েছে"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "ডোনেশন সম্পন্ন হয়েছে"
@@ -6754,16 +6754,16 @@
     "messageformat": "আপনার একটি ডোনেশন প্রক্রিয়াধীন আছে যার বাড়তি যাচাইকরণ প্রয়োজন।"
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "আপনার একটি ডোনেশন প্রক্রিয়াধীন আছে, যার নিশ্চিতকরণ প্রয়োজন।"
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "ডোনেশন ব্যাহত হয়েছে"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "আপনার কার্ড থেকে কোনো চার্জ কাটা হয়নি। আপনি কি আবার ডোনেশন পাঠানোর চেষ্টা করতে চান?"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "আবার চেষ্টা করুন"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "পেমেন্ট পদ্ধতি প্রত্যাখ্যান করা হয়েছে"
@@ -6793,10 +6793,10 @@
     "messageformat": "আপনার ডোনেশন এখনো প্রক্রিয়া করা হচ্ছে। এই কয়েক মিনিট সময় নিতে পারে."
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "ডোনেশন বাতিল করা হয়েছে"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "আপনি ডোনেশন পাঠানো শুরু করার পর অনেক দিন হয়ে গেছে। অনুগ্রহ করে আবারো শুরু করুন।"
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "আরো যাচাইকরণ প্রয়োজন"
@@ -6851,6 +6851,6 @@
     "messageformat": "আমরা ইমোজি সার্চ বক্সে একটি বাগ সংশোধন করেছি।"
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "কিছু ছোটখাটো বাগ সংশোধন করা হয়েছে।"
   }
 }

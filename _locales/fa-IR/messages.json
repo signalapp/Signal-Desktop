@@ -3954,7 +3954,7 @@
     "messageformat": "یک درخواست از {joinerName} برای پیوستن به گروه رد شد."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {‏{joinerName} برای پیوستن از طریق پیوند گروه درخواست کرد و درخواست خود را لغو کرد} other {‏{joinerName} برای پیوستن از طریق پیوند گروه درخواست کرد و {numberOfRequests,number} درخواست خود را لغو کرد}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "شما پیوند گروه را با موافقت مدیر غیرفعال روشن کردید."
@@ -4992,10 +4992,10 @@
     "messageformat": "پیوند نام کاربری باید بازنشانی شود"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "صفحه پیوند نام کاربری را باز کنید"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "صفحه پیوند نام کاربری را باز کنید"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "هم‌رسانی نام کاربری‌تان"
@@ -6682,40 +6682,40 @@
     "messageformat": "مشکلی وجود دارد؟ <contactSupportLink>ارتباط با پشتیبانی</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "وارد کردن مبلغ دلخواه"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "کارت اعتباری یا دبیت کارت"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "مشخصات کارت اعتباری یا نقدی خود را وارد کنید. سیگنال اطلاعات شخصی شما را جمع آوری یا ذخیره نمی‌کند. <learnMoreLink>اطلاعات بیشتر</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "شماره کارت"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "تاریخ انقضا"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "{formattedCurrencyAmount} به سیگنال اهدا کنید"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "شماره کارت نامعتبر است"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "کارت منقضی شده است"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "سال الزامی است"
   },
   "icu:DonateFlow__card-form-error-invalid": {
-    "messageformat": "Invalid"
+    "messageformat": "نامعتبر"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "کد بیش از حد کوتاه است"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "نشان ارتقاء سیگنال را به مدت ۳۰ روز دریافت کنید"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "رسید کمک مالی"
@@ -6736,7 +6736,7 @@
     "messageformat": "قدردان حمایتتان از سیگنال هستیم. مشارکت شما به پیشبرد ماموریت حفاظت از آزادی بیان و ایجاد امکان ارتباط جهانی امن برای میلیون‌ها نفر در سراسر جهان، از طریق فناوری متن‌باز حفظ حریم خصوصی، کمک می‌کند. اگر ساکن ایالات متحده هستید، لطفاً این رسید را در سوابق مالیاتی خود نگه دارید. بنیاد فناوری سیگنال یک سازمان غیرانتفاعی معاف از مالیات در ایالات متحده است که طبق بخش ۵۰۱c۳ قانون درآمد داخلی فعالیت می‌کند. شناسه مالیاتی ما ۴۵۰۶۸۴۰-۸۲ است."
   },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "کمک مالی لغو شد"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "کمک مالی تکمیل شد"
@@ -6754,16 +6754,16 @@
     "messageformat": "شما یک کمک مالی در حال انجام دارید که نیاز به تأیید تکمیلی دارد."
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "شما یک کمک مالی در حال انجام دارید که نیاز به تأیید دارد."
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "اختلال در کمک مالی"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "از کارت شما مبلغی کسر نشده است. آیا می‌خواهید دوباره برای کمک مالی تلاش کنید؟"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "دوباره تلاش کنید"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "روش پرداخت رد شد"
@@ -6793,10 +6793,10 @@
     "messageformat": "اهدای مالی شما هنوز در حال پردازش است. ممکن است چند دقیقه زمان ببرد."
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "کمک مالی لغو شد"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "از زمان شروع کمک مالی شما، زمان زیادی گذشته است. لطفاً از اول شروع کنید."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "تأیید تکمیلی لازم است"
@@ -6851,6 +6851,6 @@
     "messageformat": "اشکالی که در کادر جستجوی ایموجی وجود داشت را برطرف کردیم."
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "چند اشکال جزئی رفع شد."
   }
 }

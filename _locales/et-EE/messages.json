@@ -3954,7 +3954,7 @@
     "messageformat": "Kasutaja {joinerName} grupiga liitumise taotlusest keelduti."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} taotles grupilingi kaudu ligipääsu ja loobus taotlusest} other {{joinerName} taotles grupilingi kaudu ligipääsu ja loobus oma {numberOfRequests,number} liitumissoovist}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Sa lülitasid administraatori kinnituseta grupilingi sisse."
@@ -4992,10 +4992,10 @@
     "messageformat": "Kasutajanime link tuleb lähtestada"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Ava kasutajanime lingi kuva"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Ava kasutajanime lingi kuva"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "Jaga oma kasutajanime"
@@ -6682,40 +6682,40 @@
     "messageformat": "Kas sul on küsimus? <contactSupportLink>Võta ühendust kasutajatoega</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "Sisesta kohandatud summa"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Krediit- või deebetkaart"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Sisesta oma krediit- või deebetkaardi andmed. Signal ei kogu ega salvesta sinu isikuandmeid. <learnMoreLink>Rohkem teavet</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "Kaardi number"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "Aegumiskuupäev"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "Anneta Signalile {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "Kehtetu kaardi number"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "Kaart on aegunud"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "Puudub aasta"
   },
   "icu:DonateFlow__card-form-error-invalid": {
-    "messageformat": "Invalid"
+    "messageformat": "Viga"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "Kood on liiga lühike"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "Saa 30 päevaks Signali toetaja märk"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Annetuse kviitung"
@@ -6736,7 +6736,7 @@
     "messageformat": "Aitäh, et toetad Signalit. Sinu panus annab tõuke missioonile kaitsta väljendusvabadust ja võimaldada turvalist suhtlust miljonitele inimestele üle kogu maailma avatud lähtekoodiga privaatsustehnoloogia abil. Kui elad Ameerika Ühendriikides, jäta see kviitung alles oma maksude deklareerimiseks. Signal Technology Foundation on Ameerika Ühendriikides maksuseadustiku (US Internal Revenue Code) jao 501c3 järgi registreeritud maksuvaba mittetulundusühing. Meie föderaalne maksukood (Federal Tax ID) on 82-4506840."
   },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Annetus on tühistatud"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "Annetus tehtud"
@@ -6754,16 +6754,16 @@
     "messageformat": "Sul on pooleli annetus, mis vajab täiendavat kinnitust."
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Sul on pooleli annetus, mis vajab kinnitust."
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "Annetus on katkestatud"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "Sinu kaardilt ei võetud raha. Kas soovid annetust uuesti proovida?"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "Proovi uuesti"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Maksemeetod on tagasi lükatud"
@@ -6793,10 +6793,10 @@
     "messageformat": "Sinu annetus on endiselt töötlemisel. Selleks võib kuluda mõni minut."
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Annetus on tühistatud"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "Sinu annetuse alustamisest on möödas liiga palju aega. Palun alusta uuesti."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "Vajalik täiendav kontroll"
@@ -6851,6 +6851,6 @@
     "messageformat": "Parandasime emoji otsingukasti vea."
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "Selle värskendusega parandatakse mõned väikesed vead."
   }
 }

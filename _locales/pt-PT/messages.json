@@ -3954,7 +3954,7 @@
     "messageformat": "Foi negado o pedido de {joinerName} para entrar no grupo."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} solicitou e cancelou o pedido para entrar através do link do grupo} other {{joinerName} solicitaram e cancelaram {numberOfRequests,number} pedidos para entrar através do link do grupo}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Você ativou o link do grupo com a aprovação de administrador desativada."
@@ -4992,10 +4992,10 @@
     "messageformat": "O link do nome de utilizador tem de ser reposto"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Abrir ecrã de link de nome de utilizador"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Abrir ecrã de link de nome de utilizador"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "Partilhe o seu nome de utilizador"
@@ -6682,40 +6682,40 @@
     "messageformat": "Está com problemas? <contactSupportLink>Contacte o suporte</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "Introduzir montante personalizado"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Cartão de crédito ou débito"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Introduza as informações do seu cartão de débito ou crédito. O Signal não recolhe nem armazena as suas informações pessoais. <learnMoreLink>Saiba mais</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "Número do cartão"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "Data de validade"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "Doar {formattedCurrencyAmount} ao Signal"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "Número do cartão inválido"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "O cartão expirou"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "Ano requerido"
   },
   "icu:DonateFlow__card-form-error-invalid": {
-    "messageformat": "Invalid"
+    "messageformat": "Inválido(s)"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "Código demasiado curto"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "Receba o crachá de Boost do Signal durante 30 dias"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Recibo de doação"
@@ -6736,7 +6736,7 @@
     "messageformat": "Obrigado por apoiar o Signal. A sua contribuição ajuda a apoiar a missão de proteger a liberdade de expressão e permitir comunicação global segura para milhões de pessoas em todo o mundo, através de tecnologia de privacidade de código aberto. Se for residente nos Estados Unidos, guarde este recibo para os seus registos fiscais. A Signal Technology Foundation é uma organização sem fins lucrativos isenta de impostos nos Estados Unidos sob a secção 501c3 do Internal Revenue Code. A nossa identificação fiscal federal é 82-4506840."
   },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Donativo cancelado"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "Donativo concluído"
@@ -6754,16 +6754,16 @@
     "messageformat": "Tem um donativo em curso que necessita de verificação adicional."
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Tem um donativo em curso que necessita de confirmação."
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "Donativo interrompido"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "O seu cartão não foi debitado. Quer tentar novamente o donativo?"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "Tentar novamente"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Método de pagamento recusado"
@@ -6793,10 +6793,10 @@
     "messageformat": "O seu donativo ainda está a ser processado. Isto poderá demorar alguns minutos."
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Donativo cancelado"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "Passou demasiado tempo desde que começou o donativo. Comece de novo."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "Necessária verificação adicional"
@@ -6851,6 +6851,6 @@
     "messageformat": "Corrigimos um erro na caixa de pesquisa de emojis."
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "Algumas correções de erros."
   }
 }

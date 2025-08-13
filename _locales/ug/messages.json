@@ -3954,7 +3954,7 @@
     "messageformat": "«{joinerName}» نىڭ گۇرۇپپىغا قوشۇلۇش ئىلتىماسى رەت قىلىندى."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, other {{joinerName} گۇرۇپپا ئۇلانمىسى ئارقىلىق گۇرۇپپىغا قوشۇلۇشنى تەلەپ قىلدى ۋە {numberOfRequests,number} تەلەپنى بىكار قىلدى}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "باشقۇرغۇچى تەستىقىنى چەكلەپ گۇرۇپپا ئۇلانمىسىنى ئاچتىڭىز."
@@ -4992,10 +4992,10 @@
     "messageformat": "ئىشلەتكۈچى نامى ئۇلانمىسىنى قايتا بېكىتىش كېرەك"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "«ئىشلەتكۈچى نامى» ئۇلىنىش ئېكرانىنى ئېچىڭ"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "«ئىشلەتكۈچى نامى» ئۇلىنىش ئېكرانىنى ئېچىڭ"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "ئەزالىق ئىسمىڭىزنى پايلىشىڭ"
@@ -6682,40 +6682,40 @@
     "messageformat": "مەسىلىگە يولۇقتىڭىزمۇ؟ <contactSupportLink>ياردەمچى خادىم بىلەن ئالاقىلىشىڭ</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "ئىختىيارىچە سومما كىرگۈزۈڭ"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "ئىناۋەتلىك كارتا ياكى بانكا كارتىسى"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "ئىناۋەتلىك كارتا ياكى بانكا كارتىڭىزنىڭ تەپسىلاتلىرىنى كىرگۈزۈڭ. Signal شەخسىي ئۇچۇرلىرىڭىزنى توپلىمايدۇ ياكى ساقلىمايدۇ. <learnMoreLink>تەپسىلاتى</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "كارتا نومۇرى"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "مۇددىتى توشىدىغان ۋاقىت"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "‫Signal غا {formattedCurrencyAmount} ئىئانە قىلىمەن"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "كارتا نومۇرى ئىناۋەتسىز"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "كارتىنىڭ ۋاقتى ئۆتكەن"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "يىل تەلەپ قىلىنىدۇ"
   },
   "icu:DonateFlow__card-form-error-invalid": {
-    "messageformat": "Invalid"
+    "messageformat": "ئىناۋەتسىز"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "كود بەك قىسقا"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "30 كۈنلۈك Signal ئىئانە ئىزنىكىنى تاپشۇرۇۋېلىڭ"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "ئىئانە تالونى"
@@ -6736,7 +6736,7 @@
     "messageformat": "Signalنى قوللىغانلىقىڭىزغا رەھمەت. سىزنىڭ ئىئانىڭىز ، ئوچۇق مەنبە مەخپىيەتلىك تېخنىكىسى ئارقىلىق ئەركىن ئىپادىلەش ھوقۇقىنى قوغدايدۇ ۋە دۇنيادىكى مىليونلىغان كىشىلەرنىڭ ئالاقىلىشىش بىخەتەرلىكىگە كاپالەتلىك قىلىدۇ. ئەگەر سىز ئامېرىكىنىڭ ئاھالىسى بولسىڭىز ، باج خاتىرىلىرى ئۈچۈن بۇ تالوننى ساقلاپ قويۇڭ. Signal Technology Foundation بولسا ئامېرىكا دۆلەت ئىچى باج قانۇنى 501c3 ماددىسىدىكى بەلگىلىمە بويىچە باجدىن كەچۈرۈم قىلىنىدىغان تاپاۋەتسىز ئورگان بولۇپ ھېسابلىنىدۇ. فېدېراتسىيە باج ID نومۇرىمىز 82-4506840."
   },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "ئىئانە ئەمەلدىن قالدۇرۇلدى"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "ئىئانە تاماملاندى"
@@ -6754,16 +6754,16 @@
     "messageformat": "قوشۇمچە دەلىللەشكە ئېھتىياجلىق بىر ئىئانىڭىز بار."
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "دەلىللەشكە ئېھتىياجلىق بىر ئىئانىڭىز بار."
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "ئىئانە قىلىش ئۈزۈلۈپ قالدى"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "كارتىڭىزدا پۇل يوق. ئىئانىنى قايتا سىناپ باقامسىز؟"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "قايتا سىناڭ"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "پۇل تۆلەش ئۇسۇلى رەت قىلىندى"
@@ -6793,10 +6793,10 @@
     "messageformat": "ئىئانىڭىزنى تېخىچە بىر تەرەپ قىلىۋاتىدۇ. بۇنىڭغا بىر مىنۇتتەك ۋەقىت كېتىشى مۇمكىن."
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "ئىئانە ئەمەلدىن قالدۇرۇلدى"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "ئىئانە قىلىشنى باشلىغان جەريان بەك ئۇزۇنغا سۇزۇلغان. ئېغىر ئالماي قايتىدىن باشلىشىڭىزنى ئۈمۈد قىلىمىز."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "قوشۇمچە دەلىللەش تەلەپ قىلىنىدۇ"
@@ -6851,6 +6851,6 @@
     "messageformat": "بىز emoji ئىزدەش رامكىسىدىكى بىر كەمتۈكلۈكنى ئوڭشىدۇق. 7.65چى نەشىر نۇسخىسى ئۈچۈن تارقىتىلدى."
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "بۇ قېتىملىق يېڭىلاشتا بىر قانچە كىچىك كەمتۈكلەرنى ئوڭشىدۇق. 7.65نەشىر نۇسخىسى ئۈچۈن تارقىتىلدى."
   }
 }

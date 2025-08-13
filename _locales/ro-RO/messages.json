@@ -3954,7 +3954,7 @@
     "messageformat": "O solicitare de aderare la grup de la {joinerName} a fost respinsă."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} a solicitat și apoi a anulat solicitarea de alăturare prin linkul de grup} few {{joinerName} a solicitat și apoi a anulat {numberOfRequests,number} solicitări de alăturare prin linkul de grup} other {{joinerName} a cerut și a anulat {numberOfRequests,number} de solicitări pentru a se alătura prin linkul de grup}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Ai activat linkul de grup cu aprobarea administratorului dezactivată."
@@ -4992,10 +4992,10 @@
     "messageformat": "Linkul numelui de utilizator trebuie resetat"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Deschide ecranul cu linkul numelui de utilizator"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Deschide ecranul cu linkul numelui de utilizator"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "Împărtășește-ți numele de utilizator"
@@ -6682,40 +6682,40 @@
     "messageformat": "Ai probleme? <contactSupportLink>Contactează serviciul de Asistență</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "Introdu o Sumă Specifică"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Card de credit sau debit"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Introdu detaliile tale bancare. Signal nu colectează și nu păstrează informațiile personale. <learnMoreLink>Află mai multe</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "Numărul cardului"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "Data expirării"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "Donează {formattedCurrencyAmount} către Signal"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "Numărul cardului este invalid"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "Cardul a expirat"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "An necesar"
   },
   "icu:DonateFlow__card-form-error-invalid": {
     "messageformat": "Invalid"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "Cod prea scurt"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "Obține insigna Signal Boost timp de 30 de zile"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Chitanță donație"
@@ -6736,7 +6736,7 @@
     "messageformat": "Mulțumesc pentru susținerea acordată Signal. Contribuția ta ajută la îndeplinirea misiunii de a proteja libertatea de exprimare și de a permite o comunicare globală sigură pentru milioane de oameni din întreaga lume, prin intermediul tehnologiei open source pentru confidențialitate. Dacă ești rezident al Statelor Unite, păstrează această chitanță pentru evidența fiscală. Signal Technology Foundation este o organizație non-profit scutită de impozite din Statele Unite, în conformitate cu secțiunea 501c3 din Codul Veniturilor Interne. Codul nostru fiscal federal este 82-4506840."
   },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Donație anulată"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "Donație finalizată"
@@ -6754,16 +6754,16 @@
     "messageformat": "Ai o donație în curs de desfășurare care necesită verificare suplimentară."
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Ai o donație în curs de desfășurare care necesită confirmare."
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "Donație întreruptă"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "Cardul tău nu a fost debitat. Vrei să reîncerci donația?"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "Încearcă din nou"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Metoda de plată a fost refuzată"
@@ -6793,10 +6793,10 @@
     "messageformat": "Donația ta este încă în procesare. Această operațiune poate dura câteva minute."
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Donație anulată"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "A trecut prea mult timp de când ai început donația. Te rog să o iei de la capăt."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "Este necesară verificarea suplimentară"
@@ -6851,6 +6851,6 @@
     "messageformat": "Găsirea emoji-ului potrivit poate părea o luptă inevitabilă, dar am remediat o eroare care putea cauza apariția unei erori după apăsarea tastei Escape în caseta de căutare a emoji-urilor."
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "Această actualizare remediază câteva erori minore, inclusiv una din cauza căreia reacțiile cu emoji-uri nu erau grupate corect în anumite cazuri."
   }
 }

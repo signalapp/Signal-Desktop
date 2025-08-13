@@ -3954,7 +3954,7 @@
     "messageformat": "{joinerName} csoport csatlakozási igénye elutasításra került."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} jelezte, majd visszavonta csatlakozási igényét a csoporthivatkozás használatával.} other {{joinerName} {numberOfRequests,number} alkalommal jelezte, majd visszavonta csatlakozási igényét a csoporthivatkozás használatával.}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Bekapcsoltad a csoport-hivatkozásokat (adminisztrátori jóváhagyás nem szükséges)."
@@ -4992,10 +4992,10 @@
     "messageformat": "A felhasználónévhez tartozó hivatkozást vissza kell állítani"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Felhasználónév linkjét tartalmazó képernyő megnyitása"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Felhasználónév linkjét tartalmazó képernyő megnyitása"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "Felhasználónév megosztása"
@@ -6682,40 +6682,40 @@
     "messageformat": "Problémába ütköztél? <contactSupportLink>Segítségkérés</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "Egyedi összeg megadása"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Hitel- vagy betéti kártya"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Add meg a hitel- vagy bankkártyád adatait. A Signal nem gyűjti és nem tárolja a személyes adataidat. <learnMoreLink>Tudj meg többet!</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "Kártyaszám"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "Lejárati idő"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "Adományozz {formattedCurrencyAmount} összeget a Signalnak"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "Érvénytelen kártyaszám"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "A kártya lejárt"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "Év megadása kötelező"
   },
   "icu:DonateFlow__card-form-error-invalid": {
-    "messageformat": "Invalid"
+    "messageformat": "Érvénytelen"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "A kód túl rövid"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "Szerezd meg a Signal Boost-jelvényt 30 napra"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Adomány nyugta"
@@ -6736,7 +6736,7 @@
     "messageformat": "Köszönjük, hogy támogatod a Signalt! Adományoddal hozzájárulsz a szabad véleménynyilvánítást és milliók számára biztonságos kommunikációt biztosító, nyílt forrású, magánéletet védő technológiák fejlesztéséhez. Ha az Egyesült Államokban adózol, kérünk, őrizd meg ezt a nyugtát adóbevallásodhoz. A Signal Technology Foundation egy adómentes, non-profit szervezet, amely az USA területén az 501c3 Internal Revenue Code hatálya alá tartozik. Federal Tax ID: 82-4506840."
   },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Adományozás visszavonva"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "Adományozás befejeződött"
@@ -6754,16 +6754,16 @@
     "messageformat": "Van egy folyamatban lévő adományod, amely további ellenőrzést igényel."
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Van egy folyamatban lévő adományozásod, amely megerősítést igényel."
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "Adományozás megszakadt"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "A kártyádat nem terhelték meg. Szeretnéd újra megpróbálni az adományozást?"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "Újra"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Fizetési mód elutasítva"
@@ -6793,10 +6793,10 @@
     "messageformat": "Az adományod feldolgozása még folyamatban van. Ez pár percet is igénybe vehet."
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Adományozás visszavonva"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "Túl sok idő telt el az adományozás indítása óta. Kérjük, kezdd újra."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "További ellenőrzés szükséges"
@@ -6851,6 +6851,6 @@
     "messageformat": "Kijavítottunk egy hibát az emoji keresőmezőben."
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "Néhány apróbb hibajavítás."
   }
 }

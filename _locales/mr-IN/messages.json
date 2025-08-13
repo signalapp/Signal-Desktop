@@ -3954,7 +3954,7 @@
     "messageformat": "{joinerName} कडील गटात सामील होण्याची विनंती नाकारली गेली होती."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} ने ग्रुप लिंकद्वारे सामील होण्याची विनंती केली आणि त्यांची विनंती रद्द केली} other {{joinerName} ने ग्रुप लिंकद्वारे सामील होण्याच्या {numberOfRequests,number} विनंत्या केल्या आणि त्यांच्या विनंत्या रद्द केल्या}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "आपण प्रशासक मान्यता अक्षम असलेली गट लिंक चालू केली आहे."
@@ -4992,10 +4992,10 @@
     "messageformat": "वापरकर्ता लिंक रीसेट करण्याची गरज आहे"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "वापरकर्ता नाव लिंक स्क्रीन उघडा"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "वापरकर्ता नाव लिंक स्क्रीन उघडा"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "आपले वापरकर्ता नाव शेअर करा"
@@ -6682,40 +6682,40 @@
     "messageformat": "अडचणी येत आहेत? <contactSupportLink>सपोर्ट शी संपर्क साधा</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "सानुकूल रक्कम प्रविष्ट करा"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "क्रेडिट किंवा डेबिट कार्ड"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "तुमचा क्रेडिट किंवा डेबिट कार्ड तपशील एंटर करा. Signal आपली वैयक्तिक माहिती संकलित किंवा संग्रहित करत नाही. <learnMoreLink>अधिक जाणून घ्या</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "कार्ड क्रमांक"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "कालबाह्यता दिनांक"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "Signal {formattedCurrencyAmount} ला देणगी द्या"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "अवैध कार्ड क्रमांक"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "कार्ड कालबाह्य झाले आहे"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "वर्ष आवश्यक आहे"
   },
   "icu:DonateFlow__card-form-error-invalid": {
-    "messageformat": "Invalid"
+    "messageformat": "अवैध"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "कोड खूप छोटा आहे"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "Signal बूस्ट बॅज 30 दिवसांकरिता मिळवा"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "देणगीची पावती"
@@ -6736,7 +6736,7 @@
     "messageformat": "Signal ला समर्थन दिल्याबद्दल धन्यवाद. तुमचे योगदान ओपन सोर्स गोपनीयता तंत्रज्ञानामार्फत मुक्त अभिव्यक्तीचे रक्षण करण्यास आणि जगभरातील लक्षावधी लोकांना जागतिक पातळीवर एकमेकांशी संपर्क साधण्यास मदत करते. जर तुम्ही युनायटेड स्टेट्सचे रहिवासी असाल, तर कृपया तुमच्या कर नोंदींसाठी ही पावती जपून ठेवा. सिग्नल टेक्नॉलॉजी फाऊंडेशन ही इंटर्नल रेव्हेन्यू कोडच्या कलम 501c3 अंतर्गत युनायटेड स्टेट्समधील एक करमुक्त ना-नफा संस्था आहे. आमचा फेडरल कर क्रमांक आहे 82-4506840."
   },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "देणगी प्रक्रिया रद्द झाली"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "देणगी प्रक्रिया पूर्ण झाली"
@@ -6754,16 +6754,16 @@
     "messageformat": "तुमच्या एका देणगीवर प्रक्रिया सुरु आहे जिची अतिरिक्त पडताळणी होणे आवश्यक आहे."
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "तुमची एक देणगीची प्रक्रिया पूर्ण व्हायची बाकी आहे, जिला निश्चिती देणे आवश्यक आहे."
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "देणगी प्रक्रियेत व्यत्यय आला"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "तुमच्या कार्डवर शुल्क आकारले गेलेले नाही आहे. तुम्हाला पुन्हा देणगी देऊन पाहायची आहे का?"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "पुन्हा प्रयत्न करा"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "पेमेंट करायची पद्धत नाकारण्यात आली"
@@ -6793,10 +6793,10 @@
     "messageformat": "आपल्या देणगीवर अद्याप प्रक्रिया केली जात आहे. ह्याला काही मिनिटे लागू शकतात."
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "देणगी प्रक्रिया रद्द झाली"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "तुम्ही देणगी प्रक्रिया सुरु करून बराच वेळ झाला. कृपया पुन्हा नव्याने सुरुवात करा."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "अतिरिक्त सत्यापन आवश्यक आहे"
@@ -6851,6 +6851,6 @@
     "messageformat": "योग्य इमोजी शोधत बसायला अनंत काळ लागू शकतो, पण आता आम्ही एक बग दुरुस्त केला, ज्यामुळे इमोजी शोध रकान्यामध्ये असताना एस्केप की दाबल्यावर एक त्रुटी उद्भवत होती."
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "ह्या अद्यतनामध्ये काही छोटे बग्स दुरुस्त केले आहेत, यांमध्ये काही प्रकरणांत इमोजी प्रतिक्रिया नीट एकत्र केल्या जात नव्हत्या तो बगसुद्धा दुरुस्त झाला आहे."
   }
 }
