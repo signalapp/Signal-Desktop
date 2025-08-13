@@ -35,6 +35,7 @@ import type { WidthBreakpoint } from './_util';
 import type { MessageAttributesType } from '../model-types';
 import type {
   DonationReceipt,
+  DonationWorkflow,
   OneTimeDonationHumanAmounts,
 } from '../types/Donations';
 import type { AnyToast } from '../types/Toast';
@@ -212,6 +213,7 @@ function renderDonationsPane(props: {
     i18n: LocalizerType
   ) => Promise<Blob>;
   showToast: (toast: AnyToast) => void;
+  workflow?: DonationWorkflow;
 }): JSX.Element {
   return (
     <PreferencesDonations
@@ -226,7 +228,7 @@ function renderDonationsPane(props: {
       setPage={props.setPage}
       submitDonation={action('submitDonation')}
       lastError={undefined}
-      workflow={undefined}
+      workflow={props.workflow}
       didResumeWorkflowAtStartup={false}
       badge={undefined}
       color={props.me.color}
@@ -623,6 +625,43 @@ DonationReceipts.args = {
         return new Blob();
       },
       showToast: action('showToast'),
+    }),
+};
+export const DonationsHomeWithInProgressDonation = Template.bind({});
+DonationsHomeWithInProgressDonation.args = {
+  donationsFeatureEnabled: true,
+  page: SettingsPage.Donations,
+  renderDonationsPane: ({
+    contentsRef,
+  }: {
+    contentsRef: MutableRefObject<HTMLDivElement | null>;
+  }) =>
+    renderDonationsPane({
+      contentsRef,
+      me,
+      donationReceipts: [],
+      page: SettingsPage.Donations,
+      setPage: action('setPage'),
+      saveAttachmentToDisk: async () => {
+        action('saveAttachmentToDisk')();
+        return { fullPath: '/mock/path/to/file.png', name: 'file.png' };
+      },
+      generateDonationReceiptBlob: async () => {
+        action('generateDonationReceiptBlob')();
+        return new Blob();
+      },
+      showToast: action('showToast'),
+      workflow: {
+        type: 'INTENT_METHOD',
+        timestamp: Date.now() - 60,
+        paymentMethodId: 'a',
+        paymentAmount: 500,
+        currencyType: 'USD',
+        clientSecret: 'a',
+        paymentIntentId: 'a',
+        id: 'a',
+        returnToken: 'a',
+      },
     }),
 };
 export const Internal = Template.bind({});

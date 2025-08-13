@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { groupBy, sortBy } from 'lodash';
 
 import type { MutableRefObject, ReactNode } from 'react';
@@ -34,7 +34,10 @@ import { I18n } from './I18n';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
 import { DonationPrivacyInformationModal } from './DonationPrivacyInformationModal';
 import type { SubmitDonationType } from '../state/ducks/donations';
-import { getHumanDonationAmount } from '../util/currency';
+import {
+  getHumanDonationAmount,
+  toHumanCurrencyString,
+} from '../util/currency';
 import { Avatar, AvatarSize } from './Avatar';
 import type { BadgeType } from '../badges/types';
 import { DonationInterruptedModal } from './DonationInterruptedModal';
@@ -43,6 +46,7 @@ import { DonationVerificationModal } from './DonationVerificationModal';
 import { DonationProgressModal } from './DonationProgressModal';
 import { DonationStillProcessingModal } from './DonationStillProcessingModal';
 import { DonationsOfflineTooltip } from './conversation/DonationsOfflineTooltip';
+import { getInProgressDonation } from '../util/donations';
 
 const log = createLogger('PreferencesDonations');
 
@@ -102,6 +106,7 @@ type PreferencesHomeProps = Pick<
   | 'isOnline'
   | 'isStaging'
   | 'donationReceipts'
+  | 'workflow'
 > & {
   navigateToPage: (newPage: SettingsPage) => void;
   renderDonationHero: () => JSX.Element;
@@ -185,7 +190,29 @@ function DonationsHome({
   isOnline,
   isStaging,
   donationReceipts,
+  workflow,
 }: PreferencesHomeProps): JSX.Element {
+  const [isInProgressModalVisible, setIsInProgressVisible] = useState(false);
+
+  const inProgressDonationAmount = useMemo<string | undefined>(() => {
+    const inProgressDonation = getInProgressDonation(workflow);
+    return inProgressDonation
+      ? toHumanCurrencyString(inProgressDonation)
+      : undefined;
+  }, [workflow]);
+
+  const handleDonateButtonClicked = useCallback(() => {
+    if (inProgressDonationAmount) {
+      setIsInProgressVisible(true);
+    } else {
+      setPage(SettingsPage.DonationsDonateFlow);
+    }
+  }, [inProgressDonationAmount, setPage]);
+
+  const handleInProgressDonationClicked = useCallback(() => {
+    setIsInProgressVisible(true);
+  }, []);
+
   const hasReceipts = donationReceipts.length > 0;
 
   const donateButton = (
@@ -194,9 +221,7 @@ function DonationsHome({
       disabled={!isOnline}
       variant={isOnline ? ButtonVariant.Primary : ButtonVariant.Secondary}
       size={ButtonSize.Medium}
-      onClick={() => {
-        setPage(SettingsPage.DonationsDonateFlow);
-      }}
+      onClick={handleDonateButtonClicked}
     >
       {i18n('icu:PreferencesDonations__donate-button')}
     </Button>
@@ -204,7 +229,15 @@ function DonationsHome({
 
   return (
     <div className="PreferencesDonations">
+      {isInProgressModalVisible && (
+        <DonationStillProcessingModal
+          i18n={i18n}
+          onClose={() => setIsInProgressVisible(false)}
+        />
+      )}
+
       {renderDonationHero()}
+
       {isStaging && isOnline ? (
         donateButton
       ) : (
@@ -215,10 +248,31 @@ function DonationsHome({
 
       <hr className="PreferencesDonations__separator" />
 
-      {hasReceipts && (
+      {(hasReceipts || inProgressDonationAmount) && (
         <div className="PreferencesDonations__section-header PreferencesDonations__section-header--my-support">
           {i18n('icu:PreferencesDonations__my-support')}
         </div>
+      )}
+
+      {inProgressDonationAmount && (
+        <ListBox className="PreferencesDonations__badge-list">
+          <ListBoxItem
+            className="PreferencesDonations__badge"
+            onAction={handleInProgressDonationClicked}
+          >
+            <div className="PreferencesDonations__badge-icon PreferencesDonations__badge-icon--one-time" />
+            <div className="PreferencesDonations__badge-info">
+              <div className="PreferencesDonations__badge-label">
+                {i18n('icu:PreferencesDonations__badge-label-one-time', {
+                  formattedCurrencyAmount: inProgressDonationAmount,
+                })}
+              </div>
+              <div className="PreferencesDonations__badge-processing-info">
+                {i18n('icu:PreferencesDonations__badge-processing-donation')}
+              </div>
+            </div>
+          </ListBoxItem>
+        </ListBox>
       )}
 
       <ListBox className="PreferencesDonations__list">
@@ -666,6 +720,7 @@ export function PreferencesDonations({
         isStaging={isStaging}
         renderDonationHero={renderDonationHero}
         setPage={setPage}
+        workflow={workflow}
       />
     );
   } else if (page === SettingsPage.DonationsReceiptList) {
