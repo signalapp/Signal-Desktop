@@ -9152,5 +9152,9 @@
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases.",
     "description": "Release notes for version 7.65"
+  },
+  "icu:WhatsNew__v7.67--0": {
+    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!",
+    "description": "Release notes for version 7.67"
   }
 }
