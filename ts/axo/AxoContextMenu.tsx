@@ -5,6 +5,7 @@ import { ContextMenu } from 'radix-ui';
 import type { FC } from 'react';
 import { AxoSymbol } from './AxoSymbol';
 import { AxoBaseMenu } from './_internal/AxoBaseMenu';
+import { tw } from './tw';
 
 const Namespace = 'AxoContextMenu';
 
@@ -216,7 +217,7 @@ export namespace AxoContextMenu {
         </AxoBaseMenu.ItemLeadingSlot>
         <AxoBaseMenu.ItemContentSlot>
           {props.symbol && (
-            <span className="mr-2">
+            <span className={tw('mr-2')}>
               <AxoBaseMenu.ItemSymbol symbol={props.symbol} />
             </span>
           )}
@@ -351,7 +352,7 @@ export namespace AxoContextMenu {
         )}
         <AxoBaseMenu.ItemContentSlot>
           <AxoBaseMenu.ItemText>{props.children}</AxoBaseMenu.ItemText>
-          <span className="ml-auto">
+          <span className={tw('ml-auto')}>
             <AxoSymbol.Icon size={14} symbol="chevron-[end]" label={null} />
           </span>
         </AxoBaseMenu.ItemContentSlot>

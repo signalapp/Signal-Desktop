@@ -4,4 +4,5 @@
 
 module.exports = {
   'type-alias-readonlydeep': require('./.eslint/rules/type-alias-readonlydeep'),
+  'enforce-tw': require('./.eslint/rules/enforce-tw'),
 };

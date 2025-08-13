@@ -11,8 +11,8 @@ module.exports = {
       files: ['./ts/axo/**.tsx'],
       plugins: ['prettier-plugin-tailwindcss'],
       options: {
-        tailwindStylesheet: './ts/axo/tailwind.css',
-        tailwindFunctions: ['css'],
+        tailwindStylesheet: './stylesheets/tailwind-config.css',
+        tailwindFunctions: ['tw'],
       },
     },
   ],

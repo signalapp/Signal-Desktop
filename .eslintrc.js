@@ -318,15 +318,19 @@ module.exports = {
       },
     },
     {
-      files: ['ts/axo/**/*.tsx'],
+      files: ['ts/**/*.tsx'],
       plugins: ['better-tailwindcss'],
       settings: {
         'better-tailwindcss': {
-          entryPoint: './ts/axo/tailwind.css',
-          callees: ['css'],
+          entryPoint: './stylesheets/tailwind-config.css',
+          callees: ['tw'],
+          attributes: [],
+          variables: [],
         },
       },
       rules: {
+        'local-rules/enforce-tw': 'error',
+
         // stylistic: Enforce consistent line wrapping for tailwind classes. (recommended, autofix)
         'better-tailwindcss/enforce-consistent-line-wrapping': 'off',
         // stylistic: Enforce a consistent order for tailwind classes. (recommended, autofix)

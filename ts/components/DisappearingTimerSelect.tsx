@@ -3,16 +3,12 @@
 
 import type { ReactNode } from 'react';
 import React, { useCallback, useState, useMemo } from 'react';
-import classNames from 'classnames';
-
 import type { LocalizerType } from '../types/Util';
 import * as expirationTimer from '../util/expirationTimer';
 import { DurationInSeconds } from '../util/durations';
 import { DisappearingTimeDialog } from './DisappearingTimeDialog';
-
-import { Select } from './Select';
-
-const CSS_MODULE = 'module-disappearing-timer-select';
+import { AxoSelect } from '../axo/AxoSelect';
+import { tw } from '../axo/tw';
 
 export type Props = {
   i18n: LocalizerType;
@@ -89,24 +85,34 @@ export function DisappearingTimerSelect(props: Props): JSX.Element {
   let info: ReactNode;
   if (isCustomTimeSelected) {
     info = (
-      <div className={`${CSS_MODULE}__info`}>
+      <div
+        className={tw(
+          'absolute mt-1 ps-3.5',
+          'type-body-small text-label-secondary'
+        )}
+      >
         {expirationTimer.format(i18n, value)}
       </div>
     );
   }
 
   return (
-    <div
-      className={classNames(
-        CSS_MODULE,
-        isCustomTimeSelected ? `${CSS_MODULE}--custom-time` : false
-      )}
-    >
-      <Select
-        onChange={onSelectChange}
-        value={isCustomTimeSelected ? -1 : value}
-        options={expirationTimerOptions}
-      />
+    <div className={tw('relative')}>
+      <AxoSelect.Root
+        value={String(isCustomTimeSelected ? -1 : value)}
+        onValueChange={onSelectChange}
+      >
+        <AxoSelect.Trigger width="full" placeholder="" />
+        <AxoSelect.Content>
+          {expirationTimerOptions.map(option => {
+            return (
+              <AxoSelect.Item key={option.value} value={String(option.value)}>
+                {option.text}
+              </AxoSelect.Item>
+            );
+          })}
+        </AxoSelect.Content>
+      </AxoSelect.Root>
       {info}
       {modalNode}
     </div>
