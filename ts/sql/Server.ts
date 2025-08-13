@@ -6278,26 +6278,35 @@ function addStickerPackReference(
     );
   }
 
-  db.prepare(
-    `
-    INSERT OR REPLACE INTO sticker_references (
-      messageId,
-      packId,
-      stickerId,
-      isUnresolved
-    ) values (
-      $messageId,
-      $packId,
-      $stickerId,
-      $isUnresolved
-    )
-    `
-  ).run({
-    messageId,
-    packId,
-    stickerId,
-    isUnresolved: isUnresolved ? 1 : 0,
-  });
+  db.transaction(() => {
+    const [select, selectParams] = sql`
+      SELECT EXISTS (
+        SELECT 1 FROM sticker_packs WHERE id IS ${packId}
+      )
+    `;
+    const exists =
+      db.prepare(select, { pluck: true }).get<number>(selectParams) === 1;
+    if (!exists) {
+      logger.warn('addStickerPackReference: did not find referenced pack');
+      return;
+    }
+
+    const [insert, insertParams] = sql`
+      INSERT OR REPLACE INTO sticker_references (
+        messageId,
+        packId,
+        stickerId,
+        isUnresolved
+      ) values (
+        ${messageId},
+        ${packId},
+        ${stickerId},
+        ${isUnresolved ? 1 : 0}
+      )
+    `;
+
+    db.prepare(insert).run(insertParams);
+  })();
 }
 function deleteStickerPackReference(
   db: WritableDB,
