@@ -420,9 +420,12 @@ export type ConversationType = ReadonlyDeep<
   )
 >;
 export type ProfileDataType = ReadonlyDeep<
-  {
-    firstName: string;
-  } & Pick<ConversationType, 'aboutEmoji' | 'aboutText' | 'familyName'>
+  Partial<
+    Pick<
+      ConversationType,
+      'firstName' | 'badges' | 'aboutEmoji' | 'aboutText' | 'familyName'
+    >
+  >
 >;
 
 export type ConversationLookupType = ReadonlyDeep<{

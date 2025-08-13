@@ -217,6 +217,7 @@ function renderDonationsPane(props: {
 }): JSX.Element {
   return (
     <PreferencesDonations
+      applyDonationBadge={action('applyDonationBadge')}
       i18n={i18n}
       contentsRef={props.contentsRef}
       clearWorkflow={action('clearWorkflow')}
@@ -242,6 +243,10 @@ function renderDonationsPane(props: {
       showToast={props.showToast}
       theme={ThemeType.light}
       updateLastError={action('updateLastError')}
+      donationBadge={undefined}
+      fetchBadgeData={async () => undefined}
+      me={props.me}
+      myProfileChanged={action('myProfileChanged')}
     />
   );
 }

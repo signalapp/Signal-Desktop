@@ -17,9 +17,11 @@ import { Button, ButtonVariant } from './Button';
 import type {
   CardDetail,
   DonationErrorType,
+  DonationStateType,
   HumanDonationAmount,
 } from '../types/Donations';
 import {
+  donationStateSchema,
   ONE_TIME_DONATION_CONFIG_ID,
   type DonationWorkflow,
   type OneTimeDonationHumanAmounts,
@@ -89,6 +91,16 @@ type PropsActionType = {
 };
 
 export type PropsType = PropsDataType & PropsActionType & PropsHousekeepingType;
+
+const isPaymentDetailFinalizedInWorkflow = (workflow: DonationWorkflow) => {
+  const finalizedStates: Array<DonationStateType> = [
+    donationStateSchema.Enum.INTENT_CONFIRMED,
+    donationStateSchema.Enum.INTENT_REDIRECT,
+    donationStateSchema.Enum.RECEIPT,
+    donationStateSchema.Enum.DONE,
+  ];
+  return finalizedStates.includes(workflow.type);
+};
 
 export function PreferencesDonateFlow({
   contentsRef,
@@ -164,12 +176,16 @@ export function PreferencesDonateFlow({
 
   const onTryClose = useCallback(() => {
     const onDiscard = () => {
-      clearWorkflow();
+      // Don't clear the workflow if we're processing the payment and
+      // payment information is finalized.
+      if (!workflow || !isPaymentDetailFinalizedInWorkflow(workflow)) {
+        clearWorkflow();
+      }
     };
     const isConfirmationNeeded = Boolean(
       step === 'paymentDetails' &&
         !isCardFormDisabled &&
-        workflow?.type !== 'DONE'
+        (!workflow || !isPaymentDetailFinalizedInWorkflow(workflow))
     );
 
     confirmDiscardIf(isConfirmationNeeded, onDiscard);

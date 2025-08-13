@@ -9022,6 +9022,10 @@
     "messageformat": "You have a donation in progress that requires confirmation.",
     "description": "Shown when the user is not on the Preferences/Donations screen, and donation verification is needed. Like when resuming from startup."
   },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings",
+    "description": "Toast shown when donation completes successfully but badge application fails"
+  },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Donation interrupted",
     "description": "Title of the dialog shown when starting up if a donation had been started, and we've saved payment information, but the charge hasn't happened yet"
@@ -9105,6 +9109,22 @@
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "Cancel donation",
     "description": "When external payment method validation is required, this button will open that external verification website"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Thanks for your support!",
+    "description": "Title shown in the 'thanks for your donation' modal"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support.",
+    "description": "Description explaining the donor badge in the 'thanks for your donation' modal"
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Display on profile",
+    "description": "Toggle label for displaying the donation badge on user's profile in the 'thanks for your donation' modal"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges",
+    "description": "Help text below the toggle in donation thank you modal"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",

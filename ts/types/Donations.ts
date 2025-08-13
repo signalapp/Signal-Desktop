@@ -4,6 +4,7 @@
 import { z } from 'zod';
 
 export const ONE_TIME_DONATION_CONFIG_ID = '1';
+export const BOOST_ID = 'BOOST';
 
 export const donationStateSchema = z.enum([
   'INTENT',
@@ -13,6 +14,8 @@ export const donationStateSchema = z.enum([
   'RECEIPT',
   'DONE',
 ]);
+
+export type DonationStateType = z.infer<typeof donationStateSchema>;
 
 export const donationErrorTypeSchema = z.enum([
   // Used if the user is redirected back from validation, but continuing forward fails

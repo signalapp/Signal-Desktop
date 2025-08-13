@@ -8,6 +8,7 @@ export enum ToastType {
   AlreadyRequestedToJoin = 'AlreadyRequestedToJoin',
   AttachmentDownloadFailed = 'AttachmentDownloadFailed',
   AttachmentDownloadStillInProgress = 'AttachmentDownloadStillInProgress',
+  DonationCompletedAndBadgeApplicationFailed = 'DonationCompletedAndBadgeApplicationFailed',
   Blocked = 'Blocked',
   BlockedGroup = 'BlockedGroup',
   CallHistoryCleared = 'CallHistoryCleared',
@@ -103,6 +104,7 @@ export type AnyToast =
       toastType: ToastType.AttachmentDownloadStillInProgress;
       parameters: { count: number };
     }
+  | { toastType: ToastType.DonationCompletedAndBadgeApplicationFailed }
   | { toastType: ToastType.Blocked }
   | { toastType: ToastType.BlockedGroup }
   | { toastType: ToastType.CallHistoryCleared }

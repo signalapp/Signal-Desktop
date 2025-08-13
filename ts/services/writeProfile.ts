@@ -50,6 +50,7 @@ export async function writeProfile(
     rawAvatarPath,
     familyName,
     firstName,
+    badges,
   } = conversation;
 
   strictAssert(
@@ -141,6 +142,7 @@ export async function writeProfile(
     aboutEmoji,
     profileName: firstName,
     profileFamilyName: familyName,
+    badges: badges ? [...badges] : undefined,
     ...maybeProfileAvatarUpdate,
   });
 

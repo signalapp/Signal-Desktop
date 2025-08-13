@@ -41,6 +41,10 @@ function getToast(toastType: ToastType): AnyToast {
       };
     case ToastType.Blocked:
       return { toastType: ToastType.Blocked };
+    case ToastType.DonationCompletedAndBadgeApplicationFailed:
+      return {
+        toastType: ToastType.DonationCompletedAndBadgeApplicationFailed,
+      };
     case ToastType.BlockedGroup:
       return { toastType: ToastType.BlockedGroup };
     case ToastType.CallHistoryCleared:

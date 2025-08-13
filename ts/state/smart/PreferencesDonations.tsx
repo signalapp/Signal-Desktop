@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 
 import type { MutableRefObject } from 'react';
@@ -12,15 +12,25 @@ import { PreferencesDonations } from '../../components/PreferencesDonations';
 import type { SettingsPage } from '../../types/Nav';
 import { useDonationsActions } from '../ducks/donations';
 import type { StateType } from '../reducer';
+import { useConversationsActions } from '../ducks/conversations';
 import { isStagingServer } from '../../util/isStagingServer';
 import { generateDonationReceiptBlob } from '../../util/generateDonationReceipt';
 import { useToastActions } from '../ducks/toast';
-import { getDonationHumanAmounts } from '../../util/subscriptionConfiguration';
+import {
+  getDonationHumanAmounts,
+  getCachedSubscriptionConfiguration,
+} from '../../util/subscriptionConfiguration';
 import { drop } from '../../util/drop';
 import type { OneTimeDonationHumanAmounts } from '../../types/Donations';
-import { getPreferredBadgeSelector } from '../selectors/badges';
+import { ONE_TIME_DONATION_CONFIG_ID, BOOST_ID } from '../../types/Donations';
 import { phoneNumberToCurrencyCode } from '../../services/donations';
+import { getPreferredBadgeSelector, getBadgesById } from '../selectors/badges';
+import { parseBoostBadgeListFromServer } from '../../badges/parseBadgesFromServer';
+import { createLogger } from '../../logging/log';
+import { useBadgesActions } from '../ducks/badges';
 import { getNetworkIsOnline } from '../selectors/network';
+
+const log = createLogger('SmartPreferencesDonations');
 
 export const SmartPreferencesDonations = memo(
   function SmartPreferencesDonations({
@@ -46,11 +56,19 @@ export const SmartPreferencesDonations = memo(
     const theme = useSelector(getTheme);
 
     const donationsState = useSelector((state: StateType) => state.donations);
-    const { clearWorkflow, resumeWorkflow, submitDonation, updateLastError } =
-      useDonationsActions();
+    const {
+      applyDonationBadge,
+      clearWorkflow,
+      resumeWorkflow,
+      submitDonation,
+      updateLastError,
+    } = useDonationsActions();
+    const { myProfileChanged } = useConversationsActions();
 
+    const badgesById = useSelector(getBadgesById);
     const ourNumber = useSelector(getUserNumber);
-    const { badges, color, firstName, profileAvatarUrl } = useSelector(getMe);
+    const me = useSelector(getMe);
+    const { badges, color, firstName, profileAvatarUrl } = me;
     const badge = getPreferredBadge(badges);
 
     const { showToast } = useToastActions();
@@ -59,6 +77,27 @@ export const SmartPreferencesDonations = memo(
     );
 
     const { saveAttachmentToDisk } = window.Signal.Migrations;
+    const { updateOrCreate } = useBadgesActions();
+
+    // Function to fetch donation badge data
+    const fetchBadgeData = useCallback(async () => {
+      try {
+        const subscriptionConfig = await getCachedSubscriptionConfiguration();
+        const badgeData = parseBoostBadgeListFromServer(
+          subscriptionConfig,
+          window.SignalContext.config.updatesUrl
+        );
+
+        const boostBadge = badgeData[ONE_TIME_DONATION_CONFIG_ID];
+        if (boostBadge) {
+          updateOrCreate([boostBadge]);
+          return boostBadge;
+        }
+      } catch (error) {
+        log.warn('Failed to load donation badge:', error);
+      }
+      return undefined;
+    }, [updateOrCreate]);
 
     // Eagerly load donation config from API when entering Donations Home so the
     // Amount picker loads instantly
@@ -78,6 +117,10 @@ export const SmartPreferencesDonations = memo(
     const initialCurrency = validCurrencies.includes(currencyFromPhone)
       ? currencyFromPhone
       : 'usd';
+    // Load badge data on mount
+    useEffect(() => {
+      drop(fetchBadgeData());
+    }, [fetchBadgeData]);
 
     return (
       <PreferencesDonations
@@ -100,12 +143,17 @@ export const SmartPreferencesDonations = memo(
         didResumeWorkflowAtStartup={donationsState.didResumeWorkflowAtStartup}
         lastError={donationsState.lastError}
         workflow={donationsState.currentWorkflow}
+        applyDonationBadge={applyDonationBadge}
         clearWorkflow={clearWorkflow}
         resumeWorkflow={resumeWorkflow}
         updateLastError={updateLastError}
         submitDonation={submitDonation}
         setPage={setPage}
         theme={theme}
+        donationBadge={badgesById[BOOST_ID] ?? undefined}
+        fetchBadgeData={fetchBadgeData}
+        me={me}
+        myProfileChanged={myProfileChanged}
       />
     );
   }
