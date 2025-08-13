@@ -4,7 +4,7 @@
 /* eslint-disable camelcase */
 
 // TODO(indutny): format queries
-import SQL from '@signalapp/sqlcipher';
+import SQL, { setLogger as setSqliteLogger } from '@signalapp/sqlcipher';
 import { randomBytes } from 'crypto';
 import { mkdirSync, rmSync } from 'node:fs';
 import { join } from 'path';
@@ -840,6 +840,18 @@ function openAndSetUpSQLCipher(filePath: string, { key }: { key: string }) {
 let logger = sqlLogger;
 let databaseFilePath: string | undefined;
 let indexedDBPath: string | undefined;
+
+setSqliteLogger((code, message) => {
+  if (code === 'SQLITE_SCHEMA') {
+    // Ignore query recompilation due to schema changes
+    return;
+  }
+  if (code === 'SQLITE_NOTICE') {
+    logger.info(`sqlite(${code}): ${message}`);
+    return;
+  }
+  logger.warn(`sqlite(${code}): ${message}`);
+});
 
 export function initialize({
   configDir,

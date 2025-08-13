@@ -134,7 +134,7 @@
     "@signalapp/minimask": "1.0.1",
     "@signalapp/quill-cjs": "2.1.2",
     "@signalapp/ringrtc": "2.56.0",
-    "@signalapp/sqlcipher": "2.2.2",
+    "@signalapp/sqlcipher": "2.3.0",
     "@signalapp/windows-ucv": "1.0.1",
     "@tanstack/react-virtual": "3.11.2",
     "@types/dom-mediacapture-transform": "0.1.11",
