@@ -119,9 +119,9 @@ describe('story/no-sender-key', function (this: Mocha.Suite) {
       contacts.map(async contact => {
         const { storyMessage } = await contact.waitForStory();
         assert.isTrue(
-          phone.profileKey
-            .serialize()
-            .equals(storyMessage.profileKey ?? new Uint8Array(0))
+          Buffer.from(phone.profileKey.serialize()).equals(
+            storyMessage.profileKey ?? new Uint8Array(0)
+          )
         );
         assert.strictEqual(storyMessage.textAttachment?.text, '123');
       })

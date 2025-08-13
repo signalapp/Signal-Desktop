@@ -108,9 +108,9 @@ describe('storage service', function (this: Mocha.Suite) {
         'profile key message has valid source'
       );
       assert.isTrue(
-        phone.profileKey
-          .serialize()
-          .equals(dataMessage.profileKey ?? new Uint8Array(0)),
+        Buffer.from(phone.profileKey.serialize()).equals(
+          dataMessage.profileKey ?? new Uint8Array(0)
+        ),
         'profile key message has correct profile key'
       );
     }
