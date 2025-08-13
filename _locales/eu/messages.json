@@ -2237,6 +2237,9 @@
   "icu:message--getDescription--disappearing-video": {
     "messageformat": "Behin ikusteko Argazkia"
   },
+  "icu:message--getDescription--gif": {
+    "messageformat": "GIF"
+  },
   "icu:message--deletedForEveryone": {
     "messageformat": "Mezu hau ezabatu egin da."
   },
@@ -3524,6 +3527,15 @@
   "icu:ErrorModal--description": {
     "messageformat": "Mesedez, saiatu berriro edo jarri zaitez harremanetan laguntza-zerbitzuarekin."
   },
+  "icu:DebugLogErrorModal__UnexpectedError": {
+    "messageformat": "An unexpected error occurred"
+  },
+  "icu:DebugLogErrorModal__SubmitDebugLog": {
+    "messageformat": "Submit debug log"
+  },
+  "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
+    "messageformat": "No thanks"
+  },
   "icu:Confirmation--confirm": {
     "messageformat": "Ados"
   },
@@ -3954,7 +3966,7 @@
     "messageformat": "{joinerName} erabiltzaileak taldean sartzeko egindako eskaera ukatua izan da."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName}(e)k, esteka bidez taldean sartzeko eskaera egin, eta bertan behera utzi du.} other {{joinerName}(e)k, esteka bidez taldean sartzeko {numberOfRequests,number} eskaera egin, eta bertan behera utzi ditu.}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Talde esteka aktibatu duzu administratzailearen baimena behar ez delarik."
@@ -4992,10 +5004,10 @@
     "messageformat": "Erabiltzaile-izenaren esteka berrezarri egin behar da"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Ireki erabiltzaile-izenaren estekaren pantaila"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Ireki erabiltzaile-izenaren estekaren pantaila"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "Partekatu zure erabiltzaile-izena"
@@ -5254,6 +5266,12 @@
   },
   "icu:Preferences__auto-convert-emoji--description": {
     "messageformat": "Adibidez, :-) <emojify>🙂</emojify> bihurtuko da"
+  },
+  "icu:Preferences__keep-muted-chats-archived--title": {
+    "messageformat": "Keep muted chats archived"
+  },
+  "icu:Preferences__keep-muted-chats-archived--description": {
+    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Aurreratua"
@@ -6636,6 +6654,12 @@
   "icu:PreferencesDonations__my-support": {
     "messageformat": "My Support"
   },
+  "icu:PreferencesDonations__badge-label-one-time": {
+    "messageformat": "{formattedCurrencyAmount} one-time"
+  },
+  "icu:PreferencesDonations__badge-processing-donation": {
+    "messageformat": "Processing donation..."
+  },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Eman {formattedCurrencyAmount}"
   },
@@ -6682,40 +6706,40 @@
     "messageformat": "Arazoak dituzu? <contactSupportLink>Jarri harremanetan laguntza-zerbitzuarekin</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "Adierazi zenbateko pertsonalizatu bat"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Kreditu- edo zordunketa-txartela"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Sartu kreditu- edo zordunketa-txartelaren xehetasunak. Signal-ek ez du biltzen edo gordetzen zure informazio pertsonala. <learnMoreLink>Informazio gehiago</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "Txartel-zenbakia"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "Iraungitze-data"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "Eman {formattedCurrencyAmount} Signal-i"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "Txartel-zenbaki baliogabea"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "Txartela iraungita dago"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "Urtea beharrezkoa da"
   },
   "icu:DonateFlow__card-form-error-invalid": {
-    "messageformat": "Invalid"
+    "messageformat": "Baliogabea"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "Kodea laburregia da"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "Lortu Signal-en bultzada-bereizgarria 30 egunez"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Dohaintzaren ordainagiria"
@@ -6735,8 +6759,11 @@
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Eskerrik asko Signal-i laguntzeagatik. Zure ekarpenarekin, kode irekiko pribatutasun-teknologiaren bidez adierazpen-askatasuna babesteko eta mundu osoko milioika pertsonarentzako komunikazio segurua ahalbidetzeko dugun misioa bultzatuko duzu. Ameriketako Estatu Batuetan bizi bazara, gorde ordainagiri hau, zerga-aitorpenetarako. Signal Technology Foundation zergak ordaintzetik salbuetsita dagoen AEBko erakunde bat da, Internal Revenue Code-ko 501c3 sekzioari jarraikiz. Gure IFZa federala 82-4506840 da."
   },
+  "icu:Donations__OfflineTooltip": {
+    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+  },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Dohaintza bertan behera utzi da"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "Dohaintza egin da"
@@ -6754,16 +6781,16 @@
     "messageformat": "Dohaintza bat martxan duzu, eta egiaztapen gehigarria behar du."
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Berretsi beharreko dohaintza bat duzu abian."
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "Dohaintza eten egin da"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "Ez da kargurik egin txartelean. Berriro saiatu nahi duzu dohaintza egiten?"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "Saiatu berriro"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Ordainketa-metodo baztertu egin da"
@@ -6783,20 +6810,23 @@
   "icu:Donations__GenericError__Description": {
     "messageformat": "Baliteke dohaintza ez prozesatu izatea. Sakatu \"Egin dohaintza bat Signal-i\" eta \"Dohaintzen ordainagiriak\" ordainagiriak ikusteko eta berretsi."
   },
+  "icu:DonationsErrorBoundary__DonationUnexpectedError": {
+    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+  },
   "icu:Donations__Processing": {
     "messageformat": "Dohaintza prozesatzen…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Oraindik prozesatzen"
+    "messageformat": "Still processing donation"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Dohaintza prozesatzen ari da oraindik. Baliteke minutu batzuk behar izatea."
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Dohaintza bertan behera utzi da"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "Denbora gehiegi igaro da dohaintza egiten hasi zarenetik. Hasi berriro."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "Egiaztapen osagarria behar da"
@@ -6851,6 +6881,9 @@
     "messageformat": "Emojiak bilatzeko kutxako akats bat konpondu dugu."
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "Zenbait akats txiki konpondu dira."
+  },
+  "icu:WhatsNew__v7.67--0": {
+    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
   }
 }
