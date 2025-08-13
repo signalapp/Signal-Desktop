@@ -2237,6 +2237,9 @@
   "icu:message--getDescription--disappearing-video": {
     "messageformat": "วิดีโอที่ดูได้ครั้งเดียว"
   },
+  "icu:message--getDescription--gif": {
+    "messageformat": "GIF"
+  },
   "icu:message--deletedForEveryone": {
     "messageformat": "ข้อความนี้ถูกลบ"
   },
@@ -3524,6 +3527,15 @@
   "icu:ErrorModal--description": {
     "messageformat": "กรุณาลองอีกครั้งหรือติดต่อฝ่ายสนับสนุน"
   },
+  "icu:DebugLogErrorModal__UnexpectedError": {
+    "messageformat": "An unexpected error occurred"
+  },
+  "icu:DebugLogErrorModal__SubmitDebugLog": {
+    "messageformat": "Submit debug log"
+  },
+  "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
+    "messageformat": "No thanks"
+  },
   "icu:Confirmation--confirm": {
     "messageformat": "ตกลง"
   },
@@ -3954,7 +3966,7 @@
     "messageformat": "คำขอเข้ากลุ่ม {joinerName} ถูกปฏิเสธ"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, other {{joinerName} ส่งและยกเลิกคำขอ {numberOfRequests,number} รายการในการเข้าร่วมผ่านลิงก์กลุ่มนี้}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "คุณได้เปิดลิงก์กลุ่ม โดยการอนุมัติโดยผู้ดูแลปิดอยู่"
@@ -4992,10 +5004,10 @@
     "messageformat": "จำเป็นต้องรีเซ็ตลิงก์ชื่อผู้ใช้"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "เปิดหน้าจอลิงก์ชื่อผู้ใช้"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "เปิดหน้าจอลิงก์ชื่อผู้ใช้"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "แชร์ชื่อผู้ใช้ของคุณ"
@@ -5254,6 +5266,12 @@
   },
   "icu:Preferences__auto-convert-emoji--description": {
     "messageformat": "ตัวอย่างเช่น :-) จะถูกเปลี่ยนให้เป็น <emojify>🙂</emojify>"
+  },
+  "icu:Preferences__keep-muted-chats-archived--title": {
+    "messageformat": "Keep muted chats archived"
+  },
+  "icu:Preferences__keep-muted-chats-archived--description": {
+    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
   },
   "icu:Preferences--advanced": {
     "messageformat": "ขั้นสูง"
@@ -6636,6 +6654,12 @@
   "icu:PreferencesDonations__my-support": {
     "messageformat": "การสนับสนุนของฉัน"
   },
+  "icu:PreferencesDonations__badge-label-one-time": {
+    "messageformat": "{formattedCurrencyAmount} one-time"
+  },
+  "icu:PreferencesDonations__badge-processing-donation": {
+    "messageformat": "Processing donation..."
+  },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "บริจาค {formattedCurrencyAmount}"
   },
@@ -6682,40 +6706,40 @@
     "messageformat": "หากประสบปัญหา <contactSupportLink>โปรดติดต่อฝ่ายสนับสนุน</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "กรอกจำนวนเอง"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "บัตรเครดิตหรือบัตรเดบิต"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "โปรดกรอกรายละเอียดบัตรเครดิตหรือบัตรเดบิตของคุณ โดย Signal จะไม่รวบรวมหรือจัดเก็บข้อมูลส่วนบุคคลของคุณ <learnMoreLink>เรียนรู้เพิ่มเติม</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "หมายเลขบัตร"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "วันหมดอายุ"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "บริจาค {formattedCurrencyAmount} ให้ Signal"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "หมายเลขบัตรไม่ถูกต้อง"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "บัตรหมดอายุแล้ว"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "ต้องระบุปี"
   },
   "icu:DonateFlow__card-form-error-invalid": {
-    "messageformat": "Invalid"
+    "messageformat": "ไม่ถูกรูปแบบ"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "รหัสสั้นเกินไป"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "รับโล่บูสต์ของ Signal เป็นเวลา 30 วัน"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "ใบเสร็จรับเงินบริจาค"
@@ -6735,8 +6759,11 @@
   "icu:DonationReceipt__footer-text": {
     "messageformat": "ขอบคุณที่ร่วมสนับสนุน Signal การบริจาคของคุณจะช่วยเป็นพลังให้กับภารกิจในการปกป้องการแสดงออกอย่างอิสระ พร้อมมอบการสื่อสารที่ปลอดภัยและไร้พรมแดนให้แก่ผู้คนหลายล้านทั่วโลกผ่านเทคโนโลยีความเป็นส่วนตัวแบบโอเพนซอร์ส หากคุณเป็นผู้พำนักอาศัยในสหรัฐอเมริกา โปรดเก็บใบเสร็จนี้ไว้เพื่อเป็นหลักฐานในการชำระภาษี โดย Signal Technology Foundation เป็นองค์กรที่ไม่แสวงหากำไรและได้รับการยกเว้นภาษีภายใต้มาตรา 501c3 ของประมวลกฎหมายภาษีอากรของสหรัฐอเมริกา หมายเลขประจำตัวผู้เสียภาษีให้แก่รัฐบาลกลางของเราคือ 82-4506840"
   },
+  "icu:Donations__OfflineTooltip": {
+    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+  },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "การบริจาคถูกยกเลิกแล้ว"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "การบริจาคสำเร็จแล้ว"
@@ -6754,16 +6781,16 @@
     "messageformat": "คุณมีการบริจาคที่ยังรอดำเนินการเนื่องจากต้องยืนยันตัวตนเพิ่มเติม"
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "คุณมีการบริจาคที่ยังรอการยืนยันตัวตน"
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "การบริจาคยังไม่เสร็จสมบูรณ์"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "บัตรของคุณยังไม่ถูกเรียกเก็บเงิน คุณต้องการดำเนินการบริจาคอีกครั้งหรือไม่"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "ลองอีกครั้ง"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "วิธีการชำระเงินถูกปฏิเสธ"
@@ -6783,20 +6810,23 @@
   "icu:Donations__GenericError__Description": {
     "messageformat": "ระบบอาจไม่ประมวลผลการบริจาคของคุณ คุณสามารถตรวจสอบและดูใบเสร็จโดยคลิกที่ “บริจาคให้ Signal” และเลือก “ใบเสร็จรับเงินบริจาค”"
   },
+  "icu:DonationsErrorBoundary__DonationUnexpectedError": {
+    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+  },
   "icu:Donations__Processing": {
     "messageformat": "กำลังดำเนินการบริจาค…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "ยังดำเนินการอยู่"
+    "messageformat": "Still processing donation"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "การบริจาคของคุณยังอยู่ระหว่างดำเนินการ นี่อาจใช้เวลาสองสามนาที"
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "การบริจาคถูกยกเลิกแล้ว"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "คุณใช้เวลาดำเนินการนานเกินไปนับตั้งแต่เริ่มการบริจาค โปรดเริ่มใหม่อีกครั้ง"
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "ต้องมีการตรวจยืนยันเพิ่มเติม"
@@ -6851,6 +6881,9 @@
     "messageformat": "แก้ไขบั๊กที่อยู่ในช่องค้นหาอีโมจิ"
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "แก้ไขบั๊กตัวเล็กตัวน้อยในหลายๆ จุดเพื่อการใช้งานที่ดียิ่งขึ้นอีก"
+  },
+  "icu:WhatsNew__v7.67--0": {
+    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
   }
 }

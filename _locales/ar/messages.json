@@ -2237,6 +2237,9 @@
   "icu:message--getDescription--disappearing-video": {
     "messageformat": "مقطع فيديو للعرض لمرّة واحدة"
   },
+  "icu:message--getDescription--gif": {
+    "messageformat": "GIF"
+  },
   "icu:message--deletedForEveryone": {
     "messageformat": "حُذِفَت هذه الرسالة."
   },
@@ -3524,6 +3527,15 @@
   "icu:ErrorModal--description": {
     "messageformat": "يُرجى المحاولة مرّة أخرى أو التواصل مع فريق الدعم."
   },
+  "icu:DebugLogErrorModal__UnexpectedError": {
+    "messageformat": "An unexpected error occurred"
+  },
+  "icu:DebugLogErrorModal__SubmitDebugLog": {
+    "messageformat": "Submit debug log"
+  },
+  "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
+    "messageformat": "No thanks"
+  },
   "icu:Confirmation--confirm": {
     "messageformat": "حسنًا"
   },
@@ -3954,7 +3966,7 @@
     "messageformat": "رُفِضَ طلب اِنضمام {joinerName} إلى المجموعة."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, zero {أرسلَ {joinerName} {numberOfRequests,number} طلبًا للانضمام وألغاه عبر رابط المجموعة.} one {أرسلَ {joinerName} طلبًا للانضمام وألغاه عبر رابط المجموعة.} two {أرسلَ {joinerName} {numberOfRequests,number} طلبين للانضمام وألغاهما عبر رابط المجموعة.} few {أرسلَ {joinerName} {numberOfRequests,number} طلباتٍ للانضمام وألغاها عبر رابط المجموعة.} many {أرسلَ {joinerName} {numberOfRequests,number} طلبًا للانضمام وألغاها عبر رابط المجموعة.} other {أرسلَ {joinerName} {numberOfRequests,number} طلبٍ للانضمام وألغاها عبر رابط المجموعة.}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "قُمتَ بتشغيل رابط المجموعة مع تعطيل موافقة المُشرِف."
@@ -4992,10 +5004,10 @@
     "messageformat": "يَجب إعادة تعيين رابط اسم المُستخدِم"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "افتح شاشة رابط اسم المُستخدِم"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "افتح شاشة رابط اسم المُستخدِم"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "شارِك اسم المُستخدِم الخاص بك"
@@ -5254,6 +5266,12 @@
   },
   "icu:Preferences__auto-convert-emoji--description": {
     "messageformat": "مثلًا، سَيتمُّ تحويل :-) إلى <emojify>🙂</emojify>"
+  },
+  "icu:Preferences__keep-muted-chats-archived--title": {
+    "messageformat": "Keep muted chats archived"
+  },
+  "icu:Preferences__keep-muted-chats-archived--description": {
+    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
   },
   "icu:Preferences--advanced": {
     "messageformat": "مُتقدِّم"
@@ -6636,6 +6654,12 @@
   "icu:PreferencesDonations__my-support": {
     "messageformat": "الدعم الخاص بي"
   },
+  "icu:PreferencesDonations__badge-label-one-time": {
+    "messageformat": "{formattedCurrencyAmount} one-time"
+  },
+  "icu:PreferencesDonations__badge-processing-donation": {
+    "messageformat": "Processing donation..."
+  },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "تبرَّع لـ {formattedCurrencyAmount}"
   },
@@ -6682,40 +6706,40 @@
     "messageformat": "هل تواجه مشكلات؟ <contactSupportLink>الاتصال بالدعم</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "أدخِل مبلغ مُخَصَّص"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "بطاقة الائتمان أو الخصم"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "أدخِل تفاصيل بطاقتك الائتمانية أو بطاقة الخصم. لا يقوم سيجنال بجمع أو تخزين معلوماتك الشخصية. <learnMoreLink>اعرف المزيد</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "رقم البطاقة"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "تاريخ انتهاء الصلاحية"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "تبرَّع بـ {formattedCurrencyAmount} لسيجنال"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "رقم البطاقة غير صحيح"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "انتهت صلاحية بطاقتك"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "يُرجى إدخال السنة"
   },
   "icu:DonateFlow__card-form-error-invalid": {
-    "messageformat": "Invalid"
+    "messageformat": "غير صالحة"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "الكود قصير جدًا"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "احصل على شارة دعم سيجنال لمدة 30 يومًا."
   },
   "icu:DonationReceipt__title": {
     "messageformat": "إيصال التبرُّع"
@@ -6735,8 +6759,11 @@
   "icu:DonationReceipt__footer-text": {
     "messageformat": "شكرًا لك على دعم سيجنال. تساعدنا مساهمتكم على دعم مهمة حماية حرية التعبير وتمكين التواصل العالمي الآمن لملايين الأشخاص حول العالم، وذلك من خلال تقنية الخصوصية مفتوحة المصدر. إذا كُنتَ من المقيمين بالولايات المتحدة الأمريكية، يُرجى الاحتفاظ بهذا الإيصال لتقديمه إلى مصلحة الضرائب. مؤسسة تكنولوجيا سيجنال‬ هي منظمة غير ربحية معفاة من الضرائب في الولايات المتحدة بموجب الفقرة 501c3 من قانون الإيرادات الداخلية. مُعرِّفنا الضريبي هو 4506840-82."
   },
+  "icu:Donations__OfflineTooltip": {
+    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+  },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "تمَّ إلغاء التبرُّع"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "اكتمل التبرُّع"
@@ -6754,16 +6781,16 @@
     "messageformat": "لديك تبرُّع قيد المعالجة يحتاج إلى خطوة تحقُّق إضافية."
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "لديك تبرُّع قيد المعالجة يتطلب تأكيدًا."
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "تمَّت مقاطعة التبرُّع"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "لم يُخصَم أي مبلغ من بطاقتك. هل تريد إعادة محاولة تقديم التبرُّع؟"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "حاوِل مُجدَّدًا"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "طريقة الدفع مرفوضة."
@@ -6783,20 +6810,23 @@
   "icu:Donations__GenericError__Description": {
     "messageformat": "ربما لم تتمّ معالجة تبرُّعك. اضغط على \"تبرَّع لسيجنال\"، ثم \"إيصالات التبرُّع\" للتحقُّق من إيصالاتك والتأكيد."
   },
+  "icu:DonationsErrorBoundary__DonationUnexpectedError": {
+    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+  },
   "icu:Donations__Processing": {
     "messageformat": "التبرُّع قيد المعالجة…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "ما زال قيد المعالجة"
+    "messageformat": "Still processing donation"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "لا يزال تبرُّعك قيد المعالجة. قد يستغرق ذلك بضع دقائق."
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "تمَّ إلغاء التبرُّع"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "مضى وقت طويل جدًا منذ أن بدأت تبرُّعك. يُرجى المحاولة من جديد."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "التحقُّق الإضافي مطلوب"
@@ -6851,6 +6881,9 @@
     "messageformat": "قد يبدو العثور على الرمز التعبيري المناسب مهمة شاقّة أحيانًا، لكننا أصلحنا خللًا كان قد يؤدي إلى حدوث خطأ عند الضغط على مفتاح Escape في مربع البحث عن الرموز التعبيرية."
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "تمَّ إصلاح بعض الأخطاء البسيطة."
+  },
+  "icu:WhatsNew__v7.67--0": {
+    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
   }
 }
