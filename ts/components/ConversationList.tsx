@@ -579,7 +579,7 @@ export function ConversationList({
               onSelectGroup={onSelectConversation}
             />
           );
-          key = 'select-single-group';
+          key = `select-single-group:${row.group.id}`;
           break;
         case RowType.StartNewConversation:
           result = (
@@ -595,7 +595,7 @@ export function ConversationList({
               showConversation={showConversation}
             />
           );
-          key = 'start-new-conversation';
+          key = `start-new-conversation:${row.phoneNumber}`;
           break;
         case RowType.UsernameSearchResult:
           result = (
