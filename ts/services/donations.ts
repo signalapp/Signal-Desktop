@@ -19,6 +19,7 @@ import * as Errors from '../types/errors';
 import { getRandomBytes, sha256 } from '../Crypto';
 import { DataWriter } from '../sql/Client';
 import { createLogger } from '../logging/log';
+import { getProfile } from '../util/getProfile';
 import { donationValidationCompleteRoute } from '../util/signalRoutes';
 import { safeParseStrict, safeParseUnknown } from '../util/schemas';
 import { missingCaseError } from '../util/missingCaseError';
@@ -376,11 +377,6 @@ export async function _runDonationWorkflow(): Promise<void> {
                   page: SettingsPage.Donations,
                 },
               });
-
-              // TODO: Replace with DESKTOP-8959
-              window.reduxActions.toast.showToast({
-                toastType: ToastType.DonationCompleted,
-              });
             }
           } else {
             log.info(
@@ -735,8 +731,8 @@ export async function _getReceipt(
 
     // At this point we know that the payment went through, so we save the receipt now.
     // If the redemption never happens, or fails, the user has it for their tax records.
-
     await saveReceipt(workflow, logId);
+
     return {
       ...workflow,
       type: donationStateSchema.Enum.RECEIPT,
@@ -769,13 +765,28 @@ export async function _redeemReceipt(
     const receiptCredentialPresentationBase64 = Bytes.toBase64(
       receiptCredentialPresentation.serialize()
     );
+
+    const me = window.ConversationController.getOurConversationOrThrow();
+    const myBadges = me.attributes.badges;
+
     const jsonPayload = {
       receiptCredentialPresentation: receiptCredentialPresentationBase64,
-      visible: false,
+      visible:
+        !!myBadges &&
+        myBadges.length > 0 &&
+        myBadges.every(myBadge => 'isVisible' in myBadge && myBadge.isVisible),
       primary: false,
     };
 
     await window.textsecure.server.redeemReceipt(jsonPayload);
+
+    // After the receipt credential, our profile will change to add new badges.
+    // Refresh our profile to get new badges.
+    await getProfile({
+      serviceId: me.getServiceId() ?? null,
+      e164: me.get('e164') ?? null,
+      groupId: null,
+    });
 
     log.info(`${logId}: Successfully transitioned to DONE`);
 

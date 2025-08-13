@@ -1,0 +1,79 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../mixins';
+@use '../variables';
+
+.DonationThanksModal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0;
+
+  &__badge-icon {
+    width: 88px;
+    height: 88px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__content {
+    margin-bottom: 24px;
+  }
+
+  &__title {
+    @include mixins.font-title-medium;
+    margin-bottom: 16px;
+    color: light-dark(
+      variables.$color-black-alpha-85,
+      variables.$color-white-alpha-85
+    );
+  }
+
+  &__description {
+    @include mixins.font-body-2;
+    max-width: 308px;
+    color: light-dark(variables.$color-gray-90, variables.$color-gray-05);
+    line-height: 18px;
+  }
+
+  &__separator {
+    width: 100%;
+    height: 0.5px;
+    border: none;
+    margin-block: 0 24px;
+    margin-inline: 0;
+    background-color: light-dark(
+      variables.$color-black-alpha-12,
+      variables.$color-white-alpha-12
+    );
+  }
+
+  &__toggle-section {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding-block: 0;
+  }
+
+  &__toggle-text {
+    @include mixins.font-body-1;
+    color: light-dark(
+      variables.$color-black-alpha-85,
+      variables.$color-white-alpha-85
+    );
+  }
+
+  &__help-text {
+    @include mixins.font-caption;
+    text-align: start;
+    margin-top: 12px;
+    color: light-dark(
+      variables.$color-black-alpha-50,
+      variables.$color-white-alpha-50
+    );
+  }
+}

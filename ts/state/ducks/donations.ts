@@ -12,6 +12,12 @@ import { DataWriter } from '../../sql/Client';
 import * as donations from '../../services/donations';
 import { donationStateSchema } from '../../types/Donations';
 import { drop } from '../../util/drop';
+import { storageServiceUploadJob } from '../../services/storage';
+import { getMe } from '../selectors/conversations';
+import {
+  type SetProfileUpdateErrorActionType,
+  actions as conversationActions,
+} from './conversations';
 
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type {
@@ -21,6 +27,8 @@ import type {
   DonationWorkflow,
   StripeDonationAmount,
 } from '../../types/Donations';
+import type { BadgeType } from '../../badges/types';
+import type { ProfileDataType } from './conversations';
 import type { StateType as RootStateType } from '../reducer';
 
 const log = createLogger('donations');
@@ -207,8 +215,115 @@ function updateWorkflow(
   };
 }
 
+export function applyDonationBadge({
+  badge,
+  applyBadge,
+  onComplete,
+}: {
+  badge: BadgeType | undefined;
+  applyBadge: boolean;
+  onComplete: (error?: Error) => void;
+}): ThunkAction<void, RootStateType, unknown, SetProfileUpdateErrorActionType> {
+  return async (dispatch, getState) => {
+    const me = getMe(getState());
+
+    if (!badge) {
+      onComplete(new Error('No badge was given to redeem'));
+      return;
+    }
+
+    const allBadgesHaveVisibilityData = me.badges.every(
+      myBadge => 'isVisible' in myBadge
+    );
+
+    const desiredBadgeIndexInUserBadges = me.badges.findIndex(
+      myBadge => myBadge.id === badge.id
+    );
+
+    const userHasDesiredBadgeToApply = desiredBadgeIndexInUserBadges !== -1;
+    const desiredBadgeInUserProfile =
+      me.badges?.[desiredBadgeIndexInUserBadges];
+
+    if (!userHasDesiredBadgeToApply || !desiredBadgeInUserProfile) {
+      onComplete(new Error('User does not have the desired badge to apply'));
+      return;
+    }
+
+    if (
+      !allBadgesHaveVisibilityData ||
+      !('isVisible' in desiredBadgeInUserProfile)
+    ) {
+      onComplete(
+        new Error("Unable to determine user's existing visible badges")
+      );
+      return;
+    }
+
+    const previousDisplayBadgesOnProfile =
+      me.badges.length > 0 &&
+      me.badges.every(myBadge => 'isVisible' in myBadge && myBadge.isVisible);
+
+    const otherBadges = me.badges?.filter(b => b.id !== badge.id) ?? [];
+
+    let newDisplayBadgesOnProfile = previousDisplayBadgesOnProfile;
+
+    if (applyBadge) {
+      // Add the badge to the front and make ALL badges visible
+      const updatedBadges = [
+        { id: badge.id, isVisible: true },
+        ...otherBadges.map(b => ({ ...b, isVisible: true })),
+      ];
+
+      // Note: We pass only the badges we want visible to myProfileChanged.
+      // This is how the API works - we're not "deleting" invisible badges,
+      // we're setting the complete list of visible badges.
+      const profileData: ProfileDataType = {
+        badges: updatedBadges,
+      };
+
+      await dispatch(
+        conversationActions.myProfileChanged(profileData, { keepAvatar: true })
+      );
+      newDisplayBadgesOnProfile = true;
+    } else if (
+      // If we're here, the user has unchecked the setting to apply the badge.
+      // If the badge we want to apply is already the primary visible badge, we
+      // disable showing badges.
+      // If the user has another badge as primary, we do nothing and keep it.
+      desiredBadgeIndexInUserBadges === 0 &&
+      desiredBadgeInUserProfile.isVisible
+    ) {
+      const profileData: ProfileDataType = {
+        badges: [],
+      };
+
+      await dispatch(
+        conversationActions.myProfileChanged(profileData, { keepAvatar: true })
+      );
+      newDisplayBadgesOnProfile = false;
+    }
+
+    const storageValue = window.storage.get('displayBadgesOnProfile');
+    if (
+      storageValue == null ||
+      previousDisplayBadgesOnProfile !== newDisplayBadgesOnProfile
+    ) {
+      await window.storage.put(
+        'displayBadgesOnProfile',
+        newDisplayBadgesOnProfile
+      );
+      if (previousDisplayBadgesOnProfile !== newDisplayBadgesOnProfile) {
+        storageServiceUploadJob({ reason: 'donation-badge-toggle' });
+      }
+    }
+
+    onComplete();
+  };
+}
+
 export const actions = {
   addReceipt,
+  applyDonationBadge,
   clearWorkflow,
   internalAddDonationReceipt,
   setDidResume,

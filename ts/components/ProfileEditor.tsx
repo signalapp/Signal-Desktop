@@ -65,6 +65,7 @@ import type { Props as EmojiButtonProps } from './emoji/EmojiButton';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
 import type { LocalizerType } from '../types/Util';
 import type {
+  ConversationType,
   ProfileDataType,
   SaveAttachmentActionCreatorType,
 } from '../state/ducks/conversations';
@@ -73,6 +74,10 @@ import type { ShowToastAction } from '../state/ducks/toast';
 import type { EmojiVariantKey } from './fun/data/emojis';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
+
+type ProfileEditorData = {
+  firstName: string;
+} & Pick<ConversationType, 'aboutEmoji' | 'aboutText' | 'familyName'>;
 
 type PropsExternalType = {
   onProfileChanged: (
@@ -238,7 +243,7 @@ export function ProfileEditor({
   const [avatarBuffer, setAvatarBuffer] = useState<Uint8Array | undefined>(
     undefined
   );
-  const [stagedProfile, setStagedProfile] = useState<ProfileDataType>({
+  const [stagedProfile, setStagedProfile] = useState<ProfileEditorData>({
     aboutEmoji,
     aboutText,
     familyName,

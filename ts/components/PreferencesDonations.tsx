@@ -45,6 +45,13 @@ import { DonationErrorModal } from './DonationErrorModal';
 import { DonationVerificationModal } from './DonationVerificationModal';
 import { DonationProgressModal } from './DonationProgressModal';
 import { DonationStillProcessingModal } from './DonationStillProcessingModal';
+import { DonationThanksModal } from './DonationThanksModal';
+import type {
+  ConversationType,
+  ProfileDataType,
+} from '../state/ducks/conversations';
+import type { AvatarUpdateOptionsType } from '../types/Avatar';
+import { drop } from '../util/drop';
 import { DonationsOfflineTooltip } from './conversation/DonationsOfflineTooltip';
 import { getInProgressDonation } from '../util/donations';
 
@@ -80,9 +87,22 @@ export type PropsDataType = {
     receipt: DonationReceipt,
     i18n: LocalizerType
   ) => Promise<Blob>;
+  showToast: (toast: AnyToast) => void;
+  donationBadge: BadgeType | undefined;
+  fetchBadgeData: () => Promise<BadgeType | undefined>;
+  me: ConversationType;
+  myProfileChanged: (
+    profileData: ProfileDataType,
+    avatarUpdateOptions: AvatarUpdateOptionsType
+  ) => void;
 };
 
 type PropsActionType = {
+  applyDonationBadge: (args: {
+    badge: BadgeType | undefined;
+    applyBadge: boolean;
+    onComplete: (error?: Error) => void;
+  }) => void;
   clearWorkflow: () => void;
   resumeWorkflow: () => void;
   setPage: (page: SettingsPage) => void;
@@ -532,6 +552,7 @@ export function PreferencesDonations({
   workflow,
   didResumeWorkflowAtStartup,
   lastError,
+  applyDonationBadge,
   clearWorkflow,
   resumeWorkflow,
   setPage,
@@ -548,10 +569,24 @@ export function PreferencesDonations({
   generateDonationReceiptBlob,
   showToast,
   updateLastError,
+  donationBadge,
+  fetchBadgeData,
 }: PropsType): JSX.Element | null {
   const [hasProcessingExpired, setHasProcessingExpired] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
   const [isPrivacyModalVisible, setIsPrivacyModalVisible] = useState(false);
+
+  // Fetch badge data when we're about to show the badge modal
+  useEffect(() => {
+    if (
+      workflow?.type === donationStateSchema.Enum.DONE &&
+      page === SettingsPage.Donations &&
+      !donationBadge
+    ) {
+      drop(fetchBadgeData());
+    }
+  }, [workflow, page, donationBadge, fetchBadgeData]);
 
   const navigateToPage = useCallback(
     (newPage: SettingsPage) => {
@@ -637,6 +672,27 @@ export function PreferencesDonations({
           clearWorkflow();
           updateLastError(donationErrorTypeSchema.Enum.TimedOut);
           setPage(SettingsPage.Donations);
+        }}
+      />
+    );
+  } else if (workflow?.type === donationStateSchema.Enum.DONE) {
+    dialog = (
+      <DonationThanksModal
+        i18n={i18n}
+        badge={donationBadge}
+        applyDonationBadge={applyDonationBadge}
+        onClose={(error?: Error) => {
+          clearWorkflow();
+          if (error) {
+            log.error('Badge application failed:', error.message);
+            showToast({
+              toastType: ToastType.DonationCompletedAndBadgeApplicationFailed,
+            });
+          } else {
+            showToast({
+              toastType: ToastType.DonationCompleted,
+            });
+          }
         }}
       />
     );
