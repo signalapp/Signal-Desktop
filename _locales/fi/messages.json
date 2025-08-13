@@ -2237,6 +2237,9 @@
   "icu:message--getDescription--disappearing-video": {
     "messageformat": "Kerran katsottava video"
   },
+  "icu:message--getDescription--gif": {
+    "messageformat": "GIF"
+  },
   "icu:message--deletedForEveryone": {
     "messageformat": "Tämä viesti poistettiin."
   },
@@ -3524,6 +3527,15 @@
   "icu:ErrorModal--description": {
     "messageformat": "Yritä uudelleen tai ota yhteyttä tukeen."
   },
+  "icu:DebugLogErrorModal__UnexpectedError": {
+    "messageformat": "An unexpected error occurred"
+  },
+  "icu:DebugLogErrorModal__SubmitDebugLog": {
+    "messageformat": "Submit debug log"
+  },
+  "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
+    "messageformat": "No thanks"
+  },
   "icu:Confirmation--confirm": {
     "messageformat": "Selvä"
   },
@@ -3954,7 +3966,7 @@
     "messageformat": "Henkilön {joinerName} pyyntö liittyä ryhmään on hylätty."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} pyysi ja peruutti liittymispyyntönsä ryhmälinkin kautta} other {{joinerName} pyysi ja peruutti {numberOfRequests,number} liittymispyyntöä ryhmälinkin kautta}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Otit ryhmälinkin käyttöön. Liittymispyynnöt eivät ole käytössä."
@@ -4992,10 +5004,10 @@
     "messageformat": "Käyttäjänimen linkki on nollattava"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Avaa käyttäjänimen yhdistämisen näyttö"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Avaa käyttäjänimen yhdistämisen näyttö"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "Jaa käyttäjänimesi"
@@ -5254,6 +5266,12 @@
   },
   "icu:Preferences__auto-convert-emoji--description": {
     "messageformat": "Esimerkiksi :-) muunnetaan muotoon <emojify>🙂</emojify>"
+  },
+  "icu:Preferences__keep-muted-chats-archived--title": {
+    "messageformat": "Keep muted chats archived"
+  },
+  "icu:Preferences__keep-muted-chats-archived--description": {
+    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Lisäasetukset"
@@ -6636,6 +6654,12 @@
   "icu:PreferencesDonations__my-support": {
     "messageformat": "Antamani tuki"
   },
+  "icu:PreferencesDonations__badge-label-one-time": {
+    "messageformat": "{formattedCurrencyAmount} one-time"
+  },
+  "icu:PreferencesDonations__badge-processing-donation": {
+    "messageformat": "Processing donation..."
+  },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Lahjoita {formattedCurrencyAmount}"
   },
@@ -6682,40 +6706,40 @@
     "messageformat": "Ongelmia? <contactSupportLink>Ota yhteyttä tukeen</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "Syötä uusi summa"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Luotto- tai pankkikortti"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Anna pankki- tai luottokortin tiedot. Signal ei kerää tai tallenna henkilötietojasi. <learnMoreLink>Lue lisää</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "Kortin numero"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "Voimassaolopäivä"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "Lahjoita Signalille {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "Virheellinen kortin numero"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "Kortti on vanhentunut"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "Vuosi vaaditaan"
   },
   "icu:DonateFlow__card-form-error-invalid": {
-    "messageformat": "Invalid"
+    "messageformat": "Virheellinen"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "Koodi on liian lyhyt"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "Hanki Signal Boost -merkki 30 päiväksi"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Lahjoituskuitti"
@@ -6735,8 +6759,11 @@
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Kiitos Signalin tukemisesta. Lahjoituksesi auttaa edistämään tavoitettamme suojata sananvapautta ja mahdollistaa turvallinen maailmanlaajuinen viestintä miljoonille käyttäjille ympäri maailmaa avoimen lähdekoodin tietosuojateknologialla. Jos asut Yhdysvalloissa, säilytä tämä kuitti verotusta varten. Signal Technology Foundation on verovapaa voittoa tavoittelematon organisaatio Yhdysvaltojen Internal Revenue Code -pykälän 501c3 mukaisesti. Liittovaltion verotunnuksemme on 82-4506840."
   },
+  "icu:Donations__OfflineTooltip": {
+    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+  },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Lahjoitus peruttu"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "Lahjoitus on valmis"
@@ -6754,16 +6781,16 @@
     "messageformat": "Sinulla on käynnissä lahjoitus, joka vaatii lisävahvistusta."
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Sinulla on käynnissä lahjoitus, joka edellyttää vahvistamista."
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "Lahjoitus keskeytetty"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "Korttiasi ei veloitettu. Haluatko yrittää lahjoitusta uudelleen?"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "Yritä uudelleen"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Maksutapa hylätty"
@@ -6783,20 +6810,23 @@
   "icu:Donations__GenericError__Description": {
     "messageformat": "Lahjoitusta ei ehkä ole käsitelty. Tarkista kuitti napsauttamalla Lahjoita Signalille ja sitten Lahjoituskuitit."
   },
+  "icu:DonationsErrorBoundary__DonationUnexpectedError": {
+    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+  },
   "icu:Donations__Processing": {
     "messageformat": "Käsitellään lahjoitusta..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Käsitellään edelleen"
+    "messageformat": "Still processing donation"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Lahjoitusta käsitellään vielä. Tämä saattaa kestää muutaman minuutin."
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Lahjoitus peruttu"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "Lahjoituksen aloittamisesta on kulunut liian kauan. Aloita alusta."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "Lisävahvistus vaaditaan"
@@ -6851,6 +6881,9 @@
     "messageformat": "Korjasimme virheen emoji-hakukentässä."
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "Muutamia pieniä virheenkorjauksia."
+  },
+  "icu:WhatsNew__v7.67--0": {
+    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
   }
 }

@@ -2237,6 +2237,9 @@
   "icu:message--getDescription--disappearing-video": {
     "messageformat": "Одноразовое видео"
   },
+  "icu:message--getDescription--gif": {
+    "messageformat": "GIF"
+  },
   "icu:message--deletedForEveryone": {
     "messageformat": "Это сообщение было удалено."
   },
@@ -3524,6 +3527,15 @@
   "icu:ErrorModal--description": {
     "messageformat": "Пожалуйста, попробуйте еще раз или свяжитесь с поддержкой."
   },
+  "icu:DebugLogErrorModal__UnexpectedError": {
+    "messageformat": "An unexpected error occurred"
+  },
+  "icu:DebugLogErrorModal__SubmitDebugLog": {
+    "messageformat": "Submit debug log"
+  },
+  "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
+    "messageformat": "No thanks"
+  },
   "icu:Confirmation--confirm": {
     "messageformat": "Хорошо"
   },
@@ -3954,7 +3966,7 @@
     "messageformat": "Запрос на присоединение к группе от {joinerName} был отклонён."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} запросил(-а) и отменил(-а) запрос на присоединение к группе по ссылке} few {{joinerName} запросил(-а) и отменил(-а) {numberOfRequests,number} запроса на присоединение к группе по ссылке} many {{joinerName} запросил(-а) и отменил(-а) {numberOfRequests,number} запросов на присоединение к группе по ссылке} other {{joinerName} запросил(-а) и отменил(-а) {numberOfRequests,number} запроса на присоединение к группе по ссылке}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Вы включили ссылку на группу с отключенным одобрением администратора."
@@ -4992,10 +5004,10 @@
     "messageformat": "Ссылку на имя пользователя необходимо сбросить"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Открыть экран со ссылкой на имя пользователя"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Открыть экран со ссылкой на имя пользователя"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "Поделитесь вашим именем пользователя"
@@ -5254,6 +5266,12 @@
   },
   "icu:Preferences__auto-convert-emoji--description": {
     "messageformat": "Например, :-) будет преобразовано в <emojify>🙂</emojify>"
+  },
+  "icu:Preferences__keep-muted-chats-archived--title": {
+    "messageformat": "Keep muted chats archived"
+  },
+  "icu:Preferences__keep-muted-chats-archived--description": {
+    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Расширенные"
@@ -6636,6 +6654,12 @@
   "icu:PreferencesDonations__my-support": {
     "messageformat": "Моя поддержка"
   },
+  "icu:PreferencesDonations__badge-label-one-time": {
+    "messageformat": "{formattedCurrencyAmount} one-time"
+  },
+  "icu:PreferencesDonations__badge-processing-donation": {
+    "messageformat": "Processing donation..."
+  },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Пожертвовать {formattedCurrencyAmount}"
   },
@@ -6682,40 +6706,40 @@
     "messageformat": "Возникли проблемы? <contactSupportLink>Связаться с поддержкой</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "Ввести сумму"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Кредитная или дебетовая карта"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Введите данные вашей кредитной или дебетовой карты. Signal не собирает и не хранит вашу личную информацию. <learnMoreLink>Узнать больше</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "Номер карты"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "Срок действия"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "Пожертвовать Signal {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "Неверный номер карты"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "Срок действия карты истек"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "Требуется год"
   },
   "icu:DonateFlow__card-form-error-invalid": {
-    "messageformat": "Invalid"
+    "messageformat": "Недействительный"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "Код слишком короткий"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "Получите значок буста Signal на 30 дней"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Квитанция о пожертвовании"
@@ -6735,8 +6759,11 @@
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Спасибо, что поддерживаете Signal. Ваш вклад помогает поддерживать миссию по защите свободы слова и делает возможным безопасное общение между миллионами людей по всему миру благодаря технологии конфиденциальности с открытым исходным кодом. Если вы проживаете в США, пожалуйста, сохраните эту квитанцию для своего налогового учёта. Signal Technology Foundation — это некоммерческая организация, освобождённая от налогов в США со статусом 501c3. Наш ИНН: 82–4506840."
   },
+  "icu:Donations__OfflineTooltip": {
+    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+  },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Пожертвование отменено"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "Пожертвование завершено"
@@ -6754,16 +6781,16 @@
     "messageformat": "У вас есть незавершённое пожертвование, требующее дополнительной проверки."
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "У вас есть незавершённое пожертвование, требующее подтверждения."
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "Пожертвование прервано"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "Средства с вашей карты не были списаны. Вы действительно хотите повторить пожертвование?"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "Попробовать ещё раз"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Способ оплаты отклонён"
@@ -6783,20 +6810,23 @@
   "icu:Donations__GenericError__Description": {
     "messageformat": "Возможно, ваше пожертвование не было обработано. Нажмите «Пожертвовать Signal», а затем «Чек пожертвования», чтобы проверить свои чеки и подтвердить."
   },
+  "icu:DonationsErrorBoundary__DonationUnexpectedError": {
+    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+  },
   "icu:Donations__Processing": {
     "messageformat": "Обработка пожертвования..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Продолжается обработка"
+    "messageformat": "Still processing donation"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Ваше пожертвование всё ещё обрабатывается. Это может занять несколько минут."
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Пожертвование отменено"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "Прошло слишком много времени с тех пор, как вы начали оформление пожертвования. Пожалуйста, начните сначала."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "Требуется дополнительная проверка"
@@ -6851,6 +6881,9 @@
     "messageformat": "Поиск подходящего эмодзи бывает нелёгкой задачей, но мы исправили ошибку, из-за которой могло возникать затруднение после нажатия клавиши Escape в окне поиска эмодзи."
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "В этом обновлении исправлено несколько небольших ошибок, в том числе та, из-за которой реакции эмодзи иногда группировались неправильно."
+  },
+  "icu:WhatsNew__v7.67--0": {
+    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
   }
 }

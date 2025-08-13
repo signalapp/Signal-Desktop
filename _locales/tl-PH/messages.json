@@ -2237,6 +2237,9 @@
   "icu:message--getDescription--disappearing-video": {
     "messageformat": "View-once na video"
   },
+  "icu:message--getDescription--gif": {
+    "messageformat": "GIF"
+  },
   "icu:message--deletedForEveryone": {
     "messageformat": "Nabura na ang mensaheng ito."
   },
@@ -3524,6 +3527,15 @@
   "icu:ErrorModal--description": {
     "messageformat": "Subukan ulit o i-contact ang support."
   },
+  "icu:DebugLogErrorModal__UnexpectedError": {
+    "messageformat": "An unexpected error occurred"
+  },
+  "icu:DebugLogErrorModal__SubmitDebugLog": {
+    "messageformat": "Submit debug log"
+  },
+  "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
+    "messageformat": "No thanks"
+  },
   "icu:Confirmation--confirm": {
     "messageformat": "Okay"
   },
@@ -3954,7 +3966,7 @@
     "messageformat": "Hindi tinanggap ang request ni {joinerName} na sumali sa group."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {Nag-request si {joinerName} na sumali via group link at kinansela niya rin ito.} other {Nag-request si {joinerName} na sumali via group link nang {numberOfRequests,number} beses at kinansela niya rin ang mga ito.}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Nag-decide kang i-turn on ang group link with admin approval disabled."
@@ -4992,10 +5004,10 @@
     "messageformat": "Kailangang i-reset ang username link"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Buksan ang username link screen"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Buksan ang username link screen"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "I-share ang username mo"
@@ -5254,6 +5266,12 @@
   },
   "icu:Preferences__auto-convert-emoji--description": {
     "messageformat": "Halimbawa, ang :-) ay magiging <emojify>🙂</emojify>"
+  },
+  "icu:Preferences__keep-muted-chats-archived--title": {
+    "messageformat": "Keep muted chats archived"
+  },
+  "icu:Preferences__keep-muted-chats-archived--description": {
+    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Advanced"
@@ -6636,6 +6654,12 @@
   "icu:PreferencesDonations__my-support": {
     "messageformat": "Suporta ko"
   },
+  "icu:PreferencesDonations__badge-label-one-time": {
+    "messageformat": "{formattedCurrencyAmount} one-time"
+  },
+  "icu:PreferencesDonations__badge-processing-donation": {
+    "messageformat": "Processing donation..."
+  },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Mag-donate {formattedCurrencyAmount}"
   },
@@ -6682,40 +6706,40 @@
     "messageformat": "Nagkaroon ba ng isyu? <contactSupportLink>Kontakin ang support</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "Maglagay ng Custom Amount"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Credit o debit card"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Ilagay ang credit o debit card details mo. Hindi kinokolekta o itinatago ng Signal ang iyong personal na impormasyon. <learnMoreLink>Matuto pa</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "Card number"
   },
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Expiration Date"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "Mag-donate ng {formattedCurrencyAmount} sa Signal"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "Invalid ang card number"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "Expired na ang card"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "Required ang taon"
   },
   "icu:DonateFlow__card-form-error-invalid": {
     "messageformat": "Invalid"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "Masyadong maikli ang code"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "Kunin ang Signal Boost badge sa loob ng 30 days"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Donation receipt"
@@ -6735,8 +6759,11 @@
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Maraming salamat sa pagsuporta sa Signal. Ang iyong contribution ay nakatutulong para maipagpatuloy ang aming mission na protektahan ang malayang pamamahayag at pag-enable sa secure global communication para sa milyun-milyong katao sa buong mundo, sa pamamagitan ng open source privacy technology. Kung ika'y isang residente ng United States, ingatan ang receipt na ito para sa tax records mo. Ang Signal Technology Foundation ay isang tax-exempt nonprofit organization sa United States sa ilalim ng section 501c3 ng Internal Revenue Code. Ang aming Federal Tax ID ay 82-4506840."
   },
+  "icu:Donations__OfflineTooltip": {
+    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+  },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Na-cancel ang donation"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "Nakumpleto ang donation"
@@ -6754,16 +6781,16 @@
     "messageformat": "Mayroon kang kasalukuyang donation na nangangailangan ng karagdagang verification."
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Mayroon kang kasalukuyang donation na nangangailangan ng confirmation."
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "Naputol ang pag-donate"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "Hindi nasingil ang card mo. Gusto mo bang subukang mag-donate ulit?"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "Subukang muli"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Declined ang payment method"
@@ -6783,20 +6810,23 @@
   "icu:Donations__GenericError__Description": {
     "messageformat": "Maaaring hindi naproseso ang iyong donation. I-click ang \"Mag-donate sa Signal\" at i-click ang \"Donation Receipts\" para ma-check at ma-confirm ang iyong mga resibo."
   },
+  "icu:DonationsErrorBoundary__DonationUnexpectedError": {
+    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+  },
   "icu:Donations__Processing": {
     "messageformat": "Pinoproseso ang donation…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing"
+    "messageformat": "Still processing donation"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Pinoproseso pa ang iyong donation. Maaari itong tumagal nang ilang minuto."
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Na-cancel ang pag-donate"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "Masyadong matagal ang oras na lumipas mula nang sinimulan mong mag-donate. Mangyaring magsimula ulit."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "Kailangan ng additional verification"
@@ -6851,6 +6881,9 @@
     "messageformat": "May inayos kaming bug sa emoji search box."
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "May ilang small bug fixes."
+  },
+  "icu:WhatsNew__v7.67--0": {
+    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
   }
 }

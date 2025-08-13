@@ -2237,6 +2237,9 @@
   "icu:message--getDescription--disappearing-video": {
     "messageformat": "Video ya Mtazamo-mmoja tu"
   },
+  "icu:message--getDescription--gif": {
+    "messageformat": "GIF"
+  },
   "icu:message--deletedForEveryone": {
     "messageformat": "Ujumbe huu umefutwa."
   },
@@ -3524,6 +3527,15 @@
   "icu:ErrorModal--description": {
     "messageformat": "Tafadhali jaribu tena au uwasiliane na timu ya usaidizi."
   },
+  "icu:DebugLogErrorModal__UnexpectedError": {
+    "messageformat": "An unexpected error occurred"
+  },
+  "icu:DebugLogErrorModal__SubmitDebugLog": {
+    "messageformat": "Submit debug log"
+  },
+  "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
+    "messageformat": "No thanks"
+  },
   "icu:Confirmation--confirm": {
     "messageformat": "Sawa"
   },
@@ -3954,7 +3966,7 @@
     "messageformat": "Ombi la kujiunga na kikundi kutoka kwa {joinerName} limekataliwa."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} aliomba na kughairisha ombi la kujiunga kupitia kiungo cha kikundi} other {{joinerName} aliomba na kughairisha maombi {numberOfRequests,number} ya kujiunga kupitia kiungo cha kikundi}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Umewasha kiungo cha kikundi idhini ya msimamizi ikiwa imezimwa."
@@ -4992,10 +5004,10 @@
     "messageformat": "Kiungo cha jina la mtumiaji kinahitaji kuwekwa upya"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Fungua skrini ya kiungo cha jina la mtumiaji"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Fungua skrini ya kiungo cha jina la mtumiaji"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "Shiriki jina lako la mtumiaji"
@@ -5254,6 +5266,12 @@
   },
   "icu:Preferences__auto-convert-emoji--description": {
     "messageformat": "Kwa mfano, :-) itabadilika kuwa <emojify>🙂</emojify>"
+  },
+  "icu:Preferences__keep-muted-chats-archived--title": {
+    "messageformat": "Keep muted chats archived"
+  },
+  "icu:Preferences__keep-muted-chats-archived--description": {
+    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
   },
   "icu:Preferences--advanced": {
     "messageformat": "ya juu"
@@ -6636,6 +6654,12 @@
   "icu:PreferencesDonations__my-support": {
     "messageformat": "Msaada Wangu"
   },
+  "icu:PreferencesDonations__badge-label-one-time": {
+    "messageformat": "{formattedCurrencyAmount} one-time"
+  },
+  "icu:PreferencesDonations__badge-processing-donation": {
+    "messageformat": "Processing donation..."
+  },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Changia {formattedCurrencyAmount}"
   },
@@ -6682,40 +6706,40 @@
     "messageformat": "Je, umekubwa na tatizo? <contactSupportLink>Wasiliana na kitengo cha usaidizi</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "Weka Kiasi Maalum"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Kadi ya mkopo au fedha taslimu"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Weka taarifa za kadi yako ya mikopo. Signal haikusanyi wala kuhifadhi taarifa zako binafsi. <learnMoreLink>Pata maelezo zaidi</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "Nambari ya kadi"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "Tarehe ya Mwisho wa Matumizi"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "Changia {formattedCurrencyAmount} kwa Signal"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "Nambari ya kadi si sahihi"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "Kadi imekwisha muda wake"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "Mwaka unahitajika"
   },
   "icu:DonateFlow__card-form-error-invalid": {
-    "messageformat": "Invalid"
+    "messageformat": "Si sahihi"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "Kodi ni fupi sana"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "Jipatie Beji ya Mchangiaji ya Signal kwa siku 30"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Risiti ya mchango"
@@ -6735,8 +6759,11 @@
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Asante kwa kuiunga mkono Signal. Mchango wako husaidia kukuza dhamira ya kutengeneza teknolojia huria ya faragha ambayo hulinda uhuru wa kujieleza na kuwezesha mawasiliano salama ya kidunia kwa mamilioni ya watu duniani kote. Kama wewe ni mkazi wa Marekani, tafadhali hifadhi risiti hii kwa rekodi zako za kodi. Signal Technology Foundation ni shirika lisilo la kibiashara lisilotozwa kodi nchini Marekani chini ya kifungu cha 501c3 cha Kanuni ya Mapato ya Ndani. Kitambulisho chetu cha Ushuru wa Shirikisho ni 82-4506840."
   },
+  "icu:Donations__OfflineTooltip": {
+    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+  },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Mchango umesitishwa"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "Mchango umekamilika"
@@ -6754,16 +6781,16 @@
     "messageformat": "Una mchango ambao haujakamilika unaohitaji uthibitishaji zaidi."
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Una mchango ambao haujakamilika unaohitaji uthibitishaji."
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "Mchango umekatishwa"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "Kadi yako haijatozwa. Ungependa kujaribu tena kuchangia?"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "Jaribu tena"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Njia ya malipo imekataliwa"
@@ -6783,20 +6810,23 @@
   "icu:Donations__GenericError__Description": {
     "messageformat": "Huenda mchango wako haujachakatwa. Bofya kwenye \"Changia Signal\" kisha \"Risiti za Mchango\" ili ukague risiti zako na uthibitishe."
   },
+  "icu:DonationsErrorBoundary__DonationUnexpectedError": {
+    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+  },
   "icu:Donations__Processing": {
     "messageformat": "Inachakata mchango..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Bado inachakata"
+    "messageformat": "Still processing donation"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Mchango wako bado unachakatwa. Hatua hii inaweza ikachukua dakika kadhaa."
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Mchango umesitishwa"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "Ni muda mrefu tangu uanze mchakato wa kuchangia. Tafadhali anza tena."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "Uthibitishaji wa ziada unahitajika"
@@ -6851,6 +6881,9 @@
     "messageformat": "Kupata emoji sahihi inaweza kuhisi kama mapambano yasiyoweza kuepukika, lakini tumerekebisha hitilafu ambayo inaweza kusababisha hitilafu kutokea baada ya kubofya kitufe cha escape kwenye sanduku la utafutaji la emoji."
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "Sasisho hili hurekebisha hitilafu chache ndogo, ikiwemo moja ambapo reactions za emoji hazikupangwa pamoja kwa usahihi katika baadhi ya matukio."
+  },
+  "icu:WhatsNew__v7.67--0": {
+    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
   }
 }

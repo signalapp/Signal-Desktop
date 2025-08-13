@@ -2237,6 +2237,9 @@
   "icu:message--getDescription--disappearing-video": {
     "messageformat": "Бір рет көрілетін видео"
   },
+  "icu:message--getDescription--gif": {
+    "messageformat": "GIF"
+  },
   "icu:message--deletedForEveryone": {
     "messageformat": "Бұл хат жойылды."
   },
@@ -3524,6 +3527,15 @@
   "icu:ErrorModal--description": {
     "messageformat": "Қайталап көріңіз немесе қолдау қызметіне хабарласыңыз."
   },
+  "icu:DebugLogErrorModal__UnexpectedError": {
+    "messageformat": "An unexpected error occurred"
+  },
+  "icu:DebugLogErrorModal__SubmitDebugLog": {
+    "messageformat": "Submit debug log"
+  },
+  "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
+    "messageformat": "No thanks"
+  },
   "icu:Confirmation--confirm": {
     "messageformat": "Жарайды"
   },
@@ -3954,7 +3966,7 @@
     "messageformat": "A request to join the group from {joinerName} was denied."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} топ сілтемесі арқылы топқа қосылуға сұрау жіберіп, одан бас тартты} other {{joinerName} топ сілтемесі арқылы топқа қосылуға {numberOfRequests,number} сұрау жіберіп, одан бас тартты}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Әкімшінің мақұлдауын өшіріп, топ сілтемесін қостыңыз."
@@ -4992,10 +5004,10 @@
     "messageformat": "Пайдаланушы атының сілтемесін қайта орнату керек"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Пайдаланушы атына арналған сілтеме экранын ашу"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Пайдаланушы атына арналған сілтеме экранын ашу"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "Пайдаланушы атыңызды бөлісу"
@@ -5254,6 +5266,12 @@
   },
   "icu:Preferences__auto-convert-emoji--description": {
     "messageformat": "Мысалы, :-) деп терсеңіз, <emojify>🙂</emojify> болады"
+  },
+  "icu:Preferences__keep-muted-chats-archived--title": {
+    "messageformat": "Keep muted chats archived"
+  },
+  "icu:Preferences__keep-muted-chats-archived--description": {
+    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Озық"
@@ -6636,6 +6654,12 @@
   "icu:PreferencesDonations__my-support": {
     "messageformat": "My Support"
   },
+  "icu:PreferencesDonations__badge-label-one-time": {
+    "messageformat": "{formattedCurrencyAmount} one-time"
+  },
+  "icu:PreferencesDonations__badge-processing-donation": {
+    "messageformat": "Processing donation..."
+  },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "{formattedCurrencyAmount} демеушілік жасаңыз"
   },
@@ -6682,40 +6706,40 @@
     "messageformat": "Мәселелер туындап жатыр ма? <contactSupportLink>Қолдау қызметіне хабарласыңыз.</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "Реттелмелі сома енгізіңіз"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Несиелік немесе дебеттік карта"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Несиелік немесе дебеттік картаңыздың мәліметін енгізіңіз. Signal сіздің жеке басыңызға қатысты ақпаратты жинамайды немесе сақтамайды. <learnMoreLink>Толық ақпарат</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "Карта нөмірі"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "Жарамдылық мерзімі"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "Signal-ға {formattedCurrencyAmount} аудару"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "Карта нөмірі дұрыс емес"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "Картаның мерзімі өтіп кеткен"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "Жылды жазу керек"
   },
   "icu:DonateFlow__card-form-error-invalid": {
-    "messageformat": "Invalid"
+    "messageformat": "Жарамайды"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "Код өте қысқа"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "30 күнге Signal Boost танымбелгісін алыңыз"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Демеушілік чегі"
@@ -6735,8 +6759,11 @@
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Signal-ға қолдау көрсеткеніңіз үшін рақмет. Сіздің қосқан үлесіңіз ашық кодты құпиялық технологиясы арқылы әлемдегі миллиондаған адам үшін сөз еркіндігін қорғау және жаһандық байланыс орнату қауіпсіздігін қамтамасыз ету миссиясын жүзеге асыруға ықпал етеді. Егер Америка Құрама Штаттарының резиденті болсаңыз, осы түбіртекті салық жазбалары үшін сақтап қойыңыз. Signal Technology Foundation – Салық кодексінің 501c3 бөліміне сәйкес Америка Құрама Штаттарындағы салықтан босатылған коммерциялық емес ұйым. Біздің федералдық салық идентификаторымыз: 82-4506840."
   },
+  "icu:Donations__OfflineTooltip": {
+    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+  },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Демеушіліктен бас тартылды"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "Демеушілік жасалды"
@@ -6754,16 +6781,16 @@
     "messageformat": "Демеу үшін жіберген қаражатыңыз өңделіп жатыр. Қосымша растау керек."
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Демеу үшін жіберіліп жатқан қаражатыңызды растау қажет."
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "Демеушілік үзілді"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "Картаңыздан ақша алынбады. Демеуге арналған қаражатты қайта жібергіңіз келе ме?"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "Қайталап көру"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Төлеу әдісі қабылданбады"
@@ -6783,20 +6810,23 @@
   "icu:Donations__GenericError__Description": {
     "messageformat": "Қайырымдылыққа жіберген қаражатыңыз өңделмей қалған болуы мүмкін. \"Signal-ды демеу\" түймесін, содан кейін \"Демеу чегі\" түймесін басып, чектеріңізді тексеріңіз және растаңыз."
   },
+  "icu:DonationsErrorBoundary__DonationUnexpectedError": {
+    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+  },
   "icu:Donations__Processing": {
     "messageformat": "Қайырымдылыққа жіберген қаражат өңделіп жатыр..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Әлі өңделуде"
+    "messageformat": "Still processing donation"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Қайырымдылыққа жіберген қаражатыңыз әлі өңделіп жатыр. Оған бірнеше минут кетуі мүмкін."
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Демеушіліктен бас тартылды"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "Демеуге арналған қаражатты жібергеннен бері көп уақыт өтіп кетті. Қайтадан бастап көріңіз."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "Қосымша верификация қажет"
@@ -6851,6 +6881,9 @@
     "messageformat": "Қажетті эмоджиді табу кейде қиынға соғып жататындықтан, біз эмоджиді іздеу өрісінде Escape пернесін басқан соң пайда болатын ақауды түзеттік."
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "Бұл жаңа нұсқада бірқатар болмашы ақау түзетілді, оның ішінде кейбір жағдайда эмоджи реакцияларының дұрыс топтасуына кедергі келтіретін ақау да түзетілді."
+  },
+  "icu:WhatsNew__v7.67--0": {
+    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
   }
 }

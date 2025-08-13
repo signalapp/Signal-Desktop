@@ -2237,6 +2237,9 @@
   "icu:message--getDescription--disappearing-video": {
     "messageformat": "一次性影片"
   },
+  "icu:message--getDescription--gif": {
+    "messageformat": "GIF"
+  },
   "icu:message--deletedForEveryone": {
     "messageformat": "這則訊息已被刪除。"
   },
@@ -3524,6 +3527,15 @@
   "icu:ErrorModal--description": {
     "messageformat": "請重試或聯絡支援。"
   },
+  "icu:DebugLogErrorModal__UnexpectedError": {
+    "messageformat": "An unexpected error occurred"
+  },
+  "icu:DebugLogErrorModal__SubmitDebugLog": {
+    "messageformat": "Submit debug log"
+  },
+  "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
+    "messageformat": "No thanks"
+  },
   "icu:Confirmation--confirm": {
     "messageformat": "好的"
   },
@@ -3954,7 +3966,7 @@
     "messageformat": "{joinerName} 加入群組的請求未通過。"
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, other {{joinerName}透過群組連結請求和取消了{numberOfRequests,number} 的加入請求}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "你在停用管理員批准的情況下打開了群組連結。"
@@ -4992,10 +5004,10 @@
     "messageformat": "需要重設用戶名稱連結"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "開啟用戶名稱連結畫面"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "開啟用戶名稱連結畫面"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "分享你的用戶名稱"
@@ -5254,6 +5266,12 @@
   },
   "icu:Preferences__auto-convert-emoji--description": {
     "messageformat": "例如 :-) 將轉換為 <emojify>🙂</emojify>"
+  },
+  "icu:Preferences__keep-muted-chats-archived--title": {
+    "messageformat": "Keep muted chats archived"
+  },
+  "icu:Preferences__keep-muted-chats-archived--description": {
+    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
   },
   "icu:Preferences--advanced": {
     "messageformat": "進階"
@@ -6636,6 +6654,12 @@
   "icu:PreferencesDonations__my-support": {
     "messageformat": "我的支持"
   },
+  "icu:PreferencesDonations__badge-label-one-time": {
+    "messageformat": "{formattedCurrencyAmount} one-time"
+  },
+  "icu:PreferencesDonations__badge-processing-donation": {
+    "messageformat": "Processing donation..."
+  },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "捐款 {formattedCurrencyAmount}"
   },
@@ -6682,40 +6706,40 @@
     "messageformat": "遇到問題？<contactSupportLink>請聯絡支援團隊</contactSupportLink>"
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "請輸入自訂金額"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "信用卡或簽帳金融卡"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "請輸入信用卡或簽帳金融卡詳情。Signal 不會收集或儲存你的個人資料。<learnMoreLink>了解更多</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "付款卡號碼"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "到期日"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "捐款 {formattedCurrencyAmount} 給 Signal"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "付款卡號碼無效"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "付款卡已過期"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "必須填寫年份"
   },
   "icu:DonateFlow__card-form-error-invalid": {
-    "messageformat": "Invalid"
+    "messageformat": "無效"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "代碼太短"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "獲取為期 30 天的 Signal 捐款徽章"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "捐款收據"
@@ -6735,8 +6759,11 @@
   "icu:DonationReceipt__footer-text": {
     "messageformat": "感謝你對 Signal 的支持。你的捐款有助於推動保護自由表達的使命，並透過開放原始碼隱私技術，讓全球數百萬人能夠進行安全的全球通訊。若你是美國居民，請保留此收據作為你的稅務紀錄。Signal Technology Foundation 是在美國依據《國稅法規》(IRC) 第 501c3 條的免稅非盈利組織。我們的聯邦稅識別號碼為 82-4506840。"
   },
+  "icu:Donations__OfflineTooltip": {
+    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+  },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "已取消捐款"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "已完成捐款"
@@ -6754,16 +6781,16 @@
     "messageformat": "你有一筆處理中的捐款需要額外驗證。"
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "你有一筆處理中的捐款需要確認。"
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "捐款中斷"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "你的信用卡未被扣款。你要重新捐款嗎？"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "再試一次"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "付款方式拒絕"
@@ -6783,20 +6810,23 @@
   "icu:Donations__GenericError__Description": {
     "messageformat": "可能尚未處理你的捐款。點擊「捐款給 Signal」，然後點擊「捐款收據」以查看你的收據並確認。"
   },
+  "icu:DonationsErrorBoundary__DonationUnexpectedError": {
+    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+  },
   "icu:Donations__Processing": {
     "messageformat": "正在處理捐款..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "仍在處理中"
+    "messageformat": "Still processing donation"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "你的捐款仍在處理中。 可能需要數分鐘。"
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "已取消捐款"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "距你開始進行捐款已經過太長時間。請重新開始。"
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "需要額外驗證"
@@ -6851,6 +6881,9 @@
     "messageformat": "我們修正了一個錯誤﹐以後在表情符號搜尋框中按下 Esc 退出鍵後，便不會再出現問題。"
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "此更新修正了一些小錯誤，包括某些情況下表情符號心情回應分類出錯。"
+  },
+  "icu:WhatsNew__v7.67--0": {
+    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
   }
 }

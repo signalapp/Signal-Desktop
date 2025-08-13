@@ -2237,6 +2237,9 @@
   "icu:message--getDescription--disappearing-video": {
     "messageformat": "Vídeo de visualización única"
   },
+  "icu:message--getDescription--gif": {
+    "messageformat": "GIF"
+  },
   "icu:message--deletedForEveryone": {
     "messageformat": "Se ha eliminado este mensaje."
   },
@@ -3524,6 +3527,15 @@
   "icu:ErrorModal--description": {
     "messageformat": "Inténtalo de nuevo o contacta con nuestro equipo de asistencia."
   },
+  "icu:DebugLogErrorModal__UnexpectedError": {
+    "messageformat": "An unexpected error occurred"
+  },
+  "icu:DebugLogErrorModal__SubmitDebugLog": {
+    "messageformat": "Submit debug log"
+  },
+  "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
+    "messageformat": "No thanks"
+  },
   "icu:Confirmation--confirm": {
     "messageformat": "Aceptar"
   },
@@ -3954,7 +3966,7 @@
     "messageformat": "Se ha rechazado la solicitud de {joinerName} para unirse al grupo."
   },
   "icu:GroupV2--admin-approval-bounce--pluralized": {
-    "messageformat": "{numberOfRequests, plural, one {{joinerName} requested and canceled their request to join via the group link} other {{joinerName} requested and canceled {numberOfRequests,number} requests to join via the group link}}"
+    "messageformat": "{numberOfRequests, plural, one {{joinerName} ha enviado y cancelado una solicitud para unirse al grupo mediante enlace} other {{joinerName} ha enviado y cancelado {numberOfRequests,number} solicitudes para unirse al grupo mediante enlace}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
     "messageformat": "Has activado el enlace para unirse al grupo sin aprobación de admin."
@@ -4251,7 +4263,7 @@
     "messageformat": "Sincronizando archivos"
   },
   "icu:BackupMediaDownloadProgressSettings__progressbar-hint": {
-    "messageformat": "{currentSize} de {totalSize} ({fractionComplete,number,percent})…"
+    "messageformat": "{currentSize} de {totalSize} ({fractionComplete,number,percent})"
   },
   "icu:CriticalIdlePrimaryDeviceModal__title": {
     "messageformat": "Acción requerida en tu cuenta"
@@ -4992,10 +5004,10 @@
     "messageformat": "Es necesario restablecer el enlace del alias"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Abrir pantalla de enlace de alias"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Open username link screen"
+    "messageformat": "Abrir pantalla de enlace de alias"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "Comparte tu alias"
@@ -5254,6 +5266,12 @@
   },
   "icu:Preferences__auto-convert-emoji--description": {
     "messageformat": "Por ejemplo, :-) se convertirá en <emojify>🙂</emojify>"
+  },
+  "icu:Preferences__keep-muted-chats-archived--title": {
+    "messageformat": "Keep muted chats archived"
+  },
+  "icu:Preferences__keep-muted-chats-archived--description": {
+    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Ajustes avanzados"
@@ -6636,6 +6654,12 @@
   "icu:PreferencesDonations__my-support": {
     "messageformat": "Mi contribución"
   },
+  "icu:PreferencesDonations__badge-label-one-time": {
+    "messageformat": "{formattedCurrencyAmount} one-time"
+  },
+  "icu:PreferencesDonations__badge-processing-donation": {
+    "messageformat": "Processing donation..."
+  },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Donar {formattedCurrencyAmount}"
   },
@@ -6658,7 +6682,7 @@
     "messageformat": "Los recibos no se sincronizan entre dispositivos. Si has vuelto a instalar Signal, los recibos de donaciones anteriores no estarán disponibles."
   },
   "icu:PreferencesDonations--receiptList__empty-title": {
-    "messageformat": "No hay recibos"
+    "messageformat": "No hay ningún recibo"
   },
   "icu:PreferencesDonations__ReceiptModal--title": {
     "messageformat": "Detalles"
@@ -6676,46 +6700,46 @@
     "messageformat": "Hacer una donación puntual"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "En la versión para escritorio, solo están disponibles las donaciones puntuales. Si quieres donar cada mes, selecciona la opción de donación mensual desde tu dispositivo móvil."
+    "messageformat": "En la versión de escritorio, solo están disponibles las donaciones puntuales. Si quieres donar cada mes, selecciona la opción de donación mensual desde tu dispositivo móvil."
   },
   "icu:DonateFlow__having-issues-contact-support": {
     "messageformat": "¿Problemas con tu donación? Selecciona <contactSupportLink>Contactar con asistencia</contactSupportLink>."
   },
   "icu:DonateFlow__amount-picker-custom-amount-placeholder": {
-    "messageformat": "Enter Custom Amount"
+    "messageformat": "Introduce un importe personalizado"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Tarjeta de crédito o débito"
   },
   "icu:DonateFlow__card-form-instructions": {
-    "messageformat": "Enter your credit or debit card details. Signal does not collect or store your personal information. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Introduce los datos de tu tarjeta de crédito o débito. Signal no recoge ni almacena tu información personal. <learnMoreLink>Más información</learnMoreLink>"
   },
   "icu:DonateFlow__card-form-card-number": {
-    "messageformat": "Card Number"
+    "messageformat": "Número de tarjeta"
   },
   "icu:DonateFlow__card-form-expiration-date": {
-    "messageformat": "Expiration Date"
+    "messageformat": "Fecha de caducidad"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
-    "messageformat": "Donate {formattedCurrencyAmount} to Signal"
+    "messageformat": "Donar {formattedCurrencyAmount} a Signal"
   },
   "icu:DonateFlow__card-form-error-invalid-card-number": {
-    "messageformat": "Invalid card number"
+    "messageformat": "Número de tarjeta no válido"
   },
   "icu:DonateFlow__card-form-error-expiration-expired": {
-    "messageformat": "Card has expired"
+    "messageformat": "La tarjeta ha caducado"
   },
   "icu:DonateFlow__card-form-error-year-missing": {
-    "messageformat": "Year required"
+    "messageformat": "El año es obligatorio"
   },
   "icu:DonateFlow__card-form-error-invalid": {
-    "messageformat": "Invalid"
+    "messageformat": "No válido"
   },
   "icu:DonateFlow__card-form-error-cvc-too-short": {
-    "messageformat": "Code too short"
+    "messageformat": "Código demasiado corto"
   },
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
-    "messageformat": "Get the Signal Boost badge for 30 days"
+    "messageformat": "Consigue la insignia Apoyo Signal durante 30 días"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Recibo de donación"
@@ -6730,13 +6754,16 @@
     "messageformat": "Fecha del pago"
   },
   "icu:DonationReceipt__type-value--one-time": {
-    "messageformat": "Una vez"
+    "messageformat": "Puntual"
   },
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Gracias por apoyar a Signal. Con tu contribución, impulsas nuestra misión de proteger la libertad de expresión y permitir una comunicación segura para millones de personas en todo el mundo gracias a una tecnología de código abierto centrada en la privacidad. Si resides en Estados Unidos, guarda este recibo para tus declaraciones fiscales. Signal Technology Foundation es una organización sin ánimo de lucro exenta de impuestos en Estados Unidos bajo la sección 501(c)(3) del código tributario de EE. UU. (Internal Revenue Code). Nuestro número de identificación fiscal es 82-4506840."
   },
+  "icu:Donations__OfflineTooltip": {
+    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+  },
   "icu:Donations__Toast__Canceled": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Donación cancelada"
   },
   "icu:Donations__Toast__Completed": {
     "messageformat": "Donación completada"
@@ -6748,22 +6775,22 @@
     "messageformat": "Procesando donación"
   },
   "icu:Donations__Toast__VerificationFailed": {
-    "messageformat": "No se ha podido verificar"
+    "messageformat": "Error en la verificación"
   },
   "icu:Donations__Toast__VerificationNeeded": {
     "messageformat": "Tienes una donación en curso que necesita verificación adicional."
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Tienes una donación en curso pendiente de confirmación."
   },
   "icu:Donations__DonationInterrupted": {
-    "messageformat": "Donation interrupted"
+    "messageformat": "Donación interrumpida"
   },
   "icu:Donations__DonationInterrupted__Description": {
-    "messageformat": "Your card was not charged. Do you want to retry the donation?"
+    "messageformat": "No se ha efectuado el cargo en tu tarjeta. ¿Quieres intentarlo de nuevo?"
   },
   "icu:Donations__DonationInterrupted__RetryButton": {
-    "messageformat": "Try again"
+    "messageformat": "Reintentar"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Método de pago rechazado"
@@ -6772,10 +6799,10 @@
     "messageformat": "Selecciona otro método de pago o contacta con tu banco para obtener más información."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "No se ha podido verificar"
+    "messageformat": "Error en la verificación"
   },
   "icu:Donations__Failed3dsValidation__Description": {
-    "messageformat": "Error en el paso de verificación adicional. Inténtalo de nuevo."
+    "messageformat": "No se ha podido realizar la verificación adicional. Inténtalo de nuevo."
   },
   "icu:Donations__GenericError": {
     "messageformat": "Se ha producido un error con tu donación"
@@ -6783,20 +6810,23 @@
   "icu:Donations__GenericError__Description": {
     "messageformat": "Es posible que tu donación no se haya procesado. Haz clic en \"Donar a Signal\" y luego en \"Recibos de donación\" para verificar tus recibos y confirmar."
   },
+  "icu:DonationsErrorBoundary__DonationUnexpectedError": {
+    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+  },
   "icu:Donations__Processing": {
     "messageformat": "Procesando donación…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Aún se está procesando"
+    "messageformat": "Still processing donation"
   },
   "icu:Donations__StillProcessing__Description": {
-    "messageformat": "Tu donación aún se está procesando. Puede llevar unos minutos."
+    "messageformat": "Tu donación aún se está procesando. Este proceso puede tardar unos minutos."
   },
   "icu:Donations__TimedOut": {
-    "messageformat": "Donation canceled"
+    "messageformat": "Donación cancelada"
   },
   "icu:Donations__TimedOut__Description": {
-    "messageformat": "It has been too long since you started your donation. Please start over."
+    "messageformat": "Tu donación lleva demasiado tiempo pendiente. Inicia una nueva donación."
   },
   "icu:Donations__3dsValidationNeeded": {
     "messageformat": "Verificación adicional necesaria"
@@ -6848,9 +6878,12 @@
     "messageformat": "Antes, pulsar la barra espaciadora al intentar reaccionar a un mensaje hacía que Signal abriera la imagen en pantalla completa. En esta nueva versión, la forma más sencilla de hacer zoom es simplemente hacer clic. También hemos mejorado la experiencia para que te sea más fácil distinguir los mensajes leídos de los no leídos cuando estás con mil cosas a la vez."
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Dar con el emoji correcto puede parecer un laberinto sin salida, pero hemos corregido un error que podía producirse al presionar la tecla Escape en el cuadro de búsqueda de emojis."
+    "messageformat": "Dar con el emoji perfecto puede parecer un laberinto sin salida, pero hemos corregido un error que podía producirse al presionar la tecla Escape en el cuadro de búsqueda de emojis."
   },
   "icu:WhatsNew__v7.66--0": {
-    "messageformat": "This update fixes a few small bugs, including one where emoji reactions weren't being grouped together correctly in some cases."
+    "messageformat": "Esta actualización corrige algunos errores menores, incluido uno que a veces impedía que las reacciones con emojis no se agruparan correctamente."
+  },
+  "icu:WhatsNew__v7.67--0": {
+    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
   }
 }
