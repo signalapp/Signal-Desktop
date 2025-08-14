@@ -5290,8 +5290,7 @@ button.module-calling-participants-list__contact {
         }
       }
 
-      &:hover:not(:disabled, &--disabled, &--is-selected),
-      &:focus:not(:disabled, &--disabled, &--is-selected) {
+      &:hover:not(:disabled, &--disabled, &--is-selected) {
         @include mixins.light-theme {
           background-color: variables.$color-gray-05;
           #{$unread-indicator} {
@@ -5302,6 +5301,23 @@ button.module-calling-participants-list__contact {
           background-color: variables.$color-gray-75;
           #{$unread-indicator} {
             border-color: variables.$color-gray-75;
+          }
+        }
+      }
+
+      @include mixins.keyboard-mode {
+        &:focus:not(:disabled, &--disabled, &--is-selected) {
+          @include mixins.light-theme {
+            background-color: variables.$color-gray-05;
+            #{$unread-indicator} {
+              border-color: variables.$color-gray-05;
+            }
+          }
+          @include mixins.dark-theme {
+            background-color: variables.$color-gray-75;
+            #{$unread-indicator} {
+              border-color: variables.$color-gray-75;
+            }
           }
         }
       }
