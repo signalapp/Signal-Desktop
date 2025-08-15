@@ -11,6 +11,10 @@ export class PreventDisplaySleepService {
 
   constructor(private powerSaveBlocker: PowerSaveBlocker) {}
 
+  isEnabled(): boolean {
+    return this.blockerId !== undefined;
+  }
+
   setEnabled(isEnabled: boolean): void {
     log.info(
       `Prevent display sleep service: ${
