@@ -13,6 +13,7 @@ import type { connection as WebSocket } from 'websocket';
 import qs from 'querystring';
 import EventListener from 'events';
 import type { IncomingMessage } from 'http';
+import { setTimeout as sleep } from 'node:timers/promises';
 
 import type { AbortableProcess } from '../util/AbortableProcess';
 import { strictAssert } from '../util/assert';
@@ -23,7 +24,6 @@ import {
   FIBONACCI_TIMEOUTS,
 } from '../util/BackOff';
 import * as durations from '../util/durations';
-import { sleep } from '../util/sleep';
 import { drop } from '../util/drop';
 import type { ProxyAgent } from '../util/createProxyAgent';
 import { createProxyAgent } from '../util/createProxyAgent';
@@ -280,7 +280,7 @@ export class SocketManager extends EventListener {
       this.#reconnectController = reconnectController;
 
       try {
-        await sleep(timeout, reconnectController.signal);
+        await sleep(timeout, undefined, { signal: reconnectController.signal });
       } catch {
         log.info('reconnect canceled');
         return;
