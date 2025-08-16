@@ -4,9 +4,8 @@
 import { v4 as generateUuid } from 'uuid';
 
 import type { AttachmentType } from '../types/Attachment';
-import type { MessageAttributesType } from '../model-types.d';
-import type { MessageModel } from '../models/messages';
-import * as log from '../logging/log';
+import { MessageModel } from '../models/messages';
+import { createLogger } from '../logging/log';
 import { IMAGE_JPEG } from '../types/MIME';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { SeenStatus } from '../MessageSeenStatus';
@@ -14,6 +13,8 @@ import { findAndDeleteOnboardingStoryIfExists } from './findAndDeleteOnboardingS
 import { saveNewMessageBatcher } from './messageBatcher';
 import { strictAssert } from './assert';
 import { incrementMessageCounter } from './incrementMessageCounter';
+
+const log = createLogger('downloadOnboardingStory');
 
 // First, this function is meant to be run after a storage service sync
 
@@ -42,7 +43,7 @@ export async function downloadOnboardingStory(): Promise<void> {
   );
 
   if (existingOnboardingStoryMessageIds) {
-    log.info('downloadOnboardingStory: has existingOnboardingStoryMessageIds');
+    log.info('has existingOnboardingStoryMessageIds');
     return;
   }
 
@@ -50,7 +51,7 @@ export async function downloadOnboardingStory(): Promise<void> {
 
   const manifest = await server.getOnboardingStoryManifest();
 
-  log.info('downloadOnboardingStory: got manifest version:', manifest.version);
+  log.info('got manifest version:', manifest.version);
 
   const imageFilenames =
     userLocale in manifest.languages
@@ -62,7 +63,7 @@ export async function downloadOnboardingStory(): Promise<void> {
     imageFilenames
   );
 
-  log.info('downloadOnboardingStory: downloaded stories:', imageBuffers.length);
+  log.info('downloaded stories:', imageBuffers.length);
 
   const attachments: Array<AttachmentType> = await Promise.all(
     imageBuffers.map(async data => {
@@ -76,7 +77,7 @@ export async function downloadOnboardingStory(): Promise<void> {
     })
   );
 
-  log.info('downloadOnboardingStory: getting signal conversation');
+  log.info('getting signal conversation');
   const signalConversation =
     await window.ConversationController.getOrCreateSignalConversation();
 
@@ -84,7 +85,7 @@ export async function downloadOnboardingStory(): Promise<void> {
     (attachment, index) => {
       const timestamp = Date.now() + index;
 
-      const partialMessage: MessageAttributesType = {
+      const message = new MessageModel({
         attachments: [attachment],
         canReplyToStory: false,
         conversationId: signalConversation.id,
@@ -99,12 +100,8 @@ export async function downloadOnboardingStory(): Promise<void> {
         sourceServiceId: signalConversation.getServiceId(),
         timestamp,
         type: 'story',
-      };
-      return window.MessageCache.__DEPRECATED$register(
-        partialMessage.id,
-        partialMessage,
-        'downloadOnboardingStory'
-      );
+      });
+      return window.MessageCache.register(message);
     }
   );
 
@@ -112,15 +109,10 @@ export async function downloadOnboardingStory(): Promise<void> {
     storyMessages.map(message => saveNewMessageBatcher.add(message.attributes))
   );
 
-  // Sync to redux
-  storyMessages.forEach(message => {
-    message.trigger('change');
-  });
-
   await window.storage.put(
     'existingOnboardingStoryMessageIds',
     storyMessages.map(message => message.id)
   );
 
-  log.info('downloadOnboardingStory: done');
+  log.info('done');
 }

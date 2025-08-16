@@ -2,25 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 @use '../node_modules/intl-tel-input/build/css/intlTelInput.css';
-@import 'fontfaces';
-@import 'variables';
-@import 'progress';
+@use 'fontfaces';
+@use 'variables';
 
-.iti__flag {
-  // override intlTelInput's flags image location
-  background-image: url('../node_modules/intl-tel-input/build/img/flags.png');
-}
-
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  .iti__flag {
-    background-image: url('../node_modules/intl-tel-input/build/img/flags@2x.png');
-  }
-}
-
-.intl-tel-input .country-list {
-  text-align: start;
-}
-
-.intl-tel-input .country-list .country .country-name {
-  color: $color-black;
+:root {
+  --iti-path-flags-1x: url('../node_modules/intl-tel-input/build/img/flags.webp');
+  --iti-path-flags-2x: url('../node_modules/intl-tel-input/build/img/flags@2x.webp');
+  --iti-path-globe-1x: url('../node_modules/intl-tel-input/build/img/globe.webp');
+  --iti-path-globe-2x: url('../node_modules/intl-tel-input/build/img/globe@2x.webp');
 }

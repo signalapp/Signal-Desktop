@@ -12,11 +12,12 @@ import React, {
 } from 'react';
 import { useSelector } from 'react-redux';
 import type { PanelRenderType } from '../../types/Panels';
-import * as log from '../../logging/log';
-import { ContactDetail } from '../../components/conversation/ContactDetail';
+import { createLogger } from '../../logging/log';
 import { PanelType } from '../../types/Panels';
+import { toLogFormat } from '../../types/errors';
 import { SmartAllMedia } from './AllMedia';
 import { SmartChatColorPicker } from './ChatColorPicker';
+import { SmartContactDetail } from './ContactDetail';
 import { SmartConversationDetails } from './ConversationDetails';
 import { SmartConversationNotificationsSettings } from './ConversationNotificationsSettings';
 import { SmartGV1Members } from './GV1Members';
@@ -36,6 +37,8 @@ import { focusableSelector } from '../../util/focusableSelectors';
 import { missingCaseError } from '../../util/missingCaseError';
 import { useConversationsActions } from '../ducks/conversations';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
+
+const log = createLogger('ConversationPanel');
 
 const ANIMATION_CONFIG = {
   duration: 350,
@@ -315,9 +318,6 @@ function PanelElement({
   conversationId,
   panel,
 }: PanelPropsType): JSX.Element | null {
-  const i18n = useSelector(getIntl);
-  const { startConversation } = useConversationsActions();
-
   if (panel.type === PanelType.AllMedia) {
     return <SmartAllMedia conversationId={conversationId} />;
   }
@@ -327,23 +327,9 @@ function PanelElement({
   }
 
   if (panel.type === PanelType.ContactDetails) {
-    const { contact, signalAccount } = panel.args;
+    const { messageId } = panel.args;
 
-    return (
-      <ContactDetail
-        contact={contact}
-        hasSignalAccount={Boolean(signalAccount)}
-        i18n={i18n}
-        onSendMessage={() => {
-          if (signalAccount) {
-            startConversation(
-              signalAccount.phoneNumber,
-              signalAccount.serviceId
-            );
-          }
-        }}
-      />
-    );
+    return <SmartContactDetail messageId={messageId} />;
   }
 
   if (panel.type === PanelType.ConversationDetails) {
@@ -385,6 +371,6 @@ function PanelElement({
     return <SmartStickerManager />;
   }
 
-  log.warn(missingCaseError(panel));
+  log.warn(toLogFormat(missingCaseError(panel)));
   return null;
 }

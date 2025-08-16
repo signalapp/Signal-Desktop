@@ -184,3 +184,22 @@ export function getMemberships(
     aci: member.aci,
   }));
 }
+
+export function areWePending(
+  conversationAttrs: Pick<
+    ConversationAttributesType,
+    'groupId' | 'groupVersion' | 'pendingMembersV2'
+  >
+): boolean {
+  const ourAci = window.textsecure.storage.user.getAci();
+  const ourPni = window.textsecure.storage.user.getPni();
+  return Boolean(
+    ourAci &&
+      (isMemberPending(conversationAttrs, ourAci) ||
+        Boolean(
+          ourPni &&
+            !isMember(conversationAttrs, ourAci) &&
+            isMemberPending(conversationAttrs, ourPni)
+        ))
+  );
+}

@@ -10,14 +10,8 @@ import type {
 } from '../../components/CallManager';
 import { CallManager } from '../../components/CallManager';
 import { isConversationTooBigToRing as getIsConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { calling as callingService } from '../../services/calling';
-import {
-  FALLBACK_NOTIFICATION_TITLE,
-  NotificationSetting,
-  NotificationType,
-  notificationService,
-} from '../../services/notifications';
 import {
   bounceAppIconStart,
   bounceAppIconStop,
@@ -35,7 +29,6 @@ import type {
 import { CallState } from '../../types/Calling';
 import { CallMode } from '../../types/CallDisposition';
 import type { AciString } from '../../types/ServiceId';
-import { strictAssert } from '../../util/assert';
 import { callLinkToConversation } from '../../util/callLinks';
 import { callingTones } from '../../util/callingTones';
 import { missingCaseError } from '../../util/missingCaseError';
@@ -48,15 +41,19 @@ import {
   getActiveCallState,
   getAvailableCameras,
   getCallLinkSelector,
-  getIncomingCall,
+  getRingingCall,
 } from '../selectors/calling';
 import { getConversationSelector, getMe } from '../selectors/conversations';
-import { getIntl } from '../selectors/user';
+import { getIntl, getUserACI } from '../selectors/user';
 import { SmartCallingDeviceSelection } from './CallingDeviceSelection';
 import { renderEmojiPicker } from './renderEmojiPicker';
 import { renderReactionPicker } from './renderReactionPicker';
 import { isSharingPhoneNumberWithEverybody as getIsSharingPhoneNumberWithEverybody } from '../../util/phoneNumberSharingMode';
 import { useGlobalModalActions } from '../ducks/globalModals';
+import { isLonelyGroup } from '../ducks/callingHelpers';
+import { getActiveProfile } from '../selectors/notificationProfiles';
+
+const log = createLogger('CallManager');
 
 function renderDeviceSelection(): JSX.Element {
   return <SmartCallingDeviceSelection />;
@@ -65,55 +62,7 @@ function renderDeviceSelection(): JSX.Element {
 const getGroupCallVideoFrameSource =
   callingService.getGroupCallVideoFrameSource.bind(callingService);
 
-async function notifyForCall(
-  conversationId: string,
-  title: string,
-  isVideoCall: boolean
-): Promise<void> {
-  const shouldNotify =
-    !window.SignalContext.activeWindowService.isActive() &&
-    window.Events.getCallSystemNotification();
-  if (!shouldNotify) {
-    return;
-  }
-
-  let notificationTitle: string;
-
-  const notificationSetting = notificationService.getNotificationSetting();
-  switch (notificationSetting) {
-    case NotificationSetting.Off:
-    case NotificationSetting.NoNameOrMessage:
-      notificationTitle = FALLBACK_NOTIFICATION_TITLE;
-      break;
-    case NotificationSetting.NameOnly:
-    case NotificationSetting.NameAndMessage:
-      notificationTitle = title;
-      break;
-    default:
-      log.error(missingCaseError(notificationSetting));
-      notificationTitle = FALLBACK_NOTIFICATION_TITLE;
-      break;
-  }
-
-  const conversation = window.ConversationController.get(conversationId);
-  strictAssert(conversation, 'notifyForCall: conversation not found');
-
-  const { url, absolutePath } = await conversation.getAvatarOrIdenticon();
-
-  notificationService.notify({
-    conversationId,
-    title: notificationTitle,
-    iconPath: absolutePath,
-    iconUrl: url,
-    message: isVideoCall
-      ? window.i18n('icu:incomingVideoCall')
-      : window.i18n('icu:incomingAudioCall'),
-    sentAt: 0,
-    // The ringtone plays so we don't need sound for the notification
-    silent: true,
-    type: NotificationType.IncomingCall,
-  });
-}
+const notifyForCall = callingService.notifyForCall.bind(callingService);
 
 function setLocalPreviewContainer(container: HTMLDivElement | null): void {
   callingService.setLocalPreviewContainer(container);
@@ -180,6 +129,7 @@ const mapStateToActiveCallProp = (
     presentingSource: activeCallState.presentingSource,
     presentingSourcesAvailable: activeCallState.presentingSourcesAvailable,
     settingsDialogOpen: activeCallState.settingsDialogOpen,
+    selfViewExpanded: activeCallState.selfViewExpanded,
     showNeedsScreenRecordingPermissionsWarning: Boolean(
       activeCallState.showNeedsScreenRecordingPermissionsWarning
     ),
@@ -203,6 +153,9 @@ const mapStateToActiveCallProp = (
         callMode: CallMode.Direct,
         callState: call.callState,
         peekedParticipants: [],
+        remoteAudioLevel: call.remoteAudioLevel,
+        hasRemoteAudio: Boolean(call.hasRemoteAudio),
+        hasRemoteVideo: Boolean(call.hasRemoteVideo),
         remoteParticipants: [
           {
             hasRemoteVideo: Boolean(call.hasRemoteVideo),
@@ -332,6 +285,9 @@ const mapStateToActiveCallProp = (
         raisedHands,
         remoteParticipants,
         remoteAudioLevels: call.remoteAudioLevels || new Map<number, number>(),
+        suggestLowerHand: Boolean(activeCallState.suggestLowerHand),
+        mutedBy: activeCallState.mutedBy,
+        observedRemoteMute: activeCallState.observedRemoteMute,
       } satisfies ActiveGroupCallType;
     }
     default:
@@ -364,56 +320,62 @@ const mapStateToCallLinkProp = (state: StateType): CallLinkType | undefined => {
   return callLink;
 };
 
-const mapStateToIncomingCallProp = (
+const mapStateToRingingCallProp = (
   state: StateType
 ): DirectIncomingCall | GroupIncomingCall | null => {
-  const call = getIncomingCall(state);
-  if (!call) {
+  const ourAci = getUserACI(state);
+  const ringingCall = getRingingCall(state);
+  if (!ringingCall) {
     return null;
   }
 
-  const conversation = getConversationSelector(state)(call.conversationId);
+  const conversation = getConversationSelector(state)(
+    ringingCall.conversationId
+  );
   if (!conversation) {
     log.error('The incoming call has no corresponding conversation');
     return null;
   }
 
-  switch (call.callMode) {
+  switch (ringingCall.callMode) {
     case CallMode.Direct:
       return {
         callMode: CallMode.Direct as const,
-        callState: call.callState,
-        callEndedReason: call.callEndedReason,
+        callState: ringingCall.callState,
+        callEndedReason: ringingCall.callEndedReason,
         conversation,
-        isVideoCall: call.isVideoCall,
+        isVideoCall: ringingCall.isVideoCall,
       };
     case CallMode.Group: {
-      if (!call.ringerAci) {
-        log.error('The incoming group call has no ring state');
+      if (getIsConversationTooBigToRing(conversation)) {
+        return null;
+      }
+
+      if (isLonelyGroup(conversation)) {
         return null;
       }
 
       const conversationSelector = getConversationSelector(state);
-      const ringer = conversationSelector(call.ringerAci);
+      const ringer = conversationSelector(ringingCall.ringerAci || ourAci);
       const otherMembersRung = (conversation.sortedGroupMembers ?? []).filter(
         c => c.id !== ringer.id && !c.isMe
       );
 
       return {
         callMode: CallMode.Group as const,
-        connectionState: call.connectionState,
-        joinState: call.joinState,
+        connectionState: ringingCall.connectionState,
+        joinState: ringingCall.joinState,
         conversation,
         otherMembersRung,
         ringer,
-        remoteParticipants: call.remoteParticipants,
+        remoteParticipants: ringingCall.remoteParticipants,
       };
     }
     case CallMode.Adhoc:
       log.error('Cannot handle an incoming adhoc call');
       return null;
     default:
-      throw missingCaseError(call);
+      throw missingCaseError(ringingCall);
   }
 };
 
@@ -421,13 +383,11 @@ export const SmartCallManager = memo(function SmartCallManager() {
   const i18n = useSelector(getIntl);
   const activeCall = useSelector(mapStateToActiveCallProp);
   const callLink = useSelector(mapStateToCallLinkProp);
-  const incomingCall = useSelector(mapStateToIncomingCallProp);
+  const ringingCall = useSelector(mapStateToRingingCallProp);
   const availableCameras = useSelector(getAvailableCameras);
   const hasInitialLoadCompleted = useSelector(getHasInitialLoadCompleted);
   const me = useSelector(getMe);
-  const isConversationTooBigToRing = incomingCall
-    ? getIsConversationTooBigToRing(incomingCall.conversation)
-    : false;
+  const activeNotificationProfile = useSelector(getActiveProfile);
 
   const {
     approveUser,
@@ -451,6 +411,7 @@ export const SmartCallManager = memo(function SmartCallManager() {
     setGroupCallVideoRequest,
     setIsCallActive,
     setLocalAudio,
+    setLocalAudioRemoteMuted,
     setLocalVideo,
     setOutgoingRing,
     setRendererCanvas,
@@ -459,6 +420,7 @@ export const SmartCallManager = memo(function SmartCallManager() {
     hangUpActiveCall,
     togglePip,
     toggleScreenRecordingPermissionsDialog,
+    toggleSelfViewExpanded,
     toggleSettings,
   } = useCallingActions();
   const { pauseVoiceNotePlayer } = useAudioPlayerActions();
@@ -472,6 +434,7 @@ export const SmartCallManager = memo(function SmartCallManager() {
     <CallManager
       acceptCall={acceptCall}
       activeCall={activeCall}
+      activeNotificationProfile={activeNotificationProfile}
       approveUser={approveUser}
       availableCameras={availableCameras}
       batchUserAction={batchUserAction}
@@ -493,8 +456,6 @@ export const SmartCallManager = memo(function SmartCallManager() {
       hangUpActiveCall={hangUpActiveCall}
       hasInitialLoadCompleted={hasInitialLoadCompleted}
       i18n={i18n}
-      incomingCall={incomingCall}
-      isConversationTooBigToRing={isConversationTooBigToRing}
       me={me}
       notifyForCall={notifyForCall}
       openSystemPreferencesAction={openSystemPreferencesAction}
@@ -504,12 +465,14 @@ export const SmartCallManager = memo(function SmartCallManager() {
       renderDeviceSelection={renderDeviceSelection}
       renderEmojiPicker={renderEmojiPicker}
       renderReactionPicker={renderReactionPicker}
+      ringingCall={ringingCall}
       sendGroupCallRaiseHand={sendGroupCallRaiseHand}
       sendGroupCallReaction={sendGroupCallReaction}
       selectPresentingSource={selectPresentingSource}
       setGroupCallVideoRequest={setGroupCallVideoRequest}
       setIsCallActive={setIsCallActive}
       setLocalAudio={setLocalAudio}
+      setLocalAudioRemoteMuted={setLocalAudioRemoteMuted}
       setLocalPreviewContainer={setLocalPreviewContainer}
       setLocalVideo={setLocalVideo}
       setOutgoingRing={setOutgoingRing}
@@ -528,6 +491,7 @@ export const SmartCallManager = memo(function SmartCallManager() {
       toggleScreenRecordingPermissionsDialog={
         toggleScreenRecordingPermissionsDialog
       }
+      toggleSelfViewExpanded={toggleSelfViewExpanded}
       toggleSettings={toggleSettings}
     />
   );

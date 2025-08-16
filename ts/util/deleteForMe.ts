@@ -3,91 +3,30 @@
 
 import { last, sortBy } from 'lodash';
 
-import * as log from '../logging/log';
-import { isAciString } from './isAciString';
-import { isGroup, isGroupV2 } from './whatTypeOfConversation';
-import {
-  getConversationIdForLogging,
-  getMessageIdForLogging,
-} from './idForLogging';
-import { missingCaseError } from './missingCaseError';
-import { getMessageSentTimestampSet } from './getMessageSentTimestampSet';
-import { getAuthor } from '../messages/helpers';
-import { isPniString } from '../types/ServiceId';
-import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
+import { createLogger } from '../logging/log';
 import { DataReader, DataWriter, deleteAndCleanup } from '../sql/Client';
 import { deleteData } from '../types/Attachment';
 
-import type {
-  ConversationAttributesType,
-  MessageAttributesType,
-} from '../model-types';
+import type { MessageAttributesType } from '../model-types';
 import type { ConversationModel } from '../models/conversations';
-import type {
-  ConversationToDelete,
-  MessageToDelete,
-} from '../textsecure/messageReceiverEvents';
-import type { AciString, PniString } from '../types/ServiceId';
+import type { AddressableMessage } from '../textsecure/messageReceiverEvents';
 import type { AttachmentType } from '../types/Attachment';
-import type { MessageModel } from '../models/messages';
+import { MessageModel } from '../models/messages';
+import { cleanupMessages, postSaveUpdates } from './cleanup';
+import {
+  findMatchingMessage,
+  getMessageQueryFromTarget,
+} from './syncIdentifiers';
 
-const { getMessagesBySentAt, getMostRecentAddressableMessages } = DataReader;
+const log = createLogger('deleteForMe');
+
+const { getMostRecentAddressableMessages } = DataReader;
 
 const { removeMessagesInConversation, saveMessage } = DataWriter;
 
-export function doesMessageMatch({
-  conversationId,
-  message,
-  query,
-  sentTimestamps,
-}: {
-  message: MessageAttributesType;
-  conversationId: string;
-  query: MessageQuery;
-  sentTimestamps: ReadonlySet<number>;
-}): boolean {
-  const author = getAuthor(message);
-
-  const conversationMatches = message.conversationId === conversationId;
-  const aciMatches =
-    query.authorAci && author?.attributes.serviceId === query.authorAci;
-  const pniMatches =
-    query.authorPni && author?.attributes.serviceId === query.authorPni;
-  const e164Matches =
-    query.authorE164 && author?.attributes.e164 === query.authorE164;
-  const timestampMatches = sentTimestamps.has(query.sentAt);
-
-  return Boolean(
-    conversationMatches &&
-      timestampMatches &&
-      (aciMatches || e164Matches || pniMatches)
-  );
-}
-
-export async function findMatchingMessage(
-  conversationId: string,
-  query: MessageQuery
-): Promise<MessageAttributesType | undefined> {
-  const sentAtMatches = await getMessagesBySentAt(query.sentAt);
-
-  if (!sentAtMatches.length) {
-    return undefined;
-  }
-
-  return sentAtMatches.find(message => {
-    const sentTimestamps = getMessageSentTimestampSet(message);
-    return doesMessageMatch({
-      conversationId,
-      message,
-      query,
-      sentTimestamps,
-    });
-  });
-}
-
 export async function deleteMessage(
   conversationId: string,
-  targetMessage: MessageToDelete,
+  targetMessage: AddressableMessage,
   logId: string
 ): Promise<boolean> {
   const query = getMessageQueryFromTarget(targetMessage);
@@ -98,8 +37,8 @@ export async function deleteMessage(
     return false;
   }
 
-  const message = window.MessageCache.toMessageAttributes(found);
-  await applyDeleteMessage(message, logId);
+  const message = window.MessageCache.register(new MessageModel(found));
+  await applyDeleteMessage(message.attributes, logId);
 
   return true;
 }
@@ -109,13 +48,13 @@ export async function applyDeleteMessage(
 ): Promise<void> {
   await deleteAndCleanup([message], logId, {
     fromSync: true,
-    singleProtoJobQueue,
+    cleanupMessages,
   });
 }
 
 export async function deleteAttachmentFromMessage(
   conversationId: string,
-  targetMessage: MessageToDelete,
+  targetMessage: AddressableMessage,
   deleteAttachmentData: {
     clientUuid?: string;
     fallbackDigest?: string;
@@ -141,11 +80,7 @@ export async function deleteAttachmentFromMessage(
     return false;
   }
 
-  const message = window.MessageCache.__DEPRECATED$register(
-    found.id,
-    found,
-    'ReadSyncs.onSync'
-  );
+  const message = window.MessageCache.register(new MessageModel(found));
 
   return applyDeleteAttachmentFromMessage(message, deleteAttachmentData, {
     deleteOnDisk,
@@ -209,7 +144,7 @@ export async function applyDeleteAttachmentFromMessage(
           attachments: attachments?.filter(item => item !== attachment),
         });
         if (shouldSave) {
-          await saveMessage(message.attributes, { ourAci });
+          await saveMessage(message.attributes, { ourAci, postSaveUpdates });
         }
         await deleteData({ deleteOnDisk, deleteDownloadOnDisk })(attachment);
 
@@ -260,7 +195,7 @@ export async function applyDeleteAttachmentFromMessage(
 
 async function getMostRecentMatchingMessage(
   conversationId: string,
-  targetMessages: Array<MessageToDelete>
+  targetMessages: Array<AddressableMessage>
 ): Promise<MessageAttributesType | undefined> {
   const queries = targetMessages.map(getMessageQueryFromTarget);
   const found = await Promise.all(
@@ -273,8 +208,8 @@ async function getMostRecentMatchingMessage(
 
 export async function deleteConversation(
   conversation: ConversationModel,
-  mostRecentMessages: Array<MessageToDelete>,
-  mostRecentNonExpiringMessages: Array<MessageToDelete> | undefined,
+  mostRecentMessages: Array<AddressableMessage>,
+  mostRecentNonExpiringMessages: Array<AddressableMessage> | undefined,
   isFullDelete: boolean,
   providedLogId: string
 ): Promise<boolean> {
@@ -291,10 +226,10 @@ export async function deleteConversation(
     const { received_at: receivedAt } = newestMessage;
 
     await removeMessagesInConversation(conversation.id, {
+      cleanupMessages,
       fromSync: true,
-      receivedAt,
       logId: `${logId}(receivedAt=${receivedAt})`,
-      singleProtoJobQueue,
+      receivedAt,
     });
   }
 
@@ -315,10 +250,10 @@ export async function deleteConversation(
       const { received_at: receivedAt } = newestNondisappearingMessage;
 
       await removeMessagesInConversation(conversation.id, {
+        cleanupMessages,
         fromSync: true,
-        receivedAt,
         logId: `${logId}(receivedAt=${receivedAt})`,
-        singleProtoJobQueue,
+        receivedAt,
       });
     }
   }
@@ -354,119 +289,4 @@ export async function deleteLocalOnlyConversation(
   });
 
   return true;
-}
-
-export function getConversationFromTarget(
-  targetConversation: ConversationToDelete
-): ConversationModel | undefined {
-  const { type } = targetConversation;
-
-  if (type === 'aci') {
-    return window.ConversationController.get(targetConversation.aci);
-  }
-  if (type === 'group') {
-    return window.ConversationController.get(targetConversation.groupId);
-  }
-  if (type === 'e164') {
-    return window.ConversationController.get(targetConversation.e164);
-  }
-  if (type === 'pni') {
-    return window.ConversationController.get(targetConversation.pni);
-  }
-
-  throw missingCaseError(type);
-}
-
-type MessageQuery = {
-  sentAt: number;
-  authorAci?: AciString;
-  authorE164?: string;
-  authorPni?: PniString;
-};
-
-export function getMessageQueryFromTarget(
-  targetMessage: MessageToDelete
-): MessageQuery {
-  const { type, sentAt } = targetMessage;
-
-  if (type === 'aci') {
-    if (!isAciString(targetMessage.authorAci)) {
-      throw new Error('Provided authorAci was not an ACI!');
-    }
-    return { sentAt, authorAci: targetMessage.authorAci };
-  }
-  if (type === 'pni') {
-    if (!isPniString(targetMessage.authorPni)) {
-      throw new Error('Provided authorPni was not a PNI!');
-    }
-    return { sentAt, authorPni: targetMessage.authorPni };
-  }
-
-  if (type === 'e164') {
-    return { sentAt, authorE164: targetMessage.authorE164 };
-  }
-
-  throw missingCaseError(type);
-}
-
-export function getConversationToDelete(
-  attributes: ConversationAttributesType
-): ConversationToDelete {
-  const { groupId, serviceId: aci, e164 } = attributes;
-  const idForLogging = getConversationIdForLogging(attributes);
-  const logId = `getConversationToDelete(${idForLogging})`;
-
-  if (isGroupV2(attributes) && groupId) {
-    return {
-      type: 'group',
-      groupId,
-    };
-  }
-  if (isGroup(attributes)) {
-    throw new Error(`${logId}: is a group, but not groupV2 or no groupId!`);
-  }
-  if (aci && isAciString(aci)) {
-    return {
-      type: 'aci',
-      aci,
-    };
-  }
-  if (e164) {
-    return {
-      type: 'e164',
-      e164,
-    };
-  }
-
-  throw new Error(`${logId}: No valid identifier found!`);
-}
-
-export function getMessageToDelete(
-  attributes: MessageAttributesType
-): MessageToDelete | undefined {
-  const logId = `getMessageToDelete(${getMessageIdForLogging(attributes)})`;
-  const { sent_at: sentAt } = attributes;
-
-  const author = getAuthor(attributes);
-  const authorAci = author?.get('serviceId');
-  const authorE164 = author?.get('e164');
-
-  if (authorAci && isAciString(authorAci)) {
-    return {
-      type: 'aci' as const,
-      authorAci,
-      sentAt,
-    };
-  }
-  if (authorE164) {
-    return {
-      type: 'e164' as const,
-      authorE164,
-      sentAt,
-    };
-  }
-
-  log.warn(`${logId}: Message was missing source ACI/e164`);
-
-  return undefined;
 }

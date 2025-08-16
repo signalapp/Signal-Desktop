@@ -33,6 +33,7 @@ $color-gray-05: #e9e9e9;
 $color-gray-15: #dedede;
 $color-gray-20: #c6c6c6;
 $color-gray-25: #b9b9b9;
+$color-gray-40: #808080;
 $color-gray-45: #848484;
 $color-gray-60: #5e5e5e;
 $color-gray-62: #545454;
@@ -40,19 +41,25 @@ $color-gray-65: #4a4a4a;
 $color-gray-75: #3b3b3b;
 $color-gray-78: #343434;
 $color-gray-80: #2e2e2e;
+$color-gray-85: #262626;
 $color-gray-90: #1b1b1b;
 $color-gray-95: #121212;
 $color-black: #000000;
 
 $color-white-alpha-06: rgba($color-white, 0.06);
 $color-white-alpha-08: rgba($color-white, 0.08);
+$color-white-alpha-10: rgba($color-white, 0.1);
 $color-white-alpha-12: rgba($color-white, 0.12);
 $color-white-alpha-16: rgba($color-white, 0.16);
 $color-white-alpha-20: rgba($color-white, 0.2);
+$color-white-alpha-30: rgba($color-white, 0.3);
 $color-white-alpha-40: rgba($color-white, 0.4);
+$color-white-alpha-50: rgba($color-white, 0.5);
+$color-white-alpha-55: rgba($color-white, 0.55);
 $color-white-alpha-60: rgba($color-white, 0.6);
 $color-white-alpha-70: rgba($color-white, 0.7);
 $color-white-alpha-80: rgba($color-white, 0.8);
+$color-white-alpha-85: rgba($color-white, 0.85);
 $color-white-alpha-90: rgba($color-white, 0.9);
 
 $color-black-alpha-05: rgba($color-black, 0.05);
@@ -60,6 +67,7 @@ $color-black-alpha-06: rgba($color-black, 0.06);
 $color-black-alpha-08: rgba($color-black, 0.08);
 // Equivalent to gray-05 on a white background
 $color-black-alpha-085: rgba($color-black, 0.085);
+$color-black-alpha-10: rgba($color-black, 0.1);
 $color-black-alpha-12: rgba($color-black, 0.12);
 $color-black-alpha-16: rgba($color-black, 0.16);
 $color-black-alpha-20: rgba($color-black, 0.2);
@@ -70,12 +78,13 @@ $color-black-alpha-50: rgba($color-black, 0.5);
 $color-black-alpha-60: rgba($color-black, 0.6);
 $color-black-alpha-70: rgba($color-black, 0.7);
 $color-black-alpha-80: rgba($color-black, 0.8);
+$color-black-alpha-85: rgba($color-black, 0.85);
 $color-black-alpha-90: rgba($color-black, 0.9);
 
 $color-transparent: rgba(0, 0, 0, 0);
 
 $color-ultramarine-dark: #1851b4;
-$color-ultramarine-icon: #3a76f0;
+$color-ultramarine-logo: #3b45fd;
 $color-ultramarine-light: #6191f3;
 $color-ultramarine-dawn: #406ec9;
 $color-ultramarine-pastel: #abc4f8;
@@ -99,6 +108,7 @@ $color-taupe: #8f616a;
 $color-steel: #71717f;
 $color-bright-gray: #ebeae8;
 $color-borage-blue: #506ecd;
+$color-orange: #ff9500;
 
 // Gradient colors
 
@@ -268,11 +278,12 @@ $color-selected-message-background-dark: $color-gray-65;
 $header-height: 52px;
 
 $ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+$ease-out-local-preview: cubic-bezier(0.17, 0.17, 0, 1);
 
 $calling-background-color: $color-gray-90;
 
 // Maintain aspect ratio 960x720 with $local-preview-height
-$calling-local-preview-width: 106.67px;
+$calling-local-preview-normal-width: 106.67px;
 
 // General
 
@@ -311,3 +322,6 @@ $NavTabs__ItemButton__blockPadding: 10px;
 $CallControls__height: 80px;
 $CallControls__max-width: 640px;
 $CallControls__initial-width: 480px;
+
+$scrollbar_height: 9px;
+$scrollbar_width: 9px;

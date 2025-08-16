@@ -3,32 +3,51 @@
 
 import {
   type AttachmentType,
-  mightBeOnBackupTier,
   AttachmentVariant,
+  AttachmentPermanentlyUndownloadableError,
+  getAttachmentIdForLogging,
+  hasRequiredInformationForBackup,
+  wasImportedFromLocalBackup,
 } from '../types/Attachment';
 import { downloadAttachment as doDownloadAttachment } from '../textsecure/downloadAttachment';
+import { downloadAttachmentFromLocalBackup as doDownloadAttachmentFromLocalBackup } from './downloadAttachmentFromLocalBackup';
 import { MediaTier } from '../types/AttachmentDownload';
-import * as log from '../logging/log';
-import { redactGenericText } from './privacy';
+import { createLogger } from '../logging/log';
 import { HTTPError } from '../textsecure/Errors';
 import { toLogFormat } from '../types/errors';
 import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto';
 
-export class AttachmentPermanentlyUndownloadableError extends Error {}
+const log = createLogger('downloadAttachment');
 
 export async function downloadAttachment({
   attachment,
-  variant = AttachmentVariant.Default,
-  dependencies = { downloadAttachmentFromServer: doDownloadAttachment },
+  options: {
+    variant = AttachmentVariant.Default,
+    onSizeUpdate,
+    abortSignal,
+    hasMediaBackups,
+  },
+  dependencies = {
+    downloadAttachmentFromServer: doDownloadAttachment,
+    downloadAttachmentFromLocalBackup: doDownloadAttachmentFromLocalBackup,
+  },
 }: {
   attachment: AttachmentType;
-  variant?: AttachmentVariant;
-  dependencies?: { downloadAttachmentFromServer: typeof doDownloadAttachment };
+  options: {
+    variant?: AttachmentVariant;
+    onSizeUpdate: (totalBytes: number) => void;
+    abortSignal: AbortSignal;
+    hasMediaBackups: boolean;
+  };
+  dependencies?: {
+    downloadAttachmentFromServer: typeof doDownloadAttachment;
+    downloadAttachmentFromLocalBackup: typeof doDownloadAttachmentFromLocalBackup;
+  };
 }): Promise<ReencryptedAttachmentV2> {
-  const redactedDigest = redactGenericText(attachment.digest ?? '');
+  const attachmentId = getAttachmentIdForLogging(attachment);
   const variantForLogging =
     variant !== AttachmentVariant.Default ? `[${variant}]` : '';
-  const dataId = `${redactedDigest}${variantForLogging}`;
+  const dataId = `${attachmentId}${variantForLogging}`;
   const logId = `downloadAttachmentUtil(${dataId})`;
 
   const { server } = window.textsecure;
@@ -36,41 +55,63 @@ export async function downloadAttachment({
     throw new Error('window.textsecure.server is not available!');
   }
 
-  let migratedAttachment: AttachmentType;
+  const isBackupable = hasRequiredInformationForBackup(attachment);
 
-  const { id: legacyId } = attachment;
-  if (legacyId === undefined) {
-    migratedAttachment = attachment;
-  } else {
-    migratedAttachment = {
-      ...attachment,
-      cdnId: String(legacyId),
-    };
+  const mightBeOnBackupTierNow = isBackupable && hasMediaBackups;
+  const mightBeOnBackupTierInTheFuture = isBackupable;
+
+  if (wasImportedFromLocalBackup(attachment)) {
+    log.info(`${logId}: Downloading attachment from local backup`);
+    try {
+      const result =
+        await dependencies.downloadAttachmentFromLocalBackup(attachment);
+      onSizeUpdate(attachment.size);
+      return result;
+    } catch (error) {
+      // We also just log this error instead of throwing, since we want to still try to
+      // find it on the backup then transit tiers.
+      log.error(
+        `${logId}: error when downloading from local backup; will try backup and transit tier`,
+        toLogFormat(error)
+      );
+    }
   }
 
-  if (mightBeOnBackupTier(migratedAttachment)) {
+  if (mightBeOnBackupTierNow) {
     try {
       return await dependencies.downloadAttachmentFromServer(
         server,
-        migratedAttachment,
+        { mediaTier: MediaTier.BACKUP, attachment },
         {
-          variant,
-          mediaTier: MediaTier.BACKUP,
           logPrefix: dataId,
+          onSizeUpdate,
+          variant,
+          abortSignal,
         }
       );
     } catch (error) {
+      const shouldFallbackToTransitTier =
+        variant !== AttachmentVariant.ThumbnailFromBackup;
+
       if (error instanceof HTTPError && error.code === 404) {
         // This is an expected occurrence if restoring from a backup before the
         // attachment has been moved to the backup tier
-        log.warn(`${logId}: attachment not found on backup CDN`);
+        log.warn(
+          `${logId}: attachment not found on backup CDN`,
+          shouldFallbackToTransitTier ? 'will try transit tier' : ''
+        );
       } else {
         // We also just log this error instead of throwing, since we want to still try to
         // find it on the attachment tier.
         log.error(
-          `${logId}: error when downloading from backup CDN; will try transit tier`,
+          `${logId}: error when downloading from backup CDN`,
+          shouldFallbackToTransitTier ? 'will try transit tier' : '',
           toLogFormat(error)
         );
+      }
+
+      if (!shouldFallbackToTransitTier) {
+        throw error;
       }
     }
   }
@@ -78,26 +119,32 @@ export async function downloadAttachment({
   try {
     return await dependencies.downloadAttachmentFromServer(
       server,
-      migratedAttachment,
+      { attachment, mediaTier: MediaTier.STANDARD },
       {
-        variant,
-        mediaTier: MediaTier.STANDARD,
         logPrefix: dataId,
+        onSizeUpdate,
+        variant,
+        abortSignal,
       }
     );
   } catch (error) {
-    if (mightBeOnBackupTier(migratedAttachment)) {
+    if (mightBeOnBackupTierInTheFuture) {
       // We don't want to throw the AttachmentPermanentlyUndownloadableError because we
       // may just need to wait for this attachment to end up on the backup tier
       throw error;
     }
-    // Attachments on the transit tier expire after 30 days, then start returning 404 or
-    // 403
-    if (
+
+    // Attachments on the transit tier expire after (message queue length + buffer) days,
+    // then start returning 404
+    if (error instanceof HTTPError && error.code === 404) {
+      throw new AttachmentPermanentlyUndownloadableError(`HTTP ${error.code}`);
+    } else if (
       error instanceof HTTPError &&
-      (error.code === 404 || error.code === 403)
+      // CDN 0 can return 403 which means the same as 404 from other CDNs
+      error.code === 403 &&
+      (attachment.cdnNumber == null || attachment.cdnNumber === 0)
     ) {
-      throw new AttachmentPermanentlyUndownloadableError();
+      throw new AttachmentPermanentlyUndownloadableError(`HTTP ${error.code}`);
     } else {
       throw error;
     }

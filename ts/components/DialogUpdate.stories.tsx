@@ -9,12 +9,9 @@ import { DialogUpdate } from './DialogUpdate';
 import { DialogType } from '../types/Dialogs';
 import { WidthBreakpoint } from './_util';
 import { SECOND } from '../util/durations';
-import { FakeLeftPaneContainer } from '../test-both/helpers/FakeLeftPaneContainer';
+import { FakeLeftPaneContainer } from '../test-helpers/FakeLeftPaneContainer';
 
-import { setupI18n } from '../util/setupI18n';
-import enMessages from '../../_locales/en/messages.json';
-
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const defaultProps = {
   containerWidthBreakpoint: WidthBreakpoint.Wide,

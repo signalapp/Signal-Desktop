@@ -7,7 +7,6 @@ import React from 'react';
 import { missingCaseError } from '../util/missingCaseError';
 import { InstallScreenStep } from '../types/InstallScreen';
 import { InstallScreenErrorStep } from './installScreen/InstallScreenErrorStep';
-import { InstallScreenChoosingDeviceNameStep } from './installScreen/InstallScreenChoosingDeviceNameStep';
 import { InstallScreenLinkInProgressStep } from './installScreen/InstallScreenLinkInProgressStep';
 import { InstallScreenQrCodeNotScannedStep } from './installScreen/InstallScreenQrCodeNotScannedStep';
 import { InstallScreenBackupImportStep } from './installScreen/InstallScreenBackupImportStep';
@@ -20,12 +19,6 @@ type PropsType =
       step: InstallScreenStep.QrCodeNotScanned;
       screenSpecificProps: ComponentProps<
         typeof InstallScreenQrCodeNotScannedStep
-      >;
-    }
-  | {
-      step: InstallScreenStep.ChoosingDeviceName;
-      screenSpecificProps: ComponentProps<
-        typeof InstallScreenChoosingDeviceNameStep
       >;
     }
   | {
@@ -50,10 +43,6 @@ export function InstallScreen(props: Readonly<PropsType>): ReactElement {
     case InstallScreenStep.QrCodeNotScanned:
       return (
         <InstallScreenQrCodeNotScannedStep {...props.screenSpecificProps} />
-      );
-    case InstallScreenStep.ChoosingDeviceName:
-      return (
-        <InstallScreenChoosingDeviceNameStep {...props.screenSpecificProps} />
       );
     case InstallScreenStep.LinkInProgress:
       return <InstallScreenLinkInProgressStep {...props.screenSpecificProps} />;

@@ -49,7 +49,7 @@ describe('storage service', function (this: Mocha.Suite) {
       });
 
       await leftPane
-        .locator(`[data-testid="${firstContact.toContact().aci}"]`)
+        .locator(`[data-testid="${firstContact.device.aci}"]`)
         .waitFor({ state: 'hidden' });
 
       await leftPane
@@ -74,7 +74,7 @@ describe('storage service', function (this: Mocha.Suite) {
       });
 
       await leftPane
-        .locator(`[data-testid="${firstContact.toContact().aci}"]`)
+        .locator(`[data-testid="${firstContact.device.aci}"]`)
         .waitFor();
 
       await leftPane
@@ -89,7 +89,7 @@ describe('storage service', function (this: Mocha.Suite) {
       const state = await phone.expectStorageState('consistency check');
 
       await leftPane
-        .locator(`[data-testid="${firstContact.toContact().aci}"]`)
+        .locator(`[data-testid="${firstContact.device.aci}"]`)
         .click();
 
       const moreButton = conversationStack.locator(

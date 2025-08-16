@@ -63,7 +63,7 @@ export const SmartChatColorPicker = memo(function SmartChatColorPicker({
   };
 
   const getConversationsWithCustomColor = useCallback(
-    async (colorId: string): Promise<Array<ConversationType>> => {
+    (colorId: string): Array<ConversationType> => {
       return conversationWithCustomColorSelector(colorId);
     },
     [conversationWithCustomColorSelector]

@@ -5,7 +5,10 @@ import React from 'react';
 
 import { ConfirmationDialog } from './ConfirmationDialog';
 import type { LocalizerType } from '../types/I18N';
+import { I18n } from './I18n';
 
+const BACKUP_AND_RESTORE_SUPPORT_PAGE =
+  'https://support.signal.org/hc/articles/360007059752-Backup-and-Restore-Messages';
 export function BackupMediaDownloadCancelConfirmationDialog({
   i18n,
   handleConfirmCancel,
@@ -15,6 +18,11 @@ export function BackupMediaDownloadCancelConfirmationDialog({
   handleConfirmCancel: VoidFunction;
   handleDialogClose: VoidFunction;
 }): JSX.Element | null {
+  const learnMoreLink = (parts: Array<string | JSX.Element>) => (
+    <a href={BACKUP_AND_RESTORE_SUPPORT_PAGE} rel="noreferrer" target="_blank">
+      {parts}
+    </a>
+  );
   return (
     <ConfirmationDialog
       moduleClassName="BackupMediaDownloadCancelConfirmation"
@@ -35,7 +43,13 @@ export function BackupMediaDownloadCancelConfirmationDialog({
       onClose={handleDialogClose}
       title={i18n('icu:BackupMediaDownloadCancelConfirmation__title')}
     >
-      {i18n('icu:BackupMediaDownloadCancelConfirmation__description')}
+      <I18n
+        id="icu:BackupMediaDownloadCancelConfirmation__description"
+        i18n={i18n}
+        components={{
+          learnMoreLink,
+        }}
+      />
     </ConfirmationDialog>
   );
 }

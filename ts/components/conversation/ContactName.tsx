@@ -43,6 +43,7 @@ export type PropsType = ContactNameData & {
   module?: string;
   preferFirstName?: boolean;
   onClick?: VoidFunction;
+  largeVerifiedBadge?: boolean;
 };
 
 export function ContactName({
@@ -54,6 +55,7 @@ export function ContactName({
   preferFirstName,
   title,
   onClick,
+  largeVerifiedBadge,
 }: PropsType): JSX.Element {
   const getClassName = getClassNamesFor('module-contact-name', module);
 
@@ -75,7 +77,13 @@ export function ContactName({
     >
       <Emojify text={text} />
       {(isSignalConversation || isMe) && (
-        <span className="ContactModal__official-badge" />
+        <span
+          className={
+            largeVerifiedBadge
+              ? 'ContactModal__official-badge__large'
+              : 'ContactModal__official-badge'
+          }
+        />
       )}
     </WrappingElement>
   );

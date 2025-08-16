@@ -40,7 +40,7 @@ import {
   setScrollBottom,
 } from '../../util/scrollUtil';
 import { LastSeenIndicator } from './LastSeenIndicator';
-import { MINUTE } from '../../util/durations';
+import { MINUTE, SECOND } from '../../util/durations';
 import { SizeObserver } from '../../hooks/useSizeObserver';
 import {
   createScrollerLock,
@@ -53,6 +53,8 @@ const AT_BOTTOM_DETECTOR_STYLE = { height: AT_BOTTOM_THRESHOLD };
 const MIN_ROW_HEIGHT = 18;
 const SCROLL_DOWN_BUTTON_THRESHOLD = 8;
 const LOAD_NEWER_THRESHOLD = 5;
+
+const DELAY_BEFORE_MARKING_READ_AFTER_FOCUS = SECOND;
 
 export type WarningType = ReadonlyDeep<
   | {
@@ -84,6 +86,7 @@ type PropsHousekeepingType = {
   isBlocked: boolean;
   isConversationSelected: boolean;
   isGroupV1AndDisabled?: boolean;
+  isInFullScreenCall: boolean;
   isIncomingMessageRequest: boolean;
   isSomeoneTyping: boolean;
   unreadCount?: number;
@@ -137,7 +140,7 @@ type PropsHousekeepingType = {
 };
 
 export type PropsActionsType = {
-  // From Backbone
+  // From Model
   acknowledgeGroupMemberNameCollisions: (
     conversationId: string,
     groupNameCollisions: ReadonlyDeep<GroupNameCollisionsWithIdsByTitle>
@@ -167,6 +170,7 @@ export type PropsType = PropsDataType &
 
 type StateType = {
   scrollLocked: boolean;
+  scrollLockHeight: number | undefined;
   hasDismissedDirectContactSpoofingWarning: boolean;
   hasRecentlyScrolled: boolean;
   lastMeasuredWarningHeight: number;
@@ -189,22 +193,23 @@ export class Timeline extends React.Component<
   StateType,
   SnapshotType
 > {
-  private readonly containerRef = React.createRef<HTMLDivElement>();
-  private readonly messagesRef = React.createRef<HTMLDivElement>();
-  private readonly atBottomDetectorRef = React.createRef<HTMLDivElement>();
-  private readonly lastSeenIndicatorRef = React.createRef<HTMLDivElement>();
-  private intersectionObserver?: IntersectionObserver;
+  readonly #containerRef = React.createRef<HTMLDivElement>();
+  readonly #messagesRef = React.createRef<HTMLDivElement>();
+  readonly #atBottomDetectorRef = React.createRef<HTMLDivElement>();
+  readonly #lastSeenIndicatorRef = React.createRef<HTMLDivElement>();
+  #intersectionObserver?: IntersectionObserver;
 
   // This is a best guess. It will likely be overridden when the timeline is measured.
-  private maxVisibleRows = Math.ceil(window.innerHeight / MIN_ROW_HEIGHT);
+  #maxVisibleRows = Math.ceil(window.innerHeight / MIN_ROW_HEIGHT);
 
-  private hasRecentlyScrolledTimeout?: NodeJS.Timeout;
-  private delayedPeekTimeout?: NodeJS.Timeout;
-  private peekInterval?: NodeJS.Timeout;
+  #hasRecentlyScrolledTimeout?: NodeJS.Timeout;
+  #delayedPeekTimeout?: NodeJS.Timeout;
+  #peekInterval?: NodeJS.Timeout;
 
   // eslint-disable-next-line react/state-in-constructor
   override state: StateType = {
     scrollLocked: false,
+    scrollLockHeight: undefined,
     hasRecentlyScrolled: true,
     hasDismissedDirectContactSpoofingWarning: false,
 
@@ -213,31 +218,36 @@ export class Timeline extends React.Component<
     widthBreakpoint: WidthBreakpoint.Wide,
   };
 
-  private onScrollLockChange = (): void => {
-    this.setState({
-      scrollLocked: this.scrollerLock.isLocked(),
+  #onScrollLockChange = (): void => {
+    const scrollLocked = this.#scrollerLock.isLocked();
+    this.setState(() => {
+      // Prevent scroll due to elements shrinking or disappearing (e.g. typing indicators)
+      const scrollLockHeight = scrollLocked
+        ? this.#messagesRef.current?.getBoundingClientRect().height
+        : undefined;
+      return {
+        scrollLocked,
+        scrollLockHeight,
+      };
     });
   };
 
-  private scrollerLock = createScrollerLock(
-    'Timeline',
-    this.onScrollLockChange
-  );
+  #scrollerLock = createScrollerLock('Timeline', this.#onScrollLockChange);
 
-  private onScroll = (event: UIEvent): void => {
+  #onScroll = (event: UIEvent): void => {
     // When content is removed from the viewport, such as typing indicators leaving
     // or messages being edited smaller or deleted, scroll events are generated and
     // they are marked as user-generated (isTrusted === true). Actual user generated
     // scroll events with movement must scroll a nonbottom state at some point.
-    const isAtBottom = this.isAtBottom();
+    const isAtBottom = this.#isAtBottom();
     if (event.isTrusted && !isAtBottom) {
-      this.scrollerLock.onUserInterrupt('onScroll');
+      this.#scrollerLock.onUserInterrupt('onScroll');
     }
 
     // hasRecentlyScrolled is used to show the floating date header, which we only
     // want to show when scrolling through history or on conversation first open.
     // Checking bottom prevents new messages and typing from showing the header.
-    if (!this.state.hasRecentlyScrolled && this.isAtBottom()) {
+    if (!this.state.hasRecentlyScrolled && this.#isAtBottom()) {
       return;
     }
 
@@ -248,24 +258,24 @@ export class Timeline extends React.Component<
       // [0]: https://github.com/facebook/react/blob/29b7b775f2ecf878eaf605be959d959030598b07/packages/react-reconciler/src/ReactUpdateQueue.js#L401-L404
       oldState.hasRecentlyScrolled ? null : { hasRecentlyScrolled: true }
     );
-    clearTimeoutIfNecessary(this.hasRecentlyScrolledTimeout);
-    this.hasRecentlyScrolledTimeout = setTimeout(() => {
+    clearTimeoutIfNecessary(this.#hasRecentlyScrolledTimeout);
+    this.#hasRecentlyScrolledTimeout = setTimeout(() => {
       this.setState({ hasRecentlyScrolled: false });
     }, 3000);
   };
 
-  private scrollToItemIndex(itemIndex: number): void {
-    if (this.scrollerLock.isLocked()) {
+  #scrollToItemIndex(itemIndex: number): void {
+    if (this.#scrollerLock.isLocked()) {
       return;
     }
 
-    this.messagesRef.current
+    this.#messagesRef.current
       ?.querySelector(`[data-item-index="${itemIndex}"]`)
       ?.scrollIntoViewIfNeeded();
   }
 
-  private scrollToBottom = (setFocus?: boolean): void => {
-    if (this.scrollerLock.isLocked()) {
+  #scrollToBottom = (setFocus?: boolean): void => {
+    if (this.#scrollerLock.isLocked()) {
       return;
     }
 
@@ -276,20 +286,20 @@ export class Timeline extends React.Component<
       const lastMessageId = items[lastIndex];
       targetMessage(lastMessageId, id);
     } else {
-      const containerEl = this.containerRef.current;
+      const containerEl = this.#containerRef.current;
       if (containerEl) {
         scrollToBottom(containerEl);
       }
     }
   };
 
-  private onClickScrollDownButton = (): void => {
-    this.scrollerLock.onUserInterrupt('onClickScrollDownButton');
-    this.scrollDown(false);
+  #onClickScrollDownButton = (): void => {
+    this.#scrollerLock.onUserInterrupt('onClickScrollDownButton');
+    this.#scrollDown(false);
   };
 
-  private scrollDown = (setFocus?: boolean): void => {
-    if (this.scrollerLock.isLocked()) {
+  #scrollDown = (setFocus?: boolean): void => {
+    if (this.#scrollerLock.isLocked()) {
       return;
     }
 
@@ -309,7 +319,7 @@ export class Timeline extends React.Component<
     }
 
     if (messageLoadingState) {
-      this.scrollToBottom(setFocus);
+      this.#scrollToBottom(setFocus);
       return;
     }
 
@@ -323,10 +333,10 @@ export class Timeline extends React.Component<
         const messageId = items[oldestUnseenIndex];
         targetMessage(messageId, id);
       } else {
-        this.scrollToItemIndex(oldestUnseenIndex);
+        this.#scrollToItemIndex(oldestUnseenIndex);
       }
     } else if (haveNewest) {
-      this.scrollToBottom(setFocus);
+      this.#scrollToBottom(setFocus);
     } else {
       const lastId = last(items);
       if (lastId) {
@@ -335,8 +345,8 @@ export class Timeline extends React.Component<
     }
   };
 
-  private isAtBottom(): boolean {
-    const containerEl = this.containerRef.current;
+  #isAtBottom(): boolean {
+    const containerEl = this.#containerRef.current;
     if (!containerEl) {
       return false;
     }
@@ -346,10 +356,10 @@ export class Timeline extends React.Component<
     return isScrolledNearBottom || !hasScrollbars;
   }
 
-  private updateIntersectionObserver(): void {
-    const containerEl = this.containerRef.current;
-    const messagesEl = this.messagesRef.current;
-    const atBottomDetectorEl = this.atBottomDetectorRef.current;
+  #updateIntersectionObserver(): void {
+    const containerEl = this.#containerRef.current;
+    const messagesEl = this.#messagesRef.current;
+    const atBottomDetectorEl = this.#atBottomDetectorRef.current;
     if (!containerEl || !messagesEl || !atBottomDetectorEl) {
       return;
     }
@@ -368,7 +378,7 @@ export class Timeline extends React.Component<
     // We re-initialize the `IntersectionObserver`. We don't want stale references to old
     //   props, and we care about the order of `IntersectionObserverEntry`s. (We could do
     //   this another way, but this approach works.)
-    this.intersectionObserver?.disconnect();
+    this.#intersectionObserver?.disconnect();
 
     const intersectionRatios = new Map<Element, number>();
 
@@ -445,7 +455,9 @@ export class Timeline extends React.Component<
         setIsNearBottom(id, newIsNearBottom);
 
         if (newestBottomVisibleMessageId) {
-          this.markNewestBottomVisibleMessageRead();
+          this.#markNewestBottomVisibleMessageRead(
+            newestBottomVisibleMessageId
+          );
 
           const rowIndex = getRowIndexFromElement(newestBottomVisible);
           const maxRowIndex = items.length - 1;
@@ -471,15 +483,15 @@ export class Timeline extends React.Component<
         }
       };
 
-    this.intersectionObserver = new IntersectionObserver(
+    this.#intersectionObserver = new IntersectionObserver(
       (entries, observer) => {
         assertDev(
-          this.intersectionObserver === observer,
+          this.#intersectionObserver === observer,
           'observer.disconnect() should prevent callbacks from firing'
         );
 
         // Observer was updated from under us
-        if (this.intersectionObserver !== observer) {
+        if (this.#intersectionObserver !== observer) {
           return;
         }
 
@@ -493,50 +505,63 @@ export class Timeline extends React.Component<
 
     for (const child of messagesEl.children) {
       if ((child as HTMLElement).dataset.messageId) {
-        this.intersectionObserver.observe(child);
+        this.#intersectionObserver.observe(child);
       }
     }
-    this.intersectionObserver.observe(atBottomDetectorEl);
+    this.#intersectionObserver.observe(atBottomDetectorEl);
   }
 
-  private markNewestBottomVisibleMessageRead = throttle((): void => {
+  #markNewestBottomVisibleMessageRead = throttle((messageId?: string): void => {
     const { id, markMessageRead } = this.props;
-    const { newestBottomVisibleMessageId } = this.state;
-    if (newestBottomVisibleMessageId) {
-      markMessageRead(id, newestBottomVisibleMessageId);
+    const messageIdToMarkRead =
+      messageId ?? this.state.newestBottomVisibleMessageId;
+    if (messageIdToMarkRead) {
+      markMessageRead(id, messageIdToMarkRead);
     }
   }, 500);
 
-  private setupGroupCallPeekTimeouts(): void {
-    this.cleanupGroupCallPeekTimeouts();
+  // When the the window becomes active, or when a fullsceen call is ended, we mark read
+  // with a delay, to allow users to navigate away quickly without marking messages read
+  #markNewestBottomVisibleMessageReadAfterDelay = throttle(
+    this.#markNewestBottomVisibleMessageRead,
+    DELAY_BEFORE_MARKING_READ_AFTER_FOCUS,
+    {
+      leading: false,
+      trailing: true,
+    }
+  );
 
-    this.delayedPeekTimeout = setTimeout(() => {
+  #setupGroupCallPeekTimeouts(): void {
+    this.#cleanupGroupCallPeekTimeouts();
+
+    this.#delayedPeekTimeout = setTimeout(() => {
       const { id, peekGroupCallForTheFirstTime } = this.props;
-      this.delayedPeekTimeout = undefined;
+      this.#delayedPeekTimeout = undefined;
       peekGroupCallForTheFirstTime(id);
     }, 500);
 
-    this.peekInterval = setInterval(() => {
+    this.#peekInterval = setInterval(() => {
       const { id, peekGroupCallIfItHasMembers } = this.props;
       peekGroupCallIfItHasMembers(id);
     }, MINUTE);
   }
 
-  private cleanupGroupCallPeekTimeouts(): void {
-    const { delayedPeekTimeout, peekInterval } = this;
+  #cleanupGroupCallPeekTimeouts(): void {
+    const peekInterval = this.#peekInterval;
+    const delayedPeekTimeout = this.#delayedPeekTimeout;
 
     clearTimeoutIfNecessary(delayedPeekTimeout);
-    this.delayedPeekTimeout = undefined;
+    this.#delayedPeekTimeout = undefined;
 
     if (peekInterval) {
       clearInterval(peekInterval);
-      this.peekInterval = undefined;
+      this.#peekInterval = undefined;
     }
   }
 
   public override componentDidMount(): void {
-    const containerEl = this.containerRef.current;
-    const messagesEl = this.messagesRef.current;
+    const containerEl = this.#containerRef.current;
+    const messagesEl = this.#messagesRef.current;
     const { conversationType, isConversationSelected } = this.props;
     strictAssert(
       // We don't render anything unless the conversation is selected
@@ -544,31 +569,32 @@ export class Timeline extends React.Component<
       '<Timeline> mounted without some refs'
     );
 
-    this.updateIntersectionObserver();
+    this.#updateIntersectionObserver();
 
     window.SignalContext.activeWindowService.registerForActive(
-      this.markNewestBottomVisibleMessageRead
+      this.#markNewestBottomVisibleMessageReadAfterDelay
     );
 
     if (conversationType === 'group') {
-      this.setupGroupCallPeekTimeouts();
+      this.#setupGroupCallPeekTimeouts();
     }
   }
 
   public override componentWillUnmount(): void {
     window.SignalContext.activeWindowService.unregisterForActive(
-      this.markNewestBottomVisibleMessageRead
+      this.#markNewestBottomVisibleMessageReadAfterDelay
     );
-
-    this.intersectionObserver?.disconnect();
-    this.cleanupGroupCallPeekTimeouts();
+    this.#markNewestBottomVisibleMessageReadAfterDelay.cancel();
+    this.#markNewestBottomVisibleMessageRead.cancel();
+    this.#intersectionObserver?.disconnect();
+    this.#cleanupGroupCallPeekTimeouts();
     this.props.updateVisibleMessages?.([]);
   }
 
   public override getSnapshotBeforeUpdate(
     prevProps: Readonly<PropsType>
   ): SnapshotType {
-    const containerEl = this.containerRef.current;
+    const containerEl = this.#containerRef.current;
     if (!containerEl) {
       return null;
     }
@@ -579,7 +605,7 @@ export class Timeline extends React.Component<
     const scrollAnchor = getScrollAnchorBeforeUpdate(
       prevProps,
       props,
-      this.isAtBottom()
+      this.#isAtBottom()
     );
 
     switch (scrollAnchor) {
@@ -614,6 +640,7 @@ export class Timeline extends React.Component<
   ): void {
     const {
       conversationType: previousConversationType,
+      isInFullScreenCall: previousIsInFullScreenCall,
       items: oldItems,
       messageChangeCounter: previousMessageChangeCounter,
       messageLoadingState: previousMessageLoadingState,
@@ -622,15 +649,16 @@ export class Timeline extends React.Component<
       conversationType,
       discardMessages,
       id,
+      isInFullScreenCall,
       items: newItems,
       messageChangeCounter,
       messageLoadingState,
     } = this.props;
 
-    const containerEl = this.containerRef.current;
-    if (!this.scrollerLock.isLocked() && containerEl && snapshot) {
+    const containerEl = this.#containerRef.current;
+    if (!this.#scrollerLock.isLocked() && containerEl && snapshot) {
       if (snapshot === scrollToUnreadIndicator) {
-        const lastSeenIndicatorEl = this.lastSeenIndicatorRef.current;
+        const lastSeenIndicatorEl = this.#lastSeenIndicatorRef.current;
         if (lastSeenIndicatorEl) {
           lastSeenIndicatorEl.scrollIntoView();
         } else {
@@ -641,7 +669,7 @@ export class Timeline extends React.Component<
           );
         }
       } else if ('scrollToIndex' in snapshot) {
-        this.scrollToItemIndex(snapshot.scrollToIndex);
+        this.#scrollToItemIndex(snapshot.scrollToIndex);
       } else if ('scrollTop' in snapshot) {
         containerEl.scrollTop = snapshot.scrollTop;
       } else {
@@ -657,12 +685,12 @@ export class Timeline extends React.Component<
       oldItems.at(-1) !== newItems.at(-1);
 
     if (haveItemsChanged) {
-      this.updateIntersectionObserver();
+      this.#updateIntersectionObserver();
 
       // This condition is somewhat arbitrary.
-      const numberToKeepAtBottom = this.maxVisibleRows * 2;
+      const numberToKeepAtBottom = this.#maxVisibleRows * 2;
       const shouldDiscardOlderMessages: boolean =
-        this.isAtBottom() && newItems.length > numberToKeepAtBottom;
+        this.#isAtBottom() && newItems.length > numberToKeepAtBottom;
       if (shouldDiscardOlderMessages) {
         discardMessages({
           conversationId: id,
@@ -676,9 +704,9 @@ export class Timeline extends React.Component<
         !messageLoadingState && previousMessageLoadingState
           ? previousMessageLoadingState
           : undefined;
-      const numberToKeepAtTop = this.maxVisibleRows * 5;
+      const numberToKeepAtTop = this.#maxVisibleRows * 5;
       const shouldDiscardNewerMessages: boolean =
-        !this.isAtBottom() &&
+        !this.#isAtBottom() &&
         loadingStateThatJustFinished ===
           TimelineMessageLoadingState.LoadingOlderMessages &&
         newItems.length > numberToKeepAtTop;
@@ -691,18 +719,22 @@ export class Timeline extends React.Component<
       }
     }
     if (previousMessageChangeCounter !== messageChangeCounter) {
-      this.markNewestBottomVisibleMessageRead();
+      this.#markNewestBottomVisibleMessageRead();
+    }
+
+    if (previousIsInFullScreenCall && !isInFullScreenCall) {
+      this.#markNewestBottomVisibleMessageReadAfterDelay();
     }
 
     if (previousConversationType !== conversationType) {
-      this.cleanupGroupCallPeekTimeouts();
+      this.#cleanupGroupCallPeekTimeouts();
       if (conversationType === 'group') {
-        this.setupGroupCallPeekTimeouts();
+        this.#setupGroupCallPeekTimeouts();
       }
     }
   }
 
-  private handleBlur = (event: React.FocusEvent): void => {
+  #handleBlur = (event: React.FocusEvent): void => {
     const { clearTargetedMessage } = this.props;
 
     const { currentTarget } = event;
@@ -726,9 +758,7 @@ export class Timeline extends React.Component<
     }, 0);
   };
 
-  private handleKeyDown = (
-    event: React.KeyboardEvent<HTMLDivElement>
-  ): void => {
+  #handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
     const { targetMessage, targetedMessageId, items, id } = this.props;
     const commandKey = get(window, 'platform') === 'darwin' && event.metaKey;
     const controlKey = get(window, 'platform') !== 'darwin' && event.ctrlKey;
@@ -803,7 +833,7 @@ export class Timeline extends React.Component<
     }
 
     if (event.key === 'End' || (commandOrCtrl && event.key === 'ArrowDown')) {
-      this.scrollDown(true);
+      this.#scrollDown(true);
       event.preventDefault();
       event.stopPropagation();
     }
@@ -845,6 +875,7 @@ export class Timeline extends React.Component<
     } = this.props;
     const {
       scrollLocked,
+      scrollLockHeight,
       hasRecentlyScrolled,
       lastMeasuredWarningHeight,
       newestBottomVisibleMessageId,
@@ -939,7 +970,7 @@ export class Timeline extends React.Component<
             key="last seen indicator"
             count={totalUnseen}
             i18n={i18n}
-            ref={this.lastSeenIndicatorRef}
+            ref={this.#lastSeenIndicatorRef}
           />
         );
       } else if (oldestUnseenIndex === nextItemIndex) {
@@ -964,7 +995,7 @@ export class Timeline extends React.Component<
         >
           <ErrorBoundary i18n={i18n} showDebugLog={showDebugLog}>
             {renderItem({
-              containerElementRef: this.containerRef,
+              containerElementRef: this.#containerRef,
               containerWidthBreakpoint: widthBreakpoint,
               conversationId: id,
               isBlocked,
@@ -1098,7 +1129,7 @@ export class Timeline extends React.Component<
     }
 
     return (
-      <ScrollerLockContext.Provider value={this.scrollerLock}>
+      <ScrollerLockContext.Provider value={this.#scrollerLock}>
         <SizeObserver
           onSizeChange={size => {
             const { isNearBottom } = this.props;
@@ -1107,9 +1138,9 @@ export class Timeline extends React.Component<
               widthBreakpoint: getWidthBreakpoint(size.width),
             });
 
-            this.maxVisibleRows = Math.ceil(size.height / MIN_ROW_HEIGHT);
+            this.#maxVisibleRows = Math.ceil(size.height / MIN_ROW_HEIGHT);
 
-            const containerEl = this.containerRef.current;
+            const containerEl = this.#containerRef.current;
             if (containerEl && isNearBottom) {
               scrollToBottom(containerEl);
             }
@@ -1124,8 +1155,8 @@ export class Timeline extends React.Component<
               )}
               role="presentation"
               tabIndex={-1}
-              onBlur={this.handleBlur}
-              onKeyDown={this.handleKeyDown}
+              onBlur={this.#handleBlur}
+              onKeyDown={this.#handleKeyDown}
               ref={ref}
             >
               {headerElements}
@@ -1134,8 +1165,8 @@ export class Timeline extends React.Component<
 
               <main
                 className="module-timeline__messages__container"
-                onScroll={this.onScroll}
-                ref={this.containerRef}
+                onScroll={this.#onScroll}
+                ref={this.#containerRef}
               >
                 <div
                   className={classNames(
@@ -1144,8 +1175,13 @@ export class Timeline extends React.Component<
                     haveOldest && 'module-timeline__messages--have-oldest',
                     scrollLocked && 'module-timeline__messages--scroll-locked'
                   )}
-                  ref={this.messagesRef}
+                  ref={this.#messagesRef}
                   role="list"
+                  style={
+                    scrollLockHeight
+                      ? { flexBasis: scrollLockHeight }
+                      : undefined
+                  }
                 >
                   {haveOldest && (
                     <>
@@ -1162,7 +1198,7 @@ export class Timeline extends React.Component<
 
                   <div
                     className="module-timeline__messages__at-bottom-detector"
-                    ref={this.atBottomDetectorRef}
+                    ref={this.#atBottomDetectorRef}
                     style={AT_BOTTOM_DETECTOR_STYLE}
                   />
                 </div>
@@ -1181,7 +1217,7 @@ export class Timeline extends React.Component<
                   <ScrollDownButton
                     variant={ScrollDownButtonVariant.UNREAD_MESSAGES}
                     count={areUnreadBelowCurrentPosition ? unreadCount : 0}
-                    onClick={this.onClickScrollDownButton}
+                    onClick={this.#onClickScrollDownButton}
                     i18n={i18n}
                   />
                 </div>

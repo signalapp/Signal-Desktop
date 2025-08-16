@@ -4,7 +4,7 @@
 import type { AttachmentType } from '../types/Attachment';
 import type { LinkPreviewWithHydratedData } from '../types/message/LinkPreviews';
 import type { QuotedMessageType } from '../model-types';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { SafetyNumberChangeSource } from '../components/SafetyNumberChangeDialog';
 import { blockSendUntilConversationsAreVerified } from './blockSendUntilConversationsAreVerified';
 import {
@@ -23,6 +23,9 @@ import {
   sortByMessageOrder,
   type ForwardMessageData,
 } from '../types/ForwardDraft';
+import { canForward } from '../state/selectors/message';
+
+const log = createLogger('maybeForwardMessages');
 
 export async function maybeForwardMessages(
   messages: Array<ForwardMessageData>,
@@ -35,6 +38,16 @@ export async function maybeForwardMessages(
   const conversations = conversationIds
     .map(id => window.ConversationController.get(id))
     .filter(isNotNil);
+
+  const areAllMessagesForwardable = messages.every(msg =>
+    msg.originalMessage ? canForward(msg.originalMessage) : true
+  );
+
+  if (!areAllMessagesForwardable) {
+    throw new Error(
+      'maybeForwardMessage: Attempting to forward unforwardable message(s)'
+    );
+  }
 
   const cannotSend = conversations.some(
     conversation =>

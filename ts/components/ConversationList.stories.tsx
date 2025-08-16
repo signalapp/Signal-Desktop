@@ -12,14 +12,12 @@ import { MessageSearchResult } from './conversationList/MessageSearchResult';
 import type { PropsData as ConversationListItemPropsType } from './conversationList/ConversationListItem';
 import { MessageStatuses } from './conversationList/ConversationListItem';
 import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
-import { setupI18n } from '../util/setupI18n';
-import enMessages from '../../_locales/en/messages.json';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
 import { ThemeType } from '../types/Util';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
-import { makeFakeLookupConversationWithoutServiceId } from '../test-both/helpers/fakeLookupConversationWithoutServiceId';
+import { makeFakeLookupConversationWithoutServiceId } from '../test-helpers/fakeLookupConversationWithoutServiceId';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/ConversationList',
@@ -77,6 +75,7 @@ function Wrapper({
         'onOutgoingVideoCallInConversation'
       )}
       onClickArchiveButton={action('onClickArchiveButton')}
+      onClickClearFilterButton={action('onClickClearFilterButton')}
       onClickContactCheckbox={action('onClickContactCheckbox')}
       removeConversation={action('removeConversation')}
       renderMessageSearchResult={(id: string) => (

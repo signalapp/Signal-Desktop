@@ -39,6 +39,10 @@ export const BLOCKED_COUNT = process.env.BLOCKED_COUNT
   ? parseInt(process.env.BLOCKED_COUNT, 10)
   : 0;
 
+export const MAX_CYCLES = process.env.MAX_CYCLES
+  ? parseInt(process.env.MAX_CYCLES, 10)
+  : 1;
+
 // Can happen if electron exits prematurely
 process.on('unhandledRejection', reason => {
   console.error('Unhandled rejection:');

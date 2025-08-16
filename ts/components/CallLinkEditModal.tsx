@@ -91,8 +91,10 @@ export function CallLinkEditModal({
   const [restrictionsId] = useState(() => generateUuid());
 
   const callLinkWebUrl = useMemo(() => {
-    return linkCallRoute.toWebUrl({ key: callLink.rootKey }).toString();
-  }, [callLink.rootKey]);
+    return linkCallRoute
+      .toWebUrl({ key: callLink.rootKey, epoch: callLink.epoch })
+      .toString();
+  }, [callLink.rootKey, callLink.epoch]);
 
   const joinButton = (
     <Button
@@ -128,8 +130,6 @@ export function CallLinkEditModal({
           color={getColorForCallLink(callLink.rootKey)}
           conversationType="callLink"
           size={AvatarSize.SIXTY_FOUR}
-          acceptedMessageRequest
-          isMe={false}
           sharedGroupNames={[]}
           title={
             callLink.name === ''

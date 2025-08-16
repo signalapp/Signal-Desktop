@@ -8,11 +8,9 @@ import type { Meta } from '@storybook/react';
 import type { PropsType } from './CallingScreenSharingController';
 import { CallingScreenSharingController } from './CallingScreenSharingController';
 
-import { setupI18n } from '../util/setupI18n';
 import { ScreenShareStatus } from '../types/Calling';
-import enMessages from '../../_locales/en/messages.json';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   i18n,

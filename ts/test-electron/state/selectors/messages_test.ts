@@ -13,7 +13,7 @@ import type { ConversationType } from '../../../state/ducks/conversations';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../../../test-both/helpers/getDefaultConversation';
+} from '../../../test-helpers/getDefaultConversation';
 
 import {
   canDeleteForEveryone,

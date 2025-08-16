@@ -9,18 +9,16 @@ import type { Meta } from '@storybook/react';
 import { sleep } from '../../../util/sleep';
 import { makeLookup } from '../../../util/makeLookup';
 import { deconstructLookup } from '../../../util/deconstructLookup';
-import { setupI18n } from '../../../util/setupI18n';
 import type { ConversationType } from '../../../state/ducks/conversations';
-import enMessages from '../../../../_locales/en/messages.json';
-import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation';
 import { AddGroupMembersModal } from './AddGroupMembersModal';
 import { ChooseGroupMembersModal } from './AddGroupMembersModal/ChooseGroupMembersModal';
 import { ConfirmAdditionsModal } from './AddGroupMembersModal/ConfirmAdditionsModal';
 import { RequestState } from './util';
 import { ThemeType } from '../../../types/Util';
-import { makeFakeLookupConversationWithoutServiceId } from '../../../test-both/helpers/fakeLookupConversationWithoutServiceId';
+import { makeFakeLookupConversationWithoutServiceId } from '../../../test-helpers/fakeLookupConversationWithoutServiceId';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Conversation/ConversationDetails/AddGroupMembersModal',

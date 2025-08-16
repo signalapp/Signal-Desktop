@@ -1,15 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+/* eslint-disable max-classes-per-file */
 
 import { isNumber, last } from 'lodash';
 import type { ReadableDB, WritableDB } from './Interface';
+import type { LoggerType } from '../types/Logging';
 
-export type EmptyQuery = [];
-export type ArrayQuery = Array<ReadonlyArray<null | number | bigint | string>>;
-export type Query = {
-  [key: string]: null | number | bigint | string | Uint8Array;
-};
-export type JSONRows = Array<{ readonly json: string }>;
+export type JSONRow = Readonly<{ json: string }>;
+export type JSONRows = Array<JSONRow>;
 
 export type TableType =
   | 'attachment_downloads'
@@ -36,18 +34,15 @@ export function jsonToObject<T>(json: string): T {
   return JSON.parse(json);
 }
 
-export type QueryTemplateParam =
-  | Uint8Array
-  | string
-  | number
-  | null
-  | undefined;
+export type QueryTemplateParam = Uint8Array | string | number | null;
 export type QueryFragmentValue = QueryFragment | QueryTemplateParam;
 
-export type QueryFragment = [
-  { fragment: string },
-  ReadonlyArray<QueryTemplateParam>,
-];
+export class QueryFragment {
+  constructor(
+    public readonly fragment: string,
+    public readonly fragmentParams: ReadonlyArray<QueryTemplateParam>
+  ) {}
+}
 
 /**
  * You can use tagged template literals to build "fragments" of SQL queries
@@ -79,8 +74,8 @@ export function sqlFragment(
     query += string;
 
     if (index < values.length) {
-      if (Array.isArray(value)) {
-        const [{ fragment }, fragmentParams] = value;
+      if (value instanceof QueryFragment) {
+        const { fragment, fragmentParams } = value;
         query += fragment;
         params.push(...fragmentParams);
       } else {
@@ -90,7 +85,7 @@ export function sqlFragment(
     }
   });
 
-  return [{ fragment: query }, params];
+  return new QueryFragment(query, params);
 }
 
 export function sqlConstant(value: QueryTemplateParam): QueryFragment {
@@ -104,7 +99,7 @@ export function sqlConstant(value: QueryTemplateParam): QueryFragment {
   } else {
     fragment = `'${value}'`;
   }
-  return [{ fragment }, []];
+  return new QueryFragment(fragment, []);
 }
 
 /**
@@ -118,7 +113,7 @@ export function sqlJoin(
   const params: Array<QueryTemplateParam> = [];
 
   items.forEach((item, index) => {
-    const [{ fragment }, fragmentParams] = sqlFragment`${item}`;
+    const { fragment, fragmentParams } = sqlFragment`${item}`;
     query += fragment;
     params.push(...fragmentParams);
 
@@ -127,7 +122,7 @@ export function sqlJoin(
     }
   });
 
-  return [{ fragment: query }, params];
+  return new QueryFragment(query, params);
 }
 
 export type QueryTemplate = [string, ReadonlyArray<QueryTemplateParam>];
@@ -155,20 +150,9 @@ export function sql(
   strings: TemplateStringsArray,
   ...values: Array<QueryFragment | QueryTemplateParam>
 ): QueryTemplate {
-  const [{ fragment }, params] = sqlFragment(strings, ...values);
-  return [fragment, params];
+  const { fragment, fragmentParams } = sqlFragment(strings, ...values);
+  return [fragment, fragmentParams];
 }
-
-type QueryPlanRow = Readonly<{
-  id: number;
-  parent: number;
-  details: string;
-}>;
-
-type QueryPlan = Readonly<{
-  query: string;
-  plan: ReadonlyArray<QueryPlanRow>;
-}>;
 
 /**
  * Returns typed objects of the query plan for the given query.
@@ -186,11 +170,23 @@ type QueryPlan = Readonly<{
  */
 export function explainQueryPlan(
   db: ReadableDB,
+  logger: LoggerType,
   template: QueryTemplate
-): QueryPlan {
+): QueryTemplate {
   const [query, params] = template;
-  const plan = db.prepare(`EXPLAIN QUERY PLAN ${query}`).all(params);
-  return { query, plan };
+  const plan = db.prepare(`EXPLAIN QUERY PLAN ${query}`).all<{
+    id: string | number;
+    parent: string | number;
+    detail: string;
+  }>(params);
+  logger.info('EXPLAIN QUERY PLAN');
+  for (const line of query.split('\n')) {
+    logger.info(line);
+  }
+  for (const row of plan) {
+    logger.info(`id=${row.id}, parent=${row.parent}, detail=${row.detail}`);
+  }
+  return [query, params];
 }
 
 //
@@ -198,15 +194,15 @@ export function explainQueryPlan(
 //
 
 export function getSQLiteVersion(db: ReadableDB): string {
-  const { sqlite_version: version } = db
-    .prepare<EmptyQuery>('select sqlite_version() AS sqlite_version')
-    .get();
-
-  return version;
+  return (
+    db
+      .prepare('select sqlite_version() AS sqlite_version', { pluck: true })
+      .get<string>() ?? ''
+  );
 }
 
 export function getSchemaVersion(db: ReadableDB): number {
-  return db.pragma('schema_version', { simple: true });
+  return db.pragma('schema_version', { simple: true }) as number;
 }
 
 export function setUserVersion(db: WritableDB, version: number): void {
@@ -217,11 +213,11 @@ export function setUserVersion(db: WritableDB, version: number): void {
 }
 
 export function getUserVersion(db: ReadableDB): number {
-  return db.pragma('user_version', { simple: true });
+  return db.pragma('user_version', { simple: true }) as number;
 }
 
 export function getSQLCipherVersion(db: ReadableDB): string | undefined {
-  return db.pragma('cipher_version', { simple: true });
+  return db.pragma('cipher_version', { simple: true }) as string | undefined;
 }
 
 //
@@ -231,27 +227,27 @@ export function getSQLCipherVersion(db: ReadableDB): string | undefined {
 export function batchMultiVarQuery<ValueT>(
   db: ReadableDB,
   values: ReadonlyArray<ValueT>,
-  query: (batch: ReadonlyArray<ValueT>) => void
+  query: (batch: ReadonlyArray<ValueT>, persistent: boolean) => void
 ): [];
 export function batchMultiVarQuery<ValueT, ResultT>(
   db: ReadableDB,
   values: ReadonlyArray<ValueT>,
-  query: (batch: ReadonlyArray<ValueT>) => Array<ResultT>
+  query: (batch: ReadonlyArray<ValueT>, persistent: boolean) => Array<ResultT>
 ): Array<ResultT>;
 
 export function batchMultiVarQuery<ValueT, ResultT>(
   db: ReadableDB,
   values: ReadonlyArray<ValueT>,
   query:
-    | ((batch: ReadonlyArray<ValueT>) => void)
-    | ((batch: ReadonlyArray<ValueT>) => Array<ResultT>)
+    | ((batch: ReadonlyArray<ValueT>, persistent: boolean) => void)
+    | ((batch: ReadonlyArray<ValueT>, persistent: boolean) => Array<ResultT>)
 ): Array<ResultT> {
   if (values.length > MAX_VARIABLE_COUNT) {
     const result: Array<ResultT> = [];
     db.transaction(() => {
       for (let i = 0; i < values.length; i += MAX_VARIABLE_COUNT) {
         const batch = values.slice(i, i + MAX_VARIABLE_COUNT);
-        const batchResult = query(batch);
+        const batchResult = query(batch, batch.length === MAX_VARIABLE_COUNT);
         if (Array.isArray(batchResult)) {
           result.push(...batchResult);
         }
@@ -260,7 +256,7 @@ export function batchMultiVarQuery<ValueT, ResultT>(
     return result;
   }
 
-  const result = query(values);
+  const result = query(values, values.length === MAX_VARIABLE_COUNT);
   return Array.isArray(result) ? result : [];
 }
 
@@ -274,7 +270,7 @@ export function createOrUpdate<Key extends string | number>(
     throw new Error('createOrUpdate: Provided data did not have a truthy id');
   }
 
-  db.prepare<Query>(
+  db.prepare(
     `
     INSERT OR REPLACE INTO ${table} (
       id,
@@ -308,14 +304,14 @@ export function getById<Key extends string | number, Result = unknown>(
   id: Key
 ): Result | undefined {
   const row = db
-    .prepare<Query>(
+    .prepare(
       `
-      SELECT *
+      SELECT json
       FROM ${table}
       WHERE id = $id;
       `
     )
-    .get({
+    .get<{ json: string }>({
       id,
     });
 
@@ -346,12 +342,15 @@ export function removeById<Key extends string | number>(
 
   let totalChanges = 0;
 
-  const removeByIdsSync = (ids: ReadonlyArray<string | number>): void => {
+  const removeByIdsSync = (
+    ids: ReadonlyArray<string | number>,
+    persistent: boolean
+  ): void => {
     const [query, params] = sql`
       DELETE FROM ${table}
       WHERE id IN (${sqlJoin(ids)});
     `;
-    totalChanges += db.prepare(query).run(params).changes;
+    totalChanges += db.prepare(query, { persistent }).run(params).changes;
   };
 
   batchMultiVarQuery(db, id, removeByIdsSync);
@@ -360,22 +359,21 @@ export function removeById<Key extends string | number>(
 }
 
 export function removeAllFromTable(db: WritableDB, table: TableType): number {
-  return db.prepare<EmptyQuery>(`DELETE FROM ${table};`).run().changes;
+  return db.prepare(`DELETE FROM ${table};`).run().changes;
 }
 
 export function getAllFromTable<T>(db: ReadableDB, table: TableType): Array<T> {
-  const rows: JSONRows = db
-    .prepare<EmptyQuery>(`SELECT json FROM ${table};`)
-    .all();
+  const rows: JSONRows = db.prepare(`SELECT json FROM ${table};`).all();
 
   return rows.map(row => jsonToObject(row.json));
 }
 
 export function getCountFromTable(db: ReadableDB, table: TableType): number {
-  const result: null | number = db
-    .prepare<EmptyQuery>(`SELECT count(*) from ${table};`)
-    .pluck(true)
-    .get();
+  const result = db
+    .prepare(`SELECT count(*) from ${table};`, {
+      pluck: true,
+    })
+    .get<number>();
   if (isNumber(result)) {
     return result;
   }
@@ -390,7 +388,7 @@ export class TableIterator<ObjectType extends { id: string }> {
   ) {}
 
   *[Symbol.iterator](): Iterator<ObjectType> {
-    const fetchObject = this.db.prepare<Query>(
+    const fetchObject = this.db.prepare(
       `
         SELECT json FROM ${this.table}
         WHERE id > $id
@@ -419,4 +417,28 @@ export class TableIterator<ObjectType extends { id: string }> {
       complete = messages.length < this.pageSize;
     }
   }
+}
+
+export function convertOptionalIntegerToBoolean(
+  optionalInteger?: number
+): boolean | undefined {
+  if (optionalInteger === 1) {
+    return true;
+  }
+  if (optionalInteger === 0) {
+    return false;
+  }
+  return undefined;
+}
+
+export function convertOptionalBooleanToNullableInteger(
+  optionalBoolean?: boolean
+): 1 | 0 | null {
+  if (optionalBoolean === true) {
+    return 1;
+  }
+  if (optionalBoolean === false) {
+    return 0;
+  }
+  return null;
 }

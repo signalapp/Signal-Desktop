@@ -8,7 +8,7 @@ import { HTTPError } from '../../../textsecure/Errors';
 import { MINUTE } from '../../../util/durations';
 
 describe('findRetryAfterTimeFromError', () => {
-  it('returns 1 minute if no Retry-After time is found', () => {
+  it('returns 1 minute or provided default if no Retry-After time is found', () => {
     [
       undefined,
       null,
@@ -47,6 +47,7 @@ describe('findRetryAfterTimeFromError', () => {
       },
     ].forEach(input => {
       assert.strictEqual(findRetryAfterTimeFromError(input), MINUTE);
+      assert.strictEqual(findRetryAfterTimeFromError(input, 42), 42);
     });
   });
 

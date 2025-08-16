@@ -15,6 +15,7 @@ import type { Locator, Page } from 'playwright';
 import { expect } from 'playwright/test';
 import type { SignalService } from '../protobuf';
 import { strictAssert } from '../util/assert';
+import type { App, Bootstrap } from './bootstrap';
 
 const debug = createDebug('mock:test:helpers');
 
@@ -32,29 +33,34 @@ export function bufferToUuid(buffer: Buffer): string {
 
 export async function typeIntoInput(
   input: Locator,
-  text: string
+  additionalText: string,
+  previousText: string
 ): Promise<void> {
-  let currentValue = '';
-  let isInputElement = true;
+  const updatedText = `${previousText}${additionalText}`;
 
+  // Check if the element is an `input` or `[contenteditable]`
+  let isInputElement = true;
   try {
-    currentValue = await input.inputValue();
+    // Discard value, we're using a matcher later to assert the previous value
+    await input.inputValue();
   } catch (e) {
     isInputElement = false;
-    // if input is actually not an input (e.g. contenteditable)
-    currentValue = (await input.textContent()) ?? '';
   }
 
-  const newValue = `${currentValue}${text}`;
+  if (isInputElement) {
+    await expect(input).toHaveValue(previousText);
+  } else {
+    await expect(input).toHaveText(previousText);
+  }
 
-  await input.fill(newValue);
+  await input.fill(updatedText);
 
   // Wait to ensure that the input (and react state controlling it) has actually
   // updated with the right value
   if (isInputElement) {
-    await expect(input).toHaveValue(newValue);
+    await expect(input).toHaveValue(updatedText);
   } else {
-    await input.locator(`:text("${newValue}")`).waitFor();
+    await expect(input).toHaveText(updatedText);
   }
 }
 
@@ -123,11 +129,11 @@ function maybeWrapInSyncMessage({
     ? {
         syncMessage: {
           sent: {
-            destinationServiceId: getDevice(to).aci,
+            destinationServiceIdBinary: getDevice(to).aciBinary,
             message: dataMessage,
             timestamp: dataMessage.timestamp,
             unidentifiedStatus: (sentTo ?? [to]).map(contact => ({
-              destinationServiceId: getDevice(contact).aci,
+              destinationServiceIdBinary: getDevice(contact).aciBinary,
               destination: getDevice(contact).number,
             })),
           },
@@ -145,13 +151,19 @@ export function sendTextMessage({
   to,
   text,
   attachments,
+  sticker,
+  preview,
+  quote,
   desktop,
   timestamp = Date.now(),
 }: {
   from: PrimaryDevice;
   to: PrimaryDevice | Device | GroupInfo;
-  text: string;
+  text: string | undefined;
   attachments?: Array<Proto.IAttachmentPointer>;
+  sticker?: Proto.DataMessage.ISticker;
+  preview?: Proto.IPreview;
+  quote?: Proto.DataMessage.IQuote;
   desktop: Device;
   timestamp?: number;
 }): Promise<void> {
@@ -166,6 +178,9 @@ export function sendTextMessage({
       dataMessage: {
         body: text,
         attachments,
+        sticker,
+        preview: preview == null ? null : [preview],
+        quote,
         timestamp: Long.fromNumber(timestamp),
         groupV2: groupInfo
           ? {
@@ -207,8 +222,8 @@ export function sendReaction({
         timestamp: Long.fromNumber(reactionTimestamp),
         reaction: {
           emoji,
-          targetAuthorAci: getDevice(targetAuthor).aci,
-          targetTimestamp: Long.fromNumber(targetMessageTimestamp),
+          targetAuthorAciBinary: getDevice(targetAuthor).aciRawUuid,
+          targetSentTimestamp: Long.fromNumber(targetMessageTimestamp),
         },
       },
     }),
@@ -243,7 +258,7 @@ export async function createGroup(
   for (const member of otherMembers) {
     state = state.addContact(member, {
       whitelisted: true,
-      serviceE164: member.device.number,
+      e164: member.device.number,
       identityKey: member.publicKey.serialize(),
       profileKey: member.profileKey.serialize(),
       givenName: member.profileName,
@@ -252,14 +267,25 @@ export async function createGroup(
   await phone.setStorageState(state);
   return group;
 }
+export function getLeftPane(page: Page): Locator {
+  return page.locator('#LeftPane');
+}
+
+export async function clickOnConversationWithAci(
+  page: Page,
+  aci: string
+): Promise<void> {
+  const leftPane = getLeftPane(page);
+  await leftPane.getByTestId(aci).click();
+}
 
 export async function clickOnConversation(
   page: Page,
   contact: PrimaryDevice
 ): Promise<void> {
-  const leftPane = page.locator('#LeftPane');
-  await leftPane.getByTestId(contact.device.aci).click();
+  await clickOnConversationWithAci(page, contact.device.aci);
 }
+
 export async function pinContact(
   phone: PrimaryDevice,
   contact: PrimaryDevice
@@ -269,10 +295,22 @@ export async function pinContact(
   await phone.setStorageState(state);
 }
 
-export function acceptConversation(page: Page): Promise<void> {
-  return page
+export async function acceptConversation(page: Page): Promise<void> {
+  await page
     .locator('.module-message-request-actions button >> "Accept"')
     .click();
+
+  const confirmationButton = page
+    .locator('.MessageRequestActionsConfirmation')
+    .getByRole('button', { name: 'Accept' });
+
+  await confirmationButton.waitFor({
+    timeout: 500,
+  });
+
+  if (await confirmationButton.isVisible()) {
+    await confirmationButton.click();
+  }
 }
 
 export function getTimeline(page: Page): Locator {
@@ -297,16 +335,15 @@ export async function composerAttachImages(
   const AttachmentInput = page.getByTestId('attachfile-input');
 
   const AttachmentsList = page.locator('.module-attachments');
-  const AttachmentsListImage = AttachmentsList.locator('.module-image');
-  const AttachmentsListImageLoaded = AttachmentsListImage.locator(
-    '.module-image__image'
+  const AttachmentsListImageLoaded = AttachmentsList.locator(
+    '.module-image--loaded'
   );
 
   debug('setting input files');
   await AttachmentInput.setInputFiles(filePaths);
 
   debug(`waiting for ${filePaths.length} items`);
-  await AttachmentsListImage.nth(filePaths.length - 1).waitFor();
+  await AttachmentsListImageLoaded.nth(filePaths.length - 1).waitFor();
 
   await Promise.all(
     filePaths.map(async (_, index) => {
@@ -328,7 +365,7 @@ export async function sendMessageWithAttachments(
 
   debug('sending message');
   const input = await waitForEnabledComposer(page);
-  await typeIntoInput(input, text);
+  await typeIntoInput(input, text, '');
   await input.press('Enter');
 
   const Message = getTimelineMessageWithText(page, text);
@@ -366,4 +403,86 @@ export async function waitForEnabledComposer(page: Page): Promise<Locator> {
   await composeContainer.waitFor();
 
   return composeContainer.locator('.ql-editor');
+}
+
+export async function createCallLink(
+  page: Page,
+  {
+    name,
+    isAdminApprovalRequired = undefined,
+  }: { name: string; isAdminApprovalRequired?: boolean | undefined }
+): Promise<string | undefined> {
+  await page.locator('[data-testid="NavTabsItem--Calls"]').click();
+  await page.locator('.NavSidebar__HeaderTitle').getByText('Calls').waitFor();
+
+  await page
+    .locator('.CallsList__ItemTile')
+    .getByText('Create a Call Link')
+    .click();
+
+  const editModal = page.locator('.CallLinkEditModal');
+  await editModal.waitFor();
+
+  if (isAdminApprovalRequired !== undefined) {
+    const restrictionsInput = editModal.getByLabel('Require admin approval');
+    if (isAdminApprovalRequired) {
+      await expect(restrictionsInput).toHaveJSProperty('value', '0');
+      await restrictionsInput.selectOption({ label: 'On' });
+      await expect(restrictionsInput).toHaveJSProperty('value', '1');
+    } else {
+      await expect(restrictionsInput).toHaveJSProperty('value', '0');
+    }
+  }
+
+  await editModal.locator('button', { hasText: 'Add call name' }).click();
+
+  const addNameModal = page.locator('.CallLinkAddNameModal');
+  await addNameModal.waitFor();
+
+  const nameInput = addNameModal.getByLabel('Call name');
+  await nameInput.fill(name);
+
+  const saveBtn = addNameModal.getByText('Save');
+  await saveBtn.click();
+
+  await editModal.waitFor();
+
+  const doneBtn = editModal.getByText('Done');
+  await doneBtn.click();
+
+  const callLinkTitle = await page
+    .locator('.CallsList__ItemTile')
+    .getByText(name);
+
+  const callLinkItem = await page.locator('.CallsList__Item', {
+    has: callLinkTitle,
+  });
+  const testId = await callLinkItem.getAttribute('data-testid');
+  return testId || undefined;
+}
+
+export async function setupAppToUseLibsignalWebsockets(
+  bootstrap: Bootstrap
+): Promise<App> {
+  bootstrap.server.setRemoteConfig(
+    'desktop.experimentalTransportEnabled.alpha',
+    { enabled: true }
+  );
+
+  bootstrap.server.setRemoteConfig('desktop.experimentalTransport.enableAuth', {
+    enabled: true,
+  });
+
+  // Link & close so that app can get remote config first over non-libsignal websocket,
+  // and then on next app start it will connect via libsignal
+  await bootstrap.linkAndClose();
+  return bootstrap.startApp();
+}
+
+export async function assertAppWasUsingLibsignalWebsockets(
+  app: App
+): Promise<void> {
+  const { authenticated, unauthenticated } = await app.getSocketStatus();
+  assert.strictEqual(authenticated.lastConnectionTransport, 'libsignal');
+  assert.strictEqual(unauthenticated.lastConnectionTransport, 'libsignal');
 }

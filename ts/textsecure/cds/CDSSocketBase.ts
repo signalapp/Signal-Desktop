@@ -47,7 +47,7 @@ export abstract class CDSSocketBase<
 
   protected readonly logger: LoggerType;
 
-  protected readonly socketIterator: AsyncIterator<Buffer>;
+  protected readonly socketIterator: AsyncIterator<Uint8Array>;
 
   constructor(protected readonly options: Options) {
     super();
@@ -56,7 +56,7 @@ export abstract class CDSSocketBase<
     this.logger = options.logger;
     this.socket = options.socket;
 
-    this.socketIterator = this.iterateSocket();
+    this.socketIterator = this.#iterateSocket();
   }
 
   public async close(code: number, reason: string): Promise<void> {
@@ -87,18 +87,18 @@ export abstract class CDSSocketBase<
     );
 
     const request = Proto.CDSClientRequest.encode({
-      newE164s: Buffer.concat(
+      newE164s: Bytes.concatenate(
         e164s.map(e164 => {
           // Long.fromString handles numbers with or without a leading '+'
           return new Uint8Array(Long.fromString(e164).toBytesBE());
         })
       ),
-      aciUakPairs: Buffer.concat(aciUakPairs),
+      aciUakPairs: Bytes.concatenate(aciUakPairs),
       returnAcisWithoutUaks,
     }).finish();
 
     log.info(`CDSSocket.request(): sending version=${version} request`);
-    await this.sendRequest(version, Buffer.from(request));
+    await this.sendRequest(version, request);
 
     const resultMap: Map<string, CDSResponseEntryType> = new Map();
 
@@ -129,9 +129,14 @@ export abstract class CDSSocketBase<
 
   public abstract handshake(): Promise<void>;
 
-  protected abstract sendRequest(version: number, data: Buffer): Promise<void>;
+  protected abstract sendRequest(
+    version: number,
+    data: Uint8Array
+  ): Promise<void>;
 
-  protected abstract decryptResponse(ciphertext: Buffer): Promise<Buffer>;
+  protected abstract decryptResponse(
+    ciphertext: Uint8Array
+  ): Promise<Uint8Array>;
 
   // EventEmitter types
 
@@ -161,7 +166,7 @@ export abstract class CDSSocketBase<
   // Private
   //
 
-  private iterateSocket(): AsyncIterator<Buffer> {
+  #iterateSocket(): AsyncIterator<Uint8Array> {
     const stream = new Readable({ read: noop, objectMode: true });
 
     this.socket.on('message', ({ type, binaryData }) => {
@@ -211,7 +216,7 @@ function decodeSingleResponse(
     i < response.e164PniAciTriples.length;
     i += TRIPLE_BYTE_SIZE
   ) {
-    const tripleBytes = response.e164PniAciTriples.slice(
+    const tripleBytes = response.e164PniAciTriples.subarray(
       i,
       i + TRIPLE_BYTE_SIZE
     );
@@ -221,13 +226,13 @@ function decodeSingleResponse(
     );
 
     let offset = 0;
-    const e164Bytes = tripleBytes.slice(offset, offset + E164_BYTE_SIZE);
+    const e164Bytes = tripleBytes.subarray(offset, offset + E164_BYTE_SIZE);
     offset += E164_BYTE_SIZE;
 
-    const pniBytes = tripleBytes.slice(offset, offset + UUID_BYTE_SIZE);
+    const pniBytes = tripleBytes.subarray(offset, offset + UUID_BYTE_SIZE);
     offset += UUID_BYTE_SIZE;
 
-    const aciBytes = tripleBytes.slice(offset, offset + UUID_BYTE_SIZE);
+    const aciBytes = tripleBytes.subarray(offset, offset + UUID_BYTE_SIZE);
     offset += UUID_BYTE_SIZE;
 
     const e164Long = Long.fromBytesBE(Array.from(e164Bytes));

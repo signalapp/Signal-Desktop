@@ -5,7 +5,7 @@ import type { ThunkAction } from 'redux-thunk';
 
 import type { ReadonlyDeep } from 'type-fest';
 import * as Errors from '../../types/errors';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type { StateType as RootStateType } from '../reducer';
@@ -14,6 +14,8 @@ import { getServiceIdsForE164s } from '../../util/getServiceIdsForE164s';
 import { useBoundActions } from '../../hooks/useBoundActions';
 
 import type { NoopActionType } from './noop';
+
+const log = createLogger('accounts');
 
 // State
 
@@ -93,17 +95,17 @@ function checkForAccount(
 
     log.info(`checkForAccount: looking ${phoneNumber} up on server`);
     try {
-      const { entries: serviceIdLookup } = await getServiceIdsForE164s(server, [
-        phoneNumber,
-      ]);
-      const maybePair = serviceIdLookup.get(phoneNumber);
+      const { entries: serviceIdLookup, transformedE164s } =
+        await getServiceIdsForE164s(server, [phoneNumber]);
+      const phoneNumberToUse = transformedE164s.get(phoneNumber) ?? phoneNumber;
+      const maybePair = serviceIdLookup.get(phoneNumberToUse);
 
       if (maybePair) {
         const { conversation: maybeMerged } =
           window.ConversationController.maybeMergeContacts({
             aci: maybePair.aci,
             pni: maybePair.pni,
-            e164: phoneNumber,
+            e164: phoneNumberToUse,
             reason: 'checkForAccount',
           });
         serviceId = maybeMerged.getServiceId();

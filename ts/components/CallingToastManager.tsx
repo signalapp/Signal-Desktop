@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useEffect, useMemo, useRef } from 'react';
-import type { ActiveCallType } from '../types/Calling';
+import type { ActiveCallType, ObservedRemoteMuteType } from '../types/Calling';
 import { CallMode } from '../types/CallDisposition';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
@@ -11,6 +11,8 @@ import { usePrevious } from '../hooks/usePrevious';
 import { difference as setDifference } from '../util/setUtil';
 import { isMoreRecentThan } from '../util/timestamp';
 import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall';
+import { SECOND } from '../util/durations';
+import type { SetMutedByType } from '../state/ducks/calling';
 
 type PropsType = {
   activeCall: ActiveCallType;
@@ -82,9 +84,11 @@ export function useScreenSharingStoppedToast({
 
 function useMutedToast({
   hasLocalAudio,
+  mutedBy,
   i18n,
 }: {
   hasLocalAudio: boolean;
+  mutedBy: number | undefined;
   i18n: LocalizerType;
 }): void {
   const previousHasLocalAudio = usePrevious(hasLocalAudio, hasLocalAudio);
@@ -94,7 +98,8 @@ function useMutedToast({
   useEffect(() => {
     if (
       previousHasLocalAudio !== undefined &&
-      hasLocalAudio !== previousHasLocalAudio
+      hasLocalAudio !== previousHasLocalAudio &&
+      mutedBy === undefined // skip this if we were muted by someone
     ) {
       hideToast(MUTED_TOAST_KEY);
       showToast({
@@ -106,7 +111,14 @@ function useMutedToast({
         dismissable: true,
       });
     }
-  }, [hasLocalAudio, previousHasLocalAudio, hideToast, showToast, i18n]);
+  }, [
+    hasLocalAudio,
+    previousHasLocalAudio,
+    hideToast,
+    showToast,
+    mutedBy,
+    i18n,
+  ]);
 }
 
 function useOutgoingRingToast({
@@ -251,6 +263,212 @@ function useRaisedHandsToast({
   ]);
 }
 
+function useLowerHandSuggestionToast({
+  suggestLowerHand,
+  handleLowerHand,
+  i18n,
+  isHandRaised,
+}: {
+  suggestLowerHand: boolean | undefined;
+  i18n: LocalizerType;
+  handleLowerHand: (() => void) | undefined;
+  isHandRaised: boolean | undefined;
+}): void {
+  const previousSuggestLowerHand = usePrevious(
+    suggestLowerHand,
+    suggestLowerHand
+  );
+  const { showToast, hideToast } = useCallingToasts();
+  const SUGGEST_LOWER_HAND_TOAST_KEY = 'SUGGEST_LOWER_HAND_TOAST_KEY';
+
+  useEffect(() => {
+    if (!handleLowerHand) {
+      return;
+    }
+    if (
+      previousSuggestLowerHand !== undefined &&
+      suggestLowerHand !== previousSuggestLowerHand
+    ) {
+      if (suggestLowerHand && isHandRaised) {
+        showToast({
+          key: SUGGEST_LOWER_HAND_TOAST_KEY,
+          content: (
+            <div className="CallingRaisedHandsToast__Content">
+              <span className="CallingRaisedHandsToast__HandIcon" />
+              {i18n('icu:CallControls__LowerHandSuggestionToast')}
+              <button
+                className="CallingRaisedHandsToasts__Link"
+                type="button"
+                onClick={() => {
+                  handleLowerHand();
+                  hideToast(SUGGEST_LOWER_HAND_TOAST_KEY);
+                }}
+              >
+                {i18n('icu:CallControls__LowerHandSuggestionToast--button')}
+              </button>
+            </div>
+          ),
+          dismissable: false,
+          autoClose: true,
+          lifetime: 10 * SECOND,
+        });
+      }
+    }
+  }, [
+    suggestLowerHand,
+    handleLowerHand,
+    previousSuggestLowerHand,
+    hideToast,
+    showToast,
+    SUGGEST_LOWER_HAND_TOAST_KEY,
+    isHandRaised,
+    i18n,
+  ]);
+
+  useEffect(() => {
+    if (!isHandRaised) {
+      hideToast(SUGGEST_LOWER_HAND_TOAST_KEY);
+    }
+  }, [isHandRaised, hideToast]);
+}
+
+function useMutedByToast({
+  mutedBy,
+  setLocalAudioRemoteMuted,
+  conversationsByDemuxId,
+  i18n,
+}: {
+  mutedBy: number | undefined;
+  setLocalAudioRemoteMuted?: SetMutedByType;
+  conversationsByDemuxId?: Map<number, ConversationType>;
+  i18n: LocalizerType;
+}): void {
+  const previousMutedBy = usePrevious(mutedBy, mutedBy);
+
+  const { showToast, hideToast } = useCallingToasts();
+  const MUTED_BY_TOAST_KEY = 'MUTED_BY_TOAST_KEY';
+
+  useEffect(() => {
+    if (setLocalAudioRemoteMuted === undefined) {
+      return;
+    }
+    if (
+      mutedBy === undefined ||
+      // if it's undefined, likely we just received a remote mute request
+      // and hadn't had one before.
+      (previousMutedBy !== undefined && previousMutedBy === mutedBy) ||
+      conversationsByDemuxId === undefined
+    ) {
+      return;
+    }
+    const otherConversation = conversationsByDemuxId.get(mutedBy);
+    const title = otherConversation?.title;
+    if (title === undefined) {
+      return;
+    }
+    setLocalAudioRemoteMuted({ mutedBy });
+    let content;
+    if (otherConversation?.isMe) {
+      content = i18n('icu:CallControls__YouMutedYourselfToast');
+    } else {
+      content = i18n('icu:CallControls__MutedBySomeoneToast', {
+        otherName: title,
+      });
+    }
+    hideToast(MUTED_BY_TOAST_KEY);
+    showToast({
+      key: MUTED_BY_TOAST_KEY,
+      content,
+      dismissable: true,
+      autoClose: true,
+      lifetime: 10 * SECOND,
+    });
+  }, [
+    mutedBy,
+    previousMutedBy,
+    conversationsByDemuxId,
+    i18n,
+    showToast,
+    hideToast,
+    MUTED_BY_TOAST_KEY,
+    setLocalAudioRemoteMuted,
+  ]);
+}
+
+function useObservedRemoteMuteToast({
+  observedRemoteMute,
+  conversationsByDemuxId,
+  i18n,
+}: {
+  observedRemoteMute: ObservedRemoteMuteType | undefined;
+  conversationsByDemuxId?: Map<number, ConversationType>;
+  i18n: LocalizerType;
+}): void {
+  const { showToast, hideToast } = useCallingToasts();
+  const OBSERVED_REMOTE_MUTE_TOAST_KEY = 'OBSERVED_REMOTE_MUTE_TOAST_KEY';
+  const previousObservedRemoteMute = usePrevious(
+    observedRemoteMute,
+    observedRemoteMute
+  );
+  useEffect(() => {
+    if (
+      observedRemoteMute === undefined ||
+      (previousObservedRemoteMute !== undefined &&
+        previousObservedRemoteMute === observedRemoteMute) ||
+      conversationsByDemuxId === undefined
+    ) {
+      return;
+    }
+
+    const sourceConversation = conversationsByDemuxId.get(
+      observedRemoteMute.source
+    );
+    const targetConversation = conversationsByDemuxId.get(
+      observedRemoteMute.target
+    );
+    if (sourceConversation?.serviceId === targetConversation?.serviceId) {
+      // Ignore self-mutes.
+      return;
+    }
+    const targetTitle = targetConversation?.title;
+    if (targetTitle === undefined) {
+      return;
+    }
+    let content;
+    if (sourceConversation?.isMe) {
+      content = i18n('icu:CallControls__YouMutedSomeoneToast', {
+        otherName: targetTitle,
+      });
+    } else {
+      const sourceTitle = sourceConversation?.title;
+      if (sourceTitle === undefined) {
+        return;
+      }
+      content = i18n('icu:CallControls__SomeoneMutedSomeoneToast', {
+        name: sourceTitle,
+        otherName: targetTitle,
+      });
+    }
+
+    hideToast(OBSERVED_REMOTE_MUTE_TOAST_KEY);
+    showToast({
+      key: OBSERVED_REMOTE_MUTE_TOAST_KEY,
+      content,
+      dismissable: true,
+      autoClose: true,
+      lifetime: 10 * SECOND,
+    });
+  }, [
+    observedRemoteMute,
+    previousObservedRemoteMute,
+    conversationsByDemuxId,
+    i18n,
+    showToast,
+    hideToast,
+    OBSERVED_REMOTE_MUTE_TOAST_KEY,
+  ]);
+}
+
 type CallingButtonToastsType = {
   hasLocalAudio: boolean;
   outgoingRing: boolean | undefined;
@@ -258,7 +476,14 @@ type CallingButtonToastsType = {
   renderRaisedHandsToast?: (
     hands: Array<number>
   ) => JSX.Element | string | undefined;
+  suggestLowerHand?: boolean;
+  isHandRaised?: boolean;
+  handleLowerHand?: () => void;
+  mutedBy?: number;
+  observedRemoteMute?: ObservedRemoteMuteType;
+  conversationsByDemuxId?: Map<number, ConversationType>;
   i18n: LocalizerType;
+  setLocalAudioRemoteMuted?: SetMutedByType;
 };
 
 export function CallingButtonToastsContainer(
@@ -284,11 +509,35 @@ function CallingButtonToasts({
   outgoingRing,
   raisedHands,
   renderRaisedHandsToast,
+  suggestLowerHand,
+  handleLowerHand,
+  isHandRaised,
   i18n,
+  mutedBy,
+  observedRemoteMute,
+  conversationsByDemuxId,
+  setLocalAudioRemoteMuted,
 }: CallingButtonToastsType) {
-  useMutedToast({ hasLocalAudio, i18n });
+  useMutedToast({ hasLocalAudio, mutedBy, i18n });
   useOutgoingRingToast({ outgoingRing, i18n });
   useRaisedHandsToast({ raisedHands, renderRaisedHandsToast });
+  useLowerHandSuggestionToast({
+    suggestLowerHand,
+    i18n,
+    handleLowerHand,
+    isHandRaised,
+  });
+  useMutedByToast({
+    mutedBy,
+    setLocalAudioRemoteMuted,
+    conversationsByDemuxId,
+    i18n,
+  });
+  useObservedRemoteMuteToast({
+    observedRemoteMute,
+    conversationsByDemuxId,
+    i18n,
+  });
 
   return null;
 }

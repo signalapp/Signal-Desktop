@@ -1,6 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .CallsTab {
   display: flex;
   width: 100%;
@@ -11,16 +14,16 @@
   display: block;
   width: 20px;
   height: 20px;
-  @include light-theme {
-    @include color-svg(
+  @include mixins.light-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/phone/phone-plus-light.svg',
-      $color-black
+      variables.$color-black
     );
   }
-  @include dark-theme {
-    @include color-svg(
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/phone/phone-plus-light.svg',
-      $color-gray-15
+      variables.$color-gray-15
     );
   }
 }
@@ -29,11 +32,17 @@
   display: block;
   width: 20px;
   height: 20px;
-  @include light-theme {
-    @include color-svg('../images/icons/v3/more/more.svg', $color-black);
+  @include mixins.light-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/more/more.svg',
+      variables.$color-black
+    );
   }
-  @include dark-theme {
-    @include color-svg('../images/icons/v3/more/more.svg', $color-gray-15);
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/more/more.svg',
+      variables.$color-gray-15
+    );
   }
 }
 
@@ -52,16 +61,16 @@
   width: 40px;
   height: 40px;
   opacity: 0.7;
-  @include light-theme {
-    @include color-svg(
+  @include mixins.light-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/phone/phone-display-bold.svg',
-      $color-gray-60
+      variables.$color-gray-60
     );
   }
-  @include dark-theme {
-    @include color-svg(
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/phone/phone-display-bold.svg',
-      $color-gray-25
+      variables.$color-gray-25
     );
   }
 }
@@ -71,11 +80,11 @@
   margin-inline: 0;
   opacity: 0.7;
   text-align: center;
-  @include light-theme {
-    color: $color-gray-60;
+  @include mixins.light-theme {
+    color: variables.$color-gray-60;
   }
-  @include dark-theme {
-    color: $color-gray-25;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-25;
   }
 }
 
@@ -85,16 +94,16 @@
 
   width: 16px;
   height: 16px;
-  @include light-theme {
-    @include color-svg(
+  @include mixins.light-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/phone/phone-plus-bold.svg',
-      $color-gray-60
+      variables.$color-gray-60
     );
   }
-  @include dark-theme {
-    @include color-svg(
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/phone/phone-plus-bold.svg',
-      $color-gray-25
+      variables.$color-gray-25
     );
   }
 }
@@ -110,16 +119,16 @@
 }
 
 .CallsTab__ClearCallHistoryIcon {
-  @include light-theme {
-    @include color-svg(
+  @include mixins.light-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/trash/trash-compact.svg',
-      $color-gray-90
+      variables.$color-gray-90
     );
   }
-  @include dark-theme {
-    @include color-svg(
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/trash/trash-compact.svg',
-      $color-white
+      variables.$color-white
     );
   }
 }
@@ -129,28 +138,48 @@
   gap: 0px;
 }
 
-.CallsList__ToggleFilterByMissed {
-  @include button-reset;
-  flex-shrink: 0;
-  padding: 4px;
+.CallsList__FilterHeader {
+  display: flex;
+  align-items: center;
+
+  @include mixins.font-body-1-bold;
+
+  @include mixins.dark-theme {
+    color: variables.$color-gray-05;
+  }
+  padding-inline-start: 24px;
+  text-overflow: ellipsis;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.CallsList__ToggleFilterByMissedWrapper {
   margin-inline-end: 8px;
-  border-radius: 4px;
+}
+
+.CallsList__ToggleFilterByMissed {
+  @include mixins.button-reset;
+  & {
+    flex-shrink: 0;
+    padding: 4px;
+    border-radius: 4px;
+  }
 
   &:not(.CallsList__ToggleFilterByMissed--pressed):hover {
-    @include light-theme {
-      background-color: $color-black-alpha-06;
+    @include mixins.light-theme {
+      background-color: variables.$color-black-alpha-06;
     }
-    @include dark-theme {
-      background-color: $color-white-alpha-06;
+    @include mixins.dark-theme {
+      background-color: variables.$color-white-alpha-06;
     }
   }
 
   &:focus {
     outline: none;
-    @include keyboard-mode {
+    @include mixins.keyboard-mode {
       box-shadow:
-        0 0 0 2px $color-white,
-        0 0 0 4px $color-ultramarine;
+        0 0 0 2px variables.$color-white,
+        0 0 0 4px variables.$color-ultramarine;
     }
   }
 
@@ -159,13 +188,16 @@
     display: block;
     width: 20px;
     height: 20px;
-    @include light-theme {
-      @include color-svg('../images/icons/v3/filter/filter.svg', $color-black);
-    }
-    @include dark-theme {
-      @include color-svg(
+    @include mixins.light-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/filter/filter.svg',
-        $color-gray-15
+        variables.$color-black
+      );
+    }
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
+        '../images/icons/v3/filter/filter.svg',
+        variables.$color-gray-15
       );
     }
   }
@@ -173,14 +205,17 @@
 
 .CallsList__ToggleFilterByMissed--pressed {
   border-radius: 9999px;
-  background: $color-accent-blue;
+  background: variables.$color-accent-blue;
   &::before {
-    @include color-svg('../images/icons/v3/filter/filter.svg', $color-white);
+    @include mixins.color-svg(
+      '../images/icons/v3/filter/filter.svg',
+      variables.$color-white
+    );
   }
 }
 
 .CallsList__ToggleFilterByMissedLabel {
-  @include sr-only;
+  @include mixins.sr-only;
 }
 
 .CallsList__ListContainer {
@@ -189,7 +224,7 @@
 }
 
 .CallsList__List {
-  @include NavTabs__Scroller;
+  @include mixins.NavTabs__Scroller;
 }
 
 .CallsList__List--disableScrolling {
@@ -210,31 +245,43 @@
 }
 
 .CallsList__ItemIcon--Phone {
-  @include light-theme {
-    @include color-svg('../images/icons/v3/phone/phone.svg', $color-black);
+  @include mixins.light-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/phone/phone.svg',
+      variables.$color-black
+    );
   }
-  @include dark-theme {
-    @include color-svg('../images/icons/v3/phone/phone.svg', $color-gray-15);
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/phone/phone.svg',
+      variables.$color-gray-15
+    );
   }
 }
 
 .CallsList__ItemIcon--Video {
-  @include light-theme {
-    @include color-svg('../images/icons/v3/video/video.svg', $color-black);
+  @include mixins.light-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/video/video.svg',
+      variables.$color-black
+    );
   }
-  @include dark-theme {
-    @include color-svg('../images/icons/v3/video/video.svg', $color-gray-15);
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/video/video.svg',
+      variables.$color-gray-15
+    );
   }
 }
 
 .CallsList__LoadingAvatar,
 .CallsList__LoadingText {
   animation: CallsList__LoadingPulse 1.5s ease-in-out infinite;
-  @include light-theme {
-    background-color: $color-gray-05;
+  @include mixins.light-theme {
+    background-color: variables.$color-gray-05;
   }
-  @include dark-theme {
-    background-color: $color-gray-75;
+  @include mixins.dark-theme {
+    background-color: variables.$color-gray-75;
   }
 }
 
@@ -267,11 +314,11 @@
 .CallsList__Item--missed .ListTile__subtitle,
 .CallsList__Item--declined .ListTile__subtitle {
   // Need to override the themed selector specificity of .ListTile__subtitle
-  @include light-theme {
-    color: $color-accent-red;
+  @include mixins.light-theme {
+    color: variables.$color-accent-red;
   }
-  @include dark-theme {
-    color: $color-accent-red;
+  @include mixins.dark-theme {
+    color: variables.$color-accent-red;
   }
 }
 
@@ -281,16 +328,16 @@
 
   // Override .ListTile__subtitle with correct font size
   .ListTile__subtitle {
-    @include font-body-2;
+    @include mixins.font-body-2;
   }
 }
 
 .CallsList__Item--selected .CallsList__ItemTile {
-  @include light-theme {
-    background-color: $color-gray-15;
+  @include mixins.light-theme {
+    background-color: variables.$color-gray-15;
   }
-  @include dark-theme {
-    background-color: $color-gray-65;
+  @include mixins.dark-theme {
+    background-color: variables.$color-gray-65;
   }
 }
 
@@ -310,13 +357,13 @@
 }
 
 .CallsNewCall__List {
-  @include NavTabs__Scroller;
+  @include mixins.NavTabs__Scroller;
 }
 
 .CallsNewCall__ListHeaderItem {
   padding-block: 10px;
   padding-inline: 24px;
-  @include font-body-1-bold;
+  @include mixins.font-body-1-bold;
 }
 
 .CallsNewCall__EmptyState {
@@ -332,21 +379,23 @@
 }
 
 .CallsNewCall__ItemActionButton {
-  @include button-reset;
-  padding: 4px;
-  border-radius: 4px;
+  @include mixins.button-reset;
+  & {
+    padding: 4px;
+    border-radius: 4px;
+  }
   &:not(:disabled, [aria-disabled='true']):hover {
-    @include light-theme {
-      background: $color-gray-20;
+    @include mixins.light-theme {
+      background: variables.$color-gray-20;
     }
-    @include dark-theme {
-      background: $color-gray-62;
+    @include mixins.dark-theme {
+      background: variables.$color-gray-62;
     }
   }
   &:focus {
     outline: none;
-    @include keyboard-mode {
-      box-shadow: 0 0 0 2px $color-ultramarine;
+    @include mixins.keyboard-mode {
+      box-shadow: 0 0 0 2px variables.$color-ultramarine;
     }
   }
   &:disabled,
@@ -356,24 +405,28 @@
 }
 
 .CallsNewCall__ItemActionButton--join-call {
-  @include button-active-call;
-  height: 26px;
-  padding-block: 4px;
-  padding-inline: 10px;
+  @include mixins.button-active-call;
+  & {
+    height: 26px;
+    padding-block: 4px;
+    padding-inline: 10px;
+  }
 }
 
 .CallsNewCall__ItemActionButton--join-call-disabled {
-  @include light-theme {
+  @include mixins.light-theme {
     opacity: 0.4;
   }
-  @include dark-theme {
+  @include mixins.dark-theme {
     opacity: 0.5;
   }
 }
 
 .CallsNewCall__ItemActionButtonTooltip {
-  @include tooltip;
-  max-width: 212px;
+  @include mixins.tooltip;
+  & {
+    max-width: 212px;
+  }
 }
 
 .CallsNewCall__ItemIcon {
@@ -383,19 +436,31 @@
 }
 
 .CallsNewCall__ItemIcon--Phone {
-  @include light-theme {
-    @include color-svg('../images/icons/v3/phone/phone.svg', $color-black);
+  @include mixins.light-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/phone/phone.svg',
+      variables.$color-black
+    );
   }
-  @include dark-theme {
-    @include color-svg('../images/icons/v3/phone/phone.svg', $color-gray-15);
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/phone/phone.svg',
+      variables.$color-gray-15
+    );
   }
 }
 
 .CallsNewCall__ItemIcon--Video {
-  @include light-theme {
-    @include color-svg('../images/icons/v3/video/video.svg', $color-black);
+  @include mixins.light-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/video/video.svg',
+      variables.$color-black
+    );
   }
-  @include dark-theme {
-    @include color-svg('../images/icons/v3/video/video.svg', $color-gray-15);
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/video/video.svg',
+      variables.$color-gray-15
+    );
   }
 }

@@ -4,15 +4,19 @@
 import { isEqual } from 'lodash';
 import { DataReader } from '../sql/Client';
 import type { StoryRecipientUpdateEvent } from '../textsecure/messageReceiverEvents';
-import { normalizeServiceId } from '../types/ServiceId';
 import { normalizeStoryDistributionId } from '../types/StoryDistributionId';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { SendStatus } from '../messages/MessageSendState';
 import { getConversationIdForLogging } from './idForLogging';
 import { isStory } from '../state/selectors/message';
 import { queueUpdateMessage } from './messageBatcher';
 import { isMe } from './whatTypeOfConversation';
 import { drop } from './drop';
+import { fromServiceIdBinaryOrString } from './ServiceId';
+import { handleDeleteForEveryone } from './deleteForEveryone';
+import { MessageModel } from '../models/messages';
+
+const log = createLogger('onStoryRecipientUpdate');
 
 export async function onStoryRecipientUpdate(
   event: StoryRecipientUpdateEvent
@@ -57,15 +61,22 @@ export async function onStoryRecipientUpdate(
         Set<string>
       >();
       data.storyMessageRecipients.forEach(item => {
-        const { destinationServiceId: recipientServiceId } = item;
+        const {
+          destinationServiceId: rawDestinationServiceId,
+          destinationServiceIdBinary,
+        } = item;
 
-        if (!recipientServiceId) {
+        const recipientServiceId = fromServiceIdBinaryOrString(
+          destinationServiceIdBinary,
+          rawDestinationServiceId,
+          `${logId}.recipientServiceId`
+        );
+
+        if (recipientServiceId == null) {
           return;
         }
 
-        const convo = window.ConversationController.get(
-          normalizeServiceId(recipientServiceId, `${logId}.recipientServiceId`)
-        );
+        const convo = window.ConversationController.get(recipientServiceId);
 
         if (!convo || !item.distributionListIds) {
           return;
@@ -162,11 +173,7 @@ export async function onStoryRecipientUpdate(
           return true;
         }
 
-        const message = window.MessageCache.__DEPRECATED$register(
-          item.id,
-          item,
-          'onStoryRecipientUpdate'
-        );
+        const message = window.MessageCache.register(new MessageModel(item));
 
         const sendStateConversationIds = new Set(
           Object.keys(nextSendStateByConversationId)
@@ -190,7 +197,7 @@ export async function onStoryRecipientUpdate(
           // sent timestamp doesn't happen (it would return all copies of the
           // story, not just the one we want to delete).
           drop(
-            message.handleDeleteForEveryone({
+            handleDeleteForEveryone(message, {
               fromId: ourConversationId,
               serverTimestamp: Number(item.serverTimestamp),
               targetSentTimestamp: item.timestamp,
@@ -200,14 +207,14 @@ export async function onStoryRecipientUpdate(
           message.set({
             sendStateByConversationId: nextSendStateByConversationId,
           });
-          queueUpdateMessage(message.attributes);
+          drop(queueUpdateMessage(message.attributes));
         }
 
         return true;
       });
 
       if (handledMessages.length) {
-        window.Whisper.events.trigger('incrementProgress');
+        window.Whisper.events.emit('incrementProgress');
         confirm();
       }
     })

@@ -6,6 +6,8 @@ import type { ReactElement, TimeHTMLAttributes } from 'react';
 import moment from 'moment';
 import React from 'react';
 
+import { toBoundedDate } from '../util/timestamp';
+
 export function Time({
   children,
   dateOnly = false,
@@ -22,7 +24,7 @@ export function Time({
     dateTime = moment(timestamp).format('YYYY-MM-DD');
   } else {
     const date =
-      typeof timestamp === 'number' ? new Date(timestamp) : timestamp;
+      typeof timestamp === 'number' ? toBoundedDate(timestamp) : timestamp;
     dateTime = date.toISOString();
   }
 

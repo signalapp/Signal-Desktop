@@ -1,6 +1,11 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use 'sass:color';
+@use 'sass:map';
+@use '../mixins';
+@use '../variables';
+
 .module-quote {
   &__container {
     .module-message & {
@@ -10,20 +15,22 @@
     }
   }
 
-  @include button-reset;
-  width: 100%;
+  @include mixins.button-reset;
+  & {
+    width: 100%;
 
-  position: relative;
-  border-radius: 8px 8px 4px 4px;
+    position: relative;
+    border-radius: 8px 8px 4px 4px;
 
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    overflow: hidden;
+  }
 
-  @include keyboard-mode {
+  @include mixins.keyboard-mode {
     &:focus {
-      box-shadow: 0px 0px 0px 2px $color-ultramarine;
+      box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
     }
   }
 
@@ -31,7 +38,7 @@
     bottom: 5px;
     position: absolute;
     inset-inline-end: 25px;
-    z-index: $z-index-base;
+    z-index: variables.$z-index-base;
 
     img.emoji {
       height: 24px;
@@ -57,57 +64,57 @@
 }
 
 .module-quote--outgoing {
-  background-color: $color-steel;
+  background-color: variables.$color-steel;
 
   .module-quote__primary {
-    border-inline-start-color: $color-steel;
+    border-inline-start-color: variables.$color-steel;
   }
 
   // To preserve contrast
-  @include keyboard-mode {
+  @include mixins.keyboard-mode {
     &:focus {
-      box-shadow: 0px 0px 0px 2px $color-white;
+      box-shadow: 0px 0px 0px 2px variables.$color-white;
     }
   }
 }
 
-@each $color, $value in $conversation-colors {
+@each $color, $value in variables.$conversation-colors {
   .module-quote--incoming-#{$color} {
-    background-color: scale-color($value, $lightness: 60%);
+    background-color: color.scale($value, $lightness: 60%);
 
     .module-quote__primary {
       border-inline-start-color: $value;
     }
 
-    @include dark-theme {
-      background-color: scale-color($value, $lightness: -40%);
+    @include mixins.dark-theme {
+      background-color: color.scale($value, $lightness: -40%);
     }
   }
 
   .module-quote--outgoing-#{$color} {
-    background-color: scale-color($value, $lightness: 60%);
+    background-color: color.scale($value, $lightness: 60%);
 
     .module-quote__primary {
-      border-inline-start-color: $color-white;
+      border-inline-start-color: variables.$color-white;
     }
 
-    @include dark-theme {
-      background-color: scale-color($value, $lightness: -40%);
-      border-inline-start-color: $color-white;
+    @include mixins.dark-theme {
+      background-color: color.scale($value, $lightness: -40%);
+      border-inline-start-color: variables.$color-white;
     }
   }
 
   .module-quote--compose-#{$color} {
-    background-color: scale-color($value, $lightness: 60%);
+    background-color: color.scale($value, $lightness: 60%);
 
     .module-quote__primary {
       border-inline-start-color: $value;
     }
 
-    @include dark-theme {
-      background-color: scale-color($value, $lightness: -40%);
+    @include mixins.dark-theme {
+      background-color: color.scale($value, $lightness: -40%);
       .module-quote__primary {
-        border-inline-start-color: $color-white;
+        border-inline-start-color: variables.$color-white;
       }
     }
   }
@@ -119,39 +126,46 @@
   background-attachment: fixed;
 }
 
-@each $color, $value in $conversation-colors-gradient {
+@each $color, $value in variables.$conversation-colors-gradient {
   .module-quote--compose-#{$color},
   .module-quote--incoming-#{$color} {
     .module-quote__primary,
     &.module-quote__reference-warning {
-      border-inline-start-color: map-get($value, 'start');
+      border-inline-start-color: map.get($value, 'start');
     }
   }
   .module-quote--compose-#{$color},
   .module-quote--incoming-#{$color},
   .module-quote--outgoing-#{$color} {
     background-attachment: fixed;
-    @include light-theme {
+    @include mixins.light-theme {
       background-image: linear-gradient(
-          map-get($value, 'deg'),
-          scale-color(map-get($value, 'start'), $lightness: 60%),
-          scale-color(map-get($value, 'end'), $lightness: 60%)
+          map.get($value, 'deg'),
+          color.scale(map.get($value, 'start'), $lightness: 60%),
+          color.scale(map.get($value, 'end'), $lightness: 60%)
         ),
         linear-gradient(red, blue);
     }
-    @include dark-theme {
+    @include mixins.dark-theme {
       background-image: linear-gradient(
-        map-get($value, 'deg'),
-        scale-color(map-get($value, 'start'), $lightness: -40%),
-        scale-color(map-get($value, 'end'), $lightness: -40%)
+        map.get($value, 'deg'),
+        color.scale(map.get($value, 'start'), $lightness: -40%),
+        color.scale(map.get($value, 'end'), $lightness: -40%)
       );
     }
   }
   .module-quote--outgoing-#{$color} {
     .module-quote__primary,
     &.module-quote__reference-warning {
-      border-inline-start-color: $color-white;
+      border-inline-start-color: variables.$color-white;
     }
+  }
+}
+
+.module-quote--outgoing-custom {
+  .module-quote__primary,
+  &.module-quote__reference-warning {
+    border-inline-start-color: variables.$color-white;
   }
 }
 
@@ -168,83 +182,85 @@
 }
 
 .module-quote__primary__author {
-  @include font-body-2-bold;
+  @include mixins.font-body-2-bold;
 
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 
-  @include light-theme {
-    color: $color-gray-90;
+  @include mixins.light-theme {
+    color: variables.$color-gray-90;
   }
-  @include dark-theme {
-    color: $color-gray-05;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-05;
   }
 }
 
 .module-quote__primary__author--incoming {
-  @include dark-theme {
-    color: $color-gray-05;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-05;
   }
 }
 
 .module-quote__primary__text {
-  @include font-body-1;
+  @include mixins.font-body-1;
 
   text-align: start;
 
-  @include light-theme {
-    color: $color-gray-90;
+  @include mixins.light-theme {
+    color: variables.$color-gray-90;
     a {
-      color: $color-gray-90;
+      color: variables.$color-gray-90;
     }
   }
-  @include dark-theme {
-    color: $color-gray-05;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-05;
     a {
-      color: $color-gray-05;
+      color: variables.$color-gray-05;
     }
   }
 
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
-  white-space: pre-wrap;
+  & {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: pre-wrap;
 
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
 }
 
 .module-quote__primary__text--incoming {
-  @include dark-theme {
-    color: $color-gray-05;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-05;
     a {
-      color: $color-gray-05;
+      color: variables.$color-gray-05;
     }
   }
 }
 
 .module-quote__primary__type-label {
-  @include font-body-2-italic;
+  @include mixins.font-body-2-italic;
 
-  @include light-theme {
-    color: $color-gray-90;
+  @include mixins.light-theme {
+    color: variables.$color-gray-90;
   }
-  @include dark-theme {
-    color: $color-gray-05;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-05;
   }
 }
 
 .module-quote__primary__type-label--incoming {
-  @include dark-theme {
-    color: $color-gray-05;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-05;
   }
 }
 
 .module-quote__primary__filename-label {
-  @include font-body-2;
+  @include mixins.font-body-2;
 }
 
 .module-quote__close-container {
@@ -256,24 +272,26 @@
 
   border-radius: 50%;
 
-  background-color: $color-black-alpha-40;
+  background-color: variables.$color-black-alpha-40;
 
-  @include keyboard-mode {
+  @include mixins.keyboard-mode {
     &:focus-within {
-      background-color: $color-ultramarine;
+      background-color: variables.$color-ultramarine;
     }
   }
 }
 
 .module-quote__close-button {
-  @include button-reset;
-
-  width: 14px;
-  height: 14px;
-
-  @include position-absolute-center;
-
-  @include color-svg('../images/icons/v3/x/x.svg', $color-white);
+  @include mixins.button-reset;
+  & {
+    width: 14px;
+    height: 14px;
+    @include mixins.position-absolute-center;
+  }
+  @include mixins.color-svg(
+    '../images/icons/v3/x/x.svg',
+    variables.$color-white
+  );
 }
 
 .module-quote__icon-container {
@@ -289,11 +307,11 @@
 }
 
 .module-quote__icon-container__outgoing-gift-badge {
-  @include light-theme {
-    border: 1px solid $color-white;
+  @include mixins.light-theme {
+    border: 1px solid variables.$color-white;
   }
-  @include dark-theme {
-    border: 1px solid $color-white-alpha-80;
+  @include mixins.dark-theme {
+    border: 1px solid variables.$color-white-alpha-80;
   }
 }
 
@@ -317,7 +335,7 @@
   height: 32px;
   width: 32px;
   border-radius: 50%;
-  background-color: $color-white;
+  background-color: variables.$color-white;
 }
 
 .module-quote__icon-container__icon {
@@ -326,30 +344,39 @@
 }
 
 .module-quote__icon-container__icon--file {
-  @include color-svg('../images/icons/v3/file/file.svg', $color-ultramarine);
+  @include mixins.color-svg(
+    '../images/icons/v3/file/file.svg',
+    variables.$color-ultramarine
+  );
 }
 .module-quote__icon-container__icon--image {
-  @include color-svg(
+  @include mixins.color-svg(
     '../images/icons/v3/photo/photo-square.svg',
-    $color-ultramarine
+    variables.$color-ultramarine
   );
 }
 .module-quote__icon-container__icon--microphone {
-  @include color-svg('../images/icons/v3/mic/mic.svg', $color-ultramarine);
+  @include mixins.color-svg(
+    '../images/icons/v3/mic/mic.svg',
+    variables.$color-ultramarine
+  );
 }
 .module-quote__icon-container__icon--play {
-  @include color-svg(
+  @include mixins.color-svg(
     '../images/icons/v3/play/play-fill.svg',
-    $color-ultramarine
+    variables.$color-ultramarine
   );
 }
 .module-quote__icon-container__icon--movie {
-  @include color-svg('../images/movie.svg', $color-ultramarine);
+  @include mixins.color-svg(
+    '../images/movie.svg',
+    variables.$color-ultramarine
+  );
 }
 .module-quote__icon-container__icon--view-once {
-  @include color-svg(
+  @include mixins.color-svg(
     '../images/icons/v3/view_once/view_once.svg',
-    $color-ultramarine
+    variables.$color-ultramarine
   );
 }
 
@@ -368,29 +395,29 @@
   margin-bottom: 5px;
 }
 .module-quote__generic-file__text {
-  @include font-body-2;
+  @include mixins.font-body-2;
 
   max-width: calc(100% - 26px);
   overflow-x: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 
-  @include light-theme {
-    color: $color-gray-90;
+  @include mixins.light-theme {
+    color: variables.$color-gray-90;
   }
-  @include dark-theme {
-    color: $color-gray-05;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-05;
   }
 }
 
 .module-quote__generic-file__text--incoming {
-  @include dark-theme {
-    color: $color-gray-05;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-05;
   }
 }
 
 .module-quote__reference-warning {
-  color: $color-gray-90;
+  color: variables.$color-gray-90;
   height: 26px;
   display: flex;
   flex-direction: row;
@@ -407,51 +434,51 @@
   height: 16px;
   width: 16px;
 
-  @include light-theme {
-    @include color-svg(
+  @include mixins.light-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/link/link-slash.svg',
-      $color-gray-90
+      variables.$color-gray-90
     );
   }
-  @include dark-theme {
-    @include color-svg(
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/link/link-slash.svg',
-      $color-gray-05
+      variables.$color-gray-05
     );
   }
 }
 
 .module-quote__reference-warning__icon--incoming {
-  @include light-theme {
-    @include color-svg(
+  @include mixins.light-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/link/link-slash.svg',
-      $color-gray-90
+      variables.$color-gray-90
     );
   }
-  @include dark-theme {
-    @include color-svg(
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/link/link-slash.svg',
-      $color-gray-05
+      variables.$color-gray-05
     );
   }
 }
 
 .module-quote__reference-warning__text {
-  @include font-caption;
+  @include mixins.font-caption;
 
   margin-inline-start: 6px;
 
-  @include light-theme {
-    color: $color-gray-90;
+  @include mixins.light-theme {
+    color: variables.$color-gray-90;
   }
-  @include dark-theme {
-    color: $color-gray-05;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-05;
   }
 }
 
 .module-quote__reference-warning__text--incoming {
-  @include dark-theme {
-    color: $color-gray-05;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-05;
   }
 }
 

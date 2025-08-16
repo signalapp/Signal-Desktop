@@ -12,6 +12,7 @@ import { isConversationUnregistered } from './isConversationUnregistered';
 import { missingCaseError } from './missingCaseError';
 import type { ConversationModel } from '../models/conversations';
 import { mapEmplace } from './mapEmplace';
+import { isSignalConversation } from './isSignalConversation';
 
 const CHUNK_SIZE = 100;
 
@@ -124,7 +125,12 @@ export async function sendReceipts({
         );
         return;
       }
-
+      if (isSignalConversation(sender.attributes)) {
+        log.info(
+          `conversation ${sender.idForLogging()} is Signal conversation; refusing to send`
+        );
+        return;
+      }
       log.info(`Sending receipt of type ${type} to ${sender.idForLogging()}`);
 
       const conversation = window.ConversationController.get(conversationId);

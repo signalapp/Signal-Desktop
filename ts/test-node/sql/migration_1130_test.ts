@@ -3,7 +3,8 @@
 
 import { assert } from 'chai';
 import type { WritableDB } from '../../sql/Interface';
-import { createDB, updateToVersion } from './helpers';
+import { sql } from '../../sql/util';
+import { createDB, updateToVersion, explain } from './helpers';
 
 describe('SQL/updateToSchemaVersion1130', () => {
   let db: WritableDB;
@@ -17,10 +18,9 @@ describe('SQL/updateToSchemaVersion1130', () => {
   });
 
   it('uses new index for getAllStories query and no params', () => {
-    const details = db
-      .prepare(
-        `
-        EXPLAIN QUERY PLAN 
+    const details = explain(
+      db,
+      sql`
         SELECT json, id
         FROM messages
         WHERE
@@ -29,19 +29,15 @@ describe('SQL/updateToSchemaVersion1130', () => {
           (NULL IS NULL OR sourceServiceId IS NULL)
         ORDER BY received_at ASC, sent_at ASC;
         `
-      )
-      .all()
-      .map(step => step.detail)
-      .join(', ');
+    );
 
     assert.strictEqual(details, 'SCAN messages USING INDEX messages_isStory');
   });
 
   it('uses new index for getAllStories query and with conversationId', () => {
-    const details = db
-      .prepare(
-        `
-        EXPLAIN QUERY PLAN 
+    const details = explain(
+      db,
+      sql`
         SELECT json, id
         FROM messages
         WHERE
@@ -50,19 +46,15 @@ describe('SQL/updateToSchemaVersion1130', () => {
           (NULL IS NULL OR sourceServiceId IS NULL)
         ORDER BY received_at ASC, sent_at ASC;
         `
-      )
-      .all()
-      .map(step => step.detail)
-      .join(', ');
+    );
 
     assert.strictEqual(details, 'SCAN messages USING INDEX messages_isStory');
   });
 
   it('uses new index for getAllStories query and with sourceServiceId', () => {
-    const details = db
-      .prepare(
-        `
-        EXPLAIN QUERY PLAN 
+    const details = explain(
+      db,
+      sql`
         SELECT json, id
         FROM messages
         WHERE
@@ -71,19 +63,15 @@ describe('SQL/updateToSchemaVersion1130', () => {
           ('something' IS NULL OR sourceServiceId IS 'something')
         ORDER BY received_at ASC, sent_at ASC;
         `
-      )
-      .all()
-      .map(step => step.detail)
-      .join(', ');
+    );
 
     assert.strictEqual(details, 'SCAN messages USING INDEX messages_isStory');
   });
 
   it('uses new index for getAllStories query and both params', () => {
-    const details = db
-      .prepare(
-        `
-        EXPLAIN QUERY PLAN 
+    const details = explain(
+      db,
+      sql`
         SELECT json, id
         FROM messages
         WHERE
@@ -92,27 +80,20 @@ describe('SQL/updateToSchemaVersion1130', () => {
           ('something' IS NULL OR sourceServiceId IS 'something')
         ORDER BY received_at ASC, sent_at ASC;
         `
-      )
-      .all()
-      .map(step => step.detail)
-      .join(', ');
+    );
 
     assert.strictEqual(details, 'SCAN messages USING INDEX messages_isStory');
   });
 
   it('uses previous index for getAllStories get replies query', () => {
-    const details = db
-      .prepare(
-        `
-        EXPLAIN QUERY PLAN
+    const details = explain(
+      db,
+      sql`
         SELECT DISTINCT storyId
         FROM messages
         WHERE storyId IS NOT NULL
         `
-      )
-      .all()
-      .map(step => step.detail)
-      .join(', ');
+    );
 
     assert.strictEqual(
       details,
@@ -121,10 +102,9 @@ describe('SQL/updateToSchemaVersion1130', () => {
   });
 
   it('uses previous index for getAllStories get replies from self query', () => {
-    const details = db
-      .prepare(
-        `
-        EXPLAIN QUERY PLAN
+    const details = explain(
+      db,
+      sql`
         SELECT DISTINCT storyId
         FROM messages
         WHERE (
@@ -132,10 +112,7 @@ describe('SQL/updateToSchemaVersion1130', () => {
           type IS 'outgoing'
         )
         `
-      )
-      .all()
-      .map(step => step.detail)
-      .join(', ');
+    );
 
     assert.strictEqual(
       details,

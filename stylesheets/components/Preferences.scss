@@ -1,36 +1,67 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 @mixin preferences-icon($url) {
   &::before {
-    @include light-theme {
-      @include color-svg($url, $color-gray-75);
+    @include mixins.light-theme {
+      @include mixins.color-svg($url, variables.$color-gray-75);
     }
-    @include dark-theme {
-      @include color-svg($url, $color-gray-15);
+    @include mixins.dark-theme {
+      @include mixins.color-svg($url, variables.$color-gray-15);
     }
   }
 }
+
+$secondary-text-color: light-dark(
+  variables.$color-gray-60,
+  variables.$color-gray-25
+);
 
 .Preferences {
   display: flex;
   overflow: hidden;
   user-select: none;
-  @include light-theme {
-    background: $color-white;
+  width: 100vw;
+
+  @include mixins.light-theme {
+    background: variables.$color-white;
   }
-  @include dark-theme {
-    background: $color-gray-95;
+  @include mixins.dark-theme {
+    background: variables.$color-gray-95;
+  }
+
+  &__dialog-container {
+    margin-bottom: 8px;
   }
 
   &__page-selector {
-    padding-top: calc(24px + var(--title-bar-drag-area-height));
-    min-width: min(34%, 240px);
-    @include light-theme {
-      background: $color-gray-02;
+    padding-top: 2px;
+    max-height: 100%;
+
+    @include mixins.light-theme {
+      background: variables.$color-gray-04;
     }
-    @include dark-theme {
-      background: $color-gray-80;
+    @include mixins.dark-theme {
+      background: variables.$color-gray-80;
+    }
+  }
+
+  &__scroll-area {
+    overflow-y: scroll;
+    max-height: 100%;
+
+    &::-webkit-scrollbar-thumb {
+      @include mixins.light-theme {
+        background: variables.$color-gray-25;
+        border-color: variables.$color-gray-04;
+      }
+      @include mixins.dark-theme {
+        background: variables.$color-gray-45;
+        border-color: variables.$color-gray-80;
+      }
     }
   }
 
@@ -43,40 +74,196 @@
     font-weight: 600;
   }
 
-  &__button {
-    @include button-reset;
-    @include font-body-1;
-    align-items: center;
+  &__profile-chip {
+    position: relative;
     display: flex;
-    height: 48px;
-    width: 100%;
-    padding-block: 14px;
-    padding-inline: 0;
+    flex-direction: row;
+    align-items: center;
+
+    width: calc(100% - 11px);
+    margin-inline-start: 10px;
+    margin-inline-end: 1px;
+
+    margin-bottom: 4px;
+    border-radius: 8px;
+
+    padding-top: 14px;
+    padding-bottom: 14px;
+    padding-inline-start: 10px;
+    padding-inline-end: 10px;
+
+    &__screenreader-only {
+      @include mixins.sr-only;
+    }
 
     &--selected {
-      @include light-theme {
-        background: $color-gray-15;
+      @include mixins.light-theme {
+        background: variables.$color-gray-15;
       }
-      @include dark-theme {
-        background: $color-gray-65;
+      @include mixins.dark-theme {
+        background: variables.$color-gray-65;
+      }
+    }
+
+    &:has(.Preferences__profile-chip__button:focus) {
+      @include mixins.keyboard-mode {
+        background: variables.$color-gray-05;
+      }
+      @include mixins.dark-keyboard-mode {
+        background: variables.$color-gray-75;
+      }
+    }
+    &:has(.Preferences__profile-chip__button:hover):not(&--selected) {
+      @include mixins.mouse-mode {
+        background: variables.$color-gray-05;
+      }
+      @include mixins.dark-mouse-mode {
+        background: variables.$color-gray-75;
+      }
+    }
+
+    &__button {
+      @include mixins.button-reset;
+      & {
+        position: absolute;
+        z-index: 1;
+        inset: 0;
+      }
+    }
+
+    &__avatar {
+      margin-inline-end: 10px;
+    }
+
+    &__text-container {
+      flex-grow: 1;
+      // Aligning the top of capital letters one pixel below the top of the avatar
+      margin-top: -4px;
+      margin-bottom: -5px;
+      overflow-x: hidden;
+    }
+
+    &__name {
+      @include mixins.font-body-1-bold;
+      overflow-x: hidden;
+      white-space: nowrap;
+      overflow-wrap: anywhere;
+      text-overflow: ellipsis;
+    }
+    &__number {
+      @include mixins.font-body-small;
+      margin-top: 2px;
+      overflow-x: hidden;
+      white-space: nowrap;
+      overflow-wrap: anywhere;
+      text-overflow: ellipsis;
+    }
+    &__username {
+      @include mixins.font-body-small;
+      margin-top: 2px;
+      overflow-x: hidden;
+      white-space: nowrap;
+      overflow-wrap: anywhere;
+      text-overflow: ellipsis;
+    }
+
+    &__qr-icon-button {
+      @include mixins.button-reset;
+      & {
+        z-index: 2;
+        margin-inline-start: 2px;
+        flex-shrink: 0;
+        position: relative;
+        height: 36px;
+        width: 36px;
+        border-radius: 50%;
+      }
+      @include mixins.light-theme {
+        background-color: variables.$color-white;
+      }
+      @include mixins.dark-theme {
+        background-color: rgba(variables.$color-gray-40, 0.2);
+      }
+
+      &:active {
+        @include mixins.mouse-mode {
+          background-color: variables.$color-gray-02;
+        }
+        @include mixins.dark-mouse-mode {
+          background-color: rgba(variables.$color-gray-40, 0.28);
+        }
+      }
+      &:focus {
+        @include mixins.keyboard-mode {
+          box-shadow: 0px 0px 0px 2.5px #a0a7fe;
+        }
+        @include mixins.dark-keyboard-mode {
+          box-shadow: 0px 0px 0px 2.5px #c1c7fe;
+        }
+      }
+    }
+    &__qr-icon {
+      height: 20px;
+      width: 20px;
+      @include mixins.position-absolute-center;
+
+      @include mixins.color-svg-themed(
+        '../images/icons/v3/qr_code/qr_code.svg',
+        variables.$color-black,
+        variables.$color-white
+      );
+    }
+  }
+
+  &__button {
+    @include mixins.button-reset;
+    & {
+      @include mixins.font-body-1;
+      align-items: center;
+      display: flex;
+      height: 40px;
+      width: calc(100% - 11px);
+      padding-block: 14px;
+      padding-inline: 0;
+      margin-inline-start: 10px;
+      margin-inline-end: 1px;
+      border-radius: 10px;
+      margin-bottom: 4px;
+    }
+
+    &--selected {
+      @include mixins.light-theme {
+        background: variables.$color-gray-15;
+      }
+      @include mixins.dark-theme {
+        background: variables.$color-gray-65;
       }
     }
 
     &:focus {
-      @include keyboard-mode {
-        background: $color-gray-05;
+      @include mixins.keyboard-mode {
+        background: variables.$color-gray-05;
       }
-      @include dark-keyboard-mode {
-        background: $color-gray-75;
+      @include mixins.dark-keyboard-mode {
+        background: variables.$color-gray-75;
+      }
+    }
+    &:hover:not(&--selected) {
+      @include mixins.mouse-mode {
+        background: variables.$color-gray-05;
+      }
+      @include mixins.dark-mouse-mode {
+        background: variables.$color-gray-75;
       }
     }
 
     &::before {
       content: '';
       display: block;
-      height: 22px;
-      margin-inline: 18px 14px;
-      width: 22px;
+      height: 20px;
+      margin-inline-start: 14px;
+      margin-inline-end: 12px;
+      width: 20px;
     }
 
     &--general {
@@ -102,33 +289,89 @@
     &--privacy {
       @include preferences-icon('../images/icons/v3/lock/lock.svg');
     }
+
+    &--data-usage {
+      @include preferences-icon('../images/icons/v3/data/data.svg');
+    }
+
+    &--backups {
+      @include preferences-icon(
+        '../images/icons/v3/signal_backups/signal_backups.svg'
+      );
+    }
+
+    &--donations {
+      @include preferences-icon('../images/icons/v3/heart/heart.svg');
+    }
+
+    &--internal {
+      @include preferences-icon('../images/icons/v3/internal/internal.svg');
+    }
+  }
+
+  &__content {
+    flex-grow: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__page {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: row;
+    overflow-y: scroll;
+    container-type: inline-size;
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    padding: 16px;
+    gap: 16px;
   }
 
   &__settings-pane {
-    height: 100vh;
-    overflow: overlay;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    height: 100%;
     width: 100%;
+    padding-top: 8px;
+    max-width: 750px;
 
     &::-webkit-scrollbar-corner {
       background: transparent;
     }
   }
 
+  &__settings-pane-content--with-footer {
+    height: 100%;
+  }
+
+  &__settings-pane-spacer {
+    flex-grow: 1;
+    min-width: 0;
+  }
+
   &__title {
-    @include font-body-1-bold;
+    @include mixins.font-body-1-bold;
     align-items: center;
     display: flex;
-    height: 48px;
+    height: 52px;
     margin-top: var(--title-bar-drag-area-height);
-    margin-bottom: 24px;
     text-align: center;
+    flex-grow: 0;
+    flex-shrink: 0;
+    position: relative;
 
-    border-bottom: 1px solid $color-gray-15;
-    @include light-theme {
-      border-color: $color-gray-15;
-    }
-    @include dark-theme {
-      border-color: $color-gray-65;
+    &--backups {
+      border: none;
+      margin-bottom: 16px;
     }
 
     &--header {
@@ -144,7 +387,7 @@
     padding-bottom: 20px;
 
     h3 {
-      @include font-body-1-bold;
+      @include mixins.font-body-1-bold;
       margin: 0;
       margin-bottom: 8px;
     }
@@ -155,14 +398,16 @@
   }
 
   &__settings-row:not(:last-child) {
-    border-bottom: 1px solid $color-gray-15;
-    @include light-theme {
-      border-color: $color-gray-15;
+    border-bottom: 1px solid variables.$color-gray-15;
+    @include mixins.light-theme {
+      border-color: variables.$color-gray-15;
     }
-    @include dark-theme {
-      border-color: $color-gray-65;
+    @include mixins.dark-theme {
+      border-color: variables.$color-gray-65;
     }
-    margin-bottom: 24px;
+    & {
+      margin-bottom: 24px;
+    }
   }
 
   &__pnp {
@@ -170,9 +415,76 @@
     width: 100%;
 
     h3 {
-      @include font-body-1;
+      @include mixins.font-body-1;
       font-weight: 400;
       margin: 0;
+    }
+  }
+
+  &__light-icon-label {
+    display: flex;
+  }
+
+  &__flow-control {
+    display: block;
+    padding-block: 4px;
+    padding-inline: 24px;
+  }
+  &__one-third-flow {
+    vertical-align: middle;
+    display: inline-block;
+    width: 33%;
+    @container (max-width: 350px) {
+      width: 100%;
+    }
+  }
+  &__half-flow {
+    vertical-align: middle;
+    display: inline-block;
+    width: 50%;
+    @container (max-width: 350px) {
+      width: 100%;
+    }
+  }
+  &__two-thirds-flow {
+    vertical-align: middle;
+    display: inline-block;
+    width: 66%;
+    @container (max-width: 350px) {
+      width: 100%;
+    }
+  }
+
+  &__half-flow--align-right {
+    text-align: end;
+    @container (max-width: 350px) {
+      text-align: start;
+    }
+  }
+  &__one-third-flow--align-right {
+    text-align: end;
+    @container (max-width: 350px) {
+      text-align: start;
+    }
+  }
+  &__full-flow {
+    vertical-align: middle;
+    display: inline-block;
+    width: 100%;
+  }
+  &__flow-value,
+  &__flow-description {
+    vertical-align: middle;
+    color: $secondary-text-color;
+  }
+  &__device-name-description {
+    padding-top: 8px;
+  }
+  &__flow-button {
+    padding-inline-start: 5px;
+    @container (max-width: 350px) {
+      padding-inline-start: 0px;
+      padding-top: 8px;
     }
   }
 
@@ -197,21 +509,23 @@
     }
 
     &--value {
-      color: $color-gray-45;
+      color: variables.$color-gray-45;
       flex-shrink: 0;
     }
 
     &--clickable {
-      @include button-reset;
-      padding-block: 4px;
-      padding-inline: 24px;
-      width: 100%;
+      @include mixins.button-reset;
+      & {
+        padding-block: 4px;
+        padding-inline: 24px;
+        width: 100%;
+      }
       &:hover {
-        @include light-theme {
-          background: $color-gray-02;
+        @include mixins.light-theme {
+          background: variables.$color-gray-02;
         }
-        @include dark-theme {
-          background: $color-gray-80;
+        @include mixins.dark-theme {
+          background: variables.$color-gray-80;
         }
       }
     }
@@ -222,17 +536,32 @@
     padding-inline: 24px;
   }
 
-  &__description {
-    @include font-subtitle;
-    @include light-theme {
-      color: $color-gray-60;
+  &__option-name {
+    @include mixins.font-body-1;
+    @include mixins.light-theme {
+      color: variables.$color-gray-90;
     }
-    @include dark-theme {
-      color: $color-gray-25;
+    @include mixins.dark-theme {
+      color: variables.$color-gray-05;
+    }
+  }
+
+  &__checkbox__description,
+  &__description {
+    @include mixins.font-subtitle;
+    // For specificity reasons, we can't use $secondary-text-color. We need the mixins.
+    @include mixins.light-theme {
+      color: variables.$color-gray-60;
+    }
+    @include mixins.dark-theme {
+      color: variables.$color-gray-25;
+    }
+    &--error {
+      color: variables.$color-accent-red !important;
     }
 
-    &--error {
-      color: $color-accent-red !important;
+    &--medium {
+      @include mixins.font-body-2;
     }
   }
 
@@ -252,26 +581,33 @@
   }
 
   &__back-icon {
-    @include button-reset;
+    @include mixins.button-reset;
 
-    display: inline-block;
-    height: 20px;
-    margin-inline-start: 12px;
-    min-width: 20px;
-    vertical-align: text-bottom;
-    width: 20px;
+    & {
+      display: inline-block;
+      inset-inline-start: 12px;
+      height: 20px;
+      width: 20px;
+      vertical-align: text-bottom;
+      @include mixins.position-absolute-center-y;
+    }
 
-    @include light-theme {
-      @include color-svg(
+    @include mixins.light-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/chevron/chevron-left.svg',
-        $color-gray-90
+        variables.$color-gray-90
       );
     }
-    @include dark-theme {
-      @include color-svg(
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/chevron/chevron-left.svg',
-        $color-gray-02
+        variables.$color-gray-02
       );
+    }
+
+    // Keep the title centered when a back icon is on the left
+    & + .Preferences__title--header {
+      margin-inline-end: 32px;
     }
   }
 
@@ -296,17 +632,23 @@
 }
 
 .Preferences__LanguageIcon {
-  @include light-theme {
-    @include color-svg('../images/icons/v3/globe/globe.svg', $color-gray-75);
+  @include mixins.light-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/globe/globe.svg',
+      variables.$color-gray-75
+    );
   }
-  @include dark-theme {
-    @include color-svg('../images/icons/v3/globe/globe.svg', $color-gray-15);
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/globe/globe.svg',
+      variables.$color-gray-15
+    );
   }
 }
 
 .Preferences__LanguageButton {
-  @include button-reset;
-  @include localized-fonts;
+  @include mixins.button-reset;
+  @include mixins.localized-fonts;
 }
 
 .Preferences__LanguageModal {
@@ -317,40 +659,42 @@
 }
 
 .Preferences__LanguageModal__Title {
-  @include font-body-1-bold;
+  @include mixins.font-body-1-bold;
   margin-inline: 8px;
 }
 
 .Preferences__LanguageModal__NoResults {
-  @include font-body-1;
+  @include mixins.font-body-1;
   margin: 16px;
   text-align: center;
 }
 
 .Preferences__LanguageModal__Item {
-  @include button-reset;
-  width: 100%;
-  padding-block: 2px;
-  padding-inline: 8px;
+  @include mixins.button-reset;
+  & {
+    width: 100%;
+    padding-block: 2px;
+    padding-inline: 8px;
+  }
   &:hover {
     .Preferences__LanguageModal__Item__Inner {
-      @include light-theme {
-        background-color: $color-black-alpha-06;
+      @include mixins.light-theme {
+        background-color: variables.$color-black-alpha-06;
       }
-      @include dark-theme {
-        background-color: $color-white-alpha-06;
+      @include mixins.dark-theme {
+        background-color: variables.$color-white-alpha-06;
       }
     }
   }
   &:focus {
     outline: none;
     .Preferences__LanguageModal__Item__Inner {
-      @include keyboard-mode {
-        background-color: $color-black-alpha-06;
-        box-shadow: 0 0 0 2px $color-ultramarine;
+      @include mixins.keyboard-mode {
+        background-color: variables.$color-black-alpha-06;
+        box-shadow: 0 0 0 2px variables.$color-ultramarine;
       }
-      @include dark-keyboard-mode {
-        background-color: $color-white-alpha-06;
+      @include mixins.dark-keyboard-mode {
+        background-color: variables.$color-white-alpha-06;
       }
     }
   }
@@ -372,7 +716,7 @@
 
 .Preferences__LanguageModal__Item__Current {
   display: block;
-  @include font-body-1;
+  @include mixins.font-body-1;
 }
 
 .Preferences__LanguageModal__Item__Check {
@@ -381,24 +725,740 @@
   width: 20px;
   align-items: center;
   justify-content: center;
-  background: $color-ultramarine;
-  @include rounded-corners;
+  background: variables.$color-ultramarine;
+  @include mixins.rounded-corners;
   &::after {
-    @include color-svg('../images/icons/v3/check/check.svg', $color-white);
-    content: '';
-    height: 14px;
-    width: 14px;
+    @include mixins.color-svg(
+      '../images/icons/v3/check/check.svg',
+      variables.$color-white
+    );
+    & {
+      content: '';
+      height: 14px;
+      width: 14px;
+    }
   }
 }
 
 .Preferences__LanguageModal__Item__Matching {
   display: block;
-  @include localized-fonts;
-  @include font-body-2;
-  @include light-theme {
-    color: $color-gray-60;
+  @include mixins.localized-fonts;
+  @include mixins.font-body-2;
+  @include mixins.light-theme {
+    color: variables.$color-gray-60;
   }
-  @include dark-theme {
-    color: $color-gray-25;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-25;
+  }
+}
+
+.Preferences--backups-summary {
+  &__container {
+    background-color: light-dark(
+      variables.$color-gray-02,
+      variables.$color-gray-80
+    );
+    border-radius: 12px;
+    padding-block: 20px;
+    padding-inline: 16px;
+    margin-inline: 24px;
+  }
+  &__status-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__type {
+    @include mixins.font-subtitle;
+    color: $secondary-text-color;
+    margin-block-end: 8px;
+  }
+
+  &__note {
+    @include mixins.font-subtitle;
+    color: $secondary-text-color;
+    margin-block-start: 12px;
+  }
+
+  &__canceled {
+    @include mixins.font-body-1-bold;
+    color: variables.$color-accent-red;
+  }
+  &__icon {
+    &--active {
+      &::after {
+        @include mixins.dark-theme() {
+          background-image: url('../images/icons/v3/backup/backups-subscribed-dark.svg');
+        }
+        @include mixins.light-theme() {
+          background-image: url('../images/icons/v3/backup/backups-subscribed-light.svg');
+        }
+      }
+    }
+    &--inactive {
+      &::after {
+        @include mixins.dark-theme() {
+          background-image: url('../images/icons/v3/backup/backups-logo-dark.svg');
+        }
+        @include mixins.light-theme() {
+          background-image: url('../images/icons/v3/backup/backups-logo-light.svg');
+        }
+      }
+    }
+    &::after {
+      & {
+        content: '';
+        margin-inline-start: 8px;
+        display: block;
+        height: 48px;
+        width: 48px;
+      }
+    }
+  }
+}
+
+.Preferences--BackupsAuthButton[disabled] {
+  cursor: auto;
+}
+
+.Preferences--BackupsRow {
+  padding-block: 8px;
+  margin-block-start: 8px;
+
+  a {
+    text-decoration: none;
+  }
+
+  &:not(:last-child) {
+    padding-block-end: 24px;
+  }
+}
+
+.Preferences--BackupsRow .Preferences__control {
+  padding-block: 10px;
+  align-items: initial;
+}
+
+.Preferences--backup-details {
+  margin-block-start: 30px;
+
+  legend {
+    margin-block-end: 10px;
+  }
+  &__row {
+    padding-block: 10px;
+    padding-inline: 24px;
+  }
+  &__value {
+    margin-block-start: 2px;
+    @include mixins.font-subtitle;
+    color: $secondary-text-color;
+  }
+  &__value-divider {
+    &::before {
+      content: '•';
+      margin-inline: 4px;
+    }
+  }
+  pre {
+    max-height: 128px;
+  }
+}
+
+.Preferences__BackupsIcon {
+  @include mixins.light-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/signal_backups/signal_backups.svg',
+      variables.$color-gray-75
+    );
+  }
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/signal_backups/signal_backups.svg',
+      variables.$color-gray-15
+    );
+  }
+}
+
+.Preferences__LocalBackupsIcon {
+  @include mixins.light-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/device/device-laptop.svg',
+      variables.$color-gray-75
+    );
+  }
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/device/device-laptop.svg',
+      variables.$color-gray-15
+    );
+  }
+}
+
+.Preferences--LocalBackupsSetupScreen {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.Preferences--LocalBackupsSetupScreenHeader {
+  @include mixins.font-title-2;
+  margin-block: 8px;
+}
+
+.Preferences--LocalBackupsSetupScreenPane {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.Preferences--LocalBackupsSetupScreenPane-top {
+  min-height: 154px;
+}
+
+.Preferences--LocalBackupsSetupScreenPaneContent {
+  display: block;
+  width: 100%;
+}
+
+.Preferences--LocalBackupsSetupScreenCopyButton {
+  @include mixins.font-body-small;
+  padding-inline: 15px 21px;
+  font-weight: 500;
+  vertical-align: text-top;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+    margin-inline-end: 6px;
+    @include mixins.color-svg(
+      '../images/icons/v3/copy/copy-compact.svg',
+      variables.$color-black
+    );
+  }
+}
+
+.Preferences--LocalBackupsSetupScreenPane-footer {
+  flex-direction: row;
+  flex-grow: 0;
+  flex-shrink: 1;
+  padding-block: 24px;
+}
+
+.Preferences--LocalBackupsSetupScreenFooterSection {
+  display: flex;
+  flex-grow: 1;
+}
+
+.Preferences--LocalBackupsSetupScreenFooterSection-right {
+  justify-content: right;
+}
+
+.Preferences--LocalBackupsSetupScreenFooterSeeKeyButton {
+  @include mixins.font-body-1-bold;
+  padding-block: 0;
+  padding-inline: 0;
+  background: none;
+  border: none;
+  outline: none;
+  color: variables.$color-ultramarine;
+
+  @include mixins.keyboard-mode {
+    &:focus {
+      outline: 2px solid variables.$color-ultramarine;
+    }
+  }
+}
+
+.Preferences--LocalBackupsSetupScreenFooterButton {
+  padding-inline: 34px;
+}
+
+.Preferences--LocalBackupsSetupScreenBody {
+  @include mixins.font-body-1;
+  margin-block: 8px;
+  color: $secondary-text-color;
+}
+
+.Preferences--LocalBackupsSetupScreenBody--folder {
+  margin-block-end: 57px;
+}
+
+.Preferences--LocalBackupsBackupKey {
+  width: 274px;
+  height: 201px;
+  padding-block: 28px;
+  padding-inline: 36px;
+  margin-block: 28px 20px;
+  background: variables.$color-gray-02;
+  border-radius: 12px;
+  border-width: 0;
+  outline: none;
+  color: variables.$color-gray-90;
+  font-family: variables.$monospace;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 36.128px;
+  letter-spacing: 0.624px;
+  overflow: hidden;
+  resize: none;
+  word-break: break-all;
+  text-transform: uppercase;
+
+  &::placeholder {
+    color: variables.$color-gray-45;
+    text-transform: none;
+  }
+}
+
+.Preferences--LocalBackupsSetupIcon {
+  display: inline-flex;
+  width: 64px;
+  height: 64px;
+  border-radius: 64px;
+  background: variables.$color-ultramarine-pale;
+  align-items: center;
+  justify-content: center;
+
+  &::before {
+    height: 38px;
+    width: 38px;
+    content: '';
+  }
+}
+
+.Preferences--LocalBackupsSetupIcon-folder {
+  margin-block-start: 60px;
+  margin-block-end: 12px;
+
+  &::before {
+    @include mixins.color-svg(
+      '../images/icons/v3/folder/folder.svg',
+      variables.$color-ultramarine-logo
+    );
+  }
+}
+
+.Preferences--LocalBackupsSetupIcon-key {
+  &::before {
+    @include mixins.color-svg(
+      '../images/icons/v3/key/key.svg',
+      variables.$color-ultramarine-logo
+    );
+  }
+}
+
+.Preferences--LocalBackupsSetupIcon-lock {
+  &::before {
+    @include mixins.color-svg(
+      '../images/icons/v3/lock/lock.svg',
+      variables.$color-ultramarine-logo
+    );
+  }
+}
+
+.Preferences--LocalBackupsConfirmKeyModal {
+  padding-block: 36px 20px;
+  padding-inline: 32px;
+  text-align: center;
+}
+
+.Preferences--LocalBackupsConfirmKeyModal__body {
+  padding: 0;
+}
+
+.Preferences--LocalBackupsConfirmKeyModalTitle {
+  @include mixins.font-title-medium;
+  margin-block: 12px;
+}
+
+.Preferences--LocalBackupsConfirmKeyModalBody {
+  @include mixins.font-body-1;
+  margin-block: 8px 32px;
+  color: $secondary-text-color;
+}
+
+.Preferences--LocalBackupsConfirmKeyModalButton {
+  padding-inline: 32px;
+}
+
+.Preferences--LocalBackupsConfirmKeyModal .module-Modal__button-footer {
+  justify-content: center;
+}
+
+.Preferences__BackupsIcon {
+  @include mixins.light-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/signal_backups/signal_backups.svg',
+      variables.$color-gray-75
+    );
+  }
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/signal_backups/signal_backups.svg',
+      variables.$color-gray-15
+    );
+  }
+}
+
+.Preferences__LocalBackupsIcon {
+  @include mixins.light-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/device/device-laptop.svg',
+      variables.$color-gray-75
+    );
+  }
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/device/device-laptop.svg',
+      variables.$color-gray-15
+    );
+  }
+}
+
+.Preferences--LocalBackupsSetupScreen {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.Preferences--LocalBackupsSetupScreenHeader {
+  @include mixins.font-title-2;
+  margin-block: 8px;
+}
+
+.Preferences--LocalBackupsSetupScreenPane {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.Preferences--LocalBackupsSetupScreenPane-top {
+  flex-grow: 0;
+  min-height: 154px;
+}
+
+.Preferences--LocalBackupsSetupScreenPaneContent {
+  display: block;
+  width: 100%;
+}
+
+.Preferences--LocalBackupsSetupScreenCopyButton {
+  @include mixins.font-body-small;
+  padding-inline: 15px 21px;
+  font-weight: 500;
+  vertical-align: text-top;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+    margin-inline-end: 6px;
+    @include mixins.color-svg(
+      '../images/icons/v3/copy/copy-compact.svg',
+      variables.$color-black
+    );
+  }
+}
+
+.Preferences--LocalBackupsSetupScreenPane-footer {
+  flex-direction: row;
+  flex-grow: 0;
+  flex-shrink: 1;
+}
+
+.Preferences--LocalBackupsSetupScreenFooterSection {
+  display: flex;
+  flex-grow: 1;
+}
+
+.Preferences--LocalBackupsSetupScreenFooterSection-right {
+  justify-content: right;
+}
+
+.Preferences--LocalBackupsSetupScreenFooterSeeKeyButton {
+  @include mixins.font-body-1-bold;
+  padding-block: 0;
+  padding-inline: 0;
+  background: none;
+  border: none;
+  outline: none;
+  color: variables.$color-ultramarine;
+
+  @include mixins.keyboard-mode {
+    &:focus {
+      outline: 2px solid variables.$color-ultramarine;
+    }
+  }
+}
+
+.Preferences--LocalBackupsSetupScreenFooterButton {
+  padding-inline: 34px;
+}
+
+.Preferences--LocalBackupsSetupScreenBody {
+  @include mixins.font-body-1;
+  margin-block: 8px;
+  color: $secondary-text-color;
+}
+
+.Preferences--LocalBackupsSetupScreenBody a {
+  text-decoration: none;
+}
+
+.Preferences--LocalBackupsSetupScreenBody--folder {
+  margin-block-end: 57px;
+}
+
+.Preferences--LocalBackupsBackupKey {
+  width: 274px;
+  height: 201px;
+  padding-block: 28px;
+  padding-inline: 36px;
+  margin-block: 28px 20px;
+  background: variables.$color-gray-02;
+  border-radius: 12px;
+  border-width: 0;
+  outline: none;
+  color: variables.$color-gray-90;
+  font-family: variables.$monospace;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 36.128px;
+  letter-spacing: 0.624px;
+  overflow: hidden;
+  resize: none;
+  word-break: break-all;
+  text-transform: uppercase;
+
+  &::placeholder {
+    color: variables.$color-gray-45;
+    text-transform: none;
+  }
+}
+
+.Preferences--LocalBackupsSetupIcon {
+  display: inline-flex;
+  width: 64px;
+  height: 64px;
+  border-radius: 64px;
+  background: variables.$color-ultramarine-pale;
+  align-items: center;
+  justify-content: center;
+
+  &::before {
+    height: 38px;
+    width: 38px;
+    content: '';
+  }
+}
+
+.Preferences--LocalBackupsSetupIcon-folder {
+  margin-block-start: 60px;
+  margin-block-end: 12px;
+
+  &::before {
+    @include mixins.color-svg(
+      '../images/icons/v3/folder/folder.svg',
+      variables.$color-ultramarine-logo
+    );
+  }
+}
+
+.Preferences--LocalBackupsSetupIcon-key {
+  &::before {
+    @include mixins.color-svg(
+      '../images/icons/v3/key/key.svg',
+      variables.$color-ultramarine-logo
+    );
+  }
+}
+
+.Preferences--LocalBackupsSetupIcon-lock {
+  &::before {
+    @include mixins.color-svg(
+      '../images/icons/v3/lock/lock.svg',
+      variables.$color-ultramarine-logo
+    );
+  }
+}
+
+.Preferences--LocalBackupsConfirmKeyModal {
+  padding-block: 36px 20px;
+  padding-inline: 32px;
+  text-align: center;
+}
+
+.Preferences--LocalBackupsConfirmKeyModal__body {
+  padding: 0;
+}
+
+.Preferences--LocalBackupsConfirmKeyModalTitle {
+  @include mixins.font-title-medium;
+  margin-block: 12px;
+}
+
+.Preferences--LocalBackupsConfirmKeyModalBody {
+  @include mixins.font-body-1;
+  margin-block: 8px 32px;
+  color: $secondary-text-color;
+}
+
+.Preferences--LocalBackupsConfirmKeyModalButton {
+  padding-inline: 32px;
+}
+
+.Preferences--LocalBackupsConfirmKeyModal .module-Modal__button-footer {
+  justify-content: center;
+}
+
+.Preferences--internal--result {
+  padding-inline: 48px 24px;
+  max-width: 100%;
+
+  table {
+    width: 100%;
+  }
+  th,
+  td {
+    padding-inline: 16px;
+    padding-block: 4px;
+    text-align: start;
+    max-width: 600px;
+  }
+  .Preferences--internal--subresult {
+    background-color: variables.$color-white-alpha-06;
+    font-size: 0.8em;
+  }
+}
+
+.Preferences--internal--error {
+  padding-inline: 48px 24px;
+  color: variables.$color-accent-red;
+}
+
+.Preferences--internal pre,
+.Preferences--internal pre {
+  max-height: 400px;
+  max-width: 100%;
+  white-space: pre-wrap;
+  user-select: text;
+  overflow-x: scroll;
+}
+
+.Preferences__ChatFolders__ChatSelection__List {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.Preferences__ChatFolders__ChatSelection__Item--Button {
+  @include mixins.button-reset();
+  &:hover {
+    background: light-dark(variables.$color-gray-02, variables.$color-gray-80);
+  }
+  @include mixins.keyboard-mode {
+    &:focus {
+      outline: 2px solid variables.$color-ultramarine;
+    }
+  }
+}
+
+.Preferences__ChatFolders__ChatSelection__Item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 12px;
+  padding-block: 8px;
+  padding-inline: 24px;
+  border-radius: 1px;
+}
+
+.Preferences__ChatFolders__ChatSelection__ItemAvatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  background: light-dark(variables.$color-gray-05, variables.$color-gray-90);
+  &::before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.Preferences__ChatFolders__ChatSelection__ItemAvatar--Add::before {
+  @include mixins.color-svg(
+    '../images/icons/v3/plus/plus.svg',
+    light-dark(variables.$color-gray-75, variables.$color-gray-15)
+  );
+}
+
+.Preferences__ChatFolders__ChatSelection__ItemAvatar--Folder::before {
+  @include mixins.color-svg(
+    '../images/icons/v3/folder/folder.svg',
+    light-dark(variables.$color-gray-75, variables.$color-gray-15)
+  );
+}
+
+.Preferences__ChatFolders__ChatSelection__ItemAvatar--UnreadChats::before {
+  @include mixins.color-svg(
+    '../images/icons/v3/chat/chat-badge.svg',
+    light-dark(variables.$color-gray-75, variables.$color-gray-15)
+  );
+}
+
+.Preferences__ChatFolders__ChatSelection__ItemAvatar--DirectChats::before {
+  @include mixins.color-svg(
+    '../images/icons/v3/person/person.svg',
+    light-dark(variables.$color-gray-75, variables.$color-gray-15)
+  );
+}
+
+.Preferences__ChatFolders__ChatSelection__ItemAvatar--GroupChats::before {
+  @include mixins.color-svg(
+    '../images/icons/v3/group/group.svg',
+    light-dark(variables.$color-gray-75, variables.$color-gray-15)
+  );
+}
+
+.Preferences__ChatFolders__ChatSelection__ItemBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.Preferences__ChatFolders__ChatSelection__ItemTitle {
+  @include mixins.font-body-1;
+  color: light-dark(variables.$color-gray-90, variables.$color-gray-05);
+}
+
+.Preferences__ChatFolders__ChatSelection__ItemDescription {
+  @include mixins.font-body-2;
+  color: light-dark(variables.$color-gray-60, variables.$color-gray-25);
+}
+
+.Preferences__ChatFolders__ChatList__DeleteButton {
+  @include mixins.button-reset();
+  & {
+    color: variables.$color-accent-red;
+    border-radius: 1px;
+  }
+  @include mixins.keyboard-mode {
+    &:focus {
+      outline: 2px solid variables.$color-ultramarine;
+    }
+  }
+}
+
+.Preferences__EditChatFolderPage__SelectChatsDialog__width-container {
+  // Override .module-modal-host__width-container
+  &.module-modal-host__width-container {
+    max-width: 360px;
   }
 }

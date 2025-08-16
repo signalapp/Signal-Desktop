@@ -10,9 +10,11 @@ import { Lightbox } from './Lightbox';
 import type { LocalizerType } from '../types/Util';
 
 export type PropsType = {
+  avatarPlaceholderGradient?: Readonly<[string, string]>;
   avatarColor?: AvatarColorType;
   avatarUrl?: string;
   conversationTitle?: string;
+  hasAvatar?: boolean;
   i18n: LocalizerType;
   isGroup?: boolean;
   noteToSelf?: boolean;
@@ -20,9 +22,11 @@ export type PropsType = {
 };
 
 export function AvatarLightbox({
+  avatarPlaceholderGradient,
   avatarColor,
   avatarUrl,
   conversationTitle,
+  hasAvatar,
   i18n,
   isGroup,
   noteToSelf,
@@ -44,9 +48,11 @@ export function AvatarLightbox({
       selectedIndex={0}
     >
       <AvatarPreview
+        avatarPlaceholderGradient={avatarPlaceholderGradient}
         avatarColor={avatarColor}
         avatarUrl={avatarUrl}
         conversationTitle={conversationTitle}
+        hasAvatar={hasAvatar}
         i18n={i18n}
         isGroup={isGroup}
         noteToSelf={noteToSelf}

@@ -1,6 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .SelectModeActions {
   display: flex;
   align-items: center;
@@ -12,12 +15,12 @@
   flex: 1;
   padding-block: 17px;
   padding-inline: 10px;
-  @include font-body-1;
-  @include light-theme() {
-    color: $color-gray-60;
+  @include mixins.font-body-1;
+  @include mixins.light-theme() {
+    color: variables.$color-gray-60;
   }
-  @include dark-theme() {
-    color: $color-gray-25;
+  @include mixins.dark-theme() {
+    color: variables.$color-gray-25;
   }
 }
 
@@ -32,31 +35,34 @@
   display: block;
   width: 20px;
   height: 20px;
-  @include light-theme {
-    color: $color-gray-75;
+  @include mixins.light-theme {
+    color: variables.$color-gray-75;
   }
-  @include dark-theme {
-    color: $color-gray-15;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-15;
   }
 
   .SelectModeActions__button--disabled & {
-    @include light-theme {
-      color: $color-gray-25;
+    @include mixins.light-theme {
+      color: variables.$color-gray-25;
     }
-    @include dark-theme {
-      color: $color-gray-60;
+    @include mixins.dark-theme {
+      color: variables.$color-gray-60;
     }
   }
 }
 
 .SelectModeActions__icon--exitSelectMode {
-  @include color-svg('../images/icons/v3/x/x.svg', currentColor);
+  @include mixins.color-svg('../images/icons/v3/x/x.svg', currentColor);
 }
 
 .SelectModeActions__icon--forwardSelectedMessages {
-  @include color-svg('../images/icons/v3/forward/forward.svg', currentColor);
+  @include mixins.color-svg(
+    '../images/icons/v3/forward/forward.svg',
+    currentColor
+  );
 }
 
 .SelectModeActions__icon--deleteSelectedMessages {
-  @include color-svg('../images/icons/v3/trash/trash.svg', currentColor);
+  @include mixins.color-svg('../images/icons/v3/trash/trash.svg', currentColor);
 }

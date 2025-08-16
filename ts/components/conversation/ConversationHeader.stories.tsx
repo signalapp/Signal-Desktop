@@ -8,11 +8,9 @@ import type { Meta } from '@storybook/react';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../../test-both/helpers/getDefaultConversation';
-import { getRandomColor } from '../../test-both/helpers/getRandomColor';
-import { setupI18n } from '../../util/setupI18n';
+} from '../../test-helpers/getDefaultConversation';
+import { getRandomColor } from '../../test-helpers/getRandomColor';
 import { DurationInSeconds } from '../../util/durations';
-import enMessages from '../../../_locales/en/messages.json';
 import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext';
 import type { PropsType } from './ConversationHeader';
 import {
@@ -26,7 +24,7 @@ export default {
   title: 'Components/Conversation/ConversationHeader',
 } satisfies Meta<PropsType>;
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 type ItemsType = Array<{
   title: string;
@@ -48,7 +46,6 @@ const commonProps: PropsType = {
   i18n,
 
   localDeleteWarningShown: true,
-  isDeleteSyncSendEnabled: true,
   setLocalDeleteWarningShown: action('setLocalDeleteWarningShown'),
 
   onConversationAccept: action('onConversationAccept'),
@@ -211,7 +208,7 @@ export function PrivateConvo(): JSX.Element {
       title: 'SMS-only conversation',
       props: {
         ...commonProps,
-        isSMSOnly: true,
+        isSmsOnlyOrUnregistered: true,
         conversation: getDefaultConversation({
           color: getRandomColor(),
           title: '(202) 555-0006',
@@ -409,20 +406,6 @@ export function NeedsDeleteConfirmation(): JSX.Element {
   const props = {
     ...commonProps,
     localDeleteWarningShown,
-    setLocalDeleteWarningShown: () => setLocalDeleteWarningShown(true),
-  };
-  const theme = useContext(StorybookThemeContext);
-
-  return <ConversationHeader {...props} theme={theme} />;
-}
-
-export function NeedsDeleteConfirmationButNotEnabled(): JSX.Element {
-  const [localDeleteWarningShown, setLocalDeleteWarningShown] =
-    React.useState(false);
-  const props = {
-    ...commonProps,
-    localDeleteWarningShown,
-    isDeleteSyncSendEnabled: false,
     setLocalDeleteWarningShown: () => setLocalDeleteWarningShown(true),
   };
   const theme = useContext(StorybookThemeContext);

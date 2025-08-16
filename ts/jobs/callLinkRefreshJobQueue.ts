@@ -3,22 +3,26 @@
 
 import * as z from 'zod';
 import PQueue from 'p-queue';
-import { CallLinkRootKey } from '@signalapp/ringrtc';
+import { CallLinkRootKey, CallLinkEpoch } from '@signalapp/ringrtc';
+import { createLogger } from '../logging/log';
 import type { LoggerType } from '../types/Logging';
 import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff';
-import type { ParsedJob } from './types';
+import type { ParsedJob, StoredJob } from './types';
 import type { JOB_STATUS } from './JobQueue';
 import { JobQueue } from './JobQueue';
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
 import { DAY, SECOND } from '../util/durations';
 import { commonShouldJobContinue } from './helpers/commonShouldJobContinue';
 import { DataReader, DataWriter } from '../sql/Client';
-import type { CallLinkType } from '../types/CallLink';
+import type { CallLinkType, PendingCallLinkType } from '../types/CallLink';
 import { calling } from '../services/calling';
 import { sleeper } from '../util/sleeper';
 import { parseUnknown } from '../util/schemas';
 import { getRoomIdFromRootKey } from '../util/callLinksRingrtc';
 import { toCallHistoryFromUnusedCallLink } from '../util/callLinks';
+import type { StorageServiceFieldsType } from '../sql/Interface';
+
+const globalLogger = createLogger('callLinkRefreshJobQueue');
 
 const MAX_RETRY_TIME = DAY;
 const MAX_PARALLEL_JOBS = 10;
@@ -31,6 +35,7 @@ const DEFAULT_SLEEP_TIME = 20 * SECOND;
 // the call link is confirmed valid on the calling server.
 const callLinkRefreshJobDataSchema = z.object({
   rootKey: z.string(),
+  epoch: z.string().nullable().optional(),
   adminKey: z.string().nullable().optional(),
   storageID: z.string().nullable().optional(),
   storageVersion: z.number().int().nullable().optional(),
@@ -43,20 +48,114 @@ export type CallLinkRefreshJobData = z.infer<
 >;
 
 export class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
-  private parallelQueue = new PQueue({ concurrency: MAX_PARALLEL_JOBS });
+  #parallelQueue = new PQueue({ concurrency: MAX_PARALLEL_JOBS });
+  readonly #pendingCallLinks = new Map<string, PendingCallLinkType>();
 
   protected override getQueues(): ReadonlySet<PQueue> {
-    return new Set([this.parallelQueue]);
+    return new Set([this.#parallelQueue]);
   }
 
   protected override getInMemoryQueue(
     _parsedJob: ParsedJob<CallLinkRefreshJobData>
   ): PQueue {
-    return this.parallelQueue;
+    return this.#parallelQueue;
   }
 
   protected parseData(data: unknown): CallLinkRefreshJobData {
     return parseUnknown(callLinkRefreshJobDataSchema, data);
+  }
+
+  // Called for every job; wrap it to save pending storage data
+  protected override async enqueueStoredJob(
+    storedJob: Readonly<StoredJob>
+  ): Promise<void> {
+    let parsedData: CallLinkRefreshJobData | undefined;
+    try {
+      parsedData = this.parseData(storedJob.data);
+    } catch {
+      // No need to err, it will fail below during super
+    }
+    const {
+      storageID,
+      storageVersion,
+      storageUnknownFields,
+      rootKey,
+      epoch,
+      adminKey,
+    } = parsedData ?? {};
+    if (storageID && storageVersion && rootKey) {
+      this.#pendingCallLinks.set(rootKey, {
+        rootKey,
+        epoch: epoch ?? null,
+        adminKey: adminKey ?? null,
+        storageID: storageID ?? undefined,
+        storageVersion: storageVersion ?? undefined,
+        storageUnknownFields,
+        storageNeedsSync: false,
+      });
+    }
+
+    await super.enqueueStoredJob(storedJob);
+
+    if (rootKey) {
+      this.#pendingCallLinks.delete(rootKey);
+    }
+  }
+
+  // Return pending call links with storageIDs and versions. They're pending because
+  // depending on the refresh result, we will create either CallLinks or DefunctCallLinks,
+  // and we'll save storageID and version onto those records.
+  public getPendingAdminCallLinks(): ReadonlyArray<PendingCallLinkType> {
+    return Array.from(this.#pendingCallLinks.values()).filter(
+      callLink => callLink.adminKey != null
+    );
+  }
+
+  public hasPendingCallLink(rootKey: string): boolean {
+    return this.#pendingCallLinks.has(rootKey);
+  }
+
+  // If a new version of storage is uploaded before we get a chance to refresh the
+  // call link, then we need to refresh pending storage fields so when the job
+  // completes it will save with the latest storage fields.
+  public updatePendingCallLinkStorageFields(
+    rootKey: string,
+    storageFields: StorageServiceFieldsType
+  ): void {
+    const existingStorageFields = this.#pendingCallLinks.get(rootKey);
+    if (!existingStorageFields) {
+      globalLogger.warn(
+        'callLinkRefreshJobQueue.updatePendingCallLinkStorageFields: unknown rootKey'
+      );
+      return;
+    }
+
+    this.#pendingCallLinks.set(rootKey, {
+      ...existingStorageFields,
+      ...storageFields,
+    });
+  }
+
+  protected getPendingCallLinkStorageFields(
+    storageID: string,
+    jobData: CallLinkRefreshJobData
+  ): StorageServiceFieldsType | undefined {
+    const storageFields = this.#pendingCallLinks.get(storageID);
+    if (storageFields) {
+      return {
+        storageID: storageFields.storageID,
+        storageVersion: storageFields.storageVersion,
+        storageUnknownFields: storageFields.storageUnknownFields,
+        storageNeedsSync: storageFields.storageNeedsSync,
+      };
+    }
+
+    return {
+      storageID: jobData.storageID ?? undefined,
+      storageVersion: jobData.storageVersion ?? undefined,
+      storageUnknownFields: jobData.storageUnknownFields ?? undefined,
+      storageNeedsSync: false,
+    };
   }
 
   protected async run(
@@ -66,8 +165,9 @@ export class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
     }: Readonly<{ data: CallLinkRefreshJobData; timestamp: number }>,
     { attempt, log }: Readonly<{ attempt: number; log: LoggerType }>
   ): Promise<typeof JOB_STATUS.NEEDS_RETRY | undefined> {
-    const { rootKey, source } = data;
+    const { rootKey, epoch, source } = data;
     const callLinkRootKey = CallLinkRootKey.parse(rootKey);
+    const callLinkEpoch = epoch ? CallLinkEpoch.parse(epoch) : undefined;
     const roomId = getRoomIdFromRootKey(callLinkRootKey);
 
     const logId = `callLinkRefreshJobQueue(${roomId}, source=${source}).run`;
@@ -88,7 +188,10 @@ export class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
     try {
       // This will either return the fresh call link state,
       // null (link deleted from server), or err (connection error)
-      const freshCallLinkState = await calling.readCallLink(callLinkRootKey);
+      const freshCallLinkState = await calling.readCallLink(
+        callLinkRootKey,
+        callLinkEpoch
+      );
       const existingCallLink = await DataReader.getCallLinkByRoomId(roomId);
 
       if (freshCallLinkState != null) {
@@ -102,16 +205,19 @@ export class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
           window.reduxActions.calling.handleCallLinkUpdateLocal(callLink);
         } else {
           log.info(`${logId}: Creating new call link`);
-          const { adminKey, storageID, storageVersion, storageUnknownFields } =
-            data;
+          const { adminKey } = data;
+          // Refresh the latest storage fields, since they may have changed.
+          const storageFields = this.getPendingCallLinkStorageFields(
+            rootKey,
+            data
+          );
           const callLink: CallLinkType = {
             ...freshCallLinkState,
             roomId,
             rootKey,
+            epoch: epoch ?? null,
             adminKey: adminKey ?? null,
-            storageID: storageID ?? undefined,
-            storageVersion: storageVersion ?? undefined,
-            storageUnknownFields,
+            ...storageFields,
             storageNeedsSync: false,
           };
 
@@ -130,10 +236,18 @@ export class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
         log.info(
           `${logId}: Call link not found on server but absent locally, saving DefunctCallLink`
         );
+        // Refresh the latest storage fields, since they may have changed.
+        const storageFields = this.getPendingCallLinkStorageFields(
+          rootKey,
+          data
+        );
         await DataWriter.insertDefunctCallLink({
           roomId,
           rootKey,
+          epoch: data.epoch ?? null,
           adminKey: data.adminKey ?? null,
+          ...storageFields,
+          storageNeedsSync: false,
         });
       } else {
         log.info(

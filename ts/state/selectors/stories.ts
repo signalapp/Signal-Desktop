@@ -31,12 +31,13 @@ import {
   getConversationSelector,
   getHideStoryConversationIds,
   getMe,
+  PLACEHOLDER_CONTACT_ID,
 } from './conversations';
 import { getUserConversationId } from './user';
 import { getDistributionListSelector } from './storyDistributionLists';
 import { calculateExpirationTimestamp } from '../../util/expirationTimer';
 import { getMessageIdForLogging } from '../../util/idForLogging';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { SIGNAL_ACI } from '../../types/SignalConversation';
 import {
   reduceStorySendStatus,
@@ -44,6 +45,8 @@ import {
 } from '../../util/resolveStorySendStatus';
 import { BodyRange, hydrateRanges } from '../../types/BodyRange';
 import { getStoriesEnabled } from './items';
+
+const log = createLogger('stories');
 
 export const getStoriesState = (state: StateType): StoriesStateType =>
   state.stories;
@@ -165,11 +168,13 @@ export function getStoryView(
   const sender = pick(
     conversationSelector(story.sourceServiceId || story.source),
     [
+      'avatarPlaceholderGradient',
       'acceptedMessageRequest',
       'avatarUrl',
       'badges',
       'color',
       'firstName',
+      'hasAvatar',
       'hideStory',
       'id',
       'isMe',
@@ -189,6 +194,7 @@ export function getStoryView(
     readAt,
     timestamp,
   } = story;
+  const logId = `getStoryView/${timestamp}`;
 
   const { sendStateByConversationId } = story;
   let sendState: Array<StorySendStateType> | undefined;
@@ -200,8 +206,21 @@ export function getStoryView(
 
     Object.keys(sendStateByConversationId).forEach(recipientId => {
       const recipient = conversationSelector(recipientId);
+      if (recipient.id === PLACEHOLDER_CONTACT_ID) {
+        log.warn(
+          `${logId}: Found only placeholder contact for conversation ${recipientId}, skipping`
+        );
+        return;
+      }
 
       const recipientSendState = sendStateByConversationId[recipient.id];
+      if (!recipientSendState) {
+        log.warn(
+          `${logId}: No recipientSendState found for ${recipient.serviceId}, skipping.`
+        );
+        return;
+      }
+
       if (recipientSendState.status === SendStatus.Viewed) {
         innerViews += 1;
       }

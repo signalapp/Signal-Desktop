@@ -1,0 +1,62 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../../variables';
+@use '../../mixins';
+
+.FunGif {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  vertical-align: top;
+  border-radius: 8px;
+}
+
+.FunGifPreview {
+  position: relative;
+  z-index: 0;
+  width: fit-content;
+  height: fit-content;
+  contain: layout;
+}
+
+.FunGifPreview__Sizer {
+  z-index: 0;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: var(--fun-gif-preview-sizer-max-height);
+}
+
+.FunGifPreview__Backdrop {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: light-dark(variables.$color-gray-05, variables.$color-gray-75);
+  border-radius: 8px;
+}
+
+.FunGifPreview__Spinner {
+  color: light-dark(variables.$color-gray-25, variables.$color-gray-45);
+}
+
+.FunGifPreview__ErrorIcon {
+  width: 36px;
+  height: 36px;
+  @include mixins.color-svg(
+    '../images/icons/v3/error/error-triangle.svg',
+    light-dark(variables.$color-gray-25, variables.$color-gray-45)
+  );
+}
+
+.FunGifPreview__Video {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}

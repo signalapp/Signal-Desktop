@@ -68,7 +68,7 @@ describe('updateConversationsWithUuidLookup', () => {
           return { conversation: convoUuid, mergePromises: [] };
         }
 
-        convoE164.unset('e164');
+        convoE164.set({ e164: undefined });
         convoUuid.updateE164(e164);
         return { conversation: convoUuid, mergePromises: [] };
       }

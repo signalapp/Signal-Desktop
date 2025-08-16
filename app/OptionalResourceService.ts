@@ -5,7 +5,7 @@ import { join, dirname } from 'node:path';
 import { mkdir, readFile, readdir, writeFile, unlink } from 'node:fs/promises';
 import { createHash, timingSafeEqual } from 'node:crypto';
 import { ipcMain } from 'electron';
-import LRU from 'lru-cache';
+import { LRUCache } from 'lru-cache';
 import got from 'got';
 import PQueue from 'p-queue';
 
@@ -14,10 +14,12 @@ import type {
   OptionalResourcesDictType,
 } from '../ts/types/OptionalResource';
 import { OptionalResourcesDictSchema } from '../ts/types/OptionalResource';
-import * as log from '../ts/logging/log';
+import { createLogger } from '../ts/logging/log';
 import { getGotOptions } from '../ts/updater/got';
 import { drop } from '../ts/util/drop';
 import { parseUnknown } from '../ts/util/schemas';
+
+const log = createLogger('OptionalResourceService');
 
 const RESOURCES_DICT_PATH = join(
   __dirname,
@@ -29,22 +31,22 @@ const RESOURCES_DICT_PATH = join(
 const MAX_CACHE_SIZE = 50 * 1024 * 1024;
 
 export class OptionalResourceService {
-  private maybeDeclaration: OptionalResourcesDictType | undefined;
+  #maybeDeclaration: OptionalResourcesDictType | undefined;
 
-  private readonly cache = new LRU<string, Buffer>({
-    max: MAX_CACHE_SIZE,
+  readonly #cache = new LRUCache<string, Buffer>({
+    maxSize: MAX_CACHE_SIZE,
 
-    length: buf => buf.length,
+    sizeCalculation: buf => buf.length,
   });
 
-  private readonly fileQueues = new Map<string, PQueue>();
+  readonly #fileQueues = new Map<string, PQueue>();
 
   private constructor(private readonly resourcesDir: string) {
     ipcMain.handle('OptionalResourceService:getData', (_event, name) =>
       this.getData(name)
     );
 
-    drop(this.lazyInit());
+    drop(this.#lazyInit());
   }
 
   public static create(resourcesDir: string): OptionalResourceService {
@@ -52,20 +54,20 @@ export class OptionalResourceService {
   }
 
   public async getData(name: string): Promise<Buffer | undefined> {
-    await this.lazyInit();
+    await this.#lazyInit();
 
-    const decl = this.declaration[name];
+    const decl = this.#declaration[name];
     if (!decl) {
       return undefined;
     }
 
-    const inMemory = this.cache.get(name);
+    const inMemory = this.#cache.get(name);
     if (inMemory) {
       return inMemory;
     }
 
     const filePath = join(this.resourcesDir, name);
-    return this.queueFileWork(filePath, async () => {
+    return this.#queueFileWork(filePath, async () => {
       try {
         const onDisk = await readFile(filePath);
         const digest = createHash('sha512').update(onDisk).digest();
@@ -75,12 +77,12 @@ export class OptionalResourceService {
           timingSafeEqual(digest, Buffer.from(decl.digest, 'base64')) &&
           onDisk.length === decl.size
         ) {
-          log.warn(`OptionalResourceService: loaded ${name} from disk`);
-          this.cache.set(name, onDisk);
+          log.warn(`loaded ${name} from disk`);
+          this.#cache.set(name, onDisk);
           return onDisk;
         }
 
-        log.warn(`OptionalResourceService: ${name} is no longer valid on disk`);
+        log.warn(`${name} is no longer valid on disk`);
       } catch (error) {
         if (error.code !== 'ENOENT') {
           throw error;
@@ -94,7 +96,7 @@ export class OptionalResourceService {
         // Just do our best effort and move forward
       }
 
-      return this.fetch(name, decl, filePath);
+      return this.#fetch(name, decl, filePath);
     });
   }
 
@@ -102,15 +104,15 @@ export class OptionalResourceService {
   // Private
   //
 
-  private async lazyInit(): Promise<void> {
-    if (this.maybeDeclaration !== undefined) {
+  async #lazyInit(): Promise<void> {
+    if (this.#maybeDeclaration !== undefined) {
       return;
     }
 
     const json: unknown = JSON.parse(
       await readFile(RESOURCES_DICT_PATH, 'utf8')
     );
-    this.maybeDeclaration = parseUnknown(OptionalResourcesDictSchema, json);
+    this.#maybeDeclaration = parseUnknown(OptionalResourcesDictSchema, json);
 
     // Clean unknown resources
     let subPaths: Array<string>;
@@ -126,7 +128,7 @@ export class OptionalResourceService {
 
     await Promise.all(
       subPaths.map(async subPath => {
-        if (this.declaration[subPath]) {
+        if (this.#declaration[subPath]) {
           return;
         }
 
@@ -135,54 +137,51 @@ export class OptionalResourceService {
         try {
           await unlink(fullPath);
         } catch (error) {
-          log.error(
-            `OptionalResourceService: failed to cleanup ${subPath}`,
-            error
-          );
+          log.error(`failed to cleanup ${subPath}`, error);
         }
       })
     );
   }
 
-  private get declaration(): OptionalResourcesDictType {
-    if (this.maybeDeclaration === undefined) {
+  get #declaration(): OptionalResourcesDictType {
+    if (this.#maybeDeclaration === undefined) {
       throw new Error('optional-resources.json not loaded yet');
     }
-    return this.maybeDeclaration;
+    return this.#maybeDeclaration;
   }
 
-  private async queueFileWork<R>(
+  async #queueFileWork<R>(
     filePath: string,
     body: () => Promise<R>
   ): Promise<R> {
-    let queue = this.fileQueues.get(filePath);
+    let queue = this.#fileQueues.get(filePath);
     if (!queue) {
       queue = new PQueue({ concurrency: 1 });
-      this.fileQueues.set(filePath, queue);
+      this.#fileQueues.set(filePath, queue);
     }
     try {
       return await queue.add(body);
     } finally {
       if (queue.size === 0) {
-        this.fileQueues.delete(filePath);
+        this.#fileQueues.delete(filePath);
       }
     }
   }
 
-  private async fetch(
+  async #fetch(
     name: string,
     decl: OptionalResourceType,
     destPath: string
   ): Promise<Buffer> {
     const result = await got(decl.url, await getGotOptions()).buffer();
 
-    this.cache.set(name, result);
+    this.#cache.set(name, result);
 
     try {
       await mkdir(dirname(destPath), { recursive: true });
       await writeFile(destPath, result);
     } catch (error) {
-      log.error('OptionalResourceService: failed to save file', error);
+      log.error('failed to save file', error);
       // Still return the data that we just fetched
     }
 

@@ -39,24 +39,33 @@ export const SmartMessageDetail = memo(
     const theme = useSelector(getTheme);
     const { checkForAccount } = useAccountsActions();
     const {
+      cancelAttachmentDownload,
       clearTargetedMessage: clearSelectedMessage,
       doubleCheckMissingQuoteReference,
       kickOffAttachmentDownload,
       markAttachmentAsCorrupted,
       messageExpanded,
       openGiftBadge,
-      retryMessageSend,
       popPanelForConversation,
       pushPanelForConversation,
+      retryMessageSend,
       saveAttachment,
+      saveAttachments,
+      showAttachmentDownloadStillInProgressToast,
       showConversation,
       showExpiredIncomingTapToViewToast,
       showExpiredOutgoingTapToViewToast,
+      showMediaNoLongerAvailableToast,
       showSpoiler,
       startConversation,
     } = useConversationsActions();
-    const { showContactModal, showEditHistoryModal, toggleSafetyNumberModal } =
-      useGlobalModalActions();
+    const {
+      showAttachmentNotAvailableModal,
+      showContactModal,
+      showEditHistoryModal,
+      showTapToViewNotAvailableModal,
+      toggleSafetyNumberModal,
+    } = useGlobalModalActions();
     const { showLightbox, showLightboxForViewOnceMedia } = useLightboxActions();
     const { viewStory } = useStoriesActions();
 
@@ -89,6 +98,7 @@ export const SmartMessageDetail = memo(
         i18n={i18n}
         platform={platform}
         interactionMode={interactionMode}
+        cancelAttachmentDownload={cancelAttachmentDownload}
         kickOffAttachmentDownload={kickOffAttachmentDownload}
         markAttachmentAsCorrupted={markAttachmentAsCorrupted}
         message={message}
@@ -99,15 +109,22 @@ export const SmartMessageDetail = memo(
         receivedAt={receivedAt}
         renderAudioAttachment={renderAudioAttachment}
         saveAttachment={saveAttachment}
+        saveAttachments={saveAttachments}
         sentAt={message.timestamp}
         showContactModal={showContactModal}
         showConversation={showConversation}
         showEditHistoryModal={showEditHistoryModal}
+        showAttachmentDownloadStillInProgressToast={
+          showAttachmentDownloadStillInProgressToast
+        }
+        showAttachmentNotAvailableModal={showAttachmentNotAvailableModal}
         showExpiredIncomingTapToViewToast={showExpiredIncomingTapToViewToast}
         showExpiredOutgoingTapToViewToast={showExpiredOutgoingTapToViewToast}
         showLightbox={showLightbox}
         showLightboxForViewOnceMedia={showLightboxForViewOnceMedia}
+        showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
         showSpoiler={showSpoiler}
+        showTapToViewNotAvailableModal={showTapToViewNotAvailableModal}
         startConversation={startConversation}
         theme={theme}
         toggleSafetyNumberModal={toggleSafetyNumberModal}

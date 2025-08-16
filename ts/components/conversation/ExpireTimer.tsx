@@ -13,7 +13,6 @@ export type Props = {
   isOutlineOnlyBubble?: boolean;
   withImageNoCaption?: boolean;
   withSticker?: boolean;
-  withTapToViewExpired?: boolean;
 };
 
 export function ExpireTimer({
@@ -23,7 +22,6 @@ export function ExpireTimer({
   isOutlineOnlyBubble,
   withImageNoCaption,
   withSticker,
-  withTapToViewExpired,
 }: Props): JSX.Element {
   const [, forceUpdate] = useReducer(() => ({}), {});
 
@@ -45,9 +43,6 @@ export function ExpireTimer({
         `module-expire-timer--${bucket}`,
         direction ? `module-expire-timer--${direction}` : null,
         isOutlineOnlyBubble ? 'module-expire-timer--outline-only-bubble' : null,
-        withTapToViewExpired
-          ? `module-expire-timer--${direction}-with-tap-to-view-expired`
-          : null,
         direction && withImageNoCaption
           ? 'module-expire-timer--with-image-no-caption'
           : null,

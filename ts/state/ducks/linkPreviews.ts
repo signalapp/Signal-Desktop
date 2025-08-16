@@ -5,7 +5,11 @@ import type { ThunkAction } from 'redux-thunk';
 
 import type { ReadonlyDeep } from 'type-fest';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
-import type { LinkPreviewType } from '../../types/message/LinkPreviews';
+import type {
+  LinkPreviewType,
+  LinkPreviewForUIType,
+} from '../../types/message/LinkPreviews';
+import type { AttachmentForUIType } from '../../types/Attachment';
 import type { MaybeGrabLinkPreviewOptionsType } from '../../types/LinkPreview';
 import type { NoopActionType } from './noop';
 import type { StateType as RootStateType } from '../reducer';
@@ -14,11 +18,12 @@ import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnece
 import { maybeGrabLinkPreview } from '../../services/LinkPreview';
 import { strictAssert } from '../../util/assert';
 import { useBoundActions } from '../../hooks/useBoundActions';
+import { getPropsForAttachment } from '../selectors/message';
 
 // State
 
 export type LinkPreviewsStateType = ReadonlyDeep<{
-  linkPreview?: LinkPreviewType;
+  linkPreview?: LinkPreviewForUIType;
   source?: LinkPreviewSourceType;
 }>;
 
@@ -31,7 +36,7 @@ export type AddLinkPreviewActionType = ReadonlyDeep<{
   type: 'linkPreviews/ADD_PREVIEW';
   payload: {
     conversationId?: string;
-    linkPreview: LinkPreviewType;
+    linkPreview: LinkPreviewForUIType;
     source: LinkPreviewSourceType;
   };
 }>;
@@ -73,11 +78,27 @@ function addLinkPreview(
     strictAssert(conversationId, 'no conversationId provided');
   }
 
+  let image: AttachmentForUIType | undefined;
+  if (linkPreview.image != null) {
+    image = {
+      ...getPropsForAttachment(linkPreview.image, 'preview', {
+        type:
+          source === LinkPreviewSourceType.StoryCreator ? 'story' : 'outgoing',
+      }),
+
+      // Save URL to the blob (it gets stripped by `getPropsForAttachment`)
+      url: linkPreview.image.url,
+    };
+  }
+
   return {
     type: ADD_PREVIEW,
     payload: {
       conversationId,
-      linkPreview,
+      linkPreview: {
+        ...linkPreview,
+        image,
+      },
       source,
     },
   };

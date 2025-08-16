@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { isEqual } from 'lodash';
 
 import type { AvatarColorType } from '../types/Colors';
 import type {
@@ -21,6 +22,7 @@ import { avatarDataToBytes } from '../util/avatarDataToBytes';
 import { createAvatarData } from '../util/createAvatarData';
 import { isSameAvatarData } from '../util/isSameAvatarData';
 import { missingCaseError } from '../util/missingCaseError';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
 
 export type PropsType = {
   avatarColor?: AvatarColorType;
@@ -76,12 +78,28 @@ export function AvatarEditor({
   const [editMode, setEditMode] = useState<EditMode>(EditMode.Main);
 
   const getSelectedAvatar = useCallback(
-    avatarToFind =>
+    (avatarToFind: AvatarDataType | undefined) =>
       localAvatarData.find(avatarData =>
         isSameAvatarData(avatarData, avatarToFind)
       ),
     [localAvatarData]
   );
+
+  const tryClose = useRef<() => void | undefined>();
+  const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
+    i18n,
+    name: 'AvatarEditor',
+    tryClose,
+  });
+
+  const hasChanges =
+    !isEqual(initialAvatar, avatarPreview) ||
+    Boolean(pendingClear && avatarUrl);
+  const onTryClose = useCallback(() => {
+    const onDiscard = () => undefined;
+    confirmDiscardIf(hasChanges, onDiscard);
+  }, [confirmDiscardIf, hasChanges]);
+  tryClose.current = onTryClose;
 
   const selectedAvatar = getSelectedAvatar(provisionalSelectedAvatar);
 
@@ -146,13 +164,10 @@ export function AvatarEditor({
     ]
   );
 
-  const handleAvatarLoaded = useCallback(avatarBuffer => {
+  const handleAvatarLoaded = useCallback((avatarBuffer: Uint8Array) => {
     setAvatarPreview(avatarBuffer);
     setInitialAvatar(avatarBuffer);
   }, []);
-
-  const hasChanges =
-    initialAvatar !== avatarPreview || Boolean(pendingClear && avatarUrl);
 
   let content: JSX.Element | undefined;
 
@@ -166,6 +181,7 @@ export function AvatarEditor({
             avatarValue={avatarPreview}
             conversationTitle={conversationTitle}
             i18n={i18n}
+            isEditable
             isGroup={isGroup}
             onAvatarLoaded={handleAvatarLoaded}
             onClear={() => {
@@ -233,12 +249,23 @@ export function AvatarEditor({
         <AvatarModalButtons
           hasChanges={hasChanges}
           i18n={i18n}
-          onCancel={onCancel}
+          onCancel={() => {
+            setAvatarPreview(initialAvatar);
+            setPendingClear(false);
+
+            // Delay navigation until new avatar data resolves and we are no longer dirty
+            setTimeout(() => onCancel(), 500);
+          }}
           onSave={() => {
             if (selectedAvatar) {
               replaceAvatar(selectedAvatar, selectedAvatar, conversationId);
             }
-            onSave(avatarPreview);
+
+            setInitialAvatar(avatarPreview);
+            setPendingClear(false);
+
+            // Delay navigation until new avatar data resolves and we are no longer dirty
+            setTimeout(() => onSave(avatarPreview), 500);
           }}
         />
       </>
@@ -297,5 +324,10 @@ export function AvatarEditor({
     throw missingCaseError(editMode);
   }
 
-  return <div className="AvatarEditor">{content}</div>;
+  return (
+    <div className="AvatarEditor">
+      {confirmDiscardModal}
+      {content}
+    </div>
+  );
 }

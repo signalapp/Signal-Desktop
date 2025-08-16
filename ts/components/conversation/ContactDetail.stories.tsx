@@ -7,21 +7,22 @@ import type { Meta } from '@storybook/react';
 import type { Props } from './ContactDetail';
 import { ContactDetail } from './ContactDetail';
 import { AddressType, ContactFormType } from '../../types/EmbeddedContact';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
 import { IMAGE_GIF } from '../../types/MIME';
-import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
+import { fakeAttachment } from '../../test-helpers/fakeAttachment';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Conversation/ContactDetail',
 } satisfies Meta<Props>;
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
+  cancelAttachmentDownload: action('cancelAttachmentDownload'),
   contact: overrideProps.contact || {},
   hasSignalAccount: overrideProps.hasSignalAccount || false,
   i18n,
+  kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
+  messageId: 'fake-message-id',
   onSendMessage: action('onSendMessage'),
 });
 
@@ -133,6 +134,96 @@ export function FullyFilledOut(): JSX.Element {
     hasSignalAccount: true,
   });
   return <ContactDetail {...props} />;
+}
+
+export function FullyFilledOutNotDownloaded(): JSX.Element {
+  const props = createProps({
+    contact: fullContact,
+    hasSignalAccount: true,
+  });
+  const propsWithUpdatedAvatar = {
+    ...props,
+    contact: {
+      ...props.contact,
+      avatar: {
+        avatar: fakeAttachment({
+          path: undefined,
+          contentType: IMAGE_GIF,
+        }),
+        isProfile: true,
+      },
+    },
+  };
+  return <ContactDetail {...propsWithUpdatedAvatar} />;
+}
+export function FullyFilledOutDownloading(): JSX.Element {
+  const props = createProps({
+    contact: fullContact,
+    hasSignalAccount: true,
+  });
+  const propsWithUpdatedAvatar = {
+    ...props,
+    contact: {
+      ...props.contact,
+      avatar: {
+        avatar: fakeAttachment({
+          path: undefined,
+          contentType: IMAGE_GIF,
+          pending: true,
+          size: 10000000,
+          totalDownloaded: 500000,
+        }),
+        isProfile: true,
+      },
+    },
+  };
+  return <ContactDetail {...propsWithUpdatedAvatar} />;
+}
+export function FullyFilledOutTransientError(): JSX.Element {
+  const props = createProps({
+    contact: fullContact,
+    hasSignalAccount: true,
+  });
+  const propsWithUpdatedAvatar = {
+    ...props,
+    contact: {
+      ...props.contact,
+      avatar: {
+        avatar: fakeAttachment({
+          error: true,
+          key: 'something',
+          digest: 'something',
+          cdnKey: 'something',
+          cdnNumber: 2,
+          path: undefined,
+          contentType: IMAGE_GIF,
+        }),
+        isProfile: true,
+      },
+    },
+  };
+  return <ContactDetail {...propsWithUpdatedAvatar} />;
+}
+export function FullyFilledOutPermanentError(): JSX.Element {
+  const props = createProps({
+    contact: fullContact,
+    hasSignalAccount: true,
+  });
+  const propsWithUpdatedAvatar = {
+    ...props,
+    contact: {
+      ...props.contact,
+      avatar: {
+        avatar: fakeAttachment({
+          error: true,
+          path: undefined,
+          contentType: IMAGE_GIF,
+        }),
+        isProfile: true,
+      },
+    },
+  };
+  return <ContactDetail {...propsWithUpdatedAvatar} />;
 }
 
 export function OnlyEmail(): JSX.Element {

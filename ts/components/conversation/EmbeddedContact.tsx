@@ -5,7 +5,7 @@ import React from 'react';
 import classNames from 'classnames';
 import type { ReadonlyDeep } from 'type-fest';
 
-import type { EmbeddedContactType } from '../../types/EmbeddedContact';
+import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact';
 
 import type { LocalizerType } from '../../types/Util';
 import {
@@ -15,13 +15,13 @@ import {
 } from './contactUtil';
 
 export type Props = {
-  contact: ReadonlyDeep<EmbeddedContactType>;
+  contact: ReadonlyDeep<EmbeddedContactForUIType>;
   i18n: LocalizerType;
   isIncoming: boolean;
+  onClick?: () => void;
+  tabIndex: number;
   withContentAbove: boolean;
   withContentBelow: boolean;
-  tabIndex: number;
-  onClick?: () => void;
 };
 
 export function EmbeddedContact(props: Props): JSX.Element {
@@ -38,41 +38,45 @@ export function EmbeddedContact(props: Props): JSX.Element {
   const direction = isIncoming ? 'incoming' : 'outgoing';
 
   return (
-    <button
-      type="button"
+    <div
       className={classNames(
         'module-embedded-contact',
         `module-embedded-contact--${direction}`,
         withContentAbove ? 'module-embedded-contact--with-content-above' : null,
         withContentBelow ? 'module-embedded-contact--with-content-below' : null
       )}
-      onKeyDown={(event: React.KeyboardEvent) => {
-        if (event.key !== 'Enter' && event.key !== 'Space') {
-          return;
-        }
-
-        if (onClick) {
-          event.stopPropagation();
-          event.preventDefault();
-
-          onClick();
-        }
-      }}
-      onClick={(event: React.MouseEvent) => {
-        if (onClick) {
-          event.stopPropagation();
-          event.preventDefault();
-
-          onClick();
-        }
-      }}
-      tabIndex={tabIndex}
     >
-      {renderAvatar({ contact, i18n, size: 52, direction })}
+      <button
+        type="button"
+        className="module-embedded-contact__avatar-container"
+        onKeyDown={(event: React.KeyboardEvent) => {
+          if (event.key !== 'Enter' && event.key !== 'Space') {
+            return;
+          }
+
+          if (onClick) {
+            event.stopPropagation();
+            event.preventDefault();
+
+            onClick();
+          }
+        }}
+        onClick={(event: React.MouseEvent) => {
+          if (onClick) {
+            event.stopPropagation();
+            event.preventDefault();
+
+            onClick();
+          }
+        }}
+        tabIndex={tabIndex}
+      >
+        {renderAvatar({ contact, direction, i18n, size: 52 })}
+      </button>
       <div className="module-embedded-contact__text-container">
         {renderName({ contact, isIncoming, module })}
         {renderContactShorthand({ contact, isIncoming, module })}
       </div>
-    </button>
+    </div>
   );
 }

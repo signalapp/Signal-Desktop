@@ -3,7 +3,7 @@
 
 import { isNumber } from 'lodash';
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { SignalService as Proto } from '../protobuf';
 import { ToastType } from '../types/Toast';
 import { HOUR, SECOND } from './durations';
@@ -11,6 +11,8 @@ import { isOlderThan } from './timestamp';
 import { isProduction } from './version';
 
 import type { IncomingWebSocketRequest } from '../textsecure/WebsocketResources';
+
+const log = createLogger('checkFirstEnvelope');
 
 const FIRST_ENVELOPE_COUNT = 5;
 const FIRST_ENVELOPE_TIME = HOUR;
@@ -24,14 +26,14 @@ let firstEnvelopeStats: FirstEnvelopeStats | undefined;
 export function checkFirstEnvelope(incoming: IncomingWebSocketRequest): void {
   const { body: plaintext } = incoming;
   if (!plaintext) {
-    log.warn('checkFirstEnvelope: body was not present!');
+    log.warn('body was not present!');
     return;
   }
 
   const decoded = Proto.Envelope.decode(plaintext);
-  const newEnvelopeTimestamp = decoded.timestamp?.toNumber();
+  const newEnvelopeTimestamp = decoded.clientTimestamp?.toNumber();
   if (!isNumber(newEnvelopeTimestamp)) {
-    log.warn('checkFirstEnvelope: timestamp is not a number!');
+    log.warn('timestamp is not a number!');
     return;
   }
 
@@ -60,7 +62,7 @@ export function checkFirstEnvelope(incoming: IncomingWebSocketRequest): void {
   }
 
   log.warn(
-    `checkFirstEnvelope: Timestamp ${newEnvelopeTimestamp} has been seen ${newCount} times since ${kickoffTimestamp}`
+    `Timestamp ${newEnvelopeTimestamp} has been seen ${newCount} times since ${kickoffTimestamp}`
   );
   if (isProduction(window.getVersion())) {
     return;
@@ -82,14 +84,12 @@ export function checkFirstEnvelope(incoming: IncomingWebSocketRequest): void {
 
 function isReduxInitialized() {
   const result = Boolean(window.reduxActions);
-  log.info(
-    `checkFirstEnvelope: Is redux initialized? ${result ? 'Yes' : 'No'}`
-  );
+  log.info(`Is redux initialized? ${result ? 'Yes' : 'No'}`);
   return result;
 }
 
 function showToast() {
-  log.info('checkFirstEnvelope: Showing toast asking user to submit logs');
+  log.info('Showing toast asking user to submit logs');
   window.reduxActions.toast.showToast({
     toastType: ToastType.MessageLoop,
   });

@@ -1,0 +1,23 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.FunWaterfall__Container {
+  contain: strict;
+  position: relative;
+  width: 100%;
+  height: var(--fun-waterfall-container-total-size);
+}
+
+.FunWaterfall__Item {
+  position: absolute;
+  top: 0;
+  // stylelint-disable-next-line liberty/use-logical-spec
+  left: 0;
+  width: var(--fun-waterfall-item-width);
+  height: var(--fun-waterfall-item-height);
+  // stylelint-disable-next-line declaration-property-value-disallowed-list
+  transform: translate(
+    var(--fun-waterfall-item-offset-x),
+    var(--fun-waterfall-item-offset-y)
+  );
+}

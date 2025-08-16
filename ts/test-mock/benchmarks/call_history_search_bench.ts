@@ -35,7 +35,6 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
 
   state = state.updateAccount({
     profileKey: phone.profileKey.serialize(),
-    e164: phone.device.number,
     givenName: phone.profileName,
     readReceipts: true,
     hasCompletedUsernameOnboarding: true,
@@ -141,12 +140,18 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
   const CallsTabDetailsTitle = CallsTabDetails.locator(
     '.ConversationDetailsHeader__title'
   );
+  const AnyCallListAvatar = CallsTabSidebar.locator(
+    '.CallsList__ItemAvatar'
+  ).first();
 
   debug('waiting for unread badge to hit correct value', unreadCount);
   await CallsNavTabUnread.getByText(`${unreadCount} unread`).waitFor();
 
   debug('opening calls tab');
   await CallsNavTab.click();
+
+  await CreateCallLink.waitFor();
+  await AnyCallListAvatar.waitFor();
 
   async function measure(runId: number): Promise<number> {
     // setup
@@ -169,7 +174,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     const start = Date.now();
 
     // test
-    await typeIntoInput(SearchBar, searchContact.profileName);
+    await typeIntoInput(SearchBar, searchContact.profileName, '');
     await CreateCallLink.waitFor({ state: 'hidden' }); // hides when searching
     await expect(OtherCallListItems).not.toBeAttached();
     await sendCallEventSync(
@@ -183,6 +188,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     await NewCallDetailsTitle.waitFor();
     await SearchBar.clear();
     await CreateCallLink.waitFor();
+    await AnyCallListAvatar.waitFor();
 
     // measure
     const end = Date.now();

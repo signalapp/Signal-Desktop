@@ -1,16 +1,22 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type Quill from 'quill';
-import Delta from 'quill-delta';
+import { Delta } from '@signalapp/quill-cjs';
+import Emitter from '@signalapp/quill-cjs/core/emitter';
+import type Quill from '@signalapp/quill-cjs';
+
+import { createLogger } from '../../logging/log';
 import type { EmojiData } from '../../components/emoji/lib';
 import {
   convertShortName,
   convertShortNameToData,
 } from '../../components/emoji/lib';
+import { EmojiSkinTone } from '../../components/fun/data/emojis';
 
-type AutoSubstituteAsciiEmojisOptions = {
-  skinTone: number;
+const log = createLogger('index');
+
+export type AutoSubstituteAsciiEmojisOptions = {
+  emojiSkinToneDefault: EmojiSkinTone | null;
 };
 
 const emojiMap: Record<string, string> = {
@@ -30,7 +36,6 @@ const emojiMap: Record<string, string> = {
   '(n)': '-1',
   '<3': 'heart',
   '^_^': 'grin',
-  '>_<': 'laughing',
 };
 
 function buildRegexp(obj: Record<string, string>): RegExp {
@@ -52,7 +57,7 @@ export class AutoSubstituteAsciiEmojis {
     this.options = options;
     this.quill = quill;
 
-    this.quill.on('text-change', (_now, _before, source) => {
+    this.quill.on(Emitter.events.TEXT_CHANGE, (_now, _before, source) => {
       if (source !== 'user') {
         return;
       }
@@ -78,11 +83,18 @@ export class AutoSubstituteAsciiEmojis {
 
     const [blot, index] = this.quill.getLeaf(range.index);
 
-    if (blot?.text == null) {
+    const text = blot?.value();
+    if (!text) {
+      return;
+    }
+    if (typeof text !== 'string') {
+      log.error(
+        'AutoSubstituteAsciiEmojis: returned blot value was not a string'
+      );
       return;
     }
 
-    const textBeforeCursor = blot.text.slice(0, index);
+    const textBeforeCursor = text.slice(0, index);
     const match = textBeforeCursor.match(EMOJI_REGEXP);
     if (match == null) {
       return;
@@ -91,7 +103,10 @@ export class AutoSubstituteAsciiEmojis {
     const [, textEmoji] = match;
     const emojiName = emojiMap[textEmoji];
 
-    const emojiData = convertShortNameToData(emojiName, this.options.skinTone);
+    const emojiData = convertShortNameToData(
+      emojiName,
+      this.options.emojiSkinToneDefault ?? EmojiSkinTone.None
+    );
     if (emojiData) {
       this.insertEmoji(
         emojiData,
@@ -108,7 +123,10 @@ export class AutoSubstituteAsciiEmojis {
     range: number,
     source: string
   ): void {
-    const emoji = convertShortName(emojiData.short_name, this.options.skinTone);
+    const emoji = convertShortName(
+      emojiData.short_name,
+      this.options.emojiSkinToneDefault ?? EmojiSkinTone.None
+    );
     const delta = new Delta()
       .retain(index)
       .delete(range)

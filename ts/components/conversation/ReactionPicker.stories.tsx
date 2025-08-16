@@ -4,28 +4,27 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
 import type { Props as ReactionPickerProps } from './ReactionPicker';
 import { ReactionPicker } from './ReactionPicker';
 import { EmojiPicker } from '../emoji/EmojiPicker';
 import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../../reactions/constants';
+import { EmojiSkinTone } from '../fun/data/emojis';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const renderEmojiPicker: ReactionPickerProps['renderEmojiPicker'] = ({
   onClose,
   onPickEmoji,
-  onSetSkinTone,
+  onEmojiSkinToneDefaultChange,
   ref,
 }) => (
   <EmojiPicker
     i18n={i18n}
-    skinTone={0}
+    emojiSkinToneDefault={EmojiSkinTone.None}
     ref={ref}
     onClose={onClose}
     onPickEmoji={onPickEmoji}
-    onSetSkinTone={onSetSkinTone}
+    onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
     wasInvokedFromKeyboard={false}
   />
 );
@@ -39,7 +38,7 @@ export function Base(): JSX.Element {
     <ReactionPicker
       i18n={i18n}
       onPick={action('onPick')}
-      onSetSkinTone={action('onSetSkinTone')}
+      onEmojiSkinToneDefaultChange={action('onEmojiSkinToneDefaultChange')}
       openCustomizePreferredReactionsModal={action(
         'openCustomizePreferredReactionsModal'
       )}
@@ -58,7 +57,9 @@ export function SelectedReaction(): JSX.Element {
             i18n={i18n}
             selected={e}
             onPick={action('onPick')}
-            onSetSkinTone={action('onSetSkinTone')}
+            onEmojiSkinToneDefaultChange={action(
+              'onEmojiSkinToneDefaultChange'
+            )}
             openCustomizePreferredReactionsModal={action(
               'openCustomizePreferredReactionsModal'
             )}

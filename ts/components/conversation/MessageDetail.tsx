@@ -25,7 +25,7 @@ import {
   type VisibleSendStatus,
 } from '../../messages/MessageSendState';
 import { WidthBreakpoint } from '../_util';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { formatDateTimeLong } from '../../util/timestamp';
 import { DurationInSeconds } from '../../util/durations';
 import { format as formatRelativeTime } from '../../util/expirationTimer';
@@ -36,6 +36,8 @@ import {
   ConversationDetailsIcon,
   IconType,
 } from './conversation-details/ConversationDetailsIcon';
+
+const log = createLogger('MessageDetail');
 
 export type Contact = Pick<
   ConversationType,
@@ -49,7 +51,6 @@ export type Contact = Pick<
   | 'profileName'
   | 'sharedGroupNames'
   | 'title'
-  | 'unblurredAvatarUrl'
 > & {
   status?: SendStatus;
   statusTimestamp?: number;
@@ -85,6 +86,7 @@ export type PropsSmartActions = Pick<MessagePropsType, 'renderAudioAttachment'>;
 
 export type PropsReduxActions = Pick<
   MessagePropsType,
+  | 'cancelAttachmentDownload'
   | 'checkForAccount'
   | 'clearTargetedMessage'
   | 'doubleCheckMissingQuoteReference'
@@ -95,14 +97,19 @@ export type PropsReduxActions = Pick<
   | 'pushPanelForConversation'
   | 'retryMessageSend'
   | 'saveAttachment'
+  | 'saveAttachments'
   | 'showContactModal'
   | 'showConversation'
   | 'showEditHistoryModal'
+  | 'showAttachmentDownloadStillInProgressToast'
+  | 'showAttachmentNotAvailableModal'
   | 'showExpiredIncomingTapToViewToast'
   | 'showExpiredOutgoingTapToViewToast'
   | 'showLightbox'
   | 'showLightboxForViewOnceMedia'
+  | 'showMediaNoLongerAvailableToast'
   | 'showSpoiler'
+  | 'showTapToViewNotAvailableModal'
   | 'startConversation'
   | 'viewStory'
 > & {
@@ -123,6 +130,7 @@ export function MessageDetail({
   message,
   receivedAt,
   sentAt,
+  cancelAttachmentDownload,
   checkForAccount,
   clearTargetedMessage,
   contactNameColor,
@@ -139,14 +147,19 @@ export function MessageDetail({
   retryMessageSend,
   renderAudioAttachment,
   saveAttachment,
+  saveAttachments,
   showContactModal,
   showConversation,
   showEditHistoryModal,
+  showAttachmentDownloadStillInProgressToast,
+  showAttachmentNotAvailableModal,
   showExpiredIncomingTapToViewToast,
   showExpiredOutgoingTapToViewToast,
   showLightbox,
   showLightboxForViewOnceMedia,
+  showMediaNoLongerAvailableToast,
   showSpoiler,
+  showTapToViewNotAvailableModal,
   startConversation,
   theme,
   toggleSafetyNumberModal,
@@ -156,34 +169,28 @@ export function MessageDetail({
 
   function renderAvatar(contact: Contact): JSX.Element {
     const {
-      acceptedMessageRequest,
       avatarUrl,
       badges,
       color,
-      isMe,
       phoneNumber,
       profileName,
       sharedGroupNames,
       title,
-      unblurredAvatarUrl,
     } = contact;
 
     return (
       <Avatar
-        acceptedMessageRequest={acceptedMessageRequest}
         avatarUrl={avatarUrl}
         badge={getPreferredBadge(badges)}
         color={color}
         conversationType="direct"
         i18n={i18n}
-        isMe={isMe}
         phoneNumber={phoneNumber}
         profileName={profileName}
         theme={theme}
         title={title}
         sharedGroupNames={sharedGroupNames}
         size={AvatarSize.THIRTY_TWO}
-        unblurredAvatarUrl={unblurredAvatarUrl}
       />
     );
   }
@@ -326,6 +333,7 @@ export function MessageDetail({
           <Message
             {...message}
             renderingContext="conversation/MessageDetail"
+            cancelAttachmentDownload={cancelAttachmentDownload}
             checkForAccount={checkForAccount}
             clearTargetedMessage={clearTargetedMessage}
             contactNameColor={contactNameColor}
@@ -348,15 +356,21 @@ export function MessageDetail({
             retryMessageSend={retryMessageSend}
             renderAudioAttachment={renderAudioAttachment}
             saveAttachment={saveAttachment}
+            saveAttachments={saveAttachments}
             shouldCollapseAbove={false}
             shouldCollapseBelow={false}
             shouldHideMetadata={false}
             showConversation={showConversation}
             showSpoiler={showSpoiler}
             scrollToQuotedMessage={() => {
-              log.warn('MessageDetail: scrollToQuotedMessage called!');
+              log.warn('scrollToQuotedMessage called!');
             }}
             showContactModal={showContactModal}
+            showAttachmentDownloadStillInProgressToast={
+              showAttachmentDownloadStillInProgressToast
+            }
+            showAttachmentNotAvailableModal={showAttachmentNotAvailableModal}
+            showTapToViewNotAvailableModal={showTapToViewNotAvailableModal}
             showExpiredIncomingTapToViewToast={
               showExpiredIncomingTapToViewToast
             }
@@ -364,6 +378,7 @@ export function MessageDetail({
               showExpiredOutgoingTapToViewToast
             }
             showLightbox={showLightbox}
+            showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
             startConversation={startConversation}
             theme={theme}
             viewStory={viewStory}

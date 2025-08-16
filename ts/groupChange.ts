@@ -12,7 +12,9 @@ import { missingCaseError } from './util/missingCaseError';
 
 import type { GroupV2ChangeDetailType, GroupV2ChangeType } from './groups';
 import { SignalService as Proto } from './protobuf';
-import * as log from './logging/log';
+import { createLogger } from './logging/log';
+
+const log = createLogger('groupChange');
 
 type SelectParamsByKeyType<T extends string | JSX.Element> = T extends string
   ? ICUStringMessageParamsByKeyType

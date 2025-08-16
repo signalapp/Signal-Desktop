@@ -1,20 +1,20 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { omit } from 'lodash';
+import { noop, omit, throttle } from 'lodash';
+import { statfs } from 'node:fs/promises';
 
 import * as durations from '../util/durations';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+import type { AttachmentBackfillResponseSyncEvent } from '../textsecure/messageReceiverEvents';
 import {
   type AttachmentDownloadJobTypeType,
   type AttachmentDownloadJobType,
   type CoreAttachmentDownloadJobType,
+  AttachmentDownloadUrgency,
   coreAttachmentDownloadJobSchema,
 } from '../types/AttachmentDownload';
-import {
-  AttachmentPermanentlyUndownloadableError,
-  downloadAttachment as downloadAttachmentUtil,
-} from '../util/downloadAttachment';
-import { DataWriter } from '../sql/Client';
+import { downloadAttachment as downloadAttachmentUtil } from '../util/downloadAttachment';
+import { DataReader, DataWriter } from '../sql/Client';
 import { getValue } from '../RemoteConfig';
 
 import { isInCall as isInCallSelector } from '../state/selectors/calling';
@@ -22,8 +22,14 @@ import {
   AttachmentSizeError,
   type AttachmentType,
   AttachmentVariant,
+  AttachmentPermanentlyUndownloadableError,
+  wasImportedFromLocalBackup,
+  canAttachmentHaveThumbnail,
+  shouldAttachmentEndUpInRemoteBackup,
+  getUndownloadedAttachmentSignature,
 } from '../types/Attachment';
-import { __DEPRECATED$getMessageById } from '../messages/getMessageById';
+import { type ReadonlyMessageAttributesType } from '../model-types.d';
+import { getMessageById } from '../messages/getMessageById';
 import {
   KIBIBYTE,
   getMaximumIncomingAttachmentSizeInKb,
@@ -36,29 +42,44 @@ import {
   JobManager,
   type JobManagerParamsType,
   type JobManagerJobResultType,
+  type JobManagerJobType,
 } from './JobManager';
-import {
-  isImageTypeSupported,
-  isVideoTypeSupported,
-} from '../util/GoogleChrome';
-import type { MIMEType } from '../types/MIME';
+import { IMAGE_JPEG } from '../types/MIME';
 import { AttachmentDownloadSource } from '../sql/Interface';
 import { drop } from '../util/drop';
-import { getAttachmentCiphertextLength } from '../AttachmentCrypto';
+import {
+  getAttachmentCiphertextLength,
+  type ReencryptedAttachmentV2,
+} from '../AttachmentCrypto';
 import { safeParsePartial } from '../util/schemas';
+import { deleteDownloadsJobQueue } from './deleteDownloadsJobQueue';
+import { createBatcher } from '../util/batcher';
+import { showDownloadFailedToast } from '../util/showDownloadFailedToast';
+import { markAttachmentAsPermanentlyErrored } from '../util/attachments/markAttachmentAsPermanentlyErrored';
+import {
+  AttachmentBackfill,
+  isPermanentlyUndownloadable,
+  isPermanentlyUndownloadableWithoutBackfill,
+} from './helpers/attachmentBackfill';
+import { formatCountForLogging } from '../logging/formatCountForLogging';
+import { strictAssert } from '../util/assert';
+import { updateBackupMediaDownloadProgress } from '../util/updateBackupMediaDownloadProgress';
+import { HTTPError } from '../textsecure/Errors';
+import { isOlderThan } from '../util/timestamp';
+import { getMessageQueueTime as doGetMessageQueueTime } from '../util/getMessageQueueTime';
 
-export enum AttachmentDownloadUrgency {
-  IMMEDIATE = 'immediate',
-  STANDARD = 'standard',
-}
+const log = createLogger('AttachmentDownloadManager');
+
+export { isPermanentlyUndownloadable };
 
 // Type for adding a new job
 export type NewAttachmentDownloadJobType = {
   attachment: AttachmentType;
+  attachmentType: AttachmentDownloadJobTypeType;
+  isManualDownload: boolean;
   messageId: string;
   receivedAt: number;
   sentAt: number;
-  attachmentType: AttachmentDownloadJobTypeType;
   source: AttachmentDownloadSource;
   urgency?: AttachmentDownloadUrgency;
 };
@@ -78,6 +99,15 @@ const BACKUP_RETRY_CONFIG = {
   ...DEFAULT_RETRY_CONFIG,
   maxAttempts: Infinity,
 };
+
+type RunDownloadAttachmentJobOptions = {
+  abortSignal: AbortSignal;
+  isForCurrentlyVisibleMessage: boolean;
+  maxAttachmentSizeInKib: number;
+  maxTextAttachmentSizeInKib: number;
+  hasMediaBackups: boolean;
+};
+
 type AttachmentDownloadManagerParamsType = Omit<
   JobManagerParamsType<CoreAttachmentDownloadJobType>,
   'getNextJobs' | 'runJob'
@@ -91,30 +121,64 @@ type AttachmentDownloadManagerParamsType = Omit<
   runDownloadAttachmentJob: (args: {
     job: AttachmentDownloadJobType;
     isLastAttempt: boolean;
-    options?: { isForCurrentlyVisibleMessage: boolean };
+    options: RunDownloadAttachmentJobOptions;
     dependencies?: DependenciesType;
   }) => Promise<JobManagerJobResultType<CoreAttachmentDownloadJobType>>;
+  onLowDiskSpaceBackupImport: (bytesNeeded: number) => Promise<void>;
+  hasMediaBackups: () => boolean;
+  getMessageQueueTime: () => number;
+  statfs: typeof statfs;
 };
 
 function getJobId(job: CoreAttachmentDownloadJobType): string {
-  const { messageId, attachmentType, digest } = job;
-  return `${messageId}.${attachmentType}.${digest}`;
+  const { messageId, attachmentType, attachmentSignature } = job;
+  return `${messageId}.${attachmentType}.${attachmentSignature}`;
 }
 
 function getJobIdForLogging(job: CoreAttachmentDownloadJobType): string {
-  const { sentAt, attachmentType, digest } = job;
-  const redactedDigest = redactGenericText(digest);
-  return `${sentAt}.${attachmentType}.${redactedDigest}`;
+  const { sentAt, attachmentType, attachmentSignature } = job;
+  const redactedAttachmentSignature = redactGenericText(attachmentSignature);
+  return `${sentAt}.${attachmentType}.${redactedAttachmentSignature}`;
 }
 
 export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownloadJobType> {
-  private visibleTimelineMessages: Set<string> = new Set();
+  #visibleTimelineMessages: Set<string> = new Set();
+
+  #saveJobsBatcher = createBatcher<AttachmentDownloadJobType>({
+    name: 'saveAttachmentDownloadJobs',
+    wait: 150,
+    maxSize: 1000,
+    processBatch: async jobs => {
+      await DataWriter.saveAttachmentDownloadJobs(jobs);
+      drop(this.maybeStartJobs());
+    },
+  });
+  #onLowDiskSpaceBackupImport: (bytesNeeded: number) => Promise<void>;
+  #getMessageQueueTime: () => number;
+  #hasMediaBackups: () => boolean;
+  #statfs: typeof statfs;
+  #maxAttachmentSizeInKib = getMaximumIncomingAttachmentSizeInKb(getValue);
+  #maxTextAttachmentSizeInKib =
+    getMaximumIncomingTextAttachmentSizeInKb(getValue);
+
+  #minimumFreeDiskSpace = this.#maxAttachmentSizeInKib * 5;
+
+  #attachmentBackfill = new AttachmentBackfill();
+
   private static _instance: AttachmentDownloadManager | undefined;
   override logPrefix = 'AttachmentDownloadManager';
 
   static defaultParams: AttachmentDownloadManagerParamsType = {
     markAllJobsInactive: DataWriter.resetAttachmentDownloadActive,
-    saveJob: DataWriter.saveAttachmentDownloadJob,
+    saveJob: async (job, options) => {
+      if (options?.allowBatching) {
+        if (AttachmentDownloadManager._instance != null) {
+          AttachmentDownloadManager._instance.#saveJobsBatcher.add(job);
+        }
+      } else {
+        await DataWriter.saveAttachmentDownloadJob(job);
+      }
+    },
     removeJob: DataWriter.removeAttachmentDownloadJob,
     getNextJobs: DataWriter.getNextAttachmentDownloadJobs,
     runDownloadAttachmentJob,
@@ -128,10 +192,28 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
     getJobId,
     getJobIdForLogging,
     getRetryConfig: job =>
-      job.attachment.backupLocator?.mediaName
+      shouldAttachmentEndUpInRemoteBackup({
+        attachment: job.attachment,
+        hasMediaBackups: window.Signal.Services.backups.hasMediaBackups(),
+      })
         ? BACKUP_RETRY_CONFIG
         : DEFAULT_RETRY_CONFIG,
     maxConcurrentJobs: MAX_CONCURRENT_JOBS,
+    onLowDiskSpaceBackupImport: async bytesNeeded => {
+      if (!window.storage.get('backupMediaDownloadPaused')) {
+        await Promise.all([
+          window.storage.put('backupMediaDownloadPaused', true),
+          // Show the banner to allow users to resume from the left pane
+          window.storage.put('backupMediaDownloadBannerDismissed', false),
+        ]);
+      }
+      window.reduxActions.globalModals.showLowDiskSpaceBackupImportModal(
+        bytesNeeded
+      );
+    },
+    hasMediaBackups: () => window.Signal.Services.backups.hasMediaBackups(),
+    getMessageQueueTime: () => doGetMessageQueueTime(),
+    statfs,
   };
 
   constructor(params: AttachmentDownloadManagerParamsType) {
@@ -140,26 +222,49 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
       getNextJobs: ({ limit }) => {
         return params.getNextJobs({
           limit,
-          prioritizeMessageIds: [...this.visibleTimelineMessages],
+          prioritizeMessageIds: [...this.#visibleTimelineMessages],
           sources: window.storage.get('backupMediaDownloadPaused')
             ? [AttachmentDownloadSource.STANDARD]
             : undefined,
           timestamp: Date.now(),
         });
       },
-      runJob: (job: AttachmentDownloadJobType, isLastAttempt: boolean) => {
-        const isForCurrentlyVisibleMessage = this.visibleTimelineMessages.has(
+      runJob: async (
+        job: AttachmentDownloadJobType,
+        {
+          abortSignal,
+          isLastAttempt,
+        }: { abortSignal: AbortSignal; isLastAttempt: boolean }
+      ) => {
+        const isForCurrentlyVisibleMessage = this.#visibleTimelineMessages.has(
           job.messageId
         );
+
+        if (job.source === AttachmentDownloadSource.BACKUP_IMPORT) {
+          const { outOfSpace } =
+            await this.#checkFreeDiskSpaceForBackupImport();
+          if (outOfSpace) {
+            return { status: 'retry' };
+          }
+        }
+
         return params.runDownloadAttachmentJob({
           job,
           isLastAttempt,
           options: {
+            abortSignal,
+            hasMediaBackups: this.#hasMediaBackups(),
             isForCurrentlyVisibleMessage,
+            maxAttachmentSizeInKib: this.#maxAttachmentSizeInKib,
+            maxTextAttachmentSizeInKib: this.#maxTextAttachmentSizeInKib,
           },
         });
       },
     });
+    this.#onLowDiskSpaceBackupImport = params.onLowDiskSpaceBackupImport;
+    this.#getMessageQueueTime = params.getMessageQueueTime;
+    this.#hasMediaBackups = params.hasMediaBackups;
+    this.#statfs = params.statfs;
   }
 
   // @ts-expect-error we are overriding the return type of JobManager's addJob
@@ -168,31 +273,55 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
   ): Promise<AttachmentType> {
     const {
       attachment,
-      messageId,
       attachmentType,
+      isManualDownload,
+      messageId,
       receivedAt,
       sentAt,
       source,
       urgency = AttachmentDownloadUrgency.STANDARD,
     } = newJobData;
+
+    const logId = `AttachmentDownloadManager/addJob(${sentAt}.${attachmentType})`;
+
+    if (source === AttachmentDownloadSource.BACKUP_IMPORT) {
+      if (attachment.error) {
+        return attachment;
+      }
+
+      // For non-media-enabled backups, we will skip queueing download for old attachments
+      // that cannot still be on the transit tier
+      if (!this.#hasMediaBackups() && !wasImportedFromLocalBackup(attachment)) {
+        const attachmentUploadedAt = attachment.uploadTimestamp || sentAt;
+
+        // Skip queueing download if attachment is older than twice the message queue time
+        // (a generous buffer that ensures we download anything that could still exist on
+        // the transit tier)
+        if (
+          isOlderThan(attachmentUploadedAt, this.#getMessageQueueTime() * 2)
+        ) {
+          return attachment;
+        }
+      }
+    }
+
     const parseResult = safeParsePartial(coreAttachmentDownloadJobSchema, {
+      attachment,
+      attachmentType,
+      ciphertextSize: getAttachmentCiphertextLength(attachment.size),
+      contentType: attachment.contentType,
+      attachmentSignature: getUndownloadedAttachmentSignature(attachment),
+      isManualDownload,
       messageId,
       receivedAt,
       sentAt,
-      attachmentType,
-      digest: attachment.digest,
-      contentType: attachment.contentType,
       size: attachment.size,
-      ciphertextSize: getAttachmentCiphertextLength(attachment.size),
-      attachment,
       source,
+      originalSource: source,
     });
 
     if (!parseResult.success) {
-      log.error(
-        `AttachmentDownloadManager/addJob(${sentAt}.${attachmentType}): invalid data`,
-        parseResult.error
-      );
+      log.error(`${logId}: invalid data`, parseResult.error);
       return attachment;
     }
 
@@ -206,7 +335,49 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
   }
 
   updateVisibleTimelineMessages(messageIds: Array<string>): void {
-    this.visibleTimelineMessages = new Set(messageIds);
+    this.#visibleTimelineMessages = new Set(messageIds);
+  }
+
+  async #getFreeDiskSpace(): Promise<number> {
+    const { bsize, bavail } = await this.#statfs(
+      window.SignalContext.getPath('userData')
+    );
+    return bsize * bavail;
+  }
+
+  async #checkFreeDiskSpaceForBackupImport(): Promise<{
+    outOfSpace: boolean;
+  }> {
+    let freeDiskSpace: number;
+
+    try {
+      freeDiskSpace = await this.#getFreeDiskSpace();
+    } catch (e) {
+      log.error(
+        'checkFreeDiskSpaceForBackupImport: error checking disk space',
+        Errors.toLogFormat(e)
+      );
+      // Still attempt the download
+      return { outOfSpace: false };
+    }
+
+    if (freeDiskSpace <= this.#minimumFreeDiskSpace) {
+      const remainingBackupBytesToDownload =
+        window.storage.get('backupMediaDownloadTotalBytes', 0) -
+        window.storage.get('backupMediaDownloadCompletedBytes', 0);
+
+      log.info(
+        'checkFreeDiskSpaceForBackupImport: insufficient disk space. ' +
+          `Available: ${formatCountForLogging(freeDiskSpace)}, ` +
+          `Needed: ${formatCountForLogging(remainingBackupBytesToDownload)} ` +
+          `Minimum threshold: ${this.#minimumFreeDiskSpace}`
+      );
+
+      await this.#onLowDiskSpaceBackupImport(remainingBackupBytesToDownload);
+      return { outOfSpace: true };
+    }
+
+    return { outOfSpace: false };
   }
 
   static get instance(): AttachmentDownloadManager {
@@ -219,7 +390,21 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
   }
 
   static async start(): Promise<void> {
+    await AttachmentDownloadManager.saveBatchedJobs();
+    await window.storage.put('attachmentDownloadManagerIdled', false);
     await AttachmentDownloadManager.instance.start();
+    drop(
+      AttachmentDownloadManager.waitForIdle(async () => {
+        await updateBackupMediaDownloadProgress(
+          DataReader.getBackupAttachmentDownloadProgress
+        );
+        await window.storage.put('attachmentDownloadManagerIdled', true);
+      })
+    );
+  }
+
+  static async saveBatchedJobs(): Promise<void> {
+    await AttachmentDownloadManager.instance.#saveJobsBatcher.flushAndWait();
   }
 
   static async stop(): Promise<void> {
@@ -232,14 +417,42 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
     return AttachmentDownloadManager.instance.addJob(newJob);
   }
 
+  static async cancelJobs(
+    predicate: (
+      job: CoreAttachmentDownloadJobType & JobManagerJobType
+    ) => boolean
+  ): Promise<void> {
+    return AttachmentDownloadManager.instance.cancelJobs(predicate);
+  }
+
   static updateVisibleTimelineMessages(messageIds: Array<string>): void {
     AttachmentDownloadManager.instance.updateVisibleTimelineMessages(
       messageIds
     );
   }
+
+  static async waitForIdle(callback?: VoidFunction): Promise<void> {
+    await AttachmentDownloadManager.instance.waitForIdle();
+    if (callback) {
+      callback();
+    }
+  }
+
+  static async requestBackfill(
+    message: ReadonlyMessageAttributesType
+  ): Promise<void> {
+    return this.instance.#attachmentBackfill.request(message);
+  }
+
+  static async handleBackfillResponse(
+    event: AttachmentBackfillResponseSyncEvent
+  ): Promise<void> {
+    return this.instance.#attachmentBackfill.handleResponse(event);
+  }
 }
 
 type DependenciesType = {
+  deleteDownloadData: typeof window.Signal.Migrations.deleteDownloadData;
   downloadAttachment: typeof downloadAttachmentUtil;
   processNewAttachment: typeof window.Signal.Migrations.processNewAttachment;
 };
@@ -248,22 +461,23 @@ async function runDownloadAttachmentJob({
   isLastAttempt,
   options,
   dependencies = {
+    deleteDownloadData: window.Signal.Migrations.deleteDownloadData,
     downloadAttachment: downloadAttachmentUtil,
     processNewAttachment: window.Signal.Migrations.processNewAttachment,
   },
 }: {
   job: AttachmentDownloadJobType;
   isLastAttempt: boolean;
-  options?: { isForCurrentlyVisibleMessage: boolean };
+  options: RunDownloadAttachmentJobOptions;
   dependencies?: DependenciesType;
 }): Promise<JobManagerJobResultType<CoreAttachmentDownloadJobType>> {
   const jobIdForLogging = getJobIdForLogging(job);
   const logId = `AttachmentDownloadManager/runDownloadAttachmentJob/${jobIdForLogging}`;
 
-  const message = await __DEPRECATED$getMessageById(job.messageId);
+  const message = await getMessageById(job.messageId);
 
   if (!message) {
-    log.error(`${logId} message not found`);
+    log.info(`${logId} message not found, returning early`);
     return { status: 'finished' };
   }
 
@@ -272,8 +486,12 @@ async function runDownloadAttachmentJob({
 
     const result = await runDownloadAttachmentJobInner({
       job,
+      abortSignal: options.abortSignal,
+      hasMediaBackups: options.hasMediaBackups,
       isForCurrentlyVisibleMessage:
         options?.isForCurrentlyVisibleMessage ?? false,
+      maxAttachmentSizeInKib: options.maxAttachmentSizeInKib,
+      maxTextAttachmentSizeInKib: options.maxTextAttachmentSizeInKib,
       dependencies,
     });
 
@@ -284,27 +502,29 @@ async function runDownloadAttachmentJob({
       };
     }
 
-    if (job.attachment.backupLocator?.mediaName) {
-      const currentDownloadedSize =
-        window.storage.get('backupMediaDownloadCompletedBytes') ?? 0;
-      drop(
-        window.storage.put(
-          'backupMediaDownloadCompletedBytes',
-          currentDownloadedSize + job.ciphertextSize
-        )
-      );
-    }
-
     return {
       status: 'finished',
     };
   } catch (error) {
-    log.error(
-      `${logId}: Failed to download attachment, attempt ${job.attempts}:`,
-      Errors.toLogFormat(error)
-    );
+    if (options.abortSignal.aborted) {
+      log.info(
+        `${logId}: Canceled attempt ${job.attempts}. Not scheduling a retry. Error:`
+      );
+      // Remove `pending` flag from the attachment. User can retry later.
+      await addAttachmentToMessage(
+        message.id,
+        {
+          ...job.attachment,
+          pending: false,
+        },
+        logId,
+        { type: job.attachmentType }
+      );
+      return { status: 'finished' };
+    }
 
     if (error instanceof AttachmentSizeError) {
+      log.info(`${logId}: Attachment is too big.`);
       await addAttachmentToMessage(
         message.id,
         _markAttachmentAsTooBig(job.attachment),
@@ -315,14 +535,40 @@ async function runDownloadAttachmentJob({
     }
 
     if (error instanceof AttachmentPermanentlyUndownloadableError) {
+      const canBackfill =
+        job.isManualDownload &&
+        AttachmentBackfill.isEnabledForJob(
+          job.attachmentType,
+          message.attributes
+        );
+
+      if (job.source !== AttachmentDownloadSource.BACKFILL && canBackfill) {
+        log.info(
+          `${logId}: Attachment is permanently undownloadable, requesting backfill.`
+        );
+        await AttachmentDownloadManager.requestBackfill(message.attributes);
+        return { status: 'finished' };
+      }
+
+      log.info(`${logId}: Attachment is permanently undownloadable.`);
+
       await addAttachmentToMessage(
         message.id,
-        _markAttachmentAsPermanentlyErrored(job.attachment),
+        markAttachmentAsPermanentlyErrored(job.attachment, {
+          backfillError: false,
+        }),
         logId,
         { type: job.attachmentType }
       );
 
       return { status: 'finished' };
+    }
+
+    const logText = `${logId}: Failed to fetch attachment, attempt ${job.attempts}: ${Errors.toLogFormat(error)}`;
+    if (error instanceof HTTPError) {
+      log.info(logText);
+    } else {
+      log.warn(logText);
     }
 
     if (isLastAttempt) {
@@ -349,9 +595,7 @@ async function runDownloadAttachmentJob({
   } finally {
     // This will fail if the message has been deleted before the download finished, which
     // is good
-    await DataWriter.saveMessage(message.attributes, {
-      ourAci: window.textsecure.storage.user.getCheckedAci(),
-    });
+    await window.MessageCache.saveMessage(message.attributes);
   }
 }
 
@@ -364,13 +608,16 @@ type DownloadAttachmentResultType =
 
 export async function runDownloadAttachmentJobInner({
   job,
+  abortSignal,
   isForCurrentlyVisibleMessage,
+  maxAttachmentSizeInKib,
+  maxTextAttachmentSizeInKib,
+  hasMediaBackups,
   dependencies,
 }: {
   job: AttachmentDownloadJobType;
-  isForCurrentlyVisibleMessage: boolean;
   dependencies: DependenciesType;
-}): Promise<DownloadAttachmentResultType> {
+} & RunDownloadAttachmentJobOptions): Promise<DownloadAttachmentResultType> {
   const { messageId, attachment, attachmentType } = job;
 
   const jobIdForLogging = getJobIdForLogging(job);
@@ -380,16 +627,16 @@ export async function runDownloadAttachmentJobInner({
     throw new Error(`${logId}: Key information required for job was missing.`);
   }
 
-  const maxInKib = getMaximumIncomingAttachmentSizeInKb(getValue);
-  const maxTextAttachmentSizeInKib =
-    getMaximumIncomingTextAttachmentSizeInKb(getValue);
-
   const { size } = attachment;
   const sizeInKib = size / KIBIBYTE;
 
-  if (!Number.isFinite(size) || size < 0 || sizeInKib > maxInKib) {
+  if (
+    !Number.isFinite(size) ||
+    size < 0 ||
+    sizeInKib > maxAttachmentSizeInKib
+  ) {
     throw new AttachmentSizeError(
-      `${logId}: Attachment was ${sizeInKib}kib, max is ${maxInKib}kib`
+      `${logId}: Attachment was ${sizeInKib}kib, max is ${maxAttachmentSizeInKib}kib`
     );
   }
   if (
@@ -400,12 +647,24 @@ export async function runDownloadAttachmentJobInner({
       `${logId}: Text attachment was ${sizeInKib}kib, max is ${maxTextAttachmentSizeInKib}kib`
     );
   }
+  const mightBeInRemoteBackup = shouldAttachmentEndUpInRemoteBackup({
+    attachment,
+    hasMediaBackups,
+  });
+  const wasAttachmentImportedFromLocalBackup =
+    wasImportedFromLocalBackup(attachment);
+  const alreadyDownloadedBackupThumbnail = Boolean(
+    job.attachment.thumbnailFromBackup
+  );
+
+  const mightHaveBackupThumbnailToDownload =
+    !alreadyDownloadedBackupThumbnail &&
+    mightBeInRemoteBackup &&
+    canAttachmentHaveThumbnail(attachment) &&
+    !wasAttachmentImportedFromLocalBackup;
 
   const preferBackupThumbnail =
-    isForCurrentlyVisibleMessage &&
-    mightHaveThumbnailOnBackupTier(job.attachment) &&
-    // TODO (DESKTOP-7204): check if thumbnail exists on attachment, not on job
-    !job.attachment.thumbnailFromBackup;
+    isForCurrentlyVisibleMessage && mightHaveBackupThumbnailToDownload;
 
   if (preferBackupThumbnail) {
     logId += '.preferringBackupThumbnail';
@@ -415,6 +674,7 @@ export async function runDownloadAttachmentJobInner({
     try {
       const attachmentWithThumbnail = await downloadBackupThumbnail({
         attachment,
+        abortSignal,
         dependencies,
       });
       await addAttachmentToMessage(messageId, attachmentWithThumbnail, logId, {
@@ -425,7 +685,10 @@ export async function runDownloadAttachmentJobInner({
         attachmentWithThumbnail,
       };
     } catch (e) {
-      log.warn(`${logId}: error when trying to download thumbnail`);
+      log.warn(
+        `${logId}: error when trying to download thumbnail`,
+        Errors.toLogFormat(e)
+      );
     }
   }
 
@@ -438,35 +701,107 @@ export async function runDownloadAttachmentJobInner({
     { type: attachmentType }
   );
 
+  if (
+    job.source !== AttachmentDownloadSource.BACKFILL &&
+    isPermanentlyUndownloadableWithoutBackfill(job.attachment)
+  ) {
+    // We should only get to here only if
+    throw new AttachmentPermanentlyUndownloadableError(
+      'Not downloadable without backfill'
+    );
+  }
+
   try {
-    const downloaded = await dependencies.downloadAttachment({
+    const { downloadPath } = attachment;
+    let totalDownloaded = 0;
+    let downloadedAttachment: ReencryptedAttachmentV2 | undefined;
+
+    const onSizeUpdate = async (totalBytes: number) => {
+      if (abortSignal.aborted) {
+        return;
+      }
+      if (downloadedAttachment) {
+        return;
+      }
+
+      totalDownloaded = Math.min(totalBytes, attachment.size);
+      await addAttachmentToMessage(
+        messageId,
+        { ...attachment, totalDownloaded, pending: true },
+        logId,
+        { type: attachmentType }
+      );
+    };
+
+    downloadedAttachment = await dependencies.downloadAttachment({
       attachment,
-      variant: AttachmentVariant.Default,
+      options: {
+        variant: AttachmentVariant.Default,
+        onSizeUpdate: throttle(onSizeUpdate, 200),
+        abortSignal,
+        hasMediaBackups,
+      },
     });
 
     const upgradedAttachment = await dependencies.processNewAttachment({
-      ...omit(attachment, ['error', 'pending', 'downloadPath']),
-      ...downloaded,
+      ...omit(attachment, ['error', 'pending']),
+      ...downloadedAttachment,
     });
 
-    await addAttachmentToMessage(messageId, upgradedAttachment, logId, {
-      type: attachmentType,
-    });
+    const isShowingLightbox = (): boolean => {
+      const lightboxState = window.reduxStore.getState().lightbox;
+      if (!lightboxState.isShowingLightbox) {
+        return false;
+      }
+      if (lightboxState.selectedIndex == null) {
+        return false;
+      }
+
+      const selectedMedia = lightboxState.media[lightboxState.selectedIndex];
+      if (selectedMedia?.message.id !== messageId) {
+        return false;
+      }
+
+      return selectedMedia.attachment.digest === attachment.digest;
+    };
+
+    const shouldDeleteDownload = downloadPath && !isShowingLightbox();
+    if (downloadPath) {
+      if (shouldDeleteDownload) {
+        await dependencies.deleteDownloadData(downloadPath);
+      } else {
+        deleteDownloadsJobQueue.pause();
+        await deleteDownloadsJobQueue.add({
+          digest: attachment.digest,
+          downloadPath,
+          messageId,
+          plaintextHash: attachment.plaintextHash,
+        });
+      }
+    }
+
+    await addAttachmentToMessage(
+      messageId,
+      shouldDeleteDownload
+        ? omit(upgradedAttachment, ['downloadPath', 'totalDownloaded'])
+        : omit(upgradedAttachment, ['totalDownloaded']),
+      logId,
+      {
+        type: attachmentType,
+      }
+    );
     return { downloadedVariant: AttachmentVariant.Default };
   } catch (error) {
-    if (
-      !job.attachment.thumbnailFromBackup &&
-      mightHaveThumbnailOnBackupTier(attachment) &&
-      !preferBackupThumbnail
-    ) {
+    if (mightHaveBackupThumbnailToDownload && !preferBackupThumbnail) {
       log.error(
-        `${logId}: failed to download fullsize attachment, falling back to thumbnail`,
+        `${logId}: failed to download fullsize attachment, falling back to backup thumbnail`,
         Errors.toLogFormat(error)
       );
       try {
         const attachmentWithThumbnail = omit(
           await downloadBackupThumbnail({
             attachment,
+            abortSignal,
             dependencies,
           }),
           'pending'
@@ -490,25 +825,65 @@ export async function runDownloadAttachmentJobInner({
         );
       }
     }
+
+    let showToast = false;
+
+    // Show toast if manual download failed
+    if (!abortSignal.aborted && job.isManualDownload) {
+      if (job.source === AttachmentDownloadSource.BACKFILL) {
+        // ...and it was already a backfill request
+        showToast = true;
+      } else {
+        // ...or we didn't backfill the download
+        const message = await getMessageById(job.messageId);
+        showToast =
+          message != null &&
+          !AttachmentBackfill.isEnabledForJob(
+            attachmentType,
+            message.attributes
+          );
+      }
+    }
+
+    if (showToast) {
+      showDownloadFailedToast(messageId);
+    }
+
     throw error;
   }
 }
 
 async function downloadBackupThumbnail({
   attachment,
+  abortSignal,
   dependencies,
 }: {
   attachment: AttachmentType;
-  dependencies: { downloadAttachment: typeof downloadAttachmentUtil };
+  abortSignal: AbortSignal;
+  dependencies: {
+    downloadAttachment: typeof downloadAttachmentUtil;
+  };
 }): Promise<AttachmentType> {
   const downloadedThumbnail = await dependencies.downloadAttachment({
     attachment,
-    variant: AttachmentVariant.ThumbnailFromBackup,
+    options: {
+      onSizeUpdate: noop,
+      variant: AttachmentVariant.ThumbnailFromBackup,
+      abortSignal,
+      hasMediaBackups: true,
+    },
   });
+
+  const calculatedSize = downloadedThumbnail.size;
+  strictAssert(calculatedSize, 'size must be calculated for backup thumbnails');
 
   const attachmentWithThumbnail = {
     ...attachment,
-    thumbnailFromBackup: downloadedThumbnail,
+    thumbnailFromBackup: {
+      contentType: IMAGE_JPEG,
+      ...downloadedThumbnail,
+      size: calculatedSize,
+    },
   };
 
   return attachmentWithThumbnail;
@@ -516,33 +891,15 @@ async function downloadBackupThumbnail({
 
 function _markAttachmentAsTooBig(attachment: AttachmentType): AttachmentType {
   return {
-    ..._markAttachmentAsPermanentlyErrored(attachment),
+    ...markAttachmentAsPermanentlyErrored(attachment, {
+      backfillError: false,
+    }),
     wasTooBig: true,
   };
-}
-
-function _markAttachmentAsPermanentlyErrored(
-  attachment: AttachmentType
-): AttachmentType {
-  return { ...omit(attachment, ['key', 'id']), pending: false, error: true };
 }
 
 function _markAttachmentAsTransientlyErrored(
   attachment: AttachmentType
 ): AttachmentType {
   return { ...attachment, pending: false, error: true };
-}
-
-function mightHaveThumbnailOnBackupTier(
-  attachment: Pick<AttachmentType, 'backupLocator' | 'contentType'>
-): boolean {
-  if (!attachment.backupLocator?.mediaName) {
-    return false;
-  }
-
-  return canAttachmentHaveThumbnail(attachment.contentType);
-}
-
-export function canAttachmentHaveThumbnail(contentType: MIMEType): boolean {
-  return isVideoTypeSupported(contentType) || isImageTypeSupported(contentType);
 }

@@ -12,7 +12,7 @@ import type {
 } from 'type-fest';
 import type { SafeParseReturnType, ZodError, ZodType, ZodTypeDef } from 'zod';
 
-type Schema<Input, Output> = ZodType<Output, ZodTypeDef, Input>;
+export type Schema<Input, Output> = ZodType<Output, ZodTypeDef, Input>;
 type SafeResult<Output> = SafeParseReturnType<unknown, Output>;
 
 type LooseInput<T> =

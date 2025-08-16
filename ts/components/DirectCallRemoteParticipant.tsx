@@ -51,19 +51,21 @@ export function DirectCallRemoteParticipant({
 function renderAvatar(
   i18n: LocalizerType,
   {
-    acceptedMessageRequest,
+    avatarPlaceholderGradient,
     avatarUrl,
     color,
-    isMe,
+    hasAvatar,
     phoneNumber,
     profileName,
     sharedGroupNames,
     title,
   }: Pick<
     ConversationType,
+    | 'avatarPlaceholderGradient'
     | 'acceptedMessageRequest'
     | 'avatarUrl'
     | 'color'
+    | 'hasAvatar'
     | 'isMe'
     | 'phoneNumber'
     | 'profileName'
@@ -75,14 +77,14 @@ function renderAvatar(
     <div className="module-ongoing-call__remote-video-disabled">
       <CallBackgroundBlur avatarUrl={avatarUrl}>
         <Avatar
-          acceptedMessageRequest={acceptedMessageRequest}
+          avatarPlaceholderGradient={avatarPlaceholderGradient}
           avatarUrl={avatarUrl}
           badge={undefined}
           color={color || AvatarColors[0]}
+          hasAvatar={hasAvatar}
           noteToSelf={false}
           conversationType="direct"
           i18n={i18n}
-          isMe={isMe}
           phoneNumber={phoneNumber}
           profileName={profileName}
           title={title}

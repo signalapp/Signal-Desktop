@@ -15,7 +15,6 @@ import createDebug from 'debug';
 import * as durations from '../../util/durations';
 import { uuidToBytes } from '../../util/uuidToBytes';
 import { MY_STORY_ID } from '../../types/Stories';
-import { isUntaggedPniString, toTaggedPni } from '../../types/ServiceId';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
 import {
@@ -24,6 +23,7 @@ import {
 } from '../../types/Receipt';
 import { sleep } from '../../util/sleep';
 import {
+  acceptConversation,
   expectSystemMessages,
   typeIntoInput,
   waitForEnabledComposer,
@@ -49,7 +49,6 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
 
     state = state.updateAccount({
       profileKey: phone.profileKey.serialize(),
-      e164: phone.device.number,
     });
 
     // Add my story
@@ -61,7 +60,6 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: true,
           name: MY_STORY_ID,
-          recipientServiceIds: [],
         },
       },
     });
@@ -86,7 +84,6 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
     const window = await app.getWindow();
 
     const leftPane = window.locator('#LeftPane');
-    const conversationStack = window.locator('.Inbox__conversation-stack');
 
     debug('creating a stranger');
     const stranger = await server.createPrimaryDevice({
@@ -133,14 +130,10 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
     });
 
     debug('Open conversation with the stranger');
-    await leftPane
-      .locator(`[data-testid="${stranger.toContact().aci}"]`)
-      .click();
+    await leftPane.locator(`[data-testid="${stranger.device.aci}"]`).click();
 
     debug('Accept conversation from a stranger');
-    await conversationStack
-      .locator('.module-message-request-actions button >> "Accept"')
-      .click();
+    await acceptConversation(window);
 
     debug('Wait for a pniSignatureMessage');
     {
@@ -153,7 +146,7 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
     {
       const compositionInput = await waitForEnabledComposer(window);
 
-      await typeIntoInput(compositionInput, 'first');
+      await typeIntoInput(compositionInput, 'first', '');
       await compositionInput.press('Enter');
     }
     debug('Wait for the first message with pni signature');
@@ -181,7 +174,7 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
     {
       const compositionInput = await waitForEnabledComposer(window);
 
-      await typeIntoInput(compositionInput, 'second');
+      await typeIntoInput(compositionInput, 'second', '');
       await compositionInput.press('Enter');
     }
     debug('Wait for the second message with pni signature');
@@ -215,7 +208,7 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
     {
       const compositionInput = await waitForEnabledComposer(window);
 
-      await typeIntoInput(compositionInput, 'third');
+      await typeIntoInput(compositionInput, 'third', '');
       await compositionInput.press('Enter');
     }
     debug('Wait for the third message without pni signature');
@@ -262,8 +255,8 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
 
     debug('Send a PNI sync message');
     const timestamp = bootstrap.getTimestamp();
-    const destinationServiceId = stranger.device.pni;
-    const destination = stranger.device.number;
+    const destinationServiceIdBinary = stranger.device.pniBinary;
+    const destinationE164 = stranger.device.number;
     const destinationPniIdentityKey = await stranger.device.getIdentityKey(
       ServiceIdKind.PNI
     );
@@ -274,14 +267,13 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
     const content = {
       syncMessage: {
         sent: {
-          destinationServiceId,
-          destination,
+          destinationServiceIdBinary,
+          destinationE164,
           timestamp: Long.fromNumber(timestamp),
           message: originalDataMessage,
           unidentifiedStatus: [
             {
-              destinationServiceId,
-              destination,
+              destinationServiceIdBinary,
               destinationPniIdentityKey: destinationPniIdentityKey.serialize(),
             },
           ],
@@ -326,7 +318,7 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
         .innerText();
       assert.equal(
         strangerName.slice(-4),
-        destination?.slice(-4),
+        destinationE164?.slice(-4),
         'no profile, just phone number'
       );
     }
@@ -371,16 +363,14 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
     });
 
     debug('Wait for merge to happen');
-    await leftPane
-      .locator(`[data-testid="${stranger.toContact().aci}"]`)
-      .waitFor();
+    await leftPane.locator(`[data-testid="${stranger.device.aci}"]`).waitFor();
 
     {
       debug('Wait for composition input to clear');
       const compositionInput = await waitForEnabledComposer(window);
 
       debug('Enter an ACI message text');
-      await typeIntoInput(compositionInput, 'Hello ACI');
+      await typeIntoInput(compositionInput, 'Hello ACI', '');
       await compositionInput.press('Enter');
     }
 
@@ -413,13 +403,8 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
       );
       assert(aciRecord, 'ACI Contact must be in storage service');
 
-      assert.strictEqual(aciRecord?.aci, stranger.device.aci);
-      assert.strictEqual(
-        aciRecord?.pni &&
-          isUntaggedPniString(aciRecord?.pni) &&
-          toTaggedPni(aciRecord?.pni),
-        stranger.device.pni
-      );
+      assert.deepEqual(aciRecord?.aciBinary, stranger.device.aciRawUuid);
+      assert.deepEqual(aciRecord?.pniBinary, stranger.device.pniRawUuid);
       assert.strictEqual(aciRecord?.pniSignatureVerified, true);
 
       // Two outgoing, one incoming

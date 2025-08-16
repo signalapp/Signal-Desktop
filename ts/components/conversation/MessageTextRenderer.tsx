@@ -24,8 +24,8 @@ import { AtMention } from './AtMention';
 import { isLinkSneaky } from '../../types/LinkPreview';
 import { Emojify } from './Emojify';
 import { AddNewLines } from './AddNewLines';
-import type { SizeClassType } from '../emoji/lib';
 import type { LocalizerType } from '../../types/Util';
+import type { FunJumboEmojiSize } from '../fun/FunEmoji';
 
 const EMOJI_REGEXP = emojiRegex();
 export enum RenderLocation {
@@ -41,10 +41,11 @@ type Props = {
   bodyRanges: BodyRangesForDisplayType;
   direction: 'incoming' | 'outgoing' | undefined;
   disableLinks: boolean;
-  emojiSizeClass: SizeClassType | undefined;
+  jumboEmojiSize: FunJumboEmojiSize | null;
   i18n: LocalizerType;
   isSpoilerExpanded: Record<number, boolean>;
   messageText: string;
+  originalMessageText: string;
   onExpandSpoiler?: (data: Record<number, boolean>) => void;
   onMentionTrigger: (conversationId: string) => void;
   renderLocation: RenderLocation;
@@ -56,7 +57,7 @@ export function MessageTextRenderer({
   bodyRanges,
   direction,
   disableLinks,
-  emojiSizeClass,
+  jumboEmojiSize,
   i18n,
   isSpoilerExpanded,
   messageText,
@@ -64,9 +65,12 @@ export function MessageTextRenderer({
   onMentionTrigger,
   renderLocation,
   textLength,
+  originalMessageText,
 }: Props): JSX.Element {
   const finalNodes = React.useMemo(() => {
-    const links = disableLinks ? [] : extractLinks(messageText);
+    const links = disableLinks
+      ? []
+      : extractLinks(messageText, originalMessageText);
 
     // We need mentions to come last; they can't have children for proper rendering
     const sortedRanges = sortBy(bodyRanges, range =>
@@ -104,7 +108,7 @@ export function MessageTextRenderer({
 
     // Group all contigusous spoilers to create one parent spoiler element in the DOM
     return groupContiguousSpoilers(nodes);
-  }, [bodyRanges, disableLinks, messageText, textLength]);
+  }, [bodyRanges, disableLinks, messageText, originalMessageText, textLength]);
 
   return (
     <>
@@ -112,7 +116,7 @@ export function MessageTextRenderer({
         renderNode({
           direction,
           disableLinks,
-          emojiSizeClass,
+          jumboEmojiSize,
           i18n,
           isInvisible: false,
           isSpoilerExpanded,
@@ -129,7 +133,7 @@ export function MessageTextRenderer({
 function renderNode({
   direction,
   disableLinks,
-  emojiSizeClass,
+  jumboEmojiSize,
   i18n,
   isInvisible,
   isSpoilerExpanded,
@@ -140,7 +144,7 @@ function renderNode({
 }: {
   direction: 'incoming' | 'outgoing' | undefined;
   disableLinks: boolean;
-  emojiSizeClass: SizeClassType | undefined;
+  jumboEmojiSize: FunJumboEmojiSize | null;
   i18n: LocalizerType;
   isInvisible: boolean;
   isSpoilerExpanded: Record<number, boolean>;
@@ -159,7 +163,7 @@ function renderNode({
       renderNode({
         direction,
         disableLinks,
-        emojiSizeClass,
+        jumboEmojiSize,
         i18n,
         isInvisible: isSpoilerHidden,
         isSpoilerExpanded,
@@ -236,11 +240,11 @@ function renderNode({
   let content = renderMentions({
     direction,
     disableLinks,
-    emojiSizeClass,
+    jumboEmojiSize,
     isInvisible,
     mentions: node.mentions,
     onMentionTrigger,
-    text: node.text,
+    node,
   });
 
   // We use separate elements for these because we want screenreaders to understand them
@@ -268,7 +272,13 @@ function renderNode({
     !isLinkSneaky(node.url)
   ) {
     return (
-      <a key={key} className={formattingClasses} href={node.url}>
+      <a
+        key={key}
+        className={formattingClasses}
+        href={node.url}
+        target="_blank"
+        rel="noreferrer"
+      >
         {content}
       </a>
     );
@@ -284,21 +294,22 @@ function renderNode({
 function renderMentions({
   direction,
   disableLinks,
-  emojiSizeClass,
+  jumboEmojiSize,
   isInvisible,
   mentions,
+  node,
   onMentionTrigger,
-  text,
 }: {
-  emojiSizeClass: SizeClassType | undefined;
+  direction: 'incoming' | 'outgoing' | undefined;
+  disableLinks: boolean;
+  jumboEmojiSize: FunJumboEmojiSize | null;
   isInvisible: boolean;
   mentions: ReadonlyArray<HydratedBodyRangeMention>;
-  text: string;
-  disableLinks: boolean;
-  direction: 'incoming' | 'outgoing' | undefined;
+  node: DisplayNode;
   onMentionTrigger: ((conversationId: string) => void) | undefined;
 }): ReactElement {
   const result: Array<ReactElement> = [];
+  const { text } = node;
 
   let offset = 0;
 
@@ -309,7 +320,7 @@ function renderMentions({
         renderText({
           isInvisible,
           key: result.length.toString(),
-          emojiSizeClass,
+          jumboEmojiSize,
           text: text.slice(offset, mention.start),
         })
       );
@@ -323,6 +334,7 @@ function renderMentions({
         disableLinks,
         direction,
         name: mention.replacementText,
+        node,
         onMentionTrigger,
       })
     );
@@ -335,7 +347,7 @@ function renderMentions({
     renderText({
       isInvisible,
       key: result.length.toString(),
-      emojiSizeClass,
+      jumboEmojiSize,
       text: text.slice(offset, text.length),
     })
   );
@@ -345,19 +357,21 @@ function renderMentions({
 
 function renderMention({
   conversationId,
-  name,
+  direction,
+  disableLinks,
   isInvisible,
   key,
-  disableLinks,
-  direction,
+  name,
+  node,
   onMentionTrigger,
 }: {
   conversationId: string;
-  name: string;
+  direction: 'incoming' | 'outgoing' | undefined;
+  disableLinks: boolean;
   isInvisible: boolean;
   key: string;
-  disableLinks: boolean;
-  direction: 'incoming' | 'outgoing' | undefined;
+  name: string;
+  node: DisplayNode;
   onMentionTrigger: ((conversationId: string) => void) | undefined;
 }): ReactElement {
   if (disableLinks) {
@@ -374,6 +388,7 @@ function renderMention({
       key={key}
       id={conversationId}
       isInvisible={isInvisible}
+      isStrikethrough={node.isStrikethrough}
       name={name}
       direction={direction}
       onClick={() => {
@@ -396,12 +411,12 @@ function renderMention({
 /** Render text that does not contain body ranges or is in between body ranges */
 function renderText({
   text,
-  emojiSizeClass,
+  jumboEmojiSize,
   isInvisible,
   key,
 }: {
   text: string;
-  emojiSizeClass: SizeClassType | undefined;
+  jumboEmojiSize: FunJumboEmojiSize | null;
   isInvisible: boolean;
   key: string;
 }) {
@@ -412,26 +427,41 @@ function renderText({
       renderNonEmoji={({ text: innerText, key: innerKey }) => (
         <AddNewLines key={innerKey} text={innerText} />
       )}
-      sizeClass={emojiSizeClass}
+      fontSizeOverride={jumboEmojiSize}
       text={text}
     />
   );
 }
 
 export function extractLinks(
-  messageText: string
+  messageText: string,
+  // Full, untruncated message text
+  originalMessageText: string
 ): ReadonlyArray<BodyRange<{ url: string }>> {
   // to support emojis immediately before links
   // we replace emojis with a space for each byte
   const matches = linkify.match(
-    messageText.replace(EMOJI_REGEXP, s => ' '.repeat(s.length))
+    originalMessageText.replace(EMOJI_REGEXP, s => ' '.repeat(s.length))
   );
 
   if (matches == null) {
     return [];
   }
 
-  return matches.map(match => {
+  // Only return matches present in the `messageText`
+  const currentMatches = matches.filter(({ index, lastIndex, url }) => {
+    if (index >= messageText.length) {
+      return false;
+    }
+
+    if (lastIndex > messageText.length) {
+      return false;
+    }
+
+    return messageText.slice(index, lastIndex) === url;
+  });
+
+  return currentMatches.map(match => {
     return {
       start: match.index,
       length: match.lastIndex - match.index,

@@ -1,13 +1,16 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .module-TimelineWarning {
   @mixin icon($icon) {
-    @include light-theme {
-      @include color-svg($icon, $color-gray-60);
+    @include mixins.light-theme {
+      @include mixins.color-svg($icon, variables.$color-gray-60);
     }
-    @include dark-theme {
-      @include color-svg($icon, $color-gray-20);
+    @include mixins.dark-theme {
+      @include mixins.color-svg($icon, variables.$color-gray-20);
     }
   }
 
@@ -25,53 +28,59 @@
     border-bottom-style: solid;
   }
 
-  @include light-theme {
-    color: $color-gray-65;
-    background: $color-gray-02;
-    border-color: $color-gray-15;
+  @include mixins.light-theme {
+    color: variables.$color-gray-65;
+    background: variables.$color-gray-02;
+    border-color: variables.$color-gray-15;
   }
 
-  @include dark-theme {
-    color: $color-gray-15;
-    background: $color-gray-80;
-    border-color: $color-gray-65;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-15;
+    background: variables.$color-gray-80;
+    border-color: variables.$color-gray-65;
   }
 
   &__generic-icon {
     @include icon('../images/icons/v3/info/info.svg');
-    width: 20px;
-    height: 20px;
+    & {
+      width: 20px;
+      height: 20px;
+    }
   }
 
   &__text {
-    @include font-body-2;
+    @include mixins.font-body-2;
     flex-grow: 1;
     margin-inline: 12px;
 
     &__link {
-      @include button-reset;
-      display: inline;
-      font-weight: bold;
-      text-decoration: none;
-
-      @include light-theme {
-        color: $color-ultramarine-icon;
+      @include mixins.button-reset;
+      & {
+        display: inline;
+        font-weight: bold;
+        text-decoration: none;
       }
-      @include dark-theme {
-        color: $color-ios-blue-tint;
+
+      @include mixins.light-theme {
+        color: variables.$color-ultramarine;
+      }
+      @include mixins.dark-theme {
+        color: variables.$color-ios-blue-tint;
       }
     }
   }
 
   &__close-button {
-    @include button-reset;
+    @include mixins.button-reset;
 
     &::after {
       @include icon('../images/icons/v3/x/x.svg');
-      content: '';
-      display: block;
-      height: 20px;
-      width: 20px;
+      & {
+        content: '';
+        display: block;
+        height: 20px;
+        width: 20px;
+      }
     }
   }
 

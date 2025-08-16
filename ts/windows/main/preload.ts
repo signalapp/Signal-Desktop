@@ -3,7 +3,9 @@
 
 /* eslint-disable global-require */
 
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
+
+const log = createLogger('preload');
 
 window.preloadStartTime = Date.now();
 
@@ -11,14 +13,16 @@ try {
   require('./start');
 } catch (error) {
   /* eslint-disable no-console */
-  if (console._log) {
-    console._log('preload error!', error.stack);
-  }
   console.log('preload error!', error.stack);
   /* eslint-enable no-console */
+  try {
+    log.info('error!', error.stack);
+  } catch {
+    // Best effort
+  }
 
   throw error;
 }
 
 window.preloadEndTime = Date.now();
-log.info('preload complete');
+log.info('complete');

@@ -1,0 +1,14 @@
+diff --git a/lib/types.d.ts b/lib/types.d.ts
+index e5314e6..4c54da2 100644
+--- a/lib/types.d.ts
++++ b/lib/types.d.ts
+@@ -59,7 +59,9 @@ export declare abstract class ZodType<Output = any, Def extends ZodTypeDef = Zod
+     };
+     _parseSync(input: ParseInput): SyncParseReturnType<Output>;
+     _parseAsync(input: ParseInput): AsyncParseReturnType<Output>;
++    /** @deprecated (Signal Desktop: Use ts/util/schema.ts instead) */
+     parse(data: unknown, params?: Partial<ParseParams>): Output;
++    /** @deprecated (Signal Desktop: Use ts/util/schema.ts instead) */
+     safeParse(data: unknown, params?: Partial<ParseParams>): SafeParseReturnType<Input, Output>;
+     parseAsync(data: unknown, params?: Partial<ParseParams>): Promise<Output>;
+     safeParseAsync(data: unknown, params?: Partial<ParseParams>): Promise<SafeParseReturnType<Input, Output>>;

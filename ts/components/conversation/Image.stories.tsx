@@ -9,13 +9,11 @@ import type { Props } from './Image';
 import { CurveType, Image } from './Image';
 import { IMAGE_PNG } from '../../types/MIME';
 import type { ThemeType } from '../../types/Util';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
 import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext';
 
-import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
+import { fakeAttachment } from '../../test-helpers/fakeAttachment';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Conversation/Image',
@@ -38,11 +36,13 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   curveTopLeft: overrideProps.curveTopLeft || CurveType.None,
   curveTopRight: overrideProps.curveTopRight || CurveType.None,
   darkOverlay: overrideProps.darkOverlay || false,
-  height: overrideProps.height || 100,
+  height: overrideProps.height || 200,
   i18n,
   noBackground: overrideProps.noBackground || false,
   noBorder: overrideProps.noBorder || false,
-  onClick: action('onClick'),
+  showVisualAttachment: action('showVisualAttachment'),
+  startDownload: action('startDownload'),
+  cancelDownload: action('cancelDownload'),
   onClickClose: action('onClickClose'),
   onError: action('onError'),
   overlayText: overrideProps.overlayText || '',
@@ -50,7 +50,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   tabIndex: overrideProps.tabIndex || 0,
   theme: overrideProps.theme || ('light' as ThemeType),
   url: 'url' in overrideProps ? overrideProps.url || '' : pngUrl,
-  width: overrideProps.width || 100,
+  width: overrideProps.width || 300,
 });
 
 export function UrlWithHeightWidth(): JSX.Element {
@@ -107,37 +107,144 @@ export function NoBorderOrBackground(): JSX.Element {
   );
 }
 
-export function Pending(): JSX.Element {
+export function NotDownloadedNotIncrementalNotPending(): JSX.Element {
   const props = createProps({
     attachment: fakeAttachment({
       contentType: IMAGE_PNG,
       fileName: 'sax.png',
-      url: pngUrl,
-      pending: true,
+      path: undefined,
+      size: 5300000,
     }),
+    url: undefined,
+    blurHash: 'thisisafakeblurhashthatwasmadeup',
   });
 
   return <Image {...props} />;
 }
 
-export function PendingWBlurhash(): JSX.Element {
+export function PendingWDownloadQueuedNotIncremental(): JSX.Element {
   const props = createProps({
     attachment: fakeAttachment({
       contentType: IMAGE_PNG,
       fileName: 'sax.png',
-      url: pngUrl,
+      path: undefined,
       pending: true,
+      size: 5300000,
     }),
+    url: undefined,
+    blurHash: 'thisisafakeblurhashthatwasmadeup',
   });
 
-  return (
-    <Image
-      {...props}
-      blurHash="LDA,FDBnm+I=p{tkIUI;~UkpELV]"
-      width={300}
-      height={400}
-    />
-  );
+  return <Image {...props} />;
+}
+
+export function PendingWDownloadProgress(): JSX.Element {
+  const props = createProps({
+    attachment: fakeAttachment({
+      contentType: IMAGE_PNG,
+      fileName: 'sax.png',
+      path: undefined,
+      pending: true,
+      size: 5300000,
+      totalDownloaded: 1230000,
+    }),
+    blurHash: 'thisisafakeblurhashthatwasmadeup',
+    url: undefined,
+  });
+
+  return <Image {...props} />;
+}
+
+export function NotPendingWDownloadProgress(): JSX.Element {
+  const props = createProps({
+    attachment: fakeAttachment({
+      contentType: IMAGE_PNG,
+      fileName: 'sax.png',
+      path: undefined,
+      size: 5300000,
+      totalDownloaded: 1230000,
+    }),
+    blurHash: 'thisisafakeblurhashthatwasmadeup',
+    url: undefined,
+  });
+
+  return <Image {...props} />;
+}
+
+export function PendingIncrementalNoProgress(): JSX.Element {
+  const props = createProps({
+    attachment: fakeAttachment({
+      contentType: IMAGE_PNG,
+      fileName: 'sax.png',
+      path: undefined,
+      pending: true,
+      size: 5300000,
+      incrementalMac: 'something',
+      chunkSize: 100,
+    }),
+    playIconOverlay: true,
+    blurHash: 'thisisafakeblurhashthatwasmadeup',
+    url: undefined,
+  });
+
+  return <Image {...props} />;
+}
+
+export function PendingIncrementalDownloadProgress(): JSX.Element {
+  const props = createProps({
+    attachment: fakeAttachment({
+      contentType: IMAGE_PNG,
+      fileName: 'sax.png',
+      path: undefined,
+      pending: true,
+      size: 5300000,
+      totalDownloaded: 1230000,
+      incrementalMac: 'something',
+      chunkSize: 100,
+    }),
+    playIconOverlay: true,
+    blurHash: 'thisisafakeblurhashthatwasmadeup',
+    url: undefined,
+  });
+
+  return <Image {...props} />;
+}
+
+export function NotPendingIncrementalNoProgress(): JSX.Element {
+  const props = createProps({
+    attachment: fakeAttachment({
+      contentType: IMAGE_PNG,
+      fileName: 'sax.png',
+      path: undefined,
+      size: 5300000,
+      incrementalMac: 'something',
+      chunkSize: 100,
+    }),
+    playIconOverlay: true,
+    blurHash: 'thisisafakeblurhashthatwasmadeup',
+    url: undefined,
+  });
+
+  return <Image {...props} />;
+}
+
+export function NotPendingIncrementalWProgress(): JSX.Element {
+  const props = createProps({
+    attachment: fakeAttachment({
+      contentType: IMAGE_PNG,
+      fileName: 'sax.png',
+      path: undefined,
+      size: 5300000,
+      totalDownloaded: 1230000,
+      incrementalMac: 'something',
+      chunkSize: 100,
+    }),
+    playIconOverlay: true,
+    blurHash: 'thisisafakeblurhashthatwasmadeup',
+    url: undefined,
+  });
+
+  return <Image {...props} />;
 }
 
 export function CurvedCorners(): JSX.Element {
@@ -188,11 +295,14 @@ export function FullOverlayWithText(): JSX.Element {
 }
 
 export function Blurhash(): JSX.Element {
-  const defaultProps = createProps();
-  const props = {
-    ...defaultProps,
+  const props = createProps({
+    attachment: fakeAttachment({
+      contentType: IMAGE_PNG,
+      fileName: 'sax.png',
+    }),
     blurHash: 'thisisafakeblurhashthatwasmadeup',
-  };
+    url: undefined,
+  });
 
   return <Image {...props} />;
 }
@@ -213,12 +323,10 @@ export function UndefinedBlurHash(): JSX.Element {
 }
 
 export function MissingImage(): JSX.Element {
-  const defaultProps = createProps();
-  const props = {
-    ...defaultProps,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    attachment: undefined as any,
-  };
+  const props = createProps({
+    attachment: undefined,
+    url: 'random',
+  });
 
   return <Image {...props} />;
 }

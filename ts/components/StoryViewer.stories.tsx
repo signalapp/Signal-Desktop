@@ -5,19 +5,18 @@ import type { Meta } from '@storybook/react';
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './StoryViewer';
-import enMessages from '../../_locales/en/messages.json';
 import { SendStatus } from '../messages/MessageSendState';
 import { StoryViewModeType } from '../types/Stories';
 import { generateStoryDistributionId } from '../types/StoryDistributionId';
 import { StoryViewer } from './StoryViewer';
 import { VIDEO_MP4 } from '../types/MIME';
-import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
-import { getFakeStoryView } from '../test-both/helpers/getFakeStory';
-import { setupI18n } from '../util/setupI18n';
+import { fakeAttachment } from '../test-helpers/fakeAttachment';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
+import { getFakeStoryView } from '../test-helpers/getFakeStory';
 import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants';
+import { EmojiSkinTone } from './fun/data/emojis';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/StoryViewer',
@@ -45,7 +44,7 @@ export default {
     onHideStory: action('onHideStory'),
     onReactToStory: action('onReactToStory'),
     onReplyToStory: action('onReplyToStory'),
-    onSetSkinTone: action('onSetSkinTone'),
+    onEmojiSkinToneDefaultChange: action('onEmojiSkinToneDefaultChange'),
     onTextTooLong: action('onTextTooLong'),
     onUseEmoji: action('onUseEmoji'),
     onMediaPlaybackStart: action('onMediaPlaybackStart'),
@@ -54,7 +53,7 @@ export default {
     renderEmojiPicker: () => <>EmojiPicker</>,
     retryMessageSend: action('retryMessageSend'),
     showToast: action('showToast'),
-    skinTone: 0,
+    emojiSkinToneDefault: EmojiSkinTone.None,
     story: getFakeStoryView(),
     storyViewMode: StoryViewModeType.All,
     viewStory: action('viewStory'),

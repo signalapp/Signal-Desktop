@@ -109,16 +109,15 @@ function Contacts({
       {contacts.map(contact => (
         <li key={contact.id} className="module-GroupDialog__contacts__contact">
           <Avatar
-            acceptedMessageRequest={contact.acceptedMessageRequest}
+            avatarPlaceholderGradient={contact.avatarPlaceholderGradient}
             avatarUrl={contact.avatarUrl}
             badge={getPreferredBadge(contact.badges)}
             color={contact.color}
             conversationType={contact.type}
-            isMe={contact.isMe}
+            hasAvatar={contact.hasAvatar}
             noteToSelf={contact.isMe}
             theme={theme}
             title={contact.title}
-            unblurredAvatarUrl={contact.unblurredAvatarUrl}
             sharedGroupNames={contact.sharedGroupNames}
             size={AvatarSize.TWENTY_EIGHT}
             i18n={i18n}

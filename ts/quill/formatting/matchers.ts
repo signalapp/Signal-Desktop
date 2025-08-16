@@ -1,10 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import Delta from 'quill-delta';
-import type { Matcher, AttributeMap } from 'quill';
+import { Delta } from '@signalapp/quill-cjs';
+import type { AttributeMap } from '@signalapp/quill-cjs';
 
 import { QuillFormattingStyle } from './menu';
+import type { Matcher } from '../util';
 
 function applyStyleToOps(
   delta: Delta,
@@ -24,8 +25,9 @@ function applyStyleToOps(
 }
 
 export const matchBold: Matcher = (
-  _node: HTMLElement,
-  delta: Delta,
+  _node,
+  delta,
+  _scroll,
   attributes: AttributeMap
 ): Delta => {
   if (delta.length() > 0) {
@@ -38,6 +40,7 @@ export const matchBold: Matcher = (
 export const matchItalic: Matcher = (
   _node: HTMLElement,
   delta: Delta,
+  _scroll,
   attributes: AttributeMap
 ): Delta => {
   if (delta.length() > 0) {
@@ -48,9 +51,10 @@ export const matchItalic: Matcher = (
 };
 
 export const matchStrikethrough: Matcher = (
-  _node: HTMLElement,
-  delta: Delta,
-  attributes: AttributeMap
+  _node,
+  delta,
+  _scroll,
+  attributes
 ): Delta => {
   if (delta.length() > 0) {
     return applyStyleToOps(delta, QuillFormattingStyle.strike, attributes);
@@ -60,9 +64,10 @@ export const matchStrikethrough: Matcher = (
 };
 
 export const matchMonospace: Matcher = (
-  node: HTMLElement,
-  delta: Delta,
-  attributes: AttributeMap
+  node,
+  delta,
+  _scroll,
+  attributes
 ): Delta => {
   const classes = [
     'MessageTextRenderer__formatting--monospace',
@@ -85,9 +90,10 @@ export const matchMonospace: Matcher = (
 };
 
 export const matchSpoiler: Matcher = (
-  node: HTMLElement,
-  delta: Delta,
-  attributes: AttributeMap
+  node,
+  delta,
+  _scroll,
+  attributes
 ): Delta => {
   const classes = [
     'quill--spoiler',

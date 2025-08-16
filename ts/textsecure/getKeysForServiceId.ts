@@ -21,10 +21,13 @@ import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
 import type { ServiceIdString } from '../types/ServiceId';
 import type { ServerKeysType, WebAPIType } from './WebAPI';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { isRecord } from '../util/isRecord';
 import type { GroupSendToken } from '../types/GroupSendEndorsements';
 import { onFailedToSendWithEndorsements } from '../util/groupSendEndorsements';
+import { isPQRatchetEnabled } from '../util/isPQRatchetEnabled';
+
+const log = createLogger('getKeysForServiceId');
 
 export async function getKeysForServiceId(
   serviceId: ServiceIdString,
@@ -141,25 +144,21 @@ async function handleServerKeys(
           `getKeysForIdentifier/${serviceId}: Missing signed prekey for deviceId ${deviceId}`
         );
       }
+      if (!pqPreKey) {
+        throw new Error(
+          `getKeysForIdentifier/${serviceId}: Missing signed PQ prekey for deviceId ${deviceId}`
+        );
+      }
       const protocolAddress = ProtocolAddress.new(serviceId, deviceId);
       const preKeyId = preKey?.keyId || null;
       const preKeyObject = preKey
-        ? PublicKey.deserialize(Buffer.from(preKey.publicKey))
+        ? PublicKey.deserialize(preKey.publicKey)
         : null;
-      const signedPreKeyObject = PublicKey.deserialize(
-        Buffer.from(signedPreKey.publicKey)
-      );
-      const identityKey = PublicKey.deserialize(
-        Buffer.from(response.identityKey)
-      );
+      const signedPreKeyObject = PublicKey.deserialize(signedPreKey.publicKey);
+      const identityKey = PublicKey.deserialize(response.identityKey);
 
-      const pqPreKeyId = pqPreKey?.keyId || null;
-      const pqPreKeyPublic = pqPreKey
-        ? KEMPublicKey.deserialize(Buffer.from(pqPreKey.publicKey))
-        : null;
-      const pqPreKeySignature = pqPreKey
-        ? Buffer.from(pqPreKey.signature)
-        : null;
+      const { keyId: pqPreKeyId, signature: pqPreKeySignature } = pqPreKey;
+      const pqPreKeyPublic = KEMPublicKey.deserialize(pqPreKey.publicKey);
 
       const preKeyBundle = PreKeyBundle.new(
         registrationId,
@@ -168,7 +167,7 @@ async function handleServerKeys(
         preKeyObject,
         signedPreKey.keyId,
         signedPreKeyObject,
-        Buffer.from(signedPreKey.signature),
+        signedPreKey.signature,
         identityKey,
         pqPreKeyId,
         pqPreKeyPublic,
@@ -183,13 +182,13 @@ async function handleServerKeys(
       try {
         await window.textsecure.storage.protocol.enqueueSessionJob(
           address,
-          `handleServerKeys(${serviceId})`,
           () =>
             processPreKeyBundle(
               preKeyBundle,
               protocolAddress,
               sessionStore,
-              identityKeyStore
+              identityKeyStore,
+              isPQRatchetEnabled()
             )
         );
       } catch (error) {

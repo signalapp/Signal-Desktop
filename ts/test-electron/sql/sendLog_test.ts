@@ -7,7 +7,7 @@ import { v4 as generateUuid } from 'uuid';
 import { DataReader, DataWriter } from '../../sql/Client';
 import { generateAci } from '../../types/ServiceId';
 import { constantTimeEqual, getRandomBytes } from '../../Crypto';
-import { singleProtoJobQueue } from '../../jobs/singleProtoJobQueue';
+import { cleanupMessages, postSaveUpdates } from '../../util/cleanup';
 
 const {
   _getAllSentProtoMessageIds,
@@ -128,7 +128,7 @@ describe('sql/sendLog', () => {
         timestamp,
         type: 'outgoing',
       },
-      { forceSave: true, ourAci }
+      { forceSave: true, ourAci, postSaveUpdates }
     );
 
     const bytes = getRandomBytes(128);
@@ -152,7 +152,7 @@ describe('sql/sendLog', () => {
 
     assert.strictEqual(actual.timestamp, proto.timestamp);
 
-    await removeMessage(id, { singleProtoJobQueue });
+    await removeMessage(id, { cleanupMessages });
 
     assert.lengthOf(await getAllSentProtos(), 0);
   });

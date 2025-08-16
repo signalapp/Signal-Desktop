@@ -8,6 +8,7 @@ import { getInitialState } from './getInitialState';
 
 import type { BadgesStateType } from './ducks/badges';
 import type { CallHistoryDetails } from '../types/CallDisposition';
+import type { DonationsStateType } from './ducks/donations';
 import type { MainWindowStatsType } from '../windows/context';
 import type { MenuOptionsType } from '../types/menu';
 import type { StoryDataType } from './ducks/stories';
@@ -16,14 +17,19 @@ import type { ThemeType } from '../types/Util';
 import type { CallLinkType } from '../types/CallLink';
 import type { RecentEmojiObjectType } from '../util/loadRecentEmojis';
 import type { StickersStateType } from './ducks/stickers';
+import type { GifsStateType } from './ducks/gifs';
+import type { NotificationProfileType } from '../types/NotificationProfile';
 
 export type ReduxInitData = {
   badgesState: BadgesStateType;
   callHistory: ReadonlyArray<CallHistoryDetails>;
   callHistoryUnreadCount: number;
   callLinks: ReadonlyArray<CallLinkType>;
+  donations: DonationsStateType;
+  gifs: GifsStateType;
   mainWindowStats: MainWindowStatsType;
   menuOptions: MenuOptionsType;
+  notificationProfiles: ReadonlyArray<NotificationProfileType>;
   recentEmoji: RecentEmojiObjectType;
   stickers: StickersStateType;
   stories: Array<StoryDataType>;
@@ -38,7 +44,7 @@ export function initializeRedux(data: ReduxInitData): void {
   window.reduxStore = store;
 
   // Binding these actions to our redux store and exposing them allows us to update
-  //   redux when things change in the backbone world.
+  //   redux when things change in the rest of the app.
   window.reduxActions = {
     accounts: bindActionCreators(actionCreators.accounts, store.dispatch),
     app: bindActionCreators(actionCreators.app, store.dispatch),
@@ -61,8 +67,10 @@ export function initializeRedux(data: ReduxInitData): void {
       store.dispatch
     ),
     inbox: bindActionCreators(actionCreators.inbox, store.dispatch),
+    donations: bindActionCreators(actionCreators.donations, store.dispatch),
     emojis: bindActionCreators(actionCreators.emojis, store.dispatch),
     expiration: bindActionCreators(actionCreators.expiration, store.dispatch),
+    gifs: bindActionCreators(actionCreators.gifs, store.dispatch),
     globalModals: bindActionCreators(
       actionCreators.globalModals,
       store.dispatch
@@ -77,7 +85,12 @@ export function initializeRedux(data: ReduxInitData): void {
       actionCreators.mediaGallery,
       store.dispatch
     ),
+    nav: bindActionCreators(actionCreators.nav, store.dispatch),
     network: bindActionCreators(actionCreators.network, store.dispatch),
+    notificationProfiles: bindActionCreators(
+      actionCreators.notificationProfiles,
+      store.dispatch
+    ),
     safetyNumber: bindActionCreators(
       actionCreators.safetyNumber,
       store.dispatch

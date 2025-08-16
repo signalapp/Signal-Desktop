@@ -4,7 +4,7 @@
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { Inbox } from '../../components/Inbox';
-import { isAlpha } from '../../util/version';
+import { isNightly } from '../../util/version';
 import { getIntl } from '../selectors/user';
 import { SmartCustomizingPreferredReactionsModal } from './CustomizingPreferredReactionsModal';
 import { getIsCustomizingPreferredReactions } from '../selectors/preferredReactions';
@@ -20,6 +20,7 @@ import {
   getInboxEnvelopeTimestamp,
   getInboxFirstEnvelopeTimestamp,
 } from '../selectors/inbox';
+import { SmartPreferences } from './Preferences';
 
 function renderChatsTab() {
   return <SmartChatsTab />;
@@ -41,6 +42,10 @@ function renderStoriesTab() {
   return <SmartStoriesTab />;
 }
 
+function renderSettingsTab() {
+  return <SmartPreferences />;
+}
+
 export const SmartInbox = memo(function SmartInbox(): JSX.Element {
   const i18n = useSelector(getIntl);
   const isCustomizingPreferredReactions = useSelector(
@@ -59,7 +64,7 @@ export const SmartInbox = memo(function SmartInbox(): JSX.Element {
       firstEnvelopeTimestamp={firstEnvelopeTimestamp}
       hasInitialLoadCompleted={hasInitialLoadCompleted}
       i18n={i18n}
-      isAlpha={isAlpha(window.getVersion())}
+      isNightly={isNightly(window.getVersion())}
       isCustomizingPreferredReactions={isCustomizingPreferredReactions}
       navTabsCollapsed={navTabsCollapsed}
       onToggleNavTabsCollapse={toggleNavTabsCollapse}
@@ -70,6 +75,7 @@ export const SmartInbox = memo(function SmartInbox(): JSX.Element {
       }
       renderNavTabs={renderNavTabs}
       renderStoriesTab={renderStoriesTab}
+      renderSettingsTab={renderSettingsTab}
     />
   );
 });

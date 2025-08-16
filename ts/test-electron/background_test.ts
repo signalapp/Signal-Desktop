@@ -5,6 +5,7 @@ import { assert } from 'chai';
 import { pick } from 'lodash';
 
 import { isOverHourIntoPast, cleanupSessionResets } from '../background';
+import { DataWriter } from '../sql/Client';
 
 describe('#isOverHourIntoPast', () => {
   it('returns false for now', () => {
@@ -21,6 +22,11 @@ describe('#isOverHourIntoPast', () => {
 });
 
 describe('#cleanupSessionResets', () => {
+  after(async () => {
+    await DataWriter.removeAll();
+    await window.storage.fetch();
+  });
+
   it('leaves empty object alone', async () => {
     await window.storage.put('sessionResets', {});
     await cleanupSessionResets();

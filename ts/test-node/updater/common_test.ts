@@ -17,7 +17,9 @@ import {
   getTempDir,
   deleteTempDir,
 } from '../../updater/common';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
+
+const log = createLogger('common_test');
 
 describe('updater/signatures', () => {
   const windows = parseYaml(`version: 1.23.2

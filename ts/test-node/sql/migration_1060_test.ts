@@ -5,13 +5,13 @@ import { assert } from 'chai';
 import { v4 as generateGuid } from 'uuid';
 
 import {
-  getAllSyncTasks,
-  getMostRecentAddressableMessages,
+  dequeueOldestSyncTasks,
   removeSyncTaskById,
   saveSyncTasks,
 } from '../../sql/Server';
-import type { WritableDB } from '../../sql/Interface';
-import { insertData, updateToVersion, createDB } from './helpers';
+import type { WritableDB, ReadableDB, MessageType } from '../../sql/Interface';
+import { sql, jsonToObject } from '../../sql/util';
+import { insertData, updateToVersion, createDB, explain } from './helpers';
 import { MAX_SYNC_TASK_ATTEMPTS } from '../../util/syncTasks.types';
 import { WEEK } from '../../util/durations';
 
@@ -19,6 +19,27 @@ import type { MessageAttributesType } from '../../model-types';
 import type { SyncTaskType } from '../../util/syncTasks';
 
 /* eslint-disable camelcase */
+
+// Snapshot before: 1270
+export function getMostRecentAddressableMessages(
+  db: ReadableDB,
+  conversationId: string,
+  limit = 5
+): Array<MessageType> {
+  const [query, parameters] = sql`
+    SELECT json FROM messages
+    INDEXED BY messages_by_date_addressable
+    WHERE
+      conversationId IS ${conversationId} AND
+      isAddressableMessage = 1
+    ORDER BY received_at DESC, sent_at DESC
+    LIMIT ${limit};
+  `;
+
+  const rows = db.prepare(query).all<{ json: string }>(parameters);
+
+  return rows.map(row => jsonToObject(row.json));
+}
 
 function generateMessage(json: MessageAttributesType) {
   const { conversationId, received_at, sent_at, type } = json;
@@ -148,10 +169,9 @@ describe('SQL/updateToSchemaVersion1060', () => {
       });
 
       it('ensures that index is used for getMostRecentAddressableMessages, with storyId', () => {
-        const { detail } = db
-          .prepare(
-            `
-          EXPLAIN QUERY PLAN
+        const detail = explain(
+          db,
+          sql`
           SELECT json FROM messages
           INDEXED BY messages_by_date_addressable
           WHERE
@@ -160,8 +180,7 @@ describe('SQL/updateToSchemaVersion1060', () => {
           ORDER BY received_at DESC, sent_at DESC
           LIMIT 5;
           `
-          )
-          .get();
+        );
 
         assert.notInclude(detail, 'B-TREE');
         assert.notInclude(detail, 'SCAN');
@@ -217,23 +236,30 @@ describe('SQL/updateToSchemaVersion1060', () => {
 
       saveSyncTasks(db, expected);
 
-      const actual = getAllSyncTasks(db);
-      assert.deepEqual(expected, actual, 'before delete');
+      const actual = dequeueOldestSyncTasks(db, { previousRowId: null });
+      assert.deepEqual(
+        expected.map(t => ({ ...t, attempts: t.attempts + 1 })),
+        actual.tasks,
+        'before delete'
+      );
 
       removeSyncTaskById(db, expected[1].id);
 
-      const actualAfterDelete = getAllSyncTasks(db);
+      const actualAfterDelete = dequeueOldestSyncTasks(db, {
+        previousRowId: null,
+        incrementAttempts: false,
+      });
       assert.deepEqual(
         [
           { ...expected[0], attempts: 2 },
           { ...expected[2], attempts: 4 },
         ],
-        actualAfterDelete,
+        actualAfterDelete.tasks,
         'after delete'
       );
     });
 
-    it('getAllSyncTasksSync expired tasks', () => {
+    it('dequeueOldestSyncTasks expired tasks', () => {
       const now = Date.now();
       const twoWeeksAgo = now - WEEK * 2;
       const expected: Array<SyncTaskType> = [
@@ -289,10 +315,17 @@ describe('SQL/updateToSchemaVersion1060', () => {
 
       saveSyncTasks(db, expected);
 
-      const actual = getAllSyncTasks(db);
+      const actual = dequeueOldestSyncTasks(db, { previousRowId: null });
 
-      assert.lengthOf(actual, 3);
-      assert.deepEqual([expected[1], expected[2], expected[3]], actual);
+      assert.lengthOf(actual.tasks, 3);
+      assert.deepEqual(
+        [
+          { ...expected[1], attempts: 3 },
+          { ...expected[2], attempts: 11 },
+          { ...expected[3], attempts: 5 },
+        ],
+        actual.tasks
+      );
     });
   });
 });

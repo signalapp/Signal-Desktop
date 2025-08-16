@@ -16,12 +16,14 @@ export class MacOSUpdater extends Updater {
     // No installers are cache on macOS
   }
 
-  protected async installUpdate(updateFilePath: string): Promise<void> {
+  protected async installUpdate(
+    updateFilePath: string
+  ): Promise<() => Promise<void>> {
     const { logger } = this;
 
     logger.info('downloadAndInstall: handing download to electron...');
     try {
-      await this.handToAutoUpdate(updateFilePath);
+      await this.#handToAutoUpdate(updateFilePath);
     } catch (error) {
       const readOnly = 'Cannot update while running on a read-only volume';
       const message: string = error.message || '';
@@ -38,14 +40,14 @@ export class MacOSUpdater extends Updater {
     // At this point, closing the app will cause the update to be installed automatically
     //   because Squirrel has cached the update file and will do the right thing.
 
-    this.setUpdateListener(async () => {
+    return async () => {
       logger.info('downloadAndInstall: restarting...');
       this.markRestarting();
       autoUpdater.quitAndInstall();
-    });
+    };
   }
 
-  private async handToAutoUpdate(filePath: string): Promise<void> {
+  async #handToAutoUpdate(filePath: string): Promise<void> {
     const { logger } = this;
     const { promise, resolve, reject } = explodePromise<void>();
 

@@ -164,7 +164,7 @@ export function AnimatedEmoji({
         y,
       }}
     >
-      <Emojify sizeClass="medium" text={value} />
+      <Emojify fontSizeOverride={36} text={value} />
     </animated.div>
   );
 }

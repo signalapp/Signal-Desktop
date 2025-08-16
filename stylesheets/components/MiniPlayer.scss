@@ -1,10 +1,15 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 @mixin audio-icon($name, $icon, $color) {
   &--#{$name}::before {
-    @include color-svg('../images/icons/#{$icon}.svg', $color, false);
-    -webkit-mask-size: 100%;
+    @include mixins.color-svg('../images/icons/#{$icon}.svg', $color, false);
+    & {
+      -webkit-mask-size: 100%;
+    }
   }
 }
 
@@ -18,7 +23,7 @@
   position: absolute;
   top: 0;
   inset-inline: 0;
-  z-index: calc($z-index-above-above-base + 1);
+  z-index: calc(variables.$z-index-above-above-base + 1);
   display: flex;
   align-items: center;
   gap: 18px;
@@ -27,11 +32,11 @@
   margin-top: calc(52px + var(--title-bar-drag-area-height));
   text-align: start;
 
-  @include light-theme {
-    background-color: $color-gray-02;
+  @include mixins.light-theme {
+    background-color: variables.$color-gray-02;
   }
-  @include dark-theme {
-    background-color: $color-gray-75;
+  @include mixins.dark-theme {
+    background-color: variables.$color-gray-75;
   }
 
   &--flow {
@@ -40,7 +45,7 @@
   }
 
   &__playback-button {
-    @include button-reset;
+    @include mixins.button-reset;
 
     &::before {
       display: block;
@@ -49,12 +54,12 @@
       content: '';
     }
 
-    @include light-theme {
-      @include all-audio-icons($color-gray-60);
+    @include mixins.light-theme {
+      @include all-audio-icons(variables.$color-gray-60);
     }
 
-    @include dark-theme {
-      @include all-audio-icons($color-gray-15);
+    @include mixins.dark-theme {
+      @include all-audio-icons(variables.$color-gray-15);
     }
 
     &--pending::before {
@@ -72,11 +77,13 @@
   }
 
   &__close-button {
-    @include button-reset;
+    @include mixins.button-reset;
 
-    border-radius: 4px;
-    height: 16px;
-    width: 16px;
+    & {
+      border-radius: 4px;
+      height: 16px;
+      width: 16px;
+    }
 
     &::before {
       content: '';
@@ -84,31 +91,37 @@
       width: 100%;
       height: 100%;
 
-      @include light-theme {
-        @include color-svg('../images/icons/v3/x/x.svg', $color-gray-75);
+      @include mixins.light-theme {
+        @include mixins.color-svg(
+          '../images/icons/v3/x/x.svg',
+          variables.$color-gray-75
+        );
       }
 
-      @include dark-theme {
-        @include color-svg('../images/icons/v3/x/x.svg', $color-gray-15);
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
+          '../images/icons/v3/x/x.svg',
+          variables.$color-gray-15
+        );
       }
     }
 
-    @include light-theme {
+    @include mixins.light-theme {
       &:hover,
       &:focus {
-        background: $color-gray-02;
+        background: variables.$color-gray-02;
       }
       &:active {
-        background: $color-gray-05;
+        background: variables.$color-gray-05;
       }
     }
-    @include dark-theme {
+    @include mixins.dark-theme {
       &:hover,
       &:focus {
-        background: $color-gray-80;
+        background: variables.$color-gray-80;
       }
       &:active {
-        background: $color-gray-75;
+        background: variables.$color-gray-75;
       }
     }
   }

@@ -4,12 +4,11 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
 import type { Props } from './EmojiButton';
 import { EmojiButton } from './EmojiButton';
+import { EmojiSkinTone } from '../fun/data/emojis';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Emoji/EmojiButton',
@@ -28,8 +27,8 @@ export function Base(): JSX.Element {
       <EmojiButton
         i18n={i18n}
         onPickEmoji={action('onPickEmoji')}
-        skinTone={0}
-        onSetSkinTone={action('onSetSkinTone')}
+        emojiSkinToneDefault={EmojiSkinTone.None}
+        onEmojiSkinToneDefaultChange={action('onEmojiSkinToneDefaultChange')}
         recentEmojis={[
           'grinning',
           'grin',

@@ -20,9 +20,9 @@ import {
 describe('Curve', () => {
   it('verifySignature roundtrip', () => {
     const message = Buffer.from('message');
-    const { pubKey, privKey } = generateKeyPair();
-    const signature = calculateSignature(privKey, message);
-    const verified = verifySignature(pubKey, message, signature);
+    const { publicKey, privateKey } = generateKeyPair();
+    const signature = calculateSignature(privateKey, message);
+    const verified = verifySignature(publicKey, message, signature);
 
     assert.isTrue(verified);
   });
@@ -31,8 +31,11 @@ describe('Curve', () => {
     const alice = generateKeyPair();
     const bob = generateKeyPair();
 
-    const sharedSecretAlice = calculateAgreement(bob.pubKey, alice.privKey);
-    const sharedSecretBob = calculateAgreement(alice.pubKey, bob.privKey);
+    const sharedSecretAlice = calculateAgreement(
+      bob.publicKey,
+      alice.privateKey
+    );
+    const sharedSecretBob = calculateAgreement(alice.publicKey, bob.privateKey);
 
     assert.isTrue(constantTimeEqual(sharedSecretAlice, sharedSecretBob));
   });
@@ -61,8 +64,8 @@ describe('Curve', () => {
       assert.equal(keyId, signedPreKey.keyId);
 
       const verified = verifySignature(
-        identityKeyPair.pubKey,
-        signedPreKey.keyPair.pubKey,
+        identityKeyPair.publicKey,
+        signedPreKey.keyPair.publicKey.serialize(),
         signedPreKey.signature
       );
 
@@ -76,8 +79,8 @@ describe('Curve', () => {
       const preKey = generatePreKey(keyId);
 
       assert.equal(keyId, preKey.keyId);
-      assert.equal(33, preKey.keyPair.pubKey.byteLength);
-      assert.equal(32, preKey.keyPair.privKey.byteLength);
+      assert.equal(33, preKey.keyPair.publicKey.serialize().byteLength);
+      assert.equal(32, preKey.keyPair.privateKey.serialize().byteLength);
     });
   });
 
@@ -95,8 +98,8 @@ describe('Curve', () => {
 
       const keyPair = createKeyPair(privateKey);
 
-      assert.equal(32, keyPair.privKey.byteLength);
-      assert.equal(33, keyPair.pubKey.byteLength);
+      assert.equal(32, keyPair.privateKey.serialize().byteLength);
+      assert.equal(33, keyPair.publicKey.serialize().byteLength);
 
       // The original incoming key is not modified
       assert.isTrue(
@@ -107,11 +110,11 @@ describe('Curve', () => {
       // But the keypair that comes out has indeed been updated
       assert.notEqual(
         initialHex,
-        Bytes.toHex(keyPair.privKey),
+        Bytes.toHex(keyPair.privateKey.serialize()),
         'keypair check'
       );
       assert.isFalse(
-        constantTimeEqual(keyPair.privKey, privateKey),
+        constantTimeEqual(keyPair.privateKey.serialize(), privateKey),
         'keypair vs incoming value'
       );
     });
@@ -132,8 +135,8 @@ describe('Curve', () => {
 
       const keyPair = createKeyPair(privateKey);
 
-      assert.equal(32, keyPair.privKey.byteLength);
-      assert.equal(33, keyPair.pubKey.byteLength);
+      assert.equal(32, keyPair.privateKey.serialize().byteLength);
+      assert.equal(33, keyPair.publicKey.serialize().byteLength);
 
       // The original incoming key is not modified
       assert.isTrue(
@@ -142,9 +145,13 @@ describe('Curve', () => {
       );
 
       // The keypair that comes out hasn't been updated either
-      assert.equal(postClampHex, Bytes.toHex(keyPair.privKey), 'keypair check');
+      assert.equal(
+        postClampHex,
+        Bytes.toHex(keyPair.privateKey.serialize()),
+        'keypair check'
+      );
       assert.isTrue(
-        constantTimeEqual(privateKey, keyPair.privKey),
+        constantTimeEqual(privateKey, keyPair.privateKey.serialize()),
         'keypair vs incoming value'
       );
     });

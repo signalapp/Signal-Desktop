@@ -104,7 +104,7 @@ const rules = {
   // Prefer functional components with default params
   'react/require-default-props': 'off',
 
-  // Empty fragments are used in adapters between backbone and react views.
+  // Empty fragments are used in adapters between models and react views.
   'react/jsx-no-useless-fragment': [
     'error',
     {
@@ -179,6 +179,7 @@ const rules = {
       additionalHooks: '^(useSpring|useSprings)$',
     },
   ],
+  'local-rules/license-comments': 'error',
 };
 
 const typescriptRules = {
@@ -315,6 +316,70 @@ module.exports = {
       files: ['ts/**/*_test.{ts,tsx}'],
       rules: {
         'func-names': 'off',
+      },
+    },
+    {
+      files: ['ts/**/*.tsx'],
+      plugins: ['better-tailwindcss'],
+      settings: {
+        'better-tailwindcss': {
+          entryPoint: './stylesheets/tailwind-config.css',
+          callees: ['tw'],
+          attributes: [],
+          variables: [],
+        },
+      },
+      rules: {
+        'local-rules/enforce-tw': 'error',
+
+        // stylistic: Enforce consistent line wrapping for tailwind classes. (recommended, autofix)
+        'better-tailwindcss/enforce-consistent-line-wrapping': 'off',
+        // stylistic: Enforce a consistent order for tailwind classes. (recommended, autofix)
+        'better-tailwindcss/enforce-consistent-class-order': 'error',
+        // stylistic: Enforce consistent variable syntax. (autofix)
+        'better-tailwindcss/enforce-consistent-variable-syntax': 'error',
+        // stylistic: Enforce consistent position of the important modifier. (autofix)
+        'better-tailwindcss/enforce-consistent-important-position': 'error',
+        // stylistic: Enforce shorthand class names. (autofix)
+        'better-tailwindcss/enforce-shorthand-classes': 'error',
+        // stylistic: Remove duplicate classes. (autofix)
+        'better-tailwindcss/no-duplicate-classes': 'error',
+        // stylistic: Remove deprecated classes. (autofix)
+        'better-tailwindcss/no-deprecated-classes': 'off',
+        // stylistic: Disallow unnecessary whitespace in tailwind classes. (autofix)
+        'better-tailwindcss/no-unnecessary-whitespace': 'error',
+        // correctness: Report classes not registered with tailwindcss. (recommended)
+        'better-tailwindcss/no-unregistered-classes': 'error',
+        // correctness: Report classes that produce conflicting styles.
+        'better-tailwindcss/no-conflicting-classes': 'error',
+        // correctness: Disallow restricted classes. (autofix)
+        'better-tailwindcss/no-restricted-classes': [
+          'error',
+          {
+            restrict: [
+              {
+                pattern: '\\[#[a-fA-F0-9]{3,8}?\\]', // ex: "text-[#fff]"
+                message: 'No arbitrary hex values',
+              },
+              {
+                pattern: '\\[rgba?\\(.*\\)\\]', // ex: "text-[rgb(255,255,255)]"
+                message: 'No arbitrary rgb values',
+              },
+              {
+                pattern: '\\[hsla?\\(.*\\)\\]', // ex: "text-[hsl(255,255,255)]"
+                message: 'No arbitrary hsl values',
+              },
+              {
+                pattern: '^.*!$', // ex: "p-4!"
+                message: 'No !important modifiers',
+              },
+              {
+                pattern: '^\\*+:.*', // ex: "*:mx-0",
+                message: 'No child variants',
+              },
+            ],
+          },
+        ],
       },
     },
   ],

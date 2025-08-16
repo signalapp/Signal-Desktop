@@ -3,11 +3,8 @@
 
 import type { KeyboardEvent } from 'react';
 import React from 'react';
-
 import type { AttachmentType } from '../../types/Attachment';
 import { canBeDownloaded, isDownloaded } from '../../types/Attachment';
-import { getSizeClass } from '../emoji/lib';
-
 import type { ShowConversationType } from '../../state/ducks/conversations';
 import type { HydratedBodyRangesType } from '../../types/BodyRange';
 import type { LocalizerType } from '../../types/Util';
@@ -15,6 +12,32 @@ import { MessageTextRenderer } from './MessageTextRenderer';
 import type { RenderLocation } from './MessageTextRenderer';
 import { UserText } from '../UserText';
 import { shouldLinkifyMessage } from '../../types/LinkPreview';
+import { FunJumboEmojiSize } from '../fun/FunEmoji';
+import { getEmojifyData } from '../fun/data/emojis';
+
+function getSizeClass(str: string): FunJumboEmojiSize | null {
+  const emojifyData = getEmojifyData(str);
+  // Do we have non-emoji characters?
+  if (!emojifyData.isEmojiOnlyText) {
+    return null;
+  }
+  if (emojifyData.emojiCount === 1) {
+    return FunJumboEmojiSize.Max;
+  }
+  if (emojifyData.emojiCount === 2) {
+    return FunJumboEmojiSize.ExtraLarge;
+  }
+  if (emojifyData.emojiCount === 3) {
+    return FunJumboEmojiSize.Large;
+  }
+  if (emojifyData.emojiCount === 4) {
+    return FunJumboEmojiSize.Medium;
+  }
+  if (emojifyData.emojiCount === 5) {
+    return FunJumboEmojiSize.Small;
+  }
+  return null;
+}
 
 export type Props = {
   author?: string;
@@ -37,6 +60,7 @@ export type Props = {
     AttachmentType,
     'pending' | 'digest' | 'key' | 'wasTooBig' | 'path'
   >;
+  originalText: string;
 };
 
 /**
@@ -61,14 +85,16 @@ export function MessageBody({
   showConversation,
   text,
   textAttachment,
+  originalText,
 }: Props): JSX.Element {
-  const shouldDisableLinks = disableLinks || !shouldLinkifyMessage(text);
+  const shouldDisableLinks =
+    disableLinks || !shouldLinkifyMessage(originalText);
   const textWithSuffix =
     textAttachment?.pending || onIncreaseTextLength || textAttachment?.wasTooBig
       ? `${text}...`
       : text;
 
-  const sizeClass = disableJumbomoji ? undefined : getSizeClass(text);
+  const sizeClass = disableJumbomoji ? null : getSizeClass(text);
 
   let endNotification: React.ReactNode;
   if (onIncreaseTextLength) {
@@ -150,10 +176,11 @@ export function MessageBody({
         bodyRanges={bodyRanges ?? []}
         direction={direction}
         disableLinks={shouldDisableLinks}
-        emojiSizeClass={sizeClass}
+        jumboEmojiSize={sizeClass}
         i18n={i18n}
         isSpoilerExpanded={isSpoilerExpanded}
         messageText={textWithSuffix}
+        originalMessageText={originalText}
         onMentionTrigger={conversationId =>
           showConversation?.({ conversationId })
         }

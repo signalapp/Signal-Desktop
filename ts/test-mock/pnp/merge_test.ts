@@ -1,6 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { timingSafeEqual } from 'node:crypto';
 import { assert } from 'chai';
 import { ServiceIdKind, Proto, StorageState } from '@signalapp/mock-server';
 import type { PrimaryDevice } from '@signalapp/mock-server';
@@ -10,7 +11,6 @@ import Long from 'long';
 import * as durations from '../../util/durations';
 import { uuidToBytes } from '../../util/uuidToBytes';
 import { generateConfigMatrix } from '../../util/generateConfigMatrix';
-import { toUntaggedPni } from '../../types/ServiceId';
 import { MY_STORY_ID } from '../../types/Stories';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
@@ -49,7 +49,6 @@ describe('pnp/merge', function (this: Mocha.Suite) {
 
     state = state.updateAccount({
       profileKey: phone.profileKey.serialize(),
-      e164: phone.device.number,
     });
 
     state = state.addContact(
@@ -60,7 +59,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
 
         identityKey: pniIdentityKey,
 
-        serviceE164: pniContact.device.number,
+        e164: pniContact.device.number,
         givenName: 'PNI Contact',
       },
       ServiceIdKind.PNI
@@ -70,7 +69,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       identityState: Proto.ContactRecord.IdentityState.DEFAULT,
       whitelisted: true,
 
-      serviceE164: undefined,
+      e164: undefined,
       identityKey: aciIdentityKey,
       givenName: 'ACI Contact',
     });
@@ -88,7 +87,6 @@ describe('pnp/merge', function (this: Mocha.Suite) {
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: true,
           name: MY_STORY_ID,
-          recipientServiceIds: [],
         },
       },
     });
@@ -134,7 +132,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       {
         const compositionInput = await waitForEnabledComposer(window);
 
-        await typeIntoInput(compositionInput, 'Hello ACI');
+        await typeIntoInput(compositionInput, 'Hello ACI', '');
         await compositionInput.press('Enter');
       }
 
@@ -161,7 +159,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
         debug('Send message to PNI');
         const compositionInput = await waitForEnabledComposer(window);
 
-        await typeIntoInput(compositionInput, 'Hello PNI');
+        await typeIntoInput(compositionInput, 'Hello PNI', '');
         await compositionInput.press('Enter');
       }
 
@@ -274,7 +272,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       {
         const compositionInput = await waitForEnabledComposer(window);
 
-        await typeIntoInput(compositionInput, 'Hello merged');
+        await typeIntoInput(compositionInput, 'Hello merged', '');
         await compositionInput.press('Enter');
       }
 
@@ -283,8 +281,8 @@ describe('pnp/merge', function (this: Mocha.Suite) {
         let state = await phone.expectStorageState('consistency check');
 
         state = state.updateContact(pniContact, {
-          pni: undefined,
-          serviceE164: undefined,
+          pniBinary: undefined,
+          e164: undefined,
           unregisteredAtTimestamp: Long.fromNumber(bootstrap.getTimestamp()),
         });
 
@@ -297,7 +295,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
 
               identityKey: pniIdentityKey,
 
-              serviceE164: pniContact.device.number,
+              e164: pniContact.device.number,
               givenName: 'PNI Contact',
             },
             ServiceIdKind.PNI
@@ -341,7 +339,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
     });
   }
 
-  it('splits contact when ACI becomes unregistered', async () => {
+  it('splits ACI/PNI/e164 contact when it becomes unregistered', async () => {
     const { phone, server } = bootstrap;
 
     debug(
@@ -384,7 +382,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
     {
       const compositionInput = await waitForEnabledComposer(window);
 
-      await typeIntoInput(compositionInput, 'Hello merged');
+      await typeIntoInput(compositionInput, 'Hello merged', '');
       await compositionInput.press('Enter');
     }
 
@@ -404,25 +402,34 @@ describe('pnp/merge', function (this: Mocha.Suite) {
           throw new Error('Invalid record');
         }
 
-        const { aci, serviceE164, pni } = contact;
-        if (aci === pniContact.device.aci) {
+        const { aciBinary, e164, pniBinary } = contact;
+        if (
+          aciBinary?.length &&
+          timingSafeEqual(aciBinary, pniContact.device.aciRawUuid)
+        ) {
           aciContacts += 1;
-          assert.strictEqual(pni, '');
-          assert.strictEqual(serviceE164, '');
-        } else if (pni === toUntaggedPni(pniContact.device.pni)) {
+          assert.strictEqual(pniBinary?.length, 0);
+          assert.strictEqual(e164, '');
+        } else if (
+          pniBinary?.length &&
+          timingSafeEqual(pniBinary, pniContact.device.pniRawUuid)
+        ) {
           pniContacts += 1;
-          assert.strictEqual(aci, '');
-          assert.strictEqual(serviceE164, pniContact.device.number);
+          assert.strictEqual(aciBinary?.length, 0);
+          assert.strictEqual(e164, pniContact.device.number);
         }
       }
       assert.strictEqual(aciContacts, 1);
       assert.strictEqual(pniContacts, 1);
 
-      assert.strictEqual(
-        removed[0].contact?.pni,
-        toUntaggedPni(pniContact.device.pni)
+      assert.deepEqual(
+        removed[0].contact?.pniBinary,
+        pniContact.device.pniRawUuid
       );
-      assert.strictEqual(removed[0].contact?.aci, pniContact.device.aci);
+      assert.deepEqual(
+        removed[0].contact?.aciBinary,
+        pniContact.device.aciRawUuid
+      );
 
       // Pin PNI so that it appears in the left pane
       const updated = newState.pin(pniContact, ServiceIdKind.PNI);
@@ -446,12 +453,105 @@ describe('pnp/merge', function (this: Mocha.Suite) {
 
     debug('Wait for ACI conversation to go away');
     await window
-      .locator(`.module-conversation-hero >> ${pniContact.profileName}`)
+      .locator(`.module-conversation-hero >> "${pniContact.profileName}"`)
       .waitFor({
         state: 'hidden',
       });
 
     debug('Verify absence of messages in the PNI conversation');
+    {
+      const messages = window.locator('.module-message__text');
+      assert.strictEqual(await messages.count(), 0, 'message count');
+    }
+  });
+
+  it('splits ACI/e164 contact when it becomes unregistered', async () => {
+    const { phone, desktop, server } = bootstrap;
+    const aciContact = pniContact;
+
+    debug('clearing storage service, starting over with ACI/e164 contact');
+    {
+      let state = await phone.expectStorageState('consistency check');
+      state = state.removeContact(pniContact, ServiceIdKind.PNI);
+      state = state.addContact(
+        aciContact,
+        {
+          identityState: Proto.ContactRecord.IdentityState.DEFAULT,
+          whitelisted: true,
+
+          identityKey: aciIdentityKey,
+
+          e164: aciContact.device.number,
+          givenName: 'ACI Contact',
+        },
+        ServiceIdKind.ACI
+      );
+      state = state.pin(aciContact, ServiceIdKind.ACI);
+
+      await phone.setStorageState(state);
+      await phone.sendFetchStorage({
+        timestamp: bootstrap.getTimestamp(),
+      });
+      await app.waitForManifestVersion(state.version);
+    }
+
+    debug('Receive message from contact');
+
+    const desktopKey = await desktop.popSingleUseKey();
+    await aciContact.addSingleUseKey(desktop, desktopKey);
+
+    await aciContact.sendText(desktop, 'Hello from ACI');
+
+    debug('Unregistering ACI');
+    server.unregister(aciContact);
+
+    debug('opening conversation with the contact');
+    const window = await app.getWindow();
+    const leftPane = window.locator('#LeftPane');
+    await leftPane
+      .locator(
+        `[data-testid="${aciContact.device.aci}"] >> ` +
+          `"${aciContact.profileName}"`
+      )
+      .click();
+
+    await window.locator('.module-conversation-hero').waitFor();
+
+    debug('Verify that the message is in the ACI conversation');
+    {
+      await window
+        .locator('.module-message__text >> "Hello from ACI"')
+        .waitFor();
+
+      const messages = window.locator('.module-message__text');
+      assert.strictEqual(await messages.count(), 1, 'message count');
+    }
+
+    debug('Find and open e164 conversation');
+    const searchBox = window.locator(
+      '.module-SearchInput__input.LeftPaneSearchInput__input'
+    );
+
+    await typeIntoInput(searchBox, aciContact.device.number, '');
+    const firstSearchResult = await window.locator(
+      '.module-contact-name.module-conversation-list__item--contact-or-conversation__content__header__name__contact-name'
+    );
+    const firstSearchResultText = await firstSearchResult.innerText();
+    assert.equal(
+      firstSearchResultText.slice(-4),
+      aciContact.device.number.slice(-4),
+      'no profile, just phone number'
+    );
+    await firstSearchResult.click();
+
+    debug('Wait for ACI conversation to go away');
+    await window
+      .locator(`.module-conversation-hero >> "${pniContact.profileName}"`)
+      .waitFor({
+        state: 'hidden',
+      });
+
+    debug('Verify absence of messages in the e164 conversation');
     {
       const messages = window.locator('.module-message__text');
       assert.strictEqual(await messages.count(), 0, 'message count');
@@ -464,12 +564,12 @@ describe('pnp/merge', function (this: Mocha.Suite) {
     for (const key of ['aci' as const, 'pni' as const]) {
       debug(`Send a ${key} sync message`);
       const timestamp = bootstrap.getTimestamp();
-      const destinationServiceId = pniContact.device[key];
+      const destinationServiceIdBinary = pniContact.device[`${key}Binary`];
       const destination = key === 'pni' ? pniContact.device.number : undefined;
       const content = {
         syncMessage: {
           sent: {
-            destinationServiceId,
+            destinationServiceIdBinary,
             destination,
             timestamp: Long.fromNumber(timestamp),
             message: {
@@ -480,7 +580,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
             },
             unidentifiedStatus: [
               {
-                destinationServiceId,
+                destinationServiceIdBinary,
                 destination,
               },
             ],
@@ -531,7 +631,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
     {
       const compositionInput = await waitForEnabledComposer(window);
 
-      await typeIntoInput(compositionInput, 'Hello merged');
+      await typeIntoInput(compositionInput, 'Hello merged', '');
       await compositionInput.press('Enter');
     }
 

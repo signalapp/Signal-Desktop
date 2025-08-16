@@ -37,7 +37,6 @@ export type PropsDataType = {
   | 'sharedGroupNames'
   | 'title'
   | 'type'
-  | 'unblurredAvatarUrl'
   | 'serviceId'
 >;
 
@@ -55,7 +54,6 @@ type PropsType = PropsDataType & PropsHousekeepingType;
 export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
   function ContactCheckbox({
     about,
-    acceptedMessageRequest,
     avatarUrl,
     badge,
     color,
@@ -71,7 +69,6 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
     theme,
     title,
     type,
-    unblurredAvatarUrl,
   }) {
     const disabled = Boolean(disabledReason);
 
@@ -103,19 +100,16 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
         isChecked={isChecked}
         leading={
           <Avatar
-            acceptedMessageRequest={acceptedMessageRequest}
             avatarUrl={avatarUrl}
             color={color}
             conversationType={type}
             noteToSelf={Boolean(isMe)}
             i18n={i18n}
-            isMe={isMe}
             phoneNumber={phoneNumber}
             profileName={profileName}
             title={title}
             sharedGroupNames={sharedGroupNames}
             size={AvatarSize.THIRTY_TWO}
-            unblurredAvatarUrl={unblurredAvatarUrl}
             // appease the type checker.
             {...(badge ? { badge, theme } : { badge: undefined })}
           />

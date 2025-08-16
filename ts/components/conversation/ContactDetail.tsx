@@ -1,30 +1,34 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useCallback } from 'react';
+import classNames from 'classnames';
+
 import type { ReadonlyDeep } from 'type-fest';
 
-import type {
-  EmbeddedContactType,
-  Email,
-  Phone,
-  PostalAddress,
-} from '../../types/EmbeddedContact';
 import { AddressType, ContactFormType } from '../../types/EmbeddedContact';
 import { missingCaseError } from '../../util/missingCaseError';
-
 import {
   renderAvatar,
   renderContactShorthand,
   renderName,
 } from './contactUtil';
 
+import type {
+  EmbeddedContactForUIType,
+  Email,
+  Phone,
+  PostalAddress,
+} from '../../types/EmbeddedContact';
 import type { LocalizerType } from '../../types/Util';
 
 export type Props = {
-  contact: ReadonlyDeep<EmbeddedContactType>;
+  cancelAttachmentDownload: (options: { messageId: string }) => void;
+  contact: ReadonlyDeep<EmbeddedContactForUIType>;
   hasSignalAccount: boolean;
   i18n: LocalizerType;
+  kickOffAttachmentDownload: (options: { messageId: string }) => void;
+  messageId: string;
   onSendMessage: () => void;
 };
 
@@ -75,9 +79,12 @@ function getLabelForAddress(
 }
 
 export function ContactDetail({
+  cancelAttachmentDownload,
   contact,
   hasSignalAccount,
   i18n,
+  kickOffAttachmentDownload,
+  messageId,
   onSendMessage,
 }: Props): JSX.Element {
   // We don't want the overall click handler for this element to fire, so we stop
@@ -90,11 +97,52 @@ export function ContactDetail({
   const isIncoming = false;
   const module = 'contact-detail';
 
+  const maybeDownload = useCallback(() => {
+    const attachment = contact.avatar?.avatar;
+    if (!attachment) {
+      return;
+    }
+    if (attachment.isPermanentlyUndownloadable) {
+      return;
+    }
+    if (attachment.pending) {
+      cancelAttachmentDownload({ messageId });
+      return;
+    }
+    if (!attachment.path) {
+      kickOffAttachmentDownload({ messageId });
+    }
+  }, [cancelAttachmentDownload, contact, kickOffAttachmentDownload, messageId]);
+  const attachment = contact.avatar?.avatar;
+  const isClickable =
+    attachment &&
+    !attachment.isPermanentlyUndownloadable &&
+    (attachment.pending || !attachment.path);
+
   return (
     <div className="module-contact-detail">
-      <div className="module-contact-detail__avatar">
-        {renderAvatar({ contact, i18n, size: 80 })}
-      </div>
+      <button
+        className={classNames(
+          'module-contact-detail__avatar',
+          isClickable ? 'module-contact-detail__avatar--clickable' : undefined
+        )}
+        type="button"
+        onClick={(event: React.MouseEvent) => {
+          event?.stopPropagation();
+          event.preventDefault();
+          maybeDownload();
+        }}
+        onKeyDown={(event: React.KeyboardEvent) => {
+          if (event.key !== 'Enter' && event.key !== ' ') {
+            return;
+          }
+          event?.stopPropagation();
+          event.preventDefault();
+          maybeDownload();
+        }}
+      >
+        {renderAvatar({ contact, direction: 'incoming', i18n, size: 80 })}
+      </button>
       {renderName({ contact, isIncoming, module })}
       {renderContactShorthand({ contact, isIncoming, module })}
 

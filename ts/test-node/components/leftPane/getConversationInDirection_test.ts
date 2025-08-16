@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import type { ToFindType } from '../../../components/leftPane/LeftPaneHelper';
 import { FindDirection } from '../../../components/leftPane/LeftPaneHelper';
-import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation';
 
 import { getConversationInDirection } from '../../../components/leftPane/getConversationInDirection';
 

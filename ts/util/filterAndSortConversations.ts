@@ -64,6 +64,17 @@ type CommandRunnerType = (
 
 const COMMANDS = new Map<string, CommandRunnerType>();
 
+function filterConversationsByUnread(
+  conversations: ReadonlyArray<ConversationType>,
+  includeMuted: boolean
+): Array<ConversationType> {
+  return conversations.filter(conversation => {
+    return hasUnread(
+      countConversationUnreadStats(conversation, { includeMuted })
+    );
+  });
+}
+
 COMMANDS.set('serviceIdEndsWith', (conversations, query) => {
   return conversations.filter(convo => convo.serviceId?.endsWith(query));
 });
@@ -95,11 +106,7 @@ COMMANDS.set('unread', (conversations, query) => {
     /^(?:m|muted)$/i.test(query) ||
     window.storage.get('badge-count-muted-conversations') ||
     false;
-  return conversations.filter(conversation => {
-    return hasUnread(
-      countConversationUnreadStats(conversation, { includeMuted })
-    );
-  });
+  return filterConversationsByUnread(conversations, includeMuted);
 });
 
 // See https://fusejs.io/examples.html#extended-search for
@@ -157,14 +164,29 @@ function sortAlphabetically(a: ConversationType, b: ConversationType) {
 export function filterAndSortConversations(
   conversations: ReadonlyArray<ConversationType>,
   searchTerm: string,
-  regionCode: string | undefined
+  regionCode: string | undefined,
+  filterByUnread: boolean = false,
+  conversationToInject?: ConversationType
 ): Array<ConversationType> {
+  let filteredConversations = filterByUnread
+    ? filterConversationsByUnread(conversations, true)
+    : conversations;
+
+  if (conversationToInject) {
+    filteredConversations = [...filteredConversations, conversationToInject];
+  }
+
   if (searchTerm.length) {
     const now = Date.now();
+    const withoutUnknownAndFiltered = filteredConversations.filter(
+      item => item.titleNoDefault
+    );
 
-    const withoutUnknown = conversations.filter(item => item.titleNoDefault);
-
-    return searchConversations(withoutUnknown, searchTerm, regionCode)
+    return searchConversations(
+      withoutUnknownAndFiltered,
+      searchTerm,
+      regionCode
+    )
       .slice()
       .sort((a, b) => {
         const { activeAt: aActiveAt = 0, left: aLeft = false } = a.item;
@@ -190,7 +212,7 @@ export function filterAndSortConversations(
       .map(result => result.item);
   }
 
-  return conversations.concat().sort((a, b) => {
+  return filteredConversations.concat().sort((a, b) => {
     const aScore = a.activeAt ?? 0;
     const bScore = b.activeAt ?? 0;
     const score = bScore - aScore;

@@ -4,7 +4,7 @@
 import type { ThunkAction } from 'redux-thunk';
 import { omit } from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import * as Errors from '../../types/errors';
 import { replaceIndex } from '../../util/replaceIndex';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
@@ -12,8 +12,11 @@ import { useBoundActions } from '../../hooks/useBoundActions';
 import type { StateType as RootStateType } from '../reducer';
 import { DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES } from '../../reactions/constants';
 import { getPreferredReactionEmoji } from '../../reactions/preferredReactionEmoji';
-import { getEmojiSkinTone } from '../selectors/items';
+import { getEmojiSkinToneDefault } from '../selectors/items';
 import { convertShortName } from '../../components/emoji/lib';
+import { EmojiSkinTone } from '../../components/fun/data/emojis';
+
+const log = createLogger('preferredReactions');
 
 // State
 
@@ -69,7 +72,7 @@ type ReplaceSelectedDraftEmojiActionType = ReadonlyDeep<{
 
 type ResetDraftEmojiActionType = ReadonlyDeep<{
   type: typeof RESET_DRAFT_EMOJI;
-  payload: { skinTone: number };
+  payload: { emojiSkinTone: EmojiSkinTone };
 }>;
 
 type SavePreferredReactionsFulfilledActionType = ReadonlyDeep<{
@@ -123,7 +126,7 @@ function openCustomizePreferredReactionsModal(): ThunkAction<
     const state = getState();
     const originalPreferredReactions = getPreferredReactionEmoji(
       getState().items.preferredReactionEmoji,
-      getEmojiSkinTone(state)
+      getEmojiSkinToneDefault(state) ?? EmojiSkinTone.None
     );
     dispatch({
       type: OPEN_CUSTOMIZE_PREFERRED_REACTIONS_MODAL,
@@ -148,8 +151,9 @@ function resetDraftEmoji(): ThunkAction<
   ResetDraftEmojiActionType
 > {
   return (dispatch, getState) => {
-    const skinTone = getEmojiSkinTone(getState());
-    dispatch({ type: RESET_DRAFT_EMOJI, payload: { skinTone } });
+    const emojiSkinTone =
+      getEmojiSkinToneDefault(getState()) ?? EmojiSkinTone.None;
+    dispatch({ type: RESET_DRAFT_EMOJI, payload: { emojiSkinTone } });
   };
 }
 
@@ -280,7 +284,7 @@ export function reducer(
       };
     }
     case RESET_DRAFT_EMOJI: {
-      const { skinTone } = action.payload;
+      const { emojiSkinTone } = action.payload;
       if (!state.customizePreferredReactionsModal) {
         return state;
       }
@@ -290,7 +294,7 @@ export function reducer(
           ...state.customizePreferredReactionsModal,
           draftPreferredReactions:
             DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES.map(shortName =>
-              convertShortName(shortName, skinTone)
+              convertShortName(shortName, emojiSkinTone)
             ),
           selectedDraftEmojiIndex: undefined,
         },

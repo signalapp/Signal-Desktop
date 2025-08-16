@@ -1,31 +1,18 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
+import type { ProfilerOnRenderCallback, ReactNode } from 'react';
 import React from 'react';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 
-type InternalPropsType = Readonly<{
-  id: string;
-  children: ReactNode;
-
-  onRender(
-    id: string,
-    phase: 'mount' | 'update',
-    actualDuration: number,
-    baseDuration: number,
-    startTime: number,
-    commitTime: number,
-    interactions: Set<unknown>
-  ): void;
-}>;
+const log = createLogger('Profiler');
 
 export type PropsType = Readonly<{
   id: string;
   children: ReactNode;
 }>;
 
-const onRender: InternalPropsType['onRender'] = (
+const onRender: ProfilerOnRenderCallback = (
   id,
   phase,
   actual,
@@ -34,7 +21,7 @@ const onRender: InternalPropsType['onRender'] = (
   commit
 ) => {
   log.info(
-    `Profiler.tsx(${id}): actual=${actual.toFixed(1)}ms phase=${phase} ` +
+    `tsx(${id}): actual=${actual.toFixed(1)}ms phase=${phase} ` +
       `base=${base.toFixed(1)}ms start=${start.toFixed(1)}ms ` +
       `commit=${commit.toFixed(1)}ms`
   );

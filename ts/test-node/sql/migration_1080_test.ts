@@ -4,9 +4,9 @@
 import { assert } from 'chai';
 import { v4 as generateGuid } from 'uuid';
 
-import type { WritableDB } from '../../sql/Interface';
-import { getMostRecentAddressableNondisappearingMessages } from '../../sql/Server';
-import { createDB, insertData, updateToVersion } from './helpers';
+import type { WritableDB, ReadableDB, MessageType } from '../../sql/Interface';
+import { sql, jsonToObject } from '../../sql/util';
+import { createDB, insertData, updateToVersion, explain } from './helpers';
 
 import type { MessageAttributesType } from '../../model-types';
 import { DurationInSeconds } from '../../util/durations/duration-in-seconds';
@@ -24,6 +24,28 @@ function generateMessage(json: MessageAttributesType) {
     expireTimer: Number(expireTimer),
     type,
   };
+}
+
+// Snapshot before: 1270
+export function getMostRecentAddressableNondisappearingMessages(
+  db: ReadableDB,
+  conversationId: string,
+  limit = 5
+): Array<MessageType> {
+  const [query, parameters] = sql`
+    SELECT json FROM messages
+    INDEXED BY messages_by_date_addressable_nondisappearing
+    WHERE
+      expireTimer IS NULL AND
+      conversationId IS ${conversationId} AND
+      isAddressableMessage = 1
+    ORDER BY received_at DESC, sent_at DESC
+    LIMIT ${limit};
+  `;
+
+  const rows = db.prepare(query).all<{ json: string }>(parameters);
+
+  return rows.map(row => jsonToObject(row.json));
 }
 
 describe('SQL/updateToSchemaVersion1080', () => {
@@ -137,10 +159,9 @@ describe('SQL/updateToSchemaVersion1080', () => {
     });
 
     it('ensures that index is used for getMostRecentAddressableNondisappearingMessagesSync, with storyId', () => {
-      const { detail } = db
-        .prepare(
-          `
-          EXPLAIN QUERY PLAN
+      const detail = explain(
+        db,
+        sql`
           SELECT json FROM messages
           INDEXED BY messages_by_date_addressable_nondisappearing
           WHERE
@@ -150,8 +171,7 @@ describe('SQL/updateToSchemaVersion1080', () => {
           ORDER BY received_at DESC, sent_at DESC
           LIMIT 5;
           `
-        )
-        .get();
+      );
 
       assert.notInclude(detail, 'B-TREE');
       assert.notInclude(detail, 'SCAN');

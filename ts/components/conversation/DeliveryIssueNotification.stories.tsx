@@ -3,17 +3,15 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
 import type { PropsType } from './DeliveryIssueNotification';
 import { DeliveryIssueNotification } from './DeliveryIssueNotification';
-import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
 
 export default {
   title: 'Components/Conversation/DeliveryIssueNotification',
 } satisfies Meta<PropsType>;
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 const sender = getDefaultConversation();
 
 export function Default(): JSX.Element {

@@ -1,6 +1,9 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .ProgressCircle {
   fill: none;
   transform: rotate(-90deg);
@@ -11,14 +14,14 @@
   }
 
   .ProgressCircle__background {
-    stroke: $color-gray-20;
-    @include dark-theme() {
-      stroke: $color-gray-60;
+    stroke: variables.$color-gray-20;
+    @include mixins.dark-theme() {
+      stroke: variables.$color-gray-60;
     }
   }
 
   .ProgressCircle__fill {
-    stroke: $color-ultramarine;
+    stroke: variables.$color-ultramarine;
     stroke-linecap: round;
     transition: stroke-dashoffset 500ms ease-out;
   }

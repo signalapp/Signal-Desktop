@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import classNames from 'classnames';
-import React, { useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useRef, useCallback, useMemo, useLayoutEffect } from 'react';
 import type { Index, ListRowRenderer } from 'react-virtualized';
 import { List } from 'react-virtualized';
 import { ScrollBehavior } from '../types/Util';
@@ -38,12 +38,12 @@ export function ListView({
 }: Props): JSX.Element {
   const listRef = useRef<null | List>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const list = listRef.current;
     if (shouldRecomputeRowHeights && list) {
       list.recomputeRowHeights();
     }
-  });
+  }, [shouldRecomputeRowHeights]);
 
   const rowHeight = useCallback(
     (index: Index) => calculateRowHeight(index.index),
@@ -52,10 +52,9 @@ export function ListView({
 
   const style: React.CSSProperties = useMemo(() => {
     return {
-      // See `<Timeline>` for an explanation of this `any` cast.
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      overflowY: scrollable ? ('overlay' as any) : 'hidden',
+      overflowY: scrollable ? 'auto' : 'hidden',
       direction: 'inherit',
+      scrollbarGutter: 'stable',
     };
   }, [scrollable]);
 

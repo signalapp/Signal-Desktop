@@ -99,6 +99,17 @@ function useHasAnyOverlay(): boolean {
   return panels || globalModal || calling;
 }
 
+export function isKeyboardActivation(event: KeyboardEvent): boolean {
+  if (
+    hasExactModifiers(event, 'none') &&
+    (event.key === 'Enter' || event.key === 'Space')
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
 export function useActiveCallShortcuts(
   hangUp: (reason: string) => unknown
 ): KeyboardShortcutHandlerType {

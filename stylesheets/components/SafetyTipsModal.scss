@@ -1,6 +1,9 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 $SafetyTipsModal__paddingInline: 32px;
 $SafetyTipsModal__paddingBlock: 24px;
 
@@ -11,7 +14,7 @@ $SafetyTipsModal__paddingBlock: 24px;
 
   .module-Modal__title {
     padding-top: 20px;
-    @include font-title-1;
+    @include mixins.font-title-1;
     text-align: center;
   }
 
@@ -35,12 +38,12 @@ $SafetyTipsModal__paddingBlock: 24px;
   padding-inline: $SafetyTipsModal__paddingInline;
   padding-bottom: 24px;
   text-align: center;
-  @include font-body-1;
-  @include light-theme {
-    color: $color-gray-60;
+  @include mixins.font-body-1;
+  @include mixins.light-theme {
+    color: variables.$color-gray-60;
   }
-  @include dark-theme {
-    color: $color-gray-25;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-25;
   }
 }
 
@@ -56,14 +59,14 @@ $SafetyTipsModal__paddingBlock: 24px;
 .SafetyTipsModal__Button--Previous {
   &,
   &:is(:disabled, [aria-disabled='true']) {
-    @include any-theme {
+    @include mixins.any-theme {
       background: transparent;
     }
-    @include light-theme {
-      color: $color-accent-blue;
+    @include mixins.light-theme {
+      color: variables.$color-accent-blue;
     }
-    @include dark-theme {
-      color: $color-white;
+    @include mixins.dark-theme {
+      color: variables.$color-white;
     }
   }
 
@@ -74,20 +77,20 @@ $SafetyTipsModal__paddingBlock: 24px;
   &:not(:disabled):not([aria-disabled='true']) {
     &:hover,
     &:focus {
-      @include light-theme {
-        background: $color-gray-15;
+      @include mixins.light-theme {
+        background: variables.$color-gray-15;
       }
-      @include dark-theme {
-        background: $color-gray-65;
+      @include mixins.dark-theme {
+        background: variables.$color-gray-65;
       }
     }
 
     &:active {
-      @include light-theme {
-        background: $color-gray-20;
+      @include mixins.light-theme {
+        background: variables.$color-gray-20;
       }
-      @include dark-theme {
-        background: $color-gray-60;
+      @include mixins.dark-theme {
+        background: variables.$color-gray-60;
       }
     }
   }
@@ -110,11 +113,11 @@ $SafetyTipsModal__paddingBlock: 24px;
   padding-inline: 12px;
   border-radius: 18px;
   text-align: center;
-  @include light-theme {
-    background: $color-gray-02;
+  @include mixins.light-theme {
+    background: variables.$color-gray-02;
   }
-  @include dark-theme {
-    background: $color-gray-75;
+  @include mixins.dark-theme {
+    background: variables.$color-gray-75;
   }
 }
 
@@ -123,33 +126,33 @@ $SafetyTipsModal__paddingBlock: 24px;
   height: auto;
   vertical-align: top;
   border-radius: 12px;
-  @include light-theme {
+  @include mixins.light-theme {
     background: white;
   }
-  @include dark-theme {
-    background: $color-gray-65;
+  @include mixins.dark-theme {
+    background: variables.$color-gray-65;
   }
 }
 
 .SafetyTipsModal__CardTitle {
   margin-block: 14px 0;
-  @include font-title-2;
-  @include light-theme {
-    color: $color-gray-90;
+  @include mixins.font-title-2;
+  @include mixins.light-theme {
+    color: variables.$color-gray-90;
   }
-  @include dark-theme {
-    color: $color-gray-05;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-05;
   }
 }
 
 .SafetyTipsModal__CardDescription {
   margin-block: 8px 0;
-  @include font-body-1;
-  @include light-theme {
-    color: $color-gray-62;
+  @include mixins.font-body-1;
+  @include mixins.light-theme {
+    color: variables.$color-gray-62;
   }
-  @include dark-theme {
-    color: $color-gray-20;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-20;
   }
 }
 
@@ -160,8 +163,10 @@ $SafetyTipsModal__paddingBlock: 24px;
 }
 
 .SafetyTipsModal__DotsButton {
-  @include button-reset;
-  padding: 4px;
+  @include mixins.button-reset;
+  & {
+    padding: 4px;
+  }
 
   &::before {
     content: '';
@@ -170,11 +175,11 @@ $SafetyTipsModal__paddingBlock: 24px;
     height: 8px;
     border-radius: 9999px;
     transition: background 100ms ease;
-    @include light-theme {
-      background: rgba($color-black, 30%);
+    @include mixins.light-theme {
+      background: rgba(variables.$color-black, 30%);
     }
-    @include dark-theme {
-      background: rgba($color-white, 30%);
+    @include mixins.dark-theme {
+      background: rgba(variables.$color-white, 30%);
     }
   }
 
@@ -182,43 +187,43 @@ $SafetyTipsModal__paddingBlock: 24px;
     &:hover,
     &:focus {
       &::before {
-        @include light-theme {
-          background: rgba($color-black, 45%);
+        @include mixins.light-theme {
+          background: rgba(variables.$color-black, 45%);
         }
-        @include dark-theme {
-          background: rgba($color-white, 45%);
+        @include mixins.dark-theme {
+          background: rgba(variables.$color-white, 45%);
         }
       }
     }
   }
 
   &[aria-current]::before {
-    @include light-theme {
-      background: $color-black;
+    @include mixins.light-theme {
+      background: variables.$color-black;
     }
-    @include dark-theme {
-      background: $color-white;
+    @include mixins.dark-theme {
+      background: variables.$color-white;
     }
   }
 
   &:focus {
-    @include keyboard-mode {
+    @include mixins.keyboard-mode {
       &::before {
         box-shadow:
-          0 0 0 2px $color-white,
-          0 0 0 4px $color-accent-blue;
+          0 0 0 2px variables.$color-white,
+          0 0 0 4px variables.$color-accent-blue;
       }
     }
-    @include dark-keyboard-mode {
+    @include mixins.dark-keyboard-mode {
       &::before {
         box-shadow:
-          0 0 0 2px $color-gray-80,
-          0 0 0 4px $color-accent-blue;
+          0 0 0 2px variables.$color-gray-80,
+          0 0 0 4px variables.$color-accent-blue;
       }
     }
   }
 }
 
 .SafetyTipsModal__DotsButtonLabel {
-  @include sr-only;
+  @include mixins.sr-only;
 }

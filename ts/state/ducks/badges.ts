@@ -9,6 +9,8 @@ import type { StateType as RootStateType } from '../reducer';
 import type { BadgeType, BadgeImageType } from '../../badges/types';
 import { getOwn } from '../../util/getOwn';
 import { badgeImageFileDownloader } from '../../badges/badgeImageFileDownloader';
+import { useBoundActions } from '../../hooks/useBoundActions';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 
 /**
  * This duck deals with badge data. Some assumptions it makes:
@@ -52,6 +54,10 @@ export const actions = {
   badgeImageFileDownloaded,
   updateOrCreate,
 };
+
+export const useBadgesActions = (): BoundActionCreatorsMapObject<
+  typeof actions
+> => useBoundActions(actions);
 
 function badgeImageFileDownloaded(
   url: string,

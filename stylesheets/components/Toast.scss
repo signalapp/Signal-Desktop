@@ -1,10 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .Toast {
   $border-radius-px: 8px;
 
-  @include font-body-2;
+  @include mixins.font-body-2;
 
   align-items: stretch;
   border-radius: $border-radius-px;
@@ -17,17 +20,17 @@
   overflow: hidden;
   width: fit-content;
   max-width: 280px;
-  background-color: $color-gray-75;
-  color: $color-gray-05;
-  z-index: $z-index-toast;
+  background-color: variables.$color-gray-75;
+  color: variables.$color-gray-05;
+  z-index: variables.$z-index-toast;
 
   inset-inline-start: 20px;
   text-align: start;
 
   &:focus {
     outline: none;
-    @include keyboard-mode {
-      box-shadow: inset 0px 0px 0px 2px $color-ultramarine;
+    @include mixins.keyboard-mode {
+      box-shadow: inset 0px 0px 0px 2px variables.$color-ultramarine;
     }
   }
 
@@ -49,17 +52,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    @include font-body-2-bold;
+    @include mixins.font-body-2-bold;
     cursor: pointer;
     padding-block: 13px;
     padding-inline: 16px;
     white-space: nowrap;
-    color: $color-ios-blue-tint;
+    color: variables.$color-ios-blue-tint;
 
     &:focus {
       outline: none;
-      @include keyboard-mode {
-        box-shadow: inset 0px 0px 0px 2px $color-ultramarine;
+      @include mixins.keyboard-mode {
+        box-shadow: inset 0px 0px 0px 2px variables.$color-ultramarine;
       }
     }
   }

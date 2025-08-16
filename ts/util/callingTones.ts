@@ -11,11 +11,15 @@ const ringtoneEventQueue = new PQueue({
   throwOnTimeout: true,
 });
 
+function getCallRingtoneNotificationSetting(): boolean {
+  return window.storage.get('call-ringtone-notification', true);
+}
+
 class CallingTones {
-  private ringtone?: Sound;
+  #ringtone?: Sound;
 
   async handRaised() {
-    const canPlayTone = window.Events.getCallRingtoneNotification();
+    const canPlayTone = getCallRingtoneNotificationSetting();
     if (!canPlayTone) {
       return;
     }
@@ -28,7 +32,7 @@ class CallingTones {
   }
 
   async playEndCall(): Promise<void> {
-    const canPlayTone = window.Events.getCallRingtoneNotification();
+    const canPlayTone = getCallRingtoneNotificationSetting();
     if (!canPlayTone) {
       return;
     }
@@ -41,36 +45,36 @@ class CallingTones {
 
   async playRingtone() {
     await ringtoneEventQueue.add(async () => {
-      if (this.ringtone) {
-        this.ringtone.stop();
-        this.ringtone = undefined;
+      if (this.#ringtone) {
+        this.#ringtone.stop();
+        this.#ringtone = undefined;
       }
 
-      const canPlayTone = window.Events.getCallRingtoneNotification();
+      const canPlayTone = getCallRingtoneNotificationSetting();
       if (!canPlayTone) {
         return;
       }
 
-      this.ringtone = new Sound({
+      this.#ringtone = new Sound({
         loop: true,
         soundType: SoundType.Ringtone,
       });
 
-      await this.ringtone.play();
+      await this.#ringtone.play();
     });
   }
 
   async stopRingtone() {
     await ringtoneEventQueue.add(async () => {
-      if (this.ringtone) {
-        this.ringtone.stop();
-        this.ringtone = undefined;
+      if (this.#ringtone) {
+        this.#ringtone.stop();
+        this.#ringtone = undefined;
       }
     });
   }
 
   async someonePresenting() {
-    const canPlayTone = window.Events.getCallRingtoneNotification();
+    const canPlayTone = getCallRingtoneNotificationSetting();
     if (!canPlayTone) {
       return;
     }

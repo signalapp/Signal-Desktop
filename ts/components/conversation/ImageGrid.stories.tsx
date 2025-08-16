@@ -14,12 +14,22 @@ import {
   VIDEO_MP4,
   stringToMIMEType,
 } from '../../types/MIME';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
 import { pngUrl, squareStickerUrl } from '../../storybook/Fixtures';
-import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
+import { fakeAttachment } from '../../test-helpers/fakeAttachment';
+import { strictAssert } from '../../util/assert';
+import { isDownloadable } from '../../types/Attachment';
+import { toBase64 } from '../../Bytes';
+import { DIGEST_LENGTH, KEY_SET_LENGTH } from '../../types/Crypto';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
+
+const getRandomBytes = (length: number): Uint8Array => {
+  const arr = new Uint8Array(length);
+  return window.crypto.getRandomValues(arr);
+};
+
+const MOCK_KEY = toBase64(getRandomBytes(KEY_SET_LENGTH));
+const MOCK_DIGEST = toBase64(getRandomBytes(DIGEST_LENGTH));
 
 export default {
   title: 'Components/Conversation/ImageGrid',
@@ -44,7 +54,9 @@ export default {
     direction: 'incoming',
     i18n,
     isSticker: false,
-    onClick: action('onClick'),
+    showVisualAttachment: action('showVisualAttachment'),
+    startDownload: action('startDownload'),
+    cancelDownload: action('cancelDownload'),
     onError: action('onError'),
     stickerSize: 0,
     tabIndex: 0,
@@ -57,13 +69,203 @@ export function OneImage(args: Props): JSX.Element {
   return <ImageGrid {...args} />;
 }
 
+export function OneVideo(args: Props): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: VIDEO_MP4,
+        fileName: 'sax.png',
+        height: 1200,
+        url: pngUrl,
+        width: 800,
+        screenshot: {
+          path: 'something',
+          url: pngUrl,
+          contentType: IMAGE_PNG,
+          height: 1200,
+          width: 800,
+        },
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
+}
+
+export function OneVideoNotDownloadedNotPending(args: Props): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: VIDEO_MP4,
+        fileName: 'sax.png',
+        path: undefined,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        url: undefined,
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
+}
+
+export function OneVideoPendingWDownloadQueued(args: Props): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: VIDEO_MP4,
+        fileName: 'sax.png',
+        path: undefined,
+        pending: true,
+        size: 1000000,
+        url: undefined,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
+}
+
+export function OneVideoPendingWDownloadProgress(args: Props): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: VIDEO_MP4,
+        fileName: 'sax.png',
+        path: undefined,
+        pending: true,
+        size: 1000000,
+        totalDownloaded: 300000,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        url: undefined,
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
+}
+
+export function OneVideoDownloadProgressNotPending(args: Props): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: VIDEO_MP4,
+        fileName: 'sax.png',
+        path: undefined,
+        size: 1000000,
+        totalDownloaded: 300000,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        url: undefined,
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
+}
+
+export function OneVideoIncrementalNotDownloadedNotPending(
+  args: Props
+): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: VIDEO_MP4,
+        fileName: 'sax.png',
+        path: undefined,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        url: undefined,
+        incrementalMac: 'something',
+        chunkSize: 100,
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
+}
+
+export function OneVideoIncrementalPendingWDownloadQueued(
+  args: Props
+): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: VIDEO_MP4,
+        incrementalMac: 'something',
+        chunkSize: 100,
+        fileName: 'sax.png',
+        path: undefined,
+        pending: true,
+        size: 1000000,
+        url: undefined,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
+}
+
+export function OneVideoIncrementalPendingWDownloadProgress(
+  args: Props
+): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: VIDEO_MP4,
+        incrementalMac: 'something',
+        chunkSize: 100,
+        fileName: 'sax.png',
+        path: undefined,
+        pending: true,
+        size: 1000000,
+        totalDownloaded: 300000,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        url: undefined,
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
+}
+
+export function OneVideoIncrementalDownloadProgressNotPending(
+  args: Props
+): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: VIDEO_MP4,
+        incrementalMac: 'something',
+        chunkSize: 100,
+        fileName: 'sax.png',
+        path: undefined,
+        size: 1000000,
+        totalDownloaded: 300000,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        url: undefined,
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
+}
+
 export function TwoImages(args: Props): JSX.Element {
   return (
     <ImageGrid
       {...args}
       attachments={[
         fakeAttachment({
-          contentType: IMAGE_PNG,
+          contentType: VIDEO_MP4,
           fileName: 'sax.png',
           height: 1200,
           url: pngUrl,
@@ -79,6 +281,90 @@ export function TwoImages(args: Props): JSX.Element {
       ]}
     />
   );
+}
+
+export function TwoImagesNotDownloaded(args: Props): JSX.Element {
+  return (
+    <ImageGrid
+      {...args}
+      attachments={[
+        fakeAttachment({
+          contentType: VIDEO_MP4,
+          fileName: 'sax.png',
+          height: 1200,
+          width: 800,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+      ]}
+    />
+  );
+}
+
+export function TwoImagesIncrementalNotDownloaded(args: Props): JSX.Element {
+  return (
+    <ImageGrid
+      {...args}
+      attachments={[
+        fakeAttachment({
+          contentType: VIDEO_MP4,
+          fileName: 'sax.png',
+          height: 1200,
+          width: 800,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+          incrementalMac: 'something',
+          chunkSize: 100,
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+      ]}
+    />
+  );
+}
+
+export function TwoImagesPendingWDownloadProgress(args: Props): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'sax.png',
+        path: undefined,
+        pending: true,
+        size: 1000000,
+        totalDownloaded: 300000,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        url: undefined,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'sax.png',
+        path: undefined,
+        pending: true,
+        size: 1000000,
+        totalDownloaded: 300000,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        url: undefined,
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
 }
 
 export function ThreeImages(args: Props): JSX.Element {
@@ -106,6 +392,74 @@ export function ThreeImages(args: Props): JSX.Element {
           height: 1200,
           url: pngUrl,
           width: 800,
+        }),
+      ]}
+    />
+  );
+}
+
+export function ThreeImagesPendingWDownloadProgress(args: Props): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'sax.png',
+        path: undefined,
+        pending: true,
+        size: 1000000,
+        totalDownloaded: 300000,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        url: undefined,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
+}
+
+export function ThreeImagesNotDownloaded(args: Props): JSX.Element {
+  return (
+    <ImageGrid
+      {...args}
+      attachments={[
+        fakeAttachment({
+          contentType: VIDEO_MP4,
+          fileName: 'sax.png',
+          height: 1200,
+          width: 800,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
         }),
       ]}
     />
@@ -144,6 +498,89 @@ export function FourImages(args: Props): JSX.Element {
           height: 1680,
           url: '/fixtures/tina-rolf-269345-unsplash.jpg',
           width: 3000,
+        }),
+      ]}
+    />
+  );
+}
+
+export function FourImagesPendingWDownloadProgress(args: Props): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'sax.png',
+        path: undefined,
+        pending: true,
+        size: 1000000,
+        totalDownloaded: 300000,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        url: undefined,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
+}
+
+export function FourImagesNotDownloaded(args: Props): JSX.Element {
+  return (
+    <ImageGrid
+      {...args}
+      attachments={[
+        fakeAttachment({
+          contentType: VIDEO_MP4,
+          fileName: 'sax.png',
+          height: 1200,
+          width: 800,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
         }),
       ]}
     />
@@ -189,6 +626,104 @@ export function FiveImages(args: Props): JSX.Element {
           height: 1200,
           url: pngUrl,
           width: 800,
+        }),
+      ]}
+    />
+  );
+}
+
+export function FiveImagesPendingWDownloadProgress(args: Props): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'sax.png',
+        path: undefined,
+        pending: true,
+        size: 1000000,
+        totalDownloaded: 300000,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        url: undefined,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
+}
+
+export function FiveImagesNotDownloaded(args: Props): JSX.Element {
+  return (
+    <ImageGrid
+      {...args}
+      attachments={[
+        fakeAttachment({
+          contentType: VIDEO_MP4,
+          fileName: 'sax.png',
+          height: 1200,
+          width: 800,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
         }),
       ]}
     />
@@ -254,6 +789,128 @@ export const _6Images = (args: Props): JSX.Element => {
   );
 };
 
+export function _6ImagesPendingWDownloadProgress(args: Props): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'sax.png',
+        path: undefined,
+        pending: true,
+        size: 1000000,
+        totalDownloaded: 300000,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        url: undefined,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'sax.png',
+        path: undefined,
+        pending: true,
+        size: 1000000,
+        totalDownloaded: 300000,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        url: undefined,
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
+}
+
+export function _6ImagesOneIncrementalNeedDownload(args: Props): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: VIDEO_MP4,
+        fileName: 'sax.png',
+        path: undefined,
+        incrementalMac: 'something',
+        chunkSize: 100,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        url: undefined,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        height: 1680,
+        url: undefined,
+        width: 3000,
+        path: undefined,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        height: 1680,
+        url: undefined,
+        width: 3000,
+        path: undefined,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        height: 1680,
+        url: undefined,
+        width: 3000,
+        path: undefined,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        height: 1680,
+        url: undefined,
+        width: 3000,
+        path: undefined,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        height: 1680,
+        url: undefined,
+        width: 3000,
+        path: undefined,
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
+}
+
 export function MixedContentTypes(args: Props): JSX.Element {
   return (
     <ImageGrid
@@ -266,6 +923,7 @@ export function MixedContentTypes(args: Props): JSX.Element {
           screenshot: {
             height: 112,
             width: 112,
+            size: 128000,
             url: '/fixtures/kitten-4-112-112.jpg',
             contentType: IMAGE_JPEG,
             path: 'originalpath',
@@ -289,6 +947,80 @@ export function MixedContentTypes(args: Props): JSX.Element {
           contentType: AUDIO_MP3,
           fileName: 'incompetech-com-Agnus-Dei-X.mp3',
           url: '/fixtures/incompetech-com-Agnus-Dei-X.mp3',
+        }),
+      ]}
+    />
+  );
+}
+
+export function EightImagesNotDownloaded(args: Props): JSX.Element {
+  return (
+    <ImageGrid
+      {...args}
+      attachments={[
+        fakeAttachment({
+          contentType: VIDEO_MP4,
+          fileName: 'sax.png',
+          height: 1200,
+          width: 800,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          width: 3000,
+          path: undefined,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
         }),
       ]}
     />
@@ -320,4 +1052,38 @@ export function ContentAboveAndBelow(args: Props): JSX.Element {
 
 export function BottomOverlay(args: Props): JSX.Element {
   return <ImageGrid {...args} bottomOverlay />;
+}
+
+export function DownloadPill(args: Props): JSX.Element {
+  const attachment1 = fakeAttachment({
+    contentType: IMAGE_JPEG,
+    fileName: 'tina-rolf-269345-unsplash.jpg',
+    height: 1680,
+    width: 3000,
+    path: undefined,
+    blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+    key: MOCK_KEY,
+    digest: MOCK_DIGEST,
+    cdnKey: 'mock-cdn-key',
+    cdnNumber: 4000,
+  });
+
+  const attachment2 = fakeAttachment({
+    contentType: IMAGE_JPEG,
+    fileName: 'tina-rolf-269345-unsplash.jpg',
+    height: 1680,
+    width: 3000,
+    path: undefined,
+    blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+    key: MOCK_KEY,
+    digest: MOCK_DIGEST,
+    cdnKey: 'mock-cdn-key',
+    cdnNumber: 4000,
+  });
+
+  // Pill only shows if the attachments are downloadable
+  strictAssert(isDownloadable(attachment1), 'attachment1 must be downloadable');
+  strictAssert(isDownloadable(attachment2), 'attachment2 must be downloadable');
+
+  return <ImageGrid {...args} attachments={[attachment1, attachment2]} />;
 }

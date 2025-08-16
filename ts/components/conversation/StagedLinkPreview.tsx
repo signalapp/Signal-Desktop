@@ -8,7 +8,7 @@ import { unescape } from 'lodash';
 import { CurveType, Image } from './Image';
 import { LinkPreviewDate } from './LinkPreviewDate';
 
-import type { LinkPreviewType } from '../../types/message/LinkPreviews';
+import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews';
 import type { LocalizerType } from '../../types/Util';
 import { getClassNamesFor } from '../../util/getClassNamesFor';
 import { isImageAttachment } from '../../types/Attachment';
@@ -17,7 +17,7 @@ import { Avatar } from '../Avatar';
 import { getColorForCallLink } from '../../util/getColorForCallLink';
 import { getKeyFromCallLink } from '../../util/callLinks';
 
-export type Props = LinkPreviewType & {
+export type Props = LinkPreviewForUIType & {
   i18n: LocalizerType;
   imageSize?: number;
   moduleClassName?: string;
@@ -124,12 +124,10 @@ export function Thumbnail({
     return (
       <div className={getClassName('__icon-container-call-link')}>
         <Avatar
-          acceptedMessageRequest
           badge={undefined}
           color={getColorForCallLink(getKeyFromCallLink(url))}
           conversationType="callLink"
           i18n={i18n}
-          isMe={false}
           sharedGroupNames={[]}
           size={64}
           title={title ?? i18n('icu:calling__call-link-default-title')}

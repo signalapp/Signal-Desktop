@@ -1,0 +1,16 @@
+diff --git a/index.d.ts b/index.d.ts
+index eb23f3c479e6d368e1563de7531a8459566d5c56..146769d33ce61f036371c05743cd31fb44d25d49 100644
+--- a/index.d.ts
++++ b/index.d.ts
+@@ -650,9 +650,11 @@ export class client extends events.EventEmitter {
+     on(event: 'connect', cb: (connection: connection) => void): this;
+     on(event: 'connectFailed', cb: (err: Error) => void): this;
+     on(event: 'httpResponse', cb: (response: http.IncomingMessage, client: client) => void): this;
++    on(event: 'upgradeResponse', cb: (response: http.IncomingMessage) => void): this;
+     addListener(event: 'connect', cb: (connection: connection) => void): this;
+     addListener(event: 'connectFailed', cb: (err: Error) => void): this;
+     addListener(event: 'httpResponse', cb: (response: http.IncomingMessage, client: client) => void): this;
++    addListener(event: 'upgradeResponse', cb: (response: http.IncomingMessage) => void): this;
+ }
+ 
+ export interface IRouterRequest extends events.EventEmitter {

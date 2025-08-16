@@ -2,30 +2,34 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ipcRenderer as ipc } from 'electron';
-
 import { groupBy, isTypedArray, last, map, omit } from 'lodash';
+
 import type { ReadonlyDeep } from 'type-fest';
 
-import { deleteExternalFiles } from '../types/Conversation';
-import { update as updateExpiringMessagesService } from '../services/expiringMessagesDeletion';
-import { tapToViewMessagesDeletionService } from '../services/tapToViewMessagesDeletionService';
+// Note: nothing imported here can come back and require Client.ts, and that includes
+// their imports too. That circularity causes problems. Anything that would do that needs
+// to be passed in, like cleanupMessages below.
 import * as Bytes from '../Bytes';
+import { createLogger } from '../logging/log';
+import * as Errors from '../types/errors';
+
+import { deleteExternalFiles } from '../types/Conversation';
 import { createBatcher } from '../util/batcher';
 import { assertDev, softAssert } from '../util/assert';
 import { mapObjectWithSpec } from '../util/mapObjectWithSpec';
-import type { ObjectMappingSpecType } from '../util/mapObjectWithSpec';
 import { cleanDataForIpc } from './cleanDataForIpc';
-import type { AciString, ServiceIdString } from '../types/ServiceId';
 import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
-import * as log from '../logging/log';
 import { isValidUuid, isValidUuidV7 } from '../util/isValidUuid';
-import * as Errors from '../types/errors';
-
-import type { StoredJob } from '../jobs/types';
 import { formatJobForInsert } from '../jobs/formatJobForInsert';
-import { cleanupMessages } from '../util/cleanup';
 import { AccessType, ipcInvoke, doShutdown, removeDB } from './channels';
+import { getMessageIdForLogging } from '../util/idForLogging';
+import { incrementMessageCounter } from '../util/incrementMessageCounter';
+import { generateSnippetAroundMention } from '../util/search';
+import { drop } from '../util/drop';
 
+import type { ObjectMappingSpecType } from '../util/mapObjectWithSpec';
+import type { AciString, ServiceIdString } from '../types/ServiceId';
+import type { StoredJob } from '../jobs/types';
 import type {
   ClientInterfaceWrap,
   AdjacentMessagesByConversationOptionsType,
@@ -45,7 +49,6 @@ import type {
   ItemType,
   StoredItemType,
   MessageType,
-  MessageTypeUnhydrated,
   PreKeyIdType,
   PreKeyType,
   StoredPreKeyType,
@@ -58,12 +61,15 @@ import type {
   ClientOnlyReadableInterface,
   ClientOnlyWritableInterface,
 } from './Interface';
-import { getMessageIdForLogging } from '../util/idForLogging';
+import { AttachmentDownloadSource } from './Interface';
 import type { MessageAttributesType } from '../model-types';
-import { incrementMessageCounter } from '../util/incrementMessageCounter';
-import { generateSnippetAroundMention } from '../util/search';
 import type { AttachmentDownloadJobType } from '../types/AttachmentDownload';
-import type { SingleProtoJobQueue } from '../jobs/singleProtoJobQueue';
+import {
+  throttledUpdateBackupMediaDownloadProgress,
+  updateBackupMediaDownloadProgress,
+} from '../util/updateBackupMediaDownloadProgress';
+
+const log = createLogger('Client');
 
 const ERASE_SQL_KEY = 'erase-sql-key';
 const ERASE_ATTACHMENTS_KEY = 'erase-attachments';
@@ -121,6 +127,10 @@ const clientOnlyWritable: ClientOnlyWritableInterface = {
   removeMessage,
   removeMessages,
 
+  saveMessage,
+  saveMessages,
+  saveMessagesIndividually,
+
   // Client-side only
 
   flushUpdateConversationBatcher,
@@ -138,16 +148,20 @@ type ClientOverridesType = ClientOnlyWritableInterface &
   Pick<
     ClientInterfaceWrap<ServerWritableDirectInterface>,
     | 'saveAttachmentDownloadJob'
-    | 'saveMessage'
-    | 'saveMessages'
+    | 'saveAttachmentDownloadJobs'
+    | 'removeAllBackupAttachmentDownloadJobs'
+    | 'removeAttachmentDownloadJob'
+    | 'removeAttachmentDownloadJobsForMessage'
     | 'updateConversations'
   >;
 
 const clientOnlyWritableOverrides: ClientOverridesType = {
   ...clientOnlyWritable,
   saveAttachmentDownloadJob,
-  saveMessage,
-  saveMessages,
+  saveAttachmentDownloadJobs,
+  removeAllBackupAttachmentDownloadJobs,
+  removeAttachmentDownloadJob,
+  removeAttachmentDownloadJobsForMessage,
   updateConversations,
 };
 
@@ -295,7 +309,7 @@ function specFromBytes<Input, Output>(
 // Top-level calls
 
 async function shutdown(): Promise<void> {
-  log.info('Client.shutdown');
+  log.info('shutdown');
 
   // Stop accepting new SQL jobs, flush outstanding queue
   await doShutdown();
@@ -431,6 +445,9 @@ const ITEM_SPECS: Partial<Record<ItemKeyType, ObjectMappingSpecType>> = {
   senderCertificateNoE164: ['value.serialized'],
   subscriberId: ['value'],
   backupsSubscriberId: ['value'],
+  backupEphemeralKey: ['value'],
+  backupMediaRootKey: ['value'],
+  manifestRecordIkm: ['value'],
   usernameLink: ['value.entropy', 'value.serverId'],
 };
 async function createOrUpdateItem<K extends ItemKeyType>(
@@ -543,7 +560,6 @@ function handleSearchMessageJSON(
   messages: Array<ServerSearchResultMessageType>
 ): Array<ClientSearchResultMessageType> {
   return messages.map<ClientSearchResultMessageType>(message => {
-    const parsedMessage = JSON.parse(message.json);
     assertDev(
       message.ftsSnippet ?? typeof message.mentionStart === 'number',
       'Neither ftsSnippet nor matching mention returned from message search'
@@ -551,17 +567,15 @@ function handleSearchMessageJSON(
     const snippet =
       message.ftsSnippet ??
       generateSnippetAroundMention({
-        body: parsedMessage.body,
+        body: message.body || '',
         mentionStart: message.mentionStart ?? 0,
         mentionLength: message.mentionLength ?? 1,
       });
 
     return {
-      json: message.json,
-
       // Empty array is a default value. `message.json` has the real field
       bodyRanges: [],
-      ...parsedMessage,
+      ...message,
       snippet,
     };
   });
@@ -592,41 +606,78 @@ async function searchMessages({
 
 async function saveMessage(
   data: ReadonlyDeep<MessageType>,
-  options: {
-    jobToInsert?: Readonly<StoredJob>;
+  {
+    forceSave,
+    jobToInsert,
+    ourAci,
+    postSaveUpdates,
+  }: {
     forceSave?: boolean;
+    jobToInsert?: Readonly<StoredJob>;
     ourAci: AciString;
+    postSaveUpdates: () => Promise<void>;
   }
 ): Promise<string> {
   const id = await writableChannel.saveMessage(_cleanMessageData(data), {
-    ...options,
-    jobToInsert: options.jobToInsert && formatJobForInsert(options.jobToInsert),
+    forceSave,
+    jobToInsert: jobToInsert && formatJobForInsert(jobToInsert),
+    ourAci,
   });
 
   softAssert(
     // Older messages still have `UUIDv4` so don't log errors when encountering
     // it.
-    (!options.forceSave && isValidUuid(id)) || isValidUuidV7(id),
+    (!forceSave && isValidUuid(id)) || isValidUuidV7(id),
     'saveMessage: messageId is not a UUID'
   );
 
-  void updateExpiringMessagesService();
-  void tapToViewMessagesDeletionService.update();
+  drop(postSaveUpdates?.());
 
   return id;
 }
 
 async function saveMessages(
   arrayOfMessages: ReadonlyArray<ReadonlyDeep<MessageType>>,
-  options: { forceSave?: boolean; ourAci: AciString }
+  {
+    forceSave,
+    ourAci,
+    postSaveUpdates,
+    _testOnlyAvoidNormalizingAttachments,
+  }: {
+    forceSave?: boolean;
+    ourAci: AciString;
+    postSaveUpdates: () => Promise<void>;
+    _testOnlyAvoidNormalizingAttachments?: boolean;
+  }
 ): Promise<Array<string>> {
   const result = await writableChannel.saveMessages(
     arrayOfMessages.map(message => _cleanMessageData(message)),
-    options
+    { forceSave, ourAci, _testOnlyAvoidNormalizingAttachments }
   );
 
-  void updateExpiringMessagesService();
-  void tapToViewMessagesDeletionService.update();
+  drop(postSaveUpdates?.());
+
+  return result;
+}
+
+async function saveMessagesIndividually(
+  arrayOfMessages: ReadonlyArray<ReadonlyDeep<MessageType>>,
+  {
+    forceSave,
+    ourAci,
+    postSaveUpdates,
+  }: {
+    forceSave?: boolean;
+    ourAci: AciString;
+    postSaveUpdates: () => Promise<void>;
+  }
+): Promise<{ failedIndices: Array<number> }> {
+  const result = await writableChannel.saveMessagesIndividually(
+    arrayOfMessages,
+    { forceSave, ourAci }
+  );
+
+  drop(postSaveUpdates?.());
 
   return result;
 }
@@ -634,7 +685,10 @@ async function saveMessages(
 async function removeMessage(
   id: string,
   options: {
-    singleProtoJobQueue: SingleProtoJobQueue;
+    cleanupMessages: (
+      messages: ReadonlyArray<MessageAttributesType>,
+      options: { fromSync?: boolean }
+    ) => Promise<void>;
     fromSync?: boolean;
   }
 ): Promise<void> {
@@ -644,9 +698,8 @@ async function removeMessage(
   //   it needs to delete all associated on-disk files along with the database delete.
   if (message) {
     await writableChannel.removeMessage(id);
-    await cleanupMessages([message], {
-      ...options,
-      markCallHistoryDeleted: DataWriter.markCallHistoryDeleted,
+    await options.cleanupMessages([message], {
+      fromSync: options.fromSync,
     });
   }
 }
@@ -656,7 +709,10 @@ export async function deleteAndCleanup(
   logId: string,
   options: {
     fromSync?: boolean;
-    singleProtoJobQueue: SingleProtoJobQueue;
+    cleanupMessages: (
+      messages: ReadonlyArray<MessageAttributesType>,
+      options: { fromSync?: boolean }
+    ) => Promise<void>;
   }
 ): Promise<void> {
   const ids = messages.map(message => message.id);
@@ -665,9 +721,8 @@ export async function deleteAndCleanup(
   await writableChannel.removeMessages(ids);
 
   log.info(`deleteAndCleanup/${logId}: Cleanup for ${ids.length} messages...`);
-  await cleanupMessages(messages, {
-    ...options,
-    markCallHistoryDeleted: DataWriter.markCallHistoryDeleted,
+  await options.cleanupMessages(messages, {
+    fromSync: Boolean(options.fromSync),
   });
 
   log.info(`deleteAndCleanup/${logId}: Complete`);
@@ -677,21 +732,17 @@ async function removeMessages(
   messageIds: ReadonlyArray<string>,
   options: {
     fromSync?: boolean;
-    singleProtoJobQueue: SingleProtoJobQueue;
+    cleanupMessages: (
+      messages: ReadonlyArray<MessageAttributesType>,
+      options: { fromSync?: boolean }
+    ) => Promise<void>;
   }
 ): Promise<void> {
   const messages = await readableChannel.getMessagesById(messageIds);
-  await cleanupMessages(messages, {
-    ...options,
-    markCallHistoryDeleted: DataWriter.markCallHistoryDeleted,
+  await options.cleanupMessages(messages, {
+    fromSync: Boolean(options.fromSync),
   });
   await writableChannel.removeMessages(messageIds);
-}
-
-function handleMessageJSON(
-  messages: Array<MessageTypeUnhydrated>
-): Array<MessageType> {
-  return messages.map(message => JSON.parse(message.json));
 }
 
 async function getNewerMessagesByConversation(
@@ -700,7 +751,7 @@ async function getNewerMessagesByConversation(
   const messages =
     await readableChannel.getNewerMessagesByConversation(options);
 
-  return handleMessageJSON(messages);
+  return messages;
 }
 
 async function getRecentStoryReplies(
@@ -712,7 +763,7 @@ async function getRecentStoryReplies(
     options
   );
 
-  return handleMessageJSON(messages);
+  return messages;
 }
 
 async function getOlderMessagesByConversation(
@@ -721,7 +772,7 @@ async function getOlderMessagesByConversation(
   const messages =
     await readableChannel.getOlderMessagesByConversation(options);
 
-  return handleMessageJSON(messages);
+  return messages;
 }
 
 async function getConversationRangeCenteredOnMessage(
@@ -730,25 +781,24 @@ async function getConversationRangeCenteredOnMessage(
   const result =
     await readableChannel.getConversationRangeCenteredOnMessage(options);
 
-  return {
-    ...result,
-    older: handleMessageJSON(result.older),
-    newer: handleMessageJSON(result.newer),
-  };
+  return result;
 }
 
 async function removeMessagesInConversation(
   conversationId: string,
   {
+    cleanupMessages,
+    fromSync,
     logId,
     receivedAt,
-    singleProtoJobQueue,
-    fromSync,
   }: {
+    cleanupMessages: (
+      messages: ReadonlyArray<MessageAttributesType>,
+      options: { fromSync?: boolean | undefined }
+    ) => Promise<void>;
     fromSync?: boolean;
     logId: string;
     receivedAt?: number;
-    singleProtoJobQueue: SingleProtoJobQueue;
   }
 ): Promise<void> {
   let messages;
@@ -773,7 +823,7 @@ async function removeMessagesInConversation(
     }
 
     // eslint-disable-next-line no-await-in-loop
-    await deleteAndCleanup(messages, logId, { fromSync, singleProtoJobQueue });
+    await deleteAndCleanup(messages, logId, { fromSync, cleanupMessages });
   } while (messages.length > 0);
 }
 
@@ -782,14 +832,72 @@ async function removeMessagesInConversation(
 async function saveAttachmentDownloadJob(
   job: AttachmentDownloadJobType
 ): Promise<void> {
-  await writableChannel.saveAttachmentDownloadJob(_cleanData(job));
+  await writableChannel.saveAttachmentDownloadJob(job);
+  if (job.originalSource === AttachmentDownloadSource.BACKUP_IMPORT) {
+    drop(
+      throttledUpdateBackupMediaDownloadProgress(
+        readableChannel.getBackupAttachmentDownloadProgress
+      )
+    );
+  }
+}
+async function saveAttachmentDownloadJobs(
+  jobs: Array<AttachmentDownloadJobType>
+): Promise<void> {
+  await writableChannel.saveAttachmentDownloadJobs(jobs);
+  if (
+    jobs.some(
+      job => job.originalSource === AttachmentDownloadSource.BACKUP_IMPORT
+    )
+  ) {
+    drop(
+      throttledUpdateBackupMediaDownloadProgress(
+        readableChannel.getBackupAttachmentDownloadProgress
+      )
+    );
+  }
+}
+
+async function removeAttachmentDownloadJob(
+  job: AttachmentDownloadJobType
+): Promise<void> {
+  await writableChannel.removeAttachmentDownloadJob(job);
+  if (job.originalSource === AttachmentDownloadSource.BACKUP_IMPORT) {
+    drop(
+      throttledUpdateBackupMediaDownloadProgress(
+        readableChannel.getBackupAttachmentDownloadProgress
+      )
+    );
+  }
+}
+
+async function removeAttachmentDownloadJobsForMessage(
+  messageId: string
+): Promise<void> {
+  await writableChannel.removeAttachmentDownloadJobsForMessage(messageId);
+  drop(
+    throttledUpdateBackupMediaDownloadProgress(
+      readableChannel.getBackupAttachmentDownloadProgress
+    )
+  );
+}
+
+async function removeAllBackupAttachmentDownloadJobs(): Promise<void> {
+  await writableChannel.removeAllBackupAttachmentDownloadJobs();
+  await updateBackupMediaDownloadProgress(
+    readableChannel.getBackupAttachmentDownloadProgress
+  );
 }
 
 // Other
 
-async function cleanupOrphanedAttachments(): Promise<void> {
+async function cleanupOrphanedAttachments({
+  _block = false,
+}: {
+  _block?: boolean;
+} = {}): Promise<void> {
   try {
-    await invokeWithTimeout(CLEANUP_ORPHANED_ATTACHMENTS_KEY);
+    await invokeWithTimeout(CLEANUP_ORPHANED_ATTACHMENTS_KEY, { _block });
   } catch (error) {
     log.warn(
       'sql/Client: cleanupOrphanedAttachments failure',
@@ -814,9 +922,12 @@ async function removeOtherData(): Promise<void> {
   ]);
 }
 
-async function invokeWithTimeout(name: string): Promise<void> {
+async function invokeWithTimeout(
+  name: string,
+  ...args: Array<unknown>
+): Promise<void> {
   return createTaskWithTimeout(
-    () => ipc.invoke(name),
+    () => ipc.invoke(name, ...args),
     `callChannel call to ${name}`
   )();
 }

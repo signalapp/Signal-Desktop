@@ -19,49 +19,60 @@ jobs:
     steps:
     - run: lsb_release -a
     - run: uname -a
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+    - name: Setup pnpm
+      uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4
     - name: Setup node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4
       with:
         node-version-file: '.nvmrc'
-    - run: npm install -g npm@10.2.5
+        cache: 'pnpm'
+        cache-dependency-path: 'pnpm-lock.yaml'
+    - name: Cache .electron-gyp
+      uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
+      with:
+        path: ~/.electron-gyp
+        key: electron-gyp-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+    # - name: Setup sccache
+    #   uses: mozilla-actions/sccache-action@054db53350805f83040bf3e6e9b8cf5a139aa7c9 # v0.0.7
+    # - name: Restore sccache
+    #   uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
+    #   with:
+    #     path: ${{ env.SCCACHE_PATH }}
+    #     key: sccache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**') }}
 
     - name: Restore cached .eslintcache and tsconfig.tsbuildinfo
-      uses: actions/cache/restore@v4
+      uses: actions/cache/restore@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
       id: cache-lint
       with:
         path: |
           .eslintcache
           tsconfig.tsbuildinfo
-        key: lint-${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**', '.eslintrc.js', '.eslint/**', 'tsconfig.json') }}
-
-    - name: Cache Desktop node_modules
-      id: cache-desktop-modules
-      uses: actions/cache@v4
-      with:
-        path: node_modules
-        key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
+        key: lint-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**', '.eslintrc.js', '.eslint/**', 'tsconfig.json') }}
 
     - name: Install Desktop node_modules
-      if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
-      run: npm ci
+      run: pnpm install
       env:
+        # CC: sccache gcc
+        # CXX: sccache g++
+        # SCCACHE_GHA_ENABLED: "true"
         NPM_CONFIG_LOGLEVEL: verbose
 
-    - run: npm run generate
-    - run: npm run lint
-    - run: npm run lint-deps
-    - run: npm run lint-license-comments
+    - run: pnpm run generate
+    - run: pnpm run lint
+    - run: pnpm run lint-deps
+    - run: pnpm run lint-license-comments
 
     - name: Check acknowledgments file is up to date
-      run: npm run build:acknowledgments
+      run: pnpm run build:acknowledgments
       env:
         REQUIRE_SIGNAL_LIB_FILES: 1
 
     - run: git diff --exit-code
 
     - name: Update cached .eslintcache and tsconfig.tsbuildinfo
-      uses: actions/cache/save@v4
+      uses: actions/cache/save@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
       if: github.ref == 'refs/heads/main'
       with:
         path: |
@@ -77,37 +88,51 @@ jobs:
 
     steps:
     - run: uname -a
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+    - name: Setup pnpm
+      uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4
     - name: Setup node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4
       with:
         node-version-file: '.nvmrc'
-
-    - run: npm install -g npm@10.2.5
-
-    - name: Cache Desktop node_modules
-      id: cache-desktop-modules
-      uses: actions/cache@v4
+        cache: 'pnpm'
+        cache-dependency-path: 'pnpm-lock.yaml'
+    - name: Cache .electron-gyp
+      uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
       with:
-        path: node_modules
-        key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
+        path: ~/.electron-gyp
+        key: electron-gyp-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+    # - name: Setup sccache
+    #   uses: mozilla-actions/sccache-action@054db53350805f83040bf3e6e9b8cf5a139aa7c9 # v0.0.7
+    # - name: Restore sccache
+    #   uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
+    #   with:
+    #     path: ${{ env.SCCACHE_PATH }}
+    #     key: sccache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**') }}
 
     - name: Install Desktop node_modules
-      if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
-      run: npm ci
+      run: pnpm install
       env:
+        # CC: sccache clang
+        # CXX: sccache clang++
+        # SCCACHE_GHA_ENABLED: "true"
         NPM_CONFIG_LOGLEVEL: verbose
 
-    - run: npm run generate
-    - run: npm run prepare-beta-build
-    - run: npm run test-node
-    - run: npm run test-electron
+    - run: pnpm run generate
+    - run: pnpm run prepare-beta-build
+    - run: pnpm run test-node
+    - run: pnpm run test-electron
       env:
         ARTIFACTS_DIR: artifacts/macos
+        WORKER_COUNT: 4
       timeout-minutes: 5
     - run: touch noop.sh && chmod +x noop.sh
-    - run: npm run build
+    - run: pnpm run build
       env:
+        # CC: sccache clang
+        # CXX: sccache clang++
+        # SCCACHE_GHA_ENABLED: "true"
         DISABLE_INSPECT_FUSE: on
         SIGN_MACOS_SCRIPT: noop.sh
         ARTIFACTS_DIR: artifacts/macos
@@ -119,68 +144,83 @@ jobs:
         node ts/scripts/dd-installer-size.js macos-universal
       env:
         DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}
-    - name: Rebuild native modules for x64
-      run: npm run electron:install-app-deps
-    - run: npm run test-release
+    - run: pnpm run test-release
       env:
         NODE_ENV: production
-    - run: npm run test-eslint
 
     - name: Upload artifacts on failure
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
       with:
         path: artifacts
 
   linux:
     needs: lint
-    runs-on: ubuntu-latest-8-cores
+    runs-on: ubuntu-22.04-8-cores
     timeout-minutes: 30
 
     steps:
     - run: lsb_release -a
     - run: uname -a
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+    - name: Setup pnpm
+      uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4
     - name: Setup node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4
       with:
         node-version-file: '.nvmrc'
-    - run: sudo apt-get install xvfb
-
-    - run: npm install -g npm@10.2.5
-
-    - name: Cache Desktop node_modules
-      id: cache-desktop-modules
-      uses: actions/cache@v4
+        cache: 'pnpm'
+        cache-dependency-path: 'pnpm-lock.yaml'
+    - name: Cache .electron-gyp
+      uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
       with:
-        path: node_modules
-        key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
+        path: ~/.electron-gyp
+        key: electron-gyp-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+    - name: Install xvfb and libpulse0
+      run: sudo apt-get install xvfb libpulse0 || (sudo apt-get update && sudo apt-get install xvfb libpulse0)
+
+    # - name: Setup sccache
+    #   uses: mozilla-actions/sccache-action@054db53350805f83040bf3e6e9b8cf5a139aa7c9 # v0.0.7
+    # - name: Restore sccache
+    #   uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
+    #   with:
+    #     path: ${{ env.SCCACHE_PATH }}
+    #     key: sccache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**') }}
 
     - name: Install Desktop node_modules
-      if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
-      run: npm ci
+      run: pnpm install
       env:
+        # CC: sccache gcc
+        # CXX: sccache g++
+        # SCCACHE_GHA_ENABLED: "true"
         NPM_CONFIG_LOGLEVEL: verbose
 
-    - run: npm run generate
-    - run: npm run prepare-beta-build
+    - run: pnpm run generate
+    - run: pnpm run prepare-beta-build
 
     - name: Create bundle
-      run: npm run build:esbuild:prod
+      run: pnpm run build:esbuild:prod
     - name: Create preload cache
-      run: xvfb-run --auto-servernum npm run build:preload-cache
+      run: xvfb-run --auto-servernum pnpm run build:preload-cache
       env:
         ARTIFACTS_DIR: artifacts/linux
 
     - name: Build with packaging .deb file
-      run: npm run build:release -- --publish=never
+      run: pnpm run build:release --publish=never
       if: github.ref == 'refs/heads/main'
       env:
+        # CC: sccache gcc
+        # CXX: sccache g++
+        # SCCACHE_GHA_ENABLED: "true"
         DISABLE_INSPECT_FUSE: on
     - name: Build without packaging .deb file
-      run: npm run build:release -- --linux dir
+      run: pnpm run build:release --linux dir
       if: github.ref != 'refs/heads/main'
       env:
+        # CC: sccache gcc
+        # CXX: sccache g++
+        # SCCACHE_GHA_ENABLED: "true"
         DISABLE_INSPECT_FUSE: on
 
     - name: Upload installer size
@@ -189,93 +229,78 @@ jobs:
       env:
         DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}
 
-    - run: xvfb-run --auto-servernum npm run test-node
+    - run: xvfb-run --auto-servernum pnpm run test-node
 
     - name: Clone backup integration tests
-      uses: actions/checkout@v4
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       with:
         repository: 'signalapp/Signal-Message-Backup-Tests'
-        ref: '996daf691d4162ce854845dc883c62adb1a3fe55'
+        ref: 'df09e4bfa985c68daf845ad96abae3ae8f9b07ca'
         path: 'backup-integration-tests'
 
-    - run: xvfb-run --auto-servernum npm run test-electron
+    - run: xvfb-run --auto-servernum pnpm run test-electron
       timeout-minutes: 5
       env:
         ARTIFACTS_DIR: artifacts/linux
         LANG: en_US
         LANGUAGE: en_US
         BACKUP_INTEGRATION_DIR: 'backup-integration-tests/test-cases'
-    - run: xvfb-run --auto-servernum npm run test-release
+        WORKER_COUNT: 8
+    - run: xvfb-run --auto-servernum pnpm run test-release
       env:
         NODE_ENV: production
 
     - name: Upload artifacts on failure
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
       with:
         path: artifacts
 
   windows:
     needs: lint
-    runs-on: windows-2019
+    runs-on: windows-latest-8-cores
     timeout-minutes: 30
-
-    env:
-      BUILD_LOCATION: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\VC\\Tools\\MSVC\\14.29.30133\\lib\\x86\\store\\references\\"
-      SDK_LOCATION: "C:\\Program Files (x86)\\Windows Kits\\10\\UnionMetadata\\10.0.17134.0"
 
     steps:
     - run: systeminfo
     - run: git config --global core.autocrlf false
     - run: git config --global core.eol lf
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+    - name: Setup pnpm
+      uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4
     - name: Setup node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4
       with:
         node-version-file: '.nvmrc'
-    - run: npm install -g npm@10.2.5 node-gyp@10.0.1
-
-    # Set things up so @nodert-win10-rs4 dependencies build properly
-    - run: dir "$env:BUILD_LOCATION"
-    - run: dir "$env:SDK_LOCATION"
-    - run: "copy \"$env:BUILD_LOCATION\\platform.winmd\" \"$env:SDK_LOCATION\""
-    - run: dir "$env:SDK_LOCATION"
-
-    - name: Cache Desktop node_modules
-      id: cache-desktop-modules
-      uses: actions/cache@v4
-      with:
-        path: node_modules
-        key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
+        cache: 'pnpm'
+        cache-dependency-path: 'pnpm-lock.yaml'
 
     - name: Install Desktop node_modules
-      if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
-      run: npm ci
+      run: pnpm install
       env:
-        CHILD_CONCURRENCY: 1
         NPM_CONFIG_LOGLEVEL: verbose
 
-    - run: npm run generate
-    - run: npm run test-node
+    - run: pnpm run generate
+    - run: pnpm run test-node
     - run: copy package.json temp.json
     - run: del package.json
     - run: type temp.json | findstr /v certificateSubjectName | findstr /v certificateSha1 > package.json
-    - run: npm run prepare-beta-build
+    - run: pnpm run prepare-beta-build
 
     - name: Create bundle
-      run: npm run build:esbuild:prod
+      run: pnpm run build:esbuild:prod
     - name: Create preload cache
-      run: npm run build:preload-cache
+      run: pnpm run build:preload-cache
       env:
         ARTIFACTS_DIR: artifacts/win
 
     - name: Build with NSIS
-      run: npm run build:release
+      run: pnpm run build:release
       if: github.ref == 'refs/heads/main'
       env:
         DISABLE_INSPECT_FUSE: on
     - name: Build without NSIS
-      run: npm run build:release -- --win dir
+      run: pnpm run build:release --win dir
       if: github.ref != 'refs/heads/main'
       env:
         DISABLE_INSPECT_FUSE: on
@@ -286,23 +311,24 @@ jobs:
       env:
         DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}
 
-    - run: npm run test-electron
+    - run: pnpm run test-electron
       env:
         ARTIFACTS_DIR: artifacts/windows
+        WORKER_COUNT: 4
       timeout-minutes: 5
-    - run: npm run test-release
+    - run: pnpm run test-release
       env:
         SIGNAL_ENV: production
 
     - name: Upload artifacts on failure
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
       with:
         path: artifacts
 
   sticker-creator:
     name: Sticker Creator
-    runs-on: ubuntu-latest-8-cores
+    runs-on: ubuntu-22.04-8-cores
     timeout-minutes: 30
 
     defaults:
@@ -310,35 +336,40 @@ jobs:
         working-directory: sticker-creator
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+    - name: Setup pnpm
+      uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4
     - name: Setup node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4
       with:
         node-version-file: '.nvmrc'
-        cache: 'npm'
-        cache-dependency-path: 'package-lock.json'
 
     - name: Install Sticker Creator node_modules
-      run: npm ci
+      run: pnpm install
 
     - name: Build Sticker Creator
-      run: npm run build
+      run: pnpm run build
 
     - name: Check Sticker Creator types
-      run: npm run check:types
+      run: pnpm run check:types
 
     - name: Check Sticker Creator formatting
-      run: npm run prettier:check
+      run: pnpm run prettier:check
 
     - name: Check Sticker Creator linting
-      run: npm run lint
+      run: pnpm run lint
 
     - name: Run tests
-      run: npm test -- --run
+      run: pnpm test -- --run
 
   mock-tests:
     needs: lint
-    runs-on: ubuntu-latest-8-cores
+
+    strategy:
+      matrix:
+        workerIndex: [0, 1, 2, 3]
+
+    runs-on: ubuntu-22.04-8-cores
     if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' }}
     timeout-minutes: 30
 
@@ -349,53 +380,76 @@ jobs:
       run: uname -a
 
     - name: Clone Desktop repo
-      uses: actions/checkout@v4
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
+    - name: Setup pnpm
+      uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4
     - name: Setup node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4
       with:
         node-version-file: '.nvmrc'
-    - name: Install global dependencies
-      run: npm install -g npm@10.2.5
-
-    - name: Install xvfb
-      run: sudo apt-get install xvfb
-
-    - name: Cache Desktop node_modules
-      id: cache-desktop-modules
-      uses: actions/cache@v4
+        cache: 'pnpm'
+        cache-dependency-path: 'pnpm-lock.yaml'
+    - name: Cache .electron-gyp
+      uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
       with:
-        path: node_modules
-        key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
+        path: ~/.electron-gyp
+        key: electron-gyp-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+    - name: Install xvfb and libpulse0
+      run: sudo apt-get install xvfb libpulse0 || (sudo apt-get update && sudo apt-get install xvfb libpulse0)
+
+    # - name: Setup sccache
+    #   uses: mozilla-actions/sccache-action@054db53350805f83040bf3e6e9b8cf5a139aa7c9 # v0.0.7
+    # - name: Restore sccache
+    #   uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
+    #   with:
+    #     path: ${{ env.SCCACHE_PATH }}
+    #     key: sccache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**') }}
 
     - name: Install Desktop node_modules
-      if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
-      run: npm ci
+      run: pnpm install
       env:
+        # CC: sccache gcc
+        # CXX: sccache g++
+        # SCCACHE_GHA_ENABLED: "true"
         NPM_CONFIG_LOGLEVEL: verbose
 
     - name: Build typescript
-      run: npm run generate
+      run: pnpm run generate
     - name: Bundle
-      run: npm run build:esbuild:prod
+      run: pnpm run build:esbuild:prod
     - name: Create preload cache
-      run: xvfb-run --auto-servernum npm run build:preload-cache
+      run: xvfb-run --auto-servernum pnpm run build:preload-cache
       env:
         ARTIFACTS_DIR: artifacts/linux
 
     - name: Run mock server tests
       run: |
         set -o pipefail
-        xvfb-run --auto-servernum npm run test-mock
-      timeout-minutes: 10
+        xvfb-run --auto-servernum pnpm run test-mock
+      timeout-minutes: 15
       env:
         NODE_ENV: production
         DEBUG: mock:test:*
-        ARTIFACTS_DIR: artifacts/startup
+        ARTIFACTS_DIR: artifacts/mock
+        WORKER_INDEX: ${{ matrix.workerIndex }}
+        WORKER_COUNT: 4
+
+    - name: Run docker mock server tests
+      if: ${{ matrix.workerIndex == 0 }}
+      run: |
+        set -o pipefail
+        xvfb-run --auto-servernum pnpm run test-mock-docker
+      timeout-minutes: 15
+      env:
+        NODE_ENV: production
+        DEBUG: mock:test:*
+        ARTIFACTS_DIR: artifacts/mock-docker
 
     - name: Upload mock server test logs on failure
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
       with:
         name: logs
         path: artifacts

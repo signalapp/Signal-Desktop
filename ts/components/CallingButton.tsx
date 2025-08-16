@@ -13,6 +13,12 @@ export enum CallingButtonType {
   AUDIO_DISABLED = 'AUDIO_DISABLED',
   AUDIO_OFF = 'AUDIO_OFF',
   AUDIO_ON = 'AUDIO_ON',
+  FULL_SCREEN_CALL = 'FULL_SCREEN_CALL',
+  HANGUP_GROUP = 'HANGUP_GROUP',
+  HANGUP_DIRECT = 'HANGUP_DIRECT',
+  MAXIMIZE = 'MAXIMIZE',
+  MINIMIZE = 'MINIMIZE',
+  MORE_OPTIONS = 'MORE_OPTIONS',
   PRESENTING_DISABLED = 'PRESENTING_DISABLED',
   PRESENTING_OFF = 'PRESENTING_OFF',
   PRESENTING_ON = 'PRESENTING_ON',
@@ -26,7 +32,6 @@ export enum CallingButtonType {
   VIDEO_DISABLED = 'VIDEO_DISABLED',
   VIDEO_OFF = 'VIDEO_OFF',
   VIDEO_ON = 'VIDEO_ON',
-  MORE_OPTIONS = 'MORE_OPTIONS',
 }
 
 export type PropsType = {
@@ -109,8 +114,36 @@ export function CallingButton({
   } else if (buttonType === CallingButtonType.MORE_OPTIONS) {
     classNameSuffix = 'more-options';
     tooltipContent = i18n('icu:CallingButton--more-options');
+  } else if (buttonType === CallingButtonType.MAXIMIZE) {
+    classNameSuffix = 'maximize';
+    tooltipContent = i18n('icu:calling__preview--maximize');
+  } else if (buttonType === CallingButtonType.MINIMIZE) {
+    classNameSuffix = 'minimize';
+    tooltipContent = i18n('icu:calling__preview--minimize');
+  } else if (buttonType === CallingButtonType.FULL_SCREEN_CALL) {
+    classNameSuffix = 'full-screen-call';
+    tooltipContent = i18n('icu:calling__pip--off');
+  } else if (buttonType === CallingButtonType.HANGUP_DIRECT) {
+    classNameSuffix = 'hangup';
+    tooltipContent = i18n(
+      'icu:CallControls__JoinLeaveButton--hangup-1-1-tooltip'
+    );
+  } else if (buttonType === CallingButtonType.HANGUP_GROUP) {
+    classNameSuffix = 'hangup';
+    tooltipContent = i18n(
+      'icu:CallControls__JoinLeaveButton--hangup-group-tooltip'
+    );
   }
 
+  const handleClick = React.useCallback(
+    (event: React.MouseEvent) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      onClick();
+    },
+    [onClick]
+  );
   const buttonContent = (
     <button
       aria-label={tooltipContent}
@@ -120,7 +153,7 @@ export function CallingButton({
       )}
       disabled={disabled}
       id={uniqueButtonId}
-      onClick={onClick}
+      onClick={handleClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       type="button"

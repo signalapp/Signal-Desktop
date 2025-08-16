@@ -5,19 +5,47 @@ import React, { type ComponentProps } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import { setupI18n } from '../util/setupI18n';
-import enMessages from '../../_locales/en/messages.json';
 import { BackupMediaDownloadProgress } from './BackupMediaDownloadProgress';
 import { KIBIBYTE } from '../types/AttachmentSize';
+import { WidthBreakpoint } from './_util';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 type PropsType = ComponentProps<typeof BackupMediaDownloadProgress>;
+
+function Template(args: PropsType): JSX.Element {
+  return (
+    <>
+      <div style={{ width: 350 }}>
+        <p>Wide</p>
+        <BackupMediaDownloadProgress
+          {...args}
+          widthBreakpoint={WidthBreakpoint.Wide}
+        />
+      </div>
+      <div style={{ width: 280 }}>
+        <p>Medium</p>
+        <BackupMediaDownloadProgress
+          {...args}
+          widthBreakpoint={WidthBreakpoint.Medium}
+        />
+      </div>
+      <div style={{ width: 130 }}>
+        <p>Narrow</p>
+        <BackupMediaDownloadProgress
+          {...args}
+          widthBreakpoint={WidthBreakpoint.Narrow}
+        />
+      </div>
+    </>
+  );
+}
 
 export default {
   title: 'Components/BackupMediaDownloadProgress',
   args: {
     isPaused: false,
+    isOnline: true,
     downloadedBytes: 600 * KIBIBYTE,
     totalBytes: 1000 * KIBIBYTE,
     handleClose: action('handleClose'),
@@ -29,25 +57,45 @@ export default {
 } satisfies Meta<PropsType>;
 
 export function InProgress(args: PropsType): JSX.Element {
-  return <BackupMediaDownloadProgress {...args} />;
+  return <Template {...args} />;
+}
+export function InProgressAndOffline(args: PropsType): JSX.Element {
+  return <Template {...args} isOnline={false} />;
 }
 
 export function Increasing(args: PropsType): JSX.Element {
-  return (
-    <BackupMediaDownloadProgress
-      {...args}
-      {...useIncreasingFractionComplete()}
-    />
-  );
+  return <Template {...args} {...useIncreasingFractionComplete()} />;
 }
 
 export function Paused(args: PropsType): JSX.Element {
-  return <BackupMediaDownloadProgress {...args} isPaused />;
+  return <Template {...args} isPaused />;
+}
+export function PausedAndOffline(args: PropsType): JSX.Element {
+  return <Template {...args} isPaused isOnline={false} />;
+}
+
+export function Idle(args: PropsType): JSX.Element {
+  return <Template {...args} isIdle />;
+}
+
+export function IdleAndOffline(args: PropsType): JSX.Element {
+  return <Template {...args} isIdle isOnline={false} />;
+}
+
+export function PausedAndIdle(args: PropsType): JSX.Element {
+  return <Template {...args} isPaused isIdle />;
+}
+
+export function PausedAndIdleAndOffline(args: PropsType): JSX.Element {
+  return <Template {...args} isPaused isIdle isOnline={false} />;
 }
 
 export function Complete(args: PropsType): JSX.Element {
+  return <Template {...args} downloadedBytes={args.totalBytes} />;
+}
+export function CompleteAndOffline(args: PropsType): JSX.Element {
   return (
-    <BackupMediaDownloadProgress {...args} downloadedBytes={args.totalBytes} />
+    <Template {...args} downloadedBytes={args.totalBytes} isOnline={false} />
   );
 }
 

@@ -1,16 +1,16 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import _ from 'lodash';
-import type Quill from 'quill';
-import Delta from 'quill-delta';
-import type { RefObject } from 'react';
 import React from 'react';
-
+import _ from 'lodash';
+import { Delta } from '@signalapp/quill-cjs';
+import Emitter from '@signalapp/quill-cjs/core/emitter';
+import type Quill from '@signalapp/quill-cjs';
+import type { RefObject } from 'react';
 import { Popper } from 'react-popper';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
-import type { ConversationType } from '../../state/ducks/conversations';
+
 import { Avatar, AvatarSize } from '../../components/Avatar';
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { MemberType, MemberRepository } from '../memberRepository';
@@ -26,7 +26,7 @@ export type MentionCompletionOptions = {
   i18n: LocalizerType;
   memberRepositoryRef: RefObject<MemberRepository>;
   setMentionPickerElement: (element: JSX.Element | null) => void;
-  me?: ConversationType;
+  ourConversationId: string | undefined;
   theme: ThemeType;
 };
 
@@ -77,8 +77,14 @@ export class MentionCompletion {
     this.quill.keyboard.addBinding({ key: 39 }, clearResults); // Right Arrow
     this.quill.keyboard.addBinding({ key: 40 }, changeIndex(1)); // Down Arrow
 
-    this.quill.on('text-change', _.debounce(this.onTextChange.bind(this), 0));
-    this.quill.on('selection-change', this.onSelectionChange.bind(this));
+    this.quill.on(
+      Emitter.events.TEXT_CHANGE,
+      _.debounce(this.onTextChange.bind(this), 0)
+    );
+    this.quill.on(
+      Emitter.events.SELECTION_CHANGE,
+      this.onSelectionChange.bind(this)
+    );
   }
 
   destroy(): void {
@@ -128,10 +134,15 @@ export class MentionCompletion {
 
         if (memberRepository) {
           if (leftTokenText === '') {
-            results = memberRepository.getMembers(this.options.me);
+            results = memberRepository.getMembers(
+              this.options.ourConversationId
+            );
           } else {
             const fullMentionText = leftTokenText;
-            results = memberRepository.search(fullMentionText, this.options.me);
+            results = memberRepository.search(
+              fullMentionText,
+              this.options.ourConversationId
+            );
           }
         }
 
@@ -283,17 +294,16 @@ export class MentionCompletion {
                   )}
                 >
                   <Avatar
-                    acceptedMessageRequest={member.acceptedMessageRequest}
+                    avatarPlaceholderGradient={member.avatarPlaceholderGradient}
                     avatarUrl={member.avatarUrl}
                     badge={getPreferredBadge(member.badges)}
                     conversationType="direct"
+                    hasAvatar={member.hasAvatar}
                     i18n={this.options.i18n}
-                    isMe={member.isMe}
                     sharedGroupNames={member.sharedGroupNames}
                     size={AvatarSize.TWENTY_EIGHT}
                     theme={theme}
                     title={member.title}
-                    unblurredAvatarUrl={member.unblurredAvatarUrl}
                   />
                   <div className="module-composition-input__suggestions__title">
                     <UserText text={member.title} />

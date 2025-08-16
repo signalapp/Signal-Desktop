@@ -39,11 +39,7 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
     bootstrap = new Bootstrap({ contactCount: 1 });
     await bootstrap.init();
 
-    const {
-      server,
-      phone,
-      contacts: [contact],
-    } = bootstrap;
+    const { server, phone } = bootstrap;
 
     stranger = await server.createPrimaryDevice({
       profileName: STRANGER_NAME,
@@ -53,27 +49,17 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
 
     state = state.updateAccount({
       profileKey: phone.profileKey.serialize(),
-      e164: phone.device.number,
     });
 
     state = state.addContact(stranger, {
       identityState: Proto.ContactRecord.IdentityState.DEFAULT,
       whitelisted: true,
-      serviceE164: undefined,
+      e164: undefined,
       profileKey: stranger.profileKey.serialize(),
     });
 
-    state = state.addContact(contact, {
-      identityState: Proto.ContactRecord.IdentityState.DEFAULT,
-      whitelisted: true,
-      serviceE164: undefined,
-      profileKey: contact.profileKey.serialize(),
-    });
-    contact.device.capabilities.versionedExpirationTimer = false;
-
     // Put both contacts in left pane
     state = state.pin(stranger);
-    state = state.pin(contact);
 
     // Add my story
     state = state.addRecord({
@@ -84,7 +70,6 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: true,
           name: MY_STORY_ID,
-          recipientServiceIds: [],
         },
       },
     });
@@ -194,11 +179,11 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
       const sendSync = async () => {
         debug('Send a sync message');
         const timestamp = bootstrap.getTimestamp();
-        const destinationServiceId = stranger.device.aci;
+        const destinationServiceIdBinary = stranger.device.aciBinary;
         const content = {
           syncMessage: {
             sent: {
-              destinationServiceId,
+              destinationServiceIdBinary,
               timestamp: Long.fromNumber(timestamp),
               message: {
                 body: 'request',
@@ -208,7 +193,7 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
               },
               unidentifiedStatus: [
                 {
-                  destinationServiceId,
+                  destinationServiceIdBinary,
                 },
               ],
             },
@@ -265,7 +250,7 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
       {
         const compositionInput = await waitForEnabledComposer(window);
 
-        await typeIntoInput(compositionInput, 'Hello');
+        await typeIntoInput(compositionInput, 'Hello', '');
         await compositionInput.press('Enter');
       }
 
@@ -277,78 +262,6 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
       assert.strictEqual(dataMessage.expireTimerVersion, scenario.finalVersion);
     });
   }
-
-  it('should not bump version for not capable recipient', async () => {
-    const {
-      contacts: [contact],
-    } = bootstrap;
-
-    const window = await app.getWindow();
-    const leftPane = window.locator('#LeftPane');
-
-    debug('opening conversation with the contact');
-    await leftPane
-      .locator(
-        `[data-testid="${contact.device.aci}"] >> "${contact.profileName}"`
-      )
-      .click();
-
-    await window.locator('.module-conversation-hero').waitFor();
-
-    const conversationStack = window.locator('.Inbox__conversation-stack');
-
-    debug('setting timer to 1 week');
-    await conversationStack
-      .locator('button.module-ConversationHeader__button--more')
-      .click();
-
-    await window
-      .locator('.react-contextmenu-item >> "Disappearing messages"')
-      .click();
-
-    await window
-      .locator(
-        '.module-ConversationHeader__disappearing-timer__item >> "1 week"'
-      )
-      .click();
-
-    debug('Getting first expiration update');
-    {
-      const { dataMessage } = await contact.waitForMessage();
-      assert.strictEqual(
-        dataMessage.flags,
-        Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
-      );
-      assert.strictEqual(dataMessage.expireTimer, 604800);
-      assert.strictEqual(dataMessage.expireTimerVersion, 1);
-    }
-
-    debug('setting timer to 4 weeks');
-    await conversationStack
-      .locator('button.module-ConversationHeader__button--more')
-      .click();
-
-    await window
-      .locator('.react-contextmenu-item >> "Disappearing messages"')
-      .click();
-
-    await window
-      .locator(
-        '.module-ConversationHeader__disappearing-timer__item >> "4 weeks"'
-      )
-      .click();
-
-    debug('Getting second expiration update');
-    {
-      const { dataMessage } = await contact.waitForMessage();
-      assert.strictEqual(
-        dataMessage.flags,
-        Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
-      );
-      assert.strictEqual(dataMessage.expireTimer, 2419200);
-      assert.strictEqual(dataMessage.expireTimerVersion, 1);
-    }
-  });
 
   it('should bump version for capable recipient', async () => {
     const window = await app.getWindow();

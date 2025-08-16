@@ -4,13 +4,16 @@
 import React from 'react';
 import { times } from 'lodash';
 import type { Meta } from '@storybook/react';
-import { setupI18n } from '../util/setupI18n';
-import enMessages from '../../_locales/en/messages.json';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
 import type { PropsType } from './CallingPreCallInfo';
 import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo';
+import type { ConversationType } from '../state/ducks/conversations';
+import { getPlaceholderContact } from '../state/selectors/conversations';
+import { generateAci } from '../types/ServiceId';
+import { FAKE_CALL_LINK } from '../test-helpers/fakeCallLink';
+import { callLinkToConversation } from '../util/callLinks';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 const getDefaultGroupConversation = () =>
   getDefaultConversation({
     name: 'Tahoe Trip',
@@ -20,6 +23,11 @@ const getDefaultGroupConversation = () =>
     type: 'group',
   });
 const otherMembers = times(6, () => getDefaultConversation());
+
+const getUnknownContact = (): ConversationType => ({
+  ...getPlaceholderContact(),
+  serviceId: generateAci(),
+});
 
 export default {
   title: 'Components/CallingPreCallInfo',
@@ -242,6 +250,66 @@ export function GroupConversationCallIsFull(): JSX.Element {
       me={getDefaultConversation()}
       peekedParticipants={otherMembers}
       ringMode={RingMode.WillRing}
+    />
+  );
+}
+
+export function CallLinkUnknownContact(): JSX.Element {
+  return (
+    <CallingPreCallInfo
+      conversation={callLinkToConversation(FAKE_CALL_LINK, i18n)}
+      groupMembers={otherMembers}
+      i18n={i18n}
+      me={getDefaultConversation()}
+      peekedParticipants={[getUnknownContact()]}
+      ringMode={RingMode.WillNotRing}
+    />
+  );
+}
+
+export function CallLink3UnknownContacts(): JSX.Element {
+  return (
+    <CallingPreCallInfo
+      conversation={callLinkToConversation(FAKE_CALL_LINK, i18n)}
+      groupMembers={otherMembers}
+      i18n={i18n}
+      me={getDefaultConversation()}
+      peekedParticipants={[
+        getUnknownContact(),
+        getUnknownContact(),
+        getUnknownContact(),
+      ]}
+      ringMode={RingMode.WillNotRing}
+    />
+  );
+}
+
+export function CallLink1Known1UnknownContact(): JSX.Element {
+  return (
+    <CallingPreCallInfo
+      conversation={callLinkToConversation(FAKE_CALL_LINK, i18n)}
+      groupMembers={otherMembers}
+      i18n={i18n}
+      me={getDefaultConversation()}
+      peekedParticipants={[otherMembers[0], getUnknownContact()]}
+      ringMode={RingMode.WillNotRing}
+    />
+  );
+}
+
+export function CallLink1Known2UnknownContacts(): JSX.Element {
+  return (
+    <CallingPreCallInfo
+      conversation={callLinkToConversation(FAKE_CALL_LINK, i18n)}
+      groupMembers={otherMembers}
+      i18n={i18n}
+      me={getDefaultConversation()}
+      peekedParticipants={[
+        otherMembers[0],
+        getUnknownContact(),
+        getUnknownContact(),
+      ]}
+      ringMode={RingMode.WillNotRing}
     />
   );
 }

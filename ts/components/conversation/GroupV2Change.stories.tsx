@@ -4,10 +4,8 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { setupI18n } from '../../util/setupI18n';
 import { generateAci, generatePni } from '../../types/ServiceId';
 import type { ServiceIdString, AciString } from '../../types/ServiceId';
-import enMessages from '../../../_locales/en/messages.json';
 import type { GroupV2ChangeType } from '../../groups';
 import { SignalService as Proto } from '../../protobuf';
 import type { SmartContactRendererType } from '../../groupChange';
@@ -17,7 +15,7 @@ import { GroupV2Change } from './GroupV2Change';
 // Note: this should be kept up to date with backup_groupv2_notifications_test.ts, to
 //   maintain the comprehensive set of GroupV2 notifications we need to handle
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const OUR_ACI = generateAci();
 const OUR_PNI = generatePni();

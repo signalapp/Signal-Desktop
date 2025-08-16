@@ -1,6 +1,9 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .module-message-detail {
   max-width: 650px;
   margin-inline: auto;
@@ -22,7 +25,7 @@
 }
 
 .module-message-detail__label {
-  @include font-body-1-bold;
+  @include mixins.font-body-1-bold;
 
   min-width: 72px;
 }
@@ -31,16 +34,16 @@
 }
 
 .module-message-detail__unix-timestamp {
-  @include light-theme {
-    color: $color-gray-05;
+  @include mixins.light-theme {
+    color: variables.$color-gray-05;
   }
-  @include dark-theme {
-    color: $color-gray-45;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-45;
   }
 }
 
 .module-message-detail__contact-group__header {
-  @include font-body-1-bold;
+  @include mixins.font-body-1-bold;
   align-items: center;
   display: flex;
   justify-content: space-between;
@@ -70,26 +73,26 @@
 
   &--Failed:after {
     width: 12px;
-    @include light-theme {
-      @include color-svg(
+    @include mixins.light-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/error/error-circle-compact.svg',
-        $color-accent-red
+        variables.$color-accent-red
       );
     }
-    @include dark-theme {
-      @include color-svg(
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/error/error-circle-compact.svg',
-        $color-accent-red
+        variables.$color-accent-red
       );
     }
   }
 
   @mixin normal-icon($icon) {
-    @include light-theme {
-      @include color-svg($icon, $color-gray-60);
+    @include mixins.light-theme {
+      @include mixins.color-svg($icon, variables.$color-gray-60);
     }
-    @include dark-theme {
-      @include color-svg($icon, $color-gray-25);
+    @include mixins.dark-theme {
+      @include mixins.color-svg($icon, variables.$color-gray-25);
     }
   }
 
@@ -139,13 +142,13 @@
 }
 
 .module-message-detail__contact__text {
-  @include font-body-1;
+  @include mixins.font-body-1;
   flex-grow: 1;
   margin-inline-start: 10px;
 }
 
 .module-message-detail__contact__error {
-  color: $color-accent-red;
+  color: variables.$color-accent-red;
   font-weight: bold;
 }
 
@@ -156,16 +159,16 @@
   height: 18px;
   display: inline-block;
 
-  @include light-theme {
-    @include color-svg(
+  @include mixins.light-theme {
+    @include mixins.color-svg(
       '../images/icons/v2/unidentified-delivery-solid-20.svg',
-      $color-gray-60
+      variables.$color-gray-60
     );
   }
-  @include dark-theme {
-    @include color-svg(
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
       '../images/icons/v2/unidentified-delivery-solid-20.svg',
-      $color-gray-25
+      variables.$color-gray-25
     );
   }
 }
@@ -175,28 +178,31 @@
 }
 
 .module-message-detail__contact__show-safety-number {
-  @include button-reset;
-  padding: 4px;
-  border-radius: 4px;
-
-  color: $color-white;
-
-  @include light-theme {
-    background-color: $color-gray-45;
+  @include mixins.button-reset;
+  & {
+    padding: 4px;
+    border-radius: 4px;
+    color: variables.$color-white;
   }
-  @include dark-theme {
-    background-color: $color-gray-25;
+
+  @include mixins.light-theme {
+    background-color: variables.$color-gray-45;
+  }
+  @include mixins.dark-theme {
+    background-color: variables.$color-gray-25;
   }
 }
 .module-message-detail__contact__send-anyway {
-  @include button-reset;
-  margin-inline-start: 5px;
-  margin-top: 5px;
-  padding: 4px;
-  border-radius: 4px;
+  @include mixins.button-reset;
+  & {
+    margin-inline-start: 5px;
+    margin-top: 5px;
+    padding: 4px;
+    border-radius: 4px;
 
-  color: $color-white;
-  background-color: $color-accent-red;
+    color: variables.$color-white;
+    background-color: variables.$color-accent-red;
+  }
 }
 
 .module-message-detail__status-timestamp {

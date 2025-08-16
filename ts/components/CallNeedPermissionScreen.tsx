@@ -12,16 +12,17 @@ import type { ConversationType } from '../state/ducks/conversations';
 export type Props = {
   conversation: Pick<
     ConversationType,
+    | 'avatarPlaceholderGradient'
     | 'acceptedMessageRequest'
     | 'avatarUrl'
     | 'color'
+    | 'hasAvatar'
     | 'isMe'
     | 'name'
     | 'phoneNumber'
     | 'profileName'
     | 'sharedGroupNames'
     | 'title'
-    | 'unblurredAvatarUrl'
   >;
   i18n: LocalizerType;
   close: () => void;
@@ -45,14 +46,14 @@ export function CallNeedPermissionScreen({
   return (
     <div className="module-call-need-permission-screen">
       <Avatar
-        acceptedMessageRequest={conversation.acceptedMessageRequest}
+        avatarPlaceholderGradient={conversation.avatarPlaceholderGradient}
         avatarUrl={conversation.avatarUrl}
         badge={undefined}
         color={conversation.color || AvatarColors[0]}
         noteToSelf={false}
         conversationType="direct"
+        hasAvatar={conversation.hasAvatar}
         i18n={i18n}
-        isMe={conversation.isMe}
         phoneNumber={conversation.phoneNumber}
         profileName={conversation.profileName}
         title={conversation.title}

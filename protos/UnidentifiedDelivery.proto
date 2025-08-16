@@ -34,11 +34,12 @@ message UnidentifiedSenderMessage {
 
     message Message {
         enum Type {
-            PREKEY_MESSAGE         = 1;
+            // Our parser does not handle reserved in enums: DESKTOP-1569
+            // reserved 1;
             MESSAGE                = 2;
+            PREKEY_MESSAGE         = 3;
             // Further cases should line up with Envelope.Type, even though old cases don't.
 
-            // Our parser does not handle reserved in enums: DESKTOP-1569
             // reserved 3 to 6;
 
             SENDERKEY_MESSAGE      = 7;

@@ -5,7 +5,9 @@ import { MINUTE } from '../util/durations';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { explodePromise } from '../util/explodePromise';
 import { toLogFormat } from '../types/errors';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const log = createLogger('TaskWithTimeout');
 
 type TaskType = {
   id: string;
@@ -18,7 +20,7 @@ const tasks = new Set<TaskType>();
 let shouldStartTimers = true;
 
 export function suspendTasksWithTimeout(): void {
-  log.info(`TaskWithTimeout: suspending ${tasks.size} tasks`);
+  log.info(`suspending ${tasks.size} tasks`);
   shouldStartTimers = false;
   for (const task of tasks) {
     task.suspend();
@@ -26,7 +28,7 @@ export function suspendTasksWithTimeout(): void {
 }
 
 export function resumeTasksWithTimeout(): void {
-  log.info(`TaskWithTimeout: resuming ${tasks.size} tasks`);
+  log.info(`resuming ${tasks.size} tasks`);
   shouldStartTimers = true;
   for (const task of tasks) {
     task.resume();
@@ -42,9 +44,7 @@ export function reportLongRunningTasks(): void {
 
     const duration = Math.max(0, now - task.startedAt);
     if (duration > MINUTE) {
-      log.warn(
-        `TaskWithTimeout: ${task.id} has been running for ${duration}ms`
-      );
+      log.warn(`${task.id} has been running for ${duration}ms`);
     }
   }
 }
@@ -75,9 +75,7 @@ export default function createTaskWithTimeout<T, Args extends Array<unknown>>(
       entry.startedAt = Date.now();
       timer = setTimeout(() => {
         if (complete) {
-          log.warn(
-            `TaskWithTimeout: ${id} task timed out, but was already complete`
-          );
+          log.warn(`${id} task timed out, but was already complete`);
           return;
         }
         complete = true;
@@ -97,11 +95,11 @@ export default function createTaskWithTimeout<T, Args extends Array<unknown>>(
       id,
       startedAt: undefined,
       suspend: () => {
-        log.warn(`TaskWithTimeout: ${id} task suspended`);
+        log.warn(`${id} task suspended`);
         stopTimer();
       },
       resume: () => {
-        log.warn(`TaskWithTimeout: ${id} task resumed`);
+        log.warn(`${id} task resumed`);
         startTimer();
       },
     };

@@ -10,6 +10,8 @@ export enum LoadingState {
 export type Loadable<ValueT, ErrorT = unknown> =
   | {
       loadingState: LoadingState.Loading;
+      value?: never;
+      error?: never;
     }
-  | { loadingState: LoadingState.Loaded; value: ValueT }
-  | { loadingState: LoadingState.LoadFailed; error: ErrorT };
+  | { loadingState: LoadingState.Loaded; value: ValueT; error?: never }
+  | { loadingState: LoadingState.LoadFailed; value?: never; error: ErrorT };

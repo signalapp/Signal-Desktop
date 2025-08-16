@@ -13,11 +13,11 @@ function getState(): NativeThemeState {
 }
 
 export class NativeThemeNotifier {
-  private readonly listeners = new Set<BrowserWindow>();
+  readonly #listeners = new Set<BrowserWindow>();
 
   public initialize(): void {
     nativeTheme.on('updated', () => {
-      this.notifyListeners();
+      this.#notifyListeners();
     });
 
     ipc.on('native-theme:init', event => {
@@ -27,19 +27,19 @@ export class NativeThemeNotifier {
   }
 
   public addWindow(window: BrowserWindow): void {
-    if (this.listeners.has(window)) {
+    if (this.#listeners.has(window)) {
       return;
     }
 
-    this.listeners.add(window);
+    this.#listeners.add(window);
 
     window.once('closed', () => {
-      this.listeners.delete(window);
+      this.#listeners.delete(window);
     });
   }
 
-  private notifyListeners(): void {
-    for (const window of this.listeners) {
+  #notifyListeners(): void {
+    for (const window of this.#listeners) {
       window.webContents.send('native-theme:changed', getState());
     }
   }

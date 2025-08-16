@@ -1,29 +1,28 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable no-await-in-loop, no-console */
 
 import { ReceiptType } from '@signalapp/mock-server';
+import { omit } from 'lodash';
 
-import { debug, Bootstrap, RUN_COUNT } from './fixtures';
-import { stats } from '../../util/benchmark/stats';
+import { debug, Bootstrap, MAX_CYCLES } from './fixtures';
+import { type RegressionSample } from '../bootstrap';
 
-const MESSAGE_BATCH_SIZE = 1000; // messages
+const INITIAL_MESSAGE_COUNT = 1000;
+const FINAL_MESSAGE_COUNT = 5000;
 
 const ENABLE_RECEIPTS = Boolean(process.env.ENABLE_RECEIPTS);
 
-Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
-  await bootstrap.linkAndClose();
+Bootstrap.regressionBenchmark(
+  async ({ bootstrap, value: messageCount }): Promise<RegressionSample> => {
+    await bootstrap.linkAndClose();
 
-  const { server, contacts, phone, desktop } = bootstrap;
+    const { server, contacts, phone, desktop } = bootstrap;
 
-  const messagesPerSec = new Array<number>();
-
-  for (let runId = 0; runId < RUN_COUNT; runId += 1) {
     // Generate messages
     const messagePromises = new Array<Promise<Buffer>>();
     debug('started generating messages');
 
-    for (let i = 0; i < MESSAGE_BATCH_SIZE; i += 1) {
+    for (let i = 0; i < messageCount; i += 1) {
       const contact = contacts[Math.floor(i / 2) % contacts.length];
       const direction = i % 2 ? 'message' : 'reply';
 
@@ -33,7 +32,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
         messagePromises.push(
           contact.encryptText(
             desktop,
-            `Ping from mock server ${i + 1} / ${MESSAGE_BATCH_SIZE}`,
+            `Ping from mock server ${i + 1} / ${messageCount}`,
             {
               timestamp: messageTimestamp,
               sealed: true,
@@ -60,7 +59,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
       messagePromises.push(
         phone.encryptSyncSent(
           desktop,
-          `Pong from mock server ${i + 1} / ${MESSAGE_BATCH_SIZE}`,
+          `Pong from mock server ${i + 1} / ${messageCount}`,
           {
             timestamp: messageTimestamp,
             destinationServiceId: contact.device.aci,
@@ -103,23 +102,34 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
         );
       };
 
-      const run = async (): Promise<void> => {
+      const run = async () => {
         const app = await bootstrap.startApp();
         const appLoadedInfo = await app.waitUntilLoaded();
 
-        console.log('run=%d info=%j', runId, appLoadedInfo);
-
-        messagesPerSec.push(appLoadedInfo.messagesPerSec);
+        if (!(await app.waitForPreloadCacheHit())) {
+          throw new Error('Preload cache miss');
+        }
 
         await app.close();
+
+        return appLoadedInfo;
       };
 
-      await Promise.all([queue(), run()]);
-    }
-  }
+      const [, info] = await Promise.all([queue(), run()]);
 
-  // Compute human-readable statistics
-  if (messagesPerSec.length !== 0) {
-    console.log('stats info=%j', { messagesPerSec: stats(messagesPerSec) });
+      const { loadTime, preloadTime, preloadCompileTime, connectTime } = info;
+      const messagesDuration =
+        loadTime - preloadTime - preloadCompileTime - connectTime;
+
+      return {
+        messagesDuration,
+        metrics: omit(info, 'messagesPerSec', 'loadTime'),
+      };
+    }
+  },
+  {
+    fromValue: INITIAL_MESSAGE_COUNT,
+    toValue: FINAL_MESSAGE_COUNT,
+    maxCycles: MAX_CYCLES,
   }
-});
+);

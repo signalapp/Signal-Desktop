@@ -17,11 +17,11 @@ import { canEditGroupInfo } from './canEditGroupInfo';
 import { dropNull } from './dropNull';
 import { getAboutText } from './getAboutText';
 import {
-  getLocalUnblurredAvatarUrl,
   getAvatarHash,
   getLocalAvatarUrl,
   getLocalProfileAvatarUrl,
   getRawAvatarPath,
+  hasAvatar,
 } from './avatarUtils';
 import { getAvatarData } from './getAvatarData';
 import { getConversationMembers } from './getConversationMembers';
@@ -34,8 +34,10 @@ import {
   getTitle,
   getTitleNoDefault,
   canHaveUsername,
+  renderNumber,
 } from './getTitle';
 import { hasDraft } from './hasDraft';
+import { isAciString } from './isAciString';
 import { isBlocked } from './isBlocked';
 import { isConversationAccepted } from './isConversationAccepted';
 import {
@@ -45,16 +47,17 @@ import {
   isMe,
 } from './whatTypeOfConversation';
 import {
+  areWePending,
   getBannedMemberships,
   getMembersCount,
   getMemberships,
   getPendingApprovalMemberships,
   getPendingMemberships,
-  isMember,
   isMemberAwaitingApproval,
-  isMemberPending,
 } from './groupMembershipUtils';
 import { isNotNil } from './isNotNil';
+import { getIdentifierHash } from '../Crypto';
+import { getAvatarPlaceholderGradient } from '../utils/getAvatarPlaceholderGradient';
 
 const EMPTY_ARRAY: Readonly<[]> = [];
 const EMPTY_GROUP_COLLISIONS: GroupNameCollisionsWithIdsByTitle = {};
@@ -87,9 +90,25 @@ export function getConversation(model: ConversationModel): ConversationType {
   );
 
   const ourAci = window.textsecure.storage.user.getAci();
-  const ourPni = window.textsecure.storage.user.getPni();
 
-  const color = migrateColor(attributes.serviceId, attributes.color);
+  const identifierHash = getIdentifierHash({
+    aci: isAciString(attributes.serviceId) ? attributes.serviceId : undefined,
+    e164: attributes.e164,
+    pni: attributes.pni,
+    groupId: attributes.groupId,
+  });
+
+  const color = migrateColor(attributes.color, {
+    aci: isAciString(attributes.serviceId) ? attributes.serviceId : undefined,
+    e164: attributes.e164,
+    pni: attributes.pni,
+    groupId: attributes.groupId,
+  });
+
+  const avatarPlaceholderGradient =
+    hasAvatar(attributes) && identifierHash != null
+      ? getAvatarPlaceholderGradient(identifierHash)
+      : undefined;
 
   const { draftTimestamp, draftEditMessage, timestamp } = attributes;
   const draftPreview = getDraftPreview(attributes);
@@ -117,6 +136,8 @@ export function getConversation(model: ConversationModel): ConversationType {
 
   const { customColor, customColorId } = getCustomColorData(attributes);
 
+  const isItMe = isMe(attributes);
+
   // TODO: DESKTOP-720
   return {
     id: attributes.id,
@@ -136,20 +157,14 @@ export function getConversation(model: ConversationModel): ConversationType {
     acceptedMessageRequest: isConversationAccepted(attributes),
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     activeAt: attributes.active_at!,
-    areWePending:
-      ourAci &&
-      (isMemberPending(attributes, ourAci) ||
-        Boolean(
-          ourPni &&
-            !isMember(attributes, ourAci) &&
-            isMemberPending(attributes, ourPni)
-        )),
+    areWePending: areWePending(attributes),
     areWePendingApproval: Boolean(
       ourConversationId &&
         ourAci &&
         isMemberAwaitingApproval(attributes, ourAci)
     ),
     areWeAdmin: areWeAdmin(attributes),
+    avatarPlaceholderGradient,
     avatars: getAvatarData(attributes),
     badges: attributes.badges ?? EMPTY_ARRAY,
     canChangeTimer: canChangeTimer(attributes),
@@ -158,8 +173,8 @@ export function getConversation(model: ConversationModel): ConversationType {
     avatarUrl: getLocalAvatarUrl(attributes),
     rawAvatarPath: getRawAvatarPath(attributes),
     avatarHash: getAvatarHash(attributes),
-    unblurredAvatarUrl: getLocalUnblurredAvatarUrl(attributes),
     profileAvatarUrl: getLocalProfileAvatarUrl(attributes),
+    hasAvatar: hasAvatar(attributes),
     color,
     conversationColor: attributes.conversationColor,
     customColor,
@@ -169,8 +184,8 @@ export function getConversation(model: ConversationModel): ConversationType {
     draftPreview,
     draftText,
     draftEditMessage,
-    familyName: attributes.profileFamilyName,
-    firstName: attributes.profileName,
+    familyName: attributes.nicknameFamilyName ?? attributes.profileFamilyName,
+    firstName: attributes.nicknameGivenName ?? attributes.profileName,
     groupDescription: attributes.description,
     groupVersion,
     groupId: attributes.groupId,
@@ -181,7 +196,7 @@ export function getConversation(model: ConversationModel): ConversationType {
     isBlocked: isBlocked(attributes),
     reportingToken: attributes.reportingToken,
     removalStage: attributes.removalStage,
-    isMe: isMe(attributes),
+    isMe: isItMe,
     isGroupV1AndDisabled: isGroupV1(attributes),
     isPinned: attributes.isPinned,
     isUntrusted: model.isUntrusted(),
@@ -195,6 +210,7 @@ export function getConversation(model: ConversationModel): ConversationType {
     markedUnread: attributes.markedUnread,
     membersCount: getMembersCount(attributes),
     memberships: getMemberships(attributes),
+    messagesDeleted: Boolean(attributes.messagesDeleted),
     hasMessages: (attributes.messageCount ?? 0) > 0,
     pendingMemberships: getPendingMemberships(attributes),
     pendingApprovalMemberships: getPendingApprovalMemberships(attributes),
@@ -215,7 +231,10 @@ export function getConversation(model: ConversationModel): ConversationType {
     systemGivenName: attributes.systemGivenName,
     systemFamilyName: attributes.systemFamilyName,
     systemNickname: attributes.systemNickname,
-    phoneNumber: getNumber(attributes),
+    phoneNumber:
+      isItMe && attributes.e164
+        ? renderNumber(attributes.e164)
+        : getNumber(attributes),
     profileName: getProfileName(attributes),
     profileSharing: attributes.profileSharing,
     profileLastUpdatedAt: attributes.profileLastUpdatedAt,
@@ -229,6 +248,7 @@ export function getConversation(model: ConversationModel): ConversationType {
     title: getTitle(attributes),
     titleNoDefault: getTitleNoDefault(attributes),
     titleNoNickname: getTitle(attributes, { ignoreNickname: true }),
+    titleShortNoDefault: getTitle(attributes, { isShort: true }),
     typingContactIdTimestamps,
     searchableTitle: isMe(attributes)
       ? window.i18n('icu:noteToSelf')

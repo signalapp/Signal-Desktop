@@ -2,52 +2,133 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import memoizee from 'memoizee';
+import type { PrivateKey } from '@signalapp/libsignal-client';
+import {
+  AccountEntropyPool,
+  BackupKey,
+} from '@signalapp/libsignal-client/dist/AccountKeys';
+import { MessageBackupKey } from '@signalapp/libsignal-client/dist/MessageBackup';
 
 import { strictAssert } from '../../util/assert';
 import type { AciString } from '../../types/ServiceId';
 import { toAciObject } from '../../util/ServiceId';
-import {
-  deriveBackupKey,
-  deriveBackupSignatureKey,
-  deriveBackupId,
-  deriveBackupKeyMaterial,
-} from '../../Crypto';
-import type { BackupKeyMaterialType } from '../../Crypto';
 
-const getMemoizedBackupKey = memoizee((masterKey: string) => {
-  return deriveBackupKey(Buffer.from(masterKey, 'base64'));
+const getMemoizedBackupKey = memoizee((accountEntropyPool: string) => {
+  return AccountEntropyPool.deriveBackupKey(accountEntropyPool);
 });
 
-export function getBackupKey(): Uint8Array {
-  const masterKey = window.storage.get('masterKey');
-  strictAssert(masterKey, 'Master key not available');
+export function getBackupKey(): BackupKey {
+  const accountEntropyPool = window.storage.get('accountEntropyPool');
+  strictAssert(accountEntropyPool, 'Account Entropy Pool not available');
 
-  return getMemoizedBackupKey(masterKey);
+  return getMemoizedBackupKey(accountEntropyPool);
+}
+
+export function getBackupMediaRootKey(): BackupKey {
+  const rootKey = window.storage.get('backupMediaRootKey');
+  strictAssert(rootKey, 'Media root key not available');
+
+  return new BackupKey(rootKey);
 }
 
 const getMemoizedBackupSignatureKey = memoizee(
-  (backupKey: Uint8Array, aci: AciString) => {
-    const aciBytes = toAciObject(aci).getServiceIdBinary();
-    return deriveBackupSignatureKey(backupKey, aciBytes);
+  (backupKey: BackupKey, aci: AciString) => {
+    return backupKey.deriveEcKey(toAciObject(aci));
   }
 );
 
-export function getBackupSignatureKey(): Uint8Array {
+export function getBackupSignatureKey(): PrivateKey {
   const backupKey = getBackupKey();
   const aci = window.storage.user.getCheckedAci();
   return getMemoizedBackupSignatureKey(backupKey, aci);
 }
 
-const getMemoizedKeyMaterial = memoizee(
-  (backupKey: Uint8Array, aci: AciString) => {
-    const aciBytes = toAciObject(aci).getServiceIdBinary();
-    const backupId = deriveBackupId(backupKey, aciBytes);
-    return deriveBackupKeyMaterial(backupKey, backupId);
+const getMemoizedBackupMediaSignatureKey = memoizee(
+  (rootKey: BackupKey, aci: AciString) => {
+    return rootKey.deriveEcKey(toAciObject(aci));
   }
 );
 
-export function getKeyMaterial(): BackupKeyMaterialType {
-  const backupKey = getBackupKey();
+export function getBackupMediaSignatureKey(): PrivateKey {
+  const rootKey = getBackupMediaRootKey();
+  const aci = window.storage.user.getCheckedAci();
+  return getMemoizedBackupMediaSignatureKey(rootKey, aci);
+}
+
+const getMemoizedKeyMaterial = memoizee(
+  (backupKey: BackupKey, aci: AciString) => {
+    const messageKey = new MessageBackupKey({
+      backupKey,
+      backupId: backupKey.deriveBackupId(toAciObject(aci)),
+    });
+
+    return { macKey: messageKey.hmacKey, aesKey: messageKey.aesKey };
+  }
+);
+
+export type BackupKeyMaterialType = Readonly<{
+  macKey: Uint8Array;
+  aesKey: Uint8Array;
+}>;
+
+export function getKeyMaterial(
+  backupKey = getBackupKey()
+): BackupKeyMaterialType {
   const aci = window.storage.user.getCheckedAci();
   return getMemoizedKeyMaterial(backupKey, aci);
+}
+
+export type BackupMediaKeyMaterialType = Readonly<{
+  macKey: Uint8Array;
+  aesKey: Uint8Array;
+}>;
+
+const BACKUP_MEDIA_AES_KEY_LEN = 32;
+const BACKUP_MEDIA_MAC_KEY_LEN = 32;
+
+export function deriveBackupMediaKeyMaterial(
+  mediaRootKey: BackupKey,
+  mediaId: Uint8Array
+): BackupMediaKeyMaterialType {
+  if (!mediaId.length) {
+    throw new Error('deriveBackupMediaKeyMaterial: mediaId missing');
+  }
+
+  const material = mediaRootKey.deriveMediaEncryptionKey(mediaId);
+
+  return {
+    macKey: material.subarray(0, BACKUP_MEDIA_MAC_KEY_LEN),
+    aesKey: material.subarray(
+      BACKUP_MEDIA_MAC_KEY_LEN,
+      BACKUP_MEDIA_MAC_KEY_LEN + BACKUP_MEDIA_AES_KEY_LEN
+    ),
+  };
+}
+
+export function deriveBackupThumbnailTransitKeyMaterial(
+  mediaRootKey: BackupKey,
+  mediaId: Uint8Array
+): BackupMediaKeyMaterialType {
+  if (!mediaId.length) {
+    throw new Error('deriveBackupThumbnailTransitKeyMaterial: mediaId missing');
+  }
+
+  const material = mediaRootKey.deriveThumbnailTransitEncryptionKey(mediaId);
+
+  return {
+    macKey: material.subarray(0, BACKUP_MEDIA_MAC_KEY_LEN),
+    aesKey: material.subarray(
+      BACKUP_MEDIA_MAC_KEY_LEN,
+      BACKUP_MEDIA_MAC_KEY_LEN + BACKUP_MEDIA_AES_KEY_LEN
+    ),
+  };
+}
+
+export function getBackupId(): Uint8Array {
+  const aci = window.storage.user.getCheckedAci();
+  return getBackupKey().deriveBackupId(toAciObject(aci));
+}
+
+export function getLocalBackupMetadataKey(): Uint8Array {
+  return getBackupKey().deriveLocalBackupMetadataKey();
 }

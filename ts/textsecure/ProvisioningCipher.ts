@@ -3,6 +3,7 @@
 
 /* eslint-disable max-classes-per-file */
 
+import { PublicKey, Aci, Pni } from '@signalapp/libsignal-client';
 import type { KeyPairType } from './Types.d';
 import * as Bytes from '../Bytes';
 import {
@@ -14,18 +15,31 @@ import { calculateAgreement, createKeyPair, generateKeyPair } from '../Curve';
 import { SignalService as Proto } from '../protobuf';
 import { strictAssert } from '../util/assert';
 import { dropNull } from '../util/dropNull';
+import { normalizeAci } from '../util/normalizeAci';
+import {
+  type AciString,
+  type PniString,
+  normalizePni,
+  toTaggedPni,
+  isUntaggedPniString,
+  fromAciObject,
+  fromPniObject,
+} from '../types/ServiceId';
 
 export type ProvisionDecryptResult = Readonly<{
   aciKeyPair: KeyPairType;
   pniKeyPair?: KeyPairType;
   number?: string;
-  aci?: string;
-  untaggedPni?: string;
+  aci: AciString;
+  pni: PniString;
   provisioningCode?: string;
   userAgent?: string;
   readReceipts?: boolean;
   profileKey?: Uint8Array;
   masterKey?: Uint8Array;
+  accountEntropyPool: string | undefined;
+  mediaRootBackupKey: Uint8Array | undefined;
+  ephemeralBackupKey: Uint8Array | undefined;
 }>;
 
 class ProvisioningCipherInner {
@@ -43,16 +57,19 @@ class ProvisioningCipherInner {
       throw new Error('Bad version number on ProvisioningMessage');
     }
 
-    const iv = message.slice(1, 16 + 1);
-    const mac = message.slice(message.byteLength - 32, message.byteLength);
-    const ivAndCiphertext = message.slice(0, message.byteLength - 32);
-    const ciphertext = message.slice(16 + 1, message.byteLength - 32);
+    const iv = message.subarray(1, 16 + 1);
+    const mac = message.subarray(message.byteLength - 32, message.byteLength);
+    const ivAndCiphertext = message.subarray(0, message.byteLength - 32);
+    const ciphertext = message.subarray(16 + 1, message.byteLength - 32);
 
     if (!this.keyPair) {
       throw new Error('ProvisioningCipher.decrypt: No keypair!');
     }
 
-    const ecRes = calculateAgreement(masterEphemeral, this.keyPair.privKey);
+    const ecRes = calculateAgreement(
+      PublicKey.deserialize(masterEphemeral),
+      this.keyPair.privateKey
+    );
     const keys = deriveSecrets(
       ecRes,
       new Uint8Array(32),
@@ -71,16 +88,36 @@ class ProvisioningCipherInner {
       ? createKeyPair(pniPrivKey)
       : undefined;
 
-    const { aci, pni } = provisionMessage;
-    strictAssert(aci, 'Missing aci in provisioning message');
-    strictAssert(pni, 'Missing pni in provisioning message');
+    const {
+      aci: rawAci,
+      pni: rawUntaggedPni,
+      aciBinary,
+      pniBinary,
+    } = provisionMessage;
+
+    let aci: AciString;
+    let pni: PniString;
+    if (Bytes.isNotEmpty(aciBinary) && Bytes.isNotEmpty(pniBinary)) {
+      aci = fromAciObject(Aci.fromUuidBytes(aciBinary));
+      pni = fromPniObject(Pni.fromUuidBytes(pniBinary));
+    } else if (rawAci && rawUntaggedPni) {
+      strictAssert(
+        isUntaggedPniString(rawUntaggedPni),
+        'ProvisioningCipher: invalid untaggedPni'
+      );
+
+      aci = normalizeAci(rawAci, 'provisionMessage.aci');
+      pni = normalizePni(toTaggedPni(rawUntaggedPni), 'provisionMessage.pni');
+    } else {
+      throw new Error('Missing aci/pni in provisioning message');
+    }
 
     return {
       aciKeyPair,
       pniKeyPair,
       number: dropNull(provisionMessage.number),
       aci,
-      untaggedPni: pni,
+      pni,
       provisioningCode: dropNull(provisionMessage.provisioningCode),
       userAgent: dropNull(provisionMessage.userAgent),
       readReceipts: provisionMessage.readReceipts ?? false,
@@ -90,10 +127,17 @@ class ProvisioningCipherInner {
       masterKey: Bytes.isNotEmpty(provisionMessage.masterKey)
         ? provisionMessage.masterKey
         : undefined,
+      ephemeralBackupKey: Bytes.isNotEmpty(provisionMessage.ephemeralBackupKey)
+        ? provisionMessage.ephemeralBackupKey
+        : undefined,
+      mediaRootBackupKey: Bytes.isNotEmpty(provisionMessage.mediaRootBackupKey)
+        ? provisionMessage.mediaRootBackupKey
+        : undefined,
+      accountEntropyPool: provisionMessage.accountEntropyPool || undefined,
     };
   }
 
-  getPublicKey(): Uint8Array {
+  getPublicKey(): PublicKey {
     if (!this.keyPair) {
       this.keyPair = generateKeyPair();
     }
@@ -102,7 +146,7 @@ class ProvisioningCipherInner {
       throw new Error('ProvisioningCipher.decrypt: No keypair!');
     }
 
-    return this.keyPair.pubKey;
+    return this.keyPair.publicKey;
   }
 }
 
@@ -118,5 +162,5 @@ export default class ProvisioningCipher {
     provisionEnvelope: Proto.ProvisionEnvelope
   ) => ProvisionDecryptResult;
 
-  getPublicKey: () => Uint8Array;
+  getPublicKey: () => PublicKey;
 }

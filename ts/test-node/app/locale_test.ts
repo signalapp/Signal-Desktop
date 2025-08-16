@@ -18,6 +18,7 @@ describe('locale', async () => {
         info: stub(),
         debug: stub(),
         trace: stub(),
+        child: () => logger,
       };
 
       async function testCase(

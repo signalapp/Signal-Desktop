@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { CallLinkEditModal } from '../../components/CallLinkEditModal';
 import { useCallingActions } from '../ducks/calling';
 import { getActiveCallState, getCallLinkSelector } from '../selectors/calling';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { getIntl } from '../selectors/user';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import type { CallLinkRestrictions } from '../../types/CallLink';
@@ -14,12 +14,11 @@ import { strictAssert } from '../../util/assert';
 import { linkCallRoute } from '../../util/signalRoutes';
 import { copyCallLink } from '../../util/copyLinksWithToast';
 import { drop } from '../../util/drop';
-import { isCallLinksCreateEnabled } from '../../util/callLinks';
+
+const log = createLogger('CallLinkEditModal');
 
 export const SmartCallLinkEditModal = memo(
   function SmartCallLinkEditModal(): JSX.Element | null {
-    strictAssert(isCallLinksCreateEnabled(), 'Call links creation is disabled');
-
     const roomId = useSelector(getCallLinkEditModalRoomId);
     strictAssert(roomId, 'Expected roomId to be set');
 
@@ -47,6 +46,7 @@ export const SmartCallLinkEditModal = memo(
       const callLinkWebUrl = linkCallRoute
         .toWebUrl({
           key: callLink?.rootKey,
+          epoch: callLink?.epoch,
         })
         .toString();
       drop(copyCallLink(callLinkWebUrl));
@@ -70,7 +70,7 @@ export const SmartCallLinkEditModal = memo(
 
     const handleStartCallLinkLobby = useCallback(() => {
       strictAssert(callLink != null, 'callLink not found');
-      startCallLinkLobby({ rootKey: callLink.rootKey });
+      startCallLinkLobby({ rootKey: callLink.rootKey, epoch: callLink.epoch });
       toggleCallLinkEditModal(null);
     }, [callLink, startCallLinkLobby, toggleCallLinkEditModal]);
 

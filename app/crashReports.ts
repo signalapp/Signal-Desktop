@@ -99,14 +99,14 @@ async function eraseDumps(
 }
 
 export function setup(
-  getLogger: () => LoggerType,
+  logger: LoggerType,
   showDebugLogWindow: () => Promise<void>,
   forceEnable = false
 ): void {
   const isEnabled = !isProduction(app.getVersion()) || forceEnable;
 
   if (isEnabled) {
-    getLogger().info(`crashReporter: ${forceEnable ? 'force ' : ''}enabled`);
+    logger.info(`crashReporter: ${forceEnable ? 'force ' : ''}enabled`);
     crashReporter.start({ uploadToServer: false });
   }
 
@@ -127,7 +127,7 @@ export function setup(
               return fullPath;
             }
           } catch (error) {
-            getLogger().error(
+            logger.error(
               `crashReports: failed to read crash report ${fullPath} due to error`,
               Errors.toLogFormat(error)
             );
@@ -136,7 +136,7 @@ export function setup(
           try {
             await unlink(fullPath);
           } catch (error) {
-            getLogger().error(
+            logger.error(
               `crashReports: failed to unlink crash report ${fullPath}`,
               Errors.toLogFormat(error)
             );
@@ -147,9 +147,7 @@ export function setup(
     ).filter(isNotNil);
 
     if (filteredDumps.length !== 0) {
-      getLogger().warn(
-        `crashReports: ${filteredDumps.length} pending dumps found`
-      );
+      logger.warn(`crashReports: ${filteredDumps.length} pending dumps found`);
     }
     return filteredDumps.length;
   });
@@ -164,7 +162,6 @@ export function setup(
       return;
     }
 
-    const logger = getLogger();
     logger.warn(`crashReports: logging ${pendingDumps.length} dumps`);
 
     await Promise.all(
@@ -225,6 +222,6 @@ export function setup(
 
     const pendingDumps = await getPendingDumps();
 
-    await eraseDumps(getLogger(), pendingDumps);
+    await eraseDumps(logger, pendingDumps);
   });
 }

@@ -8,19 +8,20 @@ import casual from 'casual';
 import { v4 as generateUuid } from 'uuid';
 
 import type { PropsType } from './ProfileEditor';
-import enMessages from '../../_locales/en/messages.json';
+
+import { ProfileEditorPage } from '../types/Nav';
 import { ProfileEditor } from './ProfileEditor';
-import { EditUsernameModalBody } from './EditUsernameModalBody';
+import { UsernameEditor } from './UsernameEditor';
 import {
   UsernameEditState,
   UsernameLinkState,
   UsernameReservationState,
 } from '../state/ducks/usernameEnums';
-import { getRandomColor } from '../test-both/helpers/getRandomColor';
-import { setupI18n } from '../util/setupI18n';
+import { getRandomColor } from '../test-helpers/getRandomColor';
 import { SignalService as Proto } from '../protobuf';
+import { EmojiSkinTone } from './fun/data/emojis';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   component: ProfileEditor,
@@ -52,6 +53,7 @@ export default {
     conversationId: generateUuid(),
     color: getRandomColor(),
     deleteAvatarFromDisk: action('deleteAvatarFromDisk'),
+    editState: ProfileEditorPage.None,
     familyName: casual.last_name,
     firstName: casual.first_name,
     i18n,
@@ -62,13 +64,12 @@ export default {
     usernameLinkState: UsernameLinkState.Ready,
 
     recentEmojis: [],
-    skinTone: 0,
+    emojiSkinToneDefault: EmojiSkinTone.None,
     userAvatarData: [],
     username: undefined,
 
-    onEditStateChanged: action('onEditStateChanged'),
     onProfileChanged: action('onProfileChanged'),
-    onSetSkinTone: action('onSetSkinTone'),
+    onEmojiSkinToneDefaultChange: action('onEmojiSkinToneDefaultChange'),
     saveAttachment: action('saveAttachment'),
     setUsernameLinkColor: action('setUsernameLinkColor'),
     showToast: action('showToast'),
@@ -84,12 +85,9 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-function renderEditUsernameModalBody(props: {
-  isRootModal: boolean;
-  onClose: () => void;
-}): JSX.Element {
+function renderUsernameEditor(props: { onClose: () => void }): JSX.Element {
   return (
-    <EditUsernameModalBody
+    <UsernameEditor
       i18n={i18n}
       minNickname={3}
       maxNickname={20}
@@ -109,14 +107,19 @@ function renderEditUsernameModalBody(props: {
 
 // eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType> = args => {
-  const [skinTone, setSkinTone] = useState(0);
+  const [emojiSkinToneDefault, setEmojiSkinToneDefault] = useState(
+    EmojiSkinTone.None
+  );
+  const [editState, setEditState] = useState(args.editState);
 
   return (
     <ProfileEditor
       {...args}
-      skinTone={skinTone}
-      onSetSkinTone={setSkinTone}
-      renderEditUsernameModalBody={renderEditUsernameModalBody}
+      editState={editState}
+      emojiSkinToneDefault={emojiSkinToneDefault}
+      onEmojiSkinToneDefaultChange={setEmojiSkinToneDefault}
+      renderUsernameEditor={renderUsernameEditor}
+      setEditState={setEditState}
     />
   );
 };

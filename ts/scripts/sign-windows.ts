@@ -11,7 +11,10 @@ export async function sign(
   configuration: CustomWindowsSignTaskConfiguration
 ): Promise<void> {
   // In CI, we remove certificate information from package.json to disable signing
-  if (!configuration.options.certificateSha1) {
+  if (
+    !configuration.options.signtoolOptions ||
+    !configuration.options.signtoolOptions.certificateSha1
+  ) {
     return;
   }
 

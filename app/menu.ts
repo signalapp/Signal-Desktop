@@ -32,6 +32,7 @@ export const createTemplate = (
     platform,
     setupAsNewDevice,
     setupAsStandalone,
+    stageLocalBackupForImport,
     forceUpdate,
     showAbout,
     showDebugLog,
@@ -225,6 +226,13 @@ export const createTemplate = (
 
     if (Array.isArray(fileMenu.submenu)) {
       // These are in reverse order, since we're prepending them one at a time
+      if (options.isNightly) {
+        fileMenu.submenu.unshift({
+          label: i18n('icu:menuStageLocalBackupForImport'),
+          click: stageLocalBackupForImport,
+        });
+      }
+
       if (options.development) {
         fileMenu.submenu.unshift({
           label: i18n('icu:menuSetupAsStandalone'),

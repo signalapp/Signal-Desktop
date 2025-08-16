@@ -1,6 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../variables';
+
 .HueSlider {
   &.Slider {
     background-image: linear-gradient(
@@ -24,7 +26,7 @@
 
   &__handle {
     &.Slider__handle {
-      border: 7px solid $color-white;
+      border: 7px solid variables.$color-white;
       margin-top: -7px;
       margin-inline-start: -11px;
       height: 22px;

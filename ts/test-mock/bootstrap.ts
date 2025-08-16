@@ -22,8 +22,9 @@ import {
   loadCertificates,
 } from '@signalapp/mock-server';
 import { MAX_READ_KEYS as MAX_STORAGE_READ_KEYS } from '../services/storageConstants';
-import * as durations from '../util/durations';
+import { SECOND, MINUTE, WEEK, MONTH } from '../util/durations';
 import { drop } from '../util/drop';
+import { regress } from '../util/benchmark/stats';
 import type { RendererConfigType } from '../types/RendererConfig';
 import type { MIMEType } from '../types/MIME';
 import { App } from './playwright';
@@ -114,6 +115,27 @@ export type BootstrapOptions = Readonly<{
   unknownContactCount?: number;
   contactNames?: ReadonlyArray<string>;
   contactPreKeyCount?: number;
+
+  useLegacyStorageEncryption?: boolean;
+
+  // Optional. specify a server to use instead of creating and initializing one.
+  server?: Server;
+}>;
+
+export type EphemeralBackupType = Readonly<
+  | {
+      cdn: 3;
+      key: string;
+    }
+  | {
+      error: 'RELINK_REQUESTED';
+    }
+>;
+
+export type LinkOptionsType = Readonly<{
+  extraConfig?: Partial<RendererConfigType>;
+  ephemeralBackup?: EphemeralBackupType;
+  localBackup?: string;
 }>;
 
 type BootstrapInternalOptions = BootstrapOptions &
@@ -126,9 +148,40 @@ type BootstrapInternalOptions = BootstrapOptions &
     contactNames: ReadonlyArray<string>;
   }>;
 
+export type RegressionBenchmarkOptions = Readonly<{
+  fromValue: number;
+  toValue: number;
+  iterationCount?: number;
+  maxCycles?: number;
+  maxError?: number;
+  timeout?: number;
+}>;
+
+export type RegressionBenchmarkFnOptions = Readonly<{
+  bootstrap: Bootstrap;
+  iteration: number;
+  value: number;
+}>;
+
+export type RegressionSample = Readonly<{
+  [key: `${string}Duration`]: number;
+
+  // Metrics independent of the regressed value
+  metrics?: Record<string, number>;
+}>;
+
 function sanitizePathComponent(component: string): string {
   return normalizePath(component.replace(/[^a-z]+/gi, '-'));
 }
+
+const DEFAULT_REMOTE_CONFIG = [
+  ['desktop.backup.credentialFetch', { enabled: true }],
+  ['desktop.internalUser', { enabled: true }],
+  ['desktop.senderKey.retry', { enabled: true }],
+  ['global.backups.mediaTierFallbackCdnNumber', { enabled: true, value: '3' }],
+  ['global.groupsv2.groupSizeHardLimit', { enabled: true, value: '64' }],
+  ['global.groupsv2.maxGroupSize', { enabled: true, value: '32' }],
+] as const;
 
 //
 // Bootstrap is a class that prepares mock server and desktop for running
@@ -157,28 +210,34 @@ function sanitizePathComponent(component: string): string {
 //
 export class Bootstrap {
   public readonly server: Server;
-  public readonly cdn3Path: string;
+  public readonly cdn3Path?: string;
 
-  private readonly options: BootstrapInternalOptions;
-  private privContacts?: ReadonlyArray<PrimaryDevice>;
-  private privContactsWithoutProfileKey?: ReadonlyArray<PrimaryDevice>;
-  private privUnknownContacts?: ReadonlyArray<PrimaryDevice>;
-  private privPhone?: PrimaryDevice;
-  private privDesktop?: Device;
-  private storagePath?: string;
-  private timestamp: number = Date.now() - durations.WEEK;
-  private lastApp?: App;
-  private readonly randomId = crypto.randomBytes(8).toString('hex');
+  readonly #options: BootstrapInternalOptions;
+  #privContacts?: ReadonlyArray<PrimaryDevice>;
+  #privContactsWithoutProfileKey?: ReadonlyArray<PrimaryDevice>;
+  #privUnknownContacts?: ReadonlyArray<PrimaryDevice>;
+  #privPhone?: PrimaryDevice;
+  #privDesktop?: Device;
+  #storagePath?: string;
+  #timestamp: number = Date.now() - WEEK;
+  #lastApp?: App;
+  readonly #randomId = crypto.randomBytes(8).toString('hex');
 
   constructor(options: BootstrapOptions = {}) {
-    this.cdn3Path = path.join(os.tmpdir(), `mock-signal-cdn3-${this.randomId}`);
-    this.server = new Server({
-      // Limit number of storage read keys for easier testing
-      maxStorageReadKeys: MAX_STORAGE_READ_KEYS,
-      cdn3Path: this.cdn3Path,
-    });
+    this.cdn3Path =
+      options.server === undefined
+        ? path.join(os.tmpdir(), `mock-signal-cdn3-${this.#randomId}`)
+        : undefined;
+    this.server =
+      options.server ??
+      new Server({
+        // Limit number of storage read keys for easier testing
+        maxStorageReadKeys: MAX_STORAGE_READ_KEYS,
+        cdn3Path: this.cdn3Path,
+        updates2Path: path.join(__dirname, 'updates-data'),
+      });
 
-    this.options = {
+    this.#options = {
       linkedDevices: 5,
       contactCount: CONTACT_COUNT,
       contactsWithoutProfileKey: 0,
@@ -190,35 +249,39 @@ export class Bootstrap {
     };
 
     const totalContactCount =
-      this.options.contactCount +
-      this.options.contactsWithoutProfileKey +
-      this.options.unknownContactCount;
-    assert(totalContactCount <= this.options.contactNames.length);
+      this.#options.contactCount +
+      this.#options.contactsWithoutProfileKey +
+      this.#options.unknownContactCount;
+    assert(totalContactCount <= this.#options.contactNames.length);
     assert(totalContactCount <= MAX_CONTACTS);
   }
 
   public async init(): Promise<void> {
     debug('initializing');
 
-    await this.server.listen(0);
+    if (this.#options.server === undefined) {
+      await this.server.listen(0);
 
-    const { port } = this.server.address();
-    debug('started server on port=%d', port);
+      const { port } = this.server.address();
+      debug('started server on port=%d', port);
+    } else {
+      debug('existing server listening on port = ', this.server.address().port);
+    }
 
     const totalContactCount =
-      this.options.contactCount +
-      this.options.contactsWithoutProfileKey +
-      this.options.unknownContactCount;
+      this.#options.contactCount +
+      this.#options.contactsWithoutProfileKey +
+      this.#options.unknownContactCount;
 
     const allContacts = await Promise.all(
-      this.options.contactNames
+      this.#options.contactNames
         .slice(0, totalContactCount)
         .map(async profileName => {
           const primary = await this.server.createPrimaryDevice({
             profileName,
           });
 
-          for (let i = 0; i < this.options.linkedDevices; i += 1) {
+          for (let i = 0; i < this.#options.linkedDevices; i += 1) {
             // eslint-disable-next-line no-await-in-loop
             await this.server.createSecondaryDevice(primary);
           }
@@ -227,64 +290,82 @@ export class Bootstrap {
         })
     );
 
-    this.privContacts = allContacts.splice(0, this.options.contactCount);
-    this.privContactsWithoutProfileKey = allContacts.splice(
+    this.#privContacts = allContacts.splice(0, this.#options.contactCount);
+    this.#privContactsWithoutProfileKey = allContacts.splice(
       0,
-      this.options.contactsWithoutProfileKey
+      this.#options.contactsWithoutProfileKey
     );
-    this.privUnknownContacts = allContacts.splice(
+    this.#privUnknownContacts = allContacts.splice(
       0,
-      this.options.unknownContactCount
+      this.#options.unknownContactCount
     );
 
-    this.privPhone = await this.server.createPrimaryDevice({
+    this.#privPhone = await this.server.createPrimaryDevice({
       profileName: 'Myself',
       contacts: this.contacts,
       contactsWithoutProfileKey: this.contactsWithoutProfileKey,
     });
+    if (this.#options.useLegacyStorageEncryption) {
+      this.#privPhone.storageRecordIkm = undefined;
+    }
 
-    this.storagePath = await fs.mkdtemp(path.join(os.tmpdir(), 'mock-signal-'));
+    this.#storagePath = await fs.mkdtemp(
+      path.join(os.tmpdir(), 'mock-signal-')
+    );
 
-    debug('setting storage path=%j', this.storagePath);
+    DEFAULT_REMOTE_CONFIG.forEach(([key, value]) =>
+      this.server.setRemoteConfig(key, value)
+    );
+
+    debug('setting storage path=%j', this.#storagePath);
   }
 
   public static benchmark(
     fn: (bootstrap: Bootstrap) => Promise<void>,
-    timeout = 5 * durations.MINUTE
+    timeout = 5 * MINUTE
   ): void {
     drop(Bootstrap.runBenchmark(fn, timeout));
   }
 
+  public static regressionBenchmark(
+    fn: (fnOptions: RegressionBenchmarkFnOptions) => Promise<RegressionSample>,
+    options: RegressionBenchmarkOptions
+  ): void {
+    drop(Bootstrap.runRegressionBenchmark(fn, options));
+  }
+
   public get logsDir(): string {
     assert(
-      this.storagePath !== undefined,
+      this.#storagePath !== undefined,
       'Bootstrap has to be initialized first, see: bootstrap.init()'
     );
 
-    return path.join(this.storagePath, 'logs');
+    return path.join(this.#storagePath, 'logs');
   }
 
   public get ephemeralConfigPath(): string {
     assert(
-      this.storagePath !== undefined,
+      this.#storagePath !== undefined,
       'Bootstrap has to be initialized first, see: bootstrap.init()'
     );
 
-    return path.join(this.storagePath, 'ephemeral.json');
+    return path.join(this.#storagePath, 'ephemeral.json');
   }
 
   public eraseStorage(): Promise<void> {
-    return this.resetAppStorage();
+    return this.#resetAppStorage();
   }
 
-  private async resetAppStorage(): Promise<void> {
+  async #resetAppStorage(): Promise<void> {
     assert(
-      this.storagePath !== undefined,
+      this.#storagePath !== undefined,
       'Bootstrap has to be initialized first, see: bootstrap.init()'
     );
 
-    await fs.rm(this.storagePath, { recursive: true });
-    this.storagePath = await fs.mkdtemp(path.join(os.tmpdir(), 'mock-signal-'));
+    await fs.rm(this.#storagePath, { recursive: true });
+    this.#storagePath = await fs.mkdtemp(
+      path.join(os.tmpdir(), 'mock-signal-')
+    );
   }
 
   public async teardown(): Promise<void> {
@@ -292,34 +373,49 @@ export class Bootstrap {
 
     await Promise.race([
       Promise.all([
-        ...[this.storagePath, this.cdn3Path].map(tmpPath =>
+        ...[this.#storagePath, this.cdn3Path].map(tmpPath =>
           tmpPath ? fs.rm(tmpPath, { recursive: true }) : Promise.resolve()
         ),
-        this.server.close(),
-        this.lastApp?.close(),
+        this.#options.server === undefined
+          ? this.server.close()
+          : Promise.resolve(),
+        this.#lastApp?.close(),
       ]),
       new Promise(resolve => setTimeout(resolve, CLOSE_TIMEOUT).unref()),
     ]);
   }
 
-  public async link(extraConfig?: Partial<RendererConfigType>): Promise<App> {
+  public async link({
+    extraConfig,
+    ephemeralBackup,
+    localBackup,
+  }: LinkOptionsType = {}): Promise<App> {
     debug('linking');
 
     const app = await this.startApp(extraConfig);
 
     const window = await app.getWindow();
 
-    debug('looking for QR code or relink button');
-    const qrCode = window.locator(
-      '.module-InstallScreenQrCodeNotScannedStep__qr-code__code'
-    );
-    const relinkButton = window.locator('.LeftPaneDialog__icon--relink');
-    await qrCode.or(relinkButton).waitFor();
-    if (await relinkButton.isVisible()) {
-      debug('unlinked, clicking left pane button');
-      await relinkButton.click();
-      await qrCode.waitFor();
+    if (localBackup != null) {
+      await app.stageLocalBackupForImport(localBackup);
     }
+
+    let gotProvisionURL = false;
+
+    drop(
+      (async () => {
+        try {
+          const relinkButton = window.locator('.LeftPaneDialog__icon--relink');
+          await relinkButton.waitFor();
+          if (gotProvisionURL) {
+            return;
+          }
+          await relinkButton.click();
+        } catch {
+          // Ignore, provision will fail if QR code was never generated
+        }
+      })()
+    );
 
     debug('waiting for provision');
     const provision = await this.server.waitForProvision();
@@ -327,11 +423,22 @@ export class Bootstrap {
     debug('waiting for provision URL');
     const provisionURL = await app.waitForProvisionURL();
 
+    gotProvisionURL = true;
+
     debug('completing provision');
-    this.privDesktop = await provision.complete({
+    this.#privDesktop = await provision.complete({
       provisionURL,
       primaryDevice: this.phone,
     });
+
+    if (ephemeralBackup != null) {
+      await this.server.provideTransferArchive(this.desktop, ephemeralBackup);
+
+      // Desktop won't get linked
+      if ('error' in ephemeralBackup) {
+        return app;
+      }
+    }
 
     debug('new desktop device %j', this.desktop.debugId);
 
@@ -366,7 +473,7 @@ export class Bootstrap {
     extraConfig?: Partial<RendererConfigType>
   ): Promise<App> {
     assert(
-      this.storagePath !== undefined,
+      this.#storagePath !== undefined,
       'Bootstrap has to be initialized first, see: bootstrap.init()'
     );
 
@@ -386,7 +493,7 @@ export class Bootstrap {
       }
 
       // eslint-disable-next-line no-await-in-loop
-      const config = await this.generateConfig(port, family, extraConfig);
+      const config = await this.#generateConfig(port, family, extraConfig);
 
       const startedApp = new App({
         main: ELECTRON,
@@ -405,14 +512,14 @@ export class Bootstrap {
         );
 
         // eslint-disable-next-line no-await-in-loop
-        await this.resetAppStorage();
+        await this.#resetAppStorage();
         continue;
       }
 
-      this.lastApp = startedApp;
+      this.#lastApp = startedApp;
       startedApp.on('close', () => {
-        if (this.lastApp === startedApp) {
-          this.lastApp = undefined;
+        if (this.#lastApp === startedApp) {
+          this.#lastApp = undefined;
         }
       });
 
@@ -423,14 +530,14 @@ export class Bootstrap {
   }
 
   public getTimestamp(): number {
-    const result = this.timestamp;
-    this.timestamp += 1;
+    const result = this.#timestamp;
+    this.#timestamp += 1;
     return result;
   }
 
   public async maybeSaveLogs(
     test?: Mocha.Runnable,
-    app: App | undefined = this.lastApp
+    app: App | undefined = this.#lastApp
   ): Promise<void> {
     const { FORCE_ARTIFACT_SAVE } = process.env;
     if (test?.state !== 'passed' || FORCE_ARTIFACT_SAVE) {
@@ -439,10 +546,10 @@ export class Bootstrap {
   }
 
   public async saveLogs(
-    app: App | undefined = this.lastApp,
+    app: App | undefined = this.#lastApp,
     testName?: string
   ): Promise<void> {
-    const outDir = await this.getArtifactsDir(testName);
+    const outDir = await this.#getArtifactsDir(testName);
     if (outDir == null) {
       return;
     }
@@ -475,8 +582,9 @@ export class Bootstrap {
     test?: Mocha.Runnable
   ): Promise<(app: App) => Promise<void>> {
     const snapshots = new Array<{ name: string; data: Buffer }>();
-
+    const viewportSize = { width: 1000, height: 2000 } as const;
     const window = await app.getWindow();
+    await window.setViewportSize(viewportSize);
     await callback(window, async (name: string) => {
       debug('creating screenshot');
       snapshots.push({
@@ -495,7 +603,7 @@ export class Bootstrap {
         const before = snapshots.shift();
         assert(before != null, 'No previous snapshot');
         assert.strictEqual(before.name, name, 'Wrong snapshot order');
-
+        await anotherWindow.setViewportSize(viewportSize);
         const after = await anotherWindow.screenshot();
 
         const beforePng = PNG.sync.read(before.data);
@@ -522,7 +630,7 @@ export class Bootstrap {
           `screenshot difference for ${name}: ${numPixels}/${width * height}`
         );
 
-        const outDir = await this.getArtifactsDir(test?.fullTitle());
+        const outDir = await this.#getArtifactsDir(test?.fullTitle());
         if (outDir != null) {
           debug('saving screenshots and diff');
           const prefix = `${index}-${sanitizePathComponent(name)}`;
@@ -543,8 +651,8 @@ export class Bootstrap {
   }
 
   public getAbsoluteAttachmentPath(relativePath: string): string {
-    strictAssert(this.storagePath, 'storagePath must exist');
-    return join(this.storagePath, 'attachments.noindex', relativePath);
+    strictAssert(this.#storagePath, 'storagePath must exist');
+    return join(this.#storagePath, 'attachments.noindex', relativePath);
   }
 
   public async storeAttachmentOnCDN(
@@ -585,41 +693,41 @@ export class Bootstrap {
 
   public get phone(): PrimaryDevice {
     assert(
-      this.privPhone,
+      this.#privPhone,
       'Bootstrap has to be initialized first, see: bootstrap.init()'
     );
-    return this.privPhone;
+    return this.#privPhone;
   }
 
   public get desktop(): Device {
     assert(
-      this.privDesktop,
+      this.#privDesktop,
       'Bootstrap has to be linked first, see: bootstrap.link()'
     );
-    return this.privDesktop;
+    return this.#privDesktop;
   }
 
   public get contacts(): ReadonlyArray<PrimaryDevice> {
     assert(
-      this.privContacts,
+      this.#privContacts,
       'Bootstrap has to be initialized first, see: bootstrap.init()'
     );
-    return this.privContacts;
+    return this.#privContacts;
   }
 
   public get contactsWithoutProfileKey(): ReadonlyArray<PrimaryDevice> {
     assert(
-      this.privContactsWithoutProfileKey,
+      this.#privContactsWithoutProfileKey,
       'Bootstrap has to be initialized first, see: bootstrap.init()'
     );
-    return this.privContactsWithoutProfileKey;
+    return this.#privContactsWithoutProfileKey;
   }
   public get unknownContacts(): ReadonlyArray<PrimaryDevice> {
     assert(
-      this.privUnknownContacts,
+      this.#privUnknownContacts,
       'Bootstrap has to be initialized first, see: bootstrap.init()'
     );
-    return this.privUnknownContacts;
+    return this.#privUnknownContacts;
   }
 
   public get allContacts(): ReadonlyArray<PrimaryDevice> {
@@ -634,9 +742,7 @@ export class Bootstrap {
   // Private
   //
 
-  private async getArtifactsDir(
-    testName?: string
-  ): Promise<string | undefined> {
+  async #getArtifactsDir(testName?: string): Promise<string | undefined> {
     const { ARTIFACTS_DIR } = process.env;
     if (!ARTIFACTS_DIR) {
       // eslint-disable-next-line no-console
@@ -647,8 +753,8 @@ export class Bootstrap {
     }
 
     const normalizedPath = testName
-      ? `${this.randomId}-${sanitizePathComponent(testName)}`
-      : this.randomId;
+      ? `${this.#randomId}-${sanitizePathComponent(testName)}`
+      : this.#randomId;
 
     const outDir = path.join(ARTIFACTS_DIR, normalizedPath);
     await fs.mkdir(outDir, { recursive: true });
@@ -656,18 +762,19 @@ export class Bootstrap {
     return outDir;
   }
 
-  private static async runBenchmark(
-    fn: (bootstrap: Bootstrap) => Promise<void>,
+  private static async runBenchmark<Result>(
+    fn: (bootstrap: Bootstrap) => Promise<Result>,
     timeout: number
-  ): Promise<void> {
+  ): Promise<Result> {
     const bootstrap = new Bootstrap({
       benchmark: true,
     });
 
     await bootstrap.init();
 
+    let result: Result;
     try {
-      await pTimeout(fn(bootstrap), timeout);
+      result = await pTimeout(fn(bootstrap), timeout);
       if (process.env.FORCE_ARTIFACT_SAVE) {
         await bootstrap.saveLogs();
       }
@@ -677,9 +784,108 @@ export class Bootstrap {
     } finally {
       await bootstrap.teardown();
     }
+
+    return result;
   }
 
-  private async generateConfig(
+  private static async runRegressionBenchmark(
+    fn: (fnOptions: RegressionBenchmarkFnOptions) => Promise<RegressionSample>,
+    {
+      iterationCount = 10,
+      maxCycles = 1,
+      maxError = 0.025 /* 2.5% */,
+      fromValue,
+      toValue,
+      timeout = 5 * MINUTE,
+    }: RegressionBenchmarkOptions
+  ): Promise<void> {
+    if (iterationCount <= 1) {
+      throw new Error('Not enough iterations');
+    }
+
+    const samples = new Array<{ value: number; data: RegressionSample }>();
+    let lineNum = 0;
+    for (let cycle = 0; cycle < maxCycles; cycle += 1) {
+      for (let iteration = 0; iteration < iterationCount; iteration += 1) {
+        const progress = (iteration % iterationCount) / (iterationCount - 1);
+        const value = Math.round(
+          fromValue * (1 - progress) + toValue * progress
+        );
+
+        // eslint-disable-next-line no-await-in-loop
+        const data = await Bootstrap.runBenchmark(bootstrap => {
+          return fn({ bootstrap, iteration, value });
+        }, timeout);
+
+        if (data.metrics) {
+          // eslint-disable-next-line no-console
+          console.log(`run=${lineNum} info=%j`, data.metrics);
+          lineNum += 1;
+        }
+
+        samples.push({
+          value,
+          data,
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(
+          'cycle=%d iteration=%d value=%d data=%j',
+          cycle,
+          iteration,
+          value,
+          data
+        );
+      }
+
+      const result: Record<string, number> = Object.create(null);
+      const keys = Object.keys(samples[0].data).filter(
+        (key: string): key is `${string}Duration` => key.endsWith('Duration')
+      );
+      const human = new Array<string>();
+
+      let worstError = 0;
+      for (const key of keys) {
+        const { yIntercept, slope, confidence, outliers, severeOutliers } =
+          regress(samples.map(s => ({ y: s.value, x: s.data[key] })));
+
+        const delay = -yIntercept / slope;
+        const perSecond = slope * SECOND;
+        const error = confidence * SECOND;
+
+        const valueType = key.replace(/Duration$/, '');
+
+        human.push(
+          `cycle=${cycle} ${valueType}PerSecond=` +
+            `${perSecond.toFixed(2)}±${error.toFixed(2)} ` +
+            `outliers=${outliers + severeOutliers} delay=${delay.toFixed(2)}ms`
+        );
+
+        result[`${valueType}PerSec`] = perSecond;
+        result[`${valueType}Delay`] = delay;
+        result[`${valueType}Error`] = error;
+
+        worstError = Math.max(worstError, error / perSecond);
+      }
+
+      // eslint-disable-next-line no-console
+      console.log(human.join('\n'));
+
+      if (cycle !== maxCycles - 1 && worstError > maxError) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          `cycle=${cycle} error=${worstError} max=${maxError} continuing`
+        );
+        continue;
+      }
+
+      // eslint-disable-next-line no-console
+      console.log(`run=${lineNum} info=%j`, result);
+      break;
+    }
+  }
+
+  async #generateConfig(
     port: number,
     family: string,
     extraConfig?: Partial<RendererConfigType>
@@ -690,14 +896,15 @@ export class Bootstrap {
     return JSON.stringify({
       ...(await loadCertificates()),
 
-      forcePreloadBundle: this.options.benchmark,
+      forcePreloadBundle: this.#options.benchmark,
       ciMode: 'full',
 
-      buildExpiration: Date.now() + durations.MONTH,
-      storagePath: this.storagePath,
+      buildExpiration: Date.now() + MONTH,
+      storagePath: this.#storagePath,
       storageProfile: 'mock',
       serverUrl: url,
-      storageUrl: url,
+      storageUrl: `${url}/storageService`,
+      resourcesUrl: `${url}/updates2`,
       sfuUrl: url,
       cdn: {
         '0': url,

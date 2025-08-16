@@ -1,8 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .MediaEditor {
-  background: $color-gray-95;
+  background: variables.$color-gray-95;
   display: flex;
   flex-direction: column;
   width: 100vw;
@@ -13,7 +16,7 @@
   user-select: none;
   -webkit-app-region: no-drag;
 
-  z-index: $z-index-popup-overlay;
+  z-index: variables.$z-index-popup-overlay;
 
   &__container {
     display: flex;
@@ -43,16 +46,18 @@
   }
 
   &__control {
-    @include button-reset;
-    align-items: center;
-    border-radius: 20px;
-    display: inline-flex;
-    height: 32px;
-    justify-content: center;
-    margin-block: 0;
-    margin-inline: 20px;
-    opacity: 1;
-    width: 32px;
+    @include mixins.button-reset;
+    & {
+      align-items: center;
+      border-radius: 20px;
+      display: inline-flex;
+      height: 32px;
+      justify-content: center;
+      margin-block: 0;
+      margin-inline: 20px;
+      opacity: 1;
+      width: 32px;
+    }
 
     &::after {
       content: ' ';
@@ -61,58 +66,76 @@
     }
 
     &--crop::after {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/crop/crop-rotate.svg',
-        $color-white
+        variables.$color-white
       );
     }
 
     &--pen::after {
-      @include color-svg('../images/icons/v2/draw-24.svg', $color-white);
+      @include mixins.color-svg(
+        '../images/icons/v2/draw-24.svg',
+        variables.$color-white
+      );
     }
 
     &--redo {
       &::after {
-        @include color-svg('../images/icons/v3/redo/redo.svg', $color-white);
+        @include mixins.color-svg(
+          '../images/icons/v3/redo/redo.svg',
+          variables.$color-white
+        );
       }
       &:disabled::after {
-        @include color-svg('../images/icons/v3/redo/redo.svg', $color-gray-45);
+        @include mixins.color-svg(
+          '../images/icons/v3/redo/redo.svg',
+          variables.$color-gray-45
+        );
       }
     }
 
     &--sticker.module-sticker-button__button::after {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/sticker/sticker-smiley.svg',
-        $color-white
+        variables.$color-white
       );
     }
 
     &--text::after {
-      @include color-svg('../images/icons/v2/text-24.svg', $color-white);
+      @include mixins.color-svg(
+        '../images/icons/v2/text-24.svg',
+        variables.$color-white
+      );
     }
 
     &--undo {
       &::after {
-        @include color-svg('../images/icons/v3/undo/undo.svg', $color-white);
+        @include mixins.color-svg(
+          '../images/icons/v3/undo/undo.svg',
+          variables.$color-white
+        );
       }
       &:disabled::after {
-        @include color-svg('../images/icons/v3/undo/undo.svg', $color-gray-45);
+        @include mixins.color-svg(
+          '../images/icons/v3/undo/undo.svg',
+          variables.$color-gray-45
+        );
       }
     }
 
     &--selected {
-      background-color: $color-white;
+      background-color: variables.$color-white;
 
       &::after {
-        background-color: $color-black;
+        background-color: variables.$color-black;
       }
     }
 
     &:hover {
-      background-color: $color-gray-80;
+      background-color: variables.$color-gray-80;
 
       &::after {
-        background-color: $color-white;
+        background-color: variables.$color-white;
       }
     }
   }
@@ -141,13 +164,15 @@
       height: 44px;
 
       &__add-caption-button {
-        @include button-reset;
-        @include rounded-corners;
-        background: $color-gray-90;
-        color: $color-gray-15;
-        padding-block: 8px;
-        padding-inline: 15px;
-        border: none;
+        @include mixins.button-reset;
+        & {
+          @include mixins.rounded-corners;
+          background: variables.$color-gray-90;
+          color: variables.$color-gray-15;
+          padding-block: 8px;
+          padding-inline: 15px;
+          border: none;
+        }
 
         & > span {
           display: -webkit-box;
@@ -181,7 +206,7 @@
 
   &__toolbar__crop {
     align-items: center;
-    color: $color-white;
+    color: variables.$color-white;
     display: flex;
     height: 36px;
     justify-content: center;
@@ -190,18 +215,20 @@
     margin-inline: 16px;
 
     &__button {
-      @include button-reset;
-      display: flex;
-      margin-block: 0;
-      margin-inline: 20px;
+      @include mixins.button-reset;
+      & {
+        display: flex;
+        margin-block: 0;
+        margin-inline: 20px;
+      }
     }
   }
 
   &__toolbar {
     align-items: center;
-    background-color: $color-gray-90;
+    background-color: variables.$color-gray-90;
     border-radius: 10px;
-    color: $color-white;
+    color: variables.$color-white;
     display: flex;
     height: 36px;
     justify-content: center;
@@ -217,22 +244,29 @@
 
     &__button {
       @mixin icon($icon) {
-        @include color-svg('../images/icons/#{$icon}', $color-white);
-        opacity: 1;
-        height: 20px;
-        width: 20px;
-        border-radius: 0;
+        @include mixins.color-svg(
+          '../images/icons/#{$icon}',
+          variables.$color-white
+        );
+        & {
+          opacity: 1;
+          height: 20px;
+          width: 20px;
+          border-radius: 0;
+        }
 
         &::after {
           display: none;
         }
       }
 
-      @include button-reset;
-      display: flex;
-      margin-block: 0;
-      margin-inline: 8px;
-      padding: 8px;
+      @include mixins.button-reset;
+      & {
+        display: flex;
+        margin-block: 0;
+        margin-inline: 8px;
+        padding: 8px;
+      }
 
       &--draw-pen__button {
         @include icon('v3/brush/brush-pen-compact.svg');
@@ -278,65 +312,65 @@
 
   &__icon {
     &--draw-pen {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/brush/brush-pen-compact.svg',
-        $color-white
+        variables.$color-white
       );
     }
 
     &--draw-highlighter {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/brush/brush-highlighter-compact.svg',
-        $color-white
+        variables.$color-white
       );
     }
 
     &--text-regular {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/text/text-square-compact.svg',
-        $color-white
+        variables.$color-white
       );
     }
 
     &--text-highlight {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/text/text-square-fill-compact.svg',
-        $color-white
+        variables.$color-white
       );
     }
 
     &--text-outline {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/text/text-outline-compact.svg',
-        $color-white
+        variables.$color-white
       );
     }
 
     &--width-thin {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/brush_size/brush_size-thin-compact.svg',
-        $color-white
+        variables.$color-white
       );
     }
 
     &--width-regular {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/brush_size/brush_size-regular-compact.svg',
-        $color-white
+        variables.$color-white
       );
     }
 
     &--width-medium {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/brush_size/brush_size-medium-compact.svg',
-        $color-white
+        variables.$color-white
       );
     }
 
     &--width-heavy {
-      @include color-svg(
+      @include mixins.color-svg(
         '../images/icons/v3/brush_size/brush_size-heavy-compact.svg',
-        $color-white
+        variables.$color-white
       );
     }
   }
@@ -348,40 +382,47 @@
   }
 
   &__close {
-    @include button-reset;
+    @include mixins.button-reset;
 
-    border-radius: 4px;
-    height: 20px;
-    position: absolute;
-    inset-inline-end: 24px;
-    top: 40px;
-    width: 20px;
+    & {
+      border-radius: 4px;
+      height: 20px;
+      position: absolute;
+      inset-inline-end: 24px;
+      top: 40px;
+      width: 20px;
+    }
 
     &::before {
       content: '';
       display: block;
       width: 100%;
       height: 100%;
-      @include color-svg('../images/icons/v3/x/x.svg', $color-gray-15);
+      @include mixins.color-svg(
+        '../images/icons/v3/x/x.svg',
+        variables.$color-gray-15
+      );
     }
 
     &:hover,
     &:focus {
-      box-shadow: 0 0 0 2px $color-ultramarine;
+      box-shadow: 0 0 0 2px variables.$color-ultramarine;
     }
   }
 
   &__crop-preset {
-    @include button-reset;
-    color: $color-white;
-    height: 28px;
-    margin-inline: 12px;
-    padding-block: 5px;
-    padding-inline: 12px;
+    @include mixins.button-reset;
+    & {
+      color: variables.$color-white;
+      height: 28px;
+      margin-inline: 12px;
+      padding-block: 5px;
+      padding-inline: 12px;
+    }
 
     &--selected {
-      @include rounded-corners;
-      background: $color-gray-80;
+      @include mixins.rounded-corners;
+      background: variables.$color-gray-80;
     }
   }
 }

@@ -39,5 +39,6 @@ docker run --rm \
   -w /project \
   --user "$(id -u):$(id -g)" \
   -e NPM_CONFIG_CACHE=/tmp/.npm-cache \
+  -e PNPM_HOME=/tmp/.pnpm-home \
   -e SOURCE_DATE_EPOCH=$source_date_epoch \
   signal-desktop $1

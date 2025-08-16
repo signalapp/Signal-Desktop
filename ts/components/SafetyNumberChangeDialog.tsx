@@ -451,20 +451,19 @@ function ContactRow({
   return (
     <li className="module-SafetyNumberChangeDialog__row" key={contact.id}>
       <Avatar
-        acceptedMessageRequest={contact.acceptedMessageRequest}
+        avatarPlaceholderGradient={contact.avatarPlaceholderGradient}
         avatarUrl={contact.avatarUrl}
         badge={getPreferredBadge(contact.badges)}
         color={contact.color}
         conversationType="direct"
+        hasAvatar={contact.hasAvatar}
         i18n={i18n}
-        isMe={contact.isMe}
         phoneNumber={contact.phoneNumber}
         profileName={contact.profileName}
         theme={theme}
         title={contact.title}
         sharedGroupNames={contact.sharedGroupNames}
         size={AvatarSize.THIRTY_TWO}
-        unblurredAvatarUrl={contact.unblurredAvatarUrl}
       />
       <div className="module-SafetyNumberChangeDialog__row--wrapper">
         <div className="module-SafetyNumberChangeDialog__row--name">

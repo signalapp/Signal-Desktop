@@ -19,9 +19,8 @@ import {
   ClearCallHistoryResult,
   type CallHistoryDetails,
 } from '../../types/CallDisposition';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import * as Errors from '../../types/errors';
-import { drop } from '../../util/drop';
 import {
   getCallHistoryLatestCall,
   getCallHistorySelector,
@@ -37,6 +36,8 @@ import { getIntl } from '../selectors/user';
 import { ButtonVariant } from '../../components/Button';
 import type { ShowErrorModalActionType } from './globalModals';
 import { SHOW_ERROR_MODAL } from './globalModals';
+
+const log = createLogger('callHistory');
 
 export type CallHistoryState = ReadonlyDeep<{
   // This informs the app that underlying call history data has changed.
@@ -129,7 +130,9 @@ function markCallHistoryRead(
   return async dispatch => {
     try {
       await DataWriter.markCallHistoryRead(callId);
-      drop(window.ConversationController.get(conversationId)?.updateUnread());
+      window.ConversationController.get(
+        conversationId
+      )?.throttledUpdateUnread();
     } catch (error) {
       log.error(
         'markCallHistoryRead: Error marking call history read',

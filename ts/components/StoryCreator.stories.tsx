@@ -6,17 +6,16 @@ import React from 'react';
 
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './StoryCreator';
-import enMessages from '../../_locales/en/messages.json';
 import { StoryCreator } from './StoryCreator';
-import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
+import { fakeAttachment } from '../test-helpers/fakeAttachment';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../test-both/helpers/getDefaultConversation';
-import { getFakeDistributionListsWithMembers } from '../test-both/helpers/getFakeDistributionLists';
-import { setupI18n } from '../util/setupI18n';
+} from '../test-helpers/getDefaultConversation';
+import { getFakeDistributionListsWithMembers } from '../test-helpers/getFakeDistributionLists';
+import { EmojiSkinTone } from './fun/data/emojis';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/StoryCreator',
@@ -40,7 +39,7 @@ export default {
     onDistributionListCreated: undefined,
     onHideMyStoriesFrom: action('onHideMyStoriesFrom'),
     onSend: action('onSend'),
-    onSetSkinTone: action('onSetSkinTone'),
+    onEmojiSkinToneDefaultChange: action('onEmojiSkinToneDefaultChange'),
     onUseEmoji: action('onUseEmoji'),
     onViewersUpdated: action('onViewersUpdated'),
     processAttachment: undefined,
@@ -51,7 +50,7 @@ export default {
       'setMyStoriesToAllSignalConnections'
     ),
     signalConnections: Array.from(Array(42), getDefaultConversation),
-    skinTone: 0,
+    emojiSkinToneDefault: EmojiSkinTone.None,
     toggleSignalConnectionsModal: action('toggleSignalConnectionsModal'),
   },
 } satisfies Meta<PropsType>;

@@ -1,7 +1,7 @@
-diff --git a/node_modules/@types/fabric/fabric-impl.d.ts b/node_modules/@types/fabric/fabric-impl.d.ts
+diff --git a/fabric-impl.d.ts b/fabric-impl.d.ts
 index 9b2e307..6da58c3 100755
---- a/node_modules/@types/fabric/fabric-impl.d.ts
-+++ b/node_modules/@types/fabric/fabric-impl.d.ts
+--- a/fabric-impl.d.ts
++++ b/fabric-impl.d.ts
 @@ -1194,18 +1194,6 @@ interface IStaticCanvasOptions {
      svgViewportTransformation?: boolean | undefined;
  }

@@ -1,6 +1,9 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .StoryViewsNRepliesModal {
   min-width: 320px;
   max-height: 80vh;
@@ -50,7 +53,7 @@
 
     &--none {
       align-items: center;
-      color: $color-gray-45;
+      color: variables.$color-gray-45;
       display: flex;
       flex: 1;
       justify-content: center;
@@ -81,8 +84,11 @@
     width: 24px;
 
     &::after {
-      @include dark-theme {
-        @include color-svg('../images/icons/v3/emoji/emoji.svg', $color-white);
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
+          '../images/icons/v3/emoji/emoji.svg',
+          variables.$color-white
+        );
       }
     }
   }
@@ -92,20 +98,20 @@
     margin-inline: 4px;
     font-size: 12px;
     text-align: center;
-    color: $color-gray-25;
+    color: variables.$color-gray-25;
   }
 
   &__input {
     &__input {
       // For specificity because StoryViewsNRepliesModal is always in dark-theme
-      @include dark-theme {
-        background: $color-gray-75;
-        border: 1px solid $color-gray-75;
-        color: $color-white;
+      @include mixins.dark-theme {
+        background: variables.$color-gray-75;
+        border: 1px solid variables.$color-gray-75;
+        color: variables.$color-white;
       }
 
       .ql-editor.ql-blank::before {
-        color: $color-gray-25;
+        color: variables.$color-gray-25;
       }
 
       display: flex;
@@ -130,13 +136,13 @@
     margin-inline: 0;
 
     &--name {
-      @include font-body-2;
+      @include mixins.font-body-2;
       margin-inline-start: 12px;
     }
 
     &--timestamp {
-      @include font-body-2;
-      color: $color-gray-45;
+      @include mixins.font-body-2;
+      color: variables.$color-gray-45;
     }
   }
 
@@ -146,12 +152,12 @@
     padding-bottom: 12px;
 
     &--title {
-      @include font-body-2;
+      @include mixins.font-body-2;
     }
 
     &--timestamp {
-      @include font-subtitle;
-      color: $color-gray-25;
+      @include mixins.font-subtitle;
+      color: variables.$color-gray-25;
       margin-inline-start: 6px;
     }
   }
@@ -173,7 +179,7 @@
   }
 
   &__message-bubble {
-    background: $color-gray-75;
+    background: variables.$color-gray-75;
     border-radius: 18px;
     margin-inline-start: 8px;
     padding-block: 7px;
@@ -181,7 +187,7 @@
 
     &--doe {
       background: none;
-      border: 1px solid $color-gray-75;
+      border: 1px solid variables.$color-gray-75;
     }
   }
 
@@ -193,8 +199,8 @@
     }
 
     &--outgoing-ultramarine {
-      @include dark-theme {
-        background-color: $color-gray-60;
+      @include mixins.dark-theme {
+        background-color: variables.$color-gray-60;
         background-image: none;
       }
     }
@@ -202,7 +208,7 @@
     &__primary {
       min-height: 64px;
 
-      color: $color-gray-05;
+      color: variables.$color-gray-05;
       font-size: 12px;
       font-weight: 400;
       &__author,
@@ -218,7 +224,7 @@
   }
 
   &__debugger__button {
-    color: $color-gray-25;
+    color: variables.$color-gray-25;
     display: block;
     font-weight: 600;
     height: auto;
@@ -226,7 +232,7 @@
     width: auto;
 
     &--active {
-      @include dark-theme {
+      @include mixins.dark-theme {
         background: inherit;
       }
     }
@@ -241,11 +247,14 @@
   }
 
   &__copy-icon {
-    @include color-svg('../images/icons/v3/copy/copy.svg', $color-white);
+    @include mixins.color-svg(
+      '../images/icons/v3/copy/copy.svg',
+      variables.$color-white
+    );
   }
 
   &__read-receipts-off {
-    color: $color-gray-25;
+    color: variables.$color-gray-25;
     margin-block: 160px;
     margin-inline: 16px;
   }
@@ -268,15 +277,15 @@
 .Tabs.StoryViewsNRepliesModal__tabs {
   position: sticky;
   top: 0;
-  z-index: $z-index-base;
+  z-index: variables.$z-index-base;
   padding-block: 16px;
-  background: $color-gray-80;
+  background: variables.$color-gray-80;
   border-bottom: none;
   justify-content: center;
 }
 
 .Tabs__tab.StoryViewsNRepliesModal__tabs__tab {
-  @include font-body-1-bold;
+  @include mixins.font-body-1-bold;
   padding-block: 4px;
   padding-inline: 12px;
   margin-block: 0;
@@ -284,7 +293,7 @@
 }
 
 .Tabs__tab--selected.StoryViewsNRepliesModal__tabs__tab--selected {
-  background: $color-gray-65;
+  background: variables.$color-gray-65;
   border-radius: 24px;
   border-bottom: none;
 }

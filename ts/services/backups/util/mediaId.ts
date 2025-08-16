@@ -3,23 +3,21 @@
 
 import { DataReader } from '../../../sql/Client';
 import * as Bytes from '../../../Bytes';
-import { getBackupKey } from '../crypto';
-import type { AttachmentType } from '../../../types/Attachment';
-import { deriveMediaIdFromMediaName } from '../../../Crypto';
-import { strictAssert } from '../../../util/assert';
+import { getBackupMediaRootKey } from '../crypto';
+import { type BackupableAttachmentType } from '../../../types/Attachment';
 
 export function getMediaIdFromMediaName(mediaName: string): {
   string: string;
   bytes: Uint8Array;
 } {
-  const mediaIdBytes = deriveMediaIdFromMediaName(getBackupKey(), mediaName);
+  const mediaIdBytes = getBackupMediaRootKey().deriveMediaId(mediaName);
   return {
     string: Bytes.toBase64url(mediaIdBytes),
     bytes: mediaIdBytes,
   };
 }
 
-export function getMediaIdForAttachment(attachment: AttachmentType): {
+export function getMediaIdForAttachment(attachment: BackupableAttachmentType): {
   string: string;
   bytes: Uint8Array;
 } {
@@ -27,7 +25,9 @@ export function getMediaIdForAttachment(attachment: AttachmentType): {
   return getMediaIdFromMediaName(mediaName);
 }
 
-export function getMediaIdForAttachmentThumbnail(attachment: AttachmentType): {
+export function getMediaIdForAttachmentThumbnail(
+  attachment: BackupableAttachmentType
+): {
   string: string;
   bytes: Uint8Array;
 } {
@@ -37,21 +37,28 @@ export function getMediaIdForAttachmentThumbnail(attachment: AttachmentType): {
   return getMediaIdFromMediaName(mediaName);
 }
 
-export function getMediaNameForAttachment(attachment: AttachmentType): string {
-  if (attachment.backupLocator) {
-    return attachment.backupLocator.mediaName;
-  }
-  strictAssert(attachment.digest, 'Digest must be present');
-  return getMediaNameFromDigest(attachment.digest);
+export function getMediaNameForAttachment(
+  attachment: BackupableAttachmentType
+): string {
+  return getMediaName({
+    plaintextHash: Bytes.fromHex(attachment.plaintextHash),
+    key: Bytes.fromBase64(attachment.key),
+  });
 }
 
-export function getMediaNameFromDigest(digest: string): string {
-  return Bytes.toHex(Bytes.fromBase64(digest));
+export function getMediaName({
+  plaintextHash,
+  key,
+}: {
+  plaintextHash: Uint8Array;
+  key: Uint8Array;
+}): string {
+  return Bytes.toHex(Bytes.concatenate([plaintextHash, key]));
 }
 
 export function getMediaNameForAttachmentThumbnail(
   fullsizeMediaName: string
-): string {
+): `${string}_thumbnail` {
   return `${fullsizeMediaName}_thumbnail`;
 }
 

@@ -7,8 +7,8 @@ import { strictAssert } from './assert';
 import * as Errors from '../types/errors';
 import type { UnwrapPromise } from '../types/Util';
 import type {
-  IPCEventsValuesType,
   IPCEventsCallbacksType,
+  IPCEventsValuesType,
 } from './createIPCEvents';
 import type { SystemTraySetting } from '../types/SystemTraySetting';
 
@@ -25,10 +25,11 @@ export type SettingType<Value> = Readonly<{
 export type ThemeType = 'light' | 'dark' | 'system';
 
 export type EphemeralSettings = {
+  localeOverride: string | null;
   spellCheck: boolean;
+  contentProtection: boolean;
   systemTraySetting: SystemTraySetting;
   themeSetting: ThemeType;
-  localeOverride: string | null;
 };
 
 export type SettingsValuesType = IPCEventsValuesType & EphemeralSettings;

@@ -1,0 +1,13 @@
+diff --git a/index.d.ts b/index.d.ts
+index b92b15c..6536d9f 100644
+--- a/index.d.ts
++++ b/index.d.ts
+@@ -47,7 +47,7 @@ declare namespace e {
+     /**
+      * This is a built-in middleware function in Express. It serves static files and is based on serve-static.
+      */
+-    var static: serveStatic.RequestHandlerConstructor<Response>;
++    var static: unknown;
+ 
+     /**
+      * This is a built-in middleware function in Express. It parses incoming requests with urlencoded payloads and is based on body-parser.

@@ -1,6 +1,9 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .ScrollDownButton {
   position: relative;
 
@@ -15,42 +18,48 @@
   justify-content: center;
 
   box-shadow:
-    0px 0px 2px $color-black-alpha-20,
-    0px 2px 6px $color-black-alpha-12;
+    0px 0px 2px variables.$color-black-alpha-20,
+    0px 2px 6px variables.$color-black-alpha-12;
 
-  @include light-theme {
-    background-color: $color-white;
+  @include mixins.light-theme {
+    background-color: variables.$color-white;
   }
-  @include dark-theme {
-    background-color: $color-gray-75;
+  @include mixins.dark-theme {
+    background-color: variables.$color-gray-75;
   }
 
   &__icon--unread-mentions {
     height: 17px;
     width: 17px;
-    @include light-theme {
-      @include color-svg('../images/icons/v3/at/at.svg', $color-gray-75);
+    @include mixins.light-theme {
+      @include mixins.color-svg(
+        '../images/icons/v3/at/at.svg',
+        variables.$color-gray-75
+      );
     }
 
-    @include dark-theme {
-      @include color-svg('../images/icons/v3/at/at.svg', $color-gray-15);
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
+        '../images/icons/v3/at/at.svg',
+        variables.$color-gray-15
+      );
     }
   }
 
   &__icon--unread-messages {
     height: 20px;
     width: 20px;
-    @include light-theme {
-      @include color-svg(
+    @include mixins.light-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/chevron/chevron-down.svg',
-        $color-gray-75
+        variables.$color-gray-75
       );
     }
 
-    @include dark-theme {
-      @include color-svg(
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
         '../images/icons/v3/chevron/chevron-down.svg',
-        $color-gray-15
+        variables.$color-gray-15
       );
     }
   }
@@ -63,12 +72,12 @@
     border-radius: 8px;
     padding-block: 1px;
     padding-inline: 4px;
-    background-color: $color-ultramarine;
-    color: $color-white;
+    background-color: variables.$color-ultramarine;
+    color: variables.$color-white;
 
     font-size: 10px;
     line-height: 14px;
 
-    box-shadow: 0px 1px 4px $color-black-alpha-24;
+    box-shadow: 0px 1px 4px variables.$color-black-alpha-24;
   }
 }

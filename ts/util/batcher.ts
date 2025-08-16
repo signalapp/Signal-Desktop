@@ -4,11 +4,13 @@
 import PQueue from 'p-queue';
 
 import { sleep } from './sleep';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
 import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary';
 import { MINUTE } from './durations';
 import { drop } from './drop';
+
+const log = createLogger('batcher');
 
 declare global {
   // We want to extend `window`'s properties, so we need an interface.
@@ -23,7 +25,7 @@ declare global {
 window.batchers = [];
 
 window.waitForAllBatchers = async () => {
-  log.info('batcher#waitForAllBatchers');
+  log.info('waitForAllBatchers');
   try {
     await Promise.all(window.batchers.map(item => item.flushAndWait()));
   } catch (error) {
@@ -36,7 +38,7 @@ window.waitForAllBatchers = async () => {
 
 export type BatcherOptionsType<ItemType> = {
   name: string;
-  wait: number;
+  wait: number | (() => number);
   maxSize: number;
   processBatch: (items: Array<ItemType>) => void | Promise<void>;
 };
@@ -56,11 +58,19 @@ export function createBatcher<ItemType>(
   let batcher: BatcherType<ItemType>;
   let timeout: NodeJS.Timeout | null;
   let items: Array<ItemType> = [];
+
   const queue = new PQueue({
     concurrency: 1,
     timeout: MINUTE * 30,
     throwOnTimeout: true,
   });
+
+  function _getWait() {
+    if (typeof options.wait === 'number') {
+      return options.wait;
+    }
+    return options.wait();
+  }
 
   function _kickBatchOff() {
     clearTimeoutIfNecessary(timeout);
@@ -81,7 +91,7 @@ export function createBatcher<ItemType>(
     if (items.length === 1) {
       // Set timeout once when we just pushed the first item so that the wait
       // time is bounded by `options.wait` and not extended by further pushes.
-      timeout = setTimeout(_kickBatchOff, options.wait);
+      timeout = setTimeout(_kickBatchOff, _getWait());
     } else if (items.length >= options.maxSize) {
       _kickBatchOff();
     }
@@ -104,7 +114,7 @@ export function createBatcher<ItemType>(
 
       if (items.length > 0) {
         // eslint-disable-next-line no-await-in-loop
-        await sleep(options.wait * 2);
+        await sleep(_getWait() * 2);
       }
     }
   }

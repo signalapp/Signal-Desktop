@@ -4,7 +4,6 @@
 import createDebug from 'debug';
 import { assert } from 'chai';
 import { expect } from 'playwright/test';
-import { readFile } from 'node:fs/promises';
 import { type PrimaryDevice, StorageState } from '@signalapp/mock-server';
 import * as path from 'path';
 import type { App } from '../playwright';
@@ -17,9 +16,6 @@ import {
 } from '../helpers';
 import * as durations from '../../util/durations';
 import { strictAssert } from '../../util/assert';
-import { toBase64 } from '../../Bytes';
-import type { AttachmentWithNewReencryptionInfoType } from '../../types/Attachment';
-import { IMAGE_JPEG } from '../../types/MIME';
 
 export const debug = createDebug('mock:test:attachments');
 
@@ -97,11 +93,6 @@ describe('attachments', function (this: Mocha.Suite) {
     )[0];
     strictAssert(sentMessage, 'message exists in DB');
     const sentAttachment = sentMessage.attachments?.[0];
-    assert.isTrue(sentAttachment?.isReencryptableToSameDigest);
-    assert.isUndefined(
-      (sentAttachment as unknown as AttachmentWithNewReencryptionInfoType)
-        .reencryptionInfo
-    );
 
     // For this test, just send back the same attachment that was uploaded to test a
     // round-trip
@@ -126,71 +117,8 @@ describe('attachments', function (this: Mocha.Suite) {
     )[0];
     strictAssert(incomingMessage, 'message exists in DB');
     const incomingAttachment = incomingMessage.attachments?.[0];
-    assert.isTrue(incomingAttachment?.isReencryptableToSameDigest);
-    assert.isUndefined(
-      (incomingAttachment as unknown as AttachmentWithNewReencryptionInfoType)
-        .reencryptionInfo
-    );
+
     assert.strictEqual(incomingAttachment?.key, sentAttachment?.key);
     assert.strictEqual(incomingAttachment?.digest, sentAttachment?.digest);
-  });
-
-  it('receiving attachments with non-zero padding will cause new re-encryption info to be generated', async () => {
-    const page = await app.getWindow();
-
-    await page.getByTestId(pinned.device.aci).click();
-
-    const plaintextCat = await readFile(CAT_PATH);
-    const attachment = await bootstrap.storeAttachmentOnCDN(
-      // add non-zero byte to the end of the data; this will be considered padding
-      // when received since we will include the size of the un-appended data when
-      // sending
-      Buffer.concat([plaintextCat, Buffer.from([1])]),
-      IMAGE_JPEG
-    );
-
-    const incomingTimestamp = Date.now();
-    await sendTextMessage({
-      from: pinned,
-      to: bootstrap.desktop,
-      desktop: bootstrap.desktop,
-      text: 'Wait, that is MY cat! But now with weird padding!',
-      attachments: [
-        {
-          ...attachment,
-          size: plaintextCat.byteLength,
-        },
-      ],
-      timestamp: incomingTimestamp,
-    });
-
-    await expect(
-      getMessageInTimelineByTimestamp(page, incomingTimestamp).locator(
-        'img.module-image__image'
-      )
-    ).toBeVisible();
-
-    const incomingMessage = (
-      await app.getMessagesBySentAt(incomingTimestamp)
-    )[0];
-    strictAssert(incomingMessage, 'message exists in DB');
-    const incomingAttachment = incomingMessage.attachments?.[0];
-
-    assert.isFalse(incomingAttachment?.isReencryptableToSameDigest);
-    assert.exists(incomingAttachment?.reencryptionInfo);
-    assert.exists(incomingAttachment?.reencryptionInfo.digest);
-
-    assert.strictEqual(
-      incomingAttachment?.key,
-      toBase64(attachment.key ?? new Uint8Array(0))
-    );
-    assert.strictEqual(
-      incomingAttachment?.digest,
-      toBase64(attachment.digest ?? new Uint8Array(0))
-    );
-    assert.notEqual(
-      incomingAttachment?.digest,
-      incomingAttachment.reencryptionInfo.digest
-    );
   });
 });

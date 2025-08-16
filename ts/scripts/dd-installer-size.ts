@@ -35,15 +35,15 @@ async function main(): Promise<void> {
     platform = 'linux';
     arch = 'x64';
   } else if (config === 'windows') {
-    fileName = `${NAME}-win-${VERSION}.exe`;
+    fileName = `${NAME}-win-x64-${VERSION}.exe`;
     platform = 'windows';
     arch = 'x64';
   } else if (config === 'macos-arm64') {
-    fileName = `${NAME}-mac-arm64-${VERSION}.dmg`;
+    fileName = `${NAME}-mac-arm64-${VERSION}.zip`;
     platform = 'macos';
     arch = 'arm64';
   } else if (config === 'macos-x64') {
-    fileName = `${NAME}-mac-x64-${VERSION}.dmg`;
+    fileName = `${NAME}-mac-x64-${VERSION}.zip`;
     platform = 'macos';
     arch = 'x64';
   } else if (config === 'macos-universal') {

@@ -5,14 +5,13 @@ import type { LoggerType } from '../../types/Logging';
 import { isValidUuid } from '../../util/isValidUuid';
 import Helpers from '../../textsecure/Helpers';
 import { createOrUpdate, getById, removeById } from '../util';
-import type { EmptyQuery, Query } from '../util';
 import type { ItemKeyType, ReadableDB, WritableDB } from '../Interface';
 
 export function getOurUuid(db: ReadableDB): string | undefined {
   const UUID_ID: ItemKeyType = 'uuid_id';
 
   const row: { json: string } | undefined = db
-    .prepare<Query>('SELECT json FROM items WHERE id = $id;')
+    .prepare('SELECT json FROM items WHERE id = $id;')
     .get({ id: UUID_ID });
 
   if (!row) {
@@ -26,27 +25,23 @@ export function getOurUuid(db: ReadableDB): string | undefined {
 }
 
 export default function updateToSchemaVersion41(
-  currentVersion: number,
   db: WritableDB,
   logger: LoggerType
 ): void {
-  if (currentVersion >= 41) {
-    return;
-  }
+  const getConversationUuid = db.prepare(
+    `
+    SELECT uuid
+    FROM
+      conversations
+    WHERE
+      id = $conversationId
+    `,
+    {
+      pluck: true,
+    }
+  );
 
-  const getConversationUuid = db
-    .prepare<Query>(
-      `
-      SELECT uuid
-      FROM
-        conversations
-      WHERE
-        id = $conversationId
-      `
-    )
-    .pluck();
-
-  const getConversationStats = db.prepare<Query>(
+  const getConversationStats = db.prepare(
     `
       SELECT uuid, e164, active_at
       FROM
@@ -56,9 +51,15 @@ export default function updateToSchemaVersion41(
     `
   );
 
+  type StatsType = {
+    uuid: string;
+    e164: string;
+    active_at: number;
+  };
+
   const compareConvoRecency = (a: string, b: string): number => {
-    const aStats = getConversationStats.get({ conversationId: a });
-    const bStats = getConversationStats.get({ conversationId: b });
+    const aStats = getConversationStats.get<StatsType>({ conversationId: a });
+    const bStats = getConversationStats.get<StatsType>({ conversationId: b });
 
     const isAComplete = Boolean(aStats?.uuid && aStats?.e164);
     const isBComplete = Boolean(bStats?.uuid && bStats?.e164);
@@ -73,7 +74,7 @@ export default function updateToSchemaVersion41(
       return 1;
     }
 
-    return aStats.active_at - bStats.active_at;
+    return (aStats?.active_at ?? 0) - (bStats?.active_at ?? 0);
   };
 
   const clearSessionsAndKeys = (): number => {
@@ -141,7 +142,7 @@ export default function updateToSchemaVersion41(
   const prefixKeys = (ourUuid: string) => {
     for (const table of ['signedPreKeys', 'preKeys']) {
       // Update id to include suffix, add `ourUuid` and `keyId` fields.
-      db.prepare<Query>(
+      db.prepare(
         `
         UPDATE ${table}
         SET
@@ -166,14 +167,12 @@ export default function updateToSchemaVersion41(
       senderId: string;
       lastUpdatedDate: number;
     }> = db
-      .prepare<EmptyQuery>(
-        'SELECT id, senderId, lastUpdatedDate FROM senderKeys'
-      )
+      .prepare('SELECT id, senderId, lastUpdatedDate FROM senderKeys')
       .all();
 
     logger.info(`Updating ${senderKeys.length} sender keys`);
 
-    const updateSenderKey = db.prepare<Query>(
+    const updateSenderKey = db.prepare(
       `
       UPDATE senderKeys
       SET
@@ -184,9 +183,7 @@ export default function updateToSchemaVersion41(
       `
     );
 
-    const deleteSenderKey = db.prepare<Query>(
-      'DELETE FROM senderKeys WHERE id = $id'
-    );
+    const deleteSenderKey = db.prepare('DELETE FROM senderKeys WHERE id = $id');
 
     const pastKeys = new Map<
       string,
@@ -201,7 +198,7 @@ export default function updateToSchemaVersion41(
     let skipped = 0;
     for (const { id, senderId, lastUpdatedDate } of senderKeys) {
       const [conversationId] = Helpers.unencodeNumber(senderId);
-      const uuid = getConversationUuid.get({ conversationId });
+      const uuid = getConversationUuid.get<string>({ conversationId });
 
       if (!uuid) {
         deleted += 1;
@@ -252,12 +249,12 @@ export default function updateToSchemaVersion41(
     //
     // Set ourUuid column and field in json
     const allSessions = db
-      .prepare<EmptyQuery>('SELECT id, conversationId FROM SESSIONS')
-      .all();
+      .prepare('SELECT id, conversationId FROM SESSIONS')
+      .all<{ id: string; conversationId: string }>();
 
     logger.info(`Updating ${allSessions.length} sessions`);
 
-    const updateSession = db.prepare<Query>(
+    const updateSession = db.prepare(
       `
       UPDATE sessions
       SET
@@ -278,9 +275,7 @@ export default function updateToSchemaVersion41(
       `
     );
 
-    const deleteSession = db.prepare<Query>(
-      'DELETE FROM sessions WHERE id = $id'
-    );
+    const deleteSession = db.prepare('DELETE FROM sessions WHERE id = $id');
 
     const pastSessions = new Map<
       string,
@@ -293,7 +288,7 @@ export default function updateToSchemaVersion41(
     let deleted = 0;
     let skipped = 0;
     for (const { id, conversationId } of allSessions) {
-      const uuid = getConversationUuid.get({ conversationId });
+      const uuid = getConversationUuid.get<string>({ conversationId });
       if (!uuid) {
         deleted += 1;
         deleteSession.run({ id });
@@ -338,13 +333,13 @@ export default function updateToSchemaVersion41(
   };
 
   const updateIdentityKeys = () => {
-    const identityKeys: ReadonlyArray<{
-      id: string;
-    }> = db.prepare<EmptyQuery>('SELECT id FROM identityKeys').all();
+    const identityKeys = db
+      .prepare('SELECT id FROM identityKeys')
+      .all<{ id: string }>();
 
     logger.info(`Updating ${identityKeys.length} identity keys`);
 
-    const updateIdentityKey = db.prepare<Query>(
+    const updateIdentityKey = db.prepare(
       `
       UPDATE OR REPLACE identityKeys
       SET
@@ -361,7 +356,7 @@ export default function updateToSchemaVersion41(
 
     let migrated = 0;
     for (const { id } of identityKeys) {
-      const uuid = getConversationUuid.get({ conversationId: id });
+      const uuid = getConversationUuid.get<string>({ conversationId: id });
 
       let newId: string;
       if (uuid) {
@@ -377,70 +372,61 @@ export default function updateToSchemaVersion41(
     logger.info(`Migrated ${migrated} identity keys`);
   };
 
-  db.transaction(() => {
-    db.exec(
-      `
-      -- Change type of 'id' column from INTEGER to STRING
+  db.exec(
+    `
+    -- Change type of 'id' column from INTEGER to STRING
 
-      ALTER TABLE preKeys
-      RENAME TO old_preKeys;
+    ALTER TABLE preKeys
+    RENAME TO old_preKeys;
 
-      ALTER TABLE signedPreKeys
-      RENAME TO old_signedPreKeys;
+    ALTER TABLE signedPreKeys
+    RENAME TO old_signedPreKeys;
 
-      CREATE TABLE preKeys(
-        id STRING PRIMARY KEY ASC,
-        json TEXT
-      );
-      CREATE TABLE signedPreKeys(
-        id STRING PRIMARY KEY ASC,
-        json TEXT
-      );
-
-      -- sqlite handles the type conversion
-      INSERT INTO preKeys SELECT * FROM old_preKeys;
-      INSERT INTO signedPreKeys SELECT * FROM old_signedPreKeys;
-
-      DROP TABLE old_preKeys;
-      DROP TABLE old_signedPreKeys;
-
-      -- Alter sessions
-
-      ALTER TABLE sessions
-        ADD COLUMN ourUuid STRING;
-
-      ALTER TABLE sessions
-        ADD COLUMN uuid STRING;
-      `
+    CREATE TABLE preKeys(
+      id STRING PRIMARY KEY ASC,
+      json TEXT
+    );
+    CREATE TABLE signedPreKeys(
+      id STRING PRIMARY KEY ASC,
+      json TEXT
     );
 
-    const ourUuid = getOurUuid(db);
+    -- sqlite handles the type conversion
+    INSERT INTO preKeys SELECT * FROM old_preKeys;
+    INSERT INTO signedPreKeys SELECT * FROM old_signedPreKeys;
 
-    if (!isValidUuid(ourUuid)) {
-      const deleteCount = clearSessionsAndKeys();
+    DROP TABLE old_preKeys;
+    DROP TABLE old_signedPreKeys;
 
-      if (deleteCount > 0) {
-        logger.error(
-          'updateToSchemaVersion41: no uuid is available, ' +
-            `erased ${deleteCount} sessions/keys`
-        );
-      }
+    -- Alter sessions
 
-      db.pragma('user_version = 41');
-      return;
+    ALTER TABLE sessions
+      ADD COLUMN ourUuid STRING;
+
+    ALTER TABLE sessions
+      ADD COLUMN uuid STRING;
+    `
+  );
+
+  const ourUuid = getOurUuid(db);
+
+  if (!isValidUuid(ourUuid)) {
+    const deleteCount = clearSessionsAndKeys();
+
+    if (deleteCount > 0) {
+      logger.error(`no uuid is available, erased ${deleteCount} sessions/keys`);
     }
 
-    prefixKeys(ourUuid);
+    return;
+  }
 
-    updateSenderKeys(ourUuid);
+  prefixKeys(ourUuid);
 
-    updateSessions(ourUuid);
+  updateSenderKeys(ourUuid);
 
-    moveIdentityKeyToMap(ourUuid);
+  updateSessions(ourUuid);
 
-    updateIdentityKeys();
+  moveIdentityKeyToMap(ourUuid);
 
-    db.pragma('user_version = 41');
-  })();
-  logger.info('updateToSchemaVersion41: success!');
+  updateIdentityKeys();
 }

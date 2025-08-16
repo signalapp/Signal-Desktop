@@ -54,10 +54,10 @@ describe('util/profiles', () => {
 
       service.clearAll('testing');
 
-      await assert.isRejected(promise1, 'job cancelled');
-      await assert.isRejected(promise2, 'job cancelled');
-      await assert.isRejected(promise3, 'job cancelled');
-      await assert.isRejected(promise4, 'job cancelled');
+      await assert.isRejected(promise1, 'job canceled');
+      await assert.isRejected(promise2, 'job canceled');
+      await assert.isRejected(promise3, 'job canceled');
+      await assert.isRejected(promise4, 'job canceled');
     });
   });
 
@@ -141,14 +141,15 @@ describe('util/profiles', () => {
 
         assert.strictEqual(runCount, 3, 'before await');
 
-        await assert.isRejected(promise1, `fake ${code}`);
+        // It didn't succeed, but we log and resolve as normal
+        await assert.isFulfilled(promise1);
 
         // Never queued
         const promise5 = service.get(SERVICE_ID_5, null);
 
-        await assert.isRejected(promise2, 'job cancelled');
-        await assert.isRejected(promise3, 'job cancelled');
-        await assert.isRejected(promise4, 'job cancelled');
+        await assert.isRejected(promise2, 'job canceled');
+        await assert.isRejected(promise3, 'job canceled');
+        await assert.isRejected(promise4, 'job canceled');
         await assert.isRejected(promise5, 'paused queue');
 
         assert.strictEqual(runCount, 3, 'after await');
@@ -177,15 +178,18 @@ describe('util/profiles', () => {
 
       assert.strictEqual(runCount, 3, 'before await');
 
-      await assert.isRejected(promise1, 'fake -1');
+      // It didn't succeed, but we log and resolve as normal
+      await assert.isFulfilled(promise1);
 
       // Queued, because we aren't pausing
       const promise5 = service.get(SERVICE_ID_5, null);
 
-      await assert.isRejected(promise2, 'job cancelled');
-      await assert.isRejected(promise3, 'job cancelled');
-      await assert.isRejected(promise4, 'job cancelled');
-      await assert.isRejected(promise5, 'fake -1');
+      await assert.isRejected(promise2, 'job canceled');
+      await assert.isRejected(promise3, 'job canceled');
+      await assert.isRejected(promise4, 'job canceled');
+
+      // It didn't succeed, but we log and resolve as normal
+      await assert.isFulfilled(promise5);
 
       assert.strictEqual(runCount, 4, 'after await');
     });

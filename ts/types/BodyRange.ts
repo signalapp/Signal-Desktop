@@ -6,7 +6,7 @@
 import { isEqual, isNumber, omit, orderBy, partition } from 'lodash';
 
 import { SignalService as Proto } from '../protobuf';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { missingCaseError } from '../util/missingCaseError';
 import { isNotNil } from '../util/isNotNil';
 import type { ConversationType } from '../state/ducks/conversations';
@@ -18,6 +18,8 @@ import {
 import { assertDev } from '../util/assert';
 import type { AciString } from './ServiceId';
 import { normalizeAci } from '../util/normalizeAci';
+
+const log = createLogger('BodyRange');
 
 // Cold storage of body ranges
 
@@ -36,8 +38,8 @@ export enum DisplayStyle {
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export namespace BodyRange {
   // re-export for convenience
-  export type Style = Proto.DataMessage.BodyRange.Style;
-  export const { Style } = Proto.DataMessage.BodyRange;
+  export type Style = Proto.BodyRange.Style;
+  export const { Style } = Proto.BodyRange;
 
   export type Mention = {
     mentionAci: AciString;
@@ -147,10 +149,7 @@ const MENTION_NAME = 'mention';
 
 // We drop unknown bodyRanges and remove extra stuff so they serialize properly
 export function filterAndClean(
-  ranges:
-    | ReadonlyArray<Proto.DataMessage.IBodyRange | RawBodyRange>
-    | undefined
-    | null
+  ranges: ReadonlyArray<Proto.IBodyRange | RawBodyRange> | undefined | null
 ): ReadonlyArray<RawBodyRange> | undefined {
   if (!ranges) {
     return undefined;
@@ -171,11 +170,9 @@ export function filterAndClean(
 
   return ranges
     .map(range => {
-      const { start, length, ...restOfRange } = range;
-      if (!isNumber(start)) {
-        log.warn('filterAndClean: Dropping bodyRange with non-number start');
-        return undefined;
-      }
+      const { start: startFromRange, length, ...restOfRange } = range;
+
+      const start = startFromRange ?? 0;
       if (!isNumber(length)) {
         log.warn('filterAndClean: Dropping bodyRange with non-number length');
         return undefined;
@@ -413,7 +410,7 @@ function rangeToPartialNode(
     if (range.style === BodyRange.Style.NONE) {
       return {};
     }
-    throw missingCaseError(range.style);
+    return {};
   }
   if (BodyRange.isLink(range)) {
     return {
@@ -848,6 +845,98 @@ export function applyRangesToText(
   }
 
   return state;
+}
+
+export function trimMessageWhitespace(input: {
+  body?: string;
+  bodyRanges?: ReadonlyArray<RawBodyRange>;
+}): { body?: string; bodyRanges?: ReadonlyArray<RawBodyRange> } {
+  if (input.body == null) {
+    return input;
+  }
+
+  let trimmedAtStart = input.body.trimStart();
+  let minimumIndex = input.body.length - trimmedAtStart.length;
+
+  let allTrimmed = trimmedAtStart.trimEnd();
+  let maximumIndex = allTrimmed.length;
+
+  if (minimumIndex === 0 && trimmedAtStart.length === maximumIndex) {
+    return input;
+  }
+
+  let earliestMonospaceIndex = Number.MAX_SAFE_INTEGER;
+  input.bodyRanges?.forEach(range => {
+    if (earliestMonospaceIndex === 0) {
+      return;
+    }
+    if (
+      !BodyRange.isFormatting(range) ||
+      range.style !== BodyRange.Style.MONOSPACE
+    ) {
+      return;
+    }
+
+    if (range.start < earliestMonospaceIndex) {
+      earliestMonospaceIndex = range.start;
+    }
+  });
+  if (earliestMonospaceIndex < minimumIndex) {
+    trimmedAtStart = input.body.slice(earliestMonospaceIndex);
+    minimumIndex = input.body.length - trimmedAtStart.length;
+    allTrimmed = trimmedAtStart.trimEnd();
+    maximumIndex = allTrimmed.length;
+  }
+
+  if (earliestMonospaceIndex === 0 && trimmedAtStart.length === maximumIndex) {
+    return input;
+  }
+
+  const bodyRanges = input.bodyRanges
+    ?.map(range => {
+      let workingRange = range;
+
+      const rangeEnd = workingRange.start + workingRange.length;
+      if (rangeEnd <= minimumIndex) {
+        return undefined;
+      }
+
+      if (workingRange.start < minimumIndex) {
+        const underMinimum = workingRange.start - minimumIndex;
+        workingRange = {
+          ...workingRange,
+          start: Math.max(underMinimum, 0),
+          length: workingRange.length + underMinimum,
+        };
+      } else {
+        workingRange = {
+          ...workingRange,
+          start: workingRange.start - minimumIndex,
+        };
+      }
+
+      const newRangeEnd = workingRange.start + workingRange.length;
+
+      if (workingRange.start >= maximumIndex) {
+        return undefined;
+      }
+
+      const overMaximum = newRangeEnd - maximumIndex;
+      if (overMaximum > 0) {
+        workingRange = {
+          ...workingRange,
+          length: workingRange.length - overMaximum,
+        };
+      }
+
+      return workingRange;
+    })
+    .filter(isNotNil);
+
+  return {
+    body: allTrimmed,
+    bodyRanges,
+  };
 }
 
 // For ease of working with draft mentions in Quill, a conversationID field is present.

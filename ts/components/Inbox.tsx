@@ -5,16 +5,18 @@ import type { ReactNode } from 'react';
 import React, { useEffect, useState, useMemo } from 'react';
 import classNames from 'classnames';
 import type { LocalizerType } from '../types/Util';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { SECOND, DAY } from '../util/durations';
 import type { SmartNavTabsProps } from '../state/smart/NavTabs';
+
+const log = createLogger('Inbox');
 
 export type PropsType = {
   firstEnvelopeTimestamp: number | undefined;
   envelopeTimestamp: number | undefined;
   hasInitialLoadCompleted: boolean;
   i18n: LocalizerType;
-  isAlpha: boolean;
+  isNightly: boolean;
   isCustomizingPreferredReactions: boolean;
   navTabsCollapsed: boolean;
   onToggleNavTabsCollapse: (navTabsCollapsed: boolean) => unknown;
@@ -23,6 +25,7 @@ export type PropsType = {
   renderCustomizingPreferredReactionsModal: () => JSX.Element;
   renderNavTabs: (props: SmartNavTabsProps) => JSX.Element;
   renderStoriesTab: () => JSX.Element;
+  renderSettingsTab: () => JSX.Element;
 };
 
 const PART_COUNT = 16;
@@ -32,7 +35,7 @@ export function Inbox({
   envelopeTimestamp,
   hasInitialLoadCompleted,
   i18n,
-  isAlpha,
+  isNightly,
   isCustomizingPreferredReactions,
   navTabsCollapsed,
   onToggleNavTabsCollapse,
@@ -41,6 +44,7 @@ export function Inbox({
   renderCustomizingPreferredReactionsModal,
   renderNavTabs,
   renderStoriesTab,
+  renderSettingsTab,
 }: PropsType): JSX.Element {
   const [internalHasInitialLoadCompleted, setInternalHasInitialLoadCompleted] =
     useState(hasInitialLoadCompleted);
@@ -61,7 +65,7 @@ export function Inbox({
     }
 
     const interval = setInterval(() => {
-      const status = window.getSocketStatus();
+      const { status } = window.getSocketStatus().authenticated;
       switch (status) {
         case 'CONNECTING':
           break;
@@ -128,7 +132,7 @@ export function Inbox({
     }
 
     let logo: JSX.Element;
-    if (isAlpha) {
+    if (isNightly) {
       const parts = new Array<JSX.Element>();
       parts.push(
         <i key="base" className="Inbox__logo__part Inbox__logo__part--base" />
@@ -150,7 +154,9 @@ export function Inbox({
       }
       logo = <div className="Inbox__logo">{parts}</div>;
     } else {
-      logo = <div className="module-splash-screen__logo module-img--150" />;
+      logo = (
+        <div className="module-splash-screen__logo module-splash-screen__logo--128" />
+      );
     }
 
     return (
@@ -198,6 +204,7 @@ export function Inbox({
           renderChatsTab,
           renderCallsTab,
           renderStoriesTab,
+          renderSettingsTab,
         })}
       </div>
       {activeModal}

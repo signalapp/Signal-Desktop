@@ -6,11 +6,9 @@ import React from 'react';
 
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './SignalConnectionsModal';
-import enMessages from '../../_locales/en/messages.json';
 import { SignalConnectionsModal } from './SignalConnectionsModal';
-import { setupI18n } from '../util/setupI18n';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/SignalConnectionsModal',

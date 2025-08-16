@@ -24,7 +24,9 @@ export async function commonShouldJobContinue({
   }
 
   try {
-    await waitForOnline({ timeout: timeRemaining });
+    if (isDeviceLinked()) {
+      await waitForOnline({ timeout: timeRemaining });
+    }
   } catch (err: unknown) {
     log.info("didn't come online in time, giving up");
     return false;

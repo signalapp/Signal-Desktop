@@ -1,6 +1,9 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 // Overriding default style
 .module-Modal__body_inner.CallLinkPendingParticipantModal__body_inner {
   align-items: center;
@@ -13,22 +16,24 @@
 }
 
 .CallLinkPendingParticipantModal__NameButton {
-  @include button-reset();
-  @include font-title-1;
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
-  max-width: 100%;
-  margin-top: 12px;
-  font-weight: 500;
-  color: $color-gray-05;
-  cursor: pointer;
+  @include mixins.button-reset();
+  & {
+    @include mixins.font-title-1;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    max-width: 100%;
+    margin-top: 12px;
+    font-weight: 500;
+    color: variables.$color-gray-05;
+    cursor: pointer;
+  }
 }
 
 .CallLinkPendingParticipantModal__InContactsIcon {
   height: 22px;
   width: 22px;
-  @include any-theme {
+  @include mixins.any-theme {
     background-color: currentColor;
   }
 }
@@ -41,15 +46,15 @@
   position: relative;
   inset-block-start: 2px;
 
-  @include color-svg(
+  @include mixins.color-svg(
     '../images/icons/v3/chevron/chevron-right-bold.svg',
-    $color-gray-25
+    variables.$color-gray-25
   );
 }
 
 .CallLinkPendingParticipantModal__SharedGroupInfo {
   margin-top: 10px;
-  color: $color-gray-25;
+  color: variables.$color-gray-25;
   text-align: center;
 }
 
@@ -58,17 +63,18 @@
   margin-block: 24px;
   border: none;
   height: 1px;
-  background: $color-gray-65;
+  background: variables.$color-gray-65;
 }
 
 .CallLinkPendingParticipantModal__ActionButton {
-  @include button-reset;
-
-  display: flex;
-  padding-block: 6px;
-  width: 100%;
-  align-items: center;
-  color: $color-gray-05;
+  @include mixins.button-reset;
+  & {
+    display: flex;
+    padding-block: 6px;
+    width: 100%;
+    align-items: center;
+    color: variables.$color-gray-05;
+  }
 }
 
 .CallLinkPendingParticipantModal__ActionButton:last-child {
@@ -76,8 +82,8 @@
 }
 
 .CallLinkPendingParticipantModal__ActionButton:focus {
-  @include keyboard-mode {
-    background: $color-gray-65;
+  @include mixins.keyboard-mode {
+    background: variables.$color-gray-65;
   }
 }
 
@@ -95,12 +101,15 @@
 }
 
 .CallLinkPendingParticipantModal__ButtonIconContent--approve {
-  @include color-svg(
+  @include mixins.color-svg(
     '../images/icons/v3/check/check-circle.svg',
-    $color-gray-25
+    variables.$color-gray-25
   );
 }
 
 .CallLinkPendingParticipantModal__ButtonIconContent--deny {
-  @include color-svg('../images/icons/v3/x/x-circle.svg', $color-gray-25);
+  @include mixins.color-svg(
+    '../images/icons/v3/x/x-circle.svg',
+    variables.$color-gray-25
+  );
 }

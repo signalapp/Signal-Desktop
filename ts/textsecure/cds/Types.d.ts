@@ -16,5 +16,4 @@ export type CDSRequestOptionsType = Readonly<{
   acisAndAccessKeys: ReadonlyArray<{ aci: AciString; accessKey: string }>;
   returnAcisWithoutUaks?: boolean;
   timeout?: number;
-  useLibsignal?: boolean;
 }>;

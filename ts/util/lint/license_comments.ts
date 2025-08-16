@@ -239,7 +239,7 @@ async function main() {
       );
     }
 
-    if (!secondLine.includes('SPDX-License-Identifier: AGPL-3.0-only')) {
+    if (!secondLine?.includes('SPDX-License-Identifier: AGPL-3.0-only')) {
       warnings.push(
         chalk.red('Missing/incorrect license line'),
         indent(

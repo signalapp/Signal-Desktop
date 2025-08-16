@@ -4,11 +4,10 @@
 import { isNumber } from 'lodash';
 import PQueue from 'p-queue';
 
-import { DataWriter } from '../../sql/Client';
 import * as Errors from '../../types/errors';
 import { strictAssert } from '../../util/assert';
 import type { MessageModel } from '../../models/messages';
-import { __DEPRECATED$getMessageById } from '../../messages/getMessageById';
+import { getMessageById } from '../../messages/getMessageById';
 import type { ConversationModel } from '../../models/conversations';
 import { isGroup, isGroupV2, isMe } from '../../util/whatTypeOfConversation';
 import { getSendOptions } from '../../util/getSendOptions';
@@ -31,7 +30,6 @@ import type {
   UploadedAttachmentType,
 } from '../../types/Attachment';
 import { copyCdnFields } from '../../util/attachments';
-import { LONG_ATTACHMENT_LIMIT } from '../../types/Message';
 import type { RawBodyRange } from '../../types/BodyRange';
 import type { EmbeddedContactWithUploadedAvatar } from '../../types/EmbeddedContact';
 import type { StoryContextType } from '../../types/Util';
@@ -40,6 +38,7 @@ import type {
   ConversationQueueJobBundle,
   NormalMessageSendJobData,
 } from '../conversationJobQueue';
+import type { QuotedMessageType } from '../../model-types.d';
 
 import { handleMultipleSendErrors } from './handleMultipleSendErrors';
 import { ourProfileKeyService } from '../../services/ourProfileKey';
@@ -55,6 +54,18 @@ import {
   getChangesForPropAtTimestamp,
 } from '../../util/editHelpers';
 import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp';
+import { isSignalConversation } from '../../util/isSignalConversation';
+import {
+  isBodyTooLong,
+  MAX_BODY_ATTACHMENT_BYTE_LENGTH,
+  trimBody,
+} from '../../util/longAttachment';
+import {
+  markFailed,
+  saveErrorsOnMessage,
+} from '../../test-node/util/messageFailures';
+import { getMessageIdForLogging } from '../../util/idForLogging';
+import { send, sendSyncMessageOnly } from '../../messages/send';
 
 const MAX_CONCURRENT_ATTACHMENT_UPLOADS = 5;
 
@@ -72,7 +83,7 @@ export async function sendNormalMessage(
   const { Message } = window.Signal.Types;
 
   const { messageId, revision, editedMessageTimestamp } = data;
-  const message = await __DEPRECATED$getMessageById(messageId);
+  const message = await getMessageById(messageId);
   if (!message) {
     log.info(
       `message ${messageId} was not found, maybe because it was deleted. Giving up on sending it`
@@ -80,10 +91,19 @@ export async function sendNormalMessage(
     return;
   }
 
-  const messageConversation = message.getConversation();
+  const messageConversation = window.ConversationController.get(
+    message.get('conversationId')
+  );
   if (messageConversation !== conversation) {
     log.error(
       `Message conversation '${messageConversation?.idForLogging()}' does not match job conversation ${conversation.idForLogging()}`
+    );
+    return;
+  }
+
+  if (isSignalConversation(messageConversation)) {
+    log.error(
+      `Message conversation '${messageConversation?.idForLogging()}' is the Signal serviceId, not sending`
     );
     return;
   }
@@ -95,7 +115,7 @@ export async function sendNormalMessage(
     return;
   }
 
-  if (message.isErased() || message.get('deletedForEveryone')) {
+  if (message.get('isErased') || message.get('deletedForEveryone')) {
     log.info(`message ${messageId} was erased. Giving up on sending it`);
     return;
   }
@@ -274,7 +294,7 @@ export async function sendNormalMessage(
         timestamp: targetTimestamp,
         reaction,
       });
-      messageSendPromise = message.sendSyncMessageOnly({
+      messageSendPromise = sendSyncMessageOnly(message, {
         dataMessage,
         saveErrors,
         targetTimestamp,
@@ -396,7 +416,7 @@ export async function sendNormalMessage(
         });
       }
 
-      messageSendPromise = message.send({
+      messageSendPromise = send(message, {
         promise: handleMessageSend(innerPromise, {
           messageIds: [messageId],
           sendType: 'message',
@@ -425,14 +445,18 @@ export async function sendNormalMessage(
 
     await messageSendPromise;
 
-    const didFullySend =
-      !messageSendErrors.length ||
-      didSendToEveryone({
-        log,
-        message,
-        targetTimestamp: editedMessageTimestamp || messageTimestamp,
-      });
+    const didFullySend = didSendToEveryone({
+      isSendingInGroup: conversation.get('type') === 'group',
+      log,
+      message,
+      targetTimestamp: editedMessageTimestamp || messageTimestamp,
+    });
     if (!didFullySend) {
+      if (!messageSendErrors.length) {
+        log.warn(
+          'Did not send to everyone, but no errors returned - maybe all errors were UnregisteredUserErrors?'
+        );
+      }
       throw new Error('message did not fully send');
     }
   } catch (thrownError: unknown) {
@@ -510,7 +534,7 @@ function getMessageRecipients({
         const serviceId = recipient.getServiceId();
         if (!serviceId) {
           log.error(
-            `sendNormalMessage/getMessageRecipients: Untrusted conversation ${recipient.idForLogging()} missing serviceId.`
+            `getMessageRecipients: Untrusted conversation ${recipient.idForLogging()} missing serviceId.`
           );
           return;
         }
@@ -587,8 +611,17 @@ async function getMessageSendData({
     targetTimestamp,
   });
 
-  if (body && body.length > LONG_ATTACHMENT_LIMIT) {
-    body = body.slice(0, LONG_ATTACHMENT_LIMIT);
+  if (
+    maybeLongAttachment &&
+    maybeLongAttachment.size > MAX_BODY_ATTACHMENT_BYTE_LENGTH
+  ) {
+    throw new Error(
+      `Body attachment too long for send: ${maybeLongAttachment.size}`
+    );
+  }
+
+  if (body && isBodyTooLong(body)) {
+    body = trimBody(body);
   }
 
   const uploadQueue = new PQueue({
@@ -646,13 +679,11 @@ async function getMessageSendData({
       uploadQueue,
     }),
     uploadMessageSticker(message, uploadQueue),
-    storyId ? __DEPRECATED$getMessageById(storyId) : undefined,
+    storyId ? getMessageById(storyId) : undefined,
   ]);
 
   // Save message after uploading attachments
-  await DataWriter.saveMessage(message.attributes, {
-    ourAci: window.textsecure.storage.user.getCheckedAci(),
-  });
+  await window.MessageCache.saveMessage(message.attributes);
 
   const storyReaction = message.get('storyReaction');
   const storySourceServiceId = storyMessage?.get('sourceServiceId');
@@ -719,7 +750,7 @@ async function uploadSingleAttachment({
   const uploaded = await uploadAttachment(withData);
 
   // Add digest to the attachment
-  const logId = `uploadSingleAttachment(${message.idForLogging()}`;
+  const logId = `uploadSingleAttachment(${getMessageIdForLogging(message.attributes)}`;
   const oldAttachments = getPropForTimestamp({
     log,
     message: message.attributes,
@@ -775,7 +806,7 @@ async function uploadLongMessageAttachment({
   const uploaded = await uploadAttachment(withData);
 
   // Add digest to the attachment
-  const logId = `uploadLongMessageAttachment(${message.idForLogging()}`;
+  const logId = `uploadLongMessageAttachment(${getMessageIdForLogging(message.attributes)}`;
   const oldAttachment = getPropForTimestamp({
     log,
     message: message.attributes,
@@ -827,10 +858,43 @@ async function uploadMessageQuote({
     prop: 'quote',
     targetTimestamp,
   });
-  const loadedQuote = await loadQuoteData(startingQuote);
+  let loadedQuote: QuotedMessageType | null;
 
-  if (!loadedQuote) {
-    return undefined;
+  // We are resilient to this because it's easy for quote thumbnails to be deleted out
+  // from under us, since the attachment is shared with the original message. Delete for
+  // Everyone on the original message, and the shared attachment will be deleted.
+  try {
+    loadedQuote = await loadQuoteData(startingQuote);
+    if (!loadedQuote) {
+      return undefined;
+    }
+  } catch (error) {
+    log.error(
+      'uplodateMessageQuote: Failed to load quote thumbnail',
+      Errors.toLogFormat(error)
+    );
+    if (!startingQuote) {
+      return undefined;
+    }
+
+    return {
+      isGiftBadge: startingQuote.isGiftBadge,
+      id: startingQuote.id ?? undefined,
+      authorAci: startingQuote.authorAci
+        ? normalizeAci(
+            startingQuote.authorAci,
+            'sendNormalMessage.quote.authorAci'
+          )
+        : undefined,
+      text: startingQuote.text,
+      bodyRanges: startingQuote.bodyRanges,
+      attachments: (startingQuote.attachments || []).map(attachment => {
+        return {
+          contentType: attachment.contentType,
+          fileName: attachment.fileName,
+        };
+      }),
+    };
   }
 
   const attachmentsAfterThumbnailUpload = await uploadQueue.addAll(
@@ -859,7 +923,7 @@ async function uploadMessageQuote({
   );
 
   // Update message with attachment digests
-  const logId = `uploadMessageQuote(${message.idForLogging()}`;
+  const logId = `uploadMessageQuote(${getMessageIdForLogging(message.attributes)}`;
   const oldQuote = getPropForTimestamp({
     log,
     message: message.attributes,
@@ -905,7 +969,7 @@ async function uploadMessageQuote({
 
   return {
     isGiftBadge: loadedQuote.isGiftBadge,
-    id: loadedQuote.id,
+    id: loadedQuote.id ?? undefined,
     authorAci: loadedQuote.authorAci
       ? normalizeAci(loadedQuote.authorAci, 'sendNormalMessage.quote.authorAci')
       : undefined,
@@ -967,7 +1031,7 @@ async function uploadMessagePreviews({
   );
 
   // Update message with attachment digests
-  const logId = `uploadMessagePreviews(${message.idForLogging()}`;
+  const logId = `uploadMessagePreviews(${getMessageIdForLogging(message.attributes)}`;
   const oldPreview = getPropForTimestamp({
     log,
     message: message.attributes,
@@ -1030,7 +1094,7 @@ async function uploadMessageSticker(
   );
 
   // Add digest to the attachment
-  const logId = `uploadMessageSticker(${message.idForLogging()}`;
+  const logId = `uploadMessageSticker(${getMessageIdForLogging(message.attributes)}`;
   const existingSticker = message.get('sticker');
   strictAssert(
     existingSticker?.data !== undefined,
@@ -1041,11 +1105,13 @@ async function uploadMessageSticker(
     existingSticker.data.path === startingSticker?.data?.path,
     `${logId}: Sticker was uploaded, but message has a different sticker`
   );
-  message.set('sticker', {
-    ...existingSticker,
-    data: {
-      ...existingSticker.data,
-      ...copyCdnFields(uploaded),
+  message.set({
+    sticker: {
+      ...existingSticker,
+      data: {
+        ...existingSticker.data,
+        ...copyCdnFields(uploaded),
+      },
     },
   });
 
@@ -1098,7 +1164,7 @@ async function uploadMessageContacts(
   );
 
   // Add digest to the attachment
-  const logId = `uploadMessageContacts(${message.idForLogging()}`;
+  const logId = `uploadMessageContacts(${getMessageIdForLogging(message.attributes)}`;
   const oldContact = message.get('contact');
   strictAssert(oldContact, `${logId}: Contacts are gone after upload`);
 
@@ -1135,7 +1201,7 @@ async function uploadMessageContacts(
       },
     };
   });
-  message.set('contact', newContact);
+  message.set({ contact: newContact });
 
   return uploadedContacts;
 }
@@ -1149,18 +1215,19 @@ async function markMessageFailed({
   message: MessageModel;
   targetTimestamp: number;
 }): Promise<void> {
-  message.markFailed(targetTimestamp);
-  void message.saveErrors(errors, { skipSave: true });
-  await DataWriter.saveMessage(message.attributes, {
-    ourAci: window.textsecure.storage.user.getCheckedAci(),
+  markFailed(message, targetTimestamp);
+  await saveErrorsOnMessage(message, errors, {
+    skipSave: false,
   });
 }
 
 function didSendToEveryone({
+  isSendingInGroup,
   log,
   message,
   targetTimestamp,
 }: {
+  isSendingInGroup: boolean;
   log: LoggerType;
   message: MessageModel;
   targetTimestamp: number;
@@ -1172,7 +1239,27 @@ function didSendToEveryone({
       prop: 'sendStateByConversationId',
       targetTimestamp,
     }) || {};
-  return Object.values(sendStateByConversationId).every(sendState =>
-    isSent(sendState.status)
+  const ourConversationId =
+    window.ConversationController.getOurConversationIdOrThrow();
+  const areWePrimaryDevice = window.ConversationController.areWePrimaryDevice();
+
+  return Object.entries(sendStateByConversationId).every(
+    ([conversationId, sendState]) => {
+      const conversation = window.ConversationController.get(conversationId);
+      if (isSendingInGroup) {
+        if (!conversation) {
+          return true;
+        }
+        if (conversation.isUnregistered()) {
+          return true;
+        }
+      }
+
+      if (conversationId === ourConversationId && areWePrimaryDevice) {
+        return true;
+      }
+
+      return isSent(sendState.status);
+    }
   );
 }

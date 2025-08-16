@@ -3,7 +3,7 @@
 
 import { debounce, omit } from 'lodash';
 
-import { CallLinkRootKey } from '@signalapp/ringrtc';
+import { CallLinkRootKey, CallLinkEpoch } from '@signalapp/ringrtc';
 import type { LinkPreviewWithHydratedData } from '../types/message/LinkPreviews';
 import type {
   LinkPreviewImage,
@@ -12,6 +12,7 @@ import type {
   MaybeGrabLinkPreviewOptionsType,
   AddLinkPreviewOptionsType,
 } from '../types/LinkPreview';
+import type { LinkPreviewImage as LinkPreviewFetchImage } from '../linkPreviews/linkPreviewFetch';
 import * as Errors from '../types/errors';
 import type { StickerPackType as StickerPackDBType } from '../sql/Interface';
 import type { MIMEType } from '../types/MIME';
@@ -20,7 +21,7 @@ import { sha256 } from '../Crypto';
 import * as LinkPreview from '../types/LinkPreview';
 import * as Stickers from '../types/Stickers';
 import * as VisualAttachment from '../types/VisualAttachment';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { IMAGE_JPEG, IMAGE_WEBP, stringToMIMEType } from '../types/MIME';
 import { SECOND } from '../util/durations';
 import { autoScale } from '../util/handleImageAttachment';
@@ -31,8 +32,10 @@ import { maybeParseUrl } from '../util/url';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import { drop } from '../util/drop';
 import { calling } from './calling';
-import { getKeyFromCallLink } from '../util/callLinks';
+import { getKeyAndEpochFromCallLink } from '../util/callLinks';
 import { getRoomIdFromCallLink } from '../util/callLinksRingrtc';
+
+const log = createLogger('LinkPreview');
 
 const LINK_PREVIEW_TIMEOUT = 60 * SECOND;
 
@@ -63,7 +66,7 @@ function _maybeGrabLinkPreview(
 ): void {
   // Don't generate link previews if user has turned them off. When posting a
   // story we should return minimal (url-only) link previews.
-  if (!window.Events.getLinkPreviewSetting() && mode === 'conversation') {
+  if (!LinkPreview.getLinkPreviewSetting() && mode === 'conversation') {
     return;
   }
 
@@ -102,7 +105,7 @@ function _maybeGrabLinkPreview(
   drop(
     addLinkPreview(link, source, {
       conversationId,
-      disableFetch: !window.Events.getLinkPreviewSetting(),
+      disableFetch: !LinkPreview.getLinkPreviewSetting(),
     })
   );
 }
@@ -320,31 +323,53 @@ async function getPreview(
     abortSignal
   );
   if (!linkPreviewMetadata || abortSignal.aborted) {
+    log.warn('aborted');
     return null;
   }
-  const { title, imageHref, description, date } = linkPreviewMetadata;
+  const { title, image, description, date } = linkPreviewMetadata;
 
-  let image;
-  if (imageHref && LinkPreview.shouldPreviewHref(imageHref)) {
+  let fetchedImage: LinkPreviewFetchImage | null;
+
+  if (typeof image === 'string') {
+    if (!LinkPreview.shouldPreviewHref(image)) {
+      log.warn('refusing to fetch image from provided URL');
+      fetchedImage = null;
+    } else {
+      try {
+        const fullSizeImage = await messaging.fetchLinkPreviewImage(
+          image,
+          abortSignal
+        );
+        if (abortSignal.aborted) {
+          return null;
+        }
+        if (!fullSizeImage) {
+          throw new Error('Failed to fetch link preview image');
+        }
+        fetchedImage = fullSizeImage;
+      } catch (error) {
+        // We still want to show the preview if we failed to get an image
+        log.warn(
+          'getPreview failed to get image for link preview:',
+          error.message
+        );
+        fetchedImage = null;
+      }
+    }
+  } else {
+    fetchedImage = image;
+  }
+
+  let imageAttachment: LinkPreviewImage | undefined;
+  if (fetchedImage) {
     let objectUrl: undefined | string;
     try {
-      const fullSizeImage = await messaging.fetchLinkPreviewImage(
-        imageHref,
-        abortSignal
-      );
-      if (abortSignal.aborted) {
-        return null;
-      }
-      if (!fullSizeImage) {
-        throw new Error('Failed to fetch link preview image');
-      }
-
       // Ensure that this file is either small enough or is resized to meet our
       //   requirements for attachments
       const withBlob = await autoScale({
-        contentType: fullSizeImage.contentType,
-        file: new Blob([fullSizeImage.data], {
-          type: fullSizeImage.contentType,
+        contentType: fetchedImage.contentType,
+        file: new Blob([fetchedImage.data], {
+          type: fetchedImage.contentType,
         }),
         fileName: title,
         highQuality: true,
@@ -360,7 +385,7 @@ async function getPreview(
         logger: log,
       });
 
-      image = {
+      imageAttachment = {
         data,
         size: data.byteLength,
         ...dimensions,
@@ -371,7 +396,7 @@ async function getPreview(
     } catch (error) {
       // We still want to show the preview if we failed to get an image
       log.error(
-        'getPreview failed to get image for link preview:',
+        'getPreview failed to process image for link preview:',
         error.message
       );
     } finally {
@@ -388,7 +413,7 @@ async function getPreview(
   return {
     date: date || null,
     description: description || null,
-    image,
+    image: imageAttachment,
     title,
     url,
   };
@@ -576,9 +601,13 @@ async function getCallLinkPreview(
   url: string,
   _abortSignal: Readonly<AbortSignal>
 ): Promise<null | LinkPreviewResult> {
-  const keyString = getKeyFromCallLink(url);
-  const callLinkRootKey = CallLinkRootKey.parse(keyString);
-  const callLinkState = await calling.readCallLink(callLinkRootKey);
+  const { key, epoch } = getKeyAndEpochFromCallLink(url);
+  const callLinkRootKey = CallLinkRootKey.parse(key);
+  const callLinkEpoch = epoch ? CallLinkEpoch.parse(epoch) : undefined;
+  const callLinkState = await calling.readCallLink(
+    callLinkRootKey,
+    callLinkEpoch
+  );
   if (callLinkState == null || callLinkState.revoked) {
     return null;
   }

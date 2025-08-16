@@ -59,7 +59,6 @@ export function OutgoingGiftBadgeModal({
       moduleClassName={`${CLASS_NAME}__container`}
       onClose={hideOutgoingGiftBadgeModal}
       hasXButton
-      useFocusTrap
     >
       <div className={CLASS_NAME}>
         <div className={`${CLASS_NAME}__title`}>

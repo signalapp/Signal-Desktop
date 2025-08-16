@@ -11,8 +11,10 @@ import {
 } from '../types/Attachment';
 import { count } from './grapheme';
 import { SECOND } from './durations';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
+
+const log = createLogger('getStoryDuration');
 
 const DEFAULT_DURATION = 5 * SECOND;
 const MAX_VIDEO_DURATION = 30 * SECOND;
@@ -66,10 +68,7 @@ export async function getStoryDuration(
         videoEl.src = url;
       });
     } catch (error) {
-      log.error(
-        'getStoryDuration: Failed to load video duration',
-        Errors.toLogFormat(error)
-      );
+      log.error('Failed to load video duration', Errors.toLogFormat(error));
       return DEFAULT_DURATION;
     } finally {
       // Stop loading video

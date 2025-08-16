@@ -10,6 +10,7 @@ mocha.setup({ timeout: 10000 });
 
 window.Events = {
   getThemeSetting: () => 'light',
+  addDarkOverlay: () => undefined,
 };
 
 /* Delete the database before running any tests */

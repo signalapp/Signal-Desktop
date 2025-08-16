@@ -110,10 +110,12 @@ describe('storage service', function (this: Mocha.Suite) {
     }
 
     const updatedState = await phone.setStorageState(
-      state.addRecord({
-        type: IdentifierType.ACCOUNT,
-        record: oldAccount.record,
-      })
+      state
+        .addRecord({
+          type: IdentifierType.ACCOUNT,
+          record: oldAccount.record,
+        })
+        .updateAccount({})
     );
 
     debug('sending fetch storage');

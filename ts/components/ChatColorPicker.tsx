@@ -26,9 +26,7 @@ type CustomColorDataType = {
 export type PropsDataType = {
   conversationId?: string;
   customColors?: Record<string, CustomColorType>;
-  getConversationsWithCustomColor: (
-    colorId: string
-  ) => Promise<Array<ConversationType>>;
+  getConversationsWithCustomColor: (colorId: string) => Array<ConversationType>;
   i18n: LocalizerType;
   isGlobal?: boolean;
   selectedColor?: ConversationColorType;
@@ -270,9 +268,7 @@ export function ChatColorPicker({
 type CustomColorBubblePropsType = {
   color: CustomColorType;
   colorId: string;
-  getConversationsWithCustomColor: (
-    colorId: string
-  ) => Promise<Array<ConversationType>>;
+  getConversationsWithCustomColor: (colorId: string) => Array<ConversationType>;
   i18n: LocalizerType;
   isSelected: boolean;
   onDelete: () => unknown;
@@ -393,12 +389,11 @@ function CustomColorBubble({
           attributes={{
             className: 'ChatColorPicker__context--delete',
           }}
-          onClick={async (event: MouseEvent) => {
+          onClick={(event: MouseEvent) => {
             event.stopPropagation();
             event.preventDefault();
 
-            const conversations =
-              await getConversationsWithCustomColor(colorId);
+            const conversations = getConversationsWithCustomColor(colorId);
             if (!conversations.length) {
               onDelete();
             } else {

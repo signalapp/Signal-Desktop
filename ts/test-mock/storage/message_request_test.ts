@@ -6,7 +6,11 @@ import { assert } from 'chai';
 import * as durations from '../../util/durations';
 import type { App, Bootstrap } from './fixtures';
 import { initStorage, debug } from './fixtures';
-import { typeIntoInput, waitForEnabledComposer } from '../helpers';
+import {
+  acceptConversation,
+  typeIntoInput,
+  waitForEnabledComposer,
+} from '../helpers';
 
 describe('storage service', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
@@ -50,13 +54,10 @@ describe('storage service', function (this: Mocha.Suite) {
     const window = await app.getWindow();
 
     const leftPane = window.locator('#LeftPane');
-    const conversationStack = window.locator('.Inbox__conversation-stack');
 
     debug('Opening conversation with a stranger');
-    debug(stranger.toContact().aci);
-    await leftPane
-      .locator(`[data-testid="${stranger.toContact().aci}"]`)
-      .click();
+    debug(stranger.device.aci);
+    await leftPane.locator(`[data-testid="${stranger.device.aci}"]`).click();
 
     debug("Verify that we stored stranger's profile key");
     const postMessageState = await phone.waitForStorageState({
@@ -77,9 +78,7 @@ describe('storage service', function (this: Mocha.Suite) {
     }
 
     debug('Accept conversation from a stranger');
-    await conversationStack
-      .locator('.module-message-request-actions button >> "Accept"')
-      .click();
+    await acceptConversation(window);
 
     debug('Verify that storage state was updated');
     {
@@ -109,16 +108,16 @@ describe('storage service', function (this: Mocha.Suite) {
         'profile key message has valid source'
       );
       assert.isTrue(
-        phone.profileKey
-          .serialize()
-          .equals(dataMessage.profileKey ?? new Uint8Array(0)),
+        Buffer.from(phone.profileKey.serialize()).equals(
+          dataMessage.profileKey ?? new Uint8Array(0)
+        ),
         'profile key message has correct profile key'
       );
     }
 
     debug('Enter message text');
     const input = await waitForEnabledComposer(window);
-    await typeIntoInput(input, 'hello stranger!');
+    await typeIntoInput(input, 'hello stranger!', '');
     await input.press('Enter');
 
     {

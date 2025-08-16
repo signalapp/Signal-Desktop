@@ -4,10 +4,8 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import enMessages from '../../_locales/en/messages.json';
 import type { PropsType } from './MediaQualitySelector';
 import { MediaQualitySelector } from './MediaQualitySelector';
-import { setupI18n } from '../util/setupI18n';
 
 export default {
   title: 'Components/MediaQualitySelector',
@@ -15,7 +13,7 @@ export default {
   args: {},
 } satisfies Meta<PropsType>;
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   conversationId: 'abc123',

@@ -12,8 +12,16 @@ export type OwnProps = {
   readonly i18n: LocalizerType;
   readonly pack: StickerPackType;
   readonly onClickPreview?: (sticker: StickerPackType) => unknown;
-  readonly installStickerPack?: (packId: string, packKey: string) => unknown;
-  readonly uninstallStickerPack?: (packId: string, packKey: string) => unknown;
+  readonly installStickerPack?: (
+    packId: string,
+    packKey: string,
+    options: { actionSource: 'ui' }
+  ) => unknown;
+  readonly uninstallStickerPack?: (
+    packId: string,
+    packKey: string,
+    options: { actionSource: 'ui' }
+  ) => unknown;
 };
 
 export type Props = OwnProps;
@@ -37,7 +45,7 @@ export const StickerManagerPackRow = React.memo(
       (e: React.MouseEvent) => {
         e.stopPropagation();
         if (installStickerPack) {
-          installStickerPack(id, key);
+          installStickerPack(id, key, { actionSource: 'ui' });
         }
       },
       [id, installStickerPack, key]
@@ -47,7 +55,7 @@ export const StickerManagerPackRow = React.memo(
       (e: React.MouseEvent) => {
         e.stopPropagation();
         if (isBlessed && uninstallStickerPack) {
-          uninstallStickerPack(id, key);
+          uninstallStickerPack(id, key, { actionSource: 'ui' });
         } else {
           setUninstalling(true);
         }
@@ -58,7 +66,7 @@ export const StickerManagerPackRow = React.memo(
     const handleConfirmUninstall = React.useCallback(() => {
       clearUninstalling();
       if (uninstallStickerPack) {
-        uninstallStickerPack(id, key);
+        uninstallStickerPack(id, key, { actionSource: 'ui' });
       }
     }, [id, key, clearUninstalling, uninstallStickerPack]);
 

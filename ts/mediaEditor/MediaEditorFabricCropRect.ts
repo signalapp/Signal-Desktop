@@ -15,11 +15,11 @@ export class MediaEditorFabricCropRect extends fabric.Rect {
       ...(options || {}),
     });
 
-    this.on('scaling', this.containBounds);
-    this.on('moving', this.containBounds);
+    this.on('scaling', this.#containBounds);
+    this.on('moving', this.#containBounds);
   }
 
-  private containBounds = () => {
+  #containBounds = () => {
     if (!this.canvas) {
       return;
     }

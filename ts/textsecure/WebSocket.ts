@@ -3,6 +3,7 @@
 
 import { client as WebSocketClient } from 'websocket';
 import type { connection as WebSocket } from 'websocket';
+import type { IncomingMessage } from 'http';
 
 import { AbortableProcess } from '../util/AbortableProcess';
 import { strictAssert } from '../util/assert';
@@ -11,10 +12,12 @@ import { getUserAgent } from '../util/getUserAgent';
 import * as durations from '../util/durations';
 import type { ProxyAgent } from '../util/createProxyAgent';
 import { createHTTPSAgent } from '../util/createHTTPSAgent';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Timers from '../Timers';
 import { ConnectTimeoutError, HTTPError } from './Errors';
 import { handleStatusCode, translateError } from './Utils';
+
+const log = createLogger('WebSocket');
 
 const TEN_SECONDS = 10 * durations.SECOND;
 const WEBSOCKET_CONNECT_TIMEOUT = TEN_SECONDS;
@@ -32,6 +35,7 @@ export type ConnectOptionsType<Resource extends IResource> = Readonly<{
   proxyAgent?: ProxyAgent;
   timeout?: number;
   extraHeaders?: Record<string, string>;
+  onUpgradeResponse?: (response: IncomingMessage) => void;
 
   createResource(socket: WebSocket): Resource;
 }>;
@@ -44,6 +48,7 @@ export function connect<Resource extends IResource>({
   proxyAgent,
   extraHeaders = {},
   timeout = WEBSOCKET_CONNECT_TIMEOUT,
+  onUpgradeResponse,
   createResource,
 }: ConnectOptionsType<Resource>): AbortableProcess<Resource> {
   const fixedScheme = url
@@ -84,6 +89,10 @@ export function connect<Resource extends IResource>({
     resolve(resource);
   });
 
+  client.on('upgradeResponse', response => {
+    onUpgradeResponse?.(response);
+  });
+
   client.on('httpResponse', async response => {
     Timers.clearTimeout(timer);
 
@@ -122,10 +131,10 @@ export function connect<Resource extends IResource>({
     {
       abort() {
         if (resource) {
-          log.warn(`WebSocket: closing socket ${name}`);
+          log.warn(`closing socket ${name}`);
           resource.close(3000, 'aborted');
         } else {
-          log.warn(`WebSocket: aborting connection ${name}`);
+          log.warn(`aborting connection ${name}`);
           Timers.clearTimeout(timer);
           client.abort();
         }

@@ -28,6 +28,7 @@ export type MinimalConversation = Satisfies<
     | 'color'
     | 'expireTimer'
     | 'groupVersion'
+    | 'hasAvatar'
     | 'id'
     | 'isArchived'
     | 'isBlocked'
@@ -43,8 +44,10 @@ export type MinimalConversation = Satisfies<
     | 'profileName'
     | 'title'
     | 'type'
-    | 'unblurredAvatarUrl'
-  >
+  > & {
+    gradientStart?: string;
+    gradientEnd?: string;
+  }
 >;
 
 export function useMinimalConversation(
@@ -59,6 +62,7 @@ export function useMinimalConversation(
     color,
     expireTimer,
     groupVersion,
+    hasAvatar,
     id,
     isArchived,
     isBlocked,
@@ -74,10 +78,13 @@ export function useMinimalConversation(
     profileName,
     title,
     type,
-    unblurredAvatarUrl,
   } = conversation;
-  return useMemo(() => {
+  const gradientStart = conversation.avatarPlaceholderGradient?.[0];
+  const gradientEnd = conversation.avatarPlaceholderGradient?.[1];
+  return useMemo((): MinimalConversation => {
     return {
+      gradientStart,
+      gradientEnd,
       acceptedMessageRequest,
       announcementsOnly,
       areWeAdmin,
@@ -86,6 +93,7 @@ export function useMinimalConversation(
       color,
       expireTimer,
       groupVersion,
+      hasAvatar,
       id,
       isArchived,
       isBlocked,
@@ -101,9 +109,10 @@ export function useMinimalConversation(
       profileName,
       title,
       type,
-      unblurredAvatarUrl,
     };
   }, [
+    gradientStart,
+    gradientEnd,
     acceptedMessageRequest,
     announcementsOnly,
     areWeAdmin,
@@ -112,6 +121,7 @@ export function useMinimalConversation(
     color,
     expireTimer,
     groupVersion,
+    hasAvatar,
     id,
     isArchived,
     isBlocked,
@@ -127,6 +137,5 @@ export function useMinimalConversation(
     profileName,
     title,
     type,
-    unblurredAvatarUrl,
   ]);
 }

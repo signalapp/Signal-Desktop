@@ -10,7 +10,7 @@ export function isStagingServer(
   if (getEnvironment() === Environment.Staging) {
     return true;
   }
-  if (isStaging(window.getVersion())) {
+  if (isStaging(window.SignalContext.getVersion())) {
     return true;
   }
   return /staging/i.test(serverUrl);

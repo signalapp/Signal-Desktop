@@ -1,21 +1,24 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Buffer } from 'buffer';
 import Long from 'long';
-import { Aci, HKDF } from '@signalapp/libsignal-client';
+import { sample } from 'lodash';
+import { Aci, Pni, hkdf } from '@signalapp/libsignal-client';
+import type { PublicKey, PrivateKey } from '@signalapp/libsignal-client';
+import { AccountEntropyPool } from '@signalapp/libsignal-client/dist/AccountKeys';
 
 import * as Bytes from './Bytes';
 import { Crypto } from './context/Crypto';
 import { calculateAgreement, generateKeyPair } from './Curve';
-import { HashType, CipherType, UUID_BYTE_SIZE } from './types/Crypto';
+import { HashType, CipherType } from './types/Crypto';
+import { AVATAR_COLOR_COUNT, AvatarColors } from './types/Colors';
 import { ProfileDecryptError } from './types/errors';
 import { getBytesSubarray } from './util/uuidToBytes';
 import { logPadSize } from './util/logPadding';
 import { Environment, getEnvironment } from './environment';
 import { toWebSafeBase64 } from './util/webSafeBase64';
 
-import type { AciString } from './types/ServiceId';
+import type { AciString, PniString } from './types/ServiceId';
 
 export { HashType, CipherType };
 
@@ -54,14 +57,12 @@ export function deriveSecrets(
   salt: Uint8Array,
   info: Uint8Array
 ): [Uint8Array, Uint8Array, Uint8Array] {
-  const hkdf = HKDF.new(3);
-  const output = hkdf.deriveSecrets(
-    3 * 32,
-    Buffer.from(input),
-    Buffer.from(info),
-    Buffer.from(salt)
-  );
-  return [output.slice(0, 32), output.slice(32, 64), output.slice(64, 96)];
+  const output = hkdf(3 * 32, input, info, salt);
+  return [
+    output.subarray(0, 32),
+    output.subarray(32, 64),
+    output.subarray(64, 96),
+  ];
 }
 
 export function deriveMasterKeyFromGroupV1(groupV1Id: Uint8Array): Uint8Array {
@@ -100,20 +101,20 @@ export function computeHash(data: Uint8Array): string {
 // High-level Operations
 
 export type EncryptedDeviceName = {
-  ephemeralPublic: Uint8Array;
+  ephemeralPublic: PublicKey;
   syntheticIv: Uint8Array;
   ciphertext: Uint8Array;
 };
 
 export function encryptDeviceName(
   deviceName: string,
-  identityPublic: Uint8Array
+  identityPublic: PublicKey
 ): EncryptedDeviceName {
   const plaintext = Bytes.fromString(deviceName);
   const ephemeralKeyPair = generateKeyPair();
   const masterSecret = calculateAgreement(
     identityPublic,
-    ephemeralKeyPair.privKey
+    ephemeralKeyPair.privateKey
   );
 
   const key1 = hmacSha256(masterSecret, Bytes.fromString('auth'));
@@ -126,7 +127,7 @@ export function encryptDeviceName(
   const ciphertext = encryptAesCtr(cipherKey, plaintext, counter);
 
   return {
-    ephemeralPublic: ephemeralKeyPair.pubKey,
+    ephemeralPublic: ephemeralKeyPair.publicKey,
     syntheticIv,
     ciphertext,
   };
@@ -134,7 +135,7 @@ export function encryptDeviceName(
 
 export function decryptDeviceName(
   { ephemeralPublic, syntheticIv, ciphertext }: EncryptedDeviceName,
-  identityPrivate: Uint8Array
+  identityPrivate: PrivateKey
 ): string {
   const masterSecret = calculateAgreement(ephemeralPublic, identityPrivate);
 
@@ -154,6 +155,10 @@ export function decryptDeviceName(
   return Bytes.toString(plaintext);
 }
 
+export function deriveMasterKey(accountEntropyPool: string): Uint8Array {
+  return AccountEntropyPool.deriveSvrKey(accountEntropyPool);
+}
+
 export function deriveStorageServiceKey(masterKey: Uint8Array): Uint8Array {
   return hmacSha256(masterKey, Bytes.fromString('Storage Service Encryption'));
 }
@@ -165,206 +170,35 @@ export function deriveStorageManifestKey(
   return hmacSha256(storageServiceKey, Bytes.fromString(`Manifest_${version}`));
 }
 
-const BACKUP_KEY_LEN = 32;
-const BACKUP_KEY_INFO = '20231003_Signal_Backups_GenerateBackupKey';
+const STORAGE_SERVICE_ITEM_KEY_INFO_PREFIX =
+  '20240801_SIGNAL_STORAGE_SERVICE_ITEM_';
+const STORAGE_SERVICE_ITEM_KEY_LEN = 32;
 
-export function deriveBackupKey(masterKey: Uint8Array): Uint8Array {
-  const hkdf = HKDF.new(3);
-  return hkdf.deriveSecrets(
-    BACKUP_KEY_LEN,
-    Buffer.from(masterKey),
-    Buffer.from(BACKUP_KEY_INFO),
-    Buffer.alloc(0)
-  );
-}
-
-const BACKUP_SIGNATURE_KEY_LEN = 32;
-const BACKUP_SIGNATURE_KEY_INFO =
-  '20231003_Signal_Backups_GenerateBackupIdKeyPair';
-
-export function deriveBackupSignatureKey(
-  backupKey: Uint8Array,
-  aciBytes: Uint8Array
-): Uint8Array {
-  if (backupKey.byteLength !== BACKUP_KEY_LEN) {
-    throw new Error('deriveBackupId: invalid backup key length');
-  }
-
-  if (aciBytes.byteLength !== UUID_BYTE_SIZE) {
-    throw new Error('deriveBackupId: invalid aci length');
-  }
-
-  const hkdf = HKDF.new(3);
-  return hkdf.deriveSecrets(
-    BACKUP_SIGNATURE_KEY_LEN,
-    Buffer.from(backupKey),
-    Buffer.from(BACKUP_SIGNATURE_KEY_INFO),
-    Buffer.from(aciBytes)
-  );
-}
-
-const BACKUP_ID_LEN = 16;
-const BACKUP_ID_INFO = '20231003_Signal_Backups_GenerateBackupId';
-
-export function deriveBackupId(
-  backupKey: Uint8Array,
-  aciBytes: Uint8Array
-): Uint8Array {
-  if (backupKey.byteLength !== BACKUP_KEY_LEN) {
-    throw new Error('deriveBackupId: invalid backup key length');
-  }
-
-  if (aciBytes.byteLength !== UUID_BYTE_SIZE) {
-    throw new Error('deriveBackupId: invalid aci length');
-  }
-
-  const hkdf = HKDF.new(3);
-  return hkdf.deriveSecrets(
-    BACKUP_ID_LEN,
-    Buffer.from(backupKey),
-    Buffer.from(BACKUP_ID_INFO),
-    Buffer.from(aciBytes)
-  );
-}
-
-export type BackupKeyMaterialType = Readonly<{
-  macKey: Uint8Array;
-  aesKey: Uint8Array;
+export type DeriveStorageItemKeyOptionsType = Readonly<{
+  storageServiceKey: Uint8Array;
+  recordIkm: Uint8Array | undefined;
+  key: Uint8Array;
 }>;
 
-export type BackupMediaKeyMaterialType = Readonly<{
-  macKey: Uint8Array;
-  aesKey: Uint8Array;
-  iv: Uint8Array;
-}>;
-
-const BACKUP_AES_KEY_LEN = 32;
-const BACKUP_MAC_KEY_LEN = 32;
-const BACKUP_MATERIAL_INFO = '20231003_Signal_Backups_EncryptMessageBackup';
-
-const BACKUP_MEDIA_ID_INFO = '20231003_Signal_Backups_Media_ID';
-const BACKUP_MEDIA_ID_LEN = 15;
-const BACKUP_MEDIA_ENCRYPT_INFO = '20231003_Signal_Backups_EncryptMedia';
-const BACKUP_MEDIA_THUMBNAIL_ENCRYPT_INFO =
-  '20240513_Signal_Backups_EncryptThumbnail';
-const BACKUP_MEDIA_AES_KEY_LEN = 32;
-const BACKUP_MEDIA_MAC_KEY_LEN = 32;
-const BACKUP_MEDIA_IV_LEN = 16;
-
-export function deriveBackupKeyMaterial(
-  backupKey: Uint8Array,
-  backupId: Uint8Array
-): BackupKeyMaterialType {
-  if (backupKey.byteLength !== BACKUP_KEY_LEN) {
-    throw new Error('deriveBackupId: invalid backup key length');
+export function deriveStorageItemKey({
+  storageServiceKey,
+  recordIkm,
+  key,
+}: DeriveStorageItemKeyOptionsType): Uint8Array {
+  if (recordIkm == null) {
+    const itemID = Bytes.toBase64(key);
+    return hmacSha256(storageServiceKey, Bytes.fromString(`Item_${itemID}`));
   }
 
-  if (backupId.byteLength !== BACKUP_ID_LEN) {
-    throw new Error('deriveBackupId: invalid backup id length');
-  }
-
-  const hkdf = HKDF.new(3);
-  const material = hkdf.deriveSecrets(
-    BACKUP_AES_KEY_LEN + BACKUP_MAC_KEY_LEN,
-    Buffer.from(backupKey),
-    Buffer.from(BACKUP_MATERIAL_INFO),
-    Buffer.from(backupId)
+  return hkdf(
+    STORAGE_SERVICE_ITEM_KEY_LEN,
+    recordIkm,
+    Bytes.concatenate([
+      Bytes.fromString(STORAGE_SERVICE_ITEM_KEY_INFO_PREFIX),
+      key,
+    ]),
+    new Uint8Array(0)
   );
-
-  return {
-    macKey: material.slice(0, BACKUP_MAC_KEY_LEN),
-    aesKey: material.slice(BACKUP_MAC_KEY_LEN),
-  };
-}
-
-export function deriveMediaIdFromMediaName(
-  backupKey: Uint8Array,
-  mediaName: string
-): Uint8Array {
-  if (backupKey.byteLength !== BACKUP_KEY_LEN) {
-    throw new Error('deriveMediaIdFromMediaName: invalid backup key length');
-  }
-
-  if (!mediaName) {
-    throw new Error('deriveMediaIdFromMediaName: mediaName missing');
-  }
-
-  const hkdf = HKDF.new(3);
-  return hkdf.deriveSecrets(
-    BACKUP_MEDIA_ID_LEN,
-    Buffer.from(backupKey),
-    Buffer.from(BACKUP_MEDIA_ID_INFO),
-    Buffer.from(mediaName, 'utf8')
-  );
-}
-
-export function deriveBackupMediaKeyMaterial(
-  backupKey: Uint8Array,
-  mediaId: Uint8Array
-): BackupMediaKeyMaterialType {
-  if (backupKey.byteLength !== BACKUP_KEY_LEN) {
-    throw new Error('deriveBackupMediaKeyMaterial: invalid backup key length');
-  }
-
-  if (!mediaId.length) {
-    throw new Error('deriveBackupMediaKeyMaterial: mediaId missing');
-  }
-
-  const hkdf = HKDF.new(3);
-  const material = hkdf.deriveSecrets(
-    BACKUP_MEDIA_MAC_KEY_LEN + BACKUP_MEDIA_AES_KEY_LEN + BACKUP_MEDIA_IV_LEN,
-    Buffer.from(backupKey),
-    Buffer.from(BACKUP_MEDIA_ENCRYPT_INFO),
-    Buffer.from(mediaId)
-  );
-
-  return {
-    macKey: material.subarray(0, BACKUP_MEDIA_MAC_KEY_LEN),
-    aesKey: material.subarray(
-      BACKUP_MEDIA_MAC_KEY_LEN,
-      BACKUP_MEDIA_MAC_KEY_LEN + BACKUP_MEDIA_AES_KEY_LEN
-    ),
-    iv: material.subarray(BACKUP_MEDIA_MAC_KEY_LEN + BACKUP_MEDIA_AES_KEY_LEN),
-  };
-}
-
-export function deriveBackupMediaThumbnailInnerEncryptionKeyMaterial(
-  backupKey: Uint8Array,
-  mediaId: Uint8Array
-): BackupMediaKeyMaterialType {
-  if (backupKey.byteLength !== BACKUP_KEY_LEN) {
-    throw new Error(
-      'deriveBackupMediaThumbnailKeyMaterial: invalid backup key length'
-    );
-  }
-
-  if (!mediaId.length) {
-    throw new Error('deriveBackupMediaThumbnailKeyMaterial: mediaId missing');
-  }
-
-  const hkdf = HKDF.new(3);
-  const material = hkdf.deriveSecrets(
-    BACKUP_MEDIA_MAC_KEY_LEN + BACKUP_MEDIA_AES_KEY_LEN + BACKUP_MEDIA_IV_LEN,
-    Buffer.from(backupKey),
-    Buffer.from(BACKUP_MEDIA_THUMBNAIL_ENCRYPT_INFO),
-    Buffer.from(mediaId)
-  );
-
-  return {
-    aesKey: material.subarray(0, BACKUP_MEDIA_AES_KEY_LEN),
-    macKey: material.subarray(
-      BACKUP_MEDIA_AES_KEY_LEN,
-      BACKUP_MEDIA_AES_KEY_LEN + BACKUP_MEDIA_MAC_KEY_LEN
-    ),
-    iv: material.subarray(BACKUP_MEDIA_MAC_KEY_LEN + BACKUP_MEDIA_AES_KEY_LEN),
-  };
-}
-
-export function deriveStorageItemKey(
-  storageServiceKey: Uint8Array,
-  itemID: string
-): Uint8Array {
-  return hmacSha256(storageServiceKey, Bytes.fromString(`Item_${itemID}`));
 }
 
 export function deriveAccessKey(profileKey: Uint8Array): Uint8Array {
@@ -592,7 +426,7 @@ export function trimForDisplay(padded: Uint8Array): Uint8Array {
       break;
     }
   }
-  return padded.slice(0, paddingEnd);
+  return padded.subarray(0, paddingEnd);
 }
 
 function verifyDigest(data: Uint8Array, theirDigest: Uint8Array): void {
@@ -619,13 +453,16 @@ export function decryptAttachmentV1(
     throw new Error('Got invalid length attachment');
   }
 
-  const aesKey = keys.slice(0, 32);
-  const macKey = keys.slice(32, 64);
+  const aesKey = keys.subarray(0, 32);
+  const macKey = keys.subarray(32, 64);
 
-  const iv = encryptedBin.slice(0, 16);
-  const ciphertext = encryptedBin.slice(16, encryptedBin.byteLength - 32);
-  const ivAndCiphertext = encryptedBin.slice(0, encryptedBin.byteLength - 32);
-  const mac = encryptedBin.slice(
+  const iv = encryptedBin.subarray(0, 16);
+  const ciphertext = encryptedBin.subarray(16, encryptedBin.byteLength - 32);
+  const ivAndCiphertext = encryptedBin.subarray(
+    0,
+    encryptedBin.byteLength - 32
+  );
+  const mac = encryptedBin.subarray(
     encryptedBin.byteLength - 32,
     encryptedBin.byteLength
   );
@@ -664,8 +501,8 @@ export function encryptAttachment({
   }
 
   const iv = dangerousTestOnlyIv || getRandomBytes(16);
-  const aesKey = keys.slice(0, 32);
-  const macKey = keys.slice(32, 64);
+  const aesKey = keys.subarray(0, 32);
+  const macKey = keys.subarray(32, 64);
 
   const ciphertext = encryptAes256CbcPkcsPadding(aesKey, plaintext, iv);
 
@@ -704,7 +541,7 @@ export function padAndEncryptAttachment({
     // We generate the plaintext hash here for forwards-compatibility with streaming
     // attachment encryption, which may be the only place that the whole attachment flows
     // through memory
-    plaintextHash: Buffer.from(sha256(plaintext)).toString('hex'),
+    plaintextHash: Bytes.toHex(sha256(plaintext)),
   };
 }
 
@@ -724,8 +561,8 @@ export function decryptProfile(data: Uint8Array, key: Uint8Array): Uint8Array {
   if (data.byteLength < 12 + 16 + 1) {
     throw new Error(`Got too short input: ${data.byteLength}`);
   }
-  const iv = data.slice(0, PROFILE_IV_LENGTH);
-  const ciphertext = data.slice(PROFILE_IV_LENGTH, data.byteLength);
+  const iv = data.subarray(0, PROFILE_IV_LENGTH);
+  const ciphertext = data.subarray(PROFILE_IV_LENGTH, data.byteLength);
   if (key.byteLength !== PROFILE_KEY_LENGTH) {
     throw new Error('Got invalid length profile key');
   }
@@ -784,8 +621,8 @@ export function decryptProfileName(
   const foundFamilyName = familyEnd > givenEnd + 1;
 
   return {
-    given: padded.slice(0, givenEnd),
-    family: foundFamilyName ? padded.slice(givenEnd + 1, familyEnd) : null,
+    given: padded.subarray(0, givenEnd),
+    family: foundFamilyName ? padded.subarray(givenEnd + 1, familyEnd) : null,
   };
 }
 
@@ -831,4 +668,52 @@ export function constantTimeEqual(
   right: Uint8Array
 ): boolean {
   return crypto.constantTimeEqual(left, right);
+}
+
+export function getIdentifierHash({
+  aci,
+  e164,
+  pni,
+  groupId,
+}: {
+  aci: AciString | undefined;
+  e164: string | undefined;
+  pni: PniString | undefined;
+  groupId: string | undefined;
+}): number | null {
+  let identifier: Uint8Array;
+  if (aci != null) {
+    identifier = Aci.parseFromServiceIdString(aci).getServiceIdBinary();
+  } else if (e164 != null) {
+    identifier = Bytes.fromString(e164);
+  } else if (pni != null) {
+    identifier = Pni.parseFromServiceIdString(pni).getServiceIdBinary();
+  } else if (groupId != null) {
+    identifier = Bytes.fromBase64(groupId);
+  } else {
+    return null;
+  }
+
+  const digest = hash(HashType.size256, identifier);
+  return digest[0];
+}
+
+export function generateAvatarColor({
+  aci,
+  e164,
+  pni,
+  groupId,
+}: {
+  aci: AciString | undefined;
+  e164: string | undefined;
+  pni: PniString | undefined;
+  groupId: string | undefined;
+}): string {
+  const hashValue = getIdentifierHash({ aci, e164, pni, groupId });
+
+  if (hashValue == null) {
+    return sample(AvatarColors) || AvatarColors[0];
+  }
+
+  return AvatarColors[hashValue % AVATAR_COLOR_COUNT];
 }

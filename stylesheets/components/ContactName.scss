@@ -1,8 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+
 button.module-contact-name {
-  @include button-reset;
+  @include mixins.button-reset;
 
   &:hover,
   &:focus {
@@ -10,7 +12,7 @@ button.module-contact-name {
   }
 
   &:focus {
-    @include keyboard-mode {
+    @include mixins.keyboard-mode {
       outline: auto;
       text-decoration: none;
     }
@@ -20,252 +22,252 @@ button.module-contact-name {
 .module-contact-name {
   &--000 {
     color: #d00b0b;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #ff7070;
     }
   }
 
   &--010 {
     color: #c13215;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #ff6f52;
     }
   }
 
   &--020 {
     color: #b34209;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #f57a3d;
     }
   }
 
   &--030 {
     color: #9c5711;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #d5920b;
     }
   }
 
   &--040 {
     color: #866118;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #d68f00;
     }
   }
 
   &--050 {
     color: #76681e;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #b89b0a;
     }
   }
 
   &--060 {
     color: #6b6b24;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #a4a437;
     }
   }
 
   &--070 {
     color: #5e6e0c;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #8faa09;
     }
   }
 
   &--080 {
     color: #4b7000;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #74ad00;
     }
   }
 
   &--090 {
     color: #3d7406;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #5eb309;
     }
   }
 
   &--100 {
     color: #2d7906;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #42b309;
     }
   }
 
   &--110 {
     color: #2d761e;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #43b42d;
     }
   }
 
   &--120 {
     color: #067906;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #0ab80a;
     }
   }
 
   &--130 {
     color: #067919;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #0ab827;
     }
   }
 
   &--140 {
     color: #06792d;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #0ab844;
     }
   }
 
   &--150 {
     color: #007a3d;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #00b85c;
     }
   }
 
   &--160 {
     color: #067953;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #00b87a;
     }
   }
 
   &--170 {
     color: #067462;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #09b397;
     }
   }
 
   &--180 {
     color: #007575;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #00b2b2;
     }
   }
 
   &--190 {
     color: #077288;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #00aed1;
     }
   }
 
   &--200 {
     color: #006da3;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #00a7fa;
     }
   }
 
   &--210 {
     color: #5b6976;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #8ba1b6;
     }
   }
 
   &--220 {
     color: #2662d9;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #7da1e8;
     }
   }
 
   &--230 {
     color: #2e51ff;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #8599ff;
     }
   }
 
   &--240 {
     color: #5151f6;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #9494ff;
     }
   }
 
   &--250 {
     color: #6447f5;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #a18ff9;
     }
   }
 
   &--260 {
     color: #7a3df5;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #af8af9;
     }
   }
 
   &--270 {
     color: #8f2af4;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #bf80ff;
     }
   }
 
   &--280 {
     color: #a20ced;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #cf7cf8;
     }
   }
 
   &--290 {
     color: #af0bd0;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #e06ef7;
     }
   }
 
   &--300 {
     color: #b814b8;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #f65af6;
     }
   }
 
   &--310 {
     color: #c20aa3;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #f75fdd;
     }
   }
 
   &--320 {
     color: #c70a88;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #f76ec9;
     }
   }
 
   &--330 {
     color: #cc0066;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #f76eb2;
     }
   }
 
   &--340 {
     color: #d00b4d;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #ff6b9c;
     }
   }
 
   &--350 {
     color: #d00b2c;
-    @include dark-theme {
+    @include mixins.dark-theme {
       color: #f77389;
     }
   }

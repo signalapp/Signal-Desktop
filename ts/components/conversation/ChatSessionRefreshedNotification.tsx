@@ -10,7 +10,6 @@ import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { SystemMessage } from './SystemMessage';
 import { ChatSessionRefreshedDialog } from './ChatSessionRefreshedDialog';
 import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser';
-import { mapToSupportLocale } from '../../util/mapToSupportLocale';
 
 type PropsHousekeepingType = {
   i18n: LocalizerType;
@@ -34,11 +33,8 @@ export function ChatSessionRefreshedNotification(
   const wrappedContactSupport = useCallback(() => {
     setIsDialogOpen(false);
 
-    const baseUrl =
-      'https://support.signal.org/hc/LOCALE/requests/new?desktop&chat_refreshed';
-    const locale = window.SignalContext.getResolvedMessagesLocale();
-    const supportLocale = mapToSupportLocale(locale);
-    const url = baseUrl.replace('LOCALE', supportLocale);
+    const url =
+      'https://support.signal.org/hc/requests/new?desktop&chat_refreshed';
 
     openLinkInWebBrowser(url);
   }, [setIsDialogOpen]);

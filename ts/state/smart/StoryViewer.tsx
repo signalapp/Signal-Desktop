@@ -8,13 +8,13 @@ import { ToastType } from '../../types/Toast';
 import { useToastActions } from '../ducks/toast';
 import { getConversationSelector } from '../selectors/conversations';
 import {
-  getEmojiSkinTone,
+  getEmojiSkinToneDefault,
   getHasStoryViewReceiptSetting,
   getPreferredReactionEmoji,
   getTextFormattingEnabled,
   isInternalUser,
 } from '../selectors/items';
-import { getIntl, getPlatform } from '../selectors/user';
+import { getIntl, getPlatform, getUserConversationId } from '../selectors/user';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import {
   getSelectedStoryData,
@@ -35,6 +35,8 @@ import { useAudioPlayerActions } from '../ducks/audioPlayer';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { useStoriesActions } from '../ducks/stories';
 import { useIsWindowActive } from '../../hooks/useIsWindowActive';
+import type { DraftBodyRanges } from '../../types/BodyRange';
+import type { StoryViewType } from '../../types/Stories';
 
 export const SmartStoryViewer = memo(function SmartStoryViewer() {
   const {
@@ -56,7 +58,7 @@ export const SmartStoryViewer = memo(function SmartStoryViewer() {
     showConversation,
     toggleHideStories,
   } = useConversationsActions();
-  const { onSetSkinTone } = useItemsActions();
+  const { setEmojiSkinToneDefault } = useItemsActions();
   const { showToast } = useToastActions();
   const { showContactModal } = useGlobalModalActions();
 
@@ -64,6 +66,7 @@ export const SmartStoryViewer = memo(function SmartStoryViewer() {
 
   const i18n = useSelector(getIntl);
   const platform = useSelector(getPlatform);
+  const ourConversationId = useSelector(getUserConversationId);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const preferredReactionEmoji = useSelector(getPreferredReactionEmoji);
   const selectedStoryData = useSelector(getSelectedStoryData);
@@ -75,7 +78,7 @@ export const SmartStoryViewer = memo(function SmartStoryViewer() {
 
   const getStoryById = useSelector(getStoryByIdSelector);
   const recentEmojis = useRecentEmojis();
-  const skinTone = useSelector(getEmojiSkinTone);
+  const emojiSkinToneDefault = useSelector(getEmojiSkinToneDefault);
   const replyState = useSelector(getStoryReplies);
   const hasAllStoriesUnmuted = useSelector(getHasAllStoriesUnmuted);
   const hasActiveCall = useSelector(isInFullScreenCall);
@@ -97,17 +100,22 @@ export const SmartStoryViewer = memo(function SmartStoryViewer() {
   );
 
   const handleReactToStory = useCallback(
-    async (emoji, story) => {
+    async (emoji: string, story: StoryViewType) => {
       const { messageId } = story;
       reactToStory(emoji, messageId);
     },
     [reactToStory]
   );
   const handleReplyToStory = useCallback(
-    (message, mentions, timestamp, story) => {
+    (
+      message: string,
+      bodyRanges: DraftBodyRanges,
+      timestamp: number,
+      story: StoryViewType
+    ) => {
       const conversationId = storyInfo?.conversationStory?.conversationId;
       strictAssert(conversationId != null, 'conversationId is required');
-      replyToStory(conversationId, message, mentions, timestamp, story);
+      replyToStory(conversationId, message, bodyRanges, timestamp, story);
     },
     [storyInfo, replyToStory]
   );
@@ -151,9 +159,10 @@ export const SmartStoryViewer = memo(function SmartStoryViewer() {
       onMediaPlaybackStart={pauseVoiceNotePlayer}
       onReactToStory={handleReactToStory}
       onReplyToStory={handleReplyToStory}
-      onSetSkinTone={onSetSkinTone}
+      onEmojiSkinToneDefaultChange={setEmojiSkinToneDefault}
       onTextTooLong={handleTextTooLong}
       onUseEmoji={onUseEmoji}
+      ourConversationId={ourConversationId}
       platform={platform}
       preferredReactionEmoji={preferredReactionEmoji}
       queueStoryDownload={queueStoryDownload}
@@ -165,7 +174,7 @@ export const SmartStoryViewer = memo(function SmartStoryViewer() {
       setHasAllStoriesUnmuted={setHasAllStoriesUnmuted}
       showContactModal={showContactModal}
       showToast={showToast}
-      skinTone={skinTone}
+      emojiSkinToneDefault={emojiSkinToneDefault}
       story={storyView}
       storyViewMode={selectedStoryData.storyViewMode}
       viewStory={viewStory}

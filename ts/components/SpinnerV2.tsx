@@ -4,20 +4,20 @@
 import React from 'react';
 import classNames from 'classnames';
 
-export const SpinnerSvgSizes = ['small', 'normal'] as const;
-export type SpinnerSvgSize = (typeof SpinnerSvgSizes)[number];
-
 export type Props = {
   className?: string;
+  marginRatio?: number;
   size: number;
   strokeWidth: number;
 };
 
 export function SpinnerV2({
   className,
+  marginRatio,
   size,
   strokeWidth,
 }: Props): JSX.Element {
+  const radius = Math.min(size - strokeWidth / 2, size * (marginRatio ?? 0.8));
   return (
     <svg
       className={classNames('SpinnerV2', className)}
@@ -31,7 +31,7 @@ export function SpinnerV2({
         className="SpinnerV2__Path"
         cx={size}
         cy={size}
-        r={size * 0.8}
+        r={radius}
         fill="none"
         strokeWidth={strokeWidth}
       />

@@ -58,17 +58,17 @@ type PropsType = {
   testId?: string;
 } & Pick<
   ConversationType,
-  | 'acceptedMessageRequest'
+  | 'avatarPlaceholderGradient'
   | 'avatarUrl'
   | 'color'
   | 'groupId'
+  | 'hasAvatar'
   | 'isMe'
   | 'markedUnread'
   | 'phoneNumber'
   | 'profileName'
   | 'sharedGroupNames'
   | 'title'
-  | 'unblurredAvatarUrl'
   | 'serviceId'
 > &
   (
@@ -79,7 +79,7 @@ type PropsType = {
 export const BaseConversationListItem: FunctionComponent<PropsType> =
   React.memo(function BaseConversationListItem(props) {
     const {
-      acceptedMessageRequest,
+      avatarPlaceholderGradient,
       avatarUrl,
       avatarSize,
       buttonAriaLabel,
@@ -88,6 +88,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
       conversationType,
       disabled,
       groupId,
+      hasAvatar,
       headerDate,
       headerName,
       i18n,
@@ -108,7 +109,6 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
       shouldShowSpinner,
       testId: overrideTestId,
       title,
-      unblurredAvatarUrl,
       unreadCount,
       unreadMentionsCount,
       serviceId,
@@ -195,20 +195,19 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
       <>
         <div className={AVATAR_CONTAINER_CLASS_NAME}>
           <Avatar
-            acceptedMessageRequest={acceptedMessageRequest}
+            avatarPlaceholderGradient={avatarPlaceholderGradient}
             avatarUrl={avatarUrl}
             color={color}
             conversationType={conversationType}
+            hasAvatar={hasAvatar}
             noteToSelf={isAvatarNoteToSelf}
             searchResult={isUsernameSearchResult}
             i18n={i18n}
-            isMe={isMe}
             phoneNumber={phoneNumber}
             profileName={profileName}
             title={title}
             sharedGroupNames={sharedGroupNames}
             size={avatarSize ?? AvatarSize.FORTY_EIGHT}
-            unblurredAvatarUrl={unblurredAvatarUrl}
             // This is here to appease the type checker.
             {...(props.badge
               ? { badge: props.badge, theme: props.theme }

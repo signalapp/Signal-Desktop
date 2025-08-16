@@ -16,10 +16,14 @@ import type { ShowStickerPackPreviewActionType } from './globalModals';
 import type { ShowToastActionType } from './toast';
 import type { StateType as RootStateType } from '../reducer';
 
-import * as log from '../../logging/log';
-import { __DEPRECATED$getMessageById } from '../../messages/getMessageById';
+import { createLogger } from '../../logging/log';
+import { getMessageById } from '../../messages/getMessageById';
 import type { ReadonlyMessageAttributesType } from '../../model-types.d';
-import { isGIF } from '../../types/Attachment';
+import {
+  getUndownloadedAttachmentSignature,
+  isGIF,
+  isIncremental,
+} from '../../types/Attachment';
 import {
   isImageTypeSupported,
   isVideoTypeSupported,
@@ -40,6 +44,13 @@ import {
 import { showStickerPackPreview } from './globalModals';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import { DataReader } from '../../sql/Client';
+import { deleteDownloadsJobQueue } from '../../jobs/deleteDownloadsJobQueue';
+import { AttachmentDownloadUrgency } from '../../types/AttachmentDownload';
+import { queueAttachmentDownloadsAndMaybeSaveMessage } from '../../util/queueAttachmentDownloads';
+import { getMessageIdForLogging } from '../../util/idForLogging';
+import { markViewOnceMessageViewed } from '../../services/MessageUpdater';
+
+const log = createLogger('lightbox');
 
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type LightboxStateType =
@@ -111,6 +122,8 @@ function closeLightbox(): ThunkAction<
       return;
     }
 
+    deleteDownloadsJobQueue.resume();
+
     const { isViewOnce, media } = lightbox;
 
     if (isViewOnce) {
@@ -156,7 +169,7 @@ function showLightboxForViewOnceMedia(
   return async dispatch => {
     log.info('showLightboxForViewOnceMedia: attempting to display message');
 
-    const message = await __DEPRECATED$getMessageById(messageId);
+    const message = await getMessageById(messageId);
     if (!message) {
       throw new Error(
         `showLightboxForViewOnceMedia: Message ${messageId} missing!`
@@ -165,20 +178,20 @@ function showLightboxForViewOnceMedia(
 
     if (!isTapToView(message.attributes)) {
       throw new Error(
-        `showLightboxForViewOnceMedia: Message ${message.idForLogging()} is not a tap to view message`
+        `showLightboxForViewOnceMedia: Message ${getMessageIdForLogging(message.attributes)} is not a tap to view message`
       );
     }
 
-    if (message.isErased()) {
+    if (message.get('isErased')) {
       throw new Error(
-        `showLightboxForViewOnceMedia: Message ${message.idForLogging()} is already erased`
+        `showLightboxForViewOnceMedia: Message ${getMessageIdForLogging(message.attributes)} is already erased`
       );
     }
 
     const firstAttachment = (message.get('attachments') || [])[0];
     if (!firstAttachment || !firstAttachment.path) {
       throw new Error(
-        `showLightboxForViewOnceMedia: Message ${message.idForLogging()} had no first attachment with path`
+        `showLightboxForViewOnceMedia: Message ${getMessageIdForLogging(message.attributes)} had no first attachment with path`
       );
     }
 
@@ -192,7 +205,7 @@ function showLightboxForViewOnceMedia(
       path: tempPath,
     };
 
-    await message.markViewOnceMessageViewed();
+    await markViewOnceMessageViewed(message);
 
     const { contentType } = tempAttachment;
 
@@ -232,7 +245,7 @@ function filterValidAttachments(
   attributes: ReadonlyMessageAttributesType
 ): Array<AttachmentType> {
   return (attributes.attachments ?? []).filter(
-    item => !item.pending && !item.error
+    item => (!item.pending || isIncremental(item)) && !item.error
   );
 }
 
@@ -250,7 +263,7 @@ function showLightbox(opts: {
   return async (dispatch, getState) => {
     const { attachment, messageId } = opts;
 
-    const message = await __DEPRECATED$getMessageById(messageId);
+    const message = await getMessageById(messageId);
     if (!message) {
       throw new Error(`showLightbox: Message ${messageId} missing!`);
     }
@@ -275,6 +288,23 @@ function showLightbox(opts: {
       return;
     }
 
+    if (isIncremental(attachment)) {
+      // Queue this target attachment with urgency IMMEDIATE
+      await queueAttachmentDownloadsAndMaybeSaveMessage(message, {
+        signaturesToQueue: new Set([
+          getUndownloadedAttachmentSignature(attachment),
+        ]),
+        isManualDownload: true,
+        urgency: AttachmentDownloadUrgency.IMMEDIATE,
+      });
+
+      // Queue all the remaining with standard urgency.
+      await queueAttachmentDownloadsAndMaybeSaveMessage(message, {
+        isManualDownload: true,
+        urgency: AttachmentDownloadUrgency.STANDARD,
+      });
+    }
+
     const attachments = filterValidAttachments(message.attributes);
     const loop = isGIF(attachments);
 
@@ -287,39 +317,50 @@ function showLightbox(opts: {
     const receivedAt = message.get('received_at');
     const sentAt = message.get('sent_at');
 
-    const media = attachments.map((item, index) => ({
-      objectURL: getLocalAttachmentUrl(item),
-      path: item.path,
-      contentType: item.contentType,
-      loop,
-      index,
-      message: {
-        attachments: message.get('attachments') || [],
-        id: messageId,
-        conversationId: authorId,
-        receivedAt,
-        receivedAtMs: Number(message.get('received_at_ms')),
-        sentAt,
-      },
-      attachment: item,
-      thumbnailObjectUrl:
-        item.thumbnail?.objectUrl || item.thumbnail
+    const media = attachments
+      .map((item, index) => ({
+        objectURL: item.path ? getLocalAttachmentUrl(item) : undefined,
+        incrementalObjectUrl:
+          isIncremental(item) && item.downloadPath
+            ? getLocalAttachmentUrl(item, {
+                disposition: AttachmentDisposition.Download,
+              })
+            : undefined,
+        path: item.path,
+        contentType: item.contentType,
+        loop,
+        index,
+        message: {
+          attachments: message.get('attachments') || [],
+          id: messageId,
+          conversationId: authorId,
+          receivedAt,
+          receivedAtMs: Number(message.get('received_at_ms')),
+          sentAt,
+        },
+        attachment: item,
+        thumbnailObjectUrl: item.thumbnail?.path
           ? getLocalAttachmentUrl(item.thumbnail)
           : undefined,
-    }));
+        size: item.size,
+        totalDownloaded: item.totalDownloaded,
+      }))
+      .filter(item => item.objectURL || item.incrementalObjectUrl);
 
     if (!media.length) {
       log.error(
         'showLightbox: unable to load attachment',
         sentAt,
         message.get('attachments')?.map(x => ({
-          thumbnail: !!x.thumbnail,
           contentType: x.contentType,
-          pending: x.pending,
+          downloadPath: x.downloadPath,
           error: x.error,
           flags: x.flags,
+          isIncremental: isIncremental(x),
           path: x.path,
+          pending: x.pending,
           size: x.size,
+          thumbnail: !!x.thumbnail,
         }))
       );
 
@@ -347,12 +388,13 @@ function showLightbox(opts: {
         requireVisualMediaAttachments: true,
       });
 
+    const index = media.findIndex(({ path }) => path === attachment.path);
     dispatch({
       type: SHOW_LIGHTBOX,
       payload: {
         isViewOnce: false,
         media,
-        selectedIndex: media.findIndex(({ path }) => path === attachment.path),
+        selectedIndex: index === -1 ? 0 : index,
         hasPrevMessage:
           older.length > 0 && filterValidAttachments(older[0]).length > 0,
         hasNextMessage:
@@ -387,7 +429,7 @@ function showLightboxForAdjacentMessage(
     const [media] = lightbox.media;
     const { id: messageId, receivedAt, sentAt } = media.message;
 
-    const message = await __DEPRECATED$getMessageById(messageId);
+    const message = await getMessageById(messageId);
     if (!message) {
       log.warn('showLightboxForAdjacentMessage: original message is gone');
       dispatch({
@@ -565,6 +607,64 @@ export function reducer(
       action.type === MESSAGE_CHANGED &&
       !action.payload.data.deletedForEveryone
     ) {
+      const message = action.payload.data;
+      const attachmentsByDigest = new Map<string, AttachmentType>();
+      if (!message.attachments || !message.attachments.length) {
+        return state;
+      }
+
+      message.attachments.forEach(attachment => {
+        const { digest } = attachment;
+        if (!digest) {
+          return;
+        }
+
+        attachmentsByDigest.set(digest, attachment);
+      });
+
+      let changed = false;
+      const media = state.media.map(item => {
+        if (item.message.id !== message.id) {
+          return item;
+        }
+
+        const { digest } = item.attachment;
+        if (!digest) {
+          return item;
+        }
+
+        const attachment = attachmentsByDigest.get(digest);
+        if (
+          !attachment ||
+          !isIncremental(attachment) ||
+          (!item.attachment.pending && !attachment.pending)
+        ) {
+          return item;
+        }
+
+        const { totalDownloaded, pending } = attachment;
+        if (totalDownloaded !== item.attachment.totalDownloaded) {
+          changed = true;
+          return {
+            ...item,
+            attachment: {
+              ...item.attachment,
+              totalDownloaded,
+              pending,
+            },
+          };
+        }
+
+        return item;
+      });
+
+      if (changed) {
+        return {
+          ...state,
+          media,
+        };
+      }
+
       return state;
     }
 

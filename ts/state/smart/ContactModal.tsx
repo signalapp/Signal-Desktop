@@ -54,6 +54,7 @@ export const SmartContactModal = memo(function SmartContactModal() {
     updateConversationModelSharedGroups,
     toggleAdmin,
     blockConversation,
+    startAvatarDownload,
   } = useConversationsActions();
   const { viewUserStories } = useStoriesActions();
   const {
@@ -94,6 +95,7 @@ export const SmartContactModal = memo(function SmartContactModal() {
       onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
       removeMemberFromGroup={removeMemberFromGroup}
       showConversation={showConversation}
+      startAvatarDownload={() => startAvatarDownload(contact.id)}
       theme={theme}
       toggleAboutContactModal={toggleAboutContactModal}
       toggleAddUserToAnotherGroupModal={toggleAddUserToAnotherGroupModal}

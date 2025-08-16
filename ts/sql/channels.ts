@@ -2,10 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ipcRenderer } from 'electron';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
 import { explodePromise } from '../util/explodePromise';
 import { missingCaseError } from '../util/missingCaseError';
+
+const log = createLogger('channels');
 
 const SQL_READ_KEY = 'sql-channel:read';
 const SQL_WRITE_KEY = 'sql-channel:write';
@@ -45,7 +47,11 @@ export async function ipcInvoke<T>(
   activeJobCount += 1;
   return createTaskWithTimeout(async () => {
     try {
-      return await ipcRenderer.invoke(channel, name, ...args);
+      const result = await ipcRenderer.invoke(channel, name, ...args);
+      if (!result.ok) {
+        throw result.error;
+      }
+      return result.value;
     } finally {
       activeJobCount -= 1;
       if (activeJobCount === 0) {

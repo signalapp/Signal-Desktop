@@ -147,6 +147,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                 case MessageRequestState.reportingAndMaybeBlocking:
                 case MessageRequestState.acceptedOptions:
                 case MessageRequestState.unblocking:
+                case MessageRequestState.accepting:
                   assertDev(
                     false,
                     `Got unexpected MessageRequestState.${MessageRequestState[messageRequestState]} state. Clearing confiration state`

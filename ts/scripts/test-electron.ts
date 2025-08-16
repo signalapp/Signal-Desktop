@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { spawn } from 'node:child_process';
-import { join } from 'node:path';
+import path, { join } from 'node:path';
 import { pipeline } from 'node:stream/promises';
 import { cpus, tmpdir } from 'node:os';
-import { mkdtemp, rm } from 'node:fs/promises';
+import { mkdir, mkdtemp, rename, rm } from 'node:fs/promises';
+import crypto from 'node:crypto';
 import z from 'zod';
 import split2 from 'split2';
 import logSymbols from 'log-symbols';
@@ -17,9 +18,17 @@ import { parseUnknown } from '../util/schemas';
 
 const ROOT_DIR = join(__dirname, '..', '..');
 
-const WORKER_COUNT = process.env.WORKER_COUNT
-  ? parseInt(process.env.WORKER_COUNT, 10)
-  : Math.min(8, cpus().length);
+function getWorkerCount(): number {
+  if (process.env.WORKER_COUNT) {
+    return parseInt(process.env.WORKER_COUNT, 10);
+  }
+  if (process.env.CI) {
+    return Math.min(8, cpus().length);
+  }
+  return 1;
+}
+
+const WORKER_COUNT = getWorkerCount();
 
 const ELECTRON = join(
   ROOT_DIR,
@@ -175,6 +184,18 @@ async function launchElectron(
     throw error;
   } finally {
     try {
+      if (failures.length) {
+        const artifactsDir = await makeArtifactsDir();
+        if (artifactsDir) {
+          await rename(
+            path.join(storagePath, 'logs'),
+            path.join(artifactsDir, 'logs')
+          );
+          console.log('\n');
+          console.log(`Saving logs to ${artifactsDir}`);
+        }
+      }
+
       await rm(storagePath, { recursive: true });
     } catch {
       // Ignore
@@ -228,3 +249,18 @@ main().catch(error => {
   console.error(error);
   process.exit(1);
 });
+
+async function makeArtifactsDir(): Promise<string | undefined> {
+  const { ARTIFACTS_DIR } = process.env;
+  if (!ARTIFACTS_DIR) {
+    console.log('\nTo save artifacts, please set ARTIFACTS_DIR env variable\n');
+    return undefined;
+  }
+
+  const normalizedPath = crypto.randomBytes(8).toString('hex');
+
+  const outDir = path.join(ARTIFACTS_DIR, normalizedPath);
+  await mkdir(outDir, { recursive: true });
+
+  return outDir;
+}

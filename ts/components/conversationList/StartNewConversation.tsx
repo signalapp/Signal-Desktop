@@ -92,11 +92,9 @@ export const StartNewConversation: FunctionComponent<Props> = React.memo(
         <ListTile
           leading={
             <Avatar
-              acceptedMessageRequest={false}
               conversationType="direct"
               searchResult
               i18n={i18n}
-              isMe={false}
               title={phoneNumber.userInput}
               size={AvatarSize.THIRTY_TWO}
               badge={undefined}

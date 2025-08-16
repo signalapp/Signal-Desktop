@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { isBoolean, isNumber } from 'lodash';
 import type { CallbackResultType } from '../textsecure/Types.d';
 import { DataWriter } from '../sql/Client';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import {
   OutgoingMessageError,
   SendMessageNetworkError,
@@ -15,6 +15,8 @@ import {
 import { SEALED_SENDER } from '../types/SealedSender';
 import type { ServiceIdString } from '../types/ServiceId';
 import { drop } from './drop';
+
+const log = createLogger('handleMessageSend');
 
 const { insertSentProto, updateConversation } = DataWriter;
 
@@ -49,13 +51,13 @@ export const sendTypesEnum = z.enum([
   'pniIdentitySyncRequest', // urgent because we need our PNI to be fully functional
 
   // The actual sync messages, which we never send, just receive - non-urgent
-  'blockSync',
   'configurationSync',
   'contactSync',
   'keySync',
   'pniIdentitySync',
 
   // Syncs, default non-urgent
+  'blockSync',
   'deleteForMeSync',
   'fetchLatestManifestSync',
   'fetchLocalProfileSync',
@@ -69,6 +71,9 @@ export const sendTypesEnum = z.enum([
   'callEventSync',
   'callLinkUpdateSync',
   'callLogEventSync',
+  'deviceNameChangeSync',
+  'attachmentBackfillRequestSync',
+  'attachmentBackfillResponseSync',
 
   // No longer used, all non-urgent
   'legacyGroupChange',
@@ -107,29 +112,17 @@ function processError(error: unknown): void {
       'private'
     );
     if (error.code === 401 || error.code === 403) {
-      if (
-        conversation.get('sealedSender') === SEALED_SENDER.ENABLED ||
-        conversation.get('sealedSender') === SEALED_SENDER.UNRESTRICTED
-      ) {
+      if (conversation.get('sealedSender') !== SEALED_SENDER.DISABLED) {
         log.warn(
-          `handleMessageSend: Got 401/403 for ${conversation.idForLogging()}, removing profile key`
+          `Got 401/403 for ${conversation.idForLogging()}, setting sealedSender = DISABLED`
         );
-
-        void conversation.setProfileKey(undefined, {
-          reason: 'handleMessageSend/processError',
-        });
-      }
-      if (conversation.get('sealedSender') === SEALED_SENDER.UNKNOWN) {
-        log.warn(
-          `handleMessageSend: Got 401/403 for ${conversation.idForLogging()}, setting sealedSender = DISABLED`
-        );
-        conversation.set('sealedSender', SEALED_SENDER.DISABLED);
+        conversation.set({ sealedSender: SEALED_SENDER.DISABLED });
         drop(updateConversation(conversation.attributes));
       }
     }
     if (error.code === 404) {
       log.warn(
-        `handleMessageSend: Got 404 for ${conversation.idForLogging()}, marking unregistered.`
+        `Got 404 for ${conversation.idForLogging()}, marking unregistered.`
       );
       conversation.setUnregistered();
     }
@@ -140,7 +133,7 @@ function processError(error: unknown): void {
       'private'
     );
     log.warn(
-      `handleMessageSend: Got 404 for ${conversation.idForLogging()}, marking unregistered.`
+      `Got 404 for ${conversation.idForLogging()}, marking unregistered.`
     );
     conversation.setUnregistered();
   }
@@ -257,16 +250,14 @@ async function maybeSaveToSendLog(
 
   if (!isNumber(contentHint) || !contentProto || !recipients || !timestamp) {
     log.warn(
-      `handleMessageSend: Missing necessary information to save to log for ${sendType} message ${timestamp}`
+      `Missing necessary information to save to log for ${sendType} message ${timestamp}`
     );
     return;
   }
 
   const identifiers = Object.keys(recipients);
   if (identifiers.length === 0) {
-    log.warn(
-      `handleMessageSend: ${sendType} message ${timestamp} had no recipients`
-    );
+    log.warn(`${sendType} message ${timestamp} had no recipients`);
     return;
   }
 
@@ -278,7 +269,7 @@ async function maybeSaveToSendLog(
   await insertSentProto(
     {
       timestamp,
-      proto: Buffer.from(contentProto),
+      proto: contentProto,
       contentHint,
       urgent: isBoolean(urgent) ? urgent : true,
       hasPniSignatureMessage: Boolean(hasPniSignatureMessage),

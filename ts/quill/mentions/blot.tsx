@@ -1,23 +1,16 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable max-classes-per-file */
+import React, { StrictMode } from 'react';
+import EmbedBlot from '@signalapp/quill-cjs/blots/embed';
+import { createRoot } from 'react-dom/client';
 
-import React from 'react';
-import Parchment from 'parchment';
-import Quill from 'quill';
-import { render } from 'react-dom';
 import { Emojify } from '../../components/conversation/Emojify';
 import { normalizeAci } from '../../util/normalizeAci';
 import type { MentionBlotValue } from '../util';
+import { FunEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider';
 
-declare class QuillEmbed extends Parchment.Embed {
-  contentNode: HTMLElement;
-}
-
-const Embed: typeof QuillEmbed = Quill.import('blots/embed');
-
-export class MentionBlot extends Embed {
+export class MentionBlot extends EmbedBlot {
   static override blotName = 'mention';
 
   static override className = 'mention-blot';
@@ -53,14 +46,17 @@ export class MentionBlot extends Embed {
 
     const mentionSpan = document.createElement('span');
 
-    render(
-      <span className="module-composition-input__at-mention">
-        <bdi>
-          @
-          <Emojify text={mention.title} />
-        </bdi>
-      </span>,
-      mentionSpan
+    createRoot(mentionSpan).render(
+      <StrictMode>
+        <FunEmojiLocalizationProvider i18n={window.i18n}>
+          <span className="module-composition-input__at-mention">
+            <bdi>
+              @
+              <Emojify text={mention.title} />
+            </bdi>
+          </span>
+        </FunEmojiLocalizationProvider>
+      </StrictMode>
     );
 
     node.appendChild(mentionSpan);

@@ -5,6 +5,7 @@ import React, { type RefObject } from 'react';
 import { ContextMenu, MenuItem } from 'react-contextmenu';
 import ReactDOM from 'react-dom';
 import type { LocalizerType } from '../../types/I18N';
+import type { InteractionModeType } from '../../state/ducks/conversations';
 
 export type ContextMenuTriggerType = {
   handleContextClick: (
@@ -16,7 +17,7 @@ type MessageContextProps = {
   i18n: LocalizerType;
   triggerId: string;
   shouldShowAdditional: boolean;
-
+  interactionMode: InteractionModeType;
   onDownload: (() => void) | undefined;
   onEdit: (() => void) | undefined;
   onReplyToMessage: (() => void) | undefined;
@@ -33,6 +34,7 @@ export const MessageContextMenu = ({
   i18n,
   triggerId,
   shouldShowAdditional,
+  interactionMode,
   onDownload,
   onEdit,
   onReplyToMessage,
@@ -46,7 +48,14 @@ export const MessageContextMenu = ({
   onDeleteMessage,
 }: MessageContextProps): JSX.Element => {
   const menu = (
-    <ContextMenu id={triggerId}>
+    // We avoid restoring focus on this context menu because it is not intended for
+    // keyboard use and restoring focus to the message could cause an unwanted scroll
+    <ContextMenu
+      id={triggerId}
+      // In keyboard mode, we do want to restore focus to the message; the message is very
+      // likely already scrolled into view in this case.
+      avoidFocusRestoreOnBlur={interactionMode !== 'keyboard'}
+    >
       {shouldShowAdditional && (
         <>
           {onDownload && (

@@ -3,7 +3,7 @@
 
 import type { MessageAttributesType } from '../model-types.d';
 import * as Errors from '../types/errors';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { DataReader } from '../sql/Client';
 import { drop } from '../util/drop';
 import { getAuthorId } from '../messages/helpers';
@@ -13,6 +13,9 @@ import {
   isAttachmentDownloadQueueEmpty,
   registerQueueEmptyCallback,
 } from '../util/attachmentDownloadQueue';
+import { MessageModel } from '../models/messages';
+
+const log = createLogger('Edits');
 
 export type EditAttributesType = {
   conversationId: string;
@@ -47,7 +50,7 @@ export function forMessage(
 
   if (!isAttachmentDownloadQueueEmpty()) {
     log.info(
-      'Edits.forMessage attachmentDownloadQueue not empty, not processing edits'
+      'forMessage attachmentDownloadQueue not empty, not processing edits'
     );
     registerQueueEmptyCallback(flushEdits);
     return [];
@@ -70,7 +73,7 @@ export function forMessage(
     });
 
     log.info(
-      `Edits.forMessage(${messageAttributes.sent_at}): ` +
+      `forMessage(${messageAttributes.sent_at}): ` +
         `Found early edits for message ${editsLogIds.join(', ')}`
     );
     return result;
@@ -80,7 +83,7 @@ export function forMessage(
 }
 
 export async function flushEdits(): Promise<void> {
-  log.info('Edits.flushEdits running');
+  log.info('flushEdits running');
   return drop(
     Promise.all(Array.from(edits.values()).map(edit => onEdit(edit)))
   );
@@ -134,10 +137,8 @@ export async function onEdit(edit: EditAttributesType): Promise<void> {
           return;
         }
 
-        const message = window.MessageCache.__DEPRECATED$register(
-          targetMessage.id,
-          targetMessage,
-          'Edits.onEdit'
+        const message = window.MessageCache.register(
+          new MessageModel(targetMessage)
         );
 
         await handleEditMessage(message.attributes, edit);

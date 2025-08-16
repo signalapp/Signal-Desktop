@@ -19,5 +19,6 @@ if (config.ciMode) {
   const { getCI } = require('../../CI');
   window.SignalCI = getCI({
     deviceName: window.getTitle(),
+    forceUnprocessed: config.ciForceUnprocessed,
   });
 }

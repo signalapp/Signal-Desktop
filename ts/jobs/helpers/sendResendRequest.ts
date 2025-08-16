@@ -27,6 +27,7 @@ import { strictAssert } from '../../util/assert';
 import type { DecryptionErrorEventData } from '../../textsecure/messageReceiverEvents';
 import type { LoggerType } from '../../types/Logging';
 import { startAutomaticSessionReset } from '../../util/handleRetry';
+import * as Bytes from '../../Bytes';
 
 function failoverToLocalReset(
   logger: LoggerType,
@@ -75,12 +76,12 @@ export async function sendResendRequest(
   );
 
   if (!isDirectConversation(conversation.attributes)) {
-    log.error('conversation is not direct, cancelling job.');
+    log.error('conversation is not direct, canceling job.');
     return;
   }
 
   if (isConversationUnregistered(conversation.attributes)) {
-    log.error('conversation is unregistered, cancelling job.');
+    log.error('conversation is unregistered, canceling job.');
     failoverToLocalReset(log, data);
     return;
   }
@@ -89,13 +90,13 @@ export async function sendResendRequest(
   //   Any needed blocking should still apply once the decryption error is fixed.
 
   if (conversation.getAci() !== senderAci) {
-    log.error('conversation was missing a aci, cancelling job.');
+    log.error('conversation was missing a aci, canceling job.');
     failoverToLocalReset(log, data);
     return;
   }
 
   const plaintext = PlaintextContent.deserialize(
-    Buffer.from(plaintextBase64, 'base64')
+    Bytes.fromBase64(plaintextBase64)
   );
   const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
@@ -170,7 +171,7 @@ export async function sendResendRequest(
       error instanceof UnregisteredUserError
     ) {
       log.info(
-        'Group send failures were all OutgoingIdentityKeyError or UnregisteredUserError. Cancelling job.'
+        'Group send failures were all OutgoingIdentityKeyError or UnregisteredUserError. Canceling job.'
       );
 
       return;

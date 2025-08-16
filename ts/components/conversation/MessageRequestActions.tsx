@@ -16,6 +16,7 @@ import { strictAssert } from '../../util/assert';
 export type Props = {
   i18n: LocalizerType;
   isHidden: boolean | null;
+  sharedGroupNames?: ReadonlyArray<string>;
 } & Omit<
   MessageRequestActionsConfirmationProps,
   'i18n' | 'state' | 'onChangeState'
@@ -30,6 +31,7 @@ export function MessageRequestActions({
   isBlocked,
   isHidden,
   isReported,
+  sharedGroupNames = [],
   acceptConversation,
   blockAndReportSpam,
   blockConversation,
@@ -153,7 +155,16 @@ export function MessageRequestActions({
           )}
           {!isBlocked ? (
             <Button
-              onClick={() => acceptConversation(conversationId)}
+              onClick={() => {
+                if (
+                  conversationType === 'direct' &&
+                  sharedGroupNames.length > 1
+                ) {
+                  acceptConversation(conversationId);
+                } else {
+                  setMrState(MessageRequestState.accepting);
+                }
+              }}
               variant={ButtonVariant.SecondaryAffirmative}
             >
               {i18n('icu:MessageRequests--accept')}

@@ -11,8 +11,12 @@ export function isSignalConversation(conversation: {
   const { id, serviceId } = conversation;
 
   if (serviceId) {
-    return serviceId === SIGNAL_ACI;
+    return isSignalServiceId(serviceId);
   }
 
   return window.ConversationController.isSignalConversationId(id);
+}
+
+export function isSignalServiceId(serviceId: ServiceIdString): boolean {
+  return serviceId === SIGNAL_ACI;
 }

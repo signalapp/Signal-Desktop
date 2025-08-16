@@ -11,7 +11,7 @@ import React, {
   Fragment,
 } from 'react';
 import { AttachmentList } from './conversation/AttachmentList';
-import type { AttachmentType } from '../types/Attachment';
+import type { AttachmentForUIType } from '../types/Attachment';
 import { Button } from './Button';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox';
@@ -28,7 +28,7 @@ import {
   shouldNeverBeCalled,
   asyncShouldNeverBeCalled,
 } from '../util/shouldNeverBeCalled';
-import type { LinkPreviewType } from '../types/message/LinkPreviews';
+import type { LinkPreviewForUIType } from '../types/message/LinkPreviews';
 import { LinkPreviewSourceType } from '../types/LinkPreview';
 import { ToastType } from '../types/Toast';
 import type { ShowToastAction } from '../state/ducks/toast';
@@ -44,6 +44,7 @@ import {
 } from '../types/ForwardDraft';
 import { missingCaseError } from '../util/missingCaseError';
 import { Theme } from '../util/theme';
+import { EmojiSkinTone } from './fun/data/emojis';
 
 export enum ForwardMessagesModalType {
   Forward,
@@ -63,7 +64,7 @@ export type DataPropsType = {
 
   linkPreviewForSource: (
     source: LinkPreviewSourceType
-  ) => LinkPreviewType | void;
+  ) => LinkPreviewForUIType | void;
   onClose: () => void;
   onChange: (
     updatedDrafts: ReadonlyArray<MessageForwardDraft>,
@@ -140,7 +141,8 @@ export function ForwardMessagesModal({
     }
     const conversationIds = selectedContacts.map(contact => contact.id);
     if (lonelyDraft != null) {
-      const previews = lonelyLinkPreview ? [lonelyLinkPreview] : [];
+      // Add link preview only if it is not currently loading.
+      const previews = lonelyLinkPreview?.domain ? [lonelyLinkPreview] : [];
       doForwardMessages(conversationIds, [{ ...lonelyDraft, previews }]);
     } else {
       doForwardMessages(
@@ -335,7 +337,6 @@ export function ForwardMessagesModal({
         moduleClassName="module-ForwardMessageModal"
         title={title}
         theme={modalTheme}
-        useFocusTrap={isInFullScreenCall}
         padded={false}
         modalFooter={footer}
         noMouseClose
@@ -400,6 +401,7 @@ export function ForwardMessagesModal({
                       showConversation={shouldNeverBeCalled}
                       showUserNotFoundModal={shouldNeverBeCalled}
                       setIsFetchingUUID={shouldNeverBeCalled}
+                      onClickClearFilterButton={shouldNeverBeCalled}
                       onPreloadConversation={shouldNeverBeCalled}
                       onSelectConversation={shouldNeverBeCalled}
                       blockConversation={shouldNeverBeCalled}
@@ -434,7 +436,7 @@ export function ForwardMessagesModal({
 
 type ForwardMessageEditorProps = Readonly<{
   draft: MessageForwardDraft;
-  linkPreview: LinkPreviewType | null | void;
+  linkPreview: LinkPreviewForUIType | null | void;
   removeLinkPreview(): void;
   RenderCompositionTextArea: ComponentType<SmartCompositionTextAreaProps>;
   onChange: (
@@ -442,7 +444,9 @@ type ForwardMessageEditorProps = Readonly<{
     bodyRanges: HydratedBodyRangesType,
     caretLocation?: number
   ) => unknown;
-  onChangeAttachments: (attachments: ReadonlyArray<AttachmentType>) => unknown;
+  onChangeAttachments: (
+    attachments: ReadonlyArray<AttachmentForUIType>
+  ) => unknown;
   onSubmit: () => unknown;
   theme: ThemeType;
   i18n: LocalizerType;
@@ -467,7 +471,7 @@ function ForwardMessageEditor({
           <StagedLinkPreview
             date={linkPreview.date}
             description={linkPreview.description ?? ''}
-            domain={linkPreview.url}
+            domain={linkPreview.domain}
             i18n={i18n}
             image={linkPreview.image}
             onClose={removeLinkPreview}
@@ -481,7 +485,7 @@ function ForwardMessageEditor({
         <AttachmentList
           attachments={attachments}
           i18n={i18n}
-          onCloseAttachment={(attachment: AttachmentType) => {
+          onCloseAttachment={attachment => {
             const newAttachments = attachments.filter(
               currentAttachment => currentAttachment !== attachment
             );
@@ -497,6 +501,7 @@ function ForwardMessageEditor({
         onChange={onChange}
         onSubmit={onSubmit}
         theme={theme}
+        emojiSkinToneDefault={EmojiSkinTone.None}
       />
     </div>
   );

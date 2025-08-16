@@ -5,12 +5,9 @@ import React, { useEffect, useState } from 'react';
 import { get, has } from 'lodash';
 
 import { createPortal } from 'react-dom';
-import type {
-  AttachmentType,
-  InMemoryAttachmentDraftType,
-} from '../types/Attachment';
+import type { AttachmentType } from '../types/Attachment';
 import type { LinkPreviewSourceType } from '../types/LinkPreview';
-import type { LinkPreviewType } from '../types/message/LinkPreviews';
+import type { LinkPreviewForUIType } from '../types/message/LinkPreviews';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import type { Props as StickerButtonProps } from './stickers/StickerButton';
 import type { PropsType as SendStoryModalPropsType } from './SendStoryModal';
@@ -26,6 +23,7 @@ import { SendStoryModal } from './SendStoryModal';
 import { MediaEditor } from './MediaEditor';
 import { TextStoryCreator } from './TextStoryCreator';
 import type { DraftBodyRanges } from '../types/BodyRange';
+import type { processAttachment } from '../util/processAttachment';
 
 function usePortalElement(testid: string): HTMLDivElement | null {
   const [element, setElement] = useState<HTMLDivElement | null>(null);
@@ -51,7 +49,7 @@ export type PropsType = {
   file?: File;
   i18n: LocalizerType;
   isSending: boolean;
-  linkPreview?: LinkPreviewType;
+  linkPreview?: LinkPreviewForUIType;
   onClose: () => unknown;
   onSend: (
     listIds: Array<StoryDistributionIdString>,
@@ -60,9 +58,7 @@ export type PropsType = {
     bodyRanges: DraftBodyRanges | undefined
   ) => unknown;
   imageToBlurHash: typeof imageToBlurHash;
-  processAttachment: (
-    file: File
-  ) => Promise<void | InMemoryAttachmentDraftType>;
+  processAttachment: typeof processAttachment;
   sendStoryModalOpenStateChanged: (isOpen: boolean) => unknown;
   theme: ThemeType;
 } & Pick<StickerButtonProps, 'installedPacks' | 'recentStickers'> &
@@ -92,7 +88,10 @@ export type PropsType = {
   > &
   Pick<
     TextStoryCreatorPropsType,
-    'onUseEmoji' | 'skinTone' | 'onSetSkinTone' | 'recentEmojis'
+    | 'onUseEmoji'
+    | 'emojiSkinToneDefault'
+    | 'onEmojiSkinToneDefaultChange'
+    | 'recentEmojis'
   > &
   Pick<
     MediaEditorPropsType,
@@ -130,7 +129,7 @@ export function StoryCreator({
   onRepliesNReactionsChanged,
   onSelectedStoryList,
   onSend,
-  onSetSkinTone,
+  onEmojiSkinToneDefaultChange,
   onTextTooLong,
   onUseEmoji,
   onViewersUpdated,
@@ -142,7 +141,7 @@ export function StoryCreator({
   sendStoryModalOpenStateChanged,
   setMyStoriesToAllSignalConnections,
   signalConnections,
-  skinTone,
+  emojiSkinToneDefault,
   sortedGroupMembers,
   theme,
   toggleGroupsForStorySend,
@@ -166,22 +165,45 @@ export function StoryCreator({
         return;
       }
 
-      const attachment = await processAttachment(file);
-      if (!attachment || unmounted) {
+      const draft = await processAttachment(file, {
+        // Screenshot is used in `getStoryBackground`
+        generateScreenshot: true,
+        flags: null,
+      });
+      if (!draft || unmounted) {
         return;
       }
 
-      setDraftAttachment(attachment);
-      if (isVideoAttachment(attachment)) {
+      let attachment: AttachmentType = draft;
+      if (isVideoAttachment(draft)) {
+        if (
+          'screenshotData' in draft &&
+          draft.screenshotData &&
+          draft.screenshotContentType
+        ) {
+          url = URL.createObjectURL(
+            new Blob([draft.screenshotData], {
+              type: draft.screenshotContentType,
+            })
+          );
+          attachment = {
+            ...draft,
+            screenshot: {
+              contentType: draft.screenshotContentType,
+              url,
+            },
+          };
+        }
         setAttachmentUrl(undefined);
         setIsReadyToSend(true);
-      } else if (attachment && has(attachment, 'data')) {
-        url = URL.createObjectURL(new Blob([get(attachment, 'data')]));
+      } else if (draft && has(draft, 'data')) {
+        url = URL.createObjectURL(new Blob([get(draft, 'data')]));
         setAttachmentUrl(url);
 
         // Needs editing in MediaEditor
         setIsReadyToSend(false);
       }
+      setDraftAttachment(attachment);
     }
 
     void loadAttachment();
@@ -251,6 +273,7 @@ export function StoryCreator({
               imageSrc={attachmentUrl}
               imageToBlurHash={imageToBlurHash}
               installedPacks={installedPacks}
+              isCreatingStory
               isFormattingEnabled={isFormattingEnabled}
               isSending={isSending}
               onClose={onClose}
@@ -274,9 +297,10 @@ export function StoryCreator({
               }}
               onPickEmoji={onPickEmoji}
               onTextTooLong={onTextTooLong}
+              ourConversationId={ourConversationId}
               platform={platform}
               recentStickers={recentStickers}
-              skinTone={skinTone}
+              emojiSkinToneDefault={emojiSkinToneDefault}
               sortedGroupMembers={sortedGroupMembers}
               draftText={null}
               draftBodyRanges={null}
@@ -298,9 +322,9 @@ export function StoryCreator({
                 setIsReadyToSend(true);
               }}
               onUseEmoji={onUseEmoji}
-              onSetSkinTone={onSetSkinTone}
+              onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
               recentEmojis={recentEmojis}
-              skinTone={skinTone}
+              emojiSkinToneDefault={emojiSkinToneDefault}
             />
           )}
         </>,

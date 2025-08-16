@@ -4,25 +4,20 @@
 import { debounce, pick, uniq, without } from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as generateUuid } from 'uuid';
-import { batch as batchDispatch } from 'react-redux';
-
-import type {
-  ConversationModelCollectionType,
-  ConversationAttributesType,
-  ConversationAttributesTypeType,
-  ConversationRenderInfoType,
-} from './model-types.d';
-import type { ConversationModel } from './models/conversations';
 
 import { DataReader, DataWriter } from './sql/Client';
-import * as log from './logging/log';
+import { createLogger } from './logging/log';
 import * as Errors from './types/errors';
 import { getAuthorId } from './messages/helpers';
 import { maybeDeriveGroupV2Id } from './groups';
 import { assertDev, strictAssert } from './util/assert';
 import { drop } from './util/drop';
-import { isGroupV1, isGroupV2 } from './util/whatTypeOfConversation';
-import type { ServiceIdString, AciString, PniString } from './types/ServiceId';
+import {
+  isDirectConversation,
+  isGroup,
+  isGroupV1,
+  isGroupV2,
+} from './util/whatTypeOfConversation';
 import {
   isServiceIdString,
   normalizePni,
@@ -39,6 +34,23 @@ import * as StorageService from './services/storage';
 import type { ConversationPropsForUnreadStats } from './util/countUnreadStats';
 import { countAllConversationsUnreadStats } from './util/countUnreadStats';
 import { isTestOrMockEnvironment } from './environment';
+import { isConversationAccepted } from './util/isConversationAccepted';
+import { areWePending } from './util/groupMembershipUtils';
+import { conversationJobQueue } from './jobs/conversationJobQueue';
+import { createBatcher } from './util/batcher';
+import { validateConversation } from './util/validateConversation';
+import { ConversationModel } from './models/conversations';
+import { INITIAL_EXPIRE_TIMER_VERSION } from './util/expirationTimer';
+import { missingCaseError } from './util/missingCaseError';
+
+import type {
+  ConversationAttributesType,
+  ConversationAttributesTypeType,
+  ConversationRenderInfoType,
+} from './model-types.d';
+import type { ServiceIdString, AciString, PniString } from './types/ServiceId';
+
+const log = createLogger('ConversationController');
 
 type ConvoMatchType =
   | {
@@ -124,11 +136,7 @@ async function safeCombineConversations(
 
 const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
 
-const {
-  getAllConversations,
-  getAllGroupsInvolvingServiceId,
-  getMessagesBySentAt,
-} = DataReader;
+const { getAllConversations, getMessagesBySentAt } = DataReader;
 
 const {
   migrateConversationMessages,
@@ -138,61 +146,209 @@ const {
   updateConversations,
 } = DataWriter;
 
-// We have to run this in background.js, after all backbone models and collections on
-//   Whisper.* have been created. Once those are in typescript we can use more reasonable
-//   require statements for referencing these things, giving us more flexibility here.
-export function start(): void {
-  const conversations = new window.Whisper.ConversationCollection();
-
-  window.ConversationController = new ConversationController(conversations);
-  window.getConversations = () => conversations;
-}
-
 export class ConversationController {
-  private _initialFetchComplete = false;
+  #_initialFetchComplete = false;
+  #isReadOnly = false;
 
-  private _initialPromise: undefined | Promise<void>;
+  #_initialPromise: undefined | Promise<void>;
 
-  private _conversationOpenStart = new Map<string, number>();
+  #_conversations: Array<ConversationModel> = [];
+  #_conversationOpenStart = new Map<string, number>();
+  #_hasQueueEmptied = false;
+  #_combineConversationsQueue = new PQueue({ concurrency: 1 });
+  #_signalConversationId: undefined | string;
 
-  private _hasQueueEmptied = false;
+  #delayBeforeUpdatingRedux: (() => number) | undefined;
+  #isAppStillLoading: (() => boolean) | undefined;
 
-  private _combineConversationsQueue = new PQueue({ concurrency: 1 });
+  // lookups
+  #_byE164: Record<string, ConversationModel> = Object.create(null);
+  #_byServiceId: Record<string, ConversationModel> = Object.create(null);
+  #_byPni: Record<string, ConversationModel> = Object.create(null);
+  #_byGroupId: Record<string, ConversationModel> = Object.create(null);
+  #_byId: Record<string, ConversationModel> = Object.create(null);
 
-  private _signalConversationId: undefined | string;
+  #debouncedUpdateUnreadCount = debounce(
+    this.updateUnreadCount.bind(this),
+    SECOND,
+    {
+      leading: true,
+      maxWait: SECOND,
+      trailing: true,
+    }
+  );
 
-  constructor(private _conversations: ConversationModelCollectionType) {
-    const debouncedUpdateUnreadCount = debounce(
-      this.updateUnreadCount.bind(this),
-      SECOND,
-      {
-        leading: true,
-        maxWait: SECOND,
-        trailing: true,
+  #convoUpdateBatcher = createBatcher<
+    | { type: 'change' | 'add'; conversation: ConversationModel }
+    | { type: 'remove'; id: string }
+  >({
+    name: 'changedConvoBatcher',
+    processBatch: batch => {
+      let changedOrAddedBatch = new Array<ConversationModel>();
+      const {
+        conversationsUpdated,
+        conversationRemoved,
+        onConversationClosed,
+      } = window.reduxActions.conversations;
+
+      function flushChangedOrAddedBatch() {
+        if (!changedOrAddedBatch.length) {
+          return;
+        }
+
+        conversationsUpdated(
+          changedOrAddedBatch.map(conversation => conversation.format())
+        );
+        changedOrAddedBatch = [];
       }
-    );
 
+      for (const item of batch) {
+        if (item.type === 'add' || item.type === 'change') {
+          changedOrAddedBatch.push(item.conversation);
+        } else {
+          strictAssert(item.type === 'remove', 'must be remove');
+          flushChangedOrAddedBatch();
+
+          onConversationClosed(item.id, 'removed');
+          conversationRemoved(item.id);
+        }
+      }
+
+      flushChangedOrAddedBatch();
+    },
+
+    wait: () => {
+      return this.#delayBeforeUpdatingRedux?.() ?? 1;
+    },
+    maxSize: Infinity,
+  });
+
+  constructor() {
     // A few things can cause us to update the app-level unread count
-    window.Whisper.events.on('updateUnreadCount', debouncedUpdateUnreadCount);
-    this._conversations.on(
-      'add remove change:active_at change:unreadCount change:markedUnread change:isArchived change:muteExpiresAt',
-      debouncedUpdateUnreadCount
+    window.Whisper.events.on(
+      'updateUnreadCount',
+      this.#debouncedUpdateUnreadCount
     );
+  }
 
-    // If the conversation is muted we set a timeout so when the mute expires
-    // we can reset the mute state on the model. If the mute has already expired
-    // then we reset the state right away.
-    this._conversations.on('add', (model: ConversationModel): void => {
-      // Don't modify conversations in backup integration testing
-      if (isTestOrMockEnvironment()) {
-        return;
+  registerDelayBeforeUpdatingRedux(
+    delayBeforeUpdatingRedux: () => number
+  ): void {
+    this.#delayBeforeUpdatingRedux = delayBeforeUpdatingRedux;
+  }
+  registerIsAppStillLoading(isAppStillLoading: () => boolean): void {
+    this.#isAppStillLoading = isAppStillLoading;
+  }
+
+  conversationUpdated(
+    conversation: ConversationModel,
+    previousAttributes: ConversationAttributesType
+  ): void {
+    // eslint-disable-next-line no-param-reassign
+    conversation.cachedProps = undefined;
+
+    const hasAttributeChanged = (name: keyof ConversationAttributesType) => {
+      return (
+        name in conversation.attributes &&
+        conversation.attributes[name] !== previousAttributes[name]
+      );
+    };
+
+    this.#convoUpdateBatcher.add({ type: 'change', conversation });
+
+    if (
+      hasAttributeChanged('active_at') ||
+      hasAttributeChanged('isArchived') ||
+      hasAttributeChanged('markedUnread') ||
+      hasAttributeChanged('muteExpiresAt') ||
+      hasAttributeChanged('unreadCount')
+    ) {
+      this.#debouncedUpdateUnreadCount();
+    }
+
+    if (isDirectConversation(conversation.attributes)) {
+      const updateLastMessage =
+        hasAttributeChanged('e164') ||
+        hasAttributeChanged('name') ||
+        hasAttributeChanged('profileName') ||
+        hasAttributeChanged('profileFamilyName');
+
+      const memberVerifiedChange = hasAttributeChanged('verified');
+
+      if (updateLastMessage || memberVerifiedChange) {
+        this.#updateAllGroupsWithMember(conversation, {
+          updateLastMessage,
+          memberVerifiedChange,
+        });
       }
-      model.startMuteTimer();
+    }
+  }
+
+  #updateAllGroupsWithMember(
+    member: ConversationModel,
+    {
+      updateLastMessage,
+      memberVerifiedChange,
+    }: { updateLastMessage: boolean; memberVerifiedChange: boolean }
+  ): void {
+    const memberServiceId = member.getServiceId();
+    if (!memberServiceId) {
+      return;
+    }
+    if (!updateLastMessage && !memberVerifiedChange) {
+      log.error(
+        `updateAllGroupsWithMember: Called for ${member.idForLogging()} but neither option set`
+      );
+    }
+
+    const groups = this.getAllGroupsInvolvingServiceId(memberServiceId);
+
+    groups.forEach(conversation => {
+      if (updateLastMessage) {
+        conversation.debouncedUpdateLastMessage();
+      }
+      if (memberVerifiedChange) {
+        conversation.onMemberVerifiedChange();
+      }
     });
   }
 
+  #addConversation(conversation: ConversationModel): void {
+    this.#_conversations.push(conversation);
+    this.#addToLookup(conversation);
+    this.#debouncedUpdateUnreadCount();
+
+    // Don't modify conversations in backup integration testing
+    if (!isTestOrMockEnvironment()) {
+      // If the conversation is muted we set a timeout so when the mute expires
+      // we can reset the mute state on the model. If the mute has already expired
+      // then we reset the state right away.
+      conversation.startMuteTimer();
+    }
+
+    if (this.#isAppStillLoading?.()) {
+      // The redux update will happen inside the batcher
+      this.#convoUpdateBatcher.add({ type: 'add', conversation });
+    } else {
+      const { conversationsUpdated } = window.reduxActions.conversations;
+
+      // During normal app usage, we require conversations to be added synchronously
+      conversationsUpdated([conversation.format()]);
+    }
+  }
+  #removeConversation(conversation: ConversationModel): void {
+    this.#_conversations = without(this.#_conversations, conversation);
+    this.#removeFromLookup(conversation);
+    this.#debouncedUpdateUnreadCount();
+
+    const { id } = conversation || {};
+
+    // The redux update call will happen inside the batcher
+    this.#convoUpdateBatcher.add({ type: 'remove', id });
+  }
+
   updateUnreadCount(): void {
-    if (!this._hasQueueEmptied) {
+    if (!this.#_hasQueueEmptied) {
       return;
     }
 
@@ -200,7 +356,7 @@ export class ConversationController {
       window.storage.get('badge-count-muted-conversations') || false;
 
     const unreadStats = countAllConversationsUnreadStats(
-      this._conversations.map(
+      this.#_conversations.map(
         (conversation): ConversationPropsForUnreadStats => {
           // Need to pull this out manually into the Redux shape
           // because `conversation.format()` can return cached props by the
@@ -238,34 +394,49 @@ export class ConversationController {
   }
 
   onEmpty(): void {
-    this._hasQueueEmptied = true;
+    this.#_hasQueueEmptied = true;
     this.updateUnreadCount();
   }
 
   get(id?: string | null): ConversationModel | undefined {
-    if (!this._initialFetchComplete) {
+    if (!this.#_initialFetchComplete) {
       throw new Error(
         'ConversationController.get() needs complete initial fetch'
       );
     }
+    if (!id) {
+      return undefined;
+    }
 
-    // This function takes null just fine. Backbone typings are too restrictive.
-    return this._conversations.get(id as string);
+    return (
+      this.#_byE164[id] ||
+      this.#_byE164[`+${id}`] ||
+      this.#_byServiceId[id] ||
+      this.#_byPni[id] ||
+      this.#_byGroupId[id] ||
+      this.#_byId[id]
+    );
   }
 
   getAll(): Array<ConversationModel> {
-    return this._conversations.models;
+    return this.#_conversations;
   }
 
   dangerouslyCreateAndAdd(
-    attributes: Partial<ConversationAttributesType>
+    attributes: ConversationAttributesType
   ): ConversationModel {
-    return this._conversations.add(attributes);
+    const model = new ConversationModel(attributes);
+    this.#addConversation(model);
+    return model;
   }
 
   dangerouslyRemoveById(id: string): void {
-    this._conversations.remove(id);
-    this._conversations.resetLookups();
+    const model = this.get(id);
+    if (!model) {
+      return;
+    }
+
+    this.#removeConversation(model);
   }
 
   getOrCreate(
@@ -283,58 +454,82 @@ export class ConversationController {
       );
     }
 
-    if (!this._initialFetchComplete) {
+    if (!this.#_initialFetchComplete) {
       throw new Error(
         'ConversationController.get() needs complete initial fetch'
       );
     }
 
-    let conversation = this._conversations.get(identifier);
+    let conversation = this.get(identifier);
     if (conversation) {
       return conversation;
+    }
+
+    if (this.#isReadOnly) {
+      throw new Error('ConversationController is read-only');
     }
 
     const id = generateUuid();
 
     if (type === 'group') {
-      conversation = this._conversations.add({
+      conversation = new ConversationModel({
         id,
         serviceId: undefined,
         e164: undefined,
         groupId: identifier,
         type,
         version: 2,
+        expireTimerVersion: INITIAL_EXPIRE_TIMER_VERSION,
+        unreadCount: 0,
+        verified: window.textsecure.storage.protocol.VerifiedStatus.DEFAULT,
+        messageCount: 0,
+        sentMessageCount: 0,
         ...additionalInitialProps,
       });
+      this.#addConversation(conversation);
     } else if (isServiceIdString(identifier)) {
-      conversation = this._conversations.add({
+      conversation = new ConversationModel({
         id,
         serviceId: identifier,
         e164: undefined,
         groupId: undefined,
         type,
         version: 2,
+        expireTimerVersion: INITIAL_EXPIRE_TIMER_VERSION,
+        unreadCount: 0,
+        verified: window.textsecure.storage.protocol.VerifiedStatus.DEFAULT,
+        messageCount: 0,
+        sentMessageCount: 0,
         ...additionalInitialProps,
       });
+      this.#addConversation(conversation);
     } else {
-      conversation = this._conversations.add({
+      conversation = new ConversationModel({
         id,
         serviceId: undefined,
         e164: identifier,
         groupId: undefined,
         type,
         version: 2,
+        expireTimerVersion: INITIAL_EXPIRE_TIMER_VERSION,
+        unreadCount: 0,
+        verified: window.textsecure.storage.protocol.VerifiedStatus.DEFAULT,
+        messageCount: 0,
+        sentMessageCount: 0,
         ...additionalInitialProps,
       });
+      this.#addConversation(conversation);
     }
 
     const create = async () => {
-      if (!conversation.isValid()) {
-        const validationError = conversation.validationError || {};
+      const validationErrorString = validateConversation(
+        conversation.attributes
+      );
+      if (validationErrorString) {
         log.error(
           'Contact is not valid. Not saving, but adding to collection:',
           conversation.idForLogging(),
-          Errors.toLogFormat(validationError)
+          validationErrorString
         );
 
         return conversation;
@@ -344,6 +539,16 @@ export class ConversationController {
         if (isGroupV1(conversation.attributes)) {
           maybeDeriveGroupV2Id(conversation);
         }
+
+        // If conversation does not have pre-existing storageID and is not our
+        // own (that we create on link), it might need to be uploaded to storage
+        // service.
+        if (conversation.attributes.storageID == null) {
+          StorageService.storageServiceUploadJob({
+            reason: 'new conversation',
+          });
+        }
+
         await saveConversation(conversation.attributes);
       } catch (error) {
         log.error(
@@ -460,13 +665,13 @@ export class ConversationController {
       await updateConversation(conversation.attributes);
     }
 
-    this._signalConversationId = conversation.id;
+    this.#_signalConversationId = conversation.id;
 
     return conversation;
   }
 
   isSignalConversationId(conversationId: string): boolean {
-    return this._signalConversationId === conversationId;
+    return this.#_signalConversationId === conversationId;
   }
 
   areWePrimaryDevice(): boolean {
@@ -738,7 +943,7 @@ export class ConversationController {
       (targetOldServiceIds.pni !== pni ||
         (aci && targetOldServiceIds.aci !== aci))
     ) {
-      targetConversation.unset('needsTitleTransition');
+      targetConversation.set({ needsTitleTransition: undefined });
       mergePromises.push(
         targetConversation.addPhoneNumberDiscoveryIfNeeded(
           targetOldServiceIds.pni
@@ -841,27 +1046,25 @@ export class ConversationController {
   }
 
   checkForConflicts(): Promise<void> {
-    return this._combineConversationsQueue.add(() =>
-      this.doCheckForConflicts()
+    return this.#_combineConversationsQueue.add(() =>
+      this.#doCheckForConflicts()
     );
   }
 
   // Note: `doCombineConversations` is directly used within this function since both
   //   run on `_combineConversationsQueue` queue and we don't want deadlocks.
-  private async doCheckForConflicts(): Promise<void> {
-    log.info('ConversationController.checkForConflicts: starting...');
+  async #doCheckForConflicts(): Promise<void> {
+    log.info('checkForConflicts: starting...');
     const byServiceId = Object.create(null);
     const byE164 = Object.create(null);
     const byGroupV2Id = Object.create(null);
     // We also want to find duplicate GV1 IDs. You might expect to see a "byGroupV1Id" map
     //   here. Instead, we check for duplicates on the derived GV2 ID.
 
-    const { models } = this._conversations;
-
     // We iterate from the oldest conversations to the newest. This allows us, in a
     //   conflict case, to keep the one with activity the most recently.
-    for (let i = models.length - 1; i >= 0; i -= 1) {
-      const conversation = models[i];
+    for (let i = this.#_conversations.length - 1; i >= 0; i -= 1) {
+      const conversation = this.#_conversations[i];
       assertDev(
         conversation,
         'Expected conversation to be found in array during iteration'
@@ -884,7 +1087,7 @@ export class ConversationController {
           if (conversation.get('e164')) {
             // Keep new one
             // eslint-disable-next-line no-await-in-loop
-            await this.doCombineConversations({
+            await this.#doCombineConversations({
               current: conversation,
               obsolete: existing,
             });
@@ -892,7 +1095,7 @@ export class ConversationController {
           } else {
             // Keep existing - note that this applies if neither had an e164
             // eslint-disable-next-line no-await-in-loop
-            await this.doCombineConversations({
+            await this.#doCombineConversations({
               current: existing,
               obsolete: conversation,
             });
@@ -918,7 +1121,7 @@ export class ConversationController {
           if (conversation.get('e164') || conversation.getPni()) {
             // Keep new one
             // eslint-disable-next-line no-await-in-loop
-            await this.doCombineConversations({
+            await this.#doCombineConversations({
               current: conversation,
               obsolete: existing,
             });
@@ -926,7 +1129,7 @@ export class ConversationController {
           } else {
             // Keep existing - note that this applies if neither had an e164
             // eslint-disable-next-line no-await-in-loop
-            await this.doCombineConversations({
+            await this.#doCombineConversations({
               current: existing,
               obsolete: conversation,
             });
@@ -964,7 +1167,7 @@ export class ConversationController {
           if (conversation.getServiceId()) {
             // Keep new one
             // eslint-disable-next-line no-await-in-loop
-            await this.doCombineConversations({
+            await this.#doCombineConversations({
               current: conversation,
               obsolete: existing,
             });
@@ -972,7 +1175,7 @@ export class ConversationController {
           } else {
             // Keep existing - note that this applies if neither had a service id
             // eslint-disable-next-line no-await-in-loop
-            await this.doCombineConversations({
+            await this.#doCombineConversations({
               current: existing,
               obsolete: conversation,
             });
@@ -1010,14 +1213,14 @@ export class ConversationController {
             !isGroupV2(existing.attributes)
           ) {
             // eslint-disable-next-line no-await-in-loop
-            await this.doCombineConversations({
+            await this.#doCombineConversations({
               current: conversation,
               obsolete: existing,
             });
             byGroupV2Id[groupV2Id] = conversation;
           } else {
             // eslint-disable-next-line no-await-in-loop
-            await this.doCombineConversations({
+            await this.#doCombineConversations({
               current: existing,
               obsolete: conversation,
             });
@@ -1032,12 +1235,12 @@ export class ConversationController {
   async combineConversations(
     options: CombineConversationsParams
   ): Promise<void> {
-    return this._combineConversationsQueue.add(() =>
-      this.doCombineConversations(options)
+    return this.#_combineConversationsQueue.add(() =>
+      this.#doCombineConversations(options)
     );
   }
 
-  private async doCombineConversations({
+  async #doCombineConversations({
     current,
     obsolete,
     obsoleteTitleInfo,
@@ -1073,15 +1276,14 @@ export class ConversationController {
     } else {
       activeAt = obsoleteActiveAt || currentActiveAt;
     }
-    current.set('active_at', activeAt);
+    current.set({ active_at: activeAt });
 
-    current.set(
-      'expireTimerVersion',
-      Math.max(
+    current.set({
+      expireTimerVersion: Math.max(
         obsolete.get('expireTimerVersion') ?? 1,
         current.get('expireTimerVersion') ?? 1
-      )
-    );
+      ),
+    });
 
     const obsoleteExpireTimer = obsolete.get('expireTimer');
     const currentExpireTimer = current.get('expireTimer');
@@ -1089,7 +1291,7 @@ export class ConversationController {
       !currentExpireTimer ||
       (obsoleteExpireTimer && obsoleteExpireTimer < currentExpireTimer)
     ) {
-      current.set('expireTimer', obsoleteExpireTimer);
+      current.set({ expireTimer: obsoleteExpireTimer });
     }
 
     const currentHadMessages = (current.get('messageCount') ?? 0) > 0;
@@ -1119,11 +1321,11 @@ export class ConversationController {
     >;
     keys.forEach(key => {
       if (current.get(key) === undefined) {
-        current.set(key, dataToCopy[key]);
+        current.set({ [key]: dataToCopy[key] });
 
         // To ensure that any files on disk don't get deleted out from under us
         if (key === 'draftAttachments') {
-          obsolete.set(key, undefined);
+          obsolete.set({ [key]: undefined });
         }
       }
     });
@@ -1214,23 +1416,28 @@ export class ConversationController {
     log.warn(`${logId}: Update messages table`);
     await migrateConversationMessages(obsoleteId, currentId);
 
-    log.warn(`${logId}: Emit refreshConversation event to close old/open new`);
-    window.Whisper.events.trigger('refreshConversation', {
-      newId: currentId,
-      oldId: obsoleteId,
-    });
+    if (
+      window.reduxStore.getState().conversations.selectedConversationId ===
+      obsoleteId
+    ) {
+      log.warn(`${logId}: opening new conversation`);
+      window.reduxActions.conversations.showConversation({
+        conversationId: currentId,
+      });
+    }
 
     log.warn(
       `${logId}: Eliminate old conversation from ConversationController lookups`
     );
-    this._conversations.remove(obsolete);
-    this._conversations.resetLookups();
+    this.#removeConversation(obsolete);
 
     current.captureChange('combineConversations');
     drop(current.updateLastMessage());
 
-    const state = window.reduxStore.getState();
-    if (state.conversations.selectedConversationId === current.id) {
+    if (
+      window.reduxStore.getState().conversations.selectedConversationId ===
+      current.id
+    ) {
       // TODO: DESKTOP-4807
       drop(current.loadNewestMessages(undefined, undefined));
     }
@@ -1282,35 +1489,52 @@ export class ConversationController {
     return null;
   }
 
-  async getAllGroupsInvolvingServiceId(
+  getAllGroupsInvolvingServiceId(
     serviceId: ServiceIdString
-  ): Promise<Array<ConversationModel>> {
-    const groups = await getAllGroupsInvolvingServiceId(serviceId);
-    return groups.map(group => {
-      const existing = this.get(group.id);
-      if (existing) {
-        return existing;
-      }
+  ): Array<ConversationModel> {
+    return this.#_conversations
+      .map(conversation => {
+        if (!isGroup(conversation.attributes)) {
+          return;
+        }
+        if (!conversation.hasMember(serviceId)) {
+          return;
+        }
 
-      return this._conversations.add(group);
-    });
+        return conversation;
+      })
+      .filter(isNotNil);
   }
 
   getByDerivedGroupV2Id(groupId: string): ConversationModel | undefined {
-    return this._conversations.find(
+    return this.#_conversations.find(
       item => item.get('derivedGroupV2Id') === groupId
     );
   }
 
+  setReadOnly(value: boolean): void {
+    if (this.#isReadOnly === value) {
+      log.warn(`already at readOnly=${value}`);
+      return;
+    }
+
+    log.info(`readOnly=${value}`);
+    this.#isReadOnly = value;
+  }
+
   reset(): void {
-    delete this._initialPromise;
-    this._initialFetchComplete = false;
-    this._conversations.reset([]);
+    const { removeAllConversations } = window.reduxActions.conversations;
+
+    this.#_initialPromise = undefined;
+    this.#_initialFetchComplete = false;
+    this.#_conversations = [];
+    removeAllConversations();
+    this.#resetLookups();
   }
 
   load(): Promise<void> {
-    this._initialPromise ||= this.doLoad();
-    return this._initialPromise;
+    this.#_initialPromise ||= this.#doLoad();
+    return this.#_initialPromise;
   }
 
   // A number of things outside conversation.attributes affect conversation re-rendering.
@@ -1321,7 +1545,7 @@ export class ConversationController {
     let count = 0;
     const conversations = identifiers
       ? identifiers.map(identifier => this.get(identifier)).filter(isNotNil)
-      : this._conversations.models.slice();
+      : this.#_conversations.slice();
     log.info(
       `forceRerender: Starting to loop through ${conversations.length} conversations`
     );
@@ -1333,7 +1557,7 @@ export class ConversationController {
         conversation.oldCachedProps = conversation.cachedProps;
         conversation.cachedProps = null;
 
-        conversation.trigger('props-change', conversation, false);
+        this.conversationUpdated(conversation, conversation.attributes);
         count += 1;
       }
 
@@ -1346,17 +1570,65 @@ export class ConversationController {
   }
 
   onConvoOpenStart(conversationId: string): void {
-    this._conversationOpenStart.set(conversationId, Date.now());
+    this.#_conversationOpenStart.set(conversationId, Date.now());
   }
 
   onConvoMessageMount(conversationId: string): void {
-    const loadStart = this._conversationOpenStart.get(conversationId);
+    const loadStart = this.#_conversationOpenStart.get(conversationId);
     if (loadStart === undefined) {
       return;
     }
 
-    this._conversationOpenStart.delete(conversationId);
+    this.#_conversationOpenStart.delete(conversationId);
     this.get(conversationId)?.onOpenComplete(loadStart);
+  }
+
+  migrateAvatarsForNonAcceptedConversations(): void {
+    if (window.storage.get('avatarsHaveBeenMigrated')) {
+      return;
+    }
+    const conversations = this.getAll();
+    let numberOfConversationsMigrated = 0;
+    for (const conversation of conversations) {
+      const attrs = conversation.attributes;
+      if (
+        !isConversationAccepted(attrs) ||
+        (isGroup(attrs) && areWePending(attrs))
+      ) {
+        const avatarPath = attrs.avatar?.path;
+        const profileAvatarPath = attrs.profileAvatar?.path;
+
+        if (avatarPath || profileAvatarPath) {
+          drop(
+            (async () => {
+              const { doesAttachmentExist, deleteAttachmentData } =
+                window.Signal.Migrations;
+              if (avatarPath && (await doesAttachmentExist(avatarPath))) {
+                await deleteAttachmentData(avatarPath);
+              }
+
+              if (
+                profileAvatarPath &&
+                (await doesAttachmentExist(profileAvatarPath))
+              ) {
+                await deleteAttachmentData(profileAvatarPath);
+              }
+            })()
+          );
+        }
+
+        conversation.set({
+          avatar: undefined,
+          profileAvatar: undefined,
+        });
+        drop(updateConversation(conversation.attributes));
+        numberOfConversationsMigrated += 1;
+      }
+    }
+    log.info(
+      `unset avatars for ${numberOfConversationsMigrated} unaccepted conversations`
+    );
+    drop(window.storage.put('avatarsHaveBeenMigrated', true));
   }
 
   repairPinnedConversations(): void {
@@ -1369,10 +1641,8 @@ export class ConversationController {
         continue;
       }
 
-      log.warn(
-        `ConversationController: Repairing ${convo.idForLogging()}'s isPinned`
-      );
-      convo.set('isPinned', true);
+      log.warn(`Repairing ${convo.idForLogging()}'s isPinned`);
+      convo.set({ isPinned: true });
 
       drop(updateConversation(convo.attributes));
     }
@@ -1386,13 +1656,13 @@ export class ConversationController {
     }
 
     log.info(
-      'ConversationController.clearShareMyPhoneNumber: ' +
+      'clearShareMyPhoneNumber: ' +
         `updating ${sharedWith.length} conversations`
     );
 
     await updateConversations(
       sharedWith.map(c => {
-        c.unset('shareMyPhoneNumber');
+        c.set({ shareMyPhoneNumber: undefined });
         return c.attributes;
       })
     );
@@ -1402,15 +1672,15 @@ export class ConversationController {
   async _forgetE164(e164: string): Promise<void> {
     const { server } = window.textsecure;
     strictAssert(server, 'Server must be initialized');
-    const { entries: serviceIdMap } = await getServiceIdsForE164s(server, [
-      e164,
-    ]);
+    const { entries: serviceIdMap, transformedE164s } =
+      await getServiceIdsForE164s(server, [e164]);
 
-    const pni = serviceIdMap.get(e164)?.pni;
+    const e164ToUse = transformedE164s.get(e164) ?? e164;
+    const pni = serviceIdMap.get(e164ToUse)?.pni;
 
-    log.info(`ConversationController: forgetting e164=${e164} pni=${pni}`);
+    log.info(`forgetting e164=${e164ToUse} pni=${pni}`);
 
-    const convos = [this.get(e164), this.get(pni)];
+    const convos = [this.get(e164ToUse), this.get(pni)];
 
     for (const convo of convos) {
       if (!convo) {
@@ -1419,15 +1689,14 @@ export class ConversationController {
 
       // eslint-disable-next-line no-await-in-loop
       await removeConversation(convo.id);
-      this._conversations.remove(convo);
-      this._conversations.resetLookups();
+      this.#removeConversation(convo);
     }
   }
 
-  private async doLoad(): Promise<void> {
-    log.info('ConversationController: starting initial fetch');
+  async #doLoad(): Promise<void> {
+    log.info('starting initial fetch');
 
-    if (this._conversations.length) {
+    if (this.#_conversations.length) {
       throw new Error('ConversationController: Already loaded!');
     }
 
@@ -1441,7 +1710,7 @@ export class ConversationController {
 
       if (temporaryConversations.length) {
         log.warn(
-          `ConversationController: Removing ${temporaryConversations.length} temporary conversations`
+          `Removing ${temporaryConversations.length} temporary conversations`
         );
       }
       const queue = new PQueue({
@@ -1460,17 +1729,19 @@ export class ConversationController {
 
       // It is alright to call it first because the 'add'/'update' events are
       // triggered after updating the collection.
-      this._initialFetchComplete = true;
+      this.#_initialFetchComplete = true;
 
       // Hydrate the final set of conversations
-      batchDispatch(() => {
-        this._conversations.add(
-          collection.filter(conversation => !conversation.isTemporary)
+
+      collection
+        .filter(conversation => !conversation.isTemporary)
+        .forEach(conversation =>
+          this.#_conversations.push(new ConversationModel(conversation))
         );
-      });
+      this.#generateLookups();
 
       await Promise.all(
-        this._conversations.map(async conversation => {
+        this.#_conversations.map(async conversation => {
           try {
             // Hydrate contactCollection, now that initial fetch is complete
             conversation.fetchContacts();
@@ -1502,22 +1773,260 @@ export class ConversationController {
             }
           } catch (error) {
             log.error(
-              'ConversationController.load/map: Failed to prepare a conversation',
+              'load/map: Failed to prepare a conversation',
               Errors.toLogFormat(error)
             );
           }
         })
       );
       log.info(
-        'ConversationController: done with initial fetch, ' +
-          `got ${this._conversations.length} conversations`
+        'done with initial fetch, ' +
+          `got ${this.#_conversations.length} conversations`
       );
     } catch (error) {
-      log.error(
-        'ConversationController: initial fetch failed',
-        Errors.toLogFormat(error)
-      );
+      log.error('initial fetch failed', Errors.toLogFormat(error));
       throw error;
     }
+  }
+
+  async archiveSessionsForConversation(
+    conversationId: string | undefined
+  ): Promise<void> {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      return;
+    }
+
+    const logId = `archiveSessionsForConversation/${conversation.idForLogging()}`;
+
+    log.info(`${logId}: Starting. First archiving sessions...`);
+    const recipients = conversation.getRecipients();
+    const queue = new PQueue({ concurrency: 1 });
+    recipients.forEach(serviceId => {
+      drop(
+        queue.add(async () => {
+          await window.textsecure.storage.protocol.archiveAllSessions(
+            serviceId
+          );
+        })
+      );
+    });
+    await queue.onEmpty();
+
+    if (conversation.get('senderKeyInfo')) {
+      log.info(`${logId}: Next, clearing senderKeyInfo...`);
+      conversation.set({ senderKeyInfo: undefined });
+      await DataWriter.updateConversation(conversation.attributes);
+    }
+
+    log.info(`${logId}: Now queuing null message send...`);
+    const job = await conversationJobQueue.add({
+      type: 'NullMessage',
+      conversationId: conversation.id,
+    });
+
+    log.info(`${logId}: Send queued; waiting for send completion...`);
+    await job.completion;
+
+    log.info(`${logId}: Complete!`);
+  }
+
+  idUpdated(
+    model: ConversationModel,
+    idProp: 'e164' | 'serviceId' | 'pni' | 'groupId',
+    oldValue: string | undefined
+  ): void {
+    const logId = `idUpdated/${model.idForLogging()}/${idProp}`;
+    if (oldValue) {
+      if (idProp === 'e164') {
+        delete this.#_byE164[oldValue];
+      } else if (idProp === 'serviceId') {
+        delete this.#_byServiceId[oldValue];
+      } else if (idProp === 'pni') {
+        delete this.#_byPni[oldValue];
+      } else if (idProp === 'groupId') {
+        delete this.#_byGroupId[oldValue];
+      } else {
+        throw missingCaseError(idProp);
+      }
+    }
+    if (idProp === 'e164') {
+      const e164 = model.get('e164');
+      if (e164) {
+        const existing = this.#_byE164[e164];
+        if (existing) {
+          log.warn(`${logId}: Existing match found on lookup`);
+        }
+        this.#_byE164[e164] = model;
+      }
+    } else if (idProp === 'serviceId') {
+      const serviceId = model.getServiceId();
+      if (serviceId) {
+        const existing = this.#_byServiceId[serviceId];
+        if (existing) {
+          log.warn(`${logId}: Existing match found on lookup`);
+        }
+        this.#_byServiceId[serviceId] = model;
+      }
+    } else if (idProp === 'pni') {
+      const pni = model.get('pni');
+      if (pni) {
+        const existing = this.#_byPni[pni];
+        if (existing) {
+          log.warn(`${logId}: Existing match found on lookup`);
+        }
+        this.#_byPni[pni] = model;
+      }
+    } else if (idProp === 'groupId') {
+      const groupId = model.get('groupId');
+      if (groupId) {
+        const existing = this.#_byGroupId[groupId];
+        if (existing) {
+          log.warn(`${logId}: Existing match found on lookup`);
+        }
+        this.#_byGroupId[groupId] = model;
+      }
+    } else {
+      throw missingCaseError(idProp);
+    }
+  }
+
+  #resetLookups(): void {
+    this.#eraseLookups();
+    this.#generateLookups();
+  }
+
+  #addToLookup(conversation: ConversationModel): void {
+    const logId = `addToLookup/${conversation.idForLogging()}`;
+    const id = conversation.get('id');
+    if (id) {
+      const existing = this.#_byId[id];
+      if (existing) {
+        log.warn(`${logId}: Conflict found by id`);
+      }
+
+      if (!existing || (existing && !existing.getServiceId())) {
+        this.#_byId[id] = conversation;
+      }
+    }
+
+    const e164 = conversation.get('e164');
+    if (e164) {
+      const existing = this.#_byE164[e164];
+      if (existing) {
+        log.warn(`${logId}: Conflict found by e164`);
+      }
+
+      if (!existing || (existing && !existing.getServiceId())) {
+        this.#_byE164[e164] = conversation;
+      }
+    }
+
+    const serviceId = conversation.getServiceId();
+    if (serviceId) {
+      const existing = this.#_byServiceId[serviceId];
+      if (existing) {
+        log.warn(`${logId}: Conflict found by serviceId`);
+      }
+
+      if (!existing || (existing && !existing.get('e164'))) {
+        this.#_byServiceId[serviceId] = conversation;
+      }
+    }
+
+    const pni = conversation.getPni();
+    if (pni) {
+      const existing = this.#_byPni[pni];
+      if (existing) {
+        log.warn(`${logId}: Conflict found by pni`);
+      }
+
+      if (!existing || (existing && !existing.getServiceId())) {
+        this.#_byPni[pni] = conversation;
+      }
+    }
+
+    const groupId = conversation.get('groupId');
+    if (groupId) {
+      const existing = this.#_byGroupId[groupId];
+      if (existing) {
+        log.warn(`${logId}: Conflict found by groupId`);
+      }
+
+      this.#_byGroupId[groupId] = conversation;
+    }
+  }
+
+  #removeFromLookup(conversation: ConversationModel): void {
+    const logId = `removeFromLookup/${conversation.idForLogging()}`;
+    const id = conversation.get('id');
+    if (id) {
+      const existing = this.#_byId[id];
+      if (existing && existing !== conversation) {
+        log.warn(`${logId}: By id; model in lookup didn't match conversation`);
+      } else {
+        delete this.#_byId[id];
+      }
+    }
+
+    const e164 = conversation.get('e164');
+    if (e164) {
+      const existing = this.#_byE164[e164];
+      if (existing && existing !== conversation) {
+        log.warn(
+          `${logId}: By e164; model in lookup didn't match conversation`
+        );
+      } else {
+        delete this.#_byE164[e164];
+      }
+    }
+
+    const serviceId = conversation.getServiceId();
+    if (serviceId) {
+      const existing = this.#_byServiceId[serviceId];
+      if (existing && existing !== conversation) {
+        log.warn(
+          `${logId}: By serviceId; model in lookup didn't match conversation`
+        );
+      } else {
+        delete this.#_byServiceId[serviceId];
+      }
+    }
+
+    const pni = conversation.getPni();
+    if (pni) {
+      const existing = this.#_byPni[pni];
+      if (existing && existing !== conversation) {
+        log.warn(`${logId}: By pni; model in lookup didn't match conversation`);
+      } else {
+        delete this.#_byPni[pni];
+      }
+    }
+
+    const groupId = conversation.get('groupId');
+    if (groupId) {
+      const existing = this.#_byGroupId[groupId];
+      if (existing && existing !== conversation) {
+        log.warn(
+          `${logId}: By groupId; model in lookup didn't match conversation`
+        );
+      } else {
+        delete this.#_byGroupId[groupId];
+      }
+    }
+  }
+
+  #generateLookups(): void {
+    this.#_conversations.forEach(conversation =>
+      this.#addToLookup(conversation)
+    );
+  }
+
+  #eraseLookups(): void {
+    this.#_byE164 = Object.create(null);
+    this.#_byServiceId = Object.create(null);
+    this.#_byPni = Object.create(null);
+    this.#_byGroupId = Object.create(null);
+    this.#_byId = Object.create(null);
   }
 }

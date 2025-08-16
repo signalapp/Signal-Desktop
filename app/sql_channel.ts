@@ -27,6 +27,26 @@ const ERASE_SQL_KEY = 'erase-sql-key';
 const PAUSE_WRITE_ACCESS = 'pause-sql-writes';
 const RESUME_WRITE_ACCESS = 'resume-sql-writes';
 
+function wrapResult<Params extends Array<unknown>, T>(
+  fn: (...params: Params) => Promise<T>
+): (
+  ...params: Params
+) => Promise<{ ok: true; value: T } | { ok: false; error: Error }> {
+  return async function wrappedIpcSqlMethod(...params) {
+    try {
+      return {
+        ok: true,
+        value: await fn(...params),
+      };
+    } catch (error) {
+      return {
+        ok: false,
+        error,
+      };
+    }
+  };
+}
+
 export function initialize(mainSQL: typeof sql): void {
   if (initialized) {
     throw new Error('sqlChannels: already initialized!');
@@ -35,19 +55,25 @@ export function initialize(mainSQL: typeof sql): void {
 
   sql = mainSQL;
 
-  ipcMain.handle(SQL_READ_KEY, (_event, callName, ...args) => {
-    if (!sql) {
-      throw new Error(`${SQL_READ_KEY}: Not yet initialized!`);
-    }
-    return sql.sqlRead(callName, ...args);
-  });
+  ipcMain.handle(
+    SQL_READ_KEY,
+    wrapResult(function ipcSqlReadHandler(_event, callName, ...args) {
+      if (!sql) {
+        throw new Error(`${SQL_READ_KEY}: Not yet initialized!`);
+      }
+      return sql.sqlRead(callName, ...args);
+    })
+  );
 
-  ipcMain.handle(SQL_WRITE_KEY, (_event, callName, ...args) => {
-    if (!sql) {
-      throw new Error(`${SQL_WRITE_KEY}: Not yet initialized!`);
-    }
-    return sql.sqlWrite(callName, ...args);
-  });
+  ipcMain.handle(
+    SQL_WRITE_KEY,
+    wrapResult(function ipcSqlWriteHandler(_event, callName, ...args) {
+      if (!sql) {
+        throw new Error(`${SQL_WRITE_KEY}: Not yet initialized!`);
+      }
+      return sql.sqlWrite(callName, ...args);
+    })
+  );
 
   ipcMain.handle(SQL_REMOVE_DB_KEY, () => {
     if (!sql) {

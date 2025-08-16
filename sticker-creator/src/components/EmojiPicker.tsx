@@ -8,7 +8,6 @@ import RealEmojiPicker, {
   EmojiStyle,
   Theme,
 } from '@indutny/emoji-picker-react';
-import EMOJI_SHEET from '../assets/emoji.webp';
 
 import { useI18n } from '../contexts/I18n';
 
@@ -19,7 +18,7 @@ export type EmojiPickerProps = Readonly<{
 }>;
 
 function getEmojiUrl() {
-  return EMOJI_SHEET;
+  return '../../images/emoji-sheet-64.webp';
 }
 
 export default function EmojiPicker({

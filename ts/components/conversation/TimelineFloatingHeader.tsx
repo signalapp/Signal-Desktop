@@ -73,6 +73,7 @@ export function TimelineFloatingHeader({
       className={classNames(
         'TimelineFloatingHeader',
         `TimelineFloatingHeader--${
+          // eslint-disable-next-line local-rules/enforce-tw
           visible && hasRendered ? 'visible' : 'hidden'
         }`
       )}

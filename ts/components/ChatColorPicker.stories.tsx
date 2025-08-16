@@ -4,13 +4,11 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import enMessages from '../../_locales/en/messages.json';
 import type { PropsType } from './ChatColorPicker';
 import { ChatColorPicker } from './ChatColorPicker';
 import { ConversationColors } from '../types/Colors';
-import { setupI18n } from '../util/setupI18n';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/ChatColorPicker',
@@ -26,7 +24,7 @@ export default {
     addCustomColor: action('addCustomColor'),
     colorSelected: action('colorSelected'),
     editCustomColor: action('editCustomColor'),
-    getConversationsWithCustomColor: (_: string) => Promise.resolve([]),
+    getConversationsWithCustomColor: (_: string) => [],
     i18n,
     removeCustomColor: action('removeCustomColor'),
     removeCustomColorOnConversations: action(

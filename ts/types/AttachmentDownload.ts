@@ -28,15 +28,17 @@ export type AttachmentDownloadJobTypeType = z.infer<
 >;
 
 export type CoreAttachmentDownloadJobType = {
+  attachment: AttachmentType;
+  attachmentType: AttachmentDownloadJobTypeType;
+  ciphertextSize: number;
+  contentType: MIMEType;
+  attachmentSignature: string;
+  isManualDownload?: boolean;
   messageId: string;
+  originalSource: AttachmentDownloadSource;
   receivedAt: number;
   sentAt: number;
-  attachmentType: AttachmentDownloadJobTypeType;
-  attachment: AttachmentType;
-  digest: string;
-  contentType: MIMEType;
   size: number;
-  ciphertextSize: number;
   source: AttachmentDownloadSource;
 };
 
@@ -44,18 +46,20 @@ export type AttachmentDownloadJobType = CoreAttachmentDownloadJobType &
   JobManagerJobType;
 
 export const coreAttachmentDownloadJobSchema = z.object({
-  messageId: z.string(),
-  receivedAt: z.number(),
-  sentAt: z.number(),
-  attachmentType: attachmentDownloadTypeSchema,
   attachment: z
     .object({ size: z.number(), contentType: MIMETypeSchema })
     .passthrough(),
-  digest: z.string(),
-  contentType: MIMETypeSchema,
-  size: z.number(),
+  attachmentType: attachmentDownloadTypeSchema,
   ciphertextSize: z.number(),
+  contentType: MIMETypeSchema,
+  attachmentSignature: z.string(),
+  isManualDownload: z.boolean().optional(),
+  messageId: z.string(),
   messageIdForLogging: z.string().optional(),
+  originalSource: z.nativeEnum(AttachmentDownloadSource),
+  receivedAt: z.number(),
+  sentAt: z.number(),
+  size: z.number(),
   source: z.nativeEnum(AttachmentDownloadSource),
 });
 
@@ -67,3 +71,8 @@ export const attachmentDownloadJobSchema = coreAttachmentDownloadJobSchema.and(
     attachment: Record<string, unknown>;
   }
 >;
+
+export enum AttachmentDownloadUrgency {
+  IMMEDIATE = 'immediate',
+  STANDARD = 'standard',
+}

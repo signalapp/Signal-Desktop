@@ -23,9 +23,14 @@ function isWaylandEnabled(): boolean {
   return Boolean(process.env.WAYLAND_DISPLAY);
 }
 
+function isLinuxUsingKDE(): boolean {
+  return os.platform() === 'linux' && process.env.XDG_CURRENT_DESKTOP === 'KDE';
+}
+
 const OS = {
   ...getOSFunctions(os.release()),
   getLinuxName,
+  isLinuxUsingKDE,
   isWaylandEnabled,
 };
 

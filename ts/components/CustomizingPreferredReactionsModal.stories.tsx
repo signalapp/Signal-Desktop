@@ -6,14 +6,12 @@ import React from 'react';
 
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { setupI18n } from '../util/setupI18n';
 import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants';
-import enMessages from '../../_locales/en/messages.json';
-
 import type { PropsType } from './CustomizingPreferredReactionsModal';
 import { CustomizingPreferredReactionsModal } from './CustomizingPreferredReactionsModal';
+import { EmojiSkinTone } from './fun/data/emojis';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/CustomizingPreferredReactionsModal',
@@ -29,7 +27,7 @@ const defaultProps: ComponentProps<typeof CustomizingPreferredReactionsModal> =
     hadSaveError: false,
     i18n,
     isSaving: false,
-    onSetSkinTone: action('onSetSkinTone'),
+    onEmojiSkinToneDefaultChange: action('onEmojiSkinToneDefaultChange'),
     originalPreferredReactions: DEFAULT_PREFERRED_REACTION_EMOJI,
     recentEmojis: ['cake'],
     replaceSelectedDraftEmoji: action('replaceSelectedDraftEmoji'),
@@ -37,7 +35,7 @@ const defaultProps: ComponentProps<typeof CustomizingPreferredReactionsModal> =
     savePreferredReactions: action('savePreferredReactions'),
     selectDraftEmojiToBeReplaced: action('selectDraftEmojiToBeReplaced'),
     selectedDraftEmojiIndex: undefined,
-    skinTone: 4,
+    emojiSkinToneDefault: EmojiSkinTone.Type4,
   };
 
 export function Default(): JSX.Element {

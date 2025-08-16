@@ -36,7 +36,6 @@ describe('safety number', function (this: Mocha.Suite) {
 
     state = state.updateAccount({
       profileKey: phone.profileKey.serialize(),
-      e164: phone.device.number,
       givenName: phone.profileName,
       hasSetMyStoriesPrivacy: true,
     });
@@ -56,7 +55,7 @@ describe('safety number', function (this: Mocha.Suite) {
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: false,
           name: MY_STORY_ID,
-          recipientServiceIds: [alice.device.aci],
+          recipientServiceIdsBinary: [alice.device.aciBinary],
         },
       },
     });
@@ -110,7 +109,7 @@ describe('safety number', function (this: Mocha.Suite) {
     await clickOnConversation(window, alice);
 
     const input = await waitForEnabledComposer(window);
-    await typeIntoInput(input, 'Hello Alice!');
+    await typeIntoInput(input, 'Hello Alice!', '');
 
     await changeIdentityKey();
 

@@ -18,7 +18,7 @@ export function StagedPlaceholderAttachment({
       type="button"
       className="module-staged-placeholder-attachment"
       onClick={onClick}
-      title={i18n('icu:addImageOrVideoattachment')}
+      aria-label={i18n('icu:addImageOrVideoattachment')}
     >
       <div className="module-staged-placeholder-attachment__plus-icon" />
     </button>

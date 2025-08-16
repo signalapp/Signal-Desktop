@@ -1,6 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .MessageTextRenderer {
   &__formatting {
     // bold is handled by <strong> element
@@ -8,7 +11,7 @@
     // strikethrough is handled by <s> element
 
     &--monospace {
-      font-family: $monospace;
+      font-family: variables.$monospace;
     }
 
     // Note: only used in the left pane for search results, not in message bubbles
@@ -17,11 +20,11 @@
       // Boldness of this is handled by <strong> element
 
       // To differentiate it from bold formatting, we increase the color contrast
-      @include light-theme {
-        color: $color-black; // vs color-gray-60 normally
+      @include mixins.light-theme {
+        color: variables.$color-black; // vs color-gray-60 normally
       }
-      @include dark-theme {
-        color: $color-white; // vs color-gray-25 normally
+      @include mixins.dark-theme {
+        color: variables.$color-white; // vs color-gray-25 normally
       }
     }
 
@@ -42,9 +45,9 @@
       // fix outline
       outline: none;
 
-      @include keyboard-mode {
+      @include mixins.keyboard-mode {
         &:focus {
-          box-shadow: 0 0 0px 1px $color-ultramarine;
+          box-shadow: 0 0 0px 1px variables.$color-ultramarine;
         }
       }
     }
@@ -57,46 +60,46 @@
 
     // The simplest; always in dark mode
     &--spoiler-StoryViewer {
-      background-color: $color-white;
+      background-color: variables.$color-white;
     }
     &--spoiler-MediaEditor {
-      background-color: $color-gray-15;
+      background-color: variables.$color-gray-15;
     }
 
     // The left pane
     &--spoiler-ConversationList,
     &--spoiler-SearchResult {
-      @include light-theme {
-        background-color: $color-gray-60;
+      @include mixins.light-theme {
+        background-color: variables.$color-gray-60;
       }
-      @include dark-theme {
-        background-color: $color-gray-25;
+      @include mixins.dark-theme {
+        background-color: variables.$color-gray-25;
       }
     }
 
     // The timeline
     &--spoiler-Quote {
-      @include light-theme {
-        background-color: $color-gray-90;
+      @include mixins.light-theme {
+        background-color: variables.$color-gray-90;
       }
-      @include dark-theme {
-        background-color: $color-gray-05;
+      @include mixins.dark-theme {
+        background-color: variables.$color-gray-05;
       }
     }
 
     &--spoiler-Timeline--incoming {
-      @include light-theme {
-        background-color: $color-gray-90;
+      @include mixins.light-theme {
+        background-color: variables.$color-gray-90;
       }
-      @include dark-theme {
-        background-color: $color-gray-05;
+      @include mixins.dark-theme {
+        background-color: variables.$color-gray-05;
       }
     }
     &--spoiler-Timeline--outgoing {
-      @include light-theme {
+      @include mixins.light-theme {
         background-color: rgba(255, 255, 255, 0.9);
       }
-      @include dark-theme {
+      @include mixins.dark-theme {
         background-color: rgba(255, 255, 255, 0.9);
       }
     }

@@ -93,11 +93,9 @@ export const PhoneNumberCheckbox: FunctionComponent<PropsType> = React.memo(
 
     const avatar = (
       <Avatar
-        acceptedMessageRequest={false}
         color={AvatarColors[0]}
         conversationType="direct"
         i18n={i18n}
-        isMe={false}
         phoneNumber={phoneNumber.userInput}
         title={phoneNumber.userInput}
         sharedGroupNames={[]}

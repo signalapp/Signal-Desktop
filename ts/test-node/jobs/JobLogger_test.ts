@@ -15,6 +15,8 @@ describe('JobLogger', () => {
     info: sinon.fake(),
     debug: sinon.fake(),
     trace: sinon.fake(),
+
+    child: () => createFakeLogger(),
   });
 
   LEVELS.forEach(level => {

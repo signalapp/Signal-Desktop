@@ -1,7 +1,7 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as log from '../ts/logging/log';
+import { createLogger } from '../ts/logging/log';
 import OS from '../ts/util/os/osMain';
 import {
   parseSystemTraySetting,
@@ -10,14 +10,15 @@ import {
 import { isSystemTraySupported } from '../ts/types/Settings';
 import type { ConfigType } from './base_config';
 
+const log = createLogger('SystemTraySettingCache');
+
 /**
  * A small helper class to get and cache the `system-tray-setting` preference in the main
  * process.
  */
 export class SystemTraySettingCache {
-  private cachedValue: undefined | SystemTraySetting;
-
-  private getPromise: undefined | Promise<SystemTraySetting>;
+  #cachedValue: undefined | SystemTraySetting;
+  #getPromise: undefined | Promise<SystemTraySetting>;
 
   constructor(
     private readonly ephemeralConfig: Pick<ConfigType, 'get' | 'set'>,
@@ -25,19 +26,19 @@ export class SystemTraySettingCache {
   ) {}
 
   async get(): Promise<SystemTraySetting> {
-    if (this.cachedValue !== undefined) {
-      return this.cachedValue;
+    if (this.#cachedValue !== undefined) {
+      return this.#cachedValue;
     }
 
-    this.getPromise = this.getPromise || this.doFirstGet();
-    return this.getPromise;
+    this.#getPromise = this.#getPromise || this.#doFirstGet();
+    return this.#getPromise;
   }
 
   set(value: SystemTraySetting): void {
-    this.cachedValue = value;
+    this.#cachedValue = value;
   }
 
-  private async doFirstGet(): Promise<SystemTraySetting> {
+  async #doFirstGet(): Promise<SystemTraySetting> {
     let result: SystemTraySetting;
 
     // These command line flags are not officially supported, but many users rely on them.
@@ -76,15 +77,15 @@ export class SystemTraySettingCache {
       );
     }
 
-    return this.updateCachedValue(result);
+    return this.#updateCachedValue(result);
   }
 
-  private updateCachedValue(value: SystemTraySetting): SystemTraySetting {
+  #updateCachedValue(value: SystemTraySetting): SystemTraySetting {
     // If there's a value in the cache, someone has updated the value "out from under us",
     //   so we should return that because it's newer.
-    this.cachedValue =
-      this.cachedValue === undefined ? value : this.cachedValue;
+    this.#cachedValue =
+      this.#cachedValue === undefined ? value : this.#cachedValue;
 
-    return this.cachedValue;
+    return this.#cachedValue;
   }
 }

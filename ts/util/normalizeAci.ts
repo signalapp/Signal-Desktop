@@ -3,9 +3,11 @@
 
 import type { AciString } from '../types/ServiceId';
 import type { LoggerType } from '../types/Logging';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { isAciString } from './isAciString';
 import { strictAssert } from './assert';
+
+const log = createLogger('normalizeAci');
 
 export function normalizeAci(
   rawAci: string,
@@ -29,7 +31,10 @@ export function normalizeAci(
   }
 
   const result = rawAci.toLowerCase();
-  strictAssert(!result.startsWith('pni:'), 'ACI should not start with PNI:');
+  strictAssert(
+    !result.startsWith('pni:'),
+    `ACI should not start with 'PNI:' in ${context}`
+  );
 
   if (!isAciString(result)) {
     logger.warn(

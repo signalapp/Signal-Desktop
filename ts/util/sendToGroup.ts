@@ -13,7 +13,6 @@ import {
   SenderCertificate,
   UnidentifiedSenderMessageContent,
 } from '@signalapp/libsignal-client';
-import * as Bytes from '../Bytes';
 import { senderCertificateService } from '../services/senderCertificate';
 import type { SendLogCallbackType } from '../textsecure/OutgoingMessage';
 import {
@@ -27,6 +26,7 @@ import { DataWriter } from '../sql/Client';
 import { getValue } from '../RemoteConfig';
 import type { ServiceIdString } from '../types/ServiceId';
 import { ServiceIdKind } from '../types/ServiceId';
+import * as Bytes from '../Bytes';
 import { isRecord } from './isRecord';
 
 import { isOlderThan } from './timestamp';
@@ -41,8 +41,8 @@ import {
   SendMessageProtoError,
   UnknownRecipientError,
   UnregisteredUserError,
+  HTTPError,
 } from '../textsecure/Errors';
-import type { HTTPError } from '../textsecure/Errors';
 import { IdentityKeys, SenderKeys, Sessions } from '../LibSignalStores';
 import type { ConversationModel } from '../models/conversations';
 import type { DeviceType, CallbackResultType } from '../textsecure/Types.d';
@@ -53,7 +53,7 @@ import type {
 } from '../model-types.d';
 import type { SendTypesType } from './handleMessageSend';
 import { handleMessageSend, shouldSaveProto } from './handleMessageSend';
-import { SEALED_SENDER } from '../types/SealedSender';
+import { SEALED_SENDER, ZERO_ACCESS_KEY } from '../types/SealedSender';
 import { parseIntOrThrow } from './parseIntOrThrow';
 import {
   multiRecipient200ResponseSchema,
@@ -63,7 +63,7 @@ import {
 import { SignalService as Proto } from '../protobuf';
 
 import { strictAssert } from './assert';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { GLOBAL_ZONE } from '../SignalProtocolStore';
 import { waitForAll } from './waitForAll';
 import type { GroupSendEndorsementState } from './groupSendEndorsements';
@@ -74,6 +74,8 @@ import {
 import type { GroupSendToken } from '../types/GroupSendEndorsements';
 import { isAciString } from './isAciString';
 import { safeParseStrict, safeParseUnknown } from './schemas';
+
+const log = createLogger('sendToGroup');
 
 const UNKNOWN_RECIPIENT = 404;
 const INCORRECT_AUTH_KEY = 401;
@@ -87,7 +89,6 @@ const DAY = 24 * HOUR;
 const MAX_RECURSION = 10;
 
 const ACCESS_KEY_LENGTH = 16;
-const ZERO_ACCESS_KEY = Bytes.toBase64(new Uint8Array(ACCESS_KEY_LENGTH));
 
 // Public API:
 
@@ -197,9 +198,7 @@ export async function sendContentMessageToGroup(
 
   const accountManager = window.getAccountManager();
   if (accountManager.areKeysOutOfDate(ServiceIdKind.ACI)) {
-    log.warn(
-      `sendToGroup/${logId}: Keys are out of date; updating before send`
-    );
+    log.warn(`${logId}: Keys are out of date; updating before send`);
     await accountManager.maybeUpdateKeys(ServiceIdKind.ACI);
     if (accountManager.areKeysOutOfDate(ServiceIdKind.ACI)) {
       throw new Error('Keys still out of date after update');
@@ -228,7 +227,7 @@ export async function sendContentMessageToGroup(
       }
 
       log.error(
-        `sendToGroup/${logId}: Sender Key send failed, logging, proceeding to normal send`,
+        `${logId}: Sender Key send failed, logging, proceeding to normal send`,
         Errors.toLogFormat(error)
       );
     }
@@ -237,7 +236,7 @@ export async function sendContentMessageToGroup(
   const sendLogCallback = window.textsecure.messaging.makeSendLogCallback({
     contentHint,
     messageId,
-    proto: Buffer.from(Proto.Content.encode(contentMessage).finish()),
+    proto: Proto.Content.encode(contentMessage).finish(),
     sendType,
     timestamp,
     urgent,
@@ -296,22 +295,20 @@ export async function sendToGroupViaSenderKey(
   } = options;
   const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-  const logId = sendTarget.idForLogging();
+  const logId = `sendToGroupViaSenderKey/${sendTarget.idForLogging()}`;
   log.info(
-    `sendToGroupViaSenderKey/${logId}: Starting ${timestamp}, recursion count ${recursion.count}, reason: ${recursion.reason}...`
+    `${logId}: Starting ${timestamp}, recursion count ${recursion.count}, reason: ${recursion.reason}...`
   );
 
   if (recursion.count > MAX_RECURSION) {
     throw new Error(
-      `sendToGroupViaSenderKey/${logId}: Too much recursion! Count is at ${recursion.count}`
+      `${logId}: Too much recursion! Count is at ${recursion.count}`
     );
   }
 
   const groupId = sendTarget.getGroupId();
   if (!sendTarget.isValid()) {
-    throw new Error(
-      `sendToGroupViaSenderKey/${logId}: sendTarget is not valid!`
-    );
+    throw new Error(`${logId}: sendTarget is not valid!`);
   }
 
   if (
@@ -319,9 +316,7 @@ export async function sendToGroupViaSenderKey(
     contentHint !== ContentHint.RESENDABLE &&
     contentHint !== ContentHint.IMPLICIT
   ) {
-    throw new Error(
-      `sendToGroupViaSenderKey/${logId}: Invalid contentHint ${contentHint}`
-    );
+    throw new Error(`${logId}: Invalid contentHint ${contentHint}`);
   }
 
   strictAssert(
@@ -334,9 +329,7 @@ export async function sendToGroupViaSenderKey(
   const senderKeyInfo = sendTarget.getSenderKeyInfo();
 
   if (!senderKeyInfo) {
-    log.info(
-      `sendToGroupViaSenderKey/${logId}: Adding initial sender key info`
-    );
+    log.info(`${logId}: Adding initial sender key info`);
     await sendTarget.saveSenderKeyInfo({
       createdAtDate: Date.now(),
       distributionId: generateUuid(),
@@ -350,9 +343,7 @@ export async function sendToGroupViaSenderKey(
   const EXPIRE_DURATION = getSenderKeyExpireDuration();
   if (isOlderThan(senderKeyInfo.createdAtDate, EXPIRE_DURATION)) {
     const { createdAtDate } = senderKeyInfo;
-    log.info(
-      `sendToGroupViaSenderKey/${logId}: Resetting sender key; ${createdAtDate} is too old`
-    );
+    log.info(`${logId}: Resetting sender key; ${createdAtDate} is too old`);
     await resetSenderKey(sendTarget);
 
     // Restart here because we updated senderKeyInfo
@@ -419,7 +410,7 @@ export async function sendToGroupViaSenderKey(
   const senderKeyRecipients = getServiceIdsFromDevices(devicesForSenderKey);
   const normalSendRecipients = getServiceIdsFromDevices(devicesForNormalSend);
   log.info(
-    `sendToGroupViaSenderKey/${logId}:` +
+    `${logId}:` +
       ` ${senderKeyRecipients.length} accounts for sender key (${devicesForSenderKey.length} devices),` +
       ` ${normalSendRecipients.length} accounts for normal send (${devicesForNormalSend.length} devices)`
   );
@@ -427,7 +418,7 @@ export async function sendToGroupViaSenderKey(
   // 5. Ensure we have enough recipients
   if (senderKeyRecipients.length < 2) {
     throw new Error(
-      `sendToGroupViaSenderKey/${logId}: Not enough recipients for Sender Key message. Failing over.`
+      `${logId}: Not enough recipients for Sender Key message. Failing over.`
     );
   }
 
@@ -460,7 +451,7 @@ export async function sendToGroupViaSenderKey(
   //   have our sender key before we send sender key messages to them.
   if (newToMemberServiceIds.length > 0) {
     log.info(
-      `sendToGroupViaSenderKey/${logId}: Sending sender key to ${
+      `${logId}: Sending sender key to ${
         newToMemberServiceIds.length
       } members: ${JSON.stringify(newToMemberServiceIds)}`
     );
@@ -583,7 +574,7 @@ export async function sendToGroupViaSenderKey(
       );
     } else {
       log.error(
-        `sendToGroupViaSenderKey/${logId}: Server returned unexpected 200 response ${JSON.stringify(
+        `${logId}: Server returned unexpected 200 response ${JSON.stringify(
           parsed.error.flatten()
         )}`
       );
@@ -593,7 +584,7 @@ export async function sendToGroupViaSenderKey(
       sendLogId = await DataWriter.insertSentProto(
         {
           contentHint,
-          proto: Buffer.from(Proto.Content.encode(contentMessage).finish()),
+          proto: Proto.Content.encode(contentMessage).finish(),
           timestamp,
           urgent,
           hasPniSignatureMessage: false,
@@ -637,7 +628,7 @@ export async function sendToGroupViaSenderKey(
       const brokenAccount = window.ConversationController.get(name);
       if (brokenAccount) {
         log.warn(
-          `sendToGroupViaSenderKey/${logId}: Disabling sealed sender for ${brokenAccount.idForLogging()}`
+          `${logId}: Disabling sealed sender for ${brokenAccount.idForLogging()}`
         );
         brokenAccount.set({ sealedSender: SEALED_SENDER.DISABLED });
         await DataWriter.updateConversation(brokenAccount.attributes);
@@ -648,11 +639,14 @@ export async function sendToGroupViaSenderKey(
     }
 
     if (groupSendEndorsementState != null) {
-      onFailedToSendWithEndorsements(error);
+      // Ignore server errors
+      if (!(error instanceof HTTPError && error.code === 500)) {
+        onFailedToSendWithEndorsements(error);
+      }
     }
 
     log.error(
-      `sendToGroupViaSenderKey/${logId}: Returned unexpected error code: ${
+      `${logId}: Returned unexpected error code: ${
         error.code
       }, error class: ${typeof error}`
     );
@@ -674,7 +668,7 @@ export async function sendToGroupViaSenderKey(
 
       contentHint,
       timestamp,
-      contentProto: Buffer.from(Proto.Content.encode(contentMessage).finish()),
+      contentProto: Proto.Content.encode(contentMessage).finish(),
       recipients: senderKeyRecipientsWithDevices,
       urgent,
     };
@@ -1107,7 +1101,7 @@ function getXorOfAccessKeys(
       'Cannot be endorsement in getXorOfAccessKeys'
     );
 
-    const accessKeyBuffer = Buffer.from(accessKey, 'base64');
+    const accessKeyBuffer = Bytes.fromBase64(accessKey);
     if (accessKeyBuffer.length !== ACCESS_KEY_LENGTH) {
       throw new Error(
         `getXorOfAccessKeys: Access key for ${uuid} had length ${accessKeyBuffer.length}`
@@ -1135,7 +1129,7 @@ async function encryptForSenderKey({
   devices: Array<DeviceType>;
   distributionId: string;
   groupId?: string;
-}): Promise<Buffer> {
+}): Promise<Uint8Array> {
   const ourAci = window.textsecure.storage.user.getCheckedAci();
   const ourDeviceId = window.textsecure.storage.user.getDeviceId();
   if (!ourDeviceId) {
@@ -1153,7 +1147,7 @@ async function encryptForSenderKey({
     ourServiceId: ourAci,
     zone: GLOBAL_ZONE,
   });
-  const message = Buffer.from(padMessage(contentMessage));
+  const message = padMessage(contentMessage);
 
   const ciphertextMessage =
     await window.textsecure.storage.protocol.enqueueSenderKeyJob(
@@ -1161,7 +1155,7 @@ async function encryptForSenderKey({
       () => groupEncrypt(sender, distributionId, senderKeyStore, message)
     );
 
-  const groupIdBuffer = groupId ? Buffer.from(groupId, 'base64') : null;
+  const groupIdBuffer = groupId ? Bytes.fromBase64(groupId) : null;
   const senderCertificateObject = await senderCertificateService.get(
     SenderCertificateMode.WithoutE164
   );
@@ -1170,7 +1164,7 @@ async function encryptForSenderKey({
   }
 
   const senderCertificate = SenderCertificate.deserialize(
-    Buffer.from(senderCertificateObject.serialized)
+    senderCertificateObject.serialized
   );
   const content = UnidentifiedSenderMessageContent.new(
     ciphertextMessage,
@@ -1381,11 +1375,8 @@ async function fetchKeysForServiceId(
   devices: Array<number> | null,
   groupSendEndorsementState: GroupSendEndorsementState | null
 ): Promise<void> {
-  log.info(
-    `fetchKeysForServiceId: Fetching ${
-      devices || 'all'
-    } devices for ${serviceId}`
-  );
+  const logId = `fetchKeysForServiceId/${serviceId}`;
+  log.info(`${logId}: Fetching ${devices || 'all'} devices`);
 
   if (!window.textsecure?.messaging?.server) {
     throw new Error('fetchKeysForServiceId: No server available!');
@@ -1439,12 +1430,13 @@ async function fetchKeysForServiceId(
       return;
     }
     if (useGroupSendEndorsement) {
-      onFailedToSendWithEndorsements(error as Error);
+      // Ignore untrusted identity key errors
+      if (!(error instanceof OutgoingIdentityKeyError)) {
+        onFailedToSendWithEndorsements(error as Error);
+      }
     }
     log.error(
-      `fetchKeysForServiceId: Error fetching ${
-        devices || 'all'
-      } devices for ${serviceId}`,
+      `${logId}: Error fetching ${devices || 'all'} devices`,
       Errors.toLogFormat(error)
     );
     throw error;

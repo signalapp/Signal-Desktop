@@ -1,13 +1,15 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { timingSafeEqual } from 'node:crypto';
 import { assert } from 'chai';
 import { ServiceIdKind, StorageState, Proto } from '@signalapp/mock-server';
 import type { PrimaryDevice } from '@signalapp/mock-server';
 import createDebug from 'debug';
 
 import * as durations from '../../util/durations';
-import { generatePni, toUntaggedPni } from '../../types/ServiceId';
+import { generatePni } from '../../types/ServiceId';
+import { toPniObject } from '../../util/ServiceId';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
 import {
@@ -46,16 +48,15 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
 
     state = state.updateAccount({
       profileKey: phone.profileKey.serialize(),
-      e164: phone.device.number,
     });
 
     state = state.addContact(
       contactA,
       {
         whitelisted: true,
-        serviceE164: contactA.device.number,
+        e164: contactA.device.number,
         identityKey: contactA.getPublicKey(ServiceIdKind.PNI).serialize(),
-        pni: toUntaggedPni(contactA.device.pni),
+        pniBinary: contactA.device.pniRawUuid,
         givenName: 'ContactA',
       },
       ServiceIdKind.PNI
@@ -109,7 +110,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
     {
       const compositionInput = await waitForEnabledComposer(window);
 
-      await typeIntoInput(compositionInput, 'message to contactA');
+      await typeIntoInput(compositionInput, 'message to contactA', '');
       await compositionInput.press('Enter');
     }
 
@@ -136,17 +137,21 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       const state = await phone.expectStorageState('consistency check');
       const updated = await phone.setStorageState(
         state
-          .removeRecord(
-            item =>
-              item.record.contact?.pni === toUntaggedPni(contactA.device.pni)
-          )
+          .removeRecord(item => {
+            return item.record.contact?.pniBinary?.length
+              ? timingSafeEqual(
+                  item.record.contact.pniBinary,
+                  contactA.device.pniRawUuid
+                )
+              : false;
+          })
           .addContact(
             contactA,
             {
               identityState: Proto.ContactRecord.IdentityState.DEFAULT,
               whitelisted: true,
-              serviceE164: contactA.device.number,
-              pni: toUntaggedPni(updatedPni),
+              e164: contactA.device.number,
+              pniBinary: toPniObject(updatedPni).getRawUuidBytes(),
               identityKey: contactA.getPublicKey(ServiceIdKind.PNI).serialize(),
             },
             ServiceIdKind.PNI
@@ -208,7 +213,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
     {
       const compositionInput = await waitForEnabledComposer(window);
 
-      await typeIntoInput(compositionInput, 'message to contactA');
+      await typeIntoInput(compositionInput, 'message to contactA', '');
       await compositionInput.press('Enter');
     }
 
@@ -233,17 +238,21 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       const state = await phone.expectStorageState('consistency check');
       const updated = await phone.setStorageState(
         state
-          .removeRecord(
-            item =>
-              item.record.contact?.pni === toUntaggedPni(contactA.device.pni)
-          )
+          .removeRecord(item => {
+            return item.record.contact?.pniBinary?.length
+              ? timingSafeEqual(
+                  item.record.contact.pniBinary,
+                  contactA.device.pniRawUuid
+                )
+              : false;
+          })
           .addContact(
             contactB,
             {
               identityState: Proto.ContactRecord.IdentityState.DEFAULT,
               whitelisted: true,
-              serviceE164: contactA.device.number,
-              pni: toUntaggedPni(contactB.device.pni),
+              e164: contactA.device.number,
+              pniBinary: contactB.device.pniRawUuid,
 
               // Key change - different identity key
               identityKey: contactB.publicKey.serialize(),
@@ -275,7 +284,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
     }
   });
 
-  it('shows identity and phone number change on send to contact when e165 has changed owners', async () => {
+  it('shows identity and phone number change on send to contact when e164 has changed owners', async () => {
     const { desktop, phone } = bootstrap;
 
     const window = await app.getWindow();
@@ -310,7 +319,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
     {
       const compositionInput = await waitForEnabledComposer(window);
 
-      await typeIntoInput(compositionInput, 'message to contactA');
+      await typeIntoInput(compositionInput, 'message to contactA', '');
       await compositionInput.press('Enter');
     }
 
@@ -335,17 +344,21 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       const state = await phone.expectStorageState('consistency check');
       const updated = await phone.setStorageState(
         state
-          .removeRecord(
-            item =>
-              item.record.contact?.pni === toUntaggedPni(contactA.device.pni)
-          )
+          .removeRecord(item => {
+            return item.record.contact?.pniBinary?.length
+              ? timingSafeEqual(
+                  item.record.contact.pniBinary,
+                  contactA.device.pniRawUuid
+                )
+              : false;
+          })
           .addContact(
             contactB,
             {
               identityState: Proto.ContactRecord.IdentityState.DEFAULT,
               whitelisted: true,
-              serviceE164: contactA.device.number,
-              pni: toUntaggedPni(contactB.device.pni),
+              e164: contactA.device.number,
+              pniBinary: contactB.device.pniRawUuid,
 
               // Note: No identityKey key provided here!
             },
@@ -366,7 +379,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
     {
       const compositionInput = await waitForEnabledComposer(window);
 
-      await typeIntoInput(compositionInput, 'message to contactB');
+      await typeIntoInput(compositionInput, 'message to contactB', '');
       await compositionInput.press('Enter');
 
       // We get a safety number change warning, because we get a different identity key!
@@ -441,7 +454,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
     {
       const compositionInput = await waitForEnabledComposer(window);
 
-      await typeIntoInput(compositionInput, 'message to contactA');
+      await typeIntoInput(compositionInput, 'message to contactA', '');
       await compositionInput.press('Enter');
     }
 
@@ -466,17 +479,21 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       const state = await phone.expectStorageState('consistency check');
       const updated = await phone.setStorageState(
         state
-          .removeRecord(
-            item =>
-              item.record.contact?.pni === toUntaggedPni(contactA.device.pni)
-          )
+          .removeRecord(item => {
+            return item.record.contact?.pniBinary?.length
+              ? timingSafeEqual(
+                  item.record.contact.pniBinary,
+                  contactA.device.pniRawUuid
+                )
+              : false;
+          })
           .addContact(
             contactB,
             {
               identityState: Proto.ContactRecord.IdentityState.DEFAULT,
               whitelisted: true,
-              serviceE164: contactA.device.number,
-              pni: toUntaggedPni(contactB.device.pni),
+              e164: contactA.device.number,
+              pniBinary: contactB.device.pniRawUuid,
 
               // Note: No identityKey key provided here!
             },
@@ -498,17 +515,21 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       const state = await phone.expectStorageState('consistency check');
       const updated = await phone.setStorageState(
         state
-          .removeRecord(
-            item =>
-              item.record.contact?.pni === toUntaggedPni(contactB.device.pni)
-          )
+          .removeRecord(item => {
+            return item.record.contact?.pniBinary?.length
+              ? timingSafeEqual(
+                  item.record.contact.pniBinary,
+                  contactB.device.pniRawUuid
+                )
+              : false;
+          })
           .addContact(
             contactB,
             {
               identityState: Proto.ContactRecord.IdentityState.DEFAULT,
               whitelisted: true,
-              serviceE164: contactA.device.number,
-              pni: toUntaggedPni(contactA.device.pni),
+              e164: contactA.device.number,
+              pniBinary: contactA.device.pniRawUuid,
             },
             ServiceIdKind.PNI
           )
@@ -527,7 +548,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
     {
       const compositionInput = await waitForEnabledComposer(window);
 
-      await typeIntoInput(compositionInput, 'second message to contactA');
+      await typeIntoInput(compositionInput, 'second message to contactA', '');
       await compositionInput.press('Enter');
     }
 

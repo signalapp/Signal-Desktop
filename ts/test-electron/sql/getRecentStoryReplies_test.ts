@@ -8,6 +8,7 @@ import { DataReader, DataWriter } from '../../sql/Client';
 import { generateAci } from '../../types/ServiceId';
 
 import type { MessageAttributesType } from '../../model-types.d';
+import { postSaveUpdates } from '../../util/cleanup';
 
 const { _getAllMessages, getRecentStoryReplies } = DataReader;
 const { removeAll, saveMessages } = DataWriter;
@@ -91,6 +92,7 @@ describe('sql/getRecentStoryReplies', () => {
       {
         forceSave: true,
         ourAci,
+        postSaveUpdates,
       }
     );
 

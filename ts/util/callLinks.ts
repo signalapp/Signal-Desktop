@@ -1,12 +1,10 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { v4 as generateUuid } from 'uuid';
-import * as RemoteConfig from '../RemoteConfig';
 import * as Bytes from '../Bytes';
 import type { CallLinkConversationType, CallLinkType } from '../types/CallLink';
 import { CallLinkRestrictions } from '../types/CallLink';
 import type { LocalizerType } from '../types/Util';
-import { isTestOrMockEnvironment } from '../environment';
 import { getColorForCallLink } from './getColorForCallLink';
 import {
   AdhocCallStatus,
@@ -15,7 +13,6 @@ import {
   type CallHistoryDetails,
   CallMode,
 } from '../types/CallDisposition';
-import { isBeta, isProduction } from './version';
 
 export const CALL_LINK_DEFAULT_STATE: Pick<
   CallLinkType,
@@ -40,24 +37,22 @@ export function getKeyFromCallLink(callLink: string): string {
   return hashParams.get('key') || '';
 }
 
-export function isCallLinksCreateEnabled(): boolean {
-  if (isTestOrMockEnvironment()) {
-    return true;
+export function getKeyAndEpochFromCallLink(callLink: string): {
+  key: string;
+  epoch: string;
+} {
+  const url = new URL(callLink);
+  if (url == null) {
+    throw new Error('Failed to parse call link URL');
   }
 
-  const version = window.getVersion();
+  const hash = url.hash.slice(1);
+  const hashParams = new URLSearchParams(hash);
 
-  if (isProduction(version)) {
-    return RemoteConfig.getValue('desktop.calling.adhoc.create') === 'TRUE';
-  }
-
-  if (isBeta(version)) {
-    return (
-      RemoteConfig.getValue('desktop.calling.adhoc.create.beta') === 'TRUE'
-    );
-  }
-
-  return true;
+  return {
+    key: hashParams.get('key') || '',
+    epoch: hashParams.get('epoch') || '',
+  };
 }
 
 export function callLinkToConversation(
@@ -92,8 +87,8 @@ export function getPlaceholderCallLinkConversation(
   };
 }
 
-export function toAdminKeyBytes(adminKey: string): Buffer {
-  return Buffer.from(adminKey, 'base64');
+export function toAdminKeyBytes(adminKey: string): Uint8Array {
+  return Bytes.fromBase64(adminKey);
 }
 
 export function fromAdminKeyBytes(adminKey: Uint8Array): string {
@@ -115,4 +110,27 @@ export function toCallHistoryFromUnusedCallLink(
     endedTimestamp: null,
     status: AdhocCallStatus.Pending,
   };
+}
+
+export function isCallHistoryForUnusedCallLink(
+  callHistory: CallHistoryDetails
+): boolean {
+  const {
+    ringerId,
+    startedById,
+    endedTimestamp,
+    mode,
+    type,
+    direction,
+    status,
+  } = callHistory;
+  return (
+    ringerId == null &&
+    startedById == null &&
+    endedTimestamp == null &&
+    mode === CallMode.Adhoc &&
+    type === CallType.Adhoc &&
+    direction === CallDirection.Incoming &&
+    status === AdhocCallStatus.Pending
+  );
 }

@@ -9,7 +9,7 @@ const config: StorybookConfig = {
     reactDocgen: false,
   },
 
-  stories: ['../ts/components/**/*.stories.tsx'],
+  stories: ['../ts/axo/**/*.stories.tsx', '../ts/components/**/*.stories.tsx'],
 
   addons: [
     '@storybook/addon-a11y',
@@ -40,6 +40,10 @@ const config: StorybookConfig = {
       from: '../node_modules/emoji-datasource-apple/img',
       to: 'node_modules/emoji-datasource-apple/img',
     },
+    {
+      from: '../node_modules/intl-tel-input/build/img',
+      to: 'node_modules/intl-tel-input/build/img',
+    },
   ],
 
   webpackFinal(config) {
@@ -62,6 +66,23 @@ const config: StorybookConfig = {
       test: /\.css$/,
       use: [
         // prevent storybook defaults from being applied
+      ],
+    });
+
+    config.module!.rules!.push({
+      test: /tailwind-config\.css$/,
+      use: [
+        {
+          loader: 'postcss-loader',
+          options: {
+            postcssOptions: {
+              config: false,
+              plugins: {
+                '@tailwindcss/postcss': {},
+              },
+            },
+          },
+        },
       ],
     });
 

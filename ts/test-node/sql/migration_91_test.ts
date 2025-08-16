@@ -50,11 +50,19 @@ describe('SQL/updateToSchemaVersion91', () => {
   }
 
   function getCountOfKeys(): number {
-    return db.prepare('SELECT count(*) FROM preKeys;').pluck(true).get();
+    return (
+      db
+        .prepare('SELECT count(*) FROM preKeys;', {
+          pluck: true,
+        })
+        .get<number>() ?? 0
+    );
   }
 
   function getPragma(): number {
-    return db.prepare('PRAGMA user_version;').pluck(true).get();
+    return db.pragma('user_version', {
+      simple: true,
+    }) as number;
   }
 
   function generateKey(

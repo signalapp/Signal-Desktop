@@ -12,7 +12,7 @@ import type { ContactsByStory } from '../../../components/SafetyNumberChangeDial
 
 import * as Bytes from '../../../Bytes';
 import { reducer as rootReducer } from '../../../state/reducer';
-import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation';
 import { getEmptyState } from '../../../state/ducks/conversations';
 import { getByDistributionListConversationsStoppingSend } from '../../../state/selectors/conversations-extra';
 import { generateAci } from '../../../types/ServiceId';
@@ -234,11 +234,11 @@ describe('both/state/selectors/conversations-extra', () => {
           ...state.conversations,
           verificationDataByConversation: {
             direct1: {
-              type: ConversationVerificationState.VerificationCancelled,
+              type: ConversationVerificationState.VerificationCanceled,
               canceledAt: Date.now(),
             },
             direct2: {
-              type: ConversationVerificationState.VerificationCancelled,
+              type: ConversationVerificationState.VerificationCanceled,
               canceledAt: Date.now(),
             },
           },

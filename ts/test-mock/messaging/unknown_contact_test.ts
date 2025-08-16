@@ -10,6 +10,7 @@ import assert from 'assert';
 import * as durations from '../../util/durations';
 import type { App } from '../playwright';
 import { Bootstrap } from '../bootstrap';
+import { acceptConversation } from '../helpers';
 
 export const debug = createDebug('mock:test:edit');
 
@@ -46,10 +47,10 @@ describe('unknown contacts', function (this: Mocha.Suite) {
 
     debug('sending calling offer message');
     await unknownContact.sendRaw(desktop, {
-      callingMessage: {
+      callMessage: {
         offer: {
-          callId: new Long(Math.floor(Math.random() * 1e10)),
-          type: Proto.CallingMessage.Offer.Type.OFFER_AUDIO_CALL,
+          id: new Long(Math.floor(Math.random() * 1e10)),
+          type: Proto.CallMessage.Offer.Type.OFFER_AUDIO_CALL,
           opaque: new Uint8Array(0),
         },
       },
@@ -68,7 +69,10 @@ describe('unknown contacts', function (this: Mocha.Suite) {
 
     debug('accepting message request');
     await page.getByText('message you and share your name').waitFor();
-    await page.getByRole('button', { name: 'Accept' }).click();
+    await acceptConversation(page);
+    await page.getByText('message you and share your name').waitFor({
+      state: 'detached',
+    });
     assert.strictEqual(
       await page.getByText('message you and share your name').count(),
       0
@@ -94,7 +98,7 @@ describe('unknown contacts', function (this: Mocha.Suite) {
       syncMessage: {
         messageRequestResponse: {
           type: Proto.SyncMessage.MessageRequestResponse.Type.ACCEPT,
-          threadAci: unknownContact.device.aci,
+          threadAciBinary: unknownContact.device.aciRawUuid,
         },
       },
     });

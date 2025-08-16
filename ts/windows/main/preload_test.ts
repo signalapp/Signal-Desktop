@@ -104,6 +104,9 @@ window.testUtilities = {
       callLinks: [],
       callHistory: [],
       callHistoryUnreadCount: 0,
+      gifs: {
+        recentGifs: [],
+      },
       mainWindowStats: {
         isFullScreen: false,
         isMaximized: false,
@@ -112,14 +115,22 @@ window.testUtilities = {
         development: false,
         devTools: false,
         includeSetup: false,
+        isNightly: false,
         isProduction: false,
         platform: 'test',
       },
+      notificationProfiles: [],
       recentEmoji: {
         recents: [],
       },
       stories: [],
       storyDistributionLists: [],
+      donations: {
+        currentWorkflow: undefined,
+        didResumeWorkflowAtStartup: false,
+        lastError: undefined,
+        receipts: [],
+      },
       stickers: {
         installedPack: null,
         packs: {},
@@ -139,8 +150,16 @@ window.testUtilities = {
 
     for (let i = 0; i < files.length; i += 1) {
       if (i % workerCount === worker) {
-        // eslint-disable-next-line import/no-dynamic-require, global-require
-        require(files[i]);
+        try {
+          // eslint-disable-next-line import/no-dynamic-require, global-require
+          require(files[i]);
+        } catch (error) {
+          window.testUtilities.onTestEvent({
+            type: 'fail',
+            title: ['Failed to load test:', files[i]],
+            error: error.stack || String(error),
+          });
+        }
       }
     }
   },

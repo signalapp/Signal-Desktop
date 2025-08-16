@@ -1,0 +1,31 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../../variables';
+@use '../../mixins';
+@use './FunConstants.scss';
+
+.FunPopover {
+  // React Aria's <Popover/> component will provide us with a max-height to fit
+  // the popover in the current viewport, but we need all the children to flex
+  // to the available height. `display: flex` seems to be the easiest way to
+  // do that
+  display: flex;
+  color: red;
+}
+
+.FunPopover__Dialog {
+  border-radius: 8px;
+  box-shadow: 0 8px 20px variables.$color-black-alpha-30;
+  background: FunConstants.$Fun__BgColor;
+  user-select: none;
+  overflow: clip;
+  -webkit-app-region: no-drag;
+
+  &:focus {
+    outline: none;
+    @include mixins.keyboard-mode {
+      outline: 2px solid variables.$color-ultramarine;
+    }
+  }
+}

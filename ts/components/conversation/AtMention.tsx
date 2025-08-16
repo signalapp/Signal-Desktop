@@ -10,6 +10,7 @@ export function AtMention({
   direction,
   id,
   isInvisible,
+  isStrikethrough,
   name,
   onClick,
   onKeyUp,
@@ -17,10 +18,23 @@ export function AtMention({
   direction: 'incoming' | 'outgoing' | undefined;
   id: string;
   isInvisible: boolean;
+  isStrikethrough?: boolean;
   name: string;
   onClick: () => void;
   onKeyUp: KeyboardEventHandler;
 }): JSX.Element {
+  const textElement = (
+    <>
+      @
+      <Emojify isInvisible={isInvisible} text={name} />
+    </>
+  );
+  const formattedTextElement = isStrikethrough ? (
+    <s>{textElement}</s>
+  ) : (
+    textElement
+  );
+
   if (isInvisible) {
     return (
       <span
@@ -31,10 +45,7 @@ export function AtMention({
         data-id={id}
         data-title={name}
       >
-        <bdi>
-          @
-          <Emojify isInvisible={isInvisible} text={name} />
-        </bdi>
+        <bdi>{formattedTextElement}</bdi>
       </span>
     );
   }
@@ -52,10 +63,7 @@ export function AtMention({
       data-id={id}
       data-title={name}
     >
-      <bdi>
-        @
-        <Emojify isInvisible={isInvisible} text={name} />
-      </bdi>
+      <bdi>{formattedTextElement}</bdi>
     </span>
   );
 }

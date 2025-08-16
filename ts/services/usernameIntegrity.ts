@@ -16,80 +16,83 @@ import { storageJobQueue } from '../util/JobQueue';
 import { getProfile } from '../util/getProfile';
 import { isSharingPhoneNumberWithEverybody } from '../util/phoneNumberSharingMode';
 import { bytesToUuid } from '../util/uuidToBytes';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+import * as Bytes from '../Bytes';
 import { runStorageServiceSyncJob } from './storage';
 import { writeProfile } from './writeProfile';
+
+const log = createLogger('usernameIntegrity');
 
 const CHECK_INTERVAL = DAY;
 
 const STORAGE_SERVICE_TIMEOUT = 30 * MINUTE;
 
 class UsernameIntegrityService {
-  private isStarted = false;
-  private readonly backOff = new BackOff(FIBONACCI_TIMEOUTS);
+  #isStarted = false;
+  readonly #backOff = new BackOff(FIBONACCI_TIMEOUTS);
 
   async start(): Promise<void> {
-    if (this.isStarted) {
+    if (this.#isStarted) {
       return;
     }
 
-    this.isStarted = true;
+    this.#isStarted = true;
 
-    this.scheduleCheck();
+    this.#scheduleCheck();
   }
 
-  private scheduleCheck(): void {
+  #scheduleCheck(): void {
     const lastCheckTimestamp = window.storage.get(
       'usernameLastIntegrityCheck',
       0
     );
     const delay = Math.max(0, lastCheckTimestamp + CHECK_INTERVAL - Date.now());
     if (delay === 0) {
-      log.info('usernameIntegrity: running the check immediately');
-      drop(this.safeCheck());
+      log.info('running the check immediately');
+      drop(this.#safeCheck());
     } else {
-      log.info(`usernameIntegrity: running the check in ${delay}ms`);
-      setTimeout(() => drop(this.safeCheck()), delay);
+      log.info(`running the check in ${delay}ms`);
+      setTimeout(() => drop(this.#safeCheck()), delay);
     }
   }
 
-  private async safeCheck(): Promise<void> {
+  async #safeCheck(): Promise<void> {
     try {
-      await storageJobQueue(() => this.check());
-      this.backOff.reset();
+      await storageJobQueue(() => this.#check());
+      this.#backOff.reset();
       await window.storage.put('usernameLastIntegrityCheck', Date.now());
 
-      this.scheduleCheck();
+      this.#scheduleCheck();
     } catch (error) {
-      const delay = this.backOff.getAndIncrement();
+      const delay = this.#backOff.getAndIncrement();
       log.error(
-        'usernameIntegrity: check failed with ' +
+        'check failed with ' +
           `error: ${Errors.toLogFormat(error)} retrying in ${delay}ms`
       );
-      setTimeout(() => drop(this.safeCheck()), delay);
+      setTimeout(() => drop(this.#safeCheck()), delay);
     }
   }
 
-  private async check(): Promise<void> {
+  async #check(): Promise<void> {
     if (!isRegistrationDone()) {
       return;
     }
 
-    await this.checkUsername();
-    await this.checkPhoneNumberSharing();
+    await this.#checkUsername();
+    await this.#checkPhoneNumberSharing();
   }
 
-  private async checkUsername(): Promise<void> {
+  async #checkUsername(): Promise<void> {
     const me = window.ConversationController.getOurConversationOrThrow();
     const username = me.get('username');
     if (!username) {
-      log.info('usernameIntegrity: no username');
+      log.info('no username');
       return;
     }
 
     const { server } = window.textsecure;
     if (!server) {
-      log.info('usernameIntegrity: server interface is not available');
+      log.info('server interface is not available');
       return;
     }
 
@@ -99,8 +102,8 @@ class UsernameIntegrityService {
 
     let failed = false;
 
-    if (remoteHash !== usernames.hash(username).toString('base64url')) {
-      log.error('usernameIntegrity: remote username mismatch');
+    if (remoteHash !== Bytes.toBase64url(usernames.hash(username))) {
+      log.error('remote username mismatch');
       await window.storage.put('usernameCorrupted', true);
       failed = true;
 
@@ -109,22 +112,22 @@ class UsernameIntegrityService {
 
     const link = window.storage.get('usernameLink');
     if (!link) {
-      log.info('usernameIntegrity: no username link');
+      log.info('no username link');
       return;
     }
 
     if (remoteLink !== bytesToUuid(link.serverId)) {
-      log.error('usernameIntegrity: username link mismatch');
+      log.error('username link mismatch');
       await window.storage.put('usernameLinkCorrupted', true);
       failed = true;
     }
 
     if (!failed) {
-      log.info('usernameIntegrity: check pass');
+      log.info('check pass');
     }
   }
 
-  private async checkPhoneNumberSharing(): Promise<void> {
+  async #checkPhoneNumberSharing(): Promise<void> {
     const me = window.ConversationController.getOurConversationOrThrow();
 
     await getProfile({
@@ -141,7 +144,7 @@ class UsernameIntegrityService {
       }
 
       log.warn(
-        'usernameIntegrity: phone number sharing mode conflict, running ' +
+        'phone number sharing mode conflict, running ' +
           `storage service sync (local: ${localValue}, remote: ${remoteValue})`
       );
 
@@ -150,10 +153,10 @@ class UsernameIntegrityService {
 
     // Since we already run on storage service job queue - don't await the
     // promise below (otherwise deadlock will happen).
-    drop(this.fixProfile());
+    drop(this.#fixProfile());
   }
 
-  private async fixProfile(): Promise<void> {
+  async #fixProfile(): Promise<void> {
     const { promise: once, resolve } = explodePromise<void>();
 
     window.Whisper.events.once('storageService:syncComplete', () => resolve());
@@ -167,7 +170,7 @@ class UsernameIntegrityService {
       const remoteValue = me.get('sharingPhoneNumber') === true;
       if (localValue === remoteValue) {
         log.info(
-          'usernameIntegrity: phone number sharing mode conflict resolved by ' +
+          'phone number sharing mode conflict resolved by ' +
             'storage service sync'
         );
         return;
@@ -175,15 +178,14 @@ class UsernameIntegrityService {
     }
 
     log.warn(
-      'usernameIntegrity: phone number sharing mode conflict not resolved, ' +
-        'updating profile'
+      'phone number sharing mode conflict not resolved, updating profile'
     );
 
     await writeProfile(getConversation(me), {
       keepAvatar: true,
     });
 
-    log.warn('usernameIntegrity: updated profile');
+    log.warn('updated profile');
   }
 }
 

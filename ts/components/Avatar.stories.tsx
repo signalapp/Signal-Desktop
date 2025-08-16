@@ -4,19 +4,16 @@
 import type { Meta, StoryFn } from '@storybook/react';
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
-import { isBoolean } from 'lodash';
 import { expect, fn, within, userEvent } from '@storybook/test';
 import type { AvatarColorType } from '../types/Colors';
 import type { Props } from './Avatar';
-import enMessages from '../../_locales/en/messages.json';
 import { Avatar, AvatarBlur, AvatarSize } from './Avatar';
 import { AvatarColors } from '../types/Colors';
 import { HasStories } from '../types/Stories';
 import { ThemeType } from '../types/Util';
-import { getFakeBadge } from '../test-both/helpers/getFakeBadge';
-import { setupI18n } from '../util/setupI18n';
+import { getFakeBadge } from '../test-helpers/getFakeBadge';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Avatar',
@@ -62,16 +59,15 @@ export default {
 } satisfies Meta<Props>;
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
-  acceptedMessageRequest: isBoolean(overrideProps.acceptedMessageRequest)
-    ? overrideProps.acceptedMessageRequest
-    : true,
   avatarUrl: overrideProps.avatarUrl || '',
   badge: overrideProps.badge,
   blur: overrideProps.blur,
   color: overrideProps.color || AvatarColors[0],
   conversationType: overrideProps.conversationType || 'direct',
+  hasAvatar:
+    Boolean(overrideProps.hasAvatar) ||
+    (overrideProps.avatarUrl != null && overrideProps.avatarUrl.length > 0),
   i18n,
-  isMe: false,
   loading: Boolean(overrideProps.loading),
   noteToSelf: Boolean(overrideProps.noteToSelf),
   onClick: fn(action('onClick')),
@@ -202,8 +198,9 @@ Loading.args = createProps({
 
 export const BlurredBasedOnProps = TemplateSingle.bind({});
 BlurredBasedOnProps.args = createProps({
-  acceptedMessageRequest: false,
+  hasAvatar: true,
   avatarUrl: '/fixtures/kitten-3-64-64.jpg',
+  blur: AvatarBlur.BlurPicture,
 });
 
 export const ForceBlurred = TemplateSingle.bind({});

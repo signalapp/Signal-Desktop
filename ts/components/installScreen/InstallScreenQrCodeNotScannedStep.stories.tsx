@@ -4,16 +4,14 @@
 import React, { useEffect, useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryFn } from '@storybook/react';
-import { setupI18n } from '../../util/setupI18n';
 import { DialogType } from '../../types/Dialogs';
 import { InstallScreenQRCodeError } from '../../types/InstallScreen';
-import enMessages from '../../../_locales/en/messages.json';
 import type { Loadable } from '../../util/loadable';
 import { LoadingState } from '../../util/loadable';
 import type { PropsType } from './InstallScreenQrCodeNotScannedStep';
 import { InstallScreenQrCodeNotScannedStep } from './InstallScreenQrCodeNotScannedStep';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const LOADED_URL = {
   loadingState: LoadingState.Loaded as const,
@@ -24,6 +22,7 @@ const LOADED_URL = {
 const DEFAULT_UPDATES = {
   dialogType: DialogType.None,
   didSnooze: false,
+  isCheckingForUpdates: false,
   showEventsCount: 0,
   downloadSize: 67 * 1024 * 1024,
   downloadedSize: 15 * 1024 * 1024,
@@ -63,6 +62,7 @@ function Simulation({
       updates={DEFAULT_UPDATES}
       OS="macOS"
       startUpdate={action('startUpdate')}
+      forceUpdate={action('forceUpdate')}
       currentVersion="v6.0.0"
       retryGetQrCode={action('retryGetQrCode')}
     />
@@ -80,6 +80,7 @@ export function QrCodeLoading(): JSX.Element {
       updates={DEFAULT_UPDATES}
       OS="macOS"
       startUpdate={action('startUpdate')}
+      forceUpdate={action('forceUpdate')}
       currentVersion="v6.0.0"
       retryGetQrCode={action('retryGetQrCode')}
     />
@@ -98,6 +99,7 @@ export function QrCodeFailedToLoad(): JSX.Element {
       updates={DEFAULT_UPDATES}
       OS="macOS"
       startUpdate={action('startUpdate')}
+      forceUpdate={action('forceUpdate')}
       currentVersion="v6.0.0"
       retryGetQrCode={action('retryGetQrCode')}
     />
@@ -113,6 +115,7 @@ export function QrCodeLoaded(): JSX.Element {
       updates={DEFAULT_UPDATES}
       OS="macOS"
       startUpdate={action('startUpdate')}
+      forceUpdate={action('forceUpdate')}
       currentVersion="v6.0.0"
       retryGetQrCode={action('retryGetQrCode')}
     />
@@ -121,6 +124,17 @@ export function QrCodeLoaded(): JSX.Element {
 
 export function SimulatedLoading(): JSX.Element {
   return <Simulation finalResult={LOADED_URL} />;
+}
+
+export function SimulatedMaxRotationsError(): JSX.Element {
+  return (
+    <Simulation
+      finalResult={{
+        loadingState: LoadingState.LoadFailed,
+        error: InstallScreenQRCodeError.MaxRotations,
+      }}
+    />
+  );
 }
 
 export function SimulatedUnknownError(): JSX.Element {
@@ -177,6 +191,7 @@ export const WithUpdateKnobs: StoryFn<PropsType & { dialogType: DialogType }> =
         }}
         OS="macOS"
         startUpdate={action('startUpdate')}
+        forceUpdate={action('forceUpdate')}
         currentVersion={currentVersion}
         retryGetQrCode={action('retryGetQrCode')}
       />

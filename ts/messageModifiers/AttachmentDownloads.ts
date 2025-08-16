@@ -1,12 +1,67 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import * as log from '../logging/log';
+import { omit } from 'lodash';
+import { createLogger } from '../logging/log';
 import * as Bytes from '../Bytes';
 import type { AttachmentDownloadJobTypeType } from '../types/AttachmentDownload';
 
 import type { AttachmentType } from '../types/Attachment';
-import { getAttachmentSignature, isDownloaded } from '../types/Attachment';
-import { __DEPRECATED$getMessageById } from '../messages/getMessageById';
+import {
+  doAttachmentsOnSameMessageMatch,
+  isDownloaded,
+} from '../types/Attachment';
+import { getMessageById } from '../messages/getMessageById';
+import { trimMessageWhitespace } from '../types/BodyRange';
+
+const log = createLogger('AttachmentDownloads');
+
+export async function markAttachmentAsCorrupted(
+  messageId: string,
+  attachment: AttachmentType
+): Promise<void> {
+  const message = await getMessageById(messageId);
+
+  if (!message) {
+    return;
+  }
+
+  if (!attachment.path) {
+    throw new Error(
+      "Attachment can't be marked as corrupted because it wasn't loaded"
+    );
+  }
+
+  // We intentionally don't check in quotes/stickers/contacts/... here,
+  // because this function should be called only for something that can
+  // be displayed as a generic attachment.
+  const attachments: ReadonlyArray<AttachmentType> =
+    message.get('attachments') || [];
+
+  let changed = false;
+  const newAttachments = attachments.map(existing => {
+    if (existing.path !== attachment.path) {
+      return existing;
+    }
+    changed = true;
+
+    return {
+      ...existing,
+      isCorrupted: true,
+    };
+  });
+
+  if (!changed) {
+    throw new Error(
+      "Attachment can't be marked as corrupted because it wasn't found"
+    );
+  }
+
+  log.info('markAttachmentAsCorrupted: marking an attachment as corrupted');
+
+  message.set({
+    attachments: newAttachments,
+  });
+}
 
 export async function addAttachmentToMessage(
   messageId: string,
@@ -14,14 +69,12 @@ export async function addAttachmentToMessage(
   jobLogId: string,
   { type }: { type: AttachmentDownloadJobTypeType }
 ): Promise<void> {
-  const message = await __DEPRECATED$getMessageById(messageId);
+  const logPrefix = `${jobLogId}/addAttachmentToMessage`;
+  const message = await getMessageById(messageId);
 
   if (!message) {
     return;
   }
-
-  const logPrefix = `${jobLogId}/addAttachmentToMessage`;
-  const attachmentSignature = getAttachmentSignature(attachment);
 
   if (type === 'long-message') {
     let handledAnywhere = false;
@@ -45,7 +98,7 @@ export async function addAttachmentToMessage(
           }
           // This attachment isn't destined for this edit
           if (
-            getAttachmentSignature(edit.bodyAttachment) !== attachmentSignature
+            !doAttachmentsOnSameMessageMatch(edit.bodyAttachment, attachment)
           ) {
             return edit;
           }
@@ -63,7 +116,10 @@ export async function addAttachmentToMessage(
 
           return {
             ...edit,
-            body: Bytes.toString(attachmentData),
+            ...trimMessageWhitespace({
+              body: Bytes.toString(attachmentData),
+              bodyRanges: edit.bodyRanges,
+            }),
             bodyAttachment: attachment,
           };
         });
@@ -79,7 +135,7 @@ export async function addAttachmentToMessage(
         return;
       }
       if (
-        getAttachmentSignature(existingBodyAttachment) !== attachmentSignature
+        !doAttachmentsOnSameMessageMatch(existingBodyAttachment, attachment)
       ) {
         return;
       }
@@ -95,8 +151,11 @@ export async function addAttachmentToMessage(
       }
 
       message.set({
-        body: Bytes.toString(attachmentData),
         bodyAttachment: attachment,
+        ...trimMessageWhitespace({
+          body: Bytes.toString(attachmentData),
+          bodyRanges: message.get('bodyRanges'),
+        }),
       });
     } finally {
       if (attachment.path) {
@@ -116,7 +175,7 @@ export async function addAttachmentToMessage(
       return existing;
     }
 
-    if (attachmentSignature !== getAttachmentSignature(existing)) {
+    if (!doAttachmentsOnSameMessageMatch(existing, attachment)) {
       return existing;
     }
 
@@ -280,7 +339,7 @@ export async function addAttachmentToMessage(
               if (thumbnail !== newThumbnail) {
                 handledInEditHistory = true;
               }
-              return { ...item, thumbnail: newThumbnail };
+              return { ...item, thumbnail: omit(newThumbnail, 'thumbnail') };
             }),
           },
         };
@@ -302,7 +361,7 @@ export async function addAttachmentToMessage(
 
           return {
             ...item,
-            thumbnail: maybeReplaceAttachment(thumbnail),
+            thumbnail: maybeReplaceAttachment(omit(thumbnail, 'thumbnail')),
           };
         }),
       };
@@ -322,7 +381,7 @@ export async function addAttachmentToMessage(
     message.set({
       sticker: {
         ...sticker,
-        data: attachment,
+        data: sticker.data ? maybeReplaceAttachment(sticker.data) : attachment,
       },
     });
     return;

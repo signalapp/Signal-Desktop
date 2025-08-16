@@ -16,19 +16,19 @@ export default {
     getCaptchaToken: fn(async () => {
       await sleep(SECOND);
       return 'captcha-token';
-    }),
+    }) as () => Promise<string>,
     requestVerification: fn(async () => {
       await sleep(SECOND);
       return { sessionId: 'fake-session-id' };
-    }),
+    }) as () => Promise<{ sessionId: string }>,
     registerSingleDevice: fn(async () => {
       await sleep(SECOND);
-    }),
+    }) as () => Promise<void>,
     uploadProfile: fn(async () => {
       await sleep(SECOND);
-    }),
-    onComplete: fn(),
-    readyForUpdates: fn(),
+    }) as () => Promise<void>,
+    onComplete: fn() as () => void,
+    readyForUpdates: fn() as () => void,
   },
 } satisfies Meta<PropsType & { daysAgo?: number }>;
 

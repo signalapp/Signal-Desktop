@@ -2,7 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ValidateConversationType } from '../model-types.d';
-import { isDirectConversation } from './whatTypeOfConversation';
+import {
+  isDirectConversation,
+  isGroupV1,
+  isGroupV2,
+} from './whatTypeOfConversation';
 import { isServiceIdString } from '../types/ServiceId';
 
 export function validateConversation(
@@ -20,6 +24,14 @@ export function validateConversation(
 
   if (error) {
     return error;
+  }
+
+  if (
+    !isDirectConversation(attributes) &&
+    !isGroupV1(attributes) &&
+    !isGroupV2(attributes)
+  ) {
+    return 'Conversation is not direct, groupv1 or groupv2';
   }
 
   return null;

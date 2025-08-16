@@ -21,17 +21,20 @@ import {
 } from './zkgroup';
 import type { ServiceIdString } from '../types/ServiceId';
 import { fromAciObject } from '../types/ServiceId';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import type { GroupV2MemberType } from '../model-types';
 import { DurationInSeconds, MINUTE } from './durations';
 import { ToastType } from '../types/Toast';
 import * as Errors from '../types/errors';
 import { isTestOrMockEnvironment } from '../environment';
-import { isAlpha } from './version';
+import { isNightly } from './version';
 import { parseStrict } from './schemas';
 import { DataReader } from '../sql/Client';
 import { maybeUpdateGroup } from '../groups';
+import * as Bytes from '../Bytes';
 import { isGroupV2 } from './whatTypeOfConversation';
+
+const log = createLogger('groupSendEndorsements');
 
 export function decodeGroupSendEndorsementResponse({
   groupId,
@@ -57,7 +60,7 @@ export function decodeGroupSendEndorsementResponse({
   );
 
   const response = new GroupSendEndorsementsResponse(
-    Buffer.from(groupSendEndorsementResponse)
+    groupSendEndorsementResponse
   );
 
   const expiration = response.getExpiration().getTime() / 1000;
@@ -67,11 +70,11 @@ export function decodeGroupSendEndorsementResponse({
   );
 
   const groupSecretParams = new GroupSecretParams(
-    Buffer.from(groupSecretParamsBase64, 'base64')
+    Bytes.fromBase64(groupSecretParamsBase64)
   );
 
   const serverPublicParams = new ServerPublicParams(
-    Buffer.from(window.getServerPublicParams(), 'base64')
+    Bytes.fromBase64(window.getServerPublicParams())
   );
 
   const groupMembers = groupMembersV2.map(member => {
@@ -129,16 +132,33 @@ function logServiceIds(list: Iterable<string>) {
   return `${items.slice(0, 4).join(', ')}, and ${items.length - 4} others`;
 }
 
-export function isValidGroupSendEndorsementsExpiration(
-  expiration: number
-): boolean {
+export type ValidationResult =
+  | { valid: true; reason?: never }
+  | { valid: false; reason: string };
+
+export function validateGroupSendEndorsementsExpiration(
+  expiration: number,
+  now: number = Date.now()
+): ValidationResult {
   const expSeconds = DurationInSeconds.fromMillis(expiration);
-  const nowSeconds = DurationInSeconds.fromMillis(Date.now());
+  const nowSeconds = DurationInSeconds.fromMillis(now);
+  const info = `now: ${nowSeconds}, exp: ${expSeconds}`;
+  if (expSeconds <= nowSeconds) {
+    return { valid: false, reason: `already expired, ${info}` };
+  }
+  // negative = exp is past, positive = exp is future
   const distance = Math.trunc(expSeconds - nowSeconds);
-  return distance <= TWO_DAYS && distance > TWO_HOURS;
+  if (distance <= TWO_HOURS) {
+    return { valid: false, reason: `expires soon, ${info}` };
+  }
+  if (distance >= TWO_DAYS) {
+    return { valid: false, reason: `expires too far in future, ${info}` };
+  }
+  return { valid: true };
 }
 
 export class GroupSendEndorsementState {
+  #logId: string;
   #combinedEndorsement: GroupSendCombinedEndorsementRecord;
   #memberEndorsements = new Map<
     ServiceIdString,
@@ -153,6 +173,7 @@ export class GroupSendEndorsementState {
     data: GroupSendEndorsementsData,
     groupSecretParamsBase64: string
   ) {
+    this.#logId = `GroupSendEndorsementState/groupv2(${data.combinedEndorsement.groupId})`;
     this.#combinedEndorsement = data.combinedEndorsement;
     this.#groupSecretParamsBase64 = groupSecretParamsBase64;
     this.#ourAci = window.textsecure.storage.user.getCheckedAci();
@@ -160,12 +181,6 @@ export class GroupSendEndorsementState {
       this.#memberEndorsements.set(endorsement.memberAci, endorsement);
       this.#memberEndorsementsAcis.add(endorsement.memberAci);
     }
-  }
-
-  isSafeExpirationRange(): boolean {
-    return isValidGroupSendEndorsementsExpiration(
-      this.getExpiration().getTime()
-    );
   }
 
   getExpiration(): Date {
@@ -179,7 +194,7 @@ export class GroupSendEndorsementState {
   #toEndorsement(contents: Uint8Array): GroupSendEndorsement {
     let endorsement = this.#endorsementCache.get(contents);
     if (endorsement == null) {
-      endorsement = new GroupSendEndorsement(Buffer.from(contents));
+      endorsement = new GroupSendEndorsement(contents);
       this.#endorsementCache.set(contents, endorsement);
     }
     return endorsement;
@@ -187,14 +202,17 @@ export class GroupSendEndorsementState {
 
   #toToken(endorsement: GroupSendEndorsement): GroupSendToken {
     const groupSecretParams = new GroupSecretParams(
-      Buffer.from(this.#groupSecretParamsBase64, 'base64')
+      Bytes.fromBase64(this.#groupSecretParamsBase64)
     );
 
     const expiration = this.getExpiration();
+    const result = validateGroupSendEndorsementsExpiration(
+      expiration.getTime()
+    );
 
     strictAssert(
-      isValidGroupSendEndorsementsExpiration(expiration.getTime()),
-      'Cannot build token with invalid expiration'
+      result.valid,
+      `${this.#logId}: toToken: Endorsements are expired (${result.reason})`
     );
 
     const fullToken = endorsement.toFullToken(groupSecretParams, expiration);
@@ -218,7 +236,7 @@ export class GroupSendEndorsementState {
     const memberEndorsement = this.#memberEndorsements.get(serviceId);
     strictAssert(
       memberEndorsement,
-      'subtractMemberEndorsements: Missing endorsement'
+      `${this.#logId}: getMemberEndorsement: Missing endorsement for ${serviceId}`
     );
     return this.#toEndorsement(memberEndorsement.endorsement);
   }
@@ -231,7 +249,7 @@ export class GroupSendEndorsementState {
   ): GroupSendEndorsement {
     strictAssert(
       !otherMembersServiceIds.has(this.#ourAci),
-      'subtractMemberEndorsements: Cannot subtract our own aci from the combined endorsement'
+      `${this.#logId}: subtractMemberEndorsements: Cannot subtract our own aci from the combined endorsement`
     );
     return this.#getCombinedEndorsement(includesOurs).byRemoving(
       this.#combineMemberEndorsements(otherMembersServiceIds)
@@ -253,7 +271,7 @@ export class GroupSendEndorsementState {
   #buildToken(serviceIds: Set<ServiceIdString>): GroupSendEndorsement {
     const sendCount = serviceIds.size;
     const memberCount = this.#memberEndorsements.size;
-    const logId = `GroupSendEndorsementState.buildToken(${sendCount} of ${memberCount})`;
+    const logId = `${this.#logId}: buildToken(${sendCount} of ${memberCount})`;
 
     // Fast path sending to one person
     if (serviceIds.size === 1) {
@@ -317,7 +335,7 @@ const showFailedToSendWithEndorsementsToast = throttle(
 
 export function onFailedToSendWithEndorsements(error: Error): void {
   log.error('onFailedToSendWithEndorsements', Errors.toLogFormat(error));
-  if (isTestOrMockEnvironment() || isAlpha(window.getVersion())) {
+  if (isTestOrMockEnvironment() || isNightly(window.getVersion())) {
     showFailedToSendWithEndorsementsToast();
   }
   if (window.SignalCI) {
@@ -330,53 +348,99 @@ type MaybeCreateGroupSendEndorsementStateResult =
   | { state: GroupSendEndorsementState; didRefreshGroupState: false }
   | { state: null; didRefreshGroupState: boolean };
 
+function validateGroupSendEndorsements(
+  members: Set<ServiceIdString>,
+  state: GroupSendEndorsementState | null
+): ValidationResult {
+  // Check if we should have endorsements (pending members should not)
+  if (state == null) {
+    const ourAci = window.textsecure.storage.user.getCheckedAci();
+    if (members.has(ourAci)) {
+      return { valid: false, reason: 'missing all endorsements' };
+    }
+    return { valid: true };
+  }
+
+  // Check for expired endorsements
+  const expiration = state.getExpiration().getTime();
+  const expirationResult = validateGroupSendEndorsementsExpiration(expiration);
+  if (!expirationResult.valid) {
+    return { valid: false, reason: expirationResult.reason };
+  }
+
+  // Check for missing endorsements
+  const missing = new Set<ServiceIdString>();
+  for (const member of members) {
+    if (!state.hasMember(member)) {
+      missing.add(member);
+    }
+  }
+  if (missing.size > 0) {
+    return {
+      valid: false,
+      reason: `missing ${missing.size} endorsements (${logServiceIds(missing)})`,
+    };
+  }
+
+  return { valid: true };
+}
+
 export async function maybeCreateGroupSendEndorsementState(
   groupId: string,
   alreadyRefreshedGroupState: boolean
 ): Promise<MaybeCreateGroupSendEndorsementStateResult> {
+  const logId = `maybeCreateGroupSendEndorsementState/groupv2(${groupId})`;
+
   const conversation = window.ConversationController.get(groupId);
-  strictAssert(
-    conversation != null,
-    'maybeCreateGroupSendEndorsementState: Convertion not found'
-  );
-
-  const logId = `maybeCreateGroupSendEndorsementState/${conversation.idForLogging()}`;
-
+  strictAssert(conversation != null, `${logId}: Convertion not found`);
   strictAssert(
     isGroupV2(conversation.attributes),
     `${logId}: Conversation is not groupV2`
   );
 
+  const secretParams = conversation.get('secretParams');
+  const membersV2 = conversation.get('membersV2');
+  strictAssert(secretParams, `${logId}: Must have secret params`);
+  strictAssert(membersV2, `${logId}: Must have members`);
+  const members = new Set(membersV2.map(member => member.aci));
+
   const data = await DataReader.getGroupSendEndorsementsData(groupId);
-  if (data == null) {
-    const ourAci = window.textsecure.storage.user.getCheckedAci();
-    if (conversation.isMember(ourAci)) {
+  const state =
+    data != null ? new GroupSendEndorsementState(data, secretParams) : null;
+
+  // Check if we need to refresh the group state.
+  const result = validateGroupSendEndorsements(members, state);
+  if (!result.valid) {
+    // If we've already refreshed the group state, we should log and move on.
+    if (alreadyRefreshedGroupState) {
       onFailedToSendWithEndorsements(
-        new Error(`${logId}: Missing all endorsements for group`)
+        new Error(
+          `${logId}: Endorsements invalid after refreshing group: ${result.reason}`
+        )
       );
+      return { state: null, didRefreshGroupState: false };
     }
-    return { state: null, didRefreshGroupState: false };
-  }
+    if (conversation.isBlocked()) {
+      onFailedToSendWithEndorsements(
+        new Error(
+          `${logId}: Group is blocked and endorsements are invalid: ${result.reason}`
+        )
+      );
+      return { state: null, didRefreshGroupState: false };
+    }
 
-  const groupSecretParamsBase64 = conversation.get('secretParams');
-  strictAssert(groupSecretParamsBase64, `${logId}: Must have secret params`);
-
-  const groupSendEndorsementState = new GroupSendEndorsementState(
-    data,
-    groupSecretParamsBase64
-  );
-
-  if (
-    groupSendEndorsementState != null &&
-    !groupSendEndorsementState.isSafeExpirationRange() &&
-    !alreadyRefreshedGroupState
-  ) {
     log.info(
-      `${logId}: Endorsements close to expiration (${groupSendEndorsementState.getExpiration().getTime()}, ${Date.now()}), refreshing group`
+      `${logId}: Endorsements invalid, refreshing group: ${result.reason}`
     );
-    await maybeUpdateGroup({ conversation });
+
+    // Wait for all incoming messages to be processed before refreshing
+    // the group state to avoid incorrectly processing messages.
+    await window.waitForEmptyEventQueue();
+
+    // Refresh the group state all allow the caller to try again.
+    await maybeUpdateGroup({ conversation, force: true });
     return { state: null, didRefreshGroupState: true };
   }
 
-  return { state: groupSendEndorsementState, didRefreshGroupState: false };
+  return { state, didRefreshGroupState: false };
 }

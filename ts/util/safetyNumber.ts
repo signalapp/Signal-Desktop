@@ -6,9 +6,11 @@ import type { ConversationType } from '../state/ducks/conversations';
 
 import { assertDev } from './assert';
 import { uuidToBytes } from './uuidToBytes';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import type { SafetyNumberType } from '../types/safetyNumber';
 import { isAciString } from './isAciString';
+
+const log = createLogger('safetyNumber');
 
 const ITERATION_COUNT = 5200;
 const SERVICE_ID_VERSION = 2;
@@ -44,16 +46,16 @@ export async function generateSafetyNumber(
     throw new Error('Could not load their key');
   }
 
-  const ourKey = PublicKey.deserialize(Buffer.from(ourKeyBuffer));
-  const theirKey = PublicKey.deserialize(Buffer.from(theirKeyBuffer));
+  const ourKey = PublicKey.deserialize(ourKeyBuffer);
+  const theirKey = PublicKey.deserialize(theirKeyBuffer);
 
   assertDev(theirAci, 'Should have their serviceId');
   const fingerprint = Fingerprint.new(
     ITERATION_COUNT,
     SERVICE_ID_VERSION,
-    Buffer.from(uuidToBytes(ourAci)),
+    uuidToBytes(ourAci),
     ourKey,
-    Buffer.from(uuidToBytes(theirAci)),
+    uuidToBytes(theirAci),
     theirKey
   );
 

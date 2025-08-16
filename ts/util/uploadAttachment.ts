@@ -1,5 +1,6 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+import Long from 'long';
 import { createReadStream } from 'fs';
 import type {
   AttachmentWithHydratedData,
@@ -17,10 +18,10 @@ import {
   encryptAttachmentV2ToDisk,
   safeUnlink,
   type PlaintextSourceType,
-  type HardcodedIVForEncryptionType,
 } from '../AttachmentCrypto';
 import { missingCaseError } from './missingCaseError';
 import { uuidToBytes } from './uuidToBytes';
+import { isVisualMedia } from '../types/Attachment';
 
 const CDNS_SUPPORTING_TUS = new Set([3]);
 
@@ -33,6 +34,7 @@ export async function uploadAttachment(
   const keys = getRandomBytes(64);
   const needIncrementalMac = supportsIncrementalMac(attachment.contentType);
 
+  const uploadTimestamp = Date.now();
   const { cdnKey, cdnNumber, encrypted } = await encryptAndUploadAttachment({
     keys,
     needIncrementalMac,
@@ -40,8 +42,10 @@ export async function uploadAttachment(
     uploadType: 'standard',
   });
 
-  const { blurHash, caption, clientUuid, fileName, flags, height, width } =
-    attachment;
+  const { blurHash, caption, clientUuid, flags, height, width } = attachment;
+
+  // Strip filename for visual media (images and videos) to prevent metadata leakage
+  const fileName = isVisualMedia(attachment) ? undefined : attachment.fileName;
 
   return {
     cdnKey,
@@ -54,6 +58,7 @@ export async function uploadAttachment(
     plaintextHash: encrypted.plaintextHash,
     incrementalMac: encrypted.incrementalMac,
     chunkSize: encrypted.chunkSize,
+    uploadTimestamp: Long.fromNumber(uploadTimestamp),
 
     contentType: MIMETypeToString(attachment.contentType),
     fileName,
@@ -67,13 +72,11 @@ export async function uploadAttachment(
 }
 
 export async function encryptAndUploadAttachment({
-  dangerousIv,
   keys,
   needIncrementalMac,
   plaintext,
   uploadType,
 }: {
-  dangerousIv?: HardcodedIVForEncryptionType;
   keys: Uint8Array;
   needIncrementalMac: boolean;
   plaintext: PlaintextSourceType;
@@ -102,7 +105,6 @@ export async function encryptAndUploadAttachment({
     }
 
     const encrypted = await encryptAttachmentV2ToDisk({
-      dangerousIv,
       getAbsoluteAttachmentPath:
         window.Signal.Migrations.getAbsoluteAttachmentPath,
       keys,

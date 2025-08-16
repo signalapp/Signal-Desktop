@@ -4,16 +4,24 @@
 import type { AciString } from '../types/ServiceId';
 import type { ConversationModel } from '../models/conversations';
 import * as Errors from '../types/errors';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { drop } from '../util/drop';
 import { getConversationIdForLogging } from '../util/idForLogging';
+import type { MessageRequestResponseSource } from '../types/MessageRequestResponseEvent';
+
+const log = createLogger('MessageRequests');
 
 export type MessageRequestAttributesType = {
   envelopeId: string;
   groupV2Id?: string;
   removeFromMessageReceiverCache: () => unknown;
+  receivedAtMs: number;
+  receivedAtCounter: number;
+  sourceType:
+    | MessageRequestResponseSource.BLOCK_SYNC
+    | MessageRequestResponseSource.MRR_SYNC;
+  sentAt: number;
   threadAci?: AciString;
-  threadE164?: string;
   type: number;
 };
 
@@ -32,17 +40,6 @@ export function forConversation(
   )})`;
 
   const messageRequestValues = Array.from(messageRequests.values());
-
-  if (conversation.get('e164')) {
-    const syncByE164 = messageRequestValues.find(
-      item => item.threadE164 === conversation.get('e164')
-    );
-    if (syncByE164) {
-      log.info(`${logId}: Found early message request response for E164`);
-      remove(syncByE164);
-      return syncByE164;
-    }
-  }
 
   if (conversation.getServiceId()) {
     const syncByServiceId = messageRequestValues.find(
@@ -74,9 +71,16 @@ export async function onResponse(
   sync: MessageRequestAttributesType
 ): Promise<void> {
   messageRequests.set(sync.envelopeId, sync);
-  const { threadE164, threadAci, groupV2Id } = sync;
+  const {
+    threadAci,
+    groupV2Id,
+    receivedAtMs,
+    sentAt,
+    receivedAtCounter,
+    sourceType,
+  } = sync;
 
-  const logId = `MessageRequests.onResponse(groupv2(${groupV2Id}) ${threadAci} ${threadE164})`;
+  const logId = `MessageRequests.onResponse(groupv2(${groupV2Id}) ${threadAci}`;
 
   try {
     let conversation;
@@ -85,9 +89,8 @@ export async function onResponse(
     if (groupV2Id) {
       conversation = window.ConversationController.get(groupV2Id);
     }
-    if (!conversation && (threadE164 || threadAci)) {
+    if (!conversation && threadAci) {
       conversation = window.ConversationController.lookupOrCreate({
-        e164: threadE164,
         serviceId: threadAci,
         reason: logId,
       });
@@ -103,7 +106,10 @@ export async function onResponse(
 
     drop(
       conversation.applyMessageRequestResponse(sync.type, {
-        fromSync: true,
+        source: sourceType,
+        receivedAtCounter,
+        receivedAtMs,
+        timestamp: sentAt,
       })
     );
 

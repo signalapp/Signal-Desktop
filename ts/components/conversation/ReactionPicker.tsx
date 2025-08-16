@@ -1,22 +1,28 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
+import { Button } from 'react-aria-components';
 import { convertShortName } from '../emoji/lib';
 import type { Props as EmojiPickerProps } from '../emoji/EmojiPicker';
 import { useDelayedRestoreFocus } from '../../hooks/useRestoreFocus';
-import type { LocalizerType } from '../../types/Util';
+import type { LocalizerType, ThemeType } from '../../types/Util';
 import {
   ReactionPickerPicker,
   ReactionPickerPickerEmojiButton,
   ReactionPickerPickerMoreButton,
   ReactionPickerPickerStyle,
 } from '../ReactionPickerPicker';
+import type { EmojiSkinTone, EmojiVariantKey } from '../fun/data/emojis';
+import { getEmojiVariantByKey } from '../fun/data/emojis';
+import { FunEmojiPicker } from '../fun/FunEmojiPicker';
+import type { FunEmojiSelection } from '../fun/panels/FunPanelEmojis';
+import { isFunPickerEnabled } from '../fun/isFunPickerEnabled';
 
 export type RenderEmojiPickerProps = Pick<Props, 'onClose' | 'style'> &
   Pick<
     EmojiPickerProps,
-    'onClickSettings' | 'onPickEmoji' | 'onSetSkinTone'
+    'onClickSettings' | 'onPickEmoji' | 'onEmojiSkinToneDefaultChange'
   > & {
     ref: React.Ref<HTMLDivElement>;
   };
@@ -26,10 +32,12 @@ export type OwnProps = {
   selected?: string;
   onClose?: () => unknown;
   onPick: (emoji: string) => unknown;
-  onSetSkinTone: (tone: number) => unknown;
+  onEmojiSkinToneDefaultChange: (emojiSkinTone: EmojiSkinTone) => unknown;
   openCustomizePreferredReactionsModal?: () => unknown;
   preferredReactionEmoji: ReadonlyArray<string>;
   renderEmojiPicker: (props: RenderEmojiPickerProps) => React.ReactElement;
+  theme?: ThemeType;
+  messageEmojis?: ReadonlyArray<EmojiVariantKey>;
 };
 
 export type Props = OwnProps & Pick<React.HTMLProps<HTMLDivElement>, 'style'>;
@@ -40,21 +48,23 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
       i18n,
       onClose,
       onPick,
-      onSetSkinTone,
+      onEmojiSkinToneDefaultChange,
       openCustomizePreferredReactionsModal,
       preferredReactionEmoji,
       renderEmojiPicker,
       selected,
       style,
+      theme,
+      messageEmojis,
     },
     ref
   ) {
-    const [pickingOther, setPickingOther] = React.useState(false);
+    const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
 
     // Handle escape key
-    React.useEffect(() => {
+    useEffect(() => {
       const handler = (e: KeyboardEvent) => {
-        if (onClose && e.key === 'Escape' && !pickingOther) {
+        if (onClose && e.key === 'Escape' && !emojiPickerOpen) {
           onClose();
         }
       };
@@ -64,7 +74,11 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
       return () => {
         document.removeEventListener('keydown', handler);
       };
-    }, [onClose, pickingOther]);
+    }, [onClose, emojiPickerOpen]);
+
+    const handleFunEmojiPickerOpenChange = useCallback((open: boolean) => {
+      setEmojiPickerOpen(open);
+    }, []);
 
     // Handle EmojiPicker::onPickEmoji
     const onPickEmoji: EmojiPickerProps['onPickEmoji'] = React.useCallback(
@@ -74,48 +88,30 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
       [onPick]
     );
 
+    const onSelectEmoji = useCallback(
+      (emojiSelection: FunEmojiSelection) => {
+        const variant = getEmojiVariantByKey(emojiSelection.variantKey);
+        onPick(variant.value);
+      },
+      [onPick]
+    );
+
     // Focus first button and restore focus on unmount
     const [focusRef] = useDelayedRestoreFocus();
 
-    if (pickingOther) {
+    if (!isFunPickerEnabled() && emojiPickerOpen) {
       return renderEmojiPicker({
         onClickSettings: openCustomizePreferredReactionsModal,
         onClose,
         onPickEmoji,
-        onSetSkinTone,
+        onEmojiSkinToneDefaultChange,
         ref,
         style,
       });
     }
 
     const otherSelected =
-      selected && !preferredReactionEmoji.includes(selected);
-
-    let moreButton: React.ReactNode;
-    if (otherSelected) {
-      moreButton = (
-        <ReactionPickerPickerEmojiButton
-          emoji={selected}
-          onClick={() => {
-            onPick(selected);
-          }}
-          isSelected
-          title={i18n('icu:Reactions--remove')}
-        />
-      );
-    } else {
-      moreButton = (
-        <ReactionPickerPickerMoreButton
-          i18n={i18n}
-          onClick={() => {
-            setPickingOther(true);
-          }}
-        />
-      );
-    }
-
-    // This logic is here to avoid selecting duplicate emoji.
-    let hasSelectedSomething = false;
+      selected != null && !preferredReactionEmoji.includes(selected);
 
     return (
       <ReactionPickerPicker
@@ -126,11 +122,7 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
       >
         {preferredReactionEmoji.map((emoji, index) => {
           const maybeFocusRef = index === 0 ? focusRef : undefined;
-
-          const isSelected = !hasSelectedSomething && emoji === selected;
-          if (isSelected) {
-            hasSelectedSomething = true;
-          }
+          const isSelected = emoji === selected;
 
           return (
             <ReactionPickerPickerEmojiButton
@@ -147,7 +139,43 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
             />
           );
         })}
-        {moreButton}
+        {otherSelected ? (
+          <ReactionPickerPickerEmojiButton
+            emoji={selected}
+            onClick={() => {
+              onPick(selected);
+            }}
+            isSelected
+            title={i18n('icu:Reactions--remove')}
+          />
+        ) : (
+          <>
+            {isFunPickerEnabled() && (
+              <FunEmojiPicker
+                open={emojiPickerOpen}
+                onOpenChange={handleFunEmojiPickerOpenChange}
+                onSelectEmoji={onSelectEmoji}
+                theme={theme}
+                showCustomizePreferredReactionsButton
+                closeOnSelect
+                messageEmojis={messageEmojis}
+              >
+                <Button
+                  aria-label={i18n('icu:Reactions--more')}
+                  className="module-ReactionPickerPicker__button module-ReactionPickerPicker__button--more"
+                />
+              </FunEmojiPicker>
+            )}
+            {!isFunPickerEnabled() && (
+              <ReactionPickerPickerMoreButton
+                i18n={i18n}
+                onClick={() => {
+                  setEmojiPickerOpen(true);
+                }}
+              />
+            )}
+          </>
+        )}
       </ReactionPickerPicker>
     );
   }

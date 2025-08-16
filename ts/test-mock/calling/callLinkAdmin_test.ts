@@ -4,6 +4,7 @@ import { expect } from 'playwright/test';
 import * as durations from '../../util/durations';
 import type { App } from '../playwright';
 import { Bootstrap } from '../bootstrap';
+import { createCallLink } from '../helpers';
 
 describe('calling/callLinkAdmin', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
@@ -30,41 +31,57 @@ describe('calling/callLinkAdmin', function (this: Mocha.Suite) {
   it('can create and edit a call link', async () => {
     const window = await app.getWindow();
 
-    await window.locator('[data-testid="NavTabsItem--Calls"]').click();
+    {
+      const name = 'New Name';
+      await createCallLink(window, { name });
 
-    await window
-      .locator('.NavSidebar__HeaderTitle')
-      .getByText('Calls')
-      .waitFor();
+      const title = await window
+        .locator('.CallsList__ItemTile')
+        .getByText(name);
 
-    await window
-      .locator('.CallsList__ItemTile')
-      .getByText('Create a Call Link')
-      .click();
+      await expect(title).toContainText(name);
+    }
 
-    const editModal = window.locator('.CallLinkEditModal');
-    await editModal.waitFor();
+    {
+      const name = 'Public call link';
+      await createCallLink(window, {
+        name,
+        isAdminApprovalRequired: false,
+      });
 
-    const restrictionsInput = editModal.getByLabel('Require admin approval');
+      const callLinkItem = await window.getByText(name);
+      await callLinkItem.click();
 
-    await expect(restrictionsInput).toHaveJSProperty('value', '0');
-    await restrictionsInput.selectOption({ label: 'On' });
-    await expect(restrictionsInput).toHaveJSProperty('value', '1');
+      const callLinkDetails = window.locator(
+        '.CallsTab__ConversationCallDetails'
+      );
+      await callLinkDetails.waitFor();
 
-    await editModal.locator('button', { hasText: 'Add call name' }).click();
+      const restrictionsSelect = await window.locator(
+        '.CallLinkRestrictionsSelect select'
+      );
+      await expect(restrictionsSelect).toHaveJSProperty('value', '0');
+    }
 
-    const addNameModal = window.locator('.CallLinkAddNameModal');
-    await addNameModal.waitFor();
+    {
+      const name = 'Restricted call link';
+      await createCallLink(window, {
+        name,
+        isAdminApprovalRequired: true,
+      });
 
-    const nameInput = addNameModal.getByLabel('Call name');
-    await nameInput.fill('New Name');
+      const callLinkItem = await window.getByText(name);
+      await callLinkItem.click();
 
-    const saveBtn = addNameModal.getByText('Save');
-    await saveBtn.click();
+      const callLinkDetails = window.locator(
+        '.CallsTab__ConversationCallDetails'
+      );
+      await callLinkDetails.waitFor();
 
-    await editModal.waitFor();
-
-    const title = editModal.locator('.CallLinkEditModal__Header__Title');
-    await expect(title).toContainText('New Name');
+      const restrictionsSelect = await window.locator(
+        '.CallLinkRestrictionsSelect select'
+      );
+      await expect(restrictionsSelect).toHaveJSProperty('value', '1');
+    }
   });
 });

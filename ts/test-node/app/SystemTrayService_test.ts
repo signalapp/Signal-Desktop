@@ -5,7 +5,6 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import type { MenuItem } from 'electron';
 import { BrowserWindow, Tray, nativeImage } from 'electron';
-import * as path from 'path';
 import { MINUTE } from '../../util/durations';
 
 import type { SystemTrayServiceOptionsType } from '../../../app/SystemTrayService';
@@ -218,26 +217,17 @@ describe('SystemTrayService', function (this: Mocha.Suite) {
     //   can't spy on `Tray.prototype.setImage` because it's not defined that way. So we
     //   spy on the specific instance, just to get the image.
     const setImageSpy = sandbox.spy(tray, 'setImage');
-    const getImagePath = (): string => {
-      const result = setImageSpy.lastCall?.firstArg;
-      if (!result) {
-        throw new Error('Expected tray.setImage to be called at least once');
-      }
-      return result;
-    };
 
-    for (let i = 9; i >= 1; i -= 1) {
-      service.setUnreadCount(i);
-      assert.strictEqual(path.parse(getImagePath()).base, `${i}.png`);
-    }
-
-    for (let i = 10; i < 13; i += 1) {
-      service.setUnreadCount(i);
-      assert.strictEqual(path.parse(getImagePath()).base, '10.png');
-    }
-
+    service.setUnreadCount(1);
+    assert.strictEqual(setImageSpy.callCount, 1);
+    service.setUnreadCount(1);
+    assert.strictEqual(setImageSpy.callCount, 1);
+    service.setUnreadCount(2);
+    assert.strictEqual(setImageSpy.callCount, 2);
+    service.setUnreadCount(2);
+    assert.strictEqual(setImageSpy.callCount, 2);
     service.setUnreadCount(0);
-    assert.match(path.parse(getImagePath()).base, /^icon_\d+\.png$/);
+    assert.strictEqual(setImageSpy.callCount, 3);
   });
 
   it('uses a fallback image if the icon file cannot be found', () => {
@@ -251,7 +241,7 @@ describe('SystemTrayService', function (this: Mocha.Suite) {
     }
 
     const setImageStub = sandbox.stub(tray, 'setImage');
-    setImageStub.withArgs(sinon.match.string).throws('Failed to load');
+    setImageStub.onFirstCall().throws('Failed to load');
 
     service.setUnreadCount(4);
 
@@ -259,7 +249,7 @@ describe('SystemTrayService', function (this: Mocha.Suite) {
     const NativeImage = nativeImage.createEmpty().constructor;
 
     sinon.assert.calledTwice(setImageStub);
-    sinon.assert.calledWith(setImageStub, sinon.match.string);
+    sinon.assert.calledWith(setImageStub, sinon.match.instanceOf(NativeImage));
     sinon.assert.calledWith(setImageStub, sinon.match.instanceOf(NativeImage));
   });
 

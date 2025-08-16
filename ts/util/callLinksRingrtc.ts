@@ -4,6 +4,7 @@
 import {
   CallLinkRestrictions as RingRTCCallLinkRestrictions,
   CallLinkRootKey,
+  CallLinkEpoch,
 } from '@signalapp/ringrtc';
 import type { CallLinkState as RingRTCCallLinkState } from '@signalapp/ringrtc';
 import { z } from 'zod';
@@ -12,11 +13,14 @@ import type {
   CallLinkRecord,
   CallLinkRestrictions,
   CallLinkType,
+  DefunctCallLinkRecord,
+  DefunctCallLinkType,
 } from '../types/CallLink';
 import {
   type CallLinkStateType,
   CallLinkNameMaxByteLength,
   callLinkRecordSchema,
+  defunctCallLinkRecordSchema,
   toCallLinkRestrictions,
 } from '../types/CallLink';
 import { unicodeSlice } from './unicodeSlice';
@@ -34,6 +38,7 @@ import {
   toAdminKeyBytes,
 } from './callLinks';
 import { parseStrict } from './schemas';
+import * as Bytes from '../Bytes';
 
 /**
  * RingRTC conversions
@@ -61,7 +66,12 @@ export function callLinkRestrictionsToRingRTC(
 }
 
 export function getRoomIdFromRootKey(rootKey: CallLinkRootKey): string {
-  return rootKey.deriveRoomId().toString('hex');
+  return Bytes.toHex(rootKey.deriveRoomId());
+}
+
+export function getRoomIdFromRootKeyString(rootKeyString: string): string {
+  const callLinkRootKey = CallLinkRootKey.parse(rootKeyString);
+  return getRoomIdFromRootKey(callLinkRootKey);
 }
 
 export function getCallLinkRootKeyFromUrlKey(key: string): Uint8Array {
@@ -117,6 +127,14 @@ export function fromRootKeyBytes(rootKey: Uint8Array): string {
   return CallLinkRootKey.fromBytes(rootKey as Buffer).toString();
 }
 
+export function toEpochBytes(epoch: string): Uint8Array {
+  return CallLinkEpoch.parse(epoch).bytes;
+}
+
+export function fromEpochBytes(epoch: Uint8Array): string {
+  return CallLinkEpoch.fromBytes(epoch).toString();
+}
+
 /**
  * DB record conversions
  */
@@ -128,10 +146,12 @@ export function callLinkFromRecord(record: CallLinkRecord): CallLinkType {
 
   // root keys in memory are strings for simplicity
   const rootKey = fromRootKeyBytes(record.rootKey);
+  const epoch = record.epoch ? fromEpochBytes(record.epoch) : null;
   const adminKey = record.adminKey ? fromAdminKeyBytes(record.adminKey) : null;
   return {
     roomId: record.roomId,
     rootKey,
+    epoch,
     adminKey,
     name: record.name,
     restrictions: toCallLinkRestrictions(record.restrictions),
@@ -150,12 +170,14 @@ export function callLinkToRecord(callLink: CallLinkType): CallLinkRecord {
   }
 
   const rootKey = toRootKeyBytes(callLink.rootKey);
+  const epoch = callLink.epoch ? toEpochBytes(callLink.epoch) : null;
   const adminKey = callLink.adminKey
     ? toAdminKeyBytes(callLink.adminKey)
     : null;
   return parseStrict(callLinkRecordSchema, {
     roomId: callLink.roomId,
     rootKey,
+    epoch,
     adminKey,
     name: callLink.name,
     restrictions: callLink.restrictions,
@@ -165,5 +187,53 @@ export function callLinkToRecord(callLink: CallLinkType): CallLinkRecord {
     storageVersion: callLink.storageVersion || null,
     storageUnknownFields: callLink.storageUnknownFields || null,
     storageNeedsSync: callLink.storageNeedsSync ? 1 : 0,
+  });
+}
+
+export function defunctCallLinkFromRecord(
+  record: DefunctCallLinkRecord
+): DefunctCallLinkType {
+  if (record.rootKey == null) {
+    throw new Error('CallLink.defunctCallLinkFromRecord: rootKey is null');
+  }
+
+  const rootKey = fromRootKeyBytes(record.rootKey);
+  const adminKey = record.adminKey ? fromAdminKeyBytes(record.adminKey) : null;
+  const epoch = record.epoch ? fromEpochBytes(record.epoch) : null;
+  return {
+    roomId: record.roomId,
+    rootKey,
+    adminKey,
+    epoch,
+    storageID: record.storageID || undefined,
+    storageVersion: record.storageVersion || undefined,
+    storageUnknownFields: record.storageUnknownFields || undefined,
+    storageNeedsSync: record.storageNeedsSync === 1,
+  };
+}
+
+export function defunctCallLinkToRecord(
+  defunctCallLink: DefunctCallLinkType
+): DefunctCallLinkRecord {
+  if (defunctCallLink.rootKey == null) {
+    throw new Error('CallLink.defunctCallLinkToRecord: rootKey is null');
+  }
+
+  const rootKey = toRootKeyBytes(defunctCallLink.rootKey);
+  const epoch = defunctCallLink.epoch
+    ? toEpochBytes(defunctCallLink.epoch)
+    : null;
+  const adminKey = defunctCallLink.adminKey
+    ? toAdminKeyBytes(defunctCallLink.adminKey)
+    : null;
+  return parseStrict(defunctCallLinkRecordSchema, {
+    roomId: defunctCallLink.roomId,
+    rootKey,
+    epoch,
+    adminKey,
+    storageID: defunctCallLink.storageID || null,
+    storageVersion: defunctCallLink.storageVersion || null,
+    storageUnknownFields: defunctCallLink.storageUnknownFields || null,
+    storageNeedsSync: defunctCallLink.storageNeedsSync ? 1 : 0,
   });
 }

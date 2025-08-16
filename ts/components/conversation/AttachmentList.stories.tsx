@@ -6,7 +6,7 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type {
   AttachmentDraftType,
-  AttachmentType,
+  AttachmentForUIType,
 } from '../../types/Attachment';
 import type { Props } from './AttachmentList';
 import { AttachmentList } from './AttachmentList';
@@ -17,15 +17,13 @@ import {
   VIDEO_MP4,
   stringToMIMEType,
 } from '../../types/MIME';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
-import { fakeDraftAttachment } from '../../test-both/helpers/fakeAttachment';
+import { fakeDraftAttachment } from '../../test-helpers/fakeAttachment';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Conversation/AttachmentList',
-} satisfies Meta<Props<AttachmentDraftType | AttachmentType>>;
+} satisfies Meta<Props<AttachmentDraftType | AttachmentForUIType>>;
 
 const createProps = (
   overrideProps: Partial<Props<AttachmentDraftType>> = {}

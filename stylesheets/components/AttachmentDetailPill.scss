@@ -1,0 +1,87 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../mixins';
+@use '../variables';
+
+// This needs to go before the top-level class, so it doesn't interfere
+.AttachmentDetailPill--interactive {
+  @include mixins.button-reset;
+}
+
+.AttachmentDetailPill {
+  position: absolute;
+  top: 6px;
+  /* stylelint-disable-next-line liberty/use-logical-spec */
+  left: 6px;
+  height: 32px;
+  border-radius: 32px;
+  background-color: variables.$color-black-alpha-80;
+
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+
+  z-index: variables.$z-index-above-base;
+
+  @include mixins.font-caption;
+  color: variables.$color-white;
+
+  transition: width 400ms ease-out;
+}
+
+.AttachmentDetailPill__spinner-wrapper {
+  position: relative;
+  margin: 4px;
+  margin-inline-end: -4px;
+
+  .ProgressCircle .ProgressCircle__background {
+    stroke: variables.$color-white-alpha-20;
+  }
+  .ProgressCircle .ProgressCircle__fill {
+    stroke: variables.$color-white;
+  }
+
+  .module-spinner__circle {
+    background-color: variables.$color-white-alpha-20;
+  }
+
+  .module-spinner__arc {
+    background-color: variables.$color-white;
+  }
+}
+
+.AttachmentDetailPill__text-wrapper {
+  margin-inline-start: 10px;
+  margin-inline-end: 10px;
+}
+
+.AttachmentDetailPill__icon-wrapper {
+  position: relative;
+  margin-inline-start: 4px;
+  margin-inline-end: -11px;
+  width: 24px;
+  height: 24px;
+}
+
+.AttachmentDetailPill__stop-icon {
+  @include mixins.position-absolute-center;
+
+  // Smaller to fit within the spinner
+  height: 12px;
+  width: 12px;
+  @include mixins.color-svg(
+    '../images/icons/v3/stop/stop-fill.svg',
+    variables.$color-white
+  );
+}
+.AttachmentDetailPill__download-icon {
+  @include mixins.position-absolute-center;
+
+  height: 16px;
+  width: 16px;
+  @include mixins.color-svg(
+    '../images/icons/v3/arrow/arrow-down.svg',
+    variables.$color-white
+  );
+}

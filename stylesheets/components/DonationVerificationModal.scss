@@ -1,0 +1,17 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../mixins';
+
+.DonationVerificationModal__width-container {
+  max-width: 420px;
+}
+
+// We include both for specificity
+.module-Modal__title.DonationVerificationModal__title {
+  @include mixins.font-title-medium;
+}
+
+.DonationVerificationModal__body_inner {
+  @include mixins.font-body-2;
+}

@@ -11,7 +11,7 @@ export type Props = {
   disabled?: boolean;
   icon?: React.ReactNode;
   label: string | React.ReactNode;
-  info?: string;
+  info?: string | React.ReactNode;
   right?: string | React.ReactNode;
   actions?: React.ReactNode;
   onClick?: () => void;

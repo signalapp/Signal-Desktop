@@ -11,13 +11,25 @@ import { Tabs } from '../Tabs';
 export type OwnProps = {
   readonly blessedPacks: ReadonlyArray<StickerPackType>;
   readonly closeStickerPackPreview: () => unknown;
-  readonly downloadStickerPack: (packId: string, packKey: string) => unknown;
+  readonly downloadStickerPack: (
+    packId: string,
+    packKey: string,
+    options: { actionSource: 'ui' }
+  ) => unknown;
   readonly i18n: LocalizerType;
-  readonly installStickerPack: (packId: string, packKey: string) => unknown;
+  readonly installStickerPack: (
+    packId: string,
+    packKey: string,
+    options: { actionSource: 'ui' }
+  ) => unknown;
   readonly installedPacks: ReadonlyArray<StickerPackType>;
   readonly knownPacks?: ReadonlyArray<StickerPackType>;
   readonly receivedPacks: ReadonlyArray<StickerPackType>;
-  readonly uninstallStickerPack: (packId: string, packKey: string) => unknown;
+  readonly uninstallStickerPack: (
+    packId: string,
+    packKey: string,
+    options: { actionSource: 'ui' }
+  ) => unknown;
 };
 
 export type Props = OwnProps;
@@ -47,7 +59,7 @@ export const StickerManager = React.memo(function StickerManagerInner({
       return;
     }
     knownPacks.forEach(pack => {
-      downloadStickerPack(pack.id, pack.key);
+      downloadStickerPack(pack.id, pack.key, { actionSource: 'ui' });
     });
 
     // When this component is created, it's initially not part of the DOM, and then it's

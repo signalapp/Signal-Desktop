@@ -7,21 +7,19 @@ import { action } from '@storybook/addon-actions';
 import { times } from 'lodash';
 
 import type { Meta } from '@storybook/react';
-import { setupI18n } from '../../../util/setupI18n';
-import enMessages from '../../../../_locales/en/messages.json';
 import type { Props } from './ConversationDetails';
 import { ConversationDetails } from './ConversationDetails';
 import { ChooseGroupMembersModal } from './AddGroupMembersModal/ChooseGroupMembersModal';
 import { ConfirmAdditionsModal } from './AddGroupMembersModal/ConfirmAdditionsModal';
 import type { ConversationType } from '../../../state/ducks/conversations';
-import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
-import { makeFakeLookupConversationWithoutServiceId } from '../../../test-both/helpers/fakeLookupConversationWithoutServiceId';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation';
+import { makeFakeLookupConversationWithoutServiceId } from '../../../test-helpers/fakeLookupConversationWithoutServiceId';
 import { ThemeType } from '../../../types/Util';
 import { DurationInSeconds } from '../../../util/durations';
-import { NavTab } from '../../../state/ducks/nav';
-import { getFakeCallHistoryGroup } from '../../../test-both/helpers/getFakeCallHistoryGroup';
+import { NavTab } from '../../../types/Nav';
+import { getFakeCallHistoryGroup } from '../../../test-helpers/getFakeCallHistoryGroup';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Conversation/ConversationDetails/ConversationDetails',
@@ -65,6 +63,7 @@ const createProps = (
   i18n,
   isAdmin: false,
   isGroup: true,
+  isSignalConversation: false,
   leaveGroup: action('leaveGroup'),
   loadRecentMediaItems: action('loadRecentMediaItems'),
   memberships: times(32, i => ({
@@ -88,6 +87,7 @@ const createProps = (
   pushPanelForConversation: action('pushPanelForConversation'),
   showConversation: action('showConversation'),
   showLightbox: action('showLightbox'),
+  startAvatarDownload: action('startAvatarDownload'),
   updateGroupAttributes: async () => {
     action('updateGroupAttributes')();
   },
@@ -243,4 +243,12 @@ export function InAnotherCallIndividual(): JSX.Element {
   const props = createProps();
 
   return <ConversationDetails {...props} hasActiveCall isGroup={false} />;
+}
+
+export function SignalConversation(): JSX.Element {
+  const props = createProps();
+
+  return (
+    <ConversationDetails {...props} isSignalConversation isGroup={false} />
+  );
 }

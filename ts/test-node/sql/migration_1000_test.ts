@@ -52,8 +52,8 @@ describe('SQL/updateToSchemaVersion1000', () => {
           ${message.id},
           ${message.conversationId},
           ${message.type},
-          ${message.readStatus},
-          ${message.seenStatus},
+          ${message.readStatus ?? null},
+          ${message.seenStatus ?? null},
           ${json}
         )
     `;
@@ -95,7 +95,7 @@ describe('SQL/updateToSchemaVersion1000', () => {
     `;
     return db
       .prepare(query)
-      .all()
+      .all<{ json: string; readStatus: ReadStatus; seenStatus: SeenStatus }>()
       .map(row => {
         return {
           message: jsonToObject<MessageType>(row.json),

@@ -68,7 +68,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
   {
     const leftPane = window.locator('#LeftPane');
     const item = leftPane.locator(
-      `[data-testid="${first.toContact().aci}"] >> text=${LAST_MESSAGE}`
+      `[data-testid="${first.device.aci}"] >> text=${LAST_MESSAGE}`
     );
     await item.click();
   }
@@ -89,7 +89,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     const input = await waitForEnabledComposer(window);
 
     debug('entering message text');
-    await typeIntoInput(input, `my message ${runId}`);
+    await typeIntoInput(input, `my message ${runId}`, '');
     await input.press('Enter');
 
     debug('waiting for message on server side');

@@ -1,29 +1,34 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .LeftPaneSearchInput {
   &__input--with-children.module-SearchInput__input--with-children {
     padding-inline-start: 50px;
   }
 
   &__in-conversation-pill {
-    @include button-reset;
-    @include rounded-corners;
-    align-items: center;
-    bottom: 4px;
-    display: flex;
-    flex-direction: row;
-    inset-inline-start: 3px;
-    padding-block: 0;
-    padding-inline: 0 3px;
-    position: absolute;
-    top: 4px;
-
-    @include light-theme {
-      background-color: $color-gray-25;
+    @include mixins.button-reset;
+    & {
+      @include mixins.rounded-corners;
+      align-items: center;
+      bottom: 4px;
+      display: flex;
+      flex-direction: row;
+      inset-inline-start: 3px;
+      padding-block: 0;
+      padding-inline: 0 3px;
+      position: absolute;
+      top: 4px;
     }
-    @include dark-theme {
-      background-color: $color-gray-80;
+
+    @include mixins.light-theme {
+      background-color: variables.$color-gray-25;
+    }
+    @include mixins.dark-theme {
+      background-color: variables.$color-gray-80;
     }
 
     &__x-button {
@@ -31,25 +36,31 @@
       margin-inline-start: 2px;
       width: 16px;
 
-      @include light-theme {
-        @include color-svg('../images/icons/v3/x/x.svg', $color-gray-60);
+      @include mixins.light-theme {
+        @include mixins.color-svg(
+          '../images/icons/v3/x/x.svg',
+          variables.$color-gray-60
+        );
       }
-      @include dark-theme {
-        @include color-svg('../images/icons/v3/x/x.svg', $color-gray-25);
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
+          '../images/icons/v3/x/x.svg',
+          variables.$color-gray-25
+        );
       }
 
-      @include light-theme {
+      @include mixins.light-theme {
         &:hover,
         &:focus,
         &:active {
-          background: $color-ultramarine;
+          background: variables.$color-ultramarine;
         }
       }
-      @include dark-theme {
+      @include mixins.dark-theme {
         &:hover,
         &:focus,
         &:active {
-          background: $color-ultramarine-light;
+          background: variables.$color-ultramarine-light;
         }
       }
     }
@@ -59,5 +70,70 @@
     &__container {
       display: none;
     }
+  }
+
+  &__FilterButtonWrapper {
+    margin-inline-end: 8px;
+  }
+
+  &__FilterButton {
+    @include mixins.button-reset;
+    & {
+      flex-shrink: 0;
+      padding: 4px;
+      border-radius: 4px;
+    }
+
+    &:not(.LeftPaneSearchInput__FilterButton--pressed):hover {
+      @include mixins.light-theme {
+        background-color: variables.$color-black-alpha-06;
+      }
+      @include mixins.dark-theme {
+        background-color: variables.$color-white-alpha-06;
+      }
+    }
+
+    &:focus {
+      outline: none;
+      @include mixins.keyboard-mode {
+        box-shadow:
+          0 0 0 2px variables.$color-white,
+          0 0 0 4px variables.$color-ultramarine;
+      }
+    }
+
+    &::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 20px;
+      @include mixins.light-theme {
+        @include mixins.color-svg(
+          '../images/icons/v3/filter/filter.svg',
+          variables.$color-black
+        );
+      }
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
+          '../images/icons/v3/filter/filter.svg',
+          variables.$color-gray-15
+        );
+      }
+    }
+
+    &--pressed {
+      border-radius: 9999px;
+      background: variables.$color-accent-blue;
+      &::before {
+        @include mixins.color-svg(
+          '../images/icons/v3/filter/filter.svg',
+          variables.$color-white
+        );
+      }
+    }
+  }
+
+  &__FilterLabel {
+    @include mixins.sr-only;
   }
 }

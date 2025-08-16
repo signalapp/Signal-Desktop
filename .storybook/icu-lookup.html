@@ -1,0 +1,71 @@
+<!-- Copyright 2025 Signal Messenger, LLC -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+
+<!doctype html>
+<html>
+  <head>
+    <style>
+      details {
+        padding-inline-start: 1em;
+      }
+
+      img {
+        max-width: 800px;
+      }
+    </style>
+    <title>Signal Desktop ICU</title>
+  </head>
+  <body>
+    <input type="search" placeholder="ICU string" id="search" />
+
+    <p id="disclaimer"></p>
+    <section id="results"></section>
+
+    <script>
+      const index = %INDEX%;
+
+      const results = document.getElementById('results');
+      const search = document.getElementById('search');
+      const disclaimer = document.getElementById('disclaimer');
+
+      function onSearch() {
+        results.replaceChildren();
+
+        const reg = new RegExp(search.value, 'i');
+        const allFiltered = index
+          .filter(([key, message]) => reg.test(key) || reg.test(message));
+
+        const filtered = allFiltered.slice(0, 100);
+
+        disclaimer.textContent = filtered.length < allFiltered.length ?
+          'Showing the first 100 results:' : 'All results:';
+
+        for (const [key, message, stories] of filtered) {
+          const details = document.createElement('details');
+
+          const summary = document.createElement('summary');
+          summary.textContent = `${key}: "${message}"`;
+          details.appendChild(summary);
+
+          for (const [storyId, image] of stories) {
+            const story = document.createElement('details');
+            details.appendChild(story);
+
+            const title = document.createElement('summary');
+            title.textContent = storyId;
+            story.appendChild(title);
+
+            const img = document.createElement('img');
+            img.src = `images/${image}`;
+            img.loading = 'lazy';
+            story.appendChild(img);
+          }
+
+          results.appendChild(details);
+        }
+      }
+      document.getElementById('search').addEventListener('input', onSearch);
+      onSearch();
+    </script>
+  </body>
+</html>

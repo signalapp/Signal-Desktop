@@ -9,8 +9,11 @@ import * as durations from '../../util/durations';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
 import { ReceiptType } from '../../types/Receipt';
-import { toUntaggedPni } from '../../types/ServiceId';
-import { typeIntoInput, waitForEnabledComposer } from '../helpers';
+import {
+  acceptConversation,
+  typeIntoInput,
+  waitForEnabledComposer,
+} from '../helpers';
 
 export const debug = createDebug('mock:test:challenge:receipts');
 
@@ -43,7 +46,6 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
 
     state = state.updateAccount({
       profileKey: phone.profileKey.serialize(),
-      e164: phone.device.number,
       givenName: phone.profileName,
       readReceipts: true,
     });
@@ -52,9 +54,9 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
       contact,
       {
         whitelisted: true,
-        serviceE164: contact.device.number,
+        e164: contact.device.number,
         identityKey: contact.getPublicKey(ServiceIdKind.PNI).serialize(),
-        pni: toUntaggedPni(contact.device.pni),
+        pniBinary: contact.device.pniRawUuid,
         givenName: 'Jamie',
       },
       ServiceIdKind.PNI
@@ -63,9 +65,9 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
       contactB,
       {
         whitelisted: true,
-        serviceE164: contactB.device.number,
+        e164: contactB.device.number,
         identityKey: contactB.getPublicKey(ServiceIdKind.PNI).serialize(),
-        pni: toUntaggedPni(contactB.device.pni),
+        pniBinary: contactB.device.pniRawUuid,
         givenName: 'Kim',
       },
       ServiceIdKind.PNI
@@ -107,22 +109,17 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
 
     const window = await app.getWindow();
     const leftPane = window.locator('#LeftPane');
-    const conversationStack = window.locator('.Inbox__conversation-stack');
 
-    debug(`Opening conversation with contact (${contact.toContact().aci})`);
-    await leftPane
-      .locator(`[data-testid="${contact.toContact().aci}"]`)
-      .click();
+    debug(`Opening conversation with contact (${contact.device.aci})`);
+    await leftPane.locator(`[data-testid="${contact.device.aci}"]`).click();
 
     debug('Accept conversation from contact - does not trigger captcha!');
-    await conversationStack
-      .locator('.module-message-request-actions button >> "Accept"')
-      .click();
+    await acceptConversation(window);
 
     debug('Sending a message back to user - will trigger captcha!');
     {
       const input = await waitForEnabledComposer(window);
-      await typeIntoInput(input, 'Hi, good to hear from you!');
+      await typeIntoInput(input, 'Hi, good to hear from you!', '');
       await input.press('Enter');
     }
 
@@ -165,7 +162,6 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
 
     const window = await app.getWindow();
     const leftPane = window.locator('#LeftPane');
-    const conversationStack = window.locator('.Inbox__conversation-stack');
 
     debug('Sending a message from ContactA');
     const timestampA = bootstrap.getTimestamp();
@@ -173,15 +169,11 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
       timestamp: timestampA,
     });
 
-    debug(`Opening conversation with ContactA (${contact.toContact().aci})`);
-    await leftPane
-      .locator(`[data-testid="${contact.toContact().aci}"]`)
-      .click();
+    debug(`Opening conversation with ContactA (${contact.device.aci})`);
+    await leftPane.locator(`[data-testid="${contact.device.aci}"]`).click();
 
     debug('Accept conversation from ContactA - does not trigger captcha!');
-    await conversationStack
-      .locator('.module-message-request-actions button >> "Accept"')
-      .click();
+    await acceptConversation(window);
 
     debug('Sending a message from ContactB');
     const timestampB = bootstrap.getTimestamp();
@@ -189,20 +181,16 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
       timestamp: timestampB,
     });
 
-    debug(`Opening conversation with ContactB (${contact.toContact().aci})`);
-    await leftPane
-      .locator(`[data-testid="${contactB.toContact().aci}"]`)
-      .click();
+    debug(`Opening conversation with ContactB (${contact.device.aci})`);
+    await leftPane.locator(`[data-testid="${contactB.device.aci}"]`).click();
 
     debug('Accept conversation from ContactB - does not trigger captcha!');
-    await conversationStack
-      .locator('.module-message-request-actions button >> "Accept"')
-      .click();
+    await acceptConversation(window);
 
     debug('Sending a message back to ContactB - will trigger captcha!');
     {
       const input = await waitForEnabledComposer(window);
-      await typeIntoInput(input, 'Hi, good to hear from you!');
+      await typeIntoInput(input, 'Hi, good to hear from you!', '');
       await input.press('Enter');
     }
 
@@ -259,7 +247,7 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
     }
   });
 
-  it('should show a toast and not another challenge if completion results in 413', async () => {
+  it('if server rejects our captcha, should show a toast and defer challenge based on error code', async () => {
     const { server, desktop } = bootstrap;
 
     debug(
@@ -277,45 +265,66 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
 
     const window = await app.getWindow();
     const leftPane = window.locator('#LeftPane');
-    const conversationStack = window.locator('.Inbox__conversation-stack');
 
-    debug(`Opening conversation with contact (${contact.toContact().aci})`);
-    await leftPane
-      .locator(`[data-testid="${contact.toContact().aci}"]`)
-      .click();
+    debug(`Opening conversation with contact (${contact.device.aci})`);
+    await leftPane.locator(`[data-testid="${contact.device.aci}"]`).click();
 
     debug('Accept conversation from contact - does not trigger captcha!');
-    await conversationStack
-      .locator('.module-message-request-actions button >> "Accept"')
-      .click();
+    await acceptConversation(window);
 
     debug('Sending a message back to user - will trigger captcha!');
     {
       const input = await waitForEnabledComposer(window);
-      await typeIntoInput(input, 'Hi, good to hear from you!');
+      await typeIntoInput(input, 'Hi, good to hear from you!', '');
       await input.press('Enter');
     }
 
+    /** First, challenge returns 428 (try again) */
     debug('Waiting for challenge');
-    const request = await app.waitForChallenge();
+    const firstChallengeRequest = await app.waitForChallenge();
+    const challengeDialog = await window
+      .getByTestId('CaptchaDialog.pending')
+      .elementHandle();
+
+    assert.exists(challengeDialog);
+    server.respondToChallengesWith(428);
+
+    debug('Solving challenge');
+    await app.solveChallenge({
+      seq: firstChallengeRequest.seq,
+      data: { captcha: 'anything' },
+    });
+
+    debug('Waiting for verification failure toast');
+    const failedChallengeToastLocator = window.locator(
+      '.Toast__content >> "Verification failed. Please retry later."'
+    );
+    await failedChallengeToastLocator.isVisible();
+    // The existing dialog is removed, but then the conversations will retry their sends,
+    // which will result in another one
+    await challengeDialog.isHidden();
+
+    /** Second, challenge returns 413 (rate limit) */
+    debug(
+      'Waiting for second challenge, should be triggered quickly with the sends being retried'
+    );
+    const secondChallengeRequest = await app.waitForChallenge();
 
     server.respondToChallengesWith(413);
 
     debug('Solving challenge');
     await app.solveChallenge({
-      seq: request.seq,
+      seq: secondChallengeRequest.seq,
       data: { captcha: 'anything' },
     });
 
     debug('Waiting for verification failure toast');
-    await window
-      .locator('.Toast__content >> "Verification failed. Please retry later."')
-      .isVisible();
+    await failedChallengeToastLocator.isVisible();
 
     debug('Sending another message - this time it should not trigger captcha!');
     {
       const input = await waitForEnabledComposer(window);
-      await typeIntoInput(input, 'How have you been lately?');
+      await typeIntoInput(input, 'How have you been lately?', '');
       await input.press('Enter');
     }
 
@@ -324,30 +333,26 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
       timestamp,
     });
 
-    debug(`Opening conversation with Contact B (${contactB.toContact().aci})`);
-    await leftPane
-      .locator(`[data-testid="${contactB.toContact().aci}"]`)
-      .click();
+    debug(`Opening conversation with Contact B (${contactB.device.aci})`);
+    await leftPane.locator(`[data-testid="${contactB.device.aci}"]`).click();
 
     debug('Accept conversation from Contact B - does not trigger captcha!');
-    await conversationStack
-      .locator('.module-message-request-actions button >> "Accept"')
-      .click();
+    await acceptConversation(window);
 
     debug(
       'Sending to Contact B - we should not pop captcha because we are waiting!'
     );
     {
       const input = await waitForEnabledComposer(window);
-      await typeIntoInput(input, 'You the cow guy from craigslist?');
+      await typeIntoInput(input, 'You the cow guy from craigslist?', '');
       await input.press('Enter');
     }
 
     debug('Checking for no other captcha dialogs');
     assert.equal(
       await app.getPendingEventCount('captchaDialog'),
-      1,
-      'Just one captcha dialog, the first one'
+      2,
+      'Just two captcha dialogs, the first one, and the one after the 428'
     );
 
     const requests = server.stopRateLimiting({
@@ -356,7 +361,7 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
     });
 
     debug(`Rate-limited requests: ${requests}`);
-    assert.strictEqual(requests, 1, 'rate limit requests');
+    assert.strictEqual(requests, 2, 'rate limit requests');
 
     const requestsContactB = server.stopRateLimiting({
       source: desktop.aci,

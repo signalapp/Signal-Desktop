@@ -6,15 +6,13 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { Props } from './SafetyNumberChangeDialog';
 import { SafetyNumberChangeDialog } from './SafetyNumberChangeDialog';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
-import { setupI18n } from '../util/setupI18n';
-import enMessages from '../../_locales/en/messages.json';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
-import { getFakeBadge } from '../test-both/helpers/getFakeBadge';
+import { getFakeBadge } from '../test-helpers/getFakeBadge';
 import { MY_STORY_ID } from '../types/Stories';
 import { generateStoryDistributionId } from '../types/StoryDistributionId';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const contactWithAllData = getDefaultConversation({
   id: 'abc',

@@ -6,14 +6,13 @@ import { memoize } from 'lodash';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './GroupCallRemoteParticipant';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
 import { FRAME_BUFFER_SIZE } from '../calling/constants';
-import { setupI18n } from '../util/setupI18n';
 import { generateAci } from '../types/ServiceId';
-import enMessages from '../../_locales/en/messages.json';
 import type { CallingImageDataCache } from './CallManager';
+import { MINUTE } from '../util/durations';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 type OverridePropsType = {
   audioLevel?: number;
@@ -79,6 +78,7 @@ const createProps = (
   remoteParticipantsCount: 1,
   isActiveSpeakerInSpeakerView: false,
   isCallReconnecting: false,
+  joinedAt: new Date().getTime() - MINUTE,
   ...overrideProps,
 });
 
@@ -186,7 +186,7 @@ export function NoMediaKeys(): JSX.Element {
           width: 120,
         },
         {
-          addedTime: Date.now() - 60 * 1000,
+          addedTime: Date.now() - MINUTE,
           hasRemoteAudio: true,
           mediaKeysReceived: false,
         }

@@ -5,12 +5,10 @@ import React from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import enMessages from '../../_locales/en/messages.json';
-import { setupI18n } from '../util/setupI18n';
 import DeleteMessagesModal from './DeleteMessagesModal';
 import type { DeleteMessagesModalProps } from './DeleteMessagesModal';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/DeleteMessagesModal',
@@ -18,7 +16,6 @@ export default {
   args: {
     i18n,
     isMe: false,
-    isDeleteSyncSendEnabled: false,
     canDeleteForEveryone: true,
     messageCount: 1,
     onClose: action('onClose'),
@@ -32,7 +29,6 @@ function createProps(args: Partial<DeleteMessagesModalProps>) {
   return {
     i18n,
     isMe: false,
-    isDeleteSyncSendEnabled: false,
     canDeleteForEveryone: true,
     messageCount: 1,
     onClose: action('onClose'),
@@ -64,15 +60,4 @@ export const IsMeThreeMessages = Template.bind({});
 IsMeThreeMessages.args = createProps({
   isMe: true,
   messageCount: 3,
-});
-
-export const DeleteSyncEnabled = Template.bind({});
-DeleteSyncEnabled.args = createProps({
-  isDeleteSyncSendEnabled: true,
-});
-
-export const IsMeDeleteSyncEnabled = Template.bind({});
-IsMeDeleteSyncEnabled.args = createProps({
-  isDeleteSyncSendEnabled: true,
-  isMe: true,
 });

@@ -6,6 +6,9 @@ import { readFile } from 'fs/promises';
 import { DNSFallbackSchema } from '../ts/types/DNSFallback';
 import type { DNSFallbackType } from '../ts/types/DNSFallback';
 import { parseUnknown } from '../ts/util/schemas';
+import { createLogger } from '../ts/logging/log';
+
+const log = createLogger('dns-fallback');
 
 let cached: DNSFallbackType | undefined;
 
@@ -19,7 +22,7 @@ export async function getDNSFallback(): Promise<DNSFallbackType> {
   try {
     str = await readFile(configPath, 'utf8');
   } catch (error) {
-    console.error(
+    log.error(
       'Warning: build/dns-fallback.json not build, run `npm run build:dns-fallback`'
     );
     cached = [];

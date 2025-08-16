@@ -6,10 +6,8 @@ import * as React from 'react';
 import type { ComponentMeta } from '../storybook/types';
 import type { Props } from './I18n';
 import { I18n } from './I18n';
-import { setupI18n } from '../util/setupI18n';
-import enMessages from '../../_locales/en/messages.json';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/I18n',

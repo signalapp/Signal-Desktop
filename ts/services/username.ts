@@ -21,12 +21,14 @@ import {
   isCaseChange,
 } from '../types/Username';
 import * as Errors from '../types/errors';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import MessageSender from '../textsecure/SendMessage';
 import { HTTPError } from '../textsecure/Errors';
 import { findRetryAfterTimeFromError } from '../jobs/helpers/findRetryAfterTimeFromError';
 import * as Bytes from '../Bytes';
 import { storageServiceUploadJob } from './storage';
+
+const log = createLogger('username');
 
 export type WriteUsernameOptionsType = Readonly<
   | {
@@ -117,7 +119,7 @@ export async function reserveUsername(
       abortSignal,
     });
 
-    const index = hashes.findIndex(hash => hash.equals(usernameHash));
+    const index = hashes.findIndex(hash => Bytes.areEqual(hash, usernameHash));
     if (index === -1) {
       log.warn('reserveUsername: failed to find username hash in the response');
       return { ok: false, error: ReserveUsernameError.Unprocessable };
@@ -208,7 +210,7 @@ async function updateUsernameAndSyncProfile(
 ): Promise<void> {
   const me = window.ConversationController.getOurConversationOrThrow();
 
-  // Update backbone, update DB, then tell linked devices about profile update
+  // Update model, update DB, then tell linked devices about profile update
   await me.updateUsername(username);
 
   try {
@@ -242,7 +244,10 @@ export async function confirmUsername(
   }
 
   const { hash } = reservation;
-  strictAssert(usernames.hash(username).equals(hash), 'username hash mismatch');
+  strictAssert(
+    Bytes.areEqual(usernames.hash(username), hash),
+    'username hash mismatch'
+  );
 
   const wasCorrupted = window.storage.get('usernameCorrupted');
 
@@ -250,13 +255,13 @@ export async function confirmUsername(
     await window.storage.remove('usernameLink');
 
     let serverIdString: string;
-    let entropy: Buffer;
+    let entropy: Uint8Array;
     if (previousLink && isCaseChange(reservation)) {
       log.info('confirmUsername: updating link only');
 
       const updatedLink = usernames.createUsernameLink(
         username,
-        Buffer.from(previousLink.entropy)
+        previousLink.entropy
       );
       ({ entropy } = updatedLink);
 
@@ -370,8 +375,8 @@ export async function resolveUsernameByLinkBase64(
   base64: string
 ): Promise<string | undefined> {
   const content = Bytes.fromBase64(base64);
-  const entropy = content.slice(0, USERNAME_LINK_ENTROPY_SIZE);
-  const serverId = content.slice(USERNAME_LINK_ENTROPY_SIZE);
+  const entropy = content.subarray(0, USERNAME_LINK_ENTROPY_SIZE);
+  const serverId = content.subarray(USERNAME_LINK_ENTROPY_SIZE);
 
   return resolveUsernameByLink({ entropy, serverId });
 }
@@ -399,8 +404,8 @@ export async function resolveUsernameByLink({
       await server.resolveUsernameLink(serverId);
 
     return usernames.decryptUsernameLink({
-      entropy: Buffer.from(entropy),
-      encryptedUsername: Buffer.from(usernameLinkEncryptedValue),
+      entropy,
+      encryptedUsername: usernameLinkEncryptedValue,
     });
   } catch (error) {
     if (error instanceof HTTPError && error.code === 404) {

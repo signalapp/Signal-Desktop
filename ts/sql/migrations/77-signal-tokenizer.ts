@@ -1,44 +1,28 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Database } from '@signalapp/better-sqlite3';
+import type { Database } from '@signalapp/sqlcipher';
 
-import type { LoggerType } from '../../types/Logging';
+export default function updateToSchemaVersion77(db: Database): void {
+  db.exec(
+    `
+    -- Create FTS table with custom tokenizer from
+    -- @signalapp/sqlcipher.
 
-export default function updateToSchemaVersion77(
-  currentVersion: number,
-  db: Database,
-  logger: LoggerType
-): void {
-  if (currentVersion >= 77) {
-    return;
-  }
+    DROP TABLE messages_fts;
 
-  db.transaction(() => {
-    db.exec(
-      `
-      -- Create FTS table with custom tokenizer from
-      -- @signalapp/better-sqlite3.
-
-      DROP TABLE messages_fts;
-
-      CREATE VIRTUAL TABLE messages_fts USING fts5(
-        body,
-        tokenize = 'signal_tokenizer'
-      );
-
-      -- Reindex messages
-      -- Based on messages_on_insert trigger from migrations/45-stories.ts
-
-      INSERT INTO messages_fts (rowid, body)
-      SELECT rowid, body
-      FROM messages
-      WHERE isViewOnce IS NOT 1 AND storyId IS NULL;
-      `
+    CREATE VIRTUAL TABLE messages_fts USING fts5(
+      body,
+      tokenize = 'signal_tokenizer'
     );
 
-    db.pragma('user_version = 77');
-  })();
+    -- Reindex messages
+    -- Based on messages_on_insert trigger from migrations/45-stories.ts
 
-  logger.info('updateToSchemaVersion77: success!');
+    INSERT INTO messages_fts (rowid, body)
+    SELECT rowid, body
+    FROM messages
+    WHERE isViewOnce IS NOT 1 AND storyId IS NULL;
+    `
+  );
 }

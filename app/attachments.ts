@@ -20,6 +20,9 @@ import {
 } from '../ts/AttachmentCrypto';
 import type { LocalAttachmentV2Type } from '../ts/types/Attachment';
 import * as Errors from '../ts/types/errors';
+import { createLogger } from '../ts/logging/log';
+
+const log = createLogger('attachments');
 
 const PATH = 'attachments.noindex';
 const AVATAR_PATH = 'avatars.noindex';
@@ -88,54 +91,47 @@ export const createDeleter = (
   };
 };
 
-export const getAllAttachments = async (
-  userDataPath: string
-): Promise<ReadonlyArray<string>> => {
-  const dir = getPath(userDataPath);
-  const pattern = normalizePath(join(dir, '**', '*'));
+export function prepareGlobPattern(dir: string): string {
+  const prefix = normalizePath(dir).replace(/([$^*+?()[\]])/g, '\\$1');
+  // fast-glob uses `/` for all platforms
+  return `${prefix}/**/*`;
+}
+
+async function getAllFiles(dir: string): Promise<ReadonlyArray<string>> {
+  const pattern = prepareGlobPattern(dir);
 
   const files = await fastGlob(pattern, { onlyFiles: true });
   return map(files, file => relative(dir, file));
+}
+
+export const getAllAttachments = (
+  userDataPath: string
+): Promise<ReadonlyArray<string>> => {
+  return getAllFiles(getPath(userDataPath));
 };
 
-export const getAllDownloads = async (
+export const getAllDownloads = (
   userDataPath: string
 ): Promise<ReadonlyArray<string>> => {
-  const dir = getDownloadsPath(userDataPath);
-  const pattern = normalizePath(join(dir, '**', '*'));
-
-  const files = await fastGlob(pattern, { onlyFiles: true });
-  return map(files, file => relative(dir, file));
+  return getAllFiles(getDownloadsPath(userDataPath));
 };
 
-const getAllBadgeImageFiles = async (
+const getAllBadgeImageFiles = (
   userDataPath: string
 ): Promise<ReadonlyArray<string>> => {
-  const dir = getBadgesPath(userDataPath);
-  const pattern = normalizePath(join(dir, '**', '*'));
-
-  const files = await fastGlob(pattern, { onlyFiles: true });
-  return map(files, file => relative(dir, file));
+  return getAllFiles(getBadgesPath(userDataPath));
 };
 
-export const getAllStickers = async (
+export const getAllStickers = (
   userDataPath: string
 ): Promise<ReadonlyArray<string>> => {
-  const dir = getStickersPath(userDataPath);
-  const pattern = normalizePath(join(dir, '**', '*'));
-
-  const files = await fastGlob(pattern, { onlyFiles: true });
-  return map(files, file => relative(dir, file));
+  return getAllFiles(getStickersPath(userDataPath));
 };
 
 export const getAllDraftAttachments = async (
   userDataPath: string
 ): Promise<ReadonlyArray<string>> => {
-  const dir = getDraftPath(userDataPath);
-  const pattern = normalizePath(join(dir, '**', '*'));
-
-  const files = await fastGlob(pattern, { onlyFiles: true });
-  return map(files, file => relative(dir, file));
+  return getAllFiles(getDraftPath(userDataPath));
 };
 
 export const clearTempPath = (userDataPath: string): Promise<void> => {
@@ -162,7 +158,7 @@ export const deleteStaleDownloads = async (
         if (error.code === 'ENOENT') {
           return;
         }
-        console.error(
+        log.error(
           'deleteStaleDownloads: failed to get file stats',
           Errors.toLogFormat(error)
         );
@@ -176,7 +172,7 @@ export const deleteStaleDownloads = async (
   if (stale.length === 0) {
     return;
   }
-  console.log(`deleteStaleDownloads: found ${stale.length}`);
+  log.info(`deleteStaleDownloads: found ${stale.length}`);
   await deleteAllDownloads({ userDataPath, downloads: stale });
 };
 
@@ -191,7 +187,7 @@ export const deleteAll = async ({
 
   await pMap(attachments, deleteFromDisk, { concurrency: FS_CONCURRENCY });
 
-  console.log(`deleteAll: deleted ${attachments.length} files`);
+  log.info(`deleteAll: deleted ${attachments.length} files`);
 };
 
 export const deleteAllDownloads = async ({
@@ -205,7 +201,7 @@ export const deleteAllDownloads = async ({
 
   await pMap(downloads, deleteFromDisk, { concurrency: FS_CONCURRENCY });
 
-  console.log(`deleteAllDownloads: deleted ${downloads.length} files`);
+  log.info(`deleteAllDownloads: deleted ${downloads.length} files`);
 };
 
 export const deleteAllStickers = async ({
@@ -219,7 +215,7 @@ export const deleteAllStickers = async ({
 
   await pMap(stickers, deleteFromDisk, { concurrency: FS_CONCURRENCY });
 
-  console.log(`deleteAllStickers: deleted ${stickers.length} files`);
+  log.info(`deleteAllStickers: deleted ${stickers.length} files`);
 };
 
 export const deleteAllBadges = async ({
@@ -240,7 +236,7 @@ export const deleteAllBadges = async ({
     }
   }
 
-  console.log(`deleteAllBadges: deleted ${filesDeleted} files`);
+  log.info(`deleteAllBadges: deleted ${filesDeleted} files`);
 };
 
 export const deleteAllDraftAttachments = async ({
@@ -254,7 +250,7 @@ export const deleteAllDraftAttachments = async ({
 
   await pMap(attachments, deleteFromDisk, { concurrency: FS_CONCURRENCY });
 
-  console.log(`deleteAllDraftAttachments: deleted ${attachments.length} files`);
+  log.info(`deleteAllDraftAttachments: deleted ${attachments.length} files`);
 };
 
 export const readAndDecryptDataFromDisk = async ({

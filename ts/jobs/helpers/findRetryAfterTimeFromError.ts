@@ -5,7 +5,10 @@ import { isRecord } from '../../util/isRecord';
 import { HTTPError } from '../../textsecure/Errors';
 import { parseRetryAfterWithDefault } from '../../util/parseRetryAfter';
 
-export function findRetryAfterTimeFromError(err: unknown): number {
+export function findRetryAfterTimeFromError(
+  err: unknown,
+  defaultValue?: number
+): number {
   let rawValue: unknown;
 
   if (isRecord(err)) {
@@ -17,8 +20,8 @@ export function findRetryAfterTimeFromError(err: unknown): number {
   }
 
   if (Array.isArray(rawValue)) {
-    return parseRetryAfterWithDefault(rawValue[0]);
+    return parseRetryAfterWithDefault(rawValue[0], defaultValue);
   }
 
-  return parseRetryAfterWithDefault(rawValue);
+  return parseRetryAfterWithDefault(rawValue, defaultValue);
 }

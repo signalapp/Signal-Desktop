@@ -4,24 +4,26 @@
 import { get, throttle } from 'lodash';
 
 import type { WebAPIType } from './textsecure/WebAPI';
-import * as log from './logging/log';
+import { createLogger } from './logging/log';
 import type { AciString } from './types/ServiceId';
 import { parseIntOrThrow } from './util/parseIntOrThrow';
-import { SECOND, HOUR } from './util/durations';
+import { HOUR } from './util/durations';
 import * as Bytes from './Bytes';
 import { uuidToBytes } from './util/uuidToBytes';
 import { dropNull } from './util/dropNull';
 import { HashType } from './types/Crypto';
 import { getCountryCode } from './types/PhoneNumber';
+import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration';
+
+const log = createLogger('RemoteConfig');
 
 export type ConfigKeyType =
-  | 'desktop.calling.adhoc'
-  | 'desktop.calling.adhoc.beta'
-  | 'desktop.calling.adhoc.create'
-  | 'desktop.calling.adhoc.create.beta'
-  | 'desktop.calling.ringrtcAdm'
+  | 'desktop.chatFolders.alpha'
+  | 'desktop.chatFolders.beta'
+  | 'desktop.chatFolders.prod'
   | 'desktop.clientExpiration'
   | 'desktop.backup.credentialFetch'
+  | 'desktop.donations'
   | 'desktop.internalUser'
   | 'desktop.mediaQuality.levels'
   | 'desktop.messageCleanup'
@@ -31,10 +33,17 @@ export type ConfigKeyType =
   | 'desktop.experimentalTransport.enableAuth'
   | 'desktop.experimentalTransportEnabled.alpha'
   | 'desktop.experimentalTransportEnabled.beta'
-  | 'desktop.experimentalTransportEnabled.prod'
+  | 'desktop.experimentalTransportEnabled.prod.2'
+  | 'desktop.libsignalNet.enforceMinimumTls'
   | 'desktop.cdsiViaLibsignal'
+  | 'desktop.cdsiViaLibsignal.disableNewConnectionLogic'
+  | 'desktop.funPicker' // alpha
+  | 'desktop.funPicker.beta'
+  | 'desktop.funPicker.prod'
+  | 'desktop.usePqRatchet'
   | 'global.attachments.maxBytes'
   | 'global.attachments.maxReceiveBytes'
+  | 'global.backups.mediaTierFallbackCdnNumber'
   | 'global.calling.maxGroupCallRingSize'
   | 'global.groupsv2.groupSizeHardLimit'
   | 'global.groupsv2.maxGroupSize'
@@ -64,11 +73,6 @@ export function restoreRemoteConfigFromStorage(): void {
   config = window.storage.get('remoteConfig') || {};
 }
 
-export async function initRemoteConfig(server: WebAPIType): Promise<void> {
-  restoreRemoteConfigFromStorage();
-  await maybeRefreshRemoteConfig(server);
-}
-
 export function onChange(
   key: ConfigKeyType,
   fn: ConfigListenerType
@@ -82,18 +86,18 @@ export function onChange(
   };
 }
 
-export const refreshRemoteConfig = async (
+export const _refreshRemoteConfig = async (
   server: WebAPIType
 ): Promise<void> => {
   const now = Date.now();
-  const { config: newConfig, serverEpochTime } = await server.getConfig();
+  const { config: newConfig, serverTimestamp } = await server.getConfig();
 
-  const serverTimeSkew = serverEpochTime * SECOND - now;
+  const serverTimeSkew = serverTimestamp - now;
 
   if (Math.abs(serverTimeSkew) > HOUR) {
     log.warn(
-      'Remote Config: sever clock skew detected. ' +
-        `Server time ${serverEpochTime * SECOND}, local time ${now}`
+      'Remote Config: severe clock skew detected. ' +
+        `Server time ${serverTimestamp}, local time ${now}`
     );
   }
 
@@ -139,13 +143,23 @@ export const refreshRemoteConfig = async (
     };
   }, {});
 
-  // If remote configuration fetch worked - we are not expired anymore.
-  if (
-    !getValue('desktop.clientExpiration') &&
-    window.storage.get('remoteBuildExpiration') != null
-  ) {
-    log.warn('Remote Config: clearing remote expiration on successful fetch');
+  const remoteExpirationValue = getValue('desktop.clientExpiration');
+  if (!remoteExpirationValue) {
+    // If remote configuration fetch worked - we are not expired anymore.
+    if (window.storage.get('remoteBuildExpiration') != null) {
+      log.warn('Remote Config: clearing remote expiration on successful fetch');
+    }
     await window.storage.remove('remoteBuildExpiration');
+  } else {
+    const remoteBuildExpirationTimestamp = parseRemoteClientExpiration(
+      remoteExpirationValue
+    );
+    if (remoteBuildExpirationTimestamp) {
+      await window.storage.put(
+        'remoteBuildExpiration',
+        remoteBuildExpirationTimestamp
+      );
+    }
   }
 
   await window.storage.put('remoteConfig', config);
@@ -153,14 +167,27 @@ export const refreshRemoteConfig = async (
 };
 
 export const maybeRefreshRemoteConfig = throttle(
-  refreshRemoteConfig,
+  _refreshRemoteConfig,
   // Only fetch remote configuration if the last fetch was more than two hours ago
   2 * 60 * 60 * 1000,
   { trailing: false }
 );
 
-export function isEnabled(name: ConfigKeyType): boolean {
-  return get(config, [name, 'enabled'], false);
+export async function forceRefreshRemoteConfig(
+  server: WebAPIType,
+  reason: string
+): Promise<void> {
+  log.info(`forceRefreshRemoteConfig: ${reason}`);
+  maybeRefreshRemoteConfig.cancel();
+  await _refreshRemoteConfig(server);
+}
+
+export function isEnabled(
+  name: ConfigKeyType,
+  // when called from UI component, provide redux config (items.remoteConfig)
+  reduxConfig?: ConfigMapType
+): boolean {
+  return get(reduxConfig ?? config, [name, 'enabled'], false);
 }
 
 export function getValue(name: ConfigKeyType): string | undefined {
@@ -249,5 +276,5 @@ export function getBucketValue(aci: AciString, flagName: string): number {
     hashInput
   );
 
-  return Number(Bytes.readBigUint64BE(hashResult.slice(0, 8)) % 1_000_000n);
+  return Number(Bytes.readBigUint64BE(hashResult.subarray(0, 8)) % 1_000_000n);
 }

@@ -308,13 +308,14 @@ export function CallingPendingParticipants({
                 className="module-calling-participants-list__avatar-and-name CallingPendingParticipants__ParticipantButton"
               >
                 <Avatar
-                  acceptedMessageRequest={participant.acceptedMessageRequest}
+                  avatarPlaceholderGradient={
+                    participant.avatarPlaceholderGradient
+                  }
                   avatarUrl={participant.avatarUrl}
                   badge={undefined}
                   color={participant.color}
                   conversationType="direct"
                   i18n={i18n}
-                  isMe={participant.isMe}
                   profileName={participant.profileName}
                   title={participant.title}
                   sharedGroupNames={participant.sharedGroupNames}
@@ -396,13 +397,12 @@ export function CallingPendingParticipants({
           className="module-calling-participants-list__avatar-and-name CallingPendingParticipants__ParticipantButton"
         >
           <Avatar
-            acceptedMessageRequest={participant.acceptedMessageRequest}
+            avatarPlaceholderGradient={participant.avatarPlaceholderGradient}
             avatarUrl={participant.avatarUrl}
             badge={undefined}
             color={participant.color}
             conversationType="direct"
             i18n={i18n}
-            isMe={participant.isMe}
             profileName={participant.profileName}
             title={participant.title}
             sharedGroupNames={participant.sharedGroupNames}

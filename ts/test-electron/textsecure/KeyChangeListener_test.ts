@@ -12,7 +12,7 @@ import { SignalProtocolStore } from '../../SignalProtocolStore';
 import type { ConversationModel } from '../../models/conversations';
 import * as KeyChangeListener from '../../textsecure/KeyChangeListener';
 import * as Bytes from '../../Bytes';
-import { singleProtoJobQueue } from '../../jobs/singleProtoJobQueue';
+import { cleanupMessages } from '../../util/cleanup';
 
 describe('KeyChangeListener', () => {
   let oldNumberId: string | undefined;
@@ -71,7 +71,7 @@ describe('KeyChangeListener', () => {
   afterEach(async () => {
     await DataWriter.removeMessagesInConversation(convo.id, {
       logId: ourServiceIdWithKeyChange,
-      singleProtoJobQueue,
+      cleanupMessages,
     });
     await DataWriter.removeConversation(convo.id);
 
@@ -95,13 +95,17 @@ describe('KeyChangeListener', () => {
     let groupConvo: ConversationModel;
 
     beforeEach(async () => {
+      await window.ConversationController.getOrCreateAndWait(
+        ourServiceId,
+        'private'
+      );
       groupConvo = await window.ConversationController.getOrCreateAndWait(
         Bytes.toBinary(
           new Uint8Array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5])
         ),
         'group',
         {
-          members: [ourServiceIdWithKeyChange],
+          members: [ourServiceIdWithKeyChange, ourServiceId],
         }
       );
     });
@@ -109,7 +113,7 @@ describe('KeyChangeListener', () => {
     afterEach(async () => {
       await DataWriter.removeMessagesInConversation(groupConvo.id, {
         logId: ourServiceIdWithKeyChange,
-        singleProtoJobQueue,
+        cleanupMessages,
       });
       await DataWriter.removeConversation(groupConvo.id);
     });

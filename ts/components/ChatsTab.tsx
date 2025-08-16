@@ -6,8 +6,9 @@ import type { LocalizerType } from '../types/I18N';
 import type { NavTabPanelProps } from './NavTabs';
 import { WhatsNewLink } from './WhatsNewLink';
 import type { UnreadStats } from '../util/countUnreadStats';
+import type { SmartConversationViewProps } from '../state/smart/ConversationView';
 
-type ChatsTabProps = Readonly<{
+export type ChatsTabProps = Readonly<{
   otherTabsUnreadStats: UnreadStats;
   i18n: LocalizerType;
   isStaging: boolean;
@@ -15,7 +16,7 @@ type ChatsTabProps = Readonly<{
   hasFailedStorySends: boolean;
   navTabsCollapsed: boolean;
   onToggleNavTabsCollapse: (navTabsCollapsed: boolean) => void;
-  renderConversationView: () => JSX.Element;
+  renderConversationView: (props: SmartConversationViewProps) => JSX.Element;
   renderLeftPane: (props: NavTabPanelProps) => JSX.Element;
   renderMiniPlayer: (options: { shouldFlow: boolean }) => JSX.Element;
   selectedConversationId: string | undefined;
@@ -51,15 +52,17 @@ export function ChatsTab({
         <div id="toast" />
         {selectedConversationId ? (
           <div
+            // Use `key` to force the tree to fully re-mount
+            key={selectedConversationId}
             className="Inbox__conversation"
             id={`conversation-${selectedConversationId}`}
           >
-            {renderConversationView()}
+            {renderConversationView({ selectedConversationId })}
           </div>
         ) : (
           <div className="Inbox__no-conversation-open">
             {renderMiniPlayer({ shouldFlow: false })}
-            <div className="module-splash-screen__logo module-img--80 module-logo-blue" />
+            <div className="module-splash-screen__logo module-splash-screen__logo--96" />
             <h3 className="Inbox__welcome">
               {isStaging
                 ? 'THIS IS A STAGING DESKTOP'

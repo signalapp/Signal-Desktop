@@ -7,16 +7,14 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { generateAci } from '../../../types/ServiceId';
 import { StorySendMode } from '../../../types/Stories';
-import { setupI18n } from '../../../util/setupI18n';
-import enMessages from '../../../../_locales/en/messages.json';
 import type { PropsType } from './PendingInvites';
 import { PendingInvites } from './PendingInvites';
 import type { ConversationType } from '../../../state/ducks/conversations';
-import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
-import { getFakeBadge } from '../../../test-both/helpers/getFakeBadge';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation';
+import { getFakeBadge } from '../../../test-helpers/getFakeBadge';
 import { StorybookThemeContext } from '../../../../.storybook/StorybookThemeContext';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Conversation/ConversationDetails/PendingInvites',

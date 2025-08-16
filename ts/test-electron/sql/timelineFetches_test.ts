@@ -9,6 +9,7 @@ import { generateAci } from '../../types/ServiceId';
 
 import type { MessageAttributesType } from '../../model-types.d';
 import { ReadStatus } from '../../messages/MessageReadStatus';
+import { postSaveUpdates } from '../../util/cleanup';
 
 const {
   _getAllMessages,
@@ -86,6 +87,7 @@ describe('sql/timelineFetches', () => {
       await saveMessages([message1, message2, message3, message4, message5], {
         forceSave: true,
         ourAci,
+        postSaveUpdates,
       });
 
       assert.lengthOf(await _getAllMessages(), 5);
@@ -144,6 +146,7 @@ describe('sql/timelineFetches', () => {
       await saveMessages([message1, message2, message3], {
         forceSave: true,
         ourAci,
+        postSaveUpdates,
       });
 
       assert.lengthOf(await _getAllMessages(), 3);
@@ -199,6 +202,7 @@ describe('sql/timelineFetches', () => {
       await saveMessages([message1, message2, message3], {
         forceSave: true,
         ourAci,
+        postSaveUpdates,
       });
 
       assert.lengthOf(await _getAllMessages(), 3);
@@ -251,6 +255,7 @@ describe('sql/timelineFetches', () => {
       await saveMessages([message1, message2, message3], {
         forceSave: true,
         ourAci,
+        postSaveUpdates,
       });
 
       assert.lengthOf(await _getAllMessages(), 3);
@@ -305,6 +310,7 @@ describe('sql/timelineFetches', () => {
       await saveMessages([message1, message2, message3], {
         forceSave: true,
         ourAci,
+        postSaveUpdates,
       });
 
       assert.lengthOf(await _getAllMessages(), 3);
@@ -363,6 +369,7 @@ describe('sql/timelineFetches', () => {
       await saveMessages([message1, message2, message3], {
         forceSave: true,
         ourAci,
+        postSaveUpdates,
       });
 
       assert.lengthOf(await _getAllMessages(), 3);
@@ -442,6 +449,7 @@ describe('sql/timelineFetches', () => {
       await saveMessages([message1, message2, message3, message4, message5], {
         forceSave: true,
         ourAci,
+        postSaveUpdates,
       });
 
       assert.lengthOf(await _getAllMessages(), 5);
@@ -499,6 +507,7 @@ describe('sql/timelineFetches', () => {
       await saveMessages([message1, message2, message3], {
         forceSave: true,
         ourAci,
+        postSaveUpdates,
       });
 
       assert.lengthOf(await _getAllMessages(), 3);
@@ -552,6 +561,7 @@ describe('sql/timelineFetches', () => {
       await saveMessages([message1, message2, message3], {
         forceSave: true,
         ourAci,
+        postSaveUpdates,
       });
 
       assert.lengthOf(await _getAllMessages(), 3);
@@ -608,6 +618,7 @@ describe('sql/timelineFetches', () => {
       await saveMessages([message1, message2, message3], {
         forceSave: true,
         ourAci,
+        postSaveUpdates,
       });
 
       assert.lengthOf(await _getAllMessages(), 3);
@@ -662,6 +673,7 @@ describe('sql/timelineFetches', () => {
       await saveMessages([message1, message2, message3], {
         forceSave: true,
         ourAci,
+        postSaveUpdates,
       });
 
       assert.lengthOf(await _getAllMessages(), 3);
@@ -781,7 +793,7 @@ describe('sql/timelineFetches', () => {
           newestInStory,
           newest,
         ],
-        { forceSave: true, ourAci }
+        { forceSave: true, ourAci, postSaveUpdates }
       );
 
       assert.lengthOf(await _getAllMessages(), 8);
@@ -873,7 +885,11 @@ describe('sql/timelineFetches', () => {
         }
       );
 
-      await saveMessages(formattedMessages, { forceSave: true, ourAci });
+      await saveMessages(formattedMessages, {
+        forceSave: true,
+        ourAci,
+        postSaveUpdates,
+      });
 
       assert.lengthOf(await _getAllMessages(), 4);
 

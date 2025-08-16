@@ -4,10 +4,14 @@ import React, { useMemo } from 'react';
 import { Emojify } from './conversation/Emojify';
 import { bidiIsolate } from '../util/unicodeBidi';
 
-export function UserText({ text }: { text: string }): JSX.Element {
+export type UserTextProps = Readonly<{
+  text: string;
+}>;
+
+export function UserText(props: UserTextProps): JSX.Element {
   const normalizedText = useMemo(() => {
-    return bidiIsolate(text);
-  }, [text]);
+    return bidiIsolate(props.text);
+  }, [props.text]);
   return (
     <span dir="auto">
       <Emojify text={normalizedText} />

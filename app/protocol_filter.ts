@@ -15,6 +15,9 @@ import {
   getTempPath,
   getUpdateCachePath,
 } from './attachments';
+import { createLogger } from '../ts/logging/log';
+
+const log = createLogger('protocol_filter');
 
 type CallbackType = (response: string | ProtocolResponse) => void;
 
@@ -91,9 +94,7 @@ function _createFileHandler({
       const properCasing = isWindows ? realPath.toLowerCase() : realPath;
 
       if (!isAbsolute(realPath)) {
-        console.log(
-          `Warning: denying request to non-absolute path '${realPath}'`
-        );
+        log.info(`Warning: denying request to non-absolute path '${realPath}'`);
         // This is an "Access Denied" error. See [Chromium's net error list][0].
         //
         // [0]: https://source.chromium.org/chromium/chromium/src/+/master:net/base/net_error_list.h;l=57;drc=a836ee9868cf1b9673fce362a82c98aba3e195de
@@ -108,7 +109,7 @@ function _createFileHandler({
         }
       }
 
-      console.log(
+      log.info(
         `Warning: denying request to path '${realPath}' (allowedRoots: '${allowedRoots}')`
       );
       callback({ error: -10 });
@@ -117,9 +118,7 @@ function _createFileHandler({
         err && typeof err.message === 'string'
           ? err.message
           : 'no error message';
-      console.log(
-        `Warning: denying request because of an error: ${errorMessage}`
-      );
+      log.info(`Warning: denying request because of an error: ${errorMessage}`);
 
       callback({ error: -300 });
     }

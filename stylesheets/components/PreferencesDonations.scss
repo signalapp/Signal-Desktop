@@ -1,0 +1,487 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../mixins';
+@use '../variables';
+
+.PreferencesDonations {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 590px;
+  padding-block: 0;
+  padding-inline: 0;
+  margin-inline-start: 24px;
+  margin-inline-end: 24px;
+
+  &__title {
+    @include mixins.font-title-medium;
+    margin-bottom: 8px;
+  }
+
+  &__description {
+    @include mixins.font-body-2;
+    text-align: center;
+    max-width: 320px;
+    margin-block-end: 12px;
+    color: light-dark(
+      variables.$color-black-alpha-50,
+      variables.$color-white-alpha-50
+    );
+
+    &__read-more {
+      @include mixins.button-reset;
+
+      & {
+        color: variables.$color-ultramarine;
+      }
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__donate-button {
+    margin-block-end: 32px;
+  }
+
+  &__separator {
+    width: 100%;
+    height: 0.5px;
+    border: none;
+    margin: 0;
+    margin-bottom: 12px;
+    background-color: light-dark(
+      variables.$color-black-alpha-12,
+      variables.$color-white-alpha-12
+    );
+
+    &--card-form {
+      margin-block: 20px 12px;
+    }
+  }
+
+  &__section-header {
+    @include mixins.font-body-2-bold;
+    width: 100%;
+    margin-block: 12px;
+    padding-inline: 8px;
+    color: light-dark(
+      variables.$color-black-alpha-85,
+      variables.$color-white-alpha-85
+    );
+
+    &--my-support {
+      margin-block-start: 6px;
+    }
+
+    &--donate-flow {
+      margin-block-start: 22px;
+    }
+  }
+
+  &__list {
+    width: 100%;
+  }
+
+  &__list-item {
+    @include mixins.button-reset;
+
+    & {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      gap: 12px;
+      padding-block: 12px;
+      padding-inline: 8px;
+      border-radius: 5px;
+    }
+
+    &:hover {
+      background: light-dark(
+        variables.$color-gray-02,
+        variables.$color-gray-80
+      );
+    }
+
+    @include mixins.keyboard-mode {
+      &:focus {
+        outline: 2px solid variables.$color-ultramarine;
+      }
+    }
+
+    &__icon {
+      width: 20px;
+      height: 20px;
+
+      &--receipts::before {
+        content: '';
+        display: block;
+        width: 20px;
+        height: 20px;
+        @include mixins.color-svg(
+          '../images/icons/v3/receipt/receipt.svg',
+          light-dark(variables.$color-gray-75, variables.$color-gray-15)
+        );
+      }
+
+      &--faqs::before {
+        content: '';
+        display: block;
+        width: 20px;
+        height: 20px;
+        @include mixins.color-svg(
+          '../images/icons/v3/help/help-light.svg',
+          light-dark(variables.$color-gray-75, variables.$color-gray-15)
+        );
+      }
+    }
+
+    &__text {
+      @include mixins.font-body-1;
+      flex: 1;
+      color: light-dark(variables.$color-gray-90, variables.$color-gray-05);
+    }
+
+    &__chevron {
+      &::before {
+        content: '';
+        display: block;
+        width: 20px;
+        height: 20px;
+        @include mixins.color-svg(
+          '../images/icons/v3/chevron/chevron-right.svg',
+          light-dark(variables.$color-gray-45, variables.$color-gray-25)
+        );
+      }
+    }
+
+    &__open {
+      &::before {
+        content: '';
+        display: block;
+        width: 20px;
+        height: 20px;
+        @include mixins.color-svg(
+          '../images/icons/v3/open/open.svg',
+          light-dark(variables.$color-gray-45, variables.$color-gray-25)
+        );
+      }
+    }
+  }
+
+  &__mobile-info {
+    @include mixins.font-subtitle;
+    padding-inline: 8px;
+    margin-block-start: 10px;
+    align-self: flex-start;
+    color: light-dark(
+      variables.$color-black-alpha-50,
+      variables.$color-white-alpha-50
+    );
+  }
+}
+
+.PreferencesDonations__avatar {
+  margin-block-end: 12px;
+}
+
+// Receipts page specific styles
+.PreferencesDonations--receiptList {
+  &__info {
+    margin-inline: 24px;
+    margin-bottom: 24px;
+
+    &__text {
+      @include mixins.font-subtitle;
+      color: light-dark(
+        variables.$color-black-alpha-50,
+        variables.$color-white-alpha-50
+      );
+    }
+  }
+
+  &-yearContainer {
+    width: 100%;
+  }
+
+  &__year-header {
+    @include mixins.font-body-2-bold;
+    color: light-dark(
+      variables.$color-black-alpha-85,
+      variables.$color-white-alpha-85
+    );
+    padding-block: 8px;
+    padding-inline: 24px;
+    background-color: light-dark(
+      variables.$color-white,
+      variables.$color-gray-95
+    );
+  }
+
+  &__list {
+    width: 100%;
+  }
+
+  &__receipt-item {
+    @include mixins.button-reset;
+
+    & {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-block: 8px;
+      padding-inline: 24px;
+      border-radius: 5px;
+      width: 100%;
+    }
+
+    &:hover {
+      background-color: light-dark(
+        variables.$color-gray-02,
+        variables.$color-gray-80
+      );
+    }
+
+    // Currently only one time donations are possible
+    &__icon {
+      @include mixins.light-theme {
+        background: url('../images/rocket-36-light.svg');
+      }
+      @include mixins.dark-theme {
+        background: url('../images/rocket-36-dark.svg');
+      }
+
+      & {
+        width: 36px;
+        height: 36px;
+        background-size: 100%;
+        border-radius: 18px;
+        flex-shrink: 0;
+      }
+    }
+
+    &__details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    &__date {
+      @include mixins.font-body-1;
+      color: light-dark(
+        variables.$color-black-alpha-85,
+        variables.$color-white-alpha-85
+      );
+    }
+
+    &__type {
+      @include mixins.font-subtitle;
+      color: light-dark(
+        variables.$color-black-alpha-50,
+        variables.$color-white-alpha-50
+      );
+    }
+
+    &__amount {
+      @include mixins.font-body-1;
+      color: light-dark(
+        variables.$color-black-alpha-50,
+        variables.$color-white-alpha-50
+      );
+    }
+  }
+
+  &__empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 8px;
+    margin: auto;
+
+    &__title {
+      @include mixins.font-body-2;
+      color: light-dark(
+        variables.$color-black-alpha-50,
+        variables.$color-white-alpha-50
+      );
+    }
+
+    &__description {
+      @include mixins.font-caption;
+      color: light-dark(
+        variables.$color-black-alpha-50,
+        variables.$color-white-alpha-50
+      );
+      max-width: 300px;
+    }
+  }
+}
+
+.PreferencesDonations__ReceiptModal {
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__logo-container {
+    margin-bottom: 16px;
+  }
+
+  &__logo {
+    width: 100px;
+    height: 28.571px;
+    margin-bottom: 24px;
+    background-image: url('../images/signal-logo-and-wordmark.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  &__amount {
+    font-size: 40px;
+    letter-spacing: 0.07px;
+    color: light-dark(variables.$color-gray-90, variables.$color-gray-05);
+    margin-bottom: 24px;
+  }
+
+  &__separator {
+    width: 100%;
+    height: 0.5px;
+    border: none;
+    margin: 0;
+    background-color: light-dark(
+      variables.$color-black-alpha-12,
+      variables.$color-white-alpha-12
+    );
+  }
+
+  &__details {
+    width: 100%;
+    text-align: start;
+  }
+
+  &__detail-item {
+    padding-block: 10px;
+    padding-inline: 0;
+  }
+
+  &__detail-label {
+    @include mixins.font-body-1;
+    color: light-dark(
+      variables.$color-black-alpha-85,
+      variables.$color-white-alpha-85
+    );
+    margin-bottom: 2px;
+  }
+
+  &__detail-value {
+    @include mixins.font-subtitle;
+    color: light-dark(
+      variables.$color-black-alpha-50,
+      variables.$color-white-alpha-50
+    );
+  }
+}
+
+.DonationPrivacyInformationModal {
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+
+  &__faqs-link {
+    @include mixins.button-reset;
+
+    & {
+      color: variables.$color-ultramarine;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.PreferencesDonations__PrimaryButton {
+  @include mixins.font-body-2;
+  padding-block: 5px;
+  padding-inline: 12px;
+  font-weight: 400;
+  border: 0.5px solid variables.$color-black-alpha-16;
+  border-radius: 6px;
+}
+
+.PreferencesDonations__badge-list {
+  width: 100%;
+  margin-block: 4px 8px;
+}
+
+.PreferencesDonations__badge {
+  &:hover {
+    background: light-dark(variables.$color-gray-04, variables.$color-gray-80);
+  }
+
+  @include mixins.keyboard-mode {
+    &:focus {
+      outline: 2px solid variables.$color-ultramarine;
+    }
+  }
+
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  height: 58px;
+  padding-block: 8px;
+  padding-inline: 12px 8px;
+  background: light-dark(variables.$color-gray-02, variables.$color-gray-85);
+  border: 0.5px solid;
+  border-color: light-dark(
+    variables.$color-black-alpha-12,
+    variables.$color-white-alpha-12
+  );
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.PreferencesDonations__badge-icon {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  background-size: 100%;
+
+  // Currently only one time donations are possible
+  background-image: url('../images/rocket-160.svg');
+}
+
+.PreferencesDonations__badge-info {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  align-items: start;
+}
+
+.PreferencesDonations__badge-label {
+  @include mixins.font-body-1;
+  color: light-dark(
+    variables.$color-black-alpha-85,
+    variables.$color-white-alpha-85
+  );
+}
+
+.PreferencesDonations__badge-processing-info {
+  @include mixins.font-body-small;
+  color: light-dark(
+    variables.$color-black-alpha-50,
+    variables.$color-white-alpha-55
+  );
+}

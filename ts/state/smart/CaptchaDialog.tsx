@@ -6,7 +6,9 @@ import { CaptchaDialog } from '../../components/CaptchaDialog';
 import { getIntl } from '../selectors/user';
 import { isChallengePending } from '../selectors/network';
 import { getChallengeURL } from '../../challenge';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
+
+const log = createLogger('CaptchaDialog');
 
 export type SmartCaptchaDialogProps = Readonly<{
   onSkip: () => void;
@@ -19,7 +21,7 @@ export const SmartCaptchaDialog = memo(function SmartCaptchaDialog({
   const isPending = useSelector(isChallengePending);
   const handleContinue = useCallback(() => {
     const url = getChallengeURL('chat');
-    log.info(`CaptchaDialog: navigating to ${url}`);
+    log.info(`navigating to ${url}`);
     document.location.href = url;
   }, []);
   return (

@@ -7,6 +7,8 @@ import { isNumber } from 'lodash';
 
 import { assertDev, strictAssert } from '../util/assert';
 import { dropNull, shallowDropNull } from '../util/dropNull';
+import { fromAciUuidBytesOrString } from '../util/ServiceId';
+import { getTimestampFromLong } from '../util/timestampLongUtils';
 import { SignalService as Proto } from '../protobuf';
 import { deriveGroupFields } from '../groups';
 import * as Bytes from '../Bytes';
@@ -22,6 +24,7 @@ import type {
   ProcessedReaction,
   ProcessedDelete,
   ProcessedGiftBadge,
+  ProcessedStoryContext,
 } from './Types.d';
 import { GiftBadgeStates } from '../components/conversation/Message';
 import { APPLICATION_OCTET_STREAM, stringToMIMEType } from '../types/MIME';
@@ -29,10 +32,10 @@ import { SECOND, DurationInSeconds } from '../util/durations';
 import type { AnyPaymentEvent } from '../types/Payment';
 import { PaymentEventKind } from '../types/Payment';
 import { filterAndClean } from '../types/BodyRange';
-import { isAciString } from '../util/isAciString';
-import { normalizeAci } from '../util/normalizeAci';
 import { bytesToUuid } from '../util/uuidToBytes';
 import { createName } from '../util/attachmentPath';
+import { partitionBodyAndNormalAttachments } from '../types/Attachment';
+import { isNotNil } from '../util/isNotNil';
 
 const FLAGS = Proto.DataMessage.Flags;
 export const ATTACHMENT_MAX = 32;
@@ -47,22 +50,48 @@ export function processAttachment(
 export function processAttachment(
   attachment?: Proto.IAttachmentPointer | null
 ): ProcessedAttachment | undefined {
-  if (!attachment) {
+  const attachmentWithoutNulls = shallowDropNull(attachment);
+  if (!attachmentWithoutNulls) {
     return undefined;
   }
 
-  const { cdnId } = attachment;
+  const {
+    cdnId,
+    cdnKey,
+    cdnNumber,
+    clientUuid,
+    key,
+    size,
+    contentType,
+    digest,
+    incrementalMac,
+    chunkSize,
+    fileName,
+    flags,
+    width,
+    height,
+    caption,
+    blurHash,
+    uploadTimestamp,
+  } = attachmentWithoutNulls;
+
   const hasCdnId = Long.isLong(cdnId) ? !cdnId.isZero() : Boolean(cdnId);
 
-  const { clientUuid, contentType, digest, incrementalMac, key, size } =
-    attachment;
   if (!isNumber(size)) {
     throw new Error('Missing size on incoming attachment!');
   }
 
   return {
-    ...shallowDropNull(attachment),
-
+    cdnKey,
+    cdnNumber,
+    chunkSize,
+    fileName,
+    flags,
+    width,
+    height,
+    caption,
+    blurHash,
+    uploadTimestamp: uploadTimestamp?.toNumber(),
     cdnId: hasCdnId ? String(cdnId) : undefined,
     clientUuid: Bytes.isNotEmpty(clientUuid)
       ? bytesToUuid(clientUuid)
@@ -140,16 +169,18 @@ export function processQuote(
     return undefined;
   }
 
-  const { authorAci } = quote;
-  if (!isAciString(authorAci)) {
-    throw new Error('quote.authorAci is not an ACI string');
-  }
+  const { authorAci: rawAuthorAci, authorAciBinary } = quote;
+  const authorAci = fromAciUuidBytesOrString(
+    authorAciBinary,
+    rawAuthorAci,
+    'Quote.authorAci'
+  );
 
   return {
     id: quote.id?.toNumber(),
-    authorAci: normalizeAci(authorAci, 'Quote.authorAci'),
+    authorAci,
     text: dropNull(quote.text),
-    attachments: (quote.attachments ?? []).map(attachment => {
+    attachments: (quote.attachments ?? []).slice(0, 1).map(attachment => {
       return {
         contentType: attachment.contentType
           ? stringToMIMEType(attachment.contentType)
@@ -163,6 +194,30 @@ export function processQuote(
   };
 }
 
+export function processStoryContext(
+  storyContext?: Proto.DataMessage.IStoryContext | null
+): ProcessedStoryContext | undefined {
+  if (!storyContext) {
+    return undefined;
+  }
+
+  const {
+    authorAci: rawAuthorAci,
+    authorAciBinary,
+    sentTimestamp,
+  } = storyContext;
+  const authorAci = fromAciUuidBytesOrString(
+    authorAciBinary,
+    rawAuthorAci,
+    'StoryContext.authorAci'
+  );
+
+  return {
+    authorAci,
+    sentTimestamp: getTimestampFromLong(sentTimestamp),
+  };
+}
+
 export function processContact(
   contact?: ReadonlyArray<Proto.DataMessage.IContact> | null
 ): ReadonlyArray<ProcessedContact> | undefined {
@@ -170,7 +225,7 @@ export function processContact(
     return undefined;
   }
 
-  return contact.map(item => {
+  return contact.slice(0, 1).map(item => {
     return {
       ...item,
       avatar: item.avatar
@@ -198,13 +253,13 @@ function cleanLinkPreviewDate(value?: Long | null): number | undefined {
 }
 
 export function processPreview(
-  preview?: ReadonlyArray<Proto.DataMessage.IPreview> | null
+  preview?: ReadonlyArray<Proto.IPreview> | null
 ): ReadonlyArray<ProcessedPreview> | undefined {
   if (!preview) {
     return undefined;
   }
 
-  return preview.map(item => {
+  return preview.slice(0, 1).map(item => {
     return {
       url: dropNull(item.url),
       title: dropNull(item.title),
@@ -238,16 +293,19 @@ export function processReaction(
     return undefined;
   }
 
-  const { targetAuthorAci } = reaction;
-  if (!isAciString(targetAuthorAci)) {
-    throw new Error('reaction.targetAuthorAci is not an ACI string');
-  }
+  const { targetAuthorAci: rawTargetAuthorAci, targetAuthorAciBinary } =
+    reaction;
+  const targetAuthorAci = fromAciUuidBytesOrString(
+    targetAuthorAciBinary,
+    rawTargetAuthorAci,
+    'Reaction.targetAuthorAci'
+  );
 
   return {
     emoji: dropNull(reaction.emoji),
     remove: Boolean(reaction.remove),
-    targetAuthorAci: normalizeAci(targetAuthorAci, 'Reaction.targetAuthorAci'),
-    targetTimestamp: reaction.targetTimestamp?.toNumber(),
+    targetAuthorAci,
+    targetTimestamp: reaction.targetSentTimestamp?.toNumber(),
   };
 }
 
@@ -275,7 +333,7 @@ export function processGiftBadge(
   }
 
   const receipt = new ReceiptCredentialPresentation(
-    Buffer.from(giftBadge.receiptCredentialPresentation)
+    giftBadge.receiptCredentialPresentation
   );
 
   return {
@@ -316,14 +374,22 @@ export function processDataMessage(
     );
   }
 
+  const processedAttachments = message.attachments
+    ?.map((attachment: Proto.IAttachmentPointer) => ({
+      ...processAttachment(attachment),
+      downloadPath: doCreateName(),
+    }))
+    .filter(isNotNil);
+
+  const { bodyAttachment, attachments } = partitionBodyAndNormalAttachments(
+    { attachments: processedAttachments ?? [] },
+    { logId: `processDataMessage(${timestamp})` }
+  );
+
   const result: ProcessedDataMessage = {
     body: dropNull(message.body),
-    attachments: (message.attachments ?? []).map(
-      (attachment: Proto.IAttachmentPointer) => ({
-        ...processAttachment(attachment),
-        downloadPath: doCreateName(),
-      })
-    ),
+    bodyAttachment,
+    attachments,
     groupV2: processGroupV2Context(message.groupV2),
     flags: message.flags ?? 0,
     expireTimer: DurationInSeconds.fromSeconds(message.expireTimer ?? 0),
@@ -344,7 +410,7 @@ export function processDataMessage(
     delete: processDelete(message.delete),
     bodyRanges: filterAndClean(message.bodyRanges),
     groupCallUpdate: dropNull(message.groupCallUpdate),
-    storyContext: dropNull(message.storyContext),
+    storyContext: processStoryContext(message.storyContext),
     giftBadge: processGiftBadge(message.giftBadge),
   };
 

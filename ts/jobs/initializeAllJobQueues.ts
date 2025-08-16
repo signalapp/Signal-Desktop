@@ -7,6 +7,7 @@ import { CallLinkFinalizeDeleteManager } from './CallLinkFinalizeDeleteManager';
 
 import { callLinkRefreshJobQueue } from './callLinkRefreshJobQueue';
 import { conversationJobQueue } from './conversationJobQueue';
+import { deleteDownloadsJobQueue } from './deleteDownloadsJobQueue';
 import { groupAvatarJobQueue } from './groupAvatarJobQueue';
 import { readSyncJobQueue } from './readSyncJobQueue';
 import { removeStorageKeyJobQueue } from './removeStorageKeyJobQueue';
@@ -40,6 +41,7 @@ export function initializeAllJobQueues({
   drop(viewOnceOpenJobQueue.streamJobs());
 
   // Other queues
+  drop(deleteDownloadsJobQueue.streamJobs());
   drop(removeStorageKeyJobQueue.streamJobs());
   drop(reportSpamJobQueue.streamJobs());
   drop(callLinkRefreshJobQueue.streamJobs());

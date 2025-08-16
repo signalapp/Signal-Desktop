@@ -16,21 +16,33 @@ export const isProduction = (version: string): boolean => {
 export const isBeta = (version: string): boolean =>
   semver.parse(version)?.prerelease[0] === 'beta';
 
+export const isNightly = (version: string): boolean =>
+  isAlpha(version) || isAxolotl(version);
+
 export const isAlpha = (version: string): boolean =>
   semver.parse(version)?.prerelease[0] === 'alpha';
+
+export const isAxolotl = (version: string): boolean =>
+  semver.parse(version)?.prerelease[0] === 'axolotl';
+
+export const isAdhoc = (version: string): boolean =>
+  semver.parse(version)?.prerelease[0] === 'adhoc';
+
+export const isNotUpdatable = (version: string): boolean => isAdhoc(version);
 
 export const isStaging = (version: string): boolean =>
   semver.parse(version)?.prerelease[0] === 'staging';
 
-export const generateAlphaVersion = (options: {
+export const generateTaggedVersion = (options: {
+  release: string;
   currentVersion: string;
   shortSha: string;
 }): string => {
-  const { currentVersion, shortSha } = options;
+  const { release, currentVersion, shortSha } = options;
 
   const parsed = semver.parse(currentVersion);
   if (!parsed) {
-    throw new Error(`generateAlphaVersion: Invalid version ${currentVersion}`);
+    throw new Error(`generateTaggedVersion: Invalid version ${currentVersion}`);
   }
 
   const dateTimeParts = new Intl.DateTimeFormat('en', {
@@ -51,5 +63,5 @@ export const generateAlphaVersion = (options: {
 
   const formattedVersion = `${parsed.major}.${parsed.minor}.${parsed.patch}`;
 
-  return `${formattedVersion}-alpha.${formattedDate}-${shortSha}`;
+  return `${formattedVersion}-${release}.${formattedDate}-${shortSha}`;
 };

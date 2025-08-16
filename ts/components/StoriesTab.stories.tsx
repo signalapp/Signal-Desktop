@@ -7,16 +7,11 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './StoriesTab';
 import { StoriesTab } from './StoriesTab';
-import enMessages from '../../_locales/en/messages.json';
-import { setupI18n } from '../util/setupI18n';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
-import {
-  getFakeMyStory,
-  getFakeStory,
-} from '../test-both/helpers/getFakeStory';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
+import { getFakeMyStory, getFakeStory } from '../test-helpers/getFakeStory';
 import * as durations from '../util/durations';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/StoriesTab',

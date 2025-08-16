@@ -4,12 +4,11 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
 import type { Props } from './EmojiPicker';
 import { EmojiPicker } from './EmojiPicker';
+import { EmojiSkinTone } from '../fun/data/emojis';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Emoji/EmojiPicker',
@@ -20,9 +19,9 @@ export function Base(): JSX.Element {
     <EmojiPicker
       i18n={i18n}
       onPickEmoji={action('onPickEmoji')}
-      onSetSkinTone={action('onSetSkinTone')}
+      onEmojiSkinToneDefaultChange={action('onEmojiSkinToneDefaultChange')}
       onClose={action('onClose')}
-      skinTone={0}
+      emojiSkinToneDefault={EmojiSkinTone.None}
       recentEmojis={[
         'grinning',
         'grin',
@@ -67,9 +66,9 @@ export function NoRecents(): JSX.Element {
     <EmojiPicker
       i18n={i18n}
       onPickEmoji={action('onPickEmoji')}
-      onSetSkinTone={action('onSetSkinTone')}
+      onEmojiSkinToneDefaultChange={action('onEmojiSkinToneDefaultChange')}
       onClose={action('onClose')}
-      skinTone={0}
+      emojiSkinToneDefault={EmojiSkinTone.None}
       recentEmojis={[]}
       wasInvokedFromKeyboard={false}
     />
@@ -81,10 +80,10 @@ export function WithSettingsButton(): JSX.Element {
     <EmojiPicker
       i18n={i18n}
       onPickEmoji={action('onPickEmoji')}
-      onSetSkinTone={action('onSetSkinTone')}
+      onEmojiSkinToneDefaultChange={action('onEmojiSkinToneDefaultChange')}
       onClickSettings={action('onClickSettings')}
       onClose={action('onClose')}
-      skinTone={0}
+      emojiSkinToneDefault={EmojiSkinTone.None}
       recentEmojis={[]}
       wasInvokedFromKeyboard={false}
     />

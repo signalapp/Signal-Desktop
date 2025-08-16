@@ -4,7 +4,7 @@
 import { isNil, sortBy } from 'lodash';
 import PQueue from 'p-queue';
 
-import * as log from './logging/log';
+import { createLogger } from './logging/log';
 import { assertDev } from './util/assert';
 import { sleep } from './util/sleep';
 import { isNormalNumber } from './util/isNormalNumber';
@@ -17,6 +17,8 @@ import { drop } from './util/drop';
 import { MINUTE, HOUR, DAY, WEEK } from './util/durations';
 import { isDirectConversation } from './util/whatTypeOfConversation';
 
+const log = createLogger('routineProfileRefresh');
+
 const STORAGE_KEY = 'lastAttemptedToRefreshProfilesAt';
 const MAX_AGE_TO_BE_CONSIDERED_RECENTLY_REFRESHED = 3 * DAY;
 const MAX_CONVERSATIONS_TO_REFRESH = 50;
@@ -26,8 +28,8 @@ const MIN_REFRESH_DELAY = MINUTE;
 let idCounter = 1;
 
 export class RoutineProfileRefresher {
-  private started = false;
-  private id: number;
+  #started = false;
+  #id: number;
 
   constructor(
     private readonly options: {
@@ -39,20 +41,20 @@ export class RoutineProfileRefresher {
     // We keep track of how many of these classes we create, because we suspect that
     //   there might be too many...
     idCounter += 1;
-    this.id = idCounter;
+    this.#id = idCounter;
     log.info(
-      `Creating new RoutineProfileRefresher instance with id ${this.id}`
+      `Creating new RoutineProfileRefresher instance with id ${this.#id}`
     );
   }
 
   public async start(): Promise<void> {
-    const logId = `RoutineProfileRefresher.start/${this.id}`;
+    const logId = `RoutineProfileRefresher.start/${this.#id}`;
 
-    if (this.started) {
+    if (this.#started) {
       log.warn(`${logId}: already started!`);
       return;
     }
-    this.started = true;
+    this.#started = true;
 
     const { storage, getAllConversations, getOurConversationId } = this.options;
 
@@ -81,7 +83,7 @@ export class RoutineProfileRefresher {
           allConversations: getAllConversations(),
           ourConversationId,
           storage,
-          id: this.id,
+          id: this.#id,
         });
       } catch (error) {
         log.error(`${logId}: failure`, Errors.toLogFormat(error));

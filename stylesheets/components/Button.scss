@@ -1,6 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use 'sass:color';
+@use '../mixins';
+@use '../variables';
+
 .module-Button {
   @mixin focus-box-shadow($inner-color, $outer-color) {
     &:focus {
@@ -12,197 +16,229 @@
 
   @mixin hover-and-active-states($background-color, $mix-color) {
     &:hover {
-      @include not-disabled {
-        background: mix($background-color, $mix-color, 85%);
+      @include mixins.not-disabled {
+        background: color.mix($background-color, $mix-color, 85%);
       }
     }
     &:active {
-      @include not-disabled {
-        background: mix($background-color, $mix-color, 75%);
+      @include mixins.not-disabled {
+        background: color.mix($background-color, $mix-color, 75%);
       }
     }
   }
 
-  @include button-reset;
-  border-radius: 4px;
-  padding-block: 8px;
-  padding-inline: 16px;
-  text-align: center;
-  user-select: none;
-  -webkit-app-region: no-drag;
-
-  @include keyboard-mode {
-    @include focus-box-shadow($color-white, $color-ultramarine);
+  @include mixins.button-reset;
+  & {
+    border-radius: 4px;
+    padding-block: 8px;
+    padding-inline: 16px;
+    text-align: center;
+    user-select: none;
+    -webkit-app-region: no-drag;
   }
 
-  @include dark-keyboard-mode {
-    @include focus-box-shadow($color-black, $color-ultramarine-icon);
+  @include mixins.keyboard-mode {
+    @include focus-box-shadow(
+      variables.$color-white,
+      variables.$color-ultramarine
+    );
   }
 
-  @include disabled {
+  @include mixins.dark-keyboard-mode {
+    @include focus-box-shadow(
+      variables.$color-black,
+      variables.$color-ultramarine
+    );
+  }
+
+  @include mixins.disabled {
     cursor: not-allowed;
   }
 
   &--large {
-    @include font-title-2;
+    @include mixins.font-title-2;
     font-weight: bold;
   }
 
   &--medium {
-    @include font-body-1-bold;
+    @include mixins.font-body-1-bold;
   }
 
   &--small {
-    @include font-body-2;
-    @include rounded-corners;
+    @include mixins.font-body-2;
+    @include mixins.rounded-corners;
     padding-block: 6px;
     padding-inline: 12px;
   }
 
   &--primary {
-    $color: $color-white;
-    $background-color: $color-ultramarine;
+    $color: variables.$color-white;
+    $background-color: variables.$color-ultramarine;
 
     color: $color;
     background: $background-color;
 
-    @include disabled {
-      color: fade-out($color, 0.4);
-      background: fade-out($background-color, 0.6);
+    @include mixins.disabled {
+      color: color.adjust($color, $alpha: -0.4);
+      background: color.adjust($background-color, $alpha: -0.6);
     }
 
     &--discouraged {
-      @include light-theme {
+      @include mixins.light-theme {
         opacity: 0.4;
       }
-      @include dark-theme {
+      @include mixins.dark-theme {
         opacity: 0.5;
       }
     }
 
-    @include light-theme {
-      @include hover-and-active-states($background-color, $color-black);
+    @include mixins.light-theme {
+      @include hover-and-active-states(
+        $background-color,
+        variables.$color-black
+      );
     }
 
-    @include dark-theme {
-      @include hover-and-active-states($background-color, $color-white);
+    @include mixins.dark-theme {
+      @include hover-and-active-states(
+        $background-color,
+        variables.$color-white
+      );
     }
   }
 
   &--secondary {
-    @include light-theme {
-      $color: $color-gray-90;
-      $background-color: $color-gray-05;
+    @include mixins.light-theme {
+      $color: variables.$color-gray-90;
+      $background-color: variables.$color-gray-05;
 
       color: $color;
       background: $background-color;
 
-      @include disabled {
-        color: $color-black-alpha-40;
-        background: fade-out($background-color, 0.6);
+      @include mixins.disabled {
+        color: variables.$color-black-alpha-40;
+        background: color.adjust($background-color, $alpha: -0.6);
       }
 
       &--affirmative {
-        color: $color-ultramarine;
+        color: variables.$color-ultramarine;
       }
       &--affirmative--discouraged {
-        color: fade-out($color-ultramarine, 0.5);
+        color: color.adjust(variables.$color-ultramarine, $alpha: -0.5);
       }
 
       &--destructive {
-        color: $color-accent-red;
+        color: variables.$color-accent-red;
       }
       &--destructive--discouraged {
-        color: fade-out($color-ultramarine, 0.5);
+        color: color.adjust(variables.$color-ultramarine, $alpha: -0.5);
       }
 
-      @include hover-and-active-states($background-color, $color-black);
+      @include hover-and-active-states(
+        $background-color,
+        variables.$color-black
+      );
     }
 
-    @include dark-theme {
-      $color: $color-gray-05;
-      $background-color: $color-gray-65;
+    @include mixins.dark-theme {
+      $color: variables.$color-gray-05;
+      $background-color: variables.$color-gray-65;
 
       color: $color;
       background: $background-color;
 
-      @include disabled {
-        color: $color-white-alpha-20;
-        background: fade-out($background-color, 0.6);
+      @include mixins.disabled {
+        color: variables.$color-white-alpha-20;
+        background: color.adjust($background-color, $alpha: -0.6);
       }
 
       &--affirmative {
-        color: $color-ultramarine-light;
+        color: variables.$color-ultramarine-light;
       }
       &--affirmative--discouraged {
-        color: fade-out($color-ultramarine-light, 0.5);
+        color: color.adjust(variables.$color-ultramarine-light, $alpha: -0.5);
       }
 
       &--destructive {
-        color: $color-accent-red;
+        color: variables.$color-accent-red;
       }
       &--destructive--discouraged {
-        color: fade-out($color-accent-red, 0.5);
+        color: color.adjust(variables.$color-accent-red, $alpha: -0.5);
       }
 
-      @include hover-and-active-states($background-color, $color-white);
+      @include hover-and-active-states(
+        $background-color,
+        variables.$color-white
+      );
     }
   }
 
   &--destructive {
-    $color: $color-white;
-    $background-color: $color-accent-red;
+    $color: variables.$color-white;
+    $background-color: variables.$color-accent-red;
 
     color: $color;
     background: $background-color;
 
-    @include disabled {
-      color: fade-out($color, 0.4);
-      background: fade-out($background-color, 0.6);
+    @include mixins.disabled {
+      color: color.adjust($color, $alpha: -0.4);
+      background: color.adjust($background-color, $alpha: -0.6);
     }
 
-    @include light-theme {
-      @include hover-and-active-states($background-color, $color-black);
+    @include mixins.light-theme {
+      @include hover-and-active-states(
+        $background-color,
+        variables.$color-black
+      );
     }
 
-    @include dark-theme {
-      @include hover-and-active-states($background-color, $color-white);
+    @include mixins.dark-theme {
+      @include hover-and-active-states(
+        $background-color,
+        variables.$color-white
+      );
     }
   }
 
   &--calling {
-    $color: $color-white;
-    $background-color: $color-accent-green;
+    $color: variables.$color-white;
+    $background-color: variables.$color-accent-green;
 
-    @include rounded-corners;
+    @include mixins.rounded-corners;
     color: $color;
     background: $background-color;
 
-    @include disabled {
-      color: fade-out($color, 0.4);
-      background: fade-out($background-color, 0.6);
+    @include mixins.disabled {
+      color: color.adjust($color, $alpha: -0.4);
+      background: color.adjust($background-color, $alpha: -0.6);
     }
 
     &--discouraged {
-      @include light-theme {
+      @include mixins.light-theme {
         opacity: 0.4;
       }
-      @include dark-theme {
+      @include mixins.dark-theme {
         opacity: 0.5;
       }
     }
 
-    @include light-theme {
-      @include hover-and-active-states($background-color, $color-black);
+    @include mixins.light-theme {
+      @include hover-and-active-states(
+        $background-color,
+        variables.$color-black
+      );
     }
 
-    @include dark-theme {
-      @include hover-and-active-states($background-color, $color-white);
+    @include mixins.dark-theme {
+      @include hover-and-active-states(
+        $background-color,
+        variables.$color-white
+      );
     }
   }
 
   &--system-message {
-    @include rounded-corners;
+    @include mixins.rounded-corners;
 
     &.module-Button--small {
       padding-top: 5px;
@@ -210,40 +246,46 @@
       font-weight: 500;
     }
 
-    @include light-theme {
-      $color: $color-ultramarine;
-      $background-color: $color-gray-02;
+    @include mixins.light-theme {
+      $color: variables.$color-ultramarine;
+      $background-color: variables.$color-gray-02;
 
       color: $color;
       background: $background-color;
 
-      @include disabled {
-        color: fade-out($color, 0.4);
-        background: fade-out($background-color, 0.6);
+      @include mixins.disabled {
+        color: color.adjust($color, $alpha: -0.4);
+        background: color.adjust($background-color, $alpha: -0.6);
       }
       &--discouraged {
-        color: fade-out($color, 0.5);
+        color: color.adjust($color, $alpha: -0.5);
       }
 
-      @include hover-and-active-states($background-color, $color-black);
+      @include hover-and-active-states(
+        $background-color,
+        variables.$color-black
+      );
     }
 
-    @include dark-theme {
-      $color: $color-white;
-      $background-color: $color-gray-65;
+    @include mixins.dark-theme {
+      $color: variables.$color-white;
+      $background-color: variables.$color-gray-65;
 
       color: $color;
       background: $background-color;
 
-      @include disabled {
-        color: fade-out($color, 0.4);
-        background: fade-out($background-color, 0.6);
+      @include mixins.disabled {
+        color: color.adjust($color, $alpha: -0.4);
+        background: color.adjust($background-color, $alpha: -0.6);
       }
       &--discouraged {
-        color: fade-out($color, 0.5);
+        color: color.adjust($color, $alpha: -0.5);
       }
 
-      @include hover-and-active-states($background-color, $color-white);
+      @include hover-and-active-states(
+        $background-color,
+        variables.$color-white
+      );
     }
   }
 
@@ -260,27 +302,27 @@
     padding: 8px;
 
     &--discouraged {
-      @include light-theme {
+      @include mixins.light-theme {
         opacity: 0.4;
       }
-      @include dark-theme {
+      @include mixins.dark-theme {
         opacity: 0.5;
       }
     }
 
-    @include light-theme {
-      background-color: $color-gray-05;
-      color: $color-black;
+    @include mixins.light-theme {
+      background-color: variables.$color-gray-05;
+      color: variables.$color-black;
     }
 
-    @include dark-theme {
-      background-color: $color-gray-65;
-      color: $color-gray-05;
+    @include mixins.dark-theme {
+      background-color: variables.$color-gray-65;
+      color: variables.$color-gray-05;
     }
 
     &:focus {
-      @include keyboard-mode {
-        box-shadow: 0 0 0 2px $color-ultramarine;
+      @include mixins.keyboard-mode {
+        box-shadow: 0 0 0 2px variables.$color-ultramarine;
       }
     }
 
@@ -296,11 +338,11 @@
       height: 18px;
       width: 18px;
 
-      @include light-theme {
-        @include color-svg($icon, $color-black);
+      @include mixins.light-theme {
+        @include mixins.color-svg($icon, variables.$color-black);
       }
-      @include dark-theme {
-        @include color-svg($icon, $color-gray-05);
+      @include mixins.dark-theme {
+        @include mixins.color-svg($icon, variables.$color-gray-05);
       }
     }
 

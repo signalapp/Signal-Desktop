@@ -1,30 +1,41 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import Quill from 'quill';
-import Delta from 'quill-delta';
+import { Delta } from '@signalapp/quill-cjs';
+import Emitter from '@signalapp/quill-cjs/core/emitter';
 import React from 'react';
 import _, { isNumber } from 'lodash';
-
+import type Quill from '@signalapp/quill-cjs';
 import { Popper } from 'react-popper';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 import type { VirtualElement } from '@popperjs/core';
-import { convertShortName, isShortName } from '../../components/emoji/lib';
-import type { SearchFnType } from '../../components/emoji/lib';
-import { Emoji } from '../../components/emoji/Emoji';
+import { convertShortName } from '../../components/emoji/lib';
 import type { EmojiPickDataType } from '../../components/emoji/EmojiPicker';
 import { getBlotTextPartitions, matchBlotTextPartitions } from '../util';
 import { handleOutsideClick } from '../../util/handleOutsideClick';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
+import { FunStaticEmoji } from '../../components/fun/FunEmoji';
+import {
+  EmojiSkinTone,
+  getEmojiParentByKey,
+  getEmojiVariantByParentKeyAndSkinTone,
+  normalizeShortNameCompletionDisplay,
+} from '../../components/fun/data/emojis';
+import type {
+  FunEmojiSearchResult,
+  FunEmojiSearch,
+} from '../../components/fun/useFunEmojiSearch';
+import { type FunEmojiLocalizer } from '../../components/fun/useFunEmojiLocalizer';
 
-const Keyboard = Quill.import('modules/keyboard');
+const log = createLogger('completion');
 
-type EmojiPickerOptions = {
+export type EmojiCompletionOptions = {
   onPickEmoji: (emoji: EmojiPickDataType) => void;
   setEmojiPickerElement: (element: JSX.Element | null) => void;
-  skinTone: number;
-  search: SearchFnType;
+  emojiSkinToneDefault: EmojiSkinTone | null;
+  emojiSearch: FunEmojiSearch;
+  emojiLocalizer: FunEmojiLocalizer;
 };
 
 export type InsertEmojiOptionsType = Readonly<{
@@ -36,11 +47,11 @@ export type InsertEmojiOptionsType = Readonly<{
 }>;
 
 export class EmojiCompletion {
-  results: Array<string>;
+  results: ReadonlyArray<FunEmojiSearchResult>;
 
   index: number;
 
-  options: EmojiPickerOptions;
+  options: EmojiCompletionOptions;
 
   root: HTMLDivElement;
 
@@ -48,7 +59,7 @@ export class EmojiCompletion {
 
   outsideClickDestructor?: () => void;
 
-  constructor(quill: Quill, options: EmojiPickerOptions) {
+  constructor(quill: Quill, options: EmojiCompletionOptions) {
     this.results = [];
     this.index = 0;
     this.options = options;
@@ -72,10 +83,10 @@ export class EmojiCompletion {
       return true;
     };
 
-    this.quill.keyboard.addBinding({ key: Keyboard.keys.UP }, changeIndex(-1));
-    this.quill.keyboard.addBinding({ key: Keyboard.keys.RIGHT }, clearResults);
-    this.quill.keyboard.addBinding({ key: Keyboard.keys.DOWN }, changeIndex(1));
-    this.quill.keyboard.addBinding({ key: Keyboard.keys.LEFT }, clearResults);
+    this.quill.keyboard.addBinding({ key: 'ArrowUp' }, changeIndex(-1));
+    this.quill.keyboard.addBinding({ key: 'ArrowRight' }, clearResults);
+    this.quill.keyboard.addBinding({ key: 'ArrowDown' }, changeIndex(1));
+    this.quill.keyboard.addBinding({ key: 'ArrowLeft' }, clearResults);
     this.quill.keyboard.addBinding(
       {
         // 186 + Shift = Colon
@@ -94,12 +105,15 @@ export class EmojiCompletion {
 
     const debouncedOnTextChange = _.debounce(() => this.onTextChange(), 100);
 
-    this.quill.on('text-change', (_now, _before, source) => {
+    this.quill.on(Emitter.events.TEXT_CHANGE, (_now, _before, source) => {
       if (source === 'user') {
         debouncedOnTextChange();
       }
     });
-    this.quill.on('selection-change', this.onSelectionChange.bind(this));
+    this.quill.on(
+      Emitter.events.SELECTION_CHANGE,
+      this.onSelectionChange.bind(this)
+    );
   }
 
   destroy(): void {
@@ -116,8 +130,14 @@ export class EmojiCompletion {
   getCurrentLeafTextPartitions(): [string, string] {
     const range = this.quill.getSelection();
     const [blot, index] = this.quill.getLeaf(range ? range.index : -1);
+    const text = blot?.value();
+    if (text && typeof text !== 'string') {
+      throw new Error(
+        'EmojiCompletion/getCurrentLeafTextPartitions: Blot value was not a string'
+      );
+    }
 
-    return getBlotTextPartitions(blot.text, index);
+    return getBlotTextPartitions(text, index);
   }
 
   onSelectionChange(): void {
@@ -147,11 +167,14 @@ export class EmojiCompletion {
       const [, leftTokenText, isSelfClosing] = leftTokenTextMatch;
 
       if (isSelfClosing || justPressedColon) {
-        if (isShortName(leftTokenText)) {
+        const parentKey =
+          this.options.emojiLocalizer.getParentKeyForText(leftTokenText);
+        if (parentKey != null) {
           const numberOfColons = isSelfClosing ? 2 : 1;
+          const emoji = getEmojiParentByKey(parentKey);
 
           this.insertEmoji({
-            shortName: leftTokenText,
+            shortName: emoji.englishShortNameDefault,
             index: range.index - leftTokenText.length - numberOfColons,
             range: leftTokenText.length + numberOfColons,
             justPressedColon,
@@ -165,10 +188,13 @@ export class EmojiCompletion {
       if (rightTokenTextMatch) {
         const [, rightTokenText] = rightTokenTextMatch;
         const tokenText = leftTokenText + rightTokenText;
+        const parentKey =
+          this.options.emojiLocalizer.getParentKeyForText(tokenText);
 
-        if (isShortName(tokenText)) {
+        if (parentKey != null) {
+          const emoji = getEmojiParentByKey(parentKey);
           this.insertEmoji({
-            shortName: tokenText,
+            shortName: emoji.englishShortNameDefault,
             index: range.index - leftTokenText.length - 1,
             range: tokenText.length + 2,
             justPressedColon,
@@ -182,7 +208,7 @@ export class EmojiCompletion {
         return PASS_THROUGH;
       }
 
-      const showEmojiResults = this.options.search(leftTokenText, 10);
+      const showEmojiResults = this.options.emojiSearch(leftTokenText, 10);
 
       if (showEmojiResults.length > 0) {
         this.results = showEmojiResults;
@@ -214,7 +240,7 @@ export class EmojiCompletion {
       return;
     }
 
-    const emoji = this.results[this.index];
+    const result = this.results[this.index];
     const [leafText] = this.getCurrentLeafTextPartitions();
 
     const tokenTextMatch = /:([-+0-9\p{Alpha}_]*)(:?)$/iu.exec(leafText);
@@ -224,9 +250,10 @@ export class EmojiCompletion {
     }
 
     const [, tokenText] = tokenTextMatch;
+    const parent = getEmojiParentByKey(result.parentKey);
 
     this.insertEmoji({
-      shortName: emoji,
+      shortName: parent.englishShortNameDefault,
       index: range.index - tokenText.length - 1,
       range: tokenText.length + 1,
       withTrailingSpace: true,
@@ -240,7 +267,10 @@ export class EmojiCompletion {
     withTrailingSpace = false,
     justPressedColon = false,
   }: InsertEmojiOptionsType): void {
-    const emoji = convertShortName(shortName, this.options.skinTone);
+    const emoji = convertShortName(
+      shortName,
+      this.options.emojiSkinToneDefault ?? EmojiSkinTone.None
+    );
 
     let source = this.quill.getText(index, range);
     if (justPressedColon) {
@@ -266,7 +296,7 @@ export class EmojiCompletion {
 
     this.options.onPickEmoji({
       shortName,
-      skinTone: this.options.skinTone,
+      skinTone: this.options.emojiSkinToneDefault ?? EmojiSkinTone.None,
     });
 
     this.reset();
@@ -344,38 +374,55 @@ export class EmojiCompletion {
             role="listbox"
             aria-expanded
             aria-activedescendant={`emoji-result--${
-              emojiResults.length ? emojiResults[emojiResultsIndex] : ''
+              emojiResults.length
+                ? emojiResults[emojiResultsIndex].parentKey
+                : ''
             }`}
             tabIndex={0}
           >
-            {emojiResults.map((emoji, index) => (
-              <button
-                type="button"
-                key={emoji}
-                id={`emoji-result--${emoji}`}
-                role="option button"
-                aria-selected={emojiResultsIndex === index}
-                onClick={() => {
-                  this.index = index;
-                  this.completeEmoji();
-                }}
-                className={classNames(
-                  'module-composition-input__suggestions__row',
-                  emojiResultsIndex === index
-                    ? 'module-composition-input__suggestions__row--selected'
-                    : null
-                )}
-              >
-                <Emoji
-                  shortName={emoji}
-                  size={16}
-                  skinTone={this.options.skinTone}
-                />
-                <div className="module-composition-input__suggestions__row__short-name">
-                  :{emoji}:
-                </div>
-              </button>
-            ))}
+            {emojiResults.map((result, index) => {
+              const emojiVariant = getEmojiVariantByParentKeyAndSkinTone(
+                result.parentKey,
+                this.options.emojiSkinToneDefault ?? EmojiSkinTone.None
+              );
+
+              const localeShortName =
+                this.options.emojiLocalizer.getLocaleShortName(
+                  emojiVariant.key
+                );
+
+              const normalized =
+                normalizeShortNameCompletionDisplay(localeShortName);
+
+              return (
+                <button
+                  type="button"
+                  key={result.parentKey}
+                  id={`emoji-result--${result.parentKey}`}
+                  role="option button"
+                  aria-selected={emojiResultsIndex === index}
+                  onClick={() => {
+                    this.index = index;
+                    this.completeEmoji();
+                  }}
+                  className={classNames(
+                    'module-composition-input__suggestions__row',
+                    emojiResultsIndex === index
+                      ? 'module-composition-input__suggestions__row--selected'
+                      : null
+                  )}
+                >
+                  <FunStaticEmoji
+                    role="presentation"
+                    emoji={emojiVariant}
+                    size={16}
+                  />
+                  <div className="module-composition-input__suggestions__row__short-name">
+                    :{normalized}:
+                  </div>
+                </button>
+              );
+            })}
           </div>
         )}
       </Popper>,

@@ -41,12 +41,15 @@ type KeyType =
   | 'L'
   | 'M'
   | 'N'
+  | 'O'
   | 'P'
+  | 'Q'
   | 'R'
   | 'S'
   | 'T'
   | 'U'
   | 'V'
+  | 'W'
   | 'X'
   | 'Y'
   | '1 to 9';
@@ -154,6 +157,11 @@ function getNavigationShortcuts(i18n: LocalizerType): Array<ShortcutType> {
     {
       id: 'Keyboard--open-sticker-chooser',
       description: i18n('icu:Keyboard--open-sticker-chooser'),
+      keys: [['commandOrCtrl', 'shift', 'O']],
+    },
+    {
+      id: 'Keyboard--open-gif-chooser',
+      description: i18n('icu:Keyboard--open-gif-chooser'),
       keys: [['commandOrCtrl', 'shift', 'G']],
     },
     {
@@ -317,12 +325,17 @@ function getCallingShortcuts(i18n: LocalizerType): Array<ShortcutType> {
       keys: [['shift', 'V']],
     },
     {
-      id: 'icu:Keyboard--accept-video-call',
+      id: 'Keyboard--toggle-preview',
+      description: i18n('icu:Keyboard--toggle-preview'),
+      keys: [['shift', 'P']],
+    },
+    {
+      id: 'Keyboard--accept-video-call',
       description: i18n('icu:Keyboard--accept-video-call'),
       keys: [['ctrlOrAlt', 'shift', 'V']],
     },
     {
-      id: 'icu:Keyboard--accept-call-without-video',
+      id: 'Keyboard--accept-call-without-video',
       description: i18n('icu:Keyboard--accept-call-without-video'),
       keys: [['ctrlOrAlt', 'shift', 'A']],
     },

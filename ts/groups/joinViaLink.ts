@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { render, unmountComponentAtNode } from 'react-dom';
+import { unmountComponentAtNode } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import type { ConversationAttributesType } from '../model-types.d';
 import type { ConversationModel } from '../models/conversations';
@@ -10,7 +11,7 @@ import type { PreJoinConversationType } from '../state/ducks/conversations';
 import { DataWriter } from '../sql/Client';
 import * as Bytes from '../Bytes';
 import * as Errors from '../types/errors';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { HTTPError } from '../textsecure/Errors';
 import { SignalService as Proto } from '../protobuf';
 import type { ContactAvatarType } from '../types/Avatar';
@@ -36,6 +37,8 @@ import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl';
 import { type Loadable, LoadingState } from '../util/loadable';
 import { missingCaseError } from '../util/missingCaseError';
 
+const log = createLogger('joinViaLink');
+
 export async function joinViaLink(value: string): Promise<void> {
   let inviteLinkPassword: string;
   let masterKey: string;
@@ -43,7 +46,7 @@ export async function joinViaLink(value: string): Promise<void> {
     ({ inviteLinkPassword, masterKey } = parseGroupLink(value));
   } catch (error: unknown) {
     const errorString = Errors.toLogFormat(error);
-    log.error(`joinViaLink: Failed to parse group link ${errorString}`);
+    log.error(`Failed to parse group link ${errorString}`);
 
     if (error instanceof Error && error.name === LINK_VERSION_ERROR) {
       window.reduxActions.globalModals.showErrorModal({
@@ -71,9 +74,7 @@ export async function joinViaLink(value: string): Promise<void> {
   const ourAci = window.textsecure.storage.user.getCheckedAci();
 
   if (existingConversation && existingConversation.hasMember(ourAci)) {
-    log.warn(
-      `joinViaLink/${logId}: Already a member of group, opening conversation`
-    );
+    log.warn(`${logId}: Already a member of group, opening conversation`);
     window.reduxActions.conversations.showConversation({
       conversationId: existingConversation.id,
     });
@@ -96,9 +97,7 @@ export async function joinViaLink(value: string): Promise<void> {
     });
   } catch (error: unknown) {
     const errorString = Errors.toLogFormat(error);
-    log.error(
-      `joinViaLink/${logId}: Failed to fetch group info - ${errorString}`
-    );
+    log.error(`${logId}: Failed to fetch group info - ${errorString}`);
 
     if (
       error instanceof HTTPError &&
@@ -124,7 +123,7 @@ export async function joinViaLink(value: string): Promise<void> {
 
   if (!isAccessControlEnabled(dropNull(result.addFromInviteLink))) {
     log.error(
-      `joinViaLink/${logId}: addFromInviteLink value of ${result.addFromInviteLink} is invalid`
+      `${logId}: addFromInviteLink value of ${result.addFromInviteLink} is invalid`
     );
     window.reduxActions.globalModals.showErrorModal({
       description: window.i18n('icu:GroupV2--join--link-revoked'),
@@ -158,9 +157,7 @@ export async function joinViaLink(value: string): Promise<void> {
     existingConversation &&
     existingConversation.isMemberAwaitingApproval(ourAci)
   ) {
-    log.warn(
-      `joinViaLink/${logId}: Already awaiting approval, opening conversation`
-    );
+    log.warn(`${logId}: Already awaiting approval, opening conversation`);
     const timestamp = existingConversation.get('timestamp') || Date.now();
     // eslint-disable-next-line camelcase
     const active_at = existingConversation.get('active_at') || Date.now();
@@ -266,7 +263,7 @@ export async function joinViaLink(value: string): Promise<void> {
                 targetConversation.isMemberAwaitingApproval(ourAci)))
           ) {
             log.warn(
-              `joinViaLink/${logId}: User is part of group on second check, opening conversation`
+              `${logId}: User is part of group on second check, opening conversation`
             );
             window.reduxActions.conversations.showConversation({
               conversationId: targetConversation.id,
@@ -388,14 +385,13 @@ export async function joinViaLink(value: string): Promise<void> {
     getPreJoinConversation()
   );
 
-  log.info(`joinViaLink/${logId}: Showing modal`);
+  log.info(`${logId}: Showing modal`);
 
   let groupV2InfoNode: HTMLDivElement | undefined =
     document.createElement('div');
 
-  render(
-    createGroupV2JoinModal(window.reduxStore, { join, onClose: closeDialog }),
-    groupV2InfoNode
+  createRoot(groupV2InfoNode).render(
+    createGroupV2JoinModal(window.reduxStore, { join, onClose: closeDialog })
   );
 
   // We declare a new function here so we can await but not block
@@ -415,7 +411,12 @@ export async function joinViaLink(value: string): Promise<void> {
       secretParams,
     };
     try {
-      const patch = await applyNewAvatar(result.avatar, attributes, logId);
+      const patch = await applyNewAvatar({
+        newAvatarUrl: result.avatar,
+        attributes,
+        logId,
+        forceDownload: true,
+      });
       attributes = { ...attributes, ...patch };
 
       if (attributes.avatar && attributes.avatar.path) {

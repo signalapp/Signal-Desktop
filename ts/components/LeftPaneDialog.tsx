@@ -9,10 +9,21 @@ import { WidthBreakpoint } from './_util';
 
 const BASE_CLASS_NAME = 'LeftPaneDialog';
 const TOOLTIP_CLASS_NAME = `${BASE_CLASS_NAME}__tooltip`;
+export type DismissOptions =
+  | {
+      onClose?: undefined;
+      closeLabel?: undefined;
+      hasXButton?: false;
+    }
+  | {
+      onClose: () => void;
+      closeLabel: string;
+      hasXButton: true;
+    };
 
 export type PropsType = {
-  type?: 'warning' | 'error';
-  icon?: 'update' | 'relink' | 'network' | 'warning' | 'error' | ReactChild;
+  type?: 'warning' | 'error' | 'info';
+  icon?: 'update' | 'relink' | 'network' | 'warning' | 'error' | JSX.Element;
   title?: string;
   subtitle?: string;
   children?: ReactNode;
@@ -27,21 +38,10 @@ export type PropsType = {
   | {
       onClick: () => void;
       clickLabel: string;
-      hasAction: true;
+      hasAction: boolean;
     }
 ) &
-  (
-    | {
-        onClose?: undefined;
-        closeLabel?: undefined;
-        hasXButton?: false;
-      }
-    | {
-        onClose: () => void;
-        closeLabel: string;
-        hasXButton: true;
-      }
-  );
+  DismissOptions;
 
 export function LeftPaneDialog({
   icon = 'warning',
@@ -83,14 +83,6 @@ export function LeftPaneDialog({
 
     onClose?.();
   };
-
-  const iconClassName =
-    typeof icon === 'string'
-      ? classNames([
-          `${BASE_CLASS_NAME}__icon`,
-          `${BASE_CLASS_NAME}__icon--${icon}`,
-        ])
-      : undefined;
 
   let action: ReactNode;
   if (hasAction) {
@@ -139,11 +131,18 @@ export function LeftPaneDialog({
       {action}
     </>
   );
-
   const content = (
     <>
       <div className={`${BASE_CLASS_NAME}__container`}>
-        {typeof icon === 'string' ? <div className={iconClassName} /> : icon}
+        {icon ? (
+          <div className={`${BASE_CLASS_NAME}__icon-container`}>
+            {typeof icon === 'string' ? (
+              <LeftPaneDialogIcon type={icon} />
+            ) : (
+              icon
+            )}
+          </div>
+        ) : null}
         {containerWidthBreakpoint !== WidthBreakpoint.Narrow && (
           <div className={`${BASE_CLASS_NAME}__message`}>{message}</div>
         )}
@@ -191,4 +190,32 @@ export function LeftPaneDialog({
   }
 
   return dialogNode;
+}
+
+export function LeftPaneDialogIcon({
+  type,
+}: {
+  type?: 'update' | 'relink' | 'network' | 'warning' | 'error';
+}): JSX.Element {
+  const iconClassName = classNames([
+    `${BASE_CLASS_NAME}__icon`,
+    `${BASE_CLASS_NAME}__icon--${type}`,
+  ]);
+  return <div className={iconClassName} />;
+}
+
+export function LeftPaneDialogIconBackground({
+  type,
+  children,
+}: {
+  type?: 'warning';
+  children: React.ReactNode;
+}): JSX.Element {
+  return (
+    <div
+      className={`${BASE_CLASS_NAME}__icon-background ${BASE_CLASS_NAME}__icon-background--${type}`}
+    >
+      {children}
+    </div>
+  );
 }

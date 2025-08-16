@@ -1,0 +1,38 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../../variables';
+@use './FunConstants.scss';
+
+.FunPanel {
+  display: grid;
+  width: FunConstants.$Fun__PanelWidth;
+  height: FunConstants.$Fun__PanelHeight;
+  max-height: 100%;
+  contain: size layout;
+  grid-template:
+    'FunPanel__Header' auto
+    'FunPanel__Body' 1fr
+    'FunPanel__Footer' auto;
+}
+
+.FunPanel__Header {
+  grid-area: FunPanel__Header;
+  display: flex;
+  gap: 6px;
+  padding-block: 12px;
+  padding-inline: 12px;
+
+  .FunTabs__TabPanelInner & {
+    padding-top: 0;
+  }
+}
+
+.FunPanel__Body {
+  grid-area: FunPanel__Body;
+}
+
+.FunPanel__Footer {
+  grid-area: FunPanel__Footer;
+  min-width: 0;
+}

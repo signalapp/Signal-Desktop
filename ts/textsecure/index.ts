@@ -5,7 +5,6 @@ import EventTarget from './EventTarget';
 import AccountManager from './AccountManager';
 import MessageReceiver from './MessageReceiver';
 import utils from './Helpers';
-import SyncRequest from './SyncRequest';
 import MessageSender from './SendMessage';
 import { Storage } from './Storage';
 import * as WebAPI from './WebAPI';
@@ -19,7 +18,6 @@ export type TextSecureType = {
   EventTarget: typeof EventTarget;
   MessageReceiver: typeof MessageReceiver;
   MessageSender: typeof MessageSender;
-  SyncRequest: typeof SyncRequest;
   WebAPI: typeof WebAPI;
   WebSocketResource: typeof WebSocketResource;
 
@@ -35,7 +33,6 @@ export const textsecure: TextSecureType = {
   EventTarget,
   MessageReceiver,
   MessageSender,
-  SyncRequest,
   WebAPI,
   WebSocketResource,
 };

@@ -15,7 +15,7 @@ export const CALLING_REACTIONS_LIFETIME = 4000;
 // once presentation is complete
 export enum CallViewMode {
   Paginated = 'Paginated',
-  Overflow = 'Overflow',
+  Sidebar = 'Sidebar',
   Speaker = 'Speaker',
   Presentation = 'Presentation',
 }
@@ -57,6 +57,7 @@ export type ActiveCallBaseType = {
   presentingSource?: PresentedSource;
   presentingSourcesAvailable?: ReadonlyArray<PresentableSource>;
   settingsDialogOpen: boolean;
+  selfViewExpanded: boolean;
   showNeedsScreenRecordingPermissionsWarning?: boolean;
   showParticipantsList: boolean;
   reactions?: ActiveCallReactionsType;
@@ -78,6 +79,14 @@ export type ActiveDirectCallType = ActiveCallBaseType & {
       serviceId?: ServiceIdString;
     },
   ];
+  hasRemoteVideo: boolean;
+  hasRemoteAudio: boolean;
+  remoteAudioLevel: number;
+};
+
+export type ObservedRemoteMuteType = {
+  source: number;
+  target: number;
 };
 
 export type ActiveGroupCallType = ActiveCallBaseType & {
@@ -95,6 +104,9 @@ export type ActiveGroupCallType = ActiveCallBaseType & {
   raisedHands: Set<number>;
   remoteParticipants: Array<GroupCallRemoteParticipantType>;
   remoteAudioLevels: Map<number, number>;
+  suggestLowerHand: boolean;
+  mutedBy?: number;
+  observedRemoteMute?: ObservedRemoteMuteType;
 };
 
 export type ActiveCallType = ActiveDirectCallType | ActiveGroupCallType;
@@ -205,3 +217,15 @@ export enum ScreenShareStatus {
   Reconnecting = 'Reconnecting',
   Disconnected = 'Disconnected',
 }
+
+export type IceServerType = {
+  username?: string;
+  password?: string;
+  hostname?: string;
+  urls: Array<string>;
+};
+
+export type IceServerCacheType = {
+  iceServers: Array<IceServerType>;
+  expirationTimestamp: number;
+};

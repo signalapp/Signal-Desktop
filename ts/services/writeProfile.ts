@@ -4,7 +4,7 @@
 import { DataWriter } from '../sql/Client';
 import type { ConversationType } from '../state/ducks/conversations';
 import * as Errors from '../types/errors';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { computeHash } from '../Crypto';
 import { encryptProfileData } from '../util/encryptProfileData';
 import { getProfile } from '../util/getProfile';
@@ -18,6 +18,8 @@ import type {
   AvatarUpdateType,
 } from '../types/Avatar';
 import MessageSender from '../textsecure/SendMessage';
+
+const log = createLogger('writeProfile');
 
 export async function writeProfile(
   conversation: ConversationType,
@@ -48,6 +50,7 @@ export async function writeProfile(
     rawAvatarPath,
     familyName,
     firstName,
+    badges,
   } = conversation;
 
   strictAssert(
@@ -64,7 +67,7 @@ export async function writeProfile(
       try {
         avatarBuffer = await imagePathToBytes(profileAvatarUrl);
       } catch (error) {
-        log.warn('writeProfile: local avatar not found, dropping remote');
+        log.warn('local avatar not found, dropping remote');
       }
     }
 
@@ -95,9 +98,13 @@ export async function writeProfile(
       | undefined;
   } = {};
   if (profileData.sameAvatar) {
-    log.info('writeProfile: not updating avatar');
-  } else if (avatarRequestHeaders && encryptedAvatarData && newAvatar) {
-    log.info('writeProfile: uploading new avatar');
+    log.info('not updating avatar');
+  } else if (
+    typeof avatarRequestHeaders === 'object' &&
+    encryptedAvatarData &&
+    newAvatar
+  ) {
+    log.info('uploading new avatar');
     const avatarUrl = await server.uploadAvatar(
       avatarRequestHeaders,
       encryptedAvatarData
@@ -106,7 +113,7 @@ export async function writeProfile(
     const hash = await computeHash(newAvatar);
 
     if (hash !== avatarHash) {
-      log.info('writeProfile: removing old avatar and saving the new one');
+      log.info('removing old avatar and saving the new one');
       const [local] = await Promise.all([
         window.Signal.Migrations.writeNewAttachmentData(newAvatar),
         rawAvatarPath
@@ -120,7 +127,7 @@ export async function writeProfile(
 
     await window.storage.put('avatarUrl', avatarUrl);
   } else if (rawAvatarPath) {
-    log.info('writeProfile: removing avatar');
+    log.info('removing avatar');
     await Promise.all([
       window.Signal.Migrations.deleteAttachmentData(rawAvatarPath),
       window.storage.put('avatarUrl', undefined),
@@ -129,12 +136,13 @@ export async function writeProfile(
     maybeProfileAvatarUpdate = { profileAvatar: undefined };
   }
 
-  // Update backbone, update DB, run storage service upload
+  // Update model, update DB, run storage service upload
   model.set({
     about: aboutText,
     aboutEmoji,
     profileName: firstName,
     profileFamilyName: familyName,
+    badges: badges ? [...badges] : undefined,
     ...maybeProfileAvatarUpdate,
   });
 
@@ -146,9 +154,6 @@ export async function writeProfile(
       MessageSender.getFetchLocalProfileSyncMessage()
     );
   } catch (error) {
-    log.error(
-      'writeProfile: Failed to queue sync message',
-      Errors.toLogFormat(error)
-    );
+    log.error('Failed to queue sync message', Errors.toLogFormat(error));
   }
 }

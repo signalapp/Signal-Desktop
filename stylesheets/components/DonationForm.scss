@@ -1,0 +1,253 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../mixins';
+@use '../variables';
+
+.DonationForm {
+  max-width: 439px;
+  align-self: center;
+  text-align: center;
+}
+
+.DonationForm__CurrencySelect {
+  width: 78px;
+  margin-inline: auto;
+}
+
+.DonationForm__CurrencySelect.module-select select {
+  height: auto;
+  min-width: auto;
+  padding-block: 5px;
+}
+
+.DonationForm .DonationForm__CurrencySelect.module-select select {
+  border-color: light-dark(
+    variables.$color-gray-25,
+    variables.$color-white-alpha-12
+  );
+}
+
+.DonationForm__HelpFooter {
+  @include mixins.font-body-small;
+  flex-grow: 1;
+  color: light-dark(
+    variables.$color-black-alpha-50,
+    variables.$color-white-alpha-50
+  );
+  align-content: flex-end;
+  text-align: center;
+}
+
+.DonationForm__HelpFooterDesktopOneTimeOnlyNotice {
+  margin-block: 10px 17px;
+}
+
+a.DonationFormHelpFooter__ContactSupportLink {
+  color: variables.$color-ultramarine;
+  text-decoration: none;
+}
+
+.DonationAmountPicker__AmountOptions {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 340px;
+  justify-content: center;
+}
+
+.DonationAmountPicker__PresetButton,
+.DonationForm.PreferencesDonations .DonationAmountPicker__CustomInput,
+.DonationForm .DonationAmountPicker__CustomInput--selected,
+.DonationForm .DonationAmountPicker__CustomInput--with-error {
+  margin-block: 5px;
+  margin-inline: 5px;
+  border-width: 0.5px;
+  border-style: solid;
+  border-radius: 6px;
+  font-weight: 400;
+}
+
+.DonationAmountPicker__PresetButton,
+.DonationForm .DonationForm__CurrencySelect.module-select select,
+.DonationForm.PreferencesDonations .DonationAmountPicker__CustomInput,
+.DonationForm.PreferencesDonations .DonationAmountPicker__CustomInput--selected,
+.DonationForm.PreferencesDonations
+  .DonationAmountPicker__CustomInput--with-error {
+  background-color: light-dark(
+    variables.$color-white,
+    variables.$color-gray-85
+  );
+  border-color: light-dark(
+    variables.$color-gray-25,
+    variables.$color-white-alpha-12
+  );
+}
+
+.DonationAmountPicker__PresetButton {
+  @include mixins.font-body-1;
+  width: 100px;
+  padding-inline: 12px;
+  padding-block: 14px;
+  margin-block: 5px;
+  margin-inline: 5px;
+  font-weight: 400;
+}
+
+.DonationAmountPicker__PresetButton--selected,
+.DonationForm .DonationAmountPicker__CustomInput--selected,
+.DonationForm .DonationAmountPicker__CustomInput--with-error:focus,
+.DonationForm .DonationAmountPicker__CustomInput:focus {
+  border-color: variables.$color-ultramarine;
+  outline: 2.5px solid variables.$color-ultramarine;
+  outline-offset: -2.5px;
+}
+
+.DonationForm .DonationAmountPicker__CustomInput,
+.DonationForm .DonationAmountPicker__CustomInput--selected,
+.DonationForm .DonationAmountPicker__CustomInput--with-error {
+  width: 320px;
+  padding-block: 0;
+  border-width: 0.5px;
+}
+
+.DonationForm .DonationAmountPicker__CustomInput--with-error:not(:focus) {
+  border-color: variables.$color-deep-red;
+  outline: 2.5px solid variables.$color-deep-red;
+  outline-offset: -2.5px;
+}
+
+.DonationForm .DonationAmountPicker__CustomInput,
+.DonationForm .DonationAmountPicker__CustomInput--selected,
+.DonationForm .DonationAmountPicker__CustomInput--with-error {
+  @include mixins.font-body-1;
+  padding-inline: 12px;
+  padding-block: 14px;
+  text-align: center;
+}
+
+.DonationAmountPicker__CustomInput:not(:focus)::placeholder {
+  color: light-dark(
+    variables.$color-black-alpha-85,
+    variables.$color-white-alpha-85
+  );
+  opacity: 1;
+}
+
+.DonationAmountPicker__CustomInput:focus::placeholder,
+.DonationAmountPicker__CustomInput--selected:focus::placeholder,
+.DonationAmountPicker__CustomInput--with-error:focus::placeholder {
+  color: transparent;
+}
+
+.DonationAmountPicker__PrimaryButtonContainer {
+  margin-block-start: 11px;
+  margin-inline-end: 10px;
+  text-align: end;
+}
+
+.DonationCardForm {
+  margin-inline: 3px;
+}
+
+.DonationCardForm .DonationCardForm__Header--Info {
+  padding-inline: 0;
+  margin-block: 8px;
+  text-align: start;
+}
+
+.DonationCardForm__Info {
+  @include mixins.font-body-2;
+  text-align: start;
+  margin-block-end: 26px;
+  color: light-dark(
+    variables.$color-black-alpha-50,
+    variables.$color-white-alpha-50
+  );
+
+  &__read-more {
+    @include mixins.button-reset;
+
+    & {
+      color: variables.$color-ultramarine;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.DonationCardForm_Field {
+  display: flex;
+  margin-block: 12px;
+}
+
+.DonationCardForm_Field input {
+  @include mixins.font-body-2;
+  display: flex;
+  padding-block: 5px;
+  padding-inline: 12px 6px;
+  background-color: light-dark(
+    variables.$color-white,
+    variables.$color-gray-85
+  );
+  border-radius: 6px;
+  border: 0.5px solid rgba(0, 0, 0, 0.16);
+  box-shadow: 0 1px 1px 0 variables.$color-black-alpha-08;
+  outline-offset: -2.5px;
+}
+
+.DonationCardForm_Field input:focus {
+  outline: 2.5px solid variables.$color-ultramarine-pastel;
+}
+
+.DonationCardForm_Label,
+.DonationCardForm_Field input {
+  color: light-dark(
+    variables.$color-black-alpha-85,
+    variables.$color-white-alpha-85
+  );
+}
+
+.DonationCardForm_Label {
+  @include mixins.font-body-2;
+  display: flex;
+  flex-basis: 33%;
+  line-height: 20px;
+  padding-block: 5px;
+  margin-inline-end: 12px;
+  justify-content: flex-end;
+}
+
+.DonationCardForm_InputContainer--with-error input {
+  outline: 2.5px solid variables.$color-deep-red;
+}
+
+.DonationCardForm_FieldError {
+  @include mixins.font-caption;
+  margin-block-start: 6px;
+  margin-inline-start: 12px;
+  text-align: start;
+  color: variables.$color-deep-red;
+}
+
+.DonationCardForm_CardNumberField input {
+  width: 196px;
+}
+
+.DonationCardForm_CardExpirationField input,
+.DonationCardForm_CardCvcField input {
+  width: 84px;
+}
+
+.DonationCardForm__PrimaryButtonContainer {
+  margin-block-start: 20px;
+  text-align: end;
+}
+
+.DonationCardFormHero__Badge {
+  width: 72px;
+  height: 72px;
+  background: url('../images/rocket-160.svg');
+  background-size: 100%;
+}

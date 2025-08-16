@@ -23,10 +23,8 @@ export type PropsType = {
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   platform: string;
-  kickOffAttachmentDownload: (options: {
-    attachment: AttachmentType;
-    messageId: string;
-  }) => void;
+  kickOffAttachmentDownload: (options: { messageId: string }) => void;
+  cancelAttachmentDownload: (options: { messageId: string }) => void;
   showLightbox: (options: {
     attachment: AttachmentType;
     messageId: string;
@@ -55,6 +53,7 @@ const MESSAGE_DEFAULT_PROPS = {
   renderAudioAttachment: () => <div />,
   renderingContext: 'EditHistoryMessagesModal',
   saveAttachment: shouldNeverBeCalled,
+  saveAttachments: shouldNeverBeCalled,
   scrollToQuotedMessage: shouldNeverBeCalled,
   shouldCollapseAbove: false,
   shouldCollapseBelow: false,
@@ -62,15 +61,20 @@ const MESSAGE_DEFAULT_PROPS = {
   showContactModal: shouldNeverBeCalled,
   showConversation: noop,
   showEditHistoryModal: noop,
+  showAttachmentDownloadStillInProgressToast: shouldNeverBeCalled,
+  showAttachmentNotAvailableModal: shouldNeverBeCalled,
   showExpiredIncomingTapToViewToast: shouldNeverBeCalled,
   showExpiredOutgoingTapToViewToast: shouldNeverBeCalled,
   showLightboxForViewOnceMedia: shouldNeverBeCalled,
+  showMediaNoLongerAvailableToast: shouldNeverBeCalled,
+  showTapToViewNotAvailableModal: shouldNeverBeCalled,
   startConversation: shouldNeverBeCalled,
   textDirection: TextDirection.Default,
   viewStory: shouldNeverBeCalled,
 };
 
 export function EditHistoryMessagesModal({
+  cancelAttachmentDownload,
   closeEditHistoryModal,
   getPreferredBadge,
   editHistoryMessages,
@@ -125,11 +129,11 @@ export function EditHistoryMessagesModal({
           isEditedMessage
           isSpoilerExpanded={revealedSpoilersById[currentMessageId] || {}}
           key={currentMessage.timestamp}
-          kickOffAttachmentDownload={({ attachment }) =>
-            kickOffAttachmentDownload({
-              attachment,
-              messageId: currentMessage.id,
-            })
+          kickOffAttachmentDownload={() =>
+            kickOffAttachmentDownload({ messageId: currentMessage.id })
+          }
+          cancelAttachmentDownload={() =>
+            cancelAttachmentDownload({ messageId: currentMessage.id })
           }
           messageExpanded={(messageId, displayLimit) => {
             const update = {
@@ -193,11 +197,11 @@ export function EditHistoryMessagesModal({
                 getPreferredBadge={getPreferredBadge}
                 i18n={i18n}
                 isSpoilerExpanded={revealedSpoilersById[syntheticId] || {}}
-                kickOffAttachmentDownload={({ attachment }) =>
-                  kickOffAttachmentDownload({
-                    attachment,
-                    messageId: messageAttributes.id,
-                  })
+                kickOffAttachmentDownload={() =>
+                  kickOffAttachmentDownload({ messageId: currentMessage.id })
+                }
+                cancelAttachmentDownload={() =>
+                  cancelAttachmentDownload({ messageId: currentMessage.id })
                 }
                 messageExpanded={(messageId, displayLimit) => {
                   const update = {

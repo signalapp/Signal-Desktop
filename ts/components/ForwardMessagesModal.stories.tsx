@@ -4,23 +4,22 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import enMessages from '../../_locales/en/messages.json';
-import type { AttachmentType } from '../types/Attachment';
+import type { AttachmentForUIType } from '../types/Attachment';
 import type { PropsType } from './ForwardMessagesModal';
 import {
   ForwardMessagesModal,
   ForwardMessagesModalType,
 } from './ForwardMessagesModal';
 import { IMAGE_JPEG, VIDEO_MP4, stringToMIMEType } from '../types/MIME';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
-import { setupI18n } from '../util/setupI18n';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 import { CompositionTextArea } from './CompositionTextArea';
 import type { MessageForwardDraft } from '../types/ForwardDraft';
+import { EmojiSkinTone } from './fun/data/emojis';
 
 const createAttachment = (
-  props: Partial<AttachmentType> = {}
-): AttachmentType => ({
+  props: Partial<AttachmentForUIType> = {}
+): AttachmentForUIType => ({
   pending: false,
   path: 'fileName.jpg',
   contentType: stringToMIMEType(props.contentType ?? ''),
@@ -28,6 +27,7 @@ const createAttachment = (
   screenshotPath: props.pending === false ? props.screenshotPath : undefined,
   url: props.pending === false ? (props.url ?? '') : '',
   size: 3433,
+  isPermanentlyUndownloadable: false,
 });
 
 export default {
@@ -36,7 +36,7 @@ export default {
   args: {},
 } satisfies Meta<PropsType>;
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const LONG_TITLE =
   "This is a super-sweet site. And it's got some really amazing content in store for you if you just click that link. Can you click that link for me?";
@@ -65,10 +65,12 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
       isActive
       isFormattingEnabled
       onPickEmoji={action('onPickEmoji')}
-      onSetSkinTone={action('onSetSkinTone')}
+      onEmojiSkinToneDefaultChange={action('onEmojiSkinToneDefaultChange')}
       onTextTooLong={action('onTextTooLong')}
+      ourConversationId="me"
       platform="darwin"
-      skinTone={0}
+      emojiSkinToneDefault={EmojiSkinTone.None}
+      conversationSelector={() => getDefaultConversation()}
     />
   ),
   showToast: action('showToast'),

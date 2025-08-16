@@ -5,13 +5,10 @@ import React from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 
 import { action } from '@storybook/addon-actions';
-import enMessages from '../../_locales/en/messages.json';
-import { setupI18n } from '../util/setupI18n';
-
 import type { PropsType } from './UsernameOnboardingModal';
 import { UsernameOnboardingModal } from './UsernameOnboardingModal';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   component: UsernameOnboardingModal,

@@ -7,6 +7,9 @@ import { sync as writeFileSync } from 'write-file-atomic';
 import { get } from 'lodash';
 import { set } from 'lodash/fp';
 import { strictAssert } from '../ts/util/assert';
+import { createLogger } from '../ts/logging/log';
+
+const log = createLogger('base_config');
 
 const ENCODING = 'utf8';
 
@@ -36,10 +39,10 @@ export function start({
   try {
     incomingJson = readFileSync(targetPath, ENCODING);
     cachedValue = incomingJson ? JSON.parse(incomingJson) : undefined;
-    console.log(`config/get: Successfully read ${name} config file`);
+    log.info(`config/get: Successfully read ${name} config file`);
 
     if (!cachedValue) {
-      console.log(
+      log.info(
         `config/start: ${name} config value was falsy, cache is now empty object`
       );
       cachedValue = Object.create(null);
@@ -50,11 +53,11 @@ export function start({
     }
 
     if (incomingJson) {
-      console.log(
+      log.info(
         `config/start: ${name} config file was malformed, starting afresh`
       );
     } else {
-      console.log(
+      log.info(
         `config/start: Did not find ${name} config file (or it was empty), cache is now empty object`
       );
     }
@@ -68,7 +71,7 @@ export function start({
   function ourSet(keyPath: string, value: unknown): void {
     const newCachedValue = set(keyPath, value, cachedValue);
 
-    console.log(`config/set: Saving ${name} config to disk`);
+    log.info(`config/set: Saving ${name} config to disk`);
 
     if (!throwOnFilesystemErrors) {
       cachedValue = newCachedValue;
@@ -76,13 +79,13 @@ export function start({
     const outgoingJson = JSON.stringify(newCachedValue, null, '  ');
     try {
       writeFileSync(targetPath, outgoingJson, ENCODING);
-      console.log(`config/set: Saved ${name} config to disk`);
+      log.info(`config/set: Saved ${name} config to disk`);
       cachedValue = newCachedValue;
     } catch (err: unknown) {
       if (throwOnFilesystemErrors) {
         throw err;
       } else {
-        console.warn(
+        log.warn(
           `config/set: Failed to save ${name} config to disk; only updating in-memory data`
         );
       }
@@ -90,17 +93,17 @@ export function start({
   }
 
   function remove(): void {
-    console.log(`config/remove: Deleting ${name} config from disk`);
+    log.info(`config/remove: Deleting ${name} config from disk`);
     try {
       unlinkSync(targetPath);
-      console.log(`config/remove: Deleted ${name} config from disk`);
+      log.info(`config/remove: Deleted ${name} config from disk`);
     } catch (err: unknown) {
       const errCode: unknown = get(err, 'code');
       if (throwOnFilesystemErrors) {
         strictAssert(errCode === 'ENOENT', 'Expected deletion of no file');
-        console.log(`config/remove: No ${name} config on disk, did nothing`);
+        log.info(`config/remove: No ${name} config on disk, did nothing`);
       } else {
-        console.warn(
+        log.warn(
           `config/remove: Got ${String(
             errCode
           )} when removing ${name} config from disk`

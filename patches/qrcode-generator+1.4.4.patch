@@ -1,7 +1,7 @@
-diff --git a/node_modules/qrcode-generator/qrcode.d.ts b/node_modules/qrcode-generator/qrcode.d.ts
+diff --git a/qrcode.d.ts b/qrcode.d.ts
 index b34952e..b394c44 100644
---- a/node_modules/qrcode-generator/qrcode.d.ts
-+++ b/node_modules/qrcode-generator/qrcode.d.ts
+--- a/qrcode.d.ts
++++ b/qrcode.d.ts
 @@ -36,7 +36,7 @@ interface QRCodeFactory {
  }
  
@@ -11,10 +11,10 @@ index b34952e..b394c44 100644
    make() : void;
    getModuleCount() : number;
    isDark(row: number, col: number) : boolean;
-diff --git a/node_modules/qrcode-generator/qrcode.js b/node_modules/qrcode-generator/qrcode.js
+diff --git a/qrcode.js b/qrcode.js
 index 76889b5..f4d8c88 100644
---- a/node_modules/qrcode-generator/qrcode.js
-+++ b/node_modules/qrcode-generator/qrcode.js
+--- a/qrcode.js
++++ b/qrcode.js
 @@ -1728,7 +1728,7 @@ var qrcode = function() {
  
      var _mode = QRMode.MODE_8BIT_BYTE;

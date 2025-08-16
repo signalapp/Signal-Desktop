@@ -151,7 +151,7 @@ export function CallsNewCall({
     if (directConversations.length > 0) {
       result.push({
         kind: 'header',
-        title: 'Contacts',
+        title: i18n('icu:contactsHeader'),
       });
       result = result.concat(
         directConversations.map(conversation => {
@@ -165,7 +165,7 @@ export function CallsNewCall({
     if (groupConversations.length > 0) {
       result.push({
         kind: 'header',
-        title: 'Groups',
+        title: i18n('icu:groupsHeader'),
       });
       result = result.concat(
         groupConversations.map((conversation): Row => {
@@ -177,17 +177,17 @@ export function CallsNewCall({
       );
     }
     return result;
-  }, [directConversations, groupConversations]);
+  }, [directConversations, groupConversations, i18n]);
 
   const isRowLoaded = useCallback(
-    ({ index }) => {
+    ({ index }: { index: number }) => {
       return rows.at(index) != null;
     },
     [rows]
   );
 
   const rowHeight = useCallback(
-    ({ index }) => {
+    ({ index }: { index: number }) => {
       if (rows.at(index)?.kind === 'conversation') {
         return ListTile.heightCompact;
       }
@@ -217,11 +217,12 @@ export function CallsNewCall({
           <ListTile
             leading={
               <Avatar
-                acceptedMessageRequest
+                avatarPlaceholderGradient={
+                  item.conversation.avatarPlaceholderGradient
+                }
                 avatarUrl={item.conversation.avatarUrl}
                 conversationType="group"
                 i18n={i18n}
-                isMe={false}
                 title={item.conversation.title}
                 sharedGroupNames={[]}
                 size={AvatarSize.THIRTY_TWO}

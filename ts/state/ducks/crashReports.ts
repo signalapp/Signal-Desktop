@@ -4,7 +4,7 @@
 import type { ReadonlyDeep } from 'type-fest';
 import type { ThunkAction } from 'redux-thunk';
 
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import * as Errors from '../../types/errors';
 import { ToastType } from '../../types/Toast';
 import type { StateType as RootStateType } from '../reducer';
@@ -13,6 +13,8 @@ import type { ShowToastActionType } from './toast';
 import type { PromiseAction } from '../util';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
+
+const log = createLogger('crashReports');
 
 // State
 

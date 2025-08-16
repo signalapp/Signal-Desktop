@@ -5,27 +5,34 @@ import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 
 import { UsernameOnboardingModal } from '../../components/UsernameOnboardingModal';
-import { EditState } from '../../components/ProfileEditor';
 import { getIntl } from '../selectors/user';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { useUsernameActions } from '../ducks/username';
+import { useNavActions } from '../ducks/nav';
+import { NavTab, SettingsPage, ProfileEditorPage } from '../../types/Nav';
 
 export const SmartUsernameOnboardingModal = memo(
   function SmartUsernameOnboardingModal(): JSX.Element {
     const i18n = useSelector(getIntl);
-    const { toggleProfileEditor, toggleUsernameOnboarding } =
-      useGlobalModalActions();
+    const { toggleUsernameOnboarding } = useGlobalModalActions();
     const { openUsernameReservationModal } = useUsernameActions();
+    const { changeLocation } = useNavActions();
 
     const onNext = useCallback(async () => {
       await window.storage.put('hasCompletedUsernameOnboarding', true);
       openUsernameReservationModal();
-      toggleProfileEditor(EditState.Username);
+      changeLocation({
+        tab: NavTab.Settings,
+        details: {
+          page: SettingsPage.Profile,
+          state: ProfileEditorPage.Username,
+        },
+      });
       toggleUsernameOnboarding();
     }, [
-      toggleProfileEditor,
-      toggleUsernameOnboarding,
+      changeLocation,
       openUsernameReservationModal,
+      toggleUsernameOnboarding,
     ]);
 
     const onSkip = useCallback(async () => {

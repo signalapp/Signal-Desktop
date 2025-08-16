@@ -9,12 +9,12 @@ import { CDSSocketBase, CDSSocketState } from './CDSSocketBase';
 import type { CDSSocketBaseOptionsType } from './CDSSocketBase';
 
 export type CDSISocketOptionsType = Readonly<{
-  mrenclave: Buffer;
+  mrenclave: Uint8Array;
 }> &
   CDSSocketBaseOptionsType;
 
 export class CDSISocket extends CDSSocketBase<CDSISocketOptionsType> {
-  private privCdsClient: Cds2Client | undefined;
+  #privCdsClient: Cds2Client | undefined;
 
   public override async handshake(): Promise<void> {
     strictAssert(
@@ -31,23 +31,23 @@ export class CDSISocket extends CDSSocketBase<CDSISocketOptionsType> {
       const earliestValidTimestamp = new Date();
 
       strictAssert(
-        this.privCdsClient === undefined,
+        this.#privCdsClient === undefined,
         'CDSI handshake called twice'
       );
-      this.privCdsClient = Cds2Client.new(
+      this.#privCdsClient = Cds2Client.new(
         this.options.mrenclave,
         attestationMessage,
         earliestValidTimestamp
       );
     }
 
-    this.socket.sendBytes(this.cdsClient.initialRequest());
+    this.socket.sendBytes(Buffer.from(this.#cdsClient.initialRequest()));
 
     {
       const { done, value: message } = await this.socketIterator.next();
       strictAssert(!done, 'CDSI socket expected handshake data');
 
-      this.cdsClient.completeHandshake(message);
+      this.#cdsClient.completeHandshake(message);
     }
 
     this.state = CDSSocketState.Established;
@@ -55,9 +55,11 @@ export class CDSISocket extends CDSSocketBase<CDSISocketOptionsType> {
 
   protected override async sendRequest(
     _version: number,
-    request: Buffer
+    request: Uint8Array
   ): Promise<void> {
-    this.socket.sendBytes(this.cdsClient.establishedSend(request));
+    this.socket.sendBytes(
+      Buffer.from(this.#cdsClient.establishedSend(request))
+    );
 
     const { done, value: ciphertext } = await this.socketIterator.next();
     strictAssert(!done, 'CDSISocket.sendRequest(): expected token message');
@@ -70,8 +72,8 @@ export class CDSISocket extends CDSSocketBase<CDSISocketOptionsType> {
     strictAssert(token, 'CDSISocket.sendRequest(): expected token');
 
     this.socket.sendBytes(
-      this.cdsClient.establishedSend(
-        Buffer.from(
+      Buffer.from(
+        this.#cdsClient.establishedSend(
           Proto.CDSClientRequest.encode({
             tokenAck: true,
           }).finish()
@@ -81,17 +83,17 @@ export class CDSISocket extends CDSSocketBase<CDSISocketOptionsType> {
   }
 
   protected override async decryptResponse(
-    ciphertext: Buffer
-  ): Promise<Buffer> {
-    return this.cdsClient.establishedRecv(ciphertext);
+    ciphertext: Uint8Array
+  ): Promise<Uint8Array> {
+    return this.#cdsClient.establishedRecv(ciphertext);
   }
 
   //
   // Private
   //
 
-  private get cdsClient(): Cds2Client {
-    strictAssert(this.privCdsClient, 'CDSISocket did not start handshake');
-    return this.privCdsClient;
+  get #cdsClient(): Cds2Client {
+    strictAssert(this.#privCdsClient, 'CDSISocket did not start handshake');
+    return this.#privCdsClient;
   }
 }

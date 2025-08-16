@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import * as durations from '../util/durations';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { DataReader, DataWriter } from '../sql/Client';
 import {
   JobManager,
@@ -9,6 +9,8 @@ import {
   type JobManagerJobResultType,
   type JobManagerJobType,
 } from './JobManager';
+
+const log = createLogger('CallLinkFinalizeDeleteManager');
 
 // Type for adding a new job
 export type NewCallLinkDeleteJobType = {
@@ -184,7 +186,7 @@ async function removeJob(
 
 async function runJob(
   job: CallLinkDeleteJobType,
-  _isLastAttempt: boolean
+  _options: { isLastAttempt: boolean; abortSignal: AbortSignal }
 ): Promise<JobManagerJobResultType<CoreCallLinkDeleteJobType>> {
   const logId = `CallLinkDeleteJobType/runJob/${getJobId(job)}`;
 

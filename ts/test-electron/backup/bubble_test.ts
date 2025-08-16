@@ -22,9 +22,15 @@ import {
   OUR_ACI,
 } from './helpers';
 import { loadAllAndReinitializeRedux } from '../../services/allLoaders';
+import { strictAssert } from '../../util/assert';
+import type { MessageAttributesType } from '../../model-types';
+import { IMAGE_PNG, TEXT_ATTACHMENT } from '../../types/MIME';
+import { MY_STORY_ID } from '../../types/Stories';
+import { generateAttachmentKeys } from '../../AttachmentCrypto';
 
 const CONTACT_A = generateAci();
 const CONTACT_B = generateAci();
+const CONTACT_B_E164 = '+12135550123';
 const GV1_ID = Bytes.toBinary(getRandomBytes(ID_V1_LENGTH));
 
 const BADGE_RECEIPT =
@@ -56,7 +62,7 @@ describe('backup/bubble messages', () => {
     contactB = await window.ConversationController.getOrCreateAndWait(
       CONTACT_B,
       'private',
-      { systemGivenName: 'CONTACT_B', active_at: 1 }
+      { systemGivenName: 'CONTACT_B', e164: CONTACT_B_E164, active_at: 1 }
     );
 
     gv1 = await window.ConversationController.getOrCreateAndWait(
@@ -229,9 +235,120 @@ describe('backup/bubble messages', () => {
     ]);
   });
 
-  it('roundtrips gift badge quote', async () => {
-    await symmetricRoundtripHarness([
-      {
+  it('fixes e164-only incoming 1:1 messages', async () => {
+    await asymmetricRoundtripHarness(
+      [
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          // Note: contact B e164 vs contact A conversationId
+          source: CONTACT_B_E164,
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+          timestamp: 3,
+          body: 'hello',
+        },
+      ],
+      [
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          sourceServiceId: CONTACT_A,
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+          timestamp: 3,
+          body: 'hello',
+        },
+      ]
+    );
+  });
+
+  describe('quotes', () => {
+    it('roundtrips gift badge quote', async () => {
+      await symmetricRoundtripHarness([
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          sourceServiceId: CONTACT_A,
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+          timestamp: 3,
+          giftBadge: {
+            id: undefined,
+            level: 100,
+            expiration: 1723248000000,
+            receiptCredentialPresentation: BADGE_RECEIPT,
+            state: GiftBadgeStates.Opened,
+          },
+        },
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 4,
+          received_at_ms: 4,
+          sent_at: 4,
+          sourceServiceId: CONTACT_A,
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+          timestamp: 4,
+          body: '123',
+          quote: {
+            authorAci: CONTACT_A,
+            attachments: [],
+            id: 3,
+            isViewOnce: false,
+            isGiftBadge: true,
+            referencedMessageNotFound: false,
+          },
+        },
+      ]);
+    });
+    it('roundtrips quote with referenced message found', async () => {
+      await symmetricRoundtripHarness([
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          sourceServiceId: CONTACT_A,
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+          timestamp: 3,
+          body: '123',
+          quote: {
+            authorAci: CONTACT_A,
+            attachments: [],
+            id: 42,
+            isGiftBadge: false,
+            text: 'quote text',
+            isViewOnce: false,
+            referencedMessageNotFound: false,
+          },
+        },
+      ]);
+    });
+    it('roundtrips quote without referenced message found', async () => {
+      const message = {
         conversationId: contactA.id,
         id: generateGuid(),
         type: 'incoming',
@@ -243,37 +360,72 @@ describe('backup/bubble messages', () => {
         seenStatus: SeenStatus.Unseen,
         unidentifiedDeliveryReceived: true,
         timestamp: 3,
-        giftBadge: {
-          id: undefined,
-          level: 100,
-          expiration: 1723248000000,
-          receiptCredentialPresentation: BADGE_RECEIPT,
-          state: GiftBadgeStates.Opened,
+        body: '123',
+        quote: {
+          authorAci: CONTACT_A,
+          attachments: [],
+          id: 42,
+          text: 'quote text',
+          isViewOnce: false,
+          isGiftBadge: false,
+          referencedMessageNotFound: true,
         },
-      },
-      {
+      } as const;
+
+      await asymmetricRoundtripHarness(
+        [message],
+        [
+          {
+            ...message,
+            quote: {
+              ...message.quote,
+              // id is removed during roundtrip
+              id: null,
+            },
+          },
+        ]
+      );
+    });
+
+    it('roundtrips view-once-quotes', async () => {
+      const message = {
         conversationId: contactA.id,
         id: generateGuid(),
         type: 'incoming',
-        received_at: 4,
-        received_at_ms: 4,
-        sent_at: 4,
+        received_at: 3,
+        received_at_ms: 3,
+        sent_at: 3,
         sourceServiceId: CONTACT_A,
         readStatus: ReadStatus.Unread,
         seenStatus: SeenStatus.Unseen,
         unidentifiedDeliveryReceived: true,
-        timestamp: 4,
+        timestamp: 3,
+        body: '123',
         quote: {
           authorAci: CONTACT_A,
           attachments: [],
-          id: 3,
-          isViewOnce: false,
-          isGiftBadge: true,
-          messageId: '',
-          referencedMessageNotFound: false,
+          id: 42,
+          text: 'quote text',
+          isViewOnce: true,
+          isGiftBadge: false,
+          referencedMessageNotFound: true,
         },
-      },
-    ]);
+      } as const;
+
+      await asymmetricRoundtripHarness(
+        [message],
+        [
+          {
+            ...message,
+            quote: {
+              ...message.quote,
+              // id is removed during roundtrip
+              id: null,
+            },
+          },
+        ]
+      );
+    });
   });
 
   it('roundtrips sealed/unsealed incoming message', async () => {
@@ -494,5 +646,541 @@ describe('backup/bubble messages', () => {
         expireTimer: DurationInSeconds.fromMillis(WEEK),
       },
     ]);
+  });
+
+  it('drops messages that have not started to expire but have an expireTimer of <= DAY', async () => {
+    await asymmetricRoundtripHarness(
+      [
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          timestamp: 3,
+          sourceServiceId: CONTACT_A,
+          body: 'd',
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+          expireTimer: DurationInSeconds.fromDays(1),
+        },
+      ],
+      []
+    );
+  });
+
+  it('does not drop messages that have not started to expire but have an expireTimer of > DAY', async () => {
+    await symmetricRoundtripHarness([
+      {
+        conversationId: contactA.id,
+        id: generateGuid(),
+        type: 'incoming',
+        received_at: 3,
+        received_at_ms: 3,
+        sent_at: 3,
+        timestamp: 3,
+        sourceServiceId: CONTACT_A,
+        body: 'd',
+        readStatus: ReadStatus.Unread,
+        seenStatus: SeenStatus.Unseen,
+        unidentifiedDeliveryReceived: true,
+        expireTimer: DurationInSeconds.fromDays(1.01),
+      },
+    ]);
+  });
+
+  describe('link previews', async () => {
+    it('roundtrips link preview', async () => {
+      await symmetricRoundtripHarness([
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          timestamp: 3,
+          sourceServiceId: CONTACT_A,
+          body: 'https://signal.org is a cool place',
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+          preview: [
+            {
+              url: 'https://signal.org',
+              title: 'Signal',
+            },
+          ],
+        },
+      ]);
+    });
+    it('drops preview if URL does not exist in body', async () => {
+      const message: MessageAttributesType = {
+        conversationId: contactA.id,
+        id: generateGuid(),
+        type: 'incoming',
+        received_at: 3,
+        received_at_ms: 3,
+        sent_at: 3,
+        timestamp: 3,
+        sourceServiceId: CONTACT_A,
+        body: 'no urls here',
+        readStatus: ReadStatus.Unread,
+        seenStatus: SeenStatus.Unseen,
+        unidentifiedDeliveryReceived: true,
+      };
+      await asymmetricRoundtripHarness(
+        [
+          {
+            ...message,
+            preview: [
+              {
+                url: 'https://signal.org',
+                title: 'Signal',
+              },
+            ],
+          },
+        ],
+        [
+          {
+            ...message,
+            preview: [],
+          },
+        ]
+      );
+    });
+  });
+  describe('lonely-in-group messages', async () => {
+    const GROUP_ID = Bytes.toBase64(getRandomBytes(32));
+    let group: ConversationModel | undefined;
+    let ourConversation: ConversationModel | undefined;
+
+    beforeEach(async () => {
+      group = await window.ConversationController.getOrCreateAndWait(
+        GROUP_ID,
+        'group',
+        {
+          groupVersion: 2,
+          masterKey: Bytes.toBase64(getRandomBytes(32)),
+          name: 'Rock Enthusiasts',
+          active_at: 1,
+        }
+      );
+      ourConversation = window.ConversationController.get(OUR_ACI);
+    });
+
+    it('roundtrips messages that have our id in sendStateByConversationId', async () => {
+      strictAssert(group, 'conversations exist');
+      strictAssert(ourConversation, 'conversations exist');
+      await symmetricRoundtripHarness([
+        {
+          conversationId: group.id,
+          id: generateGuid(),
+          type: 'outgoing',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          timestamp: 3,
+          sourceServiceId: OUR_ACI,
+          body: 'd',
+          readStatus: ReadStatus.Read,
+          seenStatus: SeenStatus.Seen,
+          sendStateByConversationId: {
+            [ourConversation.id]: { status: SendStatus.Read, updatedAt: 3 },
+          },
+          expirationStartTimestamp: Date.now(),
+          expireTimer: DurationInSeconds.fromMillis(WEEK),
+        },
+      ]);
+    });
+    it(
+      'if a message did not have sendStateByConversationId (e.g. to mimic post-import from primary), ' +
+        'would add it with our conversationId when importing',
+      async () => {
+        strictAssert(group, 'conversations exist');
+        strictAssert(ourConversation, 'conversations exist');
+        const message: MessageAttributesType = {
+          conversationId: group.id,
+          id: generateGuid(),
+          type: 'outgoing',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          timestamp: 3,
+          sourceServiceId: OUR_ACI,
+          body: 'd',
+          readStatus: ReadStatus.Read,
+          seenStatus: SeenStatus.Seen,
+          expirationStartTimestamp: Date.now(),
+          expireTimer: DurationInSeconds.fromMillis(WEEK),
+        };
+
+        await asymmetricRoundtripHarness(
+          [
+            {
+              ...message,
+              sendStateByConversationId: {},
+            },
+          ],
+          [
+            {
+              ...message,
+              sendStateByConversationId: {
+                [ourConversation.id]: { status: SendStatus.Read, updatedAt: 3 },
+              },
+            },
+          ]
+        );
+      }
+    );
+    it('filters out our conversation id from sendStateByConversationId in non-note-to-self convos', async () => {
+      strictAssert(group, 'conversations exist');
+      strictAssert(ourConversation, 'conversations exist');
+      const message: MessageAttributesType = {
+        conversationId: group.id,
+        id: generateGuid(),
+        type: 'outgoing',
+        received_at: 3,
+        received_at_ms: 3,
+        sent_at: 3,
+        timestamp: 3,
+        sourceServiceId: OUR_ACI,
+        body: 'd',
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
+        expirationStartTimestamp: Date.now(),
+        expireTimer: DurationInSeconds.fromMillis(WEEK),
+      };
+
+      await asymmetricRoundtripHarness(
+        [
+          {
+            ...message,
+            sendStateByConversationId: {
+              [ourConversation.id]: { status: SendStatus.Read, updatedAt: 3 },
+              [contactA.id]: { status: SendStatus.Delivered, updatedAt: 4 },
+            },
+          },
+        ],
+        [
+          {
+            ...message,
+            sendStateByConversationId: {
+              [contactA.id]: { status: SendStatus.Delivered, updatedAt: 4 },
+            },
+          },
+        ]
+      );
+    });
+    it('does not filter out our conversation id from sendStateByConversationId in Note-to-Self', async () => {
+      strictAssert(ourConversation, 'conversations exist');
+      const message: MessageAttributesType = {
+        conversationId: ourConversation.id,
+        id: generateGuid(),
+        type: 'outgoing',
+        received_at: 3,
+        received_at_ms: 3,
+        sent_at: 3,
+        timestamp: 3,
+        sourceServiceId: OUR_ACI,
+        body: 'd',
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
+        expirationStartTimestamp: Date.now(),
+        expireTimer: DurationInSeconds.fromMillis(WEEK),
+      };
+      ourConversation.set({ active_at: 3 });
+
+      await symmetricRoundtripHarness([
+        {
+          ...message,
+          sendStateByConversationId: {
+            [ourConversation.id]: { status: SendStatus.Read, updatedAt: 3 },
+          },
+        },
+      ]);
+    });
+  });
+  describe('stories', () => {
+    const GROUP_ID = Bytes.toBase64(getRandomBytes(32));
+    let group: ConversationModel | undefined;
+    let ourConversation: ConversationModel | undefined;
+
+    beforeEach(async () => {
+      group = await window.ConversationController.getOrCreateAndWait(
+        GROUP_ID,
+        'group',
+        {
+          groupVersion: 2,
+          masterKey: Bytes.toBase64(getRandomBytes(32)),
+          name: 'Rock Enthusiasts',
+          active_at: 1,
+        }
+      );
+      ourConversation = window.ConversationController.get(OUR_ACI);
+    });
+    it('does not export stories', async () => {
+      strictAssert(ourConversation, 'conversations exist');
+      strictAssert(group, 'conversations exist');
+      const commonProps = {
+        type: 'story',
+        received_at: 3,
+        received_at_ms: 3,
+        sent_at: 3,
+        timestamp: 3,
+        sourceServiceId: OUR_ACI,
+        attachments: [
+          {
+            contentType: TEXT_ATTACHMENT,
+            size: 4,
+            textAttachment: {
+              color: 4285041620,
+              text: 'test',
+              textForegroundColor: 4294967295,
+              textStyle: 1,
+            },
+          },
+        ],
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
+        expirationStartTimestamp: Date.now(),
+        expireTimer: DurationInSeconds.fromMillis(WEEK),
+      } satisfies Partial<MessageAttributesType>;
+
+      const directStory: MessageAttributesType = {
+        ...commonProps,
+        id: generateGuid(),
+        conversationId: ourConversation.id,
+        storyDistributionListId: MY_STORY_ID,
+      };
+
+      const groupStory: MessageAttributesType = {
+        ...commonProps,
+        id: generateGuid(),
+        conversationId: group.id,
+      };
+
+      await asymmetricRoundtripHarness([directStory, groupStory], []);
+    });
+    it('roundtrips direct story emoji replies', async () => {
+      strictAssert(ourConversation, 'conversations exist');
+      const commonProps = {
+        received_at: 3,
+        received_at_ms: 3,
+        sent_at: 3,
+        timestamp: 3,
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
+        conversationId: contactA.id,
+      } satisfies Partial<MessageAttributesType>;
+
+      const incomingReply: MessageAttributesType = {
+        ...commonProps,
+        id: generateGuid(),
+        type: 'incoming',
+        unidentifiedDeliveryReceived: true,
+        sourceServiceId: CONTACT_A,
+        storyReaction: {
+          emoji: '🤷‍♂️',
+          targetAuthorAci: OUR_ACI,
+          targetTimestamp: 0, // targetTimestamp is not roundtripped
+        },
+        storyReplyContext: {
+          authorAci: OUR_ACI,
+          messageId: '',
+        },
+      };
+
+      const outgoingReply: MessageAttributesType = {
+        ...commonProps,
+        id: generateGuid(),
+        type: 'outgoing',
+        sourceServiceId: OUR_ACI,
+        storyReaction: {
+          emoji: '🤷‍♂️',
+          targetAuthorAci: CONTACT_A,
+          targetTimestamp: 0, // targetTimestamp is not roundtripped
+        },
+        storyReplyContext: {
+          authorAci: CONTACT_A,
+          messageId: '',
+        },
+        sendStateByConversationId: {
+          [CONTACT_A]: {
+            status: SendStatus.Read,
+            updatedAt: 3,
+          },
+        },
+      };
+
+      await symmetricRoundtripHarness([incomingReply, outgoingReply]);
+    });
+    it('roundtrips direct story text replies', async () => {
+      strictAssert(ourConversation, 'conversations exist');
+      const commonProps = {
+        received_at: 3,
+        received_at_ms: 3,
+        sent_at: 3,
+        timestamp: 3,
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
+        conversationId: contactA.id,
+        body: 'text reply to story',
+      } satisfies Partial<MessageAttributesType>;
+
+      const incomingReply: MessageAttributesType = {
+        ...commonProps,
+        id: generateGuid(),
+        type: 'incoming',
+        unidentifiedDeliveryReceived: true,
+        sourceServiceId: CONTACT_A,
+        storyReplyContext: {
+          authorAci: OUR_ACI,
+          messageId: '',
+        },
+      };
+
+      const outgoingReply: MessageAttributesType = {
+        ...commonProps,
+        id: generateGuid(),
+        type: 'outgoing',
+        sourceServiceId: OUR_ACI,
+        storyReplyContext: {
+          authorAci: CONTACT_A,
+          messageId: '',
+        },
+        sendStateByConversationId: {
+          [CONTACT_A]: {
+            status: SendStatus.Read,
+            updatedAt: 3,
+          },
+        },
+      };
+
+      await symmetricRoundtripHarness([incomingReply, outgoingReply]);
+    });
+
+    it('does not export group story replies', async () => {
+      strictAssert(ourConversation, 'conversations exist');
+      strictAssert(group, 'conversations exist');
+      const commonProps = {
+        conversationId: group.id,
+        received_at: 3,
+        received_at_ms: 3,
+        sent_at: 3,
+        timestamp: 3,
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
+        body: 'text reply to story',
+      } satisfies Partial<MessageAttributesType>;
+
+      const incomingReply: MessageAttributesType = {
+        ...commonProps,
+        id: generateGuid(),
+        type: 'incoming',
+        unidentifiedDeliveryReceived: true,
+        sourceServiceId: CONTACT_A,
+        storyReplyContext: {
+          authorAci: OUR_ACI,
+          messageId: '',
+        },
+      };
+
+      const outgoingReply: MessageAttributesType = {
+        ...commonProps,
+        id: generateGuid(),
+        type: 'outgoing',
+        sourceServiceId: OUR_ACI,
+        storyReplyContext: {
+          authorAci: CONTACT_A,
+          messageId: '',
+        },
+        sendStateByConversationId: {
+          [CONTACT_A]: {
+            status: SendStatus.Read,
+            updatedAt: 3,
+          },
+        },
+      };
+
+      await asymmetricRoundtripHarness([incomingReply, outgoingReply], []);
+    });
+  });
+
+  describe('view-once', () => {
+    it('roundtrips incoming viewed view-once message', async () => {
+      await symmetricRoundtripHarness([
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          isErased: true,
+          isViewOnce: true,
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          sourceServiceId: CONTACT_A,
+          readStatus: ReadStatus.Viewed,
+          seenStatus: SeenStatus.Seen,
+          unidentifiedDeliveryReceived: false,
+          timestamp: 3,
+        },
+      ]);
+    });
+    it('roundtrips incoming unviewed view-once message', async () => {
+      await symmetricRoundtripHarness([
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          isViewOnce: true,
+          attachments: [
+            {
+              size: 128,
+              contentType: IMAGE_PNG,
+              cdnKey: 'cdnKey',
+              cdnNumber: 2,
+              uploadTimestamp: 2001,
+              key: Bytes.toBase64(generateAttachmentKeys()),
+              digest: Bytes.toBase64(getRandomBytes(32)),
+              caption: 'shhhh',
+            },
+          ],
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          sourceServiceId: CONTACT_A,
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: false,
+          timestamp: 3,
+        },
+      ]);
+    });
+    it('roundtrips outgoing view-once message', async () => {
+      await symmetricRoundtripHarness([
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'outgoing',
+          isViewOnce: true,
+          isErased: true,
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          sourceServiceId: OUR_ACI,
+          seenStatus: SeenStatus.Seen,
+          sendStateByConversationId: {
+            [contactA.id]: {
+              status: SendStatus.Delivered,
+            },
+          },
+          unidentifiedDeliveries: [CONTACT_A],
+          timestamp: 3,
+        },
+      ]);
+    });
   });
 });

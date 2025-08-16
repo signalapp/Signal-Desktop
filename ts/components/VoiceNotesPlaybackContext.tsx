@@ -3,11 +3,13 @@
 
 import * as React from 'react';
 import PQueue from 'p-queue';
-import LRU from 'lru-cache';
+import { LRUCache } from 'lru-cache';
 
 import type { WaveformCache } from '../types/Audio';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { redactAttachmentUrl } from '../util/privacy';
+
+const log = createLogger('VoiceNotesPlaybackContext');
 
 const MAX_WAVEFORM_COUNT = 1000;
 const MAX_PARALLEL_COMPUTE = 8;
@@ -29,7 +31,7 @@ export type Contents = {
 //   created.)
 let audioContext: AudioContext | undefined;
 
-const waveformCache: WaveformCache = new LRU({
+const waveformCache: WaveformCache = new LRUCache({
   max: MAX_WAVEFORM_COUNT,
 });
 
@@ -182,7 +184,7 @@ export const VoiceNotesPlaybackContext =
   React.createContext<Contents>(globalContents);
 
 export type VoiceNotesPlaybackProps = {
-  children?: React.ReactNode | React.ReactChildren;
+  children?: React.ReactNode;
 };
 
 /**

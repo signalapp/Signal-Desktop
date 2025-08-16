@@ -1,13 +1,16 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 @mixin CallSettingsButton-icon($path) {
-  @include color-svg($path, $color-gray-15);
+  @include mixins.color-svg($path, variables.$color-gray-15);
 }
 
 .CallSettingsButton__Button {
   align-items: center;
-  background-color: $color-gray-78;
+  background-color: variables.$color-gray-78;
   border: none;
   border-radius: 40px;
   display: flex;
@@ -16,10 +19,10 @@
   outline: none;
   width: 36px;
 
-  @include keyboard-mode {
+  @include mixins.keyboard-mode {
     &:focus {
       outline-offset: 1px;
-      outline: 2px solid $color-ultramarine;
+      outline: 2px solid variables.$color-ultramarine;
     }
   }
 }
@@ -34,8 +37,10 @@
   @include CallSettingsButton-icon('../images/icons/v3/x/x.svg');
 }
 
-.CallSettingsButton__Icon--OverflowView {
-  @include CallSettingsButton-icon('../images/icons/v3/grid/overflow_view.svg');
+.CallSettingsButton__Icon--SidebarView {
+  @include CallSettingsButton-icon(
+    '../images/icons/v3/sidebar_view/sidebar_view.svg'
+  );
 }
 
 .CallSettingsButton__Icon--PaginatedView {

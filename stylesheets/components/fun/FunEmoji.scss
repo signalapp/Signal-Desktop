@@ -1,0 +1,207 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+// There are 62 rows and columns in the generated sprite sheet.
+$emoji-sprite-sheet-grid-item-count: 62;
+
+@mixin emoji-sprite($sheet, $margin, $scale) {
+  $size: calc($sheet * 1px * $scale);
+  $margin-start: calc($margin * $scale);
+  $margin-end: calc($margin * $scale);
+  $size-outer: calc($size + $margin-start + $margin-end);
+  $image: url('../images/emoji-sheet-#{$sheet}.webp');
+  background-image: $image;
+  background-size: calc($size-outer * $emoji-sprite-sheet-grid-item-count);
+  background-position-x: calc(
+    var(--fun-emoji-sheet-x) * ($size-outer * -1) + ($margin-start * -1)
+  );
+  background-position-y: calc(
+    var(--fun-emoji-sheet-y) * ($size-outer * -1) + ($margin-start * -1)
+  );
+  background-repeat: no-repeat;
+}
+
+@mixin hidpi {
+  @media (resolution > 1x) {
+    @content;
+  }
+}
+
+@mixin emoji-jumbo {
+  background-image: var(--fun-emoji-jumbo-image);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.FunStaticEmoji {
+  contain: strict;
+  display: inline-block;
+  position: relative;
+  z-index: 0;
+  flex: none;
+  content-visibility: auto;
+  vertical-align: top;
+}
+
+.FunStaticEmoji--Blot {
+  display: inline-block;
+  margin-bottom: round(-0.4em + 1px, 1px);
+  vertical-align: baseline;
+}
+
+.FunStaticEmoji--Size16 {
+  width: 16px;
+  height: 16px;
+  // Use 32px variant even on smaller sizes to avoid shipping the 16px sheet
+  @include emoji-sprite($sheet: 32, $margin: 1px, $scale: calc(16 / 32));
+}
+
+.FunStaticEmoji--Size18 {
+  width: 18px;
+  height: 18px;
+  @include emoji-sprite($sheet: 32, $margin: 1px, $scale: calc(18 / 32));
+  @include hidpi {
+    @include emoji-sprite($sheet: 64, $margin: 1px, $scale: calc(18 / 64));
+  }
+}
+
+.FunStaticEmoji--Size20 {
+  width: 20px;
+  height: 20px;
+  @include emoji-sprite($sheet: 32, $margin: 1px, $scale: calc(20 / 32));
+  @include hidpi {
+    @include emoji-sprite($sheet: 64, $margin: 1px, $scale: calc(20 / 64));
+  }
+}
+
+.FunStaticEmoji--Size24 {
+  width: 24px;
+  height: 24px;
+  @include emoji-sprite($sheet: 32, $margin: 1px, $scale: calc(24 / 32));
+  @include hidpi {
+    @include emoji-sprite($sheet: 64, $margin: 1px, $scale: calc(24 / 64));
+  }
+}
+
+.FunStaticEmoji--Size28 {
+  width: 28px;
+  height: 28px;
+  @include emoji-sprite($sheet: 32, $margin: 1px, $scale: calc(28 / 32));
+  @include hidpi {
+    @include emoji-sprite($sheet: 64, $margin: 1px, $scale: calc(28 / 64));
+  }
+}
+
+.FunStaticEmoji--Size32 {
+  width: 32px;
+  height: 32px;
+  @include emoji-sprite($sheet: 64, $margin: 1px, $scale: calc(32 / 64));
+}
+
+.FunStaticEmoji--Size36 {
+  width: 36px;
+  height: 36px;
+  @include emoji-sprite($sheet: 64, $margin: 1px, $scale: calc(36 / 64));
+  @include hidpi {
+    @include emoji-jumbo;
+  }
+}
+
+.FunStaticEmoji--Size40 {
+  width: 40px;
+  height: 40px;
+  @include emoji-sprite($sheet: 64, $margin: 1px, $scale: calc(40 / 64));
+  @include hidpi {
+    @include emoji-jumbo;
+  }
+}
+
+.FunStaticEmoji--Size48 {
+  width: 48px;
+  height: 48px;
+  @include emoji-sprite($sheet: 64, $margin: 1px, $scale: calc(48 / 64));
+  @include hidpi {
+    @include emoji-jumbo;
+  }
+}
+
+.FunStaticEmoji--Size56 {
+  width: 56px;
+  height: 56px;
+  @include emoji-sprite($sheet: 64, $margin: 1px, $scale: calc(56 / 64));
+  @include hidpi {
+    @include emoji-jumbo;
+  }
+}
+
+.FunStaticEmoji--Size64 {
+  width: 64px;
+  height: 64px;
+  @include emoji-sprite($sheet: 64, $margin: 1px, $scale: calc(64 / 64));
+  @include hidpi {
+    @include emoji-jumbo;
+  }
+}
+
+.FunStaticEmoji--Size66 {
+  width: 66px;
+  height: 66px;
+  @include emoji-jumbo;
+}
+
+$inline-emoji-container-name: inline-emoji;
+
+.FunInlineEmoji {
+  position: relative;
+  z-index: 0;
+  contain: strict;
+  container: $inline-emoji-container-name / inline-size;
+  display: inline-block;
+  flex: none;
+  width: var(--fun-inline-emoji-size, round(1.4em, 1px));
+  height: var(--fun-inline-emoji-size, round(1.4em, 1px));
+  margin-bottom: round(-0.4em + 1px, 1px);
+  vertical-align: baseline;
+  content-visibility: auto;
+  user-select: none;
+}
+
+.FunEmojiSelectionText {
+  display: block;
+  position: absolute;
+  inset: 0;
+  color: transparent;
+  font-size: 64px;
+  line-height: 64px;
+  user-select: text;
+}
+
+.FunInlineEmoji__Image {
+  position: relative;
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  z-index: 1;
+  user-select: none;
+
+  // Use 32px variant even on smaller sizes because it looks better on lowdpi displays
+  @include emoji-sprite($sheet: 32, $margin: 1px, $scale: 2);
+
+  @container #{$inline-emoji-container-name} (width > 16px) {
+    @include hidpi {
+      @include emoji-sprite($sheet: 64, $margin: 1px, $scale: 1);
+    }
+  }
+
+  @container #{$inline-emoji-container-name} (width >= 32px) {
+    @include emoji-sprite($sheet: 64, $margin: 1px, $scale: 1);
+    @include hidpi {
+      @include emoji-jumbo;
+    }
+  }
+
+  @container #{$inline-emoji-container-name} (width > 64px) {
+    @include emoji-jumbo;
+  }
+}

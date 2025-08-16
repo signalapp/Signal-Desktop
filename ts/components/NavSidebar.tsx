@@ -212,7 +212,6 @@ export function NavSidebar({
 
       <div className="NavSidebar__Content">{children}</div>
 
-      {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props -- See https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/separator_role#focusable_separator */}
       <div
         className={classNames('NavSidebar__DragHandle', {
           'NavSidebar__DragHandle--dragging': dragState === DragState.DRAGGING,

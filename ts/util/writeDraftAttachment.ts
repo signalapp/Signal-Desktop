@@ -14,7 +14,9 @@ import {
   getLocalAttachmentUrl,
   AttachmentDisposition,
 } from './getLocalAttachmentUrl';
-import * as logger from '../logging/log';
+import { createLogger } from '../logging/log';
+
+const logger = createLogger('writeDraftAttachment');
 
 export async function writeDraftAttachment(
   attachment: InMemoryAttachmentDraftType

@@ -8,6 +8,7 @@ import { DataReader, DataWriter } from '../../sql/Client';
 import { generateAci } from '../../types/ServiceId';
 
 import type { MessageAttributesType } from '../../model-types.d';
+import { postSaveUpdates } from '../../util/cleanup';
 
 const { _getAllMessages, searchMessages } = DataReader;
 const { removeAll, saveMessages, saveMessage } = DataWriter;
@@ -54,6 +55,7 @@ describe('sql/searchMessages', () => {
     await saveMessages([message1, message2, message3], {
       forceSave: true,
       ourAci,
+      postSaveUpdates,
     });
 
     assert.lengthOf(await _getAllMessages(), 3);
@@ -63,7 +65,7 @@ describe('sql/searchMessages', () => {
     assert.strictEqual(searchResults[0].id, message2.id);
 
     message3.body = 'message 3 - unique string';
-    await saveMessage(message3, { ourAci });
+    await saveMessage(message3, { ourAci, postSaveUpdates });
 
     const searchResults2 = await searchMessages({ query: 'unique' });
     assert.lengthOf(searchResults2, 2);
@@ -110,6 +112,7 @@ describe('sql/searchMessages', () => {
     await saveMessages([message1, message2, message3], {
       forceSave: true,
       ourAci,
+      postSaveUpdates,
     });
 
     assert.lengthOf(await _getAllMessages(), 3);
@@ -119,7 +122,7 @@ describe('sql/searchMessages', () => {
     assert.strictEqual(searchResults[0].id, message1.id);
 
     message1.body = 'message 3 - unique string';
-    await saveMessage(message3, { ourAci });
+    await saveMessage(message3, { ourAci, postSaveUpdates });
 
     const searchResults2 = await searchMessages({ query: 'unique' });
     assert.lengthOf(searchResults2, 1);
@@ -165,6 +168,7 @@ describe('sql/searchMessages', () => {
     await saveMessages([message1, message2, message3], {
       forceSave: true,
       ourAci,
+      postSaveUpdates,
     });
 
     assert.lengthOf(await _getAllMessages(), 3);
@@ -174,7 +178,7 @@ describe('sql/searchMessages', () => {
     assert.strictEqual(searchResults[0].id, message1.id);
 
     message1.body = 'message 3 - unique string';
-    await saveMessage(message3, { ourAci });
+    await saveMessage(message3, { ourAci, postSaveUpdates });
 
     const searchResults2 = await searchMessages({ query: 'unique' });
     assert.lengthOf(searchResults2, 1);
@@ -211,6 +215,7 @@ describe('sql/searchMessages', () => {
     await saveMessages([message1, message2], {
       forceSave: true,
       ourAci,
+      postSaveUpdates,
     });
 
     assert.lengthOf(await _getAllMessages(), 2);
@@ -251,6 +256,7 @@ describe('sql/searchMessages/withMentions', () => {
     await saveMessages(messages, {
       forceSave: true,
       ourAci,
+      postSaveUpdates,
     });
     return messages;
   }

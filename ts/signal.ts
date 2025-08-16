@@ -7,7 +7,6 @@ import type { ReadonlyDeep } from 'type-fest';
 
 import * as Crypto from './Crypto';
 import * as Curve from './Curve';
-import { start as conversationControllerStart } from './ConversationController';
 import * as Groups from './groups';
 import OS from './util/os/osMain';
 import { isProduction } from './util/version';
@@ -35,6 +34,7 @@ import { initializeUpdateListener } from './services/updateListener';
 import { calling } from './services/calling';
 import * as storage from './services/storage';
 import { backupsService } from './services/backups';
+import * as donations from './services/donations';
 
 import type { LoggerType } from './types/Logging';
 import type {
@@ -54,6 +54,7 @@ import type {
   LinkPreviewWithHydratedData,
 } from './types/message/LinkPreviews';
 import type { StickerType, StickerWithHydratedData } from './types/Stickers';
+import { beforeNavigateService } from './services/BeforeNavigate';
 
 type EncryptedReader = (
   attachment: Partial<AddressableAttachmentType>
@@ -79,9 +80,6 @@ type MigrationsModuleType = {
   deleteSticker: (path: string) => Promise<void>;
   deleteTempFile: (path: string) => Promise<void>;
   doesAttachmentExist: (path: string) => Promise<boolean>;
-  ensureAttachmentIsReencryptable: (
-    attachment: TypesAttachment.LocallySavedAttachment
-  ) => Promise<TypesAttachment.ReencryptableAttachment>;
   getAbsoluteAttachmentPath: (path: string) => string;
   getAbsoluteAvatarPath: (src: string) => string;
   getAbsoluteBadgeImageFilePath: (path: string) => string;
@@ -89,6 +87,10 @@ type MigrationsModuleType = {
   getAbsoluteDraftPath: (path: string) => string;
   getAbsoluteStickerPath: (path: string) => string;
   getAbsoluteTempPath: (path: string) => string;
+  getUnusedFilename: (options: {
+    filename: string;
+    baseDir?: string;
+  }) => string;
   loadAttachmentData: (
     attachment: Partial<AttachmentType>
   ) => Promise<AttachmentWithHydratedData>;
@@ -115,6 +117,7 @@ type MigrationsModuleType = {
   saveAttachmentToDisk: (options: {
     data: Uint8Array;
     name: string;
+    baseDir?: string;
   }) => Promise<null | { fullPath: string; name: string }>;
   processNewAttachment: (attachment: AttachmentType) => Promise<AttachmentType>;
   processNewSticker: (stickerData: Uint8Array) => Promise<
@@ -164,7 +167,6 @@ export function initializeMigrations({
     createPlaintextReader,
     createWriterForNew,
     createDoesExist,
-    ensureAttachmentIsReencryptable,
     getAvatarsPath,
     getDraftPath,
     getDownloadsPath,
@@ -172,6 +174,7 @@ export function initializeMigrations({
     getStickersPath,
     getBadgesPath,
     getTempPath,
+    getUnusedFilename,
     readAndDecryptDataFromDisk,
     saveAttachmentToDisk,
   } = Attachments;
@@ -295,7 +298,6 @@ export function initializeMigrations({
     deleteSticker,
     deleteTempFile,
     doesAttachmentExist,
-    ensureAttachmentIsReencryptable,
     getAbsoluteAttachmentPath,
     getAbsoluteAvatarPath,
     getAbsoluteBadgeImageFilePath,
@@ -303,6 +305,7 @@ export function initializeMigrations({
     getAbsoluteDraftPath,
     getAbsoluteStickerPath,
     getAbsoluteTempPath,
+    getUnusedFilename,
     loadAttachmentData,
     loadContactData,
     loadMessage: MessageType.createAttachmentLoader(loadAttachmentData),
@@ -318,7 +321,6 @@ export function initializeMigrations({
     processNewAttachment: (attachment: AttachmentType) =>
       MessageType.processNewAttachment(attachment, {
         writeNewAttachmentData,
-        ensureAttachmentIsReencryptable,
         makeObjectUrl,
         revokeObjectUrl,
         getImageDimensions,
@@ -348,7 +350,6 @@ export function initializeMigrations({
       return MessageType.upgradeSchema(message, {
         deleteOnDisk,
         doesAttachmentExist,
-        ensureAttachmentIsReencryptable,
         getImageDimensions,
         getRegionCode,
         makeImageThumbnail,
@@ -403,17 +404,20 @@ type AttachmentsModuleType = {
   ) => (relativePath: string) => string;
 
   createDoesExist: (root: string) => (relativePath: string) => Promise<boolean>;
+  getUnusedFilename: (options: {
+    filename: string;
+    baseDir?: string;
+  }) => string;
   saveAttachmentToDisk: ({
     data,
     name,
+    dirName,
   }: {
     data: Uint8Array;
     name: string;
+    dirName?: string;
   }) => Promise<null | { fullPath: string; name: string }>;
 
-  ensureAttachmentIsReencryptable: (
-    attachment: TypesAttachment.LocallySavedAttachment
-  ) => Promise<TypesAttachment.ReencryptableAttachment>;
   readAndDecryptDataFromDisk: (options: {
     absolutePath: string;
     keysBase64: string;
@@ -454,10 +458,12 @@ export const setup = (options: {
 
   const Services = {
     backups: backupsService,
+    beforeNavigate: beforeNavigateService,
     calling,
     initializeGroupCredentialFetcher,
     initializeNetworkObserver,
     initializeUpdateListener,
+    donations,
 
     // Testing
     storage,
@@ -479,8 +485,6 @@ export const setup = (options: {
     Components,
     Crypto,
     Curve,
-    // Note: used in test/index.html, and not type-checked!
-    conversationControllerStart,
     Groups,
     Migrations,
     OS,

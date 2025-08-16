@@ -11,18 +11,16 @@ import { AvatarColors } from '../types/Colors';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { PropsType } from './CallingLobby';
 import { CallingLobby as UnwrappedCallingLobby } from './CallingLobby';
-import { setupI18n } from '../util/setupI18n';
 import { generateAci } from '../types/ServiceId';
-import enMessages from '../../_locales/en/messages.json';
 import {
   getDefaultConversation,
   getDefaultConversationWithServiceId,
-} from '../test-both/helpers/getDefaultConversation';
+} from '../test-helpers/getDefaultConversation';
 import { CallingToastProvider } from './CallingToast';
 import { CallMode } from '../types/CallDisposition';
-import { getDefaultCallLinkConversation } from '../test-both/helpers/fakeCallLink';
+import { getDefaultCallLinkConversation } from '../test-helpers/fakeCallLink';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const camera = {
   deviceId: 'dfbe6effe70b0611ba0fdc2a9ea3f39f6cb110e6687948f7e5f016c111b7329c',

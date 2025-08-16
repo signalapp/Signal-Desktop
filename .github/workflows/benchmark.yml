@@ -14,7 +14,53 @@ on:
 
 jobs:
   linux:
-    runs-on: ubuntu-latest-8-cores
+    strategy:
+      matrix:
+        metric:
+          - startup
+          - send
+          - groupSend
+          - largeGroupSendWithBlocks
+          - largeGroupSend
+          - convoOpen
+          - callHistorySearch
+          - backup
+        include:
+          - metric: startup
+            script: ts/test-mock/benchmarks/startup_bench.js
+            runCount: 10
+          - metric: send
+            script: ts/test-mock/benchmarks/send_bench.js
+            runCount: 100
+          - metric: groupSend
+            script: ts/test-mock/benchmarks/group_send_bench.js
+            runCount: 100
+            conversationSize: 500
+          - metric: largeGroupSendWithBlocks
+            script: ts/test-mock/benchmarks/group_send_bench.js
+            runCount: 50
+            conversationSize: 500
+            groupSize: 500
+            contactCount: 500
+            blockedCount: 10
+            discardCount: 2
+          - metric: largeGroupSend
+            script: ts/test-mock/benchmarks/group_send_bench.js
+            runCount: 20
+            conversationSize: 50
+            groupSize: 500
+            contactCount: 500
+            discardCount: 2
+          - metric: convoOpen
+            script: ts/test-mock/benchmarks/group_send_bench.js
+            runCount: 100
+          - metric: callHistorySearch
+            script: ts/test-mock/benchmarks/call_history_search_bench.js
+            runCount: 100
+          - metric: backup
+            script: ts/test-mock/benchmarks/backup_bench.js
+
+    runs-on: ubuntu-22.04-8-cores
     if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && (!github.event.schedule || github.ref == 'refs/heads/main') }}
     timeout-minutes: 30
 
@@ -25,174 +71,79 @@ jobs:
       run: uname -a
 
     - name: Clone Desktop repo
-      uses: actions/checkout@v4
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
+    # - name: Setup sccache
+    #   uses: mozilla-actions/sccache-action@054db53350805f83040bf3e6e9b8cf5a139aa7c9 # v0.0.7
+    # - name: Restore sccache
+    #   uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
+    #   id: cache-sccache
+    #   with:
+    #     path: ${{ env.SCCACHE_PATH }}
+    #     key: sccache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**') }}
+
+    - name: Setup pnpm
+      uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4
     - name: Setup node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4
       with:
         node-version-file: '.nvmrc'
-    - name: Install global dependencies
-      run: npm install -g npm@10.2.5
-
-    - name: Install xvfb
-      run: sudo apt-get install xvfb
-
-    - name: Cache Desktop node_modules
-      id: cache-desktop-modules
-      uses: actions/cache@v4
+        cache: 'pnpm'
+        cache-dependency-path: 'pnpm-lock.yaml'
+    - name: Cache .electron-gyp
+      uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
       with:
-        path: node_modules
-        key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'patches/**') }}
+        path: ~/.electron-gyp
+        key: electron-gyp-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+    - name: Install xvfb and libpulse0
+      run: sudo apt-get install xvfb libpulse0 || (sudo apt-get update && sudo apt-get install xvfb libpulse0)
 
     - name: Install Desktop node_modules
-      if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
-      run: npm ci
+      run: pnpm install
       env:
+        # CC: sccache gcc
+        # CXX: sccache g++
+        # SCCACHE_GHA_ENABLED: "true"
         NPM_CONFIG_LOGLEVEL: verbose
 
     - name: Build typescript
-      run: npm run generate
+      run: pnpm run generate
     - name: Bundle
-      run: npm run build:esbuild:prod
+      run: pnpm run build:esbuild:prod
     - name: Create preload cache
-      run: xvfb-run --auto-servernum npm run build:preload-cache
+      run: xvfb-run --auto-servernum pnpm run build:preload-cache
 
-    - name: Run startup benchmarks
+    - name: Set MAX_CYCLES=2 on main
+      if: ${{ github.ref == 'refs/heads/main' }}
+      run: |
+        echo "MAX_CYCLES=2" >> "$GITHUB_ENV"
+
+    - name: Run ${{ matrix.metric }}
       run: |
         set -o pipefail
-        xvfb-run --auto-servernum node ts/test-mock/benchmarks/startup_bench.js |
-          tee benchmark-startup.log
+        xvfb-run --auto-servernum node ${{ matrix.script }} | tee benchmark.log
       timeout-minutes: 10
       env:
         NODE_ENV: production
-        RUN_COUNT: 10
         ELECTRON_ENABLE_STACK_DUMPING: on
         DEBUG: 'mock:benchmarks'
-        ARTIFACTS_DIR: artifacts/startup
-
-    - name: Run send benchmarks
-      run: |
-        set -o pipefail
-        rm -rf /tmp/mock
-        xvfb-run --auto-servernum node ts/test-mock/benchmarks/send_bench.js |
-          tee benchmark-send.log
-      timeout-minutes: 10
-      env:
-        NODE_ENV: production
-        RUN_COUNT: 100
-        ELECTRON_ENABLE_STACK_DUMPING: on
-        # DEBUG: 'mock:benchmarks'
-        ARTIFACTS_DIR: artifacts/send
-
-    - name: Run group send benchmarks
-      run: |
-        set -o pipefail
-        rm -rf /tmp/mock
-        xvfb-run --auto-servernum node \
-          ts/test-mock/benchmarks/group_send_bench.js | \
-          tee benchmark-group-send.log
-      timeout-minutes: 10
-      env:
-        NODE_ENV: production
-        RUN_COUNT: 100
-        CONVERSATION_SIZE: 500
-        ELECTRON_ENABLE_STACK_DUMPING: on
-        # DEBUG: 'mock:benchmarks'
-        ARTIFACTS_DIR: artifacts/group-send
-
-    - name: Run large group send benchmarks with blocks
-      run: |
-        set -o pipefail
-        rm -rf /tmp/mock
-        xvfb-run --auto-servernum node \
-          ts/test-mock/benchmarks/group_send_bench.js | \
-          tee benchmark-large-group-send-with-blocks.log
-      timeout-minutes: 10
-      env:
-        NODE_ENV: production
-        GROUP_SIZE: 500
-        CONTACT_COUNT: 500
-        BLOCKED_COUNT: 10
-        DISCARD_COUNT: 2
-        RUN_COUNT: 50
-        CONVERSATION_SIZE: 500
-        ELECTRON_ENABLE_STACK_DUMPING: on
-        # DEBUG: 'mock:benchmarks'
-        ARTIFACTS_DIR: artifacts/group-send
-
-    - name: Run large group send benchmarks with delivery receipts
-      run: |
-        set -o pipefail
-        rm -rf /tmp/mock
-        xvfb-run --auto-servernum node \
-          ts/test-mock/benchmarks/group_send_bench.js | \
-          tee benchmark-large-group-send.log
-      timeout-minutes: 10
-      env:
-        NODE_ENV: production
-        GROUP_SIZE: 500
-        CONTACT_COUNT: 500
-        GROUP_DELIVERY_RECEIPTS: 500
-        DISCARD_COUNT: 2
-        RUN_COUNT: 20
-        CONVERSATION_SIZE: 50
-        ELECTRON_ENABLE_STACK_DUMPING: on
-        # DEBUG: 'mock:benchmarks'
-        ARTIFACTS_DIR: artifacts/large-group-send
-
-    - name: Run conversation open benchmarks
-      run: |
-        set -o pipefail
-        rm -rf /tmp/mock
-        xvfb-run --auto-servernum node \
-          ts/test-mock/benchmarks/convo_open_bench.js | \
-          tee benchmark-convo-open.log
-      timeout-minutes: 10
-      env:
-        NODE_ENV: production
-        RUN_COUNT: 100
-        ELECTRON_ENABLE_STACK_DUMPING: on
-        # DEBUG: 'mock:benchmarks'
-        ARTIFACTS_DIR: artifacts/convo-open
-
-    - name: Run call history search benchmarks
-      run: |
-        set -o pipefail
-        rm -rf /tmp/mock
-        xvfb-run --auto-servernum node \
-          ts/test-mock/benchmarks/call_history_search_bench.js | \
-          tee benchmark-call-history-search.log
-      timeout-minutes: 10
-      env:
-        NODE_ENV: production
-        RUN_COUNT: 100
-        ELECTRON_ENABLE_STACK_DUMPING: on
-        # DEBUG: 'mock:benchmarks'
-        ARTIFACTS_DIR: artifacts/call-history-search
-
-    - name: Run backup benchmarks
-      run: |
-        set -o pipefail
-        rm -rf /tmp/mock
-        xvfb-run --auto-servernum node \
-          ts/test-mock/benchmarks/backup_bench.js | \
-          tee benchmark-backup.log
-      timeout-minutes: 10
-      env:
-        NODE_ENV: production
-        ELECTRON_ENABLE_STACK_DUMPING: on
-        # DEBUG: 'mock:benchmarks'
-        ARTIFACTS_DIR: artifacts/backup-bench
+        ARTIFACTS_DIR: artifacts/${{ matrix.metric }}
+        GROUP_SIZE: ${{ matrix.groupSize }}
+        CONTACT_COUNT: ${{ matrix.contactCount }}
+        BLOCKED_COUNT: ${{ matrix.blockedCount }}
+        DISCARD_COUNT: ${{ matrix.discardCount }}
+        RUN_COUNT: ${{ matrix.runCount }}
+        CONVERSATION_SIZE: ${{ matrix.conversationSize }}
 
     - name: Upload benchmark logs on failure
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
       with:
         name: logs
         path: artifacts
 
     - name: Clone benchmark repo
-      uses: actions/checkout@v4
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       with:
         repository: 'signalapp/Signal-Desktop-Benchmarks-Private'
         path: 'benchmark-results'
@@ -201,19 +152,12 @@ jobs:
     - name: Build benchmark repo
       working-directory: benchmark-results
       run: |
-        npm ci
-        npm run build
+        pnpm install
+        pnpm run build
 
     - name: Publish to DataDog
       working-directory: benchmark-results
       run: |
-        node ./bin/publish.js ../benchmark-startup.log desktop.ci.performance.startup
-        node ./bin/publish.js ../benchmark-send.log desktop.ci.performance.send
-        node ./bin/publish.js ../benchmark-group-send.log desktop.ci.performance.groupSend
-        node ./bin/publish.js ../benchmark-large-group-send-with-blocks.log desktop.ci.performance.largeGroupSendWithBlocks
-        node ./bin/publish.js ../benchmark-large-group-send.log desktop.ci.performance.largeGroupSend
-        node ./bin/publish.js ../benchmark-convo-open.log desktop.ci.performance.convoOpen
-        node ./bin/publish.js ../benchmark-call-history-search.log desktop.ci.performance.callHistorySearch
-        node ./bin/publish.js ../benchmark-backup.log desktop.ci.performance.backup
+        node ./bin/publish.js ../benchmark.log desktop.ci.performance.${{ matrix.metric }}
       env:
         DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}

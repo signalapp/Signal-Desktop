@@ -20,6 +20,7 @@ export type PropsType = {
   processAttachments: (options: {
     conversationId: string;
     files: ReadonlyArray<File>;
+    flags: number | null;
   }) => unknown;
 };
 
@@ -36,6 +37,7 @@ export const CompositionUpload = forwardRef<HTMLInputElement, PropsType>(
       await processAttachments({
         conversationId,
         files: Array.from(files),
+        flags: null,
       });
     };
 

@@ -2,16 +2,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import * as Bytes from '../Bytes';
 import { CallLinkUpdateSyncType } from '../types/CallLink';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
 import { SignalService as Proto } from '../protobuf';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 import MessageSender from '../textsecure/SendMessage';
 import { toAdminKeyBytes } from './callLinks';
-import { toRootKeyBytes } from './callLinksRingrtc';
+import { toEpochBytes, toRootKeyBytes } from './callLinksRingrtc';
+
+const log = createLogger('sendCallLinkUpdateSync');
 
 export type sendCallLinkUpdateSyncCallLinkType = {
   rootKey: string;
+  epoch: string | null;
   adminKey: string | null;
 };
 
@@ -32,7 +35,7 @@ async function _sendCallLinkUpdateSync(
     throw new Error(`sendCallLinkUpdateSync: unknown type ${type}`);
   }
 
-  log.info(`sendCallLinkUpdateSync: Sending CallLinkUpdate type=${type}`);
+  log.info(`Sending CallLinkUpdate type=${type}`);
 
   try {
     const ourAci = window.textsecure.storage.user.getCheckedAci();
@@ -40,6 +43,7 @@ async function _sendCallLinkUpdateSync(
     const callLinkUpdate = new Proto.SyncMessage.CallLinkUpdate({
       type: protoType,
       rootKey: toRootKeyBytes(callLink.rootKey),
+      epoch: callLink.epoch ? toEpochBytes(callLink.epoch) : null,
       adminPasskey: callLink.adminKey
         ? toAdminKeyBytes(callLink.adminKey)
         : null,
@@ -64,9 +68,6 @@ async function _sendCallLinkUpdateSync(
       urgent: false,
     });
   } catch (error) {
-    log.error(
-      'sendCallLinkUpdateSync: Failed to queue sync message:',
-      Errors.toLogFormat(error)
-    );
+    log.error('Failed to queue sync message:', Errors.toLogFormat(error));
   }
 }

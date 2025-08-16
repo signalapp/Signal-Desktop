@@ -3,7 +3,7 @@
 
 import type { ReadonlyDeep } from 'type-fest';
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import type { ConversationModel } from '../models/conversations';
 import type {
   CustomError,
@@ -11,11 +11,13 @@ import type {
   QuotedAttachmentType,
   QuotedMessageType,
 } from '../model-types.d';
-import type { ServiceIdString } from '../types/ServiceId';
+import type { AciString, ServiceIdString } from '../types/ServiceId';
 import { PaymentEventKind } from '../types/Payment';
 import type { AnyPaymentEvent } from '../types/Payment';
 import type { LocalizerType } from '../types/Util';
 import { missingCaseError } from '../util/missingCaseError';
+
+const log = createLogger('helpers');
 
 export function isIncoming(
   message: Pick<ReadonlyMessageAttributesType, 'type'>
@@ -33,6 +35,27 @@ export function isStory(
   message: Pick<ReadonlyMessageAttributesType, 'type'>
 ): boolean {
   return message.type === 'story';
+}
+
+function isFromUs(
+  message: Pick<ReadonlyMessageAttributesType, 'sourceServiceId'>,
+  ourAci: AciString
+) {
+  return message.sourceServiceId === ourAci;
+}
+
+export function isOutgoingStory(
+  message: Pick<ReadonlyMessageAttributesType, 'type' | 'sourceServiceId'>,
+  ourAci: AciString
+): boolean {
+  return isStory(message) && isFromUs(message, ourAci);
+}
+
+export function isIncomingStory(
+  message: Pick<ReadonlyMessageAttributesType, 'type' | 'sourceServiceId'>,
+  ourAci: AciString
+): boolean {
+  return isStory(message) && !isFromUs(message, ourAci);
 }
 
 export type MessageAttributesWithPaymentEvent = ReadonlyMessageAttributesType &
@@ -117,7 +140,7 @@ export function getPaymentEventDescription(
 export function isQuoteAMatch(
   message: ReadonlyMessageAttributesType | null | undefined,
   conversationId: string,
-  quote: ReadonlyDeep<Pick<QuotedMessageType, 'id' | 'authorAci' | 'author'>>
+  quote: ReadonlyDeep<Pick<QuotedMessageType, 'id' | 'authorAci'>>
 ): message is ReadonlyMessageAttributesType {
   if (!message) {
     return false;
@@ -211,11 +234,6 @@ export function getSourceDevice(
   if (isIncoming(message) || isStory(message)) {
     return sourceDevice;
   }
-  if (!isOutgoing(message)) {
-    log.warn(
-      'Message.getSourceDevice: Called for non-incoming/non-outgoing message'
-    );
-  }
 
   return sourceDevice || window.textsecure.storage.user.getDeviceId();
 }
@@ -225,11 +243,6 @@ export function getSourceServiceId(
 ): ServiceIdString | undefined {
   if (isIncoming(message) || isStory(message)) {
     return message.sourceServiceId;
-  }
-  if (!isOutgoing(message)) {
-    log.warn(
-      'Message.getSourceServiceId: Called for non-incoming/non-outgoing message'
-    );
   }
 
   return window.textsecure.storage.user.getAci();

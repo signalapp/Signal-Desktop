@@ -3,7 +3,13 @@
 
 import classNames from 'classnames';
 import { noop } from 'lodash';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import type { Ref } from 'react';
 import { ContextMenuTrigger } from 'react-contextmenu';
 import { createPortal } from 'react-dom';
@@ -43,11 +49,14 @@ import {
   useHandleMessageContextMenu,
 } from './MessageContextMenu';
 import { ForwardMessagesModalType } from '../ForwardMessagesModal';
+import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions';
+import { isNotNil } from '../../util/isNotNil';
 
 export type PropsData = {
   canDownload: boolean;
   canCopy: boolean;
   canEditMessage: boolean;
+  canForward: boolean;
   canRetry: boolean;
   canRetryDeleteForEveryone: boolean;
   canReact: boolean;
@@ -96,6 +105,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     canDownload,
     canCopy,
     canEditMessage,
+    canForward,
     canReact,
     canReply,
     canRetry,
@@ -103,16 +113,11 @@ export function TimelineMessage(props: Props): JSX.Element {
     containerElementRef,
     containerWidthBreakpoint,
     conversationId,
-    deletedForEveryone,
     direction,
-    giftBadge,
     i18n,
     id,
     isTargeted,
-    isSticker,
-    isTapToView,
     kickOffAttachmentDownload,
-    payment,
     copyMessageText,
     pushPanelForConversation,
     reactToMessage,
@@ -121,6 +126,8 @@ export function TimelineMessage(props: Props): JSX.Element {
     retryDeleteForEveryone,
     retryMessageSend,
     saveAttachment,
+    saveAttachments,
+    showAttachmentDownloadStillInProgressToast,
     selectedReaction,
     setQuoteByMessageId,
     setMessageToEdit,
@@ -190,7 +197,13 @@ export function TimelineMessage(props: Props): JSX.Element {
     let cleanUpHandler: (() => void) | undefined;
     if (reactionPickerRoot) {
       cleanUpHandler = handleOutsideClick(
-        () => {
+        target => {
+          if (
+            target instanceof Element &&
+            target.closest('[data-fun-overlay]') != null
+          ) {
+            return true;
+          }
           toggleReactionPicker(true);
           return true;
         },
@@ -212,43 +225,47 @@ export function TimelineMessage(props: Props): JSX.Element {
         event.stopPropagation();
       }
 
-      if (!attachments || attachments.length !== 1) {
+      if (!attachments || attachments.length === 0) {
         return;
       }
 
-      const attachment = attachments[0];
-      if (!isDownloaded(attachment)) {
-        kickOffAttachmentDownload({
-          attachment,
-          messageId: id,
-        });
-        return;
+      let attachmentsInProgress = 0;
+      // check if any attachment needs to be downloaded from servers
+      for (const attachment of attachments) {
+        if (!isDownloaded(attachment)) {
+          kickOffAttachmentDownload({ messageId: id });
+
+          attachmentsInProgress += 1;
+        }
       }
 
-      saveAttachment(attachment, timestamp);
+      if (attachmentsInProgress !== 0) {
+        showAttachmentDownloadStillInProgressToast(attachmentsInProgress);
+      }
+
+      if (attachments.length !== 1) {
+        saveAttachments(attachments, timestamp);
+      } else {
+        saveAttachment(attachments[0], timestamp);
+      }
     },
-    [kickOffAttachmentDownload, saveAttachment, attachments, id, timestamp]
+    [
+      kickOffAttachmentDownload,
+      saveAttachments,
+      saveAttachment,
+      showAttachmentDownloadStillInProgressToast,
+      attachments,
+      id,
+      timestamp,
+    ]
   );
 
   const handleContextMenu = useHandleMessageContextMenu(menuTriggerRef);
-  const canForward =
-    !isTapToView && !deletedForEveryone && !giftBadge && !payment;
 
   const shouldShowAdditional =
     doesMessageBodyOverflow(text || '') || !isWindowWidthNotNarrow;
 
-  const multipleAttachments = attachments && attachments.length > 1;
-  const firstAttachment = attachments && attachments[0];
-
-  const handleDownload =
-    canDownload &&
-    !isSticker &&
-    !multipleAttachments &&
-    !isTapToView &&
-    firstAttachment &&
-    !firstAttachment.pending
-      ? openGenericAttachment
-      : undefined;
+  const handleDownload = canDownload ? openGenericAttachment : undefined;
 
   const handleReplyToMessage = useCallback(() => {
     if (!canReply) {
@@ -274,6 +291,19 @@ export function TimelineMessage(props: Props): JSX.Element {
     openContextMenuKeyboard,
     toggleReactionPickerKeyboard
   );
+
+  const groupedReactions = useGroupedAndOrderedReactions(
+    props.reactions,
+    'variantKey'
+  );
+
+  const messageEmojis = useMemo(() => {
+    return groupedReactions
+      .map(groupedReaction => {
+        return groupedReaction?.[0]?.variantKey;
+      })
+      .filter(isNotNil);
+  }, [groupedReactions]);
 
   const renderMenu = useCallback(() => {
     return (
@@ -312,6 +342,7 @@ export function TimelineMessage(props: Props): JSX.Element {
                     });
                   },
                   renderEmojiPicker,
+                  messageEmojis,
                 })
               }
             </Popper>,
@@ -339,6 +370,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     renderEmojiPicker,
     toggleReactionPicker,
     id,
+    messageEmojis,
   ]);
 
   return (
@@ -358,6 +390,7 @@ export function TimelineMessage(props: Props): JSX.Element {
         i18n={i18n}
         triggerId={triggerId}
         shouldShowAdditional={shouldShowAdditional}
+        interactionMode={props.interactionMode}
         onDownload={handleDownload}
         onEdit={
           canEditMessage

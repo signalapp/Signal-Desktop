@@ -54,23 +54,20 @@ import type {
   ServiceIdString,
 } from '../../types/ServiceId';
 
-import type { EmbeddedContactType } from '../../types/EmbeddedContact';
+import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact';
 import { embeddedContactSelector } from '../../types/EmbeddedContact';
 import type { HydratedBodyRangesType } from '../../types/BodyRange';
 import { hydrateRanges } from '../../types/BodyRange';
 import type { AssertProps } from '../../types/Util';
-import type { LinkPreviewType } from '../../types/message/LinkPreviews';
+import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews';
 import { getMentionsRegex } from '../../types/Message';
 import { SignalService as Proto } from '../../protobuf';
 import type {
   AttachmentForUIType,
   AttachmentType,
 } from '../../types/Attachment';
-import {
-  isVoiceMessage,
-  canBeDownloaded,
-  defaultBlurHash,
-} from '../../types/Attachment';
+import { isVoiceMessage, defaultBlurHash } from '../../types/Attachment';
+import type { AttachmentDownloadJobTypeType } from '../../types/AttachmentDownload';
 import { type DefaultConversationColorType } from '../../types/Colors';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 
@@ -83,6 +80,7 @@ import * as iterables from '../../util/iterables';
 import { strictAssert } from '../../util/assert';
 import { canEditMessage } from '../../util/canEditMessage';
 import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl';
+import { isPermanentlyUndownloadable } from '../../jobs/AttachmentDownloadManager';
 
 import { getAccountSelector } from './accounts';
 import { getDefaultConversationColor } from './items';
@@ -124,7 +122,7 @@ import {
   getHighestSuccessfulRecipientStatus,
   someSendStatus,
 } from '../../messages/MessageSendState';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { getConversationColorAttributes } from '../../util/getConversationColorAttributes';
 import { DAY, DurationInSeconds } from '../../util/durations';
 import { getStoryReplyText } from '../../util/getStoryReplyText';
@@ -152,11 +150,12 @@ import { CallMode, CallDirection } from '../../types/CallDisposition';
 import { getCallIdFromEra } from '../../util/callDisposition';
 import { LONG_MESSAGE } from '../../types/MIME';
 import type { MessageRequestResponseNotificationData } from '../../components/conversation/MessageRequestResponseNotification';
-import { formatFileSize } from '../../util/formatFileSize';
+
+const log = createLogger('message');
 
 export { isIncoming, isOutgoing, isStory };
 
-const linkify = LinkifyIt();
+const linkify = new LinkifyIt();
 
 type FormattedContact = Partial<ConversationType> &
   Pick<
@@ -167,7 +166,6 @@ type FormattedContact = Partial<ConversationType> &
     | 'sharedGroupNames'
     | 'title'
     | 'type'
-    | 'unblurredAvatarUrl'
   >;
 export type PropsForMessage = Omit<TimelineMessagePropsData, 'interactionMode'>;
 export type MessagePropsType = Omit<
@@ -211,7 +209,7 @@ export function getSource(
     return message.source;
   }
   if (!isOutgoing(message)) {
-    log.warn('message.getSource: Called for non-incoming/non-outoing message');
+    log.warn('getSource: Called for non-incoming/non-outoing message');
   }
 
   return ourNumber;
@@ -227,9 +225,7 @@ export function getSourceDevice(
     return sourceDevice;
   }
   if (!isOutgoing(message)) {
-    log.warn(
-      'message.getSourceDevice: Called for non-incoming/non-outoing message'
-    );
+    log.warn('getSourceDevice: Called for non-incoming/non-outoing message');
   }
 
   return sourceDevice || ourDeviceId;
@@ -243,9 +239,7 @@ export function getSourceServiceId(
     return message.sourceServiceId;
   }
   if (!isOutgoing(message)) {
-    log.warn(
-      'message.getSourceServiceId: Called for non-incoming/non-outoing message'
-    );
+    log.warn('getSourceServiceId: Called for non-incoming/non-outoing message');
   }
 
   return ourAci;
@@ -305,10 +299,10 @@ export function getConversation(
 
 // Message
 
-export const getAttachmentsForMessage = ({
-  sticker,
-  attachments = [],
-}: MessageWithUIFieldsType): Array<AttachmentType> => {
+export const getAttachmentsForMessage = (
+  message: MessageWithUIFieldsType
+): Array<AttachmentType> => {
+  const { sticker, attachments = [] } = message;
   if (sticker && sticker.data) {
     const { data } = sticker;
 
@@ -326,11 +320,12 @@ export const getAttachmentsForMessage = ({
   }
   return (
     attachments
-      .filter(attachment => !attachment.error || canBeDownloaded(attachment))
       // Long message attachments are removed from message.attachments quickly,
       // but in case they are still around, let's make sure not to show them
       .filter(attachment => attachment.contentType !== LONG_MESSAGE)
-      .map(attachment => getPropsForAttachment(attachment))
+      .map(attachment =>
+        getPropsForAttachment(attachment, 'attachment', message)
+      )
       .filter(isNotNil)
   );
 };
@@ -353,10 +348,13 @@ const getAuthorForMessage = (
   options: GetContactOptions
 ): PropsData['author'] => {
   const {
+    avatarPlaceholderGradient,
     acceptedMessageRequest,
     avatarUrl,
     badges,
     color,
+    firstName,
+    hasAvatar,
     id,
     isMe,
     name,
@@ -364,14 +362,16 @@ const getAuthorForMessage = (
     profileName,
     sharedGroupNames,
     title,
-    unblurredAvatarUrl,
   } = getContact(message, options);
 
   const unsafe = {
+    avatarPlaceholderGradient,
     acceptedMessageRequest,
     avatarUrl,
     badges,
     color,
+    firstName,
+    hasAvatar,
     id,
     isMe,
     name,
@@ -379,7 +379,6 @@ const getAuthorForMessage = (
     profileName,
     sharedGroupNames,
     title,
-    unblurredAvatarUrl,
   };
 
   const safe: AssertProps<PropsData['author'], typeof unsafe> = unsafe;
@@ -387,15 +386,18 @@ const getAuthorForMessage = (
   return safe;
 };
 
-const getPreviewsForMessage = ({
-  preview: previews = [],
-}: MessageWithUIFieldsType): Array<LinkPreviewType> => {
+const getPreviewsForMessage = (
+  message: MessageWithUIFieldsType
+): Array<LinkPreviewForUIType> => {
+  const { preview: previews = [] } = message;
   return previews.map(preview => ({
     ...preview,
     isStickerPack: isStickerPack(preview.url),
     isCallLink: isCallLink(preview.url),
     domain: getSafeDomain(preview.url),
-    image: preview.image ? getPropsForAttachment(preview.image) : undefined,
+    image: preview.image
+      ? getPropsForAttachment(preview.image, 'preview', message)
+      : undefined,
   }));
 };
 
@@ -600,7 +602,8 @@ function getTextAttachment(
   message: MessageWithUIFieldsType
 ): AttachmentType | undefined {
   return (
-    message.bodyAttachment && getPropsForAttachment(message.bodyAttachment)
+    message.bodyAttachment &&
+    getPropsForAttachment(message.bodyAttachment, 'long-message', message)
   );
 }
 
@@ -729,7 +732,9 @@ export const getPropsForMessage = (
   );
 
   return {
-    attachments,
+    attachments: attachments?.map(attachment =>
+      getPropsForAttachment(attachment, 'attachment', message)
+    ),
     attachmentDroppedDueToSize,
     author,
     bodyRanges,
@@ -738,12 +743,16 @@ export const getPropsForMessage = (
     quote,
     reactions,
     storyReplyContext,
-    textAttachment,
+    textAttachment:
+      textAttachment == null
+        ? undefined
+        : getPropsForAttachment(textAttachment, 'long-message', message),
     payment,
     canCopy: canCopy(message),
     canEditMessage: canEditMessage(message),
     canDeleteForEveryone: canDeleteForEveryone(message, conversation.isMe),
     canDownload: canDownload(message, conversationSelector),
+    canForward: canForward(message),
     canReact: canReact(message, ourConversationId, conversationSelector),
     canReply: canReply(message, ourConversationId, conversationSelector),
     canRetry: hasErrors(message),
@@ -778,7 +787,8 @@ export const getPropsForMessage = (
     isTapToView: isMessageTapToView,
     isTapToViewError:
       isMessageTapToView && isIncoming(message) && message.isTapToViewInvalid,
-    isTapToViewExpired: isMessageTapToView && message.isErased,
+    isTapToViewExpired:
+      isMessageTapToView && isIncoming(message) && message.isErased,
     readStatus: message.readStatus ?? ReadStatus.Read,
     selectedReaction,
     status: getMessagePropStatus(message, ourConversationId),
@@ -1813,7 +1823,7 @@ export function getPropsForEmbeddedContact(
   message: MessageWithUIFieldsType,
   regionCode: string | undefined,
   accountSelector: (identifier?: string) => ServiceIdString | undefined
-): ReadonlyDeep<EmbeddedContactType> | undefined {
+): ReadonlyDeep<EmbeddedContactForUIType> | undefined {
   const contacts = message.contact;
   if (!contacts || !contacts.length) {
     return undefined;
@@ -1831,18 +1841,15 @@ export function getPropsForEmbeddedContact(
 }
 
 export function getPropsForAttachment(
-  attachment: AttachmentType
-): AttachmentForUIType | undefined {
-  if (!attachment) {
-    return undefined;
-  }
-
-  const { path, pending, size, screenshot, thumbnail, thumbnailFromBackup } =
+  attachment: AttachmentType,
+  disposition: AttachmentDownloadJobTypeType,
+  message: Pick<ReadonlyMessageAttributesType, 'type'>
+): AttachmentForUIType {
+  const { path, pending, screenshot, thumbnail, thumbnailFromBackup } =
     attachment;
 
   return {
     ...attachment,
-    fileSize: size ? formatFileSize(size) : undefined,
     isVoiceMessage: isVoiceMessage(attachment),
     pending,
     url: path ? getLocalAttachmentUrl(attachment) : undefined,
@@ -1869,23 +1876,26 @@ export function getPropsForAttachment(
           url: getLocalAttachmentUrl(thumbnail),
         }
       : undefined,
+    isPermanentlyUndownloadable: isPermanentlyUndownloadable(
+      attachment,
+      disposition,
+      message
+    ),
   };
 }
 
 function processQuoteAttachment(attachment: QuotedAttachmentType) {
   const { thumbnail } = attachment;
-  const path = thumbnail && thumbnail.path && getLocalAttachmentUrl(thumbnail);
-  const objectUrl = thumbnail && thumbnail.objectUrl;
-
-  const thumbnailWithObjectUrl =
-    (!path && !objectUrl) || !thumbnail
-      ? undefined
-      : { ...thumbnail, objectUrl: path || objectUrl };
 
   return {
     ...attachment,
     isVoiceMessage: isVoiceMessage(attachment),
-    thumbnail: thumbnailWithObjectUrl,
+    thumbnail: thumbnail?.path
+      ? {
+          ...thumbnail,
+          url: getLocalAttachmentUrl(thumbnail),
+        }
+      : undefined,
   };
 }
 
@@ -2068,15 +2078,19 @@ export function canDownload(
   message: MessageWithUIFieldsType,
   conversationSelector: GetConversationByIdType
 ): boolean {
-  if (isOutgoing(message)) {
-    return true;
-  }
-
   const conversation = getConversation(message, conversationSelector);
   const isAccepted = Boolean(
     conversation && conversation.acceptedMessageRequest
   );
-  if (!isAccepted) {
+  if (isIncoming(message) && !isAccepted) {
+    return false;
+  }
+
+  if (message.sticker) {
+    return false;
+  }
+
+  if (isTapToView(message)) {
     return false;
   }
 
@@ -2086,7 +2100,16 @@ export function canDownload(
     return attachments.every(attachment => Boolean(attachment.path));
   }
 
-  return true;
+  return false;
+}
+
+export function canForward(message: ReadonlyMessageAttributesType): boolean {
+  return (
+    !isTapToView(message) &&
+    !message.deletedForEveryone &&
+    !message.giftBadge &&
+    !getPayment(message)
+  );
 }
 
 export function getLastChallengeError(

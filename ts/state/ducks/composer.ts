@@ -22,12 +22,12 @@ import {
 import { DataReader, DataWriter } from '../../sql/Client';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type { DraftBodyRanges } from '../../types/BodyRange';
-import type { LinkPreviewType } from '../../types/message/LinkPreviews';
+import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews';
 import type { ReadonlyMessageAttributesType } from '../../model-types.d';
 import type { NoopActionType } from './noop';
 import type { ShowToastActionType } from './toast';
 import type { StateType as RootStateType } from '../reducer';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import * as Errors from '../../types/errors';
 import {
   ADD_PREVIEW as ADD_LINK_PREVIEW,
@@ -69,7 +69,7 @@ import { resolveAttachmentDraftData } from '../../util/resolveAttachmentDraftDat
 import { resolveDraftAttachmentOnDisk } from '../../util/resolveDraftAttachmentOnDisk';
 import { shouldShowInvalidMessageToast } from '../../util/shouldShowInvalidMessageToast';
 import { writeDraftAttachment } from '../../util/writeDraftAttachment';
-import { __DEPRECATED$getMessageById } from '../../messages/getMessageById';
+import { getMessageById } from '../../messages/getMessageById';
 import { canReply, isNormalBubble } from '../selectors/message';
 import { getAuthorId } from '../../messages/helpers';
 import { getConversationSelector } from '../selectors/conversations';
@@ -96,28 +96,28 @@ import {
   isVideoTypeSupported,
 } from '../../util/GoogleChrome';
 
+const log = createLogger('composer');
+
 // State
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 type ComposerStateByConversationType = {
   attachments: ReadonlyArray<AttachmentDraftType>;
   focusCounter: number;
-  isDisabled: boolean;
+  disabledCounter: number;
   linkPreviewLoading: boolean;
-  linkPreviewResult?: LinkPreviewType;
+  linkPreviewResult?: LinkPreviewForUIType;
   messageCompositionId: string;
-  quotedMessage?: Pick<
-    ReadonlyMessageAttributesType,
-    'conversationId' | 'quote'
-  >;
+  quotedMessage?: QuotedMessageForComposerType;
   sendCounter: number;
   shouldSendHighQualityAttachments?: boolean;
 };
 
-// eslint-disable-next-line local-rules/type-alias-readonlydeep
-export type QuotedMessageType = Pick<
-  ReadonlyMessageAttributesType,
-  'conversationId' | 'quote'
->;
+export type QuotedMessageForComposerType = ReadonlyDeep<{
+  conversationId: ReadonlyMessageAttributesType['conversationId'];
+  quote: ReadonlyMessageAttributesType['quote'] & {
+    messageId?: string;
+  };
+}>;
 
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type ComposerStateType = {
@@ -128,7 +128,7 @@ function getEmptyComposerState(): ComposerStateByConversationType {
   return {
     attachments: [],
     focusCounter: 0,
-    isDisabled: false,
+    disabledCounter: 0,
     linkPreviewLoading: false,
     messageCompositionId: generateUuid(),
     sendCounter: 0,
@@ -151,7 +151,7 @@ const RESET_COMPOSER = 'composer/RESET_COMPOSER';
 export const SET_FOCUS = 'composer/SET_FOCUS';
 const SET_HIGH_QUALITY_SETTING = 'composer/SET_HIGH_QUALITY_SETTING';
 const SET_QUOTED_MESSAGE = 'composer/SET_QUOTED_MESSAGE';
-const SET_COMPOSER_DISABLED = 'composer/SET_COMPOSER_DISABLED';
+const UPDATE_COMPOSER_DISABLED = 'composer/UPDATE_COMPOSER_DISABLED';
 
 type AddPendingAttachmentActionType = ReadonlyDeep<{
   type: typeof ADD_PENDING_ATTACHMENT;
@@ -184,8 +184,8 @@ export type ResetComposerActionType = ReadonlyDeep<{
   };
 }>;
 
-type SetComposerDisabledStateActionType = ReadonlyDeep<{
-  type: typeof SET_COMPOSER_DISABLED;
+type UpdateComposerDisabledActionType = ReadonlyDeep<{
+  type: typeof UPDATE_COMPOSER_DISABLED;
   payload: {
     conversationId: string;
     value: boolean;
@@ -212,7 +212,7 @@ export type SetQuotedMessageActionType = {
   type: typeof SET_QUOTED_MESSAGE;
   payload: {
     conversationId: string;
-    quotedMessage?: QuotedMessageType;
+    quotedMessage?: QuotedMessageForComposerType;
   };
 };
 
@@ -226,7 +226,7 @@ type ComposerActionType =
   | ReplaceAttachmentsActionType
   | ResetComposerActionType
   | TargetedConversationChangedActionType
-  | SetComposerDisabledStateActionType
+  | UpdateComposerDisabledActionType
   | SetFocusActionType
   | SetHighQualitySettingActionType
   | SetQuotedMessageActionType;
@@ -252,11 +252,11 @@ export const actions = {
   sendEditedMessage,
   sendMultiMediaMessage,
   sendStickerMessage,
-  setComposerDisabledState,
   setComposerFocus,
   setMediaQualitySetting,
   setQuoteByMessageId,
   setQuotedMessage,
+  updateComposerDisabled,
 };
 
 function incrementSendCounter(conversationId: string): IncrementSendActionType {
@@ -404,6 +404,7 @@ export function saveDraftRecordingIfNeeded(): ThunkAction<
 type WithPreSendChecksOptions = Readonly<{
   message?: string;
   voiceNoteAttachment?: InMemoryAttachmentDraftType;
+  draftAttachments?: ReadonlyArray<AttachmentDraftType>;
 }>;
 
 async function withPreSendChecks(
@@ -412,13 +413,13 @@ async function withPreSendChecks(
   dispatch: ThunkDispatch<
     RootStateType,
     unknown,
-    SetComposerDisabledStateActionType | ShowToastActionType
+    UpdateComposerDisabledActionType | ShowToastActionType
   >,
   body: () => Promise<void>
 ): Promise<void> {
   const conversation = window.ConversationController.get(conversationId);
   if (!conversation) {
-    throw new Error('sendMultiMediaMessage: No conversation found');
+    throw new Error('withPreSendChecks: No conversation found');
   }
 
   const sendStart = Date.now();
@@ -427,9 +428,11 @@ async function withPreSendChecks(
   ]);
 
   const { message, voiceNoteAttachment } = options;
+  const draftAttachments =
+    options.draftAttachments ?? conversation.attributes.draftAttachments;
 
   try {
-    dispatch(setComposerDisabledState(conversationId, true));
+    dispatch(updateComposerDisabled(conversationId, true));
 
     try {
       const sendAnyway = await blockSendUntilConversationsAreVerified(
@@ -437,7 +440,6 @@ async function withPreSendChecks(
         SafetyNumberChangeSource.MessageSend
       );
       if (!sendAnyway) {
-        dispatch(setComposerDisabledState(conversationId, false));
         return;
       }
     } catch (error) {
@@ -459,7 +461,7 @@ async function withPreSendChecks(
 
     if (
       !message?.length &&
-      !hasDraftAttachments(conversation.attributes.draftAttachments, {
+      !hasDraftAttachments(draftAttachments, {
         includePending: false,
       }) &&
       !voiceNoteAttachment
@@ -472,7 +474,7 @@ async function withPreSendChecks(
 
     await body();
   } finally {
-    dispatch(setComposerDisabledState(conversationId, false));
+    dispatch(updateComposerDisabled(conversationId, false));
   }
 
   conversation.clearTypingTimers();
@@ -490,7 +492,7 @@ function sendEditedMessage(
   void,
   RootStateType,
   unknown,
-  SetComposerDisabledStateActionType | ShowToastActionType
+  UpdateComposerDisabledActionType | ShowToastActionType
 > {
   return async dispatch => {
     const conversation = window.ConversationController.get(conversationId);
@@ -545,7 +547,7 @@ function sendMultiMediaMessage(
   | IncrementSendActionType
   | NoopActionType
   | ResetComposerActionType
-  | SetComposerDisabledStateActionType
+  | UpdateComposerDisabledActionType
   | SetQuotedMessageActionType
   | ShowToastActionType
 > {
@@ -619,7 +621,6 @@ function sendMultiMediaMessage(
                 undefined
               );
               dispatch(incrementSendCounter(conversationId));
-              dispatch(setComposerDisabledState(conversationId, false));
 
               if (state.items.audioMessage) {
                 drop(new Sound({ soundType: SoundType.Whoosh }).play());
@@ -704,16 +705,11 @@ function getAttachmentsFromConversationModel(
 export function setQuoteByMessageId(
   conversationId: string,
   messageId: string | undefined
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  SetComposerDisabledStateActionType | SetQuotedMessageActionType
-> {
+): ThunkAction<void, RootStateType, unknown, SetQuotedMessageActionType> {
   return async (dispatch, getState) => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
-      throw new Error('sendStickerMessage: No conversation found');
+      throw new Error('setQuoteByMessageId: No conversation found');
     }
 
     const draftEditMessage = conversation.get('draftEditMessage');
@@ -732,9 +728,7 @@ export function setQuoteByMessageId(
       return;
     }
 
-    const message = messageId
-      ? await __DEPRECATED$getMessageById(messageId)
-      : undefined;
+    const message = messageId ? await getMessageById(messageId) : undefined;
     const state = getState();
 
     if (
@@ -789,7 +783,6 @@ export function setQuoteByMessageId(
       );
 
       dispatch(setComposerFocus(conversation.id));
-      dispatch(setComposerDisabledState(conversationId, false));
     } else {
       dispatch(setQuotedMessage(conversationId, undefined));
     }
@@ -907,8 +900,10 @@ function addPendingAttachment(
 
     const conversation = window.ConversationController.get(conversationId);
     if (conversation) {
-      conversation.attributes.draftAttachments = nextAttachments;
-      conversation.attributes.draftChanged = true;
+      conversation.set({
+        draftAttachments: nextAttachments,
+        draftChanged: true,
+      });
       drop(DataWriter.updateConversation(conversation.attributes));
     }
   };
@@ -953,7 +948,7 @@ function onEditorStateChange({
 
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
-      throw new Error('processAttachments: Unable to find conversation');
+      throw new Error('onEditorStateChange: Unable to find conversation');
     }
 
     const state = getState().composer.conversations[conversationId];
@@ -967,10 +962,6 @@ function onEditorStateChange({
         `but sendCounter doesnt match (old: ${state.sendCounter}, new: ${sendCounter})`
       );
       return;
-    }
-
-    if (messageText.length && conversation.throttledBumpTyping) {
-      conversation.throttledBumpTyping();
     }
 
     debouncedSaveDraft(conversationId, messageText, bodyRanges);
@@ -1000,14 +991,16 @@ function onEditorStateChange({
 function processAttachments({
   conversationId,
   files,
+  flags,
 }: {
   conversationId: string;
   files: ReadonlyArray<File>;
+  flags: number | null;
 }): ThunkAction<
   void,
   RootStateType,
   unknown,
-  NoopActionType | ShowToastActionType
+  NoopActionType | ShowToastActionType | UpdateComposerDisabledActionType
 > {
   return async (dispatch, getState) => {
     if (!files.length) {
@@ -1063,39 +1056,46 @@ function processAttachments({
       }
     }
 
-    await Promise.all(
-      filesToProcess.map(async file => {
-        try {
-          const attachment = await processAttachment(file, {
-            generateScreenshot: true,
-          });
-          if (!attachment) {
+    dispatch(updateComposerDisabled(conversationId, true));
+
+    try {
+      await Promise.all(
+        filesToProcess.map(async file => {
+          try {
+            const attachment = await processAttachment(file, {
+              generateScreenshot: true,
+              flags,
+            });
+            if (!attachment) {
+              removeAttachment(conversationId, webUtils.getPathForFile(file))(
+                dispatch,
+                getState,
+                undefined
+              );
+              return;
+            }
+            addAttachment(conversationId, attachment)(
+              dispatch,
+              getState,
+              undefined
+            );
+          } catch (err) {
+            log.error(
+              'handleAttachmentsProcessing: failed to process attachment:',
+              err.stack
+            );
             removeAttachment(conversationId, webUtils.getPathForFile(file))(
               dispatch,
               getState,
               undefined
             );
-            return;
+            toastToShow = { toastType: ToastType.UnableToLoadAttachment };
           }
-          addAttachment(conversationId, attachment)(
-            dispatch,
-            getState,
-            undefined
-          );
-        } catch (err) {
-          log.error(
-            'handleAttachmentsProcessing: failed to process attachment:',
-            err.stack
-          );
-          removeAttachment(conversationId, webUtils.getPathForFile(file))(
-            dispatch,
-            getState,
-            undefined
-          );
-          toastToShow = { toastType: ToastType.UnableToLoadAttachment };
-        }
-      })
-    );
+        })
+      );
+    } finally {
+      dispatch(updateComposerDisabled(conversationId, false));
+    }
 
     if (toastToShow) {
       dispatch({
@@ -1204,8 +1204,10 @@ function removeAttachment(
 
     const conversation = window.ConversationController.get(conversationId);
     if (conversation) {
-      conversation.attributes.draftAttachments = nextAttachments;
-      conversation.attributes.draftChanged = true;
+      conversation.set({
+        draftAttachments: nextAttachments,
+        draftChanged: true,
+      });
       await DataWriter.updateConversation(conversation.attributes);
     }
 
@@ -1334,6 +1336,10 @@ function saveDraft(
       timestamp = now;
     }
 
+    if (messageText.length && conversation.throttledBumpTyping) {
+      conversation.throttledBumpTyping();
+    }
+
     conversation.set({
       active_at: activeAt,
       draft: messageText,
@@ -1345,12 +1351,12 @@ function saveDraft(
   }
 }
 
-function setComposerDisabledState(
+function updateComposerDisabled(
   conversationId: string,
   value: boolean
-): SetComposerDisabledStateActionType {
+): UpdateComposerDisabledActionType {
   return {
-    type: SET_COMPOSER_DISABLED,
+    type: UPDATE_COMPOSER_DISABLED,
     payload: {
       conversationId,
       value,
@@ -1373,7 +1379,7 @@ function setMediaQualitySetting(
 
 function setQuotedMessage(
   conversationId: string,
-  quotedMessage?: QuotedMessageType
+  quotedMessage?: QuotedMessageForComposerType
 ): SetQuotedMessageActionType {
   return {
     type: SET_QUOTED_MESSAGE,
@@ -1521,9 +1527,10 @@ export function reducer(
     }));
   }
 
-  if (action.type === SET_COMPOSER_DISABLED) {
-    return updateComposerState(state, action, () => ({
-      isDisabled: action.payload.value,
+  if (action.type === UPDATE_COMPOSER_DISABLED) {
+    return updateComposerState(state, action, oldState => ({
+      disabledCounter:
+        oldState.disabledCounter + (action.payload.value ? 1 : -1),
     }));
   }
 

@@ -19,8 +19,6 @@ export type StandardAttachmentBackupJobType = {
     path: string | null;
     contentType: MIMEType;
     keys: string;
-    digest: string;
-    iv: string;
     transitCdnInfo?: {
       cdnKey: string;
       cdnNumber: number;
@@ -34,7 +32,7 @@ export type StandardAttachmentBackupJobType = {
 
 export type ThumbnailAttachmentBackupJobType = {
   type: 'thumbnail';
-  mediaName: string;
+  mediaName: `${string}_thumbnail`;
   receivedAt: number;
   data: {
     fullsizePath: string | null;
@@ -45,15 +43,33 @@ export type ThumbnailAttachmentBackupJobType = {
   };
 };
 
+export type CoreAttachmentLocalBackupJobType = {
+  type: 'local';
+  mediaName: string;
+  data: {
+    path: string | null;
+    size: number;
+    localKey: string;
+  };
+  backupsBaseDir: string;
+};
+
+export type PartialAttachmentLocalBackupJobType = Omit<
+  CoreAttachmentLocalBackupJobType,
+  'backupsBaseDir'
+>;
+
+export type AttachmentLocalBackupJobType = CoreAttachmentLocalBackupJobType &
+  JobManagerJobType;
+
 const standardBackupJobDataSchema = z.object({
   type: z.literal('standard'),
+  mediaName: z.string(),
   data: z.object({
     path: z.string(),
     size: z.number(),
     contentType: MIMETypeSchema,
     keys: z.string(),
-    iv: z.string(),
-    digest: z.string(),
     transitCdnInfo: z
       .object({
         cdnKey: z.string(),
@@ -66,8 +82,15 @@ const standardBackupJobDataSchema = z.object({
   }),
 });
 
+const thumbnailMediaNameSchema = z
+  .string()
+  .refine((mediaName: string): mediaName is `${string}_thumbnail` => {
+    return mediaName.endsWith('_thumbnail');
+  });
+
 const thumbnailBackupJobDataSchema = z.object({
   type: z.literal('thumbnail'),
+  mediaName: thumbnailMediaNameSchema,
   data: z.object({
     fullsizePath: z.string(),
     fullsizeSize: z.number(),
@@ -79,7 +102,6 @@ const thumbnailBackupJobDataSchema = z.object({
 
 export const attachmentBackupJobSchema = z
   .object({
-    mediaName: z.string(),
     receivedAt: z.number(),
   })
   .and(
@@ -101,7 +123,7 @@ export const attachmentBackupJobSchema = z
 >;
 
 export const thumbnailBackupJobRecordSchema = z.object({
-  mediaName: z.string(),
+  mediaName: thumbnailMediaNameSchema,
   type: z.literal('standard'),
   json: thumbnailBackupJobDataSchema.omit({ type: true }),
 });

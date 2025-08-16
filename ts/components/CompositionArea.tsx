@@ -4,7 +4,6 @@
 import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import type { ReadonlyDeep } from 'type-fest';
-
 import type {
   DraftBodyRanges,
   HydratedBodyRangesType,
@@ -50,7 +49,7 @@ import type {
   ShowConversationType,
 } from '../state/ducks/conversations';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
-import type { LinkPreviewType } from '../types/message/LinkPreviews';
+import type { LinkPreviewForUIType } from '../types/message/LinkPreviews';
 import { isSameLinkPreview } from '../types/message/LinkPreviews';
 
 import { MandatoryProfileSharingActions } from './conversation/MandatoryProfileSharingActions';
@@ -76,6 +75,18 @@ import type { ShowToastAction } from '../state/ducks/toast';
 import type { DraftEditMessageType } from '../model-types.d';
 import type { ForwardMessagesPayload } from '../state/ducks/globalModals';
 import { ForwardMessagesModalType } from './ForwardMessagesModal';
+import { SignalConversationMuteToggle } from './conversation/SignalConversationMuteToggle';
+import { FunPicker } from './fun/FunPicker';
+import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis';
+import type { FunStickerSelection } from './fun/panels/FunPanelStickers';
+import type { FunGifSelection } from './fun/panels/FunPanelGifs';
+import type { SmartDraftGifMessageSendModalProps } from '../state/smart/DraftGifMessageSendModal';
+import { strictAssert } from '../util/assert';
+import { ConfirmationDialog } from './ConfirmationDialog';
+import type { EmojiSkinTone } from './fun/data/emojis';
+import type { StickerPackType, StickerType } from '../state/ducks/stickers';
+import { FunPickerButton } from './fun/FunButton';
+import { isFunPickerEnabled } from './fun/isFunPickerEnabled';
 
 export type OwnProps = Readonly<{
   acceptedMessageRequest: boolean | null;
@@ -88,6 +99,7 @@ export type OwnProps = Readonly<{
   areWeAdmin: boolean | null;
   areWePending: boolean | null;
   areWePendingApproval: boolean | null;
+  sharedGroupNames?: ReadonlyArray<string>;
   cancelRecording: () => unknown;
   completeRecording: (
     conversationId: string,
@@ -118,10 +130,11 @@ export type OwnProps = Readonly<{
   recordingState: RecordingState;
   messageCompositionId: string;
   shouldHidePopovers: boolean | null;
-  isSMSOnly: boolean | null;
+  isMuted: boolean;
+  isSmsOnlyOrUnregistered: boolean | null;
   left: boolean | null;
   linkPreviewLoading: boolean;
-  linkPreviewResult: LinkPreviewType | null;
+  linkPreviewResult: LinkPreviewForUIType | null;
   onClearAttachments(conversationId: string): unknown;
   onCloseLinkPreview(conversationId: string): unknown;
   platform: string;
@@ -129,7 +142,9 @@ export type OwnProps = Readonly<{
   processAttachments: (options: {
     conversationId: string;
     files: ReadonlyArray<File>;
+    flags: number | null;
   }) => unknown;
+  setMuteExpiration(conversationId: string, muteExpiresAt: number): unknown;
   setMediaQualitySetting(conversationId: string, isHQ: boolean): unknown;
   sendStickerMessage(
     id: string,
@@ -184,11 +199,21 @@ export type OwnProps = Readonly<{
     props: SmartCompositionRecordingDraftProps
   ) => JSX.Element | null;
   selectedMessageIds: ReadonlyArray<string> | undefined;
+  areSelectedMessagesForwardable: boolean | undefined;
   toggleSelectMode: (on: boolean) => void;
   toggleForwardMessagesModal: (
     payload: ForwardMessagesPayload,
     onForward: () => void
   ) => void;
+  toggleDraftGifMessageSendModal: (
+    props: SmartDraftGifMessageSendModalProps | null
+  ) => void;
+
+  onPickEmoji: (e: EmojiPickDataType) => void;
+  emojiSkinToneDefault: EmojiSkinTone | null;
+  // StickerButton
+  installedPacks: ReadonlyArray<StickerPackType>;
+  recentStickers: ReadonlyArray<StickerType>;
 }>;
 
 export type Props = Pick<
@@ -198,13 +223,17 @@ export type Props = Pick<
   | 'getPreferredBadge'
   | 'onEditorStateChange'
   | 'onTextTooLong'
+  | 'ourConversationId'
   | 'quotedMessageId'
   | 'sendCounter'
   | 'sortedGroupMembers'
 > &
   Pick<
     EmojiButtonProps,
-    'onPickEmoji' | 'onSetSkinTone' | 'recentEmojis' | 'skinTone'
+    | 'onPickEmoji'
+    | 'onEmojiSkinToneDefaultChange'
+    | 'recentEmojis'
+    | 'emojiSkinToneDefault'
   > &
   Pick<
     StickerButtonProps,
@@ -238,6 +267,7 @@ export const CompositionArea = memo(function CompositionArea({
   imageToBlurHash,
   isDisabled,
   isSignalConversation,
+  isMuted,
   isActive,
   lastEditableMessageId,
   messageCompositionId,
@@ -253,6 +283,7 @@ export const CompositionArea = memo(function CompositionArea({
   shouldHidePopovers,
   showToast,
   theme,
+  setMuteExpiration,
 
   // AttachmentList
   draftAttachments,
@@ -280,13 +311,14 @@ export const CompositionArea = memo(function CompositionArea({
   isFormattingEnabled,
   onEditorStateChange,
   onTextTooLong,
+  ourConversationId,
   sendCounter,
   sortedGroupMembers,
   // EmojiButton
   onPickEmoji,
-  onSetSkinTone,
+  onEmojiSkinToneDefaultChange,
   recentEmojis,
-  skinTone,
+  emojiSkinToneDefault,
   // StickerButton
   knownPacks,
   receivedPacks,
@@ -329,14 +361,18 @@ export const CompositionArea = memo(function CompositionArea({
   cancelJoinRequest,
   showConversation,
   // SMS-only contacts
-  isSMSOnly,
+  isSmsOnlyOrUnregistered,
   isFetchingUUID,
+  sharedGroupNames,
   renderSmartCompositionRecording,
   renderSmartCompositionRecordingDraft,
   // Selected messages
   selectedMessageIds,
+  areSelectedMessagesForwardable,
   toggleSelectMode,
   toggleForwardMessagesModal,
+  // DraftGifMessageSendModal
+  toggleDraftGifMessageSendModal,
 }: Props): JSX.Element | null {
   const [dirty, setDirty] = useState(false);
   const [large, setLarge] = useState(false);
@@ -357,7 +393,7 @@ export const CompositionArea = memo(function CompositionArea({
   const draftEditMessageBody = draftEditMessage?.body;
   const editedMessageId = draftEditMessage?.targetMessageId;
 
-  const canSend =
+  let canSend =
     // Text or link preview edited
     dirty ||
     // Quote of edited message changed
@@ -369,6 +405,11 @@ export const CompositionArea = memo(function CompositionArea({
       !isSameLinkPreview(linkPreviewResult, draftEditMessage?.preview)) ||
     // Not edit message, but has attachments
     (draftEditMessage == null && draftAttachments.length !== 0);
+
+  // Draft attachments should finish loading
+  if (draftAttachments.some(attachment => attachment.pending)) {
+    canSend = false;
+  }
 
   const handleSubmit = useCallback(
     (
@@ -569,19 +610,141 @@ export const CompositionArea = memo(function CompositionArea({
 
   const showMediaQualitySelector = draftAttachments.some(isImageAttachment);
 
+  const [funPickerOpen, setFunPickerOpen] = useState(false);
+
+  const handleFunPickerOpenChange = useCallback(
+    (open: boolean) => {
+      setFunPickerOpen(open);
+      if (!open) {
+        setComposerFocus(conversationId);
+      }
+    },
+    [conversationId, setComposerFocus]
+  );
+
+  const handleFunPickerSelectEmoji = useCallback(
+    (emojiSelection: FunEmojiSelection) => {
+      insertEmoji({
+        shortName: emojiSelection.englishShortName,
+        skinTone: emojiSelection.skinTone,
+      });
+    },
+    [insertEmoji]
+  );
+  const handleFunPickerSelectSticker = useCallback(
+    (stickerSelection: FunStickerSelection) => {
+      sendStickerMessage(conversationId, {
+        packId: stickerSelection.stickerPackId,
+        stickerId: stickerSelection.stickerId,
+      });
+    },
+    [sendStickerMessage, conversationId]
+  );
+
+  const [confirmGifSelection, setConfirmGifSelection] =
+    useState<FunGifSelection | null>(null);
+
+  const handleFunPickerSelectGif = useCallback(
+    async (gifSelection: FunGifSelection) => {
+      if (draftAttachments.length > 0) {
+        setConfirmGifSelection(gifSelection);
+      } else {
+        toggleDraftGifMessageSendModal({
+          conversationId,
+          previousComposerDraftText: draftText ?? '',
+          previousComposerDraftBodyRanges: draftBodyRanges ?? [],
+          gifSelection,
+        });
+      }
+    },
+    [
+      conversationId,
+      toggleDraftGifMessageSendModal,
+      draftText,
+      draftBodyRanges,
+      draftAttachments,
+    ]
+  );
+
+  const handleConfirmGifSelection = useCallback(() => {
+    strictAssert(confirmGifSelection != null, 'Need selected gif to confirm');
+    onClearAttachments(conversationId);
+    toggleDraftGifMessageSendModal({
+      conversationId,
+      previousComposerDraftText: draftText ?? '',
+      previousComposerDraftBodyRanges: draftBodyRanges ?? [],
+      gifSelection: confirmGifSelection,
+    });
+  }, [
+    confirmGifSelection,
+    conversationId,
+    toggleDraftGifMessageSendModal,
+    draftText,
+    draftBodyRanges,
+    onClearAttachments,
+  ]);
+
+  const handleCancelGifSelection = useCallback(() => {
+    setConfirmGifSelection(null);
+  }, []);
+
+  const handleFunPickerAddStickerPack = useCallback(() => {
+    pushPanelForConversation({
+      type: PanelType.StickerManager,
+    });
+  }, [pushPanelForConversation]);
+
   const leftHandSideButtonsFragment = (
     <>
-      <div className="CompositionArea__button-cell">
-        <EmojiButton
-          emojiButtonApi={emojiButtonRef}
+      {confirmGifSelection && (
+        <ConfirmationDialog
           i18n={i18n}
-          onPickEmoji={insertEmoji}
-          onClose={() => setComposerFocus(conversationId)}
-          recentEmojis={recentEmojis}
-          skinTone={skinTone}
-          onSetSkinTone={onSetSkinTone}
-        />
-      </div>
+          dialogName="CompositionArea.ConfirmGifSelection"
+          hasXButton={false}
+          onClose={handleCancelGifSelection}
+          onCancel={handleCancelGifSelection}
+          title={i18n('icu:CompositionArea__ConfirmGifSelection__Title')}
+          actions={[
+            {
+              action: handleConfirmGifSelection,
+              style: 'affirmative',
+              text: i18n(
+                'icu:CompositionArea__ConfirmGifSelection__ReplaceButton'
+              ),
+            },
+          ]}
+        >
+          {i18n('icu:CompositionArea__ConfirmGifSelection__Body')}
+        </ConfirmationDialog>
+      )}
+      {isFunPickerEnabled() && (
+        <div className="CompositionArea__button-cell">
+          <FunPicker
+            placement="top start"
+            open={funPickerOpen}
+            onOpenChange={handleFunPickerOpenChange}
+            onSelectEmoji={handleFunPickerSelectEmoji}
+            onSelectSticker={handleFunPickerSelectSticker}
+            onSelectGif={handleFunPickerSelectGif}
+            onAddStickerPack={handleFunPickerAddStickerPack}
+          >
+            <FunPickerButton i18n={i18n} />
+          </FunPicker>
+        </div>
+      )}
+      {!isFunPickerEnabled() && (
+        <div className="CompositionArea__button-cell">
+          <EmojiButton
+            emojiButtonApi={emojiButtonRef}
+            i18n={i18n}
+            onPickEmoji={insertEmoji}
+            onClose={() => setComposerFocus(conversationId)}
+            recentEmojis={recentEmojis}
+            emojiSkinToneDefault={emojiSkinToneDefault}
+            onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
+          />
+        </div>
+      )}
       {showMediaQualitySelector ? (
         <div className="CompositionArea__button-cell">
           <MediaQualitySelector
@@ -657,7 +820,7 @@ export const CompositionArea = memo(function CompositionArea({
 
   const stickerButtonPlacement = large ? 'top-start' : 'top-end';
   const stickerButtonFragment =
-    !draftEditMessage && withStickers ? (
+    !isFunPickerEnabled() && !draftEditMessage && withStickers ? (
       <div className="CompositionArea__button-cell">
         <StickerButton
           i18n={i18n}
@@ -735,8 +898,14 @@ export const CompositionArea = memo(function CompositionArea({
   useEscapeHandling(handleEscape);
 
   if (isSignalConversation) {
-    // TODO DESKTOP-4547
-    return <div />;
+    return (
+      <SignalConversationMuteToggle
+        conversationId={conversationId}
+        isMuted={isMuted}
+        i18n={i18n}
+        setMuteExpiration={setMuteExpiration}
+      />
+    );
   }
 
   if (selectedMessageIds != null) {
@@ -744,6 +913,7 @@ export const CompositionArea = memo(function CompositionArea({
       <SelectModeActions
         i18n={i18n}
         selectedMessageIds={selectedMessageIds}
+        areSelectedMessagesForwardable={areSelectedMessagesForwardable === true}
         onExitSelectMode={() => {
           toggleSelectMode(false);
         }}
@@ -789,6 +959,7 @@ export const CompositionArea = memo(function CompositionArea({
         isBlocked={isBlocked}
         isHidden={isHidden}
         isReported={isReported}
+        sharedGroupNames={sharedGroupNames}
         acceptConversation={acceptConversation}
         reportSpam={reportSpam}
         blockAndReportSpam={blockAndReportSpam}
@@ -798,7 +969,7 @@ export const CompositionArea = memo(function CompositionArea({
     );
   }
 
-  if (conversationType === 'direct' && isSMSOnly) {
+  if (conversationType === 'direct' && isSmsOnlyOrUnregistered) {
     return (
       <div
         className={classNames([
@@ -912,6 +1083,7 @@ export const CompositionArea = memo(function CompositionArea({
             imageSrc={attachmentToEdit.url}
             imageToBlurHash={imageToBlurHash}
             installedPacks={installedPacks}
+            isCreatingStory={false}
             isFormattingEnabled={isFormattingEnabled}
             isSending={false}
             onClose={() => setAttachmentToEdit(undefined)}
@@ -947,9 +1119,10 @@ export const CompositionArea = memo(function CompositionArea({
             }}
             onPickEmoji={onPickEmoji}
             onTextTooLong={onTextTooLong}
+            ourConversationId={ourConversationId}
             platform={platform}
             recentStickers={recentStickers}
-            skinTone={skinTone}
+            emojiSkinToneDefault={emojiSkinToneDefault}
             sortedGroupMembers={sortedGroupMembers}
           />
         )}
@@ -1042,11 +1215,12 @@ export const CompositionArea = memo(function CompositionArea({
             onPickEmoji={onPickEmoji}
             onSubmit={handleSubmit}
             onTextTooLong={onTextTooLong}
+            ourConversationId={ourConversationId}
             platform={platform}
             quotedMessageId={quotedMessageId}
             sendCounter={sendCounter}
             shouldHidePopovers={shouldHidePopovers}
-            skinTone={skinTone ?? null}
+            emojiSkinToneDefault={emojiSkinToneDefault ?? null}
             sortedGroupMembers={sortedGroupMembers}
             theme={theme}
           />

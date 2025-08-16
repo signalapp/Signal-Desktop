@@ -3,13 +3,15 @@
 
 const esbuild = require('esbuild');
 const path = require('path');
-const glob = require('glob');
+const fastGlob = require('fast-glob');
 
 const ROOT_DIR = path.join(__dirname, '..');
 const BUNDLES_DIR = 'bundles';
 
 const watch = process.argv.some(argv => argv === '-w' || argv === '--watch');
 const isProd = process.argv.some(argv => argv === '-prod' || argv === '--prod');
+const noBundle = process.argv.some(argv => argv === '--no-bundle');
+const noScripts = process.argv.some(argv => argv === '--no-scripts');
 
 const nodeDefaults = {
   platform: 'node',
@@ -34,7 +36,7 @@ const bundleDefaults = {
     '@signalapp/libsignal-client',
     '@signalapp/libsignal-client/zkgroup',
     '@signalapp/ringrtc',
-    '@signalapp/better-sqlite3',
+    '@signalapp/sqlcipher',
     '@indutny/mac-screen-share',
     'electron',
     'fs-xattr',
@@ -46,7 +48,6 @@ const bundleDefaults = {
 
     // Things that don't bundle well
     'got',
-    'jquery',
     'node-fetch',
     'pino',
     'proxy-agent',
@@ -85,16 +86,27 @@ const sandboxedBrowserDefaults = {
 };
 
 async function build({ appConfig, preloadConfig }) {
-  const app = await esbuild.context(appConfig);
-  const preload = await esbuild.context(preloadConfig);
+  let app;
+  let preload;
+
+  if (!noScripts) {
+    app = await esbuild.context(appConfig);
+  }
+  if (!noBundle) {
+    preload = await esbuild.context(preloadConfig);
+  }
 
   if (watch) {
-    await Promise.all([app.watch(), preload.watch()]);
+    await Promise.all([app && app.watch(), preload && preload.watch()]);
   } else {
-    await Promise.all([app.rebuild(), preload.rebuild()]);
+    await Promise.all([app && app.rebuild(), preload && preload.rebuild()]);
 
-    await app.dispose();
-    await preload.dispose();
+    if (app) {
+      await app.dispose();
+    }
+    if (preload) {
+      await preload.dispose();
+    }
   }
 }
 
@@ -106,10 +118,10 @@ async function main() {
       mainFields: ['browser', 'main'],
       entryPoints: [
         'preload.wrapper.ts',
-        ...glob
+        ...fastGlob
           .sync('{app,ts}/**/*.{ts,tsx}', {
-            nodir: true,
-            root: ROOT_DIR,
+            onlyFiles: true,
+            cwd: ROOT_DIR,
           })
           .filter(file => !file.endsWith('.d.ts')),
       ],
@@ -135,7 +147,6 @@ async function sandboxedEnv() {
         path.join(ROOT_DIR, 'ts', 'windows', 'loading', 'start.ts'),
         path.join(ROOT_DIR, 'ts', 'windows', 'permissions', 'app.tsx'),
         path.join(ROOT_DIR, 'ts', 'windows', 'screenShare', 'app.tsx'),
-        path.join(ROOT_DIR, 'ts', 'windows', 'settings', 'app.tsx'),
         path.join(
           ROOT_DIR,
           'ts',
@@ -147,7 +158,7 @@ async function sandboxedEnv() {
     },
     preloadConfig: {
       ...sandboxedPreloadDefaults,
-      mainFields: ['main'],
+      mainFields: ['browser', 'main'],
       entryPoints: [
         path.join(ROOT_DIR, 'ts', 'windows', 'about', 'preload.ts'),
         path.join(ROOT_DIR, 'ts', 'windows', 'debuglog', 'preload.ts'),
@@ -155,7 +166,6 @@ async function sandboxedEnv() {
         path.join(ROOT_DIR, 'ts', 'windows', 'permissions', 'preload.ts'),
         path.join(ROOT_DIR, 'ts', 'windows', 'calling-tools', 'preload.ts'),
         path.join(ROOT_DIR, 'ts', 'windows', 'screenShare', 'preload.ts'),
-        path.join(ROOT_DIR, 'ts', 'windows', 'settings', 'preload.ts'),
       ],
       format: 'cjs',
       outdir: 'bundles',

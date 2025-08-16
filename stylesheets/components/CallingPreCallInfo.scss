@@ -1,6 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .module-CallingPreCallInfo {
   text-align: center;
   user-select: none;
@@ -8,22 +11,22 @@
   &__title,
   &__subtitle {
     -webkit-box-orient: vertical;
-    color: $color-white;
+    color: variables.$color-white;
     display: -webkit-box;
     overflow: hidden;
     text-overflow: ellipsis;
-    @include calling-text-shadow;
+    @include mixins.calling-text-shadow;
   }
 
   &__title {
     -webkit-line-clamp: 1;
-    @include font-title-2;
+    @include mixins.font-title-2;
     margin-top: 16px;
   }
 
   &__subtitle {
     -webkit-line-clamp: 2;
-    @include font-body-1;
+    @include mixins.font-body-1;
     margin-top: 8px;
   }
 }

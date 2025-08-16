@@ -2,8 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { getEnvironment, Environment } from '../environment';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
+
+const log = createLogger('assert');
 
 /**
  * In development, starts the debugger.
@@ -39,7 +41,7 @@ export function assertDev(
       devDebugger();
       throw err;
     }
-    log.error('assert failure:', Errors.toLogFormat(err));
+    log.error('failure:', Errors.toLogFormat(err));
   }
 }
 

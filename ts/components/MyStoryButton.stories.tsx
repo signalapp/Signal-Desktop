@@ -8,15 +8,13 @@ import { expect, fn, within, userEvent } from '@storybook/test';
 
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './MyStoryButton';
-import enMessages from '../../_locales/en/messages.json';
 import { MyStoryButton } from './MyStoryButton';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
-import { getFakeMyStory } from '../test-both/helpers/getFakeStory';
-import { setupI18n } from '../util/setupI18n';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
+import { getFakeMyStory } from '../test-helpers/getFakeStory';
 import { SendStatus } from '../messages/MessageSendState';
 import { ResolvedSendStatus } from '../types/Stories';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/MyStoriesButton',
@@ -25,8 +23,8 @@ export default {
     i18n,
     me: getDefaultConversation(),
     myStories: [getFakeMyStory()],
-    onAddStory: fn(action('onAddStory')),
-    onClick: fn(action('onClick')),
+    onAddStory: fn(action('onAddStory')) as ReturnType<typeof action>,
+    onClick: fn(action('onClick')) as ReturnType<typeof action>,
     queueStoryDownload: action('queueStoryDownload'),
     showToast: action('showToast'),
   },

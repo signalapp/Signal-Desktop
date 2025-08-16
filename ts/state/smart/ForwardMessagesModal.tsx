@@ -4,7 +4,7 @@
 import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import type { ForwardMessagesPropsType } from '../ducks/globalModals';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { ForwardMessagesModal } from '../../components/ForwardMessagesModal';
 import { LinkPreviewSourceType } from '../../types/LinkPreview';
 import * as Errors from '../../types/errors';
@@ -23,13 +23,15 @@ import { useLinkPreviewActions } from '../ducks/linkPreviews';
 import { SmartCompositionTextArea } from './CompositionTextArea';
 import { useToastActions } from '../ducks/toast';
 import { isDownloaded } from '../../types/Attachment';
-import { __DEPRECATED$getMessageById } from '../../messages/getMessageById';
+import { getMessageById } from '../../messages/getMessageById';
 import { strictAssert } from '../../util/assert';
 import type {
   ForwardMessageData,
   MessageForwardDraft,
 } from '../../types/ForwardDraft';
 import { getForwardMessagesProps } from '../selectors/globalModals';
+
+const log = createLogger('ForwardMessagesModal');
 
 export function SmartForwardMessagesModal(): JSX.Element | null {
   const forwardMessagesProps = useSelector(getForwardMessagesProps);
@@ -117,9 +119,7 @@ function SmartForwardMessagesModalInner({
             if (draft.originalMessageId == null) {
               return { draft, originalMessage: null };
             }
-            const message = await __DEPRECATED$getMessageById(
-              draft.originalMessageId
-            );
+            const message = await getMessageById(draft.originalMessageId);
             strictAssert(message, 'no message found');
             return {
               draft,

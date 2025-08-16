@@ -1,8 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .InstallScreenSignalLogo {
-  @include font-title-1;
+  @include mixins.font-title-1;
   align-items: center;
   display: flex;
   font-weight: bold;
@@ -11,11 +14,16 @@
   inset-inline-start: 32px;
 
   &::before {
-    @include color-svg('../images/signal-logo.svg', $color-ultramarine);
-    content: '';
-    display: block;
-    height: 32px;
-    margin-inline-end: 6px;
-    width: 32px;
+    @include mixins.color-svg-themed(
+      '../images/signal-logo-and-wordmark.svg',
+      variables.$color-ultramarine-logo,
+      variables.$color-white
+    );
+    & {
+      content: '';
+      display: block;
+      height: 32px;
+      width: 112px;
+    }
   }
 }

@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactElement } from 'react';
-import React from 'react';
+import React, { type ReactElement, useCallback } from 'react';
+
 import type { LocalizerType } from '../../types/Util';
 import { missingCaseError } from '../../util/missingCaseError';
 import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser';
@@ -27,7 +27,7 @@ export function InstallScreenErrorStep({
 }: Props): ReactElement {
   let errorMessage: string;
   let buttonText = i18n('icu:installTryAgain');
-  let onClickButton = () => tryAgain();
+  let onClickButton = useCallback(() => tryAgain(), [tryAgain]);
   let shouldShowQuitButton = false;
 
   switch (error) {

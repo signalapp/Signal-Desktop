@@ -1,0 +1,13 @@
+{
+  "bodyRanges": [
+    { "style": "bold", "start": 109, "length": 1 },
+    { "style": "bold", "start": 0, "length": 110 },
+    { "style": "bold", "start": 10, "length": 0 },
+    { "style": "bold", "start": 10, "length": 100 },
+    { "style": "italic", "start": 100, "length": 9 }
+  ],
+  "uuid": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+  "title": "Formatting Test",
+  "body": "Sample body text that tests formatting boundaries. Bold text has invalid ranges, italic has valid. length 109",
+  "callToActionText": "Create Call Link"
+}

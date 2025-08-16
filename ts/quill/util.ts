@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import emojiRegex from 'emoji-regex';
-import Delta from 'quill-delta';
-import type { LeafBlot, DeltaOperation, AttributeMap } from 'quill';
-import type Op from 'quill-delta/dist/Op';
+import { Delta } from '@signalapp/quill-cjs';
+import type { AttributeMap, Op, Parchment } from '@signalapp/quill-cjs';
 
 import type {
   DisplayNode,
@@ -19,6 +18,14 @@ import { isNotNil } from '../util/isNotNil';
 import type { AciString } from '../types/ServiceId';
 import { emojiToData } from '../components/emoji/lib';
 
+export type Matcher = (
+  node: HTMLElement,
+  delta: Delta,
+  _scroll: Record<string, unknown>,
+  // Note: this field is added in our fork
+  attributes: AttributeMap
+) => Delta;
+
 export type MentionBlotValue = {
   aci: AciString;
   title: string;
@@ -28,13 +35,13 @@ export type FormattingBlotValue = {
   style: BodyRange.Style;
 };
 
-export const isEmojiBlot = (blot: LeafBlot): blot is EmojiBlot =>
+export const isEmojiBlot = (blot: Parchment.LeafBlot): blot is EmojiBlot =>
   blot.value() && blot.value().emoji;
 
-export const isMentionBlot = (blot: LeafBlot): blot is MentionBlot =>
+export const isMentionBlot = (blot: Parchment.LeafBlot): blot is MentionBlot =>
   blot.value() && blot.value().mention;
 
-export const isFormatting = (blot: LeafBlot): blot is MentionBlot =>
+export const isFormatting = (blot: Parchment.LeafBlot): blot is MentionBlot =>
   blot.value() && blot.value().style;
 
 export type RetainOp = Op & { retain: number };
@@ -63,7 +70,7 @@ export const isInsertEmojiOp = (op: Op): op is InsertEmojiOp =>
 export const isInsertMentionOp = (op: Op): op is InsertMentionOp =>
   isSpecificInsertOp(op, 'mention');
 
-export const getTextFromOps = (ops: Array<DeltaOperation>): string =>
+export const getTextFromOps = (ops: Array<Op>): string =>
   ops
     .reduce((acc, op) => {
       if (typeof op.insert === 'string') {
@@ -130,31 +137,31 @@ function extractAllFormats(
     ...params,
     style: BOLD,
     previousData: result[BOLD],
-    hasStyle: op?.attributes?.[QuillFormattingStyle.bold],
+    hasStyle: Boolean(op?.attributes?.[QuillFormattingStyle.bold]),
   });
   result[ITALIC] = extractFormatRange({
     ...params,
     style: ITALIC,
     previousData: result[ITALIC],
-    hasStyle: op?.attributes?.[QuillFormattingStyle.italic],
+    hasStyle: Boolean(op?.attributes?.[QuillFormattingStyle.italic]),
   });
   result[MONOSPACE] = extractFormatRange({
     ...params,
     style: MONOSPACE,
     previousData: result[MONOSPACE],
-    hasStyle: op?.attributes?.[QuillFormattingStyle.monospace],
+    hasStyle: Boolean(op?.attributes?.[QuillFormattingStyle.monospace]),
   });
   result[SPOILER] = extractFormatRange({
     ...params,
     style: SPOILER,
     previousData: result[SPOILER],
-    hasStyle: op?.attributes?.[QuillFormattingStyle.spoiler],
+    hasStyle: Boolean(op?.attributes?.[QuillFormattingStyle.spoiler]),
   });
   result[STRIKETHROUGH] = extractFormatRange({
     ...params,
     style: STRIKETHROUGH,
     previousData: result[STRIKETHROUGH],
-    hasStyle: op?.attributes?.[QuillFormattingStyle.strike],
+    hasStyle: Boolean(op?.attributes?.[QuillFormattingStyle.strike]),
   });
 
   return result;
@@ -280,12 +287,18 @@ export const getBlotTextPartitions = (
 };
 
 export const matchBlotTextPartitions = (
-  blot: LeafBlot,
+  blot: Parchment.LeafBlot | null,
   index: number,
   leftRegExp: RegExp,
   rightRegExp?: RegExp
 ): Array<RegExpMatchArray | null> => {
-  const [leftText, rightText] = getBlotTextPartitions(blot.text, index);
+  const text = blot?.value();
+  if (text && typeof text !== 'string') {
+    // This can be an EmojiBlot, for example
+    return [];
+  }
+
+  const [leftText, rightText] = getBlotTextPartitions(text, index);
 
   const leftMatch = leftRegExp.exec(leftText);
   let rightMatch = null;

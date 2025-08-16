@@ -48,6 +48,10 @@ export type LocalizerType = {
   getLocaleMessages(): LocaleMessagesType;
   getLocaleDirection(): LocaleDirection;
   getHourCyclePreference(): HourCyclePreference;
+
+  // Storybook
+  trackUsage(): void;
+  stopTrackingUsage(): Array<[string, string]>;
 };
 
 export enum SentMediaQualityType {
@@ -58,6 +62,11 @@ export enum SentMediaQualityType {
 export enum ThemeType {
   'light' = 'light',
   'dark' = 'dark',
+}
+
+export enum SystemThemeType {
+  light = 'light',
+  dark = 'dark',
 }
 
 // These are strings so they can be interpolated into class names.
@@ -103,3 +112,16 @@ export type JSONWithUnknownFields<Value> =
 
 export type WithRequiredProperties<T, P extends keyof T> = Omit<T, P> &
   Required<Pick<T, P>>;
+
+export type WithOptionalProperties<T, P extends keyof T> = Omit<T, P> &
+  Partial<Pick<T, P>>;
+
+export function getTypingIndicatorSetting(): boolean {
+  return window.storage.get('typingIndicators', false);
+}
+export function getReadReceiptSetting(): boolean {
+  return window.storage.get('read-receipt-setting', false);
+}
+export function getSealedSenderIndicatorSetting(): boolean {
+  return window.storage.get('sealedSenderIndicators', false);
+}

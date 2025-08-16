@@ -1,19 +1,19 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import Delta from 'quill-delta';
+import { Delta } from '@signalapp/quill-cjs';
 import type { RefObject } from 'react';
-import type { Matcher, AttributeMap } from 'quill';
 
 import { assertDev } from '../../util/assert';
 import { isAciString } from '../../util/isAciString';
 import type { MemberRepository } from '../memberRepository';
+import type { Matcher } from '../util';
 
 export const matchMention: (
   memberRepositoryRef: RefObject<MemberRepository>
 ) => Matcher =
   (memberRepositoryRef: RefObject<MemberRepository>) =>
-  (node: HTMLElement, delta: Delta, attributes: AttributeMap): Delta => {
+  (node, delta, _scroll, attributes): Delta => {
     const memberRepository = memberRepositoryRef.current;
 
     if (memberRepository) {

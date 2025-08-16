@@ -4,19 +4,18 @@ import React, { memo, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useCallingActions } from '../ducks/calling';
 import { getCallLinkSelector } from '../selectors/calling';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { getIntl } from '../selectors/user';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { getCallLinkAddNameModalRoomId } from '../selectors/globalModals';
 import { strictAssert } from '../../util/assert';
-import { isCallLinksCreateEnabled } from '../../util/callLinks';
 import { isCallLinkAdmin } from '../../types/CallLink';
 import { CallLinkAddNameModal } from '../../components/CallLinkAddNameModal';
 
+const log = createLogger('CallLinkAddNameModal');
+
 export const SmartCallLinkAddNameModal = memo(
   function SmartCallLinkAddNameModal(): JSX.Element | null {
-    strictAssert(isCallLinksCreateEnabled(), 'Call links creation is disabled');
-
     const roomId = useSelector(getCallLinkAddNameModalRoomId);
     strictAssert(roomId, 'Expected roomId to be set');
 

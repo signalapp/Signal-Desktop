@@ -286,6 +286,7 @@ export const TimelineItem = memo(function TimelineItem({
         <CallingNotification
           id={id}
           conversationId={conversationId}
+          interactionMode={reducedProps.interactionMode}
           i18n={i18n}
           isNextItemCallingNotification={isNextItemCallingNotification}
           onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}

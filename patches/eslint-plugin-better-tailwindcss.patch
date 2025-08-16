@@ -1,0 +1,13 @@
+diff --git a/lib/cjs/tailwindcss/context.async.v4.js b/lib/cjs/tailwindcss/context.async.v4.js
+index 8464d9d949a0d82a53f3c6683c617b56770e5fba..ac392e6e8139f33650fc1691e5593660f87912cf 100644
+--- a/lib/cjs/tailwindcss/context.async.v4.js
++++ b/lib/cjs/tailwindcss/context.async.v4.js
+@@ -59,7 +59,7 @@ const createTailwindContext = async (ctx) => (0, cache_js_1.withCache)("tailwind
+     }
+     const tailwindUrl = (0, platform_js_1.isWindows)() && (0, module_js_1.isESModule)() ? (0, node_url_1.pathToFileURL)(tailwindPath).toString() : tailwindPath;
+     // eslint-disable-next-line eslint-plugin-typescript/naming-convention
+-    const { __unstable__loadDesignSystem } = await Promise.resolve(`${tailwindUrl}`).then(s => __importStar(require(s)));
++    const { __unstable__loadDesignSystem } = await import(`${tailwindUrl}`);
+     let css = await (0, promises_1.readFile)(ctx.tailwindConfigPath, "utf-8");
+     // Determine if the v4 API supports resolving `@import`
+     let supportsImports = false;

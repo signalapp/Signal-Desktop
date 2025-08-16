@@ -95,7 +95,15 @@ export function SizeObserver({
 
 // Note: You should just be able to pass an element into utils if you want.
 export type Scroll = Readonly<
-  Pick<Element, 'scrollTop' | 'scrollHeight' | 'clientHeight'>
+  Pick<
+    Element,
+    | 'scrollTop'
+    | 'scrollHeight'
+    | 'clientHeight'
+    | 'scrollLeft'
+    | 'scrollWidth'
+    | 'clientWidth'
+  >
 >;
 
 export type ScrollChangeHandler = (scroll: Scroll) => void;
@@ -104,21 +112,59 @@ export function isSameScroll(a: Scroll, b: Scroll): boolean {
   return (
     a.scrollTop === b.scrollTop &&
     a.scrollHeight === b.scrollHeight &&
-    a.clientHeight === b.clientHeight
+    a.clientHeight === b.clientHeight &&
+    a.scrollLeft === b.scrollLeft &&
+    a.scrollWidth === b.scrollWidth &&
+    a.clientWidth === b.clientWidth
   );
 }
 
-export function isOverflowing(scroll: Scroll): boolean {
+export function isScrollOverflowVertical(scroll: Scroll): boolean {
   return scroll.scrollHeight > scroll.clientHeight;
 }
 
-export function isScrolled(scroll: Scroll): boolean {
-  return scroll.scrollTop > 0;
+export function isScrollOverflowHorizontal(scroll: Scroll): boolean {
+  return scroll.scrollWidth > scroll.clientWidth;
 }
 
-export function isScrolledToBottom(scroll: Scroll, threshold = 0): boolean {
+export function isScrollAtTop(scroll: Scroll, threshold = 0): boolean {
+  return scroll.scrollTop <= threshold;
+}
+
+export function isScrollAtLeft(scroll: Scroll, threshold = 0): boolean {
+  return scroll.scrollLeft <= threshold;
+}
+
+export function isScrollAtBottom(scroll: Scroll, threshold = 0): boolean {
   const maxScrollTop = scroll.scrollHeight - scroll.clientHeight;
   return scroll.scrollTop >= maxScrollTop - threshold;
+}
+
+export function isScrollAtRight(scroll: Scroll, threshold = 0): boolean {
+  const maxScrollLeft = scroll.scrollWidth - scroll.clientWidth;
+  return scroll.scrollLeft >= maxScrollLeft - threshold;
+}
+
+export function getScrollTopDistance(scroll: Scroll, clamp: number): number {
+  return Math.min(scroll.scrollTop, clamp);
+}
+
+export function getScrollLeftDistance(scroll: Scroll, clamp: number): number {
+  return Math.min(scroll.scrollLeft, clamp);
+}
+
+export function getScrollBottomDistance(scroll: Scroll, clamp: number): number {
+  return Math.min(
+    scroll.scrollHeight - scroll.clientHeight - scroll.scrollTop,
+    clamp
+  );
+}
+
+export function getScrollRightDistance(scroll: Scroll, clamp: number): number {
+  return Math.min(
+    scroll.scrollWidth - scroll.clientWidth - scroll.scrollLeft,
+    clamp
+  );
 }
 
 /**
@@ -131,9 +177,9 @@ export function isScrolledToBottom(scroll: Scroll, threshold = 0): boolean {
  * const scrollerInnerRef = useRef()
  *
  * useScrollObserver(scrollerRef, scrollerInnerRef, (scroll) => {
- *   setIsOverflowing(isOverflowing(scroll));
- *   setIsScrolled(isScrolled(scroll));
- *   setAtBottom(isScrolledToBottom(scroll));
+ *   setScrollOverflowVertical(isScrollOverflowVertical(scroll));
+ *   setScrollAtTop(isScrollAtTop(scroll));
+ *   setScrollAtBottom(isScrollAtBottom(scroll));
  * })
  *
  * <div ref={scrollerRef} style={{ overflow: "auto" }}>
@@ -150,10 +196,12 @@ export function useScrollObserver(
 ): void {
   const scrollRef = useRef<Scroll | null>(null);
   const onScrollChangeRef = useRef<ScrollChangeHandler>(onScrollChange);
+
   useEffect(() => {
     // This means you don't need to wrap `onScrollChange` with `useCallback()`
     onScrollChangeRef.current = onScrollChange;
   }, [onScrollChange]);
+
   const onUpdate = useCallback(() => {
     const target = scrollerRef.current;
     strictAssert(
@@ -164,6 +212,9 @@ export function useScrollObserver(
       scrollTop: target.scrollTop,
       scrollHeight: target.scrollHeight,
       clientHeight: target.clientHeight,
+      scrollLeft: target.scrollLeft,
+      scrollWidth: target.scrollWidth,
+      clientWidth: target.clientWidth,
     };
     const prev = scrollRef.current;
     if (prev == null || !isSameScroll(prev, next)) {
@@ -171,8 +222,10 @@ export function useScrollObserver(
       onScrollChangeRef.current(next);
     }
   }, [scrollerRef]);
+
   useSizeObserver(scrollerRef, onUpdate);
   useSizeObserver(scrollerInnerRef, onUpdate);
+
   useEffect(() => {
     strictAssert(
       scrollerRef.current instanceof Element,

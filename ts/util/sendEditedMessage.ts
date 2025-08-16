@@ -9,7 +9,7 @@ import type {
   MessageAttributesType,
   QuotedMessageType,
 } from '../model-types.d';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { DataReader, DataWriter } from '../sql/Client';
 import type { AttachmentType } from '../types/Attachment';
 import { ErrorWithToast } from '../types/ErrorWithToast';
@@ -24,7 +24,7 @@ import {
 import { concat, filter, map, repeat, zipObject, find } from './iterables';
 import { getConversationIdForLogging } from './idForLogging';
 import { isQuoteAMatch } from '../messages/helpers';
-import { __DEPRECATED$getMessageById } from '../messages/getMessageById';
+import { getMessageById } from '../messages/getMessageById';
 import { handleEditMessage } from './handleEditMessage';
 import { incrementMessageCounter } from './incrementMessageCounter';
 import { isGroupV1 } from './whatTypeOfConversation';
@@ -34,6 +34,8 @@ import { strictAssert } from './assert';
 import { timeAndLogIfTooLong } from './timeAndLogIfTooLong';
 import { makeQuote } from './makeQuote';
 import { getMessageSentTimestamp } from './getMessageSentTimestamp';
+
+const log = createLogger('sendEditedMessage');
 
 const SEND_REPORT_THRESHOLD_MS = 25;
 
@@ -65,7 +67,7 @@ export async function sendEditedMessage(
     conversation.attributes
   )})`;
 
-  const targetMessage = await __DEPRECATED$getMessageById(targetMessageId);
+  const targetMessage = await getMessageById(targetMessageId);
   strictAssert(targetMessage, 'could not find message to edit');
 
   if (isGroupV1(conversation.attributes)) {
@@ -223,9 +225,8 @@ export async function sendEditedMessage(
           log.info(
             `${idLog}: saving message ${targetMessageId} and job ${jobToInsert.id}`
           );
-          await DataWriter.saveMessage(targetMessage.attributes, {
+          await window.MessageCache.saveMessage(targetMessage.attributes, {
             jobToInsert,
-            ourAci: window.textsecure.storage.user.getCheckedAci(),
           });
         }
       ),

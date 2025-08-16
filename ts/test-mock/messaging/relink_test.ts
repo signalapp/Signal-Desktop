@@ -30,13 +30,12 @@ describe('messaging/relink', function (this: Mocha.Suite) {
 
     state = state.updateAccount({
       profileKey: phone.profileKey.serialize(),
-      e164: phone.device.number,
       givenName: phone.profileName,
       hasSetMyStoriesPrivacy: true,
     });
 
     state = state.addContact(first, {
-      serviceE164: first.device.number,
+      e164: first.device.number,
       profileKey: first.profileKey.serialize(),
       givenName: first.profileName,
 
@@ -45,7 +44,7 @@ describe('messaging/relink', function (this: Mocha.Suite) {
     });
 
     state = state.addContact(second, {
-      serviceE164: second.device.number,
+      e164: second.device.number,
       identityKey: second.publicKey.serialize(),
       profileKey: second.profileKey.serialize(),
       givenName: second.profileName,
@@ -88,11 +87,13 @@ describe('messaging/relink', function (this: Mocha.Suite) {
         )
         .waitFor();
 
+      debug('unlinkng');
       await app.unlink();
       await app.waitForUnlink();
       await phone.unlink(desktop);
       await server.removeDevice(desktop.number, desktop.deviceId);
 
+      debug('closing');
       await app.close();
 
       debug('change pinned contact, identity key');

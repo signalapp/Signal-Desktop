@@ -9,7 +9,7 @@ import type { StateType as RootStateType } from '../reducer';
 import type { StoryDistributionWithMembersType } from '../../sql/Interface';
 import type { StoryDistributionIdString } from '../../types/StoryDistributionId';
 import type { ServiceIdString } from '../../types/ServiceId';
-import * as log from '../../logging/log';
+import { createLogger } from '../../logging/log';
 import { DataReader, DataWriter } from '../../sql/Client';
 import { MY_STORY_ID } from '../../types/Stories';
 import { generateStoryDistributionId } from '../../types/StoryDistributionId';
@@ -18,6 +18,8 @@ import { replaceIndex } from '../../util/replaceIndex';
 import { storageServiceUploadJob } from '../../services/storage';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
+
+const log = createLogger('storyDistributionLists');
 
 // State
 
@@ -116,18 +118,15 @@ function allowsRepliesChanged(
       await DataReader.getStoryDistributionWithMembers(listId);
 
     if (!storyDistribution) {
-      log.warn(
-        'storyDistributionLists.allowsRepliesChanged: No story found for id',
-        listId
-      );
+      log.warn('allowsRepliesChanged: No story found for id', listId);
       return;
     }
 
     if (storyDistribution.allowsReplies === allowsReplies) {
-      log.warn(
-        'storyDistributionLists.allowsRepliesChanged: story already has the same value',
-        { listId, allowsReplies }
-      );
+      log.warn('allowsRepliesChanged: story already has the same value', {
+        listId,
+        allowsReplies,
+      });
       return;
     }
 
@@ -141,10 +140,7 @@ function allowsRepliesChanged(
       reason: 'distributionLists/allowsRepliesChanged',
     });
 
-    log.info(
-      'storyDistributionLists.allowsRepliesChanged: allowsReplies has changed',
-      listId
-    );
+    log.info('allowsRepliesChanged: allowsReplies has changed', listId);
 
     dispatch({
       type: ALLOW_REPLIES_CHANGED,
@@ -238,10 +234,7 @@ function deleteDistributionList(
       storiesToDelete.map(story => deleteStoryForEveryone(stories, story))
     );
 
-    log.info(
-      'storyDistributionLists.deleteDistributionList: list deleted',
-      listId
-    );
+    log.info('deleteDistributionList: list deleted', listId);
 
     storageServiceUploadJob({ reason: 'deleteDistributionList' });
 
@@ -272,9 +265,7 @@ function hideMyStoriesFrom(
       await DataReader.getStoryDistributionWithMembers(MY_STORY_ID);
 
     if (!myStories) {
-      log.error(
-        'storyDistributionLists.hideMyStoriesFrom: Could not find My Stories!'
-      );
+      log.error('hideMyStoriesFrom: Could not find My Stories!');
       return;
     }
 
@@ -312,7 +303,7 @@ function removeMembersFromDistributionList(
   return async dispatch => {
     if (!memberServiceIds.length) {
       log.warn(
-        'storyDistributionLists.removeMembersFromDistributionList cannot remove a member without serviceId',
+        'removeMembersFromDistributionList cannot remove a member without serviceId',
         listId
       );
       return;
@@ -323,7 +314,7 @@ function removeMembersFromDistributionList(
 
     if (!storyDistribution) {
       log.warn(
-        'storyDistributionLists.removeMembersFromDistributionList: No story found for id',
+        'removeMembersFromDistributionList: No story found for id',
         listId
       );
       return;
@@ -358,13 +349,10 @@ function removeMembersFromDistributionList(
       }
     );
 
-    log.info(
-      'storyDistributionLists.removeMembersFromDistributionList: removed',
-      {
-        listId,
-        memberServiceIds,
-      }
-    );
+    log.info('removeMembersFromDistributionList: removed', {
+      listId,
+      memberServiceIds,
+    });
 
     storageServiceUploadJob({ reason: 'removeMembersFromDistributionList' });
 
@@ -393,7 +381,7 @@ function setMyStoriesToAllSignalConnections(): ThunkAction<
 
     if (!myStories) {
       log.error(
-        'storyDistributionLists.setMyStoriesToAllSignalConnections: Could not find My Stories!'
+        'setMyStoriesToAllSignalConnections: Could not find My Stories!'
       );
       return;
     }
@@ -431,10 +419,7 @@ function updateStoryViewers(
       await DataReader.getStoryDistributionWithMembers(listId);
 
     if (!storyDistribution) {
-      log.warn(
-        'storyDistributionLists.updateStoryViewers: No story found for id',
-        listId
-      );
+      log.warn('updateStoryViewers: No story found for id', listId);
       return;
     }
 

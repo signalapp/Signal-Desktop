@@ -4,14 +4,14 @@
 import { assert } from 'chai';
 import { omit } from 'lodash';
 import type { WritableDB } from '../../sql/Interface';
-import { createDB, updateToVersion } from './helpers';
-import type { AttachmentDownloadJobType } from '../../types/AttachmentDownload';
+import { createDB, updateToVersion, explain } from './helpers';
 import { jsonToObject, objectToJSON, sql } from '../../sql/util';
 import { IMAGE_BMP } from '../../types/MIME';
+import type { _AttachmentDownloadJobTypeV1040 } from '../../sql/migrations/1040-undownloaded-backed-up-media';
 
 function insertOldJob(
   db: WritableDB,
-  job: Omit<AttachmentDownloadJobType, 'source' | 'ciphertextSize'>,
+  job: Omit<_AttachmentDownloadJobTypeV1040, 'source' | 'ciphertextSize'>,
   addMessageFirst: boolean = true
 ): void {
   if (addMessageFirst) {
@@ -59,14 +59,14 @@ function insertOldJob(
   db.prepare(query).run(params);
 }
 
-function getAttachmentDownloadJobs(db: WritableDB) {
+function getAttachmentDownloadJobs(db: WritableDB): unknown {
   const [query] = sql`
       SELECT * FROM attachment_downloads ORDER BY receivedAt DESC;
     `;
 
   return db
     .prepare(query)
-    .all()
+    .all<{ active: number; attachmentJson: string }>()
     .map(job => ({
       ...omit(job, 'attachmentJson'),
       active: job.active === 1,
@@ -86,7 +86,10 @@ describe('SQL/updateToSchemaVersion1180', () => {
   });
 
   it('adds source column with default standard to any existing jobs', async () => {
-    const job: Omit<AttachmentDownloadJobType, 'source' | 'ciphertextSize'> = {
+    const job: Omit<
+      _AttachmentDownloadJobTypeV1040,
+      'source' | 'ciphertextSize'
+    > = {
       messageId: '123',
       digest: 'digest',
       attachmentType: 'attachment',
@@ -108,17 +111,13 @@ describe('SQL/updateToSchemaVersion1180', () => {
   });
   it('uses convering index for summing all pending backup jobs', async () => {
     updateToVersion(db, 1180);
-    const details = db
-      .prepare(
+    const details = explain(
+      db,
+      sql`
+          SELECT SUM(ciphertextSize) FROM attachment_downloads 
+          WHERE source = 'backup_import';
         `
-            EXPLAIN QUERY PLAN 
-            SELECT SUM(ciphertextSize) FROM attachment_downloads 
-            WHERE source = 'backup_import';
-        `
-      )
-      .all()
-      .map(step => step.detail)
-      .join(', ');
+    );
 
     assert.strictEqual(
       details,
@@ -127,17 +126,13 @@ describe('SQL/updateToSchemaVersion1180', () => {
   });
   it('uses index for deleting all backup jobs', async () => {
     updateToVersion(db, 1180);
-    const details = db
-      .prepare(
+    const details = explain(
+      db,
+      sql`
+          DELETE FROM attachment_downloads 
+          WHERE source = 'backup_import'; 
         `
-            EXPLAIN QUERY PLAN 
-            DELETE FROM attachment_downloads 
-            WHERE source = 'backup_import'; 
-        `
-      )
-      .all()
-      .map(step => step.detail)
-      .join(', ');
+    );
 
     assert.strictEqual(
       details,

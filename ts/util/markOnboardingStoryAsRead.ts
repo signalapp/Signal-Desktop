@@ -1,13 +1,16 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { DataWriter } from '../sql/Client';
-import { __DEPRECATED$getMessageById } from '../messages/getMessageById';
+import { getMessageById } from '../messages/getMessageById';
 import { isNotNil } from './isNotNil';
 import { DurationInSeconds } from './durations';
 import { markViewed } from '../services/MessageUpdater';
 import { storageServiceUploadJob } from '../services/storage';
+import { postSaveUpdates } from './cleanup';
+
+const log = createLogger('markOnboardingStoryAsRead');
 
 export async function markOnboardingStoryAsRead(): Promise<boolean> {
   const existingOnboardingStoryMessageIds = window.storage.get(
@@ -15,12 +18,12 @@ export async function markOnboardingStoryAsRead(): Promise<boolean> {
   );
 
   if (!existingOnboardingStoryMessageIds) {
-    log.warn('markOnboardingStoryAsRead: no existing messages');
+    log.warn('no existing messages');
     return false;
   }
 
   const messages = await Promise.all(
-    existingOnboardingStoryMessageIds.map(__DEPRECATED$getMessageById)
+    existingOnboardingStoryMessageIds.map(id => getMessageById(id))
   );
 
   const storyReadDate = Date.now();
@@ -41,12 +44,11 @@ export async function markOnboardingStoryAsRead(): Promise<boolean> {
     })
     .filter(isNotNil);
 
-  log.info(
-    `markOnboardingStoryAsRead: marked ${messageAttributes.length} viewed`
-  );
+  log.info(`marked ${messageAttributes.length} viewed`);
 
   await DataWriter.saveMessages(messageAttributes, {
     ourAci: window.textsecure.storage.user.getCheckedAci(),
+    postSaveUpdates,
   });
 
   await window.storage.put('hasViewedOnboardingStory', true);

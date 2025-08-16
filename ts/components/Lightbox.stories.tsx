@@ -5,11 +5,9 @@ import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import { noop } from 'lodash';
 import type { Meta } from '@storybook/react';
-import enMessages from '../../_locales/en/messages.json';
 import type { PropsType } from './Lightbox';
 import { Lightbox } from './Lightbox';
 import type { MediaItemType } from '../types/MediaItem';
-import { setupI18n } from '../util/setupI18n';
 import {
   AUDIO_MP3,
   IMAGE_JPEG,
@@ -18,9 +16,9 @@ import {
   stringToMIMEType,
 } from '../types/MIME';
 
-import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
+import { fakeAttachment } from '../test-helpers/fakeAttachment';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Lightbox',
@@ -344,6 +342,33 @@ export function ViewOnceVideo(): JSX.Element {
         ],
       })}
       isViewOnce
+    />
+  );
+}
+
+export function IncrementalVideo(): JSX.Element {
+  const item = createMediaItem({
+    contentType: VIDEO_MP4,
+    objectURL: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
+  });
+
+  return (
+    <Lightbox
+      {...createProps({
+        media: [
+          {
+            ...item,
+            attachment: {
+              ...item.attachment,
+              incrementalMac: 'something',
+              chunkSize: 42,
+              pending: true,
+              totalDownloaded: 50000,
+              size: 100000,
+            },
+          },
+        ],
+      })}
     />
   );
 }

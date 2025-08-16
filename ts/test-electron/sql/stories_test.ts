@@ -8,6 +8,7 @@ import { DataReader, DataWriter } from '../../sql/Client';
 import { generateAci } from '../../types/ServiceId';
 
 import type { MessageAttributesType } from '../../model-types.d';
+import { postSaveUpdates } from '../../util/cleanup';
 
 const { _getAllMessages, getAllStories } = DataReader;
 const { removeAll, saveMessages } = DataWriter;
@@ -80,6 +81,7 @@ describe('sql/stories', () => {
       await saveMessages([story1, story2, story3, story4, story5], {
         forceSave: true,
         ourAci,
+        postSaveUpdates,
       });
 
       assert.lengthOf(await _getAllMessages(), 5);
@@ -217,6 +219,7 @@ describe('sql/stories', () => {
         {
           forceSave: true,
           ourAci,
+          postSaveUpdates,
         }
       );
 

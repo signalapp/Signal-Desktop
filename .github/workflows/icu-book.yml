@@ -1,0 +1,70 @@
+# Copyright 2025 Signal Messenger, LLC
+# SPDX-License-Identifier: AGPL-3.0-only
+name: ICU Book
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.*'
+jobs:
+  build-icu-book:
+    name: Build ICU Book
+    runs-on: ubuntu-latest-8-cores
+    if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4
+      - name: Setup node.js
+        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+          cache-dependency-path: 'pnpm-lock.yaml'
+      - name: Cache .electron-gyp
+        uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
+        with:
+          path: ~/.electron-gyp
+          key: electron-gyp-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      # - name: Setup sccache
+      #   uses: mozilla-actions/sccache-action@054db53350805f83040bf3e6e9b8cf5a139aa7c9 # v0.0.7
+      # - name: Restore sccache
+      #   uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
+      #   id: cache-sccache
+      #   with:
+      #     path: ${{ env.SCCACHE_PATH }}
+      #     key: sccache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'patches/**') }}
+
+      - name: Install Desktop node_modules
+        run: pnpm install
+        env:
+          # CC: sccache gcc
+          # CXX: sccache g++
+          # SCCACHE_GHA_ENABLED: "true"
+          NPM_CONFIG_LOGLEVEL: verbose
+
+      - run: pnpm run build:storybook
+      - run: ./node_modules/.bin/playwright install chromium
+      - run: ./node_modules/.bin/run-p --race test:storybook:serve test:storybook:test
+        env:
+          ARTIFACTS_DIR: stories
+      - run: pnpm run build:esbuild
+      - run: node ts/scripts/compile-stories-icu-lookup.js stories
+
+      - name: Upload test artifacts
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
+        with:
+          name: desktop-test-icu
+          path: stories
+          compression-level: 9
+
+      - name: Upload release artifacts
+        if: github.event_name != 'workflow_dispatch'
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
+        with:
+          name: desktop-${{ github.ref_name }}-icu
+          path: stories
+          compression-level: 9

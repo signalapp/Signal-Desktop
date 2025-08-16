@@ -1,79 +1,82 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .ContactListItem {
   &__context-menu {
     &__chat-icon {
-      @include dark-theme {
-        @include color-svg(
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/chat/chat-compact.svg',
-          $color-white
+          variables.$color-white
         );
       }
-      @include light-theme {
-        @include color-svg(
+      @include mixins.light-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/chat/chat-compact.svg',
-          $color-black
+          variables.$color-black
         );
       }
     }
 
     &__phone-icon {
-      @include dark-theme {
-        @include color-svg(
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/phone/phone-compact.svg',
-          $color-white
+          variables.$color-white
         );
       }
-      @include light-theme {
-        @include color-svg(
+      @include mixins.light-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/phone/phone-compact.svg',
-          $color-black
+          variables.$color-black
         );
       }
     }
 
     &__video-icon {
-      @include dark-theme {
-        @include color-svg(
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/video/video-compact.svg',
-          $color-white
+          variables.$color-white
         );
       }
-      @include light-theme {
-        @include color-svg(
+      @include mixins.light-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/video/video-compact.svg',
-          $color-black
+          variables.$color-black
         );
       }
     }
 
     &__delete-icon {
-      @include dark-theme {
-        @include color-svg(
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/minus/minus-circle-compact.svg',
-          $color-white
+          variables.$color-white
         );
       }
-      @include light-theme {
-        @include color-svg(
+      @include mixins.light-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/minus/minus-circle-compact.svg',
-          $color-black
+          variables.$color-black
         );
       }
     }
 
     &__block-icon {
-      @include dark-theme {
-        @include color-svg(
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/block/block-compact.svg',
-          $color-white
+          variables.$color-white
         );
       }
-      @include light-theme {
-        @include color-svg(
+      @include mixins.light-theme {
+        @include mixins.color-svg(
           '../images/icons/v3/block/block-compact.svg',
-          $color-black
+          variables.$color-black
         );
       }
     }
@@ -91,12 +94,12 @@
       }
 
       &:hover {
-        @include light-theme {
-          background-color: $color-gray-20;
+        @include mixins.light-theme {
+          background-color: variables.$color-gray-20;
         }
 
-        @include dark-theme {
-          background-color: $color-gray-80;
+        @include mixins.dark-theme {
+          background-color: variables.$color-gray-80;
         }
       }
 
@@ -111,11 +114,17 @@
         height: 20px;
         content: '';
 
-        @include dark-theme {
-          @include color-svg('../images/icons/v3/more/more.svg', $color-white);
+        @include mixins.dark-theme {
+          @include mixins.color-svg(
+            '../images/icons/v3/more/more.svg',
+            variables.$color-white
+          );
         }
-        @include light-theme {
-          @include color-svg('../images/icons/v3/more/more.svg', $color-black);
+        @include mixins.light-theme {
+          @include mixins.color-svg(
+            '../images/icons/v3/more/more.svg',
+            variables.$color-black
+          );
         }
       }
     }

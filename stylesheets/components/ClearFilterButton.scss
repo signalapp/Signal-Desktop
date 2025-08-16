@@ -1,0 +1,57 @@
+// Copyright 2024 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use 'sass:color';
+@use '../mixins';
+@use '../variables';
+
+.ClearFilterButton {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  &__inner-vertical-center {
+    align-self: center;
+  }
+
+  &__inner {
+    border-radius: 50px;
+    padding-block: 5px;
+    padding-inline: 15px;
+
+    @include mixins.dark-theme {
+      background-color: color.mix(
+        // Gray 80 is the left pane background color
+        variables.$color-gray-80,
+        variables.$color-gray-65,
+        40%
+      );
+      color: variables.$color-white;
+
+      &:hover {
+        @include mixins.not-disabled {
+          background-color: variables.$color-gray-65;
+        }
+      }
+    }
+
+    @include mixins.light-theme {
+      background-color: color.mix(
+        variables.$color-gray-04,
+        variables.$color-white,
+        15%
+      );
+      color: variables.$color-black;
+      &:hover {
+        @include mixins.not-disabled {
+          background-color: color.mix(
+            // gray 04 is the left pane background color
+            variables.$color-gray-04,
+            variables.$color-gray-15,
+            40%
+          );
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,9 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 // Overriding default style
 .module-Modal__body.CallLinkEditModal__body {
   padding-inline: 12px 3px;
@@ -8,7 +11,7 @@
 }
 
 .CallLinkEditModal__SrOnly {
-  @include sr-only;
+  @include mixins.sr-only;
 }
 
 .CallLinkEditModal__Header {
@@ -27,18 +30,20 @@
 }
 
 .CallLinkEditModal__Header__Title {
-  @include font-body-1-bold;
+  @include mixins.font-body-1-bold;
 }
 
 .CallLinkEditModal__Header__CallLinkButton {
-  @include button-reset;
-  @include font-subtitle;
+  @include mixins.button-reset;
+  & {
+    @include mixins.font-subtitle;
 
-  @include light-theme {
-    color: $color-gray-60;
-  }
-  @include dark-theme {
-    color: $color-gray-25;
+    @include mixins.light-theme {
+      color: variables.$color-gray-60;
+    }
+    @include mixins.dark-theme {
+      color: variables.$color-gray-25;
+    }
   }
 }
 
@@ -56,7 +61,7 @@
 }
 
 .CallLinkEditModal__JoinButton {
-  @include font-body-1-bold;
+  @include mixins.font-body-1-bold;
 }
 
 .CallLinkEditModal__Row {
@@ -67,9 +72,11 @@
 }
 
 .CallLinkEditModal__RowButton {
-  @include button-reset;
-  width: 100%;
-  padding-block: 1px;
+  @include mixins.button-reset;
+  & {
+    width: 100%;
+    padding-block: 1px;
+  }
 
   .CallLinkEditModal__Row {
     border-radius: 8px;
@@ -78,33 +85,33 @@
   &:hover,
   &:focus {
     .CallLinkEditModal__Row {
-      @include light-theme {
-        background: $color-gray-02;
+      @include mixins.light-theme {
+        background: variables.$color-gray-02;
       }
-      @include dark-theme {
-        background: $color-gray-75;
+      @include mixins.dark-theme {
+        background: variables.$color-gray-75;
       }
     }
   }
 }
 
 .CallLinkEditModal__Row--Button {
-  @include font-body-2;
+  @include mixins.font-body-2;
   display: flex;
   gap: 8px;
   align-items: center;
   width: 100%;
 
-  @include light-theme {
-    color: $color-black;
+  @include mixins.light-theme {
+    color: variables.$color-black;
   }
-  @include dark-theme {
-    color: $color-gray-15;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-15;
   }
 }
 
 .CallLinkEditModal__RowLabel {
-  @include font-body-1;
+  @include mixins.font-body-1;
   flex: 1;
 }
 
@@ -128,11 +135,11 @@
 
 @mixin CallLinkEditModal__RowIcon($iconPath) {
   &::after {
-    @include light-theme {
-      @include color-svg($iconPath, $color-gray-75);
+    @include mixins.light-theme {
+      @include mixins.color-svg($iconPath, variables.$color-gray-75);
     }
-    @include dark-theme {
-      @include color-svg($iconPath, $color-gray-15);
+    @include mixins.dark-theme {
+      @include mixins.color-svg($iconPath, variables.$color-gray-15);
     }
   }
 }
@@ -158,5 +165,5 @@
 .CallLinkEditModal__Hr {
   border: none;
   height: 1px;
-  background: $color-black-alpha-12;
+  background: variables.$color-black-alpha-12;
 }

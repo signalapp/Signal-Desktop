@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import FocusTrap from 'focus-trap-react';
+import { FocusScope } from 'react-aria';
 import type { UIEvent } from 'react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
@@ -19,7 +19,7 @@ import type { ReplyStateType, StoryViewType } from '../types/Stories';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId';
 import type { ShowToastAction } from '../state/ducks/toast';
 import type { ViewStoryActionCreatorType } from '../state/ducks/stories';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { AnimatedEmojiGalore } from './AnimatedEmojiGalore';
 import { Avatar, AvatarSize } from './Avatar';
 import { ConfirmationDialog } from './ConfirmationDialog';
@@ -52,8 +52,10 @@ import { strictAssert } from '../util/assert';
 import { MessageBody } from './conversation/MessageBody';
 import { RenderLocation } from './conversation/MessageTextRenderer';
 import { arrow } from '../util/keyboard';
-import { useElementId } from '../hooks/useUniqueId';
 import { StoryProgressSegment } from './StoryProgressSegment';
+import type { EmojiSkinTone } from './fun/data/emojis';
+
+const log = createLogger('StoryViewer');
 
 function renderStrong(parts: Array<JSX.Element | string>) {
   return <strong>{parts}</strong>;
@@ -92,7 +94,7 @@ export type PropsType = {
   numStories: number;
   onGoToConversation: (conversationId: string) => unknown;
   onHideStory: (conversationId: string) => unknown;
-  onSetSkinTone: (tone: number) => unknown;
+  onEmojiSkinToneDefaultChange: (emojiSkinTone: EmojiSkinTone) => unknown;
   onTextTooLong: () => unknown;
   onReactToStory: (emoji: string, story: StoryViewType) => unknown;
   onReplyToStory: (
@@ -103,6 +105,7 @@ export type PropsType = {
   ) => unknown;
   onUseEmoji: (_: EmojiPickDataType) => unknown;
   onMediaPlaybackStart: () => void;
+  ourConversationId: string | undefined;
   platform: string;
   preferredReactionEmoji: ReadonlyArray<string>;
   queueStoryDownload: (storyId: string) => unknown;
@@ -114,7 +117,7 @@ export type PropsType = {
   setHasAllStoriesUnmuted: (isUnmuted: boolean) => unknown;
   showContactModal: (contactId: string, conversationId?: string) => void;
   showToast: ShowToastAction;
-  skinTone?: number;
+  emojiSkinToneDefault: EmojiSkinTone | null;
   story: StoryViewType;
   storyViewMode: StoryViewModeType;
   viewStory: ViewStoryActionCreatorType;
@@ -155,10 +158,11 @@ export function StoryViewer({
   onHideStory,
   onReactToStory,
   onReplyToStory,
-  onSetSkinTone,
+  onEmojiSkinToneDefaultChange,
   onTextTooLong,
   onUseEmoji,
   onMediaPlaybackStart,
+  ourConversationId,
   platform,
   preferredReactionEmoji,
   queueStoryDownload,
@@ -170,7 +174,7 @@ export function StoryViewer({
   setHasAllStoriesUnmuted,
   showContactModal,
   showToast,
-  skinTone,
+  emojiSkinToneDefault,
   story,
   storyViewMode,
   viewStory,
@@ -185,8 +189,6 @@ export function StoryViewer({
     StoryViewType | undefined
   >();
 
-  const [viewerId, viewerSelector] = useElementId('StoryViewer');
-
   const {
     attachment,
     bodyRanges,
@@ -198,7 +200,6 @@ export function StoryViewer({
     timestamp,
   } = story;
   const {
-    acceptedMessageRequest,
     avatarUrl,
     color,
     isMe,
@@ -569,18 +570,12 @@ export function StoryViewer({
   };
 
   return (
-    <FocusTrap
-      focusTrapOptions={{
-        clickOutsideDeactivates: true,
-        initialFocus: viewerSelector,
-      }}
-    >
+    <FocusScope contain autoFocus>
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div
         className="StoryViewer"
         // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
         tabIndex={0}
-        id={viewerId}
         onMouseDown={event => {
           if (isDescendentEvent(event)) {
             setPressing(true);
@@ -711,6 +706,7 @@ export function StoryViewer({
                   onExpandSpoiler={data => setIsSpoilerExpanded(data)}
                   renderLocation={RenderLocation.StoryViewer}
                   text={caption.text}
+                  originalText={caption.text}
                 />
                 {caption.hasReadMore && !hasExpandedCaption && (
                   <button
@@ -734,13 +730,11 @@ export function StoryViewer({
             <div className="StoryViewer__meta__playback-bar">
               <div className="StoryViewer__meta__playback-bar__container">
                 <Avatar
-                  acceptedMessageRequest={acceptedMessageRequest}
                   avatarUrl={avatarUrl}
                   badge={undefined}
                   color={getAvatarColor(color)}
                   conversationType="direct"
                   i18n={i18n}
-                  isMe={Boolean(isMe)}
                   profileName={profileName}
                   sharedGroupNames={sharedGroupNames}
                   size={AvatarSize.TWENTY_EIGHT}
@@ -748,14 +742,12 @@ export function StoryViewer({
                 />
                 {group && (
                   <Avatar
-                    acceptedMessageRequest={group.acceptedMessageRequest}
                     avatarUrl={group.avatarUrl}
                     badge={undefined}
                     className="StoryViewer__meta--group-avatar"
                     color={getAvatarColor(group.color)}
                     conversationType="group"
                     i18n={i18n}
-                    isMe={false}
                     profileName={group.profileName}
                     sharedGroupNames={group.sharedGroupNames}
                     size={AvatarSize.TWENTY_EIGHT}
@@ -975,15 +967,16 @@ export function StoryViewer({
               }
               onReplyToStory(message, replyBodyRanges, replyTimestamp, story);
             }}
-            onSetSkinTone={onSetSkinTone}
+            onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
             onTextTooLong={onTextTooLong}
             onUseEmoji={onUseEmoji}
+            ourConversationId={ourConversationId}
             preferredReactionEmoji={preferredReactionEmoji}
             recentEmojis={recentEmojis}
             renderEmojiPicker={renderEmojiPicker}
             replies={replies}
             showContactModal={showContactModal}
-            skinTone={skinTone}
+            emojiSkinToneDefault={emojiSkinToneDefault}
             sortedGroupMembers={group?.sortedGroupMembers}
             views={views}
             viewTarget={currentViewTarget}
@@ -1032,6 +1025,6 @@ export function StoryViewer({
           </ConfirmationDialog>
         )}
       </div>
-    </FocusTrap>
+    </FocusScope>
   );
 }

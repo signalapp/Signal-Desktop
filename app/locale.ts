@@ -1,8 +1,9 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { join } from 'path';
-import { readFileSync } from 'fs';
+import { join } from 'node:path';
+import { readFileSync } from 'node:fs';
+import { app } from 'electron';
 import { merge } from 'lodash';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
 import { z } from 'zod';
@@ -15,12 +16,26 @@ import type { LocalizerType } from '../ts/types/Util';
 import * as Errors from '../ts/types/errors';
 import { parseUnknown } from '../ts/util/schemas';
 
+type CompactLocaleMessagesType = ReadonlyArray<string | null>;
+type CompactLocaleKeysType = ReadonlyArray<string>;
+
 const TextInfoSchema = z.object({
   direction: z.enum(['ltr', 'rtl']),
 });
 
 function getLocaleMessages(locale: string): LocaleMessagesType {
   const targetFile = join(__dirname, '..', '_locales', locale, 'messages.json');
+
+  return JSON.parse(readFileSync(targetFile, 'utf-8'));
+}
+
+function getCompactLocaleKeys(): CompactLocaleKeysType {
+  const targetFile = join(__dirname, '..', '_locales', 'keys.json');
+  return JSON.parse(readFileSync(targetFile, 'utf-8'));
+}
+
+function getCompactLocaleValues(locale: string): CompactLocaleMessagesType {
+  const targetFile = join(__dirname, '..', '_locales', locale, 'values.json');
 
   return JSON.parse(readFileSync(targetFile, 'utf-8'));
 }
@@ -139,13 +154,42 @@ export function load({
 
   logger.info(`locale: Matched locale: ${matchedLocale}`);
 
-  const matchedLocaleMessages = getLocaleMessages(matchedLocale);
-  const englishMessages = getLocaleMessages('en');
   const localeDisplayNames = getLocaleDisplayNames();
   const countryDisplayNames = getCountryDisplayNames();
 
-  // We start with english, then overwrite that with anything present in locale
-  const finalMessages = merge(englishMessages, matchedLocaleMessages);
+  let finalMessages: LocaleMessagesType;
+  if (app.isPackaged) {
+    const matchedLocaleMessages = getCompactLocaleValues(matchedLocale);
+    const englishMessages = getCompactLocaleValues('en');
+    const keys = getCompactLocaleKeys();
+    if (matchedLocaleMessages.length !== keys.length) {
+      throw new Error(
+        `Invalid "${matchedLocale}" entry count, ` +
+          `${matchedLocaleMessages.length} != ${keys.length}`
+      );
+    }
+    if (englishMessages.length !== keys.length) {
+      throw new Error(
+        `Invalid "en" entry count, ${englishMessages.length} != ${keys.length}`
+      );
+    }
+
+    // We start with english, then overwrite that with anything present in locale
+    finalMessages = Object.create(null);
+    for (const [i, key] of keys.entries()) {
+      finalMessages[key] = {
+        messageformat:
+          matchedLocaleMessages[i] ?? englishMessages[i] ?? undefined,
+      };
+    }
+  } else {
+    const matchedLocaleMessages = getLocaleMessages(matchedLocale);
+    const englishMessages = getLocaleMessages('en');
+
+    // We start with english, then overwrite that with anything present in locale
+    finalMessages = merge(englishMessages, matchedLocaleMessages);
+  }
+
   const i18n = setupI18n(matchedLocale, finalMessages, {
     renderEmojify: shouldNeverBeCalled,
   });

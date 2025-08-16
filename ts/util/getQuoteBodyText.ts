@@ -6,16 +6,18 @@ import * as EmbeddedContact from '../types/EmbeddedContact';
 
 export function getQuoteBodyText(
   messageAttributes: ReadonlyMessageAttributesType,
-  id: number
+  id: number | null
 ): string | undefined {
   const storyReactionEmoji = messageAttributes.storyReaction?.emoji;
 
-  const { editHistory } = messageAttributes;
-  const editedMessage =
-    editHistory && editHistory.find(edit => edit.timestamp === id);
+  if (id != null) {
+    const { editHistory } = messageAttributes;
+    const editedMessage =
+      editHistory && editHistory.find(edit => edit.timestamp === id);
 
-  if (editedMessage && editedMessage.body) {
-    return editedMessage.body;
+    if (editedMessage && editedMessage.body) {
+      return editedMessage.body;
+    }
   }
 
   const { body, contact: embeddedContact } = messageAttributes;

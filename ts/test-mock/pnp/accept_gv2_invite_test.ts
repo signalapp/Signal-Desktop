@@ -13,7 +13,7 @@ import {
 } from '../../util/libphonenumberInstance';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
-import { expectSystemMessages } from '../helpers';
+import { acceptConversation, expectSystemMessages } from '../helpers';
 
 export const debug = createDebug('mock:test:gv2');
 
@@ -46,7 +46,6 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
 
     state = state.updateAccount({
       profileKey: phone.profileKey.serialize(),
-      e164: phone.device.number,
     });
 
     state = state.addContact(
@@ -56,7 +55,7 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
         whitelisted: true,
         profileKey: undefined,
 
-        serviceE164: unknownPniContact.device.number,
+        e164: unknownPniContact.device.number,
       },
       ServiceIdKind.PNI
     );
@@ -104,9 +103,7 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
     const conversationStack = window.locator('.Inbox__conversation-stack');
 
     debug('Accepting');
-    await conversationStack
-      .locator('.module-message-request-actions button >> "Accept"')
-      .click();
+    await acceptConversation(window);
 
     group = await phone.waitForGroupUpdate(group);
     assert.strictEqual(group.revision, 2);
@@ -158,7 +155,11 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
     await window
       .locator('.ConversationDetails-panel-section__title >> "4 members"')
       .waitFor();
-    await window.getByText(unknownContact.profileName).waitFor();
+
+    await window
+      .locator('.conversation-details-panel')
+      .getByText(unknownContact.profileName)
+      .waitFor();
 
     debug('Leave the group through settings');
 
@@ -257,9 +258,7 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
       .waitFor();
 
     debug('Accepting');
-    await conversationStack
-      .locator('.module-message-request-actions button >> "Accept"')
-      .click();
+    await acceptConversation(window);
 
     debug('Checking final notification');
     await window

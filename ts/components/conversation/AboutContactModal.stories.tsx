@@ -6,11 +6,9 @@ import { action } from '@storybook/addon-actions';
 import type { PropsType } from './AboutContactModal';
 import { AboutContactModal } from './AboutContactModal';
 import { type ComponentMeta } from '../../storybook/types';
-import { setupI18n } from '../../util/setupI18n';
-import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
-import enMessages from '../../../_locales/en/messages.json';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const conversation = getDefaultConversation({
   acceptedMessageRequest: true,
@@ -68,9 +66,12 @@ export default {
     onOpenNotePreviewModal: action('onOpenNotePreviewModal'),
     toggleSignalConnectionsModal: action('toggleSignalConnections'),
     toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
+    toggleProfileNameWarningModal: action('toggleProfileNameWarningModal'),
     updateSharedGroups: action('updateSharedGroups'),
-    unblurAvatar: action('unblurAvatar'),
+    startAvatarDownload: action('startAvatarDownload'),
+    pendingAvatarDownload: false,
     conversation,
+    fromOrAddedByTrustedContact: false,
     isSignalConnection: false,
   },
 } satisfies ComponentMeta<PropsType>;
@@ -123,6 +124,16 @@ export function WithSharedGroups(args: PropsType): JSX.Element {
       {...args}
       conversation={conversationWithSharedGroups}
       isSignalConnection
+    />
+  );
+}
+
+export function DirectFromTrustedContact(args: PropsType): JSX.Element {
+  return (
+    <AboutContactModal
+      {...args}
+      conversation={conversation}
+      fromOrAddedByTrustedContact
     />
   );
 }

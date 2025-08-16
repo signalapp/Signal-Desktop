@@ -12,9 +12,11 @@ import type { LocalizerType } from '../types/Util';
 import type { ConversationType } from '../state/ducks/conversations';
 import { ModalHost } from './ModalHost';
 import { drop } from '../util/drop';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { usePrevious } from '../hooks/usePrevious';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+
+const log = createLogger('CallingRaisedHandsList');
 
 export type PropsType = {
   readonly i18n: LocalizerType;
@@ -45,10 +47,9 @@ export function CallingRaisedHandsList({
     raisedHands.forEach(demuxId => {
       const conversation = conversationsByDemuxId.get(demuxId);
       if (!conversation) {
-        log.warn(
-          'CallingRaisedHandsList: Failed to get conversationsByDemuxId for demuxId',
-          { demuxId }
-        );
+        log.warn('Failed to get conversationsByDemuxId for demuxId', {
+          demuxId,
+        });
         return;
       }
 
@@ -101,13 +102,15 @@ export function CallingRaisedHandsList({
             >
               <div className="CallingRaisedHandsList__AvatarAndName module-calling-participants-list__avatar-and-name">
                 <Avatar
-                  acceptedMessageRequest={participant.acceptedMessageRequest}
+                  avatarPlaceholderGradient={
+                    participant.avatarPlaceholderGradient
+                  }
                   avatarUrl={participant.avatarUrl}
                   badge={undefined}
                   color={participant.color}
                   conversationType="direct"
+                  hasAvatar={participant.hasAvatar}
                   i18n={i18n}
-                  isMe={participant.isMe}
                   profileName={participant.profileName}
                   title={participant.title}
                   sharedGroupNames={participant.sharedGroupNames}

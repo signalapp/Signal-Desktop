@@ -1,0 +1,51 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../mixins';
+@use '../variables';
+
+.ProfileNameWarningModal {
+  .ProfileNameWarningModal__body_inner {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ProfileNameWarningModal__header-icon {
+    display: block;
+    align-self: center;
+    height: 48px;
+    width: 48px;
+    margin-bottom: 24px;
+    @include mixins.color-svg(
+      '../images/icons/v3/person/person-questionmark-light.svg',
+      light-dark(variables.$color-black, variables.$color-gray-05)
+    );
+  }
+
+  .ProfileNameWarningModal__description {
+    margin-bottom: 24px;
+  }
+
+  .ProfileNameWarningModal__list {
+    padding-inline-start: 24px;
+    margin-top: 0px;
+  }
+
+  .ProfileNameWarningModal__list-item {
+    position: relative;
+    padding-inline-start: 17px;
+    margin-bottom: 25px;
+    list-style-type: none;
+  }
+
+  .ProfileNameWarningModal__list-item::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0;
+    width: 4px;
+    height: 100%;
+    background-color: variables.$color-gray-20;
+    border-radius: 6px;
+  }
+}

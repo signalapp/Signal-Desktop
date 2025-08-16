@@ -3,7 +3,8 @@
 
 import { assert } from 'chai';
 import type { WritableDB } from '../../sql/Interface';
-import { createDB, updateToVersion } from './helpers';
+import { sql } from '../../sql/util';
+import { createDB, updateToVersion, explain } from './helpers';
 
 describe('SQL/updateToSchemaVersion1120', () => {
   let db: WritableDB;
@@ -17,15 +18,10 @@ describe('SQL/updateToSchemaVersion1120', () => {
   });
 
   it('uses index for deleting edited messages', () => {
-    const details = db
-      .prepare(
-        `EXPLAIN QUERY PLAN 
-            DELETE FROM edited_messages WHERE messageId = 'messageId';
-        `
-      )
-      .all()
-      .map(step => step.detail)
-      .join(', ');
+    const details = explain(
+      db,
+      sql`DELETE FROM edited_messages WHERE messageId = 'messageId';`
+    );
 
     assert.strictEqual(
       details,
@@ -34,15 +30,10 @@ describe('SQL/updateToSchemaVersion1120', () => {
   });
 
   it('uses index for deleting mentions', () => {
-    const details = db
-      .prepare(
-        `EXPLAIN QUERY PLAN 
-            DELETE FROM mentions WHERE messageId = 'messageId';
-          `
-      )
-      .all()
-      .map(step => step.detail)
-      .join(', ');
+    const details = explain(
+      db,
+      sql`DELETE FROM mentions WHERE messageId = 'messageId';`
+    );
 
     assert.strictEqual(
       details,

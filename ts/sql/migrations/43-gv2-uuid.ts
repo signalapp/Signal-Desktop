@@ -14,7 +14,6 @@ import {
   jsonToObject,
   objectToJSON,
 } from '../util';
-import type { EmptyQuery, Query } from '../util';
 import type { WritableDB } from '../Interface';
 
 type MessageType = Readonly<{
@@ -34,14 +33,9 @@ type ConversationType = Readonly<{
 }>;
 
 export default function updateToSchemaVersion43(
-  currentVersion: number,
   db: WritableDB,
   logger: LoggerType
 ): void {
-  if (currentVersion >= 43) {
-    return;
-  }
-
   type LegacyPendingMemberType = {
     addedByUserId?: string;
     conversationId: string;
@@ -61,17 +55,18 @@ export default function updateToSchemaVersion43(
     pendingAdminApprovalV2?: Array<LegacyAdminApprovalType>;
   };
 
-  const getConversationUuid = db
-    .prepare<Query>(
-      `
-      SELECT uuid
-      FROM
-        conversations
-      WHERE
-        id = $conversationId
-      `
-    )
-    .pluck();
+  const getConversationUuid = db.prepare(
+    `
+  SELECT uuid
+  FROM
+    conversations
+  WHERE
+    id = $conversationId
+  `,
+    {
+      pluck: true,
+    }
+  );
 
   const updateConversationStmt = db.prepare(
     `
@@ -112,13 +107,12 @@ export default function updateToSchemaVersion43(
 
       const newValue = oldValue
         .map(member => {
-          const uuid: ServiceIdString = getConversationUuid.get({
+          const uuid = getConversationUuid.get<ServiceIdString>({
             conversationId: member.conversationId,
           });
           if (!uuid) {
             logger.warn(
-              `updateToSchemaVersion43: ${logId}.${key} UUID not found ` +
-                `for ${member.conversationId}`
+              `${logId}.${key} UUID not found for ${member.conversationId}`
             );
             return undefined;
           }
@@ -158,15 +152,14 @@ export default function updateToSchemaVersion43(
 
       if (oldValue.length !== 0) {
         logger.info(
-          `updateToSchemaVersion43: migrated ${oldValue.length} ${key} ` +
+          `migrated ${oldValue.length} ${key} ` +
             `entries to ${newValue.length} for ${logId}`
         );
       }
 
       if (addedByCount > 0) {
         logger.info(
-          `updateToSchemaVersion43: migrated ${addedByCount} addedByUserId ` +
-            `in ${key} for ${logId}`
+          `migrated ${addedByCount} addedByUserId in ${key} for ${logId}`
         );
       }
     }
@@ -278,7 +271,7 @@ export default function updateToSchemaVersion43(
             }
             changedDetails = true;
 
-            const newValue: ServiceIdString | null = getConversationUuid.get({
+            const newValue = getConversationUuid.get<ServiceIdString>({
               conversationId: oldValue,
             });
             if (key === 'inviter' && !newValue) {
@@ -286,7 +279,7 @@ export default function updateToSchemaVersion43(
             }
             if (!newValue) {
               logger.warn(
-                `updateToSchemaVersion43: ${id}.groupV2Change.details.${key} ` +
+                `${id}.groupV2Change.details.${key} ` +
                   `UUID not found for ${oldValue}`
               );
               return undefined;
@@ -318,7 +311,7 @@ export default function updateToSchemaVersion43(
     }
 
     if (sourceUuid) {
-      const newValue: ServiceIdString | null = getConversationUuid.get({
+      const newValue = getConversationUuid.get<ServiceIdString>({
         conversationId: sourceUuid,
       });
 
@@ -333,7 +326,7 @@ export default function updateToSchemaVersion43(
     if (invitedGV2Members) {
       const newMembers = invitedGV2Members
         .map(({ addedByUserId, conversationId }, i) => {
-          const uuid: ServiceIdString | null = getConversationUuid.get({
+          const uuid = getConversationUuid.get<ServiceIdString>({
             conversationId,
           });
           const oldMember =
@@ -342,7 +335,7 @@ export default function updateToSchemaVersion43(
 
           if (!uuid) {
             logger.warn(
-              `updateToSchemaVersion43: ${id}.invitedGV2Members UUID ` +
+              `${id}.invitedGV2Members UUID ` +
                 `not found for ${conversationId}`
             );
             return undefined;
@@ -357,7 +350,7 @@ export default function updateToSchemaVersion43(
             return newMember;
           }
 
-          const newAddedBy: ServiceIdString | null = getConversationUuid.get({
+          const newAddedBy = getConversationUuid.get<ServiceIdString>({
             conversationId: addedByUserId,
           });
           if (!newAddedBy) {
@@ -390,43 +383,35 @@ export default function updateToSchemaVersion43(
     return true;
   };
 
-  db.transaction(() => {
-    const allConversations = db
-      .prepare<EmptyQuery>(
-        `
-      SELECT json, profileLastFetchedAt
-      FROM conversations
-      ORDER BY id ASC;
+  const allConversations = db
+    .prepare(
       `
-      )
-      .all()
-      .map(({ json }) => jsonToObject<ConversationType>(json));
+    SELECT json
+    FROM conversations
+    ORDER BY id ASC;
+    `,
+      { pluck: true }
+    )
+    .all<string>()
+    .map(json => jsonToObject<ConversationType>(json));
 
-    logger.info(
-      'updateToSchemaVersion43: About to iterate through ' +
-        `${allConversations.length} conversations`
-    );
+  logger.info(
+    `About to iterate through ${allConversations.length} conversations`
+  );
 
-    for (const convo of allConversations) {
-      upgradeConversation(convo);
+  for (const convo of allConversations) {
+    upgradeConversation(convo);
+  }
+
+  const messageCount = getCountFromTable(db, 'messages');
+  logger.info(`About to iterate through ${messageCount} messages`);
+
+  let updatedCount = 0;
+  for (const message of new TableIterator<MessageType>(db, 'messages')) {
+    if (upgradeMessage(message)) {
+      updatedCount += 1;
     }
+  }
 
-    const messageCount = getCountFromTable(db, 'messages');
-    logger.info(
-      'updateToSchemaVersion43: About to iterate through ' +
-        `${messageCount} messages`
-    );
-
-    let updatedCount = 0;
-    for (const message of new TableIterator<MessageType>(db, 'messages')) {
-      if (upgradeMessage(message)) {
-        updatedCount += 1;
-      }
-    }
-
-    logger.info(`updateToSchemaVersion43: Updated ${updatedCount} messages`);
-
-    db.pragma('user_version = 43');
-  })();
-  logger.info('updateToSchemaVersion43: success!');
+  logger.info(`Updated ${updatedCount} messages`);
 }

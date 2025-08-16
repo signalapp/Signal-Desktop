@@ -74,6 +74,8 @@ describe('backup/non-bubble messages', () => {
         readStatus: ReadStatus.Read,
         seenStatus: SeenStatus.Seen,
         flags: Proto.DataMessage.Flags.END_SESSION,
+        attachments: [],
+        contact: [],
       },
     ]);
   });
@@ -110,13 +112,13 @@ describe('backup/non-bubble messages', () => {
     ]);
   });
 
-  it('roundtrips IDENTITY_CHANGE update in groups', async () => {
+  it('roundtrips ACI IDENTITY_CHANGE update in groups', async () => {
     await symmetricRoundtripHarness([
       {
         conversationId: group.id,
         id: generateGuid(),
         type: 'keychange',
-        key_changed: contactA.id,
+        key_changed: contactA.getAci(),
         received_at: 1,
         sent_at: 1,
         timestamp: 1,
@@ -125,6 +127,39 @@ describe('backup/non-bubble messages', () => {
         sourceServiceId: CONTACT_A,
       },
     ]);
+  });
+
+  it('roundtrips id IDENTITY_CHANGE update in groups', async () => {
+    await asymmetricRoundtripHarness(
+      [
+        {
+          conversationId: group.id,
+          id: generateGuid(),
+          type: 'keychange',
+          key_changed: contactA.id,
+          received_at: 1,
+          sent_at: 1,
+          timestamp: 1,
+          readStatus: ReadStatus.Read,
+          seenStatus: SeenStatus.Seen,
+          sourceServiceId: CONTACT_A,
+        },
+      ],
+      [
+        {
+          conversationId: group.id,
+          id: generateGuid(),
+          type: 'keychange',
+          key_changed: contactA.getAci(),
+          received_at: 1,
+          sent_at: 1,
+          timestamp: 1,
+          readStatus: ReadStatus.Read,
+          seenStatus: SeenStatus.Seen,
+          sourceServiceId: CONTACT_A,
+        },
+      ]
+    );
   });
 
   it('roundtrips IDENTITY_DEFAULT simple update', async () => {
@@ -405,6 +440,7 @@ describe('backup/non-bubble messages', () => {
         seenStatus: SeenStatus.Unseen,
         unidentifiedDeliveryReceived: true,
         isErased: true,
+        deletedForEveryone: true,
       },
     ]);
   });
@@ -580,7 +616,7 @@ describe('backup/non-bubble messages', () => {
         id: generateGuid(),
         type: 'message-request-response-event',
         received_at: 1,
-        sourceServiceId: CONTACT_A,
+        sourceServiceId: OUR_ACI,
         sourceDevice: 1,
         readStatus: ReadStatus.Read,
         seenStatus: SeenStatus.Seen,

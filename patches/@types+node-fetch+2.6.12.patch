@@ -1,0 +1,14 @@
+diff --git a/index.d.ts b/index.d.ts
+index f95f9c1..72b3814 100644
+--- a/index.d.ts
++++ b/index.d.ts
+@@ -3,7 +3,8 @@
+ import FormData = require("form-data");
+ import { RequestOptions } from "http";
+ import { URL, URLSearchParams } from "url";
+-import { AbortSignal } from "./externals";
++// import { AbortSignal } from "./externals";
++// Avoid type conflicts!
+ 
+ declare class Request extends Body {
+     constructor(input: RequestInfo, init?: RequestInit);

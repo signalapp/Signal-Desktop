@@ -33,6 +33,7 @@ export type CallLinkDetailsProps = Readonly<{
   callHistoryGroup: CallHistoryGroup;
   callLink: CallLinkType | undefined;
   isAnybodyInCall: boolean;
+  isCallActiveOnServer: boolean;
   isInCall: boolean;
   isInAnotherCall: boolean;
   i18n: LocalizerType;
@@ -48,6 +49,7 @@ export function CallLinkDetails({
   callLink,
   i18n,
   isAnybodyInCall,
+  isCallActiveOnServer,
   isInCall,
   isInAnotherCall,
   onDeleteCallLink,
@@ -65,6 +67,7 @@ export function CallLinkDetails({
 
   const webUrl = linkCallRoute.toWebUrl({
     key: callLink.rootKey,
+    epoch: callLink.epoch,
   });
   const joinButton = (
     <Button
@@ -88,7 +91,7 @@ export function CallLinkDetails({
   );
   const callLinkRestrictionsSelect = (
     <CallLinkRestrictionsSelect
-      disabled={isAnybodyInCall}
+      disabled={isCallActiveOnServer}
       i18n={i18n}
       value={callLink.restrictions}
       onChange={onUpdateCallLinkRestrictions}
@@ -105,8 +108,6 @@ export function CallLinkDetails({
           color={getColorForCallLink(callLink.rootKey)}
           conversationType="callLink"
           size={AvatarSize.SIXTY_FOUR}
-          acceptedMessageRequest
-          isMe={false}
           sharedGroupNames={[]}
           title={callLink.name ?? i18n('icu:calling__call-link-default-title')}
         />
@@ -159,7 +160,7 @@ export function CallLinkDetails({
             }
             label={i18n('icu:CallLinkDetails__ApproveAllMembersLabel')}
             right={
-              isAnybodyInCall ? (
+              isCallActiveOnServer ? (
                 <Tooltip
                   className="CallLinkDetails__ApproveAllMembersDisabledTooltip"
                   content={i18n(
@@ -207,9 +208,9 @@ export function CallLinkDetails({
             className={classNames({
               CallLinkDetails__DeleteLink: true,
               'CallLinkDetails__DeleteLink--disabled-for-active-call':
-                isAnybodyInCall,
+                isCallActiveOnServer,
             })}
-            disabled={isAnybodyInCall}
+            disabled={isCallActiveOnServer}
             icon={
               <ConversationDetailsIcon
                 ariaLabel={i18n('icu:CallLinkDetails__DeleteLink')}
@@ -217,7 +218,7 @@ export function CallLinkDetails({
               />
             }
             label={
-              isAnybodyInCall ? (
+              isCallActiveOnServer ? (
                 <Tooltip
                   className="CallLinkDetails__DeleteLinkTooltip"
                   content={i18n(
@@ -275,8 +276,6 @@ function renderMissingCallLink({
           badge={undefined}
           conversationType="callLink"
           size={AvatarSize.SIXTY_FOUR}
-          acceptedMessageRequest
-          isMe={false}
           sharedGroupNames={[]}
           title={i18n('icu:calling__call-link-default-title')}
         />

@@ -28,6 +28,11 @@ describe('MessageReceipts', () => {
     await window.ConversationController.load();
   });
 
+  afterEach(async () => {
+    await DataWriter.removeAll();
+    await window.storage.fetch();
+  });
+
   function generateReceipt(
     sourceConversationId: string,
     messageSentAt: number,
@@ -78,9 +83,8 @@ describe('MessageReceipts', () => {
       },
     };
 
-    await DataWriter.saveMessage(messageAttributes, {
+    await window.MessageCache.saveMessage(messageAttributes, {
       forceSave: true,
-      ourAci,
     });
 
     await Promise.all([
@@ -155,9 +159,8 @@ describe('MessageReceipts', () => {
       ],
     };
 
-    await DataWriter.saveMessage(messageAttributes, {
+    await window.MessageCache.saveMessage(messageAttributes, {
       forceSave: true,
-      ourAci,
     });
     await DataWriter.saveEditedMessage(messageAttributes, ourAci, {
       conversationId: messageAttributes.conversationId,

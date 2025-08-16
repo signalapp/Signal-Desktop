@@ -1,0 +1,16 @@
+{
+  "bodyRanges": [
+    { "style": "bold", "start": 0, "length": 4 },
+    { "style": "italic", "start": 5, "length": 5 },
+    { "style": "strikethrough", "start": 11, "length": 3 },
+    { "style": "spoiler", "start": 15, "length": 3 },
+    { "style": "mono", "start": 19, "length": 7 }
+  ],
+  "mediaHeight": "864",
+  "mediaWidth": "1536",
+  "media": "/static/release-notes/call_links.png",
+  "uuid": "1813845b-cc98-4210-a07c-164f9b328ca8",
+  "title": "Introducing Call Links",
+  "body": "Call links are the missing link for calendar invites and impromptu gatherings. Now you can quickly create an easy link that anyone on Signal can use to join a group call without having to join a Signal group chat first.\n\nCall links are reusable and ideal for recurring phone dates with your best friends or weekly check-ins with your coworkers. You can manage your call links, control approval settings, and copy links from the calls tab for quick sharing. ",
+  "callToActionText": "Create Call Link"
+}

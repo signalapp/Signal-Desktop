@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Proto } from '@signalapp/mock-server';
+import { Aci } from '@signalapp/libsignal-client';
 import { assert } from 'chai';
 import createDebug from 'debug';
 import Long from 'long';
@@ -23,6 +24,7 @@ import { sleep } from '../../util/sleep';
 export const debug = createDebug('mock:test:edit');
 
 const ACI_1 = generateAci();
+const ACI_1_BINARY = Aci.parseFromServiceIdString(ACI_1).getRawUuidBytes();
 const UNPROCESSED_ATTACHMENT: Proto.IAttachmentPointer = {
   cdnId: Long.fromNumber(123),
   key: new Uint8Array([1, 2, 3]),
@@ -57,7 +59,7 @@ function createMessageWithQuote(body: string): Proto.IDataMessage {
     body,
     quote: {
       id: Long.fromNumber(1),
-      authorAci: ACI_1,
+      authorAciBinary: ACI_1_BINARY,
       text: 'text',
       attachments: [
         {
@@ -98,7 +100,8 @@ describe('editing', function (this: Mocha.Suite) {
   async function sendEditedMessage(
     page: Page,
     timestamp: number,
-    additionalText: string
+    additionalText: string,
+    previousText: string
   ) {
     await page
       .getByTestId(`${timestamp}`)
@@ -106,7 +109,7 @@ describe('editing', function (this: Mocha.Suite) {
       .click();
     await page.getByRole('menuitem', { name: 'Edit' }).click();
     const input = await waitForEnabledComposer(page);
-    await typeIntoInput(input, additionalText);
+    await typeIntoInput(input, additionalText, previousText);
     await input.press('Enter');
   }
 
@@ -324,7 +327,7 @@ describe('editing', function (this: Mocha.Suite) {
         const input = await waitForEnabledComposer(window);
 
         debug('entering original message text');
-        await typeIntoInput(input, 'edit message 1');
+        await typeIntoInput(input, 'edit message 1', '');
         await input.press('Enter');
       }
 
@@ -335,7 +338,8 @@ describe('editing', function (this: Mocha.Suite) {
       await sendEditedMessage(
         window,
         originalMessage.timestamp?.toNumber() ?? 0,
-        '.2'
+        '.2',
+        'edit message 1'
       );
 
       debug("waiting for friend's edit message");
@@ -349,7 +353,8 @@ describe('editing', function (this: Mocha.Suite) {
       await sendEditedMessage(
         window,
         originalMessage.timestamp?.toNumber() ?? 0,
-        '.3'
+        '.3',
+        'edit message 1.2'
       );
 
       const { editMessage: secondEdit } = await friend.waitForEditMessage();
@@ -513,7 +518,6 @@ describe('editing', function (this: Mocha.Suite) {
       const { contacts, desktop } = bootstrap;
 
       const [friend] = contacts;
-      const contact = friend.toContact();
 
       const page = await app.getWindow();
 
@@ -545,7 +549,7 @@ describe('editing', function (this: Mocha.Suite) {
         const input = await waitForEnabledComposer(page);
 
         debug('sending message desktop -> friend');
-        await typeIntoInput(input, originalText);
+        await typeIntoInput(input, originalText, '');
         await input.press('Enter');
       }
 
@@ -564,7 +568,7 @@ describe('editing', function (this: Mocha.Suite) {
       debug("getting friend's conversationId");
       const conversationId = await page.evaluate(
         serviceId => window.SignalCI?.getConversationId(serviceId),
-        contact.aci
+        friend.device.aci
       );
       debug(`got friend's conversationId: ${conversationId}`);
       strictAssert(conversationId, 'conversationId exists');
@@ -615,7 +619,7 @@ describe('editing', function (this: Mocha.Suite) {
       debug('finding composition input and clicking it v2');
 
       debug('sending edit message v2 desktop -> friend');
-      await sendEditedMessage(page, originalMessageTimestamp, '2');
+      await sendEditedMessage(page, originalMessageTimestamp, '2', '1');
 
       {
         const readReceiptTimestamp = bootstrap.getTimestamp();
@@ -670,7 +674,8 @@ describe('editing', function (this: Mocha.Suite) {
       await sendEditedMessage(
         page,
         originalMessage?.timestamp?.toNumber() ?? 0,
-        '3'
+        '3',
+        '12'
       );
 
       debug("waiting for message on friend's device (v3)");
@@ -691,7 +696,8 @@ describe('editing', function (this: Mocha.Suite) {
       await sendEditedMessage(
         page,
         originalMessage?.timestamp?.toNumber() ?? 0,
-        '4'
+        '4',
+        '123'
       );
 
       debug("waiting for message on friend's device (v4)");

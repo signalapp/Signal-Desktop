@@ -3,13 +3,15 @@
 
 import { DAY } from './durations';
 import { sendDeleteForEveryoneMessage } from './sendDeleteForEveryoneMessage';
-import { __DEPRECATED$getMessageById } from '../messages/getMessageById';
-import * as log from '../logging/log';
+import { getMessageById } from '../messages/getMessageById';
+import { createLogger } from '../logging/log';
+
+const log = createLogger('deleteGroupStoryReplyForEveryone');
 
 export async function deleteGroupStoryReplyForEveryone(
   replyMessageId: string
 ): Promise<void> {
-  const messageModel = await __DEPRECATED$getMessageById(replyMessageId);
+  const messageModel = await getMessageById(replyMessageId);
 
   if (!messageModel) {
     log.warn(
@@ -20,13 +22,13 @@ export async function deleteGroupStoryReplyForEveryone(
 
   const timestamp = messageModel.get('timestamp');
 
-  const group = messageModel.getConversation();
+  const group = window.ConversationController.get(
+    messageModel.get('conversationId')
+  );
 
   if (!group) {
     log.warn(
-      `deleteGroupStoryReplyForEveryone: No conversation model found for: ${messageModel.get(
-        'conversationId'
-      )}`
+      `No conversation model found for: ${messageModel.get('conversationId')}`
     );
     return;
   }

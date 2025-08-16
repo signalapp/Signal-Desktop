@@ -2,10 +2,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { MessageModel } from '../models/messages';
-import * as log from '../logging/log';
+import type { MessageAttributesType } from '../model-types';
+import type { AttachmentType } from '../types/Attachment';
+
+import { createLogger } from '../logging/log';
+import * as MIME from '../types/MIME';
+
 import { DataWriter } from '../sql/Client';
 import { isMoreRecentThan } from './timestamp';
 import { isNotNil } from './isNotNil';
+import { queueAttachmentDownloads } from './queueAttachmentDownloads';
+import { postSaveUpdates } from './cleanup';
+
+const log = createLogger('attachmentDownloadQueue');
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 const MAX_ATTACHMENT_MSGS_TO_DOWNLOAD = 250;
@@ -66,24 +75,24 @@ export async function flushAttachmentDownloadQueue(): Promise<void> {
   let numMessagesQueued = 0;
   await Promise.all(
     messageIdsToDownload.map(async messageId => {
-      const message = window.MessageCache.__DEPRECATED$getById(messageId);
+      const message = window.MessageCache.getById(messageId);
       if (!message) {
-        log.warn(
-          'attachmentDownloadQueue: message not found in messageCache, maybe it was deleted?'
-        );
+        log.warn('message not found in messageCache, maybe it was deleted?');
         return;
       }
 
       if (
         isMoreRecentThan(
-          message.getReceivedAt(),
+          message.get('received_at_ms') || message.get('received_at'),
           MAX_ATTACHMENT_DOWNLOAD_AGE
         ) ||
         // Stickers and long text attachments has to be downloaded for UI
         // to display the message properly.
-        message.hasRequiredAttachmentDownloads()
+        hasRequiredAttachmentDownloads(message.attributes)
       ) {
-        const shouldSave = await message.queueAttachmentDownloads();
+        const shouldSave = await queueAttachmentDownloads(message, {
+          isManualDownload: false,
+        });
         if (shouldSave) {
           messageIdsToSave.push(messageId);
         }
@@ -98,13 +107,37 @@ export async function flushAttachmentDownloadQueue(): Promise<void> {
   );
 
   const messagesToSave = messageIdsToSave
-    .map(messageId => window.MessageCache.accessAttributes(messageId))
+    .map(messageId => window.MessageCache.getById(messageId)?.attributes)
     .filter(isNotNil);
 
   await DataWriter.saveMessages(messagesToSave, {
     ourAci: window.storage.user.getCheckedAci(),
+    postSaveUpdates,
   });
 
   attachmentDownloadQueue = undefined;
   onQueueEmpty();
+}
+
+function hasRequiredAttachmentDownloads(
+  message: MessageAttributesType
+): boolean {
+  const attachments: ReadonlyArray<AttachmentType> = message.attachments || [];
+
+  const hasLongMessageAttachments =
+    Boolean(message.bodyAttachment) ||
+    attachments.some(attachment => {
+      return MIME.isLongMessage(attachment.contentType);
+    });
+
+  if (hasLongMessageAttachments) {
+    return true;
+  }
+
+  const { sticker } = message;
+  if (sticker) {
+    return !sticker.data || !sticker.data.path;
+  }
+
+  return false;
 }

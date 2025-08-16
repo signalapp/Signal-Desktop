@@ -283,17 +283,17 @@ class RepeatIterable<T> implements Iterable<T> {
 }
 
 class RepeatIterator<T> implements Iterator<T> {
-  private readonly iteratorResult: IteratorResult<T>;
+  readonly #iteratorResult: IteratorResult<T>;
 
   constructor(value: Readonly<T>) {
-    this.iteratorResult = {
+    this.#iteratorResult = {
       done: false,
       value,
     };
   }
 
   next(): IteratorResult<T> {
-    return this.iteratorResult;
+    return this.#iteratorResult;
   }
 }
 

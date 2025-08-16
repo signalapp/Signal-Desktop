@@ -1,11 +1,14 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .StoryLinkPreview {
   align-items: center;
-  background-color: $color-white;
+  background-color: variables.$color-white;
   border-radius: 36px;
-  color: $color-gray-90;
+  color: variables.$color-gray-90;
   display: inline-flex;
   max-width: 560px;
   min-width: 560px;
@@ -20,7 +23,7 @@
   }
 
   &__title {
-    @include font-body-1-bold;
+    @include mixins.font-body-1-bold;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
     display: -webkit-box;
@@ -31,7 +34,7 @@
   }
 
   &__description {
-    @include font-body-2;
+    @include mixins.font-body-2;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     display: -webkit-box;
@@ -42,8 +45,8 @@
   }
 
   &__location {
-    @include font-caption;
-    color: $color-gray-45;
+    @include mixins.font-caption;
+    color: variables.$color-gray-45;
     font-size: 22px;
     line-height: 28px;
     letter-spacing: 0.12px;
@@ -57,11 +60,16 @@
     margin-inline: 52px;
 
     &::before {
-      @include color-svg('../images/icons/v3/link/link.svg', $color-gray-90);
-      content: '';
-      display: block;
-      height: 48px;
-      width: 48px;
+      @include mixins.color-svg(
+        '../images/icons/v3/link/link.svg',
+        variables.$color-gray-90
+      );
+      & {
+        content: '';
+        display: block;
+        height: 48px;
+        width: 48px;
+      }
     }
   }
 

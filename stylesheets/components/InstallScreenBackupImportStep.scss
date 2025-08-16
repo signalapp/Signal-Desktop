@@ -1,6 +1,9 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .InstallScreenBackupImportStep {
   position: relative;
   display: flex;
@@ -8,61 +11,126 @@
   width: 100vw;
   height: 100vh;
 
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
 }
 
 .InstallScreenBackupImportStep__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   text-align: center;
+  margin-top: calc(64px + var(--title-bar-drag-area-height));
+  flex: 1;
 }
 
 .InstallScreenBackupImportStep__title {
-  @include font-title-2;
+  @include mixins.font-title-2;
   margin-block: 0 20px;
 }
 
 .InstallScreenBackupImportStep .ProgressBar {
-  margin-block-end: 14px;
+  margin-block-end: 18px;
+  min-width: 326px;
 }
 
 .InstallScreenBackupImportStep__progressbar-hint {
-  @include font-caption;
-  margin-block-end: 22px;
+  @include mixins.font-caption;
+  font-weight: 500;
+  margin-block-end: 8px;
 
-  @include light-theme {
-    color: rgba($color-gray-60, 0.8);
+  @include mixins.light-theme {
+    color: rgba(variables.$color-black-alpha-40, 0.8);
   }
 
-  @include dark-theme {
-    color: $color-gray-25;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-25;
   }
 }
 
 .InstallScreenBackupImportStep__description {
-  @include font-body-1;
+  @include mixins.font-caption;
 
-  @include light-theme {
-    color: $color-gray-60;
+  @include mixins.light-theme {
+    color: variables.$color-gray-60;
   }
 
-  @include dark-theme {
-    color: $color-gray-25;
+  @include mixins.dark-theme {
+    color: variables.$color-gray-25;
   }
 }
 
 .InstallScreenBackupImportStep__cancel {
-  @include button-reset();
-  @include button-focus-outline;
-  @include font-body-1-bold;
+  @include mixins.button-reset();
+  & {
+    @include mixins.font-body-1-bold;
+    @include mixins.button-blue-text();
+    @include mixins.button-focus-outline;
+    @include mixins.dark-theme {
+      color: variables.$color-gray-80;
+    }
+  }
+  & {
+    padding-block: 8px;
+    padding-inline: 24px;
+    border-radius: 48px;
+    background-color: variables.$color-gray-05;
+  }
+}
 
-  position: absolute;
-  bottom: 48px;
+.InstallScreenBackupImportStep__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 36px;
+  min-height: 110px;
+  gap: 26px;
+}
 
-  @include light-theme() {
-    color: $color-ultramarine;
+.InstallScreenBackupImportStep__security {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 336px;
+
+  &--icon::after {
+    @include mixins.light-theme {
+      @include mixins.color-svg(
+        '../images/icons/v3/lock/lock.svg',
+        rgba(variables.$color-gray-60, 0.8)
+      );
+    }
+
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
+        '../images/icons/v3/lock/lock.svg',
+        variables.$color-gray-25
+      );
+    }
+
+    & {
+      content: '';
+      display: block;
+      height: 16px;
+      width: 16px;
+      margin-bottom: 4px;
+    }
   }
 
-  @include dark-theme() {
-    color: $color-ultramarine-light;
+  &--description {
+    @include mixins.font-caption;
+    text-align: center;
+
+    @include mixins.light-theme {
+      color: rgba(variables.$color-gray-60, 0.8);
+    }
+
+    @include mixins.dark-theme {
+      color: variables.$color-gray-25;
+    }
+
+    a {
+      text-decoration: none;
+    }
   }
 }

@@ -4,16 +4,14 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
-import { getFakeBadges } from '../../../test-both/helpers/getFakeBadge';
-import { setupI18n } from '../../../util/setupI18n';
-import enMessages from '../../../../_locales/en/messages.json';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation';
+import { getFakeBadges } from '../../../test-helpers/getFakeBadge';
 import { StorybookThemeContext } from '../../../../.storybook/StorybookThemeContext';
 import type { ConversationType } from '../../../state/ducks/conversations';
 import type { Props } from './ConversationDetailsHeader';
 import { ConversationDetailsHeader } from './ConversationDetailsHeader';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title:
@@ -44,6 +42,9 @@ function Wrapper(overrideProps: Partial<Props>) {
       membersCount={0}
       isGroup
       isMe={false}
+      isSignalConversation={false}
+      pendingAvatarDownload={false}
+      startAvatarDownload={action('startAvatarDownload')}
       theme={theme}
       toggleAboutContactModal={action('toggleAboutContactModal')}
       {...overrideProps}

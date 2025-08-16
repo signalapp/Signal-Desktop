@@ -5,8 +5,11 @@ import type { CallingMessage } from '@signalapp/ringrtc';
 import { CallMessageUrgency } from '@signalapp/ringrtc';
 import Long from 'long';
 import { SignalService as Proto } from '../protobuf';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
+import { toLogFormat } from '../types/errors';
 import { missingCaseError } from './missingCaseError';
+
+const log = createLogger('callingMessageToProto');
 
 export function callingMessageToProto(
   {
@@ -19,8 +22,8 @@ export function callingMessageToProto(
     opaque,
   }: CallingMessage,
   urgency?: CallMessageUrgency
-): Proto.ICallingMessage {
-  let opaqueField: undefined | Proto.CallingMessage.IOpaque;
+): Proto.ICallMessage {
+  let opaqueField: undefined | Proto.CallMessage.IOpaque;
   if (opaque) {
     opaqueField = {
       ...opaque,
@@ -38,7 +41,7 @@ export function callingMessageToProto(
     offer: offer
       ? {
           ...offer,
-          callId: Long.fromValue(offer.callId),
+          id: Long.fromValue(offer.callId),
           type: offer.type as number,
           opaque: bufferToProto(offer.opaque),
         }
@@ -46,15 +49,15 @@ export function callingMessageToProto(
     answer: answer
       ? {
           ...answer,
-          callId: Long.fromValue(answer.callId),
+          id: Long.fromValue(answer.callId),
           opaque: bufferToProto(answer.opaque),
         }
       : undefined,
-    iceCandidates: iceCandidates
-      ? iceCandidates.map(candidate => {
+    iceUpdate: iceCandidates
+      ? iceCandidates.map((candidate): Proto.CallMessage.IIceUpdate => {
           return {
             ...candidate,
-            callId: Long.fromValue(candidate.callId),
+            id: Long.fromValue(candidate.callId),
             opaque: bufferToProto(candidate.opaque),
           };
         })
@@ -62,13 +65,13 @@ export function callingMessageToProto(
     busy: busy
       ? {
           ...busy,
-          callId: Long.fromValue(busy.callId),
+          id: Long.fromValue(busy.callId),
         }
       : undefined,
     hangup: hangup
       ? {
           ...hangup,
-          callId: Long.fromValue(hangup.callId),
+          id: Long.fromValue(hangup.callId),
           type: hangup.type as number,
         }
       : undefined,
@@ -92,14 +95,14 @@ function bufferToProto(
 
 function urgencyToProto(
   urgency: CallMessageUrgency
-): Proto.CallingMessage.Opaque.Urgency {
+): Proto.CallMessage.Opaque.Urgency {
   switch (urgency) {
     case CallMessageUrgency.Droppable:
-      return Proto.CallingMessage.Opaque.Urgency.DROPPABLE;
+      return Proto.CallMessage.Opaque.Urgency.DROPPABLE;
     case CallMessageUrgency.HandleImmediately:
-      return Proto.CallingMessage.Opaque.Urgency.HANDLE_IMMEDIATELY;
+      return Proto.CallMessage.Opaque.Urgency.HANDLE_IMMEDIATELY;
     default:
-      log.error(missingCaseError(urgency));
-      return Proto.CallingMessage.Opaque.Urgency.DROPPABLE;
+      log.error(toLogFormat(missingCaseError(urgency)));
+      return Proto.CallMessage.Opaque.Urgency.DROPPABLE;
   }
 }

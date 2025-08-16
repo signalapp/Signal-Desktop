@@ -57,7 +57,9 @@ describe('readSync', function (this: Mocha.Suite) {
     const leftPane = page.locator('#LeftPane');
 
     await leftPane
-      .locator('.module-conversation-list__item--contact-or-conversation')
+      .locator(
+        '.module-conversation-list__item--contact-or-conversation >> "<(˶ᵔᵕᵔ˶)>"'
+      )
       .first()
       .waitFor();
 
@@ -102,14 +104,14 @@ describe('readSync', function (this: Mocha.Suite) {
         Long.fromNumber(timestamp)
       );
 
-      const senderAci = friend.device.aci;
+      const senderAciBinary = friend.device.aciRawUuid;
 
       await phone.sendRaw(
         desktop,
         {
           syncMessage: {
             read: longTimestamps.map(timestamp => ({
-              senderAci,
+              senderAciBinary,
               timestamp,
             })),
           },

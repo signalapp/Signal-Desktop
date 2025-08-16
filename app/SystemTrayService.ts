@@ -1,11 +1,15 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { join } from 'path';
 import type { BrowserWindow, NativeImage } from 'electron';
-import { Menu, Tray, app, nativeImage } from 'electron';
-import * as log from '../ts/logging/log';
+import { Menu, Tray, app, nativeImage, nativeTheme, screen } from 'electron';
+import os from 'node:os';
+import { join } from 'node:path';
+import { readFileSync } from 'node:fs';
+import { createLogger } from '../ts/logging/log';
 import type { LocalizerType } from '../ts/types/I18N';
+
+const log = createLogger('SystemTrayService');
 
 export type SystemTrayServiceOptionsType = Readonly<{
   i18n: LocalizerType;
@@ -22,27 +26,20 @@ export type SystemTrayServiceOptionsType = Readonly<{
  * [0]: https://www.electronjs.org/docs/api/tray
  */
 export class SystemTrayService {
-  private browserWindow?: BrowserWindow;
-
-  private readonly i18n: LocalizerType;
-
-  private tray?: Tray;
-
-  private isEnabled = false;
-
-  private isQuitting = false;
-
-  private unreadCount = 0;
-
-  private boundRender: typeof SystemTrayService.prototype.render;
-
-  private createTrayInstance: (icon: NativeImage) => Tray;
+  #browserWindow?: BrowserWindow;
+  readonly #i18n: LocalizerType;
+  #tray?: Tray;
+  #isEnabled = false;
+  #isQuitting = false;
+  #unreadCount = 0;
+  #createTrayInstance: (icon: NativeImage) => Tray;
 
   constructor({ i18n, createTrayInstance }: SystemTrayServiceOptionsType) {
     log.info('System tray service: created');
-    this.i18n = i18n;
-    this.boundRender = this.render.bind(this);
-    this.createTrayInstance = createTrayInstance || (icon => new Tray(icon));
+    this.#i18n = i18n;
+    this.#createTrayInstance = createTrayInstance || (icon => new Tray(icon));
+
+    nativeTheme.on('updated', this.#render);
   }
 
   /**
@@ -51,7 +48,7 @@ export class SystemTrayService {
    * toggle in the tray's context menu.
    */
   setMainWindow(newBrowserWindow: undefined | BrowserWindow): void {
-    const oldBrowserWindow = this.browserWindow;
+    const oldBrowserWindow = this.#browserWindow;
     if (oldBrowserWindow === newBrowserWindow) {
       return;
     }
@@ -63,18 +60,18 @@ export class SystemTrayService {
     );
 
     if (oldBrowserWindow) {
-      oldBrowserWindow.off('show', this.boundRender);
-      oldBrowserWindow.off('hide', this.boundRender);
+      oldBrowserWindow.off('show', this.#render);
+      oldBrowserWindow.off('hide', this.#render);
     }
 
     if (newBrowserWindow) {
-      newBrowserWindow.on('show', this.boundRender);
-      newBrowserWindow.on('hide', this.boundRender);
+      newBrowserWindow.on('show', this.#render);
+      newBrowserWindow.on('hide', this.#render);
     }
 
-    this.browserWindow = newBrowserWindow;
+    this.#browserWindow = newBrowserWindow;
 
-    this.render();
+    this.#render();
   }
 
   /**
@@ -82,26 +79,27 @@ export class SystemTrayService {
    * `setMainWindow`), the tray icon will not be shown, even if enabled.
    */
   setEnabled(isEnabled: boolean): void {
-    if (this.isEnabled === isEnabled) {
+    if (this.#isEnabled === isEnabled) {
       return;
     }
 
     log.info(`System tray service: ${isEnabled ? 'enabling' : 'disabling'}`);
-    this.isEnabled = isEnabled;
-    this.render();
+    this.#isEnabled = isEnabled;
+
+    this.#render();
   }
 
   /**
    * Update the unread count, which updates the tray icon if it's visible.
    */
   setUnreadCount(unreadCount: number): void {
-    if (this.unreadCount === unreadCount) {
+    if (this.#unreadCount === unreadCount) {
       return;
     }
 
     log.info(`System tray service: setting unread count to ${unreadCount}`);
-    this.unreadCount = unreadCount;
-    this.render();
+    this.#unreadCount = unreadCount;
+    this.#render();
   }
 
   /**
@@ -113,35 +111,36 @@ export class SystemTrayService {
   markShouldQuit(): void {
     log.info('System tray service: markShouldQuit');
 
-    this.tray = undefined;
-    this.isQuitting = true;
+    this.#tray = undefined;
+    this.#isQuitting = true;
   }
 
   isVisible(): boolean {
-    return this.tray !== undefined;
+    return this.#tray !== undefined;
   }
 
-  private render(): void {
-    if (this.isEnabled && this.browserWindow) {
-      this.renderEnabled();
+  #render = (): void => {
+    if (this.#isEnabled && this.#browserWindow) {
+      this.#renderEnabled();
       return;
     }
-    this.renderDisabled();
-  }
+    this.#renderDisabled();
+  };
 
-  private renderEnabled() {
-    if (this.isQuitting) {
+  #renderEnabled() {
+    if (this.#isQuitting) {
       log.info('System tray service: not rendering the tray, quitting');
       return;
     }
 
     log.info('System tray service: rendering the tray');
 
-    this.tray = this.tray || this.createTray();
-    const { browserWindow, tray } = this;
+    this.#tray ??= this.#createTray();
+    const tray = this.#tray;
+    const browserWindow = this.#browserWindow;
 
     try {
-      tray.setImage(getIcon(this.unreadCount));
+      tray.setImage(getIcon(this.#unreadCount));
     } catch (err: unknown) {
       log.warn(
         'System tray service: failed to set preferred image. Falling back...'
@@ -159,7 +158,7 @@ export class SystemTrayService {
           id: 'toggleWindowVisibility',
           ...(browserWindow?.isVisible()
             ? {
-                label: this.i18n('icu:hide'),
+                label: this.#i18n('icu:hide'),
                 click: () => {
                   log.info(
                     'System tray service: hiding the window from the context menu'
@@ -167,25 +166,25 @@ export class SystemTrayService {
                   // We re-fetch `this.browserWindow` here just in case the browser window
                   //   has changed while the context menu was open. Same applies in the
                   //   "show" case below.
-                  this.browserWindow?.hide();
+                  this.#browserWindow?.hide();
                 },
               }
             : {
-                label: this.i18n('icu:show'),
+                label: this.#i18n('icu:show'),
                 click: () => {
                   log.info(
                     'System tray service: showing the window from the context menu'
                   );
-                  if (this.browserWindow) {
-                    this.browserWindow.show();
-                    focusAndForceToTop(this.browserWindow);
+                  if (this.#browserWindow) {
+                    this.#browserWindow.show();
+                    focusAndForceToTop(this.#browserWindow);
                   }
                 },
               }),
         },
         {
           id: 'quit',
-          label: this.i18n('icu:quit'),
+          label: this.#i18n('icu:quit'),
           click: () => {
             log.info(
               'System tray service: quitting the app from the context menu'
@@ -197,21 +196,21 @@ export class SystemTrayService {
     );
   }
 
-  private renderDisabled() {
+  #renderDisabled() {
     log.info('System tray service: rendering no tray');
 
-    if (!this.tray) {
+    if (!this.#tray) {
       return;
     }
-    this.tray.destroy();
-    this.tray = undefined;
+    this.#tray.destroy();
+    this.#tray = undefined;
   }
 
-  private createTray(): Tray {
+  #createTray(): Tray {
     log.info('System tray service: creating the tray');
 
     // This icon may be swiftly overwritten.
-    const result = this.createTrayInstance(getDefaultIcon());
+    const result = this.#createTrayInstance(getDefaultIcon());
 
     // Note: "When app indicator is used on Linux, the click event is ignored." This
     //   doesn't mean that the click event is always ignored on Linux; it depends on how
@@ -219,7 +218,7 @@ export class SystemTrayService {
     //
     // See <https://github.com/electron/electron/blob/v13.1.3/docs/api/tray.md#class-tray>.
     result.on('click', () => {
-      const { browserWindow } = this;
+      const browserWindow = this.#browserWindow;
       if (!browserWindow) {
         return;
       }
@@ -231,7 +230,7 @@ export class SystemTrayService {
       }
     });
 
-    result.setToolTip(this.i18n('icu:signalDesktop'));
+    result.setToolTip(this.#i18n('icu:signalDesktop'));
 
     return result;
   }
@@ -241,36 +240,113 @@ export class SystemTrayService {
    * into the existing tray instances. It should not be used by "real" code.
    */
   _getTray(): undefined | Tray {
-    return this.tray;
+    return this.#tray;
   }
 }
 
+const Variant = {
+  Size16: { size: 16, scaleFactor: 1 },
+  Size32: { size: 32, scaleFactor: 2 },
+  Size48: { size: 48, scaleFactor: 3 },
+  Size256: { size: 256, scaleFactor: 16 },
+} as const;
+
+const Variants = Object.values(Variant);
+
+function getDisplaysMaxScaleFactor(): number {
+  const displays = screen.getAllDisplays();
+  const scaleFactors = displays
+    .map(display => display.scaleFactor)
+    .filter(scaleFactor => Number.isFinite(scaleFactor) && scaleFactor > 1.0);
+  return Math.max(1.0, ...scaleFactors);
+}
+
+function getVariantForScaleFactor(scaleFactor: number) {
+  const match = Variants.find(variant => {
+    return variant.scaleFactor >= scaleFactor;
+  });
+
+  return match ?? Variant.Size32;
+}
+
+function getTrayIconImagePath(size: number, unreadCount: number): string {
+  let dirName: string;
+  let fileName: string;
+
+  if (unreadCount === 0) {
+    dirName = 'base';
+    fileName = `signal-tray-icon-${size}x${size}-base.png`;
+  } else if (unreadCount < 10) {
+    dirName = 'alert';
+    fileName = `signal-tray-icon-${size}x${size}-alert-${unreadCount}.png`;
+  } else {
+    dirName = 'alert';
+    fileName = `signal-tray-icon-${size}x${size}-alert-9+.png`;
+  }
+
+  const iconPath = join(
+    __dirname,
+    '..',
+    'images',
+    'tray-icons',
+    dirName,
+    fileName
+  );
+
+  return iconPath;
+}
+
+const TrayIconCache = new Map<string, NativeImage>();
+
 function getIcon(unreadCount: number) {
-  let iconSize: string;
-  switch (process.platform) {
-    case 'darwin':
-      iconSize = '16';
-      break;
-    case 'linux':
-    case 'win32':
-      iconSize = '32';
-      break;
-    default:
-      iconSize = '256';
-      break;
+  const cacheKey = `${Math.min(unreadCount, 10)}`;
+
+  const cached = TrayIconCache.get(cacheKey);
+  if (cached != null) {
+    return cached;
   }
 
-  if (unreadCount > 0) {
-    const filename = `${String(unreadCount >= 10 ? 10 : unreadCount)}.png`;
-    return join(__dirname, '..', 'images', 'alert', iconSize, filename);
+  const platform = os.platform();
+
+  let image: NativeImage;
+
+  if (platform === 'linux') {
+    // Linux: Static tray icons
+    // Use a single tray icon for Linux, as it does not support scale factors.
+    // We choose the best icon based on the highest display scale factor.
+    const scaleFactor = getDisplaysMaxScaleFactor();
+    const variant = getVariantForScaleFactor(scaleFactor);
+    const iconPath = getTrayIconImagePath(variant.size, unreadCount);
+    const buffer = readFileSync(iconPath);
+    image = nativeImage.createFromBuffer(buffer, {
+      scaleFactor: 1.0, // Must be 1.0 for Linux
+      width: variant.size,
+      height: variant.size,
+    });
+  } else {
+    // Windows/macOS: Responsive tray icons
+    image = nativeImage.createEmpty();
+
+    for (const variant of Variants) {
+      const iconPath = getTrayIconImagePath(variant.size, unreadCount);
+      const buffer = readFileSync(iconPath);
+      image.addRepresentation({
+        buffer,
+        width: variant.size,
+        height: variant.size,
+        scaleFactor: variant.scaleFactor,
+      });
+    }
   }
 
-  return join(__dirname, '..', 'images', `icon_${iconSize}.png`);
+  TrayIconCache.set(cacheKey, image);
+
+  return image;
 }
 
 let defaultIcon: undefined | NativeImage;
 function getDefaultIcon(): NativeImage {
-  defaultIcon ??= nativeImage.createFromPath(getIcon(0));
+  defaultIcon ??= getIcon(0);
   return defaultIcon;
 }
 

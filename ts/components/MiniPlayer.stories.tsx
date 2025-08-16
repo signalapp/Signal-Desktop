@@ -6,10 +6,7 @@ import type { Meta } from '@storybook/react';
 import type { Props } from './MiniPlayer';
 import { MiniPlayer, PlayerState } from './MiniPlayer';
 
-import { setupI18n } from '../util/setupI18n';
-import enMessages from '../../_locales/en/messages.json';
-
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 const audio = new Audio();
 audio.src = '/fixtures/incompetech-com-Agnus-Dei-X.mp3';

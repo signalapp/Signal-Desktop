@@ -1,36 +1,40 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import * as Errors from '../types/errors';
 import { drop } from '../util/drop';
 import { getMessageSentTimestampSet } from '../util/getMessageSentTimestampSet';
 
 import type { MessageAttributesType } from '../model-types';
 import type {
-  ConversationToDelete,
-  MessageToDelete,
+  ConversationIdentifier,
+  AddressableMessage,
 } from '../textsecure/messageReceiverEvents';
 import {
   deleteAttachmentFromMessage,
   deleteMessage,
+} from '../util/deleteForMe';
+import {
   doesMessageMatch,
   getConversationFromTarget,
   getMessageQueryFromTarget,
-} from '../util/deleteForMe';
+} from '../util/syncIdentifiers';
 import { DataWriter } from '../sql/Client';
+
+const log = createLogger('DeletesForMe');
 
 const { removeSyncTaskById } = DataWriter;
 
 export type DeleteForMeAttributesType = {
-  conversation: ConversationToDelete;
+  conversation: ConversationIdentifier;
   deleteAttachmentData?: {
     clientUuid?: string;
     fallbackDigest?: string;
     fallbackPlaintextHash?: string;
   };
   envelopeId: string;
-  message: MessageToDelete;
+  message: AddressableMessage;
   syncTaskId: string;
   timestamp: number;
 };
@@ -100,7 +104,7 @@ export async function onDelete(item: DeleteForMeAttributesType): Promise<void> {
 
         let result: boolean;
         if (item.deleteAttachmentData) {
-          // This will find the message, then work with a backbone model to mirror what
+          // This will find the message, then work with a model to mirror what
           //   modifyTargetMessage does.
           result = await deleteAttachmentFromMessage(
             conversation.id,
@@ -125,7 +129,7 @@ export async function onDelete(item: DeleteForMeAttributesType): Promise<void> {
     );
   } catch (error) {
     log.error(
-      `DeletesForMe.onDelete(task=${item.syncTaskId},envelopeId=${item.envelopeId}): Error`,
+      `onDelete(task=${item.syncTaskId},envelopeId=${item.envelopeId}): Error`,
       Errors.toLogFormat(error)
     );
     await remove(item);

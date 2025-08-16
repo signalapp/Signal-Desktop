@@ -48,15 +48,7 @@ export function MyStoryButton({
     ? getNewestMyStory(myStories[0])
     : undefined;
 
-  const {
-    acceptedMessageRequest,
-    avatarUrl,
-    color,
-    isMe,
-    profileName,
-    sharedGroupNames,
-    title,
-  } = me;
+  const { avatarUrl, color, profileName, sharedGroupNames, title } = me;
 
   if (!newestStory) {
     return (
@@ -69,13 +61,11 @@ export function MyStoryButton({
       >
         <div className="MyStories__avatar-container">
           <Avatar
-            acceptedMessageRequest={acceptedMessageRequest}
             avatarUrl={avatarUrl}
             badge={undefined}
             color={getAvatarColor(color)}
             conversationType="direct"
             i18n={i18n}
-            isMe={Boolean(isMe)}
             profileName={profileName}
             sharedGroupNames={sharedGroupNames}
             size={AvatarSize.FORTY_EIGHT}
@@ -122,13 +112,11 @@ export function MyStoryButton({
           onContextMenuShowingChanged={setActive}
         >
           <Avatar
-            acceptedMessageRequest={acceptedMessageRequest}
             avatarUrl={avatarUrl}
             badge={undefined}
             color={getAvatarColor(color)}
             conversationType="direct"
             i18n={i18n}
-            isMe={Boolean(isMe)}
             profileName={profileName}
             sharedGroupNames={sharedGroupNames}
             size={AvatarSize.FORTY_EIGHT}

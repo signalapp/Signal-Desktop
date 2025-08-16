@@ -58,7 +58,7 @@ describe('callingMessageToProto', () => {
       );
       assert.deepEqual(
         droppableResult.opaque?.urgency,
-        Proto.CallingMessage.Opaque.Urgency.DROPPABLE
+        Proto.CallMessage.Opaque.Urgency.DROPPABLE
       );
 
       const urgentResult = callingMessageToProto(
@@ -67,7 +67,7 @@ describe('callingMessageToProto', () => {
       );
       assert.deepEqual(
         urgentResult.opaque?.urgency,
-        Proto.CallingMessage.Opaque.Urgency.HANDLE_IMMEDIATELY
+        Proto.CallMessage.Opaque.Urgency.HANDLE_IMMEDIATELY
       );
     });
 
@@ -84,7 +84,7 @@ describe('callingMessageToProto', () => {
       assert.deepEqual(result.opaque?.data, new Uint8Array([1, 2, 3]));
       assert.deepEqual(
         result.opaque?.urgency,
-        Proto.CallingMessage.Opaque.Urgency.HANDLE_IMMEDIATELY
+        Proto.CallMessage.Opaque.Urgency.HANDLE_IMMEDIATELY
       );
     });
   });

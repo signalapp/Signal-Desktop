@@ -18,6 +18,7 @@ export type UpdatesStateType = ReadonlyDeep<{
   downloadSize?: number;
   downloadedSize?: number;
   showEventsCount: number;
+  isCheckingForUpdates: boolean;
   version?: string;
 }>;
 
@@ -27,6 +28,8 @@ const DISMISS_DIALOG = 'updates/DISMISS_DIALOG';
 const SHOW_UPDATE_DIALOG = 'updates/SHOW_UPDATE_DIALOG';
 const SNOOZE_UPDATE = 'updates/SNOOZE_UPDATE';
 const START_UPDATE = 'updates/START_UPDATE';
+const CHECK_FOR_UPDATES = 'updates/CHECK_FOR_UPDATES';
+const CHECK_FOR_UPDATES_FINISHED = 'updates/CHECK_FOR_UPDATES_FINISHED';
 const UNSNOOZE_UPDATE = 'updates/UNSNOOZE_UPDATE';
 
 export type UpdateDialogOptionsType = ReadonlyDeep<{
@@ -55,6 +58,14 @@ type StartUpdateActionType = ReadonlyDeep<{
   type: typeof START_UPDATE;
 }>;
 
+type CheckForUpdatesActionType = ReadonlyDeep<{
+  type: typeof CHECK_FOR_UPDATES;
+}>;
+
+type CheckForUpdatesFinishedActionType = ReadonlyDeep<{
+  type: typeof CHECK_FOR_UPDATES_FINISHED;
+}>;
+
 type UnsnoozeUpdateActionType = ReadonlyDeep<{
   type: typeof UNSNOOZE_UPDATE;
   payload: DialogType;
@@ -65,6 +76,8 @@ export type UpdatesActionType = ReadonlyDeep<
   | ShowUpdateDialogActionType
   | SnoozeUpdateActionType
   | StartUpdateActionType
+  | CheckForUpdatesActionType
+  | CheckForUpdatesFinishedActionType
   | UnsnoozeUpdateActionType
 >;
 
@@ -135,11 +148,43 @@ function startUpdate(): ThunkAction<
   };
 }
 
+function forceUpdate(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  | CheckForUpdatesActionType
+  | CheckForUpdatesFinishedActionType
+  | ShowUpdateDialogActionType
+> {
+  return async dispatch => {
+    dispatch({
+      type: CHECK_FOR_UPDATES,
+    });
+
+    try {
+      await updateIpc.forceUpdate();
+    } catch {
+      dispatch({
+        type: SHOW_UPDATE_DIALOG,
+        payload: {
+          dialogType: DialogType.Cannot_Update,
+          otherState: {},
+        },
+      });
+    } finally {
+      dispatch({
+        type: CHECK_FOR_UPDATES_FINISHED,
+      });
+    }
+  };
+}
+
 export const actions = {
   dismissDialog,
   showUpdateDialog,
   snoozeUpdate,
   startUpdate,
+  forceUpdate,
 };
 
 export const useUpdatesActions = (): BoundActionCreatorsMapObject<
@@ -152,6 +197,7 @@ export function getEmptyState(): UpdatesStateType {
   return {
     dialogType: DialogType.None,
     didSnooze: false,
+    isCheckingForUpdates: false,
     showEventsCount: 0,
   };
 }
@@ -184,6 +230,22 @@ export function reducer(
       ...state,
       dialogType: DialogType.None,
       didSnooze: false,
+    };
+  }
+
+  if (action.type === CHECK_FOR_UPDATES) {
+    return {
+      ...state,
+      dialogType: DialogType.None,
+      didSnooze: false,
+      isCheckingForUpdates: true,
+    };
+  }
+
+  if (action.type === CHECK_FOR_UPDATES_FINISHED) {
+    return {
+      ...state,
+      isCheckingForUpdates: false,
     };
   }
 

@@ -1,9 +1,12 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 .CallingToasts {
   position: fixed;
-  z-index: $z-index-toast;
+  z-index: variables.$z-index-toast;
   top: 32px;
   width: 100%;
   display: flex;
@@ -21,16 +24,16 @@
 }
 
 .CallingToast--dismissable {
-  @include button-reset();
+  @include mixins.button-reset();
 }
 
 .CallingToast {
-  @include font-subtitle;
+  @include mixins.font-subtitle;
   padding-block: 8px;
   padding-inline: 12px;
   border-radius: 22px;
-  background-color: $color-gray-80;
-  color: $color-gray-15;
+  background-color: variables.$color-gray-80;
+  color: variables.$color-gray-15;
   text-align: center;
   user-select: none;
   &__reconnecting {
@@ -42,10 +45,10 @@
 
 .CallingButtonToasts__outer {
   position: absolute;
-  inset-block-end: calc($CallControls__height + 16px);
+  inset-block-end: calc(variables.$CallControls__height + 16px);
   width: 100%;
   // Match .module-ongoing-call__footer
-  z-index: $z-index-above-base;
+  z-index: variables.$z-index-above-base;
 }
 
 // Match the width behavior of .CallControls
@@ -53,8 +56,8 @@
   display: flex;
   flex-grow: 1;
   flex-shrink: 0;
-  flex-basis: $CallControls__initial-width;
-  max-width: $CallControls__max-width;
+  flex-basis: variables.$CallControls__initial-width;
+  max-width: variables.$CallControls__max-width;
 }
 
 .CallingButtonToasts .CallingToasts {

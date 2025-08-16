@@ -7,12 +7,14 @@ import { URL } from 'url';
 import type { LookupOptions, LookupAddress } from 'dns';
 import { lookup } from 'dns/promises';
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { happyEyeballs } from './createHTTPSAgent';
 import type { ConnectOptionsType } from './createHTTPSAgent';
 import { explodePromise } from './explodePromise';
 import { SECOND } from './durations';
 import { drop } from './drop';
+
+const log = createLogger('createProxyAgent');
 
 // Warning threshold
 const CONNECT_THRESHOLD_MS = SECOND;

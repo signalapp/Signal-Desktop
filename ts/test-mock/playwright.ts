@@ -14,9 +14,13 @@ import type { ReceiptType } from '../types/Receipt';
 import { SECOND } from '../util/durations';
 import { drop } from '../util/drop';
 import type { MessageAttributesType } from '../model-types';
+import type { SocketStatuses } from '../textsecure/SocketManager';
 
 export type AppLoadedInfoType = Readonly<{
   loadTime: number;
+  preloadTime: number;
+  preloadCompileTime: number;
+  connectTime: number;
   messagesPerSec: number;
 }>;
 
@@ -47,7 +51,7 @@ export type AppOptionsType = Readonly<{
 const WAIT_FOR_EVENT_TIMEOUT = 30 * SECOND;
 
 export class App extends EventEmitter {
-  private privApp: ElectronApplication | undefined;
+  #privApp: ElectronApplication | undefined;
 
   constructor(private readonly options: AppOptionsType) {
     super();
@@ -56,7 +60,7 @@ export class App extends EventEmitter {
   public async start(): Promise<void> {
     try {
       // launch the electron processs
-      this.privApp = await electron.launch({
+      this.#privApp = await electron.launch({
         executablePath: this.options.main,
         args: this.options.args.slice(),
         env: {
@@ -79,58 +83,71 @@ export class App extends EventEmitter {
               snapshots: true,
             });
           }
+          await page?.emulateMedia({ reducedMotion: 'reduce' });
           await page?.waitForLoadState('load');
         })(),
         20 * SECOND
       );
     } catch (e) {
-      this.privApp?.process().kill('SIGKILL');
+      this.#privApp?.process().kill('SIGKILL');
       throw e;
     }
 
-    this.privApp.on('close', () => this.emit('close'));
+    this.#privApp.on('close', () => this.emit('close'));
 
-    drop(this.printLoop());
+    drop(this.#printLoop());
   }
 
   public async waitForProvisionURL(): Promise<string> {
-    return this.waitForEvent('provisioning-url');
+    return this.#waitForEvent('provisioning-url');
+  }
+
+  public async waitForPreloadCacheHit(): Promise<boolean> {
+    return this.#waitForEvent('preload-cache-hit');
   }
 
   public async waitForDbInitialized(): Promise<void> {
-    return this.waitForEvent('db-initialized');
+    return this.#waitForEvent('db-initialized');
   }
 
   public async waitUntilLoaded(): Promise<AppLoadedInfoType> {
-    return this.waitForEvent('app-loaded');
+    return this.#waitForEvent('app-loaded');
   }
 
   public async waitForContactSync(): Promise<void> {
-    return this.waitForEvent('contactSync');
+    return this.#waitForEvent('contactSync');
   }
 
-  public async waitForBackupImportComplete(): Promise<void> {
-    return this.waitForEvent('backupImportComplete');
+  public async waitForBackupImportComplete(): Promise<{ duration: number }> {
+    return this.#waitForEvent('backupImportComplete');
   }
 
   public async waitForMessageSend(): Promise<MessageSendInfoType> {
-    return this.waitForEvent('message:send-complete');
+    return this.#waitForEvent('message:send-complete');
   }
 
   public async waitForConversationOpen(): Promise<ConversationOpenInfoType> {
-    return this.waitForEvent('conversation:open');
+    return this.#waitForEvent('conversation:open');
   }
 
   public async waitForChallenge(): Promise<ChallengeRequestType> {
-    return this.waitForEvent('challenge');
+    return this.#waitForEvent('challenge');
   }
 
   public async waitForReceipts(): Promise<ReceiptsInfoType> {
-    return this.waitForEvent('receipts');
+    return this.#waitForEvent('receipts');
+  }
+
+  public async waitForReleaseNotesFetcher(): Promise<void> {
+    return this.#waitForEvent('release_notes_fetcher_complete');
   }
 
   public async waitForStorageService(): Promise<StorageServiceInfoType> {
-    return this.waitForEvent('storageServiceComplete');
+    return this.#waitForEvent('storageServiceComplete');
+  }
+
+  public async waitForWindow(): Promise<Page> {
+    return this.#app.waitForEvent('window');
   }
 
   public async waitForManifestVersion(version: number): Promise<void> {
@@ -152,28 +169,28 @@ export class App extends EventEmitter {
     );
   }
 
-  private async checkForFatalTestErrors(): Promise<void> {
+  async #checkForFatalTestErrors(): Promise<void> {
     const count = await this.getPendingEventCount('fatalTestError');
     if (count === 0) {
       return;
     }
     for (let i = 0; i < count; i += 1) {
       // eslint-disable-next-line no-await-in-loop, no-console
-      console.error(await this.waitForEvent('fatalTestError'));
+      console.error(await this.#waitForEvent('fatalTestError'));
     }
     throw new Error('App had fatal test errors');
   }
 
   public async close(): Promise<void> {
     try {
-      await this.checkForFatalTestErrors();
+      await this.#checkForFatalTestErrors();
     } finally {
-      await this.app.close();
+      await this.#app.close();
     }
   }
 
   public async getWindow(): Promise<Page> {
-    return this.app.firstWindow();
+    return this.#app.firstWindow();
   }
 
   public async openSignalRoute(url: URL | string): Promise<void> {
@@ -183,6 +200,11 @@ export class App extends EventEmitter {
     );
   }
 
+  public async getSocketStatus(): Promise<SocketStatuses> {
+    const window = await this.getWindow();
+    return window.evaluate('window.SignalCI.getSocketStatus()');
+  }
+
   public async getMessagesBySentAt(
     timestamp: number
   ): Promise<Array<MessageAttributesType>> {
@@ -190,9 +212,28 @@ export class App extends EventEmitter {
     return window.evaluate(`window.SignalCI.getMessagesBySentAt(${timestamp})`);
   }
 
+  public async exportLocalBackup(backupsBaseDir: string): Promise<string> {
+    const window = await this.getWindow();
+    return window.evaluate(
+      `window.SignalCI.exportLocalBackup('${backupsBaseDir}')`
+    );
+  }
+
+  public async stageLocalBackupForImport(snapshotDir: string): Promise<void> {
+    const window = await this.getWindow();
+    return window.evaluate(
+      `window.SignalCI.stageLocalBackupForImport('${snapshotDir}')`
+    );
+  }
+
   public async uploadBackup(): Promise<void> {
     const window = await this.getWindow();
     await window.evaluate('window.SignalCI.uploadBackup()');
+  }
+
+  public async migrateAllMessages(): Promise<void> {
+    const window = await this.getWindow();
+    await window.evaluate('window.SignalCI.migrateAllMessages()');
   }
 
   public async unlink(): Promise<void> {
@@ -201,11 +242,11 @@ export class App extends EventEmitter {
   }
 
   public async waitForUnlink(): Promise<void> {
-    return this.waitForEvent('unlinkCleanupComplete');
+    return this.#waitForEvent('unlinkCleanupComplete');
   }
 
   public async waitForConversationOpenComplete(): Promise<void> {
-    return this.waitForEvent('conversationOpenComplete');
+    return this.#waitForEvent('conversationOpenComplete');
   }
 
   // EventEmitter types
@@ -240,7 +281,7 @@ export class App extends EventEmitter {
   // Private
   //
 
-  private async waitForEvent<T>(
+  async #waitForEvent<T>(
     event: string,
     timeout = WAIT_FOR_EVENT_TIMEOUT
   ): Promise<T> {
@@ -254,15 +295,15 @@ export class App extends EventEmitter {
     return result as T;
   }
 
-  private get app(): ElectronApplication {
-    if (!this.privApp) {
+  get #app(): ElectronApplication {
+    if (!this.#privApp) {
       throw new Error('Call ElectronWrap.start() first');
     }
 
-    return this.privApp;
+    return this.#privApp;
   }
 
-  private async printLoop(): Promise<void> {
+  async #printLoop(): Promise<void> {
     const kClosed: unique symbol = Symbol('kClosed');
     const onClose = (async (): Promise<typeof kClosed> => {
       try {
@@ -278,7 +319,7 @@ export class App extends EventEmitter {
       try {
         // eslint-disable-next-line no-await-in-loop
         const value = await Promise.race([
-          this.waitForEvent<string>('print', 0),
+          this.#waitForEvent<string>('print', 0),
           onClose,
         ]);
 

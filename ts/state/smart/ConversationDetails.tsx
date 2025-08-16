@@ -23,6 +23,7 @@ import {
   getAllComposableConversations,
   getConversationByIdSelector,
   getConversationByServiceIdSelector,
+  getPendingAvatarDownloadSelector,
 } from '../selectors/conversations';
 import {
   getAreWeASubscriber,
@@ -40,6 +41,7 @@ import { useCallingActions } from '../ducks/calling';
 import { useSearchActions } from '../ducks/search';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { useLightboxActions } from '../ducks/lightbox';
+import { isSignalConversation } from '../../util/isSignalConversation';
 
 export type SmartConversationDetailsProps = {
   conversationId: string;
@@ -97,6 +99,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
   const conversationSelector = useSelector(getConversationByIdSelector);
   const defaultConversationColor = useSelector(getDefaultConversationColor);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
+  const isPendingAvatarDownload = useSelector(getPendingAvatarDownloadSelector);
   const selectedNavTab = useSelector(getSelectedNavTab);
 
   const {
@@ -113,6 +116,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
     setDisappearingMessages,
     setMuteExpiration,
     showConversation,
+    startAvatarDownload,
     updateGroupAttributes,
     updateNicknameAndNote,
   } = useConversationsActions();
@@ -193,6 +197,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
       i18n={i18n}
       isAdmin={isAdmin}
       isGroup={isGroup}
+      isSignalConversation={isSignalConversation(conversation)}
       leaveGroup={leaveGroup}
       loadRecentMediaItems={loadRecentMediaItems}
       maxGroupSize={maxGroupSize}
@@ -203,6 +208,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
       onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
       onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
       pendingApprovalMemberships={pendingApprovalMemberships}
+      pendingAvatarDownload={isPendingAvatarDownload(conversationId)}
       pendingMemberships={pendingMemberships}
       pushPanelForConversation={pushPanelForConversation}
       renderChooseGroupMembersModal={renderChooseGroupMembersModal}
@@ -216,6 +222,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
       showContactModal={showContactModal}
       showConversation={showConversation}
       showLightbox={showLightbox}
+      startAvatarDownload={() => startAvatarDownload(conversationId)}
       theme={theme}
       toggleAboutContactModal={toggleAboutContactModal}
       toggleAddUserToAnotherGroupModal={toggleAddUserToAnotherGroupModal}

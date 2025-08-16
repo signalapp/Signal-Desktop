@@ -1,6 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+@use '../variables';
+
 $NavTabs__ToggleButton__blockPadding: 4px;
 $NavTabs__ItemIcon__size: 20px;
 $NavTabs__ProfileAvatar__size: 28px;
@@ -19,16 +22,17 @@ $NavTabs__ProfileAvatar__size: 28px;
   flex-shrink: 0;
   flex-direction: column;
   align-items: center;
-  width: $NavTabs__width;
+  width: variables.$NavTabs__width;
   height: 100%;
   padding-top: var(--title-bar-drag-area-height);
-  @include light-theme {
-    background-color: $color-gray-04;
-    border-inline-end: 1px solid $color-black-alpha-16;
+  padding-bottom: 8px;
+  @include mixins.light-theme {
+    background-color: variables.$color-gray-04;
+    border-inline-end: 1px solid variables.$color-black-alpha-16;
   }
-  @include dark-theme {
-    background-color: $color-gray-80;
-    border-inline-end: 1px solid $color-white-alpha-16;
+  @include mixins.dark-theme {
+    background-color: variables.$color-gray-80;
+    border-inline-end: 1px solid variables.$color-white-alpha-16;
   }
 }
 
@@ -39,7 +43,7 @@ $NavTabs__ProfileAvatar__size: 28px;
 // Wraps .NavTabs__ItemButton to make the hitbox larger
 .NavTabs__Item {
   width: 100%;
-  padding-block: $NavTabs__Item__blockPadding;
+  padding-block: variables.$NavTabs__Item__blockPadding;
   padding-inline: 10px;
   border: none;
   background: transparent;
@@ -50,7 +54,8 @@ $NavTabs__ProfileAvatar__size: 28px;
   }
   &.NavTabs__Toggle {
     padding-block: calc(
-      $NavTabs__Item__blockPadding + $NavTabs__ItemButton__blockPadding -
+      variables.$NavTabs__Item__blockPadding +
+        variables.$NavTabs__ItemButton__blockPadding -
         $NavTabs__ToggleButton__blockPadding
     );
   }
@@ -61,30 +66,30 @@ $NavTabs__ProfileAvatar__size: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-block: $NavTabs__ItemButton__blockPadding;
+  padding-block: variables.$NavTabs__ItemButton__blockPadding;
   border-radius: 8px;
   .NavTabs__Item:hover &,
   .NavTabs__Item:focus & {
-    @include light-theme {
-      background-color: $color-black-alpha-06;
+    @include mixins.light-theme {
+      background-color: variables.$color-black-alpha-06;
     }
-    @include dark-theme {
-      background-color: $color-white-alpha-06;
+    @include mixins.dark-theme {
+      background-color: variables.$color-white-alpha-06;
     }
   }
   .NavTabs__Item:focus & {
     outline: none;
-    @include keyboard-mode {
-      box-shadow: 0 0 0 2px $color-ultramarine;
+    @include mixins.keyboard-mode {
+      box-shadow: 0 0 0 2px variables.$color-ultramarine;
     }
   }
   .NavTabs__Item:active &,
   .NavTabs__Item[aria-selected='true'] & {
-    @include light-theme {
-      background: $color-gray-20;
+    @include mixins.light-theme {
+      background: variables.$color-gray-20;
     }
-    @include dark-theme {
-      background: $color-gray-62;
+    @include mixins.dark-theme {
+      background: variables.$color-gray-62;
     }
   }
 
@@ -98,7 +103,7 @@ $NavTabs__ProfileAvatar__size: 28px;
   .NavTabs__Item--Profile & {
     // Normalize for the size difference of the avatar vs sidebar icons
     padding-block: calc(
-      $NavTabs__ItemButton__blockPadding -
+      variables.$NavTabs__ItemButton__blockPadding -
         (($NavTabs__ProfileAvatar__size - $NavTabs__ItemIcon__size) / 2)
     );
   }
@@ -110,14 +115,14 @@ $NavTabs__ProfileAvatar__size: 28px;
 }
 
 .NavTabs__ItemLabel {
-  @include sr-only;
+  @include mixins.sr-only;
 }
 
 .NavTabs__ItemUnreadBadge {
-  @include rounded-corners;
+  @include mixins.rounded-corners;
   align-items: center;
-  background-color: $color-accent-red;
-  color: $color-white;
+  background-color: variables.$color-accent-red;
+  color: variables.$color-white;
   display: flex;
   font-size: 10px;
   height: 16px;
@@ -130,19 +135,24 @@ $NavTabs__ProfileAvatar__size: 28px;
   inset-inline-end: -6px;
   top: -4px;
   user-select: none;
-  z-index: $z-index-base;
+  z-index: variables.$z-index-base;
   word-break: keep-all;
 }
 
 .NavTabs__ItemUpdateBadge {
-  background: $color-ultramarine;
+  background: variables.$color-ultramarine;
   border-radius: 100%;
-  border: 1px solid $color-white;
   height: 8px;
   width: 8px;
   position: absolute;
   top: 0;
   inset-inline-end: 0;
+  @include mixins.light-theme {
+    border: 1px solid variables.$color-white;
+  }
+  @include mixins.dark-theme {
+    border: 1px solid variables.$color-gray-80;
+  }
 }
 
 .NavTabs__ItemIcon {
@@ -152,11 +162,11 @@ $NavTabs__ProfileAvatar__size: 28px;
 }
 
 @mixin NavTabs__Icon($icon) {
-  @include light-theme {
-    @include color-svg($icon, $color-black);
+  @include mixins.light-theme {
+    @include mixins.color-svg($icon, variables.$color-black);
   }
-  @include dark-theme {
-    @include color-svg($icon, $color-gray-15);
+  @include mixins.dark-theme {
+    @include mixins.color-svg($icon, variables.$color-gray-15);
   }
 }
 
@@ -166,6 +176,10 @@ $NavTabs__ProfileAvatar__size: 28px;
 
 .NavTabs__ItemIcon--Settings {
   @include NavTabs__Icon('../images/icons/v3/settings/settings.svg');
+  .NavTabs__Item:active &,
+  .NavTabs__Item[aria-selected='true'] & {
+    @include NavTabs__Icon('../images/icons/v3/settings/settings-fill.svg');
+  }
 }
 
 .NavTabs__ItemIcon--Chats {
@@ -193,15 +207,33 @@ $NavTabs__ProfileAvatar__size: 28px;
 }
 
 .NavTabs__ItemIconLabel {
-  @include sr-only;
+  @include mixins.sr-only;
 }
 
 .NavTabs__TabList {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows:
+    [Chats] auto
+    [Calls] auto
+    [Stories] auto
+    1fr
+    [Settings] auto;
   align-items: center;
   width: 100%;
   flex: 1;
+}
+
+.NavTabs__Item--Chats {
+  grid-row: Chats;
+}
+.NavTabs__Item--Calls {
+  grid-row: Calls;
+}
+.NavTabs__Item--Stories {
+  grid-row: Stories;
+}
+.NavTabs__Item--Settings {
+  grid-row: Settings;
 }
 
 .NavTabs__Misc {
@@ -209,7 +241,6 @@ $NavTabs__ProfileAvatar__size: 28px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 8px;
 }
 
 .NavTabs__TabPanel {
@@ -220,25 +251,31 @@ $NavTabs__ProfileAvatar__size: 28px;
 }
 
 .NavTabs__ContextMenuIcon--Settings {
-  @include dark-theme {
-    @include color-svg(
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/settings/settings.svg',
-      $color-white
+      variables.$color-white
     );
   }
-  @include light-theme {
-    @include color-svg(
+  @include mixins.light-theme {
+    @include mixins.color-svg(
       '../images/icons/v3/settings/settings.svg',
-      $color-black
+      variables.$color-black
     );
   }
 }
 
 .NavTabs__ContextMenuIcon--Update {
-  @include dark-theme {
-    @include color-svg('../images/icons/v3/refresh/refresh.svg', $color-white);
+  @include mixins.dark-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/refresh/refresh.svg',
+      variables.$color-white
+    );
   }
-  @include light-theme {
-    @include color-svg('../images/icons/v3/refresh/refresh.svg', $color-black);
+  @include mixins.light-theme {
+    @include mixins.color-svg(
+      '../images/icons/v3/refresh/refresh.svg',
+      variables.$color-black
+    );
   }
 }

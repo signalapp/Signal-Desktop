@@ -6,7 +6,7 @@ import path from 'path';
 import fs from 'fs';
 import os from 'os';
 import fse from 'fs-extra';
-import * as Attachments from '../../windows/attachments';
+import * as Attachments from '../../windows/main/attachments';
 import * as Bytes from '../../Bytes';
 import { createName, getRelativePath } from '../../util/attachmentPath';
 

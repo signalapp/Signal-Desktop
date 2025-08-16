@@ -4,7 +4,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { fabric } from 'fabric';
 
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 
 import type { ImageStateType } from './ImageStateType';
 import { MediaEditorFabricAnalogTimeSticker } from './MediaEditorFabricAnalogTimeSticker';
@@ -14,6 +14,8 @@ import { MediaEditorFabricPath } from './MediaEditorFabricPath';
 import { MediaEditorFabricSticker } from './MediaEditorFabricSticker';
 import { fabricEffectListener } from './fabricEffectListener';
 import { strictAssert } from '../util/assert';
+
+const log = createLogger('useFabricHistory');
 
 type SnapshotStateType = {
   canvasState: string;

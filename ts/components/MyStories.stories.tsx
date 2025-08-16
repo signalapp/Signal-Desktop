@@ -9,16 +9,14 @@ import { expect, fn, within, userEvent } from '@storybook/test';
 
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './MyStories';
-import enMessages from '../../_locales/en/messages.json';
 import { MY_STORY_ID } from '../types/Stories';
 import { MyStories } from './MyStories';
 import { SendStatus } from '../messages/MessageSendState';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
-import { getFakeMyStory } from '../test-both/helpers/getFakeStory';
-import { setupI18n } from '../util/setupI18n';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
+import { getFakeMyStory } from '../test-helpers/getFakeStory';
 import { sleep } from '../util/sleep';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/MyStories',
@@ -30,10 +28,10 @@ export default {
   },
   args: {
     i18n,
-    onBack: fn(action('onBack')),
+    onBack: fn(action('onBack')) as ReturnType<typeof action>,
     onDelete: action('onDelete'),
-    onForward: fn(action('onForward')),
-    onSave: fn(action('onSave')),
+    onForward: fn(action('onForward')) as ReturnType<typeof action>,
+    onSave: fn(action('onSave')) as ReturnType<typeof action>,
     hasViewReceiptSetting: false,
     renderToastManager: () => <i />,
     queueStoryDownload: action('queueStoryDownload'),

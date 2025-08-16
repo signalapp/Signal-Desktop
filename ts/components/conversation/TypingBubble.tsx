@@ -123,13 +123,11 @@ function TypingBubbleAvatar({
   return (
     <animated.div className="module-message__typing-avatar" style={springProps}>
       <Avatar
-        acceptedMessageRequest={contact.acceptedMessageRequest}
         avatarUrl={contact.avatarUrl}
         badge={getPreferredBadge(contact.badges)}
         color={contact.color}
         conversationType="direct"
         i18n={i18n}
-        isMe={contact.isMe}
         onClick={event => {
           event.stopPropagation();
           event.preventDefault();

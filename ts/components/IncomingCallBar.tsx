@@ -193,10 +193,8 @@ export function IncomingCallBar(props: PropsType): JSX.Element | null {
   } = props;
   const {
     id: conversationId,
-    acceptedMessageRequest,
     avatarUrl,
     color,
-    isMe,
     phoneNumber,
     profileName,
     sharedGroupNames,
@@ -274,14 +272,12 @@ export function IncomingCallBar(props: PropsType): JSX.Element | null {
         <div className="IncomingCallBar__conversation">
           <div className="IncomingCallBar__conversation--avatar">
             <Avatar
-              acceptedMessageRequest={acceptedMessageRequest}
               avatarUrl={avatarUrl}
               badge={undefined}
               color={color || AvatarColors[0]}
               noteToSelf={false}
               conversationType={conversationType}
               i18n={i18n}
-              isMe={isMe}
               phoneNumber={phoneNumber}
               profileName={profileName}
               title={title}

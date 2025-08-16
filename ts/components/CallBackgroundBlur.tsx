@@ -8,12 +8,14 @@ export type PropsType = {
   avatarUrl?: string;
   children?: React.ReactNode;
   className?: string;
+  darken?: boolean;
 };
 
 export function CallBackgroundBlur({
   avatarUrl,
   children,
   className,
+  darken,
 }: PropsType): JSX.Element {
   return (
     <div
@@ -31,6 +33,7 @@ export function CallBackgroundBlur({
           }}
         />
       )}
+      {darken && <div className="module-calling__background--darken" />}
       {children}
     </div>
   );

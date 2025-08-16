@@ -3,13 +3,11 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import { setupI18n } from '../../util/setupI18n';
 import { DurationInSeconds } from '../../util/durations';
-import enMessages from '../../../_locales/en/messages.json';
 import type { Props } from './TimerNotification';
 import { TimerNotification } from './TimerNotification';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Conversation/TimerNotification',
@@ -93,6 +91,24 @@ export function SetBySync(args: Props): JSX.Element {
     expireTimer: DurationInSeconds.fromHours(1),
     type: 'fromSync',
     title: 'Mr. Fire',
+  };
+
+  return (
+    <>
+      <TimerNotification {...props} />
+      <div style={{ padding: '1em' }} />
+      <TimerNotification {...props} disabled />
+    </>
+  );
+}
+
+export function SetByUnknownContact(args: Props): JSX.Element {
+  const props: Props = {
+    ...args,
+    disabled: false,
+    expireTimer: DurationInSeconds.fromHours(1),
+    type: 'fromMember',
+    title: 'Unknown contact',
   };
 
   return (

@@ -34,7 +34,6 @@ describe('senderKey', function (this: Mocha.Suite) {
 
     state = state.updateAccount({
       profileKey: phone.profileKey.serialize(),
-      e164: phone.device.number,
       givenName: phone.profileName,
     });
 

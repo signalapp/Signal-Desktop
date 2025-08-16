@@ -1,25 +1,34 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import fs from 'fs/promises';
+import { randomBytes } from 'node:crypto';
 import { join } from 'node:path';
+import os from 'os';
 import { readFile } from 'node:fs/promises';
 import createDebug from 'debug';
-import Long from 'long';
 import { Proto, StorageState } from '@signalapp/mock-server';
+import { assert } from 'chai';
 import { expect } from 'playwright/test';
+import Long from 'long';
 
 import { generateStoryDistributionId } from '../../types/StoryDistributionId';
 import { MY_STORY_ID } from '../../types/Stories';
+import { generateAci } from '../../types/ServiceId';
+import { generateBackup } from '../../test-helpers/generateBackup';
 import { IMAGE_JPEG } from '../../types/MIME';
 import { uuidToBytes } from '../../util/uuidToBytes';
 import * as durations from '../../util/durations';
 import type { App } from '../playwright';
-import { Bootstrap } from '../bootstrap';
+import { Bootstrap, type LinkOptionsType } from '../bootstrap';
 import {
   getMessageInTimelineByTimestamp,
   sendTextMessage,
   sendReaction,
 } from '../helpers';
+import { toBase64 } from '../../Bytes';
+import { strictAssert } from '../../util/assert';
+import { BackupLevel } from '../../services/backups/types';
 
 export const debug = createDebug('mock:test:backups');
 
@@ -37,7 +46,7 @@ const CAT_PATH = join(
 );
 
 describe('backups', function (this: Mocha.Suite) {
-  this.timeout(100 * durations.MINUTE);
+  this.timeout(durations.MINUTE);
 
   let bootstrap: Bootstrap;
   let app: App;
@@ -45,7 +54,23 @@ describe('backups', function (this: Mocha.Suite) {
   beforeEach(async () => {
     bootstrap = new Bootstrap();
     await bootstrap.init();
+  });
 
+  afterEach(async function (this: Mocha.Context) {
+    if (!bootstrap) {
+      return;
+    }
+
+    await bootstrap.maybeSaveLogs(this.currentTest, app);
+    await app.close();
+    await bootstrap.teardown();
+  });
+
+  async function generateTestDataThenRestoreBackup(
+    thisVal: Mocha.Context,
+    exportBackupFn: () => void,
+    getBootstrapLinkParams: () => LinkOptionsType
+  ) {
     let state = StorageState.getEmpty();
 
     const { phone, contacts } = bootstrap;
@@ -53,10 +78,10 @@ describe('backups', function (this: Mocha.Suite) {
 
     state = state.updateAccount({
       profileKey: phone.profileKey.serialize(),
-      e164: phone.device.number,
       givenName: phone.profileName,
       readReceipts: true,
       hasCompletedUsernameOnboarding: true,
+      backupTier: Long.fromNumber(BackupLevel.Paid),
     });
 
     state = state.addContact(friend, {
@@ -81,7 +106,7 @@ describe('backups', function (this: Mocha.Suite) {
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: true,
           name: MY_STORY_ID,
-          recipientServiceIds: [pinned.device.aci],
+          recipientServiceIdsBinary: [pinned.device.aciBinary],
         },
       },
     });
@@ -94,7 +119,7 @@ describe('backups', function (this: Mocha.Suite) {
           identifier: uuidToBytes(DISTRIBUTION1),
           isBlockList: false,
           name: 'friend',
-          recipientServiceIds: [friend.device.aci],
+          recipientServiceIdsBinary: [friend.device.aciBinary],
         },
       },
     });
@@ -102,25 +127,11 @@ describe('backups', function (this: Mocha.Suite) {
     await phone.setStorageState(state);
 
     app = await bootstrap.link();
-  });
 
-  afterEach(async function (this: Mocha.Context) {
-    if (!bootstrap) {
-      return;
-    }
-
-    await bootstrap.maybeSaveLogs(this.currentTest, app);
-    await app.close();
-    await bootstrap.teardown();
-  });
-
-  it('exports and imports backup', async function () {
-    const { contacts, phone, desktop, server } = bootstrap;
-    const [friend, pinned] = contacts;
+    const { desktop, server } = bootstrap;
 
     {
       const window = await app.getWindow();
-
       debug('wait for storage service sync to finish');
 
       const leftPane = window.locator('#LeftPane');
@@ -213,44 +224,52 @@ describe('backups', function (this: Mocha.Suite) {
       IMAGE_JPEG
     );
     sends.push(
-      pinned.sendRaw(
+      sendTextMessage({
+        from: pinned,
+        to: desktop,
+        text: 'cat photo',
         desktop,
-        {
-          dataMessage: {
-            timestamp: Long.fromNumber(catTimestamp),
-            attachments: [ciphertextCat],
-          },
-        },
-        {
-          timestamp: catTimestamp,
-        }
-      )
+        timestamp: catTimestamp,
+        attachments: [ciphertextCat],
+      })
     );
 
     await Promise.all(sends);
 
+    let catPlaintextHash: string;
     {
       const window = await app.getWindow();
       await getMessageInTimelineByTimestamp(window, catTimestamp)
         .locator('img')
         .waitFor();
+
+      const [catMessage] = await app.getMessagesBySentAt(catTimestamp);
+      const [image] = catMessage.attachments ?? [];
+      strictAssert(image.plaintextHash, 'plaintextHash was calculated');
+      strictAssert(image.digest, 'digest was calculated at download time');
+      strictAssert(
+        ciphertextCat.digest,
+        'digest was calculated at upload time'
+      );
+      assert.strictEqual(image.digest, toBase64(ciphertextCat.digest));
+      catPlaintextHash = image.plaintextHash;
     }
 
-    await app.uploadBackup();
+    await exportBackupFn();
 
     const comparator = await bootstrap.createScreenshotComparator(
       app,
       async (window, snapshot) => {
         const leftPane = window.locator('#LeftPane');
         const pinnedElem = leftPane.locator(
-          `[data-testid="${pinned.toContact().aci}"] >> "Photo"`
+          `[data-testid="${pinned.device.aci}"] >> "cat photo"`
         );
 
         debug('Waiting for messages to pinned contact to come through');
         await pinnedElem.click();
 
         const contactElem = leftPane.locator(
-          `[data-testid="${friend.toContact().aci}"] >> "respond 4"`
+          `[data-testid="${friend.device.aci}"] >> "respond 4"`
         );
 
         debug('Waiting for messages to regular contact to come through');
@@ -287,7 +306,7 @@ describe('backups', function (this: Mocha.Suite) {
 
         await snapshot('story privacy');
       },
-      this.test
+      thisVal.test
     );
 
     await app.close();
@@ -295,7 +314,8 @@ describe('backups', function (this: Mocha.Suite) {
     // Restart
     await bootstrap.eraseStorage();
     await server.removeAllCDNAttachments();
-    app = await bootstrap.link();
+    const bootstrapLinkParams = getBootstrapLinkParams();
+    app = await bootstrap.link(bootstrapLinkParams);
     await app.waitForBackupImportComplete();
 
     // Make sure that contact sync happens after backup import, otherwise the
@@ -310,6 +330,136 @@ describe('backups', function (this: Mocha.Suite) {
         .click();
     }
 
+    {
+      const [catMessage] = await app.getMessagesBySentAt(catTimestamp);
+      const [image] = catMessage.attachments ?? [];
+      if (!bootstrapLinkParams.localBackup) {
+        strictAssert(
+          image.digest,
+          'digest was calculated after download from media tier'
+        );
+        assert.strictEqual(image.digest, toBase64(ciphertextCat.digest));
+      }
+      assert.strictEqual(image.plaintextHash, catPlaintextHash);
+    }
+
     await comparator(app);
+  }
+
+  it('exports and imports local backup', async function () {
+    let snapshotDir: string;
+
+    await generateTestDataThenRestoreBackup(
+      this,
+      async () => {
+        const backupsBaseDir = await fs.mkdtemp(
+          join(os.tmpdir(), 'SignalBackups')
+        );
+        snapshotDir = await app.exportLocalBackup(backupsBaseDir);
+        assert.exists(
+          snapshotDir,
+          'Local backup export should return backup dir'
+        );
+      },
+      () => ({ localBackup: snapshotDir })
+    );
+  });
+
+  it('exports and imports regular backup', async function () {
+    await generateTestDataThenRestoreBackup(
+      this,
+      async () => {
+        await app.uploadBackup();
+      },
+      () => ({})
+    );
+  });
+
+  it('imports ephemeral backup', async function () {
+    const ephemeralBackupKey = randomBytes(32);
+    const cdnKey = randomBytes(16).toString('hex');
+
+    const { phone, server } = bootstrap;
+
+    const contact1 = generateAci();
+    const contact2 = generateAci();
+
+    phone.ephemeralBackupKey = ephemeralBackupKey;
+
+    // Store backup attachment in transit tier
+    const { stream: backupStream } = generateBackup({
+      aci: phone.device.aci,
+      profileKey: phone.profileKey.serialize(),
+      mediaRootBackupKey: phone.mediaRootBackupKey,
+      backupKey: ephemeralBackupKey,
+      conversations: 2,
+      conversationAcis: [contact1, contact2],
+      messages: 50,
+    });
+
+    await server.storeAttachmentOnCdn(3, cdnKey, backupStream);
+
+    app = await bootstrap.link({
+      ephemeralBackup: {
+        cdn: 3,
+        key: cdnKey,
+      },
+    });
+
+    await app.waitForBackupImportComplete();
+
+    const window = await app.getWindow();
+
+    const leftPane = window.locator('#LeftPane');
+
+    const contact1Elem = leftPane.locator(
+      `[data-testid="${contact1}"] >> "Message 48"`
+    );
+    const contact2Elem = leftPane.locator(
+      `[data-testid="${contact2}"] >> "Message 49"`
+    );
+    await contact1Elem.waitFor();
+
+    await contact2Elem.click();
+    await window.locator('.module-message >> "Message 33"').waitFor();
+  });
+
+  it('handles remote ephemeral backup cancellation', async function () {
+    const ephemeralBackupKey = randomBytes(32);
+
+    const { phone, server } = bootstrap;
+
+    phone.ephemeralBackupKey = ephemeralBackupKey;
+
+    app = await bootstrap.link({
+      ephemeralBackup: {
+        error: 'RELINK_REQUESTED',
+      },
+    });
+
+    const window = await app.getWindow();
+    const modal = window.getByTestId(
+      'ConfirmationDialog.InstallScreenBackupImportStep.error'
+    );
+
+    await modal.waitFor();
+
+    await modal.getByRole('button', { name: 'Retry' }).click();
+
+    await window
+      .locator('.module-InstallScreenQrCodeNotScannedStep__qr-code--loaded')
+      .waitFor();
+
+    debug('waiting for provision');
+    const provision = await server.waitForProvision();
+
+    debug('waiting for provision URL');
+    const provisionURL = await app.waitForProvisionURL();
+
+    debug('completing provision');
+    await provision.complete({
+      provisionURL,
+      primaryDevice: phone,
+    });
   });
 });

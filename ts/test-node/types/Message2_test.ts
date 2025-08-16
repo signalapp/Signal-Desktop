@@ -34,6 +34,7 @@ describe('Message', () => {
     info: () => null,
     debug: () => null,
     trace: () => null,
+    child: () => logger,
   };
 
   function getDefaultMessage(
@@ -62,9 +63,6 @@ describe('Message', () => {
         height: 20,
       }),
       doesAttachmentExist: async () => true,
-      // @ts-expect-error ensureAttachmentIsReencryptable has type guards that we don't
-      // implement here
-      ensureAttachmentIsReencryptable: async attachment => attachment,
       getRegionCode: () => 'region-code',
       logger,
       makeImageThumbnail: async (_params: {
@@ -126,11 +124,9 @@ describe('Message', () => {
       it('should initialize schema version to zero', () => {
         const input = getDefaultMessage({
           body: 'Imagine there is no heaven…',
-          attachments: [],
         });
         const expected = getDefaultMessage({
           body: 'Imagine there is no heaven…',
-          attachments: [],
           schemaVersion: 0,
         });
 
@@ -199,11 +195,7 @@ describe('Message', () => {
             fileName: 'test\uFFFDfig.exe',
           },
         ],
-        hasAttachments: 1,
-        hasVisualMediaAttachments: undefined,
-        hasFileAttachments: undefined,
         schemaVersion: Message.CURRENT_SCHEMA_VERSION,
-        contact: [],
       });
 
       const expectedAttachmentData = 'It’s easy if you try';
@@ -270,15 +262,19 @@ describe('Message', () => {
           upgrade: v3,
         });
 
-        const context = getDefaultContext({ logger });
-        const upgradeSchema = async (message: MessageAttributesType) =>
-          toVersion3(
-            await toVersion2(await toVersion1(message, context), context),
-            context
-          );
-
-        const actual = await upgradeSchema(input);
+        const actual = await Message.upgradeSchema(input, getDefaultContext(), {
+          versions: [toVersion1, toVersion2, toVersion3],
+        });
         assert.deepEqual(actual, expected);
+
+        // if we try to upgrade it again, it will fail since it could not upgrade any
+        // versions
+        const upgradeAgainPromise = Message.upgradeSchema(
+          actual,
+          getDefaultContext(),
+          { versions: [toVersion1, toVersion2, toVersion3] }
+        );
+        await assert.isRejected(upgradeAgainPromise);
       });
 
       it('should skip out-of-order upgrade steps', async () => {
@@ -391,12 +387,12 @@ describe('Message', () => {
       assert.deepEqual(actual, expected);
     });
 
-    it('should return original message if upgrade function throws', async () => {
+    it('should throw if upgrade function throws', async () => {
       const upgrade = async () => {
         throw new Error('boom!');
       };
       const upgradeWithVersion = Message._withSchemaVersion({
-        schemaVersion: 3,
+        schemaVersion: 1,
         upgrade,
       });
 
@@ -404,15 +400,12 @@ describe('Message', () => {
         id: 'guid-guid-guid-guid',
         schemaVersion: 0,
       });
-      const expected = getDefaultMessage({
-        id: 'guid-guid-guid-guid',
-        schemaVersion: 0,
-      });
-      const actual = await upgradeWithVersion(
+
+      const upgradePromise = upgradeWithVersion(
         input,
         getDefaultContext({ logger })
       );
-      assert.deepEqual(actual, expected);
+      await assert.isRejected(upgradePromise);
     });
 
     it('should return original message if upgrade function returns null', async () => {
@@ -465,7 +458,6 @@ describe('Message', () => {
           text: 'hey!',
           id: 34233,
           isViewOnce: false,
-          messageId: 'message-id',
           referencedMessageNotFound: false,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any,
@@ -477,7 +469,6 @@ describe('Message', () => {
           attachments: [],
           id: 34233,
           isViewOnce: false,
-          messageId: 'message-id',
           referencedMessageNotFound: false,
         },
       });
@@ -501,7 +492,6 @@ describe('Message', () => {
           attachments: [],
           id: 34233,
           isViewOnce: false,
-          messageId: 'message-id',
           referencedMessageNotFound: false,
         },
       });
@@ -530,7 +520,6 @@ describe('Message', () => {
           ],
           id: 34233,
           isViewOnce: false,
-          messageId: 'message-id',
           referencedMessageNotFound: false,
         },
       });
@@ -563,7 +552,6 @@ describe('Message', () => {
           ],
           id: 34233,
           isViewOnce: false,
-          messageId: 'message-id',
           referencedMessageNotFound: false,
         },
       });
@@ -583,7 +571,6 @@ describe('Message', () => {
           ],
           id: 34233,
           isViewOnce: false,
-          messageId: 'message-id',
           referencedMessageNotFound: false,
         },
       });
@@ -618,7 +605,6 @@ describe('Message', () => {
           ],
           id: 34233,
           isViewOnce: false,
-          messageId: 'message-id',
           referencedMessageNotFound: false,
         },
       });
@@ -638,7 +624,6 @@ describe('Message', () => {
           ],
           id: 34233,
           isViewOnce: false,
-          messageId: 'message-id',
           referencedMessageNotFound: false,
         },
       });
@@ -662,7 +647,6 @@ describe('Message', () => {
       });
       const expected = getDefaultMessage({
         body: 'hey there!',
-        contact: [],
       });
       const result = await upgradeVersion(message, getDefaultContext());
       assert.deepEqual(result, expected);
@@ -731,7 +715,6 @@ describe('Message', () => {
           ],
           id: 34233,
           isViewOnce: false,
-          messageId: 'message-id',
           referencedMessageNotFound: false,
         },
         preview: [
@@ -773,7 +756,6 @@ describe('Message', () => {
           ],
           id: 34233,
           isViewOnce: false,
-          messageId: 'message-id',
           referencedMessageNotFound: false,
         },
         preview: [
@@ -839,58 +821,6 @@ describe('Message', () => {
         getDefaultContext()
       );
       assert.deepEqual(result, message);
-    });
-  });
-
-  describe('toVersion14: ensureAttachmentsAreReencryptable', () => {
-    it('migrates message if the file does not exist', async () => {
-      const message = getDefaultMessage({
-        schemaVersion: 13,
-        schemaMigrationAttempts: 0,
-        attachments: [
-          {
-            size: 128,
-            contentType: MIME.IMAGE_BMP,
-            path: 'no/file/here.png',
-            iv: 'iv',
-            digest: 'digest',
-            key: 'key',
-          },
-        ],
-        contact: [],
-      });
-      const result = await Message.upgradeSchema(message, {
-        ...getDefaultContext(),
-        doesAttachmentExist: async () => false,
-      });
-
-      assert.deepEqual({ ...message, schemaVersion: 14 }, result);
-    });
-    it('if file does exist, but migration errors, does not increment version', async () => {
-      const message = getDefaultMessage({
-        schemaVersion: 13,
-        schemaMigrationAttempts: 0,
-        attachments: [
-          {
-            size: 128,
-            contentType: MIME.IMAGE_BMP,
-            path: 'no/file/here.png',
-            iv: 'iv',
-            digest: 'digest',
-            key: 'key',
-          },
-        ],
-        contact: [],
-      });
-      const result = await Message.upgradeSchema(message, {
-        ...getDefaultContext(),
-        doesAttachmentExist: async () => true,
-        ensureAttachmentIsReencryptable: async () => {
-          throw new Error("Can't reencrypt!");
-        },
-      });
-
-      assert.deepEqual(message, result);
     });
   });
 });

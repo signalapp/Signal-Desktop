@@ -7,11 +7,10 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './MediaEditor';
 import { MediaEditor } from './MediaEditor';
-import enMessages from '../../_locales/en/messages.json';
-import { setupI18n } from '../util/setupI18n';
-import { Stickers, installedPacks } from '../test-both/helpers/getStickerPacks';
+import { Stickers, installedPacks } from '../test-helpers/getStickerPacks';
+import { EmojiSkinTone } from './fun/data/emojis';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 const IMAGE_1 = '/fixtures/nathan-anderson-316188-unsplash.jpg';
 const IMAGE_2 = '/fixtures/tina-rolf-269345-unsplash.jpg';
 const IMAGE_3 = '/fixtures/kitten-4-112-112.jpg';
@@ -34,7 +33,7 @@ export default {
     onTextTooLong: action('onTextTooLong'),
     platform: 'darwin',
     recentStickers: [Stickers.wide, Stickers.tall, Stickers.abe],
-    skinTone: 0,
+    emojiSkinToneDefault: EmojiSkinTone.None,
   },
 } satisfies Meta<PropsType>;
 

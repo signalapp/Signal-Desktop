@@ -5,16 +5,14 @@ import React, { useEffect, useState } from 'react';
 import { times } from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
 import type { TypingBubblePropsType } from './TypingBubble';
 import { TypingBubble } from './TypingBubble';
 import { AvatarColors } from '../../types/Colors';
-import { getFakeBadge } from '../../test-both/helpers/getFakeBadge';
+import { getFakeBadge } from '../../test-helpers/getFakeBadge';
 import { ThemeType } from '../../types/Util';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Conversation/TypingBubble',

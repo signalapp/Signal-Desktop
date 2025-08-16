@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Session, DesktopCapturerSource, IpcMainEvent } from 'electron';
-import { desktopCapturer, ipcMain } from 'electron';
+import { desktopCapturer, ipcMain, systemPreferences } from 'electron';
 import { v4 as generateUuid } from 'uuid';
 
 import OS from '../ts/util/os/osMain';
@@ -14,7 +14,7 @@ const SPELL_CHECKER_DICTIONARY_DOWNLOAD_URL = `https://updates.signal.org/deskto
 
 export function updateDefaultSession(
   session: Session,
-  getLogger: () => LoggerType
+  logger: LoggerType
 ): void {
   session.setSpellCheckerDictionaryDownloadURL(
     SPELL_CHECKER_DICTIONARY_DOWNLOAD_URL
@@ -27,6 +27,16 @@ export function updateDefaultSession(
       try {
         strictAssert(videoRequested, 'Not requesting video');
         strictAssert(!audioRequested, 'Requesting audio');
+
+        // macOS: if screen sharing is actively denied, Sonoma will crash
+        // when we try to get the sources.
+        if (
+          OS.isMacOS() &&
+          systemPreferences.getMediaAccessStatus('screen') === 'denied'
+        ) {
+          callback({});
+          return;
+        }
 
         const sources = await desktopCapturer.getSources({
           fetchWindowIcons: true,
@@ -53,7 +63,7 @@ export function updateDefaultSession(
           }
         );
 
-        frame.send('select-capture-sources', {
+        frame?.send('select-capture-sources', {
           id,
           sources,
         } satisfies IpcResponseType);
@@ -64,7 +74,7 @@ export function updateDefaultSession(
           // Electron throws error here, but this is the only way to cancel the
           // request.
         }
-        getLogger().error('Failed to get desktopCapturer sources', error);
+        logger.error('Failed to get desktopCapturer sources', error);
       }
     },
     { useSystemPicker: false }

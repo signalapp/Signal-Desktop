@@ -9,12 +9,17 @@ import { roundFractionForProgressBar } from '../util/numbers';
 import { ProgressCircle } from './ProgressCircle';
 import { ContextMenu } from './ContextMenu';
 import { BackupMediaDownloadCancelConfirmationDialog } from './BackupMediaDownloadCancelConfirmationDialog';
+import { LeftPaneDialog } from './LeftPaneDialog';
+import { WidthBreakpoint } from './_util';
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;
   downloadedBytes: number;
   totalBytes: number;
+  isIdle: boolean;
+  isOnline: boolean;
   isPaused: boolean;
+  widthBreakpoint: WidthBreakpoint;
   handleCancel: VoidFunction;
   handleClose: VoidFunction;
   handleResume: VoidFunction;
@@ -25,15 +30,19 @@ export function BackupMediaDownloadProgress({
   i18n,
   downloadedBytes,
   totalBytes,
+  isIdle,
+  isOnline,
   isPaused,
   handleCancel: handleConfirmedCancel,
   handleClose,
   handleResume,
   handlePause,
+  widthBreakpoint,
 }: PropsType): JSX.Element | null {
   const [isShowingCancelConfirmation, setIsShowingCancelConfirmation] =
     useState(false);
-  if (totalBytes === 0) {
+
+  if (totalBytes <= 0) {
     return null;
   }
 
@@ -47,64 +56,18 @@ export function BackupMediaDownloadProgress({
 
   let content: JSX.Element | undefined;
   let icon: JSX.Element | undefined;
-  let actionButton: JSX.Element | undefined;
-  if (fractionComplete === 1) {
-    icon = <div className="BackupMediaDownloadProgress__icon--complete" />;
-    content = (
-      <>
-        <div className="BackupMediaDownloadProgress__title">
-          {i18n('icu:BackupMediaDownloadProgress__title-complete')}
-        </div>
-        <div className="BackupMediaDownloadProgress__progressbar-hint">
-          {formatFileSize(downloadedBytes)}
-        </div>
-      </>
-    );
-    actionButton = (
+
+  const isCompleted = fractionComplete === 1;
+
+  const actionButton =
+    isCompleted || isIdle ? (
       <button
         type="button"
         onClick={handleClose}
         className="BackupMediaDownloadProgress__button-close"
         aria-label={i18n('icu:close')}
       />
-    );
-  } else {
-    icon = <ProgressCircle fractionComplete={fractionComplete} />;
-
-    if (isPaused) {
-      content = (
-        <>
-          <div className="BackupMediaDownloadProgress__title">
-            {i18n('icu:BackupMediaDownloadProgress__title-paused')}
-          </div>
-          <button
-            type="button"
-            onClick={handleResume}
-            className="BackupMediaDownloadProgress__button"
-            aria-label={i18n('icu:BackupMediaDownloadProgress__button-resume')}
-          >
-            {i18n('icu:BackupMediaDownloadProgress__button-resume')}
-          </button>
-        </>
-      );
-    } else {
-      content = (
-        <>
-          <div className="BackupMediaDownloadProgress__title">
-            {i18n('icu:BackupMediaDownloadProgress__title-in-progress')}
-          </div>
-
-          <div className="BackupMediaDownloadProgress__progressbar-hint">
-            {i18n('icu:BackupMediaDownloadProgress__progressbar-hint', {
-              currentSize: formatFileSize(downloadedBytes),
-              totalSize: formatFileSize(totalBytes),
-            })}
-          </div>
-        </>
-      );
-    }
-
-    actionButton = (
+    ) : (
       <ContextMenu
         i18n={i18n}
         menuOptions={[
@@ -122,7 +85,6 @@ export function BackupMediaDownloadProgress({
             onClick: handleCancel,
           },
         ]}
-        moduleClassName="Stories__pane__settings"
         popperOptions={{
           placement: 'bottom-end',
           strategy: 'absolute',
@@ -141,13 +103,123 @@ export function BackupMediaDownloadProgress({
         }}
       </ContextMenu>
     );
+
+  if (isCompleted) {
+    icon = (
+      <div
+        className="BackupMediaDownloadProgress__icon BackupMediaDownloadProgress__icon--complete"
+        aria-label={i18n('icu:BackupMediaDownloadProgress__title-complete')}
+      />
+    );
+    content = (
+      <>
+        <div className="BackupMediaDownloadProgress__title">
+          {i18n('icu:BackupMediaDownloadProgress__title-complete')}
+        </div>
+        <div className="BackupMediaDownloadProgress__description">
+          {formatFileSize(downloadedBytes)}
+        </div>
+      </>
+    );
+  } else if (isPaused) {
+    content = (
+      <>
+        <div className="BackupMediaDownloadProgress__title">
+          {i18n('icu:BackupMediaDownloadProgress__title-paused')}
+        </div>
+        {widthBreakpoint !== WidthBreakpoint.Narrow ? (
+          <button
+            type="button"
+            onClick={handleResume}
+            className="BackupMediaDownloadProgress__button"
+            aria-label={i18n('icu:BackupMediaDownloadProgress__button-resume')}
+          >
+            {i18n('icu:BackupMediaDownloadProgress__button-resume')}
+          </button>
+        ) : null}
+      </>
+    );
+    icon = (
+      <div className="BackupMediaDownloadProgress__icon">
+        <ProgressCircle
+          fractionComplete={fractionComplete}
+          ariaLabel={i18n('icu:BackupMediaDownloadProgress__title-paused')}
+        />
+      </div>
+    );
+  } else if (isIdle) {
+    icon = (
+      <div
+        className="BackupMediaDownloadProgress__icon BackupMediaDownloadProgress__icon--idle"
+        aria-label={i18n('icu:BackupMediaDownloadProgress__description-idle')}
+      />
+    );
+    content = (
+      <>
+        <div className="BackupMediaDownloadProgress__title">
+          {i18n('icu:BackupMediaDownloadProgress__title-idle', {
+            currentSize: formatFileSize(downloadedBytes),
+            totalSize: formatFileSize(totalBytes),
+          })}
+        </div>
+        <div className="BackupMediaDownloadProgress__description">
+          {i18n('icu:BackupMediaDownloadProgress__description-idle')}
+        </div>
+      </>
+    );
+  } else if (!isOnline) {
+    content = (
+      <>
+        <div className="BackupMediaDownloadProgress__title">
+          {i18n('icu:BackupMediaDownloadProgress__title-offline')}
+        </div>
+
+        <div className="BackupMediaDownloadProgress__description">
+          {i18n('icu:BackupMediaDownloadProgress__description-offline')}
+        </div>
+      </>
+    );
+    icon = (
+      <div className="BackupMediaDownloadProgress__icon">
+        <ProgressCircle
+          fractionComplete={fractionComplete}
+          ariaLabel={i18n('icu:BackupMediaDownloadProgress__title-offline')}
+        />
+      </div>
+    );
+  } else {
+    content = (
+      <>
+        <div className="BackupMediaDownloadProgress__title">
+          {i18n('icu:BackupMediaDownloadProgress__title-in-progress')}
+        </div>
+
+        <div className="BackupMediaDownloadProgress__description">
+          {i18n('icu:BackupMediaDownloadProgress__progressbar-hint', {
+            currentSize: formatFileSize(downloadedBytes),
+            totalSize: formatFileSize(totalBytes),
+          })}
+        </div>
+      </>
+    );
+    icon = (
+      <div className="BackupMediaDownloadProgress__icon">
+        <ProgressCircle
+          fractionComplete={fractionComplete}
+          ariaLabel={i18n('icu:BackupMediaDownloadProgress__title-in-progress')}
+        />
+      </div>
+    );
   }
 
   return (
-    <div className="BackupMediaDownloadProgress">
-      {icon}
+    <LeftPaneDialog
+      type="info"
+      containerWidthBreakpoint={widthBreakpoint}
+      icon={icon}
+    >
       <div className="BackupMediaDownloadProgress__content">{content}</div>
-      {actionButton}
+      {widthBreakpoint !== WidthBreakpoint.Narrow ? actionButton : null}
       {isShowingCancelConfirmation ? (
         <BackupMediaDownloadCancelConfirmationDialog
           i18n={i18n}
@@ -155,6 +227,6 @@ export function BackupMediaDownloadProgress({
           handleConfirmCancel={handleConfirmedCancel}
         />
       ) : null}
-    </div>
+    </LeftPaneDialog>
   );
 }

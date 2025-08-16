@@ -3,10 +3,7 @@
 
 import moment from 'moment';
 import { compact, groupBy, sortBy } from 'lodash';
-
-import * as log from '../../../logging/log';
 import type { MediaItemType } from '../../../types/MediaItem';
-
 import { missingCaseError } from '../../../util/missingCaseError';
 
 type StaticSectionType = 'today' | 'yesterday' | 'thisWeek' | 'thisMonth';
@@ -83,8 +80,7 @@ const toSection = (
         mediaItems,
       };
     default:
-      log.error(missingCaseError(firstMediaItemWithSection));
-      return undefined;
+      throw missingCaseError(firstMediaItemWithSection);
   }
 };
 

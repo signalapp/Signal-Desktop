@@ -8,6 +8,7 @@ import { DataReader, DataWriter } from '../../sql/Client';
 import { generateAci } from '../../types/ServiceId';
 
 import type { MessageAttributesType } from '../../model-types.d';
+import { postSaveUpdates } from '../../util/cleanup';
 
 const { _getAllMessages, getCallHistoryMessageByCallId } = DataReader;
 const { removeAll, saveMessages } = DataWriter;
@@ -37,6 +38,7 @@ describe('sql/getCallHistoryMessageByCallId', () => {
     await saveMessages([callHistoryMessage], {
       forceSave: true,
       ourAci,
+      postSaveUpdates,
     });
 
     const allMessages = await _getAllMessages();

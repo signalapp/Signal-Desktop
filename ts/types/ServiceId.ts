@@ -6,9 +6,11 @@ import { z } from 'zod';
 import type { ServiceId, Aci, Pni } from '@signalapp/libsignal-client';
 
 import { isValidUuid } from '../util/isValidUuid';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import type { LoggerType } from './Logging';
 import { isAciString } from '../util/isAciString';
+
+const log = createLogger('ServiceId');
 
 export enum ServiceIdKind {
   ACI = 'ACI',

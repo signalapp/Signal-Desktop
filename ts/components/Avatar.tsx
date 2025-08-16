@@ -16,7 +16,7 @@ import { filterDOMProps } from '@react-aria/utils';
 import type { AvatarColorType } from '../types/Colors';
 import type { BadgeType } from '../badges/types';
 import type { LocalizerType } from '../types/Util';
-import * as log from '../logging/log';
+import { createLogger } from '../logging/log';
 import { BadgeImageTheme } from '../badges/BadgeImageTheme';
 import { HasStories } from '../types/Stories';
 import { Spinner } from './Spinner';
@@ -25,8 +25,10 @@ import { assertDev } from '../util/assert';
 import { getBadgeImageFileLocalPath } from '../badges/getBadgeImageFileLocalPath';
 import { getInitials } from '../util/getInitials';
 import { isBadgeVisible } from '../badges/isBadgeVisible';
-import { shouldBlurAvatar } from '../util/shouldBlurAvatar';
 import { SIGNAL_AVATAR_PATH } from '../types/SignalConversation';
+import { getAvatarPlaceholderGradient } from '../utils/getAvatarPlaceholderGradient';
+
+const log = createLogger('Avatar');
 
 export enum AvatarBlur {
   NoBlur,
@@ -44,6 +46,7 @@ export enum AvatarSize {
   FORTY = 40,
   FORTY_EIGHT = 48,
   FIFTY_TWO = 52,
+  SEVENTY_TWO = 72,
   SIXTY_FOUR = 64,
   EIGHTY = 80,
   NINETY_SIX = 96,
@@ -54,20 +57,18 @@ type BadgePlacementType = { bottom: number; right: number };
 
 export type Props = {
   avatarUrl?: string;
+  avatarPlaceholderGradient?: Readonly<[string, string]>;
   blur?: AvatarBlur;
   color?: AvatarColorType;
+  hasAvatar?: boolean;
   loading?: boolean;
-
-  acceptedMessageRequest: boolean;
   conversationType: 'group' | 'direct' | 'callLink';
-  isMe: boolean;
   noteToSelf?: boolean;
   phoneNumber?: string;
   profileName?: string;
   sharedGroupNames: ReadonlyArray<string>;
   size: AvatarSize;
   title: string;
-  unblurredAvatarUrl?: string;
   searchResult?: boolean;
   storyRing?: HasStories;
 
@@ -100,39 +101,26 @@ const BADGE_PLACEMENT_BY_SIZE = new Map<number, BadgePlacementType>([
   [112, { bottom: -4, right: 3 }],
 ]);
 
-const getDefaultBlur = (
-  ...args: Parameters<typeof shouldBlurAvatar>
-): AvatarBlur =>
-  shouldBlurAvatar(...args) ? AvatarBlur.BlurPicture : AvatarBlur.NoBlur;
-
 export function Avatar({
-  acceptedMessageRequest,
   avatarUrl,
+  avatarPlaceholderGradient = getAvatarPlaceholderGradient(0),
   badge,
   className,
   color = 'A200',
   conversationType,
+  hasAvatar,
   i18n,
-  isMe,
   innerRef,
   loading,
   noteToSelf,
   onClick,
   onClickBadge,
-  sharedGroupNames,
   size,
   theme,
   title,
-  unblurredAvatarUrl,
   searchResult,
   storyRing,
-  blur = getDefaultBlur({
-    acceptedMessageRequest,
-    avatarUrl,
-    isMe,
-    sharedGroupNames,
-    unblurredAvatarUrl,
-  }),
+  blur = AvatarBlur.NoBlur,
   ...ariaProps
 }: Props): JSX.Element {
   const [imageBroken, setImageBroken] = useState(false);
@@ -149,7 +137,7 @@ export function Avatar({
     const image = new Image();
     image.src = avatarUrl;
     image.onerror = () => {
-      log.warn('Avatar: Image failed to load; failing over to placeholder');
+      log.warn('Image failed to load; failing over to placeholder');
       setImageBroken(true);
     };
 
@@ -159,9 +147,10 @@ export function Avatar({
   }, [avatarUrl]);
 
   const initials = getInitials(title);
-  const hasImage = !noteToSelf && avatarUrl && !imageBroken;
+  const hasLocalImage = !noteToSelf && avatarUrl && avatarUrl.length > 0;
+  const hasValidImage = hasLocalImage && !imageBroken;
   const shouldUseInitials =
-    !hasImage &&
+    !hasValidImage &&
     conversationType === 'direct' &&
     Boolean(initials) &&
     title !== i18n('icu:unknownContact');
@@ -178,7 +167,7 @@ export function Avatar({
         />
       </div>
     );
-  } else if (hasImage) {
+  } else if (hasValidImage) {
     assertDev(avatarUrl, 'avatarUrl should be defined here');
 
     assertDev(
@@ -221,6 +210,20 @@ export function Avatar({
           'module-Avatar__icon--note-to-self'
         )}
       />
+    );
+  } else if (hasAvatar && !hasLocalImage) {
+    contentsChildren = (
+      <>
+        <div
+          className="module-Avatar__image"
+          style={{
+            backgroundImage: `linear-gradient(to bottom, ${avatarPlaceholderGradient[0]}, ${avatarPlaceholderGradient[1]})`,
+          }}
+        />
+        {blur === AvatarBlur.BlurPictureWithClickToView && (
+          <div className="module-Avatar__click-to-view">{i18n('icu:view')}</div>
+        )}
+      </>
     );
   } else if (shouldUseInitials) {
     contentsChildren = (

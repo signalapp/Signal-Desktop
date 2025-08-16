@@ -1,13 +1,15 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+
 .CallLinkAddNameModal__Row {
   display: flex;
   gap: 12px;
 }
 
 .CallLinkAddNameModal__SrOnly {
-  @include sr-only;
+  @include mixins.sr-only;
 }
 
 // Overriding the default styles for the input container

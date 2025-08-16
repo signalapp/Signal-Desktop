@@ -12,7 +12,7 @@ import {
 import createDebug from 'debug';
 
 import * as durations from '../../util/durations';
-import { generatePni, toUntaggedPni } from '../../types/ServiceId';
+import { generatePni } from '../../types/ServiceId';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
 
@@ -93,7 +93,7 @@ describe('pnp/PNI DecryptionError unlink', function (this: Mocha.Suite) {
         },
         {
           timestamp: bootstrap.getTimestamp(),
-          updatedPni: toUntaggedPni(generatePni()),
+          updatedPni: generatePni(),
         }
       )
     );
@@ -107,7 +107,7 @@ describe('pnp/PNI DecryptionError unlink', function (this: Mocha.Suite) {
         },
         {
           timestamp: bootstrap.getTimestamp(),
-          updatedPni: toUntaggedPni(desktop.pni),
+          updatedPni: desktop.pni,
         }
       )
     );

@@ -4,51 +4,51 @@
     "endpoints": [
       {
         "family": "ipv4",
-        "address": "18.161.21.122"
+        "address": "3.167.192.38"
       },
       {
         "family": "ipv4",
-        "address": "18.161.21.4"
+        "address": "3.167.192.55"
       },
       {
         "family": "ipv4",
-        "address": "18.161.21.66"
+        "address": "3.167.192.94"
       },
       {
         "family": "ipv4",
-        "address": "18.161.21.70"
+        "address": "3.167.192.96"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:24eb:1800:1d:4f32:50c0:93a1"
+        "address": "2600:9000:27e0:2400:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:24eb:2400:1d:4f32:50c0:93a1"
+        "address": "2600:9000:27e0:3a00:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:24eb:3000:1d:4f32:50c0:93a1"
+        "address": "2600:9000:27e0:6800:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:24eb:5200:1d:4f32:50c0:93a1"
+        "address": "2600:9000:27e0:6a00:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:24eb:9000:1d:4f32:50c0:93a1"
+        "address": "2600:9000:27e0:7000:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:24eb:c800:1d:4f32:50c0:93a1"
+        "address": "2600:9000:27e0:7200:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:24eb:de00:1d:4f32:50c0:93a1"
+        "address": "2600:9000:27e0:7800:1d:4f32:50c0:93a1"
       },
       {
         "family": "ipv6",
-        "address": "2600:9000:24eb:fa00:1d:4f32:50c0:93a1"
+        "address": "2600:9000:27e0:ce00:1d:4f32:50c0:93a1"
       }
     ]
   },
@@ -57,19 +57,19 @@
     "endpoints": [
       {
         "family": "ipv4",
-        "address": "104.18.37.148"
+        "address": "104.18.10.47"
       },
       {
         "family": "ipv4",
-        "address": "172.64.150.108"
+        "address": "104.18.11.47"
       },
       {
         "family": "ipv6",
-        "address": "2606:4700:4400::6812:2594"
+        "address": "2606:4700::6812:a2f"
       },
       {
         "family": "ipv6",
-        "address": "2606:4700:4400::ac40:966c"
+        "address": "2606:4700::6812:b2f"
       }
     ]
   },
@@ -78,19 +78,19 @@
     "endpoints": [
       {
         "family": "ipv4",
-        "address": "104.18.37.148"
+        "address": "104.18.10.47"
       },
       {
         "family": "ipv4",
-        "address": "172.64.150.108"
+        "address": "104.18.11.47"
       },
       {
         "family": "ipv6",
-        "address": "2606:4700:4400::6812:2594"
+        "address": "2606:4700::6812:a2f"
       },
       {
         "family": "ipv6",
-        "address": "2606:4700:4400::ac40:966c"
+        "address": "2606:4700::6812:b2f"
       }
     ]
   },
@@ -133,11 +133,11 @@
     "endpoints": [
       {
         "family": "ipv4",
-        "address": "34.96.102.241"
+        "address": "34.117.136.13"
       },
       {
         "family": "ipv6",
-        "address": "2600:1901:0:299c::"
+        "address": "2600:1901:0:e149::"
       }
     ]
   },
@@ -146,11 +146,11 @@
     "endpoints": [
       {
         "family": "ipv4",
-        "address": "142.250.80.19"
+        "address": "142.250.68.83"
       },
       {
         "family": "ipv6",
-        "address": "2607:f8b0:4006:80a::2013"
+        "address": "2607:f8b0:4007:819::2013"
       }
     ]
   },
@@ -159,19 +159,19 @@
     "endpoints": [
       {
         "family": "ipv4",
-        "address": "104.18.43.97"
+        "address": "104.18.26.44"
       },
       {
         "family": "ipv4",
-        "address": "172.64.144.159"
+        "address": "104.18.27.44"
       },
       {
         "family": "ipv6",
-        "address": "2606:4700:4400::6812:2b61"
+        "address": "2606:4700::6812:1a2c"
       },
       {
         "family": "ipv6",
-        "address": "2606:4700:4400::ac40:909f"
+        "address": "2606:4700::6812:1b2c"
       }
     ]
   }

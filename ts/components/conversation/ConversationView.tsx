@@ -4,6 +4,8 @@
 import React from 'react';
 import classNames from 'classnames';
 import { useEscapeHandling } from '../../hooks/useEscapeHandling';
+import { getSuggestedFilename } from '../../types/Attachment';
+import { IMAGE_PNG, type MIMEType } from '../../types/MIME';
 
 export type PropsType = {
   conversationId: string;
@@ -14,6 +16,7 @@ export type PropsType = {
   processAttachments: (options: {
     conversationId: string;
     files: ReadonlyArray<File>;
+    flags: number | null;
   }) => void;
   renderCompositionArea: (conversationId: string) => JSX.Element;
   renderConversationHeader: (conversationId: string) => JSX.Element;
@@ -21,6 +24,37 @@ export type PropsType = {
   renderPanel: (conversationId: string) => JSX.Element | undefined;
   shouldHideConversationView?: boolean;
 };
+
+// https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/core/clipboard/data_object_item.cc;l=184;drc=1d545578bf3756af94e89f274544c6017267f885
+const DEFAULT_CHROMIUM_IMAGE_FILENAME = 'image.png';
+
+function getAsFile(item: DataTransferItem): File | null {
+  const file = item.getAsFile();
+  if (!file) {
+    return null;
+  }
+
+  if (
+    file.type === IMAGE_PNG &&
+    file.name === DEFAULT_CHROMIUM_IMAGE_FILENAME
+  ) {
+    return new File(
+      [file.slice(0, file.size, file.type)],
+      getSuggestedFilename({
+        attachment: {
+          contentType: file.type as MIMEType,
+        },
+        timestamp: Date.now(),
+        scenario: 'sending',
+      }),
+      {
+        type: file.type,
+        lastModified: file.lastModified,
+      }
+    );
+  }
+  return file;
+}
 
 export function ConversationView({
   conversationId,
@@ -52,6 +86,7 @@ export function ConversationView({
       processAttachments({
         conversationId,
         files: Array.from(files),
+        flags: null,
       });
     },
     [conversationId, processAttachments]
@@ -80,7 +115,7 @@ export function ConversationView({
       if (allVisual) {
         const files: Array<File> = [];
         for (let i = 0; i < items.length; i += 1) {
-          const file = items[i].getAsFile();
+          const file = getAsFile(items[i]);
           if (file) {
             files.push(file);
           }
@@ -89,6 +124,7 @@ export function ConversationView({
         processAttachments({
           conversationId,
           files,
+          flags: null,
         });
 
         event.stopPropagation();
@@ -97,11 +133,12 @@ export function ConversationView({
         return;
       }
 
-      const firstAttachment = fileItems[0]?.getAsFile();
+      const firstAttachment = fileItems[0] ? getAsFile(fileItems[0]) : null;
       if (firstAttachment) {
         processAttachments({
           conversationId,
           files: [firstAttachment],
+          flags: null,
         });
 
         event.stopPropagation();

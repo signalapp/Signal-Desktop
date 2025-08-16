@@ -4,8 +4,6 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { setupI18n } from '../../util/setupI18n';
-import enMessages from '../../../_locales/en/messages.json';
 import {
   CallMode,
   CallType,
@@ -18,11 +16,11 @@ import { CallingNotification, type PropsType } from './CallingNotification';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../../test-both/helpers/getDefaultConversation';
+} from '../../test-helpers/getDefaultConversation';
 import type { CallStatus } from '../../types/CallDisposition';
 import type { ConversationType } from '../../state/ducks/conversations';
 
-const i18n = setupI18n('en', enMessages);
+const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/Conversation/CallingNotification',
@@ -62,6 +60,7 @@ const getCommonProps = (options: {
     id: 'message-id',
     conversationId: conversation.id,
     i18n,
+    interactionMode: 'mouse',
     isNextItemCallingNotification: false,
     onOutgoingAudioCallInConversation: action(
       'onOutgoingAudioCallInConversation'

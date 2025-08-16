@@ -2,18 +2,24 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactElement, ReactNode } from 'react';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import classNames from 'classnames';
+import { noop } from 'lodash';
 
 import type { LocalizerType } from '../../types/Util';
-import { InstallScreenQRCodeError } from '../../types/InstallScreen';
+import {
+  InstallScreenStep,
+  InstallScreenQRCodeError,
+} from '../../types/InstallScreen';
 import { missingCaseError } from '../../util/missingCaseError';
 import type { Loadable } from '../../util/loadable';
 import { LoadingState } from '../../util/loadable';
+import { drop } from '../../util/drop';
+import { getEnvironment, Environment } from '../../environment';
 
 import { I18n } from '../I18n';
 import { Spinner } from '../Spinner';
-import { QrCode } from '../QrCode';
+import { BrandedQRCode } from '../BrandedQRCode';
 import { TitlebarDragArea } from '../TitlebarDragArea';
 import { InstallScreenSignalLogo } from './InstallScreenSignalLogo';
 import { InstallScreenUpdateDialog } from './InstallScreenUpdateDialog';
@@ -33,6 +39,7 @@ export type PropsType = Readonly<{
   isStaging: boolean;
   retryGetQrCode: () => void;
   startUpdate: () => void;
+  forceUpdate: () => void;
 }>;
 
 const getQrCodeClassName = getClassNamesFor(
@@ -51,6 +58,7 @@ export function InstallScreenQrCodeNotScannedStep({
   provisioningUrl,
   retryGetQrCode,
   startUpdate,
+  forceUpdate,
   updates,
 }: Readonly<PropsType>): ReactElement {
   return (
@@ -63,7 +71,9 @@ export function InstallScreenQrCodeNotScannedStep({
         <InstallScreenUpdateDialog
           i18n={i18n}
           {...updates}
+          step={InstallScreenStep.QrCodeNotScanned}
           startUpdate={startUpdate}
+          forceUpdate={forceUpdate}
           currentVersion={currentVersion}
           OS={OS}
         />
@@ -122,15 +132,43 @@ function InstallScreenQrCode(
     retryGetQrCode: () => void;
   }
 ): ReactElement {
-  const { i18n } = props;
+  const { i18n, retryGetQrCode } = props;
 
   let contents: ReactNode;
+
+  const loadError =
+    props.loadingState === LoadingState.LoadFailed ? props.error : undefined;
+
+  useEffect(() => {
+    if (loadError !== InstallScreenQRCodeError.MaxRotations) {
+      return noop;
+    }
+
+    const cleanup = () => {
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+    };
+
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        return;
+      }
+
+      cleanup();
+      retryGetQrCode();
+    };
+
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    return cleanup;
+  }, [retryGetQrCode, loadError]);
+
+  let isJustButton = false;
   switch (props.loadingState) {
     case LoadingState.Loading:
       contents = <Spinner size="24px" svgSize="small" />;
       break;
-    case LoadingState.LoadFailed:
-      switch (props.error) {
+    case LoadingState.LoadFailed: {
+      const { error } = props;
+      switch (error) {
         case InstallScreenQRCodeError.Timeout:
           contents = (
             <>
@@ -139,7 +177,9 @@ function InstallScreenQrCode(
               >
                 {i18n('icu:Install__qr-failed-load__error--timeout')}
               </span>
-              <RetryButton i18n={i18n} onClick={props.retryGetQrCode} />
+              <RetryButton onClick={retryGetQrCode}>
+                {i18n('icu:Install__qr-failed-load__retry')}
+              </RetryButton>
             </>
           );
           break;
@@ -155,7 +195,9 @@ function InstallScreenQrCode(
                   components={{ paragraph: Paragraph }}
                 />
               </span>
-              <RetryButton i18n={i18n} onClick={props.retryGetQrCode} />
+              <RetryButton onClick={retryGetQrCode}>
+                {i18n('icu:Install__qr-failed-load__retry')}
+              </RetryButton>
             </>
           );
           break;
@@ -179,18 +221,21 @@ function InstallScreenQrCode(
             </>
           );
           break;
+        case InstallScreenQRCodeError.MaxRotations:
+          isJustButton = true;
+          contents = (
+            <RetryButton onClick={retryGetQrCode}>
+              {i18n('icu:Install__qr-max-rotations__retry')}
+            </RetryButton>
+          );
+          break;
         default:
-          throw missingCaseError(props.error);
+          throw missingCaseError(error);
       }
       break;
+    }
     case LoadingState.Loaded:
-      contents = (
-        <QrCode
-          alt={i18n('icu:Install__scan-this-code')}
-          className={getQrCodeClassName('__code')}
-          data={props.value}
-        />
-      );
+      contents = <QRCodeImage i18n={i18n} link={props.value} />;
       break;
     default:
       throw missingCaseError(props);
@@ -203,7 +248,8 @@ function InstallScreenQrCode(
         props.loadingState === LoadingState.Loaded &&
           getQrCodeClassName('--loaded'),
         props.loadingState === LoadingState.LoadFailed &&
-          getQrCodeClassName('--load-failed')
+          getQrCodeClassName('--load-failed'),
+        isJustButton && getQrCodeClassName('--just-button')
       )}
     >
       {contents}
@@ -211,12 +257,64 @@ function InstallScreenQrCode(
   );
 }
 
-function RetryButton({
+function QRCodeImage({
   i18n,
-  onClick,
+  link,
 }: {
   i18n: LocalizerType;
+  link: string;
+}): JSX.Element {
+  const [isCopying, setIsCopying] = useState(false);
+
+  // Add a development-only feature to copy a QR code to the clipboard by double-clicking.
+  // This can be used to quickly inspect the code, or to link this Desktop with an iOS
+  // simulator primary, which has a debug-only option to paste the linking URL instead of
+  // scanning it. (By the time you read this comment Android may have a similar feature.)
+  const onDoubleClick = useCallback(() => {
+    if (getEnvironment() === Environment.PackagedApp) {
+      return;
+    }
+
+    drop(navigator.clipboard.writeText(link));
+    setIsCopying(true);
+  }, [link]);
+
+  useEffect(() => {
+    if (!isCopying) {
+      return noop;
+    }
+
+    const timer = setTimeout(() => {
+      setIsCopying(false);
+    }, 250);
+
+    return () => clearTimeout(timer);
+  }, [isCopying]);
+
+  return (
+    <svg
+      role="img"
+      aria-label={i18n('icu:Install__scan-this-code')}
+      className={classNames(
+        getQrCodeClassName('__code'),
+        isCopying && getQrCodeClassName('__code--copying')
+      )}
+      onDoubleClick={onDoubleClick}
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <BrandedQRCode size={16} link={link} color="black" />
+    </svg>
+  );
+}
+
+function RetryButton({
+  onClick,
+  children,
+}: {
   onClick: () => void;
+  children: ReactNode;
 }): JSX.Element {
   const onKeyDown = useCallback(
     (ev: React.KeyboardEvent<HTMLButtonElement>) => {
@@ -236,7 +334,7 @@ function RetryButton({
       onKeyDown={onKeyDown}
       type="button"
     >
-      {i18n('icu:Install__qr-failed-load__retry')}
+      {children}
     </button>
   );
 }
