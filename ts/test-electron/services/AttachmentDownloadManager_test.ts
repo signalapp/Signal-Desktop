@@ -502,6 +502,31 @@ describe('AttachmentDownloadManager/JobManager', () => {
       jobs[2],
     ]);
   });
+
+  it('retries backup job immediately if retryAfters are reset', async () => {
+    strictAssert(downloadManager, 'must exist');
+    const jobs = await addJobs(1, {
+      source: AttachmentDownloadSource.BACKUP_IMPORT,
+    });
+    const jobAttempts = getPromisesForAttempts(jobs[0], 2);
+
+    runJob.callsFake(async () => {
+      return new Promise<{ status: 'finished' | 'retry' }>(resolve => {
+        Promise.resolve().then(() => {
+          resolve({ status: 'retry' });
+        });
+      });
+    });
+
+    await downloadManager?.start();
+    await jobAttempts[0].completed;
+    assertRunJobCalledWith([jobs[0]]);
+
+    await DataWriter.resetBackupAttachmentDownloadJobsRetryAfter();
+    await downloadManager.start();
+
+    await jobAttempts[1].completed;
+  });
   describe('will drop jobs from non-media backup imports that are old', () => {
     it('will not queue attachments older than 90 days (2 * message queue time)', async () => {
       hasMediaBackups.returns(false);

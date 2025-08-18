@@ -20,6 +20,8 @@ export async function pauseBackupMediaDownload(): Promise<void> {
 
 export async function resumeBackupMediaDownload(): Promise<void> {
   log.info('Resuming media download');
+  // Reset the retry-afters so that all jobs will be immediately retried
+  await DataWriter.resetBackupAttachmentDownloadJobsRetryAfter();
   return startBackupMediaDownload();
 }
 
