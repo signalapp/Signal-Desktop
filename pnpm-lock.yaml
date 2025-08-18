@@ -138,8 +138,8 @@ importers:
         specifier: 2.56.0
         version: 2.56.0
       '@signalapp/sqlcipher':
-        specifier: 2.4.3
-        version: 2.4.3
+        specifier: 2.4.4
+        version: 2.4.4
       '@signalapp/windows-ucv':
         specifier: 1.0.1
         version: 1.0.1
@@ -3315,8 +3315,8 @@ packages:
   '@signalapp/ringrtc@2.56.0':
     resolution: {integrity: sha512-6zjREIkJZXsLVo4sfQa7qqXtSIhOS41EWxardn8uNb7+zsjmPzAoPEAYZLzuzIBnRfIp2pc6pk/7gwtlqgbJhg==}
 
-  '@signalapp/sqlcipher@2.4.3':
-    resolution: {integrity: sha512-mZ2JNnu6ee60g6M+wpTETtwsot0UPA1DnS48Ty2skiQMrHi7aANDnzIrOEH54hlLgGNAZj9Rtpm9yq2CgvzYlg==}
+  '@signalapp/sqlcipher@2.4.4':
+    resolution: {integrity: sha512-43zkxlPA3ZJE3+qtkEnkcttgiE8OQvR1yxJY5gl7u/KoL7DRwgiMr5F6qCjnMAsbiHWrJfG3YMq6TXfLfS/bVA==}
 
   '@signalapp/windows-ucv@1.0.1':
     resolution: {integrity: sha512-tArRaDzAFXQ6BcYseUtd9bp52/sb5C/zbCIoNkDH+FUoxnZRvX25Fv2HHbH7Xe2+bcdb4+DQmyoUeHMhTUxAmA==}
@@ -13986,7 +13986,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@signalapp/sqlcipher@2.4.3':
+  '@signalapp/sqlcipher@2.4.4':
     dependencies:
       node-addon-api: 8.3.0
       node-gyp-build: 4.8.4
