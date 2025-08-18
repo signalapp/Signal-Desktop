@@ -350,7 +350,6 @@ function PreferencesReceiptList({
   ) => Promise<Blob>;
   showToast: (toast: AnyToast) => void;
 }): JSX.Element {
-  const [showReceiptModal, setShowReceiptModal] = useState(false);
   const [selectedReceipt, setSelectedReceipt] =
     useState<DonationReceipt | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
@@ -399,7 +398,7 @@ function PreferencesReceiptList({
       });
 
       if (result) {
-        setShowReceiptModal(false);
+        setSelectedReceipt(null);
         showToast({
           toastType: ToastType.ReceiptSaved,
           parameters: { fullPath: result.fullPath },
@@ -446,7 +445,6 @@ function PreferencesReceiptList({
                     className="PreferencesDonations--receiptList__receipt-item"
                     onAction={() => {
                       setSelectedReceipt(receipt);
-                      setShowReceiptModal(true);
                     }}
                   >
                     <div className="PreferencesDonations--receiptList__receipt-item__icon" />
@@ -480,14 +478,17 @@ function PreferencesReceiptList({
         </div>
       )}
 
-      {showReceiptModal && selectedReceipt && (
+      {selectedReceipt && (
         <Modal
           i18n={i18n}
           modalName="ReceiptDetailsModal"
           moduleClassName="PreferencesDonations__ReceiptModal"
+          // TODO(DESKTOP-9100): the noMouseClose prop is a temporary
+          // workaround for buttons on the modal not working.
+          noMouseClose
           hasXButton
           title={i18n('icu:PreferencesDonations__ReceiptModal--title')}
-          onClose={() => setShowReceiptModal(false)}
+          onClose={() => setSelectedReceipt(null)}
           modalFooter={
             <Button
               variant={ButtonVariant.Primary}
