@@ -65,6 +65,8 @@ import { I18n } from './I18n';
 import { strictAssert } from '../util/assert';
 import { DonationsOfflineTooltip } from './conversation/DonationsOfflineTooltip';
 import { DonateInputAmount } from './preferences/donations/DonateInputAmount';
+import { Tooltip, TooltipPlacement } from './Tooltip';
+import { offsetDistanceModifier } from '../util/popperUtil';
 
 const SUPPORT_URL = 'https://support.signal.org/hc/requests/new?desktop';
 
@@ -333,6 +335,10 @@ function AmountPicker({
     return currencyAmounts.minimum;
   }, [donationAmountsConfig, currency]);
 
+  const formattedMinimumAmount = useMemo<string>(() => {
+    return toHumanCurrencyString({ amount: minimumAmount, currency });
+  }, [minimumAmount, currency]);
+
   const currencyOptionsForSelect = useMemo(() => {
     return validCurrencies.toSorted().map((currencyString: string) => {
       return { text: currencyString.toUpperCase(), value: currencyString };
@@ -422,6 +428,28 @@ function AmountPicker({
     </Button>
   );
 
+  let continueButtonWithTooltip: JSX.Element | undefined;
+  if (!isOnline) {
+    continueButtonWithTooltip = (
+      <DonationsOfflineTooltip i18n={i18n}>
+        {continueButton}
+      </DonationsOfflineTooltip>
+    );
+  } else if (error === 'amount-below-minimum') {
+    continueButtonWithTooltip = (
+      <Tooltip
+        className="InAnotherCallTooltip"
+        content={i18n('icu:DonateFlow__custom-amount-below-minimum-tooltip', {
+          formattedCurrencyAmount: formattedMinimumAmount,
+        })}
+        direction={TooltipPlacement.Top}
+        popperModifiers={[offsetDistanceModifier(20)]}
+      >
+        {continueButton}
+      </Tooltip>
+    );
+  }
+
   return (
     <div className="DonationAmountPicker">
       <Select
@@ -465,13 +493,7 @@ function AmountPicker({
         />
       </div>
       <div className="DonationAmountPicker__PrimaryButtonContainer">
-        {isOnline ? (
-          continueButton
-        ) : (
-          <DonationsOfflineTooltip i18n={i18n}>
-            {continueButton}
-          </DonationsOfflineTooltip>
-        )}
+        {continueButtonWithTooltip ?? continueButton}
       </div>
     </div>
   );

@@ -8883,8 +8883,8 @@
     "description": "Donation receipts list accessibility label for a single receipt."
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donation FAQs",
-    "description": "Menu item to view donation FAQs"
+    "messageformat": "Donor FAQs",
+    "description": "Menu item to view donor FAQs"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Receipts do not sync across devices. If you have reinstalled Signal, receipts from previous donations will not be available.",
@@ -8969,6 +8969,10 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Get the Signal Boost badge for 30 days",
     "description": "Info text above the payment card entry form when making a one time donation. Explains the in-app badge which you can receive after donating."
+  },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}",
+    "description": "Tooltip for a disabled continue button when selecting a donation amount, when the user has entered a custom amount below the minimum allowed donation amount. Minimum amount text includes the currency symbol and is formatted in the locale's standard format. Examples: $3; ¥300; €3"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Donation receipt",
