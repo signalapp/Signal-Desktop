@@ -200,7 +200,7 @@ export abstract class Updater {
     }
 
     this.logger.info(
-      'updater/onRestartCanceled: restart was canceled. forcing update to reset updater state'
+      'onRestartCanceled: restart was canceled. forcing update to reset updater state'
     );
     this.#restarting = false;
     markShouldNotQuit();
@@ -208,7 +208,7 @@ export abstract class Updater {
   }
 
   public async start(): Promise<void> {
-    this.logger.info('updater/start: starting checks...');
+    this.logger.info('start: starting checks...');
 
     this.#schedulePoll();
 
@@ -244,7 +244,7 @@ export abstract class Updater {
   ): void {
     if (this.#markedCannotUpdate) {
       this.logger.warn(
-        'updater/markCannotUpdate: already marked',
+        'markCannotUpdate: already marked',
         Errors.toLogFormat(error)
       );
       return;
@@ -252,7 +252,7 @@ export abstract class Updater {
     this.#markedCannotUpdate = true;
 
     this.logger.error(
-      'updater/markCannotUpdate: marking due to error: ' +
+      'markCannotUpdate: marking due to error: ' +
         `${Errors.toLogFormat(error)}, ` +
         `dialogType: ${dialogType}`
     );
@@ -261,7 +261,7 @@ export abstract class Updater {
     mainWindow?.webContents.send('show-update-dialog', dialogType);
 
     this.setUpdateListener(async () => {
-      this.logger.info('updater/markCannotUpdate: retrying after user action');
+      this.logger.info('markCannotUpdate: retrying after user action');
 
       this.#markedCannotUpdate = false;
       await this.#checkForUpdatesMaybeInstall(CheckType.Normal);
@@ -269,6 +269,9 @@ export abstract class Updater {
   }
 
   protected markRestarting(): void {
+    this.logger.info(
+      'markRestarting: preparing to restart application for update'
+    );
     this.#restarting = true;
     markShouldQuit();
   }
@@ -286,7 +289,7 @@ export abstract class Updater {
     );
     const timeoutMs = selectedPollTime - now;
 
-    this.logger.info(`updater/schedulePoll: polling in ${timeoutMs}ms`);
+    this.logger.info(`schedulePoll: polling in ${timeoutMs}ms`);
 
     setTimeout(() => {
       drop(this.#safePoll());
@@ -296,16 +299,14 @@ export abstract class Updater {
   async #safePoll(): Promise<void> {
     try {
       if (this.#autoRetryAfter != null && Date.now() < this.#autoRetryAfter) {
-        this.logger.info(
-          `updater/safePoll: not polling until ${this.#autoRetryAfter}`
-        );
+        this.logger.info(`safePoll: not polling until ${this.#autoRetryAfter}`);
         return;
       }
 
-      this.logger.info('updater/safePoll: polling now');
+      this.logger.info('safePoll: polling now');
       await this.#checkForUpdatesMaybeInstall(CheckType.Normal);
     } catch (error) {
-      this.logger.error(`updater/safePoll: ${Errors.toLogFormat(error)}`);
+      this.logger.error(`safePoll: ${Errors.toLogFormat(error)}`);
     } finally {
       this.#schedulePoll();
     }
