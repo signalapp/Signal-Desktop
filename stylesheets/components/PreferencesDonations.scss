@@ -244,6 +244,15 @@
       );
     }
 
+    @include mixins.keyboard-mode {
+      &:focus {
+        background-color: light-dark(
+          variables.$color-gray-02,
+          variables.$color-gray-80
+        );
+      }
+    }
+
     // Currently only one time donations are possible
     &__icon {
       @include mixins.light-theme {
