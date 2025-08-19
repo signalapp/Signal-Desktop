@@ -2796,10 +2796,12 @@ export function initialize({
           // Add a bit of leeway to let server respond properly
           timeout: (requestTimeoutInSecs + 15) * SECOND,
           abortSignal,
-          zodSchema: TransferArchiveSchema,
+          // We may also get a 204 with no content, indicating we should try again
+          zodSchema: TransferArchiveSchema.or(z.literal('')),
         });
 
         if (response.status === 200) {
+          strictAssert(data !== '', '200 must have data');
           return data;
         }
 
