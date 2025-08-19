@@ -2683,9 +2683,15 @@ export class BackupExportStream extends Readable {
       sendStateByConversationId = {},
       unidentifiedDeliveries = [],
       errors = [],
+      received_at_ms: receivedAtMs,
+      editMessageReceivedAtMs,
     }: Pick<
       MessageAttributesType,
-      'sendStateByConversationId' | 'unidentifiedDeliveries' | 'errors'
+      | 'sendStateByConversationId'
+      | 'unidentifiedDeliveries'
+      | 'errors'
+      | 'received_at_ms'
+      | 'editMessageReceivedAtMs'
     >,
     { conversationId }: { conversationId: string }
   ): Backups.ChatItem.IOutgoingMessageDetails {
@@ -2784,8 +2790,12 @@ export class BackupExportStream extends Readable {
 
       sendStatuses.push(sendStatus);
     }
+
+    const dateReceived = editMessageReceivedAtMs || receivedAtMs;
     return {
       sendStatus: sendStatuses,
+      dateReceived:
+        dateReceived != null ? getSafeLongFromTimestamp(dateReceived) : null,
     };
   }
 

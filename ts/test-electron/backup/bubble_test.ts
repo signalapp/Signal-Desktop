@@ -132,7 +132,7 @@ describe('backup/bubble messages', () => {
         type: 'outgoing',
         readStatus: ReadStatus.Read,
         received_at: 3,
-        received_at_ms: 3,
+        received_at_ms: 43,
         seenStatus: SeenStatus.Seen,
         sent_at: 3,
         sourceServiceId: OUR_ACI,
@@ -144,14 +144,14 @@ describe('backup/bubble messages', () => {
         unidentifiedDeliveries: [CONTACT_A],
         timestamp: 3,
         editMessageTimestamp: 5,
-        editMessageReceivedAtMs: 5,
+        editMessageReceivedAtMs: 45,
         body: 'd',
         editHistory: [
           {
             body: 'd',
             timestamp: 5,
             received_at: 5,
-            received_at_ms: 5,
+            received_at_ms: 45,
             sendStateByConversationId: {
               [contactA.id]: {
                 status: SendStatus.Delivered,
@@ -162,7 +162,7 @@ describe('backup/bubble messages', () => {
             body: 'c',
             timestamp: 4,
             received_at: 4,
-            received_at_ms: 4,
+            received_at_ms: 44,
             sendStateByConversationId: {
               [contactA.id]: {
                 status: SendStatus.Viewed,
@@ -173,7 +173,7 @@ describe('backup/bubble messages', () => {
             body: 'b',
             timestamp: 3,
             received_at: 3,
-            received_at_ms: 3,
+            received_at_ms: 43,
             sendStateByConversationId: {
               [contactA.id]: {
                 status: SendStatus.Viewed,
@@ -468,7 +468,7 @@ describe('backup/bubble messages', () => {
         id: generateGuid(),
         type: 'outgoing',
         received_at: 3,
-        received_at_ms: 3,
+        received_at_ms: 4,
         sent_at: 3,
         sourceServiceId: OUR_ACI,
         sendStateByConversationId: {
