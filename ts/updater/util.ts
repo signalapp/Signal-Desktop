@@ -156,13 +156,13 @@ export function isTimeToUpdate({
 }): boolean {
   // Check that the release date is a proper number
   if (!Number.isFinite(releasedAt) || Number.isNaN(releasedAt)) {
-    logger.warn('updater/isTimeToUpdate: invalid releasedAt');
+    logger.warn('isTimeToUpdate: invalid releasedAt');
     return true;
   }
 
   // Check that the release date is not too far in the future
   if (releasedAt - HOUR > now) {
-    logger.warn('updater/isTimeToUpdate: releasedAt too far in the future');
+    logger.warn('isTimeToUpdate: releasedAt too far in the future');
     return true;
   }
 
@@ -180,6 +180,6 @@ export function isTimeToUpdate({
   }
 
   const remaining = Math.round((updateAt - now) / MINUTE);
-  logger.info(`updater/isTimeToUpdate: updating in ${remaining} minutes`);
+  logger.info(`isTimeToUpdate: updating in ${remaining} minutes`);
   return false;
 }

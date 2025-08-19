@@ -127,6 +127,7 @@ import { getAppErrorIcon } from '../ts/util/getAppErrorIcon';
 import { promptOSAuth } from '../ts/util/os/promptOSAuthMain';
 
 const log = createLogger('app/main');
+const updaterLog = log.child('updater');
 
 const animationSettings = systemPreferences.getAnimationSettings();
 
@@ -1156,20 +1157,23 @@ async function readyForUpdates() {
         );
       },
       getMainWindow,
-      logger: log,
+      logger: updaterLog,
       sql,
     });
   } catch (error) {
-    log.error('Error starting update checks:', Errors.toLogFormat(error));
+    updaterLog.error(
+      'Error starting update checks:',
+      Errors.toLogFormat(error)
+    );
   }
 }
 
 async function forceUpdate() {
   try {
-    log.info('starting force update');
+    updaterLog.info('starting force update');
     await updater.force();
   } catch (error) {
-    log.error('Error during force update:', Errors.toLogFormat(error));
+    updaterLog.error('Error during force update:', Errors.toLogFormat(error));
   }
 }
 
