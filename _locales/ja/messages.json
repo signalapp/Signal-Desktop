@@ -3528,13 +3528,13 @@
     "messageformat": "再度試すか、サポートにお問い合わせください。"
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "予期せぬエラーが発生しました"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "デバッグログを送信する"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "今はしない"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "OK"
@@ -5268,10 +5268,10 @@
     "messageformat": "例：:-)は<emojify>🙂</emojify>に変換されます"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "ミュートしたチャットをアーカイブしたままにします"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "アーカイブされており、さらにミュートもしているチャットは、新しいメッセージが届いてもアーカイブされたままになります。"
   },
   "icu:Preferences--advanced": {
     "messageformat": "詳細設定"
@@ -6655,10 +6655,10 @@
     "messageformat": "マイサポート"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} 1回限り"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "寄付の処理中です..."
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "{formattedCurrencyAmount} を寄付する"
@@ -6675,8 +6675,11 @@
   "icu:PreferencesDonations__receipts": {
     "messageformat": "領収書"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "View receipt details"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "寄付についてのよくある質問"
+    "messageformat": "Donor FAQs"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "領収書は端末間で同期されません。Signalを再インストールすると、過去におこなった寄付の領収書を入手できなくなります。"
@@ -6741,6 +6744,9 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "30日間のSignalブーストバッジを獲得しましょう"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "寄付の領収書"
   },
@@ -6760,7 +6766,7 @@
     "messageformat": "Signalをサポートしていただきありがとうございます。皆様のご寄付は、オープンソースのプライバシー技術を通して表現の自由を守り、世界中の何百万人もの人々に安全なグローバルコミュニケーションを可能にするというミッションを推進する原動力となるものです。米国にお住まいの方は、この領収書を税務記録のために保管しておいてください。Signal Technology Foundationは、米国内国歳入法第501c3条に基づく非課税の非営利団体です。連邦税IDは82-4506840です。"
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "オフラインです。寄付を完了するには、インターネットに接続してください。"
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "寄付がキャンセルされました"
@@ -6782,6 +6788,9 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "確認が必要な寄付のお手続き中です。"
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "寄付が中断されました"
@@ -6811,13 +6820,13 @@
     "messageformat": "寄付のお手続き処理できなかった可能性があります。「Signalへの寄付」から「寄付の領収書」をクリックし、該当する領収書を確認してください。"
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "もう一度お試しいただくか、サポートにデバッグログを送信して寄付を完了できるよう支援を受けてください。デバッグログは、問題の診断と修正に役立てられます。個人を特定する情報は含まれません。"
   },
   "icu:Donations__Processing": {
     "messageformat": "寄付の処理中です..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "寄付のお手続き中です"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "寄付の処理は完了していません。数分かかるかも知れません。"
@@ -6845,6 +6854,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "寄付をキャンセルする"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Thanks for your support!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Display on profile"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signalをスムーズに動作させるための微調整とバグ修正を行いました。",
@@ -6884,6 +6905,6 @@
     "messageformat": "いくつかの小規模なバグの修正。"
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "一部ユーザーの方に、寄付バッジが正しく表示されないバグを修正しました。"
   }
 }

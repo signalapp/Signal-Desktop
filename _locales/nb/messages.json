@@ -3528,13 +3528,13 @@
     "messageformat": "Vennligst prøv igjen eller kontakt support."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "En ukjent feil oppstod"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Send feilsøkingslogg"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Nei takk"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "Greit"
@@ -5268,10 +5268,10 @@
     "messageformat": "Eks: :-) blir gjort om til <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Hold dempede samtaler arkivert"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Dempede samtaler som er arkiverte, forblir arkiverte selv når du får en ny melding."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Avansert"
@@ -6655,10 +6655,10 @@
     "messageformat": "Mine bidrag"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "Engangsbeløp på {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Behandler pengegaven …"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Gi {formattedCurrencyAmount}"
@@ -6675,8 +6675,11 @@
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Kvitteringer"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "View receipt details"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Vanlige spørsmål om pengegaver"
+    "messageformat": "Donor FAQs"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Kvitteringene dine synkroniseres ikke på tvers av enheter. Kvitteringer for tidligere pengegaver vil ikke være tilgjengelig hvis du har installert Signal-appen på nytt."
@@ -6741,6 +6744,9 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Få et Signal Boost-merke i 30 dager"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Kvittering for pengebeløp"
   },
@@ -6760,7 +6766,7 @@
     "messageformat": "Takk for at du støtter Signal. Bidraget ditt hjelper oss i kampen for å utvikle personvernteknologi med åpen kilde som gjør det mulig å kommunisere fritt og trygt for millioner av mennesker over hele verden. Ta vare på denne kvitteringen for skatteoppgjøret ditt hvis du har adresse i USA. Signal Technology Foundation er en ideell organisasjon som er fritatt skatt i USA under avsnitt 501c3 i den amerikanske skatteloven. Vårt nasjonale skattenummer er 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Du er ikke på nett. Koble deg til internett for å gi en pengegave."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Pengegaven ble avbrutt"
@@ -6782,6 +6788,9 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Du har en pengegave som krever bekreftelse."
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Pengegaven ble avbrutt"
@@ -6811,13 +6820,13 @@
     "messageformat": "Pengegaven ble ikke sendt. Trykk på «Gi penger til Signal» og så «Kvittering for pengebeløp» for å se transaksjonene dine og bekrefte."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Prøv igjen, eller send inn en feilsøkingslogg til brukerstøtten vår for å få hjelp med pengegaven. Feilsøkingslogger gjør det lettere for oss å løse problemet. De inneholder ikke opplysninger som kan brukes til å identifisere deg."
   },
   "icu:Donations__Processing": {
     "messageformat": "Behandler betalingen av pengegaven …"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Pengegaven er under behandling"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Betalingen av pengegaven er fremdeles under behandling. Dette kan ta noen minutter."
@@ -6845,6 +6854,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "Avbryt pengegave"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Thanks for your support!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Display on profile"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Denne versjonen inneholder noen justeringer og feilrettinger som sikrer at Signal fungerer optimalt.",
@@ -6884,6 +6905,6 @@
     "messageformat": "Et par små feilrettinger."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "Vi rettet opp i en feil som førte til at pengegavemerker ikke var synlige for enkelte brukere."
   }
 }

@@ -3528,13 +3528,13 @@
     "messageformat": "Försök igen eller kontakta support."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "Ett oväntat fel inträffade"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Skicka felsökningslogg"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Nej tack"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "Okej"
@@ -5268,10 +5268,10 @@
     "messageformat": "Till exempel kommer :-) att konverteras till <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Håll tystade chattar arkiverade"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Tystade chattar som är arkiverade förblir arkiverade när ett nytt meddelande kommer."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Avancerat"
@@ -6655,10 +6655,10 @@
     "messageformat": "Mitt stöd"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} engångsbetalning"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Bearbetar donation …"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Donera {formattedCurrencyAmount}"
@@ -6675,8 +6675,11 @@
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Kvitton"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "View receipt details"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Vanliga frågor om donationer"
+    "messageformat": "Donor FAQs"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Kvitton synkroniseras inte mellan enheter. Om du har installerat om Signal kommer kvitton från tidigare donationer inte vara tillgängliga."
@@ -6741,6 +6744,9 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Få Signal Boost-märket i 30 dagar"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Donationskvitto"
   },
@@ -6760,7 +6766,7 @@
     "messageformat": "Tack för att du stöder Signal. Ditt bidrag hjälper till att främja uppdraget att skydda yttrandefriheten och möjliggöra säker global kommunikation för miljontals människor runt om i världen, genom öppen källkod för integritetsskydd. Spara detta kvitto för dina skatteuppgifter om du är bosatt i USA. Signal Technology Foundation är en skattebefriad ideell organisation i USA enligt avsnitt 501c3 i Internal Revenue Code. Vårt federala skatte-ID är 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Du är offline. Vänligen anslut till internet för att slutföra en donation."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Donationen avbruten"
@@ -6782,6 +6788,9 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Du har en pågående donation som kräver bekräftelse."
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Donationen avbröts"
@@ -6811,13 +6820,13 @@
     "messageformat": "Din donation kanske inte har behandlats. Klicka på Donera till Signal och sedan på Donationskvitton för att kontrollera dina kvitton och bekräfta."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Försök igen eller skicka in en felsökningslogg till supporten för hjälp med att slutföra din donation. Felsökningsloggar hjälper oss att diagnostisera och åtgärda problemet och innehåller inte identifierande information."
   },
   "icu:Donations__Processing": {
     "messageformat": "Bearbetar donation …"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Donationen behandlas fortfarande"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Din donation bearbetas fortfarande. Detta kan ta några minuter."
@@ -6845,6 +6854,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "Avbryt donation"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Thanks for your support!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Display on profile"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Den här versionen innehåller ett antal små justeringar och felrättningar för att Signal ska fungera smidigt.",
@@ -6884,6 +6905,6 @@
     "messageformat": "Några små buggfixar."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "Vi har åtgärdat ett fel som gjorde att donationsmärken inte visades korrekt för vissa användare. Signal är en ideell organisation enligt 501c3, och vi uppskattar ditt stöd."
   }
 }

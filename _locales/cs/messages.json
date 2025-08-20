@@ -3528,13 +3528,13 @@
     "messageformat": "Zkuste to prosím znovu nebo kontaktujte podporu."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "Vyskytla se neočekávaná chyba"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Odeslat protokol ladění"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Ne, díky"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "V pořádku"
@@ -5268,10 +5268,10 @@
     "messageformat": "Například :-) se převede na <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Ponechat ztlumené chaty archivované"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Ztlumené chaty, které jsou archivovány, zůstanou archivovány i po příchodu nové zprávy."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Rozšířené možnosti"
@@ -6655,10 +6655,10 @@
     "messageformat": "Moje podpora"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} jednorázově"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Příspěvek se zpracovává…"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Přispět {formattedCurrencyAmount}"
@@ -6675,8 +6675,11 @@
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Potvrzení"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "View receipt details"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Časté dotazy dárců"
+    "messageformat": "Donor FAQs"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Potvrzení o příspěvcích se nesynchronizují mezi zařízeními. Pokud jste aplikaci Signal přeinstalovali, nebudou potvrzení o příspěvcích k dispozici."
@@ -6741,6 +6744,9 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Získejte odznak Signal Boost na 30 dní"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Potvrzení o příspěvku"
   },
@@ -6760,7 +6766,7 @@
     "messageformat": "Děkujeme, že podporujete Signal. Váš příspěvek pomáhá podporovat naše poslání chránit svobodu projevu a umožnit bezpečnou komunikaci milionům lidí na celém světě prostřednictvím technologie ochrany soukromí s otevřeným zdrojovým kódem. Pokud jste obyvatelem Spojených států, uschovejte si toto potvrzení pro své daňové záznamy. Nadace Signal Technology Foundation je nezisková organizace osvobozená od daní ve Spojených státech amerických podle § 501c3 daňového zákona. Naše daňové identifikační číslo je 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Jste offline. Chcete-li dokončit platbu příspěvku, připojte se k internetu."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Příspěvek zrušen"
@@ -6782,6 +6788,9 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Váš příspěvek se zpracovává a je třeba jej potvrdit."
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Příspěvek přerušen"
@@ -6811,13 +6820,13 @@
     "messageformat": "Váš příspěvek nebylo možné zpracovat. Klikněte na Přispět na službu Signal a poté na Potvrzení o příspěvku, kde si můžete potvrzení zkontrolovat a potvrdit jej."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Zkuste to znovu nebo odešlete protokol ladění na podporu a požádejte o pomoc s dokončením příspěvku. Protokoly ladění nám pomáhají diagnostikovat a opravit problém a neobsahují identifikační informace."
   },
   "icu:Donations__Processing": {
     "messageformat": "Příspěvek se zpracovává…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Příspěvek se stále zpracovává"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Váš příspěvek se stále zpracovává. To může trvat několik minut."
@@ -6845,6 +6854,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "Zrušit příspěvek"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Thanks for your support!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Display on profile"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Tato verze obsahuje řadu drobných vylepšení a oprav chyb, aby Signal fungoval bez problémů.",
@@ -6884,6 +6905,6 @@
     "messageformat": "Oprava několika drobných chyb."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "Opravili jsme chybu, která u některých uživatelů způsobovala nesprávné zobrazení odznaků za příspěvek."
   }
 }

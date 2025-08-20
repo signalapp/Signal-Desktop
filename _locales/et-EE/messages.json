@@ -3528,13 +3528,13 @@
     "messageformat": "Palun proovi uuesti või võta ühendust kasutajatoega."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "Ilmnes ootamatu tõrge"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Postita silumislogi"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Tänan, ei"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "Sobib"
@@ -5268,10 +5268,10 @@
     "messageformat": "Näiteks :-) asemel sisestatakse <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Hoia vaigistatud vestlused arhiveerituna"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Vaigistatud vestlused, mis on arhiveeritud, jäävad uue sõnumi saabudes arhiveerituks."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Täpsemad sätted"
@@ -6655,10 +6655,10 @@
     "messageformat": "Minu toetus"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} üks kord"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Annetuse töötlemine …"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Anneta {formattedCurrencyAmount}"
@@ -6675,8 +6675,11 @@
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Kviitungid"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "View receipt details"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Annetuste KKK"
+    "messageformat": "Donor FAQs"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Kviitungeid ei sünkroonita eri seadmete vahel. Kui oled Signali uuesti alla laadinud, ei ole eelmiste annetustega seotud kviitungid saadaval."
@@ -6741,6 +6744,9 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Saa 30 päevaks Signali toetaja märk"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Annetuse kviitung"
   },
@@ -6760,7 +6766,7 @@
     "messageformat": "Aitäh, et toetad Signalit. Sinu panus annab tõuke missioonile kaitsta väljendusvabadust ja võimaldada turvalist suhtlust miljonitele inimestele üle kogu maailma avatud lähtekoodiga privaatsustehnoloogia abil. Kui elad Ameerika Ühendriikides, jäta see kviitung alles oma maksude deklareerimiseks. Signal Technology Foundation on Ameerika Ühendriikides maksuseadustiku (US Internal Revenue Code) jao 501c3 järgi registreeritud maksuvaba mittetulundusühing. Meie föderaalne maksukood (Federal Tax ID) on 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Oled võrguühenduseta. Annetuse tegemiseks loo internetiühendus."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Annetus on tühistatud"
@@ -6782,6 +6788,9 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Sul on pooleli annetus, mis vajab kinnitust."
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Annetus on katkestatud"
@@ -6811,13 +6820,13 @@
     "messageformat": "On võimalik, et sinu annetust ei töödeldud. Kviitungite nägemiseks ja kinnitamiseks klõpsake „Anneta Signalile“ ja seejärel „Annetuste kviitungid“."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Proovi uuesti või saada abikeskusele silumislogi, et aidata oma annetus lõpule viia. Silumislogid aitavad meil probleemi diagnoosida ja lahendada ega sisalda isikuandmeid."
   },
   "icu:Donations__Processing": {
     "messageformat": "Annetuse töötlemine …"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Annetuse töötlemine"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Sinu annetus on endiselt töötlemisel. Selleks võib kuluda mõni minut."
@@ -6845,6 +6854,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "Katkesta annetus"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Thanks for your support!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Display on profile"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "See versioon sisaldab paljusid väikseid parendusi, mis Signali sujuvalt käimas.",
@@ -6884,6 +6905,6 @@
     "messageformat": "Selle värskendusega parandatakse mõned väikesed vead."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "Parandasime vea, mis takistas mõnede kasutajate profiilidel annetuse märkide korrektset kuvamist. Signal on 501c3-tüüpi mittetulundusühing ja me hindame sinu toetust!"
   }
 }

@@ -3528,13 +3528,13 @@
     "messageformat": "Triail arís nó déan teagmháil leis an bhfoireann tacaíochta."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "Tharla earráid gan choinne"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Cuir isteach an loga dífhabhtaithe"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Níl, go raibh maith agat"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "Tá go maith"
@@ -5268,10 +5268,10 @@
     "messageformat": "Mar shampla, tiontófar :-) ina <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Coinnigh comhráite balbhaithe sa chartlann"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Fanfaidh comhráite balbhaithe sa chartlann fós nuair a thagann teachtaireacht nua isteach."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Ardroghanna"
@@ -6655,10 +6655,10 @@
     "messageformat": "Tabhartais"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} aonuaire"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Tabhartas á phróiseáil…"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Tabhair {formattedCurrencyAmount}"
@@ -6675,8 +6675,11 @@
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Admhálacha"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "View receipt details"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "CCanna maidir le Tabhartais"
+    "messageformat": "Donor FAQs"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Ní shioncronaítear admhálacha thar raon gléasanna. Má tá Signal athshuiteáilte agat, ní bheidh admhálacha ó thabhartais roimhe seo ar fáil."
@@ -6741,6 +6744,9 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Faigh Suaitheantas spreagtha Signal go ceann 30 lá"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Admháil tabhartais"
   },
@@ -6760,7 +6766,7 @@
     "messageformat": "Go raibh maith agat as tacú le Signal. Cabhraíonn do dheonachán cur leis an misean chun saoirse cainte a chosaint agus chun cur ar ár gcumas cumarsáid dhomhanda a chur ar fáil ag na milliúin ar fud an domhan, trí theicneolaíocht phríobháideachta foinse oscailte. Más cónaitheoir sna Stáit Aontaithe thú, coinnigh an admháil seo do do thaifid chánach. Eagraíocht neamhbhrabúis díolmhaithe ó cháin sna Stáit Aontaithe faoi alt 501c3 den Internal Revenue Code is ea Signal Technology Foundation. Is é 82–4506840 ár nUimhir Aitheantais Cánach Feidearálaí."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Tá tú as líne. Nasc leis an Idirlíon le tabhartas a chur i gcrích."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Tabhartas curtha ar ceal"
@@ -6782,6 +6788,9 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Tá tabhartas ar bun agat a éilíonn fíorú."
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Cuireadh isteach ar an tabhartas"
@@ -6811,13 +6820,13 @@
     "messageformat": "Is féidir nár próiseáladh do dheonachán. Cliceáil ar \"Tabhair airgead do Signal\" agus ansin ar \"Admhálacha Tabhartas\" le do chuid admhálacha a sheiceáil agus a dheimhniú."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Triail arís nó seol isteach loga dífhabhtaithe chuig an bhFoireann Tacaíochta chun cabhair a fháil le do thabhartas a chur i gcrích. Cabhraíonn logaí dífhabhtaithe linn an fhadhb a dhiagnóisiú agus a réiteach, agus ní bhíonn faisnéis aitheantais iontu."
   },
   "icu:Donations__Processing": {
     "messageformat": "Tabhartas á phróiseáil..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Tabhartas á phróiseáil fós"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Tá do thabhartas á phróiseáil fós. Tógann sé seo nóiméad nó dhó."
@@ -6845,6 +6854,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "Cuir an tabhartas ar ceal"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Thanks for your support!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Display on profile"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Tá roinnt mionathruithe agus paistí ar fhabhtanna sa leagan seo chun Signal a choinneáil ag rith go réidh.",
@@ -6884,6 +6905,6 @@
     "messageformat": "Cúpla réiteach bheaga ar fhabhtanna."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "Réitíomar fabht a chuir cosc ar shuaitheantais deonaithe roinnt úsáideoirí a thaispeáint i gceart."
   }
 }

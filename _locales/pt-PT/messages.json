@@ -3528,13 +3528,13 @@
     "messageformat": "Por favor, tente novamente ou contacte o Suporte."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "Ocorreu um erro inesperado"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Submeter registo de depuração"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Não, obrigado"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "Ok"
@@ -5268,10 +5268,10 @@
     "messageformat": "Por exemplo, :-) será convertido em <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Manter arquivados os chats silenciados"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Os chats silenciados arquivados irão permanecer arquivados ao receber uma nova mensagem."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Avançadas"
@@ -6655,10 +6655,10 @@
     "messageformat": "O meu apoio"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "Donativo único de {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "A processar donativo…"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Doar {formattedCurrencyAmount}"
@@ -6675,8 +6675,11 @@
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Recibos"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "View receipt details"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donativos - FAQs"
+    "messageformat": "Donor FAQs"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Os recibos não são sincronizados entre dispositivos. Se reinstalou o Signal, os recibos de doações anteriores não estarão disponíveis."
@@ -6741,6 +6744,9 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Receba o crachá de Boost do Signal durante 30 dias"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Recibo de doação"
   },
@@ -6760,7 +6766,7 @@
     "messageformat": "Obrigado por apoiar o Signal. A sua contribuição ajuda a apoiar a missão de proteger a liberdade de expressão e permitir comunicação global segura para milhões de pessoas em todo o mundo, através de tecnologia de privacidade de código aberto. Se for residente nos Estados Unidos, guarde este recibo para os seus registos fiscais. A Signal Technology Foundation é uma organização sem fins lucrativos isenta de impostos nos Estados Unidos sob a secção 501c3 do Internal Revenue Code. A nossa identificação fiscal federal é 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Está offline. Ligue-se à internet para efetuar um donativo."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Donativo cancelado"
@@ -6782,6 +6788,9 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Tem um donativo em curso que necessita de confirmação."
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Donativo interrompido"
@@ -6811,13 +6820,13 @@
     "messageformat": "O seu donativo pode não ter sido processado. Clique em \"Doar para o Signal\" e, em seguida, em \"Recibos de doação\" para verificar os seus recibos e confirmar."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Tente novamente ou envie ao Suporte um relatório de depuração para obter ajuda na conclusão do seu donativo. Os relatórios de depuração ajudam-nos a diagnosticar e corrigir o problema e não contêm informações pessoais."
   },
   "icu:Donations__Processing": {
     "messageformat": "A processar donativo…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Ainda a processar o donativo"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "O seu donativo ainda está a ser processado. Isto poderá demorar alguns minutos."
@@ -6845,6 +6854,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "Cancelar donativo"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Thanks for your support!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Display on profile"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Esta versão contém um número de pequenas funcionalidades e correções de erros de forma a manter o Signal a correr suavemente.",
@@ -6884,6 +6905,6 @@
     "messageformat": "Algumas correções de erros."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "Corrigimos um erro que impedia que os emblemas de donativos aparecessem corretamente para alguns utilizadores. O Signal é uma organização sem fins lucrativos 501c3 e agradecemos o seu apoio!"
   }
 }

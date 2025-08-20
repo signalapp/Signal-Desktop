@@ -3528,13 +3528,13 @@
     "messageformat": "Lütfen tekrar deneyin veya destek ekibiyle iletişime geçin."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "Beklenmedik bir hata oluştu"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Hata ayıklama günlüğünü gönder"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Hayır teşekkürler"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "Tamam"
@@ -5268,10 +5268,10 @@
     "messageformat": "Örneğin :-) simgesi <emojify>🙂</emojify> simgesine dönüştürülecek"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Sessize alınmış sohbetleri arşivde tut"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Arşivlenerek sessize alınan sohbetler, yeni bir mesaj geldiğinde arşivlenmiş olarak kalır."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Gelişmiş"
@@ -6655,10 +6655,10 @@
     "messageformat": "Desteğim"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} - tek seferlik"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Bağış işleniyor..."
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "{formattedCurrencyAmount} bağış yap"
@@ -6675,8 +6675,11 @@
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Makbuzlar"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "View receipt details"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Bağış için SSS"
+    "messageformat": "Donor FAQs"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Makbuzlar cihazlar arasında senkronize edilmez. Signal'ı yeniden yüklediysen, önceki bağışların makbuzları mevcut olmayacaktır."
@@ -6741,6 +6744,9 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "30 gün boyunca Signal Öne Çıkarma Rozetini kazan"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Bağış makbuzu"
   },
@@ -6760,7 +6766,7 @@
     "messageformat": "Signal'ı desteklediğin için teşekkürler. Katkın açık kaynak gizlilik teknolojisi aracılığıyla, ifade özgürlüğünü koruma ve dünya çapında milyonlarca kişi için güvenli küresel iletişim sağlama misyonunu desteklemeye yardımcı olur. Amerika Birleşik Devletleri'nde ikamet ediyorsan, lütfen bu makbuzu vergi kayıtların için sakla. Signal Technology Foundation, Amerika Birleşik Devletleri'nde İç Gelir Yasası'nın 501c3 numaralı bölümü kapsamında vergiden muaf, kar amacı gütmeyen bir kuruluştur. Federal Vergi Kimlik Numaramız 82-4506840'tır."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Çevrim dışısın. Lütfen bağış işlemini tamamlamak için internete bağlan."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Bağış iptal edildi"
@@ -6782,6 +6788,9 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Onaylanması gereken bir bağış işlemin var."
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Bağış kesildi"
@@ -6811,13 +6820,13 @@
     "messageformat": "Bağışın işleme alınmamış olabilir. Makbuzlarını kontrol etmek ve onaylamak için \"Signal'a Bağış Yap\" seçeneğine, ardından \"Bağış Makbuzları\"na tıkla."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Tekrar dene veya bağışını tamamlamana yardımcı olması için Destek bölümüne bir hata ayıklama günlüğü gönder. Hata ayıklama günlükleri, sorunu teşhis etmemize ve düzeltmemize yardımcı olur ve tanımlayıcı bilgiler içermezler."
   },
   "icu:Donations__Processing": {
     "messageformat": "Bağış işleniyor..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Bağış işlemi devam ediyor"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Bağışın hâlâ işleniyor. Bu birkaç dakika sürebilir."
@@ -6845,6 +6854,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "Bağışı iptal et"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Thanks for your support!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Display on profile"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Bu sürüm Signal'in sorunsuz çalışması için gereken bir takım küçük düzeltme ve hata gidermelerini içerir.",
@@ -6884,6 +6905,6 @@
     "messageformat": "Birkaç küçük hata düzeltmesi."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "Bağış rozetlerinin bazı kullanıcılar için doğru şekilde görünmesini engelleyen bir hatayı düzelttik. Signal, 501c3 kar amacı gütmeyen bir kuruluştur ve desteğin için minnettarız!"
   }
 }
