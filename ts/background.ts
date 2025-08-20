@@ -3199,8 +3199,6 @@ export async function startApp(): Promise<void> {
   }
 
   async function onKeysSync(ev: KeysEvent) {
-    ev.confirm();
-
     const { accountEntropyPool, masterKey, mediaRootBackupKey } = ev;
 
     const prevMasterKeyBase64 = window.storage.get('masterKey');
@@ -3282,6 +3280,7 @@ export async function startApp(): Promise<void> {
 
       await StorageService.runStorageServiceSyncJob({ reason: 'onKeysSync' });
     }
+    ev.confirm();
   }
 
   function onMessageRequestResponse(ev: MessageRequestResponseEvent): void {
