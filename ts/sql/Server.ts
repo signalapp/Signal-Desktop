@@ -599,6 +599,7 @@ export const DataWriter: ServerWritableInterface = {
   saveAttachmentDownloadJob,
   saveAttachmentDownloadJobs,
   resetAttachmentDownloadActive,
+  resetBackupAttachmentDownloadJobsRetryAfter,
   removeAttachmentDownloadJob,
   removeAttachmentDownloadJobsForMessage,
   removeAllBackupAttachmentDownloadJobs,
@@ -5730,6 +5731,16 @@ function resetAttachmentDownloadActive(db: WritableDB): void {
     UPDATE attachment_downloads
     SET active = 0
     WHERE active != 0;
+    `
+  ).run();
+}
+
+function resetBackupAttachmentDownloadJobsRetryAfter(db: WritableDB): void {
+  db.prepare(
+    `
+    UPDATE attachment_downloads
+    SET retryAfter = NULL
+    WHERE originalSource = 'backup_import'
     `
   ).run();
 }

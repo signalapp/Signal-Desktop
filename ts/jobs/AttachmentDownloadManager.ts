@@ -96,8 +96,14 @@ const DEFAULT_RETRY_CONFIG = {
   },
 };
 const BACKUP_RETRY_CONFIG = {
-  ...DEFAULT_RETRY_CONFIG,
+  // Always retry if we think the item may end up being backed up
   maxAttempts: Infinity,
+  backoffConfig: {
+    // 30 seconds, 5 minutes, 50 minutes, 500 minutes (~8.3hrs), (max) 3 days
+    multiplier: 10,
+    firstBackoffs: [30 * durations.SECOND],
+    maxBackoffTime: 3 * durations.DAY,
+  },
 };
 
 type RunDownloadAttachmentJobOptions = {
@@ -224,7 +230,10 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
           limit,
           prioritizeMessageIds: [...this.#visibleTimelineMessages],
           sources: window.storage.get('backupMediaDownloadPaused')
-            ? [AttachmentDownloadSource.STANDARD]
+            ? [
+                AttachmentDownloadSource.STANDARD,
+                AttachmentDownloadSource.BACKFILL,
+              ]
             : undefined,
           timestamp: Date.now(),
         });
