@@ -354,33 +354,20 @@ function PreferencesReceiptList({
     useState<DonationReceipt | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
 
-  const sortedReceipts = sortBy(
-    donationReceipts,
-    receipt => -receipt.timestamp
-  );
-  const receiptsByYear = groupBy(sortedReceipts, receipt =>
-    new Date(receipt.timestamp).getFullYear()
+  const hasReceipts = useMemo(
+    () => donationReceipts.length > 0,
+    [donationReceipts]
   );
 
-  const dateFormatter = getDateTimeFormatter({
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  });
-
-  const preferredSystemLocales =
-    window.SignalContext.getPreferredSystemLocales();
-  const localeOverride = window.SignalContext.getLocaleOverride();
-  const locales =
-    localeOverride != null ? [localeOverride] : preferredSystemLocales;
-
-  const getCurrencyFormatter = (currencyType: string) =>
-    new Intl.NumberFormat(locales, {
-      style: 'currency',
-      currency: currencyType,
-    });
-
-  const hasReceipts = Object.keys(receiptsByYear).length > 0;
+  const receiptsByYear = useMemo(() => {
+    const sortedReceipts = sortBy(
+      donationReceipts,
+      receipt => -receipt.timestamp
+    );
+    return groupBy(sortedReceipts, receipt =>
+      new Date(receipt.timestamp).getFullYear()
+    );
+  }, [donationReceipts]);
 
   const handleDownloadReceipt = useCallback(async () => {
     if (!selectedReceipt) {
@@ -420,6 +407,24 @@ function PreferencesReceiptList({
     showToast,
   ]);
 
+  const dateFormatter = getDateTimeFormatter({
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+
+  const preferredSystemLocales =
+    window.SignalContext.getPreferredSystemLocales();
+  const localeOverride = window.SignalContext.getLocaleOverride();
+  const locales =
+    localeOverride != null ? [localeOverride] : preferredSystemLocales;
+
+  const getCurrencyFormatter = (currencyType: string) =>
+    new Intl.NumberFormat(locales, {
+      style: 'currency',
+      currency: currencyType,
+    });
+
   return (
     <div className="PreferencesDonations PreferencesDonations--receiptList">
       {hasReceipts ? (
@@ -438,14 +443,16 @@ function PreferencesReceiptList({
               <div className="PreferencesDonations--receiptList__year-header">
                 {year}
               </div>
-              <ListBox className="PreferencesDonations--receiptList__list">
+              <div className="PreferencesDonations--receiptList__list">
                 {receipts.map(receipt => (
-                  <ListBoxItem
+                  <button
+                    aria-label={i18n(
+                      'icu:PreferencesDonations__receipt-details-button-aria'
+                    )}
                     key={receipt.id}
                     className="PreferencesDonations--receiptList__receipt-item"
-                    onAction={() => {
-                      setSelectedReceipt(receipt);
-                    }}
+                    onClick={() => setSelectedReceipt(receipt)}
+                    type="button"
                   >
                     <div className="PreferencesDonations--receiptList__receipt-item__icon" />
                     <div className="PreferencesDonations--receiptList__receipt-item__details">
@@ -461,9 +468,9 @@ function PreferencesReceiptList({
                         getHumanDonationAmount(receipt)
                       )}
                     </div>
-                  </ListBoxItem>
+                  </button>
                 ))}
-              </ListBox>
+              </div>
             </div>
           ))}
         </>
@@ -483,9 +490,6 @@ function PreferencesReceiptList({
           i18n={i18n}
           modalName="ReceiptDetailsModal"
           moduleClassName="PreferencesDonations__ReceiptModal"
-          // TODO(DESKTOP-9100): the noMouseClose prop is a temporary
-          // workaround for buttons on the modal not working.
-          noMouseClose
           hasXButton
           title={i18n('icu:PreferencesDonations__ReceiptModal--title')}
           onClose={() => setSelectedReceipt(null)}

@@ -8878,6 +8878,10 @@
     "messageformat": "Receipts",
     "description": "Menu item to view donation receipts"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "View receipt details",
+    "description": "Donation receipts list accessibility label for a single receipt."
+  },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Donation FAQs",
     "description": "Menu item to view donation FAQs"
