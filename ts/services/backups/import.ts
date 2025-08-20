@@ -1738,7 +1738,9 @@ export class BackupImportStream extends Writable {
       return {
         patch: {
           sendStateByConversationId,
-          received_at_ms: timestamp,
+          received_at_ms:
+            getCheckedTimestampOrUndefinedFromLong(outgoing.dateReceived) ??
+            timestamp,
           unidentifiedDeliveries: unidentifiedDeliveries.length
             ? unidentifiedDeliveries
             : undefined,
