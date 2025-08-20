@@ -14,6 +14,7 @@ import { isNumber, noop, partition } from 'lodash';
 import classNames from 'classnames';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
 import type { MutableRefObject, ReactNode } from 'react';
+import type { RowType } from '@signalapp/sqlcipher';
 import { Button, ButtonVariant } from './Button';
 import { ChatColorPicker } from './ChatColorPicker';
 import { Checkbox } from './Checkbox';
@@ -312,6 +313,9 @@ type PropsFunctionType = {
   onWhoCanSeeMeChange: SelectChangeHandlerType<PhoneNumberSharingMode>;
   onWhoCanFindMeChange: SelectChangeHandlerType<PhoneNumberDiscoverability>;
   onZoomFactorChange: SelectChangeHandlerType<ZoomFactorType>;
+  __dangerouslyRunAbitraryReadOnlySqlQuery: (
+    readonlySqlQuery: string
+  ) => Promise<ReadonlyArray<RowType<object>>>;
 
   // Localization
   i18n: LocalizerType;
@@ -511,6 +515,7 @@ export function Preferences({
   internalAddDonationReceipt,
   saveAttachmentToDisk,
   generateDonationReceiptBlob,
+  __dangerouslyRunAbitraryReadOnlySqlQuery,
 }: PropsType): JSX.Element {
   const storiesId = useId();
   const themeSelectId = useId();
@@ -2198,6 +2203,9 @@ export function Preferences({
             internalAddDonationReceipt={internalAddDonationReceipt}
             saveAttachmentToDisk={saveAttachmentToDisk}
             generateDonationReceiptBlob={generateDonationReceiptBlob}
+            __dangerouslyRunAbitraryReadOnlySqlQuery={
+              __dangerouslyRunAbitraryReadOnlySqlQuery
+            }
           />
         }
         contentsRef={settingsPaneRef}

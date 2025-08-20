@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { StrictMode, useEffect } from 'react';
+import React, { StrictMode, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import type { AudioDevice } from '@signalapp/ringrtc';
@@ -686,6 +686,15 @@ export function SmartPreferences(): JSX.Element | null {
     }
   );
 
+  const __dangerouslyRunAbitraryReadOnlySqlQuery = useCallback(
+    (readOnlySqlQuery: string) => {
+      return DataReader.__dangerouslyRunAbitraryReadOnlySqlQuery(
+        readOnlySqlQuery
+      );
+    },
+    []
+  );
+
   if (currentLocation.tab !== NavTab.Settings) {
     return null;
   }
@@ -883,6 +892,9 @@ export function SmartPreferences(): JSX.Element | null {
         internalAddDonationReceipt={internalAddDonationReceipt}
         saveAttachmentToDisk={window.Signal.Migrations.saveAttachmentToDisk}
         generateDonationReceiptBlob={generateDonationReceiptBlob}
+        __dangerouslyRunAbitraryReadOnlySqlQuery={
+          __dangerouslyRunAbitraryReadOnlySqlQuery
+        }
       />
     </StrictMode>
   );

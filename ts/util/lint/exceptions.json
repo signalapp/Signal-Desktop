@@ -1503,6 +1503,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/PreferencesInternal.tsx",
+    "line": "  const prevAbortControlerRef = useRef<AbortController | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-08-20T18:18:34.081Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/ProfileEditor.tsx",
     "line": "  const focusInputRef = useRef<HTMLInputElement | null>(null);",
     "reasonCategory": "usageTrusted",

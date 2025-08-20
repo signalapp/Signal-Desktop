@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Database } from '@signalapp/sqlcipher';
+import type { Database, RowType } from '@signalapp/sqlcipher';
 import type { ReadonlyDeep } from 'type-fest';
 
 import { strictAssert } from '../util/assert';
@@ -894,6 +894,10 @@ type ReadableInterface = {
   getMessageSampleForSchemaVersion: (
     version: number
   ) => Array<MessageAttributesType>;
+
+  __dangerouslyRunAbitraryReadOnlySqlQuery: (
+    readOnlySqlQuery: string
+  ) => ReadonlyArray<RowType<object>>;
 };
 
 type WritableInterface = {

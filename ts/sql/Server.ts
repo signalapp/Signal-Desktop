@@ -4,6 +4,7 @@
 /* eslint-disable camelcase */
 
 // TODO(indutny): format queries
+import type { RowType } from '@signalapp/sqlcipher';
 import SQL, { setLogger as setSqliteLogger } from '@signalapp/sqlcipher';
 import { randomBytes } from 'crypto';
 import { mkdirSync, rmSync } from 'node:fs';
@@ -477,6 +478,8 @@ export const DataReader: ServerReadableInterface = {
   finishPageMessages,
   getKnownDownloads,
   getKnownConversationAttachments,
+
+  __dangerouslyRunAbitraryReadOnlySqlQuery,
 };
 
 export const DataWriter: ServerWritableInterface = {
@@ -8716,4 +8719,18 @@ function ensureMessageInsertTriggersAreEnabled(db: WritableDB): void {
       enableMessageInsertTriggersAndBackfill(db);
     }
   })();
+}
+
+function __dangerouslyRunAbitraryReadOnlySqlQuery(
+  db: ReadableDB,
+  readOnlySqlQuery: string
+): ReadonlyArray<RowType<object>> {
+  let results: ReadonlyArray<RowType<object>>;
+  try {
+    db.pragma('query_only = on');
+    results = db.prepare(readOnlySqlQuery).all();
+  } finally {
+    db.pragma('query_only = off');
+  }
+  return results;
 }

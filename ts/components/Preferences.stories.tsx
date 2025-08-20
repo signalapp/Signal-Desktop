@@ -497,6 +497,9 @@ export default {
       action('generateDonationReceiptBlob')();
       return new Blob();
     },
+    __dangerouslyRunAbitraryReadOnlySqlQuery: async () => {
+      return Promise.resolve([]);
+    },
   } satisfies PropsType,
 } satisfies Meta<PropsType>;
 

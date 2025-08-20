@@ -1,10 +1,11 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import classNames from 'classnames';
 import { v4 as uuid } from 'uuid';
 
+import type { RowType } from '@signalapp/sqlcipher';
 import type { LocalizerType } from '../types/I18N';
 import { toLogFormat } from '../types/errors';
 import { formatFileSize } from '../util/formatFileSize';
@@ -19,6 +20,7 @@ import type { DonationReceipt } from '../types/Donations';
 import { createLogger } from '../logging/log';
 import { isStagingServer } from '../util/isStagingServer';
 import { getHumanDonationAmount } from '../util/currency';
+import { AutoSizeTextArea } from './AutoSizeTextArea';
 
 const log = createLogger('PreferencesInternal');
 
@@ -32,6 +34,7 @@ export function PreferencesInternal({
   internalAddDonationReceipt,
   saveAttachmentToDisk,
   generateDonationReceiptBlob,
+  __dangerouslyRunAbitraryReadOnlySqlQuery,
 }: {
   i18n: LocalizerType;
   exportLocalBackup: () => Promise<BackupValidationResultType>;
@@ -51,6 +54,9 @@ export function PreferencesInternal({
     receipt: DonationReceipt,
     i18n: LocalizerType
   ) => Promise<Blob>;
+  __dangerouslyRunAbitraryReadOnlySqlQuery: (
+    readonlySqlQuery: string
+  ) => Promise<ReadonlyArray<RowType<object>>>;
 }): JSX.Element {
   const [isExportPending, setIsExportPending] = useState(false);
   const [exportResult, setExportResult] = useState<
@@ -67,6 +73,11 @@ export function PreferencesInternal({
   const [validationResult, setValidationResult] = useState<
     BackupValidationResultType | undefined
   >();
+
+  const [readOnlySqlInput, setReadOnlySqlInput] = useState('');
+  const [readOnlySqlResults, setReadOnlySqlResults] = useState<ReadonlyArray<
+    RowType<object>
+  > | null>(null);
 
   const validateBackup = useCallback(async () => {
     setIsValidationPending(true);
@@ -183,6 +194,34 @@ export function PreferencesInternal({
     },
     [i18n, saveAttachmentToDisk, generateDonationReceiptBlob]
   );
+
+  const handleReadonlySqlInputChange = useCallback(
+    (newReadonlySqlInput: string) => {
+      setReadOnlySqlInput(newReadonlySqlInput);
+    },
+    []
+  );
+
+  const prevAbortControlerRef = useRef<AbortController | null>(null);
+
+  const handleReadOnlySqlInputSubmit = useCallback(async () => {
+    const controller = new AbortController();
+    const { signal } = controller;
+
+    prevAbortControlerRef.current?.abort();
+    prevAbortControlerRef.current = controller;
+
+    setReadOnlySqlResults(null);
+
+    const result =
+      await __dangerouslyRunAbitraryReadOnlySqlQuery(readOnlySqlInput);
+
+    if (signal.aborted) {
+      return;
+    }
+
+    setReadOnlySqlResults(result);
+  }, [readOnlySqlInput, __dangerouslyRunAbitraryReadOnlySqlQuery]);
 
   return (
     <div className="Preferences--internal">
@@ -437,6 +476,34 @@ export function PreferencesInternal({
           )}
         </SettingsRow>
       )}
+
+      <SettingsRow title="Readonly SQL Playground">
+        <FlowingSettingsControl>
+          <AutoSizeTextArea
+            i18n={i18n}
+            value={readOnlySqlInput}
+            onChange={handleReadonlySqlInputChange}
+            placeholder="SELECT * FROM items"
+            moduleClassName="Preferences__ReadonlySqlPlayground__Textarea"
+          />
+          <Button
+            variant={ButtonVariant.Destructive}
+            onClick={handleReadOnlySqlInputSubmit}
+          >
+            Run Query
+          </Button>
+          {readOnlySqlResults != null && (
+            <AutoSizeTextArea
+              i18n={i18n}
+              value={JSON.stringify(readOnlySqlResults, null, 2)}
+              onChange={() => null}
+              readOnly
+              placeholder=""
+              moduleClassName="Preferences__ReadonlySqlPlayground__Textarea"
+            />
+          )}
+        </FlowingSettingsControl>
+      </SettingsRow>
     </div>
   );
 }
