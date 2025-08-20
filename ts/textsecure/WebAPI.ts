@@ -2037,6 +2037,22 @@ export function initialize({
       log.info('libsignal net will require TLS 1.3');
       libsignalRemoteConfig.set('enforceMinimumTls', 'true');
     }
+    if (
+      window.Signal.RemoteConfig.isEnabled(
+        'desktop.libsignalNet.shadowUnauthChatWithNoise'
+      )
+    ) {
+      log.info('libsignal net will shadow unauth chat connections');
+      libsignalRemoteConfig.set('shadowUnauthChatWithNoise', 'true');
+    }
+    if (
+      window.Signal.RemoteConfig.isEnabled(
+        'desktop.libsignalNet.shadowAuthChatWithNoise'
+      )
+    ) {
+      log.info('libsignal net will shadow auth chat connections');
+      libsignalRemoteConfig.set('shadowAuthChatWithNoise', 'true');
+    }
     libsignalNet.setRemoteConfig(libsignalRemoteConfig);
 
     const socketManager = new SocketManager(libsignalNet, {
