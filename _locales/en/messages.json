@@ -1384,7 +1384,7 @@
   },
   "icu:ConversationHeader__DeleteConversationConfirmation__description": {
     "messageformat": "All messages in this chat will be deleted from this device.",
-    "description": "Description for confirmation modal to delete a conversation"
+    "description": "(Deleted 2025/08/20) Description for confirmation modal to delete a conversation"
   },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "All messages in this chat will be deleted from all your devices.",
@@ -9183,6 +9183,6 @@
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!",
-    "description": "Release notes for version 7.67"
+    "description": "(Deleted 2025/08/20) Release notes for version 7.67"
   }
 }

@@ -3528,13 +3528,13 @@
     "messageformat": "请重试或联系支持人员。"
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "出现意外错误"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "提交调试日志"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "不，谢谢。"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "好的"
@@ -5268,10 +5268,10 @@
     "messageformat": "例如，将 :-) 转换为 <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "继续存档静音聊天"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "当收到新消息时，已存档的静音聊天将会保持存档状态。"
   },
   "icu:Preferences--advanced": {
     "messageformat": "高级"
@@ -6655,10 +6655,10 @@
     "messageformat": "我的赞助"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} 单次捐款"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "正在处理捐款……"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "捐款 {formattedCurrencyAmount}"
@@ -6675,8 +6675,11 @@
   "icu:PreferencesDonations__receipts": {
     "messageformat": "收据"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "View receipt details"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "捐款常见问题解答"
+    "messageformat": "Donor FAQs"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "收据无法跨设备同步。如果您重新安装了 Signal，系统将无法提供先前的捐款收据。"
@@ -6741,6 +6744,9 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "获得 30 天的 Signal 随手捐徽章"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "捐款收据"
   },
@@ -6760,7 +6766,7 @@
     "messageformat": "感谢您支持 Signal。您的捐款将助力我们履行使命：保护自由表达，通过开源隐私技术让全球数百万用户享受全球安全通信。如果您是美国居民，请保留此收据作为您的税务记录。Signal 技术基金会是美国国内税收法第 501c3 条定义的美国免税非营利组织。我们的联邦税号为 82-4506840。"
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "您处于离线状态。请连接到互联网以完成捐款。"
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "捐款已取消"
@@ -6782,6 +6788,9 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "您正在进行的捐款需要确认。"
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "捐款中断"
@@ -6811,13 +6820,13 @@
     "messageformat": "您的捐款可能尚未处理。请点击“给 Signal 捐款”，然后点击“捐款凭据”，查看您的收据并确认捐款状态。"
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "请重试或给支持团队提交调试日志，以获取帮助完成捐款。调试日志能帮助我们诊断和解决问题，并且不包含任何可识别身份的信息。"
   },
   "icu:Donations__Processing": {
     "messageformat": "正在处理捐款……"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "捐款仍在处理中"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "您的捐款仍在处理中。这可能需要几分钟。"
@@ -6845,6 +6854,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "取消捐款"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Thanks for your support!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Display on profile"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "此版本包含多个小调整和漏洞修复，以维持 Signal 的顺畅运行。",
@@ -6884,6 +6905,6 @@
     "messageformat": "此次更新修复了一些小漏洞。"
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "我们修复了一个漏洞，该漏洞会导致部分用户的捐款徽章无法正确显示。"
   }
 }

@@ -3528,13 +3528,13 @@
     "messageformat": "Mēģiniet vēlreiz vai sazinieties ar atbalstu."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "Radās neparedzēta kļūda"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Iesniegt kļūdas labošanas ierakstu."
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Nē, paldies"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "Labi"
@@ -5268,10 +5268,10 @@
     "messageformat": "Piemēram, :-) tiks pārvērsts par <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Saglabāt apklusinātās sarunas arhivētas"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Arhivētas apklusinātās sarunas paliks arhivētas, kad tiks saņemta jauna ziņa."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Papildu"
@@ -6655,10 +6655,10 @@
     "messageformat": "Mans atbalsts"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} vienreizējs"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Notiek ziedojuma apstrāde..."
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Ziedot {formattedCurrencyAmount}"
@@ -6675,8 +6675,11 @@
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Kvītis"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "View receipt details"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Ziedojumu BUJ"
+    "messageformat": "Donor FAQs"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Kvītis netiek sinhronizētas starp ierīcēm. Ja pārinstalējāt Signal, kvītis no iepriekš veiktajiem ziedojumiem nebūs pieejamas."
@@ -6741,6 +6744,9 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Iegūstiet Signal Boost nozīmīti uz 30 dienām"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Ziedojuma kvīts"
   },
@@ -6760,7 +6766,7 @@
     "messageformat": "Pateicamies, ka atbalstāt Signal. Jūsu atbalsts palīdz īstenot mūsu misiju: aizsargāt vārda brīvību un nodrošināt drošu saziņu miljoniem cilvēku visā pasaulē. Mēs to darām, izmantojot atvērtā pirmkoda privātuma tehnoloģijas. Ja jūs esat Amerikas Savienoto valstu iedzīvotājs, lūdzu, saglabājiet šo kvīti nodokļu uzskaitei. Signal Technology Foundation ir no nodokļu maksāšanas atbrīvota bezpeļnas organizācija Amerikas Savienotajās valstīs saskaņā ar Iekšējo ieņēmumu likuma 501c3 sadaļu. Mūsu federālais nodokļu ID ir 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Jūs esat bezsaistē. Lai pabeigtu ziedojumu, lūdzu, izveidojiet savienojumu ar internetu."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Ziedojums atcelts"
@@ -6782,6 +6788,9 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Jums ir nepabeigts ziedojums, kuram nepieciešams apstiprinājums."
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Ziedojums pārtraukts"
@@ -6811,13 +6820,13 @@
     "messageformat": "Jūsu ziedojums, iespējams, nav apstrādāts. Noklikšķiniet uz “Ziedot Signal” un tad uz “Ziedojumu kvītis”, lai pārbaudītu un apstiprinātu kvītis."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Mēģiniet vēlreiz vai iesniedziet atkļūdošanas žurnālu atbalsta dienestam, lai saņemtu palīdzību ar ziedojuma pabeigšanu. Atkļūdošanas žurnāli palīdz mums diagnosticēt un novērst problēmu, un tie nesatur identificējošu informāciju."
   },
   "icu:Donations__Processing": {
     "messageformat": "Notiek ziedojuma apstrāde..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Ziedojums joprojām tiek apstrādāts"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Jūsu ziedojums joprojām tiek apstrādāts. Process var ilgt dažas minūtes."
@@ -6845,6 +6854,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "Atcelt ziedojumu"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Thanks for your support!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Display on profile"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Šī versija ietver vairākus nelielus uzlabojumus un kļūdu labojumus, lai Signal darbotos bez problēmām.",
@@ -6884,6 +6905,6 @@
     "messageformat": "Šis atjauninājums izlabo dažas nelielas kļūdas, tostarp kļūdu, kuras dēļ dažos gadījumos emocijzīmju reakcijas netika pareizi sagrupētas."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "Mēs novērsām kļūdu, kuras dēļ daļai lietotāju ziedojumu nozīmītes netika rādītas pareizi. Signal ir bezpeļņas organizācija, uz kuru attiecas 501. panta 1. punkta (c) apakšpunkts, un mēs novērtējam jūsu atbalstu!"
   }
 }

@@ -3528,13 +3528,13 @@
     "messageformat": "Sila cuba lagi atau hubungi sokongan."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "Ralat yang tidak dijangka berlaku"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Hantar log nyahpepijat"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Tidak, terima kasih"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "Okay"
@@ -5268,10 +5268,10 @@
     "messageformat": "Sebagai contoh, :-) akan ditukar kepada <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Kekalkan Sembang yang Diredam Diarkibkan"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Sembang yang diredam, yang telah diarkibkan akan kekal diarkibkan apabila mesej baru masuk."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Lanjutan"
@@ -6655,10 +6655,10 @@
     "messageformat": "Sokongan Saya"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} sekali"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Memproses derma..."
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Derma {formattedCurrencyAmount}"
@@ -6675,8 +6675,11 @@
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Resit"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "View receipt details"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Soalan Lazim Derma"
+    "messageformat": "Donor FAQs"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Resit tidak disegerakkan merentasi peranti. Jika anda memasang semula Signal, resit daripada derma terdahulu tidak akan tersedia."
@@ -6741,6 +6744,9 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Dapatkan lencana Signal Boost selama 30 hari"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Resit derma"
   },
@@ -6760,7 +6766,7 @@
     "messageformat": "Terima kasih kerana menyokong Signal. Sumbangan anda membantu menyokong misi melindungi kebebasan bersuara dan membolehkan komunikasi global yang selamat untuk jutaan orang di seluruh dunia, melalui teknologi privasi sumber terbuka. Jika anda penduduk Amerika Syarikat, sila simpan resit ini untuk rekod cukai anda. Signal Technology Foundation merupakan organisasi bukan berasaskan keuntungan yang dikecualikan cukai di Amerika Syarikat di bawah seksyen 501c3 Kod Hasil dalam Negeri. ID Cukai Persekutuan kami ialah 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Anda berada di luar talian. Sila sambung ke internet untuk menyelesaikan derma."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Derma dibatalkan"
@@ -6782,6 +6788,9 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Anda mempunyai derma yang sedang diproses dan memerlukan pengesahan."
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Derma terganggu"
@@ -6811,13 +6820,13 @@
     "messageformat": "Derma anda mungkin tidak diproses. Klik \"Derma kepada Signal\" dan kemudian \"Resit Derma\" untuk menyemak resit anda dan mengesahkan."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Cuba lagi atau hantar log nyahpepijat kepada Sokongan untuk bantuan menyelesaikan derma anda. Log nyahpepijat membantu kami mengenal pasti dan membetulkan isu ini, dan tidak mengandungi maklumat pengenalan diri."
   },
   "icu:Donations__Processing": {
     "messageformat": "Memproses derma..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Masih memproses derma"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Derma anda sedang diproses. Ini boleh mengambil masa beberapa minit"
@@ -6845,6 +6854,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "Batalkan derma"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Thanks for your support!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Display on profile"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Versi ini mengandungi sedikit tweak kecil dan pembetulan pepijat untuk memastikan Signal berjalan dengan lancar.",
@@ -6878,12 +6899,12 @@
     "messageformat": "Kami telah menambah baik pengalaman baca/belum baca mesej semasa anda melakukan berbilang tugas."
   },
   "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Kami membetulkan pepijat dalam kotak carian emoji."
+    "messageformat": "Kami telah membetulkan pepijat dalam kotak carian emoji."
   },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "Beberapa pembetulan pepijat kecil."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "Kami telah membetulkan pepijat yang menghalang lencana derma dipaparkan dengan betul bagi sesetengah pengguna."
   }
 }

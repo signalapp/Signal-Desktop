@@ -3528,13 +3528,13 @@
     "messageformat": "Pokušajte ponovo ili kontaktirajte podršku."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "Došlo je do neočekivane pogreške"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Pošalji zapisnik pogreške"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Ne, hvala"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "U redu"
@@ -5268,10 +5268,10 @@
     "messageformat": "Npr. :-) pretvorit će se u <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Zadrži utišane razgovore arhiviranima"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Utišani arhivirani razgovori ostat će arhivirani kada stigne nova poruka."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Napredno"
@@ -6655,10 +6655,10 @@
     "messageformat": "Moja podrška"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "Jednokratno {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Obrada donacije u tijeku…"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Doniraj {formattedCurrencyAmount}"
@@ -6675,8 +6675,11 @@
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Računi"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "View receipt details"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Najčešća pitanja o donacijama"
+    "messageformat": "Donor FAQs"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Plaćanja se ne sinkroniziraju na različitim uređajima. Ako ste ponovno instalirali Signal, potvrde o prijašnjim donacijama neće biti dostupne."
@@ -6741,6 +6744,9 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Osvojite Signalovu značku podrške na 30 dana"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Potvrda o donaciji"
   },
@@ -6760,7 +6766,7 @@
     "messageformat": "Hvala što podržavate Signal. Vaš doprinos podržava našu misiju razvoja tehnologije otvorenog koda za zaštitu privatnosti, koja štiti slobodu izražavanja i omogućuje sigurnu globalnu komunikaciju milijunima ljudi širom svijeta. Ako imate prebivalište u Sjedinjenim Američkim Državama, sačuvajte ovu potvrdu za poreznu dokumentaciju. Signal Technology Foundation je neprofitna organizacija oslobođena plaćanja poreza u Sjedinjenim Američkim Državama prema odjeljku 501c3 Zakona o internim prihodima. Naš federalni porezni broj je 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Niste na mreži. Molimo vas da se povežete s internetom kako biste dovršili donaciju."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Donacija je otkazana"
@@ -6782,6 +6788,9 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Imate donaciju koja je u obradi i zahtijeva dodatnu potvrdu."
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Donacija je prekinuta"
@@ -6811,13 +6820,13 @@
     "messageformat": "Vaša donacija možda nije obrađena. Kliknite na „Donirajte Signalu“, a zatim na „Potvrde o donaciji“ kako biste provjerili svoje donacije."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Pokušajte ponovno ili pošaljite zapisnik otklanjanja pogreške korisničkoj podršci za pomoć s donacijom. Zapisi pogrešaka pomažu nam pri dijagnosticiranju i rješavanju problema i ne sadrže podatke za identifikaciju."
   },
   "icu:Donations__Processing": {
     "messageformat": "Obrada donacije u tijeku…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Donacija se još uvijek obrađuje"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Vaša se donacija još uvijek obrađuje. Ovo može potrajati nekoliko minuta."
@@ -6845,6 +6854,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "Otkaži donaciju"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Thanks for your support!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Display on profile"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ova verzija Signala sadrži niz malih podešavanja i ispravaka programskih pogrešaka za nesmetano korištenje aplikacije.",
@@ -6884,6 +6905,6 @@
     "messageformat": "Ispravljeno je nekoliko manjih programskih pogrešaka."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "Ispravili smo programsku pogrešku zbog koje se značke za donacije nisu ispravno prikazivale nekolicini korisnika."
   }
 }
