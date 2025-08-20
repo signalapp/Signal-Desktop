@@ -249,10 +249,7 @@ export class BackupExportStream extends Readable {
   readonly #serviceIdToRecipientId = new Map<string, number>();
   readonly #e164ToRecipientId = new Map<string, number>();
   readonly #roomIdToRecipientId = new Map<string, number>();
-  readonly #mediaNamesToLocatorInfos = new Map<
-    string,
-    Backups.FilePointer.ILocatorInfo
-  >();
+  readonly #mediaNamesToFilePointers = new Map<string, Backups.FilePointer>();
   readonly #stats: StatsType = {
     adHocCalls: 0,
     callLinks: 0,
@@ -355,7 +352,7 @@ export class BackupExportStream extends Readable {
   }
 
   public getMediaNamesIterator(): MapIterator<string> {
-    return this.#mediaNamesToLocatorInfos.keys();
+    return this.#mediaNamesToFilePointers.keys();
   }
 
   public getStats(): Readonly<StatsType> {
@@ -2608,16 +2605,17 @@ export class BackupExportStream extends Readable {
       const mediaName = getMediaNameForAttachment(attachment);
 
       // Re-use existing locatorInfo and backup job if we've already seen this file
-      const existingLocatorInfo = this.#mediaNamesToLocatorInfos.get(mediaName);
+      const existingFilePointer = this.#mediaNamesToFilePointers.get(mediaName);
 
-      if (existingLocatorInfo) {
-        filePointer.locatorInfo = existingLocatorInfo;
+      if (existingFilePointer?.locatorInfo) {
+        filePointer.locatorInfo = existingFilePointer.locatorInfo;
+        // Also copy over incrementalMac, since that depends on the encryption key
+        filePointer.incrementalMac = existingFilePointer.incrementalMac;
+        filePointer.incrementalMacChunkSize =
+          existingFilePointer.incrementalMacChunkSize;
       } else {
         if (filePointer.locatorInfo) {
-          this.#mediaNamesToLocatorInfos.set(
-            mediaName,
-            filePointer.locatorInfo
-          );
+          this.#mediaNamesToFilePointers.set(mediaName, filePointer);
         }
 
         if (backupJob) {

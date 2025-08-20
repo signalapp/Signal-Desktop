@@ -38,6 +38,7 @@ import {
   isValidAttachmentKey,
   isValidPlaintextHash,
 } from '../../../types/Crypto';
+import { isTestOrMockEnvironment } from '../../../environment';
 
 const log = createLogger('filePointers');
 
@@ -227,18 +228,17 @@ export async function getFilePointerForAttachment({
     height: attachment.height,
     caption: attachment.caption,
     blurHash: attachment.blurHash,
-
-    // Resilience to invalid data in the database from internal testing
-    ...(typeof attachment.incrementalMac === 'string' && attachment.chunkSize
-      ? {
-          incrementalMac: Bytes.fromBase64(attachment.incrementalMac),
-          incrementalMacChunkSize: attachment.chunkSize,
-        }
-      : {
-          incrementalMac: undefined,
-          incrementalMacChunkSize: undefined,
-        }),
   });
+
+  // TODO: DESKTOP-9112
+  if (isTestOrMockEnvironment()) {
+    // Check for string type for resilience to invalid data in the database from internal
+    // testing
+    if (typeof attachment.incrementalMac === 'string' && attachment.chunkSize) {
+      filePointer.incrementalMac = Bytes.fromBase64(attachment.incrementalMac);
+      filePointer.incrementalMacChunkSize = attachment.chunkSize;
+    }
+  }
 
   const locatorInfo = getLocatorInfoForAttachment({
     attachment,

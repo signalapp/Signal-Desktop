@@ -100,12 +100,14 @@ describe('backup/attachments', () => {
       plaintextHash: Bytes.toHex(getRandomBytes(32)),
       key: Bytes.toBase64(generateKeys()),
       digest: Bytes.toBase64(getRandomBytes(32)),
-      size: 100,
+      size: 100 + index,
       contentType: IMAGE_JPEG,
       path: `/path/to/file${index}.png`,
       caption: `caption${index}`,
       localKey: Bytes.toBase64(generateAttachmentKeys()),
       uploadTimestamp: index,
+      incrementalMac: Bytes.toBase64(getRandomBytes(32)),
+      chunkSize: index * 128,
       thumbnail: {
         size: 1024,
         width: 150,
@@ -405,11 +407,10 @@ describe('backup/attachments', () => {
     it('deduplicates attachments on export based on mediaName', async () => {
       const attachment1 = composeAttachment(1);
       const attachment2 = {
-        ...attachment1,
-        contentType: IMAGE_WEBP,
-        caption: 'attachment2caption',
-        cdnKey: 'attachment2cdnkey',
-        cdnNumber: 25,
+        ...composeAttachment(2),
+        plaintextHash: attachment1.plaintextHash,
+        key: attachment1.key,
+        size: attachment1.size,
       };
 
       await asymmetricRoundtripHarness(
@@ -431,6 +432,9 @@ describe('backup/attachments', () => {
                 ...attachment2,
                 cdnKey: attachment1.cdnKey,
                 cdnNumber: attachment1.cdnNumber,
+                uploadTimestamp: attachment1.uploadTimestamp,
+                incrementalMac: attachment1.incrementalMac,
+                chunkSize: attachment1.chunkSize,
               }),
             ],
           }),
