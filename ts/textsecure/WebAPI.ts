@@ -853,6 +853,7 @@ export type CapabilitiesType = {
 };
 export type CapabilitiesUploadType = {
   attachmentBackfill: true;
+  spqr: true;
 };
 
 type StickerPackManifestType = Uint8Array;
@@ -3220,6 +3221,7 @@ export function initialize({
 
       const capabilities: CapabilitiesUploadType = {
         attachmentBackfill: true,
+        spqr: true,
       };
 
       // Desktop doesn't support recovery but we need to provide a recovery password.
@@ -3284,6 +3286,7 @@ export function initialize({
     }: LinkDeviceOptionsType) {
       const capabilities: CapabilitiesUploadType = {
         attachmentBackfill: true,
+        spqr: true,
       };
 
       const jsonData = {

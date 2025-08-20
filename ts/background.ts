@@ -1875,6 +1875,7 @@ export async function startApp(): Promise<void> {
     try {
       await server.registerCapabilities({
         attachmentBackfill: true,
+        spqr: true,
       });
     } catch (error) {
       log.error(
