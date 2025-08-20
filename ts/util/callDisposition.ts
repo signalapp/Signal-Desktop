@@ -144,7 +144,7 @@ export function getCallIdFromEra(eraId: string): string {
   return Long.fromValue(callIdFromEra(eraId)).toString();
 }
 
-export function getCreatorAci(creator: Buffer): AciString {
+export function getCreatorAci(creator: Uint8Array): AciString {
   const aci = bytesToUuid(creator);
   strictAssert(aci != null, 'creator uuid buffer was not a valid uuid');
   strictAssert(isAciString(aci), 'creator uuid buffer was not a valid aci');

@@ -81,7 +81,7 @@ export function callingMessageToProto(
 }
 
 function bufferToProto(
-  value: Buffer | { toArrayBuffer(): ArrayBuffer } | undefined
+  value: Uint8Array | { toArrayBuffer(): ArrayBuffer } | undefined
 ): Uint8Array | undefined {
   if (!value) {
     return undefined;
