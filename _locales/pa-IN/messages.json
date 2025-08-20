@@ -3528,13 +3528,13 @@
     "messageformat": "ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ ਜਾਂ ਸਹਾਇਤਾ ਨਾਲ ਸੰਪਰਕ ਕਰੋ।"
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "ਅਚਾਨਕ ਕੋਈ ਗੜਬੜੀ ਪੇਸ਼ ਆ ਗਈ ਹੈ"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "ਡੀਬੱਗ ਲਾਗ ਦਰਜ ਕਰੋ"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "ਨਹੀਂ ਧੰਨਵਾਦ"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "ਠੀਕ ਹੈ"
@@ -5268,10 +5268,10 @@
     "messageformat": "ਉਦਾਹਰਨ ਦੇ ਲਈ, :-) ਨੂੰ <emojify>🙂</emojify> ਵਿੱਚ ਬਦਲ ਦਿੱਤਾ ਜਾਵੇਗਾ"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "ਮਿਊਟ ਕੀਤੀਆਂ ਗਈਆਂ ਚੈਟਾਂ ਨੂੰ ਆਰਕਾਈਵ ਵਿੱਚ ਹੀ ਰੱਖੋ"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "ਨਵਾਂ ਸੁਨੇਹਾ ਆਉਣ 'ਤੇ ਆਰਕਾਈਵ ਵਿੱਚ ਮੌਜੂਦ ਮਿਊਟ ਕੀਤੀਆਂ ਗਈਆਂ ਚੈਟਾਂ, ਆਰਕਾਈਵ ਵਿੱਚ ਹੀ ਰਹਿਣਗੀਆਂ।"
   },
   "icu:Preferences--advanced": {
     "messageformat": "ਤਕਨੀਕੀ"
@@ -6655,10 +6655,10 @@
     "messageformat": "ਮੇਰਾ ਸਹਿਯੋਗ"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} ਇੱਕ-ਵਾਰ"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "ਦਾਨ ਉੱਤੇ ਕਾਰਵਾਈ ਹੋ ਰਹੀ ਹੈ…"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "{formattedCurrencyAmount} ਦਾਨ ਦਿਓ"
@@ -6675,8 +6675,11 @@
   "icu:PreferencesDonations__receipts": {
     "messageformat": "ਰਸੀਦਾਂ"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "View receipt details"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "ਦਾਨ ਬਾਰੇ ਅਕਸਰ ਪੁੱਛੇ ਜਾਣ ਵਾਲੇ ਸਵਾਲ"
+    "messageformat": "Donor FAQs"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "ਰਸੀਦਾਂ ਸਾਰੇ ਡਿਵਾਈਸਾਂ ਵਿੱਚ ਸਿੰਕ ਨਹੀਂ ਹੁੰਦੀਆਂ ਹਨ। ਜੇਕਰ ਤੁਸੀਂ Signal ਨੂੰ ਦੁਬਾਰਾ ਇੰਸਟਾਲ ਕੀਤਾ ਹੈ, ਤਾਂ ਪਿਛਲੇ ਦਾਨ ਦੀਆਂ ਰਸੀਦਾਂ ਉਪਲਬਧ ਨਹੀਂ ਹੋਣਗੀਆਂ।"
@@ -6741,6 +6744,9 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "30 ਦਿਨਾਂ ਲਈ Signal ਬੂਸਟ ਬੈਜ ਪ੍ਰਾਪਤ ਕਰੋ"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "ਦਾਨ ਦੀ ਰਸੀਦ"
   },
@@ -6760,7 +6766,7 @@
     "messageformat": "Signal ਨੂੰ ਸਹਿਯੋਗ ਦੇਣ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ। ਤੁਹਾਡਾ ਯੋਗਦਾਨ ਓਪਨ ਸੋਰਸ ਪ੍ਰਾਈਵੇਸੀ ਤਕਨਾਲੋਜੀ ਵਿਕਸਤ ਕਰਨ ਦੇ ਉਦੇਸ਼ ਨੂੰ ਪੂਰਾ ਕਰਨ ਵਿੱਚ ਮਦਦ ਕਰਦਾ ਹੈ। ਇਹ ਤਕਨਾਲੋਜੀ ਆਜ਼ਾਦੀ ਨਾਲ ਆਪਣੇ ਵਿਚਾਰ ਪੇਸ਼ ਕਰਨ ਦੇ ਅਧਿਕਾਰ ਦੀ ਰਾਖੀ ਕਰਦੀ ਹੈ ਅਤੇ ਪੂਰੀ ਦੁਨੀਆਂ ਵਿੱਚ ਸੰਚਾਰ ਨੂੰ ਸੁਰੱਖਿਅਤ ਬਣਾਉਂਦੀ ਹੈ। ਜੇਕਰ ਤੁਸੀਂ ਸੰਯੁਕਤ ਰਾਜ ਅਮਰੀਕਾ ਦੇ ਨਿਵਾਸੀ ਹੋ, ਤਾਂ ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੇ ਟੈਕਸ ਰਿਕਾਰਡਾਂ ਲਈ ਇਸ ਰਸੀਦ ਨੂੰ ਆਪਣੇ ਕੋਲ ਸਾਂਭ ਕੇ ਰੱਖੋ। Signal ਟੈਕਨਾਲੋਜੀ ਫਾਊਂਡੇਸ਼ਨ, ਸੰਯੁਕਤ ਰਾਜ ਅਮਰੀਕਾ ਵਿੱਚ ਇੰਟਰਨਲ ਰਿਵੈਨਿਊ ਕੋਡ ਦੀ ਧਾਰਾ 501c3 ਦੇ ਤਹਿਤ ਇੱਕ ਟੈਕਸ-ਮੁਕਤ ਗੈਰ-ਲਾਭਕਾਰੀ ਸੰਸਥਾ ਹੈ। ਸਾਡੀ ਫੈਡਰਲ ਟੈਕਸ ID 82–4506840 ਹੈ।"
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "ਤੁਸੀਂ ਆਫਲਾਈਨ ਹੋ। ਦਾਨ ਪੂਰਾ ਕਰਨ ਲਈ ਕਿਰਪਾ ਕਰਕੇ ਇੰਟਰਨੈੱਟ ਨਾਲ ਕਨੈਕਟ ਕਰੋ।"
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "ਦਾਨ ਰੱਦ ਕੀਤਾ ਗਿਆ"
@@ -6782,6 +6788,9 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "ਤੁਹਾਡਾ ਇੱਕ ਦਾਨ ਪ੍ਰਗਤੀ ਅਧੀਨ ਹੈ ਜਿਸਦੀ ਪੁਸ਼ਟੀ ਕਰਨ ਦੀ ਲੋੜ ਹੈ।"
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "ਦਾਨ ਦੀ ਪ੍ਰਕਿਰਿਆ ਵਿੱਚ ਕੋਈ ਰੁਕਾਵਟ ਆ ਗਈ ਹੈ"
@@ -6811,13 +6820,13 @@
     "messageformat": "ਹੋ ਸਕਦਾ ਹੈ ਕਿ ਤੁਹਾਡੇ ਦਾਨ ਉੱਤੇ ਕਾਰਵਾਈ ਨਾ ਹੋਈ ਹੋਵੇ। ਆਪਣੀਆਂ ਰਸੀਦਾਂ ਦੀ ਜਾਂਚ ਕਰਨ ਅਤੇ ਪੁਸ਼ਟੀ ਕਰਨ ਲਈ \"Signal ਨੂੰ ਦਾਨ ਦਿਓ\" ਅਤੇ ਫਿਰ \"ਦਾਨ ਦੀ ਰਸੀਦ\" 'ਤੇ ਕਲਿੱਕ ਕਰੋ।"
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ ਜਾਂ ਆਪਣੇ ਦਾਨ ਨੂੰ ਪੂਰਾ ਕਰਨ ਵਿੱਚ ਮਦਦ ਲਈ ਸਹਾਇਤਾ ਟੀਮ ਕੋਲ ਇੱਕ ਡੀਬੱਗ ਲੌਗ ਦਰਜ ਕਰੋ। ਡੀਬੱਗ ਲੌਗ ਨਾਲ ਸਾਨੂੰ ਸਮੱਸਿਆ ਦਾ ਨਿਦਾਨ ਕਰਨ ਅਤੇ ਉਸਨੂੰ ਹੱਲ ਕਰਨ ਵਿੱਚ ਮਦਦ ਮਿਲਦੀ ਹੈ ਅਤੇ ਇਸ ਵਿੱਚ ਤੁਹਾਡੀ ਪਛਾਣ ਕਰਨ ਵਾਲੀ ਜਾਣਕਾਰੀ ਸ਼ਾਮਲ ਨਹੀਂ ਹੁੰਦੀ ਹੈ।"
   },
   "icu:Donations__Processing": {
     "messageformat": "ਦਾਨ ਉੱਤੇ ਕਾਰਵਾਈ ਹੋ ਰਹੀ ਹੈ…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "ਅਜੇ ਵੀ ਦਾਨ ਉੱਤੇ ਕਾਰਵਾਈ ਹੋ ਰਹੀ ਹੈ"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "ਤੁਹਾਡੇ ਦਾਨ ਉੱਤੇ ਹਾਲੇ ਵੀ ਕਾਰਵਾਈ ਜਾਰੀ ਹੈ। ਇਸ ਵਿੱਚ ਕੁਝ ਮਿੰਟ ਲੱਗ ਸਕਦੇ ਹਨ।"
@@ -6845,6 +6854,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "ਦਾਨ ਰੱਦ ਕਰੋ"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Thanks for your support!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Display on profile"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal ਨੂੰ ਸੁਚਾਰੂ ਢੰਗ ਨਾਲ ਚੱਲਦਾ ਰੱਖਣ ਲਈ ਇਸ ਵਰਜ਼ਨ ਵਿੱਚ ਨਿੱਕੇ-ਮੋਟੇ ਸੁਧਾਰ ਅਤੇ ਬੱਗ ਠੀਕ ਕੀਤੇ ਗਏ ਹਨ।",
@@ -6884,6 +6905,6 @@
     "messageformat": "ਕੁਝ ਛੋਟੀਆਂ-ਮੋਟੀਆਂ ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਕੀਤਾ ਗਿਆ ਹੈ।"
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "ਅਸੀਂ ਇੱਕ ਖਰਾਬੀ ਨੂੰ ਠੀਕ ਕੀਤਾ ਹੈ ਜਿਸ ਕਾਰਨ ਕੁਝ ਵਰਤੋਂਕਾਰਾਂ ਨੂੰ ਦਾਨ ਬੈਜ ਸਹੀ ਢੰਗ ਨਾਲ ਦਿਖਾਈ ਨਹੀਂ ਦੇ ਰਿਹਾ ਸੀ।"
   }
 }

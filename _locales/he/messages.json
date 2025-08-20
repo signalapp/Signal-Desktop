@@ -3528,13 +3528,13 @@
     "messageformat": "אנא נסה שוב או צור קשר עם התמיכה."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "קרתה שגיאה לא צפויה"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "הגש יומן ניפוי תקלים"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "לא תודה"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "בסדר"
@@ -5268,10 +5268,10 @@
     "messageformat": "למשל, :-) יומר ל–<emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "השארת צ׳אטים מושתקים בארכיון"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "צ׳אטים מושתקים שמאוחסנים בארכיון יישארו בארכיון כשהודעה חדשה מגיעה."
   },
   "icu:Preferences--advanced": {
     "messageformat": "מתקדם"
@@ -6655,10 +6655,10 @@
     "messageformat": "התמיכה שלי"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} חד–פעמית"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "תרומה בעיבוד…"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "תרומה של {formattedCurrencyAmount}"
@@ -6675,8 +6675,11 @@
   "icu:PreferencesDonations__receipts": {
     "messageformat": "קבלות"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "View receipt details"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "שאלות נפוצות על תרומה"
+    "messageformat": "Donor FAQs"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "קבלות אינן מסתנכרנות בין מכשירים. אם התקנת מחדש את Signal, קבלות מתרומות קודמות לא יהיו זמינות."
@@ -6741,6 +6744,9 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "קבלת תג Signal Boost למשך 30 יום"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "קבלה על תרומה"
   },
@@ -6760,7 +6766,7 @@
     "messageformat": "תודה על התמיכה ב–Signal. התרומה שלך עוזרת להמשיך להניע את המשימה שלנו להגן על חופש הביטוי ולאפשר תקשורת גלובלית מאובטחת עבור מיליונים ברחבי העולם, באמצעות טכנולוגיית פרטיות בקוד פתוח. אם מקום המגורים שלך הוא ארה״ב, יש לשמור את הקבלה הזו לצורך רישומי המס שלך. Signal Technology Foundation היא עמותה ללא מטרות רווח פטורה ממס בארה״ב תחת סעיף 501c3 של קוד מס ההכנסה האמריקאי. מזהה המס הפדרלי שלנו הוא 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "המכשיר שלך לא מחובר. יש להתחבר לאינטרנט כדי להשלים את התרומה."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "תרומה בוטלה"
@@ -6782,6 +6788,9 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "יש לך תרומה בתהליך הממתינה לאישור."
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "התרומה הופסקה"
@@ -6811,13 +6820,13 @@
     "messageformat": "ייתכן שהתרומה שלך לא עובדה בהצלחה. יש ללחוץ על ״תרומה ל–Signal״ ואז על ״קבלות על תרומות״ כדי לבדוק את הקבלות שלך ולאשר."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "יש לנסות שוב או לשלוח לתמיכה יומן ניפוי באגים לקבלת סיוע בהשלמת התרומה שלך. יומני ניפוי באגים עוזרים לנו לאבחן ולתקן את הבעיה ולא מכילים מידע מזהה."
   },
   "icu:Donations__Processing": {
     "messageformat": "תרומה בעיבוד…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "תרומה עדיין בעיבוד"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "התרומה שלך עדיין בתהליך עיבוד. ייתכן וזה יקח מספר דקות"
@@ -6845,6 +6854,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "ביטול תרומה"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Thanks for your support!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Display on profile"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "גרסה זו מכילה מספר של שפצורים קטנים ותיקוני תקלים כדי לשמור על Signal שירוץ באופן חלק.",
@@ -6884,6 +6905,6 @@
     "messageformat": "כמה תיקוני באגים קטנים."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "תיקנו באג שמנע מתגי התרומה להופיע כראוי אצל חלק מהמשתמשים. Signal היא עמותה ללא מטרות רווח, ואנחנו מעריכים מאוד את התמיכה שלך!"
   }
 }

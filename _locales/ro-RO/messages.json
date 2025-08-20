@@ -3528,13 +3528,13 @@
     "messageformat": "Te rugăm să încerci din nou sau să contactezi serviciul de asistență."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "S-a petrecut o eroare neașteptată"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Trimite jurnalul de depanare"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Nu, mulțumesc"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "Okay"
@@ -5268,10 +5268,10 @@
     "messageformat": "De exemplu, :-) va fi convertit în <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Păstrează arhivate conversațiile pe silențios"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Conversațiile pe silențios arhivate vor rămâne arhivate atunci când sosește un mesaj nou."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Avansat"
@@ -6655,10 +6655,10 @@
     "messageformat": "Sprijinul meu"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} o singură dată"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Se procesează donația…"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Donează {formattedCurrencyAmount}"
@@ -6675,8 +6675,11 @@
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Bonuri fiscale"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "View receipt details"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Întrebări frecvente despre donații"
+    "messageformat": "Donor FAQs"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Chitanțele nu se sincronizează pe toate dispozitivele. Dacă ai reinstalat Signal, bonurile fiscale ale donațiilor precedente nu vor mai fi disponibile."
@@ -6741,6 +6744,9 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Obține insigna Signal Boost timp de 30 de zile"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Chitanță donație"
   },
@@ -6760,7 +6766,7 @@
     "messageformat": "Mulțumesc pentru susținerea acordată Signal. Contribuția ta ajută la îndeplinirea misiunii de a proteja libertatea de exprimare și de a permite o comunicare globală sigură pentru milioane de oameni din întreaga lume, prin intermediul tehnologiei open source pentru confidențialitate. Dacă ești rezident al Statelor Unite, păstrează această chitanță pentru evidența fiscală. Signal Technology Foundation este o organizație non-profit scutită de impozite din Statele Unite, în conformitate cu secțiunea 501c3 din Codul Veniturilor Interne. Codul nostru fiscal federal este 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Ești offline. Conectează-te la internet pentru a finaliza o donație."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Donație anulată"
@@ -6782,6 +6788,9 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Ai o donație în curs de desfășurare care necesită confirmare."
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Donație întreruptă"
@@ -6811,13 +6820,13 @@
     "messageformat": "Este posibil ca donația ta să nu fi fost procesată. Dă clic pe „Donează către Signal” și apoi pe „Chitanțe de donație” pentru a verifica chitanțele și a le confirma."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Încearcă din nou sau trimite un jurnal de depanare către Asistență pentru a primi ajutor în finalizarea donației. Jurnalele de depanare ne ajută să diagnosticăm și să remediem problema și nu conțin informații de identificare."
   },
   "icu:Donations__Processing": {
     "messageformat": "Se procesează donația…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Încă se procesează donația"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Donația ta este încă în procesare. Această operațiune poate dura câteva minute."
@@ -6845,6 +6854,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "Anulează donația"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Thanks for your support!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Display on profile"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Această versiune conține o serie de mici modificări și remedieri ale unor erori pentru ca Signal să funcționeze fără probleme.",
@@ -6884,6 +6905,6 @@
     "messageformat": "Această actualizare remediază câteva erori minore, inclusiv una din cauza căreia reacțiile cu emoji-uri nu erau grupate corect în anumite cazuri."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "Am remediat o eroare care împiedica afișarea corectă a insignelor de donație pentru unii utilizatori. Signal este o organizație non-profit 501c3 și îți apreciem sprijinul!"
   }
 }

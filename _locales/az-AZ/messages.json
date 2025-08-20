@@ -3528,13 +3528,13 @@
     "messageformat": "Zəhmət olmasa yenidən sınayın və ya dəstəklə əlaqə saxlayın."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "Gözlənilməz bir xəta baş verdi"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Sazlama jurnalını göndər"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Xeyr, təşəkkürlər"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "Oldu"
@@ -5268,10 +5268,10 @@
     "messageformat": "Məsələn, :-) ifadəsi <emojify>🙂</emojify> emojisinə çevriləcək"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Səsi bağlanmış çatlar arxivdə saxlanılsın"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Arxivlənmiş və səsi bağlanmış çatlar, yeni mesaj gələndə arxivlənmiş olaraq qalacaq."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Qabaqcıl"
@@ -6655,10 +6655,10 @@
     "messageformat": "Dəstəyim"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "Birdəfəlik {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "İanə emal edilir..."
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "{formattedCurrencyAmount} ianə ver"
@@ -6675,8 +6675,11 @@
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Qəbzlər"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "View receipt details"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "İanə haqqında TVS-lar"
+    "messageformat": "Donor FAQs"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Qəbzlər cihazlar arasında sinxronlaşdırılmır. Signal-ı yenidən quraşdırmısınızsa, əvvəlki ianələrin qəbzləri mövcud olmayacaq."
@@ -6741,6 +6744,9 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "30 günlük Signal Boost nişanı alın"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "İanə qəbzi"
   },
@@ -6760,7 +6766,7 @@
     "messageformat": "Signal-ı dəstəklədiyiniz üçün təşəkkürlər. Töhfəniz, açıq mənbəli məxfilik texnologiyası vasitəsilə dünyadakı milyonlarla insan üçün azad ifadəni qoruyan və etibarlı qlobal ünsiyyəti təmin edən inkişaf missiyasını dəstəkləməyə kömək edir. Əgər Amerika Birləşmiş Ştatlarında yaşayırsınızsa, bu qəbzi vergi qeydlərinizin arasında saxlayın. Signal Texnologiya Fondu, Daxili Gəlir Məcəlləsinin 501c3 maddəsinə əsasən Amerika Birləşmiş Ştatlarında vergidən azad edilmiş qeyri-kommersiya təşkilatıdır. Federal Vergi Ödəyicisi Nömrəmiz: 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Oflayn rejimdəsiniz. İanəni tamamlamaq üçün internetə qoşulun."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "İanə ləğv edildi"
@@ -6782,6 +6788,9 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Təsdiq tələbi gözləyən və davam edən ianəniz var."
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "İanə kəsildi"
@@ -6811,13 +6820,13 @@
     "messageformat": "İanəniz emal edilməmiş ola bilər. \"Signal-a ianə ver\", sonra isə \"İanə qəbzləri\" üzərinə klikləyib qəbzlərinizi yoxlayın və təsdiqləyin."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "İanənizi tamamlamağa kömək etmək üçün yenidən cəhd edin və ya Dəstək xidmətinə sazlama jurnalını təqdim edin. Sazlama jurnalları bizə problemi təyin edib aradan qaldırmaqda kömək edir və kimlik məlumatlarını əhatə etmir."
   },
   "icu:Donations__Processing": {
     "messageformat": "İanə emal edilir..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "İanə hələ də emal edilir"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "İanəniz hələ də emal edilir. Bu, bir neçə dəqiqə çəkə bilər."
@@ -6845,6 +6854,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "İanəni ləğv et"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Thanks for your support!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Display on profile"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Bu versiya, Signal-ın problemsiz işləməsini təmin etmək üçün kiçik düzəltmələr və xəta düzəltmələri ehtiva edir.",
@@ -6884,6 +6905,6 @@
     "messageformat": "Bu yeniləmə ilə bəzi hallarda düzgün qruplaşmayan emoji reaksiyaları daxil olmaqla, bir neçə nasazlıq aradan qaldırıldı."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "Bəzi istifadəçilərin ianə nişanlarını düzgün şəkildə görmələrinə mane olan bir nasazlığı aradan qaldırdıq. Signal 501c3 qeyri-kommersiya təşkilatıdır və dəstəyinizə görə minnətdarıq!"
   }
 }

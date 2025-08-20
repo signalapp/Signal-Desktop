@@ -2238,7 +2238,7 @@
     "messageformat": "ఒకసారి-దృశ్యం వీడియో"
   },
   "icu:message--getDescription--gif": {
-    "messageformat": "GIF"
+    "messageformat": "గిఫ్"
   },
   "icu:message--deletedForEveryone": {
     "messageformat": "ఈ సందేశం తొలగించబడింది."
@@ -3528,13 +3528,13 @@
     "messageformat": "దయచేసి మళ్ళీ ప్రయత్నించండి లేదా మద్దతును సంప్రదించండి."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "ఊహించని దోషం ఏర్పడింది"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "డీబగ్ సంఘటన లేకరి సమర్పించండి"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "వద్దు ధన్యవాదాలు"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "సరే"
@@ -5268,10 +5268,10 @@
     "messageformat": "ఉదాహరణకు, :-) అనేది <emojify>🙂</emojify> గా మార్చబడుతుంది"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "మ్యూట్ చేయబడిన చాట్‌లను ఆర్కైవ్ చేయండి"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "ఆర్కైవ్ చేయబడిన మ్యూటెడ్ చాట్‌లు, కొత్త సందేశం వచ్చినప్పుడు ఆర్కైవ్ చేయబడి ఉంటాయి."
   },
   "icu:Preferences--advanced": {
     "messageformat": "ఆధునిక"
@@ -6655,10 +6655,10 @@
     "messageformat": "My Support"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} వన్-టైమ్"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "విరాళాన్ని ప్రాసెస్ చేస్తోంది..."
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "{formattedCurrencyAmount} విరాళం ఇవ్వండి"
@@ -6675,8 +6675,11 @@
   "icu:PreferencesDonations__receipts": {
     "messageformat": "రసీదులు"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "View receipt details"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "విరాళం FAQలు"
+    "messageformat": "Donor FAQs"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "రసీదులు పరికరాల్లో సమకాలీకరించబడవు. ఒకవేళ మీరు Signal ను తిరిగి ఇన్‌స్టాల్ చేసినట్లయితే, మునుపటి విరాళాల నుండి రసీదులు లభ్యం కావు."
@@ -6741,6 +6744,9 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "30 రోజులపాటు Signal బూస్ట్ బ్యాడ్జ్‌ను పొందండి"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "విరాళం రసీదు"
   },
@@ -6760,7 +6766,7 @@
     "messageformat": "Signal కు మద్దతు ఇచ్చినందుకు ధన్యవాదాలు. ఓపెన్ సోర్స్ గోప్యతా సాంకేతికత ద్వారా ప్రపంచవ్యాప్తంగా లక్షలాది మందికి స్వేచ్ఛా వ్యక్తీకరణను రక్షించడం మరియు సురక్షితమైన భౌగోళిక కమ్యూనికేషన్‌ను ప్రారంభించడం అనే లక్ష్యాన్ని ముందుకు తీసుకెళ్ళడంలో మీ సహకారం సహాయపడుతుంది. ఒకవేళ మీరు యునైటెడ్ స్టేట్స్ పౌరులు అయితే, మీ పన్ను రికార్డ్‌ల కోసం దయచేసి ఈ రసీదును మీ దగ్గర ఉంచుకోండి. Signal టెక్నాలజీ ఫౌండేషన్ అనేది యునైటెడ్ స్టేట్స్‌లోని అంతర్గత రెవెన్యూ కోడ్ యొక్క సెక్షన్ 501c3 కింద పన్ను మినహాయింపు పొందిన లాభాపేక్షలేని సంస్థ. మా ఫెడరల్ పన్ను ID 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "మీరు ఆఫ్‌లైన్‌లో ఉన్నారు. విరాళాన్ని పూర్తి చేయడానికి దయచేసి ఇంటర్నెట్‌కు కనెక్ట్ అవ్వండి."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "విరాళం రద్దు చేయబడింది"
@@ -6782,6 +6788,9 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "నిర్ధారణ అవసరమయ్యే విరాళం మీ వద్ద పురోగతిలో ఉంది."
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "విరాళానికి అంతరాయం కలిగింది"
@@ -6811,13 +6820,13 @@
     "messageformat": "మీ విరాళం ప్రాసెస్ చేయబడి ఉండకపోవచ్చు. మీ రసీదులను తనిఖీ చేయడానికి మరియు నిర్ధారించుకోవడానికి “Signal కు విరాళం ఇవ్వండి” పై క్లిక్ చేసి, ఆపై “విరాళం రసీదులు” పై క్లిక్ చేయండి."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "మీ విరాళాన్ని పూర్తి చేయడంలో సహాయం కోసం మళ్ళీ ప్రయత్నించండి లేదా మద్దతుకు డీబగ్ లాగ్‌ను సమర్పించండి. సమస్యను గుర్తించడానికి మరియు పరిష్కరించడానికి డీబగ్ లాగ్‌లు మాకు సహాయపడతాయి, మరియు గుర్తించే సమాచారం కలిగి ఉండవు."
   },
   "icu:Donations__Processing": {
     "messageformat": "విరాళాన్ని ప్రాసెస్ చేస్తోంది..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "విరాళాన్ని ఇంకా ప్రాసెస్ చేస్తోంది"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "మీ విరాళం ఇంకా ప్రాసెస్ చేయబడుతోంది. దీనికి కొన్ని నిమిషాలు పట్టవచ్చు."
@@ -6845,6 +6854,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "విరాళాన్ని రద్దు చేయండి"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Thanks for your support!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Display on profile"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal ని సజావుగా నడిపించడానికి ఈ వెర్షన్‌లో చిన్నపాటి ట్వీక్‌లు మరియు బగ్ ఫిక్స్‌లు ఉన్నాయి.",
@@ -6884,6 +6905,6 @@
     "messageformat": "కొన్ని చిన్న బగ్ పరిష్కారాలు."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "కొంతమంది యూజర్‌లకు విరాళం బ్యాడ్జ్‌లు సరిగ్గా కనిపించకుండా నిరోధించే బగ్‌ను మేము పరిష్కరించాము."
   }
 }

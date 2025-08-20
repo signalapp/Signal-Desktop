@@ -3528,13 +3528,13 @@
     "messageformat": "قايتا سىناڭ ياكى ياردەم خادىمى بىلەن ئالاقىلىشىڭ."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "كۈتۈلمىگەن بىر خاتالىق كۆرۈلدى"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "سازلاش خاتىرە يوللا"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "ياق، رەھمەت"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "جەزملە"
@@ -5268,10 +5268,10 @@
     "messageformat": "مەسىلەن، :-) <emojify>🙂</emojify> گە ئايلىنىدۇ"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "ئۈنسىزلەنگەن پاراڭلارنى ئارخىپتا ساقلاش"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "ئارخىپلانغان ئۈنسىز پاراڭلار يېڭى ئۇچۇر كەلگۈچە ئارخىپتا ساقلىنىدۇ."
   },
   "icu:Preferences--advanced": {
     "messageformat": "ئالىي"
@@ -6655,10 +6655,10 @@
     "messageformat": "قوللىشىم"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} بىر قېتىملىق"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "ئىئانە بىر تەرەپ قىلىنىۋاتىدۇ..."
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "{formattedCurrencyAmount} ئىئانە قىلىش"
@@ -6675,8 +6675,11 @@
   "icu:PreferencesDonations__receipts": {
     "messageformat": "تالونلار"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "View receipt details"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "ئىئانە قىلىشقا ئائىت سۇئال-جاۋابلار"
+    "messageformat": "Donor FAQs"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "تالونلار ئۈسكۈنىلەردە ماسقەدەملەنمەيدۇ. ئەگەر Signal نى قايتا قاچىلىغان بولسىڭىز ، بۇرۇنقى ئىئانىلەرنىڭ تالونىنى كۆرگىلى بولمايدۇ."
@@ -6741,6 +6744,9 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "30 كۈنلۈك Signal ئىئانە ئىزنىكىنى تاپشۇرۇۋېلىڭ"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "ئىئانە تالونى"
   },
@@ -6760,7 +6766,7 @@
     "messageformat": "Signalنى قوللىغانلىقىڭىزغا رەھمەت. سىزنىڭ ئىئانىڭىز ، ئوچۇق مەنبە مەخپىيەتلىك تېخنىكىسى ئارقىلىق ئەركىن ئىپادىلەش ھوقۇقىنى قوغدايدۇ ۋە دۇنيادىكى مىليونلىغان كىشىلەرنىڭ ئالاقىلىشىش بىخەتەرلىكىگە كاپالەتلىك قىلىدۇ. ئەگەر سىز ئامېرىكىنىڭ ئاھالىسى بولسىڭىز ، باج خاتىرىلىرى ئۈچۈن بۇ تالوننى ساقلاپ قويۇڭ. Signal Technology Foundation بولسا ئامېرىكا دۆلەت ئىچى باج قانۇنى 501c3 ماددىسىدىكى بەلگىلىمە بويىچە باجدىن كەچۈرۈم قىلىنىدىغان تاپاۋەتسىز ئورگان بولۇپ ھېسابلىنىدۇ. فېدېراتسىيە باج ID نومۇرىمىز 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "سىز تورغا ئۇلانمىغان. ئىئانىنى تاماملاش ئۈچۈن تورغا ئۇلاڭ."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "ئىئانە ئەمەلدىن قالدۇرۇلدى"
@@ -6782,6 +6788,9 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "دەلىللەشكە ئېھتىياجلىق بىر ئىئانىڭىز بار."
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "ئىئانە قىلىش ئۈزۈلۈپ قالدى"
@@ -6811,13 +6820,13 @@
     "messageformat": "ئىئانىڭىز بىر تەرەپ قىلىنمىغان بولۇشى مۇمكىن. «Signalغا ئىئانە قىلىش» نى چېكىپ ، ئاندىن «ئىئانە تالونلىرى» نى بېسىپ تالونلىرىڭىزنى تەكشۈرۈپ جەزملەشتۈرۈڭ."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "قايتا سىناڭ ياكى ياردەمچى خادىمغا، ئىئانىڭىزنى تاماملاشقا ياردەم بېرىشى ئۈچۈن، كاشىلا ھەل قىلىش خاتىرىسىىنى يوللاڭ. كاشىلا ھەل قىلىش خاتىرىلىرى بىزنىڭ مەسىلىگە دىئاگنوز قويۇشىمىز ۋە ھەل قىلىشىمىزغا ياردەم بېرىدۇ، ھەمدە تونىتىش ئۇچۇرلىرىنى ئۆز ئىچىگە ئالمايدۇ."
   },
   "icu:Donations__Processing": {
     "messageformat": "ئىئانە بىر تەرەپ قىلىنىۋاتىدۇ..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "ئىئانىنى بىر تەرەپ قىلىۋاتىدۇ"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "ئىئانىڭىزنى تېخىچە بىر تەرەپ قىلىۋاتىدۇ. بۇنىڭغا بىر مىنۇتتەك ۋەقىت كېتىشى مۇمكىن."
@@ -6845,6 +6854,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "ئىئانە قىلىشنى ئەمەلدىن قالدۇرۇش"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Thanks for your support!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Display on profile"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal نىڭ راۋان ئىجرا بولۇشى ئۈچۈن بۇ نەشرىدە بىر قانچە كىچىك ئۆزگەرتىشلەر ئېلىپ بېرىلدى ۋە كاشىلىلار ئوڭشالدى.",
@@ -6884,6 +6905,6 @@
     "messageformat": "بۇ قېتىملىق يېڭىلاشتا بىر قانچە كىچىك كەمتۈكلەرنى ئوڭشىدۇق. 7.65نەشىر نۇسخىسى ئۈچۈن تارقىتىلدى."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "بىز بىرقىسىم ئىشلەتكۈچىلەرنىڭ ئىئانە ئىزنىكىنىڭ توغرا كۆرۈنۈشىنى توسىدىغان بىر كەمتۈكنى تۈزىدۇق. Signal بولسا 501c3 پايدا ئالمايدىغان ئورگان، قوللىغانلىقىڭىزدىن مىننەتدارمىز!"
   }
 }

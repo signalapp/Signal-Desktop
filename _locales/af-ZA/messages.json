@@ -3528,13 +3528,13 @@
     "messageformat": "Probeer asb. weer of kontak steundiens."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "’n Onverwagse fout het voorgekom."
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Dien ontfoutlog in"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Nee dankie"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "Goed"
@@ -5268,10 +5268,10 @@
     "messageformat": ":-) sal byvoorbeeld in <emojify>🙂</emojify> omskep word"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Hou gedempte kletse geargiveer"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Gedempte kletse wat geargiveer is, sal geargiveer bly wanneer 'n nuwe boodskap aankom."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Gevorderd"
@@ -6655,10 +6655,10 @@
     "messageformat": "My steun"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} eenmalig"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Skenking word verwerk…"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Skenk {formattedCurrencyAmount}"
@@ -6675,8 +6675,11 @@
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Kwitansies"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "View receipt details"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Gereelde vrae oor skenkings"
+    "messageformat": "Donor FAQs"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Kwitansies word nie tussen toestelle sinchroniseer nie. As jy Signal herinstalleer het, sal kwitansies van vorige skenkings nie beskikbaar wees nie."
@@ -6741,6 +6744,9 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Kry die Signal-Hupstoot-wapen vir 30 dae"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Skenkingskwitansie"
   },
@@ -6760,7 +6766,7 @@
     "messageformat": "Dankie vir jou ondersteuning van Signal. Jou bydrae help om deur oopbron-privaatheidstegnologie die missie van die beskerming van vryheid van uitdrukking te befonds en veilige globale kommunikasie vir miljoene mense regoor die wêreld moontlik maak. Indien jy 'n inwoner van die Verenigde State is, behou asseblief hierdie kwitansie vir jou belastingrekords. Signal Technology Foundation is 'n niewinsgewende organisasie in die Verenigde State wat van belasting vrygestel is ingevolge artikel 501c3 van die Internal Revenue Code. Ons Federale Belasting-ID is 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Jy is aflyn. Verbind asseblief aan die internet om 'n skenking te voltooi."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Skenking gekanselleer"
@@ -6782,6 +6788,9 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Jy het 'n skenking wat in proses is en bykomende bevestiging benodig."
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Skenking onderbreek"
@@ -6811,13 +6820,13 @@
     "messageformat": "Jou skenking is dalk nie verwerk nie. Klik op “Skenk aan Signal” en dan op “Skenkingskwitansies\" om jou kwitansies na te gaan en te bevestig."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Probeer weer of dien 'n ontfout-log in by Steundiens vir hulp om jou skenking te voltooi. Ontfout-logs help ons om die probleem te diagnoseer en reg te stel, en bevat nie identifiserende inligting nie."
   },
   "icu:Donations__Processing": {
     "messageformat": "Skenking word verwerk…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Steeds besig om skenking te verwerk"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Jou skenking word nog verwerk. Dit kan 'n paar minute neem."
@@ -6845,6 +6854,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "Kanselleer skenking"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Thanks for your support!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Display on profile"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Hierdie weergawe bevat ’n aantal klein aanpassings en regstellings om Signal glad te laat werk.",
@@ -6884,6 +6905,6 @@
     "messageformat": "'n Paar klein foutregstellings."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "Ons het 'n fout reggestel wat verhinder het dat skenkingswapens vir sommige gebruikers korrek voorkom."
   }
 }

@@ -3528,13 +3528,13 @@
     "messageformat": "Yritä uudelleen tai ota yhteyttä tukeen."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "Tapahtui odottamaton virhe"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Lähetä virheenkorjausloki"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Ei kiitos"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "Selvä"
@@ -5268,10 +5268,10 @@
     "messageformat": "Esimerkiksi :-) muunnetaan muotoon <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Pidä mykistetyt keskustelut arkistoituina"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Arkistoidut mykistetyt keskustelut pysyvät arkistoituina, kun uusi viesti saapuu."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Lisäasetukset"
@@ -6655,10 +6655,10 @@
     "messageformat": "Antamani tuki"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount}, kertaluonteinen"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Käsitellään lahjoitusta..."
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Lahjoita {formattedCurrencyAmount}"
@@ -6675,8 +6675,11 @@
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Kuitit"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "View receipt details"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Usein kysyttyä lahjoituksista"
+    "messageformat": "Donor FAQs"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Kuitit eivät synkronoidu laitteiden välillä. Jos olet asentanut Signalin uudelleen, kuitit vanhemmista lahjoituksista eivät näy."
@@ -6741,6 +6744,9 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Hanki Signal Boost -merkki 30 päiväksi"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Lahjoituskuitti"
   },
@@ -6760,7 +6766,7 @@
     "messageformat": "Kiitos Signalin tukemisesta. Lahjoituksesi auttaa edistämään tavoitettamme suojata sananvapautta ja mahdollistaa turvallinen maailmanlaajuinen viestintä miljoonille käyttäjille ympäri maailmaa avoimen lähdekoodin tietosuojateknologialla. Jos asut Yhdysvalloissa, säilytä tämä kuitti verotusta varten. Signal Technology Foundation on verovapaa voittoa tavoittelematon organisaatio Yhdysvaltojen Internal Revenue Code -pykälän 501c3 mukaisesti. Liittovaltion verotunnuksemme on 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Olet offline-tilassa. Yhdistä internetiin lahjoituksen tekemiseksi."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Lahjoitus peruttu"
@@ -6782,6 +6788,9 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Sinulla on käynnissä lahjoitus, joka edellyttää vahvistamista."
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Lahjoitus keskeytetty"
@@ -6811,13 +6820,13 @@
     "messageformat": "Lahjoitusta ei ehkä ole käsitelty. Tarkista kuitti napsauttamalla Lahjoita Signalille ja sitten Lahjoituskuitit."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Yritä uudelleen tai lähetä vianetsintäloki tukeen, jotta saat apua lahjoituksesi loppuun saattamiseen. Vianetsintälokit auttavat meitä diagnosoimaan ja korjaamaan ongelman, eivätkä ne sisällä tunnistetietoja."
   },
   "icu:Donations__Processing": {
     "messageformat": "Käsitellään lahjoitusta..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Lahjoituksen käsittely on edelleen käynnissä"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Lahjoitusta käsitellään vielä. Tämä saattaa kestää muutaman minuutin."
@@ -6845,6 +6854,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "Peruuta lahjoitus"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Thanks for your support!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Display on profile"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Tämä versio sisältää useita pieniä parannuksia ja virhekorjauksia, jotka pitävät Signalin toiminnan sujuvana.",
@@ -6884,6 +6905,6 @@
     "messageformat": "Muutamia pieniä virheenkorjauksia."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "Korjasimme virheen, joka esti lahjoitusmerkkien näkymisen oikein joillakin käyttäjillä."
   }
 }
