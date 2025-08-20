@@ -58,7 +58,6 @@ import type {
 } from '../../types/Attachment';
 import {
   canDisplayImage,
-  getExtensionForDisplay,
   getGridDimensions,
   getImageDimensionsForTimeline,
   hasImage,
@@ -107,9 +106,9 @@ import { formatFileSize } from '../../util/formatFileSize';
 import { AttachmentNotAvailableModalType } from '../AttachmentNotAvailableModal';
 import { assertDev, strictAssert } from '../../util/assert';
 import { AttachmentStatusIcon } from './AttachmentStatusIcon';
-import { isFileDangerous } from '../../util/isFileDangerous';
 import { TapToViewNotAvailableType } from '../TapToViewNotAvailableModal';
 import type { DataPropsType as TapToViewNotAvailablePropsType } from '../TapToViewNotAvailableModal';
+import { FileThumbnail } from '../FileThumbnail';
 import { FunStaticEmoji } from '../fun/FunEmoji';
 import {
   type EmojifyData,
@@ -1372,37 +1371,7 @@ export class Message extends React.PureComponent<Props, State> {
     const isIncoming = direction === 'incoming';
 
     const renderAttachmentDownloaded = () => {
-      const extension = getExtensionForDisplay({ contentType, fileName });
-      const isDangerous = isFileDangerous(fileName || '');
-      const moreChar = extension && extension.length > 3;
-      const extensionForDisplay =
-        extension && extension.length > 4
-          ? `${extension.slice(0, 3)}…`
-          : extension;
-
-      return (
-        <>
-          <div className="module-message__simple-attachment__icon">
-            {extension ? (
-              <div
-                className={classNames(
-                  'module-message__simple-attachment__icon__extension',
-                  moreChar
-                    ? 'module-message__simple-attachment__icon__extension--more-char'
-                    : undefined
-                )}
-              >
-                {extensionForDisplay}
-              </div>
-            ) : null}
-          </div>
-          {isDangerous ? (
-            <div className="module-message__simple-attachment__icon-dangerous-container {">
-              <div className="module-message__simple-attachment__icon-dangerous" />
-            </div>
-          ) : null}
-        </>
-      );
+      return <FileThumbnail contentType={contentType} fileName={fileName} />;
     };
 
     const willShowMetadata =

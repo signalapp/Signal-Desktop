@@ -711,42 +711,6 @@ $message-padding-horizontal: 12px;
   padding-top: 4px;
 }
 
-.module-message__simple-attachment__icon {
-  background: url('../images/generic-file.svg') no-repeat center;
-  height: 40px;
-  width: 30px;
-  margin-inline-start: 3px;
-  margin-inline-end: 3px;
-
-  // So we can center the extension text inside this icon
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.module-message__simple-attachment__icon-dangerous-container {
-  position: absolute;
-
-  top: -1px;
-  inset-inline-end: -4px;
-
-  height: 16px;
-  width: 16px;
-
-  border-radius: 50%;
-  background-color: variables.$color-white;
-}
-
-.module-message__simple-attachment__icon-dangerous {
-  height: 16px;
-  width: 16px;
-
-  @include mixins.color-svg(
-    '../images/icons/v2/error-solid-24.svg',
-    variables.$color-accent-red
-  );
-}
-
 .module-message__simple-attachment__icon__extension {
   @include mixins.font-subtitle;
   text-transform: lowercase;
@@ -3345,11 +3309,17 @@ button.module-image__border-overlay:focus {
 // Module: Staged Generic Attachment
 
 .module-staged-generic-attachment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
   height: 120px;
   width: 120px;
-  display: inline-block;
   position: relative;
   border-radius: 4px;
+  padding: 7px;
   vertical-align: middle;
   white-space: nowrap;
 
@@ -3365,6 +3335,10 @@ button.module-image__border-overlay:focus {
 }
 
 .module-staged-generic-attachment__close-button {
+  position: absolute;
+  inset-inline-end: 5px;
+  top: 0;
+
   @include mixins.staged-attachment-close-button;
 
   & {
@@ -3383,49 +3357,13 @@ button.module-image__border-overlay:focus {
   }
 }
 
-.module-staged-generic-attachment__icon {
-  margin-top: 30px;
-
-  background: url('../images/generic-file.svg') no-repeat center;
-  height: 44px;
-  width: 56px;
-  margin-inline: 32px;
-  margin-bottom: -4px;
-
-  // So we can center the extension text inside this icon
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.module-staged-generic-attachment__icon__extension {
-  font-size: 10px;
-  line-height: 13px;
-  letter-spacing: 0.1px;
-  text-transform: uppercase;
-
-  // Along with flow layout in parent item, centers text
-  text-align: center;
-  width: 25px;
-  margin-inline: auto;
-
-  // We don't have much room for text here, cut it off without ellipse
-  overflow-x: hidden;
-  white-space: nowrap;
-  text-overflow: clip;
-
-  color: variables.$color-gray-90;
-}
-
 .module-staged-generic-attachment__filename {
   @include mixins.font-caption;
 
-  margin: 7px;
-  margin-top: 5px;
+  max-width: 100%;
   text-align: center;
 
   overflow: hidden;
-  height: 2.4em;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;

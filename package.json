@@ -63,7 +63,7 @@
     "danger:local": "./danger/danger.sh local --base main",
     "danger:ci": "./danger/danger.sh ci --base origin/main",
     "format": "pprettier --write '**/*.{ts,tsx,d.ts,js,json,html,scss,md,yml,yaml}' '!node_modules/**'",
-    "svgo": "svgo --multipass images/**/*.svg",
+    "svgo": "svgo --multipass images/**/*.svg images/*.svg",
     "transpile": "run-p check:types build:esbuild",
     "check:types": "tsc --noEmit",
     "clean-transpile": "node ./scripts/clean-transpile.js",
