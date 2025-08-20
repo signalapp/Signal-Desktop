@@ -3528,13 +3528,13 @@
     "messageformat": "Пробајте поново или се обратите подршци."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "Došlo je do neočekivane greške"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Пошаљи извештај о грешкама"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Не, хвала"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "У реду"
@@ -5268,10 +5268,10 @@
     "messageformat": "На пример, :-) ће бити претворено у <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Остави ћаскања са искљученим обавештењима у архиви"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Ћаскања са искљученим обавештењима која су архивирана остаће архивирана када стигне нова порука."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Напредно"
@@ -6655,10 +6655,10 @@
     "messageformat": "Моја подршка"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "Једнократна донација од {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Обрађујемо донацију…"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Донирајте {formattedCurrencyAmount}"
@@ -6760,7 +6760,7 @@
     "messageformat": "Хвала вам што подржавате Signal. Ваш допринос омогућава подстицање мисије заштите слободног изражавања и пружања безбедне глобалне комуникације милионима широм света кроз технологију отвореног кода за заштиту приватности. Ако сте резидент Сједињених Америчких Држава, сачувајте ову признаницу за своју пореску евиденцију. Signal Technology Foundation је непрофитна организација изузета од опорезивања у Сједињеним Америчким Државама према одељку 501c3 Закона о интерним приходима. Наш савезни порески број је 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Офлајн сте. Повежите се на интернет да бисте довршили донацију."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Донација је отказана"
@@ -6811,13 +6811,13 @@
     "messageformat": "Ваша донација можда није обрађена. Кликните на „Донирајте Signal-у“, а затим на „Потврде о донацији“ да проверите своје потврде."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Пробајте поново или пошаљите нашој подршци извештај о грешкама за помоћ при довршавању донације. Извештаји о грешкама нам помажу да откријемо и решимо проблем и они не садрже информације на основу којих можете бити идентификовани."
   },
   "icu:Donations__Processing": {
     "messageformat": "Обрађујемо донацију…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Донација се и даље обрађује"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Ваша донација се и даље обрађује. Може потрајати пар минута."
@@ -6884,6 +6884,6 @@
     "messageformat": "Исправљено је неколико мањих грешака."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "Исправили смо грешку која је спречавала правилно појављивање значки за донације код неких корисника. Signal је 501c3 непрофитна организација, и ценимо вашу подршку!"
   }
 }

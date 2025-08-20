@@ -3528,13 +3528,13 @@
     "messageformat": "Zkuste to prosím znovu nebo kontaktujte podporu."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "Vyskytla se neočekávaná chyba"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Odeslat protokol ladění"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Ne, díky"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "V pořádku"
@@ -5268,10 +5268,10 @@
     "messageformat": "Například :-) se převede na <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Ponechat ztlumené chaty archivované"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Ztlumené chaty, které jsou archivovány, zůstanou archivovány i po příchodu nové zprávy."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Rozšířené možnosti"
@@ -6655,10 +6655,10 @@
     "messageformat": "Moje podpora"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} jednorázově"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Příspěvek se zpracovává…"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Přispět {formattedCurrencyAmount}"
@@ -6760,7 +6760,7 @@
     "messageformat": "Děkujeme, že podporujete Signal. Váš příspěvek pomáhá podporovat naše poslání chránit svobodu projevu a umožnit bezpečnou komunikaci milionům lidí na celém světě prostřednictvím technologie ochrany soukromí s otevřeným zdrojovým kódem. Pokud jste obyvatelem Spojených států, uschovejte si toto potvrzení pro své daňové záznamy. Nadace Signal Technology Foundation je nezisková organizace osvobozená od daní ve Spojených státech amerických podle § 501c3 daňového zákona. Naše daňové identifikační číslo je 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Jste offline. Chcete-li dokončit platbu příspěvku, připojte se k internetu."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Příspěvek zrušen"
@@ -6811,13 +6811,13 @@
     "messageformat": "Váš příspěvek nebylo možné zpracovat. Klikněte na Přispět na službu Signal a poté na Potvrzení o příspěvku, kde si můžete potvrzení zkontrolovat a potvrdit jej."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Zkuste to znovu nebo odešlete protokol ladění na podporu a požádejte o pomoc s dokončením příspěvku. Protokoly ladění nám pomáhají diagnostikovat a opravit problém a neobsahují identifikační informace."
   },
   "icu:Donations__Processing": {
     "messageformat": "Příspěvek se zpracovává…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Příspěvek se stále zpracovává"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Váš příspěvek se stále zpracovává. To může trvat několik minut."
@@ -6884,6 +6884,6 @@
     "messageformat": "Oprava několika drobných chyb."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "Opravili jsme chybu, která u některých uživatelů způsobovala nesprávné zobrazení odznaků za příspěvek."
   }
 }

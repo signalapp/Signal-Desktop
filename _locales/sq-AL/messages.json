@@ -3528,13 +3528,13 @@
     "messageformat": "Ju lutemi, riprovoni ose lidhuni me asistencën."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "Ka ndodhur një gabim i papritur"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Parashtro regjistër diagnostikimi"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Jo, faleminderit"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "OK"
@@ -5268,10 +5268,10 @@
     "messageformat": "Për shembull, :-) do të konvertohet në <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Mbaj të arkivuara bisedat pa zë"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Bisedat e arkivuara pa zë do të mbeten të tilla, edhe kur të vijë mesazh i ri."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Të mëtejshme"
@@ -6655,10 +6655,10 @@
     "messageformat": "Përkrahja ime"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} për vetëm një herë"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Përpunimi i dhurimit..."
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Dhuro {formattedCurrencyAmount}"
@@ -6760,7 +6760,7 @@
     "messageformat": "Faleminderit që mbështet Signal! Kontributi yt ndihmon në nxitjen e misionit të mbrojtjes së shprehjes së lirë dhe mundësimit të komunikimit të sigurt global për miliona njerëz në mbarë botën, përmes teknologjisë së privatësisë me burim të hapur. Nëse je banor i Shteteve të Bashkuara, të lutem, ruaje këtë faturë për të dhënat e tua tatimore. Signal Technology Foundation është një ent jofitimprurës, i përjashtuar nga taksat, në Shtetet e Bashkuara sipas seksionit 501c3 të Kodit të të Ardhurave të Brendshme. Numri i ID-së federale të tatimeve është 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Je jashtë linje. Të lutem, lidh internetin për të përfunduar dhurimin."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Dhurimi u anulua"
@@ -6811,13 +6811,13 @@
     "messageformat": "Dhurimi mund të mos jetë përpunuar. Kliko te “Dhuro për Signal” dhe pastaj te “Faturat e dhurimit” për të kontrolluar faturat dhe për t'i konfirmuar."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Provo përsëri ose dërgo një regjistër diagnostikimesh te Ndihma që të të ndihmojë të përfundosh dhurimin tënd. Regjistrat e korrigjimit të gabimeve na ndihmojnë të diagnostikojmë dhe rregullojmë problemin dhe nuk përmbajnë informacion identifikues."
   },
   "icu:Donations__Processing": {
     "messageformat": "Përpunimi i dhurimit..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Ende po përpunohet dhurimi"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Dhurimi është ende duke u përpunuar. Kjo mund të zgjasë disa minuta."
@@ -6884,6 +6884,6 @@
     "messageformat": "Ky përditësim rregullon disa gabime të vogla, përfshirë një ku reagimet ndaj emoxhive nuk grupoheshin siç duhet në disa raste."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "Ne rregulluam një defekt që pengonte shfaqjen e saktë të distinktivëve të dhurimeve për disa përdorues. Signal është një ent jofitimprurës 501c3 dhe ne e vlerësojmë mbështetjen tënd!"
   }
 }

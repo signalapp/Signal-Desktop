@@ -3528,13 +3528,13 @@
     "messageformat": "Riprova o contatta l'assistenza."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "Si è verificato un errore inaspettato"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Invia log di debug"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "No grazie"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "Ok"
@@ -5268,10 +5268,10 @@
     "messageformat": "Per esempio :-) diventerà <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Mantieni le chat silenziate nell'archivio"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Le chat silenziate che archivi rimangono archiviate anche quando arriva un nuovo messaggio."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Avanzate"
@@ -6655,10 +6655,10 @@
     "messageformat": "Il mio supporto"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} (donazione singola)"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Donazione in elaborazione…"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Dona {formattedCurrencyAmount}"
@@ -6760,7 +6760,7 @@
     "messageformat": "Grazie per sostenere Signal. Il tuo contributo aiuta ad alimentare la missione di sviluppare una tecnologia open source per la privacy che tuteli la libera espressione e che consenta una comunicazione globale sicura per milioni di persone in tutto il mondo. Se sei residente negli Stati Uniti, conserva questa ricevuta per la tua documentazione fiscale. Signal Technology Foundation è un'organizzazione non profit esente da tasse negli Stati Uniti ai sensi della sezione 501c3 dell'Internal Revenue Code. Il nostro Federal Tax ID è 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Sei offline. Connettiti a Internet per completare una donazione."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Donazione annullata"
@@ -6811,13 +6811,13 @@
     "messageformat": "Probabilmente non è stato possibile elaborare la tua donazione. Clicca su \"Dona a Signal\" e poi su \"Ricevute delle donazioni\" per controllare le tue ricevute e assicurarti che la donazione sia stata effettuata correttamente."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Riprova o invia un log di debug alla nostra assistenza per ricevere aiuto con la tua donazione. I log di debug ci aiutano a individuare e risolvere il problema. Non preoccuparti, non contengono informazioni identificative o personali."
   },
   "icu:Donations__Processing": {
     "messageformat": "Donazione in elaborazione…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Donazione in elaborazione"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "La tua donazione è ancora in fase di elaborazione. L'operazione può richiedere alcuni minuti."
@@ -6884,6 +6884,6 @@
     "messageformat": "Questo aggiornamento risolve dei piccoli bug, incluso uno dove le emoji per le reazioni a volte non venivano raggruppate correttamente."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "Abbiamo risolto un bug che impediva ai badge delle donazioni di apparire ed essere visti correttamente da alcuni utenti. Signal è una 501c3 non-profit: apprezziamo il tuo supporto al nostro lavoro e alla nostra causa!"
   }
 }

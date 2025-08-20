@@ -3528,13 +3528,13 @@
     "messageformat": "Mesedez, saiatu berriro edo jarri zaitez harremanetan laguntza-zerbitzuarekin."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "Ustekabeko errore bat gertatu da"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Arazketaren informazioa bidali"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Ez eskerrik asko"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "Ados"
@@ -5268,10 +5268,10 @@
     "messageformat": "Adibidez, :-) <emojify>🙂</emojify> bihurtuko da"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Mantendu jakinarazpenak desaktibatuta dauzkaten txatak artxibatuta"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Jakinarazpenak desaktibatuta dauzkaten txatek artxibatuta jarraituko dute mezu berri bat iristen denean."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Aurreratua"
@@ -6655,10 +6655,10 @@
     "messageformat": "My Support"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} behin"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Dohaintza prozesatzen…"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Eman {formattedCurrencyAmount}"
@@ -6760,7 +6760,7 @@
     "messageformat": "Eskerrik asko Signal-i laguntzeagatik. Zure ekarpenarekin, kode irekiko pribatutasun-teknologiaren bidez adierazpen-askatasuna babesteko eta mundu osoko milioika pertsonarentzako komunikazio segurua ahalbidetzeko dugun misioa bultzatuko duzu. Ameriketako Estatu Batuetan bizi bazara, gorde ordainagiri hau, zerga-aitorpenetarako. Signal Technology Foundation zergak ordaintzetik salbuetsita dagoen AEBko erakunde bat da, Internal Revenue Code-ko 501c3 sekzioari jarraikiz. Gure IFZa federala 82-4506840 da."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Lineaz kanpo zaude. Konketatu Internetera dohaintza osatzeko."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Dohaintza bertan behera utzi da"
@@ -6811,13 +6811,13 @@
     "messageformat": "Baliteke dohaintza ez prozesatu izatea. Sakatu \"Egin dohaintza bat Signal-i\" eta \"Dohaintzen ordainagiriak\" ordainagiriak ikusteko eta berretsi."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Saiatu berriro edo bidali arazketa-erregistro bat Laguntza-zerbitzuari, dohaintza osatzen lagun zaitzaten. Arazketa-erregistroak arazoa diagnostikatzen eta konpontzen laguntzen digu, eta ez dute identifikazio-informaziorik."
   },
   "icu:Donations__Processing": {
     "messageformat": "Dohaintza prozesatzen…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Dohaintza prozesatzen oraindik"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Dohaintza prozesatzen ari da oraindik. Baliteke minutu batzuk behar izatea."
@@ -6884,6 +6884,6 @@
     "messageformat": "Zenbait akats txiki konpondu dira."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "Erabiltzaile batzuentzat dohaintza-bereizgarriak behar bezala agertzea eragozten zuen akats bat konpondu dugu. Signal irabazirik gabeko erakundea da, eta zure babesa eskertzen dugu!"
   }
 }

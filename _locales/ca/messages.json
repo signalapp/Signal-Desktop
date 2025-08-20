@@ -3528,13 +3528,13 @@
     "messageformat": "Torneu-ho a provar o contacteu amb l'assistència."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "Alguna cosa ha anat malament"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Envia un registre de depuració"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "No, gràcies."
   },
   "icu:Confirmation--confirm": {
     "messageformat": "D'acord"
@@ -5268,10 +5268,10 @@
     "messageformat": "Per exemple, :-) es convertirà a <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Mantenir arxivats els xats silenciats"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Els xats silenciats que estiguin arxivats romandran arxivats quan arribi un missatge nou."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Avançada"
@@ -6655,10 +6655,10 @@
     "messageformat": "Suport"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} (pagament únic)"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "S'està processant la donació…"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Fer donació de {formattedCurrencyAmount}"
@@ -6760,7 +6760,7 @@
     "messageformat": "Gràcies per donar suport a Signal. Amb la teva contribució, ens ajudes en la nostra missió de protegir la llibertat d'expressió i permetre una comunicació global segura per a milions de persones arreu del món gràcies a una tecnologia de codi obert centrada en la privacitat. Si vius als Estats Units, conserva aquest rebut per als teus registres fiscals. Signal Technology Foundation és una organització sense ànim de lucre exempta d'impostos als Estats Units segons la secció 501c3 del codi tributari dels Estats Units (Internal Revenue Code). El nostre número d'identificació fiscal federal és el 82–4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "No tens connexió. Connecta't a Internet per completar una donació."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Donació cancel·lada"
@@ -6811,13 +6811,13 @@
     "messageformat": "És possible que la teva donació no s'hagi processat. Fes clic a “Donar a Signal” i després a “Rebut de donació\" per comprovar els teus rebuts i confirmar."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Torna-ho a provar o envia un registre de depuració al servei d'Assistència per obtenir ajuda per completar la teva donació. Els registres de depuració ens ajuden a diagnosticar i solucionar el problema i no contenen informació que pugui identificar-te."
   },
   "icu:Donations__Processing": {
     "messageformat": "S'està processant la donació…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Encara estem processant la donació"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "La teva donació encara s'està processant. Això pot trigar uns minuts."
@@ -6884,6 +6884,6 @@
     "messageformat": "Unes quantes correccions d'errors menors."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "Hem corregit un error que impedia que les insígnies de donació apareguessin correctament per a alguns usuaris."
   }
 }

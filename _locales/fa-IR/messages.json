@@ -2238,7 +2238,7 @@
     "messageformat": "ویدئو یکبار مصرف"
   },
   "icu:message--getDescription--gif": {
-    "messageformat": "GIF"
+    "messageformat": "گیف"
   },
   "icu:message--deletedForEveryone": {
     "messageformat": "این پیام پاک شد."
@@ -3528,13 +3528,13 @@
     "messageformat": "لطفاً دوباره تلاش کنید یا با پشتیبانی تماس بگیرید."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "یک خطای غیرمنتظره رخ داد"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "ارسال گزارش عیب‌یابی"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "نه ممنون"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "خوب"
@@ -5268,10 +5268,10 @@
     "messageformat": "مثلاً :-) به <emojify>🙂</emojify> تبدیل خواهد شد"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "نگه داشتن گفتگوهای بی‌صدا در بایگانی"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "گفتگوهای بی‌صدایی که بایگانی می‌شوند، پس از دریافت پیام جدید همچنان در بایگانی خواهند ماند."
   },
   "icu:Preferences--advanced": {
     "messageformat": "پیشرفته"
@@ -6655,10 +6655,10 @@
     "messageformat": "پشتیبانی من"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} یک‌باره"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "در حال پردازش اهدای مالی..."
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "اهدای مالی {formattedCurrencyAmount}"
@@ -6760,7 +6760,7 @@
     "messageformat": "قدردان حمایتتان از سیگنال هستیم. مشارکت شما به پیشبرد ماموریت حفاظت از آزادی بیان و ایجاد امکان ارتباط جهانی امن برای میلیون‌ها نفر در سراسر جهان، از طریق فناوری متن‌باز حفظ حریم خصوصی، کمک می‌کند. اگر ساکن ایالات متحده هستید، لطفاً این رسید را در سوابق مالیاتی خود نگه دارید. بنیاد فناوری سیگنال یک سازمان غیرانتفاعی معاف از مالیات در ایالات متحده است که طبق بخش ۵۰۱c۳ قانون درآمد داخلی فعالیت می‌کند. شناسه مالیاتی ما ۴۵۰۶۸۴۰-۸۲ است."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "شما آفلاین هستید. لطفاً برای تکمیل اهدای مالی، به اینترنت متصل شوید."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "کمک مالی لغو شد"
@@ -6811,13 +6811,13 @@
     "messageformat": "ممکن است اهدای مالی شما پردازش نشده باشد. برای بررسی رسیدهای خود و تأیید، روی «اهدای کمک مالی به سیگنال» و سپس «رسید اهدا» کلیک کنید."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "دوباره امتحان کنید یا برای کمک در تکمیل اهدای مالی‌تان، گزارش اشکال‌زدایی را به بخش «پشتیبانی» ارائه دهید. گزارش‌های اشکال‌زدایی به ما کمک می‌کنند که مشکل را شناسایی و رفع کنیم و حاوی اطلاعاتی که منجر به شناسایی افراد شود نیست."
   },
   "icu:Donations__Processing": {
     "messageformat": "در حال پردازش اهدای مالی..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "همچنان در حال پردازش اهدای مالی هستیم"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "اهدای مالی شما هنوز در حال پردازش است. ممکن است چند دقیقه زمان ببرد."
@@ -6884,6 +6884,6 @@
     "messageformat": "چند اشکال جزئی رفع شد."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "اشکالی را رفع کردیم که مانع نمایش صحیح نشان‌های حمایت مالی برای برخی کاربرها می‌شد."
   }
 }

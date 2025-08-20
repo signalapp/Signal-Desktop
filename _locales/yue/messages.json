@@ -3528,13 +3528,13 @@
     "messageformat": "請你再試過或者聯絡支援團隊啦。"
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "出現未知錯誤"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "提交除錯記錄檔"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "唔使喇，唔該"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "確定"
@@ -5268,10 +5268,10 @@
     "messageformat": "例如：:-) 會變成 <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "繼續封存靜音聊天"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "當收到新訊息嘅時候，封存咗嘅靜音聊天會繼續封存。"
   },
   "icu:Preferences--advanced": {
     "messageformat": "進階"
@@ -6655,10 +6655,10 @@
     "messageformat": "我擔當後援"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} 單次"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "處理緊捐款……"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "捐款 {formattedCurrencyAmount}"
@@ -6760,7 +6760,7 @@
     "messageformat": "多謝你撐 Signal。你嘅捐款係我哋嘅原動力，推動我哋透過開放原始碼嘅私隱技術，保護言論自由，俾世界各地數以百萬計嘅 Signal 用戶可以安全通訊。如果你係美國居民，請保留呢張收據作為你嘅稅務記錄。Signal Technology Foundation 係根據美國《國稅法規》(IRC) 第 501c3 條嘅免稅非牟利機構。聯邦稅識別號碼係 82-4506840。"
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "你而家離咗線。請你連線上網去攪掂埋個捐款。"
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "已經取消捐款"
@@ -6811,13 +6811,13 @@
     "messageformat": "可能未處理到你嘅捐款。點擊「捐款俾 Signal」，跟住點擊「捐款收據」檢查你嘅收據，然後確認。"
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "再試一次，或者提交除錯紀錄俾支援團隊，等我哋幫你完成捐款。除錯紀錄可以幫我哋診斷同修正問題，當中唔會包含任何識別資料。"
   },
   "icu:Donations__Processing": {
     "messageformat": "處理緊捐款……"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "捐款仲處理緊"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "仲處理緊你嘅捐款。可能要幾分鐘時間。"
@@ -6884,6 +6884,6 @@
     "messageformat": "呢次更新修正咗一啲小錯誤，包括表情符號心情回應嘅分類有時會出錯。"
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "我們修正咗某啲用戶顯示唔到正確捐款徽章嘅錯誤。Signal 係屬於 501c3 嘅非牟利組織，我哋好多謝你嘅支持！"
   }
 }

@@ -3528,13 +3528,13 @@
     "messageformat": "Coba lagi atau hubungi bantuan."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "Terjadi kesalahan tidak terduga"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Kirim catatan debug"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Tidak, terima kasih"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "Oke"
@@ -5268,10 +5268,10 @@
     "messageformat": "Contoh, :-) akan diubah jadi <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Biarkan obrolan yang dibisukan tetap dalam arsip"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Obrolan dibisukan yang diarsipkan akan tetap dalam arsip saat ada pesan baru yang masuk."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Lanjutan"
@@ -6655,10 +6655,10 @@
     "messageformat": "Dukungan Saya"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} satu kali"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Memproses donasi …"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Donasi {formattedCurrencyAmount}"
@@ -6760,7 +6760,7 @@
     "messageformat": "Terima kasih telah mendukung Signal. Kontribusi Anda membantu misi perlindungan terhadap kebebasan berekspresi dan mendukung teknologi privasi sumber terbuka yang memungkinkan komunikasi yang aman bagi jutaan pengguna di seluruh dunia. Jika Anda warga Amerika Serikat, harap simpan struk ini untuk pencatatan pajak. Signal Technology Foundation adalah organisasi nirlaba bebas pajak di Amerika Serikat menurut pasal 501c3 di Internal Revenue Code (IRC). ID Pajak Federal kami adalah 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Anda sedang offline. Hubungkan perangkat ke internet untuk menyelesaikan donasi."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Donasi dibatalkan"
@@ -6811,13 +6811,13 @@
     "messageformat": "Donasi Anda mungkin belum diproses. Klik “Donasi ke Signal”, lalu klik “Struk Donasi” untuk memeriksa struk dan mengonfirmasi."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Coba lagi atau kirimkan catatan debug ke tim Dukungan untuk bantuan penyelesaian donasi Anda. Catatan debug membantu kami mendiagnosis dan memperbaiki masalah. Catatan tidak berisi informasi identifikasi."
   },
   "icu:Donations__Processing": {
     "messageformat": "Memproses donasi …"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Masih memproses donasi"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Donasi Anda sedang diproses. Perlu waktu beberapa menit."
@@ -6884,6 +6884,6 @@
     "messageformat": "Dalam pembaruan kali ini kami memperbaiki beberapa bug kecil, antara lain tanggapan emoji yang kadang tidak dikelompokkan dengan benar."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "Kami memperbaiki bug yang membuat lencana donasi tidak ditampilkan dengan benar di sebagian profil pengguna. Signal adalah organisasi nirlaba di bawah klasifikasi 501(c)(3) IRS Amerika Serikat dan kami sangat menghargai dukungan Anda!"
   }
 }

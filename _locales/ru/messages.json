@@ -3528,13 +3528,13 @@
     "messageformat": "Пожалуйста, попробуйте еще раз или свяжитесь с поддержкой."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "Произошла непредвиденная ошибка"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Отправить журнал отладки"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Нет, спасибо"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "Хорошо"
@@ -5268,10 +5268,10 @@
     "messageformat": "Например, :-) будет преобразовано в <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Оставлять чаты без звука архивированными"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Архивированные чаты с отключённым звуком будут оставаться архивированными, даже если будет получено новое сообщение."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Расширенные"
@@ -6655,10 +6655,10 @@
     "messageformat": "Моя поддержка"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "Разовое на {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Обработка пожертвования..."
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Пожертвовать {formattedCurrencyAmount}"
@@ -6760,7 +6760,7 @@
     "messageformat": "Спасибо, что поддерживаете Signal. Ваш вклад помогает поддерживать миссию по защите свободы слова и делает возможным безопасное общение между миллионами людей по всему миру благодаря технологии конфиденциальности с открытым исходным кодом. Если вы проживаете в США, пожалуйста, сохраните эту квитанцию для своего налогового учёта. Signal Technology Foundation — это некоммерческая организация, освобождённая от налогов в США со статусом 501c3. Наш ИНН: 82–4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Вы не в сети. Пожалуйста, подключитесь к Интернету, чтобы завершить пожертвование."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Пожертвование отменено"
@@ -6811,13 +6811,13 @@
     "messageformat": "Возможно, ваше пожертвование не было обработано. Нажмите «Пожертвовать Signal», а затем «Чек пожертвования», чтобы проверить свои чеки и подтвердить."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Повторите попытку или отправьте журнал отладки в службу поддержки, чтобы получить помощь в завершении пожертвования. Журналы отладки помогают нам диагностировать и устранять проблему и не содержат идентифицирующей информации."
   },
   "icu:Donations__Processing": {
     "messageformat": "Обработка пожертвования..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Всё ещё обрабатываем пожертвование"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Ваше пожертвование всё ещё обрабатывается. Это может занять несколько минут."
@@ -6884,6 +6884,6 @@
     "messageformat": "В этом обновлении исправлено несколько небольших ошибок, в том числе та, из-за которой реакции эмодзи иногда группировались неправильно."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "Мы исправили ошибку, из-за которой значки пожертвований у некоторых пользователей отображались некорректно. Signal — это некоммерческая организация со статусом 501c3, и мы ценим вашу поддержку!"
   }
 }

@@ -3528,13 +3528,13 @@
     "messageformat": "សូមព្យាយាមម្តងទៀត ឬទាក់ទងផ្នែកជំនួយ។"
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "បញ្ហាមួយដែលមិនបានរំពឹងទុកបានកើតឡើង"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "ដាក់បញ្ជូនកំណត់ត្រាបញ្ហា"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "ទេ អរគុណ"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "យល់ព្រម"
@@ -5268,10 +5268,10 @@
     "messageformat": "ឧទាហរណ៍ :-) នឹងត្រូវបានបំប្លែងទៅជា <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "បន្តទុកក្នុងបណ្ណសារនូវការជជែកដែលបិទសំឡេង"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "ការជជែកដែលបានបិទសំឡេងដែលត្រូវបានទុកក្នុងបណ្ណសារនឹងនៅតែរក្សាទុកក្នុងបណ្ណសារដដែល នៅពេលសារថ្មីមកដល់។"
   },
   "icu:Preferences--advanced": {
     "messageformat": "កម្រិតខ្ពស់"
@@ -6655,10 +6655,10 @@
     "messageformat": "ការគាំទ្ររបស់ខ្ញុំ"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "ម្តង {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "កំពុងដំណើរការការបរិច្ចាគ…"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "បរិច្ចាគ {formattedCurrencyAmount}"
@@ -6760,7 +6760,7 @@
     "messageformat": "សូមអរគុណចំពោះការគាំទ្រ Signal។ ការចូលរួមចំណែករបស់អ្នកជួយជំរុញដល់បេសកកម្មការពារការបញ្ចេញមតិដោយសេរី និងញ៉ាំងឱ្យមានការប្រាស្រ័យទាក់ទងគ្នាជាសាកលដោយសុវត្ថិភាពសម្រាប់មនុស្សរាប់លាននាក់ជុំវិញពិភពលោក តាមរយៈបច្ចេកវិទ្យាឯកជនភាពប្រភពបើកចំហ។ ប្រសិនបើអ្នកជាអ្នករស់នៅក្នុងសហរដ្ឋអាមេរិក សូមរក្សាទុកបង្កាន់ដៃនេះសម្រាប់កំណត់ត្រាពន្ធរបស់អ្នក។ Signal Technology Foundation គឺជាអង្គការមិនរកប្រាក់ចំណេញដែលទទួលបានការលើកលែងពន្ធនៅក្នុងសហរដ្ឋអាមេរិកក្រោមផ្នែក 501c3 នៃក្រមស្តីពីប្រាក់ចំណូលផ្ទៃក្នុង។ លេខអត្តសញ្ញាណកម្មពន្ធរបស់យើងគឺ 82-4506840។"
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "អ្នកមិនមានអ៊ីនធឺណិតទេ។ សូមភ្ជាប់អ៊ីនធឺណិត ដើម្បីបំពេញការបរិច្ចាគ។"
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "ការបរិច្ចាគត្រូវបានបោះបង់"
@@ -6811,13 +6811,13 @@
     "messageformat": "ការបរិច្ចាគរបស់អ្នកប្រហែលជាមិនត្រូវបានដំណើរការទេ។ ចុចលើ “បរិច្ចាគទៅ Signal” ហើយបន្ទាប់មក “បង្កាន់ដៃបរិច្ចាគ” ដើម្បីពិនិត្យមើលបង្កាន់ដៃរបស់អ្នក រួចបញ្ជាក់។"
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "សូមព្យាយាមម្តងទៀត ឬដាក់បញ្ជូនកំណត់ត្រាបញ្ហាទៅកាន់ផ្នែកជំនួយ ដើម្បីជួយបំពេញការបរិច្ចាគរបស់អ្នក។ កំណត់ត្រាបញ្ហាជួយឱ្យយើងវិភាគ និងដោះស្រាយបញ្ហានេះ ហើយមិនមានព័ត៌មានកំណត់អត្តសញ្ញាណទេ។"
   },
   "icu:Donations__Processing": {
     "messageformat": "កំពុងដំណើរការការបរិច្ចាគ…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "កំពុងដំណើរការការបរិច្ចាគនៅឡើយ"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "ការបរិច្ចាគរបស់អ្នកកំពុងត្រូវបានដំណើរការនៅឡើយ។ វាអាចចំណាយពេលពីរបីនាទី។"
@@ -6884,6 +6884,6 @@
     "messageformat": "កំណែថ្មីនេះដោះស្រាយបញ្ហាតូចៗមួយចំនួន រួមទាំងបញ្ហាដែលប្រតិកម្មតាមរូបអារម្មណ៍មិនត្រូវបានដាក់ជាក្រុមជាមួយគ្នាឱ្យបានត្រឹមត្រូវនៅក្នុងករណីខ្លះៗ។"
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "យើងបានដោះស្រាយបញ្ហាមួយដែលធ្វើឱ្យស្លាកបរិច្ចាគមិនអាចបង្ហាញបានត្រឹមត្រូវសម្រាប់អ្នកប្រើមួយចំនួន។ Signal គឺជាអង្គការមិនរកប្រាក់ចំណេញ 501c3 ហើយយើងសូមអរគុណចំពោះការគាំទ្ររបស់អ្នក!"
   }
 }

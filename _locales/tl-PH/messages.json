@@ -3531,10 +3531,10 @@
     "messageformat": "An unexpected error occurred"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Isumite ang debug log"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Ayaw ko, salamat na lang"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "Okay"
@@ -5268,10 +5268,10 @@
     "messageformat": "Halimbawa, ang :-) ay magiging <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Panatilihing Naka-archive ang Muted Chats"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Mananatili sa archive ang muted chats kahit may bagong message na dumating."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Advanced"
@@ -6658,7 +6658,7 @@
     "messageformat": "{formattedCurrencyAmount} one-time"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Pinoproseso ang donation…"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Mag-donate {formattedCurrencyAmount}"
@@ -6760,7 +6760,7 @@
     "messageformat": "Maraming salamat sa pagsuporta sa Signal. Ang iyong contribution ay nakatutulong para maipagpatuloy ang aming mission na protektahan ang malayang pamamahayag at pag-enable sa secure global communication para sa milyun-milyong katao sa buong mundo, sa pamamagitan ng open source privacy technology. Kung ika'y isang residente ng United States, ingatan ang receipt na ito para sa tax records mo. Ang Signal Technology Foundation ay isang tax-exempt nonprofit organization sa United States sa ilalim ng section 501c3 ng Internal Revenue Code. Ang aming Federal Tax ID ay 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Offline ka. Mag-connect sa internet para kumpletuhin ang pag-donate."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Na-cancel ang donation"
@@ -6811,13 +6811,13 @@
     "messageformat": "Maaaring hindi naproseso ang iyong donation. I-click ang \"Mag-donate sa Signal\" at i-click ang \"Donation Receipts\" para ma-check at ma-confirm ang iyong mga resibo."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Subukan ulit o mag-submit ng debug log sa Support para matulungan kang makumpleto ang donation mo. Ang debug logs ay makatutulong sa amin para ma-diagnose at maayos ang issue, at wala itong nilalaman na identifying information."
   },
   "icu:Donations__Processing": {
     "messageformat": "Pinoproseso ang donation…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Pinoproseso pa rin ang donation"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Pinoproseso pa ang iyong donation. Maaari itong tumagal nang ilang minuto."
@@ -6884,6 +6884,6 @@
     "messageformat": "May ilang small bug fixes."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "Inayos namin ang isang bug na pumigil sa pagpapakita ng tamang donation badges sa ilang users."
   }
 }

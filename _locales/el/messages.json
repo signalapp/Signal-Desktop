@@ -3528,13 +3528,13 @@
     "messageformat": "Παρακαλώ δοκίμασε ξανά ή επικοινώνησε με την υποστήριξη."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "Παρουσιάστηκε απρόσμενο σφάλμα"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Αποστολή αρχείου συμβάντων αποσφαλμάτωσης"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Όχι, ευχαριστώ"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "Εντάξει"
@@ -5268,10 +5268,10 @@
     "messageformat": "Για παράδειγμα, το :-) θα μετατραπεί σε <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Διατήρηση αρχειοθέτησης συνομιλιών σε σίγαση"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Οι συνομιλίες σε σίγαση που είναι αρχειοθετημένες, θα παραμείνουν σε αρχειοθέτηση όταν λάβεις νέα μηνύματα."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Για προχωρημένους"
@@ -6655,10 +6655,10 @@
     "messageformat": "Η υποστήριξή μου"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} μεμονωμένα"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Επεξεργασία δωρεάς…"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Δωρεά {formattedCurrencyAmount}"
@@ -6760,7 +6760,7 @@
     "messageformat": "Σε ευχαριστούμε που στηρίζεις το Signal. Η συνεισφορά σου βοηθά στην ανάπτυξη της τεχνολογίας απορρήτου ανοιχτού κώδικα, που προστατεύει την ελευθερία της έκφρασης και δίνει τη δυνατότητα ασφαλών διεθνών επικοινωνιών για εκατομμύρια ανθρώπους σε όλο τον κόσμο. Αν είσαι κάτοικος των Ηνωμένων Πολιτειών, παρακαλούμε κράτα αυτή την απόδειξη για τα φορολογικά σου αρχεία. Το Signal Technology Foundation είναι ένας μη κερδοσκοπικός οργανισμός στις Ηνωμένες Πολιτείες, που έχει φοροαπαλλαγή σύμφωνα με την ενότητα 501c3 του Internal Revenue Code. Το Federal Tax ID μας είναι 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Είσαι εκτός σύνδεσης. Συνδέσου στο διαδίκτυο για να ολοκληρώσεις μια δωρεά."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Η δωρεά ακυρώθηκε"
@@ -6811,13 +6811,13 @@
     "messageformat": "Η δωρεά σου ενδέχεται να μην έχει διεκπεραιωθεί. Κάνε κλικ στην επιλογή \"Δωρεά στο Signal\" και, στη συνέχεια, στην επιλογή \"Αποδείξεις δωρεάς\" για να ελέγξεις τις αποδείξεις σου και να τις επιβεβαιώσεις."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Δοκίμασε ξανά ή υπόβαλε ένα αρχείο καταγραφής αποσφαλμάτωσης στην Υποστήριξη για βοήθεια σχετικά με την ολοκλήρωση της δωρεάς σου. Τα αρχεία καταγραφής αποσφαλμάτωσης βοηθούν να διαγνώσουμε και να διορθώσουμε το πρόβλημα και δεν περιλαμβάνουν πληροφορίες ταυτοποίησης."
   },
   "icu:Donations__Processing": {
     "messageformat": "Επεξεργασία δωρεάς…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Η δωρεά βρίσκεται ακόμη υπό επεξεργασία"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Η δωρεά σου είναι ακόμη σε επεξεργασία. Αυτό μπορεί να πάρει μερικά λεπτά."
@@ -6884,6 +6884,6 @@
     "messageformat": "Λίγες επιδιορθώσεις μικρών σφαλμάτων."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "Διορθώσαμε ένα σφάλμα που εμπόδιζε τη σωστή εμφάνιση των σημάτων δωρεάς για ορισμένους χρήστες. Το Signal είναι ένας μη κερδοσκοπικός οργανισμός 501c3 και εκτιμούμε την υποστήριξή σου!"
   }
 }
