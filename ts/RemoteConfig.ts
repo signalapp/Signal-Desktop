@@ -35,6 +35,8 @@ export type ConfigKeyType =
   | 'desktop.experimentalTransportEnabled.beta'
   | 'desktop.experimentalTransportEnabled.prod.2'
   | 'desktop.libsignalNet.enforceMinimumTls'
+  | 'desktop.libsignalNet.shadowUnauthChatWithNoise'
+  | 'desktop.libsignalNet.shadowAuthChatWithNoise'
   | 'desktop.cdsiViaLibsignal'
   | 'desktop.cdsiViaLibsignal.disableNewConnectionLogic'
   | 'desktop.funPicker' // alpha
