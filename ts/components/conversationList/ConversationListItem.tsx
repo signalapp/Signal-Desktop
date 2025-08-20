@@ -75,6 +75,7 @@ type PropsHousekeeping = {
   buttonAriaLabel?: string;
   i18n: LocalizerType;
   onClick: (id: string) => void;
+  onContextMenu?: (event: React.MouseEvent<HTMLDivElement>) => void;
   onMouseDown: (id: string) => void;
   theme: ThemeType;
 };
@@ -102,6 +103,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     markedUnread,
     muteExpiresAt,
     onClick,
+    onContextMenu,
     onMouseDown,
     phoneNumber,
     profileName,
@@ -234,6 +236,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
         messageText={messageText}
         messageTextIsAlwaysFullSize
         onClick={onClickItem}
+        onContextMenu={onContextMenu}
         onMouseDown={onMouseDownItem}
         phoneNumber={phoneNumber}
         profileName={profileName}

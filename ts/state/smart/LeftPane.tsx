@@ -329,6 +329,15 @@ export const SmartLeftPane = memo(function SmartLeftPane({
     startSettingGroupMetadata,
     toggleComposeEditingAvatar,
     toggleConversationInChooseMembers,
+    // Context menu actions
+    onArchive,
+    onMarkUnread,
+    onMoveToInbox,
+    setPinned,
+    leaveGroup,
+    unblockConversation,
+    toggleSelectMode,
+    acceptConversation,
   } = useConversationsActions();
   const {
     clearConversationSearch,
@@ -364,6 +373,10 @@ export const SmartLeftPane = memo(function SmartLeftPane({
   }
 
   const hasRelinkDialog = !isRegistrationDone();
+
+  // Context menu action wrappers
+  const onConversationPin = (conversationId: string) => setPinned(conversationId, true);
+  const onConversationUnpin = (conversationId: string) => setPinned(conversationId, false);
 
   const renderToastManager =
     composerStep == null && !showArchived && !hasSearchQuery
@@ -455,6 +468,27 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       usernameCorrupted={usernameCorrupted}
       usernameLinkCorrupted={usernameLinkCorrupted}
       updateFilterByUnread={updateFilterByUnread}
+      
+      // Context menu actions
+      onConversationAccept={acceptConversation}
+      onConversationArchive={onArchive}
+      onConversationBlock={blockConversation}
+      onConversationDelete={removeConversation}
+      onConversationDeleteMessages={removeConversation}
+      onConversationLeaveGroup={leaveGroup}
+      onConversationMarkUnread={onMarkUnread}
+      onConversationPin={onConversationPin}
+      onConversationReportAndMaybeBlock={blockConversation}
+      onConversationUnarchive={onMoveToInbox}
+      onConversationUnblock={unblockConversation}
+      onConversationUnpin={onConversationUnpin}
+      onSelectModeEnter={toggleSelectMode}
+      onSetupCustomDisappearingTimeout={() => {}}
+      onShowMembers={() => {}}
+      onViewAllMedia={() => {}}
+      onViewConversationDetails={() => {}}
+      onChangeDisappearingMessages={() => {}}
+      onChangeMuteExpiration={() => {}}
     />
   );
 });

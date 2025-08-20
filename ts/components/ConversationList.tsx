@@ -38,6 +38,9 @@ import { GroupListItem } from './conversationList/GroupListItem';
 import { ListView } from './ListView';
 import { Button, ButtonVariant } from './Button';
 import { ListTile } from './ListTile';
+import { ContextMenuTrigger } from 'react-contextmenu';
+import { ConversationListContextMenu } from './conversationList/ConversationListContextMenu';
+import { useConversationListContextMenu } from './conversationList/useConversationListContextMenu';
 
 export enum RowType {
   ArchiveButton = 'ArchiveButton',
@@ -240,6 +243,27 @@ export type PropsType = {
   showFindByUsername: () => void;
   showFindByPhoneNumber: () => void;
   showConversation: ShowConversationType;
+  
+  // Context menu actions
+  onConversationAccept?: (conversationId: string) => void;
+  onConversationArchive?: (conversationId: string) => void;
+  onConversationBlock?: (conversationId: string) => void;
+  onConversationDelete?: (conversationId: string) => void;
+  onConversationDeleteMessages?: (conversationId: string) => void;
+  onConversationLeaveGroup?: (conversationId: string) => void;
+  onConversationMarkUnread?: (conversationId: string) => void;
+  onConversationPin?: (conversationId: string) => void;
+  onConversationReportAndMaybeBlock?: (conversationId: string) => void;
+  onConversationUnarchive?: (conversationId: string) => void;
+  onConversationUnblock?: (conversationId: string) => void;
+  onConversationUnpin?: (conversationId: string) => void;
+  onSelectModeEnter?: (conversationId: string) => void;
+  onSetupCustomDisappearingTimeout?: (conversationId: string) => void;
+  onShowMembers?: (conversationId: string) => void;
+  onViewAllMedia?: (conversationId: string) => void;
+  onViewConversationDetails?: (conversationId: string) => void;
+  onChangeDisappearingMessages?: (conversationId: string, seconds: number) => void;
+  onChangeMuteExpiration?: (conversationId: string, seconds: number) => void;
 } & LookupConversationWithoutServiceIdActionsType;
 
 const NORMAL_ROW_HEIGHT = 76;
@@ -276,6 +300,26 @@ export function ConversationList({
   setIsFetchingUUID,
   showConversation,
   theme,
+  // Context menu actions
+  onConversationAccept,
+  onConversationArchive,
+  onConversationBlock,
+  onConversationDelete,
+  onConversationDeleteMessages,
+  onConversationLeaveGroup,
+  onConversationMarkUnread,
+  onConversationPin,
+  onConversationReportAndMaybeBlock,
+  onConversationUnarchive,
+  onConversationUnblock,
+  onConversationUnpin,
+  onSelectModeEnter,
+  onSetupCustomDisappearingTimeout,
+  onShowMembers,
+  onViewAllMedia,
+  onViewConversationDetails,
+  onChangeDisappearingMessages,
+  onChangeMuteExpiration,
 }: PropsType): JSX.Element | null {
   const calculateRowHeight = useCallback(
     (index: number): number => {
@@ -496,23 +540,64 @@ export function ConversationList({
           ]);
           const { badges, title, unreadCount, lastMessage } = itemProps;
           key = `conversation:${itemProps.id}`;
+          const conversationId = itemProps.id;
+          const triggerId = `conversation-context-menu-${conversationId}`;
+          
           result = (
-            <ConversationListItem
-              {...itemProps}
-              buttonAriaLabel={i18n('icu:ConversationList__aria-label', {
-                lastMessage:
-                  get(lastMessage, 'text') ||
-                  i18n('icu:ConversationList__last-message-undefined'),
-                title,
-                unreadCount: unreadCount ?? 0,
-              })}
-              key={key}
-              badge={getPreferredBadge(badges)}
-              onMouseDown={onPreloadConversation}
-              onClick={onSelectConversation}
-              i18n={i18n}
-              theme={theme}
-            />
+            <>
+              <ContextMenuTrigger id={triggerId}>
+                <ConversationListItem
+                  {...itemProps}
+                  buttonAriaLabel={i18n('icu:ConversationList__aria-label', {
+                    lastMessage:
+                      get(lastMessage, 'text') ||
+                      i18n('icu:ConversationList__last-message-undefined'),
+                    title,
+                    unreadCount: unreadCount ?? 0,
+                  })}
+                  key={key}
+                  badge={getPreferredBadge(badges)}
+                  onMouseDown={onPreloadConversation}
+                  onClick={onSelectConversation}
+                  onContextMenu={(event) => {
+                    // Prevent default context menu
+                    event.preventDefault();
+                  }}
+                  i18n={i18n}
+                  theme={theme}
+                />
+              </ContextMenuTrigger>
+              <ConversationListContextMenu
+                conversation={itemProps}
+                i18n={i18n}
+                isMissingMandatoryProfileSharing={false}
+                isSignalConversation={false}
+                onChangeDisappearingMessages={(seconds) => 
+                  onChangeDisappearingMessages?.(conversationId, seconds)
+                }
+                onChangeMuteExpiration={(seconds) => 
+                  onChangeMuteExpiration?.(conversationId, seconds)
+                }
+                onConversationAccept={() => onConversationAccept?.(conversationId)}
+                onConversationArchive={() => onConversationArchive?.(conversationId)}
+                onConversationBlock={() => onConversationBlock?.(conversationId)}
+                onConversationDelete={() => onConversationDelete?.(conversationId)}
+                onConversationDeleteMessages={() => onConversationDeleteMessages?.(conversationId)}
+                onConversationLeaveGroup={() => onConversationLeaveGroup?.(conversationId)}
+                onConversationMarkUnread={() => onConversationMarkUnread?.(conversationId)}
+                onConversationPin={() => onConversationPin?.(conversationId)}
+                onConversationReportAndMaybeBlock={() => onConversationReportAndMaybeBlock?.(conversationId)}
+                onConversationUnarchive={() => onConversationUnarchive?.(conversationId)}
+                onConversationUnblock={() => onConversationUnblock?.(conversationId)}
+                onConversationUnpin={() => onConversationUnpin?.(conversationId)}
+                onSelectModeEnter={() => onSelectModeEnter?.(conversationId)}
+                onSetupCustomDisappearingTimeout={() => onSetupCustomDisappearingTimeout?.(conversationId)}
+                onShowMembers={() => onShowMembers?.(conversationId)}
+                onViewAllMedia={() => onViewAllMedia?.(conversationId)}
+                onViewConversationDetails={() => onViewConversationDetails?.(conversationId)}
+                triggerId={triggerId}
+              />
+            </>
           );
           break;
         }

@@ -1133,6 +1133,7 @@ export const actions = {
   blockAndReportSpam,
   blockConversation,
   blockGroupLinkRequests,
+  unblockConversation,
   cancelAttachmentDownload,
   cancelConversationVerification,
   changeHasGroupLink,
@@ -3926,6 +3927,66 @@ function blockConversation(
       } catch (error) {
         log.error(
           `blockConversation/${idForLogging}: Failed to queue block sync message`,
+          Errors.toLogFormat(error)
+        );
+      }
+    }
+
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
+function unblockConversation(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async dispatch => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error(
+        'unblockConversation: Expected a conversation to be found. Doing nothing'
+      );
+    }
+
+    const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
+    const idForLogging = getConversationIdForLogging(conversation.attributes);
+
+    if (conversation.getAci()) {
+      drop(
+        longRunningTaskWrapper({
+          name: 'unblockConversation',
+          idForLogging,
+          task: async () => {
+            await syncMessageRequestResponse(
+              conversation,
+              messageRequestEnum.UNBLOCK
+            );
+          },
+        })
+      );
+    } else {
+      // In GroupsV2, this may modify the server. We only want to continue if those
+      //   server updates were successful.
+      await conversation.applyMessageRequestResponse(
+        messageRequestEnum.UNBLOCK,
+        {
+          source: MessageRequestResponseSource.LOCAL,
+          timestamp: Date.now(),
+        },
+        { shouldSave: true }
+      );
+
+      try {
+        await singleProtoJobQueue.add(
+          MessageSender.getBlockSync(
+            window.textsecure.storage.blocked.getBlockedData()
+          )
+        );
+      } catch (error) {
+        log.error(
+          `unblockConversation/${idForLogging}: Failed to queue block sync message`,
           Errors.toLogFormat(error)
         );
       }
