@@ -6712,7 +6712,7 @@
     "messageformat": "Eigenen Betrag eingeben"
   },
   "icu:DonateFlow__credit-or-debit-card": {
-    "messageformat": "Kredit- oder Debitkarte"
+    "messageformat": "Kredit- oder Girokarte"
   },
   "icu:DonateFlow__card-form-instructions": {
     "messageformat": "Gib deine Kredit- oder Girokartendaten ein. Deine persönlichen Daten werden von Signal nicht erfasst oder gespeichert. <learnMoreLink>Mehr erfahren</learnMoreLink>"

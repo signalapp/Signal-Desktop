@@ -2310,7 +2310,7 @@
     "messageformat": "Wiadomość, której nadawcą jest {author}"
   },
   "icu:modal--donation--title": {
-    "messageformat": "Dziękujemy za Twoje wsparcie!"
+    "messageformat": "Dziękujemy Ci za wsparcie!"
   },
   "icu:modal--donation--description": {
     "messageformat": "Twoja darowizna na rzecz aplikacji Signal została wpłacona w imieniu wybranej osoby. {name} może się teraz pochwalić wsparciem w swoim profilu."
@@ -3168,7 +3168,7 @@
     "messageformat": "To oficjalny i jedyny czat twórców aplikacji Signal"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Bądź na bieżąco z newsami i aktualizacjami."
+    "messageformat": "Bądź na bieżąco z nowościami i aktualizacjami."
   },
   "icu:member-of-1-group": {
     "messageformat": "Należy do grupy {group}"
