@@ -614,22 +614,45 @@ function CardForm({
     setCardCvcError(formResult.cardCvc.error ?? null);
 
     const cardDetail = cardFormToCardDetail(formResult);
-    if (cardDetail == null) {
+    if (
+      cardDetail == null ||
+      formResult.cardNumber.error ||
+      formResult.cardExpiration.error ||
+      formResult.cardCvc.error
+    ) {
       return;
     }
 
     onSubmit(cardDetail);
   }, [cardCvc, cardExpiration, cardNumber, onSubmit]);
 
-  const isDonateDisabled =
-    disabled ||
-    !isOnline ||
-    cardNumber === '' ||
-    cardExpiration === '' ||
-    cardCvc === '' ||
-    cardNumberError != null ||
-    cardExpirationError != null ||
-    cardCvcError != null;
+  const isDonateDisabled = useMemo(
+    () =>
+      disabled ||
+      !isOnline ||
+      cardNumber === '' ||
+      cardExpiration === '' ||
+      cardCvc === '' ||
+      cardNumberError != null ||
+      cardExpirationError != null ||
+      cardCvcError != null,
+    [
+      cardCvc,
+      cardCvcError,
+      cardExpiration,
+      cardExpirationError,
+      cardNumber,
+      cardNumberError,
+      disabled,
+      isOnline,
+    ]
+  );
+
+  const handleInputEnterKey = useCallback(() => {
+    if (!isDonateDisabled) {
+      handleDonateClicked();
+    }
+  }, [handleDonateClicked, isDonateDisabled]);
 
   const donateButton = (
     <Button
@@ -674,6 +697,7 @@ function CardForm({
             onValueChange={handleCardNumberChange}
             maxInputLength={cardFormSettings.cardNumber.maxInputLength}
             onBlur={handleCardNumberBlur}
+            onEnter={handleInputEnterKey}
           />
           {cardNumberError != null && (
             <div className="DonationCardForm_FieldError">
@@ -697,6 +721,7 @@ function CardForm({
             value={cardExpiration}
             onValueChange={handleCardExpirationChange}
             onBlur={handleCardExpirationBlur}
+            onEnter={handleInputEnterKey}
           />
           {cardExpirationError && (
             <div className="DonationCardForm_FieldError">
@@ -720,6 +745,7 @@ function CardForm({
             onValueChange={handleCardCvcChange}
             maxInputLength={cardFormSettings.cardCvc.maxInputLength}
             onBlur={handleCardCvcBlur}
+            onEnter={handleInputEnterKey}
           />
           {cardCvcError && (
             <div className="DonationCardForm_FieldError">

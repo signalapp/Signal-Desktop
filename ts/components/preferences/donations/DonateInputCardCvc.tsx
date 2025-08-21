@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { FormEvent } from 'react';
+import type { FormEvent, KeyboardEvent } from 'react';
 import React, { memo, useCallback, useRef } from 'react';
 import { CC_CVC_FORMATTER, useInputMask } from '../../../hooks/useInputMask';
 import type { LocalizerType } from '../../../types/I18N';
@@ -30,12 +30,13 @@ export type DonateInputCardCvcProps = Readonly<{
   onValueChange: (newValue: string) => void;
   maxInputLength: number;
   onBlur?: () => void;
+  onEnter?: () => void;
 }>;
 
 export const DonateInputCardCvc = memo(function DonateInputCardCvc(
   props: DonateInputCardCvcProps
 ) {
-  const { onValueChange } = props;
+  const { onEnter, onValueChange } = props;
   const inputRef = useRef<HTMLInputElement>(null);
 
   useInputMask(inputRef, CC_CVC_FORMATTER);
@@ -45,6 +46,15 @@ export const DonateInputCardCvc = memo(function DonateInputCardCvc(
       onValueChange(event.currentTarget.value);
     },
     [onValueChange]
+  );
+
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (onEnter && event.key === 'Enter') {
+        onEnter();
+      }
+    },
+    [onEnter]
   );
 
   return (
@@ -59,6 +69,7 @@ export const DonateInputCardCvc = memo(function DonateInputCardCvc(
       value={props.value}
       onInput={handleInput}
       onBlur={props.onBlur}
+      onKeyDown={handleKeyDown}
     />
   );
 });

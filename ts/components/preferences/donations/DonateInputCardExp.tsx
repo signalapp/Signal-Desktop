@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { FormEvent } from 'react';
+import type { FormEvent, KeyboardEvent } from 'react';
 import React, { memo, useCallback, useRef } from 'react';
 import { CC_EXP_FORMATTER, useInputMask } from '../../../hooks/useInputMask';
 import { CardExpirationError } from '../../../types/DonationsCardForm';
@@ -40,12 +40,13 @@ export type DonateInputCardExpProps = Readonly<{
   value: string;
   onValueChange: (newValue: string) => void;
   onBlur?: () => void;
+  onEnter?: () => void;
 }>;
 
 export const DonateInputCardExp = memo(function DonateInputCardExp(
   props: DonateInputCardExpProps
 ) {
-  const { onValueChange } = props;
+  const { onEnter, onValueChange } = props;
   const inputRef = useRef<HTMLInputElement>(null);
 
   useInputMask(inputRef, CC_EXP_FORMATTER);
@@ -55,6 +56,15 @@ export const DonateInputCardExp = memo(function DonateInputCardExp(
       onValueChange(event.currentTarget.value);
     },
     [onValueChange]
+  );
+
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (onEnter && event.key === 'Enter') {
+        onEnter();
+      }
+    },
+    [onEnter]
   );
 
   return (
@@ -68,6 +78,7 @@ export const DonateInputCardExp = memo(function DonateInputCardExp(
       value={props.value}
       onInput={handleInput}
       onBlur={props.onBlur}
+      onKeyDown={handleKeyDown}
     />
   );
 });

@@ -597,7 +597,7 @@ export function PreferencesDonations({
   );
 
   useEffect(() => {
-    if (!workflow || lastError) {
+    if (lastError) {
       setIsSubmitted(false);
     }
 
@@ -636,6 +636,7 @@ export function PreferencesDonations({
         errorType={lastError}
         i18n={i18n}
         onClose={() => {
+          setIsSubmitted(false);
           updateLastError(undefined);
         }}
       />
