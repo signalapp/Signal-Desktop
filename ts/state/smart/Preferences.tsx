@@ -525,8 +525,8 @@ export function SmartPreferences(): JSX.Element | null {
   const backupFeatureEnabled = isBackupFeatureEnabled(items.remoteConfig);
   const backupLocalBackupsEnabled = isLocalBackupsEnabled(items.remoteConfig);
   const donationsFeatureEnabled =
-    items.remoteConfig?.['desktop.internalUser']?.enabled ??
-    items.remoteConfig?.['desktop.donations']?.enabled ??
+    (items.remoteConfig?.['desktop.internalUser']?.enabled ||
+      items.remoteConfig?.['desktop.donations']?.enabled) ??
     false;
 
   // Two-way items
