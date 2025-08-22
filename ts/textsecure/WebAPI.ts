@@ -701,6 +701,7 @@ const CHAT_CALLS = {
   boostReceiptCredentials: 'v1/subscription/boost/receipt_credentials',
   challenge: 'v1/challenge',
   config: 'v1/config',
+  configV2: 'v2/config',
   createBoost: 'v1/subscription/boost/create',
   deliveryCert: 'v1/certificate/delivery',
   devices: 'v1/devices',
@@ -925,18 +926,14 @@ export type UploadAvatarHeadersOrOtherType = z.infer<
 >;
 
 const remoteConfigResponseZod = z.object({
-  config: z
-    .object({
-      name: z.string(),
-      enabled: z.boolean(),
-      value: z.string().nullish(),
-    })
-    .array(),
+  config: z.object({}).catchall(z.string()),
 });
-export type RemoteConfigResponseType = z.infer<typeof remoteConfigResponseZod> &
-  Readonly<{
-    serverTimestamp: number;
-  }>;
+export type RemoteConfigResponseType = {
+  config: Map<string, string> | 'unmodified';
+} & Readonly<{
+  serverTimestamp: number;
+  configHash: string;
+}>;
 
 export type ProfileType = Readonly<{
   identityKey?: string;
@@ -1823,7 +1820,7 @@ export type WebAPIType = {
   ) => Promise<string>;
   whoami: () => Promise<WhoamiResultType>;
   sendChallengeResponse: (challengeResponse: ChallengeType) => Promise<void>;
-  getConfig: () => Promise<RemoteConfigResponseType>;
+  getConfig: (configHash?: string) => Promise<RemoteConfigResponseType>;
   authenticate: (credentials: WebAPICredentials) => Promise<void>;
   logout: () => Promise<void>;
   getServerAlerts: () => Array<ServerAlert>;
@@ -2468,31 +2465,64 @@ export function initialize({
       void socketManager.onHasStoriesDisabledChange(newValue);
     }
 
-    async function getConfig() {
+    async function getConfig(
+      configHash?: string
+    ): Promise<RemoteConfigResponseType> {
       const { data, response } = await _ajax({
         host: 'chatService',
-        call: 'config',
+        call: 'configV2',
         httpType: 'GET',
         responseType: 'jsonwithdetails',
-        zodSchema: remoteConfigResponseZod,
+        zodSchema: z.union([
+          remoteConfigResponseZod,
+          // When a 304 is returned, the body of the response is empty.
+          z.literal(''),
+        ]),
+        headers: {
+          ...(configHash && { 'if-none-match': configHash }),
+        },
       });
 
       const serverTimestamp = safeParseNumber(
         response.headers.get('x-signal-timestamp') || ''
       );
+
       if (serverTimestamp == null) {
         throw new Error('Missing required x-signal-timestamp header');
       }
 
-      return {
-        ...data,
-        serverTimestamp,
-        config: data.config.filter(
-          ({ name }: { name: string }) =>
+      const newConfigHash = response.headers.get('etag');
+      if (newConfigHash == null) {
+        throw new Error('Missing required ETag header');
+      }
+
+      const partialResponse = { serverTimestamp, configHash: newConfigHash };
+
+      if (response.status === 304) {
+        return {
+          config: 'unmodified',
+          ...partialResponse,
+        };
+      }
+
+      if (data === '') {
+        throw new Error('Empty data returned for non-304');
+      }
+
+      const { config: newConfig } = data;
+
+      const config = new Map(
+        Object.entries(newConfig).filter(
+          ([name, _value]) =>
             name.startsWith('desktop.') ||
             name.startsWith('global.') ||
             name.startsWith('cds.')
-        ),
+        )
+      );
+
+      return {
+        config,
+        ...partialResponse,
       };
     }
 

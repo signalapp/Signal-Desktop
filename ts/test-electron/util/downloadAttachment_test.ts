@@ -362,7 +362,6 @@ describe('getCdnNumberForBackupTier', () => {
     await updateRemoteConfig([
       {
         name: 'global.backups.mediaTierFallbackCdnNumber',
-        enabled: true,
         value: '42',
       },
     ]);

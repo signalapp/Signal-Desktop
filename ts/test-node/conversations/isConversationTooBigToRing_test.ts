@@ -36,14 +36,12 @@ describe('isConversationTooBigToRing', () => {
   });
 
   it('returns whether there are 16 or more people in the group, if the remote config value is bogus', async () => {
-    await updateRemoteConfig([
-      { name: CONFIG_KEY, value: 'uh oh', enabled: true },
-    ]);
+    await updateRemoteConfig([{ name: CONFIG_KEY, value: 'uh oh' }]);
     textMaximum(16);
   });
 
   it('returns whether there are 9 or more people in the group, if the remote config value is 9', async () => {
-    await updateRemoteConfig([{ name: CONFIG_KEY, value: '9', enabled: true }]);
+    await updateRemoteConfig([{ name: CONFIG_KEY, value: '9' }]);
     textMaximum(9);
   });
 });
