@@ -7,10 +7,7 @@ import { app } from 'electron';
 
 import { start } from './base_config';
 import config from './config';
-import { createLogger } from '../ts/logging/log';
 import * as Errors from '../ts/types/errors';
-
-const log = createLogger('user_config');
 
 let userData: string | undefined;
 // Use separate data directory for benchmarks & development
@@ -27,13 +24,14 @@ if (userData !== undefined) {
   try {
     mkdirSync(userData, { recursive: true });
   } catch (error) {
-    log.error('Failed to create userData', Errors.toLogFormat(error));
+    console.error('Failed to create userData', Errors.toLogFormat(error));
   }
 
   app.setPath('userData', userData);
 }
 
-log.info(`userData: ${app.getPath('userData')}`);
+// Use console.log because logger isn't fully initialized yet
+console.log(`userData: ${app.getPath('userData')}`);
 
 const userDataPath = app.getPath('userData');
 const targetPath = join(userDataPath, 'config.json');
