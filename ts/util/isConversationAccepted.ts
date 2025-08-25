@@ -5,10 +5,13 @@ import type { ConversationAttributesType } from '../model-types.d';
 import { SignalService as Proto } from '../protobuf';
 import { isDirectConversation, isMe } from './whatTypeOfConversation';
 import { isInSystemContacts } from './isInSystemContacts';
+import { createLogger } from '../logging/log';
 
 export type IsConversationAcceptedOptionsType = {
   ignoreEmptyConvo: boolean;
 };
+
+const log = createLogger('isConversationAccepted');
 
 /**
  * Determine if this conversation should be considered "accepted" in terms
@@ -77,17 +80,28 @@ export function isConversationAccepted(
   );
 }
 
-// Is this someone who is a contact, or are we sharing our profile with them?
-//   Or is the person who added us to this group a contact or are we sharing profile
-//   with them?
+// Is this someone me, a system contact, or are we sharing our profile with them?
+export function isTrustedContact(
+  conversationAttrs: ConversationAttributesType
+): boolean {
+  if (!isDirectConversation(conversationAttrs)) {
+    log.error('isTrustedContact should only be called for direct convos');
+    return false;
+  }
+
+  return (
+    isMe(conversationAttrs) ||
+    isInSystemContacts(conversationAttrs) ||
+    Boolean(conversationAttrs.profileSharing)
+  );
+}
+
+// Is this person (or the person who added us to this group) a trusted contact?
 function isFromOrAddedByTrustedContact(
   conversationAttrs: ConversationAttributesType
 ): boolean {
   if (isDirectConversation(conversationAttrs)) {
-    return (
-      isInSystemContacts(conversationAttrs) ||
-      Boolean(conversationAttrs.profileSharing)
-    );
+    return isTrustedContact(conversationAttrs);
   }
 
   const { addedBy } = conversationAttrs;
@@ -95,14 +109,10 @@ function isFromOrAddedByTrustedContact(
     return false;
   }
 
-  const conversation = window.ConversationController.get(addedBy);
-  if (!conversation) {
+  const addedByContact = window.ConversationController.get(addedBy);
+  if (!addedByContact) {
     return false;
   }
 
-  return Boolean(
-    isMe(conversation.attributes) ||
-      conversation.get('name') ||
-      conversation.get('profileSharing')
-  );
+  return isTrustedContact(addedByContact.attributes);
 }
