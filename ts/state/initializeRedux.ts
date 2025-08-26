@@ -19,12 +19,14 @@ import type { RecentEmojiObjectType } from '../util/loadRecentEmojis';
 import type { StickersStateType } from './ducks/stickers';
 import type { GifsStateType } from './ducks/gifs';
 import type { NotificationProfileType } from '../types/NotificationProfile';
+import type { ChatFolder } from '../types/ChatFolder';
 
 export type ReduxInitData = {
   badgesState: BadgesStateType;
   callHistory: ReadonlyArray<CallHistoryDetails>;
   callHistoryUnreadCount: number;
   callLinks: ReadonlyArray<CallLinkType>;
+  chatFolders: ReadonlyArray<ChatFolder>;
   donations: DonationsStateType;
   gifs: GifsStateType;
   mainWindowStats: MainWindowStatsType;
@@ -57,6 +59,7 @@ export function initializeRedux(data: ReduxInitData): void {
     badges: bindActionCreators(actionCreators.badges, store.dispatch),
     callHistory: bindActionCreators(actionCreators.callHistory, store.dispatch),
     calling: bindActionCreators(actionCreators.calling, store.dispatch),
+    chatFolders: bindActionCreators(actionCreators.chatFolders, store.dispatch),
     composer: bindActionCreators(actionCreators.composer, store.dispatch),
     conversations: bindActionCreators(
       actionCreators.conversations,

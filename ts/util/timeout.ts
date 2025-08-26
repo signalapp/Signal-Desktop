@@ -87,3 +87,16 @@ export class LongTimeout {
     this.#callback();
   }
 }
+
+export function longTimeoutAsync(
+  ms: number,
+  signal: AbortSignal | null
+): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const timeout = new LongTimeout(resolve, ms);
+    signal?.addEventListener('abort', () => {
+      timeout.clear();
+      reject(signal.reason);
+    });
+  });
+}

@@ -4,7 +4,7 @@
 import type { WebAPIType } from '../textsecure/WebAPI';
 import { drop } from '../util/drop';
 import { CallLinkFinalizeDeleteManager } from './CallLinkFinalizeDeleteManager';
-
+import { chatFolderCleanupService } from '../services/expiring/chatFolderCleanupService';
 import { callLinkRefreshJobQueue } from './callLinkRefreshJobQueue';
 import { conversationJobQueue } from './conversationJobQueue';
 import { deleteDownloadsJobQueue } from './deleteDownloadsJobQueue';
@@ -46,6 +46,7 @@ export function initializeAllJobQueues({
   drop(reportSpamJobQueue.streamJobs());
   drop(callLinkRefreshJobQueue.streamJobs());
   drop(CallLinkFinalizeDeleteManager.start());
+  drop(chatFolderCleanupService.start('initializeAllJobQueues'));
 }
 
 export async function shutdownAllJobQueues(): Promise<void> {
@@ -60,5 +61,6 @@ export async function shutdownAllJobQueues(): Promise<void> {
     removeStorageKeyJobQueue.shutdown(),
     reportSpamJobQueue.shutdown(),
     CallLinkFinalizeDeleteManager.stop(),
+    chatFolderCleanupService.stop('shutdownAllJobQueues'),
   ]);
 }

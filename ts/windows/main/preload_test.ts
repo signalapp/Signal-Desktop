@@ -104,6 +104,7 @@ window.testUtilities = {
       callLinks: [],
       callHistory: [],
       callHistoryUnreadCount: 0,
+      chatFolders: [],
       gifs: {
         recentGifs: [],
       },

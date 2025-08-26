@@ -1826,6 +1826,14 @@
     "messageformat": "Choose chats that you want to appear in this folder",
     "description": "Preferences > Edit Chat Folder Page > Included Chats Section > Help"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 chats",
+    "description": "Preferences > Edit Chat Folder Page > Included Chats Section > Direct Chats"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Group chats",
+    "description": "Preferences > Edit Chat Folder Page > Included Chats Section > Group Chats"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Add chats",
     "description": "Preferences > Edit Chat Folder Page > Included Chats Section > Add Chats Button"

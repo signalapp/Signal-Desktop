@@ -119,6 +119,7 @@ import updateToSchemaVersion1400 from './1400-simplify-receipts';
 import updateToSchemaVersion1410 from './1410-remove-wallpaper';
 import updateToSchemaVersion1420 from './1420-backup-downloads';
 import updateToSchemaVersion1430 from './1430-call-links-epoch-id';
+import updateToSchemaVersion1440 from './1440-chat-folders';
 
 import { DataWriter } from '../Server';
 
@@ -1593,6 +1594,7 @@ export const SCHEMA_VERSIONS: ReadonlyArray<SchemaUpdateType> = [
   { version: 1410, update: updateToSchemaVersion1410 },
   { version: 1420, update: updateToSchemaVersion1420 },
   { version: 1430, update: updateToSchemaVersion1430 },
+  { version: 1440, update: updateToSchemaVersion1440 },
 ];
 
 export class DBVersionFromFutureError extends Error {

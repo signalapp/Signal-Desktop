@@ -8,6 +8,7 @@ import type { actions as audioRecorder } from './ducks/audioRecorder';
 import type { actions as badges } from './ducks/badges';
 import type { actions as callHistory } from './ducks/callHistory';
 import type { actions as calling } from './ducks/calling';
+import type { actions as chatFolders } from './ducks/chatFolders';
 import type { actions as composer } from './ducks/composer';
 import type { actions as conversations } from './ducks/conversations';
 import type { actions as crashReports } from './ducks/crashReports';
@@ -43,6 +44,7 @@ export type ReduxActions = {
   badges: typeof badges;
   callHistory: typeof callHistory;
   calling: typeof calling;
+  chatFolders: typeof chatFolders;
   composer: typeof composer;
   conversations: typeof conversations;
   crashReports: typeof crashReports;

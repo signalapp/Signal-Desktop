@@ -54,6 +54,7 @@ import type { GifType } from '../components/fun/panels/FunPanelGifs';
 import type { NotificationProfileType } from '../types/NotificationProfile';
 import type { DonationReceipt } from '../types/Donations';
 import type { InsertOrUpdateCallLinkFromSyncResult } from './server/callLinks';
+import type { ChatFolderId, ChatFolder } from '../types/ChatFolder';
 
 export type ReadableDB = Database & { __readable_db: never };
 export type WritableDB = ReadableDB & { __writable_db: never };
@@ -346,8 +347,8 @@ export const StickerPackStatuses = [
 export type StickerPackStatusType = (typeof StickerPackStatuses)[number];
 
 export type StorageServiceFieldsType = Readonly<{
-  storageID?: string;
-  storageVersion?: number;
+  storageID?: string | null;
+  storageVersion?: number | null;
   storageUnknownFields?: Uint8Array | null;
   storageNeedsSync: boolean;
 }>;
@@ -872,6 +873,11 @@ type ReadableInterface = {
   getAllDonationReceipts(): Array<DonationReceipt>;
   getDonationReceiptById(id: string): DonationReceipt | undefined;
 
+  getAllChatFolders: () => ReadonlyArray<ChatFolder>;
+  getCurrentChatFolders: () => ReadonlyArray<ChatFolder>;
+  getChatFolder: (id: ChatFolderId) => ChatFolder | null;
+  getOldestDeletedChatFolder: () => ChatFolder | null;
+
   getMessagesNeedingUpgrade: (
     limit: number,
     options: { maxVersion: number }
@@ -1199,6 +1205,22 @@ type WritableInterface = {
   _deleteAllDonationReceipts(): void;
   deleteDonationReceiptById(id: string): void;
   createDonationReceipt(profile: DonationReceipt): void;
+
+  createChatFolder: (chatFolder: ChatFolder) => void;
+  updateChatFolder: (chatFolder: ChatFolder) => void;
+  updateChatFolderPositions: (chatFolders: ReadonlyArray<ChatFolder>) => void;
+  updateChatFolderDeletedAtTimestampMsFromSync: (
+    chatFolderId: ChatFolderId,
+    deletedAtTimestampMs: number
+  ) => void;
+  markChatFolderDeleted: (
+    chatFolderId: ChatFolderId,
+    deletedAtTimestampMs: number,
+    storageNeedsSync: boolean
+  ) => void;
+  deleteExpiredChatFolders: (
+    messageQueueTime: number
+  ) => ReadonlyArray<ChatFolderId>;
 
   removeAll: () => void;
   removeAllConfiguration: () => void;

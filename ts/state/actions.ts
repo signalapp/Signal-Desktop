@@ -8,6 +8,7 @@ import { actions as audioRecorder } from './ducks/audioRecorder';
 import { actions as badges } from './ducks/badges';
 import { actions as callHistory } from './ducks/callHistory';
 import { actions as calling } from './ducks/calling';
+import { actions as chatFolders } from './ducks/chatFolders';
 import { actions as composer } from './ducks/composer';
 import { actions as conversations } from './ducks/conversations';
 import { actions as crashReports } from './ducks/crashReports';
@@ -44,6 +45,7 @@ export const actionCreators: ReduxActions = {
   badges,
   callHistory,
   calling,
+  chatFolders,
   composer,
   conversations,
   crashReports,

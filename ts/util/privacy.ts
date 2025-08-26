@@ -30,7 +30,7 @@ export type RedactFunction = (value: string) => string;
 
 export function redactStorageID(
   storageID: string,
-  version?: number,
+  version?: number | null,
   conversation?: ConversationModel
 ): string {
   const convoId = conversation ? ` ${conversation?.idForLogging()}` : '';

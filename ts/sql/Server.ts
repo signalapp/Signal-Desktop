@@ -239,6 +239,18 @@ import {
   getGroupSendMemberEndorsement,
   replaceAllEndorsementsForGroup,
 } from './server/groupSendEndorsements';
+import {
+  getAllChatFolders,
+  getCurrentChatFolders,
+  getChatFolder,
+  createChatFolder,
+  updateChatFolder,
+  markChatFolderDeleted,
+  getOldestDeletedChatFolder,
+  updateChatFolderPositions,
+  updateChatFolderDeletedAtTimestampMsFromSync,
+  deleteExpiredChatFolders,
+} from './server/chatFolders';
 import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer';
 import type { GifType } from '../components/fun/panels/FunPanelGifs';
 import type { NotificationProfileType } from '../types/NotificationProfile';
@@ -421,6 +433,11 @@ export const DataReader: ServerReadableInterface = {
 
   getAllDonationReceipts,
   getDonationReceiptById,
+
+  getAllChatFolders,
+  getCurrentChatFolders,
+  getChatFolder,
+  getOldestDeletedChatFolder,
 
   callLinkExists,
   defunctCallLinkExists,
@@ -663,6 +680,13 @@ export const DataWriter: ServerWritableInterface = {
   _deleteAllDonationReceipts,
   deleteDonationReceiptById,
   createDonationReceipt,
+
+  createChatFolder,
+  updateChatFolder,
+  markChatFolderDeleted,
+  deleteExpiredChatFolders,
+  updateChatFolderPositions,
+  updateChatFolderDeletedAtTimestampMsFromSync,
 
   removeAll,
   removeAllConfiguration,
@@ -7618,6 +7642,7 @@ function removeAll(db: WritableDB): void {
       DELETE FROM badges;
       DELETE FROM callLinks;
       DELETE FROM callsHistory;
+      DELETE FROM chatFolders;
       DELETE FROM conversations;
       DELETE FROM defunctCallLinks;
       DELETE FROM donationReceipts;
@@ -7767,6 +7792,14 @@ function eraseStorageServiceState(db: WritableDB): void {
 
     -- Call links
     UPDATE callLinks
+    SET
+      storageID = null,
+      storageVersion = null,
+      storageUnknownFields = null,
+      storageNeedsSync = 0;
+
+    -- Chat Folders
+    UPDATE chatFolders
     SET
       storageID = null,
       storageVersion = null,
