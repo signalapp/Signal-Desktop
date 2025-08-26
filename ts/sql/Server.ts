@@ -2731,7 +2731,6 @@ function saveMessage(
     _testOnlyAvoidNormalizingAttachments?: boolean;
   }
 ): string {
-  // NB: `saveMessagesIndividually` relies on `saveMessage` being atomic
   const { alreadyInTransaction, forceSave, jobToInsert, ourAci } = options;
   if (!alreadyInTransaction) {
     return db.transaction(() => {
@@ -2901,6 +2900,10 @@ function saveMessage(
   } satisfies Omit<MessageTypeUnhydrated, 'json'>;
 
   if (id && !forceSave) {
+    if (normalizeAttachmentData) {
+      saveMessageAttachments(db, message);
+    }
+
     const result = db
       .prepare(
         // UPDATE queries that set the value of a primary key column can be very slow when
@@ -2919,15 +2922,11 @@ function saveMessage(
       return id;
     }
 
-    strictAssert(result.changes === 1, 'One row should have been changed');
-
-    if (normalizeAttachmentData) {
-      saveMessageAttachments(db, message);
-    }
-
     if (jobToInsert) {
       insertJob(db, jobToInsert);
     }
+
+    strictAssert(result.changes === 1, 'One row should have been changed');
 
     return id;
   }
@@ -2991,10 +2990,7 @@ function saveMessagesIndividually(
     const failedIndices: Array<number> = [];
     arrayOfMessages.forEach((message, index) => {
       try {
-        saveMessage(db, message, {
-          ...options,
-          alreadyInTransaction: true,
-        });
+        saveMessage(db, message, options);
       } catch (e) {
         logger.error(
           'saveMessagesIndividually: failed to save message',
