@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { FormEvent } from 'react';
-import React, { memo, useCallback, useMemo, useRef } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useRef } from 'react';
 import type { Formatter, FormatterToken } from '@signalapp/minimask';
 import { useInputMask } from '../../../hooks/useInputMask';
 import type { CurrencyFormatResult } from '../../../util/currency';
@@ -102,6 +102,71 @@ export const DonateInputAmount = memo(function DonateInputAmount(
     [onValueChange]
   );
 
+  useEffect(() => {
+    const input = inputRef.current;
+    if (!input) {
+      return;
+    }
+
+    // If the only value is the prefilled currency symbol, then set the input caret
+    // position to the correct position it should be in based on locale-currency config.
+    const { symbolPrefix, symbolSuffix } = currencyFormat ?? {};
+    const lastIndex = value.length;
+    if (symbolPrefix && value === symbolPrefix) {
+      // Prefix, set selection to the end
+      input.setSelectionRange(lastIndex, lastIndex);
+    } else if (symbolSuffix && value.includes(symbolSuffix)) {
+      // Suffix, set selection to before symbol
+      if (
+        input.selectionStart === input.selectionEnd &&
+        input.selectionStart === lastIndex
+      ) {
+        const indexBeforeSymbol = lastIndex - symbolSuffix.length;
+        input.setSelectionRange(indexBeforeSymbol, indexBeforeSymbol);
+      }
+    }
+
+    // If we're missing the currency symbol then add it. This can happen if the user
+    // tries to delete it, or goes forward to the payment card form then goes back,
+    // prefilling the last custom amount
+    if (value || document.activeElement === input) {
+      if (symbolPrefix && !value.includes(symbolPrefix)) {
+        onValueChange(`${symbolPrefix}${value}`);
+      }
+      if (symbolSuffix && !value.includes(symbolSuffix)) {
+        onValueChange(`${value}${symbolSuffix}`);
+      }
+    }
+  }, [currencyFormat, onValueChange, value]);
+
+  useEffect(() => {
+    const input = inputRef.current;
+    if (input === undefined) {
+      return;
+    }
+
+    // We prefill currency symbols after focus and want to control the initial
+    // caret position, however MouseDown events override the caret depending on
+    // where you click (left or right half of the input box). By overriding
+    // the default event with a manual focus, the caret position becomes consistent.
+    function ensureMouseDownCaretConsistency(event: MouseEvent) {
+      // Skip if input contains content. The user may want to move the caret
+      // intentionally.
+      if (input?.value) {
+        return;
+      }
+
+      input?.focus();
+      event.preventDefault();
+    }
+
+    input?.addEventListener('mousedown', ensureMouseDownCaretConsistency);
+
+    return () => {
+      input?.removeEventListener('mousedown', ensureMouseDownCaretConsistency);
+    };
+  }, []);
+
   const onFocusWithCurrencyHandler = useCallback(() => {
     // Initialize field with the currency symbol
     if (!value && currencyFormat?.symbol) {
@@ -133,7 +198,7 @@ export const DonateInputAmount = memo(function DonateInputAmount(
       type="text"
       inputMode="decimal"
       autoComplete="transaction-amount"
-      value={props.value}
+      value={value}
       onInput={handleInput}
       onFocus={onFocusWithCurrencyHandler}
       onBlur={onBlurWithCurrencyHandler}

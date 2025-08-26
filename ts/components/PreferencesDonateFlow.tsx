@@ -338,7 +338,6 @@ function AmountPicker({
       setCustomAmount('');
     } else {
       setPresetAmount(undefined);
-      setCustomAmount(initialAmount?.toString() ?? '');
     }
   }, [initialAmount, presetAmountOptions]);
 
@@ -406,6 +405,10 @@ function AmountPicker({
     },
     [onChangeCurrency]
   );
+
+  const handleCustomAmountFocus = useCallback(() => {
+    setPresetAmount(undefined);
+  }, []);
 
   const handleCustomAmountChanged = useCallback((value: string) => {
     // Custom amount overrides any selected preset amount
@@ -501,7 +504,7 @@ function AmountPicker({
           currency={currency}
           id="customAmount"
           onValueChange={handleCustomAmountChanged}
-          onFocus={() => setPresetAmount(undefined)}
+          onFocus={handleCustomAmountFocus}
           placeholder={i18n(
             'icu:DonateFlow__amount-picker-custom-amount-placeholder'
           )}
