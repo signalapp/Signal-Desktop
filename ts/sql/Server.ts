@@ -705,6 +705,8 @@ export const DataWriter: ServerWritableInterface = {
   disableFSync,
   enableFSyncAndCheckpoint,
 
+  _testOnlyRemoveMessageAttachments,
+
   // Server-only
 
   removeKnownStickers,
@@ -2718,6 +2720,17 @@ function saveMessageAttachment({
           (${MESSAGE_ATTACHMENT_COLUMNS.map(name => `$${name}`).join(', ')});
       `
   ).run(values);
+}
+
+function _testOnlyRemoveMessageAttachments(
+  db: WritableDB,
+  timestamp: number
+): void {
+  const [query, params] = sql`
+    DELETE FROM message_attachments
+      WHERE sentAt = ${timestamp};`;
+
+  db.prepare(query).run(params);
 }
 
 function saveMessage(
