@@ -3528,7 +3528,7 @@
     "messageformat": "Ju lutemi, riprovoni ose lidhuni me asistencën."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "Ka ndodhur një gabim i papritur"
+    "messageformat": "Ndodhi një gabim i papritur"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
     "messageformat": "Parashtro regjistër diagnostikimi"
@@ -6679,7 +6679,7 @@
     "messageformat": "View receipt details"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donor FAQs"
+    "messageformat": "Pyetje të dhuruesve"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Faturat nuk sinkronizohen në të gjitha pajisjet. Nëse ke riinstaluar Signal, faturat e dhurimeve të mëparshme nuk do të shfaqen."
@@ -6745,7 +6745,7 @@
     "messageformat": "Merr distinktivin shtesë të Signal për 30 ditë"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
-    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+    "messageformat": "Shuma minimale që mund të dhurosh është {formattedCurrencyAmount}"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Fatura e dhurimit"
@@ -6820,7 +6820,7 @@
     "messageformat": "Dhurimi mund të mos jetë përpunuar. Kliko te “Dhuro për Signal” dhe pastaj te “Faturat e dhurimit” për të kontrolluar faturat dhe për t'i konfirmuar."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Provo përsëri ose dërgo një regjistër diagnostikimesh te Ndihma që të të ndihmojë të përfundosh dhurimin tënd. Regjistrat e korrigjimit të gabimeve na ndihmojnë të diagnostikojmë dhe rregullojmë problemin dhe nuk përmbajnë informacion identifikues."
+    "messageformat": "Provo përsëri ose dërgo regjistrin e diagnostikimeve te \"Ndihma: që të ndihmojë të përfundosh dhurimin. Regjistrat e diagnostifikimeve na ndihmojnë të diagnostikojmë dhe rregullojmë problemin dhe nuk përmbajnë informacion identifikues."
   },
   "icu:Donations__Processing": {
     "messageformat": "Përpunimi i dhurimit..."
@@ -6856,13 +6856,13 @@
     "messageformat": "Anulo dhurimin"
   },
   "icu:Donations__badge-modal--title": {
-    "messageformat": "Thanks for your support!"
+    "messageformat": "Faleminderit për përkrahjen tënde!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+    "messageformat": "Ke fituar një distinktiv dhuruesi nga Signal! Shfaqe atë në profil për të treguar mbështetjen tënde."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Display on profile"
+    "messageformat": "Shfaqe në Profil"
   },
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"

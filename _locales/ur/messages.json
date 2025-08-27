@@ -6679,7 +6679,7 @@
     "messageformat": "View receipt details"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donor FAQs"
+    "messageformat": "ڈونر کے عمومی سوالات"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "رسیدیں مختلف ڈیوائسز پر سنک نہیں ہوتیں۔ اگر آپ نے Signal دوبارہ انسٹال کیا ہے، تو گزشتہ عطیات کی رسیدیں دستیاب نہیں ہوں گی۔"
@@ -6745,7 +6745,7 @@
     "messageformat": "30 دنوں کے لیے Signal کا بوسٹ بیج حاصل کریں"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
-    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+    "messageformat": "کم سے کم رقم جو آپ عطیہ کر سکتے ہیں وہ {formattedCurrencyAmount} ہے"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "عطیے کی رسید"
@@ -6856,13 +6856,13 @@
     "messageformat": "عطیہ منسوخ کریں"
   },
   "icu:Donations__badge-modal--title": {
-    "messageformat": "Thanks for your support!"
+    "messageformat": "آپ کی سپورٹ کا شکریہ!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+    "messageformat": "آپ نے سگنل سے ڈونر بیج حاصل کیا ہے! اپنا تعاون ظاہر کرنے کے لیے اسے اپنے پروفائل پر دکھائیں۔"
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Display on profile"
+    "messageformat": "پروفائل پر ڈسپلے کریں"
   },
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"

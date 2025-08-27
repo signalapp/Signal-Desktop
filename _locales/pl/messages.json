@@ -2310,7 +2310,7 @@
     "messageformat": "Wiadomość, której nadawcą jest {author}"
   },
   "icu:modal--donation--title": {
-    "messageformat": "Dziękujemy za Twoje wsparcie!"
+    "messageformat": "Dziękujemy Ci za wsparcie!"
   },
   "icu:modal--donation--description": {
     "messageformat": "Twoja darowizna na rzecz aplikacji Signal została wpłacona w imieniu wybranej osoby. {name} może się teraz pochwalić wsparciem w swoim profilu."
@@ -2775,22 +2775,22 @@
     "messageformat": "Nagraj wiadomość głosową"
   },
   "icu:Keyboard--default-message-action": {
-    "messageformat": "Zastosuj działanie domyślne do wybranej wiadomości"
+    "messageformat": "Zastosuj do zaznaczonej wiadomości działanie domyślne"
   },
   "icu:Keyboard--view-details-for-selected-message": {
-    "messageformat": "Wyświetl informacje o wybranej wiadomości"
+    "messageformat": "Wyświetl informacje o zaznaczonej wiadomości"
   },
   "icu:Keyboard--toggle-reply": {
-    "messageformat": "Odpowiedz na wybraną wiadomość"
+    "messageformat": "Odpowiedz na zaznaczoną wiadomość"
   },
   "icu:Keyboard--toggle-reaction-picker": {
-    "messageformat": "Zareaguj na wybraną wiadomość za pomocą emoji"
+    "messageformat": "Zareaguj na zaznaczoną wiadomość za pomocą emoji"
   },
   "icu:Keyboard--save-attachment": {
-    "messageformat": "Zapisz załącznik do wybranej wiadomości"
+    "messageformat": "Zapisz załącznik z zaznaczonej wiadomości"
   },
   "icu:Keyboard--delete-messages": {
-    "messageformat": "Usuń wybrane wiadomości"
+    "messageformat": "Usuń zaznaczone wiadomości"
   },
   "icu:Keyboard--forward-messages": {
     "messageformat": "Przekaż zaznaczone wiadomości"
@@ -3168,7 +3168,7 @@
     "messageformat": "To oficjalny i jedyny czat twórców aplikacji Signal"
   },
   "icu:ConversationHero--release-notes": {
-    "messageformat": "Bądź na bieżąco z newsami i aktualizacjami."
+    "messageformat": "Bądź na bieżąco z nowościami i aktualizacjami."
   },
   "icu:member-of-1-group": {
     "messageformat": "Należy do grupy {group}"
@@ -6679,7 +6679,7 @@
     "messageformat": "View receipt details"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donor FAQs"
+    "messageformat": "FAQ darczyńców"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Potwierdzenia darowizn na różnych urządzeniach nie są synchronizowane. Ponadto jeśli aplikacja Signal zostanie zainstalowana ponownie, wcześniejsze potwierdzenia darowizn nie będą dostępne."
@@ -6745,7 +6745,7 @@
     "messageformat": "Zdobądź odznakę za wsparcie na 30 dni"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
-    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+    "messageformat": "Minimalna kwota darowizny wynosi {formattedCurrencyAmount}"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Potwierdzenie darowizny"
@@ -6856,13 +6856,13 @@
     "messageformat": "Anuluj darowiznę"
   },
   "icu:Donations__badge-modal--title": {
-    "messageformat": "Thanks for your support!"
+    "messageformat": "Dziękujemy Ci za wsparcie!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+    "messageformat": "Zdobywasz odznakę darczyńcy Signal! Pochwal się nią na profilu i pokaż, że wspierasz apkę."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Display on profile"
+    "messageformat": "Pokaż w profilu"
   },
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
