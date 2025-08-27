@@ -6679,7 +6679,7 @@
     "messageformat": "View receipt details"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donor FAQs"
+    "messageformat": "Întrebări frecvente privind donatorii"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Chitanțele nu se sincronizează pe toate dispozitivele. Dacă ai reinstalat Signal, bonurile fiscale ale donațiilor precedente nu vor mai fi disponibile."
@@ -6745,7 +6745,7 @@
     "messageformat": "Obține insigna Signal Boost timp de 30 de zile"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
-    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+    "messageformat": "Suma minimă pe care o poți dona este {formattedCurrencyAmount}"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Chitanță donație"
@@ -6856,13 +6856,13 @@
     "messageformat": "Anulează donația"
   },
   "icu:Donations__badge-modal--title": {
-    "messageformat": "Thanks for your support!"
+    "messageformat": "Îți mulțumim pentru sprijin!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+    "messageformat": "Ai câștigat o insignă de donator de la Signal! Afișează-o la profil ca să îți arăți sprijinul."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Display on profile"
+    "messageformat": "Afișează la profil"
   },
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"

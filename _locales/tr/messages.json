@@ -6679,7 +6679,7 @@
     "messageformat": "View receipt details"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donor FAQs"
+    "messageformat": "Bağışçılar için SSS"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Makbuzlar cihazlar arasında senkronize edilmez. Signal'ı yeniden yüklediysen, önceki bağışların makbuzları mevcut olmayacaktır."
@@ -6745,7 +6745,7 @@
     "messageformat": "30 gün boyunca Signal Öne Çıkarma Rozetini kazan"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
-    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+    "messageformat": "En az {formattedCurrencyAmount} miktarında bağış yapabilirsin"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Bağış makbuzu"
@@ -6856,13 +6856,13 @@
     "messageformat": "Bağışı iptal et"
   },
   "icu:Donations__badge-modal--title": {
-    "messageformat": "Thanks for your support!"
+    "messageformat": "Desteğin için teşekkürler!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+    "messageformat": "Signal'den bir bağışçı rozeti kazandın! Desteğini göstermek için rozeti profilinde sergile."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Display on profile"
+    "messageformat": "Profilde Göster"
   },
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"

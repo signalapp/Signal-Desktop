@@ -6679,7 +6679,7 @@
     "messageformat": "View receipt details"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donor FAQs"
+    "messageformat": "Gereelde vrae van skenkers"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Kwitansies word nie tussen toestelle sinchroniseer nie. As jy Signal herinstalleer het, sal kwitansies van vorige skenkings nie beskikbaar wees nie."
@@ -6745,7 +6745,7 @@
     "messageformat": "Kry die Signal-Hupstoot-wapen vir 30 dae"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
-    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+    "messageformat": "Die minimum bedrag wat jy kan skenk is {formattedCurrencyAmount}"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Skenkingskwitansie"
@@ -6856,13 +6856,13 @@
     "messageformat": "Kanselleer skenking"
   },
   "icu:Donations__badge-modal--title": {
-    "messageformat": "Thanks for your support!"
+    "messageformat": "Dankie vir jou ondersteuning!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+    "messageformat": "Jy het 'n skenkerwapen van Signal verdien! Vertoon dit op jou profiel om met jou ondersteuning te spog."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Display on profile"
+    "messageformat": "Vertoon op profiel"
   },
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"

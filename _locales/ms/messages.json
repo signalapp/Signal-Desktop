@@ -6679,7 +6679,7 @@
     "messageformat": "View receipt details"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donor FAQs"
+    "messageformat": "Soalan Lazim Penderma"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Resit tidak disegerakkan merentasi peranti. Jika anda memasang semula Signal, resit daripada derma terdahulu tidak akan tersedia."
@@ -6745,7 +6745,7 @@
     "messageformat": "Dapatkan lencana Signal Boost selama 30 hari"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
-    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+    "messageformat": "Jumlah minimum yang anda boleh dermakan ialah {formattedCurrencyAmount}"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Resit derma"
@@ -6856,13 +6856,13 @@
     "messageformat": "Batalkan derma"
   },
   "icu:Donations__badge-modal--title": {
-    "messageformat": "Thanks for your support!"
+    "messageformat": "Terima kasih atas sokongan anda!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+    "messageformat": "Anda telah memperoleh lencana penderma daripada Signal! Paparkan pada profil anda untuk menunjukkan sokongan anda."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Display on profile"
+    "messageformat": "Pamerkan di Profil"
   },
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"

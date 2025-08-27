@@ -6679,7 +6679,7 @@
     "messageformat": "View receipt details"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donor FAQs"
+    "messageformat": "Відповіді на запитання про донати"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Підтвердження з різних пристроїв не синхронізуються. Якщо ви перевстановлювали Signal, підтвердження попередніх донатів будуть недоступні."
@@ -6745,7 +6745,7 @@
     "messageformat": "Отримайте значок за підтримку Signal на 30 днів"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
-    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+    "messageformat": "Мінімальна сума донату: {formattedCurrencyAmount}"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Підтвердження донату"
@@ -6856,13 +6856,13 @@
     "messageformat": "Скасувати донат"
   },
   "icu:Donations__badge-modal--title": {
-    "messageformat": "Thanks for your support!"
+    "messageformat": "Дякуємо за підтримку!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+    "messageformat": "Ви отримали значок донора від Signal! Показуйте його в профілі, щоб розповісти про свою підтримку."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Display on profile"
+    "messageformat": "Показувати в профілі"
   },
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"

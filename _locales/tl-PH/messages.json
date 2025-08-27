@@ -6745,7 +6745,7 @@
     "messageformat": "Kunin ang Signal Boost badge sa loob ng 30 days"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
-    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+    "messageformat": "Ang minimum amount na pwede mong i-donate ay {formattedCurrencyAmount}"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Donation receipt"
@@ -6856,13 +6856,13 @@
     "messageformat": "I-cancel ang donation"
   },
   "icu:Donations__badge-modal--title": {
-    "messageformat": "Thanks for your support!"
+    "messageformat": "Maraming salamat sa iyong suporta!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+    "messageformat": "Nakakuha ka ng isang donor badge mula sa Signal! I-display ito sa profile mo para maipakita ang iyong suporta."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Display on profile"
+    "messageformat": "I-display sa Profile"
   },
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"

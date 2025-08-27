@@ -1962,7 +1962,7 @@
     "messageformat": "Sonido de notificaciones push"
   },
   "icu:callRingtoneNotificationDescription": {
-    "messageformat": "Emitir sonido de llamada"
+    "messageformat": "Activar sonido de llamada"
   },
   "icu:callSystemNotificationDescription": {
     "messageformat": "Mostrar notificaciones de llamada"
@@ -4311,7 +4311,7 @@
     "messageformat": "Editar mensaje"
   },
   "icu:countMutedConversationsDescription": {
-    "messageformat": "Incluir chats silenciados en el globo de notificaciones"
+    "messageformat": "Incluir chats silenciados en el globo de notificación"
   },
   "icu:ContactModal--nickname": {
     "messageformat": "Apodo"
@@ -6679,7 +6679,7 @@
     "messageformat": "View receipt details"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donor FAQs"
+    "messageformat": "Preguntas frecuentes sobre donaciones"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Los recibos no se sincronizan entre dispositivos. Si has vuelto a instalar Signal, los recibos de donaciones anteriores no estarán disponibles."
@@ -6745,7 +6745,7 @@
     "messageformat": "Consigue la insignia Apoyo Signal durante 30 días"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
-    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+    "messageformat": "El importe mínimo que puedes donar es de {formattedCurrencyAmount}"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Recibo de donación"
@@ -6856,13 +6856,13 @@
     "messageformat": "Cancelar donación"
   },
   "icu:Donations__badge-modal--title": {
-    "messageformat": "Thanks for your support!"
+    "messageformat": "¡Gracias por tu apoyo!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+    "messageformat": "Has ganado una insignia por tu donación. Añádela a tu perfil para mostrar que apoyas a Signal."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Display on profile"
+    "messageformat": "Mostrar en mi perfil"
   },
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
