@@ -2108,6 +2108,10 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
+  #doubleCheckMissingQuoteReference = () => {
+    return this.props.doubleCheckMissingQuoteReference(this.props.id);
+  };
+
   public renderQuote(): JSX.Element | null {
     const {
       conversationColor,
@@ -2116,9 +2120,7 @@ export class Message extends React.PureComponent<Props, State> {
       customColor,
       direction,
       disableScroll,
-      doubleCheckMissingQuoteReference,
       i18n,
-      id,
       quote,
       scrollToQuotedMessage,
     } = this.props;
@@ -2158,8 +2160,8 @@ export class Message extends React.PureComponent<Props, State> {
         isGiftBadge={isGiftBadge}
         referencedMessageNotFound={referencedMessageNotFound}
         isFromMe={quote.isFromMe}
-        doubleCheckMissingQuoteReference={() =>
-          doubleCheckMissingQuoteReference(id)
+        doubleCheckMissingQuoteReference={
+          this.#doubleCheckMissingQuoteReference
         }
       />
     );

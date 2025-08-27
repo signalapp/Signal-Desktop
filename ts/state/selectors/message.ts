@@ -1890,10 +1890,10 @@ function processQuoteAttachment(attachment: QuotedAttachmentType) {
   return {
     ...attachment,
     isVoiceMessage: isVoiceMessage(attachment),
-    thumbnail: thumbnail?.path
+    thumbnail: thumbnail
       ? {
           ...thumbnail,
-          url: getLocalAttachmentUrl(thumbnail),
+          url: thumbnail?.path ? getLocalAttachmentUrl(thumbnail) : undefined,
         }
       : undefined,
   };

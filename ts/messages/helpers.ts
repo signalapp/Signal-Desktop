@@ -16,6 +16,7 @@ import { PaymentEventKind } from '../types/Payment';
 import type { AnyPaymentEvent } from '../types/Payment';
 import type { LocalizerType } from '../types/Util';
 import { missingCaseError } from '../util/missingCaseError';
+import { isDownloaded } from '../types/Attachment';
 
 const log = createLogger('helpers');
 
@@ -172,13 +173,13 @@ export const shouldTryToCopyFromQuotedMessage = ({
     return true;
   }
 
-  // Otherwise, try again in case we have not yet copied over the thumbnail from the
-  // original attachment (maybe it had not been downloaded when we first checked)
+  // If there's no thumbnail, no need to try to copy anything
   if (!quoteAttachment?.thumbnail) {
     return false;
   }
 
-  if (quoteAttachment.thumbnail.copied === true) {
+  // If we already have this file, no need to copy anything
+  if (isDownloaded(quoteAttachment.thumbnail)) {
     return false;
   }
 
