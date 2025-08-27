@@ -1212,6 +1212,8 @@ type WritableInterface = {
 
   processGroupCallRingCancellation(ringId: bigint): void;
   cleanExpiredGroupCallRingCancellations(): void;
+
+  _testOnlyRemoveMessageAttachments(timestamp: number): void;
 };
 
 // Adds a database argument

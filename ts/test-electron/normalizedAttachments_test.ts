@@ -688,4 +688,28 @@ describe('normalizes attachment references', () => {
       omit(attachmentWithoutKey, 'randomKey')
     );
   });
+
+  it('adds a placeholder attachment when attachments had been deleted', async () => {
+    const message = composeMessage(Date.now(), {
+      attachments: [composeAttachment(), composeAttachment()],
+    });
+
+    await DataWriter.saveMessage(message, {
+      forceSave: true,
+      ourAci: generateAci(),
+      postSaveUpdates: () => Promise.resolve(),
+    });
+
+    await DataWriter._testOnlyRemoveMessageAttachments(message.timestamp);
+
+    const messageFromDB = await DataReader.getMessageById(message.id);
+    assert(messageFromDB, 'message was saved');
+    assert.deepEqual(messageFromDB.attachments?.[0], {
+      size: 0,
+      contentType: IMAGE_PNG,
+      width: 150,
+      height: 150,
+      error: true,
+    });
+  });
 });
