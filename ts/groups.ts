@@ -105,7 +105,10 @@ import { generateMessageId } from './util/generateMessageId';
 import { postSaveUpdates } from './util/cleanup';
 import { MessageModel } from './models/messages';
 import { areWePending } from './util/groupMembershipUtils';
-import { isConversationAccepted } from './util/isConversationAccepted';
+import {
+  isConversationAccepted,
+  isTrustedContact,
+} from './util/isConversationAccepted';
 
 const log = createLogger('groups');
 
@@ -3276,6 +3279,13 @@ async function updateGroup(
 
       // Return early to discard group changes resulting from unwanted group add
       return;
+    }
+
+    if (adder && isTrustedContact(adder?.attributes)) {
+      conversation.enableProfileSharing({
+        reason: 'addedToGroupByTrustedContact',
+        viaStorageServiceSync: false,
+      });
     }
   }
 

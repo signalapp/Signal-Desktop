@@ -4185,29 +4185,6 @@ export class ConversationModel {
     return attributes;
   }
 
-  // Is this someone who is a contact, or are we sharing our profile with them?
-  //   Or is the person who added us to this group a contact or are we sharing profile
-  //   with them?
-  isFromOrAddedByTrustedContact(): boolean {
-    if (isDirectConversation(this.attributes)) {
-      return Boolean(this.get('name')) || Boolean(this.get('profileSharing'));
-    }
-
-    const addedBy = this.get('addedBy');
-    if (!addedBy) {
-      return false;
-    }
-
-    const conv = window.ConversationController.get(addedBy);
-    if (!conv) {
-      return false;
-    }
-
-    return Boolean(
-      isMe(conv.attributes) || conv.get('name') || conv.get('profileSharing')
-    );
-  }
-
   async maybeClearUsername(): Promise<void> {
     const ourConversationId =
       window.ConversationController.getOurConversationId();
