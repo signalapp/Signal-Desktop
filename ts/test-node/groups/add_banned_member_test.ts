@@ -28,9 +28,7 @@ describe('group add banned member', () => {
   const clientZkGroupCipher = getClientZkGroupCipher(secretParams);
 
   before(async () => {
-    await updateRemoteConfig([
-      { name: HARD_LIMIT_KEY, value: '5', enabled: true },
-    ]);
+    await updateRemoteConfig([{ name: HARD_LIMIT_KEY, value: '5' }]);
   });
 
   it('should add banned member without deleting', () => {

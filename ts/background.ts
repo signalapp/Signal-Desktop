@@ -1509,10 +1509,12 @@ export async function startApp(): Promise<void> {
     // Listen for changes to the `desktop.clientExpiration` remote flag
     window.Signal.RemoteConfig.onChange(
       'desktop.clientExpiration',
-      ({ value }) => {
-        const remoteBuildExpirationTimestamp = parseRemoteClientExpiration(
-          value as string
-        );
+      ({ enabled, value }) => {
+        if (!enabled) {
+          return;
+        }
+        const remoteBuildExpirationTimestamp =
+          parseRemoteClientExpiration(value);
         if (remoteBuildExpirationTimestamp) {
           drop(
             window.storage.put(

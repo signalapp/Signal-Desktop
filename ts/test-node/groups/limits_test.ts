@@ -21,15 +21,13 @@ describe('group limit utilities', () => {
 
     it('throws if the value in remote config is not a parseable integer', async () => {
       await updateRemoteConfig([
-        { name: RECOMMENDED_SIZE_KEY, value: 'uh oh', enabled: true },
+        { name: RECOMMENDED_SIZE_KEY, value: 'uh oh' },
       ]);
       assert.throws(getGroupSizeRecommendedLimit);
     });
 
     it('returns the value in remote config, parsed as an integer', async () => {
-      await updateRemoteConfig([
-        { name: RECOMMENDED_SIZE_KEY, value: '123', enabled: true },
-      ]);
+      await updateRemoteConfig([{ name: RECOMMENDED_SIZE_KEY, value: '123' }]);
       assert.strictEqual(getGroupSizeRecommendedLimit(), 123);
     });
   });
@@ -41,16 +39,12 @@ describe('group limit utilities', () => {
     });
 
     it('throws if the value in remote config is not a parseable integer', async () => {
-      await updateRemoteConfig([
-        { name: HARD_LIMIT_KEY, value: 'uh oh', enabled: true },
-      ]);
+      await updateRemoteConfig([{ name: HARD_LIMIT_KEY, value: 'uh oh' }]);
       assert.throws(getGroupSizeHardLimit);
     });
 
     it('returns the value in remote config, parsed as an integer', async () => {
-      await updateRemoteConfig([
-        { name: HARD_LIMIT_KEY, value: '123', enabled: true },
-      ]);
+      await updateRemoteConfig([{ name: HARD_LIMIT_KEY, value: '123' }]);
       assert.strictEqual(getGroupSizeHardLimit(), 123);
     });
   });

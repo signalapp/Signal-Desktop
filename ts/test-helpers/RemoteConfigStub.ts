@@ -8,11 +8,16 @@ import type {
 } from '../textsecure/WebAPI';
 
 export async function updateRemoteConfig(
-  newConfig: RemoteConfigResponseType['config']
+  newConfig: Array<{ name: string; value: string }>
 ): Promise<void> {
   const fakeServer = {
-    async getConfig() {
-      return { config: newConfig, serverTimestamp: Date.now() };
+    async getConfig(): Promise<RemoteConfigResponseType> {
+      const serverTimestamp = Date.now();
+      return {
+        config: new Map(newConfig.map(({ name, value }) => [name, value])),
+        serverTimestamp,
+        configHash: serverTimestamp.toString(),
+      };
     },
   } as Partial<WebAPIType> as unknown as WebAPIType;
 

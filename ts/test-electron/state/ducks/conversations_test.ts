@@ -1971,11 +1971,10 @@ describe('both/state/ducks/conversations', () => {
 
       beforeEach(async () => {
         await updateRemoteConfig([
-          { name: 'global.groupsv2.maxGroupSize', value: '22', enabled: true },
+          { name: 'global.groupsv2.maxGroupSize', value: '22' },
           {
             name: 'global.groupsv2.groupSizeHardLimit',
             value: '33',
-            enabled: true,
           },
         ]);
       });
@@ -2057,18 +2056,23 @@ describe('both/state/ducks/conversations', () => {
       it('defaults the maximum recommended size to 151', async () => {
         for (const value of [null, 'xyz']) {
           // eslint-disable-next-line no-await-in-loop
-          await updateRemoteConfig([
-            {
-              name: 'global.groupsv2.maxGroupSize',
-              value,
-              enabled: true,
-            },
-            {
-              name: 'global.groupsv2.groupSizeHardLimit',
-              value: '33',
-              enabled: true,
-            },
-          ]);
+          await updateRemoteConfig(
+            [
+              {
+                name: 'global.groupsv2.groupSizeHardLimit',
+                value: '33',
+              },
+            ].concat(
+              value
+                ? [
+                    {
+                      name: 'global.groupsv2.maxGroupSize',
+                      value,
+                    },
+                  ]
+                : []
+            )
+          );
 
           const state = {
             ...getEmptyState(),
@@ -2145,14 +2149,18 @@ describe('both/state/ducks/conversations', () => {
       it('defaults the maximum group size to 1001 if the recommended maximum is smaller', async () => {
         for (const value of [null, 'xyz']) {
           // eslint-disable-next-line no-await-in-loop
-          await updateRemoteConfig([
-            { name: 'global.groupsv2.maxGroupSize', value: '2', enabled: true },
-            {
-              name: 'global.groupsv2.groupSizeHardLimit',
-              value,
-              enabled: true,
-            },
-          ]);
+          await updateRemoteConfig(
+            [{ name: 'global.groupsv2.maxGroupSize', value: '2' }].concat(
+              value
+                ? [
+                    {
+                      name: 'global.groupsv2.groupSizeHardLimit',
+                      value,
+                    },
+                  ]
+                : []
+            )
+          );
 
           const state = {
             ...getEmptyState(),
@@ -2169,12 +2177,10 @@ describe('both/state/ducks/conversations', () => {
           {
             name: 'global.groupsv2.maxGroupSize',
             value: '1234',
-            enabled: true,
           },
           {
             name: 'global.groupsv2.groupSizeHardLimit',
             value: '2',
-            enabled: true,
           },
         ]);
 
