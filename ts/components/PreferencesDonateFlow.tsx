@@ -135,6 +135,17 @@ export function PreferencesDonateFlow({
     CardFormValues | undefined
   >();
 
+  const hasCardFormData = useMemo(() => {
+    if (!cardFormValues) {
+      return false;
+    }
+    return (
+      cardFormValues.cardNumber !== '' ||
+      cardFormValues.cardExpiration !== '' ||
+      cardFormValues.cardCvc !== ''
+    );
+  }, [cardFormValues]);
+
   // When changing currency, clear out the last selected amount
   const handleAmountPickerCurrencyChanged = useCallback((value: string) => {
     setAmount(undefined);
@@ -184,14 +195,19 @@ export function PreferencesDonateFlow({
         clearWorkflow();
       }
     };
-    const isConfirmationNeeded = Boolean(
-      step === 'paymentDetails' &&
-        !isCardFormDisabled &&
-        (!workflow || !isPaymentDetailFinalizedInWorkflow(workflow))
-    );
+    const isConfirmationNeeded =
+      hasCardFormData &&
+      !isCardFormDisabled &&
+      (!workflow || !isPaymentDetailFinalizedInWorkflow(workflow));
 
     confirmDiscardIf(isConfirmationNeeded, onDiscard);
-  }, [clearWorkflow, confirmDiscardIf, isCardFormDisabled, step, workflow]);
+  }, [
+    clearWorkflow,
+    confirmDiscardIf,
+    hasCardFormData,
+    isCardFormDisabled,
+    workflow,
+  ]);
   tryClose.current = onTryClose;
 
   let innerContent: JSX.Element;
