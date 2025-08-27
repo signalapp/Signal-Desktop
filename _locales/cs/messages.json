@@ -6679,7 +6679,7 @@
     "messageformat": "View receipt details"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donor FAQs"
+    "messageformat": "Časté dotazy dárců"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Potvrzení o příspěvcích se nesynchronizují mezi zařízeními. Pokud jste aplikaci Signal přeinstalovali, nebudou potvrzení o příspěvcích k dispozici."
@@ -6745,7 +6745,7 @@
     "messageformat": "Získejte odznak Signal Boost na 30 dní"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
-    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+    "messageformat": "Minimální částka, kterou můžete přispět, je {formattedCurrencyAmount}"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Potvrzení o příspěvku"
@@ -6856,13 +6856,13 @@
     "messageformat": "Zrušit příspěvek"
   },
   "icu:Donations__badge-modal--title": {
-    "messageformat": "Thanks for your support!"
+    "messageformat": "Děkujeme za vaši podporu!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+    "messageformat": "Získali jste odznak dárce od služby Signal! Zobrazte si ho na profilu a ukažte svou podporu."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Display on profile"
+    "messageformat": "Zobrazit v profilu"
   },
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"

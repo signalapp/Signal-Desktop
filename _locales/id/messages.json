@@ -6679,7 +6679,7 @@
     "messageformat": "View receipt details"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donor FAQs"
+    "messageformat": "Pertanyaan Umum tentang Donatur"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Struk tidak disinkronkan di semua perangkat. Struk dari donasi sebelumnya tidak akan tersedia jika Anda menginstal ulang Signal."
@@ -6745,7 +6745,7 @@
     "messageformat": "Dapatkan lencana Boost Signal selama 30 hari"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
-    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+    "messageformat": "Jumlah minimal donasi yang dapat diberikan adalah {formattedCurrencyAmount}"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Struk donasi"
@@ -6856,13 +6856,13 @@
     "messageformat": "Batalkan donasi"
   },
   "icu:Donations__badge-modal--title": {
-    "messageformat": "Thanks for your support!"
+    "messageformat": "Terima kasih untuk dukungan Anda!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+    "messageformat": "Anda telah mendapatkan lencana donor dari Signal! Tampilkan di profil untuk menunjukkan dukungan Anda."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Display on profile"
+    "messageformat": "Tampilkan di profil"
   },
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"

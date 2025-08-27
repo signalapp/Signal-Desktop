@@ -6679,7 +6679,7 @@
     "messageformat": "View receipt details"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donor FAQs"
+    "messageformat": "ЧПП за донатори"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Потврдите не се синхронизираат низ сите уреди. Ако сте го реинсталирале Signal, потврдите за претходни донации нема да бидат достапни."
@@ -6745,7 +6745,7 @@
     "messageformat": "Добијте Signal Беџ за поддршка за времетраење од 30 дена"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
-    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+    "messageformat": "Минималниот износ што можете да го донирате е {formattedCurrencyAmount}"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Потврда за донација"
@@ -6856,13 +6856,13 @@
     "messageformat": "Откажете ја донацијата"
   },
   "icu:Donations__badge-modal--title": {
-    "messageformat": "Thanks for your support!"
+    "messageformat": "Ви благодариме за поддршката!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+    "messageformat": "Добивте беџ за донатори од Signal! Прикажете го на вашиот профил за да ја нагласите вашата поддршка."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Display on profile"
+    "messageformat": "Прикажи на профил"
   },
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"

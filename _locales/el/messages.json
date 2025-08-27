@@ -6679,7 +6679,7 @@
     "messageformat": "View receipt details"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donor FAQs"
+    "messageformat": "Συχνές ερωτήσεις για δωρεές"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Οι αποδείξεις δεν συγχρονίζονται σε όλες τις συσκευές. Αν έχεις επανεγκαταστήσει το Signal, οι αποδείξεις από προηγούμενες δωρεές δεν θα είναι διαθέσιμες."
@@ -6745,7 +6745,7 @@
     "messageformat": "Πάρε το σήμα Signal Boost για 30 ημέρες"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
-    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+    "messageformat": "Το ελάχιστο ποσό που μπορείς να κάνεις δωρεά είναι {formattedCurrencyAmount}"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Απόδειξη δωρεάς"
@@ -6856,13 +6856,13 @@
     "messageformat": "Ακύρωση δωρεάς"
   },
   "icu:Donations__badge-modal--title": {
-    "messageformat": "Thanks for your support!"
+    "messageformat": "Ευχαριστούμε για την υποστήριξη!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+    "messageformat": "Κέρδισες σήμα δωρεάς από το Signal! Πρόσθεσέ το στο προφίλ σου για να δείξεις την υποστήριξή σου."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Display on profile"
+    "messageformat": "Εμφάνιση στο προφίλ"
   },
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"

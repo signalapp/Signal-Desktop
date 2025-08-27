@@ -6679,7 +6679,7 @@
     "messageformat": "View receipt details"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donor FAQs"
+    "messageformat": "寄付についてのよくある質問"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "領収書は端末間で同期されません。Signalを再インストールすると、過去におこなった寄付の領収書を入手できなくなります。"
@@ -6745,7 +6745,7 @@
     "messageformat": "30日間のSignalブーストバッジを獲得しましょう"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
-    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+    "messageformat": "最小の寄付金額は{formattedCurrencyAmount}です"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "寄付の領収書"
@@ -6856,13 +6856,13 @@
     "messageformat": "寄付をキャンセルする"
   },
   "icu:Donations__badge-modal--title": {
-    "messageformat": "Thanks for your support!"
+    "messageformat": "ご支援をありがとうございます！"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+    "messageformat": "Signalからバッジを受け取りました！プロフィールに表示してSignalをサポートしていることを示しましょう。"
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Display on profile"
+    "messageformat": "プロフィールに表示する"
   },
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"

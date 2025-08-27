@@ -6679,7 +6679,7 @@
     "messageformat": "View receipt details"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donor FAQs"
+    "messageformat": "ದೇಣಿಗೆದಾರರ FAQ ಗಳು"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "ರಸೀದಿಗಳು ಸಾಧನಗಳಾದ್ಯಂತ ಸಿಂಕ್ ಆಗುವುದಿಲ್ಲ. ನೀವು Signal ಅನ್ನು ಮರು ಇನ್‍ಸ್ಟಾಲ್ ಮಾಡಿದ್ದಲ್ಲಿ, ಹಿಂದಿನ ದೇಣಿಗೆಗಳ ರಸೀದಿಗಳು ಲಭ್ಯವಿರುವುದಿಲ್ಲ."
@@ -6745,7 +6745,7 @@
     "messageformat": "30 ದಿನಗಳ Signal ಬೂಸ್ಟ್ ಬ್ಯಾಡ್ಜ್ ಪಡೆಯಿರಿ"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
-    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+    "messageformat": "ನೀವು ದೇಣಿಗೆ ನೀಡಬಹುದಾದ ಕನಿಷ್ಠ ಮೊತ್ತ {formattedCurrencyAmount}"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "ದೇಣಿಗೆ ರಸೀದಿ"
@@ -6856,13 +6856,13 @@
     "messageformat": "ದೇಣಿಗೆ ರದ್ದುಗೊಳಿಸಿ"
   },
   "icu:Donations__badge-modal--title": {
-    "messageformat": "Thanks for your support!"
+    "messageformat": "ನಿಮ್ಮ ಬೆಂಬಲಕ್ಕೆ ಧನ್ಯವಾದಗಳು!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+    "messageformat": "ನೀವು Signal ನಿಂದ ದಾನಿ ಬ್ಯಾಡ್ಜ್ ಗಳಿಸಿದ್ದೀರಿ! ನಿಮ್ಮ ಬೆಂಬಲವನ್ನು ತೋರಿಸಲು ಅದನ್ನು ನಿಮ್ಮ ಪ್ರೊಫೈಲ್‌ನಲ್ಲಿ ಡಿಸ್‌ಪ್ಲೇ ಮಾಡಿ."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Display on profile"
+    "messageformat": "ಪ್ರೊಫೈಲ್‌ನಲ್ಲಿ ಪ್ರದರ್ಶಿಸಿ"
   },
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"

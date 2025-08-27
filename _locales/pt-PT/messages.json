@@ -6679,7 +6679,7 @@
     "messageformat": "View receipt details"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donor FAQs"
+    "messageformat": "Doador - FAQs"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Os recibos não são sincronizados entre dispositivos. Se reinstalou o Signal, os recibos de doações anteriores não estarão disponíveis."
@@ -6745,7 +6745,7 @@
     "messageformat": "Receba o crachá de Boost do Signal durante 30 dias"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
-    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+    "messageformat": "A quantia mínima que pode doar é {formattedCurrencyAmount}"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Recibo de doação"
@@ -6856,13 +6856,13 @@
     "messageformat": "Cancelar donativo"
   },
   "icu:Donations__badge-modal--title": {
-    "messageformat": "Thanks for your support!"
+    "messageformat": "Obrigado pelo seu apoio!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+    "messageformat": "Recebeu um crachá de doador do Signal! Exiba-o no seu perfil para mostrar o seu apoio."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Display on profile"
+    "messageformat": "Exibir no perfil"
   },
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"

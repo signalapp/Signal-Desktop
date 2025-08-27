@@ -6679,7 +6679,7 @@
     "messageformat": "View receipt details"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donor FAQs"
+    "messageformat": "پرسش‌های متداول حامیان"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "رسیدها بین دستگاه‌ها همگام‌سازی نمی‌شوند. اگر سیگنال را دوباره نصب کرده باشید، رسید کمک‌های مالی قبلی در دسترس نخواهد بود."
@@ -6745,7 +6745,7 @@
     "messageformat": "نشان ارتقاء سیگنال را به مدت ۳۰ روز دریافت کنید"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
-    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+    "messageformat": "حداقل مبلغی که می‌توانید اهدا کنید {formattedCurrencyAmount} است"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "رسید کمک مالی"
@@ -6856,13 +6856,13 @@
     "messageformat": "لغو کمک مالی"
   },
   "icu:Donations__badge-modal--title": {
-    "messageformat": "Thanks for your support!"
+    "messageformat": "از حمایت شما سپاسگزاریم!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+    "messageformat": "شما یک نشان اهداکننده از سیگنال به‌دست آورده‌اید! برای نشان دادن حمایت خود، آن را در نمایه خود نمایش دهید."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Display on profile"
+    "messageformat": "نمایش روی پروفایل"
   },
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"

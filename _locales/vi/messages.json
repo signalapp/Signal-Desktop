@@ -6679,7 +6679,7 @@
     "messageformat": "View receipt details"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donor FAQs"
+    "messageformat": "Câu hỏi thường gặp về Nhà Ủng hộ"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Người nhận không đồng bộ trên các thiết bị. Nếu bạn đã cài đặt lại Signal, các biên lai của các lần ủng hộ trước sẽ không còn nữa."
@@ -6745,7 +6745,7 @@
     "messageformat": "Sở hữu huy hiệu Nhà Ủng hộ trong 30 ngày"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
-    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+    "messageformat": "Khoản ủng hộ tối thiểu là {formattedCurrencyAmount}"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Biên lai ủng hộ"
@@ -6856,13 +6856,13 @@
     "messageformat": "Hủy ủng hộ"
   },
   "icu:Donations__badge-modal--title": {
-    "messageformat": "Thanks for your support!"
+    "messageformat": "Cảm ơn bạn đã đóng góp!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+    "messageformat": "Bạn nhận được một huy hiệu nhà ủng hộ từ Signal! Hãy hiển thị huy hiệu trên hồ sơ của bạn để thể hiện sự ủng hộ."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Display on profile"
+    "messageformat": "Hiển thị trên thông tin cá nhân"
   },
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"

@@ -6679,7 +6679,7 @@
     "messageformat": "View receipt details"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donor FAQs"
+    "messageformat": "დონორის FAQ"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "ქვითრები სხვადასხვა მოწყობილობაზე არ სინქრონიზდება. თუ Signal-ი ხელახლა გადმოწერე, წინა დონაციების ქვითრები არ იქნება ხელმისაწვდომი."
@@ -6745,7 +6745,7 @@
     "messageformat": "მიიღე Signal-ის ბუსტის ემბლემა 30 დღით"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
-    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+    "messageformat": "დონაციის მინიმალური ოდენობა არის {formattedCurrencyAmount}"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "დონაციის ქვითარი"
@@ -6856,13 +6856,13 @@
     "messageformat": "დონაციის გაუქმება"
   },
   "icu:Donations__badge-modal--title": {
-    "messageformat": "Thanks for your support!"
+    "messageformat": "მადლობა მხარდაჭერისთვის!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+    "messageformat": "შენ მოიპოვე დონორის ემბლემა Signal-ისგან! გამოაჩინე ის შენს პროფილზე, რათა მხარდაჭერა გამოხატო."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Display on profile"
+    "messageformat": "პროფილზე ჩვენება"
   },
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"

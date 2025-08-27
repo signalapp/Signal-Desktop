@@ -6676,10 +6676,10 @@
     "messageformat": "Nyugták"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "A nyugta adatainak megtekintése"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donor FAQs"
+    "messageformat": "Adományozás GYIK"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "A nyugták nem szinkronizálódnak az eszközök között. Ha újratelepítetted a Signalt, korábbi adományaid nyugtái nem lesznek elérhetők."
@@ -6745,7 +6745,7 @@
     "messageformat": "Szerezd meg a Signal Boost-jelvényt 30 napra"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
-    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+    "messageformat": "A minimális adomány összege: {formattedCurrencyAmount}"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Adomány nyugta"
@@ -6790,7 +6790,7 @@
     "messageformat": "Van egy folyamatban lévő adományozásod, amely megerősítést igényel."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Az adományozás sikeres volt, de nem tudtuk frissíteni a jelvényed beállításait."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Adományozás megszakadt"
@@ -6856,16 +6856,16 @@
     "messageformat": "Adományozás visszavonása"
   },
   "icu:Donations__badge-modal--title": {
-    "messageformat": "Thanks for your support!"
+    "messageformat": "Köszönjük a támogatásodat!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+    "messageformat": "Kaptál egy adományozói jelvényt a Signaltól! Tedd ki a profilodra, és mutasd meg, hogy te is adományoztál!"
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Display on profile"
+    "messageformat": "Megjelenítés profilképen"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Ezt a mobilkészülékeden a Beállítások → Adományozás a Signalnak → Jelvények menüpontban állíthatod be."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ebbe a verzióba néhány kisebb újítás és hibajavítás került annak érdekében, hogy a Signal továbbra is gond nélkül fusson.",

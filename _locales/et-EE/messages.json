@@ -6679,7 +6679,7 @@
     "messageformat": "View receipt details"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donor FAQs"
+    "messageformat": "Annetaja KKK"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Kviitungeid ei sünkroonita eri seadmete vahel. Kui oled Signali uuesti alla laadinud, ei ole eelmiste annetustega seotud kviitungid saadaval."
@@ -6745,7 +6745,7 @@
     "messageformat": "Saa 30 päevaks Signali toetaja märk"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
-    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+    "messageformat": "Miinimumsumma annetamiseks on {formattedCurrencyAmount}"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Annetuse kviitung"
@@ -6856,13 +6856,13 @@
     "messageformat": "Katkesta annetus"
   },
   "icu:Donations__badge-modal--title": {
-    "messageformat": "Thanks for your support!"
+    "messageformat": "Aitäh sinu toetuse eest!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+    "messageformat": "Teenisid Signalilt annetaja märgi. Kuva seda oma profiilil, et näidata üles oma toetust."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Display on profile"
+    "messageformat": "Kuva profiilil"
   },
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"

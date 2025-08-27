@@ -6679,7 +6679,7 @@
     "messageformat": "View receipt details"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Donor FAQs"
+    "messageformat": "Vanlige spørsmål om pengegaver"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Kvitteringene dine synkroniseres ikke på tvers av enheter. Kvitteringer for tidligere pengegaver vil ikke være tilgjengelig hvis du har installert Signal-appen på nytt."
@@ -6745,7 +6745,7 @@
     "messageformat": "Få et Signal Boost-merke i 30 dager"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
-    "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}"
+    "messageformat": "Minimumsbeløpet du kan gi, er {formattedCurrencyAmount}"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Kvittering for pengebeløp"
@@ -6856,13 +6856,13 @@
     "messageformat": "Avbryt pengegave"
   },
   "icu:Donations__badge-modal--title": {
-    "messageformat": "Thanks for your support!"
+    "messageformat": "Takk for støtten!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "You've earned a donor badge from Signal! Display it on your profile to show off your support."
+    "messageformat": "Du har fått et givermerke fra Signal! Vis det frem i profilen din for å vise at du støtter Signal."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Display on profile"
+    "messageformat": "Vis på profilen"
   },
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
