@@ -147,10 +147,8 @@ export function LeftPaneSearchInput({
           changeValue(event.currentTarget.value);
         }}
         onClear={() => {
-          if (searchTerm) {
+          if (searchTerm || searchConversation) {
             clearSearchQuery();
-            inputRef.current?.focus();
-          } else if (searchConversation) {
             endConversationSearch();
             inputRef.current?.focus();
           } else {
