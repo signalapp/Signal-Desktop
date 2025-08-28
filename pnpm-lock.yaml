@@ -652,8 +652,8 @@ importers:
         specifier: 4.3.7
         version: 4.3.7(supports-color@8.1.1)
       electron:
-        specifier: 37.3.1
-        version: 37.3.1
+        specifier: 37.4.0
+        version: 37.4.0
       electron-builder:
         specifier: 26.0.14
         version: 26.0.14(electron-builder-squirrel-windows@26.0.14)
@@ -3946,11 +3946,8 @@ packages:
   '@types/node@22.13.4':
     resolution: {integrity: sha512-ywP2X0DYtX3y08eFVx5fNIw7/uIv8hYUKgXoK8oayJlLnKcRfEYCxWMVE1XagUdVtCJlZT1AU4LXEABW+L1Peg==}
 
-  '@types/node@22.15.24':
-    resolution: {integrity: sha512-w9CZGm9RDjzTh/D+hFwlBJ3ziUaVw7oufKA3vOFSOZlzmW9AkZnfjPb+DLnrV6qtgL/LNmP0/2zBNCFHL3F0ng==}
-
-  '@types/node@22.17.0':
-    resolution: {integrity: sha512-bbAKTCqX5aNVryi7qXVMi+OkB3w/OyblodicMbvE38blyAz7GxXf6XYhklokijuPwwVg9sDLKRxt0ZHXQwZVfQ==}
+  '@types/node@22.18.0':
+    resolution: {integrity: sha512-m5ObIqwsUp6BZzyiy4RdZpzWGub9bqLJMvZDD0QMXhxjqMHMENlj+SqF5QxoUwaQNFe+8kz8XM8ZQhqkQPTgMQ==}
 
   '@types/normalize-path@3.0.2':
     resolution: {integrity: sha512-DO++toKYPaFn0Z8hQ7Tx+3iT9t77IJo/nDiqTXilgEP+kPNIYdpS9kh3fXuc53ugqwp9pxC1PVjCpV1tQDyqMA==}
@@ -5637,8 +5634,8 @@ packages:
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
-  electron@37.3.1:
-    resolution: {integrity: sha512-7DhktRLqhe6OJh/Bo75bTI0puUYEmIwSzMinocgO63mx3MVjtIn2tYMzLmAleNIlud2htkjpsMG2zT4PiTCloA==}
+  electron@37.4.0:
+    resolution: {integrity: sha512-HhsSdWowE5ODOeWNc/323Ug2C52mq/TqNBG+4uMeOA3G2dMXNc/nfyi0RYu1rJEgiaJLEjtHveeZZaYRYFsFCQ==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
@@ -5681,6 +5678,9 @@ packages:
 
   end-of-stream@1.4.4:
     resolution: {integrity: sha512-+uw1inIHVPQoaVuHzRyXd21icM+cnt4CzD5rW+NC1wjOUSTOs+Te7FOv7AhN7vS9x/oIyhLP5PR1H+phQAHu5Q==}
+
+  end-of-stream@1.4.5:
+    resolution: {integrity: sha512-ooEGc6HP26xXq/N+GCGOT0JKCLDGrq2bQUZrQ7gyrJiZANJ/8YDTxTpQBXGMn+WbIQXNVpyWymm7KYVICQnyOg==}
 
   endanger@7.0.4:
     resolution: {integrity: sha512-+1riWeBVJR/S57RR8olEWbsK2g/Y8L9p2K9sxYpF6KGoxS97mkEkl5V1tR22lYo2eSYWrh2+iOOwLFjAhr9toA==}
@@ -8850,6 +8850,9 @@ packages:
 
   pump@3.0.2:
     resolution: {integrity: sha512-tUPXtzlGM8FE3P0ZL6DVs/3P58k9nk8/jZeQCurTJylQA8qFYzHFfhBJkuqyE0FifOsQ0uKWekiZ5g8wtr28cw==}
+
+  pump@3.0.3:
+    resolution: {integrity: sha512-todwxLMY7/heScKmntwQG8CXVkWUOdYxIvY2s0VWAAMh/nd8SoYiRaKjlr7+iCs984f2P8zvrfWcDDYVb73NfA==}
 
   pumpify@2.0.1:
     resolution: {integrity: sha512-m7KOje7jZxrmutanlkS1daj1dS6z6BgslzOXmcSEpIlCxM3VJH7lG5QLeck/6hgF6F4crFf01UtQmNsJfweTAw==}
@@ -14148,7 +14151,7 @@ snapshots:
 
   '@storybook/core-webpack@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))':
     dependencies:
-      '@types/node': 22.15.24
+      '@types/node': 22.18.0
       storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)
       ts-dedent: 2.2.0
 
@@ -14763,11 +14766,7 @@ snapshots:
     dependencies:
       undici-types: 6.20.0
 
-  '@types/node@22.15.24':
-    dependencies:
-      undici-types: 6.21.0
-
-  '@types/node@22.17.0':
+  '@types/node@22.18.0':
     dependencies:
       undici-types: 6.21.0
 
@@ -16732,10 +16731,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  electron@37.3.1:
+  electron@37.4.0:
     dependencies:
       '@electron/get': 2.0.3
-      '@types/node': 22.17.0
+      '@types/node': 22.18.0
       extract-zip: 2.0.1
     transitivePeerDependencies:
       - supports-color
@@ -16765,6 +16764,10 @@ snapshots:
       iconv-lite: 0.6.3
 
   end-of-stream@1.4.4:
+    dependencies:
+      once: 1.4.0
+
+  end-of-stream@1.4.5:
     dependencies:
       once: 1.4.0
 
@@ -17732,7 +17735,7 @@ snapshots:
 
   get-stream@5.2.0:
     dependencies:
-      pump: 3.0.2
+      pump: 3.0.3
 
   get-stream@6.0.1: {}
 
@@ -20515,6 +20518,11 @@ snapshots:
   pump@3.0.2:
     dependencies:
       end-of-stream: 1.4.4
+      once: 1.4.0
+
+  pump@3.0.3:
+    dependencies:
+      end-of-stream: 1.4.5
       once: 1.4.0
 
   pumpify@2.0.1:
