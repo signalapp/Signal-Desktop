@@ -125,6 +125,15 @@ describe('Link previews', () => {
       assert.deepEqual(expected, actual);
     });
 
+    it('returns all links after a complex emoji, if a caretLocation is provided', () => {
+      const text = '👨‍👩‍👦 https://github.com/signalapp/Signal-Desktop';
+
+      const expected = ['https://github.com/signalapp/Signal-Desktop'];
+
+      const actual = findLinks(text, 45);
+      assert.deepEqual(expected, actual);
+    });
+
     it('includes all links if cursor is not in a link', () => {
       const text =
         'Check out this link: https://github.com/signalapp/Signal-Desktop\nAnd this one too: https://github.com/signalapp/Signal-Android';
