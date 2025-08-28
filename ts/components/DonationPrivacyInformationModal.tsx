@@ -3,7 +3,7 @@
 
 import React, { useCallback } from 'react';
 import { Modal } from './Modal';
-import { Button } from './Button';
+import { Button, ButtonSize } from './Button';
 import { I18n } from './I18n';
 import type { LocalizerType } from '../types/Util';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
@@ -32,7 +32,9 @@ export function DonationPrivacyInformationModal({
       >
         {i18n('icu:PreferencesDonations__faqs')}
       </button>
-      <Button onClick={onClose}>{i18n('icu:Confirmation--confirm')}</Button>
+      <Button onClick={onClose} size={ButtonSize.Small}>
+        {i18n('icu:PreferencesDonations__privacy-modal-ok')}
+      </Button>
     </div>
   );
 
@@ -44,11 +46,12 @@ export function DonationPrivacyInformationModal({
   return (
     <Modal
       modalName="DonationPrivacyInformationModal"
+      moduleClassName="DonationPrivacyInformationModal"
       i18n={i18n}
       title={i18n('icu:PreferencesDonations__privacy-modal-title')}
       onClose={onClose}
-      hasXButton
       modalFooter={modalFooter}
+      padded={false}
     >
       <I18n
         components={{
