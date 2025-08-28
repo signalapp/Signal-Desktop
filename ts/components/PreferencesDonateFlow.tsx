@@ -122,6 +122,8 @@ export function PreferencesDonateFlow({
   const tryClose = useRef<() => void | undefined>();
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
     i18n,
+    bodyText: i18n('icu:DonateFlow__discard-dialog-body'),
+    discardText: i18n('icu:DonateFlow__discard-dialog-remove-info'),
     name: 'PreferencesDonateFlow',
     tryClose,
   });
