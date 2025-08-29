@@ -8882,6 +8882,10 @@
     "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>",
     "description": "Content for the modal that explains donation privacy information"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK",
+    "description": "Button text in the modal that explains donation privacy information. Clicking the button will dismiss the modal."
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Receipts",
     "description": "Menu item to view donation receipts"
