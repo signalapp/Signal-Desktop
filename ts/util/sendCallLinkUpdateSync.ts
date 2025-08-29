@@ -1,5 +1,8 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+
+import { ContentHint } from '@signalapp/libsignal-client';
+
 import * as Bytes from '../Bytes';
 import { CallLinkUpdateSyncType } from '../types/CallLink';
 import { createLogger } from '../logging/log';
@@ -55,10 +58,8 @@ async function _sendCallLinkUpdateSync(
     const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
     await singleProtoJobQueue.add({
-      contentHint: ContentHint.RESENDABLE,
+      contentHint: ContentHint.Resendable,
       serviceId: ourAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(

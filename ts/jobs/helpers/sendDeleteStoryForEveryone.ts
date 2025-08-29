@@ -1,10 +1,11 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { ContentHint } from '@signalapp/libsignal-client';
+
 import * as Errors from '../../types/errors';
 import { getSendOptions } from '../../util/getSendOptions';
 import { isDirectConversation, isMe } from '../../util/whatTypeOfConversation';
-import { SignalService as Proto } from '../../protobuf';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
@@ -68,8 +69,7 @@ export async function sendDeleteStoryForEveryone(
   strictAssert(isStory(message.attributes), 'Story message must be a story');
 
   const sendType = 'deleteForEveryone';
-  const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-  const contentHint = ContentHint.RESENDABLE;
+  const contentHint = ContentHint.Resendable;
 
   const deletedForEveryoneSendStatus = message.get(
     'deletedForEveryoneSendStatus'

@@ -6,17 +6,19 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { v4 as uuid } from 'uuid';
-import Long from 'long';
+
+import {
+  IdentityKeyPair,
+  SenderCertificate,
+  ServerCertificate,
+} from '@signalapp/libsignal-client';
+
 import * as durations from '../../util/durations';
 import { drop } from '../../util/drop';
 import * as Bytes from '../../Bytes';
 import { SenderCertificateMode } from '../../textsecure/OutgoingMessage';
-import { SignalService as Proto } from '../../protobuf';
 
 import { SenderCertificateService } from '../../services/senderCertificate';
-
-import SenderCertificate = Proto.SenderCertificate;
 
 describe('SenderCertificateService', () => {
   const FIFTEEN_MINUTES = 15 * durations.MINUTE;
@@ -39,14 +41,26 @@ describe('SenderCertificateService', () => {
   }
 
   beforeEach(() => {
-    fakeValidCertificate = new SenderCertificate();
+    const fakeTrustRoot = IdentityKeyPair.generate();
+    const fakeServerKey = IdentityKeyPair.generate();
+    const fakeSenderIdentityKey = IdentityKeyPair.generate();
+    const fakeServerCert = ServerCertificate.new(
+      1,
+      fakeServerKey.publicKey,
+      fakeTrustRoot.privateKey
+    );
+
     fakeValidCertificateExpiry = Date.now() + 604800000;
-    const certificate = new SenderCertificate.Certificate();
-    certificate.expires = Long.fromNumber(fakeValidCertificateExpiry);
-    fakeValidCertificate.certificate =
-      SenderCertificate.Certificate.encode(certificate).finish();
-    fakeValidEncodedCertificate =
-      SenderCertificate.encode(fakeValidCertificate).finish();
+    fakeValidCertificate = SenderCertificate.new(
+      'aaaaaaaa-7000-11eb-b32a-33b8a8a487a6',
+      null,
+      2,
+      fakeSenderIdentityKey.publicKey,
+      fakeValidCertificateExpiry,
+      fakeServerCert,
+      fakeServerKey.privateKey
+    );
+    fakeValidEncodedCertificate = fakeValidCertificate.serialize();
 
     fakeServer = {
       isOnline: () => true,
@@ -65,7 +79,9 @@ describe('SenderCertificateService', () => {
       put: sinon.stub().resolves(),
       remove: sinon.stub().resolves(),
     };
-    fakeStorage.get.withArgs('uuid_id').returns(`${uuid()}.2`);
+    fakeStorage.get
+      .withArgs('uuid_id')
+      .returns('aaaaaaaa-7000-11eb-b32a-33b8a8a487a6.2');
     fakeStorage.get.withArgs('password').returns('abc123');
   });
 
@@ -199,15 +215,28 @@ describe('SenderCertificateService', () => {
     it('returns undefined if the server returns an already-expired certificate', async () => {
       const service = initializeTestService();
 
-      const expiredCertificate = new SenderCertificate();
-      const certificate = new SenderCertificate.Certificate();
-      certificate.expires = Long.fromNumber(Date.now() - 1000);
-      expiredCertificate.certificate =
-        SenderCertificate.Certificate.encode(certificate).finish();
+      const fakeTrustRoot = IdentityKeyPair.generate();
+      const fakeServerKey = IdentityKeyPair.generate();
+      const fakeSenderIdentityKey = IdentityKeyPair.generate();
+      const fakeServerCert = ServerCertificate.new(
+        1,
+        fakeServerKey.publicKey,
+        fakeTrustRoot.privateKey
+      );
+
+      const expiry = Date.now() - 1000;
+      const expiredCertificate = SenderCertificate.new(
+        'aaaaaaaa-7000-11eb-b32a-33b8a8a487a6',
+        null,
+        1,
+        fakeSenderIdentityKey.publicKey,
+        expiry,
+        fakeServerCert,
+        fakeServerKey.privateKey
+      );
+
       fakeServer.getSenderCertificate.resolves({
-        certificate: Bytes.toBase64(
-          SenderCertificate.encode(expiredCertificate).finish()
-        ),
+        certificate: Bytes.toBase64(expiredCertificate.serialize()),
       });
 
       assert.isUndefined(await service.get(SenderCertificateMode.WithE164));

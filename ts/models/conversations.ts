@@ -4,6 +4,7 @@
 import { compact, isNumber, throttle, debounce } from 'lodash';
 import { v4 as generateGuid } from 'uuid';
 import PQueue from 'p-queue';
+import { ContentHint } from '@signalapp/libsignal-client';
 
 import type { ReadonlyDeep } from 'type-fest';
 import type {
@@ -1377,8 +1378,6 @@ export class ConversationModel {
 
       const contentMessage = messaging.getTypingContentMessage(content);
 
-      const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
       const sendOptions = {
         ...(await getSendOptions(this.attributes)),
         online: true,
@@ -1386,7 +1385,7 @@ export class ConversationModel {
       if (isDirectConversation(this.attributes)) {
         await handleMessageSend(
           messaging.sendMessageProtoAndWait({
-            contentHint: ContentHint.IMPLICIT,
+            contentHint: ContentHint.Implicit,
             groupId: undefined,
             options: sendOptions,
             proto: contentMessage,
@@ -1399,7 +1398,7 @@ export class ConversationModel {
       } else {
         await handleMessageSend(
           sendContentMessageToGroup({
-            contentHint: ContentHint.IMPLICIT,
+            contentHint: ContentHint.Implicit,
             contentMessage,
             messageId: undefined,
             online: true,

@@ -5,6 +5,7 @@ import { differenceWith, omit } from 'lodash';
 import { v4 as generateUuid } from 'uuid';
 
 import {
+  ContentHint,
   ErrorCode,
   LibSignalErrorBase,
   groupEncrypt,
@@ -293,7 +294,6 @@ export async function sendToGroupViaSenderKey(
     timestamp,
     urgent,
   } = options;
-  const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
   const logId = `sendToGroupViaSenderKey/${sendTarget.idForLogging()}`;
   log.info(
@@ -312,9 +312,9 @@ export async function sendToGroupViaSenderKey(
   }
 
   if (
-    contentHint !== ContentHint.DEFAULT &&
-    contentHint !== ContentHint.RESENDABLE &&
-    contentHint !== ContentHint.IMPLICIT
+    contentHint !== ContentHint.Default &&
+    contentHint !== ContentHint.Resendable &&
+    contentHint !== ContentHint.Implicit
   ) {
     throw new Error(`${logId}: Invalid contentHint ${contentHint}`);
   }

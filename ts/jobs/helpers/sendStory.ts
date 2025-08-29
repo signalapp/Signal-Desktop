@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isEqual } from 'lodash';
+import { ContentHint } from '@signalapp/libsignal-client';
+
 import type { UploadedAttachmentType } from '../../types/Attachment';
 import type { ConversationModel } from '../../models/conversations';
 import type {
@@ -324,8 +326,6 @@ export async function sendStory(
           return;
         }
 
-        const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
         const sendOptions = await getSendOptionsForRecipients(
           pendingSendRecipientServiceIds,
           { story: true }
@@ -356,7 +356,7 @@ export async function sendStory(
         contentMessage.storyMessage = storyMessage;
 
         const innerPromise = sendContentMessageToGroup({
-          contentHint: ContentHint.IMPLICIT,
+          contentHint: ContentHint.Implicit,
           contentMessage,
           isPartialSend: false,
           messageId: undefined,

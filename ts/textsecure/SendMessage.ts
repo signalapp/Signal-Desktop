@@ -10,6 +10,7 @@ import PQueue from 'p-queue';
 import pMap from 'p-map';
 import type { PlaintextContent } from '@signalapp/libsignal-client';
 import {
+  ContentHint,
   ProtocolAddress,
   SenderKeyDistributionMessage,
 } from '@signalapp/libsignal-client';
@@ -1381,13 +1382,11 @@ export default class MessageSender {
     const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
     return this.sendIndividualProto({
       serviceId: myAci,
       proto: contentMessage,
       timestamp,
-      contentHint: ContentHint.RESENDABLE,
+      contentHint: ContentHint.Resendable,
       options,
       urgent,
     });
@@ -1403,10 +1402,8 @@ export default class MessageSender {
     const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
     return {
-      contentHint: ContentHint.RESENDABLE,
+      contentHint: ContentHint.Resendable,
       serviceId: myAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
@@ -1427,10 +1424,8 @@ export default class MessageSender {
     const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
     return {
-      contentHint: ContentHint.RESENDABLE,
+      contentHint: ContentHint.Resendable,
       serviceId: myAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
@@ -1451,10 +1446,8 @@ export default class MessageSender {
     const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
     return {
-      contentHint: ContentHint.RESENDABLE,
+      contentHint: ContentHint.Resendable,
       serviceId: myAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
@@ -1476,10 +1469,8 @@ export default class MessageSender {
     const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
     return {
-      contentHint: ContentHint.RESENDABLE,
+      contentHint: ContentHint.Resendable,
       serviceId: myAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
@@ -1501,10 +1492,8 @@ export default class MessageSender {
     const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
     return {
-      contentHint: ContentHint.RESENDABLE,
+      contentHint: ContentHint.Resendable,
       serviceId: myAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
@@ -1526,10 +1515,8 @@ export default class MessageSender {
     const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
     return {
-      contentHint: ContentHint.RESENDABLE,
+      contentHint: ContentHint.Resendable,
       serviceId: myAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
@@ -1624,10 +1611,8 @@ export default class MessageSender {
     const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
     return {
-      contentHint: ContentHint.RESENDABLE,
+      contentHint: ContentHint.Resendable,
       serviceId: myAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
@@ -1653,10 +1638,8 @@ export default class MessageSender {
     const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
     return {
-      contentHint: ContentHint.RESENDABLE,
+      contentHint: ContentHint.Resendable,
       serviceId: myAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
@@ -1684,10 +1667,8 @@ export default class MessageSender {
     const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
     return {
-      contentHint: ContentHint.RESENDABLE,
+      contentHint: ContentHint.Resendable,
       serviceId: ourAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
@@ -1722,10 +1703,8 @@ export default class MessageSender {
     const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
     return {
-      contentHint: ContentHint.RESENDABLE,
+      contentHint: ContentHint.Resendable,
       serviceId: ourAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
@@ -1759,13 +1738,11 @@ export default class MessageSender {
     const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
     return this.sendIndividualProto({
       serviceId: myAci,
       proto: contentMessage,
       timestamp: Date.now(),
-      contentHint: ContentHint.RESENDABLE,
+      contentHint: ContentHint.Resendable,
       options,
       urgent: true,
     });
@@ -1792,13 +1769,11 @@ export default class MessageSender {
     const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
     return this.sendIndividualProto({
       serviceId: myAci,
       proto: contentMessage,
       timestamp: Date.now(),
-      contentHint: ContentHint.RESENDABLE,
+      contentHint: ContentHint.Resendable,
       options,
       urgent: false,
     });
@@ -1839,13 +1814,11 @@ export default class MessageSender {
     const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
     return this.sendIndividualProto({
       serviceId: myAci,
       proto: contentMessage,
       timestamp: Date.now(),
-      contentHint: ContentHint.RESENDABLE,
+      contentHint: ContentHint.Resendable,
       options,
       urgent: false,
     });
@@ -1877,10 +1850,8 @@ export default class MessageSender {
     const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
     return {
-      contentHint: ContentHint.RESENDABLE,
+      contentHint: ContentHint.Resendable,
       serviceId: myAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
@@ -1921,10 +1892,8 @@ export default class MessageSender {
     const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
     return {
-      contentHint: ContentHint.RESENDABLE,
+      contentHint: ContentHint.Resendable,
       serviceId: myAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
@@ -1962,10 +1931,8 @@ export default class MessageSender {
     const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
     return {
-      contentHint: ContentHint.RESENDABLE,
+      contentHint: ContentHint.Resendable,
       serviceId: myAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
@@ -2009,10 +1976,8 @@ export default class MessageSender {
     const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
 
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
     return {
-      contentHint: ContentHint.RESENDABLE,
+      contentHint: ContentHint.Resendable,
       serviceId: myAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
@@ -2045,13 +2010,11 @@ export default class MessageSender {
       reason: `sendCallingMessage(${timestamp})`,
     });
 
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
     return this.sendMessageProtoAndWait({
       timestamp,
       recipients,
       proto: contentMessage,
-      contentHint: ContentHint.DEFAULT,
+      contentHint: ContentHint.Default,
       groupId: undefined,
       options,
       urgent,
@@ -2134,13 +2097,11 @@ export default class MessageSender {
       });
     }
 
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
     return this.sendIndividualProto({
       serviceId: senderAci,
       proto: contentMessage,
       timestamp,
-      contentHint: ContentHint.RESENDABLE,
+      contentHint: ContentHint.Resendable,
       options,
       urgent: false,
     });
@@ -2389,7 +2350,6 @@ export default class MessageSender {
     options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
     const timestamp = Date.now();
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
     const contentMessage = await this.getSenderKeyDistributionMessage(
       distributionId,
       {
@@ -2401,7 +2361,7 @@ export default class MessageSender {
     const sendLogCallback =
       serviceIds.length > 1
         ? this.makeSendLogCallback({
-            contentHint: contentHint ?? ContentHint.IMPLICIT,
+            contentHint: contentHint ?? ContentHint.Implicit,
             proto: Proto.Content.encode(contentMessage).finish(),
             sendType: 'senderKeyDistributionMessage',
             timestamp,
@@ -2411,7 +2371,7 @@ export default class MessageSender {
         : undefined;
 
     return this.sendGroupProto({
-      contentHint: contentHint ?? ContentHint.IMPLICIT,
+      contentHint: contentHint ?? ContentHint.Implicit,
       groupId,
       options,
       proto: contentMessage,
