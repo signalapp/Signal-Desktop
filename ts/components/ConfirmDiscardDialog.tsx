@@ -5,31 +5,35 @@ import React from 'react';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import type { LocalizerType } from '../types/Util';
 
-export type PropsType = {
+export type ConfirmDialogProps = {
   i18n: LocalizerType;
+  bodyText?: string;
+  discardText?: string;
   onClose: () => unknown;
   onDiscard: () => unknown;
 };
 
 export function ConfirmDiscardDialog({
   i18n,
+  bodyText,
+  discardText,
   onClose,
   onDiscard,
-}: PropsType): JSX.Element {
+}: ConfirmDialogProps): JSX.Element {
   return (
     <ConfirmationDialog
       dialogName="ConfirmDiscardDialog"
       actions={[
         {
           action: onDiscard,
-          text: i18n('icu:discard'),
+          text: discardText ?? i18n('icu:discard'),
           style: 'negative',
         },
       ]}
       i18n={i18n}
       onClose={onClose}
     >
-      {i18n('icu:ConfirmDiscardDialog--discard')}
+      {bodyText ?? i18n('icu:ConfirmDiscardDialog--discard')}
     </ConfirmationDialog>
   );
 }
