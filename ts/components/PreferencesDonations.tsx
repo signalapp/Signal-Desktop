@@ -628,6 +628,12 @@ export function PreferencesDonations({
         i18n={i18n}
         onClose={() => {
           setIsSubmitted(false);
+          if (
+            workflow?.type === 'DONE' &&
+            lastError === donationErrorTypeSchema.Enum.BadgeApplicationFailed
+          ) {
+            clearWorkflow();
+          }
           updateLastError(undefined);
         }}
       />
@@ -675,13 +681,13 @@ export function PreferencesDonations({
         badge={donationBadge}
         applyDonationBadge={applyDonationBadge}
         onClose={(error?: Error) => {
-          clearWorkflow();
           if (error) {
             log.error('Badge application failed:', error.message);
-            showToast({
-              toastType: ToastType.DonationCompletedAndBadgeApplicationFailed,
-            });
+            updateLastError(
+              donationErrorTypeSchema.Enum.BadgeApplicationFailed
+            );
           } else {
+            clearWorkflow();
             showToast({
               toastType: ToastType.DonationCompleted,
             });
