@@ -18,6 +18,11 @@ describe('Conversations', () => {
     await window.ConversationController.load();
   }
 
+  after(async () => {
+    await DataWriter.removeAll();
+    await window.storage.fetch();
+  });
+
   beforeEach(async () => {
     await DataWriter.removeAll();
     await window.textsecure.storage.user.setCredentials({
