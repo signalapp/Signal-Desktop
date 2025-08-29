@@ -67,29 +67,11 @@
   &--computing {
     cursor: auto;
   }
-  &__SpinnerV2-container {
+  &__Spinner-container {
     @include mixins.position-absolute-center;
-  }
-  .ProgressCircle {
-    @include mixins.position-absolute-center;
-    .ProgressCircle__background {
-      stroke: none;
-    }
-  }
-  @include mixins.dark-theme {
-    .ProgressCircle .ProgressCircle__background {
-      stroke: none;
-    }
   }
   @include mixins.light-theme {
-    .ProgressCircle .ProgressCircle__fill {
-      stroke: variables.$color-white;
-    }
-    .SpinnerV2 .SpinnerV2__Path {
-      stroke: variables.$color-white;
-    }
-
-    @include all-audio-icons(variables.$color-gray-90);
+    @include all-audio-icons(var(--color-label-primary));
 
     &--context-incoming {
       &.PlaybackButton--variant-message {
@@ -101,24 +83,11 @@
           background: variables.$color-white-alpha-40;
         }
       }
-      .ProgressCircle .ProgressCircle__fill {
-        stroke: variables.$color-gray-90;
-      }
-      .SpinnerV2 .SpinnerV2__Path {
-        stroke: variables.$color-gray-90;
-      }
     }
   }
 
   @include mixins.dark-theme {
-    .ProgressCircle .ProgressCircle__fill {
-      stroke: variables.$color-white-alpha-90;
-    }
-    .SpinnerV2 .SpinnerV2__Path {
-      stroke: variables.$color-white-alpha-90;
-    }
-
-    @include all-audio-icons(variables.$color-white-alpha-90);
+    @include all-audio-icons(var(--color-label-primary));
 
     &--context-incoming {
       &.PlaybackButton--variant-message {
@@ -129,12 +98,6 @@
         &:active {
           background: variables.$color-white-alpha-40;
         }
-      }
-      .ProgressCircle .ProgressCircle__fill {
-        stroke: variables.$color-white-alpha-90;
-      }
-      .SpinnerV2 .SpinnerV2__Path {
-        stroke: variables.$color-white-alpha-90;
       }
     }
   }
@@ -149,12 +112,12 @@
         background: variables.$color-white-alpha-40;
       }
     }
-    @include all-audio-icons(variables.$color-white);
+    @include all-audio-icons(var(--color-label-primary-on-color));
   }
 
   @include mixins.dark-theme {
     &--context-outgoing {
-      @include all-audio-icons(variables.$color-white-alpha-90);
+      @include all-audio-icons(var(--color-label-primary-on-color));
     }
   }
 }

@@ -2792,13 +2792,6 @@ button.ConversationDetails__action-button {
 
 .module-image__progress-circle-wrapper {
   @include mixins.position-absolute-center;
-
-  .ProgressCircle .ProgressCircle__background {
-    stroke: variables.$color-white-alpha-20;
-  }
-  .ProgressCircle .ProgressCircle__fill {
-    stroke: variables.$color-white;
-  }
 }
 
 .module-image__spinner-container {
@@ -2954,7 +2947,7 @@ button.module-image__border-overlay:focus {
   width: 24px;
   @include mixins.color-svg(
     '../images/icons/v3/play/play-fill.svg',
-    variables.$color-white
+    var(--color-label-primary-on-color)
   );
 }
 .module-image__stop-icon {
@@ -2965,7 +2958,7 @@ button.module-image__border-overlay:focus {
   width: 24px;
   @include mixins.color-svg(
     '../images/icons/v3/stop/stop-fill.svg',
-    variables.$color-white
+    var(--color-label-primary-on-color)
   );
 }
 .module-image__download-icon {
@@ -2975,7 +2968,7 @@ button.module-image__border-overlay:focus {
   width: 24px;
   @include mixins.color-svg(
     '../images/icons/v3/arrow/arrow-down.svg',
-    variables.$color-white
+    var(--color-label-primary-on-color)
   );
 }
 .module-image__undownloadable-icon {
@@ -2985,7 +2978,7 @@ button.module-image__border-overlay:focus {
   width: 24px;
   @include mixins.color-svg(
     '../images/icons/v3/photo/photo-slash-compact.svg',
-    variables.$color-white
+    var(--color-label-primary-on-color)
   );
 }
 

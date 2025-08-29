@@ -52,7 +52,5 @@ export function FunResultsButton(props: FunResultsButtonProps): JSX.Element {
 }
 
 export function FunResultsSpinner(): JSX.Element {
-  return (
-    <SpinnerV2 className="FunResults__Spinner" size={36} strokeWidth={4} />
-  );
+  return <SpinnerV2 size={36} strokeWidth={2} />;
 }

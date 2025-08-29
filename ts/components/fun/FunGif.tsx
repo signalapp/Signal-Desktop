@@ -154,13 +154,7 @@ export function FunGifPreview(props: FunGifPreviewProps): JSX.Element {
         }
       />
       <div className="FunGifPreview__Backdrop" role="status">
-        {spinner && !hasError && (
-          <SpinnerV2
-            className="FunGifPreview__Spinner"
-            size={36}
-            strokeWidth={4}
-          />
-        )}
+        {spinner && !hasError && <SpinnerV2 size={36} strokeWidth={2} />}
         {hasError && <div className="FunGifPreview__ErrorIcon" />}
       </div>
       {props.src != null && (

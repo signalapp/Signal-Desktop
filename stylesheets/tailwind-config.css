@@ -365,12 +365,38 @@
 @theme {
   --animate-*: initial; /* reset defaults */
   --animate-fade-out: animate-fade-out 120ms var(--ease-out-cubic);
+  --animate-spinner-v2-rotate: animate-spinner-v2-rotate 2s linear infinite;
+  --animate-spinner-v2-dash: animate-spinner-v2-dash 1.5s ease-in-out infinite;
 }
 
 @layer base {
   @keyframes animate-fade-out {
     to {
       opacity: 0;
+    }
+  }
+
+  @keyframes animate-spinner-v2-rotate {
+    0% {
+      transform: rotate(-180deg);
+    }
+    100% {
+      transform: rotate(180deg);
+    }
+  }
+
+  @keyframes animate-spinner-v2-dash {
+    0% {
+      stroke-dasharray: 2%, 300%;
+      stroke-dashoffset: 0;
+    }
+    50% {
+      stroke-dasharray: 180%, 300%;
+      stroke-dashoffset: -70%;
+    }
+    100% {
+      stroke-dasharray: 180%, 300%;
+      stroke-dashoffset: -248%;
     }
   }
 }

@@ -25,7 +25,7 @@
   z-index: variables.$z-index-above-base;
 
   @include mixins.font-caption;
-  color: variables.$color-white;
+  color: var(--color-label-primary-on-color);
 
   transition: width 400ms ease-out;
 }
@@ -34,21 +34,6 @@
   position: relative;
   margin: 4px;
   margin-inline-end: -4px;
-
-  .ProgressCircle .ProgressCircle__background {
-    stroke: variables.$color-white-alpha-20;
-  }
-  .ProgressCircle .ProgressCircle__fill {
-    stroke: variables.$color-white;
-  }
-
-  .module-spinner__circle {
-    background-color: variables.$color-white-alpha-20;
-  }
-
-  .module-spinner__arc {
-    background-color: variables.$color-white;
-  }
 }
 
 .AttachmentDetailPill__text-wrapper {
@@ -72,7 +57,7 @@
   width: 12px;
   @include mixins.color-svg(
     '../images/icons/v3/stop/stop-fill.svg',
-    variables.$color-white
+    var(--color-label-primary-on-color)
   );
 }
 .AttachmentDetailPill__download-icon {
@@ -82,6 +67,6 @@
   width: 16px;
   @include mixins.color-svg(
     '../images/icons/v3/arrow/arrow-down.svg',
-    variables.$color-white
+    var(--color-label-primary-on-color)
   );
 }
