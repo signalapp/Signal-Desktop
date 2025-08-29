@@ -21,10 +21,7 @@
   @include mixins.font-body-2;
 }
 
-.DonationProgressModal .SpinnerV2 {
+.DonationProgressModal__SpinnerV2 {
+  display: inline-block;
   margin-inline: auto;
-}
-
-.DonationProgressModal .SpinnerV2__Path {
-  color: variables.$color-ultramarine;
 }

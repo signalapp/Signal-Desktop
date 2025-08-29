@@ -111,54 +111,22 @@
 .AttachmentStatusIcon__circle-icon--x {
   @include mixins.color-svg-themed(
     '../images/icons/v3/x/x-bold.svg',
-    variables.$color-white,
-    variables.$color-white-alpha-90
+    var(--color-label-primary-on-color),
+    var(--color-label-primary-on-color)
   );
 }
 .AttachmentStatusIcon__circle-icon--arrow-down {
   @include mixins.color-svg-themed(
     '../images/icons/v3/arrow/arrow-down-bold.svg',
-    variables.$color-white,
-    variables.$color-white-alpha-90
+    var(--color-label-primary-on-color),
+    var(--color-label-primary-on-color)
   );
 }
 .AttachmentStatusIcon__circle-icon--incoming {
   @include mixins.light-theme {
-    background-color: variables.$color-gray-90;
+    background-color: var(--color-label-primary);
   }
   @include mixins.dark-theme {
-    background-color: variables.$color-white-alpha-90;
-  }
-}
-
-.AttachmentStatusIcon__progress-container {
-  .ProgressCircle .ProgressCircle__background {
-    @include mixins.light-theme {
-      stroke: none;
-      fill: none;
-    }
-    @include mixins.dark-theme {
-      stroke: none;
-      fill: none;
-    }
-  }
-
-  .ProgressCircle .ProgressCircle__fill {
-    @include mixins.light-theme {
-      stroke: variables.$color-white;
-    }
-    @include mixins.dark-theme {
-      stroke: variables.$color-white-alpha-90;
-    }
-  }
-}
-.AttachmentStatusIcon__progress-container--incoming {
-  .ProgressCircle .ProgressCircle__fill {
-    @include mixins.light-theme {
-      stroke: variables.$color-gray-90;
-    }
-    @include mixins.dark-theme {
-      stroke: variables.$color-white-alpha-90;
-    }
+    background-color: var(--color-label-primary);
   }
 }

@@ -1,9 +1,10 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { SpinnerV2 } from './SpinnerV2';
+import { tw } from '../axo/tw';
 
 import type { ComponentMeta } from '../storybook/types';
 import type { Props } from './SpinnerV2';
@@ -12,42 +13,85 @@ export default {
   title: 'Components/SpinnerV2',
   component: SpinnerV2,
   argTypes: {
+    variant: {
+      options: ['normal', 'no-background', 'no-background-incoming', 'brand'],
+      control: { type: 'select' },
+    },
     size: { control: { type: 'number' } },
+    value: { control: { type: 'range', min: 0, max: 1, step: 0.1 } },
     strokeWidth: { control: { type: 'number' } },
     marginRatio: { control: { type: 'number' } },
   },
-  args: { size: 36, strokeWidth: 2, className: undefined, marginRatio: 0.8 },
+  args: {
+    size: 36,
+    strokeWidth: 2,
+    marginRatio: 0.8,
+    min: 0,
+    max: 1,
+    value: undefined,
+    variant: 'normal',
+    ariaLabel: 'label',
+  },
 } satisfies ComponentMeta<Props>;
 
 export function Default(args: Props): JSX.Element {
-  return <SpinnerV2 {...args} />;
+  return (
+    <div className={tw('bg-background-overlay')}>
+      <SpinnerV2 {...args} />
+    </div>
+  );
 }
 
 export function Thin(args: Props): JSX.Element {
-  return <SpinnerV2 {...args} strokeWidth={1} />;
+  return (
+    <div className={tw('bg-background-overlay')}>
+      <SpinnerV2 {...args} strokeWidth={1} />
+    </div>
+  );
 }
 
 export function Thick(args: Props): JSX.Element {
-  return <SpinnerV2 {...args} strokeWidth={6} />;
+  return (
+    <div className={tw('bg-background-overlay')}>
+      <SpinnerV2 {...args} strokeWidth={6} />
+    </div>
+  );
 }
 
 export function NoMargin(args: Props): JSX.Element {
-  return <SpinnerV2 {...args} marginRatio={1} strokeWidth={6} />;
+  return (
+    <div className={tw('bg-background-overlay')}>
+      <SpinnerV2 {...args} marginRatio={1} strokeWidth={6} />
+    </div>
+  );
 }
 
 export function BigMargin(args: Props): JSX.Element {
-  return <SpinnerV2 {...args} marginRatio={0.5} strokeWidth={6} />;
+  return (
+    <div className={tw('bg-background-overlay')}>
+      <SpinnerV2 {...args} marginRatio={0.5} strokeWidth={6} />
+    </div>
+  );
 }
 
-export function Styled(args: Props): JSX.Element {
-  return (
-    <div>
-      <style>{`
-        .red-spinner {
-          color: light-dark(hsl(0deg 100% 70%), hsl(0deg 100% 30%));
+export function SpinnerToProgress(args: Props): JSX.Element {
+  const [value, setValue] = useState<number | undefined>();
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setValue(v => {
+        if (v == null) {
+          return 0.3;
         }
-      `}</style>
-      <SpinnerV2 {...args} className="red-spinner" />
+        return undefined;
+      });
+    }, 2000);
+    return () => {
+      clearInterval(timer);
+    };
+  });
+  return (
+    <div className={tw('bg-background-overlay')}>
+      <SpinnerV2 {...args} value={value} />
     </div>
   );
 }
