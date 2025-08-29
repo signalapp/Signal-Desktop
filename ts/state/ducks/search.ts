@@ -227,10 +227,22 @@ function endSearch(): EndSearchActionType {
     payload: null,
   };
 }
-function endConversationSearch(): EndConversationSearchActionType {
-  return {
-    type: 'END_CONVERSATION_SEARCH',
-    payload: null,
+function endConversationSearch(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  EndConversationSearchActionType
+> {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: 'END_CONVERSATION_SEARCH',
+      payload: null,
+    });
+
+    doSearch({
+      dispatch,
+      state: getState(),
+    });
   };
 }
 function searchInConversation(
@@ -791,8 +803,9 @@ export function reducer(
 
   if (action.type === 'END_CONVERSATION_SEARCH') {
     return {
-      ...getEmptyState(),
+      ...state,
       startSearchCounter: state.startSearchCounter + 1,
+      searchConversationId: undefined,
       globalSearch: true,
     };
   }
