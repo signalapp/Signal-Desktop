@@ -2259,7 +2259,7 @@ export function Colors(): JSX.Element {
           {renderBothDirections(
             createProps({
               conversationColor: color,
-              text: `Here is a preview of the chat color: ${color}. The color is visible to only you.`,
+              text: `Here is a preview of the chat color: ${color}. The color is visible only to you.`,
             })
           )}
         </div>
