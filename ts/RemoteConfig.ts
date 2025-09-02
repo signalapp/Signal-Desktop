@@ -131,7 +131,7 @@ export const _refreshRemoteConfig = async (
   const oldConfig = config;
   config = Array.from(newConfigValues.entries()).reduce(
     (acc, [name, value]) => {
-      const enabled = value !== undefined;
+      const enabled = value !== undefined && value !== 'false';
       const previouslyEnabled: boolean = get(
         oldConfig,
         [name, 'enabled'],

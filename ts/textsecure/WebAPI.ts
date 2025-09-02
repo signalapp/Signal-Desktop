@@ -700,7 +700,6 @@ const CHAT_CALLS = {
   batchIdentityCheck: 'v1/profile/identity_check/batch',
   boostReceiptCredentials: 'v1/subscription/boost/receipt_credentials',
   challenge: 'v1/challenge',
-  config: 'v1/config',
   configV2: 'v2/config',
   createBoost: 'v1/subscription/boost/create',
   deliveryCert: 'v1/certificate/delivery',
