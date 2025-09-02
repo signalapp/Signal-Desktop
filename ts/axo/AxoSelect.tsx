@@ -26,7 +26,7 @@ const Namespace = 'AxoSelect';
  *         <AxoSelect.Item/>
  *       </AxoSelect.Group>
  *     </AxoSelect.Content>
- *   </Select.Root>
+ *   </AxoSelect.Root>
  * );
  * ```
  */

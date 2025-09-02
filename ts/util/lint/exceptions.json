@@ -813,6 +813,20 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/axo/AriaClickable.tsx",
+    "line": "    const ref = useRef<HTMLButtonElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-08-28T23:36:44.974Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/axo/AriaClickable.tsx",
+    "line": "    const onTriggerStateUpdateRef = useRef(onTriggerStateUpdate);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-08-28T23:36:44.974Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/calling/useGetCallingFrameBuffer.ts",
     "line": "  const ref = useRef<Buffer | null>(null);",
     "reasonCategory": "usageTrusted",
