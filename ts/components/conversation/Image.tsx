@@ -332,9 +332,12 @@ export function getSpinner({
   i18n: LocalizerType;
   tabIndex: number | undefined;
 }): JSX.Element | undefined {
+  if (!attachment.pending) {
+    return undefined;
+  }
+
   const spinnerValue =
-    (attachment.pending &&
-      !isIncremental(attachment) &&
+    (!isIncremental(attachment) &&
       attachment.size &&
       attachment.totalDownloaded) ||
     undefined;
