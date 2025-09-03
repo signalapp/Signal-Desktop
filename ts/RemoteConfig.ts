@@ -23,6 +23,7 @@ const KnownConfigKeys = [
   'desktop.clientExpiration',
   'desktop.backup.credentialFetch',
   'desktop.donations',
+  'desktop.donations.prod',
   'desktop.internalUser',
   'desktop.mediaQuality.levels',
   'desktop.messageCleanup',
