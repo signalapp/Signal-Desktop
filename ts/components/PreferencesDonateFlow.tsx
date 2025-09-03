@@ -821,6 +821,7 @@ function CardForm({
           })}
         >
           <DonateInputCardExp
+            i18n={i18n}
             id="cardExpiration"
             value={cardExpiration}
             onValueChange={handleCardExpirationChange}

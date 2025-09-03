@@ -8954,6 +8954,10 @@
     "messageformat": "Expiration Date",
     "description": "When entering payment card details for a donation, this label is for the credit card expiration date input box."
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY",
+    "description": "When entering payment card expiration date, this is the placeholder value in the date input box when it is empty. Please specify a value which would be reasonable to see in a payment or checkout form. The format is Month/Year to match the global credit card expiration date format. The localized value is suggested to contain 2 characters for month and 2 characters for year. In CJK languages single characters are acceptable for month and year e.g. 月 and 年. Month and year should be separated by a forward slash (/) because after the user begins typing the date, the app will automatically separate them with a slash."
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Donate {formattedCurrencyAmount} to Signal",
     "description": "Title above the payment card entry form after selecting a donation amount. Amount includes the currency symbol and is formatted in the locale's standard format. Examples: Donate $10; Donate ¥1000; Donate €10"
