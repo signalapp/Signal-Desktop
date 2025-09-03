@@ -205,6 +205,13 @@ a.DonationFormHelpFooter__ContactSupportLink {
   border: 0.5px solid rgba(0, 0, 0, 0.16);
   box-shadow: 0 1px 1px 0 variables.$color-black-alpha-08;
   outline-offset: -2.5px;
+
+  // Payment card inputs should render LTR
+  /* stylelint-disable-next-line declaration-property-value-disallowed-list */
+  direction: ltr;
+  &:dir(rtl) {
+    text-align: right;
+  }
 }
 
 .DonationCardForm_Field input:focus {
