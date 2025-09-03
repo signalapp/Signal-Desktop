@@ -8982,9 +8982,17 @@
     "messageformat": "Get the Signal Boost badge for 30 days",
     "description": "Info text above the payment card entry form when making a one time donation. Explains the in-app badge which you can receive after donating."
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}",
+    "description": "Error text next to input box when selecting a donation amount and the user has entered a custom amount below the minimum allowed amount. Minimum amount text includes the currency symbol and is formatted in the locale's standard format. Examples: $3; ¥300; €3"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "The minimum amount you can donate is {formattedCurrencyAmount}",
     "description": "Tooltip for a disabled continue button when selecting a donation amount, when the user has entered a custom amount below the minimum allowed donation amount. Minimum amount text includes the currency symbol and is formatted in the locale's standard format. Examples: $3; ¥300; €3"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}",
+    "description": "Error text next to input box when selecting a donation amount and the user has entered a custom amount greater than the maximum allowed amount. Maximum amount text includes the currency symbol and is formatted in the locale's standard format. Examples: $999999.99; ¥99999999; €999999.99"
   },
   "icu:DonateFlow__discard-dialog-body": {
     "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?",
@@ -8993,6 +9001,10 @@
   "icu:DonateFlow__discard-dialog-remove-info": {
     "messageformat": "Remove info",
     "description": "While making a donation and after entering payment details, if you try to navigate away then a dialog shows and its primary button has this text to confirm cancellation of the donation."
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Continue",
+    "description": "While making a donation and selecting the donation amount, this is the primary button to move to the next step."
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Donation receipt",

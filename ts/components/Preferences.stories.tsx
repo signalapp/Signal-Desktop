@@ -118,6 +118,13 @@ const exportLocalBackupResult = {
 };
 
 const donationAmountsConfig = {
+  cad: {
+    minimum: 4,
+    oneTime: {
+      1: [7, 15, 30, 40, 70, 140],
+      100: [7],
+    },
+  },
   jpy: {
     minimum: 400,
     oneTime: {
@@ -130,6 +137,13 @@ const donationAmountsConfig = {
     oneTime: {
       1: [5, 10, 20, 30, 50, 100],
       100: [5],
+    },
+  },
+  ugx: {
+    minimum: 8000,
+    oneTime: {
+      1: [15000, 35000, 70000, 100000, 150000, 300000],
+      100: [15000],
     },
   },
 } as unknown as OneTimeDonationHumanAmounts;
