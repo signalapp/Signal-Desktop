@@ -36,6 +36,7 @@ export function getCardExpirationErrorMessage(
 }
 
 export type DonateInputCardExpProps = Readonly<{
+  i18n: LocalizerType;
   id: string;
   value: string;
   onValueChange: (newValue: string) => void;
@@ -46,7 +47,7 @@ export type DonateInputCardExpProps = Readonly<{
 export const DonateInputCardExp = memo(function DonateInputCardExp(
   props: DonateInputCardExpProps
 ) {
-  const { onEnter, onValueChange } = props;
+  const { i18n, onEnter, onValueChange } = props;
   const inputRef = useRef<HTMLInputElement>(null);
 
   useInputMask(inputRef, CC_EXP_FORMATTER);
@@ -71,7 +72,9 @@ export const DonateInputCardExp = memo(function DonateInputCardExp(
     <input
       ref={inputRef}
       id={props.id}
-      placeholder="MM/YY"
+      placeholder={i18n(
+        'icu:DonateFlow__card-form-expiration-date-placeholder'
+      )}
       type="text"
       inputMode="numeric"
       autoComplete="cc-exp"
