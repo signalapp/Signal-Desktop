@@ -129,10 +129,12 @@ describe('toHumanCurrencyString', () => {
     {
       amount,
       currency,
+      symbol = 'symbol',
       showInsignificantFractionDigits = false,
     }: {
       amount: number;
       currency: string;
+      symbol?: 'symbol' | 'narrowSymbol' | 'none';
       showInsignificantFractionDigits?: boolean;
     },
     expectedOutput: string | undefined
@@ -142,6 +144,7 @@ describe('toHumanCurrencyString', () => {
       toHumanCurrencyString({
         amount: humanAmount,
         currency,
+        symbol,
         showInsignificantFractionDigits,
       }),
       expectedOutput
@@ -157,6 +160,12 @@ describe('toHumanCurrencyString', () => {
     testFn({ amount: 10.5, currency: 'USD' }, '$10.50');
     testFn({ amount: 10.5, currency: 'USD' }, '$10.50');
     testFn({ amount: 10.69, currency: 'USD' }, '$10.69');
+    testFn({ amount: 10.5, currency: 'USD', symbol: 'none' }, '10.50');
+  });
+
+  it('handles CAD', () => {
+    testFn({ amount: 10, currency: 'CAD' }, 'CA$10');
+    testFn({ amount: 10, currency: 'CAD', symbol: 'narrowSymbol' }, '$10');
   });
 
   it('handles EUR', () => {

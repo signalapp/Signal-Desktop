@@ -157,9 +157,9 @@ function submitDonation({
   void,
   RootStateType,
   unknown,
-  UpdateWorkflowAction
+  UpdateWorkflowAction | UpdateLastErrorAction
 > {
-  return async (_dispatch, getState) => {
+  return async (dispatch, getState) => {
     try {
       const { currentWorkflow } = getState().donations;
       if (
@@ -178,7 +178,11 @@ function submitDonation({
 
       await donations.finishDonationWithCard(paymentDetail);
     } catch (error) {
-      log.warn('submitDonation failed', Errors.toLogFormat(error));
+      log.error('submitDonation failed', Errors.toLogFormat(error));
+      dispatch({
+        type: UPDATE_LAST_ERROR,
+        payload: { lastError: 'GeneralError' },
+      });
     }
   };
 }
