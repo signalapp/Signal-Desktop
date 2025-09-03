@@ -6676,7 +6676,7 @@
     "messageformat": "收据"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "查看收据详情"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "捐款人常见问题解答"
@@ -6790,7 +6790,7 @@
     "messageformat": "您正在进行的捐款需要确认。"
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "捐款成功，但我们无法更新您的徽章设置"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "捐款中断"
@@ -6865,7 +6865,7 @@
     "messageformat": "在个人资料中显示"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "您可以在您的移动设备中前往“设置→给 Signal 捐款→ 徽章”调整此设置"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "此版本包含多个小调整和漏洞修复，以维持 Signal 的顺畅运行。",

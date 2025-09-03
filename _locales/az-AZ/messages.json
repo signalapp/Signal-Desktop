@@ -6676,7 +6676,7 @@
     "messageformat": "Qəbzlər"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Baxış bildirişlərini aç"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "İanə verənlər üçün TSS-lər"
@@ -6790,7 +6790,7 @@
     "messageformat": "Təsdiq tələbi gözləyən və davam edən ianəniz var."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "İanə baş tutdu, lakin nişan parametlərinizi yeniləyə bilmədik"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "İanə kəsildi"
@@ -6865,7 +6865,7 @@
     "messageformat": "Profildə görüntülə"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Bu parametri mobil cihazınızda Parametrlər → Signal-a ianə ver → Nişanlar bölməsinə keçərək tənzimləyə bilərsiniz"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Bu versiya, Signal-ın problemsiz işləməsini təmin etmək üçün kiçik düzəltmələr və xəta düzəltmələri ehtiva edir.",

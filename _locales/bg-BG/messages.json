@@ -6676,7 +6676,7 @@
     "messageformat": "Разписки"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Преглед на подробности за разписката"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "ЧЗВ за дарители"
@@ -6790,7 +6790,7 @@
     "messageformat": "Имате дарение, което изисква допълнително потвърждение."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Дарението е успешно, но не успяхме да актуализираме настройките ви за значки"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Дарението е прекъснато"
@@ -6859,13 +6859,13 @@
     "messageformat": "Благодарим ви за подкрепата!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "Спечелихте значка за дарител от Signal! Покажете в профила си, за да демонстрирате своята подкрепа."
+    "messageformat": "Спечелихте значка за дарител от Signal! Покажете я в профила си, за да демонстрирате своята подкрепа."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Показване на профила"
+    "messageformat": "Показване в профила"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Можете да ги регулирате на мобилното си устройство в Настройки → Дарение за Signal → Значки"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Тази версия съдържа редица дребни модификации и корекции на бъгове, за да поддържа гладката работа на Signal.",

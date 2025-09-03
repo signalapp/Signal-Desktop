@@ -6676,7 +6676,7 @@
     "messageformat": "영수증"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "영수증 세부 정보 보기"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "기부자 FAQ"
@@ -6790,7 +6790,7 @@
     "messageformat": "현재 진행 중인 기부금이 있으며, 확인이 필요합니다."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "기부에 성공했지만, 배지 설정을 업데이트하지 못했습니다."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "기부가 중단됨"
@@ -6865,7 +6865,7 @@
     "messageformat": "프로필에 표시"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "모바일 장치의 설정 → Signal에 기부 → 배지에서 조정할 수 있습니다."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "이 버전에는 Signal의 원활한 실행을 위한 일부 기능 업데이트와 버그 수정이 다수 포함되어 있습니다.",

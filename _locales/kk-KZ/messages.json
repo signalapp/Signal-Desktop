@@ -6676,7 +6676,7 @@
     "messageformat": "Чектер"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Түбіртек мәліметтерін көру"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Donor туралы сұрақ-жауап"
@@ -6790,7 +6790,7 @@
     "messageformat": "Демеу үшін жіберіліп жатқан қаражатыңызды растау қажет."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Қайырымдылыққа арналған қаражат жіберілгенмен, танымбелгі параметрлеріңізді жаңарта алмадық"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Демеушілік үзілді"
@@ -6865,7 +6865,7 @@
     "messageformat": "Профильде көрсету"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Оны мобильдік құрылғыңыздағы «Параметрлер → Signal-ды демеу → Танымбелгілер» тармағынан реттей аласыз"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Бұл нұсқада Signal-дың еш кінәратсыз жұмыс істеуіне қажетті бірнеше шағын түзетпе жасалды және ақаулар түзетілді.",

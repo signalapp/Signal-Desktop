@@ -6676,7 +6676,7 @@
     "messageformat": "Comprovantes"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Ver detalhes do recibo"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Perguntas Frequentes de Doadores"
@@ -6790,7 +6790,7 @@
     "messageformat": "Você tem uma doação em andamento que precisa de confirmação."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "A doação foi bem-sucedida, mas não foi possível atualizar as configurações do selo"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Doação interrompida"
@@ -6865,7 +6865,7 @@
     "messageformat": "Exibir no perfil"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Ajuste isso no seu dispositivo móvel em Configurações → Doar para o Signal → Selos"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Essa versão contém pequenos retoques e consertos no Signal para ele continuar funcionando confortavelmente.",

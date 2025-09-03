@@ -6676,7 +6676,7 @@
     "messageformat": "Kvitteringer"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Vis kvitteringsoplysninger"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Ofte stillede spørgsmål om donationer"
@@ -6790,7 +6790,7 @@
     "messageformat": "Du har en igangværende donation, der kræver bekræftelse."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Donationen lykkedes, men vi kunne ikke opdatere dine badgeindstillinger"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Donationen afbrudt"
@@ -6865,7 +6865,7 @@
     "messageformat": "Vis på profil"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Du kan ændre dette på din mobilenhed under Indstillinger → Donér til Signal → Badges"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Denne version indeholder en række småjusteringer og fejlrettelser som sikrer, at Signal kører problemfrit.",

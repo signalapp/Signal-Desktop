@@ -6676,7 +6676,7 @@
     "messageformat": "Računi"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Pogledajte detalje računa"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Najčešća pitanja donatora"
@@ -6790,7 +6790,7 @@
     "messageformat": "Imate donaciju koja je u obradi i zahtijeva dodatnu potvrdu."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Donacija je uspjela, ali nismo uspjeli ažurirati postavke vaše značke"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Donacija je prekinuta"
@@ -6865,7 +6865,7 @@
     "messageformat": "Prikaži na svom profilu"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Ovo možete prilagoditi na svom telefonu pod Postavke → Donirajte Signalu → Značke"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ova verzija Signala sadrži niz malih podešavanja i ispravaka programskih pogrešaka za nesmetano korištenje aplikacije.",

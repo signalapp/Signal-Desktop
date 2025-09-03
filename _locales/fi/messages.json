@@ -6676,7 +6676,7 @@
     "messageformat": "Kuitit"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Näytä kuitin tiedot"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Usein kysyttyä lahjoituksista"
@@ -6790,7 +6790,7 @@
     "messageformat": "Sinulla on käynnissä lahjoitus, joka edellyttää vahvistamista."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Lahjoitus onnistui, mutta merkin asetusten päivitys ei onnistunut."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Lahjoitus keskeytetty"
@@ -6865,7 +6865,7 @@
     "messageformat": "Näytä profiilissa"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Voit säätää tätä mobiililaitteellasi kohdassa Asetukset → Lahjoita Signalille → Merkit"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Tämä versio sisältää useita pieniä parannuksia ja virhekorjauksia, jotka pitävät Signalin toiminnan sujuvana.",

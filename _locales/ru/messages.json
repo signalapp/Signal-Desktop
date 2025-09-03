@@ -6676,7 +6676,7 @@
     "messageformat": "Квитанции"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Просмотреть детали квитанции"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "ЧаВо о пожертвованиях"
@@ -6790,7 +6790,7 @@
     "messageformat": "У вас есть незавершённое пожертвование, требующее подтверждения."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Пожертвование прошло успешно, но мы не смогли обновить настройки вашего значка"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Пожертвование прервано"
@@ -6865,7 +6865,7 @@
     "messageformat": "Показывать в профиле"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Вы можете настроить это на своем мобильном устройстве в разделе Настройки → Поддержать Signal → Значки"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Эта версия содержит несколько небольших изменений и исправлений ошибок.",

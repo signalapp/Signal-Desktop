@@ -6676,7 +6676,7 @@
     "messageformat": "Resit"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Lihat butiran resit"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Soalan Lazim Penderma"
@@ -6790,7 +6790,7 @@
     "messageformat": "Anda mempunyai derma yang sedang diproses dan memerlukan pengesahan."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Derma berjaya, tetapi kami tidak dapat mengemas kini tetapan lencana anda"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Derma terganggu"
@@ -6865,7 +6865,7 @@
     "messageformat": "Pamerkan di Profil"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Anda boleh melaraskan ini pada peranti mudah alih anda di bawah Tetapan → Derma kepada Signal → Lencana"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Versi ini mengandungi sedikit tweak kecil dan pembetulan pepijat untuk memastikan Signal berjalan dengan lancar.",

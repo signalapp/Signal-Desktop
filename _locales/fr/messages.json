@@ -6676,7 +6676,7 @@
     "messageformat": "Reçus"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Afficher le reçu du don"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "FAQ dédiée aux donateurs"
@@ -6790,7 +6790,7 @@
     "messageformat": "Un don en cours de traitement nécessite une vérification."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Nous avons bien traité votre don, mais nous n'avons pas pu mettre à jour votre macaron."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Don suspendu"
@@ -6820,7 +6820,7 @@
     "messageformat": "Votre don n'a peut-être pas été traité. Pour consulter vos reçus et en avoir le cœur net, cliquez sur \"Faire un don à Signal\", puis sur \"Reçus de dons\"."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Réessayez ou envoyez un journal de débogage à l'assistance pour qu'on vous aide à finaliser votre don. Les journaux de débogage nous permettent de diagnostiquer et de résoudre des problèmes. Ils ne contiennent aucune donnée d'identification."
+    "messageformat": "Veuillez réessayer. Vous pouvez aussi envoyer un journal de débogage à l'assistance afin d'obtenir de l'aide. Les journaux de débogage nous permettent de diagnostiquer et de résoudre les problèmes. Ils ne contiennent aucune donnée d'identification."
   },
   "icu:Donations__Processing": {
     "messageformat": "Don en cours de traitement..."
@@ -6865,7 +6865,7 @@
     "messageformat": "Afficher sur mon profil"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Vous pouvez modifier ce réglage depuis votre appareil mobile sous Paramètres → Faire un don à Signal → Macarons."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Dans cette version, nous avons apporté quelques ajustements et corrigé de petits bugs. Pour que votre messagerie préférée continue de fonctionner comme sur des roulettes.",
@@ -6905,6 +6905,6 @@
     "messageformat": "Cette mise à jour éradique quelques bugs mineurs. L'un d'entre eux affichait parfois les émojis dans un joyeux désordre quand on voulait réagir à un message. On l'a remis à sa place. Et ça, ça mérite bien un émoji flamme."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "Un bug empêchait les macarons de dons de s'afficher correctement pour certains utilisateurs. Pas de chance pour lui, on a un don pour la correction de bugs. Signal est un organisme à but non lucratif. Merci pour votre soutien !"
+    "messageformat": "Lorsque vous faisiez un don à Signal, un bug empêchait parfois les macarons de s'afficher correctement. Pas de chance pour lui : on a un don pour corriger les bugs. Signal est un organisme à but non lucratif. Merci pour votre soutien !"
   }
 }

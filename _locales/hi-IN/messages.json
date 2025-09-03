@@ -6676,10 +6676,10 @@
     "messageformat": "रसीद"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "रसीद का विवरण देखें"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "दानकर्ता से जुड़े अक्सर पूछे जाने वाले प्रश्न"
+    "messageformat": "दान करने वाले की ओर से अक्सर पूछे जाने वाले सवाल"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "रसीदें सभी डिवाइसों पर सिंक नहीं होती हैं। अगर आपने Signal फिर से इंस्टॉल किया है, तो पिछले किए गए किसी भी दान की रसीद उपलब्ध नहीं होगी।"
@@ -6790,7 +6790,7 @@
     "messageformat": "आपका एक दान प्रगति में है, जिसकी पुष्टि करने की ज़रूरत है।"
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "दान हो गया है, लेकिन हम आपकी बैज की सेटिंग अपडेट नहीं कर सके"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "दान में रुकावट आई है"
@@ -6859,13 +6859,13 @@
     "messageformat": "आपके समर्थन के लिए शुक्रिया!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "आपको Signal की ओर से एक डोनर बैज मिला है। अपना सहयोग दर्शाने के लिए इसे अपनी प्रोफ़ाइल पर प्रदर्शित करें।"
+    "messageformat": "आपको Signal की ओर से एक डोनर बैज मिला है। अपना सहयोग दिखाने के लिए इसे अपनी प्रोफ़ाइल पर डिसप्ले करें।"
   },
   "icu:Donations__badge-modal--display-on-profile": {
     "messageformat": "प्रोफ़ाइल पर डिस्प्ले करें"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "इसे अपने मोबाइल डिवाइस पर यहां जाकर ऐडजस्ट किया जा सकता है: सेटिंग → Signal को दान दें → बैज"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "सिग्नल को सही रूप से चलाने के लिए इस वर्शन में कई छोटे बदलाव और बग फ़िक्स शामिल हैं.",

@@ -6676,7 +6676,7 @@
     "messageformat": "Comprobantes"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Ver a información do recibo"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Preguntas frecuentes sobre doantes"
@@ -6790,7 +6790,7 @@
     "messageformat": "Tes un donativo pendente que precisa confirmación."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Donativo realizado con éxito, mais non puidemos actualizar a configuración da insignia"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Donativo interrompido"
@@ -6865,7 +6865,7 @@
     "messageformat": "Mostrar no perfil"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Podes axustalo no teu teléfono en Configuración > Doar a Signal > Insignias"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Esta versión contén pequenos arranxos e reparacións que fan que Signal funcione sen problemas.",

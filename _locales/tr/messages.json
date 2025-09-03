@@ -6676,7 +6676,7 @@
     "messageformat": "Makbuzlar"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Makbuz detaylarını görüntüle"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Bağışçılar için SSS"
@@ -6790,7 +6790,7 @@
     "messageformat": "Onaylanması gereken bir bağış işlemin var."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Bağış başarılı oldu ancak rozet ayarlarını güncelleyemedik"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Bağış kesildi"
@@ -6859,13 +6859,13 @@
     "messageformat": "Desteğin için teşekkürler!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "Signal'den bir bağışçı rozeti kazandın! Desteğini göstermek için rozeti profilinde sergile."
+    "messageformat": "Signal'dan bir bağışçı rozeti kazandın! Desteğini göstermek için rozeti profilinde sergile."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Profilde Göster"
+    "messageformat": "Profilde göster"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Bunu mobil cihazında Ayarlar → Signal'a Bağış Yap → Rozetler bölümünden ayarlayabilirsin"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Bu sürüm Signal'in sorunsuz çalışması için gereken bir takım küçük düzeltme ve hata gidermelerini içerir.",

@@ -6676,7 +6676,7 @@
     "messageformat": "রিসিপ্ট"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "রিসিপ্টের বিবরণ দেখুন"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "ডোনার সম্পর্কিত প্রশ্নাবলী"
@@ -6790,7 +6790,7 @@
     "messageformat": "আপনার একটি ডোনেশন প্রক্রিয়াধীন আছে, যার নিশ্চিতকরণ প্রয়োজন।"
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "ডোনেশন সফল হয়েছে, কিন্তু আমরা আপনার ব্যাজ সেটিংস আপডেট করতে পারিনি"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "ডোনেশন ব্যাহত হয়েছে"
@@ -6865,7 +6865,7 @@
     "messageformat": "প্রোফাইলে প্রদর্শন করুন"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "আপনি আপনার মোবাইল ডিভাইসে সেটিংস → Signal-এ ডোনেট করুন → ব্যাজ-এ গিয়ে এটি সমন্বয় করতে পারবেন"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "সিগন্যালকে মসৃণভাবে চলমান রাখতে এই সংস্করণে অনেকগুলি ছোটখাট পরিবর্তন রয়েছে এবং বাগ সংশোধন করা হয়েছে।",

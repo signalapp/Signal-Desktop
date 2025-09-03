@@ -6676,7 +6676,7 @@
     "messageformat": "Ordainagiriak"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Ikusi ordainagiriaren xehetasunak"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Emaileen galderak"
@@ -6790,7 +6790,7 @@
     "messageformat": "Berretsi beharreko dohaintza bat duzu abian."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Egin da dohaintza, baina ezin izan ditugu eguneratu bereizgarrien ezarpenak"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Dohaintza eten egin da"
@@ -6865,7 +6865,7 @@
     "messageformat": "Erakutsi profilean"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Aukera hau doitzeko, joan Ezarpenak → Egin dohaintza bat Signal-i → Bereizgarriak atalera telefono mugikorrean"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Bertsio honek hainbat doikuntza txiki eta akats konpontzen ditu Signal-ek ondo funtzionatzen jarraitzeko.",

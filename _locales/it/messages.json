@@ -6676,7 +6676,7 @@
     "messageformat": "Ricevute"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Visualizza i dettagli della ricevuta"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "FAQ sulle donazioni"
@@ -6790,7 +6790,7 @@
     "messageformat": "Hai una donazione in corso che devi confermare."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Donazione effettuata, ma non siamo riusciti ad aggiornare le impostazioni del tuo badge"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Donazione interrotta"
@@ -6859,13 +6859,13 @@
     "messageformat": "Grazie per il tuo supporto!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "Hai ricevuto un Badge Signal per la tua donazione! Mostralo sul tuo profilo per far vedere che anche tu supporti Signal."
+    "messageformat": "Hai ricevuto un Badge Signal per la tua donazione! Mostralo sul profilo per far vedere che anche tu supporti Signal."
   },
   "icu:Donations__badge-modal--display-on-profile": {
     "messageformat": "Mostra sul profilo"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Puoi modificare questa opzione dal tuo dispositivo mobile dalle Impostazioni → Dona a Signal → Badge"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Questa versione contiene una serie di piccole modifiche e correzioni di bug per far funzionare Signal senza problemi.",

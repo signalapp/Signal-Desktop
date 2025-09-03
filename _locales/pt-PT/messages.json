@@ -6676,7 +6676,7 @@
     "messageformat": "Recibos"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Ver detalhes do recibo"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Doador - FAQs"
@@ -6790,7 +6790,7 @@
     "messageformat": "Tem um donativo em curso que necessita de confirmação."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Donativo bem sucedido, mas não foi possível atualizar as suas definições de crachá"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Donativo interrompido"
@@ -6865,7 +6865,7 @@
     "messageformat": "Exibir no perfil"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Pode ajustar isto no seu dispositivo móvel em Definições → Doar ao Signal → Crachás"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Esta versão contém um número de pequenas funcionalidades e correções de erros de forma a manter o Signal a correr suavemente.",

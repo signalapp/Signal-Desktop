@@ -6676,7 +6676,7 @@
     "messageformat": "Rebuts"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Veure detalls del rebut"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Preguntes freqüents sobre donants"
@@ -6790,7 +6790,7 @@
     "messageformat": "Tens una donació en curs que necessita confirmació."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "La donació s'ha realitzat correctament, però no hem pogut actualitzar els ajustos de la teva insígnia"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Donació interrompuda"
@@ -6865,7 +6865,7 @@
     "messageformat": "Mostra-ho al perfil"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Pots configurar-ho al teu dispositiu mòbil a Ajustos → Fer donació a Signal → Insígnies"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Aquesta versió conté una sèrie de petites modificacions i correccions d'errors per tal que el Signal funcioni sense problemes.",

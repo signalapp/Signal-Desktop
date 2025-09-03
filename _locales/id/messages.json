@@ -6676,7 +6676,7 @@
     "messageformat": "Struk"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Lihat detail struk"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Pertanyaan Umum tentang Donatur"
@@ -6790,7 +6790,7 @@
     "messageformat": "Ada donasi yang sedang diproses dan memerlukan konfirmasi lebih lanjut."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Donasi berhasil, tetapi kami tidak dapat memperbarui pengaturan lencana Anda"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Proses donasi terganggu"
@@ -6856,16 +6856,16 @@
     "messageformat": "Batalkan donasi"
   },
   "icu:Donations__badge-modal--title": {
-    "messageformat": "Terima kasih untuk dukungan Anda!"
+    "messageformat": "Terima kasih atas dukungan Anda!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "Anda telah mendapatkan lencana donor dari Signal! Tampilkan di profil untuk menunjukkan dukungan Anda."
+    "messageformat": "Anda mendapatkan lencana donatur dari Signal! Tampilkan di profil untuk menunjukkan dukungan yang telah Anda berikan."
   },
   "icu:Donations__badge-modal--display-on-profile": {
     "messageformat": "Tampilkan di profil"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Anda dapat menyesuaikan ini di ponsel melalui Pengaturan → Donasi ke Signal → Lencana"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Versi ini mengandung sejumlah perubahan kecil dan perbaikan bug agar Signal tetap berjalan lancar.",

@@ -6676,7 +6676,7 @@
     "messageformat": "Fatura"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Shiko detajet e faturës"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Pyetje të dhuruesve"
@@ -6790,7 +6790,7 @@
     "messageformat": "Ke një dhurim në proces që kërkon konfirmim."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Dhurimi u krye me sukses, por nuk mundëm të përditësonim parametrat e distinktivit"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Dhurimi u ndërpre"
@@ -6865,7 +6865,7 @@
     "messageformat": "Shfaqe në Profil"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Mund ta rregullosh këtë te pajisja te Parametrat → Dhuro për Signal → Distinktivët"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ky version përmban një numër përimtimesh të vockla dhe ndreqje të metash për ta mbajtur të rrjedhshme punën e Signal-it.",

@@ -6676,7 +6676,7 @@
     "messageformat": "Підтвердження"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Переглянути інформацію в підтвердженні"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Відповіді на запитання про донати"
@@ -6790,7 +6790,7 @@
     "messageformat": "Ваш донат очікує на підтвердження."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Донат надіслано, але нам не вдалось оновити налаштування значка"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Донат перервано"
@@ -6865,7 +6865,7 @@
     "messageformat": "Показувати в профілі"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Змінити це можна на мобільному пристрої в налаштуваннях: Підтримати Signal → Значки"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ця версія містить ряд невеликих покращень і виправлень помилок для забезпечення безперебійної роботи Signal.",

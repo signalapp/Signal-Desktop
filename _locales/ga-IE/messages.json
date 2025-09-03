@@ -6676,7 +6676,7 @@
     "messageformat": "Admhálacha"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Féach ar shonraí na hadmhála"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "CCanna do Dheontóirí"
@@ -6790,7 +6790,7 @@
     "messageformat": "Tá tabhartas ar bun agat a éilíonn fíorú."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "D’éirigh leis an tabhartas, ach ní rabhamar in ann socruithe do shuaitheantais a nuashonrú"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Cuireadh isteach ar an tabhartas"
@@ -6862,10 +6862,10 @@
     "messageformat": "Tá suaitheantas deontóra tuillte agat ó Signal! Taispeáin ar do phróifíl é chun do thacaíocht a thaispeáint."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Display on Profile"
+    "messageformat": "Taispeáin ar do phróifíl"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Is féidir leat é sin a choigeartú ar do ghléas móibíleach faoi Socruithe → Tabhair Airgead do Signal → Suaitheantais"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Tá roinnt mionathruithe agus paistí ar fhabhtanna sa leagan seo chun Signal a choinneáil ag rith go réidh.",

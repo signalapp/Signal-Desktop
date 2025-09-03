@@ -6676,7 +6676,7 @@
     "messageformat": "Receipts"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Tingnan ang mga detalye ng resibo"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Donor FAQs"
@@ -6790,7 +6790,7 @@
     "messageformat": "Mayroon kang kasalukuyang donation na nangangailangan ng confirmation."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Pumasok ang donation, pero hindi namin ma-update ang iyong badge settings"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Naputol ang pag-donate"
@@ -6865,7 +6865,7 @@
     "messageformat": "I-display sa Profile"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Maaari mo itong ayusin sa iyong mobile device sa Settings → Mag-donate sa Signal → Badges"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ang version na ito'y may small tweaks at bug fixes to keep Signal running smoothly.",

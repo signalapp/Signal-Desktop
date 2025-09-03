@@ -6676,7 +6676,7 @@
     "messageformat": "Risiti"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Tazama maelezo ya risiti"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "FAQs za Wafadhili"
@@ -6790,7 +6790,7 @@
     "messageformat": "Una mchango ambao haujakamilika unaohitaji uthibitishaji."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Umefanikiwa kuchangia, lakini tumeshindwa kusasisha mipangilio ya beji yako"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Mchango umekatishwa"
@@ -6865,7 +6865,7 @@
     "messageformat": "Onyesha kwenye Wasifu"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Unaweza kurekebisha hili kwenye kifaa chako cha mkononi katika Mipangilio → Changia Signal → Beji"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Toleo hili lina mabadiliko kidogo na maboresho ya program kuiwezesha Signal kufanya kazi vizuri.",

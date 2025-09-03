@@ -6676,7 +6676,7 @@
     "messageformat": "पावत्या"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "पावतीचे तपशील पहा"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "देणगीदारांचे FAQs"
@@ -6790,7 +6790,7 @@
     "messageformat": "तुमची एक देणगीची प्रक्रिया पूर्ण व्हायची बाकी आहे, जिला निश्चिती देणे आवश्यक आहे."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "देणगी यशस्वी ठरली, पण आम्हाला तुमच्या बॅज सेटिंग्ज अद्ययावत करता आल्या नाहीत"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "देणगी प्रक्रियेत व्यत्यय आला"
@@ -6865,7 +6865,7 @@
     "messageformat": "प्रोफाइलवर दाखवा"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "तुम्ही तुमच्या मोबाईल डिव्हाईसवर सेटिंग्ज → Signalला देणगी द्या → बॅज मध्ये जाऊन त्या बदलू शकता"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal निर्विघ्नपणे चालत ठेवण्यासाठी या आवृत्तीत अनेक लहान समन्वय आणि त्रुटी दुरुस्त्या समाविष्ट आहेत",

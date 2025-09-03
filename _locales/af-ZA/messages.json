@@ -6676,7 +6676,7 @@
     "messageformat": "Kwitansies"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Bekyk besonderhede van kwitansie"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Gereelde vrae van skenkers"
@@ -6790,7 +6790,7 @@
     "messageformat": "Jy het 'n skenking wat in proses is en bykomende bevestiging benodig."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Skenking was suksesvol, maar ons kon nie jou wapeninstellings opdateer nie"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Skenking onderbreek"
@@ -6865,7 +6865,7 @@
     "messageformat": "Vertoon op profiel"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Jy kan dit op jou mobiele toestel aanpas onder Instellings → Skenk aan Signal → Wapens"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Hierdie weergawe bevat ’n aantal klein aanpassings en regstellings om Signal glad te laat werk.",

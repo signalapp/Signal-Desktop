@@ -6676,7 +6676,7 @@
     "messageformat": "Kviitungid"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Kuva kviitungi üksikasjad"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Annetaja KKK"
@@ -6790,7 +6790,7 @@
     "messageformat": "Sul on pooleli annetus, mis vajab kinnitust."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Annetamine õnnestus, aga me ei saanud sinu märgi sätteid uuendada"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Annetus on katkestatud"
@@ -6865,7 +6865,7 @@
     "messageformat": "Kuva profiilil"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Seda saad oma mobiilseadmes muuta menüüs Sätted → Anneta Signalile → Märgid"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "See versioon sisaldab paljusid väikseid parendusi, mis Signali sujuvalt käimas.",

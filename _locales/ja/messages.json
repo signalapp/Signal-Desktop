@@ -6676,7 +6676,7 @@
     "messageformat": "領収書"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "領収書の詳細を表示する"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "寄付についてのよくある質問"
@@ -6790,7 +6790,7 @@
     "messageformat": "確認が必要な寄付のお手続き中です。"
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "寄付は完了しましたが、バッジの設定をアップデートできませんでした"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "寄付が中断されました"
@@ -6865,7 +6865,7 @@
     "messageformat": "プロフィールに表示する"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "ご利用のモバイル端末の「設定」→「Signalへの寄付」→「バッジ」から、ご自身で変更ができます"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signalをスムーズに動作させるための微調整とバグ修正を行いました。",

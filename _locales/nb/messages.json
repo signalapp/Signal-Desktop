@@ -6676,7 +6676,7 @@
     "messageformat": "Kvitteringer"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Se kvitteringsdetaljer"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Vanlige spørsmål om pengegaver"
@@ -6790,7 +6790,7 @@
     "messageformat": "Du har en pengegave som krever bekreftelse."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Gaven ble gitt, men vi kunne ikke endre innstillingene dine for merker."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Pengegaven ble avbrutt"
@@ -6865,7 +6865,7 @@
     "messageformat": "Vis på profilen"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Du kan justere dette på mobilen din under Innstillinger → Gi penger til Signal → Merker"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Denne versjonen inneholder noen justeringer og feilrettinger som sikrer at Signal fungerer optimalt.",

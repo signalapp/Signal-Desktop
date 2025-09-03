@@ -6676,7 +6676,7 @@
     "messageformat": "Računi"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Oglejte si podrobnosti potrdila"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Pogosta vprašanja za podpornike"
@@ -6790,7 +6790,7 @@
     "messageformat": "V teku imate donacijo, ki zahteva potrditev."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Donacija je uspela, vendar nismo mogli posodobiti nastavitev vaše značke"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Donacija je prekinjena"
@@ -6859,13 +6859,13 @@
     "messageformat": "Hvala za vašo podporo!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "Prislužili ste si značko podpornika Signala! Prikažite jo na svojem profilu, da izrazite svojo podporo."
+    "messageformat": "Prislužili ste si značko podpornika Signala! Prikažite jo v svojem profilu, da izrazite svojo podporo."
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "Prikazuj na profilu"
+    "messageformat": "Prikaži v profilu"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "To lahko prilagodite v svoji mobilni napravi v razdelku Nastavitve → Podpri Signal → Značke"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ta različica vsebuje majhne spremembe in popravke, ki omogočajo, da Signal teče brez težav.",

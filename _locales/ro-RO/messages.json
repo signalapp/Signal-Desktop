@@ -6676,7 +6676,7 @@
     "messageformat": "Bonuri fiscale"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Vezi confirmările de citire"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Întrebări frecvente privind donatorii"
@@ -6790,7 +6790,7 @@
     "messageformat": "Ai o donație în curs de desfășurare care necesită confirmare."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Donația a reușit, dar nu am putut actualiza setările insignei tale"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Donație întreruptă"
@@ -6865,7 +6865,7 @@
     "messageformat": "Afișează la profil"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Poți ajusta acest lucru pe dispozitivul mobil în Setări → Donează către Signal → Insigne"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Această versiune conține o serie de mici modificări și remedieri ale unor erori pentru ca Signal să funcționeze fără probleme.",
