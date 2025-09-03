@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Pilih chat yang ingin Anda tampilkan di folder ini"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 chats"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Group chats"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Tambahkan chat"
   },
@@ -6672,11 +6678,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal tidak mengumpulkan atau menyimpan informasi pribadi saat Anda memberikan donasi.</paragraph><paragraph>Kami menggunakan Stripe sebagai pemroses pembayaran donasi Anda. Kami tidak mengakses, menahan, atau menyimpan informasi apa pun yang Anda berikan kepada mereka.</paragraph><paragraph>Signal tidak (dan tidak dapat) menghubungkan donasi Anda ke akun Signal Anda.</paragraph><paragraph>Terima kasih atas dukungan Anda!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Struk"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Lihat detail struk"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Pertanyaan Umum tentang Donatur"
@@ -6723,6 +6732,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Tanggal Kedaluwarsa"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Donasi {formattedCurrencyAmount} ke Signal"
   },
@@ -6744,8 +6756,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Dapatkan lencana Boost Signal selama 30 hari"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Jumlah minimal donasi yang dapat diberikan adalah {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Remove info"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Continue"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Struk donasi"
@@ -6790,7 +6817,7 @@
     "messageformat": "Ada donasi yang sedang diproses dan memerlukan konfirmasi lebih lanjut."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Donasi berhasil, tetapi kami tidak dapat memperbarui pengaturan lencana Anda"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Proses donasi terganggu"
@@ -6856,16 +6883,16 @@
     "messageformat": "Batalkan donasi"
   },
   "icu:Donations__badge-modal--title": {
-    "messageformat": "Terima kasih untuk dukungan Anda!"
+    "messageformat": "Terima kasih atas dukungan Anda!"
   },
   "icu:Donations__badge-modal--description": {
-    "messageformat": "Anda telah mendapatkan lencana donor dari Signal! Tampilkan di profil untuk menunjukkan dukungan Anda."
+    "messageformat": "Anda mendapatkan lencana donatur dari Signal! Tampilkan di profil untuk menunjukkan dukungan yang telah Anda berikan."
   },
   "icu:Donations__badge-modal--display-on-profile": {
     "messageformat": "Tampilkan di profil"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Anda dapat menyesuaikan ini di ponsel melalui Pengaturan → Donasi ke Signal → Lencana"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Versi ini mengandung sejumlah perubahan kecil dan perbaikan bug agar Signal tetap berjalan lancar.",
@@ -6895,9 +6922,6 @@
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Kami meningkatkan pengalaman fitur pesan telah dibaca/belum dibaca saat Anda melakukan beberapa hal sekaligus. Kami juga memperbaiki bug yang kadang salah membuka penampil gambar yang diperbesar ketika Anda menekan spasi saat mencari emoji yang tepat. Anda masih bisa memperbesar gambar dengan mengkliknya atau bila Anda mengetiknya cukup cepat."
-  },
   "icu:WhatsNew__v7.65--0": {
     "messageformat": "Menemukan emoji yang tepat bisa sangat sulit, kadang terjadi masalah setelah Anda menekan tombol escape di kotak pencarian. Tapi tenang, kami sudah memperbaiki bug ini."
   },
@@ -6906,5 +6930,8 @@
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "Kami memperbaiki bug yang membuat lencana donasi tidak ditampilkan dengan benar di sebagian profil pengguna. Signal adalah organisasi nirlaba di bawah klasifikasi 501(c)(3) IRS Amerika Serikat dan kami sangat menghargai dukungan Anda!"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
   }
 }

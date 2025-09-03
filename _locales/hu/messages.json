@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Válaszd ki azokat a csevegéseket, amelyeket meg szeretnél jeleníteni ebben a mappában."
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 chats"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Group chats"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Csevegések hozzáadása"
   },
@@ -6672,6 +6678,9 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>A Signal nem gyűjti és nem tárolja a személyes adataidat, amikor adományozol.</paragraph><paragraph>A Stripe-ot használjuk fizetésfeldolgozóként az adományok fogadására. Nem férünk hozzá, nem tárolunk és nem mentünk el semmilyen információt, amelyet megadsz számukra.</paragraph><paragraph>A Signal nem fogja és nem is tudja összekapcsolni az adományodat a Signal-fiókoddal.</paragraph><paragraph>Köszönjük a támogatásodat!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Nyugták"
   },
@@ -6723,6 +6732,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Lejárati idő"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Adományozz {formattedCurrencyAmount} összeget a Signalnak"
   },
@@ -6744,8 +6756,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Szerezd meg a Signal Boost-jelvényt 30 napra"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "A minimális adomány összege: {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Remove info"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Continue"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Adomány nyugta"
@@ -6895,9 +6922,6 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Javítottuk az üzenetek olvasott/olvasatlan állapotát multitasking közben."
-  },
   "icu:WhatsNew__v7.65--0": {
     "messageformat": "Kijavítottunk egy hibát az emoji keresőmezőben."
   },
@@ -6906,5 +6930,8 @@
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "Kijavítottunk egy hibát, amely miatt az adományozási jelvények egyes felhasználóknál nem jelentek meg helyesen."
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
   }
 }

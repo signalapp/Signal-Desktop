@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Choisissez les conversations à afficher dans ce dossier."
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 chats"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Group chats"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Ajouter des conversations"
   },
@@ -6672,11 +6678,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Lorsque vous faites un don à Signal, nous ne collectons, ni n'enregistrons aucune de vos informations personnelles.</paragraph><paragraph>Pour recevoir vos dons, nous utilisons le processeur de paiement Stripe. Nous n'avons pas accès aux informations que vous fournissez à Stripe, ne les stockons pas et ne les enregistrons pas.</paragraph><paragraph>De plus, Signal ne peut établir aucun lien entre votre don et votre compte Signal.</paragraph><paragraph>Merci pour votre soutien.</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Reçus"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Afficher le reçu du don"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "FAQ dédiée aux donateurs"
@@ -6723,6 +6732,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Date d'expiration"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Faire un don de {formattedCurrencyAmount} à Signal"
   },
@@ -6744,8 +6756,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Gagnez le macaron Coup de pouce pour 30 jours"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Le montant minimum des dons est de {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Remove info"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Continue"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Reçu de don"
@@ -6790,7 +6817,7 @@
     "messageformat": "Un don en cours de traitement nécessite une vérification."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Nous avons bien traité votre don, mais nous n'avons pas pu mettre à jour votre macaron."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Don suspendu"
@@ -6820,7 +6847,7 @@
     "messageformat": "Votre don n'a peut-être pas été traité. Pour consulter vos reçus et en avoir le cœur net, cliquez sur \"Faire un don à Signal\", puis sur \"Reçus de dons\"."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Réessayez ou envoyez un journal de débogage à l'assistance pour qu'on vous aide à finaliser votre don. Les journaux de débogage nous permettent de diagnostiquer et de résoudre des problèmes. Ils ne contiennent aucune donnée d'identification."
+    "messageformat": "Veuillez réessayer. Vous pouvez aussi envoyer un journal de débogage à l'assistance afin d'obtenir de l'aide. Les journaux de débogage nous permettent de diagnostiquer et de résoudre les problèmes. Ils ne contiennent aucune donnée d'identification."
   },
   "icu:Donations__Processing": {
     "messageformat": "Don en cours de traitement..."
@@ -6865,7 +6892,7 @@
     "messageformat": "Afficher sur mon profil"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Vous pouvez modifier ce réglage depuis votre appareil mobile sous Paramètres → Faire un don à Signal → Macarons."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Dans cette version, nous avons apporté quelques ajustements et corrigé de petits bugs. Pour que votre messagerie préférée continue de fonctionner comme sur des roulettes.",
@@ -6895,9 +6922,6 @@
     "messageformat": "Au menu de cette version : quelques ajustements de plus, quelques petits bugs en moins et des gains de performance. Merci d'utiliser Signal !",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Avant, lorsqu'on recherchait un émoji pour réagir à un message et qu'on avait la mauvaise idée d'appuyer sur la barre d'espace en même temps, Signal affichait la visionneuse d'images en plein écran. Dans la nouvelle version, la seule façon d'agrandir une image est aussi la plus simple : il vous suffit de cliquer dessus (qui l'eût cru ?). Autre amélioration : pour ceux et celles qui font toujours mille choses en même temps, distinguer les messages lus des messages non lus devient mille fois plus simple."
-  },
   "icu:WhatsNew__v7.65--0": {
     "messageformat": "Avant, quand on appuyait sur la touche Échap dans la barre de recherche d'émojis, cela pouvait générer une erreur. Mais ce bug n'a pas échappé à la règle : nos ingénieurs l'ont pulvérisé."
   },
@@ -6905,6 +6929,9 @@
     "messageformat": "Cette mise à jour éradique quelques bugs mineurs. L'un d'entre eux affichait parfois les émojis dans un joyeux désordre quand on voulait réagir à un message. On l'a remis à sa place. Et ça, ça mérite bien un émoji flamme."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "Un bug empêchait les macarons de dons de s'afficher correctement pour certains utilisateurs. Pas de chance pour lui, on a un don pour la correction de bugs. Signal est un organisme à but non lucratif. Merci pour votre soutien !"
+    "messageformat": "Lorsque vous faisiez un don à Signal, un bug empêchait parfois les macarons de s'afficher correctement. Pas de chance pour lui : on a un don pour corriger les bugs. Signal est un organisme à but non lucratif. Merci pour votre soutien !"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
   }
 }

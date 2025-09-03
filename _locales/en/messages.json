@@ -8908,7 +8908,7 @@
   },
   "icu:PreferencesDonations__ReceiptModal--title": {
     "messageformat": "Details",
-    "description": "Title of the donation receipt details modal"
+    "description": "(Deleted 2025/09/03) Title of the donation receipt details modal"
   },
   "icu:PreferencesDonations__ReceiptModal--download": {
     "messageformat": "Download receipt",
@@ -9204,10 +9204,6 @@
     "messageformat": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We improved the message read/unread experience while multitasking, and fixed a bug that sometimes incorrectly opened the expanded image viewer if you hit the space bar while searching for the perfect emoji reaction. You can still zoom if you click on the image, or if you type quickly enough.",
-    "description": "(Deleted 2025/07/30) Release notes for version 7.64"
   },
   "icu:WhatsNew__v7.65--0": {
     "messageformat": "Finding the right emoji can feel like an inescapable struggle, but we fixed a bug that could cause an error to occur after pressing the escape key in the emoji search box.",

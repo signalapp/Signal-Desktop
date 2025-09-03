@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Kies kletse wat jy in hierdie vouer wil laat verskyn"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 chats"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Group chats"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Voeg kletse by"
   },
@@ -6672,11 +6678,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal versamel of stoor geen van jou persoonlike inligting wanneer jy 'n skenking maak nie.</paragraph><paragraph>Ons gebruik Stripe as ons betalingsverwerker om jou skenkings te ontvang. Ons verkry nie toegang tot, bewaar of stoor enige van die inligting wat jy aan hulle verskaf nie.</paragraph><paragraph>Signal koppel nie jou skenking aan jou Signal-rekening nie, en kan dit ook nie doen nie.</paragraph><paragraph>Dankie vir jou ondersteuning!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Kwitansies"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Bekyk besonderhede van kwitansie"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Gereelde vrae van skenkers"
@@ -6723,6 +6732,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Vervaldatum"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Skenk {formattedCurrencyAmount} aan Signal"
   },
@@ -6744,8 +6756,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Kry die Signal-Hupstoot-wapen vir 30 dae"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Die minimum bedrag wat jy kan skenk is {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Remove info"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Continue"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Skenkingskwitansie"
@@ -6790,7 +6817,7 @@
     "messageformat": "Jy het 'n skenking wat in proses is en bykomende bevestiging benodig."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Skenking was suksesvol, maar ons kon nie jou wapeninstellings opdateer nie"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Skenking onderbreek"
@@ -6865,7 +6892,7 @@
     "messageformat": "Vertoon op profiel"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Jy kan dit op jou mobiele toestel aanpas onder Instellings → Skenk aan Signal → Wapens"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Hierdie weergawe bevat ’n aantal klein aanpassings en regstellings om Signal glad te laat werk.",
@@ -6895,9 +6922,6 @@
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Ons het die ervaring van boodskappe as gelees/ongelees merk terwyl jy veelvuldige take vervul, verbeter. Jy kan steeds zoem as jy op die beeld klik, of as jy vinnig genoeg tik."
-  },
   "icu:WhatsNew__v7.65--0": {
     "messageformat": "Ons het 'n fout in die emoji-soekblokkie reggestel."
   },
@@ -6906,5 +6930,8 @@
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "Ons het 'n fout reggestel wat verhinder het dat skenkingswapens vir sommige gebruikers korrek voorkom."
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
   }
 }

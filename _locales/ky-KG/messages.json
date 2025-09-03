@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Бул папкада көрүнө турган маектерди тандайсыз"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 chats"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Group chats"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Маектерди кошуу"
   },
@@ -6672,11 +6678,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Салым кошкондо, Signal сизге байланыштуу эч кандай жеке маалымат чогултпайт же сактабайт.</paragraph><paragraph>Салым түрүндөгү төлөмдөрүңүздү Stripe кызматы аркылуу алабыз. Аларга берген бир дагы маалыматыңызды албайбыз, сактабайбыз же жазып албайбыз.</paragraph><paragraph>Signal салымыңызды Signal аккаунтуңузга байланыштыра албайт жана байланыштырбайт.</paragraph><paragraph>Колдоо көрсөткөнүңүз үчүн чоң рахмат!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Дүмүрчөктөр"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Дүмүрчөктүн чоо-жайын карап көрүү"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Салым тууралуу КБС"
@@ -6723,6 +6732,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Качан бүтөт"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Signal'га {formattedCurrencyAmount} салым кошуу"
   },
@@ -6744,8 +6756,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "30 күн Signal Boost төшбелгисин колдонуңуз"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Кеминде {formattedCurrencyAmount} салым кошо аласыз"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Remove info"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Continue"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Колдоо дүмүрчөгү"
@@ -6790,7 +6817,7 @@
     "messageformat": "Ырастоону талап кылган салымыңыз ишке ашууда."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Салымыңыз кошулду, бирок төшбелгиңиздин параметрлерин өзгөртө алган жокпуз"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Салым үзгүлтүккө учурады"
@@ -6865,7 +6892,7 @@
     "messageformat": "Профильде көрсөтүү"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Аны мобилдик түзмөгүңүздө Параметрлер → Signal'га колдоо көрсөтүү → Төшбелгилер деген жерде тууралай аласыз"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Бул версия бир нече майда өзгөртүүлөрдү жана мүчүлүштүктөрдү оңдоолорду камтыйт.",
@@ -6895,9 +6922,6 @@
     "messageformat": "Майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, колдонмонун иштешин жакшыртып жатабыз. Signal'ды колдонгонуңуз үчүн чоң рахмат!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Бир нече колдонмо ачылып турганда, окулган/окула элек билдирүүлөрдүн көрүнүшүн жакшыртып, сезимиңизди билдирүү үчүн быйтыкча издеп жатканда кокус боштукту басып алып, быйтыкча толук көрүнгөн мүчүлүштүктү оңдоп койдук. Азыр деле быйтыкчаны басып, чоңойтуп көрө аласыз же терип деле көрсөңүз болот."
-  },
   "icu:WhatsNew__v7.65--0": {
     "messageformat": "Кээде керектүү быйтыкчаны таба албай калабыз. Издөө сабында Esc баскычын басканда ката деп чыккан билдирүүнү оңдоп койдук."
   },
@@ -6906,5 +6930,8 @@
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "Айрым колдонуучулар үчүн кайрымдуулук бейжиктери туура эмес көрүнүп жаткан мүчүлүштүктү оңдодук. Signal - АКШнын Салык кодексинин 501c3-бөлүмүнө ылайык иштеген коммерциялык эмес уюм. Колдооңуз үчүн терең ыраазычылык!"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
   }
 }

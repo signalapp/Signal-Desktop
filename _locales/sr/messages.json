@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Изаберите ћаскања која желите да се појаве у овом фолдеру"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 chats"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Group chats"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Додај ћаскања"
   },
@@ -6672,11 +6678,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal не прикупља, нити чува, ваше податке о личности када донирате.</paragraph><paragraph>Користимо Stripe као обрађивача плаћања за примање ваших донација. Не приступамо ниједној од информација које им пружите, нити их складиштимо или чувамо.</paragraph><paragraph>Signal не повезује, нити може да повеже, вашу донацију са вашим налогом на Signal-у.</paragraph><paragraph>Хвала вам на подршци!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Признанице"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Прикажи детаље признанице"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Честа питања донатора"
@@ -6723,6 +6732,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Датум истека"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Донирајте {formattedCurrencyAmount} Signal-у"
   },
@@ -6744,8 +6756,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Набавите значку подршке за Signal која траје 30 дана"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Минимални износ који можете да донирате је {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Remove info"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Continue"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Потврда о донацији"
@@ -6790,7 +6817,7 @@
     "messageformat": "Имате донацију у току за коју је потребна потврда."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Донација је успела, али нисмо успели да ажурирамо подешавања значке"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Донација је прекинута"
@@ -6865,7 +6892,7 @@
     "messageformat": "Прикажи на профилу"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "То можете подесити на свом мобилном уређају тако што ћете отићи у Подешавања → Донирајте за Signal → Значке"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ова верзија садржи низ мањих подешавања и исправки грешака како би Signal радио несметано.",
@@ -6895,9 +6922,6 @@
     "messageformat": "Обавили смо мања фина прилагођавања, исправке грешака и побољшања перформанси. Хвала што користите Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Побољшали смо искуство означавања порука прочитаним/непрочитаним када радите више ствари у исто време."
-  },
   "icu:WhatsNew__v7.65--0": {
     "messageformat": "Исправили смо грешку у пољу за претрагу емоџија."
   },
@@ -6906,5 +6930,8 @@
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "Исправили смо грешку која је спречавала правилно појављивање значки за донације код неких корисника. Signal је 501c3 непрофитна организација, и ценимо вашу подршку!"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
   }
 }

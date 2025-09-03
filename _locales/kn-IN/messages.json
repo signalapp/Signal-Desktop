@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "ಈ ಫೋಲ್ಡರ್‌ನಲ್ಲಿ ಕಾಣಿಸಲಿ ಎಂದು ನೀವು ಬಯಸುವ ಬಯಸುವ ಚಾಟ್‌ಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಿ"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 chats"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Group chats"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "ಚಾಟ್ ಗಳನ್ನು ಸೇರಿಸಿ"
   },
@@ -6672,11 +6678,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>ನೀವು ದೇಣಿಗೆ ನೀಡುವಾಗ Signal ನಿಮ್ಮ ಯಾವುದೇ ವೈಯಕ್ತಿಕ ಮಾಹಿತಿಯನ್ನು ಸಂಗ್ರಹಿಸುವುದಿಲ್ಲ ಅಥವಾ ಸ್ಟೋರ್ ಮಾಡುವುದಿಲ್ಲ.</paragraph><paragraph>ನಿಮ್ಮ ದೇಣಿಗೆಗಳನ್ನು ಸ್ವೀಕರಿಸಲು ನಾವು Stripe ಅನ್ನು ನಮ್ಮ ಪಾವತಿ ಪ್ರೊಸೆಸರ್ ಆಗಿ ಬಳಸುತ್ತೇವೆ. ನೀವು ಅವರಿಗೆ ಒದಗಿಸುವ ಯಾವುದೇ ಮಾಹಿತಿಯನ್ನು ನಾವು ಆ್ಯಕ್ಸೆಸ್ ಮಾಡುವುದಿಲ್ಲ, ಸಂಗ್ರಹಿಸುವುದಿಲ್ಲ ಅಥವಾ ಉಳಿಸುವುದಿಲ್ಲ.</paragraph><paragraph>Signal ನಿಮ್ಮ ದೇಣಿಗೆಯನ್ನು ನಿಮ್ಮ Signal ಖಾತೆಗೆ ಕನೆಕ್ಟ್ ಮಾಡುವುದಿಲ್ಲ ಮತ್ತು ಕನೆಕ್ಟ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ.</paragraph><paragraph>ನಿಮ್ಮ ಬೆಂಬಲಕ್ಕೆ ಧನ್ಯವಾದಗಳು!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "ಸ್ವೀಕೃತಿಗಳು"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "ರಸೀದಿ ವಿವರಗಳನ್ನು ವೀಕ್ಷಿಸಿ"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "ದೇಣಿಗೆದಾರರ FAQ ಗಳು"
@@ -6723,6 +6732,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "ಮುಕ್ತಾಯ ದಿನಾಂಕ"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Signal ಗೆ {formattedCurrencyAmount} ದೇಣಿಗೆ ನೀಡಿ"
   },
@@ -6744,8 +6756,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "30 ದಿನಗಳ Signal ಬೂಸ್ಟ್ ಬ್ಯಾಡ್ಜ್ ಪಡೆಯಿರಿ"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "ನೀವು ದೇಣಿಗೆ ನೀಡಬಹುದಾದ ಕನಿಷ್ಠ ಮೊತ್ತ {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Remove info"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Continue"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "ದೇಣಿಗೆ ರಸೀದಿ"
@@ -6790,7 +6817,7 @@
     "messageformat": "ನಿಮ್ಮಲ್ಲಿ ದೃಢೀಕರಣ ಅಗತ್ಯವಿರುವ ದೇಣಿಗೆ ಪ್ರಕ್ರಿಯೆಯಲ್ಲಿದೆ."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "ದೇಣಿಗೆ ಯಶಸ್ವಿಯಾಗಿದೆ, ಆದರೆ ನಿಮ್ಮ ಬ್ಯಾಡ್ಜ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡಲು ನಮಗೆ ಸಾಧ್ಯವಾಗಲಿಲ್ಲ"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "ದೇಣಿಗೆಗೆ ಅಡಚಣೆ ಉಂಟಾಗಿದೆ"
@@ -6865,7 +6892,7 @@
     "messageformat": "ಪ್ರೊಫೈಲ್‌ನಲ್ಲಿ ಪ್ರದರ್ಶಿಸಿ"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "ನೀವು ಇದನ್ನು ನಿಮ್ಮ ಮೊಬೈಲ್ ಸಾಧನದಲ್ಲಿ ಸೆಟ್ಟಿಂಗ್‍ಗಳು → Signal ಗೆ ದೇಣಿಗೆ ನೀಡುವುದು → ಬ್ಯಾಡ್ಜ್‌ಗಳು ಎಂಬುದರ ಅಡಿಯಲ್ಲಿ ಹೊಂದಿಸಬಹುದು"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": " Signal ಅನ್ನು ಸರಾಗವಾಗಿ ಚಾಲ್ತಿಯಲ್ಲಿಡಲು ಈ ಆವೃತ್ತಿಯು ಸಾಕಷ್ಟು ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳನ್ನು ಹೊಂದಿದೆ ಮತ್ತು ಬಗ್ ಫಿಕ್ಸ್‌ಗಳನ್ನು ಹೊಂದಿದೆ.",
@@ -6895,9 +6922,6 @@
     "messageformat": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "ಮಲ್ಟಿಟಾಸ್ಕಿಂಗ್ ಮಾಡುವಾಗ ಮೆಸೇಜ್ ಓದಲಾಗಿದೆ/ಓದಲಾಗಿಲ್ಲದ ಅನುಭವವನ್ನು ನಾವು ಸುಧಾರಿಸಿದ್ದೇವೆ ಮತ್ತು ಸೂಕ್ತ ಎಮೋಜಿ ಪ್ರತಿಕ್ರಿಯೆಯನ್ನು ಹುಡುಕುತ್ತಿರುವಾಗ ಸ್ಪೇಸ್ ಬಾರ್ ಅನ್ನು ಒತ್ತಿದರೆ ವಿಸ್ತೃತ ಇಮೇಜ್ ವೀಕ್ಷಕವನ್ನು ಕೆಲವೊಮ್ಮೆ ತಪ್ಪಾಗಿ ತೆರೆಯುವ ಬಗ್ ಅನ್ನು ಸರಿಪಡಿಸಿದ್ದೇವೆ. ನೀವು ಚಿತ್ರದ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿದರೆ ಅಥವಾ ನೀವು ಸಾಕಷ್ಟು ವೇಗವಾಗಿ ಟೈಪ್ ಮಾಡಿದರೆ ನೀವು ಇನ್ನೂ ಜೂಮ್ ಮಾಡಬಹುದು."
-  },
   "icu:WhatsNew__v7.65--0": {
     "messageformat": "ಸರಿಯಾದ ಎಮೋಜಿಯನ್ನು ಕಂಡುಹಿಡಿಯುವುದು ಅನಿವಾರ್ಯ ಹೋರಾಟದಂತೆ ಭಾಸವಾಗಬಹುದು, ಆದರೆ ಎಮೋಜಿ ಸರ್ಚ್ ಬಾಕ್ಸ್‌ನಲ್ಲಿ ಎಸ್ಕೇಪ್ ಕೀಯನ್ನು ಒತ್ತಿದ ನಂತರ ದೋಷ ಉಂಟುಮಾಡಬಹುದಾದ ಬಗ್ ಅನ್ನು ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ."
   },
@@ -6906,5 +6930,8 @@
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "ಕೆಲವು ಬಳಕೆದಾರರಿಗೆ ದೇಣಿಗೆ ಬ್ಯಾಡ್ಜ್‌ಗಳು ಸರಿಯಾಗಿ ಗೋಚರಿಸದಂತೆ ತಡೆಯುತ್ತಿದ್ದ ಬಗ್ ಅನ್ನು ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ. Signal 501c3 ಲಾಭರಹಿತ ಸಂಸ್ಥೆಯಾಗಿದ್ದು, ನಿಮ್ಮ ಬೆಂಬಲಕ್ಕೆ ನಾವು ಕೃತಜ್ಞರಾಗಿರುತ್ತೇವೆ!"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
   }
 }

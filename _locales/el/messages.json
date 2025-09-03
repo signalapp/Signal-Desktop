@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Επίλεξε τις συνομιλίες που θέλεις να εμφανίζονται σε αυτόν τον φάκελο"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 chats"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Group chats"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Προσθήκη συνομιλιών"
   },
@@ -6672,11 +6678,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Το Signal δεν συλλέγει ούτε αποθηκεύει τα προσωπικά στοιχεία σου όταν κάνεις δωρεά.</paragraph><paragraph>Χρησιμοποιούμε τη Stripe για την επεξεργασία πληρωμών, ώστε να λαμβάνουμε τις δωρεές μας. Δεν επεξεργαζόμαστε ούτε αποθηκεύουμε κανένα από τα στοιχεία που της παρέχεις.</paragraph><paragraph>Το Signal δεν μπορεί να συνδέσει τη δωρεά με τον λογαριασμό σου στο Signal.</paragraph><paragraph>Ευχαριστούμε για την υποστήριξή σου!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Αποδείξεις"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Προβολή λεπτομερειών παραλήπτη"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Συχνές ερωτήσεις για δωρεές"
@@ -6723,6 +6732,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Ημερομηνία λήξης"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Κάνε μια δωρεά {formattedCurrencyAmount} στο Signal"
   },
@@ -6744,8 +6756,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Πάρε το σήμα Signal Boost για 30 ημέρες"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Το ελάχιστο ποσό που μπορείς να κάνεις δωρεά είναι {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Remove info"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Continue"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Απόδειξη δωρεάς"
@@ -6790,7 +6817,7 @@
     "messageformat": "Έχεις μια δωρεά σε εξέλιξη που χρειάζεται επιβεβαιώση."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Η δωρεά ήταν επιτυχής, αλλά δεν μπορέσαμε να ενημερώσουμε τις ρυθμίσεις του σήματος σου"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Η δωρεά διακόπηκε"
@@ -6865,7 +6892,7 @@
     "messageformat": "Εμφάνιση στο προφίλ"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Μπορείτε να το προσαρμόσεις στο κινητό σου στις Ρυθμίσεις → Δωρεά στο Signal → Σήματα"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Αυτή η έκδοση περιλαμβάνει διάφορες μικρές βελτιώσεις και αποσφαλματώσεις για να συνεχίσει το Signal να λειτουργεί ομαλά.",
@@ -6895,9 +6922,6 @@
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Βελτιώσαμε την εμπειρία αναγνωσμένων/μη αναγνωσμένων μηνυμάτων κατά το multitasking."
-  },
   "icu:WhatsNew__v7.65--0": {
     "messageformat": "Διορθώσαμε ένα σφάλμα στο πλαίσιο αναζήτησης emoji."
   },
@@ -6906,5 +6930,8 @@
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "Διορθώσαμε ένα σφάλμα που εμπόδιζε τη σωστή εμφάνιση των σημάτων δωρεάς για ορισμένους χρήστες. Το Signal είναι ένας μη κερδοσκοπικός οργανισμός 501c3 και εκτιμούμε την υποστήριξή σου!"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
   }
 }

@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "เลือกแชทที่คุณต้องการให้ปรากฏในโฟลเดอร์นี้"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 chats"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Group chats"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "เพิ่มแชท"
   },
@@ -6672,11 +6678,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>เมื่อคุณบริจาคเงิน Signal ไม่ได้รวบรวมหรือจัดเก็บข้อมูลส่วนบุคคลใดๆ ของคุณ</paragraph><paragraph>เราใช้ Stripe เป็นผู้ให้บริการการชำระเงินในการรับเงินบริจาคของคุณโดยเราจะไม่เข้าถึง จัดเก็บ หรือบันทึกข้อมูลใดๆ ที่คุณกรอกระหว่างทำธุรกรรม</paragraph><paragraph>Signal จะไม่เชื่อมโยงการบริจาคของคุณเข้ากับบัญชี Signal ของคุณ (และนี่เป็นสิ่งที่เราไม่สามารถทำได้อีกด้วย)</paragraph><paragraph>ขอบคุณสำหรับการสนับสนุนของคุณ!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "ใบเสร็จ"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "ดูรายละเอียดของใบเสร็จ"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "คำถามที่พบบ่อยสำหรับผู้บริจาค"
@@ -6723,6 +6732,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "วันหมดอายุ"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "บริจาค {formattedCurrencyAmount} ให้ Signal"
   },
@@ -6744,8 +6756,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "รับโล่บูสต์ของ Signal เป็นเวลา 30 วัน"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "ยอดขั้นต่ำที่บริจาคได้คือ {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Remove info"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Continue"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "ใบเสร็จรับเงินบริจาค"
@@ -6790,7 +6817,7 @@
     "messageformat": "คุณมีการบริจาคที่ยังรอการยืนยันตัวตน"
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "การบริจาคสำเร็จแล้ว แต่เราไม่สามารถอัปเดตการตั้งค่าโล่ของคุณได้"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "การบริจาคยังไม่เสร็จสมบูรณ์"
@@ -6865,7 +6892,7 @@
     "messageformat": "แสดงบนโปรไฟล์"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "คุณสามารถปรับแต่งข้อมูลนี้ได้บนมือถือ โดยไปที่การตั้งค่า → บริจาคให้ Signal → โล่"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "รุ่นนี้มาพร้อมการปรับเปลี่ยนเล็กๆ น้อยๆ และการแก้ไขบั๊กต่างๆ เพื่อให้ Signal ทำงานได้อย่างราบรื่นไร้ปัญหา",
@@ -6895,9 +6922,6 @@
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "ปรับปรุงความสะดวกในการใช้งานคุณสมบัติข้อความที่อ่านแล้ว/ยังไม่ได้อ่านให้ดียิ่งขึ้น โดยเฉพาะเมื่อคุณใช้คอมพิวเตอร์ทำหลายๆ อย่างไปพร้อมกัน"
-  },
   "icu:WhatsNew__v7.65--0": {
     "messageformat": "แก้ไขบั๊กที่อยู่ในช่องค้นหาอีโมจิ"
   },
@@ -6906,5 +6930,8 @@
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "แก้ไขบั๊กที่ทำให้ผู้ใช้บางคนประสบปัญหาในการแสดงโล่บริจาค"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
   }
 }

@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "तुम्हाला या फोल्डरमध्ये कोणती चॅट्स पाहायची आहेत ते निवडा"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 chats"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Group chats"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "चॅट्स समाविष्ट करा"
   },
@@ -6672,11 +6678,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>तुम्ही जेव्हा देणगी देता तेव्हा Signal तुमची कोणतीही वैयक्तिक माहिती संग्रहित किंवा संकलित करत नाही.</paragraph> <paragraph>तुमच्या देणग्या प्राप्त करण्यासाठी आम्ही आमचा पेमेंट्स प्रोसेसर म्हणून स्ट्राईपचा वापर करतो. तुम्ही त्यांना प्रदान करत असलेली कोणतीही माहिती आम्ही मिळवत नाही, किंवा ती संग्रहित किंवा जतन करत नाही.</paragraph> <paragraph>Signal तुमच्या देणग्या तुमच्या Signal खात्याशी जोडत नाही आणि जोडू शकत नाही.</paragraph><paragraph>तुमच्या सपोर्टबद्दल धन्यवाद!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "पावत्या"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "पावतीचे तपशील पहा"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "देणगीदारांचे FAQs"
@@ -6723,6 +6732,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "कालबाह्यता दिनांक"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Signal {formattedCurrencyAmount} ला देणगी द्या"
   },
@@ -6744,8 +6756,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Signal बूस्ट बॅज 30 दिवसांकरिता मिळवा"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "आपण देणगी देऊ शकता अशी किमान रक्कम {formattedCurrencyAmount} आहे"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Remove info"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Continue"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "देणगीची पावती"
@@ -6790,7 +6817,7 @@
     "messageformat": "तुमची एक देणगीची प्रक्रिया पूर्ण व्हायची बाकी आहे, जिला निश्चिती देणे आवश्यक आहे."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "देणगी यशस्वी ठरली, पण आम्हाला तुमच्या बॅज सेटिंग्ज अद्ययावत करता आल्या नाहीत"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "देणगी प्रक्रियेत व्यत्यय आला"
@@ -6865,7 +6892,7 @@
     "messageformat": "प्रोफाइलवर दाखवा"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "तुम्ही तुमच्या मोबाईल डिव्हाईसवर सेटिंग्ज → Signalला देणगी द्या → बॅज मध्ये जाऊन त्या बदलू शकता"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal निर्विघ्नपणे चालत ठेवण्यासाठी या आवृत्तीत अनेक लहान समन्वय आणि त्रुटी दुरुस्त्या समाविष्ट आहेत",
@@ -6895,9 +6922,6 @@
     "messageformat": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "आम्ही मल्टिटास्किंग करताना संदेश वाचण्याचा / न वाचण्याचा अनुभव सुधारला आहे, आणि चपखल बसणारी इमोजी प्रतिक्रिया शोधताना तुम्ही स्पेस बार दाबल्यावर कधीकधी मोठा इमेज दर्शक चुकून उघडणारा बग दुरुस्त केला. तुम्ही इमेजवर क्लिक केल्यास किंवा तुम्ही पटकन टाईप केल्यास तुम्ही अजूनही झूम करू शकता."
-  },
   "icu:WhatsNew__v7.65--0": {
     "messageformat": "योग्य इमोजी शोधत बसायला अनंत काळ लागू शकतो, पण आता आम्ही एक बग दुरुस्त केला, ज्यामुळे इमोजी शोध रकान्यामध्ये असताना एस्केप की दाबल्यावर एक त्रुटी उद्भवत होती."
   },
@@ -6906,5 +6930,8 @@
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "आम्ही एक बग दुरुस्त केला ज्यामुळे काही वापरकर्ताचे देणगी बॅज नीट दिसत नव्हते. Signal एक 501c3 ना-नफा संस्था आहे, आणि आपल्या सपोर्टसाठी आम्ही कृतज्ञ आहोत!"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
   }
 }

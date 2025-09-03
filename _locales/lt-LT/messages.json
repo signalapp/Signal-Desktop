@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Pasirinkite pokalbius, kuriuos norite rodyti šiame aplanke."
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 chats"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Group chats"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Pridėti pokalbių"
   },
@@ -6672,11 +6678,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>„Signal“ nerenka ir nesaugo jokios jūsų asmeninės informacijos, kai skiriate paramą.</paragraph><paragraph>Jūsų paramai gauti kaip mokėjimų tvarkytoją naudojame „Stripe“. Mes nepasiekiame, nelaikome ir neišsaugome jokios jūsų jiems pateiktos informacijos.</paragraph><paragraph>„Signal“ nesusieja ir negali susieti jūsų paramos su jūsų „Signal“ paskyra.</paragraph><paragraph>Dėkojame už jūsų paramą!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Kvitai"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Žiūrėti informaciją apie kvitą"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Rėmėjų DUK"
@@ -6723,6 +6732,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Galiojimo data"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Skirti „Signal“ {formattedCurrencyAmount} paramą"
   },
@@ -6744,8 +6756,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Gaukite „Signal“ rėmėjo ženklelį 30 dienų"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Mažiausia paramos suma, kurią gali skirti: {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Remove info"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Continue"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Paramos kvitas"
@@ -6790,7 +6817,7 @@
     "messageformat": "Jūsų parama yra apdorojama ir ją reikia patvirtinti."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Parama suteikta sėkmingai, tačiau nepavyko atnaujinti jūsų ženklelio nustatymų"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Paramos skyrimas nutrauktas"
@@ -6865,7 +6892,7 @@
     "messageformat": "Rodyti profilyje"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Tai galite koreguoti savo mobiliajame įrenginyje, pasirinkę „Nustatymai“ → „Paremti „Signal“ → „Ženkleliai“"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Šioje versijoje yra daug smulkių patobulinimų ir klaidų ištaisymų, kurie padės Signal sklandžiai veikti.",
@@ -6895,9 +6922,6 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Patobulinome perskaitytų ir neperskaitytų žinučių patirtį atliekant kelias užduotis vienu metu."
-  },
   "icu:WhatsNew__v7.65--0": {
     "messageformat": "Ištaisėme jaustukų paieškos laukelio klaidą."
   },
@@ -6906,5 +6930,8 @@
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "Ištaisėme klaidą, dėl kurios kai kuriems naudotojams paramos ženkleliai nebuvo rodomi teisingai."
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
   }
 }

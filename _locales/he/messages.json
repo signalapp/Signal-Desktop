@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "יש לבחור צ׳אטים שברצונך לכלול בתיקיה הזו"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 chats"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Group chats"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "הוספת צ׳אטים"
   },
@@ -6672,11 +6678,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal לא אוספת או מאחסנת את המידע האישי שלך בעת ביצוע תרומה.</paragraph><paragraph>אנחנו משתמשים ב–Stripe בתור מעבד התשלומים שלנו כדי לקבל את התרומות שלך. אנחנו לא ניגשים לשום מידע שהם מקבלים ממך ולא מאחסנים או שומרים אותו.</paragraph><paragraph>Signal אינה מקשרת את התרומה שלך לחשבון Signal שלך ואין לה אפשרות לעשות זאת.</paragraph><paragraph>תודה על התמיכה שלך!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "קבלות"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "הצגת פרטי קבלה"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "שאלות נפוצות של תורמים"
@@ -6723,6 +6732,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "תאריך תפוגה"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "תרומה של {formattedCurrencyAmount} ל–Signal"
   },
@@ -6744,8 +6756,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "קבלת תג Signal Boost למשך 30 יום"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "הסכום המינימלי שאפשר לתרום הוא {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Remove info"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Continue"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "קבלה על תרומה"
@@ -6790,7 +6817,7 @@
     "messageformat": "יש לך תרומה בתהליך הממתינה לאישור."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "התרומה בוצעה בהצלחה, אבל לא הצלחנו לעדכן את הגדרות התג שלך"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "התרומה הופסקה"
@@ -6865,7 +6892,7 @@
     "messageformat": "הצג בפרופיל"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "אפשר לשנות את זה במכשיר הנייד שלך תחת הגדרות > תרומה ל–Signal > תגים"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "גרסה זו מכילה מספר של שפצורים קטנים ותיקוני תקלים כדי לשמור על Signal שירוץ באופן חלק.",
@@ -6895,9 +6922,6 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "שיפרנו את חוויית התצוגה של הודעות שנקראו/שלא נקראו בזמן ריבוי משימות."
-  },
   "icu:WhatsNew__v7.65--0": {
     "messageformat": "מציאת האימוג'י הנכון יכולה להרגיש כמו מאבק בלתי נגמר, אבל תיקנו באג שגרם לשגיאה להתרחש לאחר לחיצה על מקש Escape בתיבת החיפוש של האימוג'י."
   },
@@ -6906,5 +6930,8 @@
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "תיקנו באג שמנע מתגי התרומה להופיע כראוי אצל חלק מהמשתמשים. Signal היא עמותה ללא מטרות רווח, ואנחנו מעריכים מאוד את התמיכה שלך!"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
   }
 }

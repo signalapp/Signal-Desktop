@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Bu qovluqda görünməsini istədiyiniz çatları seçin"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 chats"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Group chats"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Çatlar əlavə et"
   },
@@ -6672,11 +6678,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>İanə etdiyiniz zaman Signal şəxsi məlumatlarınızı toplamır və saxlamır.</paragraph><paragraph>Biz ianələrinizi qəbul etmək üçün ödəniş prosessorumuz kimi Stripe-dan istifadə edirik. Ona göndərdiyiniz hər hansı məlumatı əldə etmir, saxlamır və ya yaddaşa vermirik.</paragraph><paragraph>Signal etdiyiniz ianəni Signal hesabınızla əlaqələndirmir və bunu edə bilməz.</paragraph><paragraph>Dəstəyiniz üçün təşəkkür edirik!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Qəbzlər"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Baxış bildirişlərini aç"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "İanə verənlər üçün TSS-lər"
@@ -6723,6 +6732,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Bitmə tarixi"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Signal-a {formattedCurrencyAmount} ianə verin"
   },
@@ -6744,8 +6756,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "30 günlük Signal Boost nişanı alın"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "İanə verə biləcəyiniz minimal məbləğ {formattedCurrencyAmount} dəyərindədir."
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Remove info"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Continue"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "İanə qəbzi"
@@ -6790,7 +6817,7 @@
     "messageformat": "Təsdiq tələbi gözləyən və davam edən ianəniz var."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "İanə baş tutdu, lakin nişan parametlərinizi yeniləyə bilmədik"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "İanə kəsildi"
@@ -6865,7 +6892,7 @@
     "messageformat": "Profildə görüntülə"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Bu parametri mobil cihazınızda Parametrlər → Signal-a ianə ver → Nişanlar bölməsinə keçərək tənzimləyə bilərsiniz"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Bu versiya, Signal-ın problemsiz işləməsini təmin etmək üçün kiçik düzəltmələr və xəta düzəltmələri ehtiva edir.",
@@ -6895,9 +6922,6 @@
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Çoxyönlü tapşırıqlarda oxunmuş/oxunmamış mesaj təcrübəsini təkmilləşdirdik və mükəmməl emoji reaksiyasını axtararkən boşluq düyməsini basdığınız zaman bəzi hallarda böyüdülmüş şəkil izləyicisini xətalı açan nasazlığı düzəltdik. Şəklin üzərinə kliklədiyiniz zaman və ya kifayət qədər sürətli yazsanız görüntünü böyüdə bilərsiniz."
-  },
   "icu:WhatsNew__v7.65--0": {
     "messageformat": "Düzgün emojinizi tapmaq bəzən çıxılmaz bir məsələyə çevrilə bilər, ancaq biz emoji axtarış qutusunda çıxış düyməsinə basdıqdan sonra baş verən nasazlığı aradan qaldırdıq."
   },
@@ -6906,5 +6930,8 @@
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "Bəzi istifadəçilərin ianə nişanlarını düzgün şəkildə görmələrinə mane olan bir nasazlığı aradan qaldırdıq. Signal 501c3 qeyri-kommersiya təşkilatıdır və dəstəyinizə görə minnətdarıq!"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
   }
 }

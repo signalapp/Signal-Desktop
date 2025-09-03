@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Осы қалтада көрсетілетін чаттарды таңдаңыз"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 chats"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Group chats"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Чаттарды қосу"
   },
@@ -6672,11 +6678,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Сіз демеушілік жасағанда, Signal сіздің ешқандай жеке ақпаратыңызды жинамайды немесе сақтамайды.</paragraph><paragraph>Демеу мақсатында жіберген қаражатыңызды қабылдау үшін Stripe төлем операторын қолданамыз. Оларға берген ақпаратыңыздың ешқайсысын пайдаланбаймыз немесе сақтамаймыз.</paragraph><paragraph>Signal сіздің демеушілігіңізді Signal аккаунтыңызбен байланыстырмайды.</paragraph><paragraph>Қолдау көрсеткеніңіз үшін рақмет!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Чектер"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Түбіртек мәліметтерін көру"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Donor туралы сұрақ-жауап"
@@ -6723,6 +6732,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Жарамдылық мерзімі"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Signal-ға {formattedCurrencyAmount} аудару"
   },
@@ -6744,8 +6756,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "30 күнге Signal Boost танымбелгісін алыңыз"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Демеушілік жасағанда, беруге болатын минималды сома – {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Remove info"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Continue"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Демеушілік чегі"
@@ -6790,7 +6817,7 @@
     "messageformat": "Демеу үшін жіберіліп жатқан қаражатыңызды растау қажет."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Қайырымдылыққа арналған қаражат жіберілгенмен, танымбелгі параметрлеріңізді жаңарта алмадық"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Демеушілік үзілді"
@@ -6865,7 +6892,7 @@
     "messageformat": "Профильде көрсету"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Оны мобильдік құрылғыңыздағы «Параметрлер → Signal-ды демеу → Танымбелгілер» тармағынан реттей аласыз"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Бұл нұсқада Signal-дың еш кінәратсыз жұмыс істеуіне қажетті бірнеше шағын түзетпе жасалды және ақаулар түзетілді.",
@@ -6895,9 +6922,6 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Басқа тапсырмаларды орындап отырып, хабарды оқылған/оқылмаған деп белгілеу функциясын жақсарттық. Сондай-ақ көңіл-күйіңізге сай эмоджи реакциясын іздеп жатып, бос орын пернесін басқан кезде, кеңейтілген суретті көру құралын дұрыс ашуға кедергі келтіретін ақауды түзеттік. Суретті бассаңыз немесе жылдам жазсаңыз, масштаб өзгертіле береді."
-  },
   "icu:WhatsNew__v7.65--0": {
     "messageformat": "Қажетті эмоджиді табу кейде қиынға соғып жататындықтан, біз эмоджиді іздеу өрісінде Escape пернесін басқан соң пайда болатын ақауды түзеттік."
   },
@@ -6906,5 +6930,8 @@
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "Кейбір пайдаланушылардың демеушілік танымбелгісінің дұрыс көрсетілуіне кедергі келтіретін ақауды түзеттік. Signal – коммерциялық емес ұйым болғандықтан, қолдау көрсеткеніңіз үшін алғысымыз шексіз!"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
   }
 }

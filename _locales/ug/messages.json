@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "بۇ ھۆججەت قىسقۇچقا كۆرۈشنى خالايدىغان پاراڭلارنى تاللاڭ"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 chats"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Group chats"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "پاراڭلارنى قوشۇش"
   },
@@ -6672,11 +6678,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>سىز ئىئانە قىلغاندا Signal شەخسىي ئۇچۇرلىرىڭىزنى توپلىمايدۇ ياكى ساقلىمايدۇ.</paragraph> <paragraph>ئىئانىڭىزنى تاپشۇرۇۋېلىش ئۈچۈن Stripe نى پۇل تۆلەش بىر تەرەپ قىلغۇچىسى ئورنىدا ئىشلىتىمىز.سىز ئۇلارغا تەمىنلىگەن ئۇچۇرلارنى بىز كۆرەلمەيمىز ياكى ساقلىيالمايمىز</paragraph>.<paragraph>Signal سىزنىڭ ئىئانىڭىزنى Signal ھېساباتىڭىزغا باغلىمايدۇ ۋە ئۇنداقمۇ قىلالمايدۇ.</paragraph><paragraph>قوللىغىنىڭىزغا رەھمەت!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "تالونلار"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "تالون تەپسىلاتلىرىنى كۆرۈش"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "ئىئانە قىلغۇچىلار كۆپ سورايدىغان سوئاللار"
@@ -6723,6 +6732,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "مۇددىتى توشىدىغان ۋاقىت"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "‫Signal غا {formattedCurrencyAmount} ئىئانە قىلىمەن"
   },
@@ -6744,8 +6756,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "30 كۈنلۈك Signal ئىئانە ئىزنىكىنى تاپشۇرۇۋېلىڭ"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "ئىئانە قىلىش ئەڭ تۆۋەن سوممىسى {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Remove info"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Continue"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "ئىئانە تالونى"
@@ -6790,7 +6817,7 @@
     "messageformat": "دەلىللەشكە ئېھتىياجلىق بىر ئىئانىڭىز بار."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "ئىئانە مۇۋەپپەقىيەتلىك بولدى، ئەمما ئىزنەك تەڭشىكىڭىزنى يېڭىلىيالمىدۇق"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "ئىئانە قىلىش ئۈزۈلۈپ قالدى"
@@ -6865,7 +6892,7 @@
     "messageformat": "ئارخىپتا كۆرسىتىش"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "بۇنى كۆچمە ئۈسكۈنىڭىزدە «تەڭشەك → سىگنالغا ئىئانە قىلىش → ئىزنەك» ئارقىلىق تەڭشىيەلەيسىز"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal نىڭ راۋان ئىجرا بولۇشى ئۈچۈن بۇ نەشرىدە بىر قانچە كىچىك ئۆزگەرتىشلەر ئېلىپ بېرىلدى ۋە كاشىلىلار ئوڭشالدى.",
@@ -6895,9 +6922,6 @@
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "بىز كۆپ ۋەزىپە ئىجرا قىلغاندا ، ئوقۇلغان / ئوقۇلمىغان ئۇچۇر تەجىرىبىسىنى ياخشىلىدۇق. رەسىمنى چەكسىڭىز ياكى يېتەرلىك تېزلىكتە خەت يازسىڭىز يەنىلا چوڭايتالايسىز."
-  },
   "icu:WhatsNew__v7.65--0": {
     "messageformat": "بىز emoji ئىزدەش رامكىسىدىكى بىر كەمتۈكلۈكنى ئوڭشىدۇق. 7.65چى نەشىر نۇسخىسى ئۈچۈن تارقىتىلدى."
   },
@@ -6906,5 +6930,8 @@
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "بىز بىرقىسىم ئىشلەتكۈچىلەرنىڭ ئىئانە ئىزنىكىنىڭ توغرا كۆرۈنۈشىنى توسىدىغان بىر كەمتۈكنى تۈزىدۇق. Signal بولسا 501c3 پايدا ئالمايدىغان ئورگان، قوللىغانلىقىڭىزدىن مىننەتدارمىز!"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
   }
 }

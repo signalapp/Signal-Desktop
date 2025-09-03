@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "揀你想顯示喺呢個資料夾入面嘅聊天"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 chats"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Group chats"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "加聊天"
   },
@@ -6672,11 +6678,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal 唔會喺你捐款嗰陣收集或者儲存任何個人資料。</paragraph><paragraph>我哋用 Stripe 作為接收捐款嘅付款處理商。我哋唔會存取、保存或者儲存你向佢哋提供嘅任何資料。</paragraph><paragraph>Signal 唔會亦冇辦法將你嘅捐款連結至你嘅 Signal 帳戶。</paragraph><paragraph>多謝你嘅支持！</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "收據"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "睇吓收據詳情"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "捐款者常見問題"
@@ -6723,6 +6732,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "到期日"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "向 Signal 捐款 {formattedCurrencyAmount}"
   },
@@ -6744,8 +6756,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "獲取為期 30 日嘅 Signal 捐款徽章"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "最低捐款額係 {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Remove info"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Continue"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "捐款收據"
@@ -6790,7 +6817,7 @@
     "messageformat": "你有一筆處理緊嘅捐贈需要確認。"
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "成功捐款，但係我哋更新唔到你嘅徽章設定"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "捐款中斷"
@@ -6865,7 +6892,7 @@
     "messageformat": "掛上去個人資料度展示"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "你可以喺流動裝置嘅「設定」→「捐款俾 Signal」→「徽章」度改改佢"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "呢個版本包含咗少少調整同埋錯誤修復，等 Signal 可以順暢運作。",
@@ -6895,9 +6922,6 @@
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "我們改善咗多工處理嗰陣嘅訊息睇咗或者未睇嘅體驗，同埋修復咗個錯誤，喺搵緊至啱用嘅表情符號心情回應嗰陣㩒空格鍵，唔會再展開圖像瀏覽器。當點擊圖像或打字速度夠快，圖像仍然可以放大。"
-  },
   "icu:WhatsNew__v7.65--0": {
     "messageformat": "搵表情符號搵到懷疑人生？我們修正咗一個錯誤﹐以後喺表情符號搜尋框入面㩒 Esc 退出鍵之後都唔會出現問題。"
   },
@@ -6906,5 +6930,8 @@
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "我們修正咗某啲用戶顯示唔到正確捐款徽章嘅錯誤。Signal 係屬於 501c3 嘅非牟利組織，我哋好多謝你嘅支持！"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
   }
 }

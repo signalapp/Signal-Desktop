@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Selecteer chats die je in deze map wilt weergeven"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 chats"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Group chats"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Chats toevoegen"
   },
@@ -6672,11 +6678,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal verzamelt of bewaart geen persoonlijke gegevens wanneer je een donatie doet.</paragraph><paragraph>Wij gebruiken Stripe als onze betalingsverwerker om je donaties te ontvangen. Wij hebben geen toegang tot de informatie die je aan hen verstrekt en slaan die ook niet op.</paragraph><paragraph>Signal koppelt je donatie niet aan je Signal-account en kan dat ook niet.</paragraph><paragraph>Bedankt voor je steun!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Donatiebewijzen"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Bekijk donatiebewijzen"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Veelgestelde vragen over doneren"
@@ -6723,6 +6732,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Vervaldatum"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "{formattedCurrencyAmount} aan Signal doneren"
   },
@@ -6744,8 +6756,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Krijg de Signal ‘Boost’-badge voor 30 dagen"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Het minimumbedrag dat je kunt doneren is {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Remove info"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Continue"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Donatiebewijs"
@@ -6790,7 +6817,7 @@
     "messageformat": "Je donatie is nog niet afgerond en vereist bevestiging."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Donatie is gelukt, maar we konden je badge-instellingen niet bijwerken"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Donatie nog niet voltooid"
@@ -6865,7 +6892,7 @@
     "messageformat": "Op profiel weergeven"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Je kunt dit op je mobiele apparaat aanpassen onder Instellingen → Aan Signal doneren → Badges"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Deze versie bevat een aantal kleine foutoplossingen waardoor Signal voor nog meer mensen goed werkt.",
@@ -6895,9 +6922,6 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "We hebben de ervaring met gelezen/ongelezen berichten tijdens het multitasken verbeterd en een fout opgelost die de afbeelding soms ten onrechte opende als je op de spatiebalk drukte tijdens het zoeken naar de perfecte emoji-reactie."
-  },
   "icu:WhatsNew__v7.65--0": {
     "messageformat": "We hebben een fout opgelost die kon optreden wanneer je in het emoji-zoekvak op de escape-toets drukte."
   },
@@ -6906,5 +6930,8 @@
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "We hebben een bug opgelost waardoor donatiebadges niet correct werden weergegeven voor sommige gebruikers. Signal is een non-profitorganisatie, we waarderen je steun!"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
   }
 }

@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "ਉਹ ਚੈਟ ਚੁਣੋ ਜੋ ਤੁਸੀਂ ਇਸ ਫੋਲਡਰ ਵਿੱਚ ਦੇਖਣਾ ਚਾਹੁੰਦੇ ਹੋ"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 chats"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Group chats"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "ਚੈਟਾਂ ਸ਼ਾਮਲ ਕਰੋ"
   },
@@ -6672,14 +6678,17 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>ਜਦੋਂ ਤੁਸੀਂ ਦਾਨ ਦਿੰਦੇ ਹੋ ਤਾਂ Signal ਤੁਹਾਡੀ ਕੋਈ ਵੀ ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਇਕੱਠੀ ਜਾਂ ਸਟੋਰ ਨਹੀਂ ਕਰਦਾ ਹੈ।</paragraph><paragraph>ਤੁਹਾਡਾ ਦਾਨ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ ਅਸੀਂ Stripe ਨੂੰ ਆਪਣੇ ਪੇਮੈਂਟ ਪ੍ਰੋਸੈਸਰ ਦੇ ਤੌਰ 'ਤੇ ਵਰਤਦੇ ਹਾਂ। ਅਸੀਂ ਤੁਹਾਡੇ ਦੁਆਰਾ ਉਹਨਾਂ ਨੂੰ ਪ੍ਰਦਾਨ ਕੀਤੀ ਕਿਸੇ ਵੀ ਜਾਣਕਾਰੀ ਦੀ ਵਰਤੋਂ, ਉਸ ਨੂੰ ਸਟੋਰ ਜਾਂ ਸੁਰੱਖਿਅਤ ਨਹੀਂ ਕਰਦੇ ਹਾਂ।</paragraph><paragraph>Signal ਤੁਹਾਡੇ ਦਾਨ ਨੂੰ ਤੁਹਾਡੇ Signal ਖਾਤੇ ਨਾਲ ਨਾ ਹੀ ਕਨੈਕਟ ਕਰਦਾ ਹੈ ਅਤੇ ਨਾ ਹੀ ਕਨੈਕਟ ਕਰ ਸਕਦਾ ਹੈ।</paragraph><paragraph>ਸਹਿਯੋਗ ਦੇਣ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ! </paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "ਰਸੀਦਾਂ"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "ਰਸੀਦ ਦੇ ਵੇਰਵੇ ਵੇਖੋ"
   },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "ਦਾਨੀਆਂ ਵੱਲੋਂ ਅਕਸਰ ਪੁੱਛੇ ਜਾਂਦੇ ਸਵਾਲ"
+    "messageformat": "ਦਾਨੀਆਂ ਵੱਲੋਂ ਅਕਸਰ ਪੁੱਛੇ ਜਾਣ ਵਾਲੇ ਸਵਾਲ"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "ਰਸੀਦਾਂ ਸਾਰੇ ਡਿਵਾਈਸਾਂ ਵਿੱਚ ਸਿੰਕ ਨਹੀਂ ਹੁੰਦੀਆਂ ਹਨ। ਜੇਕਰ ਤੁਸੀਂ Signal ਨੂੰ ਦੁਬਾਰਾ ਇੰਸਟਾਲ ਕੀਤਾ ਹੈ, ਤਾਂ ਪਿਛਲੇ ਦਾਨ ਦੀਆਂ ਰਸੀਦਾਂ ਉਪਲਬਧ ਨਹੀਂ ਹੋਣਗੀਆਂ।"
@@ -6723,6 +6732,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "ਮਿਆਦ ਪੁੱਗਣ ਦੀ ਮਿਤੀ"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Signal ਨੂੰ {formattedCurrencyAmount} ਦਾਨ ਦਿਓ"
   },
@@ -6744,8 +6756,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "30 ਦਿਨਾਂ ਲਈ Signal ਬੂਸਟ ਬੈਜ ਪ੍ਰਾਪਤ ਕਰੋ"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "ਤੁਸੀਂ ਘੱਟ ਤੋਂ ਘੱਟ {formattedCurrencyAmount} ਦਾ ਦਾਨ ਦੇ ਸਕਦੇ ਹੋ"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Remove info"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Continue"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "ਦਾਨ ਦੀ ਰਸੀਦ"
@@ -6790,7 +6817,7 @@
     "messageformat": "ਤੁਹਾਡਾ ਇੱਕ ਦਾਨ ਪ੍ਰਗਤੀ ਅਧੀਨ ਹੈ ਜਿਸਦੀ ਪੁਸ਼ਟੀ ਕਰਨ ਦੀ ਲੋੜ ਹੈ।"
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "ਦਾਨ ਸਫਲ ਰਿਹਾ, ਪਰ ਅਸੀਂ ਤੁਹਾਡੀਆਂ ਬੈਜ ਸੰਬੰਧੀ ਸੈਟਿੰਗਾਂ ਨੂੰ ਅੱਪਡੇਟ ਨਹੀਂ ਕਰ ਸਕੇ"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "ਦਾਨ ਦੀ ਪ੍ਰਕਿਰਿਆ ਵਿੱਚ ਕੋਈ ਰੁਕਾਵਟ ਆ ਗਈ ਹੈ"
@@ -6865,7 +6892,7 @@
     "messageformat": "ਪ੍ਰੋਫ਼ਾਈਲ ਉੱਤੇ ਦਿਖਾਓ"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "ਤੁਸੀਂ ਇਸਨੂੰ ਆਪਣੇ ਮੋਬਾਈਲ ਡਿਵਾਈਸ ਵਿੱਚ ਸੈਟਿੰਗਾਂ → Signal ਨੂੰ ਦਾਨ ਕਰੋ → ਬੈਜ 'ਤੇ ਜਾ ਕੇ ਵਿਵਸਥਿਤ ਕਰ ਸਕਦੇ ਹੋ"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal ਨੂੰ ਸੁਚਾਰੂ ਢੰਗ ਨਾਲ ਚੱਲਦਾ ਰੱਖਣ ਲਈ ਇਸ ਵਰਜ਼ਨ ਵਿੱਚ ਨਿੱਕੇ-ਮੋਟੇ ਸੁਧਾਰ ਅਤੇ ਬੱਗ ਠੀਕ ਕੀਤੇ ਗਏ ਹਨ।",
@@ -6895,9 +6922,6 @@
     "messageformat": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "ਅਸੀਂ ਮਲਟੀਟਾਸਕਿੰਗ ਕਰਨ ਦੌਰਾਨ ਸੁਨੇਹੇ ਨੂੰ ਪੜ੍ਹਨ/ਨਾ-ਪੜ੍ਹਨ ਦੇ ਅਨੁਭਵ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਹੈ।"
-  },
   "icu:WhatsNew__v7.65--0": {
     "messageformat": "ਅਸੀਂ ਇਮੋਜੀ ਖੋਜ ਬਾਕਸ ਨਾਲ ਜੁੜੀ ਖ਼ਰਾਬੀ ਨੂੰ ਦਰੁਸਤ ਕੀਤਾ ਹੈ।"
   },
@@ -6906,5 +6930,8 @@
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "ਅਸੀਂ ਇੱਕ ਖਰਾਬੀ ਨੂੰ ਠੀਕ ਕੀਤਾ ਹੈ ਜਿਸ ਕਾਰਨ ਕੁਝ ਵਰਤੋਂਕਾਰਾਂ ਨੂੰ ਦਾਨ ਬੈਜ ਸਹੀ ਢੰਗ ਨਾਲ ਦਿਖਾਈ ਨਹੀਂ ਦੇ ਰਿਹਾ ਸੀ।"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
   }
 }

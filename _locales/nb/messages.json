@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Velg hvilke samtaler du ønsker å legge til i mappen."
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 chats"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Group chats"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Legg til samtaler"
   },
@@ -6672,11 +6678,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal lagrer ikke personopplysningene dine når du gir en pengegave.</paragraph><paragraph>Betalingstjenesten Stripe behandler pengebeløpet du gir oss. Vi har ikke tilgang til og verken lagrer eller oppbevarer opplysningene du gir til Stripe.</paragraph><paragraph>Signal vil ikke, og kan ikke, knytte pengegaven til Signal-kontoen din.</paragraph><paragraph>Takk for støtten!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Kvitteringer"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Se kvitteringsdetaljer"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Vanlige spørsmål om pengegaver"
@@ -6723,6 +6732,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Utløpsdato"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Gi {formattedCurrencyAmount} til Signal"
   },
@@ -6744,8 +6756,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Få et Signal Boost-merke i 30 dager"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Minimumsbeløpet du kan gi, er {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Remove info"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Continue"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Kvittering for pengebeløp"
@@ -6790,7 +6817,7 @@
     "messageformat": "Du har en pengegave som krever bekreftelse."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Gaven ble gitt, men vi kunne ikke endre innstillingene dine for merker."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Pengegaven ble avbrutt"
@@ -6865,7 +6892,7 @@
     "messageformat": "Vis på profilen"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Du kan justere dette på mobilen din under Innstillinger → Gi penger til Signal → Merker"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Denne versjonen inneholder noen justeringer og feilrettinger som sikrer at Signal fungerer optimalt.",
@@ -6895,9 +6922,6 @@
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Vi har gjort melding lest/ulest-funksjonen bedre."
-  },
   "icu:WhatsNew__v7.65--0": {
     "messageformat": "Vi har rettet opp i en feil i søkefeltet for emojier."
   },
@@ -6906,5 +6930,8 @@
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "Vi rettet opp i en feil som førte til at pengegavemerker ikke var synlige for enkelte brukere."
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
   }
 }

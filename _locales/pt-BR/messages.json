@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Escolha as conversas que você quer que apareçam nessa pasta"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 chats"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Group chats"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Adicionar conversas"
   },
@@ -6672,11 +6678,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>O Signal não coleta ou armazena suas informações pessoais quando você faz uma doação.</paragraph><paragraph>Usamos o Stripe para processar pagamentos e receber suas doações. Não acessamos, armazenamos ou salvamos informações fornecidas por você.</paragraph><paragraph>O Signal não conecta e não pode conectar sua doação à sua conta do Signal.</paragraph><paragraph>Agradecemos o seu apoio!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Comprovantes"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "Ver detalhes do recibo"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "Perguntas Frequentes de Doadores"
@@ -6723,6 +6732,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Data de validade"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Doar {formattedCurrencyAmount} para o Signal"
   },
@@ -6744,8 +6756,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Receba o selo de Boost do Signal por 30 dias"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "A quantia mínima para doação é {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Remove info"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Continue"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Nota fiscal da doação"
@@ -6790,7 +6817,7 @@
     "messageformat": "Você tem uma doação em andamento que precisa de confirmação."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "A doação foi bem-sucedida, mas não foi possível atualizar as configurações do selo"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Doação interrompida"
@@ -6865,7 +6892,7 @@
     "messageformat": "Exibir no perfil"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "Ajuste isso no seu dispositivo móvel em Configurações → Doar para o Signal → Selos"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Essa versão contém pequenos retoques e consertos no Signal para ele continuar funcionando confortavelmente.",
@@ -6895,9 +6922,6 @@
     "messageformat": "Pequenas alterações adicionais, correções de bugs e melhorias de desempenho. Agradecemos por usar o Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Agora ficou mais fácil saber se alguém leu sua mensagem mesmo quando você está fazendo mil coisas ao mesmo tempo. Também corrigimos um erro em que o visualizador de imagem se abria do nada se você apertasse a barra de espaço enquanto caçava o emoji perfeito.  Ainda dá pra ampliar a imagem, é só clicar nela ou digitar rápido o bastante. "
-  },
   "icu:WhatsNew__v7.65--0": {
     "messageformat": "Corrigimos um erro que às vezes ocorria ao pressionar a tecla Esc na busca de emojis. "
   },
@@ -6906,5 +6930,8 @@
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "Corrigimos um erro que impedia que os selos de doação aparecessem corretamente para alguns usuários. O Signal é uma organização sem fins lucrativos 501(c)(3) e agradece muito o seu apoio!"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
   }
 }
