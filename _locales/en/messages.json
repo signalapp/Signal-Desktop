@@ -9220,5 +9220,9 @@
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!",
     "description": "(Deleted 2025/08/20) Release notes for version 7.67"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings.",
+    "description": "Release notes for version 7.70"
   }
 }
