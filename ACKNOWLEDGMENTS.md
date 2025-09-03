@@ -8507,7 +8507,7 @@ limitations under the License.
 
 ```
 
-## boring 4.15.0
+## boring 4.18.0
 
 ```
 Copyright 2011-2017 Google Inc.
@@ -8529,7 +8529,7 @@ limitations under the License.
 
 ```
 
-## bindgen 0.70.1
+## bindgen 0.72.0
 
 ```
 BSD 3-Clause License
@@ -8799,7 +8799,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ```
 
-## boring-sys 4.15.0
+## boring-sys 4.18.0
 
 ```
 /* Copyright (c) 2015, Google Inc.
@@ -9108,7 +9108,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## boring-sys 4.15.0
+## boring-sys 4.18.0
 
 ```
 Copyright (c) 2014 Alex Crichton
@@ -9404,7 +9404,7 @@ THE SOFTWARE.
 
 ```
 
-## either 1.15.0, itertools 0.13.0, itertools 0.14.0, petgraph 0.7.1, serde_with 3.12.0, serde_with_macros 3.12.0
+## either 1.15.0, itertools 0.10.5, itertools 0.14.0, petgraph 0.7.1, serde_with 3.12.0, serde_with_macros 3.12.0
 
 ```
 Copyright (c) 2015
@@ -9648,7 +9648,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## boring-sys 4.15.0
+## boring-sys 4.18.0
 
 ```
 Copyright (c) 2015-2016 the fiat-crypto authors (see
@@ -10011,7 +10011,7 @@ SOFTWARE.
 
 ```
 
-## tokio-boring 4.15.0
+## tokio-boring 4.18.0
 
 ```
 Copyright (c) 2016 Tokio contributors
@@ -12397,7 +12397,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## snow 0.9.6
+## snow 0.10.0
 
 ```
 MIT License
@@ -12615,7 +12615,35 @@ SOFTWARE.
 
 ```
 
-## curve25519-dalek-derive 0.1.1, adler2 2.0.0, anyhow 1.0.97, async-trait 0.1.88, atomic-waker 1.1.2, auto_enums 0.8.7, derive_utils 0.15.0, displaydoc 0.2.5, dyn-clone 1.0.19, fastrand 2.3.0, home 0.5.9, itoa 1.0.15, linkme-impl 0.3.33, linkme 0.3.33, linux-raw-sys 0.4.15, linux-raw-sys 0.9.3, minimal-lexical 0.2.1, num_enum 0.7.3, num_enum_derive 0.7.3, once_cell 1.21.3, paste 1.0.15, pin-project-internal 1.1.10, pin-project-lite 0.2.16, pin-project 1.1.10, prettyplease 0.2.32, proc-macro-crate 3.3.0, proc-macro2 1.0.94, quote 1.0.40, rustc-hash 1.1.0, rustix 0.38.44, rustix 1.0.5, rustversion 1.0.20, semver 1.0.26, send_wrapper 0.6.0, serde 1.0.219, serde_derive 1.0.219, serde_json 1.0.140, syn-mid 0.6.0, syn 2.0.100, thiserror-impl 1.0.69, thiserror-impl 2.0.12, thiserror 1.0.69, thiserror 2.0.12, unicode-ident 1.0.18, utf-8 0.7.6
+## rustc-hash 2.1.1
+
+```
+Permission is hereby granted, free of charge, to any
+person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the
+Software without restriction, including without
+limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software
+is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice
+shall be included in all copies or substantial portions
+of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
+ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+```
+
+## curve25519-dalek-derive 0.1.1, adler2 2.0.0, anyhow 1.0.97, async-trait 0.1.88, atomic-waker 1.1.2, auto_enums 0.8.7, derive_utils 0.15.0, displaydoc 0.2.5, dyn-clone 1.0.19, fastrand 2.3.0, home 0.5.9, itoa 1.0.15, linkme-impl 0.3.33, linkme 0.3.33, linux-raw-sys 0.4.15, linux-raw-sys 0.9.3, minimal-lexical 0.2.1, num_enum 0.7.3, num_enum_derive 0.7.3, once_cell 1.21.3, paste 1.0.15, pin-project-internal 1.1.10, pin-project-lite 0.2.16, pin-project 1.1.10, prettyplease 0.2.32, proc-macro-crate 3.3.0, proc-macro2 1.0.94, quote 1.0.40, rustix 0.38.44, rustix 1.0.5, rustversion 1.0.20, semver 1.0.26, send_wrapper 0.6.0, serde 1.0.219, serde_derive 1.0.219, serde_json 1.0.140, syn-mid 0.6.0, syn 2.0.100, thiserror-impl 1.0.69, thiserror-impl 2.0.12, thiserror 1.0.69, thiserror 2.0.12, unicode-ident 1.0.18, utf-8 0.7.6
 
 ```
 Permission is hereby granted, free of charge, to any
@@ -13544,7 +13572,7 @@ Exhibit B - "Incompatible With Secondary Licenses" Notice
 
 ```
 
-## boring-sys 4.15.0
+## boring-sys 4.18.0
 
 ```
 /* ====================================================================
