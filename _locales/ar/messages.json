@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "اختر الدردشات التي تريد أن تظهر في هذا المجلد."
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 chats"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Group chats"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "إضافة دردشات"
   },
@@ -6664,7 +6670,7 @@
     "messageformat": "تبرَّع لـ {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
-    "messageformat": "يمكن إدارة الشارات والتبرُّعات الشهرية على جهازك المحمول."
+    "messageformat": "يمكن إدارة الشارات والتبرُّعات الشهرية على هاتفك المحمول."
   },
   "icu:PreferencesDonations__privacy-modal-title": {
     "messageformat": "ستتمُّ المحافظة على خصوصية معلوماتك."
@@ -6672,11 +6678,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>لا يقوم سيجنال بجمع أو تخزين معلوماتك الشخصية عند قيامك بتبرُّع.</paragraph><paragraph>نستخدم Stripe كمعالج عمليات الدفع الخاصة بنا لتلقي تبرُّعاتك. لا يُمكننا الوصول إلى أو تخزين أو حفظ أي من المعلومات التي تُقدمها.</paragraph><paragraph>لا يقوم تطبيق سيجنال ولا يمكنه ربط تبرُّعاتك بحسابك على سيجنال.</paragraph><paragraph>شكرًا لدعمك!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "الإيصالات"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "عرض تفاصيل الإيصال"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "الأسئلة الشائعة للمُتبرِّعين"
@@ -6703,7 +6712,7 @@
     "messageformat": "التبرُّع لمرّة واحدة"
   },
   "icu:DonateFlow__desktop-one-time-only-notice": {
-    "messageformat": "فقط التبرُّعات لمرّة واحدة هي المتاحة على الحاسوب. يمكن القيام بالتبرُّعات الشهرية على جهازك المحمول."
+    "messageformat": "فقط التبرُّعات لمرّة واحدة هي المتاحة على الحاسوب. يمكن القيام بالتبرُّعات الشهرية على هاتفك المحمول."
   },
   "icu:DonateFlow__having-issues-contact-support": {
     "messageformat": "هل تواجه مشكلات؟ <contactSupportLink>الاتصال بالدعم</contactSupportLink>"
@@ -6722,6 +6731,9 @@
   },
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "تاريخ انتهاء الصلاحية"
+  },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "تبرَّع بـ {formattedCurrencyAmount} لسيجنال"
@@ -6744,8 +6756,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "احصل على شارة دعم سيجنال لمدة 30 يومًا."
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "الحد الأدنى الذي يُمكنك التبرُّع به هو {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Remove info"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Continue"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "إيصال التبرُّع"
@@ -6790,7 +6817,7 @@
     "messageformat": "لديك تبرُّع قيد المعالجة يتطلب تأكيدًا."
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "تبرَّعتَ بنجاح، لكن تعذّر علينا تحديث إعدادات شارتك."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "تمَّت مقاطعة التبرُّع"
@@ -6865,7 +6892,7 @@
     "messageformat": "عرض في الحساب الشخصي"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "يُمكنك تعديلُها على جهازك المحمول في: الإعدادات ← تبرَّع لسيجنال ← الشارات."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "يحتوي هذا الإصدار على عدد من التعديلات الصغيرة وإصلاحات الأخطاء للحفاظ على عمل سيجنال بسلاسة.",
@@ -6895,9 +6922,6 @@
     "messageformat": "تعديلات صغيرة، وإصلاح أعطال، وتحسينات للأداء. شكرًا على استخدامك سيجنال!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "قمنا بتحسين تجربة الرسائل المقروءة/غير المقروءة أثناء تعدُّد المهام، وقُمنا بإصلاح خطأ كان يُؤدي أحيانًا إلى فتح عارض الصور المُوسَّع بشكل غير صحيح إذا ضغطت على مفتاح المسافة أثناء البحث عن تفاعل إيموجي مثالي. لا يزال بإمكانك التكبير إذا نقرت على الصورة أو إذا كتبت بسرعة كافية."
-  },
   "icu:WhatsNew__v7.65--0": {
     "messageformat": "قد يبدو العثور على الرمز التعبيري المناسب مهمة شاقّة أحيانًا، لكننا أصلحنا خللًا كان قد يؤدي إلى حدوث خطأ عند الضغط على مفتاح Escape في مربع البحث عن الرموز التعبيرية."
   },
@@ -6906,5 +6930,8 @@
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "أصلحنا خطأ يحول دون ظهور شارات التبرُّع بشكلٍ صحيح لبعض المُستخدِمين. تطبيق سيجنال هو مؤسَّسة غير ربحية بتصنيف 501c3، ويعتمد بالكامل على دعمك!"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
   }
 }

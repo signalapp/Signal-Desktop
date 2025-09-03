@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "ជ្រើសរើសការជជែកដែលអ្នកចង់បង្ហាញនៅក្នុងថតឯកសារនេះ"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 chats"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Group chats"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "បញ្ចូលការជជែក"
   },
@@ -6672,11 +6678,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal មិនប្រមូល ឬរក្សាទុកព័ត៌មានផ្ទាល់ខ្លួនណាមួយរបស់អ្នកទេ នៅពេលអ្នកធ្វើការបរិច្ចាគ។</paragraph><paragraph>យើងប្រើ Stripe ជាអ្នកដំណើរការទូទាត់របស់យើង ដើម្បីទទួលបានការបរិច្ចាគរបស់អ្នក។ យើងមិនចូលប្រើ រក្សា ឬរក្សាទុកព័ត៌មានណាមួយដែលអ្នកផ្តល់ឱ្យពួកគេទេ។</paragraph><paragraph>Signal មិនមាន និងមិនអាចភ្ជាប់ការបរិច្ចាគរបស់អ្នកជាមួយគណនី Signal របស់អ្នកបានទេ។</paragraph><paragraph>សូមអរគុណចំពោះការគាំទ្ររបស់អ្នក!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "OK"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "បង្កាន់ដៃ"
   },
   "icu:PreferencesDonations__receipt-details-button-aria": {
-    "messageformat": "View receipt details"
+    "messageformat": "មើលព័ត៌មានលម្អិតបង្កាន់ដៃ"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "សំណួរសួរញឹកញាប់អំពីម្ចាស់ជំនួយ"
@@ -6723,6 +6732,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "កាលបរិច្ឆេទផុតកំណត់"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "បរិច្ចាគ {formattedCurrencyAmount} ទៅ Signal"
   },
@@ -6744,8 +6756,23 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "ទទួលបានស្លាកទ្រទ្រង់ Signal រយៈពេល 30 ថ្ងៃ"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+  },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "ចំនួនទឹកប្រាក់អប្បបរមាដែលអ្នកអាចបរិច្ចាគបានគឺ {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Remove info"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Continue"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "បង្កាន់ដៃបរិច្ចាគ"
@@ -6790,7 +6817,7 @@
     "messageformat": "អ្នកមានការបរិច្ចាគមួយដែលកំពុងដំណើរការដែលត្រូវការការបញ្ជាក់។"
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "ការបរិច្ចាគបានជោគជ័យ ប៉ុន្តែយើងមិនអាចធ្វើបច្ចុប្បន្នភាពការកំណត់ស្លាករបស់អ្នកបានទេ"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "ការបរិច្ចាគត្រូវបានរំខាន"
@@ -6862,10 +6889,10 @@
     "messageformat": "អ្នកបានទទួលស្លាកអ្នកបរិច្ចាគពី Signal! សូមបង្ហាញវានៅលើប្រូហ្វាល់របស់អ្នកដើម្បីបង្ហាញការគាំទ្ររបស់អ្នក។"
   },
   "icu:Donations__badge-modal--display-on-profile": {
-    "messageformat": "បង្ហាញលើគណនី"
+    "messageformat": "បង្ហាញនៅលើប្រូហ្វាល់"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "You can adjust this on your mobile device under Settings → Donate to Signal → Badges"
+    "messageformat": "អ្នកអាចកែតម្រូវវានៅលើឧបករណ៍ចល័តរបស់អ្នកនៅក្រោមការកំណត់ → បរិច្ចាគទៅ Signal → ស្លាក"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "កំណែ​នេះ​មាន​ការ​កែ​សម្រួល និង​ការកែបញ្ហាតូចៗ​មួយ​ចំនួន ដើម្បី​ឲ្យ​ Signal បន្ត​ដំណើរការ​ដោយ​រលូន។",
@@ -6895,9 +6922,6 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "យើងបានធ្វើឱ្យប្រសើរឡើងនូវបទពិសោធន៍អាន/មិនទាន់អានសារ ពេលកំពុងធ្វើកិច្ចការជាច្រើន ហើយបានកែបញ្ហាមួយដែលពេលខ្លះបើកកម្មវិធីមើលរូបភាពដែលបានពង្រីកដោយមិនបានត្រឹមត្រូវ ប្រសិនបើអ្នកចុចរបារដកឃ្លា ពេលកំពុងស្វែងរករូបអារម្មណ៍ដ៏ល្អឥតខ្ចោះ។ អ្នកនៅតែអាចពង្រីកបាន ប្រសិនបើអ្នកចុចលើរូបភាព ឬប្រសិនបើអ្នកវាយបញ្ចូលបានលឿនគួរសម។"
-  },
   "icu:WhatsNew__v7.65--0": {
     "messageformat": "ការស្វែងរកឱ្យត្រូវរូបអារម្មណ៍អាចធ្វើឱ្យអ្នកមានអារម្មណ៍ថាពិបាកបន្តិច ប៉ុន្តែយើងបានដោះស្រាយបញ្ហាមួយដែលអាចបណ្តាលឱ្យមានបញ្ហាកើតឡើងបន្ទាប់ពីចុចគ្រាប់ចុច Escape នៅក្នុងប្រអប់ស្វែងរករូបអារម្មណ៍។"
   },
@@ -6906,5 +6930,8 @@
   },
   "icu:WhatsNew__v7.67--0": {
     "messageformat": "យើងបានដោះស្រាយបញ្ហាមួយដែលធ្វើឱ្យស្លាកបរិច្ចាគមិនអាចបង្ហាញបានត្រឹមត្រូវសម្រាប់អ្នកប្រើមួយចំនួន។ Signal គឺជាអង្គការមិនរកប្រាក់ចំណេញ 501c3 ហើយយើងសូមអរគុណចំពោះការគាំទ្ររបស់អ្នក!"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
   }
 }
