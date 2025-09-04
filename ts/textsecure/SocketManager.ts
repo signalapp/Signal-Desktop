@@ -40,25 +40,13 @@ import type {
 import WebSocketResource, {
   connectAuthenticatedLibsignal,
   connectUnauthenticatedLibsignal,
-  LibsignalWebSocketResource,
   ServerRequestType,
-  TransportOption,
 } from './WebsocketResources';
 import { ConnectTimeoutError, HTTPError } from './Errors';
 import type { IRequestHandler, WebAPICredentials } from './Types.d';
 import { connect as connectWebSocket } from './WebSocket';
-import { isNightly, isBeta, isStaging } from '../util/version';
-import { getBasicAuth } from '../util/getBasicAuth';
-import { isTestOrMockEnvironment } from '../environment';
-import type { ConfigKeyType } from '../RemoteConfig';
-import {
-  parseServerAlertsFromHeader,
-  type ServerAlert,
-} from '../util/handleServerAlerts';
-import {
-  formatAcceptLanguageHeader,
-  getUserLanguages,
-} from '../util/userLanguages';
+import { type ServerAlert } from '../util/handleServerAlerts';
+import { getUserLanguages } from '../util/userLanguages';
 
 const log = createLogger('SocketManager');
 
@@ -81,14 +69,7 @@ export type SocketManagerOptions = Readonly<{
   hasStoriesDisabled: boolean;
 }>;
 
-type SocketStatusUpdate =
-  | {
-      status: SocketStatus.OPEN;
-      transportOption: TransportOption.Libsignal | TransportOption.Original;
-    }
-  | {
-      status: Exclude<SocketStatus, SocketStatus.OPEN>;
-    };
+type SocketStatusUpdate = { status: SocketStatus };
 
 export type SocketStatuses = Record<
   'authenticated' | 'unauthenticated',
@@ -214,52 +195,25 @@ export class SocketManager extends EventListener {
 
     this.#setAuthenticatedStatus({ status: SocketStatus.CONNECTING });
 
-    const proxyAgent = await this.#getProxyAgent();
-    const useLibsignalTransport =
-      window.Signal.RemoteConfig.isEnabled(
-        'desktop.experimentalTransport.enableAuth'
-      ) && this.#transportOption() === TransportOption.Libsignal;
-
     const userLanguages = getUserLanguages(
       window.SignalContext.getPreferredSystemLocales(),
       window.SignalContext.getResolvedMessagesLocale()
     );
 
-    const process = useLibsignalTransport
-      ? connectAuthenticatedLibsignal({
-          libsignalNet: this.libsignalNet,
-          name: AUTHENTICATED_CHANNEL_NAME,
-          credentials: this.#credentials,
-          handler: (req: IncomingWebSocketRequest): void => {
-            this.#queueOrHandleRequest(req);
-          },
-          onReceivedAlerts: (alerts: Array<ServerAlert>) => {
-            this.emit('serverAlerts', alerts);
-          },
-          receiveStories: !this.#hasStoriesDisabled,
-          userLanguages,
-          keepalive: { path: '/v1/keepalive' },
-        })
-      : this.#connectResource({
-          name: AUTHENTICATED_CHANNEL_NAME,
-          path: '/v1/websocket/',
-          resourceOptions: {
-            name: AUTHENTICATED_CHANNEL_NAME,
-            keepalive: { path: '/v1/keepalive' },
-            handleRequest: (req: IncomingWebSocketRequest): void => {
-              this.#queueOrHandleRequest(req);
-            },
-          },
-          extraHeaders: {
-            Authorization: getBasicAuth({ username, password }),
-            'X-Signal-Receive-Stories': String(!this.#hasStoriesDisabled),
-            'Accept-Language': formatAcceptLanguageHeader(userLanguages),
-          },
-          onUpgradeResponse: (response: IncomingMessage) => {
-            this.#handleAuthenticatedUpgradeResponseHeaders(response.headers);
-          },
-          proxyAgent,
-        });
+    const process = connectAuthenticatedLibsignal({
+      libsignalNet: this.libsignalNet,
+      name: AUTHENTICATED_CHANNEL_NAME,
+      credentials: this.#credentials,
+      handler: (req: IncomingWebSocketRequest): void => {
+        this.#queueOrHandleRequest(req);
+      },
+      onReceivedAlerts: (alerts: Array<ServerAlert>) => {
+        this.emit('serverAlerts', alerts);
+      },
+      receiveStories: !this.#hasStoriesDisabled,
+      userLanguages,
+      keepalive: { path: '/v1/keepalive' },
+    });
 
     // Cancel previous connect attempt or close socket
     this.#authenticated?.abort();
@@ -312,13 +266,7 @@ export class SocketManager extends EventListener {
     try {
       authenticated = await process.getResult();
 
-      this.#setAuthenticatedStatus({
-        status: SocketStatus.OPEN,
-        transportOption:
-          authenticated instanceof LibsignalWebSocketResource
-            ? TransportOption.Libsignal
-            : TransportOption.Original,
-      });
+      this.#setAuthenticatedStatus({ status: SocketStatus.OPEN });
     } catch (error) {
       log.warn(
         'authenticated socket connection failed with ' +
@@ -659,8 +607,6 @@ export class SocketManager extends EventListener {
 
     if (newStatus.status === SocketStatus.OPEN) {
       this.#authenticatedStatus.lastConnectionTimestamp = Date.now();
-      this.#authenticatedStatus.lastConnectionTransport =
-        newStatus.transportOption;
 
       this.#markOnline();
     }
@@ -671,37 +617,7 @@ export class SocketManager extends EventListener {
 
     if (newStatus.status === SocketStatus.OPEN) {
       this.#unathenticatedStatus.lastConnectionTimestamp = Date.now();
-      this.#unathenticatedStatus.lastConnectionTransport =
-        newStatus.transportOption;
     }
-  }
-
-  #transportOption(): TransportOption {
-    if (isTestOrMockEnvironment()) {
-      const configValue = window.Signal.RemoteConfig.isEnabled(
-        'desktop.experimentalTransportEnabled.alpha'
-      );
-      return configValue ? TransportOption.Libsignal : TransportOption.Original;
-    }
-
-    // in staging, switch to using libsignal transport
-    if (isStaging(this.options.version)) {
-      return TransportOption.Libsignal;
-    }
-
-    let libsignalRemoteConfigFlag: ConfigKeyType;
-    if (isNightly(this.options.version)) {
-      libsignalRemoteConfigFlag = 'desktop.experimentalTransportEnabled.alpha';
-    } else if (isBeta(this.options.version)) {
-      libsignalRemoteConfigFlag = 'desktop.experimentalTransportEnabled.beta';
-    } else {
-      libsignalRemoteConfigFlag = 'desktop.experimentalTransportEnabled.prod.2';
-    }
-
-    const configValue = window.Signal.RemoteConfig.isEnabled(
-      libsignalRemoteConfigFlag
-    );
-    return configValue ? TransportOption.Libsignal : TransportOption.Original;
   }
 
   async #getUnauthenticatedResource(): Promise<IWebSocketResource> {
@@ -713,21 +629,11 @@ export class SocketManager extends EventListener {
       });
     }
 
-    // awaiting on `this.getProxyAgent()` needs to happen here
-    // so that there are no calls to `await` between checking
-    // the value of `this.unauthenticated` and assigning it later in this function
-    const proxyAgent = await this.#getProxyAgent();
-
     if (this.#unauthenticated) {
       return this.#unauthenticated.getResult();
     }
 
     log.info('connecting unauthenticated socket');
-
-    const transportOption = this.#transportOption();
-    log.info(
-      `connecting unauthenticated socket, transport option [${transportOption}]`
-    );
 
     this.#setUnauthenticatedStatus({
       status: SocketStatus.CONNECTING,
@@ -738,30 +644,13 @@ export class SocketManager extends EventListener {
       window.SignalContext.getResolvedMessagesLocale()
     );
 
-    let process: AbortableProcess<IWebSocketResource>;
-
-    if (transportOption === TransportOption.Libsignal) {
-      process = connectUnauthenticatedLibsignal({
+    const process: AbortableProcess<IWebSocketResource> =
+      connectUnauthenticatedLibsignal({
         libsignalNet: this.libsignalNet,
         name: UNAUTHENTICATED_CHANNEL_NAME,
         userLanguages,
         keepalive: { path: '/v1/keepalive' },
       });
-    } else {
-      process = this.#connectResource({
-        name: UNAUTHENTICATED_CHANNEL_NAME,
-        path: '/v1/websocket/',
-        proxyAgent,
-        resourceOptions: {
-          name: UNAUTHENTICATED_CHANNEL_NAME,
-          keepalive: { path: '/v1/keepalive' },
-          transportOption,
-        },
-        extraHeaders: {
-          'Accept-Language': formatAcceptLanguageHeader(userLanguages),
-        },
-      });
-    }
 
     this.#unauthenticated = process;
 
@@ -770,10 +659,6 @@ export class SocketManager extends EventListener {
       unauthenticated = await this.#unauthenticated.getResult();
       this.#setUnauthenticatedStatus({
         status: SocketStatus.OPEN,
-        transportOption:
-          unauthenticated instanceof LibsignalWebSocketResource
-            ? TransportOption.Libsignal
-            : TransportOption.Original,
       });
     } catch (error) {
       log.info(
@@ -1040,30 +925,6 @@ export class SocketManager extends EventListener {
       this.#lazyProxyAgent = createProxyAgent(this.options.proxyUrl);
     }
     return this.#lazyProxyAgent;
-  }
-
-  #handleAuthenticatedUpgradeResponseHeaders(
-    headers: Record<string, string | Array<string> | undefined>
-  ) {
-    let alerts: Array<string> = [];
-    for (const [key, value] of Object.entries(headers)) {
-      if (key.toLowerCase() === 'x-signal-alert') {
-        if (value == null) {
-          alerts = [];
-        } else if (Array.isArray(value)) {
-          alerts = value;
-        } else {
-          alerts = [value];
-        }
-        break;
-      }
-    }
-
-    const serverAlerts: Array<ServerAlert> = alerts
-      .map(parseServerAlertsFromHeader)
-      .flat();
-
-    this.emit('serverAlerts', serverAlerts);
   }
 
   // EventEmitter types

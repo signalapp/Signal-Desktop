@@ -15,7 +15,6 @@ import type { Locator, Page } from 'playwright';
 import { expect } from 'playwright/test';
 import type { SignalService } from '../protobuf';
 import { strictAssert } from '../util/assert';
-import type { App, Bootstrap } from './bootstrap';
 
 const debug = createDebug('mock:test:helpers');
 
@@ -459,30 +458,4 @@ export async function createCallLink(
   });
   const testId = await callLinkItem.getAttribute('data-testid');
   return testId || undefined;
-}
-
-export async function setupAppToUseLibsignalWebsockets(
-  bootstrap: Bootstrap
-): Promise<App> {
-  bootstrap.server.setRemoteConfig(
-    'desktop.experimentalTransportEnabled.alpha',
-    { enabled: true }
-  );
-
-  bootstrap.server.setRemoteConfig('desktop.experimentalTransport.enableAuth', {
-    enabled: true,
-  });
-
-  // Link & close so that app can get remote config first over non-libsignal websocket,
-  // and then on next app start it will connect via libsignal
-  await bootstrap.linkAndClose();
-  return bootstrap.startApp();
-}
-
-export async function assertAppWasUsingLibsignalWebsockets(
-  app: App
-): Promise<void> {
-  const { authenticated, unauthenticated } = await app.getSocketStatus();
-  assert.strictEqual(authenticated.lastConnectionTransport, 'libsignal');
-  assert.strictEqual(unauthenticated.lastConnectionTransport, 'libsignal');
 }
