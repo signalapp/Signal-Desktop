@@ -268,18 +268,10 @@ export type SendRequestResult = Readonly<{
   headers: ReadonlyArray<string>;
 }>;
 
-export enum TransportOption {
-  // Only original transport is used
-  Original = 'original',
-  // Only libsignal transport is used
-  Libsignal = 'libsignal',
-}
-
 export type WebSocketResourceOptions = {
   name: string;
   handleRequest?: (request: IncomingWebSocketRequest) => void;
   keepalive?: KeepAliveOptionsType;
-  transportOption?: TransportOption;
 };
 
 export class CloseEvent extends Event {
