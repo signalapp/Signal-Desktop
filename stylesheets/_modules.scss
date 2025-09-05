@@ -647,11 +647,6 @@ $message-padding-horizontal: 12px;
   cursor: pointer;
 }
 
-.module-message__undownloadable-attachment--no-text
-  + .module-message__metadata {
-  margin-block-start: -25px;
-}
-
 .module-message__sticker-container {
   // To ensure that images are centered if they aren't full width of bubble
   text-align: center;

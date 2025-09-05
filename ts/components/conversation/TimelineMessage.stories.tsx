@@ -23,6 +23,7 @@ import {
   LONG_MESSAGE,
   stringToMIMEType,
   IMAGE_GIF,
+  VIDEO_QUICKTIME,
 } from '../../types/MIME';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { MessageAudio } from './MessageAudio';
@@ -346,7 +347,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   showAttachmentDownloadStillInProgressToast: action(
     'showAttachmentDownloadStillInProgressToast'
   ),
-  showAttachmentNotAvailableModal: action('showAttachmentNotAvailableModal'),
   showExpiredIncomingTapToViewToast: action(
     'showExpiredIncomingTapToViewToast'
   ),
@@ -2809,6 +2809,24 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
     ],
     status: 'sent',
   });
+  const undisplayableVideo = createProps({
+    attachments: [
+      fakeAttachment({
+        contentType: VIDEO_QUICKTIME,
+        fileName: 'bird.mov',
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        width: 296,
+        height: 394,
+        path: undefined,
+        key: undefined,
+        id: undefined,
+        error: true,
+        isPermanentlyUndownloadable: true,
+      }),
+    ],
+    status: 'sent',
+  });
+
   const multipleImagesProps = createProps({
     attachments: [
       fakeAttachment({
@@ -2822,6 +2840,32 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
         id: undefined,
         error: true,
         isPermanentlyUndownloadable: true,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'bird.jpg',
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        width: 296,
+        height: 394,
+        path: undefined,
+        key: undefined,
+        id: undefined,
+        error: true,
+        isPermanentlyUndownloadable: true,
+      }),
+    ],
+    status: 'sent',
+  });
+  const multipleImagesSomeUndownloadableProps = createProps({
+    attachments: [
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'bird.jpg',
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 296,
+        height: 394,
+        isPermanentlyUndownloadable: false,
       }),
       fakeAttachment({
         contentType: IMAGE_JPEG,
@@ -2947,9 +2991,11 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
   return (
     <>
       <TimelineMessage {...imageProps} shouldCollapseAbove />
+      <TimelineMessage {...undisplayableVideo} />
       <TimelineMessage {...gifProps} />
       <TimelineMessage {...videoProps} />
       <TimelineMessage {...multipleImagesProps} />
+      <TimelineMessage {...multipleImagesSomeUndownloadableProps} />
       <TimelineMessage {...stickerProps} />
       <TimelineMessage {...textFileProps} />
       <TimelineMessage {...textFileWithCaptionProps} />

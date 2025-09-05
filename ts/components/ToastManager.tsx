@@ -13,7 +13,6 @@ import { assertDev } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
 import { ToastType } from '../types/Toast';
 import { MegaphoneType } from '../types/Megaphone';
-import { AttachmentNotAvailableModalType } from './AttachmentNotAvailableModal';
 import { NavTab, SettingsPage } from '../types/Nav';
 
 import type { LocalizerType } from '../types/Util';
@@ -33,9 +32,6 @@ export type PropsType = {
     options?: { wasPinned?: boolean }
   ) => unknown;
   setDidResumeDonation: (didResume: boolean) => unknown;
-  showAttachmentNotAvailableModal: (
-    type: AttachmentNotAvailableModalType
-  ) => void;
   toast?: AnyToast;
   megaphone?: AnyActionableMegaphone;
   centerToast?: boolean;
@@ -54,7 +50,6 @@ export function renderToast({
   onShowDebugLog,
   onUndoArchive,
   setDidResumeDonation,
-  showAttachmentNotAvailableModal,
   OS,
   toast,
 }: PropsType): JSX.Element | null {
@@ -549,20 +544,7 @@ export function renderToast({
   }
 
   if (toastType === ToastType.MediaNoLongerAvailable) {
-    return (
-      <Toast
-        onClose={hideToast}
-        toastAction={{
-          label: i18n('icu:attachmentNoLongerAvailable__learnMore'),
-          onClick: () =>
-            showAttachmentNotAvailableModal(
-              AttachmentNotAvailableModalType.VisualMedia
-            ),
-        }}
-      >
-        {i18n('icu:mediaNotAvailable')}
-      </Toast>
-    );
+    return <Toast onClose={hideToast}>{i18n('icu:mediaNotAvailable')}</Toast>;
   }
 
   if (toastType === ToastType.MessageBodyTooLong) {

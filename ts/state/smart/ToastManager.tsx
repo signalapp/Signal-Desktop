@@ -60,8 +60,7 @@ export const SmartToastManager = memo(function SmartToastManager({
 
   const { onUndoArchive } = useConversationsActions();
   const { openFileInFolder, hideToast } = useToastActions();
-  const { showAttachmentNotAvailableModal, toggleUsernameOnboarding } =
-    useGlobalModalActions();
+  const { toggleUsernameOnboarding } = useGlobalModalActions();
 
   let megaphone: AnyActionableMegaphone | undefined;
 
@@ -100,7 +99,6 @@ export const SmartToastManager = memo(function SmartToastManager({
       openFileInFolder={openFileInFolder}
       hideToast={hideToast}
       setDidResumeDonation={setDidResume}
-      showAttachmentNotAvailableModal={showAttachmentNotAvailableModal}
       centerToast={centerToast}
       containerWidthBreakpoint={containerWidthBreakpoint}
       isCompositionAreaVisible={isCompositionAreaVisible}
