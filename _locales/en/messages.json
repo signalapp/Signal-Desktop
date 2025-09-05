@@ -9070,6 +9070,14 @@
     "messageformat": "Donation succeeded, but we could not update your badge settings",
     "description": "Toast shown when donation completes successfully but badge application fails"
   },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings",
+    "description": "Modal title shown when donation completes successfully but badge application fails"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges.",
+    "description": "Modal body text shown when badge application fails after successful donation"
+  },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Donation interrupted",
     "description": "Title of the dialog shown when starting up if a donation had been started, and we've saved payment information, but the charge hasn't happened yet"

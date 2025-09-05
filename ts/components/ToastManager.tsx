@@ -118,16 +118,6 @@ export function renderToast({
     );
   }
 
-  if (toastType === ToastType.DonationCompletedAndBadgeApplicationFailed) {
-    return (
-      <Toast onClose={hideToast}>
-        {i18n(
-          'icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed'
-        )}
-      </Toast>
-    );
-  }
-
   if (toastType === ToastType.Blocked) {
     return <Toast onClose={hideToast}>{i18n('icu:unblockToSend')}</Toast>;
   }

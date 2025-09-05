@@ -26,6 +26,8 @@ export const donationErrorTypeSchema = z.enum([
   'PaymentDeclined',
   // When it's been too long since the last step of the donation, and card wasn't charged
   'TimedOut',
+  // When donation succeeds but badge application fails
+  'BadgeApplicationFailed',
 ]);
 export type DonationErrorType = z.infer<typeof donationErrorTypeSchema>;
 
