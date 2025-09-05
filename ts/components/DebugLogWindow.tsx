@@ -159,7 +159,6 @@ export function DebugLogWindow({
           onUndoArchive={shouldNeverBeCalled}
           openFileInFolder={shouldNeverBeCalled}
           setDidResumeDonation={shouldNeverBeCalled}
-          showAttachmentNotAvailableModal={shouldNeverBeCalled}
           toast={toast}
           containerWidthBreakpoint={null}
           isInFullScreenCall={false}
@@ -219,7 +218,6 @@ export function DebugLogWindow({
         onUndoArchive={shouldNeverBeCalled}
         openFileInFolder={shouldNeverBeCalled}
         setDidResumeDonation={shouldNeverBeCalled}
-        showAttachmentNotAvailableModal={shouldNeverBeCalled}
         toast={toast}
         containerWidthBreakpoint={null}
         isInFullScreenCall={false}
