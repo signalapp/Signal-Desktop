@@ -269,7 +269,6 @@ export default {
   },
   args: {
     changeLocation: action('changeLocation'),
-    clearDonation: action('clearDonation'),
     hideToast: action('hideToast'),
     openFileInFolder: action('openFileInFolder'),
     onShowDebugLog: action('onShowDebugLog'),

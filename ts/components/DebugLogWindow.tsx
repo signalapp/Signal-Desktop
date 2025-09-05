@@ -152,7 +152,6 @@ export function DebugLogWindow({
         </div>
         <ToastManager
           changeLocation={shouldNeverBeCalled}
-          clearDonation={shouldNeverBeCalled}
           OS="unused"
           hideToast={closeToast}
           i18n={i18n}
@@ -213,7 +212,6 @@ export function DebugLogWindow({
       </div>
       <ToastManager
         changeLocation={shouldNeverBeCalled}
-        clearDonation={shouldNeverBeCalled}
         OS="unused"
         hideToast={closeToast}
         i18n={i18n}

@@ -688,9 +688,6 @@ export function PreferencesDonations({
             );
           } else {
             clearWorkflow();
-            showToast({
-              toastType: ToastType.DonationCompleted,
-            });
           }
         }}
       />

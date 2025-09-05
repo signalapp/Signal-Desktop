@@ -56,7 +56,7 @@ export const SmartToastManager = memo(function SmartToastManager({
   const selectedNavTab = useSelector(getSelectedNavTab);
   const selectedConversationId = useSelector(getSelectedConversationId);
   const { changeLocation } = useNavActions();
-  const { clearWorkflow, setDidResume } = useDonationsActions();
+  const { setDidResume } = useDonationsActions();
 
   const { onUndoArchive } = useConversationsActions();
   const { openFileInFolder, hideToast } = useToastActions();
@@ -91,7 +91,6 @@ export const SmartToastManager = memo(function SmartToastManager({
   return (
     <ToastManager
       changeLocation={changeLocation}
-      clearDonation={clearWorkflow}
       i18n={i18n}
       OS={OS.getName()}
       toast={toast}

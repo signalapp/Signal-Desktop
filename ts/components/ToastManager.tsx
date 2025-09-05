@@ -23,7 +23,6 @@ import type { Location } from '../types/Nav';
 
 export type PropsType = {
   changeLocation: (newLocation: Location) => unknown;
-  clearDonation: () => unknown;
   hideToast: () => unknown;
   i18n: LocalizerType;
   openFileInFolder: (target: string) => unknown;
@@ -49,7 +48,6 @@ const SHORT_TIMEOUT = 3 * SECOND;
 
 export function renderToast({
   changeLocation,
-  clearDonation,
   hideToast,
   i18n,
   openFileInFolder,
@@ -293,7 +291,6 @@ export function renderToast({
       <Toast
         autoDismissDisabled
         onClose={() => {
-          clearDonation();
           hideToast();
         }}
         toastAction={{
