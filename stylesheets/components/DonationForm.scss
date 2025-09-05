@@ -17,6 +17,11 @@ $custom-amount-width: 320px;
   margin-inline: auto;
 }
 
+// Dropdown caret
+.DonationForm__CurrencySelect.module-select::after {
+  top: 7px;
+}
+
 .DonationForm__CurrencySelect.module-select select {
   height: auto;
   min-width: auto;
