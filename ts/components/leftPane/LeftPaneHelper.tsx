@@ -51,6 +51,7 @@ export abstract class LeftPaneHelper<T> {
       showConversation: ShowConversationType;
       showInbox: () => void;
       updateFilterByUnread: (filterByUnread: boolean) => void;
+      removeConversationFilter: () => void;
     }> &
       LookupConversationWithoutServiceIdActionsType
   ): null | ReactChild {

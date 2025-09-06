@@ -102,6 +102,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     showConversation,
     updateSearchTerm,
     updateFilterByUnread,
+    removeConversationFilter,
   }: Readonly<{
     clearConversationSearch: () => unknown;
     clearSearchQuery: () => unknown;
@@ -111,6 +112,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     showConversation: ShowConversationType;
     updateSearchTerm: (searchTerm: string) => unknown;
     updateFilterByUnread: (filterByUnread: boolean) => void;
+    removeConversationFilter: () => void;
   }>): ReactChild {
     return (
       <LeftPaneSearchInput
@@ -130,6 +132,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
         filterButtonEnabled={!this.#searchConversation}
         filterPressed={this.#filterByUnread}
         onFilterClick={updateFilterByUnread}
+        removeConversationFilter={removeConversationFilter}
       />
     );
   }

@@ -86,6 +86,7 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
     i18n,
     updateSearchTerm,
     showConversation,
+    removeConversationFilter,
   }: Readonly<{
     clearConversationSearch: () => unknown;
     clearSearchQuery: () => unknown;
@@ -94,6 +95,7 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
     i18n: LocalizerType;
     updateSearchTerm: (searchTerm: string) => unknown;
     showConversation: ShowConversationType;
+    removeConversationFilter: () => void;
   }>): ReactChild | null {
     if (!this.#searchConversation) {
       return null;
@@ -112,6 +114,7 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
         showConversation={showConversation}
         startSearchCounter={this.#startSearchCounter}
         updateSearchTerm={updateSearchTerm}
+        removeConversationFilter={removeConversationFilter}
       />
     );
   }
