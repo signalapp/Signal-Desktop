@@ -168,6 +168,7 @@ export type PropsType = {
   toggleNavTabsCollapse: (navTabsCollapsed: boolean) => void;
   updateSearchTerm: (query: string) => void;
   updateFilterByUnread: (filterByUnread: boolean) => void;
+  removeConversationFilter: () => void;
 
   // Render Props
   renderMessageSearchResult: (id: string) => JSX.Element;
@@ -274,6 +275,7 @@ export function LeftPane({
   updateSearchTerm,
   dismissBackupMediaDownloadBanner,
   updateFilterByUnread,
+  removeConversationFilter,
 }: PropsType): JSX.Element {
   const previousModeSpecificProps = usePrevious(
     modeSpecificProps,
@@ -807,6 +809,7 @@ export function LeftPane({
               setIsFetchingUUID,
               showInbox,
               updateFilterByUnread,
+              removeConversationFilter,
             })}
           </NavSidebarSearchHeader>
         )}

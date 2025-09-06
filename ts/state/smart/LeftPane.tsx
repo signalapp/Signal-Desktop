@@ -339,6 +339,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
     startSearch,
     updateSearchTerm,
     updateFilterByUnread,
+    removeConversationFilter,
   } = useSearchActions();
   const {
     onOutgoingAudioCallInConversation,
@@ -455,6 +456,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       usernameCorrupted={usernameCorrupted}
       usernameLinkCorrupted={usernameLinkCorrupted}
       updateFilterByUnread={updateFilterByUnread}
+      removeConversationFilter={removeConversationFilter}
     />
   );
 });
