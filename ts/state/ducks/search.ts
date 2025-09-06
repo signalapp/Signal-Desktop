@@ -128,6 +128,10 @@ type EndConversationSearchActionType = ReadonlyDeep<{
   type: 'END_CONVERSATION_SEARCH';
   payload: null;
 }>;
+type RemoveConversationFilterActionType = ReadonlyDeep<{
+  type: 'REMOVE_CONVERSATION_FILTER';
+  payload: null;
+}>;
 type SearchInConversationActionType = ReadonlyDeep<{
   type: 'SEARCH_IN_CONVERSATION';
   payload: { searchConversationId: string };
@@ -169,6 +173,7 @@ export type SearchActionType = ReadonlyDeep<
   | UpdateFilterByUnreadActionType
   | RefreshSearchActionType
   | MaybeRemoveReadConversationsActionType
+  | RemoveConversationFilterActionType
 >;
 
 // Action Creators
@@ -185,6 +190,7 @@ export const actions = {
   refreshSearch,
   maybeRemoveReadConversations,
   updateSearchResultsOnConversationUpdate,
+  removeConversationFilter,
 };
 
 export const useSearchActions = (): BoundActionCreatorsMapObject<
@@ -231,6 +237,25 @@ function endConversationSearch(): EndConversationSearchActionType {
   return {
     type: 'END_CONVERSATION_SEARCH',
     payload: null,
+  };
+}
+function removeConversationFilter(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  RemoveConversationFilterActionType
+> {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: 'REMOVE_CONVERSATION_FILTER',
+      payload: null,
+    });
+
+    // Trigger a new search across all conversations
+    doSearch({
+      dispatch,
+      state: getState(),
+    });
   };
 }
 function searchInConversation(
@@ -728,6 +753,13 @@ export function reducer(
     return handleSearchUpdate(state, {
       filterByUnread: action.payload.enabled,
     });
+  }
+
+  if (action.type === 'REMOVE_CONVERSATION_FILTER') {
+    return {
+      ...state,
+      searchConversationId: undefined,
+    };
   }
 
   if (action.type === 'SHOW_ARCHIVED_CONVERSATIONS') {
