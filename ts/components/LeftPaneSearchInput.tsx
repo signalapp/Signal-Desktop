@@ -31,6 +31,7 @@ type BasePropsType = {
   showConversation: ShowConversationType;
   startSearchCounter: number;
   updateSearchTerm: (searchTerm: string) => void;
+  removeConversationFilter: () => void;
 };
 
 type NoFilterPropsType = BasePropsType & {
@@ -64,6 +65,7 @@ export function LeftPaneSearchInput({
   filterButtonEnabled = false,
   filterPressed = false,
   onFilterClick,
+  removeConversationFilter,
 }: PropsType): JSX.Element {
   const inputRef = useRef<null | HTMLInputElement>(null);
 
@@ -191,7 +193,7 @@ export function LeftPaneSearchInput({
             <button
               aria-label={i18n('icu:clearSearch')}
               className="LeftPaneSearchInput__in-conversation-pill__x-button"
-              onClick={endConversationSearch}
+              onClick={removeConversationFilter}
               type="button"
             />
           </div>
