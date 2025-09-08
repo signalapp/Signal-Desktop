@@ -56,6 +56,7 @@ import { consoleLogger } from '../util/consoleLogger';
 import {
   dropNull,
   shallowConvertUndefinedToNull,
+  type ShallowNullToUndefined,
   type ShallowUndefinedToNull,
 } from '../util/dropNull';
 import { isNormalNumber } from '../util/isNormalNumber';
@@ -82,7 +83,7 @@ import {
   sqlFragment,
   sqlJoin,
   QueryFragment,
-  convertOptionalBooleanToNullableInteger,
+  convertOptionalBooleanToInteger,
 } from './util';
 import {
   hydrateMessage,
@@ -120,7 +121,12 @@ import {
   callHistoryGroupSchema,
 } from '../types/CallDisposition';
 import { redactGenericText } from '../util/privacy';
-import { parseStrict, parseUnknown, safeParseUnknown } from '../util/schemas';
+import {
+  parseLoose,
+  parseStrict,
+  parseUnknown,
+  safeParseUnknown,
+} from '../util/schemas';
 import {
   SNIPPET_LEFT_PLACEHOLDER,
   SNIPPET_RIGHT_PLACEHOLDER,
@@ -263,7 +269,7 @@ import {
 import { generateMessageId } from '../util/generateMessageId';
 import type { ConversationColorType, CustomColorType } from '../types/Colors';
 import { sqlLogger } from './sqlLogger';
-import { APPLICATION_OCTET_STREAM } from '../types/MIME';
+import { permissiveMessageAttachmentSchema } from './server/messageAttachments';
 
 type ConversationRow = Readonly<{
   json: string;
@@ -2642,7 +2648,7 @@ function saveMessageAttachment({
   orderInMessage: number;
   editHistoryIndex: number | null;
 }) {
-  const values: MessageAttachmentDBType = shallowConvertUndefinedToNull({
+  const unparsedValues: ShallowNullToUndefined<MessageAttachmentDBType> = {
     messageId,
     editHistoryIndex:
       editHistoryIndex ?? ROOT_MESSAGE_ATTACHMENT_EDIT_HISTORY_INDEX,
@@ -2651,8 +2657,8 @@ function saveMessageAttachment({
     conversationId,
     sentAt,
     clientUuid: attachment.clientUuid,
-    size: attachment.size ?? 0,
-    contentType: attachment.contentType ?? APPLICATION_OCTET_STREAM,
+    size: attachment.size,
+    contentType: attachment.contentType,
     path: attachment.path,
     localKey: attachment.localKey,
     plaintextHash: attachment.plaintextHash,
@@ -2666,15 +2672,9 @@ function saveMessageAttachment({
     downloadPath: attachment.downloadPath,
     transitCdnKey: attachment.cdnKey ?? attachment.cdnId,
     transitCdnNumber: attachment.cdnNumber,
-    transitCdnUploadTimestamp: isNumber(attachment.uploadTimestamp)
-      ? attachment.uploadTimestamp
-      : null,
+    transitCdnUploadTimestamp: attachment.uploadTimestamp,
     backupCdnNumber: attachment.backupCdnNumber,
-    incrementalMac:
-      // resilience to Uint8Array-stored incrementalMac values
-      typeof attachment.incrementalMac === 'string'
-        ? attachment.incrementalMac
-        : null,
+    incrementalMac: attachment.incrementalMac,
     incrementalMacChunkSize: attachment.chunkSize,
     thumbnailPath: attachment.thumbnail?.path,
     thumbnailSize: attachment.thumbnail?.size,
@@ -2693,33 +2693,57 @@ function saveMessageAttachment({
     backupThumbnailVersion: attachment.thumbnailFromBackup?.version,
     storyTextAttachmentJson: attachment.textAttachment
       ? objectToJSON(attachment.textAttachment)
-      : null,
+      : undefined,
     localBackupPath: attachment.localBackupPath,
     flags: attachment.flags,
-    error: convertOptionalBooleanToNullableInteger(attachment.error),
-    wasTooBig: convertOptionalBooleanToNullableInteger(attachment.wasTooBig),
-    backfillError: convertOptionalBooleanToNullableInteger(
-      attachment.backfillError
-    ),
-    isCorrupted: convertOptionalBooleanToNullableInteger(
-      attachment.isCorrupted
-    ),
+    error: convertOptionalBooleanToInteger(attachment.error),
+    wasTooBig: convertOptionalBooleanToInteger(attachment.wasTooBig),
+    backfillError: convertOptionalBooleanToInteger(attachment.backfillError),
+    isCorrupted: convertOptionalBooleanToInteger(attachment.isCorrupted),
     copiedFromQuotedAttachment:
       'copied' in attachment
-        ? convertOptionalBooleanToNullableInteger(attachment.copied)
-        : null,
+        ? convertOptionalBooleanToInteger(attachment.copied)
+        : undefined,
     version: attachment.version,
-    pending: convertOptionalBooleanToNullableInteger(attachment.pending),
-  });
+    pending: convertOptionalBooleanToInteger(attachment.pending),
+  };
 
-  db.prepare(
-    `
+  try {
+    const values: MessageAttachmentDBType =
+      shallowConvertUndefinedToNull(unparsedValues);
+
+    db.prepare(
+      `
         INSERT OR REPLACE INTO message_attachments
           (${MESSAGE_ATTACHMENT_COLUMNS.join(', ')})
         VALUES
           (${MESSAGE_ATTACHMENT_COLUMNS.map(name => `$${name}`).join(', ')});
       `
-  ).run(values);
+    ).run(values);
+  } catch (e) {
+    // Attachments used to be stored in JSON and may not have the types we expect. If we
+    // fail to save one, we parse/transform through a permissive zod schema (i.e. one that
+    // will convert invalid values to null when possible)
+    logger.error(
+      'Failed to save to message_attachments',
+      Errors.toLogFormat(e)
+    );
+    const values: MessageAttachmentDBType = parseLoose(
+      permissiveMessageAttachmentSchema,
+      unparsedValues
+    );
+
+    db.prepare(
+      `
+        INSERT OR REPLACE INTO message_attachments
+          (${MESSAGE_ATTACHMENT_COLUMNS.join(', ')})
+        VALUES
+          (${MESSAGE_ATTACHMENT_COLUMNS.map(name => `$${name}`).join(', ')});
+      `
+    ).run(values);
+
+    logger.info('Recovered from invalid message_attachment save');
+  }
 }
 
 function _testOnlyRemoveMessageAttachments(
