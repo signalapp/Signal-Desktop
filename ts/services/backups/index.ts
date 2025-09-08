@@ -153,13 +153,11 @@ export class BackupsService {
 
   public readonly credentials = new BackupCredentials();
   public readonly api = new BackupAPI(this.credentials);
-  public readonly throttledFetchCloudBackupStatus = throttle(
-    30 * SECOND,
-    this.fetchCloudBackupStatus.bind(this)
+  public readonly throttledFetchCloudBackupStatus = throttle(30 * SECOND, () =>
+    this.#fetchCloudBackupStatus()
   );
-  public readonly throttledFetchSubscriptionStatus = throttle(
-    30 * SECOND,
-    this.fetchSubscriptionStatus.bind(this)
+  public readonly throttledFetchSubscriptionStatus = throttle(30 * SECOND, () =>
+    this.#fetchSubscriptionStatus()
   );
 
   public start(): void {
@@ -183,9 +181,8 @@ export class BackupsService {
     drop(this.#runPeriodicRefresh());
     this.credentials.start();
 
-    window.Whisper.events.on('userChanged', () => {
-      drop(this.credentials.clearCache());
-      this.api.clearCache();
+    window.Whisper.events.on('userChanged', async () => {
+      await this.resetCachedData();
     });
   }
   public async downloadAndImport(
@@ -1070,7 +1067,7 @@ export class BackupsService {
     }
   }
 
-  async fetchCloudBackupStatus(): Promise<BackupStatusType | undefined> {
+  async #fetchCloudBackupStatus(): Promise<BackupStatusType | undefined> {
     let result: BackupStatusType | undefined;
     const backupProtoInfo = await this.api.getBackupProtoInfo();
 
@@ -1086,7 +1083,7 @@ export class BackupsService {
     return result;
   }
 
-  async fetchSubscriptionStatus(): Promise<
+  async #fetchSubscriptionStatus(): Promise<
     BackupsSubscriptionType | undefined
   > {
     const backupTier = this.#getBackupTierFromStorage();
@@ -1111,15 +1108,23 @@ export class BackupsService {
         throw missingCaseError(backupTier);
     }
 
-    drop(window.storage.put('backupSubscriptionStatus', result));
+    await window.storage.put('backupSubscriptionStatus', result);
     return result;
   }
 
   async refreshBackupAndSubscriptionStatus(): Promise<void> {
     await Promise.all([
-      this.fetchSubscriptionStatus(),
-      this.fetchCloudBackupStatus(),
+      this.#fetchSubscriptionStatus(),
+      this.#fetchCloudBackupStatus(),
     ]);
+  }
+
+  async resetCachedData(): Promise<void> {
+    this.api.clearCache();
+    await this.credentials.clearCache();
+    await window.storage.remove('backupSubscriptionStatus');
+    await window.storage.remove('cloudBackupStatus');
+    await this.refreshBackupAndSubscriptionStatus();
   }
 
   hasMediaBackups(): boolean {
