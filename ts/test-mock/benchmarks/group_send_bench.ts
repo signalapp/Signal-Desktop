@@ -140,12 +140,12 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
   {
     const leftPane = window.locator('#LeftPane');
 
-    // Left pane should show either the message preview or
-    // "You were added to the group".
+    // Wait for group state to be fetched
     await leftPane
       .locator(
         `.module-conversation-list__item--contact-or-conversation[data-testid="${group.id}"]`
       )
+      .getByText(GROUP_NAME)
       .waitFor();
   }
 
