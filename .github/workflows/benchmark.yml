@@ -52,7 +52,7 @@ jobs:
             contactCount: 500
             discardCount: 2
           - metric: convoOpen
-            script: ts/test-mock/benchmarks/group_send_bench.js
+            script: ts/test-mock/benchmarks/convo_open_bench.js
             runCount: 100
           - metric: callHistorySearch
             script: ts/test-mock/benchmarks/call_history_search_bench.js
