@@ -7033,7 +7033,7 @@
     "description": "Label for blocked contacts setting"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Backups",
+    "messageformat": "Signal Secure Backups",
     "description": "Feature name for message backups using the Signal service."
   },
   "icu:Preferences--signal-backups-off-description": {
@@ -7053,7 +7053,7 @@
     "description": "Description of a backup plan that backups all of their messages (text) and media"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Backups.",
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups.",
     "description": "Description when a backup subscription used to exist but is not active"
   },
   "icu:Preferences--backup-messages-plan__description": {
@@ -7077,15 +7077,15 @@
     "description": "Description of plan when it has been canceled (i.e. not going to renew but still active)"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Backups subscription on your phone.",
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone.",
     "description": "Note next to backups plan summary"
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Backups on your phone.",
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone.",
     "description": "Note next to backups plan summary"
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Backups subscription on your phone.",
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone.",
     "description": "Note next to backups plan summary if we could not find their subscription"
   },
   "icu:Preferences--backup-created-at__label": {
