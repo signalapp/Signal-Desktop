@@ -195,11 +195,12 @@ function showLightboxForViewOnceMedia(
       );
     }
 
-    const { copyIntoTempDirectory, getAbsoluteAttachmentPath } =
+    const { copyAttachmentIntoTempDirectory, getAbsoluteAttachmentPath } =
       window.Signal.Migrations;
 
     const absolutePath = getAbsoluteAttachmentPath(firstAttachment.path);
-    const { path: tempPath } = await copyIntoTempDirectory(absolutePath);
+    const { path: tempPath } =
+      await copyAttachmentIntoTempDirectory(absolutePath);
     const tempAttachment = {
       ...firstAttachment,
       path: tempPath,
