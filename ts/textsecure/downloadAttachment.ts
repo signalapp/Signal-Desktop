@@ -164,7 +164,10 @@ export async function downloadAttachment(
   }
 
   // Start over if we go over the size
-  if (downloadOffset >= size && absoluteDownloadPath) {
+  if (
+    downloadOffset >= getAttachmentCiphertextLength(size) &&
+    absoluteDownloadPath
+  ) {
     log.warn('went over, retrying');
     await safeUnlink(absoluteDownloadPath);
     downloadOffset = 0;
@@ -310,7 +313,7 @@ export async function downloadAttachment(
         // backup thumbnails don't get trimmed, so we just calculate the size as the
         // ciphertextSize, less IV and MAC
         const calculatedSize = downloadSize - IV_LENGTH - MAC_LENGTH;
-        return decryptAndReencryptLocally({
+        return await decryptAndReencryptLocally({
           type: 'backupThumbnail',
           ciphertextPath: cipherTextAbsolutePath,
           idForLogging: logId,

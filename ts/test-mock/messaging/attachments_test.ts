@@ -6,6 +6,8 @@ import { assert } from 'chai';
 import { expect } from 'playwright/test';
 import { type PrimaryDevice, StorageState } from '@signalapp/mock-server';
 import * as path from 'path';
+import { readFile } from 'fs/promises';
+
 import type { App } from '../playwright';
 import { Bootstrap } from '../bootstrap';
 import {
@@ -16,6 +18,8 @@ import {
 } from '../helpers';
 import * as durations from '../../util/durations';
 import { strictAssert } from '../../util/assert';
+import { VIDEO_MP4 } from '../../types/MIME';
+import { toBase64 } from '../../Bytes';
 
 export const debug = createDebug('mock:test:attachments');
 
@@ -26,6 +30,14 @@ const CAT_PATH = path.join(
   '..',
   'fixtures',
   'cat-screenshot.png'
+);
+const VIDEO_PATH = path.join(
+  __dirname,
+  '..',
+  '..',
+  '..',
+  'fixtures',
+  'ghost-kitty.mp4'
 );
 
 describe('attachments', function (this: Mocha.Suite) {
@@ -120,5 +132,84 @@ describe('attachments', function (this: Mocha.Suite) {
 
     assert.strictEqual(incomingAttachment?.key, sentAttachment?.key);
     assert.strictEqual(incomingAttachment?.digest, sentAttachment?.digest);
+  });
+
+  it('can download videos with incrementalMac and is resilient to bad incrementalMacs', async () => {
+    const { desktop } = bootstrap;
+    const page = await app.getWindow();
+
+    await page.getByTestId(pinned.device.aci).click();
+
+    const plaintextVideo = await readFile(VIDEO_PATH);
+    const videoPointer1 = await bootstrap.encryptAndStoreAttachmentOnCDN(
+      plaintextVideo,
+      VIDEO_MP4
+    );
+    const videoPointer2 = await bootstrap.encryptAndStoreAttachmentOnCDN(
+      plaintextVideo,
+      VIDEO_MP4
+    );
+
+    const incrementalTimestamp = Date.now();
+    const badIncrementalTimestamp = incrementalTimestamp + 1;
+
+    await sendTextMessage({
+      from: pinned,
+      to: desktop,
+      desktop,
+      text: 'video with good incrementalMac',
+      attachments: [videoPointer1],
+      timestamp: incrementalTimestamp,
+    });
+    await sendTextMessage({
+      from: pinned,
+      to: desktop,
+      desktop,
+      text: 'video with bad incrementalMac',
+      attachments: [
+        { ...videoPointer2, chunkSize: (videoPointer2.chunkSize ?? 42) + 1 },
+      ],
+      timestamp: badIncrementalTimestamp,
+    });
+
+    await expect(
+      getMessageInTimelineByTimestamp(page, incrementalTimestamp).locator(
+        'img.module-image__image'
+      )
+    ).toBeVisible();
+    await expect(
+      getMessageInTimelineByTimestamp(page, badIncrementalTimestamp).locator(
+        'img.module-image__image'
+      )
+    ).toBeVisible();
+
+    // goodIncrementalMac preserved
+    {
+      const messageInDB = (
+        await app.getMessagesBySentAt(incrementalTimestamp)
+      )[0];
+      strictAssert(messageInDB, 'message exists in DB');
+      const attachmentInDB = messageInDB.attachments?.[0];
+      strictAssert(videoPointer1.incrementalMac, 'must exist');
+      strictAssert(videoPointer1.chunkSize, 'must exist');
+      assert.strictEqual(
+        attachmentInDB?.incrementalMac,
+        toBase64(videoPointer1.incrementalMac)
+      );
+      assert.strictEqual(attachmentInDB?.chunkSize, videoPointer1.chunkSize);
+    }
+
+    // badIncrementalMac removed
+    {
+      const messageInDB = (
+        await app.getMessagesBySentAt(badIncrementalTimestamp)
+      )[0];
+      strictAssert(messageInDB, 'message exists in DB');
+      const attachmentInDB = messageInDB.attachments?.[0];
+      strictAssert(videoPointer2.incrementalMac, 'must exist');
+      strictAssert(videoPointer2.chunkSize, 'must exist');
+      assert.strictEqual(attachmentInDB?.incrementalMac, undefined);
+      assert.strictEqual(attachmentInDB?.chunkSize, undefined);
+    }
   });
 });
