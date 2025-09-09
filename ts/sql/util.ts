@@ -3,6 +3,7 @@
 /* eslint-disable max-classes-per-file */
 
 import { isNumber, last } from 'lodash';
+
 import type { ReadableDB, WritableDB } from './Interface';
 import type { LoggerType } from '../types/Logging';
 
@@ -431,14 +432,14 @@ export function convertOptionalIntegerToBoolean(
   return undefined;
 }
 
-export function convertOptionalBooleanToNullableInteger(
+export function convertOptionalBooleanToInteger(
   optionalBoolean?: boolean
-): 1 | 0 | null {
+): 1 | 0 | undefined {
   if (optionalBoolean === true) {
     return 1;
   }
   if (optionalBoolean === false) {
     return 0;
   }
-  return null;
+  return undefined;
 }
