@@ -13,7 +13,10 @@ import {
   AttachmentDownloadUrgency,
   coreAttachmentDownloadJobSchema,
 } from '../types/AttachmentDownload';
-import { downloadAttachment as downloadAttachmentUtil } from '../util/downloadAttachment';
+import {
+  downloadAttachment as downloadAttachmentUtil,
+  isIncrementalMacVerificationError,
+} from '../util/downloadAttachment';
 import { DataReader, DataWriter } from '../sql/Client';
 import { getValue } from '../RemoteConfig';
 
@@ -27,6 +30,7 @@ import {
   canAttachmentHaveThumbnail,
   shouldAttachmentEndUpInRemoteBackup,
   getUndownloadedAttachmentSignature,
+  isIncremental,
 } from '../types/Attachment';
 import { type ReadonlyMessageAttributesType } from '../model-types.d';
 import { getMessageById } from '../messages/getMessageById';
@@ -44,7 +48,7 @@ import {
   type JobManagerJobResultType,
   type JobManagerJobType,
 } from './JobManager';
-import { IMAGE_JPEG } from '../types/MIME';
+import { IMAGE_WEBP } from '../types/MIME';
 import { AttachmentDownloadSource } from '../sql/Interface';
 import { drop } from '../util/drop';
 import {
@@ -506,8 +510,8 @@ async function runDownloadAttachmentJob({
 
     if (result.downloadedVariant === AttachmentVariant.ThumbnailFromBackup) {
       return {
-        status: 'finished',
-        newJob: { ...job, attachment: result.attachmentWithThumbnail },
+        status: 'retry',
+        updatedJob: { ...job, attachment: result.attachmentWithThumbnail },
       };
     }
 
@@ -541,6 +545,38 @@ async function runDownloadAttachmentJob({
         { type: job.attachmentType }
       );
       return { status: 'finished' };
+    }
+
+    if (isIncrementalMacVerificationError(error)) {
+      log.warn(
+        'Attachment decryption failed with incrementalMac verification error; dropping incrementalMac'
+      );
+      // If incrementalMac fails verification, we will delete it and retry (without
+      // streaming support)
+      strictAssert(isIncremental(job.attachment), 'must have incrementalMac');
+      const attachmentWithoutIncrementalMac: AttachmentType = {
+        ...job.attachment,
+        pending: false,
+        incrementalMac: undefined,
+        chunkSize: undefined,
+      };
+      // Double-check it no longer supports incremental playback just to make sure we
+      // avoid any loops
+      strictAssert(
+        !isIncremental(attachmentWithoutIncrementalMac),
+        'no longer has incrementalMac'
+      );
+
+      await addAttachmentToMessage(
+        message.id,
+        attachmentWithoutIncrementalMac,
+        logId,
+        { type: job.attachmentType }
+      );
+      return {
+        status: 'retry',
+        updatedJob: { ...job, attachment: attachmentWithoutIncrementalMac },
+      };
     }
 
     if (error instanceof AttachmentPermanentlyUndownloadableError) {
@@ -672,27 +708,28 @@ export async function runDownloadAttachmentJobInner({
     canAttachmentHaveThumbnail(attachment) &&
     !wasAttachmentImportedFromLocalBackup;
 
-  const preferBackupThumbnail =
+  const attemptBackupThumbnailFirst =
     isForCurrentlyVisibleMessage && mightHaveBackupThumbnailToDownload;
 
-  if (preferBackupThumbnail) {
-    logId += '.preferringBackupThumbnail';
-  }
+  let attachmentWithBackupThumbnail: AttachmentType | undefined;
 
-  if (preferBackupThumbnail) {
+  if (attemptBackupThumbnailFirst) {
+    logId += '.preferringBackupThumbnail';
+
     try {
-      const attachmentWithThumbnail = await downloadBackupThumbnail({
+      attachmentWithBackupThumbnail = await downloadBackupThumbnail({
         attachment,
         abortSignal,
         dependencies,
       });
-      await addAttachmentToMessage(messageId, attachmentWithThumbnail, logId, {
-        type: attachmentType,
-      });
-      return {
-        downloadedVariant: AttachmentVariant.ThumbnailFromBackup,
-        attachmentWithThumbnail,
-      };
+      await addAttachmentToMessage(
+        messageId,
+        attachmentWithBackupThumbnail,
+        logId,
+        {
+          type: attachmentType,
+        }
+      );
     } catch (e) {
       log.warn(
         `${logId}: error when trying to download thumbnail`,
@@ -801,38 +838,38 @@ export async function runDownloadAttachmentJobInner({
     );
     return { downloadedVariant: AttachmentVariant.Default };
   } catch (error) {
-    if (mightHaveBackupThumbnailToDownload && !preferBackupThumbnail) {
+    if (mightHaveBackupThumbnailToDownload && !attemptBackupThumbnailFirst) {
       log.error(
         `${logId}: failed to download fullsize attachment, falling back to backup thumbnail`,
         Errors.toLogFormat(error)
       );
       try {
-        const attachmentWithThumbnail = omit(
-          await downloadBackupThumbnail({
-            attachment,
-            abortSignal,
-            dependencies,
-          }),
-          'pending'
-        );
+        attachmentWithBackupThumbnail = await downloadBackupThumbnail({
+          attachment,
+          abortSignal,
+          dependencies,
+        });
         await addAttachmentToMessage(
           messageId,
-          attachmentWithThumbnail,
+          { ...attachment, pending: false },
           logId,
           {
             type: attachmentType,
           }
         );
-        return {
-          downloadedVariant: AttachmentVariant.ThumbnailFromBackup,
-          attachmentWithThumbnail,
-        };
       } catch (thumbnailError) {
         log.error(
           `${logId}: fallback attempt to download thumbnail failed`,
           Errors.toLogFormat(thumbnailError)
         );
       }
+    }
+
+    if (attachmentWithBackupThumbnail) {
+      return {
+        downloadedVariant: AttachmentVariant.ThumbnailFromBackup,
+        attachmentWithThumbnail: attachmentWithBackupThumbnail,
+      };
     }
 
     let showToast = false;
@@ -889,7 +926,7 @@ async function downloadBackupThumbnail({
   const attachmentWithThumbnail = {
     ...attachment,
     thumbnailFromBackup: {
-      contentType: IMAGE_JPEG,
+      contentType: IMAGE_WEBP,
       ...downloadedThumbnail,
       size: calculatedSize,
     },

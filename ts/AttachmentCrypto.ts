@@ -582,9 +582,10 @@ export async function decryptAndReencryptLocally(
     };
   } catch (error) {
     log.error(
-      `${logId}: Failed to decrypt attachment`,
+      `${logId}: Failed to decrypt and reencrypt attachment`,
       Errors.toLogFormat(error)
     );
+
     await safeUnlink(absoluteTargetPath);
     throw error;
   } finally {

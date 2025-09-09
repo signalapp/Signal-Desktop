@@ -66,10 +66,8 @@ export type JobManagerParamsType<
 
 const DEFAULT_TICK_INTERVAL = MINUTE;
 export type JobManagerJobResultType<CoreJobType> =
-  | {
-      status: 'retry';
-    }
-  | { status: 'finished'; newJob?: CoreJobType }
+  | { status: 'retry'; updatedJob?: CoreJobType & JobManagerJobType }
+  | { status: 'finished' }
   | { status: 'rate-limited'; pauseDurationMs: number };
 
 export type ActiveJobData<CoreJobType> = {
@@ -287,6 +285,7 @@ export abstract class JobManager<CoreJobType> {
       return;
     }
 
+    const isFirstAttempt = job.attempts === 0;
     const isLastAttempt =
       job.attempts + 1 >=
       (this.params.getRetryConfig(job).maxAttempts ?? Infinity);
@@ -303,7 +302,9 @@ export abstract class JobManager<CoreJobType> {
       this.#handleJobStartPromises(job);
       jobRunResult = await runJobPromise;
       const { status } = jobRunResult;
-      log.info(`${logId}: job completed with status: ${status}`);
+      log.info(
+        `${logId}: job completed with status: ${status}${status === 'retry' && jobRunResult.updatedJob ? ' with updated job' : ''}`
+      );
 
       switch (status) {
         case 'finished':
@@ -313,7 +314,13 @@ export abstract class JobManager<CoreJobType> {
           if (isLastAttempt) {
             throw new Error('Cannot retry on last attempt');
           }
-          await this.#retryJobLater(job);
+          // If we get an updated job, retry it without delay only if it's the first
+          // attempt (to avoid loops)
+          if (isFirstAttempt && jobRunResult.updatedJob) {
+            await this.#retryJobWithoutDelay(jobRunResult.updatedJob);
+          } else {
+            await this.#retryJobLater(jobRunResult.updatedJob ?? job);
+          }
           return;
         case 'rate-limited':
           log.info(
@@ -334,16 +341,19 @@ export abstract class JobManager<CoreJobType> {
       }
     } finally {
       this.#removeRunningJob(job);
-      if (jobRunResult?.status === 'finished') {
-        if (jobRunResult.newJob) {
-          log.info(
-            `${logId}: adding new job as a result of this one completing`
-          );
-          await this.addJob(jobRunResult.newJob);
-        }
-      }
       drop(this.maybeStartJobs());
     }
+  }
+
+  async #retryJobWithoutDelay(job: CoreJobType & JobManagerJobType) {
+    const now = Date.now();
+    await this.params.saveJob({
+      ...job,
+      active: false,
+      attempts: job.attempts + 1,
+      retryAfter: now,
+      lastAttemptTimestamp: now,
+    });
   }
 
   async #retryJobLater(job: CoreJobType & JobManagerJobType) {

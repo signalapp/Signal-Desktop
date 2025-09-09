@@ -219,7 +219,7 @@ describe('backups', function (this: Mocha.Suite) {
 
     const catTimestamp = bootstrap.getTimestamp();
     const plaintextCat = await readFile(CAT_PATH);
-    const ciphertextCat = await bootstrap.storeAttachmentOnCDN(
+    const ciphertextCat = await bootstrap.encryptAndStoreAttachmentOnCDN(
       plaintextCat,
       IMAGE_JPEG
     );

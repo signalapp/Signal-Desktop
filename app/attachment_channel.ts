@@ -134,7 +134,7 @@ async function safeDecryptToSink(
       });
       file.on('error', (error: Error) => {
         log.warn(
-          'safeDecryptToSync/incremental: growing-file emitted an error:',
+          'safeDecryptToSink/incremental: growing-file emitted an error:',
           Errors.toLogFormat(error)
         );
       });

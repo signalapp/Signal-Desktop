@@ -1,6 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
+import { ErrorCode, LibSignalErrorBase } from '@signalapp/libsignal-client';
 import {
   type AttachmentType,
   AttachmentVariant,
@@ -68,6 +68,9 @@ export async function downloadAttachment({
       onSizeUpdate(attachment.size);
       return result;
     } catch (error) {
+      if (isIncrementalMacVerificationError(error)) {
+        throw error;
+      }
       // We also just log this error instead of throwing, since we want to still try to
       // find it on the backup then transit tiers.
       log.error(
@@ -90,6 +93,10 @@ export async function downloadAttachment({
         }
       );
     } catch (error) {
+      if (isIncrementalMacVerificationError(error)) {
+        throw error;
+      }
+
       const shouldFallbackToTransitTier =
         variant !== AttachmentVariant.ThumbnailFromBackup;
 
@@ -128,6 +135,10 @@ export async function downloadAttachment({
       }
     );
   } catch (error) {
+    if (isIncrementalMacVerificationError(error)) {
+      throw error;
+    }
+
     if (mightBeOnBackupTierInTheFuture) {
       // We don't want to throw the AttachmentPermanentlyUndownloadableError because we
       // may just need to wait for this attachment to end up on the backup tier
@@ -149,4 +160,11 @@ export async function downloadAttachment({
       throw error;
     }
   }
+}
+
+export function isIncrementalMacVerificationError(error: unknown): boolean {
+  return (
+    error instanceof LibSignalErrorBase &&
+    error.code === ErrorCode.IncrementalMacVerificationFailed
+  );
 }
