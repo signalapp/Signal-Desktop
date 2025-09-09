@@ -51,6 +51,7 @@ import { IV_LENGTH, MAC_LENGTH } from '../types/Crypto';
 import { BackupCredentialType } from '../types/backups';
 import { getValue } from '../RemoteConfig';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
+import { HTTPError } from './Errors';
 
 const log = createLogger('downloadAttachment');
 
@@ -226,17 +227,26 @@ export async function downloadAttachment(
     const backupDir = await backupsService.api.getBackupDir();
     const mediaDir = await backupsService.api.getMediaDir();
 
-    const downloadStream = await server.getAttachmentFromBackupTier({
-      mediaId: mediaId.string,
-      backupDir,
-      mediaDir,
-      headers: cdnCredentials.headers,
-      cdnNumber,
-      options: {
-        ...options,
-        downloadOffset,
-      },
-    });
+    let downloadStream: Readable;
+    try {
+      downloadStream = await server.getAttachmentFromBackupTier({
+        mediaId: mediaId.string,
+        backupDir,
+        mediaDir,
+        headers: cdnCredentials.headers,
+        cdnNumber,
+        options: {
+          ...options,
+          downloadOffset,
+        },
+      });
+    } catch (error) {
+      if (error instanceof HTTPError && error.code === 401) {
+        window.Signal.Services.backups.credentials.onCdnCredentialError();
+      }
+      throw error;
+    }
+
     downloadResult = await downloadToDisk({
       downloadStream,
       downloadPath,

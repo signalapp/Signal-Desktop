@@ -144,7 +144,9 @@ export class BackupAPI {
         });
       return { backupExists: true, size, createdAt };
     } catch (error) {
-      if (error instanceof HTTPError && error.code === 404) {
+      if (error instanceof HTTPError && error.code === 401) {
+        this.credentials.onCdnCredentialError();
+      } else if (error instanceof HTTPError && error.code === 404) {
         return { backupExists: false };
       }
       throw error;
@@ -218,7 +220,7 @@ export class BackupAPI {
     try {
       subscriptionResponse = await this.#server.getSubscription(subscriberId);
     } catch (e) {
-      log.error(
+      log.warn(
         'Backups.getSubscriptionInfo: error fetching subscription',
         toLogFormat(e)
       );

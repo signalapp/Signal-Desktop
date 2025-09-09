@@ -1350,7 +1350,7 @@ export type GetBackupCredentialsResponseType = z.infer<
 
 export type GetBackupCDNCredentialsOptionsType = Readonly<{
   headers: BackupPresentationHeadersType;
-  cdn: number;
+  cdnNumber: number;
 }>;
 
 export const getBackupCDNCredentialsResponseSchema = z.object({
@@ -3645,7 +3645,7 @@ export function initialize({
 
     async function getBackupCDNCredentials({
       headers,
-      cdn,
+      cdnNumber,
     }: GetBackupCDNCredentialsOptionsType) {
       return _ajax({
         host: 'chatService',
@@ -3655,7 +3655,7 @@ export function initialize({
         accessKey: undefined,
         groupSendToken: undefined,
         headers,
-        urlParameters: `?cdn=${cdn}`,
+        urlParameters: `?cdn=${cdnNumber}`,
         responseType: 'json',
         zodSchema: getBackupCDNCredentialsResponseSchema,
       });
