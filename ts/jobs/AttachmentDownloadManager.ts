@@ -485,7 +485,7 @@ async function runDownloadAttachmentJob({
   dependencies?: DependenciesType;
 }): Promise<JobManagerJobResultType<CoreAttachmentDownloadJobType>> {
   const jobIdForLogging = getJobIdForLogging(job);
-  const logId = `AttachmentDownloadManager/runDownloadAttachmentJob/${jobIdForLogging}`;
+  const logId = `runDownloadAttachmentJob/${jobIdForLogging}`;
 
   const message = await getMessageById(job.messageId);
 
@@ -495,8 +495,6 @@ async function runDownloadAttachmentJob({
   }
 
   try {
-    log.info(`${logId}: Starting job`);
-
     const result = await runDownloadAttachmentJobInner({
       job,
       abortSignal: options.abortSignal,
@@ -666,7 +664,7 @@ export async function runDownloadAttachmentJobInner({
   const { messageId, attachment, attachmentType } = job;
 
   const jobIdForLogging = getJobIdForLogging(job);
-  let logId = `AttachmentDownloadManager/runDownloadJobInner(${jobIdForLogging})`;
+  let logId = `runDownloadAttachmentJobInner(${jobIdForLogging})`;
 
   if (!job || !attachment || !messageId) {
     throw new Error(`${logId}: Key information required for job was missing.`);
@@ -721,6 +719,7 @@ export async function runDownloadAttachmentJobInner({
         attachment,
         abortSignal,
         dependencies,
+        logId,
       });
       await addAttachmentToMessage(
         messageId,
@@ -786,6 +785,7 @@ export async function runDownloadAttachmentJobInner({
         onSizeUpdate: throttle(onSizeUpdate, 200),
         abortSignal,
         hasMediaBackups,
+        logId,
       },
     });
 
@@ -848,10 +848,12 @@ export async function runDownloadAttachmentJobInner({
           attachment,
           abortSignal,
           dependencies,
+          logId,
         });
+
         await addAttachmentToMessage(
           messageId,
-          { ...attachment, pending: false },
+          { ...attachmentWithBackupThumbnail, pending: false },
           logId,
           {
             type: attachmentType,
@@ -902,10 +904,12 @@ export async function runDownloadAttachmentJobInner({
 async function downloadBackupThumbnail({
   attachment,
   abortSignal,
+  logId,
   dependencies,
 }: {
   attachment: AttachmentType;
   abortSignal: AbortSignal;
+  logId: string;
   dependencies: {
     downloadAttachment: typeof downloadAttachmentUtil;
   };
@@ -917,6 +921,7 @@ async function downloadBackupThumbnail({
       variant: AttachmentVariant.ThumbnailFromBackup,
       abortSignal,
       hasMediaBackups: true,
+      logId,
     },
   });
 

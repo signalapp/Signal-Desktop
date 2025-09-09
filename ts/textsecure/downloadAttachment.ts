@@ -114,18 +114,16 @@ export async function downloadAttachment(
     | { attachment: BackupableAttachmentType; mediaTier: MediaTier.BACKUP },
   options: {
     disableRetries?: boolean;
-    logPrefix?: string;
+    logId: string;
     onSizeUpdate: (totalBytes: number) => void;
     timeout?: number;
     variant: AttachmentVariant;
     abortSignal: AbortSignal;
   }
 ): Promise<ReencryptedAttachmentV2> {
-  const logId = `downloadAttachment/${options.logPrefix ?? ''}`;
-
   const { digest, plaintextHash, incrementalMac, chunkSize, key, size } =
     attachment;
-
+  const { logId } = options;
   try {
     strictAssert(
       digest || plaintextHash,
@@ -199,9 +197,6 @@ export async function downloadAttachment(
         downloadOffset,
       },
     });
-    log.info(
-      `${logId}: calling downloadToDisk with ${downloadPath ? '' : 'no '}downloadPath`
-    );
     downloadResult = await downloadToDisk({
       downloadOffset,
       downloadPath,

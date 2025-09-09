@@ -206,6 +206,8 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.TooManyMessagesToForward };
     case ToastType.UnableToLoadAttachment:
       return { toastType: ToastType.UnableToLoadAttachment };
+    case ToastType.UnableToDownloadFromBackupTier:
+      return { toastType: ToastType.UnableToDownloadFromBackupTier };
     case ToastType.UnsupportedMultiAttachment:
       return { toastType: ToastType.UnsupportedMultiAttachment };
     case ToastType.UnsupportedOS:

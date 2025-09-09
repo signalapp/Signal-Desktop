@@ -389,6 +389,21 @@ export function renderToast({
     );
   }
 
+  if (toastType === ToastType.UnableToDownloadFromBackupTier) {
+    return (
+      <Toast
+        autoDismissDisabled
+        onClose={hideToast}
+        toastAction={{
+          label: i18n('icu:Toast--error--action'),
+          onClick: () => window.IPC.showDebugLog(),
+        }}
+      >
+        {i18n('icu:Toast--unable-download-from-backup-tier')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.Expired) {
     return <Toast onClose={hideToast}>{i18n('icu:expiredWarning')}</Toast>;
   }
