@@ -1371,10 +1371,10 @@
     "messageformat": "Бул папкада көрүнө турган маектерди тандайсыз"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "Жекеме-жеке маектешүү"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Топтошуп маектешүү"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Маектерди кошуу"
@@ -2068,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Жүктөлүп алынган жок"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Оңдоолор бул билдирүү жөнөтүлгөндөн кийин 3 сааттын ичинде күчүнө кирет."
@@ -5289,7 +5292,7 @@
     "messageformat": "Бөгөттөлдү"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal'дын камдык көчүрмөлөрү"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Signal'дын баштан аяк шифрленген сактоо кызматы менен камдык көчүрмөлөр автоматтык түрдө сакталат. Телефонуңузда баштаңыз. <learnMoreLink>Кененирээк маалымат.</learnMoreLink>"
@@ -5304,7 +5307,7 @@
     "messageformat": "Тексттик ж.б. медиа файлдардын камдык көчүрмөсү"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Жазылууңуз табылган жок. Signal'дын камдык көчүрмөлөрүн колдоно берүү үчүн жазылууну жаңыртыңыз."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {Тексттик жана соңку {mediaDayCount,number} күндөгү медиа файлдардын камдык көчүрмөсү}}"
@@ -5322,13 +5325,13 @@
     "messageformat": "Жазылуу токтотулду"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Signal'дын камдык көчүрмөлөрүнө жазылууну телефонуңуздан өзгөртүп же токтото аласыз."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Signal'дын камдык көчүрмөлөрүн телефонуңуздан өзгөртүп же жазылууну узарта аласыз."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Signal'дын камдык көчүрмөлөрүнө телефонуңуздан жазылып же жазылууңузду узарта аласыз."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Акыркы жолу качан сакталган"
@@ -6757,22 +6760,22 @@
     "messageformat": "30 күн Signal Boost төшбелгисин колдонуңуз"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Салымдын суммасы {formattedCurrencyAmount} жогору болушу керек"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Кеминде {formattedCurrencyAmount} салым кошо аласыз"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Салымдын суммасы {formattedCurrencyAmount} жогору болушу керек"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Бул беттен чыксаңыз, насыя картаңыздын маалыматы өчүп калат. Улантасызбы?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Ооба"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Улантуу"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Колдоо дүмүрчөгү"
@@ -6818,6 +6821,12 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "Салымыңыз кошулду, бирок төшбелгиңиздин параметрлерин өзгөртө алган жокпуз"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Салым үзгүлтүккө учурады"
@@ -6922,9 +6931,6 @@
     "messageformat": "Майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, колдонмонун иштешин жакшыртып жатабыз. Signal'ды колдонгонуңуз үчүн чоң рахмат!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Кээде керектүү быйтыкчаны таба албай калабыз. Издөө сабында Esc баскычын басканда ката деп чыккан билдирүүнү оңдоп койдук."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "Бул жаңы версияда бир нече мүчүлүштүктөр оңдолду. Мисалы, сезимдерди билдирген быйтыкчалар туура эмес топтоштурулган мүчүлүштүк."
   },
@@ -6932,6 +6938,6 @@
     "messageformat": "Айрым колдонуучулар үчүн кайрымдуулук бейжиктери туура эмес көрүнүп жаткан мүчүлүштүктү оңдодук. Signal - АКШнын Салык кодексинин 501c3-бөлүмүнө ылайык иштеген коммерциялык эмес уюм. Колдооңуз үчүн терең ыраазычылык!"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Signal Desktop терезесинин аталышын көк эмес, кызгылт сары кылып көрсөткөн Microsoft Windows'тогу катаны оңдоп койдук. Кызгылт сары түскө көнүп калып, мындай жаңылыктан маанайың чөксө, Windows'тун параметрлеринен түстүн акцентин өзгөртүп алыңыз."
   }
 }

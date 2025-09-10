@@ -1371,10 +1371,10 @@
     "messageformat": "Осы қалтада көрсетілетін чаттарды таңдаңыз"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "1:1 чаттар"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Топтық чаттар"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Чаттарды қосу"
@@ -2068,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Жүктеп алынбады"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Бұл хатты жіберген соң, оны 24 сағаттың ішінде ғана өзгертуге болады."
@@ -5289,7 +5292,7 @@
     "messageformat": "Блокталған"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal-дың сақтық көшірмелері"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Автоматты cақтық көшірмелер Signal-дың қауіпсіз және тура шифрланған жад қызметі арқылы жасалады. Телефоныңызда бастаңыз. <learnMoreLink>Толық ақпарат алыңыз.</learnMoreLink>"
@@ -5304,7 +5307,7 @@
     "messageformat": "Мәтін + барлық мультимедианың сақтық көшірмесі"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Жазылымыңыз табылмады. Signal-дың сақтық көшірмелерін пайдалана беру үшін оны жаңартыңыз."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Мәтін + {mediaDayCount,number} күндік мультимедианың сақтық көшірмесі} other {Мәтін + {mediaDayCount,number} күндік мультимедианың сақтық көшірмесі}}"
@@ -5322,13 +5325,13 @@
     "messageformat": "Жазылым тоқтатылды."
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Телефоныңызда Signal-дың сақтық көшірмелері жазылымын басқаруыңызға немесе тоқтатуыңызға болады."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Телефоныңызда Signal-дың сақтық көшірмелерін басқаруыңызға немесе жаңартуыңызға болады."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Телефоныңызда Signal-дың сақтық көшірмелері жазылымын басқаруыңызға немесе жаңартуыңызға болады."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Соңғы резервтік көшірме"
@@ -6733,7 +6736,7 @@
     "messageformat": "Жарамдылық мерзімі"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "АА/ЖЖ"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Signal-ға {formattedCurrencyAmount} аудару"
@@ -6757,22 +6760,22 @@
     "messageformat": "30 күнге Signal Boost танымбелгісін алыңыз"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Минималды донат сомасы – {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Демеушілік жасағанда, беруге болатын минималды сома – {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Максималды донат сомасы – {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Бұл беттен шығып кетсеңіз, несиелік карта туралы ақпарат өшіріледі. Жалғастырғыңыз келе ме?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Ақпаратты өшіру"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Жалғастыру"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Демеушілік чегі"
@@ -6818,6 +6821,12 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "Қайырымдылыққа арналған қаражат жіберілгенмен, танымбелгі параметрлеріңізді жаңарта алмадық"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Демеушілік үзілді"
@@ -6922,9 +6931,6 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Қажетті эмоджиді табу кейде қиынға соғып жататындықтан, біз эмоджиді іздеу өрісінде Escape пернесін басқан соң пайда болатын ақауды түзеттік."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "Бұл жаңа нұсқада бірқатар болмашы ақау түзетілді, оның ішінде кейбір жағдайда эмоджи реакцияларының дұрыс топтасуына кедергі келтіретін ақау да түзетілді."
   },
@@ -6932,6 +6938,6 @@
     "messageformat": "Кейбір пайдаланушылардың демеушілік танымбелгісінің дұрыс көрсетілуіне кедергі келтіретін ақауды түзеттік. Signal – коммерциялық емес ұйым болғандықтан, қолдау көрсеткеніңіз үшін алғысымыз шексіз!"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Signal Desktop тақырып жолағының көк емес, қызғылт сары болып тұратын Microsoft Windows жүйесіндегі ақауды түзеттік. Бірнеше күнде цитрус түстес интерфейске көзіңіз үйреніп қалып, интерфейстің көк болғанын қаламасаңыз, Windows параметрлерінен түсті өзгертуіңізге болады."
   }
 }

@@ -1371,10 +1371,10 @@
     "messageformat": "เลือกแชทที่คุณต้องการให้ปรากฏในโฟลเดอร์นี้"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "แชทส่วนตัว"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "แชทกลุ่ม"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "เพิ่มแชท"
@@ -2068,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "ดาวน์โหลดไม่สำเร็จ"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "สามารถแก้ไขข้อความนี้ได้ภายใน 24 ชั่วโมงนับจากเวลาที่คุณส่ง"
@@ -5289,7 +5292,7 @@
     "messageformat": "ถูกบล็อก"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "การสำรองข้อมูลของ Signal"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "สำรองข้อมูลอัตโนมัติด้วยบริการจัดเก็บที่ปลอดภัยและถูกเข้ารหัสตั้งแต่ต้นทางถึงปลายทางของ Signal เริ่มต้นใช้งานบนโทรศัพท์ของคุณ <learnMoreLink>เรียนรู้เพิ่มเติม</learnMoreLink>"
@@ -5304,7 +5307,7 @@
     "messageformat": "สำรองข้อความ + สื่อทั้งหมด"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "ไม่พบการสมัครแพ็กเกจของคุณ โปรดต่ออายุเพื่อการใช้งานแพ็กเกจสำรองข้อมูลของ Signal อย่างต่อเนื่อง"
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {สำรองข้อความ + สื่อจาก {mediaDayCount,number} วัน}}"
@@ -5322,13 +5325,13 @@
     "messageformat": "ยกเลิกการสมัครแล้ว"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "คุณสามารถจัดการหรือยกเลิกการสมัครแพ็กเกจสำรองข้อมูลของ Signal ได้บนโทรศัพท์"
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "คุณสามารถจัดการหรืออัปเกรดแพ็กเกจสำรองข้อมูลของ Signal ได้บนโทรศัพท์"
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "คุณสามารถจัดการหรือต่ออายุการสมัครแพ็กเกจสำรองข้อมูลของ Signal ได้บนโทรศัพท์"
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "การสำรองข้อมูลครั้งล่าสุด"
@@ -6679,7 +6682,7 @@
     "messageformat": "<paragraph>เมื่อคุณบริจาคเงิน Signal ไม่ได้รวบรวมหรือจัดเก็บข้อมูลส่วนบุคคลใดๆ ของคุณ</paragraph><paragraph>เราใช้ Stripe เป็นผู้ให้บริการการชำระเงินในการรับเงินบริจาคของคุณโดยเราจะไม่เข้าถึง จัดเก็บ หรือบันทึกข้อมูลใดๆ ที่คุณกรอกระหว่างทำธุรกรรม</paragraph><paragraph>Signal จะไม่เชื่อมโยงการบริจาคของคุณเข้ากับบัญชี Signal ของคุณ (และนี่เป็นสิ่งที่เราไม่สามารถทำได้อีกด้วย)</paragraph><paragraph>ขอบคุณสำหรับการสนับสนุนของคุณ!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
-    "messageformat": "OK"
+    "messageformat": "ตกลง"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "ใบเสร็จ"
@@ -6733,7 +6736,7 @@
     "messageformat": "วันหมดอายุ"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "ดด/ปป"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "บริจาค {formattedCurrencyAmount} ให้ Signal"
@@ -6757,22 +6760,22 @@
     "messageformat": "รับโล่บูสต์ของ Signal เป็นเวลา 30 วัน"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "ยอดขั้นต่ำที่บริจาคได้คือ {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "ยอดขั้นต่ำที่บริจาคได้คือ {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "ยอดสูงสุดที่บริจาคได้คือ {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "หากออกจากหน้านี้ ข้อมูลบัตรเครดิตที่คุณกรอกไว้จะถูกลบ คุณยังต้องการออกจากหน้านี้ใช่หรือไม่"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "ลบข้อมูล"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "ดำเนินการต่อ"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "ใบเสร็จรับเงินบริจาค"
@@ -6818,6 +6821,12 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "การบริจาคสำเร็จแล้ว แต่เราไม่สามารถอัปเดตการตั้งค่าโล่ของคุณได้"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "การบริจาคยังไม่เสร็จสมบูรณ์"
@@ -6922,9 +6931,6 @@
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "แก้ไขบั๊กที่อยู่ในช่องค้นหาอีโมจิ"
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "แก้ไขบั๊กตัวเล็กตัวน้อยในหลายๆ จุดเพื่อการใช้งานที่ดียิ่งขึ้นอีก"
   },
@@ -6932,6 +6938,6 @@
     "messageformat": "แก้ไขบั๊กที่ทำให้ผู้ใช้บางคนประสบปัญหาในการแสดงโล่บริจาค"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "แก้ไขบั๊กที่เคยสร้างความขัดข้องในการแสดงสีของแถบชื่อเรื่อง (Title Bar) บน Microsoft Windows"
   }
 }

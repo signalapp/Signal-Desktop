@@ -1371,10 +1371,10 @@
     "messageformat": "گفتگوهایی را که می‌خواهید در این پوشه باشند انتخاب کنید"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "گفتگوهای فرد به فرد"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "گفتگوهای گروهی"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "افزودن گفتگوها"
@@ -2068,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "دانلود انجام نشد"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ویرایش‌ها فقط تا ۲۴ ساعت بعد از ارسال این پیام قابل اعمال هستند."
@@ -5289,7 +5292,7 @@
     "messageformat": "مسدودشده"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "پشتیبان‌های سیگنال"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "پشتیبان‌گیری خودکار با سرویس ذخیره‌سازی سرتاسر رمزگذاری‌شده و امن سیگنال. از تلفن خود شروع کنید. <learnMoreLink>اطلاعات بیشتر</learnMoreLink>."
@@ -5304,7 +5307,7 @@
     "messageformat": "پشتیبان‌گیری متن + تمام رسانه‌ها"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "اشتراک شما یافت نشد. برای ادامه استفاده از «پشتیبان‌های سیگنال»، تمدید کنید."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {پشتیبان‌گیری متن + رسانه {mediaDayCount,number} روز گذشته} other {پشتیبان‌گیری متن + رسانه {mediaDayCount,number} روز گذشته}}"
@@ -5322,13 +5325,13 @@
     "messageformat": "اشتراک لغو شد"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "می‌توانید اشتراک «پشتیبان‌های سیگنال» خود را در تلفنتان مدیریت یا لغو کنید."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "می‌توانید «پشتیبان‌های سیگنال» را در تلفن خود مدیریت کنید یا ارتقا دهید."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "می‌توانید اشتراک پشتیبان‌های سیگنال خود را در تلفنتان مدیریت یا تمدید کنید."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "آخرین پشتیبان‌گیری"
@@ -6679,7 +6682,7 @@
     "messageformat": "<paragraph>سیگنال هیچ‌گونه اطلاعات شخصی شما را هنگام اهدای کمک مالی جمع آوری یا ذخیره نمی‌کند.</paragraph><paragraph>ما برای دریافت کمک‌های مالی شما از Stripe به‌عنوان پردازش‌گر پرداخت خود استفاده می‌کنیم. به هیچ‌گونه اطلاعاتی که در اختیار آن‌ها قرار می‌دهید دسترسی نداریم، آن‌ها را نگه نمی‌داریم یا ذخیره نمی‌کنیم.</paragraph><paragraph>سیگنال کمک مالی‌تان را به حساب سیگنال شما متصل نمی‌کند و امکان انجام این کار را هم ندارد.</paragraph><paragraph>سپاس از حمایت شما!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
-    "messageformat": "OK"
+    "messageformat": "باشه"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "رسیدها"
@@ -6733,7 +6736,7 @@
     "messageformat": "تاریخ انقضا"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "سال/ماه"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "{formattedCurrencyAmount} به سیگنال اهدا کنید"
@@ -6757,22 +6760,22 @@
     "messageformat": "نشان ارتقاء سیگنال را به مدت ۳۰ روز دریافت کنید"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "حداقل مبلغ اهدای مالی: {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "حداقل مبلغی که می‌توانید اهدا کنید {formattedCurrencyAmount} است"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "حداکثر مبلغ اهدای مالی: {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "ترک کردن این صفحه موجب حذف اطلاعات کارت اعتباری‌تان خواهد شد. ادامه می‌دهید؟"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "حذف اطلاعات"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "ادامه"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "رسید کمک مالی"
@@ -6818,6 +6821,12 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "اهدای مالی باموفقیت انجام شد، اما نتوانستیم تنظیمات نشان شما را به‌روزرسانی کنیم"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "اختلال در کمک مالی"
@@ -6922,9 +6931,6 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "اشکالی که در کادر جستجوی ایموجی وجود داشت را برطرف کردیم."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "چند اشکال جزئی رفع شد."
   },
@@ -6932,6 +6938,6 @@
     "messageformat": "اشکالی را رفع کردیم که مانع نمایش صحیح نشان‌های حمایت مالی برای برخی کاربرها می‌شد."
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "اشکالی را در Microsoft Windows رفع کردیم که گاهی رنگ اشتباه را در نوار عنوان نمایش می‌داد."
   }
 }

@@ -1371,10 +1371,10 @@
     "messageformat": "இந்தக் கோப்புறையில் தோன்ற வேண்டிய சாட்களைத் தேர்ந்தெடுங்கள்"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "1:1 சாட்ஸ்"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "குழு உரையாடல்கள்"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "சாட்ஸைச் சேர்"
@@ -2068,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "பதிவிறக்க முடியவில்லை"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "நீங்கள் இந்த மெசேஜை அனுப்பியதிலிருந்து 24 மணிநேரத்திற்குள் மட்டுமே திருத்தங்களைச் செய்ய முடியும்."
@@ -5289,7 +5292,7 @@
     "messageformat": "தடைசெய்யப்பட்டது"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "சிக்னல் காப்புப்பிரதிகள்"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "சிக்னலின் பாதுகாப்பான எண்ட்-டூ-எண்ட் குறியாக்கம் செய்யப்பட்ட சேமிப்பகச் சேவையுடன் தானியங்கி காப்புப்பிரதிகள். உங்கள் ஃபோனில் தொடங்குங்கள். <learnMoreLink>மேலும் அறிக.</learnMoreLink>"
@@ -5304,7 +5307,7 @@
     "messageformat": "உரை + அனைத்து ஊடகக் காப்புப்பிரதி"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "உங்கள் சந்தா கிடைக்கப்பெறவில்லை. தொடர்ந்து சிக்னல் காப்புப்பிரதிகளைப் பயன்படுத்த, புதுப்பிக்கவும்."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {உரை + {mediaDayCount,number} நாள் ஊடகக் காப்புப்பிரதி} other {உரை + {mediaDayCount,number} நாட்கள் ஊடகக் காப்புப்பிரதி}}"
@@ -5322,13 +5325,13 @@
     "messageformat": "சந்தா ரத்துசெய்யப்பட்டது"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "உங்கள் ஃபோனில் உங்கள் சிக்னல் காப்புப்பிரதி சந்தாவை நிர்வகிக்கலாம் அல்லது ரத்துசெய்யலாம்."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "உங்கள் ஃபோனில் உங்கள் சிக்னல் காப்புப்பிரதிகளை நிர்வகிக்கலாம் அல்லது புதுப்பிக்கலாம்."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "உங்கள் ஃபோனில் உங்கள் சிக்னல் காப்புப்பிரதி சந்தாவை நிர்வகிக்கலாம் அல்லது புதுப்பிக்கலாம்."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "கடைசி காப்புப்பிரதி"
@@ -6679,7 +6682,7 @@
     "messageformat": "<paragraph>நீங்கள் நன்கொடை அளிக்கும்போது உங்கள் தனிப்பட்ட தகவல்களைச் சிக்னல் சேகரிக்கவோ அல்லது சேமிக்கவோ செய்யாது.</paragraph><paragraph>உங்கள் நன்கொடைகளைப் பெற எங்கள் கட்டணச் செயலியாக நாங்கள் ஸ்ட்ரைபை பயன்படுத்துகிறோம். நீங்கள் அவற்றில் வழங்கும் எந்தவொரு தகவலையும் நாங்கள் அணுகவோ, சேமிக்கவோ அல்லது பத்திரப்படுத்தவோ மாட்டோம்.</paragraph><paragraph>சிக்னலால் உங்கள் நன்கொடையை சிக்னல் கணக்கில் இணைக்க முடியாது.</paragraph><paragraph>உங்கள் ஆதரவுக்கு நன்றி!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
-    "messageformat": "OK"
+    "messageformat": "சரி"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "ரசீதுகள்"
@@ -6757,22 +6760,22 @@
     "messageformat": "30 நாட்களுக்கு சிக்னல் பூஸ்ட் பேட்ஜைப் பெறுங்கள்"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "குறைந்தபட்ச நன்கொடை {formattedCurrencyAmount} ஆகும்"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "நீங்கள் குறைந்தபட்ச நன்கொடையாக {formattedCurrencyAmount} வழங்கலாம்"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "அதிகபட்ச நன்கொடை {formattedCurrencyAmount} ஆகும்"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "இந்தப் பக்கத்தை விட்டு வெளியேறுவது உங்கள் கிரெடிட் கார்டு தகவலை அகற்றிவிடும். தொடர விரும்புகிறீர்களா?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "தகவலை அகற்றுக"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "தொடர்க"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "நன்கொடை ரசீது"
@@ -6818,6 +6821,12 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "நன்கொடை வெற்றிகரமாக வழங்கப்பட்டது, ஆனால் உங்கள் பேட்ஜ் அமைப்புகளைப் புதுப்பிக்க முடியவில்லை"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "நன்கொடை குறுக்கிட்டது"
@@ -6922,9 +6931,6 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "ஈமோஜி தேடல் பெட்டியில் உள்ள ஒரு பிழையைச் சரிசெய்துள்ளோம்."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "சில சிறிய பிழைகள் சரிபார்க்கப்பட்டன."
   },
@@ -6932,6 +6938,6 @@
     "messageformat": "சில பயனர்களுக்கு நன்கொடை பேட்ஜ்கள் சரியாகத் தோன்றாமல் இருந்த பிழையை நாங்கள் சரிசெய்துள்ளோம்."
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "சில சமயங்களில் Microsoft Windowsஇன் தலைப்புப் பட்டியில் தவறான வண்ணத்தைக் காட்டும் பிழையை நாங்கள் சரிசெய்துள்ளோம்."
   }
 }

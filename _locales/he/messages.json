@@ -1371,10 +1371,10 @@
     "messageformat": "יש לבחור צ׳אטים שברצונך לכלול בתיקיה הזו"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "צ׳אטים 1:1"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "התכתבויות קבוצתיות"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "הוספת צ׳אטים"
@@ -2068,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "ההורדה נכשלה"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ניתן לערוך את ההודעה הזו רק עד 24 שעות מזמן השליחה שלה."
@@ -5289,7 +5292,7 @@
     "messageformat": "חסומים"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "גיבויי Signal"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "גיבויים אוטומטיים בשירות האחסון המאובטח והמוצפן מקצה לקצה של Signal. אפשר להתחיל כעת בטלפון שלך. <learnMoreLink>למידע נוסף</learnMoreLink>."
@@ -5304,7 +5307,7 @@
     "messageformat": "גיבוי טקסט + כל המדיה"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "המנוי שלך לא נמצא. יש לחדש כדי להמשיך להשתמש בגיבויי Signal."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {גיבוי טקסט + יום {mediaDayCount,number} של מדיה} two {גיבוי טקסט + יומיים של מדיה} many {גיבוי טקסט + {mediaDayCount,number} ימים של מדיה} other {גיבוי טקסט + {mediaDayCount,number} ימים של מדיה}}"
@@ -5322,13 +5325,13 @@
     "messageformat": "מנוי בוטל"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "באפשרותך לנהל או לבטל את מנוי גיבויי Signal שלך בטלפון שלך."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "באפשרותך לנהל או לשדרג את גיבויי Signal בטלפון שלך."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "באפשרותך לנהל או לחדש את מנוי גיבויי Signal שלך בטלפון שלך."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "גיבוי אחרון"
@@ -6679,7 +6682,7 @@
     "messageformat": "<paragraph>Signal לא אוספת או מאחסנת את המידע האישי שלך בעת ביצוע תרומה.</paragraph><paragraph>אנחנו משתמשים ב–Stripe בתור מעבד התשלומים שלנו כדי לקבל את התרומות שלך. אנחנו לא ניגשים לשום מידע שהם מקבלים ממך ולא מאחסנים או שומרים אותו.</paragraph><paragraph>Signal אינה מקשרת את התרומה שלך לחשבון Signal שלך ואין לה אפשרות לעשות זאת.</paragraph><paragraph>תודה על התמיכה שלך!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
-    "messageformat": "OK"
+    "messageformat": "אישור"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "קבלות"
@@ -6733,7 +6736,7 @@
     "messageformat": "תאריך תפוגה"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "חודש/שנה"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "תרומה של {formattedCurrencyAmount} ל–Signal"
@@ -6757,22 +6760,22 @@
     "messageformat": "קבלת תג Signal Boost למשך 30 יום"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "הסכום המינימלי לתרומה הוא {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "הסכום המינימלי שאפשר לתרום הוא {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "הסכום המקסימלי לתרומה הוא {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "עזיבת דף זה תסיר את פרטי כרטיס האשראי שלך. רוצה להמשיך?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "הסרת מידע"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "המשך"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "קבלה על תרומה"
@@ -6818,6 +6821,12 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "התרומה בוצעה בהצלחה, אבל לא הצלחנו לעדכן את הגדרות התג שלך"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "התרומה הופסקה"
@@ -6922,9 +6931,6 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "מציאת האימוג'י הנכון יכולה להרגיש כמו מאבק בלתי נגמר, אבל תיקנו באג שגרם לשגיאה להתרחש לאחר לחיצה על מקש Escape בתיבת החיפוש של האימוג'י."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "כמה תיקוני באגים קטנים."
   },
@@ -6932,6 +6938,6 @@
     "messageformat": "תיקנו באג שמנע מתגי התרומה להופיע כראוי אצל חלק מהמשתמשים. Signal היא עמותה ללא מטרות רווח, ואנחנו מעריכים מאוד את התמיכה שלך!"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "תיקנו באג ב–Microsoft Windows שלפעמים גרם להופעת הצבע הלא נכון בשורת הכותרת."
   }
 }

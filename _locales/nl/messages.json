@@ -1371,10 +1371,10 @@
     "messageformat": "Selecteer chats die je in deze map wilt weergeven"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "1-op-1-chats"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Groepschats"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Chats toevoegen"
@@ -2068,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Downloaden mislukt"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Berichten kunnen alleen binnen 24 uur na verzenden bewerkt worden."
@@ -5289,7 +5292,7 @@
     "messageformat": "Geblokkeerd"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal back-ups"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Automatische back-ups met de veilige, end-to-end versleutelde opslagservice van Signal. Ga aan de slag op je telefoon. <learnMoreLink>Meer informatie</learnMoreLink>."
@@ -5304,7 +5307,7 @@
     "messageformat": "Tekstberichten + alle media"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Je abonnement is niet gevonden. Vernieuw je Signal back-upabonnement om Signal back-ups te blijven gebruiken."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Tekstberichten + {mediaDayCount,number} dag media} other {Tekstberichten + {mediaDayCount,number} dagen media}}"
@@ -5322,13 +5325,13 @@
     "messageformat": "Abonnement opgezegd"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Je Signal back-upabonnement kun je beheren of annuleren op je telefoon."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Signal back-ups kun je beheren of upgraden op je telefoon."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Je Signal back-upabonnement kun je beheren of vernieuwen op je telefoon."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Laatste back-up"
@@ -6733,7 +6736,7 @@
     "messageformat": "Vervaldatum"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "MM/JJ"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "{formattedCurrencyAmount} aan Signal doneren"
@@ -6757,22 +6760,22 @@
     "messageformat": "Krijg de Signal ‘Boost’-badge voor 30 dagen"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Het minimumbedrag dat je kunt doneren is {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Het minimumbedrag dat je kunt doneren is {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Het maximale bedrag dat je kunt doneren is {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Als je deze pagina verlaat, worden je creditcardgegevens verwijderd. Wil je doorgaan?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Informatie verwijderen"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Doorgaan"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Donatiebewijs"
@@ -6818,6 +6821,12 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "Donatie is gelukt, maar we konden je badge-instellingen niet bijwerken"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Donatie nog niet voltooid"
@@ -6922,9 +6931,6 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "We hebben een fout opgelost die kon optreden wanneer je in het emoji-zoekvak op de escape-toets drukte."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "Deze update lost een paar kleine fouten op, waaronder een fout waarbij emoji-reacties in sommige gevallen niet correct werden gegroepeerd."
   },
@@ -6932,6 +6938,6 @@
     "messageformat": "We hebben een bug opgelost waardoor donatiebadges niet correct werden weergegeven voor sommige gebruikers. Signal is een non-profitorganisatie, we waarderen je steun!"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "We hebben een bug in Signal Desktop op Microsoft Windows opgelost waardoor de titelbalk oranje werd in plaats van de standaardkleur. Hou je net als wij van oranje, dan kun je de accentkleur aanpassen in Windows-instellingen."
   }
 }

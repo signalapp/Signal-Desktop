@@ -1371,10 +1371,10 @@
     "messageformat": "Izvēlieties sarunas, kuras vēlaties iekļaut šajā mapē"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "Privātās sarunas"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Grupu tērzēšana"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Pievienot sarunas"
@@ -2068,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Lejupielāde neizdevās"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Labojumus var veikt tikai 24 stundu laikā pēc šīs ziņas nosūtīšanas."
@@ -5289,7 +5292,7 @@
     "messageformat": "Bloķēti"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal rezerves kopijas"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Automātiskas rezerves kopijas ar Signal drošās un pilnībā šifrētās krātuves pakalpojumu. Sāciet savā tālrunī. <learnMoreLink>Uzzināt vairāk.</learnMoreLink>"
@@ -5304,7 +5307,7 @@
     "messageformat": "Teksta + visas multivides rezerves kopija"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Jūsu abonements netika atrasts. Atjauniniet to, lai turpinātu izmantot Signal rezerves kopijas."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, zero {Teksta + {mediaDayCount,number} dienu multivides rezerves kopija} one {Teksta + {mediaDayCount,number} dienas multivides rezerves kopija} other {Teksta + {mediaDayCount,number} dienu multivides rezerves kopija}}"
@@ -5322,13 +5325,13 @@
     "messageformat": "Abonements atcelts"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Varat pārvaldīt vai atcelt Signal rezerves kopiju abonementu savā tālrunī."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Varat pārvaldīt vai jaunināt Signal rezerves kopijas savā tālrunī."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Varat pārskatīt vai atjaunot savu Signal rezerves kopiju abonementu savā tālrunī."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Pēdējās rezerves kopijas izveide"
@@ -6679,7 +6682,7 @@
     "messageformat": "<paragraph>Veicot ziedojumu, Signal nevāc un neuzglabā jūsu personas informāciju.</paragraph><paragraph>Mēs izmantojam Stripe kā maksājumu apstrādātāju ziedojumu saņemšanai. Mēs nepiekļūstam, neuzglabājam un nesaglabājam nekādu informāciju, ko jūs tam sniedzat.</paragraph><paragraph>Signal nesaista un nevar sasaistīt jūsu ziedojumu ar jūsu Signal kontu.</paragraph><paragraph>Paldies par jūsu atbalstu!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
-    "messageformat": "OK"
+    "messageformat": "Ok"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Kvītis"
@@ -6733,7 +6736,7 @@
     "messageformat": "Derīguma termiņš"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "MM/GG"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Ziedot Signal {formattedCurrencyAmount}"
@@ -6757,22 +6760,22 @@
     "messageformat": "Iegūstiet Signal Boost nozīmīti uz 30 dienām"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Minimālā ziedojuma summa ir {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Minimālā ziedojuma summa ir {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Maksimālā ziedojuma summa ir {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Pametot šo lapu, jūsu kredītkartes informācija tiks dzēsta. Vai vēlaties turpināt?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Dzēst informāciju"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Turpināt"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Ziedojuma kvīts"
@@ -6818,6 +6821,12 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "Ziedojums izdevās, taču mēs nevarējām atjaunināt jūsu nozīmītes iestatījumus"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Ziedojums pārtraukts"
@@ -6922,9 +6931,6 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Pareizās emocijzīmes atrašana reizēm šķiet kā neizbēgama cīņa. Tagad no tās varēs izbēgt vieglāk, jo mēs izlabojām kļūdu, kas radās emocijzīmju meklēšanas lodziņā, nospiežot taustiņu Escape."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "Šis atjauninājums izlabo dažas nelielas kļūdas, tostarp kļūdu, kuras dēļ dažos gadījumos emocijzīmju reakcijas netika pareizi sagrupētas."
   },
@@ -6932,6 +6938,6 @@
     "messageformat": "Mēs novērsām kļūdu, kuras dēļ daļai lietotāju ziedojumu nozīmītes netika rādītas pareizi. Signal ir bezpeļņas organizācija, uz kuru attiecas 501. panta 1. punkta (c) apakšpunkts, un mēs novērtējam jūsu atbalstu!"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Mēs operētājsistēmā Microsoft Windows novērsām kļūdu, kuras dēļ Signal Desktop virsrakstjosla bija oranžā, nevis zilā krāsā. Ja pēdējo dienu laikā jums ir iepaticies citrusaugļu krāsu diapazons un šis kļūdas novēršana jūs skumdina, Windows iestatījumos varat pielāgot sistēmas izcēluma krāsu."
   }
 }

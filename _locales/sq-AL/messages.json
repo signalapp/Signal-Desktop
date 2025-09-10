@@ -1371,10 +1371,10 @@
     "messageformat": "Zgjidh bisedat që dëshiron të shfaqen në këtë dosje"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "Biseda 1:1"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Fjalosje grupi"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Shto biseda"
@@ -2068,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Shkarkimi dështoi"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Përpunimet mund të zbatohen vetëm brenda 24 orëve nga momenti që dërgove këtë mesazh."
@@ -5289,7 +5292,7 @@
     "messageformat": "Bllokuar"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Kopjeruajtjet e Signal"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Kopjeruajtjet automatike me shërbimin e sigurt të ruajtjes së koduar nga skaji në skaj të Signal. Fillo në telefon. <learnMoreLink>Mëso më shumë.</learnMoreLink>"
@@ -5304,7 +5307,7 @@
     "messageformat": "Teksti + kopjeruajtja e të gjitha mediave"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Abonimi nuk u gjet. Rinovo për të vazhduar përdorimin e \"Kopjeruajtjet e Signal\"."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Tekst + kopjeruajtje e medias për {mediaDayCount,number} ditë} other {Tekst + kopjeruajtje e medias për {mediaDayCount,number} ditë}}"
@@ -5322,13 +5325,13 @@
     "messageformat": "Abonimi u anulua"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Mund të menaxhosh ose anulosh abonimin e \"Kopjeruajtjet e Signal\" në telefon."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Mund të menaxhosh ose përmirësosh \"Kopjeruajtjet e Signal\" në telefon."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Mund të menaxhosh ose rinovosh abonimin e \"Kopjeruajtjet e Signal\" në telefon."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Kopjeruajtja e fundit"
@@ -6757,22 +6760,22 @@
     "messageformat": "Merr distinktivin shtesë të Signal për 30 ditë"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Shuma minimale e dhurimit është {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Shuma minimale që mund të dhurosh është {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Shuma maksimale e dhurimit është {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Largimi nga kjo faqe do ta heqë informacionin e kartës së kreditit. Dëshiron të vazhdosh?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Hiq informacionin"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Vazhdo"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Fatura e dhurimit"
@@ -6818,6 +6821,12 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "Dhurimi u krye me sukses, por nuk mundëm të përditësonim parametrat e distinktivit"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Dhurimi u ndërpre"
@@ -6922,9 +6931,6 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Gjetja e emoxhit të duhur mund të përngjajë me një luftë të pashmangshme, megjithatë gabimi që mund të shkaktohej pas shtypjes së tastit \"Escape\" në kutinë e kërkimit të emoxhive u rregullua."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "Ky përditësim rregullon disa gabime të vogla, përfshirë një ku reagimet ndaj emoxhive nuk grupoheshin siç duhet në disa raste."
   },
@@ -6932,6 +6938,6 @@
     "messageformat": "Ne rregulluam një defekt që pengonte shfaqjen e saktë të distinktivëve të dhurimeve për disa përdorues. Signal është një ent jofitimprurës 501c3 dhe ne e vlerësojmë mbështetjen tënd!"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Gabimi i Microsoft Windows që e bënte shiritin e titullit të Signal Desktop portokalli në vend të blusë u rregullua. Nëse gjatë këtyre ditëve të fundit je mësuar dhe ke filluar ta pëlqesh skemën me ngjyra me temë agrumesh dhe ky rregullim gabimesh të ka bërë të ndihesh keq, mund ta ndryshosh ngjyrën e theksit të sistemit te cilësimet e Windows."
   }
 }

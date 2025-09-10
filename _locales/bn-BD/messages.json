@@ -1371,10 +1371,10 @@
     "messageformat": "আপনি এই ফোল্ডারে যেসব চ্যাট দেখতে চান সেগুলি বেছে নিন"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "1:1 চ্যাট"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "গ্রুপ চ্যাট"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "চ্যাট যোগ করুন"
@@ -2068,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "ডাউনলোড ব্যর্থ হয়েছে"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "এই ম্যাসেজটি পাঠানোর পর শুধুমাত্র পরবর্তী 24 ঘন্টার মধ্যে এটি এডিট করা যাবে।"
@@ -5289,7 +5292,7 @@
     "messageformat": "ব্লক করা আছে"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal ব্যাকআপ"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Signal-এর সুরক্ষিত এন্ড-টু-এন্ড এনক্রিপ্টকৃত স্টোরেজ সার্ভিস সহ স্বয়ংক্রিয় ব্যাকআপ। আপনার ফোনে শুরু করুন। <learnMoreLink>আরো জানুন</learnMoreLink>।"
@@ -5304,7 +5307,7 @@
     "messageformat": "টেক্সট + সকল মিডিয়া ব্যাকআপ"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "আপনার সাবস্ক্রিপশন পাওয়া যায়নি। Signal ব্যাকআপ ব্যবহার চালিয়ে যেতে নবায়ন করুন।"
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {টেক্সট + {mediaDayCount,number} দিনের মিডিয়া ব্যাকআপ} other {টেক্সট + {mediaDayCount,number} দিনের মিডিয়া ব্যাকআপ}}"
@@ -5322,13 +5325,13 @@
     "messageformat": "সাবস্ক্রিপশন বাতিল করা হয়েছে"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "আপনি আপনার ফোনে আপনার Signal ব্যাকআপ সাবস্ক্রিপশন নিয়ন্ত্রণ করতে বা বাতিল করতে পারেন।"
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "আপনি আপনার ফোনে Signal ব্যাকআপ নিয়ন্ত্রণ করতে বা আপগ্রেড করতে পারেন।"
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "আপনি আপনার ফোনে আপনার Signal ব্যাকআপ সাবস্ক্রিপশন নিয়ন্ত্রণ করতে বা নবায়ন করতে পারেন।"
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "সর্বশেষ ব্যাকআপ"
@@ -6679,7 +6682,7 @@
     "messageformat": "<paragraph>আপনি যখন ডোনেট করেন তখন Signal আপনার কোনো ব্যক্তিগত তথ্য সংগ্রহ বা সংরক্ষণ করে না।</paragraph><paragraph>আমরা আপনার পাঠানো ডোনেশন গ্রহণ করার জন্য পেমেন্ট প্রক্রিয়াকারী মাধ্যম হিসাবে Stripe ব্যবহার করি। আপনি তাদেরকে যেসব তথ্য প্রদান করেন তা আমরা অ্যাক্সেস, সংরক্ষণ বা সেভ করি না।</paragraph><paragraph>Signal আপনার Signal অ্যাকাউন্টে আপনার ডোনেশনকে সংযুক্ত করে না এবং করতে পারে না।</paragraph><paragraph>আপনার সহায়তার জন্য ধন্যবাদ!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
-    "messageformat": "OK"
+    "messageformat": "ঠিক আছে"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "রিসিপ্ট"
@@ -6757,22 +6760,22 @@
     "messageformat": "30 দিনের জন্য Signal বুস্ট ব্যাজ নিন"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "ডোনেশনের সর্বনিম্ন পরিমাণ হলো {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "আপনি সর্বনিম্ন যে পরিমাণ অর্থ ডোনেট করতে পারেন তা হলো {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "ডোনেশনের সর্বোচ্চ পরিমাণ হলো {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "এই পেইজটি ছেড়ে গেলে আপনার ক্রেডিট কার্ডের তথ্য মুছে যাবে। আপনি কি এগিয়ে যেতে চান?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "তথ্য মুছে ফেলুন"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "চালিয়ে যান"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "ডোনেশন রিসিপ্ট"
@@ -6818,6 +6821,12 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "ডোনেশন সফল হয়েছে, কিন্তু আমরা আপনার ব্যাজ সেটিংস আপডেট করতে পারিনি"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "ডোনেশন ব্যাহত হয়েছে"
@@ -6922,9 +6931,6 @@
     "messageformat": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "আমরা ইমোজি সার্চ বক্সে একটি বাগ সংশোধন করেছি।"
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "কিছু ছোটখাটো বাগ সংশোধন করা হয়েছে।"
   },
@@ -6932,6 +6938,6 @@
     "messageformat": "কিছু কিছু ব্যবহারকারীর জন্য ডোনেশন ব্যাজ সঠিকভাবে প্রদর্শনকে বাধাগ্রস্ত করতো এমন একটি বাগ আমরা সংশোধন করেছি।"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "আমরা Microsoft Windows-এর একটি বাগ সংশোধন করেছি যা কখনো কখনো টাইটেল বারে ভুল রঙ প্রদর্শন করতো।"
   }
 }

@@ -1371,10 +1371,10 @@
     "messageformat": "Scegli le chat che vuoi vedere in questa cartella"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "Chat singole"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Chat di gruppo"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Aggiungi chat"
@@ -2068,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Download non riuscito"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Puoi modificare questo messaggio solo entro 24 ore dall'invio."
@@ -5289,7 +5292,7 @@
     "messageformat": "Bloccati"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Backup di Signal"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Backup automatici e sicuri con il servizio di archiviazione crittografato end-to-end di Signal. Provali subito sul tuo telefono. <learnMoreLink>Scopri di più</learnMoreLink>."
@@ -5304,7 +5307,7 @@
     "messageformat": "Backup messaggi + tutti i media"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Non è stato trovato il tuo abbonamento. Rinnovalo per continuare ad usare i backup di Signal."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Backup messaggi + media dell'ultimo {mediaDayCount,number} giorno} other {Backup messaggi + media degli ultimi {mediaDayCount,number} giorni}}"
@@ -5322,13 +5325,13 @@
     "messageformat": "Abbonamento annullato"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Puoi gestire o annullare il tuo abbonamento ai backup di Signal dal tuo telefono."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Puoi gestire o cambiare l'abbonamento ai backup di Signal dal tuo telefono."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Puoi gestire o rinnovare il tuo abbonamento ai backup di Signal dal tuo telefono."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Ultimo backup"
@@ -6733,7 +6736,7 @@
     "messageformat": "Data di scadenza"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "MM/AA"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Dona {formattedCurrencyAmount} a Signal"
@@ -6757,22 +6760,22 @@
     "messageformat": "Ricevi il Badge dei Boost per 30 giorni"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "L'importo minimo per la donazione è {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "L'importo minimo che puoi donare è {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "L'importo massimo per la donazione è {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Se esci da questa pagina, i dati della carta di credito inseriti verranno rimossi. Vuoi procedere lo stesso?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Rimuovi le informazioni"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Continua"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Ricevuta della donazione"
@@ -6818,6 +6821,12 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "Donazione effettuata, ma non siamo riusciti ad aggiornare le impostazioni del tuo badge"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Donazione interrotta"
@@ -6922,9 +6931,6 @@
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Trovare la giusta emoji a volte non è per niente facile, ma almeno abbiamo risolto un bug che causava un errore dopo aver premuto il tasto ESC nella barra di ricerca delle emoji."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "Questo aggiornamento risolve dei piccoli bug, incluso uno dove le emoji per le reazioni a volte non venivano raggruppate correttamente."
   },
@@ -6932,6 +6938,6 @@
     "messageformat": "Abbiamo risolto un bug che impediva ai badge delle donazioni di apparire ed essere visti correttamente da alcuni utenti. Signal è una 501c3 non-profit: apprezziamo il tuo supporto al nostro lavoro e alla nostra causa!"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Abbiamo risolto un bug presente su Microsoft Windows che rendeva di colore arancione il nome della scheda di Signal anziché blu. Se però ti piace di più quel precedente schema di colori che hai visto nei giorni scorsi per via del bug, non preoccuparti: puoi modificare il colore del tuo sistema dalle Impostazioni di Windows e tornare a \"goderti\" il bug precedente :)"
   }
 }

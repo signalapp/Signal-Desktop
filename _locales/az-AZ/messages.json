@@ -1371,10 +1371,10 @@
     "messageformat": "Bu qovluqda görünməsini istədiyiniz çatları seçin"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "1-ə 1 çatlar"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Qrup söhbətləri"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Çatlar əlavə et"
@@ -2068,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Endirmə baş tutmadı"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Redaktələr yalnız siz bu mesajı göndərdikdən sonra 24 saat ərzində tətbiq oluna bilər."
@@ -5289,7 +5292,7 @@
     "messageformat": "Bloklandı"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal ehtiyat nüsxələri"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Signal-ın təhlükəsiz, tam şifrələnmiş yaddaş xidməti ilə avtomatik çıxarılan ehtiyat nüsxələr. Telefondan başlayın. <learnMoreLink>Daha ətraflı</learnMoreLink>."
@@ -5304,7 +5307,7 @@
     "messageformat": "Mətn + bütün media faylların ehtiyat nüsxələri"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Abunəliyiniz tapılmadı. Signal ehtiyat nüsxələrindən istifadəyə davam etmək üçün yeniləyin."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Mətn + {mediaDayCount,number} günlük media faylının ehtiyat nüsxəsi} other {Mətn + {mediaDayCount,number} günlük media faylının ehtiyat nüsxəsi}}"
@@ -5322,13 +5325,13 @@
     "messageformat": "Abunəlik ləğv edildi"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Signal ehtiyat nüsxələri abunəliyinizi telefonunuzdan idarə və ya ləğv edə bilərsiniz."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Signal ehtiyat nüsxələri abunəliyinizi telefonunuzdan idarə edə və ya yüksəldə bilərsiniz."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Signal ehtiyat nüsxələri abunəliyinizi idarə edə və ya yeniləyə bilərsiniz."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Son ehtiyat nüsxə"
@@ -6679,7 +6682,7 @@
     "messageformat": "<paragraph>İanə etdiyiniz zaman Signal şəxsi məlumatlarınızı toplamır və saxlamır.</paragraph><paragraph>Biz ianələrinizi qəbul etmək üçün ödəniş prosessorumuz kimi Stripe-dan istifadə edirik. Ona göndərdiyiniz hər hansı məlumatı əldə etmir, saxlamır və ya yaddaşa vermirik.</paragraph><paragraph>Signal etdiyiniz ianəni Signal hesabınızla əlaqələndirmir və bunu edə bilməz.</paragraph><paragraph>Dəstəyiniz üçün təşəkkür edirik!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
-    "messageformat": "OK"
+    "messageformat": "Oldu"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Qəbzlər"
@@ -6733,7 +6736,7 @@
     "messageformat": "Bitmə tarixi"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "AA/İİ"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Signal-a {formattedCurrencyAmount} ianə verin"
@@ -6757,22 +6760,22 @@
     "messageformat": "30 günlük Signal Boost nişanı alın"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Minimum ianə məbləği təxminən {formattedCurrencyAmount} dəyərindədir"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "İanə verə biləcəyiniz minimal məbləğ {formattedCurrencyAmount} dəyərindədir."
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Minimum ianə məbləği təxminən {formattedCurrencyAmount} dəyərindədir"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Bu səhifədən çıxsanız, kredit kartı məlumatlarınız da silinəcək. Davam etmək istəyirsiniz?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Məlumatı sil"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Davam et"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "İanə qəbzi"
@@ -6818,6 +6821,12 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "İanə baş tutdu, lakin nişan parametlərinizi yeniləyə bilmədik"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "İanə kəsildi"
@@ -6922,9 +6931,6 @@
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Düzgün emojinizi tapmaq bəzən çıxılmaz bir məsələyə çevrilə bilər, ancaq biz emoji axtarış qutusunda çıxış düyməsinə basdıqdan sonra baş verən nasazlığı aradan qaldırdıq."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "Bu yeniləmə ilə bəzi hallarda düzgün qruplaşmayan emoji reaksiyaları daxil olmaqla, bir neçə nasazlıq aradan qaldırıldı."
   },
@@ -6932,6 +6938,6 @@
     "messageformat": "Bəzi istifadəçilərin ianə nişanlarını düzgün şəkildə görmələrinə mane olan bir nasazlığı aradan qaldırdıq. Signal 501c3 qeyri-kommersiya təşkilatıdır və dəstəyinizə görə minnətdarıq!"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Microsoft Windows-da Signal Desktop başlıq panelini mavi əvəzinə narıncı rəngə çevirən nasazlığı aradan qaldırdıq. Son bir neçə gündə sitrus temalı rəng tonlarına aludə olmusunuzsa və bu səhvi aradan qaldırmağımız həvəsinizi qaçırıbsa, Windows parametrlərində sisteminizin vurğulama rəngini tənzimləyə bilərsiniz."
   }
 }

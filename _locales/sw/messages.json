@@ -1371,10 +1371,10 @@
     "messageformat": "Chagua magumzo unayotaka yaonekane kwenye folda hii"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "Magumzo ya 1:1"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Gumzo za Vikundi"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Weka magumzo"
@@ -2068,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Upakuaji umeshindwa"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Mabadiliko yanaweza kufanywa ndani ya saa 3 kutoka muda uliotuma ujumbe huu."
@@ -5289,7 +5292,7 @@
     "messageformat": "Zuiliwa"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Chelezo za Signal"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Uhifadhi nakala wa kiotomatiki ukitumia huduma salama za uhifadhi wa Signal zilizosimbwa fiche. Anza kutumia kwenye simu yako. <learnMoreLink>Pata maelezo zaidi.</learnMoreLink>"
@@ -5304,7 +5307,7 @@
     "messageformat": "Ujumbe + nakala ya picha na video zote"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Usajili wako haujapatikana. Weka upya ili uendelee kutumia Hifadhi Nakala ya Signal."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Ujumbe + uhifadhi nakala wa siku {mediaDayCount,number}} other {Ujumbe + uhifadhi nakala wa siku {mediaDayCount,number}}}"
@@ -5322,13 +5325,13 @@
     "messageformat": "Usajili umeghairishwa"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Unaweza kusimamia au kusasisha usajili wako wa Hifadhi Nakala ya Signal kwenye simu yako."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Unaweza kusimamia au kusasisha Hifadhi Nakala ya Signal kwenye simu yako."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Unaweza kusimamia au kuweka upya usajili wako wa Hifadhi Nakala ya Signal kwenye simu yako."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Nakala ya mwisho"
@@ -6679,7 +6682,7 @@
     "messageformat": "<paragraph>Signal haikusanyi wala kuhifadhi taarifa zako zozote binafsi unapotoa mchango.</paragraph><paragraph>Tunatumia Stripe kama kichakataji chetu cha malipo ili kupokea michango yako. Hatufikii, hatuweki au kuhifadhi maelezo yoyote unayowapa</paragraph><paragraph>Signal haina na haiwezi kuunganisha mchango wako kwenye akaunti yako ya Signal.</paragraph><paragraph>Asante kwa kutuunga mkono!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
-    "messageformat": "OK"
+    "messageformat": "Sawa"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Risiti"
@@ -6757,22 +6760,22 @@
     "messageformat": "Jipatie Beji ya Mchangiaji ya Signal kwa siku 30"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Kiwango cha chini unachoweza kuchangia ni {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Kiwango cha chini ambacho unaweza kuchangia ni {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Kiwango cha juu unachoweza kuchangia ni {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Kuondoka kwenye ukurasa huu kutaondoa taarifa ya kadi yako ya mkopo. Ungependa kujaribu kuendelea?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Ondoa taarifa"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Endelea"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Risiti ya mchango"
@@ -6818,6 +6821,12 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "Umefanikiwa kuchangia, lakini tumeshindwa kusasisha mipangilio ya beji yako"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Mchango umekatishwa"
@@ -6922,9 +6931,6 @@
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Kupata emoji sahihi inaweza kuhisi kama mapambano yasiyoweza kuepukika, lakini tumerekebisha hitilafu ambayo inaweza kusababisha hitilafu kutokea baada ya kubofya kitufe cha escape kwenye sanduku la utafutaji la emoji."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "Sasisho hili hurekebisha hitilafu chache ndogo, ikiwemo moja ambapo reactions za emoji hazikupangwa pamoja kwa usahihi katika baadhi ya matukio."
   },
@@ -6932,6 +6938,6 @@
     "messageformat": "Tumerekebisha hitilafu iliyozuia beji za michango kuonekana ipasavyo kwa baadhi ya watumiaji. Signal ni shirika lisilo la kibiashara la 501c3, na tunathamini msaada wako!"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Tumerekebisha hitilafu kwenye Microsoft Windows iliyofanya upau wa Signal Desktop kuwa rangi ya chungwa badala ya bluu. Ikiwa umetokea kupenda mwonekano wa rangi yenye mandhari ya machungwa katika siku chache zilizopita na urekebishaji huu wa hitilafu haukufurahishi, unaweza kurekebisha rangi ya msisitizo ya mfumo wako katika mipangilio yako ya Windows."
   }
 }

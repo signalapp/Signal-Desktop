@@ -1371,10 +1371,10 @@
     "messageformat": "Aukeratu karpeta honetan agertzea nahi duzun txatak"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "Banako txatak"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Taldeko txatak"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Gehitu txatak"
@@ -2068,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Ezin izan da deskargatu"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Mezu hau bidali eta 24 orduko epean soilik aplika daitezke aldaketak."
@@ -5289,7 +5292,7 @@
     "messageformat": "Blokeatua"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal-en babeskopiak"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Babeskopia automatikoak, Signal-en muturretik muturrera enkriptatutako biltegiratze-zerbitzu seguruarekin. Hasi telefonoan erabiltzen. <learnMoreLink>Lortu informazio gehiago</learnMoreLink>."
@@ -5304,7 +5307,7 @@
     "messageformat": "Testuaren eta multimedia-eduki guztien babeskopia"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Ez da aurkitu zure harpidetza. Berri ezazu Signal-en babeskopiak erabiltzen jarraitzeko."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Testuaren eta {mediaDayCount,number} eguneko multimedia-edukiaren babeskopia} other {Testuaren eta {mediaDayCount,number} eguneko multimedia-edukiaren babeskopia}}"
@@ -5322,13 +5325,13 @@
     "messageformat": "Harpidetza bertan behera utzi da"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Signal-en babeskopien harpidetza kudeatu edo bertan behera uzteko, erabili telefonoa."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Signal-en babeskopiak kudeatzeko edo mailaz igotzeko, erabili telefonoa."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Signal-en babeskopien harpidetza kudeatu edo berritzeko, erabili telefonoa."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Azken babeskopia"
@@ -6679,7 +6682,7 @@
     "messageformat": "<paragraph>Signal-ek ez du zure informazio pertsonalik biltzen edo gordetzen dohaintza bat egiten duzunean.</paragraph><paragraph>Stripe erabiltzen dugu ordainketa-prozesadore gisa zure dohaintzak jasotzeko. Ez dugu ematen diezun informaziorik atzitzen edo gordetzen.</paragraph><paragraph>Signal-ek ez du zure dohaintza zure Signal kontuarekin lotzen eta ezin du lotu.</paragraph><paragraph>Eskerrik asko zure babesagatik!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
-    "messageformat": "OK"
+    "messageformat": "Ados"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Ordainagiriak"
@@ -6733,7 +6736,7 @@
     "messageformat": "Iraungitze-data"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "HH/UU"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Eman {formattedCurrencyAmount} Signal-i"
@@ -6757,22 +6760,22 @@
     "messageformat": "Lortu Signal-en bultzada-bereizgarria 30 egunez"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Dohaintzaren gutxieneko zenbatekoa {formattedCurrencyAmount} da"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Dohaintzan eman daitekeen gutxieneko zenbatekoa {formattedCurrencyAmount} da"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Dohaintzaren gehieneko zenbatekoa {formattedCurrencyAmount} da"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Orri honetatik irteten bazara, kreditu-txartelari buruzko informazioa kendu egingo da. Aurrera egin nahi duzu?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Kendu informazioa"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Jarraitu"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Dohaintzaren ordainagiria"
@@ -6818,6 +6821,12 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "Egin da dohaintza, baina ezin izan ditugu eguneratu bereizgarrien ezarpenak"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Dohaintza eten egin da"
@@ -6922,9 +6931,6 @@
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Emojiak bilatzeko kutxako akats bat konpondu dugu."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "Zenbait akats txiki konpondu dira."
   },
@@ -6932,6 +6938,6 @@
     "messageformat": "Erabiltzaile batzuentzat dohaintza-bereizgarriak behar bezala agertzea eragozten zuen akats bat konpondu dugu. Signal irabazirik gabeko erakundea da, eta zure babesa eskertzen dugu!"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Izenburu-barran batzuetan kolore okerra agertzea eragiten zuen akats bat zuzendu dugu Microsoft Windows-en."
   }
 }

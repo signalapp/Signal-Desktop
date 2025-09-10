@@ -1371,10 +1371,10 @@
     "messageformat": "તમે આ ફોલ્ડરમાં બતાવવા માંગતા હો તે ચેટ પસંદ કરો"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "1:1 ચેટ"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "ગ્રૂપ ચેટ"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "ચેટ ઉમેરો"
@@ -2068,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "ડાઉનલોડ નિષ્ફળ ગયું"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "તમે આ મેસેજ મોકલ્યો હોય ત્યારથી માત્ર 24 કલાકની અંદર જ ફેરફારો લાગુ કરી શકાય છે."
@@ -5289,7 +5292,7 @@
     "messageformat": "બ્લૉક કર્યા"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal બેકઅપ"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Signalની સુરક્ષિત, એન્ડ-ટૂ-એન્ડ એન્ક્રિપ્ટેડ સ્ટોરેજ સેવા સાથે ઓટોમેટિક બેકઅપ. તમારા ફોન પર શરૂઆત કરો. <learnMoreLink>વધુ જાણો.</learnMoreLink>"
@@ -5304,7 +5307,7 @@
     "messageformat": "ટેક્સ્ટ + બધા મીડિયાનું બેકઅપ"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "તમારું સબ્સ્ક્રિપ્શન મળ્યું ન હતું. Signal બેકઅપનો ઉપયોગ ચાલુ રાખવા માટે રિન્યૂ કરો."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {ટેક્સ્ટ + {mediaDayCount,number} દિવસના મીડિયાનું બેકઅપ} other {ટેક્સ્ટ + {mediaDayCount,number} દિવસના મીડિયાનું બેકઅપ}}"
@@ -5322,13 +5325,13 @@
     "messageformat": "સબ્સ્ક્રિપ્શન રદ કર્યું"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "તમે તમારા ફોન પર તમારા Signal બેકઅપ સબ્સ્ક્રિપ્શનને મેનેજ અથવા કેન્સલ કરી શકો છો."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "તમે તમારા ફોન પર Signal બેકઅપને મેનેજ અથવા અપગ્રેડ કરી શકો છો."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "તમે તમારા ફોન પર તમારા Signal બેકઅપ સબ્સ્ક્રિપ્શનને મેનેજ અથવા રિન્યૂ કરી શકો છો."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "છેલ્લું બેકઅપ"
@@ -6679,7 +6682,7 @@
     "messageformat": "<paragraph>તમે દાન કરો છો ત્યારે Signal તમારી કોઈ પણ અંગત માહિતી એકત્રિત કે સંગ્રહિત કરતું નથી.</paragraph><paragraph>અમે તમારા દાન મેળવવા માટે અમારા પેમેન્ટ પ્રોસેસર તરીકે Stripeનો ઉપયોગ કરીએ છીએ.તમે તેમને પ્રદાન કરો છો તે કોઈ પણ માહિતી અમે ઍક્સેસ, સ્ટોર કે સેવ કરતાં નથી.</paragraph><paragraph>Signal તમારા દાનને તમારા Signal એકાઉન્ટ સાથે કનેક્ટ કરતું નથી અને કરી શકતું નથી.</paragraph><paragraph>તમારા સપોર્ટ બદલ તમારો આભાર!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
-    "messageformat": "OK"
+    "messageformat": "ઓકે"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "રસીદો"
@@ -6757,22 +6760,22 @@
     "messageformat": "30 દિવસ માટે Signal બૂસ્ટ બૅજ મેળવો"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "ઓછામાં ઓછી દાનની રકમ છે {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "તમે જે ઓછામાં ઓછી રકમ દાન કરી શકો છો તે છે {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "મહત્તમ દાનની રકમ છે {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "આ પેજને બંધ કરવાથી તમારી ક્રેડિટ કાર્ડ માહિતી દૂર થઈ જશે. શું તમે આગળ વધવા માંગો છો?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "માહિતી દૂર કરો"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "ચાલુ રાખો"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "દાનની રસીદ"
@@ -6818,6 +6821,12 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "દાન સફળ રહ્યું, પણ અમે તમારા બૅજ સેટિંગ્સ અપડેટ કરી શક્યા નહીં"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "દાનમાં વિક્ષેપ પડ્યો"
@@ -6922,9 +6931,6 @@
     "messageformat": "નાના ફેરફારો, ભૂલ સુધારા અને પ્રદર્શનમાં વધારો. Signalનો ઉપયોગ કરવા બદલ આભાર!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "અમે ઇમોજી સર્ચ બોક્સમાં એક બગ સુધાર્યો."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "થોડા નાના બગ સુધારાઓ."
   },
@@ -6932,6 +6938,6 @@
     "messageformat": "અમે એક બગ ઠીક કર્યો છે જે કેટલાક વપરાશકર્તાઓ માટે દાન બૅજને યોગ્ય રીતે દેખાતા અટકાવતો હતો."
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "ક્યારેક ટાઇટલ બાર ખોટો રંગ બતાવતું હતું તેવા બગને અમે Microsoft Windows પરથી ફિક્સ કર્યો છે."
   }
 }
