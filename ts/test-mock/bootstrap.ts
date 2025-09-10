@@ -175,7 +175,6 @@ function sanitizePathComponent(component: string): string {
 }
 
 const DEFAULT_REMOTE_CONFIG = [
-  ['desktop.backup.credentialFetch', { enabled: true }],
   ['desktop.internalUser', { enabled: true }],
   ['desktop.senderKey.retry', { enabled: true }],
   ['global.backups.mediaTierFallbackCdnNumber', { enabled: true, value: '3' }],
