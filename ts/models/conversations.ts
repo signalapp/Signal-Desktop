@@ -5469,7 +5469,7 @@ export class ConversationModel {
 
   async #getTemporaryAvatarPath(): Promise<string | undefined> {
     const {
-      copyIntoTempDirectory,
+      copyAttachmentIntoTempDirectory,
       deleteAttachmentData,
       getAbsoluteAttachmentPath,
       getAbsoluteTempPath,
@@ -5505,7 +5505,7 @@ export class ConversationModel {
     });
 
     try {
-      const { path: tempPath } = await copyIntoTempDirectory(
+      const { path: tempPath } = await copyAttachmentIntoTempDirectory(
         getAbsoluteAttachmentPath(plaintextPath)
       );
       return getAbsoluteTempPath(tempPath);

@@ -64,10 +64,10 @@ type EncryptedWriter = (data: Uint8Array) => Promise<LocalAttachmentV2Type>;
 
 type MigrationsModuleType = {
   attachmentsPath: string;
-  copyIntoAttachmentsDirectory: (
+  copyStickerIntoAttachmentsDirectory: (
     path: string
   ) => Promise<{ path: string; size: number }>;
-  copyIntoTempDirectory: (
+  copyAttachmentIntoTempDirectory: (
     path: string
   ) => Promise<{ path: string; size: number }>;
   deleteAttachmentData: (path: string) => Promise<void>;
@@ -241,8 +241,6 @@ export function initializeMigrations({
   const getAbsoluteAttachmentPath = createAbsolutePathGetter(attachmentsPath);
   const deleteOnDisk = Attachments.createDeleter(attachmentsPath);
   const writeNewAttachmentData = createEncryptedWriterForNew(attachmentsPath);
-  const copyIntoAttachmentsDirectory =
-    Attachments.copyIntoAttachmentsDirectory(attachmentsPath);
   const doesAttachmentExist = createDoesExist(attachmentsPath);
 
   const stickersPath = getStickersPath(userDataPath);
@@ -250,6 +248,11 @@ export function initializeMigrations({
   const writeNewStickerData = createEncryptedWriterForNew(stickersPath);
   const deleteSticker = Attachments.createDeleter(stickersPath);
   const readStickerData = createEncryptedReader(stickersPath);
+  const copyStickerIntoAttachmentsDirectory =
+    Attachments.copyIntoAttachmentsDirectory({
+      sourceDir: stickersPath,
+      targetDir: attachmentsPath,
+    });
 
   const badgesPath = getBadgesPath(userDataPath);
   const getAbsoluteBadgeImageFilePath = createAbsolutePathGetter(badgesPath);
@@ -261,8 +264,11 @@ export function initializeMigrations({
   const writeNewPlaintextTempData = createWriterForNew(tempPath);
   const deleteTempFile = Attachments.createDeleter(tempPath);
   const readTempData = createEncryptedReader(tempPath);
-  const copyIntoTempDirectory =
-    Attachments.copyIntoAttachmentsDirectory(tempPath);
+  const copyAttachmentIntoTempDirectory =
+    Attachments.copyIntoAttachmentsDirectory({
+      sourceDir: attachmentsPath,
+      targetDir: tempPath,
+    });
 
   const draftPath = getDraftPath(userDataPath);
   const getAbsoluteDraftPath = createAbsolutePathGetter(draftPath);
@@ -282,8 +288,8 @@ export function initializeMigrations({
 
   return {
     attachmentsPath,
-    copyIntoAttachmentsDirectory,
-    copyIntoTempDirectory,
+    copyStickerIntoAttachmentsDirectory,
+    copyAttachmentIntoTempDirectory,
     deleteAttachmentData: deleteOnDisk,
     deleteAvatar,
     deleteDownloadData: deleteDownloadOnDisk,
@@ -390,9 +396,10 @@ type AttachmentsModuleType = {
     root: string
   ) => (relativePath: string) => Promise<Uint8Array>;
 
-  copyIntoAttachmentsDirectory: (
-    root: string
-  ) => (sourcePath: string) => Promise<{ path: string; size: number }>;
+  copyIntoAttachmentsDirectory: (options: {
+    sourceDir: string;
+    targetDir: string;
+  }) => (sourcePath: string) => Promise<{ path: string; size: number }>;
 
   createWriterForNew: (
     root: string,
