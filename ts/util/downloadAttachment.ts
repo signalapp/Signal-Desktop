@@ -5,7 +5,6 @@ import {
   type AttachmentType,
   AttachmentVariant,
   AttachmentPermanentlyUndownloadableError,
-  getAttachmentIdForLogging,
   hasRequiredInformationForBackup,
   wasImportedFromLocalBackup,
 } from '../types/Attachment';
@@ -16,6 +15,8 @@ import { createLogger } from '../logging/log';
 import { HTTPError } from '../textsecure/Errors';
 import { toLogFormat } from '../types/errors';
 import type { ReencryptedAttachmentV2 } from '../AttachmentCrypto';
+import * as RemoteConfig from '../RemoteConfig';
+import { ToastType } from '../types/Toast';
 
 const log = createLogger('downloadAttachment');
 
@@ -26,6 +27,7 @@ export async function downloadAttachment({
     onSizeUpdate,
     abortSignal,
     hasMediaBackups,
+    logId: _logId,
   },
   dependencies = {
     downloadAttachmentFromServer: doDownloadAttachment,
@@ -38,17 +40,16 @@ export async function downloadAttachment({
     onSizeUpdate: (totalBytes: number) => void;
     abortSignal: AbortSignal;
     hasMediaBackups: boolean;
+    logId: string;
   };
   dependencies?: {
     downloadAttachmentFromServer: typeof doDownloadAttachment;
     downloadAttachmentFromLocalBackup: typeof doDownloadAttachmentFromLocalBackup;
   };
 }): Promise<ReencryptedAttachmentV2> {
-  const attachmentId = getAttachmentIdForLogging(attachment);
   const variantForLogging =
     variant !== AttachmentVariant.Default ? `[${variant}]` : '';
-  const dataId = `${attachmentId}${variantForLogging}`;
-  const logId = `downloadAttachmentUtil(${dataId})`;
+  const logId = `${_logId}${variantForLogging}`;
 
   const { server } = window.textsecure;
   if (!server) {
@@ -63,8 +64,10 @@ export async function downloadAttachment({
   if (wasImportedFromLocalBackup(attachment)) {
     log.info(`${logId}: Downloading attachment from local backup`);
     try {
-      const result =
-        await dependencies.downloadAttachmentFromLocalBackup(attachment);
+      const result = await dependencies.downloadAttachmentFromLocalBackup(
+        attachment,
+        { logId }
+      );
       onSizeUpdate(attachment.size);
       return result;
     } catch (error) {
@@ -86,7 +89,7 @@ export async function downloadAttachment({
         server,
         { mediaTier: MediaTier.BACKUP, attachment },
         {
-          logPrefix: dataId,
+          logId,
           onSizeUpdate,
           variant,
           abortSignal,
@@ -99,6 +102,12 @@ export async function downloadAttachment({
 
       const shouldFallbackToTransitTier =
         variant !== AttachmentVariant.ThumbnailFromBackup;
+
+      if (RemoteConfig.isEnabled('desktop.internalUser')) {
+        window.reduxActions.toast.showToast({
+          toastType: ToastType.UnableToDownloadFromBackupTier,
+        });
+      }
 
       if (error instanceof HTTPError && error.code === 404) {
         // This is an expected occurrence if restoring from a backup before the
@@ -128,7 +137,7 @@ export async function downloadAttachment({
       server,
       { attachment, mediaTier: MediaTier.STANDARD },
       {
-        logPrefix: dataId,
+        logId,
         onSizeUpdate,
         variant,
         abortSignal,

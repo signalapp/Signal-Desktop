@@ -2752,6 +2752,10 @@
     "messageformat": "Download failed",
     "description": "Shown if user's manual request to download attachment fails"
   },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed",
+    "description": "Shown for internal users for debugging backup attachments."
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Edits can only be applied within 24 hours from the time you sent this message.",
     "description": "Error message when you try to send an edit after message becomes too old"
