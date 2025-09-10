@@ -1371,10 +1371,10 @@
     "messageformat": "Alege conversațiile care dorești să apară în acest dosar"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "Conversații 1 la 1"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Conversații în grup"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Adaugă conversații"
@@ -2068,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "A eșuat descărcarea"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Editările pot fi făcute numai în termen de 24 de ore de la trimiterea acestui mesaj."
@@ -5289,7 +5292,7 @@
     "messageformat": "Blocat"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Backup-uri Signal"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Backup-uri automate cu serviciul de stocare criptat complet de la Signal. Începe pe telefonul tău. <learnMoreLink>Află mai multe</learnMoreLink>."
@@ -5304,7 +5307,7 @@
     "messageformat": "Text și backup la toate fișierele media"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Abonamentul tău nu a fost găsit. Reînnoiește pentru a continua să folosești Backup-uri Signal."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} zi de backup al fișierelor media} few {Text + {mediaDayCount,number} zile de backup al fișierelor media} other {Text + {mediaDayCount,number} de zile de backup al fișierelor media}}"
@@ -5322,13 +5325,13 @@
     "messageformat": "Abonament anulat"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Poți gestiona sau anula abonamentul Backup-uri Signal de pe telefon."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Poți să gestionezi sau să faci upgrade la Backup-uri Signal pe telefon."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Poți să gestionezi sau să reînnoiești abonamentul Backup-uri Signal pe telefon."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Ultimul backup"
@@ -6733,7 +6736,7 @@
     "messageformat": "Data expirării"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "LL/AA"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Donează {formattedCurrencyAmount} către Signal"
@@ -6757,22 +6760,22 @@
     "messageformat": "Obține insigna Signal Boost timp de 30 de zile"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Suma minimă a donației este {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Suma minimă pe care o poți dona este {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Suma maximă a donației este {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Părăsirea acestei pagini va elimina informațiile despre cardul tău de credit. Dorești să continui?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Elimină informațiile"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Continuă"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Chitanță donație"
@@ -6818,6 +6821,12 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "Donația a reușit, dar nu am putut actualiza setările insignei tale"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Donație întreruptă"
@@ -6922,9 +6931,6 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Găsirea emoji-ului potrivit poate părea o luptă inevitabilă, dar am remediat o eroare care putea cauza apariția unei erori după apăsarea tastei Escape în caseta de căutare a emoji-urilor."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "Această actualizare remediază câteva erori minore, inclusiv una din cauza căreia reacțiile cu emoji-uri nu erau grupate corect în anumite cazuri."
   },
@@ -6932,6 +6938,6 @@
     "messageformat": "Am remediat o eroare care împiedica afișarea corectă a insignelor de donație pentru unii utilizatori. Signal este o organizație non-profit 501c3 și îți apreciem sprijinul!"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Am remediat o eroare în Microsoft Windows care făcea bara de titlu a desktopului Signal să fie portocalie în loc de albastră. Dacă ai ajuns să iubești schema de culori cu tematică citrică în ultimele zile și această corecție de eroare te deranjează, poți ajusta culoarea de bază a sistemului, din setările Windows."
   }
 }

@@ -1371,10 +1371,10 @@
     "messageformat": "Choisissez les conversations à afficher dans ce dossier."
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "Conversations individuelles"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Conversations de groupe"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Ajouter des conversations"
@@ -2068,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Échec du téléchargement"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Une fois envoyés, les messages ne peuvent être modifiés que pendant 24 heures."
@@ -4632,7 +4635,7 @@
     "messageformat": "Supprimer"
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
-    "messageformat": "{count, plural, one {Vous ne pouvez sélectionner que {count,number} message à supprimer pour tout le monde.} other {Vous ne pouvez sélectionner qu’un maximum de {count,number} messages à supprimer pour tout le monde.}}"
+    "messageformat": "{count, plural, one {Vous ne pouvez sélectionner que {count,number} message à supprimer pour tout le monde.} other {Vous ne pouvez sélectionner qu'un maximum de {count,number} messages à supprimer pour tout le monde.}}"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Vous ne pouvez pas transférer plus de 30 messages"
@@ -5289,7 +5292,7 @@
     "messageformat": "Utilisateurs bloqués"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Sauvegardes Signal"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Sauvegardes automatiques chiffrées de bout en bout grâce au service de stockage sécurisé de Signal. Ouvrez Signal sur votre téléphone pour vous lancer. <learnMoreLink>En savoir plus</learnMoreLink>."
@@ -5304,7 +5307,7 @@
     "messageformat": "Messages texte + tous les médias"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Abonnement introuvable. Renouvelez-le pour continuer d'utiliser les sauvegardes Signal."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Messages texte + {mediaDayCount,number} jour de médias} other {Messages texte + {mediaDayCount,number} jours de médias}}"
@@ -5322,13 +5325,13 @@
     "messageformat": "Abonnement résilié"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Vous pouvez gérer ou résilier votre abonnement aux sauvegardes Signal depuis votre téléphone."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Vous pouvez gérer ou mettre à niveau votre abonnement aux sauvegardes Signal depuis votre téléphone."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Vous pouvez gérer ou renouveler votre abonnement aux sauvegardes Signal depuis votre téléphone."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Dernière sauvegarde"
@@ -6733,7 +6736,7 @@
     "messageformat": "Date d'expiration"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "MM/AA"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Faire un don de {formattedCurrencyAmount} à Signal"
@@ -6757,22 +6760,22 @@
     "messageformat": "Gagnez le macaron Coup de pouce pour 30 jours"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Le montant minimal est de {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
-    "messageformat": "Le montant minimum des dons est de {formattedCurrencyAmount}"
+    "messageformat": "Le montant minimal est de {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Le montant maximal est de {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Si vous quittez cette page, les informations de votre carte bancaire seront supprimées. Voulez-vous continuer ?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Supprimer les infos"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Continuer"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Reçu de don"
@@ -6818,6 +6821,12 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "Nous avons bien traité votre don, mais nous n'avons pas pu mettre à jour votre macaron."
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Don suspendu"
@@ -6922,9 +6931,6 @@
     "messageformat": "Au menu de cette version : quelques ajustements de plus, quelques petits bugs en moins et des gains de performance. Merci d'utiliser Signal !",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Avant, quand on appuyait sur la touche Échap dans la barre de recherche d'émojis, cela pouvait générer une erreur. Mais ce bug n'a pas échappé à la règle : nos ingénieurs l'ont pulvérisé."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "Cette mise à jour éradique quelques bugs mineurs. L'un d'entre eux affichait parfois les émojis dans un joyeux désordre quand on voulait réagir à un message. On l'a remis à sa place. Et ça, ça mérite bien un émoji flamme."
   },
@@ -6932,6 +6938,6 @@
     "messageformat": "Lorsque vous faisiez un don à Signal, un bug empêchait parfois les macarons de s'afficher correctement. Pas de chance pour lui : on a un don pour corriger les bugs. Signal est un organisme à but non lucratif. Merci pour votre soutien !"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Dans Microsoft Windows, un bug affichait la barre de titre Signal Desktop en orange. L'application a maintenant retrouvé son bleu d'origine. Mais si la version orange vous donnait la pêche et que ce correctif vous donne un coup de blues, n'hésitez pas à modifier la couleur d'accentuation dans vos paramètres Windows."
   }
 }

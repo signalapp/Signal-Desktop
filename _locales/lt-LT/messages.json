@@ -1371,10 +1371,10 @@
     "messageformat": "Pasirinkite pokalbius, kuriuos norite rodyti šiame aplanke."
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "1:1 pokalbiai"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Grupės pokalbiai"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Pridėti pokalbių"
@@ -2068,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Atsisiųsti nepavyko"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Redaguoti galima ne vėliau kaip per 24 val. nuo šios žinutės išsiuntimo."
@@ -5289,7 +5292,7 @@
     "messageformat": "Užblokuota"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "„Signal“ atsarginės kopijos"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Automatinės atsarginės kopijos naudojant „Signal“ saugią, užšifruotą saugyklos paslaugą. Pradėkite naudotis savo telefone. <learnMoreLink>Sužinoti daugiau</learnMoreLink>."
@@ -5304,7 +5307,7 @@
     "messageformat": "Žinučių ir visų įrašų atsarginė kopija"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Prenumerata nerasta. Atnaujinkite, kad galėtumėte toliau naudoti „Signal“ atsargines kopijas."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Žinučių ir {mediaDayCount,number} dienos įrašų atsarginė kopija} few {Žinučių ir {mediaDayCount,number} dienų įrašų atsarginė kopija} many {Žinučių ir {mediaDayCount,number} dienos įrašų atsarginė kopija} other {Žinučių ir {mediaDayCount,number} dienų įrašų atsarginė kopija}}"
@@ -5322,13 +5325,13 @@
     "messageformat": "Prenumerata nutraukta"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Telefone galite tvarkyti savo „Signal“ atsarginių kopijų prenumeratą arba jos atsisakyti."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Savo telefone galite tvarkyti arba atnaujinti „Signal“ atsargines kopijas."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Telefone galite tvarkyti arba atnaujinti savo „Signal“ atsarginių kopijų prenumeratą."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Paskutinė atsarginė kopija"
@@ -6679,7 +6682,7 @@
     "messageformat": "<paragraph>„Signal“ nerenka ir nesaugo jokios jūsų asmeninės informacijos, kai skiriate paramą.</paragraph><paragraph>Jūsų paramai gauti kaip mokėjimų tvarkytoją naudojame „Stripe“. Mes nepasiekiame, nelaikome ir neišsaugome jokios jūsų jiems pateiktos informacijos.</paragraph><paragraph>„Signal“ nesusieja ir negali susieti jūsų paramos su jūsų „Signal“ paskyra.</paragraph><paragraph>Dėkojame už jūsų paramą!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
-    "messageformat": "OK"
+    "messageformat": "Gerai"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Kvitai"
@@ -6757,22 +6760,22 @@
     "messageformat": "Gaukite „Signal“ rėmėjo ženklelį 30 dienų"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Mažiausia paramos suma yra {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Mažiausia paramos suma, kurią gali skirti: {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Didžiausia paramos suma yra {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Išėjus iš šio puslapio, jūsų kredito kortelės informacija bus pašalinta. Ar norite tęsti?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Pašalinti informaciją"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Tęsti"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Paramos kvitas"
@@ -6818,6 +6821,12 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "Parama suteikta sėkmingai, tačiau nepavyko atnaujinti jūsų ženklelio nustatymų"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Paramos skyrimas nutrauktas"
@@ -6922,9 +6931,6 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Ištaisėme jaustukų paieškos laukelio klaidą."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "Kelių nedidelių klaidų pataisymai."
   },
@@ -6932,6 +6938,6 @@
     "messageformat": "Ištaisėme klaidą, dėl kurios kai kuriems naudotojams paramos ženkleliai nebuvo rodomi teisingai."
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Ištaisėme „Microsoft Windows“ klaidą, dėl kurios pavadinimo juostoje kartais būdavo rodoma netinkama spalva."
   }
 }

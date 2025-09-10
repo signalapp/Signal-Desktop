@@ -1374,7 +1374,7 @@
     "messageformat": "1:1 chats"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Group Chats"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Magdagdag ng chats"
@@ -2068,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Failed ang pag-download"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "May 3 oras ka lang para i-edit ang message pagkatapos mo itong i-send."
@@ -5289,7 +5292,7 @@
     "messageformat": "Naka-block"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Backups"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Automatic backups na may secure end-to-end encrypted storage service ng Signal. Simulan sa phone mo. <learnMoreLink>Matuto pa</learnMoreLink>."
@@ -5304,7 +5307,7 @@
     "messageformat": "Backup ng text + lahat ng media"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Hindi mahanap ang iyong subscription. Mag-renew para patuloy na magamit ang Signal Backups."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Backup ng text + media ng nakaraang {mediaDayCount,number} araw} other {Backup ng text + media ng nakaraang {mediaDayCount,number} araw}}"
@@ -5322,13 +5325,13 @@
     "messageformat": "Kinancel ang subscription"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Maaari mong i-manage o kanselahin ang iyong subscription sa Signal Backups sa iyong phone."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Maaari mong i-manage o i-upgrade ang Signal Backups sa iyong phone."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Maaari mong i-manage at i-renew ang iyong Signal Backups subscription sa phone mo."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Huling backup"
@@ -6757,22 +6760,22 @@
     "messageformat": "Kunin ang Signal Boost badge sa loob ng 30 days"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Ang minimum donation ay {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Ang minimum amount na pwede mong i-donate ay {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Ang maximum donation ay {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Matatanggal ang credit card information mo kapag umalis ka sa page na ito. Gusto mo bang magpatuloy?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Tanggalin ang info"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Magpatuloy"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Donation receipt"
@@ -6818,6 +6821,12 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "Pumasok ang donation, pero hindi namin ma-update ang iyong badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Naputol ang pag-donate"
@@ -6922,9 +6931,6 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "May inayos kaming bug sa emoji search box."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "May ilang small bug fixes."
   },
@@ -6932,6 +6938,6 @@
     "messageformat": "Inayos namin ang isang bug na pumigil sa pagpapakita ng tamang donation badges sa ilang users."
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "May inayos kaming bug sa Microsoft Windows na minsan ay nagpapakita ng maling kulay sa title bar."
   }
 }

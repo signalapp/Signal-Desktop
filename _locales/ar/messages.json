@@ -1371,10 +1371,10 @@
     "messageformat": "اختر الدردشات التي تريد أن تظهر في هذا المجلد."
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "الدردشات الفردية"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "المحادثات الجماعية"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "إضافة دردشات"
@@ -2068,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "تعذَّر التنزيل"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "لا يُمكن إحداث التعديلات إلاّ في غضون 24 ساعة من وقت إرسال هذه الرسالة."
@@ -5289,7 +5292,7 @@
     "messageformat": "الجهات المحظورة"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "النسخ الاحتياطية على سيجنال"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "نسخ احتياطية تلقائية باستخدام خدمة التخزين المُشفَّرة من طرف لِطرف التي يوفّرها سيجنال. ابدأ العملية على هاتفك. <learnMoreLink>اعرف المزيد.</learnMoreLink>"
@@ -5304,7 +5307,7 @@
     "messageformat": "النسخ الاحتياطي للنص وكل الوسائط"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "تعذَّر العثور على اشتراكك. جدِّد الاشتراك لمتابعة استخدام النسخ الاحتياطية على سيجنال."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, zero {النسخ الاحتياطي للنص و{mediaDayCount,number} يوم من الوسائط} one {النسخ الاحتياطي للنص و{mediaDayCount,number} يوم من الوسائط} two {النسخ الاحتياطي للنص و{mediaDayCount,number} يومين من الوسائط} few {النسخ الاحتياطي للنص و{mediaDayCount,number} أيام من الوسائط} many {النسخ الاحتياطي للنص و{mediaDayCount,number} يومًا من الوسائط} other {النسخ الاحتياطي للنص و{mediaDayCount,number} يومٍ من الوسائط}}"
@@ -5322,13 +5325,13 @@
     "messageformat": "تمَّ إلغاء الاشتراك"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "يمكنك إدارة أو إلغاء اشتراكك في النسخ الاحتياطية على سيجنال من هاتفك."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "يُمكنك إدارة أو ترقية النسخ الاحتياطية على سيجنال من هاتفك."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "يُمكنك إدارة أو تجديد اشتراك نسخك الاحتياطية على سيجنال من هاتفك."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "آخِر نسخة احتياطية"
@@ -6679,7 +6682,7 @@
     "messageformat": "<paragraph>لا يقوم سيجنال بجمع أو تخزين معلوماتك الشخصية عند قيامك بتبرُّع.</paragraph><paragraph>نستخدم Stripe كمعالج عمليات الدفع الخاصة بنا لتلقي تبرُّعاتك. لا يُمكننا الوصول إلى أو تخزين أو حفظ أي من المعلومات التي تُقدمها.</paragraph><paragraph>لا يقوم تطبيق سيجنال ولا يمكنه ربط تبرُّعاتك بحسابك على سيجنال.</paragraph><paragraph>شكرًا لدعمك!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
-    "messageformat": "OK"
+    "messageformat": "موافق"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "الإيصالات"
@@ -6733,7 +6736,7 @@
     "messageformat": "تاريخ انتهاء الصلاحية"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "الشهر/السنة"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "تبرَّع بـ {formattedCurrencyAmount} لسيجنال"
@@ -6757,22 +6760,22 @@
     "messageformat": "احصل على شارة دعم سيجنال لمدة 30 يومًا."
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "الحد الأدنى الذي يُمكنك التبرُّع به هو {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "الحد الأدنى الذي يُمكنك التبرُّع به هو {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "الحد الأقصى الذي يُمكنك التبرُّع به هو {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "ستؤدي مغادرة هذه الصفحة إلى حذف معلومات بطاقة الائتمان الخاصة بك. هل تريد المتابعة؟"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "إزالة المعلومات"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "متابعة"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "إيصال التبرُّع"
@@ -6818,6 +6821,12 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "تبرَّعتَ بنجاح، لكن تعذّر علينا تحديث إعدادات شارتك."
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "تمَّت مقاطعة التبرُّع"
@@ -6922,9 +6931,6 @@
     "messageformat": "تعديلات صغيرة، وإصلاح أعطال، وتحسينات للأداء. شكرًا على استخدامك سيجنال!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "قد يبدو العثور على الرمز التعبيري المناسب مهمة شاقّة أحيانًا، لكننا أصلحنا خللًا كان قد يؤدي إلى حدوث خطأ عند الضغط على مفتاح Escape في مربع البحث عن الرموز التعبيرية."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "تمَّ إصلاح بعض الأخطاء البسيطة."
   },
@@ -6932,6 +6938,6 @@
     "messageformat": "أصلحنا خطأ يحول دون ظهور شارات التبرُّع بشكلٍ صحيح لبعض المُستخدِمين. تطبيق سيجنال هو مؤسَّسة غير ربحية بتصنيف 501c3، ويعتمد بالكامل على دعمك!"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "قُمنا بإصلاح خلل في نظام Microsoft Windows كان يتسبَّب أحيانًا في ظهور لون غير صحيح في شريط العنوان. إذا أحببتَ نظام الألوان المُستوحى من الحِمضيات خلال الأيام القليلة الماضية وأزعجك هذا الإصلاح، يُمكنك تعديل لون التمييز في نظامك من خلال إعدادات Windows."
   }
 }

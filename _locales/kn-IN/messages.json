@@ -1371,10 +1371,10 @@
     "messageformat": "ಈ ಫೋಲ್ಡರ್‌ನಲ್ಲಿ ಕಾಣಿಸಲಿ ಎಂದು ನೀವು ಬಯಸುವ ಬಯಸುವ ಚಾಟ್‌ಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಿ"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "1:1 ಚಾಟ್ ಗಳು"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "ಗುಂಪು ಚಾಟ್‌ಗಳು"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "ಚಾಟ್ ಗಳನ್ನು ಸೇರಿಸಿ"
@@ -2068,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "ಡೌನ್‌ಲೋಡ್ ವಿಫಲವಾಗಿದೆ"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ನೀವು ಈ ಮೆಸೇಜ್ ಕಳುಹಿಸಿದ 24 ಗಂಟೆಗಳ ಒಳಗೆ ಮಾತ್ರ ಎಡಿಟ್‌ಗಳು ಅನ್ವಯಿಸಬಹುದು."
@@ -5289,7 +5292,7 @@
     "messageformat": "ನಿರ್ಬಂಧಿಸಲಾಗಿದೆ"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal ಬ್ಯಾಕಪ್‌ಗಳು"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Signal ನ ಸುರಕ್ಷಿತ ಎಂಡ್ ಟು ಎಂಡ್ ಎನ್ಕ್ರಿಪ್ಟ್ ಆಗಿರುವ ಸಂಗ್ರಹಣೆ ಸೇವೆಯೊಂದಿಗೆ ಸ್ವಯಂಚಾಲಿತ ಬ್ಯಾಕಪ್‌ಗಳು. ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ ಪ್ರಾರಂಭಿಸಿ. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ.</learnMoreLink>"
@@ -5304,7 +5307,7 @@
     "messageformat": "ಪಠ್ಯ + ಎಲ್ಲಾ ಮೀಡಿಯಾ ಬ್ಯಾಕಪ್"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "ನಿಮ್ಮ ಚಂದಾದಾರಿಕೆ ಕಂಡುಬಂದಿಲ್ಲ. Signal ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ಬಳಸುವುದನ್ನು ಮುಂದುವರಿಸಲು ನವೀಕರಿಸಿ."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {ಪಠ್ಯ + {mediaDayCount,number} ದಿನದ ಮೀಡಿಯಾ ಬ್ಯಾಕಪ್} other {ಪಠ್ಯ + {mediaDayCount,number} ದಿನಗಳ ಮೀಡಿಯಾ ಬ್ಯಾಕಪ್}}"
@@ -5322,13 +5325,13 @@
     "messageformat": "ಸಬ್‍ಸ್ಕ್ರಿಪ್ಷನ್ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ ನಿಮ್ಮ Signal ಬ್ಯಾಕಪ್‌ಗಳ ಚಂದಾದಾರಿಕೆಯನ್ನು ನೀವು ನಿರ್ವಹಿಸಬಹುದು ಅಥವಾ ರದ್ದುಗೊಳಿಸಬಹುದು."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ ನೀವು Signal ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ನಿರ್ವಹಿಸಬಹುದು ಅಥವಾ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಬಹುದು."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ ನಿಮ್ಮ Signal ಬ್ಯಾಕಪ್‌ಗಳ ಚಂದಾದಾರಿಕೆಯನ್ನು ನೀವು ನಿರ್ವಹಿಸಬಹುದು ಅಥವಾ ನವೀಕರಿಸಬಹುದು."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "ಕೊನೆಯ ಬ್ಯಾಕಪ್"
@@ -6679,7 +6682,7 @@
     "messageformat": "<paragraph>ನೀವು ದೇಣಿಗೆ ನೀಡುವಾಗ Signal ನಿಮ್ಮ ಯಾವುದೇ ವೈಯಕ್ತಿಕ ಮಾಹಿತಿಯನ್ನು ಸಂಗ್ರಹಿಸುವುದಿಲ್ಲ ಅಥವಾ ಸ್ಟೋರ್ ಮಾಡುವುದಿಲ್ಲ.</paragraph><paragraph>ನಿಮ್ಮ ದೇಣಿಗೆಗಳನ್ನು ಸ್ವೀಕರಿಸಲು ನಾವು Stripe ಅನ್ನು ನಮ್ಮ ಪಾವತಿ ಪ್ರೊಸೆಸರ್ ಆಗಿ ಬಳಸುತ್ತೇವೆ. ನೀವು ಅವರಿಗೆ ಒದಗಿಸುವ ಯಾವುದೇ ಮಾಹಿತಿಯನ್ನು ನಾವು ಆ್ಯಕ್ಸೆಸ್ ಮಾಡುವುದಿಲ್ಲ, ಸಂಗ್ರಹಿಸುವುದಿಲ್ಲ ಅಥವಾ ಉಳಿಸುವುದಿಲ್ಲ.</paragraph><paragraph>Signal ನಿಮ್ಮ ದೇಣಿಗೆಯನ್ನು ನಿಮ್ಮ Signal ಖಾತೆಗೆ ಕನೆಕ್ಟ್ ಮಾಡುವುದಿಲ್ಲ ಮತ್ತು ಕನೆಕ್ಟ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ.</paragraph><paragraph>ನಿಮ್ಮ ಬೆಂಬಲಕ್ಕೆ ಧನ್ಯವಾದಗಳು!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
-    "messageformat": "OK"
+    "messageformat": "ಸರಿ"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "ಸ್ವೀಕೃತಿಗಳು"
@@ -6733,7 +6736,7 @@
     "messageformat": "ಮುಕ್ತಾಯ ದಿನಾಂಕ"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "ತಿತಿ/ವವ"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Signal ಗೆ {formattedCurrencyAmount} ದೇಣಿಗೆ ನೀಡಿ"
@@ -6757,22 +6760,22 @@
     "messageformat": "30 ದಿನಗಳ Signal ಬೂಸ್ಟ್ ಬ್ಯಾಡ್ಜ್ ಪಡೆಯಿರಿ"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "ಕನಿಷ್ಠ ದೇಣಿಗೆ ಮೊತ್ತ {formattedCurrencyAmount} ಆಗಿದೆ"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "ನೀವು ದೇಣಿಗೆ ನೀಡಬಹುದಾದ ಕನಿಷ್ಠ ಮೊತ್ತ {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "ಗರಿಷ್ಠ ದೇಣಿಗೆ ಮೊತ್ತ {formattedCurrencyAmount} ಆಗಿದೆ"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "ಈ ಪುಟವನ್ನು ತೊರೆಯುವುದರಿಂದ ನಿಮ್ಮ ಕ್ರೆಡಿಟ್ ಕಾರ್ಡ್ ಮಾಹಿತಿಯನ್ನು ತೆಗೆದುಹಾಕಲಾಗುತ್ತದೆ. ನೀವು ಮುಂದುವರಿಯಲು ಬಯಸುತ್ತೀರಾ?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "ಮಾಹಿತಿಯನ್ನು ತೆಗೆದುಹಾಕಿ"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "ಮುಂದುವರಿಸಿ"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "ದೇಣಿಗೆ ರಸೀದಿ"
@@ -6818,6 +6821,12 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "ದೇಣಿಗೆ ಯಶಸ್ವಿಯಾಗಿದೆ, ಆದರೆ ನಿಮ್ಮ ಬ್ಯಾಡ್ಜ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡಲು ನಮಗೆ ಸಾಧ್ಯವಾಗಲಿಲ್ಲ"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "ದೇಣಿಗೆಗೆ ಅಡಚಣೆ ಉಂಟಾಗಿದೆ"
@@ -6922,9 +6931,6 @@
     "messageformat": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "ಸರಿಯಾದ ಎಮೋಜಿಯನ್ನು ಕಂಡುಹಿಡಿಯುವುದು ಅನಿವಾರ್ಯ ಹೋರಾಟದಂತೆ ಭಾಸವಾಗಬಹುದು, ಆದರೆ ಎಮೋಜಿ ಸರ್ಚ್ ಬಾಕ್ಸ್‌ನಲ್ಲಿ ಎಸ್ಕೇಪ್ ಕೀಯನ್ನು ಒತ್ತಿದ ನಂತರ ದೋಷ ಉಂಟುಮಾಡಬಹುದಾದ ಬಗ್ ಅನ್ನು ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "ಈ ಅಪ್‌ಡೇಟ್ ಕೆಲವು ಸಣ್ಣ ಬಗ್‌ಗಳನ್ನು ಸರಿಪಡಿಸುತ್ತದೆ, ಅವುಗಳಲ್ಲಿ ಕೆಲವು ಸಂದರ್ಭಗಳಲ್ಲಿ ಎಮೋಜಿ ಪ್ರತಿಕ್ರಿಯೆಗಳನ್ನು ಸರಿಯಾಗಿ ಗುಂಪು ಮಾಡದಿರುವುದು ಸೇರಿದೆ."
   },
@@ -6932,6 +6938,6 @@
     "messageformat": "ಕೆಲವು ಬಳಕೆದಾರರಿಗೆ ದೇಣಿಗೆ ಬ್ಯಾಡ್ಜ್‌ಗಳು ಸರಿಯಾಗಿ ಗೋಚರಿಸದಂತೆ ತಡೆಯುತ್ತಿದ್ದ ಬಗ್ ಅನ್ನು ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ. Signal 501c3 ಲಾಭರಹಿತ ಸಂಸ್ಥೆಯಾಗಿದ್ದು, ನಿಮ್ಮ ಬೆಂಬಲಕ್ಕೆ ನಾವು ಕೃತಜ್ಞರಾಗಿರುತ್ತೇವೆ!"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "ನಾವು Microsoft Windows ನಲ್ಲಿ ಸಿಗ್ನಲ್ ಡೆಸ್ಕ್‌ಟಾಪ್ ಶೀರ್ಷಿಕೆ ಪಟ್ಟಿಯನ್ನು ನೀಲಿ ಬಣ್ಣಕ್ಕೆ ಬದಲಾಗಿ ಕಿತ್ತಳೆ ಬಣ್ಣಕ್ಕೆ ತಿರುಗಿಸಿದ ಬಗ್ ಅನ್ನು ಸರಿಪಡಿಸಿದ್ದೇವೆ. ಕಳೆದ ಕೆಲವು ದಿನಗಳಿಂದ ನೀವು ಸಿಟ್ರಸ್-ಥೀಮ್ ಹೊಂದಿದ್ದ ಕಲರ್ ಸ್ಕೀಮ್‍ಗಳನ್ನು ಇಷ್ಟಪಡಲು ಪ್ರಾರಂಭಿಸಿದ್ದರೆ ಮತ್ತು ಈ ಬಗ್ ಪರಿಹಾರವು ನಿಮಗೆ ನೀಲಿ ಬಣ್ಣವನ್ನು ನೀಡುತ್ತಿದ್ದರೆ, ನಿಮ್ಮ Windows ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ನಿಮ್ಮ ಸಿಸ್ಟಂ ಆಕ್ಸೆಂಟ್ ಬಣ್ಣವನ್ನು ನೀವು ಸರಿಹೊಂದಿಸಬಹುದು."
   }
 }

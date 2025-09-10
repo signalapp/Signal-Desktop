@@ -1371,10 +1371,10 @@
     "messageformat": "Velg hvilke samtaler du ønsker å legge til i mappen."
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "En-til-en-samtaler"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Gruppesamtaler"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Legg til samtaler"
@@ -2068,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Nedlasting mislyktes"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Meldinger kan kun redigeres de første 24 timene etter at de ble sendt."
@@ -5289,7 +5292,7 @@
     "messageformat": "Blokkert"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Sikkerhetskopiering av Signal"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Automatisk sikkerhetskopiering med Signals sikre, ende-til-ende-krypterte lagringstjeneste. Kom i gang på mobilen din. <learnMoreLink>Les mer</learnMoreLink>."
@@ -5304,7 +5307,7 @@
     "messageformat": "Sikkerhetskopiering av alle mediefiler og tekst"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Abonnementet ble ikke funnet. Forny abonnementet for å fortsette å bruke sikkerhetskopiering på Signal."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Sikkerhetskopiering av tekst og mediefiler fra det siste døgnet} other {Sikkerhetskopiering av tekst og mediefiler fra de siste {mediaDayCount,number} dagene}}"
@@ -5322,13 +5325,13 @@
     "messageformat": "Abonnementet er sagt opp"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Du kan administrere eller si opp abonnementet ditt på telefonen din."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Du kan administrere eller oppgradere sikkerhetskopiering av Signal på telefonen din."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Du kan administrere eller fornye abonnementet ditt på telefonen din."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Siste sikkerhetskopi"
@@ -6733,7 +6736,7 @@
     "messageformat": "Utløpsdato"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "MM/ÅÅ"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Gi {formattedCurrencyAmount} til Signal"
@@ -6757,22 +6760,22 @@
     "messageformat": "Få et Signal Boost-merke i 30 dager"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Minimumsbeløpet du kan gi, er {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Minimumsbeløpet du kan gi, er {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Maksimumsbeløpet du kan gi, er {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Kortopplysningene dine slettes dersom du forlater denne siden. Vil du gå videre?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Forlat siden"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Fortsett"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Kvittering for pengebeløp"
@@ -6818,6 +6821,12 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "Gaven ble gitt, men vi kunne ikke endre innstillingene dine for merker."
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Pengegaven ble avbrutt"
@@ -6922,9 +6931,6 @@
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Vi har rettet opp i en feil i søkefeltet for emojier."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "Et par små feilrettinger."
   },
@@ -6932,6 +6938,6 @@
     "messageformat": "Vi rettet opp i en feil som førte til at pengegavemerker ikke var synlige for enkelte brukere."
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Vi rettet opp i en feil i Microsoft Windows som noen ganger førte til at feil farge ble vist i tittelfeltet."
   }
 }

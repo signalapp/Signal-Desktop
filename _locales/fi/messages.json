@@ -1371,10 +1371,10 @@
     "messageformat": "Valitse keskustelut, joiden haluat näkyvän kansiossa"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "Kahdenväliset keskustelut"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Ryhmäkeskustelut"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Lisää keskusteluja"
@@ -2068,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Lataus epäonnistui"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Muokkauksia voidaan tehdä vain 24 tunnin kuluessa tämän viestin lähettämisestä."
@@ -5289,7 +5292,7 @@
     "messageformat": "Estetty"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal-varmuuskopiot"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Automaattiset varmuuskopiot Signalin turvallisella, päästä päähän salatulla tallennuspalvelulla. Aloita puhelimellasi. <learnMoreLink>Lue lisää</learnMoreLink>."
@@ -5304,7 +5307,7 @@
     "messageformat": "Tekstin + kaiken median varmuuskopio"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Tilaustasi ei löydy. Uusi jatkaaksesi Signal-varmuuskopioinnin käyttöä."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Teksti + mediasisältö {mediaDayCount,number} päivän ajalta} other {Teksti + mediasisältö {mediaDayCount,number} päivän ajalta}}"
@@ -5322,13 +5325,13 @@
     "messageformat": "Tilaus on peruttu"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Voit hallita tai peruuttaa Signal-varmuuskopioinnin tilauksen puhelimellasi."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Voit hallita tai päivittää Signal-varmuuskopioinnin tilauksen puhelimellasi."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Voit hallita tai uusia Signal-varmuuskopioinnin tilauksen puhelimellasi."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Viimeisin varmuuskopio"
@@ -6733,7 +6736,7 @@
     "messageformat": "Voimassaolopäivä"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "KK/VV"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Lahjoita Signalille {formattedCurrencyAmount}"
@@ -6757,22 +6760,22 @@
     "messageformat": "Hanki Signal Boost -merkki 30 päiväksi"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Lahjoituksen minimisumma on {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Lahjoituksen minimisumma on {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Lahjoituksen maksimisumma on {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Jos poistut tältä sivulta, luottokorttitietosi poistetaan. Haluatko jatkaa?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Poista tiedot"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Jatka"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Lahjoituskuitti"
@@ -6818,6 +6821,12 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "Lahjoitus onnistui, mutta merkin asetusten päivitys ei onnistunut."
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Lahjoitus keskeytetty"
@@ -6922,9 +6931,6 @@
     "messageformat": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Korjasimme virheen emoji-hakukentässä."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "Muutamia pieniä virheenkorjauksia."
   },
@@ -6932,6 +6938,6 @@
     "messageformat": "Korjasimme virheen, joka esti lahjoitusmerkkien näkymisen oikein joillakin käyttäjillä."
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Korjasimme Microsoft Windowsissa virheen, joka saattoi joskus vaihtaa otsikkorivin värin virheellisesti."
   }
 }

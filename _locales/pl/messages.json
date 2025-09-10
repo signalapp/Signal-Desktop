@@ -1371,10 +1371,10 @@
     "messageformat": "Wybierz czaty, które mają się znaleźć w tym folderze"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "Czaty 1:1"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Rozmowy grupowe"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Dodaj czaty"
@@ -2068,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Nie udało się pobrać"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Wiadomość można edytować tylko w ciągu 24 godzin od jej wysłania."
@@ -5289,7 +5292,7 @@
     "messageformat": "Zablokowane kontakty"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Kopie zapasowe Signal"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Automatyczne tworzenie kopii zapasowych w usłudze bezpiecznego przechowywania Signal, szyfrowanej metodą end-to-end. Skonfiguruj na telefonie. <learnMoreLink>Dowiedz się więcej.</learnMoreLink>"
@@ -5304,7 +5307,7 @@
     "messageformat": "Wiadomości tekstowe i wszystkie multimedia"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Nie znaleziono subskrypcji. Odnów subskrypcję i korzystaj dalej z usługi kopii zapasowych Signal."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Wiadomości tekstowe, w tym multimedia z ostatniego dnia} few {Wiadomości tekstowe, w tym multimedia z ostatnich {mediaDayCount,number} dni} many {Wiadomości tekstowe, w tym multimedia z ostatnich {mediaDayCount,number} dni} other {Wiadomości tekstowe, w tym multimedia z ostatnich {mediaDayCount,number} dni}}"
@@ -5322,13 +5325,13 @@
     "messageformat": "Subskrypcja anulowana"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Na telefonie możesz zarządzać kopiami zapasowymi Signal lub anulować ich subskrypcję."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Na telefonie możesz zarządzać kopiami zapasowymi Signal lub zasubskrybować ich rozszerzony tryb."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Na telefonie możesz zarządzać kopiami zapasowymi Signal lub odnowić ich subskrypcję."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Ostatnia kopia zapasowa"
@@ -6733,7 +6736,7 @@
     "messageformat": "Data ważności"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "MM/RR"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Wpłać {formattedCurrencyAmount} i wesprzyj Signal"
@@ -6757,22 +6760,22 @@
     "messageformat": "Zdobądź odznakę za wsparcie na 30 dni"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Minimalna kwota darowizny wynosi {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Minimalna kwota darowizny wynosi {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Maksymalna kwota darowizny wynosi {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Opuszczenie tej strony spowoduje usunięcie danych Twojej karty kredytowej. Czy chcesz kontynuować?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Usuń dane"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Kontynuuj"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Potwierdzenie darowizny"
@@ -6818,6 +6821,12 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "Darowizna powiodła się, ale nie mogliśmy zaktualizować Twoich ustawień odznaki"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Wpłata darowizny przerwana"
@@ -6922,9 +6931,6 @@
     "messageformat": "Drobne ulepszenia, poprawki błędów i większa funkcjonalność. Cieszymy się, że korzystasz z aplikacji Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Naprawiliśmy błąd, który występował czasem po naciśnięciu klawisza Esc w polu wyszukiwania emoji. Teraz możesz znów skupić się na najważniejszym: znalezieniu idealnej emotki."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "W ramach tej aktualizacji usunęliśmy kilka mniejszych błędów – między innymi ten, przez który reakcje emoji czasem nie były prawidłowo grupowane."
   },
@@ -6932,6 +6938,6 @@
     "messageformat": "Naprawiliśmy błąd, przez który u niektórych osób odznaki za darowiznę nie wyświetlały się prawidłowo. Signal jest organizacją non profit działającą na podstawie zapisu 501c3. Dziękujemy za Twoje wsparcie!"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Naprawiliśmy błąd w systemie Windows firmy Microsoft, który powodował, że pasek tytułu aplikacji Signal Desktop był pomarańczowy zamiast niebieskiego. Jeśli ostatnimi czasy wolisz jednak cytrusową paletę barw od smutnych odcieni niebieskiego, możesz dostosować kolor akcentu w ustawieniach systemu Windows."
   }
 }

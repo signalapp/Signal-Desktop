@@ -1371,10 +1371,10 @@
     "messageformat": "Selecciona els xats que vols que apareguin en aquesta carpeta"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "Xats individuals"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Converses de grup"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Afegir xats"
@@ -2068,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Descàrrega fallida"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Els canvis només es poden realitzar fins 24 hores després d'enviar el missatge."
@@ -5289,7 +5292,7 @@
     "messageformat": "Persones bloquejades"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Còpies de seguretat de Signal"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Còpies de seguretat automàtiques amb el servei d'emmagatzematge xifrat segur d'extrem a extrem de Signal. Configura-les al teu telèfon. <learnMoreLink>Més informació</learnMoreLink>."
@@ -5304,7 +5307,7 @@
     "messageformat": "Còpia de seguretat de missatges de text + tots els arxius multimèdia"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "No s'ha trobat la teva subscripció. Renova-la per continuar utilitzant les còpies de seguretat de Signal."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Còpia de seguretat de missatges de text + {mediaDayCount,number} dia de multimèdia} other {Còpia de seguretat de missatges de text + {mediaDayCount,number} dies de multimèdia}}"
@@ -5322,13 +5325,13 @@
     "messageformat": "Subscripció cancel·lada"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Pots gestionar o cancel·lar la teva subscripció a les Còpies de seguretat de Signal des del teu telèfon."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Pots gestionar o actualitzar les Còpies de seguretat de Signal des del teu telèfon."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Pots gestionar o renovar la teva subscripció a les Còpies de seguretat de Signal des del teu telèfon."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Darrera còpia de seguretat"
@@ -6679,7 +6682,7 @@
     "messageformat": "<paragraph>Signal no recopila ni emmagatzema la teva informació personal quan fas una donació.</paragraph><paragraph>Utilitzem Stripe com a processador de pagaments per rebre les teves donacions. No accedim, emmagatzemem ni desem la informació que els proporciones.</paragraph><paragraph>Signal no connecta i no pot connectar la teva donació al teu compte de Signal.</paragraph><paragraph>Gràcies per comptar amb nosaltres!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
-    "messageformat": "OK"
+    "messageformat": "D'acord"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Rebuts"
@@ -6733,7 +6736,7 @@
     "messageformat": "Data de caducitat"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "MM/AA"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Fes una donació de {formattedCurrencyAmount} a Signal"
@@ -6757,22 +6760,22 @@
     "messageformat": "Aconsegueix una insígnia Boost de Signal durant 30 dies"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "L'import mínim per una donació és {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "La quantitat mínima que pots donar és de {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "L'import màxim per una donació és {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Sortir d'aquesta pàgina eliminarà la informació de la teva targeta de crèdit. Vols continuar?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Eliminar informació"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Continua"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Rebut de la donació"
@@ -6818,6 +6821,12 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "La donació s'ha realitzat correctament, però no hem pogut actualitzar els ajustos de la teva insígnia"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Donació interrompuda"
@@ -6922,9 +6931,6 @@
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Hem corregit un error al quadre de cerca d'emoji."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "Unes quantes correccions d'errors menors."
   },
@@ -6932,6 +6938,6 @@
     "messageformat": "Hem corregit un error que impedia que les insígnies de donació apareguessin correctament per a alguns usuaris."
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Hem corregit un error a Microsoft Windows que feia que la barra de títol de Signal Desktop aparegués en un altre color."
   }
 }

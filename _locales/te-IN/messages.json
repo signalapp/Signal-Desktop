@@ -1371,10 +1371,10 @@
     "messageformat": "ఈ ఫోల్డర్‌లో మీరు కనిపించాలనుకుంటున్న చాట్‌లను ఎంచుకోండి"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "1:1 చాట్స్"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "సమూహాల మాటామంతి "
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "చాట్‌లను జోడించండి"
@@ -2068,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "డౌన్‌లోడ్ విఫలమైంది"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ఈ సందేశాన్ని మీరు పంపిన సమయం నుంచి 24 గంటలలోపు మాత్రమే సవరణలు వర్తింపజేయబడతాయి."
@@ -5289,7 +5292,7 @@
     "messageformat": "బ్లాక్ చేయబడింది"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal బ్యాకప్‌లు"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Signal యొక్క సురక్షితమైన, ఎండ్-టు-ఎండ్ గుప్తీకరించబడిన నిల్వ సేవతో ఆటోమేటిక్ బ్యాకప్‌లు. మీ ఫోన్‌లో ప్రారంభించండి. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>."
@@ -5304,7 +5307,7 @@
     "messageformat": "టెక్స్ట్ + మొత్తం మీడియా బ్యాకప్"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "మీ సబ్‌స్క్రిప్షన్ కనుగొనబడలేదు. Signal బ్యాకప్‌లను ఉపయోగించడం కొనసాగించడానికి పునరుద్ధరించండి."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {టెక్స్ట్ + {mediaDayCount,number} రోజు మీడియా బ్యాకప్} other {టెక్స్ట్ + {mediaDayCount,number} రోజులు మీడియా బ్యాకప్}}"
@@ -5322,13 +5325,13 @@
     "messageformat": "సబ్స్క్రిప్షన్ రద్దు చేయబడింది"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "మీరు మీ ఫోన్‌లో మీ Signal బ్యాకప్‌ల సబ్‌స్క్రిప్షన్‌ను నిర్వహించవచ్చు లేదా రద్దు చేయవచ్చు."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "మీరు మీ ఫోన్‌లో Signal బ్యాకప్‌లను నిర్వహించవచ్చు లేదా అప్‌గ్రేడ్ చేయవచ్చు."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "మీరు మీ ఫోన్‌లో మీ Signal బ్యాకప్‌ల సబ్‌స్క్రిప్షన్‌ను నిర్వహించవచ్చు లేదా పునరుద్ధరించవచ్చు."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "చివరి బ్యాకప్"
@@ -6679,7 +6682,7 @@
     "messageformat": "<paragraph>మీరు విరాళం ఇచ్చినప్పుడు Signal మీ వ్యక్తిగత సమాచారంలో దేనినీ సేకరించదు లేదా నిల్వ చేయదు.</paragraph><paragraph>మీ విరాళాలను అందుకోవడానికి మేము Stripe ను మా చెల్లింపు ప్రాసెసర్‌గా ఉపయోగిస్తాము. మీరు వారికి అందించే ఏ సమాచారాన్ని మేము యాక్సెస్ చేయము, నిల్వ చేయము లేదా సేవ్ చేయము.</paragraph><paragraph>Signal మీ విరాళాన్ని మీ Signal ఖాతాకు కనెక్ట్ చేయదు మరియు చేయలేదు.</paragraph><paragraph>మీ మద్దతుకు ధన్యవాదాలు!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
-    "messageformat": "OK"
+    "messageformat": "అలాగే"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "రసీదులు"
@@ -6757,22 +6760,22 @@
     "messageformat": "30 రోజులపాటు Signal బూస్ట్ బ్యాడ్జ్‌ను పొందండి"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "కనీస విరాళం మొత్తం {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "మీరు విరాళం ఇవ్వగల కనీస మొత్తం {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "గరిష్ఠ విరాళం మొత్తం {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "ఈ పేజీని విడిచి వెళ్ళడం వలన మీ క్రెడిట్ కార్డ్ సమాచారం తొలగించబడుతుంది. మీరు కొనసాగాలని అనుకుంటున్నారా?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "సమాచారాన్ని తొలగించండి"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "కొనసాగించండి"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "విరాళం రసీదు"
@@ -6818,6 +6821,12 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "విరాళం వియజవంతమైంది, కానీ మేము మీ బ్యాడ్జ్ సెట్టింగ్‌లను అప్‌డేట్ చేయలేకపోయాము"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "విరాళానికి అంతరాయం కలిగింది"
@@ -6922,9 +6931,6 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "మేము ఎమోజీ శోధన బాక్స్‌లో ఒక బగ్‌ను పరిష్కరించాము."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "కొన్ని చిన్న బగ్ పరిష్కారాలు."
   },
@@ -6932,6 +6938,6 @@
     "messageformat": "కొంతమంది యూజర్‌లకు విరాళం బ్యాడ్జ్‌లు సరిగ్గా కనిపించకుండా నిరోధించే బగ్‌ను మేము పరిష్కరించాము."
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "శీర్షిక బార్‌లో కొన్నిసార్లు తప్పు రంగును ప్రదర్శించే బగ్‌ను మేము Microsoft Windows లో పరిష్కరించాము."
   }
 }
