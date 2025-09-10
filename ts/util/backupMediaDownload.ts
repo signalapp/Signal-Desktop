@@ -36,14 +36,12 @@ export async function resetBackupMediaDownloadItems(): Promise<void> {
 
 export async function cancelBackupMediaDownload(): Promise<void> {
   log.info('Canceling media download');
-  await window.storage.put('backupMediaDownloadBannerDismissed', true);
+  await dismissBackupMediaDownloadBanner();
   await DataWriter.removeAllBackupAttachmentDownloadJobs();
-  await DataWriter.resetBackupAttachmentDownloadStats();
-  await resetBackupMediaDownloadItems();
+  await resetBackupMediaDownloadStats();
 }
 
-export async function resetBackupMediaDownloadProgress(): Promise<void> {
-  await DataWriter.removeAllBackupAttachmentDownloadJobs();
+export async function resetBackupMediaDownloadStats(): Promise<void> {
   await DataWriter.resetBackupAttachmentDownloadStats();
   await resetBackupMediaDownloadItems();
 }

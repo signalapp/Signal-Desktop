@@ -6,6 +6,7 @@ import type { Backups, SignalService } from '../protobuf';
 import * as Bytes from '../Bytes';
 import { drop } from './drop';
 import { createLogger } from '../logging/log';
+import { resetBackupMediaDownloadStats } from './backupMediaDownload';
 
 const log = createLogger('BackupSubscriptionData');
 
@@ -64,6 +65,7 @@ export async function saveBackupTier(
   await window.storage.put('backupTier', backupTier);
   if (backupTier !== previousBackupTier) {
     log.info('backup tier has changed', { previousBackupTier, backupTier });
+    await resetBackupMediaDownloadStats();
     drop(window.Signal.Services.backups.resetCachedData());
   }
 }

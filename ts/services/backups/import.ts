@@ -2,7 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Aci, Pni, ServiceId } from '@signalapp/libsignal-client';
-import { ReceiptCredentialPresentation } from '@signalapp/libsignal-client/zkgroup';
+import {
+  BackupLevel,
+  ReceiptCredentialPresentation,
+} from '@signalapp/libsignal-client/zkgroup';
 import { v7 as generateUuid } from 'uuid';
 import pMap from 'p-map';
 import { Writable } from 'stream';
@@ -124,8 +127,8 @@ import {
 } from '../../util/callLinksRingrtc';
 import { loadAllAndReinitializeRedux } from '../allLoaders';
 import {
-  resetBackupMediaDownloadProgress,
   startBackupMediaDownload,
+  resetBackupMediaDownloadStats,
 } from '../../util/backupMediaDownload';
 import {
   getEnvironment,
@@ -254,6 +257,7 @@ export class BackupImportStream extends Writable {
   #releaseNotesChatId: Long | undefined;
   #pendingGroupAvatars = new Map<string, string>();
   #frameErrorCount: number = 0;
+  #backupTier: BackupLevel | undefined;
 
   private constructor(
     private readonly backupType: BackupType,
@@ -267,7 +271,8 @@ export class BackupImportStream extends Writable {
     localBackupSnapshotDir: string | undefined = undefined
   ): Promise<BackupImportStream> {
     await AttachmentDownloadManager.stop();
-    await resetBackupMediaDownloadProgress();
+    await DataWriter.removeAllBackupAttachmentDownloadJobs();
+    await resetBackupMediaDownloadStats();
 
     return new BackupImportStream(backupType, localBackupSnapshotDir);
   }
@@ -673,7 +678,9 @@ export class BackupImportStream extends Writable {
           const model = new MessageModel(attributes);
           attachmentDownloadJobPromises.push(
             queueAttachmentDownloads(model, {
-              source: AttachmentDownloadSource.BACKUP_IMPORT,
+              source: this.#isMediaEnabledBackup()
+                ? AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA
+                : AttachmentDownloadSource.BACKUP_IMPORT_NO_MEDIA,
               isManualDownload: false,
             })
           );
@@ -835,6 +842,7 @@ export class BackupImportStream extends Writable {
       );
     }
 
+    this.#backupTier = accountSettings?.backupTier?.toNumber();
     await storage.put('backupTier', accountSettings?.backupTier?.toNumber());
 
     const { PhoneNumberSharingMode: BackupMode } = Backups.AccountData;
@@ -3773,6 +3781,14 @@ export class BackupImportStream extends Writable {
     }
 
     return {};
+  }
+
+  #isLocalBackup() {
+    return this.localBackupSnapshotDir != null;
+  }
+
+  #isMediaEnabledBackup() {
+    return this.#isLocalBackup() || this.#backupTier === BackupLevel.Paid;
   }
 }
 

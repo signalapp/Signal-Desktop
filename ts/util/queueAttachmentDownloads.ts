@@ -61,7 +61,9 @@ export type MessageAttachmentsDownloadedType = {
 };
 
 function getLogger(source: AttachmentDownloadSource) {
-  const verbose = source !== AttachmentDownloadSource.BACKUP_IMPORT;
+  const verbose =
+    source !== AttachmentDownloadSource.BACKUP_IMPORT_NO_MEDIA &&
+    source !== AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA;
   const log = verbose ? defaultLogger : { ...defaultLogger, info: () => null };
   return log;
 }

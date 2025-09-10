@@ -548,7 +548,10 @@ export type GetRecentStoryRepliesOptionsType = {
 };
 
 export enum AttachmentDownloadSource {
-  BACKUP_IMPORT = 'backup_import',
+  // Imported when paid (media) backups were enabled, or from a local backup
+  BACKUP_IMPORT_WITH_MEDIA = 'backup_import',
+  // Imported when paid (media) backups were not enabled
+  BACKUP_IMPORT_NO_MEDIA = 'backup_import_no_media',
   STANDARD = 'standard',
   BACKFILL = 'backfill',
 }
