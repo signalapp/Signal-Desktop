@@ -137,10 +137,15 @@ export async function downloadAttachment(
 
   let downloadResult: Awaited<ReturnType<typeof downloadToDisk>>;
 
-  let { downloadPath } = attachment;
+  let downloadPath =
+    options.variant === AttachmentVariant.Default
+      ? attachment.downloadPath
+      : undefined;
+
   const absoluteDownloadPath = downloadPath
     ? window.Signal.Migrations.getAbsoluteDownloadsPath(downloadPath)
     : undefined;
+
   let downloadOffset = 0;
 
   if (absoluteDownloadPath) {
