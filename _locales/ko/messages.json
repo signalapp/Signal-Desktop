@@ -1371,10 +1371,10 @@
     "messageformat": "이 폴더에 표시하려는 대화를 선택하세요"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "1:1 대화"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "그룹 채팅"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "대화 추가"
@@ -6679,7 +6679,7 @@
     "messageformat": "<paragraph>Signal은 기부할 때 사용자의 개인 정보를 수집하거나 저장하지 않습니다.</paragraph><paragraph>Signal은 기부를 받을 때 Stripe를 결제 처리자로 사용합니다. Signal은 사용자가 Stripe에 제공하는 어떠한 정보에도 액세스하지 않으며, 이를 보관하거나 저장하지 않습니다.</paragraph><paragraph>Signal은 사용자의 기부를 Signal 계정에 연결하거나 연결을 시도하지 않습니다.</paragraph><paragraph>Signal을 지지해 주셔서 감사합니다!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
-    "messageformat": "OK"
+    "messageformat": "확인"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "영수증"
@@ -6757,22 +6757,22 @@
     "messageformat": "30일 동안 Signal 부스트 배지를 획득하세요."
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "최소 기부 금액은 {formattedCurrencyAmount}입니다."
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "기부할 수 있는 최소 금액은 {formattedCurrencyAmount}입니다."
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "최대 기부 금액은 {formattedCurrencyAmount}입니다."
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "이 페이지에서 나가면 신용카드 정보가 삭제됩니다. 계속하시겠습니까?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "정보 제거"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "계속"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "기부 영수증"
@@ -6932,6 +6932,6 @@
     "messageformat": "일부 사용자에게 기부 배지가 제대로 표시되지 않는 버그를 수정했습니다."
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "가끔씩 제목 표시줄에 잘못된 색을 표시하던 Microsoft Windows 버그를 수정했습니다."
   }
 }

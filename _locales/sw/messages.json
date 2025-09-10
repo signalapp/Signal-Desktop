@@ -1371,10 +1371,10 @@
     "messageformat": "Chagua magumzo unayotaka yaonekane kwenye folda hii"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "Magumzo ya 1:1"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Gumzo za Vikundi"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Weka magumzo"
@@ -6679,7 +6679,7 @@
     "messageformat": "<paragraph>Signal haikusanyi wala kuhifadhi taarifa zako zozote binafsi unapotoa mchango.</paragraph><paragraph>Tunatumia Stripe kama kichakataji chetu cha malipo ili kupokea michango yako. Hatufikii, hatuweki au kuhifadhi maelezo yoyote unayowapa</paragraph><paragraph>Signal haina na haiwezi kuunganisha mchango wako kwenye akaunti yako ya Signal.</paragraph><paragraph>Asante kwa kutuunga mkono!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
-    "messageformat": "OK"
+    "messageformat": "Sawa"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Risiti"
@@ -6757,22 +6757,22 @@
     "messageformat": "Jipatie Beji ya Mchangiaji ya Signal kwa siku 30"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Kiwango cha chini unachoweza kuchangia ni {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Kiwango cha chini ambacho unaweza kuchangia ni {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Kiwango cha juu unachoweza kuchangia ni {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Kuondoka kwenye ukurasa huu kutaondoa taarifa ya kadi yako ya mkopo. Ungependa kujaribu kuendelea?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Ondoa taarifa"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Endelea"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Risiti ya mchango"
@@ -6932,6 +6932,6 @@
     "messageformat": "Tumerekebisha hitilafu iliyozuia beji za michango kuonekana ipasavyo kwa baadhi ya watumiaji. Signal ni shirika lisilo la kibiashara la 501c3, na tunathamini msaada wako!"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Tumerekebisha hitilafu kwenye Microsoft Windows iliyofanya upau wa Signal Desktop kuwa rangi ya chungwa badala ya bluu. Ikiwa umetokea kupenda mwonekano wa rangi yenye mandhari ya machungwa katika siku chache zilizopita na urekebishaji huu wa hitilafu haukufurahishi, unaweza kurekebisha rangi ya msisitizo ya mfumo wako katika mipangilio yako ya Windows."
   }
 }

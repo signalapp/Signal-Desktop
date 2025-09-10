@@ -1371,10 +1371,10 @@
     "messageformat": "Izberite klepete, ki jih želite prikazati v tej mapi"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "Klepeti 1:1"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Skupinski pogovori"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Dodaj klepete"
@@ -6733,7 +6733,7 @@
     "messageformat": "Datum poteka veljavnosti"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "MM/LL"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Donirajte {formattedCurrencyAmount} Signalu"
@@ -6757,22 +6757,22 @@
     "messageformat": "Pridobite Značko podpore za 30 dni"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Najmanjši znesek donacije je {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Najmanjši znesek, ki ga lahko donirate, je {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Najvišji znesek donacije je {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Če zapustite to stran, bodo podatki o vaši kreditni kartici odstranjeni. Želite nadaljevati?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Odstrani informacije"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Nadaljuj"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Račun za donacijo"
@@ -6932,6 +6932,6 @@
     "messageformat": "Odpravili smo napako, zaradi katere se pri nekaterih uporabnikih značke za donacije niso pravilno prikazovale. Signal je neprofitna organizacija 501c3. Cenimo vašo podporo!"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "V sistemu Microsoft Windows smo odpravili napako, zaradi katere je bila naslovna vrstica včasih oranžna namesto modra. Če ste v preteklih dneh vzljubili barvo citrusov in vas ta popravek napake navdaja z žalostjo, lahko barvo sistemskega poudarka prilagodite v nastavitvah operacijskega sistema Windows."
   }
 }

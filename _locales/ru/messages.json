@@ -1371,10 +1371,10 @@
     "messageformat": "Выберите чаты, которые хотите видеть в этой папке"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "Личные чаты"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Групповые чаты"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Добавить чаты"
@@ -6679,7 +6679,7 @@
     "messageformat": "<paragraph>Signal не собирает и не хранит вашу личную информацию, когда вы делаете пожертвование.</paragraph><paragraph>Для получения ваших пожертвований мы используем компанию Stripe в качестве оператора платежей. Мы не имеем доступа ни к какой информации, которую вы ей предоставляете, не сохраняем и не храним её.</paragraph><paragraph>Signal не связывает и не может связать ваше пожертвование с вашей учётной записью Signal.</paragraph><paragraph>Спасибо за вашу поддержку!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
-    "messageformat": "OK"
+    "messageformat": "ОК"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Квитанции"
@@ -6733,7 +6733,7 @@
     "messageformat": "Срок действия"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "ММ/ГГ"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Пожертвовать Signal {formattedCurrencyAmount}"
@@ -6757,22 +6757,22 @@
     "messageformat": "Получите значок буста Signal на 30 дней"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Минимальная сумма пожертвования составляет {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Минимальная сумма пожертвования составляет {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Максимальная сумма пожертвования составляет {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Если вы покинете эту страницу, информация о вашей кредитной карте будет удалена. Хотите продолжить?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Удалить информацию"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Продолжить"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Квитанция о пожертвовании"
@@ -6932,6 +6932,6 @@
     "messageformat": "Мы исправили ошибку, из-за которой значки пожертвований у некоторых пользователей отображались некорректно. Signal — это некоммерческая организация со статусом 501c3, и мы ценим вашу поддержку!"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Мы исправили ошибку в Microsoft Windows, из-за которой строка заголовка Signal Desktop была оранжевой, а не синей. Если за последние дни вы полюбили цитрусовую цветовую схему и исправление этой ошибки вас огорчило, вы можете изменить цвет системных элементов в настройках Windows."
   }
 }

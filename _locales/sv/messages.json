@@ -1371,10 +1371,10 @@
     "messageformat": "Välj chattar som du vill ska visas i den här mappen"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "1:1-chattar"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Gruppchattar"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Lägg till chattar"
@@ -6757,22 +6757,22 @@
     "messageformat": "Få Signal Boost-märket i 30 dagar"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Minsta donationsbelopp är {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Det lägsta belopp du kan donera är {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Högsta donationsbelopp är {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Om du lämnar den här sidan raderas din kreditkortsinformation. Vill du fortsätta?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Ta bort information"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Fortsätt"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Donationskvitto"
@@ -6932,6 +6932,6 @@
     "messageformat": "Vi har åtgärdat ett fel som gjorde att donationsmärken inte visades korrekt för vissa användare. Signal är en ideell organisation enligt 501c3, och vi uppskattar ditt stöd."
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Vi har åtgärdat ett fel i Microsoft Windows som ibland visade fel färg i titelraden."
   }
 }

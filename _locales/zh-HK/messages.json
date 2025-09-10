@@ -1371,10 +1371,10 @@
     "messageformat": "選擇要顯示在此資料夾中的聊天"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "1 對 1 聊天"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "群組聊天"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "新增聊天"
@@ -6679,7 +6679,7 @@
     "messageformat": "<paragraph>當你捐款時，Signal 不會收集或儲存任何個人資料。</paragraph><paragraph>我們使用 Stripe 作為接收捐款的付款處理商。我們不會存取、保存或儲存你向他們提供的任何資料。</paragraph><paragraph>Signal 不會也無法將你的捐款連結到你的 Signal 帳戶。</paragraph><paragraph>感謝你的支持！</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
-    "messageformat": "OK"
+    "messageformat": "好"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "收據"
@@ -6757,22 +6757,22 @@
     "messageformat": "獲取為期 30 天的 Signal 捐款徽章"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "最低捐款金額為 {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "你可以捐款的最低金額為 {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "最高捐款金額為 {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "離開此頁面將移除你的信用卡資料。你想繼續嗎？"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "移除資訊"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "繼續"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "捐款收據"
@@ -6932,6 +6932,6 @@
     "messageformat": "我們修正了某些用戶無法正確顯示捐款徽章的錯誤。Signal 是一個屬於 501c3 的非營利組織，我們感謝你的支持！"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "我們修正了 Microsoft Windows 將 Signal 桌面版標題由藍色變成橙色的錯誤。如果你這幾日已經愛上橙色主題，而此錯誤修正使你感覺憂鬱，可以在 Windows 設定中調整系統主題顏色。"
   }
 }

@@ -1371,10 +1371,10 @@
     "messageformat": "Scegli le chat che vuoi vedere in questa cartella"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "Chat singole"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Chat di gruppo"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Aggiungi chat"
@@ -6733,7 +6733,7 @@
     "messageformat": "Data di scadenza"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "MM/AA"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Dona {formattedCurrencyAmount} a Signal"
@@ -6757,22 +6757,22 @@
     "messageformat": "Ricevi il Badge dei Boost per 30 giorni"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "L'importo minimo per la donazione è {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "L'importo minimo che puoi donare è {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "L'importo massimo per la donazione è {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Se esci da questa pagina, i dati della carta di credito inseriti verranno rimossi. Vuoi procedere lo stesso?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Rimuovi le informazioni"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Continua"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Ricevuta della donazione"
@@ -6932,6 +6932,6 @@
     "messageformat": "Abbiamo risolto un bug che impediva ai badge delle donazioni di apparire ed essere visti correttamente da alcuni utenti. Signal è una 501c3 non-profit: apprezziamo il tuo supporto al nostro lavoro e alla nostra causa!"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Abbiamo risolto un bug presente su Microsoft Windows che rendeva di colore arancione il nome della scheda di Signal anziché blu. Se però ti piace di più quel precedente schema di colori che hai visto nei giorni scorsi per via del bug, non preoccuparti: puoi modificare il colore del tuo sistema dalle Impostazioni di Windows e tornare a \"goderti\" il bug precedente :)"
   }
 }

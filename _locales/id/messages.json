@@ -1371,10 +1371,10 @@
     "messageformat": "Pilih chat yang ingin Anda tampilkan di folder ini"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "Chat pribadi"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Chat grup"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Tambahkan chat"
@@ -6733,7 +6733,7 @@
     "messageformat": "Tanggal Kedaluwarsa"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "BB/TT"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Donasi {formattedCurrencyAmount} ke Signal"
@@ -6757,22 +6757,22 @@
     "messageformat": "Dapatkan lencana Boost Signal selama 30 hari"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Jumlah donasi minimum {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Jumlah minimal donasi yang dapat diberikan adalah {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Jumlah donasi maksimum {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Informasi kartu kredit akan dihapus saat Anda meninggalkan halaman ini. Lanjutkan?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Hapus info"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Lanjutkan"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Struk donasi"
@@ -6932,6 +6932,6 @@
     "messageformat": "Kami memperbaiki bug yang membuat lencana donasi tidak ditampilkan dengan benar di sebagian profil pengguna. Signal adalah organisasi nirlaba di bawah klasifikasi 501(c)(3) IRS Amerika Serikat dan kami sangat menghargai dukungan Anda!"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Kami memperbaiki bug di Microsoft Windows yang terkadang menampilkan warna yang salah di bilah judul."
   }
 }

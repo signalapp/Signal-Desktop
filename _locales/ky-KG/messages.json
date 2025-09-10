@@ -1371,10 +1371,10 @@
     "messageformat": "Бул папкада көрүнө турган маектерди тандайсыз"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "Жекеме-жеке маектешүү"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Топтошуп маектешүү"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Маектерди кошуу"
@@ -6757,22 +6757,22 @@
     "messageformat": "30 күн Signal Boost төшбелгисин колдонуңуз"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Салымдын суммасы {formattedCurrencyAmount} жогору болушу керек"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Кеминде {formattedCurrencyAmount} салым кошо аласыз"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Салымдын суммасы {formattedCurrencyAmount} жогору болушу керек"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Бул беттен чыксаңыз, насыя картаңыздын маалыматы өчүп калат. Улантасызбы?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Ооба"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Улантуу"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Колдоо дүмүрчөгү"
@@ -6932,6 +6932,6 @@
     "messageformat": "Айрым колдонуучулар үчүн кайрымдуулук бейжиктери туура эмес көрүнүп жаткан мүчүлүштүктү оңдодук. Signal - АКШнын Салык кодексинин 501c3-бөлүмүнө ылайык иштеген коммерциялык эмес уюм. Колдооңуз үчүн терең ыраазычылык!"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Signal Desktop терезесинин аталышын көк эмес, кызгылт сары кылып көрсөткөн Microsoft Windows'тогу катаны оңдоп койдук. Кызгылт сары түскө көнүп калып, мындай жаңылыктан маанайың чөксө, Windows'тун параметрлеринен түстүн акцентин өзгөртүп алыңыз."
   }
 }

@@ -1371,10 +1371,10 @@
     "messageformat": "Selecciona los chats que quieres que aparezcan en esta carpeta"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "Chats individuales"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Chats grupales"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Añadir chats"
@@ -1578,7 +1578,7 @@
     "messageformat": "Presentación desactivada"
   },
   "icu:calling__button--presenting-on": {
-    "messageformat": "Comenzar presentación"
+    "messageformat": "Iniciar presentación"
   },
   "icu:calling__button--presenting-off": {
     "messageformat": "Detener presentación"
@@ -6679,7 +6679,7 @@
     "messageformat": "<paragraph>Signal no recoge ni almacena tu información personal cuando haces una donación.</paragraph><paragraph>Usamos Stripe para procesar las donaciones que recibimos. No accedemos, almacenamos, ni guardamos ninguno de los datos que le proporcionas.</paragraph><paragraph>Signal no vincula ni puede vincular tu donación con tu cuenta de Signal.</paragraph><paragraph>¡Gracias por tu apoyo!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
-    "messageformat": "OK"
+    "messageformat": "Aceptar"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Recibos"
@@ -6733,7 +6733,7 @@
     "messageformat": "Fecha de caducidad"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "MM/AA"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Donar {formattedCurrencyAmount} a Signal"
@@ -6757,22 +6757,22 @@
     "messageformat": "Consigue la insignia Apoyo Signal durante 30 días"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "El importe mínimo de donación es de{formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "El importe mínimo que puedes donar es de {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "El importe máximo de donación es de{formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Si sales de esta página, se eliminará los datos de tu tarjeta de crédito. ¿Quieres continuar?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Eliminar datos"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Continuar"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Recibo de donación"
@@ -6932,6 +6932,6 @@
     "messageformat": "Hemos corregido un error que a veces impedía que las insignias de donación se mostraran correctamente. Signal es una organización sin ánimo de lucro 501c3. ¡Gracias por tu apoyo!"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Hemos corregido un error en Microsoft Windows que hacía que la barra de título de Signal Desktop fuera naranja en lugar de azul. Si ya te habías acostumbrado a la paleta cítrica de estos últimos días y te entristece esta corrección, puedes cambiar el color de énfasis del sistema en Configuración de Windows."
   }
 }

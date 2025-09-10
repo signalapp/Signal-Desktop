@@ -1374,7 +1374,7 @@
     "messageformat": "1:1 chats"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Group Chats"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Magdagdag ng chats"
@@ -6757,22 +6757,22 @@
     "messageformat": "Kunin ang Signal Boost badge sa loob ng 30 days"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Ang minimum donation ay {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Ang minimum amount na pwede mong i-donate ay {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Ang maximum donation ay {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Matatanggal ang credit card information mo kapag umalis ka sa page na ito. Gusto mo bang magpatuloy?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Tanggalin ang info"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Magpatuloy"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Donation receipt"
@@ -6932,6 +6932,6 @@
     "messageformat": "Inayos namin ang isang bug na pumigil sa pagpapakita ng tamang donation badges sa ilang users."
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "May inayos kaming bug sa Microsoft Windows na minsan ay nagpapakita ng maling kulay sa title bar."
   }
 }

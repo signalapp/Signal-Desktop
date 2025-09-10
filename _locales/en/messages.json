@@ -9068,7 +9068,7 @@
   },
   "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
     "messageformat": "Donation succeeded, but we could not update your badge settings",
-    "description": "Toast shown when donation completes successfully but badge application fails"
+    "description": "(Deleted 2025/09/10) Toast shown when donation completes successfully but badge application fails"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donation succeeded, but we could not update your badge settings",

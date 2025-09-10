@@ -1371,10 +1371,10 @@
     "messageformat": "Vyberte chaty, které se mají v této složce zobrazovat"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "Chaty 1:1"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Skupinové chaty"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Přidat chaty"
@@ -6733,7 +6733,7 @@
     "messageformat": "Datum vypršení platnosti"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "MM/RR"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Přispět částkou {formattedCurrencyAmount} na aplikaci Signal"
@@ -6757,22 +6757,22 @@
     "messageformat": "Získejte odznak Signal Boost na 30 dní"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Minimální výše příspěvku je {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Minimální částka, kterou můžete přispět, je {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Maximální výše příspěvku je {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Opuštěním této stránky se odeberou údaje o vaší kreditní kartě. Chcete pokračovat?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Odebrat informace"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Pokračovat"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Potvrzení o příspěvku"
@@ -6932,6 +6932,6 @@
     "messageformat": "Opravili jsme chybu, která u některých uživatelů způsobovala nesprávné zobrazení odznaků za příspěvek."
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "V systému Microsoft Windows jsme opravili chybu, kvůli které se občas zobrazila v záhlaví špatná barva. -"
   }
 }

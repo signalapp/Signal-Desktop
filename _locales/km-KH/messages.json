@@ -1371,10 +1371,10 @@
     "messageformat": "ជ្រើសរើសការជជែកដែលអ្នកចង់បង្ហាញនៅក្នុងថតឯកសារនេះ"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "ការជជែកមួយទល់មួយ"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "ជជែកជាក្រុម"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "បញ្ចូលការជជែក"
@@ -6679,7 +6679,7 @@
     "messageformat": "<paragraph>Signal មិនប្រមូល ឬរក្សាទុកព័ត៌មានផ្ទាល់ខ្លួនណាមួយរបស់អ្នកទេ នៅពេលអ្នកធ្វើការបរិច្ចាគ។</paragraph><paragraph>យើងប្រើ Stripe ជាអ្នកដំណើរការទូទាត់របស់យើង ដើម្បីទទួលបានការបរិច្ចាគរបស់អ្នក។ យើងមិនចូលប្រើ រក្សា ឬរក្សាទុកព័ត៌មានណាមួយដែលអ្នកផ្តល់ឱ្យពួកគេទេ។</paragraph><paragraph>Signal មិនមាន និងមិនអាចភ្ជាប់ការបរិច្ចាគរបស់អ្នកជាមួយគណនី Signal របស់អ្នកបានទេ។</paragraph><paragraph>សូមអរគុណចំពោះការគាំទ្ររបស់អ្នក!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
-    "messageformat": "OK"
+    "messageformat": "យល់ព្រម"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "បង្កាន់ដៃ"
@@ -6733,7 +6733,7 @@
     "messageformat": "កាលបរិច្ឆេទផុតកំណត់"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "ខែ/ឆ្នាំ"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "បរិច្ចាគ {formattedCurrencyAmount} ទៅ Signal"
@@ -6757,22 +6757,22 @@
     "messageformat": "ទទួលបានស្លាកទ្រទ្រង់ Signal រយៈពេល 30 ថ្ងៃ"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "ចំនួនទឹកប្រាក់បរិច្ចាគអប្បបរមាគឺ {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "ចំនួនទឹកប្រាក់អប្បបរមាដែលអ្នកអាចបរិច្ចាគបានគឺ {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "ចំនួនទឹកប្រាក់បរិច្ចាគអតិបរមាគឺ {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "ការចាកចេញពីទំព័រនេះនឹងលុបព័ត៌មានកាតឥណទានរបស់អ្នក។ តើអ្នកចង់បន្តឬទេ?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "លុបព័ត៌មាន"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "បន្ត"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "បង្កាន់ដៃបរិច្ចាគ"
@@ -6932,6 +6932,6 @@
     "messageformat": "យើងបានដោះស្រាយបញ្ហាមួយដែលធ្វើឱ្យស្លាកបរិច្ចាគមិនអាចបង្ហាញបានត្រឹមត្រូវសម្រាប់អ្នកប្រើមួយចំនួន។ Signal គឺជាអង្គការមិនរកប្រាក់ចំណេញ 501c3 ហើយយើងសូមអរគុណចំពោះការគាំទ្ររបស់អ្នក!"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "យើងបានដោះស្រាយបញ្ហាមួយនៅលើ Microsoft Windows ដែលបានធ្វើឱ្យរបារចំណងជើង Signal Desktop ទៅជាពណ៌ទឹកក្រូច មិនមែនពណ៌ខៀវ។ ប្រសិនបើអ្នកបែរជាចូលចិត្តផ្ទៃពណ៌ទឹកក្រូចក្នុងរយៈពេលប៉ុន្មានថ្ងៃនេះទៅវិញ ហើយការដោះស្រាយបញ្ហានេះធ្វើឱ្យអ្នកមានអារម្មណ៍មិនល្អ អ្នកអាចកែពណ៌បន្ទាប់បន្សំរបស់ប្រព័ន្ធអ្នកនៅក្នុងការកំណត់វីនដូរបស់អ្នក។"
   }
 }

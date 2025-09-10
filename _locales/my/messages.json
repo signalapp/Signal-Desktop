@@ -1371,10 +1371,10 @@
     "messageformat": "ဤဖိုင်တွဲတွင် သင်ပေါ်စေလိုသော ချက်(တ်)များကိုရွေးပါ"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "1:1 ချက်(တ်)များ"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "အဖွဲ့ချက်(တ်)များ"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "ချက်(တ်)ထည့်သွင်းရန်"
@@ -6679,7 +6679,7 @@
     "messageformat": "<paragraph>Signal သည် သင်လှူဒါန်းသည့်အခါတွင် သင့်ကိုယ်ရေးကိုယ်တာအချက်အလက်များကို စုဆောင်းခြင်း သို့မဟုတ် သိမ်းဆည်းထားခြင်းမရှိပါ။</paragraph><paragraph>သင်၏လှူဒါန်းမှုများကို လက်ခံရရှိရန် ကျွန်ုပ်တို့၏ ငွေပေးချေမှု စီမံဆောင်ရွက်သူအဖြစ် Stripe ကို အသုံးပြုပါသည်။ ကျွန်ုပ်တို့သည် ၎င်းတို့အား သင်ပေးထားသော အချက်အလက်များကို အသုံးပြုခြင်း၊ ထားသိုခြင်း သို့မဟုတ် သိမ်းဆည်းခြင်းမပြုပါ။</paragraph><paragraph>Signal သည် သင်၏လှူဒါန်းမှုကို သင်၏ Signal အကောင့်နှင့် ချိတ်ဆက်၍မရပါ။</paragraph><paragraph>သင်၏ပံ့ပိုးမှုအတွက် ကျေးဇူးတင်ပါသည်။</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
-    "messageformat": "OK"
+    "messageformat": "အိုကေ"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "ပြေစာများ"
@@ -6757,22 +6757,22 @@
     "messageformat": "ရက် 30 Signal Boost ဘဲ့ဂျ်ကို ရယူပါ။"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "အနည်းဆုံး လှူဒါန်းမှုပမာဏမှာ {formattedCurrencyAmount} ဖြစ်သည်"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "သင်လှူဒါန်းနိုင်သည့် အနည်းဆုံးပမာဏမှာ {formattedCurrencyAmount} ဖြစ်ပါသည်"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "အများဆုံး လှူဒါန်းမှုပမာဏမှာ {formattedCurrencyAmount} ဖြစ်သည်"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "ဤစာမျက်နှာမှထွက်လိုက်လျှင် သင့်ခရက်ဒစ်ကတ်အချက်အလက်ကို ဖယ်ရှားပါမည်။ ရှေ့ဆက်လိုပါသလား။"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "အချက်အလက်ကို ဖယ်ရှားပါ"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "ဆက်လုပ်ရန်"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "လှူဒါန်းမှု ပြေစာ"
@@ -6932,6 +6932,6 @@
     "messageformat": "အချို့သောအသုံးပြုသူများအတွက် လှူဒါန်းမှုဘဲ့ဂျ်များ မှန်ကန်စွာမပေါ်စေရန် တားဆီးထားသော ချွတ်ယွင်းချက်တစ်ခုကို ပြင်ဆင်ထားပါသည်။"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Microsoft Window ရှိ ခေါင်းစဉ်ဘားတွင် အရောင်မှား၍ဖော်ပြသည့် ချွတ်ယွင်းချက်တစ်ခုကို ပြင်ဆင်ခဲ့သည်။"
   }
 }

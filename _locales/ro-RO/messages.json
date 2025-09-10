@@ -1371,10 +1371,10 @@
     "messageformat": "Alege conversațiile care dorești să apară în acest dosar"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "Conversații 1 la 1"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Conversații în grup"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Adaugă conversații"
@@ -6733,7 +6733,7 @@
     "messageformat": "Data expirării"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "LL/AA"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Donează {formattedCurrencyAmount} către Signal"
@@ -6757,22 +6757,22 @@
     "messageformat": "Obține insigna Signal Boost timp de 30 de zile"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Suma minimă a donației este {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Suma minimă pe care o poți dona este {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Suma maximă a donației este {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Părăsirea acestei pagini va elimina informațiile despre cardul tău de credit. Dorești să continui?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Elimină informațiile"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Continuă"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Chitanță donație"
@@ -6932,6 +6932,6 @@
     "messageformat": "Am remediat o eroare care împiedica afișarea corectă a insignelor de donație pentru unii utilizatori. Signal este o organizație non-profit 501c3 și îți apreciem sprijinul!"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Am remediat o eroare în Microsoft Windows care făcea bara de titlu a desktopului Signal să fie portocalie în loc de albastră. Dacă ai ajuns să iubești schema de culori cu tematică citrică în ultimele zile și această corecție de eroare te deranjează, poți ajusta culoarea de bază a sistemului, din setările Windows."
   }
 }

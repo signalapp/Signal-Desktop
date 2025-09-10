@@ -1371,10 +1371,10 @@
     "messageformat": "Bu qovluqda görünməsini istədiyiniz çatları seçin"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "1-ə 1 çatlar"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Qrup söhbətləri"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Çatlar əlavə et"
@@ -6679,7 +6679,7 @@
     "messageformat": "<paragraph>İanə etdiyiniz zaman Signal şəxsi məlumatlarınızı toplamır və saxlamır.</paragraph><paragraph>Biz ianələrinizi qəbul etmək üçün ödəniş prosessorumuz kimi Stripe-dan istifadə edirik. Ona göndərdiyiniz hər hansı məlumatı əldə etmir, saxlamır və ya yaddaşa vermirik.</paragraph><paragraph>Signal etdiyiniz ianəni Signal hesabınızla əlaqələndirmir və bunu edə bilməz.</paragraph><paragraph>Dəstəyiniz üçün təşəkkür edirik!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
-    "messageformat": "OK"
+    "messageformat": "Oldu"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Qəbzlər"
@@ -6733,7 +6733,7 @@
     "messageformat": "Bitmə tarixi"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "AA/İİ"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Signal-a {formattedCurrencyAmount} ianə verin"
@@ -6757,22 +6757,22 @@
     "messageformat": "30 günlük Signal Boost nişanı alın"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Minimum ianə məbləği təxminən {formattedCurrencyAmount} dəyərindədir"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "İanə verə biləcəyiniz minimal məbləğ {formattedCurrencyAmount} dəyərindədir."
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Minimum ianə məbləği təxminən {formattedCurrencyAmount} dəyərindədir"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Bu səhifədən çıxsanız, kredit kartı məlumatlarınız da silinəcək. Davam etmək istəyirsiniz?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Məlumatı sil"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Davam et"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "İanə qəbzi"
@@ -6932,6 +6932,6 @@
     "messageformat": "Bəzi istifadəçilərin ianə nişanlarını düzgün şəkildə görmələrinə mane olan bir nasazlığı aradan qaldırdıq. Signal 501c3 qeyri-kommersiya təşkilatıdır və dəstəyinizə görə minnətdarıq!"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Microsoft Windows-da Signal Desktop başlıq panelini mavi əvəzinə narıncı rəngə çevirən nasazlığı aradan qaldırdıq. Son bir neçə gündə sitrus temalı rəng tonlarına aludə olmusunuzsa və bu səhvi aradan qaldırmağımız həvəsinizi qaçırıbsa, Windows parametrlərində sisteminizin vurğulama rəngini tənzimləyə bilərsiniz."
   }
 }

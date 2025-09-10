@@ -1371,10 +1371,10 @@
     "messageformat": "Zgjidh bisedat që dëshiron të shfaqen në këtë dosje"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "Biseda 1:1"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Fjalosje grupi"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Shto biseda"
@@ -6757,22 +6757,22 @@
     "messageformat": "Merr distinktivin shtesë të Signal për 30 ditë"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Shuma minimale e dhurimit është {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Shuma minimale që mund të dhurosh është {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Shuma maksimale e dhurimit është {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Largimi nga kjo faqe do ta heqë informacionin e kartës së kreditit. Dëshiron të vazhdosh?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Hiq informacionin"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Vazhdo"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Fatura e dhurimit"
@@ -6932,6 +6932,6 @@
     "messageformat": "Ne rregulluam një defekt që pengonte shfaqjen e saktë të distinktivëve të dhurimeve për disa përdorues. Signal është një ent jofitimprurës 501c3 dhe ne e vlerësojmë mbështetjen tënd!"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Gabimi i Microsoft Windows që e bënte shiritin e titullit të Signal Desktop portokalli në vend të blusë u rregullua. Nëse gjatë këtyre ditëve të fundit je mësuar dhe ke filluar ta pëlqesh skemën me ngjyra me temë agrumesh dhe ky rregullim gabimesh të ka bërë të ndihesh keq, mund ta ndryshosh ngjyrën e theksit të sistemit te cilësimet e Windows."
   }
 }

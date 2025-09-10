@@ -1371,10 +1371,10 @@
     "messageformat": "Wybierz czaty, które mają się znaleźć w tym folderze"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "Czaty 1:1"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Rozmowy grupowe"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Dodaj czaty"
@@ -6733,7 +6733,7 @@
     "messageformat": "Data ważności"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "MM/RR"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Wpłać {formattedCurrencyAmount} i wesprzyj Signal"
@@ -6757,22 +6757,22 @@
     "messageformat": "Zdobądź odznakę za wsparcie na 30 dni"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Minimalna kwota darowizny wynosi {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Minimalna kwota darowizny wynosi {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Maksymalna kwota darowizny wynosi {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Opuszczenie tej strony spowoduje usunięcie danych Twojej karty kredytowej. Czy chcesz kontynuować?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Usuń dane"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Kontynuuj"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Potwierdzenie darowizny"
@@ -6932,6 +6932,6 @@
     "messageformat": "Naprawiliśmy błąd, przez który u niektórych osób odznaki za darowiznę nie wyświetlały się prawidłowo. Signal jest organizacją non profit działającą na podstawie zapisu 501c3. Dziękujemy za Twoje wsparcie!"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Naprawiliśmy błąd w systemie Windows firmy Microsoft, który powodował, że pasek tytułu aplikacji Signal Desktop był pomarańczowy zamiast niebieskiego. Jeśli ostatnimi czasy wolisz jednak cytrusową paletę barw od smutnych odcieni niebieskiego, możesz dostosować kolor akcentu w ustawieniach systemu Windows."
   }
 }

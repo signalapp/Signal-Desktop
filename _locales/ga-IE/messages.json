@@ -1371,10 +1371,10 @@
     "messageformat": "Roghnaigh comhráite is mian leat a thaispeáint san fhillteán seo"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "Comhráite 1:1"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Grúpchomhráite"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Cuir comhráite leis"
@@ -6733,7 +6733,7 @@
     "messageformat": "Dáta as Feidhm"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "MM/BB"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Tabhair {formattedCurrencyAmount} do Signal"
@@ -6757,22 +6757,22 @@
     "messageformat": "Faigh Suaitheantas spreagtha Signal go ceann 30 lá"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Is é {formattedCurrencyAmount} íosmhéid an tabhartais"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Is é {formattedCurrencyAmount} an t-íosmhéid is féidir leat a thabhairt"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Is é {formattedCurrencyAmount} uasmhéid an tabhartais"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Bainfear faisnéis an chárta creidmheasa ar imeacht as an leathanach seo. An bhfuil fonn ort leanúint leis?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Bain an fhaisnéis"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Ar aghaidh"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Admháil tabhartais"
@@ -6932,6 +6932,6 @@
     "messageformat": "Réitíomar fabht a chuir cosc ar shuaitheantais deonaithe roinnt úsáideoirí a thaispeáint i gceart."
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Réitíomar fabht ar Microsoft Windows a thaispeáin an dath mícheart sa bharra teidil corruair."
   }
 }

@@ -1371,10 +1371,10 @@
     "messageformat": "Осы қалтада көрсетілетін чаттарды таңдаңыз"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "1:1 чаттар"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Топтық чаттар"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Чаттарды қосу"
@@ -6733,7 +6733,7 @@
     "messageformat": "Жарамдылық мерзімі"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "АА/ЖЖ"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Signal-ға {formattedCurrencyAmount} аудару"
@@ -6757,22 +6757,22 @@
     "messageformat": "30 күнге Signal Boost танымбелгісін алыңыз"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Минималды донат сомасы – {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Демеушілік жасағанда, беруге болатын минималды сома – {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Максималды донат сомасы – {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Бұл беттен шығып кетсеңіз, несиелік карта туралы ақпарат өшіріледі. Жалғастырғыңыз келе ме?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Ақпаратты өшіру"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Жалғастыру"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Демеушілік чегі"
@@ -6932,6 +6932,6 @@
     "messageformat": "Кейбір пайдаланушылардың демеушілік танымбелгісінің дұрыс көрсетілуіне кедергі келтіретін ақауды түзеттік. Signal – коммерциялық емес ұйым болғандықтан, қолдау көрсеткеніңіз үшін алғысымыз шексіз!"
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Signal Desktop тақырып жолағының көк емес, қызғылт сары болып тұратын Microsoft Windows жүйесіндегі ақауды түзеттік. Бірнеше күнде цитрус түстес интерфейске көзіңіз үйреніп қалып, интерфейстің көк болғанын қаламасаңыз, Windows параметрлерінен түсті өзгертуіңізге болады."
   }
 }

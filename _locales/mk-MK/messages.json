@@ -1371,10 +1371,10 @@
     "messageformat": "Изберете разговори коишто сакате да се прикажат во оваа папка"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "Разговори еден на еден"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Групни разговори"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Додајте разговори"
@@ -6679,7 +6679,7 @@
     "messageformat": "<paragraph>Signal не ги собира ниту сочувува вашите лични податоци кога донирате.</paragraph><paragraph>Го користиме Stripe како наш платен систем за примање на вашите донации. Немаме пристап и не ги сочувуваме податоците кои им ги обезбедувате.</paragraph><paragraph>Signal не ја поврзува и не може да ја поврзе вашата донација со вашата корисничка сметка на Signal.</paragraph><paragraph>Ви благодариме за поддршката!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
-    "messageformat": "OK"
+    "messageformat": "Во ред"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Потврди"
@@ -6733,7 +6733,7 @@
     "messageformat": "Датум на истекување"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "Валидна до (мм/гг)"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Донирајте {formattedCurrencyAmount} на Signal"
@@ -6757,22 +6757,22 @@
     "messageformat": "Добијте Signal Беџ за поддршка за времетраење од 30 дена"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Минималниот износ што можете да го донирате е {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Минималниот износ што можете да го донирате е {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Максималниот износ што можете да го донирате е {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "Ако ја напуштите оваа страница, ќе се избришат информациите за вашата кредитна картичка. Дали сакате да продолжите?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Отстрани информации"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Продолжи"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Потврда за донација"
@@ -6932,6 +6932,6 @@
     "messageformat": "Решивме грешка што спречуваше беџовите за донација да се прикажуваат правилно за некои корисници."
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Поправивме грешка на Microsoft Windows поради која повремено се прикажуваше погрешна боја на насловната лента."
   }
 }

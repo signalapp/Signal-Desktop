@@ -1371,10 +1371,10 @@
     "messageformat": "Kies kletse wat jy in hierdie vouer wil laat verskyn"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "1:1 chats"
+    "messageformat": "1:1-kletse"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
-    "messageformat": "Group chats"
+    "messageformat": "Groepsgesprekke"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Voeg kletse by"
@@ -6679,7 +6679,7 @@
     "messageformat": "<paragraph>Signal versamel of stoor geen van jou persoonlike inligting wanneer jy 'n skenking maak nie.</paragraph><paragraph>Ons gebruik Stripe as ons betalingsverwerker om jou skenkings te ontvang. Ons verkry nie toegang tot, bewaar of stoor enige van die inligting wat jy aan hulle verskaf nie.</paragraph><paragraph>Signal koppel nie jou skenking aan jou Signal-rekening nie, en kan dit ook nie doen nie.</paragraph><paragraph>Dankie vir jou ondersteuning!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
-    "messageformat": "OK"
+    "messageformat": "Goed"
   },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Kwitansies"
@@ -6733,7 +6733,7 @@
     "messageformat": "Vervaldatum"
   },
   "icu:DonateFlow__card-form-expiration-date-placeholder": {
-    "messageformat": "MM/YY"
+    "messageformat": "MM/JJ"
   },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Skenk {formattedCurrencyAmount} aan Signal"
@@ -6757,22 +6757,22 @@
     "messageformat": "Kry die Signal-Hupstoot-wapen vir 30 dae"
   },
   "icu:DonateFlow__custom-amount-below-minimum-error": {
-    "messageformat": "The minimum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Die minimum skenkingsbedrag is {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
     "messageformat": "Die minimum bedrag wat jy kan skenk is {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__custom-amount-above-maximum-error": {
-    "messageformat": "The maximum donation amount is {formattedCurrencyAmount}"
+    "messageformat": "Die maksimum skenkingsbedrag is {formattedCurrencyAmount}"
   },
   "icu:DonateFlow__discard-dialog-body": {
-    "messageformat": "Leaving this page will remove your credit card information. Do you want to proceed?"
+    "messageformat": "As jy hierdie bladsy verlaat, sal jou kredietkaartinligting verwyder word. Wil jy voortgaan?"
   },
   "icu:DonateFlow__discard-dialog-remove-info": {
-    "messageformat": "Remove info"
+    "messageformat": "Verwyder inligting"
   },
   "icu:DonateFlow__continue": {
-    "messageformat": "Continue"
+    "messageformat": "Gaan voort"
   },
   "icu:DonationReceipt__title": {
     "messageformat": "Skenkingskwitansie"
@@ -6932,6 +6932,6 @@
     "messageformat": "Ons het 'n fout reggestel wat verhinder het dat skenkingswapens vir sommige gebruikers korrek voorkom."
   },
   "icu:WhatsNew__v7.70--0": {
-    "messageformat": "We fixed a bug on Microsoft Windows that made the Signal Desktop title bar orange instead of blue. If you've grown to love the citrus-themed color scheme over the past few days and this bugfix makes you feel blue, you can adjust your system accent color in your Windows settings."
+    "messageformat": "Ons het 'n fout in Microsoft Windows reggestel wat die Signal Desktop-titelbalk oranje in plaas van blou gemaak het."
   }
 }
