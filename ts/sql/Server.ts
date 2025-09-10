@@ -5577,7 +5577,10 @@ function _getAttachmentDownloadJob(
 function removeAllBackupAttachmentDownloadJobs(db: WritableDB): void {
   const [query, params] = sql`
     DELETE FROM attachment_downloads
-    WHERE source = ${AttachmentDownloadSource.BACKUP_IMPORT};`;
+    WHERE 
+      source = ${AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA} 
+    OR 
+      source = ${AttachmentDownloadSource.BACKUP_IMPORT_NO_MEDIA};`;
   db.prepare(query).run(params);
 }
 
@@ -7739,6 +7742,7 @@ function removeAllConfiguration(db: WritableDB): void {
     db.exec(
       `
       DELETE FROM attachment_backup_jobs;
+      DELETE FROM attachment_downloads;
       DELETE FROM backup_cdn_object_metadata;
       DELETE FROM groupSendCombinedEndorsement;
       DELETE FROM groupSendMemberEndorsement;

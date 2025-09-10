@@ -253,7 +253,7 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
           job.messageId
         );
 
-        if (job.source === AttachmentDownloadSource.BACKUP_IMPORT) {
+        if (job.source === AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA) {
           const { outOfSpace } =
             await this.#checkFreeDiskSpaceForBackupImport();
           if (outOfSpace) {
@@ -297,24 +297,20 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
 
     const logId = `AttachmentDownloadManager/addJob(${sentAt}.${attachmentType})`;
 
-    if (source === AttachmentDownloadSource.BACKUP_IMPORT) {
+    // For non-media-enabled backups, we will skip queueing download for old attachments
+    // that cannot still be on the transit tier
+    if (source === AttachmentDownloadSource.BACKUP_IMPORT_NO_MEDIA) {
       if (attachment.error) {
         return attachment;
       }
 
-      // For non-media-enabled backups, we will skip queueing download for old attachments
-      // that cannot still be on the transit tier
-      if (!this.#hasMediaBackups() && !wasImportedFromLocalBackup(attachment)) {
-        const attachmentUploadedAt = attachment.uploadTimestamp || sentAt;
+      const attachmentUploadedAt = attachment.uploadTimestamp || sentAt;
 
-        // Skip queueing download if attachment is older than twice the message queue time
-        // (a generous buffer that ensures we download anything that could still exist on
-        // the transit tier)
-        if (
-          isOlderThan(attachmentUploadedAt, this.#getMessageQueueTime() * 2)
-        ) {
-          return attachment;
-        }
+      // Skip queueing download if attachment is older than twice the message queue time
+      // (a generous buffer that ensures we download anything that could still exist on
+      // the transit tier)
+      if (isOlderThan(attachmentUploadedAt, this.#getMessageQueueTime() * 2)) {
+        return attachment;
       }
     }
 

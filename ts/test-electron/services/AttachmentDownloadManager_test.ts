@@ -336,7 +336,7 @@ describe('AttachmentDownloadManager/JobManager', () => {
 
   it('triggers onLowDiskSpace for backup import jobs', async () => {
     const jobs = await addJobs(1, _idx => ({
-      source: AttachmentDownloadSource.BACKUP_IMPORT,
+      source: AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA,
     }));
 
     const jobAttempts = getPromisesForAttempts(jobs[0], 2);
@@ -479,7 +479,7 @@ describe('AttachmentDownloadManager/JobManager', () => {
     const jobs = await addJobs(6, idx => ({
       source:
         idx % 2 === 0
-          ? AttachmentDownloadSource.BACKUP_IMPORT
+          ? AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA
           : AttachmentDownloadSource.STANDARD,
     }));
     // make one of the backup job messages visible to test that code path as well
@@ -506,7 +506,7 @@ describe('AttachmentDownloadManager/JobManager', () => {
   it('retries backup job immediately if retryAfters are reset', async () => {
     strictAssert(downloadManager, 'must exist');
     const jobs = await addJobs(1, {
-      source: AttachmentDownloadSource.BACKUP_IMPORT,
+      source: AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA,
     });
     const jobAttempts = getPromisesForAttempts(jobs[0], 2);
 
@@ -532,7 +532,7 @@ describe('AttachmentDownloadManager/JobManager', () => {
     strictAssert(downloadManager, 'must exist');
     const job = (
       await addJobs(1, {
-        source: AttachmentDownloadSource.BACKUP_IMPORT,
+        source: AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA,
       })
     )[0];
     const jobAttempts = getPromisesForAttempts(job, 3);
@@ -567,11 +567,10 @@ describe('AttachmentDownloadManager/JobManager', () => {
 
   describe('will drop jobs from non-media backup imports that are old', () => {
     it('will not queue attachments older than 90 days (2 * message queue time)', async () => {
-      hasMediaBackups.returns(false);
       await addJobs(
         1,
         {
-          source: AttachmentDownloadSource.BACKUP_IMPORT,
+          source: AttachmentDownloadSource.BACKUP_IMPORT_NO_MEDIA,
         },
         { uploadTimestamp: Date.now() - 4 * MONTH }
       );
@@ -586,7 +585,7 @@ describe('AttachmentDownloadManager/JobManager', () => {
       await addJobs(
         1,
         {
-          source: AttachmentDownloadSource.BACKUP_IMPORT,
+          source: AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA,
         },
         { uploadTimestamp: Date.now() - 4 * MONTH }
       );
@@ -601,7 +600,7 @@ describe('AttachmentDownloadManager/JobManager', () => {
       await addJobs(
         1,
         {
-          source: AttachmentDownloadSource.BACKUP_IMPORT,
+          source: AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA,
         },
         {
           uploadTimestamp: Date.now() - 4 * MONTH,
@@ -620,7 +619,7 @@ describe('AttachmentDownloadManager/JobManager', () => {
       await addJobs(
         1,
         {
-          source: AttachmentDownloadSource.BACKUP_IMPORT,
+          source: AttachmentDownloadSource.BACKUP_IMPORT_NO_MEDIA,
           sentAt: Date.now() - 4 * MONTH,
         },
         { uploadTimestamp: 0 }
