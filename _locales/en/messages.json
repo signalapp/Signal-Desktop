@@ -1370,6 +1370,10 @@
     "messageformat": "Forward",
     "description": "Show on the drop-down menu for an individual message, opens a modal to forward a message"
   },
+  "icu:MessageContextMenu__replyPrivate": {
+    "messageformat": "Reply private",
+    "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, opens the composer with a reply to the current message"
+  },
   "icu:MessageContextMenu__info": {
     "messageformat": "Info",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"

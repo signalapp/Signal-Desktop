@@ -2134,6 +2134,20 @@ export class Message extends React.PureComponent<Props, State> {
     const clickHandler = disableScroll
       ? undefined
       : () => {
+          const originalConversationId = (quote as any)
+            .originalConversationId as string | undefined;
+          const originalMessageId = (quote as any).messageId as
+            | string
+            | undefined;
+
+          if (originalConversationId && originalMessageId) {
+            window.reduxActions.conversations.showConversation({
+              conversationId: originalConversationId,
+              messageId: originalMessageId,
+            });
+            return;
+          }
+
           scrollToQuotedMessage({
             authorId: quote.authorId,
             conversationId,

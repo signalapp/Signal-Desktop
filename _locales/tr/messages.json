@@ -1028,6 +1028,9 @@
   "icu:MessageContextMenu__forward": {
     "messageformat": "Yönlendir"
   },
+  "icu:MessageContextMenu__replyPrivate": {
+    "messageformat": "Özel yanıtla"
+  },
   "icu:MessageContextMenu__info": {
     "messageformat": "Bilgi"
   },

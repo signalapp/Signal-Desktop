@@ -50,6 +50,9 @@ import {
 } from './MessageContextMenu';
 import { ForwardMessagesModalType } from '../ForwardMessagesModal';
 import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions';
+import { getMessageById } from '../../messages/getMessageById';
+import { makeQuote } from '../../util/makeQuote';
+import type { ServiceIdString } from '../../types/ServiceId';
 import { isNotNil } from '../../util/isNotNil';
 
 export type PropsData = {
@@ -274,6 +277,62 @@ export function TimelineMessage(props: Props): JSX.Element {
     setQuoteByMessageId(conversationId, id);
   }, [canReply, conversationId, id, setQuoteByMessageId]);
 
+  const handlePrivateReply = useCallback(async () => {
+    try {
+      // Mesajın yazarını bul
+      const message = await getMessageById(id);
+      if (!message) {
+        return;
+      }
+      const author = message.attributes?.sourceServiceId as
+        | ServiceIdString
+        | undefined;
+
+      if (!author) {
+        return;
+      }
+
+      const dm = window.ConversationController.lookupOrCreate({
+        serviceId: author as ServiceIdString,
+        reason: 'private-reply',
+      });
+      if (!dm) {
+        return;
+      }
+
+      window.reduxActions.conversations.showConversation({
+        conversationId: dm.id,
+      });
+
+      const quote = await makeQuote(message.attributes as any);
+      (quote as any).messageId = message.id;
+      (quote as any).originalConversationId =
+        message.attributes?.conversationId;
+      try {
+        const originalConvo = message.attributes?.conversationId
+          ? window.ConversationController.get(message.attributes.conversationId)
+          : undefined;
+        if (originalConvo && originalConvo.get('type') === 'group') {
+          (quote as any).sourceConversationTitle =
+            (originalConvo as any).getTitle?.() ||
+            (originalConvo as any).get('title') ||
+            (originalConvo as any).get('name') ||
+            (originalConvo as any).get('profileName') ||
+            '';
+        }
+      } catch (_) {
+        // no-op
+      }
+      window.reduxActions.composer.setQuotedMessage(dm.id, {
+        conversationId: dm.id,
+        quote,
+      });
+      window.reduxActions.composer.setComposerFocus(dm.id);
+    } catch (_) {
+      // no-op
+    }
+  }, [id]);
+
   const handleReact = useCallback(() => {
     if (canReact) {
       toggleReactionPicker();
@@ -391,6 +450,8 @@ export function TimelineMessage(props: Props): JSX.Element {
         triggerId={triggerId}
         shouldShowAdditional={shouldShowAdditional}
         interactionMode={props.interactionMode}
+        conversationType={props.conversationType}
+        direction={direction}
         onDownload={handleDownload}
         onEdit={
           canEditMessage
@@ -398,6 +459,7 @@ export function TimelineMessage(props: Props): JSX.Element {
             : undefined
         }
         onReplyToMessage={handleReplyToMessage}
+        onPrivateReply={handlePrivateReply}
         onReact={handleReact}
         onRetryMessageSend={canRetry ? () => retryMessageSend(id) : undefined}
         onRetryDeleteForEveryone={

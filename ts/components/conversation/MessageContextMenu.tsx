@@ -18,9 +18,12 @@ type MessageContextProps = {
   triggerId: string;
   shouldShowAdditional: boolean;
   interactionMode: InteractionModeType;
+  conversationType: 'direct' | 'group';
+  direction: 'incoming' | 'outgoing';
   onDownload: (() => void) | undefined;
   onEdit: (() => void) | undefined;
   onReplyToMessage: (() => void) | undefined;
+  onPrivateReply?: (() => void) | undefined;
   onReact: (() => void) | undefined;
   onRetryMessageSend: (() => void) | undefined;
   onRetryDeleteForEveryone: (() => void) | undefined;
@@ -35,9 +38,12 @@ export const MessageContextMenu = ({
   triggerId,
   shouldShowAdditional,
   interactionMode,
+  conversationType,
+  direction,
   onDownload,
   onEdit,
   onReplyToMessage,
+  onPrivateReply,
   onReact,
   onMoreInfo,
   onCopy,
@@ -103,6 +109,24 @@ export const MessageContextMenu = ({
           )}
         </>
       )}
+      {onPrivateReply &&
+        conversationType === 'group' &&
+        direction === 'incoming' && (
+          <MenuItem
+            attributes={{
+              className:
+                'module-message__context--icon module-message__context__reply',
+            }}
+            onClick={(event: React.MouseEvent) => {
+              event.stopPropagation();
+              event.preventDefault();
+
+              onPrivateReply();
+            }}
+          >
+            {i18n('icu:MessageContextMenu__replyPrivate')}
+          </MenuItem>
+        )}
       {onForward && (
         <MenuItem
           attributes={{

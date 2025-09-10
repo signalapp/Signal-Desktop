@@ -558,15 +558,26 @@ export const getPropsForQuote = (
     defaultConversationColor
   );
 
-  return {
+  const sourceConversationTitle = (quote as any).sourceConversationTitle as
+    | string
+    | undefined;
+
+  const displayAuthorTitle = sourceConversationTitle
+    ? `${authorTitle} - ${sourceConversationTitle}`
+    : authorTitle;
+
+  const result = {
     authorId,
     authorName,
     authorPhoneNumber,
     authorProfileName,
-    authorTitle,
+    authorTitle: displayAuthorTitle,
     bodyRanges: processBodyRanges(quote, { conversationSelector }),
     conversationColor,
-    conversationTitle: conversation.title,
+    conversationTitle:
+      // Eğer DM'de özel yanıt alıntısı ise kaynak grubun adı eklenmiş olabilir
+      ((quote as any).sourceConversationTitle as string | undefined) ||
+      conversation.title,
     customColor,
     isFromMe,
     rawAttachment: firstAttachment
@@ -578,7 +589,16 @@ export const getPropsForQuote = (
     referencedMessageNotFound,
     sentAt: Number(sentAt),
     text,
-  };
+  } as any;
+
+  // Özel yanıt akışı için ek alanları geçir: orijinal konuşma ve mesaj kimliği
+  result.originalConversationId =
+    (quote as any).originalConversationId || (message as any).conversationId;
+  if ((quote as any).messageId) {
+    result.messageId = (quote as any).messageId;
+  }
+
+  return result;
 };
 
 export type GetPropsForMessageOptions = Pick<
@@ -2032,6 +2052,20 @@ export function canDeleteForEveryone(
   >,
   isMe: boolean
 ): boolean {
+  const DEFAULT_LIFESPAN_MS = 24 * 60 * 60 * 1000; // 24 saat
+
+  const rawLifespan = window.Signal.RemoteConfig.getValue(
+    'global.deleteMessageLifespanMilliSeconds'
+  );
+  const deleteMessageLifespanMilliSeconds =
+    rawLifespan != null && !isNaN(Number(rawLifespan))
+      ? parseInt(rawLifespan)
+      : DEFAULT_LIFESPAN_MS;
+
+  const now = Date.now();
+  const messageTime = message.sent_at || 0;
+  const deleteDeadline = messageTime + deleteMessageLifespanMilliSeconds;
+
   return (
     // Is this an SMS restored from backup?
     !message.sms &&
@@ -2042,7 +2076,9 @@ export function canDeleteForEveryone(
     // Is it too old to delete? (we relax that requirement in Note to Self)
     (isMoreRecentThan(message.sent_at, DAY) || isMe) &&
     // Is it sent to anyone?
-    someSendStatus(message.sendStateByConversationId ?? {}, isSent)
+    someSendStatus(message.sendStateByConversationId ?? {}, isSent) &&
+    // Is it within the delete lifespan?
+    now < deleteDeadline
   );
 }
 
