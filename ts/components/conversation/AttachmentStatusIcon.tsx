@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, type ReactNode } from 'react';
 import classNames from 'classnames';
 
 import { SpinnerV2 } from '../SpinnerV2';
@@ -13,9 +13,9 @@ const TRANSITION_DELAY = 200;
 
 export type PropsType = {
   attachment: AttachmentForUIType | undefined;
-  isAttachmentNotAvailable: boolean;
+  isExpired?: boolean;
   isIncoming: boolean;
-  renderAttachmentDownloaded: () => JSX.Element;
+  children?: ReactNode;
 };
 
 enum IconState {
@@ -26,11 +26,17 @@ enum IconState {
 
 export function AttachmentStatusIcon({
   attachment,
-  isAttachmentNotAvailable,
+  isExpired,
   isIncoming,
-  renderAttachmentDownloaded,
+  children,
 }: PropsType): JSX.Element | null {
   const [isWaiting, setIsWaiting] = useState<boolean>(false);
+
+  const isAttachmentNotAvailable =
+    isExpired ||
+    (attachment != null &&
+      attachment.isPermanentlyUndownloadable &&
+      !attachment.wasTooBig);
 
   let state: IconState = IconState.Downloaded;
   if (attachment && isAttachmentNotAvailable) {
@@ -159,9 +165,5 @@ export function AttachmentStatusIcon({
     );
   }
 
-  return (
-    <div className="AttachmentStatusIcon__container">
-      {renderAttachmentDownloaded()}
-    </div>
-  );
+  return <div className="AttachmentStatusIcon__container">{children}</div>;
 }

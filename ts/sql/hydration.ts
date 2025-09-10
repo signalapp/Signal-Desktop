@@ -330,7 +330,7 @@ function hydrateMessageRootOrRevisionWithAttachments<
   return hydratedMessage;
 }
 
-function convertAttachmentDBFieldsToAttachmentType(
+export function convertAttachmentDBFieldsToAttachmentType(
   dbFields: MessageAttachmentDBType
 ): AttachmentType {
   const messageAttachment = shallowDropNull(dbFields);

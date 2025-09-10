@@ -140,13 +140,10 @@ export function Lightbox({
   >();
 
   const currentItem = media[selectedIndex];
-  const {
-    attachment,
-    contentType,
-    loop = false,
-    objectURL,
-    incrementalObjectUrl,
-  } = currentItem || {};
+  const attachment = currentItem?.attachment;
+  const url = attachment?.url;
+  const incrementalUrl = attachment?.incrementalUrl;
+  const contentType = attachment?.contentType;
 
   const isAttachmentGIF = isGIF(attachment ? [attachment] : undefined);
   const isDownloading =
@@ -599,7 +596,7 @@ export function Lightbox({
       !isVideoTypeSupported && isVideo(contentType);
 
     if (isImageTypeSupported) {
-      if (objectURL) {
+      if (url) {
         content = (
           <div className="Lightbox__zoomable-container">
             <button
@@ -621,7 +618,7 @@ export function Lightbox({
                     ev.preventDefault();
                   }
                 }}
-                src={objectURL}
+                src={url}
                 ref={imageRef}
               />
             </button>
@@ -642,19 +639,19 @@ export function Lightbox({
         );
       }
     } else if (isVideoTypeSupported) {
-      const shouldLoop = loop || isAttachmentGIF || isViewOnce;
+      const shouldLoop = isAttachmentGIF || isViewOnce;
 
       content = (
         <video
           className="Lightbox__object Lightbox__object--video"
           controls={!shouldLoop}
-          key={objectURL || incrementalObjectUrl}
+          key={url || incrementalUrl}
           loop={shouldLoop}
           ref={setVideoElement}
           onMouseMove={onUserInteractionOnVideo}
           onMouseLeave={onMouseLeaveVideo}
         >
-          <source src={objectURL || incrementalObjectUrl} />
+          <source src={url || incrementalUrl} />
         </video>
       );
     } else if (isUnsupportedImageType || isUnsupportedVideoType) {
@@ -834,7 +831,7 @@ export function Lightbox({
                             'Lightbox__thumbnail--selected':
                               index === selectedIndex,
                           })}
-                          key={item.thumbnailObjectUrl}
+                          key={item.attachment.thumbnail?.url}
                           type="button"
                           onClick={(
                             event: React.MouseEvent<
@@ -848,10 +845,10 @@ export function Lightbox({
                             onSelectAttachment(index);
                           }}
                         >
-                          {item.thumbnailObjectUrl ? (
+                          {item.attachment.thumbnail?.url ? (
                             <img
                               alt={i18n('icu:lightboxImageAlt')}
-                              src={item.thumbnailObjectUrl}
+                              src={item.attachment.thumbnail.url}
                             />
                           ) : (
                             <div className="Lightbox__thumbnail--unavailable" />

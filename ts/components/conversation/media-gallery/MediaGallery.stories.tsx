@@ -34,10 +34,15 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   loadMoreMedia: action('loadMoreMedia'),
   saveAttachment: action('saveAttachment'),
   showLightbox: action('showLightbox'),
+  kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
+  cancelAttachmentDownload: action('cancelAttachmentDownload'),
 });
 
 export function Populated(): JSX.Element {
-  const documents = createRandomDocuments(Date.now(), days(1)).slice(0, 1);
+  const documents = createRandomDocuments(Date.now() - days(5), days(5)).slice(
+    0,
+    10
+  );
   const media = createPreparedMediaItems(createRandomMedia);
   const props = createProps({ documents, media });
 

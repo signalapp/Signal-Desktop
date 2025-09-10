@@ -2,8 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { random, range, sample, sortBy } from 'lodash';
-import type { MIMEType } from '../../../../types/MIME';
+import { type MIMEType, IMAGE_JPEG } from '../../../../types/MIME';
 import type { MediaItemType } from '../../../../types/MediaItem';
+import { randomBlurHash } from '../../../../util/randomBlurHash';
+import { SignalService } from '../../../../protobuf';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 export const days = (n: number): number => n * DAY_MS;
@@ -16,6 +18,7 @@ const contentTypes = {
   mp4: 'video/mp4',
   docx: 'application/text',
   pdf: 'application/pdf',
+  exe: 'application/exe',
   txt: 'application/text',
 } as unknown as Record<string, MIMEType>;
 
@@ -27,27 +30,42 @@ function createRandomFile(
   const contentType = contentTypes[fileExtension];
   const fileName = `${sample(tokens)}${sample(tokens)}.${fileExtension}`;
 
+  const isDownloaded = Math.random() > 0.4;
+
   return {
-    contentType,
     message: {
       conversationId: '123',
+      type: 'incoming',
       id: random(Date.now()).toString(),
       receivedAt: Math.floor(Math.random() * 10),
       receivedAtMs: random(startTime, startTime + timeWindow),
-      attachments: [],
       sentAt: Date.now(),
     },
     attachment: {
-      url: '',
+      url: isDownloaded ? '/fixtures/cat-screenshot-3x4.png' : undefined,
+      path: isDownloaded ? 'abc' : undefined,
+      screenshot:
+        fileExtension === 'mp4'
+          ? {
+              url: isDownloaded
+                ? '/fixtures/cat-screenshot-3x4.png'
+                : undefined,
+              contentType: IMAGE_JPEG,
+            }
+          : undefined,
+      flags:
+        fileExtension === 'mp4' && Math.random() > 0.5
+          ? SignalService.AttachmentPointer.Flags.GIF
+          : 0,
+      width: 400,
+      height: 300,
       fileName,
       size: random(1000, 1000 * 1000 * 50),
       contentType,
+      blurHash: randomBlurHash(),
+      isPermanentlyUndownloadable: false,
     },
     index: 0,
-    thumbnailObjectUrl: `https://placekitten.com/${random(50, 150)}/${random(
-      50,
-      150
-    )}`,
   };
 }
 
@@ -64,7 +82,12 @@ export function createRandomDocuments(
   startTime: number,
   timeWindow: number
 ): Array<MediaItemType> {
-  return createRandomFiles(startTime, timeWindow, ['docx', 'pdf', 'txt']);
+  return createRandomFiles(startTime, timeWindow, [
+    'docx',
+    'pdf',
+    'exe',
+    'txt',
+  ]);
 }
 
 export function createRandomMedia(

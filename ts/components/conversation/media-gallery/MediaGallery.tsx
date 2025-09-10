@@ -6,7 +6,7 @@ import React, { useEffect, useRef } from 'react';
 import moment from 'moment';
 
 import type { ItemClickEvent } from './types/ItemClickEvent';
-import type { LocalizerType } from '../../../types/Util';
+import type { LocalizerType, ThemeType } from '../../../types/Util';
 import type { MediaItemType } from '../../../types/MediaItem';
 import type { SaveAttachmentActionCreatorType } from '../../../state/ducks/conversations';
 import { AttachmentSection } from './AttachmentSection';
@@ -34,10 +34,13 @@ export type Props = {
   loadMoreDocuments: (id: string) => unknown;
   media: ReadonlyArray<MediaItemType>;
   saveAttachment: SaveAttachmentActionCreatorType;
+  kickOffAttachmentDownload: (options: { messageId: string }) => void;
+  cancelAttachmentDownload: (options: { messageId: string }) => void;
   showLightbox: (options: {
     attachment: AttachmentType;
     messageId: string;
   }) => void;
+  theme?: ThemeType;
 };
 
 const MONTH_FORMAT = 'MMMM YYYY';
@@ -48,11 +51,22 @@ function MediaSection({
   loading,
   media,
   saveAttachment,
+  kickOffAttachmentDownload,
+  cancelAttachmentDownload,
   showLightbox,
   type,
+  theme,
 }: Pick<
   Props,
-  'documents' | 'i18n' | 'loading' | 'media' | 'saveAttachment' | 'showLightbox'
+  | 'documents'
+  | 'i18n'
+  | 'theme'
+  | 'loading'
+  | 'media'
+  | 'saveAttachment'
+  | 'kickOffAttachmentDownload'
+  | 'cancelAttachmentDownload'
+  | 'showLightbox'
 > & { type: 'media' | 'documents' }): JSX.Element {
   const mediaItems = type === 'media' ? media : documents;
 
@@ -107,6 +121,7 @@ function MediaSection({
         key={header}
         header={header}
         i18n={i18n}
+        theme={theme}
         type={type}
         mediaItems={section.mediaItems}
         onItemClick={(event: ItemClickEvent) => {
@@ -117,10 +132,16 @@ function MediaSection({
             }
 
             case 'media': {
-              showLightbox({
-                attachment: event.attachment,
-                messageId: event.message.id,
-              });
+              if (event.attachment.url || event.attachment.incrementalUrl) {
+                showLightbox({
+                  attachment: event.attachment,
+                  messageId: event.message.id,
+                });
+              } else if (event.attachment.pending) {
+                cancelAttachmentDownload({ messageId: event.message.id });
+              } else {
+                kickOffAttachmentDownload({ messageId: event.message.id });
+              }
               break;
             }
 
@@ -147,6 +168,8 @@ export function MediaGallery({
   loadMoreMedia,
   media,
   saveAttachment,
+  kickOffAttachmentDownload,
+  cancelAttachmentDownload,
   showLightbox,
 }: Props): JSX.Element {
   const focusRef = useRef<HTMLDivElement | null>(null);
@@ -264,6 +287,8 @@ export function MediaGallery({
                   media={media}
                   saveAttachment={saveAttachment}
                   showLightbox={showLightbox}
+                  kickOffAttachmentDownload={kickOffAttachmentDownload}
+                  cancelAttachmentDownload={cancelAttachmentDownload}
                   type="media"
                 />
               )}
@@ -275,6 +300,8 @@ export function MediaGallery({
                   media={media}
                   saveAttachment={saveAttachment}
                   showLightbox={showLightbox}
+                  kickOffAttachmentDownload={kickOffAttachmentDownload}
+                  cancelAttachmentDownload={cancelAttachmentDownload}
                   type="documents"
                 />
               )}

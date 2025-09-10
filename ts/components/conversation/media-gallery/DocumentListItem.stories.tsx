@@ -6,55 +6,22 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { Props } from './DocumentListItem';
 import { DocumentListItem } from './DocumentListItem';
+import { createPreparedMediaItems, createRandomDocuments } from './utils/mocks';
 
 export default {
   title: 'Components/Conversation/MediaGallery/DocumentListItem',
-  argTypes: {
-    timestamp: { control: { type: 'date' } },
-    fileName: { control: { type: 'text' } },
-    fileSize: { control: { type: 'number' } },
-    shouldShowSeparator: { control: { type: 'boolean' } },
-  },
-  args: {
-    timestamp: Date.now(),
-    fileName: 'meow.jpg',
-    fileSize: 1024 * 1000 * 2,
-    shouldShowSeparator: false,
-    onClick: action('onClick'),
-  },
 } satisfies Meta<Props>;
 
-export function Single(args: Props): JSX.Element {
-  return <DocumentListItem {...args} />;
-}
-
 export function Multiple(): JSX.Element {
-  const items = [
-    {
-      fileName: 'meow.jpg',
-      fileSize: 1024 * 1000 * 2,
-      timestamp: Date.now(),
-    },
-    {
-      fileName: 'rickroll.mp4',
-      fileSize: 1024 * 1000 * 8,
-      timestamp: Date.now() - 24 * 60 * 60 * 1000,
-    },
-    {
-      fileName: 'kitten.gif',
-      fileSize: 1024 * 1000 * 1.2,
-      timestamp: Date.now() - 14 * 24 * 60 * 60 * 1000,
-      shouldShowSeparator: false,
-    },
-  ];
+  const items = createPreparedMediaItems(createRandomDocuments);
 
   return (
     <>
-      {items.map(item => (
+      {items.map(mediaItem => (
         <DocumentListItem
-          key={item.fileName}
+          key={mediaItem.attachment.fileName}
+          mediaItem={mediaItem}
           onClick={action('onClick')}
-          {...item}
         />
       ))}
     </>

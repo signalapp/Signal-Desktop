@@ -2,54 +2,46 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import classNames from 'classnames';
 
 import moment from 'moment';
 import { formatFileSize } from '../../../util/formatFileSize';
+import type { MediaItemType } from '../../../types/MediaItem';
+import { tw } from '../../../axo/tw';
+import { FileThumbnail } from '../../FileThumbnail';
 
 export type Props = {
   // Required
-  timestamp: number;
+  mediaItem: MediaItemType;
 
   // Optional
-  fileName?: string;
-  fileSize?: number;
-  onClick?: () => void;
-  shouldShowSeparator?: boolean;
+  onClick?: (ev: React.MouseEvent) => void;
 };
 
-export function DocumentListItem({
-  shouldShowSeparator = true,
-  fileName,
-  fileSize,
-  onClick,
-  timestamp,
-}: Props): JSX.Element {
+export function DocumentListItem({ mediaItem, onClick }: Props): JSX.Element {
+  const { attachment, message } = mediaItem;
+
+  const { fileName, size: fileSize } = attachment;
+
+  const timestamp = message.receivedAtMs || message.receivedAt;
+
   return (
-    <div
-      className={classNames(
-        'module-document-list-item',
-        shouldShowSeparator ? 'module-document-list-item--with-separator' : null
-      )}
+    <button
+      className={tw('flex w-full flex-row items-center gap-3 py-2')}
+      type="button"
+      onClick={onClick}
     >
-      <button
-        type="button"
-        className="module-document-list-item__content"
-        onClick={onClick}
-      >
-        <div className="module-document-list-item__icon" />
-        <div className="module-document-list-item__metadata">
-          <span className="module-document-list-item__file-name">
-            {fileName}
-          </span>
-          <span className="module-document-list-item__file-size">
-            {typeof fileSize === 'number' ? formatFileSize(fileSize) : ''}
-          </span>
+      <div className={tw('shrink-0')}>
+        <FileThumbnail {...attachment} />
+      </div>
+      <div className={tw('grow overflow-hidden text-left')}>
+        <h3 className={tw('truncate')}>{fileName}</h3>
+        <div className={tw('type-body-small leading-4 text-label-secondary')}>
+          {typeof fileSize === 'number' ? formatFileSize(fileSize) : ''}
         </div>
-        <div className="module-document-list-item__date">
-          {moment(timestamp).format('ddd, MMM D, Y')}
-        </div>
-      </button>
-    </div>
+      </div>
+      <div className={tw('shrink-0 type-body-small text-label-secondary')}>
+        {moment(timestamp).format('MMM D')}
+      </div>
+    </button>
   );
 }

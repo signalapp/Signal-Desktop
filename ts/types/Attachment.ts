@@ -88,6 +88,7 @@ export type EphemeralAttachmentFields = {
   isVoiceMessage?: boolean;
   /** For messages not already on disk, this will be a data url */
   url?: string;
+  incrementalUrl?: string;
   screenshotData?: Uint8Array;
   /** @deprecated Legacy field */
   screenshotPath?: string;

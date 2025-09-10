@@ -1367,10 +1367,6 @@ export class Message extends React.PureComponent<Props, State> {
     const { fileName, size, contentType } = firstAttachment;
     const isIncoming = direction === 'incoming';
 
-    const renderAttachmentDownloaded = () => {
-      return <FileThumbnail contentType={contentType} fileName={fileName} />;
-    };
-
     const willShowMetadata =
       expirationLength || expirationTimestamp || !shouldHideMetadata;
 
@@ -1415,10 +1411,10 @@ export class Message extends React.PureComponent<Props, State> {
         <AttachmentStatusIcon
           key={id}
           attachment={firstAttachment}
-          isAttachmentNotAvailable={isAttachmentNotAvailable}
           isIncoming={isIncoming}
-          renderAttachmentDownloaded={renderAttachmentDownloaded}
-        />
+        >
+          <FileThumbnail contentType={contentType} fileName={fileName} />
+        </AttachmentStatusIcon>
         <div className="module-message__simple-attachment__text">
           <div
             className={classNames(
@@ -2852,10 +2848,11 @@ export class Message extends React.PureComponent<Props, State> {
         <AttachmentStatusIcon
           key={id}
           attachment={firstAttachment}
-          isAttachmentNotAvailable={isExpired}
+          isExpired={isExpired}
           isIncoming={isIncoming}
-          renderAttachmentDownloaded={() => this.renderTapToViewIcon()}
-        />
+        >
+          {this.renderTapToViewIcon()}
+        </AttachmentStatusIcon>
         {content}
       </div>
     );

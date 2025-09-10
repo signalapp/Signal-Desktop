@@ -88,6 +88,7 @@ import {
 import {
   hydrateMessage,
   hydrateMessages,
+  convertAttachmentDBFieldsToAttachmentType,
   getAttachmentReferencesForMessages,
   ROOT_MESSAGE_ATTACHMENT_EDIT_HISTORY_INDEX,
 } from './hydration';
@@ -148,10 +149,12 @@ import type {
   GetConversationRangeCenteredOnMessageResultType,
   GetKnownMessageAttachmentsResultType,
   GetNearbyMessageFromDeletedSetOptionsType,
+  GetOlderMediaOptionsType,
   GetRecentStoryRepliesOptionsType,
   GetUnreadByConversationAndMarkReadResultType,
   IdentityKeyIdType,
   ItemKeyType,
+  MediaItemDBType,
   MessageAttachmentsCursorType,
   MessageCursorType,
   MessageMetricsType,
@@ -433,6 +436,9 @@ export const DataReader: ServerReadableInterface = {
   getCallHistoryGroupsCount,
   getCallHistoryGroups,
   hasGroupCallHistoryMessage,
+
+  hasMedia,
+  getOlderMedia,
 
   getAllNotificationProfiles,
   getNotificationProfileById,
@@ -2481,17 +2487,29 @@ function saveMessageAttachmentsForRootOrEditedVersion(
     conversationId: string;
     sent_at: number;
   } & Pick<
-    MessageAttributesType,
+    MessageType,
     | 'attachments'
     | 'bodyAttachment'
     | 'contact'
     | 'preview'
     | 'quote'
+    | 'type'
     | 'sticker'
+    | 'isViewOnce'
+    | 'received_at'
+    | 'received_at_ms'
   >,
   { editHistoryIndex }: { editHistoryIndex: number | null }
 ) {
-  const { id: messageId, conversationId, sent_at: sentAt } = message;
+  const {
+    id: messageId,
+    type: messageType,
+    conversationId,
+    sent_at: sentAt,
+    received_at: receivedAt,
+    received_at_ms: receivedAtMs,
+    isViewOnce,
+  } = message;
 
   const mainAttachments = message.attachments;
   if (mainAttachments) {
@@ -2500,12 +2518,16 @@ function saveMessageAttachmentsForRootOrEditedVersion(
       saveMessageAttachment({
         db,
         messageId,
+        messageType,
         conversationId,
         sentAt,
+        receivedAt,
+        receivedAtMs,
         attachmentType: 'attachment',
         attachment,
         orderInMessage: i,
         editHistoryIndex,
+        isViewOnce,
       });
     }
   }
@@ -2515,12 +2537,16 @@ function saveMessageAttachmentsForRootOrEditedVersion(
     saveMessageAttachment({
       db,
       messageId,
+      messageType,
       conversationId,
       sentAt,
+      receivedAt,
+      receivedAtMs,
       attachmentType: 'long-message',
       attachment: bodyAttachment,
       orderInMessage: 0,
       editHistoryIndex,
+      isViewOnce,
     });
   }
 
@@ -2534,12 +2560,16 @@ function saveMessageAttachmentsForRootOrEditedVersion(
       saveMessageAttachment({
         db,
         messageId,
+        messageType,
         conversationId,
         sentAt,
+        receivedAt,
+        receivedAtMs,
         attachmentType: 'preview',
         attachment,
         orderInMessage: i,
         editHistoryIndex,
+        isViewOnce,
       });
     }
   }
@@ -2554,12 +2584,16 @@ function saveMessageAttachmentsForRootOrEditedVersion(
       saveMessageAttachment({
         db,
         messageId,
+        messageType,
         conversationId,
         sentAt,
+        receivedAt,
+        receivedAtMs,
         attachmentType: 'quote',
         attachment: attachment.thumbnail,
         orderInMessage: i,
         editHistoryIndex,
+        isViewOnce,
       });
     }
   }
@@ -2576,12 +2610,16 @@ function saveMessageAttachmentsForRootOrEditedVersion(
       saveMessageAttachment({
         db,
         messageId,
+        messageType,
         conversationId,
         sentAt,
+        receivedAt,
+        receivedAtMs,
         attachmentType: 'contact',
         attachment,
         orderInMessage: i,
         editHistoryIndex,
+        isViewOnce,
       });
     }
   }
@@ -2591,12 +2629,16 @@ function saveMessageAttachmentsForRootOrEditedVersion(
     saveMessageAttachment({
       db,
       messageId,
+      messageType,
       conversationId,
       sentAt,
+      receivedAt,
+      receivedAtMs,
       attachmentType: 'sticker',
       attachment: stickerAttachment,
       orderInMessage: 0,
       editHistoryIndex,
+      isViewOnce,
     });
   }
 }
@@ -2620,8 +2662,10 @@ function saveMessageAttachments(
       db,
       {
         id: message.id,
+        type: message.type,
         conversationId: message.conversationId,
         sent_at: editHistory.timestamp,
+        isViewOnce: message.isViewOnce,
         ...editHistory,
       },
       { editHistoryIndex: idx }
@@ -2632,30 +2676,41 @@ function saveMessageAttachments(
 function saveMessageAttachment({
   db,
   messageId,
+  messageType,
   conversationId,
   sentAt,
+  receivedAt,
+  receivedAtMs,
   attachmentType,
   attachment,
   orderInMessage,
   editHistoryIndex,
+  isViewOnce,
 }: {
   db: WritableDB;
   messageId: string;
+  messageType: string;
   conversationId: string;
   sentAt: number;
+  receivedAt: number;
+  receivedAtMs: number | undefined;
   attachmentType: AttachmentDownloadJobTypeType;
   attachment: AttachmentType;
   orderInMessage: number;
   editHistoryIndex: number | null;
+  isViewOnce: boolean | undefined;
 }) {
   const unparsedValues: ShallowNullToUndefined<MessageAttachmentDBType> = {
     messageId,
+    messageType,
     editHistoryIndex:
       editHistoryIndex ?? ROOT_MESSAGE_ATTACHMENT_EDIT_HISTORY_INDEX,
     attachmentType,
     orderInMessage,
     conversationId,
     sentAt,
+    receivedAt,
+    receivedAtMs,
     clientUuid: attachment.clientUuid,
     size: attachment.size,
     contentType: attachment.contentType,
@@ -2700,6 +2755,7 @@ function saveMessageAttachment({
     wasTooBig: convertOptionalBooleanToInteger(attachment.wasTooBig),
     backfillError: convertOptionalBooleanToInteger(attachment.backfillError),
     isCorrupted: convertOptionalBooleanToInteger(attachment.isCorrupted),
+    isViewOnce: convertOptionalBooleanToInteger(isViewOnce),
     copiedFromQuotedAttachment:
       'copied' in attachment
         ? convertOptionalBooleanToInteger(attachment.copied)
@@ -5003,6 +5059,94 @@ function hasGroupCallHistoryMessage(
     });
 
   return exists === 1;
+}
+
+function hasMedia(db: ReadableDB, conversationId: string): boolean {
+  const [query, params] = sql`
+    SELECT EXISTS(
+      SELECT 1 FROM message_attachments
+      INDEXED BY message_attachments_getOlderMedia
+      WHERE
+        conversationId IS ${conversationId} AND
+        editHistoryIndex IS -1 AND
+        attachmentType IS 'attachment' AND
+        messageType IN ('incoming', 'outgoing') AND
+        isViewOnce IS NOT 1 AND
+        contentType IS NOT NULL AND
+        contentType IS NOT '' AND
+        contentType IS NOT 'text/x-signal-plain' AND
+        contentType NOT LIKE 'audio/%'
+    );
+  `;
+  const exists = db.prepare(query, { pluck: true }).get<number>(params);
+
+  return exists === 1;
+}
+
+function getOlderMedia(
+  db: ReadableDB,
+  {
+    conversationId,
+    limit,
+    messageId,
+    receivedAt: maxReceivedAt = Number.MAX_VALUE,
+    sentAt: maxSentAt = Number.MAX_VALUE,
+  }: GetOlderMediaOptionsType
+): Array<MediaItemDBType> {
+  const timeFilters = {
+    first: sqlFragment`receivedAt = ${maxReceivedAt} AND sentAt < ${maxSentAt}`,
+    second: sqlFragment`receivedAt < ${maxReceivedAt}`,
+  };
+
+  const createQuery = (timeFilter: QueryFragment): QueryFragment => sqlFragment`
+    SELECT
+      *
+    FROM message_attachments
+    INDEXED BY message_attachments_getOlderMedia
+    WHERE
+      conversationId IS ${conversationId} AND
+      editHistoryIndex IS -1 AND
+      attachmentType IS 'attachment' AND
+      (
+        ${timeFilter}
+      ) AND
+      (
+        -- see 'isVisualMedia' in ts/types/Attachment.ts
+        contentType LIKE 'image/%' OR
+        contentType LIKE 'video/%'
+      ) AND
+      isViewOnce IS NOT 1 AND
+      messageType IN ('incoming', 'outgoing') AND
+      (${messageId ?? null} IS NULL OR messageId IS NOT ${messageId ?? null})
+      ORDER BY receivedAt DESC, sentAt DESC
+      LIMIT ${limit}
+  `;
+
+  const [query, params] = sql`
+    SELECT first.* FROM (${createQuery(timeFilters.first)}) as first
+    UNION ALL
+    SELECT second.* FROM (${createQuery(timeFilters.second)}) as second
+  `;
+
+  const results: Array<MessageAttachmentDBType> = db.prepare(query).all(params);
+
+  return results.map(attachment => {
+    const { orderInMessage, messageType, sentAt, receivedAt, receivedAtMs } =
+      attachment;
+
+    return {
+      message: {
+        id: attachment.messageId,
+        type: messageType as 'incoming' | 'outgoing',
+        conversationId,
+        receivedAt,
+        receivedAtMs: receivedAtMs ?? undefined,
+        sentAt,
+      },
+      index: orderInMessage,
+      attachment: convertAttachmentDBFieldsToAttachmentType(attachment),
+    };
+  });
 }
 
 function _markCallHistoryMissed(

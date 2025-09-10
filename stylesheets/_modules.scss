@@ -2479,6 +2479,7 @@ button.ConversationDetails__action-button {
   display: flex;
   flex-grow: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 20px;
 }
 
@@ -2496,159 +2497,11 @@ button.ConversationDetails__action-button {
 }
 
 .module-media-gallery__sections {
+  min-width: 0;
+
   display: flex;
   flex-grow: 1;
   flex-direction: column;
-}
-
-// Module: Attachment Section
-
-.module-attachment-section {
-  width: 100%;
-}
-
-.module-attachment-section__header {
-  @include mixins.font-body-1-bold;
-}
-
-.module-attachment-section__items {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-
-// Module: Document List Item
-
-.module-document-list-item {
-  width: 100%;
-  height: 72px;
-}
-
-.module-document-list-item--with-separator {
-  @include mixins.light-theme {
-    border-bottom: 1px solid variables.$color-gray-02;
-  }
-  @include mixins.dark-theme {
-    border-bottom: 1px solid variables.$color-gray-75;
-  }
-}
-
-.module-document-list-item__content {
-  @include mixins.button-reset;
-  & {
-    width: 100%;
-    height: 100%;
-
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-  }
-
-  @include mixins.keyboard-mode {
-    &:focus {
-      box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
-    }
-  }
-}
-
-.module-document-list-item__icon {
-  flex-shrink: 0;
-
-  width: 48px;
-  height: 48px;
-  @include mixins.color-svg(
-    '../images/generic-file.svg',
-    variables.$color-gray-45
-  );
-}
-
-.module-document-list-item__metadata {
-  display: inline-flex;
-  flex-direction: column;
-  flex-grow: 1;
-  flex-shrink: 0;
-  margin-inline: 8px;
-}
-
-.module-document-list-item__file-size {
-  display: inline-block;
-  margin-top: 8px;
-  @include mixins.font-body-2;
-}
-
-.module-document-list-item__date {
-  display: inline-block;
-  flex-shrink: 0;
-}
-
-// Module: Media Grid Item
-
-.module-media-grid-item {
-  @include mixins.button-reset;
-  & {
-    height: 94px;
-    width: 94px;
-    background-color: variables.$color-gray-05;
-    margin-inline-end: 4px;
-    margin-bottom: 4px;
-    position: relative;
-  }
-
-  @include mixins.keyboard-mode {
-    &:focus {
-      box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
-    }
-  }
-}
-
-.module-media-grid-item__image {
-  height: 94px;
-  width: 100%;
-  object-fit: cover;
-}
-
-.module-media-grid-item__icon {
-  position: absolute;
-  top: 15px;
-  bottom: 15px;
-  inset-inline: 15px;
-}
-
-.module-media-grid-item__icon-image {
-  @include mixins.color-svg('../images/image.svg', variables.$color-gray-45);
-}
-
-.module-media-grid-item__image-container {
-  position: relative;
-}
-
-.module-media-grid-item__circle-overlay {
-  @include mixins.position-absolute-center;
-  width: 42px;
-  height: 42px;
-  background-color: variables.$color-white;
-  border-radius: 21px;
-}
-
-.module-media-grid-item__play-overlay {
-  @include mixins.position-absolute-center;
-  height: 24px;
-  width: 24px;
-  @include mixins.color-svg(
-    '../images/icons/v3/play/play-fill.svg',
-    variables.$color-ultramarine
-  );
-}
-
-.module-media-grid-item__icon-video {
-  @include mixins.color-svg('../images/movie.svg', variables.$color-gray-45);
-}
-
-.module-media-grid-item__icon-generic {
-  @include mixins.color-svg('../images/file.svg', variables.$color-gray-45);
 }
 
 /* Module: Empty State*/

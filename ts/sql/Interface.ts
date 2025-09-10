@@ -50,6 +50,8 @@ import type {
 } from '../types/GroupSendEndorsements';
 import type { SyncTaskType } from '../util/syncTasks';
 import type { AttachmentBackupJobType } from '../types/AttachmentBackup';
+import type { AttachmentType } from '../types/Attachment';
+import type { MediaItemMessageType } from '../types/MediaItem';
 import type { GifType } from '../components/fun/panels/FunPanelGifs';
 import type { NotificationProfileType } from '../types/NotificationProfile';
 import type { DonationReceipt } from '../types/Donations';
@@ -566,9 +568,26 @@ export type BackupAttachmentDownloadProgress = {
   completedBytes: number;
 };
 
+export type GetOlderMediaOptionsType = Readonly<{
+  conversationId: string;
+  limit: number;
+  messageId?: string;
+  receivedAt?: number;
+  sentAt?: number;
+}>;
+
+export type MediaItemDBType = Readonly<{
+  attachment: AttachmentType;
+  index: number;
+  message: MediaItemMessageType;
+}>;
+
 export const MESSAGE_ATTACHMENT_COLUMNS = [
   'messageId',
   'conversationId',
+  'messageType',
+  'receivedAt',
+  'receivedAtMs',
   'sentAt',
   'attachmentType',
   'orderInMessage',
@@ -612,6 +631,7 @@ export const MESSAGE_ATTACHMENT_COLUMNS = [
   'storyTextAttachmentJson',
   'localBackupPath',
   'isCorrupted',
+  'isViewOnce',
   'backfillError',
   'error',
   'wasTooBig',
@@ -626,6 +646,9 @@ export type MessageAttachmentDBType = {
   orderInMessage: number;
   editHistoryIndex: number | null;
   conversationId: string;
+  messageType: string;
+  receivedAt: number;
+  receivedAtMs: number | null;
   sentAt: number;
   clientUuid: string | null;
   size: number;
@@ -667,6 +690,7 @@ export type MessageAttachmentDBType = {
   storyTextAttachmentJson: string | null;
   localBackupPath: string | null;
   isCorrupted: 1 | 0 | null;
+  isViewOnce: 1 | 0 | null;
   backfillError: 1 | 0 | null;
   error: 1 | 0 | null;
   wasTooBig: 1 | 0 | null;
@@ -766,6 +790,8 @@ type ReadableInterface = {
     maxTimestamp: number
   ) => Array<MessageType>;
   // getOlderMessagesByConversation is JSON on server, full message on Client
+  hasMedia: (conversationId: string) => boolean;
+  getOlderMedia: (options: GetOlderMediaOptionsType) => Array<MediaItemDBType>;
   getAllStories: (options: {
     conversationId?: string;
     sourceServiceId?: ServiceIdString;

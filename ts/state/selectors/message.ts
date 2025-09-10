@@ -66,7 +66,11 @@ import type {
   AttachmentForUIType,
   AttachmentType,
 } from '../../types/Attachment';
-import { isVoiceMessage, defaultBlurHash } from '../../types/Attachment';
+import {
+  isVoiceMessage,
+  isIncremental,
+  defaultBlurHash,
+} from '../../types/Attachment';
 import type { AttachmentDownloadJobTypeType } from '../../types/AttachmentDownload';
 import { type DefaultConversationColorType } from '../../types/Colors';
 import { ReadStatus } from '../../messages/MessageReadStatus';
@@ -79,7 +83,10 @@ import { isMoreRecentThan } from '../../util/timestamp';
 import * as iterables from '../../util/iterables';
 import { strictAssert } from '../../util/assert';
 import { canEditMessage } from '../../util/canEditMessage';
-import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl';
+import {
+  getLocalAttachmentUrl,
+  AttachmentDisposition,
+} from '../../util/getLocalAttachmentUrl';
 import { isPermanentlyUndownloadable } from '../../jobs/AttachmentDownloadManager';
 
 import { getAccountSelector } from './accounts';
@@ -1853,6 +1860,12 @@ export function getPropsForAttachment(
     isVoiceMessage: isVoiceMessage(attachment),
     pending,
     url: path ? getLocalAttachmentUrl(attachment) : undefined,
+    incrementalUrl:
+      isIncremental(attachment) && attachment.downloadPath
+        ? getLocalAttachmentUrl(attachment, {
+            disposition: AttachmentDisposition.Download,
+          })
+        : undefined,
     thumbnailFromBackup: thumbnailFromBackup?.path
       ? {
           ...thumbnailFromBackup,

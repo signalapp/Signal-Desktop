@@ -5918,11 +5918,15 @@
   },
   "icu:ConversationDetailsMediaList--shared-media": {
     "messageformat": "Shared media",
-    "description": "Title for the media thumbnails in the conversation details screen"
+    "description": "(Deleted 2025/07/01) Title for the media thumbnails in the conversation details screen"
   },
   "icu:ConversationDetailsMediaList--show-all": {
     "messageformat": "See all",
-    "description": "This is a button on the conversation details to show all media"
+    "description": "(Deleted 2025/07/01) This is a button on the conversation details to show all media"
+  },
+  "icu:ConversationDetailsMediaList--title": {
+    "messageformat": "Media, links, and files",
+    "description": "Title for the show all media button in the conversation details screen"
   },
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {# member} other {# members}}",

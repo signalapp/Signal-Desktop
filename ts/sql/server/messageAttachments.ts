@@ -33,15 +33,18 @@ const permissiveOptionalBool = z
 export const permissiveMessageAttachmentSchema = z.object({
   // Fields required to be NOT NULL
   messageId: z.string(),
+  messageType: z.string(),
   editHistoryIndex: z.number(),
   attachmentType: attachmentDownloadTypeSchema,
   orderInMessage: z.number(),
   conversationId: z.string(),
   sentAt: z.number().catch(0),
+  receivedAt: z.number().catch(0),
   size: z.number().catch(0),
   contentType: z.string().catch(APPLICATION_OCTET_STREAM),
 
   // Fields allowing NULL
+  receivedAtMs: permissiveNumberOrNull,
   path: permissiveStringOrNull,
   clientUuid: permissiveStringOrNull,
   localKey: permissiveStringOrNull,
@@ -82,6 +85,7 @@ export const permissiveMessageAttachmentSchema = z.object({
   wasTooBig: permissiveOptionalBool,
   backfillError: permissiveOptionalBool,
   isCorrupted: permissiveOptionalBool,
+  isViewOnce: permissiveOptionalBool,
   copiedFromQuotedAttachment: permissiveOptionalBool,
   version: permissiveAttachmentVersion,
   pending: permissiveOptionalBool,

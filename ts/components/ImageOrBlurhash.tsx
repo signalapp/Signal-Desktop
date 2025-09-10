@@ -67,7 +67,6 @@ export function ImageOrBlurhash({
         backgroundPosition: 'center',
       }}
       loading={blurHashUrl != null ? 'lazy' : 'eager'}
-      decoding={blurHashUrl != null ? 'async' : 'auto'}
     />
   );
 }
