@@ -10,6 +10,7 @@ import { ProgressModal } from '../components/ProgressModal';
 import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary';
 import { sleep } from './sleep';
 import { FunDefaultEnglishEmojiLocalizationProvider } from '../components/fun/FunEmojiLocalizationProvider';
+import { AxoProvider } from '../axo/AxoProvider';
 
 const log = createLogger('longRunningTaskWrapper');
 
@@ -37,9 +38,11 @@ export async function longRunningTaskWrapper<T>({
     progressRoot = createRoot(progressNode);
     progressRoot.render(
       <StrictMode>
-        <FunDefaultEnglishEmojiLocalizationProvider>
-          <ProgressModal i18n={window.i18n} />
-        </FunDefaultEnglishEmojiLocalizationProvider>
+        <AxoProvider dir={window.i18n.getLocaleDirection()}>
+          <FunDefaultEnglishEmojiLocalizationProvider>
+            <ProgressModal i18n={window.i18n} />
+          </FunDefaultEnglishEmojiLocalizationProvider>
+        </AxoProvider>
       </StrictMode>
     );
     spinnerStart = Date.now();

@@ -6,9 +6,9 @@
  */
 @custom-variant dark (&:where(.dark-theme, .dark-theme *));
 
-@custom-variant hovered (&:hover:not(:disabled));
-@custom-variant pressed (&:active:not(:disabled));
-@custom-variant focused (.keyboard-mode &:focus);
+@custom-variant hovered (&:where(:hover:not(:disabled)));
+@custom-variant pressed (&:where(:active:not(:disabled)));
+@custom-variant focused (:where(.keyboard-mode) &:where(:focus));
 
 /**
  * Color
@@ -324,6 +324,9 @@
 
   /* box-shadow: inset */
   --inset-shadow-*: initial; /* reset defaults */
+
+  --inset-shadow-on-color:
+    inset 0 0.5px 1px 0 --alpha(#000 / 12%);
 
   /* filter: drop-shadow() */
   --drop-shadow-*: initial; /* reset defaults */

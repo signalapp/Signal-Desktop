@@ -946,7 +946,7 @@ export function CallScreen({
       </div>
       {(isConnecting || isRinging) && (
         <>
-          <div className="module-CallingPreCallInfo-spacer " />
+          <div className="module-CallingPreCallInfo-spacer" />
           <CallingPreCallInfo
             conversation={conversation}
             groupMembers={groupMembers}

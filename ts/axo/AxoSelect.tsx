@@ -82,7 +82,8 @@ export namespace AxoSelect {
     'flex',
     'rounded-full py-[5px] ps-3 pe-2.5 type-body-medium text-label-primary',
     'disabled:text-label-disabled',
-    'outline-0 outline-border-focused focused:outline-[2.5px]'
+    'outline-0 outline-border-focused focused:outline-[2.5px]',
+    'forced-colors:border'
   );
 
   const TriggerVariants = {
@@ -137,7 +138,7 @@ export namespace AxoSelect {
             {props.children}
           </Select.Value>
         </AxoBaseMenu.ItemText>
-        <Select.Icon className={tw('ml-2')}>
+        <Select.Icon className={tw('ms-2')}>
           <AxoSymbol.Icon symbol="chevron-down" size={14} label={null} />
         </Select.Icon>
       </Select.Trigger>
