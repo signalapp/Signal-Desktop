@@ -279,7 +279,6 @@ export function TimelineMessage(props: Props): JSX.Element {
 
   const handlePrivateReply = useCallback(async () => {
     try {
-      // Mesajın yazarını bul
       const message = await getMessageById(id);
       if (!message) {
         return;

@@ -575,7 +575,6 @@ export const getPropsForQuote = (
     bodyRanges: processBodyRanges(quote, { conversationSelector }),
     conversationColor,
     conversationTitle:
-      // Eğer DM'de özel yanıt alıntısı ise kaynak grubun adı eklenmiş olabilir
       ((quote as any).sourceConversationTitle as string | undefined) ||
       conversation.title,
     customColor,
@@ -591,7 +590,6 @@ export const getPropsForQuote = (
     text,
   } as any;
 
-  // Özel yanıt akışı için ek alanları geçir: orijinal konuşma ve mesaj kimliği
   result.originalConversationId =
     (quote as any).originalConversationId || (message as any).conversationId;
   if ((quote as any).messageId) {
@@ -2052,7 +2050,7 @@ export function canDeleteForEveryone(
   >,
   isMe: boolean
 ): boolean {
-  const DEFAULT_LIFESPAN_MS = 24 * 60 * 60 * 1000; // 24 saat
+  const DEFAULT_LIFESPAN_MS = 24 * 60 * 60 * 1000;
 
   const rawLifespan = window.Signal.RemoteConfig.getValue(
     'global.deleteMessageLifespanMilliSeconds'
