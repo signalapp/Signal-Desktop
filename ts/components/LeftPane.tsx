@@ -546,6 +546,29 @@ export function LeftPane({
     [showConversation]
   );
 
+  const handleLeftPaneClick = useCallback(
+    (event: React.MouseEvent) => {
+      const target = event.target as HTMLElement;
+
+      // Only deselect if clicking on empty areas, not on interactive elements
+      if (
+        selectedConversationId &&
+        !target.closest(
+          'button, input, [role="button"], .module-conversation-list-item, .module-search-results, .module-left-pane-dialog'
+        )
+      ) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        showConversation({
+          conversationId: undefined,
+          messageId: undefined,
+        });
+      }
+    },
+    [selectedConversationId, showConversation]
+  );
+
   // We ensure that the listKey differs between some modes (e.g. inbox/archived), ensuring
   //   that AutoSizer properly detects the new size of its slot in the flexbox. The
   //   archive explainer text at the top of the archive view causes problems otherwise.
@@ -833,6 +856,7 @@ export function LeftPane({
         {preRowsNode && <React.Fragment key={0}>{preRowsNode}</React.Fragment>}
         <div className="module-left-pane__list--measure" ref={measureRef}>
           <div className="module-left-pane__list--wrapper">
+            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
             <div
               aria-live="polite"
               className="module-left-pane__list"
@@ -840,6 +864,7 @@ export function LeftPane({
               key={listKey}
               role="presentation"
               tabIndex={-1}
+              onClick={handleLeftPaneClick}
             >
               <ConversationList
                 key={modeSpecificProps.mode}
