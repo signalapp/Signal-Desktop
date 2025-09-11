@@ -176,6 +176,14 @@ $inline-emoji-container-name: inline-emoji;
   line-height: 64px;
   user-select: text;
 }
+.FunEmojiSelectionText::selection {
+  background-color: rgba(8, 73, 205, 255);
+  color: transparent;
+}
+.FunEmojiSelectionText::-moz-selection {
+  background-color: rgba(8, 73, 205, 255);
+  color: transparent;
+}
 
 .FunInlineEmoji__Image {
   position: relative;
