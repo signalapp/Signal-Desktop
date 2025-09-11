@@ -2103,6 +2103,8 @@ export function Preferences({
         resumeBackupMediaDownload={resumeBackupMediaDownload}
         cloudBackupStatus={cloudBackupStatus}
         i18n={i18n}
+        isLocalBackupsEnabled={backupLocalBackupsEnabled}
+        isRemoteBackupsEnabled={backupFeatureEnabled}
         locale={resolvedLocale}
         localBackupFolder={localBackupFolder}
         onBackupKeyViewedChange={onBackupKeyViewedChange}
