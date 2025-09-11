@@ -5013,10 +5013,10 @@
     "messageformat": "Es necesario restablecer el enlace del alias"
   },
   "icu:ProfileEditor__open": {
-    "messageformat": "Abrir pantalla de enlace de alias"
+    "messageformat": "Mostrar enlace del alias"
   },
   "icu:ProfileEditor__username-link__open": {
-    "messageformat": "Abrir pantalla de enlace de alias"
+    "messageformat": "Mostrar enlace del alias"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
     "messageformat": "Comparte tu alias"
@@ -6856,13 +6856,13 @@
     "messageformat": "Es posible que tu donación no se haya procesado. Haz clic en \"Donar a Signal\" y luego en \"Recibos de donación\" para verificar tus recibos y confirmar."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Inténtalo de nuevo o envía un registro de depuración al equipo de Asistencia para que te ayuden a completar tu donación. Los registros de depuración nos ayudan a diagnosticar y solucionar el problema, y no contienen información que pueda identificarte."
+    "messageformat": "Inténtalo de nuevo o envía un registro de depuración al equipo de Asistencia para que te ayudemos a completar tu donación. Los registros de depuración nos ayudan a diagnosticar y solucionar el problema, y no contienen información que pueda identificarte."
   },
   "icu:Donations__Processing": {
     "messageformat": "Procesando donación…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Todavía estamos procesando tu donación"
+    "messageformat": "Seguimos procesando tu donación"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Tu donación aún se está procesando. Este proceso puede tardar unos minutos."
@@ -6901,7 +6901,7 @@
     "messageformat": "Mostrar en mi perfil"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "Puedes configurarlo en tu dispositivo móvil en Ajustes → Donar a Signal → Insignias"
+    "messageformat": "Puedes configurarlo en tu dispositivo móvil en Ajustes > Donar a Signal > Insignias"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Esta versión incluye una series de ajustes y correcciones de errores para que Signal funcione sin problemas.",
@@ -6935,7 +6935,7 @@
     "messageformat": "Esta actualización corrige algunos errores menores, incluido uno que a veces impedía que las reacciones con emojis no se agruparan correctamente."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "Hemos corregido un error que a veces impedía que las insignias de donación se mostraran correctamente. Signal es una organización sin ánimo de lucro 501c3. ¡Gracias por tu apoyo!"
+    "messageformat": "Hemos corregido un error que a veces impedía que las insignias de donación se mostraran correctamente. Signal es una organización sin ánimo de lucro 501(c)(3). ¡Gracias por tu apoyo!"
   },
   "icu:WhatsNew__v7.70--0": {
     "messageformat": "Hemos corregido un error en Microsoft Windows que hacía que la barra de título de Signal Desktop fuera naranja en lugar de azul. Si ya te habías acostumbrado a la paleta cítrica de estos últimos días y te entristece esta corrección, puedes cambiar el color de énfasis del sistema en Configuración de Windows."
