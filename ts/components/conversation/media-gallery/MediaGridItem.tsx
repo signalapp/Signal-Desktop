@@ -51,7 +51,7 @@ export function MediaGridItem(props: Props): JSX.Element {
   );
 
   let label: string;
-  if (attachment.url || attachment.incrementalUrl) {
+  if (url != null) {
     label = i18n('icu:imageOpenAlt');
   } else if (attachment.pending) {
     label = i18n('icu:cancelDownload');
@@ -84,7 +84,8 @@ type SpinnerOverlayProps = Readonly<{
 function SpinnerOverlay(props: SpinnerOverlayProps): JSX.Element | undefined {
   const { attachment } = props;
 
-  if (attachment.url != null || attachment.incrementalUrl != null) {
+  const url = getUrl(attachment);
+  if (url != null) {
     return undefined;
   }
 
@@ -131,8 +132,8 @@ type MetadataOverlayProps = Readonly<{
 function MetadataOverlay(props: MetadataOverlayProps): JSX.Element | undefined {
   const { i18n, attachment } = props;
 
-  const canBeShown =
-    attachment.url != null || attachment.incrementalUrl != null;
+  const url = getUrl(attachment);
+  const canBeShown = url != null;
   if (canBeShown && !isGIF([attachment])) {
     return undefined;
   }
