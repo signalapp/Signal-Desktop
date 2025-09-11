@@ -34,12 +34,28 @@ import { BackupMediaDownloadProgressSettings } from './BackupMediaDownloadProgre
 export const SIGNAL_BACKUPS_LEARN_MORE_URL =
   'https://support.signal.org/hc/articles/360007059752-Backup-and-Restore-Messages';
 
+const LOCAL_BACKUPS_PAGES = new Set([
+  SettingsPage.LocalBackups,
+  SettingsPage.LocalBackupsKeyReference,
+  SettingsPage.LocalBackupsSetupFolder,
+  SettingsPage.LocalBackupsSetupKey,
+]);
+const REMOTE_BACKUPS_PAGES = new Set([SettingsPage.BackupsDetails]);
+
+function isLocalBackupsPage(page: SettingsPage) {
+  return LOCAL_BACKUPS_PAGES.has(page);
+}
+function isRemoteBackupsPage(page: SettingsPage) {
+  return REMOTE_BACKUPS_PAGES.has(page);
+}
 export function PreferencesBackups({
   accountEntropyPool,
   backupKeyViewed,
   backupSubscriptionStatus,
   cloudBackupStatus,
   i18n,
+  isLocalBackupsEnabled,
+  isRemoteBackupsEnabled,
   locale,
   localBackupFolder,
   onBackupKeyViewedChange,
@@ -61,6 +77,8 @@ export function PreferencesBackups({
   cloudBackupStatus?: BackupStatusType;
   localBackupFolder: string | undefined;
   i18n: LocalizerType;
+  isLocalBackupsEnabled: boolean;
+  isRemoteBackupsEnabled: boolean;
   locale: string;
   onBackupKeyViewedChange: (keyViewed: boolean) => void;
   page: PreferencesBackupPage;
@@ -90,6 +108,16 @@ export function PreferencesBackups({
     }
   }, [page, refreshBackupSubscriptionStatus, refreshCloudBackupStatus]);
 
+  if (!isRemoteBackupsEnabled && isRemoteBackupsPage(page)) {
+    setPage(SettingsPage.Backups);
+    return null;
+  }
+
+  if (!isLocalBackupsEnabled && isLocalBackupsPage(page)) {
+    setPage(SettingsPage.Backups);
+    return null;
+  }
+
   if (page === SettingsPage.BackupsDetails) {
     if (backupSubscriptionStatus.status === 'off') {
       setPage(SettingsPage.Backups);
@@ -109,12 +137,7 @@ export function PreferencesBackups({
     );
   }
 
-  if (
-    page === SettingsPage.LocalBackups ||
-    page === SettingsPage.LocalBackupsKeyReference ||
-    page === SettingsPage.LocalBackupsSetupFolder ||
-    page === SettingsPage.LocalBackupsSetupKey
-  ) {
+  if (isLocalBackupsPage(page)) {
     return (
       <PreferencesLocalBackups
         accountEntropyPool={accountEntropyPool}
@@ -139,48 +162,84 @@ export function PreferencesBackups({
 
   const isLocalBackupsSetup = localBackupFolder && backupKeyViewed;
 
-  return (
-    <>
-      <div className="Preferences__padding">
-        <div className="Preferences__description Preferences__description--medium">
-          {i18n('icu:Preferences--backup-section-description')}
-        </div>
-      </div>
-
-      {backupSubscriptionStatus.status === 'off' ? (
-        <SettingsRow className="Preferences--BackupsRow">
-          <Control
-            icon="Preferences__BackupsIcon"
-            left={
-              <label>
-                {i18n('icu:Preferences--signal-backups')}{' '}
-                <div className="Preferences--backup-details__value">
-                  <I18n
-                    id="icu:Preferences--signal-backups-off-description"
-                    i18n={i18n}
-                    components={{
-                      learnMoreLink,
-                    }}
-                  />
-                </div>
-              </label>
-            }
-            right={null}
-          />
-        </SettingsRow>
-      ) : (
-        <SettingsRow className="Preferences--BackupsRow">
-          <FlowingControl>
-            <div className="Preferences__two-thirds-flow">
-              <LightIconLabel icon="Preferences__BackupsIcon">
+  function renderRemoteBackups() {
+    return (
+      <>
+        {backupSubscriptionStatus.status === 'off' ? (
+          <SettingsRow className="Preferences--BackupsRow">
+            <Control
+              icon="Preferences__BackupsIcon"
+              left={
                 <label>
                   {i18n('icu:Preferences--signal-backups')}{' '}
+                  <div className="Preferences--backup-details__value">
+                    <I18n
+                      id="icu:Preferences--signal-backups-off-description"
+                      i18n={i18n}
+                      components={{
+                        learnMoreLink,
+                      }}
+                    />
+                  </div>
+                </label>
+              }
+              right={null}
+            />
+          </SettingsRow>
+        ) : (
+          <SettingsRow className="Preferences--BackupsRow">
+            <FlowingControl>
+              <div className="Preferences__two-thirds-flow">
+                <LightIconLabel icon="Preferences__BackupsIcon">
+                  <label>
+                    {i18n('icu:Preferences--signal-backups')}{' '}
+                    <div className="Preferences__description">
+                      {renderBackupsSubscriptionSummary({
+                        subscriptionStatus: backupSubscriptionStatus,
+                        i18n,
+                        locale,
+                      })}
+                    </div>
+                  </label>
+                </LightIconLabel>
+              </div>
+              <div
+                className={classNames(
+                  'Preferences__flow-button',
+                  'Preferences__one-third-flow',
+                  'Preferences__one-third-flow--align-right'
+                )}
+              >
+                <Button
+                  onClick={() => setPage(SettingsPage.BackupsDetails)}
+                  variant={ButtonVariant.Secondary}
+                >
+                  {i18n('icu:Preferences__button--manage')}
+                </Button>
+              </div>
+            </FlowingControl>
+          </SettingsRow>
+        )}
+      </>
+    );
+  }
+
+  function renderLocalBackups() {
+    return (
+      <>
+        <SettingsRow
+          className="Preferences--BackupsRow"
+          title={i18n('icu:Preferences__backup-other-ways')}
+        >
+          <FlowingControl>
+            <div className="Preferences__two-thirds-flow">
+              <LightIconLabel icon="Preferences__LocalBackupsIcon">
+                <label>
+                  {i18n('icu:Preferences__local-backups')}{' '}
                   <div className="Preferences__description">
-                    {renderBackupsSubscriptionSummary({
-                      subscriptionStatus: backupSubscriptionStatus,
-                      i18n,
-                      locale,
-                    })}
+                    {isLocalBackupsSetup
+                      ? null
+                      : i18n('icu:Preferences--local-backups-off-description')}
                   </div>
                 </label>
               </LightIconLabel>
@@ -193,82 +252,61 @@ export function PreferencesBackups({
               )}
             >
               <Button
-                onClick={() => setPage(SettingsPage.BackupsDetails)}
+                className="Preferences--BackupsAuthButton"
+                disabled={isAuthPending}
+                onClick={async () => {
+                  setAuthError(undefined);
+
+                  if (!isLocalBackupsSetup) {
+                    try {
+                      setIsAuthPending(true);
+                      const result = await promptOSAuth('enable-backups');
+                      if (result !== 'success' && result !== 'unsupported') {
+                        setAuthError(result);
+                        return;
+                      }
+                    } finally {
+                      setIsAuthPending(false);
+                    }
+                  }
+
+                  setPage(SettingsPage.LocalBackups);
+                }}
                 variant={ButtonVariant.Secondary}
               >
-                {i18n('icu:Preferences__button--manage')}
+                {isLocalBackupsSetup
+                  ? i18n('icu:Preferences__button--manage')
+                  : i18n('icu:Preferences__button--set-up')}
               </Button>
             </div>
           </FlowingControl>
         </SettingsRow>
-      )}
 
-      <SettingsRow
-        className="Preferences--BackupsRow"
-        title={i18n('icu:Preferences__backup-other-ways')}
-      >
-        <FlowingControl>
-          <div className="Preferences__two-thirds-flow">
-            <LightIconLabel icon="Preferences__LocalBackupsIcon">
-              <label>
-                {i18n('icu:Preferences__local-backups')}{' '}
-                <div className="Preferences__description">
-                  {isLocalBackupsSetup
-                    ? null
-                    : i18n('icu:Preferences--local-backups-off-description')}
-                </div>
-              </label>
-            </LightIconLabel>
-          </div>
-          <div
-            className={classNames(
-              'Preferences__flow-button',
-              'Preferences__one-third-flow',
-              'Preferences__one-third-flow--align-right'
-            )}
+        {authError && (
+          <ConfirmationDialog
+            i18n={i18n}
+            dialogName="PreferencesLocalBackups--ErrorDialog"
+            onClose={() => setAuthError(undefined)}
+            cancelButtonVariant={ButtonVariant.Secondary}
+            cancelText={i18n('icu:ok')}
           >
-            <Button
-              className="Preferences--BackupsAuthButton"
-              disabled={isAuthPending}
-              onClick={async () => {
-                setAuthError(undefined);
+            {getOSAuthErrorString(authError) ?? i18n('icu:error')}
+          </ConfirmationDialog>
+        )}
+      </>
+    );
+  }
 
-                if (!isLocalBackupsSetup) {
-                  try {
-                    setIsAuthPending(true);
-                    const result = await promptOSAuth('enable-backups');
-                    if (result !== 'success' && result !== 'unsupported') {
-                      setAuthError(result);
-                      return;
-                    }
-                  } finally {
-                    setIsAuthPending(false);
-                  }
-                }
+  return (
+    <>
+      <div className="Preferences__padding">
+        <div className="Preferences__description Preferences__description--medium">
+          {i18n('icu:Preferences--backup-section-description')}
+        </div>
+      </div>
 
-                setPage(SettingsPage.LocalBackups);
-              }}
-              variant={ButtonVariant.Secondary}
-            >
-              {isLocalBackupsSetup
-                ? i18n('icu:Preferences__button--manage')
-                : i18n('icu:Preferences__button--set-up')}
-            </Button>
-          </div>
-        </FlowingControl>
-      </SettingsRow>
-
-      {authError && (
-        <ConfirmationDialog
-          i18n={i18n}
-          dialogName="PreferencesLocalBackups--ErrorDialog"
-          onClose={() => setAuthError(undefined)}
-          cancelButtonVariant={ButtonVariant.Secondary}
-          cancelText={i18n('icu:ok')}
-        >
-          {getOSAuthErrorString(authError) ?? i18n('icu:error')}
-        </ConfirmationDialog>
-      )}
+      {isRemoteBackupsEnabled ? renderRemoteBackups() : null}
+      {isLocalBackupsEnabled ? renderLocalBackups() : null}
     </>
   );
 }

@@ -858,6 +858,16 @@ BackupsFree.args = {
     mediaIncludedInBackupDurationDays: 30,
   },
 };
+export const BackupsFreeNoLocal = Template.bind({});
+BackupsFreeNoLocal.args = {
+  page: SettingsPage.Backups,
+  backupFeatureEnabled: true,
+  backupLocalBackupsEnabled: false,
+  backupSubscriptionStatus: {
+    status: 'free',
+    mediaIncludedInBackupDurationDays: 30,
+  },
+};
 
 export const BackupsOff = Template.bind({});
 BackupsOff.args = {
@@ -871,6 +881,13 @@ BackupsLocalBackups.args = {
   page: SettingsPage.Backups,
   backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
+};
+
+export const BackupsRemoteEnabledLocalDisabled = Template.bind({});
+BackupsRemoteEnabledLocalDisabled.args = {
+  page: SettingsPage.Backups,
+  backupFeatureEnabled: true,
+  backupLocalBackupsEnabled: false,
 };
 
 export const BackupsSubscriptionNotFound = Template.bind({});
