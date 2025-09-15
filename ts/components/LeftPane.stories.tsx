@@ -285,7 +285,6 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     renderToastManager: ({ containerWidthBreakpoint }) => (
       <ToastManager
         changeLocation={action('changeLocation')}
-        clearDonation={action('clearDonation')}
         OS="unused"
         hideToast={action('hideToast')}
         i18n={i18n}
@@ -293,9 +292,6 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
         onUndoArchive={action('onUndoArchive')}
         openFileInFolder={action('openFileInFolder')}
         setDidResumeDonation={action('setDidResumeDonation')}
-        showAttachmentNotAvailableModal={action(
-          'showAttachmentNotAvailableModal'
-        )}
         toast={undefined}
         megaphone={undefined}
         containerWidthBreakpoint={containerWidthBreakpoint}

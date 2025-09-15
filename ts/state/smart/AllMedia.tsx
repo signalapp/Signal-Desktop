@@ -4,6 +4,7 @@ import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { MediaGallery } from '../../components/conversation/media-gallery/MediaGallery';
 import { getMediaGalleryState } from '../selectors/mediaGallery';
+import { getIntl, getTheme } from '../selectors/user';
 import { useConversationsActions } from '../ducks/conversations';
 import { useLightboxActions } from '../ducks/lightbox';
 import { useMediaGalleryActions } from '../ducks/mediaGallery';
@@ -19,15 +20,22 @@ export const SmartAllMedia = memo(function SmartAllMedia({
     useSelector(getMediaGalleryState);
   const { initialLoad, loadMoreMedia, loadMoreDocuments } =
     useMediaGalleryActions();
-  const { saveAttachment } = useConversationsActions();
+  const {
+    saveAttachment,
+    kickOffAttachmentDownload,
+    cancelAttachmentDownload,
+  } = useConversationsActions();
   const { showLightbox } = useLightboxActions();
+  const i18n = useSelector(getIntl);
+  const theme = useSelector(getTheme);
 
   return (
     <MediaGallery
       conversationId={conversationId}
       haveOldestDocument={haveOldestDocument}
       haveOldestMedia={haveOldestMedia}
-      i18n={window.i18n}
+      i18n={i18n}
+      theme={theme}
       initialLoad={initialLoad}
       loading={loading}
       loadMoreMedia={loadMoreMedia}
@@ -35,6 +43,8 @@ export const SmartAllMedia = memo(function SmartAllMedia({
       media={media}
       documents={documents}
       showLightbox={showLightbox}
+      kickOffAttachmentDownload={kickOffAttachmentDownload}
+      cancelAttachmentDownload={cancelAttachmentDownload}
       saveAttachment={saveAttachment}
     />
   );

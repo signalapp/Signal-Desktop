@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { FormEvent } from 'react';
+import type { FormEvent, KeyboardEvent } from 'react';
 import React, { memo, useCallback, useRef } from 'react';
 import { CC_EXP_FORMATTER, useInputMask } from '../../../hooks/useInputMask';
 import { CardExpirationError } from '../../../types/DonationsCardForm';
@@ -36,16 +36,18 @@ export function getCardExpirationErrorMessage(
 }
 
 export type DonateInputCardExpProps = Readonly<{
+  i18n: LocalizerType;
   id: string;
   value: string;
   onValueChange: (newValue: string) => void;
   onBlur?: () => void;
+  onEnter?: () => void;
 }>;
 
 export const DonateInputCardExp = memo(function DonateInputCardExp(
   props: DonateInputCardExpProps
 ) {
-  const { onValueChange } = props;
+  const { i18n, onEnter, onValueChange } = props;
   const inputRef = useRef<HTMLInputElement>(null);
 
   useInputMask(inputRef, CC_EXP_FORMATTER);
@@ -57,17 +59,29 @@ export const DonateInputCardExp = memo(function DonateInputCardExp(
     [onValueChange]
   );
 
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (onEnter && event.key === 'Enter') {
+        onEnter();
+      }
+    },
+    [onEnter]
+  );
+
   return (
     <input
       ref={inputRef}
       id={props.id}
-      placeholder="MM/YY"
+      placeholder={i18n(
+        'icu:DonateFlow__card-form-expiration-date-placeholder'
+      )}
       type="text"
       inputMode="numeric"
       autoComplete="cc-exp"
       value={props.value}
       onInput={handleInput}
       onBlur={props.onBlur}
+      onKeyDown={handleKeyDown}
     />
   );
 });

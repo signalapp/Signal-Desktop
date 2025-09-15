@@ -4,6 +4,7 @@
 import { compact, isNumber, throttle, debounce } from 'lodash';
 import { v4 as generateGuid } from 'uuid';
 import PQueue from 'p-queue';
+import { ContentHint } from '@signalapp/libsignal-client';
 
 import type { ReadonlyDeep } from 'type-fest';
 import type {
@@ -1377,8 +1378,6 @@ export class ConversationModel {
 
       const contentMessage = messaging.getTypingContentMessage(content);
 
-      const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
       const sendOptions = {
         ...(await getSendOptions(this.attributes)),
         online: true,
@@ -1386,7 +1385,7 @@ export class ConversationModel {
       if (isDirectConversation(this.attributes)) {
         await handleMessageSend(
           messaging.sendMessageProtoAndWait({
-            contentHint: ContentHint.IMPLICIT,
+            contentHint: ContentHint.Implicit,
             groupId: undefined,
             options: sendOptions,
             proto: contentMessage,
@@ -1399,7 +1398,7 @@ export class ConversationModel {
       } else {
         await handleMessageSend(
           sendContentMessageToGroup({
-            contentHint: ContentHint.IMPLICIT,
+            contentHint: ContentHint.Implicit,
             contentMessage,
             messageId: undefined,
             online: true,
@@ -4185,29 +4184,6 @@ export class ConversationModel {
     return attributes;
   }
 
-  // Is this someone who is a contact, or are we sharing our profile with them?
-  //   Or is the person who added us to this group a contact or are we sharing profile
-  //   with them?
-  isFromOrAddedByTrustedContact(): boolean {
-    if (isDirectConversation(this.attributes)) {
-      return Boolean(this.get('name')) || Boolean(this.get('profileSharing'));
-    }
-
-    const addedBy = this.get('addedBy');
-    if (!addedBy) {
-      return false;
-    }
-
-    const conv = window.ConversationController.get(addedBy);
-    if (!conv) {
-      return false;
-    }
-
-    return Boolean(
-      isMe(conv.attributes) || conv.get('name') || conv.get('profileSharing')
-    );
-  }
-
   async maybeClearUsername(): Promise<void> {
     const ourConversationId =
       window.ConversationController.getOurConversationId();
@@ -5493,7 +5469,7 @@ export class ConversationModel {
 
   async #getTemporaryAvatarPath(): Promise<string | undefined> {
     const {
-      copyIntoTempDirectory,
+      copyAttachmentIntoTempDirectory,
       deleteAttachmentData,
       getAbsoluteAttachmentPath,
       getAbsoluteTempPath,
@@ -5529,7 +5505,7 @@ export class ConversationModel {
     });
 
     try {
-      const { path: tempPath } = await copyIntoTempDirectory(
+      const { path: tempPath } = await copyAttachmentIntoTempDirectory(
         getAbsoluteAttachmentPath(plaintextPath)
       );
       return getAbsoluteTempPath(tempPath);

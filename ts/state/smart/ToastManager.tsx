@@ -56,12 +56,11 @@ export const SmartToastManager = memo(function SmartToastManager({
   const selectedNavTab = useSelector(getSelectedNavTab);
   const selectedConversationId = useSelector(getSelectedConversationId);
   const { changeLocation } = useNavActions();
-  const { clearWorkflow, setDidResume } = useDonationsActions();
+  const { setDidResume } = useDonationsActions();
 
   const { onUndoArchive } = useConversationsActions();
   const { openFileInFolder, hideToast } = useToastActions();
-  const { showAttachmentNotAvailableModal, toggleUsernameOnboarding } =
-    useGlobalModalActions();
+  const { toggleUsernameOnboarding } = useGlobalModalActions();
 
   let megaphone: AnyActionableMegaphone | undefined;
 
@@ -91,7 +90,6 @@ export const SmartToastManager = memo(function SmartToastManager({
   return (
     <ToastManager
       changeLocation={changeLocation}
-      clearDonation={clearWorkflow}
       i18n={i18n}
       OS={OS.getName()}
       toast={toast}
@@ -101,7 +99,6 @@ export const SmartToastManager = memo(function SmartToastManager({
       openFileInFolder={openFileInFolder}
       hideToast={hideToast}
       setDidResumeDonation={setDidResume}
-      showAttachmentNotAvailableModal={showAttachmentNotAvailableModal}
       centerToast={centerToast}
       containerWidthBreakpoint={containerWidthBreakpoint}
       isCompositionAreaVisible={isCompositionAreaVisible}

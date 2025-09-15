@@ -2,27 +2,27 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { ChangeEvent } from 'react';
 import React, { useCallback, useMemo, useState } from 'react';
-import type { ConversationType } from '../../state/ducks/conversations';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
-import type { LocalizerType } from '../../types/I18N';
-import type { ThemeType } from '../../types/Util';
-import { filterAndSortConversations } from '../../util/filterAndSortConversations';
-import { ContactPills } from '../ContactPills';
-import { ContactPill } from '../ContactPill';
+import type { ConversationType } from '../../../state/ducks/conversations';
+import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges';
+import type { LocalizerType } from '../../../types/I18N';
+import type { ThemeType } from '../../../types/Util';
+import { filterAndSortConversations } from '../../../util/filterAndSortConversations';
+import { ContactPills } from '../../ContactPills';
+import { ContactPill } from '../../ContactPill';
 import {
   asyncShouldNeverBeCalled,
   shouldNeverBeCalled,
-} from '../../util/shouldNeverBeCalled';
-import { SearchInput } from '../SearchInput';
-import { Button, ButtonVariant } from '../Button';
-import { Modal } from '../Modal';
-import type { Row } from '../ConversationList';
+} from '../../../util/shouldNeverBeCalled';
+import { SearchInput } from '../../SearchInput';
+import { Button, ButtonVariant } from '../../Button';
+import { Modal } from '../../Modal';
+import type { Row } from '../../ConversationList';
 import {
   ConversationList,
   GenericCheckboxRowIcon,
   RowType,
-} from '../ConversationList';
-import type { GetConversationByIdType } from '../../state/selectors/conversations';
+} from '../../ConversationList';
+import type { GetConversationByIdType } from '../../../state/selectors/conversations';
 
 export type ChatFolderSelection = Readonly<{
   selectedRecipientIds: ReadonlyArray<string>;
@@ -30,17 +30,21 @@ export type ChatFolderSelection = Readonly<{
   selectAllGroupChats: boolean;
 }>;
 
-export function EditChatFoldersSelectChatsDialog(props: {
+export type PreferencesEditChatFoldersSelectChatsDialogProps = Readonly<{
   i18n: LocalizerType;
   title: string;
   conversations: ReadonlyArray<ConversationType>;
   conversationSelector: GetConversationByIdType;
   onClose: (selection: ChatFolderSelection) => void;
-  getPreferredBadge: PreferredBadgeSelectorType;
+  preferredBadgeSelector: PreferredBadgeSelectorType;
   theme: ThemeType;
   initialSelection: ChatFolderSelection;
   showChatTypes: boolean;
-}): JSX.Element {
+}>;
+
+export function PreferencesEditChatFoldersSelectChatsDialog(
+  props: PreferencesEditChatFoldersSelectChatsDialogProps
+): JSX.Element {
   const {
     i18n,
     conversations,
@@ -242,7 +246,7 @@ export function EditChatFoldersSelectChatsDialog(props: {
           height: 404,
         }}
         i18n={i18n}
-        getPreferredBadge={props.getPreferredBadge}
+        getPreferredBadge={props.preferredBadgeSelector}
         getRow={index => rows[index]}
         onClickContactCheckbox={handleToggleSelectedConversation}
         rowCount={rows.length}

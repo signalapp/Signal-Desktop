@@ -8,6 +8,7 @@ import { getEmptyState as audioRecorderEmptyState } from './ducks/audioRecorder'
 import { getEmptyState as badgesEmptyState } from './ducks/badges';
 import { getEmptyState as callHistoryEmptyState } from './ducks/callHistory';
 import { getEmptyState as callingEmptyState } from './ducks/calling';
+import { getEmptyState as chatFoldersEmptyState } from './ducks/chatFolders';
 import { getEmptyState as composerEmptyState } from './ducks/composer';
 import { getEmptyState as conversationsEmptyState } from './ducks/conversations';
 import { getEmptyState as crashReportsEmptyState } from './ducks/crashReports';
@@ -58,6 +59,7 @@ export function getInitialState(
     callLinks,
     callHistory: calls,
     callHistoryUnreadCount,
+    chatFolders,
     donations,
     gifs,
     mainWindowStats,
@@ -86,6 +88,10 @@ export function getInitialState(
     calling: {
       ...callingEmptyState(),
       callLinks: makeLookup(callLinks, 'roomId'),
+    },
+    chatFolders: {
+      ...chatFoldersEmptyState(),
+      currentChatFolders: chatFolders,
     },
     donations,
     emojis: recentEmoji,
@@ -140,6 +146,7 @@ function getEmptyState(): StateType {
     badges: badgesEmptyState(),
     callHistory: callHistoryEmptyState(),
     calling: callingEmptyState(),
+    chatFolders: chatFoldersEmptyState(),
     composer: composerEmptyState(),
     conversations: generateConversationsState(),
     crashReports: crashReportsEmptyState(),

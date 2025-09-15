@@ -13,6 +13,7 @@ export default {
     value: '',
     onValueChange: action('onValueChange'),
     onBlur: action('onBlur'),
+    onEnter: action('onEnter'),
     maxInputLength: 19,
   },
 } satisfies ComponentMeta<DonateInputCardNumberProps>;

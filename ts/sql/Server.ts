@@ -4,7 +4,8 @@
 /* eslint-disable camelcase */
 
 // TODO(indutny): format queries
-import SQL from '@signalapp/sqlcipher';
+import type { RowType } from '@signalapp/sqlcipher';
+import SQL, { setLogger as setSqliteLogger } from '@signalapp/sqlcipher';
 import { randomBytes } from 'crypto';
 import { mkdirSync, rmSync } from 'node:fs';
 import { join } from 'path';
@@ -55,6 +56,7 @@ import { consoleLogger } from '../util/consoleLogger';
 import {
   dropNull,
   shallowConvertUndefinedToNull,
+  type ShallowNullToUndefined,
   type ShallowUndefinedToNull,
 } from '../util/dropNull';
 import { isNormalNumber } from '../util/isNormalNumber';
@@ -81,11 +83,12 @@ import {
   sqlFragment,
   sqlJoin,
   QueryFragment,
-  convertOptionalBooleanToNullableInteger,
+  convertOptionalBooleanToInteger,
 } from './util';
 import {
   hydrateMessage,
   hydrateMessages,
+  convertAttachmentDBFieldsToAttachmentType,
   getAttachmentReferencesForMessages,
   ROOT_MESSAGE_ATTACHMENT_EDIT_HISTORY_INDEX,
 } from './hydration';
@@ -119,7 +122,12 @@ import {
   callHistoryGroupSchema,
 } from '../types/CallDisposition';
 import { redactGenericText } from '../util/privacy';
-import { parseStrict, parseUnknown, safeParseUnknown } from '../util/schemas';
+import {
+  parseLoose,
+  parseStrict,
+  parseUnknown,
+  safeParseUnknown,
+} from '../util/schemas';
 import {
   SNIPPET_LEFT_PLACEHOLDER,
   SNIPPET_RIGHT_PLACEHOLDER,
@@ -141,10 +149,12 @@ import type {
   GetConversationRangeCenteredOnMessageResultType,
   GetKnownMessageAttachmentsResultType,
   GetNearbyMessageFromDeletedSetOptionsType,
+  GetOlderMediaOptionsType,
   GetRecentStoryRepliesOptionsType,
   GetUnreadByConversationAndMarkReadResultType,
   IdentityKeyIdType,
   ItemKeyType,
+  MediaItemDBType,
   MessageAttachmentsCursorType,
   MessageCursorType,
   MessageMetricsType,
@@ -238,6 +248,18 @@ import {
   getGroupSendMemberEndorsement,
   replaceAllEndorsementsForGroup,
 } from './server/groupSendEndorsements';
+import {
+  getAllChatFolders,
+  getCurrentChatFolders,
+  getChatFolder,
+  createChatFolder,
+  updateChatFolder,
+  markChatFolderDeleted,
+  getOldestDeletedChatFolder,
+  updateChatFolderPositions,
+  updateChatFolderDeletedAtTimestampMsFromSync,
+  deleteExpiredChatFolders,
+} from './server/chatFolders';
 import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer';
 import type { GifType } from '../components/fun/panels/FunPanelGifs';
 import type { NotificationProfileType } from '../types/NotificationProfile';
@@ -250,7 +272,7 @@ import {
 import { generateMessageId } from '../util/generateMessageId';
 import type { ConversationColorType, CustomColorType } from '../types/Colors';
 import { sqlLogger } from './sqlLogger';
-import { APPLICATION_OCTET_STREAM } from '../types/MIME';
+import { permissiveMessageAttachmentSchema } from './server/messageAttachments';
 
 type ConversationRow = Readonly<{
   json: string;
@@ -415,11 +437,19 @@ export const DataReader: ServerReadableInterface = {
   getCallHistoryGroups,
   hasGroupCallHistoryMessage,
 
+  hasMedia,
+  getOlderMedia,
+
   getAllNotificationProfiles,
   getNotificationProfileById,
 
   getAllDonationReceipts,
   getDonationReceiptById,
+
+  getAllChatFolders,
+  getCurrentChatFolders,
+  getChatFolder,
+  getOldestDeletedChatFolder,
 
   callLinkExists,
   defunctCallLinkExists,
@@ -477,6 +507,8 @@ export const DataReader: ServerReadableInterface = {
   finishPageMessages,
   getKnownDownloads,
   getKnownConversationAttachments,
+
+  __dangerouslyRunAbitraryReadOnlySqlQuery,
 };
 
 export const DataWriter: ServerWritableInterface = {
@@ -599,6 +631,7 @@ export const DataWriter: ServerWritableInterface = {
   saveAttachmentDownloadJob,
   saveAttachmentDownloadJobs,
   resetAttachmentDownloadActive,
+  resetBackupAttachmentDownloadJobsRetryAfter,
   removeAttachmentDownloadJob,
   removeAttachmentDownloadJobsForMessage,
   removeAllBackupAttachmentDownloadJobs,
@@ -660,6 +693,13 @@ export const DataWriter: ServerWritableInterface = {
   deleteDonationReceiptById,
   createDonationReceipt,
 
+  createChatFolder,
+  updateChatFolder,
+  markChatFolderDeleted,
+  deleteExpiredChatFolders,
+  updateChatFolderPositions,
+  updateChatFolderDeletedAtTimestampMsFromSync,
+
   removeAll,
   removeAllConfiguration,
   eraseStorageServiceState,
@@ -676,6 +716,8 @@ export const DataWriter: ServerWritableInterface = {
 
   disableFSync,
   enableFSyncAndCheckpoint,
+
+  _testOnlyRemoveMessageAttachments,
 
   // Server-only
 
@@ -840,6 +882,18 @@ function openAndSetUpSQLCipher(filePath: string, { key }: { key: string }) {
 let logger = sqlLogger;
 let databaseFilePath: string | undefined;
 let indexedDBPath: string | undefined;
+
+setSqliteLogger((code, message) => {
+  if (code === 'SQLITE_SCHEMA') {
+    // Ignore query recompilation due to schema changes
+    return;
+  }
+  if (code === 'SQLITE_NOTICE') {
+    logger.info(`sqlite(${code}): ${message}`);
+    return;
+  }
+  logger.warn(`sqlite(${code}): ${message}`);
+});
 
 export function initialize({
   configDir,
@@ -2433,17 +2487,29 @@ function saveMessageAttachmentsForRootOrEditedVersion(
     conversationId: string;
     sent_at: number;
   } & Pick<
-    MessageAttributesType,
+    MessageType,
     | 'attachments'
     | 'bodyAttachment'
     | 'contact'
     | 'preview'
     | 'quote'
+    | 'type'
     | 'sticker'
+    | 'isViewOnce'
+    | 'received_at'
+    | 'received_at_ms'
   >,
   { editHistoryIndex }: { editHistoryIndex: number | null }
 ) {
-  const { id: messageId, conversationId, sent_at: sentAt } = message;
+  const {
+    id: messageId,
+    type: messageType,
+    conversationId,
+    sent_at: sentAt,
+    received_at: receivedAt,
+    received_at_ms: receivedAtMs,
+    isViewOnce,
+  } = message;
 
   const mainAttachments = message.attachments;
   if (mainAttachments) {
@@ -2452,12 +2518,16 @@ function saveMessageAttachmentsForRootOrEditedVersion(
       saveMessageAttachment({
         db,
         messageId,
+        messageType,
         conversationId,
         sentAt,
+        receivedAt,
+        receivedAtMs,
         attachmentType: 'attachment',
         attachment,
         orderInMessage: i,
         editHistoryIndex,
+        isViewOnce,
       });
     }
   }
@@ -2467,12 +2537,16 @@ function saveMessageAttachmentsForRootOrEditedVersion(
     saveMessageAttachment({
       db,
       messageId,
+      messageType,
       conversationId,
       sentAt,
+      receivedAt,
+      receivedAtMs,
       attachmentType: 'long-message',
       attachment: bodyAttachment,
       orderInMessage: 0,
       editHistoryIndex,
+      isViewOnce,
     });
   }
 
@@ -2486,12 +2560,16 @@ function saveMessageAttachmentsForRootOrEditedVersion(
       saveMessageAttachment({
         db,
         messageId,
+        messageType,
         conversationId,
         sentAt,
+        receivedAt,
+        receivedAtMs,
         attachmentType: 'preview',
         attachment,
         orderInMessage: i,
         editHistoryIndex,
+        isViewOnce,
       });
     }
   }
@@ -2506,12 +2584,16 @@ function saveMessageAttachmentsForRootOrEditedVersion(
       saveMessageAttachment({
         db,
         messageId,
+        messageType,
         conversationId,
         sentAt,
+        receivedAt,
+        receivedAtMs,
         attachmentType: 'quote',
         attachment: attachment.thumbnail,
         orderInMessage: i,
         editHistoryIndex,
+        isViewOnce,
       });
     }
   }
@@ -2528,12 +2610,16 @@ function saveMessageAttachmentsForRootOrEditedVersion(
       saveMessageAttachment({
         db,
         messageId,
+        messageType,
         conversationId,
         sentAt,
+        receivedAt,
+        receivedAtMs,
         attachmentType: 'contact',
         attachment,
         orderInMessage: i,
         editHistoryIndex,
+        isViewOnce,
       });
     }
   }
@@ -2543,12 +2629,16 @@ function saveMessageAttachmentsForRootOrEditedVersion(
     saveMessageAttachment({
       db,
       messageId,
+      messageType,
       conversationId,
       sentAt,
+      receivedAt,
+      receivedAtMs,
       attachmentType: 'sticker',
       attachment: stickerAttachment,
       orderInMessage: 0,
       editHistoryIndex,
+      isViewOnce,
     });
   }
 }
@@ -2572,8 +2662,10 @@ function saveMessageAttachments(
       db,
       {
         id: message.id,
+        type: message.type,
         conversationId: message.conversationId,
         sent_at: editHistory.timestamp,
+        isViewOnce: message.isViewOnce,
         ...editHistory,
       },
       { editHistoryIndex: idx }
@@ -2584,33 +2676,44 @@ function saveMessageAttachments(
 function saveMessageAttachment({
   db,
   messageId,
+  messageType,
   conversationId,
   sentAt,
+  receivedAt,
+  receivedAtMs,
   attachmentType,
   attachment,
   orderInMessage,
   editHistoryIndex,
+  isViewOnce,
 }: {
   db: WritableDB;
   messageId: string;
+  messageType: string;
   conversationId: string;
   sentAt: number;
+  receivedAt: number;
+  receivedAtMs: number | undefined;
   attachmentType: AttachmentDownloadJobTypeType;
   attachment: AttachmentType;
   orderInMessage: number;
   editHistoryIndex: number | null;
+  isViewOnce: boolean | undefined;
 }) {
-  const values: MessageAttachmentDBType = shallowConvertUndefinedToNull({
+  const unparsedValues: ShallowNullToUndefined<MessageAttachmentDBType> = {
     messageId,
+    messageType,
     editHistoryIndex:
       editHistoryIndex ?? ROOT_MESSAGE_ATTACHMENT_EDIT_HISTORY_INDEX,
     attachmentType,
     orderInMessage,
     conversationId,
     sentAt,
+    receivedAt,
+    receivedAtMs,
     clientUuid: attachment.clientUuid,
-    size: attachment.size ?? 0,
-    contentType: attachment.contentType ?? APPLICATION_OCTET_STREAM,
+    size: attachment.size,
+    contentType: attachment.contentType,
     path: attachment.path,
     localKey: attachment.localKey,
     plaintextHash: attachment.plaintextHash,
@@ -2624,15 +2727,9 @@ function saveMessageAttachment({
     downloadPath: attachment.downloadPath,
     transitCdnKey: attachment.cdnKey ?? attachment.cdnId,
     transitCdnNumber: attachment.cdnNumber,
-    transitCdnUploadTimestamp: isNumber(attachment.uploadTimestamp)
-      ? attachment.uploadTimestamp
-      : null,
+    transitCdnUploadTimestamp: attachment.uploadTimestamp,
     backupCdnNumber: attachment.backupCdnNumber,
-    incrementalMac:
-      // resilience to Uint8Array-stored incrementalMac values
-      typeof attachment.incrementalMac === 'string'
-        ? attachment.incrementalMac
-        : null,
+    incrementalMac: attachment.incrementalMac,
     incrementalMacChunkSize: attachment.chunkSize,
     thumbnailPath: attachment.thumbnail?.path,
     thumbnailSize: attachment.thumbnail?.size,
@@ -2651,33 +2748,69 @@ function saveMessageAttachment({
     backupThumbnailVersion: attachment.thumbnailFromBackup?.version,
     storyTextAttachmentJson: attachment.textAttachment
       ? objectToJSON(attachment.textAttachment)
-      : null,
+      : undefined,
     localBackupPath: attachment.localBackupPath,
     flags: attachment.flags,
-    error: convertOptionalBooleanToNullableInteger(attachment.error),
-    wasTooBig: convertOptionalBooleanToNullableInteger(attachment.wasTooBig),
-    backfillError: convertOptionalBooleanToNullableInteger(
-      attachment.backfillError
-    ),
-    isCorrupted: convertOptionalBooleanToNullableInteger(
-      attachment.isCorrupted
-    ),
+    error: convertOptionalBooleanToInteger(attachment.error),
+    wasTooBig: convertOptionalBooleanToInteger(attachment.wasTooBig),
+    backfillError: convertOptionalBooleanToInteger(attachment.backfillError),
+    isCorrupted: convertOptionalBooleanToInteger(attachment.isCorrupted),
+    isViewOnce: convertOptionalBooleanToInteger(isViewOnce),
     copiedFromQuotedAttachment:
       'copied' in attachment
-        ? convertOptionalBooleanToNullableInteger(attachment.copied)
-        : null,
+        ? convertOptionalBooleanToInteger(attachment.copied)
+        : undefined,
     version: attachment.version,
-    pending: convertOptionalBooleanToNullableInteger(attachment.pending),
-  });
+    pending: convertOptionalBooleanToInteger(attachment.pending),
+  };
 
-  db.prepare(
-    `
+  try {
+    const values: MessageAttachmentDBType =
+      shallowConvertUndefinedToNull(unparsedValues);
+
+    db.prepare(
+      `
         INSERT OR REPLACE INTO message_attachments
           (${MESSAGE_ATTACHMENT_COLUMNS.join(', ')})
         VALUES
           (${MESSAGE_ATTACHMENT_COLUMNS.map(name => `$${name}`).join(', ')});
       `
-  ).run(values);
+    ).run(values);
+  } catch (e) {
+    // Attachments used to be stored in JSON and may not have the types we expect. If we
+    // fail to save one, we parse/transform through a permissive zod schema (i.e. one that
+    // will convert invalid values to null when possible)
+    logger.error(
+      'Failed to save to message_attachments',
+      Errors.toLogFormat(e)
+    );
+    const values: MessageAttachmentDBType = parseLoose(
+      permissiveMessageAttachmentSchema,
+      unparsedValues
+    );
+
+    db.prepare(
+      `
+        INSERT OR REPLACE INTO message_attachments
+          (${MESSAGE_ATTACHMENT_COLUMNS.join(', ')})
+        VALUES
+          (${MESSAGE_ATTACHMENT_COLUMNS.map(name => `$${name}`).join(', ')});
+      `
+    ).run(values);
+
+    logger.info('Recovered from invalid message_attachment save');
+  }
+}
+
+function _testOnlyRemoveMessageAttachments(
+  db: WritableDB,
+  timestamp: number
+): void {
+  const [query, params] = sql`
+    DELETE FROM message_attachments
+      WHERE sentAt = ${timestamp};`;
+
+  db.prepare(query).run(params);
 }
 
 function saveMessage(
@@ -2691,7 +2824,6 @@ function saveMessage(
     _testOnlyAvoidNormalizingAttachments?: boolean;
   }
 ): string {
-  // NB: `saveMessagesIndividually` relies on `saveMessage` being atomic
   const { alreadyInTransaction, forceSave, jobToInsert, ourAci } = options;
   if (!alreadyInTransaction) {
     return db.transaction(() => {
@@ -2861,6 +2993,10 @@ function saveMessage(
   } satisfies Omit<MessageTypeUnhydrated, 'json'>;
 
   if (id && !forceSave) {
+    if (normalizeAttachmentData) {
+      saveMessageAttachments(db, message);
+    }
+
     const result = db
       .prepare(
         // UPDATE queries that set the value of a primary key column can be very slow when
@@ -2879,15 +3015,11 @@ function saveMessage(
       return id;
     }
 
-    strictAssert(result.changes === 1, 'One row should have been changed');
-
-    if (normalizeAttachmentData) {
-      saveMessageAttachments(db, message);
-    }
-
     if (jobToInsert) {
       insertJob(db, jobToInsert);
     }
+
+    strictAssert(result.changes === 1, 'One row should have been changed');
 
     return id;
   }
@@ -2951,10 +3083,7 @@ function saveMessagesIndividually(
     const failedIndices: Array<number> = [];
     arrayOfMessages.forEach((message, index) => {
       try {
-        saveMessage(db, message, {
-          ...options,
-          alreadyInTransaction: true,
-        });
+        saveMessage(db, message, options);
       } catch (e) {
         logger.error(
           'saveMessagesIndividually: failed to save message',
@@ -4932,6 +5061,94 @@ function hasGroupCallHistoryMessage(
   return exists === 1;
 }
 
+function hasMedia(db: ReadableDB, conversationId: string): boolean {
+  const [query, params] = sql`
+    SELECT EXISTS(
+      SELECT 1 FROM message_attachments
+      INDEXED BY message_attachments_getOlderMedia
+      WHERE
+        conversationId IS ${conversationId} AND
+        editHistoryIndex IS -1 AND
+        attachmentType IS 'attachment' AND
+        messageType IN ('incoming', 'outgoing') AND
+        isViewOnce IS NOT 1 AND
+        contentType IS NOT NULL AND
+        contentType IS NOT '' AND
+        contentType IS NOT 'text/x-signal-plain' AND
+        contentType NOT LIKE 'audio/%'
+    );
+  `;
+  const exists = db.prepare(query, { pluck: true }).get<number>(params);
+
+  return exists === 1;
+}
+
+function getOlderMedia(
+  db: ReadableDB,
+  {
+    conversationId,
+    limit,
+    messageId,
+    receivedAt: maxReceivedAt = Number.MAX_VALUE,
+    sentAt: maxSentAt = Number.MAX_VALUE,
+  }: GetOlderMediaOptionsType
+): Array<MediaItemDBType> {
+  const timeFilters = {
+    first: sqlFragment`receivedAt = ${maxReceivedAt} AND sentAt < ${maxSentAt}`,
+    second: sqlFragment`receivedAt < ${maxReceivedAt}`,
+  };
+
+  const createQuery = (timeFilter: QueryFragment): QueryFragment => sqlFragment`
+    SELECT
+      *
+    FROM message_attachments
+    INDEXED BY message_attachments_getOlderMedia
+    WHERE
+      conversationId IS ${conversationId} AND
+      editHistoryIndex IS -1 AND
+      attachmentType IS 'attachment' AND
+      (
+        ${timeFilter}
+      ) AND
+      (
+        -- see 'isVisualMedia' in ts/types/Attachment.ts
+        contentType LIKE 'image/%' OR
+        contentType LIKE 'video/%'
+      ) AND
+      isViewOnce IS NOT 1 AND
+      messageType IN ('incoming', 'outgoing') AND
+      (${messageId ?? null} IS NULL OR messageId IS NOT ${messageId ?? null})
+      ORDER BY receivedAt DESC, sentAt DESC
+      LIMIT ${limit}
+  `;
+
+  const [query, params] = sql`
+    SELECT first.* FROM (${createQuery(timeFilters.first)}) as first
+    UNION ALL
+    SELECT second.* FROM (${createQuery(timeFilters.second)}) as second
+  `;
+
+  const results: Array<MessageAttachmentDBType> = db.prepare(query).all(params);
+
+  return results.map(attachment => {
+    const { orderInMessage, messageType, sentAt, receivedAt, receivedAtMs } =
+      attachment;
+
+    return {
+      message: {
+        id: attachment.messageId,
+        type: messageType as 'incoming' | 'outgoing',
+        conversationId,
+        receivedAt,
+        receivedAtMs: receivedAtMs ?? undefined,
+        sentAt,
+      },
+      index: orderInMessage,
+      attachment: convertAttachmentDBFieldsToAttachmentType(attachment),
+    };
+  });
+}
+
 function _markCallHistoryMissed(
   db: WritableDB,
   callIds: ReadonlyArray<string>
@@ -5504,7 +5721,10 @@ function _getAttachmentDownloadJob(
 function removeAllBackupAttachmentDownloadJobs(db: WritableDB): void {
   const [query, params] = sql`
     DELETE FROM attachment_downloads
-    WHERE source = ${AttachmentDownloadSource.BACKUP_IMPORT};`;
+    WHERE 
+      source = ${AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA} 
+    OR 
+      source = ${AttachmentDownloadSource.BACKUP_IMPORT_NO_MEDIA};`;
   db.prepare(query).run(params);
 }
 
@@ -5730,6 +5950,16 @@ function resetAttachmentDownloadActive(db: WritableDB): void {
     UPDATE attachment_downloads
     SET active = 0
     WHERE active != 0;
+    `
+  ).run();
+}
+
+function resetBackupAttachmentDownloadJobsRetryAfter(db: WritableDB): void {
+  db.prepare(
+    `
+    UPDATE attachment_downloads
+    SET retryAfter = NULL
+    WHERE originalSource = 'backup_import'
     `
   ).run();
 }
@@ -7592,6 +7822,7 @@ function removeAll(db: WritableDB): void {
       DELETE FROM badges;
       DELETE FROM callLinks;
       DELETE FROM callsHistory;
+      DELETE FROM chatFolders;
       DELETE FROM conversations;
       DELETE FROM defunctCallLinks;
       DELETE FROM donationReceipts;
@@ -7655,6 +7886,7 @@ function removeAllConfiguration(db: WritableDB): void {
     db.exec(
       `
       DELETE FROM attachment_backup_jobs;
+      DELETE FROM attachment_downloads;
       DELETE FROM backup_cdn_object_metadata;
       DELETE FROM groupSendCombinedEndorsement;
       DELETE FROM groupSendMemberEndorsement;
@@ -7741,6 +7973,14 @@ function eraseStorageServiceState(db: WritableDB): void {
 
     -- Call links
     UPDATE callLinks
+    SET
+      storageID = null,
+      storageVersion = null,
+      storageUnknownFields = null,
+      storageNeedsSync = 0;
+
+    -- Chat Folders
+    UPDATE chatFolders
     SET
       storageID = null,
       storageVersion = null,
@@ -8693,4 +8933,18 @@ function ensureMessageInsertTriggersAreEnabled(db: WritableDB): void {
       enableMessageInsertTriggersAndBackfill(db);
     }
   })();
+}
+
+function __dangerouslyRunAbitraryReadOnlySqlQuery(
+  db: ReadableDB,
+  readOnlySqlQuery: string
+): ReadonlyArray<RowType<object>> {
+  let results: ReadonlyArray<RowType<object>>;
+  try {
+    db.pragma('query_only = on');
+    results = db.prepare(readOnlySqlQuery).all();
+  } finally {
+    db.pragma('query_only = off');
+  }
+  return results;
 }

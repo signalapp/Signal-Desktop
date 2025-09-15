@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { StrictMode } from 'react';
-import { unmountComponentAtNode } from 'react-dom';
-import { createRoot } from 'react-dom/client';
+import { createRoot, type Root } from 'react-dom/client';
 
 import * as Errors from '../types/errors';
 import { createLogger } from '../logging/log';
@@ -11,6 +10,7 @@ import { ProgressModal } from '../components/ProgressModal';
 import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary';
 import { sleep } from './sleep';
 import { FunDefaultEnglishEmojiLocalizationProvider } from '../components/fun/FunEmojiLocalizationProvider';
+import { AxoProvider } from '../axo/AxoProvider';
 
 const log = createLogger('longRunningTaskWrapper');
 
@@ -29,17 +29,20 @@ export async function longRunningTaskWrapper<T>({
   const ONE_SECOND = 1000;
   const TWO_SECONDS = 2000;
 
-  let progressNode: HTMLDivElement | undefined;
+  let progressRoot: Root | undefined;
   let spinnerStart;
   let progressTimeout: NodeJS.Timeout | undefined = setTimeout(() => {
-    progressNode = document.createElement('div');
+    const progressNode = document.createElement('div');
 
     log.info(`${idLog}: Creating spinner`);
-    createRoot(progressNode).render(
+    progressRoot = createRoot(progressNode);
+    progressRoot.render(
       <StrictMode>
-        <FunDefaultEnglishEmojiLocalizationProvider>
-          <ProgressModal i18n={window.i18n} />
-        </FunDefaultEnglishEmojiLocalizationProvider>
+        <AxoProvider dir={window.i18n.getLocaleDirection()}>
+          <FunDefaultEnglishEmojiLocalizationProvider>
+            <ProgressModal i18n={window.i18n} />
+          </FunDefaultEnglishEmojiLocalizationProvider>
+        </AxoProvider>
       </StrictMode>
     );
     spinnerStart = Date.now();
@@ -54,7 +57,7 @@ export async function longRunningTaskWrapper<T>({
 
     clearTimeoutIfNecessary(progressTimeout);
     progressTimeout = undefined;
-    if (progressNode) {
+    if (progressRoot) {
       const now = Date.now();
       if (spinnerStart && now - spinnerStart < ONE_SECOND) {
         log.info(
@@ -62,8 +65,8 @@ export async function longRunningTaskWrapper<T>({
         );
         await sleep(ONE_SECOND);
       }
-      unmountComponentAtNode(progressNode);
-      progressNode = undefined;
+      progressRoot.unmount();
+      progressRoot = undefined;
     }
 
     return result;
@@ -72,9 +75,9 @@ export async function longRunningTaskWrapper<T>({
 
     clearTimeoutIfNecessary(progressTimeout);
     progressTimeout = undefined;
-    if (progressNode) {
-      unmountComponentAtNode(progressNode);
-      progressNode = undefined;
+    if (progressRoot) {
+      progressRoot.unmount();
+      progressRoot = undefined;
     }
 
     if (!suppressErrorDialog) {

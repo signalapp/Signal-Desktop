@@ -60,7 +60,6 @@ import type {
   ConversationAttributesType,
   DraftEditMessageType,
   LastMessageStatus,
-  MessageAttributesType,
   ReadonlyMessageAttributesType,
 } from '../../model-types.d';
 import type {
@@ -215,7 +214,6 @@ import {
 } from '../../messages/MessageSendState';
 import { markFailed } from '../../test-node/util/messageFailures';
 import { cleanupMessages } from '../../util/cleanup';
-import { MessageModel } from '../../models/messages';
 import type { ConversationModel } from '../../models/conversations';
 import { MessageRequestResponseSource } from '../../types/MessageRequestResponseEvent';
 
@@ -1169,7 +1167,6 @@ export const actions = {
   loadNewerMessages,
   loadNewestMessages,
   loadOlderMessages,
-  loadRecentMediaItems,
   markAttachmentAsCorrupted,
   markMessageRead,
   markOpenConversationRead,
@@ -3993,73 +3990,6 @@ function initiateMigrationToGroupV2(conversationId: string): NoopActionType {
   return {
     type: 'NOOP',
     payload: null,
-  };
-}
-
-function loadRecentMediaItems(
-  conversationId: string,
-  limit: number
-): ThunkAction<void, RootStateType, unknown, SetRecentMediaItemsActionType> {
-  return async dispatch => {
-    const messages: Array<MessageAttributesType> =
-      await DataReader.getOlderMessagesByConversation({
-        conversationId,
-        limit,
-        requireVisualMediaAttachments: true,
-        storyId: undefined,
-        includeStoryReplies: false,
-      });
-
-    // Cache these messages in memory to ensure Lightbox can find them
-    messages.forEach(message => {
-      window.MessageCache.register(new MessageModel(message));
-    });
-
-    let index = 0;
-    const recentMediaItems = messages
-      .filter(message => message.attachments !== undefined)
-      .reduce(
-        (acc, message) => [
-          ...acc,
-          ...(message.attachments || []).map(
-            (attachment: AttachmentType): MediaItemType => {
-              const { thumbnail } = attachment;
-
-              const result = {
-                objectURL: attachment.path
-                  ? getLocalAttachmentUrl(attachment)
-                  : '',
-                thumbnailObjectUrl: thumbnail?.path
-                  ? getLocalAttachmentUrl(thumbnail)
-                  : '',
-                contentType: attachment.contentType,
-                index,
-                attachment,
-                message: {
-                  attachments: message.attachments || [],
-                  conversationId:
-                    window.ConversationController.get(message.sourceServiceId)
-                      ?.id || message.conversationId,
-                  id: message.id,
-                  receivedAt: message.received_at,
-                  receivedAtMs: Number(message.received_at_ms),
-                  sentAt: message.sent_at,
-                },
-              };
-
-              index += 1;
-
-              return result;
-            }
-          ),
-        ],
-        [] as Array<MediaItemType>
-      );
-
-    dispatch({
-      type: 'SET_RECENT_MEDIA_ITEMS',
-      payload: { id: conversationId, recentMediaItems },
-    });
   };
 }
 

@@ -127,6 +127,7 @@ import { getAppErrorIcon } from '../ts/util/getAppErrorIcon';
 import { promptOSAuth } from '../ts/util/os/promptOSAuthMain';
 
 const log = createLogger('app/main');
+const updaterLog = log.child('updater');
 
 const animationSettings = systemPreferences.getAnimationSettings();
 
@@ -715,7 +716,6 @@ async function createWindow() {
           : '../ts/windows/main/preload.js'
       ),
       spellcheck,
-      backgroundThrottling: true,
     },
     icon: windowIcon,
     ...pick(windowConfig, ['autoHideMenuBar', 'x', 'y']),
@@ -1109,21 +1109,6 @@ ipc.on('title-bar-double-click', () => {
 
 ipc.on('set-is-call-active', (_event, isCallActive) => {
   preventDisplaySleepService.setEnabled(isCallActive);
-
-  if (!mainWindow) {
-    return;
-  }
-
-  let backgroundThrottling: boolean;
-  if (isCallActive) {
-    log.info('Background throttling disabled because a call is active');
-    backgroundThrottling = false;
-  } else {
-    log.info('Background throttling enabled because no call is active');
-    backgroundThrottling = true;
-  }
-
-  mainWindow.webContents.setBackgroundThrottling(backgroundThrottling);
 });
 
 ipc.on('convert-image', async (event, uuid, data) => {
@@ -1168,24 +1153,27 @@ async function readyForUpdates() {
         return (
           systemTrayService?.isVisible() === true &&
           mainWindow?.isVisible() !== true &&
-          mainWindow?.webContents?.getBackgroundThrottling() !== false
+          !preventDisplaySleepService.isEnabled()
         );
       },
       getMainWindow,
-      logger: log,
+      logger: updaterLog,
       sql,
     });
   } catch (error) {
-    log.error('Error starting update checks:', Errors.toLogFormat(error));
+    updaterLog.error(
+      'Error starting update checks:',
+      Errors.toLogFormat(error)
+    );
   }
 }
 
 async function forceUpdate() {
   try {
-    log.info('starting force update');
+    updaterLog.info('starting force update');
     await updater.force();
   } catch (error) {
-    log.error('Error during force update:', Errors.toLogFormat(error));
+    updaterLog.error('Error during force update:', Errors.toLogFormat(error));
   }
 }
 

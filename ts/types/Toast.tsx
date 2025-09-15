@@ -8,7 +8,6 @@ export enum ToastType {
   AlreadyRequestedToJoin = 'AlreadyRequestedToJoin',
   AttachmentDownloadFailed = 'AttachmentDownloadFailed',
   AttachmentDownloadStillInProgress = 'AttachmentDownloadStillInProgress',
-  DonationCompletedAndBadgeApplicationFailed = 'DonationCompletedAndBadgeApplicationFailed',
   Blocked = 'Blocked',
   BlockedGroup = 'BlockedGroup',
   CallHistoryCleared = 'CallHistoryCleared',
@@ -79,6 +78,7 @@ export enum ToastType {
   TooManyMessagesToForward = 'TooManyMessagesToForward',
   TransportError = 'TransportError',
   UnableToLoadAttachment = 'UnableToLoadAttachment',
+  UnableToDownloadFromBackupTier = 'UnableToDownloadFromBackupTier',
   UnsupportedMultiAttachment = 'UnsupportedMultiAttachment',
   UnsupportedOS = 'UnsupportedOS',
   UserAddedToGroup = 'UserAddedToGroup',
@@ -104,7 +104,6 @@ export type AnyToast =
       toastType: ToastType.AttachmentDownloadStillInProgress;
       parameters: { count: number };
     }
-  | { toastType: ToastType.DonationCompletedAndBadgeApplicationFailed }
   | { toastType: ToastType.Blocked }
   | { toastType: ToastType.BlockedGroup }
   | { toastType: ToastType.CallHistoryCleared }
@@ -195,6 +194,7 @@ export type AnyToast =
     }
   | { toastType: ToastType.TooManyMessagesToForward }
   | { toastType: ToastType.TransportError }
+  | { toastType: ToastType.UnableToDownloadFromBackupTier }
   | { toastType: ToastType.UnableToLoadAttachment }
   | { toastType: ToastType.UnsupportedMultiAttachment }
   | { toastType: ToastType.UnsupportedOS }

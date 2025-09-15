@@ -647,11 +647,6 @@ $message-padding-horizontal: 12px;
   cursor: pointer;
 }
 
-.module-message__undownloadable-attachment--no-text
-  + .module-message__metadata {
-  margin-block-start: -25px;
-}
-
 .module-message__sticker-container {
   // To ensure that images are centered if they aren't full width of bubble
   text-align: center;
@@ -709,42 +704,6 @@ $message-padding-horizontal: 12px;
 
 .module-message__simple-attachment--with-content-above {
   padding-top: 4px;
-}
-
-.module-message__simple-attachment__icon {
-  background: url('../images/generic-file.svg') no-repeat center;
-  height: 40px;
-  width: 30px;
-  margin-inline-start: 3px;
-  margin-inline-end: 3px;
-
-  // So we can center the extension text inside this icon
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.module-message__simple-attachment__icon-dangerous-container {
-  position: absolute;
-
-  top: -1px;
-  inset-inline-end: -4px;
-
-  height: 16px;
-  width: 16px;
-
-  border-radius: 50%;
-  background-color: variables.$color-white;
-}
-
-.module-message__simple-attachment__icon-dangerous {
-  height: 16px;
-  width: 16px;
-
-  @include mixins.color-svg(
-    '../images/icons/v2/error-solid-24.svg',
-    variables.$color-accent-red
-  );
 }
 
 .module-message__simple-attachment__icon__extension {
@@ -2520,6 +2479,7 @@ button.ConversationDetails__action-button {
   display: flex;
   flex-grow: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 20px;
 }
 
@@ -2537,159 +2497,11 @@ button.ConversationDetails__action-button {
 }
 
 .module-media-gallery__sections {
+  min-width: 0;
+
   display: flex;
   flex-grow: 1;
   flex-direction: column;
-}
-
-// Module: Attachment Section
-
-.module-attachment-section {
-  width: 100%;
-}
-
-.module-attachment-section__header {
-  @include mixins.font-body-1-bold;
-}
-
-.module-attachment-section__items {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-
-// Module: Document List Item
-
-.module-document-list-item {
-  width: 100%;
-  height: 72px;
-}
-
-.module-document-list-item--with-separator {
-  @include mixins.light-theme {
-    border-bottom: 1px solid variables.$color-gray-02;
-  }
-  @include mixins.dark-theme {
-    border-bottom: 1px solid variables.$color-gray-75;
-  }
-}
-
-.module-document-list-item__content {
-  @include mixins.button-reset;
-  & {
-    width: 100%;
-    height: 100%;
-
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-  }
-
-  @include mixins.keyboard-mode {
-    &:focus {
-      box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
-    }
-  }
-}
-
-.module-document-list-item__icon {
-  flex-shrink: 0;
-
-  width: 48px;
-  height: 48px;
-  @include mixins.color-svg(
-    '../images/generic-file.svg',
-    variables.$color-gray-45
-  );
-}
-
-.module-document-list-item__metadata {
-  display: inline-flex;
-  flex-direction: column;
-  flex-grow: 1;
-  flex-shrink: 0;
-  margin-inline: 8px;
-}
-
-.module-document-list-item__file-size {
-  display: inline-block;
-  margin-top: 8px;
-  @include mixins.font-body-2;
-}
-
-.module-document-list-item__date {
-  display: inline-block;
-  flex-shrink: 0;
-}
-
-// Module: Media Grid Item
-
-.module-media-grid-item {
-  @include mixins.button-reset;
-  & {
-    height: 94px;
-    width: 94px;
-    background-color: variables.$color-gray-05;
-    margin-inline-end: 4px;
-    margin-bottom: 4px;
-    position: relative;
-  }
-
-  @include mixins.keyboard-mode {
-    &:focus {
-      box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
-    }
-  }
-}
-
-.module-media-grid-item__image {
-  height: 94px;
-  width: 100%;
-  object-fit: cover;
-}
-
-.module-media-grid-item__icon {
-  position: absolute;
-  top: 15px;
-  bottom: 15px;
-  inset-inline: 15px;
-}
-
-.module-media-grid-item__icon-image {
-  @include mixins.color-svg('../images/image.svg', variables.$color-gray-45);
-}
-
-.module-media-grid-item__image-container {
-  position: relative;
-}
-
-.module-media-grid-item__circle-overlay {
-  @include mixins.position-absolute-center;
-  width: 42px;
-  height: 42px;
-  background-color: variables.$color-white;
-  border-radius: 21px;
-}
-
-.module-media-grid-item__play-overlay {
-  @include mixins.position-absolute-center;
-  height: 24px;
-  width: 24px;
-  @include mixins.color-svg(
-    '../images/icons/v3/play/play-fill.svg',
-    variables.$color-ultramarine
-  );
-}
-
-.module-media-grid-item__icon-video {
-  @include mixins.color-svg('../images/movie.svg', variables.$color-gray-45);
-}
-
-.module-media-grid-item__icon-generic {
-  @include mixins.color-svg('../images/file.svg', variables.$color-gray-45);
 }
 
 /* Module: Empty State*/
@@ -2828,13 +2640,6 @@ button.ConversationDetails__action-button {
 
 .module-image__progress-circle-wrapper {
   @include mixins.position-absolute-center;
-
-  .ProgressCircle .ProgressCircle__background {
-    stroke: variables.$color-white-alpha-20;
-  }
-  .ProgressCircle .ProgressCircle__fill {
-    stroke: variables.$color-white;
-  }
 }
 
 .module-image__spinner-container {
@@ -2990,7 +2795,7 @@ button.module-image__border-overlay:focus {
   width: 24px;
   @include mixins.color-svg(
     '../images/icons/v3/play/play-fill.svg',
-    variables.$color-white
+    var(--color-label-primary-on-color)
   );
 }
 .module-image__stop-icon {
@@ -3001,7 +2806,7 @@ button.module-image__border-overlay:focus {
   width: 24px;
   @include mixins.color-svg(
     '../images/icons/v3/stop/stop-fill.svg',
-    variables.$color-white
+    var(--color-label-primary-on-color)
   );
 }
 .module-image__download-icon {
@@ -3011,7 +2816,7 @@ button.module-image__border-overlay:focus {
   width: 24px;
   @include mixins.color-svg(
     '../images/icons/v3/arrow/arrow-down.svg',
-    variables.$color-white
+    var(--color-label-primary-on-color)
   );
 }
 .module-image__undownloadable-icon {
@@ -3021,7 +2826,7 @@ button.module-image__border-overlay:focus {
   width: 24px;
   @include mixins.color-svg(
     '../images/icons/v3/photo/photo-slash-compact.svg',
-    variables.$color-white
+    var(--color-label-primary-on-color)
   );
 }
 
@@ -3345,11 +3150,17 @@ button.module-image__border-overlay:focus {
 // Module: Staged Generic Attachment
 
 .module-staged-generic-attachment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
   height: 120px;
   width: 120px;
-  display: inline-block;
   position: relative;
   border-radius: 4px;
+  padding: 7px;
   vertical-align: middle;
   white-space: nowrap;
 
@@ -3365,6 +3176,10 @@ button.module-image__border-overlay:focus {
 }
 
 .module-staged-generic-attachment__close-button {
+  position: absolute;
+  inset-inline-end: 5px;
+  top: 0;
+
   @include mixins.staged-attachment-close-button;
 
   & {
@@ -3383,49 +3198,13 @@ button.module-image__border-overlay:focus {
   }
 }
 
-.module-staged-generic-attachment__icon {
-  margin-top: 30px;
-
-  background: url('../images/generic-file.svg') no-repeat center;
-  height: 44px;
-  width: 56px;
-  margin-inline: 32px;
-  margin-bottom: -4px;
-
-  // So we can center the extension text inside this icon
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.module-staged-generic-attachment__icon__extension {
-  font-size: 10px;
-  line-height: 13px;
-  letter-spacing: 0.1px;
-  text-transform: uppercase;
-
-  // Along with flow layout in parent item, centers text
-  text-align: center;
-  width: 25px;
-  margin-inline: auto;
-
-  // We don't have much room for text here, cut it off without ellipse
-  overflow-x: hidden;
-  white-space: nowrap;
-  text-overflow: clip;
-
-  color: variables.$color-gray-90;
-}
-
 .module-staged-generic-attachment__filename {
   @include mixins.font-caption;
 
-  margin: 7px;
-  margin-top: 5px;
+  max-width: 100%;
   text-align: center;
 
   overflow: hidden;
-  height: 2.4em;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;

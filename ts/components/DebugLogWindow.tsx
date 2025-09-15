@@ -152,7 +152,6 @@ export function DebugLogWindow({
         </div>
         <ToastManager
           changeLocation={shouldNeverBeCalled}
-          clearDonation={shouldNeverBeCalled}
           OS="unused"
           hideToast={closeToast}
           i18n={i18n}
@@ -160,7 +159,6 @@ export function DebugLogWindow({
           onUndoArchive={shouldNeverBeCalled}
           openFileInFolder={shouldNeverBeCalled}
           setDidResumeDonation={shouldNeverBeCalled}
-          showAttachmentNotAvailableModal={shouldNeverBeCalled}
           toast={toast}
           containerWidthBreakpoint={null}
           isInFullScreenCall={false}
@@ -213,7 +211,6 @@ export function DebugLogWindow({
       </div>
       <ToastManager
         changeLocation={shouldNeverBeCalled}
-        clearDonation={shouldNeverBeCalled}
         OS="unused"
         hideToast={closeToast}
         i18n={i18n}
@@ -221,7 +218,6 @@ export function DebugLogWindow({
         onUndoArchive={shouldNeverBeCalled}
         openFileInFolder={shouldNeverBeCalled}
         setDidResumeDonation={shouldNeverBeCalled}
-        showAttachmentNotAvailableModal={shouldNeverBeCalled}
         toast={toast}
         containerWidthBreakpoint={null}
         isInFullScreenCall={false}

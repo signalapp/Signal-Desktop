@@ -15,16 +15,13 @@ export default {
   args: {
     attachment: fakeAttachment(),
     isIncoming: false,
-    renderAttachmentDownloaded: () => {
-      return <div>🔥🔥</div>;
-    },
   },
 } satisfies Meta<PropsType>;
 
 export function Default(args: PropsType): JSX.Element {
   return (
     <div style={{ backgroundColor: 'gray' }}>
-      <AttachmentStatusIcon {...args} />
+      <AttachmentStatusIcon {...args}>🔥🔥</AttachmentStatusIcon>
     </div>
   );
 }
@@ -32,7 +29,9 @@ export function Default(args: PropsType): JSX.Element {
 export function NoAttachment(args: PropsType): JSX.Element {
   return (
     <div style={{ backgroundColor: 'gray' }}>
-      <AttachmentStatusIcon {...args} attachment={undefined} />
+      <AttachmentStatusIcon {...args} attachment={undefined}>
+        🔥🔥
+      </AttachmentStatusIcon>
     </div>
   );
 }
@@ -43,7 +42,9 @@ export function NeedsDownload(args: PropsType): JSX.Element {
       <AttachmentStatusIcon
         {...args}
         attachment={fakeAttachment({ path: undefined })}
-      />
+      >
+        🔥🔥
+      </AttachmentStatusIcon>
     </div>
   );
 }
@@ -59,7 +60,9 @@ export function Downloading(args: PropsType): JSX.Element {
           size: 1000000,
           totalDownloaded: 750000,
         })}
-      />
+      >
+        🔥🔥
+      </AttachmentStatusIcon>
     </div>
   );
 }
@@ -106,7 +109,9 @@ export function Interactive(args: PropsType): JSX.Element {
       <button type="button" onClick={cancelAttachmentDownload}>
         stop download
       </button>
-      <AttachmentStatusIcon {...args} attachment={attachment} />
+      <AttachmentStatusIcon {...args} attachment={attachment}>
+        🔥🔥
+      </AttachmentStatusIcon>
     </div>
   );
 }

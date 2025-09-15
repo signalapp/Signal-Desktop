@@ -10,6 +10,7 @@ import { reducer as audioRecorder } from './ducks/audioRecorder';
 import { reducer as badges } from './ducks/badges';
 import { reducer as calling } from './ducks/calling';
 import { reducer as callHistory } from './ducks/callHistory';
+import { reducer as chatFolders } from './ducks/chatFolders';
 import { reducer as composer } from './ducks/composer';
 import { reducer as conversations } from './ducks/conversations';
 import { reducer as crashReports } from './ducks/crashReports';
@@ -46,6 +47,7 @@ export const reducer = combineReducers({
   badges,
   calling,
   callHistory,
+  chatFolders,
   composer,
   conversations,
   crashReports,

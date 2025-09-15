@@ -1,10 +1,11 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { ContentHint } from '@signalapp/libsignal-client';
+
 import { handleMessageSend } from '../../util/handleMessageSend';
 import { getSendOptions } from '../../util/getSendOptions';
 import { isDirectConversation } from '../../util/whatTypeOfConversation';
-import { SignalService as Proto } from '../../protobuf';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
@@ -62,8 +63,7 @@ export async function sendNullMessage(
   );
 
   const sendOptions = await getSendOptions(conversation.attributes);
-  const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-  const contentHint = ContentHint.RESENDABLE;
+  const contentHint = ContentHint.Resendable;
   const sendType = 'nullMessage';
 
   // Note: we will send to blocked users, to those still in message request state, etc.
@@ -109,7 +109,7 @@ export async function sendNullMessage(
         abortSignal =>
           sendToGroup({
             abortSignal,
-            contentHint: ContentHint.RESENDABLE,
+            contentHint: ContentHint.Resendable,
             groupSendOptions: {
               attachments: [],
               bodyRanges: [],

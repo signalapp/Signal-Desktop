@@ -1,6 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { ContentHint } from '@signalapp/libsignal-client';
+
 import { handleMessageSend } from '../../util/handleMessageSend';
 import { getSendOptions } from '../../util/getSendOptions';
 import {
@@ -92,13 +94,11 @@ export async function sendCallingMessage(
 
   const callMessage = Proto.CallMessage.decode(Bytes.fromBase64(protoBase64));
 
-  const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
   try {
     if (isGroup(conversation.attributes)) {
       await handleMessageSend(
         sendContentMessageToGroup({
-          contentHint: ContentHint.DEFAULT,
+          contentHint: ContentHint.Default,
           contentMessage: new Proto.Content({ callMessage }),
           isPartialSend,
           messageId: undefined,

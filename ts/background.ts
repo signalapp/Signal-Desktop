@@ -1509,10 +1509,12 @@ export async function startApp(): Promise<void> {
     // Listen for changes to the `desktop.clientExpiration` remote flag
     window.Signal.RemoteConfig.onChange(
       'desktop.clientExpiration',
-      ({ value }) => {
-        const remoteBuildExpirationTimestamp = parseRemoteClientExpiration(
-          value as string
-        );
+      ({ enabled, value }) => {
+        if (!enabled) {
+          return;
+        }
+        const remoteBuildExpirationTimestamp =
+          parseRemoteClientExpiration(value);
         if (remoteBuildExpirationTimestamp) {
           drop(
             window.storage.put(
@@ -1875,6 +1877,7 @@ export async function startApp(): Promise<void> {
     try {
       await server.registerCapabilities({
         attachmentBackfill: true,
+        spqr: true,
       });
     } catch (error) {
       log.error(
@@ -3199,8 +3202,6 @@ export async function startApp(): Promise<void> {
   }
 
   async function onKeysSync(ev: KeysEvent) {
-    ev.confirm();
-
     const { accountEntropyPool, masterKey, mediaRootBackupKey } = ev;
 
     const prevMasterKeyBase64 = window.storage.get('masterKey');
@@ -3282,6 +3283,7 @@ export async function startApp(): Promise<void> {
 
       await StorageService.runStorageServiceSyncJob({ reason: 'onKeysSync' });
     }
+    ev.confirm();
   }
 
   function onMessageRequestResponse(ev: MessageRequestResponseEvent): void {

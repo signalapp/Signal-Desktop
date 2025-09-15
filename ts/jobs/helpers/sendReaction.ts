@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isNumber } from 'lodash';
+import { ContentHint } from '@signalapp/libsignal-client';
 
 import * as Errors from '../../types/errors';
 import { strictAssert } from '../../util/assert';
@@ -21,7 +22,6 @@ import {
   isGroupV2,
 } from '../../util/whatTypeOfConversation';
 import { getSendOptions } from '../../util/getSendOptions';
-import { SignalService as Proto } from '../../protobuf';
 import { handleMessageSend } from '../../util/handleMessageSend';
 import { ourProfileKeyService } from '../../services/ourProfileKey';
 import { canReact, isStory } from '../../state/selectors/message';
@@ -211,7 +211,6 @@ export async function sendReaction(
       successfulConversationIds.add(ourConversationId);
     } else {
       const sendOptions = await getSendOptions(conversation.attributes);
-      const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
       let promise: Promise<CallbackResultType>;
       if (isDirectConversation(conversation.attributes)) {
@@ -250,7 +249,7 @@ export async function sendReaction(
           timestamp: pendingReaction.timestamp,
           expireTimer,
           expireTimerVersion: conversation.getExpireTimerVersion(),
-          contentHint: ContentHint.RESENDABLE,
+          contentHint: ContentHint.Resendable,
           groupId: undefined,
           profileKey,
           options: sendOptions,
@@ -276,7 +275,7 @@ export async function sendReaction(
 
             return sendToGroup({
               abortSignal,
-              contentHint: ContentHint.RESENDABLE,
+              contentHint: ContentHint.Resendable,
               groupSendOptions: {
                 groupV2: groupV2Info,
                 reaction: reactionForSend,

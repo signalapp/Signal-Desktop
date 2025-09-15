@@ -6,13 +6,17 @@ import { DonateInputCardExp } from './DonateInputCardExp';
 import type { DonateInputCardExpProps } from './DonateInputCardExp';
 import type { ComponentMeta } from '../../../storybook/types';
 
+const { i18n } = window.SignalContext;
+
 export default {
   component: DonateInputCardExp,
   args: {
+    i18n,
     id: '',
     value: '',
     onValueChange: action('onValueChange'),
     onBlur: action('onBlur'),
+    onEnter: action('onEnter'),
   },
 } satisfies ComponentMeta<DonateInputCardExpProps>;
 

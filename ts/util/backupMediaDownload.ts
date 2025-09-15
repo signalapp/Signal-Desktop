@@ -20,6 +20,8 @@ export async function pauseBackupMediaDownload(): Promise<void> {
 
 export async function resumeBackupMediaDownload(): Promise<void> {
   log.info('Resuming media download');
+  // Reset the retry-afters so that all jobs will be immediately retried
+  await DataWriter.resetBackupAttachmentDownloadJobsRetryAfter();
   return startBackupMediaDownload();
 }
 
@@ -34,14 +36,12 @@ export async function resetBackupMediaDownloadItems(): Promise<void> {
 
 export async function cancelBackupMediaDownload(): Promise<void> {
   log.info('Canceling media download');
-  await window.storage.put('backupMediaDownloadBannerDismissed', true);
+  await dismissBackupMediaDownloadBanner();
   await DataWriter.removeAllBackupAttachmentDownloadJobs();
-  await DataWriter.resetBackupAttachmentDownloadStats();
-  await resetBackupMediaDownloadItems();
+  await resetBackupMediaDownloadStats();
 }
 
-export async function resetBackupMediaDownloadProgress(): Promise<void> {
-  await DataWriter.removeAllBackupAttachmentDownloadJobs();
+export async function resetBackupMediaDownloadStats(): Promise<void> {
   await DataWriter.resetBackupAttachmentDownloadStats();
   await resetBackupMediaDownloadItems();
 }

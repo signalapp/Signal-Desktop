@@ -209,10 +209,7 @@ function TypingBubbleGroupAvatars({
     <div className="module-message__author-avatar-container module-message__author-avatar-container--typing">
       <div className="module-message__typing-avatar-spacer" />
       {typingContactsOverflowCount > 0 && (
-        <div
-          className="module-message__typing-avatar module-message__typing-avatar--overflow-count
-        "
-        >
+        <div className="module-message__typing-avatar module-message__typing-avatar--overflow-count">
           <div
             aria-label={i18n('icu:TypingBubble__avatar--overflow-count', {
               count: typingContactsOverflowCount,

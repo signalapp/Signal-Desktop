@@ -5,7 +5,7 @@ import { animated, useSpring } from '@react-spring/web';
 import classNames from 'classnames';
 import React, { useCallback } from 'react';
 import { useReducedMotion } from '../hooks/useReducedMotion';
-import { ProgressCircle } from './ProgressCircle';
+import type { AttachmentForUIType } from '../types/Attachment';
 import { SpinnerV2 } from './SpinnerV2';
 
 const SPRING_CONFIG = {
@@ -19,7 +19,7 @@ export type ButtonProps = {
   context?: 'incoming' | 'outgoing';
   variant: 'message' | 'mini' | 'draft';
   mod: 'play' | 'pause' | 'not-downloaded' | 'downloading' | 'computing';
-  downloadFraction?: number;
+  attachment?: AttachmentForUIType;
   label: string;
   visible?: boolean;
   onClick: () => void;
@@ -32,7 +32,7 @@ export const PlaybackButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   function ButtonInner(props, ref) {
     const {
       context,
-      downloadFraction,
+      attachment,
       label,
       mod,
       onClick,
@@ -84,25 +84,24 @@ export const PlaybackButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     let content: JSX.Element | null = null;
     const strokeWidth = variant === 'message' ? 2 : 1;
-    if (mod === 'downloading' && downloadFraction) {
+    if (mod === 'computing' || mod === 'downloading') {
       content = (
-        <ProgressCircle
-          fractionComplete={downloadFraction}
-          width={size}
-          strokeWidth={strokeWidth}
-        />
-      );
-    } else if (
-      mod === 'computing' ||
-      (mod === 'downloading' && !downloadFraction)
-    ) {
-      content = (
-        <div className="PlaybackButton__SpinnerV2-container">
+        <div className="PlaybackButton__Spinner-container">
           <SpinnerV2
-            className="PlaybackButton__SpinnerV2"
+            variant={
+              context === 'incoming'
+                ? 'no-background-incoming'
+                : 'no-background'
+            }
+            min={0}
+            max={attachment?.size}
+            value={
+              attachment?.size && attachment?.totalDownloaded
+                ? attachment.totalDownloaded
+                : undefined
+            }
             size={size}
-            strokeWidth={strokeWidth * 2}
-            marginRatio={1}
+            strokeWidth={strokeWidth}
           />
         </div>
       );

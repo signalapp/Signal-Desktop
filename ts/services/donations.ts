@@ -244,6 +244,9 @@ export async function _internalDoDonation({
 
     workflow = await _createPaymentMethodForIntent(workflow, paymentDetail);
     await _saveAndRunWorkflow(workflow);
+  } catch (error) {
+    const errorType: string | undefined = error.response?.error?.type;
+    await failDonation(donationErrorTypeSchema.Enum.GeneralError, errorType);
   } finally {
     isInternalDonationInProgress = false;
   }

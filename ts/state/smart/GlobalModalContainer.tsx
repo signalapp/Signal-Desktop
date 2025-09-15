@@ -29,7 +29,6 @@ import { SmartCallLinkEditModal } from './CallLinkEditModal';
 import { SmartCallLinkAddNameModal } from './CallLinkAddNameModal';
 import { SmartConfirmLeaveCallModal } from './ConfirmLeaveCallModal';
 import { SmartCallLinkPendingParticipantModal } from './CallLinkPendingParticipantModal';
-import { SmartAttachmentNotAvailableModal } from './AttachmentNotAvailableModal';
 import { SmartProfileNameWarningModal } from './ProfileNameWarningModal';
 import { SmartDraftGifMessageSendModal } from './DraftGifMessageSendModal';
 import { DebugLogErrorModal } from '../../components/DebugLogErrorModal';
@@ -106,10 +105,6 @@ function renderAboutContactModal(): JSX.Element {
   return <SmartAboutContactModal />;
 }
 
-function renderAttachmentNotAvailableModal(): JSX.Element {
-  return <SmartAttachmentNotAvailableModal />;
-}
-
 export const SmartGlobalModalContainer = memo(
   function SmartGlobalModalContainer() {
     const conversationsStoppingSend = useSelector(getConversationsStoppingSend);
@@ -121,7 +116,6 @@ export const SmartGlobalModalContainer = memo(
     const {
       aboutContactModalContactId,
       addUserToAnotherGroupModalContactId,
-      attachmentNotAvailableModalType,
       backfillFailureModalProps,
       callLinkAddNameModalRoomId,
       callLinkEditModalRoomId,
@@ -227,7 +221,6 @@ export const SmartGlobalModalContainer = memo(
 
     return (
       <GlobalModalContainer
-        attachmentNotAvailableModalType={attachmentNotAvailableModalType}
         addUserToAnotherGroupModalContactId={
           addUserToAnotherGroupModalContactId
         }
@@ -271,7 +264,6 @@ export const SmartGlobalModalContainer = memo(
         isWhatsNewVisible={isWhatsNewVisible}
         renderAboutContactModal={renderAboutContactModal}
         renderAddUserToAnotherGroup={renderAddUserToAnotherGroup}
-        renderAttachmentNotAvailableModal={renderAttachmentNotAvailableModal}
         renderCallLinkAddNameModal={renderCallLinkAddNameModal}
         renderCallLinkEditModal={renderCallLinkEditModal}
         renderCallLinkPendingParticipantModal={

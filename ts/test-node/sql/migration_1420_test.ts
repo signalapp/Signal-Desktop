@@ -87,7 +87,7 @@ describe('SQL/updateToSchemaVersion1410', () => {
           source:
             i < 5
               ? AttachmentDownloadSource.STANDARD
-              : AttachmentDownloadSource.BACKUP_IMPORT,
+              : AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA,
         });
       }
     })();

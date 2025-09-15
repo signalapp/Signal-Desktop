@@ -3,6 +3,7 @@
 
 import { isNumber } from 'lodash';
 import PQueue from 'p-queue';
+import { ContentHint } from '@signalapp/libsignal-client';
 
 import * as Errors from '../../types/errors';
 import { strictAssert } from '../../util/assert';
@@ -11,7 +12,6 @@ import { getMessageById } from '../../messages/getMessageById';
 import type { ConversationModel } from '../../models/conversations';
 import { isGroup, isGroupV2, isMe } from '../../util/whatTypeOfConversation';
 import { getSendOptions } from '../../util/getSendOptions';
-import { SignalService as Proto } from '../../protobuf';
 import { handleMessageSend } from '../../util/handleMessageSend';
 import { findAndFormatContact } from '../../util/findAndFormatContact';
 import { uploadAttachment } from '../../util/uploadAttachment';
@@ -302,7 +302,6 @@ export async function sendNormalMessage(
     } else {
       const conversationType = conversation.get('type');
       const sendOptions = await getSendOptions(conversation.attributes);
-      const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
       let innerPromise: Promise<CallbackResultType>;
       if (conversationType === Message.GROUP) {
@@ -324,7 +323,7 @@ export async function sendNormalMessage(
           abortSignal =>
             sendToGroup({
               abortSignal,
-              contentHint: ContentHint.RESENDABLE,
+              contentHint: ContentHint.Resendable,
               groupSendOptions: {
                 attachments,
                 bodyRanges,
@@ -392,7 +391,7 @@ export async function sendNormalMessage(
           attachments,
           bodyRanges,
           contact,
-          contentHint: ContentHint.RESENDABLE,
+          contentHint: ContentHint.Resendable,
           deletedForEveryoneTimestamp,
           expireTimer,
           expireTimerVersion: conversation.getExpireTimerVersion(),

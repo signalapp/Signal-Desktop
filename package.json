@@ -6,7 +6,7 @@
   "description": "Private messaging from your desktop",
   "desktopName": "signal.desktop",
   "repository": "https://github.com/signalapp/Signal-Desktop.git",
-  "version": "7.69.0-alpha.1",
+  "version": "7.73.0-alpha.1",
   "license": "AGPL-3.0-only",
   "author": {
     "name": "Signal Messenger, LLC",
@@ -63,7 +63,7 @@
     "danger:local": "./danger/danger.sh local --base main",
     "danger:ci": "./danger/danger.sh ci --base origin/main",
     "format": "pprettier --write '**/*.{ts,tsx,d.ts,js,json,html,scss,md,yml,yaml}' '!node_modules/**'",
-    "svgo": "svgo --multipass images/**/*.svg",
+    "svgo": "svgo --multipass images/**/*.svg images/*.svg",
     "transpile": "run-p check:types build:esbuild",
     "check:types": "tsc --noEmit",
     "clean-transpile": "node ./scripts/clean-transpile.js",
@@ -130,11 +130,11 @@
     "@react-aria/utils": "3.25.3",
     "@react-spring/web": "9.7.5",
     "@react-types/shared": "3.27.0",
-    "@signalapp/libsignal-client": "0.78.2",
+    "@signalapp/libsignal-client": "0.80.0",
     "@signalapp/minimask": "1.0.1",
     "@signalapp/quill-cjs": "2.1.2",
-    "@signalapp/ringrtc": "2.56.0",
-    "@signalapp/sqlcipher": "2.2.2",
+    "@signalapp/ringrtc": "2.57.1",
+    "@signalapp/sqlcipher": "2.4.4",
     "@signalapp/windows-ucv": "1.0.1",
     "@tanstack/react-virtual": "3.11.2",
     "@types/dom-mediacapture-transform": "0.1.11",
@@ -236,7 +236,7 @@
     "@indutny/parallel-prettier": "3.0.0",
     "@indutny/rezip-electron": "2.0.1",
     "@napi-rs/canvas": "0.1.61",
-    "@signalapp/mock-server": "13.2.2",
+    "@signalapp/mock-server": "13.3.0",
     "@storybook/addon-a11y": "8.4.4",
     "@storybook/addon-actions": "8.4.4",
     "@storybook/addon-controls": "8.4.4",
@@ -307,7 +307,7 @@
     "csv-parse": "5.5.6",
     "danger": "12.3.3",
     "debug": "4.3.7",
-    "electron": "37.2.6",
+    "electron": "38.0.0",
     "electron-builder": "26.0.14",
     "electron-mocha": "13.0.1",
     "endanger": "7.0.4",
@@ -422,7 +422,7 @@
     ]
   },
   "engines": {
-    "node": "22.17.1"
+    "node": "22.18.0"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",

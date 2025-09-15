@@ -96,6 +96,7 @@ const BADGE_PLACEMENT_BY_SIZE = new Map<number, BadgePlacementType>([
   [52, { bottom: -6, right: -2 }],
   [56, { bottom: -6, right: 0 }],
   [64, { bottom: -6, right: 0 }],
+  [72, { bottom: -6, right: -6 }],
   [80, { bottom: -8, right: 0 }],
   [88, { bottom: -4, right: 3 }],
   [112, { bottom: -4, right: 3 }],

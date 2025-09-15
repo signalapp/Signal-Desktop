@@ -60,7 +60,6 @@ export const SmartMessageDetail = memo(
       startConversation,
     } = useConversationsActions();
     const {
-      showAttachmentNotAvailableModal,
       showContactModal,
       showEditHistoryModal,
       showTapToViewNotAvailableModal,
@@ -117,7 +116,6 @@ export const SmartMessageDetail = memo(
         showAttachmentDownloadStillInProgressToast={
           showAttachmentDownloadStillInProgressToast
         }
-        showAttachmentNotAvailableModal={showAttachmentNotAvailableModal}
         showExpiredIncomingTapToViewToast={showExpiredIncomingTapToViewToast}
         showExpiredOutgoingTapToViewToast={showExpiredOutgoingTapToViewToast}
         showLightbox={showLightbox}

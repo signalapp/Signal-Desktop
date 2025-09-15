@@ -8,6 +8,7 @@ import { PermissionsPopup } from '../../components/PermissionsPopup';
 import { i18n } from '../sandboxedInit';
 import { strictAssert } from '../../util/assert';
 import { FunDefaultEnglishEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider';
+import { AxoProvider } from '../../axo/AxoProvider';
 
 const { PermissionsWindowProps } = window.Signal;
 
@@ -31,13 +32,15 @@ strictAssert(app != null, 'No #app');
 
 createRoot(app).render(
   <StrictMode>
-    <FunDefaultEnglishEmojiLocalizationProvider>
-      <PermissionsPopup
-        i18n={i18n}
-        message={message}
-        onAccept={PermissionsWindowProps.onAccept}
-        onClose={PermissionsWindowProps.onClose}
-      />
-    </FunDefaultEnglishEmojiLocalizationProvider>
+    <AxoProvider dir={i18n.getLocaleDirection()}>
+      <FunDefaultEnglishEmojiLocalizationProvider>
+        <PermissionsPopup
+          i18n={i18n}
+          message={message}
+          onAccept={PermissionsWindowProps.onAccept}
+          onClose={PermissionsWindowProps.onClose}
+        />
+      </FunDefaultEnglishEmojiLocalizationProvider>
+    </AxoProvider>
   </StrictMode>
 );

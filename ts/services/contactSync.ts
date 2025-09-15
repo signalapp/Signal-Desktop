@@ -118,6 +118,7 @@ async function downloadAndParseContactAttachment(
         disableRetries: true,
         timeout: 90 * SECOND,
         abortSignal: abortController.signal,
+        logId: 'downloadContactAttachment',
       }
     );
 

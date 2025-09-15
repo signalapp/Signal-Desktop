@@ -10,6 +10,9 @@ export type UndefinedToNull<T> =
 export type ShallowUndefinedToNull<T extends { [key: string]: unknown }> = {
   [P in keyof T]: UndefinedToNull<T[P]>;
 };
+export type ShallowNullToUndefined<T extends { [key: string]: unknown }> = {
+  [P in keyof T]: NullToUndefined<T[P]>;
+};
 
 export function dropNull<T>(
   value: NonNullable<T> | null | undefined

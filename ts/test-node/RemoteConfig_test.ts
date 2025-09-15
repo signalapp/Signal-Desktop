@@ -2,13 +2,20 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import * as sinon from 'sinon';
 
+import { omit } from 'lodash';
 import { normalizeAci } from '../util/normalizeAci';
+import type { ConfigKeyType, ConfigListenerType } from '../RemoteConfig';
 import {
   getCountryCodeValue,
   getBucketValue,
   innerIsBucketValueEnabled,
+  onChange,
+  getValue,
+  isEnabled,
 } from '../RemoteConfig';
+import { updateRemoteConfig } from '../test-helpers/RemoteConfigStub';
 
 describe('RemoteConfig', () => {
   const aci = normalizeAci('95b9729c-51ea-4ddb-b516-652befe78062', 'test');
@@ -93,6 +100,95 @@ describe('RemoteConfig', () => {
       const flagName = 'research.megaphone.1';
 
       assert.strictEqual(getBucketValue(aci, flagName), 222732);
+    });
+  });
+
+  describe('#getValue', () => {
+    it('returns value if enabled', async () => {
+      await updateRemoteConfig([]);
+
+      assert.equal(getValue('desktop.internalUser'), undefined);
+
+      await updateRemoteConfig([
+        { name: 'desktop.internalUser', value: 'yes' },
+      ]);
+      assert.equal(getValue('desktop.internalUser'), 'yes');
+    });
+
+    it('does not return disabled value', async () => {
+      await updateRemoteConfig([]);
+      assert.equal(getValue('desktop.internalUser'), undefined);
+    });
+  });
+
+  describe('#isEnabled', () => {
+    it('is false for missing flag', async () => {
+      await updateRemoteConfig([]);
+      assert.equal(isEnabled('desktop.internalUser'), false);
+    });
+
+    it('is false for disabled flag', async () => {
+      await updateRemoteConfig([]);
+      assert.equal(isEnabled('desktop.internalUser'), false);
+    });
+
+    it('is true for enabled flag', async () => {
+      await updateRemoteConfig([
+        { name: 'desktop.internalUser', value: 'yes' },
+      ]);
+      assert.equal(isEnabled('desktop.internalUser'), true);
+    });
+
+    it('is true for true string flag', async () => {
+      await updateRemoteConfig([
+        { name: 'desktop.internalUser', value: 'true' },
+      ]);
+      assert.equal(isEnabled('desktop.internalUser'), true);
+    });
+
+    it('is false for false string flag', async () => {
+      await updateRemoteConfig([
+        { name: 'desktop.internalUser', value: 'false' },
+      ]);
+      assert.equal(isEnabled('desktop.internalUser'), false);
+    });
+
+    it('reflects the value of an unknown flag in the config', async () => {
+      assert.equal(
+        isEnabled('desktop.unknownFlagName' as ConfigKeyType),
+        false
+      );
+      await updateRemoteConfig([
+        { name: 'desktop.unknownFlagName', value: 'unknownFlagValue' },
+      ]);
+      assert.equal(isEnabled('desktop.unknownFlagName' as ConfigKeyType), true);
+    });
+  });
+
+  describe('#onChange', () => {
+    it('triggers listener on known flag change', async () => {
+      await updateRemoteConfig([]);
+
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      const listener = sinon.spy<ConfigListenerType>(() => {});
+      onChange('desktop.internalUser', listener);
+
+      await updateRemoteConfig([
+        { name: 'desktop.internalUser', value: 'yes' },
+      ]);
+      await updateRemoteConfig([]);
+      await updateRemoteConfig([
+        { name: 'desktop.internalUser', value: 'yes' },
+      ]);
+
+      const calls = listener
+        .getCalls()
+        .map(call => omit(call.firstArg, 'enabledAt'));
+      assert.deepEqual(calls, [
+        { name: 'desktop.internalUser', value: 'yes', enabled: true },
+        { name: 'desktop.internalUser', enabled: false },
+        { name: 'desktop.internalUser', value: 'yes', enabled: true },
+      ]);
     });
   });
 });

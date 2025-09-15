@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Database } from '@signalapp/sqlcipher';
+import type { Database, RowType } from '@signalapp/sqlcipher';
 import type { ReadonlyDeep } from 'type-fest';
 
 import { strictAssert } from '../util/assert';
@@ -50,10 +50,13 @@ import type {
 } from '../types/GroupSendEndorsements';
 import type { SyncTaskType } from '../util/syncTasks';
 import type { AttachmentBackupJobType } from '../types/AttachmentBackup';
+import type { AttachmentType } from '../types/Attachment';
+import type { MediaItemMessageType } from '../types/MediaItem';
 import type { GifType } from '../components/fun/panels/FunPanelGifs';
 import type { NotificationProfileType } from '../types/NotificationProfile';
 import type { DonationReceipt } from '../types/Donations';
 import type { InsertOrUpdateCallLinkFromSyncResult } from './server/callLinks';
+import type { ChatFolderId, ChatFolder } from '../types/ChatFolder';
 
 export type ReadableDB = Database & { __readable_db: never };
 export type WritableDB = ReadableDB & { __writable_db: never };
@@ -346,8 +349,8 @@ export const StickerPackStatuses = [
 export type StickerPackStatusType = (typeof StickerPackStatuses)[number];
 
 export type StorageServiceFieldsType = Readonly<{
-  storageID?: string;
-  storageVersion?: number;
+  storageID?: string | null;
+  storageVersion?: number | null;
   storageUnknownFields?: Uint8Array | null;
   storageNeedsSync: boolean;
 }>;
@@ -547,7 +550,10 @@ export type GetRecentStoryRepliesOptionsType = {
 };
 
 export enum AttachmentDownloadSource {
-  BACKUP_IMPORT = 'backup_import',
+  // Imported when paid (media) backups were enabled, or from a local backup
+  BACKUP_IMPORT_WITH_MEDIA = 'backup_import',
+  // Imported when paid (media) backups were not enabled
+  BACKUP_IMPORT_NO_MEDIA = 'backup_import_no_media',
   STANDARD = 'standard',
   BACKFILL = 'backfill',
 }
@@ -562,9 +568,26 @@ export type BackupAttachmentDownloadProgress = {
   completedBytes: number;
 };
 
+export type GetOlderMediaOptionsType = Readonly<{
+  conversationId: string;
+  limit: number;
+  messageId?: string;
+  receivedAt?: number;
+  sentAt?: number;
+}>;
+
+export type MediaItemDBType = Readonly<{
+  attachment: AttachmentType;
+  index: number;
+  message: MediaItemMessageType;
+}>;
+
 export const MESSAGE_ATTACHMENT_COLUMNS = [
   'messageId',
   'conversationId',
+  'messageType',
+  'receivedAt',
+  'receivedAtMs',
   'sentAt',
   'attachmentType',
   'orderInMessage',
@@ -608,6 +631,7 @@ export const MESSAGE_ATTACHMENT_COLUMNS = [
   'storyTextAttachmentJson',
   'localBackupPath',
   'isCorrupted',
+  'isViewOnce',
   'backfillError',
   'error',
   'wasTooBig',
@@ -622,6 +646,9 @@ export type MessageAttachmentDBType = {
   orderInMessage: number;
   editHistoryIndex: number | null;
   conversationId: string;
+  messageType: string;
+  receivedAt: number;
+  receivedAtMs: number | null;
   sentAt: number;
   clientUuid: string | null;
   size: number;
@@ -663,6 +690,7 @@ export type MessageAttachmentDBType = {
   storyTextAttachmentJson: string | null;
   localBackupPath: string | null;
   isCorrupted: 1 | 0 | null;
+  isViewOnce: 1 | 0 | null;
   backfillError: 1 | 0 | null;
   error: 1 | 0 | null;
   wasTooBig: 1 | 0 | null;
@@ -762,6 +790,8 @@ type ReadableInterface = {
     maxTimestamp: number
   ) => Array<MessageType>;
   // getOlderMessagesByConversation is JSON on server, full message on Client
+  hasMedia: (conversationId: string) => boolean;
+  getOlderMedia: (options: GetOlderMediaOptionsType) => Array<MediaItemDBType>;
   getAllStories: (options: {
     conversationId?: string;
     sourceServiceId?: ServiceIdString;
@@ -872,6 +902,11 @@ type ReadableInterface = {
   getAllDonationReceipts(): Array<DonationReceipt>;
   getDonationReceiptById(id: string): DonationReceipt | undefined;
 
+  getAllChatFolders: () => ReadonlyArray<ChatFolder>;
+  getCurrentChatFolders: () => ReadonlyArray<ChatFolder>;
+  getChatFolder: (id: ChatFolderId) => ChatFolder | null;
+  getOldestDeletedChatFolder: () => ChatFolder | null;
+
   getMessagesNeedingUpgrade: (
     limit: number,
     options: { maxVersion: number }
@@ -894,6 +929,10 @@ type ReadableInterface = {
   getMessageSampleForSchemaVersion: (
     version: number
   ) => Array<MessageAttributesType>;
+
+  __dangerouslyRunAbitraryReadOnlySqlQuery: (
+    readOnlySqlQuery: string
+  ) => ReadonlyArray<RowType<object>>;
 };
 
 type WritableInterface = {
@@ -1100,6 +1139,7 @@ type WritableInterface = {
   saveAttachmentDownloadJob: (job: AttachmentDownloadJobType) => void;
   saveAttachmentDownloadJobs: (jobs: Array<AttachmentDownloadJobType>) => void;
   resetAttachmentDownloadActive: () => void;
+  resetBackupAttachmentDownloadJobsRetryAfter: () => void;
   removeAttachmentDownloadJob: (job: AttachmentDownloadJobType) => void;
   removeAttachmentDownloadJobsForMessage: (messageId: string) => void;
   removeAllBackupAttachmentDownloadJobs: () => void;
@@ -1195,6 +1235,22 @@ type WritableInterface = {
   deleteDonationReceiptById(id: string): void;
   createDonationReceipt(profile: DonationReceipt): void;
 
+  createChatFolder: (chatFolder: ChatFolder) => void;
+  updateChatFolder: (chatFolder: ChatFolder) => void;
+  updateChatFolderPositions: (chatFolders: ReadonlyArray<ChatFolder>) => void;
+  updateChatFolderDeletedAtTimestampMsFromSync: (
+    chatFolderId: ChatFolderId,
+    deletedAtTimestampMs: number
+  ) => void;
+  markChatFolderDeleted: (
+    chatFolderId: ChatFolderId,
+    deletedAtTimestampMs: number,
+    storageNeedsSync: boolean
+  ) => void;
+  deleteExpiredChatFolders: (
+    messageQueueTime: number
+  ) => ReadonlyArray<ChatFolderId>;
+
   removeAll: () => void;
   removeAllConfiguration: () => void;
   eraseStorageServiceState: () => void;
@@ -1211,6 +1267,8 @@ type WritableInterface = {
 
   processGroupCallRingCancellation(ringId: bigint): void;
   cleanExpiredGroupCallRingCancellations(): void;
+
+  _testOnlyRemoveMessageAttachments(timestamp: number): void;
 };
 
 // Adds a database argument

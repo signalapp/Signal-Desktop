@@ -1699,12 +1699,7 @@ export default class MessageReceiver
       'Missing sender certificate for sealed sender message'
     );
 
-    const unidentifiedSenderTypeEnum =
-      Proto.UnidentifiedSenderMessage.Message.Type;
-
-    if (
-      messageContent.msgType() === unidentifiedSenderTypeEnum.PLAINTEXT_CONTENT
-    ) {
+    if (messageContent.msgType() === CiphertextMessageType.Plaintext) {
       log.info(
         `decryptSealedSender(${logId}): ` +
           'unidentified message/plaintext contents'
@@ -1719,9 +1714,7 @@ export default class MessageReceiver
       };
     }
 
-    if (
-      messageContent.msgType() === unidentifiedSenderTypeEnum.SENDERKEY_MESSAGE
-    ) {
+    if (messageContent.msgType() === CiphertextMessageType.SenderKey) {
       log.info(
         `decryptSealedSender(${logId}): ` +
           'unidentified message/sender key contents'
@@ -1777,7 +1770,7 @@ export default class MessageReceiver
       envelope.sourceDevice
     );
     const message =
-      messageContent.msgType() === unidentifiedSenderTypeEnum.PREKEY_MESSAGE
+      messageContent.msgType() === CiphertextMessageType.PreKey
         ? PreKeySignalMessage.deserialize(messageContent.contents())
         : SignalMessage.deserialize(messageContent.contents());
     const plaintext = await this.#storage.protocol.enqueueSessionJob(

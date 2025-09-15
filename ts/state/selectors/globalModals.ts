@@ -22,11 +22,6 @@ export const isShowingAnyModal = createSelector(
     })
 );
 
-export const getAttachmentNotAvailableModalType = createSelector(
-  getGlobalModalsState,
-  ({ attachmentNotAvailableModalType }) => attachmentNotAvailableModalType
-);
-
 export const getCallLinkEditModalRoomId = createSelector(
   getGlobalModalsState,
   ({ callLinkEditModalRoomId }) => callLinkEditModalRoomId

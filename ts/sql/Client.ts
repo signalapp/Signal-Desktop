@@ -833,7 +833,9 @@ async function saveAttachmentDownloadJob(
   job: AttachmentDownloadJobType
 ): Promise<void> {
   await writableChannel.saveAttachmentDownloadJob(job);
-  if (job.originalSource === AttachmentDownloadSource.BACKUP_IMPORT) {
+  if (
+    job.originalSource === AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA
+  ) {
     drop(
       throttledUpdateBackupMediaDownloadProgress(
         readableChannel.getBackupAttachmentDownloadProgress
@@ -847,7 +849,8 @@ async function saveAttachmentDownloadJobs(
   await writableChannel.saveAttachmentDownloadJobs(jobs);
   if (
     jobs.some(
-      job => job.originalSource === AttachmentDownloadSource.BACKUP_IMPORT
+      job =>
+        job.originalSource === AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA
     )
   ) {
     drop(
@@ -862,7 +865,9 @@ async function removeAttachmentDownloadJob(
   job: AttachmentDownloadJobType
 ): Promise<void> {
   await writableChannel.removeAttachmentDownloadJob(job);
-  if (job.originalSource === AttachmentDownloadSource.BACKUP_IMPORT) {
+  if (
+    job.originalSource === AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA
+  ) {
     drop(
       throttledUpdateBackupMediaDownloadProgress(
         readableChannel.getBackupAttachmentDownloadProgress

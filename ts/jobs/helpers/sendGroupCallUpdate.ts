@@ -1,9 +1,10 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { ContentHint } from '@signalapp/libsignal-client';
+
 import { getSendOptions } from '../../util/getSendOptions';
 import { isGroup } from '../../util/whatTypeOfConversation';
-import { SignalService as Proto } from '../../protobuf';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
@@ -66,7 +67,6 @@ export async function sendGroupCallUpdate(
   }
 
   const sendType = 'callingMessage';
-  const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
   const groupV2 = conversation.getGroupV2Info();
   const sendOptions = await getSendOptions(conversation.attributes);
   if (!groupV2) {
@@ -82,7 +82,7 @@ export async function sendGroupCallUpdate(
       send: () =>
         conversation.queueJob(logId, () =>
           sendToGroup({
-            contentHint: ContentHint.DEFAULT,
+            contentHint: ContentHint.Default,
             groupSendOptions: {
               groupCallUpdate: { eraId },
               groupV2,

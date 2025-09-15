@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Kies kletse wat jy in hierdie vouer wil laat verskyn"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1-kletse"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Groepsgesprekke"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Voeg kletse by"
   },
@@ -2062,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Aflaai het misluk"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Wysigings kan slegs aangebring word binne 24 uur vanaf die tyd wat jy hierdie boodskap gestuur het."
@@ -3528,13 +3537,13 @@
     "messageformat": "Probeer asb. weer of kontak steundiens."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "’n Onverwagse fout het voorgekom."
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Dien ontfoutlog in"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Nee dankie"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "Goed"
@@ -5268,10 +5277,10 @@
     "messageformat": ":-) sal byvoorbeeld in <emojify>🙂</emojify> omskep word"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Hou gedempte kletse geargiveer"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Gedempte kletse wat geargiveer is, sal geargiveer bly wanneer 'n nuwe boodskap aankom."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Gevorderd"
@@ -5283,7 +5292,7 @@
     "messageformat": "Versper"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal-rugsteun"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Outomatiese rugsteun met Signal se veilige end-tot-end-geënkripteerde stoorruimtediens. Begin daarmee op jou foon. <learnMoreLink>Vind meer uit</learnMoreLink>."
@@ -5298,7 +5307,7 @@
     "messageformat": "Rugsteun van teks en alle media"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Jou intekening is nie gevind nie. Hernu om voort te gaan om Signal-rugsteun te gebruik."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Rugsteun van teks + {mediaDayCount,number} dag se media} other {Rugsteun van teks + {mediaDayCount,number} dae se media}}"
@@ -5316,13 +5325,13 @@
     "messageformat": "Intekening gekanselleer"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Jy kan jou intekening op Signal-rugsteun op jou telefoon bestuur of kanselleer."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Jy kan Signal-rugsteun op jou telefoon bestuur of opgradeer."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Jy kan jou intekening op Signal-rugsteun op jou telefoon bestuur of hernu."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Laaste rugsteun"
@@ -6655,10 +6664,10 @@
     "messageformat": "My steun"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} eenmalig"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Skenking word verwerk…"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Skenk {formattedCurrencyAmount}"
@@ -6672,11 +6681,17 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal versamel of stoor geen van jou persoonlike inligting wanneer jy 'n skenking maak nie.</paragraph><paragraph>Ons gebruik Stripe as ons betalingsverwerker om jou skenkings te ontvang. Ons verkry nie toegang tot, bewaar of stoor enige van die inligting wat jy aan hulle verskaf nie.</paragraph><paragraph>Signal koppel nie jou skenking aan jou Signal-rekening nie, en kan dit ook nie doen nie.</paragraph><paragraph>Dankie vir jou ondersteuning!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "Goed"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Kwitansies"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "Bekyk besonderhede van kwitansie"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "Gereelde vrae oor skenkings"
+    "messageformat": "Gereelde vrae van skenkers"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "Kwitansies word nie tussen toestelle sinchroniseer nie. As jy Signal herinstalleer het, sal kwitansies van vorige skenkings nie beskikbaar wees nie."
@@ -6720,6 +6735,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Vervaldatum"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/JJ"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Skenk {formattedCurrencyAmount} aan Signal"
   },
@@ -6741,6 +6759,24 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Kry die Signal-Hupstoot-wapen vir 30 dae"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "Die minimum skenkingsbedrag is {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "Die minimum bedrag wat jy kan skenk is {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "Die maksimum skenkingsbedrag is {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "As jy hierdie bladsy verlaat, sal jou kredietkaartinligting verwyder word. Wil jy voortgaan?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Verwyder inligting"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Gaan voort"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Skenkingskwitansie"
   },
@@ -6760,7 +6796,7 @@
     "messageformat": "Dankie vir jou ondersteuning van Signal. Jou bydrae help om deur oopbron-privaatheidstegnologie die missie van die beskerming van vryheid van uitdrukking te befonds en veilige globale kommunikasie vir miljoene mense regoor die wêreld moontlik maak. Indien jy 'n inwoner van die Verenigde State is, behou asseblief hierdie kwitansie vir jou belastingrekords. Signal Technology Foundation is 'n niewinsgewende organisasie in die Verenigde State wat van belasting vrygestel is ingevolge artikel 501c3 van die Internal Revenue Code. Ons Federale Belasting-ID is 82-4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Jy is aflyn. Verbind asseblief aan die internet om 'n skenking te voltooi."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Skenking gekanselleer"
@@ -6782,6 +6818,15 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Jy het 'n skenking wat in proses is en bykomende bevestiging benodig."
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Skenking was suksesvol, maar ons kon nie jou wapeninstellings opdateer nie"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Skenking onderbreek"
@@ -6811,13 +6856,13 @@
     "messageformat": "Jou skenking is dalk nie verwerk nie. Klik op “Skenk aan Signal” en dan op “Skenkingskwitansies\" om jou kwitansies na te gaan en te bevestig."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Probeer weer of dien 'n ontfout-log in by Steundiens vir hulp om jou skenking te voltooi. Ontfout-logs help ons om die probleem te diagnoseer en reg te stel, en bevat nie identifiserende inligting nie."
   },
   "icu:Donations__Processing": {
     "messageformat": "Skenking word verwerk…"
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Steeds besig om skenking te verwerk"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Jou skenking word nog verwerk. Dit kan 'n paar minute neem."
@@ -6845,6 +6890,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "Kanselleer skenking"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Dankie vir jou ondersteuning!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "Jy het 'n skenkerwapen van Signal verdien! Vertoon dit op jou profiel om met jou ondersteuning te spog."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Vertoon op profiel"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "Jy kan dit op jou mobiele toestel aanpas onder Instellings → Skenk aan Signal → Wapens"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Hierdie weergawe bevat ’n aantal klein aanpassings en regstellings om Signal glad te laat werk.",
@@ -6874,16 +6931,13 @@
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Ons het die ervaring van boodskappe as gelees/ongelees merk terwyl jy veelvuldige take vervul, verbeter. Jy kan steeds zoem as jy op die beeld klik, of as jy vinnig genoeg tik."
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Ons het 'n fout in die emoji-soekblokkie reggestel."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "'n Paar klein foutregstellings."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "Ons het 'n fout reggestel wat verhinder het dat skenkingswapens vir sommige gebruikers korrek voorkom."
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "Ons het 'n fout in Microsoft Windows reggestel wat die Signal Desktop-titelbalk oranje in plaas van blou gemaak het."
   }
 }

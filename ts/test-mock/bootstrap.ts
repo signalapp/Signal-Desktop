@@ -175,7 +175,6 @@ function sanitizePathComponent(component: string): string {
 }
 
 const DEFAULT_REMOTE_CONFIG = [
-  ['desktop.backup.credentialFetch', { enabled: true }],
   ['desktop.internalUser', { enabled: true }],
   ['desktop.senderKey.retry', { enabled: true }],
   ['global.backups.mediaTierFallbackCdnNumber', { enabled: true, value: '3' }],
@@ -221,6 +220,7 @@ export class Bootstrap {
   #storagePath?: string;
   #timestamp: number = Date.now() - WEEK;
   #lastApp?: App;
+  #screenshotId = 0;
   readonly #randomId = crypto.randomBytes(8).toString('hex');
 
   constructor(options: BootstrapOptions = {}) {
@@ -545,6 +545,28 @@ export class Bootstrap {
     }
   }
 
+  public async screenshot(
+    app: App | undefined = this.#lastApp,
+    testName?: string
+  ): Promise<void> {
+    if (!app) {
+      return;
+    }
+
+    const outDir = await this.#getArtifactsDir(testName);
+    if (outDir == null) {
+      return;
+    }
+
+    const window = await app.getWindow();
+    const screenshot = await window.screenshot();
+
+    const id = this.#screenshotId;
+    this.#screenshotId += 1;
+
+    await fs.writeFile(path.join(outDir, `screenshot-${id}.png`), screenshot);
+  }
+
   public async saveLogs(
     app: App | undefined = this.#lastApp,
     testName?: string
@@ -566,11 +588,7 @@ export class Bootstrap {
         ?.context()
         .tracing.stop({ path: path.join(outDir, 'trace.zip') });
     }
-    if (app) {
-      const window = await app.getWindow();
-      const screenshot = await window.screenshot();
-      await fs.writeFile(path.join(outDir, 'screenshot.png'), screenshot);
-    }
+    await this.screenshot(app, testName);
   }
 
   public async createScreenshotComparator(
@@ -655,7 +673,7 @@ export class Bootstrap {
     return join(this.#storagePath, 'attachments.noindex', relativePath);
   }
 
-  public async storeAttachmentOnCDN(
+  public async encryptAndStoreAttachmentOnCDN(
     data: Buffer,
     contentType: MIMEType
   ): Promise<Proto.IAttachmentPointer> {
@@ -665,13 +683,13 @@ export class Bootstrap {
 
     const passthrough = new PassThrough();
 
-    const [{ digest }] = await Promise.all([
+    const [{ digest, chunkSize, incrementalMac }] = await Promise.all([
       encryptAttachmentV2({
         keys,
         plaintext: {
           data,
         },
-        needIncrementalMac: false,
+        needIncrementalMac: true,
         sink: passthrough,
       }),
       this.server.storeAttachmentOnCdn(cdnNumber, cdnKey, passthrough),
@@ -684,6 +702,8 @@ export class Bootstrap {
       cdnNumber,
       key: keys,
       digest,
+      chunkSize,
+      incrementalMac,
     };
   }
 

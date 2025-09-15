@@ -1,12 +1,11 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { PlaintextContent } from '@signalapp/libsignal-client';
+import { ContentHint, PlaintextContent } from '@signalapp/libsignal-client';
 
 import { handleMessageSend } from '../../util/handleMessageSend';
 import { getSendOptions } from '../../util/getSendOptions';
 import { isDirectConversation } from '../../util/whatTypeOfConversation';
-import { SignalService as Proto } from '../../protobuf';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
@@ -98,7 +97,6 @@ export async function sendResendRequest(
   const plaintext = PlaintextContent.deserialize(
     Bytes.fromBase64(plaintextBase64)
   );
-  const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
   // We run this job on the queue for the individual sender we want the resend from, but
   //   the original message might have been sent in a group - and that's where we'll put
@@ -113,7 +111,7 @@ export async function sendResendRequest(
         timestamp,
         recipients: [senderAci],
         proto: plaintext,
-        contentHint: ContentHint.DEFAULT,
+        contentHint: ContentHint.Default,
         groupId,
         options,
         urgent: false,
@@ -124,7 +122,7 @@ export async function sendResendRequest(
     // Now that we've successfully sent, represent this to the user. Three options:
 
     // 1. We believe that it could be successfully re-sent, so we'll add a placeholder.
-    if (contentHint === ContentHint.RESENDABLE) {
+    if (contentHint === ContentHint.Resendable) {
       const { retryPlaceholders } = window.Signal.Services;
       strictAssert(retryPlaceholders, 'sendResendRequest: adding placeholder');
 
@@ -148,7 +146,7 @@ export async function sendResendRequest(
 
     // 2. This message cannot be resent. We'll show no error and trust the other side to
     //   reset their session.
-    if (contentHint === ContentHint.IMPLICIT) {
+    if (contentHint === ContentHint.Implicit) {
       log.info('contentHint is IMPLICIT, adding no timeline item.');
       return;
     }

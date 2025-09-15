@@ -36,9 +36,10 @@ export function DonationProgressModal(props: PropsType): JSX.Element {
       modalName="DonationProgressModal"
       noEscapeClose
       noMouseClose
-      onClose={() => undefined}
     >
-      <SpinnerV2 size={58} strokeWidth={8} />
+      <div className="DonationProgressModal__SpinnerV2">
+        <SpinnerV2 size={58} strokeWidth={4} variant="brand" />
+      </div>
       <div className="DonationProgressModal__text">
         {i18n('icu:Donations__Processing')}
       </div>

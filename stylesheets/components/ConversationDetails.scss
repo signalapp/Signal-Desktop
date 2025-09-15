@@ -131,6 +131,12 @@
         }
       }
 
+      &--media {
+        &::after {
+          @include details-icon('../images/icons/v3/album/album-tilt.svg');
+        }
+      }
+
       &--mention {
         &::after {
           @include details-icon('../images/icons/v3/at/at.svg');
@@ -279,46 +285,6 @@
           @include details-icon('../images/icons/v3/heart/heart.svg');
         }
       }
-    }
-  }
-
-  &-media-list {
-    &__root {
-      display: flex;
-      justify-content: center;
-      padding-block: 0;
-      padding-inline: 20px;
-      padding-bottom: 24px;
-
-      .module-media-grid-item {
-        border-radius: 4px;
-        height: auto;
-        margin-block: 0;
-        margin-inline: 4px;
-        max-height: 94px;
-        overflow: hidden;
-        width: calc(100% / 6);
-
-        .module-media-grid-item__icon {
-          &::before {
-            content: '';
-            display: block;
-            padding-top: 100%;
-          }
-        }
-
-        .module-media-grid-item__image-container,
-        img {
-          margin: 0;
-        }
-      }
-    }
-
-    &__show-all {
-      background: none;
-      border: none;
-      padding: 0;
-      color: light-dark(variables.$color-gray-95, variables.$color-gray-05);
     }
   }
 

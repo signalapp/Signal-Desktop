@@ -9,6 +9,7 @@ import { Emojify } from '../../components/conversation/Emojify';
 import { normalizeAci } from '../../util/normalizeAci';
 import type { MentionBlotValue } from '../util';
 import { FunEmojiLocalizationProvider } from '../../components/fun/FunEmojiLocalizationProvider';
+import { AxoProvider } from '../../axo/AxoProvider';
 
 export class MentionBlot extends EmbedBlot {
   static override blotName = 'mention';
@@ -48,14 +49,16 @@ export class MentionBlot extends EmbedBlot {
 
     createRoot(mentionSpan).render(
       <StrictMode>
-        <FunEmojiLocalizationProvider i18n={window.i18n}>
-          <span className="module-composition-input__at-mention">
-            <bdi>
-              @
-              <Emojify text={mention.title} />
-            </bdi>
-          </span>
-        </FunEmojiLocalizationProvider>
+        <AxoProvider dir={window.i18n.getLocaleDirection()}>
+          <FunEmojiLocalizationProvider i18n={window.i18n}>
+            <span className="module-composition-input__at-mention">
+              <bdi>
+                @
+                <Emojify text={mention.title} />
+              </bdi>
+            </span>
+          </FunEmojiLocalizationProvider>
+        </AxoProvider>
       </StrictMode>
     );
 

@@ -13,7 +13,6 @@ import { assertDev } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
 import { ToastType } from '../types/Toast';
 import { MegaphoneType } from '../types/Megaphone';
-import { AttachmentNotAvailableModalType } from './AttachmentNotAvailableModal';
 import { NavTab, SettingsPage } from '../types/Nav';
 
 import type { LocalizerType } from '../types/Util';
@@ -23,7 +22,6 @@ import type { Location } from '../types/Nav';
 
 export type PropsType = {
   changeLocation: (newLocation: Location) => unknown;
-  clearDonation: () => unknown;
   hideToast: () => unknown;
   i18n: LocalizerType;
   openFileInFolder: (target: string) => unknown;
@@ -34,9 +32,6 @@ export type PropsType = {
     options?: { wasPinned?: boolean }
   ) => unknown;
   setDidResumeDonation: (didResume: boolean) => unknown;
-  showAttachmentNotAvailableModal: (
-    type: AttachmentNotAvailableModalType
-  ) => void;
   toast?: AnyToast;
   megaphone?: AnyActionableMegaphone;
   centerToast?: boolean;
@@ -49,14 +44,12 @@ const SHORT_TIMEOUT = 3 * SECOND;
 
 export function renderToast({
   changeLocation,
-  clearDonation,
   hideToast,
   i18n,
   openFileInFolder,
   onShowDebugLog,
   onUndoArchive,
   setDidResumeDonation,
-  showAttachmentNotAvailableModal,
   OS,
   toast,
 }: PropsType): JSX.Element | null {
@@ -114,16 +107,6 @@ export function renderToast({
         {i18n('icu:attachmentStillDownloading', {
           count: toast.parameters.count,
         })}
-      </Toast>
-    );
-  }
-
-  if (toastType === ToastType.DonationCompletedAndBadgeApplicationFailed) {
-    return (
-      <Toast onClose={hideToast}>
-        {i18n(
-          'icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed'
-        )}
       </Toast>
     );
   }
@@ -303,7 +286,6 @@ export function renderToast({
       <Toast
         autoDismissDisabled
         onClose={() => {
-          clearDonation();
           hideToast();
         }}
         toastAction={{
@@ -403,6 +385,21 @@ export function renderToast({
         }}
       >
         {i18n('icu:Toast--error')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.UnableToDownloadFromBackupTier) {
+    return (
+      <Toast
+        autoDismissDisabled
+        onClose={hideToast}
+        toastAction={{
+          label: i18n('icu:Toast--error--action'),
+          onClick: () => window.IPC.showDebugLog(),
+        }}
+      >
+        {i18n('icu:Toast--unable-download-from-backup-tier')}
       </Toast>
     );
   }
@@ -562,20 +559,7 @@ export function renderToast({
   }
 
   if (toastType === ToastType.MediaNoLongerAvailable) {
-    return (
-      <Toast
-        onClose={hideToast}
-        toastAction={{
-          label: i18n('icu:attachmentNoLongerAvailable__learnMore'),
-          onClick: () =>
-            showAttachmentNotAvailableModal(
-              AttachmentNotAvailableModalType.VisualMedia
-            ),
-        }}
-      >
-        {i18n('icu:mediaNotAvailable')}
-      </Toast>
-    );
+    return <Toast onClose={hideToast}>{i18n('icu:mediaNotAvailable')}</Toast>;
   }
 
   if (toastType === ToastType.MessageBodyTooLong) {

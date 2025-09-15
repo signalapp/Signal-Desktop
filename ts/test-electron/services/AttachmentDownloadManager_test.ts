@@ -336,7 +336,7 @@ describe('AttachmentDownloadManager/JobManager', () => {
 
   it('triggers onLowDiskSpace for backup import jobs', async () => {
     const jobs = await addJobs(1, _idx => ({
-      source: AttachmentDownloadSource.BACKUP_IMPORT,
+      source: AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA,
     }));
 
     const jobAttempts = getPromisesForAttempts(jobs[0], 2);
@@ -479,7 +479,7 @@ describe('AttachmentDownloadManager/JobManager', () => {
     const jobs = await addJobs(6, idx => ({
       source:
         idx % 2 === 0
-          ? AttachmentDownloadSource.BACKUP_IMPORT
+          ? AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA
           : AttachmentDownloadSource.STANDARD,
     }));
     // make one of the backup job messages visible to test that code path as well
@@ -502,13 +502,75 @@ describe('AttachmentDownloadManager/JobManager', () => {
       jobs[2],
     ]);
   });
+
+  it('retries backup job immediately if retryAfters are reset', async () => {
+    strictAssert(downloadManager, 'must exist');
+    const jobs = await addJobs(1, {
+      source: AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA,
+    });
+    const jobAttempts = getPromisesForAttempts(jobs[0], 2);
+
+    runJob.callsFake(async () => {
+      return new Promise<{ status: 'finished' | 'retry' }>(resolve => {
+        Promise.resolve().then(() => {
+          resolve({ status: 'retry' });
+        });
+      });
+    });
+
+    await downloadManager?.start();
+    await jobAttempts[0].completed;
+    assertRunJobCalledWith([jobs[0]]);
+
+    await DataWriter.resetBackupAttachmentDownloadJobsRetryAfter();
+    await downloadManager.start();
+
+    await jobAttempts[1].completed;
+  });
+
+  it('retries job with updated job if provided', async () => {
+    strictAssert(downloadManager, 'must exist');
+    const job = (
+      await addJobs(1, {
+        source: AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA,
+      })
+    )[0];
+    const jobAttempts = getPromisesForAttempts(job, 3);
+
+    runJob.callsFake(async args => {
+      return new Promise(resolve => {
+        Promise.resolve().then(() => {
+          resolve({
+            status: 'retry',
+            updatedJob: {
+              ...args.job,
+              attachment: { ...job.attachment, caption: 'retried' },
+            },
+          });
+        });
+      });
+    });
+
+    await downloadManager?.start();
+    await jobAttempts[0].completed;
+    assertRunJobCalledWith([job]);
+    await jobAttempts[1].completed;
+    assert.deepStrictEqual(
+      runJob.getCall(0).args[0].job.attachment,
+      job.attachment
+    );
+    assert.deepStrictEqual(runJob.getCall(1).args[0].job.attachment, {
+      ...job.attachment,
+      caption: 'retried',
+    });
+  });
+
   describe('will drop jobs from non-media backup imports that are old', () => {
     it('will not queue attachments older than 90 days (2 * message queue time)', async () => {
-      hasMediaBackups.returns(false);
       await addJobs(
         1,
         {
-          source: AttachmentDownloadSource.BACKUP_IMPORT,
+          source: AttachmentDownloadSource.BACKUP_IMPORT_NO_MEDIA,
         },
         { uploadTimestamp: Date.now() - 4 * MONTH }
       );
@@ -523,7 +585,7 @@ describe('AttachmentDownloadManager/JobManager', () => {
       await addJobs(
         1,
         {
-          source: AttachmentDownloadSource.BACKUP_IMPORT,
+          source: AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA,
         },
         { uploadTimestamp: Date.now() - 4 * MONTH }
       );
@@ -538,7 +600,7 @@ describe('AttachmentDownloadManager/JobManager', () => {
       await addJobs(
         1,
         {
-          source: AttachmentDownloadSource.BACKUP_IMPORT,
+          source: AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA,
         },
         {
           uploadTimestamp: Date.now() - 4 * MONTH,
@@ -557,7 +619,7 @@ describe('AttachmentDownloadManager/JobManager', () => {
       await addJobs(
         1,
         {
-          source: AttachmentDownloadSource.BACKUP_IMPORT,
+          source: AttachmentDownloadSource.BACKUP_IMPORT_NO_MEDIA,
           sentAt: Date.now() - 4 * MONTH,
         },
         { uploadTimestamp: 0 }
@@ -635,10 +697,18 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
         AttachmentVariant.Default
       );
     });
-    it('will download thumbnail if attachment is from backup', async () => {
+
+    it('will download thumbnail first if attachment is from backup', async () => {
       const job = composeJob({
         messageId: '1',
         receivedAt: 1,
+      });
+
+      downloadAttachment = sandbox.stub().callsFake(({ options }) => {
+        if (options.variant === AttachmentVariant.ThumbnailFromBackup) {
+          return Promise.resolve(downloadedAttachment);
+        }
+        throw new Error('error while downloading');
       });
 
       const result = await runDownloadAttachmentJobInner({
@@ -667,16 +737,23 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
         result.attachmentWithThumbnail.thumbnailFromBackup?.path,
         '/path/to/file'
       );
-      assert.strictEqual(downloadAttachment.callCount, 1);
+      assert.strictEqual(downloadAttachment.callCount, 2);
 
-      const downloadCallArgs = downloadAttachment.getCall(0).args[0];
-      assert.deepStrictEqual(downloadCallArgs.attachment, job.attachment);
+      const firstDownloadCallArgs = downloadAttachment.getCall(0).args[0];
+      assert.deepStrictEqual(firstDownloadCallArgs.attachment, job.attachment);
       assert.deepStrictEqual(
-        downloadCallArgs.options.variant,
+        firstDownloadCallArgs.options.variant,
         AttachmentVariant.ThumbnailFromBackup
       );
+
+      const secondDownloadCallArgs = downloadAttachment.getCall(1).args[0];
+      assert.deepStrictEqual(
+        secondDownloadCallArgs.options.variant,
+        AttachmentVariant.Default
+      );
     });
-    it('will download full size if thumbnail already backed up', async () => {
+
+    it('will download full size if backup thumbnail already downloaded', async () => {
       const job = composeJob({
         messageId: '1',
         receivedAt: 1,
@@ -714,7 +791,10 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
     });
 
     it('will attempt to download full size if thumbnail fails', async () => {
-      downloadAttachment = sandbox.stub().callsFake(() => {
+      downloadAttachment = sandbox.stub().callsFake(({ options }) => {
+        if (options.variant === AttachmentVariant.Default) {
+          return Promise.resolve(downloadedAttachment);
+        }
         throw new Error('error while downloading');
       });
 
@@ -723,22 +803,20 @@ describe('AttachmentDownloadManager/runDownloadAttachmentJob', () => {
         receivedAt: 1,
       });
 
-      await assert.isRejected(
-        runDownloadAttachmentJobInner({
-          job,
-          isForCurrentlyVisibleMessage: true,
-          hasMediaBackups: true,
-          abortSignal: abortController.signal,
-          maxAttachmentSizeInKib: 100 * MEBIBYTE,
-          maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
-          dependencies: {
-            deleteDownloadData,
-            downloadAttachment,
-            processNewAttachment,
-          },
-        })
-      );
-
+      const result = await runDownloadAttachmentJobInner({
+        job,
+        isForCurrentlyVisibleMessage: true,
+        hasMediaBackups: true,
+        abortSignal: abortController.signal,
+        maxAttachmentSizeInKib: 100 * MEBIBYTE,
+        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        dependencies: {
+          deleteDownloadData,
+          downloadAttachment,
+          processNewAttachment,
+        },
+      });
+      assert.strictEqual(result.downloadedVariant, AttachmentVariant.Default);
       assert.strictEqual(downloadAttachment.callCount, 2);
 
       const downloadCallArgs0 = downloadAttachment.getCall(0).args[0];

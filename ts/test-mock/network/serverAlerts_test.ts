@@ -6,11 +6,7 @@ import { StorageState, type PrimaryDevice } from '@signalapp/mock-server';
 
 import type { App } from '../playwright';
 import { Bootstrap } from '../bootstrap';
-import {
-  assertAppWasUsingLibsignalWebsockets,
-  getLeftPane,
-  setupAppToUseLibsignalWebsockets,
-} from '../helpers';
+import { getLeftPane } from '../helpers';
 import { MINUTE } from '../../util/durations';
 
 export const debug = createDebug('mock:test:serverAlerts');
@@ -88,26 +84,16 @@ describe('serverAlerts', function (this: Mocha.Suite) {
   ] as const;
 
   for (const testCase of TEST_CASES) {
-    for (const transport of ['classic', 'libsignal']) {
-      // eslint-disable-next-line no-loop-func
-      it(`${testCase.name}: ${transport} socket`, async () => {
-        bootstrap.server.setWebsocketUpgradeResponseHeaders(testCase.headers);
-        app =
-          transport === 'classic'
-            ? await bootstrap.link()
-            : await setupAppToUseLibsignalWebsockets(bootstrap);
-        const window = await app.getWindow();
+    // eslint-disable-next-line no-loop-func
+    it(`${testCase.name}`, async () => {
+      bootstrap.server.setWebsocketUpgradeResponseHeaders(testCase.headers);
+      app = await bootstrap.link();
+      const window = await app.getWindow();
 
-        // Trigger a profile fetch for a contact to ensure unauth websocket is used
-        await window.getByTestId(pinned.device.aci).click();
+      // Trigger a profile fetch for a contact to ensure unauth websocket is used
+      await window.getByTestId(pinned.device.aci).click();
 
-        await testCase.test(window);
-
-        if (transport === 'libsignal') {
-          debug('confirming that app was actually using libsignal');
-          await assertAppWasUsingLibsignalWebsockets(app);
-        }
-      });
-    }
+      await testCase.test(window);
+    });
   }
 });

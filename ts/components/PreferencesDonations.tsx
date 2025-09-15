@@ -350,38 +350,24 @@ function PreferencesReceiptList({
   ) => Promise<Blob>;
   showToast: (toast: AnyToast) => void;
 }): JSX.Element {
-  const [showReceiptModal, setShowReceiptModal] = useState(false);
   const [selectedReceipt, setSelectedReceipt] =
     useState<DonationReceipt | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
 
-  const sortedReceipts = sortBy(
-    donationReceipts,
-    receipt => -receipt.timestamp
-  );
-  const receiptsByYear = groupBy(sortedReceipts, receipt =>
-    new Date(receipt.timestamp).getFullYear()
+  const hasReceipts = useMemo(
+    () => donationReceipts.length > 0,
+    [donationReceipts]
   );
 
-  const dateFormatter = getDateTimeFormatter({
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  });
-
-  const preferredSystemLocales =
-    window.SignalContext.getPreferredSystemLocales();
-  const localeOverride = window.SignalContext.getLocaleOverride();
-  const locales =
-    localeOverride != null ? [localeOverride] : preferredSystemLocales;
-
-  const getCurrencyFormatter = (currencyType: string) =>
-    new Intl.NumberFormat(locales, {
-      style: 'currency',
-      currency: currencyType,
-    });
-
-  const hasReceipts = Object.keys(receiptsByYear).length > 0;
+  const receiptsByYear = useMemo(() => {
+    const sortedReceipts = sortBy(
+      donationReceipts,
+      receipt => -receipt.timestamp
+    );
+    return groupBy(sortedReceipts, receipt =>
+      new Date(receipt.timestamp).getFullYear()
+    );
+  }, [donationReceipts]);
 
   const handleDownloadReceipt = useCallback(async () => {
     if (!selectedReceipt) {
@@ -399,7 +385,7 @@ function PreferencesReceiptList({
       });
 
       if (result) {
-        setShowReceiptModal(false);
+        setSelectedReceipt(null);
         showToast({
           toastType: ToastType.ReceiptSaved,
           parameters: { fullPath: result.fullPath },
@@ -421,6 +407,12 @@ function PreferencesReceiptList({
     showToast,
   ]);
 
+  const dateFormatter = getDateTimeFormatter({
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+
   return (
     <div className="PreferencesDonations PreferencesDonations--receiptList">
       {hasReceipts ? (
@@ -439,15 +431,16 @@ function PreferencesReceiptList({
               <div className="PreferencesDonations--receiptList__year-header">
                 {year}
               </div>
-              <ListBox className="PreferencesDonations--receiptList__list">
+              <div className="PreferencesDonations--receiptList__list">
                 {receipts.map(receipt => (
-                  <ListBoxItem
+                  <button
+                    aria-label={i18n(
+                      'icu:PreferencesDonations__receipt-details-button-aria'
+                    )}
                     key={receipt.id}
                     className="PreferencesDonations--receiptList__receipt-item"
-                    onAction={() => {
-                      setSelectedReceipt(receipt);
-                      setShowReceiptModal(true);
-                    }}
+                    onClick={() => setSelectedReceipt(receipt)}
+                    type="button"
                   >
                     <div className="PreferencesDonations--receiptList__receipt-item__icon" />
                     <div className="PreferencesDonations--receiptList__receipt-item__details">
@@ -459,13 +452,14 @@ function PreferencesReceiptList({
                       </div>
                     </div>
                     <div className="PreferencesDonations--receiptList__receipt-item__amount">
-                      {getCurrencyFormatter(receipt.currencyType).format(
-                        getHumanDonationAmount(receipt)
-                      )}
+                      {toHumanCurrencyString({
+                        amount: getHumanDonationAmount(receipt),
+                        currency: receipt.currencyType,
+                      })}
                     </div>
-                  </ListBoxItem>
+                  </button>
                 ))}
-              </ListBox>
+              </div>
             </div>
           ))}
         </>
@@ -480,17 +474,18 @@ function PreferencesReceiptList({
         </div>
       )}
 
-      {showReceiptModal && selectedReceipt && (
+      {selectedReceipt && (
         <Modal
           i18n={i18n}
           modalName="ReceiptDetailsModal"
           moduleClassName="PreferencesDonations__ReceiptModal"
           hasXButton
-          title={i18n('icu:PreferencesDonations__ReceiptModal--title')}
-          onClose={() => setShowReceiptModal(false)}
+          padded={false}
+          onClose={() => setSelectedReceipt(null)}
           modalFooter={
             <Button
               variant={ButtonVariant.Primary}
+              size={ButtonSize.Small}
               onClick={handleDownloadReceipt}
               disabled={isDownloading}
             >
@@ -507,9 +502,10 @@ function PreferencesReceiptList({
               <div className="PreferencesDonations__ReceiptModal__logo" />
             </div>
             <div className="PreferencesDonations__ReceiptModal__amount">
-              {getCurrencyFormatter(selectedReceipt.currencyType).format(
-                getHumanDonationAmount(selectedReceipt)
-              )}
+              {toHumanCurrencyString({
+                amount: getHumanDonationAmount(selectedReceipt),
+                currency: selectedReceipt.currencyType,
+              })}
             </div>
             <hr className="PreferencesDonations__ReceiptModal__separator" />
             <div className="PreferencesDonations__ReceiptModal__details">
@@ -592,7 +588,7 @@ export function PreferencesDonations({
   );
 
   useEffect(() => {
-    if (!workflow || lastError) {
+    if (lastError) {
       setIsSubmitted(false);
     }
 
@@ -631,6 +627,13 @@ export function PreferencesDonations({
         errorType={lastError}
         i18n={i18n}
         onClose={() => {
+          setIsSubmitted(false);
+          if (
+            workflow?.type === 'DONE' &&
+            lastError === donationErrorTypeSchema.Enum.BadgeApplicationFailed
+          ) {
+            clearWorkflow();
+          }
           updateLastError(undefined);
         }}
       />
@@ -678,16 +681,13 @@ export function PreferencesDonations({
         badge={donationBadge}
         applyDonationBadge={applyDonationBadge}
         onClose={(error?: Error) => {
-          clearWorkflow();
           if (error) {
             log.error('Badge application failed:', error.message);
-            showToast({
-              toastType: ToastType.DonationCompletedAndBadgeApplicationFailed,
-            });
+            updateLastError(
+              donationErrorTypeSchema.Enum.BadgeApplicationFailed
+            );
           } else {
-            showToast({
-              toastType: ToastType.DonationCompleted,
-            });
+            clearWorkflow();
           }
         }}
       />

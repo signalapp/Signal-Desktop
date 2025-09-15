@@ -51,19 +51,19 @@ describe('attachment backfill', function (this: Mocha.Suite) {
     const { unknownContacts } = bootstrap;
     [unknownContact] = unknownContacts;
 
-    textAttachment = await bootstrap.storeAttachmentOnCDN(
+    textAttachment = await bootstrap.encryptAndStoreAttachmentOnCDN(
       Buffer.from('look at this pic, it is gorgeous!'),
       LONG_MESSAGE
     );
 
     const plaintextCat = await readFile(CAT_PATH);
-    catAttachment = await bootstrap.storeAttachmentOnCDN(
+    catAttachment = await bootstrap.encryptAndStoreAttachmentOnCDN(
       plaintextCat,
       IMAGE_JPEG
     );
 
     const plaintextSnow = await readFile(SNOW_PATH);
-    snowAttachment = await bootstrap.storeAttachmentOnCDN(
+    snowAttachment = await bootstrap.encryptAndStoreAttachmentOnCDN(
       plaintextSnow,
       IMAGE_JPEG
     );

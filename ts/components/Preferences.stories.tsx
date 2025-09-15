@@ -39,6 +39,11 @@ import type {
   OneTimeDonationHumanAmounts,
 } from '../types/Donations';
 import type { AnyToast } from '../types/Toast';
+import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage';
+import { PreferencesChatFoldersPage } from './preferences/chatFolders/PreferencesChatFoldersPage';
+import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage';
+import { PreferencesEditChatFolderPage } from './preferences/chatFolders/PreferencesEditChatFoldersPage';
+import { CHAT_FOLDER_DEFAULTS } from '../types/ChatFolder';
 
 const { i18n } = window.SignalContext;
 
@@ -113,6 +118,13 @@ const exportLocalBackupResult = {
 };
 
 const donationAmountsConfig = {
+  cad: {
+    minimum: 4,
+    oneTime: {
+      1: [7, 15, 30, 40, 70, 140],
+      100: [7],
+    },
+  },
   jpy: {
     minimum: 400,
     oneTime: {
@@ -125,6 +137,13 @@ const donationAmountsConfig = {
     oneTime: {
       1: [5, 10, 20, 30, 50, 100],
       100: [5],
+    },
+  },
+  ugx: {
+    minimum: 8000,
+    oneTime: {
+      1: [15000, 35000, 70000, 100000, 150000, 300000],
+      100: [15000],
     },
   },
 } as unknown as OneTimeDonationHumanAmounts;
@@ -254,15 +273,47 @@ function renderToastManager(): JSX.Element {
   return <div />;
 }
 
+function renderPreferencesChatFoldersPage(
+  props: SmartPreferencesChatFoldersPageProps
+): JSX.Element {
+  return (
+    <PreferencesChatFoldersPage
+      i18n={i18n}
+      onBack={props.onBack}
+      settingsPaneRef={props.settingsPaneRef}
+      chatFolders={[]}
+      onOpenEditChatFoldersPage={props.onOpenEditChatFoldersPage}
+      onCreateChatFolder={action('onCreateChatFolder')}
+    />
+  );
+}
+
+function renderPreferencesEditChatFolderPage(
+  props: SmartPreferencesEditChatFolderPageProps
+): JSX.Element {
+  return (
+    <PreferencesEditChatFolderPage
+      i18n={i18n}
+      theme={ThemeType.light}
+      onBack={props.onBack}
+      settingsPaneRef={props.settingsPaneRef}
+      existingChatFolderId={props.existingChatFolderId}
+      initChatFolderParams={CHAT_FOLDER_DEFAULTS}
+      onCreateChatFolder={action('onCreateChatFolder')}
+      onUpdateChatFolder={action('onUpdateChatFolder')}
+      onDeleteChatFolder={action('onDeleteChatFolder')}
+      conversations={conversations}
+      conversationSelector={conversationSelector}
+      preferredBadgeSelector={() => undefined}
+    />
+  );
+}
+
 export default {
   title: 'Components/Preferences',
   component: Preferences,
   args: {
     i18n,
-
-    conversations,
-    conversationSelector,
-
     accountEntropyPool:
       'uy38jh2778hjjhj8lk19ga61s672jsj089r023s6a57809bap92j2yh5t326vv7t',
     autoDownloadAttachment: {
@@ -398,8 +449,9 @@ export default {
     renderProfileEditor,
     renderToastManager,
     renderUpdateDialog,
+    renderPreferencesChatFoldersPage,
+    renderPreferencesEditChatFolderPage,
     getConversationsWithCustomColor: () => [],
-    getPreferredBadge: () => undefined,
 
     addCustomColor: action('addCustomColor'),
     doDeleteAllData: action('doDeleteAllData'),
@@ -496,6 +548,9 @@ export default {
     generateDonationReceiptBlob: async () => {
       action('generateDonationReceiptBlob')();
       return new Blob();
+    },
+    __dangerouslyRunAbitraryReadOnlySqlQuery: async () => {
+      return Promise.resolve([]);
     },
   } satisfies PropsType,
 } satisfies Meta<PropsType>;

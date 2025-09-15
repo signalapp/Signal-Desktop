@@ -14,6 +14,7 @@ import { isNumber, noop, partition } from 'lodash';
 import classNames from 'classnames';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
 import type { MutableRefObject, ReactNode } from 'react';
+import type { RowType } from '@signalapp/sqlcipher';
 import { Button, ButtonVariant } from './Button';
 import { ChatColorPicker } from './ChatColorPicker';
 import { Checkbox } from './Checkbox';
@@ -35,7 +36,7 @@ import { focusableSelector } from '../util/focusableSelectors';
 import { Modal } from './Modal';
 import { SearchInput } from './SearchInput';
 import { removeDiacritics } from '../util/removeDiacritics';
-import { assertDev, strictAssert } from '../util/assert';
+import { assertDev } from '../util/assert';
 import { I18n } from './I18n';
 import { FunSkinTonesList } from './fun/FunSkinTones';
 import { emojiParentKeyConstant, type EmojiSkinTone } from './fun/data/emojis';
@@ -90,27 +91,15 @@ import type {
   PromptOSAuthResultType,
 } from '../util/os/promptOSAuthMain';
 import type { DonationReceipt } from '../types/Donations';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
-import { EditChatFoldersPage } from './preferences/EditChatFoldersPage';
-import { ChatFoldersPage } from './preferences/ChatFoldersPage';
-import type {
-  ChatFolderId,
-  ChatFolderParams,
-  ChatFolderRecord,
-} from '../types/ChatFolder';
-import {
-  CHAT_FOLDER_DEFAULTS,
-  isChatFoldersEnabled,
-} from '../types/ChatFolder';
-import type { GetConversationByIdType } from '../state/selectors/conversations';
+import type { ChatFolderId } from '../types/ChatFolder';
+import { isChatFoldersEnabled } from '../types/ChatFolder';
+import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage';
+import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage';
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
 
 export type PropsDataType = {
-  conversations: ReadonlyArray<ConversationType>;
-  conversationSelector: GetConversationByIdType;
-
   // Settings
   accountEntropyPool: string | undefined;
   autoDownloadAttachment: AutoDownloadAttachmentType;
@@ -222,6 +211,12 @@ type PropsFunctionType = {
   renderUpdateDialog: (
     _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
   ) => JSX.Element;
+  renderPreferencesChatFoldersPage: (
+    props: SmartPreferencesChatFoldersPageProps
+  ) => JSX.Element;
+  renderPreferencesEditChatFolderPage: (
+    props: SmartPreferencesEditChatFolderPageProps
+  ) => JSX.Element;
 
   // Other props
   addCustomColor: (color: CustomColorType) => unknown;
@@ -235,7 +230,6 @@ type PropsFunctionType = {
   resumeBackupMediaDownload: () => void;
   pauseBackupMediaDownload: () => void;
   getConversationsWithCustomColor: (colorId: string) => Array<ConversationType>;
-  getPreferredBadge: PreferredBadgeSelectorType;
   makeSyncRequest: () => unknown;
   onStartUpdate: () => unknown;
   pickLocalBackupFolder: () => Promise<string | undefined>;
@@ -312,6 +306,9 @@ type PropsFunctionType = {
   onWhoCanSeeMeChange: SelectChangeHandlerType<PhoneNumberSharingMode>;
   onWhoCanFindMeChange: SelectChangeHandlerType<PhoneNumberDiscoverability>;
   onZoomFactorChange: SelectChangeHandlerType<ZoomFactorType>;
+  __dangerouslyRunAbitraryReadOnlySqlQuery: (
+    readonlySqlQuery: string
+  ) => Promise<ReadonlyArray<RowType<object>>>;
 
   // Localization
   i18n: LocalizerType;
@@ -358,8 +355,6 @@ const DEFAULT_ZOOM_FACTORS = [
 ];
 
 export function Preferences({
-  conversations,
-  conversationSelector,
   accountEntropyPool,
   addCustomColor,
   autoDownloadAttachment,
@@ -389,7 +384,6 @@ export function Preferences({
   getConversationsWithCustomColor,
   getMessageCountBySchemaVersion,
   getMessageSampleForSchemaVersion,
-  getPreferredBadge,
   hasAudioNotifications,
   hasAutoConvertEmoji,
   hasAutoDownloadUpdate,
@@ -486,6 +480,8 @@ export function Preferences({
   renderProfileEditor,
   renderToastManager,
   renderUpdateDialog,
+  renderPreferencesChatFoldersPage,
+  renderPreferencesEditChatFolderPage,
   promptOSAuth,
   resetAllChatColors,
   resetDefaultChatColor,
@@ -511,6 +507,7 @@ export function Preferences({
   internalAddDonationReceipt,
   saveAttachmentToDisk,
   generateDonationReceiptBlob,
+  __dangerouslyRunAbitraryReadOnlySqlQuery,
 }: PropsType): JSX.Element {
   const storiesId = useId();
   const themeSelectId = useId();
@@ -535,10 +532,6 @@ export function Preferences({
   const [confirmPnpNotDiscoverable, setConfirmPnpNoDiscoverable] =
     useState(false);
 
-  const [chatFolders, setChatFolders] = useState<
-    ReadonlyArray<ChatFolderRecord>
-  >([]);
-
   const [editChatFolderPageId, setEditChatFolderPageId] =
     useState<ChatFolderId | null>(null);
 
@@ -554,34 +547,6 @@ export function Preferences({
     setPage(SettingsPage.ChatFolders);
     setEditChatFolderPageId(null);
   }, [setPage]);
-
-  const handleCreateChatFolder = useCallback((params: ChatFolderParams) => {
-    setChatFolders(prev => {
-      return [...prev, { ...params, id: String(prev.length) as ChatFolderId }];
-    });
-  }, []);
-
-  const handleUpdateChatFolder = useCallback(
-    (chatFolderId: ChatFolderId, chatFolderParams: ChatFolderParams) => {
-      setChatFolders(prev => {
-        return prev.map(chatFolder => {
-          if (chatFolder.id === chatFolderId) {
-            return { id: chatFolderId, ...chatFolderParams };
-          }
-          return chatFolder;
-        });
-      });
-    },
-    []
-  );
-
-  const handleDeleteChatFolder = useCallback((chatFolderId: ChatFolderId) => {
-    setChatFolders(prev => {
-      return prev.filter(chatFolder => {
-        return chatFolder.id !== chatFolderId;
-      });
-    });
-  }, []);
 
   function closeLanguageDialog() {
     setLanguageDialog(null);
@@ -1949,43 +1914,17 @@ export function Preferences({
       />
     );
   } else if (page === SettingsPage.ChatFolders) {
-    content = (
-      <ChatFoldersPage
-        i18n={i18n}
-        settingsPaneRef={settingsPaneRef}
-        onBack={() => setPage(SettingsPage.Chats)}
-        onOpenEditChatFoldersPage={handleOpenEditChatFoldersPage}
-        chatFolders={chatFolders}
-        onCreateChatFolder={handleCreateChatFolder}
-      />
-    );
+    content = renderPreferencesChatFoldersPage({
+      onBack: () => setPage(SettingsPage.Chats),
+      onOpenEditChatFoldersPage: handleOpenEditChatFoldersPage,
+      settingsPaneRef,
+    });
   } else if (page === SettingsPage.EditChatFolder) {
-    let initChatFolderParam: ChatFolderParams;
-    if (editChatFolderPageId != null) {
-      const found = chatFolders.find(chatFolder => {
-        return chatFolder.id === editChatFolderPageId;
-      });
-      strictAssert(found, 'Missing chat folder');
-      initChatFolderParam = found;
-    } else {
-      initChatFolderParam = CHAT_FOLDER_DEFAULTS;
-    }
-    content = (
-      <EditChatFoldersPage
-        i18n={i18n}
-        settingsPaneRef={settingsPaneRef}
-        onBack={handleCloseEditChatFoldersPage}
-        conversations={conversations}
-        getPreferredBadge={getPreferredBadge}
-        theme={theme}
-        existingChatFolderId={editChatFolderPageId}
-        initChatFolderParams={initChatFolderParam}
-        conversationSelector={conversationSelector}
-        onCreateChatFolder={handleCreateChatFolder}
-        onUpdateChatFolder={handleUpdateChatFolder}
-        onDeleteChatFolder={handleDeleteChatFolder}
-      />
-    );
+    content = renderPreferencesEditChatFolderPage({
+      onBack: handleCloseEditChatFoldersPage,
+      settingsPaneRef,
+      existingChatFolderId: editChatFolderPageId,
+    });
   } else if (page === SettingsPage.PNP) {
     let sharingDescription: string;
 
@@ -2198,6 +2137,9 @@ export function Preferences({
             internalAddDonationReceipt={internalAddDonationReceipt}
             saveAttachmentToDisk={saveAttachmentToDisk}
             generateDonationReceiptBlob={generateDonationReceiptBlob}
+            __dangerouslyRunAbitraryReadOnlySqlQuery={
+              __dangerouslyRunAbitraryReadOnlySqlQuery
+            }
           />
         }
         contentsRef={settingsPaneRef}

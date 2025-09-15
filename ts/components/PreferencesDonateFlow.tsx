@@ -42,6 +42,9 @@ import {
 } from '../types/DonationsCardForm';
 import {
   brandHumanDonationAmount,
+  type CurrencyFormatResult,
+  getCurrencyFormat,
+  getMaximumStripeAmount,
   parseCurrencyString,
   toHumanCurrencyString,
   toStripeDonationAmount,
@@ -65,6 +68,8 @@ import { I18n } from './I18n';
 import { strictAssert } from '../util/assert';
 import { DonationsOfflineTooltip } from './conversation/DonationsOfflineTooltip';
 import { DonateInputAmount } from './preferences/donations/DonateInputAmount';
+import { Tooltip, TooltipPlacement } from './Tooltip';
+import { offsetDistanceModifier } from '../util/popperUtil';
 
 const SUPPORT_URL = 'https://support.signal.org/hc/requests/new?desktop';
 
@@ -120,6 +125,8 @@ export function PreferencesDonateFlow({
   const tryClose = useRef<() => void | undefined>();
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
     i18n,
+    bodyText: i18n('icu:DonateFlow__discard-dialog-body'),
+    discardText: i18n('icu:DonateFlow__discard-dialog-remove-info'),
     name: 'PreferencesDonateFlow',
     tryClose,
   });
@@ -132,6 +139,17 @@ export function PreferencesDonateFlow({
   const [cardFormValues, setCardFormValues] = useState<
     CardFormValues | undefined
   >();
+
+  const hasCardFormData = useMemo(() => {
+    if (!cardFormValues) {
+      return false;
+    }
+    return (
+      cardFormValues.cardNumber !== '' ||
+      cardFormValues.cardExpiration !== '' ||
+      cardFormValues.cardCvc !== ''
+    );
+  }, [cardFormValues]);
 
   // When changing currency, clear out the last selected amount
   const handleAmountPickerCurrencyChanged = useCallback((value: string) => {
@@ -182,14 +200,19 @@ export function PreferencesDonateFlow({
         clearWorkflow();
       }
     };
-    const isConfirmationNeeded = Boolean(
-      step === 'paymentDetails' &&
-        !isCardFormDisabled &&
-        (!workflow || !isPaymentDetailFinalizedInWorkflow(workflow))
-    );
+    const isConfirmationNeeded =
+      hasCardFormData &&
+      !isCardFormDisabled &&
+      (!workflow || !isPaymentDetailFinalizedInWorkflow(workflow));
 
     confirmDiscardIf(isConfirmationNeeded, onDiscard);
-  }, [clearWorkflow, confirmDiscardIf, isCardFormDisabled, step, workflow]);
+  }, [
+    clearWorkflow,
+    confirmDiscardIf,
+    hasCardFormData,
+    isCardFormDisabled,
+    workflow,
+  ]);
   tryClose.current = onTryClose;
 
   let innerContent: JSX.Element;
@@ -295,9 +318,19 @@ function AmountPicker({
   const [presetAmount, setPresetAmount] = useState<
     HumanDonationAmount | undefined
   >();
+
+  // Use localized group and decimal separators, but no symbol
+  // Symbol will be added by DonateInputAmount
   const [customAmount, setCustomAmount] = useState<string>(
-    initialAmount?.toString() ?? ''
+    toHumanCurrencyString({
+      amount: initialAmount,
+      currency,
+      symbol: 'none',
+    })
   );
+
+  const [isCustomAmountErrorVisible, setIsCustomAmountErrorVisible] =
+    useState<boolean>(false);
 
   // Reset amount selections when API donation config or selected currency changes
   // Memo here so preset options instantly load when component mounts.
@@ -320,7 +353,6 @@ function AmountPicker({
       setCustomAmount('');
     } else {
       setPresetAmount(undefined);
-      setCustomAmount(initialAmount?.toString() ?? '');
     }
   }, [initialAmount, presetAmountOptions]);
 
@@ -333,17 +365,42 @@ function AmountPicker({
     return currencyAmounts.minimum;
   }, [donationAmountsConfig, currency]);
 
+  const formattedMinimumAmount = useMemo<string>(() => {
+    return toHumanCurrencyString({ amount: minimumAmount, currency });
+  }, [minimumAmount, currency]);
+
+  const maximumAmount = useMemo<HumanDonationAmount>(() => {
+    return getMaximumStripeAmount(currency);
+  }, [currency]);
+
+  const formattedMaximumAmount = useMemo<string>(() => {
+    return toHumanCurrencyString({ amount: maximumAmount, currency });
+  }, [maximumAmount, currency]);
+
   const currencyOptionsForSelect = useMemo(() => {
     return validCurrencies.toSorted().map((currencyString: string) => {
       return { text: currencyString.toUpperCase(), value: currencyString };
     });
   }, [validCurrencies]);
 
+  const currencyFormat = useMemo<CurrencyFormatResult | undefined>(
+    () => getCurrencyFormat(currency),
+    [currency]
+  );
+
   const { error, parsedCustomAmount } = useMemo<{
-    error: 'invalid' | 'amount-below-minimum' | undefined;
+    error:
+      | 'invalid'
+      | 'amount-below-minimum'
+      | 'amount-above-maximum'
+      | undefined;
     parsedCustomAmount: HumanDonationAmount | undefined;
   }>(() => {
-    if (customAmount === '' || customAmount == null) {
+    if (
+      customAmount === '' ||
+      customAmount == null ||
+      (currencyFormat?.symbol && customAmount === currencyFormat?.symbol)
+    ) {
       return {
         error: undefined,
         parsedCustomAmount: undefined,
@@ -356,6 +413,13 @@ function AmountPicker({
     });
 
     if (parseResult != null) {
+      if (parseResult > maximumAmount) {
+        return {
+          error: 'amount-above-maximum',
+          parsedCustomAmount: undefined,
+        };
+      }
+
       if (parseResult >= minimumAmount) {
         // Valid input
         return {
@@ -374,7 +438,7 @@ function AmountPicker({
       error: 'invalid',
       parsedCustomAmount: undefined,
     };
-  }, [currency, customAmount, minimumAmount]);
+  }, [currency, currencyFormat, customAmount, minimumAmount, maximumAmount]);
 
   const handleCurrencyChanged = useCallback(
     (value: string) => {
@@ -384,6 +448,18 @@ function AmountPicker({
     },
     [onChangeCurrency]
   );
+
+  const handleCustomAmountFocus = useCallback(() => {
+    setPresetAmount(undefined);
+  }, []);
+
+  const handleCustomAmountBlur = useCallback(() => {
+    // Only show parse errors on blur to avoid interrupting entry.
+    // For example if you enter $1000 then it shouldn't show an error after '$1'.
+    if (error) {
+      setIsCustomAmountErrorVisible(true);
+    }
+  }, [error]);
 
   const handleCustomAmountChanged = useCallback((value: string) => {
     // Custom amount overrides any selected preset amount
@@ -402,13 +478,41 @@ function AmountPicker({
     onSubmit({ amount, currency });
   }, [amount, currency, isContinueEnabled, onSubmit]);
 
+  useEffect(() => {
+    // While entering custom amount, clear error as soon as we see a valid value.
+    if (error == null) {
+      setIsCustomAmountErrorVisible(false);
+    }
+  }, [error]);
+
   let customInputClassName;
-  if (error) {
+  if (error && isCustomAmountErrorVisible) {
     customInputClassName = 'DonationAmountPicker__CustomInput--with-error';
   } else if (parsedCustomAmount) {
     customInputClassName = 'DonationAmountPicker__CustomInput--selected';
   } else {
     customInputClassName = 'DonationAmountPicker__CustomInput';
+  }
+
+  let customInputError: JSX.Element | undefined;
+  if (isCustomAmountErrorVisible) {
+    if (error === 'amount-below-minimum') {
+      customInputError = (
+        <div className="DonationAmountPicker__CustomAmountError">
+          {i18n('icu:DonateFlow__custom-amount-below-minimum-error', {
+            formattedCurrencyAmount: formattedMinimumAmount,
+          })}
+        </div>
+      );
+    } else if (error === 'amount-above-maximum') {
+      customInputError = (
+        <div className="DonationAmountPicker__CustomAmountError">
+          {i18n('icu:DonateFlow__custom-amount-above-maximum-error', {
+            formattedCurrencyAmount: formattedMaximumAmount,
+          })}
+        </div>
+      );
+    }
   }
 
   const continueButton = (
@@ -418,9 +522,31 @@ function AmountPicker({
       onClick={handleContinueClicked}
       variant={isOnline ? ButtonVariant.Primary : ButtonVariant.Secondary}
     >
-      Continue
+      {i18n('icu:DonateFlow__continue')}
     </Button>
   );
+
+  let continueButtonWithTooltip: JSX.Element | undefined;
+  if (!isOnline) {
+    continueButtonWithTooltip = (
+      <DonationsOfflineTooltip i18n={i18n}>
+        {continueButton}
+      </DonationsOfflineTooltip>
+    );
+  } else if (error === 'amount-below-minimum') {
+    continueButtonWithTooltip = (
+      <Tooltip
+        className="InAnotherCallTooltip"
+        content={i18n('icu:DonateFlow__custom-amount-below-minimum-tooltip', {
+          formattedCurrencyAmount: formattedMinimumAmount,
+        })}
+        direction={TooltipPlacement.Top}
+        popperModifiers={[offsetDistanceModifier(20)]}
+      >
+        {continueButton}
+      </Tooltip>
+    );
+  }
 
   return (
     <div className="DonationAmountPicker">
@@ -449,7 +575,11 @@ function AmountPicker({
             }}
             type="button"
           >
-            {toHumanCurrencyString({ amount: value, currency })}
+            {toHumanCurrencyString({
+              amount: value,
+              currency,
+              symbol: 'narrowSymbol',
+            })}
           </button>
         ))}
         <DonateInputAmount
@@ -457,21 +587,17 @@ function AmountPicker({
           currency={currency}
           id="customAmount"
           onValueChange={handleCustomAmountChanged}
-          onFocus={() => setPresetAmount(undefined)}
+          onFocus={handleCustomAmountFocus}
+          onBlur={handleCustomAmountBlur}
           placeholder={i18n(
             'icu:DonateFlow__amount-picker-custom-amount-placeholder'
           )}
           value={customAmount}
         />
+        {customInputError}
       </div>
       <div className="DonationAmountPicker__PrimaryButtonContainer">
-        {isOnline ? (
-          continueButton
-        ) : (
-          <DonationsOfflineTooltip i18n={i18n}>
-            {continueButton}
-          </DonationsOfflineTooltip>
-        )}
+        {continueButtonWithTooltip ?? continueButton}
       </div>
     </div>
   );
@@ -592,22 +718,45 @@ function CardForm({
     setCardCvcError(formResult.cardCvc.error ?? null);
 
     const cardDetail = cardFormToCardDetail(formResult);
-    if (cardDetail == null) {
+    if (
+      cardDetail == null ||
+      formResult.cardNumber.error ||
+      formResult.cardExpiration.error ||
+      formResult.cardCvc.error
+    ) {
       return;
     }
 
     onSubmit(cardDetail);
   }, [cardCvc, cardExpiration, cardNumber, onSubmit]);
 
-  const isDonateDisabled =
-    disabled ||
-    !isOnline ||
-    cardNumber === '' ||
-    cardExpiration === '' ||
-    cardCvc === '' ||
-    cardNumberError != null ||
-    cardExpirationError != null ||
-    cardCvcError != null;
+  const isDonateDisabled = useMemo(
+    () =>
+      disabled ||
+      !isOnline ||
+      cardNumber === '' ||
+      cardExpiration === '' ||
+      cardCvc === '' ||
+      cardNumberError != null ||
+      cardExpirationError != null ||
+      cardCvcError != null,
+    [
+      cardCvc,
+      cardCvcError,
+      cardExpiration,
+      cardExpirationError,
+      cardNumber,
+      cardNumberError,
+      disabled,
+      isOnline,
+    ]
+  );
+
+  const handleInputEnterKey = useCallback(() => {
+    if (!isDonateDisabled) {
+      handleDonateClicked();
+    }
+  }, [handleDonateClicked, isDonateDisabled]);
 
   const donateButton = (
     <Button
@@ -652,6 +801,7 @@ function CardForm({
             onValueChange={handleCardNumberChange}
             maxInputLength={cardFormSettings.cardNumber.maxInputLength}
             onBlur={handleCardNumberBlur}
+            onEnter={handleInputEnterKey}
           />
           {cardNumberError != null && (
             <div className="DonationCardForm_FieldError">
@@ -671,10 +821,12 @@ function CardForm({
           })}
         >
           <DonateInputCardExp
+            i18n={i18n}
             id="cardExpiration"
             value={cardExpiration}
             onValueChange={handleCardExpirationChange}
             onBlur={handleCardExpirationBlur}
+            onEnter={handleInputEnterKey}
           />
           {cardExpirationError && (
             <div className="DonationCardForm_FieldError">
@@ -698,6 +850,7 @@ function CardForm({
             onValueChange={handleCardCvcChange}
             maxInputLength={cardFormSettings.cardCvc.maxInputLength}
             onBlur={handleCardCvcBlur}
+            onEnter={handleInputEnterKey}
           />
           {cardCvcError && (
             <div className="DonationCardForm_FieldError">

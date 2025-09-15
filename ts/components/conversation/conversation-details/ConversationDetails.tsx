@@ -29,8 +29,6 @@ import { AddGroupMembersModal } from './AddGroupMembersModal';
 import { ConversationDetailsActions } from './ConversationDetailsActions';
 import { ConversationDetailsHeader } from './ConversationDetailsHeader';
 import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
-import type { Props as ConversationDetailsMediaListPropsType } from './ConversationDetailsMediaList';
-import { ConversationDetailsMediaList } from './ConversationDetailsMediaList';
 import type { GroupV2Membership } from './ConversationDetailsMembershipList';
 import { ConversationDetailsMembershipList } from './ConversationDetailsMembershipList';
 import type {
@@ -82,6 +80,7 @@ export type StateProps = {
   canAddNewMembers: boolean;
   conversation?: ConversationType;
   hasGroupLink: boolean;
+  hasMedia: boolean;
   getPreferredBadge: PreferredBadgeSelectorType;
   hasActiveCall: boolean;
   i18n: LocalizerType;
@@ -122,7 +121,6 @@ type ActionProps = {
   deleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
   getProfilesForConversation: (id: string) => unknown;
   leaveGroup: (conversationId: string) => void;
-  loadRecentMediaItems: (id: string, limit: number) => void;
   onDeleteNicknameAndNote: () => void;
   onOpenEditNicknameAndNoteModal: () => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => unknown;
@@ -150,7 +148,7 @@ type ActionProps = {
       onFailure?: () => unknown;
     }
   ) => unknown;
-} & Pick<ConversationDetailsMediaListPropsType, 'showLightbox'>;
+};
 
 export type Props = StateProps & ActionProps;
 
@@ -180,6 +178,7 @@ export function ConversationDetails({
   conversation,
   deleteAvatarFromDisk,
   hasGroupLink,
+  hasMedia,
   getPreferredBadge,
   getProfilesForConversation,
   groupsInCommon,
@@ -189,7 +188,6 @@ export function ConversationDetails({
   isGroup,
   isSignalConversation,
   leaveGroup,
-  loadRecentMediaItems,
   memberships,
   maxGroupSize,
   maxRecommendedGroupSize,
@@ -211,7 +209,6 @@ export function ConversationDetails({
   setMuteExpiration,
   showContactModal,
   showConversation,
-  showLightbox,
   startAvatarDownload,
   theme,
   toggleAboutContactModal,
@@ -691,6 +688,22 @@ export function ConversationDetails({
               }
             />
           )}
+          {hasMedia && (
+            <PanelRow
+              icon={
+                <ConversationDetailsIcon
+                  ariaLabel={i18n('icu:ConversationDetailsMediaList--title')}
+                  icon={IconType.media}
+                />
+              }
+              label={i18n('icu:ConversationDetailsMediaList--title')}
+              onClick={() => {
+                pushPanelForConversation({
+                  type: PanelType.AllMedia,
+                });
+              }}
+            />
+          )}
           {!isGroup && !conversation.isMe && (
             <PanelRow
               onClick={() => toggleSafetyNumberModal(conversation.id)}
@@ -778,18 +791,6 @@ export function ConversationDetails({
           ) : null}
         </PanelSection>
       )}
-
-      <ConversationDetailsMediaList
-        conversation={conversation}
-        i18n={i18n}
-        loadRecentMediaItems={loadRecentMediaItems}
-        showAllMedia={() =>
-          pushPanelForConversation({
-            type: PanelType.AllMedia,
-          })
-        }
-        showLightbox={showLightbox}
-      />
 
       {!isGroup && !conversation.isMe && !isSignalConversation && (
         <ConversationDetailsGroups

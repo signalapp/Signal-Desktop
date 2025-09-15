@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "ان چیٹس کا انتخاب کریں جو آپ اس فولڈر میں دکھانا چاہتے ہیں"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "1:1 چیٹس"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "گروپ کی گفتگو"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "چیٹس شامل کریں"
   },
@@ -2063,6 +2069,9 @@
   "icu:Toast--download-failed": {
     "messageformat": "ڈاؤن لوڈ ناکام ہو گیا"
   },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "آپ کی طرف سے اس میسج کو بھیجنے کے بعد ترامیم کا اطلاق محض 24 گھنٹوں کے اندر کیا جا سکتا ہے۔"
   },
@@ -2238,7 +2247,7 @@
     "messageformat": "ایک بار ملاحظہ کرنے والے ویڈیو"
   },
   "icu:message--getDescription--gif": {
-    "messageformat": "GIF"
+    "messageformat": "گِف"
   },
   "icu:message--deletedForEveryone": {
     "messageformat": "یہ پیغام حذف کردیا گیا تھا۔"
@@ -3528,13 +3537,13 @@
     "messageformat": "براہ کرم دوبارہ کوشش کریں یا مدد سے رابطہ کریں۔"
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "ایک غیر متوقع نقص وقوع پذیر ہوا ہے"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "ڈی بَگ لاگ پیش کریں"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "نہیں شکریہ"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "ٹھیک ہے"
@@ -5268,10 +5277,10 @@
     "messageformat": "مثال کے طور پر، :-) <emojify>🙂</emojify> میں تبدیل ہو جائے گا"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "خاموش کردہ چیٹس کو آرکائیو کردہ رکھیں"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "نیا میسج آنے پر آرکائیو کی گئی خاموش کردہ چیٹس آرکائیو کردہ رہیں گی۔"
   },
   "icu:Preferences--advanced": {
     "messageformat": "اعلی' درجے کی"
@@ -5283,7 +5292,7 @@
     "messageformat": "بلاک شدہ"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal بیک اپس"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Signal کی محفوظ، آخر سے آخر تک انکرپٹ کردہ اسٹوریج سروس کے حامل خودکار بیک اپس۔ اپنے فون پر آغاز کریں۔ <learnMoreLink>مزید جانیں</learnMoreLink>۔"
@@ -5298,7 +5307,7 @@
     "messageformat": "ٹیکسٹ + تمام میڈیا کا بیک اپ"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "آپ کی سبسکرپشن نہیں ملی۔ Signal بیک اپس کا استعمال کرنا جاری رکھنے کے لیے تجدید کریں۔"
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {ٹیکسٹ + {mediaDayCount,number} دن کے میڈیا کا بیک اپ} other {ٹیکسٹ + {mediaDayCount,number} دنوں کے میڈیا کا بیک اپ}}"
@@ -5316,13 +5325,13 @@
     "messageformat": "سبسکرپشن منسوخ کر دی گئی"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "آپ اپنے فون پر Signal بیک اپس کی سبسکرپشن کا نظم کر سکتے ہیں یا منسوخ کر سکتے ہیں۔"
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "آپ Signal بیک اپس کو اپنے فون پر منظم کر سکتے یا اپ گریڈ کر سکتے ہیں۔"
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "آپ Signal بیک اپس کی سبسکرپشن کو اپنے فون پر منظم کر سکتے ہیں یا تجدید کر سکتے ہیں۔"
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "آخری بیک اپ"
@@ -6655,10 +6664,10 @@
     "messageformat": "میری معاونت"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "{formattedCurrencyAmount} ایک وقتی"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "عطیے پر عمل کاری ہو رہی ہے..."
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "{formattedCurrencyAmount} عطیہ کریں"
@@ -6672,11 +6681,17 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>جب آپ عطیہ کرتے ہیں تو Signal آپ کی کوئی بھی ذاتی معلومات جمع یا محفوظ نہیں کرتا۔</paragraph><paragraph>ہم آپ کے عطیات موصول کرنے کے لیے Stripe کو اپنی پیمنٹس کے پروسیسر کے طور پر استعمال کرتے ہیں۔ آپ وہاں جو بھی معلومات فراہم کرتے ہیں ہم ان تک رسائی نہیں رکھتے، اسٹور، یا محفوظ نہیں کرتے۔</paragraph><paragraph>Signal آپ کے عطیے کو آپ کے Signal کے اکاؤنٹ کے ساتھ منسلک نہیں کرتا اور نہ ہی کر سکتا ہے۔</paragraph><paragraph>آپ کی سپورٹ کے لیے آپ کا شکریہ!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "ٹھیک ہے"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "رسیدیں"
   },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "رسید کی تفصیلات دیکھیں"
+  },
   "icu:PreferencesDonations__faqs": {
-    "messageformat": "عطیات کے متعلق عمومی سوالات"
+    "messageformat": "ڈونر کے عمومی سوالات"
   },
   "icu:PreferencesDonations--receiptList__info": {
     "messageformat": "رسیدیں مختلف ڈیوائسز پر سنک نہیں ہوتیں۔ اگر آپ نے Signal دوبارہ انسٹال کیا ہے، تو گزشتہ عطیات کی رسیدیں دستیاب نہیں ہوں گی۔"
@@ -6720,6 +6735,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "معیاد ختم ہونے کی تاریخ"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "MM/YY"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Signal کو {formattedCurrencyAmount} عطیہ کریں"
   },
@@ -6741,6 +6759,24 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "30 دنوں کے لیے Signal کا بوسٹ بیج حاصل کریں"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "کم سے کم عطیے کی رقم {formattedCurrencyAmount} ہے"
+  },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "کم سے کم رقم جو آپ عطیہ کر سکتے ہیں وہ {formattedCurrencyAmount} ہے"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "زیادہ سے زیادہ عطیے کی رقم {formattedCurrencyAmount} ہے"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "اس صفحے کو چھوڑنے سے آپ کے کریڈٹ کارڈ کی معلومات ہٹا دی جائیں گی۔ کیا آپ جاری رکھنا چاہتے ہیں؟"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "معلومات ہٹائیں"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "جاری رکھیں"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "عطیے کی رسید"
   },
@@ -6760,7 +6796,7 @@
     "messageformat": "Signal کو سپورٹ کرنے کے لیے آپ کا شکریہ۔ آپ کی شراکت دنیا بھر کے لاکھوں افراد کے لیے آزاد اظہارِ رائے کے تحفظ اور محفوظ عالمی کمیونیکیشن کے مشن کو تقویت دیتی ہے اور یہ سب اوپن سورس پرائیویسی ٹیکنالوجی کے ذریعے ممکن ہوتا ہے۔ اگر آپ امریکہ کے رہائشی ہیں، تو براہ کرم اس رسید کو اپنے ٹیکس ریکارڈز کے لیے محفوظ رکھیں۔ Signal ٹیکنالوجی فاؤنڈیشن امریکہ میں انٹرنل ریوینیو کوڈ کے سیکشن 501c3 کے تحت ٹیکس سے مستثنیٰ غیر منفعتی تنظیم ہے۔ ہماری فیڈرل ٹیکس کی ID 82-4506840 ہے۔"
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "آپ آف لائن ہیں۔ براہ کرم عطیہ مکمل کرنے کے لیے انٹرنیٹ سے کنیکٹ کریں۔"
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "عطیہ منسوخ ہو گیا"
@@ -6782,6 +6818,15 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "آپ کے ایک عطیے پر پیش رفت کے لیے تصدیق درکار ہے۔"
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "عطیہ کامیابی سے مکمل ہو گیا ہے، لیکن ہم آپ کی بیج سیٹنگز کو اپ ڈیٹ نہیں کر سکے"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "عطیہ دینے میں خلل آیا ہے"
@@ -6811,13 +6856,13 @@
     "messageformat": "ممکن ہے کہ آپ کے عطیے پر کارروائی نہ ہوئی ہو۔ \"Signal کو عطیہ کریں\" پر کلک کریں اور پھر اپنی رسیدیں چیک کرنے کے لیے \"عطیے کی رسیدیں\" چیک کریں اور تصدیق کریں۔"
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "دوبارہ کوشش کریں یا اپنے عطیے کو مکمل کرنے میں مدد کے لیے سپورٹ کو ڈی بگ لاگ جمع کروائیں۔ ڈی بگ لاگز مسئلے کی نشاندہی کرنے اور اسے حل کرنے میں ہماری مدد کرتے ہیں، اور اس میں شناخت کرنے والی معلومات شامل نہیں ہوتی ہیں۔"
   },
   "icu:Donations__Processing": {
     "messageformat": "عطیے پر عمل کاری ہو رہی ہے..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "عطیے پر عمل کاری ابھی جاری ہے"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "آپ کا عطیہ اب بھی زیر عمل ہے۔ اس میں چند منٹ لگ سکتے ہیں"
@@ -6845,6 +6890,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "عطیہ منسوخ کریں"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "آپ کی سپورٹ کا شکریہ!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "آپ نے سگنل سے ڈونر بیج حاصل کیا ہے! اپنا تعاون ظاہر کرنے کے لیے اسے اپنے پروفائل پر دکھائیں۔"
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "پروفائل پر ڈسپلے کریں"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "آپ اپنی موبائل ڈیوائس پر سیٹنگز → Signal کو عطیہ کریں → بیجز کے تحت اس کو ایڈجسٹ کر سکتے ہیں"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "یہ ورژن Signal کو بے خلل طور پر چلتا رکھنے کے لیے کچھ معمولی تبدیلیوں اور بگ درستگیوں پر مشتمل ہے۔",
@@ -6874,16 +6931,13 @@
     "messageformat": "معمولی تبدیلیاں کی گئیں، بگ ٹھیک کیے گئے، اور کارکردگی اور بھی بہتر بنائی گئی ہے۔ Signal استعمال کرنے کے لیے شکریہ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "ہم نے ملٹی ٹاسکنگ کے دوران میسج کو پڑھنے/نہ پڑھے جانے کے تجربے کو بہتر بنایا ہے۔"
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "مطلوبہ ایموجی ڈھونڈنا ایک مصیبت ثابت ہوتا ہے، لیکن اب ہم نے وہ خرابی ٹھیک کر دی ہے جو ایموجی سرچ بار میں ایسکیپ بٹن دبانے سے سامنے آتی تھی۔"
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "کچھ چھوٹے بگ کی درستگی کی گئی۔"
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "ہم نے ایک ایسے نقص کو ٹھیک کر دیا ہے جو کچھ یوزرز کے لیے عطیے کے بیجز کے درست طور پر ظاہر ہونے میں رکاوٹ بن رہا تھا۔ سگنل ایک 501c3 غیر منافع بخش ادارہ ہے، آپ کے تعاون کا شکریہ!"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "ہم نے مائیکروسافٹ ونڈوز پر ایک بگ کو ٹھیک کیا جس نے سگنل ڈیسک ٹاپ ٹائٹل بار کو نیلے کی بجائے نارنجی بنا دیا۔ اگر آپ پچھلے کچھ دنوں میں لیموں کی تھیم والی رنگ سکیم سے محبت کرنے لگے ہیں اور یہ بگ فکس آپ کو نیلا محسوس کرتا ہے، تو آپ اپنی ونڈوز کی ترتیبات میں اپنے سسٹم کے لہجے کا رنگ ایڈجسٹ کر سکتے ہیں۔"
   }
 }

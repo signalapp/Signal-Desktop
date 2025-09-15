@@ -2,37 +2,38 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { MutableRefObject } from 'react';
 import React, { useCallback, useMemo, useState } from 'react';
-import type { ConversationType } from '../../state/ducks/conversations';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
-import type { LocalizerType } from '../../types/I18N';
-import type { ThemeType } from '../../types/Util';
-import { Input } from '../Input';
-import { Button, ButtonVariant } from '../Button';
-import { ConfirmationDialog } from '../ConfirmationDialog';
-import type { ChatFolderSelection } from './EditChatFoldersSelectChatsDialog';
-import { EditChatFoldersSelectChatsDialog } from './EditChatFoldersSelectChatsDialog';
-import { SettingsRow } from '../PreferencesUtil';
-import { Checkbox } from '../Checkbox';
-import { Avatar, AvatarSize } from '../Avatar';
-import { PreferencesContent } from '../Preferences';
-import type { ChatFolderId } from '../../types/ChatFolder';
+import type { ConversationType } from '../../../state/ducks/conversations';
+import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges';
+import type { LocalizerType } from '../../../types/I18N';
+import type { ThemeType } from '../../../types/Util';
+import { Input } from '../../Input';
+import { Button, ButtonVariant } from '../../Button';
+import { ConfirmationDialog } from '../../ConfirmationDialog';
+import type { ChatFolderSelection } from './PreferencesEditChatFoldersSelectChatsDialog';
+import { PreferencesEditChatFoldersSelectChatsDialog } from './PreferencesEditChatFoldersSelectChatsDialog';
+import { SettingsRow } from '../../PreferencesUtil';
+import { Checkbox } from '../../Checkbox';
+import { Avatar, AvatarSize } from '../../Avatar';
+import { PreferencesContent } from '../../Preferences';
+import type { ChatFolderId } from '../../../types/ChatFolder';
 import {
   CHAT_FOLDER_NAME_MAX_CHAR_LENGTH,
+  ChatFolderParamsSchema,
   isSameChatFolderParams,
-  normalizeChatFolderParams,
   validateChatFolderParams,
   type ChatFolderParams,
-} from '../../types/ChatFolder';
-import type { GetConversationByIdType } from '../../state/selectors/conversations';
-import { strictAssert } from '../../util/assert';
+} from '../../../types/ChatFolder';
+import type { GetConversationByIdType } from '../../../state/selectors/conversations';
+import { strictAssert } from '../../../util/assert';
+import { parseStrict } from '../../../util/schemas';
 
-export function EditChatFoldersPage(props: {
+export type PreferencesEditChatFolderPageProps = Readonly<{
   i18n: LocalizerType;
   existingChatFolderId: ChatFolderId | null;
   initChatFolderParams: ChatFolderParams;
   onBack: () => void;
   conversations: ReadonlyArray<ConversationType>;
-  getPreferredBadge: PreferredBadgeSelectorType;
+  preferredBadgeSelector: PreferredBadgeSelectorType;
   theme: ThemeType;
   settingsPaneRef: MutableRefObject<HTMLDivElement | null>;
   conversationSelector: GetConversationByIdType;
@@ -42,7 +43,11 @@ export function EditChatFoldersPage(props: {
     chatFolderId: ChatFolderId,
     chatFolderParams: ChatFolderParams
   ) => void;
-}): JSX.Element {
+}>;
+
+export function PreferencesEditChatFolderPage(
+  props: PreferencesEditChatFolderPageProps
+): JSX.Element {
   const {
     i18n,
     initChatFolderParams,
@@ -63,7 +68,7 @@ export function EditChatFoldersPage(props: {
   const [showSaveChangesDialog, setShowSaveChangesDialog] = useState(false);
 
   const normalizedChatFolderParams = useMemo(() => {
-    return normalizeChatFolderParams(chatFolderParams);
+    return parseStrict(ChatFolderParamsSchema, chatFolderParams);
   }, [chatFolderParams]);
 
   const isChanged = useMemo(() => {
@@ -116,9 +121,9 @@ export function EditChatFoldersPage(props: {
     strictAssert(isValid, 'tried saving when invalid');
 
     if (existingChatFolderId != null) {
-      onUpdateChatFolder(existingChatFolderId, chatFolderParams);
+      onUpdateChatFolder(existingChatFolderId, normalizedChatFolderParams);
     } else {
-      onCreateChatFolder(chatFolderParams);
+      onCreateChatFolder(normalizedChatFolderParams);
     }
     onBack();
   }, [
@@ -126,7 +131,7 @@ export function EditChatFoldersPage(props: {
     existingChatFolderId,
     isChanged,
     isValid,
-    chatFolderParams,
+    normalizedChatFolderParams,
     onCreateChatFolder,
     onUpdateChatFolder,
   ]);
@@ -197,7 +202,10 @@ export function EditChatFoldersPage(props: {
               'icu:Preferences__EditChatFolderPage__FolderNameField__Label'
             )}
           >
-            <div className="Preferences__padding">
+            <div
+              className="Preferences__padding"
+              data-testid="EditChatFolderName"
+            >
               <Input
                 i18n={i18n}
                 value={chatFolderParams.name}
@@ -232,7 +240,9 @@ export function EditChatFoldersPage(props: {
                 <li className="Preferences__ChatFolders__ChatSelection__Item">
                   <span className="Preferences__ChatFolders__ChatSelection__ItemAvatar Preferences__ChatFolders__ChatSelection__ItemAvatar--DirectChats" />
                   <span className="Preferences__ChatFolders__ChatSelection__ItemTitle">
-                    1:1 Chats
+                    {i18n(
+                      'icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats'
+                    )}
                   </span>
                 </li>
               )}
@@ -240,7 +250,9 @@ export function EditChatFoldersPage(props: {
                 <li className="Preferences__ChatFolders__ChatSelection__Item">
                   <span className="Preferences__ChatFolders__ChatSelection__ItemAvatar Preferences__ChatFolders__ChatSelection__ItemAvatar--GroupChats" />
                   <span className="Preferences__ChatFolders__ChatSelection__ItemTitle">
-                    Group Chats
+                    {i18n(
+                      'icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats'
+                    )}
                   </span>
                 </li>
               )}
@@ -359,14 +371,14 @@ export function EditChatFoldersPage(props: {
             </SettingsRow>
           )}
           {showInclusionsDialog && (
-            <EditChatFoldersSelectChatsDialog
+            <PreferencesEditChatFoldersSelectChatsDialog
               i18n={i18n}
               title={i18n(
                 'icu:Preferences__EditChatFolderPage__SelectChatsDialog--IncludedChats__Title'
               )}
               onClose={handleCloseInclusions}
               conversations={props.conversations}
-              getPreferredBadge={props.getPreferredBadge}
+              preferredBadgeSelector={props.preferredBadgeSelector}
               theme={props.theme}
               conversationSelector={props.conversationSelector}
               initialSelection={{
@@ -379,14 +391,14 @@ export function EditChatFoldersPage(props: {
             />
           )}
           {showExclusionsDialog && (
-            <EditChatFoldersSelectChatsDialog
+            <PreferencesEditChatFoldersSelectChatsDialog
               i18n={i18n}
               title={i18n(
                 'icu:Preferences__EditChatFolderPage__SelectChatsDialog--ExcludedChats__Title'
               )}
               onClose={handleCloseExclusions}
               conversations={props.conversations}
-              getPreferredBadge={props.getPreferredBadge}
+              preferredBadgeSelector={props.preferredBadgeSelector}
               theme={props.theme}
               conversationSelector={props.conversationSelector}
               initialSelection={{

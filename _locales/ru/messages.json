@@ -1370,6 +1370,12 @@
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__Help": {
     "messageformat": "Выберите чаты, которые хотите видеть в этой папке"
   },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
+    "messageformat": "Личные чаты"
+  },
+  "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
+    "messageformat": "Групповые чаты"
+  },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__AddChatsButton": {
     "messageformat": "Добавить чаты"
   },
@@ -2062,6 +2068,9 @@
   },
   "icu:Toast--download-failed": {
     "messageformat": "Загрузка не удалась"
+  },
+  "icu:Toast--unable-download-from-backup-tier": {
+    "messageformat": "Download of attachment from backup failed"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Изменения могут быть внесены только в течение 24 часов с момента отправки этого сообщения."
@@ -3528,13 +3537,13 @@
     "messageformat": "Пожалуйста, попробуйте еще раз или свяжитесь с поддержкой."
   },
   "icu:DebugLogErrorModal__UnexpectedError": {
-    "messageformat": "An unexpected error occurred"
+    "messageformat": "Произошла непредвиденная ошибка"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog": {
-    "messageformat": "Submit debug log"
+    "messageformat": "Отправить журнал отладки"
   },
   "icu:DebugLogErrorModal__SubmitDebugLog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Нет, спасибо"
   },
   "icu:Confirmation--confirm": {
     "messageformat": "Хорошо"
@@ -5268,10 +5277,10 @@
     "messageformat": "Например, :-) будет преобразовано в <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
-    "messageformat": "Keep muted chats archived"
+    "messageformat": "Оставлять чаты без звука архивированными"
   },
   "icu:Preferences__keep-muted-chats-archived--description": {
-    "messageformat": "Muted chats that are archived will remain archived when a new message arrives."
+    "messageformat": "Архивированные чаты с отключённым звуком будут оставаться архивированными, даже если будет получено новое сообщение."
   },
   "icu:Preferences--advanced": {
     "messageformat": "Расширенные"
@@ -5283,7 +5292,7 @@
     "messageformat": "Заблокировано"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Резервное копирование Signal"
+    "messageformat": "Signal Secure Backups"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Автоматическое создание резервных копий с помощью надёжного, полностью зашифрованного хранилища Signal. Начните с вашего телефона. <learnMoreLink>Узнать больше</learnMoreLink>."
@@ -5298,7 +5307,7 @@
     "messageformat": "Резервное копирование сообщений и всех медиафайлов"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Ваша подписка не найдена. Продлите подписку, чтобы и дальше использовать резервное копирование Signal."
+    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Резервное копирование сообщений и медиафайлов за {mediaDayCount,number} день} few {Резервное копирование сообщений и медиафайлов за {mediaDayCount,number} дня} many {Резервное копирование сообщений и медиафайлов за {mediaDayCount,number} дней} other {Резервное копирование сообщений и медиафайлов за {mediaDayCount,number} дня}}"
@@ -5316,13 +5325,13 @@
     "messageformat": "Подписка отменена"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "Вы можете управлять резервным копированием Signal или отменять подписку на своём телефоне."
+    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "Вы можете управлять резервным копированием Signal или продлевать подписку на своём телефоне."
+    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "Вы можете управлять подпиской на резервное копирование Signal или продлевать её на своём телефоне."
+    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Последняя резервная копия"
@@ -6655,10 +6664,10 @@
     "messageformat": "Моя поддержка"
   },
   "icu:PreferencesDonations__badge-label-one-time": {
-    "messageformat": "{formattedCurrencyAmount} one-time"
+    "messageformat": "Разовое на {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__badge-processing-donation": {
-    "messageformat": "Processing donation..."
+    "messageformat": "Обработка пожертвования..."
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
     "messageformat": "Пожертвовать {formattedCurrencyAmount}"
@@ -6672,8 +6681,14 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal не собирает и не хранит вашу личную информацию, когда вы делаете пожертвование.</paragraph><paragraph>Для получения ваших пожертвований мы используем компанию Stripe в качестве оператора платежей. Мы не имеем доступа ни к какой информации, которую вы ей предоставляете, не сохраняем и не храним её.</paragraph><paragraph>Signal не связывает и не может связать ваше пожертвование с вашей учётной записью Signal.</paragraph><paragraph>Спасибо за вашу поддержку!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-ok": {
+    "messageformat": "ОК"
+  },
   "icu:PreferencesDonations__receipts": {
     "messageformat": "Квитанции"
+  },
+  "icu:PreferencesDonations__receipt-details-button-aria": {
+    "messageformat": "Просмотреть детали квитанции"
   },
   "icu:PreferencesDonations__faqs": {
     "messageformat": "ЧаВо о пожертвованиях"
@@ -6720,6 +6735,9 @@
   "icu:DonateFlow__card-form-expiration-date": {
     "messageformat": "Срок действия"
   },
+  "icu:DonateFlow__card-form-expiration-date-placeholder": {
+    "messageformat": "ММ/ГГ"
+  },
   "icu:DonateFlow__card-form-title-donate-with-amount": {
     "messageformat": "Пожертвовать Signal {formattedCurrencyAmount}"
   },
@@ -6741,6 +6759,24 @@
   "icu:DonateFlow__one-time-donation-boost-badge-info": {
     "messageformat": "Получите значок буста Signal на 30 дней"
   },
+  "icu:DonateFlow__custom-amount-below-minimum-error": {
+    "messageformat": "Минимальная сумма пожертвования составляет {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-below-minimum-tooltip": {
+    "messageformat": "Минимальная сумма пожертвования составляет {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__custom-amount-above-maximum-error": {
+    "messageformat": "Максимальная сумма пожертвования составляет {formattedCurrencyAmount}"
+  },
+  "icu:DonateFlow__discard-dialog-body": {
+    "messageformat": "Если вы покинете эту страницу, информация о вашей кредитной карте будет удалена. Хотите продолжить?"
+  },
+  "icu:DonateFlow__discard-dialog-remove-info": {
+    "messageformat": "Удалить информацию"
+  },
+  "icu:DonateFlow__continue": {
+    "messageformat": "Продолжить"
+  },
   "icu:DonationReceipt__title": {
     "messageformat": "Квитанция о пожертвовании"
   },
@@ -6760,7 +6796,7 @@
     "messageformat": "Спасибо, что поддерживаете Signal. Ваш вклад помогает поддерживать миссию по защите свободы слова и делает возможным безопасное общение между миллионами людей по всему миру благодаря технологии конфиденциальности с открытым исходным кодом. Если вы проживаете в США, пожалуйста, сохраните эту квитанцию для своего налогового учёта. Signal Technology Foundation — это некоммерческая организация, освобождённая от налогов в США со статусом 501c3. Наш ИНН: 82–4506840."
   },
   "icu:Donations__OfflineTooltip": {
-    "messageformat": "You are offline. Please connect to the internet to complete a donation."
+    "messageformat": "Вы не в сети. Пожалуйста, подключитесь к Интернету, чтобы завершить пожертвование."
   },
   "icu:Donations__Toast__Canceled": {
     "messageformat": "Пожертвование отменено"
@@ -6782,6 +6818,15 @@
   },
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "У вас есть незавершённое пожертвование, требующее подтверждения."
+  },
+  "icu:Donations__Toast__DonationCompletedAndBadgeApplicationFailed": {
+    "messageformat": "Пожертвование прошло успешно, но мы не смогли обновить настройки вашего значка"
+  },
+  "icu:Donations__BadgeApplicationFailed__Title": {
+    "messageformat": "Donation succeeded, but we could not update your badge settings"
+  },
+  "icu:Donations__BadgeApplicationFailed__Description": {
+    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Пожертвование прервано"
@@ -6811,13 +6856,13 @@
     "messageformat": "Возможно, ваше пожертвование не было обработано. Нажмите «Пожертвовать Signal», а затем «Чек пожертвования», чтобы проверить свои чеки и подтвердить."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
-    "messageformat": "Try again or submit a debug log to Support for help completing your donation. Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Повторите попытку или отправьте журнал отладки в службу поддержки, чтобы получить помощь в завершении пожертвования. Журналы отладки помогают нам диагностировать и устранять проблему и не содержат идентифицирующей информации."
   },
   "icu:Donations__Processing": {
     "messageformat": "Обработка пожертвования..."
   },
   "icu:Donations__StillProcessing": {
-    "messageformat": "Still processing donation"
+    "messageformat": "Всё ещё обрабатываем пожертвование"
   },
   "icu:Donations__StillProcessing__Description": {
     "messageformat": "Ваше пожертвование всё ещё обрабатывается. Это может занять несколько минут."
@@ -6845,6 +6890,18 @@
   },
   "icu:Donations__3dsValidationNeeded__CancelDonation": {
     "messageformat": "Отменить пожертвование"
+  },
+  "icu:Donations__badge-modal--title": {
+    "messageformat": "Спасибо за вашу поддержку!"
+  },
+  "icu:Donations__badge-modal--description": {
+    "messageformat": "Вы заработали значок донора от Signal! Добавьте его в свой профиль, чтобы продемонстрировать свою поддержку."
+  },
+  "icu:Donations__badge-modal--display-on-profile": {
+    "messageformat": "Показывать в профиле"
+  },
+  "icu:Donations__badge-modal--help-text": {
+    "messageformat": "Вы можете настроить это на своем мобильном устройстве в разделе Настройки → Поддержать Signal → Значки"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Эта версия содержит несколько небольших изменений и исправлений ошибок.",
@@ -6874,16 +6931,13 @@
     "messageformat": "Небольшие изменения, исправления ошибок и улучшения производительности. Спасибо за то, что пользуетесь Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.64--0": {
-    "messageformat": "Мы улучшили функцию пометки сообщений прочитанными/непрочитанными в режиме многозадачности и исправили ошибку, из-за которой иногда некорректно открывался расширенный просмотр изображений, если вы, ища идеальный эмодзи, нажимали пробел. Вы всё ещё можете увеличить изображение, если нажмёте на него или будете печатать достаточно быстро."
-  },
-  "icu:WhatsNew__v7.65--0": {
-    "messageformat": "Поиск подходящего эмодзи бывает нелёгкой задачей, но мы исправили ошибку, из-за которой могло возникать затруднение после нажатия клавиши Escape в окне поиска эмодзи."
-  },
   "icu:WhatsNew__v7.66--0": {
     "messageformat": "В этом обновлении исправлено несколько небольших ошибок, в том числе та, из-за которой реакции эмодзи иногда группировались неправильно."
   },
   "icu:WhatsNew__v7.67--0": {
-    "messageformat": "We fixed a bug that prevented donation badges from appearing correctly for some users. Signal is a 501c3 nonprofit, and we appreciate your support!"
+    "messageformat": "Мы исправили ошибку, из-за которой значки пожертвований у некоторых пользователей отображались некорректно. Signal — это некоммерческая организация со статусом 501c3, и мы ценим вашу поддержку!"
+  },
+  "icu:WhatsNew__v7.70--0": {
+    "messageformat": "Мы исправили ошибку в Microsoft Windows, из-за которой строка заголовка Signal Desktop была оранжевой, а не синей. Если за последние дни вы полюбили цитрусовую цветовую схему и исправление этой ошибки вас огорчило, вы можете изменить цвет системных элементов в настройках Windows."
   }
 }

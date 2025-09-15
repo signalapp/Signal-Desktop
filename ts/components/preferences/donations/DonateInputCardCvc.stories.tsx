@@ -14,6 +14,7 @@ export default {
     onValueChange: action('onValueChange'),
     maxInputLength: 3,
     onBlur: action('onBlur'),
+    onEnter: action('onEnter'),
   },
 } satisfies ComponentMeta<DonateInputCardCvcProps>;
 

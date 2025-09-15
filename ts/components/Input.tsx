@@ -37,6 +37,7 @@ export type PropsType = {
   onFocus?: () => unknown;
   onEnter?: () => unknown;
   placeholder: string;
+  readOnly?: boolean;
   value?: string;
   whenToShowRemainingCount?: number;
   whenToWarnRemainingCount?: number;
@@ -84,6 +85,7 @@ export const Input = forwardRef<
     onFocus,
     onEnter,
     placeholder,
+    readOnly,
     value = '',
     whenToShowRemainingCount = Infinity,
     whenToWarnRemainingCount = Infinity,
@@ -226,6 +228,7 @@ export const Input = forwardRef<
     onKeyDown: handleKeyDown,
     onPaste: handlePaste,
     placeholder,
+    readOnly,
     ref: refMerger<HTMLInputElement | HTMLTextAreaElement | null>(
       ref,
       innerRef

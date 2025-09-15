@@ -147,6 +147,7 @@ export type StorageAccessType = {
   'preferred-audio-input-device': AudioDevice | undefined;
   'preferred-audio-output-device': AudioDevice | undefined;
   remoteConfig: RemoteConfigType;
+  remoteConfigHash: string;
   serverTimeSkew: number;
   unidentifiedDeliveryIndicators: boolean;
   groupCredentials: ReadonlyArray<GroupCredentialType>;

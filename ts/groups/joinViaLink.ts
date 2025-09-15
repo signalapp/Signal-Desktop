@@ -1,8 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { unmountComponentAtNode } from 'react-dom';
-import { createRoot } from 'react-dom/client';
+import { createRoot, type Root } from 'react-dom/client';
 
 import type { ConversationAttributesType } from '../model-types.d';
 import type { ConversationModel } from '../models/conversations';
@@ -211,9 +210,9 @@ export async function joinViaLink(value: string): Promise<void> {
 
   const closeDialog = async () => {
     try {
-      if (groupV2InfoNode) {
-        unmountComponentAtNode(groupV2InfoNode);
-        groupV2InfoNode = undefined;
+      if (groupV2InfoRoot) {
+        groupV2InfoRoot.unmount();
+        groupV2InfoRoot = undefined;
       }
 
       window.reduxActions.conversations.setPreJoinConversation(undefined);
@@ -234,9 +233,9 @@ export async function joinViaLink(value: string): Promise<void> {
 
   const join = async () => {
     try {
-      if (groupV2InfoNode) {
-        unmountComponentAtNode(groupV2InfoNode);
-        groupV2InfoNode = undefined;
+      if (groupV2InfoRoot) {
+        groupV2InfoRoot.unmount();
+        groupV2InfoRoot = undefined;
       }
 
       window.reduxActions.conversations.setPreJoinConversation(undefined);
@@ -387,10 +386,11 @@ export async function joinViaLink(value: string): Promise<void> {
 
   log.info(`${logId}: Showing modal`);
 
-  let groupV2InfoNode: HTMLDivElement | undefined =
-    document.createElement('div');
+  const groupV2InfoNode = document.createElement('div');
+  let groupV2InfoRoot: Root | undefined;
 
-  createRoot(groupV2InfoNode).render(
+  groupV2InfoRoot = createRoot(groupV2InfoNode);
+  groupV2InfoRoot.render(
     createGroupV2JoinModal(window.reduxStore, { join, onClose: closeDialog })
   );
 
@@ -426,7 +426,7 @@ export async function joinViaLink(value: string): Promise<void> {
         };
 
         // Dialog has been dismissed; we'll delete the unneeeded avatar
-        if (!groupV2InfoNode) {
+        if (!groupV2InfoRoot) {
           await window.Signal.Migrations.deleteAttachmentData(
             attributes.avatar.path
           );
