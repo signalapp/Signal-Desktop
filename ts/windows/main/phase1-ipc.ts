@@ -91,7 +91,7 @@ window.getVersion = () => config.version;
 window.getBuildCreation = () => parseIntWithFallback(config.buildCreation, 0);
 window.getBuildExpiration = () => config.buildExpiration;
 window.getHostName = () => config.hostname;
-window.getServerTrustRoot = () => config.serverTrustRoot;
+window.getServerTrustRoots = () => config.serverTrustRoots;
 window.getServerPublicParams = () => config.serverPublicParams;
 window.getGenericServerPublicParams = () => config.genericServerPublicParams;
 window.getBackupServerPublicParams = () => config.backupServerPublicParams;

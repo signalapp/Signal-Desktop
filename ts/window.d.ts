@@ -236,7 +236,7 @@ declare global {
 
     Signal: SignalCoreType;
 
-    getServerTrustRoot: () => string;
+    getServerTrustRoots: () => Array<string>;
     logAuthenticatedConnect?: () => void;
 
     // ========================================================================
