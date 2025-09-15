@@ -34,8 +34,6 @@ const KnownConfigKeys = [
   'desktop.libsignalNet.enforceMinimumTls',
   'desktop.libsignalNet.shadowUnauthChatWithNoise',
   'desktop.libsignalNet.shadowAuthChatWithNoise',
-  'desktop.cdsiViaLibsignal',
-  'desktop.cdsiViaLibsignal.disableNewConnectionLogic',
   'desktop.funPicker', // alpha
   'desktop.funPicker.beta',
   'desktop.funPicker.prod',
