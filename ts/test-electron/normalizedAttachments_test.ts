@@ -88,6 +88,7 @@ function composeAttachment(
     cdnNumber: 3,
     key: getBase64(`key${label}`),
     digest: getBase64(`digest${label}`),
+    duration: 123,
     size: 100,
     downloadPath: 'downloadPath',
     contentType: IMAGE_JPEG,

@@ -227,10 +227,15 @@ function captureScreenshot(
   return canvasToBlob(canvas, contentType);
 }
 
+export type MakeVideoScreenshotResultType = Readonly<{
+  blob: Blob;
+  duration: number | undefined;
+}>;
+
 export async function makeVideoScreenshot({
   objectUrl,
   contentType = IMAGE_PNG,
-}: MakeVideoScreenshotOptionsType): Promise<Blob> {
+}: MakeVideoScreenshotOptionsType): Promise<MakeVideoScreenshotResultType> {
   const signal = AbortSignal.timeout(MAKE_VIDEO_SCREENSHOT_TIMEOUT);
   const video = document.createElement('video');
 
@@ -255,7 +260,15 @@ export async function makeVideoScreenshot({
   try {
     video.src = objectUrl;
     await videoLoadedAndSeeked;
-    return await captureScreenshot(video, contentType);
+    const blob = await captureScreenshot(video, contentType);
+
+    return {
+      blob,
+      duration:
+        video.duration == null || Number.isNaN(video.duration)
+          ? undefined
+          : video.duration,
+    };
   } catch (error) {
     logging.error('makeVideoScreenshot error:', toLogFormat(error));
     throw error;

@@ -400,7 +400,7 @@ async function backupThumbnailAttachment(
   if (isVideoTypeSupported(contentType)) {
     // TODO (DESKTOP-7204): pull screenshot path from attachments table if it already
     // exists
-    const screenshotBlob = await makeVideoScreenshot({
+    const { blob: screenshotBlob } = await makeVideoScreenshot({
       objectUrl: fullsizeUrl,
     });
     const screenshotObjectUrl = URL.createObjectURL(screenshotBlob);

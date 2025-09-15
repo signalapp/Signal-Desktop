@@ -121,6 +121,7 @@ import updateToSchemaVersion1420 from './1420-backup-downloads';
 import updateToSchemaVersion1430 from './1430-call-links-epoch-id';
 import updateToSchemaVersion1440 from './1440-chat-folders';
 import updateToSchemaVersion1450 from './1450-all-media';
+import updateToSchemaVersion1460 from './1460-attachment-duration';
 
 import { DataWriter } from '../Server';
 
@@ -1597,6 +1598,7 @@ export const SCHEMA_VERSIONS: ReadonlyArray<SchemaUpdateType> = [
   { version: 1430, update: updateToSchemaVersion1430 },
   { version: 1440, update: updateToSchemaVersion1440 },
   { version: 1450, update: updateToSchemaVersion1450 },
+  { version: 1460, update: updateToSchemaVersion1460 },
 ];
 
 export class DBVersionFromFutureError extends Error {

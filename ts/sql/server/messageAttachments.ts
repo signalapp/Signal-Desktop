@@ -45,6 +45,7 @@ export const permissiveMessageAttachmentSchema = z.object({
 
   // Fields allowing NULL
   receivedAtMs: permissiveNumberOrNull,
+  duration: permissiveNumberOrNull,
   path: permissiveStringOrNull,
   clientUuid: permissiveStringOrNull,
   localKey: permissiveStringOrNull,

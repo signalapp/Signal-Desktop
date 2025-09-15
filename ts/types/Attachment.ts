@@ -44,6 +44,7 @@ import {
   isValidPlaintextHash,
 } from './Crypto';
 import { missingCaseError } from '../util/missingCaseError';
+import type { MakeVideoScreenshotResultType } from './VisualAttachment';
 
 const logging = createLogger('Attachment');
 
@@ -122,6 +123,7 @@ export type AttachmentType = EphemeralAttachmentFields & {
   plaintextHash?: string;
   uploadTimestamp?: number;
   size: number;
+  duration?: number;
   pending?: boolean;
   width?: number;
   height?: number;
@@ -239,6 +241,7 @@ export type InMemoryAttachmentDraftType =
       clientUuid: string;
       pending: false;
       screenshotData?: Uint8Array;
+      duration?: number;
       fileName?: string;
       path?: string;
     } & BaseAttachmentDraftType)
@@ -249,6 +252,7 @@ export type InMemoryAttachmentDraftType =
       path?: string;
       pending: true;
       size: number;
+      duration?: number;
     };
 
 // What's stored in conversation.draftAttachments
@@ -502,7 +506,7 @@ export async function captureDimensionsAndScreenshot(
       objectUrl: string;
       contentType: MIME.MIMEType;
       logger: LoggerType;
-    }) => Promise<Blob>;
+    }) => Promise<MakeVideoScreenshotResultType>;
     logger: LoggerType;
   }
 ): Promise<AttachmentType> {
@@ -573,13 +577,12 @@ export async function captureDimensionsAndScreenshot(
 
   let screenshotObjectUrl: string | undefined;
   try {
-    const screenshotBuffer = await blobToArrayBuffer(
-      await makeVideoScreenshot({
-        objectUrl: localUrl,
-        contentType: THUMBNAIL_CONTENT_TYPE,
-        logger,
-      })
-    );
+    const { blob, duration } = await makeVideoScreenshot({
+      objectUrl: localUrl,
+      contentType: THUMBNAIL_CONTENT_TYPE,
+      logger,
+    });
+    const screenshotBuffer = await blobToArrayBuffer(blob);
     screenshotObjectUrl = makeObjectUrl(
       screenshotBuffer,
       THUMBNAIL_CONTENT_TYPE
@@ -607,6 +610,7 @@ export async function captureDimensionsAndScreenshot(
 
     return {
       ...attachment,
+      duration,
       screenshot: {
         ...screenshot,
         contentType: THUMBNAIL_CONTENT_TYPE,

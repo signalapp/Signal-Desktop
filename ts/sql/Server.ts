@@ -2713,6 +2713,7 @@ function saveMessageAttachment({
     receivedAtMs,
     clientUuid: attachment.clientUuid,
     size: attachment.size,
+    duration: attachment.duration,
     contentType: attachment.contentType,
     path: attachment.path,
     localKey: attachment.localKey,

@@ -5,6 +5,7 @@ import React from 'react';
 
 import type { ReadonlyDeep } from 'type-fest';
 import { formatFileSize } from '../../../util/formatFileSize';
+import { formatDuration } from '../../../util/formatDuration';
 import type { LocalizerType, ThemeType } from '../../../types/Util';
 import type { MediaItemType } from '../../../types/MediaItem';
 import type { AttachmentForUIType } from '../../../types/Attachment';
@@ -13,6 +14,7 @@ import {
   getUrl,
   defaultBlurHash,
   isGIF,
+  isVideoAttachment,
 } from '../../../types/Attachment';
 import { ImageOrBlurhash } from '../../ImageOrBlurhash';
 import { SpinnerV2 } from '../../SpinnerV2';
@@ -134,13 +136,15 @@ function MetadataOverlay(props: MetadataOverlayProps): JSX.Element | undefined {
 
   const url = getUrl(attachment);
   const canBeShown = url != null;
-  if (canBeShown && !isGIF([attachment])) {
+  if (canBeShown && !isGIF([attachment]) && !isVideoAttachment(attachment)) {
     return undefined;
   }
 
   let text: string;
   if (isGIF([attachment]) && canBeShown) {
     text = i18n('icu:message--getNotificationText--gif');
+  } else if (isVideoAttachment(attachment) && attachment.duration != null) {
+    text = formatDuration(attachment.duration);
   } else {
     text = formatFileSize(attachment.size);
   }

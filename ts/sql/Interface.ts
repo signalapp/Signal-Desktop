@@ -594,6 +594,7 @@ export const MESSAGE_ATTACHMENT_COLUMNS = [
   'editHistoryIndex',
   'clientUuid',
   'size',
+  'duration',
   'contentType',
   'path',
   'localKey',
@@ -652,6 +653,7 @@ export type MessageAttachmentDBType = {
   sentAt: number;
   clientUuid: string | null;
   size: number;
+  duration: number | null;
   contentType: string;
   path: string | null;
   plaintextHash: string | null;

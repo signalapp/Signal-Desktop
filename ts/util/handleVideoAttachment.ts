@@ -32,10 +32,11 @@ export async function handleVideoAttachment(
     if (options?.generateScreenshot) {
       const screenshotContentType = IMAGE_PNG;
 
-      const screenshotBlob = await makeVideoScreenshot({
+      const { blob: screenshotBlob, duration } = await makeVideoScreenshot({
         objectUrl,
         contentType: screenshotContentType,
       });
+      attachment.duration = duration;
       attachment.screenshotData = new Uint8Array(
         await blobToArrayBuffer(screenshotBlob)
       );

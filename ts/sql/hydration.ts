@@ -339,6 +339,7 @@ export function convertAttachmentDBFieldsToAttachmentType(
   const {
     clientUuid,
     size,
+    duration,
     contentType,
     plaintextHash,
     path,
@@ -371,6 +372,7 @@ export function convertAttachmentDBFieldsToAttachmentType(
   const result: AttachmentType = {
     clientUuid,
     size,
+    duration,
     contentType: stringToMIMEType(contentType),
     plaintextHash,
     path,

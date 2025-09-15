@@ -17,6 +17,7 @@ import {
   replaceUnicodeOrderOverrides,
   replaceUnicodeV2,
 } from './Attachment';
+import type { MakeVideoScreenshotResultType } from './VisualAttachment';
 import * as Errors from './errors';
 import * as SchemaVersion from './SchemaVersion';
 
@@ -76,7 +77,7 @@ export type ContextType = {
     objectUrl: string;
     contentType: MIME.MIMEType;
     logger: LoggerType;
-  }) => Promise<Blob>;
+  }) => Promise<MakeVideoScreenshotResultType>;
   maxVersion?: number;
   revokeObjectUrl: (objectUrl: string) => void;
   readAttachmentData: (
