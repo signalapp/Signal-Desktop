@@ -121,6 +121,7 @@ export type FunInlineEmojiProps = FunImageAriaProps &
   Readonly<{
     size?: number | null;
     emoji: EmojiVariantData;
+    selectable?: boolean;
   }>;
 
 export function FunInlineEmoji(props: FunInlineEmojiProps): JSX.Element {
@@ -162,6 +163,7 @@ export function FunInlineEmoji(props: FunInlineEmojiProps): JSX.Element {
               '--fun-emoji-sheet-x': props.emoji.sheetX,
               '--fun-emoji-sheet-y': props.emoji.sheetY,
               '--fun-emoji-jumbo-image': `url(${emojiJumboUrl})`,
+              ...(props.selectable && { userSelect: 'text' }),
             } as CSSProperties
           }
         />
