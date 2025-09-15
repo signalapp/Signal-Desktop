@@ -431,6 +431,7 @@ function renderText({
       )}
       fontSizeOverride={jumboEmojiSize}
       text={text}
+      selectable
     />
   );
 }

@@ -23,6 +23,7 @@ export type Props = {
   isInvisible?: boolean;
   /** Allows you to customize now non-newlines are rendered. Simplest is just a <span>. */
   renderNonEmoji?: RenderTextCallbackType;
+  selectable?: boolean;
 };
 
 const defaultRenderNonEmoji: RenderTextCallbackType = ({ text }) => text;
@@ -31,6 +32,7 @@ export function Emojify({
   fontSizeOverride,
   text,
   renderNonEmoji = defaultRenderNonEmoji,
+  selectable = false,
 }: Props): JSX.Element {
   const emojiLocalizer = useFunEmojiLocalizer();
   return (
@@ -59,6 +61,7 @@ export function Emojify({
               aria-label={emojiLocalizer.getLocaleShortName(variantKey)}
               emoji={variant}
               size={fontSizeOverride}
+              selectable={selectable}
             />
           );
         }
