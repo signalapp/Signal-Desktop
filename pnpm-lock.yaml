@@ -126,8 +126,8 @@ importers:
         specifier: 3.27.0
         version: 3.27.0(react@18.3.1)
       '@signalapp/libsignal-client':
-        specifier: 0.80.0
-        version: 0.80.0
+        specifier: 0.80.3
+        version: 0.80.3
       '@signalapp/minimask':
         specifier: 1.0.1
         version: 1.0.1
@@ -439,8 +439,8 @@ importers:
         specifier: 0.1.61
         version: 0.1.61
       '@signalapp/mock-server':
-        specifier: 13.3.0
-        version: 13.3.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+        specifier: 14.0.0
+        version: 14.0.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       '@storybook/addon-a11y':
         specifier: 8.4.4
         version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
@@ -3296,14 +3296,14 @@ packages:
   '@signalapp/libsignal-client@0.76.7':
     resolution: {integrity: sha512-iGWTlFkko7IKlm96Iy91Wz5sIN089nj02ifOk6BWtLzeVi0kFaNj+jK26Sl1JRXy/VfXevcYtiOivOg43BPqpg==}
 
-  '@signalapp/libsignal-client@0.80.0':
-    resolution: {integrity: sha512-cOFORDUUSdQFjQ8RDA8niC1UIoFRi7+Dd8ZNizGcJ2Q16D9RhKU9yZ0/VIef+mWu/iJcPovoC3GCvw0nE881vw==}
+  '@signalapp/libsignal-client@0.80.3':
+    resolution: {integrity: sha512-d1c5WcFTkR+EU1BPhYiqH91RWp5A+UbD+mIZaK2Zm8t+6xAg2mUPXk3eCeVaBgqF+S2KfWED+GISIj9Ziqk/oA==}
 
   '@signalapp/minimask@1.0.1':
     resolution: {integrity: sha512-QAwo0joA60urTNbW9RIz6vLKQjy+jdVtH7cvY0wD9PVooD46MAjE40MLssp4xUJrph91n2XvtJ3pbEUDrmT2AA==}
 
-  '@signalapp/mock-server@13.3.0':
-    resolution: {integrity: sha512-qWLI+J0hptzKC3Xm9FWWqFMvJ+jpLLPRq+Y6gdbprfA/DMHcNK53T8A54onbEyqJHnxdPoyqxtH4wcsiS1HglQ==}
+  '@signalapp/mock-server@14.0.0':
+    resolution: {integrity: sha512-zoycqL/z2ysge+4S2Sp3/KPfMqBCDDzGAnAQA7K6Yakel8opsQzjEPcXIR0c0hNrn3vHlZ+MoDiXRmavEpSzOQ==}
 
   '@signalapp/parchment-cjs@3.0.1':
     resolution: {integrity: sha512-hSBMQ1M7wE4GcC8ZeNtvpJF+DAJg3eIRRf1SiHS3I3Algav/sgJJNm6HIYm6muHuK7IJmuEjkL3ILSXgmu0RfQ==}
@@ -13943,7 +13943,7 @@ snapshots:
       type-fest: 4.26.1
       uuid: 11.0.2
 
-  '@signalapp/libsignal-client@0.80.0':
+  '@signalapp/libsignal-client@0.80.3':
     dependencies:
       node-gyp-build: 4.8.4
       type-fest: 4.26.1
@@ -13951,7 +13951,7 @@ snapshots:
 
   '@signalapp/minimask@1.0.1': {}
 
-  '@signalapp/mock-server@13.3.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
+  '@signalapp/mock-server@14.0.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
     dependencies:
       '@indutny/parallel-prettier': 3.0.0(prettier@3.3.3)
       '@signalapp/libsignal-client': 0.76.7

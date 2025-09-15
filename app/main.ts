@@ -2733,7 +2733,7 @@ ipc.on('get-config', async event => {
     reducedMotionSetting: animationSettings.prefersReducedMotion,
     registrationChallengeUrl: config.get<string>('registrationChallengeUrl'),
     serverPublicParams: config.get<string>('serverPublicParams'),
-    serverTrustRoot: config.get<string>('serverTrustRoot'),
+    serverTrustRoots: config.get<Array<string>>('serverTrustRoots'),
     stripePublishableKey: config.get<string>('stripePublishableKey'),
     genericServerPublicParams: config.get<string>('genericServerPublicParams'),
     backupServerPublicParams: config.get<string>('backupServerPublicParams'),

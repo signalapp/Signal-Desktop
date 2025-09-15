@@ -44,7 +44,7 @@ describe('MessageReceiver', () => {
 
       const messageReceiver = new MessageReceiver({
         storage: window.storage,
-        serverTrustRoot: toBase64(fakeTrustRootPublicKey),
+        serverTrustRoots: [toBase64(fakeTrustRootPublicKey)],
       });
 
       const body = Proto.Envelope.encode({

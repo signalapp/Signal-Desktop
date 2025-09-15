@@ -566,7 +566,7 @@ export async function startApp(): Promise<void> {
     log.info('Initializing MessageReceiver');
     messageReceiver = new MessageReceiver({
       storage: window.storage,
-      serverTrustRoot: window.getServerTrustRoot(),
+      serverTrustRoots: window.getServerTrustRoots(),
     });
     window.ConversationController.registerDelayBeforeUpdatingRedux(() => {
       if (backupsService.isImportRunning()) {

@@ -64,7 +64,7 @@ export const rendererConfigSchema = z.object({
   reducedMotionSetting: z.boolean(),
   registrationChallengeUrl: configRequiredStringSchema,
   serverPublicParams: configRequiredStringSchema,
-  serverTrustRoot: configRequiredStringSchema,
+  serverTrustRoots: z.array(configRequiredStringSchema),
   genericServerPublicParams: configRequiredStringSchema,
   backupServerPublicParams: configRequiredStringSchema,
   serverUrl: configRequiredStringSchema,

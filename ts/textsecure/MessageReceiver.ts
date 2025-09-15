@@ -233,7 +233,7 @@ enum TaskType {
 
 export type MessageReceiverOptions = {
   storage: Storage;
-  serverTrustRoot: string;
+  serverTrustRoots: Array<string>;
 };
 
 const TASK_WITH_TIMEOUT_OPTIONS = {
@@ -314,22 +314,22 @@ export default class MessageReceiver
   #encryptedQueue: PQueue;
   #decryptedQueue: PQueue;
   #retryCachedTimeout: NodeJS.Timeout | undefined;
-  #serverTrustRoot: PublicKey;
+  #serverTrustRoots: Array<PublicKey>;
   #stoppingProcessing?: boolean;
   #pniIdentityKeyCheckRequired?: boolean;
 
-  constructor({ storage, serverTrustRoot }: MessageReceiverOptions) {
+  constructor({ storage, serverTrustRoots }: MessageReceiverOptions) {
     super();
 
     this.#storage = storage;
 
     this.#processedCount = 0;
 
-    if (!serverTrustRoot) {
+    if (serverTrustRoots.length === 0) {
       throw new Error('Server trust root is required!');
     }
-    this.#serverTrustRoot = PublicKey.deserialize(
-      Bytes.fromBase64(serverTrustRoot)
+    this.#serverTrustRoots = serverTrustRoots.map(key =>
+      PublicKey.deserialize(Bytes.fromBase64(key))
     );
 
     this.#incomingQueue = new PQueue({
@@ -1632,7 +1632,12 @@ export default class MessageReceiver
       );
     }
 
-    if (!certificate.validate(this.#serverTrustRoot, serverTimestamp)) {
+    if (
+      !certificate.validateWithTrustRoots(
+        this.#serverTrustRoots,
+        serverTimestamp
+      )
+    ) {
       throw new Error(`${logId}: Sealed sender certificate validation failed`);
     }
 
