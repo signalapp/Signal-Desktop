@@ -290,12 +290,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
           data-testid={testId}
           disabled={disabled}
           onClick={onClick}
-          onMouseDown={event => {
-            event.preventDefault();
-            if (onMouseDown) {
-              onMouseDown();
-            }
-          }}
+          onMouseDown={onMouseDown}
           type="button"
         >
           {contents}
