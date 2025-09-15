@@ -33,7 +33,7 @@ export function DocumentListItem({ mediaItem, onClick }: Props): JSX.Element {
       <div className={tw('shrink-0')}>
         <FileThumbnail {...attachment} />
       </div>
-      <div className={tw('grow overflow-hidden text-left')}>
+      <div className={tw('grow overflow-hidden text-start')}>
         <h3 className={tw('truncate')}>{fileName}</h3>
         <div className={tw('type-body-small leading-4 text-label-secondary')}>
           {typeof fileSize === 'number' ? formatFileSize(fileSize) : ''}
