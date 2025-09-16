@@ -133,7 +133,7 @@
     "@signalapp/libsignal-client": "0.80.3",
     "@signalapp/minimask": "1.0.1",
     "@signalapp/quill-cjs": "2.1.2",
-    "@signalapp/ringrtc": "2.57.1",
+    "@signalapp/ringrtc": "2.58.0",
     "@signalapp/sqlcipher": "2.4.4",
     "@signalapp/windows-ucv": "1.0.1",
     "@tanstack/react-virtual": "3.11.2",

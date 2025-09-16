@@ -508,6 +508,10 @@ export class CallingClass {
     RingRTC.handleOutgoingSignaling = this.#handleOutgoingSignaling.bind(this);
     RingRTC.handleIncomingCall = this.#handleIncomingCall.bind(this);
     RingRTC.handleStartCall = this.#handleStartCall.bind(this);
+    RingRTC.handleOutputDeviceChanged =
+      this.#handleOutputDeviceChanged.bind(this);
+    RingRTC.handleInputDeviceChanged =
+      this.#handleInputDeviceChanged.bind(this);
     RingRTC.handleAutoEndedIncomingCallRequest =
       this.#handleAutoEndedIncomingCallRequest.bind(this);
     RingRTC.handleLogMessage = this.#handleLogMessage.bind(this);
@@ -2688,8 +2692,7 @@ export class CallingClass {
     return true;
   }
 
-  async #pollForMediaDevices(): Promise<void> {
-    const newSettings = await this.getMediaDeviceSettings();
+  async #maybeUpdateDevices(newSettings: MediaDeviceSettings): Promise<void> {
     if (
       !this.#mediaDeviceSettingsEqual(
         this.#lastMediaDeviceSettings,
@@ -2708,10 +2711,19 @@ export class CallingClass {
     }
   }
 
-  async getAvailableIODevices(): Promise<AvailableIODevicesType> {
+  async #pollForMediaDevices(): Promise<void> {
+    const newSettings = await this.getMediaDeviceSettings();
+    return this.#maybeUpdateDevices(newSettings);
+  }
+
+  async #getAvailableIODevicesWithPrefetchedDevices(
+    prefetchedMicrophones: Array<AudioDevice> | undefined,
+    prefetchedSpeakers: Array<AudioDevice> | undefined
+  ): Promise<AvailableIODevicesType> {
     const availableCameras = await this.#videoCapturer.enumerateDevices();
-    const availableMicrophones = RingRTC.getAudioInputs();
-    const availableSpeakers = RingRTC.getAudioOutputs();
+    const availableMicrophones =
+      prefetchedMicrophones || RingRTC.getAudioInputs();
+    const availableSpeakers = prefetchedSpeakers || RingRTC.getAudioOutputs();
 
     return {
       availableCameras,
@@ -2720,9 +2732,22 @@ export class CallingClass {
     };
   }
 
-  async getMediaDeviceSettings(): Promise<MediaDeviceSettings> {
+  async getAvailableIODevices(): Promise<AvailableIODevicesType> {
+    return this.#getAvailableIODevicesWithPrefetchedDevices(
+      undefined,
+      undefined
+    );
+  }
+
+  async #getMediaDeviceSettingsWithPrefetchedDevices(
+    prefetchedMicrophones: Array<AudioDevice> | undefined,
+    prefetchedSpeakers: Array<AudioDevice> | undefined
+  ): Promise<MediaDeviceSettings> {
     const { availableCameras, availableMicrophones, availableSpeakers } =
-      await this.getAvailableIODevices();
+      await this.#getAvailableIODevicesWithPrefetchedDevices(
+        prefetchedMicrophones,
+        prefetchedSpeakers
+      );
 
     const preferredMicrophone = getPreferredAudioInputDevice();
     const selectedMicIndex = findBestMatchingAudioDeviceIndex(
@@ -2764,6 +2789,13 @@ export class CallingClass {
       availableCameras,
       selectedCamera,
     };
+  }
+
+  async getMediaDeviceSettings(): Promise<MediaDeviceSettings> {
+    return this.#getMediaDeviceSettingsWithPrefetchedDevices(
+      undefined,
+      undefined
+    );
   }
 
   setPreferredMicrophone(device: AudioDevice): void {
@@ -3728,6 +3760,22 @@ export class CallingClass {
     RingRTC.proceed(call.callId, callSettings);
 
     return true;
+  }
+
+  async #handleOutputDeviceChanged(devices: Array<AudioDevice>): Promise<void> {
+    const newSettings = await this.#getMediaDeviceSettingsWithPrefetchedDevices(
+      undefined,
+      devices
+    );
+    return this.#maybeUpdateDevices(newSettings);
+  }
+
+  async #handleInputDeviceChanged(devices: Array<AudioDevice>): Promise<void> {
+    const newSettings = await this.#getMediaDeviceSettingsWithPrefetchedDevices(
+      devices,
+      undefined
+    );
+    return this.#maybeUpdateDevices(newSettings);
   }
 
   public async updateCallHistoryForAdhocCall(
