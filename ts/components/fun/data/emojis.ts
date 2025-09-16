@@ -617,8 +617,8 @@ export function getEmojiDefaultEnglishLocalizerIndex(): FunEmojiLocalizerIndex {
 }
 
 /** Exported for testing */
-export function* _allEmojiVariantKeys(): Iterable<EmojiVariantKey> {
-  yield* Object.keys(EMOJI_INDEX.variantByKey) as Array<EmojiVariantKey>;
+export function _getAllEmojiVariantKeys(): Iterable<EmojiVariantKey> {
+  return EMOJI_INDEX.variantByKey.keys();
 }
 
 export function emojiParentKeyConstant(input: string): EmojiParentKey {
