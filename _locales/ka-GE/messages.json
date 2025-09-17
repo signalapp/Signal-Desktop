@@ -2070,7 +2070,7 @@
     "messageformat": "ჩამოტვირთვა ვერ მოხერხდა"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "სათადარიგო ასლებიდან დანართის გადმოწერა ვერ მოხერხდა"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "შეტყობინების რედაქტირება მისი გაგზავნიდან მხოლოდ 24 საათის განმავლობაშია შესაძლებელი."
@@ -5292,7 +5292,7 @@
     "messageformat": "დაბლოკილია"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Signal-ის უსაფრთხო სათადარიგო ასლები"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "შექმენი სათადარიგო ასლები Signal-ის დაშიფრული შენახვის სერვისით. დაიწყე შენს ტელეფონზე. <learnMoreLink>გაიგე მეტი</learnMoreLink>."
@@ -5307,7 +5307,7 @@
     "messageformat": "ტექსტისა და ყველა მედია ფაილის სათადარიგო ასლი"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "შენი გამოწერა ვერ მოიძებნა. განაახლე, რომ Signal-ის უსაფრთხო სათადარიგო ასლების გამოყენება განაგრძო."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {{mediaDayCount,number} დღის ტექსტის + მედია ფაილების სათადარიგო ასლი} other {{mediaDayCount,number} დღის ტექსტის + მედია ფაილების სათადარიგო ასლი}}"
@@ -5325,13 +5325,13 @@
     "messageformat": "გამოწერა გაუქმებულია"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "შეგიძლია, Signal-ის უსაფრთხო სათადარიგო ასლების გამოწერა შენს მობილურში მართო ან გააუქმო."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "შეგიძლია, Signal-ის უსაფრთხო სათადარიგო ასლები შენს მობილურში მართო ან გააუმჯობესო."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "შეგიძლია, Signal-ის უსაფრთხო სათადარიგო ასლების გამოწერა შენს მობილურში მართო ან განაახლო."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "ბოლოს შექმნილი სარეზერვო კოპია"
@@ -6823,10 +6823,10 @@
     "messageformat": "დონაცია წარმატებით განხორციელდა, მაგრამ შენი ემბლემის პარამეტრების განახლება ვერ მოხერხდა"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "დონაცია წარმატებით განხორციელდა, მაგრამ შენი ემბლემის პარამეტრების განახლება ვერ მოხერხდა"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "შენს მობილურ მოწყობილობაზე შენი ემბლემის პარამეტრების გაუმჯობესებისთვის აირჩიე პარამეტრები → დონაცია Signal-ისთვის → ემბლემები."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "დინაცია შეწყდა"

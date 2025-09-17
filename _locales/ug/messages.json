@@ -2070,7 +2070,7 @@
     "messageformat": "چۈشۈرۈش مەغلۇب بولدى"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "قوشۇمچە ھۆججەتنى زاپاسلاشتىن چۈشۈرۈش مەغلۇب بولدى"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "بۇ ئۇچۇرنى يوللاپ 24 سائەت ئىچىدىلا تەھرىرلەشكە بولىدۇ."
@@ -5292,7 +5292,7 @@
     "messageformat": "چەكلەندى"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Signal بىخەتەر زاپاسلانمىللىرى"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Signalنىڭ بىخەتەر ، ئاخىرىغىچە مەخپىيلەشتۈرۈلگەن ساقلاش مۇلازىمىتى بىلەن ئاپتوماتىك زاپاسلاش. تېلېفونىڭىزدىن باشلاڭ. <learnMoreLink>تەپسىلاتى</learnMoreLink>."
@@ -5307,7 +5307,7 @@
     "messageformat": "تېكىست + بارلىق مېدىيانى زاپاسلاش"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "مۇشتەرىلىكىڭىز تېپىلمىدى. Signal بىخەتەر زاپاسلانمىللىرىنى داۋاملىق ئشلىتىش ئۈچۈن يېڭىلاڭ."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {تېكىست + {mediaDayCount,number} كۈن مېدىيا زاپاسلاش}}"
@@ -5325,13 +5325,13 @@
     "messageformat": "مۇشتەرىلىك بىكار قىلىندى"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "تېلېفونىڭىزدا Signal بىخەتەر زاپاسلانمىللىرى مۇشتەرىلىكىڭىزنى باشقۇرالايسىز ياكى ئەمەلدىن قالدۇرالايسىز."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "تېلېفونىڭىزدا Signal بىخەتەر زاپاسلانمىللىرىنى باشقۇرالايسىز ياكى يېڭىلىيالايسىز."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "تېلېفونىڭىزدا Signal بىخەتەر زاپاسلانمىللىرى مۇشتەرىلىكىڭىزنى باشقۇرالايسىز ياكى ئەزالىقنى داۋاملاشتۇرالايسىز."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "ئالدىنقى قېتىملىق زاپاسلاش"
@@ -6823,10 +6823,10 @@
     "messageformat": "ئىئانە مۇۋەپپەقىيەتلىك بولدى، ئەمما ئىزنەك تەڭشىكىڭىزنى يېڭىلىيالمىدۇق"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "ئىئانە مۇۋەپپەقىيەتلىك بولدى، ئەمما ئىزنەك تەڭشىكىڭىزنى يېڭىلىيالمىدۇق"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "كۆچمە ئۈسكۈنىڭىزدىكى ئىزنەك تەڭشىكىڭىزنى يېڭىلاش ئۈچۈن «تەڭشەك → Signalغا ئىئانە قىلىش → ئىزنەك»كە كىرىڭ."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "ئىئانە قىلىش ئۈزۈلۈپ قالدى"

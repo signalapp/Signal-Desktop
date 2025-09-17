@@ -2070,7 +2070,7 @@
     "messageformat": "تعذَّر التنزيل"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "تعذَّر تنزيل الملف المُرفَق من النسخة الاحتياطية."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "لا يُمكن إحداث التعديلات إلاّ في غضون 24 ساعة من وقت إرسال هذه الرسالة."
@@ -5292,7 +5292,7 @@
     "messageformat": "الجهات المحظورة"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "النسخ الاحتياطية الآمنة على سيجنال"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "نسخ احتياطية تلقائية باستخدام خدمة التخزين المُشفَّرة من طرف لِطرف التي يوفّرها سيجنال. ابدأ العملية على هاتفك. <learnMoreLink>اعرف المزيد.</learnMoreLink>"
@@ -5307,7 +5307,7 @@
     "messageformat": "النسخ الاحتياطي للنص وكل الوسائط"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "تعذَّر العثور على اشتراكك. جدِّد لمتابعة استخدام النسخ الاحتياطية الآمنة لسيجنال."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, zero {النسخ الاحتياطي للنص و{mediaDayCount,number} يوم من الوسائط} one {النسخ الاحتياطي للنص و{mediaDayCount,number} يوم من الوسائط} two {النسخ الاحتياطي للنص و{mediaDayCount,number} يومين من الوسائط} few {النسخ الاحتياطي للنص و{mediaDayCount,number} أيام من الوسائط} many {النسخ الاحتياطي للنص و{mediaDayCount,number} يومًا من الوسائط} other {النسخ الاحتياطي للنص و{mediaDayCount,number} يومٍ من الوسائط}}"
@@ -5325,13 +5325,13 @@
     "messageformat": "تمَّ إلغاء الاشتراك"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "يُمكنك إدارة أو إلغاء اشتراكك في النسخ الاحتياطية الآمنة على سيجنال من هاتفك."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "يُمكنك إدارة أو ترقية النسخ الاحتياطية الآمنة على سيجنال من هاتفك."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "يُمكنك إدارة أو تجديد اشتراك نسخك الاحتياطية الآمنة على سيجنال من هاتفك."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "آخِر نسخة احتياطية"
@@ -6823,10 +6823,10 @@
     "messageformat": "تبرَّعتَ بنجاح، لكن تعذّر علينا تحديث إعدادات شارتك."
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "تبرَّعتَ بنجاح، لكن تعذَّر علينا تحديث إعدادات شارتك."
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "لِتحديث إعدادات شارتك على جهازك المحمول، انتقل إلى: \"الإعدادات\" ← \"تبرَّع لسيجنال\" ← الشارات."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "تمَّت مقاطعة التبرُّع"

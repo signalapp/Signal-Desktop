@@ -2070,7 +2070,7 @@
     "messageformat": "Sťahovanie zlyhalo"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "Stiahnutie prílohy zo zálohy zlyhalo"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Úpravy je možné vykonať len do 24 hodín od odoslania tejto správy."
@@ -5292,7 +5292,7 @@
     "messageformat": "Blokované"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Bezpečné Zálohy Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Automatické zálohovanie pomocou zabezpečeného úložiska Signal chráneného end-to-end šifrovaním. Začnite na svojom telefóne. <learnMoreLink>Zistiť viac</learnMoreLink>."
@@ -5307,7 +5307,7 @@
     "messageformat": "Zálohovanie všetkých správ a médií"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "Predplatné sa nenašlo. Obnovte ho, aby ste mohli bezpečné Zálohy Signal používať aj naďalej."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Zálohovanie všetkých správ + médiá za posledný{mediaDayCount,number} deň} few {Zálohovanie všetkých správ + médiá za posledné {mediaDayCount,number} dni} many {Zálohovanie všetkých správ + médiá za posledných {mediaDayCount,number} dní} other {Zálohovanie všetkých správ + médiá za posledných {mediaDayCount,number} dní}}"
@@ -5325,13 +5325,13 @@
     "messageformat": "Predplatné bolo zrušené"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "Predplatné Bezpečných záloh Signal môžete spravovať alebo zrušiť vo svojom telefóne."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "Bezpečné zálohy Signal môžete spravovať alebo upgradovať vo svojom telefóne."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "Predplatné Bezpečných záloh Signal môžete spravovať alebo obnoviť vo svojom telefóne."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Posledná záloha"
@@ -6823,10 +6823,10 @@
     "messageformat": "Prispenie bolo úspešné, nepodarilo sa nám však aktualizovať nastavenia vášho odznaku"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Prispenie bolo úspešné, nepodarilo sa nám však aktualizovať nastavenia vášho odznaku"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "Ak chcete aktualizovať nastavenia svojho odznaku na mobilnom zariadení, prejdite na Nastavenia → Prispieť na Signal → Odznaky."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Prispenie bolo prerušené"

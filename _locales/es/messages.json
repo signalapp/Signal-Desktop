@@ -2070,7 +2070,7 @@
     "messageformat": "No se ha podido descargar"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "Error en la descarga del archivo adjunto desde la copia de seguridad"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Solo puedes hacer cambios hasta 24 horas después del momento en que enviaste este mensaje."
@@ -5292,7 +5292,7 @@
     "messageformat": "Bloqueados"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Copias Seguras de Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Copias de seguridad automáticas con el servicio de almacenamiento seguro y cifrado de extremo a extremo de Signal. Configúralas en tu teléfono. <learnMoreLink>Más información</learnMoreLink>."
@@ -5307,7 +5307,7 @@
     "messageformat": "Mensajes de texto + todos tus archivos multimedia"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "No se ha encontrado tu suscripción. Renuévala para seguir usando Copias Seguras de Signal."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Mensajes de texto + {mediaDayCount,number} día de archivos multimedia} other {Mensajes de texto + {mediaDayCount,number} días de archivos multimedia}}"
@@ -5325,13 +5325,13 @@
     "messageformat": "Suscripción cancelada"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "Puedes gestionar o cancelar tu suscripción a Copias Seguras de Signal desde tu teléfono."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "Puedes gestionar o actualizar tu suscripción a Copias Seguras de Signal desde tu teléfono."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "Puedes gestionar o renovar tu suscripción a Copias Seguras de Signal desde tu teléfono."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Última copia de seguridad"
@@ -6823,10 +6823,10 @@
     "messageformat": "La donación se realizó correctamente, pero no pudimos actualizar los ajustes de tu insignia"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "La donación se realizó correctamente, pero no pudimos actualizar los ajustes de tu insignia"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "Para actualizar los ajustes de tu insignia en tu dispositivo móvil, ve a Ajustes > Haz una donación a Signal > Insignias."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Donación interrumpida"
@@ -6901,7 +6901,7 @@
     "messageformat": "Mostrar en mi perfil"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "Puedes configurarlo en tu dispositivo móvil en Ajustes > Donar a Signal > Insignias"
+    "messageformat": "Puedes configurarlo en tu dispositivo móvil en Ajustes > Haz una donación a Signal > Insignias"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Esta versión incluye una series de ajustes y correcciones de errores para que Signal funcione sin problemas.",

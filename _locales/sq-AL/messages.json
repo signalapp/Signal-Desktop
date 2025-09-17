@@ -2070,7 +2070,7 @@
     "messageformat": "Shkarkimi dështoi"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "Shkarkimi i bashkëngjitjes nga kopjeruajtja dështoi"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Përpunimet mund të zbatohen vetëm brenda 24 orëve nga momenti që dërgove këtë mesazh."
@@ -5292,7 +5292,7 @@
     "messageformat": "Bllokuar"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Kopjeruajtjet e sigurta të Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Kopjeruajtjet automatike me shërbimin e sigurt të ruajtjes së koduar nga skaji në skaj të Signal. Fillo në telefon. <learnMoreLink>Mëso më shumë.</learnMoreLink>"
@@ -5307,7 +5307,7 @@
     "messageformat": "Teksti + kopjeruajtja e të gjitha mediave"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "Abonimi nuk u gjet. Rinovo për të vazhduar përdorimin e \"Kopjeruajtjet e sigurta të Signal\"."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Tekst + kopjeruajtje e medias për {mediaDayCount,number} ditë} other {Tekst + kopjeruajtje e medias për {mediaDayCount,number} ditë}}"
@@ -5325,13 +5325,13 @@
     "messageformat": "Abonimi u anulua"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "Mund të menaxhosh ose anulosh abonimin e \"Kopjeruajtjet e sigurta\" në telefon."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "Mund të menaxhosh ose përditësosh \"Kopjeruajtjet e sigurta\" në telefon."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "Mund të menaxhosh ose rinovosh abonimin e \"Kopjeruajtjet e sigurta\" në telefon."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Kopjeruajtja e fundit"
@@ -6823,10 +6823,10 @@
     "messageformat": "Dhurimi u krye me sukses, por nuk mundëm të përditësonim parametrat e distinktivit"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Dhurimi u krye me sukses, por nuk mundëm të përditësonim parametrat e distinktivit"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "Për të përditësuar parametrat e distinktivit në pajisjen celulare, shko te Parametrat → Dhuro për Signal → Distinktivët."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Dhurimi u ndërpre"

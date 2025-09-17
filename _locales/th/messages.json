@@ -2070,7 +2070,7 @@
     "messageformat": "ดาวน์โหลดไม่สำเร็จ"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "ดาวน์โหลดไฟล์แนบจากข้อมูลสำรองไม่สำเร็จ"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "สามารถแก้ไขข้อความนี้ได้ภายใน 24 ชั่วโมงนับจากเวลาที่คุณส่ง"
@@ -5292,7 +5292,7 @@
     "messageformat": "ถูกบล็อก"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "การสำรองข้อมูลที่ปลอดภัยของ Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "สำรองข้อมูลอัตโนมัติด้วยบริการจัดเก็บที่ปลอดภัยและถูกเข้ารหัสตั้งแต่ต้นทางถึงปลายทางของ Signal เริ่มต้นใช้งานบนโทรศัพท์ของคุณ <learnMoreLink>เรียนรู้เพิ่มเติม</learnMoreLink>"
@@ -5307,7 +5307,7 @@
     "messageformat": "สำรองข้อความ + สื่อทั้งหมด"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "ไม่พบการสมัครแพ็กเกจของคุณ โปรดต่ออายุเพื่อการใช้งานแพ็กเกจสำรองข้อมูลที่ปลอดภัยของ Signal อย่างต่อเนื่อง"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {สำรองข้อความ + สื่อจาก {mediaDayCount,number} วัน}}"
@@ -5325,13 +5325,13 @@
     "messageformat": "ยกเลิกการสมัครแล้ว"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "คุณสามารถจัดการหรือยกเลิกการสมัครแพ็กเกจสำรองข้อมูลของ Signal ได้บนโทรศัพท์"
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "คุณสามารถจัดการหรืออัปเกรดแพ็กเกจสำรองข้อมูลของ Signal ได้บนโทรศัพท์"
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "คุณสามารถจัดการหรือต่ออายุการสมัครแพ็กเกจสำรองข้อมูลของ Signal ได้บนโทรศัพท์"
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "การสำรองข้อมูลครั้งล่าสุด"
@@ -6823,10 +6823,10 @@
     "messageformat": "การบริจาคสำเร็จแล้ว แต่เราไม่สามารถอัปเดตการตั้งค่าโล่ของคุณได้"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "การบริจาคสำเร็จแล้ว แต่เราไม่สามารถอัปเดตการตั้งค่าโล่ของคุณได้"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "คุณสามารถอัปเดตการตั้งค่าโล่ได้บนมือถือ โดยไปที่การตั้งค่า → บริจาคให้ Signal → โล่"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "การบริจาคยังไม่เสร็จสมบูรณ์"

@@ -2070,7 +2070,7 @@
     "messageformat": "ဒေါင်းလုဒ် မအောင်မြင်ပါ"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "ဘက်ခ်အပ်မှ ပူးတွဲဖိုင်ကို ဒေါင်းလုဒ်လုပ်ခြင်း မအောင်မြင်ပါ"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ထိုမက်ဆေ့ချ်ကို ပေးပို့ခဲ့ချိန်မှ 24 နာရီအတွင်း၌သာ တည်းဖြတ်မှု လုပ်နိုင်ပါသည်။"
@@ -5292,7 +5292,7 @@
     "messageformat": "ဘလော့ခ်ထားပြီး"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Signal လုံခြုံရေးဘက်ခ်အပ်"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Signal ၏ လုံခြုံသော ဟိုဘက်သည်ဘက် ကုဒ်ပြောင်းဝှက်ထားသည့် သိုလှောင်ရေးဝန်ဆောင်မှုဖြင့် ဆောင်ရွက်သော အလိုအလျောက် ဘက်ခ်အပ်လုပ်ခြင်းများ။ သင့်ဖုန်းတွင် စတင်လိုက်ပါ။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>။"
@@ -5307,7 +5307,7 @@
     "messageformat": "စာတို + မီဒီယာအားလုံးဘက်ခ်အပ်"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "သင်၏ ပုံမှန်လှူဒါန်းမှုကို ရှာမတွေ့ပါ။ Signal လုံခြုံရေးဘက်ခ်အပ်ကို ဆက်လက်အသုံးပြုရန် သက်တမ်းတိုးပါ။"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {စာတို + {mediaDayCount,number} ရက် မီဒီယာဘက်ခ်အပ်}}"
@@ -5325,13 +5325,13 @@
     "messageformat": "ပုံမှန်လှူဒါန်းငွေကို ပယ်ဖျက်လိုက်ပါပြီ"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "သင့်ဖုန်းတွင် သင်၏ Signal လုံခြုံရေးဘက်ခ်အပ် ပုံမှန်လှူဒါန်းငွေကို စီမံခန့်ခွဲနိုင် သို့မဟုတ် ပယ်ဖျက်နိုင်ပါသည်။"
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "သင့်ဖုန်းတွင် သင်၏ Signal လုံခြုံရေးဘက်ခ်အပ်ကို စီမံခန့်ခွဲနိုင် သို့မဟုတ် အဆင့်မြှင့်နိုင်ပါသည်။"
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "သင့်ဖုန်းတွင် သင်၏ Signal လုံခြုံရေးဘက်ခ်အပ် ပုံမှန်လှူဒါန်းငွေကို စီမံခန့်ခွဲနိုင် သို့မဟုတ် သက်တမ်းတိုးနိုင်ပါသည်။"
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "နောက်ဆုံး ဘက်ခ်အပ်"
@@ -6823,10 +6823,10 @@
     "messageformat": "လှူဒါန်းမှုအောင်မြင်သော်လည်း သင့်ဘဲ့ဂျ်ဆက်တင်ကို ကျွန်ုပ်တို့အပ်ဒိတ်မလုပ်နိုင်ခဲ့ပါ"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "လှူဒါန်းမှုအောင်မြင်သော်လည်း သင့်ဘဲ့ဂျ်ဆက်တင်ကို ကျွန်ုပ်တို့အပ်ဒိတ်မလုပ်နိုင်ခဲ့ပါ"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "သင့်မိုဘိုင်းစက်တွင် သင့်ဘဲ့ဂျ်ဆက်တင်ကို အပ်ဒိတ်လုပ်ရန် ဆက်တင် → Signal သို့လှူဒါန်းရန် → ဘဲ့ဂျ်များသို့ သွားပါ။"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "လှူဒါန်းမှု ပြတ်တောက်ခဲ့သည်"

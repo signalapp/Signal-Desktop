@@ -2070,7 +2070,7 @@
     "messageformat": "Gagal mengunduh"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "Pengunduhan lampiran dari cadangan gagal"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Pengeditan hanya dapat diterapkan dalam rentang waktu 24 jam sejak Anda mengirimkan pesan ini."
@@ -5307,7 +5307,7 @@
     "messageformat": "Pencadangan pesan + semua media"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "Langganan Anda tidak ditemukan. Perbarui langganan agar dapat terus menggunakan Signal Secure Backups."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, other {Pencadangan pesan + media selama {mediaDayCount,number} hari}}"
@@ -5325,13 +5325,13 @@
     "messageformat": "Langganan dibatalkan"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "Anda dapat mengelola atau membatalkan langganan Signal Secure Backups di ponsel."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "Anda dapat mengelola atau meng-upgrade Signal Secure Backups di ponsel."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "Anda dapat mengelola atau memperbarui langganan Signal Secure Backups di ponsel."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Pencadangan terakhir"
@@ -6823,10 +6823,10 @@
     "messageformat": "Donasi berhasil, tetapi kami tidak dapat memperbarui pengaturan lencana Anda"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Donasi berhasil, tetapi kami tidak dapat memperbarui pengaturan lencana Anda"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "Untuk memperbarui pengaturan lencana di perangkat seluler, buka Pengaturan → Donasi ke Signal → Lencana."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Proses donasi terganggu"

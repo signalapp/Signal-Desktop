@@ -2070,7 +2070,7 @@
     "messageformat": "Lejupielāde neizdevās"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "Pielikuma lejupielāde no rezerves kopijas neizdevās"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Labojumus var veikt tikai 24 stundu laikā pēc šīs ziņas nosūtīšanas."
@@ -5292,7 +5292,7 @@
     "messageformat": "Bloķēti"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Signal drošās rezerves kopijas"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Automātiskas rezerves kopijas ar Signal drošās un pilnībā šifrētās krātuves pakalpojumu. Sāciet savā tālrunī. <learnMoreLink>Uzzināt vairāk.</learnMoreLink>"
@@ -5307,7 +5307,7 @@
     "messageformat": "Teksta + visas multivides rezerves kopija"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "Jūsu abonements netika atrasts. Atjauniniet to, lai turpinātu izmantot Signal drošās rezerves kopijas."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, zero {Teksta + {mediaDayCount,number} dienu multivides rezerves kopija} one {Teksta + {mediaDayCount,number} dienas multivides rezerves kopija} other {Teksta + {mediaDayCount,number} dienu multivides rezerves kopija}}"
@@ -5325,13 +5325,13 @@
     "messageformat": "Abonements atcelts"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "Varat pārvaldīt vai atcelt savu Signal rezerves kopiju abonementu savā tālrunī."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "Varat pārvaldīt vai jaunināt Signal drošās rezerves kopijas savā tālrunī."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "Varat pārvaldīt vai atjaunot savu Signal drošo rezerves kopiju abonementu savā tālrunī."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Pēdējās rezerves kopijas izveide"
@@ -6823,10 +6823,10 @@
     "messageformat": "Ziedojums izdevās, taču mēs nevarējām atjaunināt jūsu nozīmītes iestatījumus"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Ziedojums izdevās, taču mēs nevarējām atjaunināt jūsu nozīmītes iestatījumus"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "Lai savā mobilajā ierīcē atjauninātu nozīmīšu iestatījumus, dodieties uz Iestatījumi → Ziedot Signal → Nozīmītes."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Ziedojums pārtraukts"

@@ -2070,7 +2070,7 @@
     "messageformat": "Nie udało się pobrać"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "Pobieranie załącznika z kopii zapasowej nie powiodło się"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Wiadomość można edytować tylko w ciągu 24 godzin od jej wysłania."
@@ -5292,7 +5292,7 @@
     "messageformat": "Zablokowane kontakty"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Bezpieczne kopie zapasowe Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Automatyczne tworzenie kopii zapasowych w usłudze bezpiecznego przechowywania Signal, szyfrowanej metodą end-to-end. Skonfiguruj na telefonie. <learnMoreLink>Dowiedz się więcej.</learnMoreLink>"
@@ -5307,7 +5307,7 @@
     "messageformat": "Wiadomości tekstowe i wszystkie multimedia"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "Nie znaleziono subskrypcji. Aby dalej korzystać z usługi bezpiecznych kopii zapasowych Signal, odnów subskrypcję."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Wiadomości tekstowe, w tym multimedia z ostatniego dnia} few {Wiadomości tekstowe, w tym multimedia z ostatnich {mediaDayCount,number} dni} many {Wiadomości tekstowe, w tym multimedia z ostatnich {mediaDayCount,number} dni} other {Wiadomości tekstowe, w tym multimedia z ostatnich {mediaDayCount,number} dni}}"
@@ -5325,13 +5325,13 @@
     "messageformat": "Subskrypcja anulowana"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "Na telefonie możesz zarządzać bezpiecznymi kopiami zapasowymi Signal lub anulować ich subskrypcję."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "Na telefonie możesz zarządzać bezpiecznymi kopiami zapasowymi Signal lub zasubskrybować ich rozszerzony tryb."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "Na telefonie możesz zarządzać bezpiecznymi kopiami zapasowymi Signal lub odnowić ich subskrypcję."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Ostatnia kopia zapasowa"
@@ -6823,10 +6823,10 @@
     "messageformat": "Darowizna powiodła się, ale nie mogliśmy zaktualizować Twoich ustawień odznaki"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Darowizna powiodła się, ale nie mogliśmy zaktualizować Twoich ustawień odznaki"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "Aby zaktualizować ustawienia odznak na swoim urządzeniu mobilnym, przejdź do sekcji Ustawienia → Wesprzyj Signal darowizną → Odznaki."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Wpłata darowizny przerwana"

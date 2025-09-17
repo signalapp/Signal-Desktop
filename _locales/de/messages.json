@@ -2070,7 +2070,7 @@
     "messageformat": "Download fehlgeschlagen"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "Anhang-Download aus Backup fehlgeschlagen"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Bearbeitungen können nur innerhalb von 24 Stunden ab dem Senden dieser Nachricht vorgenommen werden."
@@ -5307,7 +5307,7 @@
     "messageformat": "Backups von Text + allen Medien"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "Dein Abo wurde nicht gefunden. Jetzt erneuern, um Signal Secure Backups weiterhin verwenden zu können."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Text- und Medien-Backup von {mediaDayCount,number} Tag} other {Text- und Medien-Backup der letzten {mediaDayCount,number} Tage}}"
@@ -5325,13 +5325,13 @@
     "messageformat": "Abo gekündigt"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "Du kannst dein Signal Secure Backups-Abo auf deinem Telefon verwalten oder stornieren."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "Du kannst Signal Secure Backups auf deinem Telefon verwalten oder upgraden."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "Du kannst dein Signal Secure Backups-Abo auf deinem Telefon verwalten oder erneuern."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Letztes Backup"
@@ -6823,10 +6823,10 @@
     "messageformat": "Die Spende hat geklappt, aber wir konnten deine Abzeichen-Einstellungen nicht aktualisieren"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Die Spende hat geklappt, aber wir konnten deine Abzeichen-Einstellungen nicht aktualisieren"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "Du kannst deine Abzeichen-Einstellungen auf deinem Smartphone aktualisieren unter: Einstellungen → An Signal spenden → Abzeichen."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Spende abgebrochen"

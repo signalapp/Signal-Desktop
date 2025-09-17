@@ -2070,7 +2070,7 @@
     "messageformat": "डाउनलोड नहीं हो पाया"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "बैकअप से अटैचमेंट को डाउनलोड नहीं किया जा सका"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "आपके द्वारा इस संदेश को भेजे जाने के 24 घंटे के भीतर ही संपादन लागू किए जा सकते हैं।"
@@ -5292,7 +5292,7 @@
     "messageformat": "ब्लॉक किया गया"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Signal सिक्योर बैकअप"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Signal की सुरक्षित एंड-टू-एंड एनक्रिप्टेड स्टोरेज सेवा के साथ ऑटोमैटिक बैकअप। अपने फ़ोन पर शुरू करें। <learnMoreLink>ज़्यादा जानें</learnMoreLink>।"
@@ -5307,7 +5307,7 @@
     "messageformat": "टेक्स्ट + पूरे मीडिया का बैकअप"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "आपका सब्सक्रिप्शन नहीं मिला। Signal सिक्योर बैकअप का इस्तेमाल जारी रखने के लिए रिन्यू करें।"
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {टेक्स्ट + {mediaDayCount,number} दिन का मीडिया बैकअप} other {टेक्स्ट + {mediaDayCount,number} दिनों का मीडिया बैकअप}}"
@@ -5325,13 +5325,13 @@
     "messageformat": "सब्सक्रिप्शन रद्द किया गया"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "अपने फ़ोन पर Signal सिक्योर बैकअप सब्सक्रिप्शन मैनेज या रद्द किया जा सकता है।"
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "अपने फ़ोन पर Signal सिक्योर बैकअप को मैनेज या अपग्रेड किया जा सकता है।"
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "अपने फ़ोन पर Signal सिक्योर बैकअप का सब्सक्रिप्शन मैनेज या रिन्यू किया जा सकता है।"
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "पिछला बैकअप"
@@ -6823,10 +6823,10 @@
     "messageformat": "दान हो गया है, लेकिन हम आपकी बैज की सेटिंग अपडेट नहीं कर सके"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "दान पूरा हो गया है, लेकिन हम आपकी बैज की सेटिंग अपडेट नहीं कर सके"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "अपने मोबाइल डिवाइस पर बैज सेटिंग अपडेट करने के लिए, यहां जाएं: सेटिंग → Signal को दान दें → बैज।"
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "दान में रुकावट आई है"

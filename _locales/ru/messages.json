@@ -2070,7 +2070,7 @@
     "messageformat": "Загрузка не удалась"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "Не удалось загрузить вложение из резервной копии"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Изменения могут быть внесены только в течение 24 часов с момента отправки этого сообщения."
@@ -5292,7 +5292,7 @@
     "messageformat": "Заблокировано"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Безопасное резервное копирование Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Автоматическое создание резервных копий с помощью надёжного, полностью зашифрованного хранилища Signal. Начните с вашего телефона. <learnMoreLink>Узнать больше</learnMoreLink>."
@@ -5307,7 +5307,7 @@
     "messageformat": "Резервное копирование сообщений и всех медиафайлов"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "Ваша подписка не найдена. Продлите подписку, чтобы и дальше использовать безопасное резервное копирование Signal."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Резервное копирование сообщений и медиафайлов за {mediaDayCount,number} день} few {Резервное копирование сообщений и медиафайлов за {mediaDayCount,number} дня} many {Резервное копирование сообщений и медиафайлов за {mediaDayCount,number} дней} other {Резервное копирование сообщений и медиафайлов за {mediaDayCount,number} дня}}"
@@ -5325,13 +5325,13 @@
     "messageformat": "Подписка отменена"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "Вы можете управлять безопасным резервным копированием Signal или отменять подписку на своём телефоне."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "Вы можете управлять безопасным резервным копированием Signal или продлевать подписку на своём телефоне."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "Вы можете управлять подпиской на безопасное резервное копирование Signal или продлевать её на своём телефоне."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Последняя резервная копия"
@@ -6823,10 +6823,10 @@
     "messageformat": "Пожертвование прошло успешно, но мы не смогли обновить настройки вашего значка"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Пожертвование прошло успешно, но мы не смогли обновить настройки вашего значка"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "Чтобы обновить настройки значков на своем мобильном устройстве, зайдите в раздел Настройки → Поддержать Signal → Значки."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Пожертвование прервано"

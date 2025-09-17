@@ -2070,7 +2070,7 @@
     "messageformat": "A eșuat descărcarea"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "Descărcarea atașamentului din backup a eșuat"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Editările pot fi făcute numai în termen de 24 de ore de la trimiterea acestui mesaj."
@@ -5292,7 +5292,7 @@
     "messageformat": "Blocat"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Backup-uri securizate Signal"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Backup-uri automate cu serviciul de stocare criptat complet de la Signal. Începe pe telefonul tău. <learnMoreLink>Află mai multe</learnMoreLink>."
@@ -5307,7 +5307,7 @@
     "messageformat": "Text și backup la toate fișierele media"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "Abonamentul tău nu a fost găsit. Reînnoiește abonamentul, pentru a continua să utilizezi Backup-uri securizate Signal."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} zi de backup al fișierelor media} few {Text + {mediaDayCount,number} zile de backup al fișierelor media} other {Text + {mediaDayCount,number} de zile de backup al fișierelor media}}"
@@ -5325,13 +5325,13 @@
     "messageformat": "Abonament anulat"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "Poți gestiona sau anula abonamentul Backup-uri securizate Signal de pe telefon."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "Poți gestiona sau actualiza Backup-uri securizate Signal pe telefon."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "Poți să gestionezi sau să reînnoiești abonamentul Backup-uri securizate Signal pe telefon."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Ultimul backup"
@@ -6823,10 +6823,10 @@
     "messageformat": "Donația a reușit, dar nu am putut actualiza setările insignei tale"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Donația a reușit, dar nu am putut actualiza setările insignei tale"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "Pentru a actualiza setările insignei pe dispozitivul mobil, accesează Setări → Donează către Signal → Insigne."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Donație întreruptă"

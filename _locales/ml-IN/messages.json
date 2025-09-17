@@ -2070,7 +2070,7 @@
     "messageformat": "ഡൗൺലോഡ് പരാജയപ്പെട്ടു"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "ബാക്കപ്പിൽ നിന്ന് അറ്റാച്ചുമെന്റ് ഡൗൺലോഡ് ചെയ്യുന്നത് പരാജയപ്പെട്ടു"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "നിങ്ങൾ ഈ സന്ദേശം അയച്ച് 24 മണിക്കൂറിനുള്ളിൽ മാത്രമേ എഡിറ്റുകൾ ബാധകമാക്കാനാകൂ."
@@ -5292,7 +5292,7 @@
     "messageformat": "ബ്ലോക്ക് ചെയ്തു"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Signal സുരക്ഷിത ബാക്കപ്പുകൾ"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Signal-ൻ്റെ സുരക്ഷിതമായ, എൻഡ്-ടു-എൻഡ് എൻക്രിപ്റ്റ് ചെയ്ത സ്റ്റോറേജ് സേവനത്തോടുകൂടിയ സ്വയമേവയുള്ള ബാക്കപ്പുകൾ. നിങ്ങളുടെ ഫോണിൽ ആരംഭിക്കുക. <learnMoreLink>കൂടുതലറിയുക</learnMoreLink>."
@@ -5307,7 +5307,7 @@
     "messageformat": "ടെക്സ്റ്റ് + എല്ലാ മീഡിയ ബാക്കപ്പും"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "നിങ്ങളുടെ സബ്സ്ക്രിപ്ഷൻ കണ്ടെത്തിയില്ല. Signal സുരക്ഷിത ബാക്കപ്പുകൾ ഉപയോഗിക്കുന്നത് തുടരാൻ പുതുക്കുക."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {ടെക്സ്റ്റ് + {mediaDayCount,number} ദിവസത്തെ മീഡിയ ബാക്കപ്പ്} other {ടെക്സ്റ്റ് + {mediaDayCount,number} ദിവസത്തെ മീഡിയ ബാക്കപ്പ്}}"
@@ -5325,13 +5325,13 @@
     "messageformat": "സബ്സ്ക്രിപ്ഷൻ റദ്ദാക്കി"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "നിങ്ങളുടെ ഫോണിൽ Signal സുരക്ഷിത ബാക്കപ്പ് സബ്സ്ക്രിപ്ഷൻ മാനേജ് ചെയ്യാനോ റദ്ദാക്കാനോ കഴിയും."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "നിങ്ങളുടെ ഫോണിൽ Signal സുരക്ഷിത ബാക്കപ്പുകൾ മാനേജ് ചെയ്യാനോ അപ്‌ഗ്രേഡ് ചെയ്യാനോ കഴിയും."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "നിങ്ങളുടെ ഫോണിൽ Signal സുരക്ഷിത ബാക്കപ്പ് സബ്സ്ക്രിപ്ഷൻ മാനേജ് ചെയ്യാനോ പുതുക്കാനോ കഴിയും."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "അവസാന ബാക്കപ്പ്"
@@ -6823,10 +6823,10 @@
     "messageformat": "സംഭാവന വിജയകരമായി നൽകി, പക്ഷേ നിങ്ങളുടെ ബാഡ്ജ് ക്രമീകരണങ്ങൾ അപ്ഡേറ്റ് ചെയ്യാൻ ഞങ്ങൾക്ക് കഴിഞ്ഞില്ല"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "സംഭാവന വിജയകരമായി നൽകി, പക്ഷേ നിങ്ങളുടെ ബാഡ്ജ് ക്രമീകരണങ്ങൾ അപ്ഡേറ്റ് ചെയ്യാൻ ഞങ്ങൾക്ക് കഴിഞ്ഞില്ല"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "നിങ്ങളുടെ മൊബൈൽ ഉപകരണത്തിൽ ബാഡ്ജ് ക്രമീകരണങ്ങൾ അപ്ഡേറ്റ് ചെയ്യാൻ, ക്രമീകരണങ്ങൾ → Signal-ലേക്ക് സംഭാവന ചെയ്യുക → ബാഡ്ജുകൾ എന്നതിലേക്ക് പോകുക."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "സംഭാവന തടസ്സപ്പെട്ടു"

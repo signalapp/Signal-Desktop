@@ -2070,7 +2070,7 @@
     "messageformat": "Prenos ni uspel"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Download of attachment from backup failed"
+    "messageformat": "Prenos priloge iz varnostne kopije ni uspel"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Urejanje je mogoče uporabiti samo v 24 urah od trenutka, ko ste poslali to sporočilo."
@@ -5292,7 +5292,7 @@
     "messageformat": "Blokirani"
   },
   "icu:Preferences--signal-backups": {
-    "messageformat": "Signal Secure Backups"
+    "messageformat": "Varne varnostne kopije"
   },
   "icu:Preferences--signal-backups-off-description": {
     "messageformat": "Samodejno varnostno kopiranje s Signalovo varno storitvijo šifriranega shranjevanja od konca do konca. Začnite v telefonu. <learnMoreLink>Preberite več.</learnMoreLink>"
@@ -5307,7 +5307,7 @@
     "messageformat": "Varnostno kopiranje sporočil in vseh medijev"
   },
   "icu:Preferences--backup-plan-not-found__description": {
-    "messageformat": "Your subscription was not found. Renew to continue using Signal Secure Backups."
+    "messageformat": "Vaša naročnina ni bila najdena. Obnovite, če želite še naprej uporabljati Varne varnostne kopije."
   },
   "icu:Preferences--backup-messages-plan__description": {
     "messageformat": "{mediaDayCount, plural, one {Varnostno kopiranje sporočil in medijev {mediaDayCount,number} dne} two {Varnostno kopiranje sporočil in medijev {mediaDayCount,number} dni} few {Varnostno kopiranje sporočil in medijev {mediaDayCount,number} dni} other {Varnostno kopiranje sporočil in medijev {mediaDayCount,number} dni}}"
@@ -5325,13 +5325,13 @@
     "messageformat": "Naročnina je prekinjena"
   },
   "icu:Preferences--backup-media-plan__note": {
-    "messageformat": "You can manage or cancel your Signal Secure Backups subscription on your phone."
+    "messageformat": "Naročnino na Varne varnostne kopije lahko upravljate ali prekličete v telefonu."
   },
   "icu:Preferences--backup-messages-plan__note": {
-    "messageformat": "You can manage or upgrade Signal Secure Backups on your phone."
+    "messageformat": "Varne varnostne kopije lahko upravljate ali nadgradite v telefonu."
   },
   "icu:Preferences--backup-plan__not-found__note": {
-    "messageformat": "You can manage or renew your Signal Secure Backups subscription on your phone."
+    "messageformat": "Naročnino na Varne varnostne kopije lahko upravljate ali obnovite v telefonu."
   },
   "icu:Preferences--backup-created-at__label": {
     "messageformat": "Zadnja varnostna kopija"
@@ -6823,10 +6823,10 @@
     "messageformat": "Donacija je uspela, vendar nismo mogli posodobiti nastavitev vaše značke"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
-    "messageformat": "Donation succeeded, but we could not update your badge settings"
+    "messageformat": "Donacija je uspela, vendar nismo mogli posodobiti nastavitev vaše značke"
   },
   "icu:Donations__BadgeApplicationFailed__Description": {
-    "messageformat": "To update your badge settings on your mobile device, go to Settings → Donate to Signal → Badges."
+    "messageformat": "Če želite posodobiti nastavitve značke v mobilni napravi, pojdite v Nastavitve → Doniraj Signalu → Značke."
   },
   "icu:Donations__DonationInterrupted": {
     "messageformat": "Donacija je prekinjena"
