@@ -6,7 +6,7 @@ import type { ReactNode } from 'react';
 import React, { useCallback, useId } from 'react';
 import type { Key } from 'react-aria';
 import { Tab, TabList, TabPanel, Tabs } from 'react-aria-components';
-import type { FunPickerTabKey } from '../constants';
+import type { FunPickerTabKey } from '../constants.js';
 
 export type FunTabsProps = Readonly<{
   value: FunPickerTabKey;

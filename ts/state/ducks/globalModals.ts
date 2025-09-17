@@ -3,63 +3,63 @@
 
 import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
-import OS from '../../util/os/osMain';
-import type { ExplodePromiseResultType } from '../../util/explodePromise';
+import OS from '../../util/os/osMain.js';
+import type { ExplodePromiseResultType } from '../../util/explodePromise.js';
 import type {
   GroupV2PendingMemberType,
   ReadonlyMessageAttributesType,
-} from '../../model-types.d';
+} from '../../model-types.d.ts';
 import type {
   MessageChangedActionType,
   MessageDeletedActionType,
   MessageExpiredActionType,
-} from './conversations';
-import type { MessagePropsType } from '../selectors/message';
-import type { RecipientsByConversation } from './stories';
-import type { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog';
-import type { StateType as RootStateType } from '../reducer';
-import * as SingleServePromise from '../../services/singleServePromise';
-import * as Stickers from '../../types/Stickers';
-import { UsernameOnboardingState } from '../../types/globalModals';
-import { createLogger } from '../../logging/log';
+} from './conversations.js';
+import type { MessagePropsType } from '../selectors/message.js';
+import type { RecipientsByConversation } from './stories.js';
+import type { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog.js';
+import type { StateType as RootStateType } from '../reducer.js';
+import * as SingleServePromise from '../../services/singleServePromise.js';
+import * as Stickers from '../../types/Stickers.js';
+import { UsernameOnboardingState } from '../../types/globalModals.js';
+import { createLogger } from '../../logging/log.js';
 import {
   getMessagePropsSelector,
   getPropsForAttachment,
-} from '../selectors/message';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
-import { longRunningTaskWrapper } from '../../util/longRunningTaskWrapper';
-import { useBoundActions } from '../../hooks/useBoundActions';
-import { isGroupV1 } from '../../util/whatTypeOfConversation';
-import { sleep } from '../../util/sleep';
-import { SECOND } from '../../util/durations';
-import { getGroupMigrationMembers } from '../../groups';
+} from '../selectors/message.js';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
+import { longRunningTaskWrapper } from '../../util/longRunningTaskWrapper.js';
+import { useBoundActions } from '../../hooks/useBoundActions.js';
+import { isGroupV1 } from '../../util/whatTypeOfConversation.js';
+import { sleep } from '../../util/sleep.js';
+import { SECOND } from '../../util/durations/index.js';
+import { getGroupMigrationMembers } from '../../groups.js';
 import {
   MESSAGE_CHANGED,
   MESSAGE_DELETED,
   MESSAGE_EXPIRED,
   actions as conversationsActions,
-} from './conversations';
-import { isDownloaded } from '../../types/Attachment';
-import { isPermanentlyUndownloadable } from '../../jobs/AttachmentDownloadManager';
-import type { ButtonVariant } from '../../components/Button';
-import type { MessageRequestState } from '../../components/conversation/MessageRequestActionsConfirmation';
-import type { MessageForwardDraft } from '../../types/ForwardDraft';
-import { hydrateRanges } from '../../types/BodyRange';
+} from './conversations.js';
+import { isDownloaded } from '../../types/Attachment.js';
+import { isPermanentlyUndownloadable } from '../../jobs/AttachmentDownloadManager.js';
+import type { ButtonVariant } from '../../components/Button.js';
+import type { MessageRequestState } from '../../components/conversation/MessageRequestActionsConfirmation.js';
+import type { MessageForwardDraft } from '../../types/ForwardDraft.js';
+import { hydrateRanges } from '../../types/BodyRange.js';
 import {
   getConversationSelector,
   type GetConversationByIdType,
-} from '../selectors/conversations';
-import { missingCaseError } from '../../util/missingCaseError';
-import { ForwardMessagesModalType } from '../../components/ForwardMessagesModal';
-import type { CallLinkType } from '../../types/CallLink';
-import type { LocalizerType } from '../../types/I18N';
-import { linkCallRoute } from '../../util/signalRoutes';
-import type { StartCallData } from '../../components/ConfirmLeaveCallModal';
-import { getMessageById } from '../../messages/getMessageById';
-import type { DataPropsType as TapToViewNotAvailablePropsType } from '../../components/TapToViewNotAvailableModal';
-import type { DataPropsType as BackfillFailureModalPropsType } from '../../components/BackfillFailureModal';
-import type { SmartDraftGifMessageSendModalProps } from '../smart/DraftGifMessageSendModal';
-import { onCriticalIdlePrimaryDeviceModalDismissed } from '../../util/handleServerAlerts';
+} from '../selectors/conversations.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
+import { ForwardMessagesModalType } from '../../components/ForwardMessagesModal.js';
+import type { CallLinkType } from '../../types/CallLink.js';
+import type { LocalizerType } from '../../types/I18N.js';
+import { linkCallRoute } from '../../util/signalRoutes.js';
+import type { StartCallData } from '../../components/ConfirmLeaveCallModal.js';
+import { getMessageById } from '../../messages/getMessageById.js';
+import type { DataPropsType as TapToViewNotAvailablePropsType } from '../../components/TapToViewNotAvailableModal.js';
+import type { DataPropsType as BackfillFailureModalPropsType } from '../../components/BackfillFailureModal.js';
+import type { SmartDraftGifMessageSendModalProps } from '../smart/DraftGifMessageSendModal.js';
+import { onCriticalIdlePrimaryDeviceModalDismissed } from '../../util/handleServerAlerts.js';
 
 const log = createLogger('globalModals');
 

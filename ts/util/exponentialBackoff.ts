@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { strictAssert } from './assert';
-import * as durations from './durations';
+import { strictAssert } from './assert.js';
+import * as durations from './durations/index.js';
 
 const BACKOFF_FACTOR = 1.9;
 const MAX_BACKOFF = 15 * durations.MINUTE;

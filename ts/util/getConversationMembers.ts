@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { compact } from 'lodash';
-import type { ConversationAttributesType } from '../model-types.d';
-import type { ServiceIdString } from '../types/ServiceId';
-import { isDirectConversation } from './whatTypeOfConversation';
+import type { ConversationAttributesType } from '../model-types.d.ts';
+import type { ServiceIdString } from '../types/ServiceId.js';
+import { isDirectConversation } from './whatTypeOfConversation.js';
 
 export function getConversationMembers(
   conversationAttrs: ConversationAttributesType,

@@ -3,8 +3,8 @@
 
 import { assert } from 'chai';
 
-import * as Bytes from '../Bytes';
-import { constantTimeEqual } from '../Crypto';
+import * as Bytes from '../Bytes.js';
+import { constantTimeEqual } from '../Crypto.js';
 import {
   calculateSignature,
   clampPrivateKey,
@@ -15,7 +15,7 @@ import {
   generateSignedPreKey,
   isNonNegativeInteger,
   verifySignature,
-} from '../Curve';
+} from '../Curve.js';
 
 describe('Curve', () => {
   it('verifySignature roundtrip', () => {

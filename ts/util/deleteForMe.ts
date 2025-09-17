@@ -3,20 +3,20 @@
 
 import { last, sortBy } from 'lodash';
 
-import { createLogger } from '../logging/log';
-import { DataReader, DataWriter, deleteAndCleanup } from '../sql/Client';
-import { deleteData } from '../types/Attachment';
+import { createLogger } from '../logging/log.js';
+import { DataReader, DataWriter, deleteAndCleanup } from '../sql/Client.js';
+import { deleteData } from '../types/Attachment.js';
 
-import type { MessageAttributesType } from '../model-types';
-import type { ConversationModel } from '../models/conversations';
-import type { AddressableMessage } from '../textsecure/messageReceiverEvents';
-import type { AttachmentType } from '../types/Attachment';
-import { MessageModel } from '../models/messages';
-import { cleanupMessages, postSaveUpdates } from './cleanup';
+import type { MessageAttributesType } from '../model-types.js';
+import type { ConversationModel } from '../models/conversations.js';
+import type { AddressableMessage } from '../textsecure/messageReceiverEvents.js';
+import type { AttachmentType } from '../types/Attachment.js';
+import { MessageModel } from '../models/messages.js';
+import { cleanupMessages, postSaveUpdates } from './cleanup.js';
 import {
   findMatchingMessage,
   getMessageQueryFromTarget,
-} from './syncIdentifiers';
+} from './syncIdentifiers.js';
 
 const log = createLogger('deleteForMe');
 

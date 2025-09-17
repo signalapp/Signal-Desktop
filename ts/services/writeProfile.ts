@@ -1,23 +1,23 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { DataWriter } from '../sql/Client';
-import type { ConversationType } from '../state/ducks/conversations';
-import * as Errors from '../types/errors';
-import { createLogger } from '../logging/log';
-import { computeHash } from '../Crypto';
-import { encryptProfileData } from '../util/encryptProfileData';
-import { getProfile } from '../util/getProfile';
-import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
-import { strictAssert } from '../util/assert';
-import { isWhitespace } from '../util/whitespaceStringUtil';
-import { imagePathToBytes } from '../util/imagePathToBytes';
-import { getLocalAvatarUrl } from '../util/avatarUtils';
+import { DataWriter } from '../sql/Client.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import * as Errors from '../types/errors.js';
+import { createLogger } from '../logging/log.js';
+import { computeHash } from '../Crypto.js';
+import { encryptProfileData } from '../util/encryptProfileData.js';
+import { getProfile } from '../util/getProfile.js';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.js';
+import { strictAssert } from '../util/assert.js';
+import { isWhitespace } from '../util/whitespaceStringUtil.js';
+import { imagePathToBytes } from '../util/imagePathToBytes.js';
+import { getLocalAvatarUrl } from '../util/avatarUtils.js';
 import type {
   AvatarUpdateOptionsType,
   AvatarUpdateType,
-} from '../types/Avatar';
-import MessageSender from '../textsecure/SendMessage';
+} from '../types/Avatar.js';
+import MessageSender from '../textsecure/SendMessage.js';
 
 const log = createLogger('writeProfile');
 

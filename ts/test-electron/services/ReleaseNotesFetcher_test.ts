@@ -3,16 +3,16 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'node:events';
 import { v4 as uuid } from 'uuid';
 
-import { ReleaseNotesFetcher } from '../../services/releaseNotesFetcher';
-import * as durations from '../../util/durations';
-import { generateAci } from '../../types/ServiceId';
-import { saveNewMessageBatcher } from '../../util/messageBatcher';
-import type { WebAPIType } from '../../textsecure/WebAPI';
-import type { CIType } from '../../CI';
-import type { ConversationModel } from '../../models/conversations';
+import { ReleaseNotesFetcher } from '../../services/releaseNotesFetcher.js';
+import * as durations from '../../util/durations/index.js';
+import { generateAci } from '../../types/ServiceId.js';
+import { saveNewMessageBatcher } from '../../util/messageBatcher.js';
+import type { WebAPIType } from '../../textsecure/WebAPI.js';
+import type { CIType } from '../../CI.js';
+import type { ConversationModel } from '../../models/conversations.js';
 
 const waitUntil = (
   condition: () => boolean,

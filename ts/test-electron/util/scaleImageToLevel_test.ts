@@ -3,9 +3,9 @@
 
 import { assert } from 'chai';
 import loadImage from 'blueimp-load-image';
-import { IMAGE_JPEG, IMAGE_PNG } from '../../types/MIME';
+import { IMAGE_JPEG, IMAGE_PNG } from '../../types/MIME.js';
 
-import { scaleImageToLevel } from '../../util/scaleImageToLevel';
+import { scaleImageToLevel } from '../../util/scaleImageToLevel.js';
 
 describe('scaleImageToLevel', () => {
   // NOTE: These tests are incomplete.

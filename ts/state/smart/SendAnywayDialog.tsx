@@ -3,20 +3,20 @@
 
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import * as SingleServePromise from '../../services/singleServePromise';
-import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialog';
+import * as SingleServePromise from '../../services/singleServePromise.js';
+import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialog.js';
 import {
   SafetyNumberChangeDialog,
   SafetyNumberChangeSource,
-} from '../../components/SafetyNumberChangeDialog';
-import { SmartSafetyNumberViewer } from './SafetyNumberViewer';
-import { getByDistributionListConversationsStoppingSend } from '../selectors/conversations-extra';
-import { getIntl, getTheme } from '../selectors/user';
-import { getPreferredBadgeSelector } from '../selectors/badges';
-import { useConversationsActions } from '../ducks/conversations';
-import { useGlobalModalActions } from '../ducks/globalModals';
-import { useStoryDistributionListsActions } from '../ducks/storyDistributionLists';
-import { getSafetyNumberChangedBlockingData } from '../selectors/globalModals';
+} from '../../components/SafetyNumberChangeDialog.js';
+import { SmartSafetyNumberViewer } from './SafetyNumberViewer.js';
+import { getByDistributionListConversationsStoppingSend } from '../selectors/conversations-extra.js';
+import { getIntl, getTheme } from '../selectors/user.js';
+import { getPreferredBadgeSelector } from '../selectors/badges.js';
+import { useConversationsActions } from '../ducks/conversations.js';
+import { useGlobalModalActions } from '../ducks/globalModals.js';
+import { useStoryDistributionListsActions } from '../ducks/storyDistributionLists.js';
+import { getSafetyNumberChangedBlockingData } from '../selectors/globalModals.js';
 
 function renderSafetyNumber({ contactID, onClose }: SafetyNumberProps) {
   return <SmartSafetyNumberViewer contactID={contactID} onClose={onClose} />;

@@ -10,20 +10,20 @@ import {
   GroupCallEndReason,
   type Reaction as CallReaction,
 } from '@signalapp/ringrtc';
-import { getOwn } from '../../util/getOwn';
-import * as Errors from '../../types/errors';
-import { getIntl, getPlatform } from '../selectors/user';
-import { isConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing';
-import { missingCaseError } from '../../util/missingCaseError';
-import { drop } from '../../util/drop';
+import { getOwn } from '../../util/getOwn.js';
+import * as Errors from '../../types/errors.js';
+import { getIntl, getPlatform } from '../selectors/user.js';
+import { isConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
+import { drop } from '../../util/drop.js';
 import {
   DesktopCapturer,
   isNativeMacScreenShareSupported,
   type DesktopCapturerBaton,
-} from '../../util/desktopCapturer';
-import { calling } from '../../services/calling';
-import { truncateAudioLevel } from '../../calling/truncateAudioLevel';
-import type { StateType as RootStateType } from '../reducer';
+} from '../../util/desktopCapturer.js';
+import { calling } from '../../services/calling.js';
+import { truncateAudioLevel } from '../../calling/truncateAudioLevel.js';
+import type { StateType as RootStateType } from '../reducer.js';
 import type {
   ActiveCallReaction,
   ActiveCallReactionsType,
@@ -33,13 +33,13 @@ import type {
   ObservedRemoteMuteType,
   PresentedSource,
   PresentableSource,
-} from '../../types/Calling';
+} from '../../types/Calling.js';
 import {
   isCallLinkAdmin,
   type CallLinkRestrictions,
   type CallLinkStateType,
   type CallLinkType,
-} from '../../types/CallLink';
+} from '../../types/CallLink.js';
 import {
   CALLING_REACTIONS_LIFETIME,
   MAX_CALLING_REACTIONS,
@@ -49,66 +49,69 @@ import {
   CallState,
   GroupCallConnectionState,
   GroupCallJoinState,
-} from '../../types/Calling';
-import { CallMode } from '../../types/CallDisposition';
-import { callingTones } from '../../util/callingTones';
-import { requestCameraPermissions } from '../../util/callingPermissions';
+} from '../../types/Calling.js';
+import { CallMode } from '../../types/CallDisposition.js';
+import { callingTones } from '../../util/callingTones.js';
+import { requestCameraPermissions } from '../../util/callingPermissions.js';
 import {
   CALL_LINK_DEFAULT_STATE,
   toAdminKeyBytes,
   toCallHistoryFromUnusedCallLink,
-} from '../../util/callLinks';
-import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc';
-import { sendCallLinkUpdateSync } from '../../util/sendCallLinkUpdateSync';
-import { sleep } from '../../util/sleep';
-import { LatestQueue } from '../../util/LatestQueue';
-import type { AciString, ServiceIdString } from '../../types/ServiceId';
+} from '../../util/callLinks.js';
+import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc.js';
+import { sendCallLinkUpdateSync } from '../../util/sendCallLinkUpdateSync.js';
+import { sleep } from '../../util/sleep.js';
+import { LatestQueue } from '../../util/LatestQueue.js';
+import type { AciString, ServiceIdString } from '../../types/ServiceId.js';
 import type {
   ConversationsUpdatedActionType,
   ConversationRemovedActionType,
-} from './conversations';
-import { getConversationCallMode, updateLastMessage } from './conversations';
-import { createLogger } from '../../logging/log';
-import { strictAssert } from '../../util/assert';
-import { waitForOnline } from '../../util/waitForOnline';
-import * as mapUtil from '../../util/mapUtil';
-import { isCallSafe } from '../../util/isCallSafe';
-import { isDirectConversation } from '../../util/whatTypeOfConversation';
-import { SHOW_TOAST } from './toast';
-import { ToastType } from '../../types/Toast';
-import type { ShowToastActionType } from './toast';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
-import { useBoundActions } from '../../hooks/useBoundActions';
+} from './conversations.js';
+import { getConversationCallMode, updateLastMessage } from './conversations.js';
+import { createLogger } from '../../logging/log.js';
+import { strictAssert } from '../../util/assert.js';
+import { waitForOnline } from '../../util/waitForOnline.js';
+import * as mapUtil from '../../util/mapUtil.js';
+import { isCallSafe } from '../../util/isCallSafe.js';
+import { isDirectConversation } from '../../util/whatTypeOfConversation.js';
+import { SHOW_TOAST } from './toast.js';
+import { ToastType } from '../../types/Toast.js';
+import type { ShowToastActionType } from './toast.js';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
+import { useBoundActions } from '../../hooks/useBoundActions.js';
 import {
   isAnybodyElseInGroupCall,
   isAnybodyInGroupCall,
   MAX_CALL_PARTICIPANTS_FOR_DEFAULT_MUTE,
-} from './callingHelpers';
-import { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog';
+} from './callingHelpers.js';
+import { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog.js';
 import {
   isGroupOrAdhocCallMode,
   isGroupOrAdhocCallState,
-} from '../../util/isGroupOrAdhocCall';
+} from '../../util/isGroupOrAdhocCall.js';
 import type {
   ShowErrorModalActionType,
   ToggleConfirmLeaveCallModalActionType,
-} from './globalModals';
-import { SHOW_ERROR_MODAL, toggleConfirmLeaveCallModal } from './globalModals';
-import { ButtonVariant } from '../../components/Button';
-import { getConversationIdForLogging } from '../../util/idForLogging';
-import { DataReader, DataWriter } from '../../sql/Client';
-import { isAciString } from '../../util/isAciString';
-import type { CallHistoryAdd } from './callHistory';
-import { addCallHistory, reloadCallHistory } from './callHistory';
-import { saveDraftRecordingIfNeeded } from './composer';
-import type { StartCallData } from '../../components/ConfirmLeaveCallModal';
+} from './globalModals.js';
+import {
+  SHOW_ERROR_MODAL,
+  toggleConfirmLeaveCallModal,
+} from './globalModals.js';
+import { ButtonVariant } from '../../components/Button.js';
+import { getConversationIdForLogging } from '../../util/idForLogging.js';
+import { DataReader, DataWriter } from '../../sql/Client.js';
+import { isAciString } from '../../util/isAciString.js';
+import type { CallHistoryAdd } from './callHistory.js';
+import { addCallHistory, reloadCallHistory } from './callHistory.js';
+import { saveDraftRecordingIfNeeded } from './composer.js';
+import type { StartCallData } from '../../components/ConfirmLeaveCallModal.js';
 import {
   getCallLinksByRoomId,
   getPresentingSource,
-} from '../selectors/calling';
-import { storageServiceUploadJob } from '../../services/storage';
-import { CallLinkFinalizeDeleteManager } from '../../jobs/CallLinkFinalizeDeleteManager';
-import { callLinkRefreshJobQueue } from '../../jobs/callLinkRefreshJobQueue';
+} from '../selectors/calling.js';
+import { storageServiceUploadJob } from '../../services/storage.js';
+import { CallLinkFinalizeDeleteManager } from '../../jobs/CallLinkFinalizeDeleteManager.js';
+import { callLinkRefreshJobQueue } from '../../jobs/callLinkRefreshJobQueue.js';
 
 const log = createLogger('calling');
 

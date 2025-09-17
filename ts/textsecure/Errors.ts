@@ -6,11 +6,11 @@
 import type { Response } from 'node-fetch';
 import type { LibSignalErrorBase } from '@signalapp/libsignal-client';
 
-import { parseRetryAfter } from '../util/parseRetryAfter';
-import type { ServiceIdString } from '../types/ServiceId';
+import { parseRetryAfter } from '../util/parseRetryAfter.js';
+import type { ServiceIdString } from '../types/ServiceId.js';
 
-import type { CallbackResultType } from './Types.d';
-import type { HeaderListType } from './WebAPI';
+import type { CallbackResultType } from './Types.d.ts';
+import type { HeaderListType } from './WebAPI.js';
 
 function appendStack(newError: Error, originalError: Error) {
   // eslint-disable-next-line no-param-reassign

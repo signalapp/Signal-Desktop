@@ -4,10 +4,10 @@
 import { blobToArrayBuffer } from 'blob-util';
 import { v4 as generateUuid } from 'uuid';
 
-import { makeVideoScreenshot } from '../types/VisualAttachment';
-import { IMAGE_PNG, stringToMIMEType } from '../types/MIME';
-import type { InMemoryAttachmentDraftType } from '../types/Attachment';
-import { fileToBytes } from './fileToBytes';
+import { makeVideoScreenshot } from '../types/VisualAttachment.js';
+import { IMAGE_PNG, stringToMIMEType } from '../types/MIME.js';
+import type { InMemoryAttachmentDraftType } from '../types/Attachment.js';
+import { fileToBytes } from './fileToBytes.js';
 
 export async function handleVideoAttachment(
   file: File,

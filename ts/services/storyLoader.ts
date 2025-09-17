@@ -2,22 +2,22 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { pick } from 'lodash';
-import type { ReadonlyMessageAttributesType } from '../model-types.d';
-import type { StoryDataType } from '../state/ducks/stories';
-import * as durations from '../util/durations';
-import { createLogger } from '../logging/log';
-import { DataReader } from '../sql/Client';
-import type { GetAllStoriesResultType } from '../sql/Interface';
+import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
+import type { StoryDataType } from '../state/ducks/stories.js';
+import * as durations from '../util/durations/index.js';
+import { createLogger } from '../logging/log.js';
+import { DataReader } from '../sql/Client.js';
+import type { GetAllStoriesResultType } from '../sql/Interface.js';
 import {
   getAttachmentsForMessage,
   getPropsForAttachment,
-} from '../state/selectors/message';
-import type { LinkPreviewType } from '../types/message/LinkPreviews';
-import { isNotNil } from '../util/isNotNil';
-import { strictAssert } from '../util/assert';
-import { dropNull } from '../util/dropNull';
-import { DurationInSeconds } from '../util/durations';
-import { SIGNAL_ACI } from '../types/SignalConversation';
+} from '../state/selectors/message.js';
+import type { LinkPreviewType } from '../types/message/LinkPreviews.js';
+import { isNotNil } from '../util/isNotNil.js';
+import { strictAssert } from '../util/assert.js';
+import { dropNull } from '../util/dropNull.js';
+import { DurationInSeconds } from '../util/durations/index.js';
+import { SIGNAL_ACI } from '../types/SignalConversation.js';
 
 const log = createLogger('storyLoader');
 

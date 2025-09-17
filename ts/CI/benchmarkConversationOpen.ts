@@ -3,20 +3,20 @@
 
 import { v4 as uuid } from 'uuid';
 
-import { incrementMessageCounter } from '../util/incrementMessageCounter';
-import { ReadStatus } from '../messages/MessageReadStatus';
-import { SendStatus } from '../messages/MessageSendState';
-import { DataWriter } from '../sql/Client';
-import { BodyRange } from '../types/BodyRange';
-import { strictAssert } from '../util/assert';
-import { MINUTE } from '../util/durations';
-import { isOlderThan } from '../util/timestamp';
-import { sleep } from '../util/sleep';
-import { stats } from '../util/benchmark/stats';
-import type { StatsType } from '../util/benchmark/stats';
-import type { MessageAttributesType } from '../model-types.d';
-import { createLogger } from '../logging/log';
-import { postSaveUpdates } from '../util/cleanup';
+import { incrementMessageCounter } from '../util/incrementMessageCounter.js';
+import { ReadStatus } from '../messages/MessageReadStatus.js';
+import { SendStatus } from '../messages/MessageSendState.js';
+import { DataWriter } from '../sql/Client.js';
+import { BodyRange } from '../types/BodyRange.js';
+import { strictAssert } from '../util/assert.js';
+import { MINUTE } from '../util/durations/index.js';
+import { isOlderThan } from '../util/timestamp.js';
+import { sleep } from '../util/sleep.js';
+import { stats } from '../util/benchmark/stats.js';
+import type { StatsType } from '../util/benchmark/stats.js';
+import type { MessageAttributesType } from '../model-types.d.ts';
+import { createLogger } from '../logging/log.js';
+import { postSaveUpdates } from '../util/cleanup.js';
 
 const log = createLogger('benchmarkConversationOpen');
 

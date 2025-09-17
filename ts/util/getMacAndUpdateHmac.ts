@@ -5,7 +5,7 @@ import { Buffer } from 'node:buffer';
 import { type Hmac } from 'node:crypto';
 import { Transform } from 'node:stream';
 
-import { MAC_LENGTH } from '../types/Crypto';
+import { MAC_LENGTH } from '../types/Crypto.js';
 
 /**
  * Updates an hmac with the stream except for the last MAC_LENGTH

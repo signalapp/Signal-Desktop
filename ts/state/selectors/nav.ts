@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createSelector } from 'reselect';
-import { getAllConversationsUnreadStats } from './conversations';
-import { getStoriesNotificationCount } from './stories';
-import { getCallHistoryUnreadCount } from './callHistory';
-import { NavTab } from '../../types/Nav';
+import { getAllConversationsUnreadStats } from './conversations.js';
+import { getStoriesNotificationCount } from './stories.js';
+import { getCallHistoryUnreadCount } from './callHistory.js';
+import { NavTab } from '../../types/Nav.js';
 
-import type { StateType } from '../reducer';
-import type { NavStateType } from '../ducks/nav';
-import type { UnreadStats } from '../../util/countUnreadStats';
+import type { StateType } from '../reducer.js';
+import type { NavStateType } from '../ducks/nav.js';
+import type { UnreadStats } from '../../util/countUnreadStats.js';
 
 function getNav(state: StateType): NavStateType {
   return state.nav;

@@ -1,9 +1,9 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ToastType } from '../types/Toast';
-import { SECOND } from './durations';
-import { isOlderThan } from './timestamp';
+import { ToastType } from '../types/Toast.js';
+import { SECOND } from './durations/index.js';
+import { isOlderThan } from './timestamp.js';
 
 const DOWNLOAD_FAILED_TIMESTAMP_REST = 10 * SECOND;
 

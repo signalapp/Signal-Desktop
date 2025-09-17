@@ -13,12 +13,12 @@ import {
   ServerCertificate,
 } from '@signalapp/libsignal-client';
 
-import * as durations from '../../util/durations';
-import { drop } from '../../util/drop';
-import * as Bytes from '../../Bytes';
-import { SenderCertificateMode } from '../../textsecure/OutgoingMessage';
+import * as durations from '../../util/durations/index.js';
+import { drop } from '../../util/drop.js';
+import * as Bytes from '../../Bytes.js';
+import { SenderCertificateMode } from '../../textsecure/OutgoingMessage.js';
 
-import { SenderCertificateService } from '../../services/senderCertificate';
+import { SenderCertificateService } from '../../services/senderCertificate.js';
 
 describe('SenderCertificateService', () => {
   const FIFTEEN_MINUTES = 15 * durations.MINUTE;

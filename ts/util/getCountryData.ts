@@ -3,7 +3,7 @@
 
 import memoizee from 'memoizee';
 
-import { instance } from './libphonenumberInstance';
+import { instance } from './libphonenumberInstance.js';
 
 export type CountryDataType = Readonly<{
   region: string;

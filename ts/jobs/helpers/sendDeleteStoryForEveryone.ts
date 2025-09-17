@@ -3,32 +3,35 @@
 
 import { ContentHint } from '@signalapp/libsignal-client';
 
-import * as Errors from '../../types/errors';
-import { getSendOptions } from '../../util/getSendOptions';
-import { isDirectConversation, isMe } from '../../util/whatTypeOfConversation';
+import * as Errors from '../../types/errors.js';
+import { getSendOptions } from '../../util/getSendOptions.js';
+import {
+  isDirectConversation,
+  isMe,
+} from '../../util/whatTypeOfConversation.js';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from './handleMultipleSendErrors';
-import { ourProfileKeyService } from '../../services/ourProfileKey';
+} from './handleMultipleSendErrors.js';
+import { ourProfileKeyService } from '../../services/ourProfileKey.js';
 
-import type { ConversationModel } from '../../models/conversations';
+import type { ConversationModel } from '../../models/conversations.js';
 import type {
   ConversationQueueJobBundle,
   DeleteStoryForEveryoneJobData,
-} from '../conversationJobQueue';
-import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds';
-import { handleMessageSend } from '../../util/handleMessageSend';
-import { isConversationAccepted } from '../../util/isConversationAccepted';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered';
-import { getMessageById } from '../../messages/getMessageById';
-import { isNotNil } from '../../util/isNotNil';
-import type { CallbackResultType } from '../../textsecure/Types.d';
-import type { MessageModel } from '../../models/messages';
-import { SendMessageProtoError } from '../../textsecure/Errors';
-import { strictAssert } from '../../util/assert';
-import type { LoggerType } from '../../types/Logging';
-import { isStory } from '../../messages/helpers';
+} from '../conversationJobQueue.js';
+import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds.js';
+import { handleMessageSend } from '../../util/handleMessageSend.js';
+import { isConversationAccepted } from '../../util/isConversationAccepted.js';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.js';
+import { getMessageById } from '../../messages/getMessageById.js';
+import { isNotNil } from '../../util/isNotNil.js';
+import type { CallbackResultType } from '../../textsecure/Types.d.ts';
+import type { MessageModel } from '../../models/messages.js';
+import { SendMessageProtoError } from '../../textsecure/Errors.js';
+import { strictAssert } from '../../util/assert.js';
+import type { LoggerType } from '../../types/Logging.js';
+import { isStory } from '../../messages/helpers.js';
 
 export async function sendDeleteStoryForEveryone(
   ourConversation: ConversationModel,

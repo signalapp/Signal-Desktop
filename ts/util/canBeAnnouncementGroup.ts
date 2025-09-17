@@ -1,8 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationAttributesType } from '../model-types.d';
-import { isGroupV2 } from './whatTypeOfConversation';
+import type { ConversationAttributesType } from '../model-types.d.ts';
+import { isGroupV2 } from './whatTypeOfConversation.js';
 
 export function canBeAnnouncementGroup(
   conversationAttrs: Pick<

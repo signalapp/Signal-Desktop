@@ -4,8 +4,8 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType as GroupV1DisabledActionsPropsType } from './GroupV1DisabledActions';
-import { GroupV1DisabledActions } from './GroupV1DisabledActions';
+import type { PropsType as GroupV1DisabledActionsPropsType } from './GroupV1DisabledActions.js';
+import { GroupV1DisabledActions } from './GroupV1DisabledActions.js';
 
 const { i18n } = window.SignalContext;
 

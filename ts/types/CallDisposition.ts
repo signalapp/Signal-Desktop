@@ -3,12 +3,12 @@
 
 import { z } from 'zod';
 import Long from 'long';
-import type { AciString } from './ServiceId';
-import { aciSchema } from './ServiceId';
-import { bytesToUuid } from '../util/uuidToBytes';
-import { SignalService as Proto } from '../protobuf';
-import * as Bytes from '../Bytes';
-import { UUID_BYTE_SIZE } from './Crypto';
+import type { AciString } from './ServiceId.js';
+import { aciSchema } from './ServiceId.js';
+import { bytesToUuid } from '../util/uuidToBytes.js';
+import { SignalService as Proto } from '../protobuf/index.js';
+import * as Bytes from '../Bytes.js';
+import { UUID_BYTE_SIZE } from './Crypto.js';
 
 // These are strings (1) for the backup (2) for Storybook.
 export enum CallMode {

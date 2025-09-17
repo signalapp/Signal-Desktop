@@ -1,13 +1,13 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { readFileSync, unlinkSync } from 'fs';
+import { readFileSync, unlinkSync } from 'node:fs';
 import { sync as writeFileSync } from 'write-file-atomic';
 
 import { get } from 'lodash';
 import { set } from 'lodash/fp';
-import { strictAssert } from '../ts/util/assert';
-import { createLogger } from '../ts/logging/log';
+import { strictAssert } from '../ts/util/assert.js';
+import { createLogger } from '../ts/logging/log.js';
 
 const log = createLogger('base_config');
 

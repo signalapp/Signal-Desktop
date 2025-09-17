@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { sample } from 'lodash';
-import type { AvatarColorType } from '../types/Colors';
-import { AvatarColors } from '../types/Colors';
+import type { AvatarColorType } from '../types/Colors.js';
+import { AvatarColors } from '../types/Colors.js';
 
 export function getRandomColor(): AvatarColorType {
   return sample(AvatarColors) || AvatarColors[0];

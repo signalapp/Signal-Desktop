@@ -1,16 +1,16 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { Virtualizer } from '@tanstack/react-virtual';
 import {
   useVirtualizer,
   type Range,
   type VirtualItem,
+  type Virtualizer,
 } from '@tanstack/react-virtual';
 import { chunk, groupBy } from 'lodash';
 import type { RefObject } from 'react';
 import { useCallback, useMemo } from 'react';
-import { strictAssert } from '../../../util/assert';
-import { missingCaseError } from '../../../util/missingCaseError';
+import { strictAssert } from '../../../util/assert.js';
+import { missingCaseError } from '../../../util/missingCaseError.js';
 
 export type SectionKey = `section-${string}`;
 export type HeaderKey = `header-${string}`;

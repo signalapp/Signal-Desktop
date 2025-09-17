@@ -3,7 +3,11 @@
 
 import { assert } from 'chai';
 
-import { actions, getEmptyState, reducer } from '../../../state/ducks/network';
+import {
+  actions,
+  getEmptyState,
+  reducer,
+} from '../../../state/ducks/network.js';
 
 describe('both/state/ducks/network', () => {
   describe('setChallengeStatus', () => {

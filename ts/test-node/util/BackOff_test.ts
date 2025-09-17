@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { BackOff } from '../../util/BackOff';
+import { BackOff } from '../../util/BackOff.js';
 
 describe('BackOff', () => {
   it('should return increasing timeouts', () => {

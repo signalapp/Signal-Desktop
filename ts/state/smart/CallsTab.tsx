@@ -2,30 +2,30 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { DataReader } from '../../sql/Client';
-import { useItemsActions } from '../ducks/items';
+import { DataReader } from '../../sql/Client.js';
+import { useItemsActions } from '../ducks/items.js';
 import {
   getNavTabsCollapsed,
   getPreferredLeftPaneWidth,
-} from '../selectors/items';
-import { getIntl, getRegionCode } from '../selectors/user';
-import type { WidthBreakpoint } from '../../components/_util';
-import { CallsTab } from '../../components/CallsTab';
+} from '../selectors/items.js';
+import { getIntl, getRegionCode } from '../selectors/user.js';
+import type { WidthBreakpoint } from '../../components/_util.js';
+import { CallsTab } from '../../components/CallsTab.js';
 import {
   getAllConversations,
   getConversationSelector,
-} from '../selectors/conversations';
-import { filterAndSortConversations } from '../../util/filterAndSortConversations';
+} from '../selectors/conversations.js';
+import { filterAndSortConversations } from '../../util/filterAndSortConversations.js';
 import type {
   CallHistoryFilter,
   CallHistoryFilterOptions,
   CallHistoryGroup,
   CallHistoryPagination,
-} from '../../types/CallDisposition';
-import type { ConversationType } from '../ducks/conversations';
-import { SmartConversationDetails } from './ConversationDetails';
-import { SmartToastManager } from './ToastManager';
-import { useCallingActions } from '../ducks/calling';
+} from '../../types/CallDisposition.js';
+import type { ConversationType } from '../ducks/conversations.js';
+import { SmartConversationDetails } from './ConversationDetails.js';
+import { SmartToastManager } from './ToastManager.js';
+import { useCallingActions } from '../ducks/calling.js';
 import {
   getActiveCallState,
   getAdhocCallSelector,
@@ -33,16 +33,16 @@ import {
   getCallSelector,
   getCallLinkSelector,
   getHasAnyAdminCallLinks,
-} from '../selectors/calling';
-import { useCallHistoryActions } from '../ducks/callHistory';
-import { getCallHistoryEdition } from '../selectors/callHistory';
-import { getHasPendingUpdate } from '../selectors/updates';
-import { getHasAnyFailedStorySends } from '../selectors/stories';
-import { getOtherTabsUnreadStats } from '../selectors/nav';
-import { SmartCallLinkDetails } from './CallLinkDetails';
-import type { CallLinkType } from '../../types/CallLink';
-import { filterCallLinks } from '../../util/filterCallLinks';
-import { useGlobalModalActions } from '../ducks/globalModals';
+} from '../selectors/calling.js';
+import { useCallHistoryActions } from '../ducks/callHistory.js';
+import { getCallHistoryEdition } from '../selectors/callHistory.js';
+import { getHasPendingUpdate } from '../selectors/updates.js';
+import { getHasAnyFailedStorySends } from '../selectors/stories.js';
+import { getOtherTabsUnreadStats } from '../selectors/nav.js';
+import { SmartCallLinkDetails } from './CallLinkDetails.js';
+import type { CallLinkType } from '../../types/CallLink.js';
+import { filterCallLinks } from '../../util/filterCallLinks.js';
+import { useGlobalModalActions } from '../ducks/globalModals.js';
 
 function getCallHistoryFilter({
   allCallLinks,

@@ -8,13 +8,13 @@ import { v4 as uuid } from 'uuid';
 import { expect, fn, within, userEvent } from '@storybook/test';
 
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './MyStories';
-import { MY_STORY_ID } from '../types/Stories';
-import { MyStories } from './MyStories';
-import { SendStatus } from '../messages/MessageSendState';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
-import { getFakeMyStory } from '../test-helpers/getFakeStory';
-import { sleep } from '../util/sleep';
+import type { PropsType } from './MyStories.js';
+import { MY_STORY_ID } from '../types/Stories.js';
+import { MyStories } from './MyStories.js';
+import { SendStatus } from '../messages/MessageSendState.js';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.js';
+import { getFakeMyStory } from '../test-helpers/getFakeStory.js';
+import { sleep } from '../util/sleep.js';
 
 const { i18n } = window.SignalContext;
 

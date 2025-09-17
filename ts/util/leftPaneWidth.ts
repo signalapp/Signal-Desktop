@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { clamp } from 'lodash';
-import { isSorted } from './isSorted';
-import { strictAssert } from './assert';
+import { isSorted } from './isSorted.js';
+import { strictAssert } from './assert.js';
 
 export const MIN_WIDTH = 97;
 export const SNAP_WIDTH = 200;

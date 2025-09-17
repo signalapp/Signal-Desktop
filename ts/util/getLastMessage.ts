@@ -1,12 +1,12 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationAttributesType } from '../model-types.d';
-import type { LastMessageType } from '../state/ducks/conversations';
-import { dropNull } from './dropNull';
-import { findAndFormatContact } from './findAndFormatContact';
-import { hydrateRanges } from '../types/BodyRange';
-import { stripNewlinesForLeftPane } from './stripNewlinesForLeftPane';
+import type { ConversationAttributesType } from '../model-types.d.ts';
+import type { LastMessageType } from '../state/ducks/conversations.js';
+import { dropNull } from './dropNull.js';
+import { findAndFormatContact } from './findAndFormatContact.js';
+import { hydrateRanges } from '../types/BodyRange.js';
+import { stripNewlinesForLeftPane } from './stripNewlinesForLeftPane.js';
 
 export function getLastMessage(
   conversationAttrs: ConversationAttributesType

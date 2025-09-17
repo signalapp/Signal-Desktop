@@ -7,22 +7,25 @@ import { minBy, debounce, noop } from 'lodash';
 
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 
-import { missingCaseError } from '../util/missingCaseError';
-import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall';
-import { useActivateSpeakerViewOnPresenting } from '../hooks/useActivateSpeakerViewOnPresenting';
-import { CallMode } from '../types/CallDisposition';
-import { TooltipPlacement } from './Tooltip';
-import { CallingButton, CallingButtonType } from './CallingButton';
-import { CallingPipRemoteVideo } from './CallingPipRemoteVideo';
-import { CallBackgroundBlur } from './CallBackgroundBlur';
+import { missingCaseError } from '../util/missingCaseError.js';
+import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall.js';
+import { useActivateSpeakerViewOnPresenting } from '../hooks/useActivateSpeakerViewOnPresenting.js';
+import { CallMode } from '../types/CallDisposition.js';
+import { TooltipPlacement } from './Tooltip.js';
+import { CallingButton, CallingButtonType } from './CallingButton.js';
+import { CallingPipRemoteVideo } from './CallingPipRemoteVideo.js';
+import { CallBackgroundBlur } from './CallBackgroundBlur.js';
 
-import type { LocalizerType } from '../types/Util';
-import type { ActiveCallType, GroupCallVideoRequest } from '../types/Calling';
-import type { SetRendererCanvasType } from '../state/ducks/calling';
-import type { CallingImageDataCache } from './CallManager';
-import type { ConversationType } from '../state/ducks/conversations';
-import { Avatar, AvatarSize } from './Avatar';
-import { AvatarColors } from '../types/Colors';
+import type { LocalizerType } from '../types/Util.js';
+import type {
+  ActiveCallType,
+  GroupCallVideoRequest,
+} from '../types/Calling.js';
+import type { SetRendererCanvasType } from '../state/ducks/calling.js';
+import type { CallingImageDataCache } from './CallManager.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import { Avatar, AvatarSize } from './Avatar.js';
+import { AvatarColors } from '../types/Colors.js';
 
 enum PositionMode {
   BeingDragged,

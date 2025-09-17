@@ -8,17 +8,17 @@ import classNames from 'classnames';
 import type {
   ConversationType,
   ShowConversationType,
-} from '../state/ducks/conversations';
-import type { ConversationStoryType, MyStoryType } from '../types/Stories';
-import type { LocalizerType, ThemeType } from '../types/Util';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
-import type { ShowToastAction } from '../state/ducks/toast';
-import type { ViewUserStoriesActionCreatorType } from '../state/ducks/stories';
-import { MyStoryButton } from './MyStoryButton';
-import { SearchInput } from './SearchInput';
-import { StoryListItem } from './StoryListItem';
-import { isNotNil } from '../util/isNotNil';
-import { NavSidebarSearchHeader, NavSidebarEmpty } from './NavSidebar';
+} from '../state/ducks/conversations.js';
+import type { ConversationStoryType, MyStoryType } from '../types/Stories.js';
+import type { LocalizerType, ThemeType } from '../types/Util.js';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.js';
+import type { ShowToastAction } from '../state/ducks/toast.js';
+import type { ViewUserStoriesActionCreatorType } from '../state/ducks/stories.js';
+import { MyStoryButton } from './MyStoryButton.js';
+import { SearchInput } from './SearchInput.js';
+import { StoryListItem } from './StoryListItem.js';
+import { isNotNil } from '../util/isNotNil.js';
+import { NavSidebarSearchHeader, NavSidebarEmpty } from './NavSidebar.js';
 
 const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationStoryType> = {
   getFn: (story, path) => {

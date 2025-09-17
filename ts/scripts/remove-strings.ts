@@ -3,13 +3,13 @@
 
 import chalk from 'chalk';
 import execa from 'execa';
-import fs from 'fs/promises';
+import fs from 'node:fs/promises';
 import pLimit from 'p-limit';
-import path from 'path';
+import path from 'node:path';
 
-import { MONTH } from '../util/durations';
-import { isOlderThan } from '../util/timestamp';
-import { DELETED_REGEXP } from './constants';
+import { MONTH } from '../util/durations/index.js';
+import { isOlderThan } from '../util/timestamp.js';
+import { DELETED_REGEXP } from './constants.js';
 
 const ROOT_DIR = path.join(__dirname, '..', '..');
 const MESSAGES_FILE = path.join(ROOT_DIR, '_locales', 'en', 'messages.json');

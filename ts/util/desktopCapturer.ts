@@ -5,21 +5,21 @@
 import { ipcRenderer, type DesktopCapturerSource } from 'electron';
 import type { Stream, StreamOptions } from '@indutny/mac-screen-share';
 
-import { createLogger } from '../logging/log';
-import * as Errors from '../types/errors';
-import type { PresentableSource } from '../types/Calling';
-import type { LocalizerType } from '../types/Util';
+import { createLogger } from '../logging/log.js';
+import * as Errors from '../types/errors.js';
+import type { PresentableSource } from '../types/Calling.js';
+import type { LocalizerType } from '../types/Util.js';
 import {
   REQUESTED_SCREEN_SHARE_WIDTH,
   REQUESTED_SCREEN_SHARE_HEIGHT,
   REQUESTED_SCREEN_SHARE_FRAMERATE,
-} from '../calling/constants';
-import { strictAssert } from './assert';
-import { explodePromise } from './explodePromise';
-import { isNotNil } from './isNotNil';
-import { drop } from './drop';
-import { SECOND } from './durations';
-import { isOlderThan } from './timestamp';
+} from '../calling/constants.js';
+import { strictAssert } from './assert.js';
+import { explodePromise } from './explodePromise.js';
+import { isNotNil } from './isNotNil.js';
+import { drop } from './drop.js';
+import { SECOND } from './durations/index.js';
+import { isOlderThan } from './timestamp.js';
 
 const log = createLogger('desktopCapturer');
 

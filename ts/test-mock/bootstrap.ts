@@ -1,11 +1,11 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import assert from 'assert';
-import fs from 'fs/promises';
-import crypto from 'crypto';
-import path, { join } from 'path';
-import os from 'os';
+import assert from 'node:assert';
+import fs from 'node:fs/promises';
+import crypto from 'node:crypto';
+import path, { join } from 'node:path';
+import os from 'node:os';
 import { PassThrough } from 'node:stream';
 import createDebug from 'debug';
 import pTimeout from 'p-timeout';
@@ -21,19 +21,19 @@ import {
   ServiceIdKind,
   loadCertificates,
 } from '@signalapp/mock-server';
-import { MAX_READ_KEYS as MAX_STORAGE_READ_KEYS } from '../services/storageConstants';
-import { SECOND, MINUTE, WEEK, MONTH } from '../util/durations';
-import { drop } from '../util/drop';
-import { regress } from '../util/benchmark/stats';
-import type { RendererConfigType } from '../types/RendererConfig';
-import type { MIMEType } from '../types/MIME';
-import { App } from './playwright';
-import { CONTACT_COUNT } from './benchmarks/fixtures';
-import { strictAssert } from '../util/assert';
+import { MAX_READ_KEYS as MAX_STORAGE_READ_KEYS } from '../services/storageConstants.js';
+import { SECOND, MINUTE, WEEK, MONTH } from '../util/durations/index.js';
+import { drop } from '../util/drop.js';
+import { regress } from '../util/benchmark/stats.js';
+import type { RendererConfigType } from '../types/RendererConfig.js';
+import type { MIMEType } from '../types/MIME.js';
+import { App } from './playwright.js';
+import { CONTACT_COUNT } from './benchmarks/fixtures.js';
+import { strictAssert } from '../util/assert.js';
 import {
   encryptAttachmentV2,
   generateAttachmentKeys,
-} from '../AttachmentCrypto';
+} from '../AttachmentCrypto.js';
 
 export { App };
 

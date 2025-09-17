@@ -4,10 +4,10 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { AttachmentType } from '../../types/Attachment';
-import { stringToMIMEType } from '../../types/MIME';
-import type { Props } from './StagedGenericAttachment';
-import { StagedGenericAttachment } from './StagedGenericAttachment';
+import type { AttachmentType } from '../../types/Attachment.js';
+import { stringToMIMEType } from '../../types/MIME.js';
+import type { Props } from './StagedGenericAttachment.js';
+import { StagedGenericAttachment } from './StagedGenericAttachment.js';
 
 const { i18n } = window.SignalContext;
 

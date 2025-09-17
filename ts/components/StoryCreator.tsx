@@ -5,25 +5,25 @@ import React, { useEffect, useState } from 'react';
 import { get, has } from 'lodash';
 
 import { createPortal } from 'react-dom';
-import type { AttachmentType } from '../types/Attachment';
-import type { LinkPreviewSourceType } from '../types/LinkPreview';
-import type { LinkPreviewForUIType } from '../types/message/LinkPreviews';
-import type { LocalizerType, ThemeType } from '../types/Util';
-import type { Props as StickerButtonProps } from './stickers/StickerButton';
-import type { PropsType as SendStoryModalPropsType } from './SendStoryModal';
-import type { StoryDistributionIdString } from '../types/StoryDistributionId';
-import type { imageToBlurHash } from '../util/imageToBlurHash';
-import type { PropsType as TextStoryCreatorPropsType } from './TextStoryCreator';
-import type { PropsType as MediaEditorPropsType } from './MediaEditor';
+import type { AttachmentType } from '../types/Attachment.js';
+import type { LinkPreviewSourceType } from '../types/LinkPreview.js';
+import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.js';
+import type { LocalizerType, ThemeType } from '../types/Util.js';
+import type { Props as StickerButtonProps } from './stickers/StickerButton.js';
+import type { PropsType as SendStoryModalPropsType } from './SendStoryModal.js';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId.js';
+import type { imageToBlurHash } from '../util/imageToBlurHash.js';
+import type { PropsType as TextStoryCreatorPropsType } from './TextStoryCreator.js';
+import type { PropsType as MediaEditorPropsType } from './MediaEditor.js';
 
-import { TEXT_ATTACHMENT } from '../types/MIME';
-import { isVideoAttachment } from '../types/Attachment';
-import { SendStoryModal } from './SendStoryModal';
+import { TEXT_ATTACHMENT } from '../types/MIME.js';
+import { isVideoAttachment } from '../types/Attachment.js';
+import { SendStoryModal } from './SendStoryModal.js';
 
-import { MediaEditor } from './MediaEditor';
-import { TextStoryCreator } from './TextStoryCreator';
-import type { DraftBodyRanges } from '../types/BodyRange';
-import type { processAttachment } from '../util/processAttachment';
+import { MediaEditor } from './MediaEditor.js';
+import { TextStoryCreator } from './TextStoryCreator.js';
+import type { DraftBodyRanges } from '../types/BodyRange.js';
+import type { processAttachment } from '../util/processAttachment.js';
 
 function usePortalElement(testid: string): HTMLDivElement | null {
   const [element, setElement] = useState<HTMLDivElement | null>(null);

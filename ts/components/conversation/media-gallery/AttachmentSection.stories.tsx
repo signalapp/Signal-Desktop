@@ -6,9 +6,13 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './AttachmentSection';
-import { AttachmentSection } from './AttachmentSection';
-import { createRandomDocuments, createRandomMedia, days } from './utils/mocks';
+import type { Props } from './AttachmentSection.js';
+import { AttachmentSection } from './AttachmentSection.js';
+import {
+  createRandomDocuments,
+  createRandomMedia,
+  days,
+} from './utils/mocks.js';
 
 const { i18n } = window.SignalContext;
 

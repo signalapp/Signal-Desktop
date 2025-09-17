@@ -1,12 +1,12 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { join } from 'path';
-import { readFile } from 'fs/promises';
-import { DNSFallbackSchema } from '../ts/types/DNSFallback';
-import type { DNSFallbackType } from '../ts/types/DNSFallback';
-import { parseUnknown } from '../ts/util/schemas';
-import { createLogger } from '../ts/logging/log';
+import { join } from 'node:path';
+import { readFile } from 'node:fs/promises';
+import { DNSFallbackSchema } from '../ts/types/DNSFallback.js';
+import type { DNSFallbackType } from '../ts/types/DNSFallback.js';
+import { parseUnknown } from '../ts/util/schemas.js';
+import { createLogger } from '../ts/logging/log.js';
 
 const log = createLogger('dns-fallback');
 

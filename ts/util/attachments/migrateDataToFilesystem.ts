@@ -5,8 +5,8 @@ import { isFunction, isTypedArray, isUndefined, omit } from 'lodash';
 import type {
   AttachmentType,
   LocalAttachmentV2Type,
-} from '../../types/Attachment';
-import type { LoggerType } from '../../types/Logging';
+} from '../../types/Attachment.js';
+import type { LoggerType } from '../../types/Logging.js';
 
 export async function migrateDataToFileSystem(
   attachment: AttachmentType,

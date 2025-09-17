@@ -8,12 +8,12 @@ import {
   ComposerStep,
   ConversationVerificationState,
   OneTimeModalState,
-} from '../../../state/ducks/conversationsEnums';
+} from '../../../state/ducks/conversationsEnums.js';
 import type {
   ConversationLookupType,
   ConversationType,
-} from '../../../state/ducks/conversations';
-import { getEmptyState } from '../../../state/ducks/conversations';
+} from '../../../state/ducks/conversations.js';
+import { getEmptyState } from '../../../state/ducks/conversations.js';
 import {
   _getConversationComparator,
   _getLeftPaneLists,
@@ -42,24 +42,24 @@ import {
   getSelectedConversationId,
   hasGroupCreationError,
   isCreatingGroup,
-} from '../../../state/selectors/conversations';
-import { noopAction } from '../../../state/ducks/noop';
-import type { StateType } from '../../../state/reducer';
-import { reducer as rootReducer } from '../../../state/reducer';
-import { setupI18n } from '../../../util/setupI18n';
-import type { ServiceIdString } from '../../../types/ServiceId';
-import { generateAci, getAciFromPrefix } from '../../../types/ServiceId';
+} from '../../../state/selectors/conversations.js';
+import { noopAction } from '../../../state/ducks/noop.js';
+import type { StateType } from '../../../state/reducer.js';
+import { reducer as rootReducer } from '../../../state/reducer.js';
+import { setupI18n } from '../../../util/setupI18n.js';
+import type { ServiceIdString } from '../../../types/ServiceId.js';
+import { generateAci, getAciFromPrefix } from '../../../types/ServiceId.js';
 import enMessages from '../../../../_locales/en/messages.json';
 import {
   getDefaultConversation,
   getDefaultGroup,
   getDefaultConversationWithServiceId,
-} from '../../../test-helpers/getDefaultConversation';
+} from '../../../test-helpers/getDefaultConversation.js';
 import {
   defaultStartDirectConversationComposerState,
   defaultChooseGroupMembersComposerState,
   defaultSetGroupMetadataComposerState,
-} from '../../../test-helpers/defaultComposerStates';
+} from '../../../test-helpers/defaultComposerStates.js';
 
 describe('both/state/selectors/conversations-extra', () => {
   const SERVICE_ID_1 = generateAci();

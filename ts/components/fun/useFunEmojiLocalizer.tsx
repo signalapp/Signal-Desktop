@@ -1,16 +1,16 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { useMemo } from 'react';
-import type { EmojiParentKey, EmojiVariantKey } from './data/emojis';
+import type { EmojiParentKey, EmojiVariantKey } from './data/emojis.js';
 import {
   getEmojiParentByKey,
   getEmojiParentKeyByVariantKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
-} from './data/emojis';
-import type { LocaleEmojiListType } from '../../types/emoji';
-import { strictAssert } from '../../util/assert';
-import { useFunEmojiLocalization } from './FunEmojiLocalizationProvider';
+} from './data/emojis.js';
+import type { LocaleEmojiListType } from '../../types/emoji.js';
+import { strictAssert } from '../../util/assert.js';
+import { useFunEmojiLocalization } from './FunEmojiLocalizationProvider.js';
 
 export type FunEmojiLocalizerIndex = Readonly<{
   parentKeyToLocaleShortName: ReadonlyMap<EmojiParentKey, string>;

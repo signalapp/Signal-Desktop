@@ -14,27 +14,27 @@ import {
   SenderCertificate,
   UnidentifiedSenderMessageContent,
 } from '@signalapp/libsignal-client';
-import { senderCertificateService } from '../services/senderCertificate';
-import type { SendLogCallbackType } from '../textsecure/OutgoingMessage';
+import { senderCertificateService } from '../services/senderCertificate.js';
+import type { SendLogCallbackType } from '../textsecure/OutgoingMessage.js';
 import {
   padMessage,
   SenderCertificateMode,
-} from '../textsecure/OutgoingMessage';
-import { Address } from '../types/Address';
-import { QualifiedAddress } from '../types/QualifiedAddress';
-import * as Errors from '../types/errors';
-import { DataWriter } from '../sql/Client';
-import { getValue } from '../RemoteConfig';
-import type { ServiceIdString } from '../types/ServiceId';
-import { ServiceIdKind } from '../types/ServiceId';
-import * as Bytes from '../Bytes';
-import { isRecord } from './isRecord';
+} from '../textsecure/OutgoingMessage.js';
+import { Address } from '../types/Address.js';
+import { QualifiedAddress } from '../types/QualifiedAddress.js';
+import * as Errors from '../types/errors.js';
+import { DataWriter } from '../sql/Client.js';
+import { getValue } from '../RemoteConfig.js';
+import type { ServiceIdString } from '../types/ServiceId.js';
+import { ServiceIdKind } from '../types/ServiceId.js';
+import * as Bytes from '../Bytes.js';
+import { isRecord } from './isRecord.js';
 
-import { isOlderThan } from './timestamp';
+import { isOlderThan } from './timestamp.js';
 import type {
   GroupSendOptionsType,
   SendOptionsType,
-} from '../textsecure/SendMessage';
+} from '../textsecure/SendMessage.js';
 import {
   ConnectTimeoutError,
   IncorrectSenderKeyAuthError,
@@ -43,38 +43,38 @@ import {
   UnknownRecipientError,
   UnregisteredUserError,
   HTTPError,
-} from '../textsecure/Errors';
-import { IdentityKeys, SenderKeys, Sessions } from '../LibSignalStores';
-import type { ConversationModel } from '../models/conversations';
-import type { DeviceType, CallbackResultType } from '../textsecure/Types.d';
-import { getKeysForServiceId } from '../textsecure/getKeysForServiceId';
+} from '../textsecure/Errors.js';
+import { IdentityKeys, SenderKeys, Sessions } from '../LibSignalStores.js';
+import type { ConversationModel } from '../models/conversations.js';
+import type { DeviceType, CallbackResultType } from '../textsecure/Types.d.ts';
+import { getKeysForServiceId } from '../textsecure/getKeysForServiceId.js';
 import type {
   ConversationAttributesType,
   SenderKeyInfoType,
-} from '../model-types.d';
-import type { SendTypesType } from './handleMessageSend';
-import { handleMessageSend, shouldSaveProto } from './handleMessageSend';
-import { SEALED_SENDER, ZERO_ACCESS_KEY } from '../types/SealedSender';
-import { parseIntOrThrow } from './parseIntOrThrow';
+} from '../model-types.d.ts';
+import type { SendTypesType } from './handleMessageSend.js';
+import { handleMessageSend, shouldSaveProto } from './handleMessageSend.js';
+import { SEALED_SENDER, ZERO_ACCESS_KEY } from '../types/SealedSender.js';
+import { parseIntOrThrow } from './parseIntOrThrow.js';
 import {
   multiRecipient200ResponseSchema,
   multiRecipient409ResponseSchema,
   multiRecipient410ResponseSchema,
-} from '../textsecure/WebAPI';
-import { SignalService as Proto } from '../protobuf';
+} from '../textsecure/WebAPI.js';
+import { SignalService as Proto } from '../protobuf/index.js';
 
-import { strictAssert } from './assert';
-import { createLogger } from '../logging/log';
-import { GLOBAL_ZONE } from '../SignalProtocolStore';
-import { waitForAll } from './waitForAll';
-import type { GroupSendEndorsementState } from './groupSendEndorsements';
+import { strictAssert } from './assert.js';
+import { createLogger } from '../logging/log.js';
+import { GLOBAL_ZONE } from '../SignalProtocolStore.js';
+import { waitForAll } from './waitForAll.js';
+import type { GroupSendEndorsementState } from './groupSendEndorsements.js';
 import {
   maybeCreateGroupSendEndorsementState,
   onFailedToSendWithEndorsements,
-} from './groupSendEndorsements';
-import type { GroupSendToken } from '../types/GroupSendEndorsements';
-import { isAciString } from './isAciString';
-import { safeParseStrict, safeParseUnknown } from './schemas';
+} from './groupSendEndorsements.js';
+import type { GroupSendToken } from '../types/GroupSendEndorsements.js';
+import { isAciString } from './isAciString.js';
+import { safeParseStrict, safeParseUnknown } from './schemas.js';
 
 const log = createLogger('sendToGroup');
 

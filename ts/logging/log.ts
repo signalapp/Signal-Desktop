@@ -4,10 +4,10 @@
 import pino from 'pino';
 import { LRUCache } from 'lru-cache';
 
-import type { LoggerType } from '../types/Logging';
-import { Environment, getEnvironment } from '../environment';
-import { reallyJsonStringify } from '../util/reallyJsonStringify';
-import { getLogLevelString, type LogLevel } from './shared';
+import type { LoggerType } from '../types/Logging.js';
+import { Environment, getEnvironment } from '../environment.js';
+import { reallyJsonStringify } from '../util/reallyJsonStringify.js';
+import { getLogLevelString, type LogLevel } from './shared.js';
 
 // This file is imported by some components so we can't import `ts/util/privacy`
 let redactAll = (value: string) => value;

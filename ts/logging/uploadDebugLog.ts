@@ -5,13 +5,13 @@ import type { Response } from 'got';
 import { z } from 'zod';
 import FormData from 'form-data';
 import got from 'got';
-import { gzip } from 'zlib';
+import { gzip } from 'node:zlib';
 import pify from 'pify';
-import { getUserAgent } from '../util/getUserAgent';
-import { maybeParseUrl } from '../util/url';
-import * as durations from '../util/durations';
-import type { LoggerType } from '../types/Logging';
-import { parseUnknown } from '../util/schemas';
+import { getUserAgent } from '../util/getUserAgent.js';
+import { maybeParseUrl } from '../util/url.js';
+import * as durations from '../util/durations/index.js';
+import type { LoggerType } from '../types/Logging.js';
+import { parseUnknown } from '../util/schemas.js';
 
 const BASE_URL = 'https://debuglogs.org';
 

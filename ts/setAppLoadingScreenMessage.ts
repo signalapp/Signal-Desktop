@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { LocalizerType } from './types/Util';
+import type { LocalizerType } from './types/Util.js';
 
 const DISPLAY_THRESHOLD = 3000; // milliseconds
 const SELECTOR = '.app-loading-screen .message';

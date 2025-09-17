@@ -1,10 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as Bytes from '../Bytes';
+import * as Bytes from '../Bytes.js';
 
-import { SignalService as Proto } from '../protobuf';
-import { fromServiceIdBinaryOrString } from './ServiceId';
+import { SignalService as Proto } from '../protobuf/index.js';
+import { fromServiceIdBinaryOrString } from './ServiceId.js';
 
 import PinnedConversation = Proto.AccountRecord.IPinnedConversation;
 

@@ -4,13 +4,13 @@
 import React, { StrictMode } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 
-import * as Errors from '../types/errors';
-import { createLogger } from '../logging/log';
-import { ProgressModal } from '../components/ProgressModal';
-import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary';
-import { sleep } from './sleep';
-import { FunDefaultEnglishEmojiLocalizationProvider } from '../components/fun/FunEmojiLocalizationProvider';
-import { AxoProvider } from '../axo/AxoProvider';
+import * as Errors from '../types/errors.js';
+import { createLogger } from '../logging/log.js';
+import { ProgressModal } from '../components/ProgressModal.js';
+import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary.js';
+import { sleep } from './sleep.js';
+import { FunDefaultEnglishEmojiLocalizationProvider } from '../components/fun/FunEmojiLocalizationProvider.js';
+import { AxoProvider } from '../axo/AxoProvider.js';
 
 const log = createLogger('longRunningTaskWrapper');
 

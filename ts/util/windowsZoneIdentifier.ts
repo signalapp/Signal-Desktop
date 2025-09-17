@@ -1,8 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as fs from 'fs';
-import OS from './os/osMain';
+import * as fs from 'node:fs';
+import OS from './os/osMain.js';
 
 const ZONE_IDENTIFIER_CONTENTS = Buffer.from('[ZoneTransfer]\r\nZoneId=3');
 

@@ -5,20 +5,20 @@ import { last } from 'lodash';
 import type { ReactChild } from 'react';
 import React from 'react';
 
-import type { ToFindType } from './LeftPaneHelper';
+import type { ToFindType } from './LeftPaneHelper.js';
 import type {
   ConversationType,
   ShowConversationType,
-} from '../../state/ducks/conversations';
-import { LeftPaneHelper } from './LeftPaneHelper';
-import { getConversationInDirection } from './getConversationInDirection';
-import type { Row } from '../ConversationList';
-import { RowType } from '../ConversationList';
-import { NavSidebarEmpty } from '../NavSidebar';
-import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem';
-import type { LocalizerType } from '../../types/Util';
-import { handleKeydownForSearch } from './handleKeydownForSearch';
-import { LeftPaneSearchInput } from '../LeftPaneSearchInput';
+} from '../../state/ducks/conversations.js';
+import { LeftPaneHelper } from './LeftPaneHelper.js';
+import { getConversationInDirection } from './getConversationInDirection.js';
+import type { Row } from '../ConversationList.js';
+import { RowType } from '../ConversationList.js';
+import { NavSidebarEmpty } from '../NavSidebar.js';
+import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem.js';
+import type { LocalizerType } from '../../types/Util.js';
+import { handleKeydownForSearch } from './handleKeydownForSearch.js';
+import { LeftPaneSearchInput } from '../LeftPaneSearchInput.js';
 
 export type LeftPaneInboxPropsType = {
   conversations: ReadonlyArray<ConversationListItemPropsType>;

@@ -3,22 +3,22 @@
 
 import { z } from 'zod';
 
-import type { ReadonlyMessageAttributesType } from '../model-types.d';
-import * as Errors from '../types/errors';
-import { createLogger } from '../logging/log';
-import { StartupQueue } from '../util/StartupQueue';
-import { drop } from '../util/drop';
-import { getMessageIdForLogging } from '../util/idForLogging';
-import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
-import { isIncoming } from '../state/selectors/message';
-import { isMessageUnread } from '../util/isMessageUnread';
-import { notificationService } from '../services/notifications';
-import { queueUpdateMessage } from '../util/messageBatcher';
-import { strictAssert } from '../util/assert';
-import { isAciString } from '../util/isAciString';
-import { DataReader, DataWriter } from '../sql/Client';
-import { markRead } from '../services/MessageUpdater';
-import { MessageModel } from '../models/messages';
+import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
+import * as Errors from '../types/errors.js';
+import { createLogger } from '../logging/log.js';
+import { StartupQueue } from '../util/StartupQueue.js';
+import { drop } from '../util/drop.js';
+import { getMessageIdForLogging } from '../util/idForLogging.js';
+import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.js';
+import { isIncoming } from '../state/selectors/message.js';
+import { isMessageUnread } from '../util/isMessageUnread.js';
+import { notificationService } from '../services/notifications.js';
+import { queueUpdateMessage } from '../util/messageBatcher.js';
+import { strictAssert } from '../util/assert.js';
+import { isAciString } from '../util/isAciString.js';
+import { DataReader, DataWriter } from '../sql/Client.js';
+import { markRead } from '../services/MessageUpdater.js';
+import { MessageModel } from '../models/messages.js';
 
 const log = createLogger('ReadSyncs');
 

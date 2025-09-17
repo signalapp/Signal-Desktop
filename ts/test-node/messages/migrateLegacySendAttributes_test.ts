@@ -3,11 +3,11 @@
 
 import { assert } from 'chai';
 import { v4 as uuid } from 'uuid';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
-import type { ConversationType } from '../../state/ducks/conversations';
-import { SendStatus } from '../../messages/MessageSendState';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.js';
+import type { ConversationType } from '../../state/ducks/conversations.js';
+import { SendStatus } from '../../messages/MessageSendState.js';
 
-import { migrateLegacySendAttributes } from '../../messages/migrateLegacySendAttributes';
+import { migrateLegacySendAttributes } from '../../messages/migrateLegacySendAttributes.js';
 
 describe('migrateLegacySendAttributes', () => {
   const defaultMessage = {

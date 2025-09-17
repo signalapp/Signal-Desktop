@@ -1,8 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { LoggerType } from '../../types/Logging';
-import { sql } from '../util';
-import type { WritableDB } from '../Interface';
+import type { LoggerType } from '../../types/Logging.js';
+import { sql } from '../util.js';
+import type { WritableDB } from '../Interface.js';
 
 // Value from ts/util/timestamp.ts at the time of creation of this migration
 const MAX_SAFE_DATE = 8640000000000000;

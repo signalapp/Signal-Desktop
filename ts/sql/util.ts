@@ -4,8 +4,8 @@
 
 import { isNumber, last } from 'lodash';
 
-import type { ReadableDB, WritableDB } from './Interface';
-import type { LoggerType } from '../types/Logging';
+import type { ReadableDB, WritableDB } from './Interface.js';
+import type { LoggerType } from '../types/Logging.js';
 
 export type JSONRow = Readonly<{ json: string }>;
 export type JSONRows = Array<JSONRow>;

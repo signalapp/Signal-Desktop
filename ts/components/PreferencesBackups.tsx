@@ -8,28 +8,28 @@ import type {
   BackupMediaDownloadStatusType,
   BackupsSubscriptionType,
   BackupStatusType,
-} from '../types/backups';
-import type { LocalizerType } from '../types/I18N';
-import { formatTimestamp } from '../util/formatTimestamp';
+} from '../types/backups.js';
+import type { LocalizerType } from '../types/I18N.js';
+import { formatTimestamp } from '../util/formatTimestamp.js';
 import {
   SettingsControl as Control,
   FlowingSettingsControl as FlowingControl,
   LightIconLabel,
   SettingsRow,
-} from './PreferencesUtil';
-import { missingCaseError } from '../util/missingCaseError';
-import { Button, ButtonVariant } from './Button';
-import type { PreferencesBackupPage } from '../types/PreferencesBackupPage';
-import { SettingsPage } from '../types/Nav';
-import { I18n } from './I18n';
-import { PreferencesLocalBackups } from './PreferencesLocalBackups';
-import type { ShowToastAction } from '../state/ducks/toast';
+} from './PreferencesUtil.js';
+import { missingCaseError } from '../util/missingCaseError.js';
+import { Button, ButtonVariant } from './Button.js';
+import type { PreferencesBackupPage } from '../types/PreferencesBackupPage.js';
+import { SettingsPage } from '../types/Nav.js';
+import { I18n } from './I18n.js';
+import { PreferencesLocalBackups } from './PreferencesLocalBackups.js';
+import type { ShowToastAction } from '../state/ducks/toast.js';
 import type {
   PromptOSAuthReasonType,
   PromptOSAuthResultType,
-} from '../util/os/promptOSAuthMain';
-import { ConfirmationDialog } from './ConfirmationDialog';
-import { BackupMediaDownloadProgressSettings } from './BackupMediaDownloadProgressSettings';
+} from '../util/os/promptOSAuthMain.js';
+import { ConfirmationDialog } from './ConfirmationDialog.js';
+import { BackupMediaDownloadProgressSettings } from './BackupMediaDownloadProgressSettings.js';
 
 export const SIGNAL_BACKUPS_LEARN_MORE_URL =
   'https://support.signal.org/hc/articles/360007059752-Backup-and-Restore-Messages';

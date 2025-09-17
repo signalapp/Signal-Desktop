@@ -3,11 +3,11 @@
 
 import { mapValues, pickBy } from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
-import { groupBy, map, filter } from './iterables';
-import { getOwn } from './getOwn';
-import type { ConversationType } from '../state/ducks/conversations';
-import { isConversationNameKnown } from './isConversationNameKnown';
-import { isInSystemContacts } from './isInSystemContacts';
+import { groupBy, map, filter } from './iterables.js';
+import { getOwn } from './getOwn.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import { isConversationNameKnown } from './isConversationNameKnown.js';
+import { isInSystemContacts } from './isInSystemContacts.js';
 
 export type GroupNameCollisionsWithIdsByTitle = Readonly<
   Record<string, Array<string>>

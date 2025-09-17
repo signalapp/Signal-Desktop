@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Bytes } from './context/Bytes';
+import { Bytes } from './context/Bytes.js';
 
 const bytes = globalThis.window?.SignalContext?.bytes || new Bytes();
 

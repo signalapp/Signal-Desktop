@@ -1,9 +1,9 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-const assert = require('assert');
-const fs = require('fs');
-const { join } = require('path');
+const assert = require('node:assert');
+const fs = require('node:fs');
+const { join } = require('node:path');
 const pMap = require('p-map');
 const prettier = require('prettier');
 

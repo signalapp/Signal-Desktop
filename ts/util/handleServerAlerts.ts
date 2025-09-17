@@ -1,12 +1,12 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log';
-import { isMoreRecentThan } from './timestamp';
-import { DAY, WEEK } from './durations';
-import { isNotNil } from './isNotNil';
-import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary';
-import { safeSetTimeout } from './timeout';
+import { createLogger } from '../logging/log.js';
+import { isMoreRecentThan } from './timestamp.js';
+import { DAY, WEEK } from './durations/index.js';
+import { isNotNil } from './isNotNil.js';
+import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary.js';
+import { safeSetTimeout } from './timeout.js';
 
 const log = createLogger('handleServerAlerts');
 

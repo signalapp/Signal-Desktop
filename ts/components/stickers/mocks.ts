@@ -2,7 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { sample } from 'lodash';
-import type { StickerPackType, StickerType } from '../../state/ducks/stickers';
+import type {
+  StickerPackType,
+  StickerType,
+} from '../../state/ducks/stickers.js';
 
 export const sticker1: StickerType = {
   id: 1,

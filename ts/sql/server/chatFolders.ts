@@ -4,9 +4,9 @@ import {
   type ChatFolderId,
   type ChatFolder,
   CHAT_FOLDER_DELETED_POSITION,
-} from '../../types/ChatFolder';
-import type { ReadableDB, WritableDB } from '../Interface';
-import { sql } from '../util';
+} from '../../types/ChatFolder.js';
+import type { ReadableDB, WritableDB } from '../Interface.js';
+import { sql } from '../util.js';
 
 export type ChatFolderRow = Readonly<
   Omit<

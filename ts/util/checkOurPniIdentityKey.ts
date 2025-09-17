@@ -1,9 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log';
-import { constantTimeEqual } from '../Crypto';
-import { strictAssert } from './assert';
+import { createLogger } from '../logging/log.js';
+import { constantTimeEqual } from '../Crypto.js';
+import { strictAssert } from './assert.js';
 
 const log = createLogger('checkOurPniIdentityKey');
 

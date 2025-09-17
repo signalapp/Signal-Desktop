@@ -3,7 +3,7 @@
 
 import { fabric } from 'fabric';
 import { clamp } from 'lodash';
-import { strictAssert } from '../util/assert';
+import { strictAssert } from '../util/assert.js';
 
 export class MediaEditorFabricCropRect extends fabric.Rect {
   static PADDING = 4;

@@ -3,10 +3,10 @@
 
 import React, { useCallback } from 'react';
 
-import { Modal } from './Modal';
-import type { LocalizerType } from '../types/Util';
-import { missingCaseError } from '../util/missingCaseError';
-import { Button } from './Button';
+import { Modal } from './Modal.js';
+import type { LocalizerType } from '../types/Util.js';
+import { missingCaseError } from '../util/missingCaseError.js';
+import { Button } from './Button.js';
 
 export type PropsType = {
   i18n: LocalizerType;

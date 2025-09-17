@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { chunk, map } from 'lodash';
-import type { LoggerType } from '../types/Logging';
-import type { Receipt } from '../types/Receipt';
-import { ReceiptType } from '../types/Receipt';
-import { getSendOptions } from './getSendOptions';
-import { handleMessageSend } from './handleMessageSend';
-import { isConversationAccepted } from './isConversationAccepted';
-import { isConversationUnregistered } from './isConversationUnregistered';
-import { missingCaseError } from './missingCaseError';
-import type { ConversationModel } from '../models/conversations';
-import { mapEmplace } from './mapEmplace';
-import { isSignalConversation } from './isSignalConversation';
+import type { LoggerType } from '../types/Logging.js';
+import type { Receipt } from '../types/Receipt.js';
+import { ReceiptType } from '../types/Receipt.js';
+import { getSendOptions } from './getSendOptions.js';
+import { handleMessageSend } from './handleMessageSend.js';
+import { isConversationAccepted } from './isConversationAccepted.js';
+import { isConversationUnregistered } from './isConversationUnregistered.js';
+import { missingCaseError } from './missingCaseError.js';
+import type { ConversationModel } from '../models/conversations.js';
+import { mapEmplace } from './mapEmplace.js';
+import { isSignalConversation } from './isSignalConversation.js';
 
 const CHUNK_SIZE = 100;
 

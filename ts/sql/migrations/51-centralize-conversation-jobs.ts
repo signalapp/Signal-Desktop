@@ -1,10 +1,10 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { LoggerType } from '../../types/Logging';
-import { isRecord } from '../../util/isRecord';
-import type { WritableDB } from '../Interface';
-import { getJobsInQueue, insertJob } from '../Server';
+import type { LoggerType } from '../../types/Logging.js';
+import { isRecord } from '../../util/isRecord.js';
+import type { WritableDB } from '../Interface.js';
+import { getJobsInQueue, insertJob } from '../Server.js';
 
 export default function updateToSchemaVersion51(
   db: WritableDB,

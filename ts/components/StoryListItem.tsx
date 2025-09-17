@@ -3,20 +3,20 @@
 
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import type { ConversationStoryType, StoryViewType } from '../types/Stories';
-import type { ConversationType } from '../state/ducks/conversations';
-import type { LocalizerType, ThemeType } from '../types/Util';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
-import type { ViewUserStoriesActionCreatorType } from '../state/ducks/stories';
-import { Avatar, AvatarSize } from './Avatar';
-import { ConfirmationDialog } from './ConfirmationDialog';
-import { ContextMenu } from './ContextMenu';
-import { SIGNAL_ACI } from '../types/SignalConversation';
-import { StoryViewTargetType, HasStories } from '../types/Stories';
+import type { ConversationStoryType, StoryViewType } from '../types/Stories.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import type { LocalizerType, ThemeType } from '../types/Util.js';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.js';
+import type { ViewUserStoriesActionCreatorType } from '../state/ducks/stories.js';
+import { Avatar, AvatarSize } from './Avatar.js';
+import { ConfirmationDialog } from './ConfirmationDialog.js';
+import { ContextMenu } from './ContextMenu.js';
+import { SIGNAL_ACI } from '../types/SignalConversation.js';
+import { StoryViewTargetType, HasStories } from '../types/Stories.js';
 
-import { MessageTimestamp } from './conversation/MessageTimestamp';
-import { StoryImage } from './StoryImage';
-import { getAvatarColor } from '../types/Colors';
+import { MessageTimestamp } from './conversation/MessageTimestamp.js';
+import { StoryImage } from './StoryImage.js';
+import { getAvatarColor } from '../types/Colors.js';
 
 export type PropsType = Pick<ConversationStoryType, 'group' | 'isHidden'> & {
   conversationId: string;

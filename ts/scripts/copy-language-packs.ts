@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import fse from 'fs-extra';
-import path from 'path';
+import path from 'node:path';
 import type { AfterPackContext } from 'electron-builder';
 
 export async function afterPack({

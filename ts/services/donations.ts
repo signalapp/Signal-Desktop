@@ -14,25 +14,25 @@ import {
 } from '@signalapp/libsignal-client/zkgroup';
 import * as countryCodes from 'country-codes-list';
 
-import * as Bytes from '../Bytes';
-import * as Errors from '../types/errors';
-import { getRandomBytes, sha256 } from '../Crypto';
-import { DataWriter } from '../sql/Client';
-import { createLogger } from '../logging/log';
-import { getProfile } from '../util/getProfile';
-import { donationValidationCompleteRoute } from '../util/signalRoutes';
-import { safeParseStrict, safeParseUnknown } from '../util/schemas';
-import { missingCaseError } from '../util/missingCaseError';
-import { exponentialBackoffSleepTime } from '../util/exponentialBackoff';
-import { sleeper } from '../util/sleeper';
-import { isInPast, isOlderThan } from '../util/timestamp';
-import { DAY, DurationInSeconds } from '../util/durations';
-import { waitForOnline } from '../util/waitForOnline';
+import * as Bytes from '../Bytes.js';
+import * as Errors from '../types/errors.js';
+import { getRandomBytes, sha256 } from '../Crypto.js';
+import { DataWriter } from '../sql/Client.js';
+import { createLogger } from '../logging/log.js';
+import { getProfile } from '../util/getProfile.js';
+import { donationValidationCompleteRoute } from '../util/signalRoutes.js';
+import { safeParseStrict, safeParseUnknown } from '../util/schemas.js';
+import { missingCaseError } from '../util/missingCaseError.js';
+import { exponentialBackoffSleepTime } from '../util/exponentialBackoff.js';
+import { sleeper } from '../util/sleeper.js';
+import { isInPast, isOlderThan } from '../util/timestamp.js';
+import { DAY, DurationInSeconds } from '../util/durations/index.js';
+import { waitForOnline } from '../util/waitForOnline.js';
 import {
   donationErrorTypeSchema,
   donationStateSchema,
   donationWorkflowSchema,
-} from '../types/Donations';
+} from '../types/Donations.js';
 
 import type {
   CardDetail,
@@ -41,10 +41,10 @@ import type {
   DonationWorkflow,
   ReceiptContext,
   StripeDonationAmount,
-} from '../types/Donations';
-import { ToastType } from '../types/Toast';
-import { NavTab, SettingsPage } from '../types/Nav';
-import { getRegionCodeForNumber } from '../util/libphonenumberUtil';
+} from '../types/Donations.js';
+import { ToastType } from '../types/Toast.js';
+import { NavTab, SettingsPage } from '../types/Nav.js';
+import { getRegionCodeForNumber } from '../util/libphonenumberUtil.js';
 
 const { createDonationReceipt } = DataWriter;
 

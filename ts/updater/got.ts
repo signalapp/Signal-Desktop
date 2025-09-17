@@ -3,13 +3,13 @@
 
 import type { StrictOptions as GotOptions } from 'got';
 import config from 'config';
-import { Agent as HTTPAgent } from 'http';
+import { Agent as HTTPAgent } from 'node:http';
 
 import * as packageJson from '../../package.json';
-import { getUserAgent } from '../util/getUserAgent';
-import * as durations from '../util/durations';
-import { createHTTPSAgent } from '../util/createHTTPSAgent';
-import { createProxyAgent } from '../util/createProxyAgent';
+import { getUserAgent } from '../util/getUserAgent.js';
+import * as durations from '../util/durations/index.js';
+import { createHTTPSAgent } from '../util/createHTTPSAgent.js';
+import { createProxyAgent } from '../util/createProxyAgent.js';
 
 export const GOT_CONNECT_TIMEOUT = durations.MINUTE;
 export const GOT_LOOKUP_TIMEOUT = durations.MINUTE;

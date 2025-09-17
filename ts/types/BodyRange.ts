@@ -5,19 +5,19 @@
 
 import { isEqual, isNumber, omit, orderBy, partition } from 'lodash';
 
-import { SignalService as Proto } from '../protobuf';
-import { createLogger } from '../logging/log';
-import { missingCaseError } from '../util/missingCaseError';
-import { isNotNil } from '../util/isNotNil';
-import type { ConversationType } from '../state/ducks/conversations';
+import { SignalService as Proto } from '../protobuf/index.js';
+import { createLogger } from '../logging/log.js';
+import { missingCaseError } from '../util/missingCaseError.js';
+import { isNotNil } from '../util/isNotNil.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
 import {
   SNIPPET_LEFT_PLACEHOLDER,
   SNIPPET_RIGHT_PLACEHOLDER,
   SNIPPET_TRUNCATION_PLACEHOLDER,
-} from '../util/search';
-import { assertDev } from '../util/assert';
-import type { AciString } from './ServiceId';
-import { normalizeAci } from '../util/normalizeAci';
+} from '../util/search.js';
+import { assertDev } from '../util/assert.js';
+import type { AciString } from './ServiceId.js';
+import { normalizeAci } from '../util/normalizeAci.js';
 
 const log = createLogger('BodyRange');
 

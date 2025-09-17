@@ -1,20 +1,20 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { WebAPICredentials } from '../Types.d';
+import type { WebAPICredentials } from '../Types.d.ts';
 
-import { strictAssert } from '../../util/assert';
-import type { StorageInterface } from '../../types/Storage.d';
+import { strictAssert } from '../../util/assert.js';
+import type { StorageInterface } from '../../types/Storage.d.ts';
 import type {
   AciString,
   PniString,
   ServiceIdString,
-} from '../../types/ServiceId';
-import { ServiceIdKind, isPniString } from '../../types/ServiceId';
-import { isAciString } from '../../util/isAciString';
-import { createLogger } from '../../logging/log';
+} from '../../types/ServiceId.js';
+import { ServiceIdKind, isPniString } from '../../types/ServiceId.js';
+import { isAciString } from '../../util/isAciString.js';
+import { createLogger } from '../../logging/log.js';
 
-import Helpers from '../Helpers';
+import Helpers from '../Helpers.js';
 
 const log = createLogger('User');
 

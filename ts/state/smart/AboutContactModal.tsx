@@ -2,19 +2,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { AboutContactModal } from '../../components/conversation/AboutContactModal';
-import { isSignalConnection } from '../../util/getSignalConnections';
-import { getIntl } from '../selectors/user';
-import { getGlobalModalsState } from '../selectors/globalModals';
+import { AboutContactModal } from '../../components/conversation/AboutContactModal.js';
+import { isSignalConnection } from '../../util/getSignalConnections.js';
+import { getIntl } from '../selectors/user.js';
+import { getGlobalModalsState } from '../selectors/globalModals.js';
 import {
   getConversationSelector,
   getPendingAvatarDownloadSelector,
-} from '../selectors/conversations';
-import type { ConversationType } from '../ducks/conversations';
-import { useConversationsActions } from '../ducks/conversations';
-import { useGlobalModalActions } from '../ducks/globalModals';
-import { strictAssert } from '../../util/assert';
-import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation';
+} from '../selectors/conversations.js';
+import type { ConversationType } from '../ducks/conversations.js';
+import { useConversationsActions } from '../ducks/conversations.js';
+import { useGlobalModalActions } from '../ducks/globalModals.js';
+import { strictAssert } from '../../util/assert.js';
+import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation.js';
 
 function isFromOrAddedByTrustedContact(
   conversation: ConversationType

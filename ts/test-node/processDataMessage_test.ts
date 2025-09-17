@@ -8,13 +8,13 @@ import { v4 as generateUuid } from 'uuid';
 import {
   processDataMessage,
   ATTACHMENT_MAX,
-} from '../textsecure/processDataMessage';
-import type { ProcessedAttachment } from '../textsecure/Types.d';
-import { SignalService as Proto } from '../protobuf';
-import { IMAGE_GIF, IMAGE_JPEG, LONG_MESSAGE } from '../types/MIME';
-import { generateAci } from '../types/ServiceId';
-import { toAciObject } from '../util/ServiceId';
-import { uuidToBytes } from '../util/uuidToBytes';
+} from '../textsecure/processDataMessage.js';
+import type { ProcessedAttachment } from '../textsecure/Types.d.ts';
+import { SignalService as Proto } from '../protobuf/index.js';
+import { IMAGE_GIF, IMAGE_JPEG, LONG_MESSAGE } from '../types/MIME.js';
+import { generateAci } from '../types/ServiceId.js';
+import { toAciObject } from '../util/ServiceId.js';
+import { uuidToBytes } from '../util/uuidToBytes.js';
 
 const ACI_1 = generateAci();
 const ACI_BINARY_1 = toAciObject(ACI_1).getRawUuidBytes();

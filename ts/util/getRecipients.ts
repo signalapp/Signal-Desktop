@@ -3,13 +3,13 @@
 
 import { compact, uniq } from 'lodash';
 
-import type { ConversationAttributesType } from '../model-types.d';
+import type { ConversationAttributesType } from '../model-types.d.ts';
 
-import type { ServiceIdString } from '../types/ServiceId';
-import { getConversationMembers } from './getConversationMembers';
-import { getSendTarget } from './getSendTarget';
-import { isDirectConversation, isMe } from './whatTypeOfConversation';
-import { isNotNil } from './isNotNil';
+import type { ServiceIdString } from '../types/ServiceId.js';
+import { getConversationMembers } from './getConversationMembers.js';
+import { getSendTarget } from './getSendTarget.js';
+import { isDirectConversation, isMe } from './whatTypeOfConversation.js';
+import { isNotNil } from './isNotNil.js';
 
 export function getRecipients(
   conversationAttributes: ConversationAttributesType,

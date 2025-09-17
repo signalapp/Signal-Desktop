@@ -9,41 +9,41 @@ import PQueue from 'p-queue';
 import { IdentityChange } from '@signalapp/libsignal-client';
 
 import type { ReadonlyDeep } from 'type-fest';
-import type { ConversationModel } from '../models/conversations';
-import type { CapabilitiesType, ProfileType } from '../textsecure/WebAPI';
-import MessageSender from '../textsecure/SendMessage';
-import type { ServiceIdString } from '../types/ServiceId';
-import { DataWriter } from '../sql/Client';
-import { createLogger } from '../logging/log';
-import * as Errors from '../types/errors';
-import * as Bytes from '../Bytes';
-import { explodePromise } from '../util/explodePromise';
-import { isRecord } from '../util/isRecord';
-import { sleep } from '../util/sleep';
-import { MINUTE, SECOND } from '../util/durations';
+import type { ConversationModel } from '../models/conversations.js';
+import type { CapabilitiesType, ProfileType } from '../textsecure/WebAPI.js';
+import MessageSender from '../textsecure/SendMessage.js';
+import type { ServiceIdString } from '../types/ServiceId.js';
+import { DataWriter } from '../sql/Client.js';
+import { createLogger } from '../logging/log.js';
+import * as Errors from '../types/errors.js';
+import * as Bytes from '../Bytes.js';
+import { explodePromise } from '../util/explodePromise.js';
+import { isRecord } from '../util/isRecord.js';
+import { sleep } from '../util/sleep.js';
+import { MINUTE, SECOND } from '../util/durations/index.js';
 import {
   generateProfileKeyCredentialRequest,
   getClientZkProfileOperations,
   handleProfileKeyCredential,
-} from '../util/zkgroup';
-import { isMe } from '../util/whatTypeOfConversation';
-import { parseBadgesFromServer } from '../badges/parseBadgesFromServer';
-import { strictAssert } from '../util/assert';
-import { drop } from '../util/drop';
-import { findRetryAfterTimeFromError } from '../jobs/helpers/findRetryAfterTimeFromError';
-import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
-import { SEALED_SENDER } from '../types/SealedSender';
-import { HTTPError } from '../textsecure/Errors';
-import { Address } from '../types/Address';
-import { QualifiedAddress } from '../types/QualifiedAddress';
-import { trimForDisplay, verifyAccessKey, decryptProfile } from '../Crypto';
-import type { ConversationLastProfileType } from '../model-types';
-import type { GroupSendToken } from '../types/GroupSendEndorsements';
+} from '../util/zkgroup.js';
+import { isMe } from '../util/whatTypeOfConversation.js';
+import { parseBadgesFromServer } from '../badges/parseBadgesFromServer.js';
+import { strictAssert } from '../util/assert.js';
+import { drop } from '../util/drop.js';
+import { findRetryAfterTimeFromError } from '../jobs/helpers/findRetryAfterTimeFromError.js';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.js';
+import { SEALED_SENDER } from '../types/SealedSender.js';
+import { HTTPError } from '../textsecure/Errors.js';
+import { Address } from '../types/Address.js';
+import { QualifiedAddress } from '../types/QualifiedAddress.js';
+import { trimForDisplay, verifyAccessKey, decryptProfile } from '../Crypto.js';
+import type { ConversationLastProfileType } from '../model-types.js';
+import type { GroupSendToken } from '../types/GroupSendEndorsements.js';
 import {
   maybeCreateGroupSendEndorsementState,
   onFailedToSendWithEndorsements,
-} from '../util/groupSendEndorsements';
-import { ProfileDecryptError } from '../types/errors';
+} from '../util/groupSendEndorsements.js';
+import { ProfileDecryptError } from '../types/errors.js';
 
 const log = createLogger('profiles');
 

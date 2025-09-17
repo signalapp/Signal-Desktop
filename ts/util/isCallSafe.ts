@@ -1,13 +1,13 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationAttributesType } from '../model-types';
+import type { ConversationAttributesType } from '../model-types.js';
 
-import { createLogger } from '../logging/log';
-import { blockSendUntilConversationsAreVerified } from './blockSendUntilConversationsAreVerified';
-import { getRecipientsByConversation } from './getRecipientsByConversation';
+import { createLogger } from '../logging/log.js';
+import { blockSendUntilConversationsAreVerified } from './blockSendUntilConversationsAreVerified.js';
+import { getRecipientsByConversation } from './getRecipientsByConversation.js';
 
-import type { SafetyNumberChangeSource } from '../components/SafetyNumberChangeDialog';
+import type { SafetyNumberChangeSource } from '../components/SafetyNumberChangeDialog.js';
 
 const log = createLogger('isCallSafe');
 

@@ -2,26 +2,26 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getIntl, getTheme } from '../selectors/user';
-import type { DraftGifMessageSendModalProps } from '../../components/DraftGifMessageSendModal';
-import { DraftGifMessageSendModal } from '../../components/DraftGifMessageSendModal';
-import { strictAssert } from '../../util/assert';
-import type { HydratedBodyRangesType } from '../../types/BodyRange';
-import { SmartCompositionTextArea } from './CompositionTextArea';
-import { getDraftGifMessageSendModalProps } from '../selectors/globalModals';
-import { useGlobalModalActions } from '../ducks/globalModals';
-import { useComposerActions } from '../ducks/composer';
-import type { FunGifSelection } from '../../components/fun/panels/FunPanelGifs';
-import { tenorDownload } from '../../components/fun/data/tenor';
-import { drop } from '../../util/drop';
-import { processAttachment } from '../../util/processAttachment';
-import { SignalService as Proto } from '../../protobuf';
-import { writeDraftAttachment } from '../../util/writeDraftAttachment';
-import type { AttachmentDraftType } from '../../types/Attachment';
-import { createLogger } from '../../logging/log';
-import * as Errors from '../../types/errors';
-import { type Loadable, LoadingState } from '../../util/loadable';
-import { isAbortError } from '../../util/isAbortError';
+import { getIntl, getTheme } from '../selectors/user.js';
+import type { DraftGifMessageSendModalProps } from '../../components/DraftGifMessageSendModal.js';
+import { DraftGifMessageSendModal } from '../../components/DraftGifMessageSendModal.js';
+import { strictAssert } from '../../util/assert.js';
+import type { HydratedBodyRangesType } from '../../types/BodyRange.js';
+import { SmartCompositionTextArea } from './CompositionTextArea.js';
+import { getDraftGifMessageSendModalProps } from '../selectors/globalModals.js';
+import { useGlobalModalActions } from '../ducks/globalModals.js';
+import { useComposerActions } from '../ducks/composer.js';
+import type { FunGifSelection } from '../../components/fun/panels/FunPanelGifs.js';
+import { tenorDownload } from '../../components/fun/data/tenor.js';
+import { drop } from '../../util/drop.js';
+import { processAttachment } from '../../util/processAttachment.js';
+import { SignalService as Proto } from '../../protobuf/index.js';
+import { writeDraftAttachment } from '../../util/writeDraftAttachment.js';
+import type { AttachmentDraftType } from '../../types/Attachment.js';
+import { createLogger } from '../../logging/log.js';
+import * as Errors from '../../types/errors.js';
+import { type Loadable, LoadingState } from '../../util/loadable.js';
+import { isAbortError } from '../../util/isAbortError.js';
 
 const log = createLogger('DraftGifMessageSendModal');
 

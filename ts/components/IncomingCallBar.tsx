@@ -3,23 +3,26 @@
 
 import type { ReactChild } from 'react';
 import React, { useCallback, useEffect, useRef } from 'react';
-import { Avatar, AvatarSize } from './Avatar';
-import { Tooltip } from './Tooltip';
-import { I18n } from './I18n';
-import { Theme } from '../util/theme';
-import { getParticipantName } from '../util/callingGetParticipantName';
-import { ContactName } from './conversation/ContactName';
-import type { LocalizerType } from '../types/Util';
-import { AvatarColors } from '../types/Colors';
-import { CallMode } from '../types/CallDisposition';
-import type { ConversationType } from '../state/ducks/conversations';
-import type { AcceptCallType, DeclineCallType } from '../state/ducks/calling';
-import { missingCaseError } from '../util/missingCaseError';
+import { Avatar, AvatarSize } from './Avatar.js';
+import { Tooltip } from './Tooltip.js';
+import { I18n } from './I18n.js';
+import { Theme } from '../util/theme.js';
+import { getParticipantName } from '../util/callingGetParticipantName.js';
+import { ContactName } from './conversation/ContactName.js';
+import type { LocalizerType } from '../types/Util.js';
+import { AvatarColors } from '../types/Colors.js';
+import { CallMode } from '../types/CallDisposition.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import type {
+  AcceptCallType,
+  DeclineCallType,
+} from '../state/ducks/calling.js';
+import { missingCaseError } from '../util/missingCaseError.js';
 import {
   useIncomingCallShortcuts,
   useKeyboardShortcuts,
-} from '../hooks/useKeyboardShortcuts';
-import { UserText } from './UserText';
+} from '../hooks/useKeyboardShortcuts.js';
+import { UserText } from './UserText.js';
 
 export type PropsType = {
   acceptCall: (_: AcceptCallType) => void;

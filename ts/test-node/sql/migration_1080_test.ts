@@ -4,12 +4,16 @@
 import { assert } from 'chai';
 import { v4 as generateGuid } from 'uuid';
 
-import type { WritableDB, ReadableDB, MessageType } from '../../sql/Interface';
-import { sql, jsonToObject } from '../../sql/util';
-import { createDB, insertData, updateToVersion, explain } from './helpers';
+import type {
+  WritableDB,
+  ReadableDB,
+  MessageType,
+} from '../../sql/Interface.js';
+import { sql, jsonToObject } from '../../sql/util.js';
+import { createDB, insertData, updateToVersion, explain } from './helpers.js';
 
-import type { MessageAttributesType } from '../../model-types';
-import { DurationInSeconds } from '../../util/durations/duration-in-seconds';
+import type { MessageAttributesType } from '../../model-types.js';
+import { DurationInSeconds } from '../../util/durations/duration-in-seconds.js';
 
 /* eslint-disable camelcase */
 

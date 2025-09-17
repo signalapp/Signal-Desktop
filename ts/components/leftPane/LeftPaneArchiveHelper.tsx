@@ -5,21 +5,21 @@ import type { ReactChild } from 'react';
 import React from 'react';
 import { last } from 'lodash';
 
-import type { ToFindType } from './LeftPaneHelper';
-import { LeftPaneHelper } from './LeftPaneHelper';
-import { getConversationInDirection } from './getConversationInDirection';
-import type { Row } from '../ConversationList';
-import { RowType } from '../ConversationList';
-import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem';
-import type { LocalizerType } from '../../types/Util';
+import type { ToFindType } from './LeftPaneHelper.js';
+import { LeftPaneHelper } from './LeftPaneHelper.js';
+import { getConversationInDirection } from './getConversationInDirection.js';
+import type { Row } from '../ConversationList.js';
+import { RowType } from '../ConversationList.js';
+import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem.js';
+import type { LocalizerType } from '../../types/Util.js';
 import type {
   ConversationType,
   ShowConversationType,
-} from '../../state/ducks/conversations';
-import { LeftPaneSearchInput } from '../LeftPaneSearchInput';
-import type { LeftPaneSearchPropsType } from './LeftPaneSearchHelper';
-import { LeftPaneSearchHelper } from './LeftPaneSearchHelper';
-import * as KeyboardLayout from '../../services/keyboardLayout';
+} from '../../state/ducks/conversations.js';
+import { LeftPaneSearchInput } from '../LeftPaneSearchInput.js';
+import type { LeftPaneSearchPropsType } from './LeftPaneSearchHelper.js';
+import { LeftPaneSearchHelper } from './LeftPaneSearchHelper.js';
+import * as KeyboardLayout from '../../services/keyboardLayout.js';
 
 type LeftPaneArchiveBasePropsType = {
   archivedConversations: ReadonlyArray<ConversationListItemPropsType>;

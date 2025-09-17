@@ -6,21 +6,21 @@ import classNames from 'classnames';
 import { v4 as uuid } from 'uuid';
 
 import type { RowType } from '@signalapp/sqlcipher';
-import type { LocalizerType } from '../types/I18N';
-import { toLogFormat } from '../types/errors';
-import { formatFileSize } from '../util/formatFileSize';
-import { SECOND } from '../util/durations';
-import type { ValidationResultType as BackupValidationResultType } from '../services/backups';
-import { SettingsRow, FlowingSettingsControl } from './PreferencesUtil';
-import { Button, ButtonVariant } from './Button';
-import { Spinner } from './Spinner';
-import type { MessageCountBySchemaVersionType } from '../sql/Interface';
-import type { MessageAttributesType } from '../model-types';
-import type { DonationReceipt } from '../types/Donations';
-import { createLogger } from '../logging/log';
-import { isStagingServer } from '../util/isStagingServer';
-import { getHumanDonationAmount } from '../util/currency';
-import { AutoSizeTextArea } from './AutoSizeTextArea';
+import type { LocalizerType } from '../types/I18N.js';
+import { toLogFormat } from '../types/errors.js';
+import { formatFileSize } from '../util/formatFileSize.js';
+import { SECOND } from '../util/durations/index.js';
+import type { ValidationResultType as BackupValidationResultType } from '../services/backups/index.js';
+import { SettingsRow, FlowingSettingsControl } from './PreferencesUtil.js';
+import { Button, ButtonVariant } from './Button.js';
+import { Spinner } from './Spinner.js';
+import type { MessageCountBySchemaVersionType } from '../sql/Interface.js';
+import type { MessageAttributesType } from '../model-types.js';
+import type { DonationReceipt } from '../types/Donations.js';
+import { createLogger } from '../logging/log.js';
+import { isStagingServer } from '../util/isStagingServer.js';
+import { getHumanDonationAmount } from '../util/currency.js';
+import { AutoSizeTextArea } from './AutoSizeTextArea.js';
 
 const log = createLogger('PreferencesInternal');
 

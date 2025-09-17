@@ -4,22 +4,22 @@
 import React from 'react';
 import { noop } from 'lodash';
 
-import { DialogType } from '../../types/Dialogs';
-import { InstallScreenStep } from '../../types/InstallScreen';
-import type { LocalizerType } from '../../types/Util';
+import { DialogType } from '../../types/Dialogs.js';
+import { InstallScreenStep } from '../../types/InstallScreen.js';
+import type { LocalizerType } from '../../types/Util.js';
 import {
   PRODUCTION_DOWNLOAD_URL,
   BETA_DOWNLOAD_URL,
   UNSUPPORTED_OS_URL,
-} from '../../types/support';
-import type { UpdatesStateType } from '../../state/ducks/updates';
-import { isBeta } from '../../util/version';
-import { missingCaseError } from '../../util/missingCaseError';
-import { roundFractionForProgressBar } from '../../util/numbers';
-import { ConfirmationDialog } from '../ConfirmationDialog';
-import { Modal } from '../Modal';
-import { I18n } from '../I18n';
-import { formatFileSize } from '../../util/formatFileSize';
+} from '../../types/support.js';
+import type { UpdatesStateType } from '../../state/ducks/updates.js';
+import { isBeta } from '../../util/version.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
+import { roundFractionForProgressBar } from '../../util/numbers.js';
+import { ConfirmationDialog } from '../ConfirmationDialog.js';
+import { Modal } from '../Modal.js';
+import { I18n } from '../I18n.js';
+import { formatFileSize } from '../../util/formatFileSize.js';
 
 export type PropsType = UpdatesStateType &
   Readonly<{

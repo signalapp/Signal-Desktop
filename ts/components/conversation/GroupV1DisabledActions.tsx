@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { I18n } from '../I18n';
-import type { LocalizerType } from '../../types/Util';
+import { I18n } from '../I18n.js';
+import type { LocalizerType } from '../../types/Util.js';
 
 export type PropsType = {
   conversationId: string;

@@ -5,7 +5,7 @@ import memoizee from 'memoizee';
 import { isNumber, pick } from 'lodash';
 import { createSelector } from 'reselect';
 
-import type { StateType } from '../reducer';
+import type { StateType } from '../reducer.js';
 
 import type {
   ConversationLookupType,
@@ -17,57 +17,57 @@ import type {
   MessagesByConversationType,
   MessageTimestamps,
   PreJoinConversationType,
-} from '../ducks/conversations';
-import type { StoriesStateType, StoryDataType } from '../ducks/stories';
+} from '../ducks/conversations.js';
+import type { StoriesStateType, StoryDataType } from '../ducks/stories.js';
 import {
   ComposerStep,
   OneTimeModalState,
   ConversationVerificationState,
-} from '../ducks/conversationsEnums';
-import { getOwn } from '../../util/getOwn';
-import type { UUIDFetchStateType } from '../../util/uuidFetchState';
-import { deconstructLookup } from '../../util/deconstructLookup';
-import type { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline';
-import { assertDev } from '../../util/assert';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered';
-import { filterAndSortConversations } from '../../util/filterAndSortConversations';
-import type { ContactNameColorType } from '../../types/Colors';
-import { ContactNameColors } from '../../types/Colors';
-import type { AvatarDataType } from '../../types/Avatar';
-import type { AciString, ServiceIdString } from '../../types/ServiceId';
-import { normalizeServiceId } from '../../types/ServiceId';
-import { isInSystemContacts } from '../../util/isInSystemContacts';
-import { isSignalConnection } from '../../util/getSignalConnections';
-import { sortByTitle } from '../../util/sortByTitle';
-import { DurationInSeconds } from '../../util/durations';
+} from '../ducks/conversationsEnums.js';
+import { getOwn } from '../../util/getOwn.js';
+import type { UUIDFetchStateType } from '../../util/uuidFetchState.js';
+import { deconstructLookup } from '../../util/deconstructLookup.js';
+import type { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline.js';
+import { assertDev } from '../../util/assert.js';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.js';
+import { filterAndSortConversations } from '../../util/filterAndSortConversations.js';
+import type { ContactNameColorType } from '../../types/Colors.js';
+import { ContactNameColors } from '../../types/Colors.js';
+import type { AvatarDataType } from '../../types/Avatar.js';
+import type { AciString, ServiceIdString } from '../../types/ServiceId.js';
+import { normalizeServiceId } from '../../types/ServiceId.js';
+import { isInSystemContacts } from '../../util/isInSystemContacts.js';
+import { isSignalConnection } from '../../util/getSignalConnections.js';
+import { sortByTitle } from '../../util/sortByTitle.js';
+import { DurationInSeconds } from '../../util/durations/index.js';
 import {
   isDirectConversation,
   isGroupV1,
   isGroupV2,
-} from '../../util/whatTypeOfConversation';
-import { isGroupInStoryMode } from '../../util/isGroupInStoryMode';
+} from '../../util/whatTypeOfConversation.js';
+import { isGroupInStoryMode } from '../../util/isGroupInStoryMode.js';
 
 import {
   getIntl,
   getRegionCode,
   getUserConversationId,
   getUserNumber,
-} from './user';
-import { getPinnedConversationIds } from './items';
-import { createLogger } from '../../logging/log';
-import { TimelineMessageLoadingState } from '../../util/timelineUtil';
-import { isSignalConversation } from '../../util/isSignalConversation';
-import { reduce } from '../../util/iterables';
-import { getConversationTitleForPanelType } from '../../util/getConversationTitleForPanelType';
-import type { PanelRenderType } from '../../types/Panels';
-import type { HasStories } from '../../types/Stories';
-import { getHasStoriesSelector } from './stories2';
-import { canEditMessage } from '../../util/canEditMessage';
-import { isOutgoing } from '../../messages/helpers';
+} from './user.js';
+import { getPinnedConversationIds } from './items.js';
+import { createLogger } from '../../logging/log.js';
+import { TimelineMessageLoadingState } from '../../util/timelineUtil.js';
+import { isSignalConversation } from '../../util/isSignalConversation.js';
+import { reduce } from '../../util/iterables.js';
+import { getConversationTitleForPanelType } from '../../util/getConversationTitleForPanelType.js';
+import type { PanelRenderType } from '../../types/Panels.js';
+import type { HasStories } from '../../types/Stories.js';
+import { getHasStoriesSelector } from './stories2.js';
+import { canEditMessage } from '../../util/canEditMessage.js';
+import { isOutgoing } from '../../messages/helpers.js';
 import {
   countAllConversationsUnreadStats,
   type UnreadStats,
-} from '../../util/countUnreadStats';
+} from '../../util/countUnreadStats.js';
 
 const log = createLogger('conversations');
 

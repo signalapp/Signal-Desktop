@@ -4,8 +4,8 @@
 import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './AutoSizeInput';
-import { AutoSizeInput } from './AutoSizeInput';
+import type { PropsType } from './AutoSizeInput.js';
+import { AutoSizeInput } from './AutoSizeInput.js';
 
 export default {
   title: 'Components/AutoSizeInput',

@@ -6,16 +6,16 @@ import { times, omit } from 'lodash';
 import { v4 as generateUuid } from 'uuid';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Row, PropsType } from './ConversationList';
-import { ConversationList, RowType } from './ConversationList';
-import { MessageSearchResult } from './conversationList/MessageSearchResult';
-import type { PropsData as ConversationListItemPropsType } from './conversationList/ConversationListItem';
-import { MessageStatuses } from './conversationList/ConversationListItem';
-import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
-import { ThemeType } from '../types/Util';
-import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
-import { makeFakeLookupConversationWithoutServiceId } from '../test-helpers/fakeLookupConversationWithoutServiceId';
+import type { Row, PropsType } from './ConversationList.js';
+import { ConversationList, RowType } from './ConversationList.js';
+import { MessageSearchResult } from './conversationList/MessageSearchResult.js';
+import type { PropsData as ConversationListItemPropsType } from './conversationList/ConversationListItem.js';
+import { MessageStatuses } from './conversationList/ConversationListItem.js';
+import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox.js';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.js';
+import { ThemeType } from '../types/Util.js';
+import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.js';
+import { makeFakeLookupConversationWithoutServiceId } from '../test-helpers/fakeLookupConversationWithoutServiceId.js';
 
 const { i18n } = window.SignalContext;
 

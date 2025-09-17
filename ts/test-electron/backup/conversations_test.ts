@@ -2,16 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { randomBytes } from 'crypto';
-import { getRandomBytes } from '../../Crypto';
-import * as Bytes from '../../Bytes';
-import { setupBasics, symmetricRoundtripHarness } from './helpers';
-import { loadAllAndReinitializeRedux } from '../../services/allLoaders';
-import { deriveGroupID, deriveGroupSecretParams } from '../../util/zkgroup';
-import { DataWriter } from '../../sql/Client';
-import { generateAci, generatePni } from '../../types/ServiceId';
-import type { ConversationAttributesType } from '../../model-types';
-import { strictAssert } from '../../util/assert';
+import { randomBytes } from 'node:crypto';
+import { getRandomBytes } from '../../Crypto.js';
+import * as Bytes from '../../Bytes.js';
+import { setupBasics, symmetricRoundtripHarness } from './helpers.js';
+import { loadAllAndReinitializeRedux } from '../../services/allLoaders.js';
+import { deriveGroupID, deriveGroupSecretParams } from '../../util/zkgroup.js';
+import { DataWriter } from '../../sql/Client.js';
+import { generateAci, generatePni } from '../../types/ServiceId.js';
+import type { ConversationAttributesType } from '../../model-types.js';
+import { strictAssert } from '../../util/assert.js';
 
 function getGroupTestInfo() {
   const masterKey = getRandomBytes(32);

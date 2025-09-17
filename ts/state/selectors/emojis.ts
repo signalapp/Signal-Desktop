@@ -3,8 +3,8 @@
 
 import { createSelector } from 'reselect';
 import { useSelector } from 'react-redux';
-import type { StateType } from '../reducer';
-import { isEmojiEnglishShortName } from '../../components/fun/data/emojis';
+import type { StateType } from '../reducer.js';
+import { isEmojiEnglishShortName } from '../../components/fun/data/emojis.js';
 
 export const selectRecentEmojis = createSelector(
   ({ emojis }: StateType) => emojis.recents,

@@ -3,16 +3,16 @@
 
 import React, { memo, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { ShortcutGuideModal } from '../../components/ShortcutGuideModal';
-import { countStickers } from '../../components/stickers/lib';
-import { getIntl, getPlatform } from '../selectors/user';
+import { ShortcutGuideModal } from '../../components/ShortcutGuideModal.js';
+import { countStickers } from '../../components/stickers/lib.js';
+import { getIntl, getPlatform } from '../selectors/user.js';
 import {
   getBlessedStickerPacks,
   getInstalledStickerPacks,
   getKnownStickerPacks,
   getReceivedStickerPacks,
-} from '../selectors/stickers';
-import { useGlobalModalActions } from '../ducks/globalModals';
+} from '../selectors/stickers.js';
+import { useGlobalModalActions } from '../ducks/globalModals.js';
 
 export const SmartShortcutGuideModal = memo(function SmartShortcutGuideModal() {
   const i18n = useSelector(getIntl);

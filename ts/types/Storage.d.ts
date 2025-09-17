@@ -5,27 +5,27 @@ import type { AudioDevice } from '@signalapp/ringrtc';
 import type {
   CustomColorsItemType,
   DefaultConversationColorType,
-} from './Colors';
-import type { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability';
-import type { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
-import type { RetryItemType } from '../util/retryPlaceholders';
-import type { ConfigMapType as RemoteConfigType } from '../RemoteConfig';
-import type { ExtendedStorageID, UnknownRecord } from './StorageService.d';
+} from './Colors.js';
+import type { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.js';
+import type { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode.js';
+import type { RetryItemType } from '../util/retryPlaceholders.js';
+import type { ConfigMapType as RemoteConfigType } from '../RemoteConfig.js';
+import type { ExtendedStorageID, UnknownRecord } from './StorageService.d.ts';
 
-import type { GroupCredentialType } from '../textsecure/WebAPI';
+import type { GroupCredentialType } from '../textsecure/WebAPI.js';
 import type {
   SessionResetsType,
   StorageServiceCredentials,
-} from '../textsecure/Types.d';
+} from '../textsecure/Types.d.ts';
 import type {
   BackupCredentialWrapperType,
   BackupsSubscriptionType,
   BackupStatusType,
-} from './backups';
-import type { ServiceIdString } from './ServiceId';
-import type { RegisteredChallengeType } from '../challenge';
-import type { ServerAlertsType } from '../util/handleServerAlerts';
-import type { NotificationProfileOverride } from './NotificationProfile';
+} from './backups.js';
+import type { ServiceIdString } from './ServiceId.js';
+import type { RegisteredChallengeType } from '../challenge.js';
+import type { ServerAlertsType } from '../util/handleServerAlerts.js';
+import type { NotificationProfileOverride } from './NotificationProfile.js';
 
 export type AutoDownloadAttachmentType = {
   photos: boolean;

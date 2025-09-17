@@ -7,24 +7,24 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { noop } from 'lodash';
 import classNames from 'classnames';
 import { animated, useSpring } from '@react-spring/web';
-import { Avatar, AvatarSize } from './Avatar';
-import { ContactName } from './conversation/ContactName';
-import { InContactsIcon } from './InContactsIcon';
-import type { LocalizerType } from '../types/Util';
-import type { ConversationType } from '../state/ducks/conversations';
-import { isInSystemContacts } from '../util/isInSystemContacts';
+import { Avatar, AvatarSize } from './Avatar.js';
+import { ContactName } from './conversation/ContactName.js';
+import { InContactsIcon } from './InContactsIcon.js';
+import type { LocalizerType } from '../types/Util.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import { isInSystemContacts } from '../util/isInSystemContacts.js';
 import type {
   BatchUserActionPayloadType,
   PendingUserActionPayloadType,
-} from '../state/ducks/calling';
-import { Button, ButtonVariant } from './Button';
-import type { ServiceIdString } from '../types/ServiceId';
-import { handleOutsideClick } from '../util/handleOutsideClick';
-import { Theme } from '../util/theme';
-import { ConfirmationDialog } from './ConfirmationDialog';
-import { usePrevious } from '../hooks/usePrevious';
-import { useReducedMotion } from '../hooks/useReducedMotion';
-import { drop } from '../util/drop';
+} from '../state/ducks/calling.js';
+import { Button, ButtonVariant } from './Button.js';
+import type { ServiceIdString } from '../types/ServiceId.js';
+import { handleOutsideClick } from '../util/handleOutsideClick.js';
+import { Theme } from '../util/theme.js';
+import { ConfirmationDialog } from './ConfirmationDialog.js';
+import { usePrevious } from '../hooks/usePrevious.js';
+import { useReducedMotion } from '../hooks/useReducedMotion.js';
+import { drop } from '../util/drop.js';
 
 enum ConfirmDialogState {
   None = 'None',

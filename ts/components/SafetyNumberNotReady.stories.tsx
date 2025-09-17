@@ -4,8 +4,8 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './SafetyNumberNotReady';
-import { SafetyNumberNotReady } from './SafetyNumberNotReady';
+import type { PropsType } from './SafetyNumberNotReady.js';
+import { SafetyNumberNotReady } from './SafetyNumberNotReady.js';
 
 const { i18n } = window.SignalContext;
 

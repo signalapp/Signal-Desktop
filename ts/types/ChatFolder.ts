@@ -1,10 +1,14 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { z } from 'zod';
-import { Environment, getEnvironment, isMockEnvironment } from '../environment';
-import * as grapheme from '../util/grapheme';
-import * as RemoteConfig from '../RemoteConfig';
-import { isAlpha, isBeta, isProduction } from '../util/version';
+import {
+  Environment,
+  getEnvironment,
+  isMockEnvironment,
+} from '../environment.js';
+import * as grapheme from '../util/grapheme.js';
+import * as RemoteConfig from '../RemoteConfig.js';
+import { isAlpha, isBeta, isProduction } from '../util/version.js';
 
 export const CHAT_FOLDER_NAME_MAX_CHAR_LENGTH = 32;
 

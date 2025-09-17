@@ -4,12 +4,12 @@
 import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './MessageBodyReadMore';
-import { MessageBodyReadMore } from './MessageBodyReadMore';
-import type { HydratedBodyRangesType } from '../../types/BodyRange';
-import { BodyRange } from '../../types/BodyRange';
-import { generateAci } from '../../types/ServiceId';
-import { RenderLocation } from './MessageTextRenderer';
+import type { Props } from './MessageBodyReadMore.js';
+import { MessageBodyReadMore } from './MessageBodyReadMore.js';
+import type { HydratedBodyRangesType } from '../../types/BodyRange.js';
+import { BodyRange } from '../../types/BodyRange.js';
+import { generateAci } from '../../types/ServiceId.js';
+import { RenderLocation } from './MessageTextRenderer.js';
 
 const { i18n } = window.SignalContext;
 

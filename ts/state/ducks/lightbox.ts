@@ -4,50 +4,50 @@
 import type { ThunkAction } from 'redux-thunk';
 
 import type { ReadonlyDeep } from 'type-fest';
-import type { AttachmentType } from '../../types/Attachment';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
-import type { MediaItemType } from '../../types/MediaItem';
+import type { AttachmentType } from '../../types/Attachment.js';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
+import type { MediaItemType } from '../../types/MediaItem.js';
 import type {
   MessageChangedActionType,
   MessageDeletedActionType,
   MessageExpiredActionType,
-} from './conversations';
-import type { ShowStickerPackPreviewActionType } from './globalModals';
-import type { ShowToastActionType } from './toast';
-import type { StateType as RootStateType } from '../reducer';
+} from './conversations.js';
+import type { ShowStickerPackPreviewActionType } from './globalModals.js';
+import type { ShowToastActionType } from './toast.js';
+import type { StateType as RootStateType } from '../reducer.js';
 
-import { createLogger } from '../../logging/log';
-import { getMessageById } from '../../messages/getMessageById';
-import type { ReadonlyMessageAttributesType } from '../../model-types.d';
+import { createLogger } from '../../logging/log.js';
+import { getMessageById } from '../../messages/getMessageById.js';
+import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
 import {
   getUndownloadedAttachmentSignature,
   isIncremental,
-} from '../../types/Attachment';
+} from '../../types/Attachment.js';
 import {
   isImageTypeSupported,
   isVideoTypeSupported,
-} from '../../util/GoogleChrome';
+} from '../../util/GoogleChrome.js';
 import {
   getLocalAttachmentUrl,
   AttachmentDisposition,
-} from '../../util/getLocalAttachmentUrl';
-import { isTapToView, getPropsForAttachment } from '../selectors/message';
-import { SHOW_TOAST } from './toast';
-import { ToastType } from '../../types/Toast';
+} from '../../util/getLocalAttachmentUrl.js';
+import { isTapToView, getPropsForAttachment } from '../selectors/message.js';
+import { SHOW_TOAST } from './toast.js';
+import { ToastType } from '../../types/Toast.js';
 import {
   MESSAGE_CHANGED,
   MESSAGE_DELETED,
   MESSAGE_EXPIRED,
   saveAttachmentFromMessage,
-} from './conversations';
-import { showStickerPackPreview } from './globalModals';
-import { useBoundActions } from '../../hooks/useBoundActions';
-import { DataReader } from '../../sql/Client';
-import { deleteDownloadsJobQueue } from '../../jobs/deleteDownloadsJobQueue';
-import { AttachmentDownloadUrgency } from '../../types/AttachmentDownload';
-import { queueAttachmentDownloadsAndMaybeSaveMessage } from '../../util/queueAttachmentDownloads';
-import { getMessageIdForLogging } from '../../util/idForLogging';
-import { markViewOnceMessageViewed } from '../../services/MessageUpdater';
+} from './conversations.js';
+import { showStickerPackPreview } from './globalModals.js';
+import { useBoundActions } from '../../hooks/useBoundActions.js';
+import { DataReader } from '../../sql/Client.js';
+import { deleteDownloadsJobQueue } from '../../jobs/deleteDownloadsJobQueue.js';
+import { AttachmentDownloadUrgency } from '../../types/AttachmentDownload.js';
+import { queueAttachmentDownloadsAndMaybeSaveMessage } from '../../util/queueAttachmentDownloads.js';
+import { getMessageIdForLogging } from '../../util/idForLogging.js';
+import { markViewOnceMessageViewed } from '../../services/MessageUpdater.js';
 
 const log = createLogger('lightbox');
 

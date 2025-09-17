@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import isNumber from 'lodash/isNumber';
-import type { ConversationAttributesType } from '../model-types.d';
-import type { ServiceIdString, AciString } from '../types/ServiceId';
-import { SignalService as Proto } from '../protobuf';
-import { isDirectConversation, isGroupV2 } from './whatTypeOfConversation';
+import type { ConversationAttributesType } from '../model-types.d.ts';
+import type { ServiceIdString, AciString } from '../types/ServiceId.js';
+import { SignalService as Proto } from '../protobuf/index.js';
+import { isDirectConversation, isGroupV2 } from './whatTypeOfConversation.js';
 
 export function isMemberPending(
   conversationAttrs: Pick<

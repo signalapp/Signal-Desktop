@@ -4,17 +4,17 @@
 import type { IntlShape } from 'react-intl';
 import { createIntl, createIntlCache } from 'react-intl';
 import type { ReactNode } from 'react';
-import type { LocaleMessageType, LocaleMessagesType } from '../types/I18N';
+import type { LocaleMessageType, LocaleMessagesType } from '../types/I18N.js';
 import type {
   LocalizerType,
   ICUStringMessageParamsByKeyType,
   LocalizerOptions,
-} from '../types/Util';
-import { strictAssert } from './assert';
-import { createLogger } from '../logging/log';
-import * as Errors from '../types/errors';
-import { Environment, getEnvironment } from '../environment';
-import { bidiIsolate, bidiStrip } from './unicodeBidi';
+} from '../types/Util.js';
+import { strictAssert } from './assert.js';
+import { createLogger } from '../logging/log.js';
+import * as Errors from '../types/errors.js';
+import { Environment, getEnvironment } from '../environment.js';
+import { bidiIsolate, bidiStrip } from './unicodeBidi.js';
 
 const log = createLogger('setupI18nMain');
 

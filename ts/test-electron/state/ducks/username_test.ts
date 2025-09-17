@@ -4,26 +4,26 @@
 import * as sinon from 'sinon';
 import { assert } from 'chai';
 
-import type { UsernameStateType } from '../../../state/ducks/username';
+import type { UsernameStateType } from '../../../state/ducks/username.js';
 import {
   getUsernameEditState,
   getUsernameReservationState,
   getUsernameReservationError,
   getUsernameReservationObject,
-} from '../../../state/selectors/username';
+} from '../../../state/selectors/username.js';
 import {
   UsernameEditState,
   UsernameReservationState,
   UsernameReservationError,
-} from '../../../state/ducks/usernameEnums';
-import { actions } from '../../../state/ducks/username';
-import { ToastType } from '../../../types/Toast';
-import { noopAction } from '../../../state/ducks/noop';
-import { reducer } from '../../../state/reducer';
+} from '../../../state/ducks/usernameEnums.js';
+import { actions } from '../../../state/ducks/username.js';
+import { ToastType } from '../../../types/Toast.js';
+import { noopAction } from '../../../state/ducks/noop.js';
+import { reducer } from '../../../state/reducer.js';
 import {
   ReserveUsernameError,
   ConfirmUsernameResult,
-} from '../../../types/Username';
+} from '../../../types/Username.js';
 
 const DEFAULT_RESERVATION = {
   username: 'abc.12',

@@ -1,12 +1,12 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { DataReader } from '../sql/Client';
-import { strictAssert } from '../util/assert';
-import { makeLookup } from '../util/makeLookup';
+import { DataReader } from '../sql/Client.js';
+import { strictAssert } from '../util/assert.js';
+import { makeLookup } from '../util/makeLookup.js';
 
-import type { BadgeType } from '../badges/types';
-import type { BadgesStateType } from '../state/ducks/badges';
+import type { BadgeType } from '../badges/types.js';
+import type { BadgesStateType } from '../state/ducks/badges.js';
 
 let badges: Array<BadgeType> | undefined;
 

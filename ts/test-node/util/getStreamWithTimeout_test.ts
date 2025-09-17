@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { Readable } from 'stream';
+import { Readable } from 'node:stream';
 import * as sinon from 'sinon';
 import { noop } from 'lodash';
-import { once } from 'events';
+import { once } from 'node:events';
 
-import { getStreamWithTimeout } from '../../util/getStreamWithTimeout';
+import { getStreamWithTimeout } from '../../util/getStreamWithTimeout.js';
 
 describe('getStreamWithTimeout', () => {
   let sandbox: sinon.SinonSandbox;

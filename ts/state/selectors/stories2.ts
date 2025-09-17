@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createSelector } from 'reselect';
-import { ReadStatus } from '../../messages/MessageReadStatus';
-import { HasStories } from '../../types/Stories';
-import { getStoriesEnabled } from './items';
+import { ReadStatus } from '../../messages/MessageReadStatus.js';
+import { HasStories } from '../../types/Stories.js';
+import { getStoriesEnabled } from './items.js';
 
-import type { StateType } from '../reducer';
-import type { StoriesStateType } from '../ducks/stories';
+import type { StateType } from '../reducer.js';
+import type { StoriesStateType } from '../ducks/stories.js';
 
 const getStoriesState = (state: StateType): StoriesStateType => state.stories;
 

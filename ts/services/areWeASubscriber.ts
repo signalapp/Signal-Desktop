@@ -1,10 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { StorageInterface } from '../types/Storage.d';
-import type { WebAPIType } from '../textsecure/WebAPI';
-import { LatestQueue } from '../util/LatestQueue';
-import { waitForOnline } from '../util/waitForOnline';
+import type { StorageInterface } from '../types/Storage.d.ts';
+import type { WebAPIType } from '../textsecure/WebAPI.js';
+import { LatestQueue } from '../util/LatestQueue.js';
+import { waitForOnline } from '../util/waitForOnline.js';
 
 // This is only exported for testing.
 export class AreWeASubscriberService {

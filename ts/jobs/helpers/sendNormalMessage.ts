@@ -5,67 +5,67 @@ import { isNumber } from 'lodash';
 import PQueue from 'p-queue';
 import { ContentHint } from '@signalapp/libsignal-client';
 
-import * as Errors from '../../types/errors';
-import { strictAssert } from '../../util/assert';
-import type { MessageModel } from '../../models/messages';
-import { getMessageById } from '../../messages/getMessageById';
-import type { ConversationModel } from '../../models/conversations';
-import { isGroup, isGroupV2, isMe } from '../../util/whatTypeOfConversation';
-import { getSendOptions } from '../../util/getSendOptions';
-import { handleMessageSend } from '../../util/handleMessageSend';
-import { findAndFormatContact } from '../../util/findAndFormatContact';
-import { uploadAttachment } from '../../util/uploadAttachment';
-import type { CallbackResultType } from '../../textsecure/Types.d';
-import { isSent } from '../../messages/MessageSendState';
-import { isOutgoing, canReact } from '../../state/selectors/message';
+import * as Errors from '../../types/errors.js';
+import { strictAssert } from '../../util/assert.js';
+import type { MessageModel } from '../../models/messages.js';
+import { getMessageById } from '../../messages/getMessageById.js';
+import type { ConversationModel } from '../../models/conversations.js';
+import { isGroup, isGroupV2, isMe } from '../../util/whatTypeOfConversation.js';
+import { getSendOptions } from '../../util/getSendOptions.js';
+import { handleMessageSend } from '../../util/handleMessageSend.js';
+import { findAndFormatContact } from '../../util/findAndFormatContact.js';
+import { uploadAttachment } from '../../util/uploadAttachment.js';
+import type { CallbackResultType } from '../../textsecure/Types.d.ts';
+import { isSent } from '../../messages/MessageSendState.js';
+import { isOutgoing, canReact } from '../../state/selectors/message.js';
 import type {
   ReactionType,
   OutgoingQuoteType,
   OutgoingQuoteAttachmentType,
   OutgoingLinkPreviewType,
   OutgoingStickerType,
-} from '../../textsecure/SendMessage';
+} from '../../textsecure/SendMessage.js';
 import type {
   AttachmentType,
   UploadedAttachmentType,
-} from '../../types/Attachment';
-import { copyCdnFields } from '../../util/attachments';
-import type { RawBodyRange } from '../../types/BodyRange';
-import type { EmbeddedContactWithUploadedAvatar } from '../../types/EmbeddedContact';
-import type { StoryContextType } from '../../types/Util';
-import type { LoggerType } from '../../types/Logging';
+} from '../../types/Attachment.js';
+import { copyCdnFields } from '../../util/attachments.js';
+import type { RawBodyRange } from '../../types/BodyRange.js';
+import type { EmbeddedContactWithUploadedAvatar } from '../../types/EmbeddedContact.js';
+import type { StoryContextType } from '../../types/Util.js';
+import type { LoggerType } from '../../types/Logging.js';
 import type {
   ConversationQueueJobBundle,
   NormalMessageSendJobData,
-} from '../conversationJobQueue';
-import type { QuotedMessageType } from '../../model-types.d';
+} from '../conversationJobQueue.js';
+import type { QuotedMessageType } from '../../model-types.d.ts';
 
-import { handleMultipleSendErrors } from './handleMultipleSendErrors';
-import { ourProfileKeyService } from '../../services/ourProfileKey';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered';
-import { isConversationAccepted } from '../../util/isConversationAccepted';
-import { sendToGroup } from '../../util/sendToGroup';
-import type { DurationInSeconds } from '../../util/durations';
-import type { ServiceIdString } from '../../types/ServiceId';
-import { normalizeAci } from '../../util/normalizeAci';
+import { handleMultipleSendErrors } from './handleMultipleSendErrors.js';
+import { ourProfileKeyService } from '../../services/ourProfileKey.js';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.js';
+import { isConversationAccepted } from '../../util/isConversationAccepted.js';
+import { sendToGroup } from '../../util/sendToGroup.js';
+import type { DurationInSeconds } from '../../util/durations/index.js';
+import type { ServiceIdString } from '../../types/ServiceId.js';
+import { normalizeAci } from '../../util/normalizeAci.js';
 import {
   getPropForTimestamp,
   getTargetOfThisEditTimestamp,
   getChangesForPropAtTimestamp,
-} from '../../util/editHelpers';
-import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp';
-import { isSignalConversation } from '../../util/isSignalConversation';
+} from '../../util/editHelpers.js';
+import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp.js';
+import { isSignalConversation } from '../../util/isSignalConversation.js';
 import {
   isBodyTooLong,
   MAX_BODY_ATTACHMENT_BYTE_LENGTH,
   trimBody,
-} from '../../util/longAttachment';
+} from '../../util/longAttachment.js';
 import {
   markFailed,
   saveErrorsOnMessage,
-} from '../../test-node/util/messageFailures';
-import { getMessageIdForLogging } from '../../util/idForLogging';
-import { send, sendSyncMessageOnly } from '../../messages/send';
+} from '../../test-node/util/messageFailures.js';
+import { getMessageIdForLogging } from '../../util/idForLogging.js';
+import { send, sendSyncMessageOnly } from '../../messages/send.js';
 
 const MAX_CONCURRENT_ATTACHMENT_UPLOADS = 5;
 

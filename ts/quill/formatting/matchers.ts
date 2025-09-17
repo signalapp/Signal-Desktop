@@ -4,8 +4,8 @@
 import { Delta } from '@signalapp/quill-cjs';
 import type { AttributeMap } from '@signalapp/quill-cjs';
 
-import { QuillFormattingStyle } from './menu';
-import type { Matcher } from '../util';
+import { QuillFormattingStyle } from './menu.js';
+import type { Matcher } from '../util.js';
 
 function applyStyleToOps(
   delta: Delta,

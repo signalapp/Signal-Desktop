@@ -2,15 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useMemo, useId } from 'react';
-import type { ConversationTypeType } from '../../../state/ducks/conversations';
-import type { LocalizerType } from '../../../types/Util';
-import { PanelSection } from './PanelSection';
-import { PanelRow } from './PanelRow';
-import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
-import { Select } from '../../Select';
-import { isConversationMuted } from '../../../util/isConversationMuted';
-import { getMuteOptions } from '../../../util/getMuteOptions';
-import { parseIntOrThrow } from '../../../util/parseIntOrThrow';
+import type { ConversationTypeType } from '../../../state/ducks/conversations.js';
+import type { LocalizerType } from '../../../types/Util.js';
+import { PanelSection } from './PanelSection.js';
+import { PanelRow } from './PanelRow.js';
+import {
+  ConversationDetailsIcon,
+  IconType,
+} from './ConversationDetailsIcon.js';
+import { Select } from '../../Select.js';
+import { isConversationMuted } from '../../../util/isConversationMuted.js';
+import { getMuteOptions } from '../../../util/getMuteOptions.js';
+import { parseIntOrThrow } from '../../../util/parseIntOrThrow.js';
 
 export type PropsType = {
   id: string;

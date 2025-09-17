@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type Fuse from 'fuse.js';
-import type { ConversationType } from '../state/ducks/conversations';
-import { parseAndFormatPhoneNumber } from './libphonenumberInstance';
-import { WEEK } from './durations';
-import { fuseGetFnRemoveDiacritics, getCachedFuseIndex } from './fuse';
-import { countConversationUnreadStats, hasUnread } from './countUnreadStats';
-import { getE164 } from './getE164';
-import { removeDiacritics } from './removeDiacritics';
-import { isAciString } from './isAciString';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import { parseAndFormatPhoneNumber } from './libphonenumberInstance.js';
+import { WEEK } from './durations/index.js';
+import { fuseGetFnRemoveDiacritics, getCachedFuseIndex } from './fuse.js';
+import { countConversationUnreadStats, hasUnread } from './countUnreadStats.js';
+import { getE164 } from './getE164.js';
+import { removeDiacritics } from './removeDiacritics.js';
+import { isAciString } from './isAciString.js';
 
 // Fuse.js scores have order of 0.01
 const ACTIVE_AT_SCORE_FACTOR = (1 / WEEK) * 0.01;

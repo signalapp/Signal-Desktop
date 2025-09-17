@@ -1,10 +1,10 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { config } from './config';
-import { localeMessages } from './localeMessages';
-import { setupI18n } from '../util/setupI18n';
-import { strictAssert } from '../util/assert';
+import { config } from './config.js';
+import { localeMessages } from './localeMessages.js';
+import { setupI18n } from '../util/setupI18n.js';
+import { strictAssert } from '../util/assert.js';
 
 const { resolvedTranslationsLocale } = config;
 strictAssert(

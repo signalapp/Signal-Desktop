@@ -3,9 +3,9 @@
 
 import { ipcMain } from 'electron';
 
-import type { MainSQL } from '../ts/sql/main';
-import { remove as removeUserConfig } from './user_config';
-import { remove as removeEphemeralConfig } from './ephemeral_config';
+import type { MainSQL } from '../ts/sql/main.js';
+import { remove as removeUserConfig } from './user_config.js';
+import { remove as removeEphemeralConfig } from './ephemeral_config.js';
 
 let sql:
   | Pick<

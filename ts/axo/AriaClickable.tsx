@@ -10,8 +10,8 @@ import React, {
 } from 'react';
 import type { ReactNode, MouseEvent, FC } from 'react';
 import { useLayoutEffect } from '@react-aria/utils';
-import { tw } from './tw';
-import { assert } from './_internal/assert';
+import { tw } from './tw.js';
+import { assert } from './_internal/assert.js';
 
 const Namespace = 'AriaClickable';
 

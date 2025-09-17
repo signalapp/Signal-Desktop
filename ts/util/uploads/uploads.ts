@@ -3,9 +3,9 @@
 import fetch from 'node-fetch';
 import { createReadStream, createWriteStream } from 'node:fs';
 import { pipeline } from 'node:stream/promises';
-import type { TusFileReader, FetchFunctionType } from './tusProtocol';
-import { tusResumeUpload, tusUpload } from './tusProtocol';
-import { HTTPError } from '../../textsecure/Errors';
+import type { TusFileReader, FetchFunctionType } from './tusProtocol.js';
+import { tusResumeUpload, tusUpload } from './tusProtocol.js';
+import { HTTPError } from '../../textsecure/Errors.js';
 
 export const defaultFileReader: TusFileReader = (filePath, offset) => {
   return createReadStream(filePath, { start: offset });

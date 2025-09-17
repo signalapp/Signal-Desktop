@@ -8,7 +8,7 @@ import prettier from 'prettier';
 import pMap from 'p-map';
 import z from 'zod';
 
-import { authenticate, API_BASE, PROJECT_ID } from '../util/smartling';
+import { authenticate, API_BASE, PROJECT_ID } from '../util/smartling.js';
 
 const { SMARTLING_USER, SMARTLING_SECRET } = process.env;
 

@@ -4,18 +4,18 @@
 import type { ReactNode } from 'react';
 import React, { useState } from 'react';
 
-import { Avatar, AvatarBlur, AvatarSize } from '../../Avatar';
-import { AvatarLightbox } from '../../AvatarLightbox';
-import type { ConversationType } from '../../../state/ducks/conversations';
-import { GroupDescription } from '../GroupDescription';
-import { About } from '../About';
-import type { LocalizerType, ThemeType } from '../../../types/Util';
-import { assertDev } from '../../../util/assert';
-import { BadgeDialog } from '../../BadgeDialog';
-import type { BadgeType } from '../../../badges/types';
-import { UserText } from '../../UserText';
-import { isInSystemContacts } from '../../../util/isInSystemContacts';
-import { InContactsIcon } from '../../InContactsIcon';
+import { Avatar, AvatarBlur, AvatarSize } from '../../Avatar.js';
+import { AvatarLightbox } from '../../AvatarLightbox.js';
+import type { ConversationType } from '../../../state/ducks/conversations.js';
+import { GroupDescription } from '../GroupDescription.js';
+import { About } from '../About.js';
+import type { LocalizerType, ThemeType } from '../../../types/Util.js';
+import { assertDev } from '../../../util/assert.js';
+import { BadgeDialog } from '../../BadgeDialog.js';
+import type { BadgeType } from '../../../badges/types.js';
+import { UserText } from '../../UserText.js';
+import { isInSystemContacts } from '../../../util/isInSystemContacts.js';
+import { InContactsIcon } from '../../InContactsIcon.js';
 
 export type Props = {
   areWeASubscriber: boolean;

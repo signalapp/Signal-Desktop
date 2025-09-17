@@ -7,8 +7,8 @@ import { Provider } from 'react-redux';
 
 import type { Store } from 'redux';
 
-import { SmartApp } from '../smart/App';
-import { SmartVoiceNotesPlaybackProvider } from '../smart/VoiceNotesPlaybackProvider';
+import { SmartApp } from '../smart/App.js';
+import { SmartVoiceNotesPlaybackProvider } from '../smart/VoiceNotesPlaybackProvider.js';
 
 export const createApp = (store: Store): ReactElement => (
   <Provider store={store}>

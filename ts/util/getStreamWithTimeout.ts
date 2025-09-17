@@ -1,12 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Transform } from 'stream';
-import type { Readable } from 'stream';
+import { Transform } from 'node:stream';
+import type { Readable } from 'node:stream';
 
-import * as Bytes from '../Bytes';
-import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary';
-import { explodePromise } from './explodePromise';
+import * as Bytes from '../Bytes.js';
+import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary.js';
+import { explodePromise } from './explodePromise.js';
 
 export type OptionsType = Readonly<{
   name: string;

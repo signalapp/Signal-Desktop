@@ -7,18 +7,18 @@ import { action } from '@storybook/addon-actions';
 import { v4 as generateUuid } from 'uuid';
 
 import type { Meta } from '@storybook/react';
-import { AvatarColors } from '../types/Colors';
-import type { ConversationType } from '../state/ducks/conversations';
-import type { PropsType } from './CallingLobby';
-import { CallingLobby as UnwrappedCallingLobby } from './CallingLobby';
-import { generateAci } from '../types/ServiceId';
+import { AvatarColors } from '../types/Colors.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import type { PropsType } from './CallingLobby.js';
+import { CallingLobby as UnwrappedCallingLobby } from './CallingLobby.js';
+import { generateAci } from '../types/ServiceId.js';
 import {
   getDefaultConversation,
   getDefaultConversationWithServiceId,
-} from '../test-helpers/getDefaultConversation';
-import { CallingToastProvider } from './CallingToast';
-import { CallMode } from '../types/CallDisposition';
-import { getDefaultCallLinkConversation } from '../test-helpers/fakeCallLink';
+} from '../test-helpers/getDefaultConversation.js';
+import { CallingToastProvider } from './CallingToast.js';
+import { CallMode } from '../types/CallDisposition.js';
+import { getDefaultCallLinkConversation } from '../test-helpers/fakeCallLink.js';
 
 const { i18n } = window.SignalContext;
 

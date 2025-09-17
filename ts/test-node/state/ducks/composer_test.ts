@@ -6,19 +6,19 @@ import * as sinon from 'sinon';
 import { noop } from 'lodash';
 import { v4 as generateUuid } from 'uuid';
 
-import type { ReduxActions } from '../../../state/types';
+import type { ReduxActions } from '../../../state/types.js';
 import {
   actions,
   getComposerStateForConversation,
   getEmptyState,
   reducer,
-} from '../../../state/ducks/composer';
-import { noopAction } from '../../../state/ducks/noop';
-import { reducer as rootReducer } from '../../../state/reducer';
+} from '../../../state/ducks/composer.js';
+import { noopAction } from '../../../state/ducks/noop.js';
+import { reducer as rootReducer } from '../../../state/reducer.js';
 
-import { IMAGE_JPEG } from '../../../types/MIME';
-import type { AttachmentDraftType } from '../../../types/Attachment';
-import { fakeDraftAttachment } from '../../../test-helpers/fakeAttachment';
+import { IMAGE_JPEG } from '../../../types/MIME.js';
+import type { AttachmentDraftType } from '../../../types/Attachment.js';
+import { fakeDraftAttachment } from '../../../test-helpers/fakeAttachment.js';
 
 describe('both/state/ducks/composer', () => {
   const QUOTED_MESSAGE = {

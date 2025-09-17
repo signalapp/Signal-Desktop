@@ -1,13 +1,18 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createReadStream, createWriteStream } from 'fs';
-import { open, unlink, stat } from 'fs/promises';
-import type { FileHandle } from 'fs/promises';
-import { createCipheriv, createHash, createHmac, randomBytes } from 'crypto';
-import type { Hash } from 'crypto';
-import { PassThrough, Transform, type Writable, Readable } from 'stream';
-import { pipeline } from 'stream/promises';
+import { createReadStream, createWriteStream } from 'node:fs';
+import { open, unlink, stat } from 'node:fs/promises';
+import type { FileHandle } from 'node:fs/promises';
+import {
+  createCipheriv,
+  createHash,
+  createHmac,
+  randomBytes,
+} from 'node:crypto';
+import type { Hash } from 'node:crypto';
+import { PassThrough, Transform, type Writable, Readable } from 'node:stream';
+import { pipeline } from 'node:stream/promises';
 
 import { isNumber } from 'lodash';
 import { ensureFile } from 'fs-extra';
@@ -19,9 +24,9 @@ import {
   ValidatingPassThrough,
 } from '@signalapp/libsignal-client/dist/incremental_mac';
 import type { ChunkSizeChoice } from '@signalapp/libsignal-client/dist/incremental_mac';
-import { isAbsolute } from 'path';
+import { isAbsolute } from 'node:path';
 
-import { createLogger } from './logging/log';
+import { createLogger } from './logging/log.js';
 import {
   HashType,
   CipherType,
@@ -31,22 +36,22 @@ import {
   DIGEST_LENGTH,
   ATTACHMENT_MAC_LENGTH,
   AES_KEY_LENGTH,
-} from './types/Crypto';
-import { constantTimeEqual } from './Crypto';
-import { createName, getRelativePath } from './util/attachmentPath';
-import { appendPaddingStream, logPadSize } from './util/logPadding';
-import { prependStream } from './util/prependStream';
-import { appendMacStream } from './util/appendMacStream';
-import { finalStream } from './util/finalStream';
-import { getMacAndUpdateHmac } from './util/getMacAndUpdateHmac';
-import { trimPadding } from './util/trimPadding';
-import { assertDev, strictAssert } from './util/assert';
-import * as Errors from './types/errors';
-import { isNotNil } from './util/isNotNil';
-import { missingCaseError } from './util/missingCaseError';
-import { getEnvironment, Environment } from './environment';
-import { isNotEmpty, toBase64, toHex } from './Bytes';
-import { decipherWithAesKey } from './util/decipherWithAesKey';
+} from './types/Crypto.js';
+import { constantTimeEqual } from './Crypto.js';
+import { createName, getRelativePath } from './util/attachmentPath.js';
+import { appendPaddingStream, logPadSize } from './util/logPadding.js';
+import { prependStream } from './util/prependStream.js';
+import { appendMacStream } from './util/appendMacStream.js';
+import { finalStream } from './util/finalStream.js';
+import { getMacAndUpdateHmac } from './util/getMacAndUpdateHmac.js';
+import { trimPadding } from './util/trimPadding.js';
+import { assertDev, strictAssert } from './util/assert.js';
+import * as Errors from './types/errors.js';
+import { isNotNil } from './util/isNotNil.js';
+import { missingCaseError } from './util/missingCaseError.js';
+import { getEnvironment, Environment } from './environment.js';
+import { isNotEmpty, toBase64, toHex } from './Bytes.js';
+import { decipherWithAesKey } from './util/decipherWithAesKey.js';
 
 const log = createLogger('AttachmentCrypto');
 

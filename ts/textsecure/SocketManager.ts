@@ -6,47 +6,47 @@ import {
   LibSignalErrorBase,
   type Net,
 } from '@signalapp/libsignal-client';
-import URL from 'url';
+import URL from 'node:url';
 import type { RequestInit, Response } from 'node-fetch';
 import { Headers } from 'node-fetch';
 import type { connection as WebSocket } from 'websocket';
-import qs from 'querystring';
-import EventListener from 'events';
-import type { IncomingMessage } from 'http';
+import qs from 'node:querystring';
+import EventListener from 'node:events';
+import type { IncomingMessage } from 'node:http';
 import { setTimeout as sleep } from 'node:timers/promises';
 
-import type { AbortableProcess } from '../util/AbortableProcess';
-import { strictAssert } from '../util/assert';
-import { explodePromise } from '../util/explodePromise';
+import type { AbortableProcess } from '../util/AbortableProcess.js';
+import { strictAssert } from '../util/assert.js';
+import { explodePromise } from '../util/explodePromise.js';
 import {
   BackOff,
   EXTENDED_FIBONACCI_TIMEOUTS,
   FIBONACCI_TIMEOUTS,
-} from '../util/BackOff';
-import * as durations from '../util/durations';
-import { drop } from '../util/drop';
-import type { ProxyAgent } from '../util/createProxyAgent';
-import { createProxyAgent } from '../util/createProxyAgent';
-import { type SocketInfo, SocketStatus } from '../types/SocketStatus';
-import * as Errors from '../types/errors';
-import * as Bytes from '../Bytes';
-import { createLogger } from '../logging/log';
+} from '../util/BackOff.js';
+import * as durations from '../util/durations/index.js';
+import { drop } from '../util/drop.js';
+import type { ProxyAgent } from '../util/createProxyAgent.js';
+import { createProxyAgent } from '../util/createProxyAgent.js';
+import { type SocketInfo, SocketStatus } from '../types/SocketStatus.js';
+import * as Errors from '../types/errors.js';
+import * as Bytes from '../Bytes.js';
+import { createLogger } from '../logging/log.js';
 
 import type {
   IncomingWebSocketRequest,
   IWebSocketResource,
   WebSocketResourceOptions,
-} from './WebsocketResources';
+} from './WebsocketResources.js';
 import WebSocketResource, {
   connectAuthenticatedLibsignal,
   connectUnauthenticatedLibsignal,
   ServerRequestType,
-} from './WebsocketResources';
-import { ConnectTimeoutError, HTTPError } from './Errors';
-import type { IRequestHandler, WebAPICredentials } from './Types.d';
-import { connect as connectWebSocket } from './WebSocket';
-import { type ServerAlert } from '../util/handleServerAlerts';
-import { getUserLanguages } from '../util/userLanguages';
+} from './WebsocketResources.js';
+import { ConnectTimeoutError, HTTPError } from './Errors.js';
+import type { IRequestHandler, WebAPICredentials } from './Types.d.ts';
+import { connect as connectWebSocket } from './WebSocket.js';
+import { type ServerAlert } from '../util/handleServerAlerts.js';
+import { getUserLanguages } from '../util/userLanguages.js';
 
 const log = createLogger('SocketManager');
 

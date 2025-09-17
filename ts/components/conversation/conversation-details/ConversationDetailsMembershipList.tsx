@@ -3,16 +3,19 @@
 
 import React from 'react';
 
-import type { LocalizerType, ThemeType } from '../../../types/Util';
+import type { LocalizerType, ThemeType } from '../../../types/Util.js';
 
-import { Avatar, AvatarSize } from '../../Avatar';
-import { Emojify } from '../Emojify';
+import { Avatar, AvatarSize } from '../../Avatar.js';
+import { Emojify } from '../Emojify.js';
 
-import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
-import type { ConversationType } from '../../../state/ducks/conversations';
-import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges';
-import { PanelRow } from './PanelRow';
-import { PanelSection } from './PanelSection';
+import {
+  ConversationDetailsIcon,
+  IconType,
+} from './ConversationDetailsIcon.js';
+import type { ConversationType } from '../../../state/ducks/conversations.js';
+import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.js';
+import { PanelRow } from './PanelRow.js';
+import { PanelSection } from './PanelSection.js';
 
 export type GroupV2Membership = {
   isAdmin: boolean;

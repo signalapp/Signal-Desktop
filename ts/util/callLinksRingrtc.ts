@@ -9,36 +9,36 @@ import {
 import type { CallLinkState as RingRTCCallLinkState } from '@signalapp/ringrtc';
 import { z } from 'zod';
 import { Aci } from '@signalapp/libsignal-client';
+import {
+  CallLinkNameMaxByteLength,
+  callLinkRecordSchema,
+  defunctCallLinkRecordSchema,
+  toCallLinkRestrictions,
+} from '../types/CallLink.js';
 import type {
   CallLinkRecord,
   CallLinkRestrictions,
   CallLinkType,
   DefunctCallLinkRecord,
   DefunctCallLinkType,
-} from '../types/CallLink';
-import {
-  type CallLinkStateType,
-  CallLinkNameMaxByteLength,
-  callLinkRecordSchema,
-  defunctCallLinkRecordSchema,
-  toCallLinkRestrictions,
-} from '../types/CallLink';
-import { unicodeSlice } from './unicodeSlice';
-import type { CallLinkAuthCredentialPresentation } from './zkgroup';
+  CallLinkStateType,
+} from '../types/CallLink.js';
+import { unicodeSlice } from './unicodeSlice.js';
+import type { CallLinkAuthCredentialPresentation } from './zkgroup.js';
 import {
   CallLinkAuthCredential,
   CallLinkSecretParams,
   GenericServerPublicParams,
-} from './zkgroup';
-import { getCheckedCallLinkAuthCredentialsForToday } from '../services/groupCredentialFetcher';
-import * as durations from './durations';
+} from './zkgroup.js';
+import { getCheckedCallLinkAuthCredentialsForToday } from '../services/groupCredentialFetcher.js';
+import * as durations from './durations/index.js';
 import {
   fromAdminKeyBytes,
   getKeyFromCallLink,
   toAdminKeyBytes,
-} from './callLinks';
-import { parseStrict } from './schemas';
-import * as Bytes from '../Bytes';
+} from './callLinks.js';
+import { parseStrict } from './schemas.js';
+import * as Bytes from '../Bytes.js';
 
 /**
  * RingRTC conversions

@@ -3,8 +3,8 @@
 
 import { assert } from 'chai';
 
-import type { MaybeAsyncIterable } from '../../util/asyncIterables';
-import { concat, wrapPromise } from '../../util/asyncIterables';
+import type { MaybeAsyncIterable } from '../../util/asyncIterables.js';
+import { concat, wrapPromise } from '../../util/asyncIterables.js';
 
 describe('async iterable utilities', () => {
   describe('concat', () => {

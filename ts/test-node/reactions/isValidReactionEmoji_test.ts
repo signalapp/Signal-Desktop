@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { isValidReactionEmoji } from '../../reactions/isValidReactionEmoji';
+import { isValidReactionEmoji } from '../../reactions/isValidReactionEmoji.js';
 
 describe('isValidReactionEmoji', () => {
   it('returns false for non-strings', () => {

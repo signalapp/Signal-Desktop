@@ -4,7 +4,7 @@
 import classNames from 'classnames';
 import type { KeyboardEventHandler } from 'react';
 import React from 'react';
-import { Emojify } from './Emojify';
+import { Emojify } from './Emojify.js';
 
 export function AtMention({
   direction,

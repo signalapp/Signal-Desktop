@@ -3,16 +3,16 @@
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { chunk } from 'lodash';
 import React, { useCallback, useEffect, useRef } from 'react';
-import { type ComponentMeta } from '../../storybook/types';
-import type { FunStaticEmojiProps } from './FunEmoji';
-import { FunInlineEmoji, FunStaticEmoji } from './FunEmoji';
+import { type ComponentMeta } from '../../storybook/types.js';
+import type { FunStaticEmojiProps } from './FunEmoji.js';
+import { FunInlineEmoji, FunStaticEmoji } from './FunEmoji.js';
 import {
   _getAllEmojiVariantKeys,
   emojiVariantConstant,
   getEmojiParentByKey,
   getEmojiParentKeyByVariantKey,
   getEmojiVariantByKey,
-} from './data/emojis';
+} from './data/emojis.js';
 
 export default {
   title: 'Components/Fun/FunEmoji',

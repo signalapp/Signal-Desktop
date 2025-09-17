@@ -7,25 +7,25 @@ import classNames from 'classnames';
 import emojiRegex from 'emoji-regex';
 import { sortBy } from 'lodash';
 
-import { linkify, SUPPORTED_PROTOCOLS } from './Linkify';
+import { linkify, SUPPORTED_PROTOCOLS } from './Linkify.js';
 import type {
   BodyRangesForDisplayType,
   DisplayNode,
   HydratedBodyRangeMention,
   RangeNode,
-} from '../../types/BodyRange';
+} from '../../types/BodyRange.js';
 import {
   BodyRange,
   insertRange,
   collapseRangeTree,
   groupContiguousSpoilers,
-} from '../../types/BodyRange';
-import { AtMention } from './AtMention';
-import { isLinkSneaky } from '../../types/LinkPreview';
-import { Emojify } from './Emojify';
-import { AddNewLines } from './AddNewLines';
-import type { LocalizerType } from '../../types/Util';
-import type { FunJumboEmojiSize } from '../fun/FunEmoji';
+} from '../../types/BodyRange.js';
+import { AtMention } from './AtMention.js';
+import { isLinkSneaky } from '../../types/LinkPreview.js';
+import { Emojify } from './Emojify.js';
+import { AddNewLines } from './AddNewLines.js';
+import type { LocalizerType } from '../../types/Util.js';
+import type { FunJumboEmojiSize } from '../fun/FunEmoji.js';
 
 const EMOJI_REGEXP = emojiRegex();
 export enum RenderLocation {

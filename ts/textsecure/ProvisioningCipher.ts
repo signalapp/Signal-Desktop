@@ -4,18 +4,22 @@
 /* eslint-disable max-classes-per-file */
 
 import { PublicKey, Aci, Pni } from '@signalapp/libsignal-client';
-import type { KeyPairType } from './Types.d';
-import * as Bytes from '../Bytes';
+import type { KeyPairType } from './Types.d.ts';
+import * as Bytes from '../Bytes.js';
 import {
   decryptAes256CbcPkcsPadding,
   deriveSecrets,
   verifyHmacSha256,
-} from '../Crypto';
-import { calculateAgreement, createKeyPair, generateKeyPair } from '../Curve';
-import { SignalService as Proto } from '../protobuf';
-import { strictAssert } from '../util/assert';
-import { dropNull } from '../util/dropNull';
-import { normalizeAci } from '../util/normalizeAci';
+} from '../Crypto.js';
+import {
+  calculateAgreement,
+  createKeyPair,
+  generateKeyPair,
+} from '../Curve.js';
+import { SignalService as Proto } from '../protobuf/index.js';
+import { strictAssert } from '../util/assert.js';
+import { dropNull } from '../util/dropNull.js';
+import { normalizeAci } from '../util/normalizeAci.js';
 import {
   type AciString,
   type PniString,
@@ -24,7 +28,7 @@ import {
   isUntaggedPniString,
   fromAciObject,
   fromPniObject,
-} from '../types/ServiceId';
+} from '../types/ServiceId.js';
 
 export type ProvisionDecryptResult = Readonly<{
   aciKeyPair: KeyPairType;

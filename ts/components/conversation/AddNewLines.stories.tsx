@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { Props } from './AddNewLines';
-import { AddNewLines } from './AddNewLines';
+import type { Props } from './AddNewLines.js';
+import { AddNewLines } from './AddNewLines.js';
 
 export default {
   title: 'Components/Conversation/AddNewLines',

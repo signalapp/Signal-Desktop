@@ -3,11 +3,11 @@
 
 import { assert } from 'chai';
 import { omit } from 'lodash';
-import type { WritableDB } from '../../sql/Interface';
-import { createDB, updateToVersion, explain } from './helpers';
-import { jsonToObject, objectToJSON, sql } from '../../sql/util';
-import { IMAGE_BMP } from '../../types/MIME';
-import type { _AttachmentDownloadJobTypeV1040 } from '../../sql/migrations/1040-undownloaded-backed-up-media';
+import type { WritableDB } from '../../sql/Interface.js';
+import { createDB, updateToVersion, explain } from './helpers.js';
+import { jsonToObject, objectToJSON, sql } from '../../sql/util.js';
+import { IMAGE_BMP } from '../../types/MIME.js';
+import type { _AttachmentDownloadJobTypeV1040 } from '../../sql/migrations/1040-undownloaded-backed-up-media.js';
 
 function insertOldJob(
   db: WritableDB,

@@ -4,8 +4,8 @@
 import { ReceiptType } from '@signalapp/mock-server';
 import { omit } from 'lodash';
 
-import { debug, Bootstrap, MAX_CYCLES } from './fixtures';
-import { type RegressionSample } from '../bootstrap';
+import { debug, Bootstrap, MAX_CYCLES } from './fixtures.js';
+import { type RegressionSample } from '../bootstrap.js';
 
 const INITIAL_MESSAGE_COUNT = 1000;
 const FINAL_MESSAGE_COUNT = 5000;

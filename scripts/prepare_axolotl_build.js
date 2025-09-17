@@ -1,11 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-const fs = require('fs');
+const fs = require('node:fs');
 const _ = require('lodash');
 
 const packageJson = require('../package.json');
-const { isAxolotl } = require('../ts/util/version');
+const { isAxolotl } = require('../ts/util/version.js');
 
 const { version } = packageJson;
 

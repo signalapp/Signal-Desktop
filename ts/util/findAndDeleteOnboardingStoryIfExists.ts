@@ -1,12 +1,12 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log';
-import { DataWriter } from '../sql/Client';
-import { calculateExpirationTimestamp } from './expirationTimer';
-import { DAY } from './durations';
-import { cleanupMessages } from './cleanup';
-import { getMessageById } from '../messages/getMessageById';
+import { createLogger } from '../logging/log.js';
+import { DataWriter } from '../sql/Client.js';
+import { calculateExpirationTimestamp } from './expirationTimer.js';
+import { DAY } from './durations/index.js';
+import { cleanupMessages } from './cleanup.js';
+import { getMessageById } from '../messages/getMessageById.js';
 
 const log = createLogger('findAndDeleteOnboardingStoryIfExists');
 

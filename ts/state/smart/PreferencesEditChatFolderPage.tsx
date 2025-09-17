@@ -2,18 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import type { PreferencesEditChatFolderPageProps } from '../../components/preferences/chatFolders/PreferencesEditChatFoldersPage';
-import { PreferencesEditChatFolderPage } from '../../components/preferences/chatFolders/PreferencesEditChatFoldersPage';
-import { getIntl, getTheme } from '../selectors/user';
-import { CHAT_FOLDER_DEFAULTS } from '../../types/ChatFolder';
+import type { PreferencesEditChatFolderPageProps } from '../../components/preferences/chatFolders/PreferencesEditChatFoldersPage.js';
+import { PreferencesEditChatFolderPage } from '../../components/preferences/chatFolders/PreferencesEditChatFoldersPage.js';
+import { getIntl, getTheme } from '../selectors/user.js';
+import { CHAT_FOLDER_DEFAULTS } from '../../types/ChatFolder.js';
 import {
   getAllComposableConversations,
   getConversationSelector,
-} from '../selectors/conversations';
-import { getPreferredBadgeSelector } from '../selectors/badges';
-import { useChatFolderActions } from '../ducks/chatFolders';
-import { getCurrentChatFolders } from '../selectors/chatFolders';
-import { strictAssert } from '../../util/assert';
+} from '../selectors/conversations.js';
+import { getPreferredBadgeSelector } from '../selectors/badges.js';
+import { useChatFolderActions } from '../ducks/chatFolders.js';
+import { getCurrentChatFolders } from '../selectors/chatFolders.js';
+import { strictAssert } from '../../util/assert.js';
 
 export type SmartPreferencesEditChatFolderPageProps = Readonly<{
   onBack: () => void;

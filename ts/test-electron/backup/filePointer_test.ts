@@ -4,23 +4,23 @@ import { assert } from 'chai';
 import Long from 'long';
 import * as sinon from 'sinon';
 import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
-import { randomBytes } from 'crypto';
-import { join } from 'path';
+import { randomBytes } from 'node:crypto';
+import { join } from 'node:path';
 
-import { Backups } from '../../protobuf';
+import { Backups } from '../../protobuf/index.js';
 
 import {
   getFilePointerForAttachment,
   convertFilePointerToAttachment,
-} from '../../services/backups/util/filePointers';
-import { IMAGE_PNG } from '../../types/MIME';
-import * as Bytes from '../../Bytes';
-import { type AttachmentType } from '../../types/Attachment';
-import { MASTER_KEY, MEDIA_ROOT_KEY } from './helpers';
-import { generateKeys } from '../../AttachmentCrypto';
-import type { GetBackupCdnInfoType } from '../../services/backups/util/mediaId';
-import { strictAssert } from '../../util/assert';
-import { isValidAttachmentKey } from '../../types/Crypto';
+} from '../../services/backups/util/filePointers.js';
+import { IMAGE_PNG } from '../../types/MIME.js';
+import * as Bytes from '../../Bytes.js';
+import { type AttachmentType } from '../../types/Attachment.js';
+import { MASTER_KEY, MEDIA_ROOT_KEY } from './helpers.js';
+import { generateKeys } from '../../AttachmentCrypto.js';
+import type { GetBackupCdnInfoType } from '../../services/backups/util/mediaId.js';
+import { strictAssert } from '../../util/assert.js';
+import { isValidAttachmentKey } from '../../types/Crypto.js';
 
 describe('convertFilePointerToAttachment', () => {
   const commonFilePointerProps = {

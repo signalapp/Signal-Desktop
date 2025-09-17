@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub';
+import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub.js';
 
 import {
   getGroupSizeRecommendedLimit,
   getGroupSizeHardLimit,
-} from '../../groups/limits';
+} from '../../groups/limits.js';
 
 const RECOMMENDED_SIZE_KEY = 'global.groupsv2.maxGroupSize';
 const HARD_LIMIT_KEY = 'global.groupsv2.groupSizeHardLimit';

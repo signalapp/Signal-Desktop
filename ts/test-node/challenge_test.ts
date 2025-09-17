@@ -7,9 +7,9 @@ import { assert } from 'chai';
 import { noop } from 'lodash';
 import * as sinon from 'sinon';
 
-import { STORAGE_KEY, ChallengeHandler } from '../challenge';
-import type { RegisteredChallengeType } from '../challenge';
-import { DAY, SECOND } from '../util/durations';
+import { STORAGE_KEY, ChallengeHandler } from '../challenge.js';
+import type { RegisteredChallengeType } from '../challenge.js';
+import { DAY, SECOND } from '../util/durations/index.js';
 
 type CreateHandlerOptions = {
   readonly autoSolve?: boolean;

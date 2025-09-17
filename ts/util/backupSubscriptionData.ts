@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import Long from 'long';
-import type { Backups, SignalService } from '../protobuf';
-import * as Bytes from '../Bytes';
-import { drop } from './drop';
-import { createLogger } from '../logging/log';
-import { resetBackupMediaDownloadStats } from './backupMediaDownload';
+import type { Backups, SignalService } from '../protobuf/index.js';
+import * as Bytes from '../Bytes.js';
+import { drop } from './drop.js';
+import { createLogger } from '../logging/log.js';
+import { resetBackupMediaDownloadStats } from './backupMediaDownload.js';
 
 const log = createLogger('BackupSubscriptionData');
 

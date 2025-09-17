@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { BuildResult } from 'electron-builder';
-import { afterAllArtifactBuild as notarizeUniversalDMG } from './notarize-universal-dmg';
+import { afterAllArtifactBuild as notarizeUniversalDMG } from './notarize-universal-dmg.js';
 
 export async function afterAllArtifactBuild(
   result: BuildResult

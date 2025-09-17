@@ -3,12 +3,12 @@
 
 import { assert } from 'chai';
 
-import type { WritableDB } from '../../sql/Interface';
+import type { WritableDB } from '../../sql/Interface.js';
 import {
   incrementMessagesMigrationAttempts,
   setupTests,
-} from '../../sql/Server';
-import { createDB, insertData, getTableData } from './helpers';
+} from '../../sql/Server.js';
+import { createDB, insertData, getTableData } from './helpers.js';
 
 describe('SQL/incrementMessagesMigrationAttempts', () => {
   let db: WritableDB;

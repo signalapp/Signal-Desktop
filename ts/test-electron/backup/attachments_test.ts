@@ -5,16 +5,16 @@ import { v4 as generateGuid } from 'uuid';
 import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
 import { omit } from 'lodash';
 import * as sinon from 'sinon';
-import { join } from 'path';
+import { join } from 'node:path';
 import { assert } from 'chai';
 
-import type { ConversationModel } from '../../models/conversations';
-import * as Bytes from '../../Bytes';
-import { DataWriter } from '../../sql/Client';
-import { type AciString, generateAci } from '../../types/ServiceId';
-import { ReadStatus } from '../../messages/MessageReadStatus';
-import { SeenStatus } from '../../MessageSeenStatus';
-import { setupBasics, asymmetricRoundtripHarness } from './helpers';
+import type { ConversationModel } from '../../models/conversations.js';
+import * as Bytes from '../../Bytes.js';
+import { DataWriter } from '../../sql/Client.js';
+import { type AciString, generateAci } from '../../types/ServiceId.js';
+import { ReadStatus } from '../../messages/MessageReadStatus.js';
+import { SeenStatus } from '../../MessageSeenStatus.js';
+import { setupBasics, asymmetricRoundtripHarness } from './helpers.js';
 import {
   AUDIO_MP3,
   IMAGE_JPEG,
@@ -22,26 +22,26 @@ import {
   IMAGE_WEBP,
   LONG_MESSAGE,
   VIDEO_MP4,
-} from '../../types/MIME';
+} from '../../types/MIME.js';
 import type {
   MessageAttributesType,
   QuotedMessageType,
-} from '../../model-types';
+} from '../../model-types.js';
 import {
   hasRequiredInformationForBackup,
   isVoiceMessage,
   type AttachmentType,
-} from '../../types/Attachment';
-import { strictAssert } from '../../util/assert';
-import { SignalService } from '../../protobuf';
-import { getRandomBytes } from '../../Crypto';
-import { loadAllAndReinitializeRedux } from '../../services/allLoaders';
+} from '../../types/Attachment.js';
+import { strictAssert } from '../../util/assert.js';
+import { SignalService } from '../../protobuf/index.js';
+import { getRandomBytes } from '../../Crypto.js';
+import { loadAllAndReinitializeRedux } from '../../services/allLoaders.js';
 import {
   generateAttachmentKeys,
   generateKeys,
   getPlaintextHashForInMemoryAttachment,
-} from '../../AttachmentCrypto';
-import { KIBIBYTE } from '../../types/AttachmentSize';
+} from '../../AttachmentCrypto.js';
+import { KIBIBYTE } from '../../types/AttachmentSize.js';
 
 const CONTACT_A = generateAci();
 

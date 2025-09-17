@@ -3,30 +3,30 @@
 
 import { ContentHint, PlaintextContent } from '@signalapp/libsignal-client';
 
-import { handleMessageSend } from '../../util/handleMessageSend';
-import { getSendOptions } from '../../util/getSendOptions';
-import { isDirectConversation } from '../../util/whatTypeOfConversation';
+import { handleMessageSend } from '../../util/handleMessageSend.js';
+import { getSendOptions } from '../../util/getSendOptions.js';
+import { isDirectConversation } from '../../util/whatTypeOfConversation.js';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
-} from './handleMultipleSendErrors';
+} from './handleMultipleSendErrors.js';
 
-import type { ConversationModel } from '../../models/conversations';
+import type { ConversationModel } from '../../models/conversations.js';
 import type {
   ConversationQueueJobBundle,
   ResendRequestJobData,
-} from '../conversationJobQueue';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered';
+} from '../conversationJobQueue.js';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.js';
 import {
   OutgoingIdentityKeyError,
   UnregisteredUserError,
-} from '../../textsecure/Errors';
-import { drop } from '../../util/drop';
-import { strictAssert } from '../../util/assert';
-import type { DecryptionErrorEventData } from '../../textsecure/messageReceiverEvents';
-import type { LoggerType } from '../../types/Logging';
-import { startAutomaticSessionReset } from '../../util/handleRetry';
-import * as Bytes from '../../Bytes';
+} from '../../textsecure/Errors.js';
+import { drop } from '../../util/drop.js';
+import { strictAssert } from '../../util/assert.js';
+import type { DecryptionErrorEventData } from '../../textsecure/messageReceiverEvents.js';
+import type { LoggerType } from '../../types/Logging.js';
+import { startAutomaticSessionReset } from '../../util/handleRetry.js';
+import * as Bytes from '../../Bytes.js';
 
 function failoverToLocalReset(
   logger: LoggerType,

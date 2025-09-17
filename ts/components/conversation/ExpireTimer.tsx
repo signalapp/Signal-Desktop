@@ -4,7 +4,7 @@
 import React, { useEffect, useReducer } from 'react';
 import classNames from 'classnames';
 
-import { getIncrement, getTimerBucket } from '../../util/timer';
+import { getIncrement, getTimerBucket } from '../../util/timer.js';
 
 export type Props = {
   direction?: 'incoming' | 'outgoing';

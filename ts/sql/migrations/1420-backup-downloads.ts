@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { AttachmentDownloadSource, type WritableDB } from '../Interface';
+import { AttachmentDownloadSource, type WritableDB } from '../Interface.js';
 
 export default function updateToSchemaVersion1420(db: WritableDB): void {
   db.exec(`

@@ -4,8 +4,8 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './ErrorBoundary';
-import { ErrorBoundary } from './ErrorBoundary';
+import type { Props } from './ErrorBoundary.js';
+import { ErrorBoundary } from './ErrorBoundary.js';
 
 const { i18n } = window.SignalContext;
 

@@ -5,22 +5,22 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import EventEmitter, { once } from 'events';
+import EventEmitter, { once } from 'node:events';
 import { z } from 'zod';
 import { noop, groupBy } from 'lodash';
 import { v4 as uuid } from 'uuid';
 import PQueue from 'p-queue';
-import { JobError } from '../../jobs/JobError';
-import { TestJobQueueStore } from './TestJobQueueStore';
-import { missingCaseError } from '../../util/missingCaseError';
-import { drop } from '../../util/drop';
-import type { LoggerType } from '../../types/Logging';
+import { JobError } from '../../jobs/JobError.js';
+import { TestJobQueueStore } from './TestJobQueueStore.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
+import { drop } from '../../util/drop.js';
+import type { LoggerType } from '../../types/Logging.js';
 
-import type { JOB_STATUS } from '../../jobs/JobQueue';
-import { JobQueue } from '../../jobs/JobQueue';
-import type { ParsedJob, StoredJob, JobQueueStore } from '../../jobs/types';
-import { sleep } from '../../util/sleep';
-import { parseUnknown } from '../../util/schemas';
+import type { JOB_STATUS } from '../../jobs/JobQueue.js';
+import { JobQueue } from '../../jobs/JobQueue.js';
+import type { ParsedJob, StoredJob, JobQueueStore } from '../../jobs/types.js';
+import { sleep } from '../../util/sleep.js';
+import { parseUnknown } from '../../util/schemas.js';
 
 describe('JobQueue', () => {
   describe('end-to-end tests', () => {

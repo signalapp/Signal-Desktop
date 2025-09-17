@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { isFileDangerous } from '../../util/isFileDangerous';
+import { isFileDangerous } from '../../util/isFileDangerous.js';
 
 describe('isFileDangerous', () => {
   it('returns false for images', () => {

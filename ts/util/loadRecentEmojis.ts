@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { take } from 'lodash';
-import { DataReader } from '../sql/Client';
+import { DataReader } from '../sql/Client.js';
 
 export type RecentEmojiObjectType = {
   recents: Array<string>;

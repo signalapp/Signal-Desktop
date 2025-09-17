@@ -3,16 +3,16 @@
 
 import { app, crashReporter, ipcMain as ipc } from 'electron';
 import { realpath, readdir, readFile, unlink, stat } from 'fs-extra';
-import { basename, join } from 'path';
+import { basename, join } from 'node:path';
 import { toJSONString as dumpToJSONString } from '@signalapp/libsignal-client/dist/Minidump';
 import z from 'zod';
 
-import type { LoggerType } from '../ts/types/Logging';
-import * as Errors from '../ts/types/errors';
-import { isProduction } from '../ts/util/version';
-import { isNotNil } from '../ts/util/isNotNil';
-import OS from '../ts/util/os/osMain';
-import { parseUnknown } from '../ts/util/schemas';
+import type { LoggerType } from '../ts/types/Logging.js';
+import * as Errors from '../ts/types/errors.js';
+import { isProduction } from '../ts/util/version.js';
+import { isNotNil } from '../ts/util/isNotNil.js';
+import OS from '../ts/util/os/osMain.js';
+import { parseUnknown } from '../ts/util/schemas.js';
 
 // See https://github.com/rust-minidump/rust-minidump/blob/main/minidump-processor/json-schema.md
 const dumpString = z.string().or(z.null()).optional();

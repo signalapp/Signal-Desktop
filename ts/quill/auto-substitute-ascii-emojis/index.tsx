@@ -5,13 +5,13 @@ import { Delta } from '@signalapp/quill-cjs';
 import Emitter from '@signalapp/quill-cjs/core/emitter';
 import type Quill from '@signalapp/quill-cjs';
 
-import { createLogger } from '../../logging/log';
-import type { EmojiData } from '../../components/emoji/lib';
+import { createLogger } from '../../logging/log.js';
+import type { EmojiData } from '../../components/emoji/lib.js';
 import {
   convertShortName,
   convertShortNameToData,
-} from '../../components/emoji/lib';
-import { EmojiSkinTone } from '../../components/fun/data/emojis';
+} from '../../components/emoji/lib.js';
+import { EmojiSkinTone } from '../../components/fun/data/emojis.js';
 
 const log = createLogger('index');
 

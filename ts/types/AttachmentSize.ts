@@ -1,9 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log';
-import { parseIntOrThrow } from '../util/parseIntOrThrow';
-import type * as RemoteConfig from '../RemoteConfig';
+import { createLogger } from '../logging/log.js';
+import { parseIntOrThrow } from '../util/parseIntOrThrow.js';
+import type * as RemoteConfig from '../RemoteConfig.js';
 
 const log = createLogger('AttachmentSize');
 

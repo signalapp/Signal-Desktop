@@ -1,13 +1,13 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { useId } from 'react';
-import type { ConversationType } from '../../../state/ducks/conversations';
-import type { LocalizerType } from '../../../types/Util';
-import { getAccessControlOptions } from '../../../util/getAccessControlOptions';
-import { SignalService as Proto } from '../../../protobuf';
-import { PanelRow } from './PanelRow';
-import { PanelSection } from './PanelSection';
-import { Select } from '../../Select';
+import type { ConversationType } from '../../../state/ducks/conversations.js';
+import type { LocalizerType } from '../../../types/Util.js';
+import { getAccessControlOptions } from '../../../util/getAccessControlOptions.js';
+import { SignalService as Proto } from '../../../protobuf/index.js';
+import { PanelRow } from './PanelRow.js';
+import { PanelSection } from './PanelSection.js';
+import { Select } from '../../Select.js';
 
 export type PropsDataType = {
   conversation?: ConversationType;

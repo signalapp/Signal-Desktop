@@ -3,17 +3,20 @@
 
 import { assert } from 'chai';
 
-import type { TargetedConversationChangedActionType } from '../../../state/ducks/conversations';
+import type { TargetedConversationChangedActionType } from '../../../state/ducks/conversations.js';
 import {
   TARGETED_CONVERSATION_CHANGED,
   actions as conversationsActions,
-} from '../../../state/ducks/conversations';
-import { noopAction } from '../../../state/ducks/noop';
+} from '../../../state/ducks/conversations.js';
+import { noopAction } from '../../../state/ducks/noop.js';
 
-import type { StateType } from '../../../state/reducer';
-import { reducer as rootReducer } from '../../../state/reducer';
-import { actions, AudioPlayerContent } from '../../../state/ducks/audioPlayer';
-import type { VoiceNoteAndConsecutiveForPlayback } from '../../../state/selectors/audioPlayer';
+import type { StateType } from '../../../state/reducer.js';
+import { reducer as rootReducer } from '../../../state/reducer.js';
+import {
+  actions,
+  AudioPlayerContent,
+} from '../../../state/ducks/audioPlayer.js';
+import type { VoiceNoteAndConsecutiveForPlayback } from '../../../state/selectors/audioPlayer.js';
 
 const { messageDeleted, messageChanged } = conversationsActions;
 

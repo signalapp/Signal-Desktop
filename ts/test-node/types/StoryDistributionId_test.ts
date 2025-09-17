@@ -5,8 +5,8 @@ import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
 import * as sinon from 'sinon';
 
-import type { LoggerType } from '../../types/Logging';
-import { normalizeStoryDistributionId } from '../../types/StoryDistributionId';
+import type { LoggerType } from '../../types/Logging.js';
+import { normalizeStoryDistributionId } from '../../types/StoryDistributionId.js';
 
 describe('StoryDistributionId', () => {
   let warn: sinon.SinonStub;

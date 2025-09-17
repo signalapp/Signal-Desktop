@@ -6,13 +6,13 @@ import type {
   HumanDonationAmount,
   DonationReceipt,
   StripeDonationAmount,
-} from '../types/Donations';
+} from '../types/Donations.js';
 import {
   humanDonationAmountSchema,
   stripeDonationAmountSchema,
-} from '../types/Donations';
-import { parseStrict, safeParseStrict } from './schemas';
-import { missingCaseError } from './missingCaseError';
+} from '../types/Donations.js';
+import { parseStrict, safeParseStrict } from './schemas.js';
+import { missingCaseError } from './missingCaseError.js';
 
 // See: https://docs.stripe.com/currencies?presentment-currency=US
 export const ZERO_DECIMAL_CURRENCIES = new Set([

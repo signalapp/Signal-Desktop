@@ -36,6 +36,7 @@ ts/sql/mainWorker.bundle.js.LICENSE.txt
 build/ICUMessageParams.d.ts
 
 # React / TypeScript
+build/**/*.js
 app/*.js
 ts/**/*.js
 ts/protobuf/*.d.ts

@@ -4,15 +4,15 @@
 import { batch } from 'react-redux';
 import { debounce } from 'lodash';
 
-import * as Errors from '../types/errors';
-import { createLogger } from '../logging/log';
-import { DataReader, DataWriter } from '../sql/Client';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
-import { sleep } from '../util/sleep';
-import { SECOND } from '../util/durations';
-import { MessageModel } from '../models/messages';
-import { cleanupMessages } from '../util/cleanup';
-import { drop } from '../util/drop';
+import * as Errors from '../types/errors.js';
+import { createLogger } from '../logging/log.js';
+import { DataReader, DataWriter } from '../sql/Client.js';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.js';
+import { sleep } from '../util/sleep.js';
+import { SECOND } from '../util/durations/index.js';
+import { MessageModel } from '../models/messages.js';
+import { cleanupMessages } from '../util/cleanup.js';
+import { drop } from '../util/drop.js';
 
 const log = createLogger('expiringMessagesDeletion');
 

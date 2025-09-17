@@ -6,11 +6,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { Blurhash } from 'react-blurhash';
 
-import type { AttachmentType } from '../types/Attachment';
-import type { LocalizerType } from '../types/Util';
-import { Spinner } from './Spinner';
-import { TextAttachment } from './TextAttachment';
-import { ThemeType } from '../types/Util';
+import type { AttachmentType } from '../types/Attachment.js';
+import type { LocalizerType } from '../types/Util.js';
+import { Spinner } from './Spinner.js';
+import { TextAttachment } from './TextAttachment.js';
+import { ThemeType } from '../types/Util.js';
 import {
   defaultBlurHash,
   hasFailed,
@@ -18,12 +18,12 @@ import {
   isDownloaded,
   isDownloading,
   isGIF,
-} from '../types/Attachment';
-import { getClassNamesFor } from '../util/getClassNamesFor';
-import { isVideoTypeSupported } from '../util/GoogleChrome';
-import { createLogger } from '../logging/log';
-import * as Errors from '../types/errors';
-import { isAbortError } from '../util/isAbortError';
+} from '../types/Attachment.js';
+import { getClassNamesFor } from '../util/getClassNamesFor.js';
+import { isVideoTypeSupported } from '../util/GoogleChrome.js';
+import { createLogger } from '../logging/log.js';
+import * as Errors from '../types/errors.js';
+import { isAbortError } from '../util/isAbortError.js';
 
 const log = createLogger('StoryImage');
 

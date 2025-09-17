@@ -1,13 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log';
-import type { AttachmentDraftType } from '../types/Attachment';
-import { isVideoAttachment } from '../types/Attachment';
+import { createLogger } from '../logging/log.js';
+import type { AttachmentDraftType } from '../types/Attachment.js';
+import { isVideoAttachment } from '../types/Attachment.js';
 import {
   getLocalAttachmentUrl,
   AttachmentDisposition,
-} from './getLocalAttachmentUrl';
+} from './getLocalAttachmentUrl.js';
 
 const log = createLogger('resolveDraftAttachmentOnDisk');
 

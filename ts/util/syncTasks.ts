@@ -4,31 +4,34 @@
 import { z } from 'zod';
 import type { ZodSchema } from 'zod';
 
-import { drop } from './drop';
-import { createLogger } from '../logging/log';
-import * as DeletesForMe from '../messageModifiers/DeletesForMe';
+import { drop } from './drop.js';
+import { createLogger } from '../logging/log.js';
+import * as DeletesForMe from '../messageModifiers/DeletesForMe.js';
 import {
   deleteMessageSchema,
   deleteConversationSchema,
   deleteLocalConversationSchema,
   deleteAttachmentSchema,
-} from '../textsecure/messageReceiverEvents';
+} from '../textsecure/messageReceiverEvents.js';
 import {
   receiptSyncTaskSchema,
   onReceipt,
-} from '../messageModifiers/MessageReceipts';
-import { deleteConversation, deleteLocalOnlyConversation } from './deleteForMe';
-import { getConversationFromTarget } from './syncIdentifiers';
+} from '../messageModifiers/MessageReceipts.js';
+import {
+  deleteConversation,
+  deleteLocalOnlyConversation,
+} from './deleteForMe.js';
+import { getConversationFromTarget } from './syncIdentifiers.js';
 import {
   onSync as onReadSync,
   readSyncTaskSchema,
-} from '../messageModifiers/ReadSyncs';
+} from '../messageModifiers/ReadSyncs.js';
 import {
   onSync as onViewSync,
   viewSyncTaskSchema,
-} from '../messageModifiers/ViewSyncs';
-import { safeParseUnknown } from './schemas';
-import { DataWriter } from '../sql/Client';
+} from '../messageModifiers/ViewSyncs.js';
+import { safeParseUnknown } from './schemas.js';
+import { DataWriter } from '../sql/Client.js';
 
 const log = createLogger('syncTasks');
 

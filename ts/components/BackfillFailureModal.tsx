@@ -3,10 +3,10 @@
 
 import * as React from 'react';
 
-import type { LocalizerType } from '../types/Util';
-import { missingCaseError } from '../util/missingCaseError';
-import { Modal } from './Modal';
-import { Button, ButtonVariant } from './Button';
+import type { LocalizerType } from '../types/Util.js';
+import { missingCaseError } from '../util/missingCaseError.js';
+import { Modal } from './Modal.js';
+import { Button, ButtonVariant } from './Button.js';
 
 export enum BackfillFailureKind {
   Timeout = 'Timeout',

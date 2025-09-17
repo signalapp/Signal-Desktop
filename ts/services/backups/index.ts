@@ -1,90 +1,90 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { pipeline } from 'stream/promises';
-import { PassThrough } from 'stream';
-import type { Readable, Writable } from 'stream';
-import { createReadStream, createWriteStream } from 'fs';
-import { mkdir, stat, unlink } from 'fs/promises';
+import { pipeline } from 'node:stream/promises';
+import { PassThrough } from 'node:stream';
+import type { Readable, Writable } from 'node:stream';
+import { createReadStream, createWriteStream } from 'node:fs';
+import { mkdir, stat, unlink } from 'node:fs/promises';
 import { ensureFile } from 'fs-extra';
-import { join } from 'path';
-import { createGzip, createGunzip } from 'zlib';
-import { createCipheriv, createHmac, randomBytes } from 'crypto';
+import { join } from 'node:path';
+import { createGzip, createGunzip } from 'node:zlib';
+import { createCipheriv, createHmac, randomBytes } from 'node:crypto';
 import { isEqual, noop } from 'lodash';
 import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
 import { BackupKey } from '@signalapp/libsignal-client/dist/AccountKeys';
 import { throttle } from 'lodash/fp';
 import { ipcRenderer } from 'electron';
 
-import { DataReader, DataWriter } from '../../sql/Client';
-import { createLogger } from '../../logging/log';
-import * as Bytes from '../../Bytes';
-import { strictAssert } from '../../util/assert';
-import { drop } from '../../util/drop';
-import { DelimitedStream } from '../../util/DelimitedStream';
-import { appendPaddingStream } from '../../util/logPadding';
-import { prependStream } from '../../util/prependStream';
-import { appendMacStream } from '../../util/appendMacStream';
-import { getMacAndUpdateHmac } from '../../util/getMacAndUpdateHmac';
-import { missingCaseError } from '../../util/missingCaseError';
-import { DAY, HOUR, SECOND } from '../../util/durations';
-import type { ExplodePromiseResultType } from '../../util/explodePromise';
-import { explodePromise } from '../../util/explodePromise';
-import type { RetryBackupImportValue } from '../../state/ducks/installer';
-import { CipherType, HashType } from '../../types/Crypto';
+import { DataReader, DataWriter } from '../../sql/Client.js';
+import { createLogger } from '../../logging/log.js';
+import * as Bytes from '../../Bytes.js';
+import { strictAssert } from '../../util/assert.js';
+import { drop } from '../../util/drop.js';
+import { DelimitedStream } from '../../util/DelimitedStream.js';
+import { appendPaddingStream } from '../../util/logPadding.js';
+import { prependStream } from '../../util/prependStream.js';
+import { appendMacStream } from '../../util/appendMacStream.js';
+import { getMacAndUpdateHmac } from '../../util/getMacAndUpdateHmac.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
+import { DAY, HOUR, SECOND } from '../../util/durations/index.js';
+import type { ExplodePromiseResultType } from '../../util/explodePromise.js';
+import { explodePromise } from '../../util/explodePromise.js';
+import type { RetryBackupImportValue } from '../../state/ducks/installer.js';
+import { CipherType, HashType } from '../../types/Crypto.js';
 import {
   InstallScreenBackupStep,
   InstallScreenBackupError,
-} from '../../types/InstallScreen';
-import * as Errors from '../../types/errors';
+} from '../../types/InstallScreen.js';
+import * as Errors from '../../types/errors.js';
 import {
   BackupCredentialType,
   type BackupsSubscriptionType,
   type BackupStatusType,
-} from '../../types/backups';
-import { HTTPError } from '../../textsecure/Errors';
-import { constantTimeEqual } from '../../Crypto';
-import { measureSize } from '../../AttachmentCrypto';
-import { isTestOrMockEnvironment } from '../../environment';
-import { runStorageServiceSyncJob } from '../storage';
-import { BackupExportStream, type StatsType } from './export';
-import { BackupImportStream } from './import';
+} from '../../types/backups.js';
+import { HTTPError } from '../../textsecure/Errors.js';
+import { constantTimeEqual } from '../../Crypto.js';
+import { measureSize } from '../../AttachmentCrypto.js';
+import { isTestOrMockEnvironment } from '../../environment.js';
+import { runStorageServiceSyncJob } from '../storage.js';
+import { BackupExportStream, type StatsType } from './export.js';
+import { BackupImportStream } from './import.js';
 import {
   getBackupId,
   getKeyMaterial,
   getLocalBackupMetadataKey,
-} from './crypto';
-import { BackupCredentials } from './credentials';
-import { BackupAPI } from './api';
+} from './crypto.js';
+import { BackupCredentials } from './credentials.js';
+import { BackupAPI } from './api.js';
 import {
   validateBackup,
   validateBackupStream,
   ValidationType,
-} from './validator';
-import { BackupType } from './types';
+} from './validator.js';
+import { BackupType } from './types.js';
 import {
   BackupInstallerError,
   BackupDownloadFailedError,
   BackupImportCanceledError,
   BackupProcessingError,
   RelinkRequestedError,
-} from './errors';
-import { FileStream } from './util/FileStream';
-import { ToastType } from '../../types/Toast';
-import { isAdhoc, isNightly } from '../../util/version';
-import { getMessageQueueTime } from '../../util/getMessageQueueTime';
-import { isLocalBackupsEnabled } from '../../util/isLocalBackupsEnabled';
-import type { ValidateLocalBackupStructureResultType } from './util/localBackup';
+} from './errors.js';
+import { FileStream } from './util/FileStream.js';
+import { ToastType } from '../../types/Toast.js';
+import { isAdhoc, isNightly } from '../../util/version.js';
+import { getMessageQueueTime } from '../../util/getMessageQueueTime.js';
+import { isLocalBackupsEnabled } from '../../util/isLocalBackupsEnabled.js';
+import type { ValidateLocalBackupStructureResultType } from './util/localBackup.js';
 import {
   writeLocalBackupMetadata,
   verifyLocalBackupMetadata,
   writeLocalBackupFilesList,
   readLocalBackupFilesList,
   validateLocalBackupStructure,
-} from './util/localBackup';
-import { AttachmentLocalBackupManager } from '../../jobs/AttachmentLocalBackupManager';
-import { decipherWithAesKey } from '../../util/decipherWithAesKey';
-import { areRemoteBackupsTurnedOn } from '../../util/isBackupEnabled';
+} from './util/localBackup.js';
+import { AttachmentLocalBackupManager } from '../../jobs/AttachmentLocalBackupManager.js';
+import { decipherWithAesKey } from '../../util/decipherWithAesKey.js';
+import { areRemoteBackupsTurnedOn } from '../../util/isBackupEnabled.js';
 
 const log = createLogger('backupsService');
 

@@ -1,49 +1,49 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AttachmentBackfillResponseSyncEvent } from '../../textsecure/messageReceiverEvents';
-import MessageSender from '../../textsecure/SendMessage';
-import { createLogger } from '../../logging/log';
-import type { ReadonlyMessageAttributesType } from '../../model-types.d';
+import type { AttachmentBackfillResponseSyncEvent } from '../../textsecure/messageReceiverEvents.js';
+import MessageSender from '../../textsecure/SendMessage.js';
+import { createLogger } from '../../logging/log.js';
+import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
 import {
   type AttachmentType,
   isDownloading,
   isDownloaded,
   isDownloadable,
   getUndownloadedAttachmentSignature,
-} from '../../types/Attachment';
+} from '../../types/Attachment.js';
 import {
   type AttachmentDownloadJobTypeType,
   AttachmentDownloadUrgency,
-} from '../../types/AttachmentDownload';
-import { AttachmentDownloadSource } from '../../sql/Interface';
-import { APPLICATION_OCTET_STREAM } from '../../types/MIME';
+} from '../../types/AttachmentDownload.js';
+import { AttachmentDownloadSource } from '../../sql/Interface.js';
+import { APPLICATION_OCTET_STREAM } from '../../types/MIME.js';
 import {
   getConversationIdentifier,
   getAddressableMessage,
   getConversationFromTarget,
   getMessageQueryFromTarget,
   findMatchingMessage,
-} from '../../util/syncIdentifiers';
-import { strictAssert } from '../../util/assert';
-import { drop } from '../../util/drop';
-import { missingCaseError } from '../../util/missingCaseError';
-import { isStagingServer } from '../../util/isStagingServer';
+} from '../../util/syncIdentifiers.js';
+import { strictAssert } from '../../util/assert.js';
+import { drop } from '../../util/drop.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
+import { isStagingServer } from '../../util/isStagingServer.js';
 import {
   ensureBodyAttachmentsAreSeparated,
   queueAttachmentDownloads,
-} from '../../util/queueAttachmentDownloads';
-import { SECOND } from '../../util/durations';
-import { showDownloadFailedToast } from '../../util/showDownloadFailedToast';
-import { markAttachmentAsPermanentlyErrored } from '../../util/attachments/markAttachmentAsPermanentlyErrored';
-import { singleProtoJobQueue } from '../singleProtoJobQueue';
-import { MessageModel } from '../../models/messages';
-import { getMessageById } from '../../messages/getMessageById';
-import { addAttachmentToMessage } from '../../messageModifiers/AttachmentDownloads';
-import { SignalService as Proto } from '../../protobuf';
-import * as RemoteConfig from '../../RemoteConfig';
-import { isTestOrMockEnvironment } from '../../environment';
-import { BackfillFailureKind } from '../../components/BackfillFailureModal';
+} from '../../util/queueAttachmentDownloads.js';
+import { SECOND } from '../../util/durations/index.js';
+import { showDownloadFailedToast } from '../../util/showDownloadFailedToast.js';
+import { markAttachmentAsPermanentlyErrored } from '../../util/attachments/markAttachmentAsPermanentlyErrored.js';
+import { singleProtoJobQueue } from '../singleProtoJobQueue.js';
+import { MessageModel } from '../../models/messages.js';
+import { getMessageById } from '../../messages/getMessageById.js';
+import { addAttachmentToMessage } from '../../messageModifiers/AttachmentDownloads.js';
+import { SignalService as Proto } from '../../protobuf/index.js';
+import * as RemoteConfig from '../../RemoteConfig.js';
+import { isTestOrMockEnvironment } from '../../environment.js';
+import { BackfillFailureKind } from '../../components/BackfillFailureModal.js';
 
 const log = createLogger('attachmentBackfill');
 

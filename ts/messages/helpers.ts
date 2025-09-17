@@ -3,20 +3,20 @@
 
 import type { ReadonlyDeep } from 'type-fest';
 
-import { createLogger } from '../logging/log';
-import type { ConversationModel } from '../models/conversations';
+import { createLogger } from '../logging/log.js';
+import type { ConversationModel } from '../models/conversations.js';
 import type {
   CustomError,
   ReadonlyMessageAttributesType,
   QuotedAttachmentType,
   QuotedMessageType,
-} from '../model-types.d';
-import type { AciString, ServiceIdString } from '../types/ServiceId';
-import { PaymentEventKind } from '../types/Payment';
-import type { AnyPaymentEvent } from '../types/Payment';
-import type { LocalizerType } from '../types/Util';
-import { missingCaseError } from '../util/missingCaseError';
-import { isDownloaded } from '../types/Attachment';
+} from '../model-types.d.ts';
+import type { AciString, ServiceIdString } from '../types/ServiceId.js';
+import { PaymentEventKind } from '../types/Payment.js';
+import type { AnyPaymentEvent } from '../types/Payment.js';
+import type { LocalizerType } from '../types/Util.js';
+import { missingCaseError } from '../util/missingCaseError.js';
+import { isDownloaded } from '../types/Attachment.js';
 
 const log = createLogger('helpers');
 

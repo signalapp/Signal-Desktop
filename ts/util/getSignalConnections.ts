@@ -1,14 +1,14 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationAttributesType } from '../model-types.d';
-import type { ConversationModel } from '../models/conversations';
-import type { ConversationType } from '../state/ducks/conversations';
-import { isInSystemContacts } from './isInSystemContacts';
-import { isSignalConversation } from './isSignalConversation';
-import { isDirectConversation } from './whatTypeOfConversation';
-import { isConversationEverUnregistered } from './isConversationUnregistered';
-import { isBlocked } from './isBlocked';
+import type { ConversationAttributesType } from '../model-types.d.ts';
+import type { ConversationModel } from '../models/conversations.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import { isInSystemContacts } from './isInSystemContacts.js';
+import { isSignalConversation } from './isSignalConversation.js';
+import { isDirectConversation } from './whatTypeOfConversation.js';
+import { isConversationEverUnregistered } from './isConversationUnregistered.js';
+import { isBlocked } from './isBlocked.js';
 
 export function isSignalConnection(
   conversation: ConversationType | ConversationAttributesType

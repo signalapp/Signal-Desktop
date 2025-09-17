@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { useSelector } from 'react-redux';
 import React, { memo } from 'react';
-import { CrashReportDialog } from '../../components/CrashReportDialog';
-import { getIntl } from '../selectors/user';
-import { useCrashReportsActions } from '../ducks/crashReports';
-import { getCrashReportsIsPending } from '../selectors/crashReports';
+import { CrashReportDialog } from '../../components/CrashReportDialog.js';
+import { getIntl } from '../selectors/user.js';
+import { useCrashReportsActions } from '../ducks/crashReports.js';
+import { getCrashReportsIsPending } from '../selectors/crashReports.js';
 
 export const SmartCrashReportDialog = memo(function SmartCrashReportDialog() {
   const i18n = useSelector(getIntl);

@@ -7,37 +7,37 @@ import type { ListRowRenderer } from 'react-virtualized';
 import classNames from 'classnames';
 import { get, pick } from 'lodash';
 
-import { missingCaseError } from '../util/missingCaseError';
-import { assertDev } from '../util/assert';
-import type { ParsedE164Type } from '../util/libphonenumberInstance';
-import type { LocalizerType, ThemeType } from '../types/Util';
-import { ScrollBehavior } from '../types/Util';
-import { getNavSidebarWidthBreakpoint } from './_util';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
-import type { LookupConversationWithoutServiceIdActionsType } from '../util/lookupConversationWithoutServiceId';
-import type { ShowConversationType } from '../state/ducks/conversations';
+import { missingCaseError } from '../util/missingCaseError.js';
+import { assertDev } from '../util/assert.js';
+import type { ParsedE164Type } from '../util/libphonenumberInstance.js';
+import type { LocalizerType, ThemeType } from '../types/Util.js';
+import { ScrollBehavior } from '../types/Util.js';
+import { getNavSidebarWidthBreakpoint } from './_util.js';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.js';
+import type { LookupConversationWithoutServiceIdActionsType } from '../util/lookupConversationWithoutServiceId.js';
+import type { ShowConversationType } from '../state/ducks/conversations.js';
 
-import type { PropsData as ConversationListItemPropsType } from './conversationList/ConversationListItem';
-import type { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox';
-import type { ContactListItemConversationType as ContactListItemPropsType } from './conversationList/ContactListItem';
-import type { GroupListItemConversationType } from './conversationList/GroupListItem';
-import { ConversationListItem } from './conversationList/ConversationListItem';
-import { ContactListItem } from './conversationList/ContactListItem';
-import { ContactCheckbox as ContactCheckboxComponent } from './conversationList/ContactCheckbox';
-import { PhoneNumberCheckbox as PhoneNumberCheckboxComponent } from './conversationList/PhoneNumberCheckbox';
-import { UsernameCheckbox as UsernameCheckboxComponent } from './conversationList/UsernameCheckbox';
+import type { PropsData as ConversationListItemPropsType } from './conversationList/ConversationListItem.js';
+import type { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox.js';
+import type { ContactListItemConversationType as ContactListItemPropsType } from './conversationList/ContactListItem.js';
+import type { GroupListItemConversationType } from './conversationList/GroupListItem.js';
+import { ConversationListItem } from './conversationList/ConversationListItem.js';
+import { ContactListItem } from './conversationList/ContactListItem.js';
+import { ContactCheckbox as ContactCheckboxComponent } from './conversationList/ContactCheckbox.js';
+import { PhoneNumberCheckbox as PhoneNumberCheckboxComponent } from './conversationList/PhoneNumberCheckbox.js';
+import { UsernameCheckbox as UsernameCheckboxComponent } from './conversationList/UsernameCheckbox.js';
 import {
   ComposeStepButton,
   Icon as ComposeStepButtonIcon,
-} from './conversationList/ComposeStepButton';
-import { StartNewConversation as StartNewConversationComponent } from './conversationList/StartNewConversation';
-import { SearchResultsLoadingFakeHeader as SearchResultsLoadingFakeHeaderComponent } from './conversationList/SearchResultsLoadingFakeHeader';
-import { SearchResultsLoadingFakeRow as SearchResultsLoadingFakeRowComponent } from './conversationList/SearchResultsLoadingFakeRow';
-import { UsernameSearchResultListItem } from './conversationList/UsernameSearchResultListItem';
-import { GroupListItem } from './conversationList/GroupListItem';
-import { ListView } from './ListView';
-import { Button, ButtonVariant } from './Button';
-import { ListTile } from './ListTile';
+} from './conversationList/ComposeStepButton.js';
+import { StartNewConversation as StartNewConversationComponent } from './conversationList/StartNewConversation.js';
+import { SearchResultsLoadingFakeHeader as SearchResultsLoadingFakeHeaderComponent } from './conversationList/SearchResultsLoadingFakeHeader.js';
+import { SearchResultsLoadingFakeRow as SearchResultsLoadingFakeRowComponent } from './conversationList/SearchResultsLoadingFakeRow.js';
+import { UsernameSearchResultListItem } from './conversationList/UsernameSearchResultListItem.js';
+import { GroupListItem } from './conversationList/GroupListItem.js';
+import { ListView } from './ListView.js';
+import { Button, ButtonVariant } from './Button.js';
+import { ListTile } from './ListTile.js';
 
 export enum RowType {
   ArchiveButton = 'ArchiveButton',

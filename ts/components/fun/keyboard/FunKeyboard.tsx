@@ -4,7 +4,7 @@ import { focusSafely, getFocusableTreeWalker } from '@react-aria/focus';
 import type { ReactNode, RefObject } from 'react';
 import React, { useEffect, useRef } from 'react';
 import { createKeybindingsHandler } from 'tinykeys';
-import { strictAssert } from '../../../util/assert';
+import { strictAssert } from '../../../util/assert.js';
 
 export abstract class KeyboardDelegate<State> {
   abstract scrollToState(state: State): void;

@@ -5,13 +5,13 @@ import React from 'react';
 import classNames from 'classnames';
 import type { ReadonlyDeep } from 'type-fest';
 
-import { Avatar, AvatarBlur } from '../Avatar';
-import { AvatarColors } from '../../types/Colors';
-import { getName } from '../../types/EmbeddedContact';
-import { AttachmentStatusIcon } from './AttachmentStatusIcon';
+import { Avatar, AvatarBlur } from '../Avatar.js';
+import { AvatarColors } from '../../types/Colors.js';
+import { getName } from '../../types/EmbeddedContact.js';
+import { AttachmentStatusIcon } from './AttachmentStatusIcon.js';
 
-import type { LocalizerType } from '../../types/Util';
-import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact';
+import type { LocalizerType } from '../../types/Util.js';
+import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact.js';
 
 export function renderAvatar({
   contact,

@@ -11,39 +11,39 @@ import React, {
 } from 'react';
 import { noop } from 'lodash';
 
-import type { ConversationType } from '../state/ducks/conversations';
-import type { ConversationWithStoriesType } from '../state/selectors/conversations';
-import type { LocalizerType, ThemeType } from '../types/Util';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
-import type { Row } from './ConversationList';
-import type { StoryDistributionListWithMembersDataType } from '../types/Stories';
-import type { StoryDistributionIdString } from '../types/StoryDistributionId';
-import type { ServiceIdString } from '../types/ServiceId';
-import type { RenderModalPage, ModalPropsType } from './Modal';
-import { Avatar, AvatarSize } from './Avatar';
-import { Button, ButtonVariant } from './Button';
-import { Checkbox } from './Checkbox';
-import { ConfirmationDialog } from './ConfirmationDialog';
-import { ContactPills } from './ContactPills';
-import { ContactPill } from './ContactPill';
-import { ConversationList, RowType } from './ConversationList';
-import { Input } from './Input';
-import { I18n } from './I18n';
-import { MY_STORY_ID, getStoryDistributionListName } from '../types/Stories';
-import { PagedModal, ModalPage } from './Modal';
-import { SearchInput } from './SearchInput';
-import { StoryDistributionListName } from './StoryDistributionListName';
-import { filterAndSortConversations } from '../util/filterAndSortConversations';
-import { isNotNil } from '../util/isNotNil';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import type { ConversationWithStoriesType } from '../state/selectors/conversations.js';
+import type { LocalizerType, ThemeType } from '../types/Util.js';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.js';
+import type { Row } from './ConversationList.js';
+import type { StoryDistributionListWithMembersDataType } from '../types/Stories.js';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId.js';
+import type { ServiceIdString } from '../types/ServiceId.js';
+import type { RenderModalPage, ModalPropsType } from './Modal.js';
+import { Avatar, AvatarSize } from './Avatar.js';
+import { Button, ButtonVariant } from './Button.js';
+import { Checkbox } from './Checkbox.js';
+import { ConfirmationDialog } from './ConfirmationDialog.js';
+import { ContactPills } from './ContactPills.js';
+import { ContactPill } from './ContactPill.js';
+import { ConversationList, RowType } from './ConversationList.js';
+import { Input } from './Input.js';
+import { I18n } from './I18n.js';
+import { MY_STORY_ID, getStoryDistributionListName } from '../types/Stories.js';
+import { PagedModal, ModalPage } from './Modal.js';
+import { SearchInput } from './SearchInput.js';
+import { StoryDistributionListName } from './StoryDistributionListName.js';
+import { filterAndSortConversations } from '../util/filterAndSortConversations.js';
+import { isNotNil } from '../util/isNotNil.js';
 import {
   shouldNeverBeCalled,
   asyncShouldNeverBeCalled,
-} from '../util/shouldNeverBeCalled';
-import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
-import { getGroupMemberships } from '../util/getGroupMemberships';
-import { strictAssert } from '../util/assert';
-import { UserText } from './UserText';
-import { SizeObserver } from '../hooks/useSizeObserver';
+} from '../util/shouldNeverBeCalled.js';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard.js';
+import { getGroupMemberships } from '../util/getGroupMemberships.js';
+import { strictAssert } from '../util/assert.js';
+import { UserText } from './UserText.js';
+import { SizeObserver } from '../hooks/useSizeObserver.js';
 
 export type PropsType = {
   candidateConversations: Array<ConversationType>;

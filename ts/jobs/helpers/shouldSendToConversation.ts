@@ -1,12 +1,12 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationModel } from '../../models/conversations';
-import type { LoggerType } from '../../types/Logging';
-import { getRecipients } from '../../util/getRecipients';
-import { isConversationAccepted } from '../../util/isConversationAccepted';
-import { isSignalConversation } from '../../util/isSignalConversation';
-import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds';
+import type { ConversationModel } from '../../models/conversations.js';
+import type { LoggerType } from '../../types/Logging.js';
+import { getRecipients } from '../../util/getRecipients.js';
+import { isConversationAccepted } from '../../util/isConversationAccepted.js';
+import { isSignalConversation } from '../../util/isSignalConversation.js';
+import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds.js';
 
 export function shouldSendToConversation(
   conversation: ConversationModel,

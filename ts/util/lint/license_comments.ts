@@ -4,12 +4,12 @@
 // This file doesn't check the format of license files, just the end year. See
 //   `license_comments_test.ts` for those checks, which are meant to be run more often.
 
-import assert from 'assert';
-import * as readline from 'readline';
-import * as path from 'path';
-import * as fs from 'fs';
-import { promisify } from 'util';
-import * as childProcess from 'child_process';
+import assert from 'node:assert';
+import * as readline from 'node:readline';
+import * as path from 'node:path';
+import * as fs from 'node:fs';
+import { promisify } from 'node:util';
+import * as childProcess from 'node:child_process';
 import pMap from 'p-map';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import chalk from 'chalk';

@@ -7,9 +7,9 @@ import { noop } from 'lodash';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
 import { Manager, Popper, Reference } from 'react-popper';
-import type { LocalizerType } from '../types/Util';
-import { useRefMerger } from '../hooks/useRefMerger';
-import { handleOutsideClick } from '../util/handleOutsideClick';
+import type { LocalizerType } from '../types/Util.js';
+import { useRefMerger } from '../hooks/useRefMerger.js';
+import { handleOutsideClick } from '../util/handleOutsideClick.js';
 
 export type PropsType = {
   conversationId: string;

@@ -3,10 +3,10 @@
 
 import { debounce, isNumber } from 'lodash';
 
-import { strictAssert } from './assert';
-import { safeParseInteger } from './numbers';
-import { DataReader } from '../sql/Client';
-import { createLogger } from '../logging/log';
+import { strictAssert } from './assert.js';
+import { safeParseInteger } from './numbers.js';
+import { DataReader } from '../sql/Client.js';
+import { createLogger } from '../logging/log.js';
 
 const log = createLogger('incrementMessageCounter');
 

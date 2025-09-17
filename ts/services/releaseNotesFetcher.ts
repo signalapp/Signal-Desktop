@@ -4,30 +4,30 @@
 import semver from 'semver';
 import { last } from 'lodash';
 
-import * as durations from '../util/durations';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
-import * as Registration from '../util/registration';
-import { createLogger } from '../logging/log';
-import * as Errors from '../types/errors';
-import { HTTPError } from '../textsecure/Errors';
-import { drop } from '../util/drop';
-import { strictAssert } from '../util/assert';
-import type { MessageAttributesType } from '../model-types';
-import { ReadStatus } from '../messages/MessageReadStatus';
-import { incrementMessageCounter } from '../util/incrementMessageCounter';
-import { SeenStatus } from '../MessageSeenStatus';
-import { saveNewMessageBatcher } from '../util/messageBatcher';
-import { generateMessageId } from '../util/generateMessageId';
-import type { RawBodyRange } from '../types/BodyRange';
-import { BodyRange } from '../types/BodyRange';
+import * as durations from '../util/durations/index.js';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.js';
+import * as Registration from '../util/registration.js';
+import { createLogger } from '../logging/log.js';
+import * as Errors from '../types/errors.js';
+import { HTTPError } from '../textsecure/Errors.js';
+import { drop } from '../util/drop.js';
+import { strictAssert } from '../util/assert.js';
+import type { MessageAttributesType } from '../model-types.js';
+import { ReadStatus } from '../messages/MessageReadStatus.js';
+import { incrementMessageCounter } from '../util/incrementMessageCounter.js';
+import { SeenStatus } from '../MessageSeenStatus.js';
+import { saveNewMessageBatcher } from '../util/messageBatcher.js';
+import { generateMessageId } from '../util/generateMessageId.js';
+import type { RawBodyRange } from '../types/BodyRange.js';
+import { BodyRange } from '../types/BodyRange.js';
 import type {
   ReleaseNotesManifestResponseType,
   ReleaseNoteResponseType,
-} from '../textsecure/WebAPI';
-import type { WithRequiredProperties } from '../types/Util';
-import { MessageModel } from '../models/messages';
-import { stringToMIMEType } from '../types/MIME';
-import { isNotNil } from '../util/isNotNil';
+} from '../textsecure/WebAPI.js';
+import type { WithRequiredProperties } from '../types/Util.js';
+import { MessageModel } from '../models/messages.js';
+import { stringToMIMEType } from '../types/MIME.js';
+import { isNotNil } from '../util/isNotNil.js';
 
 const log = createLogger('releaseNotesFetcher');
 

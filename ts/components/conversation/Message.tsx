@@ -25,37 +25,37 @@ import type {
   SaveAttachmentActionCreatorType,
   SaveAttachmentsActionCreatorType,
   ShowConversationType,
-} from '../../state/ducks/conversations';
-import type { ViewStoryActionCreatorType } from '../../state/ducks/stories';
-import { ReadStatus } from '../../messages/MessageReadStatus';
-import { Avatar, AvatarSize } from '../Avatar';
-import { AvatarSpacer } from '../AvatarSpacer';
-import { MessageBodyReadMore } from './MessageBodyReadMore';
-import { MessageMetadata } from './MessageMetadata';
-import { MessageTextMetadataSpacer } from './MessageTextMetadataSpacer';
-import { ImageGrid } from './ImageGrid';
-import { GIF } from './GIF';
-import { CurveType, Image } from './Image';
-import { ContactName } from './ContactName';
-import type { QuotedAttachmentForUIType } from './Quote';
-import { Quote } from './Quote';
-import { EmbeddedContact } from './EmbeddedContact';
+} from '../../state/ducks/conversations.js';
+import type { ViewStoryActionCreatorType } from '../../state/ducks/stories.js';
+import { ReadStatus } from '../../messages/MessageReadStatus.js';
+import { Avatar, AvatarSize } from '../Avatar.js';
+import { AvatarSpacer } from '../AvatarSpacer.js';
+import { MessageBodyReadMore } from './MessageBodyReadMore.js';
+import { MessageMetadata } from './MessageMetadata.js';
+import { MessageTextMetadataSpacer } from './MessageTextMetadataSpacer.js';
+import { ImageGrid } from './ImageGrid.js';
+import { GIF } from './GIF.js';
+import { CurveType, Image } from './Image.js';
+import { ContactName } from './ContactName.js';
+import type { QuotedAttachmentForUIType } from './Quote.js';
+import { Quote } from './Quote.js';
+import { EmbeddedContact } from './EmbeddedContact.js';
 import type {
   OwnProps as ReactionViewerProps,
   Reaction,
-} from './ReactionViewer';
-import { ReactionViewer } from './ReactionViewer';
-import { LinkPreviewDate } from './LinkPreviewDate';
-import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews';
-import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseFullSizeLinkPreviewImage';
-import type { WidthBreakpoint } from '../_util';
-import { OutgoingGiftBadgeModal } from '../OutgoingGiftBadgeModal';
-import { createLogger } from '../../logging/log';
-import { StoryViewModeType } from '../../types/Stories';
+} from './ReactionViewer.js';
+import { ReactionViewer } from './ReactionViewer.js';
+import { LinkPreviewDate } from './LinkPreviewDate.js';
+import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.js';
+import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseFullSizeLinkPreviewImage.js';
+import type { WidthBreakpoint } from '../_util.js';
+import { OutgoingGiftBadgeModal } from '../OutgoingGiftBadgeModal.js';
+import { createLogger } from '../../logging/log.js';
+import { StoryViewModeType } from '../../types/Stories.js';
 import type {
   AttachmentForUIType,
   AttachmentType,
-} from '../../types/Attachment';
+} from '../../types/Attachment.js';
 import {
   canDisplayImage,
   getGridDimensions,
@@ -70,45 +70,45 @@ import {
   isImageAttachment,
   isPlayed,
   isVideo,
-} from '../../types/Attachment';
-import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact';
+} from '../../types/Attachment.js';
+import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact.js';
 
-import { getIncrement } from '../../util/timer';
-import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary';
-import { missingCaseError } from '../../util/missingCaseError';
-import type { HydratedBodyRangesType } from '../../types/BodyRange';
-import type { LocalizerType, ThemeType } from '../../types/Util';
+import { getIncrement } from '../../util/timer.js';
+import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
+import type { HydratedBodyRangesType } from '../../types/BodyRange.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.js';
 
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.js';
 import type {
   ContactNameColorType,
   ConversationColorType,
   CustomColorType,
-} from '../../types/Colors';
-import { createRefMerger } from '../../util/refMerger';
-import { getCustomColorStyle } from '../../util/getCustomColorStyle';
-import type { ServiceIdString } from '../../types/ServiceId';
-import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations';
-import { BadgeImageTheme } from '../../badges/BadgeImageTheme';
-import { getBadgeImageFileLocalPath } from '../../badges/getBadgeImageFileLocalPath';
-import { handleOutsideClick } from '../../util/handleOutsideClick';
-import { isPaymentNotificationEvent } from '../../types/Payment';
-import type { AnyPaymentEvent } from '../../types/Payment';
-import { getPaymentEventDescription } from '../../messages/helpers';
-import { PanelType } from '../../types/Panels';
-import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser';
-import { RenderLocation } from './MessageTextRenderer';
-import { UserText } from '../UserText';
-import { getColorForCallLink } from '../../util/getColorForCallLink';
-import { getKeyFromCallLink } from '../../util/callLinks';
-import { InAnotherCallTooltip } from './InAnotherCallTooltip';
-import { formatFileSize } from '../../util/formatFileSize';
-import { assertDev, strictAssert } from '../../util/assert';
-import { AttachmentStatusIcon } from './AttachmentStatusIcon';
-import { TapToViewNotAvailableType } from '../TapToViewNotAvailableModal';
-import type { DataPropsType as TapToViewNotAvailablePropsType } from '../TapToViewNotAvailableModal';
-import { FileThumbnail } from '../FileThumbnail';
-import { FunStaticEmoji } from '../fun/FunEmoji';
+} from '../../types/Colors.js';
+import { createRefMerger } from '../../util/refMerger.js';
+import { getCustomColorStyle } from '../../util/getCustomColorStyle.js';
+import type { ServiceIdString } from '../../types/ServiceId.js';
+import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations/index.js';
+import { BadgeImageTheme } from '../../badges/BadgeImageTheme.js';
+import { getBadgeImageFileLocalPath } from '../../badges/getBadgeImageFileLocalPath.js';
+import { handleOutsideClick } from '../../util/handleOutsideClick.js';
+import { isPaymentNotificationEvent } from '../../types/Payment.js';
+import type { AnyPaymentEvent } from '../../types/Payment.js';
+import { getPaymentEventDescription } from '../../messages/helpers.js';
+import { PanelType } from '../../types/Panels.js';
+import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser.js';
+import { RenderLocation } from './MessageTextRenderer.js';
+import { UserText } from '../UserText.js';
+import { getColorForCallLink } from '../../util/getColorForCallLink.js';
+import { getKeyFromCallLink } from '../../util/callLinks.js';
+import { InAnotherCallTooltip } from './InAnotherCallTooltip.js';
+import { formatFileSize } from '../../util/formatFileSize.js';
+import { assertDev, strictAssert } from '../../util/assert.js';
+import { AttachmentStatusIcon } from './AttachmentStatusIcon.js';
+import { TapToViewNotAvailableType } from '../TapToViewNotAvailableModal.js';
+import type { DataPropsType as TapToViewNotAvailablePropsType } from '../TapToViewNotAvailableModal.js';
+import { FileThumbnail } from '../FileThumbnail.js';
+import { FunStaticEmoji } from '../fun/FunEmoji.js';
 import {
   type EmojifyData,
   getEmojifyData,
@@ -117,8 +117,8 @@ import {
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isEmojiVariantValue,
-} from '../fun/data/emojis';
-import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions';
+} from '../fun/data/emojis.js';
+import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.js';
 
 const log = createLogger('Message');
 

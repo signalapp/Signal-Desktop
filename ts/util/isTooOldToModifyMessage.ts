@@ -1,8 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReadonlyMessageAttributesType } from '../model-types.d';
-import { DAY } from './durations';
+import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
+import { DAY } from './durations/index.js';
 
 export function isTooOldToModifyMessage(
   serverTimestamp: number,

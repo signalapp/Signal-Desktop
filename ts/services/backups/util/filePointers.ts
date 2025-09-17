@@ -6,39 +6,39 @@ import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
 import {
   APPLICATION_OCTET_STREAM,
   stringToMIMEType,
-} from '../../../types/MIME';
-import { createLogger } from '../../../logging/log';
+} from '../../../types/MIME.js';
+import { createLogger } from '../../../logging/log.js';
 import {
   type AttachmentType,
   hasRequiredInformationForBackup,
   hasRequiredInformationToDownloadFromTransitTier,
-} from '../../../types/Attachment';
-import { Backups, SignalService } from '../../../protobuf';
-import * as Bytes from '../../../Bytes';
+} from '../../../types/Attachment.js';
+import { Backups, SignalService } from '../../../protobuf/index.js';
+import * as Bytes from '../../../Bytes.js';
 import {
   getSafeLongFromTimestamp,
   getTimestampFromLong,
-} from '../../../util/timestampLongUtils';
-import { strictAssert } from '../../../util/assert';
+} from '../../../util/timestampLongUtils.js';
+import { strictAssert } from '../../../util/assert.js';
 import type {
   CoreAttachmentBackupJobType,
   PartialAttachmentLocalBackupJobType,
-} from '../../../types/AttachmentBackup';
+} from '../../../types/AttachmentBackup.js';
 import {
   type GetBackupCdnInfoType,
   getMediaIdFromMediaName,
   getMediaName,
-} from './mediaId';
-import { missingCaseError } from '../../../util/missingCaseError';
-import { bytesToUuid } from '../../../util/uuidToBytes';
-import { createName } from '../../../util/attachmentPath';
-import { generateAttachmentKeys } from '../../../AttachmentCrypto';
-import { getAttachmentLocalBackupPathFromSnapshotDir } from './localBackup';
+} from './mediaId.js';
+import { missingCaseError } from '../../../util/missingCaseError.js';
+import { bytesToUuid } from '../../../util/uuidToBytes.js';
+import { createName } from '../../../util/attachmentPath.js';
+import { generateAttachmentKeys } from '../../../AttachmentCrypto.js';
+import { getAttachmentLocalBackupPathFromSnapshotDir } from './localBackup.js';
 import {
   isValidAttachmentKey,
   isValidPlaintextHash,
-} from '../../../types/Crypto';
-import { isTestOrMockEnvironment } from '../../../environment';
+} from '../../../types/Crypto.js';
+import { isTestOrMockEnvironment } from '../../../environment.js';
 
 const log = createLogger('filePointers');
 

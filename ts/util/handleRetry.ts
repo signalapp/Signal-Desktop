@@ -8,21 +8,21 @@ import {
 import { isNumber, random } from 'lodash';
 import type PQueue from 'p-queue';
 
-import * as Bytes from '../Bytes';
-import { DataReader, DataWriter } from '../sql/Client';
-import { isProduction } from './version';
-import { strictAssert } from './assert';
-import { isGroupV2 } from './whatTypeOfConversation';
-import { isOlderThan } from './timestamp';
-import { parseIntOrThrow } from './parseIntOrThrow';
-import * as RemoteConfig from '../RemoteConfig';
-import { Address } from '../types/Address';
-import { QualifiedAddress } from '../types/QualifiedAddress';
-import type { AciString, ServiceIdString } from '../types/ServiceId';
-import { ToastType } from '../types/Toast';
-import * as Errors from '../types/errors';
+import * as Bytes from '../Bytes.js';
+import { DataReader, DataWriter } from '../sql/Client.js';
+import { isProduction } from './version.js';
+import { strictAssert } from './assert.js';
+import { isGroupV2 } from './whatTypeOfConversation.js';
+import { isOlderThan } from './timestamp.js';
+import { parseIntOrThrow } from './parseIntOrThrow.js';
+import * as RemoteConfig from '../RemoteConfig.js';
+import { Address } from '../types/Address.js';
+import { QualifiedAddress } from '../types/QualifiedAddress.js';
+import type { AciString, ServiceIdString } from '../types/ServiceId.js';
+import { ToastType } from '../types/Toast.js';
+import * as Errors from '../types/errors.js';
 
-import type { ConversationModel } from '../models/conversations';
+import type { ConversationModel } from '../models/conversations.js';
 import type {
   DecryptionErrorEvent,
   DecryptionErrorEventData,
@@ -30,17 +30,17 @@ import type {
   RetryRequestEvent,
   RetryRequestEventData,
   SuccessfulDecryptEvent,
-} from '../textsecure/messageReceiverEvents';
+} from '../textsecure/messageReceiverEvents.js';
 
-import { SignalService as Proto } from '../protobuf';
-import { createLogger } from '../logging/log';
-import type MessageSender from '../textsecure/SendMessage';
-import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists';
-import { drop } from './drop';
-import { conversationJobQueue } from '../jobs/conversationJobQueue';
-import { incrementMessageCounter } from './incrementMessageCounter';
-import { SECOND } from './durations';
-import { sleep } from './sleep';
+import { SignalService as Proto } from '../protobuf/index.js';
+import { createLogger } from '../logging/log.js';
+import type MessageSender from '../textsecure/SendMessage.js';
+import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists.js';
+import { drop } from './drop.js';
+import { conversationJobQueue } from '../jobs/conversationJobQueue.js';
+import { incrementMessageCounter } from './incrementMessageCounter.js';
+import { SECOND } from './durations/index.js';
+import { sleep } from './sleep.js';
 
 const log = createLogger('handleRetry');
 

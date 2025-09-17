@@ -5,25 +5,25 @@ import * as React from 'react';
 import { noop } from 'lodash';
 import classNames from 'classnames';
 
-import { Avatar, AvatarSize } from './Avatar';
-import type { ActionSpec } from './ConfirmationDialog';
-import { ConfirmationDialog } from './ConfirmationDialog';
-import { InContactsIcon } from './InContactsIcon';
-import { Modal } from './Modal';
+import { Avatar, AvatarSize } from './Avatar.js';
+import type { ActionSpec } from './ConfirmationDialog.js';
+import { ConfirmationDialog } from './ConfirmationDialog.js';
+import { InContactsIcon } from './InContactsIcon.js';
+import { Modal } from './Modal.js';
 
-import type { ConversationType } from '../state/ducks/conversations';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
-import type { LocalizerType } from '../types/Util';
-import { ThemeType } from '../types/Util';
-import { isInSystemContacts } from '../util/isInSystemContacts';
-import { missingCaseError } from '../util/missingCaseError';
-import { ContextMenu } from './ContextMenu';
-import { Theme } from '../util/theme';
-import { isNotNil } from '../util/isNotNil';
-import { MY_STORY_ID } from '../types/Stories';
-import type { ServiceIdString } from '../types/ServiceId';
-import type { StoryDistributionIdString } from '../types/StoryDistributionId';
-import { UserText } from './UserText';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.js';
+import type { LocalizerType } from '../types/Util.js';
+import { ThemeType } from '../types/Util.js';
+import { isInSystemContacts } from '../util/isInSystemContacts.js';
+import { missingCaseError } from '../util/missingCaseError.js';
+import { ContextMenu } from './ContextMenu.js';
+import { Theme } from '../util/theme.js';
+import { isNotNil } from '../util/isNotNil.js';
+import { MY_STORY_ID } from '../types/Stories.js';
+import type { ServiceIdString } from '../types/ServiceId.js';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId.js';
+import { UserText } from './UserText.js';
 
 export enum SafetyNumberChangeSource {
   InitiateCall = 'InitiateCall',

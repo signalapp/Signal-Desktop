@@ -6,13 +6,17 @@ import type {
   LocalizerType,
   ICUStringMessageParamsByKeyType,
   ICUJSXMessageParamsByKeyType,
-} from './types/Util';
-import type { ServiceIdString, AciString, PniString } from './types/ServiceId';
-import { missingCaseError } from './util/missingCaseError';
+} from './types/Util.js';
+import type {
+  ServiceIdString,
+  AciString,
+  PniString,
+} from './types/ServiceId.js';
+import { missingCaseError } from './util/missingCaseError.js';
 
-import type { GroupV2ChangeDetailType, GroupV2ChangeType } from './groups';
-import { SignalService as Proto } from './protobuf';
-import { createLogger } from './logging/log';
+import type { GroupV2ChangeDetailType, GroupV2ChangeType } from './groups.js';
+import { SignalService as Proto } from './protobuf/index.js';
+import { createLogger } from './logging/log.js';
 
 const log = createLogger('groupChange');
 

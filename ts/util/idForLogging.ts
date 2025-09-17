@@ -4,15 +4,15 @@
 import type {
   ConversationAttributesType,
   ReadonlyMessageAttributesType,
-} from '../model-types.d';
+} from '../model-types.d.ts';
 import {
   getSource,
   getSourceDevice,
   getSourceServiceId,
-} from '../messages/helpers';
-import { isDirectConversation, isGroupV2 } from './whatTypeOfConversation';
-import { getE164 } from './getE164';
-import type { ConversationType } from '../state/ducks/conversations';
+} from '../messages/helpers.js';
+import { isDirectConversation, isGroupV2 } from './whatTypeOfConversation.js';
+import { getE164 } from './getE164.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
 
 export function getMessageIdForLogging(
   message: Pick<

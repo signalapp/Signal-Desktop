@@ -8,9 +8,9 @@ import type { PeekInfo } from '@signalapp/ringrtc';
 import type {
   StateType as RootStateType,
   StateType,
-} from '../../../state/reducer';
-import { reducer as rootReducer } from '../../../state/reducer';
-import { noopAction } from '../../../state/ducks/noop';
+} from '../../../state/reducer.js';
+import { reducer as rootReducer } from '../../../state/reducer.js';
+import { noopAction } from '../../../state/ducks/noop.js';
 import type {
   ActiveCallStateType,
   CallingActionType,
@@ -22,35 +22,35 @@ import type {
   HandleCallLinkUpdateType,
   SendGroupCallReactionActionType,
   StartCallLinkLobbyType,
-} from '../../../state/ducks/calling';
+} from '../../../state/ducks/calling.js';
 import {
   actions,
   getActiveCall,
   getEmptyState,
   reducer,
-} from '../../../state/ducks/calling';
-import { isAnybodyElseInGroupCall } from '../../../state/ducks/callingHelpers';
-import { truncateAudioLevel } from '../../../calling/truncateAudioLevel';
-import { calling as callingService } from '../../../services/calling';
+} from '../../../state/ducks/calling.js';
+import { isAnybodyElseInGroupCall } from '../../../state/ducks/callingHelpers.js';
+import { truncateAudioLevel } from '../../../calling/truncateAudioLevel.js';
+import { calling as callingService } from '../../../services/calling.js';
 import {
   CallState,
   CallViewMode,
   GroupCallConnectionState,
   GroupCallJoinState,
-} from '../../../types/Calling';
-import { CallMode } from '../../../types/CallDisposition';
-import { generateAci } from '../../../types/ServiceId';
-import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation';
-import type { UnwrapPromise } from '../../../types/Util';
+} from '../../../types/Calling.js';
+import { CallMode } from '../../../types/CallDisposition.js';
+import { generateAci } from '../../../types/ServiceId.js';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.js';
+import type { UnwrapPromise } from '../../../types/Util.js';
 import {
   FAKE_CALL_LINK,
   FAKE_CALL_LINK_WITH_ADMIN_KEY,
   getCallLinkState,
-} from '../../../test-helpers/fakeCallLink';
-import { strictAssert } from '../../../util/assert';
-import { callLinkRefreshJobQueue } from '../../../jobs/callLinkRefreshJobQueue';
-import { CALL_LINK_DEFAULT_STATE } from '../../../util/callLinks';
-import { DataWriter } from '../../../sql/Client';
+} from '../../../test-helpers/fakeCallLink.js';
+import { strictAssert } from '../../../util/assert.js';
+import { callLinkRefreshJobQueue } from '../../../jobs/callLinkRefreshJobQueue.js';
+import { CALL_LINK_DEFAULT_STATE } from '../../../util/callLinks.js';
+import { DataWriter } from '../../../sql/Client.js';
 
 const ACI_1 = generateAci();
 const NOW = new Date('2020-01-23T04:56:00.000');

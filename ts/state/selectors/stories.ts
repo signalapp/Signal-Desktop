@@ -4,9 +4,9 @@
 import { createSelector } from 'reselect';
 import { pick } from 'lodash';
 
-import type { GetConversationByIdType } from './conversations';
-import type { ConversationType } from '../ducks/conversations';
-import type { AttachmentType } from '../../types/Attachment';
+import type { GetConversationByIdType } from './conversations.js';
+import type { ConversationType } from '../ducks/conversations.js';
+import type { AttachmentType } from '../../types/Attachment.js';
 import type {
   ConversationStoryType,
   MyStoryType,
@@ -14,37 +14,37 @@ import type {
   StoryDistributionListWithMembersDataType,
   StorySendStateType,
   StoryViewType,
-} from '../../types/Stories';
-import type { StateType } from '../reducer';
+} from '../../types/Stories.js';
+import type { StateType } from '../reducer.js';
 import type {
   SelectedStoryDataType,
   StoryDataType,
   StoriesStateType,
   AddStoryData,
-} from '../ducks/stories';
-import { MY_STORY_ID, ResolvedSendStatus } from '../../types/Stories';
-import { ReadStatus } from '../../messages/MessageReadStatus';
-import { SendStatus } from '../../messages/MessageSendState';
-import { canReply } from './message';
+} from '../ducks/stories.js';
+import { MY_STORY_ID, ResolvedSendStatus } from '../../types/Stories.js';
+import { ReadStatus } from '../../messages/MessageReadStatus.js';
+import { SendStatus } from '../../messages/MessageSendState.js';
+import { canReply } from './message.js';
 import {
   getContactNameColorSelector,
   getConversationSelector,
   getHideStoryConversationIds,
   getMe,
   PLACEHOLDER_CONTACT_ID,
-} from './conversations';
-import { getUserConversationId } from './user';
-import { getDistributionListSelector } from './storyDistributionLists';
-import { calculateExpirationTimestamp } from '../../util/expirationTimer';
-import { getMessageIdForLogging } from '../../util/idForLogging';
-import { createLogger } from '../../logging/log';
-import { SIGNAL_ACI } from '../../types/SignalConversation';
+} from './conversations.js';
+import { getUserConversationId } from './user.js';
+import { getDistributionListSelector } from './storyDistributionLists.js';
+import { calculateExpirationTimestamp } from '../../util/expirationTimer.js';
+import { getMessageIdForLogging } from '../../util/idForLogging.js';
+import { createLogger } from '../../logging/log.js';
+import { SIGNAL_ACI } from '../../types/SignalConversation.js';
 import {
   reduceStorySendStatus,
   resolveStorySendStatus,
-} from '../../util/resolveStorySendStatus';
-import { BodyRange, hydrateRanges } from '../../types/BodyRange';
-import { getStoriesEnabled } from './items';
+} from '../../util/resolveStorySendStatus.js';
+import { BodyRange, hydrateRanges } from '../../types/BodyRange.js';
+import { getStoriesEnabled } from './items.js';
 
 const log = createLogger('stories');
 

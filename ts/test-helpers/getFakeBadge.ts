@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { times } from 'lodash';
-import type { BadgeType } from '../badges/types';
-import { BadgeCategory } from '../badges/BadgeCategory';
-import { BadgeImageTheme } from '../badges/BadgeImageTheme';
-import { repeat, zipObject } from '../util/iterables';
+import type { BadgeType } from '../badges/types.js';
+import { BadgeCategory } from '../badges/BadgeCategory.js';
+import { BadgeImageTheme } from '../badges/BadgeImageTheme.js';
+import { repeat, zipObject } from '../util/iterables.js';
 
 export function getFakeBadge({
   alternate = false,

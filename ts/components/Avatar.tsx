@@ -13,20 +13,20 @@ import classNames from 'classnames';
 import { noop } from 'lodash';
 
 import { filterDOMProps } from '@react-aria/utils';
-import type { AvatarColorType } from '../types/Colors';
-import type { BadgeType } from '../badges/types';
-import type { LocalizerType } from '../types/Util';
-import { createLogger } from '../logging/log';
-import { BadgeImageTheme } from '../badges/BadgeImageTheme';
-import { HasStories } from '../types/Stories';
-import { Spinner } from './Spinner';
-import { ThemeType } from '../types/Util';
-import { assertDev } from '../util/assert';
-import { getBadgeImageFileLocalPath } from '../badges/getBadgeImageFileLocalPath';
-import { getInitials } from '../util/getInitials';
-import { isBadgeVisible } from '../badges/isBadgeVisible';
-import { SIGNAL_AVATAR_PATH } from '../types/SignalConversation';
-import { getAvatarPlaceholderGradient } from '../utils/getAvatarPlaceholderGradient';
+import type { AvatarColorType } from '../types/Colors.js';
+import type { BadgeType } from '../badges/types.js';
+import type { LocalizerType } from '../types/Util.js';
+import { createLogger } from '../logging/log.js';
+import { BadgeImageTheme } from '../badges/BadgeImageTheme.js';
+import { HasStories } from '../types/Stories.js';
+import { Spinner } from './Spinner.js';
+import { ThemeType } from '../types/Util.js';
+import { assertDev } from '../util/assert.js';
+import { getBadgeImageFileLocalPath } from '../badges/getBadgeImageFileLocalPath.js';
+import { getInitials } from '../util/getInitials.js';
+import { isBadgeVisible } from '../badges/isBadgeVisible.js';
+import { SIGNAL_AVATAR_PATH } from '../types/SignalConversation.js';
+import { getAvatarPlaceholderGradient } from '../utils/getAvatarPlaceholderGradient.js';
 
 const log = createLogger('Avatar');
 

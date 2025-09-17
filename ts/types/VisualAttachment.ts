@@ -3,16 +3,16 @@
 
 import loadImage from 'blueimp-load-image';
 import { blobToArrayBuffer } from 'blob-util';
-import { toLogFormat } from './errors';
-import type { MIMEType } from './MIME';
-import { IMAGE_JPEG, IMAGE_PNG } from './MIME';
-import type { LoggerType } from './Logging';
-import { strictAssert } from '../util/assert';
-import { canvasToBlob } from '../util/canvasToBlob';
-import { KIBIBYTE } from './AttachmentSize';
-import { explodePromise } from '../util/explodePromise';
-import { SECOND } from '../util/durations';
-import { createLogger } from '../logging/log';
+import { toLogFormat } from './errors.js';
+import type { MIMEType } from './MIME.js';
+import { IMAGE_JPEG, IMAGE_PNG } from './MIME.js';
+import type { LoggerType } from './Logging.js';
+import { strictAssert } from '../util/assert.js';
+import { canvasToBlob } from '../util/canvasToBlob.js';
+import { KIBIBYTE } from './AttachmentSize.js';
+import { explodePromise } from '../util/explodePromise.js';
+import { SECOND } from '../util/durations/index.js';
+import { createLogger } from '../logging/log.js';
 
 const logging = createLogger('VisualAttachment');
 

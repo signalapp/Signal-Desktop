@@ -1,15 +1,15 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { CallHistoryGroup } from '../types/CallDisposition';
+import type { CallHistoryGroup } from '../types/CallDisposition.js';
 import {
   AdhocCallStatus,
   CallDirection,
   CallType,
   DirectCallStatus,
   CallMode,
-} from '../types/CallDisposition';
-import { DurationInSeconds } from '../util/durations';
+} from '../types/CallDisposition.js';
+import { DurationInSeconds } from '../util/durations/index.js';
 
 function mins(n: number) {
   return DurationInSeconds.toMillis(DurationInSeconds.fromMinutes(n));

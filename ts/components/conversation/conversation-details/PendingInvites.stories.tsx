@@ -5,14 +5,14 @@ import * as React from 'react';
 import { times } from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { generateAci } from '../../../types/ServiceId';
-import { StorySendMode } from '../../../types/Stories';
-import type { PropsType } from './PendingInvites';
-import { PendingInvites } from './PendingInvites';
-import type { ConversationType } from '../../../state/ducks/conversations';
-import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation';
-import { getFakeBadge } from '../../../test-helpers/getFakeBadge';
-import { StorybookThemeContext } from '../../../../.storybook/StorybookThemeContext';
+import { generateAci } from '../../../types/ServiceId.js';
+import { StorySendMode } from '../../../types/Stories.js';
+import type { PropsType } from './PendingInvites.js';
+import { PendingInvites } from './PendingInvites.js';
+import type { ConversationType } from '../../../state/ducks/conversations.js';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.js';
+import { getFakeBadge } from '../../../test-helpers/getFakeBadge.js';
+import { StorybookThemeContext } from '../../../../.storybook/StorybookThemeContext.js';
 
 const { i18n } = window.SignalContext;
 

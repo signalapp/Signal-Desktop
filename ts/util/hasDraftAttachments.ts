@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AttachmentDraftType } from '../types/Attachment';
+import type { AttachmentDraftType } from '../types/Attachment.js';
 
 export function hasDraftAttachments(
   draftAttachments: ReadonlyArray<AttachmentDraftType> | undefined,

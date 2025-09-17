@@ -12,28 +12,28 @@ import React, {
 import { noop } from 'lodash';
 import classNames from 'classnames';
 
-import type { LocalizerType } from '../types/I18N';
+import type { LocalizerType } from '../types/I18N.js';
 import {
   FlowingSettingsControl as FlowingControl,
   SettingsRow,
-} from './PreferencesUtil';
-import { Button, ButtonSize, ButtonVariant } from './Button';
+} from './PreferencesUtil.js';
+import { Button, ButtonSize, ButtonVariant } from './Button.js';
 import {
   getOSAuthErrorString,
   SIGNAL_BACKUPS_LEARN_MORE_URL,
-} from './PreferencesBackups';
-import { I18n } from './I18n';
-import type { PreferencesBackupPage } from '../types/PreferencesBackupPage';
-import { SettingsPage } from '../types/Nav';
-import { ToastType } from '../types/Toast';
-import type { ShowToastAction } from '../state/ducks/toast';
-import { Modal } from './Modal';
-import { strictAssert } from '../util/assert';
+} from './PreferencesBackups.js';
+import { I18n } from './I18n.js';
+import type { PreferencesBackupPage } from '../types/PreferencesBackupPage.js';
+import { SettingsPage } from '../types/Nav.js';
+import { ToastType } from '../types/Toast.js';
+import type { ShowToastAction } from '../state/ducks/toast.js';
+import { Modal } from './Modal.js';
+import { strictAssert } from '../util/assert.js';
 import type {
   PromptOSAuthReasonType,
   PromptOSAuthResultType,
-} from '../util/os/promptOSAuthMain';
-import { ConfirmationDialog } from './ConfirmationDialog';
+} from '../util/os/promptOSAuthMain.js';
+import { ConfirmationDialog } from './ConfirmationDialog.js';
 
 export function PreferencesLocalBackups({
   accountEntropyPool,

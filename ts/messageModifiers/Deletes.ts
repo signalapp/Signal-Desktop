@@ -1,15 +1,15 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MessageAttributesType } from '../model-types.d';
-import { getAuthorId } from '../messages/helpers';
-import { DataReader } from '../sql/Client';
-import { createLogger } from '../logging/log';
-import * as Errors from '../types/errors';
-import { deleteForEveryone } from '../util/deleteForEveryone';
-import { drop } from '../util/drop';
-import { getMessageSentTimestampSet } from '../util/getMessageSentTimestampSet';
-import { MessageModel } from '../models/messages';
+import type { MessageAttributesType } from '../model-types.d.ts';
+import { getAuthorId } from '../messages/helpers.js';
+import { DataReader } from '../sql/Client.js';
+import { createLogger } from '../logging/log.js';
+import * as Errors from '../types/errors.js';
+import { deleteForEveryone } from '../util/deleteForEveryone.js';
+import { drop } from '../util/drop.js';
+import { getMessageSentTimestampSet } from '../util/getMessageSentTimestampSet.js';
+import { MessageModel } from '../models/messages.js';
 
 const log = createLogger('Deletes');
 

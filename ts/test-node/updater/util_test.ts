@@ -3,9 +3,9 @@
 
 import { assert } from 'chai';
 
-import { isTimeToUpdate } from '../../updater/util';
-import { HOUR } from '../../util/durations';
-import { createLogger } from '../../logging/log';
+import { isTimeToUpdate } from '../../updater/util.js';
+import { HOUR } from '../../util/durations/index.js';
+import { createLogger } from '../../logging/log.js';
 
 const logger = createLogger('util_test');
 

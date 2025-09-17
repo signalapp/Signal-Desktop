@@ -1,11 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationAttributesType } from '../model-types.d';
+import type { ConversationAttributesType } from '../model-types.d.ts';
 
-import { makeEnumParser } from './enum';
-import { missingCaseError } from './missingCaseError';
-import { isDirectConversation, isMe } from './whatTypeOfConversation';
+import { makeEnumParser } from './enum.js';
+import { missingCaseError } from './missingCaseError.js';
+import { isDirectConversation, isMe } from './whatTypeOfConversation.js';
 
 // These strings are saved to disk, so be careful when changing them.
 export enum PhoneNumberSharingMode {

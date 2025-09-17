@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { findLastIndex, has, identity, omit, negate } from 'lodash';
-import type { MessageReactionType } from '../model-types.d';
-import { areObjectEntriesEqual } from '../util/areObjectEntriesEqual';
+import type { MessageReactionType } from '../model-types.d.ts';
+import { areObjectEntriesEqual } from '../util/areObjectEntriesEqual.js';
 
 const isReactionEqual = (
   a: undefined | Readonly<MessageReactionType>,

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import assert from 'node:assert/strict';
-import { resolveCanonicalLocales } from '../../util/resolveCanonicalLocales';
+import { resolveCanonicalLocales } from '../../util/resolveCanonicalLocales.js';
 
 describe('resolveCanonicalLocales', () => {
   it('returns an array of canonical locales', () => {

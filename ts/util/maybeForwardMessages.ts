@@ -1,29 +1,29 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AttachmentType } from '../types/Attachment';
-import type { LinkPreviewWithHydratedData } from '../types/message/LinkPreviews';
-import type { QuotedMessageType } from '../model-types';
-import { createLogger } from '../logging/log';
-import { SafetyNumberChangeSource } from '../components/SafetyNumberChangeDialog';
-import { blockSendUntilConversationsAreVerified } from './blockSendUntilConversationsAreVerified';
+import type { AttachmentType } from '../types/Attachment.js';
+import type { LinkPreviewWithHydratedData } from '../types/message/LinkPreviews.js';
+import type { QuotedMessageType } from '../model-types.js';
+import { createLogger } from '../logging/log.js';
+import { SafetyNumberChangeSource } from '../components/SafetyNumberChangeDialog.js';
+import { blockSendUntilConversationsAreVerified } from './blockSendUntilConversationsAreVerified.js';
 import {
   getMessageIdForLogging,
   getConversationIdForLogging,
-} from './idForLogging';
-import { isNotNil } from './isNotNil';
-import { resetLinkPreview } from '../services/LinkPreview';
-import { getRecipientsByConversation } from './getRecipientsByConversation';
-import type { EmbeddedContactWithHydratedAvatar } from '../types/EmbeddedContact';
-import type { DraftBodyRanges } from '../types/BodyRange';
-import type { StickerWithHydratedData } from '../types/Stickers';
-import { drop } from './drop';
-import { toLogFormat } from '../types/errors';
+} from './idForLogging.js';
+import { isNotNil } from './isNotNil.js';
+import { resetLinkPreview } from '../services/LinkPreview.js';
+import { getRecipientsByConversation } from './getRecipientsByConversation.js';
+import type { EmbeddedContactWithHydratedAvatar } from '../types/EmbeddedContact.js';
+import type { DraftBodyRanges } from '../types/BodyRange.js';
+import type { StickerWithHydratedData } from '../types/Stickers.js';
+import { drop } from './drop.js';
+import { toLogFormat } from '../types/errors.js';
 import {
   sortByMessageOrder,
   type ForwardMessageData,
-} from '../types/ForwardDraft';
-import { canForward } from '../state/selectors/message';
+} from '../types/ForwardDraft.js';
+import { canForward } from '../state/selectors/message.js';
 
 const log = createLogger('maybeForwardMessages');
 

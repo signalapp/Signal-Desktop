@@ -7,11 +7,11 @@ import { Proto, StorageState } from '@signalapp/mock-server';
 import Long from 'long';
 import { sample } from 'lodash';
 import { expect } from 'playwright/test';
-import { Bootstrap, debug, RUN_COUNT, DISCARD_COUNT } from './fixtures';
-import { stats } from '../../util/benchmark/stats';
-import { uuidToBytes } from '../../util/uuidToBytes';
-import { strictAssert } from '../../util/assert';
-import { typeIntoInput } from '../helpers';
+import { Bootstrap, debug, RUN_COUNT, DISCARD_COUNT } from './fixtures.js';
+import { stats } from '../../util/benchmark/stats.js';
+import { uuidToBytes } from '../../util/uuidToBytes.js';
+import { strictAssert } from '../../util/assert.js';
+import { typeIntoInput } from '../helpers.js';
 
 const CALL_HISTORY_COUNT = 1000;
 

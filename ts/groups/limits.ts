@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isNumber } from 'lodash';
-import { parseIntOrThrow } from '../util/parseIntOrThrow';
-import type { ConfigKeyType } from '../RemoteConfig';
-import { getValue } from '../RemoteConfig';
+import { parseIntOrThrow } from '../util/parseIntOrThrow.js';
+import type { ConfigKeyType } from '../RemoteConfig.js';
+import { getValue } from '../RemoteConfig.js';
 
 function makeGetter(configKey: ConfigKeyType): (fallback?: number) => number {
   return fallback => {

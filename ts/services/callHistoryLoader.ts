@@ -1,9 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { DataReader, DataWriter } from '../sql/Client';
-import type { CallHistoryDetails } from '../types/CallDisposition';
-import { strictAssert } from '../util/assert';
+import { DataReader, DataWriter } from '../sql/Client.js';
+import type { CallHistoryDetails } from '../types/CallDisposition.js';
+import { strictAssert } from '../util/assert.js';
 
 let callsHistoryData: ReadonlyArray<CallHistoryDetails>;
 let callsHistoryUnreadCount: number;

@@ -4,14 +4,14 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext';
-import { strictAssert } from '../../util/assert';
-import { getFakeBadge } from '../../test-helpers/getFakeBadge';
-import type { PropsType } from './MessageSearchResult';
-import { MessageSearchResult } from './MessageSearchResult';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
-import { BodyRange } from '../../types/BodyRange';
-import { generateAci } from '../../types/ServiceId';
+import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.js';
+import { strictAssert } from '../../util/assert.js';
+import { getFakeBadge } from '../../test-helpers/getFakeBadge.js';
+import type { PropsType } from './MessageSearchResult.js';
+import { MessageSearchResult } from './MessageSearchResult.js';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.js';
+import { BodyRange } from '../../types/BodyRange.js';
+import { generateAci } from '../../types/ServiceId.js';
 
 const SERVICE_ID_1 = generateAci();
 const SERVICE_ID_2 = generateAci();

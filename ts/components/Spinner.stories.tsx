@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { Props } from './Spinner';
-import { Spinner, SpinnerDirections, SpinnerSvgSizes } from './Spinner';
+import type { Props } from './Spinner.js';
+import { Spinner, SpinnerDirections, SpinnerSvgSizes } from './Spinner.js';
 
 export default {
   title: 'Components/Spinner',

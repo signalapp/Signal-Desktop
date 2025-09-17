@@ -1,9 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { batchMultiVarQuery } from '../util';
-import type { WritableDB } from '../Interface';
-import type { LoggerType } from '../../types/Logging';
+import { batchMultiVarQuery } from '../util.js';
+import type { WritableDB } from '../Interface.js';
+import type { LoggerType } from '../../types/Logging.js';
 
 export default function updateToSchemaVersion42(
   db: WritableDB,

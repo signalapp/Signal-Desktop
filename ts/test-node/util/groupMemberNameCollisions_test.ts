@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.js';
 
 import {
   dehydrateCollisionsWithConversations,
   getCollisionsFromMemberships,
   hasUnacknowledgedCollisions,
   invertIdsByTitle,
-} from '../../util/groupMemberNameCollisions';
+} from '../../util/groupMemberNameCollisions.js';
 
 describe('group member name collision utilities', () => {
   describe('dehydrateCollisionsWithConversations', () => {

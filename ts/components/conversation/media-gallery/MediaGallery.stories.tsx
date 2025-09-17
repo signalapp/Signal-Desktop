@@ -4,14 +4,14 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './MediaGallery';
-import { MediaGallery } from './MediaGallery';
+import type { Props } from './MediaGallery.js';
+import { MediaGallery } from './MediaGallery.js';
 import {
   createPreparedMediaItems,
   createRandomDocuments,
   createRandomMedia,
   days,
-} from './utils/mocks';
+} from './utils/mocks.js';
 
 const { i18n } = window.SignalContext;
 

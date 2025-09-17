@@ -4,9 +4,14 @@
 import { assert } from 'chai';
 import { v4 as generateGuid } from 'uuid';
 
-import { normalizeAci } from '../../util/normalizeAci';
-import type { WritableDB } from '../../sql/Interface';
-import { createDB, insertData, getTableData, updateToVersion } from './helpers';
+import { normalizeAci } from '../../util/normalizeAci.js';
+import type { WritableDB } from '../../sql/Interface.js';
+import {
+  createDB,
+  insertData,
+  getTableData,
+  updateToVersion,
+} from './helpers.js';
 
 describe('SQL/updateToSchemaVersion1020', () => {
   let db: WritableDB;

@@ -4,22 +4,22 @@
 import pTimeout from 'p-timeout';
 import { usernames } from '@signalapp/libsignal-client';
 
-import * as Errors from '../types/errors';
-import { strictAssert } from '../util/assert';
-import { isDone as isRegistrationDone } from '../util/registration';
-import { getConversation } from '../util/getConversation';
-import { MINUTE, DAY } from '../util/durations';
-import { drop } from '../util/drop';
-import { explodePromise } from '../util/explodePromise';
-import { BackOff, FIBONACCI_TIMEOUTS } from '../util/BackOff';
-import { storageJobQueue } from '../util/JobQueue';
-import { getProfile } from '../util/getProfile';
-import { isSharingPhoneNumberWithEverybody } from '../util/phoneNumberSharingMode';
-import { bytesToUuid } from '../util/uuidToBytes';
-import { createLogger } from '../logging/log';
-import * as Bytes from '../Bytes';
-import { runStorageServiceSyncJob } from './storage';
-import { writeProfile } from './writeProfile';
+import * as Errors from '../types/errors.js';
+import { strictAssert } from '../util/assert.js';
+import { isDone as isRegistrationDone } from '../util/registration.js';
+import { getConversation } from '../util/getConversation.js';
+import { MINUTE, DAY } from '../util/durations/index.js';
+import { drop } from '../util/drop.js';
+import { explodePromise } from '../util/explodePromise.js';
+import { BackOff, FIBONACCI_TIMEOUTS } from '../util/BackOff.js';
+import { storageJobQueue } from '../util/JobQueue.js';
+import { getProfile } from '../util/getProfile.js';
+import { isSharingPhoneNumberWithEverybody } from '../util/phoneNumberSharingMode.js';
+import { bytesToUuid } from '../util/uuidToBytes.js';
+import { createLogger } from '../logging/log.js';
+import * as Bytes from '../Bytes.js';
+import { runStorageServiceSyncJob } from './storage.js';
+import { writeProfile } from './writeProfile.js';
 
 const log = createLogger('usernameIntegrity');
 

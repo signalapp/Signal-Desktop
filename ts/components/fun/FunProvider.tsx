@@ -7,18 +7,20 @@ import React, {
   useContext,
   useState,
 } from 'react';
-import { strictAssert } from '../../util/assert';
-import type { LocalizerType } from '../../types/I18N';
-import type { StickerPackType, StickerType } from '../../state/ducks/stickers';
-import type { EmojiSkinTone } from './data/emojis';
-import { type EmojiParentKey } from './data/emojis';
-import type { FunGifSelection, GifType } from './panels/FunPanelGifs';
-import { FunPickerTabKey } from './constants';
-import type { fetchGifsFeatured, fetchGifsSearch } from './data/gifs';
-import type { tenorDownload } from './data/tenor';
-import type { FunEmojiSelection } from './panels/FunPanelEmojis';
-import type { FunStickerSelection } from './panels/FunPanelStickers';
-import { FunEmojiLocalizationProvider } from './FunEmojiLocalizationProvider';
+import { strictAssert } from '../../util/assert.js';
+import type { LocalizerType } from '../../types/I18N.js';
+import type {
+  StickerPackType,
+  StickerType,
+} from '../../state/ducks/stickers.js';
+import type { EmojiSkinTone, EmojiParentKey } from './data/emojis.js';
+import type { FunGifSelection, GifType } from './panels/FunPanelGifs.js';
+import { FunPickerTabKey } from './constants.js';
+import type { fetchGifsFeatured, fetchGifsSearch } from './data/gifs.js';
+import type { tenorDownload } from './data/tenor.js';
+import type { FunEmojiSelection } from './panels/FunPanelEmojis.js';
+import type { FunStickerSelection } from './panels/FunPanelStickers.js';
+import { FunEmojiLocalizationProvider } from './FunEmojiLocalizationProvider.js';
 
 export type FunContextSmartProps = Readonly<{
   i18n: LocalizerType;

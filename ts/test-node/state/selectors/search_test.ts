@@ -7,29 +7,29 @@ import sinon from 'sinon';
 import type {
   ConversationType,
   MessageType,
-} from '../../../state/ducks/conversations';
-import { getEmptyState as getEmptyConversationState } from '../../../state/ducks/conversations';
-import { noopAction } from '../../../state/ducks/noop';
-import type { MessageSearchResultType } from '../../../state/ducks/search';
-import { getEmptyState as getEmptySearchState } from '../../../state/ducks/search';
-import { getEmptyState as getEmptyUserState } from '../../../state/ducks/user';
+} from '../../../state/ducks/conversations.js';
+import { getEmptyState as getEmptyConversationState } from '../../../state/ducks/conversations.js';
+import { noopAction } from '../../../state/ducks/noop.js';
+import type { MessageSearchResultType } from '../../../state/ducks/search.js';
+import { getEmptyState as getEmptySearchState } from '../../../state/ducks/search.js';
+import { getEmptyState as getEmptyUserState } from '../../../state/ducks/user.js';
 import {
   getIsSearching,
   getIsSearchingGlobally,
   getIsSearchingInAConversation,
   getMessageSearchResultSelector,
   getSearchResults,
-} from '../../../state/selectors/search';
-import { makeLookup } from '../../../util/makeLookup';
-import { generateAci } from '../../../types/ServiceId';
+} from '../../../state/selectors/search.js';
+import { makeLookup } from '../../../util/makeLookup.js';
+import { generateAci } from '../../../types/ServiceId.js';
 import {
   getDefaultConversation,
   getDefaultConversationWithServiceId,
-} from '../../../test-helpers/getDefaultConversation';
-import { ReadStatus } from '../../../messages/MessageReadStatus';
+} from '../../../test-helpers/getDefaultConversation.js';
+import { ReadStatus } from '../../../messages/MessageReadStatus.js';
 
-import type { StateType } from '../../../state/reducer';
-import { reducer as rootReducer } from '../../../state/reducer';
+import type { StateType } from '../../../state/reducer.js';
+import { reducer as rootReducer } from '../../../state/reducer.js';
 
 describe('both/state/selectors/search', () => {
   const NOW = 1_000_000;

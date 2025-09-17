@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import { noop } from 'lodash';
 
-import { cleanDataForIpc } from '../../sql/cleanDataForIpc';
+import { cleanDataForIpc } from '../../sql/cleanDataForIpc.js';
 
 describe('cleanDataForIpc', () => {
   it('does nothing to JSON primitives', () => {

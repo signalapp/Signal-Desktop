@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { WritableDB } from '../Interface';
-import { sql } from '../util';
+import type { WritableDB } from '../Interface.js';
+import { sql } from '../util.js';
 
 export default function updateToSchemaVersion1440(db: WritableDB): void {
   const [query] = sql`

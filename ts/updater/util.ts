@@ -1,16 +1,16 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createHash } from 'crypto';
-import { createReadStream } from 'fs';
-import { rename, rm } from 'fs/promises';
-import { pipeline } from 'stream/promises';
+import { createHash } from 'node:crypto';
+import { createReadStream } from 'node:fs';
+import { rename, rm } from 'node:fs/promises';
+import { pipeline } from 'node:stream/promises';
 
-import type { LoggerType } from '../types/Logging';
-import * as Errors from '../types/errors';
-import { SECOND, MINUTE, HOUR } from '../util/durations';
-import { sleep } from '../util/sleep';
-import { isOlderThan } from '../util/timestamp';
+import type { LoggerType } from '../types/Logging.js';
+import * as Errors from '../types/errors.js';
+import { SECOND, MINUTE, HOUR } from '../util/durations/index.js';
+import { sleep } from '../util/sleep.js';
+import { isOlderThan } from '../util/timestamp.js';
 
 export type CheckIntegrityResultType = Readonly<
   | {

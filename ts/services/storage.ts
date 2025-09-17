@@ -5,8 +5,8 @@ import { debounce, isNumber, chunk } from 'lodash';
 import pMap from 'p-map';
 import Long from 'long';
 
-import { DataReader, DataWriter } from '../sql/Client';
-import * as Bytes from '../Bytes';
+import { DataReader, DataWriter } from '../sql/Client.js';
+import * as Bytes from '../Bytes.js';
 import {
   getRandomBytes,
   deriveStorageItemKey,
@@ -15,7 +15,7 @@ import {
   decryptProfile,
   deriveMasterKeyFromGroupV1,
   deriveStorageServiceKey,
-} from '../Crypto';
+} from '../Crypto.js';
 import {
   mergeAccountRecord,
   mergeContactRecord,
@@ -34,61 +34,61 @@ import {
   toDefunctOrPendingCallLinkRecord,
   toChatFolderRecord,
   mergeChatFolderRecord,
-} from './storageRecordOps';
-import type { MergeResultType } from './storageRecordOps';
-import { MAX_READ_KEYS } from './storageConstants';
-import type { ConversationModel } from '../models/conversations';
-import { strictAssert } from '../util/assert';
-import { drop } from '../util/drop';
-import { dropNull } from '../util/dropNull';
-import * as durations from '../util/durations';
-import { BackOff } from '../util/BackOff';
-import { storageJobQueue } from '../util/JobQueue';
-import { sleep } from '../util/sleep';
-import { isMoreRecentThan, isOlderThan } from '../util/timestamp';
-import { map, filter } from '../util/iterables';
-import { getMessageQueueTime } from '../util/getMessageQueueTime';
-import { ourProfileKeyService } from './ourProfileKey';
+} from './storageRecordOps.js';
+import type { MergeResultType } from './storageRecordOps.js';
+import { MAX_READ_KEYS } from './storageConstants.js';
+import type { ConversationModel } from '../models/conversations.js';
+import { strictAssert } from '../util/assert.js';
+import { drop } from '../util/drop.js';
+import { dropNull } from '../util/dropNull.js';
+import * as durations from '../util/durations/index.js';
+import { BackOff } from '../util/BackOff.js';
+import { storageJobQueue } from '../util/JobQueue.js';
+import { sleep } from '../util/sleep.js';
+import { isMoreRecentThan, isOlderThan } from '../util/timestamp.js';
+import { map, filter } from '../util/iterables.js';
+import { getMessageQueueTime } from '../util/getMessageQueueTime.js';
+import { ourProfileKeyService } from './ourProfileKey.js';
 import {
   ConversationTypes,
   isDirectConversation,
   typeofConversation,
-} from '../util/whatTypeOfConversation';
-import { SignalService as Proto } from '../protobuf';
-import { createLogger } from '../logging/log';
-import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
-import * as Errors from '../types/errors';
+} from '../util/whatTypeOfConversation.js';
+import { SignalService as Proto } from '../protobuf/index.js';
+import { createLogger } from '../logging/log.js';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.js';
+import * as Errors from '../types/errors.js';
 import type {
   ExtendedStorageID,
   RemoteRecord,
   UnknownRecord,
-} from '../types/StorageService.d';
-import MessageSender from '../textsecure/SendMessage';
+} from '../types/StorageService.d.ts';
+import MessageSender from '../textsecure/SendMessage.js';
 import type {
   StoryDistributionWithMembersType,
   StorageServiceFieldsType,
   StickerPackType,
   UninstalledStickerPackType,
-} from '../sql/Interface';
-import { MY_STORY_ID } from '../types/Stories';
-import { isNotNil } from '../util/isNotNil';
-import { isSignalConversation } from '../util/isSignalConversation';
-import { redactExtendedStorageID, redactStorageID } from '../util/privacy';
+} from '../sql/Interface.js';
+import { MY_STORY_ID } from '../types/Stories.js';
+import { isNotNil } from '../util/isNotNil.js';
+import { isSignalConversation } from '../util/isSignalConversation.js';
+import { redactExtendedStorageID, redactStorageID } from '../util/privacy.js';
 import type {
   CallLinkRecord,
   DefunctCallLinkType,
   PendingCallLinkType,
-} from '../types/CallLink';
+} from '../types/CallLink.js';
 import {
   callLinkFromRecord,
   getRoomIdFromRootKeyString,
-} from '../util/callLinksRingrtc';
-import { fromPniUuidBytesOrUntaggedString } from '../util/ServiceId';
-import { isDone as isRegistrationDone } from '../util/registration';
-import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue';
-import { isMockEnvironment } from '../environment';
-import { validateConversation } from '../util/validateConversation';
-import type { ChatFolder } from '../types/ChatFolder';
+} from '../util/callLinksRingrtc.js';
+import { fromPniUuidBytesOrUntaggedString } from '../util/ServiceId.js';
+import { isDone as isRegistrationDone } from '../util/registration.js';
+import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue.js';
+import { isMockEnvironment } from '../environment.js';
+import { validateConversation } from '../util/validateConversation.js';
+import type { ChatFolder } from '../types/ChatFolder.js';
 
 const log = createLogger('storage');
 

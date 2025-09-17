@@ -3,7 +3,7 @@
 
 import { encode } from 'blurhash';
 
-import { hslToRGB } from './hslToRGB';
+import { hslToRGB } from './hslToRGB.js';
 
 export function randomBlurHash(): string {
   const data = new Uint8ClampedArray(2 * 2 * 4);

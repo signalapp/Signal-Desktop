@@ -4,25 +4,25 @@
 import React, { memo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import type { Props as MessageDetailProps } from '../../components/conversation/MessageDetail';
-import { MessageDetail } from '../../components/conversation/MessageDetail';
-import { getContactNameColorSelector } from '../selectors/conversations';
+import type { Props as MessageDetailProps } from '../../components/conversation/MessageDetail.js';
+import { MessageDetail } from '../../components/conversation/MessageDetail.js';
+import { getContactNameColorSelector } from '../selectors/conversations.js';
 import {
   getIntl,
   getInteractionMode,
   getTheme,
   getPlatform,
-} from '../selectors/user';
-import { getMessageDetails } from '../selectors/message';
-import { getPreferredBadgeSelector } from '../selectors/badges';
-import { renderAudioAttachment } from './renderAudioAttachment';
-import { useAccountsActions } from '../ducks/accounts';
-import { useConversationsActions } from '../ducks/conversations';
-import { useGlobalModalActions } from '../ducks/globalModals';
-import { useLightboxActions } from '../ducks/lightbox';
-import { useStoriesActions } from '../ducks/stories';
+} from '../selectors/user.js';
+import { getMessageDetails } from '../selectors/message.js';
+import { getPreferredBadgeSelector } from '../selectors/badges.js';
+import { renderAudioAttachment } from './renderAudioAttachment.js';
+import { useAccountsActions } from '../ducks/accounts.js';
+import { useConversationsActions } from '../ducks/conversations.js';
+import { useGlobalModalActions } from '../ducks/globalModals.js';
+import { useLightboxActions } from '../ducks/lightbox.js';
+import { useStoriesActions } from '../ducks/stories.js';
 
-export type { Contact } from '../../components/conversation/MessageDetail';
+export type { Contact } from '../../components/conversation/MessageDetail.js';
 export type OwnProps = Pick<
   MessageDetailProps,
   'contacts' | 'errors' | 'message' | 'receivedAt'

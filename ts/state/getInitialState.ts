@@ -1,57 +1,57 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { getEmptyState as accountsEmptyState } from './ducks/accounts';
-import { getEmptyState as appEmptyState } from './ducks/app';
-import { getEmptyState as audioPlayerEmptyState } from './ducks/audioPlayer';
-import { getEmptyState as audioRecorderEmptyState } from './ducks/audioRecorder';
-import { getEmptyState as badgesEmptyState } from './ducks/badges';
-import { getEmptyState as callHistoryEmptyState } from './ducks/callHistory';
-import { getEmptyState as callingEmptyState } from './ducks/calling';
-import { getEmptyState as chatFoldersEmptyState } from './ducks/chatFolders';
-import { getEmptyState as composerEmptyState } from './ducks/composer';
-import { getEmptyState as conversationsEmptyState } from './ducks/conversations';
-import { getEmptyState as crashReportsEmptyState } from './ducks/crashReports';
-import { getEmptyState as donationsEmptyState } from './ducks/donations';
-import { getEmptyState as emojiEmptyState } from './ducks/emojis';
-import { getEmptyState as expirationEmptyState } from './ducks/expiration';
-import { getEmptyState as gifsEmptyState } from './ducks/gifs';
-import { getEmptyState as globalModalsEmptyState } from './ducks/globalModals';
-import { getEmptyState as inboxEmptyState } from './ducks/inbox';
-import { getEmptyState as installerEmptyState } from './ducks/installer';
-import { getEmptyState as itemsEmptyState } from './ducks/items';
-import { getEmptyState as lightboxEmptyState } from './ducks/lightbox';
-import { getEmptyState as linkPreviewsEmptyState } from './ducks/linkPreviews';
-import { getEmptyState as mediaGalleryEmptyState } from './ducks/mediaGallery';
-import { getEmptyState as navEmptyState } from './ducks/nav';
-import { getEmptyState as networkEmptyState } from './ducks/network';
-import { getEmptyState as notificationProfilesEmptyState } from './ducks/notificationProfiles';
-import { getEmptyState as preferredReactionsEmptyState } from './ducks/preferredReactions';
-import { getEmptyState as safetyNumberEmptyState } from './ducks/safetyNumber';
-import { getEmptyState as searchEmptyState } from './ducks/search';
-import { getEmptyState as stickersEmptyState } from './ducks/stickers';
-import { getEmptyState as storiesEmptyState } from './ducks/stories';
-import { getEmptyState as storyDistributionListsEmptyState } from './ducks/storyDistributionLists';
-import { getEmptyState as toastEmptyState } from './ducks/toast';
-import { getEmptyState as updatesEmptyState } from './ducks/updates';
-import { getEmptyState as userEmptyState } from './ducks/user';
-import { getEmptyState as usernameEmptyState } from './ducks/username';
+import { getEmptyState as accountsEmptyState } from './ducks/accounts.js';
+import { getEmptyState as appEmptyState } from './ducks/app.js';
+import { getEmptyState as audioPlayerEmptyState } from './ducks/audioPlayer.js';
+import { getEmptyState as audioRecorderEmptyState } from './ducks/audioRecorder.js';
+import { getEmptyState as badgesEmptyState } from './ducks/badges.js';
+import { getEmptyState as callHistoryEmptyState } from './ducks/callHistory.js';
+import { getEmptyState as callingEmptyState } from './ducks/calling.js';
+import { getEmptyState as chatFoldersEmptyState } from './ducks/chatFolders.js';
+import { getEmptyState as composerEmptyState } from './ducks/composer.js';
+import { getEmptyState as conversationsEmptyState } from './ducks/conversations.js';
+import { getEmptyState as crashReportsEmptyState } from './ducks/crashReports.js';
+import { getEmptyState as donationsEmptyState } from './ducks/donations.js';
+import { getEmptyState as emojiEmptyState } from './ducks/emojis.js';
+import { getEmptyState as expirationEmptyState } from './ducks/expiration.js';
+import { getEmptyState as gifsEmptyState } from './ducks/gifs.js';
+import { getEmptyState as globalModalsEmptyState } from './ducks/globalModals.js';
+import { getEmptyState as inboxEmptyState } from './ducks/inbox.js';
+import { getEmptyState as installerEmptyState } from './ducks/installer.js';
+import { getEmptyState as itemsEmptyState } from './ducks/items.js';
+import { getEmptyState as lightboxEmptyState } from './ducks/lightbox.js';
+import { getEmptyState as linkPreviewsEmptyState } from './ducks/linkPreviews.js';
+import { getEmptyState as mediaGalleryEmptyState } from './ducks/mediaGallery.js';
+import { getEmptyState as navEmptyState } from './ducks/nav.js';
+import { getEmptyState as networkEmptyState } from './ducks/network.js';
+import { getEmptyState as notificationProfilesEmptyState } from './ducks/notificationProfiles.js';
+import { getEmptyState as preferredReactionsEmptyState } from './ducks/preferredReactions.js';
+import { getEmptyState as safetyNumberEmptyState } from './ducks/safetyNumber.js';
+import { getEmptyState as searchEmptyState } from './ducks/search.js';
+import { getEmptyState as stickersEmptyState } from './ducks/stickers.js';
+import { getEmptyState as storiesEmptyState } from './ducks/stories.js';
+import { getEmptyState as storyDistributionListsEmptyState } from './ducks/storyDistributionLists.js';
+import { getEmptyState as toastEmptyState } from './ducks/toast.js';
+import { getEmptyState as updatesEmptyState } from './ducks/updates.js';
+import { getEmptyState as userEmptyState } from './ducks/user.js';
+import { getEmptyState as usernameEmptyState } from './ducks/username.js';
 
-import OS from '../util/os/osMain';
-import { getInteractionMode } from '../services/InteractionMode';
-import { makeLookup } from '../util/makeLookup';
+import OS from '../util/os/osMain.js';
+import { getInteractionMode } from '../services/InteractionMode.js';
+import { makeLookup } from '../util/makeLookup.js';
 
-import type { StateType } from './reducer';
-import type { MainWindowStatsType } from '../windows/context';
-import type { ConversationsStateType } from './ducks/conversations';
-import type { MenuOptionsType } from '../types/menu';
+import type { StateType } from './reducer.js';
+import type { MainWindowStatsType } from '../windows/context.js';
+import type { ConversationsStateType } from './ducks/conversations.js';
+import type { MenuOptionsType } from '../types/menu.js';
 import type {
   StoryDistributionListDataType,
   StoryDistributionListStateType,
-} from './ducks/storyDistributionLists';
-import type { ThemeType } from '../types/Util';
-import type { UserStateType } from './ducks/user';
-import type { ReduxInitData } from './initializeRedux';
+} from './ducks/storyDistributionLists.js';
+import type { ThemeType } from '../types/Util.js';
+import type { UserStateType } from './ducks/user.js';
+import type { ReduxInitData } from './initializeRedux.js';
 
 export function getInitialState(
   {

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useRef, useCallback } from 'react';
-import { FRAME_BUFFER_SIZE } from './constants';
+import { FRAME_BUFFER_SIZE } from './constants.js';
 
 /**
  * A hook that returns a function. This function returns a "singleton" `ArrayBuffer` to be

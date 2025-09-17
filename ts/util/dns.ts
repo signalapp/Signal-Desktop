@@ -6,15 +6,15 @@ import type {
   LookupAllOptions,
   LookupAddress,
   lookup as nodeLookup,
-} from 'dns';
+} from 'node:dns';
 import { ipcRenderer, net } from 'electron';
 import type { ResolvedHost, ResolvedEndpoint } from 'electron';
 import pTimeout from 'p-timeout';
 
-import { strictAssert } from './assert';
-import { drop } from './drop';
-import type { DNSFallbackType } from '../types/DNSFallback';
-import { SECOND } from './durations';
+import { strictAssert } from './assert.js';
+import { drop } from './drop.js';
+import type { DNSFallbackType } from '../types/DNSFallback.js';
+import { SECOND } from './durations/index.js';
 
 const LOOKUP_TIMEOUT_MS = 5 * SECOND;
 const fallbackAddrs = new Map<string, ReadonlyArray<ResolvedEndpoint>>();

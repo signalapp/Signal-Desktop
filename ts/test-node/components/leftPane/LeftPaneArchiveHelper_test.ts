@@ -4,12 +4,12 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { v4 as uuid } from 'uuid';
-import { RowType } from '../../../components/ConversationList';
-import { FindDirection } from '../../../components/leftPane/LeftPaneHelper';
-import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation';
-import { LeftPaneSearchHelper } from '../../../components/leftPane/LeftPaneSearchHelper';
+import { RowType } from '../../../components/ConversationList.js';
+import { FindDirection } from '../../../components/leftPane/LeftPaneHelper.js';
+import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.js';
+import { LeftPaneSearchHelper } from '../../../components/leftPane/LeftPaneSearchHelper.js';
 
-import { LeftPaneArchiveHelper } from '../../../components/leftPane/LeftPaneArchiveHelper';
+import { LeftPaneArchiveHelper } from '../../../components/leftPane/LeftPaneArchiveHelper.js';
 
 describe('LeftPaneArchiveHelper', () => {
   let sandbox: sinon.SinonSandbox;

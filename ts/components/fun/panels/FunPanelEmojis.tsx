@@ -11,15 +11,15 @@ import {
 } from 'react-aria-components';
 import { VisuallyHidden } from 'react-aria';
 import * as Tooltip from '@radix-ui/react-tooltip';
-import type { LocalizerType } from '../../../types/I18N';
-import { strictAssert } from '../../../util/assert';
-import { missingCaseError } from '../../../util/missingCaseError';
-import type { FunEmojisSection } from '../constants';
+import type { LocalizerType } from '../../../types/I18N.js';
+import { strictAssert } from '../../../util/assert.js';
+import { missingCaseError } from '../../../util/missingCaseError.js';
+import type { FunEmojisSection } from '../constants.js';
 import {
   FunEmojisBase,
   FunEmojisSectionOrder,
   FunSectionCommon,
-} from '../constants';
+} from '../constants.js';
 import {
   FunGridCell,
   FunGridContainer,
@@ -32,23 +32,23 @@ import {
   FunGridRow,
   FunGridRowGroup,
   FunGridScrollerSection,
-} from '../base/FunGrid';
-import { FunItemButton } from '../base/FunItem';
+} from '../base/FunGrid.js';
+import { FunItemButton } from '../base/FunItem.js';
 import {
   FunPanel,
   FunPanelBody,
   FunPanelFooter,
   FunPanelHeader,
-} from '../base/FunPanel';
-import { FunScroller } from '../base/FunScroller';
-import { FunSearch } from '../base/FunSearch';
+} from '../base/FunPanel.js';
+import { FunScroller } from '../base/FunScroller.js';
+import { FunSearch } from '../base/FunSearch.js';
 import {
   FunSubNav,
   FunSubNavIcon,
   FunSubNavListBox,
   FunSubNavListBoxItem,
-} from '../base/FunSubNav';
-import type { EmojiParentKey, EmojiVariantKey } from '../data/emojis';
+} from '../base/FunSubNav.js';
+import type { EmojiParentKey, EmojiVariantKey } from '../data/emojis.js';
 import {
   EmojiSkinTone,
   emojiParentKeyConstant,
@@ -62,23 +62,23 @@ import {
   getEmojiParentKeyByVariantKey,
   getEmojiVariantByKey,
   getEmojiSkinToneByVariantKey,
-} from '../data/emojis';
-import { useFunEmojiSearch } from '../useFunEmojiSearch';
-import { FunKeyboard } from '../keyboard/FunKeyboard';
-import type { GridKeyboardState } from '../keyboard/GridKeyboardDelegate';
-import { GridKeyboardDelegate } from '../keyboard/GridKeyboardDelegate';
+} from '../data/emojis.js';
+import { useFunEmojiSearch } from '../useFunEmojiSearch.js';
+import { FunKeyboard } from '../keyboard/FunKeyboard.js';
+import type { GridKeyboardState } from '../keyboard/GridKeyboardDelegate.js';
+import { GridKeyboardDelegate } from '../keyboard/GridKeyboardDelegate.js';
 import type {
   CellKey,
   CellLayoutNode,
   GridSectionNode,
-} from '../virtual/useFunVirtualGrid';
-import { useFunVirtualGrid } from '../virtual/useFunVirtualGrid';
-import { FunSkinTonesList } from '../FunSkinTones';
-import { FunStaticEmoji } from '../FunEmoji';
-import { useFunContext } from '../FunProvider';
-import { FunResults, FunResultsHeader } from '../base/FunResults';
-import { useFunEmojiLocalizer } from '../useFunEmojiLocalizer';
-import { FunTooltip } from '../base/FunTooltip';
+} from '../virtual/useFunVirtualGrid.js';
+import { useFunVirtualGrid } from '../virtual/useFunVirtualGrid.js';
+import { FunSkinTonesList } from '../FunSkinTones.js';
+import { FunStaticEmoji } from '../FunEmoji.js';
+import { useFunContext } from '../FunProvider.js';
+import { FunResults, FunResultsHeader } from '../base/FunResults.js';
+import { useFunEmojiLocalizer } from '../useFunEmojiLocalizer.js';
+import { FunTooltip } from '../base/FunTooltip.js';
 
 function getTitleForSection(
   i18n: LocalizerType,

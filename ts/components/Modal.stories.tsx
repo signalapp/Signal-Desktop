@@ -5,9 +5,9 @@ import React from 'react';
 import { noop } from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { Button } from './Button';
-import type { ModalPropsType } from './Modal';
-import { Modal } from './Modal';
+import { Button } from './Button.js';
+import type { ModalPropsType } from './Modal.js';
+import { Modal } from './Modal.js';
 
 const { i18n } = window.SignalContext;
 

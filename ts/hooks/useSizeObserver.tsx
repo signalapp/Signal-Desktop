@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { RefObject } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { strictAssert } from '../util/assert';
+import { strictAssert } from '../util/assert.js';
 
 export type Size = Readonly<{
   width: number;

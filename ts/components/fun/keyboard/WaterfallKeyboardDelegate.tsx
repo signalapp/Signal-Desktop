@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { VirtualItem, Virtualizer } from '@tanstack/react-virtual';
 import { findLast, maxBy } from 'lodash';
-import { strictAssert } from '../../../util/assert';
-import { KeyboardDelegate } from './FunKeyboard';
+import { strictAssert } from '../../../util/assert.js';
+import { KeyboardDelegate } from './FunKeyboard.js';
 
 const PAGE_MARGIN = 0.25; // % of scroll height
 

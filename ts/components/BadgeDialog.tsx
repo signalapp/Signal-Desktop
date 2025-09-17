@@ -4,16 +4,16 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
-import { strictAssert } from '../util/assert';
-import type { LocalizerType } from '../types/Util';
-import type { BadgeType } from '../badges/types';
-import { BadgeCategory } from '../badges/BadgeCategory';
-import { Modal } from './Modal';
-import { Button, ButtonSize } from './Button';
-import { BadgeDescription } from './BadgeDescription';
-import { BadgeImage } from './BadgeImage';
-import { BadgeCarouselIndex } from './BadgeCarouselIndex';
-import { BadgeSustainerInstructionsDialog } from './BadgeSustainerInstructionsDialog';
+import { strictAssert } from '../util/assert.js';
+import type { LocalizerType } from '../types/Util.js';
+import type { BadgeType } from '../badges/types.js';
+import { BadgeCategory } from '../badges/BadgeCategory.js';
+import { Modal } from './Modal.js';
+import { Button, ButtonSize } from './Button.js';
+import { BadgeDescription } from './BadgeDescription.js';
+import { BadgeImage } from './BadgeImage.js';
+import { BadgeCarouselIndex } from './BadgeCarouselIndex.js';
+import { BadgeSustainerInstructionsDialog } from './BadgeSustainerInstructionsDialog.js';
 
 export type PropsType = Readonly<{
   areWeASubscriber: boolean;

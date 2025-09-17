@@ -4,15 +4,19 @@
 import { assert } from 'chai';
 import { v4 as generateGuid } from 'uuid';
 
-import { _storyIdPredicate, getJobsInQueue, insertJob } from '../../sql/Server';
-import type { WritableDB } from '../../sql/Interface';
-import { ReadStatus } from '../../messages/MessageReadStatus';
-import { SeenStatus } from '../../MessageSeenStatus';
-import { objectToJSON, sql, sqlJoin } from '../../sql/util';
-import { BodyRange } from '../../types/BodyRange';
-import type { AciString } from '../../types/ServiceId';
-import { generateAci } from '../../types/ServiceId';
-import { createDB, updateToVersion, explain } from './helpers';
+import {
+  _storyIdPredicate,
+  getJobsInQueue,
+  insertJob,
+} from '../../sql/Server.js';
+import type { WritableDB } from '../../sql/Interface.js';
+import { ReadStatus } from '../../messages/MessageReadStatus.js';
+import { SeenStatus } from '../../MessageSeenStatus.js';
+import { objectToJSON, sql, sqlJoin } from '../../sql/util.js';
+import { BodyRange } from '../../types/BodyRange.js';
+import type { AciString } from '../../types/ServiceId.js';
+import { generateAci } from '../../types/ServiceId.js';
+import { createDB, updateToVersion, explain } from './helpers.js';
 
 const OUR_UUID = generateGuid();
 

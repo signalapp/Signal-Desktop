@@ -3,7 +3,7 @@
 
 import { z } from 'zod';
 
-import { aciSchema } from './ServiceId';
+import { aciSchema } from './ServiceId.js';
 
 export const receiptSchema = z.object({
   messageId: z.string(),

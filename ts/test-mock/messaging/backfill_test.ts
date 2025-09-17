@@ -7,14 +7,14 @@ import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import createDebug from 'debug';
 import type { Page } from 'playwright';
-import assert from 'assert';
+import assert from 'node:assert';
 import Long from 'long';
 
-import { LONG_MESSAGE, IMAGE_JPEG } from '../../types/MIME';
-import * as durations from '../../util/durations';
-import type { App } from '../playwright';
-import { Bootstrap } from '../bootstrap';
-import { sendTextMessage, getTimelineMessageWithText } from '../helpers';
+import { LONG_MESSAGE, IMAGE_JPEG } from '../../types/MIME.js';
+import * as durations from '../../util/durations/index.js';
+import type { App } from '../playwright.js';
+import { Bootstrap } from '../bootstrap.js';
+import { sendTextMessage, getTimelineMessageWithText } from '../helpers.js';
 
 export const debug = createDebug('mock:test:backfill');
 

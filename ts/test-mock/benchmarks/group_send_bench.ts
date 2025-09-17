@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 /* eslint-disable no-await-in-loop, no-console */
 
-import assert from 'assert';
+import assert from 'node:assert';
 
 import {
   StorageState,
@@ -18,11 +18,11 @@ import {
   DISCARD_COUNT,
   GROUP_DELIVERY_RECEIPTS,
   BLOCKED_COUNT,
-} from './fixtures';
-import { stats } from '../../util/benchmark/stats';
-import { sleep } from '../../util/sleep';
-import { typeIntoInput, waitForEnabledComposer } from '../helpers';
-import { MINUTE } from '../../util/durations';
+} from './fixtures.js';
+import { stats } from '../../util/benchmark/stats.js';
+import { sleep } from '../../util/sleep.js';
+import { typeIntoInput, waitForEnabledComposer } from '../helpers.js';
+import { MINUTE } from '../../util/durations/index.js';
 
 const LAST_MESSAGE = 'start sending messages now';
 

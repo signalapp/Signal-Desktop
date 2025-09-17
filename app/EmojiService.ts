@@ -7,9 +7,9 @@ import * as z from 'zod';
 import { protocol } from 'electron';
 import { LRUCache } from 'lru-cache';
 
-import type { OptionalResourceService } from './OptionalResourceService';
-import { SignalService as Proto } from '../ts/protobuf';
-import { parseUnknown } from '../ts/util/schemas';
+import type { OptionalResourceService } from './OptionalResourceService.js';
+import { SignalService as Proto } from '../ts/protobuf/index.js';
+import { parseUnknown } from '../ts/util/schemas.js';
 
 const MANIFEST_PATH = join(__dirname, '..', 'build', 'jumbomoji.json');
 

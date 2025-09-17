@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useEffect, useMemo } from 'react';
-import type { AciString } from '../types/ServiceId';
-import { usePrevious } from './usePrevious';
+import type { AciString } from '../types/ServiceId.js';
+import { usePrevious } from './usePrevious.js';
 
 type RemoteParticipant = {
   hasRemoteVideo: boolean;

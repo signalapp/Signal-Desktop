@@ -10,16 +10,16 @@ import {
   HEADER_NAME_CLASS_NAME,
   HEADER_CONTACT_NAME_CLASS_NAME,
   MESSAGE_TEXT_CLASS_NAME,
-} from './BaseConversationListItem';
-import { MessageBody } from '../conversation/MessageBody';
-import { ContactName } from '../conversation/ContactName';
-import { TypingAnimation } from '../conversation/TypingAnimation';
+} from './BaseConversationListItem.js';
+import { MessageBody } from '../conversation/MessageBody.js';
+import { ContactName } from '../conversation/ContactName.js';
+import { TypingAnimation } from '../conversation/TypingAnimation.js';
 
-import type { LocalizerType, ThemeType } from '../../types/Util';
-import type { ConversationType } from '../../state/ducks/conversations';
-import type { BadgeType } from '../../badges/types';
-import { isSignalConversation } from '../../util/isSignalConversation';
-import { RenderLocation } from '../conversation/MessageTextRenderer';
+import type { LocalizerType, ThemeType } from '../../types/Util.js';
+import type { ConversationType } from '../../state/ducks/conversations.js';
+import type { BadgeType } from '../../badges/types.js';
+import { isSignalConversation } from '../../util/isSignalConversation.js';
+import { RenderLocation } from '../conversation/MessageTextRenderer.js';
 
 const EMPTY_OBJECT = Object.freeze(Object.create(null));
 const MESSAGE_STATUS_ICON_CLASS_NAME = `${MESSAGE_TEXT_CLASS_NAME}__status-icon`;

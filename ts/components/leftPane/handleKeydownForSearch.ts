@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as KeyboardLayout from '../../services/keyboardLayout';
+import * as KeyboardLayout from '../../services/keyboardLayout.js';
 
 export function handleKeydownForSearch(
   event: Readonly<KeyboardEvent>,

@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import type { BadgeType } from '../../badges/types';
+import type { BadgeType } from '../../badges/types.js';
 
-import { isBadgeVisible } from '../../badges/isBadgeVisible';
-import { BadgeCategory } from '../../badges/BadgeCategory';
+import { isBadgeVisible } from '../../badges/isBadgeVisible.js';
+import { BadgeCategory } from '../../badges/BadgeCategory.js';
 
 describe('isBadgeVisible', () => {
   const fakeBadge = (isVisible?: boolean): BadgeType => ({

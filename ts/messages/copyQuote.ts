@@ -3,18 +3,18 @@
 
 import { omit } from 'lodash';
 
-import { createLogger } from '../logging/log';
-import type { QuotedMessageType } from '../model-types';
-import { SignalService } from '../protobuf';
-import { isGiftBadge, isTapToView } from '../state/selectors/message';
-import type { ProcessedQuote } from '../textsecure/Types';
-import { IMAGE_JPEG } from '../types/MIME';
-import { strictAssert } from '../util/assert';
-import { getQuoteBodyText } from '../util/getQuoteBodyText';
-import { isQuoteAMatch, messageHasPaymentEvent } from './helpers';
-import * as Errors from '../types/errors';
-import type { MessageModel } from '../models/messages';
-import { isDownloadable } from '../types/Attachment';
+import { createLogger } from '../logging/log.js';
+import type { QuotedMessageType } from '../model-types.js';
+import { SignalService } from '../protobuf/index.js';
+import { isGiftBadge, isTapToView } from '../state/selectors/message.js';
+import type { ProcessedQuote } from '../textsecure/Types.js';
+import { IMAGE_JPEG } from '../types/MIME.js';
+import { strictAssert } from '../util/assert.js';
+import { getQuoteBodyText } from '../util/getQuoteBodyText.js';
+import { isQuoteAMatch, messageHasPaymentEvent } from './helpers.js';
+import * as Errors from '../types/errors.js';
+import type { MessageModel } from '../models/messages.js';
+import { isDownloadable } from '../types/Attachment.js';
 
 const log = createLogger('copyQuote');
 

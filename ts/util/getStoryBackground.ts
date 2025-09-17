@@ -1,7 +1,10 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AttachmentType, TextAttachmentType } from '../types/Attachment';
+import type {
+  AttachmentType,
+  TextAttachmentType,
+} from '../types/Attachment.js';
 
 const COLOR_BLACK_ALPHA_90 = 'rgba(0, 0, 0, 0.9)';
 export const COLOR_BLACK_INT = 4278190080;

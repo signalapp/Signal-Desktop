@@ -8,13 +8,13 @@
 
 import type { RequestInit, Response } from 'node-fetch';
 import fetch from 'node-fetch';
-import type { Agent } from 'https';
+import type { Agent } from 'node:https';
 import { escapeRegExp, isNumber, isString, isObject, throttle } from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
 import { z } from 'zod';
-import type { Readable } from 'stream';
-import qs from 'querystring';
+import type { Readable } from 'node:stream';
+import qs from 'node:querystring';
 import type {
   KEMPublicKey,
   PublicKey,
@@ -23,82 +23,83 @@ import type {
 } from '@signalapp/libsignal-client';
 import { AccountAttributes } from '@signalapp/libsignal-client/dist/net';
 
-import { assertDev, strictAssert } from '../util/assert';
-import * as durations from '../util/durations';
-import type { ExplodePromiseResultType } from '../util/explodePromise';
-import { explodePromise } from '../util/explodePromise';
-import { getUserAgent } from '../util/getUserAgent';
-import { getTimeoutStream } from '../util/getStreamWithTimeout';
-import { toWebSafeBase64, fromWebSafeBase64 } from '../util/webSafeBase64';
-import { getBasicAuth } from '../util/getBasicAuth';
-import { createHTTPSAgent } from '../util/createHTTPSAgent';
-import { createProxyAgent } from '../util/createProxyAgent';
-import type { ProxyAgent } from '../util/createProxyAgent';
-import type { FetchFunctionType } from '../util/uploads/tusProtocol';
-import { VerificationTransport } from '../types/VerificationTransport';
-import { ZERO_ACCESS_KEY } from '../types/SealedSender';
-import { toLogFormat } from '../types/errors';
-import { isPackIdValid, redactPackId } from '../types/Stickers';
+import { assertDev, strictAssert } from '../util/assert.js';
+import * as durations from '../util/durations/index.js';
+import type { ExplodePromiseResultType } from '../util/explodePromise.js';
+import { explodePromise } from '../util/explodePromise.js';
+import { getUserAgent } from '../util/getUserAgent.js';
+import { getTimeoutStream } from '../util/getStreamWithTimeout.js';
+import { toWebSafeBase64, fromWebSafeBase64 } from '../util/webSafeBase64.js';
+import { getBasicAuth } from '../util/getBasicAuth.js';
+import { createHTTPSAgent } from '../util/createHTTPSAgent.js';
+import { createProxyAgent } from '../util/createProxyAgent.js';
+import type { ProxyAgent } from '../util/createProxyAgent.js';
+import type { FetchFunctionType } from '../util/uploads/tusProtocol.js';
+import { VerificationTransport } from '../types/VerificationTransport.js';
+import { ZERO_ACCESS_KEY } from '../types/SealedSender.js';
+import { toLogFormat } from '../types/errors.js';
+import { isPackIdValid, redactPackId } from '../types/Stickers.js';
 import type {
   ServiceIdString,
   AciString,
   UntaggedPniString,
-} from '../types/ServiceId';
+} from '../types/ServiceId.js';
 import {
   ServiceIdKind,
   serviceIdSchema,
   aciSchema,
   untaggedPniSchema,
-} from '../types/ServiceId';
-import type { BackupPresentationHeadersType } from '../types/backups';
-import * as Bytes from '../Bytes';
-import { getRandomBytes, randomInt } from '../Crypto';
-import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch';
-import { isBadgeImageFileUrlValid } from '../badges/isBadgeImageFileUrlValid';
+} from '../types/ServiceId.js';
+import type { BackupPresentationHeadersType } from '../types/backups.js';
+import * as Bytes from '../Bytes.js';
+import { getRandomBytes, randomInt } from '../Crypto.js';
+import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch.js';
+import { isBadgeImageFileUrlValid } from '../badges/isBadgeImageFileUrlValid.js';
 
 import {
   SocketManager,
   type SocketStatuses,
   type SocketExpirationReason,
-} from './SocketManager';
-import type { CDSAuthType, CDSResponseType } from './cds/Types.d';
-import { CDSI } from './cds/CDSI';
-import { SignalService as Proto } from '../protobuf';
+} from './SocketManager.js';
+import type { CDSAuthType, CDSResponseType } from './cds/Types.d.ts';
+import { CDSI } from './cds/CDSI.js';
+import { SignalService as Proto } from '../protobuf/index.js';
 
-import { HTTPError } from './Errors';
-import type MessageSender from './SendMessage';
+import { HTTPError } from './Errors.js';
+import type MessageSender from './SendMessage.js';
 import type {
   WebAPICredentials,
   IRequestHandler,
   StorageServiceCallOptionsType,
   StorageServiceCredentials,
-} from './Types.d';
-import { handleStatusCode, translateError } from './Utils';
-import { createLogger } from '../logging/log';
-import { maybeParseUrl, urlPathFromComponents } from '../util/url';
-import { HOUR, MINUTE, SECOND } from '../util/durations';
-import { safeParseNumber } from '../util/numbers';
-import type { IWebSocketResource } from './WebsocketResources';
-import { getLibsignalNet } from './preconnect';
-import type { GroupSendToken } from '../types/GroupSendEndorsements';
-import { parseUnknown, safeParseUnknown, type Schema } from '../util/schemas';
+} from './Types.d.ts';
+import { handleStatusCode, translateError } from './Utils.js';
+import { createLogger } from '../logging/log.js';
+import { maybeParseUrl, urlPathFromComponents } from '../util/url.js';
+import { HOUR, MINUTE, SECOND } from '../util/durations/index.js';
+import { safeParseNumber } from '../util/numbers.js';
+import type { IWebSocketResource } from './WebsocketResources.js';
+import { getLibsignalNet } from './preconnect.js';
+import type { GroupSendToken } from '../types/GroupSendEndorsements.js';
+import {
+  parseUnknown,
+  safeParseUnknown,
+  type Schema,
+} from '../util/schemas.js';
 import type {
   ProfileFetchAuthRequestOptions,
   ProfileFetchUnauthRequestOptions,
-} from '../services/profiles';
-import { ToastType } from '../types/Toast';
-import { isProduction } from '../util/version';
-import type { ServerAlert } from '../util/handleServerAlerts';
-import { isAbortError } from '../util/isAbortError';
-import { missingCaseError } from '../util/missingCaseError';
-import { drop } from '../util/drop';
-import type { StripeDonationAmount } from '../types/Donations';
-import {
-  subscriptionConfigurationCurrencyZod,
-  type CardDetail,
-} from '../types/Donations';
-import { badgeFromServerSchema } from '../badges/parseBadgesFromServer';
-import { ZERO_DECIMAL_CURRENCIES } from '../util/currency';
+} from '../services/profiles.js';
+import { ToastType } from '../types/Toast.js';
+import { isProduction } from '../util/version.js';
+import type { ServerAlert } from '../util/handleServerAlerts.js';
+import { isAbortError } from '../util/isAbortError.js';
+import { missingCaseError } from '../util/missingCaseError.js';
+import { drop } from '../util/drop.js';
+import { subscriptionConfigurationCurrencyZod } from '../types/Donations.js';
+import type { StripeDonationAmount, CardDetail } from '../types/Donations.js';
+import { badgeFromServerSchema } from '../badges/parseBadgesFromServer.js';
+import { ZERO_DECIMAL_CURRENCIES } from '../util/currency.js';
 
 const log = createLogger('WebAPI');
 

@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as Constants from './constants';
+import * as Constants from './constants.js';
 
 export type DurationInSeconds = number & {
   __time_difference_in_seconds: never;

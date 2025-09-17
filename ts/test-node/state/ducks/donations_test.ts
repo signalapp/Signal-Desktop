@@ -4,15 +4,15 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 
-import type { StateType } from '../../../state/reducer';
-import { reducer as rootReducer } from '../../../state/reducer';
-import { noopAction } from '../../../state/ducks/noop';
-import { applyDonationBadge } from '../../../state/ducks/donations';
-import * as conversations from '../../../state/ducks/conversations';
-import type { BadgeType } from '../../../badges/types';
-import { BadgeCategory } from '../../../badges/BadgeCategory';
-import type { ConversationType } from '../../../state/ducks/conversations';
-import { generateAci } from '../../../types/ServiceId';
+import type { StateType } from '../../../state/reducer.js';
+import { reducer as rootReducer } from '../../../state/reducer.js';
+import { noopAction } from '../../../state/ducks/noop.js';
+import { applyDonationBadge } from '../../../state/ducks/donations.js';
+import * as conversations from '../../../state/ducks/conversations.js';
+import type { BadgeType } from '../../../badges/types.js';
+import { BadgeCategory } from '../../../badges/BadgeCategory.js';
+import type { ConversationType } from '../../../state/ducks/conversations.js';
+import { generateAci } from '../../../types/ServiceId.js';
 
 describe('donations duck', () => {
   const getEmptyRootState = (): StateType =>

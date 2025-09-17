@@ -1,25 +1,25 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createLogger } from '../logging/log';
+import { createLogger } from '../logging/log.js';
 
-import { getAuthor, isIncoming, isOutgoing } from './helpers';
+import { getAuthor, isIncoming, isOutgoing } from './helpers.js';
 
-import type { ConversationModel } from '../models/conversations';
-import { getActiveProfile } from '../state/selectors/notificationProfiles';
-import { shouldNotify as shouldNotifyDuringNotificationProfile } from '../types/NotificationProfile';
-import { isMessageUnread } from '../util/isMessageUnread';
-import { isDirectConversation } from '../util/whatTypeOfConversation';
-import { hasExpiration } from '../types/Message2';
+import type { ConversationModel } from '../models/conversations.js';
+import { getActiveProfile } from '../state/selectors/notificationProfiles.js';
+import { shouldNotify as shouldNotifyDuringNotificationProfile } from '../types/NotificationProfile.js';
+import { isMessageUnread } from '../util/isMessageUnread.js';
+import { isDirectConversation } from '../util/whatTypeOfConversation.js';
+import { hasExpiration } from '../types/Message2.js';
 import {
   notificationService,
   NotificationType,
-} from '../services/notifications';
-import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage';
-import type { MessageAttributesType } from '../model-types';
-import type { ReactionAttributesType } from '../messageModifiers/Reactions';
-import { shouldStoryReplyNotifyUser } from '../util/shouldStoryReplyNotifyUser';
-import { ReactionSource } from '../reactions/ReactionSource';
+} from '../services/notifications.js';
+import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage.js';
+import type { MessageAttributesType } from '../model-types.js';
+import type { ReactionAttributesType } from '../messageModifiers/Reactions.js';
+import { shouldStoryReplyNotifyUser } from '../util/shouldStoryReplyNotifyUser.js';
+import { ReactionSource } from '../reactions/ReactionSource.js';
 
 const log = createLogger('maybeNotify');
 

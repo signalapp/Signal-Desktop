@@ -11,19 +11,19 @@ import React, {
 } from 'react';
 import { noop } from 'lodash';
 
-import * as grapheme from '../util/grapheme';
-import { AvatarColorPicker } from './AvatarColorPicker';
-import { AvatarColors } from '../types/Colors';
-import type { AvatarDataType } from '../types/Avatar';
-import { AvatarModalButtons } from './AvatarModalButtons';
-import { BetterAvatarBubble } from './BetterAvatarBubble';
-import type { LocalizerType } from '../types/Util';
-import { avatarDataToBytes } from '../util/avatarDataToBytes';
-import { createAvatarData } from '../util/createAvatarData';
+import * as grapheme from '../util/grapheme.js';
+import { AvatarColorPicker } from './AvatarColorPicker.js';
+import { AvatarColors } from '../types/Colors.js';
+import type { AvatarDataType } from '../types/Avatar.js';
+import { AvatarModalButtons } from './AvatarModalButtons.js';
+import { BetterAvatarBubble } from './BetterAvatarBubble.js';
+import type { LocalizerType } from '../types/Util.js';
+import { avatarDataToBytes } from '../util/avatarDataToBytes.js';
+import { createAvatarData } from '../util/createAvatarData.js';
 import {
   getFittedFontSize,
   getFontSizes,
-} from '../util/avatarTextSizeCalculator';
+} from '../util/avatarTextSizeCalculator.js';
 
 type DoneHandleType = (
   avatarBuffer: Uint8Array,

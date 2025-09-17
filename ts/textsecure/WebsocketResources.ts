@@ -30,7 +30,7 @@ import type { connection as WebSocket, IMessage } from 'websocket';
 import Long from 'long';
 import pTimeout from 'p-timeout';
 import { Response } from 'node-fetch';
-import net from 'net';
+import net from 'node:net';
 import { z } from 'zod';
 
 import type { LibSignalError, Net } from '@signalapp/libsignal-client';
@@ -41,28 +41,28 @@ import type {
   ChatServiceListener,
   ConnectionEventsListener,
 } from '@signalapp/libsignal-client/dist/net/Chat';
-import type { EventHandler } from './EventTarget';
-import EventTarget from './EventTarget';
+import type { EventHandler } from './EventTarget.js';
+import EventTarget from './EventTarget.js';
 
-import * as durations from '../util/durations';
-import { dropNull } from '../util/dropNull';
-import { drop } from '../util/drop';
-import { isOlderThan } from '../util/timestamp';
-import { strictAssert } from '../util/assert';
-import * as Errors from '../types/errors';
-import { SignalService as Proto } from '../protobuf';
-import { createLogger } from '../logging/log';
-import * as Timers from '../Timers';
-import type { IResource } from './WebSocket';
+import * as durations from '../util/durations/index.js';
+import { dropNull } from '../util/dropNull.js';
+import { drop } from '../util/drop.js';
+import { isOlderThan } from '../util/timestamp.js';
+import { strictAssert } from '../util/assert.js';
+import * as Errors from '../types/errors.js';
+import { SignalService as Proto } from '../protobuf/index.js';
+import { createLogger } from '../logging/log.js';
+import * as Timers from '../Timers.js';
+import type { IResource } from './WebSocket.js';
 
-import { AbortableProcess } from '../util/AbortableProcess';
-import type { WebAPICredentials } from './Types';
-import { NORMAL_DISCONNECT_CODE } from './SocketManager';
-import { parseUnknown } from '../util/schemas';
+import { AbortableProcess } from '../util/AbortableProcess.js';
+import type { WebAPICredentials } from './Types.js';
+import { NORMAL_DISCONNECT_CODE } from './SocketManager.js';
+import { parseUnknown } from '../util/schemas.js';
 import {
   parseServerAlertsFromHeader,
   type ServerAlert,
-} from '../util/handleServerAlerts';
+} from '../util/handleServerAlerts.js';
 
 const log = createLogger('WebsocketResources');
 

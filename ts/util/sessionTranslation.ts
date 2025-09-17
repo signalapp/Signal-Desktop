@@ -3,9 +3,9 @@
 
 import { get, isFinite, isInteger, isString } from 'lodash';
 
-import { signal } from '../protobuf/compiled';
-import * as Bytes from '../Bytes';
-import { deriveSecrets } from '../Crypto';
+import { signal } from '../protobuf/compiled.js';
+import * as Bytes from '../Bytes.js';
+import { deriveSecrets } from '../Crypto.js';
 
 const { RecordStructure, SessionStructure } = signal.proto.storage;
 const { Chain } = SessionStructure;

@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { CaptchaDialog } from '../../components/CaptchaDialog';
-import { getIntl } from '../selectors/user';
-import { isChallengePending } from '../selectors/network';
-import { getChallengeURL } from '../../challenge';
-import { createLogger } from '../../logging/log';
+import { CaptchaDialog } from '../../components/CaptchaDialog.js';
+import { getIntl } from '../selectors/user.js';
+import { isChallengePending } from '../selectors/network.js';
+import { getChallengeURL } from '../../challenge.js';
+import { createLogger } from '../../logging/log.js';
 
 const log = createLogger('CaptchaDialog');
 

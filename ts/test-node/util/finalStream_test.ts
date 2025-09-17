@@ -5,7 +5,7 @@ import { assert } from 'chai';
 import { Readable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 
-import { finalStream } from '../../util/finalStream';
+import { finalStream } from '../../util/finalStream.js';
 
 describe('finalStream', () => {
   it('should invoke callback before pipeline resolves', async () => {

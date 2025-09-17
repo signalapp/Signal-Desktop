@@ -1,12 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { assertDev } from '../../util/assert';
-import { isDirectConversation } from '../../util/whatTypeOfConversation';
-import { createLogger } from '../../logging/log';
-import { isAciString } from '../../util/isAciString';
-import type { reportSpamJobQueue } from '../reportSpamJobQueue';
-import type { ConversationType } from '../../state/ducks/conversations';
+import { assertDev } from '../../util/assert.js';
+import { isDirectConversation } from '../../util/whatTypeOfConversation.js';
+import { createLogger } from '../../logging/log.js';
+import { isAciString } from '../../util/isAciString.js';
+import type { reportSpamJobQueue } from '../reportSpamJobQueue.js';
+import type { ConversationType } from '../../state/ducks/conversations.js';
 
 const log = createLogger('addReportSpamJob');
 

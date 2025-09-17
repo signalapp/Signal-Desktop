@@ -4,22 +4,22 @@
 import React from 'react';
 
 import type { ReadonlyDeep } from 'type-fest';
-import { formatFileSize } from '../../../util/formatFileSize';
-import { formatDuration } from '../../../util/formatDuration';
-import type { LocalizerType, ThemeType } from '../../../types/Util';
-import type { MediaItemType } from '../../../types/MediaItem';
-import type { AttachmentForUIType } from '../../../types/Attachment';
+import { formatFileSize } from '../../../util/formatFileSize.js';
+import { formatDuration } from '../../../util/formatDuration.js';
+import type { LocalizerType, ThemeType } from '../../../types/Util.js';
+import type { MediaItemType } from '../../../types/MediaItem.js';
+import type { AttachmentForUIType } from '../../../types/Attachment.js';
 import {
   getAlt,
   getUrl,
   defaultBlurHash,
   isGIF,
   isVideoAttachment,
-} from '../../../types/Attachment';
-import { ImageOrBlurhash } from '../../ImageOrBlurhash';
-import { SpinnerV2 } from '../../SpinnerV2';
-import { tw } from '../../../axo/tw';
-import { AxoSymbol } from '../../../axo/AxoSymbol';
+} from '../../../types/Attachment.js';
+import { ImageOrBlurhash } from '../../ImageOrBlurhash.js';
+import { SpinnerV2 } from '../../SpinnerV2.js';
+import { tw } from '../../../axo/tw.js';
+import { AxoSymbol } from '../../../axo/AxoSymbol.js';
 
 export type Props = Readonly<{
   mediaItem: ReadonlyDeep<MediaItemType>;

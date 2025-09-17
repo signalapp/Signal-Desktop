@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { ContactName } from '../../components/conversation/ContactName';
-import { getIntl } from '../selectors/user';
+import { ContactName } from '../../components/conversation/ContactName.js';
+import { getIntl } from '../selectors/user.js';
 import {
   getConversationSelector,
   getSelectedConversationId,
-} from '../selectors/conversations';
-import { useGlobalModalActions } from '../ducks/globalModals';
+} from '../selectors/conversations.js';
+import { useGlobalModalActions } from '../ducks/globalModals.js';
 
 type ExternalProps = {
   contactId: string;

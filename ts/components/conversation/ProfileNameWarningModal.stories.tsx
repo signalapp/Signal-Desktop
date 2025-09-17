@@ -3,10 +3,10 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './ProfileNameWarningModal';
-import { ProfileNameWarningModal } from './ProfileNameWarningModal';
-import { type ComponentMeta } from '../../storybook/types';
-import { setupI18n } from '../../util/setupI18n';
+import type { PropsType } from './ProfileNameWarningModal.js';
+import { ProfileNameWarningModal } from './ProfileNameWarningModal.js';
+import { type ComponentMeta } from '../../storybook/types.js';
+import { setupI18n } from '../../util/setupI18n.js';
 import enMessages from '../../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);

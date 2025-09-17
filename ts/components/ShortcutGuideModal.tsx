@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import { createPortal } from 'react-dom';
-import type { LocalizerType } from '../types/Util';
-import { ShortcutGuide } from './ShortcutGuide';
+import type { LocalizerType } from '../types/Util.js';
+import { ShortcutGuide } from './ShortcutGuide.js';
 
 export type PropsType = {
   hasInstalledStickers: boolean;

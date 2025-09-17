@@ -5,37 +5,37 @@ import classNames from 'classnames';
 import { noop } from 'lodash';
 import { usePopper } from 'react-popper';
 import { FocusScope } from 'react-aria';
-import type { EmojiPickDataType } from './emoji/EmojiPicker';
-import type { LinkPreviewForUIType } from '../types/message/LinkPreviews';
-import { ThemeType, type LocalizerType } from '../types/Util';
-import type { Props as EmojiButtonPropsType } from './emoji/EmojiButton';
-import type { TextAttachmentType } from '../types/Attachment';
-import { Button, ButtonVariant } from './Button';
-import { ContextMenu } from './ContextMenu';
-import { EmojiButton } from './emoji/EmojiButton';
-import { LinkPreviewSourceType, findLinks } from '../types/LinkPreview';
-import type { MaybeGrabLinkPreviewOptionsType } from '../types/LinkPreview';
-import { Input } from './Input';
-import { Slider } from './Slider';
-import { StoryLinkPreview } from './StoryLinkPreview';
-import { TextAttachment } from './TextAttachment';
-import { Theme, themeClassName } from '../util/theme';
-import { getRGBA, getRGBANumber } from '../mediaEditor/util/color';
+import type { EmojiPickDataType } from './emoji/EmojiPicker.js';
+import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.js';
+import { ThemeType, type LocalizerType } from '../types/Util.js';
+import type { Props as EmojiButtonPropsType } from './emoji/EmojiButton.js';
+import type { TextAttachmentType } from '../types/Attachment.js';
+import { Button, ButtonVariant } from './Button.js';
+import { ContextMenu } from './ContextMenu.js';
+import { EmojiButton } from './emoji/EmojiButton.js';
+import { LinkPreviewSourceType, findLinks } from '../types/LinkPreview.js';
+import type { MaybeGrabLinkPreviewOptionsType } from '../types/LinkPreview.js';
+import { Input } from './Input.js';
+import { Slider } from './Slider.js';
+import { StoryLinkPreview } from './StoryLinkPreview.js';
+import { TextAttachment } from './TextAttachment.js';
+import { Theme, themeClassName } from '../util/theme.js';
+import { getRGBA, getRGBANumber } from '../mediaEditor/util/color.js';
 import {
   COLOR_BLACK_INT,
   COLOR_WHITE_INT,
   getBackgroundColor,
-} from '../util/getStoryBackground';
-import { convertShortName } from './emoji/lib';
-import { objectMap } from '../util/objectMap';
-import { handleOutsideClick } from '../util/handleOutsideClick';
-import { Spinner } from './Spinner';
-import { FunEmojiPicker } from './fun/FunEmojiPicker';
-import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis';
-import { getEmojiVariantByKey } from './fun/data/emojis';
-import { FunEmojiPickerButton } from './fun/FunButton';
-import { isFunPickerEnabled } from './fun/isFunPickerEnabled';
-import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
+} from '../util/getStoryBackground.js';
+import { convertShortName } from './emoji/lib.js';
+import { objectMap } from '../util/objectMap.js';
+import { handleOutsideClick } from '../util/handleOutsideClick.js';
+import { Spinner } from './Spinner.js';
+import { FunEmojiPicker } from './fun/FunEmojiPicker.js';
+import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.js';
+import { getEmojiVariantByKey } from './fun/data/emojis.js';
+import { FunEmojiPickerButton } from './fun/FunButton.js';
+import { isFunPickerEnabled } from './fun/isFunPickerEnabled.js';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard.js';
 
 export type PropsType = {
   debouncedMaybeGrabLinkPreview: (

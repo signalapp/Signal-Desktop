@@ -1,7 +1,7 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { join, basename } from 'path';
+import { join, basename } from 'node:path';
 import { app } from 'electron';
 
 import type { IConfig } from 'config';
@@ -11,8 +11,8 @@ import {
   getEnvironment,
   setEnvironment,
   parseEnvironment,
-} from '../ts/environment';
-import { createLogger } from '../ts/logging/log';
+} from '../ts/environment.js';
+import { createLogger } from '../ts/logging/log.js';
 
 const log = createLogger('config');
 

@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AttachmentType } from '../types/Attachment';
+import type { AttachmentType } from '../types/Attachment.js';
 
 export async function deleteDraftAttachment(
   attachment: Pick<AttachmentType, 'screenshotPath' | 'path'>

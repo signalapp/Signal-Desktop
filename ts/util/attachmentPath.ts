@@ -4,8 +4,8 @@
 import { join } from 'node:path';
 import { isString } from 'lodash';
 
-import { getRandomBytes } from '../Crypto';
-import * as Bytes from '../Bytes';
+import { getRandomBytes } from '../Crypto.js';
+import * as Bytes from '../Bytes.js';
 
 export const getRelativePath = (name: string): string => {
   if (!isString(name)) {

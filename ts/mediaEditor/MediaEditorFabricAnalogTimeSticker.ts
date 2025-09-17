@@ -3,10 +3,10 @@
 
 import { get } from 'lodash';
 import { fabric } from 'fabric';
-import { customFabricObjectControls } from './util/customFabricObjectControls';
-import { getAnalogTime } from '../util/getAnalogTime';
-import { strictAssert } from '../util/assert';
-import { moreStyles } from './util/moreStyles';
+import { customFabricObjectControls } from './util/customFabricObjectControls.js';
+import { getAnalogTime } from '../util/getAnalogTime.js';
+import { strictAssert } from '../util/assert.js';
+import { moreStyles } from './util/moreStyles.js';
 
 export enum AnalogClockStickerStyle {
   Arabic = 'Arabic',

@@ -1,8 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MessageAttributesType } from '../model-types.d';
-import type { ProcessedDataMessage } from '../textsecure/Types.d';
+import type { MessageAttributesType } from '../model-types.d.ts';
+import type { ProcessedDataMessage } from '../textsecure/Types.d.ts';
 
 export function copyDataMessageIntoMessage(
   dataMessage: ProcessedDataMessage,

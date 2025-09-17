@@ -12,15 +12,15 @@ import React, {
 import type { Index, IndexRange, ListRowProps } from 'react-virtualized';
 import { InfiniteLoader, List } from 'react-virtualized';
 import classNames from 'classnames';
-import type { LocalizerType } from '../types/I18N';
-import { ListTile } from './ListTile';
-import { Avatar, AvatarSize } from './Avatar';
-import { SearchInput } from './SearchInput';
+import type { LocalizerType } from '../types/I18N.js';
+import { ListTile } from './ListTile.js';
+import { Avatar, AvatarSize } from './Avatar.js';
+import { SearchInput } from './SearchInput.js';
 import type {
   CallHistoryFilterOptions,
   CallHistoryGroup,
   CallHistoryPagination,
-} from '../types/CallDisposition';
+} from '../types/CallDisposition.js';
 import {
   CallHistoryFilterStatus,
   CallDirection,
@@ -29,49 +29,49 @@ import {
   GroupCallStatus,
   isSameCallHistoryGroup,
   CallMode,
-} from '../types/CallDisposition';
+} from '../types/CallDisposition.js';
 import {
   formatDateTimeShort,
   isMoreRecentThan,
   toBoundedDate,
-} from '../util/timestamp';
-import type { ConversationType } from '../state/ducks/conversations';
-import { createLogger } from '../logging/log';
-import { refMerger } from '../util/refMerger';
-import { drop } from '../util/drop';
-import { strictAssert } from '../util/assert';
-import { UserText } from './UserText';
-import { I18n } from './I18n';
-import { NavSidebarSearchHeader, NavSidebarEmpty } from './NavSidebar';
-import { SizeObserver } from '../hooks/useSizeObserver';
+} from '../util/timestamp.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import { createLogger } from '../logging/log.js';
+import { refMerger } from '../util/refMerger.js';
+import { drop } from '../util/drop.js';
+import { strictAssert } from '../util/assert.js';
+import { UserText } from './UserText.js';
+import { I18n } from './I18n.js';
+import { NavSidebarSearchHeader, NavSidebarEmpty } from './NavSidebar.js';
+import { SizeObserver } from '../hooks/useSizeObserver.js';
 import {
   formatCallHistoryGroup,
   getCallIdFromEra,
-} from '../util/callDisposition';
-import { CallsNewCallButton } from './CallsNewCallButton';
-import { Tooltip, TooltipPlacement } from './Tooltip';
-import { Theme } from '../util/theme';
-import type { CallingConversationType } from '../types/Calling';
-import type { CallLinkType } from '../types/CallLink';
+} from '../util/callDisposition.js';
+import { CallsNewCallButton } from './CallsNewCallButton.js';
+import { Tooltip, TooltipPlacement } from './Tooltip.js';
+import { Theme } from '../util/theme.js';
+import type { CallingConversationType } from '../types/Calling.js';
+import type { CallLinkType } from '../types/CallLink.js';
 import {
   callLinkToConversation,
   getPlaceholderCallLinkConversation,
-} from '../util/callLinks';
-import type { CallsTabSelectedView } from './CallsTab';
-import type { CallStateType } from '../state/selectors/calling';
+} from '../util/callLinks.js';
+import type { CallsTabSelectedView } from './CallsTab.js';
+import type { CallStateType } from '../state/selectors/calling.js';
 import {
   isGroupOrAdhocCallMode,
   isGroupOrAdhocCallState,
-} from '../util/isGroupOrAdhocCall';
-import { isAnybodyInGroupCall } from '../state/ducks/callingHelpers';
+} from '../util/isGroupOrAdhocCall.js';
+import { isAnybodyInGroupCall } from '../state/ducks/callingHelpers.js';
 import type {
   ActiveCallStateType,
   PeekNotConnectedGroupCallType,
-} from '../state/ducks/calling';
-import { DAY, MINUTE, SECOND } from '../util/durations';
-import type { StartCallData } from './ConfirmLeaveCallModal';
-import { Button, ButtonVariant } from './Button';
-import type { ICUJSXMessageParamsByKeyType } from '../types/Util';
+} from '../state/ducks/calling.js';
+import { DAY, MINUTE, SECOND } from '../util/durations/index.js';
+import type { StartCallData } from './ConfirmLeaveCallModal.js';
+import { Button, ButtonVariant } from './Button.js';
+import type { ICUJSXMessageParamsByKeyType } from '../types/Util.js';
 
 const log = createLogger('CallsList');
 

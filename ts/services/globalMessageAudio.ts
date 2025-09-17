@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { noop } from 'lodash';
-import { isAbortError } from '../util/isAbortError';
+import { isAbortError } from '../util/isAbortError.js';
 
 /**
  * Wrapper around a global HTMLAudioElement that can update the

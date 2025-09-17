@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { getDefaultConversation } from '../../test-helpers/getDefaultConversation';
-import { searchConversationTitles } from '../../util/searchConversationTitles';
+import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.js';
+import { searchConversationTitles } from '../../util/searchConversationTitles.js';
 
 describe('searchContactTitles', () => {
   const conversations = [

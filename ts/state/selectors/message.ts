@@ -8,89 +8,89 @@ import emojiRegex from 'emoji-regex';
 import LinkifyIt from 'linkify-it';
 import type { ReadonlyDeep } from 'type-fest';
 
-import type { StateType } from '../reducer';
+import type { StateType } from '../reducer.js';
 import type {
   LastMessageStatus,
   ReadonlyMessageAttributesType,
   MessageReactionType,
   QuotedAttachmentType,
   ShallowChallengeError,
-} from '../../model-types.d';
+} from '../../model-types.d.ts';
 
 import type {
   Contact as SmartMessageDetailContact,
   OwnProps as SmartMessageDetailPropsType,
-} from '../smart/MessageDetail';
-import type { TimelineItemType } from '../../components/conversation/TimelineItem';
-import type { PropsData } from '../../components/conversation/Message';
-import type { PropsData as TimelineMessagePropsData } from '../../components/conversation/TimelineMessage';
-import { TextDirection } from '../../components/conversation/Message';
-import type { PropsData as TimerNotificationProps } from '../../components/conversation/TimerNotification';
-import type { PropsData as ChangeNumberNotificationProps } from '../../components/conversation/ChangeNumberNotification';
-import type { PropsData as JoinedSignalNotificationProps } from '../../components/conversation/JoinedSignalNotification';
-import type { PropsData as SafetyNumberNotificationProps } from '../../components/conversation/SafetyNumberNotification';
-import type { PropsData as VerificationNotificationProps } from '../../components/conversation/VerificationNotification';
-import type { PropsData as TitleTransitionNotificationProps } from '../../components/conversation/TitleTransitionNotification';
-import type { PropsDataType as GroupsV2Props } from '../../components/conversation/GroupV2Change';
-import type { PropsDataType as GroupV1MigrationPropsType } from '../../components/conversation/GroupV1Migration';
-import type { PropsDataType as DeliveryIssuePropsType } from '../../components/conversation/DeliveryIssueNotification';
-import type { PropsType as PaymentEventNotificationPropsType } from '../../components/conversation/PaymentEventNotification';
-import type { PropsDataType as ConversationMergePropsType } from '../../components/conversation/ConversationMergeNotification';
-import type { PropsDataType as PhoneNumberDiscoveryPropsType } from '../../components/conversation/PhoneNumberDiscoveryNotification';
+} from '../smart/MessageDetail.js';
+import type { TimelineItemType } from '../../components/conversation/TimelineItem.js';
+import type { PropsData } from '../../components/conversation/Message.js';
+import type { PropsData as TimelineMessagePropsData } from '../../components/conversation/TimelineMessage.js';
+import { TextDirection } from '../../components/conversation/Message.js';
+import type { PropsData as TimerNotificationProps } from '../../components/conversation/TimerNotification.js';
+import type { PropsData as ChangeNumberNotificationProps } from '../../components/conversation/ChangeNumberNotification.js';
+import type { PropsData as JoinedSignalNotificationProps } from '../../components/conversation/JoinedSignalNotification.js';
+import type { PropsData as SafetyNumberNotificationProps } from '../../components/conversation/SafetyNumberNotification.js';
+import type { PropsData as VerificationNotificationProps } from '../../components/conversation/VerificationNotification.js';
+import type { PropsData as TitleTransitionNotificationProps } from '../../components/conversation/TitleTransitionNotification.js';
+import type { PropsDataType as GroupsV2Props } from '../../components/conversation/GroupV2Change.js';
+import type { PropsDataType as GroupV1MigrationPropsType } from '../../components/conversation/GroupV1Migration.js';
+import type { PropsDataType as DeliveryIssuePropsType } from '../../components/conversation/DeliveryIssueNotification.js';
+import type { PropsType as PaymentEventNotificationPropsType } from '../../components/conversation/PaymentEventNotification.js';
+import type { PropsDataType as ConversationMergePropsType } from '../../components/conversation/ConversationMergeNotification.js';
+import type { PropsDataType as PhoneNumberDiscoveryPropsType } from '../../components/conversation/PhoneNumberDiscoveryNotification.js';
 import type {
   PropsData as GroupNotificationProps,
   ChangeType,
-} from '../../components/conversation/GroupNotification';
-import type { PropsType as ProfileChangeNotificationPropsType } from '../../components/conversation/ProfileChangeNotification';
+} from '../../components/conversation/GroupNotification.js';
+import type { PropsType as ProfileChangeNotificationPropsType } from '../../components/conversation/ProfileChangeNotification.js';
 
 import {
   getSafeDomain,
   isCallLink,
   isStickerPack,
-} from '../../types/LinkPreview';
+} from '../../types/LinkPreview.js';
 import type {
   AciString,
   PniString,
   ServiceIdString,
-} from '../../types/ServiceId';
+} from '../../types/ServiceId.js';
 
-import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact';
-import { embeddedContactSelector } from '../../types/EmbeddedContact';
-import type { HydratedBodyRangesType } from '../../types/BodyRange';
-import { hydrateRanges } from '../../types/BodyRange';
-import type { AssertProps } from '../../types/Util';
-import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews';
-import { getMentionsRegex } from '../../types/Message';
-import { SignalService as Proto } from '../../protobuf';
+import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact.js';
+import { embeddedContactSelector } from '../../types/EmbeddedContact.js';
+import type { HydratedBodyRangesType } from '../../types/BodyRange.js';
+import { hydrateRanges } from '../../types/BodyRange.js';
+import type { AssertProps } from '../../types/Util.js';
+import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.js';
+import { getMentionsRegex } from '../../types/Message.js';
+import { SignalService as Proto } from '../../protobuf/index.js';
 import type {
   AttachmentForUIType,
   AttachmentType,
-} from '../../types/Attachment';
+} from '../../types/Attachment.js';
 import {
   isVoiceMessage,
   isIncremental,
   defaultBlurHash,
-} from '../../types/Attachment';
-import type { AttachmentDownloadJobTypeType } from '../../types/AttachmentDownload';
-import { type DefaultConversationColorType } from '../../types/Colors';
-import { ReadStatus } from '../../messages/MessageReadStatus';
+} from '../../types/Attachment.js';
+import type { AttachmentDownloadJobTypeType } from '../../types/AttachmentDownload.js';
+import { type DefaultConversationColorType } from '../../types/Colors.js';
+import { ReadStatus } from '../../messages/MessageReadStatus.js';
 
-import type { CallingNotificationType } from '../../util/callingNotification';
-import { getRecipients } from '../../util/getRecipients';
-import { getOwn } from '../../util/getOwn';
-import { isNotNil } from '../../util/isNotNil';
-import { isMoreRecentThan } from '../../util/timestamp';
-import * as iterables from '../../util/iterables';
-import { strictAssert } from '../../util/assert';
-import { canEditMessage } from '../../util/canEditMessage';
+import type { CallingNotificationType } from '../../util/callingNotification.js';
+import { getRecipients } from '../../util/getRecipients.js';
+import { getOwn } from '../../util/getOwn.js';
+import { isNotNil } from '../../util/isNotNil.js';
+import { isMoreRecentThan } from '../../util/timestamp.js';
+import * as iterables from '../../util/iterables.js';
+import { strictAssert } from '../../util/assert.js';
+import { canEditMessage } from '../../util/canEditMessage.js';
 import {
   getLocalAttachmentUrl,
   AttachmentDisposition,
-} from '../../util/getLocalAttachmentUrl';
-import { isPermanentlyUndownloadable } from '../../jobs/AttachmentDownloadManager';
+} from '../../util/getLocalAttachmentUrl.js';
+import { isPermanentlyUndownloadable } from '../../jobs/AttachmentDownloadManager.js';
 
-import { getAccountSelector } from './accounts';
-import { getDefaultConversationColor } from './items';
+import { getAccountSelector } from './accounts.js';
+import { getDefaultConversationColor } from './items.js';
 import {
   getConversationSelector,
   getSelectedMessageIds,
@@ -99,7 +99,7 @@ import {
   getMessages,
   getCachedConversationMemberColorsSelector,
   getContactNameColor,
-} from './conversations';
+} from './conversations.js';
 import {
   getIntl,
   getRegionCode,
@@ -107,16 +107,16 @@ import {
   getUserPNI,
   getUserConversationId,
   getUserNumber,
-} from './user';
+} from './user.js';
 
 import type {
   ConversationType,
   MessageWithUIFieldsType,
-} from '../ducks/conversations';
+} from '../ducks/conversations.js';
 
-import type { AccountSelectorType } from './accounts';
-import type { CallSelectorType, CallStateType } from './calling';
-import type { GetConversationByIdType } from './conversations';
+import type { AccountSelectorType } from './accounts.js';
+import type { CallSelectorType, CallStateType } from './calling.js';
+import type { GetConversationByIdType } from './conversations.js';
 import {
   SendStatus,
   isDelivered,
@@ -128,35 +128,35 @@ import {
   someRecipientSendStatus,
   getHighestSuccessfulRecipientStatus,
   someSendStatus,
-} from '../../messages/MessageSendState';
-import { createLogger } from '../../logging/log';
-import { getConversationColorAttributes } from '../../util/getConversationColorAttributes';
-import { DAY, DurationInSeconds } from '../../util/durations';
-import { getStoryReplyText } from '../../util/getStoryReplyText';
-import type { MessageAttributesWithPaymentEvent } from '../../messages/helpers';
+} from '../../messages/MessageSendState.js';
+import { createLogger } from '../../logging/log.js';
+import { getConversationColorAttributes } from '../../util/getConversationColorAttributes.js';
+import { DAY, DurationInSeconds } from '../../util/durations/index.js';
+import { getStoryReplyText } from '../../util/getStoryReplyText.js';
+import type { MessageAttributesWithPaymentEvent } from '../../messages/helpers.js';
 import {
   isIncoming,
   isOutgoing,
   messageHasPaymentEvent,
   isStory,
-} from '../../messages/helpers';
+} from '../../messages/helpers.js';
 
-import { calculateExpirationTimestamp } from '../../util/expirationTimer';
-import { isSignalConversation } from '../../util/isSignalConversation';
-import type { AnyPaymentEvent } from '../../types/Payment';
-import { isPaymentNotificationEvent } from '../../types/Payment';
+import { calculateExpirationTimestamp } from '../../util/expirationTimer.js';
+import { isSignalConversation } from '../../util/isSignalConversation.js';
+import type { AnyPaymentEvent } from '../../types/Payment.js';
+import { isPaymentNotificationEvent } from '../../types/Payment.js';
 import {
   getTitleNoDefault,
   getTitle,
   getNumber,
   renderNumber,
-} from '../../util/getTitle';
-import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp';
-import type { CallHistorySelectorType } from './callHistory';
-import { CallMode, CallDirection } from '../../types/CallDisposition';
-import { getCallIdFromEra } from '../../util/callDisposition';
-import { LONG_MESSAGE } from '../../types/MIME';
-import type { MessageRequestResponseNotificationData } from '../../components/conversation/MessageRequestResponseNotification';
+} from '../../util/getTitle.js';
+import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp.js';
+import type { CallHistorySelectorType } from './callHistory.js';
+import { CallMode, CallDirection } from '../../types/CallDisposition.js';
+import { getCallIdFromEra } from '../../util/callDisposition.js';
+import { LONG_MESSAGE } from '../../types/MIME.js';
+import type { MessageRequestResponseNotificationData } from '../../components/conversation/MessageRequestResponseNotification.js';
 
 const log = createLogger('message');
 

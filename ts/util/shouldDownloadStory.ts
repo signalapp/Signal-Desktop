@@ -1,10 +1,10 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationAttributesType } from '../model-types.d';
+import type { ConversationAttributesType } from '../model-types.d.ts';
 
-import { DataReader } from '../sql/Client';
-import { isMe } from './whatTypeOfConversation';
+import { DataReader } from '../sql/Client.js';
+import { isMe } from './whatTypeOfConversation.js';
 
 const MAX_NUM_STORIES_TO_PREFETCH = 5;
 

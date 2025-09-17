@@ -3,24 +3,24 @@
 
 import { PassThrough } from 'node:stream';
 import { stat } from 'node:fs/promises';
-import { join, relative, normalize } from 'path';
+import { join, relative, normalize } from 'node:path';
 import pMap from 'p-map';
 import fastGlob from 'fast-glob';
 import fse from 'fs-extra';
 import { map, isString } from 'lodash';
 import normalizePath from 'normalize-path';
-import { isPathInside } from '../ts/util/isPathInside';
-import { DAY } from '../ts/util/durations';
-import { isOlderThan } from '../ts/util/timestamp';
-import { isNotNil } from '../ts/util/isNotNil';
+import { isPathInside } from '../ts/util/isPathInside.js';
+import { DAY } from '../ts/util/durations/index.js';
+import { isOlderThan } from '../ts/util/timestamp.js';
+import { isNotNil } from '../ts/util/isNotNil.js';
 import {
   generateKeys,
   decryptAttachmentV2ToSink,
   encryptAttachmentV2ToDisk,
-} from '../ts/AttachmentCrypto';
-import type { LocalAttachmentV2Type } from '../ts/types/Attachment';
-import * as Errors from '../ts/types/errors';
-import { createLogger } from '../ts/logging/log';
+} from '../ts/AttachmentCrypto.js';
+import type { LocalAttachmentV2Type } from '../ts/types/Attachment.js';
+import * as Errors from '../ts/types/errors.js';
+import { createLogger } from '../ts/logging/log.js';
 
 const log = createLogger('attachments');
 

@@ -3,40 +3,43 @@
 
 import { isEqual } from 'lodash';
 import PQueue from 'p-queue';
-import type { ConversationModel } from '../models/conversations';
-import type { MessageModel } from '../models/messages';
-import type { SendStateByConversationId } from '../messages/MessageSendState';
+import type { ConversationModel } from '../models/conversations.js';
+import type { MessageModel } from '../models/messages.js';
+import type { SendStateByConversationId } from '../messages/MessageSendState.js';
 
-import * as Edits from '../messageModifiers/Edits';
-import { createLogger } from '../logging/log';
-import * as Deletes from '../messageModifiers/Deletes';
-import * as DeletesForMe from '../messageModifiers/DeletesForMe';
-import * as MessageReceipts from '../messageModifiers/MessageReceipts';
-import * as Reactions from '../messageModifiers/Reactions';
-import * as ReadSyncs from '../messageModifiers/ReadSyncs';
-import * as ViewOnceOpenSyncs from '../messageModifiers/ViewOnceOpenSyncs';
-import * as ViewSyncs from '../messageModifiers/ViewSyncs';
-import { ReadStatus } from '../messages/MessageReadStatus';
-import { SeenStatus } from '../MessageSeenStatus';
-import { SendActionType, sendStateReducer } from '../messages/MessageSendState';
-import { canConversationBeUnarchived } from './canConversationBeUnarchived';
-import { deleteForEveryone } from './deleteForEveryone';
-import { drop } from './drop';
-import { handleEditMessage } from './handleEditMessage';
-import { isGroup } from './whatTypeOfConversation';
-import { isStory, isTapToView } from '../state/selectors/message';
-import { getOwn } from './getOwn';
-import { getSourceServiceId } from '../messages/helpers';
-import { missingCaseError } from './missingCaseError';
-import { reduce } from './iterables';
-import { strictAssert } from './assert';
+import * as Edits from '../messageModifiers/Edits.js';
+import { createLogger } from '../logging/log.js';
+import * as Deletes from '../messageModifiers/Deletes.js';
+import * as DeletesForMe from '../messageModifiers/DeletesForMe.js';
+import * as MessageReceipts from '../messageModifiers/MessageReceipts.js';
+import * as Reactions from '../messageModifiers/Reactions.js';
+import * as ReadSyncs from '../messageModifiers/ReadSyncs.js';
+import * as ViewOnceOpenSyncs from '../messageModifiers/ViewOnceOpenSyncs.js';
+import * as ViewSyncs from '../messageModifiers/ViewSyncs.js';
+import { ReadStatus } from '../messages/MessageReadStatus.js';
+import { SeenStatus } from '../MessageSeenStatus.js';
+import {
+  SendActionType,
+  sendStateReducer,
+} from '../messages/MessageSendState.js';
+import { canConversationBeUnarchived } from './canConversationBeUnarchived.js';
+import { deleteForEveryone } from './deleteForEveryone.js';
+import { drop } from './drop.js';
+import { handleEditMessage } from './handleEditMessage.js';
+import { isGroup } from './whatTypeOfConversation.js';
+import { isStory, isTapToView } from '../state/selectors/message.js';
+import { getOwn } from './getOwn.js';
+import { getSourceServiceId } from '../messages/helpers.js';
+import { missingCaseError } from './missingCaseError.js';
+import { reduce } from './iterables.js';
+import { strictAssert } from './assert.js';
 import {
   applyDeleteAttachmentFromMessage,
   applyDeleteMessage,
-} from './deleteForMe';
-import { getMessageIdForLogging } from './idForLogging';
-import { markViewOnceMessageViewed } from '../services/MessageUpdater';
-import { handleReaction } from '../messageModifiers/Reactions';
+} from './deleteForMe.js';
+import { getMessageIdForLogging } from './idForLogging.js';
+import { markViewOnceMessageViewed } from '../services/MessageUpdater.js';
+import { handleReaction } from '../messageModifiers/Reactions.js';
 
 const log = createLogger('modifyTargetMessage');
 

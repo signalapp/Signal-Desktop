@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { Props } from './LastSeenIndicator';
-import { LastSeenIndicator } from './LastSeenIndicator';
+import type { Props } from './LastSeenIndicator.js';
+import { LastSeenIndicator } from './LastSeenIndicator.js';
 
 const { i18n } = window.SignalContext;
 

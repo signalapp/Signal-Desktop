@@ -3,14 +3,14 @@
 
 import React from 'react';
 
-import { Button, ButtonVariant } from './Button';
-import { QrCode } from './QrCode';
-import type { ConversationType } from '../state/ducks/conversations';
-import { I18n } from './I18n';
-import { Emojify } from './conversation/Emojify';
-import type { LocalizerType } from '../types/Util';
-import type { SafetyNumberType } from '../types/safetyNumber';
-import { SAFETY_NUMBER_URL } from '../types/support';
+import { Button, ButtonVariant } from './Button.js';
+import { QrCode } from './QrCode.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import { I18n } from './I18n.js';
+import { Emojify } from './conversation/Emojify.js';
+import type { LocalizerType } from '../types/Util.js';
+import type { SafetyNumberType } from '../types/safetyNumber.js';
+import { SAFETY_NUMBER_URL } from '../types/support.js';
 
 export type PropsType = {
   contact: ConversationType;

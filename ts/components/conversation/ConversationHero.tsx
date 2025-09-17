@@ -3,21 +3,21 @@
 
 import React, { type ReactNode, useEffect, useState } from 'react';
 import classNames from 'classnames';
-import type { Props as AvatarProps } from '../Avatar';
-import { Avatar, AvatarSize, AvatarBlur } from '../Avatar';
-import { ContactName } from './ContactName';
-import { About } from './About';
-import { GroupDescription } from './GroupDescription';
-import { SharedGroupNames } from '../SharedGroupNames';
-import { GroupMembersNames } from '../GroupMembersNames';
-import type { LocalizerType, ThemeType } from '../../types/Util';
-import type { HasStories } from '../../types/Stories';
-import type { ViewUserStoriesActionCreatorType } from '../../state/ducks/stories';
-import type { GroupV2Membership } from './conversation-details/ConversationDetailsMembershipList';
-import { StoryViewModeType } from '../../types/Stories';
-import { Button, ButtonVariant } from '../Button';
-import { SafetyTipsModal } from '../SafetyTipsModal';
-import { I18n } from '../I18n';
+import type { Props as AvatarProps } from '../Avatar.js';
+import { Avatar, AvatarSize, AvatarBlur } from '../Avatar.js';
+import { ContactName } from './ContactName.js';
+import { About } from './About.js';
+import { GroupDescription } from './GroupDescription.js';
+import { SharedGroupNames } from '../SharedGroupNames.js';
+import { GroupMembersNames } from '../GroupMembersNames.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.js';
+import type { HasStories } from '../../types/Stories.js';
+import type { ViewUserStoriesActionCreatorType } from '../../state/ducks/stories.js';
+import type { GroupV2Membership } from './conversation-details/ConversationDetailsMembershipList.js';
+import { StoryViewModeType } from '../../types/Stories.js';
+import { Button, ButtonVariant } from '../Button.js';
+import { SafetyTipsModal } from '../SafetyTipsModal.js';
+import { I18n } from '../I18n.js';
 
 export type Props = {
   about?: string;

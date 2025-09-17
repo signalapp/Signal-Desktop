@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { generateAci } from '../../types/ServiceId';
+import { generateAci } from '../../types/ServiceId.js';
 
-import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
+import { isConversationSMSOnly } from '../../util/isConversationSMSOnly.js';
 
 const serviceId = generateAci();
 

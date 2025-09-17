@@ -4,9 +4,9 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './PanelSection';
-import { PanelSection } from './PanelSection';
-import { PanelRow } from './PanelRow';
+import type { Props } from './PanelSection.js';
+import { PanelSection } from './PanelSection.js';
+import { PanelRow } from './PanelRow.js';
 
 export default {
   title: 'Components/Conversation/ConversationDetails/PanelSection',

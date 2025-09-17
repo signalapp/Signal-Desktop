@@ -4,11 +4,14 @@
 import classNames from 'classnames';
 import * as React from 'react';
 import { FocusScope } from 'react-aria';
-import { useRestoreFocus } from '../../hooks/useRestoreFocus';
-import type { StickerPackType, StickerType } from '../../state/ducks/stickers';
-import type { LocalizerType } from '../../types/Util';
-import { getDateTimeFormatter } from '../../util/formatTimestamp';
-import { getAnalogTime } from '../../util/getAnalogTime';
+import { useRestoreFocus } from '../../hooks/useRestoreFocus.js';
+import type {
+  StickerPackType,
+  StickerType,
+} from '../../state/ducks/stickers.js';
+import type { LocalizerType } from '../../types/Util.js';
+import { getDateTimeFormatter } from '../../util/formatTimestamp.js';
+import { getAnalogTime } from '../../util/getAnalogTime.js';
 
 export type OwnProps = {
   readonly i18n: LocalizerType;

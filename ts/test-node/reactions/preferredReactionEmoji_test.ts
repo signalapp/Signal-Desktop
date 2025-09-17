@@ -6,8 +6,8 @@ import { assert } from 'chai';
 import {
   canBeSynced,
   getPreferredReactionEmoji,
-} from '../../reactions/preferredReactionEmoji';
-import { EmojiSkinTone } from '../../components/fun/data/emojis';
+} from '../../reactions/preferredReactionEmoji.js';
+import { EmojiSkinTone } from '../../components/fun/data/emojis.js';
 
 describe('preferred reaction emoji utilities', () => {
   describe('getPreferredReactionEmoji', () => {

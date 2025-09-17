@@ -3,14 +3,14 @@
 
 import { assert } from 'chai';
 import { v4 as generateGuid } from 'uuid';
-import { DataWriter } from '../../sql/Client';
-import { generateAci, generatePni } from '../../types/ServiceId';
-import { isMessageAMatchForReaction } from '../../messageModifiers/Reactions';
-import { generateMessageId } from '../../util/generateMessageId';
-import { incrementMessageCounter } from '../../util/incrementMessageCounter';
-import type { ConversationModel } from '../../models/conversations';
-import type { MessageAttributesType } from '../../model-types';
-import { SendStatus } from '../../messages/MessageSendState';
+import { DataWriter } from '../../sql/Client.js';
+import { generateAci, generatePni } from '../../types/ServiceId.js';
+import { isMessageAMatchForReaction } from '../../messageModifiers/Reactions.js';
+import { generateMessageId } from '../../util/generateMessageId.js';
+import { incrementMessageCounter } from '../../util/incrementMessageCounter.js';
+import type { ConversationModel } from '../../models/conversations.js';
+import type { MessageAttributesType } from '../../model-types.js';
+import { SendStatus } from '../../messages/MessageSendState.js';
 
 describe('isMessageAMatchForReaction', () => {
   let contactA: ConversationModel;

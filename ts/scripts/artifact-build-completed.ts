@@ -1,12 +1,12 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { tmpdir } from 'os';
-import { mkdtemp, rm, rename, stat } from 'fs/promises';
-import { createReadStream } from 'fs';
-import { pipeline } from 'stream/promises';
-import { createHash } from 'crypto';
-import path from 'path';
+import { tmpdir } from 'node:os';
+import { mkdtemp, rm, rename, stat } from 'node:fs/promises';
+import { createReadStream } from 'node:fs';
+import { pipeline } from 'node:stream/promises';
+import { createHash } from 'node:crypto';
+import path from 'node:path';
 import type { ArtifactCreated } from 'electron-builder';
 
 export async function artifactBuildCompleted({

@@ -3,31 +3,35 @@
 
 import { noop, union } from 'lodash';
 
-import { filter, map } from '../util/iterables';
-import { isNotNil } from '../util/isNotNil';
-import { SendMessageProtoError } from '../textsecure/Errors';
-import { getOwn } from '../util/getOwn';
-import { isGroup } from '../util/whatTypeOfConversation';
-import { handleMessageSend } from '../util/handleMessageSend';
-import { getSendOptions } from '../util/getSendOptions';
-import { createLogger } from '../logging/log';
+import { filter, map } from '../util/iterables.js';
+import { isNotNil } from '../util/isNotNil.js';
+import { SendMessageProtoError } from '../textsecure/Errors.js';
+import { getOwn } from '../util/getOwn.js';
+import { isGroup } from '../util/whatTypeOfConversation.js';
+import { handleMessageSend } from '../util/handleMessageSend.js';
+import { getSendOptions } from '../util/getSendOptions.js';
+import { createLogger } from '../logging/log.js';
 import {
   getPropForTimestamp,
   getChangesForPropAtTimestamp,
-} from '../util/editHelpers';
-import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
+} from '../util/editHelpers.js';
+import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.js';
 import {
   notifyStorySendFailed,
   saveErrorsOnMessage,
-} from '../test-node/util/messageFailures';
-import { isCustomError } from './helpers';
-import { SendActionType, isSent, sendStateReducer } from './MessageSendState';
+} from '../test-node/util/messageFailures.js';
+import { isCustomError } from './helpers.js';
+import {
+  SendActionType,
+  isSent,
+  sendStateReducer,
+} from './MessageSendState.js';
 
-import type { CustomError, MessageAttributesType } from '../model-types.d';
-import type { CallbackResultType } from '../textsecure/Types.d';
-import type { MessageModel } from '../models/messages';
-import type { ServiceIdString } from '../types/ServiceId';
-import type { SendStateByConversationId } from './MessageSendState';
+import type { CustomError, MessageAttributesType } from '../model-types.d.ts';
+import type { CallbackResultType } from '../textsecure/Types.d.ts';
+import type { MessageModel } from '../models/messages.js';
+import type { ServiceIdString } from '../types/ServiceId.js';
+import type { SendStateByConversationId } from './MessageSendState.js';
 
 const log = createLogger('send');
 

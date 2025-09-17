@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import type { WritableDB } from '../../sql/Interface';
-import { sql } from '../../sql/util';
-import { createDB, updateToVersion, explain } from './helpers';
+import type { WritableDB } from '../../sql/Interface.js';
+import { sql } from '../../sql/util.js';
+import { createDB, updateToVersion, explain } from './helpers.js';
 
 describe('SQL/updateToSchemaVersion1120', () => {
   let db: WritableDB;

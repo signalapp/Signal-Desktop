@@ -1,13 +1,13 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AciString } from '../types/ServiceId';
-import type { ConversationModel } from '../models/conversations';
-import * as Errors from '../types/errors';
-import { createLogger } from '../logging/log';
-import { drop } from '../util/drop';
-import { getConversationIdForLogging } from '../util/idForLogging';
-import type { MessageRequestResponseSource } from '../types/MessageRequestResponseEvent';
+import type { AciString } from '../types/ServiceId.js';
+import type { ConversationModel } from '../models/conversations.js';
+import * as Errors from '../types/errors.js';
+import { createLogger } from '../logging/log.js';
+import { drop } from '../util/drop.js';
+import { getConversationIdForLogging } from '../util/idForLogging.js';
+import type { MessageRequestResponseSource } from '../types/MessageRequestResponseEvent.js';
 
 const log = createLogger('MessageRequests');
 

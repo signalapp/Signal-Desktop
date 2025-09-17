@@ -4,11 +4,11 @@
 /* eslint-disable max-classes-per-file */
 /* eslint-disable no-await-in-loop */
 
-import EventEmitter, { once } from 'events';
+import EventEmitter, { once } from 'node:events';
 
-import type { JobQueueStore, StoredJob } from '../../jobs/types';
-import { sleep } from '../../util/sleep';
-import { drop } from '../../util/drop';
+import type { JobQueueStore, StoredJob } from '../../jobs/types.js';
+import { sleep } from '../../util/sleep.js';
+import { drop } from '../../util/drop.js';
 
 export class TestJobQueueStore implements JobQueueStore {
   events = new EventEmitter();

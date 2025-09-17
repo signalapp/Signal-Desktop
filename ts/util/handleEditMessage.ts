@@ -1,33 +1,33 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AttachmentType } from '../types/Attachment';
-import type { EditAttributesType } from '../messageModifiers/Edits';
+import type { AttachmentType } from '../types/Attachment.js';
+import type { EditAttributesType } from '../messageModifiers/Edits.js';
 import type {
   EditHistoryType,
   MessageAttributesType,
   QuotedMessageType,
-} from '../model-types.d';
-import * as Edits from '../messageModifiers/Edits';
-import { createLogger } from '../logging/log';
-import { ReadStatus } from '../messages/MessageReadStatus';
-import { DataWriter } from '../sql/Client';
-import { drop } from './drop';
+} from '../model-types.d.ts';
+import * as Edits from '../messageModifiers/Edits.js';
+import { createLogger } from '../logging/log.js';
+import { ReadStatus } from '../messages/MessageReadStatus.js';
+import { DataWriter } from '../sql/Client.js';
+import { drop } from './drop.js';
 import {
   cacheAttachmentBySignature,
   getCachedAttachmentBySignature,
   isVoiceMessage,
-} from '../types/Attachment';
-import { isAciString } from './isAciString';
-import { getMessageIdForLogging } from './idForLogging';
-import { hasErrors } from '../state/selectors/message';
-import { isIncoming, isOutgoing } from '../messages/helpers';
-import { isDirectConversation } from './whatTypeOfConversation';
-import { isTooOldToModifyMessage } from './isTooOldToModifyMessage';
-import { queueAttachmentDownloads } from './queueAttachmentDownloads';
-import { modifyTargetMessage } from './modifyTargetMessage';
-import { isMessageNoteToSelf } from './isMessageNoteToSelf';
-import { MessageModel } from '../models/messages';
+} from '../types/Attachment.js';
+import { isAciString } from './isAciString.js';
+import { getMessageIdForLogging } from './idForLogging.js';
+import { hasErrors } from '../state/selectors/message.js';
+import { isIncoming, isOutgoing } from '../messages/helpers.js';
+import { isDirectConversation } from './whatTypeOfConversation.js';
+import { isTooOldToModifyMessage } from './isTooOldToModifyMessage.js';
+import { queueAttachmentDownloads } from './queueAttachmentDownloads.js';
+import { modifyTargetMessage } from './modifyTargetMessage.js';
+import { isMessageNoteToSelf } from './isMessageNoteToSelf.js';
+import { MessageModel } from '../models/messages.js';
 
 const log = createLogger('handleEditMessage');
 

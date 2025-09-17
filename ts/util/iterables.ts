@@ -3,7 +3,7 @@
 
 /* eslint-disable max-classes-per-file */
 
-import { getOwn } from './getOwn';
+import { getOwn } from './getOwn.js';
 
 export function isIterable(value: unknown): value is Iterable<unknown> {
   return (

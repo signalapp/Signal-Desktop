@@ -3,10 +3,10 @@
 
 import React, { useEffect, useState } from 'react';
 
-import type { LocalizerType } from '../types/Util';
-import { Modal } from './Modal';
-import { Button, ButtonVariant } from './Button';
-import { DAY } from '../util/durations';
+import type { LocalizerType } from '../types/Util.js';
+import { Modal } from './Modal.js';
+import { Button, ButtonVariant } from './Button.js';
+import { DAY } from '../util/durations/index.js';
 
 export type PropsType = {
   // Test-only

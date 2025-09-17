@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { contextBridge } from 'electron';
-import { MinimalSignalContext } from '../minimalContext';
-import { createSetting } from '../../util/preload';
-import { drop } from '../../util/drop';
+import { MinimalSignalContext } from '../minimalContext.js';
+import { createSetting } from '../../util/preload.js';
+import { drop } from '../../util/drop.js';
 
 const mediaCameraPermissions = createSetting('mediaCameraPermissions', {
   getter: false,

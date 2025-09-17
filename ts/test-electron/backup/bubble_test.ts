@@ -3,30 +3,30 @@
 
 import { v4 as generateGuid } from 'uuid';
 
-import { SendStatus } from '../../messages/MessageSendState';
-import type { ConversationModel } from '../../models/conversations';
-import { GiftBadgeStates } from '../../components/conversation/Message';
+import { SendStatus } from '../../messages/MessageSendState.js';
+import type { ConversationModel } from '../../models/conversations.js';
+import { GiftBadgeStates } from '../../components/conversation/Message.js';
 
-import { DataWriter } from '../../sql/Client';
-import { getRandomBytes } from '../../Crypto';
-import * as Bytes from '../../Bytes';
-import { generateAci } from '../../types/ServiceId';
-import { ReadStatus } from '../../messages/MessageReadStatus';
-import { SeenStatus } from '../../MessageSeenStatus';
-import { ID_V1_LENGTH } from '../../groups';
-import { DurationInSeconds, WEEK } from '../../util/durations';
+import { DataWriter } from '../../sql/Client.js';
+import { getRandomBytes } from '../../Crypto.js';
+import * as Bytes from '../../Bytes.js';
+import { generateAci } from '../../types/ServiceId.js';
+import { ReadStatus } from '../../messages/MessageReadStatus.js';
+import { SeenStatus } from '../../MessageSeenStatus.js';
+import { ID_V1_LENGTH } from '../../groups.js';
+import { DurationInSeconds, WEEK } from '../../util/durations/index.js';
 import {
   setupBasics,
   asymmetricRoundtripHarness,
   symmetricRoundtripHarness,
   OUR_ACI,
-} from './helpers';
-import { loadAllAndReinitializeRedux } from '../../services/allLoaders';
-import { strictAssert } from '../../util/assert';
-import type { MessageAttributesType } from '../../model-types';
-import { IMAGE_PNG, TEXT_ATTACHMENT } from '../../types/MIME';
-import { MY_STORY_ID } from '../../types/Stories';
-import { generateAttachmentKeys } from '../../AttachmentCrypto';
+} from './helpers.js';
+import { loadAllAndReinitializeRedux } from '../../services/allLoaders.js';
+import { strictAssert } from '../../util/assert.js';
+import type { MessageAttributesType } from '../../model-types.js';
+import { IMAGE_PNG, TEXT_ATTACHMENT } from '../../types/MIME.js';
+import { MY_STORY_ID } from '../../types/Stories.js';
+import { generateAttachmentKeys } from '../../AttachmentCrypto.js';
 
 const CONTACT_A = generateAci();
 const CONTACT_B = generateAci();

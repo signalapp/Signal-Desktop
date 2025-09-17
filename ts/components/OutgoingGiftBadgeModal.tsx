@@ -4,12 +4,12 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { getBadgeImageFileLocalPath } from '../badges/getBadgeImageFileLocalPath';
-import { Modal } from './Modal';
-import { BadgeImageTheme } from '../badges/BadgeImageTheme';
+import { getBadgeImageFileLocalPath } from '../badges/getBadgeImageFileLocalPath.js';
+import { Modal } from './Modal.js';
+import { BadgeImageTheme } from '../badges/BadgeImageTheme.js';
 
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
-import type { LocalizerType } from '../types/Util';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.js';
+import type { LocalizerType } from '../types/Util.js';
 
 const CLASS_NAME = 'OutgoingGiftBadgeModal';
 

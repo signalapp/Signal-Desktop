@@ -3,37 +3,37 @@
 
 import { v4 as generateUuid } from 'uuid';
 
-import type { DraftBodyRanges } from '../types/BodyRange';
-import type { LinkPreviewType } from '../types/message/LinkPreviews';
+import type { DraftBodyRanges } from '../types/BodyRange.js';
+import type { LinkPreviewType } from '../types/message/LinkPreviews.js';
 import type {
   MessageAttributesType,
   QuotedMessageType,
-} from '../model-types.d';
-import { createLogger } from '../logging/log';
-import { DataReader, DataWriter } from '../sql/Client';
-import type { AttachmentType } from '../types/Attachment';
-import { ErrorWithToast } from '../types/ErrorWithToast';
-import { SendStatus } from '../messages/MessageSendState';
-import { ToastType } from '../types/Toast';
-import type { AciString } from '../types/ServiceId';
-import { canEditMessage, isWithinMaxEdits } from './canEditMessage';
+} from '../model-types.d.ts';
+import { createLogger } from '../logging/log.js';
+import { DataReader, DataWriter } from '../sql/Client.js';
+import type { AttachmentType } from '../types/Attachment.js';
+import { ErrorWithToast } from '../types/ErrorWithToast.js';
+import { SendStatus } from '../messages/MessageSendState.js';
+import { ToastType } from '../types/Toast.js';
+import type { AciString } from '../types/ServiceId.js';
+import { canEditMessage, isWithinMaxEdits } from './canEditMessage.js';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
-} from '../jobs/conversationJobQueue';
-import { concat, filter, map, repeat, zipObject, find } from './iterables';
-import { getConversationIdForLogging } from './idForLogging';
-import { isQuoteAMatch } from '../messages/helpers';
-import { getMessageById } from '../messages/getMessageById';
-import { handleEditMessage } from './handleEditMessage';
-import { incrementMessageCounter } from './incrementMessageCounter';
-import { isGroupV1 } from './whatTypeOfConversation';
-import { isNotNil } from './isNotNil';
-import { isSignalConversation } from './isSignalConversation';
-import { strictAssert } from './assert';
-import { timeAndLogIfTooLong } from './timeAndLogIfTooLong';
-import { makeQuote } from './makeQuote';
-import { getMessageSentTimestamp } from './getMessageSentTimestamp';
+} from '../jobs/conversationJobQueue.js';
+import { concat, filter, map, repeat, zipObject, find } from './iterables.js';
+import { getConversationIdForLogging } from './idForLogging.js';
+import { isQuoteAMatch } from '../messages/helpers.js';
+import { getMessageById } from '../messages/getMessageById.js';
+import { handleEditMessage } from './handleEditMessage.js';
+import { incrementMessageCounter } from './incrementMessageCounter.js';
+import { isGroupV1 } from './whatTypeOfConversation.js';
+import { isNotNil } from './isNotNil.js';
+import { isSignalConversation } from './isSignalConversation.js';
+import { strictAssert } from './assert.js';
+import { timeAndLogIfTooLong } from './timeAndLogIfTooLong.js';
+import { makeQuote } from './makeQuote.js';
+import { getMessageSentTimestamp } from './getMessageSentTimestamp.js';
 
 const log = createLogger('sendEditedMessage');
 

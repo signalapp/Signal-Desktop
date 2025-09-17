@@ -8,26 +8,26 @@ import { v4 as generateUuid } from 'uuid';
 import type {
   DispatchableViewStoryType,
   StoryDataType,
-} from '../../../state/ducks/stories';
-import type { ConversationType } from '../../../state/ducks/conversations';
-import type { MessageAttributesType } from '../../../model-types.d';
-import type { StateType as RootStateType } from '../../../state/reducer';
-import { DurationInSeconds } from '../../../util/durations';
-import { TEXT_ATTACHMENT, IMAGE_JPEG } from '../../../types/MIME';
-import { ReadStatus } from '../../../messages/MessageReadStatus';
+} from '../../../state/ducks/stories.js';
+import type { ConversationType } from '../../../state/ducks/conversations.js';
+import type { MessageAttributesType } from '../../../model-types.d.ts';
+import type { StateType as RootStateType } from '../../../state/reducer.js';
+import { DurationInSeconds } from '../../../util/durations/index.js';
+import { TEXT_ATTACHMENT, IMAGE_JPEG } from '../../../types/MIME.js';
+import { ReadStatus } from '../../../messages/MessageReadStatus.js';
 import {
   StoryViewDirectionType,
   StoryViewModeType,
-} from '../../../types/Stories';
-import type { StoryDistributionIdString } from '../../../types/StoryDistributionId';
-import { generateAci, generatePni } from '../../../types/ServiceId';
-import { generateStoryDistributionId } from '../../../types/StoryDistributionId';
-import { actions, getEmptyState } from '../../../state/ducks/stories';
-import { noopAction } from '../../../state/ducks/noop';
-import { reducer as rootReducer } from '../../../state/reducer';
-import { dropNull } from '../../../util/dropNull';
-import { MessageModel } from '../../../models/messages';
-import { DataWriter } from '../../../sql/Client';
+} from '../../../types/Stories.js';
+import type { StoryDistributionIdString } from '../../../types/StoryDistributionId.js';
+import { generateAci, generatePni } from '../../../types/ServiceId.js';
+import { generateStoryDistributionId } from '../../../types/StoryDistributionId.js';
+import { actions, getEmptyState } from '../../../state/ducks/stories.js';
+import { noopAction } from '../../../state/ducks/noop.js';
+import { reducer as rootReducer } from '../../../state/reducer.js';
+import { dropNull } from '../../../util/dropNull.js';
+import { MessageModel } from '../../../models/messages.js';
+import { DataWriter } from '../../../sql/Client.js';
 
 describe('both/state/ducks/stories', () => {
   const ourAci = generateAci();

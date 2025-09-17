@@ -4,19 +4,19 @@
 import React, { useReducer } from 'react';
 import { without } from 'lodash';
 
-import type { LocalizerType } from '../../../types/Util';
+import type { LocalizerType } from '../../../types/Util.js';
 import {
   AddGroupMemberErrorDialog,
   AddGroupMemberErrorDialogMode,
-} from '../../AddGroupMemberErrorDialog';
-import type { SmartChooseGroupMembersModalPropsType } from '../../../state/smart/ChooseGroupMembersModal';
-import type { SmartConfirmAdditionsModalPropsType } from '../../../state/smart/ConfirmAdditionsModal';
+} from '../../AddGroupMemberErrorDialog.js';
+import type { SmartChooseGroupMembersModalPropsType } from '../../../state/smart/ChooseGroupMembersModal.js';
+import type { SmartConfirmAdditionsModalPropsType } from '../../../state/smart/ConfirmAdditionsModal.js';
 import {
   toggleSelectedContactForGroupAddition,
   OneTimeModalState,
-} from '../../../groups/toggleSelectedContactForGroupAddition';
-import { missingCaseError } from '../../../util/missingCaseError';
-import type { RequestState } from './util';
+} from '../../../groups/toggleSelectedContactForGroupAddition.js';
+import { missingCaseError } from '../../../util/missingCaseError.js';
+import type { RequestState } from './util.js';
 
 type PropsType = {
   clearRequestError: () => void;

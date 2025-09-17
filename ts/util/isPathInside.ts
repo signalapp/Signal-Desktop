@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // This is inspired by the `is-path-inside` module on npm.
-import * as path from 'path';
+import * as path from 'node:path';
 
 export function isPathInside(childPath: string, parentPath: string): boolean {
   const childPathResolved = path.resolve(childPath);

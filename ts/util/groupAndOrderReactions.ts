@@ -4,7 +4,7 @@
 import { groupBy, orderBy } from 'lodash';
 import { useMemo } from 'react';
 
-import type { Reaction } from '../components/conversation/ReactionViewer';
+import type { Reaction } from '../components/conversation/ReactionViewer.js';
 import {
   isEmojiVariantValue,
   getEmojiVariantKeyByValue,
@@ -12,9 +12,9 @@ import {
   getEmojiVariantByKey,
   type EmojiVariantKey,
   type EmojiParentKey,
-} from '../components/fun/data/emojis';
-import { isNotNil } from './isNotNil';
-import { useFunEmojiLocalizer } from '../components/fun/useFunEmojiLocalizer';
+} from '../components/fun/data/emojis.js';
+import { isNotNil } from './isNotNil.js';
+import { useFunEmojiLocalizer } from '../components/fun/useFunEmojiLocalizer.js';
 
 type ReactionWithEmojiData = Reaction & {
   short_name: string | undefined;

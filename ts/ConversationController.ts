@@ -5,50 +5,54 @@ import { debounce, pick, uniq, without } from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as generateUuid } from 'uuid';
 
-import { DataReader, DataWriter } from './sql/Client';
-import { createLogger } from './logging/log';
-import * as Errors from './types/errors';
-import { getAuthorId } from './messages/helpers';
-import { maybeDeriveGroupV2Id } from './groups';
-import { assertDev, strictAssert } from './util/assert';
-import { drop } from './util/drop';
+import { DataReader, DataWriter } from './sql/Client.js';
+import { createLogger } from './logging/log.js';
+import * as Errors from './types/errors.js';
+import { getAuthorId } from './messages/helpers.js';
+import { maybeDeriveGroupV2Id } from './groups.js';
+import { assertDev, strictAssert } from './util/assert.js';
+import { drop } from './util/drop.js';
 import {
   isDirectConversation,
   isGroup,
   isGroupV1,
   isGroupV2,
-} from './util/whatTypeOfConversation';
+} from './util/whatTypeOfConversation.js';
 import {
   isServiceIdString,
   normalizePni,
   normalizeServiceId,
-} from './types/ServiceId';
-import { normalizeAci } from './util/normalizeAci';
-import { sleep } from './util/sleep';
-import { isNotNil } from './util/isNotNil';
-import { MINUTE, SECOND } from './util/durations';
-import { getServiceIdsForE164s } from './util/getServiceIdsForE164s';
-import { SIGNAL_ACI, SIGNAL_AVATAR_PATH } from './types/SignalConversation';
-import { getTitleNoDefault } from './util/getTitle';
-import * as StorageService from './services/storage';
-import type { ConversationPropsForUnreadStats } from './util/countUnreadStats';
-import { countAllConversationsUnreadStats } from './util/countUnreadStats';
-import { isTestOrMockEnvironment } from './environment';
-import { isConversationAccepted } from './util/isConversationAccepted';
-import { areWePending } from './util/groupMembershipUtils';
-import { conversationJobQueue } from './jobs/conversationJobQueue';
-import { createBatcher } from './util/batcher';
-import { validateConversation } from './util/validateConversation';
-import { ConversationModel } from './models/conversations';
-import { INITIAL_EXPIRE_TIMER_VERSION } from './util/expirationTimer';
-import { missingCaseError } from './util/missingCaseError';
+} from './types/ServiceId.js';
+import { normalizeAci } from './util/normalizeAci.js';
+import { sleep } from './util/sleep.js';
+import { isNotNil } from './util/isNotNil.js';
+import { MINUTE, SECOND } from './util/durations/index.js';
+import { getServiceIdsForE164s } from './util/getServiceIdsForE164s.js';
+import { SIGNAL_ACI, SIGNAL_AVATAR_PATH } from './types/SignalConversation.js';
+import { getTitleNoDefault } from './util/getTitle.js';
+import * as StorageService from './services/storage.js';
+import type { ConversationPropsForUnreadStats } from './util/countUnreadStats.js';
+import { countAllConversationsUnreadStats } from './util/countUnreadStats.js';
+import { isTestOrMockEnvironment } from './environment.js';
+import { isConversationAccepted } from './util/isConversationAccepted.js';
+import { areWePending } from './util/groupMembershipUtils.js';
+import { conversationJobQueue } from './jobs/conversationJobQueue.js';
+import { createBatcher } from './util/batcher.js';
+import { validateConversation } from './util/validateConversation.js';
+import { ConversationModel } from './models/conversations.js';
+import { INITIAL_EXPIRE_TIMER_VERSION } from './util/expirationTimer.js';
+import { missingCaseError } from './util/missingCaseError.js';
 
 import type {
   ConversationAttributesType,
   ConversationAttributesTypeType,
   ConversationRenderInfoType,
-} from './model-types.d';
-import type { ServiceIdString, AciString, PniString } from './types/ServiceId';
+} from './model-types.d.ts';
+import type {
+  ServiceIdString,
+  AciString,
+  PniString,
+} from './types/ServiceId.js';
 
 const log = createLogger('ConversationController');
 

@@ -6,7 +6,7 @@ import React, { useCallback, useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
 
-import { getClassNamesFor } from '../util/getClassNamesFor';
+import { getClassNamesFor } from '../util/getClassNamesFor.js';
 
 export type PropsType = Readonly<{
   disableSpellcheck?: boolean;

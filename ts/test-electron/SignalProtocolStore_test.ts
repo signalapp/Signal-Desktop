@@ -14,26 +14,26 @@ import {
 } from '@signalapp/libsignal-client';
 import { v4 as generateUuid } from 'uuid';
 
-import { DataReader, DataWriter } from '../sql/Client';
-import { signal } from '../protobuf/compiled';
-import { sessionStructureToBytes } from '../util/sessionTranslation';
-import * as durations from '../util/durations';
-import { explodePromise } from '../util/explodePromise';
-import { Zone } from '../util/Zone';
+import { DataReader, DataWriter } from '../sql/Client.js';
+import { signal } from '../protobuf/compiled.js';
+import { sessionStructureToBytes } from '../util/sessionTranslation.js';
+import * as durations from '../util/durations/index.js';
+import { explodePromise } from '../util/explodePromise.js';
+import { Zone } from '../util/Zone.js';
 
-import * as Bytes from '../Bytes';
-import { getRandomBytes, constantTimeEqual } from '../Crypto';
+import * as Bytes from '../Bytes.js';
+import { getRandomBytes, constantTimeEqual } from '../Crypto.js';
 import {
   clampPrivateKey,
   setPublicKeyTypeByte,
   generateSignedPreKey,
-} from '../Curve';
-import type { SignalProtocolStore } from '../SignalProtocolStore';
-import { GLOBAL_ZONE } from '../SignalProtocolStore';
-import { Address } from '../types/Address';
-import { QualifiedAddress } from '../types/QualifiedAddress';
-import { generateAci, generatePni } from '../types/ServiceId';
-import type { IdentityKeyType, KeyPairType } from '../textsecure/Types.d';
+} from '../Curve.js';
+import type { SignalProtocolStore } from '../SignalProtocolStore.js';
+import { GLOBAL_ZONE } from '../SignalProtocolStore.js';
+import { Address } from '../types/Address.js';
+import { QualifiedAddress } from '../types/QualifiedAddress.js';
+import { generateAci, generatePni } from '../types/ServiceId.js';
+import type { IdentityKeyType, KeyPairType } from '../textsecure/Types.d.ts';
 
 const {
   RecordStructure,

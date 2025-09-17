@@ -3,8 +3,8 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { formatTimestamp } from '../../util/formatTimestamp';
-import { HourCyclePreference } from '../../types/I18N';
+import { formatTimestamp } from '../../util/formatTimestamp.js';
+import { HourCyclePreference } from '../../types/I18N.js';
 
 const min = new Date(2023, 0, 1, 0).getTime();
 const max = new Date(2023, 0, 1, 23).getTime();

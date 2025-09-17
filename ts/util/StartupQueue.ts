@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import PQueue from 'p-queue';
-import * as Errors from '../types/errors';
-import { createLogger } from '../logging/log';
+import * as Errors from '../types/errors.js';
+import { createLogger } from '../logging/log.js';
 
 const log = createLogger('StartupQueue');
 

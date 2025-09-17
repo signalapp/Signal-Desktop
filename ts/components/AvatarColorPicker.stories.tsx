@@ -5,9 +5,9 @@ import React from 'react';
 
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './AvatarColorPicker';
-import { AvatarColorPicker } from './AvatarColorPicker';
-import { AvatarColors } from '../types/Colors';
+import type { PropsType } from './AvatarColorPicker.js';
+import { AvatarColorPicker } from './AvatarColorPicker.js';
+import { AvatarColors } from '../types/Colors.js';
 
 const { i18n } = window.SignalContext;
 

@@ -6,54 +6,54 @@ import { groupBy, sortBy } from 'lodash';
 
 import type { MutableRefObject, ReactNode } from 'react';
 import { ListBox, ListBoxItem } from 'react-aria-components';
-import { getDateTimeFormatter } from '../util/formatTimestamp';
+import { getDateTimeFormatter } from '../util/formatTimestamp.js';
 
-import type { LocalizerType, ThemeType } from '../types/Util';
-import { PreferencesContent } from './Preferences';
-import { SettingsPage } from '../types/Nav';
-import { PreferencesDonateFlow } from './PreferencesDonateFlow';
+import type { LocalizerType, ThemeType } from '../types/Util.js';
+import { PreferencesContent } from './Preferences.js';
+import { SettingsPage } from '../types/Nav.js';
+import { PreferencesDonateFlow } from './PreferencesDonateFlow.js';
 import type {
   DonationWorkflow,
   DonationReceipt,
   OneTimeDonationHumanAmounts,
   DonationErrorType,
-} from '../types/Donations';
+} from '../types/Donations.js';
 import {
   donationErrorTypeSchema,
   donationStateSchema,
-} from '../types/Donations';
-import type { AvatarColorType } from '../types/Colors';
-import { Button, ButtonSize, ButtonVariant } from './Button';
-import { Modal } from './Modal';
-import { Spinner } from './Spinner';
-import type { AnyToast } from '../types/Toast';
-import { ToastType } from '../types/Toast';
-import { createLogger } from '../logging/log';
-import { toLogFormat } from '../types/errors';
-import { I18n } from './I18n';
-import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
-import { DonationPrivacyInformationModal } from './DonationPrivacyInformationModal';
-import type { SubmitDonationType } from '../state/ducks/donations';
+} from '../types/Donations.js';
+import type { AvatarColorType } from '../types/Colors.js';
+import { Button, ButtonSize, ButtonVariant } from './Button.js';
+import { Modal } from './Modal.js';
+import { Spinner } from './Spinner.js';
+import type { AnyToast } from '../types/Toast.js';
+import { ToastType } from '../types/Toast.js';
+import { createLogger } from '../logging/log.js';
+import { toLogFormat } from '../types/errors.js';
+import { I18n } from './I18n.js';
+import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.js';
+import { DonationPrivacyInformationModal } from './DonationPrivacyInformationModal.js';
+import type { SubmitDonationType } from '../state/ducks/donations.js';
 import {
   getHumanDonationAmount,
   toHumanCurrencyString,
-} from '../util/currency';
-import { Avatar, AvatarSize } from './Avatar';
-import type { BadgeType } from '../badges/types';
-import { DonationInterruptedModal } from './DonationInterruptedModal';
-import { DonationErrorModal } from './DonationErrorModal';
-import { DonationVerificationModal } from './DonationVerificationModal';
-import { DonationProgressModal } from './DonationProgressModal';
-import { DonationStillProcessingModal } from './DonationStillProcessingModal';
-import { DonationThanksModal } from './DonationThanksModal';
+} from '../util/currency.js';
+import { Avatar, AvatarSize } from './Avatar.js';
+import type { BadgeType } from '../badges/types.js';
+import { DonationInterruptedModal } from './DonationInterruptedModal.js';
+import { DonationErrorModal } from './DonationErrorModal.js';
+import { DonationVerificationModal } from './DonationVerificationModal.js';
+import { DonationProgressModal } from './DonationProgressModal.js';
+import { DonationStillProcessingModal } from './DonationStillProcessingModal.js';
+import { DonationThanksModal } from './DonationThanksModal.js';
 import type {
   ConversationType,
   ProfileDataType,
-} from '../state/ducks/conversations';
-import type { AvatarUpdateOptionsType } from '../types/Avatar';
-import { drop } from '../util/drop';
-import { DonationsOfflineTooltip } from './conversation/DonationsOfflineTooltip';
-import { getInProgressDonation } from '../util/donations';
+} from '../state/ducks/conversations.js';
+import type { AvatarUpdateOptionsType } from '../types/Avatar.js';
+import { drop } from '../util/drop.js';
+import { DonationsOfflineTooltip } from './conversation/DonationsOfflineTooltip.js';
+import { getInProgressDonation } from '../util/donations.js';
 
 const log = createLogger('PreferencesDonations');
 

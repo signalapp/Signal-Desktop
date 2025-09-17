@@ -3,31 +3,31 @@
 
 import memoizee from 'memoizee';
 import { sortBy } from 'lodash';
-import type { ConversationModel } from '../models/conversations';
-import type { ConversationType } from '../state/ducks/conversations';
-import type { ConversationAttributesType } from '../model-types';
-import type { GroupNameCollisionsWithIdsByTitle } from './groupMemberNameCollisions';
-import { StorySendMode } from '../types/Stories';
-import { areWeAdmin } from './areWeAdmin';
-import { buildGroupLink } from '../groups';
-import { canAddNewMembers } from './canAddNewMembers';
-import { canBeAnnouncementGroup } from './canBeAnnouncementGroup';
-import { canChangeTimer } from './canChangeTimer';
-import { canEditGroupInfo } from './canEditGroupInfo';
-import { dropNull } from './dropNull';
-import { getAboutText } from './getAboutText';
+import type { ConversationModel } from '../models/conversations.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import type { ConversationAttributesType } from '../model-types.js';
+import type { GroupNameCollisionsWithIdsByTitle } from './groupMemberNameCollisions.js';
+import { StorySendMode } from '../types/Stories.js';
+import { areWeAdmin } from './areWeAdmin.js';
+import { buildGroupLink } from '../groups.js';
+import { canAddNewMembers } from './canAddNewMembers.js';
+import { canBeAnnouncementGroup } from './canBeAnnouncementGroup.js';
+import { canChangeTimer } from './canChangeTimer.js';
+import { canEditGroupInfo } from './canEditGroupInfo.js';
+import { dropNull } from './dropNull.js';
+import { getAboutText } from './getAboutText.js';
 import {
   getAvatarHash,
   getLocalAvatarUrl,
   getLocalProfileAvatarUrl,
   getRawAvatarPath,
   hasAvatar,
-} from './avatarUtils';
-import { getAvatarData } from './getAvatarData';
-import { getConversationMembers } from './getConversationMembers';
-import { getCustomColorData, migrateColor } from './migrateColor';
-import { getDraftPreview } from './getDraftPreview';
-import { getLastMessage } from './getLastMessage';
+} from './avatarUtils.js';
+import { getAvatarData } from './getAvatarData.js';
+import { getConversationMembers } from './getConversationMembers.js';
+import { getCustomColorData, migrateColor } from './migrateColor.js';
+import { getDraftPreview } from './getDraftPreview.js';
+import { getLastMessage } from './getLastMessage.js';
 import {
   getNumber,
   getProfileName,
@@ -35,17 +35,17 @@ import {
   getTitleNoDefault,
   canHaveUsername,
   renderNumber,
-} from './getTitle';
-import { hasDraft } from './hasDraft';
-import { isAciString } from './isAciString';
-import { isBlocked } from './isBlocked';
-import { isConversationAccepted } from './isConversationAccepted';
+} from './getTitle.js';
+import { hasDraft } from './hasDraft.js';
+import { isAciString } from './isAciString.js';
+import { isBlocked } from './isBlocked.js';
+import { isConversationAccepted } from './isConversationAccepted.js';
 import {
   isDirectConversation,
   isGroupV1,
   isGroupV2,
   isMe,
-} from './whatTypeOfConversation';
+} from './whatTypeOfConversation.js';
 import {
   areWePending,
   getBannedMemberships,
@@ -54,10 +54,10 @@ import {
   getPendingApprovalMemberships,
   getPendingMemberships,
   isMemberAwaitingApproval,
-} from './groupMembershipUtils';
-import { isNotNil } from './isNotNil';
-import { getIdentifierHash } from '../Crypto';
-import { getAvatarPlaceholderGradient } from '../utils/getAvatarPlaceholderGradient';
+} from './groupMembershipUtils.js';
+import { isNotNil } from './isNotNil.js';
+import { getIdentifierHash } from '../Crypto.js';
+import { getAvatarPlaceholderGradient } from '../utils/getAvatarPlaceholderGradient.js';
 
 const EMPTY_ARRAY: Readonly<[]> = [];
 const EMPTY_GROUP_COLLISIONS: GroupNameCollisionsWithIdsByTitle = {};

@@ -7,15 +7,15 @@ import React, { useContext } from 'react';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
 import { FocusScope } from 'react-aria';
-import { Avatar, AvatarSize } from './Avatar';
-import { ContactName } from './conversation/ContactName';
-import { InContactsIcon } from './InContactsIcon';
-import type { LocalizerType } from '../types/Util';
-import type { ServiceIdString } from '../types/ServiceId';
-import { sortByTitle } from '../util/sortByTitle';
-import type { ConversationType } from '../state/ducks/conversations';
-import { isInSystemContacts } from '../util/isInSystemContacts';
-import { ModalContainerContext } from './ModalHost';
+import { Avatar, AvatarSize } from './Avatar.js';
+import { ContactName } from './conversation/ContactName.js';
+import { InContactsIcon } from './InContactsIcon.js';
+import type { LocalizerType } from '../types/Util.js';
+import type { ServiceIdString } from '../types/ServiceId.js';
+import { sortByTitle } from '../util/sortByTitle.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import { isInSystemContacts } from '../util/isInSystemContacts.js';
+import { ModalContainerContext } from './ModalHost.js';
 
 type ParticipantType = ConversationType & {
   hasRemoteAudio?: boolean;

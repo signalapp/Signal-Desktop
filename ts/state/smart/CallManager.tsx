@@ -7,16 +7,16 @@ import { useSelector } from 'react-redux';
 import type {
   DirectIncomingCall,
   GroupIncomingCall,
-} from '../../components/CallManager';
-import { CallManager } from '../../components/CallManager';
-import { isConversationTooBigToRing as getIsConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing';
-import { createLogger } from '../../logging/log';
-import { calling as callingService } from '../../services/calling';
+} from '../../components/CallManager.js';
+import { CallManager } from '../../components/CallManager.js';
+import { isConversationTooBigToRing as getIsConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing.js';
+import { createLogger } from '../../logging/log.js';
+import { calling as callingService } from '../../services/calling.js';
 import {
   bounceAppIconStart,
   bounceAppIconStop,
-} from '../../shims/bounceAppIcon';
-import type { CallLinkType } from '../../types/CallLink';
+} from '../../shims/bounceAppIcon.js';
+import type { CallLinkType } from '../../types/CallLink.js';
 import type {
   ActiveCallBaseType,
   ActiveCallType,
@@ -25,33 +25,33 @@ import type {
   CallingConversationType,
   ConversationsByDemuxIdType,
   GroupCallRemoteParticipantType,
-} from '../../types/Calling';
-import { CallState } from '../../types/Calling';
-import { CallMode } from '../../types/CallDisposition';
-import type { AciString } from '../../types/ServiceId';
-import { callLinkToConversation } from '../../util/callLinks';
-import { callingTones } from '../../util/callingTones';
-import { missingCaseError } from '../../util/missingCaseError';
-import { useAudioPlayerActions } from '../ducks/audioPlayer';
-import { getActiveCall, useCallingActions } from '../ducks/calling';
-import type { ConversationType } from '../ducks/conversations';
-import type { StateType } from '../reducer';
-import { getHasInitialLoadCompleted } from '../selectors/app';
+} from '../../types/Calling.js';
+import { CallState } from '../../types/Calling.js';
+import { CallMode } from '../../types/CallDisposition.js';
+import type { AciString } from '../../types/ServiceId.js';
+import { callLinkToConversation } from '../../util/callLinks.js';
+import { callingTones } from '../../util/callingTones.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
+import { useAudioPlayerActions } from '../ducks/audioPlayer.js';
+import { getActiveCall, useCallingActions } from '../ducks/calling.js';
+import type { ConversationType } from '../ducks/conversations.js';
+import type { StateType } from '../reducer.js';
+import { getHasInitialLoadCompleted } from '../selectors/app.js';
 import {
   getActiveCallState,
   getAvailableCameras,
   getCallLinkSelector,
   getRingingCall,
-} from '../selectors/calling';
-import { getConversationSelector, getMe } from '../selectors/conversations';
-import { getIntl, getUserACI } from '../selectors/user';
-import { SmartCallingDeviceSelection } from './CallingDeviceSelection';
-import { renderEmojiPicker } from './renderEmojiPicker';
-import { renderReactionPicker } from './renderReactionPicker';
-import { isSharingPhoneNumberWithEverybody as getIsSharingPhoneNumberWithEverybody } from '../../util/phoneNumberSharingMode';
-import { useGlobalModalActions } from '../ducks/globalModals';
-import { isLonelyGroup } from '../ducks/callingHelpers';
-import { getActiveProfile } from '../selectors/notificationProfiles';
+} from '../selectors/calling.js';
+import { getConversationSelector, getMe } from '../selectors/conversations.js';
+import { getIntl, getUserACI } from '../selectors/user.js';
+import { SmartCallingDeviceSelection } from './CallingDeviceSelection.js';
+import { renderEmojiPicker } from './renderEmojiPicker.js';
+import { renderReactionPicker } from './renderReactionPicker.js';
+import { isSharingPhoneNumberWithEverybody as getIsSharingPhoneNumberWithEverybody } from '../../util/phoneNumberSharingMode.js';
+import { useGlobalModalActions } from '../ducks/globalModals.js';
+import { isLonelyGroup } from '../ducks/callingHelpers.js';
+import { getActiveProfile } from '../selectors/notificationProfiles.js';
 
 const log = createLogger('CallManager');
 

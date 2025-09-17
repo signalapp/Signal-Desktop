@@ -1,25 +1,25 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationAttributesType } from '../model-types.d';
-import type { ConversationQueueJobData } from '../jobs/conversationJobQueue';
-import * as Errors from '../types/errors';
-import { DAY } from './durations';
-import { createLogger } from '../logging/log';
+import type { ConversationAttributesType } from '../model-types.d.ts';
+import type { ConversationQueueJobData } from '../jobs/conversationJobQueue.js';
+import * as Errors from '../types/errors.js';
+import { DAY } from './durations/index.js';
+import { createLogger } from '../logging/log.js';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
-} from '../jobs/conversationJobQueue';
-import { deleteForEveryone } from './deleteForEveryone';
+} from '../jobs/conversationJobQueue.js';
+import { deleteForEveryone } from './deleteForEveryone.js';
 import {
   getConversationIdForLogging,
   getMessageIdForLogging,
-} from './idForLogging';
-import { getMessageById } from '../messages/getMessageById';
-import { getRecipientConversationIds } from './getRecipientConversationIds';
-import { getRecipients } from './getRecipients';
-import { repeat, zipObject } from './iterables';
-import { isMe } from './whatTypeOfConversation';
+} from './idForLogging.js';
+import { getMessageById } from '../messages/getMessageById.js';
+import { getRecipientConversationIds } from './getRecipientConversationIds.js';
+import { getRecipients } from './getRecipients.js';
+import { repeat, zipObject } from './iterables.js';
+import { isMe } from './whatTypeOfConversation.js';
 
 const log = createLogger('sendDeleteForEveryoneMessage');
 

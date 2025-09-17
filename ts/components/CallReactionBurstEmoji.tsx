@@ -5,8 +5,8 @@ import React from 'react';
 import { animated, useSpring } from '@react-spring/web';
 import { random } from 'lodash';
 import { v4 as uuid } from 'uuid';
-import { Emojify } from './conversation/Emojify';
-import { useReducedMotion } from '../hooks/useReducedMotion';
+import { Emojify } from './conversation/Emojify.js';
+import { useReducedMotion } from '../hooks/useReducedMotion.js';
 
 export type PropsType = {
   values: Array<string>;

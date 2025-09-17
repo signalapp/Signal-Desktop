@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { explodePromise } from './explodePromise';
+import { explodePromise } from './explodePromise.js';
 
 export async function loadImage(src: string): Promise<HTMLImageElement> {
   const { promise, resolve, reject } = explodePromise<void>();

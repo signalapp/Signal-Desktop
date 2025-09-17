@@ -5,18 +5,18 @@ import type { ReadonlyDeep } from 'type-fest';
 import type { ThunkAction } from 'redux-thunk';
 import { omit } from 'lodash';
 
-import { generateSafetyNumber } from '../../util/safetyNumber';
-import type { SafetyNumberType } from '../../types/safetyNumber';
-import type { ConversationType } from './conversations';
+import { generateSafetyNumber } from '../../util/safetyNumber.js';
+import type { SafetyNumberType } from '../../types/safetyNumber.js';
+import type { ConversationType } from './conversations.js';
 import {
   reloadProfiles,
   toggleVerification,
-} from '../../shims/contactVerification';
-import { createLogger } from '../../logging/log';
-import * as Errors from '../../types/errors';
-import type { StateType as RootStateType } from '../reducer';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
-import { useBoundActions } from '../../hooks/useBoundActions';
+} from '../../shims/contactVerification.js';
+import { createLogger } from '../../logging/log.js';
+import * as Errors from '../../types/errors.js';
+import type { StateType as RootStateType } from '../reducer.js';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
+import { useBoundActions } from '../../hooks/useBoundActions.js';
 
 const log = createLogger('safetyNumber');
 

@@ -5,14 +5,14 @@ import React from 'react';
 import { memoize, times } from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './GroupCallOverflowArea';
-import { GroupCallOverflowArea } from './GroupCallOverflowArea';
-import { getDefaultConversationWithServiceId } from '../test-helpers/getDefaultConversation';
-import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCallVideoFrameSource';
-import { FRAME_BUFFER_SIZE } from '../calling/constants';
-import { generateAci } from '../types/ServiceId';
-import type { CallingImageDataCache } from './CallManager';
-import { MINUTE } from '../util/durations';
+import type { PropsType } from './GroupCallOverflowArea.js';
+import { GroupCallOverflowArea } from './GroupCallOverflowArea.js';
+import { getDefaultConversationWithServiceId } from '../test-helpers/getDefaultConversation.js';
+import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCallVideoFrameSource.js';
+import { FRAME_BUFFER_SIZE } from '../calling/constants.js';
+import { generateAci } from '../types/ServiceId.js';
+import type { CallingImageDataCache } from './CallManager.js';
+import { MINUTE } from '../util/durations/index.js';
 
 const MAX_PARTICIPANTS = 32;
 

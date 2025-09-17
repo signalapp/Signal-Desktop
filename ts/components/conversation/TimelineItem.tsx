@@ -4,65 +4,65 @@
 import type { ReactChild, RefObject } from 'react';
 import React, { memo } from 'react';
 
-import type { LocalizerType, ThemeType } from '../../types/Util';
+import type { LocalizerType, ThemeType } from '../../types/Util.js';
 
-import type { InteractionModeType } from '../../state/ducks/conversations';
-import { TimelineDateHeader } from './TimelineDateHeader';
+import type { InteractionModeType } from '../../state/ducks/conversations.js';
+import { TimelineDateHeader } from './TimelineDateHeader.js';
 import type {
   Props as AllMessageProps,
   PropsData as TimelineMessageProps,
   PropsActions as MessageActionsType,
-} from './TimelineMessage';
-import type { PropsActionsType as CallingNotificationActionsType } from './CallingNotification';
-import { CallingNotification } from './CallingNotification';
-import { ChatSessionRefreshedNotification } from './ChatSessionRefreshedNotification';
-import type { PropsDataType as DeliveryIssueProps } from './DeliveryIssueNotification';
-import { DeliveryIssueNotification } from './DeliveryIssueNotification';
-import type { PropsData as ChangeNumberNotificationProps } from './ChangeNumberNotification';
-import { ChangeNumberNotification } from './ChangeNumberNotification';
-import type { PropsData as JoinedSignalNotificationProps } from './JoinedSignalNotification';
-import { JoinedSignalNotification } from './JoinedSignalNotification';
-import type { PropsData as TitleTransitionNotificationProps } from './TitleTransitionNotification';
-import { TitleTransitionNotification } from './TitleTransitionNotification';
-import type { CallingNotificationType } from '../../util/callingNotification';
-import { InlineNotificationWrapper } from './InlineNotificationWrapper';
-import type { PropsData as UnsupportedMessageProps } from './UnsupportedMessage';
-import { UnsupportedMessage } from './UnsupportedMessage';
-import type { PropsData as TimerNotificationProps } from './TimerNotification';
-import { TimerNotification } from './TimerNotification';
+} from './TimelineMessage.js';
+import type { PropsActionsType as CallingNotificationActionsType } from './CallingNotification.js';
+import { CallingNotification } from './CallingNotification.js';
+import { ChatSessionRefreshedNotification } from './ChatSessionRefreshedNotification.js';
+import type { PropsDataType as DeliveryIssueProps } from './DeliveryIssueNotification.js';
+import { DeliveryIssueNotification } from './DeliveryIssueNotification.js';
+import type { PropsData as ChangeNumberNotificationProps } from './ChangeNumberNotification.js';
+import { ChangeNumberNotification } from './ChangeNumberNotification.js';
+import type { PropsData as JoinedSignalNotificationProps } from './JoinedSignalNotification.js';
+import { JoinedSignalNotification } from './JoinedSignalNotification.js';
+import type { PropsData as TitleTransitionNotificationProps } from './TitleTransitionNotification.js';
+import { TitleTransitionNotification } from './TitleTransitionNotification.js';
+import type { CallingNotificationType } from '../../util/callingNotification.js';
+import { InlineNotificationWrapper } from './InlineNotificationWrapper.js';
+import type { PropsData as UnsupportedMessageProps } from './UnsupportedMessage.js';
+import { UnsupportedMessage } from './UnsupportedMessage.js';
+import type { PropsData as TimerNotificationProps } from './TimerNotification.js';
+import { TimerNotification } from './TimerNotification.js';
 import type {
   PropsActions as SafetyNumberActionsType,
   PropsData as SafetyNumberNotificationProps,
-} from './SafetyNumberNotification';
-import { SafetyNumberNotification } from './SafetyNumberNotification';
-import type { PropsData as VerificationNotificationProps } from './VerificationNotification';
-import { VerificationNotification } from './VerificationNotification';
-import type { PropsData as GroupNotificationProps } from './GroupNotification';
-import { GroupNotification } from './GroupNotification';
+} from './SafetyNumberNotification.js';
+import { SafetyNumberNotification } from './SafetyNumberNotification.js';
+import type { PropsData as VerificationNotificationProps } from './VerificationNotification.js';
+import { VerificationNotification } from './VerificationNotification.js';
+import type { PropsData as GroupNotificationProps } from './GroupNotification.js';
+import { GroupNotification } from './GroupNotification.js';
 import type {
   PropsDataType as GroupV2ChangeProps,
   PropsActionsType as GroupV2ChangeActionsType,
-} from './GroupV2Change';
-import { GroupV2Change } from './GroupV2Change';
-import type { PropsDataType as GroupV1MigrationProps } from './GroupV1Migration';
-import { GroupV1Migration } from './GroupV1Migration';
-import type { SmartContactRendererType } from '../../groupChange';
-import { ResetSessionNotification } from './ResetSessionNotification';
-import type { PropsType as ProfileChangeNotificationPropsType } from './ProfileChangeNotification';
-import { ProfileChangeNotification } from './ProfileChangeNotification';
-import type { PropsType as PaymentEventNotificationPropsType } from './PaymentEventNotification';
-import { PaymentEventNotification } from './PaymentEventNotification';
-import type { PropsDataType as ConversationMergeNotificationPropsType } from './ConversationMergeNotification';
-import { ConversationMergeNotification } from './ConversationMergeNotification';
-import type { PropsDataType as PhoneNumberDiscoveryNotificationPropsType } from './PhoneNumberDiscoveryNotification';
-import { PhoneNumberDiscoveryNotification } from './PhoneNumberDiscoveryNotification';
-import { SystemMessage } from './SystemMessage';
-import { TimelineMessage } from './TimelineMessage';
+} from './GroupV2Change.js';
+import { GroupV2Change } from './GroupV2Change.js';
+import type { PropsDataType as GroupV1MigrationProps } from './GroupV1Migration.js';
+import { GroupV1Migration } from './GroupV1Migration.js';
+import type { SmartContactRendererType } from '../../groupChange.js';
+import { ResetSessionNotification } from './ResetSessionNotification.js';
+import type { PropsType as ProfileChangeNotificationPropsType } from './ProfileChangeNotification.js';
+import { ProfileChangeNotification } from './ProfileChangeNotification.js';
+import type { PropsType as PaymentEventNotificationPropsType } from './PaymentEventNotification.js';
+import { PaymentEventNotification } from './PaymentEventNotification.js';
+import type { PropsDataType as ConversationMergeNotificationPropsType } from './ConversationMergeNotification.js';
+import { ConversationMergeNotification } from './ConversationMergeNotification.js';
+import type { PropsDataType as PhoneNumberDiscoveryNotificationPropsType } from './PhoneNumberDiscoveryNotification.js';
+import { PhoneNumberDiscoveryNotification } from './PhoneNumberDiscoveryNotification.js';
+import { SystemMessage } from './SystemMessage.js';
+import { TimelineMessage } from './TimelineMessage.js';
 import {
   MessageRequestResponseNotification,
   type MessageRequestResponseNotificationData,
-} from './MessageRequestResponseNotification';
-import type { MessageRequestState } from './MessageRequestActionsConfirmation';
+} from './MessageRequestResponseNotification.js';
+import type { MessageRequestState } from './MessageRequestActionsConfirmation.js';
 
 type CallHistoryType = {
   type: 'callHistory';

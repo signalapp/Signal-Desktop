@@ -1,11 +1,11 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReadonlyMessageAttributesType } from '../model-types.d';
-import { DAY } from './durations';
-import { isMoreRecentThan } from './timestamp';
-import { isOutgoing } from '../messages/helpers';
-import { isMessageNoteToSelf } from './isMessageNoteToSelf';
+import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
+import { DAY } from './durations/index.js';
+import { isMoreRecentThan } from './timestamp.js';
+import { isOutgoing } from '../messages/helpers.js';
+import { isMessageNoteToSelf } from './isMessageNoteToSelf.js';
 
 export const MESSAGE_MAX_EDIT_COUNT = 10;
 

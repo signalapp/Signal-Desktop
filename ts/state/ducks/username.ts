@@ -4,32 +4,32 @@
 import type { ThunkAction } from 'redux-thunk';
 
 import type { ReadonlyDeep } from 'type-fest';
-import type { UsernameReservationType } from '../../types/Username';
+import type { UsernameReservationType } from '../../types/Username.js';
 import {
   ReserveUsernameError,
   ConfirmUsernameResult,
-} from '../../types/Username';
-import * as usernameServices from '../../services/username';
-import { storageServiceUploadJob } from '../../services/storage';
-import type { ReserveUsernameResultType } from '../../services/username';
-import { missingCaseError } from '../../util/missingCaseError';
-import { sleep } from '../../util/sleep';
-import { assertDev } from '../../util/assert';
-import type { StateType as RootStateType } from '../reducer';
-import type { PromiseAction } from '../util';
-import { getMe } from '../selectors/conversations';
-import { getUsernameCorrupted } from '../selectors/items';
+} from '../../types/Username.js';
+import * as usernameServices from '../../services/username.js';
+import { storageServiceUploadJob } from '../../services/storage.js';
+import type { ReserveUsernameResultType } from '../../services/username.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
+import { sleep } from '../../util/sleep.js';
+import { assertDev } from '../../util/assert.js';
+import type { StateType as RootStateType } from '../reducer.js';
+import type { PromiseAction } from '../util.js';
+import { getMe } from '../selectors/conversations.js';
+import { getUsernameCorrupted } from '../selectors/items.js';
 import {
   UsernameEditState,
   UsernameLinkState,
   UsernameReservationState,
   UsernameReservationError,
-} from './usernameEnums';
-import { showToast } from './toast';
-import { ToastType } from '../../types/Toast';
-import type { ToastActionType } from './toast';
-import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
-import { useBoundActions } from '../../hooks/useBoundActions';
+} from './usernameEnums.js';
+import { showToast } from './toast.js';
+import { ToastType } from '../../types/Toast.js';
+import type { ToastActionType } from './toast.js';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.js';
+import { useBoundActions } from '../../hooks/useBoundActions.js';
 
 export type UsernameReservationStateType = ReadonlyDeep<{
   state: UsernameReservationState;

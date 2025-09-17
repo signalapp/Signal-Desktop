@@ -3,14 +3,14 @@
 
 import { assert } from 'chai';
 
-import * as durations from '../../util/durations';
-import type { App, Bootstrap } from './fixtures';
-import { initStorage, debug } from './fixtures';
+import * as durations from '../../util/durations/index.js';
+import type { App, Bootstrap } from './fixtures.js';
+import { initStorage, debug } from './fixtures.js';
 import {
   acceptConversation,
   typeIntoInput,
   waitForEnabledComposer,
-} from '../helpers';
+} from '../helpers.js';
 
 describe('storage service', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);

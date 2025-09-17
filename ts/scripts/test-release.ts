@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import asar from '@electron/asar';
-import assert from 'assert';
-import { join } from 'path';
+import assert from 'node:assert';
+import { join } from 'node:path';
 import { _electron as electron } from 'playwright';
 
 import packageJson from '../../package.json';

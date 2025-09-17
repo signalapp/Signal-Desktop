@@ -3,16 +3,16 @@
 
 import { get, throttle } from 'lodash';
 
-import type { WebAPIType } from './textsecure/WebAPI';
-import { createLogger } from './logging/log';
-import type { AciString } from './types/ServiceId';
-import { parseIntOrThrow } from './util/parseIntOrThrow';
-import { HOUR } from './util/durations';
-import * as Bytes from './Bytes';
-import { uuidToBytes } from './util/uuidToBytes';
-import { HashType } from './types/Crypto';
-import { getCountryCode } from './types/PhoneNumber';
-import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration';
+import type { WebAPIType } from './textsecure/WebAPI.js';
+import { createLogger } from './logging/log.js';
+import type { AciString } from './types/ServiceId.js';
+import { parseIntOrThrow } from './util/parseIntOrThrow.js';
+import { HOUR } from './util/durations/index.js';
+import * as Bytes from './Bytes.js';
+import { uuidToBytes } from './util/uuidToBytes.js';
+import { HashType } from './types/Crypto.js';
+import { getCountryCode } from './types/PhoneNumber.js';
+import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration.js';
 
 const log = createLogger('RemoteConfig');
 

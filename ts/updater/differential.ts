@@ -1,23 +1,23 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FileHandle } from 'fs/promises';
-import { readFile, open } from 'fs/promises';
-import type { Readable } from 'stream';
-import { pipeline } from 'stream/promises';
-import { promisify } from 'util';
-import { gunzip as nativeGunzip } from 'zlib';
+import type { FileHandle } from 'node:fs/promises';
+import { readFile, open } from 'node:fs/promises';
+import type { Readable } from 'node:stream';
+import { pipeline } from 'node:stream/promises';
+import { promisify } from 'node:util';
+import { gunzip as nativeGunzip } from 'node:zlib';
 import got from 'got';
 import { chunk as lodashChunk, noop } from 'lodash';
 import pMap from 'p-map';
 import Dicer from '@indutny/dicer';
 
-import { strictAssert } from '../util/assert';
-import { wrapEventEmitterOnce } from '../util/wrapEventEmitterOnce';
-import type { LoggerType } from '../types/Logging';
-import { getGotOptions } from './got';
-import type { GotOptions } from './got';
-import { checkIntegrity } from './util';
+import { strictAssert } from '../util/assert.js';
+import { wrapEventEmitterOnce } from '../util/wrapEventEmitterOnce.js';
+import type { LoggerType } from '../types/Logging.js';
+import { getGotOptions } from './got.js';
+import type { GotOptions } from './got.js';
+import { checkIntegrity } from './util.js';
 
 const gunzip = promisify(nativeGunzip);
 

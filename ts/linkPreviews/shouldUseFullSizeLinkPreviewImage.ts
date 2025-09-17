@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { LinkPreviewType } from '../types/message/LinkPreviews';
-import { isImageAttachment } from '../types/Attachment';
+import type { LinkPreviewType } from '../types/message/LinkPreviews.js';
+import { isImageAttachment } from '../types/Attachment.js';
 
 const MINIMUM_FULL_SIZE_DIMENSION = 200;
 

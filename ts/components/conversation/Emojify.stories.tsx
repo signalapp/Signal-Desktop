@@ -3,8 +3,8 @@
 
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
-import type { Props } from './Emojify';
-import { Emojify } from './Emojify';
+import type { Props } from './Emojify.js';
+import { Emojify } from './Emojify.js';
 
 export default {
   title: 'Components/Conversation/Emojify',

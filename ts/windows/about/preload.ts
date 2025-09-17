@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { contextBridge } from 'electron';
-import { MinimalSignalContext } from '../minimalContext';
-import { config } from '../../context/config';
-import { environment } from '../../context/environment';
+import { MinimalSignalContext } from '../minimalContext.js';
+import { config } from '../../context/config.js';
+import { environment } from '../../context/environment.js';
 
 const environments: Array<string> = [environment];
 

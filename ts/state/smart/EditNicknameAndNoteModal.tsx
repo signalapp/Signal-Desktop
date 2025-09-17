@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { getConversationSelector } from '../selectors/conversations';
-import { getEditNicknameAndNoteModalProps } from '../selectors/globalModals';
-import { strictAssert } from '../../util/assert';
-import { EditNicknameAndNoteModal } from '../../components/EditNicknameAndNoteModal';
-import { getIntl } from '../selectors/user';
-import { useGlobalModalActions } from '../ducks/globalModals';
-import type { NicknameAndNote } from '../ducks/conversations';
-import { useConversationsActions } from '../ducks/conversations';
+import { getConversationSelector } from '../selectors/conversations.js';
+import { getEditNicknameAndNoteModalProps } from '../selectors/globalModals.js';
+import { strictAssert } from '../../util/assert.js';
+import { EditNicknameAndNoteModal } from '../../components/EditNicknameAndNoteModal.js';
+import { getIntl } from '../selectors/user.js';
+import { useGlobalModalActions } from '../ducks/globalModals.js';
+import type { NicknameAndNote } from '../ducks/conversations.js';
+import { useConversationsActions } from '../ducks/conversations.js';
 
 export const SmartEditNicknameAndNoteModal = memo(
   function SmartEditNicknameAndNoteModal(): JSX.Element {

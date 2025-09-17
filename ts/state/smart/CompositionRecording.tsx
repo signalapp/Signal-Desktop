@@ -3,12 +3,12 @@
 
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { CompositionRecording } from '../../components/CompositionRecording';
-import { useAudioRecorderActions } from '../ducks/audioRecorder';
-import { useComposerActions } from '../ducks/composer';
-import { useToastActions } from '../ducks/toast';
-import { getSelectedConversationId } from '../selectors/conversations';
-import { getIntl } from '../selectors/user';
+import { CompositionRecording } from '../../components/CompositionRecording.js';
+import { useAudioRecorderActions } from '../ducks/audioRecorder.js';
+import { useComposerActions } from '../ducks/composer.js';
+import { useToastActions } from '../ducks/toast.js';
+import { getSelectedConversationId } from '../selectors/conversations.js';
+import { getIntl } from '../selectors/user.js';
 
 export type SmartCompositionRecordingProps = {
   onBeforeSend: () => void;

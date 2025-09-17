@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { SignalService as Proto } from '../protobuf';
+import { SignalService as Proto } from '../protobuf/index.js';
 
 const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
 

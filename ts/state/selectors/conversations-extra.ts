@@ -6,19 +6,19 @@
 
 import { createSelector } from 'reselect';
 
-import { normalizeStoryDistributionId } from '../../types/StoryDistributionId';
-import type { ContactsByStory } from '../../components/SafetyNumberChangeDialog';
-import type { ConversationVerificationData } from '../ducks/conversations';
-import type { StoryDistributionListDataType } from '../ducks/storyDistributionLists';
-import type { GetConversationByIdType } from './conversations';
+import { normalizeStoryDistributionId } from '../../types/StoryDistributionId.js';
+import type { ContactsByStory } from '../../components/SafetyNumberChangeDialog.js';
+import type { ConversationVerificationData } from '../ducks/conversations.js';
+import type { StoryDistributionListDataType } from '../ducks/storyDistributionLists.js';
+import type { GetConversationByIdType } from './conversations.js';
 
-import { isGroup } from '../../util/whatTypeOfConversation';
+import { isGroup } from '../../util/whatTypeOfConversation.js';
 import {
   getConversationSelector,
   getConversationVerificationData,
-} from './conversations';
-import { ConversationVerificationState } from '../ducks/conversationsEnums';
-import { getDistributionListSelector } from './storyDistributionLists';
+} from './conversations.js';
+import { ConversationVerificationState } from '../ducks/conversationsEnums.js';
+import { getDistributionListSelector } from './storyDistributionLists.js';
 
 export const getByDistributionListConversationsStoppingSend = createSelector(
   getConversationSelector,

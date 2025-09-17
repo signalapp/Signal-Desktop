@@ -4,9 +4,12 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './DocumentListItem';
-import { DocumentListItem } from './DocumentListItem';
-import { createPreparedMediaItems, createRandomDocuments } from './utils/mocks';
+import type { Props } from './DocumentListItem.js';
+import { DocumentListItem } from './DocumentListItem.js';
+import {
+  createPreparedMediaItems,
+  createRandomDocuments,
+} from './utils/mocks.js';
 
 export default {
   title: 'Components/Conversation/MediaGallery/DocumentListItem',

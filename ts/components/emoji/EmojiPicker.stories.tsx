@@ -4,9 +4,9 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './EmojiPicker';
-import { EmojiPicker } from './EmojiPicker';
-import { EmojiSkinTone } from '../fun/data/emojis';
+import type { Props } from './EmojiPicker.js';
+import { EmojiPicker } from './EmojiPicker.js';
+import { EmojiSkinTone } from '../fun/data/emojis.js';
 
 const { i18n } = window.SignalContext;
 

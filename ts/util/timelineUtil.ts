@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isNumber } from 'lodash';
-import { createLogger } from '../logging/log';
-import type { PropsType as TimelinePropsType } from '../components/conversation/Timeline';
-import type { TimelineItemType } from '../components/conversation/TimelineItem';
-import { WidthBreakpoint } from '../components/_util';
-import { toLogFormat } from '../types/errors';
-import { MINUTE } from './durations';
-import { missingCaseError } from './missingCaseError';
-import { isSameDay } from './timestamp';
-import type { LastMessageStatus } from '../model-types.d';
+import { createLogger } from '../logging/log.js';
+import type { PropsType as TimelinePropsType } from '../components/conversation/Timeline.js';
+import type { TimelineItemType } from '../components/conversation/TimelineItem.js';
+import { WidthBreakpoint } from '../components/_util.js';
+import { toLogFormat } from '../types/errors.js';
+import { MINUTE } from './durations/index.js';
+import { missingCaseError } from './missingCaseError.js';
+import { isSameDay } from './timestamp.js';
+import type { LastMessageStatus } from '../model-types.d.ts';
 
 const log = createLogger('timelineUtil');
 

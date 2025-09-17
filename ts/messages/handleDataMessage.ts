@@ -3,28 +3,28 @@
 
 import { isNumber } from 'lodash';
 
-import { createLogger } from '../logging/log';
-import * as Errors from '../types/errors';
-import * as LinkPreview from '../types/LinkPreview';
+import { createLogger } from '../logging/log.js';
+import * as Errors from '../types/errors.js';
+import * as LinkPreview from '../types/LinkPreview.js';
 
-import { getAuthor, isStory, messageHasPaymentEvent } from './helpers';
-import { getMessageIdForLogging } from '../util/idForLogging';
-import { getSenderIdentifier } from '../util/getSenderIdentifier';
-import { isNormalNumber } from '../util/isNormalNumber';
-import { getOwn } from '../util/getOwn';
+import { getAuthor, isStory, messageHasPaymentEvent } from './helpers.js';
+import { getMessageIdForLogging } from '../util/idForLogging.js';
+import { getSenderIdentifier } from '../util/getSenderIdentifier.js';
+import { isNormalNumber } from '../util/isNormalNumber.js';
+import { getOwn } from '../util/getOwn.js';
 import {
   SendActionType,
   sendStateReducer,
   SendStatus,
-} from './MessageSendState';
-import { DataReader, DataWriter } from '../sql/Client';
-import { eraseMessageContents } from '../util/cleanup';
+} from './MessageSendState.js';
+import { DataReader, DataWriter } from '../sql/Client.js';
+import { eraseMessageContents } from '../util/cleanup.js';
 import {
   isDirectConversation,
   isGroup,
   isGroupV1,
-} from '../util/whatTypeOfConversation';
-import { generateMessageId } from '../util/generateMessageId';
+} from '../util/whatTypeOfConversation.js';
+import { generateMessageId } from '../util/generateMessageId.js';
 import {
   hasErrors,
   isEndSession,
@@ -32,39 +32,39 @@ import {
   isGroupUpdate,
   isTapToView,
   isUnsupportedMessage,
-} from '../state/selectors/message';
-import { drop } from '../util/drop';
-import { strictAssert } from '../util/assert';
-import { isAciString } from '../util/isAciString';
-import { copyFromQuotedMessage } from './copyQuote';
-import { findStoryMessages } from '../util/findStoryMessage';
-import { getRoomIdFromCallLink } from '../util/callLinksRingrtc';
-import { isNotNil } from '../util/isNotNil';
-import { normalizeServiceId } from '../types/ServiceId';
-import { BodyRange, trimMessageWhitespace } from '../types/BodyRange';
-import { hydrateStoryContext } from '../util/hydrateStoryContext';
-import { isMessageEmpty } from '../util/isMessageEmpty';
-import { isValidTapToView } from '../util/isValidTapToView';
-import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage';
-import { getMessageAuthorText } from '../util/getMessageAuthorText';
-import { GiftBadgeStates } from '../components/conversation/Message';
-import { parseBoostBadgeListFromServer } from '../badges/parseBadgesFromServer';
-import { SignalService as Proto } from '../protobuf';
+} from '../state/selectors/message.js';
+import { drop } from '../util/drop.js';
+import { strictAssert } from '../util/assert.js';
+import { isAciString } from '../util/isAciString.js';
+import { copyFromQuotedMessage } from './copyQuote.js';
+import { findStoryMessages } from '../util/findStoryMessage.js';
+import { getRoomIdFromCallLink } from '../util/callLinksRingrtc.js';
+import { isNotNil } from '../util/isNotNil.js';
+import { normalizeServiceId } from '../types/ServiceId.js';
+import { BodyRange, trimMessageWhitespace } from '../types/BodyRange.js';
+import { hydrateStoryContext } from '../util/hydrateStoryContext.js';
+import { isMessageEmpty } from '../util/isMessageEmpty.js';
+import { isValidTapToView } from '../util/isValidTapToView.js';
+import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage.js';
+import { getMessageAuthorText } from '../util/getMessageAuthorText.js';
+import { GiftBadgeStates } from '../components/conversation/Message.js';
+import { parseBoostBadgeListFromServer } from '../badges/parseBadgesFromServer.js';
+import { SignalService as Proto } from '../protobuf/index.js';
 import {
   modifyTargetMessage,
   ModifyTargetMessageResult,
-} from '../util/modifyTargetMessage';
-import { saveAndNotify } from './saveAndNotify';
-import { MessageModel } from '../models/messages';
+} from '../util/modifyTargetMessage.js';
+import { saveAndNotify } from './saveAndNotify.js';
+import { MessageModel } from '../models/messages.js';
 
-import type { SentEventData } from '../textsecure/messageReceiverEvents';
+import type { SentEventData } from '../textsecure/messageReceiverEvents.js';
 import type {
   ProcessedDataMessage,
   ProcessedUnidentifiedDeliveryStatus,
-} from '../textsecure/Types';
-import type { ServiceIdString } from '../types/ServiceId';
-import type { LinkPreviewType } from '../types/message/LinkPreviews';
-import { getCachedSubscriptionConfiguration } from '../util/subscriptionConfiguration';
+} from '../textsecure/Types.js';
+import type { ServiceIdString } from '../types/ServiceId.js';
+import type { LinkPreviewType } from '../types/message/LinkPreviews.js';
+import { getCachedSubscriptionConfiguration } from '../util/subscriptionConfiguration.js';
 
 const log = createLogger('handleDataMessage');
 

@@ -100,6 +100,14 @@ const rules = {
 
   // We prefer named exports
   'import/prefer-default-export': 'off',
+  'import/enforce-node-protocol-usage': ['error', 'always'],
+  'import/extensions': [
+    'error',
+    'ignorePackages',
+    {
+      checkTypeImports: true,
+    },
+  ],
 
   // Prefer functional components with default params
   'react/require-default-props': 'off',

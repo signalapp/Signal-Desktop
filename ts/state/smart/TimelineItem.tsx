@@ -5,37 +5,37 @@ import type { RefObject } from 'react';
 import React, { useCallback, memo } from 'react';
 import { useSelector } from 'react-redux';
 
-import { TimelineItem } from '../../components/conversation/TimelineItem';
-import type { WidthBreakpoint } from '../../components/_util';
-import { useConversationsActions } from '../ducks/conversations';
-import { useComposerActions } from '../ducks/composer';
-import { useGlobalModalActions } from '../ducks/globalModals';
-import { useAccountsActions } from '../ducks/accounts';
-import { useLightboxActions } from '../ducks/lightbox';
-import { useStoriesActions } from '../ducks/stories';
-import { useCallingActions } from '../ducks/calling';
-import { getPreferredBadgeSelector } from '../selectors/badges';
+import { TimelineItem } from '../../components/conversation/TimelineItem.js';
+import type { WidthBreakpoint } from '../../components/_util.js';
+import { useConversationsActions } from '../ducks/conversations.js';
+import { useComposerActions } from '../ducks/composer.js';
+import { useGlobalModalActions } from '../ducks/globalModals.js';
+import { useAccountsActions } from '../ducks/accounts.js';
+import { useLightboxActions } from '../ducks/lightbox.js';
+import { useStoriesActions } from '../ducks/stories.js';
+import { useCallingActions } from '../ducks/calling.js';
+import { getPreferredBadgeSelector } from '../selectors/badges.js';
 import {
   getIntl,
   getInteractionMode,
   getTheme,
   getPlatform,
-} from '../selectors/user';
-import { getTargetedMessage } from '../selectors/conversations';
-import { useTimelineItem } from '../selectors/timeline';
+} from '../selectors/user.js';
+import { getTargetedMessage } from '../selectors/conversations.js';
+import { useTimelineItem } from '../selectors/timeline.js';
 import {
   areMessagesInSameGroup,
   shouldCurrentMessageHideMetadata,
   UnreadIndicatorPlacement,
-} from '../../util/timelineUtil';
+} from '../../util/timelineUtil.js';
 
-import { SmartContactName } from './ContactName';
-import { SmartUniversalTimerNotification } from './UniversalTimerNotification';
-import { isSameDay } from '../../util/timestamp';
-import { renderAudioAttachment } from './renderAudioAttachment';
-import { renderEmojiPicker } from './renderEmojiPicker';
-import { renderReactionPicker } from './renderReactionPicker';
-import type { MessageRequestState } from '../../components/conversation/MessageRequestActionsConfirmation';
+import { SmartContactName } from './ContactName.js';
+import { SmartUniversalTimerNotification } from './UniversalTimerNotification.js';
+import { isSameDay } from '../../util/timestamp.js';
+import { renderAudioAttachment } from './renderAudioAttachment.js';
+import { renderEmojiPicker } from './renderEmojiPicker.js';
+import { renderReactionPicker } from './renderReactionPicker.js';
+import type { MessageRequestState } from '../../components/conversation/MessageRequestActionsConfirmation.js';
 
 export type SmartTimelineItemProps = {
   containerElementRef: RefObject<HTMLElement>;

@@ -4,62 +4,65 @@
 import type { ReactNode } from 'react';
 import React, { useEffect, useState, useCallback } from 'react';
 
-import { Button, ButtonIconType, ButtonVariant } from '../../Button';
+import { Button, ButtonIconType, ButtonVariant } from '../../Button.js';
 import type {
   ConversationType,
   PushPanelForConversationActionType,
   ShowConversationType,
-} from '../../../state/ducks/conversations';
-import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges';
-import type { SmartChooseGroupMembersModalPropsType } from '../../../state/smart/ChooseGroupMembersModal';
-import type { SmartConfirmAdditionsModalPropsType } from '../../../state/smart/ConfirmAdditionsModal';
-import { assertDev } from '../../../util/assert';
-import { getMutedUntilText } from '../../../util/getMutedUntilText';
+} from '../../../state/ducks/conversations.js';
+import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.js';
+import type { SmartChooseGroupMembersModalPropsType } from '../../../state/smart/ChooseGroupMembersModal.js';
+import type { SmartConfirmAdditionsModalPropsType } from '../../../state/smart/ConfirmAdditionsModal.js';
+import { assertDev } from '../../../util/assert.js';
+import { getMutedUntilText } from '../../../util/getMutedUntilText.js';
 
-import type { LocalizerType, ThemeType } from '../../../types/Util';
-import type { BadgeType } from '../../../badges/types';
-import { missingCaseError } from '../../../util/missingCaseError';
-import { DurationInSeconds } from '../../../util/durations';
+import type { LocalizerType, ThemeType } from '../../../types/Util.js';
+import type { BadgeType } from '../../../badges/types.js';
+import { missingCaseError } from '../../../util/missingCaseError.js';
+import { DurationInSeconds } from '../../../util/durations/index.js';
 
-import { DisappearingTimerSelect } from '../../DisappearingTimerSelect';
+import { DisappearingTimerSelect } from '../../DisappearingTimerSelect.js';
 
-import { PanelRow } from './PanelRow';
-import { PanelSection } from './PanelSection';
-import { AddGroupMembersModal } from './AddGroupMembersModal';
-import { ConversationDetailsActions } from './ConversationDetailsActions';
-import { ConversationDetailsHeader } from './ConversationDetailsHeader';
-import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
-import type { GroupV2Membership } from './ConversationDetailsMembershipList';
-import { ConversationDetailsMembershipList } from './ConversationDetailsMembershipList';
+import { PanelRow } from './PanelRow.js';
+import { PanelSection } from './PanelSection.js';
+import { AddGroupMembersModal } from './AddGroupMembersModal.js';
+import { ConversationDetailsActions } from './ConversationDetailsActions.js';
+import { ConversationDetailsHeader } from './ConversationDetailsHeader.js';
+import {
+  ConversationDetailsIcon,
+  IconType,
+} from './ConversationDetailsIcon.js';
+import type { GroupV2Membership } from './ConversationDetailsMembershipList.js';
+import { ConversationDetailsMembershipList } from './ConversationDetailsMembershipList.js';
 import type {
   GroupV2PendingMembership,
   GroupV2RequestingMembership,
-} from './PendingInvites';
-import { EditConversationAttributesModal } from './EditConversationAttributesModal';
-import { RequestState } from './util';
-import { getCustomColorStyle } from '../../../util/getCustomColorStyle';
-import { openLinkInWebBrowser } from '../../../util/openLinkInWebBrowser';
-import { ConfirmationDialog } from '../../ConfirmationDialog';
-import { ConversationNotificationsModal } from './ConversationNotificationsModal';
+} from './PendingInvites.js';
+import { EditConversationAttributesModal } from './EditConversationAttributesModal.js';
+import { RequestState } from './util.js';
+import { getCustomColorStyle } from '../../../util/getCustomColorStyle.js';
+import { openLinkInWebBrowser } from '../../../util/openLinkInWebBrowser.js';
+import { ConfirmationDialog } from '../../ConfirmationDialog.js';
+import { ConversationNotificationsModal } from './ConversationNotificationsModal.js';
 import type {
   AvatarDataType,
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,
-} from '../../../types/Avatar';
-import { isConversationMuted } from '../../../util/isConversationMuted';
-import { ConversationDetailsGroups } from './ConversationDetailsGroups';
-import { PanelType } from '../../../types/Panels';
-import { type CallHistoryGroup } from '../../../types/CallDisposition';
-import { NavTab } from '../../../types/Nav';
-import { ContextMenu } from '../../ContextMenu';
-import { canHaveNicknameAndNote } from '../../../util/nicknames';
-import { CallHistoryGroupPanelSection } from './CallHistoryGroupPanelSection';
+} from '../../../types/Avatar.js';
+import { isConversationMuted } from '../../../util/isConversationMuted.js';
+import { ConversationDetailsGroups } from './ConversationDetailsGroups.js';
+import { PanelType } from '../../../types/Panels.js';
+import { type CallHistoryGroup } from '../../../types/CallDisposition.js';
+import { NavTab } from '../../../types/Nav.js';
+import { ContextMenu } from '../../ContextMenu.js';
+import { canHaveNicknameAndNote } from '../../../util/nicknames.js';
+import { CallHistoryGroupPanelSection } from './CallHistoryGroupPanelSection.js';
 import {
   InAnotherCallTooltip,
   getTooltipContent,
-} from '../InAnotherCallTooltip';
-import { BadgeSustainerInstructionsDialog } from '../../BadgeSustainerInstructionsDialog';
+} from '../InAnotherCallTooltip.js';
+import { BadgeSustainerInstructionsDialog } from '../../BadgeSustainerInstructionsDialog.js';
 
 enum ModalState {
   AddingGroupMembers,

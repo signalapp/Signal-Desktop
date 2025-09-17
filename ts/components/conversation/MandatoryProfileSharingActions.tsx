@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { ContactName } from './ContactName';
-import { Button, ButtonVariant } from '../Button';
-import type { MessageRequestActionsConfirmationProps } from './MessageRequestActionsConfirmation';
+import { ContactName } from './ContactName.js';
+import { Button, ButtonVariant } from '../Button.js';
+import type { MessageRequestActionsConfirmationProps } from './MessageRequestActionsConfirmation.js';
 import {
   MessageRequestActionsConfirmation,
   MessageRequestState,
-} from './MessageRequestActionsConfirmation';
-import { I18n } from '../I18n';
-import type { LocalizerType } from '../../types/Util';
+} from './MessageRequestActionsConfirmation.js';
+import { I18n } from '../I18n.js';
+import type { LocalizerType } from '../../types/Util.js';
 
 export type Props = {
   i18n: LocalizerType;

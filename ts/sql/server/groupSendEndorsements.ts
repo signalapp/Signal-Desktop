@@ -5,17 +5,17 @@ import type {
   GroupSendCombinedEndorsementRecord,
   GroupSendEndorsementsData,
   GroupSendMemberEndorsementRecord,
-} from '../../types/GroupSendEndorsements';
+} from '../../types/GroupSendEndorsements.js';
 import {
   groupSendEndorsementExpirationSchema,
   groupSendMemberEndorsementSchema,
   groupSendEndorsementsDataSchema,
-} from '../../types/GroupSendEndorsements';
-import type { ReadableDB, WritableDB } from '../Interface';
-import { sql } from '../util';
-import type { AciString } from '../../types/ServiceId';
-import { strictAssert } from '../../util/assert';
-import { parseLoose, parseUnknown } from '../../util/schemas';
+} from '../../types/GroupSendEndorsements.js';
+import type { ReadableDB, WritableDB } from '../Interface.js';
+import { sql } from '../util.js';
+import type { AciString } from '../../types/ServiceId.js';
+import { strictAssert } from '../../util/assert.js';
+import { parseLoose, parseUnknown } from '../../util/schemas.js';
 
 /**
  * We don't need to store more than one endorsement per group or per member.

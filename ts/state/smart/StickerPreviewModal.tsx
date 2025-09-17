@@ -3,15 +3,15 @@
 
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { StickerPreviewModal } from '../../components/stickers/StickerPreviewModal';
-import { getIntl } from '../selectors/user';
+import { StickerPreviewModal } from '../../components/stickers/StickerPreviewModal.js';
+import { getIntl } from '../selectors/user.js';
 import {
   getBlessedPacks,
   getPacks,
   translatePackFromDB,
-} from '../selectors/stickers';
-import { useStickersActions } from '../ducks/stickers';
-import { useGlobalModalActions } from '../ducks/globalModals';
+} from '../selectors/stickers.js';
+import { useStickersActions } from '../ducks/stickers.js';
+import { useGlobalModalActions } from '../ducks/globalModals.js';
 
 export type ExternalProps = {
   packId: string;

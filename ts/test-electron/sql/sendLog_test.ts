@@ -4,10 +4,10 @@
 import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
 
-import { DataReader, DataWriter } from '../../sql/Client';
-import { generateAci } from '../../types/ServiceId';
-import { constantTimeEqual, getRandomBytes } from '../../Crypto';
-import { cleanupMessages, postSaveUpdates } from '../../util/cleanup';
+import { DataReader, DataWriter } from '../../sql/Client.js';
+import { generateAci } from '../../types/ServiceId.js';
+import { constantTimeEqual, getRandomBytes } from '../../Crypto.js';
+import { cleanupMessages, postSaveUpdates } from '../../util/cleanup.js';
 
 const {
   _getAllSentProtoMessageIds,

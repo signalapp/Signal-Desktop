@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { GroupCallVideoRequest } from '../../types/Calling';
+import type { GroupCallVideoRequest } from '../../types/Calling.js';
 
 export const nonRenderedRemoteParticipant = ({
   demuxId,

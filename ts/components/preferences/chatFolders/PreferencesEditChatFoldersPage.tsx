@@ -2,30 +2,32 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { MutableRefObject } from 'react';
 import React, { useCallback, useMemo, useState } from 'react';
-import type { ConversationType } from '../../../state/ducks/conversations';
-import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges';
-import type { LocalizerType } from '../../../types/I18N';
-import type { ThemeType } from '../../../types/Util';
-import { Input } from '../../Input';
-import { Button, ButtonVariant } from '../../Button';
-import { ConfirmationDialog } from '../../ConfirmationDialog';
-import type { ChatFolderSelection } from './PreferencesEditChatFoldersSelectChatsDialog';
-import { PreferencesEditChatFoldersSelectChatsDialog } from './PreferencesEditChatFoldersSelectChatsDialog';
-import { SettingsRow } from '../../PreferencesUtil';
-import { Checkbox } from '../../Checkbox';
-import { Avatar, AvatarSize } from '../../Avatar';
-import { PreferencesContent } from '../../Preferences';
-import type { ChatFolderId } from '../../../types/ChatFolder';
+import type { ConversationType } from '../../../state/ducks/conversations.js';
+import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.js';
+import type { LocalizerType } from '../../../types/I18N.js';
+import type { ThemeType } from '../../../types/Util.js';
+import { Input } from '../../Input.js';
+import { Button, ButtonVariant } from '../../Button.js';
+import { ConfirmationDialog } from '../../ConfirmationDialog.js';
+import type { ChatFolderSelection } from './PreferencesEditChatFoldersSelectChatsDialog.js';
+import { PreferencesEditChatFoldersSelectChatsDialog } from './PreferencesEditChatFoldersSelectChatsDialog.js';
+import { SettingsRow } from '../../PreferencesUtil.js';
+import { Checkbox } from '../../Checkbox.js';
+import { Avatar, AvatarSize } from '../../Avatar.js';
+import { PreferencesContent } from '../../Preferences.js';
 import {
   CHAT_FOLDER_NAME_MAX_CHAR_LENGTH,
   ChatFolderParamsSchema,
   isSameChatFolderParams,
   validateChatFolderParams,
-  type ChatFolderParams,
-} from '../../../types/ChatFolder';
-import type { GetConversationByIdType } from '../../../state/selectors/conversations';
-import { strictAssert } from '../../../util/assert';
-import { parseStrict } from '../../../util/schemas';
+} from '../../../types/ChatFolder.js';
+import type {
+  ChatFolderId,
+  ChatFolderParams,
+} from '../../../types/ChatFolder.js';
+import type { GetConversationByIdType } from '../../../state/selectors/conversations.js';
+import { strictAssert } from '../../../util/assert.js';
+import { parseStrict } from '../../../util/schemas.js';
 
 export type PreferencesEditChatFolderPageProps = Readonly<{
   i18n: LocalizerType;

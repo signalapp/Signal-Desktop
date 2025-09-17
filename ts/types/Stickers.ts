@@ -5,33 +5,36 @@ import { isNumber, reject, groupBy, values, chunk } from 'lodash';
 import pMap from 'p-map';
 import Queue from 'p-queue';
 
-import { strictAssert } from '../util/assert';
-import { dropNull } from '../util/dropNull';
-import { makeLookup } from '../util/makeLookup';
-import { maybeParseUrl } from '../util/url';
-import { getMessagesById } from '../messages/getMessagesById';
-import * as Bytes from '../Bytes';
-import * as Errors from './errors';
-import { deriveStickerPackKey, decryptAttachmentV1 } from '../Crypto';
-import { IMAGE_WEBP } from './MIME';
-import { sniffImageMimeType } from '../util/sniffImageMimeType';
-import type { AttachmentType, AttachmentWithHydratedData } from './Attachment';
+import { strictAssert } from '../util/assert.js';
+import { dropNull } from '../util/dropNull.js';
+import { makeLookup } from '../util/makeLookup.js';
+import { maybeParseUrl } from '../util/url.js';
+import { getMessagesById } from '../messages/getMessagesById.js';
+import * as Bytes from '../Bytes.js';
+import * as Errors from './errors.js';
+import { deriveStickerPackKey, decryptAttachmentV1 } from '../Crypto.js';
+import { IMAGE_WEBP } from './MIME.js';
+import { sniffImageMimeType } from '../util/sniffImageMimeType.js';
+import type {
+  AttachmentType,
+  AttachmentWithHydratedData,
+} from './Attachment.js';
 import type {
   StickerType as StickerFromDBType,
   StickerPackType,
   StickerPackStatusType,
   UninstalledStickerPackType,
-} from '../sql/Interface';
-import { DataReader, DataWriter } from '../sql/Client';
-import { SignalService as Proto } from '../protobuf';
-import { createLogger } from '../logging/log';
-import type { StickersStateType } from '../state/ducks/stickers';
-import { MINUTE } from '../util/durations';
-import { drop } from '../util/drop';
-import { isNotNil } from '../util/isNotNil';
-import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment';
-import { AttachmentDisposition } from '../util/getLocalAttachmentUrl';
-import { getPlaintextHashForInMemoryAttachment } from '../AttachmentCrypto';
+} from '../sql/Interface.js';
+import { DataReader, DataWriter } from '../sql/Client.js';
+import { SignalService as Proto } from '../protobuf/index.js';
+import { createLogger } from '../logging/log.js';
+import type { StickersStateType } from '../state/ducks/stickers.js';
+import { MINUTE } from '../util/durations/index.js';
+import { drop } from '../util/drop.js';
+import { isNotNil } from '../util/isNotNil.js';
+import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment.js';
+import { AttachmentDisposition } from '../util/getLocalAttachmentUrl.js';
+import { getPlaintextHashForInMemoryAttachment } from '../AttachmentCrypto.js';
 
 const log = createLogger('Stickers');
 

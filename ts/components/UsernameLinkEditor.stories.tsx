@@ -5,16 +5,16 @@ import React, { useCallback, useState } from 'react';
 import type { Meta, StoryFn } from '@storybook/react';
 
 import { action } from '@storybook/addon-actions';
-import { UsernameLinkState } from '../state/ducks/usernameEnums';
-import { SignalService as Proto } from '../protobuf';
+import { UsernameLinkState } from '../state/ducks/usernameEnums.js';
+import { SignalService as Proto } from '../protobuf/index.js';
 
-import type { PropsType } from './UsernameLinkEditor';
+import type { PropsType } from './UsernameLinkEditor.js';
 import {
   UsernameLinkEditor,
   PRINT_WIDTH,
   PRINT_HEIGHT,
-} from './UsernameLinkEditor';
-import { Modal } from './Modal';
+} from './UsernameLinkEditor.js';
+import { Modal } from './Modal.js';
 
 const ColorEnum = Proto.AccountRecord.UsernameLink.Color;
 

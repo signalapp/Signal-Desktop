@@ -3,9 +3,9 @@
 
 import semver from 'semver';
 
-import type { OSType } from '../util/os/shared';
-import { SystemTraySetting } from './SystemTraySetting';
-import { isNotUpdatable, isProduction } from '../util/version';
+import type { OSType } from '../util/os/shared.js';
+import { SystemTraySetting } from './SystemTraySetting.js';
+import { isNotUpdatable, isProduction } from '../util/version.js';
 
 const MIN_WINDOWS_VERSION = '8.0.0';
 

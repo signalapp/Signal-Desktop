@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isNumber } from 'lodash';
-import { strictAssert } from './assert';
+import { strictAssert } from './assert.js';
 
-import type { AttachmentType } from '../types/Attachment';
+import type { AttachmentType } from '../types/Attachment.js';
 
 export enum AttachmentDisposition {
   Attachment = 'attachment',

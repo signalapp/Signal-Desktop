@@ -4,9 +4,9 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './StickerPicker';
-import { StickerPicker } from './StickerPicker';
-import { abeSticker, createPack, packs, recentStickers } from './mocks';
+import type { Props } from './StickerPicker.js';
+import { StickerPicker } from './StickerPicker.js';
+import { abeSticker, createPack, packs, recentStickers } from './mocks.js';
 
 const { i18n } = window.SignalContext;
 

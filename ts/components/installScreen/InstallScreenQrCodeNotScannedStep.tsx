@@ -6,25 +6,25 @@ import React, { useCallback, useState, useEffect } from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 
-import type { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util.js';
 import {
   InstallScreenStep,
   InstallScreenQRCodeError,
-} from '../../types/InstallScreen';
-import { missingCaseError } from '../../util/missingCaseError';
-import type { Loadable } from '../../util/loadable';
-import { LoadingState } from '../../util/loadable';
-import { drop } from '../../util/drop';
-import { getEnvironment, Environment } from '../../environment';
+} from '../../types/InstallScreen.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
+import type { Loadable } from '../../util/loadable.js';
+import { LoadingState } from '../../util/loadable.js';
+import { drop } from '../../util/drop.js';
+import { getEnvironment, Environment } from '../../environment.js';
 
-import { I18n } from '../I18n';
-import { Spinner } from '../Spinner';
-import { BrandedQRCode } from '../BrandedQRCode';
-import { TitlebarDragArea } from '../TitlebarDragArea';
-import { InstallScreenSignalLogo } from './InstallScreenSignalLogo';
-import { InstallScreenUpdateDialog } from './InstallScreenUpdateDialog';
-import { getClassNamesFor } from '../../util/getClassNamesFor';
-import type { UpdatesStateType } from '../../state/ducks/updates';
+import { I18n } from '../I18n.js';
+import { Spinner } from '../Spinner.js';
+import { BrandedQRCode } from '../BrandedQRCode.js';
+import { TitlebarDragArea } from '../TitlebarDragArea.js';
+import { InstallScreenSignalLogo } from './InstallScreenSignalLogo.js';
+import { InstallScreenUpdateDialog } from './InstallScreenUpdateDialog.js';
+import { getClassNamesFor } from '../../util/getClassNamesFor.js';
+import type { UpdatesStateType } from '../../state/ducks/updates.js';
 
 // We can't always use destructuring assignment because of the complexity of this props
 //   type.

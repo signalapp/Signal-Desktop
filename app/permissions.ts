@@ -6,8 +6,8 @@
 
 import type { session as ElectronSession, Session } from 'electron';
 
-import type { ConfigType } from './base_config';
-import { createLogger } from '../ts/logging/log';
+import type { ConfigType } from './base_config.js';
+import { createLogger } from '../ts/logging/log.js';
 
 const log = createLogger('permissions');
 

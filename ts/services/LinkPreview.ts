@@ -4,36 +4,36 @@
 import { debounce, omit } from 'lodash';
 
 import { CallLinkRootKey, CallLinkEpoch } from '@signalapp/ringrtc';
-import type { LinkPreviewWithHydratedData } from '../types/message/LinkPreviews';
+import type { LinkPreviewWithHydratedData } from '../types/message/LinkPreviews.js';
 import type {
   LinkPreviewImage,
   LinkPreviewResult,
   LinkPreviewSourceType,
   MaybeGrabLinkPreviewOptionsType,
   AddLinkPreviewOptionsType,
-} from '../types/LinkPreview';
-import type { LinkPreviewImage as LinkPreviewFetchImage } from '../linkPreviews/linkPreviewFetch';
-import * as Errors from '../types/errors';
-import type { StickerPackType as StickerPackDBType } from '../sql/Interface';
-import type { MIMEType } from '../types/MIME';
-import * as Bytes from '../Bytes';
-import { sha256 } from '../Crypto';
-import * as LinkPreview from '../types/LinkPreview';
-import * as Stickers from '../types/Stickers';
-import * as VisualAttachment from '../types/VisualAttachment';
-import { createLogger } from '../logging/log';
-import { IMAGE_JPEG, IMAGE_WEBP, stringToMIMEType } from '../types/MIME';
-import { SECOND } from '../util/durations';
-import { autoScale } from '../util/handleImageAttachment';
-import { dropNull } from '../util/dropNull';
-import { fileToBytes } from '../util/fileToBytes';
-import { imageToBlurHash } from '../util/imageToBlurHash';
-import { maybeParseUrl } from '../util/url';
-import { sniffImageMimeType } from '../util/sniffImageMimeType';
-import { drop } from '../util/drop';
-import { calling } from './calling';
-import { getKeyAndEpochFromCallLink } from '../util/callLinks';
-import { getRoomIdFromCallLink } from '../util/callLinksRingrtc';
+} from '../types/LinkPreview.js';
+import type { LinkPreviewImage as LinkPreviewFetchImage } from '../linkPreviews/linkPreviewFetch.js';
+import * as Errors from '../types/errors.js';
+import type { StickerPackType as StickerPackDBType } from '../sql/Interface.js';
+import type { MIMEType } from '../types/MIME.js';
+import * as Bytes from '../Bytes.js';
+import { sha256 } from '../Crypto.js';
+import * as LinkPreview from '../types/LinkPreview.js';
+import * as Stickers from '../types/Stickers.js';
+import * as VisualAttachment from '../types/VisualAttachment.js';
+import { createLogger } from '../logging/log.js';
+import { IMAGE_JPEG, IMAGE_WEBP, stringToMIMEType } from '../types/MIME.js';
+import { SECOND } from '../util/durations/index.js';
+import { autoScale } from '../util/handleImageAttachment.js';
+import { dropNull } from '../util/dropNull.js';
+import { fileToBytes } from '../util/fileToBytes.js';
+import { imageToBlurHash } from '../util/imageToBlurHash.js';
+import { maybeParseUrl } from '../util/url.js';
+import { sniffImageMimeType } from '../util/sniffImageMimeType.js';
+import { drop } from '../util/drop.js';
+import { calling } from './calling.js';
+import { getKeyAndEpochFromCallLink } from '../util/callLinks.js';
+import { getRoomIdFromCallLink } from '../util/callLinksRingrtc.js';
 
 const log = createLogger('LinkPreview');
 

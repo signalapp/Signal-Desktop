@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import path from 'path';
-import { tmpdir } from 'os';
+import path from 'node:path';
+import { tmpdir } from 'node:os';
 import { omit, sortBy } from 'lodash';
-import { createReadStream } from 'fs';
-import { mkdtemp, rm } from 'fs/promises';
+import { createReadStream } from 'node:fs';
+import { mkdtemp, rm } from 'node:fs/promises';
 import * as sinon from 'sinon';
 import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
 import { AccountEntropyPool } from '@signalapp/libsignal-client/dist/AccountKeys';
@@ -15,19 +15,19 @@ import type {
   EditHistoryType,
   MessageAttributesType,
   MessageReactionType,
-} from '../../model-types';
+} from '../../model-types.js';
 import type {
   SendStateByConversationId,
   SendState,
-} from '../../messages/MessageSendState';
+} from '../../messages/MessageSendState.js';
 
-import { backupsService } from '../../services/backups';
-import { isUnsupportedMessage } from '../../state/selectors/message';
-import { generateAci, generatePni } from '../../types/ServiceId';
-import { DataReader, DataWriter } from '../../sql/Client';
-import { getRandomBytes } from '../../Crypto';
-import * as Bytes from '../../Bytes';
-import { postSaveUpdates } from '../../util/cleanup';
+import { backupsService } from '../../services/backups/index.js';
+import { isUnsupportedMessage } from '../../state/selectors/message.js';
+import { generateAci, generatePni } from '../../types/ServiceId.js';
+import { DataReader, DataWriter } from '../../sql/Client.js';
+import { getRandomBytes } from '../../Crypto.js';
+import * as Bytes from '../../Bytes.js';
+import { postSaveUpdates } from '../../util/cleanup.js';
 
 export const OUR_ACI = generateAci();
 export const OUR_PNI = generatePni();

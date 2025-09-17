@@ -4,10 +4,10 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './IncomingCallBar';
-import { IncomingCallBar } from './IncomingCallBar';
-import { CallMode } from '../types/CallDisposition';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
+import type { PropsType } from './IncomingCallBar.js';
+import { IncomingCallBar } from './IncomingCallBar.js';
+import { CallMode } from '../types/CallDisposition.js';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.js';
 
 const { i18n } = window.SignalContext;
 

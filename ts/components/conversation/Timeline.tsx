@@ -7,45 +7,48 @@ import type { ReactChild, ReactNode, RefObject, UIEvent } from 'react';
 import React from 'react';
 
 import type { ReadonlyDeep } from 'type-fest';
-import { ScrollDownButton, ScrollDownButtonVariant } from './ScrollDownButton';
+import {
+  ScrollDownButton,
+  ScrollDownButtonVariant,
+} from './ScrollDownButton.js';
 
-import type { LocalizerType, ThemeType } from '../../types/Util';
-import type { ConversationType } from '../../state/ducks/conversations';
-import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
-import { assertDev, strictAssert } from '../../util/assert';
-import { missingCaseError } from '../../util/missingCaseError';
-import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary';
-import { WidthBreakpoint } from '../_util';
+import type { LocalizerType, ThemeType } from '../../types/Util.js';
+import type { ConversationType } from '../../state/ducks/conversations.js';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.js';
+import { assertDev, strictAssert } from '../../util/assert.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
+import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary.js';
+import { WidthBreakpoint } from '../_util.js';
 
-import { ErrorBoundary } from './ErrorBoundary';
-import { I18n } from '../I18n';
-import { TimelineWarning } from './TimelineWarning';
-import { TimelineWarnings } from './TimelineWarnings';
-import { NewlyCreatedGroupInvitedContactsDialog } from '../NewlyCreatedGroupInvitedContactsDialog';
-import { ContactSpoofingType } from '../../util/contactSpoofing';
-import type { PropsType as SmartContactSpoofingReviewDialogPropsType } from '../../state/smart/ContactSpoofingReviewDialog';
-import type { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNameCollisions';
-import { hasUnacknowledgedCollisions } from '../../util/groupMemberNameCollisions';
-import { TimelineFloatingHeader } from './TimelineFloatingHeader';
+import { ErrorBoundary } from './ErrorBoundary.js';
+import { I18n } from '../I18n.js';
+import { TimelineWarning } from './TimelineWarning.js';
+import { TimelineWarnings } from './TimelineWarnings.js';
+import { NewlyCreatedGroupInvitedContactsDialog } from '../NewlyCreatedGroupInvitedContactsDialog.js';
+import { ContactSpoofingType } from '../../util/contactSpoofing.js';
+import type { PropsType as SmartContactSpoofingReviewDialogPropsType } from '../../state/smart/ContactSpoofingReviewDialog.js';
+import type { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNameCollisions.js';
+import { hasUnacknowledgedCollisions } from '../../util/groupMemberNameCollisions.js';
+import { TimelineFloatingHeader } from './TimelineFloatingHeader.js';
 import {
   getScrollAnchorBeforeUpdate,
   getWidthBreakpoint,
   ScrollAnchor,
   TimelineMessageLoadingState,
   UnreadIndicatorPlacement,
-} from '../../util/timelineUtil';
+} from '../../util/timelineUtil.js';
 import {
   getScrollBottom,
   scrollToBottom,
   setScrollBottom,
-} from '../../util/scrollUtil';
-import { LastSeenIndicator } from './LastSeenIndicator';
-import { MINUTE, SECOND } from '../../util/durations';
-import { SizeObserver } from '../../hooks/useSizeObserver';
+} from '../../util/scrollUtil.js';
+import { LastSeenIndicator } from './LastSeenIndicator.js';
+import { MINUTE, SECOND } from '../../util/durations/index.js';
+import { SizeObserver } from '../../hooks/useSizeObserver.js';
 import {
   createScrollerLock,
   ScrollerLockContext,
-} from '../../hooks/useScrollLock';
+} from '../../hooks/useScrollLock.js';
 
 const AT_BOTTOM_THRESHOLD = 15;
 const AT_BOTTOM_DETECTOR_STYLE = { height: AT_BOTTOM_THRESHOLD };

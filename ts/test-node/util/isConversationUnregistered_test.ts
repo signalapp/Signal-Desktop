@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { generateAci } from '../../types/ServiceId';
-import * as durations from '../../util/durations';
+import { generateAci } from '../../types/ServiceId.js';
+import * as durations from '../../util/durations/index.js';
 
-import { isConversationUnregistered } from '../../util/isConversationUnregistered';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.js';
 
 const serviceId = generateAci();
 

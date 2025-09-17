@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { throttle } from 'lodash';
-import type { BackupAttachmentDownloadProgress } from '../sql/Interface';
+import type { BackupAttachmentDownloadProgress } from '../sql/Interface.js';
 
 export async function updateBackupMediaDownloadProgress(
   getBackupAttachmentDownloadProgress: () => Promise<BackupAttachmentDownloadProgress>

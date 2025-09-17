@@ -5,9 +5,9 @@ import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import { noop } from 'lodash';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './Lightbox';
-import { Lightbox } from './Lightbox';
-import type { MediaItemType } from '../types/MediaItem';
+import type { PropsType } from './Lightbox.js';
+import { Lightbox } from './Lightbox.js';
+import type { MediaItemType } from '../types/MediaItem.js';
 import {
   AUDIO_MP3,
   IMAGE_JPEG,
@@ -15,9 +15,9 @@ import {
   VIDEO_QUICKTIME,
   stringToMIMEType,
   type MIMEType,
-} from '../types/MIME';
+} from '../types/MIME.js';
 
-import { fakeAttachment } from '../test-helpers/fakeAttachment';
+import { fakeAttachment } from '../test-helpers/fakeAttachment.js';
 
 const { i18n } = window.SignalContext;
 

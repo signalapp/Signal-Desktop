@@ -3,24 +3,24 @@
 
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { Inbox } from '../../components/Inbox';
-import { isNightly } from '../../util/version';
-import { getIntl } from '../selectors/user';
-import { SmartCustomizingPreferredReactionsModal } from './CustomizingPreferredReactionsModal';
-import { getIsCustomizingPreferredReactions } from '../selectors/preferredReactions';
-import type { SmartNavTabsProps } from './NavTabs';
-import { SmartNavTabs } from './NavTabs';
-import { SmartStoriesTab } from './StoriesTab';
-import { SmartCallsTab } from './CallsTab';
-import { useItemsActions } from '../ducks/items';
-import { getNavTabsCollapsed } from '../selectors/items';
-import { SmartChatsTab } from './ChatsTab';
-import { getHasInitialLoadCompleted } from '../selectors/app';
+import { Inbox } from '../../components/Inbox.js';
+import { isNightly } from '../../util/version.js';
+import { getIntl } from '../selectors/user.js';
+import { SmartCustomizingPreferredReactionsModal } from './CustomizingPreferredReactionsModal.js';
+import { getIsCustomizingPreferredReactions } from '../selectors/preferredReactions.js';
+import type { SmartNavTabsProps } from './NavTabs.js';
+import { SmartNavTabs } from './NavTabs.js';
+import { SmartStoriesTab } from './StoriesTab.js';
+import { SmartCallsTab } from './CallsTab.js';
+import { useItemsActions } from '../ducks/items.js';
+import { getNavTabsCollapsed } from '../selectors/items.js';
+import { SmartChatsTab } from './ChatsTab.js';
+import { getHasInitialLoadCompleted } from '../selectors/app.js';
 import {
   getInboxEnvelopeTimestamp,
   getInboxFirstEnvelopeTimestamp,
-} from '../selectors/inbox';
-import { SmartPreferences } from './Preferences';
+} from '../selectors/inbox.js';
+import { SmartPreferences } from './Preferences.js';
 
 function renderChatsTab() {
   return <SmartChatsTab />;

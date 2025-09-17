@@ -3,18 +3,18 @@
 
 import type { ElectronApplication, Page } from 'playwright';
 import { _electron as electron } from 'playwright';
-import { EventEmitter, once } from 'events';
+import { EventEmitter, once } from 'node:events';
 import pTimeout from 'p-timeout';
 
 import type {
   IPCRequest as ChallengeRequestType,
   IPCResponse as ChallengeResponseType,
-} from '../challenge';
-import type { ReceiptType } from '../types/Receipt';
-import { SECOND } from '../util/durations';
-import { drop } from '../util/drop';
-import type { MessageAttributesType } from '../model-types';
-import type { SocketStatuses } from '../textsecure/SocketManager';
+} from '../challenge.js';
+import type { ReceiptType } from '../types/Receipt.js';
+import { SECOND } from '../util/durations/index.js';
+import { drop } from '../util/drop.js';
+import type { MessageAttributesType } from '../model-types.js';
+import type { SocketStatuses } from '../textsecure/SocketManager.js';
 
 export type AppLoadedInfoType = Readonly<{
   loadTime: number;

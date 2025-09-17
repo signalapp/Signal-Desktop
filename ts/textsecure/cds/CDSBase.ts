@@ -5,12 +5,12 @@ import type {
   CDSAuthType,
   CDSRequestOptionsType,
   CDSResponseType,
-} from './Types.d';
-import type { LoggerType } from '../../types/Logging';
-import { isOlderThan } from '../../util/timestamp';
-import { HOUR } from '../../util/durations';
-import { createProxyAgent } from '../../util/createProxyAgent';
-import type { ProxyAgent } from '../../util/createProxyAgent';
+} from './Types.d.ts';
+import type { LoggerType } from '../../types/Logging.js';
+import { isOlderThan } from '../../util/timestamp.js';
+import { HOUR } from '../../util/durations/index.js';
+import { createProxyAgent } from '../../util/createProxyAgent.js';
+import type { ProxyAgent } from '../../util/createProxyAgent.js';
 
 // It is 24 hours, but we don't want latency between server and client to be
 // count.

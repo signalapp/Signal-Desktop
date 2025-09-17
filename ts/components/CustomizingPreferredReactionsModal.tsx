@@ -5,23 +5,23 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { usePopper } from 'react-popper';
 import { isEqual, noop } from 'lodash';
 
-import type { LocalizerType } from '../types/Util';
-import { Modal } from './Modal';
-import { Button, ButtonVariant } from './Button';
+import type { LocalizerType } from '../types/Util.js';
+import { Modal } from './Modal.js';
+import { Button, ButtonVariant } from './Button.js';
 import {
   ReactionPickerPicker,
   ReactionPickerPickerEmojiButton,
   ReactionPickerPickerStyle,
-} from './ReactionPickerPicker';
-import { EmojiPicker } from './emoji/EmojiPicker';
-import { DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES } from '../reactions/constants';
-import { convertShortName } from './emoji/lib';
-import { offsetDistanceModifier } from '../util/popperUtil';
-import { handleOutsideClick } from '../util/handleOutsideClick';
-import { EmojiSkinTone, getEmojiVariantByKey } from './fun/data/emojis';
-import { FunEmojiPicker } from './fun/FunEmojiPicker';
-import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis';
-import { isFunPickerEnabled } from './fun/isFunPickerEnabled';
+} from './ReactionPickerPicker.js';
+import { EmojiPicker } from './emoji/EmojiPicker.js';
+import { DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES } from '../reactions/constants.js';
+import { convertShortName } from './emoji/lib.js';
+import { offsetDistanceModifier } from '../util/popperUtil.js';
+import { handleOutsideClick } from '../util/handleOutsideClick.js';
+import { EmojiSkinTone, getEmojiVariantByKey } from './fun/data/emojis.js';
+import { FunEmojiPicker } from './fun/FunEmojiPicker.js';
+import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.js';
+import { isFunPickerEnabled } from './fun/isFunPickerEnabled.js';
 
 export type PropsType = {
   draftPreferredReactions: ReadonlyArray<string>;

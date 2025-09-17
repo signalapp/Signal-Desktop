@@ -1,17 +1,17 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import path from 'path';
+import path from 'node:path';
 import { ipcRenderer } from 'electron';
 import { v4 as genUuid } from 'uuid';
 
-import { blobToArrayBuffer } from '../types/VisualAttachment';
-import type { MIMEType } from '../types/MIME';
-import { IMAGE_JPEG, isHeic, stringToMIMEType } from '../types/MIME';
-import type { InMemoryAttachmentDraftType } from '../types/Attachment';
-import { canBeTranscoded } from '../types/Attachment';
-import { imageToBlurHash } from './imageToBlurHash';
-import { scaleImageToLevel } from './scaleImageToLevel';
+import { blobToArrayBuffer } from '../types/VisualAttachment.js';
+import type { MIMEType } from '../types/MIME.js';
+import { IMAGE_JPEG, isHeic, stringToMIMEType } from '../types/MIME.js';
+import type { InMemoryAttachmentDraftType } from '../types/Attachment.js';
+import { canBeTranscoded } from '../types/Attachment.js';
+import { imageToBlurHash } from './imageToBlurHash.js';
+import { scaleImageToLevel } from './scaleImageToLevel.js';
 
 export async function handleImageAttachment(
   file: File

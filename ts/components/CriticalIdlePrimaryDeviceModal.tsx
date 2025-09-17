@@ -3,11 +3,11 @@
 
 import * as React from 'react';
 
-import type { LocalizerType } from '../types/Util';
-import { Modal } from './Modal';
-import { Button, ButtonVariant } from './Button';
-import { CRITICAL_IDLE_PRIMARY_DEVICE_SUPPORT_PAGE } from './CriticalIdlePrimaryDeviceDialog';
-import { I18n } from './I18n';
+import type { LocalizerType } from '../types/Util.js';
+import { Modal } from './Modal.js';
+import { Button, ButtonVariant } from './Button.js';
+import { CRITICAL_IDLE_PRIMARY_DEVICE_SUPPORT_PAGE } from './CriticalIdlePrimaryDeviceDialog.js';
+import { I18n } from './I18n.js';
 
 type PropsType = Readonly<{
   i18n: LocalizerType;

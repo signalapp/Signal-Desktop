@@ -18,19 +18,19 @@ import {
   writeFileSync,
 } from 'node:fs';
 import { rm } from 'node:fs/promises';
-import { join } from 'path';
+import { join } from 'node:path';
 import { read as readLastLines } from 'read-last-lines';
 import split2 from 'split2';
 
-import type { LoggerType } from '../types/Logging';
-import * as Errors from '../types/errors';
-import { createRotatingPinoDest } from '../util/rotatingPinoDest';
-import { redactAll } from '../util/privacy';
+import type { LoggerType } from '../types/Logging.js';
+import * as Errors from '../types/errors.js';
+import { createRotatingPinoDest } from '../util/rotatingPinoDest.js';
+import { redactAll } from '../util/privacy.js';
 
-import { setPinoDestination, log } from './log';
+import { setPinoDestination, log } from './log.js';
 
-import type { FetchLogIpcData, LogEntryType } from './shared';
-import { LogLevel, isLogEntry } from './shared';
+import type { FetchLogIpcData, LogEntryType } from './shared.js';
+import { LogLevel, isLogEntry } from './shared.js';
 
 const MAX_LOG_LINES = 10_000_000;
 

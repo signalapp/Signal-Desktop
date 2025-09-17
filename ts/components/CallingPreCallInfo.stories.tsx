@@ -4,14 +4,14 @@
 import React from 'react';
 import { times } from 'lodash';
 import type { Meta } from '@storybook/react';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
-import type { PropsType } from './CallingPreCallInfo';
-import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo';
-import type { ConversationType } from '../state/ducks/conversations';
-import { getPlaceholderContact } from '../state/selectors/conversations';
-import { generateAci } from '../types/ServiceId';
-import { FAKE_CALL_LINK } from '../test-helpers/fakeCallLink';
-import { callLinkToConversation } from '../util/callLinks';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.js';
+import type { PropsType } from './CallingPreCallInfo.js';
+import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo.js';
+import type { ConversationType } from '../state/ducks/conversations.js';
+import { getPlaceholderContact } from '../state/selectors/conversations.js';
+import { generateAci } from '../types/ServiceId.js';
+import { FAKE_CALL_LINK } from '../test-helpers/fakeCallLink.js';
+import { callLinkToConversation } from '../util/callLinks.js';
 
 const { i18n } = window.SignalContext;
 const getDefaultGroupConversation = () =>

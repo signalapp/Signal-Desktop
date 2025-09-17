@@ -12,29 +12,29 @@ import type { ReadonlyDeep } from 'type-fest';
 import type {
   ConversationType,
   SaveAttachmentActionCreatorType,
-} from '../state/ducks/conversations';
-import type { LocalizerType } from '../types/Util';
-import type { MediaItemType } from '../types/MediaItem';
-import * as GoogleChrome from '../util/GoogleChrome';
-import { createLogger } from '../logging/log';
-import * as Errors from '../types/errors';
-import { Avatar, AvatarSize } from './Avatar';
-import { IMAGE_PNG, isImage, isVideo } from '../types/MIME';
-import { formatDateTimeForAttachment } from '../util/timestamp';
-import { formatDuration } from '../util/formatDuration';
-import { isGIF, isIncremental } from '../types/Attachment';
-import { useRestoreFocus } from '../hooks/useRestoreFocus';
-import { usePrevious } from '../hooks/usePrevious';
-import { arrow } from '../util/keyboard';
-import { drop } from '../util/drop';
-import { isCmdOrCtrl } from '../hooks/useKeyboardShortcuts';
-import type { ForwardMessagesPayload } from '../state/ducks/globalModals';
-import { ForwardMessagesModalType } from './ForwardMessagesModal';
-import { useReducedMotion } from '../hooks/useReducedMotion';
-import { formatFileSize } from '../util/formatFileSize';
-import { SECOND } from '../util/durations';
-import { Toast } from './Toast';
-import { isAbortError } from '../util/isAbortError';
+} from '../state/ducks/conversations.js';
+import type { LocalizerType } from '../types/Util.js';
+import type { MediaItemType } from '../types/MediaItem.js';
+import * as GoogleChrome from '../util/GoogleChrome.js';
+import { createLogger } from '../logging/log.js';
+import * as Errors from '../types/errors.js';
+import { Avatar, AvatarSize } from './Avatar.js';
+import { IMAGE_PNG, isImage, isVideo } from '../types/MIME.js';
+import { formatDateTimeForAttachment } from '../util/timestamp.js';
+import { formatDuration } from '../util/formatDuration.js';
+import { isGIF, isIncremental } from '../types/Attachment.js';
+import { useRestoreFocus } from '../hooks/useRestoreFocus.js';
+import { usePrevious } from '../hooks/usePrevious.js';
+import { arrow } from '../util/keyboard.js';
+import { drop } from '../util/drop.js';
+import { isCmdOrCtrl } from '../hooks/useKeyboardShortcuts.js';
+import type { ForwardMessagesPayload } from '../state/ducks/globalModals.js';
+import { ForwardMessagesModalType } from './ForwardMessagesModal.js';
+import { useReducedMotion } from '../hooks/useReducedMotion.js';
+import { formatFileSize } from '../util/formatFileSize.js';
+import { SECOND } from '../util/durations/index.js';
+import { Toast } from './Toast.js';
+import { isAbortError } from '../util/isAbortError.js';
 
 const log = createLogger('Lightbox');
 

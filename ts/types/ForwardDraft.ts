@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { orderBy } from 'lodash';
-import type { ReadonlyMessageAttributesType } from '../model-types';
+import type { ReadonlyMessageAttributesType } from '../model-types.js';
 import {
   isVoiceMessage,
   type AttachmentForUIType,
   isDownloaded,
-} from './Attachment';
-import type { HydratedBodyRangesType } from './BodyRange';
-import type { LinkPreviewForUIType } from './message/LinkPreviews';
+} from './Attachment.js';
+import type { HydratedBodyRangesType } from './BodyRange.js';
+import type { LinkPreviewForUIType } from './message/LinkPreviews.js';
 
 export type MessageForwardDraft = Readonly<{
   attachments?: ReadonlyArray<AttachmentForUIType>;

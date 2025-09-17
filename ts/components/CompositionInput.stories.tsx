@@ -6,12 +6,12 @@ import * as React from 'react';
 import '@signalapp/quill-cjs/dist/quill.core.css';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
-import type { Props } from './CompositionInput';
-import { CompositionInput } from './CompositionInput';
-import { generateAci } from '../types/ServiceId';
-import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
-import { EmojiSkinTone } from './fun/data/emojis';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.js';
+import type { Props } from './CompositionInput.js';
+import { CompositionInput } from './CompositionInput.js';
+import { generateAci } from '../types/ServiceId.js';
+import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.js';
+import { EmojiSkinTone } from './fun/data/emojis.js';
 
 const { i18n } = window.SignalContext;
 

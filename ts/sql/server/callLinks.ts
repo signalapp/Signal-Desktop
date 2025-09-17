@@ -2,31 +2,34 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { CallLinkRootKey } from '@signalapp/ringrtc';
-import * as Bytes from '../../Bytes';
+import * as Bytes from '../../Bytes.js';
 import type {
   CallLinkRecord,
   CallLinkStateType,
   CallLinkType,
   DefunctCallLinkType,
-} from '../../types/CallLink';
+} from '../../types/CallLink.js';
 import {
   callLinkRestrictionsSchema,
   callLinkRecordSchema,
   defunctCallLinkRecordSchema,
-} from '../../types/CallLink';
-import { toAdminKeyBytes } from '../../util/callLinks';
+} from '../../types/CallLink.js';
+import { toAdminKeyBytes } from '../../util/callLinks.js';
 import {
   callLinkToRecord,
   callLinkFromRecord,
   defunctCallLinkToRecord,
   defunctCallLinkFromRecord,
   toEpochBytes,
-} from '../../util/callLinksRingrtc';
-import type { ReadableDB, WritableDB } from '../Interface';
-import { sql } from '../util';
-import { strictAssert } from '../../util/assert';
-import { CallStatusValue, DirectCallStatus } from '../../types/CallDisposition';
-import { parseStrict, parseUnknown } from '../../util/schemas';
+} from '../../util/callLinksRingrtc.js';
+import type { ReadableDB, WritableDB } from '../Interface.js';
+import { sql } from '../util.js';
+import { strictAssert } from '../../util/assert.js';
+import {
+  CallStatusValue,
+  DirectCallStatus,
+} from '../../types/CallDisposition.js';
+import { parseStrict, parseUnknown } from '../../util/schemas.js';
 
 export function callLinkExists(db: ReadableDB, roomId: string): boolean {
   const [query, params] = sql`

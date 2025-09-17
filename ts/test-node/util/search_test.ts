@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { generateSnippetAroundMention } from '../../util/search';
+import { generateSnippetAroundMention } from '../../util/search.js';
 
 describe('generateSnippetAroundMention', () => {
   it('generates snippet around mention at start of body', () => {

@@ -4,9 +4,9 @@
 import createDebug from 'debug';
 import { StorageState } from '@signalapp/mock-server';
 
-import * as durations from '../../util/durations';
-import type { App } from '../playwright';
-import { Bootstrap } from '../bootstrap';
+import * as durations from '../../util/durations/index.js';
+import type { App } from '../playwright.js';
+import { Bootstrap } from '../bootstrap.js';
 
 export const debug = createDebug('mock:test:unprocessed');
 

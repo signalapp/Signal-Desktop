@@ -7,21 +7,21 @@ import type {
   Location,
 } from '@formatjs/icu-messageformat-parser';
 import parseJsonToAst from 'json-to-ast';
-import { readFile } from 'fs/promises';
-import { join as pathJoin, relative as pathRelative } from 'path';
+import { readFile } from 'node:fs/promises';
+import { join as pathJoin, relative as pathRelative } from 'node:path';
 import chalk from 'chalk';
-import { deepEqual } from 'assert';
-import type { Rule } from './utils/rule';
+import { deepEqual } from 'node:assert';
+import type { Rule } from './utils/rule.js';
 
-import icuPrefix from './rules/icuPrefix';
-import wrapEmoji from './rules/wrapEmoji';
-import onePlural from './rules/onePlural';
-import noLegacyVariables from './rules/noLegacyVariables';
-import noNestedChoice from './rules/noNestedChoice';
-import noOffset from './rules/noOffset';
-import noOneChoice from './rules/noOneChoice';
-import noOrdinal from './rules/noOrdinal';
-import pluralPound from './rules/pluralPound';
+import icuPrefix from './rules/icuPrefix.js';
+import wrapEmoji from './rules/wrapEmoji.js';
+import onePlural from './rules/onePlural.js';
+import noLegacyVariables from './rules/noLegacyVariables.js';
+import noNestedChoice from './rules/noNestedChoice.js';
+import noOffset from './rules/noOffset.js';
+import noOneChoice from './rules/noOneChoice.js';
+import noOrdinal from './rules/noOrdinal.js';
+import pluralPound from './rules/pluralPound.js';
 
 const RULES = [
   icuPrefix,

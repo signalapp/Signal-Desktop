@@ -2,27 +2,27 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { ChangeEvent } from 'react';
 import React, { useCallback, useMemo, useState } from 'react';
-import type { ConversationType } from '../../../state/ducks/conversations';
-import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges';
-import type { LocalizerType } from '../../../types/I18N';
-import type { ThemeType } from '../../../types/Util';
-import { filterAndSortConversations } from '../../../util/filterAndSortConversations';
-import { ContactPills } from '../../ContactPills';
-import { ContactPill } from '../../ContactPill';
+import type { ConversationType } from '../../../state/ducks/conversations.js';
+import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.js';
+import type { LocalizerType } from '../../../types/I18N.js';
+import type { ThemeType } from '../../../types/Util.js';
+import { filterAndSortConversations } from '../../../util/filterAndSortConversations.js';
+import { ContactPills } from '../../ContactPills.js';
+import { ContactPill } from '../../ContactPill.js';
 import {
   asyncShouldNeverBeCalled,
   shouldNeverBeCalled,
-} from '../../../util/shouldNeverBeCalled';
-import { SearchInput } from '../../SearchInput';
-import { Button, ButtonVariant } from '../../Button';
-import { Modal } from '../../Modal';
-import type { Row } from '../../ConversationList';
+} from '../../../util/shouldNeverBeCalled.js';
+import { SearchInput } from '../../SearchInput.js';
+import { Button, ButtonVariant } from '../../Button.js';
+import { Modal } from '../../Modal.js';
+import type { Row } from '../../ConversationList.js';
 import {
   ConversationList,
   GenericCheckboxRowIcon,
   RowType,
-} from '../../ConversationList';
-import type { GetConversationByIdType } from '../../../state/selectors/conversations';
+} from '../../ConversationList.js';
+import type { GetConversationByIdType } from '../../../state/selectors/conversations.js';
 
 export type ChatFolderSelection = Readonly<{
   selectedRecipientIds: ReadonlyArray<string>;

@@ -2,21 +2,21 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { getCallingNotificationText } from '../../util/callingNotification';
+import { getCallingNotificationText } from '../../util/callingNotification.js';
 import {
   CallMode,
   CallDirection,
   CallType,
   GroupCallStatus,
-} from '../../types/CallDisposition';
-import { setupI18n } from '../../util/setupI18n';
+} from '../../types/CallDisposition.js';
+import { setupI18n } from '../../util/setupI18n.js';
 import enMessages from '../../../_locales/en/messages.json';
 import {
   getDefaultConversation,
   getDefaultGroup,
-} from '../../test-helpers/getDefaultConversation';
-import { getPeerIdFromConversation } from '../../util/callDisposition';
-import { HOUR } from '../../util/durations';
+} from '../../test-helpers/getDefaultConversation.js';
+import { getPeerIdFromConversation } from '../../util/callDisposition.js';
+import { HOUR } from '../../util/durations/index.js';
 
 describe('calling notification helpers', () => {
   const i18n = setupI18n('en', enMessages);

@@ -1,11 +1,11 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { tmpdir } from 'os';
-import { readFile, writeFile, mkdtemp } from 'fs/promises';
-import { gunzip as gunzipCb } from 'zlib';
-import { join, basename } from 'path';
-import { promisify } from 'util';
+import { tmpdir } from 'node:os';
+import { readFile, writeFile, mkdtemp } from 'node:fs/promises';
+import { gunzip as gunzipCb } from 'node:zlib';
+import { join, basename } from 'node:path';
+import { promisify } from 'node:util';
 import { symbolicate } from '@electron/symbolicate-mac';
 import pMap from 'p-map';
 

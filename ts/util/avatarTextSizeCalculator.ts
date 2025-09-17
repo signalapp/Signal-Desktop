@@ -1,6 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { getEmojifyData } from '../components/fun/data/emojis';
+import { getEmojifyData } from '../components/fun/data/emojis.js';
 
 type FontSizes = {
   diameter: number;

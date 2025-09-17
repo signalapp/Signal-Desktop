@@ -1,14 +1,17 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import 'urlpattern-polyfill';
+// This file gets imported into renderer that does not have access to Node.js
+// builtins, use an `npm` package.
 // We need to use the Node.js version of `URL` because chromium's `URL` doesn't
 // support custom protocols correctly.
+// eslint-disable-next-line import/enforce-node-protocol-usage
 import { URL as NodeURL } from 'url';
 import { z } from 'zod';
-import { strictAssert } from './assert';
-import { createLogger } from '../logging/log';
-import * as Errors from '../types/errors';
-import { parsePartial, parseUnknown, safeParseUnknown } from './schemas';
+import { strictAssert } from './assert.js';
+import { createLogger } from '../logging/log.js';
+import * as Errors from '../types/errors.js';
+import { parsePartial, parseUnknown, safeParseUnknown } from './schemas.js';
 
 const log = createLogger('signalRoutes');
 

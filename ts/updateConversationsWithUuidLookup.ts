@@ -1,12 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationController } from './ConversationController';
-import type { ConversationModel } from './models/conversations';
-import type { WebAPIType } from './textsecure/WebAPI';
-import { assertDev } from './util/assert';
-import { isNotNil } from './util/isNotNil';
-import { getServiceIdsForE164s } from './util/getServiceIdsForE164s';
+import type { ConversationController } from './ConversationController.js';
+import type { ConversationModel } from './models/conversations.js';
+import type { WebAPIType } from './textsecure/WebAPI.js';
+import { assertDev } from './util/assert.js';
+import { isNotNil } from './util/isNotNil.js';
+import { getServiceIdsForE164s } from './util/getServiceIdsForE164s.js';
 
 export async function updateConversationsWithUuidLookup({
   conversationController,

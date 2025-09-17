@@ -3,12 +3,12 @@
 
 import React from 'react';
 
-import { SystemMessage } from './SystemMessage';
-import { ContactName } from './ContactName';
-import { I18n } from '../I18n';
-import type { LocalizerType } from '../../types/Util';
+import { SystemMessage } from './SystemMessage.js';
+import { ContactName } from './ContactName.js';
+import { I18n } from '../I18n.js';
+import type { LocalizerType } from '../../types/Util.js';
 
-import { missingCaseError } from '../../util/missingCaseError';
+import { missingCaseError } from '../../util/missingCaseError.js';
 
 type Contact = { title: string };
 

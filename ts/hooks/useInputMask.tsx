@@ -1,16 +1,15 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FormatterToken } from '@signalapp/minimask';
 import {
   minimask,
-  type Formatter,
   createCreditCardExpirationFormatter,
 } from '@signalapp/minimask';
+import type { FormatterToken, Formatter } from '@signalapp/minimask';
 import type { RefObject } from 'react';
 import { useEffect } from 'react';
 import creditCardType from 'credit-card-type';
-import { strictAssert } from '../util/assert';
+import { strictAssert } from '../util/assert.js';
 
 export function useInputMask(
   inputRef: RefObject<HTMLInputElement>,

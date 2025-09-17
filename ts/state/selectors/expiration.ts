@@ -3,14 +3,14 @@
 
 import { createSelector } from 'reselect';
 
-import { createLogger } from '../../logging/log';
-import type { StateType } from '../reducer';
-import type { ExpirationStateType } from '../ducks/expiration';
-import { getRemoteBuildExpiration, getAutoDownloadUpdate } from './items';
+import { createLogger } from '../../logging/log.js';
+import type { StateType } from '../reducer.js';
+import type { ExpirationStateType } from '../ducks/expiration.js';
+import { getRemoteBuildExpiration, getAutoDownloadUpdate } from './items.js';
 import {
   getBuildExpirationTimestamp,
   hasBuildExpired,
-} from '../../util/buildExpiration';
+} from '../../util/buildExpiration.js';
 
 const log = createLogger('expiration');
 

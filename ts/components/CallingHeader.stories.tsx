@@ -4,9 +4,9 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './CallingHeader';
-import { CallingHeader } from './CallingHeader';
-import { CallViewMode } from '../types/Calling';
+import type { PropsType } from './CallingHeader.js';
+import { CallingHeader } from './CallingHeader.js';
+import { CallViewMode } from '../types/Calling.js';
 
 const { i18n } = window.SignalContext;
 

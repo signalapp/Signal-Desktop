@@ -5,17 +5,17 @@ import PQueue from 'p-queue';
 import { v7 as uuid } from 'uuid';
 import { noop } from 'lodash';
 
-import { Job } from './Job';
-import { JobError } from './JobError';
-import type { ParsedJob, StoredJob, JobQueueStore } from './types';
-import { assertDev } from '../util/assert';
-import { createLogger } from '../logging/log';
-import { JobLogger } from './JobLogger';
-import * as Errors from '../types/errors';
-import type { LoggerType } from '../types/Logging';
-import { drop } from '../util/drop';
-import { sleep } from '../util/sleep';
-import { SECOND } from '../util/durations';
+import { Job } from './Job.js';
+import { JobError } from './JobError.js';
+import type { ParsedJob, StoredJob, JobQueueStore } from './types.js';
+import { assertDev } from '../util/assert.js';
+import { createLogger } from '../logging/log.js';
+import { JobLogger } from './JobLogger.js';
+import * as Errors from '../types/errors.js';
+import type { LoggerType } from '../types/Logging.js';
+import { drop } from '../util/drop.js';
+import { sleep } from '../util/sleep.js';
+import { SECOND } from '../util/durations/index.js';
 
 const log = createLogger('JobQueue');
 

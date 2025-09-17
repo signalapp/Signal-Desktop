@@ -3,11 +3,11 @@
 
 import { assert } from 'chai';
 
-import { generateAci } from '../../types/ServiceId';
-import { isAciString } from '../../util/isAciString';
-import type { ConversationType } from '../../state/ducks/conversations';
-import { MemberRepository, _toMembers } from '../../quill/memberRepository';
-import { getDefaultConversationWithServiceId } from '../../test-helpers/getDefaultConversation';
+import { generateAci } from '../../types/ServiceId.js';
+import { isAciString } from '../../util/isAciString.js';
+import type { ConversationType } from '../../state/ducks/conversations.js';
+import { MemberRepository, _toMembers } from '../../quill/memberRepository.js';
+import { getDefaultConversationWithServiceId } from '../../test-helpers/getDefaultConversation.js';
 
 const UNKNOWN_SERVICE_ID = generateAci();
 

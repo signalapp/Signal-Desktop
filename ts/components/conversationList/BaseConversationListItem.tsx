@@ -7,16 +7,16 @@ import classNames from 'classnames';
 import { isBoolean, isNumber } from 'lodash';
 import { v4 as generateUuid } from 'uuid';
 
-import { Avatar, AvatarSize } from '../Avatar';
-import type { BadgeType } from '../../badges/types';
-import { isConversationUnread } from '../../util/isConversationUnread';
-import { cleanId } from '../_util';
-import type { LocalizerType, ThemeType } from '../../types/Util';
-import type { ConversationType } from '../../state/ducks/conversations';
-import { Spinner } from '../Spinner';
-import { Time } from '../Time';
-import { formatDateTimeShort } from '../../util/timestamp';
-import * as durations from '../../util/durations';
+import { Avatar, AvatarSize } from '../Avatar.js';
+import type { BadgeType } from '../../badges/types.js';
+import { isConversationUnread } from '../../util/isConversationUnread.js';
+import { cleanId } from '../_util.js';
+import type { LocalizerType, ThemeType } from '../../types/Util.js';
+import type { ConversationType } from '../../state/ducks/conversations.js';
+import { Spinner } from '../Spinner.js';
+import { Time } from '../Time.js';
+import { formatDateTimeShort } from '../../util/timestamp.js';
+import * as durations from '../../util/durations/index.js';
 
 const BASE_CLASS_NAME =
   'module-conversation-list__item--contact-or-conversation';

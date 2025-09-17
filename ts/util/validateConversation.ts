@@ -1,13 +1,13 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ValidateConversationType } from '../model-types.d';
+import type { ValidateConversationType } from '../model-types.d.ts';
 import {
   isDirectConversation,
   isGroupV1,
   isGroupV2,
-} from './whatTypeOfConversation';
-import { isServiceIdString } from '../types/ServiceId';
+} from './whatTypeOfConversation.js';
+import { isServiceIdString } from '../types/ServiceId.js';
 
 export function validateConversation(
   attributes: ValidateConversationType

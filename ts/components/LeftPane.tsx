@@ -5,61 +5,61 @@ import React, { useEffect, useCallback, useMemo, useRef } from 'react';
 import classNames from 'classnames';
 import { isNumber } from 'lodash';
 
-import type { LeftPaneHelper, ToFindType } from './leftPane/LeftPaneHelper';
-import { FindDirection } from './leftPane/LeftPaneHelper';
-import type { LeftPaneInboxPropsType } from './leftPane/LeftPaneInboxHelper';
-import { LeftPaneInboxHelper } from './leftPane/LeftPaneInboxHelper';
-import type { LeftPaneSearchPropsType } from './leftPane/LeftPaneSearchHelper';
-import { LeftPaneSearchHelper } from './leftPane/LeftPaneSearchHelper';
-import type { LeftPaneArchivePropsType } from './leftPane/LeftPaneArchiveHelper';
-import { LeftPaneArchiveHelper } from './leftPane/LeftPaneArchiveHelper';
-import type { LeftPaneComposePropsType } from './leftPane/LeftPaneComposeHelper';
-import { LeftPaneComposeHelper } from './leftPane/LeftPaneComposeHelper';
-import type { LeftPaneFindByUsernamePropsType } from './leftPane/LeftPaneFindByUsernameHelper';
-import { LeftPaneFindByUsernameHelper } from './leftPane/LeftPaneFindByUsernameHelper';
-import type { LeftPaneFindByPhoneNumberPropsType } from './leftPane/LeftPaneFindByPhoneNumberHelper';
-import { LeftPaneFindByPhoneNumberHelper } from './leftPane/LeftPaneFindByPhoneNumberHelper';
-import type { LeftPaneChooseGroupMembersPropsType } from './leftPane/LeftPaneChooseGroupMembersHelper';
-import { LeftPaneChooseGroupMembersHelper } from './leftPane/LeftPaneChooseGroupMembersHelper';
-import type { LeftPaneSetGroupMetadataPropsType } from './leftPane/LeftPaneSetGroupMetadataHelper';
-import { LeftPaneSetGroupMetadataHelper } from './leftPane/LeftPaneSetGroupMetadataHelper';
+import type { LeftPaneHelper, ToFindType } from './leftPane/LeftPaneHelper.js';
+import { FindDirection } from './leftPane/LeftPaneHelper.js';
+import type { LeftPaneInboxPropsType } from './leftPane/LeftPaneInboxHelper.js';
+import { LeftPaneInboxHelper } from './leftPane/LeftPaneInboxHelper.js';
+import type { LeftPaneSearchPropsType } from './leftPane/LeftPaneSearchHelper.js';
+import { LeftPaneSearchHelper } from './leftPane/LeftPaneSearchHelper.js';
+import type { LeftPaneArchivePropsType } from './leftPane/LeftPaneArchiveHelper.js';
+import { LeftPaneArchiveHelper } from './leftPane/LeftPaneArchiveHelper.js';
+import type { LeftPaneComposePropsType } from './leftPane/LeftPaneComposeHelper.js';
+import { LeftPaneComposeHelper } from './leftPane/LeftPaneComposeHelper.js';
+import type { LeftPaneFindByUsernamePropsType } from './leftPane/LeftPaneFindByUsernameHelper.js';
+import { LeftPaneFindByUsernameHelper } from './leftPane/LeftPaneFindByUsernameHelper.js';
+import type { LeftPaneFindByPhoneNumberPropsType } from './leftPane/LeftPaneFindByPhoneNumberHelper.js';
+import { LeftPaneFindByPhoneNumberHelper } from './leftPane/LeftPaneFindByPhoneNumberHelper.js';
+import type { LeftPaneChooseGroupMembersPropsType } from './leftPane/LeftPaneChooseGroupMembersHelper.js';
+import { LeftPaneChooseGroupMembersHelper } from './leftPane/LeftPaneChooseGroupMembersHelper.js';
+import type { LeftPaneSetGroupMetadataPropsType } from './leftPane/LeftPaneSetGroupMetadataHelper.js';
+import { LeftPaneSetGroupMetadataHelper } from './leftPane/LeftPaneSetGroupMetadataHelper.js';
 
-import { LeftPaneMode } from '../types/leftPane';
-import type { LocalizerType, ThemeType } from '../types/Util';
-import { ScrollBehavior } from '../types/Util';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
-import { usePrevious } from '../hooks/usePrevious';
-import { missingCaseError } from '../util/missingCaseError';
-import type { DurationInSeconds } from '../util/durations';
-import { WidthBreakpoint, getNavSidebarWidthBreakpoint } from './_util';
-import * as KeyboardLayout from '../services/keyboardLayout';
-import type { LookupConversationWithoutServiceIdActionsType } from '../util/lookupConversationWithoutServiceId';
-import type { ShowConversationType } from '../state/ducks/conversations';
-import type { PropsType as UnsupportedOSDialogPropsType } from '../state/smart/UnsupportedOSDialog';
+import { LeftPaneMode } from '../types/leftPane.js';
+import type { LocalizerType, ThemeType } from '../types/Util.js';
+import { ScrollBehavior } from '../types/Util.js';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges.js';
+import { usePrevious } from '../hooks/usePrevious.js';
+import { missingCaseError } from '../util/missingCaseError.js';
+import type { DurationInSeconds } from '../util/durations/index.js';
+import { WidthBreakpoint, getNavSidebarWidthBreakpoint } from './_util.js';
+import * as KeyboardLayout from '../services/keyboardLayout.js';
+import type { LookupConversationWithoutServiceIdActionsType } from '../util/lookupConversationWithoutServiceId.js';
+import type { ShowConversationType } from '../state/ducks/conversations.js';
+import type { PropsType as UnsupportedOSDialogPropsType } from '../state/smart/UnsupportedOSDialog.js';
 
-import { ConversationList } from './ConversationList';
-import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox';
-import type { PropsType as DialogExpiredBuildPropsType } from './DialogExpiredBuild';
-import { LeftPaneBanner } from './LeftPaneBanner';
+import { ConversationList } from './ConversationList.js';
+import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox.js';
+import type { PropsType as DialogExpiredBuildPropsType } from './DialogExpiredBuild.js';
+import { LeftPaneBanner } from './LeftPaneBanner.js';
 
 import type {
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,
-} from '../types/Avatar';
-import { useSizeObserver } from '../hooks/useSizeObserver';
+} from '../types/Avatar.js';
+import { useSizeObserver } from '../hooks/useSizeObserver.js';
 import {
   NavSidebar,
   NavSidebarActionButton,
   NavSidebarSearchHeader,
-} from './NavSidebar';
-import { ContextMenu } from './ContextMenu';
-import type { UnreadStats } from '../util/countUnreadStats';
-import { BackupMediaDownloadProgress } from './BackupMediaDownloadProgress';
-import type { ServerAlertsType } from '../util/handleServerAlerts';
-import { getServerAlertDialog } from './ServerAlerts';
-import { NavTab, SettingsPage, ProfileEditorPage } from '../types/Nav';
-import type { Location } from '../types/Nav';
+} from './NavSidebar.js';
+import { ContextMenu } from './ContextMenu.js';
+import type { UnreadStats } from '../util/countUnreadStats.js';
+import { BackupMediaDownloadProgress } from './BackupMediaDownloadProgress.js';
+import type { ServerAlertsType } from '../util/handleServerAlerts.js';
+import { getServerAlertDialog } from './ServerAlerts.js';
+import { NavTab, SettingsPage, ProfileEditorPage } from '../types/Nav.js';
+import type { Location } from '../types/Nav.js';
 
 export type PropsType = {
   backupMediaDownloadProgress: {

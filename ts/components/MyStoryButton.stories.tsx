@@ -7,12 +7,12 @@ import React from 'react';
 import { expect, fn, within, userEvent } from '@storybook/test';
 
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './MyStoryButton';
-import { MyStoryButton } from './MyStoryButton';
-import { getDefaultConversation } from '../test-helpers/getDefaultConversation';
-import { getFakeMyStory } from '../test-helpers/getFakeStory';
-import { SendStatus } from '../messages/MessageSendState';
-import { ResolvedSendStatus } from '../types/Stories';
+import type { PropsType } from './MyStoryButton.js';
+import { MyStoryButton } from './MyStoryButton.js';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.js';
+import { getFakeMyStory } from '../test-helpers/getFakeStory.js';
+import { SendStatus } from '../messages/MessageSendState.js';
+import { ResolvedSendStatus } from '../types/Stories.js';
 
 const { i18n } = window.SignalContext;
 

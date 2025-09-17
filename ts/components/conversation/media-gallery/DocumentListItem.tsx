@@ -4,10 +4,10 @@
 import React from 'react';
 
 import moment from 'moment';
-import { formatFileSize } from '../../../util/formatFileSize';
-import type { MediaItemType } from '../../../types/MediaItem';
-import { tw } from '../../../axo/tw';
-import { FileThumbnail } from '../../FileThumbnail';
+import { formatFileSize } from '../../../util/formatFileSize.js';
+import type { MediaItemType } from '../../../types/MediaItem.js';
+import { tw } from '../../../axo/tw.js';
+import { FileThumbnail } from '../../FileThumbnail.js';
 
 export type Props = {
   // Required

@@ -4,11 +4,11 @@
 import type {
   ConversationAttributesType,
   ConversationRenderInfoType,
-} from '../model-types.d';
-import { combineNames } from './combineNames';
-import { getRegionCodeForNumber } from './libphonenumberUtil';
-import { isDirectConversation } from './whatTypeOfConversation';
-import { getE164 } from './getE164';
+} from '../model-types.d.ts';
+import { combineNames } from './combineNames.js';
+import { getRegionCodeForNumber } from './libphonenumberUtil.js';
+import { isDirectConversation } from './whatTypeOfConversation.js';
+import { getE164 } from './getE164.js';
 
 type TitleOptions = {
   isShort?: boolean;

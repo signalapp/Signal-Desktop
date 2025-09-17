@@ -12,15 +12,15 @@ import {
 } from '@signalapp/libsignal-client/dist/AccountKeys';
 import { MessageBackupKey } from '@signalapp/libsignal-client/dist/MessageBackup';
 
-import type { AciString } from '../types/ServiceId';
-import { generateAci } from '../types/ServiceId';
-import { CipherType } from '../types/Crypto';
-import { appendPaddingStream } from '../util/logPadding';
-import { prependStream } from '../util/prependStream';
-import { appendMacStream } from '../util/appendMacStream';
-import { toAciObject } from '../util/ServiceId';
-import { BACKUP_VERSION } from '../services/backups/constants';
-import { Backups } from '../protobuf';
+import type { AciString } from '../types/ServiceId.js';
+import { generateAci } from '../types/ServiceId.js';
+import { CipherType } from '../types/Crypto.js';
+import { appendPaddingStream } from '../util/logPadding.js';
+import { prependStream } from '../util/prependStream.js';
+import { appendMacStream } from '../util/appendMacStream.js';
+import { toAciObject } from '../util/ServiceId.js';
+import { BACKUP_VERSION } from '../services/backups/constants.js';
+import { Backups } from '../protobuf/index.js';
 
 export type BackupGeneratorConfigType = Readonly<
   {

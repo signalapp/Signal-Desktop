@@ -3,10 +3,10 @@
 
 import React, { useState, useEffect } from 'react';
 
-import type { LocalizerType } from '../types/Util';
-import { Alert } from '../components/Alert';
-import { ResolvedSendStatus } from '../types/Stories';
-import { usePrevious } from './usePrevious';
+import type { LocalizerType } from '../types/Util.js';
+import { Alert } from '../components/Alert.js';
+import { ResolvedSendStatus } from '../types/Stories.js';
+import { usePrevious } from './usePrevious.js';
 
 export function useRetryStorySend(
   i18n: LocalizerType,

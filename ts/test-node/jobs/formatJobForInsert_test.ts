@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { formatJobForInsert } from '../../jobs/formatJobForInsert';
+import { formatJobForInsert } from '../../jobs/formatJobForInsert.js';
 
 describe('formatJobForInsert', () => {
   it('removes non-essential properties', () => {

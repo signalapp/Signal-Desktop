@@ -6,21 +6,21 @@ import classNames from 'classnames';
 
 import type { ReadonlyDeep } from 'type-fest';
 
-import { AddressType, ContactFormType } from '../../types/EmbeddedContact';
-import { missingCaseError } from '../../util/missingCaseError';
+import { AddressType, ContactFormType } from '../../types/EmbeddedContact.js';
+import { missingCaseError } from '../../util/missingCaseError.js';
 import {
   renderAvatar,
   renderContactShorthand,
   renderName,
-} from './contactUtil';
+} from './contactUtil.js';
 
 import type {
   EmbeddedContactForUIType,
   Email,
   Phone,
   PostalAddress,
-} from '../../types/EmbeddedContact';
-import type { LocalizerType } from '../../types/Util';
+} from '../../types/EmbeddedContact.js';
+import type { LocalizerType } from '../../types/Util.js';
 
 export type Props = {
   cancelAttachmentDownload: (options: { messageId: string }) => void;

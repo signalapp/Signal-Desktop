@@ -3,18 +3,18 @@
 
 import React, { memo, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { getIntl } from '../selectors/user';
-import { getGlobalModalsState } from '../selectors/globalModals';
-import { getConversationSelector } from '../selectors/conversations';
-import { useConversationsActions } from '../ducks/conversations';
+import { getIntl } from '../selectors/user.js';
+import { getGlobalModalsState } from '../selectors/globalModals.js';
+import { getConversationSelector } from '../selectors/conversations.js';
+import { useConversationsActions } from '../ducks/conversations.js';
 import {
   MessageRequestActionsConfirmation,
   MessageRequestState,
-} from '../../components/conversation/MessageRequestActionsConfirmation';
-import { useContactNameData } from '../../components/conversation/ContactName';
-import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation';
-import { strictAssert } from '../../util/assert';
-import { useGlobalModalActions } from '../ducks/globalModals';
+} from '../../components/conversation/MessageRequestActionsConfirmation.js';
+import { useContactNameData } from '../../components/conversation/ContactName.js';
+import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation.js';
+import { strictAssert } from '../../util/assert.js';
+import { useGlobalModalActions } from '../ducks/globalModals.js';
 
 export const SmartMessageRequestActionsConfirmation = memo(
   function SmartMessageRequestActionsConfirmation() {

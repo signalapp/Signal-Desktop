@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import PQueue from 'p-queue';
-import type { DeviceNameChangeSyncEvent } from '../textsecure/messageReceiverEvents';
-import { MINUTE } from './durations';
-import { strictAssert } from './assert';
-import { parseIntOrThrow } from './parseIntOrThrow';
-import { createLogger } from '../logging/log';
-import { toLogFormat } from '../types/errors';
-import { drop } from './drop';
+import type { DeviceNameChangeSyncEvent } from '../textsecure/messageReceiverEvents.js';
+import { MINUTE } from './durations/index.js';
+import { strictAssert } from './assert.js';
+import { parseIntOrThrow } from './parseIntOrThrow.js';
+import { createLogger } from '../logging/log.js';
+import { toLogFormat } from '../types/errors.js';
+import { drop } from './drop.js';
 
 const log = createLogger('onDeviceNameChangeSync');
 

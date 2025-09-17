@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createSelector } from 'reselect';
-import type { CallHistoryState } from '../ducks/callHistory';
-import type { StateType } from '../reducer';
+import type { CallHistoryState } from '../ducks/callHistory.js';
+import type { StateType } from '../reducer.js';
 import {
   AdhocCallStatus,
   CallType,
   type CallHistoryDetails,
-} from '../../types/CallDisposition';
-import { getOwn } from '../../util/getOwn';
+} from '../../types/CallDisposition.js';
+import { getOwn } from '../../util/getOwn.js';
 
 const getCallHistory = (state: StateType): CallHistoryState =>
   state.callHistory;

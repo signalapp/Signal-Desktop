@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { type WritableDB } from '../Interface';
+import { type WritableDB } from '../Interface.js';
 
 export default function updateToSchemaVersion1390(db: WritableDB): void {
   // TODO: DESKTOP-8879 Digest column is only used for deduplication purposes; here we

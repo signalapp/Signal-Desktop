@@ -4,12 +4,12 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import { groupBy } from 'lodash';
-import { Button, ButtonVariant } from './Button';
-import type { LocalizerType } from '../types/Util';
-import { Modal } from './Modal';
-import type { PresentedSource, PresentableSource } from '../types/Calling';
-import { Theme } from '../util/theme';
-import { strictAssert } from '../util/assert';
+import { Button, ButtonVariant } from './Button.js';
+import type { LocalizerType } from '../types/Util.js';
+import { Modal } from './Modal.js';
+import type { PresentedSource, PresentableSource } from '../types/Calling.js';
+import { Theme } from '../util/theme.js';
+import { strictAssert } from '../util/assert.js';
 
 export type PropsType = {
   i18n: LocalizerType;

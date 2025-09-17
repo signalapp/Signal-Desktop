@@ -4,25 +4,25 @@
 import { assert } from 'chai';
 import sinon from 'sinon';
 
-import { EmojiCompletion } from '../../../quill/emoji/completion';
+import { EmojiCompletion } from '../../../quill/emoji/completion.js';
 import type {
   EmojiCompletionOptions,
   InsertEmojiOptionsType,
-} from '../../../quill/emoji/completion';
+} from '../../../quill/emoji/completion.js';
 import {
   EmojiSkinTone,
   emojiVariantConstant,
   getEmojiParentKeyByVariantKey,
-} from '../../../components/fun/data/emojis';
+} from '../../../components/fun/data/emojis.js';
 import {
   _createFunEmojiSearch,
   createFunEmojiSearchIndex,
-} from '../../../components/fun/useFunEmojiSearch';
+} from '../../../components/fun/useFunEmojiSearch.js';
 import {
   _createFunEmojiLocalizer,
   createFunEmojiLocalizerIndex,
-} from '../../../components/fun/useFunEmojiLocalizer';
-import type { LocaleEmojiListType } from '../../../types/emoji';
+} from '../../../components/fun/useFunEmojiLocalizer.js';
+import type { LocaleEmojiListType } from '../../../types/emoji.js';
 
 const EMOJI_VARIANTS = {
   SMILE: emojiVariantConstant('\u{1F604}'),

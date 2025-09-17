@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { isConversationUnread } from '../../util/isConversationUnread';
+import { isConversationUnread } from '../../util/isConversationUnread.js';
 
 describe('isConversationUnread', () => {
   it('returns false if both markedUnread and unreadCount are undefined', () => {

@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { AfterPackContext } from 'electron-builder';
-import { afterPack as fuseElectron } from './fuse-electron';
-import { afterPack as copyPacks } from './copy-language-packs';
-import { afterPack as pruneMacOSRelease } from './prune-macos-release';
+import { afterPack as fuseElectron } from './fuse-electron.js';
+import { afterPack as copyPacks } from './copy-language-packs.js';
+import { afterPack as pruneMacOSRelease } from './prune-macos-release.js';
 
 export async function afterPack(context: AfterPackContext): Promise<void> {
   await pruneMacOSRelease(context);

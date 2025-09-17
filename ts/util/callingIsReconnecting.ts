@@ -1,10 +1,10 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { CallState, GroupCallConnectionState } from '../types/Calling';
-import { CallMode } from '../types/CallDisposition';
-import type { ActiveCallType } from '../types/Calling';
-import { isGroupOrAdhocActiveCall } from './isGroupOrAdhocCall';
+import { CallState, GroupCallConnectionState } from '../types/Calling.js';
+import { CallMode } from '../types/CallDisposition.js';
+import type { ActiveCallType } from '../types/Calling.js';
+import { isGroupOrAdhocActiveCall } from './isGroupOrAdhocCall.js';
 
 export function isReconnecting(activeCall: ActiveCallType): boolean {
   return (

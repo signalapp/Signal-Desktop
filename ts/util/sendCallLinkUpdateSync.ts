@@ -3,15 +3,15 @@
 
 import { ContentHint } from '@signalapp/libsignal-client';
 
-import * as Bytes from '../Bytes';
-import { CallLinkUpdateSyncType } from '../types/CallLink';
-import { createLogger } from '../logging/log';
-import * as Errors from '../types/errors';
-import { SignalService as Proto } from '../protobuf';
-import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
-import MessageSender from '../textsecure/SendMessage';
-import { toAdminKeyBytes } from './callLinks';
-import { toEpochBytes, toRootKeyBytes } from './callLinksRingrtc';
+import * as Bytes from '../Bytes.js';
+import { CallLinkUpdateSyncType } from '../types/CallLink.js';
+import { createLogger } from '../logging/log.js';
+import * as Errors from '../types/errors.js';
+import { SignalService as Proto } from '../protobuf/index.js';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.js';
+import MessageSender from '../textsecure/SendMessage.js';
+import { toAdminKeyBytes } from './callLinks.js';
+import { toEpochBytes, toRootKeyBytes } from './callLinksRingrtc.js';
 
 const log = createLogger('sendCallLinkUpdateSync');
 

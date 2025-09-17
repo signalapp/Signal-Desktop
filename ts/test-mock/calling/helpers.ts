@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as child from 'child_process';
+import * as child from 'node:child_process';
 import createDebug from 'debug';
 
 const debug = createDebug('mock:test:calling:helpers');

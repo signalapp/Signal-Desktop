@@ -1,18 +1,18 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createHash } from 'crypto';
+import { createHash } from 'node:crypto';
 import {
   createReadStream,
   readFile as readFileCallback,
   writeFile as writeFileCallback,
-} from 'fs';
-import { pipeline } from 'stream/promises';
-import { basename, dirname, join, resolve as resolvePath } from 'path';
+} from 'node:fs';
+import { pipeline } from 'node:stream/promises';
+import { basename, dirname, join, resolve as resolvePath } from 'node:path';
 
 import pify from 'pify';
 
-import { sign, verify } from './curve';
+import { sign, verify } from './curve.js';
 
 const readFile = pify(readFileCallback);
 const writeFile = pify(writeFileCallback);

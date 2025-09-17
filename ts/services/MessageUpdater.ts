@@ -1,21 +1,21 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MessageAttributesType } from '../model-types.d';
-import type { MessageModel } from '../models/messages';
-import { ReadStatus, maxReadStatus } from '../messages/MessageReadStatus';
-import { notificationService } from './notifications';
-import { SeenStatus } from '../MessageSeenStatus';
-import { queueUpdateMessage } from '../util/messageBatcher';
-import * as Errors from '../types/errors';
-import { createLogger } from '../logging/log';
-import { isValidTapToView } from '../util/isValidTapToView';
-import { getMessageIdForLogging } from '../util/idForLogging';
-import { eraseMessageContents } from '../util/cleanup';
-import { getSource, getSourceServiceId } from '../messages/helpers';
-import { isAciString } from '../util/isAciString';
-import { viewOnceOpenJobQueue } from '../jobs/viewOnceOpenJobQueue';
-import { drop } from '../util/drop';
+import type { MessageAttributesType } from '../model-types.d.ts';
+import type { MessageModel } from '../models/messages.js';
+import { ReadStatus, maxReadStatus } from '../messages/MessageReadStatus.js';
+import { notificationService } from './notifications.js';
+import { SeenStatus } from '../MessageSeenStatus.js';
+import { queueUpdateMessage } from '../util/messageBatcher.js';
+import * as Errors from '../types/errors.js';
+import { createLogger } from '../logging/log.js';
+import { isValidTapToView } from '../util/isValidTapToView.js';
+import { getMessageIdForLogging } from '../util/idForLogging.js';
+import { eraseMessageContents } from '../util/cleanup.js';
+import { getSource, getSourceServiceId } from '../messages/helpers.js';
+import { isAciString } from '../util/isAciString.js';
+import { viewOnceOpenJobQueue } from '../jobs/viewOnceOpenJobQueue.js';
+import { drop } from '../util/drop.js';
 
 const log = createLogger('MessageUpdater');
 

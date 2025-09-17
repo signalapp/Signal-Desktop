@@ -3,20 +3,20 @@
 
 import { SenderCertificate } from '@signalapp/libsignal-client';
 
-import type { SerializedCertificateType } from '../textsecure/OutgoingMessage';
+import type { SerializedCertificateType } from '../textsecure/OutgoingMessage.js';
 import {
   SenderCertificateMode,
   serializedCertificateSchema,
-} from '../textsecure/OutgoingMessage';
-import * as Bytes from '../Bytes';
-import { assertDev } from '../util/assert';
-import { missingCaseError } from '../util/missingCaseError';
-import { waitForOnline } from '../util/waitForOnline';
-import { createLogger } from '../logging/log';
-import type { StorageInterface } from '../types/Storage.d';
-import * as Errors from '../types/errors';
-import type { WebAPIType } from '../textsecure/WebAPI';
-import { safeParseUnknown } from '../util/schemas';
+} from '../textsecure/OutgoingMessage.js';
+import * as Bytes from '../Bytes.js';
+import { assertDev } from '../util/assert.js';
+import { missingCaseError } from '../util/missingCaseError.js';
+import { waitForOnline } from '../util/waitForOnline.js';
+import { createLogger } from '../logging/log.js';
+import type { StorageInterface } from '../types/Storage.d.ts';
+import * as Errors from '../types/errors.js';
+import type { WebAPIType } from '../textsecure/WebAPI.js';
+import { safeParseUnknown } from '../util/schemas.js';
 
 const log = createLogger('senderCertificate');
 

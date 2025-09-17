@@ -5,7 +5,7 @@ import { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { memoize } from '@indutny/sneequals';
 
-import type { StateType } from '../state/reducer';
+import type { StateType } from '../state/reducer.js';
 
 export function useProxySelector<Params extends Array<unknown>, Result>(
   selector: (state: StateType, ...params: Params) => Result,

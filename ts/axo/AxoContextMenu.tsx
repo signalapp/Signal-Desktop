@@ -3,9 +3,9 @@
 import React, { memo } from 'react';
 import { ContextMenu } from 'radix-ui';
 import type { FC } from 'react';
-import { AxoSymbol } from './AxoSymbol';
-import { AxoBaseMenu } from './_internal/AxoBaseMenu';
-import { tw } from './tw';
+import { AxoSymbol } from './AxoSymbol.js';
+import { AxoBaseMenu } from './_internal/AxoBaseMenu.js';
+import { tw } from './tw.js';
 
 const Namespace = 'AxoContextMenu';
 
