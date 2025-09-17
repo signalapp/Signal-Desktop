@@ -73,7 +73,9 @@ export async function encryptProfileData(
     name: Bytes.toBase64(bytesName),
     about: bytesAbout ? Bytes.toBase64(bytesAbout) : null,
     aboutEmoji: bytesAboutEmoji ? Bytes.toBase64(bytesAboutEmoji) : null,
-    badgeIds: (badges || []).map(({ id }) => id),
+    badgeIds: (badges || [])
+      .filter(badge => 'isVisible' in badge && badge.isVisible)
+      .map(({ id }) => id),
     paymentAddress: window.storage.get('paymentAddress') || null,
     avatar: Boolean(newAvatar),
     sameAvatar,
