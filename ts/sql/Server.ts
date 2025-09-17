@@ -2997,10 +2997,6 @@ function saveMessage(
   } satisfies Omit<MessageTypeUnhydrated, 'json'>;
 
   if (id && !forceSave) {
-    if (normalizeAttachmentData) {
-      saveMessageAttachments(db, message);
-    }
-
     const result = db
       .prepare(
         // UPDATE queries that set the value of a primary key column can be very slow when
@@ -3017,6 +3013,10 @@ function saveMessage(
     if (result.changes === 0) {
       // Message has been deleted from DB
       return id;
+    }
+
+    if (normalizeAttachmentData) {
+      saveMessageAttachments(db, message);
     }
 
     if (jobToInsert) {
