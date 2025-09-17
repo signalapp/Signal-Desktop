@@ -652,8 +652,8 @@ importers:
         specifier: 4.3.7
         version: 4.3.7(supports-color@8.1.1)
       electron:
-        specifier: 37.4.0
-        version: 37.4.0
+        specifier: 37.5.1
+        version: 37.5.1
       electron-builder:
         specifier: 26.0.14
         version: 26.0.14(electron-builder-squirrel-windows@26.0.14)
@@ -5637,8 +5637,8 @@ packages:
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
-  electron@37.4.0:
-    resolution: {integrity: sha512-HhsSdWowE5ODOeWNc/323Ug2C52mq/TqNBG+4uMeOA3G2dMXNc/nfyi0RYu1rJEgiaJLEjtHveeZZaYRYFsFCQ==}
+  electron@37.5.1:
+    resolution: {integrity: sha512-RqN3dl6I5yhmynkUc3pUzM6qFCvANau3VGRX9xQEh7FYdwmkqVxKXYM5enrE9LW7j7PzHomQQn6+J2xaF7BHsQ==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
@@ -14902,7 +14902,7 @@ snapshots:
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 22.18.0
+      '@types/node': 20.17.6
     optional: true
 
   '@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.56.0)(typescript@5.6.3))(eslint@8.56.0)(typescript@5.6.3)':
@@ -16732,7 +16732,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  electron@37.4.0:
+  electron@37.5.1:
     dependencies:
       '@electron/get': 2.0.3
       '@types/node': 22.18.0
